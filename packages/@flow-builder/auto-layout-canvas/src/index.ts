@@ -47,7 +47,8 @@ export {
     resolveNode,
     getRootNode,
     canHaveChildren,
-    getElementMetadata
+    getElementMetadata,
+    GOTO_CONNECTION_SUFFIX
 } from './model';
 
 export {
@@ -74,7 +75,8 @@ export {
     hasGoToConnectionOnBranchHead,
     isBranchingElement,
     fulfillsBranchingCriteria,
-    isBranchTerminal
+    isBranchTerminal,
+    getSuffixForGoToConnection
 } from './modelUtils';
 
 export {

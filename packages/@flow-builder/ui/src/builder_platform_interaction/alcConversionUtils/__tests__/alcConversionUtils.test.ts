@@ -3,8 +3,14 @@ import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { createNewConnector } from 'builder_platform_interaction/connectorUtils';
 
 import sanity from './alcUiModels/sanity';
+import decisionWithGotoOnHead from './alcUiModels/decision-with-goto-on-head';
+import decisionWithGotoOnDefaultHead from './alcUiModels/decision-with-goto-on-default-head';
+import decisionWithGotoOnLeftBranchNext from './alcUiModels/decision-with-goto-on-left-branch-next';
+import decisionWithGotoOnNext from './alcUiModels/decision-with-goto-on-next';
+import decisionWithGotoOnNextAndNestedLeftDecision from './alcUiModels/decision-with-goto-on-next-and-nested-left-decision';
 import oneScreen from './alcUiModels/one-screen';
 import oneElementWithFault from './alcUiModels/one-element-with-fault';
+import elementWithGotoOnFault from './alcUiModels/element-with-goto-on-fault';
 import decisionOneChildOnEachBranchNextIsNotEnd from './alcUiModels/decision-one-child-on-each-branch-next-is-not-end';
 import decisionEmptyWithScreenNext from './alcUiModels/decision-with-empty-with-screen-next';
 import emptyDecisionWithEndNext from './alcUiModels/decision-empty-with-end-next';
@@ -15,6 +21,7 @@ import loopWithForEachScreenAndAfterLastScreen from './alcUiModels/loop-with-for
 import loopWithForEachScreenAndAfterLastEnd from './alcUiModels/loop-with-for-each-screen-and-after-last-end';
 import loopWithNestedLoop from './alcUiModels/loop-with-nested-loop';
 import loopWithNestedEmptyDecision from './alcUiModels/loop-with-nested-empty-decision';
+import loopEmptyWithGotoAfterLast from './alcUiModels/loop-empty-with-goto-after-last';
 import decisionWithChildOnNonDefaultOutcome from './alcUiModels/decision-with-child-on-non-default-outcome';
 import decisionWithChildOnNonDefaultOutcomeNextIsEnd from './alcUiModels/decision-with-child-on-non-default-outcome-next-is-end';
 import decisionWithNestedLeftDecision from './alcUiModels/decision-with-nested-left-decision';
@@ -30,6 +37,7 @@ import startWithOnlyScheduledPaths from './alcUiModels/start-with-only-scheduled
 import startWithImmPlusScheduledPath from './alcUiModels/start-with-imm-plus-scheduled-path';
 import startWithMultipleScheduledPaths from './alcUiModels/start-with-multiple-scheduled-paths';
 import startWithMergingPaths from './alcUiModels/start-with-merging-paths';
+import startWithGotoOnImmediatePath from './alcUiModels/start-with-goto-on-immediate-path';
 
 import ffcSanity from './ffcUiModels/sanity.json';
 import ffcElementWithFault from './ffcUiModels/element-with-fault.json';
@@ -135,8 +143,8 @@ jest.mock('builder_platform_interaction/elementFactory', () => {
 
 jest.mock('builder_platform_interaction/connectorUtils', () => {
     return {
-        createNewConnector: (elements, source, target, type = 'REGULAR') => {
-            return {
+        createNewConnector: (elements, source, target, type = 'REGULAR', isGoTo) => {
+            const connector = {
                 guid: `${source} -> ${target}`,
                 source,
                 target,
@@ -146,6 +154,11 @@ jest.mock('builder_platform_interaction/connectorUtils', () => {
                     isSelected: false
                 }
             };
+            if (isGoTo) {
+                connector.isGoTo = true;
+            }
+
+            return connector;
         }
     };
 });
@@ -238,7 +251,7 @@ function assertCanConvertToAutoLayoutCanvas(storeState, canConvert = true) {
     expect(translateNulls(canConvertToAutoLayoutCanvas(storeState))).toEqual(canConvert);
 }
 
-function assertRoundTripFromAutoLayoutCanvas(alcUiModel, expectedEndConnectors) {
+function assertRoundTripFromAutoLayoutCanvas(alcUiModel, expectedEndConnectors, assertRoundTrip = true) {
     let ffcUiModel;
     const endConnectors = [];
     it('from Auto Layout Canvas', () => {
@@ -258,15 +271,17 @@ function assertRoundTripFromAutoLayoutCanvas(alcUiModel, expectedEndConnectors) 
         expect(translateNulls(ffcUiModel)).toMatchSnapshot();
     });
 
-    it('to Auto Layout Canvas', () => {
-        const options = { shouldConsolidateEndConnectors: false, noEmptyFaults: false };
-        const roundTripAlcUiModel = convertToAutoLayoutCanvas(
-            addEndElementsAndConnectorsTransform(deepCopy(ffcUiModel), endConnectors),
-            options
-        );
+    if (assertRoundTrip) {
+        it('to Auto Layout Canvas', () => {
+            const options = { shouldConsolidateEndConnectors: false, noEmptyFaults: false };
+            const roundTripAlcUiModel = convertToAutoLayoutCanvas(
+                addEndElementsAndConnectorsTransform(deepCopy(ffcUiModel), endConnectors),
+                options
+            );
 
-        expect(translateNulls(roundTripAlcUiModel)).toEqual(translateNulls(alcUiModel));
-    });
+            expect(translateNulls(roundTripAlcUiModel)).toEqual(translateNulls(alcUiModel));
+        });
+    }
 }
 
 function assertRoundTripFromFreeFormCanvas(ffcUiModel, coords = startElementCoords) {
@@ -988,6 +1003,87 @@ describe('alc conversion utils', () => {
                     assertRoundTripFromAutoLayoutCanvas(oneElementWithFault, expectedEndConnectors);
                 });
             });
+            describe('goto', () => {
+                describe('on fault', () => {
+                    const endConnectors = [
+                        {
+                            config: {
+                                isSelected: false
+                            },
+                            guid: 'record-create-element-guid -> end-element-guid (record-create-element-guid)',
+                            label: null,
+                            source: 'record-create-element-guid',
+                            target: 'end-element-guid (record-create-element-guid)',
+                            type: 'REGULAR'
+                        }
+                    ];
+                    assertRoundTripFromAutoLayoutCanvas(elementWithGotoOnFault, endConnectors, false);
+                });
+                describe('on decision branch head', () => {
+                    const endConnectors = [
+                        {
+                            config: {
+                                isSelected: false
+                            },
+                            guid:
+                                'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
+                            label: null,
+                            source: 'screen-after-decision-element-guid',
+                            target: 'end-element-guid (screen-after-decision-element-guid)',
+                            type: 'REGULAR'
+                        }
+                    ];
+                    assertRoundTripFromAutoLayoutCanvas(decisionWithGotoOnHead, endConnectors, false);
+                });
+                describe('on decision default branch head', () => {
+                    const endConnectors = [
+                        {
+                            config: {
+                                isSelected: false
+                            },
+                            guid:
+                                'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
+                            label: null,
+                            source: 'screen-after-decision-element-guid',
+                            target: 'end-element-guid (screen-after-decision-element-guid)',
+                            type: 'REGULAR'
+                        }
+                    ];
+                    assertRoundTripFromAutoLayoutCanvas(decisionWithGotoOnDefaultHead, endConnectors, false);
+                });
+                describe('on decision next', () => {
+                    const endConnectors = [];
+                    assertRoundTripFromAutoLayoutCanvas(decisionWithGotoOnNext, endConnectors, false);
+                });
+                describe('on decision next, with a nested left decision', () => {
+                    const endConnectors = [];
+                    assertRoundTripFromAutoLayoutCanvas(
+                        decisionWithGotoOnNextAndNestedLeftDecision,
+                        endConnectors,
+                        false
+                    );
+                });
+                describe('on decision left branch next', () => {
+                    const endConnectors = [
+                        {
+                            config: {
+                                isSelected: false
+                            },
+                            guid:
+                                'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
+                            label: null,
+                            source: 'screen-after-decision-element-guid',
+                            target: 'end-element-guid (screen-after-decision-element-guid)',
+                            type: 'REGULAR'
+                        }
+                    ];
+                    assertRoundTripFromAutoLayoutCanvas(decisionWithGotoOnLeftBranchNext, endConnectors, false);
+                });
+                describe('on loop after last', () => {
+                    const endConnectors = [];
+                    assertRoundTripFromAutoLayoutCanvas(loopEmptyWithGotoAfterLast, endConnectors, false);
+                });
+            });
             describe('record triggered start', () => {
                 describe('start with only immediate', () => {
                     const endConnectors = [
@@ -1001,6 +1097,29 @@ describe('alc conversion utils', () => {
                         }
                     ];
                     assertRoundTripFromAutoLayoutCanvas(startWithOnlyImmediate, endConnectors);
+                });
+                describe('start with goto on immediate path', () => {
+                    const endConnectors = [
+                        {
+                            guid:
+                                'assignment-async-element-guid -> end-element-guid (scheduled-path-start-element-guid)',
+                            source: 'assignment-async-element-guid',
+                            target: 'end-element-guid (scheduled-path-start-element-guid)',
+                            label: null,
+                            type: 'REGULAR',
+                            config: { isSelected: false }
+                        },
+                        {
+                            guid:
+                                'assignment-async2-element-guid -> end-element-guid (scheduled-path-start-element-guid)',
+                            source: 'assignment-async2-element-guid',
+                            target: 'end-element-guid (scheduled-path-start-element-guid)',
+                            label: null,
+                            type: 'REGULAR',
+                            config: { isSelected: false }
+                        }
+                    ];
+                    assertRoundTripFromAutoLayoutCanvas(startWithGotoOnImmediatePath, endConnectors, false);
                 });
                 describe('start with only scheduled paths', () => {
                     const endConnectors = [

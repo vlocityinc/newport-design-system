@@ -270,7 +270,7 @@ export function createScreenMetadataObject(screen, config = {}) {
     if (!newScreen.allowPause) {
         newScreen.pausedText = '';
     }
-    // TODO: uncomment these lines when metadata changes are made on backend, commit with work item W-9142863
+
     const {
         helpText,
         pausedText,
@@ -280,13 +280,14 @@ export function createScreenMetadataObject(screen, config = {}) {
         pauseLabelType,
         backLabelType
     } = screen;
-    // let { nextOrFinishLabel, pauseLabel, backLabel } = screen;
+    let { nextOrFinishLabel, pauseLabel, backLabel } = screen;
     const allowFinish = nextOrFinishLabelType !== FOOTER_LABEL_TYPE.HIDE;
-    // nextOrFinishLabel = nextOrFinishLabelType === FOOTER_LABEL_TYPE.CUSTOM && nextOrFinishLabel ? nextOrFinishLabel : null;
+    nextOrFinishLabel =
+        nextOrFinishLabelType === FOOTER_LABEL_TYPE.CUSTOM && nextOrFinishLabel ? nextOrFinishLabel : null;
     const allowPause = pauseLabelType !== FOOTER_LABEL_TYPE.HIDE;
-    // pauseLabel = pauseLabelType === FOOTER_LABEL_TYPE.CUSTOM && pauseLabel ? pauseLabel : null;
+    pauseLabel = pauseLabelType === FOOTER_LABEL_TYPE.CUSTOM && pauseLabel ? pauseLabel : null;
     const allowBack = backLabelType !== FOOTER_LABEL_TYPE.HIDE;
-    // backLabel = backLabelType === FOOTER_LABEL_TYPE.CUSTOM && backLabel ? backLabel : null;
+    backLabel = backLabelType === FOOTER_LABEL_TYPE.CUSTOM && backLabel ? backLabel : null;
 
     let { fields = [] } = screen;
     const { childReferences } = screen;
@@ -296,7 +297,6 @@ export function createScreenMetadataObject(screen, config = {}) {
         });
     }
 
-    // TODO: Add nextOrFinishLabel, pauseLabel and backLabel when metadata changes are made on backend, commit with work item W-9142863
     return Object.assign(newScreen, {
         fields,
         allowBack,
@@ -305,7 +305,10 @@ export function createScreenMetadataObject(screen, config = {}) {
         helpText,
         pausedText,
         showFooter,
-        showHeader
+        showHeader,
+        nextOrFinishLabel,
+        pauseLabel,
+        backLabel
     });
 }
 

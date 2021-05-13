@@ -64,9 +64,16 @@ export const getFlowBounds = (canvasElements) => {
  *
  * @returns {Object} connector       connector object
  */
-export const createConnectorObject = (source, childSource, target, label, type) => {
+export const createConnectorObject = (
+    source: Guid,
+    childSource?: Guid,
+    target: Guid,
+    label: string,
+    type: UI.ConnectorType,
+    isGoTo?: boolean
+): UI.Connector => {
     const guid = generateGuid();
-    return {
+    const connector = {
         guid,
         source,
         childSource, // Tracks the guid of the child element that this connector is associated with (like an outcome or wait event)
@@ -77,6 +84,12 @@ export const createConnectorObject = (source, childSource, target, label, type) 
             isSelected: false
         }
     };
+
+    if (isGoTo) {
+        connector.isGoTo = true;
+    }
+
+    return connector;
 };
 
 /**
@@ -263,7 +276,8 @@ export const createNewConnector = (
     elements: UI.Elements,
     sourceGuid: UI.Guid,
     targetGuid: UI.Guid,
-    valueFromCombobox: string
+    valueFromCombobox: string,
+    isGoTo?: boolean
 ): UI.Connector => {
     let type = valueFromCombobox,
         label,
@@ -287,7 +301,7 @@ export const createNewConnector = (
         childSource = valueFromCombobox;
     }
 
-    return createConnectorObject(sourceGuid, childSource, targetGuid, label, type);
+    return createConnectorObject(sourceGuid, childSource, targetGuid, label, type, isGoTo);
 };
 
 export function createEndConnector(elements: UI.Elements, sourceElement: UI.CanvasElement, type: UI.ConnectorType) {

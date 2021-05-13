@@ -316,7 +316,6 @@ describe('screen', () => {
                 ]
             };
         });
-        // TODO: add test for footer labels when metadata changes are finished on backend, commit with work item W-9142863
         it('includes the return value of a call to baseCanvasElementMetadataObject', () => {
             createScreenMetadataObject(screenFromStore);
             expect(baseCanvasElementMetadataObject).toHaveBeenCalledWith(screenFromStore, {});
@@ -327,6 +326,49 @@ describe('screen', () => {
                 const screen = createScreenMetadataObject(screenFromStore);
                 expect(screen.fields).toHaveLength(3);
                 expect(screen.fields[0].guid).toEqual(foundElementGuidPrefix + field1Guid);
+            });
+        });
+        describe('footer labels', () => {
+            beforeEach(() => {
+                screenFromStore.nextOrFinishLabel = 'testNextOrFinish';
+                screenFromStore.pauseLabel = 'testPause';
+                screenFromStore.backLabel = 'testBack';
+            });
+            it('if footer label type is hide, footer label allow should be false, label should be null', () => {
+                screenFromStore.nextOrFinishLabelType = FOOTER_LABEL_TYPE.HIDE;
+                screenFromStore.pauseLabelType = FOOTER_LABEL_TYPE.HIDE;
+                screenFromStore.backLabelType = FOOTER_LABEL_TYPE.HIDE;
+                const screen = createScreenMetadataObject(screenFromStore);
+                expect(screen.allowFinish).toEqual(false);
+                expect(screen.allowPause).toEqual(false);
+                expect(screen.allowBack).toEqual(false);
+                expect(screen.nextOrFinishLabel).toBeNull();
+                expect(screen.pauseLabel).toBeNull();
+                expect(screen.backLabel).toBeNull();
+            });
+            it('if footer label type is standard, footer label should be null, and allow label should be true', () => {
+                screenFromStore.nextOrFinishLabelType = FOOTER_LABEL_TYPE.STANDARD;
+                screenFromStore.pauseLabelType = FOOTER_LABEL_TYPE.STANDARD;
+                screenFromStore.backLabelType = FOOTER_LABEL_TYPE.STANDARD;
+                const screen = createScreenMetadataObject(screenFromStore);
+                expect(screen.nextOrFinishLabel).toBeNull();
+                expect(screen.pauseLabel).toBeNull();
+                expect(screen.backLabel).toBeNull();
+                expect(screen.allowFinish).toEqual(true);
+                expect(screen.allowPause).toEqual(true);
+                expect(screen.allowBack).toEqual(true);
+            });
+            it('if footer label type is custom, footer label should be set, and allow label should be true', () => {
+                screenFromStore.nextOrFinishLabelType = FOOTER_LABEL_TYPE.CUSTOM;
+                screenFromStore.pauseLabelType = FOOTER_LABEL_TYPE.CUSTOM;
+                screenFromStore.backLabelType = FOOTER_LABEL_TYPE.CUSTOM;
+                const screen = createScreenMetadataObject(screenFromStore);
+                expect(screen.nextOrFinishLabel).toEqual('testNextOrFinish');
+                expect(screen.pauseLabel).toEqual('testPause');
+                expect(screen.backLabel).toEqual('testBack');
+                expect(screen.allowFinish).toEqual(true);
+                expect(screen.allowPause).toEqual(true);
+                expect(screen.allowBack).toEqual(true);
             });
         });
     });

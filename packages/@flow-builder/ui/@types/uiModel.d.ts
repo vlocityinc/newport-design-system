@@ -195,23 +195,13 @@ declare namespace UI {
         childReference: Guid;
     }
 
-    interface AutoLayoutCanvasElement extends CanvasElement {
-        children?: (Guid | null)[];
-        next?: Guid | null;
-        prev?: Guid | null;
-        isTerminal?: boolean;
-        parent?: Guid;
-        childIndex?: number;
-        fault?: Guid | null;
-        incomingGoTo?: Array<Guid>;
-    }
-
     interface Connector {
         source: Guid;
         target: Guid;
         type: ConnectorType;
         label: string | null;
         childSource?: Guid;
+        isGoTo?: boolean;
     }
 
     type StringKeyedMap<T> = { [key: string]: T };
