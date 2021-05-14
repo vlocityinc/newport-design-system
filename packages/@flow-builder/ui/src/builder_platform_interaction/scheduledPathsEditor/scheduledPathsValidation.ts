@@ -1,6 +1,7 @@
 import { Validation } from 'builder_platform_interaction/validation';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
+import { SCHEDULED_PATH_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 /**
  * @constant additionalRules - map of propertyName to validation rules
@@ -26,6 +27,9 @@ class ScheduledPathsValidation extends Validation {
     validateAll(nodeElement, overrideRules) {
         if (nodeElement.scheduledPaths) {
             const scheduledPaths = nodeElement.scheduledPaths.map((scheduledPath) => {
+                if (scheduledPath.pathType?.value === SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS) {
+                    return scheduledPath;
+                }
                 return super.validateAll(scheduledPath, overrideRules);
             });
             nodeElement = updateProperties(nodeElement, { scheduledPaths });

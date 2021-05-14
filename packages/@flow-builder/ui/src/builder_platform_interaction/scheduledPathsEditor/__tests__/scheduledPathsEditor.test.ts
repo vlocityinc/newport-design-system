@@ -38,6 +38,7 @@ const SELECTORS = {
 
 let startElementWithTwoScheduledPaths;
 let startElementWithOneScheduledPaths;
+let startElementWithRunOnSuccessScheduledPaths;
 
 const IMMEDIATE_SCHEDULED_PATH_ID = 'immediateScheduledPath';
 
@@ -82,6 +83,21 @@ describe('Scheduled Paths Editor', () => {
                     label: { value: '' },
                     offsetNumber: 1,
                     offsetUnit: { value: TIME_OPTION.DAYS_AFTER, error: null },
+                    timeSource: { value: '', error: null }
+                }
+            ]
+        };
+
+        startElementWithRunOnSuccessScheduledPaths = {
+            guid: { value: 'startElement' },
+            scheduledPaths: [
+                {
+                    guid: 'runOnSuccess',
+                    pathType: { value: 'AfterCommit', error: null },
+                    label: { value: 'Run On Success', error: null },
+                    name: { value: 'Run_On_Success', error: null },
+                    offsetNumber: { value: 0, error: null },
+                    offsetUnit: { value: '', error: null },
                     timeSource: { value: '', error: null }
                 }
             ]
@@ -285,6 +301,25 @@ describe('Scheduled Paths Editor', () => {
             const menuItems = reorderableOutcomeNav.menuItems;
 
             expect(menuItems[2].hasErrors).toBeFalsy();
+        });
+    });
+    describe('run on success scheduled path', () => {
+        it('run on success scheduled path is displayed in rhs when selected in left panel', async () => {
+            expect.assertions(1);
+            const scheduledPathsEditor = createComponentForTest(startElementWithRunOnSuccessScheduledPaths);
+            const reorderableOutcomeNav = scheduledPathsEditor.shadowRoot.querySelector(
+                INTERACTION_COMPONENTS_SELECTORS.REORDERABLE_VERTICAL_NAVIGATION
+            );
+            reorderableOutcomeNav.dispatchEvent(
+                new CustomEvent('itemselected', {
+                    detail: { itemId: 'runOnSuccess' }
+                })
+            );
+            await ticks(1);
+            const runOnSuccessScheduledPathSection = scheduledPathsEditor.shadowRoot.querySelector(
+                INTERACTION_COMPONENTS_SELECTORS.ILLUSTRATION
+            );
+            expect(runOnSuccessScheduledPathSection).not.toBeNull();
         });
     });
 });

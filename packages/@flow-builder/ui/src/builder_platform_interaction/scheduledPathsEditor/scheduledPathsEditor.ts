@@ -7,6 +7,7 @@ import { UpdateNodeEvent } from 'builder_platform_interaction/events';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { format } from 'builder_platform_interaction/commonUtils';
 import { RECORD_TRIGGER_TYPE_LABEL_LOOKUP } from 'builder_platform_interaction/triggerTypeLib';
+import { SCHEDULED_PATH_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const EMPTY_SCHEDULED_PATH_LABEL = LABELS.emptyScheduledPathLabel;
 const IMMEDIATE_SCHEDULED_PATH_LABEL = LABELS.immediateScheduledPathLabel;
@@ -146,6 +147,13 @@ export default class ScheduledPathsEditor extends LightningElement {
 
     get isImmediateScheduledPath() {
         return this.activeScheduledPathId === IMMEDIATE_SCHEDULED_PATH_ID;
+    }
+
+    get isRunOnSuccessScheduledPath() {
+        return (
+            this.startElement.scheduledPaths.find((el) => el.guid === this.activeScheduledPathId).pathType?.value ===
+            SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS
+        );
     }
 
     addScheduledPath() {

@@ -29,14 +29,24 @@
                     body={immediateScheduledPathDetailsLabel}
                 ></builder_platform_interaction-illustration>
             </div>
-            <builder_platform_interaction-scheduled-path
-                if:false={isImmediateScheduledPath}
-                scheduled-path={activeScheduledPath}
-                object={node.object}
-                record-trigger-type={node.recordTriggerType}
-                ondeletescheduledpath={handleDeleteScheduledPath}
-                onpropertychanged={handlePropertyChangedEvent}
-            ></builder_platform_interaction-scheduled-path>
+            <div if:false={isImmediateScheduledPath}>
+                <div if:true={isRunOnSuccessScheduledPath}>
+                    <builder_platform_interaction-illustration
+                        illustration="lakeMountain"
+                        title={labels.runOnSuccessScheduledPathLabel}
+                        body={labels.runOnSuccessScheduledPathDescription}
+                    ></builder_platform_interaction-illustration>
+                </div>
+                <div if:false={isRunOnSuccessScheduledPath}>
+                    <builder_platform_interaction-scheduled-path
+                        scheduled-path={activeScheduledPath}
+                        object={node.object}
+                        record-trigger-type={node.recordTriggerType}
+                        ondeletescheduledpath={handleDeleteScheduledPath}
+                        onpropertychanged={handlePropertyChangedEvent}
+                    ></builder_platform_interaction-scheduled-path>
+                </div>
+            </div>
         </div>
     </div>
 </template>
