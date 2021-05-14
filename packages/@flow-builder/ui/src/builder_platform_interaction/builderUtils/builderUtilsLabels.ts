@@ -12,6 +12,7 @@ import okayButtonLabel from '@salesforce/label/FlowBuilderAlertModal.okayButtonL
 import keyboardShortcutListTitle from '@salesforce/label/FlowBuilderKeyboardInteractionLabels.keyboardShortcutListTitle';
 import cancelButton from '@salesforce/label/FlowBuilderCommonPropertyEditor.cancelButton';
 import runTitle from '@salesforce/label/FlowBuilderToolbar.runTitle';
+import resourceLabel from '@salesforce/label/FlowBuilderResourceEditor.resourceLabel';
 
 export const LABELS = {
     newElementHeaderPrefix,
@@ -26,5 +27,6 @@ export const LABELS = {
     okayButtonLabel,
     keyboardShortcutListTitle,
     cancelButton,
-    runTitle
+    runTitle,
+    resourceLabel
 };

@@ -166,6 +166,16 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
         this.dispatchEvent(createChoiceDisplayChangedEvent(this.field, event.detail.value));
     };
 
+    handleAddInlineResource = (event) => {
+        if (event && event.detail) {
+            event.detail.newResourceInfo = {
+                resourceTypes: [ELEMENT_TYPE.CHOICE, ELEMENT_TYPE.PICKLIST_CHOICE_SET, ELEMENT_TYPE.RECORD_CHOICE_SET],
+                dataType: this.field.dataType,
+                newResourceTypeLabel: this.labels.fieldTypeLabelChoice
+            };
+        }
+    };
+
     get fieldChoices() {
         const fieldChoiceData = getFieldChoiceData(this.field);
         this.updateActivePicklistValues(fieldChoiceData);
@@ -188,6 +198,7 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
             hideSystemVariables: true,
             hideGlobalVariables: true,
             hideNewResource: false,
+            newResourceTypeLabel: this.labels.fieldTypeLabelChoice,
             elementConfig: {
                 elementType: ELEMENT_TYPE.SCREEN,
                 dataType: this.field.dataType,

@@ -3,6 +3,7 @@ import { LightningElement, api, track } from 'lwc';
 import { getResourceTypesMenuData } from 'builder_platform_interaction/expressionUtils';
 import { shouldNotBeNullOrUndefined } from 'builder_platform_interaction/validationRules';
 import { LABELS } from './resourceEditorLabels';
+import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 
 const CONTAINER_SELECTOR = 'builder_platform_interaction-resource-editor-container';
 const COMBOBOX_SELECTOR = 'lightning-combobox';
@@ -27,10 +28,13 @@ export default class ResourceEditor extends LightningElement {
      * @type{String}
      */
     @track
-    selectedResource = null;
+    selectedResourceType = null;
 
     @api
     editorParams;
+
+    @api
+    newResourceInfo;
 
     /**
      * Setter for the node passed in on modal creation
@@ -74,7 +78,7 @@ export default class ResourceEditor extends LightningElement {
     validate() {
         const container = this.template.querySelector(CONTAINER_SELECTOR);
         // instead of going through the property editor validation steps (calling validateAll) we know the editor is invalid by just checking selectedResource
-        const error = shouldNotBeNullOrUndefined(this.selectedResource);
+        const error = shouldNotBeNullOrUndefined(this.selectedResourceType);
         if (error) {
             // if we have an error set it on the combobox and return it to the property editor
             const combobox = this.template.querySelector(COMBOBOX_SELECTOR);
@@ -93,13 +97,24 @@ export default class ResourceEditor extends LightningElement {
      */
     get resourceTypes() {
         if (!this._resourceTypes) {
-            this._resourceTypes = getResourceTypesMenuData();
+            const resourceTypes = getResourceTypesMenuData();
+
+            if (!this.newResourceInfo) {
+                this._resourceTypes = resourceTypes;
+            } else {
+                const resoureTypesFromEvent = this.newResourceInfo.resourceTypes.map(
+                    (resourceType) => getConfigForElementType(resourceType).nodeConfig.value
+                );
+                this._resourceTypes = resourceTypes.filter((resourceType) => {
+                    return resoureTypesFromEvent.includes(resourceType.value);
+                });
+            }
         }
         return this._resourceTypes;
     }
 
     handleResourceChange(event) {
-        this.selectedResource = event.detail.value;
+        this.selectedResourceType = event.detail.value;
         // now that we have changed the resource type we can remove any errors we may have had
         const combobox = this.template.querySelector(COMBOBOX_SELECTOR);
         if (!combobox.checkValidity()) {

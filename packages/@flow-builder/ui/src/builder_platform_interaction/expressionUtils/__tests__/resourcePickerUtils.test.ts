@@ -220,6 +220,7 @@ describe('resourcePickerUtils', () => {
                 allowSObjectField: true,
                 allowsApexCollAnonymousAutoOutput: true,
                 forFormula: false,
+                newResourceTypeLabel: null,
                 shouldBeWritable: false
             });
         });
@@ -242,6 +243,7 @@ describe('resourcePickerUtils', () => {
             expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
             expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, paramTypes, {
                 includeNewResource: false,
+                newResourceTypeLabel: null,
                 activePicklistValues: [],
                 allowGlobalConstants: true,
                 disableHasNext: true,
@@ -271,6 +273,7 @@ describe('resourcePickerUtils', () => {
             expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
             expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, paramTypes, {
                 includeNewResource: false,
+                newResourceTypeLabel: null,
                 activePicklistValues: [],
                 allowGlobalConstants: true,
                 disableHasNext: true,
@@ -300,6 +303,7 @@ describe('resourcePickerUtils', () => {
             expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
             expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, paramTypes, {
                 includeNewResource: false,
+                newResourceTypeLabel: null,
                 activePicklistValues: [],
                 allowGlobalConstants: true,
                 disableHasNext: true,

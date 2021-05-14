@@ -53,6 +53,7 @@ const getFerovMenuData = (
     activePicklistValues,
     storeInstance,
     includeNewResource,
+    newResourceTypeLabel,
     showSystemVariables,
     showGlobalVariables,
     allowSObjectFields,
@@ -64,6 +65,7 @@ const getFerovMenuData = (
     );
     return filterAndMutateMenuData(menuDataElements, populateParamTypesFn(), {
         includeNewResource,
+        newResourceTypeLabel,
         allowGlobalConstants,
         disableHasNext: !enableFieldDrilldown,
         showSystemVariables,
@@ -105,6 +107,7 @@ export const getMenuData = (
         enableFieldDrilldown = true,
         allowGlobalConstants = true,
         includeNewResource = true,
+        newResourceTypeLabel = null,
         showSystemVariables = true,
         showGlobalVariables = true,
         activePicklistValues = [],
@@ -134,6 +137,7 @@ export const getMenuData = (
             activePicklistValues,
             storeInstance,
             includeNewResource,
+            newResourceTypeLabel,
             showSystemVariables,
             showGlobalVariables,
             allowSObjectFields,

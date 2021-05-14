@@ -4,7 +4,7 @@
     },
 
     handleAddNewResource: function (cmp, event, helper) {
-        helper.handleAddNewResource(cmp);
+        helper.handleAddNewResource(cmp, event.detail);
     },
 
     handleClose: function (cmp, event, helper) {

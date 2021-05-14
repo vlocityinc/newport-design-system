@@ -19,6 +19,7 @@ import {
     getSystemAndGlobalVariableMenuData,
     COMBOBOX_ITEM_DISPLAY_TYPE
 } from './menuDataGenerator';
+import resourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.resourceLabel';
 import newResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.newResourceLabel';
 import picklistValuesLabel from '@salesforce/label/FlowBuilderExpressionUtils.picklistValuesLabel';
 import systemGlobalVariableCategoryLabel from '@salesforce/label/FlowBuilderSystemGlobalVariables.systemGlobalVariableCategory';
@@ -188,10 +189,11 @@ export const COMBOBOX_NEW_RESOURCE_VALUE = '%%NewResource%%';
  * Returns new resource menu item
  * @returns {Object} menu data group object with only new resource as item
  */
-function getNewResourceItem() {
+function getNewResourceItem(resourceTypeLabel: String) {
+    const newResourceItemText = format(newResourceLabel, resourceTypeLabel ? resourceTypeLabel : resourceLabel);
     return {
-        displayText: newResourceLabel,
-        text: newResourceLabel,
+        displayText: newResourceItemText,
+        text: newResourceItemText,
         type: COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_INLINE,
         value: COMBOBOX_NEW_RESOURCE_VALUE,
         iconName: 'utility:add'
@@ -293,6 +295,7 @@ export function filterAndMutateMenuData(
     allowedParamTypes?,
     {
         includeNewResource = false,
+        newResourceTypeLabel = null,
         allowGlobalConstants = false,
         disableHasNext = false,
         activePicklistValues = [],
@@ -391,7 +394,7 @@ export function filterAndMutateMenuData(
 
     // Add the New Resource entry as the top entry, if requested
     if (includeNewResource) {
-        menuData.unshift(getNewResourceItem());
+        menuData.unshift(getNewResourceItem(newResourceTypeLabel));
     }
     return menuData;
 }

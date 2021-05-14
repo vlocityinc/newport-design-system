@@ -34,10 +34,12 @@ const EDITOR_SELECTOR = '.editor_template';
  */
 export default class ResourceEditorContainer extends LightningElement {
     /**
-     * The currently selected resource
-     * @type {String}
+     * Info about the currently selected resource type
+     * @type {Obejct}
      */
-    _selectedResource = null;
+    _selectedResourceType = null;
+
+    _newResourceInfo = null;
 
     /**
      * The node that represents initial state of the currently selected editor
@@ -56,21 +58,35 @@ export default class ResourceEditorContainer extends LightningElement {
      * The new flow element is then mutated and hydrated
      * @param {String} resourceType the selected resource type
      */
-    set selectedResource(resourceType) {
-        if (!resourceType) {
+    set selectedResourceType(selectedResourceType) {
+        if (!selectedResourceType) {
             return;
         }
-        this._selectedResource = resourceType;
+
+        this._selectedResourceType = selectedResourceType;
+
         // go through the needed steps to create a flow element and get it ready to be used by property editor
-        const elementType = resourceTypeElementTypeMap[resourceType];
+        const elementType = resourceTypeElementTypeMap[selectedResourceType];
         this.node = getElementForPropertyEditor({
             elementType
         });
+        if (this._newResourceInfo) {
+            this.node.dataType = { value: this._newResourceInfo.dataType, error: null };
+        }
     }
 
     @api
-    get selectedResource() {
-        return this._selectedResource;
+    get selectedResourceType() {
+        return this._selectedResourceType;
+    }
+
+    set newResourceInfo(newResourceInfo) {
+        this._newResourceInfo = newResourceInfo;
+    }
+
+    @api
+    get newResourceInfo() {
+        return this._newResourceInfo;
     }
 
     /**
