@@ -63,4 +63,7 @@
   &:focus {
     outline: none;
   }
+  .nds-form-element .nds-tooltip__container {
+    z-index: unset;
+  }
 }
