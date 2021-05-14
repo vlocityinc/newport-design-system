@@ -34,10 +34,6 @@ export default class ScreenExtensionField extends LightningElement {
         }
     }
 
-    get fieldClass() {
-        return this.descriptor.startsWith('flowruntime') ? 'slds-m-bottom_x-small' : '';
-    }
-
     // We aren't going to be using this for now, but this is how we'll update attributes
     // inline (i.e. without destroying and recreating the component) if we ever want to do
     // this again. For now, we will destory and recreate every time.
