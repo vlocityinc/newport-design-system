@@ -46,9 +46,8 @@ export function getDefaultLayoutConfig(): LayoutConfig {
                             addOffset: gridHeight * 1.5,
                             h: 4 * gridHeight,
                             svgMarginTop: gridHeight,
+                            svgMarginBottom: gridHeight,
                             variants: {
-                                edge: { svgMarginBottom: gridHeight },
-                                edgeBottom: { svgMarginBottom: gridHeight },
                                 center: { svgMarginBottom: -gridHeight }
                             }
                         },
@@ -56,9 +55,8 @@ export function getDefaultLayoutConfig(): LayoutConfig {
                             addOffset: gridHeight * 1.5,
                             h: 3 * gridHeight,
                             svgMarginTop: gridHeight,
+                            svgMarginBottom: gridHeight,
                             variants: {
-                                edge: { svgMarginBottom: gridHeight },
-                                edgeBottom: { svgMarginBottom: gridHeight },
                                 center: { svgMarginBottom: -gridHeight },
                                 loop: {
                                     svgMarginBottom: 2 * gridHeight
@@ -67,11 +65,8 @@ export function getDefaultLayoutConfig(): LayoutConfig {
                         },
                         branchTail: {
                             h: 4 * gridHeight,
+                            svgMarginBottom: gridHeight,
                             variants: {
-                                edge: {
-                                    svgMarginBottom: gridHeight
-                                },
-                                edgeBottom: { svgMarginBottom: gridHeight },
                                 center: { svgMarginBottom: -gridHeight },
                                 loop: {
                                     svgMarginBottom: 2 * gridHeight
@@ -81,10 +76,8 @@ export function getDefaultLayoutConfig(): LayoutConfig {
                         branchHead: {
                             addOffset: gridHeight * 3.5,
                             h: 6 * gridHeight,
+                            svgMarginTop: gridHeight,
                             variants: {
-                                edge: {
-                                    svgMarginTop: gridHeight
-                                },
                                 center: { svgMarginBottom: -gridHeight },
                                 fault: {
                                     labelOffset: gridHeight,
@@ -95,12 +88,9 @@ export function getDefaultLayoutConfig(): LayoutConfig {
                         branchHeadEmpty: {
                             addOffset: gridHeight * 3.5,
                             h: 5 * gridHeight,
+                            svgMarginTop: gridHeight,
+                            svgMarginBottom: gridHeight,
                             variants: {
-                                edge: {
-                                    svgMarginTop: gridHeight,
-                                    svgMarginBottom: gridHeight
-                                },
-                                edgeBottom: { svgMarginBottom: gridHeight },
                                 loop: {
                                     svgMarginBottom: 2 * gridHeight
                                 },
@@ -126,14 +116,7 @@ export function getDefaultLayoutConfig(): LayoutConfig {
                         branchHead: {
                             addOffset: gridHeight * 3.5,
                             h: gridHeight * 5.5,
-                            variants: {
-                                edge: {
-                                    svgMarginTop: gridHeight
-                                },
-                                fault: {
-                                    svgMarginTop: gridHeight
-                                }
-                            }
+                            svgMarginTop: gridHeight
                         },
                         fault: {
                             labelOffset: gridHeight,

@@ -91,8 +91,6 @@ export interface Dimension {
 
 export enum ConnectorVariant {
     DEFAULT = 'default',
-    EDGE = 'edge',
-    EDGE_BOTTOM = 'edgeBottom',
     CENTER = 'center',
     LOOP = 'loop',
     FAULT = 'fault',
