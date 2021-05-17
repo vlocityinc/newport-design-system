@@ -31,7 +31,7 @@ jest.mock('builder_platform_interaction/propertyEditorFactory', () => {
 });
 
 describe('resource-editor-container', () => {
-    const selectedResource = 'variable';
+    const selectedResourceType = 'variable';
 
     it('should not have an inner node element without selected resource', () => {
         const container = setupComponentUnderTest();
@@ -40,12 +40,12 @@ describe('resource-editor-container', () => {
     });
 
     it('should accept the selected resource', () => {
-        const container = setupComponentUnderTest({ selectedResource });
-        expect(container.selectedResource).toEqual(selectedResource);
+        const container = setupComponentUnderTest({ selectedResourceType });
+        expect(container.selectedResourceType).toEqual(selectedResourceType);
     });
 
     it('should create, mutate, and hydrate a flow element when resource is selected', () => {
-        const container = setupComponentUnderTest({ selectedResource });
+        const container = setupComponentUnderTest({ selectedResourceType });
         const innerNode = container.shadowRoot.querySelector(EDITOR_SELECTOR);
         innerNode.getNode.mockReturnValueOnce(mockNode);
         const retVal = container.getNode();
@@ -54,7 +54,7 @@ describe('resource-editor-container', () => {
     });
 
     it('should call validate on the inner element when resource is selected', () => {
-        const container = setupComponentUnderTest({ selectedResource });
+        const container = setupComponentUnderTest({ selectedResourceType });
         const innerNode = container.shadowRoot.querySelector(EDITOR_SELECTOR);
         const mockValidationResult = 'mock validation result';
         innerNode.validate.mockReturnValueOnce(mockValidationResult);

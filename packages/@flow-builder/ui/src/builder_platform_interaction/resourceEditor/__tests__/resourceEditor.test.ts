@@ -34,7 +34,7 @@ const selectors = {
 };
 
 const mockReturnValue = 'mockReturnValue';
-const mockResource = 'mockResource';
+const mockResourceType = 'mockResource';
 
 describe('resource-editor', () => {
     const fireChangeEvent = (component, value) => {
@@ -49,18 +49,18 @@ describe('resource-editor', () => {
     it('has an inner resource-editor-container component that takes in the selected resource type', async () => {
         const resourceEditor = setupComponentUnderTest();
         const combobox = resourceEditor.shadowRoot.querySelector(selectors.COMBOBOX);
-        fireChangeEvent(combobox, mockResource);
+        fireChangeEvent(combobox, mockResourceType);
         await ticks(1);
         const container = resourceEditor.shadowRoot.querySelector(selectors.CONTAINER);
         expect(container).toBeDefined();
-        expect(container.selectedResource).toEqual(mockResource);
+        expect(container.selectedResourceType).toEqual(mockResourceType);
     });
 
     it('has an lightning combobox that takes in the list of resource types', () => {
         const resourceEditor = setupComponentUnderTest();
         const combobox = resourceEditor.shadowRoot.querySelector(selectors.COMBOBOX);
         expect(combobox.options).toEqual(expect.any(Array));
-        expect(combobox.options).toContain(mockResource);
+        expect(combobox.options).toContain(mockResourceType);
     });
 
     it('has a required resource types picker', () => {
@@ -72,7 +72,7 @@ describe('resource-editor', () => {
     it('calls the inner container validate method on validate', async () => {
         const resourceEditor = setupComponentUnderTest();
         const combobox = resourceEditor.shadowRoot.querySelector('lightning-combobox');
-        fireChangeEvent(combobox, mockResource);
+        fireChangeEvent(combobox, mockResourceType);
         await ticks(1);
         const container = resourceEditor.shadowRoot.querySelector(selectors.CONTAINER);
         container.validate.mockReturnValueOnce(mockReturnValue);
@@ -104,7 +104,7 @@ describe('resource-editor', () => {
         it('returns no error when resource is selected', async () => {
             const resourceEditor = setupComponentUnderTest();
             const combobox = resourceEditor.shadowRoot.querySelector('lightning-combobox');
-            fireChangeEvent(combobox, mockResource);
+            fireChangeEvent(combobox, mockResourceType);
             await ticks(1);
             // we should get undefined because the inner container holding the editor is empty
             const errors = resourceEditor.validate();

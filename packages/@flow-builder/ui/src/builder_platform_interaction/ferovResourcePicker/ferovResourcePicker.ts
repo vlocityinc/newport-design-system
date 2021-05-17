@@ -161,6 +161,9 @@ export default class FerovResourcePicker extends LightningElement {
     hideNewResource = false;
 
     @api
+    newResourceTypeLabel;
+
+    @api
     hideSystemVariables = false;
 
     @api
@@ -346,6 +349,7 @@ export default class FerovResourcePicker extends LightningElement {
                     enableFieldDrilldown: this.enableFieldDrilldown,
                     allowGlobalConstants: !this.hideGlobalConstants,
                     includeNewResource: !this.hideNewResource,
+                    newResourceTypeLabel: this.newResourceTypeLabel,
                     showSystemVariables: !this.hideSystemVariables,
                     showGlobalVariables: !this.hideGlobalVariables,
                     activePicklistValues: this.activePicklistValues,

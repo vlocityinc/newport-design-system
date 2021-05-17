@@ -252,7 +252,10 @@ export default class RecordChoiceSetEditor extends LightningElement {
 
             // Updating the dataType property only for the first time when second section opens
             if (!this.showSecondSection && !error) {
-                this.updateProperty(RECORD_CHOICE_SET_FIELDS.DATA_TYPE, null, null, false);
+                const dataTypeValue = this.recordChoiceSetResource.dataType
+                    ? this.recordChoiceSetResource.dataType.value
+                    : null;
+                this.updateProperty(RECORD_CHOICE_SET_FIELDS.DATA_TYPE, dataTypeValue, null, false);
                 this.showSecondSection = true;
             }
         }

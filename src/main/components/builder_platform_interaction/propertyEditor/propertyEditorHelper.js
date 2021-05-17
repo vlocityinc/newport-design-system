@@ -32,10 +32,10 @@
         }
     },
 
-    handleAddNewResource: function (cmp) {
+    handleAddNewResource: function (cmp, newResourceDetail) {
         var newResourceCallback = cmp.get('v.newResourceCallback');
         if (newResourceCallback && typeof newResourceCallback === 'function') {
-            newResourceCallback();
+            newResourceCallback(newResourceDetail);
         }
     },
 

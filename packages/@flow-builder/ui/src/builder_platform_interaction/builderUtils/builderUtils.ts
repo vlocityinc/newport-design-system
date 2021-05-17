@@ -20,7 +20,7 @@ import {
 } from 'builder_platform_interaction/events';
 import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from './builderUtilsLabels';
-import { isObject } from 'builder_platform_interaction/commonUtils';
+import { format, isObject } from 'builder_platform_interaction/commonUtils';
 import { clearExpressions } from 'builder_platform_interaction/expressionValidator';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { isAutoLayoutCanvasEnabled } from 'builder_platform_interaction/contextLib';
@@ -169,22 +169,24 @@ const getLabelForOkButton = (mode) => {
     return label;
 };
 
-let newResourceConfig;
-
 const getNewResourceConfig = (attributes) => {
-    if (newResourceConfig) {
-        return newResourceConfig;
-    }
     const nodeUpdate = attributes.nodeUpdate;
     const desc = 'builder_platform_interaction:resourceEditor';
-    const titleForModal = LABELS.newResourceEditorTitle;
+    const newResourceInfo = attributes.newResourceInfo;
+    const titleForModal = format(
+        LABELS.newResourceEditorTitle,
+        newResourceInfo && newResourceInfo.newResourceTypeLabel
+            ? newResourceInfo.newResourceTypeLabel
+            : LABELS.resourceLabel
+    );
 
     const attr = {
         nodeUpdate,
         bodyComponent: {
             desc,
             attr: {
-                node: {}
+                node: {},
+                newResourceInfo
             }
         }
     };
