@@ -17,7 +17,7 @@ import {
 } from 'builder_platform_interaction/actions';
 import { addItem, updateProperties, replaceItem } from 'builder_platform_interaction/dataMutationLib';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { createConnector } from 'builder_platform_interaction/elementFactory';
+import { createConnectorObject } from 'builder_platform_interaction/connectorUtils';
 import immediateConnectorLabel from '@salesforce/label/FlowBuilderConnectorLabels.immediateConnectorLabel';
 
 /**
@@ -111,9 +111,9 @@ function _duplicateConnector(
         const source = canvasElementGuidMap[originalConnector.source];
         const target = canvasElementGuidMap[originalConnector.target];
         const childSource = originalConnector.childSource && childElementGuidMap[originalConnector.childSource];
-        const { label, type } = originalConnector;
+        const { label, type, isGoTo } = originalConnector;
 
-        const duplicateConnector = createConnector(source, childSource, target, label, type, true);
+        const duplicateConnector = createConnectorObject(source, childSource, target, label, type, true, isGoTo);
 
         newState = addItem(newState, duplicateConnector);
     }
