@@ -123,6 +123,11 @@ const parentSubflowItem = {
     value: store.subflowAutomaticOutput.guid
 };
 
+const commonUtils = jest.requireActual('builder_platform_interaction/commonUtils');
+commonUtils.format = jest
+    .fn()
+    .mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')');
+
 jest.mock('builder_platform_interaction/apexTypeLib', () => {
     return {
         getPropertiesForClass: jest.fn()
@@ -345,7 +350,9 @@ describe('Menu data retrieval', () => {
             true
         );
         expect(allowedVariables).toHaveLength(3);
-        expect(allowedVariables[0].text).toBe('FlowBuilderExpressionUtils.newResourceLabel');
+        expect(allowedVariables[0].text).toBe(
+            'FlowBuilderExpressionUtils.newResourceLabel(FlowBuilderExpressionUtils.resourceLabel)'
+        );
         expect(allowedVariables[0].value).toBe('%%NewResource%%');
     });
     it('should include complex objects (non-collection) when fields are allowed', () => {
@@ -585,7 +592,7 @@ describe('Menu data retrieval', () => {
                 disableHasNext,
                 activePicklistValues
             );
-            const picklistLabel = 'FlowBuilderExpressionUtils.picklistValuesLabel';
+            const picklistLabel = 'FlowBuilderExpressionUtils.picklistValuesLabel(2)';
             expect(menuData).toContainEqual(expect.objectContaining({ label: picklistLabel }));
             expect(menuData).toContainEqual(expect.objectContaining({ items: expect.any(Array) }));
         });
@@ -799,6 +806,14 @@ describe('Menu data retrieval', () => {
             expect(element.hasNext).toBe(false);
             expect(element.rightIconName).toBeDefined();
             expect(element.rightIconName).toEqual('');
+        });
+        it('should have New Resource as first element and the label should reflect the newResourceTypeLabel provided', () => {
+            const menuData = filterAndMutateMenuData([], undefined, {
+                includeNewResource: true,
+                newResourceTypeLabel: 'test resource type'
+            });
+            expect(menuData).toHaveLength(2);
+            expect(menuData[0].text).toBe('FlowBuilderExpressionUtils.newResourceLabel(test resource type)');
         });
     });
 

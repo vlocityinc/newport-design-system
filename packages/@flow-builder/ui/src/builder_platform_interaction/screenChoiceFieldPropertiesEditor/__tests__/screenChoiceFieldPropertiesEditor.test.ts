@@ -366,6 +366,20 @@ describe('screen-choice-field-properties-editor choice selectors', () => {
         window.removeEventListener(ScreenEditorEventName.ChoiceChanged, choiceChangedSpy);
         expect(choiceChangedSpy).toHaveBeenCalled();
     });
+    it('Decorates the add new resource event correctly when dispatched by the choice selector', async () => {
+        const addNewResourceEvent = new CustomEvent('addnewresource', {
+            detail: {}
+        });
+        const renderedChoiceSelector = query(screenChoiceFieldPropEditor, SELECTORS.CHOICE_SELECTOR);
+        renderedChoiceSelector.dispatchEvent(addNewResourceEvent);
+        expect(addNewResourceEvent.detail.newResourceInfo).toBeDefined();
+        expect(addNewResourceEvent.detail.newResourceInfo.dataType).toEqual('String');
+        expect(addNewResourceEvent.detail.newResourceInfo.newResourceTypeLabel).toEqual(
+            'FlowBuilderScreenEditor.fieldTypeLabelChoice'
+        );
+        expect(addNewResourceEvent.detail.newResourceInfo.resourceTypes).toBeDefined();
+        expect(addNewResourceEvent.detail.newResourceInfo.resourceTypes).toHaveLength(3);
+    });
 });
 
 describe('Default value for choice based field', () => {
