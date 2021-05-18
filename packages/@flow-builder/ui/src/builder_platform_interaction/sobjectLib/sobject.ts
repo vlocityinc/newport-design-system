@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { fetchOnce, isAlreadyFetched, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { updateEntities } from 'builder_platform_interaction/actions';
 import { Store } from 'builder_platform_interaction/storeLib';
@@ -17,14 +16,14 @@ export const ENTITY_TYPE = {
  * Set the SObject Variables in the flow. This should be called at the very beginning of the flow
  * @param {String} entities - String object of all SObjects
  */
-export const setEntities = (entities = null) => {
-    const allEntities = [];
-    const allEntitiesMap = {};
-    const queryableEntities = [];
-    const createableEntities = [];
-    const deletableEntities = [];
-    const updateableEntities = [];
-    const workflowEnabledEntities = [];
+export const setEntities = (entities: UI.EntityDefinition[] | null = null) => {
+    const allEntities: UI.EntityDefinition[] = [];
+    const allEntitiesMap: UI.StringKeyedMap<UI.EntityDefinition> = {};
+    const queryableEntities: UI.EntityDefinition[] = [];
+    const createableEntities: UI.EntityDefinition[] = [];
+    const deletableEntities: UI.EntityDefinition[] = [];
+    const updateableEntities: UI.EntityDefinition[] = [];
+    const workflowEnabledEntities: UI.EntityDefinition[] = [];
 
     if (entities) {
         entities.forEach((entity) => {
@@ -57,7 +56,7 @@ export const setEntities = (entities = null) => {
     );
 };
 
-const getStoredEntities = () => {
+const getStoredEntities = (): UI.StoredEntities | undefined => {
     const peripheralData = Store.getStore().getCurrentState().peripheralData;
     return peripheralData ? peripheralData.entities : undefined;
 };
@@ -89,7 +88,7 @@ export const getEntity = (apiName) => {
  * @param {Array} orgWorkflowEnabledEntities List of api names of workflow enabled entities available in the org
  */
 export const setWorkflowEnabledEntities = (orgWorkflowEnabledEntities = []) => {
-    const workflowEnabledEntities = [];
+    const workflowEnabledEntities: UI.EntityDefinition[] = [];
     orgWorkflowEnabledEntities.forEach((entityApiName) => {
         const entity = getEntity(entityApiName);
         if (entity) {
@@ -100,12 +99,12 @@ export const setWorkflowEnabledEntities = (orgWorkflowEnabledEntities = []) => {
     const storedEntities = getStoredEntities();
     Store.getStore().dispatch(
         updateEntities({
-            allEntities: storedEntities.allEntities,
-            allEntitiesMap: storedEntities.allEntitiesMap,
-            queryableEntities: storedEntities.queryableEntities,
-            createableEntities: storedEntities.createableEntities,
-            deletableEntities: storedEntities.deletableEntities,
-            updateableEntities: storedEntities.updateableEntities,
+            allEntities: storedEntities?.allEntities,
+            allEntitiesMap: storedEntities?.allEntitiesMap,
+            queryableEntities: storedEntities?.queryableEntities,
+            createableEntities: storedEntities?.createableEntities,
+            deletableEntities: storedEntities?.deletableEntities,
+            updateableEntities: storedEntities?.updateableEntities,
             workflowEnabledEntities
         })
     );

@@ -30,7 +30,6 @@ import {
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
 
 jest.mock(
     '@salesforce/label/FlowBuilderElementLabels.recordLookupAsResourceText',
@@ -95,13 +94,7 @@ jest.mock(
     },
     { virtual: true }
 );
-jest.mock('builder_platform_interaction/sobjectLib', () => {
-    return {
-        getEntity: jest.fn().mockImplementation((apiName) => {
-            return mockEntities.find((entity) => entity.apiName === apiName);
-        })
-    };
-});
+jest.mock('builder_platform_interaction/sobjectLib', () => require('builder_platform_interaction_mocks/sobjectLib'));
 jest.mock(
     '@salesforce/label/FlowBuilderElementLabels.actionAnonymousPrimitiveAsResourceText',
     () => {

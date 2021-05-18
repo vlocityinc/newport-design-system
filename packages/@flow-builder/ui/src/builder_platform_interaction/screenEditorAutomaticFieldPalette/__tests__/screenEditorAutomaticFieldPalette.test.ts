@@ -16,7 +16,7 @@ import {
 } from 'builder_platform_interaction/events';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
-import { objectWithAllPossibleFieldsFields as mockobjectWithAllPossibleFieldsVariableFields } from 'serverData/GetFieldsForEntity/objectWithAllPossibleFieldsFields.json';
+import { objectWithAllPossibleFieldsFields as mockObjectWithAllPossibleFieldsVariableFields } from 'serverData/GetFieldsForEntity/objectWithAllPossibleFieldsFields.json';
 import {
     LIGHTNING_COMPONENTS_SELECTORS,
     INTERACTION_COMPONENTS_SELECTORS,
@@ -46,13 +46,22 @@ function mockFetchFieldsForEntity(recordEntityName) {
     return mockFetchFieldsForEntityMode === PromiseMode.Pending || mockFetchFieldsForEntityMode === PromiseMode.Rejected
         ? getResolvablePromise(mockFetchFieldsForEntityMode)
         : Promise.resolve(
-              recordEntityName === 'Account' ? mockAccountFields : mockobjectWithAllPossibleFieldsVariableFields
+              recordEntityName === 'Account' ? mockAccountFields : mockObjectWithAllPossibleFieldsVariableFields
           );
 }
 
-jest.mock('builder_platform_interaction/sobjectLib', () => ({
-    fetchFieldsForEntity: jest.fn(mockFetchFieldsForEntity)
-}));
+jest.mock(
+    '@salesforce/label/FlowBuilderScreenEditorAutomaticFieldPalette.filterFieldsPlaceHolderLabel',
+    () => ({ default: 'Search {0} fields...' }),
+    {
+        virtual: true
+    }
+);
+jest.mock('builder_platform_interaction/sobjectLib', () => {
+    const mockedSobjectLib = require('builder_platform_interaction_mocks/sobjectLib');
+    mockedSobjectLib.fetchFieldsForEntity = jest.fn(mockFetchFieldsForEntity);
+    return mockedSobjectLib;
+});
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
@@ -482,6 +491,17 @@ describe('Screen editor automatic field palette', () => {
                     expect(dragStartDatatransfer.effectAllowed).toBe('copy');
                 }
             );
+        });
+        describe('Search input place holder', () => {
+            const sObjectReferenceChangedEvent = new SObjectReferenceChangedEvent(
+                objectWithAllPossibleFieldsVariable.guid
+            );
+            beforeEach(async () => {
+                getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
+            });
+            it('uses entity label in place holder', () => {
+                expect(getSearchInput(element).placeholder).toEqual('Search Object with all possible fields fields...');
+            });
         });
     });
 });

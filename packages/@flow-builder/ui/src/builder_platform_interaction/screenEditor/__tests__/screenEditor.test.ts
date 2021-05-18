@@ -89,10 +89,13 @@ const getScreenEditorCanvas = (screen) =>
 const getScreenPropertyEditorContainer = (screen) =>
     screen.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.SCREEN_PROPERTIES_EDITOR_CONTAINER);
 
-jest.mock('builder_platform_interaction/sobjectLib', () => ({
-    getFieldsForEntity: jest.fn().mockImplementation(() => mockAccountFields),
-    fetchFieldsForEntity: jest.fn().mockImplementation(() => Promise.resolve(mockAccountFields))
-}));
+jest.mock('builder_platform_interaction/sobjectLib', () => {
+    const mockedSobjectLib = require('builder_platform_interaction_mocks/sobjectLib');
+    mockedSobjectLib.getFieldsForEntity = jest.fn().mockImplementation(() => mockAccountFields);
+    mockedSobjectLib.fetchFieldsForEntity = jest.fn().mockImplementation(() => Promise.resolve(mockAccountFields));
+    return mockedSobjectLib;
+});
+
 jest.mock('builder_platform_interaction/storeUtils', () => {
     const storeUtils = jest.requireActual('builder_platform_interaction/storeUtils');
     return {
