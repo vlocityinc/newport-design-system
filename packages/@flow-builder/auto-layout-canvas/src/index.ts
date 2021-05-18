@@ -76,6 +76,7 @@ export {
     isBranchingElement,
     fulfillsBranchingCriteria,
     isBranchTerminal,
+    shouldDeleteGoToOnNext,
     getSuffixForGoToConnection
 } from './modelUtils';
 

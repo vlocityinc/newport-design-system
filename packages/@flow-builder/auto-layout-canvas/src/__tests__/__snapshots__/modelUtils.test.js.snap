@@ -748,6 +748,148 @@ Object {
 }
 `;
 
+exports[`modelUtils deleteElement Deleting branch element that has GoTos beyond the merge point When persisted branch is not terminated, GoTo present at the merge point should be linked correctly 1`] = `
+Object {
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "screen-one": Object {
+    "config": Object {},
+    "elementType": "Screen",
+    "guid": "screen-one",
+    "incomingGoTo": Array [
+      "screen-two",
+    ],
+    "isCanvasElement": true,
+    "label": "screen-one",
+    "next": "screen-two",
+    "nodeType": "default",
+    "prev": "start-guid",
+  },
+  "screen-two": Object {
+    "config": Object {},
+    "elementType": "Screen",
+    "guid": "screen-two",
+    "incomingGoTo": Array [],
+    "isCanvasElement": true,
+    "label": "screen-two",
+    "next": "screen-one",
+    "nodeType": "default",
+    "prev": "screen-one",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "config": Object {},
+    "elementType": "start",
+    "guid": "start-guid",
+    "isCanvasElement": true,
+    "isTerminal": true,
+    "label": "start-guid",
+    "next": "screen-one",
+    "nodeType": "start",
+    "parent": "root",
+  },
+}
+`;
+
+exports[`modelUtils deleteElement Deleting branch element that has GoTos beyond the merge point When persisted branch is terminated, GoTo present at the merge point should be cleaned up correctly 1`] = `
+Object {
+  "end": Object {
+    "guid": "end",
+    "nodeType": "end",
+    "prev": "screen-one",
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "screen-one": Object {
+    "config": Object {},
+    "elementType": "Screen",
+    "guid": "screen-one",
+    "incomingGoTo": Array [],
+    "isCanvasElement": true,
+    "label": "screen-one",
+    "next": "end",
+    "nodeType": "default",
+    "prev": "start-guid",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "config": Object {},
+    "elementType": "start",
+    "guid": "start-guid",
+    "isCanvasElement": true,
+    "isTerminal": true,
+    "label": "start-guid",
+    "next": "screen-one",
+    "nodeType": "start",
+    "parent": "root",
+  },
+}
+`;
+
+exports[`modelUtils deleteElement Deleting branch element that has GoTos beyond the merge point When persisted branch is terminated, any incoming/outgoing GoTos present beyond the merge point should be cleaned up correctly 1`] = `
+Object {
+  "end-hook-guid": Object {
+    "guid": "end-hook-guid",
+    "nodeType": "end",
+    "prev": "screen-two",
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "screen-one": Object {
+    "config": Object {},
+    "elementType": "Screen",
+    "guid": "screen-one",
+    "incomingGoTo": Array [],
+    "isCanvasElement": true,
+    "label": "screen-one",
+    "next": "screen-two",
+    "nodeType": "default",
+    "prev": "start-guid",
+  },
+  "screen-two": Object {
+    "config": Object {},
+    "elementType": "Screen",
+    "guid": "screen-two",
+    "incomingGoTo": Array [],
+    "isCanvasElement": true,
+    "label": "screen-two",
+    "next": "end-hook-guid",
+    "nodeType": "default",
+    "prev": "screen-one",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "config": Object {},
+    "elementType": "start",
+    "guid": "start-guid",
+    "isCanvasElement": true,
+    "isTerminal": true,
+    "label": "start-guid",
+    "next": "screen-one",
+    "nodeType": "start",
+    "parent": "root",
+  },
+}
+`;
+
 exports[`modelUtils deleteElement delete nested decision with end elements and reconnect 1`] = `
 Object {
   "branch-guid": Object {

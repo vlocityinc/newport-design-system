@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import AlcCanvas from 'builder_platform_interaction/alcCanvas';
-import { flowModel, elementsMetadata /* , nodeLayoutMap,*/ } from './mockData';
+import { flowModel, elementsMetadata } from './mockData';
 import {
     ToggleMenuEvent,
     DeleteBranchElementEvent,
@@ -98,8 +98,10 @@ jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
         resolveNode,
         toggleFlowMenu,
         modalBodyVariant,
+        hasGoToConnectionOnNext,
         resolveParent,
-        isBranchTerminal
+        isBranchTerminal,
+        shouldDeleteGoToOnNext
     } = autoLayoutCanvas;
     const { flowRenderInfo } = require('./mockData');
 
@@ -123,9 +125,10 @@ jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
         MenuType: autoLayoutCanvas.MenuType,
         panzoom,
         NodeType,
-        hasGoToConnectionOnNext: jest.fn(),
+        hasGoToConnectionOnNext,
         resolveParent,
-        isBranchTerminal
+        isBranchTerminal,
+        shouldDeleteGoToOnNext
     };
 });
 
@@ -559,6 +562,24 @@ describe('Auto Layout Canvas', () => {
             await dispatchEvent(nodeMenu, deleteBranchElementEvent);
             expect(callback).toHaveBeenCalled();
         });
+        it('dispatches a deleteElement event when deleting an element and a GoTo is present on next', async () => {
+            const callback = jest.fn();
+            cmp.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
+            const flow = getFlow();
+            const nodeToggleMenuEvent = new ToggleMenuEvent({
+                guid: 'decision',
+                left: 702.0999755859375,
+                offsetX: 2.4000244140625,
+                top: 140,
+                type: MenuType.NODE,
+                elementMetadata: { supportsMenu: true }
+            });
+            await dispatchEvent(flow, nodeToggleMenuEvent);
+            const nodeMenu = getNodeMenu();
+            const deleteBranchElementEvent = new DeleteBranchElementEvent(['decision'], 'Decision', 2);
+            await dispatchEvent(nodeMenu, deleteBranchElementEvent);
+            expect(callback).toHaveBeenCalled();
+        });
         it('dispatches a deleteElement event when deleting an element and head element is null', async () => {
             const callback = jest.fn();
             cmp.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
@@ -725,6 +746,76 @@ describe('Auto Layout Canvas', () => {
                 expect.anything(),
                 false
             );
+        });
+
+        describe('Highlight Path with GoTo present at the merge point', () => {
+            it('GoTo is present at the merge point and no branch is being persisted', async () => {
+                const flow = getFlow();
+                const nodeToggleMenuEvent = new ToggleMenuEvent({
+                    guid: 'decision',
+                    left: 702.0999755859375,
+                    offsetX: 2.4000244140625,
+                    top: 140,
+                    type: MenuType.NODE,
+                    elementMetadata: { supportsMenu: true }
+                });
+                await dispatchEvent(flow, nodeToggleMenuEvent);
+                const nodeMenu = getNodeMenu();
+                const highlightPathsToDeleteEvent = new HighlightPathsToDeleteEvent('decision', undefined);
+                await dispatchEvent(nodeMenu, highlightPathsToDeleteEvent);
+                expect(updateDeletionPathInfo).toHaveBeenCalledWith('decision', undefined, expect.anything(), true);
+            });
+
+            it('GoTo is present at the merge point and the persisted branch is empty', async () => {
+                const flow = getFlow();
+                const nodeToggleMenuEvent = new ToggleMenuEvent({
+                    guid: 'decision',
+                    left: 702.0999755859375,
+                    offsetX: 2.4000244140625,
+                    top: 140,
+                    type: MenuType.NODE,
+                    elementMetadata: { supportsMenu: true }
+                });
+                await dispatchEvent(flow, nodeToggleMenuEvent);
+                const nodeMenu = getNodeMenu();
+                const highlightPathsToDeleteEvent = new HighlightPathsToDeleteEvent('decision', 0);
+                await dispatchEvent(nodeMenu, highlightPathsToDeleteEvent);
+                expect(updateDeletionPathInfo).toHaveBeenCalledWith('decision', 0, expect.anything(), true);
+            });
+
+            it('GoTo is present at the merge point and the persisted branch is terminated', async () => {
+                const flow = getFlow();
+                const nodeToggleMenuEvent = new ToggleMenuEvent({
+                    guid: 'decision',
+                    left: 702.0999755859375,
+                    offsetX: 2.4000244140625,
+                    top: 140,
+                    type: MenuType.NODE,
+                    elementMetadata: { supportsMenu: true }
+                });
+                await dispatchEvent(flow, nodeToggleMenuEvent);
+                const nodeMenu = getNodeMenu();
+                const highlightPathsToDeleteEvent = new HighlightPathsToDeleteEvent('decision', 2);
+                await dispatchEvent(nodeMenu, highlightPathsToDeleteEvent);
+                expect(updateDeletionPathInfo).toHaveBeenCalledWith('decision', 2, expect.anything(), true);
+            });
+
+            it('GoTo is present at the merge point and the persisted branch is not terminated', async () => {
+                const flow = getFlow();
+                const nodeToggleMenuEvent = new ToggleMenuEvent({
+                    guid: 'decision',
+                    left: 702.0999755859375,
+                    offsetX: 2.4000244140625,
+                    top: 140,
+                    type: MenuType.NODE,
+                    elementMetadata: { supportsMenu: true }
+                });
+                await dispatchEvent(flow, nodeToggleMenuEvent);
+                const nodeMenu = getNodeMenu();
+                const highlightPathsToDeleteEvent = new HighlightPathsToDeleteEvent('decision', 1);
+                await dispatchEvent(nodeMenu, highlightPathsToDeleteEvent);
+                expect(updateDeletionPathInfo).toHaveBeenCalledWith('decision', 1, expect.anything(), false);
+            });
         });
     });
 });

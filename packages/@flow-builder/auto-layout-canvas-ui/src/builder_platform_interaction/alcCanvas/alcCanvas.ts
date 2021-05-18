@@ -18,11 +18,12 @@ import {
     FlowRenderInfo,
     FlowInteractionState,
     Dimension,
-    resolveNode,
     invokeModal,
     modalBodyVariant,
     resolveParent,
-    isBranchTerminal
+    isBranchTerminal,
+    hasGoToConnectionOnNext,
+    shouldDeleteGoToOnNext
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import {
     ZOOM_ACTION,
@@ -825,44 +826,24 @@ export default class AlcCanvas extends LightningElement {
     };
 
     /**
-     * When the branch to persist is terminated and the deleting element's next is not an end element,
-     * all branches beyond the merging point are getting deleted
-     */
-    checkShouldDeleteBeyondMergingPoint(
-        selectedElementGUID: string,
-        childIndexToKeep: number | null | undefined
-    ): boolean {
-        const selectedElement = resolveParent(this._flowModel, selectedElementGUID);
-        const { next } = selectedElement;
-        let nextElement;
-
-        if (childIndexToKeep != null) {
-            if (next != null) {
-                nextElement = resolveNode(this._flowModel, next);
-            }
-            const isPersistedBranchTerminated = isBranchTerminal(this._flowModel, selectedElement, childIndexToKeep);
-            return !!(isPersistedBranchTerminated && nextElement && nextElement.nodeType !== NodeType.END);
-        }
-        return false;
-    }
-
-    /**
      * Highlights the path to be deleted
      */
     handleHighlightPathsToDelete = (event) => {
         const { elementGuidToDelete, childIndexToKeep } = event.detail;
-        // Set shouldDeleteBeyondMergingPoint to true, when the branch to persist is terminated and
-        // the deleting element's next is not an end element
-        const shouldDeleteBeyondMergingPoint = this.checkShouldDeleteBeyondMergingPoint(
-            elementGuidToDelete,
-            childIndexToKeep
+        const elementToDelete = resolveParent(this._flowModel, elementGuidToDelete);
+
+        const shouldHighlightBeyondMergingPoint = !!(
+            shouldDeleteGoToOnNext(this._flowModel, elementToDelete, childIndexToKeep) ||
+            (elementToDelete.next &&
+                childIndexToKeep != null &&
+                isBranchTerminal(this._flowModel, elementToDelete, childIndexToKeep))
         );
 
         const interactionState = updateDeletionPathInfo(
             event.detail.elementGuidToDelete,
             event.detail.childIndexToKeep,
             this._flowRenderContext.interactionState,
-            shouldDeleteBeyondMergingPoint
+            shouldHighlightBeyondMergingPoint
         );
         this.updateFlowRenderContext({ interactionState });
     };
@@ -1178,9 +1159,15 @@ export default class AlcCanvas extends LightningElement {
     handleBranchElementDeletion = (event: DeleteBranchElementEvent) => {
         const { selectedElementGUID, selectedElementType, childIndexToKeep } = event.detail;
         if (childIndexToKeep != null) {
-            if (this.checkShouldDeleteBeyondMergingPoint(selectedElementGUID[0], childIndexToKeep)) {
-                // When the branch to persist is terminated and the deleting element's next is not an end element,
-                // a warning modal would be invoked, otherwise a DeleteEelementEvent would be dispatched
+            const selectedElement = resolveParent(this._flowModel, selectedElementGUID[0]);
+            if (
+                selectedElement.next &&
+                isBranchTerminal(this._flowModel, selectedElement, childIndexToKeep) &&
+                this._flowModel[selectedElement.next!].nodeType !== NodeType.END &&
+                !hasGoToConnectionOnNext(this._flowModel, selectedElement)
+            ) {
+                // When the branch to persist is terminated and the deleting element's next is not an end element
+                // or a GoTo target, a warning modal would be invoked, otherwise a DeleteElementEvent would be dispatched
                 invokeModal({
                     headerData: {
                         headerTitle: LABELS.deleteWarningHeaderTitle
