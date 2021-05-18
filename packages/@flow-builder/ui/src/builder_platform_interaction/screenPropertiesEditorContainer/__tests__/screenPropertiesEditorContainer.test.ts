@@ -3,28 +3,18 @@ import { createElement } from 'lwc';
 import ScreenEditorPropertiesEditorContainer from '../screenPropertiesEditorContainer';
 import { getAllScreenFieldTypes } from 'builder_platform_interaction/screenEditorUtils';
 import { query, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 
-jest.mock('builder_platform_interaction/contextLib', () => {
-    return Object.assign(jest.requireActual('builder_platform_interaction/contextLib'), {
-        orgHasFlowScreenSections: () => {
-            return true;
-        }
-    });
-});
-
+jest.mock('builder_platform_interaction/contextLib', () => require('builder_platform_interaction_mocks/contextLib'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
-
-jest.mock('builder_platform_interaction/selectors', () => {
-    return {
-        readableElementsSelector: jest.fn((data) => Object.values(data.elements))
-    };
-});
-
 jest.mock('builder_platform_interaction/screenComponentVisibilitySection', () =>
     require('builder_platform_interaction_mocks/screenComponentVisibilitySection')
+);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock('builder_platform_interaction/screenAutomaticFieldPropertiesEditor', () =>
+    require('builder_platform_interaction_mocks/screenAutomaticFieldPropertiesEditor')
 );
 
 const createComponentUnderTest = (props) => {
@@ -58,6 +48,13 @@ describe('screen-properties-editor-container', () => {
         await ticks(1);
         const header = screenPropertiesEditorContainerElement.shadowRoot.querySelector(headerSelector);
         expect(header.textContent).toBe('FlowBuilderScreenEditor.fieldTypeLabelTextField');
+    });
+    it('displays the automatic field properties header if automatic field is selected', () => {
+        const screenPropertiesEditorContainerElement = createComponentUnderTest({
+            node: { fieldType: FlowScreenFieldType.ObjectProvided }
+        });
+        const header = screenPropertiesEditorContainerElement.shadowRoot.querySelector(headerSelector);
+        expect(header.textContent).toBe('FlowBuilderAutomaticFieldEditor.panelTitle');
     });
     it('displays the error icon when the node has errors', async () => {
         const screenPropertiesEditorContainerElement = createComponentUnderTest({

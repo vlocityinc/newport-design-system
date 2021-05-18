@@ -142,6 +142,7 @@ import nonePicklistPlaceholder from '@salesforce/label/FlowBuilderScreenEditor.n
 import automaticFieldVisibilitySectionTitle from '@salesforce/label/FlowBuilderScreenEditor.automaticFieldVisibilitySectionTitle';
 import automaticFieldDeleteConfirmation from '@salesforce/label/FlowBuilderScreenEditor.automaticFieldDeleteConfirmation';
 import automaticFieldDeleteConsequence from '@salesforce/label/FlowBuilderScreenEditor.automaticFieldDeleteConsequence';
+import automaticFieldPropertyEditorPanelTitle from '@salesforce/label/FlowBuilderAutomaticFieldEditor.panelTitle';
 
 export const LABELS = {
     errorRequired,
@@ -287,5 +288,6 @@ export const LABELS = {
     nonePicklistPlaceholder,
     automaticFieldVisibilitySectionTitle,
     automaticFieldDeleteConfirmation,
-    automaticFieldDeleteConsequence
+    automaticFieldDeleteConsequence,
+    automaticFieldPropertyEditorPanelTitle
 };
