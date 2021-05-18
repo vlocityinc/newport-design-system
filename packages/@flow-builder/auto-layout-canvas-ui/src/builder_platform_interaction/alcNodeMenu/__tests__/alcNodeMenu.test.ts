@@ -16,7 +16,7 @@ import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestU
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
 import { commands } from 'builder_platform_interaction/sharedUtils';
 
-const { ArrowDown, ArrowUp, EscapeCommand, EnterCommand, SpaceCommand } = commands;
+const { ArrowDown, ArrowUp, EscapeCommand, EnterCommand, SpaceCommand, TabCommand } = commands;
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {
     const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
@@ -302,6 +302,40 @@ describe('Node Menu', () => {
                     menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, callback);
                     listItems[0].focus();
                     menu.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
+                    expect(callback).toHaveBeenCalled();
+                });
+
+                it('Pressing tab on the Copy Action moves focus to the edit button', () => {
+                    const editButton = menu.shadowRoot.querySelector('.footer lightning-button');
+                    editButton.focus = jest.fn();
+                    menu.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
+                    menu.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
+                    expect(editButton.focus).toHaveBeenCalled();
+                });
+
+                it('Pressing tab on the Delete Action moves focus to the edit button', () => {
+                    const editButton = menu.shadowRoot.querySelector('.footer lightning-button');
+                    editButton.focus = jest.fn();
+                    menu.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
+                    menu.keyboardInteractions.execute(ArrowDown.COMMAND_NAME);
+                    menu.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
+                    expect(editButton.focus).toHaveBeenCalled();
+                });
+
+                it('Pressing shift + tab on the Copy Action dispatches MoveFocusToNodeEvent', () => {
+                    const callback = jest.fn();
+                    menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, callback);
+                    menu.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
+                    menu.keyboardInteractions.execute('shifttabcommand');
+                    expect(callback).toHaveBeenCalled();
+                });
+
+                it('Pressing shift + tab on the Delete Action dispatches MoveFocusToNodeEvent', () => {
+                    const callback = jest.fn();
+                    menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, callback);
+                    menu.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
+                    menu.keyboardInteractions.execute(ArrowDown.COMMAND_NAME);
+                    menu.keyboardInteractions.execute('shifttabcommand');
                     expect(callback).toHaveBeenCalled();
                 });
             });
@@ -631,6 +665,25 @@ describe('Node Menu', () => {
                 editButton.focus();
                 menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
                 expect(callback).not.toHaveBeenCalled();
+            });
+
+            it('Pressing tab on the edit button dispatches MoveFocusToNodeEvent', () => {
+                const callback = jest.fn();
+                menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, callback);
+                menu.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
+                menu.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
+                menu.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
+                expect(callback).toHaveBeenCalled();
+            });
+
+            it('Pressing shift + tab on the edit button moves focus to the Copy Action', () => {
+                const listItems = Array.from(menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)) as any;
+                const callback = jest.fn();
+                listItems[0].addEventListener('focus', callback);
+                menu.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
+                menu.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
+                menu.keyboardInteractions.execute('shifttabcommand');
+                expect(callback).toHaveBeenCalled();
             });
         });
     });

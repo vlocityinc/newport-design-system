@@ -21,5 +21,13 @@ function setupKeyboardShortcutUtil(keyboardInteract, shortCutCommands) {
     });
 }
 
-export { moveFocusInMenuOnArrowKeyDown };
-export { setupKeyboardShortcutUtil };
+function isMacPlatform() {
+    return navigator.userAgent.indexOf('Macintosh') !== -1;
+}
+
+function setupKeyboardShortcutWithShiftKey(keyboardInteract, command, key) {
+    const shiftTabShortCut = isMacPlatform() ? { shift: true, key } : { shift: true, ctrlOrCmd: true, key };
+    keyboardInteract.setupCommandAndShortcut(command, shiftTabShortCut);
+}
+
+export { moveFocusInMenuOnArrowKeyDown, setupKeyboardShortcutUtil, isMacPlatform, setupKeyboardShortcutWithShiftKey };

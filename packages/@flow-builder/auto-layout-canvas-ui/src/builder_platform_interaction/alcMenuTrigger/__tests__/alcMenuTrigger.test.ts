@@ -1,19 +1,10 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import AlcMenuTrigger from 'builder_platform_interaction/alcMenuTrigger';
-import { ToggleMenuEvent, CloseMenuEvent } from 'builder_platform_interaction/alcEvents';
+import { ToggleMenuEvent, CloseMenuEvent, TabOnMenuTriggerEvent } from 'builder_platform_interaction/alcEvents';
 import { ICON_SHAPE, AutoLayoutCanvasMode } from 'builder_platform_interaction/alcComponentsUtils';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
-import { commands } from 'builder_platform_interaction/sharedUtils';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
-
-const { EnterCommand, EscapeCommand } = commands;
-
-jest.mock('builder_platform_interaction/sharedUtils', () => {
-    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
-    const sharedcommands = require('builder_platform_interaction/sharedUtils/commands');
-    return Object.assign({}, sharedUtils, { commands: sharedcommands });
-});
 
 const startMetadata = {
     canHaveFaultConnector: false,
@@ -178,22 +169,24 @@ describe('the menu trigger', () => {
 
     it('pressing the enter key should dispatch the toggleMenu event if we are NOT in selection mode', () => {
         const cmp = createComponentUnderTest();
-        const button = cmp.shadowRoot.querySelector(selectors.triggerButton);
+        const container = cmp.shadowRoot.querySelector(selectors.defaultTriggerContainer);
         const callback = jest.fn();
         cmp.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
-        button.focus();
-        cmp.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
+        container.focus();
+        const keyDownEvent = new KeyboardEvent('keydown', { key: 'Enter' });
+        container.dispatchEvent(keyDownEvent);
         expect(callback).toHaveBeenCalled();
     });
 
     it('pressing the escape key should dispatch the CloseMenuEvent event if the menu is open', () => {
         const cmp = createComponentUnderTest();
-        const button = cmp.shadowRoot.querySelector(selectors.triggerButton);
+        const container = cmp.shadowRoot.querySelector(selectors.defaultTriggerContainer);
         const callback = jest.fn();
         cmp.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
         cmp.menuOpened = true;
-        button.focus();
-        cmp.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
+        container.focus();
+        const keyDownEvent = new KeyboardEvent('keydown', { key: 'Escape' });
+        container.dispatchEvent(keyDownEvent);
         expect(callback).toHaveBeenCalled();
     });
 
@@ -203,17 +196,19 @@ describe('the menu trigger', () => {
         const callback = jest.fn();
         cmp.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
         button.focus();
-        cmp.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
+        const keyDownEvent = new KeyboardEvent('keydown', { key: 'Enter' });
+        cmp.dispatchEvent(keyDownEvent);
         expect(callback).not.toHaveBeenCalled();
     });
 
     it('pressing the enter key on connector "+" should dispatch the toggleMenu event if we are NOT in selection mode', () => {
         const cmp = createComponentUnderTest(undefined, 'connector', {});
-        const button = cmp.shadowRoot.querySelector(selectors.triggerButton);
+        const container = cmp.shadowRoot.querySelector('div');
         const callback = jest.fn();
         cmp.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
-        button.focus();
-        cmp.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
+        container.focus();
+        const keyDownEvent = new KeyboardEvent('keydown', { key: 'Enter' });
+        container.dispatchEvent(keyDownEvent);
         expect(callback).toHaveBeenCalled();
     });
 
@@ -230,6 +225,30 @@ describe('the menu trigger', () => {
         cmp.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
         button.click();
         expect(callback).not.toHaveBeenCalled();
+    });
+
+    it('pressing tab on trigger button should dispatch TabOnMenuTriggerEvent if the menu is open', () => {
+        const cmp = createComponentUnderTest();
+        const container = cmp.shadowRoot.querySelector(selectors.defaultTriggerContainer);
+        const callback = jest.fn();
+        cmp.addEventListener(TabOnMenuTriggerEvent.EVENT_NAME, callback);
+        cmp.menuOpened = true;
+        container.focus();
+        const keyDownEvent = new KeyboardEvent('keydown', { key: 'Tab' });
+        container.dispatchEvent(keyDownEvent);
+        expect(callback).toHaveBeenCalled();
+    });
+
+    it('pressing shift + tab on trigger button should dispatch TabOnMenuTriggerEvent if the menu is open', () => {
+        const cmp = createComponentUnderTest();
+        const container = cmp.shadowRoot.querySelector(selectors.defaultTriggerContainer);
+        const callback = jest.fn();
+        cmp.addEventListener(TabOnMenuTriggerEvent.EVENT_NAME, callback);
+        cmp.menuOpened = true;
+        container.focus();
+        const keyDownEvent = new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true });
+        container.dispatchEvent(keyDownEvent);
+        expect(callback).toHaveBeenCalled();
     });
 
     describe('Focus Management', () => {

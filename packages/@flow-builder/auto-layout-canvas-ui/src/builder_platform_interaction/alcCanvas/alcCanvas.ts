@@ -42,7 +42,8 @@ import {
     MoveFocusToNodeEvent,
     MoveFocusToConnectorEvent,
     CreateGoToConnectionEvent,
-    DeleteBranchElementEvent
+    DeleteBranchElementEvent,
+    TabOnMenuTriggerEvent
 } from 'builder_platform_interaction/alcEvents';
 import { getAlcFlowData, getAlcMenuData } from 'builder_platform_interaction/alcComponentsUtils';
 import {
@@ -63,12 +64,17 @@ const MIN_ZOOM = 0.1;
 
 const ZOOM_SCALE_STEP = 0.2;
 
-const CANVAS_CLASS = '.canvas';
-const FLOW_CONTAINER_CLASS = '.flow-container';
-
-const START_MENU_SELECTOR = 'builder_platform_interaction-alc-start-menu';
-const CONNECTOR_MENU_SELECTOR = 'builder_platform_interaction-alc-connector-menu';
-const NODE_MENU_SELECTOR = 'builder_platform_interaction-alc-node-menu';
+const selectors = {
+    triggerButton: 'builder_platform_interaction-start-node-trigger-button',
+    contextButton: 'builder_platform_interaction-start-node-context-button',
+    scheduledPathButton: 'builder_platform_interaction-start-node-scheduled-path-button',
+    nodeMenu: 'builder_platform_interaction-alc-node-menu',
+    alcMenu: 'builder_platform_interaction-alc-menu',
+    startMenu: 'builder_platform_interaction-alc-start-menu',
+    connectorMenu: 'builder_platform_interaction-alc-connector-menu',
+    canvasClass: '.canvas',
+    flowContainerClass: '.flow-container'
+};
 
 const defaultConfig = getDefaultLayoutConfig();
 
@@ -210,7 +216,7 @@ export default class AlcCanvas extends LightningElement {
     menu;
 
     @track
-    openedWithKeyboard;
+    moveFocusToMenu;
 
     @track
     isCanvasReady;
@@ -374,16 +380,24 @@ export default class AlcCanvas extends LightningElement {
         return this._flowModel[NodeType.ROOT].children[0];
     }
 
+    getOpenedMenu() {
+        return (
+            this.template.querySelector(selectors.nodeMenu) ||
+            this.template.querySelector(selectors.startMenu) ||
+            this.template.querySelector(selectors.connectorMenu)
+        );
+    }
+
     renderedCallback() {
         this.menuOpacityClass = this.menu != null ? FULL_OPACITY_CLASS : '';
 
         if (this._canvasElement == null) {
-            this._canvasElement = this.template.querySelector(CANVAS_CLASS);
+            this._canvasElement = this.template.querySelector(selectors.canvasClass);
             this.updateFlowRenderContext();
         }
 
         if (!this._flowContainerElement) {
-            const flowContainerElement = this.template.querySelector(FLOW_CONTAINER_CLASS);
+            const flowContainerElement = this.template.querySelector(selectors.flowContainerClass);
             if (flowContainerElement != null) {
                 this._flowContainerElement = flowContainerElement;
                 this.initializePanzoom();
@@ -412,10 +426,8 @@ export default class AlcCanvas extends LightningElement {
                 this.openMenu(event, interactionState);
             }
         }
-        const menuElement =
-            this.template.querySelector(NODE_MENU_SELECTOR) ||
-            this.template.querySelector(START_MENU_SELECTOR) ||
-            this.template.querySelector(CONNECTOR_MENU_SELECTOR);
+
+        const menuElement = this.getOpenedMenu();
 
         if (menuElement != null) {
             const { w, h } = this.getDomElementGeometry(menuElement);
@@ -697,7 +709,7 @@ export default class AlcCanvas extends LightningElement {
             ),
             { elementsMetadata: this._elementsMetadata }
         );
-        this.openedWithKeyboard = event.detail.isOpenedWithKeyboard;
+        this.moveFocusToMenu = event.detail.moveFocusToMenu;
 
         this._pendingInteractionState = interactionState;
     }
@@ -868,6 +880,16 @@ export default class AlcCanvas extends LightningElement {
         this.focusOnNode(event.detail.focusGuid);
     };
 
+    handleTabOnMenuTrigger = (event: TabOnMenuTriggerEvent) => {
+        event.stopPropagation();
+        this.moveFocusToMenu = true;
+        const { shift } = event.detail;
+        const openedMenu = this.getOpenedMenu();
+        if (openedMenu) {
+            openedMenu.moveFocus(shift);
+        }
+    };
+
     /**
      * Re-renders the flow
      *
@@ -891,7 +913,7 @@ export default class AlcCanvas extends LightningElement {
             this.renderFlow(1);
 
             this.initialStartMenuDisplayed =
-                this.initialStartMenuDisplayed || this.template.querySelector(START_MENU_SELECTOR) != null;
+                this.initialStartMenuDisplayed || this.template.querySelector(selectors.startMenu) != null;
 
             // reset the nodeLayoutMap to prevent animations until the start menu has been displayed
             if (!this.initialStartMenuDisplayed) {

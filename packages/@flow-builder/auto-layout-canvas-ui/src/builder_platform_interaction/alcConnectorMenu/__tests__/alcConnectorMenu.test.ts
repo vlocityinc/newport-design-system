@@ -24,7 +24,7 @@ import {
     removeDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
 
-const { EnterCommand, SpaceCommand, ArrowDown, ArrowUp, EscapeCommand } = commands;
+const { EnterCommand, SpaceCommand, ArrowDown, ArrowUp, EscapeCommand, TabCommand } = commands;
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {
     const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
@@ -338,6 +338,135 @@ describe('connector menu', () => {
         cmp.addEventListener(MoveFocusToConnectorEvent.EVENT_NAME, callback);
         listItems[0].focus();
         cmp.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
+        expect(callback).toHaveBeenCalled();
+    });
+
+    it('Pressing tab while focus is on goTo should fire the MoveFocusToConnectorEvent', async () => {
+        configureMenu.mockReturnValueOnce({
+            sections: [
+                {
+                    guid: 1,
+                    heading: '',
+                    items: [
+                        {
+                            guid: 1,
+                            icon: 'utility:level_down',
+                            label: 'Goto another element',
+                            elementType: GOTO_ACTION,
+                            rowClass: 'slds-listbox__item action-row-line-height'
+                        }
+                    ],
+                    label: 'Action Section'
+                }
+            ]
+        });
+        const cmp = createComponentUnderTest();
+        await ticks(1);
+        const callback = jest.fn();
+        cmp.addEventListener(MoveFocusToConnectorEvent.EVENT_NAME, callback);
+        cmp.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
+        cmp.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
+        expect(callback).toHaveBeenCalled();
+    });
+
+    it('Pressing shift + tab while focus is on goTo should fire the MoveFocusToConnectorEvent', async () => {
+        configureMenu.mockReturnValueOnce({
+            sections: [
+                {
+                    guid: 1,
+                    heading: '',
+                    items: [
+                        {
+                            guid: 1,
+                            icon: 'utility:level_down',
+                            label: 'Goto another element',
+                            elementType: GOTO_ACTION,
+                            rowClass: 'slds-listbox__item action-row-line-height'
+                        }
+                    ],
+                    label: 'Action Section'
+                }
+            ]
+        });
+        const cmp = createComponentUnderTest();
+        await ticks(1);
+        const callback = jest.fn();
+        cmp.addEventListener(MoveFocusToConnectorEvent.EVENT_NAME, callback);
+        cmp.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
+        cmp.keyboardInteractions.execute('shifttabcommand');
+        expect(callback).toHaveBeenCalled();
+    });
+
+    it('Pressing tab while focus is on paste should move focus to goTo', async () => {
+        configureMenu.mockReturnValueOnce({
+            sections: [
+                {
+                    guid: 1,
+                    heading: '',
+                    items: [
+                        {
+                            guid: 1,
+                            icon: 'utility:paste',
+                            label: 'Paste copied element(s)',
+                            elementType: PASTE_ACTION,
+                            rowClass: 'slds-listbox__item action-row-line-height'
+                        }
+                    ],
+                    label: 'Action Section'
+                },
+                {
+                    guid: 2,
+                    heading: '',
+                    items: [
+                        {
+                            guid: 2,
+                            icon: 'utility:level_down',
+                            label: 'Goto another element',
+                            elementType: GOTO_ACTION,
+                            rowClass: 'slds-listbox__item action-row-line-height'
+                        }
+                    ],
+                    label: 'Action Section'
+                }
+            ]
+        });
+        const cmp = createComponentUnderTest();
+        await ticks(1);
+        const listItems = Array.from(cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv)) as any;
+        const callback = jest.fn();
+        listItems[1].addEventListener('focus', callback);
+        cmp.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
+        cmp.keyboardInteractions.execute(ArrowDown.COMMAND_NAME);
+        cmp.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
+        expect(callback).toHaveBeenCalled();
+    });
+
+    it('Pressing shift + tab while focus is on paste should fire the MoveFocusToConnectorEvent', async () => {
+        configureMenu.mockReturnValueOnce({
+            sections: [
+                {
+                    guid: 1,
+                    heading: '',
+                    items: [
+                        {
+                            guid: 1,
+                            icon: 'utility:paste',
+                            label: 'Paste copied element(s)',
+                            elementType: PASTE_ACTION,
+                            rowClass: 'slds-listbox__item action-row-line-height'
+                        }
+                    ],
+                    label: 'Action Section'
+                }
+            ]
+        });
+        const cmp = createComponentUnderTest();
+        await ticks(1);
+        const callback = jest.fn();
+        cmp.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
+        cmp.keyboardInteractions.execute(ArrowDown.COMMAND_NAME);
+        cmp.addEventListener(MoveFocusToConnectorEvent.EVENT_NAME, callback);
+        cmp.keyboardInteractions.execute('shifttabcommand');
         expect(callback).toHaveBeenCalled();
     });
 

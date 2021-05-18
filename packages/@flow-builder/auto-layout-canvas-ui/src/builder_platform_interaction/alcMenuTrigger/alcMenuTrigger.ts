@@ -5,14 +5,14 @@ import { classSet } from 'lightning/utils';
 // TODO: need to fix this
 // import { handleKeyDownOnMenuItem, handleKeyDownOnMenuTrigger } from './keyboard';
 
-import { ToggleMenuEvent, MenuPositionUpdateEvent, CloseMenuEvent } from 'builder_platform_interaction/alcEvents';
+import {
+    ToggleMenuEvent,
+    MenuPositionUpdateEvent,
+    CloseMenuEvent,
+    TabOnMenuTriggerEvent
+} from 'builder_platform_interaction/alcEvents';
 import { ICON_SHAPE, AutoLayoutCanvasMode } from 'builder_platform_interaction/alcComponentsUtils';
 import { MenuType, NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
-import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
-import { setupKeyboardShortcutUtil } from 'builder_platform_interaction/contextualMenuUtils';
-
-const { EnterCommand, SpaceCommand, EscapeCommand } = commands;
-const { KeyboardInteractions } = keyboardInteractionUtils;
 
 /**
  * Fixed Layout Canvas Menu Button Component.
@@ -46,10 +46,6 @@ export default class AlcMenuTrigger extends LightningElement {
     @api
     isCanvasReady;
 
-    // Used for testing purposes
-    @api
-    keyboardInteractions;
-
     @api
     get menuOpened() {
         return this._menuOpened;
@@ -66,11 +62,6 @@ export default class AlcMenuTrigger extends LightningElement {
     }
 
     _menuOpened = false;
-
-    constructor() {
-        super();
-        this.keyboardInteractions = new KeyboardInteractions();
-    }
 
     /**
      * The size of the icon.
@@ -124,7 +115,7 @@ export default class AlcMenuTrigger extends LightningElement {
         this.template.querySelector('button').focus();
     }
 
-    toggleMenuVisibility(isPositionUpdate = false, isOpenedWithKeyboard = false) {
+    toggleMenuVisibility(isPositionUpdate = false, moveFocusToMenu = false) {
         const { top, left, width, height } = this.target.getBoundingClientRect();
         const { clientWidth } = this.target;
 
@@ -144,7 +135,7 @@ export default class AlcMenuTrigger extends LightningElement {
             elementMetadata,
             conditionOptionsForNode,
             isPositionUpdate,
-            isOpenedWithKeyboard,
+            moveFocusToMenu,
             ...connectionInfo
         };
 
@@ -207,20 +198,25 @@ export default class AlcMenuTrigger extends LightningElement {
         }
     }
 
-    setupCommandsAndShortcuts() {
-        const keyboardCommands = {
-            Enter: new EnterCommand(() => this.handleSpaceOrEnter()),
-            ' ': new SpaceCommand(() => this.handleSpaceOrEnter()),
-            Escape: new EscapeCommand(() => this.handleEscape())
-        };
-        setupKeyboardShortcutUtil(this.keyboardInteractions, keyboardCommands);
-    }
+    handleKeyDown = (event) => {
+        const { key, shiftKey } = event;
+        if (key === 'Enter' || key === 'Space') {
+            event.stopPropagation();
+            event.preventDefault();
+            this.handleSpaceOrEnter();
+        } else if (key === 'Escape') {
+            event.stopPropagation();
+            event.preventDefault();
+            this.handleEscape();
+        } else if (this._menuOpened && key === 'Tab') {
+            event.preventDefault();
+            this.dispatchEvent(new TabOnMenuTriggerEvent(shiftKey));
+        }
+    };
 
     /** ***************************** Callbacks *******************************/
 
     connectedCallback() {
-        this.keyboardInteractions.addKeyDownEventListener(this.template);
-        this.setupCommandsAndShortcuts();
         this.classList.add('slds-dropdown-trigger', 'slds-dropdown-trigger_click');
     }
 
@@ -233,9 +229,5 @@ export default class AlcMenuTrigger extends LightningElement {
             // fire a MenuPositionUpdateEvent if the menuOpened so that the alcCanvas knows where to position it
             this.toggleMenuVisibility(true);
         }
-    }
-
-    disconnectedCallback() {
-        this.keyboardInteractions.removeKeyDownEventListener(this.template);
     }
 }

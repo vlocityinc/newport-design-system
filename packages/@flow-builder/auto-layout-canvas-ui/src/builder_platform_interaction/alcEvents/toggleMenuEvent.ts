@@ -14,7 +14,7 @@ interface ToggleMenuEventDetail {
     guid?: Guid;
     parent?: Guid;
     childIndex?: number;
-    isOpenedWithKeyboard?: boolean;
+    moveFocusToMenu?: boolean;
 }
 
 export class ToggleMenuEvent extends CustomEvent<ToggleMenuEventDetail> {
