@@ -173,6 +173,13 @@ export function createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(sc
     if (newScreen.backLabelType !== FOOTER_LABEL_TYPE.CUSTOM) {
         newScreen.backLabel = null;
     }
+    if (newScreen.pauseLabelType === FOOTER_LABEL_TYPE.HIDE || !newScreen.allowCustomPauseMessage) {
+        newScreen.pausedText = '';
+        newScreen.allowCustomPauseMessage = false;
+    }
+    if (!newScreen.allowHelp) {
+        newScreen.helpText = '';
+    }
 
     const deletedFields = getDeletedScreenFieldsUsingStore(screen, newFields);
     Object.assign(newScreen, {
@@ -213,6 +220,9 @@ export function createScreenWithFieldReferences(screen = {}) {
             : FOOTER_LABEL_TYPE.STANDARD
         : FOOTER_LABEL_TYPE.HIDE;
 
+    const allowHelp = !!newScreen.helpText;
+    const allowCustomPauseMessage = !!newScreen.pausedText;
+
     const connectors = createConnectorObjects(screen, newScreen.guid);
     const connectorCount = connectors ? connectors.length : 0;
 
@@ -242,6 +252,8 @@ export function createScreenWithFieldReferences(screen = {}) {
         elementType,
         connectorCount,
         maxConnections,
+        allowHelp,
+        allowCustomPauseMessage,
         nextOrFinishLabel,
         nextOrFinishLabelType,
         backLabel,
@@ -319,6 +331,8 @@ export function createScreenElement(screen) {
         allowBack = true,
         allowFinish = true,
         allowPause = true,
+        allowHelp = false,
+        allowCustomPauseMessage = false,
         helpText = '',
         pausedText = '',
         showFooter = true,
@@ -385,6 +399,8 @@ export function createScreenElement(screen) {
         allowBack,
         allowFinish,
         allowPause,
+        allowHelp,
+        allowCustomPauseMessage,
         helpText,
         pausedText,
         showFooter,
