@@ -109,10 +109,6 @@ export default class Header extends LightningElement {
         return this.builderName || LABELS.appNameText;
     }
 
-    get assistiveName() {
-        return this.name + ': ';
-    }
-
     get formattedInterviewLabel() {
         return LABELS.interviewLabelTitle + this.interviewLabel;
     }

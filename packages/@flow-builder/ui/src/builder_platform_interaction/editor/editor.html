@@ -5,6 +5,7 @@
     <div class="slds-grid slds-grid_vertical slds-is-fixed slds-grid_frame">
         <div class="slds-builder-header_container slds-is-relative">
             <builder_platform_interaction-header
+                aria-label={labels.ariaLabelHeader}
                 flow-name={properties.label}
                 flow-version={properties.versionNumber}
                 run-in-mode={properties.runInMode}
@@ -21,6 +22,7 @@
                 debug-interview-status={debugInterviewStatus}
             ></builder_platform_interaction-header>
             <builder_platform_interaction-toolbar
+                aria-label={labels.ariaLabelToolbar}
                 ontoggleselectionmode={handleToggleSelectionMode}
                 oncopyoncanvas={handleCopy}
                 onclick={handleLeftPanelAndToolbarInteraction}
@@ -71,6 +73,7 @@
         </div>
         <div class="slds-col slds-grow slds-grid">
             <builder_platform_interaction-left-panel
+                aria-label={labels.ariaLabelLeftPanel}
                 if:true={showLeftPanel}
                 onaddnewresource={handleAddResourceElement}
                 onaddelement={handleAddCanvasElement}
@@ -88,6 +91,7 @@
                     for brief moment when toggling (LWC bug?), and the fixed canvas use the offsets of its container
                 -->
                 <builder_platform_interaction-canvas-container
+                    aria-label={labels.ariaLabelCanvasContainer}
                     if:false={properties.isAutoLayoutCanvas}
                     canvas-config={canvasConfig}
                     onaddelement={handleAddCanvasElement}
@@ -99,6 +103,7 @@
                 >
                 </builder_platform_interaction-canvas-container>
                 <builder_platform_interaction-alc-canvas-container
+                    aria-label={labels.ariaLabelCanvasContainer}
                     if:true={properties.isAutoLayoutCanvas}
                     elements-metadata={elementsMetadata}
                     is-selection-mode={isSelectionMode}
@@ -123,6 +128,7 @@
                 </builder_platform_interaction-alc-canvas-container>
             </div>
             <builder_platform_interaction-right-panel
+                aria-label={labels.ariaLabelRightPanel}
                 if:true={showRightPanel}
                 onaddnewresource={handleAddResourceElement}
                 onclosepropertyeditor={handleClosePropertyEditor}

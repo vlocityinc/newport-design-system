@@ -17,6 +17,11 @@ import errorMessageMultipleIncomingConnections from '@salesforce/label/FlowBuild
 import errorMessageStepElement from '@salesforce/label/FlowBuilderAlertModal.errorMessageStepElement';
 import continueToDebugTitle from '@salesforce/label/FlowBuilderAlertModal.continueToDebugTitle';
 import immediateScheduledPathLabel from '@salesforce/label/FlowBuilderStartEditor.immediateScheduledPathLabel';
+import ariaLabelHeader from '@salesforce/label/FlowBuilderHeader.ariaLabelHeader';
+import ariaLabelToolbar from '@salesforce/label/FlowBuilderToolbar.ariaLabelToolbar';
+import ariaLabelLeftPanel from '@salesforce/label/FlowBuilderLeftPanel.ariaLabelLeftPanel';
+import ariaLabelRightPanel from '@salesforce/label/FlowBuilderRightPanel.ariaLabelRightPanel';
+import ariaLabelCanvasContainer from '@salesforce/label/FlowBuilderCanvas.ariaLabelCanvasContainer';
 
 export const LABELS = {
     spinnerAlternativeText,
@@ -36,5 +41,10 @@ export const LABELS = {
     errorMessageDisconnectedElements,
     errorMessageMultipleIncomingConnections,
     errorMessageStepElement,
-    immediateScheduledPathLabel
+    immediateScheduledPathLabel,
+    ariaLabelHeader,
+    ariaLabelToolbar,
+    ariaLabelLeftPanel,
+    ariaLabelRightPanel,
+    ariaLabelCanvasContainer
 };
