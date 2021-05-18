@@ -1,33 +1,7 @@
 // @ts-nocheck
-import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from './elementFactoryLabels';
-
-/**
- * Method to create a connector object in the shape required by the store
- *
- * @param {String} source           guid of the source canvas element
- * @param {String} childSource      (optional) guid of the child element, if one exists, that the connector is associated with (ex. outcomes and wait events)
- * @param {String} target           guid of the target canvas element
- * @param {String} label            (optional) label of the connector if one exists (ex. on default connectors)
- * @param {String} type             type of the connector (ex. fault or default)
- * @param {Boolean} isSelected      specify whether the connector is in a selected state
- *
- * @returns {Object} connector       connector object
- */
-export const createConnector = (source, childSource, target, label, type, isSelected = false) => {
-    return {
-        guid: generateGuid(),
-        source,
-        childSource,
-        target,
-        label,
-        type,
-        config: {
-            isSelected
-        }
-    };
-};
+import { createConnectorObject } from 'builder_platform_interaction/connectorUtils';
 
 /**
  * Method to create connector objects for a given flow metadata element
@@ -48,18 +22,28 @@ export const createConnectorObjects = (element, elementGuid, parentGuid, immedia
         const label = immediateConnector ? LABELS.immediateConnectorLabel : parentGuid ? element.label : null;
         const connectorType = immediateConnector ? CONNECTOR_TYPE.IMMEDIATE : CONNECTOR_TYPE.REGULAR;
 
-        const connector = createConnector(source, childSource, element.connector.targetReference, label, connectorType);
+        const connector = createConnectorObject(
+            source,
+            childSource,
+            element.connector.targetReference,
+            label,
+            connectorType,
+            false,
+            element.connector.isGoTo
+        );
         connectors.push(connector);
     } else if (element.connectors) {
         // Step elements have an array of connectors
         element.connectors.forEach((elementconnector) => {
             if (elementconnector.targetReference) {
-                const connector = createConnector(
+                const connector = createConnectorObject(
                     elementGuid,
                     null,
                     elementconnector.targetReference,
                     null,
-                    CONNECTOR_TYPE.REGULAR
+                    CONNECTOR_TYPE.REGULAR,
+                    false,
+                    elementconnector.isGoTo
                 );
                 connectors.push(connector);
             }
@@ -68,48 +52,56 @@ export const createConnectorObjects = (element, elementGuid, parentGuid, immedia
 
     // Create next value connector (if the current element is of type loop)
     if (element.nextValueConnector && element.nextValueConnector.targetReference) {
-        const nextValueConnector = createConnector(
+        const nextValueConnector = createConnectorObject(
             elementGuid,
             null,
             element.nextValueConnector.targetReference,
             LABELS.loopNextConnectorLabel,
-            CONNECTOR_TYPE.LOOP_NEXT
+            CONNECTOR_TYPE.LOOP_NEXT,
+            false,
+            element.nextValueConnector.isGoTo
         );
         connectors.push(nextValueConnector);
     }
 
     // Create no more values aka end of loop connector (if the current element is of type loop)
     if (element.noMoreValuesConnector && element.noMoreValuesConnector.targetReference) {
-        const noMoreValuesConnector = createConnector(
+        const noMoreValuesConnector = createConnectorObject(
             elementGuid,
             null,
             element.noMoreValuesConnector.targetReference,
             LABELS.loopEndConnectorLabel,
-            CONNECTOR_TYPE.LOOP_END
+            CONNECTOR_TYPE.LOOP_END,
+            false,
+            element.noMoreValuesConnector.isGoTo
         );
         connectors.push(noMoreValuesConnector);
     }
 
     // Create fault connector if one exists
     if (element.faultConnector && element.faultConnector.targetReference) {
-        const faultConnector = createConnector(
+        const faultConnector = createConnectorObject(
             elementGuid,
             null,
             element.faultConnector.targetReference,
             LABELS.faultConnectorLabel,
-            CONNECTOR_TYPE.FAULT
+            CONNECTOR_TYPE.FAULT,
+            false,
+            element.faultConnector.isGoTo
         );
         connectors.push(faultConnector);
     }
 
     // Create default connector if one exists
     if (element.defaultConnector && element.defaultConnector.targetReference) {
-        const defaultConnector = createConnector(
+        const defaultConnector = createConnectorObject(
             elementGuid,
             null,
             element.defaultConnector.targetReference,
             element.defaultConnectorLabel,
-            CONNECTOR_TYPE.DEFAULT
+            CONNECTOR_TYPE.DEFAULT,
+            false,
+            element.defaultConnector.isGoTo
         );
         connectors.push(defaultConnector);
     }
@@ -118,7 +110,7 @@ export const createConnectorObjects = (element, elementGuid, parentGuid, immedia
 };
 
 export const createConnectorMetadataObject = (connector) => {
-    return { targetReference: connector.target };
+    return { targetReference: connector.target, isGoTo: connector.isGoTo };
 };
 
 export const createConnectorMetadataObjects = (connectors, hasMultipleRegularConnectors, elementType?) => {
@@ -189,6 +181,6 @@ export const createConnectorMetadataObjects = (connectors, hasMultipleRegularCon
 };
 
 export const createStartElementConnector = (startNodeGuid, target) => {
-    const startElementConnector = createConnector(startNodeGuid, null, target, null, CONNECTOR_TYPE.REGULAR);
+    const startElementConnector = createConnectorObject(startNodeGuid, null, target, null, CONNECTOR_TYPE.REGULAR);
     return [startElementConnector];
 };

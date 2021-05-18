@@ -233,7 +233,6 @@ function getBranchSvgInfo(
 ): SvgInfo {
     const { strokeWidth } = layoutConfig.connector;
     const isLeft = connectorType === ConnectorType.BRANCH_LEFT;
-
     const startOffset: Offset = [strokeWidth / 2, strokeWidth / 2];
 
     const svgPathParams = isLeft

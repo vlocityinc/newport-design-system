@@ -56,13 +56,15 @@ export const getFlowBounds = (canvasElements) => {
 /**
  * Method to create a connector object in the shape required by the store
  *
- * @param {String} source           guid of the source canvas element
- * @param {String} childSource      (optional) guid of the child element, if one exists, that the connector is associated with (ex. outcomes and wait events)
- * @param {String} target           guid of the target canvas element
- * @param {String} label            (optional) label of the connector if one exists (ex. on default connectors)
- * @param {String} type             type of the connector (ex. fault or default)
+ * @param source           guid of the source canvas element
+ * @param childSource      (optional) guid of the child element, if one exists, that the connector is associated with (ex. outcomes and wait events)
+ * @param target           guid of the target canvas element
+ * @param label            (optional) label of the connector if one exists (ex. on default connectors)
+ * @param type             type of the connector (ex. fault or default)
+ * @param isSelected       whether the connector is in a selected state
+ * @param isGoTo           whether the connector is a go to connector
  *
- * @returns {Object} connector       connector object
+ * @returns connector object
  */
 export const createConnectorObject = (
     source: Guid,
@@ -70,6 +72,7 @@ export const createConnectorObject = (
     target: Guid,
     label: string,
     type: UI.ConnectorType,
+    isSelected? = false,
     isGoTo?: boolean
 ): UI.Connector => {
     const guid = generateGuid();
@@ -81,7 +84,7 @@ export const createConnectorObject = (
         label,
         type,
         config: {
-            isSelected: false
+            isSelected
         }
     };
 
@@ -301,7 +304,7 @@ export const createNewConnector = (
         childSource = valueFromCombobox;
     }
 
-    return createConnectorObject(sourceGuid, childSource, targetGuid, label, type, isGoTo);
+    return createConnectorObject(sourceGuid, childSource, targetGuid, label, type, false, isGoTo);
 };
 
 export function createEndConnector(elements: UI.Elements, sourceElement: UI.CanvasElement, type: UI.ConnectorType) {
