@@ -16,13 +16,12 @@ import { format, getPropertyOrDefaultToTrue } from 'builder_platform_interaction
 import { isTestMode } from 'builder_platform_interaction/contextLib';
 import { clamp } from 'builder_platform_interaction/clampLib';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
-import { getProcessTypes } from 'builder_platform_interaction/systemLib';
-import { TRIGGER_TYPE_LABELS } from 'builder_platform_interaction/processTypeLib';
+
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
 
 import startNode from './startNode.html';
 import nodeElement from './node.html';
-import { isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
+import { startElementDescription } from 'builder_platform_interaction/alcCanvasUtils';
 import { shouldSupportScheduledPaths } from 'builder_platform_interaction/elementFactory';
 
 const { logInteraction } = loggingUtils;
@@ -168,25 +167,7 @@ export default class Node extends LightningElement {
     }
 
     get startIconFlowType() {
-        if (
-            isRecordChangeTriggerType(this.node.triggerType) ||
-            this.node.triggerType === SCHEDULED ||
-            this.node.triggerType === PLATFORM_EVENT
-        ) {
-            return TRIGGER_TYPE_LABELS[this.node.triggerType];
-        }
-        const processType = getProcessType();
-        // Grab the label of the current processType flow type
-        const processTypes = getProcessTypes();
-        if (processTypes) {
-            for (const item of processTypes) {
-                if (item.name === processType) {
-                    return item.label;
-                }
-            }
-        }
-
-        return undefined;
+        return startElementDescription();
     }
 
     get trashCanAlternativeText() {

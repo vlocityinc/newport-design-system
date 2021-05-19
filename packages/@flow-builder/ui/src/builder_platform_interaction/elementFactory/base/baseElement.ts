@@ -53,7 +53,7 @@ export function baseCanvasElement(canvasElement: Metadata.Element | UI.BaseCanva
     config = createCanvasElementConfig(config);
 
     // TODO: Need to remove, currently used to support alc copy/paste
-    copyAlcExtraProps(canvasElement, newCanvasElement);
+    copyAlcExtraProps(canvasElement as UI.Element, newCanvasElement);
 
     return Object.assign(newCanvasElement, {
         label,

@@ -19,7 +19,8 @@ import {
     FlowRenderContext,
     hasGoToConnectionOnNext,
     hasGoToConnectionOnBranchHead,
-    FAULT_INDEX
+    FAULT_INDEX,
+    hasChildren
 } from 'builder_platform_interaction/autoLayoutCanvas';
 
 import { ToggleMenuEvent } from 'builder_platform_interaction/alcEvents';
@@ -63,28 +64,6 @@ function isSystemElement(elementsMetadata: ElementsMetadata, elementType: string
 
 const ELEMENT_SELECTED_ACTION = 'element_selected_action';
 const ELEMENT_DESELECTED_ACTION = 'element_deselected_action';
-
-/**
- * Return true if an element can have child branches
- *
- * @param elementsMetadata - Contains elementType -> data map
- * @param element - Element being checked for supporting child branches
- * @return true if an element can have child branches
- */
-function supportsChildBranches(elementsMetadata: ElementsMetadata, { elementType, children }: ParentNodeModel) {
-    const type = getElementMetadata(elementsMetadata, elementType).type;
-    return supportsChildrenForType(type, children);
-}
-
-/**
- * Function to check if a given element type supports children
- *
- * @param type - Type of a given element
- * @returns true if the element is of type Branch
- */
-function supportsChildrenForType(type: NodeType, children): boolean {
-    return type === NodeType.BRANCH || type === NodeType.LOOP || (type === NodeType.START && children);
-}
 
 /**
  * Checks whether to traverse down the chain or not depending on the action the user performed
@@ -160,13 +139,13 @@ function _getChildBranchElements(
 function _getFaultBranchElements(
     elementsMetadata: ElementsMetadata,
     action: string,
-    parentElement: ParentNodeModel,
+    element: NodeModel,
     flowModel: FlowModel
 ): Guid[] {
     let branchElementGuidsToSelectOrDeselect: Guid[] = [];
     let currentBranchElement =
-        parentElement.fault && !hasGoToConnectionOnBranchHead(flowModel, parentElement, FAULT_INDEX)
-            ? flowModel[parentElement.fault]
+        element.fault && !hasGoToConnectionOnBranchHead(flowModel, element, FAULT_INDEX)
+            ? flowModel[element.fault]
             : null;
 
     // Iterate only up till the End Element of the Fault Branch
@@ -196,12 +175,12 @@ function _getFaultBranchElements(
 function _getSubtreeElements(
     elementsMetadata: ElementsMetadata,
     action: string,
-    parentElement: ParentNodeModel,
+    parentElement: NodeModel,
     flowModel: FlowModel
 ): Guid[] {
     let canvasElementGuidsArray: Guid[] = [];
     // Getting all the elements present in the child branches based on the selection/deselection action
-    if (supportsChildBranches(elementsMetadata, parentElement)) {
+    if (hasChildren(parentElement)) {
         canvasElementGuidsArray = canvasElementGuidsArray.concat(
             _getChildBranchElements(elementsMetadata, action, parentElement, flowModel)
         );
@@ -302,7 +281,7 @@ const getCanvasElementSelectionData = (
             if (currentCanvasElement.prev) {
                 currentCanvasElement = flowModel[currentCanvasElement.prev];
                 // In case the element supports children, all it's branches need to be marked as selected as well
-                if (supportsChildBranches(elementsMetadata, currentCanvasElement as ParentNodeModel)) {
+                if (hasChildren(currentCanvasElement)) {
                     canvasElementGuidsToSelect = canvasElementGuidsToSelect.concat(
                         _getChildBranchElements(
                             elementsMetadata,
@@ -340,7 +319,7 @@ const getCanvasElementSelectionData = (
                 if (currentCanvasElement.prev) {
                     currentCanvasElement = flowModel[currentCanvasElement.prev];
                     // In case the element supports children, all it's branches need to be marked as selected as well
-                    if (supportsChildBranches(elementsMetadata, currentCanvasElement as ParentNodeModel)) {
+                    if (hasChildren(currentCanvasElement)) {
                         canvasElementGuidsToSelect = canvasElementGuidsToSelect.concat(
                             _getChildBranchElements(
                                 elementsMetadata,

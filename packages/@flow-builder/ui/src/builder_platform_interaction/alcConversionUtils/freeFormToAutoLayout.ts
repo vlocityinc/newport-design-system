@@ -17,8 +17,7 @@ import {
 
 import { getChildReferencesKeys, getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { supportsChildren } from 'builder_platform_interaction/alcCanvasUtils';
-import { findStartElement, getAlcElementType } from 'builder_platform_interaction/alcCanvasUtils';
+import { findStartElement, getAlcElementType, supportsChildren } from 'builder_platform_interaction/alcCanvasUtils';
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
 import { createNewConnector } from 'builder_platform_interaction/connectorUtils';
 import { dfs, ConversionInfo, ConversionInfos } from './freeFormToAutoLayout/dfs';
@@ -66,7 +65,7 @@ function findConnectionIndex(parentElement: NodeModel, childSource: UI.Guid, typ
 }
 
 function isBranchingElement(element: UI.Element) {
-    return supportsChildren(element) && element.elementType !== ELEMENT_TYPE.LOOP;
+    return supportsChildren(element as UI.CanvasElement) && element.elementType !== ELEMENT_TYPE.LOOP;
 }
 
 /**
@@ -495,7 +494,7 @@ export function convertToAutoLayoutCanvas(
     // create the auto layout elements from the free form elements
     const autoLayoutElements = createAutoLayoutElements(storeState.elements);
 
-    const startElement = findStartElement(autoLayoutElements) as BranchHeadNodeModel;
+    const startElement = findStartElement(autoLayoutElements);
     const rootElement = resolveParent(autoLayoutElements, ELEMENT_TYPE.ROOT_ELEMENT);
 
     // set the auto layout element pointers

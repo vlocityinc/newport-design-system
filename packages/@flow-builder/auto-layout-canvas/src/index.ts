@@ -80,7 +80,8 @@ export {
     createGoToConnection,
     removeGoTosFromPastedElement,
     shouldDeleteGoToOnNext,
-    getSuffixForGoToConnection
+    getSuffixForGoToConnection,
+    hasChildren
 } from './modelUtils';
 
 export {
