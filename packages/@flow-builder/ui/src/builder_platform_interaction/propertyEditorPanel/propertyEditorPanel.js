@@ -30,9 +30,6 @@ export default class PropertyEditorPanel extends LightningElement {
         return this.element && this.editorParams;
     }
 
-    @api
-    nodeUpdateCallback;
-
     @track
     title;
 
@@ -67,17 +64,5 @@ export default class PropertyEditorPanel extends LightningElement {
     handleClose() {
         const closePropertyEditorEvent = new ClosePropertyEditorEvent();
         this.dispatchEvent(closePropertyEditorEvent);
-    }
-
-    /**
-     * Handle changes to any property in the property editor
-     * @param event
-     */
-    handleUpdateNode(event) {
-        const node = event.detail.node;
-
-        if (node && this.nodeUpdateCallback) {
-            this.nodeUpdateCallback(node);
-        }
     }
 }

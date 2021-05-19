@@ -2,11 +2,8 @@
 import { createElement } from 'lwc';
 
 import PropertyEditorPanel from '../propertyEditorPanel';
-
-import { UpdateNodeEvent, ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
-
-const PROPERTY_EDITOR_SELECTOR = '.inline-property-editor';
+import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/stageEditor', () => require('builder_platform_interaction_mocks/stageEditor'));
 
@@ -32,42 +29,6 @@ describe('propertyEditorPanel', () => {
             closeButton.click();
 
             expect(eventCallback).toHaveBeenCalled();
-        });
-    });
-
-    it('property change triggers nodeUpdateCallback', async () => {
-        expect.assertions(1);
-
-        const nodeUpdateCallbackMock = jest.fn();
-
-        const props = {
-            element: { a: 0 },
-            nodeUpdateCallback: nodeUpdateCallbackMock,
-            params: {
-                panelConfig: {
-                    titleForModal: 'title'
-                },
-                attr: {
-                    bodyComponent: {
-                        desc: 'builder_platform_interaction:stageEditor',
-                        className: 'builder_platform_interaction/stageEditor',
-                        attr: {
-                            mode: 'addelement'
-                        }
-                    }
-                }
-            }
-        };
-
-        const component = await createComponentUnderTest(props);
-
-        return ticks().then(() => {
-            const node = { a: 1 };
-
-            const propertyEditor = component.shadowRoot.querySelector(PROPERTY_EDITOR_SELECTOR);
-
-            propertyEditor.dispatchEvent(new UpdateNodeEvent(node));
-            expect(nodeUpdateCallbackMock).toHaveBeenCalledWith(node);
         });
     });
 });
