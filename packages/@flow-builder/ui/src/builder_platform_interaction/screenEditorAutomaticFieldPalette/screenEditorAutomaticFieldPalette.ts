@@ -2,7 +2,7 @@ import { LightningElement, track, api } from 'lwc';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
+import { fetchFieldsForEntity, getEntity } from 'builder_platform_interaction/sobjectLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { format } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './screenEditorAutomaticFieldPaletteLabels';
@@ -51,8 +51,8 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     static SELECTOR = 'builder_platform_interaction-screen-editor-automatic-field-palette';
     sobjectCollectionCriterion = SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT;
     showNoItemsIllustration = true;
-    sobjectPickerErrorMessage?: String | null;
-    entityName = '';
+    sobjectPickerErrorMessage?: string | null;
+    entityLabel?: string;
     showErrorMessageRelatedToFieldFetching = false;
     showNoFieldIllustration = false;
     showSpinner = false;
@@ -74,7 +74,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     }
 
     get searchInputPlaceholder(): String {
-        return format(LABELS.filterFieldsPlaceHolderLabel, this.entityName);
+        return format(LABELS.filterFieldsPlaceHolderLabel, this.entityLabel);
     }
 
     @api
@@ -138,7 +138,10 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
             this.state.recordVariable !== '' &&
             this.sobjectPickerErrorMessage == null
         ) {
-            this.updateFields();
+            const resource = getElementByGuid(this.state.recordVariable)!;
+            const entityName = resource.subtype!;
+            this.entityLabel = getEntity(entityName)?.entityLabel;
+            this.updateFields(entityName);
             this.showNoItemsIllustration = false;
         } else {
             this.showNoItemsIllustration = true;
@@ -148,25 +151,21 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     /**
      * Get the fields of the selected entity and set the state accordingly
      */
-    updateFields() {
-        if (this.state.recordVariable) {
-            const resource = getElementByGuid(this.state.recordVariable)!;
-            this.entityName = resource.subtype!;
-            this.showSpinner = true;
-            fetchFieldsForEntity(this.entityName)
-                .then((fields) => {
-                    this.showErrorMessageRelatedToFieldFetching = false;
-                    this.state.supportedEntityFields = this.filterSupportedFields(fields);
-                    this.showNoFieldIllustration = this.state.supportedEntityFields.length === 0;
-                    this.buildModel();
-                })
-                .catch(() => {
-                    this.showErrorMessageRelatedToFieldFetching = true;
-                })
-                .finally(() => {
-                    this.showSpinner = false;
-                });
-        }
+    private updateFields(entityName: string) {
+        this.showSpinner = true;
+        fetchFieldsForEntity(entityName)
+            .then((fields) => {
+                this.showErrorMessageRelatedToFieldFetching = false;
+                this.state.supportedEntityFields = this.filterSupportedFields(fields);
+                this.showNoFieldIllustration = this.state.supportedEntityFields.length === 0;
+                this.buildModel();
+            })
+            .catch(() => {
+                this.showErrorMessageRelatedToFieldFetching = true;
+            })
+            .finally(() => {
+                this.showSpinner = false;
+            });
     }
 
     filterSupportedFields(entityFields) {

@@ -18,15 +18,23 @@ import { LABELS } from './alcNodeMenuLabels';
 import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import {
     moveFocusInMenuOnArrowKeyDown,
-    setupKeyboardShortcutUtil
+    setupKeyboardShortcutUtil,
+    setupKeyboardShortcutWithShiftKey
 } from 'builder_platform_interaction/contextualMenuUtils';
-const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand, EscapeCommand } = commands;
+const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand, EscapeCommand, TabCommand } = commands;
 const { KeyboardInteractions } = keyboardInteractionUtils;
 
 const selectors = {
     menuItem: 'a[role="menuitem"]',
-    backButton: '.back-button'
+    backButton: '.back-button',
+    alcMenu: 'builder_platform_interaction-alc-menu'
 };
+
+enum TabFocusRingItems {
+    Icon = 0,
+    ListItems = 1,
+    Footer = 2
+}
 /**
  * The node menu overlay, displayed when clicking on a node.
  */
@@ -47,7 +55,7 @@ export default class AlcNodeMenu extends Menu {
     elementHasFault;
 
     @api
-    openedWithKeyboard;
+    moveFocusToMenu;
 
     // Used for testing purposes
     @api
@@ -55,6 +63,12 @@ export default class AlcNodeMenu extends Menu {
 
     @track
     contextualMenuMode = CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE;
+
+    @api
+    moveFocus = (shift: boolean) => {
+        this.tabFocusRingIndex = TabFocusRingItems.Icon;
+        this.handleTabCommand(shift);
+    };
 
     _selectedConditionValue;
     _childIndexToKeep = 0;
@@ -105,7 +119,9 @@ export default class AlcNodeMenu extends Menu {
     constructor() {
         super();
         this.keyboardInteractions = new KeyboardInteractions();
+        this.tabFocusRingIndex = TabFocusRingItems.Icon;
     }
+
     /**
      * Handles the onclick event on the back button, and updates the contextualMenuMode to base mode.
      * Also, dispatches the ClearHighlightedPathEvent to remove the highlight from nodes and connectors
@@ -234,15 +250,38 @@ export default class AlcNodeMenu extends Menu {
         this.dispatchEvent(new MoveFocusToNodeEvent(this.guid));
     }
 
+    moveFocusToFooterButton() {
+        const footerButton = this.template.querySelector('.footer lightning-button');
+        footerButton.focus();
+    }
+
+    moveFocusToFirstRowItem() {
+        const listItems = Array.from(this.template.querySelectorAll(selectors.menuItem)) as any;
+        const firstRowItem = listItems && listItems[0];
+        firstRowItem.focus();
+    }
+
+    tabFocusRingCmds = [
+        // focus on the icon
+        () => this.dispatchEvent(new MoveFocusToNodeEvent(this.guid)),
+        // focus on the first row
+        () => this.moveFocusToFirstRowItem(),
+        // focus on the footer
+        () => this.moveFocusToFooterButton()
+    ];
+
     setupCommandsAndShortcuts() {
         const keyboardCommands = {
             Enter: new EnterCommand(() => this.handleSpaceOrEnter()),
             ' ': new SpaceCommand(() => this.handleSpaceOrEnter()),
             ArrowDown: new ArrowDown(() => this.handleArrowKeyDown(ArrowDown.COMMAND_NAME)),
             ArrowUp: new ArrowUp(() => this.handleArrowKeyDown(ArrowUp.COMMAND_NAME)),
-            Escape: new EscapeCommand(() => this.handleEscape())
+            Escape: new EscapeCommand(() => this.handleEscape()),
+            Tab: new TabCommand(() => this.handleTabCommand(false), false)
         };
         setupKeyboardShortcutUtil(this.keyboardInteractions, keyboardCommands);
+        const shiftTabCommand = new TabCommand(() => this.handleTabCommand(true), true);
+        setupKeyboardShortcutWithShiftKey(this.keyboardInteractions, shiftTabCommand, 'Tab');
     }
 
     connectedCallback() {
@@ -271,12 +310,14 @@ export default class AlcNodeMenu extends Menu {
                     item.parentElement.getAttribute('data-value') === ELEMENT_ACTION_CONFIG.DELETE_ACTION.value
                 ) {
                     item.focus();
+                    this.tabFocusRingIndex = TabFocusRingItems.ListItems;
                 }
             });
             // Moving it to the first row only when the menu has been opened through a keyboard command
             // and isn't coming via the back button
-            if (this.openedWithKeyboard && !this._moveFocusToDeleteBranchRow) {
+            if (this.moveFocusToMenu && !this._moveFocusToDeleteBranchRow) {
                 items[0].focus();
+                this.tabFocusRingIndex = TabFocusRingItems.ListItems;
             }
             this._moveFocusToDeleteBranchRow = false;
             this._hasBaseModeRendered = true;

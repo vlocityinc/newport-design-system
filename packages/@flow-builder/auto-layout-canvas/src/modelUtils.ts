@@ -414,6 +414,46 @@ function removeSourceFromIncomingGoTo(
     return flowModel;
 }
 
+function removeGoTosFromPastedElement(pastedElement: ParentNodeModel, cutOrCopiedCanvasElements: any) {
+    const partialFlowModel = {} as any;
+    partialFlowModel[pastedElement.guid] = pastedElement;
+    const nextElement = cutOrCopiedCanvasElements[pastedElement.next!];
+
+    if (nextElement && nextElement.incomingGoTo) {
+        partialFlowModel[nextElement.guid] = nextElement;
+        pastedElement.next = hasGoToConnectionOnNext(partialFlowModel, partialFlowModel[pastedElement.guid])
+            ? null
+            : pastedElement.next;
+    }
+
+    if (pastedElement.children) {
+        pastedElement.children = pastedElement.children.map((childGuid, index) => {
+            const branchHeadElement = cutOrCopiedCanvasElements[childGuid!];
+            let hasgotoOnHead = false;
+            if (branchHeadElement) {
+                partialFlowModel[childGuid!] = branchHeadElement;
+                hasgotoOnHead = hasGoToConnectionOnBranchHead(
+                    partialFlowModel,
+                    partialFlowModel[pastedElement.guid],
+                    index
+                );
+            }
+            return !hasgotoOnHead ? childGuid : null;
+        });
+    }
+
+    if (pastedElement.fault) {
+        const faultBranchHead = cutOrCopiedCanvasElements[pastedElement.fault];
+        if (faultBranchHead) {
+            partialFlowModel[pastedElement.fault] = faultBranchHead;
+            if (hasGoToConnectionOnBranchHead(partialFlowModel, partialFlowModel[pastedElement.guid], FAULT_INDEX)) {
+                pastedElement.fault = null;
+            }
+        }
+    }
+    return pastedElement;
+}
+
 /**
  * Function to remove the original source reference from target element's incomingGoTo
  * and updating the incomingGoTo with the new source reference
@@ -1249,6 +1289,30 @@ function cleanUpBranchGoTos(flowModel: FlowModel, elementService: ElementService
 }
 
 /**
+ * Checks if there is a GoTo present on merge point a branching element that needs to be deleted
+ * @param flowModel - The state of elements in the store
+ * @param elementToDelete - Branch Element being deleted
+ * @param childIndexToKeep - Index of the branch being persisted (if any)
+ * @returns boolean determining if the GoTo needs to be deleted or not
+ */
+function shouldDeleteGoToOnNext(
+    flowModel: FlowModel,
+    elementToDelete: NodeModel,
+    childIndexToKeep: number | null | undefined
+): boolean {
+    // We need to persist the GoTo in case the branch being persisted has an element in it
+    // that connects to the merging point
+    if (elementToDelete.next && hasGoToConnectionOnNext(flowModel, elementToDelete)) {
+        return (
+            childIndexToKeep == null ||
+            !(elementToDelete as ParentNodeModel).children[childIndexToKeep] ||
+            isBranchTerminal(flowModel, elementToDelete as ParentNodeModel, childIndexToKeep)
+        );
+    }
+    return false;
+}
+
+/**
  * Removes all incoming and outgoing GoTos present within the scope of the element being deleted
  * @param flowModel - The state of elements in the store
  * @param elementService - The element service
@@ -1260,12 +1324,13 @@ function cleanUpGoTos(
     flowModel: FlowModel,
     elementService: ElementService,
     elementToDelete: NodeModel,
-    childIndexToKeep: number | undefined
+    childIndexToKeep: number | null | undefined
 ): FlowModel {
     // Cleaning up all the incomingGoTos present on the element being deleted
     flowModel = cleanUpIncomingGoTos(flowModel, elementService, elementToDelete);
 
-    if (elementToDelete.next && hasGoToConnectionOnNext(flowModel, elementToDelete)) {
+    // Deleting any GoTo connection present on 'next' if needed
+    if (shouldDeleteGoToOnNext(flowModel, elementToDelete, childIndexToKeep)) {
         flowModel = deleteGoToConnection(elementService, flowModel, elementToDelete.guid, null);
     }
 
@@ -1424,12 +1489,24 @@ function deleteElement(
     // Cleaning up all GoTos getting affected by the deletion
     state = cleanUpGoTos(state, elementService, state[guid], childIndexToKeep);
 
+    // Cleaning up any GoTos present beyond the merge point if those elements
+    // need to be deleted as well
+    let shouldDeleteBeyondMergingPoint = false;
+    if (
+        state[guid].next &&
+        !hasGoToConnectionOnNext(state, state[guid]) &&
+        childIndexToKeep != null &&
+        isBranchTerminal(state, state[guid] as ParentNodeModel, childIndexToKeep)
+    ) {
+        state = cleanUpBranchGoTos(state, elementService, state[guid].next!);
+        shouldDeleteBeyondMergingPoint = true;
+    }
+
     const element = resolveNode(state, guid);
     const { prev, next, parent, childIndex } = element as BranchHeadNodeModel;
 
     let nextElement;
     let addEndElement = false;
-    let shouldDeleteBeyondMergingPoint = false;
 
     const parentElement = findParentElement(element, state);
 
@@ -1442,14 +1519,22 @@ function deleteElement(
                 if (next != null) {
                     const tailElement = findLastElement(headElement, state);
 
-                    // If the branch to persist is terminated, elements beyond the
-                    // merging point need to be deleted, otherwise tail element needs
-                    // to be linked properly
-                    if (headElement.isTerminal) {
-                        shouldDeleteBeyondMergingPoint = true;
-                    } else {
+                    // If the branch to persist is not terminated,
+                    // then tail element needs to be linked properly
+                    if (!headElement.isTerminal) {
                         tailElement.next = next;
-                        linkElement(state, tailElement);
+                        if (hasGoToConnectionOnNext(state, element)) {
+                            // Resetting the source of the GoTo to the tail element in the persisted branch
+                            state = removeAndUpdateSourceReferenceInIncomingGoTo(
+                                state,
+                                element,
+                                null,
+                                element.next!,
+                                tailElement.guid
+                            );
+                        } else {
+                            linkElement(state, tailElement);
+                        }
                     }
                 }
                 deleteBranchHeadProperties(headElement);
@@ -1484,7 +1569,7 @@ function deleteElement(
 
     deleteElementAndDescendents(elementService, state, element.guid, childIndexToKeep);
     if (shouldDeleteBeyondMergingPoint && next != null) {
-        deleteElementAndDescendents(elementService, state, next);
+        deleteBranch(elementService, state, next);
     }
 
     const branchHead = (parent != null
@@ -2259,5 +2344,7 @@ export {
     hasGoToConnectionOnNext,
     hasGoToConnectionOnBranchHead,
     isBranchTerminal,
+    removeGoTosFromPastedElement,
+    shouldDeleteGoToOnNext,
     getSuffixForGoToConnection
 };

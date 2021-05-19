@@ -36,9 +36,13 @@ jest.mock('../elementsReducer', () => {
 });
 
 jest.mock('builder_platform_interaction/elementFactory', () => {
-    const { createPastedAssignment, createPastedDecision, createPastedScreen, createPastedWait } = jest.requireActual(
-        'builder_platform_interaction/elementFactory'
-    );
+    const {
+        createPastedAssignment,
+        createPastedDecision,
+        createPastedScreen,
+        createPastedWait,
+        createPastedRecordLookup
+    } = jest.requireActual('builder_platform_interaction/elementFactory');
     const { NodeType } = require('builder_platform_interaction/autoLayoutCanvas');
 
     return {
@@ -57,7 +61,8 @@ jest.mock('builder_platform_interaction/elementFactory', () => {
         createPastedAssignment,
         createPastedDecision,
         createPastedScreen,
-        createPastedWait
+        createPastedWait,
+        createPastedRecordLookup
     };
 });
 
@@ -1081,6 +1086,243 @@ describe('alc-elements-reducer', () => {
         });
     });
 
+    describe('When PATES_ON_FIXED_CANVAS with GoTos', () => {
+        let mockStoreData1;
+
+        const screen1 = {
+            guid: 'screen1',
+            name: 'screen1',
+            elementType: ELEMENT_TYPE.SCREEN,
+            prev: 'getRecords',
+            next: 'decision1',
+            incomingGoTo: ['screen2', 'decision1:decEvent1', 'getRecords:fault'],
+            childReferences: []
+        };
+
+        const getRecords = {
+            guid: 'getRecords',
+            name: 'getRecords',
+            elementType: ELEMENT_TYPE.RECORD_LOOKUP,
+            NodeType: 'default',
+            prev: null,
+            next: 'screen1',
+            fault: 'screen1'
+        };
+
+        const decision1 = {
+            guid: 'decision1',
+            name: 'decision1',
+            elementType: ELEMENT_TYPE.DECISION,
+            nodeType: 'branch',
+            childReferences: [
+                {
+                    childReference: 'decEvent1'
+                }
+            ],
+            prev: 'screen1',
+            next: null,
+            children: ['screen1', 'screen2']
+        };
+
+        const screen2 = {
+            guid: 'screen2',
+            name: 'screen2',
+            elementType: ELEMENT_TYPE.SCREEN,
+            prev: null,
+            next: 'screen1',
+            parent: 'decision1',
+            childIndex: 1,
+            isTerminal: true,
+            childReferences: []
+        };
+
+        const decEvent1 = {
+            guid: 'decEvent1',
+            name: 'decEvent1'
+        };
+
+        const canvasElementGuidMap = {
+            screen1: 'screen1_0',
+            decision1: 'decision1_0',
+            screen2: 'screen2_0'
+        };
+
+        const childElementGuidMap = {
+            decEvent1: 'decEvent1_0'
+        };
+
+        const cutOrCopiedCanvasElements = {
+            screen1,
+            decision1,
+            screen2
+        };
+
+        const cutOrCopiedChildElements = {
+            decEvent1
+        };
+
+        const topCutOrCopiedGuid = 'screen1';
+        const bottomCutOrCopiedGuid = 'decision1';
+
+        beforeEach(() => {
+            mockStoreData1 = {
+                elements: {
+                    screen1,
+                    decision1,
+                    screen2,
+                    decEvent1,
+                    getRecords
+                }
+            };
+
+            Store.setMockState(mockStoreData1);
+        });
+
+        afterEach(() => {
+            Store.resetStore();
+        });
+
+        describe('When pasting elements on a fault branchHead with GoTo', () => {
+            let updatedState;
+            const topCutOrCopiedGuid = 'getRecords';
+            const bottomCutOrCopiedGuid = 'screen1';
+            const canvasElementGuidMap = {
+                screen1: 'screen1_0',
+                getRecords: 'getRecords_0'
+            };
+            const cutOrCopiedCanvasElements = {
+                screen1,
+                getRecords
+            };
+            beforeEach(() => {
+                updatedState = alcElementsReducer(mockStoreData1.elements, {
+                    type: PASTE_ON_FIXED_CANVAS,
+                    payload: {
+                        canvasElementGuidMap,
+                        childElementGuidMap: {},
+                        cutOrCopiedCanvasElements,
+                        cutOrCopiedChildElements: {},
+                        topCutOrCopiedGuid,
+                        bottomCutOrCopiedGuid,
+                        prev: null,
+                        next: 'screen1',
+                        parent: 'getRecords',
+                        childIndex: -1
+                    }
+                });
+            });
+
+            it('Pasted elements should be included in the updated state', () => {
+                expect(Object.keys(updatedState).includes('screen1_0')).toBeTruthy();
+                expect(Object.keys(updatedState).includes('getRecords_0')).toBeTruthy();
+            });
+
+            it('Parent element fault property should be updated', () => {
+                expect(updatedState.getRecords.fault).toEqual('getRecords_0');
+            });
+
+            it('Next Element incomingGoto property should be updated', () => {
+                expect(updatedState.screen1.incomingGoTo.includes('screen1_0')).toBe(true);
+            });
+
+            it('bottomCutOrCopiedGuid should have the correct GoTo', () => {
+                expect(updatedState.screen1_0.next).toEqual('screen1');
+            });
+
+            it('topCutOrCopiedGuid parent property should be updated', () => {
+                expect(updatedState.getRecords_0.parent).toEqual('getRecords');
+            });
+        });
+
+        describe('When pasting elements on a terminated branch with GoTo', () => {
+            let updatedState;
+            beforeEach(() => {
+                updatedState = alcElementsReducer(mockStoreData1.elements, {
+                    type: PASTE_ON_FIXED_CANVAS,
+                    payload: {
+                        canvasElementGuidMap,
+                        childElementGuidMap,
+                        cutOrCopiedCanvasElements,
+                        cutOrCopiedChildElements,
+                        topCutOrCopiedGuid,
+                        bottomCutOrCopiedGuid,
+                        prev: 'screen2',
+                        next: 'screen1',
+                        parent: null,
+                        childIndex: null
+                    }
+                });
+            });
+
+            it('Pasted elements should be included in the updated state', () => {
+                expect(Object.keys(updatedState).includes('screen1_0')).toBeTruthy();
+                expect(Object.keys(updatedState).includes('decision1_0')).toBeTruthy();
+                expect(Object.keys(updatedState).includes('screen2_0')).toBeTruthy();
+                expect(Object.keys(updatedState).includes('decEvent1_0')).toBeTruthy();
+            });
+
+            it('Previous Element next property should be updated', () => {
+                expect(updatedState.screen2.next).toEqual('screen1_0');
+            });
+
+            it('Next Element incomingGoto property should be updated', () => {
+                expect(updatedState.screen1.incomingGoTo.includes('decision1_0')).toBe(true);
+            });
+
+            it('bottomCutOrCopiedGuid should have the correct GoTo', () => {
+                expect(updatedState.decision1_0.next).toEqual('screen1');
+            });
+
+            it('topCutOrCopiedGuid prev property should be updated', () => {
+                expect(updatedState.screen1_0.prev).toEqual('screen2');
+            });
+        });
+
+        describe('When pasting elements on a terminated branchHead with GoTo', () => {
+            let updatedState;
+            beforeEach(() => {
+                updatedState = alcElementsReducer(mockStoreData1.elements, {
+                    type: PASTE_ON_FIXED_CANVAS,
+                    payload: {
+                        canvasElementGuidMap,
+                        childElementGuidMap,
+                        cutOrCopiedCanvasElements,
+                        cutOrCopiedChildElements,
+                        topCutOrCopiedGuid,
+                        bottomCutOrCopiedGuid,
+                        prev: null,
+                        next: 'screen1',
+                        parent: 'decision1',
+                        childIndex: 0
+                    }
+                });
+            });
+
+            it('Pasted elements should be included in the updated state', () => {
+                expect(Object.keys(updatedState).includes('screen1_0')).toBeTruthy();
+                expect(Object.keys(updatedState).includes('decision1_0')).toBeTruthy();
+                expect(Object.keys(updatedState).includes('screen2_0')).toBeTruthy();
+                expect(Object.keys(updatedState).includes('decEvent1_0')).toBeTruthy();
+            });
+
+            it('Parent element children property should be updated', () => {
+                expect(updatedState.decision1.children).toEqual(['screen1_0', 'screen2']);
+            });
+
+            it('Next Element incomingGoto property should be updated', () => {
+                expect(updatedState.screen1.incomingGoTo.includes('decision1_0')).toBe(true);
+            });
+
+            it('bottomCutOrCopiedGuid should have the correct GoTo', () => {
+                expect(updatedState.decision1_0.next).toEqual('screen1');
+            });
+
+            it('topCutOrCopiedGuid parent property should be updated', () => {
+                expect(updatedState.screen1_0.parent).toEqual('decision1');
+            });
+        });
+    });
+
     describe('When PASTE_ON_FIXED_CANVAS', () => {
         let mockStoreData;
 
@@ -1095,6 +1337,7 @@ describe('alc-elements-reducer', () => {
             guid: 'wait1',
             name: 'wait1',
             elementType: ELEMENT_TYPE.WAIT,
+            nodeType: 'branch',
             childReferences: [
                 {
                     childReference: 'waitEvent1'

@@ -15,7 +15,7 @@ export default class AlcNodeMenu extends LightningElement {
     elementHasFault;
 
     @api
-    openedWithKeyboard;
+    moveFocusToMenu;
 
     @api
     disableDeleteElements;

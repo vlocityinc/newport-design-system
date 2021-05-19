@@ -89,7 +89,7 @@ export default class ScheduledPath extends LightningElement {
         const eventDateOptions: { label: string; value: string }[] = [];
 
         if (this.object && this.object.value) {
-            const entity = getEntity(getValueFromHydratedItem(this.object));
+            const entity = getEntity(getValueFromHydratedItem(this.object))!;
             eventDateOptions.push({
                 label: format(
                     this.RECORD_TRIGGER_EVENT_LABEL_LOOKUP[getValueFromHydratedItem(this.recordTriggerType)],

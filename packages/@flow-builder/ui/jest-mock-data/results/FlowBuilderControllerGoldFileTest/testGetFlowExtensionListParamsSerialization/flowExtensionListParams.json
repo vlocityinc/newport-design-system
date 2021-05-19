@@ -253,7 +253,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
-  "isTranslatable" : true,
+  "isTranslatable" : false,
   "label" : "Value",
   "maxOccurs" : 1
 }

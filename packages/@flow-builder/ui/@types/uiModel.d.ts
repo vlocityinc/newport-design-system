@@ -215,11 +215,37 @@ declare namespace UI {
         [key: string]: string | undefined | null | number | boolean;
     }
 
+    type EntityDefinition = {
+        apiName: string;
+        createable: boolean;
+        custom: boolean;
+        deletable: boolean;
+        entityLabel: string;
+        entityLabelPlural: string;
+        queryable: boolean;
+        updateable: boolean;
+    };
+
+    type StoredEntities = {
+        allEntities: EntityDefinition[];
+        allEntitiesMap: UI.StringKeyedMap<EntityDefinition>;
+        queryableEntities: EntityDefinition[];
+        createableEntities: EntityDefinition[];
+        deletableEntities: EntityDefinition[];
+        updateableEntities: EntityDefinition[];
+        workflowEnabledEntities: EntityDefinition[];
+    };
+
+    type PeripheralData = {
+        entities?: StoredEntities;
+    };
+
     interface StoreState {
         elements: Elements;
         connectors: Connector[];
         canvasElements: Guid[];
         properties: Properties;
+        peripheralData?: PeripheralData;
     }
 
     interface ElementConfig {

@@ -17,3 +17,4 @@ export { GoToPathEvent } from './goToPathEvent';
 export { CreateGoToConnectionEvent } from './createGoToConnectionEvent';
 export { DeleteGoToConnectionEvent } from './deleteGoToConnectionEvent';
 export { DeleteBranchElementEvent } from './deleteBranchElementEvent';
+export { TabOnMenuTriggerEvent } from './tabOnMenuTriggerEvent';

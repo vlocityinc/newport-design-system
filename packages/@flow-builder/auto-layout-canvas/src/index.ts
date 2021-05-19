@@ -76,6 +76,10 @@ export {
     isBranchingElement,
     fulfillsBranchingCriteria,
     isBranchTerminal,
+    deleteGoToConnection,
+    createGoToConnection,
+    removeGoTosFromPastedElement,
+    shouldDeleteGoToOnNext,
     getSuffixForGoToConnection
 } from './modelUtils';
 

@@ -47,7 +47,9 @@ import {
     updateChildrenOnAddingOrUpdatingScheduledPaths,
     areAllBranchesTerminals,
     getBranchIndexForGoToConnection,
-    cleanUpIncomingGoTos
+    cleanUpIncomingGoTos,
+    removeGoTosFromPastedElement,
+    shouldDeleteGoToOnNext
 } from '../modelUtils';
 
 import { FAULT_INDEX, START_IMMEDIATE_INDEX } from '../model';
@@ -1180,7 +1182,10 @@ describe('modelUtils', () => {
             const elements = flowModelFromElements([firstElement, inlineElement, lastElement]);
 
             expect(
-                deleteElement(elementService(elements), elements, inlineElement.guid, defaultDeleteOptions)
+                deleteElement(elementService(elements), elements, inlineElement.guid, {
+                    ...defaultDeleteOptions,
+                    childIndexToKeep: null
+                })
             ).toMatchSnapshot();
         });
         it('deletes branching element that supports a fault branch as well', () => {
@@ -2489,6 +2494,418 @@ describe('modelUtils', () => {
                 };
                 expect(updatedFlowModel).toEqual(expectedFlowModel);
             });
+        });
+
+        describe('Deleting branch element that has GoTos beyond the merge point', () => {
+            it('When persisted branch is not terminated, GoTo present at the merge point should be linked correctly', () => {
+                const goToFlowModel = {
+                    root: {
+                        children: ['start-guid'],
+                        elementType: 'root',
+                        guid: 'root',
+                        nodeType: 'root'
+                    },
+                    'start-guid': {
+                        childIndex: 0,
+                        config: {},
+                        elementType: 'start',
+                        guid: 'start-guid',
+                        isCanvasElement: true,
+                        isTerminal: true,
+                        label: 'start-guid',
+                        next: 'screen-one',
+                        nodeType: 'start',
+                        parent: 'root'
+                    },
+                    'screen-one': {
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-one',
+                        incomingGoTo: ['decision'],
+                        isCanvasElement: true,
+                        label: 'screen-one',
+                        next: 'decision',
+                        nodeType: 'default',
+                        prev: 'start-guid'
+                    },
+                    decision: {
+                        childReferences: [
+                            {
+                                childReference: 'o1'
+                            },
+                            {
+                                childReference: 'o2'
+                            }
+                        ],
+                        children: ['screen-two', null, null],
+                        config: {},
+                        elementType: 'Decision',
+                        guid: 'decision',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        label: 'decision',
+                        next: 'screen-one',
+                        nodeType: 'branch',
+                        prev: 'screen-one'
+                    },
+                    'screen-two': {
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-two',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        label: 'screen-two',
+                        next: null,
+                        nodeType: 'default',
+                        prev: null,
+                        parent: 'decision',
+                        childIndex: 0,
+                        isTerminal: false
+                    }
+                };
+                const updatedFlowModel = deleteElement(elementService(goToFlowModel), goToFlowModel, 'decision', {
+                    childIndexToKeep: 0
+                });
+                expect(updatedFlowModel).toMatchSnapshot();
+            });
+
+            it('When persisted branch is terminated, GoTo present at the merge point should be cleaned up correctly', () => {
+                const goToFlowModel = {
+                    root: {
+                        children: ['start-guid'],
+                        elementType: 'root',
+                        guid: 'root',
+                        nodeType: 'root'
+                    },
+                    'start-guid': {
+                        childIndex: 0,
+                        config: {},
+                        elementType: 'start',
+                        guid: 'start-guid',
+                        isCanvasElement: true,
+                        isTerminal: true,
+                        label: 'start-guid',
+                        next: 'screen-one',
+                        nodeType: 'start',
+                        parent: 'root'
+                    },
+                    'screen-one': {
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-one',
+                        incomingGoTo: ['decision'],
+                        isCanvasElement: true,
+                        label: 'screen-one',
+                        next: 'decision',
+                        nodeType: 'default',
+                        prev: 'start-guid'
+                    },
+                    decision: {
+                        childReferences: [
+                            {
+                                childReference: 'o1'
+                            },
+                            {
+                                childReference: 'o2'
+                            }
+                        ],
+                        children: ['end', null, null],
+                        config: {},
+                        elementType: 'Decision',
+                        guid: 'decision',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        label: 'decision',
+                        next: 'screen-one',
+                        nodeType: 'branch',
+                        prev: 'screen-one'
+                    },
+                    end: {
+                        childIndex: 0,
+                        guid: 'end',
+                        isTerminal: true,
+                        nodeType: 'end',
+                        parent: 'decision'
+                    }
+                };
+
+                const updatedFlowModel = deleteElement(elementService(goToFlowModel), goToFlowModel, 'decision', {
+                    childIndexToKeep: 0
+                });
+                expect(updatedFlowModel).toMatchSnapshot();
+            });
+
+            it('When persisted branch is terminated, any incoming/outgoing GoTos present beyond the merge point should be cleaned up correctly', () => {
+                const goToFlowModel = {
+                    root: {
+                        children: ['start-guid'],
+                        elementType: 'root',
+                        guid: 'root',
+                        nodeType: 'root'
+                    },
+                    'start-guid': {
+                        childIndex: 0,
+                        config: {},
+                        elementType: 'start',
+                        guid: 'start-guid',
+                        isCanvasElement: true,
+                        isTerminal: true,
+                        label: 'start-guid',
+                        next: 'screen-one',
+                        nodeType: 'start',
+                        parent: 'root'
+                    },
+                    'screen-one': {
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-one',
+                        incomingGoTo: ['screen-three'],
+                        isCanvasElement: true,
+                        label: 'screen-one',
+                        next: 'decision',
+                        nodeType: 'default',
+                        prev: 'start-guid'
+                    },
+                    decision: {
+                        childReferences: [
+                            {
+                                childReference: 'o1'
+                            },
+                            {
+                                childReference: 'o2'
+                            }
+                        ],
+                        children: ['screen-two', null, null],
+                        config: {},
+                        elementType: 'Decision',
+                        guid: 'decision',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        label: 'decision',
+                        next: 'screen-three',
+                        nodeType: 'branch',
+                        prev: 'screen-one'
+                    },
+                    'screen-two': {
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-two',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        label: 'screen-two',
+                        next: 'screen-three',
+                        nodeType: 'default',
+                        prev: null,
+                        parent: 'decision',
+                        childIndex: 0,
+                        isTerminal: true
+                    },
+                    'screen-three': {
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-three',
+                        incomingGoTo: ['screen-two'],
+                        isCanvasElement: true,
+                        label: 'screen-three',
+                        next: 'screen-one',
+                        nodeType: 'default',
+                        prev: 'decision'
+                    }
+                };
+
+                const updatedFlowModel = deleteElement(elementService(goToFlowModel), goToFlowModel, 'decision', {
+                    childIndexToKeep: 0
+                });
+                expect(updatedFlowModel).toMatchSnapshot();
+            });
+        });
+    });
+
+    describe('shouldDeleteGoToOnNext', () => {
+        it('Returns false if no GoTo is present on next', () => {
+            const flowModel = {
+                decision: {
+                    childReferences: [
+                        {
+                            childReference: 'o1'
+                        }
+                    ],
+                    children: [null, null],
+                    config: {},
+                    elementType: 'Decision',
+                    guid: 'decision',
+                    incomingGoTo: [],
+                    isCanvasElement: true,
+                    label: 'decision',
+                    next: 'end',
+                    nodeType: 'branch'
+                },
+                end: {
+                    guid: 'end',
+                    nodeType: 'end',
+                    prev: 'decision'
+                }
+            };
+
+            expect(shouldDeleteGoToOnNext(flowModel, flowModel.decision, 0)).toBeFalsy();
+        });
+
+        it('Returns true if GoTo is present on next and childIndexToKeep is null, i.e. no branch is being persisted', () => {
+            const flowModel = {
+                screen: {
+                    config: {},
+                    elementType: 'Screen',
+                    guid: 'screen',
+                    incomingGoTo: ['decision'],
+                    isCanvasElement: true,
+                    label: 'screen',
+                    next: 'decision',
+                    nodeType: 'default'
+                },
+                decision: {
+                    childReferences: [
+                        {
+                            childReference: 'o1'
+                        }
+                    ],
+                    children: [null, null],
+                    config: {},
+                    elementType: 'Decision',
+                    guid: 'decision',
+                    incomingGoTo: [],
+                    isCanvasElement: true,
+                    label: 'decision',
+                    next: 'screen',
+                    nodeType: 'branch'
+                }
+            };
+
+            expect(shouldDeleteGoToOnNext(flowModel, flowModel.decision, null)).toBeTruthy();
+        });
+
+        it('Returns true if GoTo is present on next and the persisted branch is empty', () => {
+            const flowModel = {
+                screen: {
+                    config: {},
+                    elementType: 'Screen',
+                    guid: 'screen',
+                    incomingGoTo: ['decision'],
+                    isCanvasElement: true,
+                    label: 'screen',
+                    next: 'decision',
+                    nodeType: 'default'
+                },
+                decision: {
+                    childReferences: [
+                        {
+                            childReference: 'o1'
+                        }
+                    ],
+                    children: [null, null],
+                    config: {},
+                    elementType: 'Decision',
+                    guid: 'decision',
+                    incomingGoTo: [],
+                    isCanvasElement: true,
+                    label: 'decision',
+                    next: 'screen',
+                    nodeType: 'branch'
+                }
+            };
+
+            expect(shouldDeleteGoToOnNext(flowModel, flowModel.decision, 0)).toBeTruthy();
+        });
+
+        it('Returns true if GoTo is present on next and the persisted branch is terminated', () => {
+            const flowModel = {
+                screen: {
+                    config: {},
+                    elementType: 'Screen',
+                    guid: 'screen',
+                    incomingGoTo: ['decision'],
+                    isCanvasElement: true,
+                    label: 'screen',
+                    next: 'decision',
+                    nodeType: 'default'
+                },
+                decision: {
+                    childReferences: [
+                        {
+                            childReference: 'o1'
+                        },
+                        {
+                            childReference: 'o2'
+                        }
+                    ],
+                    children: ['end', null, null],
+                    config: {},
+                    elementType: 'Decision',
+                    guid: 'decision',
+                    incomingGoTo: [],
+                    isCanvasElement: true,
+                    label: 'decision',
+                    next: 'screen',
+                    nodeType: 'branch'
+                },
+                end: {
+                    guid: 'end',
+                    nodeType: 'end',
+                    parent: 'decision',
+                    childIndex: 0,
+                    isTerminal: true
+                }
+            };
+
+            expect(shouldDeleteGoToOnNext(flowModel, flowModel.decision, 0)).toBeTruthy();
+        });
+
+        it('Returns false if GoTo is present on next and the persisted branch is not terminated', () => {
+            const flowModel = {
+                screen: {
+                    config: {},
+                    elementType: 'Screen',
+                    guid: 'screen',
+                    incomingGoTo: ['decision'],
+                    isCanvasElement: true,
+                    label: 'screen',
+                    next: 'decision',
+                    nodeType: 'default'
+                },
+                decision: {
+                    childReferences: [
+                        {
+                            childReference: 'o1'
+                        },
+                        {
+                            childReference: 'o2'
+                        }
+                    ],
+                    children: ['branchHeadScreen', null, null],
+                    config: {},
+                    elementType: 'Decision',
+                    guid: 'decision',
+                    incomingGoTo: [],
+                    isCanvasElement: true,
+                    label: 'decision',
+                    next: 'screen',
+                    nodeType: 'branch'
+                },
+                branchHeadScreen: {
+                    guid: 'branchHeadScreen',
+                    elementType: 'Screen',
+                    nodeType: 'default',
+                    parent: 'decision',
+                    childIndex: 0,
+                    isTerminal: false,
+                    config: {},
+                    incomingGoTo: [],
+                    isCanvasElement: true,
+                    label: 'branchHeadScreen',
+                    next: null
+                }
+            };
+
+            expect(shouldDeleteGoToOnNext(flowModel, flowModel.decision, 0)).toBeFalsy();
         });
     });
 
@@ -4474,6 +4891,88 @@ describe('modelUtils', () => {
                 }
             };
             expect(flowModelAfterDeletion).toEqual(expectedFlowModel);
+        });
+    });
+
+    describe('removeGoTosFromPastedElement function', () => {
+        let cutOrCopiedCanvasElements;
+        beforeEach(() => {
+            cutOrCopiedCanvasElements = {
+                screen1: {
+                    guid: 'screen1',
+                    name: 'screen1',
+                    childReferences: [],
+                    next: 'branchElement',
+                    prev: null,
+                    incomingGoTo: ['screen2', 'branchElement:o1', 'branchElement:fault']
+                },
+                branchElement: {
+                    guid: 'branchElement',
+                    prev: 'screen1',
+                    children: ['screen1', 'screen2', 'screen3'],
+                    fault: 'screen1',
+                    nodeType: NodeType.BRANCH,
+                    childReferences: [
+                        {
+                            childReference: 'o1'
+                        },
+                        {
+                            childReference: 'o2'
+                        }
+                    ]
+                },
+                screen2: {
+                    guid: 'screen2',
+                    name: 'screen2',
+                    childReferences: [],
+                    next: 'screen1',
+                    prev: null,
+                    childIndex: 1,
+                    isTerminal: true,
+                    parent: 'branchElement'
+                }
+            };
+        });
+
+        it('removing GoTos from from a copied elements next to another copied element', () => {
+            const expectedPastedElement = {
+                guid: 'screen2',
+                name: 'screen2',
+                childReferences: [],
+                next: null,
+                prev: null,
+                childIndex: 1,
+                isTerminal: true,
+                parent: 'branchElement'
+            };
+            const pastedElement = removeGoTosFromPastedElement(
+                JSON.parse(JSON.stringify(cutOrCopiedCanvasElements.screen2)),
+                cutOrCopiedCanvasElements
+            );
+            expect(pastedElement).toMatchObject(expectedPastedElement);
+        });
+
+        it('removing GoTos on branching elements (fault)branchhead to another copied element', () => {
+            const expectedPastedElement = {
+                guid: 'branchElement',
+                prev: 'screen1',
+                children: [null, 'screen2', 'screen3'],
+                fault: null,
+                nodeType: NodeType.BRANCH,
+                childReferences: [
+                    {
+                        childReference: 'o1'
+                    },
+                    {
+                        childReference: 'o2'
+                    }
+                ]
+            };
+            const pastedElement = removeGoTosFromPastedElement(
+                JSON.parse(JSON.stringify(cutOrCopiedCanvasElements.branchElement)),
+                cutOrCopiedCanvasElements
+            );
+            expect(pastedElement).toMatchObject(expectedPastedElement);
         });
     });
 

@@ -4,6 +4,7 @@ import { describeExtension } from 'builder_platform_interaction/flowExtensionLib
 import { createScreenNodeSelectedEvent } from 'builder_platform_interaction/events';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 
 /*
  * Right hand side component, used to toggle between screen and field property editors.
@@ -26,6 +27,12 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
 
     labels = LABELS;
     processTypeValue = '';
+
+    private getScreenFieldPropertiesEditorPanelTitle() {
+        return this.node.fieldType === FlowScreenFieldType.ObjectProvided
+            ? LABELS.automaticFieldPropertyEditorPanelTitle
+            : this.node.type.label;
+    }
 
     set node(value) {
         if (this._node && this._node.guid !== value.guid) {
@@ -89,7 +96,9 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
     get getPanelTitle() {
         let title = '';
         if (this.node) {
-            title = screenEditorUtils.isScreen(this.node) ? LABELS.screenProperties : this.node.type.label;
+            title = screenEditorUtils.isScreen(this.node)
+                ? LABELS.screenProperties
+                : this.getScreenFieldPropertiesEditorPanelTitle();
         }
         return title;
     }

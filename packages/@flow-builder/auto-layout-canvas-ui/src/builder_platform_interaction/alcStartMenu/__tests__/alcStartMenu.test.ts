@@ -2,13 +2,13 @@
 import { createElement } from 'lwc';
 import AlcStartMenu from 'builder_platform_interaction/alcStartMenu';
 import { ArrowKeyDownEvent } from 'builder_platform_interaction/events';
-import { CloseMenuEvent } from 'builder_platform_interaction/alcEvents';
+import { CloseMenuEvent, MoveFocusToNodeEvent } from 'builder_platform_interaction/alcEvents';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
 import { commands } from 'builder_platform_interaction/sharedUtils';
 
-const { EscapeCommand, ArrowDown, ArrowUp } = commands;
+const { EscapeCommand, ArrowDown, ArrowUp, TabCommand } = commands;
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {
     const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
@@ -483,6 +483,34 @@ describe('Start Node Menu', () => {
             menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
             context.focus();
             menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
+            expect(callback).toHaveBeenCalled();
+        });
+
+        it('Pressing tab while focus is on the trigger button should fire the MoveFocusToNodeEvent', async () => {
+            const callback = jest.fn();
+            menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, callback);
+            menu.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
+            menu.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
+            expect(callback).toHaveBeenCalled();
+        });
+
+        it('Pressing shift + tab while focus is on the context button should fire the MoveFocusToNodeEvent', async () => {
+            const callback = jest.fn();
+            menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, callback);
+            menu.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
+            menu.keyboardInteractions.execute(ArrowDown.COMMAND_NAME);
+            menu.keyboardInteractions.execute('shifttabcommand');
+            expect(callback).toHaveBeenCalled();
+        });
+
+        it('Pressing tab while focus is on the context button should move focus to the trigger button', () => {
+            const body = menu.shadowRoot.querySelector(selectors.body);
+            const trigger = body.querySelector(selectors.triggerButton);
+            const callback = jest.fn();
+            trigger.shadowRoot.querySelector('div').addEventListener('focus', callback);
+            menu.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
+            menu.keyboardInteractions.execute(ArrowDown.COMMAND_NAME);
+            menu.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
             expect(callback).toHaveBeenCalled();
         });
     });

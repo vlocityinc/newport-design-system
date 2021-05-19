@@ -21,15 +21,23 @@ import { LABELS } from './alcConnectorMenuLabels';
 import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import {
     moveFocusInMenuOnArrowKeyDown,
-    setupKeyboardShortcutUtil
+    setupKeyboardShortcutUtil,
+    setupKeyboardShortcutWithShiftKey
 } from 'builder_platform_interaction/contextualMenuUtils';
 
-const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand, EscapeCommand } = commands;
+const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand, EscapeCommand, TabCommand } = commands;
 const { KeyboardInteractions } = keyboardInteractionUtils;
 
 const selectors = {
-    menuItem: 'div[role="option"]'
+    menuItem: 'div[role="option"]',
+    alcMenu: 'builder_platform_interaction-alc-menu'
 };
+
+enum TabFocusRingItems {
+    Icon = 0,
+    FirstItem = 1,
+    OtherItems = 2
+}
 
 /**
  * The connector menu overlay. It is displayed when clicking on a connector.
@@ -67,12 +75,15 @@ export default class AlcConnectorMenu extends Menu {
     @api
     isGoToConnector!: boolean;
 
-    @api
-    openedWithKeyboard;
-
     // Used for testing purposes
     @api
     keyboardInteractions;
+
+    @api
+    moveFocus = () => {
+        this.tabFocusRingIndex = TabFocusRingItems.Icon;
+        this.handleTabCommand(false);
+    };
 
     get menuConfiguration() {
         return configureMenu(
@@ -91,6 +102,7 @@ export default class AlcConnectorMenu extends Menu {
     constructor() {
         super();
         this.keyboardInteractions = new KeyboardInteractions();
+        this.tabFocusRingIndex = TabFocusRingItems.Icon;
     }
 
     /**
@@ -153,6 +165,16 @@ export default class AlcConnectorMenu extends Menu {
         this.doSelectMenuItem(event.currentTarget);
     }
 
+    getItemFromItemList(index) {
+        const listItems = Array.from(this.template.querySelectorAll(selectors.menuItem)) as any;
+        return listItems && listItems[index];
+    }
+
+    moveFocusToFirstListItem() {
+        const firstRowItem = this.getItemFromItemList(0);
+        firstRowItem.focus();
+    }
+
     /**
      * Helper function to move the focus correctly when using arrow keys in the contextual menu
      * @param key - the key pressed (arrowDown or arrowUp)
@@ -162,6 +184,9 @@ export default class AlcConnectorMenu extends Menu {
         if (currentItemInFocus) {
             const items = Array.from(this.template.querySelectorAll(selectors.menuItem)) as any;
             moveFocusInMenuOnArrowKeyDown(items, currentItemInFocus, key);
+        }
+        if (this.template.activeElement !== this.getItemFromItemList(0)) {
+            this.tabFocusRingIndex = TabFocusRingItems.OtherItems;
         }
     }
 
@@ -180,15 +205,38 @@ export default class AlcConnectorMenu extends Menu {
         this.dispatchEvent(new MoveFocusToConnectorEvent(this.prev || this.parent, this.childIndex));
     }
 
+    tabFocusRingCmds = [
+        // focus on the connector icon
+        () => this.dispatchEvent(new MoveFocusToConnectorEvent(this.prev || this.parent, this.childIndex)),
+        // focus on the first item
+        () => this.moveFocusToFirstListItem()
+    ];
+
+    calcaulateTabFocusRingIdx(shift, tabFocusRingIndex) {
+        let newTabFocusRingIdx;
+        if (tabFocusRingIndex === TabFocusRingItems.OtherItems) {
+            newTabFocusRingIdx = shift ? tabFocusRingIndex % this.tabFocusRingCmds.length : tabFocusRingIndex - 1;
+        } else {
+            newTabFocusRingIdx = shift ? tabFocusRingIndex - 1 : (tabFocusRingIndex + 1) % this.tabFocusRingCmds.length;
+            if (newTabFocusRingIdx === -1) {
+                newTabFocusRingIdx = this.tabFocusRingCmds.length - 1;
+            }
+        }
+        return newTabFocusRingIdx;
+    }
+
     setupCommandsAndShortcuts() {
         const keyboardCommands = {
             Enter: new EnterCommand(() => this.handleSpaceOrEnter()),
             ' ': new SpaceCommand(() => this.handleSpaceOrEnter()),
             ArrowDown: new ArrowDown(() => this.handleArrowKeyDown(ArrowDown.COMMAND_NAME)),
             ArrowUp: new ArrowUp(() => this.handleArrowKeyDown(ArrowUp.COMMAND_NAME)),
-            Escape: new EscapeCommand(() => this.handleEscape())
+            Escape: new EscapeCommand(() => this.handleEscape()),
+            Tab: new TabCommand(() => this.handleTabCommand(false), false)
         };
         setupKeyboardShortcutUtil(this.keyboardInteractions, keyboardCommands);
+        const shiftTabCommand = new TabCommand(() => this.handleTabCommand(true), true);
+        setupKeyboardShortcutWithShiftKey(this.keyboardInteractions, shiftTabCommand, 'Tab');
     }
 
     connectedCallback() {
@@ -201,10 +249,11 @@ export default class AlcConnectorMenu extends Menu {
     }
 
     renderedCallback() {
-        if (this.openedWithKeyboard) {
+        if (this.moveFocusToMenu) {
             const items = Array.from(this.template.querySelectorAll(selectors.menuItem)) as any;
             if (items.length > 0) {
                 items[0].focus();
+                this.tabFocusRingIndex = TabFocusRingItems.FirstItem;
             }
         }
     }

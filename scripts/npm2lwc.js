@@ -177,33 +177,68 @@ function transpileTs(fullSourcePath, modulePath) {
     return modulePath;
 }
 
+function watchFilter(filepath) {
+    const ignored = [/___/, /~$/, /\.tmp$/, /\.ds_store$/i];
+
+    for (pattern of ignored) {
+        if (pattern.test(filepath)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+function handleUpdate(fullSourcePath, modulePath) {
+    printInfo(`File change detected at ${fullSourcePath}`);
+    try {
+        if (fullSourcePath.endsWith('.ts')) {
+            modulePath = transpileTs(fullSourcePath, modulePath);
+        } else {
+            fs.copyFileSync(fullSourcePath, modulePath);
+        }
+
+        printSuccess(`Pushed changes to ${modulePath} (${new Date(Date.now()).toLocaleString()})`);
+    } catch (e) {
+        printError(`Could not copy file at ${fullSourcePath}: ${e.message}`);
+    }
+}
+
+function handleRemove(fullSourcePath, modulePath) {
+    printInfo(`File deletion detected at ${fullSourcePath}`);
+    try {
+        fs.unlinkSync(modulePath);
+        printSuccess(`Deleted ${modulePath} (${new Date(Date.now()).toLocaleString()})`);
+    } catch (e) {
+        printError(`Could not delete file at ${modulePath}: ${e.message}`);
+    }
+}
+
+const watchEventTypes = {
+    update: 'update',
+    remove: 'remove'
+};
+
+function handleWatchEvent(dest, sourcePath, event, filename) {
+    const fullSourcePath = resolve(sourcePath, filename);
+    const relativePath = relative(sourcePath, fullSourcePath);
+    let modulePath = resolve(dest, relativePath);
+
+    if (event === watchEventTypes.update) {
+        handleUpdate(fullSourcePath, modulePath);
+    }
+    if (event === watchEventTypes.remove) {
+        handleRemove(fullSourcePath, modulePath);
+    }
+}
+
 function mvUiModule(src, dest, options) {
     const npm2lwcConfig = require(resolve(src, 'package.json')).npm2lwc;
     const sourcePath = resolve(src, 'src/');
     if (options.watch) {
-        watch(sourcePath, { recursive: true }, (event, filename) => {
-            if (event === 'update') {
-                // on create or modify
-                // Check not a temp file generated (intellij)
-                if (filename.indexOf('___') === -1 && !filename.endsWith('~') && !filename.endsWith('.tmp')) {
-                    const fullSourcePath = resolve(sourcePath, filename);
-                    const relativePath = relative(sourcePath, fullSourcePath);
-                    let modulePath = resolve(dest, relativePath);
-                    printInfo(`File change detected at ${fullSourcePath}`);
-                    try {
-                        if (fullSourcePath.endsWith('.ts')) {
-                            modulePath = transpileTs(fullSourcePath, modulePath);
-                        } else {
-                            fs.copyFileSync(fullSourcePath, modulePath);
-                        }
-
-                        printSuccess(`Pushed changes to ${modulePath} (${new Date(Date.now()).toLocaleString()})`);
-                    } catch (e) {
-                        printError(`Could not copy file at ${fullSourcePath}: ${e.message}`);
-                    }
-                }
-            }
-        });
+        watch(sourcePath, { recursive: true, filter: watchFilter }, (event, filename) =>
+            handleWatchEvent(dest, sourcePath, event, filename)
+        );
     } else {
         printHeader(`Moving UI modules in ${sourcePath} to ${dest}`);
 

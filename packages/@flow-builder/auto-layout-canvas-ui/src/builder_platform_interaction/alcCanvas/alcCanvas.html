@@ -24,6 +24,7 @@
                     disable-add-elements={disableAddElements}
                     onalcselectdeselectnode={handleNodeSelectionDeselection}
                     onnoderesize={handleDynamicNodeRender}
+                    ontabonmenutrigger={handleTabOnMenuTrigger}
                 >
                 </builder_platform_interaction-alc-flow>
 
@@ -43,7 +44,7 @@
                             is-paste-available={autoLayoutCanvasContext.isPasteAvailable}
                             elements-metadata={menu.elementsMetadata}
                             ongotopath={handleAddOrRerouteGoToItemSelection}
-                            opened-with-keyboard={openedWithKeyboard}
+                            move-focus-to-menu={moveFocusToMenu}
                             onmovefocustoconnector={handleMoveFocusToConnector}
                         ></builder_platform_interaction-alc-connector-menu>
                     </template>
@@ -59,7 +60,7 @@
                             style={menu.style}
                             onclearhighlightedpath={handleClearHighlightedPath}
                             onhighlightpathstodelete={handleHighlightPathsToDelete}
-                            opened-with-keyboard={openedWithKeyboard}
+                            move-focus-to-menu={moveFocusToMenu}
                             onmovefocustonode={handleMoveFocusToNode}
                             ondeletebranchelement={handleBranchElementDeletion}
                         ></builder_platform_interaction-alc-node-menu>
@@ -70,11 +71,12 @@
                             element-has-fault={menu.elementHasFault}
                             element-metadata={menu.elementMetadata}
                             start-data={startMenuElement}
+                            child-index={menu.childIndex}
                             guid={menu.guid}
                             style={menu.style}
                             supports-scheduled-paths={supportsScheduledPaths}
                             onhighlightpathstodelete={handleHighlightPathsToDelete}
-                            opened-with-keyboard={openedWithKeyboard}
+                            move-focus-to-menu={moveFocusToMenu}
                             onmovefocustonode={handleMoveFocusToNode}
                         ></builder_platform_interaction-alc-start-menu>
                     </template>

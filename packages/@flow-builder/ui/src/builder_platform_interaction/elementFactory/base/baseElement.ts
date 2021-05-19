@@ -90,6 +90,7 @@ export function createPastedCanvasElement(
 ): UI.CanvasElement {
     const pastedCanvasElement = Object.assign(duplicatedElement, {
         config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
+        incomingGoTo: [],
         prev: canvasElementGuidMap[duplicatedElement.prev] || null,
         next: canvasElementGuidMap[duplicatedElement.next] || null
     });

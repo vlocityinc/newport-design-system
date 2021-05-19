@@ -382,6 +382,8 @@ export default class Editor extends LightningElement {
 
     flowInitDefinitionId;
 
+    labels = LABELS;
+
     /** Whether canvas elements are available. Don't render the canvas until then. */
     get hasCanvasElements() {
         return (

@@ -18,11 +18,12 @@ import {
     FlowRenderInfo,
     FlowInteractionState,
     Dimension,
-    resolveNode,
     invokeModal,
     modalBodyVariant,
     resolveParent,
-    isBranchTerminal
+    isBranchTerminal,
+    hasGoToConnectionOnNext,
+    shouldDeleteGoToOnNext
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import {
     ZOOM_ACTION,
@@ -41,7 +42,8 @@ import {
     MoveFocusToNodeEvent,
     MoveFocusToConnectorEvent,
     CreateGoToConnectionEvent,
-    DeleteBranchElementEvent
+    DeleteBranchElementEvent,
+    TabOnMenuTriggerEvent
 } from 'builder_platform_interaction/alcEvents';
 import { getAlcFlowData, getAlcMenuData } from 'builder_platform_interaction/alcComponentsUtils';
 import {
@@ -62,12 +64,17 @@ const MIN_ZOOM = 0.1;
 
 const ZOOM_SCALE_STEP = 0.2;
 
-const CANVAS_CLASS = '.canvas';
-const FLOW_CONTAINER_CLASS = '.flow-container';
-
-const START_MENU_SELECTOR = 'builder_platform_interaction-alc-start-menu';
-const CONNECTOR_MENU_SELECTOR = 'builder_platform_interaction-alc-connector-menu';
-const NODE_MENU_SELECTOR = 'builder_platform_interaction-alc-node-menu';
+const selectors = {
+    triggerButton: 'builder_platform_interaction-start-node-trigger-button',
+    contextButton: 'builder_platform_interaction-start-node-context-button',
+    scheduledPathButton: 'builder_platform_interaction-start-node-scheduled-path-button',
+    nodeMenu: 'builder_platform_interaction-alc-node-menu',
+    alcMenu: 'builder_platform_interaction-alc-menu',
+    startMenu: 'builder_platform_interaction-alc-start-menu',
+    connectorMenu: 'builder_platform_interaction-alc-connector-menu',
+    canvasClass: '.canvas',
+    flowContainerClass: '.flow-container'
+};
 
 const defaultConfig = getDefaultLayoutConfig();
 
@@ -209,7 +216,7 @@ export default class AlcCanvas extends LightningElement {
     menu;
 
     @track
-    openedWithKeyboard;
+    moveFocusToMenu;
 
     @track
     isCanvasReady;
@@ -373,16 +380,24 @@ export default class AlcCanvas extends LightningElement {
         return this._flowModel[NodeType.ROOT].children[0];
     }
 
+    getOpenedMenu() {
+        return (
+            this.template.querySelector(selectors.nodeMenu) ||
+            this.template.querySelector(selectors.startMenu) ||
+            this.template.querySelector(selectors.connectorMenu)
+        );
+    }
+
     renderedCallback() {
         this.menuOpacityClass = this.menu != null ? FULL_OPACITY_CLASS : '';
 
         if (this._canvasElement == null) {
-            this._canvasElement = this.template.querySelector(CANVAS_CLASS);
+            this._canvasElement = this.template.querySelector(selectors.canvasClass);
             this.updateFlowRenderContext();
         }
 
         if (!this._flowContainerElement) {
-            const flowContainerElement = this.template.querySelector(FLOW_CONTAINER_CLASS);
+            const flowContainerElement = this.template.querySelector(selectors.flowContainerClass);
             if (flowContainerElement != null) {
                 this._flowContainerElement = flowContainerElement;
                 this.initializePanzoom();
@@ -411,10 +426,8 @@ export default class AlcCanvas extends LightningElement {
                 this.openMenu(event, interactionState);
             }
         }
-        const menuElement =
-            this.template.querySelector(NODE_MENU_SELECTOR) ||
-            this.template.querySelector(START_MENU_SELECTOR) ||
-            this.template.querySelector(CONNECTOR_MENU_SELECTOR);
+
+        const menuElement = this.getOpenedMenu();
 
         if (menuElement != null) {
             const { w, h } = this.getDomElementGeometry(menuElement);
@@ -696,7 +709,7 @@ export default class AlcCanvas extends LightningElement {
             ),
             { elementsMetadata: this._elementsMetadata }
         );
-        this.openedWithKeyboard = event.detail.isOpenedWithKeyboard;
+        this.moveFocusToMenu = event.detail.moveFocusToMenu;
 
         this._pendingInteractionState = interactionState;
     }
@@ -825,44 +838,24 @@ export default class AlcCanvas extends LightningElement {
     };
 
     /**
-     * When the branch to persist is terminated and the deleting element's next is not an end element,
-     * all branches beyond the merging point are getting deleted
-     */
-    checkShouldDeleteBeyondMergingPoint(
-        selectedElementGUID: string,
-        childIndexToKeep: number | null | undefined
-    ): boolean {
-        const selectedElement = resolveParent(this._flowModel, selectedElementGUID);
-        const { next } = selectedElement;
-        let nextElement;
-
-        if (childIndexToKeep != null) {
-            if (next != null) {
-                nextElement = resolveNode(this._flowModel, next);
-            }
-            const isPersistedBranchTerminated = isBranchTerminal(this._flowModel, selectedElement, childIndexToKeep);
-            return !!(isPersistedBranchTerminated && nextElement && nextElement.nodeType !== NodeType.END);
-        }
-        return false;
-    }
-
-    /**
      * Highlights the path to be deleted
      */
     handleHighlightPathsToDelete = (event) => {
         const { elementGuidToDelete, childIndexToKeep } = event.detail;
-        // Set shouldDeleteBeyondMergingPoint to true, when the branch to persist is terminated and
-        // the deleting element's next is not an end element
-        const shouldDeleteBeyondMergingPoint = this.checkShouldDeleteBeyondMergingPoint(
-            elementGuidToDelete,
-            childIndexToKeep
+        const elementToDelete = resolveParent(this._flowModel, elementGuidToDelete);
+
+        const shouldHighlightBeyondMergingPoint = !!(
+            shouldDeleteGoToOnNext(this._flowModel, elementToDelete, childIndexToKeep) ||
+            (elementToDelete.next &&
+                childIndexToKeep != null &&
+                isBranchTerminal(this._flowModel, elementToDelete, childIndexToKeep))
         );
 
         const interactionState = updateDeletionPathInfo(
             event.detail.elementGuidToDelete,
             event.detail.childIndexToKeep,
             this._flowRenderContext.interactionState,
-            shouldDeleteBeyondMergingPoint
+            shouldHighlightBeyondMergingPoint
         );
         this.updateFlowRenderContext({ interactionState });
     };
@@ -885,6 +878,16 @@ export default class AlcCanvas extends LightningElement {
     handleMoveFocusToNode = (event: MoveFocusToNodeEvent) => {
         event.stopPropagation();
         this.focusOnNode(event.detail.focusGuid);
+    };
+
+    handleTabOnMenuTrigger = (event: TabOnMenuTriggerEvent) => {
+        event.stopPropagation();
+        this.moveFocusToMenu = true;
+        const { shift } = event.detail;
+        const openedMenu = this.getOpenedMenu();
+        if (openedMenu) {
+            openedMenu.moveFocus(shift);
+        }
     };
 
     /**
@@ -910,7 +913,7 @@ export default class AlcCanvas extends LightningElement {
             this.renderFlow(1);
 
             this.initialStartMenuDisplayed =
-                this.initialStartMenuDisplayed || this.template.querySelector(START_MENU_SELECTOR) != null;
+                this.initialStartMenuDisplayed || this.template.querySelector(selectors.startMenu) != null;
 
             // reset the nodeLayoutMap to prevent animations until the start menu has been displayed
             if (!this.initialStartMenuDisplayed) {
@@ -1178,9 +1181,15 @@ export default class AlcCanvas extends LightningElement {
     handleBranchElementDeletion = (event: DeleteBranchElementEvent) => {
         const { selectedElementGUID, selectedElementType, childIndexToKeep } = event.detail;
         if (childIndexToKeep != null) {
-            if (this.checkShouldDeleteBeyondMergingPoint(selectedElementGUID[0], childIndexToKeep)) {
-                // When the branch to persist is terminated and the deleting element's next is not an end element,
-                // a warning modal would be invoked, otherwise a DeleteEelementEvent would be dispatched
+            const selectedElement = resolveParent(this._flowModel, selectedElementGUID[0]);
+            if (
+                selectedElement.next &&
+                isBranchTerminal(this._flowModel, selectedElement, childIndexToKeep) &&
+                this._flowModel[selectedElement.next!].nodeType !== NodeType.END &&
+                !hasGoToConnectionOnNext(this._flowModel, selectedElement)
+            ) {
+                // When the branch to persist is terminated and the deleting element's next is not an end element
+                // or a GoTo target, a warning modal would be invoked, otherwise a DeleteElementEvent would be dispatched
                 invokeModal({
                     headerData: {
                         headerTitle: LABELS.deleteWarningHeaderTitle

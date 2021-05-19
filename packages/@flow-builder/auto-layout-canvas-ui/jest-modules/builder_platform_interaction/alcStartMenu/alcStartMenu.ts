@@ -11,4 +11,7 @@ export default class AlcStartMenu extends AlcNodeMenu {
 
     @api
     supportsScheduledPaths;
+
+    @api
+    childIndex!: number;
 }

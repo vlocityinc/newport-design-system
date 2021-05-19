@@ -12,9 +12,18 @@ import {
     removeEndElementsAndConnectorsTransform,
     addEndElementsAndConnectorsTransform
 } from 'builder_platform_interaction/alcConversionUtils';
-import { getTargetGuidsForBranchReconnect, findParentElement } from 'builder_platform_interaction/autoLayoutCanvas';
+import {
+    getTargetGuidsForBranchReconnect,
+    findParentElement,
+    hasGoToConnectionOnNext
+} from 'builder_platform_interaction/autoLayoutCanvas';
 
 import { updateFlow } from 'builder_platform_interaction/actions';
+
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+
+import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
+
 const FAULT_INDEX = -1;
 
 function randomIndex(arr, extraLength = 0) {
@@ -418,4 +427,160 @@ export const loadAutoLayoutTestCase = async (file) => {
         .map((ele) => ele.guid);
 
     return { ...flow, canvasElements };
+};
+
+/**
+ * Function to recurse through the screen field references and getting all the nested screen fields to cut or copy
+ * @param {Object} elementsInStore - State of the elements in store
+ * @param {Object []} fieldReferencesArray - Array containing field reference objects like: {childReference: 'fieldGuid'}
+ * @returns nestedChildElementsToCutOrCopy - Object containing all the nested screen field to cut or copy
+ */
+const getNestedChildElementsToCutOrCopy = (elementsInStore, fieldReferencesArray) => {
+    let nestedChildElementsToCutOrCopy = {};
+    if (fieldReferencesArray && fieldReferencesArray.length > 0) {
+        for (let i = 0; i < fieldReferencesArray.length; i++) {
+            const childReference = fieldReferencesArray[i].childReference;
+            nestedChildElementsToCutOrCopy[childReference] = elementsInStore[childReference];
+            if (nestedChildElementsToCutOrCopy[childReference].childReferences) {
+                nestedChildElementsToCutOrCopy = {
+                    ...nestedChildElementsToCutOrCopy,
+                    ...getNestedChildElementsToCutOrCopy(
+                        elementsInStore,
+                        nestedChildElementsToCutOrCopy[childReference].childReferences
+                    )
+                };
+            }
+        }
+    }
+
+    return nestedChildElementsToCutOrCopy;
+};
+
+/**
+ * Checks if the canvas element being duplicated can have any child elements associated with it or not. Only Decision,
+ * Screen and wait (Pause) element can have child elements.
+ *
+ * @param {Object} canvasElement - canvas element being duplicated
+ * @returns {Boolean} - Returns true if canvas element is Decision, Screen or Wait
+ */
+const hasChildElements = (canvasElement) => {
+    if (!canvasElement) {
+        throw new Error('canvasElement is not defined');
+    }
+
+    return canvasElement.elementType && getConfigForElementType(canvasElement.elementType).areChildElementsSupported;
+};
+
+/**
+ * Function to create a guid -> new guid map
+ *
+ * @param {Object} elements - Object containing element objects for which the maps needs to be created
+ */
+const createGuidMap = (elements) => {
+    return Object.keys(elements).reduce((acc, guid) => {
+        acc[guid] = generateGuid();
+        return acc;
+    }, {});
+};
+
+/**
+ * Function to get the guid -> pasted guid maps for canvas elements and child elements (like outcome, screen fields etc.)
+ * @param {Object} cutOrCopiedCanvasElements - Contains all the cut or copied Canvas Elements
+ * @param {Object} cutOrCopiedChildElements - contains all the cut or copied Child Elements
+ * @returns {Object} - Contains canvasElementGuidMap and childElementGuidMap
+ */
+export const getPasteElementGuidMaps = (cutOrCopiedCanvasElements, cutOrCopiedChildElements) => {
+    return {
+        canvasElementGuidMap: createGuidMap(cutOrCopiedCanvasElements),
+        childElementGuidMap: createGuidMap(cutOrCopiedChildElements)
+    };
+};
+
+/**
+ * Function to get all the copied child elements
+ *
+ * @param {Object} elementsInStore - State of the elements in store
+ * @param {Object} copiedElement - The copied element
+ * @returns copiedChildElements containing all the copied child elements
+ */
+export const getCopiedChildElements = (elementsInStore, copiedElement) => {
+    let copiedChildElements = {};
+    if (hasChildElements(copiedElement)) {
+        const childReferenceArray = copiedElement.childReferences;
+
+        for (let j = 0; j < childReferenceArray.length; j++) {
+            const childReference = childReferenceArray[j].childReference;
+            copiedChildElements[childReference] = elementsInStore[childReference];
+
+            // In case of screens we need to look for the nested screen fields too
+            if (copiedChildElements[childReference].childReferences) {
+                copiedChildElements = {
+                    ...copiedChildElements,
+                    ...getNestedChildElementsToCutOrCopy(
+                        elementsInStore,
+                        copiedChildElements[childReference].childReferences
+                    )
+                };
+            }
+        }
+    }
+
+    return copiedChildElements;
+};
+
+/**
+ * Helper function to get the bottom most cut or copied guid
+ *
+ * @param {Object} elementsInStore - State of the elements in store
+ * @param {String} topCutOrCopiedGuid - Guid of the top-most cut or copied element
+ * @returns {String} - Guid of the bottom most cut or copied element
+ */
+const getBottomCutOrCopiedGuid = (elementsInStore, topCutOrCopiedGuid) => {
+    const topCutOrCopiedElement = elementsInStore[topCutOrCopiedGuid];
+    let bottomCutOrCopiedElement = topCutOrCopiedElement;
+
+    // Traversing down the selected elements vertical chain to get the bottom-most selected element guid
+    while (bottomCutOrCopiedElement) {
+        if (
+            elementsInStore[bottomCutOrCopiedElement.next] &&
+            elementsInStore[bottomCutOrCopiedElement.next].config &&
+            elementsInStore[bottomCutOrCopiedElement.next].config.isSelected &&
+            !hasGoToConnectionOnNext(elementsInStore, elementsInStore[bottomCutOrCopiedElement.guid])
+        ) {
+            bottomCutOrCopiedElement = elementsInStore[bottomCutOrCopiedElement.next];
+        } else {
+            break;
+        }
+    }
+
+    return bottomCutOrCopiedElement.guid;
+};
+
+/**
+ * Function to get all the copied data
+ *
+ * @param {Object} elementsInStore - State of the elements in store
+ * @param {String} topCopiedGuid - Guid of the top copied element
+ * @returns {Object} - Contains copiedCanvasElements, copiedChildElements and bottomCutOrCopiedGuid
+ */
+export const getCopiedData = (elementsInStore, topCopiedGuid) => {
+    const copiedCanvasElements = {};
+    let copiedChildElements = {};
+
+    // Calculating the copiedCanvasElements and copiedChildElements objects
+    for (let i = 0; i < Object.values(elementsInStore).length; i++) {
+        const canvasElement = Object.values(elementsInStore)[i];
+        if (canvasElement.config && canvasElement.config.isSelected) {
+            copiedCanvasElements[canvasElement.guid] = canvasElement;
+            copiedChildElements = {
+                ...copiedChildElements,
+                ...getCopiedChildElements(elementsInStore, canvasElement)
+            };
+        }
+    }
+
+    // Getting the guid of the bottom most selected element
+    const bottomCutOrCopiedGuid = getBottomCutOrCopiedGuid(elementsInStore, topCopiedGuid);
+
+    return { copiedCanvasElements, copiedChildElements, bottomCutOrCopiedGuid };
 };

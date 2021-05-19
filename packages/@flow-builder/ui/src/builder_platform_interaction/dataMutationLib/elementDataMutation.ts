@@ -144,8 +144,7 @@ export const mergeErrorsFromHydratedElement = (element, errorSourceElement) => {
 
     Object.entries(element).forEach(([key, value]) => {
         if (value && typeof value === 'object') {
-            if (Array.isArray(value) && key !== 'children') {
-                mergedElement[value] = [];
+            if (Array.isArray(value)) {
                 if (errorSourceElement[key]) {
                     value.forEach((item, index) => {
                         mergedElement[key] = replaceItem(

@@ -13,6 +13,7 @@
       }
     } ],
     "connector" : {
+      "isGoTo" : false,
       "processMetadataValues" : [ ],
       "targetReference" : "screen1"
     },
@@ -144,6 +145,7 @@
   } ],
   "start" : {
     "connector" : {
+      "isGoTo" : false,
       "processMetadataValues" : [ ],
       "targetReference" : "SetTheStage"
     },

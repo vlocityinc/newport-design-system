@@ -419,7 +419,7 @@ function createGoToConnector(
         layoutConfig,
         context.isFault,
         [mainVariant, variant],
-        isDeletingBranch,
+        isDeletingBranch || isDeletingBeyondMergePoint(node.guid, context),
         addOffset,
         labelOffset,
         connectorBadgeLabel,

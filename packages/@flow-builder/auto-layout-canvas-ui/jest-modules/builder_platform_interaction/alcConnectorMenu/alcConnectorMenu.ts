@@ -33,5 +33,5 @@ export default class AlcConnectorMenu extends LightningElement {
     isGoToConnector!: boolean;
 
     @api
-    openedWithKeyboard;
+    moveFocusToMenu;
 }

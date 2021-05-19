@@ -410,6 +410,8 @@ export const fieldServiceMobileFlowUIModel = {
             allowBack: true,
             allowFinish: true,
             allowPause: true,
+            allowHelp: false,
+            allowCustomPauseMessage: false,
             helpText: '',
             pausedText: '',
             showFooter: true,

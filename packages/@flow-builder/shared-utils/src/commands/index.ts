@@ -13,3 +13,4 @@ export { EscapeCommand } from './escapeCommand';
 export { SpaceCommand } from './spaceCommand';
 export { ArrowDown } from './arrowDown';
 export { ArrowUp } from './arrowUp';
+export { TabCommand } from './tabCommand';

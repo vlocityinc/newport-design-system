@@ -64,7 +64,10 @@
                         "**/builder_platform_interaction/builderUtils/builderUtils.ts",
                         "**/builder_platform_interaction/screenExtensionField/auraInterop.ts"
                     ],
-                    "lwc-core/no-interop-dispatch": ["**/builder_platform_interaction/builderUtils/builderUtils.ts"],
+                    "lwc-core/no-interop-dispatch": [
+                        "**/builder_platform_interaction/builderUtils/builderUtils.ts",
+                        "**/builder_platform_interaction/builderUtils/__tests__/builderUtils.test.ts"
+                    ],
                     "lwc-core/no-interop-render": [
                         "**/builder_platform_interaction/builderUtils/builderUtils.ts",
                         "**/builder_platform_interaction/screenExtensionField/auraInterop.ts",
