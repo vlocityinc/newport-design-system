@@ -543,7 +543,8 @@ describe('createPastedCanvasElement Function', () => {
                 config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
                 prev: 'pause2',
                 next: 'end2',
-                fault: 'pastedPause2'
+                fault: 'pastedPause2',
+                incomingGoTo: []
             });
         });
 
@@ -573,6 +574,7 @@ describe('createPastedCanvasElement Function', () => {
                 config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
                 prev: null,
                 next: null,
+                incomingGoTo: [],
                 parent: 'pastedPause1',
                 childIndex: -1
             });

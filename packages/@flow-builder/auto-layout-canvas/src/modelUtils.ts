@@ -414,6 +414,46 @@ function removeSourceFromIncomingGoTo(
     return flowModel;
 }
 
+function removeGoTosFromPastedElement(pastedElement: ParentNodeModel, cutOrCopiedCanvasElements: any) {
+    const partialFlowModel = {} as any;
+    partialFlowModel[pastedElement.guid] = pastedElement;
+    const nextElement = cutOrCopiedCanvasElements[pastedElement.next!];
+
+    if (nextElement && nextElement.incomingGoTo) {
+        partialFlowModel[nextElement.guid] = nextElement;
+        pastedElement.next = hasGoToConnectionOnNext(partialFlowModel, partialFlowModel[pastedElement.guid])
+            ? null
+            : pastedElement.next;
+    }
+
+    if (pastedElement.children) {
+        pastedElement.children = pastedElement.children.map((childGuid, index) => {
+            const branchHeadElement = cutOrCopiedCanvasElements[childGuid!];
+            let hasgotoOnHead = false;
+            if (branchHeadElement) {
+                partialFlowModel[childGuid!] = branchHeadElement;
+                hasgotoOnHead = hasGoToConnectionOnBranchHead(
+                    partialFlowModel,
+                    partialFlowModel[pastedElement.guid],
+                    index
+                );
+            }
+            return !hasgotoOnHead ? childGuid : null;
+        });
+    }
+
+    if (pastedElement.fault) {
+        const faultBranchHead = cutOrCopiedCanvasElements[pastedElement.fault];
+        if (faultBranchHead) {
+            partialFlowModel[pastedElement.fault] = faultBranchHead;
+            if (hasGoToConnectionOnBranchHead(partialFlowModel, partialFlowModel[pastedElement.guid], FAULT_INDEX)) {
+                pastedElement.fault = null;
+            }
+        }
+    }
+    return pastedElement;
+}
+
 /**
  * Function to remove the original source reference from target element's incomingGoTo
  * and updating the incomingGoTo with the new source reference
@@ -2304,6 +2344,7 @@ export {
     hasGoToConnectionOnNext,
     hasGoToConnectionOnBranchHead,
     isBranchTerminal,
+    removeGoTosFromPastedElement,
     shouldDeleteGoToOnNext,
     getSuffixForGoToConnection
 };

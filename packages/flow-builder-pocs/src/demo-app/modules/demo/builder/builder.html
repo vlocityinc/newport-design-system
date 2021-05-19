@@ -11,6 +11,7 @@
                         onselect={handleSelectMenuItem}
                     >
                         <lightning-menu-item value="new" label="New"></lightning-menu-item>
+                        <lightning-menu-item value="copy" label="Copy"></lightning-menu-item>
                         <lightning-menu-item value="load" label="Load Saved"></lightning-menu-item>
                         <lightning-menu-divider></lightning-menu-divider>
                         <lightning-menu-item value="save" label="Save"></lightning-menu-item>
@@ -74,6 +75,9 @@
                 disable-debounce={isRunningTestMonkey}
                 oncreategotoconnection={handleGoToCreation}
                 ondeletegotoconnection={handleGoToDeletion}
+                is-paste-available={isPasteAvailable}
+                oncopysingleelement={handleCopySingleElement}
+                onpasteoncanvas={handlePasteOnCanvas}
             >
             </builder_platform_interaction-alc-canvas-container>
         </div>

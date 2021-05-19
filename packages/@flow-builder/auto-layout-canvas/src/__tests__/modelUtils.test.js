@@ -48,6 +48,7 @@ import {
     areAllBranchesTerminals,
     getBranchIndexForGoToConnection,
     cleanUpIncomingGoTos,
+    removeGoTosFromPastedElement,
     shouldDeleteGoToOnNext
 } from '../modelUtils';
 
@@ -4890,6 +4891,88 @@ describe('modelUtils', () => {
                 }
             };
             expect(flowModelAfterDeletion).toEqual(expectedFlowModel);
+        });
+    });
+
+    describe('removeGoTosFromPastedElement function', () => {
+        let cutOrCopiedCanvasElements;
+        beforeEach(() => {
+            cutOrCopiedCanvasElements = {
+                screen1: {
+                    guid: 'screen1',
+                    name: 'screen1',
+                    childReferences: [],
+                    next: 'branchElement',
+                    prev: null,
+                    incomingGoTo: ['screen2', 'branchElement:o1', 'branchElement:fault']
+                },
+                branchElement: {
+                    guid: 'branchElement',
+                    prev: 'screen1',
+                    children: ['screen1', 'screen2', 'screen3'],
+                    fault: 'screen1',
+                    nodeType: NodeType.BRANCH,
+                    childReferences: [
+                        {
+                            childReference: 'o1'
+                        },
+                        {
+                            childReference: 'o2'
+                        }
+                    ]
+                },
+                screen2: {
+                    guid: 'screen2',
+                    name: 'screen2',
+                    childReferences: [],
+                    next: 'screen1',
+                    prev: null,
+                    childIndex: 1,
+                    isTerminal: true,
+                    parent: 'branchElement'
+                }
+            };
+        });
+
+        it('removing GoTos from from a copied elements next to another copied element', () => {
+            const expectedPastedElement = {
+                guid: 'screen2',
+                name: 'screen2',
+                childReferences: [],
+                next: null,
+                prev: null,
+                childIndex: 1,
+                isTerminal: true,
+                parent: 'branchElement'
+            };
+            const pastedElement = removeGoTosFromPastedElement(
+                JSON.parse(JSON.stringify(cutOrCopiedCanvasElements.screen2)),
+                cutOrCopiedCanvasElements
+            );
+            expect(pastedElement).toMatchObject(expectedPastedElement);
+        });
+
+        it('removing GoTos on branching elements (fault)branchhead to another copied element', () => {
+            const expectedPastedElement = {
+                guid: 'branchElement',
+                prev: 'screen1',
+                children: [null, 'screen2', 'screen3'],
+                fault: null,
+                nodeType: NodeType.BRANCH,
+                childReferences: [
+                    {
+                        childReference: 'o1'
+                    },
+                    {
+                        childReference: 'o2'
+                    }
+                ]
+            };
+            const pastedElement = removeGoTosFromPastedElement(
+                JSON.parse(JSON.stringify(cutOrCopiedCanvasElements.branchElement)),
+                cutOrCopiedCanvasElements
+            );
+            expect(pastedElement).toMatchObject(expectedPastedElement);
         });
     });
 

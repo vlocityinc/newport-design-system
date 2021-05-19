@@ -44,6 +44,11 @@ import {
     FlowModel,
     fulfillsBranchingCriteria,
     ParentNodeModel,
+    hasGoToConnectionOnNext,
+    hasGoToConnectionOnBranchHead,
+    deleteGoToConnection,
+    createGoToConnection,
+    removeGoTosFromPastedElement,
     findFirstElement,
     NodeType
 } from 'builder_platform_interaction/autoLayoutCanvas';
@@ -506,6 +511,17 @@ function _pasteOnFixedCanvas(
 ) {
     let newState = { ...elements };
 
+    let savedGoto;
+    if (prev && hasGoToConnectionOnNext(newState, newState[prev!])) {
+        savedGoto = newState[prev!].next;
+        newState = deleteGoToConnection(getElementService(newState), newState, prev!, null);
+        next = newState[prev!].next;
+    } else if (parent && hasGoToConnectionOnBranchHead(newState, newState[parent!] as ParentNodeModel, childIndex!)) {
+        savedGoto = childIndex === FAULT_INDEX ? newState[parent!].fault : newState[parent!].children[childIndex!];
+        newState = deleteGoToConnection(getElementService(newState), newState, parent!, childIndex);
+        next = childIndex === FAULT_INDEX ? newState[parent!].fault : newState[parent!].children[childIndex!];
+    }
+
     const elementGuidsToPaste = Object.keys(canvasElementGuidMap);
     const blacklistNames: string[] = [];
     const childElementNameMap = _getPastedChildElementNameMap(cutOrCopiedChildElements, blacklistNames);
@@ -520,12 +536,17 @@ function _pasteOnFixedCanvas(
 
         const elementConfig = getConfigForElementType(cutOrCopiedCanvasElements[elementGuidsToPaste[i]].elementType);
 
+        const pastedElement = removeGoTosFromPastedElement(
+            deepCopy(cutOrCopiedCanvasElements[elementGuidsToPaste[i]]),
+            cutOrCopiedCanvasElements
+        );
+
         const { pastedCanvasElement, pastedChildElements = {} } =
             elementConfig &&
             elementConfig.factory &&
             elementConfig.factory.pasteElement &&
             elementConfig.factory.pasteElement({
-                canvasElementToPaste: cutOrCopiedCanvasElements[elementGuidsToPaste[i]],
+                canvasElementToPaste: pastedElement,
                 newGuid: pastedElementGuid,
                 newName: pastedElementName,
                 canvasElementGuidMap,
@@ -539,7 +560,6 @@ function _pasteOnFixedCanvas(
                 parent,
                 childIndex
             });
-
         newState[pastedCanvasElement.guid] = pastedCanvasElement;
         newState = { ...newState, ...pastedChildElements };
     }
@@ -589,5 +609,7 @@ function _pasteOnFixedCanvas(
         }
     }
 
-    return newState;
+    return savedGoto
+        ? createGoToConnection(newState, canvasElementGuidMap[bottomCutOrCopiedGuid], null, savedGoto, false)
+        : newState;
 }
