@@ -1,13 +1,33 @@
 // @ts-nocheck
-import { getPropertyEditorConfig, showPopover, isPopoverOpen, createConfigurationEditor } from '../builderUtils';
+import {
+    getPropertyEditorConfig,
+    showPopover,
+    isPopoverOpen,
+    createConfigurationEditor,
+    showHover,
+    invokePropertyEditor,
+    invokeNewFlowModal,
+    invokeModal
+} from '../builderUtils';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
+
+// eslint-disable-next-line lwc-core/no-interop-dispatch
+import { createComponent, dispatchGlobalEvent } from 'aura';
+
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { SaveFlowEvent } from 'builder_platform_interaction/events';
+import { isAutoLayoutCanvasEnabled } from 'builder_platform_interaction/contextLib';
+import { LABELS } from '../builderUtilsLabels';
 
 const mockPackage = 'foo';
 const mockComponent = 'bar';
+const UI_CREATE_PANEL = 'ui:createPanel';
+
+let mockCreateComponentCallbackStatus = 'SUCCESS';
+let mockPanelValidity = true;
 
 jest.mock('builder_platform_interaction/elementConfig', () => {
     const actual = jest.requireActual('builder_platform_interaction/elementConfig');
-
     return Object.assign({}, actual, {
         getConfigForElementType: jest.fn((type) => {
             const config = actual.getConfigForElementType(type);
@@ -26,17 +46,27 @@ jest.mock('aura', () => {
     return {
         dispatchGlobalEvent: jest.fn().mockImplementation((name, attributes) => {
             attributes.onCreate({
-                close: () => {}
+                close: () => {},
+                isValid: () => {
+                    return mockPanelValidity;
+                },
+                get: () => {
+                    return [
+                        {
+                            get: () => {},
+                            set: () => {}
+                        }
+                    ];
+                },
+                set: () => {}
             });
         }),
-
-        createComponent: jest.fn().mockImplementation((cmpName, attr, callback) => {
+        createComponent: jest.fn().mockImplementation(async (cmpName, attr, callback) => {
             const newComponent = {
                 getElement: () => {}
             };
-            callback(newComponent, 'SUCCESS', null);
+            callback([newComponent], mockCreateComponentCallbackStatus, null);
         }),
-
         renderComponent: jest.fn().mockImplementation(() => {})
     };
 });
@@ -125,9 +155,7 @@ describe('builderUtils', () => {
             });
             it('sets className based on descriptor', () => {
                 const params = getAttributes(ADD_MODE);
-
                 const actualResult = getPropertyEditorConfig(ADD_MODE, params);
-
                 expect(actualResult.attr.bodyComponent.className).toEqual(`${mockPackage}/${mockComponent}`);
             });
         });
@@ -160,6 +188,261 @@ describe('builderUtils', () => {
                     cmpName: 'abc'
                 });
             }).toThrow();
+        });
+    });
+
+    describe('invokePropertyEditor', () => {
+        const sampleAttributes = getAttributes(SaveFlowEvent.Type.SAVE);
+        it('throws error if attributes is not passed to the function', () => {
+            expect(() => {
+                invokePropertyEditor('cmpNameOnly');
+            }).toThrow();
+        });
+        it('throws error if attributes does not contain mode', () => {
+            expect(() => {
+                const missingModeAttributes = Object.assign({}, sampleAttributes);
+                delete missingModeAttributes.mode;
+                invokePropertyEditor('cmpNameOnly', missingModeAttributes);
+            }).toThrow();
+        });
+        it('throws error if attributes does not contain node', () => {
+            expect(() => {
+                const missingModeAttributes = Object.assign({}, sampleAttributes);
+                delete missingModeAttributes.node;
+                invokePropertyEditor('cmpNameOnly', missingModeAttributes);
+            }).toThrow();
+        });
+        it('throws error if attributes does not contain nodeUpdate', () => {
+            expect(() => {
+                const missingModeAttributes = Object.assign({}, sampleAttributes);
+                delete missingModeAttributes.nodeUpdate;
+                invokePropertyEditor('cmpNameOnly', missingModeAttributes);
+            }).toThrow();
+        });
+        it('does not throw an error if attributes is complete', () => {
+            expect(() => {
+                const missingModeAttributes = Object.assign({}, sampleAttributes);
+                invokePropertyEditor('cmpNameOnly', missingModeAttributes);
+            }).not.toThrow();
+        });
+    });
+
+    describe('invokeModal', () => {
+        it('calls dispatchGlobalEvent w/ expected parameters when given standard parameters', async () => {
+            const data = {
+                modalClass: 'modalClass',
+                bodyClass: 'bodyClass',
+                footerClass: 'footerClass',
+                flavor: 'flavor',
+                headerData: {
+                    headerTitle: 'headerTitleStr',
+                    headerVariant: 'headerVariantStr'
+                },
+                bodyData: {
+                    bodyTextOne: 'bodyTextOneStr',
+                    bodyTextTwo: 'bodyTextTwoStr',
+                    listSectionHeader: 'listSectionHeaderStr',
+                    listSectionItems: 'listSectionItemsStr',
+                    listWarningItems: 'listWarningItemsStr',
+                    bodyVariant: 'bodyVariantStr',
+                    showBodyTwoVariant: 'showBodyTwoVariantStr'
+                },
+                footerData: {
+                    footerVariant: 'footerVariantStr'
+                }
+            };
+
+            invokeModal(data);
+
+            await ticks(1);
+
+            expect(createComponent).toHaveBeenCalledWith(
+                'builder_platform_interaction:modalHeader',
+                {
+                    headerTitle: 'headerTitleStr',
+                    headerVariant: 'headerVariantStr'
+                },
+                expect.anything()
+            );
+
+            expect(createComponent).toHaveBeenCalledWith(
+                'builder_platform_interaction:modalBody',
+                {
+                    bodyTextOne: 'bodyTextOneStr',
+                    bodyTextTwo: 'bodyTextTwoStr',
+                    bodyVariant: 'bodyVariantStr',
+                    listSectionHeader: 'listSectionHeaderStr',
+                    listSectionItems: 'listSectionItemsStr',
+                    listWarningItems: 'listWarningItemsStr',
+                    showBodyTwoVariant: 'showBodyTwoVariantStr'
+                },
+                expect.anything()
+            );
+
+            expect(createComponent).toHaveBeenCalledWith(
+                'builder_platform_interaction:modalFooter',
+                {
+                    buttons: { footerVariant: 'footerVariantStr' },
+                    footerVariant: 'footerVariantStr'
+                },
+                expect.anything()
+            );
+
+            expect(dispatchGlobalEvent).toHaveBeenCalledWith(
+                'ui:createPanel',
+                expect.objectContaining({
+                    onCreate: expect.anything(),
+                    panelConfig: {
+                        body: [{ getElement: expect.anything() }],
+                        bodyClass: 'bodyClass',
+                        closeAction: expect.anything(),
+                        flavor: 'flavor',
+                        footer: [{ getElement: expect.anything() }],
+                        footerClass: 'footerClass',
+                        header: [{ getElement: expect.anything() }],
+                        headerClass: '',
+                        modalClass: 'modalClass'
+                    },
+                    panelType: 'modal',
+                    visible: true
+                })
+            );
+        });
+    });
+
+    describe('invokeNewFlowModal', () => {
+        it('calls dispatchGlobalEvent w/ expected parameters when given standard parameters', async () => {
+            invokeNewFlowModal(
+                ELEMENT_TYPE.SCREEN_FIELD,
+                {
+                    showRecommended: true,
+                    showAll: true
+                },
+                jest.fn(),
+                jest.fn()
+            );
+
+            await ticks(1);
+
+            expect(createComponent).toHaveBeenCalled();
+            expect(createComponent).toHaveBeenCalledWith(
+                'builder_platform_interaction:modalHeader',
+                {
+                    headerTitle: 'FlowBuilderNewFlowModal.headerTitle'
+                },
+                expect.anything()
+            );
+            expect(createComponent).toHaveBeenCalledWith(
+                'builder_platform_interaction:newFlowModalBody',
+                {
+                    showRecommended: true,
+                    showAll: true,
+                    builderType: 'SCREEN_FIELD'
+                },
+                expect.anything()
+            );
+            expect(createComponent).toHaveBeenCalledWith(
+                'builder_platform_interaction:modalFooter',
+                {
+                    buttons: {
+                        buttonOne: {
+                            buttonLabel: isAutoLayoutCanvasEnabled()
+                                ? LABELS.nextButtonLabel
+                                : LABELS.createButtonLabel,
+                            buttonVariant: 'brand'
+                        }
+                    }
+                },
+                expect.anything()
+            );
+            expect(dispatchGlobalEvent).toHaveBeenCalledWith(
+                UI_CREATE_PANEL,
+                expect.objectContaining({
+                    onCreate: expect.anything(),
+                    panelConfig: {
+                        body: [
+                            {
+                                getElement: expect.anything()
+                            }
+                        ],
+                        bodyClass: 'slds-p-around_none slds-is-relative',
+                        closeAction: expect.anything(),
+                        flavor: 'large restrictWidthToSldsMedium',
+                        footer: [
+                            {
+                                getElement: expect.anything()
+                            }
+                        ],
+                        footerClass: '',
+                        header: [
+                            {
+                                getElement: expect.anything()
+                            }
+                        ],
+                        headerClass: '',
+                        modalClass: ''
+                    },
+                    panelType: 'modal',
+                    visible: true
+                })
+            );
+        });
+    });
+
+    describe('showHover', () => {
+        const sampleAttributes = getAttributes(SaveFlowEvent.Type.SAVE);
+        const samplePanelConfig = {
+            titleForModal: 'FlowBuilderElementConfig.variableSingularLabel',
+            flavor: 'small',
+            bodyClass: 'slds-p-around_medium',
+            isValid: jest.fn()
+        };
+        it('calls dispatchGlobalEvent w/ expected parameters when given standard parameters', () => {
+            showHover('cmpName', sampleAttributes, 'hoverId', samplePanelConfig);
+
+            expect(dispatchGlobalEvent).toHaveBeenCalledWith(
+                UI_CREATE_PANEL,
+                expect.objectContaining({
+                    onCreate: expect.anything(),
+                    onDestroy: expect.anything(),
+                    panelConfig: {
+                        body: expect.anything(),
+                        bodyClass: 'slds-p-around_medium',
+                        flavor: 'small',
+                        isValid: expect.anything(),
+                        titleForModal: 'FlowBuilderElementConfig.variableSingularLabel'
+                    },
+                    panelType: 'hoverPanel',
+                    visible: true
+                })
+            );
+        });
+        it('calls dispatchGlobalEvent w/ expected parameters when given standard parameters and panel.isValid = false', () => {
+            mockPanelValidity = false;
+            showHover('cmpName', sampleAttributes, 'hoverId', samplePanelConfig);
+            expect(dispatchGlobalEvent).toHaveBeenCalledWith(
+                UI_CREATE_PANEL,
+                expect.objectContaining({
+                    onCreate: expect.anything(),
+                    onDestroy: expect.anything(),
+                    panelConfig: {
+                        body: expect.anything(),
+                        bodyClass: 'slds-p-around_medium',
+                        flavor: 'small',
+                        isValid: expect.anything(),
+                        titleForModal: 'FlowBuilderElementConfig.variableSingularLabel'
+                    },
+                    panelType: 'hoverPanel',
+                    visible: true
+                })
+            );
+            mockPanelValidity = true;
+        });
+        it('dispatchGlobalEvent to NOT called when createComponent callback status is not SUCCESS ', () => {
+            mockCreateComponentCallbackStatus = 'NOTCOOL';
+            showHover('cmpName', sampleAttributes, 'hoverId', samplePanelConfig);
+            expect(dispatchGlobalEvent).not.toHaveBeenCalled();
+            mockCreateComponentCallbackStatus = 'SUCCESS';
         });
     });
 });
