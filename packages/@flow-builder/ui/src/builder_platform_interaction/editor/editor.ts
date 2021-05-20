@@ -620,6 +620,17 @@ export default class Editor extends LightningElement {
         return !!this.toolbarConfig.showDebugButton && this.properties.processType !== FLOW_PROCESS_TYPE.ORCHESTRATOR;
     }
 
+    get showRunButton() {
+        // Hardcoded to hide run button in Record-Triggered Orchestration
+        // TODO:  W-8146747
+        return (
+            !!this.toolbarConfig.showRunButton &&
+            (this.properties.processType !== FLOW_PROCESS_TYPE.ORCHESTRATOR ||
+                !this.triggerType ||
+                this.triggerType === FLOW_TRIGGER_TYPE.NONE)
+        );
+    }
+
     get showRightPanel() {
         return this.showPropertyEditorRightPanel || this.showDebugPanel;
     }
