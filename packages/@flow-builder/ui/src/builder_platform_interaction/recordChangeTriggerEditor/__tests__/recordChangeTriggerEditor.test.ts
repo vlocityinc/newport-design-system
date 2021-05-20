@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
-import { FLOW_TRIGGER_TYPE, FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, FLOW_TRIGGER_TYPE, FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { query, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import RecordChangeTriggerEditor from '../recordChangeTriggerEditor';
 import { UpdateNodeEvent } from 'builder_platform_interaction/events';
@@ -12,6 +12,15 @@ const SELECTORS = {
     BEFORE_DELETE_INFO_BOX: 'div.beforeDeleteInfo',
     RUN_ON_SUCCESS_CHECKBOX: 'lightning-input.test-input-selection-checkbox'
 };
+
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    return {
+        getElementByGuid: jest.fn(),
+        isExecuteOnlyWhenChangeMatchesConditionsPossible: jest.fn().mockReturnValue(true)
+    };
+});
 
 function createComponentForTest(node) {
     const el = createElement('builder_platform_interaction-record-change-trigger-editor', {
@@ -39,7 +48,15 @@ function recordChangeTriggerElement(flowTriggerType, recordTriggerType) {
         guid: '326e1b1a-7235-487f-9b44-38db56af4a45',
         triggerType: { value: flowTriggerType, error: null },
         recordTriggerType: { value: recordTriggerType, error: null },
-        scheduledPaths: []
+        scheduledPaths: [],
+        description: { value: '', error: null },
+        isCanvasElement: true,
+        label: { value: '', error: null },
+        name: { value: '', error: null },
+        object: { value: 'Account', error: null },
+        objectIndex: { value: 'guid', error: null },
+        filterLogic: { value: CONDITION_LOGIC.NO_CONDITIONS, error: null },
+        filters: []
     };
 
     return triggerStartElement;

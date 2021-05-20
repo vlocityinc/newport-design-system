@@ -145,7 +145,6 @@ import editChoiceLabel from '@salesforce/label/FlowBuilderElementConfig.editChoi
 import editRecordChoiceSetLabel from '@salesforce/label/FlowBuilderElementConfig.editRecordChoiceSetLabel';
 import editPicklistChoiceSetLabel from '@salesforce/label/FlowBuilderElementConfig.editPicklistChoiceSetLabel';
 import editStartElementLabel from '@salesforce/label/FlowBuilderElementConfig.editStartElementLabel';
-import editTriggerLabel from '@salesforce/label/FlowBuilderElementConfig.editTriggerLabel';
 import editScheduledPathLabel from '@salesforce/label/FlowBuilderElementConfig.editScheduledPathLabel';
 import editObjectLabel from '@salesforce/label/FlowBuilderElementConfig.editObjectLabel';
 import editTriggerObjectLabel from '@salesforce/label/FlowBuilderElementConfig.editTriggerObjectLabel';
@@ -195,6 +194,7 @@ import rollbackDataLabel from '@salesforce/label/FlowBuilderLeftPanelElements.ro
 import editRollbackLabel from '@salesforce/label/FlowBuilderElementConfig.editRollbackLabel';
 import newRollbackLabel from '@salesforce/label/FlowBuilderElementConfig.newRollbackLabel';
 import rollbackDescription from '@salesforce/label/FlowBuilderLeftPanelElements.rollbackDescription';
+import recordChangeTriggerEditorHeader from '@salesforce/label/FlowBuilderStartEditor.recordChangeTriggerEditorHeader';
 
 export const LABELS = {
     subflowSingularLabel,
@@ -342,7 +342,6 @@ export const LABELS = {
     editRecordChoiceSetLabel,
     editPicklistChoiceSetLabel,
     editStartElementLabel,
-    editTriggerLabel,
     editScheduledPathLabel,
     editObjectLabel,
     editTriggerObjectLabel,
@@ -391,5 +390,6 @@ export const LABELS = {
     rollbackDataLabel,
     editRollbackLabel,
     newRollbackLabel,
-    rollbackDescription
+    rollbackDescription,
+    recordChangeTriggerEditorHeader
 };
