@@ -17,6 +17,7 @@ const {
 const watch = require('node-watch');
 const { transform } = require('@babel/core');
 const babelTsPlugin = require('@babel/plugin-transform-typescript');
+const { WATCH_FILTER_REGEX, WATCH_EVENT_TYPE } = require('./constants');
 
 const modulesArg = argv._[0] || 'src/main/modules';
 const npmPackagesArg = argv._[1] || 'packages'; // force passing in args for now
@@ -177,18 +178,6 @@ function transpileTs(fullSourcePath, modulePath) {
     return modulePath;
 }
 
-function watchFilter(filepath) {
-    const ignored = [/___/, /~$/, /\.tmp$/, /\.ds_store$/i];
-
-    for (pattern of ignored) {
-        if (pattern.test(filepath)) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
 function handleUpdate(fullSourcePath, modulePath) {
     printInfo(`File change detected at ${fullSourcePath}`);
     try {
@@ -214,20 +203,15 @@ function handleRemove(fullSourcePath, modulePath) {
     }
 }
 
-const watchEventTypes = {
-    update: 'update',
-    remove: 'remove'
-};
-
 function handleWatchEvent(dest, sourcePath, event, filename) {
     const fullSourcePath = resolve(sourcePath, filename);
     const relativePath = relative(sourcePath, fullSourcePath);
     let modulePath = resolve(dest, relativePath);
 
-    if (event === watchEventTypes.update) {
+    if (event === WATCH_EVENT_TYPE.update) {
         handleUpdate(fullSourcePath, modulePath);
     }
-    if (event === watchEventTypes.remove) {
+    if (event === WATCH_EVENT_TYPE.remove) {
         handleRemove(fullSourcePath, modulePath);
     }
 }
@@ -236,7 +220,7 @@ function mvUiModule(src, dest, options) {
     const npm2lwcConfig = require(resolve(src, 'package.json')).npm2lwc;
     const sourcePath = resolve(src, 'src/');
     if (options.watch) {
-        watch(sourcePath, { recursive: true, filter: watchFilter }, (event, filename) =>
+        watch(sourcePath, { recursive: true, filter: WATCH_FILTER_REGEX }, (event, filename) =>
             handleWatchEvent(dest, sourcePath, event, filename)
         );
     } else {
