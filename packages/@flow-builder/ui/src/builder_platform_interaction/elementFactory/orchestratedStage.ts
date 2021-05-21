@@ -556,8 +556,8 @@ export function createOrchestratedStageMetadataObject(
 
         // Inject related record item input param
         const inputParametersWithRelatedRecord: ParameterListRowItem[] = step.inputParameters.map((p) => {
-            if (p.name === RELATED_RECORD_INPUT_PARAMETER_NAME) {
-                return step.relatedRecordItem!;
+            if (p.name === RELATED_RECORD_INPUT_PARAMETER_NAME && step.relatedRecordItem) {
+                return step.relatedRecordItem;
             }
 
             return p;

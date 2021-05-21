@@ -133,6 +133,18 @@ getElementByGuid.mockImplementation((guid) => {
             exitActionInputParameters: [<ParameterListRowItem>jest.fn()],
             assignees: []
         };
+    } else if (guid === 'stepWithNoRelatedRecord') {
+        return {
+            guid,
+            label: `${guid}-label`,
+            name: `${guid}-name`,
+            description: `${guid}-description`,
+            inputParameters: [<ParameterListRowItem>{ name: 'ip' }],
+            outputParameters: [<ParameterListRowItem>{ name: 'op1' }, <ParameterListRowItem>{ name: 'op2' }],
+            entryActionInputParameters: [<ParameterListRowItem>jest.fn()],
+            exitActionInputParameters: [<ParameterListRowItem>jest.fn()],
+            assignees: []
+        };
     }
 
     return {
@@ -619,22 +631,40 @@ describe('OrchestratedStage', () => {
                     createInputParameterMetadataObject(orchestratedStage.stageSteps[2].inputParameters[0])
                 );
             });
-            it('inject relatedRecordId in to the action inputs', () => {
-                const orchestratedStage = createOrchestratedStageMetadataObject(orchestratedStageFromStore);
 
-                expect(orchestratedStage.stageSteps[0].inputParameters).toHaveLength(2);
-                expect(orchestratedStage.stageSteps[0].inputParameters[1]).toEqual({
-                    name: `relatedRecord-${orchestratedStage.stageSteps[0].guid}`
+            describe('related record', () => {
+                it('is injected in to the action inputs if present', () => {
+                    const orchestratedStage = createOrchestratedStageMetadataObject(orchestratedStageFromStore);
+
+                    expect(orchestratedStage.stageSteps[0].inputParameters).toHaveLength(2);
+                    expect(orchestratedStage.stageSteps[0].inputParameters[1]).toEqual({
+                        name: `relatedRecord-${orchestratedStage.stageSteps[0].guid}`
+                    });
+
+                    expect(orchestratedStage.stageSteps[1].inputParameters).toHaveLength(2);
+                    expect(orchestratedStage.stageSteps[1].inputParameters[1]).toEqual({
+                        name: `relatedRecord-${orchestratedStage.stageSteps[1].guid}`
+                    });
+
+                    expect(orchestratedStage.stageSteps[2].inputParameters).toHaveLength(2);
+                    expect(orchestratedStage.stageSteps[2].inputParameters[1]).toEqual({
+                        name: `relatedRecord-${orchestratedStage.stageSteps[2].guid}`
+                    });
                 });
 
-                expect(orchestratedStage.stageSteps[1].inputParameters).toHaveLength(2);
-                expect(orchestratedStage.stageSteps[1].inputParameters[1]).toEqual({
-                    name: `relatedRecord-${orchestratedStage.stageSteps[1].guid}`
-                });
+                it('is not inject in to the action inputs if not present', () => {
+                    orchestratedStageFromStore.childReferences = [
+                        {
+                            childReference: 'stepWithNoRelatedRecord'
+                        }
+                    ];
 
-                expect(orchestratedStage.stageSteps[2].inputParameters).toHaveLength(2);
-                expect(orchestratedStage.stageSteps[2].inputParameters[1]).toEqual({
-                    name: `relatedRecord-${orchestratedStage.stageSteps[2].guid}`
+                    const orchestratedStage = createOrchestratedStageMetadataObject(orchestratedStageFromStore);
+
+                    expect(orchestratedStage.stageSteps[0].inputParameters).toHaveLength(1);
+                    expect(orchestratedStage.stageSteps[0].inputParameters[0]).toEqual({
+                        name: 'ip'
+                    });
                 });
             });
         });
