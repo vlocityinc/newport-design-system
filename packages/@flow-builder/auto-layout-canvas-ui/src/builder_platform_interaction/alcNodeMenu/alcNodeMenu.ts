@@ -35,6 +35,14 @@ enum TabFocusRingItems {
     ListItems = 1,
     Footer = 2
 }
+
+enum TabFocusRingItemsInDeleteMode {
+    Icon = 0,
+    BackButton = 1,
+    Combobox = 2,
+    Footer = 3
+}
+
 /**
  * The node menu overlay, displayed when clicking on a node.
  */
@@ -66,7 +74,9 @@ export default class AlcNodeMenu extends Menu {
 
     @api
     moveFocus = (shift: boolean) => {
-        this.tabFocusRingIndex = TabFocusRingItems.Icon;
+        this.tabFocusRingIndex = this.isDeleteBranchElementMode
+            ? TabFocusRingItemsInDeleteMode.Icon
+            : TabFocusRingItems.Icon;
         this.handleTabCommand(shift);
     };
 
@@ -119,7 +129,9 @@ export default class AlcNodeMenu extends Menu {
     constructor() {
         super();
         this.keyboardInteractions = new KeyboardInteractions();
-        this.tabFocusRingIndex = TabFocusRingItems.Icon;
+        this.tabFocusRingIndex = this.isDeleteBranchElementMode
+            ? TabFocusRingItemsInDeleteMode.Icon
+            : TabFocusRingItems.Icon;
     }
 
     /**
@@ -198,6 +210,14 @@ export default class AlcNodeMenu extends Menu {
             this._childIndexToKeep = undefined;
         }
         this.dispatchEvent(new HighlightPathsToDeleteEvent(this.guid, this._childIndexToKeep));
+        this.tabFocusRingIndex = TabFocusRingItemsInDeleteMode.Combobox;
+    };
+    /**
+     * Handles the click on the combobox and set tabFocusRingIndex to the proper value
+     */
+    handleComboboxFocus = (event) => {
+        event.stopPropagation();
+        this.tabFocusRingIndex = TabFocusRingItemsInDeleteMode.Combobox;
     };
     /**
      * Handles the click on the Footer button and dispatches the relevant event
@@ -261,6 +281,16 @@ export default class AlcNodeMenu extends Menu {
         firstRowItem.focus();
     }
 
+    moveFocusToBackButton() {
+        const backButton = this.template.querySelector(selectors.backButton);
+        backButton.focus();
+    }
+
+    moveFocusToCombobox() {
+        const combobox = this.template.querySelector('lightning-combobox');
+        combobox.focus();
+    }
+
     tabFocusRingCmds = [
         // focus on the icon
         () => this.dispatchEvent(new MoveFocusToNodeEvent(this.guid)),
@@ -269,6 +299,21 @@ export default class AlcNodeMenu extends Menu {
         // focus on the footer
         () => this.moveFocusToFooterButton()
     ];
+
+    tabFocusRingCmdsInDeleteMode = [
+        // focus on the icon
+        () => this.dispatchEvent(new MoveFocusToNodeEvent(this.guid)),
+        // focus on the back button
+        () => this.moveFocusToBackButton(),
+        // focus on the combobox
+        () => this.moveFocusToCombobox(),
+        // focus on the footer
+        () => this.moveFocusToFooterButton()
+    ];
+
+    getFocusRingCmds() {
+        return this.isDeleteBranchElementMode ? this.tabFocusRingCmdsInDeleteMode : this.tabFocusRingCmds;
+    }
 
     setupCommandsAndShortcuts() {
         const keyboardCommands = {
@@ -324,9 +369,9 @@ export default class AlcNodeMenu extends Menu {
         }
         if (this.isDeleteBranchElementMode && !this._hasDeleteBranchModeRendered) {
             // Moving focus to the back button only when entering the contextual menu in deleteBranchElementMode
-            const backButton = this.template.querySelector(selectors.backButton);
-            backButton.focus();
+            this.moveFocusToBackButton();
             this._hasDeleteBranchModeRendered = true;
+            this.tabFocusRingIndex = TabFocusRingItemsInDeleteMode.BackButton;
         }
     }
     disconnectedCallback() {

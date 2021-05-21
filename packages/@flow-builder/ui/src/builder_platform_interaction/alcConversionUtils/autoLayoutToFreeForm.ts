@@ -16,13 +16,13 @@ import {
     ParentNodeModel,
     resolveBranchHead,
     BranchHeadNodeModel,
-    isBranchingElement
+    isBranchingElement,
+    hasChildren
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { findStartYOffset, shouldSupportScheduledPaths } from 'builder_platform_interaction/elementFactory';
-import { supportsChildren, alcExtraProps } from 'builder_platform_interaction/alcCanvasUtils';
-import { findStartElement } from 'builder_platform_interaction/alcCanvasUtils';
+import { alcExtraProps, findStartElement } from 'builder_platform_interaction/alcCanvasUtils';
 import { createNewConnector } from 'builder_platform_interaction/connectorUtils';
 
 // TODO: get rid of ELEMENT_TYPE
@@ -90,7 +90,7 @@ function calculateElementPositions(
     startOffsetY: number
 ): UI.StringKeyedMap<Position> {
     const elementsPosition = {};
-    const startElement = findStartElement(flowModel) as BranchHeadNodeModel;
+    const startElement = findStartElement(flowModel);
     const nodeLayoutMap = getNodeLayoutMap(flowModel);
 
     // The Start Position here maps to the top-left corner of the start menu container.
@@ -267,7 +267,7 @@ function toCanvasElement(elements: UI.Elements, alcCanvasElement: NodeModel): UI
     const { canHaveFaultConnector } = getConfigForElementType(alcCanvasElement.elementType);
 
     let availableConnections: UI.AvailableConnection[] = [];
-    const supportsMultipleConnectors = supportsChildren(alcCanvasElement) || canHaveFaultConnector;
+    const supportsMultipleConnectors = hasChildren(alcCanvasElement) || canHaveFaultConnector;
     let maxConnections = 1;
     const { nodeType } = alcCanvasElement;
 
@@ -285,8 +285,8 @@ function toCanvasElement(elements: UI.Elements, alcCanvasElement: NodeModel): UI
         }
 
         maxConnections = 2;
-    } else if (supportsChildren(alcCanvasElement)) {
-        const { childReferences } = alcCanvasElement as ParentNodeModel;
+    } else if (hasChildren(alcCanvasElement)) {
+        const { childReferences } = alcCanvasElement;
         const regularConnections = childReferences.map((cr) => ({
             childReference: cr.childReference,
             type: CONNECTOR_TYPE.REGULAR
@@ -506,11 +506,11 @@ function convertBranchToFreeForm(
         }
 
         // process any children
-        if (supportsChildren(alcElement)) {
+        if (hasChildren(alcElement)) {
             if (nodeType === NodeType.LOOP) {
-                convertLoopElement(ffcStoreState, flowModel, alcElement as ParentNodeModel, ancestorNext);
+                convertLoopElement(ffcStoreState, flowModel, alcElement, ancestorNext);
             } else {
-                convertBranchingElement(ffcStoreState, flowModel, alcElement as ParentNodeModel, ancestorNext);
+                convertBranchingElement(ffcStoreState, flowModel, alcElement, ancestorNext);
             }
         } else {
             // if next null, then the last element of the branch will connect to ancestorNext
@@ -617,7 +617,7 @@ export function convertToFreeFormCanvas(storeState: UI.StoreState, startElementC
         connectors: []
     };
 
-    const startElement = findStartElement(elements) as BranchHeadNodeModel;
+    const startElement = findStartElement(elements);
 
     convertBranchToFreeForm(ffcStoreState, elements, startElement, null);
 

@@ -620,6 +620,17 @@ export default class Editor extends LightningElement {
         return !!this.toolbarConfig.showDebugButton && this.properties.processType !== FLOW_PROCESS_TYPE.ORCHESTRATOR;
     }
 
+    get showRunButton() {
+        // Hardcoded to hide run button in Record-Triggered Orchestration
+        // TODO:  W-8146747
+        return (
+            !!this.toolbarConfig.showRunButton &&
+            (this.properties.processType !== FLOW_PROCESS_TYPE.ORCHESTRATOR ||
+                !this.triggerType ||
+                this.triggerType === FLOW_TRIGGER_TYPE.NONE)
+        );
+    }
+
     get showRightPanel() {
         return this.showPropertyEditorRightPanel || this.showDebugPanel;
     }
@@ -1723,6 +1734,17 @@ export default class Editor extends LightningElement {
     };
 
     /**
+     * Launches the merged recordChangeTriggerEditor (merged with contextRecordEditor)
+     * for Record change trigger setup
+     */
+    handleEditStartElement = () => {
+        const startElement = getStartElement();
+        if (startElement) {
+            this.editElement(startElement.triggerType, startElement.guid, false);
+        }
+    };
+
+    /**
      * Toggles the isAutoLayoutCanvas if needed, converts the flow into the passed in canvas mode
      * and updates the store accordingly
      *
@@ -2539,6 +2561,10 @@ export default class Editor extends LightningElement {
         }
         this.createFlowFromProcessType(processType, triggerType);
         this.spinners.showFlowMetadataSpinner = false;
+        // To Do: W-9299993: update this to not rely on hardcoded checks for process type and trigger type
+        if (processType === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW && triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE) {
+            this.handleEditStartElement();
+        }
     };
 
     /**

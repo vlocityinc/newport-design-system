@@ -1,7 +1,54 @@
 <template>
+    <div if:true={hasConfigurationEditor} class="slds-m-bottom_small slds-border_top">
+        <builder_platform_interaction-custom-property-editor
+            configuration-editor={configurationEditor}
+            configuration-editor-input-variables={configurationEditorValues}
+            onconfiguration_editor_input_value_changed={handleValueChanged}
+        ></builder_platform_interaction-custom-property-editor>
+    </div>
+
+    <div if:false={hasConfigurationEditor}>
+        <div class="slds-m-bottom_small slds-border_top">
+            <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2">
+                <div class="slds-text-heading_medium">{editTriggerObjectLabel}</div>
+                <div class="slds-text-body_small slds-text-color_weak slds-m-bottom_medium slds-p-top_small">
+                    {contextObjectDescription}
+                </div>
+            </div>
+
+            <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2">
+                <builder_platform_interaction-entity-resource-picker
+                    if:true={showScheduleSection}
+                    combobox-config={entityComboboxConfig}
+                    value={startElement.object.value}
+                    row-index={startElement.objectIndex.value}
+                    crud-filter-type={queryableFilter}
+                    oncomboboxstatechanged={handleResourceChanged}
+                    onitemselected={handleResourceChanged}
+                >
+                </builder_platform_interaction-entity-resource-picker>
+
+                <!-- Used for before/after save triggerType-->
+                <builder_platform_interaction-entity-resource-picker
+                    if:false={showScheduleSection}
+                    combobox-config={entityComboboxConfigRequired}
+                    value={startElement.object.value}
+                    row-index={startElement.objectIndex.value}
+                    crud-filter-type={workflowEnabledFilter}
+                    oncomboboxstatechanged={handleResourceChanged}
+                    onitemselected={handleResourceChanged}
+                >
+                </builder_platform_interaction-entity-resource-picker>
+            </div>
+        </div>
+    </div>
     <!-- Choose record save trigger (on create vs update) -->
-    <div class="slds-p-horizontal_small slds-p-top_small">
+    <div class="slds-border_top slds-p-horizontal_small slds-p-top_small">
         <div class="slds-form slds-p-bottom_small slds-size_1-of-2">
+            <div class="slds-text-heading_medium">{editTriggerLabel}</div>
+            <div class="slds-text-body_small slds-text-color_weak slds-m-bottom_medium slds-p-top_small">
+                {editTriggerDescription}
+            </div>
             <lightning-radio-group
                 class="recordCreateOrUpdate slds-form-element slds-col slds-grow"
                 name="recordCreateOrUpdate"
@@ -14,9 +61,69 @@
             ></lightning-radio-group>
         </div>
     </div>
-
+    <div if:true={triggerHasCriteria}>
+        <div class="slds-border_top">
+            <div class="slds-form slds-p-top_small slds-p-bottom_small slds-size_1-of-2">
+                <div class="slds-p-left_medium slds-text-heading_medium slds-form-element">
+                    {setConditionsHeaderLabel}
+                </div>
+                <div
+                    class="slds-p-left_large slds-text-body_small slds-text-color_weak slds-p-left_small slds-p-top_small"
+                >
+                    {setConditionsDescription}
+                </div>
+            </div>
+            <builder_platform_interaction-record-filter
+                hide-title
+                hide-new-resource
+                hide-system-variables
+                hide-global-variables
+                show-prefix
+                element-type={elementType}
+                element-guid={startElement.guid}
+                filter-items={startElement.filters}
+                filter-logic={startElement.filterLogic}
+                record-entity-name={recordEntityName}
+                record-fields={recordFields}
+                variant="startElement"
+                onaddrecordfilter={handlePropertyOrListItemChanged}
+                onupdaterecordfilter={handlePropertyOrListItemChanged}
+                ondeleterecordfilter={handlePropertyOrListItemChanged}
+                onpropertychanged={handlePropertyOrListItemChanged}
+            >
+            </builder_platform_interaction-record-filter>
+            <div class="slds-border_top" if:true={showRequireRecordChangeOptions}>
+                <div class="slds-form_stacked slds-p-around_small slds-no-flex">
+                    <label class="slds-form-element__legend slds-form-element__label"
+                        >{labels.requireRecordChangeOption}</label
+                    >
+                    <lightning-helptext content={labels.requireChangeOptionsHelptext}></lightning-helptext>
+                    <lightning-radio-group
+                        name="requireRecordChangeOptionsRadioGroup"
+                        label={labels.requireRecordChangeOption}
+                        options={requireRecordChangeOptions}
+                        value={requireRecordChangeOption}
+                        disabled={disableRecordChangeOptions}
+                        onchange={handleRequireRecordChangeOptionOnChange}
+                        class="slds-m-top_x-small executeWhenOption"
+                        variant="label-hidden"
+                    >
+                    </lightning-radio-group>
+                </div>
+                <div
+                    if:true={disableRecordChangeOptions}
+                    class="slds-scoped-notification slds-media slds-media_center slds-color__background_gray-3 slds-m-left_small slds-m-right_small slds-m-bottom_small"
+                >
+                    <div class="slds-media__figure">
+                        <lightning-icon icon-name="utility:info" size="small"></lightning-icon>
+                    </div>
+                    <div class="slds-media__body">{labels.disableRadioGroupStartText}</div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- choose trigger type (before vs. after save) -->
-    <div class="slds-p-horizontal_small slds-p-top_small">
+    <div class="slds-border_top slds-p-horizontal_small slds-p-top_small">
         <div class="slds-form slds-p-bottom_large">
             <fieldset class="slds-form-element">
                 <legend class="slds-form-element__legend slds-form-element__label">

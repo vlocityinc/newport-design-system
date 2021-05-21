@@ -26,7 +26,7 @@ import { isDevNameInStore } from 'builder_platform_interaction/storeUtils';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import elementsReducer from './elementsReducer';
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
-import { getElementsMetadata, supportsChildren, getAlcElementType } from 'builder_platform_interaction/alcCanvasUtils';
+import { getElementsMetadata, getAlcElementType, getChildCount } from 'builder_platform_interaction/alcCanvasUtils';
 
 import {
     deleteBranchHeadProperties,
@@ -148,7 +148,7 @@ export default function alcElementsReducer(state: Readonly<UI.Elements>, action:
             }
 
             const insertAt = action.payload.alcInsertAt;
-            const children = supportsChildren(element) ? getChildren(element) : null;
+            const children = getChildren(element);
 
             if (children) {
                 nextState[element.guid].children = children;
@@ -229,18 +229,8 @@ export default function alcElementsReducer(state: Readonly<UI.Elements>, action:
  * @return An nulled array of n children, where n is the number of children the element can have
  */
 function getChildren(element: ParentNodeModel): (Guid | null)[] | null {
-    let childCount;
-    const { childReferences, nodeType } = element;
-
-    if (nodeType === NodeType.LOOP) {
-        childCount = 1;
-    } else if (childReferences && childReferences.length > 0) {
-        childCount = childReferences.length + 1;
-    } else {
-        return null;
-    }
-
-    return Array(childCount).fill(null);
+    const childCount = getChildCount(element);
+    return childCount != null ? Array(childCount).fill(null) : null;
 }
 
 /**

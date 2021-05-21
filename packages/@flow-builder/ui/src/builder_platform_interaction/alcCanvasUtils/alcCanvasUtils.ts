@@ -1,5 +1,11 @@
-// @ts-nocheck
-import { NodeType, ElementMetadata, ElementsMetadata } from 'builder_platform_interaction/autoLayoutCanvas';
+import {
+    NodeType,
+    ElementMetadata,
+    ElementsMetadata,
+    BranchHeadNodeModel,
+    FlowModel,
+    ParentNodeModel
+} from 'builder_platform_interaction/autoLayoutCanvas';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { TRIGGER_TYPE_LABELS } from 'builder_platform_interaction/processTypeLib';
@@ -24,16 +30,35 @@ export function getElementsMetadata() {
 }
 
 /**
- * @return true iff an element can have children
+ * Returns the number of children an element has, or null if it doesn't support children
+ * @param element - The element
+ * @returns the number of children an element has, or null
  */
-export function supportsChildren(element: UI.Element) {
+export function getChildCount(element: ParentNodeModel | UI.CanvasElement): number | null {
     const { elementType, childReferences } = element;
-    return (
-        (elementType === ELEMENT_TYPE.START_ELEMENT && childReferences && childReferences.length > 0) ||
-        elementType === ELEMENT_TYPE.DECISION ||
-        elementType === ELEMENT_TYPE.WAIT ||
-        elementType === ELEMENT_TYPE.LOOP
-    );
+
+    const nodeType = getAlcElementType(elementType);
+    if (nodeType === NodeType.LOOP) {
+        return 1;
+    } else if (
+        (nodeType === NodeType.BRANCH || nodeType === NodeType.START) &&
+        childReferences &&
+        childReferences.length > 0
+    ) {
+        return childReferences.length + 1;
+    }
+
+    return null;
+}
+
+/**
+ * Checks if a canvas element supports children
+ *
+ * @param element - The canvas element
+ * @returns true if it supports children, false otherwise
+ */
+export function supportsChildren(element: UI.CanvasElement) {
+    return getChildCount(element) != null;
 }
 
 /**
@@ -80,16 +105,21 @@ export const alcExtraProps = [
  * @param fromElement - The element to copy from
  * @param toElement - The element to copy to
  */
-export const copyAlcExtraProps = (fromElement, toElement) => {
+export const copyAlcExtraProps = (fromElement: UI.Element, toElement: UI.Element) => {
     alcExtraProps.forEach((prop) => {
         const value = fromElement[prop];
-        if (value) {
+        if (value != null) {
             toElement[prop] = value;
         }
     });
 };
 
-export const startElementDescription = (triggerType) => {
+/**
+ * Returns the start element description
+ * @param triggerType - The trigger type
+ * @returns the description
+ */
+export const startElementDescription = (triggerType: string): string | undefined => {
     if (isRecordChangeTriggerType(triggerType) || triggerType === SCHEDULED || triggerType === PLATFORM_EVENT) {
         return TRIGGER_TYPE_LABELS[triggerType];
     }
@@ -127,11 +157,13 @@ export const hasContext = (triggerType) => {
 };
 
 /**
- * Find the start element
+ * Finds the flow's start element
  *
- * @param elements - the guid to element map
+ * @param elements - the flow elements
  * @return the start element
  */
-export function findStartElement(elements: UI.Elements): UI.Start | BranchHeadNodeModel {
-    return Object.values(elements).find((ele) => ele.elementType === ELEMENT_TYPE.START_ELEMENT)!;
+export function findStartElement(elements: UI.Elements | FlowModel): BranchHeadNodeModel {
+    return Object.values(elements).find(
+        (ele) => getAlcElementType(ele.elementType) === NodeType.START
+    ) as BranchHeadNodeModel;
 }

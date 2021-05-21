@@ -138,7 +138,7 @@
                 "yarn genTsConfig && git add **/tsconfig.json && lint-staged "
             ],
             "pre-push": [
-                "yarn check:pom && yarn test:nba-components && yarn check:goldFiles -l"
+                "yarn test:nba-components && yarn check:goldFiles -l"
             ]
         }
     },

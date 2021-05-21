@@ -226,7 +226,7 @@ export const elementTypeToConfigMap: {
             singular: LABELS.startElementSingularLabel,
             newModal: LABELS.editStartElementLabel,
             editModal: LABELS.editStartElementLabel,
-            editTrigger: LABELS.editTriggerLabel,
+            editTrigger: LABELS.recordChangeTriggerEditorHeader,
             editSchedule: LABELS.editScheduleLabel,
             editPlatform: LABELS.editPlatformLabel,
             editObject: LABELS.editObjectLabel,

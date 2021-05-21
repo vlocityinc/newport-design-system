@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE, FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { PROPERTY_EDITOR, invokePropertyEditor } from 'builder_platform_interaction/builderUtils';
 import Editor from '../editor';
 import { isGuardrailsEnabled } from '../editorUtils';
@@ -297,7 +297,8 @@ const selectors = {
     save: '.test-toolbar-save',
     addnewresource: '.test-left-panel-add-resource',
     canvasToggle: '.canvas-mode-toggle',
-    debug: '.test-toolbar-debug'
+    debug: '.test-toolbar-debug',
+    run: '.test-toolbar-run'
 };
 
 const element = (guid, type) => {
@@ -520,6 +521,16 @@ beforeEach(() => {
                 description: 'My fifth test node',
                 config: { isSelected: false },
                 assignmentItems: []
+            },
+            '6': {
+                guid: '6',
+                locationX: '250',
+                locationY: '200',
+                elementType: ELEMENT_TYPE.START_ELEMENT,
+                label: 'Sixth Node',
+                description: 'My sixth test node',
+                config: { isSelected: false },
+                triggerType: FLOW_TRIGGER_TYPE.NONE
             }
         },
         canvasElements: ['1', '2', '3', '5'],
@@ -1472,7 +1483,7 @@ describe('in edit mode', () => {
     it('debug button is hidden in orchestrator', async () => {
         expect.assertions(1);
 
-        mockStoreState.properties.processType = 'Orchestrator';
+        mockStoreState.properties.processType = FLOW_PROCESS_TYPE.ORCHESTRATOR;
 
         const editorComponent = createComponentUnderTest({
             builderType: 'new',
@@ -1502,6 +1513,59 @@ describe('in edit mode', () => {
 
         const debugButton = editorComponent.shadowRoot.querySelector(selectors.debug);
         expect(debugButton).toBeDefined();
+    });
+    it('run button is hidden in Record-Triggered Orchestration', async () => {
+        expect.assertions(1);
+
+        mockStoreState.properties.processType = FLOW_PROCESS_TYPE.ORCHESTRATOR;
+        mockStoreState.elements['6'].triggerType = FLOW_TRIGGER_TYPE.AFTER_SAVE;
+
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                componentConfigs: { [BUILDER_MODE.EDIT_MODE]: { toolbarConfig: { showRunButton: true } } }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.EDIT_MODE);
+        await ticks(1);
+
+        const runButton = editorComponent.shadowRoot.querySelector(selectors.run);
+        expect(runButton).toBeNull();
+    });
+    it('run button is displayed in Autolaunched Orchestration (non record-triggered)', async () => {
+        expect.assertions(1);
+
+        mockStoreState.properties.processType = FLOW_PROCESS_TYPE.ORCHESTRATOR;
+
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                componentConfigs: { [BUILDER_MODE.EDIT_MODE]: { toolbarConfig: { showRunButton: true } } }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.EDIT_MODE);
+        await ticks(1);
+
+        const runButton = editorComponent.shadowRoot.querySelector(selectors.run);
+        expect(runButton).toBeDefined();
+    });
+    it('run button is displayed other than orchestrator', async () => {
+        expect.assertions(1);
+
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                componentConfigs: { [BUILDER_MODE.EDIT_MODE]: { toolbarConfig: { showRunButton: true } } }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.EDIT_MODE);
+        await ticks(1);
+
+        const runButton = editorComponent.shadowRoot.querySelector(selectors.run);
+        expect(runButton).toBeDefined();
     });
 });
 describe('in debug mode', () => {
