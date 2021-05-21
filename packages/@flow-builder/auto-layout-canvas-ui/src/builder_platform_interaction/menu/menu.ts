@@ -19,21 +19,26 @@ export default class Menu extends LightningElement {
         return getStyleFromGeometry({ y: this.top + 10, x: this.left });
     }
 
+    getFocusRingCmds() {
+        return this.tabFocusRingCmds;
+    }
+
     handleSelectItem(event) {
         this.dispatchEvent(new SelectMenuItemEvent({ value: event.detail.value }));
     }
 
-    calcaulateTabFocusRingIdx(shift: boolean, tabFocusRingIndex: number) {
-        let newTabFocusRingIdx = shift ? tabFocusRingIndex - 1 : (tabFocusRingIndex + 1) % this.tabFocusRingCmds.length;
+    calcaulateTabFocusRingIdx(shift: boolean, tabFocusRingIndex: number, tabFocusRingCmds: Array) {
+        let newTabFocusRingIdx = shift ? tabFocusRingIndex - 1 : (tabFocusRingIndex + 1) % tabFocusRingCmds.length;
         if (newTabFocusRingIdx === -1) {
-            newTabFocusRingIdx = this.tabFocusRingCmds.length - 1;
+            newTabFocusRingIdx = tabFocusRingCmds.length - 1;
         }
         return newTabFocusRingIdx;
     }
 
     handleTabCommand(shift: boolean) {
         const tabFocusRingIndex = this.tabFocusRingIndex;
-        this.tabFocusRingIndex = this.calcaulateTabFocusRingIdx(shift, tabFocusRingIndex);
-        this.tabFocusRingCmds[this.tabFocusRingIndex]();
+        const tabFocusRingCmds = this.getFocusRingCmds();
+        this.tabFocusRingIndex = this.calcaulateTabFocusRingIdx(shift, tabFocusRingIndex, tabFocusRingCmds);
+        tabFocusRingCmds[this.tabFocusRingIndex]();
     }
 }
