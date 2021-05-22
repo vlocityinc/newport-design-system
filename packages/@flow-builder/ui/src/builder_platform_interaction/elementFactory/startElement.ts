@@ -354,6 +354,11 @@ export function createStartElementMetadataObject(startElement: UI.Start, config 
                 offsetNumberAsNumber *= -1;
             } else if (offsetUnit === TIME_OPTION.DAYS_AFTER) {
                 offsetUnit = SCHEDULED_PATH_OFFSET_UNIT.DAYS;
+            } else if (offsetUnit === TIME_OPTION.MINUTES_BEFORE) {
+                offsetUnit = SCHEDULED_PATH_OFFSET_UNIT.MINUTES;
+                offsetNumberAsNumber *= -1;
+            } else if (offsetUnit === TIME_OPTION.MINUTES_AFTER) {
+                offsetUnit = SCHEDULED_PATH_OFFSET_UNIT.MINUTES;
             }
 
             if (timeSource !== SCHEDULED_PATH_TIME_SOURCE_TYPE.RECORD_TRIGGER_EVENT) {
@@ -458,6 +463,13 @@ export function createScheduledPath(scheduledPath: UI.ScheduledPath | Metadata.S
                 offsetUnit = TIME_OPTION.DAYS_AFTER;
             } else {
                 offsetUnit = TIME_OPTION.DAYS_BEFORE;
+                offsetNumberAsNumber *= -1;
+            }
+        } else if (offsetUnit === SCHEDULED_PATH_OFFSET_UNIT.MINUTES) {
+            if (offsetNumberAsNumber >= 0) {
+                offsetUnit = TIME_OPTION.MINUTES_AFTER;
+            } else {
+                offsetUnit = TIME_OPTION.MINUTES_BEFORE;
                 offsetNumberAsNumber *= -1;
             }
         }

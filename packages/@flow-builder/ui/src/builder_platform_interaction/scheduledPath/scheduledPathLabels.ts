@@ -10,6 +10,9 @@ import timeOptionDaysAfterLabel from '@salesforce/label/FlowBuilderScheduledPath
 import timeOptionDaysBeforeLabel from '@salesforce/label/FlowBuilderScheduledPath.timeOptionDaysBeforeLabel';
 import timeOptionHoursAfterLabel from '@salesforce/label/FlowBuilderScheduledPath.timeOptionHoursAfterLabel';
 import timeOptionHoursBeforeLabel from '@salesforce/label/FlowBuilderScheduledPath.timeOptionHoursBeforeLabel';
+import timeOptionMinutesAfterLabel from '@salesforce/label/FlowBuilderScheduledPath.timeOptionMinutesAfterLabel';
+import timeOptionMinutesBeforeLabel from '@salesforce/label/FlowBuilderScheduledPath.timeOptionMinutesBeforeLabel';
+import offsetUnitOptionsHelptext from '@salesforce/label/FlowBuilderScheduledPath.offsetUnitOptionsHelptext';
 import startElementRecordCreated from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordCreated';
 import startElementRecordUpdated from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordUpdated';
 import startElementRecordDeleted from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordDeleted';
@@ -28,6 +31,9 @@ export const LABELS = {
     timeOptionDaysBeforeLabel,
     timeOptionHoursAfterLabel,
     timeOptionHoursBeforeLabel,
+    timeOptionMinutesAfterLabel,
+    timeOptionMinutesBeforeLabel,
+    offsetUnitOptionsHelptext,
     startElementRecordCreated,
     startElementRecordUpdated,
     startElementRecordDeleted,
