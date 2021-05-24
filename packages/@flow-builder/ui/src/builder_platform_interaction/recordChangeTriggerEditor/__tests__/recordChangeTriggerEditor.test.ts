@@ -10,7 +10,8 @@ const SELECTORS = {
     TRIGGER_TYPE_BEFORE_SAVE: 'input.beforeSave',
     TRIGGER_TYPE_AFTER_SAVE: 'input.afterSave',
     BEFORE_DELETE_INFO_BOX: 'div.beforeDeleteInfo',
-    RUN_ON_SUCCESS_CHECKBOX: 'lightning-input.test-input-selection-checkbox'
+    RUN_ON_SUCCESS_CHECKBOX: 'lightning-input.test-input-selection-checkbox',
+    REQUIRE_RECORD_CHANGE_OPTION: 'div.test-require-record-change-option'
 };
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
@@ -55,7 +56,7 @@ function recordChangeTriggerElement(flowTriggerType, recordTriggerType) {
         name: { value: '', error: null },
         object: { value: 'Account', error: null },
         objectIndex: { value: 'guid', error: null },
-        filterLogic: { value: CONDITION_LOGIC.NO_CONDITIONS, error: null },
+        filterLogic: { value: CONDITION_LOGIC.AND, error: null },
         filters: []
     };
 
@@ -75,6 +76,8 @@ describe('record-change-trigger-editor', () => {
         query(element, SELECTORS.SAVE_TYPE_SECTION).dispatchEvent(event);
 
         expect(element.node.recordTriggerType.value).toBe(FLOW_TRIGGER_SAVE_TYPE.UPDATE);
+        const requireRecordChangeOptions = element.shadowRoot.querySelector(SELECTORS.REQUIRE_RECORD_CHANGE_OPTION);
+        expect(requireRecordChangeOptions).not.toBeUndefined();
     });
 
     it('handles typeBeforeSave get selected', () => {
