@@ -493,6 +493,7 @@ export function invokeDebugEditor(attributes) {
     const dollarRecordName = attributes.dollarRecordName;
     const scheduledPathsList = attributes.scheduledPathsList;
     const showScheduledPathComboBox = attributes.showScheduledPathComboBox;
+    const defaultPath = attributes.defaultPath;
 
     showDebugEditorPopover(
         'builder_platform_interaction:modalHeader',
@@ -507,7 +508,8 @@ export function invokeDebugEditor(attributes) {
             isCreateOrUpdate,
             dollarRecordName,
             scheduledPathsList,
-            showScheduledPathComboBox
+            showScheduledPathComboBox,
+            defaultPath
         },
         {
             flavor: 'small slds-modal_medium'
@@ -648,7 +650,8 @@ function showDebugEditorPopover(
         isCreateOrUpdate: cmpAttributes.isCreateOrUpdate,
         dollarRecordName: cmpAttributes.dollarRecordName,
         scheduledPathsList: cmpAttributes.scheduledPathsList,
-        showScheduledPathComboBox: cmpAttributes.showScheduledPathComboBox
+        showScheduledPathComboBox: cmpAttributes.showScheduledPathComboBox,
+        defaultPath: cmpAttributes.defaultPath
     });
     const invokeModalWithComponentsOnCreateOverride = (modal, data) => {
         onCreatePopover(modal);
