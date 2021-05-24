@@ -17,16 +17,17 @@
                             onclick={handleOpenItemPropertyEditor}
                             ondblclick={handleOpenItemPropertyEditor}
                         >
-                            <lightning-icon
-                                icon-name="standard:work_order_item"
-                                size="medium"
-                                class="slds-float_left slds-m-right_small background-dark"
-                            ></lightning-icon>
-                            <div class="slds-float_left">
-                                <div class="slds-p-vertical_xxx-small slds-truncate">{item.stepTypeLabel}</div>
-                                <span class="slds-truncate itemLabel">{item.label}</span>
+                            <div class="slds-float_left slds-clearfix itemContent">
+                                <lightning-icon
+                                    icon-name="standard:work_order_item"
+                                    size="medium"
+                                    class="slds-float_left slds-m-right_small background-dark"
+                                ></lightning-icon>
+                                <div>
+                                    <div class="slds-p-vertical_xxx-small slds-truncate">{item.stepTypeLabel}</div>
+                                    <span class="itemLabel" title={item.label}>{item.label}</span>
+                                </div>
                             </div>
-
                             <button
                                 class="slds-button slds-float_right slds-m-top_x-small"
                                 onclick={handleDeleteItem}

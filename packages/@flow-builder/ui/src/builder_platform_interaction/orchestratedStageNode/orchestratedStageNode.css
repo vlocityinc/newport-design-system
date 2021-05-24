@@ -53,8 +53,17 @@ h3 {
     padding-bottom: var(--lwc-spacingXSmall);
 }
 
+.itemContent {
+    max-width: 90%;
+    width: 100%;
+}
+
 .itemLabel {
     font-weight: var(--lwc-fontWeightBold);
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
 }
 
 .add-item {
