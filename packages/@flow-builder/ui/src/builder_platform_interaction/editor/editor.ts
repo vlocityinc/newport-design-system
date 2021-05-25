@@ -778,7 +778,8 @@ export default class Editor extends LightningElement {
     };
 
     executeGuardrails(flowState) {
-        const canvasInitialized = !this.properties.isAutoLayoutCanvas || flowState[ELEMENT_TYPE.ROOT_ELEMENT] != null;
+        const canvasInitialized =
+            !this.properties.isAutoLayoutCanvas || flowState.elements[ELEMENT_TYPE.ROOT_ELEMENT] != null;
 
         if (
             isGuardrailsEnabled() &&
@@ -1189,6 +1190,7 @@ export default class Editor extends LightningElement {
                         triggerType: this.triggerType,
                         rerun: runOrDebug === RESTARTDEBUG,
                         isCreateOrUpdate: createOrUpdate,
+                        recordTriggerType: triggerSaveType,
                         dollarRecordName: startObject,
                         scheduledPathsList,
                         showScheduledPathComboBox,

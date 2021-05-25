@@ -1,4 +1,7 @@
 <aura:component controller="serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController">
+    
+    <!-- Flow Metadata Constants -->
+    <builder_platform_interaction:flowMetadata aura:id="flowMetadata" />
 
     <!-- Public Attributes -->
     <aura:attribute name="flowName" type="String"/>
@@ -7,7 +10,11 @@
     <aura:attribute name="triggerType" type="String"/>
     <aura:attribute name="rerun" type="Boolean"/>
     <aura:attribute name="isCreateOrUpdate" type="Boolean"/>
+    <aura:attribute name="recordTriggerType" type="String"/>
     <aura:attribute name="dollarRecordName" type="String"/>
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="entityApiName" type="String"/>
+    <aura:attribute name="showDetails" type="Boolean" default="false"/>
 
     <!-- Values for component capabilities -->
     <aura:attribute name="shouldHasDebugAsUser" type="Boolean" default="true"/>
@@ -40,6 +47,8 @@
 
     <!-- Handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="valueAdded" event="ui:change" action="{!c.handleRecordSelected}"/>
+    <aura:handler name="valueRemoved" event="ui:change" action="{!c.handleRecordRemoved}"/>
 
     <div class="slds-p-vertical_x-large slds-p-horizontal_large">
 
@@ -48,7 +57,7 @@
                  <h2>{#$Label.FlowDebug.ChooseSchedulePath}</h2>
             </div>
             <div class="text slds-p-bottom_medium">{#$Label.FlowDebug.ChooseSchedulePathDesc}</div>
-            <lightning:combobox class="slds-p-bottom_medium" label="{!$Label.FlowDebug.PathForDebug}" options="{!v.scheduledPathsList}" value="{!v.defaultPath}" aura:id="scheduledPathComboBox" />
+            <lightning:combobox class="slds-p-bottom_medium" label="{!$Label.FlowDebug.PathForDebug}" onchange="{!c.handleScheduledPathSelect}" options="{!v.scheduledPathsList}" value="{!v.defaultPath}" aura:id="scheduledPathComboBox" />
         </aura:if>
 
         <!-- Debug Options -->
@@ -142,6 +151,7 @@
                 class="slds-p-top_small"
                 aura:id="debugCreateOrUpdate"
                 label="{!format($Label.FlowDebug.CreateOrUpdateDMLTypeLabel, v.dollarRecordName)}"
+                onchange="{!c.handleRadioOnChange}"
                 options="{!v.createOrUpdateOptions}"
                 value="{!v.saveType}"
                 required="true"

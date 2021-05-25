@@ -48,5 +48,32 @@
             scheduledPathSelection: scheduledPathComboBox ? scheduledPathComboBox.get('v.value') : ''
         };
         return debugInput;
+    },
+
+    handleRecordSelected: function (cmp, event, helper) {
+        var source = event.getSource();
+
+        if (!source) {
+            return;
+        }
+        var values = source.get('v.values');
+        var selectedEntityIndex = source.get('v.selectedEntityIndex');
+        cmp.set('v.recordId', values[selectedEntityIndex].id);
+        cmp.set('v.entityApiName', values[selectedEntityIndex].type);
+
+        helper.updateShowDetails(cmp);
+    },
+    handleRecordRemoved: function (cmp, event, helper) {
+        cmp.set('v.recordId', '');
+        cmp.set('v.entityApiName', '');
+        cmp.set('v.showDetails', false);
+    },
+
+    handleRadioOnChange: function (cmp, event, helper) {
+        helper.updateShowDetails(cmp);
+    },
+
+    handleScheduledPathSelect: function (cmp, event, helper) {
+        helper.updateShowDetails(cmp);
     }
 });

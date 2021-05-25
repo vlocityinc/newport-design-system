@@ -490,6 +490,7 @@ export function invokeDebugEditor(attributes) {
     const triggerType = attributes.triggerType;
     const rerun = attributes.rerun;
     const isCreateOrUpdate = attributes.isCreateOrUpdate;
+    const recordTriggerType = attributes.recordTriggerType;
     const dollarRecordName = attributes.dollarRecordName;
     const scheduledPathsList = attributes.scheduledPathsList;
     const showScheduledPathComboBox = attributes.showScheduledPathComboBox;
@@ -506,6 +507,7 @@ export function invokeDebugEditor(attributes) {
             triggerType,
             rerun,
             isCreateOrUpdate,
+            recordTriggerType,
             dollarRecordName,
             scheduledPathsList,
             showScheduledPathComboBox,
@@ -648,6 +650,7 @@ function showDebugEditorPopover(
         triggerType: cmpAttributes.triggerType,
         rerun: cmpAttributes.rerun,
         isCreateOrUpdate: cmpAttributes.isCreateOrUpdate,
+        recordTriggerType: cmpAttributes.recordTriggerType,
         dollarRecordName: cmpAttributes.dollarRecordName,
         scheduledPathsList: cmpAttributes.scheduledPathsList,
         showScheduledPathComboBox: cmpAttributes.showScheduledPathComboBox,

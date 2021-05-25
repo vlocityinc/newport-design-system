@@ -308,5 +308,49 @@
             { label: $A.get('{!$Label.FlowDebug.DMLCreate}'), value: this.CREATE },
             { label: $A.get('{!$Label.FlowDebug.DMLUpdate}'), value: this.UPDATE }
         ];
+    },
+
+    /** Show details set to true if save type is update, a record is selected,
+     *  and the scheduled path type is after commit or immediate.
+     */
+    updateShowDetails: function (cmp) {
+        // get metadata for constants
+        var flowMetadata = cmp.find('flowMetadata');
+        // check trigger type
+        // if createAndUpdate then look for radio button, else if not update then return
+        var recordTriggerType = cmp.get('v.recordTriggerType');
+
+        if (recordTriggerType === flowMetadata.FLOW_TRIGGER_SAVE_TYPE.CREATE_AND_UPDATE) {
+            // radio button
+            var dmlTypeRadio = cmp.find('debugCreateOrUpdate');
+            var createOrUpdate = dmlTypeRadio ? dmlTypeRadio.get('v.value') : '';
+
+            if (createOrUpdate !== this.UPDATE) {
+                cmp.set('v.showDetails', false);
+                return;
+            }
+        } else if (recordTriggerType !== flowMetadata.FLOW_TRIGGER_SAVE_TYPE.UPDATE) {
+            cmp.set('v.showDetails', false);
+            return;
+        }
+
+        var pathType = cmp.get('v.defaultPath');
+
+        // only show if after commit or immediate
+        if (
+            pathType !== flowMetadata.SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS &&
+            pathType !== flowMetadata.SCHEDULED_PATH_TYPE.IMMEDIATE_SCHEDULED_PATH
+        ) {
+            cmp.set('v.showDetails', false);
+            return;
+        }
+
+        var recordId = cmp.get('v.recordId');
+        if (!recordId) {
+            cmp.set('v.showDetails', false);
+            return;
+        }
+
+        cmp.set('v.showDetails', true);
     }
 });
