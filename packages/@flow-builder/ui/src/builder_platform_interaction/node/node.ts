@@ -167,7 +167,7 @@ export default class Node extends LightningElement {
     }
 
     get startIconFlowType() {
-        return startElementDescription();
+        return startElementDescription(this.node.triggerType);
     }
 
     get trashCanAlternativeText() {
