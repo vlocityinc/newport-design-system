@@ -159,6 +159,12 @@
                 />
             </aura:if>
         </div>
+
+        <div class="slds-p-top_medium">
+            <builder_platform_interaction:recordDetails aura:id="recordDetails" showDetails="{!v.showDetails}"
+                recordId="{!v.recordId}" entityApiName="{!v.entityApiName}"></builder_platform_interaction:recordDetails>
+        </div>
+
     </div>
 
     <!-- Libraries -->
