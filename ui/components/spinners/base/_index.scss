@@ -242,3 +242,8 @@
     transform: translateY(-100%);
   }
 }
+
+.nds-spinner_container.nds-is-absolute.nds-visible.nds-transition-show {
+  background-color: rgba(255, 255, 255, 0.5);
+  z-index: 9999;
+}
