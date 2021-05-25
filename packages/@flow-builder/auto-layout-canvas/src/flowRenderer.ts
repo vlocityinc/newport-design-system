@@ -913,10 +913,7 @@ function createMergeConnectors(
 
     return parentNode.children
         .map((_, index) => {
-            const branchHeadGuid = parentNode.children[index];
-            const branchHead = branchHeadGuid != null ? (flowModel[branchHeadGuid] as BranchHeadNodeModel) : null;
-
-            if (branchHead && branchHead.isTerminal) {
+            if (isBranchTerminal(flowModel, parentNode, index)) {
                 return null;
             }
 

@@ -1228,41 +1228,6 @@ L 179, 48",
           "toBeDeleted": false,
           "type": "mergeLeft",
         },
-        Object {
-          "connectionInfo": Object {
-            "childIndex": 2,
-            "parent": "branch-guid",
-          },
-          "geometry": Object {
-            "h": 48,
-            "w": 176,
-            "x": 0,
-            "y": 156,
-          },
-          "isFault": undefined,
-          "isHighlighted": false,
-          "labelType": 0,
-          "svgInfo": Object {
-            "endLocation": Object {
-              "x": 3,
-              "y": 48,
-            },
-            "geometry": Object {
-              "h": 48,
-              "w": 182,
-              "x": -3,
-              "y": 0,
-            },
-            "path": "M 179, 0
-L 179, 8
-A 16 16 0 0 1, 163, 24
-L 19, 24
-A 16 16 0 0 0, 3, 40
-L 3, 48",
-          },
-          "toBeDeleted": false,
-          "type": "mergeRight",
-        },
       ],
       "menuOpened": false,
       "metadata": Object {
@@ -3671,41 +3636,6 @@ L 223, 27",
         },
         Object {
           "connectionInfo": Object {
-            "childIndex": 0,
-            "parent": "branch-guid",
-          },
-          "geometry": Object {
-            "h": 48,
-            "w": 220,
-            "x": -220,
-            "y": 156,
-          },
-          "isFault": undefined,
-          "isHighlighted": false,
-          "labelType": 0,
-          "svgInfo": Object {
-            "endLocation": Object {
-              "x": 223,
-              "y": 48,
-            },
-            "geometry": Object {
-              "h": 48,
-              "w": 229,
-              "x": -3,
-              "y": 0,
-            },
-            "path": "M 3, 0
-L 3, 8
-A 16 16 0 0 0, 19, 24
-L 207, 24
-A 16 16 0 0 1, 223, 40
-L 223, 48",
-          },
-          "toBeDeleted": false,
-          "type": "mergeLeft",
-        },
-        Object {
-          "connectionInfo": Object {
             "childIndex": 1,
             "parent": "branch-guid",
           },
@@ -4847,41 +4777,6 @@ L 223, 27",
           },
           "toBeDeleted": false,
           "type": "branchRight",
-        },
-        Object {
-          "connectionInfo": Object {
-            "childIndex": 0,
-            "parent": "branch-guid",
-          },
-          "geometry": Object {
-            "h": 48,
-            "w": 220,
-            "x": -220,
-            "y": 353,
-          },
-          "isFault": undefined,
-          "isHighlighted": false,
-          "labelType": 0,
-          "svgInfo": Object {
-            "endLocation": Object {
-              "x": 223,
-              "y": 48,
-            },
-            "geometry": Object {
-              "h": 48,
-              "w": 229,
-              "x": -3,
-              "y": 0,
-            },
-            "path": "M 3, 0
-L 3, 8
-A 16 16 0 0 0, 19, 24
-L 207, 24
-A 16 16 0 0 1, 223, 40
-L 223, 48",
-          },
-          "toBeDeleted": false,
-          "type": "mergeLeft",
         },
         Object {
           "connectionInfo": Object {
@@ -6029,41 +5924,6 @@ L 223, 27",
         },
         Object {
           "connectionInfo": Object {
-            "childIndex": 0,
-            "parent": "branch-guid",
-          },
-          "geometry": Object {
-            "h": 48,
-            "w": 220,
-            "x": -220,
-            "y": 377,
-          },
-          "isFault": undefined,
-          "isHighlighted": false,
-          "labelType": 0,
-          "svgInfo": Object {
-            "endLocation": Object {
-              "x": 223,
-              "y": 48,
-            },
-            "geometry": Object {
-              "h": 48,
-              "w": 229,
-              "x": -3,
-              "y": 0,
-            },
-            "path": "M 3, 0
-L 3, 8
-A 16 16 0 0 0, 19, 24
-L 207, 24
-A 16 16 0 0 1, 223, 40
-L 223, 48",
-          },
-          "toBeDeleted": false,
-          "type": "mergeLeft",
-        },
-        Object {
-          "connectionInfo": Object {
             "childIndex": 1,
             "parent": "branch-guid",
           },
@@ -7205,41 +7065,6 @@ L 223, 27",
           },
           "toBeDeleted": false,
           "type": "branchRight",
-        },
-        Object {
-          "connectionInfo": Object {
-            "childIndex": 0,
-            "parent": "branch-guid",
-          },
-          "geometry": Object {
-            "h": 48,
-            "w": 220,
-            "x": -220,
-            "y": 156,
-          },
-          "isFault": undefined,
-          "isHighlighted": false,
-          "labelType": 0,
-          "svgInfo": Object {
-            "endLocation": Object {
-              "x": 223,
-              "y": 48,
-            },
-            "geometry": Object {
-              "h": 48,
-              "w": 229,
-              "x": -3,
-              "y": 0,
-            },
-            "path": "M 3, 0
-L 3, 8
-A 16 16 0 0 0, 19, 24
-L 207, 24
-A 16 16 0 0 1, 223, 40
-L 223, 48",
-          },
-          "toBeDeleted": false,
-          "type": "mergeLeft",
         },
         Object {
           "connectionInfo": Object {
@@ -8431,41 +8256,6 @@ L 135, 27",
                   },
                   "toBeDeleted": false,
                   "type": "branchRight",
-                },
-                Object {
-                  "connectionInfo": Object {
-                    "childIndex": 0,
-                    "parent": "decision2-guid",
-                  },
-                  "geometry": Object {
-                    "h": 48,
-                    "w": 132,
-                    "x": -132,
-                    "y": 132,
-                  },
-                  "isFault": undefined,
-                  "isHighlighted": false,
-                  "labelType": 0,
-                  "svgInfo": Object {
-                    "endLocation": Object {
-                      "x": 135,
-                      "y": 48,
-                    },
-                    "geometry": Object {
-                      "h": 48,
-                      "w": 141,
-                      "x": -3,
-                      "y": 0,
-                    },
-                    "path": "M 3, 0
-L 3, 8
-A 16 16 0 0 0, 19, 24
-L 119, 24
-A 16 16 0 0 1, 135, 40
-L 135, 48",
-                  },
-                  "toBeDeleted": false,
-                  "type": "mergeLeft",
                 },
                 Object {
                   "connectionInfo": Object {
