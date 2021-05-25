@@ -243,7 +243,7 @@
   }
 }
 
-.nds-spinner_container.nds-is-absolute.nds-visible.nds-transition-show {
+.nds-editblock_inline__spinner > .nds-spinner_container.nds-is-absolute.nds-visible.nds-transition-show{
   background-color: rgba(255, 255, 255, 0.5);
-  z-index: 9999;
+  z-index: $z-index-modal + 1;
 }
