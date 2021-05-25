@@ -75,7 +75,7 @@ If you also want to deploy it to an org then run it with the following env varia
 ```bash
 SF_USERNAME=myusername@email.com SF_PASSWORD=mypassword SF_LOGINURL=myLoginUrl npm run dist
 ```
-If the SF_LOGINURL argument is not passed, then it defaults to login.salesforce.com
+If the SF_LOGINURL argument is not passed, then it defaults to https://login.salesforce.com
 
 
 ## Troubleshooting
