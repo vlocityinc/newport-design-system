@@ -23,7 +23,6 @@ import {
     getTriggerHasCriteria,
     isRecordChangeTriggerType
 } from 'builder_platform_interaction/triggerTypeLib';
-import { isExecuteOnlyWhenChangeMatchesConditionsPossible } from 'builder_platform_interaction/storeUtils';
 import { FlowComparisonOperator } from 'builder_platform_interaction/flowMetadata';
 
 const { BEFORE_SAVE, BEFORE_DELETE, AFTER_SAVE, SCHEDULED, SCHEDULED_JOURNEY } = FLOW_TRIGGER_TYPE;
@@ -463,7 +462,11 @@ export default class RecordChangeTriggerEditor extends LightningElement {
         const conditionLogic = this.startElement.filterLogic;
         return (
             this.triggerHasCriteria &&
-            isExecuteOnlyWhenChangeMatchesConditionsPossible() &&
+            this.triggerType &&
+            (this.triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE || this.triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE) &&
+            this.saveType &&
+            (this.saveType === FLOW_TRIGGER_SAVE_TYPE.CREATE_AND_UPDATE ||
+                this.saveType === FLOW_TRIGGER_SAVE_TYPE.UPDATE) &&
             conditionLogic &&
             conditionLogic.value !== CONDITION_LOGIC.NO_CONDITIONS
         );

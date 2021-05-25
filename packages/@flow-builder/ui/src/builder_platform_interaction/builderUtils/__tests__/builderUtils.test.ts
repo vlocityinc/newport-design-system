@@ -5,9 +5,14 @@ import {
     isPopoverOpen,
     createConfigurationEditor,
     showHover,
+    hidePopover,
     invokePropertyEditor,
     invokeNewFlowModal,
-    invokeModal
+    invokeAutoLayoutWelcomeMat,
+    invokeKeyboardHelpDialog,
+    invokeDebugEditor,
+    invokeModal,
+    invokeModalInternalData
 } from '../builderUtils';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
@@ -177,6 +182,17 @@ describe('builderUtils', () => {
     });
 
     describe('createConfigurationEditor', () => {
+        const sampleAttributes = {
+            flowDevName: 'flowDevNameStr',
+            flowId: 'flowIdStr',
+            processType: 'processType',
+            triggerType: 'triggerType',
+            rerun: 'rerun',
+            isCreateOrUpdate: 'isCreateOrUpdate',
+            dollarRecordName: 'dollarRecordName',
+            scheduledPathsList: 'scheduledPathsList',
+            showScheduledPathComboBox: 'showScheduledPathComboBox'
+        };
         it('throws error if cmp name is not passed', () => {
             expect(() => {
                 createConfigurationEditor();
@@ -188,6 +204,15 @@ describe('builderUtils', () => {
                     cmpName: 'abc'
                 });
             }).toThrow();
+        });
+        it('calls createComponent w/ expected parameters when given standard parameters', async () => {
+            createConfigurationEditor({
+                cmpName: 'cmpName',
+                container: {},
+                sampleAttributes
+            });
+            await ticks(1);
+            expect(createComponent).toHaveBeenCalledWith('cmpName', {}, expect.anything());
         });
     });
 
@@ -227,35 +252,270 @@ describe('builderUtils', () => {
         });
     });
 
-    describe('invokeModal', () => {
-        it('calls dispatchGlobalEvent w/ expected parameters when given standard parameters', async () => {
-            const data = {
-                modalClass: 'modalClass',
-                bodyClass: 'bodyClass',
-                footerClass: 'footerClass',
-                flavor: 'flavor',
-                headerData: {
-                    headerTitle: 'headerTitleStr',
-                    headerVariant: 'headerVariantStr'
+    const createComponentData = {
+        modalClass: 'modalClass',
+        bodyClass: 'bodyClass',
+        footerClass: 'footerClass',
+        flavor: 'flavor',
+        headerData: {
+            headerTitle: 'headerTitleStr',
+            headerVariant: 'headerVariantStr'
+        },
+        bodyData: {
+            bodyTextOne: 'bodyTextOneStr',
+            bodyTextTwo: 'bodyTextTwoStr',
+            listSectionHeader: 'listSectionHeaderStr',
+            listSectionItems: 'listSectionItemsStr',
+            listWarningItems: 'listWarningItemsStr',
+            bodyVariant: 'bodyVariantStr',
+            showBodyTwoVariant: 'showBodyTwoVariantStr'
+        },
+        footerData: {
+            footerVariant: 'footerVariantStr'
+        }
+    };
+
+    describe('invokeDebugEditor', () => {
+        const sampleDebugEditorAttributes = {
+            flowDevName: 'flowDevNameStr',
+            flowId: 'flowIdStr',
+            processType: 'processType',
+            triggerType: 'triggerType',
+            rerun: 'rerun',
+            isCreateOrUpdate: 'isCreateOrUpdate',
+            dollarRecordName: 'dollarRecordName',
+            scheduledPathsList: 'scheduledPathsList',
+            showScheduledPathComboBox: 'showScheduledPathComboBox'
+        };
+        it('throws error if attributes does not contain flowId', () => {
+            expect(() => {
+                const missingFlowIdAttributes = Object.assign({}, sampleDebugEditorAttributes);
+                delete missingFlowIdAttributes.flowId;
+                invokeDebugEditor(missingFlowIdAttributes);
+            }).toThrow();
+        });
+        it('does not call dispatchGlobalEvent if popover is not showing', async () => {
+            createComponent.mockClear();
+            showPopover(
+                'builder_platform_interaction:statusIconSummary',
+                {},
+                {
+                    referenceElement: null,
+                    onClose: () => {}
+                }
+            );
+            invokeDebugEditor(sampleDebugEditorAttributes);
+            expect(dispatchGlobalEvent).not.toHaveBeenCalled();
+        });
+        it('calls createComponent and dispatchGlobalEvent w/ expected parameters when given standard parameters', async () => {
+            hidePopover();
+            invokeDebugEditor(sampleDebugEditorAttributes);
+            await ticks(1);
+            expect(createComponent).toHaveBeenCalledWith(
+                'builder_platform_interaction:modalHeader',
+                {
+                    headerTitle: 'FlowBuilderDebugEditor.headerTitle'
                 },
-                bodyData: {
+                expect.anything()
+            );
+            expect(createComponent).toHaveBeenCalledWith(
+                'builder_platform_interaction:modalFooter',
+                expect.objectContaining({
+                    buttons: {
+                        buttonOneClass: '.test-debug-modal-footer-run-button',
+                        buttonTwoClass: '.test-debug-modal-footer-cancel-button',
+                        buttonOne: {
+                            buttonLabel: 'FlowBuilderToolbar.runTitle',
+                            buttonVariant: 'brand'
+                        },
+                        buttonTwo: {
+                            buttonLabel: 'FlowBuilderCommonPropertyEditor.cancelButton',
+                            buttonVariant: 'neutral',
+                            buttonCallback: expect.anything(),
+                            closeCallback: false
+                        }
+                    }
+                }),
+                expect.anything()
+            );
+            expect(createComponent).toHaveBeenCalledWith(
+                'builder_platform_interaction:debugEditor',
+                {
+                    dollarRecordName: 'dollarRecordName',
+                    flowId: 'flowIdStr',
+                    flowName: 'flowDevNameStr',
+                    isCreateOrUpdate: 'isCreateOrUpdate',
+                    processType: 'processType',
+                    rerun: 'rerun',
+                    scheduledPathsList: 'scheduledPathsList',
+                    showScheduledPathComboBox: 'showScheduledPathComboBox',
+                    triggerType: 'triggerType'
+                },
+                expect.anything()
+            );
+            expect(dispatchGlobalEvent).toHaveBeenCalledWith(
+                'ui:createPanel',
+                expect.objectContaining({
+                    onCreate: expect.anything(),
+                    panelType: 'modal',
+                    visible: true,
+                    panelConfig: {
+                        modalClass: '',
+                        header: [{ getElement: expect.anything() }],
+                        body: [{ getElement: expect.anything() }],
+                        footer: [{ getElement: expect.anything() }],
+                        bodyClass: '',
+                        headerClass: '',
+                        footerClass: '',
+                        flavor: 'small slds-modal_medium',
+                        closeAction: expect.anything()
+                    }
+                })
+            );
+        });
+    });
+
+    describe('invokeAutoLayoutWelcomeMat', () => {
+        it('calls createComponent and dispatchGlobalEvent w/ expected parameters when given standard parameters', async () => {
+            invokeAutoLayoutWelcomeMat('processType', 'triggerType', jest.fn(), jest.fn());
+            await ticks(1);
+            expect(createComponent).toHaveBeenCalledWith(
+                'builder_platform_interaction:welcomeMatBody',
+                {
+                    createCallback: expect.anything(),
+                    processType: 'processType',
+                    triggerType: 'triggerType'
+                },
+                expect.anything()
+            );
+
+            expect(dispatchGlobalEvent).toHaveBeenCalledWith(
+                'ui:createPanel',
+                expect.objectContaining({
+                    onCreate: expect.anything(),
+                    panelType: 'modal',
+                    visible: true,
+                    panelConfig: {
+                        modalClass: 'slds-modal_small',
+                        body: [{ getElement: expect.anything() }],
+                        bodyClass: '',
+                        closeAction: expect.anything()
+                    }
+                })
+            );
+        });
+    });
+
+    describe('invokeKeyboardHelpDialog', () => {
+        it('calls createComponent and dispatchGlobalEvent w/ expected parameters when given standard parameters', async () => {
+            invokeKeyboardHelpDialog();
+            await ticks(1);
+            expect(createComponent).toHaveBeenCalledWith(
+                'builder_platform_interaction:modalHeader',
+                {
+                    headerTitle: 'FlowBuilderKeyboardInteractionLabels.keyboardShortcutListTitle'
+                },
+                expect.anything()
+            );
+
+            expect(createComponent).toHaveBeenCalledWith(
+                'builder_platform_interaction:keyboardShortcutsListBody',
+                {},
+                expect.anything()
+            );
+
+            expect(createComponent).toHaveBeenCalledWith(
+                'builder_platform_interaction:modalFooter',
+                {
+                    buttons: {
+                        buttonOne: {
+                            buttonLabel: 'FlowBuilderAlertModal.okayButtonLabel',
+                            buttonVariant: 'brand'
+                        }
+                    }
+                },
+                expect.anything()
+            );
+
+            expect(dispatchGlobalEvent).toHaveBeenCalledWith(
+                'ui:createPanel',
+                expect.objectContaining({
+                    panelType: 'modal',
+                    visible: true,
+                    onCreate: expect.anything(),
+                    panelConfig: {
+                        header: [{ getElement: expect.anything() }],
+                        body: [{ getElement: expect.anything() }],
+                        footer: [{ getElement: expect.anything() }],
+                        closeAction: expect.anything(),
+                        modalClass: '',
+                        headerClass: '',
+                        bodyClass: 'slds-p-around_none slds-is-relative',
+                        footerClass: '',
+                        flavor: 'small'
+                    }
+                })
+            );
+        });
+    });
+
+    describe('invokeModalInternalData', () => {
+        it('calls createComponent and dispatchGlobalEvent w/ expected parameters when given standard parameters', async () => {
+            invokeModalInternalData(createComponentData);
+            await ticks(1);
+            expect(createComponent).toHaveBeenCalledWith(
+                'builder_platform_interaction:modalHeader',
+                {
+                    headerTitle: 'headerTitleStr'
+                },
+                expect.anything()
+            );
+
+            expect(createComponent).toHaveBeenCalledWith(
+                'builder_platform_interaction:modalBodyInternalData',
+                {
                     bodyTextOne: 'bodyTextOneStr',
                     bodyTextTwo: 'bodyTextTwoStr',
                     listSectionHeader: 'listSectionHeaderStr',
-                    listSectionItems: 'listSectionItemsStr',
-                    listWarningItems: 'listWarningItemsStr',
-                    bodyVariant: 'bodyVariantStr',
-                    showBodyTwoVariant: 'showBodyTwoVariantStr'
+                    listSectionItems: 'listSectionItemsStr'
                 },
-                footerData: {
-                    footerVariant: 'footerVariantStr'
-                }
-            };
+                expect.anything()
+            );
 
-            invokeModal(data);
+            expect(createComponent).toHaveBeenCalledWith(
+                'builder_platform_interaction:modalFooter',
+                {
+                    buttons: { footerVariant: 'footerVariantStr' }
+                },
+                expect.anything()
+            );
 
+            expect(dispatchGlobalEvent).toHaveBeenCalledWith(
+                'ui:createPanel',
+                expect.objectContaining({
+                    onCreate: expect.anything(),
+                    panelConfig: {
+                        body: [{ getElement: expect.anything() }],
+                        bodyClass: 'bodyClass',
+                        closeAction: expect.anything(),
+                        flavor: 'flavor',
+                        footer: [{ getElement: expect.anything() }],
+                        footerClass: 'footerClass',
+                        header: [{ getElement: expect.anything() }],
+                        headerClass: '',
+                        modalClass: 'modalClass'
+                    },
+                    panelType: 'modal',
+                    visible: true
+                })
+            );
+        });
+    });
+
+    describe('invokeModal', () => {
+        it('calls createComponent and dispatchGlobalEvent w/ expected parameters when given standard parameters', async () => {
+            invokeModal(createComponentData);
             await ticks(1);
-
             expect(createComponent).toHaveBeenCalledWith(
                 'builder_platform_interaction:modalHeader',
                 {
@@ -311,7 +571,7 @@ describe('builderUtils', () => {
     });
 
     describe('invokeNewFlowModal', () => {
-        it('calls dispatchGlobalEvent w/ expected parameters when given standard parameters', async () => {
+        it('calls createComponent and dispatchGlobalEvent w/ expected parameters when given standard parameters', async () => {
             invokeNewFlowModal(
                 ELEMENT_TYPE.SCREEN_FIELD,
                 {
@@ -323,8 +583,6 @@ describe('builderUtils', () => {
             );
 
             await ticks(1);
-
-            expect(createComponent).toHaveBeenCalled();
             expect(createComponent).toHaveBeenCalledWith(
                 'builder_platform_interaction:modalHeader',
                 {

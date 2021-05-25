@@ -822,12 +822,6 @@
         },
         test: function (cmp) {
             $A.test.assertNotNull(cmp.find('scheduledPathComboBox'), 'Scheduled Path ComboBox does not exist');
-            // Default value of scheduledPathSelection should be 'Run Immediately'
-            $A.test.assertEquals(
-                $A.get('$Label.FlowBuilderStartEditor.immediateScheduledPathLabel'),
-                cmp.getDebugInput().scheduledPathSelection,
-                "scheduledPathSelection default value should be 'Run Immediately'"
-            );
             // scheduledPathSelection should change after setting ComboBox value to 'Sample_Scheduled_Path'
             cmp.find('scheduledPathComboBox').set('v.value', 'Sample_Scheduled_Path');
             $A.test.assertEquals(

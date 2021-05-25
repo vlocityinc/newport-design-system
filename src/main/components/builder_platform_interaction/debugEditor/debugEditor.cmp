@@ -31,6 +31,7 @@
 
     <aura:attribute name="scheduledPathsList" type="List"/>
     <aura:attribute name="showScheduledPathComboBox" type="Boolean" default="false"/>
+    <aura:attribute name="defaultPath" type="String" default=""/>
 
 
     <!-- Methods -->
@@ -47,7 +48,7 @@
                  <h2>{#$Label.FlowDebug.ChooseSchedulePath}</h2>
             </div>
             <div class="text slds-p-bottom_medium">{#$Label.FlowDebug.ChooseSchedulePathDesc}</div>
-            <lightning:combobox class="slds-p-bottom_medium" label="{!$Label.FlowDebug.PathForDebug}" options="{!v.scheduledPathsList}" value="{!$Label.FlowBuilderStartEditor.immediateScheduledPathLabel}" aura:id="scheduledPathComboBox" />
+            <lightning:combobox class="slds-p-bottom_medium" label="{!$Label.FlowDebug.PathForDebug}" options="{!v.scheduledPathsList}" value="{!v.defaultPath}" aura:id="scheduledPathComboBox" />
         </aura:if>
 
         <!-- Debug Options -->

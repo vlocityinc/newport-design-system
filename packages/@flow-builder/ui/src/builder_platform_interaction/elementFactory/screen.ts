@@ -173,13 +173,14 @@ export function createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(sc
     if (newScreen.backLabelType !== FOOTER_LABEL_TYPE.CUSTOM) {
         newScreen.backLabel = null;
     }
-    if (newScreen.pauseLabelType === FOOTER_LABEL_TYPE.HIDE || !newScreen.allowCustomPauseMessage) {
-        newScreen.pausedText = '';
-        newScreen.allowCustomPauseMessage = false;
-    }
-    if (!newScreen.allowHelp) {
-        newScreen.helpText = '';
-    }
+    // TODO W-9142813: Uncomment the following if clauses
+    // if (newScreen.pauseLabelType === FOOTER_LABEL_TYPE.HIDE || !newScreen.allowCustomPauseMessage) {
+    //     newScreen.pausedText = '';
+    //     newScreen.allowCustomPauseMessage = false;
+    // }
+    // if (!newScreen.allowHelp) {
+    //     newScreen.helpText = '';
+    // }
 
     const deletedFields = getDeletedScreenFieldsUsingStore(screen, newFields);
     Object.assign(newScreen, {

@@ -217,7 +217,9 @@ export const TIME_OPTION = {
     DAYS_AFTER: 'DaysAfter',
     DAYS_BEFORE: 'DaysBefore',
     HOURS_AFTER: 'HoursAfter',
-    HOURS_BEFORE: 'HoursBefore'
+    HOURS_BEFORE: 'HoursBefore',
+    MINUTES_AFTER: 'MinutesAfter',
+    MINUTES_BEFORE: 'MinutesBefore'
 };
 
 /**
@@ -226,7 +228,8 @@ export const TIME_OPTION = {
  */
 export const SCHEDULED_PATH_OFFSET_UNIT = {
     DAYS: 'Days',
-    HOURS: 'Hours'
+    HOURS: 'Hours',
+    MINUTES: 'Minutes'
 };
 
 export const SCHEDULED_PATH_TIME_SOURCE_TYPE = {
@@ -392,7 +395,8 @@ export const COLLECTION_PROCESSOR_SUB_TYPE = {
 };
 
 export const SCHEDULED_PATH_TYPE = {
-    RUN_ON_SUCCESS: 'AfterCommit'
+    RUN_ON_SUCCESS: 'AfterCommit',
+    IMMEDIATE_SCHEDULED_PATH: 'RunImmediately'
 };
 
 export const RECOMMENDATION_STRATEGY = {

@@ -58,7 +58,8 @@ import {
     FLOW_STATUS,
     FLOW_TRIGGER_SAVE_TYPE,
     FLOW_TRIGGER_TYPE,
-    isSystemElement
+    isSystemElement,
+    SCHEDULED_PATH_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
@@ -1167,6 +1168,7 @@ export default class Editor extends LightningElement {
                 let showScheduledPathComboBox = false;
                 let startElement = null;
                 const scheduledPathsList = this.getScheduledPathsList();
+                const defaultPath = scheduledPathsList?.length > 0 ? scheduledPathsList[0].value : null;
                 if (isRecordChangeTriggerType(this.triggerType)) {
                     triggerSaveType = getRecordTriggerType();
                     createOrUpdate = triggerSaveType === FLOW_TRIGGER_SAVE_TYPE.CREATE_AND_UPDATE;
@@ -1190,6 +1192,7 @@ export default class Editor extends LightningElement {
                         dollarRecordName: startObject,
                         scheduledPathsList,
                         showScheduledPathComboBox,
+                        defaultPath,
                         runDebugInterviewCallback: this.runDebugInterviewCallback
                     };
                 });
@@ -2606,11 +2609,13 @@ export default class Editor extends LightningElement {
 
     getScheduledPathsList() {
         const scheduledPathsList = [];
-        if (this.guardrailsEngine?.flowDataProvider?.model?.metadata?.start?.scheduledPaths) {
+        if (this.guardrailsEngine?.flowDataProvider?.model?.metadata?.start?.connector) {
             scheduledPathsList.push({
                 label: LABELS.immediateScheduledPathLabel,
-                value: LABELS.immediateScheduledPathLabel
+                value: SCHEDULED_PATH_TYPE.IMMEDIATE_SCHEDULED_PATH
             });
+        }
+        if (this.guardrailsEngine?.flowDataProvider?.model?.metadata?.start?.scheduledPaths) {
             this.guardrailsEngine.flowDataProvider.model.metadata.start.scheduledPaths.forEach((key) => {
                 scheduledPathsList.push({ label: key.label, value: key.name });
             });
