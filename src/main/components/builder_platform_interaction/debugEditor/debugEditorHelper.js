@@ -169,6 +169,9 @@
             cmp.set('v.runAsCB', this.previousOptions.runAs);
             cmp.set('v.showDebugAsUserLookup', this.previousOptions.runAs);
             cmp.set('v.saveType', this.previousOptions.saveType);
+            cmp.set('v.recordId', this.previousOptions.recordId);
+            cmp.set('v.entityApiName', this.previousOptions.entityApiName);
+            cmp.set('v.showDetails', this.previousOptions.showDetails);
             cmp.set('v.ignoreEntryCriteria', this.previousOptions.ignoreEntryCriteria);
             if (cmp.get('v.showDebugAsUserLookup')) {
                 cmp.set('v.runAsSelected', this.previousOptions.runAsSelected);
@@ -286,7 +289,10 @@
             debugWaits: debugWaitsBox ? debugWaitsBox.get('v.checked') : false,
             saveType: saveTypeRadio ? saveTypeRadio.get('v.value') : this.CREATE,
             ignoreEntryCriteria: ignoreEntryCriteriaBox ? ignoreEntryCriteriaBox.get('v.checked') : false,
-            scheduledPathSelection: scheduledPathComboBox ? scheduledPathComboBox.get('v.value') : ''
+            scheduledPathSelection: scheduledPathComboBox ? scheduledPathComboBox.get('v.value') : '',
+            recordId: cmp.get('v.recordId'),
+            entityApiName: cmp.get('v.entityApiName'),
+            showDetails: cmp.get('v.showDetails')
         };
     },
 
@@ -334,15 +340,17 @@
             return;
         }
 
-        var pathType = cmp.get('v.defaultPath');
+        if (cmp.get('v.showScheduledPathComboBox')) {
+            var pathType = cmp.find('scheduledPathComboBox').get('v.value');
 
-        // only show if after commit or immediate
-        if (
-            pathType !== flowMetadata.SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS &&
-            pathType !== flowMetadata.SCHEDULED_PATH_TYPE.IMMEDIATE_SCHEDULED_PATH
-        ) {
-            cmp.set('v.showDetails', false);
-            return;
+            // only show if after commit or immediate
+            if (
+                pathType !== flowMetadata.SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS &&
+                pathType !== flowMetadata.SCHEDULED_PATH_TYPE.IMMEDIATE_SCHEDULED_PATH
+            ) {
+                cmp.set('v.showDetails', false);
+                return;
+            }
         }
 
         var recordId = cmp.get('v.recordId');
