@@ -1,3 +1,7 @@
+button {
+    transition: transform 0.1s cubic-bezier(0.64, 0.57, 0.67, 1.53);
+}
+
 button.border-none {
     border: none;
 }
@@ -6,6 +10,7 @@ button.connector {
     background-color: white;
     border: 2px solid var(--lwc-colorGray8);
     border-radius: 50%;
+    transition: none;
 }
 
 /* Beware that changing the order of hover and focus can break the current styles  */
@@ -24,7 +29,7 @@ button.node-to-be-deleted {
     background-color: #f4f6f9;
     border-color: var(--lwc-colorBorderError);
     box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-colorBorderError), 0 0 6px 3px var(--lwc-colorBorderError);
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
 button.connector:hover {
@@ -36,7 +41,7 @@ button:focus {
     background-color: #f4f6f9;
     border-color: var(--lwc-colorBrandDark);
     box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-colorBorderSelection), 0 0 6px 3px var(--lwc-colorBorderSelection);
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
 button.is-end-element:focus,
