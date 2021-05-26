@@ -7,6 +7,7 @@ export enum GOTO_CONNECTION_SUFFIX {
 }
 
 export type Guid = string;
+export type GoToSourceRef = string;
 
 export interface FlowModel {
     [key: string]: NodeModel | ParentNodeModel | BranchHeadNodeModel | (ParentNodeModel & BranchHeadNodeModel);
@@ -17,6 +18,11 @@ export interface HighlightInfo {
     highlightLoopBack?: boolean;
     branchIndexesToHighlight?: Array<number>;
     mergeBranchIndexesToHighlight?: Array<number>;
+}
+
+export interface ConnectionSource {
+    guid: Guid;
+    childIndex?: number | null;
 }
 
 export interface NodeModel {
@@ -44,7 +50,7 @@ export interface NodeModel {
     fault: NodeRef;
 
     // goto
-    incomingGoTo?: Array<Guid>;
+    incomingGoTo?: GoToSourceRef[];
 }
 
 export interface StartNodeModel extends NodeModel {

@@ -22,7 +22,7 @@ import {
     modalBodyVariant,
     resolveParent,
     isBranchTerminal,
-    hasGoToConnectionOnNext,
+    hasGoToOnNext,
     shouldDeleteGoToOnNext
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import {
@@ -1186,7 +1186,7 @@ export default class AlcCanvas extends LightningElement {
                 selectedElement.next &&
                 isBranchTerminal(this._flowModel, selectedElement, childIndexToKeep) &&
                 this._flowModel[selectedElement.next!].nodeType !== NodeType.END &&
-                !hasGoToConnectionOnNext(this._flowModel, selectedElement)
+                !hasGoToOnNext(this._flowModel, selectedElement.guid)
             ) {
                 // When the branch to persist is terminated and the deleting element's next is not an end element
                 // or a GoTo target, a warning modal would be invoked, otherwise a DeleteElementEvent would be dispatched

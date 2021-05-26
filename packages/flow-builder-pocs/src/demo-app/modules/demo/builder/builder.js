@@ -61,22 +61,18 @@ function createProxyHandler(component) {
                 return (event) => {
                     try {
                         target.dispatch(event);
+                        console.log(JSON.parse(JSON.stringify(storeInstance.getCurrentState())));
                     } catch (e) {
                         component.stopTestMonkey('reducer exception', e);
                     }
 
                     const { elements } = target.getCurrentState();
-                    if (Object.values(elements).length > 0 && component.runAssertions) {
-                        // assert the state
-                        try {
-                            assertAutoLayoutState(elements);
-                        } catch (e) {
-                            component.stopTestMonkey('state assert failed', e);
-                        }
-
-                        // convert roundtrip
-                        if (!convertRoundTrip(storeInstance)) {
-                            component.stopTestMonkey();
+                    if (Object.values(elements).length > 0) {
+                        if (component.runAssertions) {
+                            // convert roundtrip
+                            if (!convertRoundTrip(storeInstance)) {
+                                component.stopTestMonkey();
+                            }
                         }
                     }
                 };
@@ -212,7 +208,7 @@ export default class Builder extends LightningElement {
 
     constructor() {
         super();
-        window.processEnv = 'prod';
+        window.processEnv = { NODE_ENV: 'development' };
 
         storeInstance = new Proxy(Store.getStore(reducer), createProxyHandler(this));
 

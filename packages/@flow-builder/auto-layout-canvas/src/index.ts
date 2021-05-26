@@ -63,7 +63,6 @@ export {
     getTargetGuidsForBranchReconnect,
     deleteBranch,
     areAllBranchesTerminals,
-    assertAutoLayoutState,
     resolveChild,
     resolveParent,
     resolveBranchHead,
@@ -71,18 +70,23 @@ export {
     getTargetGuidsForReconnection,
     InsertAt,
     createRootElement,
-    hasGoToConnectionOnNext,
-    hasGoToConnectionOnBranchHead,
+    hasGoTo,
+    hasGoToOnNext,
+    hasGoToOnBranchHead,
     isBranchingElement,
     fulfillsBranchingCriteria,
     isBranchTerminal,
     deleteGoToConnection,
     createGoToConnection,
-    removeGoTosFromPastedElement,
+    removeGoTosFromElement,
     shouldDeleteGoToOnNext,
     getSuffixForGoToConnection,
-    hasChildren
+    hasChildren,
+    getConnectionTarget,
+    setChild
 } from './modelUtils';
+
+export { assertAutoLayoutState } from './assertUtils';
 
 export {
     animate,

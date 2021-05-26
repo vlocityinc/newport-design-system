@@ -5,8 +5,8 @@ import {
     getBranchLayoutKey,
     FAULT_INDEX,
     assertInDev,
-    hasGoToConnectionOnNext,
-    hasGoToConnectionOnBranchHead,
+    hasGoToOnBranchHead,
+    hasGoToOnNext,
     getSuffixForGoToConnection,
     GOTO_CONNECTION_SUFFIX,
     resolveChild,
@@ -41,23 +41,6 @@ interface TargetInfo {
 }
 
 type ElementsPositionMap = UI.StringKeyedMap<Position>;
-
-// TODO: move this to auto-layout-canvas
-/**
- * Checks if an element has a goto connection at a given childIndex, or on its next
- * pointer if childIndex is not specified
- *
- * @param flowModel - The flow model
- * @param element - The element to check
- * @param childIndex - the optional childIndex of the connection to check
- *
- * @returns true if there is a goto connection, false otherwise
- */
-function hasGoTo(flowModel: FlowModel, element: NodeModel, childIndex?: number): boolean {
-    return childIndex != null
-        ? hasGoToConnectionOnBranchHead(flowModel, element as ParentNodeModel, childIndex)
-        : hasGoToConnectionOnNext(flowModel, element);
-}
 
 function createInitialFlowRenderContext(flowModel: FlowModel): FlowRenderContext {
     return {
@@ -142,7 +125,7 @@ function calculateElementPositionsForBranch(
             // eslint-disable-next-line no-loop-func
             for (let i = 0; i < children.length; i++) {
                 const child = children[i];
-                if (child != null && !hasGoTo(flowModel, element, i)) {
+                if (child != null && !hasGoToOnBranchHead(flowModel, element.guid, i)) {
                     let branchOffsetX = nodeLayoutMap[getBranchLayoutKey(element.guid, i)].layout.x;
                     let branchOffsetY = 0;
                     if (element.nodeType === NodeType.START) {
@@ -164,7 +147,7 @@ function calculateElementPositionsForBranch(
             }
         }
 
-        if (element.fault && !hasGoTo(flowModel, element, FAULT_INDEX)) {
+        if (element.fault && !hasGoToOnBranchHead(flowModel, element.guid, FAULT_INDEX)) {
             const faultOffsetX = nodeLayoutMap[getBranchLayoutKey(element.guid, FAULT_INDEX)].layout.x;
             calculateElementPositionsForBranch(
                 nodeLayoutMap,
@@ -185,7 +168,7 @@ function calculateElementPositionsForBranch(
             }
         }
 
-        element = hasGoTo(flowModel, element) ? null : flowModel[element.next!];
+        element = hasGoToOnNext(flowModel, element.guid) ? null : flowModel[element.next!];
     }
 }
 
@@ -343,7 +326,7 @@ function getTargetInfo(
     if (next != null) {
         return {
             guid: next,
-            isGoTo: hasGoTo(flowModel, parentElement)
+            isGoTo: hasGoToOnNext(flowModel, parentElement.guid)
         };
     }
 
@@ -371,7 +354,7 @@ function convertBranchingElement(
 
     branchingElement.children.forEach((child, i) => {
         if (child != null) {
-            const targetInfo = { guid: child, isGoTo: hasGoTo(flowModel, branchingElement, i) };
+            const targetInfo = { guid: child, isGoTo: hasGoToOnBranchHead(flowModel, branchingElement.guid, i) };
             const connector = createConnectorForBranchHead(flowModel, branchingElement, i, targetInfo);
             connectors.push(connector);
 
@@ -495,7 +478,7 @@ function convertBranchToFreeForm(
 
         // process any fault branch
         if (fault != null) {
-            const hasGoToOnFault = hasGoTo(flowModel, alcElement, FAULT_INDEX);
+            const hasGoToOnFault = hasGoToOnBranchHead(flowModel, alcElement.guid, FAULT_INDEX);
             addConnector(flowModel, guid, fault, ffcStoreState, CONNECTOR_TYPE.FAULT, hasGoToOnFault);
 
             if (!hasGoToOnFault) {
@@ -525,7 +508,7 @@ function convertBranchToFreeForm(
             }
         }
 
-        const nextElement = next && !hasGoTo(flowModel, alcElement) ? flowModel[next] : null;
+        const nextElement = next && !hasGoToOnNext(flowModel, alcElement.guid) ? flowModel[next] : null;
         alcElement = nextElement;
     }
 }

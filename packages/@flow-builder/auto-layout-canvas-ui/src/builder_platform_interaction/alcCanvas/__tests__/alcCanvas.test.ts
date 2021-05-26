@@ -98,7 +98,7 @@ jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
         resolveNode,
         toggleFlowMenu,
         modalBodyVariant,
-        hasGoToConnectionOnNext,
+        hasGoToOnNext,
         resolveParent,
         isBranchTerminal,
         shouldDeleteGoToOnNext
@@ -125,7 +125,7 @@ jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
         MenuType: autoLayoutCanvas.MenuType,
         panzoom,
         NodeType,
-        hasGoToConnectionOnNext,
+        hasGoToOnNext,
         resolveParent,
         isBranchTerminal,
         shouldDeleteGoToOnNext

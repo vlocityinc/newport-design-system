@@ -38,8 +38,8 @@ import {
     addElement,
     updateChildren,
     addFault,
-    hasGoToConnectionOnNext,
-    hasGoToConnectionOnBranchHead,
+    hasGoToOnNext,
+    hasGoToOnBranchHead,
     createGoToConnection,
     deleteGoToConnection,
     decorateElements,
@@ -48,13 +48,16 @@ import {
     areAllBranchesTerminals,
     getBranchIndexForGoToConnection,
     cleanUpIncomingGoTos,
-    removeGoTosFromPastedElement,
+    removeGoTosFromElement,
     shouldDeleteGoToOnNext
 } from '../modelUtils';
 
 import { FAULT_INDEX, START_IMMEDIATE_INDEX } from '../model';
 import NodeType from '../NodeType';
 
+/**
+ * @param elements
+ */
 function generateEndElementGuid(elements) {
     let guid = 'end-hook-guid';
     while (elements[guid]) {
@@ -87,6 +90,10 @@ const defaultDeleteOptions = {
     inline: true
 };
 
+/**
+ * @param elements
+ * @param guid
+ */
 function createEndElement(elements, guid) {
     const config = elementService(elements);
     config.createEndElement({ guid });
@@ -198,11 +205,12 @@ describe('modelUtils', () => {
                 nodeType: NodeType.DEFAULT,
                 config: {}
             };
-            flowRenderContext.flowModel['new-screen-guid'] = newScreen;
-            addElement(flowRenderContext.flowModel, 'new-screen-guid', NodeType.DEFAULT, {
+            const { flowModel } = flowRenderContext;
+            flowModel['new-screen-guid'] = newScreen;
+            addElement(flowModel, 'new-screen-guid', NodeType.DEFAULT, {
                 prev: 'goto-source-guid'
             });
-            expect(flowRenderContext.flowModel).toMatchSnapshot();
+            expect(flowModel).toMatchSnapshot();
         });
 
         it('add an element between the parent element and the branchHead goTo connector', () => {
@@ -214,12 +222,13 @@ describe('modelUtils', () => {
                 nodeType: NodeType.DEFAULT,
                 config: {}
             };
-            flowRenderContext.flowModel['new-screen-guid'] = newScreen;
-            addElement(flowRenderContext.flowModel, 'new-screen-guid', NodeType.DEFAULT, {
+            const { flowModel } = flowRenderContext;
+            flowModel['new-screen-guid'] = newScreen;
+            addElement(flowModel, 'new-screen-guid', NodeType.DEFAULT, {
                 parent: 'branch-guid',
                 childIndex: 0
             });
-            expect(flowRenderContext.flowModel).toMatchSnapshot();
+            expect(flowModel).toMatchSnapshot();
         });
 
         it('add an element between the parent element and the branchHead goTo connector on the Fault branch', () => {
@@ -231,12 +240,13 @@ describe('modelUtils', () => {
                 nodeType: NodeType.DEFAULT,
                 config: {}
             };
-            flowRenderContext.flowModel['new-screen-guid'] = newScreen;
-            addElement(flowRenderContext.flowModel, 'new-screen-guid', NodeType.DEFAULT, {
+            const { flowModel } = flowRenderContext;
+            flowModel['new-screen-guid'] = newScreen;
+            addElement(flowModel, 'new-screen-guid', NodeType.DEFAULT, {
                 parent: 'branch-guid',
                 childIndex: FAULT_INDEX
             });
-            expect(flowRenderContext.flowModel).toMatchSnapshot();
+            expect(flowModel).toMatchSnapshot();
         });
     });
 
@@ -1247,6 +1257,8 @@ describe('modelUtils', () => {
             const elements = flowModelFromElements([
                 screenElement,
                 branchingElement,
+                branchHeadOne,
+                branchHeadTwo,
                 mergeElement,
                 branchHeadOne,
                 branchHeadTwo,
@@ -3504,7 +3516,6 @@ describe('modelUtils', () => {
             expect(nextFlow).toMatchSnapshot();
         });
     });
-
     describe('inlineFromParent', () => {
         describe('inline decision with next end', () => {
             const originalStoreState = {
@@ -3591,8 +3602,7 @@ describe('modelUtils', () => {
             });
         });
     });
-
-    describe('hasGoToConnectionOnNext function', () => {
+    describe('hasGoToOnNext function', () => {
         const flowModel = {
             branchElement: {
                 guid: 'branchElement',
@@ -3627,20 +3637,20 @@ describe('modelUtils', () => {
             }
         };
 
-        it('hasGoToConnectionOnNext should return true for screen1 as the source', () => {
-            expect(hasGoToConnectionOnNext(flowModel, flowModel['screen1'])).toBeTruthy();
+        it('hasGoToOnNext should return true for screen1 as the source', () => {
+            expect(hasGoToOnNext(flowModel, flowModel.screen1.guid)).toBeTruthy();
         });
 
-        it('hasGoToConnectionOnNext should return false with screen2 as the source', () => {
-            expect(hasGoToConnectionOnNext(flowModel, flowModel['screen2'])).toBeFalsy();
+        it('hasGoToOnNext should return false with screen2 as the source', () => {
+            expect(hasGoToOnNext(flowModel, flowModel.screen2.guid)).toBeFalsy();
         });
 
-        it('hasGoToConnectionOnNext should return false with screen3 as the source', () => {
-            expect(hasGoToConnectionOnNext(flowModel, flowModel['screen3'])).toBeFalsy();
+        it('hasGoToOnNext should return false with screen3 as the source', () => {
+            expect(hasGoToOnNext(flowModel, flowModel.screen3.guid)).toBeFalsy();
         });
     });
 
-    describe('hasGoToConnectionOnBranchHead function', () => {
+    describe('hasGoToOnBranchHead function', () => {
         const flowModel = {
             start: {
                 guid: 'start',
@@ -3691,24 +3701,24 @@ describe('modelUtils', () => {
             }
         };
 
-        it('hasGoToConnectionOnBranchHead should return true for start element as the source and 0th index (immediate branch)', () => {
-            expect(hasGoToConnectionOnBranchHead(flowModel, flowModel['start'], START_IMMEDIATE_INDEX)).toBeTruthy();
+        it('hasGoToOnBranchHead should return true for start element as the source and 0th index (immediate branch)', () => {
+            expect(hasGoToOnBranchHead(flowModel, flowModel.start.guid, START_IMMEDIATE_INDEX)).toBeTruthy();
         });
 
-        it('hasGoToConnectionOnBranchHead should return true for branchElement as the source and 0th index', () => {
-            expect(hasGoToConnectionOnBranchHead(flowModel, flowModel['branchElement'], 0)).toBeTruthy();
+        it('hasGoToOnBranchHead should return true for branchElement as the source and 0th index', () => {
+            expect(hasGoToOnBranchHead(flowModel, flowModel.branchElement.guid, 0)).toBeTruthy();
         });
 
-        it('hasGoToConnectionOnBranchHead should return false with screen2 as the source', () => {
-            expect(hasGoToConnectionOnBranchHead(flowModel, flowModel['branchElement'], 1)).toBeFalsy();
+        it('hasGoToOnBranchHead should return false with screen2 as the source', () => {
+            expect(hasGoToOnBranchHead(flowModel, flowModel.branchElement.guid, 1)).toBeFalsy();
         });
 
-        it('hasGoToConnectionOnBranchHead should return true with screen3 as the source', () => {
-            expect(hasGoToConnectionOnBranchHead(flowModel, flowModel['branchElement'], 2)).toBeTruthy();
+        it('hasGoToOnBranchHead should return true with screen3 as the source', () => {
+            expect(hasGoToOnBranchHead(flowModel, flowModel.branchElement.guid, 2)).toBeTruthy();
         });
 
-        it('hasGoToConnectionOnBranchHead should return true for branchElement as the source and fault index', () => {
-            expect(hasGoToConnectionOnBranchHead(flowModel, flowModel['branchElement'], FAULT_INDEX)).toBeTruthy();
+        it('hasGoToOnBranchHead should return true for branchElement as the source and fault index', () => {
+            expect(hasGoToOnBranchHead(flowModel, flowModel.branchElement.guid, FAULT_INDEX)).toBeTruthy();
         });
     });
 
@@ -3895,9 +3905,8 @@ describe('modelUtils', () => {
                 }
             };
 
-            expect(createGoToConnection(flowModel, 'start', START_IMMEDIATE_INDEX, 'branchElement')).toMatchObject(
-                updatedFlowModel
-            );
+            const source = { guid: 'start', childIndex: START_IMMEDIATE_INDEX };
+            expect(createGoToConnection(flowModel, source, 'branchElement')).toMatchObject(updatedFlowModel);
         });
 
         it('createGoToConnection with start (1st branch) as the source and branchElement as the target should update the state correctly', () => {
@@ -3986,7 +3995,8 @@ describe('modelUtils', () => {
                 }
             };
 
-            expect(createGoToConnection(flowModel, 'start', 1, 'branchElement')).toMatchObject(updatedFlowModel);
+            const source = { guid: 'start', childIndex: 1 };
+            expect(createGoToConnection(flowModel, source, 'branchElement')).toMatchObject(updatedFlowModel);
         });
 
         it('createGoToConnection with screen2 as the source and branchElement as the target should update the state correctly', () => {
@@ -4079,9 +4089,8 @@ describe('modelUtils', () => {
                 }
             };
 
-            expect(createGoToConnection(flowModel, 'screen2', undefined, 'branchElement')).toMatchObject(
-                updatedFlowModel
-            );
+            const source = { guid: 'screen2' };
+            expect(createGoToConnection(flowModel, source, 'branchElement')).toMatchObject(updatedFlowModel);
         });
 
         it('createGoToConnection with branchElement (0th branch) as the source and screen1 as the target should update the state correctly', () => {
@@ -4170,7 +4179,8 @@ describe('modelUtils', () => {
                 }
             };
 
-            expect(createGoToConnection(flowModel, 'branchElement', 0, 'screen1')).toMatchObject(updatedFlowModel);
+            const source = { guid: 'branchElement', childIndex: 0 };
+            expect(createGoToConnection(flowModel, source, 'screen1')).toMatchObject(updatedFlowModel);
         });
 
         it('createGoToConnection with branchElement (default branch) as the source and screen1 as the target should update the state correctly', () => {
@@ -4259,7 +4269,8 @@ describe('modelUtils', () => {
                 }
             };
 
-            expect(createGoToConnection(flowModel, 'branchElement', 2, 'screen1')).toMatchObject(updatedFlowModel);
+            const source = { guid: 'branchElement', childIndex: 2 };
+            expect(createGoToConnection(flowModel, source, 'screen1')).toMatchObject(updatedFlowModel);
         });
 
         it('createGoToConnection with branchElement (fault branch) as the source and screen1 as the target should update the state correctly', () => {
@@ -4348,9 +4359,8 @@ describe('modelUtils', () => {
                 }
             };
 
-            expect(createGoToConnection(flowModel, 'branchElement', FAULT_INDEX, 'screen1')).toMatchObject(
-                updatedFlowModel
-            );
+            const source = { guid: 'branchElement', childIndex: FAULT_INDEX };
+            expect(createGoToConnection(flowModel, source, 'screen1')).toMatchObject(updatedFlowModel);
         });
 
         it('createGoToConnection with reroute where screen2 is the source and rerouting target from branchElement to screen1', () => {
@@ -4446,9 +4456,8 @@ describe('modelUtils', () => {
                 }
             };
 
-            expect(createGoToConnection(flowModel, 'screen2', undefined, 'screen1', true)).toMatchObject(
-                updatedFlowModel
-            );
+            const source = { guid: 'screen2' };
+            expect(createGoToConnection(flowModel, source, 'screen1', true)).toMatchObject(updatedFlowModel);
         });
     });
 
@@ -4516,13 +4525,10 @@ describe('modelUtils', () => {
         });
 
         it('deleteGoToConncetion with start (0th aka immediate branch) as the source and branchElement as the target should update the state correctly', () => {
-            const flowModelAfterDeletion = deleteGoToConnection(
-                elementService(flowModel),
-                flowModel,
-                'start',
-                START_IMMEDIATE_INDEX,
-                'branchElement'
-            );
+            const flowModelAfterDeletion = deleteGoToConnection(elementService(flowModel), flowModel, {
+                guid: 'start',
+                childIndex: START_IMMEDIATE_INDEX
+            });
             const expectedFlowModel = {
                 start: {
                     guid: 'start',
@@ -4592,13 +4598,9 @@ describe('modelUtils', () => {
         });
 
         it('deleteGoToConncetion with screen2 as the source and branchElement as the target should update the state correctly', () => {
-            const flowModelAfterDeletion = deleteGoToConnection(
-                elementService(flowModel),
-                flowModel,
-                'screen2',
-                undefined,
-                'branchElement'
-            );
+            const flowModelAfterDeletion = deleteGoToConnection(elementService(flowModel), flowModel, {
+                guid: 'screen2'
+            });
             const expectedFlowModel = {
                 start: {
                     guid: 'start',
@@ -4666,13 +4668,10 @@ describe('modelUtils', () => {
         });
 
         it('deleteGoToConncetion with branchElement (0th branch) as the source and screen1 as the target should update the state correctly', () => {
-            const flowModelAfterDeletion = deleteGoToConnection(
-                elementService(flowModel),
-                flowModel,
-                'branchElement',
-                0,
-                'screen1'
-            );
+            const flowModelAfterDeletion = deleteGoToConnection(elementService(flowModel), flowModel, {
+                guid: 'branchElement',
+                childIndex: 0
+            });
             const expectedFlowModel = {
                 start: {
                     guid: 'start',
@@ -4742,13 +4741,10 @@ describe('modelUtils', () => {
         });
 
         it('deleteGoToConncetion with branchElement (default branch) as the source and screen1 as the target should update the state correctly', () => {
-            const flowModelAfterDeletion = deleteGoToConnection(
-                elementService(flowModel),
-                flowModel,
-                'branchElement',
-                2,
-                'screen1'
-            );
+            const flowModelAfterDeletion = deleteGoToConnection(elementService(flowModel), flowModel, {
+                guid: 'branchElement',
+                childIndex: 2
+            });
             const expectedFlowModel = {
                 start: {
                     guid: 'start',
@@ -4818,13 +4814,10 @@ describe('modelUtils', () => {
         });
 
         it('deleteGoToConncetion with branchElement (fault branch) as the source and screen1 as the target should update the state correctly', () => {
-            const flowModelAfterDeletion = deleteGoToConnection(
-                elementService(flowModel),
-                flowModel,
-                'branchElement',
-                FAULT_INDEX,
-                'screen1'
-            );
+            const flowModelAfterDeletion = deleteGoToConnection(elementService(flowModel), flowModel, {
+                guid: 'branchElement',
+                childIndex: FAULT_INDEX
+            });
             const expectedFlowModel = {
                 start: {
                     guid: 'start',
@@ -4894,7 +4887,7 @@ describe('modelUtils', () => {
         });
     });
 
-    describe('removeGoTosFromPastedElement function', () => {
+    describe('removeGoTosFromElement function', () => {
         let cutOrCopiedCanvasElements;
         beforeEach(() => {
             cutOrCopiedCanvasElements = {
@@ -4945,9 +4938,9 @@ describe('modelUtils', () => {
                 isTerminal: true,
                 parent: 'branchElement'
             };
-            const pastedElement = removeGoTosFromPastedElement(
-                JSON.parse(JSON.stringify(cutOrCopiedCanvasElements.screen2)),
-                cutOrCopiedCanvasElements
+            const pastedElement = removeGoTosFromElement(
+                cutOrCopiedCanvasElements,
+                JSON.parse(JSON.stringify(cutOrCopiedCanvasElements.screen2))
             );
             expect(pastedElement).toMatchObject(expectedPastedElement);
         });
@@ -4968,9 +4961,9 @@ describe('modelUtils', () => {
                     }
                 ]
             };
-            const pastedElement = removeGoTosFromPastedElement(
-                JSON.parse(JSON.stringify(cutOrCopiedCanvasElements.branchElement)),
-                cutOrCopiedCanvasElements
+            const pastedElement = removeGoTosFromElement(
+                cutOrCopiedCanvasElements,
+                JSON.parse(JSON.stringify(cutOrCopiedCanvasElements.branchElement))
             );
             expect(pastedElement).toMatchObject(expectedPastedElement);
         });
@@ -5040,7 +5033,7 @@ describe('modelUtils', () => {
         };
 
         it('areAllBranchesTerminals should return true for decision1', () => {
-            expect(areAllBranchesTerminals(flowModel['decision1'], flowModel)).toBeTruthy();
+            expect(areAllBranchesTerminals(flowModel.decision1, flowModel)).toBeTruthy();
         });
     });
 
@@ -5334,8 +5327,8 @@ describe('modelUtils', () => {
                 }
             };
             const newFlowModel = cleanUpIncomingGoTos(
-                flowRenderContext.flowModel,
                 elementService(flowRenderContext.flowModel),
+                flowRenderContext.flowModel,
                 flowRenderContext.flowModel['screen-guid']
             );
             expect(newFlowModel).toEqual(expectedFlowModel);
@@ -5404,8 +5397,8 @@ describe('modelUtils', () => {
                 }
             };
             const newFlowModel = cleanUpIncomingGoTos(
-                flowRenderContext.flowModel,
                 elementService(flowRenderContext.flowModel),
+                flowRenderContext.flowModel,
                 flowRenderContext.flowModel['screen-guid']
             );
             expect(newFlowModel).toEqual(expectedFlowModel);
@@ -5494,8 +5487,8 @@ describe('modelUtils', () => {
                 }
             };
             const newFlowModel = cleanUpIncomingGoTos(
-                flowRenderContext.flowModel,
                 elementService(flowRenderContext.flowModel),
+                flowRenderContext.flowModel,
                 flowRenderContext.flowModel['screen-guid']
             );
             expect(newFlowModel).toEqual(expectedFlowModel);
@@ -5551,8 +5544,8 @@ describe('modelUtils', () => {
                 }
             };
             const newFlowModel = cleanUpIncomingGoTos(
-                flowRenderContext.flowModel,
                 elementService(flowRenderContext.flowModel),
+                flowRenderContext.flowModel,
                 flowRenderContext.flowModel['goto-target-guid']
             );
             expect(newFlowModel).toEqual(expectedFlowModel);
@@ -5629,8 +5622,8 @@ describe('modelUtils', () => {
                 }
             };
             const newFlowModel = cleanUpIncomingGoTos(
-                flowRenderContext.flowModel,
                 elementService(flowRenderContext.flowModel),
+                flowRenderContext.flowModel,
                 flowRenderContext.flowModel['screen-guid']
             );
             expect(newFlowModel).toEqual(expectedFlowModel);

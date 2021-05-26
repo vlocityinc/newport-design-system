@@ -44,13 +44,14 @@ import {
     FlowModel,
     fulfillsBranchingCriteria,
     ParentNodeModel,
-    hasGoToConnectionOnNext,
-    hasGoToConnectionOnBranchHead,
+    hasGoTo,
+    getConnectionTarget,
     deleteGoToConnection,
     createGoToConnection,
-    removeGoTosFromPastedElement,
+    removeGoTosFromElement,
     findFirstElement,
-    NodeType
+    NodeType,
+    setChild
 } from 'builder_platform_interaction/autoLayoutCanvas';
 
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -80,9 +81,13 @@ const getElementService = (flowModel: UI.Elements) => {
  *
  * @param state - elements in the store
  * @param action - with type and payload
- * @return new state after reduction
+ * @returns new state after reduction
  */
 /* eslint-disable-next-line complexity */
+/**
+ * @param state
+ * @param action
+ */
 export default function alcElementsReducer(state: Readonly<UI.Elements>, action: any): Readonly<UI.Elements> {
     const metadata = getElementsMetadata();
 
@@ -226,7 +231,7 @@ export default function alcElementsReducer(state: Readonly<UI.Elements>, action:
  * Returns a nulled' children array for a new element that supports children
  *
  * @param element - An element that can have a children
- * @return An nulled array of n children, where n is the number of children the element can have
+ * @returns An nulled array of n children, where n is the number of children the element can have
  */
 function getChildren(element: ParentNodeModel): (Guid | null)[] | null {
     const childCount = getChildCount(element);
@@ -235,6 +240,7 @@ function getChildren(element: ParentNodeModel): (Guid | null)[] | null {
 
 /**
  * Computes which branch index to highlight on a given element based on connector type or child reference
+ *
  * @param element store element
  * @param connectorType connector type to highlight
  * @param childReference child guid associated with the connector to highlight (eg. outcome guid)
@@ -270,6 +276,7 @@ function getBranchIndexToHighlight(
 
 /**
  * Helper function to update highlight info on a parent element and include a merge branch index to highlight
+ *
  * @param parentHighlightInfo HighlightInfo object on parent element
  * @param mergeBranchIndexToHighlight index of the merge branch to be highlighted on parent element
  */
@@ -282,6 +289,7 @@ function setMergeBranchIndexesToHighlight(parentHighlightInfo: HighlightInfo, me
 
 /**
  * Helper function to get the list of elements to decorate after the decorate canvas action is fired
+ *
  * @param state flow state
  * @param connectorsToHighlight array of connectors to highlight from the decorate action payload
  */
@@ -366,6 +374,9 @@ function getDecoratedElements(state: FlowModel, connectorsToHighlight: any[]): M
     return decoratedElements;
 }
 
+/**
+ * @param payload
+ */
 function _getElementFromActionPayload(payload) {
     return payload.screen || payload.canvasElement || payload;
 }
@@ -378,6 +389,7 @@ function _getElementFromActionPayload(payload) {
  * @param canvasElementGuidsToSelect - Array of canvas elements to be selected
  * @param canvasElementGuidsToDeselect - Array of canvas elements to be deselected
  * @param selectableGuids - Array of canvas element guids that are selectable next
+ * @param allowAllDisabledElements
  */
 function _selectionOnFixedCanvas(
     elements: Readonly<UI.StoreState>,
@@ -447,7 +459,7 @@ function _selectionOnFixedCanvas(
  *
  * @param name - existing dev name to make unique
  * @param blacklistNames - blacklisted list of names to check against in addition to store
- * @return new unique dev name
+ * @returns new unique dev name
  */
 function _getUniquePastedElementName(name: string, blacklistNames: string[] = []) {
     if (isDevNameInStore(name) || blacklistNames.includes(name)) {
@@ -480,6 +492,7 @@ function _getPastedChildElementNameMap(cutOrCopiedChildElements: UI.Element[], b
 
 /**
  * Function to paste elements on Fixed Canvas
+ *
  * @param elements - State of elements in the store
  * @param payload - Contains the data needed for pasting the cut or copied elements
  * @returns newState - The updated state of elements in the store
@@ -494,7 +507,7 @@ function _pasteOnFixedCanvas(
         topCutOrCopiedGuid,
         bottomCutOrCopiedGuid,
         prev = null,
-        next = null,
+        next,
         parent = null,
         childIndex = null
     }
@@ -502,14 +515,14 @@ function _pasteOnFixedCanvas(
     let newState = { ...elements };
 
     let savedGoto;
-    if (prev && hasGoToConnectionOnNext(newState, newState[prev!])) {
-        savedGoto = newState[prev!].next;
-        newState = deleteGoToConnection(getElementService(newState), newState, prev!, null);
-        next = newState[prev!].next;
-    } else if (parent && hasGoToConnectionOnBranchHead(newState, newState[parent!] as ParentNodeModel, childIndex!)) {
-        savedGoto = childIndex === FAULT_INDEX ? newState[parent!].fault : newState[parent!].children[childIndex!];
-        newState = deleteGoToConnection(getElementService(newState), newState, parent!, childIndex);
-        next = childIndex === FAULT_INDEX ? newState[parent!].fault : newState[parent!].children[childIndex!];
+    const source = { guid: (parent || prev)!, childIndex };
+
+    if (hasGoTo(newState, source)) {
+        savedGoto = getConnectionTarget(newState, source);
+        newState = deleteGoToConnection(getElementService(newState), newState, source);
+
+        // get the guid of the end element inserted when deleting the goto above
+        next = getConnectionTarget(newState, source);
     }
 
     const elementGuidsToPaste = Object.keys(canvasElementGuidMap);
@@ -526,9 +539,9 @@ function _pasteOnFixedCanvas(
 
         const elementConfig = getConfigForElementType(cutOrCopiedCanvasElements[elementGuidsToPaste[i]].elementType);
 
-        const pastedElement = removeGoTosFromPastedElement(
-            deepCopy(cutOrCopiedCanvasElements[elementGuidsToPaste[i]]),
-            cutOrCopiedCanvasElements
+        const pastedElement = removeGoTosFromElement(
+            cutOrCopiedCanvasElements,
+            deepCopy(cutOrCopiedCanvasElements[elementGuidsToPaste[i]])
         );
 
         const { pastedCanvasElement, pastedChildElements = {} } =
@@ -564,22 +577,17 @@ function _pasteOnFixedCanvas(
         newState[next!].prev = canvasElementGuidMap[bottomCutOrCopiedGuid];
 
         // If the next element was a terminal element, then marking the topCutOrCopied element as the terminal element
-        if (newState[next!].isTerminal) {
+        if (newState[next].isTerminal) {
             newState[canvasElementGuidMap[topCutOrCopiedGuid]].isTerminal = true;
         }
 
         // Deleting the next element's parent, childIndex and isTerminal property
-        deleteBranchHeadProperties(newState[next!]);
+        deleteBranchHeadProperties(newState[next]);
     }
 
-    if (parent) {
-        if (childIndex === FAULT_INDEX) {
-            // Updating the parent's fault to to point to the top-most pasted element's guid
-            newState[parent!].fault = canvasElementGuidMap[topCutOrCopiedGuid];
-        } else {
-            // Updating the parent's children to include the top-most pasted element's guid at the right index
-            newState[parent!].children[childIndex!] = canvasElementGuidMap[topCutOrCopiedGuid];
-        }
+    if (parent != null) {
+        // Updating the parent's child to to point to the top-most pasted element's guid
+        setChild(newState[parent!], childIndex!, newState[canvasElementGuidMap[topCutOrCopiedGuid]]);
     }
 
     // Adding end elements to the pasted fault branches
@@ -600,6 +608,6 @@ function _pasteOnFixedCanvas(
     }
 
     return savedGoto
-        ? createGoToConnection(newState, canvasElementGuidMap[bottomCutOrCopiedGuid], null, savedGoto, false)
+        ? createGoToConnection(newState, { guid: canvasElementGuidMap[bottomCutOrCopiedGuid] }, savedGoto, false)
         : newState;
 }

@@ -122,7 +122,12 @@ describe('reducer', () => {
             const flowModel = {};
             const action = actions.createGoToConnectionAction('sourceGuid', null, 'targetGuid', true);
             configuredReducer(flowModel, action);
-            expect(createGoToConnection).toHaveBeenLastCalledWith(flowModel, 'sourceGuid', null, 'targetGuid', true);
+            expect(createGoToConnection).toHaveBeenLastCalledWith(
+                flowModel,
+                { guid: 'sourceGuid', childIndex: null },
+                'targetGuid',
+                true
+            );
         });
     });
 
@@ -131,7 +136,10 @@ describe('reducer', () => {
             const flowModel = {};
             const action = actions.deleteGoToConnectionAction('sourceGuid', null);
             configuredReducer(flowModel, action);
-            expect(deleteGoToConnection).toHaveBeenLastCalledWith(elementService, flowModel, 'sourceGuid', null);
+            expect(deleteGoToConnection).toHaveBeenLastCalledWith(elementService, flowModel, {
+                guid: 'sourceGuid',
+                childIndex: null
+            });
         });
     });
 

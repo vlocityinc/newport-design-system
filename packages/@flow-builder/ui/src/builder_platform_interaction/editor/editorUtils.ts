@@ -44,7 +44,7 @@ import { getElementSections } from 'builder_platform_interaction/editorElementsU
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { getElementByDevName, getStartElement } from 'builder_platform_interaction/storeUtils';
 import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
-import { hasGoToConnectionOnNext } from 'builder_platform_interaction/autoLayoutCanvas';
+import { hasGoToOnNext } from 'builder_platform_interaction/autoLayoutCanvas';
 
 const LEFT_PANEL_ELEMENTS = 'LEFT_PANEL_ELEMENTS';
 const { logPerfTransactionStart, logPerfTransactionEnd } = loggingUtils;
@@ -401,7 +401,7 @@ const getBottomCutOrCopiedGuid = (elementsInStore, topCutOrCopiedGuid) => {
             elementsInStore[bottomCutOrCopiedElement.next] &&
             elementsInStore[bottomCutOrCopiedElement.next].config &&
             elementsInStore[bottomCutOrCopiedElement.next].config.isSelected &&
-            !hasGoToConnectionOnNext(elementsInStore, elementsInStore[bottomCutOrCopiedElement.guid])
+            !hasGoToOnNext(elementsInStore, bottomCutOrCopiedElement.guid)
         ) {
             bottomCutOrCopiedElement = elementsInStore[bottomCutOrCopiedElement.next];
         } else {

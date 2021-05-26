@@ -15,7 +15,7 @@ import {
 import {
     getTargetGuidsForBranchReconnect,
     findParentElement,
-    hasGoToConnectionOnNext
+    hasGoToOnNext
 } from 'builder_platform_interaction/autoLayoutCanvas';
 
 import { updateFlow } from 'builder_platform_interaction/actions';
@@ -545,7 +545,7 @@ const getBottomCutOrCopiedGuid = (elementsInStore, topCutOrCopiedGuid) => {
             elementsInStore[bottomCutOrCopiedElement.next] &&
             elementsInStore[bottomCutOrCopiedElement.next].config &&
             elementsInStore[bottomCutOrCopiedElement.next].config.isSelected &&
-            !hasGoToConnectionOnNext(elementsInStore, elementsInStore[bottomCutOrCopiedElement.guid])
+            !hasGoToOnNext(elementsInStore, bottomCutOrCopiedElement.guid)
         ) {
             bottomCutOrCopiedElement = elementsInStore[bottomCutOrCopiedElement.next];
         } else {

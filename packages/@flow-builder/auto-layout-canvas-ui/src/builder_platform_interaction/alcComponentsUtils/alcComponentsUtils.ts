@@ -17,10 +17,10 @@ import {
     getChild,
     Geometry,
     FlowRenderContext,
-    hasGoToConnectionOnNext,
-    hasGoToConnectionOnBranchHead,
-    FAULT_INDEX,
-    hasChildren
+    hasChildren,
+    hasGoToOnNext,
+    hasGoToOnBranchHead,
+    FAULT_INDEX
 } from 'builder_platform_interaction/autoLayoutCanvas';
 
 import { ToggleMenuEvent } from 'builder_platform_interaction/alcEvents';
@@ -102,7 +102,7 @@ function _getChildBranchElements(
         for (let i = 0; i < branchRootsToVisitStack.length; i++) {
             const branchRootGuid = branchRootsToVisitStack[i];
             let currentBranchElement =
-                branchRootGuid && !hasGoToConnectionOnBranchHead(flowModel, parentElement, i)
+                branchRootGuid && !hasGoToOnBranchHead(flowModel, parentElement.guid, i)
                     ? flowModel[branchRootGuid]
                     : null;
 
@@ -118,7 +118,7 @@ function _getChildBranchElements(
                     _getSubtreeElements(elementsMetadata, action, currentBranchElement as ParentNodeModel, flowModel)
                 );
                 currentBranchElement =
-                    currentBranchElement.next && !hasGoToConnectionOnNext(flowModel, currentBranchElement)
+                    currentBranchElement.next && !hasGoToOnNext(flowModel, currentBranchElement.guid)
                         ? flowModel[currentBranchElement.next]
                         : null;
             }
@@ -144,9 +144,7 @@ function _getFaultBranchElements(
 ): Guid[] {
     let branchElementGuidsToSelectOrDeselect: Guid[] = [];
     let currentBranchElement =
-        element.fault && !hasGoToConnectionOnBranchHead(flowModel, element, FAULT_INDEX)
-            ? flowModel[element.fault]
-            : null;
+        element.fault && !hasGoToOnBranchHead(flowModel, element.guid, FAULT_INDEX) ? flowModel[element.fault] : null;
 
     // Iterate only up till the End Element of the Fault Branch
     while (currentBranchElement != null && !isSystemElement(elementsMetadata, currentBranchElement.elementType)) {
@@ -156,7 +154,7 @@ function _getFaultBranchElements(
             _getSubtreeElements(elementsMetadata, action, currentBranchElement as ParentNodeModel, flowModel)
         );
         currentBranchElement =
-            currentBranchElement.next && !hasGoToConnectionOnNext(flowModel, currentBranchElement)
+            currentBranchElement.next && !hasGoToOnNext(flowModel, currentBranchElement.guid)
                 ? flowModel[currentBranchElement.next]
                 : null;
     }
@@ -239,7 +237,7 @@ function _getSelectableCanvasElementGuids(
             );
 
             currentCanvasElement =
-                currentCanvasElement.next && !hasGoToConnectionOnNext(flowModel, currentCanvasElement)
+                currentCanvasElement.next && !hasGoToOnNext(flowModel, currentCanvasElement.guid)
                     ? flowModel[currentCanvasElement.next]
                     : null;
         }
@@ -374,7 +372,7 @@ const getCanvasElementDeselectionData = (
         // topSelectedGuid to the next selected element (if any). In case the next element is not selected, reset
         // topSelectedGuid to null
         const nextCanvasElement =
-            deselectedCanvasElement.next && !hasGoToConnectionOnNext(flowModel, deselectedCanvasElement)
+            deselectedCanvasElement.next && !hasGoToOnNext(flowModel, deselectedCanvasElement.guid)
                 ? flowModel[deselectedCanvasElement.next]
                 : null;
         if (nextCanvasElement && nextCanvasElement.config && nextCanvasElement.config.isSelected) {
@@ -413,7 +411,7 @@ const getCanvasElementDeselectionData = (
             );
 
             currentCanvasElement =
-                currentCanvasElement.next && !hasGoToConnectionOnNext(flowModel, currentCanvasElement)
+                currentCanvasElement.next && !hasGoToOnNext(flowModel, currentCanvasElement.guid)
                     ? flowModel[currentCanvasElement.next]
                     : null;
         }
@@ -462,7 +460,7 @@ const getCanvasElementDeselectionDataOnToggleOff = (
             )
         );
         currentCanvasElement =
-            currentCanvasElement.next && !hasGoToConnectionOnNext(flowModel, currentCanvasElement)
+            currentCanvasElement.next && !hasGoToOnNext(flowModel, currentCanvasElement.guid)
                 ? flowModel[currentCanvasElement.next]
                 : null;
     }
@@ -685,25 +683,21 @@ function getAlcMenuData(
     let isGoToConnector = false;
     if (targetElement != null) {
         // Checking for GoTo on branchHead and setting canMergeEndedBranch accordingly
-        if (
-            parent &&
-            childIndex != null &&
-            hasGoToConnectionOnBranchHead(flowModel, flowModel[parent] as ParentNodeModel, childIndex)
-        ) {
+        if (parent && childIndex != null && hasGoToOnBranchHead(flowModel, parent, childIndex)) {
             canMergeEndedBranch =
                 childIndex !== FAULT_INDEX &&
                 getElementMetadata(elementsMetadata, flowModel[parent].elementType).type !== NodeType.ROOT;
             isGoToConnector = true;
         } else {
-            const hasGoToOnNext = prev && next && hasGoToConnectionOnNext(flowModel, flowModel[prev]);
-            const targetBranchHeadElement = hasGoToOnNext
+            const isNextGoTo = prev && next && hasGoToOnNext(flowModel, prev);
+            const targetBranchHeadElement = isNextGoTo
                 ? findFirstElement(flowModel[prev!], flowModel)
                 : findFirstElement(targetElement, flowModel);
             const targetParentElement = flowModel[targetBranchHeadElement.parent];
             const isTargetParentRoot =
                 getElementMetadata(elementsMetadata, targetParentElement.elementType).type === NodeType.ROOT;
 
-            if (hasGoToOnNext) {
+            if (isNextGoTo) {
                 canMergeEndedBranch = targetBranchHeadElement.childIndex !== FAULT_INDEX && !isTargetParentRoot;
                 isGoToConnector = true;
             } else {
