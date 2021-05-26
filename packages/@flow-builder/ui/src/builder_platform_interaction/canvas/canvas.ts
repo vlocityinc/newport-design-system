@@ -764,14 +764,16 @@ export default class Canvas extends LightningElement {
         const zoomInCommand = new ZoomInCommand(() => this.handleZoom(new ClickToZoomEvent(ZOOM_ACTION.ZOOM_IN)));
         this.keyboardInteractions.setupCommandAndShortcut(zoomInCommand, {
             ctrlOrCmd: true,
-            key: '='
+            alt: true,
+            key: '»'
         });
 
         // Zoom Out Command
         const zoomOutCommand = new ZoomOutCommand(() => this.handleZoom(new ClickToZoomEvent(ZOOM_ACTION.ZOOM_OUT)));
         this.keyboardInteractions.setupCommandAndShortcut(zoomOutCommand, {
             ctrlOrCmd: true,
-            key: '-'
+            alt: true,
+            key: '½'
         });
 
         // Zoom To Fit Command
@@ -780,7 +782,8 @@ export default class Canvas extends LightningElement {
         );
         this.keyboardInteractions.setupCommandAndShortcut(zoomToFitCommand, {
             ctrlOrCmd: true,
-            key: '0'
+            alt: true,
+            key: '1'
         });
 
         // Zoom To View Command
@@ -789,7 +792,8 @@ export default class Canvas extends LightningElement {
         );
         this.keyboardInteractions.setupCommandAndShortcut(zoomToViewCommand, {
             ctrlOrCmd: true,
-            key: '1'
+            alt: true,
+            key: '0'
         });
 
         // Move Focus To Docking Panel Command

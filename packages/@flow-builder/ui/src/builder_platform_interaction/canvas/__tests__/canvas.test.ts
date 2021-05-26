@@ -94,14 +94,14 @@ describe('Canvas', () => {
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0].detail).toEqual({});
         });
-        it('Canvas zooms out when meta key is pressed down along with "-" key', () => {
+        it('Canvas zooms out when meta and alt keys are pressed down along with "-" key', () => {
             const canvas = createComponentForTest(defaultNodes, defaultConnectors);
             const innerCanvasDiv = canvas.shadowRoot.querySelector(SELECTORS.INNER_CANVAS_DIV);
             // on meta+"-", 'zoomout' command is executed
             canvas.keyboardInteractions.execute(ZoomOutCommand.COMMAND_NAME);
             expect(innerCanvasDiv.style.transform).toEqual('scale(0.8)');
         });
-        it('Canvas zooms in when meta key is pressed down along with "=" key', () => {
+        it('Canvas zooms in when meta and alt keys are pressed down along with "=" key', () => {
             const canvas = createComponentForTest(defaultNodes, defaultConnectors);
             const innerCanvasDiv = canvas.shadowRoot.querySelector(SELECTORS.INNER_CANVAS_DIV);
             // on meta+"=", 'zoomin' command is executed
