@@ -148,12 +148,6 @@ export default class AlcStartMenu extends AlcNodeMenu {
         () => this.moveFocusToTriggerButton()
     ];
 
-    handleEscape() {
-        this.dispatchEvent(new CloseMenuEvent());
-        // Moving the focus back to the source node
-        this.dispatchEvent(new MoveFocusToNodeEvent(this.guid));
-    }
-
     setupCommandsAndShortcuts() {
         const keyboardCommands = {
             Tab: new TabCommand(() => this.handleTabCommand(false), false),
@@ -162,15 +156,6 @@ export default class AlcStartMenu extends AlcNodeMenu {
         setupKeyboardShortcutUtil(this.keyboardInteractions, keyboardCommands);
         const shiftTabCommand = new TabCommand(() => this.handleTabCommand(true), true);
         setupKeyboardShortcutWithShiftKey(this.keyboardInteractions, shiftTabCommand, 'Tab');
-    }
-
-    connectedCallback() {
-        this.keyboardInteractions.addKeyDownEventListener(this.template);
-        this.setupCommandsAndShortcuts();
-    }
-
-    disconnectedCallback() {
-        this.keyboardInteractions.removeKeyDownEventListener(this.template);
     }
 
     renderedCallback() {

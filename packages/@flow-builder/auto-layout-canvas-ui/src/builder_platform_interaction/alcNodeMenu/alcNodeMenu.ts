@@ -15,13 +15,8 @@ import { CONTEXTUAL_MENU_MODE, ELEMENT_ACTION_CONFIG, getMenuConfiguration } fro
 import { ICON_SHAPE } from 'builder_platform_interaction/alcComponentsUtils';
 import { LOOP_BACK_INDEX, NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { LABELS } from './alcNodeMenuLabels';
-import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
-import {
-    moveFocusInMenuOnArrowKeyDown,
-    setupKeyboardShortcutUtil,
-    setupKeyboardShortcutWithShiftKey
-} from 'builder_platform_interaction/contextualMenuUtils';
-const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand, EscapeCommand, TabCommand } = commands;
+import { keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+import { moveFocusInMenuOnArrowKeyDown } from 'builder_platform_interaction/contextualMenuUtils';
 const { KeyboardInteractions } = keyboardInteractionUtils;
 
 const selectors = {
@@ -264,12 +259,6 @@ export default class AlcNodeMenu extends Menu {
         }
     }
 
-    handleEscape() {
-        this.dispatchEvent(new CloseMenuEvent());
-        // Moving the focus back to the source node
-        this.dispatchEvent(new MoveFocusToNodeEvent(this.guid));
-    }
-
     moveFocusToFooterButton() {
         const footerButton = this.template.querySelector('.footer lightning-button');
         footerButton.focus();
@@ -315,25 +304,6 @@ export default class AlcNodeMenu extends Menu {
         return this.isDeleteBranchElementMode ? this.tabFocusRingCmdsInDeleteMode : this.tabFocusRingCmds;
     }
 
-    setupCommandsAndShortcuts() {
-        const keyboardCommands = {
-            Enter: new EnterCommand(() => this.handleSpaceOrEnter()),
-            ' ': new SpaceCommand(() => this.handleSpaceOrEnter()),
-            ArrowDown: new ArrowDown(() => this.handleArrowKeyDown(ArrowDown.COMMAND_NAME)),
-            ArrowUp: new ArrowUp(() => this.handleArrowKeyDown(ArrowUp.COMMAND_NAME)),
-            Escape: new EscapeCommand(() => this.handleEscape()),
-            Tab: new TabCommand(() => this.handleTabCommand(false), false)
-        };
-        setupKeyboardShortcutUtil(this.keyboardInteractions, keyboardCommands);
-        const shiftTabCommand = new TabCommand(() => this.handleTabCommand(true), true);
-        setupKeyboardShortcutWithShiftKey(this.keyboardInteractions, shiftTabCommand, 'Tab');
-    }
-
-    connectedCallback() {
-        this.keyboardInteractions.addKeyDownEventListener(this.template);
-        this.setupCommandsAndShortcuts();
-    }
-
     renderedCallback() {
         if (!this._isRendered) {
             if (this.menuConfiguration.footer) {
@@ -373,8 +343,5 @@ export default class AlcNodeMenu extends Menu {
             this._hasDeleteBranchModeRendered = true;
             this.tabFocusRingIndex = TabFocusRingItemsInDeleteMode.BackButton;
         }
-    }
-    disconnectedCallback() {
-        this.keyboardInteractions.removeKeyDownEventListener(this.template);
     }
 }

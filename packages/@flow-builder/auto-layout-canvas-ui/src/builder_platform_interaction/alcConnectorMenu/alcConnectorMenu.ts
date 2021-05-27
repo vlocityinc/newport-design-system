@@ -18,14 +18,8 @@ import {
     GOTO_REROUTE_ACTION
 } from './alcConnectorMenuConfig';
 import { LABELS } from './alcConnectorMenuLabels';
-import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
-import {
-    moveFocusInMenuOnArrowKeyDown,
-    setupKeyboardShortcutUtil,
-    setupKeyboardShortcutWithShiftKey
-} from 'builder_platform_interaction/contextualMenuUtils';
-
-const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand, EscapeCommand, TabCommand } = commands;
+import { keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+import { moveFocusInMenuOnArrowKeyDown } from 'builder_platform_interaction/contextualMenuUtils';
 const { KeyboardInteractions } = keyboardInteractionUtils;
 
 const selectors = {
@@ -35,8 +29,7 @@ const selectors = {
 
 enum TabFocusRingItems {
     Icon = 0,
-    FirstItem = 1,
-    OtherItems = 2
+    ListItems = 1
 }
 
 /**
@@ -185,9 +178,6 @@ export default class AlcConnectorMenu extends Menu {
             const items = Array.from(this.template.querySelectorAll(selectors.menuItem)) as any;
             moveFocusInMenuOnArrowKeyDown(items, currentItemInFocus, key);
         }
-        if (this.template.activeElement !== this.getItemFromItemList(0)) {
-            this.tabFocusRingIndex = TabFocusRingItems.OtherItems;
-        }
     }
 
     /**
@@ -212,48 +202,12 @@ export default class AlcConnectorMenu extends Menu {
         () => this.moveFocusToFirstListItem()
     ];
 
-    calcaulateTabFocusRingIdx(shift, tabFocusRingIndex) {
-        let newTabFocusRingIdx;
-        if (tabFocusRingIndex === TabFocusRingItems.OtherItems) {
-            newTabFocusRingIdx = shift ? tabFocusRingIndex % this.tabFocusRingCmds.length : tabFocusRingIndex - 1;
-        } else {
-            newTabFocusRingIdx = shift ? tabFocusRingIndex - 1 : (tabFocusRingIndex + 1) % this.tabFocusRingCmds.length;
-            if (newTabFocusRingIdx === -1) {
-                newTabFocusRingIdx = this.tabFocusRingCmds.length - 1;
-            }
-        }
-        return newTabFocusRingIdx;
-    }
-
-    setupCommandsAndShortcuts() {
-        const keyboardCommands = {
-            Enter: new EnterCommand(() => this.handleSpaceOrEnter()),
-            ' ': new SpaceCommand(() => this.handleSpaceOrEnter()),
-            ArrowDown: new ArrowDown(() => this.handleArrowKeyDown(ArrowDown.COMMAND_NAME)),
-            ArrowUp: new ArrowUp(() => this.handleArrowKeyDown(ArrowUp.COMMAND_NAME)),
-            Escape: new EscapeCommand(() => this.handleEscape()),
-            Tab: new TabCommand(() => this.handleTabCommand(false), false)
-        };
-        setupKeyboardShortcutUtil(this.keyboardInteractions, keyboardCommands);
-        const shiftTabCommand = new TabCommand(() => this.handleTabCommand(true), true);
-        setupKeyboardShortcutWithShiftKey(this.keyboardInteractions, shiftTabCommand, 'Tab');
-    }
-
-    connectedCallback() {
-        this.keyboardInteractions.addKeyDownEventListener(this.template);
-        this.setupCommandsAndShortcuts();
-    }
-
-    disconnectedCallback() {
-        this.keyboardInteractions.removeKeyDownEventListener(this.template);
-    }
-
     renderedCallback() {
         if (this.moveFocusToMenu) {
             const items = Array.from(this.template.querySelectorAll(selectors.menuItem)) as any;
             if (items.length > 0) {
-                items[0].focus();
-                this.tabFocusRingIndex = TabFocusRingItems.FirstItem;
+                this.tabFocusRingIndex = TabFocusRingItems.ListItems;
+                this.tabFocusRingCmds[this.tabFocusRingIndex]();
             }
         }
     }

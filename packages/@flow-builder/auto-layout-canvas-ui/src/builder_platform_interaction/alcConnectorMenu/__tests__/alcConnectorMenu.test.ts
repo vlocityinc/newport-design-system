@@ -397,7 +397,7 @@ describe('connector menu', () => {
         expect(callback).toHaveBeenCalled();
     });
 
-    it('Pressing tab while focus is on paste should move focus to goTo', async () => {
+    it('Pressing tab while focus is on paste should fire the MoveFocusToConnectorEvent', async () => {
         configureMenu.mockReturnValueOnce({
             sections: [
                 {
@@ -432,9 +432,8 @@ describe('connector menu', () => {
         });
         const cmp = createComponentUnderTest();
         await ticks(1);
-        const listItems = Array.from(cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv)) as any;
         const callback = jest.fn();
-        listItems[1].addEventListener('focus', callback);
+        cmp.addEventListener(MoveFocusToConnectorEvent.EVENT_NAME, callback);
         cmp.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
         cmp.keyboardInteractions.execute(ArrowDown.COMMAND_NAME);
         cmp.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
