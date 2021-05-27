@@ -340,6 +340,21 @@ export const mockActions = [
     },
     {
         iconId: null,
+        allowsTransactionControl: false,
+        iconName: null,
+        description: null,
+        label: 'Send OM',
+        type: 'outboundMessage',
+        fillColor: null,
+        isStandard: false,
+        name: 'Account.mynamespace__OM',
+        configurationEditor: null,
+        category: 'Outbound Message',
+        genericTypes: [],
+        durableId: 'outboundMessage-Account.mynamespace__OM'
+    },
+    {
+        iconId: null,
         // this is wrong. allowsTransactionControl is actually false. But it makes some tests to fail to bring it back to its real value.
         allowsTransactionControl: true,
         iconName: null,

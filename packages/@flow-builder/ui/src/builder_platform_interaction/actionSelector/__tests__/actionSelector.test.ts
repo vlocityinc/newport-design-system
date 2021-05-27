@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import ActionSelector from '../actionSelector';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ACTION_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { ValueChangedEvent, ComboboxStateChangedEvent, ActionsLoadedEvent } from 'builder_platform_interaction/events';
 import { mockActions, mockApexPlugins, mockSubflows } from 'mock/calloutData';
 import { LABELS } from '../actionSelectorLabels';
@@ -105,8 +105,9 @@ describe('Action selector', () => {
             const standardActionText = 'Post to Chatter';
             const quickActionText = 'Add Member';
             const localActionText = 'successLocalAction';
+            const outboundMessageText = 'Send OM';
             expect(groupedCombobox().items.map((item) => item.text)).toEqual(
-                expect.arrayContaining([standardActionText, quickActionText, localActionText])
+                expect.arrayContaining([standardActionText, quickActionText, localActionText, outboundMessageText])
             );
         });
         test('Combobox placeholder should be : Search all actions...', () => {
@@ -352,6 +353,14 @@ describe('Action selector', () => {
                 elementType: ELEMENT_TYPE.ACTION_CALL
             });
         });
+        it('should fire ValueChangedEvent with action name and action type when outbound message is selected', async () => {
+            dispatchActionChangeEvent('outboundMessage-Account.mynamespace__OM');
+            expectEventCallbackCalledWithValue({
+                actionName: 'Account.mynamespace__OM',
+                actionType: ACTION_TYPE.OUTBOUND_MESSAGE,
+                elementType: ELEMENT_TYPE.ACTION_CALL
+            });
+        });
         it('should fire ValueChangedEvent with action name and action type when an apex action is selected', async () => {
             actionSelectorComponent.selectedAction = {
                 elementType: ELEMENT_TYPE.APEX_CALL
@@ -484,6 +493,10 @@ describe('Action selector', () => {
             await ticks(1);
             const item = groupedComboboxItemWithValue('quickAction-Case.mynamespace__LogACall');
             expect(item.subText).toBe('quickAction-Case.mynamespace__LogACall');
+        });
+        it('should be "{Uniquename}" for outbound messages', async () => {
+            const item = groupedComboboxItemWithValue('outboundMessage-Account.mynamespace__OM');
+            expect(item.subText).toBe('outboundMessage-Account.mynamespace__OM');
         });
         it('should be "{Unique Name}" for subflows', async () => {
             actionSelectorComponent.selectedAction = {

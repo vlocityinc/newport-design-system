@@ -114,7 +114,8 @@ export const ACTION_TYPE = {
     FLOW: 'flow',
     COMPONENT: 'component',
     EXTERNAL_SERVICE: 'externalService',
-    CREATE_WORK_ITEM: 'createWorkItem'
+    CREATE_WORK_ITEM: 'createWorkItem',
+    OUTBOUND_MESSAGE: 'outboundMessage'
 };
 
 export const METADATA_KEY = {
