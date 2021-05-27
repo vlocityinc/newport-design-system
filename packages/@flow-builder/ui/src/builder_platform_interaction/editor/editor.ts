@@ -2349,16 +2349,21 @@ export default class Editor extends LightningElement {
      * Callback passed to various property editors which support inline creation
      */
     newResourceCallback = (newResourceDetail) => {
-        // This doesn't need the promise since a property editor already has to be open in this case
-        // new resource is always shown in a modal
-        this.showPropertyEditor(
-            {
-                mode: NewResourceEvent.EVENT_NAME,
-                nodeUpdate: this.deMutateAndAddNodeCollection,
-                newResourceInfo: newResourceDetail.newResourceInfo
-            },
-            true
-        );
+        // If we are adding a new resource for the user, we don't want to pop the property editor.
+        if (newResourceDetail.newResourceInfo?.newResource) {
+            this.deMutateAndAddNodeCollection(newResourceDetail.newResourceInfo.newResource);
+        } else {
+            // This doesn't need the promise since a property editor already has to be open in this case
+            // new resource is always shown in a modal
+            this.showPropertyEditor(
+                {
+                    mode: NewResourceEvent.EVENT_NAME,
+                    nodeUpdate: this.deMutateAndAddNodeCollection,
+                    newResourceInfo: newResourceDetail.newResourceInfo
+                },
+                true
+            );
+        }
     };
 
     renderedCallback() {

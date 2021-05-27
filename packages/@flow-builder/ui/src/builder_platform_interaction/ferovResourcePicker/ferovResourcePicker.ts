@@ -1,7 +1,7 @@
 import { LightningElement, api, track } from 'lwc';
 import { normalizeFEROV, getMenuData } from 'builder_platform_interaction/expressionUtils';
 import { getRHSTypes, RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
-import { isObject } from 'builder_platform_interaction/commonUtils';
+import { format, isObject } from 'builder_platform_interaction/commonUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 
@@ -10,6 +10,10 @@ import { getInlineResource } from 'builder_platform_interaction/inlineResourceUt
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { isLookupTraversalSupported } from 'builder_platform_interaction/mergeFieldLib';
 import { getTriggerType } from 'builder_platform_interaction/storeUtils';
+import resourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.resourceLabel';
+import newResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.newResourceLabel';
+import quickCreateResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.quickCreateResourceLabel';
+import { NewResourceEvent } from 'builder_platform_interaction/events';
 
 const { logInteraction } = loggingUtils;
 
@@ -164,6 +168,9 @@ export default class FerovResourcePicker extends LightningElement {
     newResourceTypeLabel;
 
     @api
+    includeQuickCreateResourceOption;
+
+    @api
     hideSystemVariables = false;
 
     @api
@@ -230,6 +237,8 @@ export default class FerovResourcePicker extends LightningElement {
      */
     _rules;
 
+    _quickCreateResourceText: string | undefined;
+
     /** Event handlers */
     handleItemSelected(event) {
         if (this.isPicklistItem(event.detail.item)) {
@@ -273,12 +282,40 @@ export default class FerovResourcePicker extends LightningElement {
         this.populateMenuData();
     };
 
+    handleTextChanged = (event) => {
+        event.stopPropagation();
+        if (this.includeQuickCreateResourceOption && this._quickCreateResourceText !== event.detail.text) {
+            this._quickCreateResourceText = event.detail.text;
+            const resourceTypelabel = this.newResourceTypeLabel ? this.newResourceTypeLabel : resourceLabel;
+            let newResourceItemText;
+            if (this._quickCreateResourceText) {
+                newResourceItemText = format(
+                    quickCreateResourceLabel,
+                    this._quickCreateResourceText,
+                    resourceTypelabel
+                );
+            } else {
+                newResourceItemText = format(newResourceLabel, resourceTypelabel);
+            }
+            if (this._menuData?.length > 0) {
+                this._menuData[0].displayText = newResourceItemText;
+                this._menuData[0].label = newResourceItemText;
+                this._menuData[0].text = newResourceItemText;
+            }
+        }
+    };
+
     /**
      * Handler for when a user clicks on new resource button from the combobox
      * Update the store and save the rowIndex of the comobobox
      */
-    handleAddInlineResource = (event) => {
+    handleAddInlineResource = (event: NewResourceEvent) => {
         if (event && event.detail && event.detail.position && typeof event.detail.position === 'string') {
+            if (this.includeQuickCreateResourceOption && this._quickCreateResourceText) {
+                event.detail.newResourceInfo = {
+                    userProvidedText: this._quickCreateResourceText
+                };
+            }
             storeInstance.dispatch(
                 updateInlineResourceProperties({
                     lastInlineResourceRowIndex: event.detail.position
@@ -358,6 +395,7 @@ export default class FerovResourcePicker extends LightningElement {
                     allowSObjectFieldsTraversal: this.isLookupTraversalSupported()
                 }
             ).then((menuData) => {
+                this._menuData = menuData;
                 this._baseResourcePicker.setMenuData(menuData);
                 this.setInlineResource(menuData);
             });

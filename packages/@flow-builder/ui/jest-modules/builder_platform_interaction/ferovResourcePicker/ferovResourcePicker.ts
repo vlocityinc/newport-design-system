@@ -26,6 +26,9 @@ export default class FerovResourcePicker extends LightningElement {
     newResourceTypeLabel;
 
     @api
+    includeQuickCreateResourceOption;
+
+    @api
     hideGlobalConstants;
 
     @api

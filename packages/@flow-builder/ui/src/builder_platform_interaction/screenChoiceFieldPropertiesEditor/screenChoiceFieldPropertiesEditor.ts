@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import {
     PropertyChangedEvent,
@@ -6,11 +5,12 @@ import {
     createChoiceChangedEvent,
     createChoiceDeletedEvent,
     createChoiceDisplayChangedEvent,
-    createSingleOrMultiChoiceTypeChangedEvent
+    createSingleOrMultiChoiceTypeChangedEvent,
+    NewResourceEvent
 } from 'builder_platform_interaction/events';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
-import { INPUT_FIELD_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { FLOW_DATA_TYPE, INPUT_FIELD_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
     getFieldChoiceData,
     isMultiSelectCheckboxField,
@@ -23,6 +23,7 @@ import {
     ChoiceDisplayOptions
 } from 'builder_platform_interaction/screenEditorUtils';
 import { fetchFieldsForEntity, getEntityFieldWithApiName } from 'builder_platform_interaction/sobjectLib';
+import { sanitizeDevName } from 'builder_platform_interaction/commonUtils';
 
 const CHOICES_SECTION_NAME = 'choicesSection';
 const FLOW_INPUT_FIELD_SUB_TYPES = Object.values(INPUT_FIELD_DATA_TYPE);
@@ -98,6 +99,10 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
         return this._activePicklistValues;
     }
 
+    get includeQuickCreateChoiceOption() {
+        return this.field?.dataType === FLOW_DATA_TYPE.STRING.value;
+    }
+
     handlePropertyChanged = (event) => {
         this.dispatchEvent(addCurrentValueToEvent(event, this.field, this.field[event.detail.propertyName]));
         event.stopPropagation();
@@ -166,13 +171,28 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
         this.dispatchEvent(createChoiceDisplayChangedEvent(this.field, event.detail.value));
     };
 
-    handleAddInlineResource = (event) => {
+    handleAddInlineResource = (event: NewResourceEvent) => {
         if (event && event.detail) {
-            event.detail.newResourceInfo = {
-                resourceTypes: [ELEMENT_TYPE.CHOICE, ELEMENT_TYPE.PICKLIST_CHOICE_SET, ELEMENT_TYPE.RECORD_CHOICE_SET],
-                dataType: this.field.dataType,
-                newResourceTypeLabel: this.labels.fieldTypeLabelChoice
-            };
+            const newResourceInfo = event.detail.newResourceInfo ? event.detail.newResourceInfo : {};
+            newResourceInfo.dataType = this.field.dataType;
+            newResourceInfo.newResourceTypeLabel = this.labels.fieldTypeLabelChoice;
+            if (newResourceInfo?.userProvidedText) {
+                newResourceInfo.resourceTypes = [ELEMENT_TYPE.CHOICE];
+                newResourceInfo.newResource = {
+                    name: sanitizeDevName(newResourceInfo.userProvidedText),
+                    choiceText: newResourceInfo.userProvidedText,
+                    storedValue: newResourceInfo.userProvidedText,
+                    elementType: ELEMENT_TYPE.CHOICE,
+                    dataType: this.field.dataType
+                };
+            } else {
+                newResourceInfo.resourceTypes = [
+                    ELEMENT_TYPE.CHOICE,
+                    ELEMENT_TYPE.PICKLIST_CHOICE_SET,
+                    ELEMENT_TYPE.RECORD_CHOICE_SET
+                ];
+            }
+            event.detail.newResourceInfo = newResourceInfo;
         }
     };
 

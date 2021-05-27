@@ -120,3 +120,4 @@ export { OrchestrationActionValueChangedEvent } from './orchestrationActionValue
 export { ResumeDebugFlowEvent } from './debugPanelEvents/resumeDebugFlowEvent';
 export { ORCHESTRATED_ACTION_CATEGORY } from './orchestratedActionCategory';
 export { DebugPanelFilterEvent } from './debugPanelEvents/debugPanelFilterEvent';
+export { TextChangedEvent } from './textChangedEvent';

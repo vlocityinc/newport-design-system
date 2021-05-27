@@ -4,6 +4,7 @@ import { isCollectionRequired } from 'builder_platform_interaction/ruleLib';
 import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
 import { saveResourcePicker } from 'builder_platform_interaction/expressionValidator';
 import { isUndefinedOrNull, sanitizeBoolean } from 'builder_platform_interaction/commonUtils';
+import { TextChangedEvent } from 'builder_platform_interaction/events';
 
 /**
  * The base resource picker that contains one flow combobox
@@ -208,6 +209,8 @@ export default class BaseResourcePicker extends LightningElement {
 
     handleFilterMatches(event) {
         event.stopPropagation();
+        const newTextChangedEvent = new TextChangedEvent(event.detail.value);
+        this.dispatchEvent(newTextChangedEvent);
         this.state.menuData = filterMatches(event.detail.value, this._fullMenuData, event.detail.isMergeField);
     }
 }

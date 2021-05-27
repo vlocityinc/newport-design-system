@@ -99,7 +99,7 @@ export default class ResourceEditor extends LightningElement {
         if (!this._resourceTypes) {
             const resourceTypes = getResourceTypesMenuData();
 
-            if (!this.newResourceInfo) {
+            if (!this.newResourceInfo || !this.newResourceInfo.resourceTypes) {
                 this._resourceTypes = resourceTypes;
             } else {
                 const resoureTypesFromEvent = this.newResourceInfo.resourceTypes.map(

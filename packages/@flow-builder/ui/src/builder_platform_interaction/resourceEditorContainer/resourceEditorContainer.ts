@@ -67,12 +67,10 @@ export default class ResourceEditorContainer extends LightningElement {
 
         // go through the needed steps to create a flow element and get it ready to be used by property editor
         const elementType = resourceTypeElementTypeMap[selectedResourceType];
-        this.node = getElementForPropertyEditor({
-            elementType
-        });
-        if (this._newResourceInfo) {
-            this.node.dataType = { value: this._newResourceInfo.dataType, error: null };
-        }
+        const dataType = this._newResourceInfo?.dataType;
+        this.node = getElementForPropertyEditor(
+            Object.assign({}, this._newResourceInfo?.newResource, { elementType }, { dataType })
+        );
     }
 
     @api
