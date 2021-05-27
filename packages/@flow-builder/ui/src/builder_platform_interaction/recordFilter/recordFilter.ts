@@ -35,6 +35,9 @@ export default class RecordFilter extends LightningElement {
     elementType;
 
     @api
+    disableConditionLogicPicker;
+
+    @api
     hideNewResource = false;
 
     @api

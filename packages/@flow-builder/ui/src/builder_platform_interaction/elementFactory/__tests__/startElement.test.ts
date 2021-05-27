@@ -235,6 +235,7 @@ describe('Start element', () => {
             const actualResult = createStartElement(startMetadata);
             expectedResult.triggerType = FLOW_TRIGGER_TYPE.AFTER_SAVE;
             expectedResult.recordTriggerType = 'Create';
+            expectedResult.filterLogic = 'no_conditions';
             expect(actualResult).toMatchObject(expectedResult);
         });
 
@@ -244,6 +245,7 @@ describe('Start element', () => {
             const actualResult = createStartElement(startMetadata);
             expectedResult.triggerType = FLOW_TRIGGER_TYPE.BEFORE_SAVE;
             expectedResult.recordTriggerType = 'Create';
+            expectedResult.filterLogic = 'no_conditions';
             expect(actualResult).toMatchObject(expectedResult);
         });
 
@@ -253,6 +255,7 @@ describe('Start element', () => {
             const actualResult = createStartElement(startMetadata);
             expectedResult.triggerType = FLOW_TRIGGER_TYPE.BEFORE_DELETE;
             expectedResult.recordTriggerType = 'Delete';
+            expectedResult.filterLogic = 'no_conditions';
             expect(actualResult).toMatchObject(expectedResult);
         });
 
@@ -263,6 +266,7 @@ describe('Start element', () => {
             expectedResult.triggerType = FLOW_TRIGGER_TYPE.SCHEDULED;
             expectedResult.frequency = 'Once';
             expectedResult.recordTriggerType = undefined;
+            expectedResult.filterLogic = 'and';
             expect(actualResult).toMatchObject(expectedResult);
         });
 
@@ -273,6 +277,7 @@ describe('Start element', () => {
             expectedResult.triggerType = FLOW_TRIGGER_TYPE.SCHEDULED_JOURNEY;
             expectedResult.frequency = 'Once';
             expectedResult.recordTriggerType = undefined;
+            expectedResult.filterLogic = 'and';
             expect(actualResult).toMatchObject(expectedResult);
         });
 
@@ -282,6 +287,7 @@ describe('Start element', () => {
             const actualResult = createStartElement(startMetadata);
             expectedResult.triggerType = FLOW_TRIGGER_TYPE.PLATFORM_EVENT;
             expectedResult.frequency = undefined;
+            expectedResult.filterLogic = 'and';
             expect(actualResult).toMatchObject(expectedResult);
         });
 
@@ -291,6 +297,7 @@ describe('Start element', () => {
             const actualResult = createStartElement(startMetadata);
             expectedResult.triggerType = FLOW_TRIGGER_TYPE.NONE;
             expectedResult.frequency = undefined;
+            expectedResult.filterLogic = 'and';
             expect(actualResult).toMatchObject(expectedResult);
         });
 
@@ -324,6 +331,7 @@ describe('Start element', () => {
                 expectedResult.recordTriggerType = FLOW_TRIGGER_SAVE_TYPE.UPDATE;
                 expectedResult.object = '';
                 expectedResult.haveSystemVariableFields = undefined;
+                expectedResult.filterLogic = 'no_conditions';
                 expect(actualResult).toMatchObject(expectedResult);
             });
             it('haveSystemVariableFields set to true when object is set', () => {
@@ -377,6 +385,7 @@ describe('Start element', () => {
             startElement.triggerType = 'RecordBeforeSave';
             expectedResult.triggerType = 'RecordBeforeSave';
             expectedResult.recordTriggerType = 'Create';
+            expectedResult.filterLogic = 'no_conditions';
             const actualResult = createStartElementForPropertyEditor(startElement);
             expect(actualResult).toMatchObject(expectedResult);
         });
@@ -384,6 +393,7 @@ describe('Start element', () => {
             expect.assertions(1);
             startElement.triggerType = 'RecordAfterSave';
             expectedResult.triggerType = 'RecordAfterSave';
+            expectedResult.filterLogic = 'no_conditions';
             const actualResult = createStartElementForPropertyEditor(startElement);
             expect(actualResult).toMatchObject(expectedResult);
         });
@@ -392,6 +402,7 @@ describe('Start element', () => {
             startElement.triggerType = 'RecordBeforeDelete';
             expectedResult.triggerType = 'RecordBeforeDelete';
             expectedResult.recordTriggerType = 'Delete';
+            expectedResult.filterLogic = 'no_conditions';
             const actualResult = createStartElementForPropertyEditor(startElement);
             expect(actualResult).toMatchObject(expectedResult);
         });
@@ -400,6 +411,7 @@ describe('Start element', () => {
             startElement.triggerType = 'Scheduled';
             expectedResult.triggerType = 'Scheduled';
             expectedResult.recordTriggerType = undefined;
+            expectedResult.filterLogic = 'and';
             const actualResult = createStartElementForPropertyEditor(startElement);
             expect(actualResult).toMatchObject(expectedResult);
         });
@@ -511,7 +523,7 @@ describe('Start element', () => {
                         rowIndex: MOCK_GUID
                     }
                 ],
-                filterLogic: CONDITION_LOGIC.AND,
+                filterLogic: CONDITION_LOGIC.NO_CONDITIONS,
                 elementType: 'START_ELEMENT',
                 maxConnections: 1,
                 triggerType: 'RecordAfterSave',

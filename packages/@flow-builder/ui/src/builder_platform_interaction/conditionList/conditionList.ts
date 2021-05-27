@@ -43,6 +43,8 @@ export default class ConditionList extends LightningElement {
      */
     @api conditionLogicOptions;
 
+    @api disableConditionLogicPicker;
+
     @api get conditions() {
         return this.state.conditions;
     }

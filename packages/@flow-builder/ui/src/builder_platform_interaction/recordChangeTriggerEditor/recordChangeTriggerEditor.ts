@@ -39,10 +39,10 @@ export default class RecordChangeTriggerEditor extends LightningElement {
     startElement;
 
     @track
-    fields;
+    _fields = {};
 
     @track
-    configurationEditor;
+    _configurationEditor;
 
     @track requireRecordChangeOption = EXECUTE_OUTCOME_WHEN_OPTION_VALUES.EVERY_TIME_CONDITION_MET;
 
@@ -85,18 +85,21 @@ export default class RecordChangeTriggerEditor extends LightningElement {
         return this.startElement;
     }
 
-    connectedCallback() {
-        if (this.triggerType && this.triggerType !== FLOW_TRIGGER_TYPE.NONE) {
+    get disableConditionLogicPicker() {
+        return this.triggerHasCriteria ? false : true;
+    }
+
+    get configurationEditor() {
+        if (this.triggerType) {
             // Get the current trigger type info and set the custom property editor info if one is defined,
             // else, load fields for the selected context object
             getTriggerTypeInfo(this.triggerType).then((data) => {
                 if (data && data.configurationEditor) {
-                    this.configurationEditor = { name: data.configurationEditor };
-                } else {
-                    this.updateSelectedEntityFields();
+                    this._configurationEditor = { name: data.configurationEditor };
                 }
             });
         }
+        return this._configurationEditor;
     }
 
     get elementType() {
@@ -258,7 +261,8 @@ export default class RecordChangeTriggerEditor extends LightningElement {
      * @returns the entity fields
      */
     get recordFields(): object {
-        return this.fields;
+        this.updateSelectedEntityFields();
+        return this._fields;
     }
 
     get disableRecordChangeOptions(): boolean {
@@ -299,7 +303,7 @@ export default class RecordChangeTriggerEditor extends LightningElement {
      * @returns whether the current triggr type supports a custom property editor for context selection (eg. Journey Builder)
      */
     get hasConfigurationEditor(): boolean {
-        return !!this.configurationEditor;
+        return !!this._configurationEditor;
     }
 
     /**
@@ -325,7 +329,7 @@ export default class RecordChangeTriggerEditor extends LightningElement {
 
         let errors = getErrorsFromHydratedElement(this.startElement);
 
-        if (this.configurationEditor) {
+        if (this._configurationEditor) {
             const customPropertyEditor = this.template.querySelector(
                 'builder_platform_interaction-custom-property-editor'
             );
@@ -342,10 +346,9 @@ export default class RecordChangeTriggerEditor extends LightningElement {
      * update the fields of the selected entity
      */
     async updateSelectedEntityFields() {
-        this.fields = {};
         try {
             if (this.recordEntityName) {
-                this.fields = await fetchFieldsForEntity(this.recordEntityName);
+                this._fields = await fetchFieldsForEntity(this.recordEntityName);
             }
         } catch (err) {
             // fetchFieldsForEntity displays an error message

@@ -9,7 +9,8 @@ import {
     TIME_OPTION,
     SCHEDULED_PATH_OFFSET_UNIT,
     SCHEDULED_PATH_TIME_SOURCE_TYPE,
-    SCHEDULED_PATH_TYPE
+    SCHEDULED_PATH_TYPE,
+    FLOW_PROCESS_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
@@ -126,7 +127,7 @@ export function createStartElement(startElement: UI.Start | Metadata.Start) {
     const triggerType = startElement.triggerType || FLOW_TRIGGER_TYPE.NONE;
     const { startDate, startTime } = (startElement as Metadata.Start).schedule || startElement;
     let { recordTriggerType, frequency } = (startElement as Metadata.Start).schedule || startElement;
-    let { filterLogic = CONDITION_LOGIC.AND } = startElement;
+    let { filterLogic = getDefaultFilterLogic(triggerType) } = startElement;
     // For the existing element if no filters has been set we need to assign No Conditions to the filterLogic.
     if (object !== '' && filters.length === 0 && filterLogic === CONDITION_LOGIC.AND) {
         filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
@@ -602,4 +603,11 @@ function addStartElementConnectorToAvailableConnections(
         ];
     }
     return availableConnections;
+}
+
+function getDefaultFilterLogic(triggerType) {
+    if (getProcessType() === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW && isRecordChangeTriggerType(triggerType)) {
+        return CONDITION_LOGIC.NO_CONDITIONS;
+    }
+    return CONDITION_LOGIC.AND;
 }

@@ -11,7 +11,10 @@ const SELECTORS = {
     TRIGGER_TYPE_AFTER_SAVE: 'input.afterSave',
     BEFORE_DELETE_INFO_BOX: 'div.beforeDeleteInfo',
     RUN_ON_SUCCESS_CHECKBOX: 'lightning-input.test-input-selection-checkbox',
-    REQUIRE_RECORD_CHANGE_OPTION: 'div.test-require-record-change-option'
+    REQUIRE_RECORD_CHANGE_OPTION: 'div.test-require-record-change-option',
+    RECORD_ENTRY_CONDITIONS: 'builder_platform_interaction-record-filter',
+    CONDITION_LIST: 'builder_platform_interaction-condition-list',
+    CONDITION_LOGIC: 'lightning-combobox.conditionLogic'
 };
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
@@ -240,6 +243,22 @@ describe('record-change-trigger-editor', () => {
                     detail: { node: element.getNode() }
                 })
             );
+        });
+
+        it('conditionLogic is present and disabled when record trigger criteria is not met anymore', async () => {
+            expect.assertions(3);
+            const startElement = recordChangeTriggerElement(
+                FLOW_TRIGGER_TYPE.AFTER_SAVE,
+                FLOW_TRIGGER_SAVE_TYPE.CREATE
+            );
+            startElement.object = '';
+            const element = createComponentForTest(startElement);
+            const recordEntryConditions = element.shadowRoot.querySelector(SELECTORS.RECORD_ENTRY_CONDITIONS);
+            const conditionList = recordEntryConditions.shadowRoot.querySelector(SELECTORS.CONDITION_LIST);
+            const conditionLogic = conditionList.shadowRoot.querySelector(SELECTORS.CONDITION_LOGIC);
+            expect(recordEntryConditions).not.toBeNull();
+            expect(conditionLogic).not.toBeNull();
+            expect(conditionLogic.disabled).toBe(true);
         });
     });
 });
