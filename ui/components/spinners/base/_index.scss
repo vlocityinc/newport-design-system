@@ -242,3 +242,8 @@
     transform: translateY(-100%);
   }
 }
+
+.nds-editblock_inline__spinner > .nds-spinner_container{
+  background-color: rgba(255, 255, 255, 0.5);
+  z-index: $z-index-modal + 1;
+}
