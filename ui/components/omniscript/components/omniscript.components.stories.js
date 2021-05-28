@@ -3014,7 +3014,7 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
     </c-omniscript-disclosure>`);
   })
   .add('Edit Block (Inline)', () => {
-    return withExample('Empty Edit Block', `<c-omniscript-edit-block-wrapper class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative omni-edit-block nds-size_12-of-12">
+    return withExample('Empty Edit Block', `<c-omniscript-edit-block-wrapper class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative nds-size_12-of-12">
     <div id="edit-block-item-count-label-15" aria-live="polite" class="slds-assistive-text nds-assistive-text">0 items</div>
     <slot aria-describedby="edit-block-item-count-label-15">
       <c-omniscript-edit-block class="nds-size_12-of-12">
@@ -3091,7 +3091,7 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
   </c-omniscript-edit-block-wrapper>`)
       +
       withExample('Edit Block (Edit Mode)', `<c-omniscript-edit-block-wrapper
-      class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative omni-edit-block nds-size_12-of-12">
+      class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative nds-size_12-of-12">
       <slot name="label">
         <c-omniscript-edit-block-label  slot="label"
           class="nds-size_1-of-1 nds-m-vertical_small"></c-omniscript-edit-block-label>
@@ -3155,7 +3155,7 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
     </c-omniscript-edit-block-wrapper>`)
       +
       withExample('Edit Block 1 item', `<c-omniscript-edit-block-wrapper
-      class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative omni-edit-block nds-size_12-of-12">
+      class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative nds-size_12-of-12">
       <slot name="label">
         <c-omniscript-edit-block-label  slot="label"
           class="nds-size_1-of-1 nds-m-vertical_small"></c-omniscript-edit-block-label>
@@ -3290,7 +3290,7 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
     </c-omniscript-edit-block-wrapper>`)
     +
       withExample('Edit Block item invalid', `<c-omniscript-edit-block-wrapper
-      class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative omni-edit-block nds-size_12-of-12">
+      class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative nds-size_12-of-12">
       <slot name="label">
         <c-omniscript-edit-block-label  slot="label"
           class="nds-size_1-of-1 nds-m-vertical_small"></c-omniscript-edit-block-label>
@@ -3509,7 +3509,7 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
           <div class="nds-size_1-of-12">&nbsp;</div>
         </div>
         <div data-is-selected="false"
-          class="nds-grid nds-cont-wrapper nds-border_top nds-border_bottom nds-border_left nds-border_right omni-editblock-table-row">
+          class="nds-grid nds-cont-wrapper nds-border_top nds-border_bottom nds-border_left nds-border_right nds-editblock-table-row">
           <div class="nds-size_12-of-12 nds-grid">
             <div class="nds-size_11-of-12 nds-grid">
               <div class="nds-p-around_small nds-truncate nds-size_4-of-12">ABC</div>
@@ -3555,7 +3555,7 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
           <div class="nds-size_1-of-12">&nbsp;</div>
         </div>
         <div data-is-selected="false"
-          class="nds-grid nds-cont-wrapper nds-border_top nds-border_bottom nds-border_left nds-border_right omni-editblock-table-row" aria-invalid="true">
+          class="nds-grid nds-cont-wrapper nds-border_top nds-border_bottom nds-border_left nds-border_right nds-editblock-table-row" aria-invalid="true">
           <div class="nds-size_12-of-12 nds-grid">
             <div class="nds-size_11-of-12 nds-grid">
               <div class="nds-p-around_small nds-truncate nds-size_4-of-12">ABC</div>
@@ -3601,7 +3601,7 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
         <div class="nds-size_1-of-12">&nbsp;</div>
       </div>
       <div data-is-selected="false"
-        class="nds-grid nds-cont-wrapper nds-border_top nds-border_bottom nds-border_left nds-border_right omni-editblock-table-row">
+        class="nds-grid nds-cont-wrapper nds-border_top nds-border_bottom nds-border_left nds-border_right nds-editblock-table-row">
         <div class="nds-size_12-of-12 nds-grid">
           <div class="nds-size_11-of-12 nds-grid">
             <div class="nds-p-around_small nds-truncate nds-size_4-of-12">ABC</div>
@@ -3721,7 +3721,7 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
           </div>
           <div class="nds-size_1-of-12">&nbsp;</div>
         </div>
-        <form class="nds-grid nds-cont-wrapper omni-edit-block-fs-row" aria-invalid="false">
+        <form class="nds-grid nds-cont-wrapper nds-edit-block-fs-row" aria-invalid="false">
           <div class="nds-size_12-of-12 nds-grid">
             <div role="button" tabindex="0" class="nds-size_11-of-12 nds-grid" style="cursor: pointer;">
               <div class="nds-p-around_small nds-truncate nds-size_4-of-12">abc</div>
@@ -3763,7 +3763,7 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
           </div>
           <div class="nds-size_1-of-12">&nbsp;</div>
         </div>
-        <form class="nds-grid nds-cont-wrapper omni-edit-block-fs-row" aria-invalid="true">
+        <form class="nds-grid nds-cont-wrapper nds-edit-block-fs-row" aria-invalid="true">
           <div class="nds-size_12-of-12 nds-grid">
             <div role="button" tabindex="0" class="nds-size_11-of-12 nds-grid" style="cursor: pointer;">
               <div class="nds-p-around_small nds-truncate nds-size_4-of-12">abc</div>
@@ -3794,7 +3794,7 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
     </c-omniscript-edit-block>`);
   })
   .add('Edit Block (Cards)', () => {
-    return withExample('Empty Edit Block', `<c-omniscript-edit-block-wrapper class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative omni-edit-block nds-size_12-of-12">
+    return withExample('Empty Edit Block', `<c-omniscript-edit-block-wrapper class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative nds-size_12-of-12">
     <slot name="label">
       <c-omniscript-edit-block-label slot="label" class="nds-size_1-of-1 nds-m-vertical_small">
         <div class="nds-element_text-font">
@@ -3867,7 +3867,7 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
   </c-omniscript-edit-block-wrapper>`)
       +
       withExampleAndHeight('Edit Block (Edit Mode)', `<c-omniscript-edit-block-wrapper
-      class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative omni-edit-block nds-size_12-of-12">
+      class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative nds-size_12-of-12">
       <slot name="label">
         <c-omniscript-edit-block-label slot="label"
           class="nds-size_1-of-1 nds-m-vertical_small">
@@ -3956,7 +3956,7 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
     </c-omniscript-edit-block-wrapper>`, '300px')
       +
       withExample('Edit Block 1 item', `<c-omniscript-edit-block-wrapper
-      class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative omni-edit-block nds-size_12-of-12">
+      class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative nds-size_12-of-12">
       <slot name="label">
         <c-omniscript-edit-block-label slot="label"
           class="nds-size_1-of-1 nds-m-vertical_small">
@@ -4031,7 +4031,7 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
     </c-omniscript-edit-block-wrapper>`)
     +
       withExample('Edit Block item invalid', `<c-omniscript-edit-block-wrapper
-      class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative omni-edit-block nds-size_12-of-12">
+      class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative nds-size_12-of-12">
       <slot name="label">
         <c-omniscript-edit-block-label slot="label"
           class="nds-size_1-of-1 nds-m-vertical_small">
@@ -4106,7 +4106,7 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
     </c-omniscript-edit-block-wrapper>`)
     +
     withExample('Edit Block Menu Open', `<c-omniscript-edit-block-wrapper
-    class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative omni-edit-block nds-size_12-of-12">
+    class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative nds-size_12-of-12">
     <slot name="label">
       <c-omniscript-edit-block-label slot="label" class="nds-size_1-of-1 nds-m-vertical_small">
         <div class="nds-element_text-font"><label aria-label="Edit Block" aria-live="polite"
@@ -4183,7 +4183,7 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
   })
   .add('Edit Block (Long Cards)', () => {
     return withExample('Empty Edit Block', `<c-omniscript-edit-block-wrapper
-    class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative omni-edit-block nds-size_12-of-12">
+    class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative nds-size_12-of-12">
     <slot name="label">
       <c-omniscript-edit-block-label slot="label" class="nds-size_1-of-1 nds-m-vertical_small">
         <div class="nds-element_text-font"><label aria-label="Edit Block" aria-live="polite"
@@ -4226,7 +4226,7 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
   </c-omniscript-edit-block-wrapper>`)
       +
       withExampleAndHeight('Edit Block (Edit Mode)', `<c-omniscript-edit-block-wrapper
-      class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative omni-edit-block nds-size_12-of-12" style="min-height:300px">
+      class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative nds-size_12-of-12" style="min-height:300px">
       <slot name="label">
         <c-omniscript-edit-block-label slot="label" class="nds-size_1-of-1 nds-m-vertical_small">
           <div class="nds-element_text-font"><label aria-label="Edit Block" aria-live="polite"
@@ -4271,7 +4271,7 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
     </c-omniscript-edit-block-wrapper>`, '300px')
       +
       withExample('Edit Block 1 item', `<c-omniscript-edit-block-wrapper
-      class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative omni-edit-block nds-size_12-of-12">
+      class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative nds-size_12-of-12">
       <slot name="label">
         <c-omniscript-edit-block-label slot="label"
           class="nds-size_1-of-1 nds-m-vertical_small">
@@ -4354,7 +4354,7 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
     </c-omniscript-edit-block-wrapper>`)
     +
       withExample('Edit Block item invalid', `<c-omniscript-edit-block-wrapper
-      class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative omni-edit-block nds-size_12-of-12">
+      class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative nds-size_12-of-12">
       <slot name="label">
         <c-omniscript-edit-block-label slot="label"
           class="nds-size_1-of-1 nds-m-vertical_small">
@@ -4437,7 +4437,7 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
     </c-omniscript-edit-block-wrapper>`)
     +
     withExample('Edit Block Menu Open', `<c-omniscript-edit-block-wrapper
-    class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative omni-edit-block nds-size_12-of-12">
+    class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative nds-size_12-of-12">
     <slot name="label">
       <c-omniscript-edit-block-label slot="label" class="nds-size_1-of-1 nds-m-vertical_small">
         <div class="nds-element_text-font"><label aria-label="Edit Block" aria-live="polite"
