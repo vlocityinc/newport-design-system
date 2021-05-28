@@ -2,6 +2,7 @@
     
     <!-- Flow Metadata Constants -->
     <builder_platform_interaction:flowMetadata aura:id="flowMetadata" />
+    <builder_platform_interaction:systemLib aura:id="systemVariables" />
 
     <!-- Public Attributes -->
     <aura:attribute name="flowName" type="String"/>
