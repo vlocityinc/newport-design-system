@@ -1,7 +1,7 @@
 import { LightningElement, track } from 'lwc';
 import { classSet } from 'lightning/utils';
 
-import { Store, generateGuid } from 'builder_platform_interaction/storeLib';
+import { Store, generateGuid, deepCopy } from 'builder_platform_interaction/storeLib';
 import { AddElementEvent, DeleteElementEvent } from 'builder_platform_interaction/events';
 import {
     addElement,
@@ -84,6 +84,49 @@ function createProxyHandler(component) {
     };
 }
 
+function removeOutcome(parentGuid, childIndex) {
+    const { elements } = storeInstance.getCurrentState();
+    const canvasElement = deepCopy(elements[parentGuid]);
+    canvasElement.maxConnections--;
+
+    canvasElement.childReferences.splice(childIndex, 1);
+
+    const payload = {
+        elementType: 'WAIT_WITH_MODIFIED_AND_DELETED_WAIT_EVENTS',
+        canvasElement,
+        deletedChildElementGuids: [],
+        childElements: []
+    };
+
+    storeInstance.dispatch(updateElement(payload));
+}
+
+function addOutcome(elementGuid) {
+    const { elements } = storeInstance.getCurrentState();
+    const canvasElement = deepCopy(elements[elementGuid]);
+    canvasElement.maxConnections++;
+
+    const childElement = elements[canvasElement.childReferences[0].childReference];
+    const newChildElement = { ...childElement };
+    newChildElement.guid = generateGuid();
+
+    elements[newChildElement.guid] = newChildElement;
+    const availableConnection = {
+        childReference: newChildElement.guid
+    };
+
+    canvasElement.childReferences = [availableConnection, ...canvasElement.childReferences];
+    debugger;
+    const payload = {
+        elementType: 'WAIT_WITH_MODIFIED_AND_DELETED_WAIT_EVENTS',
+        canvasElement,
+        deletedChildElementGuids: [],
+        childElements: []
+    };
+
+    storeInstance.dispatch(updateElement(payload));
+}
+
 function translateEventToAction(event) {
     const { type } = event;
     const { elementType, prev, next, parent, childIndex, alcInsertAt } = event.detail;
@@ -115,28 +158,7 @@ function translateEventToAction(event) {
                     const { canvasElement } = element;
                     element.alcInsertAt = alcInsertAt;
                     storeInstance.dispatch(addElement(element));
-                    const { elements } = storeInstance.getCurrentState();
-
-                    canvasElement.maxConnections++;
-
-                    const childElement = elements[canvasElement.childReferences[0].childReference];
-                    const newChildElement = { ...childElement };
-                    newChildElement.guid = generateGuid();
-
-                    const availableConnection = {
-                        childReference: newChildElement.guid
-                    };
-
-                    canvasElement.availableConnections.splice(0, 0, availableConnection);
-                    canvasElement.childReferences.splice(0, 0, availableConnection);
-                    const payload = {
-                        elementType: 'WAIT_WITH_MODIFIED_AND_DELETED_WAIT_EVENTS',
-                        canvasElement,
-                        deletedChildElementGuids: [],
-                        childElements: [childElement, newChildElement]
-                    };
-
-                    storeInstance.dispatch(updateElement(payload));
+                    addOutcome(canvasElement.guid);
                     return null;
                 }
             }
@@ -236,11 +258,15 @@ export default class Builder extends LightningElement {
 
     handleAddElement(addEvent) {
         const payload = translateEventToAction(addEvent);
-        const { alcInsertAt } = addEvent.detail;
+        const { alcInsertAt, elementType } = addEvent.detail;
 
         if (payload != null) {
             payload.alcInsertAt = alcInsertAt;
-            storeInstance.dispatch(addElement(payload));
+            if (elementType === 'RecordDelete' && alcInsertAt.parent) {
+                removeOutcome(alcInsertAt.parent, alcInsertAt.childIndex);
+            } else {
+                storeInstance.dispatch(addElement(payload));
+            }
         }
     }
 
@@ -472,4 +498,8 @@ export default class Builder extends LightningElement {
         // Toggling out of the selection mode on Copy
         this.handleToggleSelectionMode();
     };
+    handleEditElement(event) {
+        const guid = event.detail.canvasElementGUID;
+        addOutcome(guid);
+    }
 }

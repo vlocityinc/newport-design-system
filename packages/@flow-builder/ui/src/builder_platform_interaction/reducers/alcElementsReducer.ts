@@ -587,7 +587,7 @@ function _pasteOnFixedCanvas(
 
     if (parent != null) {
         // Updating the parent's child to to point to the top-most pasted element's guid
-        setChild(newState[parent!], childIndex!, newState[canvasElementGuidMap[topCutOrCopiedGuid]]);
+        setChild(newState[parent!], childIndex!, newState[canvasElementGuidMap[topCutOrCopiedGuid]], !!savedGoto);
     }
 
     // Adding end elements to the pasted fault branches

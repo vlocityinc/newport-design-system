@@ -1011,6 +1011,29 @@ describe('modelUtils', () => {
             ).toMatchSnapshot();
         });
 
+        it('top branch with goto on next and with nested branch with ended left branch inlines', () => {
+            const nestedBranchingElement = { ...BRANCH_ELEMENT };
+            nestedBranchingElement.children = [[END_ELEMENT_GUID], null];
+            nestedBranchingElement.childReferences = [
+                {
+                    childReference: 'child-reference-guid-1'
+                }
+            ];
+
+            const branchingElement = { ...BRANCH_ELEMENT };
+            branchingElement.children = [[nestedBranchingElement], null];
+
+            // create goto from branchingElement.next to screen
+            const screen = { ...SCREEN_ELEMENT, incomingGoTo: [branchingElement.guid] };
+            branchingElement.next = screen.guid;
+
+            const elements = createFlow([screen, branchingElement]);
+
+            expect(
+                deleteElement(elementService(elements), elements, 'branch-guid', defaultDeleteOptions)
+            ).toMatchSnapshot();
+        });
+
         it('end element in nested branch with ended left branch inlines', () => {
             const nestedBranchingElement = { ...BRANCH_ELEMENT };
             nestedBranchingElement.children = [[END_ELEMENT_GUID], null];
@@ -3104,6 +3127,28 @@ describe('modelUtils', () => {
             flow = createFlow([branchingElement]);
         });
 
+        it('inlines from to branch, when removing a branch from a nested branch results in a terminal branch', () => {
+            const branchingElement = { ...BRANCH_ELEMENT };
+            branchingElement.children = [
+                [{ ...END_ELEMENT, guid: 'end1', isTerminal: true }],
+                ['random-guid'],
+                [{ ...END_ELEMENT, guid: 'end2', isTerminal: true }]
+            ];
+            branchingElement.childReferences = [{ childReference: 'o1' }, { childReference: 'o2' }];
+
+            const topBranchingElement = { ...BRANCH_ELEMENT, guid: 'top-branching' };
+            topBranchingElement.children = [[branchingElement], null];
+            const topBranchingNext = { ...END_ELEMENT, guid: 'end3' };
+
+            flow = createFlow([topBranchingElement, topBranchingNext]);
+
+            const nextFlow = updateChildren(elementService(flow), flow, 'top-branching:0-branch-guid', [
+                { childReference: 'o1' }
+            ]);
+
+            expect(nextFlow).toMatchSnapshot();
+        });
+
         it('when all branches terminals after the update, delete the parent next and descendants', () => {
             const branchingElement = { ...BRANCH_ELEMENT };
             branchingElement.children = [
@@ -3517,6 +3562,121 @@ describe('modelUtils', () => {
         });
     });
     describe('inlineFromParent', () => {
+        describe('inline decision when next is goto', () => {
+            describe('when the non-terminal branch is empty', () => {
+                const originalStoreState = {
+                    screen1: {
+                        guid: 'screen1',
+                        name: 'screen1',
+                        next: 'newDecision',
+                        incomingGoTo: ['newDecision']
+                    },
+                    newDecision: {
+                        guid: 'newDecision',
+                        name: 'newDecision',
+                        children: ['end1', null],
+                        next: 'screen1',
+                        nodeType: NodeType.BRANCH,
+                        childReferences: [
+                            {
+                                childReference: 't1'
+                            }
+                        ]
+                    },
+                    end1: {
+                        guid: 'end1',
+                        name: 'end1',
+                        childIndex: 0,
+                        parent: 'newDecision',
+                        isTerminal: true
+                    }
+                };
+
+                const updatedState = inlineFromParent(originalStoreState, originalStoreState.newDecision);
+
+                it('moves the goto to the second child of the decision ', () => {
+                    expect(updatedState.newDecision.children).toEqual(['end1', 'screen1']);
+                    expect(updatedState.screen1.incomingGoTo).toEqual(['newDecision:default']);
+                });
+            });
+            describe('when the non-terminal branch is not-empty', () => {
+                const originalStoreState = {
+                    screen1: {
+                        guid: 'screen1',
+                        name: 'screen1',
+                        next: 'newDecision',
+                        incomingGoTo: ['newDecision']
+                    },
+                    newDecision: {
+                        guid: 'newDecision',
+                        name: 'newDecision',
+                        children: ['end1', 'screen2'],
+                        next: 'screen1',
+                        nodeType: NodeType.BRANCH,
+                        childReferences: [
+                            {
+                                childReference: 't1'
+                            }
+                        ]
+                    },
+                    screen2: {
+                        guid: 'screen2',
+                        name: 'screen2',
+                        parent: 'newDecision',
+                        childIndex: 1
+                    },
+                    end1: {
+                        guid: 'end1',
+                        name: 'end1',
+                        childIndex: 0,
+                        parent: 'newDecision',
+                        isTerminal: true
+                    }
+                };
+
+                const updatedState = inlineFromParent(originalStoreState, originalStoreState.newDecision);
+
+                it('moves the goto to the second child of the decision ', () => {
+                    expect(updatedState.screen2.next).toEqual('screen1');
+                    expect(updatedState.screen1.incomingGoTo).toEqual(['screen2']);
+                });
+            });
+        });
+
+        // describe('inline decision when next is goto, avoids self-loop', () => {
+        //     const originalStoreState = {
+        //         newDecision: {
+        //             guid: 'newDecision',
+        //             name: 'newDecision',
+        //             incomingGoTo: ['newDecision'],
+        //             children: ['end1', null],
+        //             next: 'newDecision',
+        //             nodeType: NodeType.BRANCH,
+        //             childReferences: [
+        //                 {
+        //                     childReference: 't1'
+        //                 }
+        //             ]
+        //         },
+        //         end1: {
+        //             guid: 'end1',
+        //             name: 'end1',
+        //             childIndex: 0,
+        //             parent: 'newDecision',
+        //             isTerminal: true
+        //         }
+        //     };
+
+        //     const updatedState = inlineFromParent(
+        //         originalStoreState,
+        //         originalStoreState.newDecision
+        //     );
+
+        //     it('creates an end element as the second child of the decision ', () => {
+        //         expect(updatedState.newDecision.children).toEqual(['end1', 'end-hook-guid']);
+        //     });
+        // });
+
         describe('inline decision with next end', () => {
             const originalStoreState = {
                 newDecision: {

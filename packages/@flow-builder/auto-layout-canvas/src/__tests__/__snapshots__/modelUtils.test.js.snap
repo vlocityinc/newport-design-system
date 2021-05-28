@@ -1389,6 +1389,75 @@ Object {
 }
 `;
 
+exports[`modelUtils deleteElement top branch with goto on next and with nested branch with ended left branch inlines 1`] = `
+Object {
+  "branch-guid:0-branch-guid": Object {
+    "childReferences": Array [
+      Object {
+        "childReference": "child-reference-guid-1",
+      },
+    ],
+    "children": Array [
+      "branch-guid:0-branch-guid:0-branch-guid:0-end-guid",
+      "screen-guid",
+    ],
+    "config": Object {},
+    "defaultConnectorLabel": "Default Connector Label",
+    "elementType": "branch",
+    "guid": "branch-guid:0-branch-guid",
+    "isCanvasElement": true,
+    "label": "branch-guid",
+    "next": null,
+    "nodeType": "branch",
+    "prev": "screen-guid",
+  },
+  "branch-guid:0-branch-guid:0-branch-guid:0-end-guid": Object {
+    "childIndex": 0,
+    "elementType": "END_ELEMENT",
+    "guid": "branch-guid:0-branch-guid:0-branch-guid:0-end-guid",
+    "isCanvasElement": true,
+    "isTerminal": true,
+    "label": "end-guid",
+    "nodeType": "end",
+    "parent": "branch-guid:0-branch-guid",
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "screen-guid": Object {
+    "config": Object {},
+    "elementType": "Screen",
+    "guid": "screen-guid",
+    "incomingGoTo": Array [
+      "branch-guid:0-branch-guid:default",
+    ],
+    "isCanvasElement": true,
+    "label": "screen-guid",
+    "next": "branch-guid:0-branch-guid",
+    "nodeType": "default",
+    "prev": "start-guid",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [],
+    "config": Object {},
+    "elementType": "start",
+    "guid": "start-guid",
+    "isCanvasElement": true,
+    "isTerminal": true,
+    "label": "start-guid",
+    "next": "screen-guid",
+    "nodeType": "start",
+    "parent": "root",
+  },
+}
+`;
+
 exports[`modelUtils initFlowModel creates a root and links start and end 1`] = `
 Object {
   "end-guid": Object {
@@ -2204,6 +2273,100 @@ Object {
     "next": "branch-guid",
     "nodeType": "start",
     "parent": "root",
+  },
+}
+`;
+
+exports[`modelUtils updateChildren inlines from to branch, when removing a branch from a nested branch results in a terminal branch 1`] = `
+Object {
+  "end3": Object {
+    "childIndex": 1,
+    "elementType": "END_ELEMENT",
+    "guid": "end3",
+    "isCanvasElement": true,
+    "isTerminal": true,
+    "label": "end-guid",
+    "nodeType": "end",
+    "parent": "top-branching",
+    "prev": null,
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [],
+    "config": Object {},
+    "elementType": "start",
+    "guid": "start-guid",
+    "isCanvasElement": true,
+    "isTerminal": true,
+    "label": "start-guid",
+    "next": "top-branching",
+    "nodeType": "start",
+    "parent": "root",
+  },
+  "top-branching": Object {
+    "children": Array [
+      "top-branching:0-branch-guid",
+      "end3",
+    ],
+    "config": Object {},
+    "defaultConnectorLabel": "Default Connector Label",
+    "elementType": "branch",
+    "guid": "top-branching",
+    "isCanvasElement": true,
+    "label": "branch-guid",
+    "next": null,
+    "nodeType": "branch",
+    "prev": "start-guid",
+  },
+  "top-branching:0-branch-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "o1",
+      },
+    ],
+    "children": Array [
+      "top-branching:0-top-branching:0-branch-guid:0-end1",
+      "top-branching:0-top-branching:0-branch-guid:2-end2",
+    ],
+    "config": Object {},
+    "defaultConnectorLabel": "Default Connector Label",
+    "elementType": "branch",
+    "guid": "top-branching:0-branch-guid",
+    "isCanvasElement": true,
+    "isTerminal": true,
+    "label": "branch-guid",
+    "next": null,
+    "nodeType": "branch",
+    "parent": "top-branching",
+  },
+  "top-branching:0-top-branching:0-branch-guid:0-end1": Object {
+    "childIndex": 0,
+    "elementType": "END_ELEMENT",
+    "guid": "top-branching:0-top-branching:0-branch-guid:0-end1",
+    "isCanvasElement": true,
+    "isTerminal": true,
+    "label": "end-guid",
+    "nodeType": "end",
+    "parent": "top-branching:0-branch-guid",
+  },
+  "top-branching:0-top-branching:0-branch-guid:2-end2": Object {
+    "childIndex": 1,
+    "elementType": "END_ELEMENT",
+    "guid": "top-branching:0-top-branching:0-branch-guid:2-end2",
+    "isCanvasElement": true,
+    "isTerminal": true,
+    "label": "end-guid",
+    "nodeType": "end",
+    "parent": "top-branching:0-branch-guid",
   },
 }
 `;

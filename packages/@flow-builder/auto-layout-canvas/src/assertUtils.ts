@@ -180,6 +180,10 @@ function assertAutoLayoutStateForBranch(elements: FlowModel, parent: ParentNodeM
  * @throws Error if an invalid isTerminal is found
  */
 export function assertAutoLayoutState(elements: FlowModel) {
+    if (!elements[NodeType.ROOT]) {
+        return;
+    }
+
     const rootElement = resolveParent(elements, NodeType.ROOT);
     if (rootElement != null) {
         assertAutoLayoutStateForBranch(elements, rootElement, 0);

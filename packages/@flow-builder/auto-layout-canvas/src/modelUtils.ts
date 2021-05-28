@@ -643,8 +643,9 @@ function getChild(element: NodeModel, childIndex: number): NodeRef {
  * @param element - The element
  * @param childIndex - The child index (-1 for a fault)
  * @param childElement - A child element or null
+ * @param isGoto - true if the child is a goto, false otherwise
  */
-function setChild(element: NodeModel, childIndex: number, childElement: NodeModel | null): void {
+function setChild(element: NodeModel, childIndex: number, childElement: NodeModel | null, isGoto = false): void {
     const childElementGuid = childElement != null ? childElement.guid : null;
 
     if (childIndex === FAULT_INDEX) {
@@ -653,7 +654,7 @@ function setChild(element: NodeModel, childIndex: number, childElement: NodeMode
         (element as ParentNodeModel).children[childIndex] = childElementGuid;
     }
 
-    if (childElement != null) {
+    if (childElement != null && !isGoto) {
         Object.assign(childElement, { parent: element.guid, childIndex });
     }
 }
@@ -1619,7 +1620,9 @@ function deleteElement(
         const inlineParent =
             nextElement != null &&
             isBranchingElement(nextElement) &&
-            (nextElement.next == null || state[nextElement.next]!.nodeType === NodeType.END)
+            (nextElement.next == null ||
+                state[nextElement.next]!.nodeType === NodeType.END ||
+                hasGoToOnNext(state, nextElement.guid))
                 ? nextElement
                 : parentElement;
         inlineFromParent(state, inlineParent);
@@ -1716,7 +1719,7 @@ function addElement(flowModel: FlowModel, elementGuid: Guid, nodeType: NodeType,
             Object.assign(element, { next: targetGuid, isTerminal: true });
 
             // Updating the fault/children property to incorporate the newly added element
-            setChild(sourceElement, childIndex, element);
+            setChild(sourceElement, childIndex, element, true);
         } else {
             linkBranchOrFault(flowModel, sourceElement, childIndex, element);
         }
@@ -1804,42 +1807,55 @@ export function areAllBranchesTerminals(parentElement: ParentNodeModel, state: F
  * @param parentElement - The parent element
  */
 function inlineBranches(state: FlowModel, parentElement: ParentNodeModel) {
-    const { children } = parentElement;
-
     const nonTerminalBranchIndexes = getNonTerminalBranchIndexes(parentElement, state);
 
     if (nonTerminalBranchIndexes.length === 1) {
-        // we have one non-terminal branch, so we can inline
+        // We have exactly one non-terminal branch, so we can inline.
+
+        const isGoToOnNext = hasGoToOnNext(state, parentElement.guid);
         const [branchIndex] = nonTerminalBranchIndexes;
-        let branchHeadGuid = children[branchIndex!];
+        const branchHead = resolveChild(state, parentElement, branchIndex);
 
-        const parentNext = resolveParent(state, parentElement.next!);
+        let branchTailBeforeInline: NodeModel | null = null;
 
-        let branchTail;
-        if (branchHeadGuid != null) {
-            branchTail = findLastElement(resolveBranchHead(state, branchHeadGuid), state);
+        const source = { guid: parentElement.guid };
+        const target = parentElement.next!;
 
-            //  reconnect the elements that follow the parent element to the tail of the branch
-            branchTail.next = parentElement.next;
-            linkElement(state, branchTail);
+        if (branchHead != null) {
+            // we have a non-empty branch, so reconnect the elements that follow the parent element to the tail of the branch
+            branchTailBeforeInline = findLastElement(branchHead, state);
+
+            if (isGoToOnNext) {
+                const newSource = { guid: branchTailBeforeInline.guid };
+                removeAndUpdateSourceReferenceInIncomingGoTo(state, source, target, newSource);
+            }
+            branchTailBeforeInline.next = parentElement.next;
+            linkElement(state, branchTailBeforeInline);
         } else {
-            // its an empty branch, so make the elements that follow the parent element be the branch itself
-            parentNext.prev = null;
-            linkBranchOrFault(state, parentElement, branchIndex, parentNext);
-            branchHeadGuid = parentNext.guid;
-            branchTail = parentNext;
+            // we have an empty branch, so make the elements that follow the parent element be the branch itself
+            const parentNext = resolveNode(state, parentElement.next!);
+            if (isGoToOnNext) {
+                const newSource = { guid: parentElement.guid, childIndex: branchIndex };
+                setChild(parentElement, branchIndex, parentNext, true);
+                removeAndUpdateSourceReferenceInIncomingGoTo(state, source, target, newSource);
+            } else {
+                parentNext.prev = null;
+                linkBranchOrFault(state, parentElement, branchIndex, parentNext);
+            }
         }
 
-        resolveBranchHead(state, branchHeadGuid!).isTerminal = true;
+        // clear the parent's next, since it has now been inlined
         parentElement.next = null;
 
-        // recursive inline from the branch tail
-        if (isBranchingElement(branchTail)) {
-            inlineBranches(state, branchTail);
+        // the branch is now terminal, mark it as such if the head is not a goto
+        if (!hasGoToOnBranchHead(state, parentElement.guid, branchIndex)) {
+            resolveChild(state, parentElement, branchIndex)!.isTerminal = true;
         }
 
-        branchTail = findLastElement(resolveBranchHead(state, branchHeadGuid), state);
-        resolveBranchHead(state, branchHeadGuid).isTerminal = isEndOrAllTerminalBranchingElement(state, branchTail);
+        // if we had a branchTailBeforeInline, and it's branching, recursively inline from there
+        if (branchTailBeforeInline != null && isBranchingElement(branchTailBeforeInline)) {
+            inlineBranches(state, branchTailBeforeInline);
+        }
     }
 }
 

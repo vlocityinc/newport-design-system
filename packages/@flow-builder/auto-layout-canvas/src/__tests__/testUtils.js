@@ -1,4 +1,4 @@
-import { areAllBranchesTerminals, isBranchingElement } from '../modelUtils';
+import { areAllBranchesTerminals, isBranchingElement, hasGoToOnNext } from '../modelUtils';
 import NodeType from '../NodeType';
 import { getDefaultLayoutConfig } from '../defaultLayoutConfig';
 import { FAULT_INDEX, LOOP_BACK_INDEX } from '../model';
@@ -263,6 +263,7 @@ function createBranch(
             }
 
             if (
+                hasGoToOnNext(elementsMap, nextElement.guid) ||
                 nextElement.nodeType === NodeType.END ||
                 (isBranchingElement(nextElement) && areAllBranchesTerminals(nextElement, elementsMap))
             ) {
