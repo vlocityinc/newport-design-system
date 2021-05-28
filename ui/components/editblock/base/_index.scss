@@ -474,3 +474,33 @@
 .nds-inline_edit-top {
   margin-top: -5.15rem;
 }
+
+.omni-edit-block-card[aria-invalid="true"] {
+  border-color: var(--lwc-colorBorderError, $color-border-error)
+}
+
+.omni-edit-block-fs-row[aria-invalid="true"] .nds-grid[role="button"] {
+  border: var(--lwc-borderWidthThin, 1px) solid var(--lwc-colorBorderError, $color-border-error);
+}
+
+.omni-edit-block-fs-row {
+  margin-bottom: var(--lwc-spacingXxSmall, 0.25rem);
+}
+
+.nds-editblock_inline .nds-edit-block_longcards form[aria-invalid="true"] {
+  border-color: var(--lwc-colorBorderError, $color-border-error);
+}
+
+.omni-editblock-table-row {
+  cursor: pointer;
+}
+
+.omni-editblock-table-row[data-is-selected=true],
+.omni-editblock-table-row:hover {
+  background-color: $link-water;
+  border-color: $palette-gray-5;
+}
+
+.omni-editblock-table-row[aria-invalid="true"] {
+  border-color: var(--lwc-colorBorderError, $color-border-error);
+}

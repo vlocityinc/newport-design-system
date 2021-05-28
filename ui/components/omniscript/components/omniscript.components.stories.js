@@ -3024,7 +3024,7 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
           </div>
           <div class="nds-size_1-of-1 nds-hide">
             <div class="nds-edit-block_longcards nds-m-bottom_medium">
-              <form data-edit-action="edit" role="button" tabindex="0" class="nds-grid nds-cont-wrapper">
+              <form data-edit-action="edit" role="button" tabindex="0" class="nds-grid nds-cont-wrapper" aria-invalid="false">
                 <span class="nds-edit-block_longcards-circle">
                   <span class="nds-icon_container nds-icon_container_circle">
                     <c-icon>
@@ -3169,7 +3169,142 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
             <div class="nds-m-bottom_x-small"><label aria-label="Edit Block" aria-live="polite">Edit Block</label></div>
             <div class="nds-size_1-of-1 nds-show">
               <div class="nds-edit-block_longcards nds-m-bottom_medium">
-                <form data-edit-action="edit" role="button" tabindex="0" class="nds-grid nds-cont-wrapper"><span
+                <form data-edit-action="edit" role="button" tabindex="0" class="nds-grid nds-cont-wrapper" aria-invalid="false"><span
+                    class="nds-edit-block_longcards-circle"><span class="nds-icon_container nds-icon_container_circle">
+                      <c-icon><svg aria-hidden="true" class="nds-icon nds-input__icon nds-icon-text-default nds-icon_large">
+                          <use
+                            xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#user">
+                          </use>
+                        </svg><span class="nds-assistive-text">icon</span></c-icon>
+                    </span></span>
+                  <div class="nds-edit-block_longcards-controls-container">
+                    <div class="nds-p-left_x-small">Some Value</div>
+                  </div>
+                  <div class="nds-grid nds-edit-block_inline-action-container">
+                    <c-icon data-remove-button="" tabindex="0" role="button"><svg aria-hidden="true"
+                        class="nds-icon nds-input__icon nds-editblock_delete nds-icon-text-default nds-icon_small">
+                        <use
+                          xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close">
+                        </use>
+                      </svg><span class="nds-assistive-text">Delete</span></c-icon>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="nds-size_1-of-1 nds-hide">
+              <div class="nds-edit-block-edit__container nds-m-bottom_medium" style="z-index: 1;">
+                <div class="nds-cont-wrapper">
+                  <header class="nds-size_1-of-1">
+                    <h1 class="nds-text-heading_small nds-step_label nds-m-left_small">Edit Block</h1>
+                  </header>
+                  <slot class="nds-grid nds-wrap">
+                    <c-omniscript-text  data-omni-key="Text1"
+                      class="nds-size_12-of-12 nds-medium-size_12-of-12">
+                      <slot>
+                        <c-input data-omni-input="" class="nds-container_fluid">
+                          <div class="nds-form-element nds-form-container">
+                            <div class="nds-form-element__control nds-form-element__control-animated-label"><input
+                                id="input1-25" maxlength="255" minlength="0" type="text" data-isnumber="false"
+                                placeholder="" class="vlocity-input nds-input nds-input_mask nds-not-empty nds-is-dirty">
+                              <div class="nds-form-element__label nds-align-middle nds-animated-label__ease-out"><label
+                                  aria-label="Text" for="input1-25" data-label="true">Text</label>
+                                <slot name="label"></slot>
+                              </div>
+                            </div>
+                          </div>
+                        </c-input>
+                      </slot>
+                    </c-omniscript-text>
+                    <c-omniscript-text  data-omni-key="Text2"
+                      class="nds-size_12-of-12 nds-medium-size_12-of-12">
+                      <slot>
+                        <c-input data-omni-input="" class="nds-container_fluid">
+                          <div class="nds-form-element nds-form-container">
+                            <div class="nds-form-element__control nds-form-element__control-animated-label"><input
+                                id="input3-27" maxlength="255" minlength="0" type="text" data-isnumber="false"
+                                placeholder="" class="vlocity-input nds-input nds-input_mask nds-not-empty nds-is-dirty">
+                              <div class="nds-form-element__label nds-align-middle nds-animated-label__ease-out"><label
+                                  aria-label="Text 2" for="input3-27" data-label="true">Text 2</label>
+                                <slot name="label"></slot>
+                              </div>
+                            </div>
+                          </div>
+                        </c-input>
+                      </slot>
+                    </c-omniscript-text>
+                    <c-omniscript-text  data-omni-key="Text3"
+                      class="nds-size_12-of-12 nds-medium-size_12-of-12">
+                      <slot>
+                        <c-input data-omni-input="" class="nds-container_fluid">
+                          <div class="nds-form-element nds-form-container">
+                            <div class="nds-form-element__control nds-form-element__control-animated-label"><input
+                                id="input5-29" maxlength="255" minlength="0" type="text" data-isnumber="false"
+                                placeholder="" class="vlocity-input nds-input nds-input_mask nds-not-empty nds-is-dirty">
+                              <div class="nds-form-element__label nds-align-middle nds-animated-label__ease-out"><label
+                                  aria-label="Text 3" for="input5-29" data-label="true">Text 3</label>
+                                <slot name="label"></slot>
+                              </div>
+                            </div>
+                          </div>
+                        </c-input>
+                      </slot>
+                    </c-omniscript-text>
+                  </slot>
+                  <c-icon role="button" tabindex="0"><svg aria-hidden="true"
+                      class="nds-icon nds-input__icon nds-editblock_close nds-m-right_x-small nds-icon-text-default nds-icon_small">
+                      <use
+                        xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close">
+                      </use>
+                    </svg><span class="nds-assistive-text">close icon</span></c-icon>
+                  <div class="nds-grid nds-wrap nds-grid_align-center nds-p-horizontal_medium nds-m-top_medium"></div>
+                </div>
+              </div>
+            </div>
+            <div role="button" tabindex="0"
+              class="nds-edit-block_longcards nds-edit-block_cards-add-card nds-grid nds-m-bottom_medium">
+              <div class="nds-grid nds-cont-wrapper"><span class="nds-edit-block_longcards-circle"><span
+                    class="nds-icon_container nds-icon_container_circle">
+                    <c-icon><svg aria-hidden="true" class="nds-icon nds-input__icon nds-icon-text-default nds-icon_large">
+                        <use
+                          xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#user">
+                        </use>
+                      </svg><span class="nds-assistive-text">user icon</span></c-icon>
+                  </span></span>
+                <div class="nds-edit-block_longcards-add-icon nds-grid nds-has-flexi-truncate nds-align_absolute-center">
+                  <c-icon class="nds-align_absolute-center"><svg aria-hidden="true"
+                      class="nds-icon nds-button__icon nds-icon-text-default nds-icon_xx-small">
+                      <use
+                        xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add">
+                      </use>
+                    </svg><span class="nds-assistive-text">add icon</span></c-icon><span>New</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </c-omniscript-edit-block>
+      </slot>
+      <slot name="new">
+        <c-omniscript-edit-block-new  slot="new">
+        </c-omniscript-edit-block-new>
+      </slot>
+    </c-omniscript-edit-block-wrapper>`)
+    +
+      withExample('Edit Block item invalid', `<c-omniscript-edit-block-wrapper
+      class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative omni-edit-block nds-size_12-of-12">
+      <slot name="label">
+        <c-omniscript-edit-block-label  slot="label"
+          class="nds-size_1-of-1 nds-m-vertical_small"></c-omniscript-edit-block-label>
+      </slot>
+      <div id="edit-block-item-count-label-15" aria-live="polite" class="slds-assistive-text nds-assistive-text">1 item
+      </div>
+      <slot aria-describedby="edit-block-item-count-label-15">
+        <c-omniscript-edit-block  data-omni-key="EditBlock2"
+          class="nds-size_12-of-12">
+          <div class="nds-element_text-font nds-editblock_inline nds-grid nds-grid_vertical nds-p-horizontal_small">
+            <div class="nds-m-bottom_x-small"><label aria-label="Edit Block" aria-live="polite">Edit Block</label></div>
+            <div class="nds-size_1-of-1 nds-show">
+              <div class="nds-edit-block_longcards nds-m-bottom_medium">
+                <form data-edit-action="edit" role="button" tabindex="0" class="nds-grid nds-cont-wrapper" aria-invalid="true"><span
                     class="nds-edit-block_longcards-circle"><span class="nds-icon_container nds-icon_container_circle">
                       <c-icon><svg aria-hidden="true" class="nds-icon nds-input__icon nds-icon-text-default nds-icon_large">
                           <use
@@ -3374,7 +3509,53 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
           <div class="nds-size_1-of-12">&nbsp;</div>
         </div>
         <div data-is-selected="false"
-          class="nds-grid nds-cont-wrapper nds-border_left nds-border_right omni-editblock-table-row">
+          class="nds-grid nds-cont-wrapper nds-border_top nds-border_bottom nds-border_left nds-border_right omni-editblock-table-row">
+          <div class="nds-size_12-of-12 nds-grid">
+            <div class="nds-size_11-of-12 nds-grid">
+              <div class="nds-p-around_small nds-truncate nds-size_4-of-12">ABC</div>
+              <div class="nds-p-around_small nds-truncate nds-size_4-of-12">DEFHIJKLMN</div>
+              <div class="nds-p-around_small nds-truncate nds-size_4-of-12">123</div>
+            </div>
+            <div class="nds-size_1-of-12 nds-grid nds-grid--vertical-align-center">
+              <div
+                class="nds-grid nds-grid_vertical nds-grid_vertical-align-end nds-col_bump-left nds-is-relative nds-m-right_x-small">
+                <button data-action-button-menu="" aria-haspopup="true" tabindex="0" type="button"
+                  class="nds-button nds-button--icon-border-filled">
+                  <c-icon><svg aria-hidden="true" class="nds-icon nds-input__icon nds-icon-text-default nds-icon_x-small">
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                    </svg><span class="nds-assistive-text">down icon</span></c-icon>
+                </button></div>
+            </div>
+          </div>
+        </div>
+        <div class="nds-border_bottom nds-size-1-of-1"></div>
+        <div class="nds-grid nds-m-top_small"><button type="button" tabindex="0"
+            class="nds-button nds-m-top_x-small nds-text-align_center nds-editblock_add-button nds-col_bump-left">
+            <c-icon class="nds-m-right_xx-small"><svg aria-hidden="true"
+                class="nds-icon nds-input__icon nds-icon-text-default nds-icon_x-small">
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+              </svg><span class="nds-assistive-text">add icon</span></c-icon><span>New</span>
+          </button></div>
+      </div>
+    </c-omniscript-edit-block>`)
+    +
+      withExample('Edit Block item invalid', `<c-omniscript-edit-block class="nds-size_12-of-12">
+      <div class="nds-element_text-font nds-editblock_inline nds-grid nds-grid_vertical nds-p-horizontal_small">
+        <div class="nds-m-bottom_x-small nds-grid nds-m-top_small"><label aria-label="Edit Block" aria-live="polite"
+            class="nds-text-heading_small nds-text">Edit Block</label></div>
+        <div class="nds-border_bottom nds-border_top nds-border_left nds-border_right nds-grid nds-p-vertical_xx-small">
+          <div class="nds-size_11-of-12 nds-grid">
+            <div class="nds-p-horizontal_small nds-truncate nds-size_4-of-12"><strong
+                class="nds-text-title_caps nds-text-heading--label nds-p-vertical_x-small">Text</strong></div>
+            <div class="nds-p-horizontal_small nds-truncate nds-size_4-of-12"><strong
+                class="nds-text-title_caps nds-text-heading--label nds-p-vertical_x-small">Text 2</strong></div>
+            <div class="nds-p-horizontal_small nds-truncate nds-size_4-of-12"><strong
+                class="nds-text-title_caps nds-text-heading--label nds-p-vertical_x-small">Text 3</strong></div>
+          </div>
+          <div class="nds-size_1-of-12">&nbsp;</div>
+        </div>
+        <div data-is-selected="false"
+          class="nds-grid nds-cont-wrapper nds-border_top nds-border_bottom nds-border_left nds-border_right omni-editblock-table-row" aria-invalid="true">
           <div class="nds-size_12-of-12 nds-grid">
             <div class="nds-size_11-of-12 nds-grid">
               <div class="nds-p-around_small nds-truncate nds-size_4-of-12">ABC</div>
@@ -3420,7 +3601,7 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
         <div class="nds-size_1-of-12">&nbsp;</div>
       </div>
       <div data-is-selected="false"
-        class="nds-grid nds-cont-wrapper nds-border_left nds-border_right omni-editblock-table-row">
+        class="nds-grid nds-cont-wrapper nds-border_top nds-border_bottom nds-border_left nds-border_right omni-editblock-table-row">
         <div class="nds-size_12-of-12 nds-grid">
           <div class="nds-size_11-of-12 nds-grid">
             <div class="nds-p-around_small nds-truncate nds-size_4-of-12">ABC</div>
@@ -3540,7 +3721,49 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
           </div>
           <div class="nds-size_1-of-12">&nbsp;</div>
         </div>
-        <form class="nds-grid nds-cont-wrapper">
+        <form class="nds-grid nds-cont-wrapper omni-edit-block-fs-row" aria-invalid="false">
+          <div class="nds-size_12-of-12 nds-grid">
+            <div role="button" tabindex="0" class="nds-size_11-of-12 nds-grid" style="cursor: pointer;">
+              <div class="nds-p-around_small nds-truncate nds-size_4-of-12">abc</div>
+              <div class="nds-p-around_small nds-truncate nds-size_4-of-12">defhigjklm</div>
+              <div class="nds-p-around_small nds-truncate nds-size_4-of-12">123</div>
+            </div>
+            <div class="nds-size_1-of-12">
+              <div class="nds-edit-block_inline-action-container nds-p-around_small nds-grid nds-grid_align-center">
+                <c-icon data-remove-button="" role="button" tabindex="0" style="cursor: pointer;"><svg aria-hidden="true"
+                    class="nds-icon nds-input__icon nds-editblock_delete nds-icon-text-default nds-icon_x-small">
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#dash"></use>
+                  </svg><span class="nds-assistive-text">delete icon</span></c-icon>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="nds-border_bottom nds-p-top_small nds-size_12-of-12"></div>
+        <div class="nds-grid">
+          <div class="nds-size_11-of-12 nds-grid">&nbsp;</div>
+          <div class="nds-size_1-of-12 nds-p-horizontal_small nds-grid nds-grid_align-center">
+            <c-icon role="button" tabindex="0" class="nds-m-top_large" style="cursor: pointer;"><svg aria-hidden="true"
+                class="nds-icon nds-button__icon nds-icon-text-default nds-icon_xx-small">
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+              </svg><span class="nds-assistive-text">add icon</span></c-icon>
+          </div>
+        </div>
+      </div>
+    </c-omniscript-edit-block>`)
+    +
+      withExample('Edit Block item invalid', `<c-omniscript-edit-block class="nds-size_12-of-12">
+      <div class="nds-element_text-font nds-editblock_inline nds-grid nds-grid_vertical nds-p-horizontal_small">
+        <div class="nds-m-bottom_x-small nds-grid"><label aria-label="Edit Block" aria-live="polite"
+            class="nds-text-heading_small nds-text">Edit Block</label></div>
+        <div class="nds-border_bottom nds-border_top nds-grid nds-m-bottom_small">
+          <div class="nds-size_11-of-12 nds-grid">
+            <div class="nds-p-horizontal_small nds-truncate nds-size_4-of-12"><strong>Text</strong></div>
+            <div class="nds-p-horizontal_small nds-truncate nds-size_4-of-12"><strong>Text 2</strong></div>
+            <div class="nds-p-horizontal_small nds-truncate nds-size_4-of-12"><strong>Text 3</strong></div>
+          </div>
+          <div class="nds-size_1-of-12">&nbsp;</div>
+        </div>
+        <form class="nds-grid nds-cont-wrapper omni-edit-block-fs-row" aria-invalid="true">
           <div class="nds-size_12-of-12 nds-grid">
             <div role="button" tabindex="0" class="nds-size_11-of-12 nds-grid" style="cursor: pointer;">
               <div class="nds-p-around_small nds-truncate nds-size_4-of-12">abc</div>
@@ -3749,7 +3972,82 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
           <div class="nds-p-horizontal_small">
             <div class="nds-grid nds-wrap nds-element_text-font">
               <div class="nds-size_1-of-1 nds-show">
-                <div data-edit-action="default" role="button" tabindex="0"
+                <div data-edit-action="default" role="button" tabindex="0" aria-invalid="false"
+                  class="nds-box nds-box_x-small nds-grid nds-grid_vertical nds-grid_vertical-align-center nds-is-relative nds-size_12-of-12 nds-m-right_medium nds-m-bottom_medium omni-edit-block-card nds-edit-block_shortcards">
+                  <div class="nds-dropdown-trigger nds-dropdown-trigger_click nds-is-open nds-col_bump-left"><button
+                      type="button" aria-haspopup="true" title="Show More"
+                      class="nds-button nds-button_icon-border-filled nds-editblock_action-button nds-element_text-font">
+                      <c-icon><svg aria-hidden="true"
+                          class="nds-icon nds-input__icon nds-icon-text-default nds-icon_x-small">
+                          <use
+                            xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown">
+                          </use>
+                        </svg><span class="nds-assistive-text">down icon</span></c-icon>
+                    </button></div>
+                  <div class="nds-edit-block_shortcards-circle"><span
+                      class="nds-icon_container nds-icon_container_circle slds-current-color omni-icon-circle"
+                      style="color: rgb(21, 100, 191);">
+                      <c-icon><svg aria-hidden="true" class="nds-icon nds-input__icon nds-icon-text-default nds-icon_large">
+                          <use
+                            xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#user">
+                          </use>
+                        </svg><span class="nds-assistive-text">icon</span></c-icon>
+                    </span></div>
+                  <div class="nds-grid nds-grid_vertical nds-grid_vertical-align-center nds-m-top_x-small nds-size_1-of-1">
+                    <span class="nds-truncate">abc</span><span class="nds-truncate">defhijklm</span><span
+                      class="nds-truncate">123</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </c-omniscript-edit-block>
+      </slot>
+      <slot name="new">
+        <c-omniscript-edit-block-new slot="new"
+          class="nds-large-size_3-of-12 nds-medium-size_6-of-12 nds-m-bottom_xx-small">
+          <div class="nds-p-horizontal_small">
+            <div role="button" tabindex="0"
+              class="nds-box nds-box_x-small nds-grid nds-grid_vertical nds-grid_vertical-align-center nds-edit-block_cards-add-card nds-edit-block_shortcards">
+              <div class="nds-m-top_x-large nds-edit-block_shortcards-circle"><span
+                  class="nds-icon_container nds-icon_container_circle">
+                  <c-icon><svg aria-hidden="true" class="nds-icon nds-input__icon nds-icon-text-default nds-icon_large">
+                      <use
+                        xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#user">
+                      </use>
+                    </svg><span class="nds-assistive-text">user icon</span></c-icon>
+                </span></div>
+              <div class="nds-m-top_x-small nds-size_1-of-1 nds-text-align_center nds-edit-block_shortcards-add-icon">
+                <c-icon><svg aria-hidden="true"
+                    class="nds-icon nds-input__icon nds-button__icon nds-button__icon_small nds-icon-text-default nds-icon_x-small">
+                    <use
+                      xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add">
+                    </use>
+                  </svg><span class="nds-assistive-text">add icon</span></c-icon><span>New</span>
+              </div>
+            </div>
+          </div>
+        </c-omniscript-edit-block-new>
+      </slot>
+    </c-omniscript-edit-block-wrapper>`)
+    +
+      withExample('Edit Block item invalid', `<c-omniscript-edit-block-wrapper
+      class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative omni-edit-block nds-size_12-of-12">
+      <slot name="label">
+        <c-omniscript-edit-block-label slot="label"
+          class="nds-size_1-of-1 nds-m-vertical_small">
+          <div class="nds-element_text-font"><label aria-label="Edit Block" aria-live="polite"
+              class="nds-m-horizontal_small nds-text-heading_small nds-text">Edit Block</label></div>
+        </c-omniscript-edit-block-label>
+      </slot>
+      <div id="edit-block-item-count-label-10" aria-live="polite" class="slds-assistive-text nds-assistive-text">1 item
+      </div>
+      <slot aria-describedby="edit-block-item-count-label-10">
+        <c-omniscript-edit-block
+          class="nds-size_12-of-12 nds-large-size_3-of-12 nds-medium-size_6-of-12">
+          <div class="nds-p-horizontal_small">
+            <div class="nds-grid nds-wrap nds-element_text-font">
+              <div class="nds-size_1-of-1 nds-show">
+                <div data-edit-action="default" role="button" tabindex="0" aria-invalid="true"
                   class="nds-box nds-box_x-small nds-grid nds-grid_vertical nds-grid_vertical-align-center nds-is-relative nds-size_12-of-12 nds-m-right_medium nds-m-bottom_medium omni-edit-block-card nds-edit-block_shortcards">
                   <div class="nds-dropdown-trigger nds-dropdown-trigger_click nds-is-open nds-col_bump-left"><button
                       type="button" aria-haspopup="true" title="Show More"
@@ -3823,7 +4121,7 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
         <div class="nds-p-horizontal_small">
           <div class="nds-grid nds-wrap nds-element_text-font">
             <div class="nds-size_1-of-1 nds-show">
-              <div data-edit-action="default" role="button" tabindex="0"
+              <div data-edit-action="default" role="button" tabindex="0" aria-invalid="false"
                 class="nds-box nds-box_x-small nds-grid nds-grid_vertical nds-grid_vertical-align-center nds-is-relative nds-size_12-of-12 nds-m-right_medium nds-m-bottom_medium omni-edit-block-card nds-edit-block_shortcards">
                 <div class="nds-dropdown-trigger nds-dropdown-trigger_click nds-is-open nds-col_bump-left"><button
                     type="button" aria-haspopup="true" title="Show More"
@@ -3989,7 +4287,90 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
           <div class="nds-p-horizontal_small">
             <div class="nds-grid nds-wrap nds-element_text-font">
               <div class="nds-size_1-of-1 nds-show">
-                <div data-edit-action="default" role="button" tabindex="0"
+                <div data-edit-action="default" role="button" tabindex="0" aria-invalid="false"
+                  class="nds-grid nds-grid_align-center nds-is-relative nds-size_12-of-12 nds-m-right_medium nds-m-bottom_medium nds-grid_vertical-align-center omni-edit-block-card nds-edit-block_longcards"
+                  style="justify-content: flex-start;">
+                  <div class="nds-edit-block_longcards-circle">
+                    <div class="nds-grid nds-grid_align-center nds-grid_vertical-align-center" style="height: 100%;"><span
+                        class="nds-icon_container nds-icon_container_circle slds-current-color omni-icon-circle"
+                        style="color: rgb(21, 100, 191); position: unset;">
+                        <c-icon><svg aria-hidden="true"
+                            class="nds-icon nds-input__icon nds-icon-text-default nds-icon_large">
+                            <use
+                              xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#user">
+                            </use>
+                          </svg><span class="nds-assistive-text">icon</span></c-icon>
+                      </span></div>
+                  </div>
+                  <div
+                    class="nds-grid nds-grid_vertical nds-grid_align-center nds-p-left_small nds-max-small-size_5-of-12 nds-small-size_8-of-12">
+                    <span class="nds-truncate">abc</span><span class="nds-truncate">defhijklm</span><span
+                      class="nds-truncate">123</span></div>
+                  <div
+                    class="nds-grid nds-dropdown-trigger nds-dropdown-trigger_click nds-is-open nds-col_bump-left nds-m-right_small">
+                    <button type="button" aria-haspopup="true" title="Show More" data-action-button-menu=""
+                      class="nds-button nds-button_icon-border-filled nds-editblock_action-button nds-element_text-font">
+                      <c-icon><svg aria-hidden="true"
+                          class="nds-icon nds-input__icon nds-icon-text-default nds-icon_x-small">
+                          <use
+                            xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown">
+                          </use>
+                        </svg><span class="nds-assistive-text">down icon</span></c-icon>
+                    </button></div>
+                </div>
+              </div>
+              <div role="button" tabindex="0"
+                class="nds-grid nds-grid_align-center nds-m-right_medium nds-m-bottom_medium nds-size_12-of-12 omni-edit-block-card nds-edit-block_cards-add-card nds-edit-block_longcards">
+                <div class="nds-grid nds-cont-wrapper">
+                  <div class="nds-edit-block_longcards-circle">
+                    <div class="nds-grid nds-grid_align-center nds-grid_vertical-align-center" style="height: 100%;"><span
+                        class="nds-icon_container nds-icon_container_circle" style="position: unset;">
+                        <c-icon><svg aria-hidden="true"
+                            class="nds-icon nds-input__icon nds-icon-text-default nds-icon_large">
+                            <use
+                              xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#user">
+                            </use>
+                          </svg><span class="nds-assistive-text">user icon</span></c-icon>
+                      </span></div>
+                  </div>
+                  <div class="nds-edit-block_longcards-add-icon nds-grid nds-has-flexi-truncate nds-align_absolute-center">
+                    <c-icon class="nds-align_absolute-center"><svg aria-hidden="true"
+                        class="nds-icon nds-button__icon nds-icon-text-default nds-icon_xx-small">
+                        <use
+                          xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add">
+                        </use>
+                      </svg><span class="nds-assistive-text">add icon</span></c-icon><span>New</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </c-omniscript-edit-block>
+      </slot>
+      <slot name="new">
+        <c-omniscript-edit-block-new slot="new">
+        </c-omniscript-edit-block-new>
+      </slot>
+    </c-omniscript-edit-block-wrapper>`)
+    +
+      withExample('Edit Block item invalid', `<c-omniscript-edit-block-wrapper
+      class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative omni-edit-block nds-size_12-of-12">
+      <slot name="label">
+        <c-omniscript-edit-block-label slot="label"
+          class="nds-size_1-of-1 nds-m-vertical_small">
+          <div class="nds-element_text-font"><label aria-label="Edit Block" aria-live="polite"
+              class="nds-m-horizontal_small nds-text-heading_small nds-text">Edit Block</label></div>
+        </c-omniscript-edit-block-label>
+      </slot>
+      <div id="edit-block-item-count-label-10" aria-live="polite" class="slds-assistive-text nds-assistive-text">1 item
+      </div>
+      <slot aria-describedby="edit-block-item-count-label-10">
+        <c-omniscript-edit-block data-omni-key="EditBlock2"
+          class="nds-size_12-of-12">
+          <div class="nds-p-horizontal_small">
+            <div class="nds-grid nds-wrap nds-element_text-font">
+              <div class="nds-size_1-of-1 nds-show">
+                <div data-edit-action="default" role="button" tabindex="0" aria-invalid="true"
                   class="nds-grid nds-grid_align-center nds-is-relative nds-size_12-of-12 nds-m-right_medium nds-m-bottom_medium nds-grid_vertical-align-center omni-edit-block-card nds-edit-block_longcards"
                   style="justify-content: flex-start;">
                   <div class="nds-edit-block_longcards-circle">
