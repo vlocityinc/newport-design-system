@@ -590,7 +590,7 @@ function calculateBranchLayout(
         branchLayout.labelOffset = labelOffset;
     }
 
-    const faultLayouts = [];
+    const faultLayouts: LayoutInfo[] = [];
 
     let leftWidth = 0;
     let rightWidth = 0;

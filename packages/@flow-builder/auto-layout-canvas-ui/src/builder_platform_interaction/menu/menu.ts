@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { getStyleFromGeometry } from 'builder_platform_interaction/alcComponentsUtils';
 import { SelectMenuItemEvent, CloseMenuEvent, MoveFocusToNodeEvent } from 'builder_platform_interaction/alcEvents';
@@ -22,7 +21,7 @@ export default class Menu extends LightningElement {
 
     tabFocusRingIndex = 0;
 
-    tabFocusRingCmds = [() => {}];
+    tabFocusRingCmds: Function[] = [];
 
     get style() {
         return getStyleFromGeometry({ y: this.top + 10, x: this.left });
@@ -36,7 +35,7 @@ export default class Menu extends LightningElement {
         this.dispatchEvent(new SelectMenuItemEvent({ value: event.detail.value }));
     }
 
-    calcaulateTabFocusRingIdx(shift: boolean, tabFocusRingIndex: number, tabFocusRingCmds: Array) {
+    calcaulateTabFocusRingIdx(shift: boolean, tabFocusRingIndex: number, tabFocusRingCmds: Function[]) {
         let newTabFocusRingIdx = shift ? tabFocusRingIndex - 1 : (tabFocusRingIndex + 1) % tabFocusRingCmds.length;
         if (newTabFocusRingIdx === -1) {
             newTabFocusRingIdx = tabFocusRingCmds.length - 1;

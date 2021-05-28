@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { api, LightningElement } from 'lwc';
 import { classSet } from 'lightning/utils';
 
@@ -44,9 +43,6 @@ export default class AlcMenuTrigger extends LightningElement {
     conditionOptionsForNode;
 
     @api
-    isCanvasReady;
-
-    @api
     get menuOpened() {
         return this._menuOpened;
     }
@@ -68,7 +64,6 @@ export default class AlcMenuTrigger extends LightningElement {
      * Options include xx-small, x-small, medium, or large.
      * This value defaults to medium.
      *
-     * @type {string}
      * @default medium
      */
     @api iconSize = 'medium';

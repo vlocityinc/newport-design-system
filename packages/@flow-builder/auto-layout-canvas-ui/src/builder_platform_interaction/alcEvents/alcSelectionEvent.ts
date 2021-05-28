@@ -1,19 +1,27 @@
-// @ts-nocheck
 /**
  * Used by fixed layout canvas to support selection mode.
  */
 
+import { Guid } from 'builder_platform_interaction/autoLayoutCanvas';
+
 const eventName = 'alcselection';
 
-export class AlcSelectionEvent {
+interface AlcSelectionEventDetail {
+    canvasElementGuidsToSelect: Guid[];
+    canvasElementGuidsToDeselect: Guid[];
+    selectableGuids: Guid[];
+    topSelectedGuid: Guid | null;
+    allowAllDisabledElements: boolean;
+}
+export class AlcSelectionEvent extends CustomEvent<AlcSelectionEventDetail> {
     constructor(
-        canvasElementGuidsToSelect,
-        canvasElementGuidsToDeselect,
-        selectableGuids,
-        topSelectedGuid,
+        canvasElementGuidsToSelect: Guid[],
+        canvasElementGuidsToDeselect: Guid[],
+        selectableGuids: Guid[],
+        topSelectedGuid: Guid | null,
         allowAllDisabledElements = false
     ) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             bubbles: true,
             composed: true,
             cancelable: true,

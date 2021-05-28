@@ -1,6 +1,6 @@
-// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 
+import { NodeRenderInfo } from 'builder_platform_interaction/autoLayoutCanvas';
 import {
     AutoLayoutCanvasMode,
     getAlcConnectorData,
@@ -14,13 +14,10 @@ import {
  */
 export default class AlcCompoundNode extends LightningElement {
     @api
-    node;
+    node!: NodeRenderInfo;
 
     @api
     canvasMode!: AutoLayoutCanvasMode;
-
-    @api
-    isCanvasReady;
 
     @api
     disableAddElements;
@@ -45,9 +42,14 @@ export default class AlcCompoundNode extends LightningElement {
 
     @api
     getNextConnector() {
-        return this.template.querySelector(
-            `builder_platform_interaction-alc-connector[data-key='${this.nextConnector.key}']`
-        );
+        const nextConnector = this.nextConnector;
+        if (nextConnector != null) {
+            return this.template.querySelector(
+                `builder_platform_interaction-alc-connector[data-key='${nextConnector.key}']`
+            );
+        }
+
+        return undefined;
     }
 
     @api

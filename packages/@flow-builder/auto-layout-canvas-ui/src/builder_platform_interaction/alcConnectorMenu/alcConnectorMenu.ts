@@ -108,12 +108,12 @@ export default class AlcConnectorMenu extends Menu {
 
         switch (action) {
             case PASTE_ACTION:
-                this.dispatchEvent(new PasteOnCanvasEvent(this.prev!, this.next!, this.parent!, this.childIndex!));
+                this.dispatchEvent(new PasteOnCanvasEvent(this.prev, this.next, this.parent, this.childIndex));
                 this.dispatchEvent(new MoveFocusToConnectorEvent(this.prev || this.parent, this.childIndex));
                 break;
             case GOTO_ACTION:
                 this.dispatchEvent(
-                    new GoToPathEvent(this.next!, this.prev, this.parent, this.childIndex, this.canMergeEndedBranch)
+                    new GoToPathEvent(this.next, this.prev, this.parent, this.childIndex, this.canMergeEndedBranch)
                 );
                 break;
             case GOTO_DELETE_ACTION:
@@ -122,7 +122,7 @@ export default class AlcConnectorMenu extends Menu {
             case GOTO_REROUTE_ACTION:
                 this.dispatchEvent(
                     new GoToPathEvent(
-                        this.next!,
+                        this.next,
                         this.prev,
                         this.parent,
                         this.childIndex,
@@ -136,7 +136,6 @@ export default class AlcConnectorMenu extends Menu {
                 const alcInsertAt = prev ? { prev } : { parent, childIndex };
 
                 this.dispatchEvent(
-                    // @ts-ignore
                     new AddElementEvent({
                         elementType: currentTarget.getAttribute('data-value')!,
                         elementSubtype: currentTarget.getAttribute('data-sub-type')!,
@@ -159,7 +158,7 @@ export default class AlcConnectorMenu extends Menu {
     }
 
     getItemFromItemList(index) {
-        const listItems = Array.from(this.template.querySelectorAll(selectors.menuItem)) as any;
+        const listItems = Array.from(this.template.querySelectorAll(selectors.menuItem)) as HTMLElement[];
         return listItems && listItems[index];
     }
 
@@ -175,7 +174,7 @@ export default class AlcConnectorMenu extends Menu {
     handleArrowKeyDown(key) {
         const currentItemInFocus = this.template.activeElement;
         if (currentItemInFocus) {
-            const items = Array.from(this.template.querySelectorAll(selectors.menuItem)) as any;
+            const items = Array.from(this.template.querySelectorAll(selectors.menuItem)) as HTMLElement[];
             moveFocusInMenuOnArrowKeyDown(items, currentItemInFocus, key);
         }
     }
@@ -204,7 +203,7 @@ export default class AlcConnectorMenu extends Menu {
 
     renderedCallback() {
         if (this.moveFocusToMenu) {
-            const items = Array.from(this.template.querySelectorAll(selectors.menuItem)) as any;
+            const items = Array.from(this.template.querySelectorAll(selectors.menuItem)) as HTMLElement[];
             if (items.length > 0) {
                 this.tabFocusRingIndex = TabFocusRingItems.ListItems;
                 this.tabFocusRingCmds[this.tabFocusRingIndex]();

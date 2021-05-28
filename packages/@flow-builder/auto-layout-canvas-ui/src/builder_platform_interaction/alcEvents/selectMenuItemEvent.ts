@@ -1,6 +1,9 @@
-// @ts-nocheck
 const eventName = 'selectmenuitem';
-export class SelectMenuItemEvent extends CustomEvent {
+
+interface SelectMenuItemEventDetail {
+    value: string;
+}
+export class SelectMenuItemEvent extends CustomEvent<SelectMenuItemEventDetail> {
     constructor(detail) {
         super(eventName, {
             bubbles: true,

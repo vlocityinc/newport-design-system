@@ -34,7 +34,7 @@ enum NodeEnv {
 }
 
 export function assertInDev(assertCallback: Function) {
-    // eslint-disable-next-line dot-notation
+    // eslint-disable-next-line
     const processEnv = (window as any)['processEnv'];
 
     if (processEnv && processEnv.NODE_ENV === NodeEnv.DEVELOPMENT) {

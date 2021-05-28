@@ -1,21 +1,17 @@
-// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import {
     getAlcConnectorData,
     getAlcCompoundNodeData,
     AutoLayoutCanvasMode
 } from 'builder_platform_interaction/alcComponentsUtils';
-import { FAULT_INDEX, Guid } from 'builder_platform_interaction/autoLayoutCanvas';
+import { FAULT_INDEX, FlowRenderInfo, Guid } from 'builder_platform_interaction/autoLayoutCanvas';
 
 export default class AlcFlow extends LightningElement {
     @api
-    flow;
+    flow!: FlowRenderInfo;
 
     @api
     canvasMode!: AutoLayoutCanvasMode;
-
-    @api
-    isCanvasReady;
 
     @api
     disableAddElements;
@@ -38,10 +34,10 @@ export default class AlcFlow extends LightningElement {
      * @param compoundNode - compoundNode found on the path to the node/connector
      * @param nestedBranchIndex - Index of the branch that needs to be traversed/focused
      */
-    getFaultOrNestedFlow(compoundNode: any, nestedBranchIndex?: number) {
+    getFaultOrNestedFlow(compoundNode, nestedBranchIndex?: number) {
         if (nestedBranchIndex === FAULT_INDEX) {
             // Finding the key for the fault flow associated with the compound node found in the path to desired node/connector
-            const faultFlowDataKey = this.nodes.find((node) => node.key === compoundNode.dataset.key).faultFlow.key;
+            const faultFlowDataKey = this.nodes.find((node) => node.key === compoundNode.dataset.key)?.faultFlow?.key;
             return this.template.querySelector(`builder_platform_interaction-alc-flow[data-key='${faultFlowDataKey}']`);
         }
         return compoundNode.getNestedFlow(nestedBranchIndex);

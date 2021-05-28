@@ -59,7 +59,7 @@ function createBranchOrMergeConnectorGeometry(
     branchLayout: LayoutInfo,
     layoutConfig: LayoutConfig,
     isBranch: boolean,
-    joinOffsetY: number = 0
+    joinOffsetY = 0
 ): Geometry {
     const width = Math.abs(branchLayout.x);
     const gridHeight = layoutConfig.grid.h;
@@ -518,7 +518,7 @@ function renderFlowHelper(parentNode: ParentNodeModel, childIndex: number, conte
 
     let node: NodeModel | null = branchHead;
 
-    const nodeRenderInfos = [];
+    const nodeRenderInfos: NodeRenderInfo[] = [];
 
     const connectorVariant = getConnectorVariant(parentNode, childIndex, context);
 
@@ -637,7 +637,7 @@ function renderBranches(
     node: ParentNodeModel,
     nodeRenderInfo: NodeRenderInfo,
     context: FlowRenderContext,
-    isFault: boolean = false
+    isFault = false
 ): void {
     const { progress, nodeLayoutMap, layoutConfig, flowModel } = context;
     const { nodeType } = node;

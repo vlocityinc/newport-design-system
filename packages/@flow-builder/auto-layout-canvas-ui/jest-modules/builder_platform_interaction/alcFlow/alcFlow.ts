@@ -9,8 +9,5 @@ export default class AlcFlow extends LightningElement {
     canvasMode;
 
     @api
-    isCanvasReady;
-
-    @api
     disableAddElements;
 }

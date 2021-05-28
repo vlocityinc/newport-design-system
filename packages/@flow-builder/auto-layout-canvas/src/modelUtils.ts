@@ -929,7 +929,7 @@ function getValidGoToTargets(
     firstMergeableNonNullNext: Guid | null,
     nonSelectableTailElementsGuids: Guid[]
 ): Guid[] {
-    const goToableGuids = [];
+    const goToableGuids: Guid[] = [];
 
     // Checking if the previous element can have a GoTo connection to it
     if (
@@ -984,7 +984,7 @@ function getTargetGuidsForReconnection(
     const mergeableGuids = canMergeEndedBranch ? getMergeableGuids(elements, prev, parent, childIndex) : [];
     // Variable to keep track of the first non-null next element of a branching element (going up the branch)
     // that the user can merge into
-    let firstMergeableNonNullNext = null;
+    let firstMergeableNonNullNext: string | null = null;
 
     let isSteppingOutOfFault = false;
     let branchHead = prev

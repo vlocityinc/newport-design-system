@@ -1,4 +1,3 @@
-// @ts-nocheck
 import copyActionLabel from '@salesforce/label/AlcNodeContextualMenu.copyActionLabel';
 import deleteActionLabel from '@salesforce/label/AlcNodeContextualMenu.deleteActionLabel';
 import backButtonAlternativeText from '@salesforce/label/AlcNodeContextualMenu.backButtonAlternativeText';
@@ -11,7 +10,7 @@ import editDetailsFooterActionTitle from '@salesforce/label/AlcNodeContextualMen
 import deleteFooterActionLabel from '@salesforce/label/AlcNodeContextualMenu.deleteFooterActionLabel';
 import deleteFooterActionTitle from '@salesforce/label/AlcNodeContextualMenu.deleteFooterActionTitle';
 
-export const LABELS = {
+export const LABELS: Labels = {
     copyActionLabel,
     deleteActionLabel,
     backButtonAlternativeText,

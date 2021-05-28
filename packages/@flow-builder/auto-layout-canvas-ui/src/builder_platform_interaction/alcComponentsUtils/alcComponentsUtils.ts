@@ -540,7 +540,7 @@ function getAlcFlowData(flowInfo: FlowRenderInfo, parentNodeInfo: NodeRenderInfo
  * @param nodeInfo - Info about a node
  * @returns The alcCompoundNode component data
  */
-function getAlcCompoundNodeData(nodeInfo: NodeRenderInfo): object {
+function getAlcCompoundNodeData(nodeInfo: NodeRenderInfo) {
     const { geometry, guid } = nodeInfo;
     const className = classSet({ [CLASS_IS_NEW]: nodeInfo.isNew });
 

@@ -156,7 +156,7 @@ export const configureMenu = (
 
             // Using the new isSupported property to determine what is shown in the connector menu
             if (isSupported) {
-                const item: any = {
+                const item = {
                     guid: generateGuid(),
                     description,
                     label,
@@ -166,11 +166,10 @@ export const configureMenu = (
                     iconClass,
                     iconSize,
                     iconVariant,
-                    rowClass: 'slds-listbox__item'
+                    rowClass: 'slds-listbox__item',
+                    elementSubtype
                 };
-                if (elementSubtype) {
-                    item.elementSubtype = elementSubtype;
-                }
+
                 sectionDefinition.items.push(item);
             }
 

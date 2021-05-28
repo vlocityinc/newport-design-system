@@ -39,6 +39,7 @@ Object {
       "items": Array [
         Object {
           "description": "Collect information from",
+          "elementSubtype": undefined,
           "elementType": "Screen",
           "guid": 1,
           "icon": "standard:screen",
@@ -58,6 +59,7 @@ Object {
       "items": Array [
         Object {
           "description": "Create Decision",
+          "elementSubtype": undefined,
           "elementType": "Decision",
           "guid": 1,
           "icon": "standard:decision",

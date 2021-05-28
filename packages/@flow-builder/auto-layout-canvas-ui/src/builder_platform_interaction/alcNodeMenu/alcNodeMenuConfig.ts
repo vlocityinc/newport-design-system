@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { LABELS } from './alcNodeMenuLabels';
 
 export const CONTEXTUAL_MENU_MODE = {
@@ -74,11 +73,9 @@ export const getMenuConfiguration = (
         },
         body: {
             nodeActions
-        }
+        },
+        footer: getFooterData(contextualMenuMode)
     };
-
-    const footerData = getFooterData(contextualMenuMode);
-    menuConfiguration.footer = footerData;
 
     return menuConfiguration;
 };

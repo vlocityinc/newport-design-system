@@ -24,6 +24,7 @@ const FLOW_BUILDER_UI_PACKAGE_DIR = 'packages/@flow-builder/ui';
 {
     "extends": "../../../tsconfig.json",
     "compilerOptions": {
+        "experimentalDecorators": true,
         "declaration": false,
         "noUnusedLocals": false,
         "noImplicitAny": false,
@@ -38,7 +39,7 @@ ${paths}
          }
     },
 
-    "include": ["src/builder_platform_interaction/**/*", "jest-modules/**/*", "jest-mock-data/**/*", "@types/index.d.ts", "@types/uiModel.d.ts","@types/metadataModel.d.ts"]
+    "include": ["src/builder_platform_interaction/**/*", "jest-modules/**/*", "jest-mock-data/**/*", "@types"]
 }`
     );
 })(

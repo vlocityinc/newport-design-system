@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { api, track } from 'lwc';
 import { CopySingleElementEvent, DeleteElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
 import {
@@ -76,7 +75,7 @@ export default class AlcNodeMenu extends Menu {
     };
 
     _selectedConditionValue;
-    _childIndexToKeep = 0;
+    _childIndexToKeep: number | undefined = 0;
 
     // Tracks if the component has been rendered once
     _isRendered = false;
@@ -102,10 +101,7 @@ export default class AlcNodeMenu extends Menu {
             this.disableDeleteElements
         );
     }
-    set menuConfiguration(config) {
-        // eslint-disable-next-line no-setter-return
-        return config;
-    }
+
     get menuWrapper() {
         return this.elementMetadata.iconShape === ICON_SHAPE.DIAMOND ? 'diamond-element-menu' : '';
     }
@@ -134,8 +130,8 @@ export default class AlcNodeMenu extends Menu {
      * Also, dispatches the ClearHighlightedPathEvent to remove the highlight from nodes and connectors
      * on the deletion path.
      */
-    handleBackButtonClick = (event) => {
-        if (event) {
+    handleBackButtonClick = (event: Event | undefined = undefined) => {
+        if (event != null) {
             event.stopPropagation();
         }
         this.contextualMenuMode = CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE;
@@ -195,7 +191,7 @@ export default class AlcNodeMenu extends Menu {
     /**
      * Handles onchange event coming from the combobox and updates the _selectedConditionValue accordingly
      */
-    handleComboboxChange = (event) => {
+    handleComboboxChange = (event: CustomEvent) => {
         event.stopPropagation();
         this._selectedConditionValue = event.detail.value;
         this._childIndexToKeep = this.conditionOptions.findIndex(
@@ -217,8 +213,8 @@ export default class AlcNodeMenu extends Menu {
     /**
      * Handles the click on the Footer button and dispatches the relevant event
      */
-    handleFooterButtonClick = (event) => {
-        if (event) {
+    handleFooterButtonClick = (event: Event | undefined = undefined) => {
+        if (event != null) {
             event.stopPropagation();
         }
         this.dispatchEvent(new CloseMenuEvent());
@@ -239,7 +235,7 @@ export default class AlcNodeMenu extends Menu {
         // Need this check in case the current item in focus is something other than the list item
         // (eg. back button or footer button)
         if (currentItemInFocus && currentItemInFocus.role === 'menuitem') {
-            const items = Array.from(this.template.querySelectorAll(selectors.menuItem)) as any;
+            const items = Array.from(this.template.querySelectorAll(selectors.menuItem)) as HTMLElement[];
             moveFocusInMenuOnArrowKeyDown(items, currentItemInFocus, key);
         }
     }
@@ -265,7 +261,7 @@ export default class AlcNodeMenu extends Menu {
     }
 
     moveFocusToFirstRowItem() {
-        const listItems = Array.from(this.template.querySelectorAll(selectors.menuItem)) as any;
+        const listItems = Array.from(this.template.querySelectorAll(selectors.menuItem)) as HTMLElement[];
         const firstRowItem = listItems && listItems[0];
         firstRowItem.focus();
     }
@@ -318,11 +314,11 @@ export default class AlcNodeMenu extends Menu {
         }
         if (this.isBaseActionMode && !this._hasBaseModeRendered) {
             // Setting focus on the delete branch row if entering base mode via the back button.
-            const items = Array.from(this.template.querySelectorAll(selectors.menuItem)) as any;
+            const items = Array.from(this.template.querySelectorAll(selectors.menuItem)) as HTMLElement[];
             items.forEach((item) => {
                 if (
                     this._moveFocusToDeleteBranchRow &&
-                    item.parentElement.getAttribute('data-value') === ELEMENT_ACTION_CONFIG.DELETE_ACTION.value
+                    item.parentElement?.getAttribute('data-value') === ELEMENT_ACTION_CONFIG.DELETE_ACTION.value
                 ) {
                     item.focus();
                     this.tabFocusRingIndex = TabFocusRingItems.ListItems;

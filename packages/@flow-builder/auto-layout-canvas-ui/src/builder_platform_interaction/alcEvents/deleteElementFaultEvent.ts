@@ -1,8 +1,12 @@
-// @ts-nocheck
+import { Guid } from 'builder_platform_interaction/autoLayoutCanvas';
+
 const eventName = 'deleteelementfault';
 
-export class DeleteElementFaultEvent extends CustomEvent {
-    constructor(guid) {
+interface DeleteElementFaultEventDetail {
+    guid: Guid;
+}
+export class DeleteElementFaultEvent extends CustomEvent<DeleteElementFaultEventDetail> {
+    constructor(guid: string) {
         super(eventName, {
             bubbles: true,
             composed: true,

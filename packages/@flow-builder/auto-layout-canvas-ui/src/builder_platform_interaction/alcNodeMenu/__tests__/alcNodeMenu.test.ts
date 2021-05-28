@@ -20,7 +20,7 @@ const { ArrowDown, ArrowUp, EscapeCommand, EnterCommand, SpaceCommand, TabComman
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {
     const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
-    const sharedcommands = require('builder_platform_interaction/sharedUtils/commands');
+    const sharedcommands = jest.requireActual('builder_platform_interaction/sharedUtils/commands');
     return Object.assign({}, sharedUtils, { commands: sharedcommands });
 });
 
@@ -135,7 +135,7 @@ describe('Node Menu', () => {
         });
 
         it('Focus should move correctly to the next row on arrow down', () => {
-            const listItems = Array.from(menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)) as any;
+            const listItems = menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem);
             listItems[0].focus();
             const callback = jest.fn();
             listItems[1].addEventListener('focus', callback);
@@ -144,7 +144,7 @@ describe('Node Menu', () => {
         });
 
         it('Focus should move correctly to the previous row on arrow up', () => {
-            const listItems = Array.from(menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)) as any;
+            const listItems = menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem);
             listItems[1].focus();
             const callback = jest.fn();
             listItems[0].addEventListener('focus', callback);
@@ -153,7 +153,7 @@ describe('Node Menu', () => {
         });
 
         it('Focus should move correctly to the first row on arrow down on the last row', () => {
-            const listItems = Array.from(menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)) as any;
+            const listItems = menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem);
             listItems[listItems.length - 1].focus();
             const callback = jest.fn();
             listItems[0].addEventListener('focus', callback);
@@ -162,7 +162,7 @@ describe('Node Menu', () => {
         });
 
         it('Focus should move correctly to the last row on arrow up on the first row', () => {
-            const listItems = Array.from(menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)) as any;
+            const listItems = menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem);
             listItems[0].focus();
             const callback = jest.fn();
             listItems[listItems.length - 1].addEventListener('focus', callback);
@@ -171,7 +171,7 @@ describe('Node Menu', () => {
         });
 
         it('Pressing escape while focus is on menu item fires the CloseMenuEvent', () => {
-            const listItems = Array.from(menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)) as any;
+            const listItems = menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem);
             listItems[0].focus();
             const callback = jest.fn();
             menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
@@ -180,7 +180,7 @@ describe('Node Menu', () => {
         });
 
         it('Pressing escape while focus is on menu item fires the MoveFocusToNodeEvent', () => {
-            const listItems = Array.from(menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)) as any;
+            const listItems = menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem);
             listItems[0].focus();
             const callback = jest.fn();
             menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, callback);
@@ -240,9 +240,8 @@ describe('Node Menu', () => {
 
             describe('Keyboard commands', () => {
                 it('Pressing enter on the Copy Action dispatches the CopySingleElementEvent', () => {
-                    const listItems = Array.from(
-                        menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)
-                    ) as any;
+                    const listItems = menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem);
+
                     const callback = jest.fn();
                     menu.addEventListener(CopySingleElementEvent.EVENT_NAME, callback);
                     listItems[0].focus();
@@ -251,9 +250,8 @@ describe('Node Menu', () => {
                 });
 
                 it('Pressing enter on the Copy Action dispatches the close menu event', () => {
-                    const listItems = Array.from(
-                        menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)
-                    ) as any;
+                    const listItems = menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem);
+
                     const callback = jest.fn();
                     menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
                     listItems[0].focus();
@@ -262,9 +260,7 @@ describe('Node Menu', () => {
                 });
 
                 it('Pressing enter on the Copy Action dispatches MoveFocusToNodeEvent', () => {
-                    const listItems = Array.from(
-                        menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)
-                    ) as any;
+                    const listItems = menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem);
                     const callback = jest.fn();
                     menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, callback);
                     listItems[0].focus();
@@ -273,9 +269,7 @@ describe('Node Menu', () => {
                 });
 
                 it('Pressing space on the Copy Action dispatches the CopySingleElementEvent', () => {
-                    const listItems = Array.from(
-                        menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)
-                    ) as any;
+                    const listItems = menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem);
                     const callback = jest.fn();
                     menu.addEventListener(CopySingleElementEvent.EVENT_NAME, callback);
                     listItems[0].focus();
@@ -284,9 +278,7 @@ describe('Node Menu', () => {
                 });
 
                 it('Pressing space on the Copy Action dispatches the close menu event', () => {
-                    const listItems = Array.from(
-                        menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)
-                    ) as any;
+                    const listItems = menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem);
                     const callback = jest.fn();
                     menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
                     listItems[0].focus();
@@ -295,9 +287,7 @@ describe('Node Menu', () => {
                 });
 
                 it('Pressing space on the Copy Action dispatches MoveFocusToNodeEvent', () => {
-                    const listItems = Array.from(
-                        menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)
-                    ) as any;
+                    const listItems = menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem);
                     const callback = jest.fn();
                     menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, callback);
                     listItems[0].focus();
@@ -419,9 +409,7 @@ describe('Node Menu', () => {
 
             describe('Keyboard Commands', () => {
                 it('Pressing enter on the Delete Action dispatches the DeleteElementEvent', () => {
-                    const listItems = Array.from(
-                        menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)
-                    ) as any;
+                    const listItems = menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem);
                     const callback = jest.fn();
                     menu.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
                     listItems[1].focus();
@@ -430,9 +418,7 @@ describe('Node Menu', () => {
                 });
 
                 it('Pressing enter on the Delete Action should dispatch DeleteElementEvent with right details', () => {
-                    const listItems = Array.from(
-                        menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)
-                    ) as any;
+                    const listItems = menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem);
                     const callback = jest.fn();
                     menu.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
                     listItems[1].focus();
@@ -444,9 +430,7 @@ describe('Node Menu', () => {
                 });
 
                 it('Pressing enter on the Delete Action dispatches the close menu event', () => {
-                    const listItems = Array.from(
-                        menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)
-                    ) as any;
+                    const listItems = menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem);
                     const callback = jest.fn();
                     menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
                     listItems[1].focus();
@@ -455,9 +439,7 @@ describe('Node Menu', () => {
                 });
 
                 it('Pressing enter on the Delete Action should not dispatch the MoveFocusToNodeEvent', () => {
-                    const listItems = Array.from(
-                        menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)
-                    ) as any;
+                    const listItems = menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem);
                     const callback = jest.fn();
                     menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, callback);
                     listItems[1].focus();
@@ -467,9 +449,7 @@ describe('Node Menu', () => {
 
                 it('Pressing enter on the Delete Action for Loop Element should not dispatch the MoveFocusToNodeEvent', () => {
                     menu = createComponentUnderTest(dummyLoopElement);
-                    const listItems = Array.from(
-                        menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)
-                    ) as any;
+                    const listItems = menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem);
                     const callback = jest.fn();
                     menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, callback);
                     listItems[1].focus();
@@ -478,9 +458,7 @@ describe('Node Menu', () => {
                 });
 
                 it('Pressing space on the Delete Action dispatches the DeleteElementEvent', () => {
-                    const listItems = Array.from(
-                        menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)
-                    ) as any;
+                    const listItems = menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem);
                     const callback = jest.fn();
                     menu.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
                     listItems[1].focus();
@@ -489,9 +467,7 @@ describe('Node Menu', () => {
                 });
 
                 it('Pressing space on the Delete Action should dispatch DeleteElementEvent with right details', () => {
-                    const listItems = Array.from(
-                        menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)
-                    ) as any;
+                    const listItems = menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem);
                     const callback = jest.fn();
                     menu.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
                     listItems[1].focus();
@@ -503,9 +479,7 @@ describe('Node Menu', () => {
                 });
 
                 it('Pressing space on the Delete Action dispatches the close menu event', () => {
-                    const listItems = Array.from(
-                        menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)
-                    ) as any;
+                    const listItems = menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem);
                     const callback = jest.fn();
                     menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
                     listItems[1].focus();
@@ -514,9 +488,7 @@ describe('Node Menu', () => {
                 });
 
                 it('Pressing space on the Delete Action should not dispatch the MoveFocusToNodeEvent', () => {
-                    const listItems = Array.from(
-                        menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)
-                    ) as any;
+                    const listItems = menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem);
                     const callback = jest.fn();
                     menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, callback);
                     listItems[1].focus();
@@ -526,9 +498,7 @@ describe('Node Menu', () => {
 
                 it('Pressing space on the Delete Action for Loop Element should not dispatch the MoveFocusToNodeEvent', () => {
                     menu = createComponentUnderTest(dummyLoopElement);
-                    const listItems = Array.from(
-                        menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)
-                    ) as any;
+                    const listItems = menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem);
                     const callback = jest.fn();
                     menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, callback);
                     listItems[1].focus();
@@ -551,14 +521,14 @@ describe('Node Menu', () => {
             });
 
             it('Pressing enter on the Add Fault row should dispatch the MoveFocusToNodeEvent', () => {
-                const listItems = Array.from(menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)) as any;
+                const listItems = menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem);
                 listItems[2].focus();
                 menu.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
                 expect(moveFocusToNodeCallback).toHaveBeenCalled();
             });
 
             it('Pressing space on the Add Fault row should dispatch the MoveFocusToNodeEvent', () => {
-                const listItems = Array.from(menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)) as any;
+                const listItems = menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem);
                 listItems[2].focus();
                 menu.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
                 expect(moveFocusToNodeCallback).toHaveBeenCalled();
@@ -578,14 +548,14 @@ describe('Node Menu', () => {
             });
 
             it('Pressing enter on the Delete Fault row should dispatch the MoveFocusToNodeEvent', () => {
-                const listItems = Array.from(menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)) as any;
+                const listItems = menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem);
                 listItems[2].focus();
                 menu.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
                 expect(moveFocusToNodeCallback).toHaveBeenCalled();
             });
 
             it('Pressing space on the Delete Fault row should dispatch the MoveFocusToNodeEvent', () => {
-                const listItems = Array.from(menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)) as any;
+                const listItems = menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem);
                 listItems[2].focus();
                 menu.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
                 expect(moveFocusToNodeCallback).toHaveBeenCalled();
@@ -677,7 +647,7 @@ describe('Node Menu', () => {
             });
 
             it('Pressing shift + tab on the edit button moves focus to the Copy Action', () => {
-                const listItems = Array.from(menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)) as any;
+                const listItems = menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem);
                 const callback = jest.fn();
                 listItems[0].addEventListener('focus', callback);
                 menu.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
@@ -723,7 +693,7 @@ describe('Node Menu', () => {
 
         it('Pressing enter on the Delete Action should not dispatch the MoveFocusToNodeEvent', () => {
             menu = createComponentUnderTest(dummyBranchElement, conditionOptions);
-            const listItems = Array.from(menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)) as any;
+            const listItems = menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem);
             menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, moveFocusCallback);
             listItems[1].focus();
             menu.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
@@ -732,7 +702,7 @@ describe('Node Menu', () => {
 
         it('Pressing space on the Delete Action should not dispatch the MoveFocusToNodeEvent', () => {
             menu = createComponentUnderTest(dummyBranchElement, conditionOptions);
-            const listItems = Array.from(menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)) as any;
+            const listItems = menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem);
             menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, moveFocusCallback);
             listItems[1].focus();
             menu.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);

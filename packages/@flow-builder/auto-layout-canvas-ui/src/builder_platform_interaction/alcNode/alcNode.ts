@@ -1,6 +1,5 @@
-// @ts-nocheck
 import { LightningElement, api } from 'lwc';
-import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { NodeType, NodeRenderInfo, NodeModel } from 'builder_platform_interaction/autoLayoutCanvas';
 import { EditElementEvent, SelectNodeEvent } from 'builder_platform_interaction/events';
 import { AlcSelectDeselectNodeEvent } from 'builder_platform_interaction/alcEvents';
 import { classSet } from 'lightning/utils';
@@ -16,10 +15,13 @@ enum ConditionOptions {
  * Autolayout Canvas Node Component
  */
 export default class AlcNode extends LightningElement {
-    _nodeInfo;
+    _nodeInfo!: NodeRenderInfo;
 
-    private dynamicNodeConstructor: Function;
-    private dynamicNodeData: any;
+    // @ts-ignore
+    private dynamicNodeConstructor: Function | undefined;
+
+    // @ts-ignore
+    private dynamicNodeData: NodeModel;
 
     @api
     get nodeInfo() {
@@ -31,7 +33,7 @@ export default class AlcNode extends LightningElement {
      * with the node guid.  This guarantees that the data refreshes on any
      * change to the node.
      */
-    set nodeInfo(nodeInfo) {
+    set nodeInfo(nodeInfo: NodeRenderInfo) {
         this._nodeInfo = nodeInfo;
 
         if (nodeInfo && nodeInfo.metadata.dynamicNodeComponent) {
@@ -44,14 +46,16 @@ export default class AlcNode extends LightningElement {
     }
 
     @api
+    focus() {
+        this.template.querySelector('builder_platform_interaction-alc-menu-trigger').focus();
+    }
+
+    @api
     canvasMode!: AutoLayoutCanvasMode;
 
     get labels() {
         return LABELS;
     }
-
-    @api
-    isCanvasReady;
 
     get isDefaultMode() {
         return this.canvasMode === AutoLayoutCanvasMode.DEFAULT;
@@ -207,9 +211,9 @@ export default class AlcNode extends LightningElement {
      * by handlers at different levels to learn about the historical selection
      * status even after the store is updated
      *
-     * @param {object} event - clicked event coming from alcMenuTrigger.js
+     * @param event - clicked event coming from alcMenuTrigger.js
      */
-    handleButtonClick(event) {
+    handleButtonClick(event: Event) {
         event.stopPropagation();
         const { type } = this.nodeInfo.metadata;
         if (this.canvasMode === AutoLayoutCanvasMode.DEFAULT && type !== NodeType.END) {
@@ -225,9 +229,9 @@ export default class AlcNode extends LightningElement {
     /**
      * Handles double click on the node and dispatches the EditElementEvent
      *
-     * @param {object} event - double click event fired on double clicking the node
+     * @param event - double click event fired on double clicking the node
      */
-    handleOnDblClick(event) {
+    handleOnDblClick(event: Event) {
         event.stopPropagation();
         const { type } = this.nodeInfo.metadata;
         if (type !== NodeType.START && type !== NodeType.END && this.canvasMode === AutoLayoutCanvasMode.DEFAULT) {
@@ -239,9 +243,9 @@ export default class AlcNode extends LightningElement {
      * Handles the click on the selection checkbox and dispatches an event to toggle
      * the selected state of the node.
      *
-     * @param {object} event - click event fired when clicking on the selection checkbox
+     * @param event - click event fired when clicking on the selection checkbox
      */
-    handleSelectionCheckboxClick = (event) => {
+    handleSelectionCheckboxClick = (event: Event) => {
         event.stopPropagation();
         const toggleNodeSelectionEvent = new AlcSelectDeselectNodeEvent(
             this.nodeInfo.guid,
@@ -249,9 +253,4 @@ export default class AlcNode extends LightningElement {
         );
         this.dispatchEvent(toggleNodeSelectionEvent);
     };
-
-    @api
-    focus() {
-        this.template.querySelector('builder_platform_interaction-alc-menu-trigger').focus();
-    }
 }

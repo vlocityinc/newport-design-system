@@ -1,4 +1,3 @@
-// @ts-nocheck
 import addElementIconAltText from '@salesforce/label/AlcConnector.addElementIconAltText';
 import faultConnectorBadgeLabel from '@salesforce/label/AlcConnector.faultConnectorBadgeLabel';
 import connectorButtonLabel from '@salesforce/label/AlcConnector.connectorButtonLabel';
@@ -6,7 +5,7 @@ import connectorButtonLabel from '@salesforce/label/AlcConnector.connectorButton
 const forEachBadgeLabel = 'For Each';
 const afterLastBadgeLabel = 'After Last';
 
-export const LABELS = {
+export const LABELS: Labels = {
     addElementIconAltText,
     faultConnectorBadgeLabel,
     forEachBadgeLabel,

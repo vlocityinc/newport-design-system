@@ -12,8 +12,8 @@ const { EscapeCommand, ArrowDown, ArrowUp, TabCommand } = commands;
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {
     const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
-    const sharedcommands = require('builder_platform_interaction/sharedUtils/commands');
-    return Object.assign({}, sharedUtils, { commands: sharedcommands });
+    const sharedCommands = jest.requireActual('builder_platform_interaction/sharedUtils/commands');
+    return Object.assign({}, sharedUtils, { commands: sharedCommands });
 });
 
 const autolaunchedFlowStart = {

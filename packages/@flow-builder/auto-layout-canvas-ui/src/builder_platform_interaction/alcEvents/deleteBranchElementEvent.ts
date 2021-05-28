@@ -1,17 +1,18 @@
+import { Guid } from 'builder_platform_interaction/autoLayoutCanvas';
 interface DeleteBranchElementEventDetail {
-    selectedElementGUID: UI.Guid[];
-    selectedElementType: UI.ElementType;
+    selectedElementGUID: Guid[];
+    selectedElementType: string;
     childIndexToKeep?: number | null;
-    parentGUID?: UI.Guid;
+    parentGUID?: Guid;
 }
 
 const eventName = 'deletebranchelement';
 export class DeleteBranchElementEvent extends CustomEvent<DeleteBranchElementEventDetail> {
     constructor(
-        selectedElementGUID: UI.Guid[],
-        selectedElementType: UI.ElementType,
+        selectedElementGUID: Guid[],
+        selectedElementType: string,
         childIndexToKeep?: number | null,
-        parentGUID?: UI.Guid
+        parentGUID?: Guid
     ) {
         super(eventName, {
             bubbles: true,

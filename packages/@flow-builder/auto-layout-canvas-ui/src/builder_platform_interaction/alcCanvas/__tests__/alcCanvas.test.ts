@@ -75,18 +75,24 @@ const closeToggleMenuEvent = new ToggleMenuEvent({});
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {
     const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
-    const sharedcommands = require('builder_platform_interaction/sharedUtils/commands');
+    const sharedcommands = jest.requireActual('builder_platform_interaction/sharedUtils/commands');
     return Object.assign({}, sharedUtils, { commands: sharedcommands });
 });
-jest.mock('builder_platform_interaction/zoomPanel', () => require('builder_platform_interaction_mocks/zoomPanel'));
-jest.mock('builder_platform_interaction/alcFlow', () => require('builder_platform_interaction_mocks/alcFlow'));
+jest.mock('builder_platform_interaction/zoomPanel', () =>
+    jest.requireActual('builder_platform_interaction_mocks/zoomPanel')
+);
+jest.mock('builder_platform_interaction/alcFlow', () =>
+    jest.requireActual('builder_platform_interaction_mocks/alcFlow')
+);
 jest.mock('builder_platform_interaction/alcConnectorMenu', () =>
-    require('builder_platform_interaction_mocks/alcConnectorMenu')
+    jest.requireActual('builder_platform_interaction_mocks/alcConnectorMenu')
 );
 
-jest.mock('builder_platform_interaction/alcNodeMenu', () => require('builder_platform_interaction_mocks/alcNodeMenu'));
+jest.mock('builder_platform_interaction/alcNodeMenu', () =>
+    jest.requireActual('builder_platform_interaction_mocks/alcNodeMenu')
+);
 jest.mock('builder_platform_interaction/alcStartMenu', () =>
-    require('builder_platform_interaction_mocks/alcStartMenu')
+    jest.requireActual('builder_platform_interaction_mocks/alcStartMenu')
 );
 
 jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
@@ -103,7 +109,7 @@ jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
         isBranchTerminal,
         shouldDeleteGoToOnNext
     } = autoLayoutCanvas;
-    const { flowRenderInfo } = require('./mockData');
+    const { flowRenderInfo } = jest.requireActual('./mockData');
 
     return {
         renderFlow: jest.fn(() => flowRenderInfo),

@@ -3,12 +3,10 @@
         "allowJs": true,
         "strict": true,
         "noUnusedLocals": true,
-        "declaration": true,
         "sourceMap": false,
         "module": "es6",
         "moduleResolution": "node",
         "esModuleInterop": true,
-        "experimentalDecorators": true,
         "noEmitOnError": true,
         "target": "es2018",
         "lib": ["dom", "es2018"]

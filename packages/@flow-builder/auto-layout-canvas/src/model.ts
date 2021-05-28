@@ -109,6 +109,7 @@ export interface ElementMetadata {
     section: string;
     description: string;
     iconShape: string;
+    iconSize?: string;
     iconBackgroundColor: string;
     label: string;
     elementType: string;

@@ -1,8 +1,11 @@
-// @ts-nocheck
-const eventName = 'addelementfault';
+import { Guid } from 'builder_platform_interaction/autoLayoutCanvas';
 
-export class AddElementFaultEvent extends CustomEvent {
-    constructor(guid) {
+const eventName = 'addelementfault';
+interface AddElementFaultEventDetail {
+    guid: Guid;
+}
+export class AddElementFaultEvent extends CustomEvent<AddElementFaultEventDetail> {
+    constructor(guid: Guid) {
         super(eventName, {
             bubbles: true,
             composed: true,

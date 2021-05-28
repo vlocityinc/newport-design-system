@@ -28,8 +28,8 @@ const { EnterCommand, SpaceCommand, ArrowDown, ArrowUp, EscapeCommand, TabComman
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {
     const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
-    const sharedcommands = require('builder_platform_interaction/sharedUtils/commands');
-    return Object.assign({}, sharedUtils, { commands: sharedcommands });
+    const sharedCommands = jest.requireActual('builder_platform_interaction/sharedUtils/commands');
+    return Object.assign({}, sharedUtils, { commands: sharedCommands });
 });
 
 const metaData = [
@@ -179,7 +179,7 @@ describe('connector menu', () => {
     it('should dispatch add element when paste is not specified using enter command ', async () => {
         const cmp = createComponentUnderTest();
         await ticks(1);
-        const listItems = Array.from(cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv)) as any;
+        const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
         listItems[0].focus();
         const callback = jest.fn();
         cmp.addEventListener(AddElementEvent.EVENT_NAME, callback);
@@ -190,7 +190,7 @@ describe('connector menu', () => {
     it('should dispatch add element when paste is not specified using space command ', async () => {
         const cmp = createComponentUnderTest();
         await ticks(1);
-        const listItems = Array.from(cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv)) as any;
+        const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
         listItems[0].focus();
         const callback = jest.fn();
         cmp.addEventListener(AddElementEvent.EVENT_NAME, callback);
@@ -246,7 +246,7 @@ describe('connector menu', () => {
         });
         const cmp = createComponentUnderTest();
         await ticks(1);
-        const listItems = Array.from(cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv)) as any;
+        const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
         const callback = jest.fn();
         cmp.addEventListener(MoveFocusToConnectorEvent.EVENT_NAME, callback);
         listItems[0].focus();
@@ -275,7 +275,7 @@ describe('connector menu', () => {
         });
         const cmp = createComponentUnderTest();
         await ticks(1);
-        const listItems = Array.from(cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv)) as any;
+        const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
         const callback = jest.fn();
         cmp.addEventListener(GoToPathEvent.EVENT_NAME, callback);
         listItems[0].focus();
@@ -304,7 +304,7 @@ describe('connector menu', () => {
         });
         const cmp = createComponentUnderTest();
         await ticks(1);
-        const listItems = Array.from(cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv)) as any;
+        const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
         const callback = jest.fn();
         cmp.addEventListener(GoToPathEvent.EVENT_NAME, callback);
         listItems[0].focus();
@@ -333,7 +333,7 @@ describe('connector menu', () => {
         });
         const cmp = createComponentUnderTest();
         await ticks(1);
-        const listItems = Array.from(cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv)) as any;
+        const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
         const callback = jest.fn();
         cmp.addEventListener(MoveFocusToConnectorEvent.EVENT_NAME, callback);
         listItems[0].focus();
@@ -582,7 +582,7 @@ describe('connector menu', () => {
 
     it('Focus should move correctly to the next row on arrow down', () => {
         const cmp = createComponentUnderTest();
-        const listItems = Array.from(cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv)) as any;
+        const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
         listItems[0].focus();
         const callback = jest.fn();
         listItems[1].addEventListener('focus', callback);
@@ -592,7 +592,7 @@ describe('connector menu', () => {
 
     it('Focus should move correctly to the previous row on arrow up', () => {
         const cmp = createComponentUnderTest();
-        const listItems = Array.from(cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv)) as any;
+        const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
         listItems[1].focus();
         const callback = jest.fn();
         listItems[0].addEventListener('focus', callback);
@@ -602,7 +602,7 @@ describe('connector menu', () => {
 
     it('Focus should move correctly to the first row on arrow down on the last row', () => {
         const cmp = createComponentUnderTest();
-        const listItems = Array.from(cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv)) as any;
+        const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
         listItems[listItems.length - 1].focus();
         const callback = jest.fn();
         listItems[0].addEventListener('focus', callback);
@@ -612,7 +612,7 @@ describe('connector menu', () => {
 
     it('Focus should move correctly to the last row on arrow up on the first row', () => {
         const cmp = createComponentUnderTest();
-        const listItems = Array.from(cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv)) as any;
+        const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
         listItems[0].focus();
         const callback = jest.fn();
         listItems[listItems.length - 1].addEventListener('focus', callback);
@@ -622,7 +622,7 @@ describe('connector menu', () => {
 
     it('Pressing escape while focus is on a row item should fire the CloseMenuEvent', () => {
         const cmp = createComponentUnderTest();
-        const listItems = Array.from(cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv)) as any;
+        const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
         const callback = jest.fn();
         cmp.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
         listItems[0].focus();
@@ -632,7 +632,7 @@ describe('connector menu', () => {
 
     it('Pressing escape while focus is on a row item should fire the MoveFocusToConnectorEvent', () => {
         const cmp = createComponentUnderTest();
-        const listItems = Array.from(cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv)) as any;
+        const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
         const callback = jest.fn();
         cmp.addEventListener(MoveFocusToConnectorEvent.EVENT_NAME, callback);
         listItems[0].focus();

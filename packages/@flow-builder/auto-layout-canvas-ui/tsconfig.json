@@ -2,16 +2,20 @@
     "extends": "../../../tsconfig.json",
     "compilerOptions": {
         "declaration": false,
-        "noUnusedLocals": false,
+        "experimentalDecorators": true,
         "noImplicitAny": false,
         "outDir": "./build/builder_platform_interaction",
         "baseUrl": "./src",
         "target": "esnext",
+        "module": "esnext",
+        "lib": ["DOM"],
          "paths": {
             "lightning/utils": ["../../../../node_modules/lwc-components-lightning/src/lightning/utils/utils.js"],
             "builder_platform_interaction/events": ["../../ui/src/builder_platform_interaction/events/events.ts"],
             "builder_platform_interaction/recordEditorLib": ["../../ui/src/builder_platform_interaction/recordEditorLib/recordEditorLib.ts"],
-            "builder_platform_interaction/autoLayoutCanvas": ["../../auto-layout-canvas/dist/types/index.d.js"],
+            "builder_platform_interaction/autoLayoutCanvas": [
+                "../../auto-layout-canvas/dist/types/index.d.js"
+            ],
             "builder_platform_interaction/contextualMenuUtils": ["./builder_platform_interaction/contextualMenuUtils/contextualMenuUtils.ts"],
             "builder_platform_interaction/sharedUtils": [
                 "../../shared-utils/dist/types/index.d.js"
@@ -31,5 +35,5 @@
          }
     },
 
-    "include": ["src/**/*", "@types/index.d.ts", "../ui/@types/uiModel.d.ts","../ui/@types/metadataModel.d.ts"]
+    "include": ["src/**/*", "@types", "../ui/@types/uiModel.d.ts","../ui/@types/metadataModel.d.ts"]
 }

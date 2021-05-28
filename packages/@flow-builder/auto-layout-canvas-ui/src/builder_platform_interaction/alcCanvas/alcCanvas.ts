@@ -23,7 +23,8 @@ import {
     resolveParent,
     isBranchTerminal,
     hasGoToOnNext,
-    shouldDeleteGoToOnNext
+    shouldDeleteGoToOnNext,
+    ElementMetadata
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import {
     ZOOM_ACTION,
@@ -129,7 +130,7 @@ export default class AlcCanvas extends LightningElement {
     _flowModel;
 
     /* map fo element metadata */
-    _elementsMetadata?: any[];
+    _elementsMetadata!: ElementMetadata[];
 
     /* the rendering context */
     _flowRenderContext!: FlowRenderContext;
@@ -219,9 +220,6 @@ export default class AlcCanvas extends LightningElement {
     moveFocusToMenu;
 
     @track
-    isCanvasReady;
-
-    @track
     menuOpacityClass = '';
 
     @api
@@ -249,7 +247,7 @@ export default class AlcCanvas extends LightningElement {
     supportsScheduledPaths;
 
     @api
-    set elementsMetadata(elementsMetadata: any[]) {
+    set elementsMetadata(elementsMetadata: ElementMetadata[]) {
         this._elementsMetadata = elementsMetadata;
         // Used to make sure flow.info sent to alc-flow does not have stale elementsMetadata
         if (this._elementsMetadata) {
@@ -257,7 +255,7 @@ export default class AlcCanvas extends LightningElement {
         }
     }
 
-    get elementsMetadata(): any[] {
+    get elementsMetadata(): ElementMetadata[] {
         return this._elementsMetadata!;
     }
 
@@ -401,7 +399,6 @@ export default class AlcCanvas extends LightningElement {
             if (flowContainerElement != null) {
                 this._flowContainerElement = flowContainerElement;
                 this.initializePanzoom();
-                this.isCanvasReady = true;
 
                 // open the start element menu on load
                 const startElementGuid = this.getStartElementGuid();
@@ -952,8 +949,8 @@ export default class AlcCanvas extends LightningElement {
             // disable zoom keys
             filterKey: () => true
         });
-        const that = this;
-        const boundFunction = () => that.openMenuAfterClick();
+
+        const boundFunction = () => this.openMenuAfterClick();
         this._panzoom.on('zoomend', boundFunction);
         this.panzoomMoveToCenterTop();
         this._panzoomOffsets = { x: 0, y: 0 - (this.getFlowHeight() * MIN_ZOOM) / 2 };

@@ -95,7 +95,7 @@ export default class AlcConnector extends LightningElement {
     }
 
     get connectorBadgeLabel() {
-        const labelType: ConnectorLabelType = this.connectorInfo.labelType!;
+        const labelType: ConnectorLabelType = this.connectorInfo.labelType;
 
         switch (labelType) {
             case ConnectorLabelType.LOOP_AFTER_LAST:

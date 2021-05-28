@@ -3,7 +3,7 @@ import deleteWarningHeaderTitle from '@salesforce/label/FlowBuilderAlertModal.de
 import deleteWarningBodyTextLabel from '@salesforce/label/FlowBuilderAlertModal.deleteWarningBodyTextLabel';
 import confirmDeleteLabel from '@salesforce/label/FlowBuilderAlertModal.confirmDeleteLabel';
 
-export const LABELS = {
+export const LABELS: Labels = {
     cancelButtonLabel,
     deleteWarningHeaderTitle,
     deleteWarningBodyTextLabel,
