@@ -3,6 +3,7 @@
     "headers":[
       {
         "headerLabel":"Interaction",
+        "headerAutolayoutVisibility":true,
         "headerItems":[
           {
             "name":"ActionCall",
@@ -12,10 +13,12 @@
             "name":"Subflow",
             "type":"element"
           }
-        ]
+        ],
+        "headerFreeformVisibility":true
       },
       {
         "headerLabel":"Logic",
+        "headerAutolayoutVisibility":true,
         "headerItems":[
           {
             "name":"Assignment",
@@ -37,10 +40,12 @@
             "name":"SortCollectionProcessor",
             "type":"elementSubtype"
           }
-        ]
+        ],
+        "headerFreeformVisibility":true
       },
       {
         "headerLabel":"Data",
+        "headerAutolayoutVisibility":true,
         "headerItems":[
           {
             "name":"RecordCreate",
@@ -58,7 +63,8 @@
             "name":"RecordDelete",
             "type":"element"
           }
-        ]
+        ],
+        "headerFreeformVisibility":true
       }
     ]
   }

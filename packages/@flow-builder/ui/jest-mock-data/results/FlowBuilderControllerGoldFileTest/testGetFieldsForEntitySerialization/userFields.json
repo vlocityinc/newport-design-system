@@ -3458,9 +3458,6 @@
       "precision":0,
       "referenceToNames":[
         "Contact",
-        "CustomPersonAccountChild__p",
-        "CustomPersonChild__p",
-        "CustomPerson__p",
         "FtestPerson"
       ],
       "relationshipName":"Person",
@@ -9627,6 +9624,39 @@
       "isSpanningAllowed":false,
       "isWorkflowFilterable":false,
       "label":"ReminderSoundOff",
+      "length":0,
+      "precision":0,
+      "referenceToNames":[
+
+      ],
+      "relationshipName":null,
+      "required":true,
+      "scale":0,
+      "sobjectName":"User",
+      "sortable":false
+    },
+    "UserPreferencesReverseOpenActivitiesView":{
+      "activePicklistValues":[
+
+      ],
+      "apiName":"UserPreferencesReverseOpenActivitiesView",
+      "compoundFieldName":null,
+      "creatable":true,
+      "dataType":"Boolean",
+      "editable":true,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN",
+      "filterable":true,
+      "inlineHelpText":null,
+      "isAvailableForFormulas":false,
+      "isAvailableForMerge":false,
+      "isCalculated":false,
+      "isCompound":false,
+      "isCustom":false,
+      "isPolymorphic":false,
+      "isSpanningAllowed":false,
+      "isWorkflowFilterable":false,
+      "label":"ReverseOpenActivitiesView",
       "length":0,
       "precision":0,
       "referenceToNames":[
