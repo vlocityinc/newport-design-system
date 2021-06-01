@@ -1,5 +1,5 @@
 <template>
-    <div class="slds-panel__header">
+    <div class="slds-panel__header" tabindex="-1">
         <h2 class="slds-panel__header-title slds-text-heading_small slds-truncate">{headerTitle}</h2>
     </div>
     <!-- filter gear icon and selected filters text-->
@@ -45,9 +45,14 @@
                 key={trace.id}
                 allow-multiple-sections-open
                 class="slds-has-divider--bottom slds-p-around_none slds-m-around_none"
-                active-section-name={allTitles}
+                active-section-name={trace.title}
             >
-                <lightning-accordion-section key={trace.id} label={trace.title} name={trace.title}>
+                <lightning-accordion-section
+                    data-name={trace.title}
+                    key={trace.id}
+                    label={trace.title}
+                    name={trace.title}
+                >
                     <builder_platform_interaction-debug-panel-body
                         lines={trace.lines}
                         error={trace.error}

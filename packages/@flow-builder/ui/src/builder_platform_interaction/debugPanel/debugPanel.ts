@@ -135,4 +135,15 @@ export default class DebugPanel extends LightningElement {
         }
         this.debugTraces = this.debugTracesFull.filter((e) => !this.blockedEntries.includes(e.entryType));
     }
+
+    renderedCallback() {
+        const ac = this.template.querySelectorAll('[data-name="Resume label"]');
+        if (ac[ac.length - 1]) {
+            ac[ac.length - 1].setAttribute('tabindex', '-1');
+            ac[ac.length - 1].focus();
+        } else {
+            const resumeCard = this.template.querySelector('div');
+            resumeCard.focus();
+        }
+    }
 }

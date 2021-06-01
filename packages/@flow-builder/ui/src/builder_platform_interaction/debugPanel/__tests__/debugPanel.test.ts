@@ -4,7 +4,7 @@ import DebugPanel from '../debugPanel';
 import { LABELS } from '../debugPanelLabels';
 import { errorInterview } from 'mock/debugResponse/mock-error-interview';
 import { fakePausedInterview } from 'mock/debugResponse/mock-fake-paused-interview';
-import { fakeResumedInterviewWithError } from 'mock/debugResponse/mock-fake-paused-interview';
+import { fakeResumedInterviewWithError, fakeResumedInterview } from 'mock/debugResponse/mock-fake-paused-interview';
 import { completedInterview } from 'mock/debugResponse/mock-completed-interview';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
@@ -36,7 +36,8 @@ const selectors = {
     checkboxesGroup: 'lightning-checkbox-group',
     filterButton: 'lightning-button-icon.filterButton',
     popover: 'section.slds-popover',
-    closePopover: 'lightning-button-icon.slds-popover__close'
+    closePopover: 'lightning-button-icon.slds-popover__close',
+    header: 'div.slds-panel__header'
 };
 
 describe('Debug Panel', () => {
@@ -257,6 +258,29 @@ describe('filter behaviour', () => {
             const allDebugEntries = debugPanel.shadowRoot.querySelectorAll(selectors.debugPanelBodyComponent);
             expect(allDebugEntries.length).toEqual(completedInterview.debugTrace.length + 1);
             expect(allDebugEntries[2].title).toContain('ROLLBACK');
+        });
+    });
+
+    describe('Resume focus behavior', () => {
+        let debugPanel;
+        beforeEach(() => {
+            debugPanel = createComponentUnderTest(fakeResumedInterview, undefined, false, true);
+        });
+        it('resume card is focused when isFromFakeResume is true', () => {
+            const head = debugPanel.shadowRoot.querySelector('[data-name="Resume label"]');
+            const focusedElement = document.activeElement;
+            // eslint-disable-next-line
+            expect(head.innerHTML).toBe(focusedElement.shadowRoot.activeElement.innerHTML);
+        });
+    });
+    describe('debug focus behavior', () => {
+        let debugPanel;
+        beforeEach(() => {
+            debugPanel = createComponentUnderTest(fakeResumedInterview);
+        });
+        it('tabindex of debug details header should be -1', () => {
+            const head = debugPanel.shadowRoot.querySelector(selectors.header);
+            expect(head.getAttribute('tabindex')).toEqual('-1');
         });
     });
 });
