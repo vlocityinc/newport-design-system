@@ -12,6 +12,7 @@ import {
 } from 'builder_platform_interaction/alcEvents';
 import { ICON_SHAPE, AutoLayoutCanvasMode } from 'builder_platform_interaction/alcComponentsUtils';
 import { MenuType, NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { CanvasMouseUpEvent } from 'builder_platform_interaction/events';
 
 /**
  * Fixed Layout Canvas Menu Button Component.
@@ -206,6 +207,10 @@ export default class AlcMenuTrigger extends LightningElement {
         } else if (this._menuOpened && key === 'Tab') {
             event.preventDefault();
             this.dispatchEvent(new TabOnMenuTriggerEvent(shiftKey));
+        } else if (key === 'Tab') {
+            // The CanvasMouseUpEvent is used to un-highligth
+            const canvasMouseUpEvent = new CanvasMouseUpEvent();
+            this.dispatchEvent(canvasMouseUpEvent);
         }
     };
 

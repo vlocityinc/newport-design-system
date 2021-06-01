@@ -5,6 +5,7 @@ import { ToggleMenuEvent, CloseMenuEvent, TabOnMenuTriggerEvent } from 'builder_
 import { ICON_SHAPE, AutoLayoutCanvasMode } from 'builder_platform_interaction/alcComponentsUtils';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
+import { CanvasMouseUpEvent } from 'builder_platform_interaction/events';
 
 const startMetadata = {
     canHaveFaultConnector: false,
@@ -247,6 +248,17 @@ describe('the menu trigger', () => {
         cmp.menuOpened = true;
         container.focus();
         const keyDownEvent = new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true });
+        container.dispatchEvent(keyDownEvent);
+        expect(callback).toHaveBeenCalled();
+    });
+
+    it('pressing tab button should dispatch CanvasMouseUpEvent', () => {
+        const cmp = createComponentUnderTest();
+        const container = cmp.shadowRoot.querySelector(selectors.defaultTriggerContainer);
+        const callback = jest.fn();
+        cmp.addEventListener(CanvasMouseUpEvent.EVENT_NAME, callback);
+        container.focus();
+        const keyDownEvent = new KeyboardEvent('keydown', { key: 'Tab' });
         container.dispatchEvent(keyDownEvent);
         expect(callback).toHaveBeenCalled();
     });
