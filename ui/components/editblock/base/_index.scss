@@ -477,19 +477,19 @@
 
 .nds-edit-block_shortcards[aria-invalid="true"],
 .nds-edit-block_longcards[aria-invalid="true"] {
-  border-color: var(--lwc-colorBorderError, $color-border-error)
+  border-color: $color-border-error;
 }
 
 .nds-edit-block-fs-row[aria-invalid="true"] .nds-grid[role="button"] {
-  border: var(--lwc-borderWidthThin, 1px) solid var(--lwc-colorBorderError, $color-border-error);
+  border: 1px solid $color-border-error;
 }
 
 .nds-edit-block-fs-row {
-  margin-bottom: var(--lwc-spacingXxSmall, 0.25rem);
+  margin-bottom: 0.25rem;
 }
 
 .nds-editblock_inline .nds-edit-block_longcards form[aria-invalid="true"] {
-  border-color: var(--lwc-colorBorderError, $color-border-error);
+  border-color: $color-border-error;
 }
 
 .nds-editblock-table-row {
@@ -503,5 +503,5 @@
 }
 
 .nds-editblock-table-row[aria-invalid="true"] {
-  border-color: var(--lwc-colorBorderError, $color-border-error);
+  border-color: $color-border-error;
 }
