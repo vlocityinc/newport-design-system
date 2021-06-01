@@ -18,7 +18,7 @@ const selectors = {
     triggerButton: 'builder_platform_interaction-start-node-trigger-button',
     contextButton: 'builder_platform_interaction-start-node-context-button',
     scheduledPathButton: 'builder_platform_interaction-start-node-scheduled-path-button',
-    menuItem: 'div[role="option"]'
+    recordTriggerButton: 'builder_platform_interaction-record-trigger-start-node'
 };
 
 enum TabFocusRingItems {
@@ -44,6 +44,10 @@ export default class AlcStartMenu extends AlcNodeMenu {
         return this.elementMetadata.hasContext;
     }
 
+    get isRecordTriggeredFlow() {
+        return this.elementMetadata.isRecordTriggeredFlow;
+    }
+
     @api
     supportsScheduledPaths;
 
@@ -63,7 +67,8 @@ export default class AlcStartMenu extends AlcNodeMenu {
         const triggerButton = alcMenu.querySelector(selectors.triggerButton);
         const contextButton = alcMenu.querySelector(selectors.contextButton);
         const scheduledPathButton = alcMenu.querySelector(selectors.scheduledPathButton);
-        if (!triggerButton && !contextButton && !scheduledPathButton) {
+        const recordTriggerButton = alcMenu.querySelector(selectors.recordTriggerButton);
+        if (!triggerButton && !contextButton && !scheduledPathButton && !recordTriggerButton) {
             // close the menu when there's no rows in the menu
             this.dispatchEvent(new CloseMenuEvent());
             this.dispatchEvent(new MoveFocusToConnectorEvent(this.guid, this.childIndex));
@@ -80,13 +85,25 @@ export default class AlcStartMenu extends AlcNodeMenu {
         this.tabFocusRingIndex = TabFocusRingItems.Icon;
     }
 
+    firstButton() {
+        const triggerButton = this.template.querySelector(selectors.triggerButton);
+        const recordTriggerButton = this.template.querySelector(selectors.recordTriggerButton);
+        return this.isRecordTriggeredFlow ? recordTriggerButton : triggerButton;
+    }
+
+    moveFocusToFirstButton() {
+        this.firstButton().focus();
+    }
+
     moveFocusToButton = (key, nextButton, prevButton) => {
         let nextFocusElement;
         // The focus should move from trigger button -> context button -> scheduled path button -> trigger button
+        // Or for record-triggered flow: record trigger button -> scheduled path button -> record trigger button
         if (key === ArrowDown.COMMAND_NAME) {
             nextFocusElement = nextButton || prevButton;
         }
         // The focus should move from trigger button -> scheduled path button -> context button  -> trigger button
+        // Or for record-triggered flow: record trigger button -> scheduled path button -> record trigger button
         if (key === ArrowUp.COMMAND_NAME) {
             nextFocusElement = prevButton || nextButton;
         }
@@ -132,20 +149,31 @@ export default class AlcStartMenu extends AlcNodeMenu {
         event.stopPropagation();
         const triggerButton = this.template.querySelector(selectors.triggerButton);
         const contextButton = this.template.querySelector(selectors.contextButton);
+        const recordTriggerButton = this.template.querySelector(selectors.recordTriggerButton);
 
-        this.moveFocusToButton(event.detail.key, triggerButton, contextButton);
+        const nextButton = this.isRecordTriggeredFlow ? recordTriggerButton : triggerButton;
+        const prevButton = this.isRecordTriggeredFlow ? recordTriggerButton : contextButton;
+
+        this.moveFocusToButton(event.detail.key, nextButton, prevButton);
     };
 
-    moveFocusToTriggerButton() {
-        const triggerButton = this.template.querySelector(selectors.triggerButton);
-        triggerButton.shadowRoot.querySelector('div').focus();
-    }
+    /**
+     * Handles the ArrowKeyDownEvent coming from record trigger button and moves the focus correctly
+     * based on the arrow key pressed
+     * @param event - ArrowKeyDownEvent coming from record-trigger-start-node
+     */
+    handleRecordTriggerButtonArrowKeyDown = (event) => {
+        event.stopPropagation();
+        const scheduledPathButton = this.template.querySelector(selectors.scheduledPathButton);
+
+        this.moveFocusToButton(event.detail.key, scheduledPathButton, scheduledPathButton);
+    };
 
     tabFocusRingCmds = [
         // focus on the icon
         () => this.dispatchEvent(new MoveFocusToNodeEvent(this.guid)),
         // focus on the first button
-        () => this.moveFocusToTriggerButton()
+        () => this.moveFocusToFirstButton()
     ];
 
     setupCommandsAndShortcuts() {
@@ -159,13 +187,9 @@ export default class AlcStartMenu extends AlcNodeMenu {
     }
 
     renderedCallback() {
-        if (this.moveFocusToMenu && this.hasTrigger) {
-            const triggerButton = this.template.querySelector(selectors.triggerButton);
-            // Trigger button is always the first button
-            if (triggerButton) {
-                triggerButton.shadowRoot.querySelector('div').focus();
-                this.tabFocusRingIndex = TabFocusRingItems.Buttons;
-            }
+        if (this.moveFocusToMenu && !!this.firstButton()) {
+            this.moveFocusToFirstButton();
+            this.tabFocusRingIndex = TabFocusRingItems.Buttons;
         }
     }
 }

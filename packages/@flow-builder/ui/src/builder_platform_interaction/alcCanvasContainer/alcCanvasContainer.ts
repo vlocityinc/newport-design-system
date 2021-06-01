@@ -11,6 +11,7 @@ import {
     startElementDescription,
     hasTrigger,
     hasContext,
+    isRecordTriggeredFlow,
     setElementsMetadata
 } from 'builder_platform_interaction/alcCanvasUtils';
 import { deselectOnCanvas } from 'builder_platform_interaction/actions';
@@ -102,7 +103,8 @@ function augmentElementsMetadata(elementsMetadata) {
             supportsMenu: true,
             isSupported: true,
             hasTrigger: hasTrigger(startElementMetadata.triggerType),
-            hasContext: hasContext(startElementMetadata.triggerType)
+            hasContext: hasContext(startElementMetadata.triggerType),
+            isRecordTriggeredFlow: isRecordTriggeredFlow(startElementMetadata.triggerType)
         }
     ]);
 }

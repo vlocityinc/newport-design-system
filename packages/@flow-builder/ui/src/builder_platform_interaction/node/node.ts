@@ -21,7 +21,7 @@ import { getProcessType } from 'builder_platform_interaction/storeUtils';
 
 import startNode from './startNode.html';
 import nodeElement from './node.html';
-import { startElementDescription } from 'builder_platform_interaction/alcCanvasUtils';
+import { startElementDescription, isRecordTriggeredFlow } from 'builder_platform_interaction/alcCanvasUtils';
 import { shouldSupportScheduledPaths } from 'builder_platform_interaction/elementFactory';
 
 const { logInteraction } = loggingUtils;
@@ -370,6 +370,11 @@ export default class Node extends LightningElement {
 
     get isScheduledPath() {
         return shouldSupportScheduledPaths(this.node);
+    }
+
+    get isRecordTriggeredFlow() {
+        // merge trigger button and context button when it is record-triggered flow
+        return isRecordTriggeredFlow(this.node.triggerType);
     }
 
     render() {

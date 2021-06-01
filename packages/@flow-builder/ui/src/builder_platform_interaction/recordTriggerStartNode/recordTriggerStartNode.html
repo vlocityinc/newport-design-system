@@ -1,0 +1,29 @@
+<template>
+    <div tabindex="0" class="slds-border_top test-trigger-button context" onclick={handleTriggerClick}>
+        <div class={startButtonClasses}>
+            <div class="slds-truncate slds-m-top_xx-small">
+                <span class="slds-col slds-size_10-of-12 slds-truncate" title={selectedObject}>
+                    <span class="slds-m-right_xxx-small test-object-label"> {objectLabel} </span>
+                    <span class="text-labels-bold test-selected-object">{selectedObject}</span>
+                </span>
+                <span class="slds-col slds-size_2-of-12 slds-m-left_xxx-small">
+                    <span class="edit slds-truncate test-edit-label" title={editLabel}>{editLabel}</span>
+                </span>
+            </div>
+            <div class="slds-truncate slds-m-top_xx-small">
+                <span class="slds-col slds-size_10-of-12 slds-truncate" title={selectedTriggerLabel}>
+                    <span class="slds-m-right_xxx-small test-trigger-label"> {triggerLabel} </span>
+                    <span class="text-labels-bold test-selected-trigger-label">{selectedTriggerLabel}</span>
+                </span>
+            </div>
+            <div if:true={isConditions} class="slds-truncate slds-m-top_xx-small">
+                <span class="slds-m-right_xx-small test-record-conditions-label">{recordConditionsLabel}</span
+                ><span class="text-labels-bold test-conditions-length-label">{conditionsLengthLabel}</span>
+            </div>
+            <div class="slds-truncate slds-m-top_xx-small test-run-flow" title={selectedRunFlowLabel}>
+                <span class="slds-m-right_xx-small test-run-flow-label">{runFlowLabel}</span>
+                <span class="text-labels-bold test-selected-run-flow-label">{selectedRunFlowLabel}</span>
+            </div>
+        </div>
+    </div>
+</template>

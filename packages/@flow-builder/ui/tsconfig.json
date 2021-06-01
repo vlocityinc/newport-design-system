@@ -148,6 +148,7 @@
             "builder_platform_interaction/recordSobjectAndQueryFields": ["./src/builder_platform_interaction/recordSobjectAndQueryFields/recordSobjectAndQueryFields.ts"],
             "builder_platform_interaction/recordSort": ["./src/builder_platform_interaction/recordSort/recordSort.ts"],
             "builder_platform_interaction/recordStoreOptions": ["./src/builder_platform_interaction/recordStoreOptions/recordStoreOptions.ts"],
+            "builder_platform_interaction/recordTriggerStartNode": ["./src/builder_platform_interaction/recordTriggerStartNode/recordTriggerStartNode.ts"],
             "builder_platform_interaction/recordUpdateEditor": ["./src/builder_platform_interaction/recordUpdateEditor/recordUpdateEditor.ts"],
             "builder_platform_interaction/reducers": ["./src/builder_platform_interaction/reducers/reducers.ts"],
             "builder_platform_interaction/referenceToVariableUtil": ["./src/builder_platform_interaction/referenceToVariableUtil/referenceToVariableUtil.ts"],

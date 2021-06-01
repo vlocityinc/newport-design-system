@@ -19,6 +19,11 @@ export default class StartNodeTriggerButton extends LightningElement {
         config: {}
     };
 
+    @api
+    focus() {
+        this.template.querySelector('.trigger-button').focus();
+    }
+
     get unsetStartButtonClasses() {
         return 'unset-start-button slds-p-vertical_x-small slds-p-horizontal_medium';
     }

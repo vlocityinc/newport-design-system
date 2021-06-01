@@ -52,7 +52,7 @@
 // };
 
 // const selectors = {
-//     button: '.test-trigger-button',
+//     button: '.trigger-button',
 //     unsetTrigger: '.unset-start-button',
 //     triggerLabel: '.trigger-label-size',
 //     flowStartLabel: '.flow-starts-size',

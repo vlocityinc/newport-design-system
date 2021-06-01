@@ -10,16 +10,24 @@
                 </div>
             </div>
             <div if:true={startData} slot="body" class="test-start-menu-body">
-                <builder_platform_interaction-start-node-trigger-button
-                    if:true={hasTrigger}
-                    node={startData}
-                    onarrowkeydown={handleTriggerButtonArrowKeyDown}
-                ></builder_platform_interaction-start-node-trigger-button>
-                <builder_platform_interaction-start-node-context-button
-                    if:true={hasContext}
-                    node={startData}
-                    onarrowkeydown={handleContextButtonArrowKeyDown}
-                ></builder_platform_interaction-start-node-context-button>
+                <div if:false={isRecordTriggeredFlow}>
+                    <builder_platform_interaction-start-node-trigger-button
+                        if:true={hasTrigger}
+                        node={startData}
+                        onarrowkeydown={handleTriggerButtonArrowKeyDown}
+                    ></builder_platform_interaction-start-node-trigger-button>
+                    <builder_platform_interaction-start-node-context-button
+                        if:true={hasContext}
+                        node={startData}
+                        onarrowkeydown={handleContextButtonArrowKeyDown}
+                    ></builder_platform_interaction-start-node-context-button>
+                </div>
+                <div if:true={isRecordTriggeredFlow}>
+                    <builder_platform_interaction-record-trigger-start-node
+                        node={startData}
+                        onarrowkeydown={handleRecordTriggerButtonArrowKeyDown}
+                    ></builder_platform_interaction-record-trigger-start-node>
+                </div>
                 <builder_platform_interaction-start-node-scheduled-path-button
                     if:true={supportsScheduledPaths}
                     node={startData}
