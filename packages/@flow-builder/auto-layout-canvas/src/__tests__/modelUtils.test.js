@@ -2064,6 +2064,494 @@ describe('modelUtils', () => {
             expect(updatedFlowModel).toEqual(expectedFlowModel);
         });
 
+        describe('Deleting elements that cause a self-loop', () => {
+            it('Self-loop with GoTo on parentElements next with a deletion that causes a null branch nested', () => {
+                const originalFlowModel = {
+                    root: {
+                        guid: 'root',
+                        nodeType: 'root',
+                        elementType: 'root',
+                        children: ['start-guid']
+                    },
+                    'start-guid': {
+                        childIndex: 0,
+                        config: {},
+                        elementType: 'start',
+                        guid: 'start-guid',
+                        isCanvasElement: true,
+                        isTerminal: true,
+                        label: 'start-guid',
+                        next: 'decision-one',
+                        nodeType: 'start',
+                        parent: 'root'
+                    },
+                    'decision-one': {
+                        childReferences: [
+                            {
+                                childReference: 'o1'
+                            }
+                        ],
+                        children: ['screen-one', 'decision-two'],
+                        config: {},
+                        elementType: 'Decision',
+                        guid: 'decision-one',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        label: 'decision-one',
+                        next: 'decision-two',
+                        nodeType: 'branch',
+                        prev: 'start-guid'
+                    },
+                    'screen-one': {
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-one',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        label: 'screen-one',
+                        next: null,
+                        nodeType: 'default',
+                        prev: null,
+                        parent: 'decision-one',
+                        childIndex: 0,
+                        isTerminal: false
+                    },
+                    'decision-two': {
+                        childReferences: [
+                            {
+                                childReference: 'o11'
+                            }
+                        ],
+                        children: ['screen-two', 'screen-three'],
+                        config: {},
+                        elementType: 'Decision',
+                        guid: 'decision-two',
+                        incomingGoTo: ['decision-one'],
+                        isCanvasElement: true,
+                        label: 'decision-two',
+                        next: null,
+                        nodeType: 'branch',
+                        parent: 'decision-one',
+                        childIndex: 1,
+                        isTerminal: false
+                    },
+                    'screen-two': {
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-two',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        label: 'screen-two',
+                        next: null,
+                        nodeType: 'default',
+                        prev: null,
+                        parent: 'decision-two',
+                        childIndex: 0,
+                        isTerminal: false
+                    },
+                    'screen-three': {
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-three',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        label: 'screen-three',
+                        next: null,
+                        nodeType: 'default',
+                        prev: null,
+                        parent: 'decision-two',
+                        childIndex: 1,
+                        isTerminal: false
+                    }
+                };
+                const expectedFlowModel = {
+                    root: {
+                        guid: 'root',
+                        nodeType: 'root',
+                        elementType: 'root',
+                        children: ['start-guid']
+                    },
+                    'start-guid': {
+                        childIndex: 0,
+                        config: {},
+                        elementType: 'start',
+                        guid: 'start-guid',
+                        isCanvasElement: true,
+                        isTerminal: true,
+                        label: 'start-guid',
+                        next: 'decision-one',
+                        nodeType: 'start',
+                        parent: 'root'
+                    },
+                    'decision-one': {
+                        childReferences: [
+                            {
+                                childReference: 'o1'
+                            }
+                        ],
+                        children: ['screen-one', 'decision-two'],
+                        config: {},
+                        elementType: 'Decision',
+                        guid: 'decision-one',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        label: 'decision-one',
+                        next: 'decision-two',
+                        nodeType: 'branch',
+                        prev: 'start-guid'
+                    },
+                    'screen-one': {
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-one',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        label: 'screen-one',
+                        next: null,
+                        nodeType: 'default',
+                        prev: null,
+                        parent: 'decision-one',
+                        childIndex: 0,
+                        isTerminal: false
+                    },
+                    'decision-two': {
+                        childReferences: [
+                            {
+                                childReference: 'o11'
+                            }
+                        ],
+                        children: ['end-hook-guid', 'screen-three'],
+                        config: {},
+                        elementType: 'Decision',
+                        guid: 'decision-two',
+                        incomingGoTo: ['decision-one'],
+                        isCanvasElement: true,
+                        label: 'decision-two',
+                        next: null,
+                        nodeType: 'branch',
+                        parent: 'decision-one',
+                        childIndex: 1,
+                        isTerminal: false
+                    },
+                    'screen-three': {
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-three',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        label: 'screen-three',
+                        next: null,
+                        nodeType: 'default',
+                        prev: null,
+                        parent: 'decision-two',
+                        childIndex: 1,
+                        isTerminal: false
+                    },
+                    'end-hook-guid': {
+                        guid: 'end-hook-guid',
+                        next: null,
+                        parent: 'decision-two',
+                        nodeType: 'end',
+                        childIndex: 0,
+                        isTerminal: true
+                    }
+                };
+                const updatedFlowModel = deleteElement(
+                    elementService(originalFlowModel),
+                    originalFlowModel,
+                    'screen-two'
+                );
+                expect(updatedFlowModel).toEqual(expectedFlowModel);
+            });
+            it('Self-loop with GoTo on parentElements next with a deletion that causes a null branch', () => {
+                const originalFlowModel = {
+                    root: {
+                        guid: 'root',
+                        nodeType: 'root',
+                        elementType: 'root',
+                        children: ['start-guid']
+                    },
+                    'start-guid': {
+                        childIndex: 0,
+                        config: {},
+                        elementType: 'start',
+                        guid: 'start-guid',
+                        isCanvasElement: true,
+                        isTerminal: true,
+                        label: 'start-guid',
+                        next: 'decision-one',
+                        nodeType: 'start',
+                        parent: 'root'
+                    },
+                    'decision-one': {
+                        childReferences: [
+                            {
+                                childReference: 'o1'
+                            }
+                        ],
+                        children: ['screen-one', 'screen-two'],
+                        config: {},
+                        elementType: 'Decision',
+                        guid: 'decision-one',
+                        incomingGoTo: ['decision-one'],
+                        isCanvasElement: true,
+                        label: 'decision-one',
+                        next: 'decision-one',
+                        nodeType: 'branch',
+                        prev: 'start-guid'
+                    },
+                    'screen-one': {
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-one',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        label: 'screen-one',
+                        next: null,
+                        nodeType: 'default',
+                        prev: null,
+                        parent: 'decision-one',
+                        childIndex: 0,
+                        isTerminal: false
+                    },
+                    'screen-two': {
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-two',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        label: 'screen-two',
+                        next: null,
+                        nodeType: 'default',
+                        prev: null,
+                        parent: 'decision-one',
+                        childIndex: 1,
+                        isTerminal: false
+                    }
+                };
+                const expectedFlowModel = {
+                    root: {
+                        guid: 'root',
+                        nodeType: 'root',
+                        elementType: 'root',
+                        children: ['start-guid']
+                    },
+                    'start-guid': {
+                        childIndex: 0,
+                        config: {},
+                        elementType: 'start',
+                        guid: 'start-guid',
+                        isCanvasElement: true,
+                        isTerminal: true,
+                        label: 'start-guid',
+                        next: 'decision-one',
+                        nodeType: 'start',
+                        parent: 'root'
+                    },
+                    'decision-one': {
+                        childReferences: [
+                            {
+                                childReference: 'o1'
+                            }
+                        ],
+                        children: ['end-hook-guid', 'screen-two'],
+                        config: {},
+                        elementType: 'Decision',
+                        guid: 'decision-one',
+                        incomingGoTo: ['screen-two'],
+                        isCanvasElement: true,
+                        label: 'decision-one',
+                        next: null,
+                        nodeType: 'branch',
+                        prev: 'start-guid'
+                    },
+                    'screen-two': {
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-two',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        label: 'screen-two',
+                        next: 'decision-one',
+                        nodeType: 'default',
+                        prev: null,
+                        parent: 'decision-one',
+                        childIndex: 1,
+                        isTerminal: true
+                    },
+                    'end-hook-guid': {
+                        guid: 'end-hook-guid',
+                        childIndex: 0,
+                        isTerminal: true,
+                        next: null,
+                        parent: 'decision-one',
+                        nodeType: 'end'
+                    }
+                };
+                const updatedFlowModel = deleteElement(
+                    elementService(originalFlowModel),
+                    originalFlowModel,
+                    'screen-one'
+                );
+                expect(updatedFlowModel).toEqual(expectedFlowModel);
+            });
+            it('Self-loop when a parentElements next is a GoTo to an element right before the last element in a branch', () => {
+                const originalFlowModel = {
+                    root: {
+                        guid: 'root',
+                        nodeType: 'root',
+                        elementType: 'root',
+                        children: ['start-guid']
+                    },
+                    'start-guid': {
+                        childIndex: 0,
+                        config: {},
+                        elementType: 'start',
+                        guid: 'start-guid',
+                        isCanvasElement: true,
+                        isTerminal: true,
+                        label: 'start-guid',
+                        next: 'decision-one',
+                        nodeType: 'start',
+                        parent: 'root'
+                    },
+                    'decision-one': {
+                        childReferences: [
+                            {
+                                childReference: 'o1'
+                            }
+                        ],
+                        children: ['screen-one', 'screen-two'],
+                        config: {},
+                        elementType: 'Decision',
+                        guid: 'decision-one',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        label: 'decision-one',
+                        next: 'screen-two',
+                        nodeType: 'branch',
+                        prev: 'start-guid'
+                    },
+                    'screen-one': {
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-one',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        label: 'screen-one',
+                        next: null,
+                        nodeType: 'default',
+                        prev: null,
+                        parent: 'decision-one',
+                        childIndex: 0,
+                        isTerminal: false
+                    },
+                    'screen-two': {
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-two',
+                        incomingGoTo: ['decision-one'],
+                        isCanvasElement: true,
+                        label: 'screen-two',
+                        next: 'screen-three',
+                        nodeType: 'default',
+                        prev: null,
+                        parent: 'decision-one',
+                        childIndex: 1,
+                        isTerminal: false
+                    },
+                    'screen-three': {
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-three',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        label: 'screen-three',
+                        next: null,
+                        nodeType: 'default',
+                        prev: 'screen-two'
+                    }
+                };
+                const expectedFlowModel = {
+                    root: {
+                        guid: 'root',
+                        nodeType: 'root',
+                        elementType: 'root',
+                        children: ['start-guid']
+                    },
+                    'start-guid': {
+                        childIndex: 0,
+                        config: {},
+                        elementType: 'start',
+                        guid: 'start-guid',
+                        isCanvasElement: true,
+                        isTerminal: true,
+                        label: 'start-guid',
+                        next: 'decision-one',
+                        nodeType: 'start',
+                        parent: 'root'
+                    },
+                    'decision-one': {
+                        childReferences: [
+                            {
+                                childReference: 'o1'
+                            }
+                        ],
+                        children: ['screen-one', 'screen-two'],
+                        config: {},
+                        elementType: 'Decision',
+                        guid: 'decision-one',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        label: 'decision-one',
+                        next: null,
+                        nodeType: 'branch',
+                        prev: 'start-guid'
+                    },
+                    'screen-one': {
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-one',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        label: 'screen-one',
+                        next: 'screen-two',
+                        nodeType: 'default',
+                        prev: null,
+                        parent: 'decision-one',
+                        childIndex: 0,
+                        isTerminal: true
+                    },
+                    'screen-two': {
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-two',
+                        incomingGoTo: ['screen-one'],
+                        isCanvasElement: true,
+                        label: 'screen-two',
+                        next: 'end-hook-guid',
+                        nodeType: 'default',
+                        prev: null,
+                        parent: 'decision-one',
+                        childIndex: 1,
+                        isTerminal: true
+                    },
+                    'end-hook-guid': {
+                        guid: 'end-hook-guid',
+                        next: null,
+                        prev: 'screen-two',
+                        nodeType: 'end'
+                    }
+                };
+                const updatedFlowModel = deleteElement(
+                    elementService(originalFlowModel),
+                    originalFlowModel,
+                    'screen-three'
+                );
+                expect(updatedFlowModel).toEqual(expectedFlowModel);
+            });
+        });
+
         describe('Deleting Elements in a flow with multiple GoTos', () => {
             let originalFlowModel;
             beforeEach(() => {
@@ -2113,7 +2601,7 @@ describe('modelUtils', () => {
                         config: {},
                         elementType: 'Decision',
                         guid: 'decision-one',
-                        incomingGoTo: ['decision-one', 'screen-three'],
+                        incomingGoTo: ['decision-one'],
                         isCanvasElement: true,
                         label: 'decision-one',
                         next: 'decision-one',
@@ -2156,12 +2644,12 @@ describe('modelUtils', () => {
                         incomingGoTo: ['action:fault'],
                         isCanvasElement: true,
                         label: 'screen-three',
-                        next: 'decision-one',
+                        next: null,
                         nodeType: 'default',
                         prev: null,
                         parent: 'decision-one',
                         childIndex: 3,
-                        isTerminal: true
+                        isTerminal: false
                     }
                 };
             });
@@ -2174,8 +2662,8 @@ describe('modelUtils', () => {
                     { childIndexToKeep: 0 }
                 );
                 const expectedFlowModel = {
-                    'end-hook-guid_0_0': {
-                        guid: 'end-hook-guid_0_0',
+                    'end-hook-guid_0': {
+                        guid: 'end-hook-guid_0',
                         nodeType: 'end',
                         prev: 'screen-one'
                     },
@@ -2192,7 +2680,7 @@ describe('modelUtils', () => {
                         incomingGoTo: [],
                         isCanvasElement: true,
                         label: 'screen-one',
-                        next: 'end-hook-guid_0_0',
+                        next: 'end-hook-guid_0',
                         nodeType: 'default',
                         prev: 'start-guid'
                     },
@@ -2280,7 +2768,7 @@ describe('modelUtils', () => {
                     action: {
                         config: {},
                         elementType: 'Action',
-                        fault: 'end-hook-guid_0_0_0',
+                        fault: 'end-hook-guid_0_0',
                         guid: 'action',
                         incomingGoTo: [],
                         isCanvasElement: true,
@@ -2294,9 +2782,9 @@ describe('modelUtils', () => {
                         nodeType: 'end',
                         prev: 'action'
                     },
-                    'end-hook-guid_0_0_0': {
+                    'end-hook-guid_0_0': {
                         childIndex: -1,
-                        guid: 'end-hook-guid_0_0_0',
+                        guid: 'end-hook-guid_0_0',
                         isTerminal: true,
                         nodeType: 'end',
                         parent: 'action'
@@ -2342,8 +2830,8 @@ describe('modelUtils', () => {
                     { childIndexToKeep: 3 }
                 );
                 const expectedFlowModel = {
-                    'end-hook-guid_0': {
-                        guid: 'end-hook-guid_0',
+                    'end-hook-guid': {
+                        guid: 'end-hook-guid',
                         nodeType: 'end',
                         prev: 'screen-three'
                     },
@@ -2371,7 +2859,7 @@ describe('modelUtils', () => {
                         incomingGoTo: [],
                         isCanvasElement: true,
                         label: 'screen-three',
-                        next: 'end-hook-guid_0',
+                        next: 'end-hook-guid',
                         nodeType: 'default',
                         prev: 'screen-one'
                     },
@@ -2451,11 +2939,11 @@ describe('modelUtils', () => {
                                 childReference: 'o3'
                             }
                         ],
-                        children: ['end-hook-guid', 'screen-two', null, 'screen-three'],
+                        children: ['end-hook-guid', 'screen-two', 'end-hook-guid_0', 'screen-three'],
                         config: {},
                         elementType: 'Decision',
                         guid: 'decision-one',
-                        incomingGoTo: ['decision-one', 'screen-three'],
+                        incomingGoTo: ['decision-one'],
                         isCanvasElement: true,
                         label: 'decision-one',
                         next: 'decision-one',
@@ -2468,6 +2956,14 @@ describe('modelUtils', () => {
                         isTerminal: true,
                         nodeType: 'end',
                         parent: 'decision-one'
+                    },
+                    'end-hook-guid_0': {
+                        childIndex: 2,
+                        guid: 'end-hook-guid_0',
+                        isTerminal: true,
+                        nodeType: 'end',
+                        parent: 'decision-one',
+                        next: null
                     },
                     root: {
                         children: ['start-guid'],
@@ -2493,9 +2989,9 @@ describe('modelUtils', () => {
                         guid: 'screen-three',
                         incomingGoTo: [],
                         isCanvasElement: true,
-                        isTerminal: true,
+                        isTerminal: false,
                         label: 'screen-three',
-                        next: 'decision-one',
+                        next: null,
                         nodeType: 'default',
                         parent: 'decision-one',
                         prev: null

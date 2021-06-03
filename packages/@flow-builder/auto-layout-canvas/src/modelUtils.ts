@@ -834,18 +834,18 @@ function getTargetGuidsForBranchReconnect(elements: FlowModel, sourceGuid: Guid)
  *
  * @param elements - The flow model
  * @param prev - The guid of a previous element
- * @param branchParentGuid - The guid of the parent element
+ * @param parentGuid - The guid of the parent element
  * @param index - The index of the child
  * @returns An array of valid mergeable target guids
  */
-function getMergeableGuids(elements: FlowModel, prev: Guid, branchParentGuid: Guid, index: number): Guid[] {
+function getMergeableGuids(elements: FlowModel, prev: Guid, parentGuid: Guid | null, index: number): Guid[] {
     const { parent, childIndex } = prev
         ? findFirstElement(elements[prev], elements)
-        : { parent: branchParentGuid, childIndex: index };
-    const branchingElement = elements[parent] as ParentNodeModel;
+        : { parent: parentGuid, childIndex: index };
+    const branchingElement = elements[parent!] as ParentNodeModel;
 
-    // Making sure we do not include the branchParent if there is a goTo from the merge point to it
-    if (branchingElement.next && branchingElement.next !== branchParentGuid && branchingElement.next !== prev) {
+    // Making sure we do not include the branchParent if there is a self-loop from the merge point to it
+    if (branchingElement.next && branchingElement.next !== parentGuid && branchingElement.next !== prev) {
         return [branchingElement.next];
     }
 
@@ -1501,6 +1501,58 @@ function deleteFault(elementService: ElementService, state: FlowModel, elementWi
 }
 
 /**
+ * Returns the first parent element that has a nonNullNext
+ *
+ * @param state - The flow model after element deletion
+ * @param branchParent - parent element of deleted element
+ * @returns - Parent element that has a nonNullNext
+ */
+function getFirstParentWithNonNullNext(state: FlowModel, branchParent: ParentNodeModel) {
+    // Traversing up to find the branching element with a non-null next.
+    let firstParentWithNonNullNext = branchParent;
+    while (
+        firstParentWithNonNullNext &&
+        !isRoot(firstParentWithNonNullNext.guid) &&
+        firstParentWithNonNullNext.next == null
+    ) {
+        firstParentWithNonNullNext = findParentElement(firstParentWithNonNullNext, state);
+    }
+    return firstParentWithNonNullNext;
+}
+
+/**
+ * Checks if deleting an element results in a self-loop. Recalculates selectable GoTo guids and compares to the goToGuidOnParentNext
+ *
+ * @param state - The flow model after element deletion
+ * @param parentElement - parent element of deleted element
+ * @returns - Boolean if a self-loop was found
+ */
+function checkSelfLoop(state: FlowModel, parentElement: ParentNodeModel): boolean {
+    let isSelfLoop = false;
+    const firstParentWithNonNullNext = getFirstParentWithNonNullNext(state, parentElement);
+    const goToGuidOnParentNext =
+        firstParentWithNonNullNext && hasGoToOnNext(state, firstParentWithNonNullNext.guid)
+            ? firstParentWithNonNullNext.next
+            : null;
+
+    // If there is a GoTo on a branching elements next, we must check for self-loops
+    if (goToGuidOnParentNext) {
+        // Recalculate what elements are selectable from the merge point
+        const { goToableGuids } = getTargetGuidsForReconnection(
+            state,
+            firstParentWithNonNullNext.guid,
+            undefined!,
+            goToGuidOnParentNext,
+            false,
+            undefined!
+        );
+        isSelfLoop = !goToableGuids.includes(goToGuidOnParentNext);
+    }
+
+    return isSelfLoop;
+}
+
+/**
  * Deletes an element from a flow
  *
  * @param elementService - The element service
@@ -1607,6 +1659,10 @@ function deleteElement(
         branchHead.isTerminal = isEndOrAllTerminalBranchingElement(state, branchTail);
     }
 
+    if (addEndElement || checkSelfLoop(state, parentElement)) {
+        replaceWithEndElement(elementService, state, element);
+    }
+
     // inline when needed
     if (
         parentElement != null &&
@@ -1624,10 +1680,6 @@ function deleteElement(
                 ? nextElement
                 : parentElement;
         inlineFromParent(state, inlineParent);
-    }
-
-    if (addEndElement) {
-        replaceWithEndElement(elementService, state, element);
     }
 
     return state;
