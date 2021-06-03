@@ -5,6 +5,8 @@ const commandName = 'displayshortcuts';
 export class DisplayShortcutsCommand extends BaseCommand {
     /**
      * Command to display shortcuts list
+     *
+     * @param {Function} callback The function to invoke.
      */
     constructor(callback) {
         super(callback, commandName, displayShortcutsCommandLabel, false);

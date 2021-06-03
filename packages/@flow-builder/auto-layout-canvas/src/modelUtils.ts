@@ -113,6 +113,7 @@ function parseGoToSourceRef(gotoSourceRef: GoToSourceRef) {
 
 /**
  * Get the target for a connection source
+ *
  * @param flowModel - The flow model
  * @param source - The connection source
  * @returns The target guid or null
@@ -201,7 +202,7 @@ export function getBranchIndexForGoToConnection(
  * or if the branchHead element's isTerminal property is set to true
  *
  * @param flowModel - The flow model
- * @param parentElement - The element whose branch is being evaluated
+ * @param element - The element whose branch is being evaluated
  * @param childIndex - Child index of the branch being evaluated
  * @returns true if the branch is terminal
  */
@@ -463,7 +464,6 @@ function removeGoTosFromElement(flowModel: FlowModel, element: NodeModel) {
  * Function to remove the original source reference from target element's incomingGoTo
  * and updating the incomingGoTo with the new source reference
  *
- * @param elementService - The element service
  * @param flowModel - The flow model
  * @param source - The connection source
  * @param targetGuid - Guid of the GoTo target element
@@ -739,11 +739,9 @@ class AlcList {
      *
      * @param elements - a map of all elements by guid
      * @param head - the guid of the head
-     * @param config - tail: the guid of the tail or a tail predicate fct, down: whether to navigate up or down
-     * @param config.tail
-     * @param config.down
-     * @param config.tail
-     * @param config.down
+     * @param config - A config object
+     * @param config.tail - tail: the guid of the tail or a tail predicate fct, down: whether to navigate up or down
+     * @param config.down - down
      */
     constructor(
         private elements: FlowModel,
@@ -914,12 +912,12 @@ function getNonSelectableTailElementsGuids(elements: FlowModel, branchElementToC
 /**
  * Returns the valid goto targets
  *
- * @param elements
- * @param prev
- * @param parent
- * @param mergeableGuids
- * @param firstMergeableNonNullNext
- * @param nonSelectableTailElementsGuids
+ * @param elements - Flow elements
+ * @param prev - The guid of the previous element
+ * @param parent - The parent element guid
+ * @param mergeableGuids - Array of mergeable guids
+ * @param firstMergeableNonNullNext - first mergable next element
+ * @param nonSelectableTailElementsGuids - Array of not selectable guids
  * @returns An array of valid goto targets
  */
 function getValidGoToTargets(
@@ -1668,7 +1666,6 @@ function deleteElementDescendents(
 /**
  * Adds an element to the flow
  *
- * @param elementService - The element service
  * @param flowModel - The flowModel to update
  * @param elementGuid - The guid of the new element
  * @param nodeType - The node type of the new element
@@ -2196,6 +2193,7 @@ export function updateChildrenOnAddingOrUpdatingScheduledPaths(
  *
  * @param flowModel flow model
  * @param decoratedElements map of element guids to highlight info
+ * @returns - The updated flow model
  */
 export function decorateElements(flowModel: FlowModel, decoratedElements: Map<Guid, HighlightInfo>): FlowModel {
     decoratedElements.forEach((highlightInfo, guid) => {
@@ -2210,6 +2208,7 @@ export function decorateElements(flowModel: FlowModel, decoratedElements: Map<Gu
  * Clears canvas decoration info on all elements in the flow model
  *
  * @param flowModel flow model
+ * @returns - The updated flow model
  */
 export function clearCanvasDecoration(flowModel: FlowModel): FlowModel {
     Object.values(flowModel).forEach((element) => {

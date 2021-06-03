@@ -13,7 +13,7 @@
         "test": "lwc-test src",
         "test:update-snapshots": "lwc-test --updateSnapshot",
         "coverage": "lwc-test src -- --coverage",
-        "lint": "eslint --max-warnings 0 src/**/*.ts",
+        "lint": "eslint --max-warnings 4575 src/**/*.ts",
         "ci:test": "yarn test -- -- --verbose false",
         "ci:test:coverage": "yarn coverage -- --verbose false"
     },

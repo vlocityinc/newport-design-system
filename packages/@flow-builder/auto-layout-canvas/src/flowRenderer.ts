@@ -103,6 +103,7 @@ function renderEmptyFlow(
 
 /**
  * Checks if a node is the flow's root node
+ *
  * @param node - The node to check
  * @param context - The flow rendering context
  * @returns true if the node is the root node, otherwise false
@@ -113,9 +114,10 @@ function isRootNode(node: NodeModel, context: FlowRenderContext) {
 
 /**
  * Checks if the guid of the element being currently traversed is same as that present in deletionPathInfo
+ *
  * @param context - The flow rendering context
  * @param currentElementGuid - Guid of the element being currently traversed
- * @return true if the currentElementGuid matches the one present in the deletionPathInfo
+ * @returns true if the currentElementGuid matches the one present in the deletionPathInfo
  */
 function isElementGuidToDelete(context: FlowRenderContext, currentElementGuid: Guid) {
     const { interactionState } = context;
@@ -127,9 +129,10 @@ function isElementGuidToDelete(context: FlowRenderContext, currentElementGuid: G
 
 /**
  * Checks if the index of the branch being traversed is same the one present in deletionPathInfo
+ *
  * @param context - The flow rendering context
  * @param currentChildIndex - Index of the connector branch being traversed
- * @return true if the index of the branch being traversed is same the one present in deletionPathInfo
+ * @returns true if the index of the branch being traversed is same the one present in deletionPathInfo
  */
 function isChildIndexToKeep(context: FlowRenderContext, currentChildIndex: number) {
     const { interactionState } = context;
@@ -140,6 +143,7 @@ function isChildIndexToKeep(context: FlowRenderContext, currentChildIndex: numbe
 
 /**
  * Checks if the connector should be deleted
+ *
  * @param context - The flow rendering context
  * @param nodeGuid - Connector's source element guid
  * @param currentChildIndex - Index of the connector branch being traversed
@@ -154,8 +158,10 @@ function shouldDeleteConnector(context: FlowRenderContext, nodeGuid: Guid, curre
 
 /**
  * Checks if a given branch on a node is highlighted
+ *
  * @param node Branch node to check
  * @param branchIndex Index of the branch to check against
+ * @returns true if the branch is highlighted
  */
 function isBranchHighlighted(node: NodeModel, branchIndex: number) {
     return !!node.config.highlightInfo?.branchIndexesToHighlight?.includes(branchIndex);
@@ -163,8 +169,10 @@ function isBranchHighlighted(node: NodeModel, branchIndex: number) {
 
 /**
  * Checks if a given merge branch on a node is highlighted
+ *
  * @param node Branch node to check
  * @param branchIndex Index of the branch to check against
+ * @returns true if the merge branch is highlighted
  */
 function isMergeBranchHighlighted(node: NodeModel, branchIndex: number) {
     return !!node.config.highlightInfo?.mergeBranchIndexesToHighlight?.includes(branchIndex);
@@ -276,7 +284,7 @@ function renderNode(
  * @param node - The source node
  * @param context - The flow render context
  * @param offsetY - The node's offset
- * @return The height of the connector to the next node
+ * @returns The height of the connector to the next node
  */
 function getNextConnectorHeight(
     parentNode: ParentNodeModel,
@@ -301,6 +309,11 @@ function getNextConnectorHeight(
     return height;
 }
 
+/**
+ * @param guid element Guid
+ * @param context Flow render context
+ * @returns true if the element is beyound the deleting merge point
+ */
 function isDeletingBeyondMergePoint(guid: string, context: FlowRenderContext) {
     return !!(
         isElementGuidToDelete(context, guid) &&
@@ -547,7 +560,7 @@ function renderFlowHelper(parentNode: ParentNodeModel, childIndex: number, conte
  * @param flowModel - The flow model
  * @param conditionReferences - The condition references
  * @param fieldName - The field name metadata
- * @return A SelectInfo for the conditions of a branch
+ * @returns A SelectInfo for the conditions of a branch
  */
 function createOptionsForConditionReferences(
     flowModel: FlowModel,
@@ -564,7 +577,10 @@ function createOptionsForConditionReferences(
     });
 }
 
-// TODO: ALC use metadata here
+/**
+ * @param parentNode parent node
+ * @returns condition references
+ */
 function getConditionReferences(parentNode: ParentNodeModel): any {
     // TODO: Use NodeType instead of elementType and update tests
     const elementType = parentNode.elementType;
@@ -730,10 +746,10 @@ function renderBranches(
 /**
  * Returns the variant for a connector at a childIndex
  *
- * @param parentNodeGuid - The parent node
+ * @param parentNode - The parent node
  * @param childIndex - The childIndex
  * @param context  - The flow render context
- *
+ * @returns the connector variant
  */
 function getConnectorVariant(
     parentNode: ParentNodeModel,
@@ -774,8 +790,11 @@ function getConnectorVariant(
 
 /**
  * Utility function to get a connectors' label type
- * @param options - The options
- * @return the connector label type
+ *
+ * @param obj - An object
+ * @param obj.isFault - true if is fault connector
+ * @param obj.isLoop - true if element is a loop element
+ * @returns the connector label type
  */
 function getConnectorLabelType({ isFault, isLoop }: { isFault?: boolean; isLoop?: boolean }) {
     if (isFault) {

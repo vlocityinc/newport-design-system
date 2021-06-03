@@ -5,6 +5,8 @@ const commandName = 'focusOnDockingPanel';
 export class FocusOnDockingPanelCommand extends BaseCommand {
     /**
      * Command to shift focus to docking panel
+     *
+     * @param {Function} callback The function to invoke.
      */
     constructor(callback) {
         super(callback, commandName, dockingPanelFocusLabel, false);

@@ -3,6 +3,10 @@ import { FlowModel, Guid, findFirstElement, isRoot } from 'builder_platform_inte
 /**
  * Helper function to build a path to the node that needs to be focused. The path will consist of the
  * guid and branch index to follow for all the branching nodes leading up to the focus node.
+ *
+ * @param flowModel The flow model
+ * @param focusPath The focus path
+ * @returns The complete focus path
  */
 export const getFocusPath = (flowModel: FlowModel, focusPath: Array<{ guid: Guid; index?: number }>) => {
     const focusGuid = focusPath[0].guid;

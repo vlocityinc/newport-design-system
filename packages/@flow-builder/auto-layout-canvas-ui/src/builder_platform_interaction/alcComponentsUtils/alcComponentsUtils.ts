@@ -49,6 +49,11 @@ enum ICON_SHAPE {
     SQUARE = 'square'
 }
 
+/**
+ * @param elementsMetadata - Contains elementType -> data map
+ * @param elementType - The current element type
+ * @returns - True if the element is a system element
+ */
 function isSystemElement(elementsMetadata: ElementsMetadata, elementType: string) {
     const type = getElementMetadata(elementsMetadata, elementType).type;
 
@@ -70,6 +75,7 @@ const ELEMENT_DESELECTED_ACTION = 'element_deselected_action';
  *
  * @param action - Selection or Deselection action
  * @param currentBranchElement - Branch Element we are going to traverse
+ * @returns - True if we should traverse down
  */
 function _shouldTraverseDown(action: string, currentBranchElement: NodeModel): boolean {
     // In case of deselection, we should traverse down only if canvas element is selected
@@ -87,6 +93,7 @@ function _shouldTraverseDown(action: string, currentBranchElement: NodeModel): b
  * @param action - Selection or Deselection action
  * @param parentElement - Parent Element of a given tree in the flow
  * @param flowModel - Representation of the flow as presented in the Canvas
+ * @returns - Child element Guids
  */
 function _getChildBranchElements(
     elementsMetadata: ElementsMetadata,
@@ -133,8 +140,9 @@ function _getChildBranchElements(
  *
  * @param elementsMetadata - Contains elementType -> data map
  * @param action - Selection or Deselection action
- * @param parentElement - Parent Element of a given tree in the flow
+ * @param element - Parent Element of a given tree in the flow
  * @param flowModel - Representation of the flow as presented in the Canvas
+ * @returns - Fault branch element Guids
  */
 function _getFaultBranchElements(
     elementsMetadata: ElementsMetadata,
@@ -169,6 +177,7 @@ function _getFaultBranchElements(
  * @param action - Selection or Deselection action
  * @param parentElement - Parent Element of a given tree in the flow
  * @param flowModel - Representation of the flow as presented in the Canvas
+ * @returns - The subtree elements guids
  */
 function _getSubtreeElements(
     elementsMetadata: ElementsMetadata,
@@ -436,6 +445,7 @@ const getCanvasElementDeselectionData = (
  * @param elementsMetadata - Contains elementType -> data map
  * @param flowModel - Representation of the flow as presented in the Canvas
  * @param topSelectedGuid - Guid of the top-most selected element
+ * @returns - The CanvasElementDeselectionDataOnToggleOff
  */
 const getCanvasElementDeselectionDataOnToggleOff = (
     elementsMetadata: ElementsMetadata,
@@ -481,6 +491,10 @@ const CLASS_MENU_OPENED = 'menu-opened';
 const CLASS_IS_NEW = 'is-new';
 const DYNAMIC_NODE_COMPONENT = 'dynamic-node-component';
 
+/**
+ * @param cssEntries - css
+ * @returns The Css
+ */
 function getCssStyle(cssEntries): string {
     return Object.entries(cssEntries)
         .map((entry) => `${entry[0]}: ${entry[1]}px`)
@@ -490,7 +504,11 @@ function getCssStyle(cssEntries): string {
 /**
  * Returns a css style string for a Geometry object
  *
- * @param A geometry object
+ * @param obj geometry object
+ * @param obj.x - The x position of the top left corner of the rectangle.
+ * @param obj.y - The y position of the top left corner of the rectangle.
+ * @param obj.w - The width of the rectangle
+ * @param obj.h - The height of the rectangle
  * @returns A css style string for the geometry
  */
 function getStyleFromGeometry({ x, y, w, h }: { x?: number; y?: number; w?: number; h?: number }): string {
@@ -583,13 +601,6 @@ function getAlcNodeData(nodeInfo: NodeRenderInfo) {
     };
 }
 
-/**
- *  Get the count of non terminal branches for a parent element
- *
- *  @param state - the flow model
- *  @param  node - the parent element
- *  @return the count of non terminal branches
- */
 // function getNonTerminalCount(state: FlowModel, node: ParentNodeModel) {
 //     return (node.children || []).reduce((count, child) => {
 //         if (child == null || !(state[child] as BranchHeadNodeModel).isTerminal) {
@@ -620,6 +631,12 @@ function getAlcNodeData(nodeInfo: NodeRenderInfo) {
 //     return lastPathInLoop;
 // }
 
+/**
+ * @param flowModel - Representation of the flow as presented in the Canvas
+ * @param parentElement - Parent Element of a given tree in the flow
+ * @param elementsMetadata - Contains elementType -> data map
+ * @returns - True if the element is in a loop
+ */
 function isInLoop(flowModel: FlowModel, parentElement: ParentNodeModel, elementsMetadata: ElementsMetadata) {
     let parentType = getElementMetadata(elementsMetadata, parentElement.elementType).type;
 
@@ -635,6 +652,14 @@ function isInLoop(flowModel: FlowModel, parentElement: ParentNodeModel, elements
     return false;
 }
 
+/**
+ * @param detail - Event detail
+ * @param containerElementGeometry - Geometry of the container element
+ * @param menuButtonHalfWidth - The half-width of the menu trigger button
+ * @param scale - scale factor
+ * @param needToPosition - True means element need to position
+ * @returns - The menu style
+ */
 export function getMenuStyle(detail, containerElementGeometry, menuButtonHalfWidth, scale, needToPosition) {
     let { left, top } = detail;
     const { x, y } = containerElementGeometry;
@@ -653,9 +678,13 @@ export function getMenuStyle(detail, containerElementGeometry, menuButtonHalfWid
 /**
  * Creates an object with the properties needed to render the node + connector menus
  *
- * @param detail - The toggle menu event
+ * @param event - The toggle menu event
  * @param menuButtonHalfWidth - The half-width of the menu trigger button
- * @return object with menu properties
+ * @param containerElementGeometry - Geometry of the container element
+ * @param scale - scale factor
+ * @param context - The flow rendering context
+ * @param needToPosition - True means element need to position
+ * @returns object with menu properties
  */
 function getAlcMenuData(
     event: ToggleMenuEvent,
@@ -730,7 +759,7 @@ function getAlcMenuData(
 /**
  * Creates a unique key for a connector
  *
- * @param connectorInfo- The connector render info
+ * @param connectorInfo - The connector render info
  * @returns a string key
  */
 function connectorKey(connectorInfo: ConnectorRenderInfo): string {

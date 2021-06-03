@@ -42,6 +42,7 @@ enum ActionType {
  *
  * @param type - The action type
  * @param payload - The action payload
+ * @returns - Action with type and payload
  */
 function createPayloadAction<T, P>(type: T, payload: P) {
     return { type, payload };
@@ -52,7 +53,7 @@ function createPayloadAction<T, P>(type: T, payload: P) {
  *
  * @param startElementGuid - The guid of the start element
  * @param endElementGuid = The guid of the end element
- * @return An Init action
+ * @returns An Init action
  */
 export function initAction(startElementGuid: Guid, endElementGuid: Guid) {
     return createPayloadAction(<const>ActionType.Init, { startElementGuid, endElementGuid });
@@ -63,7 +64,8 @@ export function initAction(startElementGuid: Guid, endElementGuid: Guid) {
  *
  * @param elementGuid - The guid of the element to add
  * @param nodeType  - The node type for the element
- * @return An AddElement action
+ * @param insertAt - The insertAt location
+ * @returns An AddElement action
  */
 export function addElementAction(elementGuid: Guid, nodeType: NodeType, insertAt: InsertAt) {
     return createPayloadAction(<const>ActionType.AddElement, { elementGuid, nodeType, insertAt });
@@ -74,7 +76,7 @@ export function addElementAction(elementGuid: Guid, nodeType: NodeType, insertAt
  *
  * @param elementGuid - The guid of the element to delete
  * @param childIndexToKeep - The index of the child to keep, if any (used when deleting a branching element)
- * @return A DeleteElement Action
+ * @returns A DeleteElement Action
  */
 export function deleteElementAction(elementGuid: Guid, childIndexToKeep?: number) {
     return createPayloadAction(<const>ActionType.DeleteElement, { elementGuid, childIndexToKeep });
@@ -84,7 +86,7 @@ export function deleteElementAction(elementGuid: Guid, childIndexToKeep?: number
  * Creates an DeleteFault action
  *
  * @param elementGuid - The guid of an element that has a fault
- * @return A DeleteFault action
+ * @returns A DeleteFault action
  */
 export function deleteFaultAction(elementGuid: Guid) {
     return createPayloadAction(<const>ActionType.DeleteFault, { elementGuid });
@@ -96,7 +98,7 @@ export function deleteFaultAction(elementGuid: Guid) {
  *
  * @param fromInsertAt - The guid of the end element to delete
  * @param toElementGuid - The guid of the element to reconnect
- * @return A ConnectToElement action
+ * @returns A ConnectToElement action
  */
 export function connectToElementAction(fromInsertAt: InsertAt, toElementGuid: Guid) {
     return createPayloadAction(<const>ActionType.ConnectToElement, { fromInsertAt, toElementGuid });
@@ -104,11 +106,12 @@ export function connectToElementAction(fromInsertAt: InsertAt, toElementGuid: Gu
 
 /**
  * Created the CreateGoToConnection action
+ *
  * @param sourceGuid - Guid of the source element
  * @param sourceBranchIndex - Index of branch on which GoTo is being added
  * @param targetGuid - Guid of the target element
  * @param isReroute - Whether this is a reroute of an existing Goto connection
- * @return CreateGoToConnection action
+ * @returns CreateGoToConnection action
  */
 export function createGoToConnectionAction(
     sourceGuid: Guid,
@@ -126,9 +129,10 @@ export function createGoToConnectionAction(
 
 /**
  * Create the DeleteGoToConnection action
+ *
  * @param sourceGuid - Guid of the source element
  * @param sourceBranchIndex - Index of branch on which GoTo is being deleted
- * @return DeleteGoToConnection action
+ * @returns DeleteGoToConnection action
  */
 export function deleteGoToConnectionAction(sourceGuid: Guid, sourceBranchIndex: number) {
     return createPayloadAction(<const>ActionType.DeleteGoToConnection, { sourceGuid, sourceBranchIndex });
@@ -138,7 +142,7 @@ export function deleteGoToConnectionAction(sourceGuid: Guid, sourceBranchIndex: 
  * Creates an AddFault action
  *
  * @param elementGuid - The guid of an element to add a fault to
- * @return An AddFault action
+ * @returns An AddFault action
  */
 export function addFaultAction(elementGuid: Guid) {
     return createPayloadAction(<const>ActionType.AddFault, { elementGuid });
@@ -149,25 +153,37 @@ export function addFaultAction(elementGuid: Guid) {
  *
  * @param parentElementGuid - The guid of the parent element
  * @param updatedChildReferences - Updated childReferences array
- * @return An UpdateChildren action
+ * @returns An UpdateChildren action
  */
 export function updateChildrenAction(parentElementGuid: Guid, updatedChildReferences: { childReference: string }[]) {
     return createPayloadAction(<const>ActionType.UpdateChildren, { parentElementGuid, updatedChildReferences });
 }
 
+/**
+ * Create a decorateCanvas action
+ *
+ * @param decoratedElements - The map of element guids to highlight info
+ * @returns An decorateCanvas action
+ */
 export function decorateCanvasAction(decoratedElements: Map<Guid, HighlightInfo>) {
     return createPayloadAction(<const>ActionType.DecorateCanvas, { decoratedElements });
 }
 
+/**
+ * Create a clearCanvasDecoration action
+ *
+ * @returns - A clearCanvasDecoration action
+ */
 export function clearCanvasDecorationAction() {
     return createPayloadAction(<const>ActionType.ClearCanvasDecoration, null);
 }
 
 /**
  * Creates the UpdateChildrenOnAddingOrUpdatingScheduledPaths action
+ *
  * @param parentElementGuid - The guid of the parent element (i.e. Start Element)
  * @param updatedChildReferences - Updated childReferences array
- * @return UpdateChildrenOnAddingOrUpdatingScheduledPaths action
+ * @returns UpdateChildrenOnAddingOrUpdatingScheduledPaths action
  */
 export function updateChildrenOnAddingOrUpdatingScheduledPathsAction(
     parentElementGuid: Guid,
@@ -194,6 +210,12 @@ type Action = ReturnType<
     | typeof updateChildrenOnAddingOrUpdatingScheduledPathsAction
 >;
 
+/**
+ * @param config - The reducer config
+ * @param flowModel - The state of elements in the store
+ * @param action - Action to execute
+ * @returns - A configured reducer
+ */
 function reducer(config: ElementService, flowModel: Readonly<FlowModel>, action: Action): Readonly<FlowModel> {
     const nextFlowModel = flowModel;
 
@@ -261,7 +283,7 @@ function reducer(config: ElementService, flowModel: Readonly<FlowModel>, action:
  * Creates a configured Auto Layout Canvas reducer
  *
  * @param config - The reducer config
- * @return A configured reducer
+ * @returns A configured reducer
  */
 export default function createReducer(config: ElementService) {
     return (flowModel: FlowModel, action: Action) => reducer(config, flowModel, action);

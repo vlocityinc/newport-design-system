@@ -4,6 +4,8 @@ const commandName = 'arrowup';
 export class ArrowUp extends BaseCommand {
     /**
      * Arrow Up key command
+     *
+     * @param {Function} callback The function to invoke.
      */
     constructor(callback) {
         super(callback, commandName, '', false);

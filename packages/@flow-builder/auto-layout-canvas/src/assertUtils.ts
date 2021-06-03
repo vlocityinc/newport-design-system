@@ -33,6 +33,9 @@ enum NodeEnv {
     DEVELOPMENT = 'development'
 }
 
+/**
+ * @param assertCallback - Assert Function callback
+ */
 export function assertInDev(assertCallback: Function) {
     // eslint-disable-next-line
     const processEnv = (window as any)['processEnv'];
@@ -42,6 +45,10 @@ export function assertInDev(assertCallback: Function) {
     }
 }
 
+/**
+ * @param state - The state of elements in the store
+ * @param branchHead - The branch head node model
+ */
 function assertBranchHead(state: FlowModel, branchHead: BranchHeadNodeModel) {
     const { guid, prev, parent, childIndex } = branchHead;
 
@@ -79,6 +86,10 @@ function assertBranchHead(state: FlowModel, branchHead: BranchHeadNodeModel) {
     }
 }
 
+/**
+ * @param elements - The state of elements in the store
+ * @param element - The element
+ */
 function assertNonBranchHead(elements: FlowModel, element: NodeModel) {
     const { guid, prev, next, parent, childIndex, isTerminal } = element as BranchHeadNodeModel;
 
@@ -107,6 +118,10 @@ function assertNonBranchHead(elements: FlowModel, element: NodeModel) {
     }
 }
 
+/**
+ * @param elements - The state of elements in the store
+ * @param source - The connection source
+ */
 function assertGoToConnectorFromSource(elements: FlowModel, source: ConnectionSource) {
     const sourceRef = createGoToSourceRef(elements, source);
 
@@ -118,6 +133,10 @@ function assertGoToConnectorFromSource(elements: FlowModel, source: ConnectionSo
     }
 }
 
+/**
+ * @param elements - The state of elements in the store
+ * @param incomingGoTos - The incomming gotos
+ */
 function assertIncomingGoTos(elements: FlowModel, incomingGoTos: GoToSourceRef[]) {
     for (const sourceRef of incomingGoTos) {
         const { sourceGuid: guid, suffix } = parseGoToSourceRef(sourceRef);
@@ -126,6 +145,10 @@ function assertIncomingGoTos(elements: FlowModel, incomingGoTos: GoToSourceRef[]
     }
 }
 
+/**
+ * @param elements - The state of elements in the store
+ * @param element - The element
+ */
 function assertElement(elements: FlowModel, element: NodeModel) {
     const { guid, children, incomingGoTo } = element as ParentNodeModel;
 
@@ -137,6 +160,12 @@ function assertElement(elements: FlowModel, element: NodeModel) {
         throw new Error(`invalid children property for element ${guid}: ${children}`);
     }
 }
+
+/**
+ * @param elements - The state of elements in the store
+ * @param parent - The parent element
+ * @param childIndex - The child index
+ */
 function assertAutoLayoutStateForBranch(elements: FlowModel, parent: ParentNodeModel, childIndex: number) {
     if (hasGoToOnBranchHead(elements, parent.guid, childIndex)) {
         assertGoToConnectorFromSource(elements, { guid: parent.guid, childIndex });

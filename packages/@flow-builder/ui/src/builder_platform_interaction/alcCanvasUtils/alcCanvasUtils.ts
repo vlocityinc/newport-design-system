@@ -17,6 +17,9 @@ const { NONE, SCHEDULED, PLATFORM_EVENT } = FLOW_TRIGGER_TYPE;
 // TODO: find better solution to share metadata between modules, eg in ElementService
 let elementsMetadata: ElementsMetadata = {};
 
+/**
+ * @param metadata - The Flow metadata
+ */
 export function setElementsMetadata(metadata: ElementMetadata[]) {
     elementsMetadata = metadata.reduce((acc, elementMetadata) => {
         acc[elementMetadata.elementType] = elementMetadata;
@@ -24,12 +27,16 @@ export function setElementsMetadata(metadata: ElementMetadata[]) {
     }, {});
 }
 
+/**
+ * @returns - The flow metadata
+ */
 export function getElementsMetadata() {
     return elementsMetadata;
 }
 
 /**
  * Returns the number of children an element has, or null if it doesn't support children
+ *
  * @param element - The element
  * @returns the number of children an element has, or null
  */
@@ -62,6 +69,9 @@ export function supportsChildren(element: UI.CanvasElement) {
 
 /**
  * Maps a flow ELEMENT_TYPE to an ALC ElementType
+ *
+ * @param elementType - The current element type
+ * @returns - The alc Element type
  */
 export function getAlcElementType(elementType) {
     switch (elementType) {
@@ -115,6 +125,7 @@ export const copyAlcExtraProps = (fromElement: UI.Element, toElement: UI.Element
 
 /**
  * Returns the start element description
+ *
  * @param triggerType - The trigger type
  * @returns the description
  */
@@ -164,7 +175,7 @@ export const isRecordTriggeredFlow = (triggerType) => {
  * Finds the flow's start element
  *
  * @param elements - the flow elements
- * @return the start element
+ * @returns the start element
  */
 export function findStartElement(elements: UI.Elements | FlowModel): BranchHeadNodeModel {
     return Object.values(elements).find(

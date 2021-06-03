@@ -64,10 +64,25 @@ function toggleFlowMenu(
     return { ...interactionState, menuInfo, deletionPathInfo: null };
 }
 
+/**
+ * Close the Flow Menu
+ *
+ * @param interactionState - The flow interaction state
+ * @returns - The flow interaction state with Flow Menu closed
+ */
 function closeFlowMenu(interactionState: FlowInteractionState): FlowInteractionState {
     return { ...interactionState, menuInfo: null, deletionPathInfo: null };
 }
 
+/**
+ * Update deletion path info
+ *
+ * @param elementGuidToDelete - The Guid of the element to be deleted
+ * @param childIndexToKeep - The child index to keep
+ * @param interactionState - The flow interaction state
+ * @param shouldDeleteBeyondMergingPoint - true if the element beyoud the merge point should be deleted
+ * @returns - The updated path info
+ */
 function updateDeletionPathInfo(
     elementGuidToDelete: Guid,
     childIndexToKeep: number,
@@ -84,7 +99,9 @@ function updateDeletionPathInfo(
 
 /**
  * Clears the deletionPathInfo in interactionState
+ *
  * @param interactionState - The flow interaction state
+ * @returns - Clear the path info
  */
 function clearDeletionPathInfo(interactionState: FlowInteractionState): FlowInteractionState {
     return { ...interactionState, deletionPathInfo: null };

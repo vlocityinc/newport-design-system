@@ -128,14 +128,27 @@ const ELEMENT_METADATA_DEFAULT = {
     icon: 'standard:default'
 };
 
+/**
+ * @param type - The node type
+ * @returns - True if the node can have children
+ */
 function canHaveChildren(type: NodeType): boolean {
     return type === NodeType.LOOP || type === NodeType.BRANCH || type === NodeType.ROOT;
 }
 
+/**
+ * @param flow - The flow model
+ * @returns - The root node
+ */
 function getRootNode(flow: FlowModel): ParentNodeModel {
     return flow.root as ParentNodeModel;
 }
 
+/**
+ * @param flow - The flow model
+ * @param key - The guid node
+ * @returns The element
+ */
 function resolveNode(flow: FlowModel, key: NodeRef): NodeModel {
     if (!key) {
         throw new Error('got null guid');
@@ -144,6 +157,11 @@ function resolveNode(flow: FlowModel, key: NodeRef): NodeModel {
     return flow[key] as NodeModel;
 }
 
+/**
+ * @param elementsMetadata - Contains elementType -> data map
+ * @param elementType - The current node's NodeType
+ * @returns - The element metadata
+ */
 function getElementMetadata(elementsMetadata: ElementsMetadata, elementType: string): ElementMetadata {
     return elementsMetadata[elementType] || ELEMENT_METADATA_DEFAULT;
 }

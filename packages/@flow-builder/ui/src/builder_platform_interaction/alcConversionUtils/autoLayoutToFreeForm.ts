@@ -42,6 +42,9 @@ interface TargetInfo {
 
 type ElementsPositionMap = UI.StringKeyedMap<Position>;
 
+/**
+ * @param flowModel
+ */
 function createInitialFlowRenderContext(flowModel: FlowModel): FlowRenderContext {
     return {
         flowModel,
@@ -53,6 +56,9 @@ function createInitialFlowRenderContext(flowModel: FlowModel): FlowRenderContext
     } as FlowRenderContext;
 }
 
+/**
+ * @param flowModel
+ */
 function getNodeLayoutMap(flowModel: FlowModel) {
     const flowRenderContext = createInitialFlowRenderContext(flowModel);
     calculateFlowLayout(flowRenderContext);
@@ -62,10 +68,10 @@ function getNodeLayoutMap(flowModel: FlowModel) {
 /**
  * Calculates the absolute position of each Auto Layout Canvas element
  *
- * @param elements - The flow elements
+ * @param flowModel - The flow elements
  * @param startOffsetX - x offset of the start element
  * @param startOffsetY - y offset of the start element
- * @return the a map of the positions for the elements
+ * @returns the a map of the positions for the elements
  */
 function calculateElementPositions(
     flowModel: FlowModel,
@@ -96,6 +102,14 @@ function calculateElementPositions(
     return elementsPosition;
 }
 
+/**
+ * @param nodeLayoutMap
+ * @param elementsPosition
+ * @param flowModel
+ * @param ele
+ * @param offsetX
+ * @param offsetY
+ */
 function calculateElementPositionsForBranch(
     nodeLayoutMap,
     elementsPosition: ElementsPositionMap,
@@ -214,8 +228,8 @@ function getBranchHeadConnectorInfo(parentElement: ParentNodeModel, childIndex: 
  * @param parentElement - The parent element
  * @param childIndex - The index of the child in its parent
  * @param TargetInfo - Where to go when the branch head is null
- *
- * @return a connector for the branch head
+ * @param targetInfo
+ * @returns a connector for the branch head
  */
 function createConnectorForBranchHead(
     elements: UI.Elements,
@@ -313,10 +327,19 @@ function isEndElement(element: NodeModel) {
     return element.nodeType === NodeType.END;
 }
 
+/**
+ * @param elements
+ * @param elementGuid
+ */
 function isEndElementOrNull(elements, elementGuid: UI.Guid | null | undefined) {
     return elementGuid == null || isEndElement(elements[elementGuid]);
 }
 
+/**
+ * @param flowModel
+ * @param parentElement
+ * @param currentTargetInfo
+ */
 function getTargetInfo(
     flowModel: FlowModel,
     parentElement: NodeModel,
@@ -370,6 +393,9 @@ function convertBranchingElement(
 }
 
 // hard casts an element to UI.Start
+/**
+ * @param element
+ */
 function asStart(element: NodeModel): UI.Start {
     return (<unknown>element) as UI.Start;
 }
@@ -379,6 +405,7 @@ function asStart(element: NodeModel): UI.Start {
  *
  * @param storeState - The free form state
  * @param elements - The elements
+ * @param flowModel
  * @param loopElement  - The loop element
  * @param ancestorNext - The loop's ancestor next
  * @returns true if all child branches are terminals
@@ -432,8 +459,10 @@ function convertLoopElement(
  * @param alcElementsMap - The alc elements
  * @param source - The source guid
  * @param target- The target guid
+ * @param target
  * @param storeState - The ffc store
  * @param type - The connector type
+ * @param isGoTo
  */
 function addConnector(
     alcElementsMap: UI.Elements,
@@ -513,6 +542,9 @@ function convertBranchToFreeForm(
     }
 }
 
+/**
+ * @param storeState
+ */
 function assertStoreState(storeState: UI.StoreState) {
     const { elements, connectors } = storeState;
 
@@ -587,8 +619,7 @@ function assertStoreState(storeState: UI.StoreState) {
  *
  * @param storeState - The store state
  * @param startElementCoords - The coordinates of the start element
- *
- * @return The Free Form Canvas UI model
+ * @returns The Free Form Canvas UI model
  */
 export function convertToFreeFormCanvas(storeState: UI.StoreState, startElementCoords: number[]): UI.StoreState {
     const elements = storeState.elements as FlowModel;

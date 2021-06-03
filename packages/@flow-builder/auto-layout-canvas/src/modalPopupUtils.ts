@@ -53,6 +53,7 @@ const invokeModalWithComponentsOnCreate = (modal, data) => {
 
 /**
  * Invokes the modal and creates the alert/confirmation modal inside it
+ *
  * @param {object} data - contains data for modal header/body/footer
  */
 export const invokeModal = (data) => {

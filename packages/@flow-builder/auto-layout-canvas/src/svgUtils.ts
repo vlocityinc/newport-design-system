@@ -32,7 +32,6 @@ export interface SvgPathParams {
  * @param start - The start location
  * @param offset - The offset to move to
  * @param nextOffset - The offset following the prior one
- * @param curveRadius - The curve radius
  * @returns A string that represents an svg path segment
  */
 function createSegment(start: Location, offset: Offset, nextOffset: Offset = [0, 0]): string {
@@ -95,6 +94,7 @@ function createSvgGeometry(width: number, height: number, offset: Offset): Geome
 
 /**
  * Creates a location that is offset from a specified location
+ *
  * @param location - The location to offset
  * @param offset - The location offset
  * @returns An offsetted location
@@ -130,8 +130,6 @@ function createSvgPath(
 /**
  * Creates an SvgInfo (path, geometry and endLocation) for an svg
  *
- * @param width - The width of the svg
- * @param height - The height of the svg
  * @param svgPathParams  - The path params
  * @param offset - The offset to account for path "bleeding"
  * @returns An svg info for the path

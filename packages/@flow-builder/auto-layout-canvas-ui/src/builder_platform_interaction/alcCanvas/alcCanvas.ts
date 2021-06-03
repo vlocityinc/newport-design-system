@@ -99,6 +99,13 @@ const AUTOLAYOUT_CANVAS_SELECTION = 'AUTOLAYOUT_CANVAS_SELECTION';
 // needed to compensate for floating point arithmetic imprecisions
 const FUDGE = 0.02;
 
+/**
+ * debounce function
+ *
+ * @param fct - The function to debounce to
+ * @param wait - The time to wait
+ * @returns -
+ */
 function debounce(fct, wait) {
     let timeoutId;
 
@@ -319,6 +326,8 @@ export default class AlcCanvas extends LightningElement {
     /**
      * Used to return the data that drives the start node.
      * This is different from what is in elementsMetadata
+     *
+     * @returns - The start element
      */
     get startMenuElement() {
         let startRenderInfo;
@@ -352,6 +361,8 @@ export default class AlcCanvas extends LightningElement {
      * We need to wait for them since the layout will not be valid until they are done
      *
      * This should never return true after initial render
+     *
+     * @returns - True if the spinner should be displayed
      */
     get showSpinner(): boolean {
         return (
@@ -451,6 +462,8 @@ export default class AlcCanvas extends LightningElement {
 
     /**
      * Helper function that converts this._elementsMetadata to map of elementType -> metaData
+     *
+     * @returns - The elements metadata map
      */
     _convertToElementMetadataMap() {
         return this._elementsMetadata!.reduce((acc, elementMetadata) => {
@@ -462,7 +475,7 @@ export default class AlcCanvas extends LightningElement {
     /**
      * Creates the initial flow render context
      *
-     * @return A new flow render context
+     * @returns A new flow render context
      */
     createInitialFlowRenderContext(): FlowRenderContext {
         // transforms the elementsMetadata array to a map
@@ -564,7 +577,9 @@ export default class AlcCanvas extends LightningElement {
     /**
      * Zoom to full scale when clicking on a node or connector button
      *
-     * @param {Object} param0  - The top and left position of the menu button
+     * @param obj - an object
+     * @param obj.top  - The top position of the menu button
+     * @param obj.left - The left position of the menu button
      * @param {number} menuButtonHalfWidth - The half width of the menu button
      */
     zoomForMenuDisplay({ top, left }, menuButtonHalfWidth) {
@@ -684,6 +699,7 @@ export default class AlcCanvas extends LightningElement {
 
     /**
      * Opens the connector or node menu
+     *
      * @param event - The event
      * @param interactionState - The interaction state
      */
@@ -713,6 +729,8 @@ export default class AlcCanvas extends LightningElement {
 
     /**
      * Handles the "Add GoTo" connector menu item selection
+     *
+     * @param event - The Goto path event
      */
     handleAddOrRerouteGoToItemSelection = (event) => {
         event.stopPropagation();
@@ -780,6 +798,8 @@ export default class AlcCanvas extends LightningElement {
 
     /**
      * Handles node selection and deselection
+     *
+     * @param event - The Selected Deselected event
      */
     handleNodeSelectionDeselection = (event) => {
         event.stopPropagation();
@@ -836,6 +856,8 @@ export default class AlcCanvas extends LightningElement {
 
     /**
      * Highlights the path to be deleted
+     *
+     * @param event - The HighlightPathsToDelete event
      */
     handleHighlightPathsToDelete = (event) => {
         const { elementGuidToDelete, childIndexToKeep } = event.detail;
@@ -859,6 +881,7 @@ export default class AlcCanvas extends LightningElement {
 
     /**
      * Handles moving focus to the connector from the Connector Menu
+     *
      * @param event - moveFocusToConnector event coming from connectorMenu
      */
     handleMoveFocusToConnector = (event: MoveFocusToConnectorEvent) => {
@@ -870,6 +893,7 @@ export default class AlcCanvas extends LightningElement {
 
     /**
      * Handles moving focus to the node from the Start/Regular Node Menu
+     *
      * @param event - moveFocusToNode event coming from nodeMenu or startMenu
      */
     handleMoveFocusToNode = (event: MoveFocusToNodeEvent) => {
@@ -992,7 +1016,7 @@ export default class AlcCanvas extends LightningElement {
      * Returns a Geometry object for a DOM element
      *
      * @param {Object} domElement - a DOM element
-     * @returns {Geometry} The Geometry for the DOM element
+     * @returns The Geometry for the DOM element
      */
     getDomElementGeometry(domElement) {
         const { left, right, top, bottom } = domElement.getBoundingClientRect();
@@ -1001,6 +1025,8 @@ export default class AlcCanvas extends LightningElement {
 
     /**
      * Returns the coordinates of the center of the canvas
+     *
+     * @returns - The canvas center
      */
     getCanvasCenter() {
         const { w, h } = this.getDomElementGeometry(this._canvasElement);
@@ -1059,7 +1085,8 @@ export default class AlcCanvas extends LightningElement {
 
         const { x, y } = this._panzoomOffsets;
         if (zoomAction === ZOOM_ACTION.ZOOM_TO_VIEW) {
-            /** smoothZoom is using  scale: scaleMultiplier * fromValue
+            /**
+             * smoothZoom is using  scale: scaleMultiplier * fromValue
              * fromValue is the actual scale
              * scaleMultiplier is the third parameter of the function.
              * smoothZoomAbs does not trigger the zoomEnd event that we need in this case.
@@ -1157,7 +1184,7 @@ export default class AlcCanvas extends LightningElement {
      * Which will be used during flow rendering to ensure layout respects
      * the dimensions of nodes with dynamicNodeComponents.
      *
-     * @param event
+     * @param event - The NodeResizeEvent event
      */
     handleDynamicNodeRender = (event: NodeResizeEvent) => {
         event.stopPropagation();

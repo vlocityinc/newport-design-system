@@ -43,7 +43,7 @@ export const NO_OFFSET = 0;
  * @param height - The height of the connector
  * @param config - The config for the connector
  * @param extraNodeHeight - The extra height for custom nodes
- * @return The offset of the add button and branch label relative to the top of the connector
+ * @returns The offset of the add button and branch label relative to the top of the connector
  */
 function getAddAndLabelOffsets(
     addAndLabelAlign: VerticalAlign,
@@ -62,6 +62,11 @@ function getAddAndLabelOffsets(
         : { addOffset: addOffsetFromBottom, labelOffset: labelOffsetFromBottom };
 }
 
+/**
+ * @param key - The guid of the node element
+ * @param context - The flow rendering context
+ * @returns The menu to position
+ */
 function getMenuNeedToPosition(key: NodeRef, context: FlowRenderContext): boolean {
     const { interactionState } = context;
     const { menuInfo } = interactionState;
@@ -86,6 +91,8 @@ function getMenuInfo(key: NodeRef, context: FlowRenderContext): InteractionMenuI
 /**
  * Returns the height of a menu
  *
+ * @param obj - An object
+ * @param obj.menuInfo - The menu info for a node
  * @returns The height of the menu
  */
 function getMenuHeight({ menuInfo }: { menuInfo: InteractionMenuInfo }): number {
@@ -106,16 +113,36 @@ function calculateFlowLayout(context: FlowRenderContext): void {
     // console.log(context.nodeLayoutMap);
 }
 
+/**
+ * @param parentGuid - The parent elment guid
+ * @param childIndex - The child index
+ * @param nodeLayoutMap - The node layout map
+ * @returns - The branch layout
+ */
 function getBranchLayout(parentGuid: string, childIndex: number, nodeLayoutMap: NodeLayoutMap): NodeLayout {
     const key = getBranchLayoutKey(parentGuid, childIndex);
     return nodeLayoutMap[key];
 }
 
+/**
+ * Set the branch layout
+ *
+ * @param parentGuid - The parent elment guid
+ * @param childIndex - The child index
+ * @param nodeLayoutMap - The node layout map
+ * @param nodeLayout - The node layout
+ */
 function setBranchLayout(parentGuid: string, childIndex: number, nodeLayoutMap: NodeLayoutMap, nodeLayout: NodeLayout) {
     const key = getBranchLayoutKey(parentGuid, childIndex);
     nodeLayoutMap[key] = nodeLayout;
 }
 
+/**
+ * Clone the branch layout
+ *
+ * @param layout - the layout to clone
+ * @returns - The cloned layout
+ */
 function cloneLayout(layout?: LayoutInfo): LayoutInfo {
     return layout ? { ...layout } : createDefaultLayout();
 }
@@ -211,6 +238,15 @@ function getBranchHeadConnectorVariant(
 /**
  * Calculates the extra height needed so that an opened menu doens't overlap over its next node
  *
+ * @param obj - An object
+ * @param obj.menuInfo - The menu info for a node
+ * @param obj.elementType - The element type
+ * @param obj.connectorType - The connector type
+ * @param obj.connectorVariant - The connector variant
+ * @param obj.connectorHeight - The connector height
+ * @param obj.layoutConfig - the Layout config
+ * @param obj.hasNext - true if the element as next
+ * @param obj.joinOffsetY - The join offset Y
  * @returns The amount of extra height needed
  */
 function calculateExtraHeightForMenu({
@@ -278,8 +314,7 @@ function getElementType(context: FlowRenderContext, nodeModel: NodeModel): NodeT
  *
  * @param context - The flow render context
  * @param guid - The guid of the node
- *
- * @return - The extra height needed
+ * @returns - The extra height needed
  */
 function calculateExtraHeightForNode(context: FlowRenderContext, guid: Guid) {
     const { layoutConfig, dynamicNodeDimensionMap } = context;

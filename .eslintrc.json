@@ -9,7 +9,8 @@
         "plugin:@typescript-eslint/recommended",
         "@salesforce/eslint-config-lwc/recommended",
         "plugin:lwc-core/recommended",
-        "plugin:lwc-core/style"
+        "plugin:lwc-core/style",
+        "plugin:jsdoc/recommended"
     ],
     "overrides": [
         {
@@ -40,7 +41,16 @@
                 "no-shadow": "off",
                 "no-unused-vars": "off",
                 "no-undef": "off",
-                "no-use-before-define": "off"
+                "no-use-before-define": "off",
+
+                "jsdoc/require-param-type": "off",
+                "jsdoc/require-returns-type": "off"
+            }
+        },
+        {
+            "files": ["*test.ts", "*test.js"],
+            "rules": {
+                "jsdoc/require-jsdoc": 0
             }
         }
     ]

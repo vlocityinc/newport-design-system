@@ -5,6 +5,8 @@ const commandName = 'zoomtofit';
 export class ZoomToFitCommand extends BaseCommand {
     /**
      * Command to zoom-to-fit the canvas
+     *
+     * @param {Function} callback The function to invoke.
      */
     constructor(callback) {
         super(callback, commandName, zoomToFitCommandLabel, false);

@@ -5,6 +5,8 @@ const commandName = 'zoomtoview';
 export class ZoomToViewCommand extends BaseCommand {
     /**
      * Command to zoom-to-view the canvas
+     *
+     * @param {Function} callback The function to invoke.
      */
     constructor(callback) {
         super(callback, commandName, zoomToViewCommandLabel, false);

@@ -3,6 +3,12 @@ const DURATION = 400;
 let animStart: number | null = null;
 let animProgress = 0;
 
+/**
+ * @param callback the callback function
+ * @param timestamp a timestamp
+ * @param duration duration of animation
+ * @param resolve function called when resolved animation
+ */
 function animateNext(callback: Function, timestamp: number, duration: number, resolve: Function) {
     if (animStart == null) {
         animStart = timestamp;
@@ -17,6 +23,11 @@ function animateNext(callback: Function, timestamp: number, duration: number, re
     }
 }
 
+/**
+ * @param callback the callback function
+ * @param duration duration of animation
+ * @returns Promise
+ */
 function animate(callback: Function, duration: number = DURATION): Promise<void> {
     return new Promise((resolve) => {
         animStart = null;

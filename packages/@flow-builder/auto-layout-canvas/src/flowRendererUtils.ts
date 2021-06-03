@@ -195,16 +195,39 @@ export interface ConnectorRenderInfo {
     isHighlighted: boolean;
 }
 
+/**
+ * Return the branch layout key
+ *
+ * @param parentGuid - The parent element guid
+ * @param childIndex - The child index
+ * @returns - The branch layout key
+ */
 function getBranchLayoutKey(parentGuid: string, childIndex: number) {
     return `${parentGuid}:${childIndex}`;
 }
 
+/**
+ * returns the layout from the key
+ *
+ * @param key - The branch layout key
+ * @param progress - The rendering progress
+ * @param nodeLayoutMap - Node layout map
+ * @returns The layout
+ */
 function getLayoutByKey(key: string, progress: number, nodeLayoutMap: NodeLayoutMap): LayoutInfo {
     const { prevLayout, layout } = nodeLayoutMap[key];
 
     return !prevLayout || progress === 1 ? layout : tween(prevLayout, layout, progress);
 }
 
+/**
+ * Tweens value
+ *
+ * @param prevValue - The previous value
+ * @param value - The next value
+ * @param progress - The rendering progress
+ * @returns The tween value
+ */
 export function tweenValue(prevValue: number, value: number, progress: number): number {
     const delta = (value - prevValue) * progress;
     return prevValue + delta;
@@ -234,6 +257,11 @@ function tween(prevLayout: LayoutInfo, layout: LayoutInfo, progress: number): La
     };
 }
 
+/**
+ * Creates the default layout
+ *
+ * @returns The default layout
+ */
 function createDefaultLayout(): LayoutInfo {
     return {
         x: 0,
@@ -247,6 +275,14 @@ function createDefaultLayout(): LayoutInfo {
     };
 }
 
+/**
+ * Get the layout
+ *
+ * @param nodeGuid - The node guid
+ * @param progress - The Rendering progress
+ * @param nodeLayoutMap - The node layout map
+ * @returns The layout
+ */
 function getLayout(nodeGuid: string, progress: number, nodeLayoutMap: NodeLayoutMap): LayoutInfo {
     if (!nodeLayoutMap[nodeGuid]) {
         // An example of this scenario is when the user tries to paste rapidly on the canvas
@@ -284,7 +320,7 @@ function getBranchLayout(
  * @param layoutConfig - The layout config
  * @param connectorType - The connector type
  * @param connectorVariants - A list of variants
- * @return A connector layout config for the connector
+ * @returns A connector layout config for the connector
  */
 function getConnectorConfig(
     layoutConfig: LayoutConfig,
@@ -309,7 +345,7 @@ function getConnectorConfig(
  *
  * @param flowModel - The flow model
  * @param branchingElement - THe branching element
- * @return the number of outcomes that merge back
+ * @returns the number of outcomes that merge back
  */
 const getMergeOutcomeCount = (flowModel: FlowModel, branchingElement: ParentNodeModel) =>
     branchingElement.children.reduce((count, child, index) => {

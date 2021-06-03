@@ -27,6 +27,8 @@ export default class AlcConnector extends LightningElement {
 
     /**
      * Checks if add element button should be visible or not
+     *
+     * @returns - True if the add button need to be displayed
      */
     get showAddElementButton() {
         return (
@@ -36,6 +38,8 @@ export default class AlcConnector extends LightningElement {
 
     /**
      * Gets the location for the add element button
+     *
+     * @returns The Menu Css
      */
     get menuTriggerStyle() {
         return getStyleFromGeometry({ y: this.connectorInfo.addInfo!.offsetY });
@@ -43,6 +47,8 @@ export default class AlcConnector extends LightningElement {
 
     /**
      * Add the inverse variant to the button when the contextual menu is open
+     *
+     * @returns Icon variant
      */
     get addIconVariant() {
         const { addInfo } = this.connectorInfo;
@@ -51,6 +57,8 @@ export default class AlcConnector extends LightningElement {
 
     /**
      * Gets the info needed to render the connector svg
+     *
+     * @returns The SVG info
      */
     get svgInfo() {
         const { svgInfo } = this.connectorInfo;
@@ -67,6 +75,8 @@ export default class AlcConnector extends LightningElement {
 
     /**
      * Gets the location for the goToTargetLabel using the end location of the goTo connector svg
+     *
+     * @returns The Goto CSS
      */
     get goToTargetLabelStyle() {
         const { svgInfo } = this.connectorInfo;
@@ -113,6 +123,8 @@ export default class AlcConnector extends LightningElement {
 
     /**
      * Gets the class for the svg
+     *
+     * @returns The SVG classSet for connector
      */
     get svgClassName() {
         return classSet(this.connectorInfo.isFault ? 'fault' : this.connectorInfo.type).add({

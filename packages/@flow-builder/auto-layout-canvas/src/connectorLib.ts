@@ -117,9 +117,11 @@ function createGoToConnectorSvgInfo(
  * @param isFault - Whether this is part of a fault connector
  * @param variants - The variants for the connector
  * @param isBranchGettingDeleted - True if the current branch is getting deleted
- * @param showAdd - Whether to show the add button
+ * @param addOffset - offset to add
+ * @param labelOffset - offset label
  * @param connectorBadgeLabel - The label of the standard branch connector. Undefined for Default and Fault Connector
  * @param isHighlighted - Whether this connector is highlighted
+ * @param goToTargetLabel - label for gotTo
  * @returns The ConnectorRenderInfo for the connector
  */
 function createConnectorToNextNode(
@@ -332,9 +334,9 @@ function createMergeConnector(
  * @param geometry - The geometry for the connector
  * @param layoutConfig - The config for the layout
  * @param isFault - Whether this is part of a fault connector
+ * @param toBeDeleted - True if the connector is going to get deleted
  * @param labelOffsetY - Label offset Y
  * @param labelOffsetX - Label offset X
- * @param toBeDeleted - True if the connector is going to get deleted
  * @param isHighlighted - Whether this connector is highlighted
  * @returns a ConnectorRenderInfo for the loop connector
  */
@@ -372,7 +374,6 @@ function createLoopAfterLastConnector(
  * This is the connector that the last element of a loop back to the loop element
  *
  * @param parent - The parent guid
- * @param childIndex - The child branch index
  * @param geometry - The geometry for the connector
  * @param layoutConfig - The config for the layout
  * @param isFault - Whether this is part of a fault connector
