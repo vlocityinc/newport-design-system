@@ -1064,6 +1064,62 @@ function getFlowWhenGoingFromMergePointToParent() {
     return createFlowRenderContext({ flowModel });
 }
 
+function getFlowWithGoToFromAncestorToNestedElement() {
+    let start = createElementWithElementType('start-guid', 'START_ELEMENT', NodeType.START);
+    let decision1 = createElementWithElementType('decision1-guid', 'BRANCH_ELEMENT', NodeType.BRANCH);
+    let decision2 = createElementWithElementType('decision2-guid', 'BRANCH_ELEMENT', NodeType.BRANCH);
+    let screen1 = createElementWithElementType('screen1-guid', 'SCREEN_ELEMENT', NodeType.DEFAULT);
+    let screen2 = createElementWithElementType('screen2-guid', 'SCREEN_ELEMENT', NodeType.DEFAULT);
+
+    const root = {
+        ...ROOT_ELEMENT,
+        children: ['start-guid']
+    };
+
+    start = {
+        ...start,
+        childReferences: [],
+        parent: 'root',
+        childIndex: 0,
+        next: 'decision1-guid'
+    };
+    decision1 = {
+        ...decision1,
+        childReferences: [{ childReference: 'o1' }],
+        children: ['decision2-guid', null],
+        prev: 'start-guid',
+        next: 'decision2-guid'
+    };
+    decision2 = {
+        ...decision2,
+        childReferences: [{ childReference: 'o2' }],
+        children: ['screen1-guid', 'screen2-guid'],
+        parent: 'decision1-guid',
+        childIndex: 0,
+        next: null,
+        isTerminal: false,
+        incomingGoTo: ['decision1-guid']
+    };
+    screen1 = {
+        ...screen1,
+        parent: 'decision2-guid',
+        childIndex: 0,
+        next: null,
+        isTerminal: false
+    };
+    screen2 = {
+        ...screen2,
+        parent: 'decision2-guid',
+        childIndex: 1,
+        next: null,
+        isTerminal: false
+    };
+
+    const elements = [root, start, decision1, decision2, screen1, screen2];
+    const flowModel = flowModelFromElements(elements);
+    return createFlowRenderContext({ flowModel });
+}
+
 function getFlowWhenGoingFromSiblingBranch() {
     let start = createElementWithElementType('start-guid', 'START_ELEMENT', NodeType.START);
     let decision1 = createElementWithElementType('decision1-guid', 'BRANCH_ELEMENT', NodeType.BRANCH);
@@ -1319,5 +1375,6 @@ export {
     getFlowWhenGoingFromSiblingBranch,
     getFlowWhenGoingFromImmediateToScheduledPathBranch,
     getFlowWhenGoingFromScheduledPathToImmediateBranch,
-    getFlowWithGoToOnImmediateBranchHead
+    getFlowWithGoToOnImmediateBranchHead,
+    getFlowWithGoToFromAncestorToNestedElement
 };

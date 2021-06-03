@@ -1569,6 +1569,104 @@ Object {
 }
 `;
 
+exports[`modelUtils updateChildren Adding a branch on a nested branching element and avoiding a self-loop 1`] = `
+Object {
+  "decision1-guid": Object {
+    "childReferences": Array [
+      Object {
+        "childReference": "o1",
+      },
+    ],
+    "children": Array [
+      "decision2-guid",
+      null,
+    ],
+    "config": Object {},
+    "elementType": "BRANCH_ELEMENT",
+    "guid": "decision1-guid",
+    "label": "default",
+    "next": "decision2-guid",
+    "nodeType": "branch",
+    "prev": "start-guid",
+  },
+  "decision2-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "o2",
+      },
+      Object {
+        "childReference": "o3",
+      },
+    ],
+    "children": Array [
+      "screen1-guid",
+      "end-hook-guid",
+      "screen2-guid",
+    ],
+    "config": Object {},
+    "elementType": "BRANCH_ELEMENT",
+    "guid": "decision2-guid",
+    "incomingGoTo": Array [
+      "decision1-guid",
+    ],
+    "isTerminal": false,
+    "label": "default",
+    "next": null,
+    "nodeType": "branch",
+    "parent": "decision1-guid",
+  },
+  "end-hook-guid": Object {
+    "childIndex": 1,
+    "guid": "end-hook-guid",
+    "isTerminal": true,
+    "nodeType": "end",
+    "parent": "decision2-guid",
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "screen1-guid": Object {
+    "childIndex": 0,
+    "config": Object {},
+    "elementType": "SCREEN_ELEMENT",
+    "guid": "screen1-guid",
+    "isTerminal": false,
+    "label": "default",
+    "next": null,
+    "nodeType": "default",
+    "parent": "decision2-guid",
+  },
+  "screen2-guid": Object {
+    "childIndex": 2,
+    "config": Object {},
+    "elementType": "SCREEN_ELEMENT",
+    "guid": "screen2-guid",
+    "isTerminal": false,
+    "label": "default",
+    "next": null,
+    "nodeType": "default",
+    "parent": "decision2-guid",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [],
+    "config": Object {},
+    "elementType": "START_ELEMENT",
+    "guid": "start-guid",
+    "label": "default",
+    "next": "decision1-guid",
+    "nodeType": "start",
+    "parent": "root",
+  },
+}
+`;
+
 exports[`modelUtils updateChildren Adding and reordering branches when GoTo is present on a branch head 1`] = `
 Object {
   "branch-guid": Object {

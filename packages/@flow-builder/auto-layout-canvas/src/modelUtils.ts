@@ -2086,7 +2086,10 @@ export function updateChildren(
     // If all the branches were terminating before the update, or if there's a GoTo
     // from parent element's next to the parentElement itself (self-loop) then make any
     // new branch terminate as well by adding an end element
-    if (allTerminalsBeforeUpdate || parentElement.next === parentElement.guid) {
+    if (
+        allTerminalsBeforeUpdate ||
+        getFirstParentWithNonNullNext(flowModel, parentElement).next === parentElement.guid
+    ) {
         for (let i = 0; i < parentElement.children.length; i++) {
             const child = parentElement.children[i];
             if (child == null) {

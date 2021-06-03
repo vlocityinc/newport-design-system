@@ -20,7 +20,8 @@ import {
     getFlowWhenGoingFromSiblingBranch,
     getFlowWhenGoingFromImmediateToScheduledPathBranch,
     getFlowWhenGoingFromScheduledPathToImmediateBranch,
-    getFlowWithGoToOnImmediateBranchHead
+    getFlowWithGoToOnImmediateBranchHead,
+    getFlowWithGoToFromAncestorToNestedElement
 } from './testUtils';
 
 import {
@@ -3839,6 +3840,17 @@ describe('modelUtils', () => {
             expect(nextFlow).toMatchSnapshot();
         });
 
+        it('Adding a branch on a nested branching element and avoiding a self-loop', () => {
+            const flowWithGoTo = getFlowWithGoToFromAncestorToNestedElement();
+            const nextFlow = updateChildren(
+                elementService(flowWithGoTo.flowModel),
+                flowWithGoTo.flowModel,
+                'decision2-guid',
+                [{ childReference: 'o2' }, { childReference: 'o3' }]
+            );
+            expect(nextFlow).toMatchSnapshot();
+        });
+
         it('Deleting a branch that has an incomingGoTo from a sibling branch and there is no merge point', () => {
             const flowWithGoTo = getFlowWhenGoingFromSiblingBranch();
             const nextFlow = updateChildren(
@@ -4138,40 +4150,6 @@ describe('modelUtils', () => {
                 });
             });
         });
-
-        // describe('inline decision when next is goto, avoids self-loop', () => {
-        //     const originalStoreState = {
-        //         newDecision: {
-        //             guid: 'newDecision',
-        //             name: 'newDecision',
-        //             incomingGoTo: ['newDecision'],
-        //             children: ['end1', null],
-        //             next: 'newDecision',
-        //             nodeType: NodeType.BRANCH,
-        //             childReferences: [
-        //                 {
-        //                     childReference: 't1'
-        //                 }
-        //             ]
-        //         },
-        //         end1: {
-        //             guid: 'end1',
-        //             name: 'end1',
-        //             childIndex: 0,
-        //             parent: 'newDecision',
-        //             isTerminal: true
-        //         }
-        //     };
-
-        //     const updatedState = inlineFromParent(
-        //         originalStoreState,
-        //         originalStoreState.newDecision
-        //     );
-
-        //     it('creates an end element as the second child of the decision ', () => {
-        //         expect(updatedState.newDecision.children).toEqual(['end1', 'end-hook-guid']);
-        //     });
-        // });
 
         describe('inline decision with next end', () => {
             const originalStoreState = {
