@@ -345,7 +345,7 @@ export const contactRequestFlowUIModel = {
             allowFinish: true,
             allowPause: true,
             allowHelp: false,
-            allowCustomPauseMessage: false,
+            pauseMessageType: 'standard',
             helpText: '',
             pausedText: '',
             showFooter: true,

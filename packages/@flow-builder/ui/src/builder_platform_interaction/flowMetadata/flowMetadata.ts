@@ -91,6 +91,11 @@ export const FOOTER_LABEL_TYPE = {
     HIDE: 'hide'
 };
 
+export const PAUSE_MESSAGE_TYPE = {
+    STANDARD: 'standard',
+    CUSTOM: 'custom'
+};
+
 export const CONNECTOR_TYPE = {
     REGULAR: 'REGULAR',
     FAULT: 'FAULT',

@@ -15,7 +15,7 @@ import {
     createScreenFieldWithFieldReferences,
     createScreenFieldWithFields
 } from '../screenField';
-import { ELEMENT_TYPE, FOOTER_LABEL_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FOOTER_LABEL_TYPE, PAUSE_MESSAGE_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
     createPastedCanvasElement,
@@ -142,7 +142,7 @@ baseCanvasElementsArrayToMap.mockImplementation(jest.requireActual('../base/base
 jest.mock('../base/baseMetadata');
 baseCanvasElementMetadataObject.mockImplementation((element) => {
     delete element.allowHelp;
-    delete element.allowCustomPauseMessage;
+    delete element.pauseMessageType;
     return Object.assign({}, element);
 });
 baseChildElementMetadataObject.mockImplementation((element) => {
@@ -233,11 +233,11 @@ describe('screen', () => {
                 expect(screen.pauseLabel).toBeNull();
             });
         });
-        describe('screen allowHelp and allowCustomPauseMessage defaults', () => {
+        describe('screen allowHelp and pauseMessageType defaults', () => {
             it('sets default to false if not defined', () => {
                 const screen = createScreenElement(existingScreen);
                 expect(screen.allowHelp).toEqual(false);
-                expect(screen.allowCustomPauseMessage).toEqual(false);
+                expect(screen.pauseMessageType).toEqual(PAUSE_MESSAGE_TYPE.STANDARD);
             });
         });
     });
@@ -388,14 +388,14 @@ describe('screen', () => {
                 expect(screen.allowBack).toEqual(true);
             });
         });
-        it('allowHelp and allowCustomPauseMessage are not saved to metadata', () => {
+        it('allowHelp and pauseMessageType are not saved to metadata', () => {
             screenFromStore.allowHelp = true;
-            screenFromStore.allowCustomPauseMessage = true;
+            screenFromStore.pauseMessageType = PAUSE_MESSAGE_TYPE.STANDARD;
             screenFromStore.pausedText = 'pause';
             screenFromStore.helpText = 'help';
             const screen = createScreenMetadataObject(screenFromStore);
             expect(screen.allowHelp).not.toBeDefined();
-            expect(screen.allowCustomPauseMessage).not.toBeDefined();
+            expect(screen.pauseMessageType).not.toBeDefined();
         });
     });
     describe('createScreenWithFieldReferences', () => {
@@ -472,19 +472,19 @@ describe('screen', () => {
                 expect(screen.backLabelType).toEqual(FOOTER_LABEL_TYPE.STANDARD);
                 expect(screen.pauseLabelType).toEqual(FOOTER_LABEL_TYPE.STANDARD);
             });
-            it('sets allowPause and allowCustomPauseMessage to false if pausedText and helpText are defined respectively', () => {
+            it('sets allowPause to false and pauseMessageType to standard if pausedText and helpText are not defined respectively', () => {
                 const result = createScreenWithFieldReferences(screenFromFlow);
                 const screen = result.elements[existingScreenGuid];
                 expect(screen.allowHelp).toEqual(false);
-                expect(screen.allowCustomPauseMessage).toEqual(false);
+                expect(screen.pauseMessageType).toEqual(PAUSE_MESSAGE_TYPE.STANDARD);
             });
-            it('sets allowPause and allowCustomPauseMessage to true if pausedText and helpText are defined respectively', () => {
+            it('sets allowPause to true and pauseMessageType to custom if pausedText and helpText are defined respectively', () => {
                 screenFromFlow.helpText = 'help';
                 screenFromFlow.pausedText = 'pause';
                 const result = createScreenWithFieldReferences(screenFromFlow);
                 const screen = result.elements[existingScreenGuid];
                 expect(screen.allowHelp).toEqual(true);
-                expect(screen.allowCustomPauseMessage).toEqual(true);
+                expect(screen.pauseMessageType).toEqual(PAUSE_MESSAGE_TYPE.CUSTOM);
             });
         });
 
@@ -554,18 +554,18 @@ describe('screen', () => {
         });
 
         // TODO W-9142813: Uncomment the following tests
-        // describe('pausedText and helpText clear on the basis of allowHelp and allowCustomPauseMessage', () => {
-        //     it('if pauseLabelType = hide, pausedText is cleared and allowCustomPauseMessage is set to false', () => {
+        // describe('pausedText and helpText clear on the basis of allowHelp and pauseMessageType', () => {
+        //     it('if pauseLabelType = hide, pausedText is cleared and pauseMessageType is set to standard', () => {
         //         screenFromPropertyEditor.pauseLabelType = FOOTER_LABEL_TYPE.HIDE;
         //         screenFromPropertyEditor.pausedText = 'hello';
-        //         screenFromPropertyEditor.allowCustomPauseMessage = true;
+        //         screenFromPropertyEditor.pauseMessageType = PAUSE_MESSAGE_TYPE.CUSTOM;
         //         const result = createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(screenFromPropertyEditor);
         //         expect(result.screen.pausedText).toEqual('');
-        //         expect(result.screen.allowCustomPauseMessage).toEqual(false);
+        //         expect(result.screen.pauseMessageType).toEqual(PAUSE_MESSAGE_TYPE.STANDARD);
         //     });
-        //     it('if allowCustomPauseMessage = false, pausedText is cleared', () => {
+        //     it('if pauseMessageType = standard, pausedText is cleared', () => {
         //         screenFromPropertyEditor.pausedText = 'hello';
-        //         screenFromPropertyEditor.allowCustomPauseMessage = false;
+        //         screenFromPropertyEditor.pauseMessageType = PAUSE_MESSAGE_TYPE.STANDARD;
         //         const result = createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(screenFromPropertyEditor);
         //         expect(result.screen.pausedText).toEqual('');
         //     });

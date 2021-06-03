@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { ELEMENT_TYPE, FOOTER_LABEL_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FOOTER_LABEL_TYPE, PAUSE_MESSAGE_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
     createPastedCanvasElement,
@@ -174,9 +174,12 @@ export function createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(sc
         newScreen.backLabel = null;
     }
     // TODO W-9142813: Uncomment the following if clauses
-    // if (newScreen.pauseLabelType === FOOTER_LABEL_TYPE.HIDE || !newScreen.allowCustomPauseMessage) {
+    // if (
+    //     newScreen.pauseLabelType === FOOTER_LABEL_TYPE.HIDE ||
+    //     newScreen.pauseMessageType === PAUSE_MESSAGE_TYPE.STANDARD
+    // ) {
     //     newScreen.pausedText = '';
-    //     newScreen.allowCustomPauseMessage = false;
+    //     newScreen.pauseMessageType = PAUSE_MESSAGE_TYPE.STANDARD;
     // }
     // if (!newScreen.allowHelp) {
     //     newScreen.helpText = '';
@@ -222,7 +225,7 @@ export function createScreenWithFieldReferences(screen = {}) {
         : FOOTER_LABEL_TYPE.HIDE;
 
     const allowHelp = !!newScreen.helpText;
-    const allowCustomPauseMessage = !!newScreen.pausedText;
+    const pauseMessageType = newScreen.pausedText ? PAUSE_MESSAGE_TYPE.CUSTOM : PAUSE_MESSAGE_TYPE.STANDARD;
 
     const connectors = createConnectorObjects(screen, newScreen.guid);
     const connectorCount = connectors ? connectors.length : 0;
@@ -254,7 +257,7 @@ export function createScreenWithFieldReferences(screen = {}) {
         connectorCount,
         maxConnections,
         allowHelp,
-        allowCustomPauseMessage,
+        pauseMessageType,
         nextOrFinishLabel,
         nextOrFinishLabelType,
         backLabel,
@@ -333,7 +336,7 @@ export function createScreenElement(screen) {
         allowFinish = true,
         allowPause = true,
         allowHelp = false,
-        allowCustomPauseMessage = false,
+        pauseMessageType = PAUSE_MESSAGE_TYPE.STANDARD,
         helpText = '',
         pausedText = '',
         showFooter = true,
@@ -401,7 +404,7 @@ export function createScreenElement(screen) {
         allowFinish,
         allowPause,
         allowHelp,
-        allowCustomPauseMessage,
+        pauseMessageType,
         helpText,
         pausedText,
         showFooter,
