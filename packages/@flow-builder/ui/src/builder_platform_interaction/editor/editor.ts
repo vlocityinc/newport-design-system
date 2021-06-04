@@ -666,6 +666,8 @@ export default class Editor extends LightningElement {
 
     /**
      * Method to return the config based on the passed component(leftPanel, canvas etc.) config value.
+     *
+     * @param componentConfig
      */
     getConfig = (componentConfig) => {
         return (
@@ -799,7 +801,7 @@ export default class Editor extends LightningElement {
      * Checks if we can convert to auto-layout
      *
      * @param gack - Whether we should gack if the check fails
-     * @return true if we can convert, false otherwise
+     * @returns true if we can convert, false otherwise
      */
     canConvertToAutoLayoutCheck(gack = false) {
         return canConvertToAutoLayoutCanvas(
@@ -814,6 +816,10 @@ export default class Editor extends LightningElement {
      *
      * @param {Object} has error property if there is error fetching the data else has data property
      * In case of data retrieved from a template, data points directly to flow.metadata
+     * @param has.data
+     * @param has.error
+     * @param has.data
+     * @param has.error
      */
     getFlowCallback = ({ data, error }) => {
         if (error) {
@@ -874,8 +880,13 @@ export default class Editor extends LightningElement {
 
     /**
      * Internal only callback which gets executed when we get a flow for diffing.
+     *
+     * @param data.data
+     * @param data.data
      * @param data
      * @param error
+     * @param data.error
+     * @param data.error
      */
     getFlowCallbackAndDiff = ({ data, error }) => {
         // TODO: W-5488109. We may want to revisit the idea of putting this functionality into a separate component.
@@ -958,6 +969,10 @@ export default class Editor extends LightningElement {
      * Callback which gets executed after saving a flow
      *
      * @param {Object} has error property if there is error fetching the data else has data property
+     * @param has.data
+     * @param has.error
+     * @param has.data
+     * @param has.error
      */
     saveFlowCallback = ({ data, error }) => {
         if (error) {
@@ -1007,6 +1022,8 @@ export default class Editor extends LightningElement {
 
     /**
      * Callback which gets executed after getting data urls for header
+     *
+     * @param data
      */
     getHeaderUrlsCallBack = (data) => {
         let isFromAloha = getPreferredExperience() === CLASSIC_EXPERIENCE;
@@ -1025,7 +1042,8 @@ export default class Editor extends LightningElement {
 
     /**
      * Helper method to construct the detail page back url for Aloha
-     * @param {String} url - base url which we build on to construct the url for the detail page
+     *
+     * @param {string} url - base url which we build on to construct the url for the detail page
      */
     buildBackUrlForAloha = (url) => {
         if (this.currentFlowDefId) {
@@ -1036,7 +1054,8 @@ export default class Editor extends LightningElement {
 
     /**
      * Helper method to construct the detail page back url for Lightning
-     * @param {String} url - base url which we build on to construct the url for the detail page
+     *
+     * @param {string} url - base url which we build on to construct the url for the detail page
      */
     buildBackUrlForLightning = (url) => {
         if (this.currentFlowDefId) {
@@ -1047,6 +1066,8 @@ export default class Editor extends LightningElement {
 
     /**
      * Callback after run debug interivew initiated by the debug modal
+     *
+     * @param debugModal
      */
     runDebugInterviewCallback = (debugModal) => {
         const debugOptions = debugModal.get('v.body')[0].getDebugInput() || {};
@@ -1153,7 +1174,8 @@ export default class Editor extends LightningElement {
 
     /**
      * Helper method to construct the url for the run/debug mode and launch the window in a new tab
-     * @param {String} runOrDebug - Used for deciding whether the user is trying to run the flow or debug it.
+     *
+     * @param {string} runOrDebug - Used for deciding whether the user is trying to run the flow or debug it.
      */
     runOrDebugFlow = (runOrDebug = RUN) => {
         const currentState = storeInstance.getCurrentState();
@@ -1211,6 +1233,7 @@ export default class Editor extends LightningElement {
     /**
      * Call back for before unload event
      * It will invoke a default browser warning when user tries to leave the flow builder
+     *
      * @param {Object} event before unload event
      */
     beforeUnloadCallback = (event) => {
@@ -1259,6 +1282,7 @@ export default class Editor extends LightningElement {
 
     /**
      * Handles Selection on Fixed Layout Canvas
+     *
      * @param {object} event Selection event coming from alcCanvas
      */
     handleSelectionOnFixedCanvas = (event) => {
@@ -1293,6 +1317,8 @@ export default class Editor extends LightningElement {
     /**
      * Handles the copy event coming from the Element Action Contextual Menu and
      * updates the appropriate properties
+     *
+     * @param event
      */
     handleCopySingleElement = (event) => {
         const { elementGuid } = event.detail;
@@ -1330,6 +1356,8 @@ export default class Editor extends LightningElement {
 
     /**
      * Handles the paste event and dispatches the pasteOnFixedCanvas action to the store
+     *
+     * @param event
      */
     handlePasteOnCanvas = (event) => {
         const { prev, next, parent, childIndex } = event.detail;
@@ -1491,6 +1519,7 @@ export default class Editor extends LightningElement {
     /**
      * Handles the save flow event fired by a toolbar. Saves the flow if the flow has already been created.
      * Pops the flowProperties property editor if the flow is being saved for the first time.
+     *
      * @param {object} event when save or save as buttons are clicked
      */
     handleSaveFlow = (event) => {
@@ -1520,6 +1549,7 @@ export default class Editor extends LightningElement {
 
     /**
      * Handles the diff flow event fired by the toolbar. This is an internal only event.
+     *
      * @param event
      */
     handleDiffFlow = (/* event */) => {
@@ -1553,6 +1583,10 @@ export default class Editor extends LightningElement {
      * Callback which gets executed after activating a flow using the in-editor activate button
      *
      * @param {Object} has error property if there is error fetching the data else has data property
+     * @param has.data
+     * @param has.error
+     * @param has.data
+     * @param has.error
      */
     toggleFlowStatusCallBack = ({ data, error }) => {
         if (error) {
@@ -1604,6 +1638,8 @@ export default class Editor extends LightningElement {
 
     /**
      * Queuing up the call out for display debug editor's pop-over modal.
+     *
+     * @param paramsProvider
      */
     queueOpenFlowDebugEditor = (paramsProvider) => {
         // borrow editor's spinner, UX approved.
@@ -1623,6 +1659,7 @@ export default class Editor extends LightningElement {
     /**
      * Handle click event fired by a child component. Fires another event
      * containing resources information, which is handled by container.cmp.
+     *
      *  @param {object} event - when add resource button is clicked.
      */
     handleAddResourceElement = (event) => {
@@ -1639,7 +1676,7 @@ export default class Editor extends LightningElement {
         );
     };
 
-    /** *********** Canvas and Node Event Handling *************** **/
+    /** *********** Canvas and Node Event Handling */
 
     /**
      * Handles the add element event which is fired after an element from left palette is dropped
@@ -1934,6 +1971,8 @@ export default class Editor extends LightningElement {
 
     /**
      * Handle adding of a node from an inline property editor
+     *
+     * @param event
      */
     handleAddNode(event) {
         this.deMutateAndAddNodeCollection(event.detail.node);
@@ -1941,6 +1980,8 @@ export default class Editor extends LightningElement {
 
     /**
      * Handle adding of a node from an inline property editor
+     *
+     * @param event
      */
     handleUpdateNode(event) {
         this.deMutateAndUpdateNodeCollection(event.detail.node);
@@ -2054,6 +2095,7 @@ export default class Editor extends LightningElement {
 
     /**
      * Handles the CreateGoToConnectionEvent coming from alcCanvas and dispatches an action to create a GoTo connector
+     *
      * @param event - CreateGoToConnectionEvent coming from alcCanvas
      */
     handleGoToCreation = (event: CreateGoToConnectionEvent) => {
@@ -2062,6 +2104,7 @@ export default class Editor extends LightningElement {
 
     /**
      * Handles the DeleteGoToConnectionEvent coming from alcConnectorMenu and dispatches an action to delete a GoTo connector
+     *
      * @param event DeleteGoToConnectionEvent coming from alcConnectorMenu
      */
     handleGoToDeletion = (event: DeleteGoToConnectionEvent) => {
@@ -2177,6 +2220,7 @@ export default class Editor extends LightningElement {
     /**
      * Translates the client side model to the format expected by the server and then invokes
      * the save flow action with the correct save type: create or update.
+     *
      * @param {string} saveType the save type (saveDraft, createNewFlow, etc) to use when saving the flow
      */
     saveFlow = (saveType) => {
@@ -2208,6 +2252,7 @@ export default class Editor extends LightningElement {
 
     /**
      * If needed will fetch record lookup dependencies, and call deMutateAndUpdateNodeCollection on each of them
+     *
      * @param {Object} previousNodeValue the existing record lookup node
      * @param {Object} updatedNodeValue the record lookup node with updated values
      */
@@ -2231,6 +2276,7 @@ export default class Editor extends LightningElement {
 
     /**
      * Method for talking to validation library and store for updating the node collection/flow data.
+     *
      * @param {object} node - node object for the particular property editor update
      */
     deMutateAndUpdateNodeCollection = (node) => {
@@ -2260,9 +2306,11 @@ export default class Editor extends LightningElement {
 
     /**
      * Method for talking to validation library and store for updating the node collection/flow data.
+     *
      * @param node The element to add
      * @param parentGuid Needed when adding a non-canvas child element (StageStep, Outcome, etc...)
      * directly from the canvas so we know where to add it
+     * @param alcInsertAt
      */
     deMutateAndAddNodeCollection = (node: UI.Element, parentGuid: UI.Guid, alcInsertAt: any) => {
         // TODO: This looks almost exactly like deMutateAndUpdateNodeCollection. Maybe we should
@@ -2296,6 +2344,8 @@ export default class Editor extends LightningElement {
 
     /**
      * Dispatch add element event and log it
+     *
+     * @param element
      */
     dispatchAddElement(element: UI.Element | NodeWithParent) {
         storeInstance.dispatch(addElement(element));
@@ -2304,6 +2354,8 @@ export default class Editor extends LightningElement {
 
     /**
      * Fetches & caches the fields/properties for new sobject/apex variable types. Shows spinner until this is done
+     *
+     * @param node
      */
     cacheNewComplexObjectFields(node) {
         if (node.elementType === ELEMENT_TYPE.VARIABLE && node.subtype && !node.isCollection) {
@@ -2347,6 +2399,8 @@ export default class Editor extends LightningElement {
 
     /**
      * Callback passed to various property editors which support inline creation
+     *
+     * @param newResourceDetail
      */
     newResourceCallback = (newResourceDetail) => {
         // If we are adding a new resource for the user, we don't want to pop the property editor.
@@ -2468,6 +2522,7 @@ export default class Editor extends LightningElement {
 
     /**
      * Create the flow from selected template
+     *
      * @param versionIdOrEnum the selected template id
      * @param modal the flow modal
      */
@@ -2482,6 +2537,7 @@ export default class Editor extends LightningElement {
 
     /**
      * Callback to be called when getting the template data
+     *
      * @param modal the flow modal
      */
     getTemplateDataCallback = (modal) => ({ data, error }) => {
@@ -2507,6 +2563,7 @@ export default class Editor extends LightningElement {
 
     /**
      * Callback passed when user clicks on Create button from new flow modal
+     *
      *  @param modal the flow modal
      */
     createFlowFromTemplateCallback = (modal) => {
@@ -2579,7 +2636,9 @@ export default class Editor extends LightningElement {
 
     /**
      * Create the blank flow from the process type
+     *
      * @param processType the selected process type
+     * @param triggerType
      */
     createFlowFromProcessType = (processType, triggerType) => {
         const payload = { processType };

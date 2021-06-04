@@ -148,7 +148,7 @@
             "prettier --write"
         ],
         "!(scripts|src)/**/*.ts": [
-            "eslint --fix --max-warnings 0"
+            "eslint --fix"
         ]
     }
 }
