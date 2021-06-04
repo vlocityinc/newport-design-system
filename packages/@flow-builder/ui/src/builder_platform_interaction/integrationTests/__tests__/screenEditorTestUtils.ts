@@ -30,10 +30,11 @@ import ScreenInputField from 'builder_platform_interaction/screenInputField';
 import SObjectOrSObjectCollectionPicker from 'builder_platform_interaction/sobjectOrSobjectCollectionPicker';
 import Palette from 'builder_platform_interaction/palette';
 import { TestComponent } from './testComponent';
-import { getSObjectOrSObjectCollectionPickerCombobox } from './comboboxTestUtils';
+import { ComboboxTestComponent, getSObjectOrSObjectCollectionPickerCombobox } from './comboboxTestUtils';
 import { format } from 'builder_platform_interaction/commonUtils';
 import ScreenEditorAutomaticFieldLegalPopover from 'builder_platform_interaction/screenEditorAutomaticFieldLegalPopover';
 import LearnMoreCard from 'builder_platform_interaction/learnMoreCard';
+import FerovResourcePicker from 'builder_platform_interaction/ferovResourcePicker';
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
@@ -388,9 +389,13 @@ export class PropertiesEditorContainerTestComponent extends TestComponent<Screen
     }
 
     public getChoiceFieldPropertiesEditorElement() {
-        return this.element.shadowRoot!.querySelector<ScreenChoiceFieldPropertiesEditor & HTMLElement>(
-            SELECTORS.SCREEN_CHOICE_FIELD_PROPERTIES_EDITOR
-        );
+        const choicePropertiesEditorElement = this.element.shadowRoot!.querySelector<
+            ScreenChoiceFieldPropertiesEditor & HTMLElement
+        >(SELECTORS.SCREEN_CHOICE_FIELD_PROPERTIES_EDITOR);
+        if (!choicePropertiesEditorElement) {
+            return undefined;
+        }
+        return new ChoicePropertiesEditorTestComponent(choicePropertiesEditorElement);
     }
 
     public getInputFieldPropertiesEditorElement() {
@@ -414,6 +419,29 @@ export class SectionPropertiesEditorTestComponent extends TestComponent<ScreenSe
     public clickAddColumn() {
         const addButton = deepQuerySelector(this.element, [SELECTORS.LIST, SELECTORS.LIGHTNING_BUTTON]);
         addButton.click();
+    }
+}
+
+export class ChoicePropertiesEditorTestComponent extends TestComponent<ScreenChoiceFieldPropertiesEditor> {
+    public getScreenPropertyFields() {
+        return this.element.shadowRoot!.querySelectorAll(SELECTORS.SCREEN_PROPERTY_FIELD_EDITOR);
+    }
+
+    public getChoicePicker() {
+        const screenPropertyFields = this.getScreenPropertyFields();
+        const ferovResourcePicker = screenPropertyFields[3].shadowRoot!.querySelector<
+            FerovResourcePicker & HTMLElement
+        >(SELECTORS.FEROV_RESOURCE_PICKER);
+        return new ComboboxTestComponent(
+            deepQuerySelector(ferovResourcePicker, [
+                INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER,
+                INTERACTION_COMPONENTS_SELECTORS.COMBOBOX
+            ])
+        );
+    }
+
+    public getScreenComponentVisibilitySection() {
+        return this.element.shadowRoot!.querySelector(SELECTORS.SCREEN_COMPONENT_VISIBILITY_SECTION);
     }
 }
 

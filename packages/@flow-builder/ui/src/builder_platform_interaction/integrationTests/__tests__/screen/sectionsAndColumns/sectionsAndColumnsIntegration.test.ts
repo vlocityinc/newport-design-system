@@ -151,9 +151,7 @@ describe('ScreenEditor', () => {
                 .getPropertiesEditorContainer()
                 .getChoiceFieldPropertiesEditorElement();
             expect(choicePropertiesEditor).not.toEqual(null);
-            const propertyFields = choicePropertiesEditor!.shadowRoot!.querySelectorAll(
-                SELECTORS.SCREEN_PROPERTY_FIELD_EDITOR
-            );
+            const propertyFields = choicePropertiesEditor!.getScreenPropertyFields();
             expect(propertyFields).toHaveLength(6);
             const groupedCombobox = deepQuerySelector(propertyFields[2], [
                 SELECTORS.FEROV_RESOURCE_PICKER,
@@ -169,9 +167,7 @@ describe('ScreenEditor', () => {
             const choicePropertiesEditor = screenEditor
                 .getPropertiesEditorContainer()
                 .getChoiceFieldPropertiesEditorElement()!;
-            const propertyFields = choicePropertiesEditor.shadowRoot!.querySelectorAll(
-                SELECTORS.SCREEN_PROPERTY_FIELD_EDITOR
-            );
+            const propertyFields = choicePropertiesEditor!.getScreenPropertyFields();
             const ferovResourcePicker = propertyFields[4].shadowRoot!.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
             expect((ferovResourcePicker as any).value).toEqual('');
             const otherChoice = getElementByDevName('other');
@@ -188,11 +184,11 @@ describe('ScreenEditor', () => {
         it('Select the Picklist screen field and verify the CFV rule is correct', async () => {
             const picklist = screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('accounts');
             await picklist!.click();
-            const choicePropertiesEditor = screenEditor
+            const screenComponentVisibilitySection = screenEditor
                 .getPropertiesEditorContainer()
-                .getChoiceFieldPropertiesEditorElement();
-            const conditionListItem = deepQuerySelector(choicePropertiesEditor, [
-                SELECTORS.SCREEN_COMPONENT_VISIBILITY_SECTION,
+                .getChoiceFieldPropertiesEditorElement()
+                ?.getScreenComponentVisibilitySection();
+            const conditionListItem = deepQuerySelector(screenComponentVisibilitySection, [
                 SELECTORS.COMPONENT_VISIBILITY,
                 SELECTORS.CONDITION_LIST_ITEM
             ]);

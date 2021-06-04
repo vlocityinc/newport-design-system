@@ -29,6 +29,10 @@ export class GroupedComboboxTestComponent extends TestComponent<any> {
                     }
                 } else if (item[propertyName] === propertyValue) {
                     return item;
+                } else if (Array.isArray(item[propertyName]) && item[propertyName].length >= 2) {
+                    if (item[propertyName][1][propertyName] === propertyValue) {
+                        return item;
+                    }
                 }
             }
         }
@@ -92,9 +96,9 @@ export class GroupedComboboxTestComponent extends TestComponent<any> {
             await this.loadMore();
         } while (this.element.items !== previousComboboxItems);
     }
-    public async selectItemBy(propertyName: string, propertyValues: any[], { blur = true } = {}) {
+    public async selectItemBy(propertyName: string, propertyValues: any[], { blur = true, clearText = true } = {}) {
         let comboboxItem;
-        if (this.element.inputText !== '') {
+        if (clearText && this.element.inputText !== '') {
             this.element.dispatchEvent(textInputEvent(''));
         }
         for (const propertyValue of propertyValues) {

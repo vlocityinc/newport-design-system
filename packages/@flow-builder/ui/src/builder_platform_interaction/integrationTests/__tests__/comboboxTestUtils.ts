@@ -20,6 +20,12 @@ import Combobox from 'builder_platform_interaction/combobox';
 import { TestComponent } from './testComponent';
 import SObjectOrSObjectCollectionPicker from 'builder_platform_interaction/sobjectOrSobjectCollectionPicker';
 
+/**
+ * Do a deep query selector to get the combobox nested witin a SObjectOrSObjectCollectionPicker
+ *
+ * @param {SObjectOrSObjectCollectionPicker & HTMLElement} element - value typed in
+ * @returns {ComboboxTestComponent} combobox test component
+ */
 export function getSObjectOrSObjectCollectionPickerCombobox(element: SObjectOrSObjectCollectionPicker & HTMLElement) {
     return new ComboboxTestComponent(
         deepQuerySelector(element, [
@@ -63,7 +69,7 @@ export class ComboboxTestComponent extends TestComponent<Combobox> {
 
     /**
      * Type into combobox given value
-     * @param {HTMLElement} combobox - combobox box you type into
+     *
      * @param {string} referenceOrValue - value typed in
      * @param {boolean} [clickOnPill=false] - if true we click on the combobox pill switching to merge field notation
      * @returns {Promise<void>} fulfilled promise
@@ -95,8 +101,8 @@ export class ComboboxTestComponent extends TestComponent<Combobox> {
         return this.getGroupedCombobox().getGroupLabel(propertyName, propertyValue);
     }
 
-    public async selectItemBy(propertyName: string, propertyValues: string[], { blur = true } = {}) {
-        return this.getGroupedCombobox().selectItemBy(propertyName, propertyValues, { blur });
+    public async selectItemBy(propertyName: string, propertyValues: string[], { blur = true, clearText = true } = {}) {
+        return this.getGroupedCombobox().selectItemBy(propertyName, propertyValues, { blur, clearText });
     }
 
     public getSelectableItems() {

@@ -8,7 +8,11 @@ import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 
 let nextInlineResource;
 
-const newResourceEventListener = () => {
+const newResourceEventListener = (event) => {
+    const newResource = event.detail.newResourceInfo?.newResource;
+    if (newResource) {
+        nextInlineResource.name = newResource.name;
+    }
     Store.getStore().dispatch(addElement(nextInlineResource));
     nextInlineResource = undefined;
 };

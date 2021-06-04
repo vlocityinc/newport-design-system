@@ -9,7 +9,7 @@ import {
     setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 import { PropertyChangedEvent, ScreenEditorEventName } from 'builder_platform_interaction/events';
-import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import { ChoiceDisplayOptions } from 'builder_platform_interaction/screenEditorUtils';
 import { addCurrentValueToEvent } from 'builder_platform_interaction/screenEditorCommonUtils';
 import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
@@ -366,7 +366,7 @@ describe('screen-choice-field-properties-editor choice selectors', () => {
         window.removeEventListener(ScreenEditorEventName.ChoiceChanged, choiceChangedSpy);
         expect(choiceChangedSpy).toHaveBeenCalled();
     });
-    it('Decorates the add new resource event correctly when dispatched by the choice selector', async () => {
+    it('Decorates the add new resource event correctly when dispatched by the choice selector and no text has been entered', async () => {
         const addNewResourceEvent = new CustomEvent('addnewresource', {
             detail: {}
         });
@@ -379,6 +379,20 @@ describe('screen-choice-field-properties-editor choice selectors', () => {
         );
         expect(addNewResourceEvent.detail.newResourceInfo.resourceTypes).toBeDefined();
         expect(addNewResourceEvent.detail.newResourceInfo.resourceTypes).toHaveLength(3);
+    });
+    it('Decorates the add new resource event correctly when dispatched by the choice selector and text has been entered', async () => {
+        const addNewResourceEvent = new CustomEvent('addnewresource', {
+            detail: { newResourceInfo: { userProvidedText: '__Mustard__' } }
+        });
+        const renderedChoiceSelector = query(screenChoiceFieldPropEditor, SELECTORS.CHOICE_SELECTOR);
+        renderedChoiceSelector.dispatchEvent(addNewResourceEvent);
+        expect(addNewResourceEvent.detail.newResourceInfo.newResource).toBeDefined();
+        expect(addNewResourceEvent.detail.newResourceInfo.newResource.name).toEqual('Mustard');
+        expect(addNewResourceEvent.detail.newResourceInfo.newResource.choiceText).toEqual('__Mustard__');
+        expect(addNewResourceEvent.detail.newResourceInfo.newResource.storedValue).toEqual('__Mustard__');
+        expect(addNewResourceEvent.detail.newResourceInfo.newResource.elementType).toEqual(ELEMENT_TYPE.CHOICE);
+        expect(addNewResourceEvent.detail.newResourceInfo.newResource.dataType).toEqual('String');
+        expect(addNewResourceEvent.detail.newResourceInfo.resourceTypes).toHaveLength(1);
     });
 });
 

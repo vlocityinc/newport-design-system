@@ -39,6 +39,7 @@ export default class FerovResourcePicker extends LightningElement {
 
     /**
      * The allowed param types based on the rule service
+     *
      * @type {Object}
      */
     @track
@@ -50,14 +51,16 @@ export default class FerovResourcePicker extends LightningElement {
     /**
      * A unique id for this resource picker(guid)
      * Required if you want validation on done
-     * @type {String}
+     *
+     * @type {string}
      */
     @api
     rowIndex;
 
     /**
      * The current value of the picker
-     * @param {module:base-resource-picker.item|String} newValue the new value for the picker
+     *
+     * @param {module:base-resource-picker.item|string} newValue the new value for the picker
      */
     set value(newValue) {
         this._value = newValue;
@@ -70,6 +73,7 @@ export default class FerovResourcePicker extends LightningElement {
 
     /**
      * The combobox config for the resource picker
+     *
      * @param {module:base-resource-picker.ComboboxConfig} newComboboxConfig the new combobox config object
      */
     set comboboxConfig(newComboboxConfig) {
@@ -84,7 +88,8 @@ export default class FerovResourcePicker extends LightningElement {
 
     /**
      * Custom error message to display
-     * @param {String} message - The error message
+     *
+     * @param {string} message - The error message
      */
     @api
     setCustomValidity(message) {
@@ -96,7 +101,8 @@ export default class FerovResourcePicker extends LightningElement {
 
     /**
      * Set the error message through props
-     * @param {String} error the new error message
+     *
+     * @param {string} error the new error message
      */
     set errorMessage(error) {
         this.setCustomValidity(error);
@@ -111,6 +117,7 @@ export default class FerovResourcePicker extends LightningElement {
      * The element config using which selector is determined for the element type while getting elements for menu data.
      * Eg: {element, shouldBeWritable} element is the element type this expression builder is inside,
      * shouldBeWritable is so property editors can specify the data they need.
+     *
      * @param {module:ferov-resource-picker.ElementConfig} newElementConfig the new element config
      */
     set elementConfig(newElementConfig) {
@@ -125,6 +132,7 @@ export default class FerovResourcePicker extends LightningElement {
 
     /**
      * Holds the rules used for fetching full menu data, taken from the rule service. We should not need to modify this
+     *
      * @type {module:rules.operatorRule[]}
      */
     set rules(rules) {
@@ -138,13 +146,15 @@ export default class FerovResourcePicker extends LightningElement {
 
     /**
      * The element type of the property editor from element config.
-     * @type {String}
+     *
+     * @type {string}
      */
     @api
     propertyEditorElementType;
 
     /**
      * The element param that represents the left hand side in operator rules.
+     *
      * @type {module:operator-rule-util.param}
      */
     @api
@@ -152,14 +162,16 @@ export default class FerovResourcePicker extends LightningElement {
 
     /**
      * If set to true, global constants will not show up
-     * @type {Boolean}
+     *
+     * @type {boolean}
      */
     @api
     hideGlobalConstants = false;
 
     /**
      * Set it to true to hide 'New Resource' as first item in combobox menu data.
-     * @type {Boolean}
+     *
+     * @type {boolean}
      */
     @api
     hideNewResource = false;
@@ -196,6 +208,8 @@ export default class FerovResourcePicker extends LightningElement {
     /**
      * If true, hasNext will be set to true for sobjectVariables,
      * and the allowedParamTypes will be passed to the combobox to enable validating fields
+     *
+     * @returns {boolean} - whether or not this instance of the ferov resource picker supports drilling down on sObjectVariables
      */
     get enableFieldDrilldown() {
         return !!this.comboboxConfig.enableFieldDrilldown;
@@ -216,12 +230,14 @@ export default class FerovResourcePicker extends LightningElement {
 
     /**
      * True if the component has been initialized, false otherwise. This is so we do not populate menu data twice on initializing api values
-     * @type {Boolean}
+     *
+     * @type {boolean}
      */
     _isInitialized = false;
 
     /**
      * The full menu data available for selection based on the resource picker props
+     *
      * @type {Object[]}
      */
     _menuData;
@@ -233,6 +249,7 @@ export default class FerovResourcePicker extends LightningElement {
 
     /**
      * Holds the rules used for fetching full menu data, taken from the rule service. We should not need to modify this
+     *
      * @type {module:rules.operatorRule[]}
      */
     _rules;
@@ -240,6 +257,7 @@ export default class FerovResourcePicker extends LightningElement {
     _quickCreateResourceText: string | undefined;
 
     /** Event handlers */
+
     handleItemSelected(event) {
         if (this.isPicklistItem(event.detail.item)) {
             // if picklist, the value should be the displayText that the user sees and we need to clear the item
@@ -299,7 +317,6 @@ export default class FerovResourcePicker extends LightningElement {
             }
             if (this._menuData?.length > 0) {
                 this._menuData[0].displayText = newResourceItemText;
-                this._menuData[0].label = newResourceItemText;
                 this._menuData[0].text = newResourceItemText;
             }
         }
@@ -308,6 +325,8 @@ export default class FerovResourcePicker extends LightningElement {
     /**
      * Handler for when a user clicks on new resource button from the combobox
      * Update the store and save the rowIndex of the comobobox
+     *
+     * @param {NewResourceEvent} event The event that contains all the information about the new resource being added
      */
     handleAddInlineResource = (event: NewResourceEvent) => {
         if (event && event.detail && event.detail.position && typeof event.detail.position === 'string') {
@@ -349,6 +368,7 @@ export default class FerovResourcePicker extends LightningElement {
     }
 
     /** HELPER METHODS */
+
     isPicklistItem(item) {
         const matchPicklistItem = (picklistItem) => {
             if (picklistItem.label) {

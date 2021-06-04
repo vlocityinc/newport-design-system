@@ -1,8 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import FerovResourcePicker from '../ferovResourcePicker';
-import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import { ComboboxStateChangedEvent } from 'builder_platform_interaction/events';
+import { ComboboxStateChangedEvent, TextChangedEvent } from 'builder_platform_interaction/events';
 import { normalizeFEROV, getMenuData } from 'builder_platform_interaction/expressionUtils';
 import * as mockRuleLib from 'builder_platform_interaction/ruleLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -11,7 +10,11 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import { removeLastCreatedInlineResource, updateInlineResourceProperties } from 'builder_platform_interaction/actions';
 import { isLookupTraversalSupported } from 'builder_platform_interaction/processTypeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import {
+    INTERACTION_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/processTypeLib');
 jest.mock('builder_platform_interaction/storeUtils');
@@ -31,10 +34,6 @@ jest.mock('builder_platform_interaction/actions', () => {
         updateInlineResourceProperties: jest.fn(() => 'test response')
     };
 });
-
-const SELECTORS = {
-    BASE_RESOURCE_PICKER: 'builder_platform_interaction-base-resource-picker'
-};
 
 const setupComponentUnderTest = (props) => {
     const element = createElement('builder_platform_interaction-ferov-resource-picker', {
@@ -75,11 +74,14 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
             .mockReturnValue(
                 Promise.resolve([
                     {
-                        items: [
-                            {
-                                value: '1234'
-                            }
-                        ]
+                        displayText: 'New Resource',
+                        text: 'New Resource',
+                        value: '1234'
+                    },
+                    {
+                        displayText: 'variable1',
+                        text: 'variable1',
+                        value: '5678'
                     }
                 ])
             )
@@ -89,6 +91,10 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
         })
     };
 });
+const commonUtils = jest.requireActual('builder_platform_interaction/commonUtils');
+commonUtils.format = jest
+    .fn()
+    .mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')');
 
 describe('ferov-resource-picker', () => {
     let props;
@@ -112,7 +118,9 @@ describe('ferov-resource-picker', () => {
         it('exists', async () => {
             const ferovResourcePicker = setupComponentUnderTest(props);
             await ticks(1);
-            const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+            const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(
+                INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER
+            );
             expect(baseResourcePicker).toBeDefined();
         });
 
@@ -122,7 +130,9 @@ describe('ferov-resource-picker', () => {
             };
             const ferovResourcePicker = setupComponentUnderTest(props);
             await ticks(1);
-            const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+            const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(
+                INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER
+            );
             expect(baseResourcePicker.comboboxConfig).toEqual(props.comboboxConfig);
         });
 
@@ -130,7 +140,9 @@ describe('ferov-resource-picker', () => {
             props.value = 'test display text';
             const ferovResourcePicker = setupComponentUnderTest(props);
             await ticks(1);
-            const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+            const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(
+                INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER
+            );
             expect(baseResourcePicker.value).toEqual(props.value);
         });
 
@@ -144,7 +156,9 @@ describe('ferov-resource-picker', () => {
             }));
             const ferovResourcePicker = setupComponentUnderTest(props);
             await ticks(1);
-            const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+            const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(
+                INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER
+            );
             expect(baseResourcePicker.value).toEqual(props.value);
         });
     });
@@ -382,7 +396,7 @@ describe('ferov-resource-picker', () => {
         props.rules = mockRules;
         props.comboboxConfig.enableFieldDrilldown = true;
         const ferovPicker = setupComponentUnderTest(props);
-        const basePicker = ferovPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
+        const basePicker = ferovPicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER);
 
         await ticks(2);
         const populateParamTypesFn = getMenuData.mock.calls[0][2];
@@ -404,7 +418,7 @@ describe('ferov-resource-picker', () => {
         const mockRules = ['rule1'];
         props.rules = mockRules;
         const ferovPicker = setupComponentUnderTest(props);
-        const basePicker = ferovPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
+        const basePicker = ferovPicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER);
 
         await ticks(1);
         const populateParamTypesFn = getMenuData.mock.calls[0][2];
@@ -449,7 +463,9 @@ describe('ferov-resource-picker', () => {
         it('when combobox changes to valid item, item is stored', async () => {
             const ferovResourcePicker = setupComponentUnderTest(props);
             await ticks(2);
-            const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+            const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(
+                INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER
+            );
             baseResourcePicker.dispatchEvent(new ComboboxStateChangedEvent(comboboxValue, displayText));
             await ticks(1);
             expect(ferovResourcePicker.value).toMatchObject(comboboxValue);
@@ -457,7 +473,9 @@ describe('ferov-resource-picker', () => {
         it('when combobox changes to valid literal, literal is stored', async () => {
             const ferovResourcePicker = setupComponentUnderTest(props);
             await ticks(2);
-            const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+            const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(
+                INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER
+            );
             baseResourcePicker.dispatchEvent(new ComboboxStateChangedEvent(null, displayText));
             await ticks(1);
             expect(ferovResourcePicker.value).toEqual(displayText);
@@ -466,7 +484,9 @@ describe('ferov-resource-picker', () => {
             props.errorMessage = 'error';
             const ferovResourcePicker = setupComponentUnderTest(props);
             await ticks(2);
-            const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+            const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(
+                INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER
+            );
             baseResourcePicker.dispatchEvent(new ComboboxStateChangedEvent(comboboxValue, displayText));
             await ticks(1);
             expect(ferovResourcePicker.value).toEqual(displayText);
@@ -479,13 +499,42 @@ describe('ferov-resource-picker', () => {
                 { value: pick1, label: pick1 },
                 { value: pick2, label: pick2 }
             ];
-            const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+            const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(
+                INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER
+            );
             const event = new ComboboxStateChangedEvent({ value: pick2 + '-' + pick2, displayText: pick2 });
             baseResourcePicker.dispatchEvent(event);
             await ticks(1);
             expect(ferovResourcePicker.value).toEqual(pick2);
             expect(event.detail.displayText).toEqual(pick2);
             expect(event.detail.item).toBeNull();
+        });
+        it('when include quick create option is true and resource picker dispatches text changed event, new resource option is updated correctly', async () => {
+            props.hideNewResource = false;
+            props.newResourceTypeLabel = 'Choice';
+            props.includeQuickCreateResourceOption = true;
+            const ferovResourcePicker = setupComponentUnderTest(props);
+            await ticks(1);
+            const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(
+                INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER
+            );
+
+            // Verify that when text is entered, the New Resource option is updated to reflect the quick create option
+            let event = new TextChangedEvent('Mustard');
+            baseResourcePicker.dispatchEvent(event);
+            await ticks(1);
+            const combobox = baseResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
+            expect(combobox.menuData).toHaveLength(2);
+            expect(combobox.menuData[0].text).toEqual(
+                'FlowBuilderExpressionUtils.quickCreateResourceLabel(Mustard,Choice)'
+            );
+            expect(combobox.menuData[1].text).toEqual('variable1');
+
+            // Verify that when there is no text entered, the default New Resource option is present
+            event = new TextChangedEvent('');
+            baseResourcePicker.dispatchEvent(event);
+            await ticks(1);
+            expect(combobox.menuData[0].text).toEqual('FlowBuilderExpressionUtils.newResourceLabel(Choice)');
         });
     });
     describe('handles system & global variables', () => {
@@ -664,6 +713,18 @@ describe('ferov-resource-picker', () => {
             await ticks(1);
             expect(spy).toHaveBeenCalledWith('test response');
             expect(updateInlineResourceSpy).toHaveBeenCalled();
+        });
+        it('addnewresource event includes user provided text when quick create option is true and text has been entered', async () => {
+            props.hideNewResource = false;
+            props.newResourceTypeLabel = 'Choice';
+            props.includeQuickCreateResourceOption = true;
+            const cmp = setupComponentUnderTest(props);
+
+            const picker = cmp.shadowRoot.querySelector('builder_platform_interaction-base-resource-picker');
+            picker.dispatchEvent(new TextChangedEvent('Mustard'));
+            const addInlineResourceEvent = handleAddInlineResource();
+            picker.dispatchEvent(addInlineResourceEvent);
+            expect(addInlineResourceEvent.detail.newResourceInfo.userProvidedText).toEqual('Mustard');
         });
     });
     describe('pills', () => {

@@ -1,6 +1,6 @@
 import { createElement } from 'lwc';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { FilterMatchesEvent } from 'builder_platform_interaction/events';
+import { FilterMatchesEvent, TextChangedEvent } from 'builder_platform_interaction/events';
 import { filterMatches } from 'builder_platform_interaction/expressionUtils';
 import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
 import BaseResourcePicker from '../baseResourcePicker';
@@ -171,6 +171,23 @@ describe('base-resource-picker', () => {
             flowCombobox.dispatchEvent(new FilterMatchesEvent('someValue', isMergeField));
             await ticks(1);
             expect(filterMatches).toHaveBeenCalledWith(expect.anything(), undefined, isMergeField);
+        });
+        it('fires the text changed event when when handling the filter matches event', async () => {
+            const baseResourcePicker = setupComponentUnderTest({
+                comboboxConfig
+            });
+            const flowCombobox = getFlowCombobox(baseResourcePicker);
+            const isMergeField = true;
+            const eventCallback = jest.fn();
+            baseResourcePicker.addEventListener(TextChangedEvent.EVENT_NAME, eventCallback);
+            flowCombobox.dispatchEvent(new FilterMatchesEvent('someValue', isMergeField));
+            await ticks(1);
+            expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                detail: {
+                    text: 'someValue'
+                }
+            });
         });
     });
 
