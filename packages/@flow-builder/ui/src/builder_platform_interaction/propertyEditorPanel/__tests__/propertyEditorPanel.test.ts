@@ -7,8 +7,12 @@ import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTes
 
 jest.mock('builder_platform_interaction/stageEditor', () => require('builder_platform_interaction_mocks/stageEditor'));
 
-const createComponentUnderTest = async (props) => {
-    const el = await createElement('builder_platform_interaction-property-editor-panel', {
+const selectors = {
+    CLOSE_BUTTON: 'lightning-button-icon.close-panel-button'
+};
+
+const createComponentUnderTest = (props) => {
+    const el = createElement('builder_platform_interaction-property-editor-panel', {
         is: PropertyEditorPanel
     });
 
@@ -21,14 +25,23 @@ const createComponentUnderTest = async (props) => {
 describe('propertyEditorPanel', () => {
     it('close button dispatches closePropertyEditorEvent', () => {
         const eventCallback = jest.fn();
+        const propertyEditorPanel = createComponentUnderTest();
+        propertyEditorPanel.addEventListener(ClosePropertyEditorEvent.EVENT_NAME, eventCallback);
 
-        return createComponentUnderTest().then((component) => {
-            component.addEventListener(ClosePropertyEditorEvent.EVENT_NAME, eventCallback);
+        const closeButton = propertyEditorPanel.shadowRoot.querySelector(selectors.CLOSE_BUTTON);
+        closeButton.click();
 
-            const closeButton = component.shadowRoot.querySelector('.slds-icon-utility-close');
-            closeButton.click();
+        expect(eventCallback).toHaveBeenCalled();
+    });
+    it('should focus the close panel button when the panel is designated with tab focus', () => {
+        const propertyEditorPanel = createComponentUnderTest();
 
-            expect(eventCallback).toHaveBeenCalled();
-        });
+        const closeButton = propertyEditorPanel.shadowRoot.querySelector(selectors.CLOSE_BUTTON);
+
+        closeButton.focus = jest.fn();
+
+        propertyEditorPanel.focus();
+
+        expect(closeButton.focus).toHaveBeenCalled();
     });
 });

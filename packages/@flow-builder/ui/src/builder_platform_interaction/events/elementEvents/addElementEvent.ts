@@ -12,6 +12,8 @@ interface AddElementEventDetail {
     parent?: string;
     // insertion information for the alc when adding an element
     alcInsertAt?: object;
+    // used to designate focus to the property editor
+    designateFocus?: boolean;
 }
 export class AddElementEvent extends CustomEvent<AddElementEventDetail> {
     constructor(detail: AddElementEventDetail) {

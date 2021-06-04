@@ -38,6 +38,16 @@ export default class PropertyEditorPanel extends LightningElement {
     @track messages = {};
 
     /**
+     * Public api method used to designate focus to the appropriate element within the property editor
+     */
+    @api focus() {
+        const closeButton = this.template.querySelector('lightning-button-icon.close-panel-button');
+        if (closeButton) {
+            closeButton.focus();
+        }
+    }
+
+    /**
      * Import the constructor and update the component params
      *
      * Note: all of this needs to happen in a single tick, otherwise the component

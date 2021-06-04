@@ -188,7 +188,8 @@ const PANELS = {
     TOOLBAR: 'builder_platform_interaction-toolbar',
     TOOLBOX: 'builder_platform_interaction-left-panel',
     FREEFORM_CANVAS: 'builder_platform_interaction-canvas-container',
-    AUTOLAYOUT_CANVAS: 'builder_platform_interaction-alc-canvas-container'
+    AUTOLAYOUT_CANVAS: 'builder_platform_interaction-alc-canvas-container',
+    PROPERTY_EDITOR: 'builder_platform_interaction-property-editor-panel'
 };
 
 const EDITOR_COMPONENT_CONFIGS = {
@@ -1621,7 +1622,7 @@ export default class Editor extends LightningElement {
         }
     }
 
-    queueOpenPropertyEditor = async (paramsProvider, forceModal) => {
+    queueOpenPropertyEditor = async (paramsProvider, forceModal, designateFocus = false) => {
         this.spinners.showPropertyEditorSpinner = true;
 
         try {
@@ -1629,7 +1630,11 @@ export default class Editor extends LightningElement {
 
             this.spinners.showPropertyEditorSpinner = false;
             this.propertyEditorBlockerCalls = [];
-            this.showPropertyEditor(await paramsProvider(), forceModal);
+            await this.showPropertyEditor(await paramsProvider(), forceModal);
+
+            if (designateFocus) {
+                this.handleFocusPropertyEditor();
+            }
         } catch (e) {
             // we don't open the property editor because at least one promise was rejected
             this.spinners.showPropertyEditorSpinner = false;
@@ -1700,6 +1705,7 @@ export default class Editor extends LightningElement {
                 actionType,
                 actionName,
                 parent,
+                designateFocus,
 
                 // TODO: we are passing alcInsertAt information here, but ideally we should remove it and expose
                 // a method that creates an element and returns a promise. Then that method can be called the
@@ -1725,34 +1731,38 @@ export default class Editor extends LightningElement {
                 return;
             }
 
-            this.queueOpenPropertyEditor(async () => {
-                // getElementForPropertyEditor need to be called after propertyEditorBlockerCalls
-                // has been resolved
-                const node = getElementForPropertyEditor({
-                    locationX,
-                    locationY,
-                    elementType,
-                    elementSubtype,
-                    actionType,
-                    actionName,
-                    parent,
-                    isNewElement: true
-                });
+            this.queueOpenPropertyEditor(
+                async () => {
+                    // getElementForPropertyEditor need to be called after propertyEditorBlockerCalls
+                    // has been resolved
+                    const node = getElementForPropertyEditor({
+                        locationX,
+                        locationY,
+                        elementType,
+                        elementSubtype,
+                        actionType,
+                        actionName,
+                        parent,
+                        isNewElement: true
+                    });
 
-                // For a panel, the element is created upon opening the property editor
-                // the parent guid is also passed in if a child element is being created
-                if (this.usePanelForPropertyEditor) {
-                    await this.deMutateAndAddNodeCollection(node, parent, alcInsertAt);
-                }
+                    // For a panel, the element is created upon opening the property editor
+                    // the parent guid is also passed in if a child element is being created
+                    if (this.usePanelForPropertyEditor) {
+                        await this.deMutateAndAddNodeCollection(node, parent, alcInsertAt);
+                    }
 
-                return {
-                    mode,
-                    node,
-                    nodeUpdate,
-                    newResourceCallback,
-                    processType
-                };
-            });
+                    return {
+                        mode,
+                        node,
+                        nodeUpdate,
+                        newResourceCallback,
+                        processType
+                    };
+                },
+                false,
+                designateFocus
+            );
         }
     };
 
@@ -1760,18 +1770,14 @@ export default class Editor extends LightningElement {
      * Handles the edit element event and fires up the property editor based on node type
      * It uses builder-util library to fire up the ui:panel.
      *
-     * @param {object} event - node double clicked event coming from node.js
+     * @param {object} event - edit element event from clicked/keyed node in which to edit
      */
-    handleEditElement = (event) => {
+    handleEditElement = (event: EditElementEvent) => {
         if (event && event.detail && event.type) {
-            const mode = event.detail.mode;
-            const guid = event.detail.canvasElementGUID;
-
-            const elementType: string | undefined = event.detail.elementType;
+            const { mode, canvasElementGUID: guid, designateFocus, elementType } = event.detail;
 
             const forceModal = elementType && ELEMENT_TYPES_TO_ALWAYS_EDIT_IN_MODAL.includes(elementType);
-
-            this.editElement(mode, guid, forceModal);
+            this.editElement(mode, guid, forceModal, designateFocus);
         }
     };
 
@@ -1961,12 +1967,22 @@ export default class Editor extends LightningElement {
     }
 
     /**
-     * Close the currently displayed property editor panel (for property editors shown inline
+     * Close the currently displayed property editor panel
      */
     handleClosePropertyEditor() {
         this.showPropertyEditorRightPanel = false;
         this.propertyEditorParams = null;
         this.elementBeingEditedInPanel = null;
+    }
+
+    /**
+     * Handler method for designating focus to the property editor panel
+     */
+    handleFocusPropertyEditor() {
+        const propertyEditor = this.template.querySelector(PANELS.PROPERTY_EDITOR);
+        if (propertyEditor) {
+            propertyEditor.focus();
+        }
     }
 
     /**
@@ -2174,8 +2190,9 @@ export default class Editor extends LightningElement {
      * @param mode - Mode of the event being handled
      * @param guid - Guid of element being currently edited
      * @param forceModal - If true, the editor will be opened in a modal
+     * @param designateFocus - If true, the property editor will assume tab focus
      */
-    editElement(mode: any, guid: string, forceModal = false) {
+    editElement(mode: any, guid: string, forceModal = false, designateFocus = false) {
         const element = storeInstance.getCurrentState().elements[guid];
         if (element && element.elementType !== ELEMENT_TYPE.START_ELEMENT) {
             this.closeAutoLayoutContextualMenu();
@@ -2189,16 +2206,21 @@ export default class Editor extends LightningElement {
             (element.elementType === ELEMENT_TYPE.START_ELEMENT && isConfigurableStartSupported(processType))
         ) {
             logPerfTransactionStart('PropertyEditor');
-            this.queueOpenPropertyEditor(() => {
-                const node = getElementForPropertyEditor(element);
-                return {
-                    mode,
-                    nodeUpdate,
-                    node,
-                    newResourceCallback,
-                    processType
-                };
-            }, forceModal);
+            this.queueOpenPropertyEditor(
+                () => {
+                    const node = getElementForPropertyEditor(element);
+                    return {
+                        mode,
+                        nodeUpdate,
+                        node,
+                        newResourceCallback,
+                        processType
+                    };
+                },
+                forceModal,
+                designateFocus
+            );
+
             if (element && element.isCanvasElement && !this.properties.isAutoLayoutCanvas) {
                 storeInstance.dispatch(
                     selectOnCanvas({

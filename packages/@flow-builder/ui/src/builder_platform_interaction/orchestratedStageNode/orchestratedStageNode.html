@@ -8,12 +8,15 @@
             </h3>
             <div class="items-header background-light slds-p-around_small slds-border_bottom">{itemsHeader}</div>
             <div class="items-section slds-p-top_x-small">
-                <div>
-                    <template for:each={items} for:item="item">
+                <div class="items-list slds-listbox slds-listbox_vertical" role="listbox">
+                    <template for:each={items} for:item="item" for:index="index">
                         <div
-                            key={item.name}
+                            key={item.guid}
+                            role="option"
+                            class="item slds-p-horizontal_x-small slds-clearfix slds-listbox__option"
+                            tabindex={item.tabIndex}
+                            aria-label={item.label}
                             data-item-guid={item.guid}
-                            class="item slds-p-horizontal_x-small slds-clearfix"
                             onclick={handleOpenItemPropertyEditor}
                             ondblclick={handleOpenItemPropertyEditor}
                         >
@@ -24,14 +27,19 @@
                                     class="slds-float_left slds-m-right_small background-dark"
                                 ></lightning-icon>
                                 <div>
-                                    <div class="slds-p-vertical_xxx-small slds-truncate">{item.stepTypeLabel}</div>
+                                    <div
+                                        class="slds-p-vertical_xxx-small slds-truncate slds-listbox__option-text slds-listbox__option-text_entity"
+                                    >
+                                        {item.stepTypeLabel}
+                                    </div>
                                     <span class="itemLabel" title={item.label}>{item.label}</span>
                                 </div>
                             </div>
                             <button
-                                class="slds-button slds-float_right slds-m-top_x-small"
+                                class="slds-button slds-float_right slds-m-top_x-small delete-item"
                                 onclick={handleDeleteItem}
                                 data-item-guid={item.guid}
+                                tabindex={item.tabIndex}
                             >
                                 <lightning-icon
                                     key={item.name}
@@ -44,7 +52,7 @@
                 </div>
                 <button
                     onclick={handleAddItem}
-                    class="slds-m-horizontal_small slds-button slds-button_neutral slds-m-bottom_small slds-m-top_medium add-item"
+                    class="slds-m-horizontal_small slds-button slds-button_neutral slds-m-bottom_small slds-m-top_small add-item"
                 >
                     <lightning-icon
                         icon-name="utility:add"

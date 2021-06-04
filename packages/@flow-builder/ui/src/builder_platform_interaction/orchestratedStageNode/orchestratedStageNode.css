@@ -42,15 +42,27 @@ h3 {
 .item {
     text-align: initial;
     font-size: var(--lwc-fontSize3);
+    padding-top: var(--lwc-spacingXSmall);
+    padding-bottom: var(--lwc-spacingXSmall);
+}
+
+.item:hover {
+    background: var(--lwc-verticalNavigationColorBackgroundShadeRowHover);
+    cursor: pointer;
+}
+
+.item:focus {
+    background: inherit;
+    box-shadow: var(--lwc-shadowButtonFocus);
+}
+
+.item:focus:hover {
+    background: var(--lwc-verticalNavigationColorBackgroundShadeRowHover);
+    box-shadow: var(--lwc-shadowButtonFocus);
 }
 
 .item:not(:first-child) {
-    padding-top: var(--lwc-spacingXSmall);
     border-top: var(--lwc-borderWidthThin) solid var(--lwc-colorBorder);
-}
-
-.item:not(:last-child) {
-    padding-bottom: var(--lwc-spacingXSmall);
 }
 
 .itemContent {

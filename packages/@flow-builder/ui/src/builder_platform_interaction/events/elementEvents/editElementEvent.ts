@@ -5,7 +5,7 @@
 const eventName = 'editelement';
 
 export class EditElementEvent {
-    constructor(canvasElementGUID, mode = eventName, elementType?: string) {
+    constructor(canvasElementGUID, mode = eventName, elementType?: string, designateFocus?: boolean) {
         return new CustomEvent(eventName, {
             bubbles: true,
             composed: true,
@@ -13,7 +13,8 @@ export class EditElementEvent {
             detail: {
                 canvasElementGUID,
                 mode,
-                elementType
+                elementType,
+                designateFocus
             }
         });
     }

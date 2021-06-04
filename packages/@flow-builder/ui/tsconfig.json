@@ -13,6 +13,7 @@
             "builder_platform_interaction/autoLayoutCanvas": ["../auto-layout-canvas/dist/types/index.d.js"],
             "builder_platform_interaction/sharedUtils": ["../shared-utils/dist/types/index.d.js"],
             "builder_platform_interaction/alcEvents": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcEvents/alcEvents.ts"],
+            "builder_platform_interaction/contextualMenuUtils": ["../auto-layout-canvas-ui/src/builder_platform_interaction/contextualMenuUtils/contextualMenuUtils.ts"],
             "builder_platform_interaction/actionSelector": ["./src/builder_platform_interaction/actionSelector/actionSelector.ts"],
             "builder_platform_interaction/actions": ["./src/builder_platform_interaction/actions/actions.ts"],
             "builder_platform_interaction/alcCanvasContainer": ["./src/builder_platform_interaction/alcCanvasContainer/alcCanvasContainer.ts"],
