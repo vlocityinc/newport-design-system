@@ -35,6 +35,7 @@ export default class ScreenPropertyField extends LightningElement {
     @api allowResourcesForContext = false;
     @api allowResourcesForOutput = false;
     @api activePicklistValues;
+    @api placeholder = '';
     @api includeQuickCreateResourceOption = false;
 
     @api resourcePickerConfig;

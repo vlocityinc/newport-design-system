@@ -553,29 +553,28 @@ describe('screen', () => {
             });
         });
 
-        // TODO W-9142813: Uncomment the following tests
-        // describe('pausedText and helpText clear on the basis of allowHelp and pauseMessageType', () => {
-        //     it('if pauseLabelType = hide, pausedText is cleared and pauseMessageType is set to standard', () => {
-        //         screenFromPropertyEditor.pauseLabelType = FOOTER_LABEL_TYPE.HIDE;
-        //         screenFromPropertyEditor.pausedText = 'hello';
-        //         screenFromPropertyEditor.pauseMessageType = PAUSE_MESSAGE_TYPE.CUSTOM;
-        //         const result = createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(screenFromPropertyEditor);
-        //         expect(result.screen.pausedText).toEqual('');
-        //         expect(result.screen.pauseMessageType).toEqual(PAUSE_MESSAGE_TYPE.STANDARD);
-        //     });
-        //     it('if pauseMessageType = standard, pausedText is cleared', () => {
-        //         screenFromPropertyEditor.pausedText = 'hello';
-        //         screenFromPropertyEditor.pauseMessageType = PAUSE_MESSAGE_TYPE.STANDARD;
-        //         const result = createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(screenFromPropertyEditor);
-        //         expect(result.screen.pausedText).toEqual('');
-        //     });
-        //     it('if allowHelp = false, helpText is cleared', () => {
-        //         screenFromPropertyEditor.helpText = 'hello';
-        //         screenFromPropertyEditor.allowHelp = false;
-        //         const result = createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(screenFromPropertyEditor);
-        //         expect(result.screen.helpText).toEqual('');
-        //     });
-        // });
+        describe('pausedText and helpText clear on the basis of allowHelp and pauseMessageType', () => {
+            it('if pauseLabelType = hide, pausedText is cleared and pauseMessageType is set to standard', () => {
+                screenFromPropertyEditor.pauseLabelType = FOOTER_LABEL_TYPE.HIDE;
+                screenFromPropertyEditor.pausedText = 'hello';
+                screenFromPropertyEditor.pauseMessageType = PAUSE_MESSAGE_TYPE.CUSTOM;
+                const result = createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(screenFromPropertyEditor);
+                expect(result.screen.pausedText).toEqual('');
+                expect(result.screen.pauseMessageType).toEqual(PAUSE_MESSAGE_TYPE.STANDARD);
+            });
+            it('if pauseMessageType = standard, pausedText is cleared', () => {
+                screenFromPropertyEditor.pausedText = 'hello';
+                screenFromPropertyEditor.pauseMessageType = PAUSE_MESSAGE_TYPE.STANDARD;
+                const result = createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(screenFromPropertyEditor);
+                expect(result.screen.pausedText).toEqual('');
+            });
+            it('if allowHelp = false, helpText is cleared', () => {
+                screenFromPropertyEditor.helpText = 'hello';
+                screenFromPropertyEditor.allowHelp = false;
+                const result = createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(screenFromPropertyEditor);
+                expect(result.screen.helpText).toEqual('');
+            });
+        });
 
         describe('new/modified fields', () => {
             it('screen includes field references for all fields present', () => {

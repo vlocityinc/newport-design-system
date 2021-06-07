@@ -42,19 +42,33 @@ import singleSelectChoiceDisplay from '@salesforce/label/FlowBuilderScreenEditor
 import multiSelectChoiceDisplay from '@salesforce/label/FlowBuilderScreenEditor.multiSelectChoiceDisplay';
 import choiceDisplayType from '@salesforce/label/FlowBuilderScreenEditor.choiceDisplayType';
 import buttonHelpTextAltText from '@salesforce/label/FlowBuilderScreenEditor.buttonHelpTextAltText';
-import screenContainerOptions from '@salesforce/label/FlowBuilderScreenEditor.screenContainerOptions';
-import screenContainerTooltip from '@salesforce/label/FlowBuilderScreenEditor.screenContainerTooltip';
+import configureFooter from '@salesforce/label/FlowBuilderScreenEditor.configureFooter';
+import configureHeader from '@salesforce/label/FlowBuilderScreenEditor.configureHeader';
 import componentVisibilitySectionTitle from '@salesforce/label/FlowBuilderScreenEditor.componentVisbilitySectionTitle';
 import showHeader from '@salesforce/label/FlowBuilderScreenEditor.showHeader';
 import showFooter from '@salesforce/label/FlowBuilderScreenEditor.showFooter';
-import navigationOptions from '@salesforce/label/FlowBuilderScreenEditor.navigationOptions';
-import navigationOptionsTooltip from '@salesforce/label/FlowBuilderScreenEditor.navigationOptionsTooltip';
+import navigationLabel from '@salesforce/label/FlowBuilderScreenEditor.navigationLabel';
+import allowHelp from '@salesforce/label/FlowBuilderScreenEditor.allowHelp';
+import nextOrFinishButtonConfigLabel from '@salesforce/label/FlowBuilderScreenEditor.nextOrFinishButtonConfigLabel';
+import previousButtonConfigLabel from '@salesforce/label/FlowBuilderScreenEditor.previousButtonConfigLabel';
+import pauseButtonConfigLabel from '@salesforce/label/FlowBuilderScreenEditor.pauseButtonConfigLabel';
 import allowFinishButton from '@salesforce/label/FlowBuilderScreenEditor.allowFinishButton';
 import allowPreviousButton from '@salesforce/label/FlowBuilderScreenEditor.allowPreviousButton';
 import allowPauseButton from '@salesforce/label/FlowBuilderScreenEditor.allowPauseButton';
 import allowPauseButtonTooltip from '@salesforce/label/FlowBuilderScreenEditor.allowPauseButtonTooltip';
+import allowPreviousButtonTooltip from '@salesforce/label/FlowBuilderScreenEditor.allowPreviousButtonTooltip';
+import allowNextOrFinishButtonTooltip from '@salesforce/label/FlowBuilderScreenEditor.allowNextOrFinishButtonTooltip';
+import labelOptionStandard from '@salesforce/label/FlowBuilderScreenEditor.labelOptionStandard';
+import labelOptionCustom from '@salesforce/label/FlowBuilderScreenEditor.labelOptionCustom';
+import labelOptionHideNextOrFinish from '@salesforce/label/FlowBuilderScreenEditor.labelOptionHideNextOrFinish';
+import labelOptionHidePrevious from '@salesforce/label/FlowBuilderScreenEditor.labelOptionHidePrevious';
+import labelOptionHidePause from '@salesforce/label/FlowBuilderScreenEditor.labelOptionHidePause';
+import pauseMessageOptionStandard from '@salesforce/label/FlowBuilderScreenEditor.pauseMessageOptionStandard';
+import pauseMessageOptionCustom from '@salesforce/label/FlowBuilderScreenEditor.pauseMessageOptionCustom';
 import pauseConfirmationMessage from '@salesforce/label/FlowBuilderScreenEditor.pauseConfirmationMessage';
 import pauseConfirmationMessageTooltip from '@salesforce/label/FlowBuilderScreenEditor.pauseConfirmationMessageTooltip';
+import standardPauseMessage from '@salesforce/label/FlowBuilderScreenEditor.standardPauseMessage';
+import footerLabelInputPlaceHolder from '@salesforce/label/FlowBuilderScreenEditor.footerLabelInputPlaceHolder';
 import helpTextForAccordion from '@salesforce/label/FlowBuilderScreenEditor.helpTextForAccordion';
 import helpSectionHeader from '@salesforce/label/FlowBuilderScreenEditor.helpSectionHeader';
 import required from '@salesforce/label/FlowBuilderScreenEditor.required';
@@ -190,18 +204,31 @@ export const LABELS = {
     multiSelectChoiceDisplay,
     choiceDisplayType,
     buttonHelpTextAltText,
-    screenContainerOptions,
-    screenContainerTooltip,
+    configureFooter,
+    configureHeader,
     showHeader,
     showFooter,
-    navigationOptions,
-    navigationOptionsTooltip,
+    navigationLabel,
+    allowHelp,
     allowFinishButton,
     allowPreviousButton,
     allowPauseButton,
+    nextOrFinishButtonConfigLabel,
+    previousButtonConfigLabel,
+    pauseButtonConfigLabel,
     allowPauseButtonTooltip,
+    allowPreviousButtonTooltip,
+    allowNextOrFinishButtonTooltip,
     pauseConfirmationMessage,
     pauseConfirmationMessageTooltip,
+    standardPauseMessage,
+    labelOptionStandard,
+    labelOptionCustom,
+    labelOptionHideNextOrFinish,
+    labelOptionHidePrevious,
+    labelOptionHidePause,
+    pauseMessageOptionStandard,
+    pauseMessageOptionCustom,
     helpTextForAccordion,
     helpSectionHeader,
     required,
@@ -251,6 +278,7 @@ export const LABELS = {
     columnsTooltip,
     defaultColumnLabel,
     componentsTabLabel,
+    footerLabelInputPlaceHolder,
     fieldsTabLabel,
     extensionAdvanced,
     extensionInputsOnNextNavToAssocScrnSubtitle,
