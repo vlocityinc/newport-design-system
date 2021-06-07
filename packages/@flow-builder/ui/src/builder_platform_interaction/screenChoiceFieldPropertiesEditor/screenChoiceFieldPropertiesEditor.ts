@@ -178,8 +178,12 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
             newResourceInfo.newResourceTypeLabel = this.labels.fieldTypeLabelChoice;
             if (newResourceInfo?.userProvidedText) {
                 newResourceInfo.resourceTypes = [ELEMENT_TYPE.CHOICE];
+                let devName = sanitizeDevName(newResourceInfo.userProvidedText);
+                if (devName === '') {
+                    devName = 'UniqueName';
+                }
                 newResourceInfo.newResource = {
-                    name: sanitizeDevName(newResourceInfo.userProvidedText),
+                    name: devName,
                     choiceText: newResourceInfo.userProvidedText,
                     storedValue: newResourceInfo.userProvidedText,
                     elementType: ELEMENT_TYPE.CHOICE,

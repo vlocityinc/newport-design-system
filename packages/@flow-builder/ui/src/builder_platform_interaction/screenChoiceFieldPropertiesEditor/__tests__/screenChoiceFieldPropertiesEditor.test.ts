@@ -394,6 +394,20 @@ describe('screen-choice-field-properties-editor choice selectors', () => {
         expect(addNewResourceEvent.detail.newResourceInfo.newResource.dataType).toEqual('String');
         expect(addNewResourceEvent.detail.newResourceInfo.resourceTypes).toHaveLength(1);
     });
+    it('Decorates the add new resource event correctly when dispatched by the choice selector and given the text that was entered, the resulting dev name is empty', async () => {
+        const addNewResourceEvent = new CustomEvent('addnewresource', {
+            detail: { newResourceInfo: { userProvidedText: '____' } }
+        });
+        const renderedChoiceSelector = query(screenChoiceFieldPropEditor, SELECTORS.CHOICE_SELECTOR);
+        renderedChoiceSelector.dispatchEvent(addNewResourceEvent);
+        expect(addNewResourceEvent.detail.newResourceInfo.newResource).toBeDefined();
+        expect(addNewResourceEvent.detail.newResourceInfo.newResource.name).toEqual('UniqueName');
+        expect(addNewResourceEvent.detail.newResourceInfo.newResource.choiceText).toEqual('____');
+        expect(addNewResourceEvent.detail.newResourceInfo.newResource.storedValue).toEqual('____');
+        expect(addNewResourceEvent.detail.newResourceInfo.newResource.elementType).toEqual(ELEMENT_TYPE.CHOICE);
+        expect(addNewResourceEvent.detail.newResourceInfo.newResource.dataType).toEqual('String');
+        expect(addNewResourceEvent.detail.newResourceInfo.resourceTypes).toHaveLength(1);
+    });
 });
 
 describe('Default value for choice based field', () => {
