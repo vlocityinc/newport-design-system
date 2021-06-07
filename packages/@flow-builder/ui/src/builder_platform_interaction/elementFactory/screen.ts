@@ -330,11 +330,7 @@ export function createScreenMetadataObject(screen, config = {}) {
 
 export function createScreenElement(screen) {
     const newScreen = baseCanvasElement(screen);
-    // todo: remove setting allowBack, allowFinish, and allowPause when they are not read in the screen, commit with work item W-9142894(Update Screen Canvas View)
     const {
-        allowBack = true,
-        allowFinish = true,
-        allowPause = true,
         allowHelp = false,
         pauseMessageType = PAUSE_MESSAGE_TYPE.STANDARD,
         helpText = '',
@@ -400,9 +396,6 @@ export function createScreenElement(screen) {
     };
 
     const screenObject = Object.assign(newScreen, {
-        allowBack,
-        allowFinish,
-        allowPause,
         allowHelp,
         pauseMessageType,
         helpText,

@@ -5,6 +5,9 @@ import { createTestScreen, setDocumentBodyChildren, ticks } from 'builder_platfo
 import { createScreenElementSelectedEvent, ScreenEditorEventName } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { hydrateIfNecessary } from 'builder_platform_interaction/dataMutationLib';
+import { FOOTER_LABEL_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -25,7 +28,10 @@ const selectors = {
     highlightElementSlot: 'div[slot="screen-element"]',
     screenFieldCard: 'builder_platform_interaction-screen-field-card',
     screenFieldCardBody: 'p.slds-text-heading_small',
-    screenCanvasHeader: 'span.slds-card__header-link'
+    screenCanvasHeader: 'span.slds-card__header-link',
+    nextOrFinishBtn: '.test-next-or-finish-btn',
+    backBtn: '.test-back-btn',
+    pauseBtn: '.test-pause-btn'
 };
 
 beforeAll(() => {
@@ -127,5 +133,90 @@ describe('Click handling on canvas', () => {
         const selectEvent = createScreenElementSelectedEvent();
         canvasDiv.dispatchEvent(selectEvent);
         expect(eventCallback).toHaveBeenCalled();
+    });
+});
+
+describe('Screen canvas footer labels', () => {
+    let screen;
+    beforeEach(() => {
+        screen = createTestScreen('Screen 1', null);
+    });
+    it('Footer label is shown when footer label type is STANDARD', () => {
+        screen.nextOrFinishLabelType = hydrateIfNecessary(FOOTER_LABEL_TYPE.STANDARD);
+        const screenEditorCanvasElement = createComponentUnderTest({
+            screen,
+            labels: {}
+        });
+        const nextOrFinishBtn = screenEditorCanvasElement.shadowRoot.querySelector(selectors.nextOrFinishBtn);
+        expect(nextOrFinishBtn).toBeDefined();
+    });
+    it('Footer label is not shown when footer label type is HIDE', () => {
+        screen.nextOrFinishLabelType = hydrateIfNecessary(FOOTER_LABEL_TYPE.HIDE);
+        const screenEditorCanvasElement = createComponentUnderTest({
+            screen,
+            labels: {}
+        });
+        const nextOrFinishBtn = screenEditorCanvasElement.shadowRoot.querySelector(selectors.nextOrFinishBtn);
+        expect(nextOrFinishBtn).toBeNull();
+    });
+    it('Footer label is not shown when footer label type is CUSTOM but label is empty or not defined', () => {
+        screen.nextOrFinishLabelType = hydrateIfNecessary(FOOTER_LABEL_TYPE.CUSTOM);
+        const screenEditorCanvasElement = createComponentUnderTest({
+            screen,
+            labels: {}
+        });
+        const nextOrFinishBtn = screenEditorCanvasElement.shadowRoot.querySelector(selectors.nextOrFinishBtn);
+        expect(nextOrFinishBtn).toBeNull();
+    });
+    it('Next or Finish footer label is shown nextOrFinishLabelType is CUSTOM and nextOrFinishLabel is defined', () => {
+        screen.nextOrFinishLabelType = hydrateIfNecessary(FOOTER_LABEL_TYPE.CUSTOM);
+        screen.nextOrFinishLabel = hydrateIfNecessary('Custom Next');
+        const screenEditorCanvasElement = createComponentUnderTest({
+            screen,
+            labels: {}
+        });
+        const nextOrFinishBtn = screenEditorCanvasElement.shadowRoot.querySelector(selectors.nextOrFinishBtn);
+        expect(nextOrFinishBtn).toBeDefined();
+    });
+    it('Back footer label is shown backLabelType is CUSTOM and backLabel is defined', () => {
+        screen.backLabelType = hydrateIfNecessary(FOOTER_LABEL_TYPE.CUSTOM);
+        screen.backLabel = hydrateIfNecessary('Custom Back');
+        const screenEditorCanvasElement = createComponentUnderTest({
+            screen,
+            labels: {}
+        });
+        const backBtn = screenEditorCanvasElement.shadowRoot.querySelector(selectors.backBtn);
+        expect(backBtn).toBeDefined();
+    });
+    it('Pause footer label is shown pauseLabelType is CUSTOM and pauseLabel is defined', () => {
+        screen.pauseLabelType = hydrateIfNecessary(FOOTER_LABEL_TYPE.CUSTOM);
+        screen.backLabel = hydrateIfNecessary('Custom Pause');
+        const screenEditorCanvasElement = createComponentUnderTest({
+            screen,
+            labels: {}
+        });
+        const pauseBtn = screenEditorCanvasElement.shadowRoot.querySelector(selectors.pauseBtn);
+        expect(pauseBtn).toBeDefined();
+    });
+    it('Footer label shown is standard label when label type is not CUSTOM', () => {
+        screen.nextOrFinishLabelType = hydrateIfNecessary(FOOTER_LABEL_TYPE.STANDARD);
+        screen.nextOrFinishLabel = hydrateIfNecessary('Custom Next');
+        const screenEditorCanvasElement = createComponentUnderTest({
+            screen,
+            labels: {}
+        });
+        const nextOrFinishBtn = screenEditorCanvasElement.shadowRoot.querySelector(selectors.nextOrFinishBtn);
+        expect(nextOrFinishBtn.textContent).toEqual(LABELS.finish);
+    });
+    it('Footer label shown is custom label when label type is CUSTOM', () => {
+        screen.nextOrFinishLabelType = hydrateIfNecessary(FOOTER_LABEL_TYPE.CUSTOM);
+        const label = 'Custom Next';
+        screen.nextOrFinishLabel = hydrateIfNecessary(label);
+        const screenEditorCanvasElement = createComponentUnderTest({
+            screen,
+            labels: {}
+        });
+        const nextOrFinishBtn = screenEditorCanvasElement.shadowRoot.querySelector(selectors.nextOrFinishBtn);
+        expect(nextOrFinishBtn.textContent).toEqual(label);
     });
 });

@@ -76,29 +76,29 @@
                         class="screen-editor-canvas-footer slds-card__footer slds-grid slds-border_top slds-grow"
                     >
                         <button
-                            if:true={screen.allowPause}
-                            class="slds-button slds-button--neutral"
+                            if:true={showPause}
+                            class="slds-button slds-button--neutral test-pause-btn"
                             type="button"
                             tabindex="-1"
                         >
-                            {labels.pause}
+                            {pauseButtonText}
                         </button>
                         <div class="slds-col_bump-left">
                             <button
-                                if:true={screen.allowBack}
-                                class="slds-button slds-button--neutral"
+                                if:true={showBack}
+                                class="slds-button slds-button--neutral test-back-btn"
                                 type="button"
                                 tabindex="-1"
                             >
-                                {labels.previous}
+                                {backButtonText}
                             </button>
                             <button
-                                if:true={screen.allowFinish}
-                                class="slds-button slds-button--brand"
+                                if:true={showNextOrFinish}
+                                class="slds-button slds-button--brand test-next-or-finish-btn"
                                 type="button"
                                 tabindex="-1"
                             >
-                                {labels.finish}
+                                {nextOrFinishButtonText}
                             </button>
                         </div>
                     </div>

@@ -407,9 +407,6 @@ export const fieldServiceMobileFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
-            allowBack: true,
-            allowFinish: true,
-            allowPause: true,
             allowHelp: false,
             pauseMessageType: 'standard',
             helpText: '',

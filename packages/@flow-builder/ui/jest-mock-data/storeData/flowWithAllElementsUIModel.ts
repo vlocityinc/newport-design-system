@@ -3284,9 +3284,6 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
-            allowBack: true,
-            allowFinish: true,
-            allowPause: true,
             allowHelp: false,
             pauseMessageType: 'standard',
             helpText: '',
@@ -3554,9 +3551,6 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
-            allowBack: true,
-            allowFinish: true,
-            allowPause: true,
             allowHelp: false,
             pauseMessageType: 'standard',
             helpText: '',
@@ -3624,9 +3618,6 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
-            allowBack: true,
-            allowFinish: true,
-            allowPause: true,
             allowHelp: false,
             pauseMessageType: 'standard',
             helpText: '',
@@ -3697,9 +3688,6 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
-            allowBack: true,
-            allowFinish: true,
-            allowPause: true,
             allowHelp: false,
             pauseMessageType: 'standard',
             helpText: '',
@@ -3956,9 +3944,6 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
-            allowBack: true,
-            allowFinish: true,
-            allowPause: true,
             allowHelp: false,
             pauseMessageType: 'standard',
             helpText: '',
@@ -4262,9 +4247,6 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
-            allowBack: true,
-            allowFinish: true,
-            allowPause: true,
             allowHelp: false,
             pauseMessageType: 'standard',
             helpText: '',
@@ -4812,9 +4794,6 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
-            allowBack: true,
-            allowFinish: true,
-            allowPause: true,
             allowHelp: false,
             pauseMessageType: 'standard',
             helpText: '',

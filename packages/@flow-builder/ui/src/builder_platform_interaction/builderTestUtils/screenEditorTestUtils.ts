@@ -135,9 +135,6 @@ function createScreen(name, fieldsProducer, config = {}) {
     const hydrateValues = booleanValue(config, 'hydrateValues', true);
     const includeNonMDValues = booleanValue(config, 'includeNonMDValues', true);
     let screen = {
-        allowBack: booleanValue(config, 'allowBack', true),
-        allowFinish: booleanValue(config, 'allowFinish', true),
-        allowPause: booleanValue(config, 'allowPause', true),
         label: getStringValue(name, 'Screen 1 Label', false),
         name: getStringValue(name, 'Screen1', false),
         helpText: getStringValue(null, 'Screen 1 Help Text', false),
