@@ -1,0 +1,155 @@
+{
+    "createdById": "005xx000001XEtlAAG",
+    "createdDate": "2021-06-08T13:31:52.000+0000",
+    "definitionId": "300xx000000c0RNAAY",
+    "fieldsToNull": [],
+    "fullName": "orchestratorFlow",
+    "id": "301xx000003Gq4VAAS",
+    "lastModifiedBy": {
+        "fieldsToNull": [],
+        "name": "User User"
+    },
+    "lastModifiedById": "005xx000001XEtlAAG",
+    "lastModifiedDate": "2021-06-08T13:31:53.000+0000",
+    "manageableState": "unmanaged",
+    "masterLabel": "orchestratorFlow",
+    "metadata": {
+        "actionCalls": [],
+        "apexPluginCalls": [],
+        "apiVersion": 53,
+        "assignments": [],
+        "choices": [],
+        "collectionProcessors": [],
+        "constants": [],
+        "decisions": [
+            {
+                "defaultConnectorLabel": "Default Outcome",
+                "description": "This is the first Decision",
+                "label": "Decision1",
+                "locationX": 182,
+                "locationY": 158,
+                "name": "Decision1",
+                "processMetadataValues": [],
+                "rules": [
+                    {
+                        "conditionLogic": "and",
+                        "conditions": [
+                            {
+                                "leftValueReference": "vText",
+                                "operator": "EqualTo",
+                                "processMetadataValues": [],
+                                "rightValue": {
+                                    "stringValue": ""
+                                }
+                            }
+                        ],
+                        "connector": {
+                            "isGoTo": false,
+                            "processMetadataValues": [],
+                            "targetReference": "Decision2"
+                        },
+                        "doesRequireRecordChangedToMeetCriteria": false,
+                        "label": "outcome1",
+                        "name": "outcome1",
+                        "processMetadataValues": []
+                    }
+                ]
+            },
+            {
+                "defaultConnectorLabel": "Default Outcome",
+                "label": "Decision2",
+                "locationX": 50,
+                "locationY": 278,
+                "name": "Decision2",
+                "processMetadataValues": [],
+                "rules": [
+                    {
+                        "conditionLogic": "and",
+                        "conditions": [
+                            {
+                                "leftValueReference": "vText",
+                                "operator": "EqualTo",
+                                "processMetadataValues": [],
+                                "rightValue": {
+                                    "stringValue": ""
+                                }
+                            }
+                        ],
+                        "doesRequireRecordChangedToMeetCriteria": false,
+                        "label": "outcome2",
+                        "name": "outcome2",
+                        "processMetadataValues": []
+                    }
+                ]
+            }
+        ],
+        "dynamicChoiceSets": [],
+        "formulas": [],
+        "interviewLabel": "orchestratorFlow {!$Flow.CurrentDateTime}",
+        "isAdditionalPermissionRequiredToRun": false,
+        "isTemplate": false,
+        "label": "orchestratorFlow",
+        "loops": [],
+        "orchestratedStages": [],
+        "processMetadataValues": [
+            {
+                "name": "BuilderType",
+                "value": {
+                    "stringValue": "LightningFlowBuilder"
+                }
+            },
+            {
+                "name": "CanvasMode",
+                "value": {
+                    "stringValue": "AUTO_LAYOUT_CANVAS"
+                }
+            },
+            {
+                "name": "OriginBuilderType",
+                "value": {
+                    "stringValue": "LightningFlowBuilder"
+                }
+            }
+        ],
+        "processType": "Orchestrator",
+        "recordCreates": [],
+        "recordDeletes": [],
+        "recordLookups": [],
+        "recordUpdates": [],
+        "rollbacks": [],
+        "screens": [],
+        "stages": [],
+        "start": {
+            "connector": {
+                "isGoTo": false,
+                "processMetadataValues": [],
+                "targetReference": "Decision1"
+            },
+            "doesRequireRecordChangedToMeetCriteria": false,
+            "filters": [],
+            "locationX": 56,
+            "locationY": 0,
+            "processMetadataValues": [],
+            "scheduledPaths": []
+        },
+        "status": "Draft",
+        "steps": [],
+        "subflows": [],
+        "textTemplates": [],
+        "variables": [
+            {
+                "dataType": "String",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "vText",
+                "processMetadataValues": [],
+                "scale": 0
+            }
+        ],
+        "waits": []
+    },
+    "processType": "Orchestrator",
+    "status": "Draft",
+    "versionNumber": 1
+}

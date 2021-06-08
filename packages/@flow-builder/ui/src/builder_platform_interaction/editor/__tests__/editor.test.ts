@@ -15,7 +15,6 @@ import {
     ToggleMarqueeOnEvent,
     SelectNodeEvent,
     DuplicateEvent,
-    ToggleSelectionModeEvent,
     CanvasMouseUpEvent,
     ConnectorSelectedEvent,
     DragNodeStopEvent,
@@ -1225,106 +1224,6 @@ describe('property editor', () => {
     });
 });
 
-const describeSkip = describe.skip;
-
-describeSkip('auto-layout', () => {
-    describe('use auto layout canvas', () => {
-        beforeAll(() => {
-            mockStoreState.properties.isAutoLayoutCanvas = true;
-        });
-
-        afterAll(() => {
-            mockStoreState.properties.isAutoLayoutCanvas = true;
-        });
-
-        describe('in right panel', () => {
-            let editorComponent;
-            let rightPanel;
-
-            beforeEach(async () => {
-                mockStoreState.properties.isAutoLayoutCanvas = true;
-                mockStoreState.properties.processType = 'right';
-
-                editorComponent = createComponentUnderTest({
-                    builderType: 'new',
-                    builderConfig: { supportedProcessTypes: ['right'], usePanelForPropertyEditor: true }
-                });
-
-                const editElementEvent = new EditElementEvent('1');
-                const alcCanvasContainer = editorComponent.shadowRoot.querySelector(selectors.alcCanvasContainer);
-                alcCanvasContainer.dispatchEvent(editElementEvent);
-
-                await ticks(1);
-                rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);
-            });
-
-            it('closes the property editor when alcCanvas fire close property editor event', async () => {
-                expect.assertions(2);
-                expect(rightPanel).not.toBeNull();
-
-                const event = new ClosePropertyEditorEvent();
-                const alcCanvasContainer = editorComponent.shadowRoot.querySelector(selectors.alcCanvasContainer);
-                alcCanvasContainer.dispatchEvent(event);
-
-                await ticks(1);
-                rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);
-                expect(rightPanel).toBeNull();
-            });
-
-            it('closes the property editor on when toolbar fires toggle selection mode event', async () => {
-                expect.assertions(2);
-                expect(rightPanel).not.toBeNull();
-
-                const event = new ToggleSelectionModeEvent();
-                const toolbar = editorComponent.shadowRoot.querySelector('builder_platform_interaction-toolbar');
-                toolbar.dispatchEvent(event);
-
-                await ticks(1);
-                rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);
-                expect(rightPanel).toBeNull();
-            });
-
-            it('closes and reopens the property editor when another element is clicked', async () => {
-                // TODO: Right now the property editor closing and opening seems to happen in one tick,
-                // and thus the close never actually happens
-                // Need to refactor the test to make sure the property editor panel closes before
-                // it opens for new element when the following story is being implemented
-                // https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B00000078hChIAI/view
-
-                expect.assertions(2);
-                expect(rightPanel).not.toBeNull();
-
-                const event = new SelectNodeEvent('5', undefined, false);
-                const alcCanvasContainer = editorComponent.shadowRoot.querySelector(selectors.alcCanvasContainer);
-                alcCanvasContainer.dispatchEvent(event);
-
-                await ticks(1);
-                rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);
-                const propertyEditorPanel = rightPanel.querySelector(
-                    'builder_platform_interaction-property-editor-panel'
-                );
-                expect(propertyEditorPanel.element.guid).toEqual('5');
-            });
-
-            it('should not close the property editor when currently selected element is clicked', async () => {
-                expect.assertions(2);
-                expect(rightPanel).not.toBeNull();
-
-                const event = new SelectNodeEvent('5', undefined, true);
-                const alcCanvasContainer = editorComponent.shadowRoot.querySelector(selectors.alcCanvasContainer);
-                alcCanvasContainer.dispatchEvent(event);
-
-                await ticks(1);
-                rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);
-                const propertyEditorPanel = rightPanel.querySelector(
-                    'builder_platform_interaction-property-editor-panel'
-                );
-                expect(propertyEditorPanel.element.guid).toEqual('1');
-            });
-        });
-    });
-});
-
 describe('editor guardrails', () => {
     let storeInstance;
     const guardrailResult = jest.fn();
@@ -1384,8 +1283,6 @@ describe('editor guardrails', () => {
     });
 
     it('guardrails running - no result', async () => {
-        expect.assertions(2);
-
         const editorComponent = setupGuardrails(true, []);
 
         await ticks(2);
@@ -1401,8 +1298,6 @@ describe('editor guardrails', () => {
     });
 
     it('guardrails running - result', async () => {
-        expect.assertions(2);
-
         const mockResult = [{ data: 'result1' }, { data: 'result2' }];
         const editorComponent = setupGuardrails(true, mockResult);
 

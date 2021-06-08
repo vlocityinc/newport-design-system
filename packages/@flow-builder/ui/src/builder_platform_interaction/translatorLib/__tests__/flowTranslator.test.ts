@@ -18,6 +18,8 @@ import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
 import { recordTriggeredFlowUIModel } from 'mock/storeDataRecordTriggered';
+import * as orchestratorFlow from 'mock/flows/orchestratorFlow.json';
+import { orchestratorFlowUIModel } from 'mock/storeDataOrchestrator';
 import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { flowWithVariables } from './flows/flowWithVariables';
 import { flowWithAssignments } from './flows/flowWithAssignments';
@@ -94,6 +96,7 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () =>
  * @param {Object} given the given
  * @param {Object} expected the expected object we want to modify
  * @param {Function} callback the function called for each property. This function can modify the expected object.
+ * @param path
  */
 export const modifyExpected = (given, expected, callback, path = []) => {
     if (given == null || expected == null) {
@@ -152,6 +155,7 @@ const ignoreEmptyFields = (givenElement, expectedElement, key, givenValue, expec
 
 /**
  * Test if path1 is the same path than path2
+ *
  * @param {string[]} path1 first path
  * @param {string[]} path2 second path
  * @returns {boolean} true if path1 is same path than path2
@@ -171,6 +175,7 @@ const isSamePath = (path1, path2) => {
 
 /**
  * Test if a path is included in a given array of paths
+ *
  * @param {string[][]} paths array of paths
  * @param {string[]} path path
  * @returns {boolean} true if path is included in paths
@@ -325,6 +330,15 @@ describe('Flow Translator', () => {
         expect(uiFlow).toEqualGoldObject(
             recordTriggeredFlowUIModel,
             'recordTriggeredFlowUIModel in mock_store_data_recordTriggered/recordTriggeredFlowUIModel'
+        );
+    });
+    it('returns expected ui model for an orchestrator flow', () => {
+        uiFlow = translateFlowToUIModel(orchestratorFlow);
+        store.dispatch(updateFlow(uiFlow));
+
+        expect(uiFlow).toEqualGoldObject(
+            orchestratorFlowUIModel,
+            'orchestratorFlowUIModel in mock_store_data_recordTriggered/orchestratorFlowUIModel'
         );
     });
 });
