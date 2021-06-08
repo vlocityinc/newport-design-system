@@ -15,19 +15,61 @@ import { recordTriggeredFlowUIModel, startElement } from 'mock/storeDataRecordTr
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import { childElementTypeToParentDescriptorKeyMap } from 'builder_platform_interaction/elementConfig';
 
+const mockOrchestratorStage = {
+    guid: '477eb276-8bde-4fae-a438-2f2d1978c35a',
+    name: 'Orchestrator Stage 1',
+    dataType: 'ORCHESTRATED_STAGE',
+    elementType: 'OrchestratedStage',
+    label: 'Orchestrator Stage 1',
+    childReferences: [
+        {
+            childReference: '5e63f991-9032-4184-9816-eb0032eb18e5'
+        }
+    ]
+};
+
+const mockOrchestratorStep = {
+    guid: '5e63f991-9032-4184-9816-eb0032eb18e5',
+    name: 'step1',
+    dataType: 'STAGE_STEP',
+    elementType: 'STAGE_STEP',
+    label: 'step1'
+};
+
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
         getElementByDevName: jest.fn((name) => {
-            return name !== mockOutcome.name
-                ? name.startsWith('ScreenWithSection_') || name.startsWith('myScheduledPath')
-                    ? jest.requireActual('builder_platform_interaction/storeUtils').getElementByDevName(name)
-                    : { guid: '1' }
-                : mockOutcome;
+            if (name.startsWith('ScreenWithSection_') || name.startsWith('myScheduledPath')) {
+                return jest.requireActual('builder_platform_interaction/storeUtils').getElementByDevName(name);
+            }
+            switch (name) {
+                case mockOutcome.name:
+                    return mockOutcome;
+                case mockOrchestratorStep.name:
+                    return mockOrchestratorStep;
+                default:
+                    return { guid: '1' };
+            }
         }),
         getElementByGuid: jest.fn((guid) => {
-            return guid === mockDecision.guid
-                ? mockDecision
-                : jest.requireActual('builder_platform_interaction/storeUtils').getElementByGuid(guid);
+            switch (guid) {
+                case mockDecision.guid:
+                    return mockDecision;
+                case mockOrchestratorStage.guid:
+                    return mockOrchestratorStage;
+                default:
+                    return jest.requireActual('builder_platform_interaction/storeUtils').getElementByGuid(guid);
+            }
+        })
+    };
+});
+
+jest.mock('builder_platform_interaction/usedByLib', () => {
+    return {
+        usedBy: jest.fn((elementGuids) => {
+            return elementGuids && elementGuids.length === 1 && elementGuids[0] === mockOrchestratorStep.guid
+                ? [{ guid: mockOrchestratorStage.guid }]
+                : jest.requireActual('builder_platform_interaction/usedByLib').usedBy(elementGuids);
         })
     };
 });
@@ -268,6 +310,30 @@ describe('clickableErrorMessage', () => {
             const editElementPayload = {
                 mode: editElementEvent.detail.mode,
                 canvasElementGUID: parent.guid
+            };
+            errorMsgComponentParentChild.shadowRoot.querySelector(selectors.link).click();
+            expect(pubSub.publish.mock.calls[0][0]).toEqual(locatorIconClickedEvent.type);
+            expect(pubSub.publish.mock.calls[0][1]).toEqual(highlightElementPayload);
+            expect(pubSub.publish.mock.calls[1][0]).toEqual(editElementEvent.type);
+            expect(pubSub.publish.mock.calls[1][1]).toEqual(editElementPayload);
+        });
+        it('opens the property editor of STAGE_STEP when error is from STAGE_STEP', () => {
+            const errorMsgComponentParentChild = createComponentUnderTest({
+                info: {
+                    message: {
+                        erroneousElementApiName: mockOrchestratorStep.name,
+                        errorCode: 'FIELD_INVALID_VALUE',
+                        message: mockOrchestratorStep.name + '(Orchestration Step) - some error message'
+                    }
+                }
+            });
+            const parent = mockOrchestratorStage;
+            const locatorIconClickedEvent = new LocatorIconClickedEvent(parent.guid);
+            const highlightElementPayload = { elementGuid: parent.guid };
+            const editElementEvent = new EditElementEvent(parent.guid);
+            const editElementPayload = {
+                mode: editElementEvent.detail.mode,
+                canvasElementGUID: mockOrchestratorStep.guid
             };
             errorMsgComponentParentChild.shadowRoot.querySelector(selectors.link).click();
             expect(pubSub.publish.mock.calls[0][0]).toEqual(locatorIconClickedEvent.type);

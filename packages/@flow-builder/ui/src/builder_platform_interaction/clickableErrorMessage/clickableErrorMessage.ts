@@ -6,7 +6,10 @@ import { pubSub } from 'builder_platform_interaction/pubSub';
 import { getElementByDevName, getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { usedBy } from 'builder_platform_interaction/usedByLib';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
-import { childElementTypeToParentDescriptorKeyMap } from 'builder_platform_interaction/elementConfig';
+import {
+    childElementTypeToParentDescriptorKeyMap,
+    elementTypeToConfigMap
+} from 'builder_platform_interaction/elementConfig';
 
 export default class ClickableMessage extends LightningElement {
     @api info;
@@ -22,7 +25,10 @@ export default class ClickableMessage extends LightningElement {
             const locatorIconClickedEvent: any = new LocatorIconClickedEvent(parentGuid ? parentGuid : element.guid);
             const editElementPayload: any = {
                 mode: editElementEvent.detail.mode,
-                canvasElementGUID: parentGuid ? parentGuid : element.guid
+                canvasElementGUID:
+                    parentGuid && elementTypeToConfigMap[element.elementType].hasOwnPropertyEditor === false
+                        ? parentGuid
+                        : element.guid
             };
             const highlightElementPayload: any = { elementGuid: parentGuid ? parentGuid : element.guid };
 

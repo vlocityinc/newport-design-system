@@ -621,7 +621,8 @@ export const elementTypeToConfigMap: {
         isChildElement: true,
         factory: {
             propertyEditor: createWaitEvent
-        }
+        },
+        hasOwnPropertyEditor: false
     },
 
     [ELEMENT_TYPE.LOOP]: {
@@ -791,7 +792,8 @@ export const elementTypeToConfigMap: {
         isChildElement: true,
         factory: {
             propertyEditor: createOutcome
-        }
+        },
+        hasOwnPropertyEditor: false
     },
     [ELEMENT_TYPE.SCHEDULED_PATH]: {
         // Scheduled Path is not a canvas element, but is a first class element
@@ -800,7 +802,8 @@ export const elementTypeToConfigMap: {
             singular: LABELS.scheduledPathSingularLabel,
             plural: LABELS.scheduledPathPluralLabel
         },
-        isChildElement: true
+        isChildElement: true,
+        hasOwnPropertyEditor: false
     },
     [ELEMENT_TYPE.VARIABLE]: {
         descriptor: 'builder_platform_interaction:variableConstantEditor',
@@ -1025,7 +1028,8 @@ export const elementTypeToConfigMap: {
         factory: {
             propertyEditor: createScreenField
         },
-        nonHydratableProperties: ['inputsOnNextNavToAssocScrn']
+        nonHydratableProperties: ['inputsOnNextNavToAssocScrn'],
+        hasOwnPropertyEditor: false
     },
     [ELEMENT_TYPE.END_ELEMENT]: {
         nodeConfig: {
