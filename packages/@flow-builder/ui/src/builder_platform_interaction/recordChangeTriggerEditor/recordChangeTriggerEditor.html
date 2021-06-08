@@ -128,46 +128,15 @@
                     </div>
                 </legend>
                 <div class="slds-form-element__control">
+                    <!-- Display BeforeSave and AfterSave Trigger label and description -->
                     <div if:false={isDeleteRecordTriggerType}>
-                        <span class="slds-radio">
-                            <input
-                                class="beforeSave"
-                                type="radio"
-                                id="radio-before-save"
-                                value={triggerType}
-                                name="triggerType"
-                                checked={isBeforeSave}
-                                onchange={handleTypeBeforeSave}
-                            />
-                            <label class="slds-radio__label" for="radio-before-save">
-                                <span class="slds-radio_faux"></span>
-                                <b><span class="slds-form-element__label">{labels.triggerTypeBeforeSave}</span></b>
-                            </label>
-                        </span>
-                        <div class="slds-form-element__label slds-form-element slds-m-left_large">
-                            {labels.triggerTypeBeforeSaveDescription}
-                        </div>
-
-                        <span class="slds-radio">
-                            <input
-                                class="afterSave"
-                                type="radio"
-                                id="radio-after-save"
-                                value={triggerType}
-                                name="triggerType"
-                                onchange={handleTypeAfterSave}
-                                checked={isAfterSave}
-                            />
-                            <label class="slds-radio__label" for="radio-after-save">
-                                <span class="slds-radio_faux"></span>
-                                <b><span class="slds-form-element__label">{labels.triggerTypeAfterSave}</span></b>
-                            </label>
-                        </span>
-                        <div class="slds-form-element__label slds-form-element slds-m-left_large">
-                            {labels.triggerTypeAfterSaveDescription}
-                        </div>
+                        <builder_platform_interaction-visual-picker-list
+                            items={beforeAfterSaveItems}
+                            radio-group-name="BeforeAfterSave"
+                            onvisualpickerlistchanged={handleTypeSelection}
+                        >
+                        </builder_platform_interaction-visual-picker-list>
                     </div>
-
                     <!-- Display Before Delete Trigger label and description if RecordTriggerType "Delete" is selected -->
                     <div if:true={isDeleteRecordTriggerType} class="slds-m-left_large">
                         <label class="slds-radio__label afterSave" for="radio-before-delete">

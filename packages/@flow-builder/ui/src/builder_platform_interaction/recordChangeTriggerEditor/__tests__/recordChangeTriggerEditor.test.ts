@@ -5,10 +5,12 @@ import { query, setDocumentBodyChildren, ticks } from 'builder_platform_interact
 import RecordChangeTriggerEditor from '../recordChangeTriggerEditor';
 import { UpdateNodeEvent } from 'builder_platform_interaction/events';
 
+const { AFTER_SAVE, BEFORE_DELETE, BEFORE_SAVE } = FLOW_TRIGGER_TYPE;
+const { CREATE, UPDATE, DELETE } = FLOW_TRIGGER_SAVE_TYPE;
+
 const SELECTORS = {
     SAVE_TYPE_SECTION: 'lightning-radio-group.recordCreateOrUpdate',
-    TRIGGER_TYPE_BEFORE_SAVE: 'input.beforeSave',
-    TRIGGER_TYPE_AFTER_SAVE: 'input.afterSave',
+    TRIGGER_TYPE_SELECTION: 'builder_platform_interaction-visual-picker-list',
     BEFORE_DELETE_INFO_BOX: 'div.beforeDeleteInfo',
     RUN_ON_SUCCESS_CHECKBOX: 'lightning-input.test-input-selection-checkbox',
     REQUIRE_RECORD_CHANGE_OPTION: 'div.test-require-record-change-option',
@@ -68,106 +70,95 @@ function recordChangeTriggerElement(flowTriggerType, recordTriggerType) {
 
 describe('record-change-trigger-editor', () => {
     it('handles recordTriggerType updates', () => {
-        const element = createComponentForTest(
-            recordChangeTriggerElement(FLOW_TRIGGER_TYPE.BEFORE_SAVE, FLOW_TRIGGER_SAVE_TYPE.CREATE)
-        );
+        const element = createComponentForTest(recordChangeTriggerElement(BEFORE_SAVE, CREATE));
         const event = new CustomEvent('change', {
             detail: {
-                value: FLOW_TRIGGER_SAVE_TYPE.UPDATE
+                value: UPDATE
             }
         });
         query(element, SELECTORS.SAVE_TYPE_SECTION).dispatchEvent(event);
 
-        expect(element.node.recordTriggerType.value).toBe(FLOW_TRIGGER_SAVE_TYPE.UPDATE);
+        expect(element.node.recordTriggerType.value).toBe(UPDATE);
         const requireRecordChangeOptions = element.shadowRoot.querySelector(SELECTORS.REQUIRE_RECORD_CHANGE_OPTION);
         expect(requireRecordChangeOptions).not.toBeUndefined();
     });
 
     it('handles typeBeforeSave get selected', () => {
-        const element = createComponentForTest(
-            recordChangeTriggerElement(FLOW_TRIGGER_TYPE.BEFORE_SAVE, FLOW_TRIGGER_SAVE_TYPE.CREATE)
-        );
-        const event = new CustomEvent('change');
-        query(element, SELECTORS.TRIGGER_TYPE_BEFORE_SAVE).dispatchEvent(event);
+        const element = createComponentForTest(recordChangeTriggerElement(BEFORE_SAVE, CREATE));
+        const event = new CustomEvent('visualpickerlistchanged', {
+            detail: {
+                items: [{ id: BEFORE_SAVE, isSelected: true }]
+            }
+        });
+        query(element, SELECTORS.TRIGGER_TYPE_SELECTION).dispatchEvent(event);
 
-        expect(element.node.triggerType.value).toBe(FLOW_TRIGGER_TYPE.BEFORE_SAVE);
+        expect(element.node.triggerType.value).toBe(BEFORE_SAVE);
+        expect(query(element, SELECTORS.BEFORE_DELETE_INFO_BOX)).toBeNull();
     });
 
     it('handles typeAfterSave get selected', () => {
-        const element = createComponentForTest(
-            recordChangeTriggerElement(FLOW_TRIGGER_TYPE.BEFORE_SAVE, FLOW_TRIGGER_SAVE_TYPE.CREATE)
-        );
-        const event = new CustomEvent('change');
-        query(element, SELECTORS.TRIGGER_TYPE_AFTER_SAVE).dispatchEvent(event);
+        const element = createComponentForTest(recordChangeTriggerElement(BEFORE_SAVE, CREATE));
+        const event = new CustomEvent('visualpickerlistchanged', {
+            detail: {
+                items: [{ id: AFTER_SAVE, isSelected: true }]
+            }
+        });
+        query(element, SELECTORS.TRIGGER_TYPE_SELECTION).dispatchEvent(event);
 
-        expect(element.node.triggerType.value).toBe(FLOW_TRIGGER_TYPE.AFTER_SAVE);
+        expect(element.node.triggerType.value).toBe(AFTER_SAVE);
         expect(query(element, SELECTORS.BEFORE_DELETE_INFO_BOX)).toBeNull();
     });
 
     it('Verify Delete record trigger type auto selects Before Delete as the Flow Trigger', () => {
-        const element = createComponentForTest(
-            recordChangeTriggerElement(FLOW_TRIGGER_TYPE.BEFORE_SAVE, FLOW_TRIGGER_SAVE_TYPE.CREATE)
-        );
-        query(element, SELECTORS.SAVE_TYPE_SECTION).dispatchEvent(
-            createRecordTriggerCustomEvent(FLOW_TRIGGER_SAVE_TYPE.DELETE)
-        );
+        const element = createComponentForTest(recordChangeTriggerElement(BEFORE_SAVE, CREATE));
+        query(element, SELECTORS.SAVE_TYPE_SECTION).dispatchEvent(createRecordTriggerCustomEvent(DELETE));
         // Setting the record trigger type to Delete should automatically select Before Delete flow trigger type
-        expect(element.node.recordTriggerType.value).toBe(FLOW_TRIGGER_SAVE_TYPE.DELETE);
-        expect(element.node.triggerType.value).toBe(FLOW_TRIGGER_TYPE.BEFORE_DELETE);
+        expect(element.node.recordTriggerType.value).toBe(DELETE);
+        expect(element.node.triggerType.value).toBe(BEFORE_DELETE);
         expect(query(element, SELECTORS.BEFORE_DELETE_INFO_BOX)).toBeDefined();
     });
 
     it('Verify switching from delete to create auto selects previously selected Flow Trigger type', () => {
-        const element = createComponentForTest(
-            recordChangeTriggerElement(FLOW_TRIGGER_TYPE.AFTER_SAVE, FLOW_TRIGGER_SAVE_TYPE.CREATE)
-        );
+        const element = createComponentForTest(recordChangeTriggerElement(AFTER_SAVE, CREATE));
         // Switch to Delete
-        query(element, SELECTORS.SAVE_TYPE_SECTION).dispatchEvent(
-            createRecordTriggerCustomEvent(FLOW_TRIGGER_SAVE_TYPE.DELETE)
-        );
+        query(element, SELECTORS.SAVE_TYPE_SECTION).dispatchEvent(createRecordTriggerCustomEvent(DELETE));
 
         // Switch to Create
-        query(element, SELECTORS.SAVE_TYPE_SECTION).dispatchEvent(
-            createRecordTriggerCustomEvent(FLOW_TRIGGER_SAVE_TYPE.CREATE)
-        );
+        query(element, SELECTORS.SAVE_TYPE_SECTION).dispatchEvent(createRecordTriggerCustomEvent(CREATE));
         // Setting the record trigger type to Create should automatically select the flow trigger type which was prior to selecting
         // Delete. In this case, the recordChangeTriggerElement is defined as After Save, so selecting from delete to create
         // should select Before Save as the flow trigger type
-        expect(element.node.recordTriggerType.value).toBe(FLOW_TRIGGER_SAVE_TYPE.CREATE);
-        expect(element.node.triggerType.value).toBe(FLOW_TRIGGER_TYPE.AFTER_SAVE);
+        expect(element.node.recordTriggerType.value).toBe(CREATE);
+        expect(element.node.triggerType.value).toBe(AFTER_SAVE);
     });
 
     it('Verify switching from delete to create auto selects Flow Trigger type to After Save if Flow Trigger type is found as null in the start element', () => {
-        const element = createComponentForTest(recordChangeTriggerElement(null, FLOW_TRIGGER_SAVE_TYPE.DELETE));
+        const element = createComponentForTest(recordChangeTriggerElement(null, DELETE));
 
         // Switch to Create
-        query(element, SELECTORS.SAVE_TYPE_SECTION).dispatchEvent(
-            createRecordTriggerCustomEvent(FLOW_TRIGGER_SAVE_TYPE.CREATE)
-        );
+        query(element, SELECTORS.SAVE_TYPE_SECTION).dispatchEvent(createRecordTriggerCustomEvent(CREATE));
         // Setting the record trigger type to Create should automatically select the flow trigger type to Before Save if Flow trigger type
         // is found as null.. Ideally, this shouldn't happen, but a negative test case to ensure Flow Trigger Type is always set to a valid
         // trigger type value and doesn't leave the start element in invalid state
-        expect(element.node.recordTriggerType.value).toBe(FLOW_TRIGGER_SAVE_TYPE.CREATE);
-        expect(element.node.triggerType.value).toBe(FLOW_TRIGGER_TYPE.AFTER_SAVE);
+        expect(element.node.recordTriggerType.value).toBe(CREATE);
+        expect(element.node.triggerType.value).toBe(AFTER_SAVE);
     });
 
     describe('UpdateNodeEvent', () => {
         it('dispatched on handleTypeBeforeSave', async () => {
             expect.assertions(1);
-            const element = createComponentForTest(
-                recordChangeTriggerElement(FLOW_TRIGGER_TYPE.BEFORE_SAVE, FLOW_TRIGGER_SAVE_TYPE.CREATE)
-            );
+            const element = createComponentForTest(recordChangeTriggerElement(BEFORE_SAVE, CREATE));
             const updateNodeCallback = jest.fn();
             element.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
 
             await ticks(1);
 
-            const event = new CustomEvent('change', {
+            const event = new CustomEvent('visualpickerlistchanged', {
                 detail: {
-                    value: FLOW_TRIGGER_SAVE_TYPE.UPDATE
+                    items: [{ id: BEFORE_SAVE, isSelected: true }]
                 }
             });
-            query(element, SELECTORS.TRIGGER_TYPE_BEFORE_SAVE).dispatchEvent(event);
+            query(element, SELECTORS.TRIGGER_TYPE_SELECTION).dispatchEvent(event);
 
             expect(updateNodeCallback).toHaveBeenCalledWith(
                 expect.objectContaining({
@@ -177,16 +168,14 @@ describe('record-change-trigger-editor', () => {
         });
         it('dispatched on handleTypeBeforeDelete', async () => {
             expect.assertions(1);
-            const element = createComponentForTest(recordChangeTriggerElement(null, FLOW_TRIGGER_SAVE_TYPE.DELETE));
+            const element = createComponentForTest(recordChangeTriggerElement(null, DELETE));
 
             const updateNodeCallback = jest.fn();
             element.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
 
             await ticks(1);
 
-            query(element, SELECTORS.SAVE_TYPE_SECTION).dispatchEvent(
-                createRecordTriggerCustomEvent(FLOW_TRIGGER_SAVE_TYPE.DELETE)
-            );
+            query(element, SELECTORS.SAVE_TYPE_SECTION).dispatchEvent(createRecordTriggerCustomEvent(DELETE));
 
             expect(updateNodeCallback).toHaveBeenCalledWith(
                 expect.objectContaining({
@@ -197,21 +186,19 @@ describe('record-change-trigger-editor', () => {
 
         it('dispatched on handleTypeAfterSave', async () => {
             expect.assertions(1);
-            const element = createComponentForTest(
-                recordChangeTriggerElement(FLOW_TRIGGER_TYPE.BEFORE_SAVE, FLOW_TRIGGER_SAVE_TYPE.CREATE)
-            );
+            const element = createComponentForTest(recordChangeTriggerElement(BEFORE_SAVE, CREATE));
 
             const updateNodeCallback = jest.fn();
             element.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
 
             await ticks(1);
 
-            const event = new CustomEvent('change', {
+            const event = new CustomEvent('visualpickerlistchanged', {
                 detail: {
-                    value: FLOW_TRIGGER_SAVE_TYPE.UPDATE
+                    items: [{ id: AFTER_SAVE, isSelected: true }]
                 }
             });
-            query(element, SELECTORS.TRIGGER_TYPE_AFTER_SAVE).dispatchEvent(event);
+            query(element, SELECTORS.TRIGGER_TYPE_SELECTION).dispatchEvent(event);
 
             expect(updateNodeCallback).toHaveBeenCalledWith(
                 expect.objectContaining({
@@ -222,9 +209,7 @@ describe('record-change-trigger-editor', () => {
 
         it('dispatched on toggleRunOnSuccess', async () => {
             expect.assertions(1);
-            const element = createComponentForTest(
-                recordChangeTriggerElement(FLOW_TRIGGER_TYPE.AFTER_SAVE, FLOW_TRIGGER_SAVE_TYPE.CREATE)
-            );
+            const element = createComponentForTest(recordChangeTriggerElement(AFTER_SAVE, CREATE));
 
             const updateNodeCallback = jest.fn();
             element.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
@@ -247,10 +232,7 @@ describe('record-change-trigger-editor', () => {
 
         it('conditionLogic is present and disabled when record trigger criteria is not met anymore', async () => {
             expect.assertions(3);
-            const startElement = recordChangeTriggerElement(
-                FLOW_TRIGGER_TYPE.AFTER_SAVE,
-                FLOW_TRIGGER_SAVE_TYPE.CREATE
-            );
+            const startElement = recordChangeTriggerElement(AFTER_SAVE, CREATE);
             startElement.object = '';
             const element = createComponentForTest(startElement);
             const recordEntryConditions = element.shadowRoot.querySelector(SELECTORS.RECORD_ENTRY_CONDITIONS);

@@ -27,4 +27,11 @@ export default class VisualPickerItem extends LightningElement {
         event.stopPropagation();
         this.dispatchEvent(new VisualPickerItemChangedEvent(this.itemId, event.currentTarget.checked));
     }
+
+    /** when no icon provided, hide the whole icon section including border */
+    get itemClasses() {
+        return this.iconName
+            ? 'slds-media__body slds-border_left slds-p-left_small'
+            : 'slds-media__body slds-p-left_small';
+    }
 }

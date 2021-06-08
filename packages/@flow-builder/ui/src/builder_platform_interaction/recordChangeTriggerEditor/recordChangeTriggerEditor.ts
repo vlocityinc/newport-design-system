@@ -65,7 +65,24 @@ export default class RecordChangeTriggerEditor extends LightningElement {
     // decides to switch back from DELETE to CREATE, UPDATE or CREATEUPDATE
     oldFlowTriggerType = '';
 
-    labels = LABELS;
+    get beforeAfterSaveItems() {
+        return [
+            {
+                itemId: BEFORE_SAVE,
+                label: this.labels.triggerTypeBeforeSave,
+                description: this.labels.triggerTypeBeforeSaveDescription,
+                isSelected: this.isBeforeSave,
+                iconName: null
+            },
+            {
+                itemId: AFTER_SAVE,
+                label: this.labels.triggerTypeAfterSave,
+                description: this.labels.triggerTypeAfterSaveDescription,
+                isSelected: this.isAfterSave,
+                iconName: null
+            }
+        ];
+    }
 
     @api
     get node() {
@@ -78,6 +95,7 @@ export default class RecordChangeTriggerEditor extends LightningElement {
 
     /**
      * public api function to return the node
+     *
      * @returns node - node
      */
     @api
@@ -320,6 +338,7 @@ export default class RecordChangeTriggerEditor extends LightningElement {
 
     /**
      * public api function to run the rules from record change trigger validation library
+     *
      * @returns list of errors
      */
     @api
@@ -357,6 +376,7 @@ export default class RecordChangeTriggerEditor extends LightningElement {
 
     /**
      * Updates a field by creating a PropertyChangedEvent and passing it to the reducer
+     *
      * @param prop - the name of the field to update
      * @param value - the value for the field
      */
@@ -370,6 +390,8 @@ export default class RecordChangeTriggerEditor extends LightningElement {
 
     /**
      * Handles Record Trigger Type and Flow Trigger Type radio button selection in Configure Trigger Modal
+     *
+     * @param event
      */
     handleTriggerSaveTypeChange = (event) => {
         this._updateField(START_ELEMENT_FIELDS.TRIGGER_SAVE_TYPE, event.detail.value);
@@ -380,6 +402,20 @@ export default class RecordChangeTriggerEditor extends LightningElement {
             this.oldFlowTriggerType = this.startElement.triggerType.value;
             this.handleTypeBeforeDelete();
         } else if (this.startElement.triggerType.value === BEFORE_SAVE || this.oldFlowTriggerType === BEFORE_SAVE) {
+            this.handleTypeBeforeSave();
+        } else {
+            this.handleTypeAfterSave();
+        }
+    };
+
+    /**
+     * Handles Trigger Type visual picker list selection in Configure Trigger Modal
+     *
+     * @param event - visualpickerlistchanged event from visual-picker-list component.
+     */
+    handleTypeSelection = (event) => {
+        const selectedItemId = event.detail.items.find((item) => item.isSelected)?.id;
+        if (selectedItemId === BEFORE_SAVE) {
             this.handleTypeBeforeSave();
         } else {
             this.handleTypeAfterSave();
@@ -442,6 +478,7 @@ export default class RecordChangeTriggerEditor extends LightningElement {
 
     /**
      * Instantiates property changed event based to handle property change and updating via element's reducer state accordingly
+     *
      * @param propertyName - name of the property changed
      * @param newValue - new value to be passed to property
      * @param error - error on property
