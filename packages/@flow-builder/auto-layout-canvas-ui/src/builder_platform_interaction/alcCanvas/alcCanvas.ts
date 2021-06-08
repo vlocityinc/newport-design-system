@@ -886,9 +886,7 @@ export default class AlcCanvas extends LightningElement {
      */
     handleMoveFocusToConnector = (event: MoveFocusToConnectorEvent) => {
         event.stopPropagation();
-        const pathToFocusNode = getFocusPath(this.flowModel, [{ guid: event.detail.focusGuid }]);
-        const alcFlow = this.template.querySelector('builder_platform_interaction-alc-flow');
-        alcFlow.findConnector(pathToFocusNode, event.detail.index).focus();
+        this.moveFocusToConnector(event.detail.focusGuid, event.detail.index);
     };
 
     /**
@@ -1206,6 +1204,20 @@ export default class AlcCanvas extends LightningElement {
         }
     };
 
+    @api
+    moveFocusToConnector = (guid, childIndex) => {
+        const pathToFocusNode = getFocusPath(this.flowModel, [
+            { guid: this.flowModel[guid].prev || this.flowModel[guid].parent }
+        ]);
+        const alcFlow = this.template.querySelector('builder_platform_interaction-alc-flow');
+        alcFlow.findConnector(pathToFocusNode, childIndex).focus();
+    };
+
+    handleDeleteElement = (event) => {
+        const guid = event.detail.selectedElementGUID[0];
+        this.moveFocusToConnector(guid, this.flowModel[guid].childIndex);
+    };
+
     handleBranchElementDeletion = (event: DeleteBranchElementEvent) => {
         const { selectedElementGUID, selectedElementType, childIndexToKeep } = event.detail;
         if (childIndexToKeep != null) {
@@ -1249,5 +1261,6 @@ export default class AlcCanvas extends LightningElement {
         } else {
             this.dispatchEvent(new DeleteElementEvent(selectedElementGUID, selectedElementType, childIndexToKeep));
         }
+        this.moveFocusToConnector(selectedElementGUID[0], this.flowModel[selectedElementGUID[0]].childIndex);
     };
 }

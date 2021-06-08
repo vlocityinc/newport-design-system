@@ -177,6 +177,7 @@ describe('Auto Layout Canvas', () => {
 
     beforeEach(() => {
         cmp = createComponentForTest();
+        cmp.moveFocusToConnector = jest.fn();
     });
 
     const getOverlay = () => cmp.shadowRoot.querySelector('.canvas-overlay');
@@ -521,6 +522,7 @@ describe('Auto Layout Canvas', () => {
                 'Decision',
                 null
             );
+            cmp.moveFocusToConnector = jest.fn();
             await dispatchEvent(nodeMenu, deleteBranchElementEvent);
             expect(callback).toHaveBeenCalled();
         });
@@ -629,6 +631,57 @@ describe('Auto Layout Canvas', () => {
             );
             await dispatchEvent(nodeMenu, deleteBranchElementEvent);
             expect(callback).toHaveBeenCalled();
+        });
+    });
+
+    describe('focus', () => {
+        it('the focus changes to the right connector "+" when deleting an element', async () => {
+            const flow = getFlow();
+            const nodeToggleMenuEvent = new ToggleMenuEvent({
+                guid: 'screen-one',
+                left: 702.0999755859375,
+                offsetX: 2.4000244140625,
+                top: 140,
+                type: MenuType.NODE,
+                elementMetadata: { supportsMenu: true }
+            });
+            await dispatchEvent(flow, nodeToggleMenuEvent);
+            const nodeMenu = getNodeMenu();
+            const deleteElementEvent = new DeleteElementEvent(['screen-one'], 'Screen');
+            await dispatchEvent(nodeMenu, deleteElementEvent);
+            expect(cmp.moveFocusToConnector).toHaveBeenCalledWith('screen-one', undefined);
+        });
+        it('the focus changes to the right connector "+" when deleting an element with branches', async () => {
+            const flow = getFlow();
+            const nodeToggleMenuEvent = new ToggleMenuEvent({
+                guid: 'decision',
+                left: 702.0999755859375,
+                offsetX: 2.4000244140625,
+                top: 140,
+                type: MenuType.NODE,
+                elementMetadata: { supportsMenu: true }
+            });
+            await dispatchEvent(flow, nodeToggleMenuEvent);
+            const nodeMenu = getNodeMenu();
+            const deleteElementEvent = new DeleteElementEvent(['decision'], 'Decision', null);
+            await dispatchEvent(nodeMenu, deleteElementEvent);
+            expect(cmp.moveFocusToConnector).toHaveBeenCalledWith('decision', undefined);
+        });
+        it('the focus changes to the right connector "+" when deleting a branch element', async () => {
+            const flow = getFlow();
+            const nodeToggleMenuEvent = new ToggleMenuEvent({
+                guid: 'screen-two',
+                left: 702.0999755859375,
+                offsetX: 2.4000244140625,
+                top: 140,
+                type: MenuType.NODE,
+                elementMetadata: { supportsMenu: true }
+            });
+            await dispatchEvent(flow, nodeToggleMenuEvent);
+            const nodeMenu = getNodeMenu();
+            const deleteElementEvent = new DeleteBranchElementEvent(['screen-two'], 'Screen', null);
+            await dispatchEvent(nodeMenu, deleteElementEvent);
+            expect(cmp.moveFocusToConnector).toHaveBeenCalledWith('screen-two', 1);
         });
     });
 
