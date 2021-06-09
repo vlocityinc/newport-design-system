@@ -43,8 +43,8 @@
         </div>
     </div>
     <!-- Choose record save trigger (on create vs update) -->
-    <div class="slds-border_top slds-p-horizontal_small slds-p-around_large">
-        <div class="slds-form slds-p-bottom_small slds-size_1-of-2">
+    <div class="slds-border_top slds-p-horizontal_small slds-p-around_medium">
+        <div class="slds-form slds-p-horizontal_small slds-p-bottom_small slds-size_1-of-2">
             <div class="slds-text-heading_medium">{editTriggerLabel}</div>
             <div class="slds-text-body_small slds-text-color_weak slds-m-bottom_medium slds-p-top_small">
                 {editTriggerDescription}
@@ -63,8 +63,8 @@
     </div>
     <div class="slds-border_top slds-p-around_medium">
         <div class="slds-form slds-p-bottom_small slds-size_1-of-2">
-            <div class="slds-p-left_medium slds-text-heading_medium slds-form-element">{setConditionsHeaderLabel}</div>
-            <div class="slds-p-left_large slds-text-body_small slds-text-color_weak slds-p-left_small slds-p-top_small">
+            <div class="slds-p-left_small slds-text-heading_medium slds-form-element">{setConditionsHeaderLabel}</div>
+            <div class="slds-p-left_small slds-text-body_small slds-text-color_weak slds-p-left_small slds-p-top_small">
                 {setConditionsDescription}
             </div>
         </div>
@@ -118,11 +118,11 @@
         </div>
     </div>
     <!-- choose trigger type (before vs. after save) -->
-    <div class="slds-border_top slds-p-horizontal_small slds-p-around_medium">
+    <div class="slds-border_top slds-p-horizontal_medium">
         <div class="slds-form">
             <fieldset class="slds-form-element">
                 <legend class="slds-form-element__legend slds-form-element__label">
-                    <div class="slds-align-top">
+                    <div class="slds-align-top slds-p-vertical_small">
                         <abbr class="slds-required" title={labels.requiredLabel}>*</abbr
                         >{labels.recordChangeTriggerTypeInputLabel}
                     </div>
@@ -161,7 +161,7 @@
         </div>
     </div>
 
-    <div class="slds-p-horizontal_small slds-p-around_medium slds-m-bottom_large">
+    <div class="slds-p-horizontal_medium slds-m-bottom_large">
         <lightning-input
             label={runOnSuccessScheduledPathCheckboxLabel}
             type="checkbox"
