@@ -8,7 +8,7 @@ import {
     WAIT_EVENT_FIELDS
 } from 'builder_platform_interaction/flowMetadata';
 import {
-    baseCanvasElement,
+    baseCanvasElementWithFault,
     createPastedCanvasElement,
     duplicateCanvasElementWithChildElements,
     baseCanvasElementsArrayToMap,
@@ -183,7 +183,7 @@ export const createWaitEventOutputParameters = (eventType, outputParameters = []
  * @returns {waitInPropertyEditor} Wait in the shape expected by a property editor
  */
 export function createWaitWithWaitEvents(wait = {}) {
-    const newWait = baseCanvasElement(wait);
+    const newWait = baseCanvasElementWithFault(wait);
     let { waitEvents } = wait;
     const { defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel, childReferences } = wait;
 
@@ -421,7 +421,7 @@ export function createWaitMetadataObject(wait, config = {}) {
  */
 // TODO: this code is almost identical to the code in decision.ts, need to refactor
 export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(wait) {
-    const newWait = baseCanvasElement(wait);
+    const newWait = baseCanvasElementWithFault(wait);
     const { defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel, waitEvents } = wait;
     let childReferences = [];
     let newWaitEvents = [];
@@ -491,7 +491,7 @@ export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
  * @returns {waitInStore} wait in the shape used by the store
  */
 export function createWaitWithWaitEventReferences(wait = {}) {
-    const newWait = baseCanvasElement(wait);
+    const newWait = baseCanvasElementWithFault(wait);
     let newWaitEvents = [],
         childReferences = [],
         availableConnections = [];

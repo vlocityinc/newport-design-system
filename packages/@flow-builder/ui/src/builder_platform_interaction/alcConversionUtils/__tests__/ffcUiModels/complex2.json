@@ -124,6 +124,7 @@
             "eventType": "AlarmEvent",
             "eventTypeIndex": "30161721-9300-457d-a5f8-8b449af2927d",
             "guid": "1dc24e59-f878-4b4d-b9c3-b01288353093",
+            "canHaveFaultConnector": true,
             "inputParameters": [
                 {
                     "name": "AlarmTime",
@@ -169,6 +170,7 @@
             "eventType": "AlarmEvent",
             "eventTypeIndex": "494293ec-dd9a-4eb0-b277-d290b8f10d6d",
             "guid": "1f062f6c-1df5-4093-8b9d-d79a5c4046ed",
+            "canHaveFaultConnector": true,
             "inputParameters": [
                 {
                     "name": "AlarmTime",
@@ -214,6 +216,7 @@
             "eventType": "AlarmEvent",
             "eventTypeIndex": "30161721-9300-457d-a5f8-8b449af2927d",
             "guid": "284961c4-b298-4e69-a482-3b8ddf72c57d",
+            "canHaveFaultConnector": true,
             "inputParameters": [
                 {
                     "name": "AlarmTime",
@@ -285,6 +288,7 @@
             "eventType": "AlarmEvent",
             "eventTypeIndex": "494293ec-dd9a-4eb0-b277-d290b8f10d6d",
             "guid": "3edde502-2d07-4f34-995c-20cc157dc68c",
+            "canHaveFaultConnector": true,
             "inputParameters": [
                 {
                     "name": "AlarmTime",
@@ -345,6 +349,7 @@
             "elementType": "Decision",
             "guid": "8236c6f9-eac7-446b-a173-bbf5b8c6cc62",
             "isCanvasElement": true,
+            "canHaveFaultConnector": false,
             "label": "",
             "locationX": 980.25,
             "locationY": 326,
@@ -393,6 +398,7 @@
             "defaultConnectorLabel": "DEFAULT",
             "description": "",
             "elementType": "Wait",
+            "canHaveFaultConnector": true,
             "guid": "8c221d95-56e8-47d7-b7b3-8b254b681113",
             "isCanvasElement": true,
             "label": "",
@@ -425,6 +431,7 @@
             "elementType": "Decision",
             "guid": "9740b7a8-f70f-4901-a2a4-b3ab5e89223c",
             "isCanvasElement": true,
+            "canHaveFaultConnector": false,
             "label": "",
             "locationX": 1095.75,
             "locationY": 686,
@@ -491,6 +498,7 @@
             "defaultConnectorLabel": "DEFAULT",
             "description": "",
             "elementType": "Wait",
+            "canHaveFaultConnector": true,
             "guid": "c960371d-0263-4a33-9020-c7ce9ef2bbf4",
             "isCanvasElement": true,
             "label": "",
@@ -523,6 +531,7 @@
             "elementType": "Decision",
             "guid": "e2416230-209e-43e2-919e-0ca22e477292",
             "isCanvasElement": true,
+            "canHaveFaultConnector": false,
             "label": "",
             "locationX": 488,
             "locationY": 206,

@@ -15,6 +15,7 @@ export const fieldServiceMobileFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             elementType: 'START_ELEMENT',
             maxConnections: 1,
             triggerType: 'None',
@@ -53,6 +54,7 @@ export const fieldServiceMobileFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             childReferences: [
                 {
                     childReference: 'a4451815-988d-4f17-883d-64b6ad9fab7e'
@@ -169,6 +171,7 @@ export const fieldServiceMobileFlowUIModel = {
                 hasError: false
             },
             elementSubtype: null,
+            canHaveFaultConnector: true,
             object: '',
             objectIndex: '34ff5f58-8d99-470d-a755-a2aa0dc69f59',
             getFirstRecordOnly: true,
@@ -202,6 +205,7 @@ export const fieldServiceMobileFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             object: 'Account',
             objectIndex: 'a733e74b-1a25-43dc-b43c-d126c849023d',
             outputReference: 'ed85c895-feb5-45cb-b486-49cfd9da8e20',
@@ -259,6 +263,7 @@ export const fieldServiceMobileFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             object: 'Account',
             objectIndex: '3f70f36b-030f-4b90-ba09-866642ba5d4b',
             outputReference: 'ed85c895-feb5-45cb-b486-49cfd9da8e20',
@@ -316,6 +321,7 @@ export const fieldServiceMobileFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             object: 'Account',
             objectIndex: '7ab29c0c-3dbf-4f99-a94c-311ef891973f',
             outputAssignments: [
@@ -375,6 +381,7 @@ export const fieldServiceMobileFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             assignNextValueToReference: 'ed85c895-feb5-45cb-b486-49cfd9da8e20',
             assignNextValueToReferenceIndex: 'dd4270aa-df83-4942-ac0f-37ce8072ccaa',
             collectionReference: 'bf05168b-6bd9-483a-8ea8-5e4d73a1c717',
@@ -407,6 +414,7 @@ export const fieldServiceMobileFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             allowHelp: false,
             pauseMessageType: 'standard',
             helpText: '',

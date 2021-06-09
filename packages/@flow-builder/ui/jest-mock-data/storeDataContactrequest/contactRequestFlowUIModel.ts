@@ -15,6 +15,7 @@ export const contactRequestFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             elementType: 'START_ELEMENT',
             maxConnections: 1,
             triggerType: 'None',
@@ -53,6 +54,7 @@ export const contactRequestFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             childReferences: [
                 {
                     childReference: 'a4451815-988d-4f17-883d-64b6ad9fab7e'
@@ -168,6 +170,7 @@ export const contactRequestFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             object: 'Account',
             objectIndex: '53329036-32e6-4965-a1d2-b12cd0344f99',
             outputAssignments: [
@@ -227,6 +230,7 @@ export const contactRequestFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             object: 'Account',
             objectIndex: '69030d84-1e7f-49c3-ad89-ddc4db69050a',
             outputReference: 'bf05168b-6bd9-483a-8ea8-5e4d73a1c717',
@@ -284,6 +288,7 @@ export const contactRequestFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             object: 'Account',
             objectIndex: 'd6c3ef6f-7fc6-4cf7-a440-9ff753bb8c0f',
             outputReference: 'ed85c895-feb5-45cb-b486-49cfd9da8e20',
@@ -341,6 +346,7 @@ export const contactRequestFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             allowHelp: false,
             pauseMessageType: 'standard',
             helpText: '',

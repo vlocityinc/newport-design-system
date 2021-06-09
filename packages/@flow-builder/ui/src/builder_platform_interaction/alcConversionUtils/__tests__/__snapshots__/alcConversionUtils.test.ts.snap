@@ -4227,7 +4227,7 @@ Object {
       "isCanvasElement": true,
       "locationX": 488,
       "locationY": 326,
-      "maxConnections": 2,
+      "maxConnections": 1,
       "object": "",
       "objectIndex": "12c23e8e-4104-40ba-86e0-feb73e787792",
       "triggerType": "None",
@@ -5995,6 +5995,7 @@ Object {
           "type": "FAULT",
         },
       ],
+      "canHaveFaultConnector": true,
       "config": Object {
         "hasError": false,
         "isHighlighted": false,
@@ -6029,6 +6030,7 @@ Object {
           "type": "REGULAR",
         },
       ],
+      "canHaveFaultConnector": true,
       "config": Object {
         "hasError": false,
         "isHighlighted": false,
@@ -6471,6 +6473,7 @@ Object {
   "connectors": Array [],
   "elements": Object {
     "1dc24e59-f878-4b4d-b9c3-b01288353093": Object {
+      "canHaveFaultConnector": true,
       "conditionLogic": "no_conditions",
       "conditions": Array [],
       "dataType": "Boolean",
@@ -6516,6 +6519,7 @@ Object {
       },
     },
     "1f062f6c-1df5-4093-8b9d-d79a5c4046ed": Object {
+      "canHaveFaultConnector": true,
       "conditionLogic": "no_conditions",
       "conditions": Array [],
       "dataType": "Boolean",
@@ -6561,6 +6565,7 @@ Object {
       },
     },
     "284961c4-b298-4e69-a482-3b8ddf72c57d": Object {
+      "canHaveFaultConnector": true,
       "conditionLogic": "no_conditions",
       "conditions": Array [],
       "dataType": "Boolean",
@@ -6635,6 +6640,7 @@ Object {
       "showHeader": true,
     },
     "3edde502-2d07-4f34-995c-20cc157dc68c": Object {
+      "canHaveFaultConnector": true,
       "conditionLogic": "no_conditions",
       "conditions": Array [],
       "dataType": "Boolean",
@@ -6681,6 +6687,7 @@ Object {
     },
     "8236c6f9-eac7-446b-a173-bbf5b8c6cc62": Object {
       "availableConnections": Array [],
+      "canHaveFaultConnector": false,
       "childIndex": 1,
       "childReferences": Array [
         Object {
@@ -6738,6 +6745,7 @@ Object {
           "type": "FAULT",
         },
       ],
+      "canHaveFaultConnector": true,
       "childIndex": 2,
       "childReferences": Array [
         Object {
@@ -6777,6 +6785,7 @@ Object {
     },
     "9740b7a8-f70f-4901-a2a4-b3ab5e89223c": Object {
       "availableConnections": Array [],
+      "canHaveFaultConnector": false,
       "childIndex": 2,
       "childReferences": Array [
         Object {
@@ -6852,6 +6861,7 @@ Object {
           "type": "FAULT",
         },
       ],
+      "canHaveFaultConnector": true,
       "childIndex": 0,
       "childReferences": Array [
         Object {
@@ -6891,6 +6901,7 @@ Object {
     },
     "e2416230-209e-43e2-919e-0ca22e477292": Object {
       "availableConnections": Array [],
+      "canHaveFaultConnector": false,
       "childReferences": Array [
         Object {
           "childReference": "c3931dd6-f2db-4908-8239-1f5d91e85a00",
@@ -7363,6 +7374,7 @@ Object {
           "type": "FAULT",
         },
       ],
+      "canHaveFaultConnector": true,
       "childIndex": 0,
       "config": Object {
         "hasError": false,
@@ -7397,6 +7409,7 @@ Object {
           "type": "FAULT",
         },
       ],
+      "canHaveFaultConnector": true,
       "childIndex": 2,
       "childReferences": Array [
         Object {
@@ -7435,6 +7448,7 @@ Object {
       "prev": "NULL",
     },
     "13504a69-7f74-45e9-93ae-4421faf3ffac": Object {
+      "canHaveFaultConnector": true,
       "conditionLogic": "no_conditions",
       "conditions": Array [],
       "dataType": "Boolean",
@@ -7485,6 +7499,7 @@ Object {
           "type": "FAULT",
         },
       ],
+      "canHaveFaultConnector": true,
       "childReferences": Array [
         Object {
           "childReference": "abae2120-a94c-40d2-af9f-78dc27035bba",
@@ -7520,6 +7535,7 @@ Object {
       "prev": "6877fb80-944c-4641-a89d-25fdbf9ede82",
     },
     "1adb45c0-f74d-4ba8-a2d2-3c95090f28ff": Object {
+      "canHaveFaultConnector": true,
       "conditionLogic": "no_conditions",
       "conditions": Array [],
       "dataType": "Boolean",
@@ -7680,6 +7696,7 @@ Object {
           "type": "FAULT",
         },
       ],
+      "canHaveFaultConnector": true,
       "childReferences": Array [
         Object {
           "childReference": "834479aa-f76e-4216-8000-eb4ba2108ae5",
@@ -7715,6 +7732,7 @@ Object {
       "prev": "55e7ca21-909b-4f1b-9606-c0c02744abc4",
     },
     "834479aa-f76e-4216-8000-eb4ba2108ae5": Object {
+      "canHaveFaultConnector": true,
       "conditionLogic": "no_conditions",
       "conditions": Array [],
       "dataType": "Boolean",
@@ -7805,6 +7823,7 @@ Object {
       },
     },
     "a0e8c2c1-7796-4118-894d-d8b93b49bf48": Object {
+      "canHaveFaultConnector": true,
       "conditionLogic": "no_conditions",
       "conditions": Array [],
       "dataType": "Boolean",
@@ -7850,6 +7869,7 @@ Object {
       },
     },
     "abae2120-a94c-40d2-af9f-78dc27035bba": Object {
+      "canHaveFaultConnector": true,
       "conditionLogic": "no_conditions",
       "conditions": Array [],
       "dataType": "Boolean",
@@ -8042,6 +8062,7 @@ Object {
           "type": "FAULT",
         },
       ],
+      "canHaveFaultConnector": true,
       "childReferences": Array [
         Object {
           "childReference": "57300021-9010-483a-a5fb-3f0340920c74",
@@ -8119,6 +8140,7 @@ Object {
       "storeOutputAutomatically": true,
     },
     "552f2982-e851-4239-9c76-1f85d2b8da86": Object {
+      "canHaveFaultConnector": true,
       "conditionLogic": "no_conditions",
       "conditions": Array [],
       "dataType": "Boolean",
@@ -8164,6 +8186,7 @@ Object {
       },
     },
     "57300021-9010-483a-a5fb-3f0340920c74": Object {
+      "canHaveFaultConnector": true,
       "conditionLogic": "no_conditions",
       "conditions": Array [],
       "dataType": "Boolean",
@@ -8246,6 +8269,7 @@ Object {
       "triggerType": "None",
     },
     "93d3159f-7403-4799-96c3-4f1d3d78bf52": Object {
+      "canHaveFaultConnector": true,
       "conditionLogic": "no_conditions",
       "conditions": Array [],
       "dataType": "Boolean",
@@ -8291,6 +8315,7 @@ Object {
       },
     },
     "96a0372d-b243-4dcf-88a2-3d961f19bffa": Object {
+      "canHaveFaultConnector": true,
       "conditionLogic": "no_conditions",
       "conditions": Array [],
       "dataType": "Boolean",
@@ -8337,6 +8362,7 @@ Object {
     },
     "97b070b5-0657-47ee-bb95-800405a7bcd0": Object {
       "availableConnections": Array [],
+      "canHaveFaultConnector": false,
       "childIndex": 0,
       "childReferences": Array [
         Object {
@@ -8376,6 +8402,7 @@ Object {
           "type": "FAULT",
         },
       ],
+      "canHaveFaultConnector": true,
       "childIndex": 1,
       "childReferences": Array [
         Object {
@@ -10365,6 +10392,7 @@ Object {
     },
     "fault-element-guid": Object {
       "availableConnections": Array [],
+      "canHaveFaultConnector": false,
       "childIndex": -1,
       "childReferences": Array [
         Object {
@@ -10417,6 +10445,7 @@ Object {
     },
     "record-create-element-guid": Object {
       "availableConnections": Array [],
+      "canHaveFaultConnector": true,
       "config": Object {
         "hasError": false,
         "isHighlighted": false,
@@ -10525,6 +10554,7 @@ Object {
           "type": "FAULT",
         },
       ],
+      "canHaveFaultConnector": true,
       "childIndex": -1,
       "config": Object {
         "hasError": false,
@@ -10553,6 +10583,7 @@ Object {
     },
     "record-create-element-guid": Object {
       "availableConnections": Array [],
+      "canHaveFaultConnector": true,
       "config": Object {
         "hasError": false,
         "isHighlighted": false,
@@ -11303,6 +11334,7 @@ Object {
     },
     "6ed52d56-6027-456e-964f-2c6ccf58c6d8": Object {
       "availableConnections": Array [],
+      "canHaveFaultConnector": false,
       "childReferences": Array [
         Object {
           "childReference": "fdcc1a0a-007b-42d8-8532-30a4e72256f8",
@@ -11335,6 +11367,7 @@ Object {
     },
     "8bb0f75b-511b-4f49-a9a5-143a084bf5b6": Object {
       "availableConnections": Array [],
+      "canHaveFaultConnector": false,
       "childReferences": Array [
         Object {
           "childReference": "092db41d-22f3-4068-84ec-00fe13ddeb23",
@@ -11373,6 +11406,7 @@ Object {
           "type": "FAULT",
         },
       ],
+      "canHaveFaultConnector": true,
       "childIndex": 1,
       "config": Object {
         "hasError": false,
@@ -11432,6 +11466,7 @@ Object {
     },
     "9ff9abc6-2000-4c6e-b864-b5f4dd26b563": Object {
       "availableConnections": Array [],
+      "canHaveFaultConnector": false,
       "childReferences": Array [
         Object {
           "childReference": "a562b679-6a0a-4b17-9c81-5bfd807d24aa",
@@ -11511,6 +11546,7 @@ Object {
     },
     "acc8f528-5ce5-4052-8da5-c410ba4fa811": Object {
       "availableConnections": Array [],
+      "canHaveFaultConnector": false,
       "childReferences": Array [
         Object {
           "childReference": "2c4f75d4-67d3-4d6a-b5cb-0da0b1a8b952",
@@ -11793,6 +11829,7 @@ Object {
   "connectors": Array [],
   "elements": Object {
     "0188509d-11b7-4aa9-9dc2-a058159de851": Object {
+      "canHaveFaultConnector": true,
       "conditionLogic": "no_conditions",
       "conditions": Array [],
       "dataType": "Boolean",
@@ -11874,6 +11911,7 @@ Object {
           "type": "FAULT",
         },
       ],
+      "canHaveFaultConnector": true,
       "childIndex": 1,
       "config": Object {
         "hasError": false,
@@ -11903,6 +11941,7 @@ Object {
       "storeOutputAutomatically": true,
     },
     "1f5b5d61-45c0-4c04-a299-d81d8348a34b": Object {
+      "canHaveFaultConnector": true,
       "conditionLogic": "no_conditions",
       "conditions": Array [],
       "dataType": "Boolean",
@@ -12084,6 +12123,7 @@ Object {
           "type": "FAULT",
         },
       ],
+      "canHaveFaultConnector": true,
       "config": Object {
         "hasError": false,
         "isHighlighted": false,
@@ -12147,6 +12187,7 @@ Object {
     },
     "5c1d3a31-f7ef-4858-b5e1-7f840cc0a58e": Object {
       "availableConnections": Array [],
+      "canHaveFaultConnector": false,
       "childIndex": 0,
       "childReferences": Array [
         Object {
@@ -12229,6 +12270,7 @@ Object {
     },
     "6afc101d-f791-4af6-9cd1-11664d1c1670": Object {
       "availableConnections": Array [],
+      "canHaveFaultConnector": false,
       "childReferences": Array [
         Object {
           "childReference": "554f8eb6-282e-4c7c-8a7a-e91fd352912f",
@@ -12260,6 +12302,7 @@ Object {
       "prev": "4a1b641a-6d81-4366-9fbc-eee3464b6022",
     },
     "6e327ef5-e041-48dc-8c79-e3f18c8e70a3": Object {
+      "canHaveFaultConnector": true,
       "conditionLogic": "no_conditions",
       "conditions": Array [],
       "dataType": "Boolean",
@@ -12308,6 +12351,7 @@ Object {
       "actionName": "",
       "actionType": "",
       "availableConnections": Array [],
+      "canHaveFaultConnector": true,
       "config": Object {
         "hasError": false,
         "isHighlighted": false,
@@ -12342,6 +12386,7 @@ Object {
           "type": "FAULT",
         },
       ],
+      "canHaveFaultConnector": true,
       "config": Object {
         "hasError": false,
         "isHighlighted": false,
@@ -12375,6 +12420,7 @@ Object {
           "type": "FAULT",
         },
       ],
+      "canHaveFaultConnector": true,
       "config": Object {
         "hasError": false,
         "isHighlighted": false,
@@ -12406,6 +12452,7 @@ Object {
           "type": "FAULT",
         },
       ],
+      "canHaveFaultConnector": true,
       "childIndex": 0,
       "childReferences": Array [
         Object {
@@ -12532,6 +12579,7 @@ Object {
     },
     "8e0a69e1-a0e2-4407-8d55-8b52f94b6622": Object {
       "availableConnections": Array [],
+      "canHaveFaultConnector": false,
       "childReferences": Array [
         Object {
           "childReference": "536fac9b-d542-4515-82b0-9309f9ac5ea9",
@@ -12570,6 +12618,7 @@ Object {
           "type": "FAULT",
         },
       ],
+      "canHaveFaultConnector": true,
       "config": Object {
         "hasError": false,
         "isHighlighted": false,
@@ -12748,6 +12797,7 @@ Object {
           "type": "FAULT",
         },
       ],
+      "canHaveFaultConnector": true,
       "config": Object {
         "hasError": false,
         "isHighlighted": false,
@@ -12803,6 +12853,7 @@ Object {
       "showHeader": true,
     },
     "dc2717aa-3db8-42da-ad59-ad074190be3e": Object {
+      "canHaveFaultConnector": true,
       "conditionLogic": "no_conditions",
       "conditions": Array [],
       "dataType": "Boolean",
@@ -12855,6 +12906,7 @@ Object {
           "type": "FAULT",
         },
       ],
+      "canHaveFaultConnector": true,
       "config": Object {
         "hasError": false,
         "isHighlighted": false,
@@ -12946,6 +12998,7 @@ Object {
           "type": "FAULT",
         },
       ],
+      "canHaveFaultConnector": true,
       "childIndex": -1,
       "config": Object {
         "hasError": false,
@@ -13235,6 +13288,7 @@ Object {
     },
     "18be145b-2be9-4b23-8cb7-6b8faac210ef": Object {
       "availableConnections": Array [],
+      "canHaveFaultConnector": false,
       "childIndex": 1,
       "childReferences": Array [
         Object {
@@ -13440,6 +13494,7 @@ Object {
           "type": "FAULT",
         },
       ],
+      "canHaveFaultConnector": true,
       "config": Object {
         "hasError": false,
         "isHighlighted": false,
@@ -13592,6 +13647,7 @@ Object {
           "type": "FAULT",
         },
       ],
+      "canHaveFaultConnector": true,
       "childIndex": 0,
       "childReferences": Array [
         Object {
@@ -13637,6 +13693,7 @@ Object {
           "type": "FAULT",
         },
       ],
+      "canHaveFaultConnector": true,
       "config": Object {
         "hasError": false,
         "isHighlighted": false,
@@ -13729,6 +13786,7 @@ Object {
           "type": "FAULT",
         },
       ],
+      "canHaveFaultConnector": true,
       "childReferences": Array [
         Object {
           "childReference": "2fa1f61d-6380-4387-9774-c071bfa37efa",
@@ -13769,6 +13827,7 @@ Object {
           "type": "FAULT",
         },
       ],
+      "canHaveFaultConnector": true,
       "childReferences": Array [
         Object {
           "childReference": "b070da79-e131-4168-85d2-9aee7a1c6889",
@@ -13971,6 +14030,7 @@ Object {
     },
     "ef194b66-c4c6-4948-a879-f827c8a18aac": Object {
       "availableConnections": Array [],
+      "canHaveFaultConnector": false,
       "childReferences": Array [
         Object {
           "childReference": "ec67b42c-cc90-4404-8843-db7e0ccfa1ba",
@@ -14103,6 +14163,7 @@ Object {
           "type": "FAULT",
         },
       ],
+      "canHaveFaultConnector": true,
       "childReferences": Array [
         Object {
           "childReference": "1892343c-66c7-4bce-9ccc-db7c77595e7d",
@@ -14177,6 +14238,7 @@ Object {
           "type": "FAULT",
         },
       ],
+      "canHaveFaultConnector": true,
       "config": Object {
         "hasError": false,
         "isHighlighted": false,
@@ -14227,6 +14289,7 @@ Object {
   "connectors": Array [],
   "elements": Object {
     "20d85d33-9f24-4a98-9e86-6d26df5b3826": Object {
+      "canHaveFaultConnector": true,
       "conditionLogic": "no_conditions",
       "conditions": Array [],
       "dataType": "Boolean",
@@ -14277,6 +14340,7 @@ Object {
           "type": "FAULT",
         },
       ],
+      "canHaveFaultConnector": true,
       "childReferences": Array [
         Object {
           "childReference": "20d85d33-9f24-4a98-9e86-6d26df5b3826",
@@ -14358,6 +14422,7 @@ Object {
       "showHeader": true,
     },
     "ad4abb1a-4890-4c82-95ff-6f9175865cb0": Object {
+      "canHaveFaultConnector": true,
       "conditionLogic": "no_conditions",
       "conditions": Array [],
       "dataType": "Boolean",
@@ -14470,6 +14535,7 @@ Object {
     },
     "f3843ccc-1330-435a-a03b-b91e1393ec49": Object {
       "availableConnections": Array [],
+      "canHaveFaultConnector": false,
       "childIndex": 0,
       "childReferences": Array [
         Object {
@@ -16535,6 +16601,7 @@ Object {
   "elements": Object {
     "decision-for-outcome3-guid": Object {
       "availableConnections": Array [],
+      "canHaveFaultConnector": false,
       "childIndex": 2,
       "childReferences": Array [
         Object {
@@ -16579,6 +16646,7 @@ Object {
       "triggerType": "None",
     },
     "decision-outcome1-guid": Object {
+      "canHaveFaultConnector": false,
       "conditionLogic": "and",
       "conditions": Array [
         Object {
@@ -16851,6 +16919,7 @@ Object {
     },
     "wait-element-guid": Object {
       "availableConnections": Array [],
+      "canHaveFaultConnector": true,
       "childReferences": Array [
         Object {
           "childReference": "outcome1-element-guid",

@@ -99,13 +99,14 @@ const selectors = {
     footerButton: 'lightning-button'
 };
 
-const createComponentUnderTest = (metaData, passedConditionOptions, elementHasFault = false) => {
+const createComponentUnderTest = (metaData, passedConditionOptions, canHaveFaultConnector, elementHasFault = false) => {
     const el = createElement('builder_platform_interaction-alc-node-menu', {
         is: AlcNodeMenu
     });
     el.conditionOptions = passedConditionOptions;
     el.elementMetadata = metaData;
     el.guid = metaData.guid;
+    el.canHaveFaultConnector = canHaveFaultConnector;
     el.elementHasFault = elementHasFault;
     setDocumentBodyChildren(el);
     return el;
@@ -511,7 +512,7 @@ describe('Node Menu', () => {
         describe('Add Fault Row', () => {
             const moveFocusToNodeCallback = jest.fn();
             beforeEach(() => {
-                menu = createComponentUnderTest(dummyCrudElement);
+                menu = createComponentUnderTest(dummyCrudElement, {}, dummyCrudElement.canHaveFaultConnector);
                 menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, moveFocusToNodeCallback);
             });
 
@@ -538,7 +539,7 @@ describe('Node Menu', () => {
         describe('Delete Fault Row', () => {
             const moveFocusToNodeCallback = jest.fn();
             beforeEach(() => {
-                menu = createComponentUnderTest(dummyCrudElement, {}, true);
+                menu = createComponentUnderTest(dummyCrudElement, {}, dummyCrudElement.canHaveFaultConnector, true);
                 menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, moveFocusToNodeCallback);
             });
 

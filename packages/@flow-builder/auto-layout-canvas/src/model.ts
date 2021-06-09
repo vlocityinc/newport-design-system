@@ -31,6 +31,7 @@ export interface NodeModel {
     elementType: string;
     maxConnections: number;
     isCanvasElement: boolean;
+    canHaveFaultConnector: boolean;
     config: {
         isSelected: boolean;
         isHighlighted: boolean;

@@ -50,9 +50,7 @@ function findConnectionIndex(parentElement: NodeModel, childSource: UI.Guid, typ
     if (type === CONNECTOR_TYPE.FAULT) {
         return maxConnections - 1;
     } else if (type === CONNECTOR_TYPE.DEFAULT) {
-        const elementConfig = getConfigForElementType(elementType) as any;
-        const { canHaveFaultConnector } = elementConfig;
-        return canHaveFaultConnector ? maxConnections - 2 : maxConnections - 1;
+        return parentElement.canHaveFaultConnector ? maxConnections - 2 : maxConnections - 1;
     } else if (type === CONNECTOR_TYPE.IMMEDIATE) {
         return 0;
     }
@@ -198,10 +196,10 @@ function convertBranchingElement(
     const conversionInfo = conversionInfos[branchingElement.guid];
     const { outs } = conversionInfo;
 
-    const elementConfig = getConfigForElementType(branchingElement.elementType) as any;
-    const { canHaveFaultConnector } = elementConfig;
+    const childCount = branchingElement.canHaveFaultConnector
+        ? branchingElement.maxConnections - 1
+        : branchingElement.maxConnections;
 
-    const childCount = canHaveFaultConnector ? branchingElement.maxConnections - 1 : branchingElement.maxConnections;
     branchingElement.children = new Array(childCount).fill(null);
 
     if (outs.length > 0) {

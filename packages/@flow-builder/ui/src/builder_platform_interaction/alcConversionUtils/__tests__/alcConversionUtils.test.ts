@@ -385,7 +385,8 @@ describe('alc conversion utils', () => {
                 elementType: ELEMENT_TYPE.ACTION_CALL,
                 childReferences: [],
                 maxConnections: 2,
-                availableConnections: []
+                availableConnections: [],
+                canHaveFaultConnector: true
             });
 
             assertCanConvertToAutoLayoutCanvas(storeState);

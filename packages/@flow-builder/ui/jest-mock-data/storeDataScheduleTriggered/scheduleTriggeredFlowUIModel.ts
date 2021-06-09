@@ -17,6 +17,7 @@ export const scheduleTriggeredFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             elementType: 'START_ELEMENT',
             maxConnections: 1,
             triggerType: 'Scheduled',
@@ -59,6 +60,7 @@ export const scheduleTriggeredFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             actionType: 'chatterPost',
             actionName: 'chatterPost',
             dataTypeMappings: [],
@@ -109,6 +111,7 @@ export const scheduleTriggeredFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             childReferences: [
                 {
                     childReference: '2e01b9c4-5144-4db2-9543-7899c5c34329'
@@ -160,6 +163,7 @@ export const scheduleTriggeredFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             childReferences: [
                 {
                     childReference: 'cc0381a7-0c64-4935-bc0c-25ecc2e958f1'
@@ -334,6 +338,7 @@ export const scheduleTriggeredFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             object: 'Account',
             objectIndex: '700b8f1c-98eb-48ea-90f0-35e1a864a1a8',
             filterLogic: 'no_conditions',
@@ -382,6 +387,7 @@ export const scheduleTriggeredFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             assignNextValueToReference: null,
             assignNextValueToReferenceIndex: 'ade42d1f-d120-4ff9-9888-c202b289571c',
             collectionReference: 'e12af1ed-86ee-4f2f-8de8-9dc3cc64dca1',
@@ -416,6 +422,7 @@ export const scheduleTriggeredFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             assignNextValueToReference: '787fd564-24db-448c-ba59-ef88c8a5cbd9',
             assignNextValueToReferenceIndex: '2bf626b1-9430-49ca-ad02-a75241931b16',
             collectionReference: 'a18b3d06-504c-4e47-9f44-6663c42703cf',
@@ -448,6 +455,7 @@ export const scheduleTriggeredFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             assignNextValueToReference: null,
             assignNextValueToReferenceIndex: '4b09a9f9-b658-4b5d-90c5-cbdb83b6484b',
             collectionReference: 'a18b3d06-504c-4e47-9f44-6663c42703cf',
@@ -482,6 +490,7 @@ export const scheduleTriggeredFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             assignNextValueToReference: null,
             assignNextValueToReferenceIndex: 'b93ea139-c9df-49cb-a42e-52c5f496ab07',
             collectionReference: '3e57f4c5-fecd-4be0-83a2-3238cdda979c',

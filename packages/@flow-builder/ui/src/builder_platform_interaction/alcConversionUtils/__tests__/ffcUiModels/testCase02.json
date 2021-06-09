@@ -78,6 +78,7 @@
                 }
             ],
             "elementType": "Decision",
+            "canHaveFaultConnector": false,
             "maxConnections": 2,
             "availableConnections": []
         },
@@ -103,6 +104,7 @@
                 }
             ],
             "elementType": "Decision",
+            "canHaveFaultConnector": false,
             "maxConnections": 2,
             "availableConnections": []
         },
@@ -133,6 +135,7 @@
             ],
             "maxConnections": 2,
             "elementType": "ActionCall",
+            "canHaveFaultConnector": true,
             "dataType": "ActionOutput",
             "storeOutputAutomatically": true
         },
@@ -158,6 +161,7 @@
                 }
             ],
             "elementType": "Decision",
+            "canHaveFaultConnector": false,
             "maxConnections": 2,
             "availableConnections": []
         },
@@ -235,6 +239,7 @@
                 }
             ],
             "elementType": "Decision",
+            "canHaveFaultConnector": false,
             "maxConnections": 2,
             "availableConnections": [
                 {

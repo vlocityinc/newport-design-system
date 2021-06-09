@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
-    baseCanvasElement,
+    baseCanvasElementWithFault,
     baseCanvasElementsArrayToMap,
     createAvailableConnection,
     createPastedCanvasElement,
@@ -29,7 +29,7 @@ const getDefaultAvailableConnections = () => [
  * @param apexPlugin
  */
 export function createApexPlugin(apexPlugin = {}) {
-    const newApexPlugin = baseCanvasElement(apexPlugin);
+    const newApexPlugin = baseCanvasElementWithFault(apexPlugin);
     const { apexClass = '' } = apexPlugin;
     let {
         inputParameters = [],

@@ -15,6 +15,7 @@ export const recordTriggeredFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             elementType: 'START_ELEMENT',
             maxConnections: 3,
             triggerType: 'RecordAfterSave',
@@ -95,6 +96,7 @@ export const recordTriggeredFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             assignmentItems: [
                 {
                     rowIndex: '90246d76-2818-4059-b0fd-425e241f8708',
@@ -122,6 +124,7 @@ export const recordTriggeredFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             childReferences: [
                 {
                     childReference: '297834ec-f5c8-4128-aa38-dc437f0c6a9b'
@@ -205,6 +208,7 @@ export const recordTriggeredFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             object: 'Account',
             objectIndex: '53329036-32e6-4965-a1d2-b12cd0344f99',
             inputAssignments: [
@@ -249,6 +253,7 @@ export const recordTriggeredFlowUIModel = {
                 hasError: false
             },
             elementSubtype: null,
+            canHaveFaultConnector: true,
             object: '',
             objectIndex: 'c5fd40ed-f8bb-4cea-a00d-8f3697b5731c',
             getFirstRecordOnly: true,
@@ -283,6 +288,7 @@ export const recordTriggeredFlowUIModel = {
                 hasError: false
             },
             elementSubtype: null,
+            canHaveFaultConnector: true,
             inputReference: '$Record',
             inputReferenceIndex: 'a18b3d06-504c-4e47-9f44-6663c42703cf',
             maxConnections: 2,

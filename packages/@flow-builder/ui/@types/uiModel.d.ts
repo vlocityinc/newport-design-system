@@ -75,6 +75,7 @@ declare namespace UI {
         connectorCount: number;
         config: CanvasElementConfig;
         elementSubtype: ElementSubtype;
+        canHaveFaultConnector: boolean;
     }
 
     interface CanvasElement extends BaseCanvasElement {

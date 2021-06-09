@@ -100,6 +100,7 @@
             "locationY": 206,
             "isCanvasElement": true,
             "connectorCount": 4,
+            "canHaveFaultConnector": true,
             "config": {
                 "isSelected": false,
                 "isHighlighted": false,
@@ -174,6 +175,7 @@
             "locationY": 326,
             "isCanvasElement": true,
             "connectorCount": 0,
+            "canHaveFaultConnector": false,
             "config": {
                 "isSelected": false,
                 "isHighlighted": false,
@@ -245,6 +247,7 @@
             "label": "outcome1",
             "elementType": "OUTCOME",
             "dataType": "Boolean",
+            "canHaveFaultConnector": false,
             "conditionLogic": "and",
             "conditions": [
                 {

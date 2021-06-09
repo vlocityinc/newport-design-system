@@ -52,6 +52,7 @@
                 }
             ],
             "elementType": "Wait",
+            "canHaveFaultConnector": true,
             "defaultConnectorLabel": "DEFAULT",
             "maxConnections": 4,
             "availableConnections": [
@@ -86,6 +87,7 @@
                 }
             ],
             "elementType": "Decision",
+            "canHaveFaultConnector": false,
             "maxConnections": 2,
             "availableConnections": []
         },
@@ -152,6 +154,7 @@
             "name": "",
             "label": "NULL",
             "elementType": "WAIT_EVENT",
+            "canHaveFaultConnector": true,
             "dataType": "Boolean",
             "conditions": [],
             "conditionLogic": "no_conditions",
@@ -197,6 +200,7 @@
             "name": "",
             "label": "NULL",
             "elementType": "WAIT_EVENT",
+            "canHaveFaultConnector": true,
             "dataType": "Boolean",
             "conditions": [],
             "conditionLogic": "no_conditions",

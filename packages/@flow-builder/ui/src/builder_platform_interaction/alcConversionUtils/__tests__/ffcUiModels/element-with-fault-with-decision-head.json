@@ -41,6 +41,7 @@
             "object": "",
             "objectIndex": "12c23e8e-4104-40ba-86e0-feb73e787792",
             "filters": [],
+            "canHaveFaultConnector": true,
             "availableConnections": [
                 {
                     "type": "REGULAR"
@@ -65,6 +66,7 @@
             "defaultConnectorLabel": "Default Outcome",
             "elementType": "Decision",
             "maxConnections": 2,
+            "canHaveFaultConnector": false,
             "childReferences": [
                 {
                     "childReference": "outcome-element-guid"

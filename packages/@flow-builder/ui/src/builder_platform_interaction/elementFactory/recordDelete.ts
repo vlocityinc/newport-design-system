@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
-    baseCanvasElement,
+    baseCanvasElementWithFault,
     baseCanvasElementsArrayToMap,
     createPastedCanvasElement,
     duplicateCanvasElement,
@@ -31,7 +31,7 @@ const getAvailableConnections = (recordDelete) => {
  * @param recordDelete
  */
 export function createRecordDelete(recordDelete = {}) {
-    const newRecordDelete = baseCanvasElement(recordDelete);
+    const newRecordDelete = baseCanvasElementWithFault(recordDelete);
     const {
         inputReference = '',
         inputReferenceIndex = generateGuid(),

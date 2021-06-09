@@ -701,6 +701,7 @@ function getAlcMenuData(
     const { flowModel, elementsMetadata } = context;
 
     const style = getMenuStyle(detail, containerElementGeometry, menuButtonHalfWidth, scale, needToPosition);
+    const canHaveFaultConnector = guid && flowModel[guid].canHaveFaultConnector;
 
     const elementHasFault = guid ? flowModel[guid].fault : false;
     const targetGuid = childIndex != null ? getChild(flowModel[parent!], childIndex) : next;
@@ -747,6 +748,7 @@ function getAlcMenuData(
         canMergeEndedBranch,
         isTargetEnd,
         hasEndElement,
+        canHaveFaultConnector,
         elementHasFault,
         ...detail,
         connectorMenu: detail.type,

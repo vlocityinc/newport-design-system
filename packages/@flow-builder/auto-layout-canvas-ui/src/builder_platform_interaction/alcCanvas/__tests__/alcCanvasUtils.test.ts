@@ -16,6 +16,7 @@ const flowModel = {
         config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
         fault: null,
         incomingGoTo: [],
+        canHaveFaultConnector: false,
         isCanvasElement: true
     },
     branch1: {
@@ -30,6 +31,7 @@ const flowModel = {
         config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
         fault: null,
         incomingGoTo: [],
+        canHaveFaultConnector: false,
         isCanvasElement: true
     },
     branchHead1: {
@@ -45,6 +47,7 @@ const flowModel = {
         config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
         fault: null,
         incomingGoTo: [],
+        canHaveFaultConnector: false,
         isCanvasElement: true
     },
     branchHead2: {
@@ -61,6 +64,7 @@ const flowModel = {
         config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
         fault: null,
         incomingGoTo: [],
+        canHaveFaultConnector: false,
         isCanvasElement: true
     },
     screen1: {
@@ -76,6 +80,7 @@ const flowModel = {
         config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
         fault: null,
         incomingGoTo: [],
+        canHaveFaultConnector: false,
         isCanvasElement: true
     },
     end: {
@@ -89,6 +94,7 @@ const flowModel = {
         config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
         fault: null,
         incomingGoTo: [],
+        canHaveFaultConnector: false,
         isCanvasElement: true
     }
 };

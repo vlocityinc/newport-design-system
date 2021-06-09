@@ -51,8 +51,9 @@ const getFooterData = (contextualMenuMode) => {
 };
 
 export const getMenuConfiguration = (
-    { label, description, canHaveFaultConnector },
+    { label, description },
     contextualMenuMode,
+    canHaveFaultConnector,
     elementHasFault,
     disableDeleteElements
 ) => {

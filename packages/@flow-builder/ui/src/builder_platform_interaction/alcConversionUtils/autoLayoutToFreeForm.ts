@@ -261,10 +261,8 @@ function createConnectorForBranchHead(
 function toCanvasElement(elements: UI.Elements, alcCanvasElement: NodeModel): UI.CanvasElement {
     const canvasElement: Partial<UI.CanvasElement> = { ...alcCanvasElement, connectorCount: 0 };
 
-    const { canHaveFaultConnector } = getConfigForElementType(alcCanvasElement.elementType);
-
     let availableConnections: UI.AvailableConnection[] = [];
-    const supportsMultipleConnectors = hasChildren(alcCanvasElement) || canHaveFaultConnector;
+    const supportsMultipleConnectors = hasChildren(alcCanvasElement) || alcCanvasElement.canHaveFaultConnector;
     let maxConnections = 1;
     const { nodeType } = alcCanvasElement;
 
@@ -297,7 +295,7 @@ function toCanvasElement(elements: UI.Elements, alcCanvasElement: NodeModel): UI
         maxConnections = childReferences.length + 1;
     }
 
-    if (canHaveFaultConnector) {
+    if (alcCanvasElement.canHaveFaultConnector) {
         if (isEndElementOrNull(elements, alcCanvasElement.fault)) {
             availableConnections.push({ type: CONNECTOR_TYPE.FAULT });
         }
@@ -556,9 +554,9 @@ function assertStoreState(storeState: UI.StoreState) {
                 elementType,
                 connectorCount,
                 availableConnections,
-                childReferences
+                childReferences,
+                canHaveFaultConnector
             } = element as UI.CanvasElement;
-            const { canHaveFaultConnector } = getConfigForElementType(elementType);
             let { maxConnections } = getConfigForElementType(elementType) as any;
             const elementConnectors = connectors.filter((connector) => connector.source === guid);
 

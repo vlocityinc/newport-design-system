@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
-    baseCanvasElement,
+    baseCanvasElementWithFault,
     baseCanvasElementsArrayToMap,
     createPastedCanvasElement,
     duplicateCanvasElement,
@@ -33,7 +33,7 @@ const maxConnections = 2;
  * @param root0.elements
  */
 export function createRecordCreate(recordCreate = {}, { elements } = Store.getStore().getCurrentState()) {
-    const newRecordCreate = baseCanvasElement(recordCreate);
+    const newRecordCreate = baseCanvasElementWithFault(recordCreate);
     const {
         inputReference = '',
         inputReferenceIndex = generateGuid(),

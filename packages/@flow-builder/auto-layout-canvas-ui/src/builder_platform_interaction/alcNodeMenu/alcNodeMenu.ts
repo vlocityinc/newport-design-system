@@ -51,6 +51,9 @@ export default class AlcNodeMenu extends Menu {
     guid;
 
     @api
+    canHaveFaultConnector;
+
+    @api
     disableDeleteElements;
 
     @api
@@ -97,6 +100,7 @@ export default class AlcNodeMenu extends Menu {
         return getMenuConfiguration(
             this.elementMetadata,
             this.contextualMenuMode,
+            this.canHaveFaultConnector,
             this.elementHasFault,
             this.disableDeleteElements
         );

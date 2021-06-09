@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
-    baseCanvasElement,
+    baseCanvasElementWithFault,
     baseCanvasElementsArrayToMap,
     createPastedCanvasElement,
     duplicateCanvasElement,
@@ -70,7 +70,7 @@ export function createRecordLookup(recordLookup = {}, { elements } = Store.getSt
  * @param root0.elements
  */
 function createRecordLookupWithOuputReference(recordLookup = {}, { elements } = Store.getStore().getCurrentState()) {
-    const newRecordLookup = baseCanvasElement(recordLookup);
+    const newRecordLookup = baseCanvasElementWithFault(recordLookup);
 
     let {
         availableConnections = getDefaultAvailableConnections(),
@@ -145,7 +145,7 @@ function createRecordLookupWithOuputReference(recordLookup = {}, { elements } = 
  * @param recordLookup
  */
 function createRecordLookupWithVariableAssignments(recordLookup = {}) {
-    const newRecordLookup = baseCanvasElement(recordLookup);
+    const newRecordLookup = baseCanvasElementWithFault(recordLookup);
 
     let {
         availableConnections = getDefaultAvailableConnections(),
@@ -203,7 +203,7 @@ function createRecordLookupWithVariableAssignments(recordLookup = {}) {
  * @param recordLookup
  */
 function createRecordLookupWithAutomaticOutputHandling(recordLookup = {}) {
-    const newRecordLookup = baseCanvasElement(recordLookup);
+    const newRecordLookup = baseCanvasElementWithFault(recordLookup);
 
     let {
         availableConnections = getDefaultAvailableConnections(),

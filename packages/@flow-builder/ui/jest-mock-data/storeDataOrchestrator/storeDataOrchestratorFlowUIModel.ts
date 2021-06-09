@@ -15,6 +15,7 @@ export const orchestratorFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             elementType: 'START_ELEMENT',
             maxConnections: 1,
             triggerType: 'None',
@@ -49,6 +50,7 @@ export const orchestratorFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             childReferences: [
                 {
                     childReference: 'fc408daa-3152-46bf-8733-c1083018292b'
@@ -96,6 +98,7 @@ export const orchestratorFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             childReferences: [
                 {
                     childReference: '297834ec-f5c8-4128-aa38-dc437f0c6a9b'

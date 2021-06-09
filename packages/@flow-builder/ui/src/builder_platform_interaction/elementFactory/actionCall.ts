@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { ELEMENT_TYPE, CONNECTOR_TYPE, ACTION_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
-    baseCanvasElement,
+    baseCanvasElementWithFault,
     baseCanvasElementsArrayToMap,
     createAvailableConnection,
     createPastedCanvasElement,
@@ -46,7 +46,7 @@ const maxOccursToIsCollection = (maxOccurs) => {
  * @param elementType
  */
 export function createActionCall(actionCall = {}, elementType = ELEMENT_TYPE.ACTION_CALL) {
-    const newActionCall = baseCanvasElement(actionCall);
+    const newActionCall = baseCanvasElementWithFault(actionCall);
     const { actionType = '', actionName = '', flowTransactionModel } = actionCall;
     let {
         dataTypeMappings = [],

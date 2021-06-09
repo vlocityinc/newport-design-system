@@ -3,10 +3,11 @@ import {
     CONDITION_LOGIC,
     ELEMENT_TYPE,
     FLOW_TRIGGER_TYPE,
-    RECORD_UPDATE_WAY_TO_FIND_RECORDS
+    RECORD_UPDATE_WAY_TO_FIND_RECORDS,
+    CONNECTOR_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import {
-    baseCanvasElement,
+    baseCanvasElementWithFault,
     baseCanvasElementsArrayToMap,
     createPastedCanvasElement,
     duplicateCanvasElement,
@@ -30,7 +31,6 @@ import { doesSupportTriggeringRecordUpdate } from 'builder_platform_interaction/
 import { SYSTEM_VARIABLE_RECORD_PREFIX } from 'builder_platform_interaction/systemLib';
 
 const elementType = ELEMENT_TYPE.RECORD_UPDATE;
-const maxConnections = 2;
 
 /**
  * @param recordUpdate
@@ -38,7 +38,7 @@ const maxConnections = 2;
  * @param startObject
  */
 export function createRecordUpdate(recordUpdate = {}, triggerType = getTriggerType(), startObject = getStartObject()) {
-    const newRecordUpdate = baseCanvasElement(recordUpdate);
+    const newRecordUpdate = baseCanvasElementWithFault(recordUpdate);
     const { inputReference = '', inputReferenceIndex = generateGuid(), objectIndex = generateGuid() } = recordUpdate;
     let {
         object = '',
@@ -48,6 +48,19 @@ export function createRecordUpdate(recordUpdate = {}, triggerType = getTriggerTy
         availableConnections = getDefaultAvailableConnections(),
         wayToFindRecords
     } = recordUpdate;
+
+    let { canHaveFaultConnector } = newRecordUpdate;
+
+    let maxConnections = 2;
+    if (triggerType && triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE) {
+        canHaveFaultConnector = false;
+        maxConnections -= 1;
+        availableConnections = [
+            {
+                type: CONNECTOR_TYPE.REGULAR
+            }
+        ];
+    }
 
     availableConnections = availableConnections.map((availableConnection) =>
         createAvailableConnection(availableConnection)
@@ -111,6 +124,7 @@ export function createRecordUpdate(recordUpdate = {}, triggerType = getTriggerTy
         inputAssignments,
         filters,
         filterLogic,
+        canHaveFaultConnector,
         object,
         objectIndex,
         dataType: FLOW_DATA_TYPE.BOOLEAN.value,

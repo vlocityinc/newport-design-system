@@ -187,6 +187,24 @@ describe('recordUpdate Mutation', () => {
                 }
             );
         });
+        describe('we expect canHaveFaultConnector to be false if record update with before save', () => {
+            const inputRecordUpdate = {
+                name: 'RecordUpdate1',
+                inputReference: ''
+            };
+
+            it.each`
+                triggerType                      | startObject  | canHaveFaultConnector
+                ${FLOW_TRIGGER_TYPE.BEFORE_SAVE} | ${'defined'} | ${false}
+                ${FLOW_TRIGGER_TYPE.AFTER_SAVE}  | ${'defined'} | ${true}
+            `(
+                'checking $triggerType, $startObject and canHaveFaultConnector',
+                async ({ triggerType, startObject, canHaveFaultConnector }) => {
+                    const factoriedRecordUpdate = createRecordUpdate(inputRecordUpdate, triggerType, startObject);
+                    expect(factoriedRecordUpdate.canHaveFaultConnector).toBe(canHaveFaultConnector);
+                }
+            );
+        });
         it('should be sobject reference if its triggerRecord with no triggerType', () => {
             const inputRecordUpdate = {
                 name: 'RecordUpdate1',

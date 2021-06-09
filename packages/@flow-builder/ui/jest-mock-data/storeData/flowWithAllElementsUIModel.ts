@@ -14,6 +14,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             elementType: 'START_ELEMENT',
             maxConnections: 1,
             triggerType: 'None',
@@ -52,6 +53,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             actionType: 'quickAction',
             actionName: 'LogACall',
             dataTypeMappings: [],
@@ -86,6 +88,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             actionType: 'chatterPost',
             actionName: 'chatterPost',
             dataTypeMappings: [],
@@ -137,6 +140,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             actionType: 'component',
             actionName: 'c:LightningComponentWithApexNoSObject',
             dataTypeMappings: [],
@@ -171,6 +175,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             actionType: 'component',
             actionName: 'c:LightningWithApexContainsSObject',
             dataTypeMappings: [],
@@ -205,6 +210,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             actionType: 'externalService',
             actionName: 'BankServiceNew.addAccount',
             dataTypeMappings: [],
@@ -239,6 +245,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             actionType: 'apex',
             actionName: 'AllTypesApexAction',
             dataTypeMappings: [],
@@ -323,6 +330,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             actionType: 'apex',
             actionName: 'generateDraftAccount',
             dataTypeMappings: [],
@@ -357,6 +365,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             actionType: 'apex',
             actionName: 'generateDraftAccount',
             dataTypeMappings: [],
@@ -400,6 +409,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             actionType: 'apex',
             actionName: 'GetAccount',
             dataTypeMappings: [],
@@ -438,6 +448,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             actionType: 'apex',
             actionName: 'GetAccounts',
             dataTypeMappings: [],
@@ -476,6 +487,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             actionType: 'apex',
             actionName: 'ApexTypeCollectionAction',
             dataTypeMappings: [],
@@ -514,6 +526,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             actionType: 'apex',
             actionName: 'InvocableGetAccountName',
             dataTypeMappings: [],
@@ -561,6 +574,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             actionType: 'apex',
             actionName: 'InvocableGetAccountsNames',
             dataTypeMappings: [],
@@ -599,6 +613,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             actionType: 'apex',
             actionName: 'GetCarAction',
             dataTypeMappings: [],
@@ -642,6 +657,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             actionType: 'apex',
             actionName: 'GetAccountName',
             dataTypeMappings: [],
@@ -676,6 +692,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             actionType: 'quickAction',
             actionName: 'Case.LogACall',
             dataTypeMappings: [],
@@ -719,6 +736,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             actionType: 'emailAlert',
             actionName: 'Account.my_email_alert',
             dataTypeMappings: [],
@@ -762,6 +780,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             actionType: 'component',
             actionName: 'c:localActionSample',
             dataTypeMappings: [],
@@ -813,6 +832,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             actionType: 'submit',
             actionName: 'submit',
             dataTypeMappings: [],
@@ -864,6 +884,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             assignmentItems: [
                 {
                     rowIndex: 'e62ce284-ccf2-46af-8446-c0a110a4bba0',
@@ -898,6 +919,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             assignmentItems: [
                 {
                     rowIndex: '6cb9b58e-4246-44c0-85a9-8f7d32172da6',
@@ -925,6 +947,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             childReferences: [
                 {
                     childReference: '4b09a9f9-b658-4b5d-90c5-cbdb83b6484b'
@@ -976,6 +999,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             childReferences: [
                 {
                     childReference: 'b93ea139-c9df-49cb-a42e-52c5f496ab07'
@@ -1027,6 +1051,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             childReferences: [
                 {
                     childReference: '3f70f36b-030f-4b90-ba09-866642ba5d4b'
@@ -1085,6 +1110,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             childReferences: [
                 {
                     childReference: 'ecf6b72e-f33e-48a4-a58c-bdcc87a80e40'
@@ -1726,6 +1752,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             flowName: 'flowWithAllTypesVariables',
             inputAssignments: [
                 {
@@ -1934,6 +1961,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             flowName: 'flowWithActiveAndLatest',
             inputAssignments: [
                 {
@@ -1966,6 +1994,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             object: '',
             objectIndex: 'd2f9a0fc-fe13-46d4-8916-ff2aafd35cda',
             getFirstRecordOnly: false,
@@ -1999,6 +2028,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             object: 'Account',
             objectIndex: '3b8a948e-5bf7-4e8b-b340-3f79c7986cf6',
             inputAssignments: [
@@ -2048,6 +2078,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             object: 'Account',
             objectIndex: 'c85e0459-8b6f-4540-99e7-d388a35ee4ba',
             inputAssignments: [
@@ -2097,6 +2128,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             object: '',
             objectIndex: '3660398c-f1e3-4895-89be-f3cb2ec4e840',
             getFirstRecordOnly: true,
@@ -2130,6 +2162,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             object: '',
             objectIndex: '039af026-5477-46fa-87ab-09bf0f1e57a3',
             getFirstRecordOnly: false,
@@ -2163,6 +2196,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             object: '',
             objectIndex: 'a4aa233d-13fb-431d-afb2-7f2388ca6010',
             getFirstRecordOnly: true,
@@ -2196,6 +2230,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             object: '',
             objectIndex: '7b6dd177-4174-48fd-9c2a-59274e1ec3dd',
             getFirstRecordOnly: false,
@@ -2229,6 +2264,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             object: 'Account',
             objectIndex: '6077af99-1c4d-4f4e-a5a1-6ff145d789a6',
             outputReference: '8d53a0e4-6541-42d0-9ea1-665b504fd150.acct',
@@ -2282,6 +2318,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             object: 'Account',
             objectIndex: '6a8d379d-409e-419f-b6b0-e91ab1a73398',
             outputReference: '8d53a0e4-6541-42d0-9ea1-665b504fd150.acctListField',
@@ -2335,6 +2372,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             object: 'Account',
             objectIndex: '4a3a792e-8129-48dd-bfa5-07916dc37180',
             filterLogic: 'and',
@@ -2399,6 +2437,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             object: 'Account',
             objectIndex: 'b6f15ed8-1db2-4f19-8a84-ca9ca15cbf72',
             filterLogic: 'and',
@@ -2471,6 +2510,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             object: 'Account',
             objectIndex: '98a764f1-b847-44c2-b27c-b1d15f4857ca',
             outputAssignments: [
@@ -2532,6 +2572,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             object: 'Account',
             objectIndex: '52736a70-f96b-4c6f-803b-355bff915424',
             outputReference: 'ba8a8e41-3944-4099-9655-065f054e811f',
@@ -2585,6 +2626,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             object: 'Account',
             objectIndex: '162ea6d1-7389-419d-b8c2-133462029981',
             filterLogic: 'no_conditions',
@@ -2633,6 +2675,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             object: 'Account',
             objectIndex: '2a4b3b65-06a5-4679-bac9-98dc536c68d4',
             filterLogic: 'no_conditions',
@@ -2681,6 +2724,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             object: 'Account',
             objectIndex: 'c7bb47cd-f402-49d5-963b-681d7987ff13',
             outputReference: '9b2579d0-01d3-45b0-b6b2-bb016b085511',
@@ -2738,6 +2782,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             inputReference: '9b2579d0-01d3-45b0-b6b2-bb016b085511',
             inputReferenceIndex: '142d47b8-8c11-4740-a8dc-60d7747a08bb',
             object: '',
@@ -2772,6 +2817,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             inputReference: '',
             inputReferenceIndex: 'fd06f9e3-6e63-4d89-b441-ca4c0594deb5',
             object: 'Account',
@@ -2828,6 +2874,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             inputReference: '',
             inputReferenceIndex: 'd3d400b8-db5e-4704-8b34-3dc777de7ab2',
             maxConnections: 2,
@@ -2898,6 +2945,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: true,
             inputReference: 'ba8a8e41-3944-4099-9655-065f054e811f',
             inputReferenceIndex: 'e2de9f05-aae8-4dc3-a061-e5d17e4562e1',
             maxConnections: 2,
@@ -2948,6 +2996,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             assignNextValueToReference: null,
             assignNextValueToReferenceIndex: '4712fdfc-e7e0-4ca0-88ab-ad976993a58b',
             collectionReference: 'ba8a8e41-3944-4099-9655-065f054e811f',
@@ -2982,6 +3031,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             assignNextValueToReference: null,
             assignNextValueToReferenceIndex: '96d93d3e-c114-4a50-b092-726601411e37',
             collectionReference: 'e5b4998c-a36e-407f-afb7-2301eda53b8d',
@@ -3016,6 +3066,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             assignNextValueToReference: '9b2579d0-01d3-45b0-b6b2-bb016b085511',
             assignNextValueToReferenceIndex: 'b1d673a1-a2cd-4106-ae02-5d184d3aaa37',
             collectionReference: '8d53a0e4-6541-42d0-9ea1-665b504fd150.acctListField',
@@ -3048,6 +3099,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             assignNextValueToReference: null,
             assignNextValueToReferenceIndex: '8ffc4a7e-4528-4782-8ee5-7b5d2ac6f27f',
             collectionReference: '2e01b9c4-5144-4db2-9543-7899c5c34329.apexWithSObject.acctListField',
@@ -3082,6 +3134,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             assignNextValueToReference: null,
             assignNextValueToReferenceIndex: 'fa8b8714-741e-400a-ace2-02ea0114f65d',
             collectionReference: '54aae715-8881-4a52-b7a9-25c385d1488e.testOne.acctListField',
@@ -3116,6 +3169,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             assignNextValueToReference: null,
             assignNextValueToReferenceIndex: '869aee06-20ed-4841-b1b7-51a3691cfb0c',
             collectionReference: 'c9c2a575-1e1a-4bb4-a78d-0f8c2f56610f.accounts',
@@ -3150,6 +3204,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             assignNextValueToReference: null,
             assignNextValueToReferenceIndex: 'b323d4a2-9e47-4394-915a-a5fd01e2b488',
             collectionReference: 'ba867a87-724c-4775-963b-2fc43169444f.accounts',
@@ -3184,6 +3239,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             assignNextValueToReference: null,
             assignNextValueToReferenceIndex: 'eebcfc0b-08a2-4cbc-ac6f-2fa406c3f71e',
             collectionReference: '8d53a0e4-6541-42d0-9ea1-665b504fd150.acctListField',
@@ -3218,6 +3274,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             assignNextValueToReference: '8ca8f838-4af4-4ae6-89fd-abdcc075a85e',
             assignNextValueToReferenceIndex: 'b9810123-08cd-465b-ae9a-ca0c2afb3a9a',
             collectionReference: '20719b7b-1961-4eda-a3f3-b42d939e604a',
@@ -3250,6 +3307,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             assignNextValueToReference: null,
             assignNextValueToReferenceIndex: 'b38a3bfa-a6b4-4cf2-a2a7-ec0d97553b1e',
             collectionReference: '20719b7b-1961-4eda-a3f3-b42d939e604a',
@@ -3284,6 +3342,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             allowHelp: false,
             pauseMessageType: 'standard',
             helpText: '',
@@ -3551,6 +3610,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             allowHelp: false,
             pauseMessageType: 'standard',
             helpText: '',
@@ -3618,6 +3678,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             allowHelp: false,
             pauseMessageType: 'standard',
             helpText: '',
@@ -3688,6 +3749,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             allowHelp: false,
             pauseMessageType: 'standard',
             helpText: '',
@@ -3944,6 +4006,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             allowHelp: false,
             pauseMessageType: 'standard',
             helpText: '',
@@ -4247,6 +4310,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             allowHelp: false,
             pauseMessageType: 'standard',
             helpText: '',
@@ -4794,6 +4858,7 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
+            canHaveFaultConnector: false,
             allowHelp: false,
             pauseMessageType: 'standard',
             helpText: '',

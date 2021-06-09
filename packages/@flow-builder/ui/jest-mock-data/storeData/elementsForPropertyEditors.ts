@@ -548,6 +548,7 @@ export const elementsForPropertyEditors = {
             isSelectable: true,
             hasError: false
         },
+        canHaveFaultConnector: true,
         inputReference: {
             value: '',
             error: null
@@ -667,6 +668,7 @@ export const elementsForPropertyEditors = {
             isSelectable: true,
             hasError: false
         },
+        canHaveFaultConnector: true,
         inputReference: {
             value: '9b2579d0-01d3-45b0-b6b2-bb016b085511',
             error: null

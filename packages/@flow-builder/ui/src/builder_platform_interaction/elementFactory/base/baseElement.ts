@@ -55,13 +55,25 @@ function createCanvasElementConfig(
 /**
  * @param canvasElement
  */
-export function baseCanvasElement(canvasElement: Metadata.Element | UI.BaseCanvasElement = {}): UI.Element {
+export function baseCanvasElementWithFault(canvasElement: Metadata.Element | UI.BaseCanvasElement = {}): UI.Element {
+    return baseCanvasElement(canvasElement, true);
+}
+
+/**
+ * @param canvasElement
+ * @param canHaveFaultConnectorBool
+ */
+export function baseCanvasElement(
+    canvasElement: Metadata.Element | UI.BaseCanvasElement = {},
+    canHaveFaultConnectorBool = false
+): UI.Element {
     const newCanvasElement = baseResource(canvasElement);
-    const { label = '', locationX = 0, locationY = 0, connectorCount = 0, elementSubtype } = <UI.BaseCanvasElement>(
-        canvasElement
-    );
+    const { label = '', locationX = 0, locationY = 0, connectorCount = 0, elementSubtype, canHaveFaultConnector } = <
+        UI.BaseCanvasElement
+    >canvasElement;
     let { config } = <UI.BaseCanvasElement>canvasElement;
     config = createCanvasElementConfig(config);
+    canHaveFaultConnectorBool = canHaveFaultConnector ?? canHaveFaultConnectorBool;
 
     // TODO: Need to remove, currently used to support alc copy/paste
     copyAlcExtraProps(canvasElement as UI.Element, newCanvasElement);
@@ -73,7 +85,8 @@ export function baseCanvasElement(canvasElement: Metadata.Element | UI.BaseCanva
         isCanvasElement: true,
         connectorCount,
         config,
-        elementSubtype
+        elementSubtype,
+        canHaveFaultConnector: canHaveFaultConnectorBool
     });
 }
 

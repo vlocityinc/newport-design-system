@@ -301,7 +301,6 @@ export const elementTypeToConfigMap: {
         },
         canvasElement: true,
         nonHydratableProperties: ['valueDataType'],
-        canHaveFaultConnector: true,
         factory: {
             propertyEditor: createActionCall,
             pasteElement: createPastedActionCall,
@@ -333,7 +332,6 @@ export const elementTypeToConfigMap: {
         },
         canvasElement: true,
         nonHydratableProperties: ['valueDataType'],
-        canHaveFaultConnector: true,
         factory: {
             propertyEditor: createActionCall,
             pasteElement: createPastedActionCall,
@@ -364,7 +362,6 @@ export const elementTypeToConfigMap: {
         },
         canvasElement: true,
         nonHydratableProperties: ['valueDataType'],
-        canHaveFaultConnector: true,
         factory: {
             propertyEditor: createApexPlugin,
             pasteElement: createPastedApexPlugin,
@@ -396,7 +393,6 @@ export const elementTypeToConfigMap: {
         },
         canvasElement: true,
         nonHydratableProperties: ['valueDataType'],
-        canHaveFaultConnector: true,
         factory: {
             propertyEditor: createApexCall,
             pasteElement: createPastedApexCall,
@@ -428,7 +424,6 @@ export const elementTypeToConfigMap: {
         },
         canvasElement: true,
         nonHydratableProperties: ['valueDataType'],
-        canHaveFaultConnector: true,
         factory: {
             propertyEditor: createEmailAlert,
             pasteElement: createPastedEmailAlert,
@@ -597,7 +592,6 @@ export const elementTypeToConfigMap: {
         canvasElement: true,
         areChildElementsSupported: true,
         canHaveDefaultConnector: true,
-        canHaveFaultConnector: true,
         factory: {
             propertyEditor: createWaitWithWaitEvents,
             closePropertyEditor: createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor,
@@ -676,7 +670,6 @@ export const elementTypeToConfigMap: {
             editModal: LABELS.editRecordCreateLabel
         },
         canvasElement: true,
-        canHaveFaultConnector: true,
         nonHydratableProperties: ['numberRecordsToStore'],
         factory: {
             propertyEditor: createRecordCreate,
@@ -706,7 +699,6 @@ export const elementTypeToConfigMap: {
             editModal: LABELS.editRecordLookupLabel
         },
         canvasElement: true,
-        canHaveFaultConnector: true,
         nonHydratableProperties: [
             'numberRecordsToStore',
             'sortOrder',
@@ -741,7 +733,6 @@ export const elementTypeToConfigMap: {
             editModal: LABELS.editRecordDeleteLabel
         },
         canvasElement: true,
-        canHaveFaultConnector: true,
         factory: {
             propertyEditor: createRecordDelete,
             pasteElement: createPastedRecordDelete,
@@ -770,7 +761,6 @@ export const elementTypeToConfigMap: {
             editModal: LABELS.editRecordUpdateLabel
         },
         canvasElement: true,
-        canHaveFaultConnector: true,
         factory: {
             propertyEditor: createRecordUpdate,
             pasteElement: createPastedRecordUpdate,

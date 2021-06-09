@@ -8,7 +8,7 @@ import {
 } from '../wait';
 import { createInputParameter, createInputParameterMetadataObject } from '../inputParameter';
 import { createOutputParameter, createOutputParameterMetadataObject } from '../outputParameter';
-import { baseCanvasElement, baseChildElement, createCondition } from '../base/baseElement';
+import { baseCanvasElementWithFault, baseChildElement, createCondition } from '../base/baseElement';
 import {
     ELEMENT_TYPE,
     CONDITION_LOGIC,
@@ -177,7 +177,7 @@ getElementByGuid.mockImplementation((guid) => {
 
 jest.mock('../base/baseElement', () => {
     return {
-        baseCanvasElement: jest
+        baseCanvasElementWithFault: jest
             .fn((element) => {
                 return Object.assign({}, element);
             })
@@ -313,7 +313,7 @@ describe('wait', () => {
     describe('createWaitWithWaitEvents', () => {
         it('with no parameter calls baseCanvasElement with an empty object', () => {
             createWaitWithWaitEvents();
-            expect(baseCanvasElement.mock.calls[0][0]).toEqual({});
+            expect(baseCanvasElementWithFault.mock.calls[0][0]).toEqual({});
         });
 
         it('element type is WAIT', () => {
@@ -879,7 +879,7 @@ describe('wait', () => {
         it('includes the return value of a call to baseCanvasElement', () => {
             createWaitWithWaitEventReferences(waitFromFlow);
 
-            expect(baseCanvasElement).toHaveBeenCalledWith(waitFromFlow);
+            expect(baseCanvasElementWithFault).toHaveBeenCalledWith(waitFromFlow);
         });
 
         it('element type is WAIT', () => {

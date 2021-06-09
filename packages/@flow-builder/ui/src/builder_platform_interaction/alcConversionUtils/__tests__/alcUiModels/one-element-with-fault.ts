@@ -50,6 +50,7 @@ export default {
             },
             elementType: 'RecordCreate',
             nodeType: 'default',
+            canHaveFaultConnector: true,
             maxConnections: 2,
             triggerType: 'None',
             filterType: 'all',
@@ -86,6 +87,7 @@ export default {
             },
             elementType: 'RecordCreate',
             nodeType: 'default',
+            canHaveFaultConnector: true,
             maxConnections: 2,
             availableConnections: [
                 {
