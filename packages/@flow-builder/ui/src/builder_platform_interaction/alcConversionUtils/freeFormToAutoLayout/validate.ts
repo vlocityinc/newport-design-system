@@ -1,5 +1,5 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { ConversionInfo, ConversionInfos, EdgeType } from './dfs';
+import { ConversionInfo, ConversionInfos, EdgeType, setGoTosOnNonMergeElement } from './dfs';
 
 type FlowCheckType =
     | 'orphan' /* if a node that is unreachable from the start node */
@@ -19,14 +19,13 @@ function failFlowCheck(type: FlowCheckType) {
 }
 
 /**
- * Validates that an outgoing connector is not some kind of "goto"
+ * Evaluate if an outgoing connector is a "goto" and set the relevant property
  *
  * @param conversionInfos - The conversion infos
  * @param out - An outgoing connector connector
  * @param edgeType - The edge type for the outgoing connector
- * @throw An error if the edge is invalid
  */
-function validateEdge(conversionInfos: ConversionInfos, out: UI.Connector, edgeType: EdgeType) {
+function checkOutgoingEdgeForGoTo(conversionInfos: ConversionInfos, out: UI.Connector, edgeType: EdgeType) {
     const { source, target } = out;
     const sourceNode = conversionInfos[source];
     const targetNode = conversionInfos[target];
@@ -34,39 +33,38 @@ function validateEdge(conversionInfos: ConversionInfos, out: UI.Connector, edgeT
 
     if (edgeType === 'forward' || edgeType === 'cross') {
         if (sourceNode.executionContext !== targetNode.executionContext) {
-            // you can only cross a boundary by following 'tree' edges
-            failFlowCheck('crossBoundary');
+            // a cross boundary edge is a goto
+            out.isGoTo = true;
         }
     } else if (edgeType === 'back') {
         // when an outgoing loop connector has the same loop as a target
         const isDegenerateLoop =
             sourceNode.isLoop && targetNode.isLoop && sourceNode.elementGuid === targetNode.elementGuid;
 
-        // the only valid back edges are those that come from inside a loop and point back to the loop header
+        // the edge is a goto if it does not come from inside a loop and point back to the loop header
         if (executionContext.type !== 'loop' || target !== executionContext.id) {
             if (!isDegenerateLoop) {
-                failFlowCheck('backEdge');
+                out.isGoTo = true;
             }
         }
     }
 }
 
 /**
- * Validates the element's outgoing edges
+ * Evalute the element's outgoing edges for "gotos"
  *
  * @param conversionInfos - The conversion infos
  * @param elementInfo - The element
- * @throw An error when an invalid edge is encountered
  */
-function validateEdgeTypes(conversionInfos: ConversionInfos, elementInfo: ConversionInfo) {
+function checkOutgoingEdgesForGoTos(conversionInfos: ConversionInfos, elementInfo: ConversionInfo) {
     const { edgeTypes, faultEdgeType, outs, fault } = elementInfo;
 
     for (let i = 0; i < outs.length; i++) {
-        validateEdge(conversionInfos, outs[i], edgeTypes![i]);
+        checkOutgoingEdgeForGoTo(conversionInfos, outs[i], edgeTypes![i]);
     }
 
     if (fault) {
-        validateEdge(conversionInfos, fault, faultEdgeType!);
+        checkOutgoingEdgeForGoTo(conversionInfos, fault, faultEdgeType!);
     }
 }
 
@@ -98,14 +96,13 @@ export function validateConversionInfos(elements: UI.Elements, conversionInfos: 
                 ins,
                 dfsStart,
                 executionContext,
-                mergeGuid,
                 branchingGuid,
                 elementGuid,
                 isLoop,
                 outs
             } = elementInfo;
 
-            validateEdgeTypes(conversionInfos, elementInfo);
+            checkOutgoingEdgesForGoTos(conversionInfos, elementInfo);
             const expectedReachedCount = ins.length;
 
             if (isLoop && areLoopNextAndEndTheSame(outs)) {
@@ -120,12 +117,10 @@ export function validateConversionInfos(elements: UI.Elements, conversionInfos: 
             } else if (elementType === ELEMENT_TYPE.END_ELEMENT && executionContext!.type === 'loop') {
                 // we currently disallow end elements inside a loop
                 failFlowCheck('endInLoop');
-            } else if (mergeGuid != null && conversionInfos[mergeGuid].branchingGuid !== elementGuid) {
-                // validates a branching interval when a mergeGuid is encountered
-                failFlowCheck('branchMergeNesting');
             } else if (branchingGuid != null && conversionInfos[branchingGuid].mergeGuid !== elementGuid) {
-                // validates a branching interval when a mergeGuid is encountered
-                failFlowCheck('branchMergeNesting');
+                // set go tos on element if an invalid branching interval is encountered
+                setGoTosOnNonMergeElement(conversionInfos, elementInfo);
+                elementInfo.branchingGuid = null;
             }
         }
     }

@@ -304,6 +304,43 @@ const peek = (stack) => {
 };
 
 /**
+ * Converts incoming cross and forward connectors of an element to go tos
+ *
+ * @param conversionInfos - conversion infos of all elements
+ * @param elementInfo - element info
+ */
+function setIncomingCrossForwardConnectorsAsGoTos(conversionInfos: ConversionInfos, elementInfo: ConversionInfo) {
+    const { ins, elementGuid } = elementInfo;
+
+    const sources = ins.map((inConnector) => inConnector.source);
+    for (const source of sources) {
+        const { outs, edgeTypes } = conversionInfos[source];
+        for (let i = 0; i < outs.length; i++) {
+            if (outs[i].target === elementGuid) {
+                outs[i].isGoTo = ['forward', 'cross'].includes(edgeTypes![i]);
+            }
+        }
+    }
+}
+
+/**
+ * Evaluates the incoming edges of a non-merge element and sets go tos as needed
+ *
+ * @param conversionInfos - conversion infos of all elements
+ * @param elementInfo - element info
+ */
+export function setGoTosOnNonMergeElement(conversionInfos: ConversionInfos, elementInfo: ConversionInfo) {
+    // Check for existing gotos on incoming connectors (for previously saved autolayout flows), and if they are valid.
+    // There should be only one incoming connector that is not a go to.
+    const { ins } = elementInfo;
+    const incomingGoTos = ins.filter((inConnector) => inConnector.isGoTo);
+    if (incomingGoTos.length !== ins.length - 1) {
+        // If not set correctly, set all cross and forward edges as go tos
+        setIncomingCrossForwardConnectorsAsGoTos(conversionInfos, elementInfo);
+    }
+}
+
+/**
  * Verifies that all branching intervals are properly nested.
  *
  * @param ctx - The dfs context
@@ -356,16 +393,26 @@ function checkIntervals(ctx: DfsContext) {
         // Create a new interval and check that it's topologically nested
         if (mergeGuid) {
             const { topologicalSortIndex } = conversionInfos[mergeGuid];
+            let hasGoTo = false;
+
             if (currentInterval) {
                 const [, end] = currentInterval;
 
                 if (topologicalSortIndex! > end) {
-                    throw new Error('branching intervals not propertly nested');
+                    // If we get here, we have a goTo connector situation in a nested branch
+                    hasGoTo = true;
+                    setGoTosOnNonMergeElement(conversionInfos, conversionInfos[mergeGuid]);
+
+                    // Clean up the merge / branching guid properties since this is not really a merge element anymore
+                    conversionInfos[mergeGuid].branchingGuid = null;
+                    topologicalSort[i].mergeGuid = null;
                 }
             }
 
-            currentInterval = [i, topologicalSortIndex!];
-            intervalStack.push(currentInterval);
+            if (!hasGoTo) {
+                currentInterval = [i, topologicalSortIndex!];
+                intervalStack.push(currentInterval);
+            }
         }
 
         // Topologically nested branching intervals is a necessary but not sufficient condition for nested branches.
@@ -401,7 +448,7 @@ function checkIntervals(ctx: DfsContext) {
                 }
 
                 if (targetTopoSortIndex > innermostInterval[1] && edgeType !== 'tree') {
-                    throw new Error('invalid target in intervals');
+                    out.isGoTo = true;
                 }
             }
         }
