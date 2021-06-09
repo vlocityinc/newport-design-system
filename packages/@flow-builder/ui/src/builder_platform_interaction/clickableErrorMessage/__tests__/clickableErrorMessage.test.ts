@@ -39,7 +39,11 @@ const mockOrchestratorStep = {
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
         getElementByDevName: jest.fn((name) => {
-            if (name.startsWith('ScreenWithSection_') || name.startsWith('myScheduledPath')) {
+            if (
+                name.startsWith('ScreenWithSection_') ||
+                name.startsWith('myScheduledPath') ||
+                name.startsWith('$Record')
+            ) {
                 return jest.requireActual('builder_platform_interaction/storeUtils').getElementByDevName(name);
             }
             switch (name) {
@@ -391,24 +395,6 @@ describe('clickableErrorMessage', () => {
             expect(pubSub.publish.mock.calls[1][0]).toEqual(editElementEvent.type);
             expect(pubSub.publish.mock.calls[1][1]).toEqual(editElementPayload);
         });
-        it('highlights erroneous element when error type is START_ELEMENT_ERROR', () => {
-            // create error message component with START_ELEMENT_ERROR
-            const errorMsgComponentStartEl = createComponentUnderTest({
-                info: {
-                    message: {
-                        erroneousElementApiName: 'a1',
-                        errorCode: 'RECORD_FILTER_NON_PRIMITIVE',
-                        message: 'a1(Assignment) - some error message'
-                    }
-                }
-            });
-            const element = getElementByDevName(errorMsgComponentStartEl.info.message.erroneousElementApiName);
-            const locatorIconClickedEvent = new LocatorIconClickedEvent(element.guid);
-            const highlightElementPayload = { elementGuid: element.guid };
-            errorMsgComponentStartEl.shadowRoot.querySelector(selectors.link).click();
-            expect(pubSub.publish.mock.calls[0][0]).toEqual(locatorIconClickedEvent.type);
-            expect(pubSub.publish.mock.calls[0][1]).toEqual(highlightElementPayload);
-        });
         it('highlights erroneous element and open its property editor when error type is not PARENT_CHILD_ERROR but erroneous element has a parent', () => {
             // create error message component with PROPERTY_EDITOR_ERROR
             const errorMsgComponentParentChild = createComponentUnderTest({
@@ -449,7 +435,7 @@ describe('clickableErrorMessage', () => {
                 info: {
                     message: {
                         erroneousElementApiName: 'myScheduledPath2DaysBefore',
-                        errorCode: 'FLOW_SCHEDULED_PATH_INCOMPATIBLE_WITH_FLOW_TRIGGER_TYPE',
+                        errorCode: 'FLOW_SCHEDULED_PATH_INCOMPATIBLE_TIME_SOURCE',
                         message: 'myScheduledPath2DaysBefore - (Scheduled Path) - some error message'
                     }
                 }
@@ -469,6 +455,27 @@ describe('clickableErrorMessage', () => {
             expect(pubSub.publish.mock.calls[0][1]).toEqual(highlightElementPayload);
             expect(pubSub.publish.mock.calls[1][0]).toEqual(editElementEvent.type);
             expect(pubSub.publish.mock.calls[1][1]).toEqual(editElementPayload);
+        });
+        it('highlights erroneous element when error type is START_ELEMENT_ERROR', () => {
+            // create error message component with START_ELEMENT_ERROR
+            const errorMsgComponentStartEl = createComponentUnderTest({
+                info: {
+                    message: {
+                        erroneousElementApiName: '$Record',
+                        errorCode: 'FLOW_SCHEDULED_PATH_REQUIRES_RECORD_CHANGED_TO_MEET_CRITERIA',
+                        message: '$Record - some error message'
+                    }
+                }
+            });
+            const element = startElement;
+            const editElementEvent = new EditElementEvent(element.guid);
+            const editElementPayload = {
+                mode: element?.triggerType,
+                canvasElementGUID: element.guid
+            };
+            errorMsgComponentStartEl.shadowRoot.querySelector(selectors.link).click();
+            expect(pubSub.publish.mock.calls[0][0]).toEqual(editElementEvent.type);
+            expect(pubSub.publish.mock.calls[0][1]).toEqual(editElementPayload);
         });
     });
 });

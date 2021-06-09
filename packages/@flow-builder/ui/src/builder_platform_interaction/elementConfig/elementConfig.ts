@@ -1185,6 +1185,7 @@ export const elementTypeToConfigMap: {
 
 /**
  * Updates the elementTypeToConfigMap to include the configuration information for element subtypes retrieved via the Service API.
+ *
  * @param elements - Array of elements retrieved from Service API to populate toolbox elements list in left panel
  */
 export const updateElementConfigMapWithSubtypes = (elements: Array<any>) => {
@@ -1213,6 +1214,7 @@ export const updateElementConfigMapWithSubtypes = (elements: Array<any>) => {
 
 /**
  * Returns the configuration information for the passed element or element subtype
+ *
  * @param element - element to fetch configuration information for based on its element type or subelement type
  * @returns An object containing component config
  */
@@ -1252,9 +1254,9 @@ export function getChildElementTypesWithOverridenProperties(): String[] {
 
 /**
  * Checks if the given element type is an element that is visible on the canvas.
+ *
  * @param elementType - elementType one of the values defined in ELEMENT_TYPE
  * @returns {boolean} true if the given element type is a canvas element
-
  */
 export function isCanvasElement(elementType: string) {
     return !!getConfigForElementType(elementType).canvasElement;
@@ -1262,6 +1264,7 @@ export function isCanvasElement(elementType: string) {
 
 /**
  * Checks if the given element type is an top level element or not
+ *
  * @param elementType - elementType one of the values defined in ELEMENT_TYPE
  * @returns {boolean} true if the given element type is a top level element or not.
  */
@@ -1269,6 +1272,9 @@ export function isChildElement(elementType: string) {
     return !!getConfigForElementType(elementType).isChildElement;
 }
 
+/**
+ *
+ */
 export function getChildReferencesKeys(): { singular: string; plural: string } {
     return {
         singular: 'childReference',

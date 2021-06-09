@@ -53,7 +53,10 @@ export default class ClickableMessage extends LightningElement {
                         break;
                     }
                     case errorType.START_ELEMENT_ERROR:
-                        pubSub.publish(locatorIconClickedEvent.type, highlightElementPayload);
+                        if (element?.triggerType) {
+                            editElementPayload.mode = element.triggerType;
+                            pubSub.publish(editElementEvent.type, editElementPayload);
+                        }
                         break;
                     default:
                 }
