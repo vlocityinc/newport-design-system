@@ -117,6 +117,7 @@ export default class AlcStartMenu extends AlcNodeMenu {
     /**
      * Handles the ArrowKeyDownEvent coming from trigger button and moves the focus correctly
      * based on the arrow key pressed
+     *
      * @param event - ArrowKeyDownEvent coming from start-node-trigger-button
      */
     handleTriggerButtonArrowKeyDown = (event) => {
@@ -130,6 +131,7 @@ export default class AlcStartMenu extends AlcNodeMenu {
     /**
      * Handles the ArrowKeyDownEvent coming from context button and moves the focus correctly
      * based on the arrow key pressed
+     *
      * @param event - ArrowKeyDownEvent coming from start-node-context-button
      */
     handleContextButtonArrowKeyDown = (event) => {
@@ -143,6 +145,7 @@ export default class AlcStartMenu extends AlcNodeMenu {
     /**
      * Handles the ArrowKeyDownEvent coming from scheduled path button and moves the focus correctly
      * based on the arrow key pressed
+     *
      * @param event - ArrowKeyDownEvent coming from start-node-scheduled-path-button
      */
     handleScheduledPathButtonArrowKeyDown = (event) => {
@@ -160,6 +163,7 @@ export default class AlcStartMenu extends AlcNodeMenu {
     /**
      * Handles the ArrowKeyDownEvent coming from record trigger button and moves the focus correctly
      * based on the arrow key pressed
+     *
      * @param event - ArrowKeyDownEvent coming from record-trigger-start-node
      */
     handleRecordTriggerButtonArrowKeyDown = (event) => {

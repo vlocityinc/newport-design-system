@@ -98,6 +98,7 @@ const hasOutputsReference = (object, guid: UI.Guid): boolean => {
  * @param usedByElements - List of elements which are referencing step.Outputs
  * @param stepGuid - guid od the step whose action was changed
  * @param storeElements - Current state of elements in the store
+ * @param actionName
  */
 function invokeUsedByAlertModal(usedByElements: UsedByElement[], actionName: string) {
     const listSectionHeader = LABELS.changeActionAlertListSectionHeader;
@@ -196,6 +197,9 @@ const actionChanged = (state: StageStep, event: OrchestrationActionValueChangedE
 
 /**
  * Updates an entry criteria
+ *
+ * @param state
+ * @param event
  */
 const updateEntryCriteria = (state: StageStep, event: UpdateConditionEvent): StageStep => {
     const newEntryCriteria = hydrateWithErrors(createCondition(event.detail.value));
@@ -213,6 +217,9 @@ const updateEntryCriteria = (state: StageStep, event: UpdateConditionEvent): Sta
 
 /**
  * delete entry criteria
+ *
+ * @param state
+ * @param event
  */
 const deleteEntryCriteria = (state: StageStep, event: DeleteConditionEvent): StageStep => {
     return updateProperties(state, {
@@ -228,6 +235,8 @@ const createEntryConditions = (state: StageStep): StageStep => {
 
 /**
  * delete entry criteria
+ *
+ * @param state
  */
 const deleteAllEntryConditions = (state: StageStep): StageStep => {
     return updateProperties(state, {
@@ -237,6 +246,9 @@ const deleteAllEntryConditions = (state: StageStep): StageStep => {
 
 /**
  * delete an entry/exit determination action
+ *
+ * @param state
+ * @param event
  */
 const deleteDeterminationAction = (state: StageStep, event: DeleteOrchestrationActionEvent): StageStep => {
     const src = event.detail.actionCategory;
@@ -260,6 +272,9 @@ const deleteDeterminationAction = (state: StageStep, event: DeleteOrchestrationA
 
 /**
  * orchestratedStage reducer function runs validation rules and returns back the updated element state
+ *
+ * @param state
+ * @param event
  */
 export const stageStepReducer = (state: StageStep, event: CustomEvent): StageStep => {
     let newState: StageStep = state;

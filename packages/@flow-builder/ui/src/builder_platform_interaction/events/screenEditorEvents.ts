@@ -17,6 +17,7 @@ export enum ScreenEditorEventName {
 
 /**
  * Factory function for screen events
+ *
  * @param {string} type - The type of the event
  * @param {object} detail - The detail of the event
  * @param {boolean} cancelable - Should the event be cancelable
@@ -51,6 +52,7 @@ export function createScreenEditorEvent(type, detail = {}, cancelable = true, co
 
 /**
  * Creates an event to be fired when the user adds an element to the canvas
+ *
  * @param {string} typeName - The type of the field to add
  * @param {number} position - The position in the canvas
  * @param {string} parentGuid - The guid of the new field's parent, i.e. a column
@@ -66,7 +68,9 @@ export function createAddScreenFieldEvent(typeName: string, position?: number, p
 
 /**
  * Creates an event to be fired when the user adds an automatic field to the canvas
+ *
  * @param {string} typeName - The type of the field to add
+ * @param objectFieldReference
  * @param {number} position - The position in the canvas
  * @param {string} parentGuid - The guid of the new field's parent, i.e. a column
  * @returns {event} The event
@@ -87,10 +91,11 @@ export function createAddAutomaticScreenFieldEvent(
 
 /**
  * Creates an event to be fired when the user clicks the delete button for a screen element in the canvas
+ *
  * @param {object} screenElement - The screen element, either a screen or a screen field
  * @param {string} property - Applies only for when screenElement is a SCREEN, and it marks the property to toggle (showHeader or showFooter)
  * @param {string} parentGuid - The guid of the deleted field's parent, i.e. a column
- * @param {function} callback - Function called after the delete occurs successfully
+ * @param {Function} callback - Function called after the delete occurs successfully
  * @returns {event} The event
  */
 export function createScreenElementDeletedEvent(screenElement, property, parentGuid = null, callback = () => {}) {
@@ -104,6 +109,7 @@ export function createScreenElementDeletedEvent(screenElement, property, parentG
 
 /**
  * Creates an event to be fired when the user drags and drops a screen element from one location in the canvas to another
+ *
  * @param {string} sourceGuid - The guid of the screen element being moved
  * @param {string} destinationParentGuid - The guid of the screen element to which the source element is being moved
  * @param {number} destinationIndex - The position at which the source element should be inserted within the parent
@@ -119,6 +125,7 @@ export function createScreenElementMovedEvent(sourceGuid, destinationParentGuid,
 
 /**
  * Creates an event to be fired when the user deselects a screen element in the canvas (clicks in an empty space to clear whatever is selected)
+ *
  * @param {object} screenElement - The screen element, either a screen or a screen field
  * @returns {event} The event
  */
@@ -128,6 +135,7 @@ export function createScreenElementDeselectedEvent(screenElement) {
 
 /**
  * Creates an event to be fired by the canvas when the user selects a screen element (header, footer or screen field)
+ *
  * @param {object} screenElement - The screen element, either a screen or a screen field
  * @param {string} property - Applies only for when screenElement is a SCREEN, and it marks the property to toggle (showHeader or showFooter)
  * @returns {event} The event
@@ -139,6 +147,7 @@ export function createScreenElementSelectedEvent(screenElement, property) {
 /**
  * Creates an event to be fired when the user selects to display the screen property editor in the property editor container (the 'screen' link in the right panel)
  * Includes the screen field being deselected as 'screenElement'
+ *
  * @param {object} screenElement - The previously selected element
  * @returns {event} The event
  */
@@ -148,6 +157,7 @@ export function createScreenNodeSelectedEvent(screenElement) {
 
 /**
  * Creates an event to be fired when the user wants to add a choice to a choice screen field.
+ *
  * @param {object} screenElement - The screen field to add the choice to.
  * @param {number} position - The position at which the choice should be added.
  */
@@ -160,6 +170,7 @@ export function createChoiceAddedEvent(screenElement, position) {
 
 /**
  * Creates an event to be fired when the user wants to change a choice of a choice screen field.
+ *
  * @param {*} screenElement
  * @param {*} newValue
  * @param {*} position
@@ -174,6 +185,7 @@ export function createChoiceChangedEvent(screenElement, newValue, position) {
 
 /**
  * Creates an event to be fired when the user wants to change display type of a choice screen field.
+ *
  * @param {*} screenElement - The choice screen field to change display type of
  * @param {*} newDisplayType - New display type to which display of choice screen field should change to
  */
@@ -186,6 +198,7 @@ export function createChoiceDisplayChangedEvent(screenElement, newDisplayType) {
 
 /**
  * Creates an event to be fired whenn the user wants to change the type of a choice screen field (SingleSelect vs MultiSelect).
+ *
  * @param screenElement - The choice screen field to change type of
  * @param newTypeChoice - New type to which type of choice screen field should change to
  * @returns SingleOrMultiChoiceTypeChangedEvent
@@ -199,6 +212,7 @@ export function createSingleOrMultiChoiceTypeChangedEvent(screenElement, newType
 
 /**
  * Creates an event to be fired when the user wants to delete a choice from a choice screen field.
+ *
  * @param {*} screenElement
  * @param {*} position
  */
@@ -211,6 +225,7 @@ export function createChoiceDeletedEvent(screenElement, position) {
 
 /**
  * Creates an event to be fired when the user wants to change the width of a column.
+ *
  * @param {string} columnGuid - The guid of the column whose width is changing
  * @param {number} columnWidth - The column's new width
  * @param {string} sectionGuid - The guid of the column's parent section

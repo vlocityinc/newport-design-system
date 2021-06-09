@@ -5,6 +5,10 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 const NUMBER_OF_COLUMNS_DEFAULT_VALUE = 2;
 
+/**
+ * @param items
+ * @param size
+ */
 function splitItems(items, size) {
     const results = [];
     if (items) {
@@ -25,7 +29,7 @@ export default class VisualPickerList extends LightningElement {
 
     /**
      * true to allow selecting multiple items
-     **/
+     */
     @api
     allowMultipleSelection = false;
 
@@ -34,11 +38,11 @@ export default class VisualPickerList extends LightningElement {
 
     /**
      * @typedef {Object} VisualPickerItem
-     * @property {String} label  the item's label
-     * @property {String} [description]  the item's description
+     * @property {string} label  the item's label
+     * @property {string} [description]  the item's description
      * @property {boolean} isSelected   true if the item is selected
-     * @property {String} [iconName]   the item's icon
-     * @property {String} itemId     the item's id
+     * @property {string} [iconName]   the item's icon
+     * @property {string} itemId     the item's id
      */
 
     @track

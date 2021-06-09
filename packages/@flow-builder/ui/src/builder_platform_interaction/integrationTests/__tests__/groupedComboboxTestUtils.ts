@@ -132,8 +132,9 @@ const checkHasNext = (selectedItem, expectedHasNext: boolean) => {
 
 /**
  * Verify that given propertyName property values are selectable in the given combobox and that they can be traversed (i.e. they have next value)
+ *
  * @param {Object} combobox a grouped combobox
- * @param {String} propertyName the name of the property propertyValues correspond to
+ * @param {string} propertyName the name of the property propertyValues correspond to
  * @param {Array} propertyValues an array of value that correspond to propertyName of the menu items (e.g. ['myTraversableProperty','nextValue'])
  */
 export const expectCanBeTraversed = async (
@@ -149,8 +150,9 @@ export const expectCanBeTraversed = async (
 
 /**
  * Verify that given propertyName property values are selectable in the given combobox and that they cannot be traversed (i.e. they do not have next value)
+ *
  * @param {Object} combobox a grouped combobox
- * @param {String} propertyName the name of the property propertyValues correspond to
+ * @param {string} propertyName the name of the property propertyValues correspond to
  * @param {Array} propertyValues an array of value that correspond to propertyName of the menu items (e.g. ['myTraversableProperty','nextValue'])
  */
 export const expectCannotBeTraversed = async (combobox: GroupedComboboxTestComponent, propertyName, propertyValues) => {
@@ -162,8 +164,9 @@ export const expectCannotBeTraversed = async (combobox: GroupedComboboxTestCompo
 
 /**
  * Verify that given propertyName property values are not selectable in the given combobox
+ *
  * @param {Object} combobox a grouped combobox
- * @param {String} propertyName the name of the property propertyValues correspond to
+ * @param {string} propertyName the name of the property propertyValues correspond to
  * @param {Array} propertyValues an array of value that correspond to propertyName of the menu items (e.g. ['myTraversableProperty','nextValue'])
  */
 export const expectCannotBeSelected = async (combobox: GroupedComboboxTestComponent, propertyName, propertyValues) => {

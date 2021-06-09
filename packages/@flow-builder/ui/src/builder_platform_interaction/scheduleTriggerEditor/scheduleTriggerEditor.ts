@@ -48,6 +48,7 @@ export default class ScheduleTriggerEditor extends LightningElement {
 
     /**
      * public api function to return the node
+     *
      * @returns {object} node - node
      */
     @api
@@ -90,7 +91,8 @@ export default class ScheduleTriggerEditor extends LightningElement {
 
     /**
      * Validates an input field leveraging built-in lightning-input validation
-     * @param {String} selector - the selector for the input
+     *
+     * @param {string} selector - the selector for the input
      * @param {Array} errors - the errors array to append errors to
      */
     _validateInput(selector, errors) {
@@ -102,6 +104,7 @@ export default class ScheduleTriggerEditor extends LightningElement {
 
     /**
      * public api function to run the rules from record change trigger validation library
+     *
      * @returns {Array} list of errors
      */
     @api
@@ -119,8 +122,9 @@ export default class ScheduleTriggerEditor extends LightningElement {
 
     /**
      * Updates a field by creating a PropertyChangedEvent and passing it to the reducer
-     * @param {String} prop - the name of the field to update
-     * @param {String} value - the value for the field
+     *
+     * @param {string} prop - the name of the field to update
+     * @param {string} value - the value for the field
      */
     _updateField(prop, value) {
         const event = new PropertyChangedEvent(prop, value);

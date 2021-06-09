@@ -12,12 +12,13 @@ export const STORED_VALUE_DATA_TYPE_PROPERTY = getDataTypeKey(STORED_VALUE_PROPE
 
 /**
  * @typedef {Object} userInput
- * @param {boolean} isRequired used in required checkbox for input label settings
- * @param {string} promptText used as input label
- * @param {validationRule} validationRule object containing formula expression and its related error message
+ * @property {boolean} isRequired used in required checkbox for input label settings
+ * @property {string} promptText used as input label
+ * @property {validationRule} validationRule object containing formula expression and its related error message
  */
 /**
  * Factory function to create userInput Object that is used inside the choice element object
+ *
  * @param {userInput} userInput
  * @returns {userInput} userInput object for choice
  */
@@ -48,6 +49,7 @@ export function createUserInputForChoice(userInput = {}) {
  */
 /**
  * Factory function for creating choice element
+ *
  * @param {choice} choice
  * @returns {choice} choice factory object
  */
@@ -88,6 +90,7 @@ export function createChoice(choice = {}) {
 
 /**
  * Factory function for creating choice element object for store
+ *
  * @param {choice} choice
  * @returns {Object} object in a {guid : [choice]} format
  */
@@ -101,6 +104,7 @@ export function createChoiceForStore(choice) {
 
 /**
  * Factory function to create choice object compatible with meta data shape.
+ *
  * @param {choice} choice
  * @returns {choice} choice object in metadata compatible shape.
  */

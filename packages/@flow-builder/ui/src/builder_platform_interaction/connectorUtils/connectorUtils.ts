@@ -5,6 +5,7 @@ import { LABELS } from './connectorUtilsLabels';
 
 /**
  * Helper method to get the minimum and maximum x and y coordinates of the flow
+ *
  * @param {Object} locations         Contains the minimum and maximum x and y coordinates of the flow
  * @param {Object} item              A given canvas element
  */
@@ -28,8 +29,9 @@ export const getFlowLocations = (locations, item) => {
 
 /**
  * Method to get the width and height along with the minimum and maximum x and y coordinates of the entire flow
+ *
  * @param {Array} canvasElements      Canvas Elements
- * @return {Object} flowBounds        Contains flow bounds and flowWidth and flowHeight
+ * @returns {Object} flowBounds        Contains flow bounds and flowWidth and flowHeight
  */
 export const getFlowBounds = (canvasElements) => {
     // Getting the minimum and maximum coordinates of the flow along with flow width and height
@@ -63,7 +65,6 @@ export const getFlowBounds = (canvasElements) => {
  * @param type             type of the connector (ex. fault or default)
  * @param isSelected       whether the connector is in a selected state
  * @param isGoTo           whether the connector is a go to connector
- *
  * @returns connector object
  */
 export const createConnectorObject = (
@@ -99,8 +100,7 @@ export const createConnectorObject = (
  * Method to remove connectors from list of available connections
  *
  * @param {Array} availableConnections      available connections
- * @param {String} connectors               connectors to remove from list of available connections
- *
+ * @param {string} connectors               connectors to remove from list of available connections
  * @returns {Array} availableConnections    updated list of available connections
  */
 export const removeFromAvailableConnections = (availableConnections, connectors = []) => {
@@ -129,7 +129,7 @@ export const removeFromAvailableConnections = (availableConnections, connectors 
  *
  * @param {Object} sourceElement - Source element of the connector
  * @param {Object[]} comboboxOptions - Available connections in the shape needed by the combobox
- * @return {Object[]} sortedComboboxOptions - Combobox options sorted in the required order
+ * @returns {Object[]} sortedComboboxOptions - Combobox options sorted in the required order
  */
 export const sortConnectorPickerComboboxOptions = (sourceElement, comboboxOptions) => {
     const sortedComboboxOptions = [];
@@ -226,7 +226,7 @@ export const sortConnectorPickerComboboxOptions = (sourceElement, comboboxOption
  * @param {object} sourceElement - Source element of the connector
  * @param {string} childReference - GUID of the child reference
  * @param {string} availableConnectionType - Type of the available connection
- * @return {object} - The connector label and value
+ * @returns {object} - The connector label and value
  */
 export const getLabelAndValueForConnectorPickerOptions = (
     elements,
@@ -273,7 +273,8 @@ export const getLabelAndValueForConnectorPickerOptions = (
  * @param sourceGuid - Contains the source guid
  * @param targetGuid - Contains the target guid
  * @param valueFromCombobox - The selected value in the connector-picker
- * @return A new connector object
+ * @param isGoTo
+ * @returns A new connector object
  */
 export const createNewConnector = (
     elements: UI.Elements,
@@ -307,6 +308,11 @@ export const createNewConnector = (
     return createConnectorObject(sourceGuid, childSource, targetGuid, label, type, false, isGoTo);
 };
 
+/**
+ * @param elements
+ * @param sourceElement
+ * @param type
+ */
 export function createEndConnector(elements: UI.Elements, sourceElement: UI.CanvasElement, type: UI.ConnectorType) {
     return createNewConnector(elements, sourceElement.guid, generateGuid(), type);
 }

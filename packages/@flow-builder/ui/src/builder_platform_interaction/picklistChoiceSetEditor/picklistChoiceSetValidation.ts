@@ -12,7 +12,9 @@ export const picklistChoiceSetValidation = new Validation(additionalRules);
 
 /**
  * Get finalized rules for validation
+ *
  * @param {Object} choice get the storedValueIndex from the choice
+ * @param choice.picklistObjectIndex
  * @returns {Object} the overridden rules
  */
 export const getRules = ({ picklistObjectIndex }) => {

@@ -146,6 +146,9 @@ export default class ScheduledPath extends LightningElement {
      * The lightning-input component does not provide an easy way to reset errors
      * We need to remove requiredness (our only constraint) and report validity
      * Then put the constraint back to its prevous state
+     *
+     * @param element
+     * @param error
      */
     resetError(element, error) {
         if (element && !error) {
@@ -156,7 +159,9 @@ export default class ScheduledPath extends LightningElement {
         }
     }
 
-    /** Sets the CustomValidity if there is a valid error message.
+    /**
+     * Sets the CustomValidity if there is a valid error message.
+     *
      * @param element - the input component
      * @param error - the current error of the element
      */
@@ -184,6 +189,8 @@ export default class ScheduledPath extends LightningElement {
     /**
      * Handles the event for time source value change.
      * Fires the propertyChangedEvent to be handled by the parent.
+     *
+     * @param event
      */
     handleTimeSourceValueChanged(event) {
         const propertyChangedEvent = new PropertyChangedEvent(
@@ -226,6 +233,8 @@ export default class ScheduledPath extends LightningElement {
     /**
      * Handles the event for off set number focus out.
      * Fires the propertyChangedEvent to be handled by the parent.
+     *
+     * @param event
      */
     handleOffsetNumberChanged(event) {
         const propertyChangedEvent = new PropertyChangedEvent(
@@ -240,6 +249,8 @@ export default class ScheduledPath extends LightningElement {
     /**
      * Handles the event for time offset unit change.
      * Fires the propertyChangedEvent to be handled by the parent.
+     *
+     * @param event
      */
     handleoffsetUnitValueChanged(event) {
         const propertyChangedEvent = new PropertyChangedEvent(

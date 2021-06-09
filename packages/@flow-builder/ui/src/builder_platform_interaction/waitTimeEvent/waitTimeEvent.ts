@@ -27,6 +27,7 @@ const SELECTORS = {
 /**
  * Turns an array of paramters into an object where each property contains one index of the array
  * This also creates inputParamter for each param
+ *
  * @param {Object[]} parameters list of parameters
  * @returns {Object} object where the key is the param name and the value is the parameter
  */
@@ -52,6 +53,7 @@ export default class WaitTimeEvent extends LightningElement {
 
     /**
      * The output resume time (alarm time)
+     *
      * @type {module:ParameterItem.ParameterItem}
      */
     @track
@@ -67,13 +69,14 @@ export default class WaitTimeEvent extends LightningElement {
 
     /**
      * @typedef {Object} WaitEventParameter
-     * @property {String} name the name of the parameter
-     * @property {String} value the ferov value of the parameter
-     * @property {String} valueDataType the datatype of the ferov value
+     * @property {string} name the name of the parameter
+     * @property {string} value the ferov value of the parameter
+     * @property {string} valueDataType the datatype of the ferov value
      */
 
     /**
      * Object of input parameters used to define the resume time
+     *
      * @type {ParameterItem[]}
      */
     set resumeTimeParameters(resumeTimeParameters) {
@@ -86,6 +89,7 @@ export default class WaitTimeEvent extends LightningElement {
 
     /**
      * Array of parameter items used to define the resume time input
+     *
      * @type {ParameterItem[]}
      */
     @api
@@ -113,6 +117,7 @@ export default class WaitTimeEvent extends LightningElement {
 
     /**
      * The event type of the wait event
+     *
      * @type {module:flowMetadata.WaitTimeEventType}
      */
     set eventType(eventType) {
@@ -125,7 +130,7 @@ export default class WaitTimeEvent extends LightningElement {
     }
 
     /**
-     * @type {String} guid of the parent wait element
+     * @type {string} guid of the parent wait element
      */
     @api
     waitEventGuid;
@@ -393,8 +398,10 @@ export default class WaitTimeEvent extends LightningElement {
         return param ? getErrorFromHydratedItem(param.value) : null;
     }
 
-    /** Sets the CustomValidity if there is a valid error message.
-     * @param {String} selector - the selector of the input component
+    /**
+     * Sets the CustomValidity if there is a valid error message.
+     *
+     * @param {string} selector - the selector of the input component
      * @param {Object} error - the error
      */
     setInputErrorMessage(selector, error) {
@@ -412,7 +419,8 @@ export default class WaitTimeEvent extends LightningElement {
      * LWC hook after rendering every component we are setting all errors via setCustomValidity except initial rendering.
      *
      * TODO: revisit as part of W-5676962
-     * **/
+     *
+     */
     renderedCallback() {
         if (this.absoluteBaseTime && (this.absoluteBaseTime !== '' || this.absoluteBaseTimeErrorMessage)) {
             const absoluteBaseTimeInput = this.template.querySelector(SELECTORS.ABSOLUTE_BASE_TIME_INPUT);

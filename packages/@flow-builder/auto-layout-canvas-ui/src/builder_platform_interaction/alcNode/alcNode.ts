@@ -190,6 +190,8 @@ export default class AlcNode extends LightningElement {
      * Note: all of this needs to happen in a single tick, otherwise the component
      * constructor and params could be out of sync (old constructor with new params
      * or new constructor with old params)
+     *
+     * @param comp
      */
     // eslint-disable-next-line @lwc/lwc/no-async-await
     async processDynamicNodeComponent(comp: string): Promise<void> {

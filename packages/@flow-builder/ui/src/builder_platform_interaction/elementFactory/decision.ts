@@ -29,6 +29,9 @@ import { createConnectorObjects } from './connector';
 const elementType = ELEMENT_TYPE.DECISION;
 
 // For Opening Property editor or copying a decision
+/**
+ * @param decision
+ */
 export function createDecisionWithOutcomes(decision = {}) {
     const newDecision = baseCanvasElement(decision);
 
@@ -63,6 +66,19 @@ export function createDecisionWithOutcomes(decision = {}) {
  * Function to create the pasted Decision element
  *
  * @param {Object} dataForPasting - Data required to create the pasted element
+ * @param dataForPasting.canvasElementToPaste
+ * @param dataForPasting.newGuid
+ * @param dataForPasting.newName
+ * @param dataForPasting.canvasElementGuidMap
+ * @param dataForPasting.childElementGuidMap
+ * @param dataForPasting.childElementNameMap
+ * @param dataForPasting.cutOrCopiedChildElements
+ * @param dataForPasting.topCutOrCopiedGuid
+ * @param dataForPasting.bottomCutOrCopiedGuid
+ * @param dataForPasting.prev
+ * @param dataForPasting.next
+ * @param dataForPasting.parent
+ * @param dataForPasting.childIndex
  */
 export function createPastedDecision({
     canvasElementToPaste,
@@ -109,14 +125,14 @@ export function createPastedDecision({
  * Function to create the duplicate Decision element
  *
  * @param {Object} decision - Decision element being copied
- * @param {String} newGuid - Guid for the new duplicated decision element
- * @param {String} newName - Name for the new duplicated decision element
+ * @param {string} newGuid - Guid for the new duplicated decision element
+ * @param {string} newName - Name for the new duplicated decision element
  * @param {Object} childElementGuidMap - Map of child element guids to newly generated guids that will be used for
  * the duplicated child elements
  * @param {Object} childElementNameMap - Map of child element names to newly generated unique names that will be used for
  * the duplicated child elements
  * @param {Object} cutOrCopiedChildElements - Local copy of the cut ot copied canvas elements. Undefined in the case of duplication on Free Form Canvas
- * @return {Object} Returns an object containing the duplicated element and the duplicated childElements
+ * @returns {Object} Returns an object containing the duplicated element and the duplicated childElements
  */
 export function createDuplicateDecision(
     decision,
@@ -161,6 +177,7 @@ export function createDuplicateDecision(
 
 /**
  * Decision from the property editor on close goes to the store
+ *
  * @param decision
  */
 export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision) {
@@ -219,6 +236,9 @@ export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEdito
     };
 }
 
+/**
+ * @param decision
+ */
 export function createDecisionWithOutcomeReferences(decision = {}) {
     const newDecision = baseCanvasElement(decision);
     let outcomes = [],
@@ -252,6 +272,9 @@ export function createDecisionWithOutcomeReferences(decision = {}) {
     return baseCanvasElementsArrayToMap([newDecision, ...outcomes], connectors);
 }
 
+/**
+ * @param outcome
+ */
 export function createOutcome(outcome = {}) {
     const childElement = baseChildElement(outcome, ELEMENT_TYPE.OUTCOME);
     const { conditionLogic = CONDITION_LOGIC.AND, doesRequireRecordChangedToMeetCriteria = false } = outcome;
@@ -269,6 +292,10 @@ export function createOutcome(outcome = {}) {
     });
 }
 
+/**
+ * @param decision
+ * @param config
+ */
 export function createDecisionMetadataObject(decision, config = {}) {
     if (!decision) {
         throw new Error('Decision is not defined');
@@ -302,6 +329,9 @@ export function createDecisionMetadataObject(decision, config = {}) {
     });
 }
 
+/**
+ * @param decision
+ */
 function calculateMaxConnections(decision) {
     if (!decision) {
         throw new Error('Max connection cannot be calculated because decision object is not defined');
@@ -317,6 +347,10 @@ function calculateMaxConnections(decision) {
     return length;
 }
 
+/**
+ * @param availableConnections
+ * @param decision
+ */
 function addDefaultConnectorToAvailableConnections(availableConnections = [], decision) {
     if (!availableConnections || !decision) {
         throw new Error('Either availableConnections or decision is not defined');

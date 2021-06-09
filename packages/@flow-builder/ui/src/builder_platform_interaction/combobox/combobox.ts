@@ -94,7 +94,7 @@ type State = {
 /**
  * The maximum number of items to add to the grouped combobox at a time: initially and as the item list gets scrolled.
  * TODO: Make this a property of the component and deprecate the property renderIncrementally.
- * */
+ */
 export const MENU_DATA_PAGE_SIZE = 50;
 
 /**
@@ -132,7 +132,7 @@ export default class Combobox extends LightningElement {
      * @property {number} currentMenuLength - Total number of items in a flattened current menu.
      * @property {boolean} disabled - disabled status
      * @property {Pill} pill - pill object
-     * @property {Boolean} hasPill - is in pill mode?
+     * @property {boolean} hasPill - is in pill mode?
      */
     @track
     state: State = {
@@ -186,7 +186,8 @@ export default class Combobox extends LightningElement {
     /**
      * Label for combobox.
      * If empty no label.
-     * @param {String} value The label value to set
+     *
+     * @param {string} value The label value to set
      */
     set label(value) {
         if (!value) {
@@ -204,7 +205,8 @@ export default class Combobox extends LightningElement {
     /**
      * Variant type for grouped-combobox
      * Must be from the LIGHTNING_INPUT_VARIANTS const
-     * @param {String} value The variant type to set
+     *
+     * @param {string} value The variant type to set
      */
     set variant(value) {
         if (value) {
@@ -228,6 +230,7 @@ export default class Combobox extends LightningElement {
 
     /**
      * Pass the error message on to lightning-grouped-combobox
+     *
      * @param {String | null } error - the new error message
      */
     set errorMessage(error) {
@@ -244,7 +247,8 @@ export default class Combobox extends LightningElement {
     /**
      * True: allow literal or reference
      * False : allow only reference
-     * @param {String|Boolean} isAllowed value to set allow literals
+     *
+     * @param {string | boolean} isAllowed value to set allow literals
      */
     set literalsAllowed(isAllowed) {
         const previousIsLiteralAllowed = this._isLiteralAllowed;
@@ -273,7 +277,8 @@ export default class Combobox extends LightningElement {
      * Input value for the combobox.
      * Combobox returns date time literal value as ISO8601 UTC date string
      * Combobox accepts date time literals of ISO8601 format
-     * @param {menuDataRetrieval.MenuItem|String} itemOrDisplayText - The value of the combobox
+     *
+     * @param {menuDataRetrieval.MenuItem | string} itemOrDisplayText - The value of the combobox
      */
     set value(itemOrDisplayText) {
         this._isNormalized = false;
@@ -338,7 +343,8 @@ export default class Combobox extends LightningElement {
 
     /**
      * Returns the Menu Item associated with the combobox value or the literal string value if no item has been selected
-     * @returns {menuDataRetrieval.MenuItem|String} the current value of the combobox
+     *
+     * @returns {menuDataRetrieval.MenuItem | string} the current value of the combobox
      */
     @api
     get value() {
@@ -348,7 +354,8 @@ export default class Combobox extends LightningElement {
     /**
      * Possible datatypes for this combobox.
      * Needed for validation for literal and showing date picker for date/datetime.
-     * @param {String} dataType The FlowDataTypes that this combobox accepts.
+     *
+     * @param {string} dataType The FlowDataTypes that this combobox accepts.
      */
     set type(dataType) {
         if (dataType && dataType.toUpperCase) {
@@ -379,6 +386,7 @@ export default class Combobox extends LightningElement {
     /**
      * Menu items that the combobox would show.
      * Expected in the exact format the lightning-grouped-combobox needs.
+     *
      * @param {Array} data - the menu data
      */
     set menuData(data) {
@@ -434,7 +442,8 @@ export default class Combobox extends LightningElement {
 
     /**
      * Set this attribute to disable the combobox.
-     * @type {Boolean}
+     *
+     * @type {boolean}
      */
     @api
     get disabled() {
@@ -443,7 +452,8 @@ export default class Combobox extends LightningElement {
 
     /**
      * Placeholder text for the combobox input field.
-     * @type {String}
+     *
+     * @type {string}
      */
     set placeholder(message) {
         this._placeholder = message;
@@ -463,12 +473,14 @@ export default class Combobox extends LightningElement {
     /**
      * Boolean to mark combobox input as required field.
      * Defaults to false.
-     * @type {String}
+     *
+     * @type {string}
      */
     @api required = false;
 
     /**
      * The error message to display when the combobox is required, but has no value
+     *
      * @returns {string | null} the message to display
      */
     @api
@@ -481,6 +493,7 @@ export default class Combobox extends LightningElement {
 
     /**
      * The allowed param types based on the rule service. Used for the merge field validation if present.
+     *
      * @type {Object}
      */
     @api
@@ -561,6 +574,7 @@ export default class Combobox extends LightningElement {
 
     /**
      * Blocks all the data validation on the component.
+     *
      * @type {boolean}
      */
     @api
@@ -569,13 +583,15 @@ export default class Combobox extends LightningElement {
     /**
      * Separator for multi-level menu data traversal.
      * Defaults to period.
-     * @type {String}
+     *
+     * @type {string}
      */
     @api
     separator = '.';
 
     /**
      * Run validation on this combobox again
+     *
      * @returns {string | null} current error message
      */
     @api
@@ -587,6 +603,7 @@ export default class Combobox extends LightningElement {
     /**
      * Is pill supported?
      * false by default
+     *
      * @type {boolean}
      */
     @api
@@ -594,6 +611,7 @@ export default class Combobox extends LightningElement {
 
     /**
      * Get pill if any?
+     *
      * @returns {Pill|null} pill object if any null otherwise
      */
     @api
@@ -622,6 +640,7 @@ export default class Combobox extends LightningElement {
 
     /**
      * Returns pill tooltip
+     *
      * @returns {string} pill tooltip with error message if any
      */
     @api
@@ -631,6 +650,7 @@ export default class Combobox extends LightningElement {
 
     /**
      * Is pill in error mode?
+     *
      * @returns {boolean} true if pill in error mode, false otherwise?
      */
     @api
@@ -727,6 +747,7 @@ export default class Combobox extends LightningElement {
     /**
      * monitoring pill removal in order to render accordingly combobox component or pill one
      * default false
+     *
      * @type {boolean}
      */
     private _isPillRemoved = false;
@@ -737,8 +758,8 @@ export default class Combobox extends LightningElement {
 
     /**
      * Fires an event to filter the current menu data.
-     * @param {Object} event - Event fired from grouped-combobox
      *
+     * @param {Object} event - Event fired from grouped-combobox
      * @fires FilterMatchesEvent
      * @fires FetchMenuDataEvent
      */
@@ -784,6 +805,7 @@ export default class Combobox extends LightningElement {
 
     /**
      * Fires an event to fetch the next level
+     *
      * @param {Object} event - Event fired from grouped-combobox
      */
     handleSelect(event) {
@@ -876,6 +898,8 @@ export default class Combobox extends LightningElement {
 
     /**
      * Add more items to display in the combobox once the bottom of the list is reached while scrolling.
+     *
+     * @param event
      */
     handleEndReached(event) {
         event.stopPropagation();
@@ -889,6 +913,7 @@ export default class Combobox extends LightningElement {
 
     /**
      * On pill remove event - Resets displayed text and menu data
+     *
      * @param {CustomEvent} event - lightning pill component remove event
      *  Fires RemoveMergeFieldPillEvent event
      */
@@ -902,6 +927,7 @@ export default class Combobox extends LightningElement {
 
     /**
      * On pill click event
+     *
      * @param {CustomEvent} event - lightning pill component click event
      * Fires EditMergeFieldPillEvent event
      */
@@ -919,8 +945,9 @@ export default class Combobox extends LightningElement {
 
     /**
      * Returns the the string value of numbers and booleans
+     *
      * @param {*} valueToConvert The value to convert to string
-     * @returns {String} The string value
+     * @returns {string} The string value
      */
     getStringValue(valueToConvert) {
         if (isUndefinedOrNull(valueToConvert)) {
@@ -935,8 +962,9 @@ export default class Combobox extends LightningElement {
 
     /**
      * Set the resource state if the value start with '{!' and ends with '}'
-     * @param {String} value the value to set state on, defaults to displayText
-     * @param {Boolean} isStrictMode whether or not merge fields should be strictly evaluated (should be true for validation)
+     *
+     * @param {string} value the value to set state on, defaults to displayText
+     * @param {boolean} isStrictMode whether or not merge fields should be strictly evaluated (should be true for validation)
      */
     setMergeFieldState(value = this.state.displayText, isStrictMode = false) {
         this._isMergeField = isReference(value) && (!isStrictMode || !this.isExpressionIdentifierLiteral(value, true));
@@ -944,7 +972,8 @@ export default class Combobox extends LightningElement {
 
     /**
      * Determines if the displayText is in the format of a field
-     * @returns {Boolean} returns true if the current displayText is a potential field
+     *
+     * @returns {boolean} returns true if the current displayText is a potential field
      */
     isPotentialField(): boolean {
         const field = splitStringBySeparator(this.getSanitizedValue(), this.separator)[1];
@@ -977,6 +1006,7 @@ export default class Combobox extends LightningElement {
 
     /**
      * Dispatches the FetchMenuData Event & makes the spinner active
+     *
      * @param {Object} item - the selected item to fetch the next level of menu data.
      *                        If undefined or null first level of menu data is fetched.
      */
@@ -999,8 +1029,9 @@ export default class Combobox extends LightningElement {
 
     /**
      * Dispatches the FilterMatches Event & makes the spinner active
-     * @param {String} value the value to filter on
-     * @param {Boolean} isMergeField true if the combobox value is a merge field, false otherwise
+     *
+     * @param {string} value the value to filter on
+     * @param {boolean} isMergeField true if the combobox value is a merge field, false otherwise
      */
     fireFilterMatchesEvent(value, isMergeField) {
         const filterMatchesEvent = new FilterMatchesEvent(value, isMergeField);
@@ -1032,6 +1063,7 @@ export default class Combobox extends LightningElement {
 
     /**
      * Fire item selected event
+     *
      * @param {Object} item The item that was selected
      */
     fireItemSelectedEvent(item) {
@@ -1041,9 +1073,10 @@ export default class Combobox extends LightningElement {
 
     /**
      * Find a single item that matches with text if any and if _item isn't already set
-     * @param {String} text The text to match with an item's displayText
-     * @param {Boolean} setItem set _item if a match is found
-     * @param {Boolean} forced set _item even if it does already exists
+     *
+     * @param {string} text The text to match with an item's displayText
+     * @param {boolean} setItem set _item if a match is found
+     * @param {boolean} forced set _item even if it does already exists
      * @returns {MenuItem} returns the item if found, otherwise undefined
      */
     matchTextWithItem(text = this.state.displayText, setItem = true, forced = false) {
@@ -1081,7 +1114,8 @@ export default class Combobox extends LightningElement {
     /**
      * Grabs the item associated with the selected value.
      * If no value is found, returns undefined
-     * @param {String} value The unique value to find the item
+     *
+     * @param {string} value The unique value to find the item
      * @returns {Object} the return value
      */
     findItem(value) {
@@ -1118,6 +1152,7 @@ export default class Combobox extends LightningElement {
 
     /**
      * Returns the input element.
+     *
      * @returns {HTMLElement} the input element.
      */
 
@@ -1128,7 +1163,8 @@ export default class Combobox extends LightningElement {
 
     /**
      * Sets the dot for next level and places the cursor before the closing brace
-     * @param {String} value the value to set
+     *
+     * @param {string} value the value to set
      * @param {boolean} hasNextLevel whether or not the selected item has a next level
      */
     setValueAndCursor(value, hasNextLevel = false) {
@@ -1153,8 +1189,9 @@ export default class Combobox extends LightningElement {
     /**
      * Get the proper value depending on the combobox state.
      * If in resource state, returns value without {! & }
-     * @param {String} value The value to sanitize. Defaults to displayText
-     * @returns {String} The resource value or full text
+     *
+     * @param {string} value The value to sanitize. Defaults to displayText
+     * @returns {string} The resource value or full text
      */
     getSanitizedValue(value = this.state.displayText) {
         if ((value === this.state.displayText && this._isMergeField) || isReference(value)) {
@@ -1166,8 +1203,9 @@ export default class Combobox extends LightningElement {
     /**
      * Returns value after the last . if in resource state.
      * Ex: MyAccount.MyN would return MyN
-     * @param {String} sanitizedValue the already sanitized value
-     * @returns {String} the filter text to search on
+     *
+     * @param {string} sanitizedValue the already sanitized value
+     * @returns {string} the filter text to search on
      */
     getFilterText(sanitizedValue) {
         const lastIndex: number = sanitizedValue.lastIndexOf(this.separator);
@@ -1198,7 +1236,8 @@ export default class Combobox extends LightningElement {
 
     /**
      * Set the error message on the combobox.
-     * @param {String} customErrorMessage to be set on the combobox.
+     *
+     * @param {string} customErrorMessage to be set on the combobox.
      */
     setErrorMessage(customErrorMessage) {
         const groupedCombobox = this.getGroupedCombobox();
@@ -1213,6 +1252,7 @@ export default class Combobox extends LightningElement {
 
     /**
      * Returns the lightning grouped combobox element.
+     *
      * @returns {Object} the grouped combobox element.
      */
     getGroupedCombobox() {
@@ -1228,8 +1268,9 @@ export default class Combobox extends LightningElement {
      * This catches the case where a trailing separator was stripped before firing ItemSelected and the parent component
      * passes this new value (without the separator) back down.  In which case, we still want the combobox display to
      * include the separator
+     *
      * @param {Object} item an item
-     * @return {String} The display text to be used
+     * @returns {string} The display text to be used
      */
     syncValueAndDisplayText(item) {
         let displayText = this.getStringValue(item.displayText);
@@ -1248,6 +1289,8 @@ export default class Combobox extends LightningElement {
 
     /**
      * Built pill (if supported) for merge field and update corresponding tracked field
+     *
+     * @param force
      * @private
      */
     private _createPill(force = false): void {
@@ -1299,9 +1342,9 @@ export default class Combobox extends LightningElement {
         this.getGroupedCombobox().focus();
     }
 
-    /** *********************************/
+    /** */
     /*    Validation Helper methods     */
-    /** *********************************/
+    /** */
 
     /**
      * Runs the validation for this combobox
@@ -1435,8 +1478,9 @@ export default class Combobox extends LightningElement {
 
     /**
      * Validate the merge field or merge fields with text using passed in merge field validation function reference.
-     * @param {function} validateFunctionRef a existing function reference from merge field lib that returns promise.
-     * @return {Boolean} true if validation was successful, false otherwise
+     *
+     * @param {Function} validateFunctionRef a existing function reference from merge field lib that returns promise.
+     * @returns {boolean} true if validation was successful, false otherwise
      */
     validateUsingMergeFieldLib(validateFunctionRef): boolean {
         const errors = validateFunctionRef.call(this, this.state.displayText, {
@@ -1457,7 +1501,8 @@ export default class Combobox extends LightningElement {
      *     {^testVar} - is a valid expression literal, returns true
      *     {!$GlobalConstant.___}, {!$SystemVariable.___}, and any Global Variable are all expressions, return false
      * Dot at the end is allowed for SObject where dot signifies to fetch next level data
-     * @param {String} valueToCheck the value to check, defaults to displayText
+     *
+     * @param {string} valueToCheck the value to check, defaults to displayText
      * @param {boolean} allowDotSuffix to allow dot at the end of the expression identifier
      * @returns {*} returns false if invalid dev name chars or regex result.
      */

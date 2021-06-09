@@ -6,8 +6,9 @@ import { hydrateWithErrors, dehydrate } from 'builder_platform_interaction/dataM
 
 /**
  * This function create element using factory, does UID to devname swapping for template fields and hydrate the element
+ *
  * @param {Object} element existing element or just element type to call correct factory
- * @return {Object} newElement in shape required by property editor
+ * @returns {Object} newElement in shape required by property editor
  */
 export function getElementForPropertyEditor(element = {}) {
     const { elementType } = element;
@@ -31,10 +32,14 @@ export function getElementForPropertyEditor(element = {}) {
 
 /**
  * This function dehydrate the element, create element using factory, does UID to devname swapping
+ *
  * @param {Object} element existing element
- * @return {Object} newElement in shape required by store
+ * @returns {Object} newElement in shape required by store
  */
 
+/**
+ * @param element
+ */
 export function getElementForStore(element) {
     if (!element) {
         throw new Error('Element is not defined');
@@ -64,8 +69,9 @@ export function getElementForStore(element) {
 
 /**
  * Helper function to get non hydratable properties and hydrate an element with errors
+ *
  * @param {Object} element existing element
- * @return {Object} new Element with errors
+ * @returns {Object} new Element with errors
  */
 function getElementAfterHydratingWithError(element) {
     if (!element) {

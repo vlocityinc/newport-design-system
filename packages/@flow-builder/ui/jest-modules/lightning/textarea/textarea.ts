@@ -3,8 +3,8 @@ import { LightningElement, api } from 'lwc';
 
 /**
  * Dummy lightning textarea component for use by Jest tests
- * @param {string} textEntered - The value
  *
+ * @param {string} textEntered - The value
  * @ScrumTeam Process UI
  * @author Aaron Liebling
  * @since 214

@@ -46,6 +46,11 @@ const invocableActionPropertyChanged = (state, event) => {
 
 /**
  * Clears values of field parameters with the specified generic type.
+ *
+ * @param root0
+ * @param root0.actionCallParameters
+ * @param root0.invocableActionParameters
+ * @param root0.genericTypeName
  */
 // TODO: Can we consolidate this with the similar function in screenReducer.js?
 const clearGenericParameters = ({ actionCallParameters, invocableActionParameters, genericTypeName }) =>
@@ -66,6 +71,9 @@ const clearGenericParameters = ({ actionCallParameters, invocableActionParameter
 /**
  * Clears values of input and output parameters of the specified generic type
  * of an action call.
+ *
+ * @param actionCall
+ * @param genericTypeName
  */
 function clearGenericActionCallParameters(actionCall, genericTypeName) {
     const { actionName, actionType, inputParameters, outputParameters } = actionCall;
@@ -95,6 +103,10 @@ function clearGenericActionCallParameters(actionCall, genericTypeName) {
     return result;
 }
 
+/**
+ * @param actionCall
+ * @param event
+ */
 function setDynamicTypeMappingTypeValue(actionCall, event) {
     const { typeName, typeValue, rowIndex, isConfigurable } = event.detail;
     // Find an existing dynamic type mapping by the type name or create new.
@@ -141,6 +153,7 @@ function setDynamicTypeMappingTypeValue(actionCall, event) {
 /**
  * Creates a list of data type mappings for a given list of generic types. Uses type assignments from
  * the current data type mappings.
+ *
  * @param {[GenericType]} [genericTypes] - Generic types
  * @param {*} [dataTypeMappings] - Current data type mappings
  * @param {*} disabled - Indicates if data type mappings are changeable
@@ -176,9 +189,10 @@ const createDataTypeMappings = (genericTypes = [], dataTypeMappings = [], disabl
 
 /**
  * merge the data type mappins in original node with all of the action's generic types
+ *
  * @param {Object} state the original node
  * @param {*} props - object containing the genericTypes and whether the property editor is in new or in edit mode
- * @return {Object} the updated node
+ * @returns {Object} the updated node
  */
 const mergeWithDataTypeMappings = (state, props) => {
     const dataTypeMappings = createDataTypeMappings(props.genericTypes, state.dataTypeMappings || [], !props.isNewMode);
@@ -190,8 +204,10 @@ const mergeWithDataTypeMappings = (state, props) => {
 
 /**
  * Invocable action reducer, performs changes and validation on a invocable action editor
+ *
  * @param {object} state  element / action call node
  * @param {object} event  event to process
+ * @param elements
  * @returns {object}    the updated action call node
  */
 export const invocableActionReducer = (state, event, elements) => {

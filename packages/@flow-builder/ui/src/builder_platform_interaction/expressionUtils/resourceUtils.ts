@@ -49,6 +49,7 @@ export const OPERATOR_DISPLAY_OPTION = {
 /**
  * The LHS of an expression builder is either a merge field that is not a field,
  * a field on a variable like {!sobjectVar.fieldName}, or a standalone field, "AccountNumber"
+ *
  * @type {{NOT_FIELD: string, FIELD_ON_VARIABLE: string, SOBJECT_FIELD: string}}
  */
 export const LHS_DISPLAY_OPTION = {
@@ -61,8 +62,9 @@ export const LHS_DISPLAY_OPTION = {
  * Extract out value from the event or item if payload is from combobox
  * Ex: If a select happened it will have an item as payload
  * Ex: if a literal is typed then the event will not have an item, just a display text
+ *
  * @param {Object} event Event for the data type
- * @return {Object|String} value of the event payload
+ * @returns {Object | string} value of the event payload
  */
 export const getItemOrDisplayText = (event) => {
     // if it is a combobox value changed event we have two cases: literals or item select
@@ -72,8 +74,8 @@ export const getItemOrDisplayText = (event) => {
 /**
  * Retrieves element or global constant
  *
- * @param {String} identifier    unique identifier that can be used to retrieve the flow resource
- * @return {Object|undefined}    element or resource if the identifier is valid, otherwise undefined
+ * @param {string} identifier    unique identifier that can be used to retrieve the flow resource
+ * @returns {Object|undefined}    element or resource if the identifier is valid, otherwise undefined
  */
 export const getResourceByUniqueIdentifier = (identifier: string): any => {
     if (identifier) {
@@ -94,6 +96,10 @@ export const getResourceByUniqueIdentifier = (identifier: string): any => {
 
 // Check if the resource has been added to the screen in the current session.
 // Such a resource will not be present in the source so we need to check in the screen attribute
+/**
+ * @param screenElement
+ * @param identifier
+ */
 export function getUncommittedResource(screenElement, identifier) {
     if (!screenElement) {
         return null;
@@ -118,7 +124,7 @@ export function getUncommittedResource(screenElement, identifier) {
  * Gets the data type to determine how this value should be stored in a FEROV if the id belongs to a valid resource.
  * If the id doesn't belong to a valid resource returns null
  *
- * @param {String} identifier    unique identifier that can be used to retrieve the flow resource
+ * @param {string} identifier    unique identifier that can be used to retrieve the flow resource
  * @returns {FEROV_DATA_TYPE|null}    the dataType category this value belongs to or null if it doesn't exist
  */
 export const getFerovDataTypeForValidId = (identifier) => {
@@ -132,6 +138,7 @@ export const getFerovDataTypeForValidId = (identifier) => {
 
 /**
  * Retrieves the information needed for components to update a ferov from a combobox state changed payload
+ *
  * @param {Object} event  event fired by the combobox on change
  * @param {Object} literalDataType the data type we want to assign a literal
  * @returns {Object} object with value and dataType of the ferov, and the error if there is one
@@ -178,6 +185,8 @@ const normalizeMenuItemChildField = (parentMenuItem, fieldNames, { allowSObjectF
 
 /**
  * A reserved identifier is an identifier that cannot be used as literal.
+ *
+ * @param identifier
  */
 const isReservedIdentifier = (identifier: string) => {
     // TODO : W-8315169
@@ -189,7 +198,10 @@ const isReservedIdentifier = (identifier: string) => {
 /**
  * Returns the combobox display value based on the unique identifier passed
  * to the RHS.
- * @param {String} identifier    used to identify value, could be GUID or literal
+ *
+ * @param {string} identifier    used to identify value, could be GUID or literal
+ * @param root0
+ * @param root0.allowSObjectFieldsTraversal
  * @returns {Item}               value in format displayable by combobox
  */
 export const normalizeFEROV = (identifier: string, { allowSObjectFieldsTraversal = true } = {}) => {
@@ -222,36 +234,38 @@ export const normalizeFEROV = (identifier: string, { allowSObjectFieldsTraversal
 
 /**
  * The shape an expression builder needs to operator on any LHS.
+ *
  * @typedef {Object} normalizedLHS
  * @param {MenuItem} item     what the combobox needs to display this lhs
  * @param {rules/param} param       the param representation of this lhs object/element
+ * @property
  */
 
 /**
  * @typedef lhsDescribe                    the needed values to represent a field value for the LHS of an expression
  * @param {Object} value                   the combobox item to represent the LHS
- * @param {String[]} activePicklistValues  if the LHS is a picklist field, these are the possible values
+ * @param {string[]} activePicklistValues  if the LHS is a picklist field, these are the possible values
  * @param {rules/param} param              the parameterized version of the LHS, to be used with the rules
  * @param {Object[]} fields                fields that should be shown in the menuData
- * @param {String} displayOption           from LHS_DISPLAY_OPTION
+ * @param {string} displayOption           from LHS_DISPLAY_OPTION
  */
 
 /**
  * @typedef rhsDescribe      the needed values to represent a value on the RHS of an expression
  * @param {Object} value     the combobox item to represent the RHS
- * @param {String} guid      the GUID of the RHS
- * @param {String} error     the validation error to show the user
- * @param {Boolean} isField  true if this value is a field
+ * @param {string} guid      the GUID of the RHS
+ * @param {string} error     the validation error to show the user
+ * @param {boolean} isField  true if this value is a field
  * @param {Object[]} fields  if the menudata shown should be fields, this is the list of fields
  */
 
 /**
  * Populates the state values on an expression builder wrapper to represent the LHS, when the LHS is a field.
  *
- * @param {String} fields             the fields for the lhs menudata
- * @param {String|undefined} fieldName    the api name of the currently selected field, if a field is already selected
+ * @param {string} fields             the fields for the lhs menudata
+ * @param {string | undefined} fieldName    the api name of the currently selected field, if a field is already selected
  * @param {Object|undefined} fieldParent  the object representing the parent of the currectly selected field, if a field is already selected
- * @param {Boolean} isFieldOnSobjectVar   true if this field should be displayed in a mergefield relative to an sobject variable, false if it should be displayed alone
+ * @param {boolean} isFieldOnSobjectVar   true if this field should be displayed in a mergefield relative to an sobject variable, false if it should be displayed alone
  * @returns {lhsDescribe}                      describes the attributes needed for the expression builder
  */
 export const populateLhsStateForField = (fields, fieldName, fieldParent, isFieldOnSobjectVar) => {
@@ -274,6 +288,7 @@ export const populateLhsStateForField = (fields, fieldName, fieldParent, isField
  * Populates the state values on an expression builder wrapper that represent the RHS of the expression.
  *
  * @param {Object} expression   rightHandSide - the display value of the rhs
+ * @param expression.rightHandSide
  * @param {rhsDescribe} callback   function to be called with the initialized state values
  */
 export const populateRhsState = ({ rightHandSide }, callback) => {

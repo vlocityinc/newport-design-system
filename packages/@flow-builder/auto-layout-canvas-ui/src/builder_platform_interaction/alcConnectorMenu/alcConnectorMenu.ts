@@ -100,6 +100,7 @@ export default class AlcConnectorMenu extends Menu {
 
     /**
      * Menu item action behaviour dependent on yjr attributes of the selected element
+     *
      * @param currentTarget
      */
     doSelectMenuItem(currentTarget: HTMLElement) {
@@ -150,6 +151,7 @@ export default class AlcConnectorMenu extends Menu {
 
     /**
      * Item selected via mouse click.  Does not propagate
+     *
      * @param event
      */
     handleSelectMenuItem(event) {
@@ -169,6 +171,7 @@ export default class AlcConnectorMenu extends Menu {
 
     /**
      * Helper function to move the focus correctly when using arrow keys in the contextual menu
+     *
      * @param key - the key pressed (arrowDown or arrowUp)
      */
     handleArrowKeyDown(key) {

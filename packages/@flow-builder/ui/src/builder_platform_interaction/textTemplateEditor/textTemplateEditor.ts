@@ -45,6 +45,7 @@ export default class TextTemplateEditor extends LightningElement {
     /**
      * Public api function to return the node
      * Called by the property editor controller on "OK"
+     *
      * @returns {object} node - node
      */
     @api
@@ -91,7 +92,8 @@ export default class TextTemplateEditor extends LightningElement {
 
     /**
      * Does the update property action with passed in property name, value and error.
-     * @param {String} propertyName to update
+     *
+     * @param {string} propertyName to update
      * @param {Object} event of type PropertyChangedEvent
      */
     updateProperty = (propertyName, event) => {
@@ -101,12 +103,13 @@ export default class TextTemplateEditor extends LightningElement {
         this.textTemplateResource = textTemplateReducer(this.textTemplateResource, action);
     };
 
-    /** *********************************/
+    /** */
     /*       Validation methods         */
-    /** *********************************/
+    /** */
 
     /**
      * public api function to run the rules from validation library
+     *
      * @returns {object} list of errors
      */
     @api

@@ -32,7 +32,8 @@ const screenFieldLabelToIconMapping = {
  *
  * {description, label, marker (the marker interface), qualifiedApiName, source (Managed | Unmanaged | Standard)}
  *
- * @param {Boolean} refreshCache - Refresh the cached list, if any. (data will be retrieved form the server)
+ * @param flowProcessType
+ * @param {boolean} refreshCache - Refresh the cached list, if any. (data will be retrieved form the server)
  * @param {Function} callback - The callback to execute to notify, fn(data, error)
  */
 export function listExtensions(flowProcessType, refreshCache, callback) {
@@ -49,6 +50,9 @@ export function listExtensions(flowProcessType, refreshCache, callback) {
 
 /*
  * Returns an object that will retrieve the extensions list and have an array of callbacks to be notified when the call returns from the server
+ */
+/**
+ * @param flowProcessType
  */
 function getListExtensionsRetriever(flowProcessType) {
     if (!_retriever) {
@@ -115,6 +119,7 @@ function getListExtensionsRetriever(flowProcessType) {
 /**
  * Returns a Promise that will be resolved once the extension field types have been retrieved.
  *
+ * @param flowProcessType
  * @Returns {Promise} - The promise
  */
 export function getExtensionFieldTypes(flowProcessType) {
@@ -145,7 +150,11 @@ export function getExtensionFieldTypes(flowProcessType) {
  * Parameters have the following shape:
  *      {apiName, dataType, description, hasDefaultValue, isRequired, label, maxOccurs}
  *
- * @param {String} name - The FQN of the component
+ * @param {string} name - The FQN of the component
+ * @param root0
+ * @param root0.background
+ * @param root0.disableErrorModal
+ * @param root0.messageForErrorModal
  * @returns {Promise} A promise to the extension description
  */
 export function describeExtension(
@@ -161,6 +170,7 @@ export function describeExtension(
 
 /**
  * Returns the description of all the provided extensions from the cache or null if any of them can't be found
+ *
  * @param {string} names - The extension names
  * @returns {ExtensionDescriptor[]} - The description of the extensions
  */
@@ -180,6 +190,7 @@ export function getCachedExtensions(names) {
 
 /**
  * Returns the description of provided extension from the cache
+ *
  * @param {string} name - The extension name
  * @param {[{typeName, typeValue}]} [dynamicTypeMappings] - A list of generic type bindings, which can be optionally applied to the description
  * @returns {ExtensionDescriptor} - The description of the extension or undefined if not found
@@ -196,6 +207,9 @@ export function getCachedExtension(name, dynamicTypeMappings = null) {
     return extension;
 }
 
+/**
+ * @param value
+ */
 function transformDefaultValue(value) {
     if (value) {
         if (value === false || (value.toLowerCase && value.toLowerCase().trim() === 'false')) {
@@ -210,6 +224,10 @@ function transformDefaultValue(value) {
     return value;
 }
 
+/**
+ * @param name
+ * @param data
+ */
 export function createExtensionDescription(name, data) {
     const { parameters, configurationEditor } = data;
     const desc = {
@@ -258,7 +276,11 @@ export function createExtensionDescription(name, data) {
  * Parameters have the following shape:
  *      {apiName, dataType, description, hasDefaultValue, isRequired, label, maxOccurs}
  *
- * @param {String[]} names - The FQN of the components
+ * @param {string[]} names - The FQN of the components
+ * @param root0
+ * @param root0.background
+ * @param root0.disableErrorModal
+ * @param root0.messageForErrorModal
  * @returns {Promise} - A promise to the extensions descriptions
  */
 export function describeExtensions(
@@ -319,6 +341,7 @@ export function clearExtensionsCache() {
 
 /**
  * This does not go back to the server
+ *
  * @returns {Array} A list of extension types from the cache
  */
 export function getAllCachedExtensionTypes() {
@@ -327,12 +350,16 @@ export function getAllCachedExtensionTypes() {
 
 export const getCachedExtensionType = (name) => extensionCache.find((extension) => extension.name === name);
 
+/**
+ *
+ */
 export function getCachedFlowProcessType() {
     return flowProcessTypeCache;
 }
 
 /**
  * Updates a data type and sets a subtype in generically-typed extension parameters
+ *
  * @param {*} parameters - Screen field parameters
  * @param {*} dynamicTypeMappings - A mapping of generic types to concrete types
  * @param {*} genericTypes  - Generic types
@@ -361,6 +388,9 @@ export function applyDynamicTypeMappings(parameters, dynamicTypeMappings) {
         });
 }
 
+/**
+ * @param attribute
+ */
 export function isExtensionAttributeLiteral(attribute: object) {
     if (attribute && attribute.value) {
         switch (attribute.valueDataType) {
@@ -382,6 +412,9 @@ export function isExtensionAttributeLiteral(attribute: object) {
     return false;
 }
 
+/**
+ * @param input
+ */
 export function isExtensionAttributeGlobalConstant(input: object) {
     return (
         input &&
@@ -392,6 +425,10 @@ export function isExtensionAttributeGlobalConstant(input: object) {
     );
 }
 
+/**
+ * @param input
+ * @param inputType
+ */
 export function isExtensionRefDisplayable(input: object, inputType: string | null) {
     // This is a temporary check that will go away before 232 releases.
     // This is here to allow testing of string refs being passed into the
@@ -405,6 +442,9 @@ export function isExtensionRefDisplayable(input: object, inputType: string | nul
     );
 }
 
+/**
+ * @param extensionName
+ */
 export function getRequiredParametersForExtension(extensionName: string): object[] | null {
     const cachedDescriptions: any = getCachedExtensions([extensionName]);
     if (cachedDescriptions && cachedDescriptions.length === 1) {
@@ -424,6 +464,7 @@ export function getRequiredParametersForExtension(extensionName: string): object
 /**
  * Returns the data type of the specified extension field and attribute name.
  * Returns null when extension description or attribute name are not found.
+ *
  * @param extensionName Name of extension field to query
  * @param attributeName Name of extension field attribute to query
  */

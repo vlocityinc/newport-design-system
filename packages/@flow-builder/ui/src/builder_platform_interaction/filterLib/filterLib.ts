@@ -14,9 +14,10 @@ export * from './matchers';
  * Creates a filter function that finds objects containing the given pattern in
  * their label field.
  *
- * @param {String}
+ * @param {string}
  *            pattern the substring to search for
- * @return {Function} a filter function that finds elements containing the given
+ * @param pattern
+ * @returns {Function} a filter function that finds elements containing the given
  *         pattern in their label
  */
 export const labelFilter = (pattern) => {
@@ -29,9 +30,10 @@ export const labelFilter = (pattern) => {
  * Creates a filter that finds resources (non canvas elements and elements in automatic handling mode) containing the
  * given pattern in their name.
  *
- * @param {String}
+ * @param {string}
  *            pattern the substring to search for
- * @return {Function} a filter function that finds resources containing the given
+ * @param pattern
+ * @returns {Function} a filter function that finds resources containing the given
  *         pattern in their label
  */
 export const resourceFilter = (pattern) => {
@@ -66,9 +68,10 @@ export const resourceFilter = (pattern) => {
 /**
  * Creates a filter that finds canvas elements containing the given pattern in their name.
  *
- * @param {String}
+ * @param {string}
  *            pattern the substring to search for
- * @return {Function} a filter function that finds canvas elements containing the given
+ * @param pattern
+ * @returns {Function} a filter function that finds canvas elements containing the given
  *         pattern in their label
  */
 export const canvasElementFilter = (pattern) => {

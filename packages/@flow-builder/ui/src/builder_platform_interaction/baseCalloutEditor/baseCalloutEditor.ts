@@ -44,10 +44,10 @@ export default class BaseCalloutEditor extends LightningElement {
 
     /**
      * @typedef {Object} ParameterList
-     * @property {String} inputTabHeader input tab header
-     * @property {String} outputTabHeader  output tab header
-     * @property {String} emptyInputsMessage  empty message if there are no input parameters. It should be replaced by emptyState component when  W-5383760 is ready.
-     * @property {String} emptyOutputsMessage   empty message if there are no output parameters. It should be replaced by emptyState component when  W-5383760 is ready.
+     * @property {string} inputTabHeader input tab header
+     * @property {string} outputTabHeader  output tab header
+     * @property {string} emptyInputsMessage  empty message if there are no input parameters. It should be replaced by emptyState component when  W-5383760 is ready.
+     * @property {string} emptyOutputsMessage   empty message if there are no output parameters. It should be replaced by emptyState component when  W-5383760 is ready.
      * @property {boolean} [sortInputs]   true if input parameters need to be sorted
      * @property {boolean} [sortOutputs]  true if output parameters need to be sorted
      * @property {ParameterItem[]} inputs   input parameters

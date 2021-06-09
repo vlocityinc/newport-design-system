@@ -61,6 +61,8 @@ export default class ZoomPanel extends LightningElement {
 
     /**
      * Handles click on the drag button and fires toggle marquee mode event.
+     *
+     * @param event
      */
     handleToggleMarqueeOn = (event: Event) => {
         event.stopPropagation();
@@ -73,6 +75,8 @@ export default class ZoomPanel extends LightningElement {
 
     /**
      * Handles click on the zoom out button and fires click to zoom event.
+     *
+     * @param event
      */
     handleZoomOutClick = (event: Event) => {
         event.stopPropagation();
@@ -85,6 +89,8 @@ export default class ZoomPanel extends LightningElement {
 
     /**
      * Handles click on the zoom to fit button and fires click to zoom event.
+     *
+     * @param event
      */
     handleZoomToFitClick = (event: Event) => {
         event.stopPropagation();
@@ -98,6 +104,8 @@ export default class ZoomPanel extends LightningElement {
 
     /**
      * Handles click on the zoom to view button and fires click to zoom event.
+     *
+     * @param event
      */
     handleZoomToViewClick = (event: Event) => {
         event.stopPropagation();
@@ -110,6 +118,8 @@ export default class ZoomPanel extends LightningElement {
 
     /**
      * Handles click on the zoom in button and fires click to zoom event.
+     *
+     * @param event
      */
     handleZoomInClick = (event: Event) => {
         event.stopPropagation();

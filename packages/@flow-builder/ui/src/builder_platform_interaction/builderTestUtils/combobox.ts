@@ -3,6 +3,7 @@ import Combobox from 'builder_platform_interaction/combobox';
 
 /**
  * Return the pill component corresponding to the given combobox
+ *
  * @param {Combobox} combobox - combobox component
  * @returns {HTMLElement | null} lightning pill component
  */
@@ -16,6 +17,7 @@ export const getComboboxPill = (combobox: any): any | null => {
 
 /**
  * Click on pill to switch to merge field notation combobox mode
+ *
  * @param {Combobox} combobox - current combobox
  * @returns {Promise<void>}
  */
@@ -30,6 +32,7 @@ export const clickPill = async (combobox: Combobox): Promise<void> => {
 
 /**
  * Remove pill to switch to merge field notation combobox mode and reset combobox menu data
+ *
  * @param {Combobox} combobox - current combobox
  * @returns {Promise<void>}
  */

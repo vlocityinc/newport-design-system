@@ -6,6 +6,9 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
 export const VALUE_PROPERTY_NAME = 'value';
 export const VALUE_DATA_TYPE_PROPERTY_NAME = getDataTypeKey(VALUE_PROPERTY_NAME);
 
+/**
+ * @param inputParameter
+ */
 export function createInputParameter(inputParameter = {}): ParameterListRowItem {
     const { rowIndex, name, value, valueDataType, valueIndex = generateGuid() } = inputParameter;
 
@@ -26,6 +29,9 @@ export function createInputParameter(inputParameter = {}): ParameterListRowItem 
     return createParameterListRowItem(newInputParameter);
 }
 
+/**
+ * @param inputParameter
+ */
 export function createInputParameterMetadataObject(inputParameter) {
     if (!inputParameter) {
         throw new Error('inputParameter is not defined');

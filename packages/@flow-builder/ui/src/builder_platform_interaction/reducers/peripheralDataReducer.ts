@@ -2,6 +2,10 @@
 import { UPDATE_APEX_CLASSES, UPDATE_ENTITIES } from 'builder_platform_interaction/actions';
 import { combinedReducer } from 'builder_platform_interaction/storeLib';
 
+/**
+ * @param state
+ * @param action
+ */
 function apexClassesReducer(state, action) {
     switch (action.type) {
         case UPDATE_APEX_CLASSES:
@@ -11,6 +15,10 @@ function apexClassesReducer(state, action) {
     }
 }
 
+/**
+ * @param state
+ * @param action
+ */
 function entitiesReducer(state, action) {
     return action.type === UPDATE_ENTITIES ? action.payload : state;
 }

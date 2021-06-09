@@ -67,6 +67,7 @@ export default class RecordUpdateEditor extends LightningElement {
 
     /**
      * public api function to run the rules from record update validation library
+     *
      * @returns {Object[]} list of errors
      */
     @api validate() {
@@ -243,7 +244,8 @@ export default class RecordUpdateEditor extends LightningElement {
 
     /**
      * Returns the option selected for RECORD_UPDATE_WAY_TO_FIND_RECORDS
-     * @returns {String} derived from enum RECORD_UPDATE_WAY_TO_FIND_RECORDS
+     *
+     * @returns {string} derived from enum RECORD_UPDATE_WAY_TO_FIND_RECORDS
      */
     get wayToFindRecordsValue(): string {
         return getValueFromHydratedItem(this.state.recordUpdateElement.wayToFindRecords);
@@ -266,6 +268,8 @@ export default class RecordUpdateEditor extends LightningElement {
 
     /**
      * get the fields of the selected entity
+     *
+     * @param recordEntityName
      */
     updateFields(recordEntityName) {
         this.state.entityFields = {};

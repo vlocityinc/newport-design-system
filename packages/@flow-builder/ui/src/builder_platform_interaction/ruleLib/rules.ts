@@ -9,25 +9,28 @@
 
 /**
  * Describes a FlowOperatorParam coming from the Rules Service
+ *
  * @typedef {Object.<string, string>}  param
- * @param {String} paramType           either 'element' or 'data', only elementType or dataType is populated in any param
- * @param {String} elementType         flow element type
- * @param {String} dataType            flow data type
+ * @param {string} paramType           either 'element' or 'data', only elementType or dataType is populated in any param
+ * @param {string} elementType         flow element type
+ * @param {string} dataType            flow data type
  * @param {boolean} isCollection       does this represent a collection variable
  *
  * the below properties are only used if the paramType is 'data'
- * @param {String[]} mustBeElements    this param can only be used to describe an element included in this list
- * @param {String[]} cannotBeElements  this param cannot be used to describe elements in this list
+ * @param {string[]} mustBeElements    this param can only be used to describe an element included in this list
+ * @param {string[]} cannotBeElements  this param cannot be used to describe elements in this list
  */
 
 /**
  * An operator rule
+ *
  * @typedef {Object} operatorRule
  * @param {param} RULE_PROPERTY.LEFT           represents the lhs of this rule (In the assignment rules, this is what something can be assigned into.)
- * @param {String} RULE_PROPERTY.OPERATOR      represents the operator of this rule
+ * @param {string} RULE_PROPERTY.OPERATOR      represents the operator of this rule
  * @param {param[]} RULE_PROPERTY.RHS_PARAMS   all rhs possible for this lhs & operator combination (In the assignment rules, this is a list of what can be assigned into the LHS.)
- * @param {String[]} includeElems              this rule should ONLY be used in the elements listed here
- * @param {String[]} excludeElems              this rule should be used in all elements EXCEPT those listed here
+ * @param {string[]} includeElems              this rule should ONLY be used in the elements listed here
+ * @param {string[]} excludeElems              this rule should be used in all elements EXCEPT those listed here
+ * @property
  */
 
 /**
@@ -183,7 +186,8 @@ const buildRulesInstanceForOutputRules = (stringifiedInputsToOutputs, assignment
 
 /**
  * Method to set the rules
- * @param {String} rules The JSON string that includes the rules returned by the services
+ *
+ * @param {string} rules The JSON string that includes the rules returned by the services
  */
 export const setRules = (rules = null) => {
     // rules are not expected to accumulate, if we're setting them we should start from scratch
@@ -222,7 +226,7 @@ export const setRules = (rules = null) => {
 };
 
 /**
- * @return {rulesInstance}
+ * @returns {rulesInstance}
  */
 export const getRules = () => {
     return rulesInstance;
@@ -230,7 +234,8 @@ export const getRules = () => {
 
 /**
  * Rules that should be used for determining where outputs from actions, subflows, etc, can be stored
- * @return {operatorRule[]}
+ *
+ * @returns {operatorRule[]}
  */
 export const getOutputRules = () => {
     return outputRules;
@@ -238,8 +243,9 @@ export const getOutputRules = () => {
 
 /**
  * The information needed to determine the appropriate set of rules for a given context
+ *
  * @typedef {Object} contextConfig
- * @property {String} elementType    the property editor for which the rules are being retrieved
+ * @property {string} elementType    the property editor for which the rules are being retrieved
  */
 
 export const getRulesForElementType = (ruleType, elementType) => {

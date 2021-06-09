@@ -8,6 +8,7 @@ const elementType = ELEMENT_TYPE.STAGE;
 /**
  * Method to create the stage element object
  *
+ * @param stage
  * @returns {Object} the stage element object
  */
 export function createStage(stage = {}) {
@@ -29,6 +30,9 @@ export function createStage(stage = {}) {
     });
 }
 
+/**
+ * @param stage
+ */
 export function createStageForStore(stage = {}) {
     const newStage = createStage(stage);
     return baseElementsArrayToMap([newStage]);
@@ -36,6 +40,7 @@ export function createStageForStore(stage = {}) {
 
 /**
  * Method to create stage element objects for a given flow metadata element
+ *
  * @param {stage} stage element metadata object
  * @returns {Object} the stage element object
  */

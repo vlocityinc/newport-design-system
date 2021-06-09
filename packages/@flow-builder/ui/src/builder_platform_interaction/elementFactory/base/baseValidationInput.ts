@@ -6,6 +6,7 @@
  */
 /**
  * Factory function to create validation rule object
+ *
  * @param {validationRule} validationRule
  * @returns {validationRule} validationRule object
  */

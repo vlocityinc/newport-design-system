@@ -11,13 +11,13 @@ export const SCALE_BOUNDS = {
 /**
  * Method to check for undefined values
  *
- * @param {Number} currentScale - Current scale of the inner canvas
- * @param {Number} viewportWidth - Width of the current viewport
- * @param {Number} viewportHeight - Height of the current viewport
- * @param {Number} centerOffsetX - Distance between the center of the viewport and the inner canvas center in x direction
- * @param {Number} centerOffsetY - Distance between the center of the viewport and the inner canvas center in y direction
+ * @param {number} currentScale - Current scale of the inner canvas
+ * @param {number} viewportWidth - Width of the current viewport
+ * @param {number} viewportHeight - Height of the current viewport
+ * @param {number} centerOffsetX - Distance between the center of the viewport and the inner canvas center in x direction
+ * @param {number} centerOffsetY - Distance between the center of the viewport and the inner canvas center in y direction
  * @param {Array} canvasElements - Array of canvas elements
- * @return {boolean} True if everything is defined else false
+ * @returns {boolean} True if everything is defined else false
  * @private
  */
 const _checkForUndefined = (
@@ -42,16 +42,19 @@ const _checkForUndefined = (
  * An object containing scaled offset values and mouse positions
  *
  * @typedef {Object} panConfig
- * @property {Number[]} scaledOffsetsOnPanStart - Scaled offsetLeft and offsetTop of the innerCanvas when mouse down happens on the canvas
- * @property {Number[]} mouseDownPoint - point on the overlay where mouse down happened
- * @property {Number[]} mouseMovePoint - point on the overlay where mouse has moved to
+ * @property {number[]} scaledOffsetsOnPanStart - Scaled offsetLeft and offsetTop of the innerCanvas when mouse down happens on the canvas
+ * @property {number[]} mouseDownPoint - point on the overlay where mouse down happened
+ * @property {number[]} mouseMovePoint - point on the overlay where mouse has moved to
  */
 
 /**
  * Method to calculate the new offset values for the inner canvas based on how much the mouse has moved
  *
  * @param {Object} panConfig - Contains scaled offset values and mouse positions
- * @return {Object} Contains the new offset values for the inner canvas
+ * @param panConfig.scaledOffsetsOnPanStart
+ * @param panConfig.mouseDownPoint
+ * @param panConfig.mouseMovePoint
+ * @returns {Object} Contains the new offset values for the inner canvas
  */
 export const getOffsetValuesOnPan = ({ scaledOffsetsOnPanStart, mouseDownPoint, mouseMovePoint }) => {
     let newScaledOffsetLeft;
@@ -77,9 +80,10 @@ export const getOffsetValuesOnPan = ({ scaledOffsetsOnPanStart, mouseDownPoint, 
  * should not be able to delete when the mouse is down on the canvas or when the marquee mode is turned on.
  *
  * @param {Object} event - Any event that needs to be checked for deletion
- * @param {Boolean} isCanvasMouseDown - Checks whether mouse is down on the canvas or not
- * @param {Boolean} isMarqueeModeOn - Checks whether the marquee mode has been turned on or not
- * @return {Boolean}  Returns true if deletion shortcut is used during the event
+ * @param {boolean} isCanvasMouseDown - Checks whether mouse is down on the canvas or not
+ * @param {boolean} isMarqueeModeOn - Checks whether the marquee mode has been turned on or not
+ * @param disableDeleteElements
+ * @returns {boolean}  Returns true if deletion shortcut is used during the event
  */
 export const canDelete = (isCanvasMouseDown, isMarqueeModeOn, disableDeleteElements) => {
     return !isCanvasMouseDown && !isMarqueeModeOn && !disableDeleteElements;
@@ -90,9 +94,9 @@ export const canDelete = (isCanvasMouseDown, isMarqueeModeOn, disableDeleteEleme
  * should not be able to zoom when the mouse is down on the canvas or when marquee selection is in progress.
  *
  * @param {Object} event - Any event that needs to be checked for zooming
- * @param {Boolean} isCanvasMouseDown - Checks whether mouse is down on the canvas or not
- * @param {Boolean} isMarqueeInProgress - Checks whether the marquee is in progress or not
- * @return {Boolean}  Returns true if zooming shortcut is used during the event
+ * @param {boolean} isCanvasMouseDown - Checks whether mouse is down on the canvas or not
+ * @param {boolean} isMarqueeInProgress - Checks whether the marquee is in progress or not
+ * @returns {boolean}  Returns true if zooming shortcut is used during the event
  */
 export const canZoom = (event, isCanvasMouseDown, isMarqueeInProgress) => {
     return event && !isCanvasMouseDown && !isMarqueeInProgress;
@@ -103,17 +107,19 @@ export const canZoom = (event, isCanvasMouseDown, isMarqueeInProgress) => {
  *
  * @typedef {Object} viewportAndOffsetConfig
  * @property {Object} viewportDimensions - Dimensions of the current viewport
- * @property {Number []} centerOffsets - Distance between the center of the viewport and the inner canvas center on scale 1
+ * @property {number[]} centerOffsets - Distance between the center of the viewport and the inner canvas center on scale 1
  */
 
 /**
  * Method to get the new zoom level and scaled offset values based on the zoom action performed.
  *
- * @param {String} action - Zoom action coming from _canvasZoom method in canvas.js
- * @param {Number} currentScale - Current scale of the inner canvas
+ * @param {string} action - Zoom action coming from _canvasZoom method in canvas.js
+ * @param {number} currentScale - Current scale of the inner canvas
  * @param {Object} viewportAndOffsetConfig - Contains all viewport and offset numbers
+ * @param viewportAndOffsetConfig.viewportDimensions
+ * @param viewportAndOffsetConfig.centerOffsets
  * @param {Array} canvasElements - Array of canvas elements
- * @return {Object} Contains the new scale along with the new offset values
+ * @returns {Object} Contains the new scale along with the new offset values
  */
 export const getScaleAndOffsetValuesOnZoom = (
     action,
@@ -179,10 +185,10 @@ export const getScaleAndOffsetValuesOnZoom = (
  * the center of the viewport and the location of a given element. This would help in determining the new offsets of our
  * innerCanvas.
  *
- * @param {Number []} viewportCenterPoint - coordinates of the target location
- * @param {Number} elementLocationX - x-coordinate of the source location
- * @param {Number} elementLocationY - y-coordinate of the source location
- * @param {Number} currentScale - scale of the innerCanvas
+ * @param {number[]} viewportCenterPoint - coordinates of the target location
+ * @param {number} elementLocationX - x-coordinate of the source location
+ * @param {number} elementLocationY - y-coordinate of the source location
+ * @param {number} currentScale - scale of the innerCanvas
  * @returns {{newScaledOffsetLeft: number, newScaledOffsetTop: number}} - The new offsets for the innerCanvas
  */
 export const getDistanceBetweenViewportCenterAndElement = (
@@ -201,16 +207,19 @@ export const getDistanceBetweenViewportCenterAndElement = (
  * An object containing the current and new offset values along with the viewport center location
  *
  * @typedef {Object} panToViewConfig
- * @property {Number []} originalScaledCenterOffsets - Current offsets of the inner canvas
- * @property {Number []} newScaledCenterOffsets - New offsets of the inner canvas to bring the element to the center of the viewport
- * @property {Number []} viewportCenterPoint - coordinates of the center of the viewport
+ * @property {number[]} originalScaledCenterOffsets - Current offsets of the inner canvas
+ * @property {number[]} newScaledCenterOffsets - New offsets of the inner canvas to bring the element to the center of the viewport
+ * @property {number[]} viewportCenterPoint - coordinates of the center of the viewport
  */
 
 /**
  * Figures out if the element is currently in the viewport or not
  *
  * @param {Object} panToViewConfig - Contains the current and new offset values along with the viewport center location
- * @returns {Boolean} True if element is in the current viewport, false otherwise
+ * @param panToViewConfig.originalScaledCenterOffsets
+ * @param panToViewConfig.newScaledCenterOffsets
+ * @param panToViewConfig.viewportCenterPoint
+ * @returns {boolean} True if element is in the current viewport, false otherwise
  */
 export const isElementInViewport = ({ originalScaledCenterOffsets, newScaledCenterOffsets, viewportCenterPoint }) => {
     const EDGE_SPACING = 50;

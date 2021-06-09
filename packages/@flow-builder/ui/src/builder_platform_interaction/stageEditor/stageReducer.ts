@@ -25,6 +25,7 @@ const stageValueChanged = (state, action) => {
 
 /**
  * Stage reducer function runs validation rules and returns back the updated stage
+ *
  * @param {object} state - element / node state
  * @param {object} action - object containing type and payload eg: {type:'xyz', payload: {propertyName: '', value: '' , error: ''}}
  * @returns {object} state - updated state

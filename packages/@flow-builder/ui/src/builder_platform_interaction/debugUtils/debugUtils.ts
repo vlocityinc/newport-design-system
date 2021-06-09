@@ -20,6 +20,7 @@ const ELEMENT_ERR_TITLE = LABELS.errorBody.replace(/ \{0\} \(\{1\}\)./, '').trim
 /**
  * Unable to directly mutate the passed object: debugData
  * Add start and end info and create new title field (first element in debugInfo)
+ *
  * @param {Object} debugData the debug interview response
  * @returns {Array} debugTraces array that contains objects representing each debug trace
  */
@@ -107,6 +108,9 @@ export function copyAndUpdateDebugTraceObject(debugData) {
     };
 }
 
+/**
+ * @param utcTime
+ */
 function formatUTCTime(utcTime) {
     const localeTime = new Date(utcTime).toLocaleString();
     const date = new Date(localeTime);
@@ -123,8 +127,9 @@ function formatUTCTime(utcTime) {
 
 /**
  * Add the start time to Interview Started debug Info
+ *
  * @param {Object} debugData the debug interview response
- * @return {Object} start debug interview info
+ * @returns {Object} start debug interview info
  */
 function getStartInterviewInfo(debugData) {
     const startedInfo = debugData.debugTrace[0].lines.filter((e) => {
@@ -141,8 +146,9 @@ function getStartInterviewInfo(debugData) {
 /**
  * Adding additional trace that is not returned by backend.
  * Error/Finished Header, Interview finish time, Interview Duration
+ *
  * @param {Object} debugData the debug interview response
- * @return {Object} end debug interview info
+ * @returns {Object} end debug interview info
  */
 function getEndInterviewInfo(debugData) {
     let end;
@@ -180,8 +186,10 @@ function getEndInterviewInfo(debugData) {
 
 /**
  * Formats dateTime ie: July 6, 2020, 8:58AM
+ *
  * @param dateTime Javascript Date object
- * @return {String} date in specified format in user default locale
+ * @param locale
+ * @returns {string} date in specified format in user default locale
  */
 export function formatDateHelper(dateTime, locale = undefined) {
     const dateAndTime = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
@@ -200,6 +208,8 @@ export function formatDateHelper(dateTime, locale = undefined) {
  *
  * corner case: element error card format doesn't need colon
  * eg: Error element <elementApiName> (<elementType>)
+ *
+ * @param debugTrace
  */
 export function makeElementTitle(debugTrace) {
     if (debugTrace.elementApiName && !debugTrace.elementType.includes(ELEMENT_ERR_TITLE)) {

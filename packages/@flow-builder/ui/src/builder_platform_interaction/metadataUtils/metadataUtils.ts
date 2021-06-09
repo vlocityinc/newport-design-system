@@ -27,14 +27,14 @@ const dateTimeFormat2Prefix = '^.[^Z]+'; // get everything before the Z
 
 /**
  * Returns an object which represents the diff between the two objects provided.
+ *
  * @param {object} beforeObj
  * @param {object} afterObj
  * @param {boolean} useBlackList
  * @param {boolean} trimEmptyItems
  * @param {boolean} ignoreDateTimeFormatDiff - ignore differences in date and dateTime values if it's a
  * formatting issue caused by differences in serialization types but not a difference in actual value.
- *
- * @return {object} object of differences. Anything with '++' indicates a new key in the
+ * @returns {object} object of differences. Anything with '++' indicates a new key in the
  * after object. Anything with '--' indicates a key that was in the old object and is
  * missing in the new object.
  */
@@ -44,6 +44,7 @@ export function diffFlow(beforeObj, afterObj, useBlackList, trimEmptyItems, igno
 
 /**
  * Helper function for diffFlow. Used internally so we can add the level parameter.
+ *
  * @param {object} beforeObj
  * @param {object} afterObj
  * @param {boolean} useBlackList
@@ -52,7 +53,8 @@ export function diffFlow(beforeObj, afterObj, useBlackList, trimEmptyItems, igno
  * formatting issue caused by differences in serialization types but not a difference in actual value.
  * @param {number} key level in the map. We only want to use the blacklist on top level keys.
  * This parameter is used to figure out if we're at the top of the object or not.
- * @return {object} object of differences. Anything with '++' indicates a new key in the
+ * @param level
+ * @returns {object} object of differences. Anything with '++' indicates a new key in the
  * after object. Anything with '--' indicates a key that was in the old object and is
  * missing in the new object.
  */
@@ -148,12 +150,20 @@ function diffLiteral(ignoreDateTimeFormatDiff, item, beforeObj, afterObj) {
     return beforeObj[item] === afterObj[item];
 }
 
+/**
+ * @param before
+ * @param after
+ */
 function conditionalDateCheck(before, after) {
     const beforeDate = getDateForCompare(before);
     const afterDate = getDateForCompare(after);
     return beforeDate === afterDate;
 }
 
+/**
+ * @param before
+ * @param after
+ */
 function conditionalDateTimeCheck(before, after) {
     const beforeDate = getDateTimeForCompare(before);
     const afterDate = getDateTimeForCompare(after);
@@ -161,6 +171,9 @@ function conditionalDateTimeCheck(before, after) {
     return suffixEqual && beforeDate === afterDate;
 }
 
+/**
+ * @param val
+ */
 function getDateForCompare(val) {
     // Figure out which format this date is in and only get the part
     // we care about. If it doesn't match the known pattern, return
@@ -171,6 +184,9 @@ function getDateForCompare(val) {
     return val;
 }
 
+/**
+ * @param val
+ */
 function getDateTimeForCompare(val) {
     // Figure out which format this dateTime is in and only get the part
     // we care about. If it doesn't match any of the known patterns, return
@@ -188,6 +204,10 @@ function getDateTimeForCompare(val) {
 //  "1981-07-25T15:32:00.000+0000" === "1981-07-25T15:32:00.000Z"
 // But "1981-07-25T15:32:00.000+0300" !== "1981-07-25T15:32:00.000Z"
 // So make sure to check the suffix too.
+/**
+ * @param before
+ * @param after
+ */
 function checkDateTimeSuffix(before, after) {
     if (before.match(dateTimeFormat1) && after.match(dateTimeFormat2)) {
         return verifySuffixIsZeros(before);
@@ -199,6 +219,9 @@ function checkDateTimeSuffix(before, after) {
 
 // DateTime is in 2000-12-12T00:00:00.000+0000 format.
 // Make sure the end part (everything after +) is 0000.
+/**
+ * @param value
+ */
 function verifySuffixIsZeros(value) {
     if (value.match(dateTimeFormat1Suffix)) {
         const suffix = value.match(dateTimeFormat1Suffix)[0];

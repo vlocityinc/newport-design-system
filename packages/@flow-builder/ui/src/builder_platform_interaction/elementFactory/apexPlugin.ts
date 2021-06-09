@@ -25,6 +25,9 @@ const getDefaultAvailableConnections = () => [
     }
 ];
 
+/**
+ * @param apexPlugin
+ */
 export function createApexPlugin(apexPlugin = {}) {
     const newApexPlugin = baseCanvasElement(apexPlugin);
     const { apexClass = '' } = apexPlugin;
@@ -51,6 +54,19 @@ export function createApexPlugin(apexPlugin = {}) {
     return apexPluginObject;
 }
 
+/**
+ * @param root0
+ * @param root0.canvasElementToPaste
+ * @param root0.newGuid
+ * @param root0.newName
+ * @param root0.canvasElementGuidMap
+ * @param root0.topCutOrCopiedGuid
+ * @param root0.bottomCutOrCopiedGuid
+ * @param root0.prev
+ * @param root0.next
+ * @param root0.parent
+ * @param root0.childIndex
+ */
 export function createPastedApexPlugin({
     canvasElementToPaste,
     newGuid,
@@ -81,6 +97,11 @@ export function createPastedApexPlugin({
     };
 }
 
+/**
+ * @param apexPlugin
+ * @param newGuid
+ * @param newName
+ */
 export function createDuplicateApexPlugin(apexPlugin, newGuid, newName) {
     const newApexPlugin = createApexPlugin(apexPlugin);
     Object.assign(newApexPlugin, {
@@ -91,6 +112,9 @@ export function createDuplicateApexPlugin(apexPlugin, newGuid, newName) {
     return duplicateApexPlugin;
 }
 
+/**
+ * @param apexPlugin
+ */
 export function createApexPluginWithConnectors(apexPlugin) {
     const newApexPlugin = createApexPlugin(apexPlugin);
 
@@ -107,6 +131,10 @@ export function createApexPluginWithConnectors(apexPlugin) {
     return baseCanvasElementsArrayToMap([apexPluginObject], connectors);
 }
 
+/**
+ * @param apexPlugin
+ * @param config
+ */
 export function createApexPluginMetadataObject(apexPlugin, config) {
     if (!apexPlugin) {
         throw new Error('apexPlugin is not defined');

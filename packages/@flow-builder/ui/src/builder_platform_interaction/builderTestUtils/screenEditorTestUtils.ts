@@ -47,6 +47,11 @@ export const ATT_SELECTOR_OPERATORS = {
 };
 
 // Compares value and expected value using operator
+/**
+ * @param value
+ * @param expectedValue
+ * @param operator
+ */
 function check(value = '', expectedValue, operator) {
     if (operator === ATT_SELECTOR_OPERATORS.CONTAINS) {
         return value.indexOf(expectedValue) > -1;
@@ -85,6 +90,11 @@ const VALUE_TYPE_STATIC = 'static';
 const VALUE_TYPE_REF = 'ref';
 const VALUE_TYPE_NULL = 'null';
 
+/**
+ * @param obj
+ * @param prop
+ * @param defValue
+ */
 function booleanValue(obj, prop, defValue) {
     const val = obj[prop];
     // Can't do a simple check of val because if val is false and defValue is
@@ -94,6 +104,7 @@ function booleanValue(obj, prop, defValue) {
 }
 /**
  * Returns a string value based on the data provided
+ *
  * @param {string} value - The value to return, can be null
  * @param {string} defValue - The value to use if the value argument is null
  * @param {boolean} hydrate - Should the value be hydrated
@@ -126,8 +137,9 @@ function getDefaultValue(type, valueType) {
 
 /**
  * Creates a screen to be used for testing
+ *
  * @param {string} name - The name of the screen field
- * @param {function} fieldsProducer - A function to produce an array of screen fields to be used as the fields of the screen
+ * @param {Function} fieldsProducer - A function to produce an array of screen fields to be used as the fields of the screen
  * @param {object} config - {allowBack = true, allowFinish = true, allowPause = true, showFooter = true, showHeader = true, hydrateValues = true, includeNonMDValues = true, mutateScreen = true}
  * @returns {object} - The screen
  */
@@ -171,6 +183,7 @@ function createScreen(name, fieldsProducer, config = {}) {
 
 /**
  * Creates a screen field to be used for testing
+ *
  * @param {string} name - The name of the screen field
  * @param {string} typeName - The type of the screen field (see screen field types in screen-editor-utils)
  * @param {string} value - The defaultValue. If null is passed, a random default value will be generated. Pass SCREEN_NO_DEF_VALUE
@@ -263,6 +276,7 @@ export function createTestScreenField(name, typeName, value?, config = {}, store
 
 /**
  * Helper function for creating a test screen field.
+ *
  * @param field
  * @param name
  * @param config
@@ -309,6 +323,7 @@ function addConfigOptionsToField(field, name, config, fieldType, hydrateValues) 
 
 /**
  * Creates a screen to be used for testing
+ *
  * @param {string} name - The name of the screen field
  * @param {string[]} screenFieldTypeNames - The types of the screen fields to be added, pass null if no screen fields are needed. (See screen field types in screen-editor-utils)
  * @param {object} config - {allowBack = true, allowFinish = true, allowPause = true, showFooter = true, showHeader = true, hydrateValues = true, includeNonMDValues = true, mutateScreen = true}
@@ -347,6 +362,7 @@ export function createTestScreen(name, screenFieldTypeNames = [], config = {}) {
 
 /**
  * Creates a screen to be used for testing
+ *
  * @param {string} name - The name of the screen field
  * @param {screenfield[]} screenFields - The screenfields of the screen
  * @param {object} config - {allowBack = true, allowFinish = true, allowPause = true, showFooter = true, showHeader = true, hydrateValues = true, includeNonMDValues = true, mutateScreen = true}
@@ -366,9 +382,9 @@ export function createTestScreenWithFields(name, screenFields = [], config = {})
  * tag[attribute<operator>="value"], where operator can be *, |, ^, ~, $ or empty
  *
  * @param {Element} element - The parent element
- * @param {String} selector - The name (tagName) of the child
+ * @param {string} selector - The name (tagName) of the child
  * @param {boolean} returnList - If you want a list of matching results returned (vs first one found).
- * @return {Element} the element or null
+ * @returns {Element} the element or null
  */
 export function query(element, selector, returnList) {
     SELECTOR_REGEX.lastIndex = 0;
@@ -388,12 +404,12 @@ export function query(element, selector, returnList) {
  * element.querySelector('childName[attributeName="attributeValue"]')
  *
  * @param {Element} element - The parent element
- * @param {String} childName - The name (tagName) of the child
- * @param {String} attributeName - The name of the attribute
- * @param {String} attributeValue - The value of the attribute
+ * @param {string} childName - The name (tagName) of the child
+ * @param {string} attributeName - The name of the attribute
+ * @param {string} attributeValue - The value of the attribute
  * @param {ATT_SELECTOR_OPERATORS} operator - The operation to use for comparing
  * @param {boolean} returnList - If you want a list of matching results returned (vs first one found).
- * @return {Element} the element or null
+ * @returns {Element} the element or null
  */
 export function find(element, childName, attributeName, attributeValue, operator, returnList = false) {
     const results = [];
@@ -418,7 +434,8 @@ export function find(element, childName, attributeName, attributeValue, operator
 
 /**
  * Returns a drop event used for testing.
- * @return {event} drop event.
+ *
+ * @returns {event} drop event.
  */
 export function createDropEvent() {
     const dropEvent = new CustomEvent('drop');

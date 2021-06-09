@@ -105,7 +105,7 @@ export const UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY = 'UPDATE_IS_AUTO_LAYOUT_CANV
 /**
  * Helper function to create actions.
  *
- * @param {String} type - action type
+ * @param {string} type - action type
  * @param {Object} payload - data
  * @returns {Object} action new action based on type and payload
  */
@@ -114,6 +114,7 @@ export const createAction = (type, payload = {}) => ({ type, payload });
 /**
  * Action for updating flow information in the store.
  * To be used when we get flow metadata from backend or when we create a new flow.
+ *
  * @param {Object} payload - contains new flow information
  * @returns {Object} action new action based on type and payload
  */
@@ -357,6 +358,7 @@ export const deselectOnCanvas = createAction(DESELECT_ON_CANVAS);
 
 /**
  * Action for marquee select the canvas elements and connectors.
+ *
  * @param {Object} payload - contains arrays with the canvas elements and connectors to be selected/deselected
  * @returns {Object} action new action based on type and payload
  */
@@ -364,6 +366,7 @@ export const marqueeSelectOnCanvas = (payload) => createAction(MARQUEE_SELECT_ON
 
 /**
  * Action for selecting/desecting multiple canvas elements on the Fixed Canvas.
+ *
  * @param {Object} payload - contains arrays with the canvas elements to be selected/deselected and those that
  * can be selected next
  * @returns {Object} action new action based on type and payload
@@ -379,6 +382,7 @@ export const deleteElementFault = (payload) => createAction(DELETE_FAULT, payloa
 
 /**
  * Action for pasting elements on the fixed canvas
+ *
  * @param {Object} payload - Contains the data for pasting elements on the fixed canvas
  */
 export const pasteOnFixedCanvas = (payload) => createAction(PASTE_ON_FIXED_CANVAS, payload);
@@ -394,6 +398,7 @@ export const highlightOnCanvas = (payload) => createAction(HIGHLIGHT_ON_CANVAS, 
 /**
  * Action for updating the location of canvas element. This is needed in additon to updateElement
  * because we are grouping this action in undoRedo lib to achieve multi move into one undo state.
+ *
  * @param {Object} payload - contains guid & position coordinates for the canvas element.
  * @returns {Object} action - updateCanvasElementLocation action
  */
@@ -401,6 +406,7 @@ export const updateCanvasElementLocation = (payload) => createAction(UPDATE_CANV
 
 /**
  * Action for resetting the inline resource to null.
+ *
  * @returns {Object} action new action based on type
  */
 export const removeLastCreatedInlineResource = createAction(REMOVE_LAST_CREATED_INLINE_RESOURCE);
@@ -409,6 +415,7 @@ export const removeLastCreatedInlineResource = createAction(REMOVE_LAST_CREATED_
  * Action for setting the newly created inline resource properties. This is used so that the expressionBuilder knows:
  * 1. we are creating an inline resource for the left or right combobox
  * 2. which expressionBuilder to add the resource to when there are multiple conditions
+ *
  * @param {Object} payload - contains a string `left` or `right` or null & the row index of the condition
  * @returns {Object} action - updateInlineResourceProperties action
  */
@@ -416,6 +423,8 @@ export const updateInlineResourceProperties = (payload) => createAction(UPDATE_I
 
 /**
  * Action for updating a list of all apex classes.
+ *
+ * @param payload
  */
 export const updateApexClasses = (payload) => createAction(UPDATE_APEX_CLASSES, payload);
 
@@ -423,6 +432,7 @@ export const updateEntities = (payload) => createAction(UPDATE_ENTITIES, payload
 
 /**
  * Action for decorating a flow on the canvas (example, highlighting connectors and elements)
+ *
  * @param {Object} payload - canvas decorator object
  * @returns {Object} action - decorateCanvas action
  */
@@ -430,6 +440,7 @@ export const decorateCanvas = (payload) => createAction(DECORATE_CANVAS, payload
 
 /**
  * Action for clearing any current canvas decorations (example, highlighted connectors)
+ *
  * @returns {Object} action - clearCanvasDecoration action
  */
 export const clearCanvasDecoration = createAction(CLEAR_CANVAS_DECORATION);
@@ -445,6 +456,7 @@ export const updateFlowOnCanvasModeToggle = (payload: object): object =>
 
 /**
  * Action for updating the isAutoLayoutCanvas property
+ *
  * @param payload - Contains boolean value determining the new value of isAutoLayoutCanvas
  * @returns action new action based on type and payload
  */

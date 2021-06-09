@@ -82,6 +82,7 @@ export default class RecordCreateEditor extends LightningElement {
 
     /**
      * public api function to run the rules from record create validation library
+     *
      * @returns {Object[]} list of errors
      */
     @api validate() {
@@ -100,7 +101,8 @@ export default class RecordCreateEditor extends LightningElement {
      * Returns the number of result stored.
      * If firstRecord then the user will be able to select a sObject variable
      * If allRecord then the user will be able to select a sObject Collection variable
-     * @returns {String} This value can be 'firstRecord' or 'allRecords'
+     *
+     * @returns {string} This value can be 'firstRecord' or 'allRecords'
      */
     get numberRecordsToStoreValue() {
         return this.state.recordCreateElement.getFirstRecordOnly
@@ -248,14 +250,14 @@ export default class RecordCreateEditor extends LightningElement {
     }
 
     /**
-     * @return {Boolean} true : the user chooses to use the Advanced Options
+     * @returns {boolean} true : the user chooses to use the Advanced Options
      */
     get isAdvancedMode() {
         return !this.state.recordCreateElement.storeOutputAutomatically;
     }
 
     /**
-     * @return {Boolean} true : the process type supports the automatic output handling
+     * @returns {boolean} true : the process type supports the automatic output handling
      */
     get isAutomaticOutputHandlingSupported() {
         return this.processTypeAutomaticOutPutHandlingSupport === FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED;
@@ -330,6 +332,7 @@ export default class RecordCreateEditor extends LightningElement {
 
     /**
      * Handles selection/deselection of 'Manually Assign Variables' checkbox
+     *
      * @param {Object} event - event
      */
     handleManuallyAssignVariablesChanged(event) {

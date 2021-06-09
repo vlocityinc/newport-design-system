@@ -7,7 +7,6 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
  * @property {string|HydratedValue} typeName Generic type name.
  * @property {string|HydratedValue} typeValue Concrete type name.
  * @property {string} rowIndex Row index for the combobox
- *
  * @typedef {DynamicTypeMappingMetadataObject}
  * @property {string} typeName Generic type name
  * @property {string} typeValue Concrete type name
@@ -15,6 +14,7 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 /**
  * Makes a copy of the dynamic type mapping.
+ *
  * @param {DynamicTypeMapping|DynamicTypeMappingMetadataObject} dynamicTypeMapping Dynamic type mapping to clone.
  * @returns {DynamicTypeMapping}
  */
@@ -34,6 +34,7 @@ export const createDynamicTypeMappings = (dynamicTypeMappings) =>
 /**
  * Creates a dynamic type mapping metadata object from an internal representation
  * of the dynamic type mapping.
+ *
  * @param {DynamicTypeMapping[]} [dynamicTypeMappings]
  * @returns {DynamicTypeMappingMetadataObject|undefined}
  */

@@ -108,7 +108,8 @@ export default class ScreenPalette extends LightningElement {
 /**
  * Given a guid, looks up all the fields in the given sections and figures out which field type
  * it corresponds to.
- * @param {array} sections - the parent sections containing field types to check
+ *
+ * @param {Array} sections - the parent sections containing field types to check
  * @param {string} guid - the guid to check against
  * @returns {string} Corresponding field type name
  */
@@ -116,6 +117,10 @@ function getFieldTypeNameByGuid(sections, guid) {
     return getFieldByGuid(sections, guid).fieldTypeName;
 }
 
+/**
+ * @param label
+ * @param items
+ */
 function createSection(label, items) {
     const section = {
         guid: generateGuid(),
@@ -125,6 +130,11 @@ function createSection(label, items) {
     return section;
 }
 
+/**
+ * @param pattern
+ * @param screenFieldTypes
+ * @param extTypes
+ */
 function getTypeMap(pattern: string, screenFieldTypes: Array<any> = [], extTypes: Array<any> = []) {
     const types = [...screenFieldTypes, ...extTypes].filter(labelFilter(pattern));
     const typeMap = types.reduce((acc, type) => {

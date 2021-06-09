@@ -129,6 +129,8 @@ export default class AlcNodeMenu extends Menu {
      * Handles the onclick event on the back button, and updates the contextualMenuMode to base mode.
      * Also, dispatches the ClearHighlightedPathEvent to remove the highlight from nodes and connectors
      * on the deletion path.
+     *
+     * @param event
      */
     handleBackButtonClick = (event: Event | undefined = undefined) => {
         if (event != null) {
@@ -141,6 +143,8 @@ export default class AlcNodeMenu extends Menu {
     };
     /**
      * Handles the click on the action row item and dispatches the appropriate event
+     *
+     * @param event
      */
     handleSelectNodeAction = (event) => {
         if (!event.fromKeyboard) {
@@ -190,6 +194,8 @@ export default class AlcNodeMenu extends Menu {
     };
     /**
      * Handles onchange event coming from the combobox and updates the _selectedConditionValue accordingly
+     *
+     * @param event
      */
     handleComboboxChange = (event: CustomEvent) => {
         event.stopPropagation();
@@ -205,6 +211,8 @@ export default class AlcNodeMenu extends Menu {
     };
     /**
      * Handles the click on the combobox and set tabFocusRingIndex to the proper value
+     *
+     * @param event
      */
     handleComboboxFocus = (event) => {
         event.stopPropagation();
@@ -212,6 +220,8 @@ export default class AlcNodeMenu extends Menu {
     };
     /**
      * Handles the click on the Footer button and dispatches the relevant event
+     *
+     * @param event
      */
     handleFooterButtonClick = (event: Event | undefined = undefined) => {
         if (event != null) {
@@ -228,6 +238,7 @@ export default class AlcNodeMenu extends Menu {
     };
     /**
      * Helper function to move the focus correctly when using arrow keys in the contextual menu
+     *
      * @param key - the key pressed (arrowDown or arrowUp)
      */
     handleArrowKeyDown(key) {

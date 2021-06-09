@@ -70,6 +70,7 @@ export default class contextRecordEditor extends LightningElement {
 
     /**
      * public api function to return the node
+     *
      * @returns {object} node - node
      */
     @api
@@ -139,6 +140,7 @@ export default class contextRecordEditor extends LightningElement {
 
     /**
      * set the entity name (object) and  load fields accordingly
+     *
      * @param {string} newValue - new entity name
      */
     set recordEntityName(newValue) {
@@ -211,7 +213,7 @@ export default class contextRecordEditor extends LightningElement {
     }
 
     /**
-     * @returns {Boolean} whether the current triggr type supports a custom property editor for context selection (eg. Journey Builder)
+     * @returns {boolean} whether the current triggr type supports a custom property editor for context selection (eg. Journey Builder)
      */
     get hasConfigurationEditor() {
         return !!this.configurationEditor;
@@ -273,6 +275,7 @@ export default class contextRecordEditor extends LightningElement {
 
     /**
      * Instantiates property changed event based to handle property change and updating via element's reducer state accordingly
+     *
      * @param {string} propertyName - name of the property changed
      * @param {Object|string|boolean} newValue - new value to be passed to property
      * @param {string} error - error on property
@@ -288,6 +291,7 @@ export default class contextRecordEditor extends LightningElement {
 
     /**
      * public api function to run the rules from context record validation library, and run the validate function on the custom property editor (if one is rendered)
+     *
      * @returns {Array} list of errors
      */
     @api

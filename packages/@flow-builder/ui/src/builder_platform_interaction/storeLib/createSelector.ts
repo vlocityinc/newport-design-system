@@ -3,9 +3,10 @@ import { memoize } from 'builder_platform_interaction/commonUtils';
 
 /**
  * This is used to derive data from a state in the store.
+ *
  * @param {Function[]} selectors An array of selectors that are needed for transformation.
  * @param {Function} transformation A function, which derives data based on selectors.
- * @param {boolean} [false] shouldMemoize Set to true to memoize the selectors and the transformation.
+ * @param {boolean} shouldMemoize Set to true to memoize the selectors and the transformation.
  * @returns {Function} A function in which a user passes the state and it transforms an appropriate piece of data.
  */
 export function createSelector(selectors, transformation, shouldMemoize = false) {

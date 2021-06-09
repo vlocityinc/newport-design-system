@@ -36,6 +36,10 @@ const elementType = ELEMENT_TYPE.SCREEN_FIELD;
 
 const INPUTS_ON_NEXT_NAV_TO_ASSOC_SCRN_DEFAULT = InputsOnNextNavToAssocScrnOption.USE_STORED_VALUES;
 
+/**
+ * @param screenField
+ * @param isNewField
+ */
 export function createScreenField(screenField: UI.ScreenField, isNewField = false) {
     const newScreenField = baseElement(screenField);
     const {
@@ -234,6 +238,7 @@ const getCommonValues = (screenField) => {
 
 /**
  * Recursively created duplicated screen fields using the childReferences property on a given screen field
+ *
  * @param {Object} screenField - Screen Field in Store
  * @param {Object []} originalFieldReferences - childReferences of a given screen
  * @param {Object []} duplicatedScreenFields - Contains duplicated screen field objects (The guid, name and childReferences are updated in baseElement)
@@ -273,6 +278,7 @@ function _getDuplicatedNestedScreenFields(
 
 /**
  * Function to get all the duplicated screen fields (including the nested ones)
+ *
  * @param {Object} screenField - Screen Field in Store
  * @param {Object} cutOrCopiedChildElements - Local copy of the cut ot copied canvas elements
  * @returns duplicatedScreenFields - An array containing all the duplicated screen fields
@@ -291,8 +297,9 @@ export function createDuplicateNestedScreenFields(screenField = {}, cutOrCopiedC
 /**
  * Called when opening a property editor or copying a screen element. We are taking all the field
  * references and converting them into full fledged field objects.
+ *
  * @param {screenFieldInStore} screenField
- * @return {screenFieldInPropertyEditor} Screen field in the shape expected by a property editor
+ * @returns {screenFieldInPropertyEditor} Screen field in the shape expected by a property editor
  */
 export function createScreenFieldWithFields(screenField = {}) {
     const newScreenField =
@@ -320,11 +327,12 @@ export function createScreenFieldWithFields(screenField = {}) {
  * Create a screen field in the shape the store expects (with field references).  This is used when taking a
  * flow element and converting it for use in the store (either when we're loading an existing flow or when we
  * just clicked done on the property editor).
+ *
  * @param {Object} screenField - screen field from metadata
  * @param {Array} screenFields - An array for collecting all the screen fields that are contained, either directly or indirectly, by the current screen.
- * @param {String} parentName - The name of this screen field's parent. Used for autogeneration of unique api names.
- * @param {Number} index - The next available index. Used for autogeneration of unique api names.
- * @return {screenFieldInStore} screen field in the shape used by the store
+ * @param {string} parentName - The name of this screen field's parent. Used for autogeneration of unique api names.
+ * @param {number} index - The next available index. Used for autogeneration of unique api names.
+ * @returns {screenFieldInStore} screen field in the shape used by the store
  */
 export function createScreenFieldWithFieldReferences(screenField = {}, screenFields = [], parentName, index) {
     const newScreenField = createScreenField(screenField);
@@ -445,9 +453,10 @@ export const createAutomaticField = (
 
 /**
  * Creates an empty screen field of the given type
- * @param {String} typeName - The field type
- * @param {String} sectionCount - The number of sections in the current screen
- * @return {object} - The new screen field
+ *
+ * @param {string} typeName - The field type
+ * @param {string} sectionCount - The number of sections in the current screen
+ * @returns {object} - The new screen field
  */
 // TODO: (W-7251970) This function has special logic for different types. We
 // should move the screen field type-specific logic to screen field type specific
@@ -495,6 +504,9 @@ export function createEmptyScreenFieldOfType(typeName, sectionCount = 0) {
     return newScreenField;
 }
 
+/**
+ * @param screenField
+ */
 export function createScreenFieldMetadataObject(screenField) {
     if (!screenField) {
         throw new Error('screenField is not defined');
@@ -626,6 +638,11 @@ export function createScreenFieldMetadataObject(screenField) {
     return mdScreenField;
 }
 
+/**
+ * @param screenField
+ * @param choiceReferenceObjects
+ * @param defaultValue
+ */
 function shouldSetDefaultSelectedChoiceReference(screenField, choiceReferenceObjects, defaultValue) {
     return (
         isChoiceField(screenField) &&
@@ -639,6 +656,9 @@ function shouldSetDefaultSelectedChoiceReference(screenField, choiceReferenceObj
     );
 }
 
+/**
+ * @param choiceReference
+ */
 export function createChoiceReference(choiceReference) {
     let newChoiceReference;
     if (!choiceReference) {
@@ -651,6 +671,9 @@ export function createChoiceReference(choiceReference) {
     };
 }
 
+/**
+ * @param choiceReferenceObject
+ */
 function createChoiceReferenceMetadatObject(choiceReferenceObject) {
     const { choiceReference } = choiceReferenceObject;
     if (!choiceReference) {
@@ -660,6 +683,9 @@ function createChoiceReferenceMetadatObject(choiceReferenceObject) {
     return name;
 }
 
+/**
+ * @param visibilityRule
+ */
 function createVisibilityRuleObject(visibilityRule) {
     if (!visibilityRule) {
         return {
@@ -675,6 +701,10 @@ function createVisibilityRuleObject(visibilityRule) {
     };
 }
 
+/**
+ * @param mdScreenField
+ * @param visibilityRule
+ */
 function createAndAssignVisibilityRuleMetadataObject(mdScreenField, visibilityRule) {
     let { conditions } = visibilityRule;
 
@@ -689,6 +719,9 @@ function createAndAssignVisibilityRuleMetadataObject(mdScreenField, visibilityRu
     }
 }
 
+/**
+ * @param width
+ */
 function createEmptyColumn(width) {
     // TODO: Define the 'width' parameter name as a const somewhere
     const columnWidthParameter = {
@@ -705,6 +738,10 @@ function createEmptyColumn(width) {
     };
 }
 
+/**
+ * @param childReferences
+ * @param field
+ */
 function updateScreenFieldReferences(childReferences = [], field) {
     if (!field || !field.guid) {
         throw new Error('Either field or field.guid is not defined');
@@ -717,6 +754,9 @@ function updateScreenFieldReferences(childReferences = [], field) {
     ];
 }
 
+/**
+ *
+ */
 function generateRandomSuffix() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
     let randomStr = '';

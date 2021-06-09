@@ -22,7 +22,7 @@ export type ElementFilterConfig = {
 // TODO: all of this regarding filtering & selectors will be revisited with W-5462144
 
 /**
- * @param {Boolean} shouldBeWritable    if true, only writable elements will be returned
+ * @param {boolean} shouldBeWritable    if true, only writable elements will be returned
  * @returns the selector
  */
 function writableOrReadableElement(shouldBeWritable = false) {
@@ -30,10 +30,10 @@ function writableOrReadableElement(shouldBeWritable = false) {
 }
 
 /**
- * @param {Boolean} shouldBeWritable    if true, only writable elements will be returned
- * @param {Boolean} choices             optional: should this menu data only contain choices
+ * @param {boolean} shouldBeWritable    if true, only writable elements will be returned
+ * @param {boolean} choices             optional: should this menu data only contain choices
  * @param {Array} staticChoiceGuids     optional: should this menu data only contain the choices specified
- * @param {String} dataType             data type for menu data items
+ * @param {string} dataType             data type for menu data items
  * @returns the selector to be used when element is a Screen
  */
 function screenSelectors(
@@ -74,6 +74,9 @@ const CLUD_ELEMENT_TYPES = [
     ELEMENT_TYPE.RECORD_LOOKUP
 ];
 
+/**
+ * @param config
+ */
 function getFilterInformation(config: ElementFilterConfig = {}) {
     const { elementType, shouldBeWritable, selectorConfig } = config;
 
@@ -92,6 +95,9 @@ function getFilterInformation(config: ElementFilterConfig = {}) {
 /*
  * Add uncommitted elements to the list of elements retrieved from store
  * */
+/**
+ * @param elements
+ */
 function addUncommittedElementsFromLocalStorage(elements) {
     const currentScreen: any = getScreenElement();
     const screenElements = flattenElements(currentScreen);
@@ -111,6 +117,10 @@ function addUncommittedElementsFromLocalStorage(elements) {
 
 /*
  * Find and remove elements that have been deleted from local storage
+ */
+/**
+ * @param elements
+ * @param currentScreen
  */
 function removeUncommittedDeletedElementsFromLocalStorage(elements: UI.ScreenField[], currentScreen: UI.CanvasElement) {
     if (currentScreen) {
@@ -136,6 +146,9 @@ function removeUncommittedDeletedElementsFromLocalStorage(elements: UI.ScreenFie
     return elements;
 }
 
+/**
+ * @param screenElement
+ */
 function getAllGuids(screenElement) {
     if (!screenElement) {
         return [];
@@ -153,6 +166,10 @@ function getAllGuids(screenElement) {
     return screenElementsGuids;
 }
 
+/**
+ * @param screenElement
+ * @param elements
+ */
 function getAllGuidsFromChildRef(screenElement, elements) {
     const guids: UI.Guid[] = [];
     screenElement?.childReferences.forEach((child) => {
@@ -166,8 +183,9 @@ function getAllGuidsFromChildRef(screenElement, elements) {
 
 /**
  * Flatten and retrieve all the nested screen field elements from the screen element
+ *
  * @param {Object} screenElement screen element from store
- * @returns {array} all nested screen field elements
+ * @returns {Array} all nested screen field elements
  */
 export function flattenElements(screenElement) {
     if (!screenElement) {
@@ -188,9 +206,10 @@ export function flattenElements(screenElement) {
 
 /**
  * This method returns the selector that should be used to find elements for the menuData
+ *
  * @param {Object} storeInstance reference to the storeInstance
  * @param {ElementFilterConfig} config contains necessary context to return the filterInformation
- * @returns {array} retrieves elements from store
+ * @returns {Array} retrieves elements from store
  */
 export function getStoreElements(storeInstance: UI.StoreState, config: ElementFilterConfig) {
     let elements = [];

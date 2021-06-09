@@ -68,6 +68,7 @@ export default class RecordChoiceSetEditor extends LightningElement {
     /**
      * Public api function to return the node
      * Called by the property editor controller on "OK"
+     *
      * @returns {object} node - node
      */
     @api
@@ -178,8 +179,9 @@ export default class RecordChoiceSetEditor extends LightningElement {
      * Extract out value from the event or item if payload is from combobox
      * Ex: If a select happened it will have an item as payload
      * Ex: if a literal is typed then the event will not have an item, just a display text
+     *
      * @param {Object} event Event for the data type
-     * @return {Object|String} value of the event payload
+     * @returns {Object | string} value of the event payload
      */
     getItemOrDisplayText(event) {
         // if it is a combobox value changed event we have two cases: literals or item select
@@ -227,8 +229,9 @@ export default class RecordChoiceSetEditor extends LightningElement {
 
     /**
      * Helper method to update the recordChoiceObjectType. Also resets other properties accordingly.
+     *
      * @param {Object} event
-     * @param {String} error
+     * @param {string} error
      */
     updateObjectType(event, error) {
         event.stopPropagation();
@@ -263,6 +266,7 @@ export default class RecordChoiceSetEditor extends LightningElement {
 
     /**
      * Handles the on change event and updated recordChoiceSetResource accordingly
+     *
      * @param {Object} event On combobox-state-changed event coming from entity-resource-picker
      */
     handleObjectTypeChange(event) {
@@ -270,6 +274,7 @@ export default class RecordChoiceSetEditor extends LightningElement {
     }
     /**
      * Handles the on select event and updated recordChoiceSetResource accordingly
+     *
      * @param {Object} event On item-selected event coming from entity-resource-picker
      */
     handleObjectTypeSelect(event) {
@@ -376,10 +381,11 @@ export default class RecordChoiceSetEditor extends LightningElement {
 
     /**
      * Does the update property action with passed in property name, value and error.
-     * @param {String} propertyName to update
-     * @param {String} value to update with
-     * @param {String} error if any
-     * @param {Boolean} doValidateProperty If false, doesn't validate the property on blur
+     *
+     * @param {string} propertyName to update
+     * @param {string} value to update with
+     * @param {string} error if any
+     * @param {boolean} doValidateProperty If false, doesn't validate the property on blur
      */
     updateProperty(propertyName, value, error, doValidateProperty = true) {
         const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {

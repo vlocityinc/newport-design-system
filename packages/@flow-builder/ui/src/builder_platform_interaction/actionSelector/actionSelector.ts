@@ -131,31 +131,28 @@ export default class ActionSelector extends LightningElement {
 
     /**
      * @typedef {Object} InvocableAction
-     *
      * @property {boolean} isStandard
-     * @property {String} type "apex", "quickAction", "component" or same as name for standard invocable actions
-     * @property {String} description
-     * @property {String} label
-     * @property {String} durableId type-name, for ex "apex-LogACall", "deactivateSessionPermSet-deactivateSessionPermSet"
-     * @property {String} name for ex "LogACall", "chatterPost", "CollaborationGroup.NewGroupMember" ...
+     * @property {string} type "apex", "quickAction", "component" or same as name for standard invocable actions
+     * @property {string} description
+     * @property {string} label
+     * @property {string} durableId type-name, for ex "apex-LogACall", "deactivateSessionPermSet-deactivateSessionPermSet"
+     * @property {string} name for ex "LogACall", "chatterPost", "CollaborationGroup.NewGroupMember" ...
      */
 
     /**
      * @typedef {Object} ApexPlugin
-     *
-     * @property {String} apexClass
-     * @property {String} description
-     * @property {String} name
-     * @property {String} tag
+     * @property {string} apexClass
+     * @property {string} description
+     * @property {string} name
+     * @property {string} tag
      */
 
     /**
      * @typedef {Object} Subflow
-     *
-     * @property {String} masterLabel
-     * @property {String} description
-     * @property {String} developerName
-     * @property {String} namespacePrefix
+     * @property {string} masterLabel
+     * @property {string} description
+     * @property {string} developerName
+     * @property {string} namespacePrefix
      */
 
     /**
@@ -208,7 +205,7 @@ export default class ActionSelector extends LightningElement {
     /**
      * Get the selected action
      *
-     * @return {SelectedInvocableAction|SelectedApexPlugin|SelectedSubflow} The selected action
+     * @returns {SelectedInvocableAction|SelectedApexPlugin|SelectedSubflow} The selected action
      */
     @api
     get selectedAction() {

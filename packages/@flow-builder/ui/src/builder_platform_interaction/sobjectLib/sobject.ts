@@ -14,7 +14,8 @@ export const ENTITY_TYPE = {
 
 /**
  * Set the SObject Variables in the flow. This should be called at the very beginning of the flow
- * @param {String} entities - String object of all SObjects
+ *
+ * @param {string} entities - String object of all SObjects
  */
 export const setEntities = (entities: UI.EntityDefinition[] | null = null) => {
     const allEntities: UI.EntityDefinition[] = [];
@@ -63,6 +64,7 @@ const getStoredEntities = (): UI.StoredEntities | undefined => {
 
 /**
  * Returns all the SObjects, regardless of action
+ *
  * @returns {Array} All Entities
  */
 export const getAllEntities = () => {
@@ -74,7 +76,7 @@ export const getAllEntities = () => {
  * Return the SObject description
  *
  * @param {string} apiName the api name of the entity
- * @return {Object} the entity description
+ * @returns {Object} the entity description
  */
 export const getEntity = (apiName) => {
     const storedEntities = getStoredEntities();
@@ -85,6 +87,7 @@ export const getEntity = (apiName) => {
 /**
  * Takes a list of org-accessible workflow enabled entities, filters out the ones that are not user accessible based on
  * the master entities list in the store, and adds the filtered workflow enabled entity list to the store
+ *
  * @param {Array} orgWorkflowEnabledEntities List of api names of workflow enabled entities available in the org
  */
 export const setWorkflowEnabledEntities = (orgWorkflowEnabledEntities = []) => {
@@ -112,6 +115,7 @@ export const setWorkflowEnabledEntities = (orgWorkflowEnabledEntities = []) => {
 
 /**
  * Returns only queryable SObjects
+ *
  * @returns {Array} Queryable Entities
  */
 export const getQueryableEntities = () => {
@@ -121,6 +125,7 @@ export const getQueryableEntities = () => {
 
 /**
  * Returns only creatable SObjects
+ *
  * @returns {Array} Createable Entities
  */
 export const getCreateableEntities = () => {
@@ -130,6 +135,7 @@ export const getCreateableEntities = () => {
 
 /**
  * Returns only deletable SObjects
+ *
  * @returns {Array} Deletable Entities
  */
 export const getDeletableEntities = () => {
@@ -139,6 +145,7 @@ export const getDeletableEntities = () => {
 
 /**
  * Returns only updatable SObjects
+ *
  * @returns {Array} Updateable Entities
  */
 export const getUpdateableEntities = () => {
@@ -148,6 +155,7 @@ export const getUpdateableEntities = () => {
 
 /**
  * Returns only workflow enabled SObjects
+ *
  * @returns {Array} Worflow Enabled Entities
  */
 export const getWorkflowEnabledEntities = () => {
@@ -170,7 +178,7 @@ export const areFieldsForEntityAlreadyFetched = (entityName) => {
  *            background need to be set to true if request needs to be run as a background action
  *            disableErrorModal need to be set to true to disable the default error modal panel
  *            messageForErrorModal the message to use instead of the default error message
- * @return {Promise} Promise object with the fields
+ * @returns {Promise} Promise object with the fields
  */
 export const fetchFieldsForEntity = (
     entityName,
@@ -194,7 +202,8 @@ export const fetchFieldsForEntity = (
 
 /**
  * Grabs the fields for a specific sObject from the cache, undefined if not a valid entityName
- * @param {String} entityName Api name of the SObject
+ *
+ * @param {string} entityName Api name of the SObject
  */
 export const getFieldsForEntity = (entityName) => {
     return cachedEntityFields[entityName];
@@ -202,9 +211,11 @@ export const getFieldsForEntity = (entityName) => {
 
 /**
  * Get the field with given api name (case-insensitive)
+ *
  * @param {Object} map of properties (apiName -> field)
+ * @param fields
  * @param {string} fieldName
- * @return {Object|undefined} the field with the api name or undefined if there is no field with this api name
+ * @returns {Object|undefined} the field with the api name or undefined if there is no field with this api name
  */
 export const getEntityFieldWithApiName = (fields, fieldName) => {
     fieldName = fieldName.toLowerCase();

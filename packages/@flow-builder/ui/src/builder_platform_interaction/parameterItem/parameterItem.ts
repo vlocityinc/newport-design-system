@@ -47,6 +47,7 @@ export default class ParameterItem extends LightningElement {
 
     /**
      * Holds the rules used for fetching full menu data, used the ferovResourcePicker to display allowed inputs
+     *
      * @type {module:rules.operatorRule[]}
      */
     @api
@@ -59,17 +60,17 @@ export default class ParameterItem extends LightningElement {
 
     /**
      * @typedef {Object} ParameterItem
-     * @property {String} name  parameter's name (may be hydrated)
-     * @property {String} rowIndex  the unique identifier
+     * @property {string} name  parameter's name (may be hydrated)
+     * @property {string} rowIndex  the unique identifier
      * @property {boolean} [isRequired]   true if the parameter is required input parameter
-     * @property {String|Object} [label]   parameter label (may be hydrated)
-     * @property {String|Object} dataType     the flow data type, see FLOW_DATA_TYPE (may be hydrated)
-     * @property {Number} [maxOccurs]   the maximum occurrences
-     * @property {String} [subtype] the api name of sobject if dataType is FLOW_DATA_TYPE.SOBJECT (may be hydrated),
+     * @property {string | Object} [label]   parameter label (may be hydrated)
+     * @property {string | Object} dataType     the flow data type, see FLOW_DATA_TYPE (may be hydrated)
+     * @property {number} [maxOccurs]   the maximum occurrences
+     * @property {string} [subtype] the api name of sobject if dataType is FLOW_DATA_TYPE.SOBJECT (may be hydrated),
      *                              or the apex class name if dataType is FLOW_DATA_TYPE.APEX
      * @property {Object} [value]    parameter's value (must be hydrated)
-     * @property {String} [valueDataType]   parameter's value data type
-     * @property {String} [iconName] parameter's icon name, if we wish to use a custom icon rather than lookup icon by data type
+     * @property {string} [valueDataType]   parameter's value data type
+     * @property {string} [iconName] parameter's icon name, if we wish to use a custom icon rather than lookup icon by data type
      * @example <caption>parameter item</caption>
      * {
      * name: 'feedId',
@@ -153,7 +154,7 @@ export default class ParameterItem extends LightningElement {
         return label ? label : getValueFromHydratedItem(this.state.parameterItem.name);
     }
     /**
-     * @return {String|Object} returns the default value for the combobox or null
+     * @returns {string | Object} returns the default value for the combobox or null
      */
     get parameterValue() {
         const value = getValueFromHydratedItem(this.state.parameterItem.value);
@@ -161,15 +162,15 @@ export default class ParameterItem extends LightningElement {
     }
 
     /**
-     * @return {Guid} returns the parameter rowIndex
+     * @returns {Guid} returns the parameter rowIndex
      */
     get parameterRowIndex() {
         return this.state.parameterItem.rowIndex;
     }
 
     /**
-     * @return {Object} config to pass in ferov-resource-picker component
-     **/
+     * @returns {Object} config to pass in ferov-resource-picker component
+     */
     get parameterComboboxConfig() {
         return BaseResourcePicker.getComboboxConfig(
             this.parameterLabel,
@@ -220,7 +221,7 @@ export default class ParameterItem extends LightningElement {
     }
 
     /**
-     * @return {String} the css class for badge
+     * @returns {string} the css class for badge
      */
     get badgeClasses() {
         let classes = 'slds-align-middle slds-m-left_xx-small';
@@ -236,6 +237,7 @@ export default class ParameterItem extends LightningElement {
 
     /**
      * handle the toggle changed event
+     *
      * @param {Object} event event fired from input toggle
      */
     handleToggleChanged(event) {
@@ -266,6 +268,7 @@ export default class ParameterItem extends LightningElement {
 
     /**
      * handle update parameter's value
+     *
      * @param {Object} event event fired from the combobox
      */
     handleUpdateParameter(event) {
@@ -287,13 +290,16 @@ export default class ParameterItem extends LightningElement {
 
     /**
      * @typedef {Object} ParameterItemNewValue
-     * @property {String} value the new value
-     * @property {String} dataType the new value's data type
+     * @property {string} value the new value
+     * @property {string} dataType the new value's data type
      */
     /**
      * dispatch UpdateParameterItemEvent
+     *
      * @param {ParameterItemNewValue} newValue event fired from the combobox
-     * @param {String} error error message
+     * @param value
+     * @param dataType
+     * @param {string} error error message
      */
     dispatchParameterEvent(value, dataType, error) {
         const itemUpdatedEvent = new UpdateParameterItemEvent(
@@ -309,6 +315,7 @@ export default class ParameterItem extends LightningElement {
 
     /**
      * handle delete parameter
+     *
      * @param {Object} event event fired from the delete icon
      */
     handleDelete(event) {

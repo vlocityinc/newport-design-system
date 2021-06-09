@@ -67,6 +67,7 @@ export default class RecordFilter extends LightningElement {
 
     /**
      * The filter items
+     *
      * @param {Object} value - it comes from the recordNode.filters
      */
     set filterItems(value) {
@@ -79,7 +80,7 @@ export default class RecordFilter extends LightningElement {
     }
 
     /**
-     * @param {String} entityName the selected record object
+     * @param {string} entityName the selected record object
      */
     set recordEntityName(entityName) {
         this.entityName = entityName;
@@ -123,7 +124,8 @@ export default class RecordFilter extends LightningElement {
 
     /**
      * Return the conditions to be rendered edcorated with the correct prefixes
-     * @return {Object[]} Array of all conditions decorated with prefix
+     *
+     * @returns {Object[]} Array of all conditions decorated with prefix
      */
     get conditionsWithPrefixes() {
         return this.items ? getConditionsWithPrefixes(this.filterLogic, this.items) : [];
@@ -201,6 +203,7 @@ export default class RecordFilter extends LightningElement {
 
     /**
      * handle event when adding the new filter
+     *
      * @param {Object} event the add filter event
      */
     handleAddFilter(event) {
@@ -211,6 +214,7 @@ export default class RecordFilter extends LightningElement {
 
     /**
      * handle event when updating the filter
+     *
      * @param {Object} event the update filter event
      */
     handleUpdateFilter(event) {
@@ -225,6 +229,7 @@ export default class RecordFilter extends LightningElement {
 
     /**
      * handle event when deleting the filter
+     *
      * @param {Object} event the delete filter event
      */
     handleDeleteFilter(event) {
@@ -235,6 +240,7 @@ export default class RecordFilter extends LightningElement {
 
     /**
      * Handle event when the logic is changed.
+     *
      * @param {object} event - PropertyChangedEvent from label description
      */
     handlePropertyChanged(event) {

@@ -19,6 +19,7 @@ const flowPropertiesPropertyChanged = (state, event) => {
 
 /**
  * flow properties reducer function runs validation rules and returns back the updated flow properties object
+ *
  * @param {object} state - flow properties object
  * @param {object} event - object containing type and payload eg: {type:'xyz', payload: {propertyName: '', value: '' , error: ''}}
  * @returns {object} flowProperties - updated flow properties object

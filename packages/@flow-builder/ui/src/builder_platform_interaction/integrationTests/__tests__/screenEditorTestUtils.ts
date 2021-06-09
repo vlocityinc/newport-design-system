@@ -200,7 +200,8 @@ export class ScreenEditorAutomaticFieldsPaletteTestComponent extends TestCompone
 
     /**
      * Returns the array of fields links
-     * @param {String} label - object's field label
+     *
+     * @param {string} label - object's field label
      * @returns {Array<HTMLAnchorElement>} array of fields anchors
      */
     public getFieldsAnchorElements() {
@@ -220,7 +221,8 @@ export class ScreenEditorAutomaticFieldsPaletteTestComponent extends TestCompone
 
     /**
      * For a given field label click on its link
-     * @param {String} label - object's field label
+     *
+     * @param {string} label - object's field label
      */
     public async clickOnFieldByLabel(label: string) {
         const fieldsLinks = this.getFieldsAnchorElements() || [];

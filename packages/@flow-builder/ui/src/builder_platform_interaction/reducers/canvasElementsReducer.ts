@@ -18,7 +18,7 @@ import { addItem } from 'builder_platform_interaction/dataMutationLib';
  *
  * @param {Array} state - canvas element array in the store
  * @param {Object} action - with type and payload
- * @return {Array} new state after reduction
+ * @returns {Array} new state after reduction
  */
 export default function canvasElementsReducer(state = [], action) {
     switch (action.type) {

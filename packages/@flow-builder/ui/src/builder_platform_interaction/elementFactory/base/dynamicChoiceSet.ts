@@ -8,6 +8,7 @@ import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
 
 /**
  * Base dynamic choice element factory
+ *
  * @param {Object} element - base dynamic choice element
  * @returns {Object} dynamicChoiceSet
  */
@@ -32,6 +33,7 @@ export const createDynamicChoiceSet = (element = {}) => {
 
 /**
  * Base dynamic choice meta data object factory
+ *
  * @param {Object} element - Base dynamic choice metadata object
  * @returns {Object} dynamicChoiceSetMetadataObject
  */
@@ -64,8 +66,9 @@ export const createDynamicChoiceSetMetadataObject = (element) => {
 /**
  * This function is called by flowToUiTranslator for convert dynamic choice set metadata into correct shape and element type.
  * It used data type property of dynamic choice set to identify element type
+ *
  * @param {Object} element dynamic choice set metadata object
- * @return {Object} new element in shape expected by store
+ * @returns {Object} new element in shape expected by store
  */
 export function dynamicChoiceSetForStore(element) {
     const dataType = element.dataType;

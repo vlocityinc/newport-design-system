@@ -5,13 +5,16 @@ import { CONDITION_LOGIC, RECORD_UPDATE_WAY_TO_FIND_RECORDS } from 'builder_plat
 
 /**
  * Validate the filter item.
- * @return {function} the function to be called with each filter item to return the array of rules.
+ *
+ * @returns {Function} the function to be called with each filter item to return the array of rules.
  */
 const validateAssignments = () => ValidationRules.validateExpressionWith2Properties();
 
 /**
  * Validate the filter item. Here we can't use the ValidationRules.validateExpressionWith3Properties because this function allows empty RHS
- * @return {function} the function to be called with each filter item to return the array of rules.
+ *
+ * @param index
+ * @returns {Function} the function to be called with each filter item to return the array of rules.
  */
 const validateInputReference = (index) => {
     return [
@@ -23,7 +26,8 @@ const validateInputReference = (index) => {
 
 /**
  * Validate the filter item.
- * @return {function} the function to be called with each filter item to return the array of rules.
+ *
+ * @returns {Function} the function to be called with each filter item to return the array of rules.
  */
 const validateFilter = () => {
     return ValidationRules.validateExpressionWith3PropertiesWithNoEmptyRHS();
@@ -33,7 +37,7 @@ export const recordUpdateValidation = new Validation();
 
 /**
  * @param {Object} nodeElement the element that need to be validated
- * @return {Object} the override rules
+ * @returns {Object} the override rules
  */
 export const getRules = (nodeElement) => {
     const overrideRules = Object.assign({}, recordUpdateValidation.finalizedRules);

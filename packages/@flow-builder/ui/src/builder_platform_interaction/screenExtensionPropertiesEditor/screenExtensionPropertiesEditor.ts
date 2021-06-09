@@ -126,42 +126,42 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
     }
 
     /**
-     * @return {Boolean} : whether or not the process type supports the automatic output handling
+     * @returns {boolean} : whether or not the process type supports the automatic output handling
      */
     get isAutomaticOutputHandlingSupported() {
         return this._automaticOutputHandlingSupported;
     }
 
     /**
-     * @return {boolean} : whether or not this extension has output values
+     * @returns {boolean} : whether or not this extension has output values
      */
     get hasOutputs() {
         return this.state.outputParameters && this.state.outputParameters.length > 0;
     }
 
     /**
-     * @return {boolean} true : the user chooses to use the Advanced Options
+     * @returns {boolean} true : the user chooses to use the Advanced Options
      */
     get isAdvancedMode() {
         return !this.state.storeOutputAutomatically;
     }
 
     /**
-     * @return {boolean} true : manual output section is displayed
+     * @returns {boolean} true : manual output section is displayed
      */
     get isManualOutputDisplayed() {
         return this.hasOutputs && (!this.isAutomaticOutputHandlingSupported || this.isAdvancedMode);
     }
 
     /**
-     * @return {boolean} true : the manual output are displayed in advanced accordion section
+     * @returns {boolean} true : the manual output are displayed in advanced accordion section
      */
     get isManualOutputDisplayedInAdvancedAccordionSection() {
         return this.isManualOutputDisplayed && this.isAutomaticOutputHandlingSupported;
     }
 
     /**
-     * @return {boolean} true : the manual output are displayed before advanced accordion section
+     * @returns {boolean} true : the manual output are displayed before advanced accordion section
      */
     get isManualOutputDisplayedBeforeAdvancedAccordionSection() {
         return this.isManualOutputDisplayed && !this.isAutomaticOutputHandlingSupported;
@@ -344,6 +344,7 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
 
     /**
      * Handles selection/deselection of 'Manually Assign Variables' checkbox
+     *
      * @param {Object} event - event
      */
     handleManuallyAssignVariablesChanged(event) {
@@ -352,6 +353,7 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
 
     /**
      * Handles a change of a dynamic type mapping.
+     *
      * @param {object} event
      */
     handleDynamicTypeMappingChange(event) {

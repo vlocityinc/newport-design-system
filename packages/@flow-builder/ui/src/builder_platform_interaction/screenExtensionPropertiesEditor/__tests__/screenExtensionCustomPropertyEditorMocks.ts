@@ -3,6 +3,9 @@ import { createTestScreenField } from 'builder_platform_interaction/builderTestU
 
 export const CPE_DESCRIPTOR_NAME = 'c:lookup';
 
+/**
+ *
+ */
 export function createScreenFieldForCPE() {
     return Object.assign({}, createTestScreenField('lcField', 'Extension', CPE_DESCRIPTOR_NAME, {}, true), {
         isNewField: true,
@@ -29,6 +32,9 @@ export function createScreenFieldForCPE() {
     });
 }
 
+/**
+ *
+ */
 export function createFlowExtensionForCPE() {
     return {
         name: CPE_DESCRIPTOR_NAME,

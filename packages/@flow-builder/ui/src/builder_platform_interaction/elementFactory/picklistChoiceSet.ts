@@ -6,6 +6,7 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 /**
  * Picklist choice set factory function
+ *
  * @param {Object} element - picklist choice set element
  * @returns {Object} picklistChoiceSet
  */
@@ -35,6 +36,7 @@ export const createPicklistChoiceSetForStore = (element) => {
 
 /**
  * Factory function for creating picklistChoiceSet element's metadata object
+ *
  * @param {Object} element picklistChoiceSet object
  * @returns {Object} picklistChoiceMetadata object
  */

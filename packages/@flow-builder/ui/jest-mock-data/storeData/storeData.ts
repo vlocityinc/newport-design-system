@@ -31,6 +31,9 @@ const getStartElement = () => {
     return undefined;
 };
 
+/**
+ * @param elementGuid
+ */
 function getChildrenElementsGuidsRecursively(elementGuid: UI.Guid): UI.Guid[] {
     const element = getElementByGuid(elementGuid);
     if (!element.childReferences) {

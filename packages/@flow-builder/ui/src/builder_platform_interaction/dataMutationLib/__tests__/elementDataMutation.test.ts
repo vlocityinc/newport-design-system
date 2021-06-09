@@ -9,7 +9,7 @@ import {
 } from '../elementDataMutation';
 import { deepCopy, isPlainObject } from 'builder_platform_interaction/storeLib';
 
-/** Mock data objects - Start **/
+/** Mock data objects - Start */
 const testObj = {
     assignmentItems: [
         {
@@ -82,9 +82,9 @@ const testObjectForGetErrorsFromHydratedElementFunction = {
     locationY: 227,
     name: { value: 'testAssignmentName', error: null }
 };
-/** Mock data objects - End **/
+/** Mock data objects - End */
 
-/** Helper Functions - Start **/
+/** Helper Functions - Start */
 /**
  * @param {Object} field - field object to be tested
  */
@@ -96,6 +96,7 @@ function expectFieldToHaveValueAndErrorProperty(field) {
 
 /**
  * Check if the given field is not hydrated
+ *
  * @param {Object} field - field object to be tested
  */
 function expectNotToBeHydrated(field) {
@@ -105,7 +106,7 @@ function expectNotToBeHydrated(field) {
     }
 }
 
-/** Helper Functions - End **/
+/** Helper Functions - End */
 
 describe('hydrateWithErrors function', () => {
     describe('without default blacklist', () => {

@@ -38,6 +38,7 @@ export const FLOW_BUILDER_VALIDATION_ERROR_MESSAGES = {
 
 /**
  * Translate the flow to UI model and dispatches it
+ *
  * @param {*} flow the flow metadata
  * @param {*} store the store
  * @returns the flow translated to UI model

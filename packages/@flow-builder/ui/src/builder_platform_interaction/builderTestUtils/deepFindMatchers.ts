@@ -1,11 +1,12 @@
 // @ts-nocheck
 /**
  * Deep find given element in object
+ *
  * @param {Object} object
  * @param {Object} element
  * @param {Function} [isEqual] the comparison function
  * @param {string} [path=''] current path
- * @return {string|undefined} the path to the element in object
+ * @returns {string|undefined} the path to the element in object
  */
 export const deepFind = (object, element, isEqual = (e1, e2) => e1 === e2, path = 'object') => {
     if (!isEqual(element, element)) {
@@ -46,10 +47,13 @@ export const deepFind = (object, element, isEqual = (e1, e2) => e1 === e2, path 
 
 /**
  * Deep find a common element between object1 and object2
+ *
  * @param {Object} object1
  * @param {Object} object2
  * @param {Function} [isEqual] the comparison function
- * @return {[string]|undefined} first element is path in object1, second element is path in object2
+ * @param pathObject1
+ * @param pathObject2
+ * @returns {[string]|undefined} first element is path in object1, second element is path in object2
  */
 export const deepFindCommonElement = (
     object1,

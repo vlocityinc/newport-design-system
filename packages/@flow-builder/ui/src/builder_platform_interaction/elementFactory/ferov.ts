@@ -23,8 +23,9 @@ export const GUID_SUFFIX = 'Guid';
 
 /**
  * Returns true if ferov is type reference
+ *
  * @param {string}      metaDataType ferov object meta data type
- * @return {boolean}    true if metaDataType is reference otherwise false
+ * @returns {boolean}    true if metaDataType is reference otherwise false
  */
 function isFerovReference(metaDataType) {
     return META_DATA_TYPES_TO_FEROV_TYPES_MAP[metaDataType] === FEROV_DATA_TYPE.REFERENCE;
@@ -32,8 +33,9 @@ function isFerovReference(metaDataType) {
 
 /**
  * Returns true if ferov is type boolean
+ *
  * @param {string}      metaDataType ferov object meta data type
- * @return {boolean}    true if metaDataType is boolean otherwise false
+ * @returns {boolean}    true if metaDataType is boolean otherwise false
  */
 function isFerovBoolean(metaDataType) {
     return META_DATA_TYPES_TO_FEROV_TYPES_MAP[metaDataType] === FEROV_DATA_TYPE.BOOLEAN;
@@ -41,8 +43,9 @@ function isFerovBoolean(metaDataType) {
 
 /**
  * Returns true if ferov is type string
+ *
  * @param {string}      metaDataType ferov object meta data type
- * @return {boolean}    true if metaDataType is string otherwise false
+ * @returns {boolean}    true if metaDataType is string otherwise false
  */
 function isFerovString(metaDataType) {
     return META_DATA_TYPES_TO_FEROV_TYPES_MAP[metaDataType] === FEROV_DATA_TYPE.STRING;
@@ -50,8 +53,9 @@ function isFerovString(metaDataType) {
 
 /**
  * Returns true if ferov is type reference
+ *
  * @param {string}      metaDataType ferov object meta data type
- * @return {boolean}    true if metaDataType is reference otherwise false
+ * @returns {boolean}    true if metaDataType is reference otherwise false
  */
 function isFerovNumber(metaDataType) {
     return META_DATA_TYPES_TO_FEROV_TYPES_MAP[metaDataType] === FEROV_DATA_TYPE.NUMBER;
@@ -63,8 +67,9 @@ function isFerovNumber(metaDataType) {
  * Eg: VARIABLE_12.AccountSource -> { value: {!myAccount.AccountSource}, guid: 'VARIABLE_12' }
  * Note: Does not handle merge fields, needs more spiking.
  * merge field - 'Flow Builder is going pilot in {!releasePilot} and GA in {!releaseGA}'
- * @param {String}      value input
- * @return {Object}     object with value and guid if the corresponding flow element exists
+ *
+ * @param {string}      value input
+ * @returns {Object}     object with value and guid if the corresponding flow element exists
  */
 function convertGuidToDevName(value) {
     if (!value) {
@@ -88,8 +93,9 @@ function convertGuidToDevName(value) {
  * Get the ferov object value and optionally guid for a reference metaDataType.
  * Eg: { stringValue: 'Test String' } -> { value:'Test String' }
  * Eg: { elementReference: 'VARIABLE_12' } -> { value:'{var1}', guid:'VARIABLE_12' }
+ *
  * @param {Object}      ferovObject input ferov object
- * @return {*}          returns object with ferov value and optionally guid for a reference type
+ * @returns {*}          returns object with ferov value and optionally guid for a reference type
  */
 function getFerovObjectValue(ferovObject) {
     // find the element's ferov meta data type
@@ -107,8 +113,9 @@ function getFerovObjectValue(ferovObject) {
 
 /**
  * Get the Ferov object meta data type.
+ *
  * @param {Object}      ferovObject input
- * @return {string}     returns the metadataType
+ * @returns {string}     returns the metadataType
  */
 function getMetaDataType(ferovObject) {
     return FEROV_DATA_TYPE_VALUES.find((type) => {
@@ -119,8 +126,9 @@ function getMetaDataType(ferovObject) {
 /**
  * Returns true if the input value is undefined.
  * Note: This will be moved to utils lib once we have one.
+ *
  * @param {Object} value input
- * @return {boolean} true if undefined otherwise false.
+ * @returns {boolean} true if undefined otherwise false.
  */
 function isUndefined(value) {
     return value === undefined;
@@ -128,8 +136,9 @@ function isUndefined(value) {
 
 /**
  * Converts Flow datatypes to FEROV compatible datatype
- * @param {String} value The string representation of the Flow datatype
- * @returns {String} The FEROF compatible datatype
+ *
+ * @param {string} value The string representation of the Flow datatype
+ * @returns {string} The FEROF compatible datatype
  */
 function getFerovDataTypeValue(value) {
     let dataType;
@@ -150,8 +159,9 @@ function getFerovDataTypeValue(value) {
 
 /**
  * Sanity checks on the mutate and deMutate params
- * @param {String} valueProperty        The name of scalar we want to set in our element. This is the property that replaces the ferov object
- * @param {String} dataTypeProperty     The name of the data type property we want to set in our element
+ *
+ * @param {string} valueProperty        The name of scalar we want to set in our element. This is the property that replaces the ferov object
+ * @param {string} dataTypeProperty     The name of the data type property we want to set in our element
  */
 function validateParams(valueProperty, dataTypeProperty) {
     if (!valueProperty) {
@@ -166,8 +176,9 @@ function validateParams(valueProperty, dataTypeProperty) {
 
 /**
  * Returns the dataType key of the field passed in
- * @param {String} fieldName the key of the field
- * @returns {String} the dataType key
+ *
+ * @param {string} fieldName the key of the field
+ * @returns {string} the dataType key
  */
 export const getDataTypeKey = (fieldName) => {
     return fieldName + 'DataType';
@@ -177,8 +188,8 @@ export const getDataTypeKey = (fieldName) => {
  * Creates a ferov object in the shape that the store expects
  *
  * @param {Object} ferovObject        The name of the flow metadata Ferov object inside the element (eg. 'value' which is the RHS of a condition). This object will be changed into a scalar and placed inside @param valueProperty
- * @param {String} valueProperty      The name of scalar we want to set in our element. This is the property that replaces the ferov object
- * @param {String} dataTypeProperty   The name of the data type property we want to set in our element
+ * @param {string} valueProperty      The name of scalar we want to set in our element. This is the property that replaces the ferov object
+ * @param {string} dataTypeProperty   The name of the data type property we want to set in our element
  * @returns {Object}                  The element with ferov object and props based on @param valueProperty & @param dataTypeProperty
  */
 export const createFEROV = (ferovObject, valueProperty, dataTypeProperty) => {
@@ -219,8 +230,8 @@ export const createFEROV = (ferovObject, valueProperty, dataTypeProperty) => {
  * Creates a ferov object in the shape that the flow metadata expects
  *
  * @param {Object} element              Store element with ferov (eg. condition or variable)
- * @param {String} valueProperty        The name of the value property of the ferov
- * @param {String} dataTypeProperty     The name of the data type property of the ferov
+ * @param {string} valueProperty        The name of the value property of the ferov
+ * @param {string} dataTypeProperty     The name of the data type property of the ferov
  * @returns {Object} ferovObject        The ferov object in the shape that the flow metadata expects
  */
 export const createFEROVMetadataObject = (element, valueProperty, dataTypeProperty) => {

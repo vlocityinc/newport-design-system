@@ -10,7 +10,8 @@ import {
 export default class ProcessTypesVerticalNavigation extends LightningElement {
     /**
      * All process types
-     * @return {Array} array of all the process types
+     *
+     * @returns {Array} array of all the process types
      */
     @api
     get processTypes() {
@@ -30,7 +31,8 @@ export default class ProcessTypesVerticalNavigation extends LightningElement {
 
     /**
      * Select(ed) process type name
-     * @return {String} select(ed) process type name
+     *
+     * @returns {string} select(ed) process type name
      */
     @api
     selectedProcessType = ALL_PROCESS_TYPE.name;
@@ -43,6 +45,7 @@ export default class ProcessTypesVerticalNavigation extends LightningElement {
 
     /**
      * Handler for process type selection
+     *
      * @param {Object} event - navigation select event
      * @param {string} event.detail.name - selected process type name
      */

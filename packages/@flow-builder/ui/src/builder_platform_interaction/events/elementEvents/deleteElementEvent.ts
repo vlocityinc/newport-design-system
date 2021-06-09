@@ -11,6 +11,7 @@ export class DeleteElementEventDetail {
 
 /**
  * Used to delete any canvas or non-canvas element.
+ *
  * @param childIndexToKeep - Indicates the specified branch index of the deleted element
  * that should be attached to the parent flow in place of the deleted element.
  * IMPORTANT: auto-layout-canvas expects a value of undefined when deleting all branches

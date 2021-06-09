@@ -51,6 +51,7 @@ export default class RecordDeleteEditor extends LightningElement {
 
     /**
      * API function to return the node
+     *
      * @returns {object} node - current node
      */
     @api getNode() {
@@ -67,6 +68,7 @@ export default class RecordDeleteEditor extends LightningElement {
 
     /**
      * Passing current element (node) to the editor
+     *
      * @param {object} newValue - element (node) to load
      */
     set node(newValue) {
@@ -92,6 +94,7 @@ export default class RecordDeleteEditor extends LightningElement {
 
     /**
      * set the entity name (object) and load fields accordingly
+     *
      * @param {string} newValue - new entity name
      */
     set recordEntityName(newValue) {
@@ -156,6 +159,7 @@ export default class RecordDeleteEditor extends LightningElement {
 
     /**
      * update a property (set the state accordingly based on appropriate reducer)
+     *
      * @param {string} propertyName - property name about to change
      * @param {string} newValue - new property value
      * @param {error} error - error if any empty string otherwise
@@ -170,6 +174,7 @@ export default class RecordDeleteEditor extends LightningElement {
 
     /**
      * public API function to run the rules from record delete validation library
+     *
      * @returns {Object[]} list of errors
      */
     @api
@@ -183,6 +188,7 @@ export default class RecordDeleteEditor extends LightningElement {
 
     /**
      * handler for "inputReference" element property changes
+     *
      * @param {object} event
      */
     handleInputReferenceChangedEvent(event) {
@@ -192,6 +198,7 @@ export default class RecordDeleteEditor extends LightningElement {
 
     /**
      * handler for "numberRecordsToStore" changes
+     *
      * @param {object} event
      */
     handleRecordStoreOptionChanged(event) {
@@ -215,6 +222,7 @@ export default class RecordDeleteEditor extends LightningElement {
 
     /**
      * handler for any changes related to filters elements properties
+     *
      * @param {object} event
      */
     handlePropertyOrListItemChanged(event) {

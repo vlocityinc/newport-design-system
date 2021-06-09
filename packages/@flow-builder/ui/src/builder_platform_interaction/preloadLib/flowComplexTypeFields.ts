@@ -16,6 +16,8 @@ import { StageStep } from 'builder_platform_interaction/elementFactory';
 
 /**
  * This is called once the flow has been loaded, so that complex types in the flow have their fields loaded and cached.
+ *
+ * @param state
  */
 export function loadFieldsForComplexTypesInFlow(state) {
     return Promise.all([
@@ -28,6 +30,9 @@ export function loadFieldsForComplexTypesInFlow(state) {
     ]);
 }
 
+/**
+ * @param state
+ */
 export function loadFieldsForApexClassesInFlow(state) {
     const selector = filteredElementsSelector(
         (element) => element.dataType === FLOW_DATA_TYPE.APEX.value && !element.isCollection
@@ -39,6 +44,9 @@ export function loadFieldsForApexClassesInFlow(state) {
     return Promise.resolve();
 }
 
+/**
+ * @param state
+ */
 export function loadFieldsForSobjectsInFlow(state) {
     // Only gets elements with sObject datatype (no collections)
     const sobjects = getSObjectOrSObjectCollectionByEntityElements(state.elements);
@@ -54,10 +62,16 @@ export function loadFieldsForSobjectsInFlow(state) {
     return Promise.all(promises);
 }
 
+/**
+ * @param state
+ */
 export function loadFieldsForExtensionsInFlow(state) {
     return loadFieldsForExtensions(componentInstanceScreenFieldsSelector(state));
 }
 
+/**
+ * @param state
+ */
 export function loadFieldsForSubflowsInFlow(state) {
     const selector = filteredElementsSelector((element) => element.dataType === FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value);
     const subFlowNames = selector(state).map((subflowElement) => subflowElement.flowName);
@@ -73,6 +87,9 @@ export function loadFieldsForSubflowsInFlow(state) {
     return Promise.all(promises);
 }
 
+/**
+ * @param actionCalls
+ */
 export function loadParametersForInvocableApexActionsInFlowFromMetadata(actionCalls) {
     const actionCallNamesAndTypes = actionCalls
         .filter(
@@ -94,10 +111,16 @@ export function loadParametersForInvocableApexActionsInFlowFromMetadata(actionCa
     return Promise.all(promises);
 }
 
+/**
+ * @param screenFields
+ */
 export function loadFieldsForExtensionsInFlowFromMetadata(screenFields: Metadata.ScreenField[]): Promise<any> {
     return loadFieldsForExtensions(screenFields);
 }
 
+/**
+ * @param screenFields
+ */
 function loadFieldsForExtensions(screenFields: (UI.ScreenField | Metadata.ScreenField)[]): Promise<any> {
     const extensionNames = screenFields
         .filter((screenField) => screenField.storeOutputAutomatically === true)
@@ -108,6 +131,9 @@ function loadFieldsForExtensions(screenFields: (UI.ScreenField | Metadata.Screen
     }).catch(() => {});
 }
 
+/**
+ * @param state
+ */
 export async function loadParametersForInvocableActionsInFlow(state: UI.StoreState) {
     // we only get the action that have outputs. (e.g. EMAIL_ALERT is excluded)
     const actionCallsSelector = byElementTypeElementsSelector(
@@ -146,6 +172,9 @@ export async function loadParametersForStageStepsInFlow(state: UI.StoreState) {
     return loadParametersForInvocableActions(actionCallNamesAndTypes);
 }
 
+/**
+ * @param actionCallNamesAndTypes
+ */
 export function loadParametersForInvocableActions(actionCallNamesAndTypes) {
     const promises = [];
     actionCallNamesAndTypes.forEach((actionCallNameAndType) =>

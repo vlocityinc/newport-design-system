@@ -72,6 +72,7 @@ export default class OrchestratedStageEditor extends LightningElement {
 
     /**
      * public api function to return the node
+     *
      * @returns {object} node - node
      */
     @api getNode() {
@@ -80,6 +81,7 @@ export default class OrchestratedStageEditor extends LightningElement {
 
     /**
      * public api function to run the rules from stage validation library
+     *
      * @returns list of errors
      */
     @api validate(): object {

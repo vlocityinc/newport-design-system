@@ -4,10 +4,16 @@ import { LABELS } from './manuallyAssignVariablesCheckboxLabels';
 import { ManuallyAssignVariablesChangedEvent } from 'builder_platform_interaction/events';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
 
+/**
+ * @param event
+ */
 function confirmationModalButtonCallback(event) {
     this.dispatchEvent(new ManuallyAssignVariablesChangedEvent(event.detail.checked));
 }
 
+/**
+ * @param event
+ */
 function confirmationModalParameter(event) {
     return {
         headerData: {
@@ -42,6 +48,7 @@ export default class ManuallyAssignVariablesCheckbox extends LightningElement {
 
     /**
      * Handles selection/deselection of 'Manually Assign Variables' checkbox
+     *
      * @param {Object} event - event
      */
     handleChangeEvent(event) {

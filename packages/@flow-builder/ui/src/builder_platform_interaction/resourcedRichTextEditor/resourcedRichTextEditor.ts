@@ -106,6 +106,7 @@ export default class ResourcedRichTextEditor extends LightningElement {
 
     /**
      * True if editor in plain text mode, false otherwise for rich text mode
+     *
      * @returns {boolean} true if editor in plain text mode, false otherwise for rich text mode
      */
     @api
@@ -115,6 +116,7 @@ export default class ResourcedRichTextEditor extends LightningElement {
 
     /**
      * Set editor plain text mode
+     *
      * @param {boolean} val - true to switch to plain text, false to switch to rich text mode
      */
     set isPlainTextMode(val) {

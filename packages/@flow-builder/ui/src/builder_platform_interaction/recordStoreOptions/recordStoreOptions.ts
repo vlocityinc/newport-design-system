@@ -39,7 +39,8 @@ export default class RecordStoreFieldsSelection extends LightningElement {
 
     /**
      * Returns the number of result stored
-     * @returns {String} This value can be 'firstRecord' or 'allRecords'
+     *
+     * @returns {string} This value can be 'firstRecord' or 'allRecords'
      */
     @api
     get numberOfRecordsToStore() {
@@ -47,7 +48,7 @@ export default class RecordStoreFieldsSelection extends LightningElement {
     }
 
     /**
-     * @param {String} value - This value can be 'firstRecord' or 'allRecords'
+     * @param {string} value - This value can be 'firstRecord' or 'allRecords'
      */
     set numberOfRecordsToStore(value) {
         this.state.numberOfRecordsToStore = value;
@@ -55,7 +56,8 @@ export default class RecordStoreFieldsSelection extends LightningElement {
 
     /**
      * Returns the way the result is stored
-     * @returns {String} This value can be 'sObjectVariable' or 'separateVariables'
+     *
+     * @returns {string} This value can be 'sObjectVariable' or 'separateVariables'
      */
     @api
     get wayToStoreFields() {
@@ -63,7 +65,7 @@ export default class RecordStoreFieldsSelection extends LightningElement {
     }
 
     /**
-     * @param {Boolean} value - true : assign null to value if no records are found
+     * @param {boolean} value - true : assign null to value if no records are found
      */
     set assignNullValuesIfNoRecordsFound(value) {
         this.state.assignNullValuesIfNoRecordsFound = value;
@@ -75,7 +77,7 @@ export default class RecordStoreFieldsSelection extends LightningElement {
     }
 
     /**
-     * @param {Boolean} value - true : NumberRecordsToStore radio button group should be displayed.
+     * @param {boolean} value - true : NumberRecordsToStore radio button group should be displayed.
      */
     @api
     get displayNumberRecordsToStore() {
@@ -87,7 +89,7 @@ export default class RecordStoreFieldsSelection extends LightningElement {
     }
 
     /**
-     * @param {Boolean} value - true : WayToStoreFields radio button group should be displayed.
+     * @param {boolean} value - true : WayToStoreFields radio button group should be displayed.
      */
     @api
     get displayWayToStoreFields() {
@@ -99,7 +101,7 @@ export default class RecordStoreFieldsSelection extends LightningElement {
     }
 
     /**
-     * @param {String} value - This value can be 'sObjectVariable' or 'separateVariables'
+     * @param {string} value - This value can be 'sObjectVariable' or 'separateVariables'
      */
     set wayToStoreFields(value) {
         this.state.wayToStoreFields = value;
@@ -133,7 +135,7 @@ export default class RecordStoreFieldsSelection extends LightningElement {
     }
 
     /**
-     * @return {boolean} true if the element type is Record lookup or Record create
+     * @returns {boolean} true if the element type is Record lookup or Record create
      * and the user has selected "First Record" in the first radio button group
      */
     get showWayToStoreFieldSelector() {

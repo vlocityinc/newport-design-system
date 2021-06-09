@@ -5,6 +5,9 @@ import { SORT_OUTPUT_OPTION, LIMIT_RANGE } from 'builder_platform_interaction/so
 
 /**
  * Validate the collectionReferenceIndex item.
+ *
+ * @param collectionReference
+ * @param elements
  */
 const validateCollectionReference = (collectionReference, elements) => {
     return [
@@ -16,7 +19,9 @@ const validateCollectionReference = (collectionReference, elements) => {
 
 /**
  * Validate the queried field.
- * @return {function} the function to be called with each queried field to return the array of rules.
+ *
+ * @param isSObjectOrApexClass
+ * @returns {Function} the function to be called with each queried field to return the array of rules.
  */
 const validateSortOptions = (isSObjectOrApexClass) => {
     return () => {
@@ -36,19 +41,13 @@ export const sortValidation = new Validation();
 
 /**
  * Build specific overridden rules
- * @param {Object} nodeElement the element that need to be validated
- * @param {string} nodeElement.filterLogic - current element's filterLogic
- * @param {string} nodeElement.sortOrder - current element's sortOrder
- * @param {Object} nodeElement.object - current element's object
- * @param {string} nodeElement.wayToStoreFields - current element's wayToStoreFields
- * @param {boolean} nodeElement.getFirstRecordOnly - current element's getFirstRecordOnly
- * @param {Object[]} nodeElement.outputAssignments - current element's outputAssignments
- * @param {Object} nodeElement.outputReference - current element's outputReference
- * @param {Object[]} nodeElement.queriedFields - current element's queriedFields
- * @param {boolean} nodeElement.storeOutputAutomatically - current's element is using automatic output handling
- * @return {Object} the overridden rules
+ *
+ * @param details {Object}
+ * @returns {Object} the overridden rules
  */
-export const getRules = ({ collectionReference, selectedOutput, isSObjectOrApexClass }) => {
+export const getRules = (details) => {
+    const { collectionReference, selectedOutput, isSObjectOrApexClass } = details;
+
     const overriddenRules = { ...sortValidation.finalizedRules };
     const elements = Store.getStore().getCurrentState().elements;
     // validate collectionReference

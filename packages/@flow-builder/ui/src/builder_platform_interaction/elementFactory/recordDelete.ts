@@ -27,6 +27,9 @@ const getAvailableConnections = (recordDelete) => {
         : getDefaultAvailableConnections();
 };
 
+/**
+ * @param recordDelete
+ */
 export function createRecordDelete(recordDelete = {}) {
     const newRecordDelete = baseCanvasElement(recordDelete);
     const {
@@ -57,6 +60,19 @@ export function createRecordDelete(recordDelete = {}) {
     });
 }
 
+/**
+ * @param root0
+ * @param root0.canvasElementToPaste
+ * @param root0.newGuid
+ * @param root0.newName
+ * @param root0.canvasElementGuidMap
+ * @param root0.topCutOrCopiedGuid
+ * @param root0.bottomCutOrCopiedGuid
+ * @param root0.prev
+ * @param root0.next
+ * @param root0.parent
+ * @param root0.childIndex
+ */
 export function createPastedRecordDelete({
     canvasElementToPaste,
     newGuid,
@@ -87,6 +103,11 @@ export function createPastedRecordDelete({
     };
 }
 
+/**
+ * @param recordDelete
+ * @param newGuid
+ * @param newName
+ */
 export function createDuplicateRecordDelete(recordDelete, newGuid, newName) {
     const newRecordDelete = createRecordDelete(recordDelete);
     Object.assign(newRecordDelete, {
@@ -95,6 +116,9 @@ export function createDuplicateRecordDelete(recordDelete, newGuid, newName) {
     return duplicateCanvasElement(newRecordDelete, newGuid, newName);
 }
 
+/**
+ * @param recordDelete
+ */
 export function createRecordDeleteWithConnectors(recordDelete) {
     const newRecordDelete = createRecordDelete(recordDelete);
 
@@ -110,6 +134,10 @@ export function createRecordDeleteWithConnectors(recordDelete) {
     return baseCanvasElementsArrayToMap([recordDeleteObject], connectors);
 }
 
+/**
+ * @param recordDelete
+ * @param config
+ */
 export function createRecordDeleteMetadataObject(recordDelete, config) {
     if (!recordDelete) {
         throw new Error('recordDelete is not defined');

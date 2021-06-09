@@ -25,6 +25,9 @@ export function convertHTMLToQuillHTML(htmlText) {
     return serializeToString(document);
 }
 
+/**
+ * @param document
+ */
 function serializeToString(document) {
     let nodeToSerialize = document.documentElement.querySelector('div');
     if (nodeToSerialize.attributes.length === 0 && nodeToSerialize.childNodes.length === 0) {
@@ -42,6 +45,9 @@ function serializeToString(document) {
  * Process the given node
  *
  * @param {HTMLElement} node
+ */
+/**
+ * @param node
  */
 function processNode(node) {
     let newNode;
@@ -76,6 +82,9 @@ function processNode(node) {
  * @param {HtmlElement} node the div node
  * @returns {HtmlElement} the processed div node
  */
+/**
+ * @param node
+ */
 function processDivNode(node) {
     const alignment = node.getAttribute('ALIGN');
     if (alignment) {
@@ -91,6 +100,9 @@ function processDivNode(node) {
  * @param {HtmlElement} node the div node
  * @returns {HtmlElement} the processed div node
  */
+/**
+ * @param node
+ */
 function processTextNode(node) {
     if (node.textContent && node.textContent.match(/(\n)|([ \t]{2,})/g)) {
         node.parentNode.style.whiteSpace = 'pre';
@@ -105,6 +117,9 @@ function processTextNode(node) {
  * @param {HtmlElement} node the li node
  * @returns {HtmlElement} node once processed
  */
+/**
+ * @param node
+ */
 function processLiNode(node) {
     const parentNodeName = node.parentNode.nodeName;
     if (parentNodeName !== 'UL' && parentNodeName !== 'OL' && parentNodeName !== 'MENU') {
@@ -116,6 +131,9 @@ function processLiNode(node) {
     return node;
 }
 
+/**
+ * @param node
+ */
 function processUlNode(node) {
     if (node.nextSibling && node.nextSibling.nodeName === 'LI') {
         const liNode = node.parentNode.removeChild(node.nextSibling);
@@ -131,6 +149,9 @@ function processUlNode(node) {
  *
  * @param {HtmlElement} node the font node
  * @returns {HtmlElement} the corresponding span node
+ */
+/**
+ * @param node
  */
 function processFontNode(node) {
     const renamedNode = renameNode(node, 'span');
@@ -165,6 +186,9 @@ function processFontNode(node) {
  * @param {string} fontName the font name to convert
  * @returns {string|undefined} the font name to use or undefined if it is the default font
  */
+/**
+ * @param fontName
+ */
 function convertToSupportedFontFamily(fontName) {
     const fontNameUppercase = fontName.toUpperCase();
     const elementFound = INPUT_RICH_TEXT_FONTS.find((element) => element.fontName === fontNameUppercase);
@@ -183,6 +207,9 @@ function convertToSupportedFontFamily(fontName) {
  * @param {HtmlElement} node the node to process
  * @returns {HtmlElement} the parent node
  */
+/**
+ * @param node
+ */
 function processUnsupportedNode(node) {
     const parentNode = node.parentNode;
     if (node.hasChildNodes()) {
@@ -198,6 +225,10 @@ function processUnsupportedNode(node) {
     return parentNode;
 }
 
+/**
+ * @param node
+ * @param newNodeName
+ */
 function renameNode(node, newNodeName) {
     const newNode = createElement(newNodeName);
     Array.from(node.attributes).forEach((attr) => newNode.setAttribute(attr.localName, attr.value));
@@ -208,10 +239,17 @@ function renameNode(node, newNodeName) {
     return newNode;
 }
 
+/**
+ * @param newNode
+ * @param referenceNode
+ */
 function insertAfter(newNode, referenceNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
 
+/**
+ * @param tagName
+ */
 function createElement(tagName) {
     return document.createElementNS('http://www.w3.org/1999/xhtml', tagName);
 }
@@ -221,6 +259,9 @@ function createElement(tagName) {
  *
  * @param {HtmlElement} node
  * @return {boolean}
+ */
+/**
+ * @param node
  */
 function isElementSupported(node) {
     return !(node instanceof HTMLUnknownElement);

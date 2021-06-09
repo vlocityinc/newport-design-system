@@ -14,6 +14,7 @@ const resumeEventType = {
 export default class WaitResumeConditions extends LightningElement {
     /**
      * The input parameters that defines the resume time for this wait event
+     *
      * @type {module:WaitTimeEvent.WaitEventParameter}
      */
     @api
@@ -21,27 +22,30 @@ export default class WaitResumeConditions extends LightningElement {
 
     /**
      * The output parameters
+     *
      * @type {module:WaitTimeEvent.WaitEventParamter}
      */
     @api
     outputParameters;
 
     /**
-     * @type {String} guid of the parent wait element
+     * @type {string} guid of the parent wait element
      */
     @api
     waitEventGuid;
 
     /**
      * The guid associated with the event type entity resource picker
-     * @type {String}
+     *
+     * @type {string}
      */
     @api
     eventTypeIndex;
 
     /**
      * The event type
-     * @type {String}
+     *
+     * @type {string}
      */
     set eventType(newEventType) {
         this._eventType = newEventType;

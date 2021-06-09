@@ -31,8 +31,9 @@ const DEFAULT_PLACEHOLDER_TEXT = {
  * Note: this component follows the convention from the combobox where we have displayText and value
  * DisplayText is just a string, use this when you are loading from the store or have just a literal/merge field
  * Value should be used when you have a combobox menu item (taken from CombbooxValueChanged event)
+ *
  * @class EntityResourcePicker
- * @extends {Element}
+ * @augments {Element}
  */
 export default class EntityResourcePicker extends LightningElement {
     static ENTITY_MODE = ENTITY_MODE;
@@ -47,39 +48,45 @@ export default class EntityResourcePicker extends LightningElement {
     /**
      * The entity type that will be displayed in the combobox
      * If not specified defaults to all entity types.
-     * @type {String}
+     *
+     * @type {string}
      */
     _crudFilterType;
 
     /**
      * The full entity menu data
+     *
      * @type {Object[]}
      */
     _fullEntityMenuData;
 
     /**
      * The inner base resource picker component, used to set the full menu data
+     *
      * @type {BaseResourcePicker}
      */
     _baseResourcePicker;
 
     /**
      * True if the entity picker has been initialized, false by default
-     * @type {Boolean}
+     *
+     * @type {boolean}
      */
     _isInitialized = false;
 
     /**
      * Determines what menu data will be loaded
-     * @type {String}
+     *
+     * @type {string}
      */
     _mode = EntityResourcePicker.ENTITY_MODE.SOBJECT;
 
     /**
      * Internal state of entity resource picker
+     *
      * @typedef {Object}
      * @property {module:base-resource-picker.item} item the currently selected combobox menu item
-     * @property {String} displayText the display text of the combobox used for literals/merge fields
+     * @property {string} displayText the display text of the combobox used for literals/merge fields
      */
     @track
     _state = {};
@@ -88,7 +95,8 @@ export default class EntityResourcePicker extends LightningElement {
      * Set the entity type of @member _crudFilterType
      * Use only for entity menu data when in sobject mode.
      * Changing the crudFilter.
-     * @param {String} crudFilterType the new filter type
+     *
+     * @param {string} crudFilterType the new filter type
      */
     set crudFilterType(crudFilterType) {
         this._crudFilterType = crudFilterType;
@@ -126,6 +134,7 @@ export default class EntityResourcePicker extends LightningElement {
 
     /**
      * Set the combobox config object
+     *
      * @type {module:base-resource-picker.ComboboxConfig}
      */
     @api
@@ -134,13 +143,15 @@ export default class EntityResourcePicker extends LightningElement {
     /**
      * A unique id for this resource picker(guid)
      * Required if you want validation on done
-     * @type {String}
+     *
+     * @type {string}
      */
     @api
     rowIndex;
 
     /**
      * The combobox item that represents the value selected
+     *
      * @param {module:base-resource-picker.item|String} itemOrDisplayText the new item
      */
     set value(itemOrDisplayText) {
@@ -194,6 +205,8 @@ export default class EntityResourcePicker extends LightningElement {
     /**
      * Populates the menu data based on mode & crud filter when relevant
      * Uses the BaseResourcePicker instance to set the full menu data
+     *
+     * @param newMode
      */
     populateEntityMenuData(newMode = this.mode) {
         const fetchMenuDataForEntityMode = {

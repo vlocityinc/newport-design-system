@@ -26,6 +26,7 @@ const textTemplatePropertyChanged = (textTemplate, action) => {
 
 /**
  * Text template reducer function runs validation rules and returns back the updated variable
+ *
  * @param {object} textTemplate - element / node state
  * @param {object} action - object containing type and payload eg: {type:"xyz", payload: {propertyName: '', value: '' , error: ''}}
  * @returns {object} textTemplate - updated text template

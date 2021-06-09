@@ -33,18 +33,20 @@ export default class FieldPicker extends LightningElement {
 
     /**
      * The inner base resource picker component, used to set the full menu data
+     *
      * @type {BaseResourcePicker}
      */
     _baseResourcePicker;
 
     /**
      * True if the field picker has been initialized, false by default
-     * @type {Boolean}
+     *
+     * @type {boolean}
      */
     _isInitialized = false;
 
     /**
-     * @param {String} newValue the selected queried field
+     * @param {string} newValue the selected queried field
      */
     set value(newValue) {
         this.state.value = newValue;

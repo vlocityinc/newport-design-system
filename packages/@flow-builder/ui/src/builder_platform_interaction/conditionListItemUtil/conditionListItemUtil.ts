@@ -9,8 +9,9 @@ import { removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
 
 /**
  * Returns the formatted LHS value as displayText and the dataType used for the RHS
+ *
  * @param {string} lhsValue Given to us from the condition popover
- * @return {Object{}} Object that contains displayText and the dataType
+ * @returns {Object{}} Object that contains displayText and the dataType
  */
 export function formatLhs(lhsValue) {
     const comboxShape = getResourceById(lhsValue);
@@ -21,8 +22,9 @@ export function formatLhs(lhsValue) {
 
 /**
  * Converts the operator value into comobobox values for better readability
+ *
  * @param {string} op Operator given from the conditional popover
- * @return {string} Formatted and user friendly operator
+ * @returns {string} Formatted and user friendly operator
  */
 export function formatOperator(op) {
     const formattedOp = transformOperatorsForCombobox([op]);
@@ -35,8 +37,10 @@ export function formatOperator(op) {
 /**
  * Returns the formatted RHS value as displayText. Needs to be able
  * to handle user input, date, datetime, flow constants, object references, ect.
+ *
  * @param {string} rhsValue Given to us from the condition popover
- * @return {string} Formatted rhs value
+ * @param dataType
+ * @returns {string} Formatted rhs value
  */
 export function formatRhs(rhsValue, dataType) {
     let displayText;
@@ -60,9 +64,10 @@ export function formatRhs(rhsValue, dataType) {
  * This first determines if we have a guid or flow constant using regex.
  * If we have a guid, we must use the comboxShape.text value. If there
  * is no match then just use the displayText.
+ *
  * @param {string} unformattedValue Unmodified lhs or rhs value
  * @param {Object{}} comboxShape Transformed lookup on the unformattedValue using getResourceById
- * @return {string} Returns the correct text for the given resource
+ * @returns {string} Returns the correct text for the given resource
  */
 function resourceToDisplayText(unformattedValue, comboxShape) {
     // Regex to split guid from sobject variables or apex types references
@@ -80,8 +85,9 @@ function resourceToDisplayText(unformattedValue, comboxShape) {
 /**
  * This converts a lhs or rhs string value into the correct comobobox shape.
  * Looks up the unique guid and returns the variable/object associated with it.
+ *
  * @param {sting} id Value passed down to conditionalListItem for either lhs or rhs
- * @return {Object{}} Object in combobox shape for the given guid/constant
+ * @returns {Object{}} Object in combobox shape for the given guid/constant
  */
 function getResourceById(id) {
     if (id) {

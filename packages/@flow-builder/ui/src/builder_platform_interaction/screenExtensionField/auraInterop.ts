@@ -24,6 +24,11 @@ let renderingQueue = [];
 // Pipeline to emulate how Aura renders:
 // create A, create B, ... raf ..., render A, render B
 
+/**
+ * @param cmp
+ * @param parentElement
+ * @param oldComponent
+ */
 function requestRender(cmp, parentElement, oldComponent) {
     renderingQueue.push([cmp, parentElement, oldComponent]);
     if (renderingRafId === null) {
@@ -32,6 +37,9 @@ function requestRender(cmp, parentElement, oldComponent) {
     }
 }
 
+/**
+ *
+ */
 function flushRenderingQueue() {
     // Snapshot the queue in this stack frame in case renderComponent causes a nested invocation to
     // the AuraComponent constructor below

@@ -105,8 +105,7 @@ interface DfsContext {
  *
  * @param type - The ExecutionContextType
  * @param id - The loop or the faulting element's guid
- *
- * @return an execution context
+ * @returns an execution context
  */
 function newExecutionContext(type: ExecutionContextType, id?: string) {
     return { type, id };
@@ -117,7 +116,7 @@ function newExecutionContext(type: ExecutionContextType, id?: string) {
  *
  * @param source - The source node
  * @param target - The target node
- * @return The edge type
+ * @returns The edge type
  */
 function getEdgeType(source: ConversionInfo, target: ConversionInfo): EdgeType {
     if (target.dfsStart == null) {
@@ -136,8 +135,7 @@ function getEdgeType(source: ConversionInfo, target: ConversionInfo): EdgeType {
  * @param ctx - The dfs context
  * @param node - The node being visited
  * @param out - An outgoing connector of the node
- *
- * @return - The edge type for the outgoing connector
+ * @returns - The edge type for the outgoing connector
  */
 function processConnector(ctx: DfsContext, node: ConversionInfo, out: UI.Connector): EdgeType {
     const { target } = out;
@@ -168,7 +166,7 @@ function processConnector(ctx: DfsContext, node: ConversionInfo, out: UI.Connect
  *
  * @param ctx - The dfs context
  * @param out - An outgoing connector for a node
- * @return - The execution context that is entered by following the outgoing connector
+ * @returns - The execution context that is entered by following the outgoing connector
  */
 function getNextExecutionContext(ctx: DfsContext, out: UI.Connector) {
     const { type, source } = out;
@@ -254,7 +252,7 @@ function visitNode(ctx: DfsContext, nodeGuid: UI.Guid) {
  *
  * @param node - A node
  * @param interval - A dfs interval
- * @return true if a node is an ancestor of any node contained in the interval, false otherwise
+ * @returns true if a node is an ancestor of any node contained in the interval, false otherwise
  */
 function isDfsAncestor(node: ConversionInfo, interval: [number, number]) {
     const [start, end] = interval;
@@ -267,8 +265,7 @@ function isDfsAncestor(node: ConversionInfo, interval: [number, number]) {
  *
  * @param ctx - The dfs context
  * @param mergeNode - A merge node
- *
- * @return The "branching" node for the given "merge" node (or null if none is found)
+ * @returns The "branching" node for the given "merge" node (or null if none is found)
  */
 function findBranchingNode(ctx: DfsContext, mergeNode: ConversionInfo): ConversionInfo | null {
     const { topologicalSort, conversionInfos } = ctx;
@@ -461,7 +458,7 @@ function checkIntervals(ctx: DfsContext) {
  *
  * @param ctx - The dfs context
  * @param node - A node
- * @return - True if the node is a "merge" node, false otherwise
+ * @returns - True if the node is a "merge" node, false otherwise
  */
 function isMerge(ctx: DfsContext, node: ConversionInfo) {
     const { ins, isLoop } = node;

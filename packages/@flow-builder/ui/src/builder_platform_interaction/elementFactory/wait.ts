@@ -39,8 +39,9 @@ const MAX_CONNECTIONS_DEFAULT = 2;
 
 /**
  * Whether the event type is one of the wait time event types (AlarmEvent or DateRefAlarmEvent)
- * @param {String} eventTypeName event type name
- * @returns {Boolean} true if event type is a wait time event type, false otherwise
+ *
+ * @param {string} eventTypeName event type name
+ * @returns {boolean} true if event type is a wait time event type, false otherwise
  */
 export const isWaitTimeEventType = (eventTypeName) => {
     return Object.values(WAIT_TIME_EVENT_TYPE).includes(eventTypeName);
@@ -48,7 +49,8 @@ export const isWaitTimeEventType = (eventTypeName) => {
 
 /**
  * Returns the event parameter type field name. 'inputParameters' or 'outputParameters'
- * @param {Boolean} isInputParameter whether input or output param, true for input.
+ *
+ * @param {boolean} isInputParameter whether input or output param, true for input.
  */
 export const getParametersPropertyName = (isInputParameter) => {
     return isInputParameter ? WAIT_EVENT_FIELDS.INPUT_PARAMETERS : WAIT_EVENT_FIELDS.OUTPUT_PARAMETERS;
@@ -56,6 +58,7 @@ export const getParametersPropertyName = (isInputParameter) => {
 
 /**
  * Turns an object of parameters into an array of metadata output parameters
+ *
  * @param {Object} parameters object of parameters
  * @returns {Object[]} list of metadata parameters
  */
@@ -77,9 +80,10 @@ const outputParameterMapToArray = (parameters) => {
 
 /**
  * For a given eventType return the additional parameters which are not in the existing parameters.
- * @param {String} eventType The event type
+ *
+ * @param {string} eventType The event type
  * @param {Array} parameters The parameters array
- * @param {Boolean} isInput whether the parameters are input or output. true for input, false otherwise.
+ * @param {boolean} isInput whether the parameters are input or output. true for input, false otherwise.
  */
 const getAdditionalParameters = (eventType, parameters, isInput = false) => {
     const existingParameterNames = parameters.reduce((acc, param) => {
@@ -106,7 +110,8 @@ const getAdditionalParameters = (eventType, parameters, isInput = false) => {
 /**
  * Creates all the input parameters for the event type. This includes the ones not in the metadata.
  * The additional ones are added with empty values.
- * @param {String} eventType The event type.
+ *
+ * @param {string} eventType The event type.
  * @param {Array} inputParameters input parameters array
  */
 export const createWaitEventInputParameters = (eventType, inputParameters = []) => {
@@ -119,7 +124,8 @@ export const createWaitEventInputParameters = (eventType, inputParameters = []) 
 /**
  * Creates all the output parameters for the event type. This includes the ones not in the metadata.
  * The additional ones are added with empty values.
- * @param {String} eventType The event type.
+ *
+ * @param {string} eventType The event type.
  * @param {Array} outputParameters output parameters array
  */
 export const createWaitEventOutputParameters = (eventType, outputParameters = []) => {
@@ -154,7 +160,7 @@ export const createWaitEventOutputParameters = (eventType, outputParameters = []
 
 /**
  * @typedef childReference
- * @property {String} childReference - guid of the wait event
+ * @property {string} childReference - guid of the wait event
  */
 
 /**
@@ -172,8 +178,9 @@ export const createWaitEventOutputParameters = (eventType, outputParameters = []
 
 /**
  * Called when opening a property editor or copying a wait element
+ *
  * @param {waitInStore} wait
- * @return {waitInPropertyEditor} Wait in the shape expected by a property editor
+ * @returns {waitInPropertyEditor} Wait in the shape expected by a property editor
  */
 export function createWaitWithWaitEvents(wait = {}) {
     const newWait = baseCanvasElement(wait);
@@ -203,6 +210,19 @@ export function createWaitWithWaitEvents(wait = {}) {
  * Function to create the pasted Wait element
  *
  * @param {Object} dataForPasting - Data required to create the pasted element
+ * @param dataForPasting.canvasElementToPaste
+ * @param dataForPasting.newGuid
+ * @param dataForPasting.newName
+ * @param dataForPasting.canvasElementGuidMap
+ * @param dataForPasting.childElementGuidMap
+ * @param dataForPasting.childElementNameMap
+ * @param dataForPasting.cutOrCopiedChildElements
+ * @param dataForPasting.topCutOrCopiedGuid
+ * @param dataForPasting.bottomCutOrCopiedGuid
+ * @param dataForPasting.prev
+ * @param dataForPasting.next
+ * @param dataForPasting.parent
+ * @param dataForPasting.childIndex
  */
 export function createPastedWait({
     canvasElementToPaste,
@@ -249,14 +269,14 @@ export function createPastedWait({
  * Function to create the duplicate Wait element
  *
  * @param {Object} wait - Wait element being copied
- * @param {String} newGuid - Guid for the new duplicated wait element
- * @param {String} newName - Name for the new duplicated wait element
+ * @param {string} newGuid - Guid for the new duplicated wait element
+ * @param {string} newName - Name for the new duplicated wait element
  * @param {Object} childElementGuidMap - Map of child element guids to newly generated guids that will be used for
  * the duplicated child elements
  * @param {Object} childElementNameMap - Map of child element names to newly generated unique names that will be used for
  * the duplicated child elements
  * @param {Object} cutOrCopiedChildElements - Local copy of the cut ot copied canvas elements. Undefined in the case of duplication on Free Form Canvas
- * @return {Object} Returns an object containing the duplicated element and the duplicated childElements
+ * @returns {Object} Returns an object containing the duplicated element and the duplicated childElements
  */
 export function createDuplicateWait(
     wait,
@@ -304,8 +324,9 @@ export function createDuplicateWait(
 
 /**
  * Creates a waitEvent with defaults if needed
+ *
  * @param {waitEvent} waitEvent - waitEvent
- * @return {waitEvent}
+ * @returns {waitEvent}
  */
 export function createWaitEvent(waitEvent = {}) {
     const newWaitEvent = baseChildElement(waitEvent, ELEMENT_TYPE.WAIT_EVENT);
@@ -339,9 +360,10 @@ export function createWaitEvent(waitEvent = {}) {
 
 /**
  * Create a wait in the shape needed by the flow metadata
+ *
  * @param {waitInStore} wait - wait from the store
  * @param {Object} config - configuration for converting wait
- * @return {Object} wait in the shape for the metadata
+ * @returns {Object} wait in the shape for the metadata
  */
 export function createWaitMetadataObject(wait, config = {}) {
     if (!wait) {
@@ -389,8 +411,9 @@ export function createWaitMetadataObject(wait, config = {}) {
 
 /**
  * Given a wait element in a property editor, create a wait element in the shape expected by the store
+ *
  * @param {wait} wait - wait in the shape of the property editor
- * @return
+ * @returns
  *   {
  *     wait: wait,
  *     deletedWaitEvents: waitEvent[] , waitEvents: Array, elementType: string}
@@ -463,8 +486,9 @@ export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
 /**
  * Create a wait in the shape of the store (with waitEvent references).  This is used when taking a flow element and
  * converting it for use in the store
+ *
  * @param {Object} wait - wait from metadata
- * @return {waitInStore} wait in the shape used by the store
+ * @returns {waitInStore} wait in the shape used by the store
  */
 export function createWaitWithWaitEventReferences(wait = {}) {
     const newWait = baseCanvasElement(wait);
@@ -500,6 +524,9 @@ export function createWaitWithWaitEventReferences(wait = {}) {
     return baseCanvasElementsArrayToMap([newWait, ...newWaitEvents], connectors);
 }
 
+/**
+ * @param wait
+ */
 function calculateMaxWaitConnections(wait) {
     if (!wait) {
         throw new Error('Max connection cannot be calculated because wait object is not defined');
@@ -515,6 +542,10 @@ function calculateMaxWaitConnections(wait) {
     return length;
 }
 
+/**
+ * @param availableConnections
+ * @param wait
+ */
 function addDefaultConnectorToAvailableConnections(availableConnections = [], wait) {
     if (!availableConnections || !wait) {
         throw new Error('Either availableConnections or wait is not defined');
@@ -531,6 +562,10 @@ function addDefaultConnectorToAvailableConnections(availableConnections = [], wa
     return availableConnections;
 }
 
+/**
+ * @param availableConnections
+ * @param wait
+ */
 function addFaultConnectorToAvailableConnections(availableConnections = [], wait) {
     if (!availableConnections || !wait) {
         throw new Error('Either availableConnections or wait is not defined');

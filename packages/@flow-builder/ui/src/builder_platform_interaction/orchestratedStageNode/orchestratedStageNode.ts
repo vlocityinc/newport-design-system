@@ -84,6 +84,7 @@ export default class OrchestratedStageNode extends LightningElement {
 
     /**
      * Helper function to move the focus when using arrow keys in a stage node
+     *
      * @param key - the key pressed (arrowDown or arrowUp)
      */
     handleArrowKeys(key: string) {
@@ -115,6 +116,7 @@ export default class OrchestratedStageNode extends LightningElement {
 
     /**
      * Adding StageStep directly from canvas
+     *
      * @param event - mouse event on Add Step button
      * @param designateFocus - indicates whether or not to designate focus to the property editor when opened
      */
@@ -134,6 +136,7 @@ export default class OrchestratedStageNode extends LightningElement {
 
     /**
      * Open property editor for child element directly from canvas
+     *
      * @param event - the mouse event upon the target element to open the editor for
      * @param target - the exact target element from a enter/space press to open the editor for
      */
@@ -162,6 +165,7 @@ export default class OrchestratedStageNode extends LightningElement {
 
     /**
      * Deleting StageStep directly from canvas
+     *
      * @param event - the mouse event upon the target element's delete button
      * @param target - the exact target element from a enter/space press on the delete button
      */
@@ -189,6 +193,7 @@ export default class OrchestratedStageNode extends LightningElement {
     /**
      * Initializer & Indexer used to map the proper a11y tab-indexes for a stage's step items
      * Additional Info: tabIndex should be 0 for the first step element in each stage and -1 for all others
+     *
      * @param items - an array of step items defined in the stage
      */
     setTabIndexes(items: (StageStep & { tabIndex: number })[]) {
@@ -206,6 +211,7 @@ export default class OrchestratedStageNode extends LightningElement {
 
     /**
      * Utility method for moving focus between step items via keyboard presses
+     *
      * @param stepItems - an array of step items defined in the stage
      * @param currentItemInFocus - the stepItem element the currently has tab focus
      * @param key - the name of the key being pressed

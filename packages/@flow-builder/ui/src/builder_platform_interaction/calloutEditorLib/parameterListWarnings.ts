@@ -2,24 +2,24 @@
 import { MERGE_WARNING_TYPE, ParameterListRowItem } from 'builder_platform_interaction/elementFactory';
 
 /**
-* @typedef {Object} LABELS
-* @property {String} [warningNotAvailable] the warning message when variable isn't available in subflow or parameter isn't available in action or apex plugin.
-* @property {String} [warningLatestOnly] the warning message when variable is in only latest version.
-* @property {String} [warningActiveOnly] the warning message when variable is in only active version.
-* @property {String} [warningDataTypeChanged] the warning message when variable's data type is changed.
-* @property {String} [badgeWillCauseErrors] the badge 'Will Cause Errors'
-* @property {String} [badgeDebugOnly] the badge 'Debug Only'
-
-*
-*/
+ * @typedef {Object} LABELS
+ * @property {string} [warningNotAvailable] the warning message when variable isn't available in subflow or parameter isn't available in action or apex plugin.
+ * @property {string} [warningLatestOnly] the warning message when variable is in only latest version.
+ * @property {string} [warningActiveOnly] the warning message when variable is in only active version.
+ * @property {string} [warningDataTypeChanged] the warning message when variable's data type is changed.
+ * @property {string} [badgeWillCauseErrors] the badge 'Will Cause Errors'
+ * @property {string} [badgeDebugOnly] the badge 'Debug Only'
+ */
 
 /**
  * Get the warnings for the ParameterList component
  *
  * @param {ParameterItemWithWarnings[]} inputs the input parameters
  * @param {ParameterItemWithWarnings[]} outputs the output parameters
+ * @param inputAssignments
+ * @param outputAssignments
  * @param {LABELS} labels the labels
- * @return {ParameterListWarnings} the warnings
+ * @returns {ParameterListWarnings} the warnings
  */
 export function getParameterListWarnings(
     inputAssignments: ParameterListRowItem[] = [],
@@ -44,9 +44,12 @@ export function getParameterListWarnings(
 
 /**
  * Get the ParameterItem warning configuration corresponding to the given warning codes
+ *
  * @param {MERGE_WARNING_TYPE[]} the warning codes
  * @param {Object} the labels
- * @return {ParameterItemWarning} the ParameterItem warning configuration
+ * @param warnings
+ * @param labels
+ * @returns {ParameterItemWarning} the ParameterItem warning configuration
  */
 export function getParameterItemWarning(warnings, labels) {
     if (warnings == null || warnings.length === 0) {

@@ -4,6 +4,11 @@
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { hydrateIfNecessary } from 'builder_platform_interaction/dataMutationLib';
 
+/**
+ * @param event
+ * @param field
+ * @param currentValue
+ */
 export function addCurrentValueToEvent(event, field, currentValue) {
     return new PropertyChangedEvent(
         event.detail.propertyName,

@@ -369,6 +369,7 @@ export default class Toolbar extends LightningElement {
     /**
      * Event handler for click event on save button.
      * It dispatches an event named save which can be handled by parent component
+     *
      * @param {Object} event - Save button click event
      */
     handleSave(event) {
@@ -388,6 +389,7 @@ export default class Toolbar extends LightningElement {
      * Event handler for click event on the diff flow button.
      * Dispatches an event named diff flow to perform a diff of the saved flow
      * to the current flow state.
+     *
      * @param event
      */
     handleDiff(event) {

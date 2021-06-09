@@ -1,8 +1,9 @@
 // @ts-nocheck
 /**
  * Validates if object is valid or not
+ *
  * @param {Object} obj object to be validated
- * @returns {Boolean} true if obj is valid, else false
+ * @returns {boolean} true if obj is valid, else false
  */
 export function isPlainObject(obj) {
     if (typeof obj !== 'object' || obj === null) {

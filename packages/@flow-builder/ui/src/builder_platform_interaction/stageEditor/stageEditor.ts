@@ -37,6 +37,7 @@ export default class StageEditor extends LightningElement {
     /**
      * Public api function to return the node
      * Called by the property editor controller on "OK"
+     *
      * @returns {object} node - node
      */
     @api
@@ -68,16 +69,19 @@ export default class StageEditor extends LightningElement {
     /*     Error Handling    */
     /* ********************** */
 
-    /** LWC hook after rendering every component we are setting all errors via set Custom Validity
+    /**
+     * LWC hook after rendering every component we are setting all errors via set Custom Validity
      * except initial rendering
-     **/
+     */
     renderedCallback() {
         if (this.stageResource.stageOrder.value !== null) {
             const labelInput = this.template.querySelector(SELECTORS.INPUT_FIELD);
             this.setInputErrorMessage(labelInput, this.stageResource.stageOrder.error);
         }
     }
-    /** Sets the CustomValidity if there is a valid error message.
+    /**
+     * Sets the CustomValidity if there is a valid error message.
+     *
      * @param {Object} element - the input component
      * @param {Object} error - the input component
      */
@@ -98,7 +102,7 @@ export default class StageEditor extends LightningElement {
 
     /**
      * @param {object} event - property changed event coming from label-description component
-     * */
+     */
     handlePropertyChanged(event) {
         event.stopPropagation();
         const propertyName = event.detail.propertyName;
@@ -109,6 +113,7 @@ export default class StageEditor extends LightningElement {
     }
     /**
      * Handles the value change for stageOrder input.
+     *
      * @param {object} event on change / focus out
      */
     handleOrderChange(event) {
@@ -123,6 +128,7 @@ export default class StageEditor extends LightningElement {
     }
     /**
      * Handles the value change for active or inactive input.
+     *
      * @param {object} event on change / focus out
      */
     handleIsActiveChange(event) {

@@ -9,8 +9,10 @@ const isUndefinedOrNoneTriggerType = (triggerType) => {
 
 /**
  * Determines whether the flow run-in system mode feature is supported for the given trigger type
- * * @param {String} triggerType
- * @returns {Boolean}
+ *
+ * @param {string} triggerType
+ * @param triggerType
+ * @returns {boolean}
  */
 export const isRunInModeSupported = (triggerType) => {
     return isUndefinedOrNoneTriggerType(triggerType);
@@ -18,8 +20,9 @@ export const isRunInModeSupported = (triggerType) => {
 
 /**
  * Whether or not lookup traversal is supported for this trigger type
- * @param {String} triggerType
- * @returns {Boolean} true if lookup traversal is supported for this trigger type, false otherwise
+ *
+ * @param {string} triggerType
+ * @returns {boolean} true if lookup traversal is supported for this trigger type, false otherwise
  */
 export const isLookupTraversalSupported = (triggerType) => {
     return !triggerType || triggerType !== FLOW_TRIGGER_TYPE.SCHEDULED_JOURNEY;
@@ -27,8 +30,9 @@ export const isLookupTraversalSupported = (triggerType) => {
 
 /**
  * Whether or not this trigger type has a schedule
- * @param {String} triggerType
- * @returns {Boolean} true if it has a schedule, false otherwise
+ *
+ * @param {string} triggerType
+ * @returns {boolean} true if it has a schedule, false otherwise
  */
 export const isScheduledTriggerType = (triggerType) => {
     // TODO this information should eventually just come from the trigger type service
@@ -37,8 +41,9 @@ export const isScheduledTriggerType = (triggerType) => {
 
 /**
  * Whether or not this trigger type is a record change trigger type
- * @param {String} triggerType
- * @returns {Boolean} true if it is record change trigger, false otherwise
+ *
+ * @param {string} triggerType
+ * @returns {boolean} true if it is record change trigger, false otherwise
  */
 export const isRecordChangeTriggerType = (triggerType) => {
     return (
@@ -51,8 +56,9 @@ export const isRecordChangeTriggerType = (triggerType) => {
 /**
  * Whether or not this trigger type supports a triggering record update
  * NOTE: Delete this method in favor of getTriggerHasCriteria if and when we support ScheduledJourneys
- * @param {String} triggerType
- * @returns {Boolean} true if the trigger type can have triggering record update, false otherwise
+ *
+ * @param {string} triggerType
+ * @returns {boolean} true if the trigger type can have triggering record update, false otherwise
  */
 export const doesSupportTriggeringRecordUpdate = (triggerType) => {
     return (
@@ -65,8 +71,9 @@ export const doesSupportTriggeringRecordUpdate = (triggerType) => {
 
 /**
  * Whether or not this trigger type has criteria
- * @param {String} triggerType
- * @returns {Boolean} true if it has criteria, false otherwise
+ *
+ * @param {string} triggerType
+ * @returns {boolean} true if it has criteria, false otherwise
  */
 export const getTriggerHasCriteria = (triggerType) => {
     // TODO this information should eventually just come from the trigger type service
@@ -75,7 +82,8 @@ export const getTriggerHasCriteria = (triggerType) => {
 
 /**
  * Get trigger type info for a given trigger type
- * @param {String} triggerType
+ *
+ * @param {string} triggerType
  * @returns {Promise} promise that resolves to the trigger type info
  */
 export const getTriggerTypeInfo = (triggerType) => {

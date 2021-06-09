@@ -10,6 +10,7 @@ const maxConnections = -1;
 /**
  * Method to create the step element object
  *
+ * @param step
  * @returns {Object} the step element object
  */
 export function createStep(step = {}) {
@@ -24,6 +25,7 @@ export function createStep(step = {}) {
 /**
  * Method to create the step element object for Store
  *
+ * @param step
  * @returns {Object} the step element object
  */
 export function createStepWithConnectorsForStore(step = {}) {
@@ -37,7 +39,9 @@ export function createStepWithConnectorsForStore(step = {}) {
 
 /**
  * Method to create step element objects for a given flow metadata element
+ *
  * @param {step} step element metadata object
+ * @param config
  * @returns {Object} the step element object
  */
 export function createStepMetadataObject(step, config = {}) {

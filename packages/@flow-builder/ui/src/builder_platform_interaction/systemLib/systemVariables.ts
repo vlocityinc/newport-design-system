@@ -24,8 +24,7 @@ export const resetSystemVariables = () => {
 /**
  * Converts serialized FlowSystemVariablesEnums to a form usable by menus.
  *
- * @param {Array}
- *            data raw variable data from the server
+ * @param {Array} data raw variable data from the server
  */
 const convertData = (data) =>
     data.reduce((acc, obj) => {
@@ -51,8 +50,7 @@ const convertData = (data) =>
 /**
  * Sets the system variables. This should be done during app initialization.
  *
- * @param {Object}
- *            data the data returned by the service
+ * @param {Object} data the data returned by the service
  */
 export const setSystemVariables = (data) => {
     const variables = [...data];
@@ -71,6 +69,9 @@ export const setSystemVariables = (data) => {
 /**
  * get the $Record__Prior system variable if available.
  * $Record__Prior is only available for Record Change trigger and the trigger fires on an Update or a Create/Update
+ *
+ * @param root0
+ * @param root0.elements
  */
 const getRecordPriorSystemVariable = ({ elements }) => {
     const startElement = getStartElementFromState({ elements });
@@ -122,12 +123,16 @@ export const getSystemVariablesFromState = ({ elements }, category: string) => {
  * Gets all available system variables. Should be used after
  * fetchAllSystemVariables completes.
  *
+ * @param category
  * @returns {Object} system variables usable in menus
  */
 export const getSystemVariables = (category: string) => {
     return getSystemVariablesFromState(Store.getStore().getCurrentState(), category);
 };
 
+/**
+ * @param category
+ */
 export function isSystemVariablesCategoryNotEmpty(category) {
     const vars = getSystemVariables(category);
     return Object.keys(vars).length > 0;

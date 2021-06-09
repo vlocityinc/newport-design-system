@@ -65,6 +65,7 @@ export default class SortCollectionOutput extends LightningElement {
 
     /**
      * handle sort output radio changed
+     *
      * @param event the radio changed event
      */
     handleSortOutputChanged(event: CustomEvent) {
@@ -76,6 +77,7 @@ export default class SortCollectionOutput extends LightningElement {
 
     /**
      * handle limit changed
+     *
      * @param event input changed event
      */
     handleMaxNumberChanged(event: CustomEvent) {

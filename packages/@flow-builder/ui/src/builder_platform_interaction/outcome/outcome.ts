@@ -76,7 +76,8 @@ export default class Outcome extends LightningElement {
 
     /**
      * Helper method needed for conditions list
-     * @return {boolean} if delete should be shown for each condition
+     *
+     * @returns {boolean} if delete should be shown for each condition
      */
     get showDeleteCondition() {
         return this.element.conditions && showDeleteCondition(this.element.conditions);
@@ -84,7 +85,8 @@ export default class Outcome extends LightningElement {
 
     /**
      * Return the conditions to be rendered edcorated with the correct prefixes
-     * @return {Object[]} Array of all conditions decorated with prefix
+     *
+     * @returns {Object[]} Array of all conditions decorated with prefix
      */
     get conditionsWithPrefixes() {
         return this.element.conditions
@@ -119,7 +121,7 @@ export default class Outcome extends LightningElement {
     }
 
     /**
-     * @return true iff a condition exists for the outcome
+     * @returns true iff a condition exists for the outcome
      */
     get showOutcomeExecutionOptionsSelector(): boolean {
         return this.element.conditions && this.element.conditions.length > 0;
@@ -157,7 +159,8 @@ export default class Outcome extends LightningElement {
     }
 
     /**
-     * @return true if an operator is selected in the list of conditions
+     * @param operator
+     * @returns true if an operator is selected in the list of conditions
      *  Used to disable the radio group accordingly (W-8869340)
      */
     hasConditionWithOperator(operator: FlowComparisonOperator): boolean {

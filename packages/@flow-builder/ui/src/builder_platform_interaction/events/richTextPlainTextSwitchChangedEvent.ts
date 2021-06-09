@@ -7,6 +7,7 @@ const eventName = 'richtextplaintextswitchchanged';
 export class RichTextPlainTextSwitchChangedEvent extends Event {
     /**
      * Create the event.
+     *
      * @param {boolean} isPlainText - Switched to plain text mode
      */
     constructor(isPlainText) {

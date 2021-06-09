@@ -94,6 +94,7 @@ export default class LoopEditor extends LightningElement {
 
     /**
      * public api function to return the node
+     *
      * @returns {object} node - node
      */
     @api getNode() {
@@ -102,6 +103,7 @@ export default class LoopEditor extends LightningElement {
 
     /**
      * public api function to run the rules from loop validation library
+     *
      * @returns {object} list of errors
      */
     @api validate() {
@@ -113,7 +115,8 @@ export default class LoopEditor extends LightningElement {
     /**
      * Gets the developer name of the collection variable in the loop element
      * The name is in the {!name} format
-     * @returns {String} name
+     *
+     * @returns {string} name
      */
     get collectionVariable() {
         if (this._collectionVariable) {
@@ -207,14 +210,14 @@ export default class LoopEditor extends LightningElement {
     }
 
     /**
-     * @return {Boolean} true : the user chooses to use the Advanced Options
+     * @returns {boolean} true : the user chooses to use the Advanced Options
      */
     get isAdvancedMode() {
         return !this.loopElement.storeOutputAutomatically;
     }
 
     /**
-     * @return {Boolean} true : the process type supports the automatic output handling
+     * @returns {boolean} true : the process type supports the automatic output handling
      */
     get isAutomaticOutputHandlingSupported() {
         return this.processTypeAutomaticOutPutHandlingSupport === FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED;
@@ -328,7 +331,8 @@ export default class LoopEditor extends LightningElement {
 
     /**
      * Returns the the string value of loop variable dataType
-     * @returns {String} The string value
+     *
+     * @returns {string} The string value
      */
     getLoopVariableDataType() {
         return this.loopVariableState ? this.loopVariableState.dataType : null;
@@ -336,7 +340,8 @@ export default class LoopEditor extends LightningElement {
 
     /**
      * Returns the the string value of collection variable dataType
-     * @returns {String} The string value
+     *
+     * @returns {string} The string value
      */
     getCollectionVariableDataType() {
         return this._collectionVariable ? this._collectionVariable.dataType : null;
@@ -344,7 +349,8 @@ export default class LoopEditor extends LightningElement {
 
     /**
      * Returns the the string value of loop variable subtype, if applicable
-     * @returns {String} The string value
+     *
+     * @returns {string} The string value
      */
     getLoopVariableSubtype() {
         return this.loopVariableState && this.loopVariableState.subtype ? this.loopVariableState.subtype : null;
@@ -352,7 +358,8 @@ export default class LoopEditor extends LightningElement {
 
     /**
      * Returns the the string value of loop variable subtype, if applicable
-     * @returns {String} The string value
+     *
+     * @returns {string} The string value
      */
     getCollectionVariableSubtype() {
         return this._collectionVariable && this._collectionVariable.subtype ? this._collectionVariable.subtype : null;
@@ -360,8 +367,9 @@ export default class LoopEditor extends LightningElement {
 
     /**
      * Mutate the combobox menu item to shape needed for loop variable/collection variable.
+     *
      * @param {Object} item Combobox menu item
-     * @return {Object} the object needed to populate loop variable/collection variable.
+     * @returns {Object} the object needed to populate loop variable/collection variable.
      */
     mutateComboboxItem(item) {
         return {

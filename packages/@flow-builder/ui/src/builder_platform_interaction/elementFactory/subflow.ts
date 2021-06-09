@@ -16,6 +16,9 @@ import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 const elementType = ELEMENT_TYPE.SUBFLOW;
 const maxConnections = 1;
 
+/**
+ * @param subflow
+ */
 export function createSubflow(subflow = {}) {
     const newSubflow = baseCanvasElement(subflow);
     const { flowName = '' } = subflow;
@@ -52,6 +55,16 @@ export function createSubflow(subflow = {}) {
  * Function to create the pasted Subflow element
  *
  * @param {Object} dataForPasting - Data required to create the pasted element
+ * @param dataForPasting.canvasElementToPaste
+ * @param dataForPasting.newGuid
+ * @param dataForPasting.newName
+ * @param dataForPasting.canvasElementGuidMap
+ * @param dataForPasting.topCutOrCopiedGuid
+ * @param dataForPasting.bottomCutOrCopiedGuid
+ * @param dataForPasting.prev
+ * @param dataForPasting.next
+ * @param dataForPasting.parent
+ * @param dataForPasting.childIndex
  */
 export function createPastedSubflow({
     canvasElementToPaste,
@@ -83,6 +96,11 @@ export function createPastedSubflow({
     };
 }
 
+/**
+ * @param subflow
+ * @param newGuid
+ * @param newName
+ */
 export function createDuplicateSubflow(subflow, newGuid, newName) {
     const newSubflow = createSubflow(subflow);
     const duplicateSubflow = duplicateCanvasElement(newSubflow, newGuid, newName);
@@ -90,6 +108,9 @@ export function createDuplicateSubflow(subflow, newGuid, newName) {
     return duplicateSubflow;
 }
 
+/**
+ * @param subflow
+ */
 export function createSubflowWithConnectors(subflow) {
     const newSubflow = createSubflow(subflow);
 
@@ -104,6 +125,10 @@ export function createSubflowWithConnectors(subflow) {
     return baseCanvasElementsArrayToMap([subflowObject], connectors);
 }
 
+/**
+ * @param subflow
+ * @param config
+ */
 export function createSubflowMetadataObject(subflow, config) {
     if (!subflow) {
         throw new Error('subflow is not defined');

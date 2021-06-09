@@ -185,6 +185,7 @@ export const UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE = {
  * AND and OR are flow values which are used by the backend as well as being as used
  * on the frontend (combobox values).  CUSTOM_LOGIC is used only by the frontend as a
  * combobox value
+ *
  * @type {{AND: string, OR: string, ALWAYS: string, CUSTOM_LOGIC: string}}
  */
 export const CONDITION_LOGIC = {
@@ -203,7 +204,8 @@ export const WAIT_EVENT_FIELDS = {
 /**
  * The time event types of wait events. For time events, these can be either absolute (alarmEvent)
  * or direct record time (dateRefAlarmEvent)
- * @typedef {String} WaitTimeEventType
+ *
+ * @typedef {string} WaitTimeEventType
  */
 export const WAIT_TIME_EVENT_TYPE = {
     ABSOLUTE_TIME: 'AlarmEvent',
@@ -212,6 +214,7 @@ export const WAIT_TIME_EVENT_TYPE = {
 
 /**
  * Acceptable values for wait time offset units
+ *
  * @type {{hours, days}}
  */
 export const WAIT_TIME_EVENT_OFFSET_UNIT = {
@@ -230,6 +233,7 @@ export const TIME_OPTION = {
 
 /**
  * Acceptable values for Schedule Path offset units
+ *
  * @type {{hours, days}}
  */
 export const SCHEDULED_PATH_OFFSET_UNIT = {
@@ -449,6 +453,9 @@ export enum FlowComparisonOperator {
     IsChanged = 'IsChanged'
 }
 
+/**
+ * @param elementType
+ */
 export function isSystemElement(elementType) {
     switch (elementType) {
         case ELEMENT_TYPE.ROOT_ELEMENT:
@@ -460,6 +467,9 @@ export function isSystemElement(elementType) {
     }
 }
 
+/**
+ * @param element
+ */
 export function isSectionOrColumn(element) {
     return (
         element.elementType === ELEMENT_TYPE.SCREEN_FIELD &&
@@ -467,10 +477,18 @@ export function isSectionOrColumn(element) {
     );
 }
 
+/**
+ * @param element
+ */
 export function isScheduledPath(element) {
     return element.elementType === ELEMENT_TYPE.SCHEDULED_PATH;
 }
 
+/**
+ * @param metadata
+ * @param startElementReference
+ * @param callback
+ */
 export function forEachMetadataFlowElement(metadata, startElementReference, callback) {
     const metadataKeys = Object.values(METADATA_KEY);
     for (let i = 0, metadataKeysLen = metadataKeys.length; i < metadataKeysLen; i++) {
@@ -493,6 +511,7 @@ export function forEachMetadataFlowElement(metadata, startElementReference, call
 
 /**
  * gets start element from metadata. handles old flows where the start Element did not exist, it was just a reference.
+ *
  * @param metadata retrieved from the backedn
  * @param startElementReference reference to the start node. in older flows there was no start element.
  */
@@ -503,6 +522,9 @@ export function getStartElementFromMetadata(metadata, startElementReference) {
     return metadata[METADATA_KEY.START];
 }
 
+/**
+ * @param startElementReference
+ */
 function dummyStartElement(startElementReference: string): object {
     return {
         connector: { targetReference: startElementReference },

@@ -52,7 +52,7 @@ export default class RecordInputOutputAssignments extends LightningElement {
     hideNewResource = false;
 
     /**
-     * @param {String} entityName - the selected record object
+     * @param {string} entityName - the selected record object
      */
     set recordEntityName(entityName) {
         this.entityName = entityName;
@@ -127,6 +127,10 @@ export default class RecordInputOutputAssignments extends LightningElement {
 
     /**
      * if a field has already been select then it should not be possible to select it again.
+     *
+     * @param excludedFields
+     * @param fieldApiName
+     * @param itemApiName
      */
     includeField(excludedFields, fieldApiName, itemApiName) {
         return !excludedFields.includes(fieldApiName) || fieldApiName === itemApiName;
@@ -134,6 +138,7 @@ export default class RecordInputOutputAssignments extends LightningElement {
 
     /**
      * handle event when adding the new assignment
+     *
      * @param {Object} event the add assignment event
      */
     handleAddAssignment(event) {
@@ -144,6 +149,7 @@ export default class RecordInputOutputAssignments extends LightningElement {
 
     /**
      * handle event when updating the assignment
+     *
      * @param {Object} event the update assignment event
      */
     handleUpdateAssignment(event) {
@@ -158,6 +164,7 @@ export default class RecordInputOutputAssignments extends LightningElement {
 
     /**
      * handle event when deleting the assignment
+     *
      * @param {Object} event the delete assignment event
      */
     handleDeleteAssignment(event) {

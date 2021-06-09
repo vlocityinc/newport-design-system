@@ -11,8 +11,7 @@ export const resetGlobalVariables = () => {
 /**
  * Creates a mapping of serialized GlobalVariableTypes.
  *
- * @param {Array}
- *            data raw type data from the server
+ * @param {Array} data raw type data from the server
  */
 const convertTypeData = (data) =>
     data.reduce((acc, obj) => {
@@ -29,8 +28,8 @@ const convertTypeData = (data) =>
 /**
  * Converts serialized GlobalVariables to a form usable by menus.
  *
- * @param {Array}
- *            data raw variable data from the server
+ * @param {Array} data raw variable data from the server
+ * @param types
  */
 const convertData = (data, types) =>
     data.reduce((acc, obj) => {
@@ -59,6 +58,7 @@ const convertData = (data, types) =>
  *
  * @param {Object}
  *            data the data returned by the service
+ * @param data
  */
 export const setGlobalVariables = (data) => {
     let allTypes;
@@ -90,8 +90,7 @@ export const getGlobalVariableTypes = () => {
  * Gets all available global variables for the given type. Should be used after
  * fetchAllGlobalVariables completes.
  *
- * @param {String}
- *            typeName name of the global variable type to get variables for
+ * @param {string} typeName name of the global variable type to get variables for
  * @param {boolean} showMultiPicklistGlobalVariables whether we allow global variables of type multipicklist
  * @returns {Object} global variables usable in menus
  */
@@ -117,7 +116,7 @@ export const getGlobalVariables = (typeName, showMultiPicklistGlobalVariables = 
 /**
  * Information about a single global variable
  *
- * @param {String} id      points to a global variable
+ * @param {string} id      points to a global variable
  * @returns {Object|null}  object representing the global variable if this id is valid
  */
 export const getGlobalVariable = (id) => {

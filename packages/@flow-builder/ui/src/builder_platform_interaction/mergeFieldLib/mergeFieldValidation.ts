@@ -59,6 +59,7 @@ export class MergeFieldsValidation {
      *
      * @param {string}
      *            mergeField the merge field (ex : {!variable1.Name})
+     * @param mergeField
      * @returns {ValidationError[]} The validation errors
      */
     validateMergeField(mergeField: string): ValidationError[] {
@@ -78,9 +79,10 @@ export class MergeFieldsValidation {
      * ex: {!variable1.Name} - false
      *     test input - false
      *     Hi {!variable1.Name} - true
+     *
      * @param {string} text
      *          input text
-     * @return {boolean} true if input is text with merge field
+     * @returns {boolean} true if input is text with merge field
      */
     static isTextWithMergeFields(text: string) {
         if (typeof text !== 'string') {
@@ -611,10 +613,13 @@ export class MergeFieldsValidation {
 
 /**
  * Validate text with merge fields
+ * textWithMergeFields text with merge fields (ex : '{!variable1.Name} == {!variable2.Name}')
  *
- * @param {string}
- *            textWithMergeFields text with merge fields (ex :
- *            '{!variable1.Name} == {!variable2.Name}')
+ * @param textWithMergeFields
+ * @param root0
+ * @param root0.allowGlobalConstants
+ * @param root0.allowCollectionVariables
+ * @param root0.ignoreGlobalVariables
  * @returns {ValidationError[]} The validation errors
  */
 export function validateTextWithMergeFields(
@@ -638,6 +643,15 @@ export function validateTextWithMergeFields(
     }
 }
 
+/**
+ * @param mergeField
+ * @param root0
+ * @param root0.allowGlobalConstants
+ * @param root0.allowedParamTypes
+ * @param root0.allowCollectionVariables
+ * @param root0.allowSObjectFieldsTraversal
+ * @param root0.allowApexTypeFieldsTraversal
+ */
 export function validateMergeField(
     mergeField: string,
     {
@@ -663,6 +677,9 @@ export function validateMergeField(
     return validation.validateMergeField(mergeField);
 }
 
+/**
+ * @param text
+ */
 export function isTextWithMergeFields(text: string) {
     return MergeFieldsValidation.isTextWithMergeFields(text);
 }

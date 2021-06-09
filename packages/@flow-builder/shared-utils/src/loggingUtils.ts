@@ -8,6 +8,7 @@ type LoggingContext = object | null;
 
 /**
  * Function to set the builder name e.g FLOW_BUILDER or STRATEGY_BUILDER
+ *
  * @param name
  */
 export const setAppName = (name: string): void => {
@@ -23,6 +24,7 @@ const getAppName = (): string => {
 
 /**
  * Wrapper function for logging Error transaction in metrics service
+ *
  * @param errorMessage error message
  * @param source source of the message
  */
@@ -32,6 +34,7 @@ export const logMetricsServiceErrorTransaction = (errorMessage: string, source: 
 
 /**
  * Wrapper function for Perf Start in metrics Service
+ *
  * @param name - name of perf transaction.
  * @param config - payload of the transaction.
  * @param source source of the message.
@@ -42,6 +45,7 @@ export const logPerfTransactionStart = (name: string, config: LoggingConfig, sou
 
 /**
  * Wrapper function for Perf End in metrics Service
+ *
  * @param name - name of perf transaction.
  * @param config - payload of the transaction.
  * @param source source of the message.
@@ -52,6 +56,7 @@ export const logPerfTransactionEnd = (name: string, config: LoggingConfig, sourc
 
 /**
  * Wrapper function for mark start in metrics Service
+ *
  * @param name - name of perf transaction
  * @param context - payload of the mark.
  * Note: A mark will only appear in the log line if it falls inside the time range of an existing transaction
@@ -62,6 +67,7 @@ export const logPerfMarkStart = (name: string, context: LoggingContext): void =>
 
 /**
  * Wrapper function for mark end in metrics Service
+ *
  * @param name - name of perf transaction.
  * @param context - payload of the mark.
  * Note: A mark will only appear in the log line if it falls inside the time range of an existing transaction.
@@ -72,6 +78,7 @@ export const logPerfMarkEnd = (name: string, context: LoggingContext): void => {
 
 /**
  * Wrapper function for mark in metrics Service
+ *
  * @param namespace - namespace of perf transaction.
  * @param name - name of perf transaction.
  * @param context - payload of the mark.
@@ -83,6 +90,7 @@ export const logPerfMark = (namespace: string, name: string, context: LoggingCon
 
 /**
  * Wrapper function for interaction in metrics service
+ *
  * @param target - target for interaction.
  * @param scope - scope for interaction.
  * @param context - payload for the interaction.

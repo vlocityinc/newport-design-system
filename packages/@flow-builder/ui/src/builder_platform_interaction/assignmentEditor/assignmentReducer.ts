@@ -55,6 +55,7 @@ const assignmentPropertyChanged = (state, event) => {
 
 /**
  * assignment reducer function runs validation rules and returns back the updated element assignment
+ *
  * @param {object} state - element / assignment node
  * @param {object} event - object containing type and payload eg: {type:'xyz', payload: {propertyName: '', value: '' , error: ''}}
  * @returns {object} assignment - updated assignment

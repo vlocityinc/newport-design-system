@@ -110,6 +110,7 @@ export default class ComponentVisibility extends LightningElement {
 
     /**
      * Cancels the onclick event fired when clicking on the add button.
+     *
      * @param {Event} event onclick event that is fired when clicking on the component
      */
     handleOnClick = (event) => {
@@ -123,6 +124,7 @@ export default class ComponentVisibility extends LightningElement {
     /**
      * Handles when the "Add Condition" button is clicked.
      * Displays the popover for the new condition.
+     *
      * @param {AddConditionEvent} event the condition logic change event
      */
     handleAddCondition = (event) => {
@@ -141,6 +143,7 @@ export default class ComponentVisibility extends LightningElement {
 
     /**
      * Handles changes to the condition logic value.
+     *
      * @param {PropertyChangedEvent} event the condition logic change event
      * @fires UpdateConditionLogicEvent
      */
@@ -165,6 +168,7 @@ export default class ComponentVisibility extends LightningElement {
 
     /**
      * Displays the popover for the condition that was clicked on.
+     *
      * @param {Event} event the onclick event
      * @fires DeleteConditionEvent when a "New Condition" was displayed
      */
@@ -185,6 +189,7 @@ export default class ComponentVisibility extends LightningElement {
     /**
      * Handles when the user clicks "Done" in the ConditionEditorPopover.
      * The popover guarantees this is only invoked if the condition doesn't have any errors.
+     *
      * @param {number} index the index of the edited condition
      * @param {Object} condition the condition that was edited
      * @fires UpdateConditionEvent
@@ -198,6 +203,8 @@ export default class ComponentVisibility extends LightningElement {
     /**
      * Handles then case when the popover is closed by clicking out.
      * Deletes any "New Condition" that was being edited.
+     *
+     * @param panel
      * @fires DeleteConditionEvent
      */
     handleClosePopover = (panel) => {
@@ -209,6 +216,7 @@ export default class ComponentVisibility extends LightningElement {
 
     /**
      * Checks if the last condition is new
+     *
      * @returns true if the last condition is new
      */
     isLastConditionNew() {
@@ -219,6 +227,7 @@ export default class ComponentVisibility extends LightningElement {
 
     /**
      * Deletes a condition at a given index
+     *
      * @param {number} index of the condition to delete
      * @fires DeleteConditionEvent
      */
@@ -228,6 +237,7 @@ export default class ComponentVisibility extends LightningElement {
 
     /**
      * Deletes the new condition if it is present
+     *
      * @fires DeleteConditionEvent
      */
     deleteNewCondition() {
@@ -239,6 +249,7 @@ export default class ComponentVisibility extends LightningElement {
 
     /**
      * Checks if a condition is new
+     *
      * @param {Object} condition the condition to check
      * @returns true if the condition is new
      */
@@ -248,6 +259,7 @@ export default class ComponentVisibility extends LightningElement {
 
     /**
      * Displays the ConditionEditorPopover
+     *
      * @param {number} index of condition used to anchor the popover
      */
     displayPopover(index) {

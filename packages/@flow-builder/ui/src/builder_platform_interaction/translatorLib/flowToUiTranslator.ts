@@ -20,6 +20,7 @@ let START_Y_OFFSET;
 
 /**
  * Get the flow startElementReference property if any
+ *
  * @param {Object} flow current flow
  * @returns {string} flow startElementReference property or undefined if none
  */
@@ -73,6 +74,7 @@ export function translateFlowToUIModel(flow) {
 
 /**
  * Helper function to update the store elements
+ *
  * @param {Object} storeElements element map with guid as key and element as value
  * @param {Object} newElements new element to be added in the store elements
  * @returns {Object} updated store elements map
@@ -83,6 +85,7 @@ function updateStoreElements(storeElements = {}, newElements = {}) {
 
 /**
  * Helper function to update the connectors
+ *
  * @param {Array} storeConnectors array of connectors
  * @param {Array} newConnectors array of new connectors to be added
  * @returns {Array} new array of updated connectors
@@ -94,10 +97,11 @@ function updateStoreConnectors(storeConnectors = [], newConnectors = []) {
 /**
  * Helper function to loop over storeElements and create devnameToGuid map and canvasElementsGuids array.
  * Also updates the location of the canvas elements if needed.
+ *
  * @param {Object} elements element map with guid as key and element as value
- * @param {Number} translateX amount by which elements need to be moved in the x-direction
+ * @param {number} translateX amount by which elements need to be moved in the x-direction
  * @param {Object} properties flowProperties of a given flow
- * @return {Object} Object containing nameToGuid map, CanvasElementGuids array and updatedElements
+ * @returns {Object} Object containing nameToGuid map, CanvasElementGuids array and updatedElements
  */
 function updateCanvasElementGuidsAndNameToGuidMap(elements = {}, translateX = 0) {
     const elementGuids = Object.keys(elements),
@@ -133,9 +137,10 @@ function updateCanvasElementGuidsAndNameToGuidMap(elements = {}, translateX = 0)
 /**
  * Updates the location of the canvas element if any element is overlapping with the start element. The location is only
  * updated if the flow originally had the start element metadata and was last modified before RELEASE_226_DATE
+ *
  * @param {Object} element canvas element
- * @param {Number} translateX amount by which elements need to be moved in the x-direction
- * @return {Object} Returns the updated/original element
+ * @param {number} translateX amount by which elements need to be moved in the x-direction
+ * @returns {Object} Returns the updated/original element
  */
 function updateOverlappingFlowLocation(element = {}, translateX = 0) {
     if (isElementOverlappingStartElement(element, translateX)) {
@@ -146,9 +151,10 @@ function updateOverlappingFlowLocation(element = {}, translateX = 0) {
 
 /**
  * Checks if the element is overlapping with the start element or not
+ *
  * @param {Object} element canvas element
- * @param {Number} translateX amount by which elements need to be moved in the x-direction
- * @return {Boolean} Returns boolean value telling if the element overlaps with the start element or not
+ * @param {number} translateX amount by which elements need to be moved in the x-direction
+ * @returns {boolean} Returns boolean value telling if the element overlaps with the start element or not
  */
 function isElementOverlappingStartElement(element = {}, translateX = 0) {
     return translateX > 0 && element && element.elementType && !isSystemElement(element.elementType);
@@ -156,9 +162,10 @@ function isElementOverlappingStartElement(element = {}, translateX = 0) {
 
 /**
  * Updates the location of a given canvas element
+ *
  * @param {Object} element canvas element
- * @param {Number} translateX amount by which elements need to be moved in the x-direction
- * @return {Object} Returns a new element with the updated location
+ * @param {number} translateX amount by which elements need to be moved in the x-direction
+ * @returns {Object} Returns a new element with the updated location
  */
 function updateCanvasElementLocation(element = {}, translateX = 0) {
     if (element && element.hasOwnProperty('locationX')) {
@@ -173,6 +180,7 @@ function updateCanvasElementLocation(element = {}, translateX = 0) {
 
 /**
  * Helper function to return the top left and bottom right location of the start element box.
+ *
  * @param locationX X location of start element
  * @param locationY Y location of start element
  * @param startElement Start element metadata
@@ -186,6 +194,7 @@ const _getStartboxPoints = (locationX: number, locationY: number, startElement: 
 
 /**
  * Helper function to return the top left and bottom right location of the element box.
+ *
  * @param locationX X location of element
  * @param locationY Y location of element
  */
@@ -197,6 +206,7 @@ const _getElementboxPoints = (locationX: number, locationY: number): object => {
 
 /**
  * Helper function to return the top middle and right middle location of the element box.
+ *
  * @param locationX X location of element
  * @param locationY Y location of element
  */
@@ -208,6 +218,7 @@ const _getElementboxMidPoints = (locationX: number, locationY: number): object =
 
 /**
  * Helper function to return the left middle and bottom middle location of the start element box.
+ *
  * @param locationX X location of start element
  * @param locationY Y location of start element
  */
@@ -233,7 +244,9 @@ const _checkIfStartOverlapsCanvasElement = (
 
 /**
  * Helper function to loop over all the flow metadata elements and convert them to client side shape
+ *
  * @param metadata flow metadata
+ * @param startElementReference
  * @param properties flow properties
  * @returns Object containing updated storeConnectors, storeElements and translateX
  */
@@ -346,6 +359,7 @@ function createElementsUsingFlowMetadata(metadata: object, startElementReference
 /**
  * Helper function that determines if the connected element to the start node is underneath with a left emitting connector
  * If underneath and left connector then translate in the X direction so that it is directly underneath the start.
+ *
  * @param targetReferenceLocation Location of the connected element
  * @param startFirstPoint Top left position of the start element
  * @param startEndPoint Bottom right possition of the start element
@@ -373,6 +387,7 @@ function bottomLeftOfStartXTranslate(
 /**
  * Helper function that determines if the connected element to the start node is bottom connected.
  * Assumed that the element is always underneath and to the left of the start node.
+ *
  * @param elementMidTop Top middle point of the element connect to the start node
  * @param elementMidRight Middle right point of the element connect to the start node
  * @param startMidLeft Start node's middle left point
@@ -407,6 +422,7 @@ function isAlreadyBottomConnected(
 /**
  * Helper function to create a map with key as metadataKey and value as flowToUi function
  * and ignore element type with metadataKey. Eg: flow properties, start etc
+ *
  * @returns {Object} map containing key as metadataKey and value as flowToUi function
  */
 function getMetadataKeyToFlowToUiFunctionMap() {

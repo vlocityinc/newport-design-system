@@ -26,7 +26,7 @@ export default class RecordFieldPickerRow extends LightningElement {
     _entityFields;
 
     /**
-     * @param {String} value the record entity name
+     * @param {string} value the record entity name
      */
     set recordEntityName(name) {
         if (!this._entityFields && this._recordEntityName !== name) {
@@ -51,7 +51,7 @@ export default class RecordFieldPickerRow extends LightningElement {
     }
 
     /**
-     * @param {String[]} fields the queriedFields from recordNode.queriedFields
+     * @param {string[]} fields the queriedFields from recordNode.queriedFields
      */
     set queriedFields(fields) {
         if (!fields) {
@@ -104,6 +104,7 @@ export default class RecordFieldPickerRow extends LightningElement {
 
     /**
      * handle field changed
+     *
      * @param {Object} event the comboboxstatechanged event
      */
     handleFieldChanged(event) {

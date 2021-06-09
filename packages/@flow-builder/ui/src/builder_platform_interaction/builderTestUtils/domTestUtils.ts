@@ -1,5 +1,8 @@
 /**
  * Returns element given the path though nested shadow roots.
+ *
+ * @param element
+ * @param selectorsArray
  */
 export const deepQuerySelector = (element, selectorsArray: string[]) => {
     let result = element;

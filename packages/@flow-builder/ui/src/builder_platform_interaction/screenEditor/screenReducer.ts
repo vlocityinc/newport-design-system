@@ -60,6 +60,7 @@ import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
  * Replaces the field at the specified position with the updatedChild and then updates the fields
  * collection on the parent and returns the parent. Does this recursively, as long as there are entries
  * in the positions array.
+ *
  * @param {Object} parent - The parent of the updated child
  * @param {Array} positions - An array of the positions or indexes. The first index in the array is the
  * updated child's position in its parent's fields collection. The next index is that parent's position
@@ -92,6 +93,7 @@ const updateField = (screen, field, properties) => {
 /**
  * Returns the object that is the parent of the field that is located at the position indicated by the
  * provided sequence of indexes.
+ *
  * @param {Object} screen - The screen.
  * @param {Array} ancestorPositions - An array of the positions or indexes. The first index in the array
  * is the index of the child whose parent we are looking for. The next index is the parent's index in its
@@ -111,7 +113,9 @@ const findParentByAncestorPositions = (screen, ancestorPositions) => {
 
 /**
  * Update the visibilityRule condition logic
+ *
  * @param {*} screen - The screen.
+ * @param state
  * @param {*} field - The field
  * @param {*} event - The UpdateConditionLogicEvent
  */
@@ -122,6 +126,7 @@ const updateConditionLogic = (state, field, event) => {
 
 /**
  * Update a visibilityRule condition
+ *
  * @param {*} screen - The screen.
  * @param {*} field - The field
  * @param {*} event - The UpdateConditionEvent
@@ -133,6 +138,7 @@ const updateCondition = (screen, field, event) => {
 
 /**
  * Delete a visibilityRule condition
+ *
  * @param {*} screen - The screen.
  * @param {*} field - The field
  * @param {*} event - The DeleteConditionEvent
@@ -144,8 +150,10 @@ const deleteCondition = (screen, field, event) => {
 
 /**
  * Add a visibilityRule condition
+ *
  * @param {*} screen - The screen.
  * @param {*} field - The field
+ * @param event
  */
 const addCondition = (screen, field, event) => {
     const visibilityRule = conditionListReducer(field.visibilityRule, event);
@@ -154,6 +162,11 @@ const addCondition = (screen, field, event) => {
 
 /**
  * Clears values of field parameters with the specified generic type.
+ *
+ * @param root0
+ * @param root0.parameters
+ * @param root0.extensionParameters
+ * @param root0.genericTypeName
  */
 const clearGenericParameters = ({ parameters, extensionParameters, genericTypeName }) =>
     parameters
@@ -178,6 +191,9 @@ const clearGenericParameters = ({ parameters, extensionParameters, genericTypeNa
 /**
  * Clears values of input and output parameters of the specified generic type
  * of a screen field.
+ *
+ * @param field
+ * @param genericTypeName
  */
 function clearGenericFieldParameters(field, genericTypeName) {
     const extension = getCachedExtension(getValueFromHydratedItem(field.extensionName));
@@ -202,6 +218,10 @@ function clearGenericFieldParameters(field, genericTypeName) {
 /**
  * Updates a values of a dynamic type mapping of a screen field.
  * Clears values of input and output parameters with the generic type in the changed mapping.
+ *
+ * @param screen
+ * @param field
+ * @param event
  */
 function setDynamicTypeMappingTypeValue(screen, field, event) {
     const { typeName, typeValue, isConfigurable } = event.detail;
@@ -237,10 +257,11 @@ function setDynamicTypeMappingTypeValue(screen, field, event) {
 /**
  * Inserts the field into the parent's fields collection at the position specified and returns an updated
  * screen object.
+ *
  * @param {Object} screen - The screen
  * @param {Object} parent - The parent to which we are adding the field
  * @param {Object} field - The field to be inserted
- * @param {Number} position - The position at which the field should be added
+ * @param {number} position - The position at which the field should be added
  * @returns {object} - A new screen with the changes applied
  */
 const insertScreenFieldIntoParent = (screen, parent, field, position) => {
@@ -301,6 +322,7 @@ const createFieldAndHydrate = (createFunction: Function) => {
 
 /**
  * Adds screen fields to a screen.
+ *
  * @param {object} screen - The screen
  * @param {event} event - The add screen field event
  * @returns {object} - A new screen with the changes applied
@@ -347,6 +369,7 @@ const addAutomaticScreenField = (screen, event) => {
 
 /**
  * Adds a chocie to a screenField.
+ *
  * @param {object} screen - The screen.
  * @param {event} event - The add choice event.
  * @param {object} field - The field that the choice should be added to.
@@ -369,6 +392,7 @@ const addChoice = (screen, event, field) => {
 
 /**
  * Change a choice of a screenField.
+ *
  * @param {*} screen - The screen.
  * @param {*} event - The change choice event.
  * @param {*} field - The field that the choice should be changed in.
@@ -391,6 +415,7 @@ const changeChoice = (screen, event, field) => {
 
 /**
  * Change the singleOrMultiSelect value
+ *
  * @param screen - The screen.
  * @param event - The change choice event.
  * @param field - The field that the choice should be changed in.
@@ -412,6 +437,7 @@ const singleOrMultiChoiceTypeChanged = (screen, event: CustomEvent, field) => {
 
 /**
  * Change a choice of a screenField.
+ *
  * @param {*} screen - The screen.
  * @param {*} event - The change choice screen field display event.
  * @param {*} field - The field that the display should be changed in.
@@ -449,6 +475,7 @@ const changeChoiceScreenFieldDisplay = (screen, event, field) => {
 
 /**
  * Delete a choice of a screenField.
+ *
  * @param {*} screen - The screen.
  * @param {*} event - The delete choice event.
  * @param {*} field - The field that the choice should be deleted from.
@@ -478,6 +505,7 @@ const clearDefaultValueIfNecessary = (updatedField) => {
 };
 /**
  * Update the width input param on the given column with provided value
+ *
  * @param {*} column - The column to update.
  * @param {*} width - The new width value
  * @returns {screenfield} - The new column screenfield after the change has been applied
@@ -490,6 +518,7 @@ const updateColumnWidth = (column, width) => {
 
 /**
  * Change the width of a column and the approptiate neighboring column when applicable.
+ *
  * @param {*} screen - The screen.
  * @param {*} event - The column width changed event.
  * @returns {object} - A new screen with the changes applied
@@ -540,6 +569,7 @@ const changeColumnWidth = (screen, event) => {
 
 /**
  * Removes the specified field from the specified parent and then returns an updated screen object
+ *
  * @param {object} screen - The screen
  * @param {object} parent - The parent of the field to be removed
  * @param {object} field - The field to be removed
@@ -566,6 +596,7 @@ const removeScreenFieldFromParent = (screen, parent, field, positions) => {
 
 /**
  * Deletes screen fields from the screen.
+ *
  * @param {object} screen - The screen
  * @param {event} event - The delete screen field event
  * @returns {object} - A new screen with the changes applied
@@ -581,6 +612,7 @@ const deleteScreenField = (screen, event) => {
 
 /**
  * Moves a field from one location in a screen to another.
+ *
  * @param {object} screen - The screen
  * @param {event} event - The screen element moved event
  * @returns {object} - A new screen with the changes applied
@@ -614,7 +646,7 @@ const moveScreenField = (screen, event) => {
  * @param {object} valueField - The field to be processed (containing a ferov value)
  * @param {string} ferovDataType - The data type of the value being placed into the field
  * @param {string} typePropertyName - The name of the data type property (assigned in ferov mutation)
- * @return {object} - The processed field
+ * @returns {object} - The processed field
  */
 const processFerovValueChange = (valueField, ferovDataType, typePropertyName) => {
     return updateProperties(valueField, { [typePropertyName]: ferovDataType });
@@ -778,6 +810,8 @@ const handleExtensionFieldPropertyChange = (data, attributeIndex) => {
 
 /**
  * Handles changes in properties in a screenfield.
+ *
+ * @param data
  * @param {object} screen - The screen or node
  * @param {event} event - The property changed event
  * @param {object} screenfield - The screenfield
@@ -813,6 +847,7 @@ const handleScreenFieldPropertyChange = (data, screen, event, screenfield) => {
 
 /**
  * Handles changes in properties in the screen or node.
+ *
  * @param {object} screen - The screen or node
  * @param {event} event - The property changed event
  * @param {object} selectedNode - the currently selected node
@@ -890,6 +925,7 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
 
 /**
  * Handles changes in validation rules for screen fields.
+ *
  * @param {object} screen - The screen or node
  * @param {event} event - The validation rule changed event
  * @param {object} selectedNode - the currently selected field
@@ -951,6 +987,8 @@ const setInputsNextNavToAssocScrnOption = (
 /**
  * Delete all choices except 1 because when the dataType is changed, all choices must be
  * reset.
+ *
+ * @param field
  */
 const deleteAllChoicesAndDefaultValue = (field: UI.HydratedElement) => {
     const emptyChoice = hydrateWithErrors(createChoiceReference());
@@ -964,6 +1002,7 @@ const deleteAllChoicesAndDefaultValue = (field: UI.HydratedElement) => {
 
 /**
  * Screen reducer function, performs changes and validation on a screen and returns the updated (new) screen element
+ *
  * @param {object} state - element / screen node
  * @param {object} event - event to process
  * @param {object} selectedNode - the currently selected node

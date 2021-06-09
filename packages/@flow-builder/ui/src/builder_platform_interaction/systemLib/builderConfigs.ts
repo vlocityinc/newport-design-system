@@ -6,6 +6,9 @@ export const BUILDER_MODE = {
 
 let builderType;
 
+/**
+ * @param value
+ */
 export function setBuilderType(value) {
     builderType = value;
 }

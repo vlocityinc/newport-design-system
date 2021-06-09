@@ -7,11 +7,11 @@ const NODE_LENGTH = 48;
  * The box start and end position could vary depending on how it is created, which can be simplified by calculating the min and max of box position.
  * The min will always be the left/top and max will always be the right/bottom.
  *
- * @param {Number[]} canvasElementStartPoint element start (top, left) position
- * @param {Number[]} canvasElementEndPoint element end (bottom, right) position
- * @param {Number[]} marqueeBoxStartPoint selection box start position
- * @param {Number[]} marqueeBoxEndPoint selection box end position
- * @returns {Boolean}  Returns true if the element is overlap with the selection box
+ * @param {number[]} canvasElementStartPoint element start (top, left) position
+ * @param {number[]} canvasElementEndPoint element end (bottom, right) position
+ * @param {number[]} marqueeBoxStartPoint selection box start position
+ * @param {number[]} marqueeBoxEndPoint selection box end position
+ * @returns {boolean}  Returns true if the element is overlap with the selection box
  * @private
  */
 const _checkIfMarqueeOverlapsCanvasElement = (
@@ -37,10 +37,10 @@ const _checkIfMarqueeOverlapsCanvasElement = (
  * Helper function to calculate the relative location of the start and end point of the marquee box with respect to the
  * viewport center
  *
- * @param {Number[]} marqueeStartPoint - Start point of the marquee box
- * @param {Number[]} marqueeEndPoint - End point of the marquee box
- * @param {Number[]} viewportCenterPoint - Center point of the current viewport
- * @return {Object} Returns an object containing the start and end point of the marquee box relative to the viewport center
+ * @param {number[]} marqueeStartPoint - Start point of the marquee box
+ * @param {number[]} marqueeEndPoint - End point of the marquee box
+ * @param {number[]} viewportCenterPoint - Center point of the current viewport
+ * @returns {Object} Returns an object containing the start and end point of the marquee box relative to the viewport center
  * @private
  */
 const _getMarqueePointsRelativeToViewportCenter = (marqueeStartPoint, marqueeEndPoint, viewportCenterPoint) => {
@@ -59,12 +59,12 @@ const _getMarqueePointsRelativeToViewportCenter = (marqueeStartPoint, marqueeEnd
 /**
  * Helper function to calculate the start and the end point of the canvas element relative to the viewport center
  *
- * @param {Number} locationX - Original locationX of the canvas element
- * @param {Number} locationY - Original locationY of the canvas element
- * @param {Number} currentScale - Current scale of the inner canvas
- * @param {Number[]} scaledOffsetsOnMarqueeStart - Scaled offsetLeft and offsetTop of the innerCanvas when mouse down happens on the overlay
- * @param {Number[]} viewportCenterPoint - Center point of the current viewport
- * @return {Object} Returns an object containing the start and the end point of the canvas element relative to the viewport center
+ * @param {number} locationX - Original locationX of the canvas element
+ * @param {number} locationY - Original locationY of the canvas element
+ * @param {number} currentScale - Current scale of the inner canvas
+ * @param {number[]} scaledOffsetsOnMarqueeStart - Scaled offsetLeft and offsetTop of the innerCanvas when mouse down happens on the overlay
+ * @param {number[]} viewportCenterPoint - Center point of the current viewport
+ * @returns {Object} Returns an object containing the start and the end point of the canvas element relative to the viewport center
  * @private
  */
 const _getElementLocationRelativeToViewportCenter = (
@@ -97,12 +97,12 @@ const _getElementLocationRelativeToViewportCenter = (
  * the node would be selected when it is overlapping with the marquee box.
  *
  * @param {Object[]} canvasElements - Array of canvas elements
- * @param {Number} currentScale - Current scale of the inner canvas
- * @param {Number[]} scaledOffsetsOnMarqueeStart - Scaled offsetLeft and offsetTop of the canvas when mouse down happens on the overlay
- * @param {Number[]} marqueeStartPoint - Start point of the marquee box
- * @param {Number[]} marqueeEndPoint - End point of the marquee box
- * @param {Number[]} viewportCenterPoint - Center of the current canvas viewport ([canvasWidth / 2, canvasHeight / 2])
- * @return {Object} Returns an object containing arrays of canvasElementGuidsToSelect and canvasElementGuidsToDeselect
+ * @param {number} currentScale - Current scale of the inner canvas
+ * @param {number[]} scaledOffsetsOnMarqueeStart - Scaled offsetLeft and offsetTop of the canvas when mouse down happens on the overlay
+ * @param {number[]} marqueeStartPoint - Start point of the marquee box
+ * @param {number[]} marqueeEndPoint - End point of the marquee box
+ * @param {number[]} viewportCenterPoint - Center of the current canvas viewport ([canvasWidth / 2, canvasHeight / 2])
+ * @returns {Object} Returns an object containing arrays of canvasElementGuidsToSelect and canvasElementGuidsToDeselect
  * @private
  */
 const _getCanvasElementGuidsToSelectAndDeselect = (
@@ -176,8 +176,8 @@ const _getCanvasElementGuidsToSelectAndDeselect = (
  * A connector can only be selected when both the source and target elements are selected.
  *
  * @param {Object[]} connectors - Array of connectors
- * @param {String[]} allSelectedCanvasElementGuids - Array of all selected canvas elements
- * @return {Object} Returns an object containing arrays of connectorGuidsToSelect and connectorGuidsToDeselect
+ * @param {string[]} allSelectedCanvasElementGuids - Array of all selected canvas elements
+ * @returns {Object} Returns an object containing arrays of connectorGuidsToSelect and connectorGuidsToDeselect
  * @private
  */
 const _getConnectorGuidsToSelectAndDeselect = (connectors, allSelectedCanvasElementGuids) => {
@@ -211,11 +211,11 @@ const _getConnectorGuidsToSelectAndDeselect = (connectors, allSelectedCanvasElem
  *
  * @param {Object[]} canvasElements - Array of canvas elements
  * @param {Object[]} connectors - Array of connectors
- * @param {Number} currentScale - Current scale of the inner canvas
+ * @param {number} currentScale - Current scale of the inner canvas
  * @param {Object} marqueeConfig - Contains the scaledOffsets of the innerCanvas when marquee selection begins along with
  * the start and end point of the marquee box
- * @param {Number[]} viewportCenterPoint - Center of the current canvas viewport ([canvasWidth / 2, canvasHeight / 2])
- * @return {Object} - Object of arrays containing the node && connector guids that needed to be selected && deselected
+ * @param {number[]} viewportCenterPoint - Center of the current canvas viewport ([canvasWidth / 2, canvasHeight / 2])
+ * @returns {Object} - Object of arrays containing the node && connector guids that needed to be selected && deselected
  */
 export const checkMarqueeSelection = (canvasElements, connectors, currentScale, marqueeConfig, viewportCenterPoint) => {
     if (!canvasElements) {

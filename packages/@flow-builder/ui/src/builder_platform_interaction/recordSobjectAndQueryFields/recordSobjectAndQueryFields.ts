@@ -26,7 +26,8 @@ export default class RecordSobjectAndQueryFields extends LightningElement {
 
     /**
      * Unique guid for the output reference picker
-     * @type {String}
+     *
+     * @type {string}
      */
     @api
     outputReferenceIndex;
@@ -61,7 +62,7 @@ export default class RecordSobjectAndQueryFields extends LightningElement {
     }
 
     /**
-     * @param {String} entityName the selected entity name (from select object combobox)
+     * @param {string} entityName the selected entity name (from select object combobox)
      */
     set recordEntityName(entityName) {
         this.state.recordEntityName = entityName;
@@ -73,7 +74,7 @@ export default class RecordSobjectAndQueryFields extends LightningElement {
     }
 
     /**
-     * @param {String} value the output reference (the selected sObject or sObject collection variable)
+     * @param {string} value the output reference (the selected sObject or sObject collection variable)
      */
     set outputReference(value) {
         this.state.outputReference = value;
@@ -85,7 +86,7 @@ export default class RecordSobjectAndQueryFields extends LightningElement {
     }
 
     /**
-     * @param {Boolean} isCollection true if select from sObject collection variables
+     * @param {boolean} isCollection true if select from sObject collection variables
      */
     set isCollection(isCollection) {
         this.state.isCollection = isCollection;
@@ -97,7 +98,7 @@ export default class RecordSobjectAndQueryFields extends LightningElement {
     }
 
     /**
-     * @param {String[]} fields the selected fields
+     * @param {string[]} fields the selected fields
      */
     set queriedFields(fields: Object[]) {
         this.state.queriedFields = fields;

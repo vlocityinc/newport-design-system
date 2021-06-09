@@ -5,13 +5,16 @@ import { WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLi
 
 /**
  * Validate the assignment item.
- * @return {function} the function to be called with each filter item to return the array of rules.
+ *
+ * @returns {Function} the function to be called with each filter item to return the array of rules.
  */
 const validateAssignments = () => ValidationRules.validateExpressionWith2Properties();
 
 /**
  * Validate the inputReference item.
- * @return {function} the function to be called with each filter item to return the array of rules.
+ *
+ * @param index
+ * @returns {Function} the function to be called with each filter item to return the array of rules.
  */
 const validateInputReference = (index) => {
     return [
@@ -25,12 +28,16 @@ export const recordCreateValidation = new Validation();
 
 /**
  * Build specific overridden rules
+ *
  * @param {Object} nodeElement the element that needs to be validated
  * @param {boolean} nodeElement.getFirstRecordOnly - current element's getFirstRecordOnly
  * @param {Object} nodeElement.object - current element's object
  * @param {Object[]} nodeElement.inputAssignments - current element's inputAssignments
  * @param {string} wayToStoreFields can be sObjectVariable or separateVariables
- * @return {Object} the overridden rules
+ * @param nodeElement.objectIndex
+ * @param nodeElement.inputReferenceIndex
+ * @param nodeElement.assignRecordIdToReferenceIndex
+ * @returns {Object} the overridden rules
  */
 export const getRules = (
     { getFirstRecordOnly, object, objectIndex, inputAssignments, inputReferenceIndex, assignRecordIdToReferenceIndex },

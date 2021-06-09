@@ -270,8 +270,8 @@ export const INPUT_FIELD_DATA_TYPE = {
 
 /**
  * Sort resource types from service side based on the custom ordering list
- * @param {Array} unsortedResourceTypes unsorted resource type list
  *
+ * @param {Array} unsortedResourceTypes unsorted resource type list
  * @returns {Array} sorted resource type list based on custom ordering
  */
 function sortResourceTypes(unsortedResourceTypes: ResourceType[]) {
@@ -295,7 +295,8 @@ function sortResourceTypes(unsortedResourceTypes: ResourceType[]) {
 
 /**
  * Tries to return the right FLOW_DATA_TYPE for the provided dataType name, looking both in all flow data types and all the mappings
- * @param {String} dataType - The data type name
+ *
+ * @param {string} dataType - The data type name
  * @returns {Object} the flow data type.
  */
 export function getFlowType(dataType) {
@@ -324,9 +325,9 @@ export function getFlowType(dataType) {
 /**
  * Gets standard or utility icons based on the dataType
  *
- * @param {String} dataType - dataType value of the element
- * @param {String} iconType - Standard or Utility
- * @return {String} Returns the name of the standard or utility icon
+ * @param {string} dataType - dataType value of the element
+ * @param {string} iconType - Standard or Utility
+ * @returns {string} Returns the name of the standard or utility icon
  */
 export function getDataTypeIcons(dataType, iconType = 'standard') {
     let iconName;
@@ -354,8 +355,8 @@ export function getDataTypeIcons(dataType, iconType = 'standard') {
 /**
  * Returns a label for the dataType of api name @param dataTypeApiName
  *
- * @param {String} dataTypeApiName the api name of the data type
- * @returns {String} the label of the data type
+ * @param {string} dataTypeApiName the api name of the data type
+ * @returns {string} the label of the data type
  */
 export function getDataTypeLabel(dataTypeApiName) {
     const dataTypeKey = FLOW_API_VALUE_TO_FLOW_DATA_TYPE[dataTypeApiName];
@@ -370,8 +371,9 @@ export function getDataTypeLabel(dataTypeApiName) {
 
 /**
  * convert from parameter data type to flow data type
- * @param {String} dataType     parameter's dataType
- * @returns {String} flow data type or undefined if no match, or dataType undefined
+ *
+ * @param {string} dataType     parameter's dataType
+ * @returns {string} flow data type or undefined if no match, or dataType undefined
  * TODO: will be replaced by service when W-4797144 is done
  */
 export function getFlowDataType(dataType) {
@@ -383,7 +385,8 @@ export function getFlowDataType(dataType) {
 
 /**
  * Set the supported resource types for New Resource panel. This is called at the very beginning of the flow.
- * @param {String} newResourceTypes - String object of all supported resource types.
+ *
+ * @param {string} newResourceTypes - String object of all supported resource types.
  */
 export function setResourceTypes(newResourceTypes = []) {
     resourceTypes = sortResourceTypes(newResourceTypes);
@@ -391,15 +394,16 @@ export function setResourceTypes(newResourceTypes = []) {
 
 /**
  * Returns supported resource types for New Resource panel.
- * @return {Array} resource types
+ *
+ * @returns {Array} resource types
  */
 export function getResourceTypes() {
     return resourceTypes;
 }
 
 /**
- * @param {String} type   The data type being tested
- * @returns {Boolean}     True if data type represents a complex type, such as sobject or apex
+ * @param {string} type   The data type being tested
+ * @returns {boolean}     True if data type represents a complex type, such as sobject or apex
  */
 export function isComplexType(type) {
     return [

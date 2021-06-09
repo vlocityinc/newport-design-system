@@ -63,11 +63,11 @@ export const getTriggerTypeIcon = (processType, triggerType) =>
     TRIGGER_TYPE_ICONS.get(triggerType) || PROCESS_TYPE_DEFAULT_ICON;
 
 /**
+ * @param processTypes
  * @typedef {Object} ProcessTypeWithIcon
- *
- * @property {String} name
- * @property {String} label
- * @property {String} iconName
+ * @property {string} name
+ * @property {string} label
+ * @property {string} iconName
  */
 export const getProcessTypesWithIcons = (processTypes) =>
     processTypes.map(({ name, label }) => ({
@@ -76,6 +76,10 @@ export const getProcessTypesWithIcons = (processTypes) =>
         iconName: getProcessTypeIcon(name)
     }));
 
+/**
+ * @param processType
+ * @param feature
+ */
 function hasProcessTypeFeature(processType, feature) {
     const processTypeFeatures = getProcessFeatures(processType);
 
@@ -90,8 +94,9 @@ function hasProcessTypeFeature(processType, feature) {
  * Unsupported - The processType does not support Automatic output handling
  * Required - The ProcessType only supports Automatic output handling
  *
- * @params {String} processType
- * @return {FLOW_AUTOMATIC_OUTPUT_HANDLING} Supported, Unsupported or Required
+ * @param processType
+ * @params {string} processType
+ * @returns {FLOW_AUTOMATIC_OUTPUT_HANDLING} Supported, Unsupported or Required
  */
 export const getProcessTypeAutomaticOutPutHandlingSupport = (processType) => {
     const isStoreOutputAutomaticallyAvailable = hasProcessTypeFeature(
@@ -106,8 +111,10 @@ export const getProcessTypeAutomaticOutPutHandlingSupport = (processType) => {
 /**
  * This function returns true or false to indicate if the specified processType
  * supports transaction controlled actions.
+ *
+ * @param processType
  * @params processType
- * @return True, False
+ * @returns True, False
  */
 export const getProcessTypeTransactionControlledActionsSupport = (processType) => {
     const isTransactionControlledActionsSupported = hasProcessTypeFeature(
@@ -119,8 +126,9 @@ export const getProcessTypeTransactionControlledActionsSupport = (processType) =
 
 /**
  * Determines whether the given process type supports having a configurable start element
- * @param {String} processType
- * @returns {Boolean}
+ *
+ * @param {string} processType
+ * @returns {boolean}
  */
 export const isConfigurableStartSupported = (processType) => {
     return hasProcessTypeFeature(processType, FLOW_PROCESS_TYPE_FEATURE.CONFIGURABLE_START);
@@ -128,8 +136,9 @@ export const isConfigurableStartSupported = (processType) => {
 
 /**
  * Whether or not field traversal is supported
+ *
  * @param {Object} processType the current process type
- * @returns {Boolean} true if field traversal is supported, false otherwise
+ * @returns {boolean} true if field traversal is supported, false otherwise
  */
 export const isLookupTraversalSupported = (processType) => {
     return hasProcessTypeFeature(processType, FLOW_PROCESS_TYPE_FEATURE.LOOKUP_TRAVERSAL);
@@ -137,8 +146,9 @@ export const isLookupTraversalSupported = (processType) => {
 
 /**
  * Whether or not global variables outside formula is supported
+ *
  * @param {Object} processType the current process type
- * @returns {Boolean} true if global variables outside formula is supported, false if only supported in formulas
+ * @returns {boolean} true if global variables outside formula is supported, false if only supported in formulas
  */
 export const isGlobalVariablesSupported = (processType) => {
     return hasProcessTypeFeature(processType, FLOW_PROCESS_TYPE_FEATURE.GLOBAL_VARIABLES);
@@ -146,8 +156,9 @@ export const isGlobalVariablesSupported = (processType) => {
 
 /**
  * Determines whether the given process type supports conditional field visibility in screens
- * @param {String} processType
- * @returns {Boolean}
+ *
+ * @param {string} processType
+ * @returns {boolean}
  */
 export const isConditionalFieldVisibilitySupported = (processType) => {
     return hasProcessTypeFeature(processType, FLOW_PROCESS_TYPE_FEATURE.CONDITIONAL_FIELD_VISIBILITY);
@@ -155,6 +166,7 @@ export const isConditionalFieldVisibilitySupported = (processType) => {
 
 /**
  * Returns true if the given process type should always use autolayout canvas
+ *
  * @param processType
  */
 export const isAutoLayoutCanvasOnly = (processType) => {
@@ -166,7 +178,9 @@ export const isAutoLayoutCanvasOnly = (processType) => {
 
 /**
  * Scheduled Paths are supported exclusively for Auto Launched Flows. Returns true iff process type is auto launched.
+ *
  * @param processtype
+ * @param processType
  */
 export const isScheduledPathSupported = (processType) => {
     return processType === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW;

@@ -5,6 +5,7 @@ import { ElementFilterConfig, getStoreElements } from './storeElementsFilter';
 
 /**
  * Retrieve fields of selected element
+ *
  * @param {Function} populateParamTypesFn
  * @param {Object} parentItem the selected element
  * @param {Object} entityFields fields of selected
@@ -82,8 +83,8 @@ const getFerovMenuData = (
  * Populate menu data
  *
  * @param {Object} elementConfig    element config
- * @param {String} propertyEditorElementType    property editor element type
- * @param {String} populateParamTypesFn    the resource picker's function to populate paramTypes
+ * @param {string} propertyEditorElementType    property editor element type
+ * @param {string} populateParamTypesFn    the resource picker's function to populate paramTypes
  * @param {Object} storeInstance    instance of the store
  * @param {Object|undefined} parentItem    parent item
  * @param {Array} fields fields to be populated if parentItem is defined
@@ -94,6 +95,11 @@ const getFerovMenuData = (
  * @param {boolean} [options.showSystemVariables]    whether to show system variables
  * @param {boolean} [options.showGlobalVariables]    whether to show global variables
  * @param {boolean} [options.allowSObjectFields]    whether or not drill down into SObject is allowed
+ * @param options.newResourceTypeLabel
+ * @param options.activePicklistValues
+ * @param options.forFormula
+ * @param options.allowSObjectFieldsTraversal
+ * @param options.allowElementFields
  * @returns {Item[]} Array of resources
  */
 export const getMenuData = (

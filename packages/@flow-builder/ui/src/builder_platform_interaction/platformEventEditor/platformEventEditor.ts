@@ -41,6 +41,7 @@ export default class platformEventEditor extends LightningElement {
 
     /**
      * public api function to return the node
+     *
      * @returns {object} node - node
      */
     @api
@@ -83,6 +84,7 @@ export default class platformEventEditor extends LightningElement {
 
     /**
      * Instantiates property changed event based to handle property change and updating via element's reducer state accordingly
+     *
      * @param {string} propertyName - name of the property changed
      * @param {Object|string|boolean} newValue - new value to be passed to property
      * @param {string} error - error on property
@@ -97,6 +99,7 @@ export default class platformEventEditor extends LightningElement {
 
     /**
      * public api function to run the rules from platform event record validation library
+     *
      * @returns {Array} list of errors
      */
     @api

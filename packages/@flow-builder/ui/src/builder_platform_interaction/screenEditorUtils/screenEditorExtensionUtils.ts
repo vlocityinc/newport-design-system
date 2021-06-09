@@ -18,6 +18,7 @@ const DEFAULT_ATTRIBUTE_TYPE_ICON = 'utility:all';
  * a) there is a data type mapping for each generic type
  * b) there are no other data type mappings
  * c) each data type mappings has a row index (for validation)
+ *
  * @param {DynamicTypeMappings} [dynamicTypeMappings]
  * @param {GenericType} [genericTypes]
  * @returns {DynamicTypeMapping}
@@ -53,6 +54,9 @@ function setDynamicTypeMappings(genericTypes = [], dynamicTypeMappings = []) {
     });
 }
 
+/**
+ * @param field
+ */
 export function extendFlowExtensionScreenField(field) {
     if (!isExtensionField(field)) {
         throw new Error('Invalid screen flow extension field');
@@ -72,6 +76,7 @@ export function extendFlowExtensionScreenField(field) {
 /**
  * Replaces all local (temporary) extension field types with their server versions (if available) in every field in the provided screen.
  * Update dynamic type mappings to match generic types.
+ *
  * @param {object} screen - the screen
  * @returns {object} the processed screen
  */
@@ -159,7 +164,7 @@ export function processRequiredParamsForExtensionsInScreen(screen, callback?) {
  * returns all children of the provided parent that are of type extension
  *
  * @param {Object} parent - The object with child extension fields
- * @return {Array} extensionFields - Array of child fields
+ * @returns {Array} extensionFields - Array of child fields
  */
 function getAllChildExtensionFields(parent) {
     let extensionFields = [];
@@ -198,7 +203,7 @@ function addRequiredInputParameters(field, description) {
  * Returns the icon for the type of the specified parameter.
  *
  * @param {Object} type - The parameter type
- * @returns {String} - The icon name
+ * @returns {string} - The icon name
  */
 export function getIconForParameter(type) {
     return getDataTypeIcons(type, 'utility') || DEFAULT_ATTRIBUTE_TYPE_ICON;

@@ -79,6 +79,7 @@ export default class FieldToFerovExpressionBuilder extends LightningElement {
 
     /**
      * Object type of the fields that should be on the LHS
+     *
      * @param {Object} object   the api name of the sobject type
      */
     set objectType(object) {
@@ -138,6 +139,7 @@ export default class FieldToFerovExpressionBuilder extends LightningElement {
 
     /**
      * blocks field validation on rhs.
+     *
      * @type {boolean}
      */
     @api
@@ -145,6 +147,7 @@ export default class FieldToFerovExpressionBuilder extends LightningElement {
 
     /**
      * hides FEROV-specific menu data (like global constants)
+     *
      * @type {boolean}
      */
     @api
@@ -152,18 +155,21 @@ export default class FieldToFerovExpressionBuilder extends LightningElement {
 
     /**
      * Set it to true to hide 'New Resource' option in combobox menu data.
-     * @type {Boolean}
+     *
+     * @type {boolean}
      */
     @api hideNewResource = false;
 
     /**
      * hides system variables on menu.
+     *
      * @type {boolean}
      */
     @api hideSystemVariables = false;
 
     /**
      * hides global variables on menu.
+     *
      * @type {boolean}
      */
     @api hideGlobalVariables = false;

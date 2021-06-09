@@ -104,7 +104,8 @@ export default class WaitEvent extends LightningElement {
 
     /**
      * Helper method needed for conditions list
-     * @return {boolean} if delete should be shown for each condition
+     *
+     * @returns {boolean} if delete should be shown for each condition
      */
     get showDeleteCondition() {
         return this.element.conditions && showDeleteCondition(this.element.conditions);

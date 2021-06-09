@@ -26,8 +26,9 @@ const DEFAULT_BLACK_LIST = [
 
 /**
  * Returns true if the input item is hydrated with errors.
+ *
  * @param {Object} item to evaluate if its hydrated
- * @return {boolean} returns true if item has error and value property otherwise false
+ * @returns {boolean} returns true if item has error and value property otherwise false
  */
 export const isItemHydratedWithErrors = (item) => {
     return item && item.hasOwnProperty('value') && item.hasOwnProperty('error');
@@ -49,6 +50,7 @@ const doHydrateWithErrors = (element, blackList) => {
 
 /**
  * Hydrates the value if it isn't already
+ *
  * @param {object | null} value - The value to hydrate
  * @returns {object} - The hydrated value
  */
@@ -61,10 +63,11 @@ export const hydrateIfNecessary = (value) => {
 
 /**
  * Exported function for hydrating element object with errors
+ *
  * @param {Object} element element data object
  * @param {string[]} elementBlackListFields List of keys in the element not to be hydrated
  * @param {boolean} useDefaultBlackList - Determines if the default blacklist should be merged with the elementblacklist
- * @return {Object} hydrated element object
+ * @returns {Object} hydrated element object
  */
 export const hydrateWithErrors = (element, elementBlackListFields = [], useDefaultBlackList = true) => {
     // Merge elementBlacklist and blackList fields
@@ -76,8 +79,9 @@ export const hydrateWithErrors = (element, elementBlackListFields = [], useDefau
 
 /**
  * Exported function for dehydrating element object with errors
+ *
  * @param {Object} element hydrated element data object
- * @return {Object} dehydrated element object
+ * @returns {Object} dehydrated element object
  */
 export const dehydrate = (element) => {
     if (!isUndefinedOrNull(element)) {
@@ -100,6 +104,7 @@ export const dehydrate = (element) => {
 
 /**
  * Exported function for getting a list of errors from a hydrated element object
+ *
  * @param {Object} element hydrated element data object
  * @param {Object[]} errorsList list of errors, empty list by default
  * @returns {Object[]} List of errors
@@ -171,8 +176,9 @@ export const mergeErrorsFromHydratedElement = (element, errorSourceElement) => {
 
 /**
  * Get the value from item if it is hydrated with error.
+ *
  * @param {*} item Object hydrated with error or a property
- * @return {*} value property if item is hydrated with error else item
+ * @returns {*} value property if item is hydrated with error else item
  */
 export const getValueFromHydratedItem = (item) => {
     if (typeof item === 'object' && isItemHydratedWithErrors(item)) {
@@ -183,8 +189,9 @@ export const getValueFromHydratedItem = (item) => {
 
 /**
  * Get the error from item if it is hydrated with error.
+ *
  * @param {*} item Object hydrated with error or a property
- * @return {*} value property if item is hydrated with error else null
+ * @returns {*} value property if item is hydrated with error else null
  */
 export const getErrorFromHydratedItem = (item) => {
     if (typeof item === 'object' && isItemHydratedWithErrors(item)) {

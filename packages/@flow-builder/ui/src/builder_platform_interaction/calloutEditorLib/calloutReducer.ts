@@ -31,10 +31,12 @@ const getNodeOutputsPropertyName = (elementType) => {
 
 /**
  * update parameter item
+ *
  * @param {Object} state the original node
  * @param {Object} param the parameter that we want to update (see UpdateParameterItemEvent.detail)
  * @param {string} the property name for the parameters field
- * @return {Object} the updated node
+ * @param propertyName
+ * @returns {Object} the updated node
  */
 export const updateParameterItemByProperty = (state, param, propertyName) => {
     const { isInput, rowIndex, valueDataType, error } = param;
@@ -57,9 +59,10 @@ export const updateParameterItemByProperty = (state, param, propertyName) => {
 
 /**
  * update parameter item
+ *
  * @param {Object} state the original node
  * @param {Object} param the parameter that we want to update (see UpdateParameterItemEvent.detail)
- * @return {Object} the updated node
+ * @returns {Object} the updated node
  */
 export const updateParameterItem = (state, param) => {
     const { isInput } = param;
@@ -96,9 +99,10 @@ export const updateInputParameterItemConfigurationEditor = (
 
 /**
  * merge the input/output parameters in original node with all of the action/apex plugin input/output parameters
+ *
  * @param {Object} state the original node
  * @param {ActionOrApexPluginInputOutputParameter[]} inputOutputParameters all of the action/apex plugin input/output parameters
- * @return {Object} the updated node
+ * @returns {Object} the updated node
  */
 export const mergeWithInputOutputParameters = (state, inputOutputParameters) => {
     const { inputs, outputs } = mergeInputOutputParameters(
@@ -121,9 +125,10 @@ export const mergeWithInputOutputParameters = (state, inputOutputParameters) => 
 /**
  * merge the input/output assignments in original node with all of the input/output variables.
  * If the subflow has no outputs then the property storeOutputAutomatically is set to false.
+ *
  * @param {Object} state the original node
  * @param {FlowInputOutputVariablesVersion[]} inputOutputVariables the input/output variables
- * @return {Object} the updated node
+ * @returns {Object} the updated node
  */
 export const mergeWithInputOutputVariables = (state, inputOutputVariables) => {
     const { inputs, outputs } = mergeSubflowAssignmentsWithInputOutputVariables(
@@ -152,8 +157,9 @@ export const removeUnsetParametersByProperty = (state, propertyName) => {
 
 /**
  * remove the unset parameters
+ *
  * @param {Object} state the original node
- * @return {Object} the updated node
+ * @returns {Object} the updated node
  */
 export const removeUnsetParameters = (state) => {
     const inputPropertyName = getNodeInputsPropertyName(state.elementType);
@@ -205,9 +211,10 @@ const removeDuplicateWarningIfOnlyOneWithName = (state, isInput, name) => {
 
 /**
  * delete parameter item
+ *
  * @param {Object} state the original node
  * @param {Object} param the parameter that we want to update (see DeleteParameterItemEvent.detail)
- * @return {Object} the updated node
+ * @returns {Object} the updated node
  */
 export const deleteParameterItem = (state, param) => {
     const { rowIndex, isInput, name } = param;

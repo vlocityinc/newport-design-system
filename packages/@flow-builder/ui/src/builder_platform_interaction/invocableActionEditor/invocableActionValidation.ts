@@ -11,7 +11,8 @@ const getDynamicTypeMappingRules = (rowIndex) => [
 
 /**
  * Validate the data type mapping's value
- * @return {function} the function to be called with each queried field to return the array of rules.
+ *
+ * @returns {Function} the function to be called with each queried field to return the array of rules.
  */
 export const validateDataTypeMapping = () => (dataTypeMapping) => ({
     typeValue: getDynamicTypeMappingRules(dataTypeMapping.rowIndex)
@@ -29,6 +30,9 @@ const additionalRules = {
 
 export const invocableActionValidation = new Validation(additionalRules);
 
+/**
+ * @param rowIndex
+ */
 export function getDynamicTypeMappingValidation(rowIndex) {
     const rules = getDynamicTypeMappingRules(rowIndex);
     return new Validation({ dynamicTypeMapping: rules });

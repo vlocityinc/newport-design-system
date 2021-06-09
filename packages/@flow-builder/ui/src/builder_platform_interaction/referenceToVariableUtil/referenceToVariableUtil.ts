@@ -14,6 +14,7 @@ const referenceToVariable = (reference: string, elements: any) => {
 
 /**
  * Looks for the corresponding variable or field corresponding to the given reference
+ *
  * @param reference a reference such as variableApiName, variableGuid, variableApiName.field1.field2, variableGuid.field1
  * @param elements elements in which we're looking for the variable or field
  * @returns the corresponding variable or field if found, undefined otherwise

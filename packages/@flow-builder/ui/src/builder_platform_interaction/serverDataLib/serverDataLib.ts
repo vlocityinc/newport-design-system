@@ -109,12 +109,16 @@ let auraCallback;
 
 /**
  * Set the generic function to get server data
+ *
  * @param {Function} fn aura fetch function
  */
 export function setAuraFetch(fn?) {
     auraFetch = fn;
 }
 
+/**
+ * @param value
+ */
 export function setAuraGetCallback(value) {
     auraCallback = value;
 }
@@ -123,6 +127,8 @@ export function setAuraGetCallback(value) {
  * Provides the aura wrapper function, which ensures that a function supplied to the wrapper
  * is executed under aura context. This is used for making sure the aura can bundle
  * together multiple foreground calls.
+ *
+ * @param fn
  */
 export function getAuraCallback(fn) {
     return auraCallback(fn);
@@ -130,11 +136,16 @@ export function getAuraCallback(fn) {
 
 /**
  * Makes the call to get server data and executes callback if component is still connected.
- * @param {String} serverActionType type of action to be executed
+ *
+ * @param {string} serverActionType type of action to be executed
  * @param {Function} callback function to be executed after getting response from server
  * @param {Object} params any parameters to make server call
+ * @param storable.background
  * @param {Object} storable set to true if results need to be cached, Background set to true if request needs to be run as background action
- * @return {Function} setComponentDisconnected this should be called in disconnected callback of a component
+ * @param storable.storable
+ * @param storable.disableErrorModal
+ * @param storable.messageForErrorModal
+ * @returns {Function} setComponentDisconnected this should be called in disconnected callback of a component
  */
 export function fetch(
     serverActionType,
@@ -144,10 +155,16 @@ export function fetch(
 ) {
     let executeCallback = true;
 
+    /**
+     *
+     */
     function shouldExecuteCallback() {
         return executeCallback;
     }
 
+    /**
+     *
+     */
     function stopCallbackExecution() {
         executeCallback = false;
     }
@@ -212,7 +229,7 @@ const fetchOnceCache = {};
 /**
  * Makes the call to get server data. Ensure call is only made once if successful.
  *
- * @param {String}
+ * @param {string}
  *            serverActionType type of action to be executed
  * @param {Object}
  *            params any parameters to make server call
@@ -220,7 +237,9 @@ const fetchOnceCache = {};
  *            background need to be set to true if request needs to be run as a background action
  *            disableErrorModal need to be set to true to disable the default error modal panel
  *            messageForErrorModal the message to use instead of the default error message
- * @return {Promise} Promise object represents the return value from the server
+ * @param serverActionType
+ * @param params
+ * @returns {Promise} Promise object represents the return value from the server
  *         side action
  */
 export function fetchOnce(
@@ -279,6 +298,10 @@ export function fetchOnce(
     return serverActionTypeCache[key];
 }
 
+/**
+ * @param serverActionType
+ * @param params
+ */
 export function isAlreadyFetched(serverActionType, params = {}) {
     const keyProvider = KEY_PROVIDER[serverActionType];
     if (!keyProvider) {
@@ -296,6 +319,9 @@ export function isAlreadyFetched(serverActionType, params = {}) {
     return promise.isFulfilled();
 }
 
+/**
+ *
+ */
 export function resetFetchOnceCache() {
     for (const prop in fetchOnceCache) {
         if (fetchOnceCache.hasOwnProperty(prop)) {

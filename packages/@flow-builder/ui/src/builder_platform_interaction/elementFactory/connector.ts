@@ -6,10 +6,10 @@ import { createConnectorObject } from 'builder_platform_interaction/connectorUti
 /**
  * Method to create connector objects for a given flow metadata element
  *
- * @param {String} element        canvas element metadata object
- * @param {String} elementGuid    guid of the canvas element in the store
- * @param {String} parentGuid     (optional) guid of parent element if one exists (ex. decision id for an outcome element)
- *
+ * @param {string} element        canvas element metadata object
+ * @param {string} elementGuid    guid of the canvas element in the store
+ * @param {string} parentGuid     (optional) guid of parent element if one exists (ex. decision id for an outcome element)
+ * @param immediateConnector
  * @returns {Array} connectors    array of connector objects for the given canvas element
  */
 export const createConnectorObjects = (element, elementGuid, parentGuid, immediateConnector = false) => {

@@ -19,6 +19,7 @@ const dataTypeChanged = (state, action) => {
 
 /**
  * Variable/constant reducer function runs validation rules and returns back the updated variable
+ *
  * @param {object} variableOrConstant - element / node state
  * @param {object} action - object containing type and payload eg: {type:"xyz", payload: {propertyName: '', value: '' , error: ''}}
  * @returns {object} variableOrConstant - updated variable/constant

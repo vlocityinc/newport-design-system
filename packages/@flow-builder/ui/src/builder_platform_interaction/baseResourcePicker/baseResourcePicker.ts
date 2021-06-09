@@ -29,17 +29,19 @@ export default class BaseResourcePicker extends LightningElement {
 
     /**
      * the actual value of the combobox item (contains text, value, and id)
+     *
      * @typedef {Object} item
-     * @property {String} type  the type of menu data display type ex: option-inline
-     * @property {String} text  the text that will be displayed by the combobox (can be highlighted)
-     * @property {String} subtext the subtext that will displayed below the text
-     * @property {String} displayText   the value displayed in the input field when this menu item is selected
-     * @property {String} iconName  the icon that will be displayed next to the menu item in a dropdown list
-     * @property {String} value the id or api name of the value stored by the flow combobox. This is what we want to put in store/events
+     * @property {string} type  the type of menu data display type ex: option-inline
+     * @property {string} text  the text that will be displayed by the combobox (can be highlighted)
+     * @property {string} subtext the subtext that will displayed below the text
+     * @property {string} displayText   the value displayed in the input field when this menu item is selected
+     * @property {string} iconName  the icon that will be displayed next to the menu item in a dropdown list
+     * @property {string} value the id or api name of the value stored by the flow combobox. This is what we want to put in store/events
      */
 
     /**
      * the state of the resource picker containing the current item, displayText, and the menu data
+     *
      * @typedef {Object} resourcePickerState
      * @property {Object[]} menuData    the current menu data held by the combobox, not necessarily the full menu data
      */
@@ -63,6 +65,7 @@ export default class BaseResourcePicker extends LightningElement {
 
     /**
      * Custom error message to display
+     *
      * @param {string} message - The error message
      */
     @api
@@ -82,7 +85,8 @@ export default class BaseResourcePicker extends LightningElement {
     /**
      * A unique id for this resource picker(guid)
      * Required if you want validation on done
-     * @param {String} rowIndex - the guid
+     *
+     * @param {string} rowIndex - the guid
      */
     set rowIndex(rowIndex) {
         this._rowIndex = rowIndex;
@@ -97,13 +101,15 @@ export default class BaseResourcePicker extends LightningElement {
     /**
      * Sets the value of the flow combobox
      * Use this when you have a flow combobox menu item to display
-     * @param {menuDataRetrieval.MenuItem|String} itemOrDisplayText the menu item being set to the flow combobox
+     *
+     * @param {menuDataRetrieval.MenuItem | string} itemOrDisplayText the menu item being set to the flow combobox
      */
     @api
     value;
 
     /**
      * The allowed param types based on the rule service. Used for the merge field validation if present.
+     *
      * @type {Object}
      */
     @api
@@ -119,6 +125,7 @@ export default class BaseResourcePicker extends LightningElement {
      * Sets the full menu data for the resource picker
      * This method should be called by the wrapper components when they want
      * to set the full menu data for the resource picker
+     *
      * @param {Object[]} newMenuData the full menu data
      */
     @api
@@ -133,22 +140,25 @@ export default class BaseResourcePicker extends LightningElement {
 
     /**
      * The full menu data available for selection
+     *
      * @type {Object[]}
      */
     _fullMenuData;
 
     /**
      * Creates a ComboboxConfig object from the given params
-     * @param {String} label the flow combobox label
-     * @param {String} placeholder the flow combobox placeholder
-     * @param {String} errorMessage the error message to be displayed on error
-     * @param {String|Boolean} literalsAllowed Pass a string or boolean value: true if literals are allowed false otherwise
-     * @param {Boolean} required true if required field, false otherwise
-     * @param {Boolean} disabled true if disabled field, false otherwise
-     * @param {String} type the data type of the flow combobox, needed for validation if literals are allowed
-     * @param {Boolean} enableFieldDrilldown whether you can drill down into items with hasNext=true
-     * @param {Boolean} allowSObjectFields whether or not you can drill down into SObject items when fieldDrilldown is enabled
-     * @param {String} variant the variant for the combobox (label-hidden or standard)
+     *
+     * @param {string} label the flow combobox label
+     * @param {string} placeholder the flow combobox placeholder
+     * @param {string} errorMessage the error message to be displayed on error
+     * @param {string | boolean} literalsAllowed Pass a string or boolean value: true if literals are allowed false otherwise
+     * @param {boolean} required true if required field, false otherwise
+     * @param {boolean} disabled true if disabled field, false otherwise
+     * @param {string} type the data type of the flow combobox, needed for validation if literals are allowed
+     * @param {boolean} enableFieldDrilldown whether you can drill down into items with hasNext=true
+     * @param {boolean} allowSObjectFields whether or not you can drill down into SObject items when fieldDrilldown is enabled
+     * @param {string} variant the variant for the combobox (label-hidden or standard)
+     * @param fieldLevelHelp
      * @returns {ComboboxConfig} The combobox config object
      */
     static getComboboxConfig = (
@@ -182,6 +192,7 @@ export default class BaseResourcePicker extends LightningElement {
     /**
      * Get value for literalsAllowed
      * If allowed param types are given and collection is required based on dataType, force literalsAllowed to false
+     *
      * @readonly
      * @memberof BaseResourcePicker
      */

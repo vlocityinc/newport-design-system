@@ -23,7 +23,7 @@ export const getDataType = (object, fieldName) => {
 /**
  * @param {*} object complex object(eg: it can assignment, decision or outcome etc)
  * @param {*} fieldName name of the field
- * @return true if given field is a template field
+ * @returns true if given field is a template field
  */
 export const isTemplateField = (object, fieldName) => {
     const dataType = getDataType(object, fieldName);
@@ -33,7 +33,7 @@ export const isTemplateField = (object, fieldName) => {
 /**
  * @param {*} object complex object(eg: it can assignment, decision or outcome etc)
  * @param {*} fieldName name of the field
- * @return true if given field is a reference field
+ * @returns true if given field is a reference field
  */
 export const isReferenceField = (object, fieldName) => {
     const dataType = getDataType(object, fieldName);
@@ -42,9 +42,10 @@ export const isReferenceField = (object, fieldName) => {
 };
 
 /**
+ * @param parentObject
  * @param {*} propertyName name of the property
  * @param {*} propertyValue value of the property
- * @return true if swapping needs to happen, else it returns false.
+ * @returns true if swapping needs to happen, else it returns false.
  */
 export const shouldCallSwapFunction = (parentObject, propertyName, propertyValue) => {
     return (
@@ -57,9 +58,10 @@ export const shouldCallSwapFunction = (parentObject, propertyName, propertyValue
 
 /**
  * This function executes swap function on value which are template fields
+ *
  * @param {*} swapFunction function which is used to swap value
  * @param {*} value value to be swapped
- * @return value after swapping
+ * @returns value after swapping
  */
 const swapTemplateField = (swapFunction, value) => {
     const replacer = (fullMatch) => {
@@ -72,9 +74,10 @@ const swapTemplateField = (swapFunction, value) => {
 
 /**
  * This function executes swap function on value which are referenced fields
+ *
  * @param {*} swapFunction function which is used to swap value
  * @param {*} value value to be swapped
- * @return value after swapping
+ * @returns value after swapping
  */
 const swapReferenceField = (swapFunction, value) => {
     return swapFunction(isReference(value) ? removeCurlyBraces(value) : value);
@@ -135,10 +138,9 @@ export const recursiveSwap = (object, swapFunction) => {
  * ex: If the full value is 'Hello {!userVar.name}' or 'userVar.name' this function
  * should only be passed 'userVar.name'
  *
- * @param {String} expression    the single expression to swap
+ * @param {string} expression    the single expression to swap
  * @param {Object} mapping       the mapping of values to swap
- *
- * @returns {String}             the expression after swapping
+ * @returns {string}             the expression after swapping
  */
 export const swapSingleExpression = (expression, mapping) => {
     const parts = splitStringBySeparator(expression);

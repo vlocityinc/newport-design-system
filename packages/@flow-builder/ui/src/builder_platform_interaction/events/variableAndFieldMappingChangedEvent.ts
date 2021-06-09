@@ -12,7 +12,8 @@ type VariableAndFieldMappingChangedEventDetail = {
 
 export class VariableAndFieldMappingChangedEvent extends CustomEvent<VariableAndFieldMappingChangedEventDetail> {
     /**
-     * @param {String} the selected value of variableAndFieldMapping, can be manual, automatic, manuallySelectFields
+     * @param {string} the selected value of variableAndFieldMapping, can be manual, automatic, manuallySelectFields
+     * @param variableAndFieldMapping
      */
     constructor(variableAndFieldMapping) {
         super(eventName, {

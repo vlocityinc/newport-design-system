@@ -18,14 +18,29 @@ export type InvocableAction = {
     outputParameters: ParameterListRowItem[];
 };
 
+/**
+ * @param actions
+ */
 export function setInvocableActions(actions) {
     invocableActions = actions;
 }
 
+/**
+ *
+ */
 export function getInvocableActions() {
     return invocableActions;
 }
 
+/**
+ * @param root0
+ * @param root0.actionName
+ * @param root0.actionType
+ * @param root1
+ * @param root1.background
+ * @param root1.disableErrorModal
+ * @param root1.messageForErrorModal
+ */
 export function fetchDetailsForInvocableAction(
     { actionName, actionType },
     { background = false, disableErrorModal = false, messageForErrorModal = undefined } = {}
@@ -47,6 +62,7 @@ export function fetchDetailsForInvocableAction(
 
 /**
  * Updates a data type and sets a subtype in generically-typed extension parameters
+ *
  * @param {*} parameters - Screen field parameters
  * @param {*} dynamicTypeMappings - A mapping of generic types to concrete types
  * @param {*} genericTypes  - Generic types
@@ -79,6 +95,7 @@ export function applyDynamicTypeMappings(parameters, dynamicTypeMappings) {
  * @param {Object} actionId - the action identifier
  * @param {string} actionId.actionName - the action name
  * @param {string} actionId.actionType - the action type
+ * @param actionId.dataTypeMappings
  * @returns {Object} the action parameters
  */
 export function getParametersForInvocableAction({ actionName, actionType, dataTypeMappings }) {
@@ -87,11 +104,17 @@ export function getParametersForInvocableAction({ actionName, actionType, dataTy
     return applyDynamicTypeMappings(params, dataTypeMappings);
 }
 
+/**
+ * @param flowProcessType
+ */
 export function isAutomaticOutputHandlingSupported(flowProcessType) {
     const processTypeAutomaticOutPutHandlingSupport = getProcessTypeAutomaticOutPutHandlingSupport(flowProcessType);
     return processTypeAutomaticOutPutHandlingSupport === FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED;
 }
 
+/**
+ *
+ */
 export function clearInvocableActionCachedParameters() {
     cachedDetails = [];
 }

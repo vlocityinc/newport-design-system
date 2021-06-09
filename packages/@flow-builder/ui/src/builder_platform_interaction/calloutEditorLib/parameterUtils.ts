@@ -25,7 +25,7 @@ export type ParameterListConfig = {
  * Get the label or name of the parameter
  *
  * @param {ParameterItem} param a parameter
- * @returns {String} return the parameter's label or parameter's name
+ * @returns {string} return the parameter's label or parameter's name
  */
 const getLabel = (param) => {
     const label = getValueFromHydratedItem(param.label);

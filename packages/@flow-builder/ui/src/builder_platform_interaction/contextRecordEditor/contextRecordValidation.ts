@@ -8,7 +8,8 @@ const defaultRules = {};
 
 /**
  * Validate the filter item. Here we can't use the ValidationRules.validateExpressionWith3Properties because this function allows empty RHS
- * @return {function} the function to be called with each filter item to return the array of rules.
+ *
+ * @returns {Function} the function to be called with each filter item to return the array of rules.
  */
 const validateFilter = () => ValidationRules.validateExpressionWith3PropertiesWithNoEmptyRHS();
 
@@ -24,9 +25,12 @@ export const contextValidation = new Validation(defaultRules);
 
 /**
  * Build specific overridden rules
+ *
  * @param {Object} nodeElement the element that need to be validated
  * @param {string} nodeElement.filterLogic - current element's filterLogic
- * @return {Object} the overridden rules
+ * @param nodeElement.object
+ * @param nodeElement.triggerType
+ * @returns {Object} the overridden rules
  */
 export const getRules = ({ filterLogic, object, triggerType }) => {
     let overriddenRules = {};

@@ -21,8 +21,8 @@ const SYSTEM_VARIABLES = [SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_CLIENT_PREFIX]
  * Checks if the id passed in might point to a non-element resource such as
  * Global Constants or System Variables
  *
- * @param {String} id             id to check
- * @returns {Boolean}    true if the id might point to a non-element resource, false otherwise
+ * @param {string} id             id to check
+ * @returns {boolean}    true if the id might point to a non-element resource, false otherwise
  */
 export const isGlobalConstantOrSystemVariableId = (id) =>
     !!id && GLOBAL_CONSTANTS_AND_SYSTEM_VARIABLES.indexOf(removeCurlyBraces(id).split('.')[0]) >= 0;
@@ -58,7 +58,7 @@ export const getGlobalConstantOrSystemVariableFromState = ({ elements }, id) => 
 /**
  * Returns Global Constant or System Variable referenced by id
  *
- * @param {String} id           points to a global constant or system variable
+ * @param {string} id           points to a global constant or system variable
  * @returns {Object|undefined}  if the id was valid, the object it references will be returned, otherwise undefined
  */
 export const getGlobalConstantOrSystemVariable = (id) => {

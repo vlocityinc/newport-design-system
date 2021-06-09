@@ -30,6 +30,7 @@ let storeInstance: Store;
 
 /**
  * contains list of all the listeners(aka callback that needs to be executed when state changes) of the store.
+ *
  * @type {Array}
  */
 let currentListeners = [];
@@ -50,6 +51,7 @@ export class Store {
 
     /**
      * Static method to create a single instance of a store
+     *
      * @param reducer - reducer function
      * @returns instance of the store
      */
@@ -70,6 +72,7 @@ export class Store {
 
     /**
      * Subscribe a listener to the store
+     *
      * @param {Function} listener function that will be executed when state of store changes
      * @returns {Function} unSubscribe function to unSubscribe from the store.
      */
@@ -87,6 +90,7 @@ export class Store {
 
     /**
      * To change the state of the store, call this method with appropriate action
+     *
      * @param {Object} action object which contains a type property
      */
     dispatch(action) {

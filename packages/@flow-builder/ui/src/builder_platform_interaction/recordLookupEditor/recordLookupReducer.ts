@@ -174,6 +174,7 @@ const updateOutputReferenceAndQueriedFields = (state, value, error) => {
 
 /**
  * Reset current element state's sortOrder and sortField properties
+ *
  * @param {Object} state - current element's state
  * @returns {Object} updated state
  */
@@ -186,6 +187,7 @@ const resetSordOrderAndSortField = (state) => {
 
 /**
  * Reset current element state's outputAssignments, outputReference and queriedFields properties
+ *
  * @param {Object} state - current element's state
  * @returns {Object} updated state
  */
@@ -197,6 +199,7 @@ const resetOutputAssignmentsOutputReferenceAndQueriedfields = (state) => {
 
 /**
  * Reset current element's state filters property
+ *
  * @param {Object} state - current element's state
  * @returns {Object} updated state
  */
@@ -207,6 +210,7 @@ const resetFilters = (state) => {
 
 /**
  * Reset current element's state numberRecordsToStore, wayToStoreFields and assignNullValuesIfNoRecordsFound properties
+ *
  * @param {Object} state - current element's state
  * @returns {Object} updated state
  */
@@ -220,6 +224,7 @@ const resetStoreOptions = (state) => {
 
 /**
  * Reset current element's state wayToStoreFields and assignNullValuesIfNoRecordsFound properties
+ *
  * @param {Object} state - current element's state
  * @returns {Object} updated state
  */
@@ -232,6 +237,7 @@ const resetWayToStoreFields = (state) => {
 
 /**
  * Reset filterLogic, filters, outputReference, queriedFields, sort order, sort field, assignment to null, storing options
+ *
  * @param {Object} state - current element state
  * @returns {Object} updated state
  */
@@ -264,6 +270,10 @@ const numberRecordToStoreChanged = (state, { getFirstRecordOnly }) => {
 
 /**
  * Update the property storeOutputAutomatically and reset all others.
+ *
+ * @param state
+ * @param root0
+ * @param root0.useAdvancedOptions
  */
 const useAdvancedOptionsSelectionChanged = (state, { useAdvancedOptions }) => {
     state = updateProperties(state, {
@@ -279,6 +289,12 @@ const useAdvancedOptionsSelectionChanged = (state, { useAdvancedOptions }) => {
 
 /**
  * Update the way the user store the records
+ *
+ * @param state
+ * @param root0
+ * @param root0.getFirstRecordOnly
+ * @param root0.assignNullToVariableNoRecord
+ * @param root0.wayToStoreFields
  */
 const recordStoreOptionAndWayToStoreChanged = (
     state,
@@ -391,6 +407,7 @@ const managePropertyChanged = (state, { propertyName, ignoreValidate, error, old
 
 /**
  * Element reducer function: runs validation rules and returns back the updated element state
+ *
  * @param {Object} state - element's state
  * @param {Object} event - The event to be handled
  * @returns {object} updated state

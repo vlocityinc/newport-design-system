@@ -30,6 +30,7 @@ export default class ConnectorPicker extends LightningElement {
 
     /**
      * Keeps track of the current selected value
+     *
      * @param {Object} event - onchange event coming from connector-picker
      */
     handlePickerValueChange(event) {

@@ -44,9 +44,14 @@ import { DECORATION_TYPE } from 'builder_platform_interaction/flowMetadata';
  *
  * @param {Object} state - elements in the store
  * @param {Object} action - with type and payload
- * @return {Object} new state after reduction
+ * @returns {Object} new state after reduction
  */
 /* eslint-disable-next-line complexity */
+/**
+ * @param state
+ * @param action
+ */
+// eslint-disable-next-line complexity
 export default function elementsReducer(state = {}, action) {
     switch (action.type) {
         case UPDATE_FLOW:
@@ -143,7 +148,8 @@ export default function elementsReducer(state = {}, action) {
  * @param {Object} childElementGuidMap - Map of child element guids to newly generated guids that will be used for
  * the duplicated child elements
  * @param {Object[]} connectorsToDuplicate - Array containing connectors that need to be duplicated
- * @return {Object} new state after reduction
+ * @param unduplicatedCanvasElementsGuids
+ * @returns {Object} new state after reduction
  * @private
  */
 function _duplicateElement(
@@ -210,7 +216,6 @@ function _duplicateElement(
  *
  * @param {Object} selectedElement - a canvas element that's selected
  * @param {Object} state to update - the state
- *
  * @private
  */
 function _deselectElement(selectedElement, state) {
@@ -233,8 +238,7 @@ function _deselectElement(selectedElement, state) {
  * @param {Object[]} deletedChildElementGuids - Guids of all child elements being deleted. If deleted child elements have associated connectors, then
  * the connectorCount will be decremented appropriately
  * @param {Object[]} childElements - All child elements in the updated canvas element state (does not include deleted child elements)
- *
- * @return {Object} new state after reduction
+ * @returns {Object} new state after reduction
  * @private
  */
 function _addOrUpdateCanvasElementWithChildElements(
@@ -259,6 +263,9 @@ function _addOrUpdateCanvasElementWithChildElements(
  * Helper function to add a child element.  Will create and add the element
  * to its parent as needed
  *
+ * @param state
+ * @param parentGuid
+ * @param childElement
  * @private
  */
 function _addChildElement(state: UI.StoreState, parentGuid: UI.Guid, childElement: UI.ChildElement): object {
@@ -284,6 +291,9 @@ function _addChildElement(state: UI.StoreState, parentGuid: UI.Guid, childElemen
 /**
  * Helper function to delete child elements. Removes the children from the parent
  *
+ * @param state
+ * @param parentGuid
+ * @param childElements
  * @private
  */
 function _deleteChildElements(
@@ -311,9 +321,9 @@ function _deleteChildElements(
  * Helper function to add or update an element.
  *
  * @param {Object} state - current state of elements in the store
- * @param {String} guid - GUID of element to be added or updated
+ * @param {string} guid - GUID of element to be added or updated
  * @param {Object} element - information about the element to be added or updated
- * @return {Object} new state after reduction
+ * @returns {Object} new state after reduction
  * @private
  */
 function _addOrUpdateElement(state, guid, element) {
@@ -348,9 +358,9 @@ function _updateCanvasElementsLocation(state, updatedCanvasElementLocations) {
  * Currently used only by variable and constant
  *
  * @param {Object} state - current state of elements in the store
- * @param {String} guid - GUID of element to be replaced
+ * @param {string} guid - GUID of element to be replaced
  * @param {Object} element - The element to inject
- * @return {Object} new state after reduction
+ * @returns {Object} new state after reduction
  * @private
  */
 function _updateVariableOrConstant(state, guid, element) {
@@ -360,10 +370,11 @@ function _updateVariableOrConstant(state, guid, element) {
 /**
  * Helper function update an element a record lookup.
  * It should be deleted when W-5147341 is fixed
+ *
  * @param {Object} state - current state of elements in the store
- * @param {String} guid - GUID of element to be added or updated
+ * @param {string} guid - GUID of element to be added or updated
  * @param {Object} element - information about the element to be added or updated
- * @return {Object} new state after reduction
+ * @returns {Object} new state after reduction
  * @private
  */
 function _updateRecordLookup(state, guid, element) {
@@ -384,7 +395,8 @@ function _updateRecordLookup(state, guid, element) {
  * Helper function to delete all selected canvas elements and to update the affected canvas elements with the new connector count
  *
  * @param {Object} elements - current state of elements in the store
- * @param {String[]} originalGUIDs - GUIDs of canvas elements that need to be deleted
+ * @param {string[]} originalGUIDs - GUIDs of canvas elements that need to be deleted
+ * @param originalElements
  * @param {Object[]} connectorsToDelete - All connector objects that need to be deleted
  * @returns {Object} new state after reduction
  * @private
@@ -426,7 +438,7 @@ function _deleteAndUpdateElements(elements, originalElements, connectorsToDelete
  * Helper function to increment the connector count of a given canvas element when a new connection has been added
  *
  * @param {Object} elements - current state of elements in the store
- * @param {String} connector - connector object
+ * @param {string} connector - connector object
  * @returns {Object} new state after reduction
  * @private
  */
@@ -453,8 +465,8 @@ function _updateElementOnAddConnection(elements, connector) {
  * isHighlighted property for all other selected/highlighted canvas elements to false.
  *
  * @param {Object} elements - current state of elements in the store
- * @param {String} selectedGUID - GUID of the canvas element to be selected
- * @return {Object} new state of elements after reduction
+ * @param {string} selectedGUID - GUID of the canvas element to be selected
+ * @returns {Object} new state of elements after reduction
  * @private
  */
 function _selectCanvasElement(elements, selectedGUID) {
@@ -495,8 +507,8 @@ function _selectCanvasElement(elements, selectedGUID) {
  * and sets the isSelected property of the canvas element to true/false repectively, and set isHighlighted state to false in both case.
  *
  * @param {Object} elements - current state of elements in the store
- * @param {String[]} guidsToSelect - Array of canvas elements to be selected
- * @param {String[]} guidsToDeselect - Array of canvas elements to be deselected
+ * @param {string[]} guidsToSelect - Array of canvas elements to be selected
+ * @param {string[]} guidsToDeselect - Array of canvas elements to be deselected
  */
 function _marqueeSelect(elements, guidsToSelect, guidsToDeselect) {
     const newState = updateProperties(elements);
@@ -532,8 +544,8 @@ function _marqueeSelect(elements, guidsToSelect, guidsToDeselect) {
  * Helper function to toggle the isSelected state of a canvas element. This doesn't affect the isHighlighted state.
  *
  * @param {Object} elements - current state of elements in the store
- * @param {String} selectedGUID - GUID of the canvas element to be toggled
- * @return {Object} new state of elements after reduction
+ * @param {string} selectedGUID - GUID of the canvas element to be toggled
+ * @returns {Object} new state of elements after reduction
  * @private
  */
 function _toggleCanvasElement(elements, selectedGUID) {
@@ -556,7 +568,7 @@ function _toggleCanvasElement(elements, selectedGUID) {
  * selected/highlighted canvas elements to false.
  *
  * @param {Object} elements - current state of elements in the store
- * @return {Object} new state of elements after reduction
+ * @returns {Object} new state of elements after reduction
  * @private
  */
 function _deselectCanvasElements(elements) {
@@ -589,7 +601,7 @@ function _deselectCanvasElements(elements) {
  * property of any other highlighted canvas element to false. This doesn't affect the isSelected property of any element.
  *
  * @param {Object} elements - current state of elements in the store
- * @param {String} elementGuid - GUID of the canvas element to be highlighted
+ * @param {string} elementGuid - GUID of the canvas element to be highlighted
  * @returns {Object} new state of elements after reduction
  * @private
  */
@@ -630,8 +642,7 @@ function _highlightCanvasElement(elements, elementGuid) {
  * @param {Object} screen - the screen being added/modified
  * @param {Object[]} deletedFields - All screenFields being deleted.
  * @param {Object[]} fields - All screenFields in the updated screen state (does not include deleted screenFields)
- *
- * @return {Object} new state after reduction
+ * @returns {Object} new state after reduction
  * @private
  */
 function _addOrUpdateScreenWithScreenFields(state, screen, deletedFields, fields = []) {
@@ -655,10 +666,9 @@ function _addOrUpdateScreenWithScreenFields(state, screen, deletedFields, fields
 /**
  * Helper function to get unique dev name that is not in the store or in the passed in blacklist
  *
- * @param {String} name - existing dev name to make unique
- * @param {String[]} blacklistNames - blacklisted list of names to check against in addition to store
- *
- * @return {String} new unique dev name
+ * @param {string} name - existing dev name to make unique
+ * @param {string[]} blacklistNames - blacklisted list of names to check against in addition to store
+ * @returns {string} new unique dev name
  */
 function _getUniqueDuplicateElementName(name, blacklistNames = []) {
     if (isDevNameInStore(name) || blacklistNames.includes(name)) {
@@ -673,9 +683,8 @@ function _getUniqueDuplicateElementName(name, blacklistNames = []) {
  *
  * @param {Object} state - store state
  * @param {Object} childElementGuidsToDuplicate - list of guids of the child elements to duplicate
- * @param {String[]} blacklistNames - blacklisted list of names to check against in addition to store
- *
- * @return {Object} Map of child element dev names to duplicated child element dev names
+ * @param {string[]} blacklistNames - blacklisted list of names to check against in addition to store
+ * @returns {Object} Map of child element dev names to duplicated child element dev names
  */
 function _getDuplicateChildElementNameMap(state, childElementGuidsToDuplicate, blacklistNames = []) {
     const childElementNameMap = {};
@@ -723,8 +732,8 @@ function _updateAvailableConnectionsAndConnectorCount(
  * Helper function to filter available connections on an element based on connector type or child source guid
  *
  * @param {Object} element - canvas element for which available connections are to be filtered
- * @param {String} childSourceGUID - child source guid (eg. outcome guid) to filter available connections on
- * @param {String} connectorType - connector type to filter available connections on
+ * @param {string} childSourceGUID - child source guid (eg. outcome guid) to filter available connections on
+ * @param {string} connectorType - connector type to filter available connections on
  */
 function _filterAvailableConnections(element, childSourceGUID, connectorType) {
     if (element.availableConnections) {

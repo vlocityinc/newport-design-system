@@ -53,6 +53,7 @@ export default class ResourceDetailParameters extends LightningElement {
 
     /**
      * Resource element GUID
+     *
      * @returns {string} the resource GUID
      */
     get resourceGuid() {
@@ -61,6 +62,7 @@ export default class ResourceDetailParameters extends LightningElement {
 
     /**
      * Feed the parameters (if empty will reactively hide the section content)
+     *
      * @param {Array[Object]} data parameters returned by the fetch function (will be re shaped the given resource element custom mapper if any left untouched if none)
      * @param {Object} error error if any
      * Parameters defaulted to empty array if error

@@ -10,6 +10,7 @@ type EditMergeFieldPillEventDetail = {
 export class EditMergeFieldPillEvent extends CustomEvent<EditMergeFieldPillEventDetail> {
     /**
      * Create a EditMergeFieldPillEvent.
+     *
      * @param {Object} item - pill item property
      */
     constructor(item: {}) {

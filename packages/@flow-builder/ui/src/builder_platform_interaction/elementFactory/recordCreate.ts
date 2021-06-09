@@ -27,6 +27,11 @@ import { getVariableOrField } from 'builder_platform_interaction/referenceToVari
 const elementType = ELEMENT_TYPE.RECORD_CREATE;
 const maxConnections = 2;
 
+/**
+ * @param recordCreate
+ * @param root0
+ * @param root0.elements
+ */
 export function createRecordCreate(recordCreate = {}, { elements } = Store.getStore().getCurrentState()) {
     const newRecordCreate = baseCanvasElement(recordCreate);
     const {
@@ -99,6 +104,19 @@ export function createRecordCreate(recordCreate = {}, { elements } = Store.getSt
     return recordCreateObject;
 }
 
+/**
+ * @param root0
+ * @param root0.canvasElementToPaste
+ * @param root0.newGuid
+ * @param root0.newName
+ * @param root0.canvasElementGuidMap
+ * @param root0.topCutOrCopiedGuid
+ * @param root0.bottomCutOrCopiedGuid
+ * @param root0.prev
+ * @param root0.next
+ * @param root0.parent
+ * @param root0.childIndex
+ */
 export function createPastedRecordCreate({
     canvasElementToPaste,
     newGuid,
@@ -129,6 +147,11 @@ export function createPastedRecordCreate({
     };
 }
 
+/**
+ * @param recordCreate
+ * @param newGuid
+ * @param newName
+ */
 export function createDuplicateRecordCreate(recordCreate, newGuid, newName) {
     const newRecordCreate = createRecordCreate(recordCreate);
     Object.assign(newRecordCreate, {
@@ -139,6 +162,11 @@ export function createDuplicateRecordCreate(recordCreate, newGuid, newName) {
     return duplicateRecordCreate;
 }
 
+/**
+ * @param recordCreate
+ * @param root0
+ * @param root0.elements
+ */
 export function createRecordCreateWithConnectors(recordCreate, { elements } = Store.getStore().getCurrentState()) {
     const newRecordCreate = createRecordCreate(recordCreate, { elements });
 
@@ -155,6 +183,10 @@ export function createRecordCreateWithConnectors(recordCreate, { elements } = St
     return baseCanvasElementsArrayToMap([recordCreateObject], connectors);
 }
 
+/**
+ * @param recordCreate
+ * @param config
+ */
 export function createRecordCreateMetadataObject(recordCreate, config) {
     if (!recordCreate) {
         throw new Error('recordCreate is not defined');

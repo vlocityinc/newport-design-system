@@ -23,6 +23,10 @@ const NODE_ICON_HALF_HEIGHT_WITH_PADDING = 28;
 
 let startElementMetadata = null;
 
+/**
+ * @param startElementMetadata
+ * @param metadata
+ */
 function canHaveFaultConnector(startElementMetadata, metadata) {
     // W-8985288: clean this up to make canHaveFaultConnector more dynamic than a static attribute in elementConfig
     if (
@@ -34,6 +38,9 @@ function canHaveFaultConnector(startElementMetadata, metadata) {
     return metadata.canHaveFaultConnector;
 }
 
+/**
+ * @param elementsMetadata
+ */
 function augmentElementsMetadata(elementsMetadata) {
     const startElement: UI.ElementConfig = getConfigForElementType(ELEMENT_TYPE.START_ELEMENT);
     const endElement: UI.ElementConfig = getConfigForElementType(ELEMENT_TYPE.END_ELEMENT);

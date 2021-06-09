@@ -23,6 +23,7 @@ export default class UsedByContentItem extends LightningElement {
 
     /**
      * Dispatches the LocatorIconClickedEvent that highlights the element on canvas
+     *
      * @param {object} event onclick event
      */
     handleUsageSectionLocatorClick(event) {

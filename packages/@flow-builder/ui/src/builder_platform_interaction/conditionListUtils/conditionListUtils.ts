@@ -19,9 +19,10 @@ const getPrefix = (conditionLogic, index) => {
 
 /**
  * Returns the conditions decorated with prefexes for rendering in a condition list
+ *
  * @param {string}conditionLogic Either a logic constant or a custom logic string
  * @param {Object[]}conditions The condition objects to be rendered.  Note that these objects can be of any shape
- * @return {Object[]} Array of decorated objects
+ * @returns {Object[]} Array of decorated objects
  */
 export function getConditionsWithPrefixes(conditionLogic, conditions) {
     return conditions.map((condition, i) => {
@@ -34,8 +35,9 @@ export function getConditionsWithPrefixes(conditionLogic, conditions) {
 
 /**
  * Whether delete should be shown for each condition
+ *
  * @param {Object[]} conditions array of condition objects
- * @return {boolean} true if conditions should be rendered with delete buttons
+ * @returns {boolean} true if conditions should be rendered with delete buttons
  */
 export function showDeleteCondition(conditions) {
     return conditions.length > 1;

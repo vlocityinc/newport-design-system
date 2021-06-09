@@ -5,6 +5,7 @@ let resourcePickers = {};
 
 /**
  * Save the expression to be accessed later
+ *
  * @param {BaseExpressionBuilder} expression The expression to be saved
  */
 export const saveExpression = (expression) => {
@@ -13,6 +14,7 @@ export const saveExpression = (expression) => {
 
 /**
  * Save the resource picker to be accessed later
+ *
  * @param {BaseResourcePicker} resourcePicker the resourcePicker to be saved
  */
 export const saveResourcePicker = (resourcePicker) => {
@@ -24,8 +26,9 @@ export const saveResourcePicker = (resourcePicker) => {
 
 /**
  * Validate the picker
- * @param {String} rowIndex The index(guid) associated with the picker
- * @returns {String} the error message or null
+ *
+ * @param {string} rowIndex The index(guid) associated with the picker
+ * @returns {string} the error message or null
  */
 export const validatePicker = (rowIndex) => {
     if (rowIndex) {
@@ -40,8 +43,9 @@ export const validatePicker = (rowIndex) => {
 
 /**
  * Validate the LHS of the expression
- * @param {String} rowIndex The index(guid) associated with the expression
- * @returns {String} the error message or null
+ *
+ * @param {string} rowIndex The index(guid) associated with the expression
+ * @returns {string} the error message or null
  */
 export const validateLHS = (rowIndex) => {
     if (expressions[rowIndex]) {
@@ -53,8 +57,9 @@ export const validateLHS = (rowIndex) => {
 
 /**
  * Validate the RHS of the expression
- * @param {String} rowIndex The index(guid) associated with the expression
- * @returns {String} the error message or null
+ *
+ * @param {string} rowIndex The index(guid) associated with the expression
+ * @returns {string} the error message or null
  */
 export const validateRHS = (rowIndex) => {
     if (expressions[rowIndex]) {

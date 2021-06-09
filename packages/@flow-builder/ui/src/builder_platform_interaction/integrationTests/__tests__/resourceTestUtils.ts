@@ -25,6 +25,8 @@ export const removeNewResourceEventListener = () =>
 
 /**
  * Set the resource node to add to the store when "New Resource" is selected in the combobox
+ *
+ * @param resourceNode
  */
 export const setNextInlineResource = (resourceNode) => {
     nextInlineResource = resourceNode;

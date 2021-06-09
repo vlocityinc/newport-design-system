@@ -51,6 +51,7 @@ export default class WaitEditor extends LightningElement {
 
     /**
      * public api function to return the node
+     *
      * @returns {object} node - node
      */
     @api getNode() {
@@ -59,6 +60,7 @@ export default class WaitEditor extends LightningElement {
 
     /**
      * public api function to run the rules from wait validation library
+     *
      * @returns {object} list of errors
      */
     @api validate() {
@@ -121,6 +123,7 @@ export default class WaitEditor extends LightningElement {
 
     /**
      * Handles deletion and sets focus to the first wait event (if deletion was successful)
+     *
      * @param {object} event - deleteWaitEventEvent
      */
     handleDeleteWaitEvent(event) {
@@ -134,6 +137,7 @@ export default class WaitEditor extends LightningElement {
 
     /**
      * Handles reordering in the list of the outcomes
+     *
      * @param {object} event - reorderListEvent
      */
     handleReorderWaitEvents(event) {

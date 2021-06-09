@@ -102,9 +102,9 @@ const updateSortOutput = (state, event) => {
 
 /**
  * filter reducer function runs validation rules and returns back the updated element filter
+ *
  * @param {object} state - element / sort editor node
  * @param {object} event - the event from sort editor
- *
  * @returns {object} filter - updated filter
  */
 export const sortReducer = (state, event) => {

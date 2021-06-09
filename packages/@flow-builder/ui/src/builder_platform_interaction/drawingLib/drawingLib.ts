@@ -22,7 +22,7 @@ let drawingLibInstance = null;
 // used by nba
 let connectionDecorator = null;
 
-/** Wrapper class for drawing library (currently jsplumb) **/
+/** Wrapper class for drawing library (currently jsplumb) */
 class DrawingLib {
     private instance = null;
 
@@ -87,7 +87,8 @@ class DrawingLib {
 
     /**
      * Sets the container as the main area for all the jsPlumb activity.
-     * @param {String|Object} container - id of the element or the whole element where the jsPlumb instance should live
+     *
+     * @param {string | Object} container - id of the element or the whole element where the jsPlumb instance should live
      */
     setContainer = (container) => {
         this.instance.setContainer(container);
@@ -95,6 +96,7 @@ class DrawingLib {
 
     /**
      * Gets the container where jsPlumb has been initialised.
+     *
      * @returns {Object} The HTML container where jsPlumb is set
      */
     getContainer = () => {
@@ -103,6 +105,7 @@ class DrawingLib {
 
     /**
      * Used to improve the performance of the canvas while loading all the data.
+     *
      * @param {boolean} val - Instructs jsPlumb whether to suspend drawing or not
      * @param {boolean} repaintAfterwards - Instructs jsPlumb to immediately perform full repaint or not
      */
@@ -112,6 +115,7 @@ class DrawingLib {
 
     /**
      * Updates the zoom level of the jsPlumb container to draw connections based on the new zoom level.
+     *
      * @param {Integer} zoomValue - Zoom level for the container
      */
     setZoom = (zoomValue) => {
@@ -120,6 +124,7 @@ class DrawingLib {
 
     /**
      * Sets all the nodes within the canvas to be draggable.
+     *
      * @param {Object} nodeElement - The node element
      * @param {Object} config - Configuration for the nodeElement we are setting as draggable
      */
@@ -129,8 +134,9 @@ class DrawingLib {
 
     /**
      * Checks if the given iconSection is a source or not.
-     * @param {String} canvasElementContainer - The canvas element container
-     * @returns {Boolean} Indicating if the iconSection is a source or not
+     *
+     * @param {string} canvasElementContainer - The canvas element container
+     * @returns {boolean} Indicating if the iconSection is a source or not
      */
     isSource = (canvasElementContainer) => {
         return this.instance.isSource(canvasElementContainer);
@@ -138,7 +144,8 @@ class DrawingLib {
 
     /**
      * Makes the end-points of all the nodes a source point to start creating connectors from.
-     * @param {String} canvasElementContainer - The canvas element container
+     *
+     * @param {string} canvasElementContainer - The canvas element container
      */
     makeSource = (canvasElementContainer) => {
         this.instance.makeSource(canvasElementContainer, {
@@ -152,8 +159,9 @@ class DrawingLib {
 
     /**
      * Checks if the given iconSection is a target or not.
-     * @param {String} canvasElementContainer - The canvas element container
-     * @returns {Boolean} Indicating if the iconSection is a source or not
+     *
+     * @param {string} canvasElementContainer - The canvas element container
+     * @returns {boolean} Indicating if the iconSection is a source or not
      */
     isTarget = (canvasElementContainer) => {
         return this.instance.isTarget(canvasElementContainer);
@@ -161,7 +169,8 @@ class DrawingLib {
 
     /**
      * Makes all the nodes a target region for the connectors to be dropped at.
-     * @param {String} canvasElementContainer - The canvas element container
+     *
+     * @param {string} canvasElementContainer - The canvas element container
      */
     makeTarget = (canvasElementContainer) => {
         this.instance.makeTarget(canvasElementContainer, {
@@ -173,8 +182,9 @@ class DrawingLib {
 
     /**
      * Sets the title attribute on the given element
+     *
      * @param {Object} element Label Overlay object associated with the connector
-     * @param {String} title Text to be displayed on hovering over the connector label. Same as the label itself
+     * @param {string} title Text to be displayed on hovering over the connector label. Same as the label itself
      */
     setTitleAttribute = (element = {}, title = '') => {
         if (element) {
@@ -184,8 +194,9 @@ class DrawingLib {
 
     /**
      * Sets the title on connector label overlay
+     *
      * @param {Object} connection Connector object
-     * @param {String} title Text to be displayed on hovering over the connector label. Same as the label itself
+     * @param {string} title Text to be displayed on hovering over the connector label. Same as the label itself
      */
     setLabelOverlayTitle = (connection = {}, title = '') => {
         const labelOverlay = connection.getOverlay(CONNECTOR_OVERLAY.LABEL);
@@ -198,12 +209,13 @@ class DrawingLib {
     /**
      * Sets all the existing connections while loading the flow in the canvas. If a connection is already set
      * then it doesn't do anything.
+     *
      * @param {Object} sourceContainer - ID of the source node
      * @param {Object} targetContainer - ID of the target node
-     * @param {String} label - The label to display for the connector
-     * @param {String} connectorGuid - ID of the connector
-     * @param {String} connectorType - Type of connector
-     * @return {Object} connection - jsPlumb's connector instance
+     * @param {string} label - The label to display for the connector
+     * @param {string} connectorGuid - ID of the connector
+     * @param {string} connectorType - Type of connector
+     * @returns {Object} connection - jsPlumb's connector instance
      */
     setExistingConnections = (sourceContainer, targetContainer, label, connectorGuid, connectorType) => {
         const connectionInstance = {
@@ -249,6 +261,7 @@ class DrawingLib {
 
     /**
      * Sets up a new connection when a connector is dragged from a source and dropped at a target.
+     *
      * @param {Function} connectionAdded - Function to dispatch an addConnection event to the editor
      */
     setNewConnection = (connectionAdded) => {
@@ -257,6 +270,7 @@ class DrawingLib {
 
     /**
      * Notifies when a connections is clicked.
+     *
      * @param {Function} connectionClicked - Function to mark the node as selected
      */
     clickConnection = (connectionClicked) => {
@@ -265,10 +279,11 @@ class DrawingLib {
 
     /**
      * Helper method to set the paint styles and labels of the connectors when selected or deselected.
+     *
      * @param {Object} connection - The connector that has been selected/deselected
      * @param {Object} paintStyle - Paint style of the selected/deselected connector
      * @param {Object} hoverPaintStyle - Hover paint style of the selected/deselected connector
-     * @param {String} cssClass - css class that needs to be added
+     * @param {string} cssClass - css class that needs to be added
      */
     setPaintStyleAndLabel = (connection, paintStyle, hoverPaintStyle, cssClass) => {
         connection.setPaintStyle(paintStyle);
@@ -291,8 +306,9 @@ class DrawingLib {
 
     /**
      * Sets up the paint style of the connector when it's selected.
+     *
      * @param {Object} connection - The connector that has been selected
-     * @param {String} connectorType - Type of connector
+     * @param {string} connectorType - Type of connector
      */
     selectConnector = (connection, connectorType) => {
         let cssClass;
@@ -311,8 +327,9 @@ class DrawingLib {
 
     /**
      * Sets up the paint style of the connector when it's deselected.
+     *
      * @param {Object} connection - The connector that has been deselected
-     * @param {String} connectorType - Type of connector
+     * @param {string} connectorType - Type of connector
      */
     deselectConnector = (connection, connectorType) => {
         let cssClass;
@@ -333,6 +350,7 @@ class DrawingLib {
 
     /**
      * Sets up the paint style of the connector when it's highlighted.
+     *
      * @param connection - The connector that has been highlighted
      * @param connectorType - Type of connector
      */
@@ -344,6 +362,7 @@ class DrawingLib {
 
     /**
      * Sets up the paint style of the connector when it's not highlighted.
+     *
      * @param connection - The connector that has been de-highlighted
      * @param connectorType - Type of connector
      */
@@ -354,6 +373,7 @@ class DrawingLib {
 
     /**
      * Add the given element to the drag selection.
+     *
      * @param {Object} nodeElement - The passed element
      */
     addToDragSelection = (nodeElement) => {
@@ -362,6 +382,7 @@ class DrawingLib {
 
     /**
      * Removes the given element from the drag selection.
+     *
      * @param {Object} nodeElement - The passed element
      */
     removeFromDragSelection = (nodeElement) => {
@@ -370,7 +391,8 @@ class DrawingLib {
 
     /**
      * Removes the node from jsPlumb's instance but not from the dom.
-     * @param {String} nodeId - The node id
+     *
+     * @param {string} nodeId - The node id
      * @param {Object} canvasElementContainer - Parent (Container) div of the canvas element
      */
     removeNodeFromLib = (nodeId, canvasElementContainer) => {
@@ -394,6 +416,7 @@ class DrawingLib {
 
     /**
      * Removes the connector from jsPlumb's instance
+     *
      * @param {Object} connector - jsPlumb connector instance
      */
     removeConnectorFromLib = (connector) => {
@@ -406,6 +429,7 @@ class DrawingLib {
 
     /**
      * Revalidate specific element
+     *
      * @param {Object} canvasElementContainer - The canvas element container
      */
     revalidate = (canvasElementContainer) => {
@@ -415,7 +439,7 @@ class DrawingLib {
 
 export { CONNECTOR_OVERLAY };
 
-/** Export of the singleton instance of library **/
+/** Export of the singleton instance of library */
 export const getDrawingLibInstance = () => {
     if (drawingLibInstance == null) {
         drawingLibInstance = new DrawingLib();
@@ -433,6 +457,7 @@ export const clearDrawingLibInstance = () => {
 
 /**
  * Sets up a decorator to configure new connections when they're created
+ *
  * @param {Function} decorator - Function to configure a connector.
  *                               Accepts (connector, connectorType) and can modify the connector
  */

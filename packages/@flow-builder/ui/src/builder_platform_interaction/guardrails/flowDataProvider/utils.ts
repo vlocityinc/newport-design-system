@@ -2,6 +2,7 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 /**
  * Create a map of the next connector references
+ *
  * @param element
  * @param type
  */
@@ -18,6 +19,9 @@ export function getMappings(element, type) {
     return mapping;
 }
 
+/**
+ * @param element
+ */
 function getConnectors(element) {
     let connectors = [];
     if (element) {

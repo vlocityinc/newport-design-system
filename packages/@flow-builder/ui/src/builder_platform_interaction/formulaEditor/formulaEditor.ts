@@ -46,6 +46,7 @@ export default class FormulaEditor extends LightningElement {
     /**
      * Public api function to return the node
      * Called by the property editor controller on "OK"
+     *
      * @returns {object} node - node
      */
     @api

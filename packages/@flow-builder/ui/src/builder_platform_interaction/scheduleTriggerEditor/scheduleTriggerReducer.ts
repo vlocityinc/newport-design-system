@@ -31,6 +31,7 @@ const propertyChanged = (state, event) => {
 
 /**
  * Schedule trigger reducer function
+ *
  * @param {object} state - element / start node
  * @param {object} event - object containing type and payload eg: {type:'xyz', payload: {propertyName: '', value: '' , error: ''}}
  * @returns {object} start - new start node instance with mutations

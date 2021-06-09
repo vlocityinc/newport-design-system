@@ -13,6 +13,7 @@ import { escapeForRegExp } from 'builder_platform_interaction/commonUtils';
 
 /**
  * Helper function to return the dataType associated with a screen field
+ *
  * @param {Object} screenFieldObject Screen field object
  * @returns dataType associated with a screen field
  */
@@ -29,6 +30,8 @@ const getScreenFieldDataType = (screenFieldObject = {}) => {
  *            elements list of all the elements
  * @param {string}
  *            [searchRegex] the regular expression the item label need to match
+ * @param elements
+ * @param searchRegex
  * @returns {Object} a mapping of element type to a list of
  *          lightning-tree-grid-items
  */
@@ -133,6 +136,8 @@ const getSearchRegExp = (searchString) => {
  *            elements list of all the elements
  * @param {string}
  *            [searchString] the search string if any
+ * @param elements
+ * @param searchString
  * @returns {Array} collection of lightning-tree-grid items
  */
 export const getElementSections = (elements, searchString) => {
@@ -153,6 +158,8 @@ export const getElementSections = (elements, searchString) => {
  *            elements list of all the elements
  * @param {string}
  *            [searchString] the search string if any
+ * @param elements
+ * @param searchString
  * @returns {Array} collection of lightning-tree-grid items
  */
 export const getResourceSections = (elements, searchString) => {

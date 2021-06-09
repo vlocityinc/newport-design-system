@@ -1,6 +1,9 @@
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { SORT_ORDER } from 'builder_platform_interaction/sortEditorLib';
 
+/**
+ * @param sortOption
+ */
 export function createSortOption(sortOption?) {
     let newSortOption;
 
@@ -21,6 +24,9 @@ export function createSortOption(sortOption?) {
     return newSortOption;
 }
 
+/**
+ * @param sortOption
+ */
 export function createSortOptionMetadataObject(sortOption?) {
     if (!sortOption) {
         throw new Error('sortOption is not defined');

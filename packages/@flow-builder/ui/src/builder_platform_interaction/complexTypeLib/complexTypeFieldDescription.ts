@@ -40,6 +40,7 @@ export function getInvocableActionParamDescriptionAsComplexTypeFieldDescription(
 
 /**
  * Get the automatic output parameters of the given resource (be an LC or an Action) if any
+ *
  * @param {Object} flowResource a flow resource
  * @returns {Array} raw parameters, some information might be missing (if apiName, dataType, isCollection or subtype are needed you might want to call getInvocableActionParamDescriptionAsComplexTypeFieldDescription on the returned parameters)
  */
@@ -101,6 +102,9 @@ export function retrieveResourceComplexTypeFields(flowResource) {
     return fields;
 }
 
+/**
+ * @param flowResource
+ */
 function getExtensionComplexTypeOutputFields(flowResource) {
     const extensionName = flowResource.extensionName;
     const extension = getCachedExtension(extensionName.value || extensionName, flowResource.dynamicTypeMappings);
@@ -117,6 +121,10 @@ const isSingleAnonymousOutput = (parameter) => {
     return parameter.isSystemGeneratedOutput && parameter.maxOccurs === 1;
 };
 
+/**
+ * @param root0
+ * @param root0.flowName
+ */
 function getSubflowComplexTypeOutputFields({ flowName }) {
     const outputVariables = getActiveOrLatestFlowOutputVariables(flowName);
     const fields =
@@ -128,6 +136,12 @@ function getSubflowComplexTypeOutputFields({ flowName }) {
     return fields;
 }
 
+/**
+ * @param root0
+ * @param root0.actionName
+ * @param root0.actionType
+ * @param root0.dataTypeMappings
+ */
 function getInvocableActionComplexTypeOutputFields({ actionName, actionType, dataTypeMappings }) {
     const parameters = getParametersForInvocableAction({
         actionName,

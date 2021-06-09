@@ -14,7 +14,8 @@ const mockedReducer = jest.fn();
  * This also applies to the state of the spies (previous calls from other tests remain)
  * To prevent this, jestSetupTest.js created as a "setupTestFrameworkScriptFile"
  * We call call resetStore for you so that every test gets a clean mock store
- * @return {Object}                the mock store with helper methods to manipulate store
+ *
+ * @returns {Object}                the mock store with helper methods to manipulate store
  */
 const MockStore = jest.fn().mockImplementation(() => {
     let _actions = [];

@@ -17,8 +17,9 @@ const FREE_FORM_CANVAS = 'FREE_FORM_CANVAS';
 
 /**
  * Either creates a new flow properties or create a new copy of existing flow properties
+ *
  * @param {Object} flowProperties existing flowProperties which needs to be copied
- * @return {Object} new flow properties which is created
+ * @returns {Object} new flow properties which is created
  */
 export function createFlowPropertiesForEditor(flowProperties = {}) {
     const newFlowProperties = createFlowProperties(flowProperties);
@@ -31,6 +32,9 @@ export function createFlowPropertiesForEditor(flowProperties = {}) {
     return newFlowProperties;
 }
 
+/**
+ * @param flowProperties
+ */
 export function createFlowProperties(flowProperties = {}) {
     const name = flowProperties.fullName || flowProperties.name || '';
     const { lastModifiedDate = null, manageableState = null, versionNumber = null } = flowProperties;
@@ -101,8 +105,9 @@ export function createFlowProperties(flowProperties = {}) {
 
 /**
  * Create a new copy of flow properties in shape as expected by flow metadata.
+ *
  * @param {Object} flowProperties existing flow properties
- * @return {Object} new flow properties
+ * @returns {Object} new flow properties
  */
 export function createFlowPropertiesMetadataObject(flowProperties) {
     if (!flowProperties) {
@@ -139,8 +144,9 @@ export function createFlowPropertiesMetadataObject(flowProperties) {
 
 /**
  * Retrieve the name of the user who last modified the flow
- * @param {Object} flowProperties
- * @returns {Object|String} Either an Object with a name property or a string representing the user name or
+ *
+ * @param lastModifiedBy
+ * @returns {Object | string} Either an Object with a name property or a string representing the user name or
  * null if no lastModifiedBy
  */
 function getLastModifiedBy(lastModifiedBy) {
@@ -155,6 +161,7 @@ function getLastModifiedBy(lastModifiedBy) {
 
 /**
  * Check if flow was created via CFD, metadata api or any third party builder at some point of time.
+ *
  * @param {Array} processMetadataValues array of objects
  * @returns true if processMetadataValues have an object with name as 'OriginBuilderType'
  */
@@ -166,10 +173,14 @@ function checkIfCreatedOutsideLFB(processMetadataValues = []) {
 
 /**
  * Check if flow was created/saved in LFB.
+ *
  * @param {Array} processMetadataValues array of objects
  * @returns true if processMetadataValues have a object with name as 'BuilderType' and stringValue as 'LightningFlowBuilder'
  */
 
+/**
+ * @param processMetadataValues
+ */
 function checkIfLightningFlowBuilder(processMetadataValues = []) {
     return processMetadataValues.some((processMetadataValue) => {
         return (
@@ -182,6 +193,7 @@ function checkIfLightningFlowBuilder(processMetadataValues = []) {
 
 /**
  * Check if flow was saved with Canvas Mode 'AUTO-LAYOUT-CANVAS'
+ *
  * @param processMetadataValues array of objects
  * @returns true if processMetadataValues have a object with name as 'CanvasMode' and stringValue as 'AUTO-LAYOUT-CANVAS'
  */
@@ -197,6 +209,7 @@ function checkIfBuiltInAutoLayoutCanvas(processMetadataValues: Array<object> = [
 
 /**
  * Setter for processMatadataValue
+ *
  * @param {*} isCreatedOutsideLfb if flow was created via CFD, metadata api or any third party builder
  * @param {*} isAutoLayoutCanvas if flow was saved in Auto-Layout Canvas Mode
  */
@@ -214,9 +227,10 @@ function setProcessMetadataValue(isCreatedOutsideLfb = false, isAutoLayoutCanvas
 
 /**
  * creates a new process metadata value
- * @param {String} name name of the process metadata
- * @param {String} stringValue value of process metadata
- * @return {Object} new process metadata value
+ *
+ * @param {string} name name of the process metadata
+ * @param {string} stringValue value of process metadata
+ * @returns {Object} new process metadata value
  */
 function createProcessMetadataValue(name, stringValue) {
     return {

@@ -31,6 +31,7 @@ const subflowPropertyChanged = (state, event) => {
 
 /**
  * Subflow reducer function runs validation rules and returns back the updated variable
+ *
  * @param {object} state - element / node state
  * @param {object} event - The event to be handled
  * @returns {object} state - updated state

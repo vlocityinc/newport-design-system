@@ -136,6 +136,7 @@ const createTypeValidationRule = (/* type */) => {
  *
  * @param type - The data type
  * @param required - Requiredness
+ * @param rowIndex
  * @returns - The rules
  */
 const getExtensionParameterRules = (type: string, required: boolean, rowIndex?: number): Rules => {
@@ -212,8 +213,9 @@ const getRulesForExtensionField = (field, rules) => {
 
 /**
  * Creates a validation rule that will execute requiredness validation only if the value provided (dependentValue) is not empty
- * @param {String} dependentValue - The value that toggles requiredness validation (passing a value in this argument will trigger requiredness validation)
- * @returns {function} - The validation rule
+ *
+ * @param {string} dependentValue - The value that toggles requiredness validation (passing a value in this argument will trigger requiredness validation)
+ * @returns {Function} - The validation rule
  */
 const createConditionalRuleForTextProperty = (dependentValue) => {
     return (propertyValue) => {
@@ -232,7 +234,9 @@ const createConditionalRuleForTextProperty = (dependentValue) => {
 
 /**
  * Creates a validation rule that will always return null if the value is a reference, if it is not, the wrapped rule will be executed
+ *
  * @param rule - The rule to execute if the value is not a reference
+ * @param dataType
  * @returns - The validation rule
  */
 const createReferenceSafeRule = (rule: any, dataType?: any): Function => {
@@ -250,6 +254,7 @@ const createReferenceSafeRule = (rule: any, dataType?: any): Function => {
  *
  * @param {screenfield} field - The screen field
  * @param {object} rules - The rules
+ * @param newValueIsReference
  */
 const getRulesForInputField = (field, rules, newValueIsReference = false) => {
     const typeName = field && field.type && field.type.name;
@@ -318,6 +323,7 @@ const getRulesForInputField = (field, rules, newValueIsReference = false) => {
  * Returns validation rules for a screenfield
  *
  * @param {screenfield} field - The screen field
+ * @param newValueIsReference
  * @returns {object} rules - The rules
  */
 export const getRulesForField = (field, newValueIsReference = false) => {
@@ -360,7 +366,7 @@ const getScreenAdditionalRules = (): Rules => {
  * Create a GuidName for all the entries in fields, recursively.
  *
  * @param fields - The fields
- * @return the GuidName array for the fields
+ * @returns the GuidName array for the fields
  */
 export const fieldsToGuidNames = (fields: Field[] = []): GuidName[] => {
     let guidNameTuples: GuidName[] = [];
@@ -382,6 +388,7 @@ export const fieldsToGuidNames = (fields: Field[] = []): GuidName[] => {
 class ScreenValidation extends Validation {
     /**
      * Method to check if devname is unique locally amongst all other fields and parent screen node state.
+     *
      * @param state -  overall state of screen node
      * @param devNameToBeValidated - for uniqueness
      * @param currentFieldGuid - guid of the current field whose devname is tested for uniquness
@@ -414,6 +421,9 @@ export const getExtensionParameterValidation = (propertyName, type, required) =>
     return new Validation({ [propertyName]: rules });
 };
 
+/**
+ * @param rowIndex
+ */
 export function getDynamicTypeMappingValidation(rowIndex) {
     const rules = getDynamicTypeMappingRules(rowIndex);
 

@@ -19,7 +19,7 @@ const SELECTORS = {
 export default class LabelDescription extends LightningElement {
     labels = LABELS;
 
-    /** @track decorators **/
+    /** @track decorators */
     @track
     state = {
         label: { value: '', error: null },
@@ -30,7 +30,7 @@ export default class LabelDescription extends LightningElement {
     @track
     showErrorMessageIfBlank = LABELS.cannotBeBlank;
 
-    /** @api decorators **/
+    /** @api decorators */
     @api
     hideLabel;
     // TODO: Would prefer to use showLabel = true, but cannot due to public attributes not being able to have true as a default value.
@@ -233,7 +233,7 @@ export default class LabelDescription extends LightningElement {
         return '';
     }
 
-    /** @param {Object} label - object with {value, error} **/
+    /** @param {Object} label - object with {value, error} */
     set label(label) {
         if (label) {
             this.state.label = label;
@@ -241,7 +241,7 @@ export default class LabelDescription extends LightningElement {
         }
     }
 
-    /** @param {Object} devName - object with {value, error} **/
+    /** @param {Object} devName - object with {value, error} */
     set devName(devName) {
         if (devName) {
             this.state.devName = devName;
@@ -249,7 +249,7 @@ export default class LabelDescription extends LightningElement {
         }
     }
 
-    /** @param {Object} description - object with {value, error} **/
+    /** @param {Object} description - object with {value, error} */
     set description(description) {
         if (description) {
             this.state.description = description;
@@ -268,9 +268,11 @@ export default class LabelDescription extends LightningElement {
      * The lightning-input component does not provide an easy way to reset errors
      * We need to remove requiredness (our only constraint) and report validity
      * Then put the constraint back to its prevous state
-     * @param {String} selector of the lightning-input
-     * @param {String} error the current error of the element
-     * @param {Boolean} currentRequiredState of the lightning-input
+     *
+     * @param {string} selector of the lightning-input
+     * @param element
+     * @param {string} error the current error of the element
+     * @param {boolean} currentRequiredState of the lightning-input
      * @memberof LabelDescription
      */
     resetError(element, error, currentRequiredState) {
@@ -284,7 +286,8 @@ export default class LabelDescription extends LightningElement {
 
     /**
      * LWC hook after rendering every component we are setting all errors via setCustomValidity except initial rendering.
-     * **/
+     *
+     */
     renderedCallback() {
         if (this._shouldSetLabelError) {
             const labelInput = this.template.querySelector(SELECTORS.LABEL);
@@ -302,17 +305,22 @@ export default class LabelDescription extends LightningElement {
         // TODO setting Render Callback CustomValidity for Description: blocked by https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000002scNkIAI/view
     }
 
-    /** Fire off an event to update name and update internal state
-     * @param {String} value - the name entered by the user
-     * @param {String} prop - the prop type
+    /**
+     * Fire off an event to update name and update internal state
+     *
+     * @param {string} value - the name entered by the user
+     * @param {string} prop - the prop type
+     * @param error
      */
     updateStateAndDispatch(value, prop, error) {
         const event = new PropertyChangedEvent(prop, value, error);
         this.dispatchEvent(event);
     }
 
-    /** Fire off an event to update dev name and update internal state
-     * @param {String} newDevName - the dev name entered by the user
+    /**
+     * Fire off an event to update dev name and update internal state
+     *
+     * @param {string} newDevName - the dev name entered by the user
      */
     updateDevName(newDevName) {
         let error = null;
@@ -328,7 +336,9 @@ export default class LabelDescription extends LightningElement {
         this.dispatchEvent(event);
     }
 
-    /** Sets the CustomValidity if there is a valid error message.
+    /**
+     * Sets the CustomValidity if there is a valid error message.
+     *
      * @param {Object} element - the input component
      * @param {Object} error - the input component
      */
@@ -345,6 +355,7 @@ export default class LabelDescription extends LightningElement {
 
     /**
      * Returns class for label to display according to the layout mode (width set to 50% when horizontal)
+     *
      * @returns {string} class name for name
      */
     get computedNameClass() {
@@ -353,6 +364,7 @@ export default class LabelDescription extends LightningElement {
 
     /**
      * Returns class for devName to expand full width when label is hidden.
+     *
      * @returns {string} class name for dev name
      */
     get computedDevNameClass() {
@@ -363,6 +375,7 @@ export default class LabelDescription extends LightningElement {
 
     /**
      * Returns class for the container to display according to the layout mode (flex-direction: vertical when vertical)
+     *
      * @returns {string} class name for name
      */
     get computedNameAndDevContainerClass() {

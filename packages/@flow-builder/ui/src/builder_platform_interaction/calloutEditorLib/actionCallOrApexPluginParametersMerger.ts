@@ -7,6 +7,9 @@ import { MERGE_WARNING_TYPE } from 'builder_platform_interaction/elementFactory'
 /**
  * Get as a map. Key is the variable name, value has properties parameter,
  * paramAssigments
+ *
+ * @param actionParameters
+ * @param nodeParameters
  */
 function getAsMap(actionParameters, nodeParameters) {
     const map = {};
@@ -28,21 +31,20 @@ function getAsMap(actionParameters, nodeParameters) {
 /**
  * @typedef {Object} WithWarnings
  * @property {MERGE_WARNING_TYPE[]} warnings
- *
  * @typedef {ParameterItem & WithWarnings} ParameterItemWithWarnings
  */
 
 /**
  * @typedef {ActionOrApexPluginInputOutputParameter} action call or apex plugin input/output parameter
- * @property {String} name parameter's name
- * @property {String} label parameter's label
+ * @property {string} name parameter's name
+ * @property {string} label parameter's label
  * @property {boolean} isInput true if parameter is input
  * @property {boolean} isOutput true if parameter is output
  * @property {boolean} isRequired true if parameter is required
- * @property {String} objectType the api name of sobject
- * @property {Number} maxOccurs the maximum occurances
- * @property {String} dataType the parameter's data type (this isn't a flow data type, but a SOAP type). See https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/field_types.htm and https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/primitive_data_types.htm
- * @property {String} description the parameter's description
+ * @property {string} objectType the api name of sobject
+ * @property {number} maxOccurs the maximum occurances
+ * @property {string} dataType the parameter's data type (this isn't a flow data type, but a SOAP type). See https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/field_types.htm and https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/primitive_data_types.htm
+ * @property {string} description the parameter's description
  */
 
 /**
@@ -54,7 +56,7 @@ function getAsMap(actionParameters, nodeParameters) {
 /**
  * @param {ActionOrApexPluginInputOutputParameter[]} inputOrOutputParameters - all input parameters or all output parameters
  * @param {CalloutInputParameter[]|CalloutOutputParameter[]} nodeParameters - node's input parameters or node's output parameters
- * @return {ParameterItemWithWarnings[]} an array of ParameterItemWithWarnings
+ * @returns {ParameterItemWithWarnings[]} an array of ParameterItemWithWarnings
  */
 function mergeParameters(inputOrOutputParameters, nodeParameters) {
     const finalArray = [];
@@ -95,6 +97,10 @@ function mergeParameters(inputOrOutputParameters, nodeParameters) {
     return finalArray;
 }
 
+/**
+ * @param parameter
+ * @param paramAssigments
+ */
 function getMergeWarnings(parameter, paramAssigments) {
     const warnings = paramAssigments.length === 1 ? [] : [MERGE_WARNING_TYPE.DUPLICATE];
     if (!parameter) {
@@ -108,7 +114,7 @@ function getMergeWarnings(parameter, paramAssigments) {
  * @param {ActionOrApexPluginInputOutputParameter[]} allParameters all the action call/apex plugin input/output parameters
  * @param {CalloutInputParameter[]} nodeInputParameters the current node's input parameters, hydrated
  * @param {CalloutOutputParameter[]} nodeOutputParameters the current node's output parameters, hydrated
- * @return {InputOutputParameterItems} the input and output parameter items
+ * @returns {InputOutputParameterItems} the input and output parameter items
  */
 export function mergeInputOutputParameters(
     allParameters,

@@ -14,6 +14,7 @@ import { getDrawingLibInstance } from 'builder_platform_interaction/drawingLib';
 
 /**
  * This function looks up element in the store given the guid.
+ *
  * @param {Object} storeInstance instance of the store.
  * @param {Object} guid element guid.
  * @returns element details
@@ -34,6 +35,7 @@ const getElement = (storeInstance, guid) => {
 
 /**
  * This function checks if a given array is empty or not.
+ *
  * @param {Array} array to be checked.
  * @returns true if an array is empty.
  */
@@ -46,8 +48,9 @@ export const isEmptyArray = (array) => {
 
 /**
  * This function returns all the nodes in the given store state
+ *
  * @param {Object} currentStoreState is client side model
- * @return all the nodes in the client side model. If model is not passed, then return an empty array
+ * @returns all the nodes in the client side model. If model is not passed, then return an empty array
  */
 export const getNodesFromStore = (currentStoreState) => {
     if (!currentStoreState) {
@@ -58,8 +61,9 @@ export const getNodesFromStore = (currentStoreState) => {
 
 /**
  * This function returns all the connection in the given store state
+ *
  * @param {Object} currentStoreState is client side model
- * @return all the connectors in the client side model. If model is not passed, then return an empty array
+ * @returns all the connectors in the client side model. If model is not passed, then return an empty array
  */
 export const getConnectorsFromStore = (currentStoreState) => {
     if (!currentStoreState) {
@@ -70,9 +74,10 @@ export const getConnectorsFromStore = (currentStoreState) => {
 
 /**
  * This function update store state based on elements which are selected
+ *
  * @param {Object} storeInstance instance of the client side model
  * @param {Object} payload contains element which get selected by the user
- * @param {Boolean} isMultiSelection whether operation was multiselection or not
+ * @param {boolean} isMultiSelection whether operation was multiselection or not
  */
 export const updateStoreOnSelection = (storeInstance, payload, isMultiSelection = false) => {
     if (!storeInstance) {
@@ -90,8 +95,9 @@ export const updateStoreOnSelection = (storeInstance, payload, isMultiSelection 
 
 /**
  * This function checks whether element has only one connection left.
+ *
  * @param {Object} storeInstance instance of the client side model
- * @param {String} sourceGuid Guid of the source element
+ * @param {string} sourceGuid Guid of the source element
  * @returns true if element has only one connection available
  */
 export const hasOneAvailableConnection = (storeInstance, sourceGuid) => {
@@ -101,8 +107,9 @@ export const hasOneAvailableConnection = (storeInstance, sourceGuid) => {
 
 /**
  * This function checks whether connector selection modal should be invoked or not.
+ *
  * @param {Object} storeInstance instance of the client side model
- * @param {String} sourceGuid Guid of the source element
+ * @param {string} sourceGuid Guid of the source element
  * @returns true if element has more than one available connections and element type is decision, loop and wait.
  */
 export const shouldOpenConnectorSelectionModal = (storeInstance, sourceGuid) => {
@@ -124,9 +131,9 @@ export const shouldOpenConnectorSelectionModal = (storeInstance, sourceGuid) => 
  * Dispatches add connection action with the new connector
  *
  * @param {Object} storeInstance instance of the client side model
- * @param {String} sourceGuid - Contains the source guid
- * @param {String} targetGuid - Contains the target guid
- * @return {Function} - Creates the connector object based on the selected or remaining availableConnection value
+ * @param {string} sourceGuid - Contains the source guid
+ * @param {string} targetGuid - Contains the target guid
+ * @returns {Function} - Creates the connector object based on the selected or remaining availableConnection value
  */
 export const addConnection = (storeInstance, sourceGuid, targetGuid) => (valueFromCombobox) => {
     if (!storeInstance) {
@@ -139,10 +146,11 @@ export const addConnection = (storeInstance, sourceGuid, targetGuid) => (valueFr
 
 /**
  * This function gets the detail of source and target element given their guids
+ *
  * @param {Object} storeInstance instance of the client side model
- * @param {String} sourceGuid Guid of the source element
- * @param {String} targetGuid Guid of the target element
- * @return {object} detail of source and target elements.
+ * @param {string} sourceGuid Guid of the source element
+ * @param {string} targetGuid Guid of the target element
+ * @returns {object} detail of source and target elements.
  */
 export const getSourceAndTargetElement = (storeInstance, sourceGuid, targetGuid) => {
     const sourceElement = getElement(storeInstance, sourceGuid);
@@ -155,9 +163,10 @@ export const getSourceAndTargetElement = (storeInstance, sourceGuid, targetGuid)
 
 /**
  * This function creates a connection when only one connection is available for given source element
+ *
  * @param {Object} storeInstance instance of the client side model
- * @param {String} sourceGuid Guid of the source element
- * @param {String} targetGuid Guid of the target element
+ * @param {string} sourceGuid Guid of the source element
+ * @param {string} targetGuid Guid of the target element
  */
 export const createConnectorWhenOneConnectionAvailable = (storeInstance, sourceGuid, targetGuid) => {
     const { availableConnections } = getElement(storeInstance, sourceGuid);
@@ -170,10 +179,11 @@ export const createConnectorWhenOneConnectionAvailable = (storeInstance, sourceG
 
 /**
  * This function invokes connector selection modal for given element
+ *
  * @param {Object} storeInstance instance of the client side model
- * @param {String} sourceGuid Guid of the source element
- * @param {String} targetGuid Guid of the target element
- * @param {String} mode Mode for invoking property editor
+ * @param {string} sourceGuid Guid of the source element
+ * @param {string} targetGuid Guid of the target element
+ * @param {string} mode Mode for invoking property editor
  */
 export const openConnectorSelectionModal = (storeInstance, sourceGuid, targetGuid, mode) => {
     if (!storeInstance) {
@@ -217,6 +227,7 @@ export const openConnectorSelectionModal = (storeInstance, sourceGuid, targetGui
 /**
  * Calculates the deleted canvas element guids by comparing existingCanvasElements and updatedCanvasElements.
  * Sends them drawing lib Instance for calling cleanup methods on the ids.
+ *
  * @param {Object[]} existingCanvasElements existing array of node objects from canvas container internal state
  * @param {Object[]} updatedCanvasElements updated array of node objects from store
  * @param {Object} canvasTemplate template of the canvas
@@ -254,6 +265,7 @@ export const calculateDeletedNodeIdsAndCleanUpDrawingLibInstance = (
 /**
  * Calculates the deleted connector guids by comparing existingConnectors and updatedConnectors.
  * Sends them drawing lib Instance for calling cleanup methods on the ids and delete them from the JsPlumbConnectorMap.
+ *
  * @param {Object[]} existingConnectors existing array of connector objects from canvas container internal state
  * @param {Object[]} updatedConnectors updated array of connector objects from store
  * @param {Object} canvasTemplate template of the canvas

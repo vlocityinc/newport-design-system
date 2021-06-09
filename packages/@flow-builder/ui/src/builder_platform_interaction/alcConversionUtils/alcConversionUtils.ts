@@ -17,7 +17,8 @@ const CONVERT_TO_AUTO_LAYOUT_FAILED = 'Convert to auto layout canvas failed';
  * Generates end connectors for the available connections of each canvas element
  *
  * @param storeState - The FFC UI Model
- * @return The generated end connectorss
+ * @param elements
+ * @returns The generated end connectorss
  */
 function generateEndConnectors(elements: UI.Elements): UI.Connector[] {
     const endConnectors: UI.Connector[] = [];
@@ -92,7 +93,8 @@ const guidCompare = (obj1, obj2) => (obj1.guid >= obj2.guid ? 1 : -1);
  * Normalizes store elements
  *
  * @param elements - The elements
- * @return the normalized elements
+ * @param isAutoLayout
+ * @returns the normalized elements
  */
 function normalizeElements(elements: Record<string, UI.Element>, isAutoLayout = false) {
     const props = isAutoLayout ? autoLayoutElementProps : elementProps;
@@ -106,7 +108,7 @@ function normalizeElements(elements: Record<string, UI.Element>, isAutoLayout = 
  * Normalizes store connectors
  *
  * @param connectors - The connectors
- * @return the normalized connectors
+ * @returns the normalized connectors
  */
 function normalizeConnectors(connectors) {
     return deepCopy(connectors)
@@ -114,6 +116,9 @@ function normalizeConnectors(connectors) {
         .sort(guidCompare);
 }
 
+/**
+ * @param canvasElements
+ */
 function sortCanvasElements(canvasElements) {
     [...canvasElements].sort(guidCompare);
 }
@@ -124,7 +129,7 @@ function sortCanvasElements(canvasElements) {
  *
  * @param objA - First object
  * @param objB - Second object
- * @return true if the objects are equal
+ * @returns true if the objects are equal
  */
 export function deepEquals(objA, objB) {
     // if same primitive value or same reference value
@@ -153,6 +158,9 @@ export function deepEquals(objA, objB) {
     return setB.size === 0;
 }
 
+/**
+ * @param state
+ */
 function updateConnectorGuids(state: UI.StoreState) {
     state.connectors.forEach((conn: any) => {
         const { source, target, type } = conn;
@@ -168,7 +176,8 @@ function updateConnectorGuids(state: UI.StoreState) {
  *
  * @param prevState - The previous state
  * @param nextState - The next state
- * @return true if the normalized state is the same
+ * @param isAutoLayout
+ * @returns true if the normalized state is the same
  */
 const compareState = (prevState: UI.StoreState, nextState: UI.StoreState, isAutoLayout = false) => {
     return deepEquals(
@@ -179,8 +188,10 @@ const compareState = (prevState: UI.StoreState, nextState: UI.StoreState, isAuto
 
 /**
  * Normalizes the essential state of the store by picking and sorting selected properties.
+ *
  * @param state
- * @return the normalized state
+ * @param isAutoLayout
+ * @returns the normalized state
  */
 export function normalizeState(state: UI.StoreState, isAutoLayout = false): any {
     const { elements, connectors, canvasElements } = state;
@@ -199,8 +210,7 @@ export function normalizeState(state: UI.StoreState, isAutoLayout = false): any 
  *
  * @param storeState - The store state for the flow
  * @param endConnectors - Optional array where the removed end connectors will be added to.
- *
- * @return The flow without any end elements or connectors
+ * @returns The flow without any end elements or connectors
  */
 export function removeEndElementsAndConnectorsTransform(
     storeState: UI.StoreState,
@@ -272,8 +282,7 @@ export function removeEndElementsAndConnectorsTransform(
  *
  * @param storeState - The Free Form UI Model
  * @param endConnectors - The end connectors information to use. If missing these will be generated.
- *
- * @return The Free Form UIModel with end elements and connnectors
+ * @returns The Free Form UIModel with end elements and connnectors
  */
 export function addEndElementsAndConnectorsTransform(
     storeState: UI.StoreState,
@@ -322,9 +331,10 @@ export function addEndElementsAndConnectorsTransform(
  * the resulting state with the original state
  *
  * @param state - A Free Form Canvas UI flow state
+ * @param storeState
  * @param flowDefId - Flow definition id
  * @param gackIfFail - If we should gack if the conversion fails
- * @return true if can be convertd to Auto Layout Canvas
+ * @returns true if can be convertd to Auto Layout Canvas
  */
 export function canConvertToAutoLayoutCanvas(storeState: UI.StoreState, flowDefId: string, gackIfFail = true) {
     let canConvert = false;
@@ -362,7 +372,7 @@ export function canConvertToAutoLayoutCanvas(storeState: UI.StoreState, flowDefI
  *
  * @param storeState - An Auto Canvas UI flow state
  * @param flowDefId - Flow definition id
- * @return true if can be converted to Free From
+ * @returns true if can be converted to Free From
  */
 export function canConvertToFreeFormCanvas(storeState: UI.StoreState, flowDefId: string) {
     let canConvert = false;

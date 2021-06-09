@@ -7,7 +7,6 @@ import { MERGE_WARNING_TYPE } from 'builder_platform_interaction/elementFactory'
 /**
  * @typedef {Object} WithWarnings
  * @property {MERGE_WARNING_TYPE[]} warnings
- *
  * @typedef {ParameterItem & WithWarnings} ParameterItemWithWarnings
  */
 
@@ -31,7 +30,7 @@ import { MERGE_WARNING_TYPE } from 'builder_platform_interaction/elementFactory'
  * @param {InputParameter[]} nodeInputAssignments the input parameters, possibly hydrated
  * @param {OutputParameter[]} nodeOutputAssignments the output parameters, possibly hydrated
  * @param {FlowInputOutputVariablesVersion[]} inputOutputVariablesVersions input/output variables for active and/or latest version
- * @return {InputOutputParameterItems} the input and output parameter items
+ * @returns {InputOutputParameterItems} the input and output parameter items
  */
 export function mergeSubflowAssignmentsWithInputOutputVariables(
     nodeInputAssignments,
@@ -77,6 +76,10 @@ export function mergeSubflowAssignmentsWithInputOutputVariables(
 
 /**
  * Get the variables matching the given filters
+ *
+ * @param inputOutputVariablesVersions
+ * @param versionFilter
+ * @param variableFilter
  */
 function getVariables(inputOutputVariablesVersions, versionFilter, variableFilter) {
     const version = inputOutputVariablesVersions.find(versionFilter);
@@ -89,6 +92,10 @@ function getVariables(inputOutputVariablesVersions, versionFilter, variableFilte
 /**
  * Get as a map. Key is the variable name, value has properties activeVariable,
  * latestVariable and nodeAssignments
+ *
+ * @param activeVariables
+ * @param latestVariables
+ * @param nodeAssignments
  */
 function getAsMap(activeVariables, latestVariables, nodeAssignments) {
     const map = {};
@@ -116,6 +123,10 @@ function getAsMap(activeVariables, latestVariables, nodeAssignments) {
 
 /**
  * Merge either input or output subflow assignments with input or output subflow active and latest variables
+ *
+ * @param nodeAssignments
+ * @param activeVariables
+ * @param latestVariables
  */
 function mergeSubflowAssignmentsWithVariables(nodeAssignments, activeVariables, latestVariables) {
     const flowHasActiveVersion = activeVariables !== undefined;
@@ -153,6 +164,12 @@ function mergeSubflowAssignmentsWithVariables(nodeAssignments, activeVariables, 
     return parameterItems;
 }
 
+/**
+ * @param name
+ * @param nodeAssignment
+ * @param activeVariable
+ * @param latestVariable
+ */
 function merge(name, nodeAssignment, activeVariable, latestVariable) {
     const variable = activeVariable || latestVariable;
     let parameterItem = { name, isRequired: false };
@@ -198,6 +215,12 @@ function merge(name, nodeAssignment, activeVariable, latestVariable) {
     return parameterItem;
 }
 
+/**
+ * @param nodeAssignment
+ * @param flowHasActiveVersion
+ * @param activeVariable
+ * @param latestVariable
+ */
 function getMergeWarning(nodeAssignment, flowHasActiveVersion, activeVariable, latestVariable) {
     if (nodeAssignment && !activeVariable && !latestVariable) {
         return MERGE_WARNING_TYPE.NOT_AVAILABLE;

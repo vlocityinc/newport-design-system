@@ -14,6 +14,9 @@ import { createConnectorObjects } from './connector';
 const elementType = ELEMENT_TYPE.ASSIGNMENT;
 const maxConnections = 1;
 
+/**
+ * @param assignment
+ */
 export function createAssignment(assignment = {}) {
     const newAssignment = baseCanvasElement(assignment);
     let { assignmentItems } = assignment;
@@ -36,6 +39,16 @@ export function createAssignment(assignment = {}) {
  * Function to create the pasted Assignment element
  *
  * @param {Object} dataForPasting - Data required to create the pasted element
+ * @param dataForPasting.canvasElementToPaste
+ * @param dataForPasting.newGuid
+ * @param dataForPasting.newName
+ * @param dataForPasting.canvasElementGuidMap
+ * @param dataForPasting.topCutOrCopiedGuid
+ * @param dataForPasting.bottomCutOrCopiedGuid
+ * @param dataForPasting.prev
+ * @param dataForPasting.next
+ * @param dataForPasting.parent
+ * @param dataForPasting.childIndex
  */
 export function createPastedAssignment({
     canvasElementToPaste,
@@ -67,6 +80,11 @@ export function createPastedAssignment({
     };
 }
 
+/**
+ * @param assignment
+ * @param newGuid
+ * @param newName
+ */
 export function createDuplicateAssignment(assignment = {}, newGuid, newName) {
     const newAssignment = createAssignment(assignment);
     const duplicateAssignment = duplicateCanvasElement(newAssignment, newGuid, newName);
@@ -74,6 +92,9 @@ export function createDuplicateAssignment(assignment = {}, newGuid, newName) {
     return duplicateAssignment;
 }
 
+/**
+ * @param assignment
+ */
 export function createAssignmentWithConnectors(assignment = {}) {
     const newAssignment = createAssignment(assignment);
     const connectors = createConnectorObjects(assignment, newAssignment.guid);
@@ -84,6 +105,9 @@ export function createAssignmentWithConnectors(assignment = {}) {
     return baseCanvasElementsArrayToMap([assignmentObject], connectors);
 }
 
+/**
+ * @param assignmentItem
+ */
 export function createAssignmentItem(assignmentItem = {}) {
     let newAssignmentItem;
 
@@ -100,6 +124,10 @@ export function createAssignmentItem(assignmentItem = {}) {
     return newAssignmentItem;
 }
 
+/**
+ * @param assignment
+ * @param config
+ */
 export function createAssignmentMetadataObject(assignment, config = {}) {
     if (!assignment) {
         throw new Error('assignment is not defined');
@@ -119,6 +147,9 @@ export function createAssignmentMetadataObject(assignment, config = {}) {
     });
 }
 
+/**
+ * @param assignmentItem
+ */
 export function createAssignmentItemMetadataObject(assignmentItem) {
     if (!assignmentItem) {
         throw new Error('assignmentItem is not defined');

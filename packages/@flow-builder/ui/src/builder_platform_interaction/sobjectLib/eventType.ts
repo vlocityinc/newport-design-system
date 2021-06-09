@@ -6,6 +6,7 @@ export const RUNTIME = 'Runtime';
 
 /**
  * Holds all the event types fetched from the server.
+ *
  * @type {Array}
  */
 const eventTypes = { RUNTIME: [], MANAGED_SETUP: [] };
@@ -17,6 +18,7 @@ const EVENT_FIELD_TYPE = {
 
 /**
  * Cache to hold the event type input/output fields to avoid call to the server.
+ *
  * @example
  * [
  *     "PlatformEvent1__e" : {
@@ -38,18 +40,20 @@ const eventTypeParameters = {};
 
 /**
  * An event type parameter
+ *
  * @typedef {Object} eventTypeParameter
- * @property {String} dataType          data type of the parameter. eg: 'reference'
- * @property {Boolean} isRequired       whether it is a required or not
- * @property {String} label             parameter label
- * @property {String} qualifiedApiName  parameter api name
+ * @property {string} dataType          data type of the parameter. eg: 'reference'
+ * @property {boolean} isRequired       whether it is a required or not
+ * @property {string} label             parameter label
+ * @property {string} qualifiedApiName  parameter api name
  */
 
 /**
  * Callback once the fields for an entity type have been fetched
+ *
  * @param {eventTypeParameter[]} eventTypeParametersData The fields and their properties, in stringified format
- * @param {String} eventTypeApiName The api name for the event type
- * @param {String} paramType The type of param. Either input or output
+ * @param {string} eventTypeApiName The api name for the event type
+ * @param {string} paramType The type of param. Either input or output
  * @param {Function} callback The callback
  */
 const getParametersForEventTypeCallback = (eventTypeParametersData = [], eventTypeApiName, paramType, callback) => {
@@ -90,8 +94,9 @@ const getParametersForEventTypeCallback = (eventTypeParametersData = [], eventTy
 /**
  * Gets the parameters for a specific event type, then calls the callback
  * Only goes to the server if the parameters for that event type are not cached
- * @param {String} eventTypeApiName Event Type Api Name
- * @param {String} paramType Parameter type to fetch. Either input or output.
+ *
+ * @param {string} eventTypeApiName Event Type Api Name
+ * @param {string} paramType Parameter type to fetch. Either input or output.
  * @param {Function} callback function to call once the server call is complete
  */
 function getParametersForEventType(eventTypeApiName, paramType, callback) {
@@ -119,10 +124,11 @@ function getParametersForEventType(eventTypeApiName, paramType, callback) {
 /**
  * Check if the event type parameters exists in the cache, if yes call the callback
  * Only goes to the server if the parameters for that event type are not cached
- * @param {String} eventTypeApiName Event Type Api Name
- * @param {String} paramType Parameter type to fetch. Either input or output.
+ *
+ * @param {string} eventTypeApiName Event Type Api Name
+ * @param {string} paramType Parameter type to fetch. Either input or output.
  * @param {Function} callback function to call once the server call is complete
- * @returns {Boolean} returns true if event type in cache, false otherwise
+ * @returns {boolean} returns true if event type in cache, false otherwise
  */
 function isEventTypeParamsInCache(eventTypeApiName, paramType) {
     const paramsForEventType = eventTypeParameters[eventTypeApiName];
@@ -132,7 +138,8 @@ function isEventTypeParamsInCache(eventTypeApiName, paramType) {
 /**
  * Gets the input parameters for a specific event type, then calls the callback
  * Only goes to the server if the input fields for that event type are not cached
- * @param {String} eventTypeApiName Event Type Api Name
+ *
+ * @param {string} eventTypeApiName Event Type Api Name
  * @param {Function} callback function to call once the server call is complete
  */
 export const getInputParametersForEventType = (eventTypeApiName, callback) => {
@@ -142,7 +149,8 @@ export const getInputParametersForEventType = (eventTypeApiName, callback) => {
 /**
  * Gets the output parameters for a specific event type, then calls the callback
  * Only goes to the server if the output fields for that event type are not cached
- * @param {String} eventTypeApiName Event Type Api Name
+ *
+ * @param {string} eventTypeApiName Event Type Api Name
  * @param {Function} callback function to call once the server call is complete
  */
 export const getOutputParametersForEventType = (eventTypeApiName, callback) => {
@@ -151,7 +159,9 @@ export const getOutputParametersForEventType = (eventTypeApiName, callback) => {
 
 /**
  * Set all the event types. This is called at the very beginning of the flow.
+ *
  * @param eventTypesData Array of all event types.
+ * @param type
  */
 export const setEventTypes = (eventTypesData, type) => {
     if (!Array.isArray(eventTypesData)) {
@@ -162,6 +172,8 @@ export const setEventTypes = (eventTypesData, type) => {
 
 /**
  * Returns all the event types except the Alarm events.
+ *
+ * @param type
  * @returns {Array} All Event types except Alarm events.
  */
 export const getEventTypes = (type) => {

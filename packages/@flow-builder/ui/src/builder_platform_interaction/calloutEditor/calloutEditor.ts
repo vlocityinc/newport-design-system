@@ -109,6 +109,7 @@ export default class CalloutEditor extends LightningElement {
     /**
      * Calls validate method on the container component that contains the inner property editor
      * This method is called on OK by the property editor footer component for validation
+     *
      * @returns {Array} the array of errors from validation call
      */
     @api

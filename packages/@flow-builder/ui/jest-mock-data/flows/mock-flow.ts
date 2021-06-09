@@ -2,6 +2,9 @@ import { forEachMetadataFlowElement } from 'builder_platform_interaction/flowMet
 
 /**
  * Get element with given name in the flow
+ *
+ * @param flow
+ * @param name
  */
 export const getMetadataFlowElementByName = (flow, name: string) => {
     let result;

@@ -41,6 +41,10 @@ const maxOccursToIsCollection = (maxOccurs) => {
     return maxOccurs > 1 ? true : false;
 };
 
+/**
+ * @param actionCall
+ * @param elementType
+ */
 export function createActionCall(actionCall = {}, elementType = ELEMENT_TYPE.ACTION_CALL) {
     const newActionCall = baseCanvasElement(actionCall);
     const { actionType = '', actionName = '', flowTransactionModel } = actionCall;
@@ -101,6 +105,19 @@ export function createActionCall(actionCall = {}, elementType = ELEMENT_TYPE.ACT
     return actionCallObject;
 }
 
+/**
+ * @param root0
+ * @param root0.canvasElementToPaste
+ * @param root0.newGuid
+ * @param root0.newName
+ * @param root0.canvasElementGuidMap
+ * @param root0.topCutOrCopiedGuid
+ * @param root0.bottomCutOrCopiedGuid
+ * @param root0.prev
+ * @param root0.next
+ * @param root0.parent
+ * @param root0.childIndex
+ */
 export function createPastedActionCall({
     canvasElementToPaste,
     newGuid,
@@ -131,6 +148,11 @@ export function createPastedActionCall({
     };
 }
 
+/**
+ * @param actionCall
+ * @param newGuid
+ * @param newName
+ */
 export function createDuplicateActionCall(actionCall, newGuid, newName) {
     const newActionCall = createActionCall(actionCall);
     Object.assign(newActionCall, {
@@ -141,6 +163,10 @@ export function createDuplicateActionCall(actionCall, newGuid, newName) {
     return duplicateActionCall;
 }
 
+/**
+ * @param actionCall
+ * @param elementType
+ */
 export function createActionCallWithConnectors(actionCall, elementType) {
     const newActionCall = createActionCall(actionCall, elementType);
 
@@ -157,6 +183,10 @@ export function createActionCallWithConnectors(actionCall, elementType) {
     return baseCanvasElementsArrayToMap([actionCallObject], connectors);
 }
 
+/**
+ * @param actionCall
+ * @param config
+ */
 export function createActionCallMetadataObject(actionCall, config) {
     if (!actionCall) {
         throw new Error('actionCall is not defined');
@@ -198,8 +228,9 @@ export function createActionCallMetadataObject(actionCall, config) {
 /**
  * This function is called by flowToUiTranslator for convert action call metadata into correct shape and element type.
  * It used action type property of action call to identify element type
+ *
  * @param {Object} actionCall action call metadata object
- * @return {Object} element in shape expected by store
+ * @returns {Object} element in shape expected by store
  */
 export function createActionCallForStore(actionCall) {
     const actionType = actionCall.actionType;

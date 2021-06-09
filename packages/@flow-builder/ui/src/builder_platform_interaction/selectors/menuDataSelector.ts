@@ -76,6 +76,7 @@ const deletableFilter = (element) => {
  * - A apex class variable in the apex defined class
  * - An automatic variables
  * - An action call/subflow outputs (from next release)
+ *
  * @param element element
  */
 const sortableFilter = (element) => {
@@ -207,6 +208,7 @@ const filterByRetrieveOptions = (elements: UI.StringKeyedMap<any>, retrieveOptio
 
 /**
  * Filter the sobject or sobject collection variables by entity name.
+ *
  * @param {Object[]} elements elements from store
  * @param {RetrieveOptions} retrieveOptions way to retrieve the sObject or sObject collection variables
  * @returns {Object[]}  list of sobject/sobject collection variables
@@ -225,6 +227,7 @@ export const getSObjectOrSObjectCollectionByEntityElements = (
 
 /**
  * Returns elements that match one of the following: SObject, SObject collection, output contains SObject, apex variable which has SObject field
+ *
  * @param {Object[]} elements elements we want to filter
  * @param {RetrieveOptions} retrieveOptions options such as whether we want only deletable/queryable etc... SObject
  * @returns {Object[]} elements that match one of the following: SObject, SObject collection, output contains SObject, apex variable which has SObject field
@@ -243,8 +246,11 @@ export const getCanContainSObjectElements = (elements: UI.StringKeyedMap<any>, r
 
 /**
  * Checks if a single element is or can contain Sobject element
+ *
  * @param {Object} an element
  * @param {Object} a set of additional requirements on the SObject (e.g. isCollection, createable/queryable/deleteable/queryable, ...)
+ * @param element
+ * @param retrieveOptions
  */
 const canElementContainSObject = (element, retrieveOptions?: RetrieveOptions) => {
     const filterOnCanContainSObjectElement = getCanContainSObjectElements({ element }, retrieveOptions);
@@ -273,8 +279,11 @@ const getCanContainElements = (elements: UI.StringKeyedMap<any>, retrieveOptions
 
 /**
  * Checks if a single element is or can contain an element corresponding to the retrieve options
+ *
  * @param {Object} an element
  * @param {Object} a requirements on the element (e.g. isCollection, dataType, createable/queryable/deleteable/queryable, ...)
+ * @param element
+ * @param retrieveOptions
  */
 export const canElementContain = (element, retrieveOptions: RetrieveOptions) => {
     if (retrieveOptions && (retrieveOptions.dataType === FLOW_DATA_TYPE.SOBJECT.value || retrieveOptions.entityName)) {
@@ -286,6 +295,7 @@ export const canElementContain = (element, retrieveOptions: RetrieveOptions) => 
 
 /**
  * Selects: SObject, SObject collection, elements which outputs contain SObject, apex variable with SObject field
+ *
  * @param {RetrieveOptions} retrieveOptions options such as whether we want only deletable/queryable etc... SObject
  */
 const isOrCanContainsObjectOrSObjectCollectionSelector = (retrieveOptions?: RetrieveOptions) => {
@@ -294,6 +304,7 @@ const isOrCanContainsObjectOrSObjectCollectionSelector = (retrieveOptions?: Retr
 
 /**
  * Selects: Elements, Elements collection, elements which outputs contain elements, apex variable with element field that corresponds to the options
+ *
  * @param {RetrieveOptions} retrieveOptions options such as whether we want only deletable/queryable etc... elements, elements of a given data type etc...
  */
 export const isOrCanContainSelector = (retrieveOptions: RetrieveOptions) => {
@@ -379,6 +390,10 @@ const getSObjectOrContainsSObjectParameters = (parameters: UI.StringKeyedMap<any
         : [];
 };
 
+/**
+ * @param flowResource
+ * @param retrieveOptions
+ */
 function isFlowResourceWithSObjectField(flowResource, retrieveOptions = {}) {
     const automaticOutputParametersOrApexClassProperties =
         flowResource.dataType === FLOW_DATA_TYPE.APEX.value

@@ -164,6 +164,7 @@ export default class SortOptionItem extends LightningElement {
 
     /**
      * handle field changed
+     *
      * @param event the comboboxstatechanged event
      */
     handleFieldChanged(event: CustomEvent) {
@@ -174,6 +175,7 @@ export default class SortOptionItem extends LightningElement {
 
     /**
      * handle sort order changed
+     *
      * @param event the combobox changed event
      */
     handleSortOrderChanged(event: CustomEvent) {
@@ -183,6 +185,7 @@ export default class SortOptionItem extends LightningElement {
 
     /**
      * handle allow null values on top checkbox
+     *
      * @param event the checkbox event
      */
     handleNullsFirstPropertyChange(event: CustomEvent) {

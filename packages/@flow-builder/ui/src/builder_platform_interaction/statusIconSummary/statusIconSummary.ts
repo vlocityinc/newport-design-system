@@ -44,6 +44,7 @@ export default class StatusIconSummary extends LightningElement {
     /**
      * TODO: W-5109914 (Make this component support various messages/different body types in status icon)
      * Note: for warnings we might need to do a bit of refactoring, by either passing in the message or replacing the whole body/tmpl
+     *
      * @returns {string} message body with the number of errors, this replaces the list of errors in the body
      */
     get messageBody() {

@@ -15,6 +15,7 @@ const rollbackPropertyChanged = (state, { propertyName, value, error }) => {
 
 /**
  * Rollback reducer function runs validation rules and returns back the updated element
+ *
  * @param state - rollback node
  * @param event - object containing type and payload eg: {type:'xyz', payload: {propertyName: '', value: '' , error: ''}}
  * @returns  rollback - updated rollback

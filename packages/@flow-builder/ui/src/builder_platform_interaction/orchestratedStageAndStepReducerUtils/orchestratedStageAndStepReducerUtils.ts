@@ -63,6 +63,7 @@ export const mergeParameters = <T extends OrchestratedStage | StageStep>(
  *
  * @param state the OrchestratedStage or StageStep
  * @param detail the GUID of the row item that is being unset
+ * @param param
  */
 export const updateParameterItem = <T extends OrchestratedStage | StageStep>(state: T, param): T => {
     const property: string | undefined = findInputParameterProperty(state, param.rowIndex);
@@ -92,6 +93,7 @@ export const removeUnsetParameters = <T extends OrchestratedStage | StageStep>(s
  * (via unchecking "include").  Operates on action, enbtry and exit input parameters
  *
  * This method should be called before any state updates which are written to the store.
+ *
  * @param state
  */
 export const removeAllUnsetParameters = <T extends OrchestratedStage | StageStep>(state: T): T => {

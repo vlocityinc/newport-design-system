@@ -34,6 +34,7 @@ class DecisionValidation extends Validation {
 
     /**
      * Method to check if devname is unique locally amongst all other outcomes and parent decision.
+     *
      * @param {Object} state - overall state of decision node
      * @param {string} devNameToBeValidated - for uniqueness
      * @param {string} currentOutcomeGuid - guid of the current outcome whose devname is tested for uniquness

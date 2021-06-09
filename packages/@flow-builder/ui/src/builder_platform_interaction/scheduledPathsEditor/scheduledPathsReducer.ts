@@ -54,6 +54,7 @@ const scheduledPathPropertyChanged = (state, event) => {
 
 /**
  * TiimeTrigger reducer function runs validation rules and returns back the updated variable
+ *
  * @param state - element / node state
  * @param event - object containing type and payload eg: {guid:"xyz", detail: {propertyName: '', value: '' , error: ''}}
  * @returns ScheduledPath - updated state

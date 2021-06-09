@@ -13,8 +13,7 @@ export const getRunInModes = () => {
 /**
  * Sets the run in modes. This should be done during app initialization.
  *
- * @param {Object}
- *            data the data returned by the service
+ * @param {Object} data the data returned by the service
  */
 export const setRunInModes = (data) => {
     if (Array.isArray(data)) {

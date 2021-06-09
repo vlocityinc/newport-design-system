@@ -32,6 +32,11 @@ import { SYSTEM_VARIABLE_RECORD_PREFIX } from 'builder_platform_interaction/syst
 const elementType = ELEMENT_TYPE.RECORD_UPDATE;
 const maxConnections = 2;
 
+/**
+ * @param recordUpdate
+ * @param triggerType
+ * @param startObject
+ */
 export function createRecordUpdate(recordUpdate = {}, triggerType = getTriggerType(), startObject = getStartObject()) {
     const newRecordUpdate = baseCanvasElement(recordUpdate);
     const { inputReference = '', inputReferenceIndex = generateGuid(), objectIndex = generateGuid() } = recordUpdate;
@@ -115,6 +120,13 @@ export function createRecordUpdate(recordUpdate = {}, triggerType = getTriggerTy
 
 /**
  * Function decides what option we need to set for RECORD_UPDATE_WAY_TO_FIND_RECORDS.
+ *
+ * @param wayToFindRecords
+ * @param object
+ * @param inputReference
+ * @param triggerType
+ * @param startObject
+ * @param inputAssignments
  */
 function setWayToFindRecords(wayToFindRecords, object, inputReference, triggerType, startObject, inputAssignments) {
     if (object !== '') {
@@ -138,6 +150,19 @@ function setWayToFindRecords(wayToFindRecords, object, inputReference, triggerTy
     return wayToFindRecords;
 }
 
+/**
+ * @param root0
+ * @param root0.canvasElementToPaste
+ * @param root0.newGuid
+ * @param root0.newName
+ * @param root0.canvasElementGuidMap
+ * @param root0.topCutOrCopiedGuid
+ * @param root0.bottomCutOrCopiedGuid
+ * @param root0.prev
+ * @param root0.next
+ * @param root0.parent
+ * @param root0.childIndex
+ */
 export function createPastedRecordUpdate({
     canvasElementToPaste,
     newGuid,
@@ -168,6 +193,11 @@ export function createPastedRecordUpdate({
     };
 }
 
+/**
+ * @param recordUpdate
+ * @param newGuid
+ * @param newName
+ */
 export function createDuplicateRecordUpdate(recordUpdate, newGuid, newName) {
     const newRecordUpdate = createRecordUpdate(recordUpdate);
     Object.assign(newRecordUpdate, {
@@ -178,6 +208,11 @@ export function createDuplicateRecordUpdate(recordUpdate, newGuid, newName) {
     return duplicateRecordUpdate;
 }
 
+/**
+ * @param recordUpdate
+ * @param root0
+ * @param root0.startElement
+ */
 export function createRecordUpdateWithConnectors(recordUpdate = {}, { startElement } = {}) {
     const { triggerType, object } = startElement;
     const newRecordUpdate = createRecordUpdate(recordUpdate, triggerType, object);
@@ -194,6 +229,10 @@ export function createRecordUpdateWithConnectors(recordUpdate = {}, { startEleme
     return baseCanvasElementsArrayToMap([recordUpdateObject], connectors);
 }
 
+/**
+ * @param recordUpdate
+ * @param config
+ */
 export function createRecordUpdateMetadataObject(recordUpdate, config) {
     if (!recordUpdate) {
         throw new Error('recordUpdate is not defined');

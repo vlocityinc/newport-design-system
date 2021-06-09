@@ -28,7 +28,12 @@ import errorCode from '@salesforce/label/FlowBuilderAlertModal.errorCode';
 import okayButtonLabel from '@salesforce/label/FlowBuilderAlertModal.okayButtonLabel';
 
 const { logPerfTransactionEnd, logPerfTransactionStart } = loggingUtils;
-/** Promise.allSettled() polyfill. */
+
+/**
+ * Promise.allSettled() polyfill.
+ *
+ * @param promises
+ */
 const promiseAllSettled = (promises) =>
     Promise.all(
         promises.map((promise) =>
@@ -44,7 +49,13 @@ const promiseAllSettled = (promises) =>
         )
     );
 
-/** Promise.finally() polyfill. */
+/**
+ * Promise.finally() polyfill.
+ *
+ * @param promise
+ * @param onFinally
+ * @returns
+ */
 const promiseFinally = (promise, onFinally) =>
     promise.then(
         (value) => {
@@ -231,6 +242,7 @@ let loader;
 
 /**
  * Initialiases the loader, giving it the store instance.
+ *
  * @param {Store} store Store instance
  */
 export function initializeLoader(store) {
@@ -240,6 +252,9 @@ export function initializeLoader(store) {
     loader = new Loader(store);
 }
 
+/**
+ *
+ */
 export function clearLoader() {
     loader = null;
 }
@@ -256,10 +271,14 @@ export const loadOnStart = () => loader.loadOnStart();
  * - invocable actions
  * - apex plugins
  * - subflows
- * @param {String} processType Process type
- * @param {String} triggerType Trigger type
- * @param {String} recordTriggerType Record Trigger type
- * @param {String} flowDefinitionId
+ *
+ * @param {string} processType Process type
+ * @param {string} triggerType Trigger type
+ * @param {string} recordTriggerType Record Trigger type
+ * @param flowProcessType
+ * @param flowTriggerType
+ * @param flowRecordTriggerType
+ * @param {string} flowDefinitionId
  */
 export const loadOnProcessTypeChange = (
     flowProcessType: string,
@@ -270,10 +289,14 @@ export const loadOnProcessTypeChange = (
 
 /**
  * Triggers loading of operators and operator rules
- * @param {String} processType Process type
- * @param {String} triggerType Trigger type
- * @param {String} recordTriggerType Record Trigger type
- * @param {String} flowDefinitionId
+ *
+ * @param {string} processType Process type
+ * @param {string} triggerType Trigger type
+ * @param {string} recordTriggerType Record Trigger type
+ * @param {string} flowDefinitionId
+ * @param flowProcessType
+ * @param flowTriggerType
+ * @param flowRecordTriggerType
  */
 export const loadOperatorsAndRulesOnTriggerTypeChange = (
     flowProcessType: string,
@@ -286,12 +309,14 @@ export const loadOperatorsAndRulesOnTriggerTypeChange = (
 
 /**
  * Load all apex classes
+ *
  * @returns {Promise} A promise that is resolved when apex classes have been loaded
  */
 export const loadApexClasses = () => loader.loadApexClassesWithTimeout();
 
 /**
  * Load all supported features for the given list of process types
+ *
  * @param processTypes
  */
 export const loadAllSupportedFeatures = (processTypes) =>

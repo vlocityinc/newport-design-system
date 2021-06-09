@@ -2,8 +2,9 @@
 import { createExpressionListRowItemWithoutOperatorAndRHSDataType } from './baseList';
 /**
  * Factory function for creating output assignment used in record lookup and recordChoiceSet
+ *
  * @param {Object} outputAssignment
- * @param {String} sObject - eg: Account
+ * @param {string} sObject - eg: Account
  */
 export const createOutputAssignment = (outputAssignment = {}, sObject) => {
     let newOutputAssignment = {};
@@ -18,8 +19,9 @@ export const createOutputAssignment = (outputAssignment = {}, sObject) => {
 };
 /**
  * Factory function for creating output assignment metadata object used in record lookup and recordChoiceSet
+ *
  * @param {Object} outputAssignment
- * @param {String} sObject
+ * @param {string} sObject
  */
 export const createOutputAssignmentMetadataObject = (outputAssignment) => {
     if (!outputAssignment) {

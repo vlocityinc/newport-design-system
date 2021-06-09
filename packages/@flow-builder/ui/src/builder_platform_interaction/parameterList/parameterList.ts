@@ -190,7 +190,6 @@ export default class ParameterList extends LightningElement {
      * @property {string} warningBadge the badge text
      * @property {string} warningMessage the warning message
      * @property {boolean} shouldBeDeleted true if deleting the row would resolve the warning
-     *
      * @typedef {Object.<string, ParameterItemWarning>} ParameterListWarnings warnings for ParameterList component
      * The key is the rowIndex of the ParameterItem.
      */
@@ -238,7 +237,7 @@ export default class ParameterList extends LightningElement {
     }
 
     /**
-     * @return {Boolean} true : the user chooses to use the Advanced Options or if the process type does not support the automatic output handling
+     * @returns {boolean} true : the user chooses to use the Advanced Options or if the process type does not support the automatic output handling
      */
     get isAdvancedMode() {
         return !this.state.storeOutputAutomatically || !this.automaticOutputHandlingSupported;
@@ -246,8 +245,9 @@ export default class ParameterList extends LightningElement {
 
     /**
      * The CSS depends on the automatic output handling supports.
-     * @return {string} "slds-p-left_xx-large slds-p-right_small" : if the automatic output handling is supported
-     * @return {string}
+     *
+     * @returns {string} "slds-p-left_xx-large slds-p-right_small" : if the automatic output handling is supported
+     * @returns {string}
      * "slds-p-left_x-large slds-p-right_small" : if custom property editor exists
      * "slds-p-left_xx-large slds-p-right_small" : if the automatic output handling is supported
      */

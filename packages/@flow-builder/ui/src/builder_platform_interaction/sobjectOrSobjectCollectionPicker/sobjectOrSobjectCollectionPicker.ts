@@ -41,7 +41,8 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
 
     /**
      * Unique guid for the picker
-     * @type {String}
+     *
+     * @type {string}
      */
     @api
     rowIndex?: string;
@@ -52,7 +53,7 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
     element: any = undefined;
 
     /**
-     * @param {String} entityName the selected entity name (from select object combobox)
+     * @param {string} entityName the selected entity name (from select object combobox)
      */
     set recordEntityName(entityName) {
         this.state.recordEntityName = entityName;
@@ -64,7 +65,7 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
     }
 
     /**
-     * @param {String} sobjectCollectionCriterion one of SOBJECT, SOBJECT_COLLECTION, SOBJECT_OR_SOBJECT_COLLECTION
+     * @param {string} sobjectCollectionCriterion one of SOBJECT, SOBJECT_COLLECTION, SOBJECT_OR_SOBJECT_COLLECTION
      */
     set sobjectCollectionCriterion(sobjectCollectionCriterion) {
         this.state.sobjectCollectionCriterion = sobjectCollectionCriterion;
@@ -76,7 +77,7 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
     }
 
     /**
-     * @param {String} value the selected sObject or sObject collection variable
+     * @param {string} value the selected sObject or sObject collection variable
      */
     set value(value) {
         this.state.value = value;
@@ -95,7 +96,7 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
     isPillSupported = false;
 
     /**
-     * @returns {Object|String} the value of the combobox (item or displayText)
+     * @returns {Object | string} the value of the combobox (item or displayText)
      */
     get sobjectVariableItemOrDisplayText() {
         if (this.element) {
@@ -150,6 +151,7 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
 
     /**
      * handle event when changing the sObject or sObject collection variable
+     *
      * @param {Object} event the comboboxstatechanged event
      */
     handleSObjectVariableChanged(event) {

@@ -33,13 +33,15 @@ export const SUBTYPE = 'subtype';
 /**
  * A map from an elementType or dataType to an array of params relating to that elementType or dataType.
  * AND this map has two extra keys - isSObjectField and isSystemVariable which are short cuts to see if those special types are allowed
+ *
  * @typedef {Object.<string, param[]>} allowedParamMap
  */
 
 /**
  * Determines if a collection is required based on the paramTypes and dataType
+ *
  * @param {allowedParamMap} paramTypes the allowed param types
- * @param {String} dataType the data type of the field
+ * @param {string} dataType the data type of the field
  */
 export const isCollectionRequired = (paramTypes, dataType) => {
     let collectionRequired = false;
@@ -58,8 +60,9 @@ export const isCollectionRequired = (paramTypes, dataType) => {
 
 /**
  * Some screen fields do not have data type and we need to get them from the type object
+ *
  * @param {Object} element  an element from the store
- * @return {dataTypeLib/FLOW_DATA_TYPE} flow data type
+ * @returns {dataTypeLib/FLOW_DATA_TYPE} flow data type
  */
 export const getDataType = (element) => {
     return getValueFromHydratedItem(element[DATA_TYPE]) || (element.type && element.type.type);
@@ -69,8 +72,9 @@ export const getDataType = (element) => {
  * Helper to get the value inside of either data type or element type. This accounts for
  * the inner value inside of the rules returned by the FlowOperatorRuleUtil service
  * Hopefully we will not need this in the future
+ *
  * @param {param} param        the param we are extracting the value from
- * @returns {String}            the value at the given property
+ * @returns {string}            the value at the given property
  */
 const getDataTypeOrElementTypes = (param) => {
     return param[DATA_TYPE] ? [param[DATA_TYPE]] : [...param[MUST_BE_ELEMENTS]];
@@ -78,8 +82,9 @@ const getDataTypeOrElementTypes = (param) => {
 
 /**
  * Filters rules by rule type eg: assignment/comparison
+ *
  * @param {operatorRule[]} rules     list of rules to filter
- * @param {String} ruleType the rule type you want
+ * @param {string} ruleType the rule type you want
  * @returns {Array}         filtered list of rules based on the given rule type
  */
 const filterByRuleType = (rules, ruleType) => {
@@ -94,6 +99,7 @@ const filterByRuleType = (rules, ruleType) => {
 
 /**
  * Sets all the possible operators available in the builder
+ *
  * @param {Object} allOperators map of operator value to label
  */
 export const setOperators = (allOperators = {}) => {
@@ -107,8 +113,9 @@ export const setOperators = (allOperators = {}) => {
  * constants specific to the rule service since the properties do not match 1->1 with the store
  * Also, we may want to extend this in the future to include properties such as 'canBeField' which
  * are not present in the store elements
+ *
  * @param {Object} element          flow element (FER) from the store
- * @param {Boolean} isSystemVariableField true if it is a $Record field or $Record spannable field
+ * @param {boolean} isSystemVariableField true if it is a $Record field or $Record spannable field
  * @returns {Object}                the new param object representing the store element
  */
 export const elementToParam = (element, isSystemVariableField?) => {
@@ -168,9 +175,10 @@ const propertyMatches = (rule, element, property) => {
 
 /**
  * Check if the given rule param matches the element
+ *
  * @param {param} ruleParam        the rule param we are inspecting
  * @param {Object} element          the element we are checking to see if it matches the given rule param. This is taken from the store
- * @returns {Boolean}               true if the param matches the element, false otherwise
+ * @returns {boolean}               true if the param matches the element, false otherwise
  */
 export const isMatch = (ruleParam, element) => {
     // sanity checks
@@ -212,9 +220,10 @@ export const isMatch = (ruleParam, element) => {
 
 /**
  * Operator rules have flags which can be set to CANNOT_BE, CAN_BE, or MUST_BE.
+ *
  * @param {rules/param} param   an operatorRuleParam to be checked
- * @param {String} flag         canBeSobjectField, canBeSystemVariable, etc
- * @returns {Boolean}           true if this flag is allowed, but not necessarily required, by this param, false otherwise
+ * @param {string} flag         canBeSobjectField, canBeSystemVariable, etc
+ * @returns {boolean}           true if this flag is allowed, but not necessarily required, by this param, false otherwise
  */
 const specialCaseAllowed = (param, flag) => {
     return [CAN_BE, MUST_BE].indexOf(param[flag]) >= 0;
@@ -222,9 +231,10 @@ const specialCaseAllowed = (param, flag) => {
 
 /**
  * Checks if rule can be used in property editor for element type
+ *
  * @param {operatorRule} rule
- * @param {String} elementType
- * @param {Boolean} true if rule is allowed, false if not
+ * @param {string} elementType
+ * @param {boolean} true if rule is allowed, false if not
  */
 const ruleAllowedInElementEditor = (rule, elementType) => {
     return !rule[EXCLUDE_ELEMS] || !rule[EXCLUDE_ELEMS].includes(UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE[elementType]);
@@ -232,9 +242,11 @@ const ruleAllowedInElementEditor = (rule, elementType) => {
 
 /**
  * Adds param to map under type
- * @param {Object.map<String, Object.set<param>>} map   dataType/elementType/subtype to parameters relating to that type
+ *
+ * @param {Object.map<string, Object.set<param>>} map   dataType/elementType/subtype to parameters relating to that type
  * @param {param} param   Param to be stringified and added to the map
- * @param {String} type   dataTypeLib.FLOW_DATA_TYPE, flowMetadata.ELEMENT_TYPE, or sObject api name
+ * @param {string} type   dataTypeLib.FLOW_DATA_TYPE, flowMetadata.ELEMENT_TYPE, or sObject api name
+ * @param types
  */
 const addParamToTypeMap = (map, param, types) => {
     if (!types) {
@@ -250,7 +262,9 @@ const addParamToTypeMap = (map, param, types) => {
 
 /**
  * Turns the passed in map into an allowedParamMap (see above typedef)
- * @param {Object.map<String, Object.set<param>>} map   dataType/elementType/subtype to parameters relating to that type
+ *
+ * @param {Object.map<string, Object.set<param>>} map   dataType/elementType/subtype to parameters relating to that type
+ * @param stringifiedParamTypeMap
  */
 const convertToAllowedParamMap = (stringifiedParamTypeMap) => {
     let canBeSystemVariable = false;
@@ -272,9 +286,10 @@ const convertToAllowedParamMap = (stringifiedParamTypeMap) => {
 
 /**
  * Get the allowed left hand side types based on the rule type
- * @param {String} elementType      elementType where this rule is being used
+ *
+ * @param {string} elementType      elementType where this rule is being used
  * @param {operatorRule[]} rules    list of rules we are checking for lhs types. These are taken from the FlowOperatorRuleUtil service
- * @param {String} ruleType     the rule type of the given rules eg: assignment/comparator
+ * @param {string} ruleType     the rule type of the given rules eg: assignment/comparator
  * @returns {allowedParamMap}   map of data types & element types to allowed left hand side types
  */
 export const getLHSTypes = (elementType, rules, ruleType) => {
@@ -297,10 +312,11 @@ export const getLHSTypes = (elementType, rules, ruleType) => {
 
 /**
  * Gets the allowed operators based on the given left hand side element and list of rules
- * @param {String} elementType          elementType where this rule is being used
+ *
+ * @param {string} elementType          elementType where this rule is being used
  * @param {Object} lhsElement           the element representing our left hand side that we are checking against the given rules. This element is taken from the store
  * @param {operatorRule[]} rules        array of rules we are checking for operator types. These must be from ruleLib#getRulesForElementType
- * @param {String} ruleType             the rule type of the given rules eg: assignment/comparator
+ * @param {string} ruleType             the rule type of the given rules eg: assignment/comparator
  * @returns {Array}                     array of allowed operators based on rules that matched the lhsElement
  */
 export const getOperators = (elementType, lhsElement = {}, rules, ruleType) => {
@@ -329,7 +345,7 @@ export const getOperators = (elementType, lhsElement = {}, rules, ruleType) => {
  * in the format that the lightning-combobox can use, so this
  * provides the operators in the correct format
  *
- * @param {String[]} operators    the list of operators as it comes from the rule service
+ * @param {string[]} operators    the list of operators as it comes from the rule service
  * @returns {Array}               operators in the shape the combobox expects
  */
 export const transformOperatorsForCombobox = (operators) => {
@@ -344,11 +360,12 @@ export const transformOperatorsForCombobox = (operators) => {
 
 /**
  * Gets the allowed right hand side types based on the given left hand side element, operator, and rules
- * @param {String} elementType      elementType where this rule is being used
+ *
+ * @param {string} elementType      elementType where this rule is being used
  * @param {Object} lhsElement       the element that represents our left hand side that we are checking against the given rules. This element is taken from the store.
- * @param {String} operator         the value representing your operator eg: "ASSIGNMENT"
+ * @param {string} operator         the value representing your operator eg: "ASSIGNMENT"
  * @param {operatorRule[]} rules    array of rules we are checking for right hand side types. These must be from ruleLib#getRulesForElementType
- * @param {String} ruleType         the rule type of the given rules eg: assignment/comparator
+ * @param {string} ruleType         the rule type of the given rules eg: assignment/comparator
  * @returns {allowedParamMap}       map of data types, element types, and object types to allowed right hand side types
  */
 export const getRHSTypes = (elementType, lhsElement, operator, rules, ruleType?) => {

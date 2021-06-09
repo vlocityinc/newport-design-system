@@ -51,9 +51,9 @@ const { logPerfTransactionStart, logPerfTransactionEnd } = loggingUtils;
 /**
  * Helper method to determine if the connector is an associated connector or not
  *
- * @param {String[]} selectedElementGUIDs - Contains GUIDs of all the selected canvas elements
+ * @param {string[]} selectedElementGUIDs - Contains GUIDs of all the selected canvas elements
  * @param {Object} connector - A single connector object
- * @return {boolean} returns boolean based on if the connector is associated with any canvas element that is being deleted or not
+ * @returns {boolean} returns boolean based on if the connector is associated with any canvas element that is being deleted or not
  */
 const isAssociatedConnector = (selectedElementGUIDs, connector) => {
     return (
@@ -63,10 +63,11 @@ const isAssociatedConnector = (selectedElementGUIDs, connector) => {
 
 /**
  * This function returns list of connectors to be deleted
+ *
  * @param {Array} selectedElementGUIDs Array of guids selected elements
  * @param {Array} connectors Array of connectors
- * @param {Boolean} includeSelectedConnector config to include selected connectors or not
- * @return {Array} Array of connectors to be deleted
+ * @param {boolean} includeSelectedConnector config to include selected connectors or not
+ * @returns {Array} Array of connectors to be deleted
  */
 const connectorsToBeDeleted = (selectedElementGUIDs = [], connectors = [], includeSelectedConnector = false) => {
     return connectors.filter((connector) => {
@@ -79,8 +80,9 @@ const connectorsToBeDeleted = (selectedElementGUIDs = [], connectors = [], inclu
 
 /**
  * This function returns an array of guids of selected elements
+ *
  * @param {Array} canvasElements list of canvas element
- * @return {Array} array of guids of selected elements
+ * @returns {Array} array of guids of selected elements
  */
 const selectedCanvasElementGuids = (canvasElements = []) => {
     return canvasElements
@@ -92,9 +94,11 @@ const selectedCanvasElementGuids = (canvasElements = []) => {
         });
 };
 
-/** This function returns an array of deletable canvas elements
+/**
+ * This function returns an array of deletable canvas elements
+ *
  * @param {Array} canvasElements list of canvas elements
- * @return {Array} array of deletable canvas elements
+ * @returns {Array} array of deletable canvas elements
  */
 const deletableCanvasElements = (canvasElements = []) => {
     return canvasElements.filter((canvasElement) => {
@@ -110,6 +114,7 @@ const deletableCanvasElements = (canvasElements = []) => {
  * @param connectorsToDelete - Contains all the selected and associated connectors that need to be deleted
  * @param elementType - Type of the element being deleted
  * @param childIndexToKeep - The child branch you want to persist when deleting a branch element in Auto-Layout Canvas
+ * @param parentGUID
  */
 const doDeleteOrInvokeAlert = (
     storeInstance: Store,
@@ -178,8 +183,13 @@ const resetStartElementIfNeeded = (storeInstance, processType, triggerType) => {
 
 /**
  * This function deletes an element if it is not referenced else open used by modal
+ *
  * @param {Object} storeInstance instance of the store
  * @param {Object} containing selected Element GUID, type and childIndexToKeep (only when deleting a branch element in Auto-Layout Canvas)
+ * @param containing.selectedElementGUID
+ * @param containing.selectedElementType
+ * @param containing.childIndexToKeep
+ * @param containing.parentGUID
  */
 export const getElementsToBeDeleted = (
     storeInstance: Store,
@@ -212,9 +222,10 @@ export const getElementsToBeDeleted = (
 
 /**
  * This method is used to figure save type which is used to figure out if a modal should be displayed or not while saving a flow
- * @param {String} eventType There are 2 save event type: save and save as
- * @param {String} flowId It will be undefined if it is a brand new flow
- * @param {Boolean} canOnlySaveAsNewDefinition It is needed to handle use case for flow template. They can only be saved as new flow
+ *
+ * @param {string} eventType There are 2 save event type: save and save as
+ * @param {string} flowId It will be undefined if it is a brand new flow
+ * @param {boolean} canOnlySaveAsNewDefinition It is needed to handle use case for flow template. They can only be saved as new flow
  */
 export const getSaveType = (eventType, flowId, canOnlySaveAsNewDefinition) => {
     if (!eventType) {
@@ -299,6 +310,7 @@ export const setFlowErrorsAndWarnings = (data) => {
 
 /**
  * It return another function which will have closure on store instance. The returned function will be executed when user clicks okay on flow property editor.
+ *
  * @param {Object} storeInstance Instance of client side store
  */
 export const flowPropertiesCallback = (storeInstance) => (flowProperties) => {
@@ -311,6 +323,7 @@ export const flowPropertiesCallback = (storeInstance) => (flowProperties) => {
 
 /**
  * It return another function which will be called when a user clicks okay on save as modal
+ *
  * @param {Object} storeInstance instance of the client side store
  * @param {Function} saveFlowFn function which make server call to save the flow
  */
@@ -336,7 +349,7 @@ export const saveAsFlowCallback = (storeInstance, saveFlowFn) => (flowProperties
  * that are selected.
  *
  * @param {Object} canvasElement - canvas element being duplicated
- * @returns {Boolean} Returns true if the canvas element should be duplicated
+ * @returns {boolean} Returns true if the canvas element should be duplicated
  */
 const shouldDuplicateElement = (canvasElement) => {
     if (!canvasElement) {
@@ -359,7 +372,7 @@ const shouldDuplicateElement = (canvasElement) => {
  * Checks if a canvas element is selected
  *
  * @param {Object} canvasElement - canvas element being duplicated
- * @returns {Boolean} Returns true if the canvas element is selected
+ * @returns {boolean} Returns true if the canvas element is selected
  */
 const isSelected = (canvasElement) => {
     if (!canvasElement) {
@@ -374,7 +387,7 @@ const isSelected = (canvasElement) => {
  * Screen and wait (Pause) element can have child elements.
  *
  * @param {Object} canvasElement - canvas element being duplicated
- * @returns {Boolean} - Returns true if canvas element is Decision, Screen or Wait
+ * @returns {boolean} - Returns true if canvas element is Decision, Screen or Wait
  */
 const hasChildElements = (canvasElement) => {
     if (!canvasElement) {
@@ -388,8 +401,8 @@ const hasChildElements = (canvasElement) => {
  * Helper function to get the bottom most cut or copied guid
  *
  * @param {Object} elementsInStore - State of the elements in store
- * @param {String} topCutOrCopiedGuid - Guid of the top-most cut or copied element
- * @returns {String} - Guid of the bottom most cut or copied element
+ * @param {string} topCutOrCopiedGuid - Guid of the top-most cut or copied element
+ * @returns {string} - Guid of the bottom most cut or copied element
  */
 const getBottomCutOrCopiedGuid = (elementsInStore, topCutOrCopiedGuid) => {
     const topCutOrCopiedElement = elementsInStore[topCutOrCopiedGuid];
@@ -414,6 +427,7 @@ const getBottomCutOrCopiedGuid = (elementsInStore, topCutOrCopiedGuid) => {
 
 /**
  * Function to recurse through the screen field references and getting all the nested screen fields to cut or copy
+ *
  * @param {Object} elementsInStore - State of the elements in store
  * @param {Object []} fieldReferencesArray - Array containing field reference objects like: {childReference: 'fieldGuid'}
  * @returns nestedChildElementsToCutOrCopy - Object containing all the nested screen field to cut or copy
@@ -475,7 +489,7 @@ export const getCopiedChildElements = (elementsInStore, copiedElement) => {
  * Function to get all the copied data
  *
  * @param {Object} elementsInStore - State of the elements in store
- * @param {String} topCopiedGuid - Guid of the top copied element
+ * @param {string} topCopiedGuid - Guid of the top copied element
  * @returns {Object} - Contains copiedCanvasElements, copiedChildElements and bottomCutOrCopiedGuid
  */
 export const getCopiedData = (elementsInStore, topCopiedGuid) => {
@@ -515,6 +529,7 @@ const createGuidMap = (elements) => {
 
 /**
  * Function to get the guid -> pasted guid maps for canvas elements and child elements (like outcome, screen fields etc.)
+ *
  * @param {Object} cutOrCopiedCanvasElements - Contains all the cut or copied Canvas Elements
  * @param {Object} cutOrCopiedChildElements - contains all the cut or copied Child Elements
  * @returns {Object} - Contains canvasElementGuidMap and childElementGuidMap
@@ -529,7 +544,7 @@ export const getPasteElementGuidMaps = (cutOrCopiedCanvasElements, cutOrCopiedCh
 /**
  * Recursively finds the nested child elements in a screen field and updates the childElementGuidMap
  *
- * @param {String} childElementGuid - Guid of a given child element
+ * @param {string} childElementGuid - Guid of a given child element
  * @param {Object} elementsInStore - Current state of elements in store
  * @param {Object} childElementGuidMap - Contains a map of childElementGuid -> duplicateChildElementGuid
  */
@@ -589,7 +604,7 @@ const setupChildElementGuidMap = (canvasElement, elementsInStore) => {
 /**
  * Creates two maps containing canvasElementGuid -> duplicateCanvasElementGuid and childElementGuid -> duplicateChildElementGuid.
  *
- * @param {String[]} canvasElementsInStore - Current state of canvas elements in store
+ * @param {string[]} canvasElementsInStore - Current state of canvas elements in store
  * @param {Object} elementsInStore - Current state of elements in store
  * @returns {{canvasElementGuidMap, childElementGuidMap}} - Contains a map of canvasElementGuid -> duplicateCanvasElementGuid
  * and childElementGuid -> duplicateChildElementGuid
@@ -638,7 +653,7 @@ export const getDuplicateElementGuidMaps = (canvasElementsInStore, elementsInSto
  * @param {Object} connector - Connector object as present in the store
  * @param {Object} canvasElementGuidMap - Map of selected canvas elements guids to a newly generated guid that will be used as
  * the guid for the duplicate element
- * @returns {Boolean} Returns true is the connector is selected and both it's source guid and target guid are present in canvasElementGuidMap
+ * @returns {boolean} Returns true is the connector is selected and both it's source guid and target guid are present in canvasElementGuidMap
  */
 const isConnectorSelectedAndAssociated = (connector, canvasElementGuidMap) => {
     if (!connector) {
@@ -692,7 +707,7 @@ export const getConnectorToDuplicate = (connectorsInStore, canvasElementGuidMap)
  * Checks if the element is already highlighted or not
  *
  * @param {Object} canvasElementToHighlight - canvas element that is being highlighted
- * @return {Boolean} Returns true if the canvas element is currently highlighted
+ * @returns {boolean} Returns true if the canvas element is currently highlighted
  */
 const isCanvasElementHighlighted = (canvasElementToHighlight) => {
     if (!canvasElementToHighlight) {
@@ -706,7 +721,7 @@ const isCanvasElementHighlighted = (canvasElementToHighlight) => {
  * Dispatches the highlightOnCanvas action if the searched element is already not highlighted
  *
  * @param {Object} storeInstance - Instance of client side store
- * @param {String} elementGuid - Guid of the canvas element that needs to be highlighted
+ * @param {string} elementGuid - Guid of the canvas element that needs to be highlighted
  */
 export const highlightCanvasElement = (storeInstance, elementGuid) => {
     if (!storeInstance) {
@@ -734,6 +749,7 @@ export const highlightCanvasElement = (storeInstance, elementGuid) => {
  * Create start element
  *
  * @param {object} storeInstance store instance
+ * @param triggerType
  */
 export const createStartElement = (storeInstance, triggerType) => {
     const startElement = getElementForStore({
@@ -750,12 +766,12 @@ export const createStartElement = (storeInstance, triggerType) => {
  * Create variable element
  *
  * @param {object} storeInstance store instance
- * @param {String} name variable name
- * @param {String} dataType data type
- * @param {String} subtype data subtype
- * @param {Boolean} isCollection is collection variable?
- * @param {Boolean} isInput is input variable?
- * @param {Boolean} isOutput is output variable?
+ * @param {string} name variable name
+ * @param {string} dataType data type
+ * @param {string} subtype data subtype
+ * @param {boolean} isCollection is collection variable?
+ * @param {boolean} isInput is input variable?
+ * @param {boolean} isOutput is output variable?
  */
 export const createVariableElement = (
     storeInstance,
@@ -773,8 +789,9 @@ export const createVariableElement = (
 
 /**
  * Close modal and navigate the parent window to the specific url
- * @param {String} navigateUrl url to navigate to
- * @return true if you want to skip the close modal
+ *
+ * @param {string} navigateUrl url to navigate to
+ * @returns true if you want to skip the close modal
  */
 export const closeModalAndNavigateTo = (navigateUrl) => {
     if (navigateUrl) {
@@ -787,17 +804,17 @@ export const closeModalAndNavigateTo = (navigateUrl) => {
 
 /**
  * @typedef {Object} FlowSnippet
- *
- * @property {String} processType Flow process type
- * @property {String} [triggerType] Flow trigger type
+ * @property {string} processType Flow process type
+ * @property {string} [triggerType] Flow trigger type
  */
 /**
- * @typedef {String} TemplateId
+ * @typedef {string} TemplateId
  */
 /**
  * Get the selected item
+ *
  * @param modal the new flow modal
- * @return {TemplateId|FlowSnippet} selectedItem
+ * @returns {TemplateId|FlowSnippet} selectedItem
  */
 export function getSelectedFlowEntry(modal) {
     const templatesModalBody = modal.get('v.body')[0];
@@ -806,6 +823,7 @@ export function getSelectedFlowEntry(modal) {
 
 /**
  * Set the error message in the flow modal
+ *
  * @param modal the flow modal
  * @param message the error message
  */
@@ -816,7 +834,10 @@ export const setErrorMessage = (modal, message) => {
 
 /**
  * Whether user can run & debug without VAD.
+ *
  * @param flow run in mode
+ * @param runInMode
+ * @param status
  */
 export const canRunDebugWith = (runInMode, status) => {
     return (
@@ -835,8 +856,8 @@ export const isGuardrailsEnabled = () => {
 /**
  * Get the alc left-pane toolbox / alc connector menu elements
  *
- * @param {String} flowProcessType
- * @param {String} flowTriggerType
+ * @param {string} flowProcessType
+ * @param {string} flowTriggerType
  */
 export function getToolboxElements(flowProcessType, flowTriggerType) {
     logPerfTransactionStart(LEFT_PANEL_ELEMENTS);
@@ -864,6 +885,10 @@ export function getToolboxElements(flowProcessType, flowTriggerType) {
 
 /**
  *  Get the elements metadata for the alc editor
+ *
+ * @param toolboxElements
+ * @param palette
+ * @param existingMetadata
  */
 export function getElementsMetadata(toolboxElements, palette, existingMetadata = []) {
     const newElementsMetadata = [];
@@ -925,6 +950,7 @@ export function getElementsMetadata(toolboxElements, palette, existingMetadata =
 
 /**
  * Helper function to construct and return the payload for connector highlighting as expected for the DECORATE_CANVAS action
+ *
  * @param canvasDecorator canvas decorator object returned from the server
  */
 export const getConnectorsToHighlight = (canvasDecorator: Object): Object[] => {
@@ -968,6 +994,7 @@ export const getConnectorsToHighlight = (canvasDecorator: Object): Object[] => {
 
 /**
  * Function to return an array of decorated elements with decorationType as ERROR
+ *
  * @param canvasDecorator canvas decorator object returned from the server
  */
 export const getElementsWithError = (canvasDecorator: object): Array<object> => {
@@ -1012,9 +1039,11 @@ export const screenFieldsReferencedByLoops = (flowMetadata: any): Metadata.Scree
 
 /**
  * Helper function contruct debug data object needed for debug panel from service response and to fire the canvas decorator actions
+ *
  * @param data Debug service response data containing interview results and canvas decorator
  * @param storeInstance Current store instance
  * @param hasUnsavedChanges Indicates whether there are any currently unsaved changes on the Flow
+ * @param keepHighlightOnError
  */
 export const debugInterviewResponseCallback = (
     data: Array,

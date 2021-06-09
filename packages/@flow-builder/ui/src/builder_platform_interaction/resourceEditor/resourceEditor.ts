@@ -19,12 +19,14 @@ const COMBOBOX_SELECTOR = 'lightning-combobox';
 export default class ResourceEditor extends LightningElement {
     /**
      * Menu items representing allowed resource types
+     *
      * @type {module:builder_platform_interaction/expressionUtils.MenuItem[]}
      */
     _resourceTypes;
 
     /**
      * The currently selected resource type
+     *
      * @type{String}
      */
     @track
@@ -40,6 +42,7 @@ export default class ResourceEditor extends LightningElement {
      * Setter for the node passed in on modal creation
      * This is essentially a dummy no-op because new resource does not have a node
      * We need to have this to work with the existing property editor architecture
+     *
      * @param {Object} node the object initially passed in, we ignore this
      */
     set node(node) {
@@ -48,6 +51,7 @@ export default class ResourceEditor extends LightningElement {
 
     /**
      * Gets the inner node (the editor of the chosen resource type)
+     *
      * @returns {Object} the node of the chosen resource type
      */
     @api
@@ -62,6 +66,7 @@ export default class ResourceEditor extends LightningElement {
     /**
      * Calls getNode method on the container component that contains the inner property editor
      * This method is called on OK by the property editor footer component
+     *
      * @returns {Object} the node of the chosen resource type
      */
     @api
@@ -72,6 +77,7 @@ export default class ResourceEditor extends LightningElement {
     /**
      * Calls validate method on the container component that contains the inner property editor
      * This method is called on OK by the property editor footer component for validation
+     *
      * @returns {Array} the array of errors from validation call
      */
     @api
@@ -93,6 +99,7 @@ export default class ResourceEditor extends LightningElement {
     /**
      * Returns the resource types
      * If the resource menu data is not populated we call the expression utils to create the menu data
+     *
      * @returns {module:builder_platform_interaction/expressionUtils.MenuItem[]} Menu items representing allowed resource types
      */
     get resourceTypes() {

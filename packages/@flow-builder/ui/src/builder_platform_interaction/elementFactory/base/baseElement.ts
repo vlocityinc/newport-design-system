@@ -23,6 +23,7 @@ export const INCOMPLETE_ELEMENT = Symbol('incomplete');
  * methods with the interfaces to make classes with constructors
  *
  * @param resource
+ * @param resource.description
  */
 export function baseResource(resource: { description?: string } = {}): UI.Element {
     const newResource = baseElement(resource);
@@ -32,11 +33,18 @@ export function baseResource(resource: { description?: string } = {}): UI.Elemen
     });
 }
 
+/**
+ * @param availableConnection
+ * @param availableConnection.type
+ */
 export function createAvailableConnection(availableConnection: { type?: string } = {}) {
     const { type } = availableConnection;
     return { type };
 }
 
+/**
+ * @param config
+ */
 function createCanvasElementConfig(
     config = { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false }
 ): UI.CanvasElementConfig {
@@ -44,6 +52,9 @@ function createCanvasElementConfig(
     return { isSelected, isHighlighted, isSelectable, hasError };
 }
 
+/**
+ * @param canvasElement
+ */
 export function baseCanvasElement(canvasElement: Metadata.Element | UI.BaseCanvasElement = {}): UI.Element {
     const newCanvasElement = baseResource(canvasElement);
     const { label = '', locationX = 0, locationY = 0, connectorCount = 0, elementSubtype } = <UI.BaseCanvasElement>(
@@ -68,14 +79,15 @@ export function baseCanvasElement(canvasElement: Metadata.Element | UI.BaseCanva
 
 /**
  * Base function to create the Pasted Canvas Element
+ *
  * @param {Object} duplicatedElement - Element object in it's duplicated state
  * @param {Object} canvasElementGuidMap - Map containing element guids -> pasted element guids
- * @param {String} topCutOrCopiedGuid - Guid of the top most cut or copied element
- * @param {String} bottomCutOrCopiedGuid - Guid of the bottom most cut or copied element
- * @param {String} prev - Guid of the element below which the cut/copied block will be pasted. This can be null when pasting at the top of a branch
- * @param {String} next - Guid of the element above which the cut/copied block will be pasted. This can be null when pasting at the bottom of a branch
- * @param {String} parent - Guid of the parent element. This has a value only when pasting at the top of a branch
- * @param {Number} childIndex - Index of the branch. This has a value only when pasting at the top of a branch
+ * @param {string} topCutOrCopiedGuid - Guid of the top most cut or copied element
+ * @param {string} bottomCutOrCopiedGuid - Guid of the bottom most cut or copied element
+ * @param {string} prev - Guid of the element below which the cut/copied block will be pasted. This can be null when pasting at the top of a branch
+ * @param {string} next - Guid of the element above which the cut/copied block will be pasted. This can be null when pasting at the bottom of a branch
+ * @param {string} parent - Guid of the parent element. This has a value only when pasting at the top of a branch
+ * @param {number} childIndex - Index of the branch. This has a value only when pasting at the top of a branch
  * @returns pastedCanvasElement
  */
 export function createPastedCanvasElement(
@@ -143,6 +155,7 @@ export function createPastedCanvasElement(
 
 /**
  * Base function to duplicate canvas elements
+ *
  * @param {Object} canvasElement - canvas element to be duplicated
  * @param {string} newGuid - new guid for the duplicate element
  * @param {string} newName - new name for the duplicate element
@@ -247,8 +260,8 @@ function _createDuplicateChildElement(
  * Base function to create duplicate canvas elements that contain child elements (such as : Decision, Screen and Wait)
  *
  * @param {Object} canvasElement - Canvas element that needs to be duplicated
- * @param {String} newGuid - Guid for the duplicated canvas element
- * @param {String} newName - Name for the duplicated canvas element
+ * @param {string} newGuid - Guid for the duplicated canvas element
+ * @param {string} newName - Name for the duplicated canvas element
  * @param {Object} childElementGuidMap - Map of child element guids to new guids for the duplicated child elements
  * @param {Object} childElementNameMap - Map of child element names to new names for the duplicated child elements
  * @param {Object} cutOrCopiedChildElements - Local copy of the cut ot copied canvas elements
@@ -308,8 +321,9 @@ export function duplicateCanvasElementWithChildElements(
 
 /**
  * Create a new condition for property editor use
+ *
  * @param {Condition} condition - condition in store shape
- * @return {module:baseList.ListRowItem} the new condition
+ * @returns {module:baseList.ListRowItem} the new condition
  */
 export function createCondition(condition: any = {}) {
     let newCondition = {};
@@ -330,9 +344,9 @@ export function createCondition(condition: any = {}) {
 
 /**
  * @typedef {Object} ChildElement
- * @property {String} label - element label
- * @property {String} name - element devName
- * @property {String} guid - element guid
+ * @property {string} label - element label
+ * @property {string} name - element devName
+ * @property {string} guid - element guid
  * @property {module:dataTypeLib.FLOW_DATA_TYPE.BOOLEAN} dataType - All child elements are dataType BOOLEAN
  * @property {module:flowMetadata.CONDITION_LOGIC} conditionLogic - element condition logic
  * @property {module:flowMetadata.ELEMENT_TYPE} elementType - Child elements must be ELEMENT_TYPE OUTCOME or WAIT_EVENT
@@ -341,9 +355,10 @@ export function createCondition(condition: any = {}) {
 
 /**
  * Factory class for creating a new child element
+ *
  * @param childElement
  * @param {module:flowMetadata.ELEMENT_TYPE} elementType one of the values defined in ELEMENT_TYPE
- * @return {ChildElement}
+ * @returns {ChildElement}
  */
 export function baseChildElement(childElement: any = {}, elementType): UI.ChildElement {
     if (
@@ -371,6 +386,10 @@ export function baseChildElement(childElement: any = {}, elementType): UI.ChildE
     });
 }
 
+/**
+ * @param elementList
+ * @param connectors
+ */
 export function baseCanvasElementsArrayToMap(elementList: UI.Element[] = [], connectors: UI.Connector[] = []) {
     const elements = baseElementsArrayToMap(elementList);
     return Object.assign(elements, {
@@ -378,6 +397,9 @@ export function baseCanvasElementsArrayToMap(elementList: UI.Element[] = [], con
     });
 }
 
+/**
+ * @param elementList
+ */
 export function baseElementsArrayToMap(elementList: UI.Element[] = []) {
     const elements = elementList.reduce((acc, element) => {
         return Object.assign(acc, { [element.guid]: element });
@@ -387,6 +409,12 @@ export function baseElementsArrayToMap(elementList: UI.Element[] = []) {
     };
 }
 
+/**
+ * @param element
+ * @param element.guid
+ * @param element.name
+ * @param element.description
+ */
 export function baseElement(element: { guid?: UI.Guid; name?: string; description?: string } = {}): UI.Element {
     const { guid = generateGuid(), name = '' } = element;
     return {
@@ -401,6 +429,10 @@ export const automaticOutputHandlingSupport = (): boolean => {
     return processTypeAutomaticOutPutHandlingSupport !== FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED;
 };
 
+/**
+ * @param childReferences
+ * @param canvasElementChild
+ */
 export function updateChildReferences(
     childReferences: UI.ChildReference[] = [],
     canvasElementChild: UI.Element
@@ -421,8 +453,7 @@ export function updateChildReferences(
  *
  * @param originalCanvasElement - The original canvas element
  * @param canvasElementChildren - The updated canvas element's children
- *
- * @return The deleted canvas element children
+ * @returns The deleted canvas element children
  */
 export function getDeletedCanvasElementChildren(
     originalCanvasElement: UI.Element,

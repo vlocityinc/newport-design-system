@@ -18,6 +18,11 @@ const resetOuputParameters = (state, { extensionDescription }) =>
 
 /**
  * Update the property storeOutputAutomatically and reset ouput parameters if needed
+ *
+ * @param state
+ * @param props
+ * @param root0
+ * @param root0.useAdvancedOptions
  */
 const useAdvancedOptionsSelectionChanged = (state, props, { useAdvancedOptions }) => {
     state = updateProperties(state, {
@@ -27,6 +32,11 @@ const useAdvancedOptionsSelectionChanged = (state, props, { useAdvancedOptions }
     return useAdvancedOptions ? state : resetOuputParameters(state, props);
 };
 
+/**
+ * @param state
+ * @param props
+ * @param event
+ */
 export function screenExtensionPropertiesEventReducer(state, props, event) {
     switch (event.type) {
         case ManuallyAssignVariablesChangedEvent.EVENT_NAME:
@@ -38,10 +48,12 @@ export function screenExtensionPropertiesEventReducer(state, props, event) {
 
 /**
  * Creates a list of screen field parameters from a list of parameter descriptors and current screen field parameters.
+ *
  * @param {[FlowExtensionParameter]} descriptors - Flow extension parameters
  * @param {[ScreenFieldParameter]]} paramsIn - Current screen field parameters
  * @param {string} filteringProperty -
  * @param {boolean} sortByRequiredness - Put required parameters to the top
+ * @param dynamicTypeMappings
  * @returns {[{ key, attribute, descriptor, rowIndex, index }]} - A list of screen field parameter data for rendering input components
  */
 function createParametersMapping(descriptors, paramsIn, filteringProperty, sortByRequiredness, dynamicTypeMappings) {
@@ -115,6 +127,7 @@ const createOutputParameters = ({ extensionDescription, field }) =>
 
 /**
  * Creates a list of dynamic type mappings internal to this component. Its main job is to create comboboxConfig.
+ *
  * @param {[GenericType]} [genericTypes] - Generic types
  * @param {*} [dynamicTypeMappings] - Current dynamic type mappings
  * @param {*} disabled - Indicates if dynamic type mappings are changeable
@@ -159,6 +172,12 @@ const createDynamicTypeMappingsReducer = ({ field, extensionDescription }) =>
 const screenExtensionPropertiesStoreOutputAutomaticallyReducer = (state, { field }) =>
     (field && state.storeOutputAutomatically === undefined ? field : state).storeOutputAutomatically;
 
+/**
+ * @param state
+ * @param root0
+ * @param root0.field
+ * @param root0.extensionDescription
+ */
 export function screenExtensionPropertiesPropsToStateReducer(state, { field, extensionDescription }) {
     if (!field || !extensionDescription || extensionDescription.name === field.name) {
         return updateProperties(state, {

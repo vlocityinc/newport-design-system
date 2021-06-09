@@ -26,6 +26,7 @@ export default class CalloutEditorContainer extends LightningElement {
 
     /**
      * The currently selected action
+     *
      * @type {Object}
      */
     _selectedAction = null;
@@ -36,6 +37,7 @@ export default class CalloutEditorContainer extends LightningElement {
 
     /**
      * The node that represents initial state of the currently selected editor
+     *
      * @type {Object}
      */
     @track
@@ -100,6 +102,7 @@ export default class CalloutEditorContainer extends LightningElement {
     /**
      * Sets the selected action
      * This will create a flow element of the corresponding element type
+     *
      * @param {SelectedInvocableAction|SelectedApexPlugin|SelectedSubflow} selectedActionType the selected action type from action-selector component
      */
     set selectedAction(selectedActionType) {
@@ -164,6 +167,7 @@ export default class CalloutEditorContainer extends LightningElement {
 
     /**
      * Gets the inner node (the editor of the chosen action)
+     *
      * @returns {Object} the node of the chosen action
      */
     @api
@@ -177,6 +181,7 @@ export default class CalloutEditorContainer extends LightningElement {
 
     /**
      * Calls validate method on the inner node (the editor of the chosen action)
+     *
      * @returns {Array} the array of errors from validation call
      */
     @api

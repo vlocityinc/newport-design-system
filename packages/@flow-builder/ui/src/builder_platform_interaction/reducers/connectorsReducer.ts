@@ -25,7 +25,7 @@ import immediateConnectorLabel from '@salesforce/label/FlowBuilderConnectorLabel
  *
  * @param {Object[]} state - connector array in the store
  * @param {Object} action - with type and payload
- * @return {Object[]} new state after reduction
+ * @returns {Object[]} new state after reduction
  */
 export default function connectorsReducer(state = [], action) {
     switch (action.type) {
@@ -88,8 +88,7 @@ export default function connectorsReducer(state = [], action) {
  * @param {Object[]} childElementGuidMap - Map of child element guids to newly generated guids that will be used for
  * the duplicated child elements
  * @param {Object[]} connectorsToDuplicate - connectors selected for duplication
- *
- * @return {Object[]} new state of connectors after reduction
+ * @returns {Object[]} new state of connectors after reduction
  * @private
  */
 function _duplicateConnector(
@@ -126,7 +125,7 @@ function _duplicateConnector(
  *
  * @param {Object[]} connectors - current state of connectors in the store
  * @param {Object[]} connectorsToDelete - contains all selected and associated connectors
- * @return {Object[]} new state of connectors after reduction
+ * @returns {Object[]} new state of connectors after reduction
  * @private
  */
 function _deleteConnectors(connectors, connectorsToDelete) {
@@ -144,14 +143,15 @@ function _deleteConnectors(connectors, connectorsToDelete) {
  * Update/delete connectors for all of the given child elements
  *
  * @param {Object[]} origConnectors   current state of connectors in the store
- * @param {String} parentElementGuid    Guid of the parent element (e.g. decision, wait)
- * @param {String} defaultConnectorLabel    Connector Label of the default connector
+ * @param {string} parentElementGuid    Guid of the parent element (e.g. decision, wait)
+ * @param {string} defaultConnectorLabel    Connector Label of the default connector
  * @param {Object[]} updatedElements     array of child elements (outcomes or wait events) whose connectors are to be
  * updated
  * @param {Object[]} deletedChildElementGuids     array of guids of child elements (outcomes or wait events) whose connectors are to be
  * deleted
- *
- * @return {Object[]} new state of connectors after reduction
+ * @param shouldSupportScheduledPaths
+ * @param startElementGuid
+ * @returns {Object[]} new state of connectors after reduction
  * @private
  */
 function _deleteAndUpdateConnectorsForChildElements(
@@ -222,8 +222,8 @@ function _deleteAndUpdateConnectorsForChildElements(
  * the selected connector to true. Also sets the isSelected property for all other connectors to false.
  *
  * @param {Object[]} connectors - current state of connectors in the store
- * @param {String} selectedGUID - GUID of the connector to be selected
- * @return {Object[]} new state of connectors after reduction
+ * @param {string} selectedGUID - GUID of the connector to be selected
+ * @returns {Object[]} new state of connectors after reduction
  * @private
  */
 function _selectConnector(connectors, selectedGUID) {
@@ -252,8 +252,8 @@ function _selectConnector(connectors, selectedGUID) {
  * Helper function to toggle the isSelected state of a connector.
  *
  * @param {Object[]} connectors - current state of connectors in the store
- * @param {String} selectedGUID - GUID of the connector to be toggled
- * @return {Object[]} new state of connectors after reduction
+ * @param {string} selectedGUID - GUID of the connector to be toggled
+ * @returns {Object[]} new state of connectors after reduction
  * @private
  */
 function _toggleConnector(connectors, selectedGUID) {
@@ -272,7 +272,7 @@ function _toggleConnector(connectors, selectedGUID) {
  * isSelected property of all the currently selected connectors to false.
  *
  * @param {Object[]} connectors - current state of connectors in the store
- * @return {Object[]} new state of connectors after reduction
+ * @returns {Object[]} new state of connectors after reduction
  * @private
  */
 function _deselectConnectors(connectors) {
@@ -295,8 +295,8 @@ function _deselectConnectors(connectors) {
  * and sets the isSelected property of the connector to true/false.
  *
  * @param {Object[]} connectors - current state of connectors in the store
- * @param {String[]} guidsToSelect - Array of connector guids to be selected
- * @param {String[]} guidsToDeselect - Array of connector guids to be deselected
+ * @param {string[]} guidsToSelect - Array of connector guids to be selected
+ * @param {string[]} guidsToDeselect - Array of connector guids to be deselected
  */
 function _marqueeSelect(connectors, guidsToSelect, guidsToDeselect) {
     let hasStateChanged = false;
@@ -374,6 +374,9 @@ function _clearConnectorHighlights(connectors: object[]) {
 
 /**
  * Helper function to update properties in connector config
+ *
+ * @param connector
+ * @param updatedConfig
  */
 function _updateConnectorConfig(connector: object, updatedConfig: object) {
     return updateProperties(connector, { config: updateProperties(connector.config, updatedConfig) });

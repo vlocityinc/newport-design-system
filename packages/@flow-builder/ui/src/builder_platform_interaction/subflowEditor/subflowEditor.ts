@@ -191,6 +191,7 @@ export default class SubflowEditor extends LightningElement {
 
     /**
      * public api function to return the node
+     *
      * @returns {object} node - node
      */
     @api getNode() {
@@ -200,6 +201,7 @@ export default class SubflowEditor extends LightningElement {
 
     /**
      * public api function to run the rules from actionCall validation library
+     *
      * @returns {Object[]} list of errors
      */
     @api validate() {
@@ -264,6 +266,7 @@ export default class SubflowEditor extends LightningElement {
 
     /**
      * Handles selection/deselection of 'Manually Assign Variables' checkbox
+     *
      * @param {Object} event - event
      */
     handleManuallyAssignVariablesChanged(event) {

@@ -42,6 +42,7 @@ const emptyFilterItem = () => {
 
 /**
  * Reset current element's state filters property
+ *
  * @param {Object} state - current element's state
  * @returns {Object} updated state
  */
@@ -52,6 +53,7 @@ const resetFilters = (state) => {
 
 /**
  * Reset filterLogic, filters, outputReference, queriedFields, sort order, sort field, assignment to null, storing options
+ *
  * @param {Object} state - current element state
  * @returns {Object} updated state
  */
@@ -117,6 +119,7 @@ const propertyChanged = (state, event) => {
 
 /**
  * Start reducer function
+ *
  * @param {object} state - element / start node
  * @param {object} event - object containing type and payload eg: {type:'xyz', payload: {propertyName: '', value: '' , error: ''}}
  * @returns {object} start - new start node instance with mutations

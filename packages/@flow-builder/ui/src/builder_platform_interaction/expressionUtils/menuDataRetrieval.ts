@@ -114,6 +114,10 @@ function sortIntoCategories(menuData, element) {
     return menuData;
 }
 
+/**
+ * @param allowedParamTypes
+ * @param element
+ */
 function elementMatchesRule(allowedParamTypes, element) {
     for (let i = 0; i < allowedParamTypes.length; i++) {
         if (isMatch(allowedParamTypes[i], element)) {
@@ -187,6 +191,8 @@ export const COMBOBOX_NEW_RESOURCE_VALUE = '%%NewResource%%';
 
 /**
  * Returns new resource menu item
+ *
+ * @param resourceTypeLabel
  * @returns {Object} menu data group object with only new resource as item
  */
 function getNewResourceItem(resourceTypeLabel: String) {
@@ -202,6 +208,7 @@ function getNewResourceItem(resourceTypeLabel: String) {
 
 /**
  * Gets a GroupedMenuItem from the given picklist values
+ *
  * @param {Object[]} picklist list of objects representing picklist values
  * @returns {module:menuDataGenerator.GroupMenuItems} menu data that has picklist values
  */
@@ -401,7 +408,8 @@ export function filterAndMutateMenuData(
 
 /**
  * Retrieves combobox menu data for the given entity type
- * @param {String} entityType   The entity type that we want in our menu data (ex: queryable, updatable etc)
+ *
+ * @param {string} entityType   The entity type that we want in our menu data (ex: queryable, updatable etc)
  * @returns {MenuData}             Combobox menu data with our entities
  */
 export const getEntitiesMenuData = (entityType) => {
@@ -435,6 +443,7 @@ const isWritable = (field) => {
 
 /**
  * Filters list of fields based on allowed types and returns them in combobox-friendly shape
+ *
  * @param chosenElement The parent chosen element
  * @param fields Array of the fields to be filtered
  * @param options
@@ -445,6 +454,15 @@ const isWritable = (field) => {
  * [options.allowSObjectFieldsTraversal] true if sobject fields that are spannable can be traversed
  * [options.allowApexTypeFieldsTraversal] true if apex type fields can be traversed
  * [options.selectorConfig] if set, means that we need to select only element or element that contain fields which fullfill the given settings (isCollection, creatable/queryable/updateable/deleteable, ...)
+ * @param options.allowedParamTypes
+ * @param options.showAsFieldReference
+ * @param options.showSubText
+ * @param options.shouldBeWritable
+ * @param options.allowSObjectFieldsTraversal
+ * @param options.allowApexTypeFieldsTraversal
+ * @param options.selectorConfig
+ * @param options.allowSObjectFields
+ * @param options.allowElementFields
  * @returns array of alphabetized menu items
  */
 export function filterFieldsForChosenElement(
@@ -506,6 +524,7 @@ export function filterFieldsForChosenElement(
  * get children items
  *
  * @param {Object} the parent item
+ * @param parentItem
  * @param {boolean} showMultiPicklistGlobalVariables whether we allow global variables of type multipicklist
  * @returns {Promise<Object>} the children items : key is the field name, value is the child item as a complex type field description
  */
@@ -527,6 +546,7 @@ export function getChildrenItemsPromise(parentItem, showMultiPicklistGlobalVaria
  * get children items
  *
  * @param {Object} the parent item
+ * @param parentItem
  * @param {boolean} showMultiPicklistGlobalVariables whether we allow global variables of type multipicklist
  * @returns {Object} the children items : key is the field name, value is the child item as a complex type field description
  */
@@ -562,6 +582,9 @@ export function getChildrenItems(parentItem, showMultiPicklistGlobalVariables = 
     return result;
 }
 
+/**
+ * @param guid
+ */
 function getScreenFieldElementByGuid(guid) {
     return getElementByGuid(guid) || getScreenElement().getFieldByGUID(guid);
 }
@@ -571,7 +594,7 @@ function getScreenFieldElementByGuid(guid) {
  * this finds the corresponding element.
  *
  * @param {Object} elements    all elements in the flow
- * @param {String} devName     the element's devName
+ * @param {string} devName     the element's devName
  * @returns {Object}  the element with the provided devName
  */
 export function getElementByDevName(elements = {}, devName) {
@@ -582,6 +605,7 @@ export function getElementByDevName(elements = {}, devName) {
 
 /**
  * Get a list of menu data based from the allowed resource types returned by the java controller
+ *
  * @returns {MenuItem[]} list of menu items representing the allowed resource types
  */
 export const getResourceTypesMenuData = () => {
@@ -600,6 +624,7 @@ export const getResourceTypesMenuData = () => {
 
 /**
  * Get a list of menu data based from the allowed process types returned by the java controller
+ *
  * @returns {MenuItem[]} list of menu items representing the allowed process types
  */
 export const getProcessTypesMenuData = () => {
@@ -614,6 +639,7 @@ export const getProcessTypesMenuData = () => {
 
 /**
  * Get a list of menu data based from the allowed run-in modes returned by the java controller
+ *
  * @returns {MenuItem[]} list of menu items representing the allowed modes.
  */
 export const getRunInModesMenuData = () => {
@@ -628,6 +654,7 @@ export const getRunInModesMenuData = () => {
 
 /**
  * Retrieves event types combobox menu data
+ *
  * @returns {MenuData}             Combobox menu data with our entities
  */
 export const getEventTypesMenuDataManagedSetup = () => {

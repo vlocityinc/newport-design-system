@@ -57,14 +57,15 @@ export default class WaitPlatformEvent extends LightningElement {
     }
 
     /**
-     * @type {String} guid of the parent wait element
+     * @type {string} guid of the parent wait element
      */
     @api
     waitEventGuid;
 
     /**
      * Selected event type from the sobject picker
-     * @type {String} event type of the platform event
+     *
+     * @type {string} event type of the platform event
      */
     set eventType(eventType) {
         const eventTypeValue = getValueFromHydratedItem(eventType);
@@ -88,13 +89,15 @@ export default class WaitPlatformEvent extends LightningElement {
 
     /**
      * The guid associated with the event type entity resource picker
-     * @type {String}
+     *
+     * @type {string}
      */
     @api
     eventTypeIndex;
 
     /**
      * Object of input filter parameters
+     *
      * @type {Map}
      */
     set inputFilterParameters(parameterItems) {
@@ -187,6 +190,8 @@ export default class WaitPlatformEvent extends LightningElement {
 
     /**
      * get the fields of the selected entity
+     *
+     * @param eventType
      */
     updateFilterFields(eventType) {
         getInputParametersForEventType(eventType, (params) => {
@@ -231,6 +236,7 @@ export default class WaitPlatformEvent extends LightningElement {
 
     /**
      * Add eventType API name prefix to the parameter name.
+     *
      * @param {Object} paramName parameter name object hydrated with error
      */
     addEventTypePrefix(paramName) {
@@ -259,6 +265,7 @@ export default class WaitPlatformEvent extends LightningElement {
 
     /**
      * Removes eventType API name prefix from the parameter name.
+     *
      * @param {Object} paramName hydrated parameter name object
      */
     removeEventTypePrefix(paramName) {

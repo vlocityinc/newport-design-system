@@ -10,9 +10,10 @@
 /**
  * Creates a menu subset, which includes menu items from the start up to the specified size. The function counts menu items as
  * if the menu was flat.
+ *
  * @param menuData - menu data to create a subset of
  * @param {number} size - number of items to include in the menu subset
- * @return {{menu: array, length: number}} - menu subset and its actual length
+ * @returns {{menu: Array, length: number}} - menu subset and its actual length
  */
 export function sliceMenu(menuData, size) {
     const result = [];
@@ -59,7 +60,9 @@ export function sliceMenu(menuData, size) {
 
 /**
  * Computes a length of a grouped menu as if it was flat.
+ *
  * @param {Array} - grouped or flat menu
+ * @param menu
  * @returns {number} - flattened menu length
  */
 export function getMenuLength(menu) {
@@ -71,9 +74,10 @@ export function getMenuLength(menu) {
 /**
  * Replaces one menu item with another in a multi-level menu list. An index of an item to be replaced is specified for
  * a flattened menu, where all menu levels are expanded to form one flat list.
+ *
  * @param {Array} menu - grouped or flat menu.
  * @param {number} index - flat index
- * @param {function} callback - a function to get a new item to replace the item at the index.
+ * @param {Function} callback - a function to get a new item to replace the item at the index.
  */
 export function setSelectableMenuItem(menu, index, callback) {
     const result = findMenuItemContainer(menu, index);
@@ -85,9 +89,11 @@ export function setSelectableMenuItem(menu, index, callback) {
 
 /**
  * Finds a container and an index in the container of a selectable menu item, which is the closest to a menu item at a specified flat index.
+ *
  * @param {Arrray} menu - grouped or flat menu
  * @param (number} index - index of a target menu item in a flattened menu
- * @returns {{ container: array, containerIndex: number }}
+ * @param index
+ * @returns {{container: Array, containerIndex: number}}
  */
 function findMenuItemContainer(menu, index) {
     let counter = 0;
@@ -121,6 +127,9 @@ function findMenuItemContainer(menu, index) {
 /**
  * Finds a menu item that is selectable, starting from the specified index, first traversing down the menu list
  * and then up, if no selectable item is found below the starting index.
+ *
+ * @param menu
+ * @param index
  */
 function findSelectableMenuItem(menu, index) {
     let result = findNextSelectableMenuItem(menu, index);
@@ -130,6 +139,10 @@ function findSelectableMenuItem(menu, index) {
     return result;
 }
 
+/**
+ * @param menu
+ * @param start
+ */
 function findNextSelectableMenuItem(menu, start = 0) {
     for (let i = start; i < menu.length; i++) {
         const item = menu[i];
@@ -149,6 +162,10 @@ function findNextSelectableMenuItem(menu, start = 0) {
     return undefined;
 }
 
+/**
+ * @param menu
+ * @param end
+ */
 function findPrevSelectableMenuItem(menu, end) {
     if (!end) {
         end = menu.length - 1;
@@ -172,6 +189,9 @@ function findPrevSelectableMenuItem(menu, end) {
     return undefined;
 }
 
+/**
+ * @param item
+ */
 function isSelectable(item) {
     // CC from https://git.soma.salesforce.com/aura/lightning-global/blob/0144983925257245fc98bf061ddfa95873127678/ui-lightning-components/src/main/modules/lightning/baseCombobox/baseCombobox.js#L344-L345
     return item && ['option-card', 'option-inline'].indexOf(item.type) >= 0;

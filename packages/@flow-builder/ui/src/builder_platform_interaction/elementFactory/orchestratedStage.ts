@@ -75,6 +75,9 @@ export interface OrchestratedStage extends UI.CanvasElement {
 const elementType = ELEMENT_TYPE.ORCHESTRATED_STAGE;
 
 // For Opening Property editor for a OrchestratedStage
+/**
+ * @param existingStage
+ */
 export function createOrchestratedStageWithItems(existingStage: OrchestratedStage): OrchestratedStage {
     const newStage: OrchestratedStage = baseCanvasElement(existingStage) as OrchestratedStage;
     const { childReferences = [] } = existingStage;
@@ -111,6 +114,19 @@ export function createOrchestratedStageWithItems(existingStage: OrchestratedStag
  * Function to create the pasted OrchestratedStage element
  *
  * @param dataForPasting - Data required to create the pasted element
+ * @param dataForPasting.canvasElementToPaste
+ * @param dataForPasting.newGuid
+ * @param dataForPasting.newName
+ * @param dataForPasting.canvasElementGuidMap
+ * @param dataForPasting.childElementGuidMap
+ * @param dataForPasting.childElementNameMap
+ * @param dataForPasting.cutOrCopiedChildElements
+ * @param dataForPasting.topCutOrCopiedGuid
+ * @param dataForPasting.bottomCutOrCopiedGuid
+ * @param dataForPasting.prev
+ * @param dataForPasting.next
+ * @param dataForPasting.parent
+ * @param dataForPasting.childIndex
  */
 export function createPastedOrchestratedStage({
     canvasElementToPaste,
@@ -161,14 +177,15 @@ export function createPastedOrchestratedStage({
  * Function to create the duplicate Decision element
  *
  * @param {Object} decision - Decision element being copied
- * @param {String} newGuid - Guid for the new duplicated decision element
- * @param {String} newName - Name for the new duplicated decision element
+ * @param orchestratedStage
+ * @param {string} newGuid - Guid for the new duplicated decision element
+ * @param {string} newName - Name for the new duplicated decision element
  * @param {Object} childElementGuidMap - Map of child element guids to newly generated guids that will be used for
  * the duplicated child elements
  * @param {Object} childElementNameMap - Map of child element names to newly generated unique names that will be used for
  * the duplicated child elements
  * @param {Object} cutOrCopiedChildElements - Local copy of the cut ot copied canvas elements. Undefined in the case of duplication on Free Form Canvas
- * @return {Object} Returns an object containing the duplicated element and the duplicated childElements
+ * @returns {Object} Returns an object containing the duplicated element and the duplicated childElements
  */
 export function createDuplicateOrchestratedStage(
     orchestratedStage: OrchestratedStage,
@@ -209,6 +226,9 @@ export function createDuplicateOrchestratedStage(
     };
 }
 
+/**
+ * @param originalItems
+ */
 function createStageStepsWithReferences(
     originalItems: StageStep[]
 ): {
@@ -230,6 +250,9 @@ function createStageStepsWithReferences(
     };
 }
 
+/**
+ * @param stage
+ */
 export function createOrchestratedStageWithItemReferences(stage: OrchestratedStage) {
     const newStage = baseCanvasElement(stage);
 
@@ -256,6 +279,7 @@ export function createOrchestratedStageWithItemReferences(stage: OrchestratedSta
 
 /**
  * OrchestratedStage from the property editor on close goes to the store
+ *
  * @param orchestratedStage
  */
 export function createOrchestratedStageWithItemReferencesWhenUpdatingFromPropertyEditor(
@@ -296,6 +320,7 @@ export function createOrchestratedStageWithItemReferencesWhenUpdatingFromPropert
 /**
  * Selector callback used for the orchestratedStageNode to provide data needed
  * for dynamic rendering on the canvas
+ *
  * @param guid
  */
 export function getSteps(guid: UI.Guid): StageStep[] {
@@ -312,6 +337,9 @@ export function getSteps(guid: UI.Guid): StageStep[] {
     );
 }
 
+/**
+ *
+ */
 export function getOrchestratedStageChildren(): UI.StringKeyedMap<any> {
     return {
         Status: {
@@ -337,6 +365,9 @@ const getActionNameAndType = (
     return { actionName: name, actionType: type };
 };
 
+/**
+ * @param element
+ */
 export function getStageStepChildren(element: UI.Element): UI.StringKeyedMap<any> {
     // Explicit cast should be safe since we should only call this version
     // with StageSteps
@@ -452,6 +483,7 @@ const setupStepWithLabels = (step: StageStep): StageStep => {
 /**
  * Note: When creating StageSteps during initial load, the output parameters are not
  * available.  They are injected asynchronously by preloadLib.loadParametersForStageStepsInFlow
+ *
  * @param step
  */
 export function createStageStep(step: StageStep): StageStep {
@@ -541,6 +573,10 @@ export function createStageStep(step: StageStep): StageStep {
     return { ...step, ...newStep };
 }
 
+/**
+ * @param orchestratedStage
+ * @param config
+ */
 export function createOrchestratedStageMetadataObject(
     orchestratedStage: OrchestratedStage,
     config = {}
@@ -633,6 +669,10 @@ export function createOrchestratedStageMetadataObject(
     return newOrchestratedStage;
 }
 
+/**
+ * @param childReferences
+ * @param step
+ */
 function updateItemReferences(childReferences: any[], step: StageStep): UI.ChildReference[] {
     return [
         ...childReferences,
@@ -643,6 +683,10 @@ function updateItemReferences(childReferences: any[], step: StageStep): UI.Child
 }
 
 // TODO: Refactor with Decision and Wait functions here to use common code path
+/**
+ * @param originalOrchestratedStage
+ * @param newSteps
+ */
 function getDeletedStepsUsingStore(originalOrchestratedStage: OrchestratedStage, newSteps: StageStep[] = []) {
     if (!originalOrchestratedStage) {
         throw new Error('Stepped stage is not defined');
@@ -671,6 +715,7 @@ function getDeletedStepsUsingStore(originalOrchestratedStage: OrchestratedStage,
 /**
  * Returns all items in the parent OrchestratedStage *other* than the item passed in.
  * If no parent orchestratedStage is found, an Error is thrown
+ *
  * @param guid
  */
 export function getOtherItemsInOrchestratedStage(guid: UI.Guid): StageStep[] {

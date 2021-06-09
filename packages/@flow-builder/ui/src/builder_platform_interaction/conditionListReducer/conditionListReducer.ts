@@ -15,8 +15,11 @@ import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 
 /**
  * Updates a condtion in the conditionList
+ *
  * @param {*} conditionList - The condition list data
  * @param {*} event - The UpdateConditionEvent
+ * @param deletedGuids
+ * @param label
  */
 const updateCondition = (conditionList, event, deletedGuids, label) => {
     const newCondition = updateProperties(conditionList.conditions[event.detail.index], event.detail.value);
@@ -30,6 +33,7 @@ const updateCondition = (conditionList, event, deletedGuids, label) => {
 
 /**
  * Deletes a condtion in the conditionList
+ *
  * @param {*} conditionList - The condition list data
  * @param {*} event - The DeleteConditionEvent
  */
@@ -52,6 +56,7 @@ const deleteCondition = (conditionList, event) => {
 
 /**
  * Adds a new condition to the conditionList
+ *
  * @param {*} conditionList - The condition list data
  * @param {*} event - The AddConditionEvent
  */
@@ -64,6 +69,7 @@ const addCondition = (conditionList) => {
 
 /**
  * Updates the conditionList's condition logic
+ *
  * @param {*} conditionList - The condition list data
  * @param {*} event - The UpdateConditionLogicEvent
  */
@@ -85,8 +91,11 @@ const updateConditionLogic = (conditionList, event) => {
 
 /**
  * ConditionList reducer performs changes and validation on a conditionList and returns the updated (new) conditionList
+ *
  * @param {Object} state - condition list node
  * @param {Event} event - object containing type and payload
+ * @param deletedGuids
+ * @param label
  * @returns {Object} the updated condition list
  */
 export const conditionListReducer = (state, event, deletedGuids, label) => {

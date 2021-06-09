@@ -43,6 +43,7 @@ export class ExpressionBuilderComponentTest extends TestComponent<
 
     /**
      * Returns combobox component removing pill if needed
+     *
      * @param {string} comboboxSelector - combobox selector (eg: rhs combobox selector @link{EXPRESSION_BUILDER_SELECTORS.RHS_COMBOBOX}
      * @param {boolean} [clickOnPill=false] - if true we do click on the pill switching to merge field notation
      * @returns {Promise<HTMLElement>} - promise fulfilled with combobox component
@@ -60,6 +61,7 @@ export class ExpressionBuilderComponentTest extends TestComponent<
 
     /**
      * Returns LHS combobox component removing pill if needed
+     *
      * @param {HTMLElement} expressionBuilder - current expression builder containing the combobox
      * @param {boolean} [clickOnPill=false] - if true we do click on the pill switching to merge field notation
      * @returns {Promise<Combobox>} - promise fulfilled with LHS combobox component
@@ -70,6 +72,7 @@ export class ExpressionBuilderComponentTest extends TestComponent<
 
     /**
      * Returns RHS combobox component removing pill if needed
+     *
      * @param {HTMLElement} expressionBuilder - current expression builder containing the combobox
      * @param {boolean} [clickOnPill=false] - if true we do click on the pill switching to merge field notation
      * @returns {Promise<Combobox>} - promise fulfilled with RHS combobox component

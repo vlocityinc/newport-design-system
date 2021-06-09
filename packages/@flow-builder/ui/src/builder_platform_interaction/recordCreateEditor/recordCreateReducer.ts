@@ -54,6 +54,7 @@ const hasRhsValueButNoLhs = (assignmentToUpdate, leftHandSide) => {
 
 /**
  * Update input assignments
+ *
  * @param {Object }state - current state
  * @param {number} index - input assignment index
  * @param {Object} value - input assignment value
@@ -71,6 +72,7 @@ const updateRecordRecordFieldAssignment = (state, { index, value }) => {
 
 /**
  * Reset inputAssignments, inputReference, assignRecordIdToReference and possibly Object fields
+ *
  * @param {Object} state - current state
  * @param {boolean} resetObject - true if we want to reset the Object field (defaulted to true)
  * @returns {Object} - updated state
@@ -90,6 +92,11 @@ const resetRecordCreate = (state, resetObject = true) => {
 
 /**
  * Update the way the user store the records
+ *
+ * @param state
+ * @param root0
+ * @param root0.getFirstRecordOnly
+ * @param root0.wayToStoreFields
  */
 const recordStoreOptionAndWayToStoreChanged = (state, { getFirstRecordOnly, wayToStoreFields }) => {
     if (state.getFirstRecordOnly !== getFirstRecordOnly) {
@@ -107,6 +114,7 @@ const recordStoreOptionAndWayToStoreChanged = (state, { getFirstRecordOnly, wayT
 
 /**
  * Handle specific property change
+ *
  * @param {Object} state - current element state
  * @param {string} propertyName - property to be updated
  * @param {boolean} ignoreValidate - true to bypass validation
@@ -145,6 +153,10 @@ const managePropertyChanged = (
 
 /**
  * Update the property storeOutputAutomatically and reset assignRecordIdToReference.
+ *
+ * @param state
+ * @param root0
+ * @param root0.useAdvancedOptions
  */
 const useAdvancedOptionsSelectionChanged = (state, { useAdvancedOptions }) => {
     return updateProperties(state, {
@@ -155,6 +167,7 @@ const useAdvancedOptionsSelectionChanged = (state, { useAdvancedOptions }) => {
 
 /**
  * Reducer functions to update element state
+ *
  * @param {Object} state - element / node state
  * @param {Object} event - The event to be handled
  * @param {boolean} isAutomaticOutputHandlingSupported - true if current process supports automatic output mode false otherwise

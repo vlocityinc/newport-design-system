@@ -79,6 +79,7 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     /**
      * public api function to return the node
+     *
      * @returns {object} node - node
      */
     @api
@@ -88,6 +89,7 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     /**
      * public api function to run the rules from flow properties validation library
+     *
      * @returns {object} list of errors
      */
     @api
@@ -273,7 +275,8 @@ export default class FlowPropertiesEditor extends LightningElement {
     /**
      * Returns the localized string representing the last saved info
      * E.g. something like: '1/1/2018 by Jane Smith'
-     * @return {string}
+     *
+     * @returns {string}
      */
     get lastModifiedText() {
         if (this.flowProperties.lastModifiedBy && this.flowProperties.lastModifiedBy.value) {
@@ -288,6 +291,7 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     /**
      * Returns field level help text for the process type selector if saving as a new flow
+     *
      * @param {string}
      */
     get processTypeFieldLevelHelp() {
@@ -350,6 +354,7 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     /**
      * Sets custom validation for lightning element when 'Ok' button on the property editor is clicked
+     *
      * @param {object} element - element that needs custom validation
      * @param {string} error - Any existing error message
      */

@@ -67,6 +67,7 @@ export default class AssignmentEditor extends LightningElement {
 
     /**
      * public api function to return the node
+     *
      * @returns {object} node - node
      */
     @api getNode() {
@@ -75,6 +76,7 @@ export default class AssignmentEditor extends LightningElement {
 
     /**
      * public api function to run the rules from assignment validation library
+     *
      * @returns {object} list of errors
      */
     @api validate() {

@@ -61,7 +61,7 @@ function _getAvailableConnectionsContainingChildReferences(newChildReferences = 
  *
  * @param {Object[]} flatOriginalAvailableConnections - Array containing child references of the available connections
  * along with available "Default" and "Fault" types
- * @returns {{additionalConnectorCount: number, defaultAvailableConnection: Array, addFaultConnection: Boolean}} - Any additional connector
+ * @returns {{additionalConnectorCount: number, defaultAvailableConnection: Array, addFaultConnection: boolean}} - Any additional connector
  * count, available connection corresponding to Default Connection and addFaultConnection to track if we need to add Fault Connection
  */
 function _calculateForDefaultAndFaultAvailableConnections(flatOriginalAvailableConnections = []) {
@@ -100,7 +100,7 @@ function _calculateForDefaultAndFaultAvailableConnections(flatOriginalAvailableC
  * @param {Object} originalCanvasElement - original state of the canvas element
  * @param {Object[]} newChildReferences - Child References Array for the updated element state (eg: decision.childReferences)
  * @param {Object[]} deletedChildElementGuids - all the deleted child element guids (if any)
- * @returns {{connectorCount: Number, availableConnections: Object[]}} - availableConnections and connectorCount of the
+ * @returns {{connectorCount: number, availableConnections: Object[]}} - availableConnections and connectorCount of the
  * updated element along with the deletedChildElementGuids
  */
 export function getConnectionProperties(
@@ -160,6 +160,8 @@ export function getConnectionProperties(
  * @param availableConnections - original array of available connections
  * @param elementChild - an element child like outcome, wait event
  * or scheduled path in metadata form
+ * @param elementChild.name
+ * @param elementChild.connector
  * @returns updated array of available connections
  */
 export function addRegularConnectorToAvailableConnections(

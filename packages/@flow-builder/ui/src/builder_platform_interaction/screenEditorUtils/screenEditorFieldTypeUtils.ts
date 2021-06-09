@@ -176,7 +176,8 @@ const screenFieldTypes: UI.ScreenFieldType[] = [
 
 /**
  * Returns all screen field types (excluding extensions), including name, fieldType, dataType, label (localized), icon and category (localized)
- * @return {array} - The field types
+ *
+ * @returns {Array} - The field types
  */
 export function getAllScreenFieldTypes() {
     return screenFieldTypes;
@@ -184,7 +185,8 @@ export function getAllScreenFieldTypes() {
 
 /**
  * Returns a local representation of the field type for the given extension (that will eventually be replaced by the server version)
- * @param {String} name - The FQN of the extension
+ *
+ * @param {string} name - The FQN of the extension
  * @returns {FlowScreenFieldType} - The type
  */
 export function getLocalExtensionFieldType(name) {
@@ -197,6 +199,9 @@ export function getLocalExtensionFieldType(name) {
     };
 }
 
+/**
+ *
+ */
 export function getSectionFieldType() {
     return {
         name: 'Section',
@@ -207,6 +212,9 @@ export function getSectionFieldType() {
     };
 }
 
+/**
+ *
+ */
 export function getColumnFieldType() {
     return {
         name: 'Column',
@@ -216,6 +224,7 @@ export function getColumnFieldType() {
 
 /**
  * Returns a type given a name
+ *
  * @param {string} name - The name of the type
  * @returns {object} - The type
  * @throws if type can't be found
@@ -229,6 +238,7 @@ export function getScreenFieldTypeByName(name) {
 
 /**
  * Returns the type object corresponding to the given field (determined by looking at the fieldType and the dataType
+ *
  * @param {object} field - The screen field
  * @returns {object} - The corresponding type
  * @throws if type can't be found
@@ -382,6 +392,7 @@ export function isRegionField(field) {
 
 /**
  * Is the given screen field an automatic field?
+ *
  * @param {object} field to test
  * @returns {boolean} true if the screen field is an automatic field, otherwise false
  */
@@ -459,8 +470,9 @@ export function getIconNameFromDataType(dataType) {
 
 /**
  * Returns the ferov type from a field type
+ *
  * @param {FlowScreenFieldType} fieldType - The field type
- * @returns {String} - The type
+ * @returns {string} - The type
  */
 export function getFerovTypeFromFieldType(fieldType) {
     if (fieldType) {
@@ -473,8 +485,8 @@ export function getFerovTypeFromFieldType(fieldType) {
 /**
  * Maps the provided type to one of the ferov types (number, string, boolean, date and datetime)
  *
- * @param {String} type - The type
- * @returns {String} - The ferov type
+ * @param {string} type - The type
+ * @returns {string} - The ferov type
  */
 export function getFerovTypeFromTypeName(type) {
     if (type) {
@@ -497,6 +509,9 @@ export function getFerovTypeFromTypeName(type) {
     return null;
 }
 
+/**
+ * @param fieldName
+ */
 export function getPlaceHolderLabel(fieldName) {
     for (const type of getAllScreenFieldTypes()) {
         if (fieldName === type.name) {
@@ -511,6 +526,7 @@ export function getPlaceHolderLabel(fieldName) {
 /**
  * Returns an array of the choices associated with the given screenField.
  * If field.choiceReferences is empty, an empty array is returned.
+ *
  * @param {object} field - the field from which the choiceReferences should be extracted.
  */
 export function getFieldChoiceData(field) {
@@ -559,6 +575,7 @@ export function getFieldChoiceData(field) {
 
 /**
  * Has the given screen field some visibility rules in place?
+ *
  * @param {object} field - screen field to be checked
  * @returns {boolean} true if the screen field has some visibility rule, otherwise false
  */
@@ -571,6 +588,9 @@ export const getScreenFieldName = (field: FieldDefinition): ScreenFieldName | un
         : DATA_TYPE_TO_FIELD_NAME[field.dataType];
 };
 
+/**
+ * @param choice
+ */
 function getErrorFromChoice(choice) {
     if (choice && choice.choiceReference) {
         return choice.choiceReference.error;

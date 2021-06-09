@@ -12,7 +12,8 @@ let apexClassesCached = false;
 
 /**
  * Add a parent element in combobox shape to the cache
- * @param {String} key the devName/displayText of the menu item
+ *
+ * @param {string} key the devName/displayText of the menu item
  * @param {MenuItem} value the parent element in combobox shape
  */
 export const addToParentElementCache = (key, value) => {
@@ -25,7 +26,8 @@ export const addToParentElementCache = (key, value) => {
 
 /**
  * Search the cache for an element with the given devName/displayText
- * @param {String} key the devName/displayText of the menu item
+ *
+ * @param {string} key the devName/displayText of the menu item
  * @returns {MenuItem} the parent element in combobox shape. Undefined if no item found
  */
 export const getElementFromParentElementCache = (key) => {

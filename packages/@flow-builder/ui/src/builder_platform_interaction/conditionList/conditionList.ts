@@ -85,6 +85,7 @@ export default class ConditionList extends LightningElement {
 
     /**
      * Specifies the variant of the condition list component
+     *
      * @type string (narrow | default)
      */
     @api
@@ -118,13 +119,16 @@ export default class ConditionList extends LightningElement {
 
     /**
      * Whether the conditions list will be rendered - true unless no conditions are needed
-     * @return {null|boolean} whether the condition list will be displayed
+     *
+     * @returns {null|boolean} whether the condition list will be displayed
      */
     get isConditionListVisible() {
         return this.state.conditionLogic && this.state.conditionLogic.value === CONDITION_LOGIC.NO_CONDITIONS;
     }
 
-    /** Sets the CustomValidity if there is a valid error message.
+    /**
+     * Sets the CustomValidity if there is a valid error message.
+     *
      * @param {Object} element - the input component
      * @param {Object} error - the error
      */
@@ -139,7 +143,8 @@ export default class ConditionList extends LightningElement {
         }
     }
 
-    /** After rendering the condition logic component we are setting the error
+    /**
+     * After rendering the condition logic component we are setting the error
      * via setCustomValidity, except initial rendering.
      */
     renderedCallback() {
@@ -152,7 +157,7 @@ export default class ConditionList extends LightningElement {
     /**
      * @param {string} logicalOperator the logical operator we will use to build the custom logic
      * (should be either 'and' or 'or')
-     * @return {string} Default logic string which is all conditions separate by AND or OR.
+     * @returns {string} Default logic string which is all conditions separate by AND or OR.
      * E.g. For three conditions and logicalOperator AND, '1 AND 2 AND 3' is returned
      */
     getDefaultCustomLogicString(logicalOperator) {

@@ -43,13 +43,13 @@ export const COMBOBOX_ITEM_DISPLAY_TYPE = {
  * The subtext of a row varies a bit. This function captures those rules.
  * This will also probably use a label service eventually.
  *
- * @param {String} dataType  datatype of an element
- * @param {String} label  the label of an element, if exists
+ * @param {string} dataType  datatype of an element
+ * @param {string} label  the label of an element, if exists
  * @param {Object} resource the resource we're getting the subtext of
- * @param {String} resource.subtype  object type or apex class of an element, if exists
- * @param {Boolean} resource.isSystemGeneratedOutput whether or not that's an anonymous output
- * @param {String} resource.elementType element type (eg: recordCreate)
- * @returns {String} the subtext to display in a combobox row
+ * @param {string} resource.subtype  object type or apex class of an element, if exists
+ * @param {boolean} resource.isSystemGeneratedOutput whether or not that's an anonymous output
+ * @param {string} resource.elementType element type (eg: recordCreate)
+ * @returns {string} the subtext to display in a combobox row
  */
 function getSubText(dataType, label, { subtype, isSystemGeneratedOutput, elementType }) {
     let subText = '';
@@ -74,48 +74,52 @@ function getSubText(dataType, label, { subtype, isSystemGeneratedOutput, element
 
 /**
  * An object that represents one option in the combobox menu dropdown
+ *
  * @typedef {Object} MenuItem
- * @property {String} type  the type of menu data display type ex: option-inline
- * @property {String} text  the text that will be displayed by the combobox (can be highlighted)
- * @property {String} subText the subtext that will displayed below the text
- * @property {String} displayText   the value displayed in the input field when this menu item is selected
- * @property {String} iconName  the icon that will be displayed next to the menu item in a dropdown list
- * @property {String} iconAlternativeText  the alternativeText for the icon that will be displayed next to the menu item in a dropdown list
- * @property {String} value the id or api name of the value stored by the flow combobox. This is what we want to put in store/events
+ * @property {string} type  the type of menu data display type ex: option-inline
+ * @property {string} text  the text that will be displayed by the combobox (can be highlighted)
+ * @property {string} subText the subtext that will displayed below the text
+ * @property {string} displayText   the value displayed in the input field when this menu item is selected
+ * @property {string} iconName  the icon that will be displayed next to the menu item in a dropdown list
+ * @property {string} iconAlternativeText  the alternativeText for the icon that will be displayed next to the menu item in a dropdown list
+ * @property {string} value the id or api name of the value stored by the flow combobox. This is what we want to put in store/events
  * @property {Object} parent in the case that this is a second level item, this is the parent flow element in combobox shape
- * @property {String} dataType the data type for the menu item. eg: Date, Currency, SObject
- * @property {String} subtype the object type or apex when data type is SObject otherwise null. eg: Account
+ * @property {string} dataType the data type for the menu item. eg: Date, Currency, SObject
+ * @property {string} subtype the object type or apex when data type is SObject otherwise null. eg: Account
  * @property {boolean} isCollection true if is a collection
  */
 
 /**
  * An object that contains a list of menu items with an optional header
+ *
  * @typedef {Object} GroupedMenuItems
- * @property {String} label    an optional header/category for the list of items that will be displayed
+ * @property {string} label    an optional header/category for the list of items that will be displayed
  * @property {MenuItem[]} items    list of menu items in order that they will be displayed
  */
 
 /**
  * The menu data that will be displayed in a flow combobox, it contains a list of GroupedMenuItems
+ *
  * @typedef {GroupedMenuItems[]} MenuData
  */
 
 /**
  * Create one menu item
- * @param {String} type the type of the menu item
- * @param {String} text the text of the menu item
- * @param {String} subText  the subtext of the menu item
- * @param {String} displayText the display text of the menu item
- * @param {String} iconName the icon of the menu item
- * @param {String} iconAlternativeText alternativeText for the icon of the menu item
- * @param {String} value the value of the menu item
+ *
+ * @param {string} type the type of the menu item
+ * @param {string} text the text of the menu item
+ * @param {string} subText  the subtext of the menu item
+ * @param {string} displayText the display text of the menu item
+ * @param {string} iconName the icon of the menu item
+ * @param {string} iconAlternativeText alternativeText for the icon of the menu item
+ * @param {string} value the value of the menu item
  * @param {Object} parent the parent flow element of the second level item in combobox shape
  * @param {boolean} isSystemVariableField true for fields if the root parent is $Record
  * @param {boolean} haveSystemVariableFields true for spannable sobject fields whose root parent is $Record
- * @param {String} dataType the data type for the menu item. eg: Date, Currency, SObject
- * @param {String} subtype the object type when data type is SObject otherwise null. eg: Account
+ * @param {string} dataType the data type for the menu item. eg: Date, Currency, SObject
+ * @param {string} subtype the object type when data type is SObject otherwise null. eg: Account
  * @param {boolean} isCollection true if is a collection
- * @param {function} optional function to be called to retrieve child items for the item
+ * @param {Function} optional function to be called to retrieve child items for the item
  * @returns {MenuItem}  the generated menu item
  */
 const createMenuItem = ({
@@ -155,7 +159,7 @@ const createMenuItem = ({
  * Determines whether to show the dataType as the subtext or not
  *
  * @param {Object} [parent] Parent object if field is a second level item
- * @return {boolean} True if dataType should be the subtext
+ * @returns {boolean} True if dataType should be the subtext
  */
 const shouldShowDataTypeAsSubText = (parent) =>
     parent &&
@@ -165,7 +169,9 @@ const shouldShowDataTypeAsSubText = (parent) =>
 
 /**
  * Get sub text for given field
+ *
  * @param {Object} [parent] Parent object if field is a second level item
+ * @param field
  * @returns {string} the subtext to display
  */
 function getFieldSubText(parent, field) {
@@ -186,10 +192,12 @@ function getFieldSubText(parent, field) {
 
 /**
  * Get display text a field
+ *
  * @param {Object} [parent] Parent object if field is a second level item
  * @param {string} fieldNameOrRelationshipName the field name or the relationship name
  * @param {string} [specificObjectName] the specific object name if field is polymorphic
  * @param {boolean} true to show the display text as field reference, otherwise return field name
+ * @param showAsFieldReference
  * @returns {string} the display text for the field
  */
 function getFieldDisplayText(parent, fieldNameOrRelationshipName, specificObjectName, showAsFieldReference) {
@@ -200,6 +208,23 @@ function getFieldDisplayText(parent, fieldNameOrRelationshipName, specificObject
     return displayText;
 }
 
+/**
+ * @param root0
+ * @param root0.text
+ * @param root0.iconName
+ * @param root0.iconAlternativeText
+ * @param root0.subText
+ * @param root0.displayText
+ * @param root0.value
+ * @param root0.parent
+ * @param root0.isSystemVariableField
+ * @param root0.haveSystemVariableFields
+ * @param root0.hasNext
+ * @param root0.dataType
+ * @param root0.subtype
+ * @param root0.isCollection
+ * @param root0.getChildrenItems
+ */
 function createMenuItemForField({
     text = '',
     iconName,
@@ -240,6 +265,14 @@ function createMenuItemForField({
     return menuItem;
 }
 
+/**
+ * @param field
+ * @param parent
+ * @param referenceToName
+ * @param root0
+ * @param root0.showAsFieldReference
+ * @param root0.showSubText
+ */
 function getMenuItemForSpannableSObjectField(
     field,
     parent,
@@ -272,6 +305,9 @@ function getMenuItemForSpannableSObjectField(
     });
 }
 
+/**
+ * @param item
+ */
 function getMergeFieldLevel(item) {
     let mergeFieldLevel = 1;
     if (item) {
@@ -283,6 +319,14 @@ function getMergeFieldLevel(item) {
     return mergeFieldLevel;
 }
 
+/**
+ * @param field
+ * @param parent
+ * @param root0
+ * @param root0.showAsFieldReference
+ * @param root0.showSubText
+ * @param root0.allowSObjectFieldsTraversal
+ */
 function getMenuItemsForSObjectField(
     field,
     parent,
@@ -318,6 +362,16 @@ function getMenuItemsForSObjectField(
     ];
 }
 
+/**
+ * @param field
+ * @param parent
+ * @param root0
+ * @param root0.allowSObjectFieldsTraversal
+ * @param root0.allowApexTypeFieldsTraversal
+ * @param root0.allowSObjectFields
+ * @param root0.allowApexTypeFields
+ * @param root0.allowElementFields
+ */
 function isTraversable(
     field,
     parent,
@@ -431,6 +485,7 @@ export function getMenuItemForField(
  * @param {boolean} [options.allowApexTypeFieldsTraversal] true if apex type fields can be traversed
  * @param {boolean} [options.allowSObjectFields] true to allow SObject traversal (1st level : SObject fields)
  * @param {boolean} [options.allowApexTypeFields] true to allow Apex type traversal (1st level : apex type fields)
+ * @param options.allowElementFields
  * @returns {MenuItem[]} menu items for the field (possibly more than one for SObject fields that are spannable)
  */
 export function getMenuItemsForField(
@@ -526,6 +581,7 @@ export function mutateFlowResourceToComboboxShape(resource) {
 
 /**
  * Creates a new array of combobox menu data from an existing array of entities taken from the service
+ *
  * @param {Array} entities the array of entities that you want to mutate into comboobx shape
  * @returns {MenuData} combobox menu data for the given entities
  */
@@ -565,6 +621,7 @@ export const apexClassesMenuDataSelector = createSelector([apexClassesSelector],
 
 /**
  * Mutates one picklist value into a combobox menu item
+ *
  * @param {Object} picklistOption object that is a picklist value
  * @returns {MenuItem} menu item representing the picklist value
  */
@@ -584,6 +641,7 @@ export const mutatePicklistValue = (picklistOption) => {
 
 /**
  * Creates a new array of combobx menu data from an existing array of event types taken from the service
+ *
  * @param {Array} eventTypes the array of event types that you want to mutate into comboobx shape
  * @returns {MenuData} combobox menu data for the given event types
  */
@@ -622,7 +680,7 @@ const mutateSystemAndGlobalVariablesToComboboxShape = ({ value, dataType, subtyp
 /**
  * Gets menu data global variable types.
  *
- * @return {MenuDataItem[]} menu data for global variables
+ * @returns {MenuDataItem[]} menu data for global variables
  */
 export const getGlobalVariableTypeComboboxItems = () => {
     const globalVariableTypes = getGlobalVariableTypes();
@@ -645,7 +703,7 @@ export const getGlobalVariableTypeComboboxItems = () => {
 /**
  * The combobox item representing the System Variable ($Flow) category.
  *
- * @return {MenuDataItem[]} menu data for $Flow
+ * @returns {MenuDataItem[]} menu data for $Flow
  */
 export const getFlowSystemVariableComboboxItem = () => {
     return mutateSystemAndGlobalVariablesToComboboxShape({
@@ -657,7 +715,7 @@ export const getFlowSystemVariableComboboxItem = () => {
 /**
  * The combobox item representing the System Variable ($Client) category.
  *
- * @return {MenuDataItem[]} menu data for $Client
+ * @returns {MenuDataItem[]} menu data for $Client
  */
 const getFlowSystemClientVariableComboboxItem = () =>
     mutateSystemAndGlobalVariablesToComboboxShape({
@@ -668,10 +726,11 @@ const getFlowSystemClientVariableComboboxItem = () =>
 /**
  * Menu data for system and/or global variables.
  *
- * @param {Boolean} showSystemVariables   should include the system variable category
- * @param {Boolean} showGlobalVariables   should include the global variable categories
- * @param {Boolean} forFormula   if we are retrieving menu data for formula editor
- * @return {MenuData} menu data showing system variables and/or global variables
+ * @param {boolean} showSystemVariables   should include the system variable category
+ * @param {boolean} showGlobalVariables   should include the global variable categories
+ * @param {boolean} forFormula   if we are retrieving menu data for formula editor
+ * @param shouldBeWritable
+ * @returns {MenuData} menu data showing system variables and/or global variables
  */
 export const getSystemAndGlobalVariableMenuData = (
     showSystemVariables: boolean,

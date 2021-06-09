@@ -136,7 +136,7 @@ export default class Header extends LightningElement {
         return badgeClass;
     }
     /**
-     * @return {String} the css class for badge
+     * @returns {string} the css class for badge
      */
     get badgeClasses() {
         let classes = 'slds-align-middle slds-m-left_xx-small';

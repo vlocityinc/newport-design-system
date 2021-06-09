@@ -97,6 +97,7 @@ export default class SortOptionList extends LightningElement {
     }
     /**
      * handle event when adding the sort option
+     *
      * @param event the add sort option
      */
     handleAddSortOption(event: CustomEvent) {
@@ -107,6 +108,7 @@ export default class SortOptionList extends LightningElement {
 
     /**
      * handle event when deleting the sort option
+     *
      * @param event the delete sort option
      */
     handleDeleteSortOption(event: CustomEvent) {

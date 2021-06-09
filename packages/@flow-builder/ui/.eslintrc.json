@@ -22,7 +22,11 @@
             "error",
             {
                 "whitelist": {
-                    "complexity": ["**/builder_platform_interaction/reducers/elementsReducer.ts"],
+                    "complexity": [
+                        "**/builder_platform_interaction/reducers/elementsReducer.ts",
+                        "**/builder_platform_interaction/reducers/flowPropertiesReducer.ts",
+                        "**/builder_platform_interaction/reducers/elementsReducer.ts"
+                    ],
                     "@lwc/lwc/no-async-operation": [
                         "**/builder_platform_interaction/conditionEditorPopover/conditionEditorPopover.ts",
                         "**/builder_platform_interaction/debugEditorPopover/debugEditorPopover.ts",

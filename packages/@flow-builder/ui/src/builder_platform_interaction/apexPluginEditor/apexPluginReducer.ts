@@ -28,6 +28,7 @@ const apexPluginPropertyChanged = (state, event) => {
 
 /**
  * Apex Plugin reducer, performs changes and validation on a apex plugin editor
+ *
  * @param {object} state  element / apex plugin node
  * @param {object} event  event to process
  * @returns {object}    the updated apex plugin node

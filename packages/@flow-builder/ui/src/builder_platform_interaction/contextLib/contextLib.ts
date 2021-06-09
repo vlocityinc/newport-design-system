@@ -82,31 +82,50 @@ let context: Context = {
  *
  * @param {Object}
  *            obj the application context
+ * @param obj
  */
 export function setContext(obj: Context) {
     context = obj;
 }
 
+/**
+ *
+ */
 export function isDevMode() {
     return context.devMode;
 }
 
+/**
+ *
+ */
 export function isTestMode() {
     return context.testMode;
 }
 
+/**
+ *
+ */
 export function getUserPreferences() {
     return context.userPrefs;
 }
 
+/**
+ *
+ */
 export function getOrgId() {
     return context.orgId;
 }
 
+/**
+ *
+ */
 export function orgHasFlowBuilderDebug() {
     return context.access && context.access.orgHasFlowBuilderDebug;
 }
 
+/**
+ *
+ */
 export function orgHasComponentPreview() {
     return context.access && context.access.orgHasComponentPreview;
 }
@@ -114,21 +133,36 @@ export function orgHasComponentPreview() {
 /*
  * @returns true if the auto layout feature is available
  */
+/**
+ *
+ */
 export function isAutoLayoutCanvasEnabled() {
     return !isTestMode();
 }
 
+/**
+ *
+ */
 export function orgHasFlowScreenSections() {
     return context.access && context.access.orgHasFlowScreenSections;
 }
 
+/**
+ *
+ */
 export function canUserVAD() {
     return context.canVAD;
 }
+/**
+ *
+ */
 export function orgHasBeforeSaveEnabled() {
     return context.access.orgHasBeforeSaveEnabled;
 }
 
+/**
+ *
+ */
 export function orgHasFlowBuilderGuardrails() {
     return context.access && context.access.orgHasFlowBuilderGuardrails;
 }
@@ -136,12 +170,18 @@ export function orgHasFlowBuilderGuardrails() {
 /*
  * @returns true if the automatic fields org perm is enabled
  */
+/**
+ *
+ */
 export function orgHasFlowBuilderAutomaticFields() {
     return context.access && context.access.orgHasFlowBuilderAutomaticFields;
 }
 
 export const CLASSIC_EXPERIENCE = 'CLASSIC';
 
+/**
+ *
+ */
 export function getPreferredExperience() {
     return context.preferredExperience as string;
 }

@@ -5,6 +5,7 @@ import { format } from 'builder_platform_interaction/commonUtils';
 
 /**
  * Assignment Item List component for flow builder.
+ *
  * @ScrumTeam Process UI
  * @author hcockburn
  * @since 214

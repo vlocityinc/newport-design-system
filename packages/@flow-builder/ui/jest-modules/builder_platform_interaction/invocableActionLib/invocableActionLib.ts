@@ -94,6 +94,7 @@ export const fetchDetailsForInvocableAction = jest
 
 /**
  * To fake that the given action is not yet loaded
+ *
  * @param {*} action
  */
 export const setNotLoadedAction = ({ actionType, actionName }: { actionName?: string; actionType?: string } = {}) => {

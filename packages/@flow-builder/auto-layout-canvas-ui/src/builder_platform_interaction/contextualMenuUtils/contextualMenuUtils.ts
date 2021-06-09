@@ -1,5 +1,10 @@
 import { commands } from 'builder_platform_interaction/sharedUtils';
 const { ArrowDown } = commands;
+/**
+ * @param items
+ * @param currentItemInFocus
+ * @param key
+ */
 function moveFocusInMenuOnArrowKeyDown(items, currentItemInFocus, key) {
     const currentFocusIndex = items.indexOf(currentItemInFocus);
     let nextFocusIndex = key === ArrowDown.COMMAND_NAME ? currentFocusIndex + 1 : currentFocusIndex - 1;
@@ -15,16 +20,28 @@ function moveFocusInMenuOnArrowKeyDown(items, currentItemInFocus, key) {
     items[nextFocusIndex].focus();
 }
 
+/**
+ * @param keyboardInteract
+ * @param shortCutCommands
+ */
 function setupKeyboardShortcutUtil(keyboardInteract, shortCutCommands) {
     Object.entries(shortCutCommands).forEach(([shortcutKeys, command]) => {
         keyboardInteract.setupCommandAndShortcut(command, { key: shortcutKeys });
     });
 }
 
+/**
+ *
+ */
 function isMacPlatform() {
     return navigator.userAgent.indexOf('Macintosh') !== -1;
 }
 
+/**
+ * @param keyboardInteract
+ * @param command
+ * @param key
+ */
 function setupKeyboardShortcutWithShiftKey(keyboardInteract, command, key) {
     const shiftTabShortCut = isMacPlatform() ? { shift: true, key } : { shift: true, ctrlOrCmd: true, key };
     keyboardInteract.setupCommandAndShortcut(command, shiftTabShortCut);

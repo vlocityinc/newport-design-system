@@ -11,7 +11,8 @@ const additionalRules = {
 };
 /**
  * Validate the filter item. Here we can't use the ValidationRules.validateExpressionWith3Properties because this function allows empty RHS
- * @return {function} the function to be called with each filter item to return the array of rules.
+ *
+ * @returns {Function} the function to be called with each filter item to return the array of rules.
  */
 const validateFilter = () => {
     return (filter) => {
@@ -30,7 +31,8 @@ const validateFilter = () => {
 
 /**
  * Validate the outputAssignments item. We only need to validate when either LHS or RHS is filled.
- * @return {function} the function to be called with each outputAssignment item to return the array of rules.
+ *
+ * @returns {Function} the function to be called with each outputAssignment item to return the array of rules.
  */
 const validateOutputAssignments = () => {
     return (outputAssignment) => {

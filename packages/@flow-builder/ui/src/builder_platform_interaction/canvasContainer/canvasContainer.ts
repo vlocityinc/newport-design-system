@@ -63,7 +63,7 @@ export default class CanvasContainer extends LightningElement {
     /**
      * Calls the panElementToViewIfNeeded public function living in the canvas
      *
-     * @param {String} canvasElementGuid - guid of the canvas element that needs to be highlighted
+     * @param {string} canvasElementGuid - guid of the canvas element that needs to be highlighted
      */
     @api panElementToView = (canvasElementGuid = '') => {
         const canvas = this.template.querySelector('builder_platform_interaction-canvas');

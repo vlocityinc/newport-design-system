@@ -12,6 +12,7 @@ let lastAction; // Used in grouping the multiple actions into one state
  * Undo Function
  *  - Adds the present state object to the future state array.
  *  - Slices the last element of the past array and sets it to present.
+ *
  * @param {Object[]} pastStates - Array of past state objects
  * @param {Object} presentState - Present state object
  * @param {Object[]} futureStates - Array of future state objects
@@ -34,6 +35,7 @@ const undo = (pastStates, presentState, futureStates) => {
  * Redo Function
  *  - Adds the present state object to the last of past state array
  *  - Slices the first element from the future array and sets it to present.
+ *
  * @param {Object[]} pastStates - Array of past state objects
  * @param {Object} presentState - Present state object
  * @param {Object[]} futureStates - Array of future state objects
@@ -58,14 +60,14 @@ export const INIT = 'INIT';
 export const CLEAR_UNDO_REDO = 'CLEAR_UNDO_REDO';
 
 /**
- * @returns {Boolean} True if past array contains any state objects, false otherwise
+ * @returns {boolean} True if past array contains any state objects, false otherwise
  */
 export const isUndoAvailable = () => {
     return past.length > 0 ? true : false;
 };
 
 /**
- * @returns {Boolean} True if future array contains any state objects, false otherwise
+ * @returns {boolean} True if future array contains any state objects, false otherwise
  */
 export const isRedoAvailable = () => {
     return future.length > 0 ? true : false;
@@ -73,8 +75,11 @@ export const isRedoAvailable = () => {
 
 /**
  * Higher order function to be used on top of reducer function in the app.
+ *
  * @param {*} reducer - reducer function for the app. Combined Reducer in case of flow builder
  * @param {Object} config - Config object containing blacklistedActions array & groupedActions array
+ * @param config.blacklistedActions
+ * @param config.groupedActions
  * @returns {Object} Reduced state object
  */
 export const undoRedo = (reducer, { blacklistedActions = [], groupedActions = [] }) => (state = {}, action) => {

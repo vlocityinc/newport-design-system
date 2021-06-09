@@ -91,8 +91,7 @@ export default class Palette extends LightningElement {
      * This maps unique identifiers back to the row data. This is helpful when
      * handling events and all we have is the dom element.
      *
-     * @param {Array}
-     *            rows The flattened row data
+     * @param {Array} rows The flattened row data
      * @returns {Object} A mapping of tree node identifier to its row data
      */
     createItemMap(rows) {
@@ -107,8 +106,7 @@ export default class Palette extends LightningElement {
      * When toggling a section, we need to flatten the original data again using
      * the updated collapsed sections state.
      *
-     * @param {Event}
-     *            event A section toggle event
+     * @param {Event} event A section toggle event
      */
     handleToggleSection(event) {
         const sectionId = event.currentTarget.dataset.id;
@@ -118,6 +116,7 @@ export default class Palette extends LightningElement {
 
     /**
      * Dispatches the LocatorIconClickedEvent that highlights the element on canvas
+     *
      * @param {object} event onclick event
      */
     handleLocatorClick(event) {
@@ -129,8 +128,7 @@ export default class Palette extends LightningElement {
     /**
      * Dispatches an event which opens the resource details panel.
      *
-     * @param {Event}
-     *            event A resource details button click event
+     * @param {Event} event A resource details button click event
      */
     handleResourceDetailsClick(event) {
         const guid = event.currentTarget.dataset.guid;
@@ -143,8 +141,7 @@ export default class Palette extends LightningElement {
     /**
      * Handler for when an element is dragged.
      *
-     * @param {Object}
-     *            event drag start event
+     * @param {Object} event drag start event
      */
     handleDragStart(event) {
         if (event) {

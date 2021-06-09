@@ -46,10 +46,16 @@ export enum InputsOnNextNavToAssocScrnOption {
     RESET_VALUES = 'ResetValues'
 }
 
+/**
+ * @param element
+ */
 export function isScreen(element) {
     return element && element.elementType && element.elementType === ELEMENT_TYPE.SCREEN;
 }
 
+/**
+ * @param label
+ */
 export function getVariant(label) {
     // field labels are not required in flow, but they are required by the lightning component
     // we're using to preview them. Hide the label if the label is an empty string or equivalent.
@@ -59,6 +65,10 @@ export function getVariant(label) {
         : LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN;
 }
 
+/**
+ * @param element
+ * @param property
+ */
 export function booleanAttributeValue(element, property) {
     if (element && property) {
         return booleanValue(element[property], property);
@@ -67,10 +77,18 @@ export function booleanAttributeValue(element, property) {
     return false;
 }
 
+/**
+ * @param value
+ * @param name
+ */
 export function booleanValue(value, name?) {
     return value && (value === 'true' || value === true || value === name);
 }
 
+/**
+ * @param value
+ * @param propertyName
+ */
 function getNormalizedValue(value, propertyName = 'value') {
     const hydrated = value && value.hasOwnProperty('value');
     const val = hydrated ? value[propertyName] : value;
@@ -120,6 +138,7 @@ export function getDragFieldValue() {
 
 /**
  * Gets a field with the given guid in the given sections
+ *
  * @param {Array<ScreenPaletteSection>} sections parent sections containing fields
  * @param {string} guid guid we're looking for
  * @returns {ScreenPaletteItem} the corresponding field if found
@@ -135,6 +154,10 @@ export function getFieldByGuid(sections: Array<ScreenPaletteSection>, guid: stri
     throw new Error('Unable to find field type by guid');
 }
 
+/**
+ * @param oldAttributes
+ * @param newAttributes
+ */
 export function attributesHaveChanged(oldAttributes, newAttributes) {
     if (!(oldAttributes instanceof Object) || !(newAttributes instanceof Object)) {
         return true;

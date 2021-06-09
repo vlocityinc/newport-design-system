@@ -24,7 +24,9 @@ export const loopValidation = (elements = {}) => {
 
 /**
  * Validate the assignNextValueToReference item.
- * @return {function} the function to be called with each filter item to return the array of rules.
+ *
+ * @param assignNextValueToReferenceIndex
+ * @returns {Function} the function to be called with each filter item to return the array of rules.
  */
 const validateAssignNextValueToReference = (assignNextValueToReferenceIndex) => {
     return [
@@ -36,7 +38,12 @@ const validateAssignNextValueToReference = (assignNextValueToReferenceIndex) => 
 
 /**
  * Get finalized rules for validation
+ *
  * @param {Object} state get the assignNextValueToReferenceIndex & collectionReferenceIndex from the loop
+ * @param state.assignNextValueToReferenceIndex
+ * @param state.collectionReferenceIndex
+ * @param state.storeOutputAutomatically
+ * @param elements
  * @returns {Object} the overridden rules
  */
 const getRules = (

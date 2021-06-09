@@ -39,6 +39,7 @@ export default class RecordSort extends LightningElement {
     /**
      * Fields of the SObject
      * This object should come form sobject-lib#getFieldsForEntity
+     *
      * @param {Object} value fields
      */
     set resourceApiName(value) {
@@ -55,6 +56,7 @@ export default class RecordSort extends LightningElement {
 
     /**
      * the value of the order sort dropdown.
+     *
      * @param {string} value    This value can be : "NotSorted", "Asc", "Desc"
      */
     @api
@@ -62,6 +64,7 @@ export default class RecordSort extends LightningElement {
 
     /**
      * the apiName of the selected field
+     *
      * @param {string} value    ex: Id
      */
     @api

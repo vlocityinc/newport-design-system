@@ -48,6 +48,9 @@ const orchestratedStagePropertyChanged = (state: OrchestratedStage, event: Custo
 
 /**
  * delete an entry/exit determination action
+ *
+ * @param state
+ * @param event
  */
 const deleteDeterminationAction = (
     state: OrchestratedStage,
@@ -92,6 +95,7 @@ const actionChanged = (
 
 /**
  * orchestratedStage reducer function runs validation rules and returns back the updated element state
+ *
  * @param {object} state - element / node state
  * @param {object} event - The event to be handled
  * @returns {object} state - updated state

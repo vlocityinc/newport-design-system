@@ -38,7 +38,6 @@ export class FlowGuardrailsExecutor {
 
     /**
      * @description This method calls Guardrails engine's execute method to execute againt flow
-     *
      * @param {Object} flow the flow metadata
      * @returns {Object} Guardrails result
      */

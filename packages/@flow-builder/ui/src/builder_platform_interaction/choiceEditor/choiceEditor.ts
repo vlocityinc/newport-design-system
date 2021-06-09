@@ -85,6 +85,7 @@ export default class ChoiceEditor extends LightningElement {
     /**
      * Public api function to return the node
      * Called by the property editor controller on "OK"
+     *
      * @returns {object} node - node
      */
     @api
@@ -150,9 +151,10 @@ export default class ChoiceEditor extends LightningElement {
 
     /**
      * Does the update property action with passed in property name, value and error.
-     * @param {String} propertyName to update
-     * @param {String} value to update with
-     * @param {String} error if any
+     *
+     * @param {string} propertyName to update
+     * @param {string} value to update with
+     * @param {string} error if any
      */
     updateProperty(propertyName, value, error) {
         const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName, value, error });
@@ -161,6 +163,7 @@ export default class ChoiceEditor extends LightningElement {
 
     /**
      * Helper method to update the property based extracting value from the event.
+     *
      * @param {object} event to handle
      * @param {string} propertyName property name to update
      */
@@ -182,10 +185,11 @@ export default class ChoiceEditor extends LightningElement {
 
     /**
      * Helper method to handle updation/addition of inputs. Also checks the validity of these inputs
+     *
      * @param {object} inputElement - lightning-input element
      * @param {string} propertyName - name of the property that needs to be updated
      * @param {object} error - error message if any
-     * @return {object} Returns the updateElementProperty action
+     * @returns {object} Returns the updateElementProperty action
      */
     updateInputValue(inputElement, propertyName, error = null) {
         let newLabel = inputElement.value;
@@ -209,6 +213,7 @@ export default class ChoiceEditor extends LightningElement {
 
     /**
      * Handles addition/updation of choiceText on change event
+     *
      * @param {object} event - change event coming from resourced rich text editor
      */
     handleChoiceLabelChanged(event) {
@@ -220,6 +225,7 @@ export default class ChoiceEditor extends LightningElement {
     /**
      * Handles choiceText on blur event.
      * The resourced rich text editor is adding a p tag in the beginning of the text, for the choice editor we need to remove this p tag.
+     *
      * @param {object} event - change event coming from resourced rich text editor
      */
     handleChoiceLabelBlur(event) {
@@ -234,6 +240,7 @@ export default class ChoiceEditor extends LightningElement {
 
     /**
      * Handles selection/updation of data type
+     *
      * @param {object} event - onvaluechanged event coming from data-type-picker
      */
     handleDataTypeChanged(event) {
@@ -253,6 +260,7 @@ export default class ChoiceEditor extends LightningElement {
 
     /**
      * Helper method to update store value with a literal
+     *
      * @param {object} displayText
      * @param {object} error
      */
@@ -263,6 +271,7 @@ export default class ChoiceEditor extends LightningElement {
 
     /**
      * Handles addition/updation of storedValue
+     *
      * @param {object} event - oncomboboxstatechanged event coming from ferov-resource-picker
      */
     handleStoredValuePropertyChanged(event) {
@@ -274,6 +283,7 @@ export default class ChoiceEditor extends LightningElement {
 
     /**
      * Handles selection/deselection of 'inputSelection' checkbox
+     *
      * @param {object} event - onchange event coming from lightning-input
      */
     handleInputSelectionChange(event) {
@@ -301,6 +311,7 @@ export default class ChoiceEditor extends LightningElement {
 
     /**
      * Handles addition/updation of Input Label
+     *
      * @param {object} event - onfocusout event coming from lightning-input
      */
     handlePromptTextChanged(event) {
@@ -311,6 +322,7 @@ export default class ChoiceEditor extends LightningElement {
 
     /**
      * Handles selection/deselection of 'Required' checkbox
+     *
      * @param {object} event - onchange event coming from lightning-input
      */
     handleIsRequiredChange(event) {
@@ -325,6 +337,7 @@ export default class ChoiceEditor extends LightningElement {
 
     /**
      * Handles selection/deselection of 'Validate' checkbox
+     *
      * @param {object} event - onchange event coming from lightning-input
      */
     handleIsValidateChange(event) {
@@ -355,6 +368,7 @@ export default class ChoiceEditor extends LightningElement {
 
     /**
      * Handling changes made to the validation-editor
+     *
      * @param {object} event - onpropertychange event coming from validation-editor
      */
     handleValidationEditorChanged(event) {
@@ -371,6 +385,7 @@ export default class ChoiceEditor extends LightningElement {
 
     /**
      * Sets custom validation for lightning text input fields when 'Ok' button on the property editor is clicked
+     *
      * @param {object} inputField - Field that needs custom validation
      * @param {string} error - Any existing error message
      */

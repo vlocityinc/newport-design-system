@@ -12,6 +12,7 @@ import { LABELS } from './waitEditorLabels';
 
 /**
  * Function to test the value is equal to the string 'days' or 'weeks'
+ *
  * @param {string} value - value to be tested
  * @returns {string|null} errorString or null
  */
@@ -142,6 +143,7 @@ class WaitValidation extends Validation {
 
     /**
      * Method to check if devname is unique locally amongst all other waitevents and parent wait node state.
+     *
      * @param {Object} state -  overall state of wait node
      * @param {string} devNameToBeValidated - for uniqueness
      * @param {string} currentWaitEventGuid - guid of the current waitevent whose devname is tested for uniquness

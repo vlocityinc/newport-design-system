@@ -39,6 +39,7 @@ export default class RecordLookupVariableAndFieldMapping extends LightningElemen
 
     /**
      * Handles selection/deselection of 'Use Advanced Options' checkbox
+     *
      * @param {Object} event - event
      */
     handleVariableAndFieldMappingChange(event) {

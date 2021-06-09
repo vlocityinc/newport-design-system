@@ -101,7 +101,7 @@ export default class BaseExpressionBuilder extends LightningElement {
     }
 
     /**
-     * @param {String} elementType  the ELEMENT_TYPE of the property editor
+     * @param {string} elementType  the ELEMENT_TYPE of the property editor
      */
     set containerElement(elementType) {
         this._containerElement = elementType;
@@ -114,7 +114,7 @@ export default class BaseExpressionBuilder extends LightningElement {
     }
 
     /**
-     * @param {String} object  the api name of the fields displayed on the LHS, if any
+     * @param {string} object  the api name of the fields displayed on the LHS, if any
      */
     set objectType(object) {
         this._objectType = object;
@@ -220,7 +220,7 @@ export default class BaseExpressionBuilder extends LightningElement {
     }
 
     /**
-     * @param {String} display  LHS_DISPLAY_OPTION determines how LHS should be displayed
+     * @param {string} display  LHS_DISPLAY_OPTION determines how LHS should be displayed
      */
     set lhsDisplayOption(display) {
         if (!Object.values(LHS_DISPLAY_OPTION).find((option) => option === display)) {
@@ -236,7 +236,7 @@ export default class BaseExpressionBuilder extends LightningElement {
     }
 
     /**
-     * @param {Boolean} writable   should LHS menu data always be writable elements?
+     * @param {boolean} writable   should LHS menu data always be writable elements?
      */
     set lhsMustBeWritable(writable) {
         this._lhsMustBeWritable = writable;
@@ -254,7 +254,8 @@ export default class BaseExpressionBuilder extends LightningElement {
     /**
      * The default operator to display when the expression is empty or when
      * reset to the default state
-     * @type {String}
+     *
+     * @type {string}
      * @default ''
      * @memberof BaseExpressionBuilder
      */
@@ -271,7 +272,7 @@ export default class BaseExpressionBuilder extends LightningElement {
     }
 
     /**
-     * @param {String} value  operator value for the expression
+     * @param {string} value  operator value for the expression
      */
     set operatorValue(value) {
         this._operatorValue = value;
@@ -309,7 +310,7 @@ export default class BaseExpressionBuilder extends LightningElement {
     blockRhsValidation = false;
 
     /**
-     * @param {Boolean} isFer   true if RHS is a FER, false if RHS is a FEROV
+     * @param {boolean} isFer   true if RHS is a FER, false if RHS is a FEROV
      */
     set rhsIsFer(isFer) {
         this._rhsIsFer = isFer;
@@ -322,7 +323,7 @@ export default class BaseExpressionBuilder extends LightningElement {
     }
 
     /**
-     * @param {Boolean} isField  true if the RHS is a field on an sobject var
+     * @param {boolean} isField  true if the RHS is a field on an sobject var
      */
     set rhsIsField(isField) {
         this._rhsIsField = isField;
@@ -351,7 +352,7 @@ export default class BaseExpressionBuilder extends LightningElement {
     rhsPlaceholder;
 
     /**
-     * @param {Boolean} allowed  true if RHS is a FEROV
+     * @param {boolean} allowed  true if RHS is a FEROV
      */
     set rhsLiteralsAllowed(allowed) {
         this._rhsLiteralsAllowedForContext = allowed;
@@ -408,7 +409,8 @@ export default class BaseExpressionBuilder extends LightningElement {
 
     /**
      * Set it to true to hide 'New Resource' option in combobox menu data.
-     * @type {Boolean}
+     *
+     * @type {boolean}
      */
     @api
     hideNewResource = false;
@@ -428,7 +430,8 @@ export default class BaseExpressionBuilder extends LightningElement {
 
     /**
      * Set it to true to hide display the expression builder vertically instead of horizontally inline
-     * @type {Boolean}
+     *
+     * @type {boolean}
      */
     @api
     variant;
@@ -498,6 +501,7 @@ export default class BaseExpressionBuilder extends LightningElement {
     /**
      * The operator of the expression. Uses the operatorValue if one exists,
      * otherwise it uses the defaultOperator
+     *
      * @readonly
      * @memberof BaseExpressionBuilder
      */
@@ -556,6 +560,9 @@ export default class BaseExpressionBuilder extends LightningElement {
 
     /**
      * Determines dataType allowed on RHS based on the rules and the current LHS and operator value
+     *
+     * @param lhsParam
+     * @param rhsTypes
      */
     getRhsDataType(lhsParam = this.lhsParam, rhsTypes = this.getRhsParamTypes()) {
         let dataType = null;
@@ -598,7 +605,8 @@ export default class BaseExpressionBuilder extends LightningElement {
     }
 
     /**
-     * @returns {String[]}  dataTypes allowed on RHS based on the rules and the current LHS and operator value
+     * @param rhsTypes
+     * @returns {string[]}  dataTypes allowed on RHS based on the rules and the current LHS and operator value
      */
     getPossibleRHSDataTypes(rhsTypes) {
         return Object.keys(rhsTypes)
@@ -617,7 +625,7 @@ export default class BaseExpressionBuilder extends LightningElement {
     /**
      * Sets validity & shows error on the operator combobox
      *
-     * @param {String} errorMessage   errorMessage to be set on the operator combobox
+     * @param {string} errorMessage   errorMessage to be set on the operator combobox
      */
     setOperatorErrorMessage(errorMessage) {
         if (!this.hideOperator) {
@@ -738,6 +746,7 @@ export default class BaseExpressionBuilder extends LightningElement {
 
     /**
      * Handle LHS combobox pill removal event
+     *
      * @param {Object} event - {@link RemoveMergeFieldPillEvent} event
      * @param {Object} event.detail.item - combobox current selected item
      */
@@ -752,6 +761,7 @@ export default class BaseExpressionBuilder extends LightningElement {
 
     /**
      * Handle LHS combobox pill edit event
+     *
      * @param {Object} event - {@link EditMergeFieldPillEvent} event
      * @param {Object} event.detail.item - combobox current selected item
      */
@@ -763,7 +773,7 @@ export default class BaseExpressionBuilder extends LightningElement {
     /**
      * Helper method to pass values to populateMenuData which never change for LHS
      *
-     * @param {Boolean} getFields       true if the menu data should be fields
+     * @param {boolean} getFields       true if the menu data should be fields
      * @param {Object} parentMenuItem   object representing the parent object of the fields, if getFields is true
      */
     populateLhsMenuData(getFields, parentMenuItem) {
@@ -790,7 +800,7 @@ export default class BaseExpressionBuilder extends LightningElement {
     /**
      * Helper method to pass values to populateMenuData which never change for RHS
      *
-     * @param {Boolean} getFields       true if the menu data should be fields
+     * @param {boolean} getFields       true if the menu data should be fields
      * @param {Object} parentMenuItem   object representing the parent object of the fields, if getFields is true
      */
     populateRhsMenuData(getFields, parentMenuItem) {
@@ -823,7 +833,7 @@ export default class BaseExpressionBuilder extends LightningElement {
     /**
      * Helper function to set the newly created inline resource in LHS or RHS
      *
-     * @param {String} position position of the resource (LHS or RHS)
+     * @param {string} position position of the resource (LHS or RHS)
      * @param {Object} resource the newly created inline resource
      */
     setInlineResource = (position, resource) => {
@@ -886,20 +896,20 @@ export default class BaseExpressionBuilder extends LightningElement {
     /**
      * Generic helper function to handle populating fields for LHS or RHS
      *
-     * @param {Boolean} getFields -  true if the menu data should be fields
+     * @param {boolean} getFields -  true if the menu data should be fields
      * @param {Object} parentMenuItem - object representing the parent object of the fields, if getFields is true
-     * @param {String} fullMenuData - the name of the property on the state where the full menu data should be stored
-     * @param {String} filteredMenuData - the name of the property on the state where the filtered menu data should be stored
+     * @param {string} fullMenuData - the name of the property on the state where the full menu data should be stored
+     * @param {string} filteredMenuData - the name of the property on the state where the filtered menu data should be stored
      * @param {Object[]} preFetchedFields - the name of the property on the state which holds the fields for the menu data
      * @param {rule/param[]} paramTypes - the param types that should be used to filter the menu data
      * @param {Object} options - options
-     * @param {Boolean} options.shouldBeWritable - true if the items in the menu data must be writable
-     * @param {Boolean} options.isDisplayedAsFieldReference - true if the items should be displayed as fields on sobject variables when chosen
-     * @param {Boolean} options.isFerov - true if this combobox holds FEROVs
-     * @param {String[]} options.picklistValues - list of picklist values that should be included in menu data
-     * @param {Boolean} options.allowSObjectFieldsTraversal - true to allow SObject fields traversal
-     * @param {Boolean} options.allowApexTypeFieldsTraversal - true to allow Apex Type fields traversal
-     * @param {String} options.objectType - objectType for preFetchedFields. If set, fields in preFetchedFields won't be updated
+     * @param {boolean} options.shouldBeWritable - true if the items in the menu data must be writable
+     * @param {boolean} options.isDisplayedAsFieldReference - true if the items should be displayed as fields on sobject variables when chosen
+     * @param {boolean} options.isFerov - true if this combobox holds FEROVs
+     * @param {string[]} options.picklistValues - list of picklist values that should be included in menu data
+     * @param {boolean} options.allowSObjectFieldsTraversal - true to allow SObject fields traversal
+     * @param {boolean} options.allowApexTypeFieldsTraversal - true to allow Apex Type fields traversal
+     * @param {string} options.objectType - objectType for preFetchedFields. If set, fields in preFetchedFields won't be updated
      */
     populateMenuData(
         getFields,
@@ -1010,6 +1020,7 @@ export default class BaseExpressionBuilder extends LightningElement {
      * Clears RHS if it has become invalid
      *
      * @param {Object} expressionUpdates    represents any changes that are already being made to the expression
+     * @param rhsTypes
      */
     clearRhsIfNecessary(expressionUpdates, rhsTypes) {
         if (this.rhsValue && this.rhsValue.value) {
@@ -1186,6 +1197,7 @@ export default class BaseExpressionBuilder extends LightningElement {
 
     /**
      * To build menu data for a set of fields, information is needed about the parent object of those fields
+     *
      * @returns {Object} the parent of the fields, or a mock object with the necessary information
      */
     getLhsParent() {
@@ -1206,6 +1218,7 @@ export default class BaseExpressionBuilder extends LightningElement {
 
     /**
      * Returns LHS combobox
+     *
      * @returns {LightningElement} LHS combobox
      * @private
      */
@@ -1215,6 +1228,7 @@ export default class BaseExpressionBuilder extends LightningElement {
 
     /**
      * Returns RHS combobox
+     *
      * @returns {LightningElement} RHS combobox
      * @private
      */

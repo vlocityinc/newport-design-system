@@ -26,6 +26,11 @@ const getDefaultAvailableConnections = () => [
 ];
 const ITERATION_ORDER_ASCENDING = 'Asc';
 
+/**
+ * @param loop
+ * @param root0
+ * @param root0.elements
+ */
 export function createLoop(loop = {}, { elements } = Store.getStore().getCurrentState()) {
     const newLoop = baseCanvasElement(loop);
     const {
@@ -74,6 +79,16 @@ export function createLoop(loop = {}, { elements } = Store.getStore().getCurrent
  * Function to create the pasted Loop element
  *
  * @param {Object} dataForPasting - Data required to create the pasted element
+ * @param dataForPasting.canvasElementToPaste
+ * @param dataForPasting.newGuid
+ * @param dataForPasting.newName
+ * @param dataForPasting.canvasElementGuidMap
+ * @param dataForPasting.topCutOrCopiedGuid
+ * @param dataForPasting.bottomCutOrCopiedGuid
+ * @param dataForPasting.prev
+ * @param dataForPasting.next
+ * @param dataForPasting.parent
+ * @param dataForPasting.childIndex
  */
 export function createPastedLoop({
     canvasElementToPaste,
@@ -105,6 +120,11 @@ export function createPastedLoop({
     };
 }
 
+/**
+ * @param loop
+ * @param newGuid
+ * @param newName
+ */
 export function createDuplicateLoop(loop, newGuid, newName) {
     const newLoop = createLoop(loop);
     Object.assign(newLoop, {
@@ -115,6 +135,11 @@ export function createDuplicateLoop(loop, newGuid, newName) {
     return duplicateLoop;
 }
 
+/**
+ * @param loop
+ * @param root0
+ * @param root0.elements
+ */
 export function createLoopWithConnectors(loop, { elements } = Store.getStore().getCurrentState()) {
     const newLoop = createLoop(loop, { elements });
     const connectors = createConnectorObjects(loop, newLoop.guid);
@@ -130,6 +155,10 @@ export function createLoopWithConnectors(loop, { elements } = Store.getStore().g
     return baseCanvasElementsArrayToMap([loopObject], connectors);
 }
 
+/**
+ * @param loop
+ * @param config
+ */
 export function createLoopMetadataObject(loop, config = {}) {
     if (!loop) {
         throw new Error('loop is not defined');

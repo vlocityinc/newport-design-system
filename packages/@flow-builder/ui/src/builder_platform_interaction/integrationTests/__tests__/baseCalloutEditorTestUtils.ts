@@ -202,6 +202,7 @@ export const getManuallyAssignVariablesCheckboxFromActionEditor = (actionEditor)
 /**
  * Helper method to get the automatic advanced option checkbox from the accordion. This is
  * for handling automation outputs via invocable action editor
+ *
  * @param actionEditor
  */
 export const getManuallyAssignVariablesCheckboxInputElementFromAcc = (actionEditor) => {
@@ -212,6 +213,7 @@ export const getManuallyAssignVariablesCheckboxInputElementFromAcc = (actionEdit
 /**
  * Helper method to get the automatic advanced option component from the accordion. This is
  * for handling automation outputs via invocable action editor
+ *
  * @param actionEditor
  */
 export const getManuallyAssignVariablesCheckboxFromAcc = (actionEditor) => {

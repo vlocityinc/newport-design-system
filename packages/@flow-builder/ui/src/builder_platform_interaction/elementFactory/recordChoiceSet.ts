@@ -8,6 +8,7 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 /**
  * Record choice set factory function
+ *
  * @param {Object} element - record choice set element
  * @returns {Object} recordChoiceSet
  */
@@ -57,6 +58,7 @@ export const createRecordChoiceSetForStore = (element) => {
 };
 /**
  * Factory function for creating recordChoiceSet element's metadata object
+ *
  * @param {Object} element recordChoiceSet object
  * @returns {Object} recordChoiceMetadata object
  */

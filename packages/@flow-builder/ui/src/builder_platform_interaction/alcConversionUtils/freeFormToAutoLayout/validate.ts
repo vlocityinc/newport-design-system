@@ -14,6 +14,9 @@ type FlowCheckType =
 
 const unsupportedElementTypes = [ELEMENT_TYPE.STEP] as string[];
 
+/**
+ * @param type
+ */
 function failFlowCheck(type: FlowCheckType) {
     throw new Error(type);
 }
@@ -68,6 +71,9 @@ function checkOutgoingEdgesForGoTos(conversionInfos: ConversionInfos, elementInf
     }
 }
 
+/**
+ * @param outs
+ */
 function areLoopNextAndEndTheSame(outs: UI.Connector[]) {
     return outs.length === 2 && outs[0].target === outs[1].target;
 }

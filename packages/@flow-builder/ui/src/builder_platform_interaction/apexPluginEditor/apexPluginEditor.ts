@@ -62,6 +62,7 @@ export default class ApexPluginEditor extends LightningElement {
 
     /**
      * public api function to return the node
+     *
      * @returns {object} node - node
      */
     @api getNode() {
@@ -71,6 +72,7 @@ export default class ApexPluginEditor extends LightningElement {
 
     /**
      * public api function to run the rules from apex plugin validation library
+     *
      * @returns {Object[]} list of errors
      */
     @api validate() {

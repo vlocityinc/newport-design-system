@@ -119,6 +119,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
 
     /**
      * Handler for "SObjectReference" element property changes
+     *
      * @param {object} event
      */
     handleSObjectReferenceChangedEvent(event: SObjectReferenceChangedEvent) {
@@ -150,6 +151,8 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
 
     /**
      * Get the fields of the selected entity and set the state accordingly
+     *
+     * @param entityName
      */
     private updateFields(entityName: string) {
         this.showSpinner = true;
@@ -176,6 +179,8 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
 
     /**
      * Populate section/items data for inner palette component
+     *
+     * @param fieldNamePattern
      */
     buildModel(fieldNamePattern?: String | null) {
         const requiredSection: ScreenPaletteSection = {
@@ -217,6 +222,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
 
     /**
      * Resets palette data and adds given sections if not empty
+     *
      * @param {ScreenPaletteSection[]}  paletteSections to add to palette data
      */
     buildPaletteDataWithSections(paletteSections: ScreenPaletteSection[]) {
@@ -230,6 +236,8 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
 
     /**
      * Rebuild palette data when a new search term is given as input
+     *
+     * @param event
      */
     handleSearch(event) {
         const filterValue = event.target.value;
@@ -239,6 +247,8 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
 
     /**
      * Show no item illustration when SObject picker is cleared with pill (X) click
+     *
+     * @param event
      */
     handlePillRemoved(event) {
         event.stopPropagation();
@@ -287,6 +297,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     /**
      * As we can change the current object via the canvas selection,
      * this function allows to update accordingly the pill
+     *
      * @private
      */
     private resetPill() {

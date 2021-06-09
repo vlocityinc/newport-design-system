@@ -35,6 +35,7 @@ const EDITOR_SELECTOR = '.editor_template';
 export default class ResourceEditorContainer extends LightningElement {
     /**
      * Info about the currently selected resource type
+     *
      * @type {Obejct}
      */
     _selectedResourceType = null;
@@ -47,6 +48,7 @@ export default class ResourceEditorContainer extends LightningElement {
      * This prop is not the current state of the inner property editor because each
      * properry editor makes a copy and modifies their copy as the user makes edits
      * Instead, we pass this node to the editor on initial creation of the flow element
+     *
      * @type {Object}
      */
     @track
@@ -56,7 +58,8 @@ export default class ResourceEditorContainer extends LightningElement {
      * Sets the selected resource
      * This will create a flow element of the corresponding element type
      * The new flow element is then mutated and hydrated
-     * @param {String} resourceType the selected resource type
+     *
+     * @param {string} resourceType the selected resource type
      */
     set selectedResourceType(selectedResourceType) {
         if (!selectedResourceType) {
@@ -89,6 +92,7 @@ export default class ResourceEditorContainer extends LightningElement {
 
     /**
      * Gets the inner node (the editor of the chosen resource type)
+     *
      * @returns {Object} the node of the chosen resource type
      */
     @api
@@ -102,6 +106,7 @@ export default class ResourceEditorContainer extends LightningElement {
 
     /**
      * Calls validate method on the inner node (the editor of the chosen resource type)
+     *
      * @returns {Array} the array of errors from validation call
      */
     @api

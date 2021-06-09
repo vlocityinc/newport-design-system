@@ -10,6 +10,7 @@ type RemoveMergeFieldPillEventDetail = {
 export class RemoveMergeFieldPillEvent extends CustomEvent<RemoveMergeFieldPillEventDetail> {
     /**
      * Create a RemoveMergeFieldPillEvent.
+     *
      * @param {Object} item - pill item property
      */
     constructor(item) {

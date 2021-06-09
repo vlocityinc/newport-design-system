@@ -10,8 +10,9 @@ const elementType = ELEMENT_TYPE.CONSTANT;
 
 /**
  * Either creates a new constant or create a new copy of existing constant
+ *
  * @param {Object} constant existing constant which needs to be copied
- * @return {Object} newConstant new constant which is created
+ * @returns {Object} newConstant new constant which is created
  */
 export function createConstant(constant = {}) {
     const newConstant = baseResource(constant);
@@ -34,8 +35,9 @@ export function createConstant(constant = {}) {
 
 /**
  * Create a new copy of existing constant in shape as expected by store.
+ *
  * @param {Object} constant existing constant which needs to be copied
- * @return {Object} Map containing guid as key and new constant as value
+ * @returns {Object} Map containing guid as key and new constant as value
  */
 export function createConstantForStore(constant) {
     if (!constant) {
@@ -47,8 +49,9 @@ export function createConstantForStore(constant) {
 
 /**
  * Create a new copy of existing constant in shape as expected by flow metadata.
+ *
  * @param {Object} constant existing constant which needs to be copied
- * @return {Object} newConstant new constant which is created
+ * @returns {Object} newConstant new constant which is created
  */
 export function createConstantMetadataObject(constant) {
     if (!constant) {

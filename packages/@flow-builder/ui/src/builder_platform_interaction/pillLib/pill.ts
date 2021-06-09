@@ -47,6 +47,7 @@ const GLOBAL_CONSTANT_GLOBAL_VARIABLE_TO_LABEL_MAP = new Map([
 /**
  * Given a polymorphic field text property value returns the entity label part
  * eg: CreatedBy (User) will return (User)
+ *
  * @param {string} fieldTextWithEntityLabel
  * @returns {string} entity label part zz
  */
@@ -55,6 +56,7 @@ const getEntityLabelPartFromPolymorphicFieldText = (fieldTextWithEntityLabel: st
 
 /**
  * Helps to determine if the field is polymorphic based on its text property value
+ *
  * @param {string} fieldText - field's text property value
  * @returns {boolean} true if polymorphic otherwise false
  */
@@ -63,6 +65,7 @@ const isPolymorphicField = (fieldText: string): boolean => (fieldText || '').inc
 /**
  * Handle text subtext combobox item being from time to time some array some other time some string
  * in order to return in any cases a single string (joining all array value if needed)
+ *
  * @param {ComboboxItem} item - current combobox item
  * @param {string} propertyName - property name to fetch inside the given combobox item object
  * @returns {string} value of the given property as a single string (array values joined if we deal with an array)
@@ -77,6 +80,7 @@ const getPropertyFieldValueAsString = (item: ComboboxItem, propertyName: string)
 
 /**
  * Construct pill label based on given combobox selected item passed
+ *
  * @param {ComboboxItem} item - combobox selected item
  * @param {ComboboxItem} item.parent - parent of the selected item if any.
  * @param {string} item.parent.dataType - data type of the parent of the selected item if any (eg: SObject).
@@ -102,6 +106,7 @@ const getPillItemLabel = (item: ComboboxItem): string => {
 
 /**
  * Converts given "raw" picked global constant or global variable to some label displayed in combobox pill
+ *
  * @param {string} itemValue - raw value to be converted (eg: '$GlobalConstant.True')
  * @returns {string|undefined} corresponding label (eg: for given '$GlobalConstant.True' we return 'True') or undefined if no label found
  */
@@ -110,6 +115,7 @@ export const getGlobalConstantOrGlobalVariableLabel = (itemValue: string): strin
 
 /**
  * Construct label for mergedField pill (other than global constants or global variables)
+ *
  * @param {ComboboxItem | undefined} item - combobox item
  * @param {string} label - item label
  * @returns {string} label to be displayed inside pill
@@ -126,6 +132,7 @@ export const getPillMergeFieldLabel = (item: ComboboxItem | undefined, label?: s
 
 /**
  * Construct label for pill (merge field or global constants or global variables one)
+ *
  * @param {ComboboxItem | undefined} item - combobox item
  * @returns {string} label to be displayed inside pill
  */
@@ -136,6 +143,7 @@ export const getPillLabel = (item: ComboboxItem): string => {
 
 /**
  * Return pill tooltip with error message if any
+ *
  * @param {string} label - pill label
  * @param {string | null} errorMessage - pill error message
  * @returns {string} pill tooltip with possible error message

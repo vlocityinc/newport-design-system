@@ -5,17 +5,28 @@ let subflows = [];
 let cachedInputOutputVariables = {};
 let cachedActiveOrLatestInputOutputVariables = {};
 
+/**
+ * @param data
+ */
 export function setSubflows(data) {
     subflows = data;
 }
 
+/**
+ *
+ */
 export function getSubflows() {
     return subflows;
 }
 
 /**
  * Fetch raw input and output variables for given flow name
- * @param {String} flowName the flow name
+ *
+ * @param {string} flowName the flow name
+ * @param root0
+ * @param root0.background
+ * @param root0.disableErrorModal
+ * @param root0.messageForErrorModal
  * @returns {Promise<FlowInputOutputVariablesVersion[]>} promise to raw input output variables, as returned by the GET_FLOW_INPUT_OUTPUT_VARIABLES service
  */
 export function fetchFlowInputOutputVariables(
@@ -38,7 +49,12 @@ export function fetchFlowInputOutputVariables(
 
 /**
  * Fetch input variables and returns active input variables (or latest if there is no active version)
- * @param {String} flowName the flow name
+ *
+ * @param {string} flowName the flow name
+ * @param root0
+ * @param root0.background
+ * @param root0.disableErrorModal
+ * @param root0.messageForErrorModal
  * @returns {Promise<ActiveOrLatestFlowVariable[]>}
  */
 export function fetchActiveOrLatestFlowInputVariables(
@@ -63,7 +79,12 @@ export function fetchActiveOrLatestFlowInputVariables(
 
 /**
  * Fetch output variables and returns active output variables (or latest output variables if there is no active version)
- * @param {String} flowName the flow name
+ *
+ * @param {string} flowName the flow name
+ * @param root0
+ * @param root0.background
+ * @param root0.disableErrorModal
+ * @param root0.messageForErrorModal
  * @returns {Promise<ActiveOrLatestFlowVariable[]>}
  */
 export function fetchActiveOrLatestFlowOutputVariables(
@@ -79,7 +100,8 @@ export function fetchActiveOrLatestFlowOutputVariables(
 
 /**
  * Get the raw input output variables
- * @param {String} flowName the flow name
+ *
+ * @param {string} flowName the flow name
  * @returns {FlowInputOutputVariablesVersion[] | undefined} raw input output variables or undefined if not yet retrieved
  */
 export function getFlowInputOutputVariables(flowName) {
@@ -88,7 +110,8 @@ export function getFlowInputOutputVariables(flowName) {
 
 /**
  * Get the active input variables for the flow (or latest input variables if there is no active version)
- * @param {String} flowName the flow name
+ *
+ * @param {string} flowName the flow name
  * @returns {ActiveOrLatestFlowVariable[] | undefined} the flow input variables or undefined if not yet retrieved or unknown flow name
  */
 export function getActiveOrLatestFlowInputVariables(flowName) {
@@ -107,7 +130,8 @@ export function getActiveOrLatestFlowInputVariables(flowName) {
 
 /**
  * Get the active output variables for the flow (or latest output variables if there is no active version)
- * @param {String} flowName the flow name
+ *
+ * @param {string} flowName the flow name
  * @returns {ActiveOrLatestFlowVariable[] | undefined} the flow output variables or undefined if not yet retrieved or unknown flow name
  */
 export function getActiveOrLatestFlowOutputVariables(flowName) {
@@ -124,11 +148,17 @@ export function getActiveOrLatestFlowOutputVariables(flowName) {
     return cachedActiveOrLatestInputOutputVariables[flowName].outputVariables;
 }
 
+/**
+ *
+ */
 export function clearFlowCachedInputOutputVariables() {
     cachedInputOutputVariables = {};
     cachedActiveOrLatestInputOutputVariables = {};
 }
 
+/**
+ * @param variable
+ */
 function getVariableAsComplexTypeFieldDescription(variable) {
     const complexTypeFieldDesc = {
         ...variable,
@@ -141,16 +171,25 @@ function getVariableAsComplexTypeFieldDescription(variable) {
     return complexTypeFieldDesc;
 }
 
+/**
+ * @param inputOutputVariablesVersions
+ */
 function getLatestInputOutputVariables(inputOutputVariablesVersions) {
     const latestInputOutput = inputOutputVariablesVersions.find((version) => version.isLatestVersion === true);
     return latestInputOutput && latestInputOutput.variables;
 }
 
+/**
+ * @param inputOutputVariablesVersions
+ */
 function getActiveInputOutputVariables(inputOutputVariablesVersions) {
     const activeInputOutput = inputOutputVariablesVersions.find((version) => version.isActiveVersion === true);
     return activeInputOutput && activeInputOutput.variables;
 }
 
+/**
+ * @param inputOutputVariablesVersions
+ */
 export function getActiveOrLatestInputOutputVariables(inputOutputVariablesVersions) {
     let inputOutputVariables = getActiveInputOutputVariables(inputOutputVariablesVersions);
     if (!inputOutputVariables) {

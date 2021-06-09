@@ -170,6 +170,7 @@ const managePropertyChanged = (state, event) => {
 /**
  * Record update reducer function runs validation rules and returns back the updated element state
  * or update a property based on action type from second argument
+ *
  * @param {object} state - element / node state
  * @param {object} event - The event to be handled
  * @returns {object} state - updated state

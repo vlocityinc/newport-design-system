@@ -2,6 +2,9 @@
 import { createParameterListRowItem } from './base/baseList';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
+/**
+ * @param outputParameter
+ */
 export function createOutputParameter(outputParameter = {}) {
     const { name, assignToReference, value, valueDataType, dataType, isCollection, rowIndex } = outputParameter;
 
@@ -37,6 +40,9 @@ export function createOutputParameter(outputParameter = {}) {
     return createParameterListRowItem(newOutputParameter);
 }
 
+/**
+ * @param outputParameter
+ */
 export function createOutputParameterMetadataObject(outputParameter) {
     if (!outputParameter) {
         throw new Error('outputParameter is not defined');

@@ -26,11 +26,14 @@ const validateStringMatcherArgs = (obj, key, pattern) => {
  *
  * @param {Object}
  *            obj the object to use for the matching
- * @param {String}
+ * @param {string}
  *            key the object field to use for the comparison
- * @param {String}
+ * @param {string}
  *            pattern the string to look for in obj[key]
- * @returns {Boolean} true when obj[key] contains the given pattern
+ * @param obj
+ * @param key
+ * @param pattern
+ * @returns {boolean} true when obj[key] contains the given pattern
  */
 export const containsMatcher = (obj, key, pattern) => {
     validateStringMatcherArgs(obj, key, pattern);
@@ -44,11 +47,14 @@ export const containsMatcher = (obj, key, pattern) => {
  *
  * @param {Object}
  *            obj the object to use for the matching
- * @param {String}
+ * @param {string}
  *            key the object field to use for the comparison
- * @param {String}
+ * @param {string}
  *            pattern the string to look for in obj[key]
- * @returns {Boolean} true when obj[key] starts with the given pattern
+ * @param obj
+ * @param key
+ * @param pattern
+ * @returns {boolean} true when obj[key] starts with the given pattern
  */
 export const startsWithMatcher = (obj, key, pattern) => {
     validateStringMatcherArgs(obj, key, pattern);
@@ -61,11 +67,14 @@ export const startsWithMatcher = (obj, key, pattern) => {
  *
  * @param {Object}
  *            obj the object to use for the comparison
- * @param {String}
+ * @param {string}
  *            key the object field to use for the comparison
- * @param {String}
+ * @param {string}
  *            value the expected value for obj[key]
- * @returns {Boolean} true when obj[key] equals the given value
+ * @param obj
+ * @param key
+ * @param value
+ * @returns {boolean} true when obj[key] equals the given value
  */
 export const equalsMatcher = (obj, key, value) => {
     validateMatcherArgs(obj, key);
@@ -77,11 +86,14 @@ export const equalsMatcher = (obj, key, value) => {
  *
  * @param {Object}
  *            obj the object to use for the comparison
- * @param {String}
+ * @param {string}
  *            key the object field to use for the comparison
- * @param {String}
+ * @param {string}
  *            value the expected value for obj[key]
- * @returns {Boolean} true when obj[key] does not equal the given value
+ * @param obj
+ * @param key
+ * @param value
+ * @returns {boolean} true when obj[key] does not equal the given value
  */
 export const notEqualsMatcher = (obj, key, value) => {
     validateMatcherArgs(obj, key);
@@ -93,11 +105,14 @@ export const notEqualsMatcher = (obj, key, value) => {
  *
  * @param {Object}
  *            obj the object to use for the comparison
- * @param {String}
+ * @param {string}
  *            key the object field to use for the comparison
- * @param {String}
+ * @param {string}
  *            value the expected boolean value for obj[key]
- * @returns {Boolean} true when obj[key] equals the given boolean value
+ * @param obj
+ * @param key
+ * @param value
+ * @returns {boolean} true when obj[key] equals the given boolean value
  */
 export const booleanMatcher = (obj, key, value) => {
     validateMatcherArgs(obj, key);

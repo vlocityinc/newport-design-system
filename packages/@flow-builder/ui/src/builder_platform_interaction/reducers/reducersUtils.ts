@@ -6,7 +6,7 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
  *
  * @param childReference - Guid of the child element
  * @param elements - current state of elements in the store
- * @return nestedChildFieldGuids - Array containing guids of the nested child fields
+ * @returns nestedChildFieldGuids - Array containing guids of the nested child fields
  */
 function _getNestedChildGuids(childReference: UI.Guid, elements): UI.Guid[] {
     const nestedChildGuids: UI.Guid[] = [];
@@ -29,7 +29,7 @@ function _getNestedChildGuids(childReference: UI.Guid, elements): UI.Guid[] {
  *
  * @param node element to check for subelements
  * @param elements - current state of elements in the store
- * @return  Array of subelement guids for the given element. Can be an empty array
+ * @returns  Array of subelement guids for the given element. Can be an empty array
  */
 function getSubElementGuids(node, elements): UI.Guid[] {
     const subElementsGuids = [];

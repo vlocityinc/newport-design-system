@@ -54,6 +54,7 @@ export default class DecisionEditor extends LightningElement {
 
     /**
      * public api function to return the node
+     *
      * @returns {object} node - node
      */
     @api getNode() {
@@ -62,6 +63,7 @@ export default class DecisionEditor extends LightningElement {
 
     /**
      * public api function to run the rules from decision validation library
+     *
      * @returns {object} list of errors
      */
     @api validate() {
@@ -172,6 +174,7 @@ export default class DecisionEditor extends LightningElement {
 
     /**
      * Handles deletion and sets focus to the first outcome (if deletion was successful)
+     *
      * @param {object} event - deleteOutcomeEvent
      */
     handleDeleteOutcome(event) {
@@ -186,6 +189,7 @@ export default class DecisionEditor extends LightningElement {
 
     /**
      * Handles reordering in the list of the outcomes
+     *
      * @param {object} event - reorderListEvent
      */
     handleReorderOutcomes(event) {
@@ -202,6 +206,7 @@ export default class DecisionEditor extends LightningElement {
     /**
      * Handles the change on when an outcome is executed
      * i.e. whenever the conditions are met or only when the conditions are met for changed values.
+     *
      * @param event
      */
     handleOutcomeExecutionOptionChange(event) {

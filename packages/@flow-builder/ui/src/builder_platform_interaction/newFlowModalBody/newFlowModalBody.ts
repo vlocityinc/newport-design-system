@@ -89,7 +89,7 @@ export default class NewFlowModalBody extends LightningElement {
     /**
      * set the error message
      *
-     * @param {String} value the error message
+     * @param {string} value the error message
      */
     @api
     get errorMessage() {
@@ -118,6 +118,7 @@ export default class NewFlowModalBody extends LightningElement {
 
     /**
      * Handler for process type selection
+     *
      * @param {Object} event - selected process type event
      */
     handleSelectProcessType(event) {
@@ -130,6 +131,7 @@ export default class NewFlowModalBody extends LightningElement {
 
     /**
      * Handler for templates tab selection
+     *
      * @param {Object} event - item changed event
      */
     handleSelectTemplatesItem(event) {
@@ -142,6 +144,7 @@ export default class NewFlowModalBody extends LightningElement {
 
     /**
      * Handler for recommended tab selection
+     *
      * @param {Object} event - item changed event
      */
     handleSelectRecommendedItem(event) {
@@ -183,6 +186,8 @@ export default class NewFlowModalBody extends LightningElement {
 
     /**
      * Handle the error when fetching templates
+     *
+     * @param event
      */
     handleCannotRetrieveTemplates(event) {
         this.state.errorMessage = LABELS.errorLoadingTemplates;

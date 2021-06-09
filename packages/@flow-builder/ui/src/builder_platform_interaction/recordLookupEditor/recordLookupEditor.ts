@@ -147,6 +147,7 @@ export default class RecordLookupEditor extends LightningElement {
 
     /**
      * Is in "add element" mode (ie: added from the palette to the canvas)?
+     *
      * @returns {boolean} true if in "addElement" mode otherwise false
      */
     get isInAddElementMode() {
@@ -155,6 +156,7 @@ export default class RecordLookupEditor extends LightningElement {
 
     /**
      * public API function to run the rules from record lookup validation library
+     *
      * @returns {Object[]} list of errors
      */
     @api validate() {
@@ -196,6 +198,7 @@ export default class RecordLookupEditor extends LightningElement {
      * If firstRecord then the user will be able to select a sObject variable
      * If allRecord then the user will be able to select a sObject Collection variable
      * {@link recordEditorLib#NUMBER_RECORDS_TO_STORE}
+     *
      * @returns {string} This value can be 'firstRecord' or 'allRecords'
      */
     get numberRecordsToStoreValue() {
@@ -277,6 +280,7 @@ export default class RecordLookupEditor extends LightningElement {
      * If "sObjectVariable" then the user will be able to store in an sObject variable
      * If "separateVariables" then the user will be able to store in separate variables
      * see {@link recordEditorLib#WAY_TO_STORE_FIELDS}
+     *
      * @returns {string} This value can be 'sObjectVariable' or 'separateVariables'
      */
     get wayToStoreFieldsValue() {
@@ -291,14 +295,14 @@ export default class RecordLookupEditor extends LightningElement {
     }
 
     /**
-     * @return {Boolean} true : if the user chooses to select the fields manually and assigns variable
+     * @returns {boolean} true : if the user chooses to select the fields manually and assigns variable
      */
     get isManualMode() {
         return this.variableAndFieldMappingValue === VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL;
     }
 
     /**
-     * @return {Boolean} true : if the user chooses to select the fields manually
+     * @returns {boolean} true : if the user chooses to select the fields manually
      */
     get isAutomaticAdvancedMode() {
         return this.variableAndFieldMappingValue === VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC_WITH_FIELDS;
@@ -312,7 +316,7 @@ export default class RecordLookupEditor extends LightningElement {
     }
 
     /**
-     * @return {Boolean} true : the process type supports the automatic output handling
+     * @returns {boolean} true : the process type supports the automatic output handling
      */
     get isAutomaticOutputHandlingSupported() {
         return this.processTypeAutomaticOutPutHandlingSupport === FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED;
@@ -410,6 +414,7 @@ export default class RecordLookupEditor extends LightningElement {
 
     /**
      * Handle output assignments change and via reducer update element's state accordingly
+     *
      * @param event - event
      */
     handleRecordInputOutputAssignmentsChanged(event: UpdateRecordFieldAssignmentEvent) {
@@ -419,6 +424,7 @@ export default class RecordLookupEditor extends LightningElement {
 
     /**
      * Handle number of record changed
+     *
      * @param event - event
      */
     handleNumberRecordsToStoreChange(event: NumberRecordToStoreChangedEvent) {
@@ -441,6 +447,7 @@ export default class RecordLookupEditor extends LightningElement {
 
     /**
      * Handles selection of Variable and field mapping
+     *
      * @param event - event
      */
     handleVariableAndFieldMappingChange(event: VariableAndFieldMappingChangedEvent) {
@@ -450,6 +457,7 @@ export default class RecordLookupEditor extends LightningElement {
 
     /**
      * Instantiates property changed event to handle property change and updates via element's reducer state accordingly
+     *
      * @param propertyName - name of the property changed
      * @param newValue - new value to be passed to property
      * @param error - error on property

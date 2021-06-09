@@ -31,6 +31,7 @@ const maxConnections = 2;
 
 /**
  * Build query field (see "queryFields" element property)
+ *
  * @param {(Object|string)} queriedField - query field about to be built
  * @param {string} queriedField.field - if not undefined contains the query field name (eg: "id")
  * @returns {Object} - query field built
@@ -46,6 +47,11 @@ export const createQueriedField = (queriedField) => {
     };
 };
 
+/**
+ * @param recordLookup
+ * @param root0
+ * @param root0.elements
+ */
 export function createRecordLookup(recordLookup = {}, { elements } = Store.getStore().getCurrentState()) {
     let newRecordLookup;
     if (recordLookup.storeOutputAutomatically) {
@@ -58,6 +64,11 @@ export function createRecordLookup(recordLookup = {}, { elements } = Store.getSt
     return newRecordLookup;
 }
 
+/**
+ * @param recordLookup
+ * @param root0
+ * @param root0.elements
+ */
 function createRecordLookupWithOuputReference(recordLookup = {}, { elements } = Store.getStore().getCurrentState()) {
     const newRecordLookup = baseCanvasElement(recordLookup);
 
@@ -130,6 +141,9 @@ function createRecordLookupWithOuputReference(recordLookup = {}, { elements } = 
     );
 }
 
+/**
+ * @param recordLookup
+ */
 function createRecordLookupWithVariableAssignments(recordLookup = {}) {
     const newRecordLookup = baseCanvasElement(recordLookup);
 
@@ -185,6 +199,9 @@ function createRecordLookupWithVariableAssignments(recordLookup = {}) {
     });
 }
 
+/**
+ * @param recordLookup
+ */
 function createRecordLookupWithAutomaticOutputHandling(recordLookup = {}) {
     const newRecordLookup = baseCanvasElement(recordLookup);
 
@@ -250,6 +267,19 @@ function createRecordLookupWithAutomaticOutputHandling(recordLookup = {}) {
     });
 }
 
+/**
+ * @param root0
+ * @param root0.canvasElementToPaste
+ * @param root0.newGuid
+ * @param root0.newName
+ * @param root0.canvasElementGuidMap
+ * @param root0.topCutOrCopiedGuid
+ * @param root0.bottomCutOrCopiedGuid
+ * @param root0.prev
+ * @param root0.next
+ * @param root0.parent
+ * @param root0.childIndex
+ */
 export function createPastedRecordLookup({
     canvasElementToPaste,
     newGuid,
@@ -280,6 +310,11 @@ export function createPastedRecordLookup({
     };
 }
 
+/**
+ * @param recordLookup
+ * @param newGuid
+ * @param newName
+ */
 export function createDuplicateRecordLookup(recordLookup, newGuid, newName) {
     const newRecordLookup = createRecordLookup(recordLookup);
     Object.assign(newRecordLookup, {
@@ -290,6 +325,11 @@ export function createDuplicateRecordLookup(recordLookup, newGuid, newName) {
     return duplicateRecordLookup;
 }
 
+/**
+ * @param recordLookup
+ * @param root0
+ * @param root0.elements
+ */
 export function createRecordLookupWithConnectors(recordLookup, { elements } = Store.getStore().getCurrentState()) {
     const newRecordLookup = createRecordLookup(recordLookup, { elements });
 
@@ -305,6 +345,10 @@ export function createRecordLookupWithConnectors(recordLookup, { elements } = St
     return baseCanvasElementsArrayToMap([recordLookupObject], connectors);
 }
 
+/**
+ * @param recordLookup
+ * @param config
+ */
 export function createRecordLookupMetadataObject(recordLookup, config) {
     if (!recordLookup) {
         throw new Error('recordLookup is not defined');

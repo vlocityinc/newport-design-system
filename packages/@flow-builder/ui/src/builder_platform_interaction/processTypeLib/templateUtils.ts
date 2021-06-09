@@ -36,6 +36,9 @@ const createTriggerTypeTile = (processType, triggerType) => ({
     triggerType
 });
 
+/**
+ * @param processType
+ */
 function createFlowEntryTilesForProcessType(processType) {
     if (processType.name === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW) {
         // Create one tile per trigger type for auto-launched flows
@@ -62,14 +65,21 @@ export const createRecommendedItems = (allProcessTypes) => {
 
 /**
  * @typedef {Object} FlowVersionDescriptor
- *
- * @property {String} EnumOrID
- * @property {String} ProcessType
- * @property {String} Status
- * @property {String} IsTemplate
- * @property {String} VersionNumber
- * @property {String} Description
- * @property {String} Label
+ * @property {string} EnumOrID
+ * @property {string} ProcessType
+ * @property {string} Status
+ * @property {string} IsTemplate
+ * @property {string} VersionNumber
+ * @property {string} Description
+ * @property {string} Label
+ */
+/**
+ * @param root0
+ * @param root0.Label
+ * @param root0.Description
+ * @param root0.ProcessType
+ * @param root0.EnumOrID
+ * @returns FlowVersionDescriptor
  */
 const createFlowEntryTilesForTemplate = ({ EnumOrID, Label, Description, ProcessType }) => ({
     itemId: EnumOrID,
@@ -81,7 +91,8 @@ const createFlowEntryTilesForTemplate = ({ EnumOrID, Label, Description, Process
 
 /**
  * @param data an array of FlowVersionDescriptor
- * @return (Template[]) an array of Template
+ * @param templates
+ * @returns (Template[]) an array of Template
  */
 export const createFlowEntryTilesForTemplates = (templates) => (templates || []).map(createFlowEntryTilesForTemplate);
 

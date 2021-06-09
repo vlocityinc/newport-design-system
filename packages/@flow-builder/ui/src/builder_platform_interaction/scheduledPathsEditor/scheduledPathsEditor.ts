@@ -32,6 +32,7 @@ export default class ScheduledPathsEditor extends LightningElement {
 
     /**
      * public api function to return the node
+     *
      * @returns {object} node - node
      */
     @api getNode() {
@@ -40,6 +41,7 @@ export default class ScheduledPathsEditor extends LightningElement {
 
     /**
      * public api function to run the rules from scheduled path validation library
+     *
      * @returns {object} list of errors
      */
     @api validate() {
@@ -120,7 +122,10 @@ export default class ScheduledPathsEditor extends LightningElement {
         this.shouldFocus = true;
     }
 
-    /** * @param event - property changed event coming from scheduled path component */
+    /**
+     *
+     * @param event - property changed event coming from scheduled path component
+     */
     handlePropertyChangedEvent(event: CustomEvent) {
         event.stopPropagation();
         this.startElement = scheduledPathsReducer(this.startElement, event);
@@ -129,6 +134,7 @@ export default class ScheduledPathsEditor extends LightningElement {
 
     /**
      * Handles deletion and sets focus to the first scheduled path or immediate scheduled path (if deletion was successful)
+     *
      * @param {object} event - deleteScheduledPathEvent
      */
     handleDeleteScheduledPath(event) {

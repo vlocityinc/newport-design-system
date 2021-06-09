@@ -63,6 +63,7 @@ export default class CollectionProcessorEditor extends LightningElement {
 
     /**
      * public api function to return the node
+     *
      * @returns {object} node - node
      */
     @api getNode() {

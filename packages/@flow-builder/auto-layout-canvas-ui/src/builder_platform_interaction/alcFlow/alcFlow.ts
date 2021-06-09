@@ -31,6 +31,7 @@ export default class AlcFlow extends LightningElement {
 
     /**
      * Uses the compoundNode to get the nested Fault flow or Branch flow based on the index provided
+     *
      * @param compoundNode - compoundNode found on the path to the node/connector
      * @param nestedBranchIndex - Index of the branch that needs to be traversed/focused
      */

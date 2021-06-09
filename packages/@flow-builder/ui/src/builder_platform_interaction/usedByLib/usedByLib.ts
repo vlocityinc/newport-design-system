@@ -55,6 +55,12 @@ export function usedBy(
     return result;
 }
 
+/**
+ * @param elementGuids
+ * @param elements
+ * @param root0
+ * @param root0.replaceAnonymousElementByCanvasElement
+ */
 function usedByElements(
     elementGuids: UI.Guid[],
     elements: UI.Elements | UI.HydratedElements,
@@ -107,6 +113,10 @@ function usedByElements(
     return usedByElements;
 }
 
+/**
+ * @param elementGuids
+ * @param flowProps
+ */
 function usedByFlowProperties(elementGuids: UI.Guid[], flowProps: UI.Properties) {
     const elementGuidsReferencedByFlowProps = findReference(elementGuids, flowProps);
     const usedByElements: UsedByElement[] = [];
@@ -215,7 +225,7 @@ export function invokeUsedByAlertModal(
  * @param guid - guid of the element being checked for usage
  * @param parentGuid - guid of the parent element.  It will not be included in the returned array
  * @param internalElements - array of child elements which will be checked for usage
- * @return Array of elements which use the specified guid.  This array will never include the parent element
+ * @returns Array of elements which use the specified guid.  This array will never include the parent element
  */
 export function usedByStoreAndElementState(
     guid: UI.Guid,
@@ -245,6 +255,7 @@ export function usedByStoreAndElementState(
 /**
  * This function is used by the usedBy function to determine which properties of particular elementType
  * should be skipped when searching for references across the elements currently stored in the data model.
+ *
  * @param elementType The type of the element in which we are searching for references
  * @returns the keys (property names) to be skipped for the given elementType
  */
@@ -256,6 +267,9 @@ function getKeysToIgnoreByElementType(elementType?: string): string[] {
     return keysToIgnore;
 }
 
+/**
+ * @param element
+ */
 function isHydratedElementWithFields(
     element: UI.HydratedElement
 ): element is UI.HydratedElement & { fields: { guid: UI.Guid }[] } {
@@ -266,6 +280,7 @@ function isHydratedElementWithFields(
 /**
  * This function gets all the nested children element guids
  * (e.g if a section/column is deleted, will also get its children's guids)
+ *
  * @param element
  * @returns list of children element guids
  */
@@ -284,6 +299,7 @@ function getChildElementGuids(element: UI.HydratedElement): UI.Guid[] {
 
 /**
  * This function add any child references(e.g outcomes, wait event, screen fields etc) in the elementGuids array
+ *
  * @param elementGuids list of guids to be matched
  * @param elements list of elements in the store
  * @returns elementGuids updated elementGuids array
@@ -318,6 +334,9 @@ function insertChildReferences(elementGuids: UI.Guid[], elements: UI.Elements): 
     );
 }
 
+/**
+ * @param element
+ */
 function isCanvasElementWithChildReferences(
     element: UI.Element
 ): element is UI.Element & { childReferences: UI.ChildReference[] } {
@@ -330,18 +349,27 @@ function isCanvasElementWithChildReferences(
     );
 }
 
+/**
+ * @param element
+ */
 function isRegionContainerFieldWithChildReferences(
     element: UI.Element
 ): element is UI.Element & { childReferences: UI.ChildReference[] } {
     return isRegionContainerField(element) && isElementWithChildReferences(element);
 }
 
+/**
+ * @param element
+ */
 function isRegionFieldWithChildReferences(
     element: UI.Element
 ): element is UI.Element & { childReferences: UI.ChildReference[] } {
     return isRegionField(element) && isElementWithChildReferences(element);
 }
 
+/**
+ * @param element
+ */
 function isScreenElementWithChild(
     element: UI.Element
 ): element is UI.Element & { childReferences: UI.ChildReference[] } {
@@ -349,6 +377,10 @@ function isScreenElementWithChild(
     return elementType === ELEMENT_TYPE.SCREEN && isElementWithChildReferences(element);
 }
 
+/**
+ * @param elements
+ * @param elementsGuids
+ */
 function getParentCanvasElementGuids(
     elements: UI.Elements | UI.HydratedElements,
     elementsGuids: UI.Guid[]
@@ -370,12 +402,20 @@ function getParentCanvasElementGuids(
     }, new Map());
 }
 
+/**
+ * @param element
+ */
 function isElementWithChildReferences(
     element: UI.Element
 ): element is UI.Element & { childReferences: UI.ChildReference[] } {
     return hasOwnProperty(element, 'childReferences') && Array.isArray(element.childReferences);
 }
 
+/**
+ * @param elements
+ * @param elementGuid
+ * @param childrenCandidates
+ */
 function getChildrenElementsGuidsRecursively(
     elements: UI.Elements,
     elementGuid: UI.Guid,
@@ -399,6 +439,7 @@ function getChildrenElementsGuidsRecursively(
 
 /**
  * This function is called recursively to find if a list of elements are referenced in the object.
+ *
  * @param elementGuids list of elementGuids to be matched
  * @param object object to be searched (hydrated or not)
  * @param elementGuidsReferenced set of element guids which are being referenced in an element
@@ -438,6 +479,7 @@ function findReference(
 
 /**
  * This function returns the devName of the given element
+ *
  * @param element Element object (hydrated or not)
  * @returns the devName of the element
  */
@@ -473,6 +515,7 @@ function updateDevNameToGuid(guidOrDevName: UI.Guid | string = ''): UI.Guid {
 
 /**
  * This function checks if some element guids are present in an object
+ *
  * @param elementGuids list of elements to be matched
  * @param object the object
  * @param key key of the object
@@ -504,8 +547,10 @@ function matchElement(elementGuids: UI.Guid[], object: Object, key: string, valu
 /**
  * Factory function to generate used by element.
  *
+ * @param element.element
  * @param element from the store
  * @param elementGuidsReferenced list of element which element is referencing
+ * @param element.elementGuidsReferenced
  * @returns new object with selected properties
  */
 export function createUsedByElement({

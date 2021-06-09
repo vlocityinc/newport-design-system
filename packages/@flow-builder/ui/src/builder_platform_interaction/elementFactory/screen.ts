@@ -22,8 +22,9 @@ const maxConnections = 1;
 
 /**
  * Called when opening a property editor or copying a screen element
+ *
  * @param {screenInStore} screen
- * @return {screenInPropertyEditor} Screen in the shape expected by a property editor
+ * @returns {screenInPropertyEditor} Screen in the shape expected by a property editor
  */
 export function createScreenWithFields(screen = {}) {
     const newScreen = createScreenElement(screen);
@@ -49,6 +50,19 @@ export function createScreenWithFields(screen = {}) {
  * Function to create the pasted Screen element
  *
  * @param {Object} dataForPasting - Data required to create the pasted element
+ * @param dataForPasting.canvasElementToPaste
+ * @param dataForPasting.newGuid
+ * @param dataForPasting.newName
+ * @param dataForPasting.canvasElementGuidMap
+ * @param dataForPasting.childElementGuidMap
+ * @param dataForPasting.childElementNameMap
+ * @param dataForPasting.cutOrCopiedChildElements
+ * @param dataForPasting.topCutOrCopiedGuid
+ * @param dataForPasting.bottomCutOrCopiedGuid
+ * @param dataForPasting.prev
+ * @param dataForPasting.next
+ * @param dataForPasting.parent
+ * @param dataForPasting.childIndex
  */
 export function createPastedScreen({
     canvasElementToPaste,
@@ -95,14 +109,14 @@ export function createPastedScreen({
  * Function to create the duplicate Screen element
  *
  * @param {Object} screen - Screen element being copied
- * @param {String} newGuid - Guid for the new duplicated screen element
- * @param {String} newName - Name for the new duplicated screen element
+ * @param {string} newGuid - Guid for the new duplicated screen element
+ * @param {string} newName - Name for the new duplicated screen element
  * @param {Object} childElementGuidMap - Map of child element guids to newly generated guids that will be used for
  * the duplicated child elements
  * @param {Object} childElementNameMap - Map of child element names to newly generated unique names that will be used for
  * the duplicated child elements
  * @param {Object} cutOrCopiedChildElements - Local copy of the cut ot copied canvas elements. Undefined in the case of duplication on Free Form Canvas
- * @return {Object} Returns an object containing the duplicated element and the duplicated childElements
+ * @returns {Object} Returns an object containing the duplicated element and the duplicated childElements
  */
 export function createDuplicateScreen(
     screen,
@@ -139,8 +153,9 @@ export function createDuplicateScreen(
 
 /**
  * Given a screen element in a property editor, create a screen element in the shape expected by the store
+ *
  * @param {screen} screen - screen in the shape of the property editor
- * @return {
+ * @returns {
  *   {
  *     screen: screen,
  *     deletedFields: screenField[] , fields: Array, elementType: string}
@@ -202,8 +217,9 @@ export function createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(sc
 /**
  * Create a screen in the shape of the store (with field references).  This is used when taking a flow element and
  * converting it for use in the store
+ *
  * @param {Object} screen - screen from metadata
- * @return {screenInStore} screen in the shape used by the store
+ * @returns {screenInStore} screen in the shape used by the store
  */
 export function createScreenWithFieldReferences(screen = {}) {
     const newScreen = createScreenElement(screen);
@@ -271,9 +287,10 @@ export function createScreenWithFieldReferences(screen = {}) {
 
 /**
  * Create a screen in the shape needed by the flow metadata
+ *
  * @param {screenInStore} screen - screen from the store
  * @param {Object} config - configuration for converting screen
- * @return {Object} screen in the shape for the metadata
+ * @returns {Object} screen in the shape for the metadata
  */
 export function createScreenMetadataObject(screen, config = {}) {
     if (!screen) {
@@ -328,6 +345,9 @@ export function createScreenMetadataObject(screen, config = {}) {
     });
 }
 
+/**
+ * @param screen
+ */
 export function createScreenElement(screen) {
     const newScreen = baseCanvasElement(screen);
     const {
@@ -419,6 +439,7 @@ export function createScreenElement(screen) {
 
 /**
  * Helper function to get all the associated screen field references from the store
+ *
  * @param {Object} parentElementFromStore - screen or screen field object in the store
  */
 function getAssociatedScreenFieldReferencesFromStore(parentElementFromStore) {
@@ -437,6 +458,10 @@ function getAssociatedScreenFieldReferencesFromStore(parentElementFromStore) {
     return screenFieldReferencesFromStore;
 }
 
+/**
+ * @param originalScreen
+ * @param newFields
+ */
 function getDeletedScreenFieldsUsingStore(originalScreen, newFields = []) {
     if (!originalScreen) {
         throw new Error('Either screen or newFields is not defined');
@@ -458,6 +483,10 @@ function getDeletedScreenFieldsUsingStore(originalScreen, newFields = []) {
     return [];
 }
 
+/**
+ * @param childReferences
+ * @param field
+ */
 function updateScreenFieldReferences(childReferences = [], field) {
     if (!field || !field.guid) {
         throw new Error('Either field or field.guid is not defined');

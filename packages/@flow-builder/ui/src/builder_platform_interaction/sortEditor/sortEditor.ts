@@ -143,7 +143,8 @@ export default class SortEditor extends LightningElement {
     /**
      * Gets the developer name of the collection variable
      * The name is in the {!name} format
-     * @returns {String} name
+     *
+     * @returns {string} name
      */
     get collectionVariable() {
         if (this._collectionVariable) {
@@ -187,8 +188,9 @@ export default class SortEditor extends LightningElement {
 
     /**
      * Mutate the combobox menu item to shape needed for loop variable/collection variable.
+     *
      * @param item combobox menu item
-     * @return the object needed to populate loop variable/collection variable.
+     * @returns the object needed to populate loop variable/collection variable.
      */
     mutateComboboxItem(item) {
         return {

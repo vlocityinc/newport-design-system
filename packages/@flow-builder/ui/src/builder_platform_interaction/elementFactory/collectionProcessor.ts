@@ -12,6 +12,9 @@ import { createSortOption, createSortOptionMetadataObject } from './sortOption';
 const elementType = ELEMENT_TYPE.COLLECTION_PROCESSOR;
 const maxConnections = 1;
 
+/**
+ * @param collectionProcessor
+ */
 export function createCollectionProcessor(collectionProcessor?) {
     const newCollectionProcessor = baseCanvasElement(collectionProcessor);
     if (collectionProcessor) {
@@ -23,6 +26,9 @@ export function createCollectionProcessor(collectionProcessor?) {
     });
 }
 
+/**
+ * @param collectionProcessor
+ */
 function createCollectionProcessorItem(collectionProcessor) {
     const collectionProcessorType = collectionProcessor.collectionProcessorType
         ? collectionProcessor.collectionProcessorType
@@ -60,6 +66,16 @@ function createCollectionProcessorItem(collectionProcessor) {
  * Function to create the pasted CollectionProcessor element
  *
  * @param {Object} dataForPasting - Data required to create the pasted element
+ * @param dataForPasting.canvasElementToPaste
+ * @param dataForPasting.newGuid
+ * @param dataForPasting.newName
+ * @param dataForPasting.canvasElementGuidMap
+ * @param dataForPasting.topCutOrCopiedGuid
+ * @param dataForPasting.bottomCutOrCopiedGuid
+ * @param dataForPasting.prev
+ * @param dataForPasting.next
+ * @param dataForPasting.parent
+ * @param dataForPasting.childIndex
  */
 export function createPastedCollectionProcessor({
     canvasElementToPaste,
@@ -91,11 +107,20 @@ export function createPastedCollectionProcessor({
     };
 }
 
+/**
+ * @param collectionProcessor
+ * @param newGuid
+ * @param newName
+ */
 export function createDuplicateCollectionProcessor(collectionProcessor = {}, newGuid, newName) {
     const newCollectionProcessor = createCollectionProcessor(collectionProcessor);
     return duplicateCanvasElement(newCollectionProcessor, newGuid, newName);
 }
 
+/**
+ * @param collectionProcessor
+ * @param config
+ */
 export function createCollectionProcessorMetadataObject(collectionProcessor, config = {}) {
     if (!collectionProcessor) {
         throw new Error('collectionProcessor is not defined');
@@ -106,6 +131,10 @@ export function createCollectionProcessorMetadataObject(collectionProcessor, con
     return Object.assign(newCollectionProcessor, { collectionReference, collectionProcessorType }, item);
 }
 
+/**
+ * @param collectionProcessorType
+ * @param collectionProcessor
+ */
 function createCollectionProcessorItemMetadataObject(collectionProcessorType, collectionProcessor) {
     switch (collectionProcessorType) {
         case COLLECTION_PROCESSOR_SUB_TYPE.SORT: {
@@ -124,6 +153,9 @@ function createCollectionProcessorItemMetadataObject(collectionProcessorType, co
     }
 }
 
+/**
+ * @param collectionProcessor
+ */
 export function createCollectionProcessorWithConnectors(collectionProcessor) {
     const newCollectionProcessor = createCollectionProcessor(collectionProcessor);
     const connectors = createConnectorObjects(collectionProcessor, newCollectionProcessor.guid, null);

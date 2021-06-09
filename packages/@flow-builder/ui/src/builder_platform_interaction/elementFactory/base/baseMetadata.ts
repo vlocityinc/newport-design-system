@@ -3,6 +3,9 @@ import { createConnectorMetadataObjects } from '../connector';
 import { createFEROVMetadataObject } from '../ferov';
 import { RHS_DATA_TYPE_PROPERTY, RHS_PROPERTY } from './baseList';
 
+/**
+ * @param element
+ */
 function baseElementMetadataObject(element = {}) {
     const { name = '' } = element;
     return {
@@ -10,6 +13,9 @@ function baseElementMetadataObject(element = {}) {
     };
 }
 
+/**
+ * @param resource
+ */
 export function baseResourceMetadataObject(resource = {}) {
     const newResource = baseElementMetadataObject(resource);
     const { description = '' } = resource;
@@ -18,6 +24,10 @@ export function baseResourceMetadataObject(resource = {}) {
     });
 }
 
+/**
+ * @param canvasElement
+ * @param config
+ */
 export function baseCanvasElementMetadataObject(canvasElement = {}, config = {}) {
     const newCanvasElement = baseResourceMetadataObject(canvasElement);
     const { xyTranslate, connectorMap = {}, hasMultipleRegularConnectors = false } = config;
@@ -51,17 +61,18 @@ export function baseCanvasElementMetadataObject(canvasElement = {}, config = {})
 
 /**
  * @typedef {Object} MetadataChildElement
- * @property {String} label - element label
- * @property {String} name - element devName
+ * @property {string} label - element label
+ * @property {string} name - element devName
  * @property {module:flowMetadata.CONDITION_LOGIC} conditionLogic - element condition logic
  * @property {module:connector.ConnectorMetadata[]} conditions - array of conditions
  */
 
 /**
  * Given a store element, create a metadata child element
+ *
  * @param {module:baseElement.Childelement} childElement - store representation of a child element
  * @param {Object} config - flow config
- * @return {MetadataChildElement}
+ * @returns {MetadataChildElement}
  */
 export function baseChildElementMetadataObject(childElement = {}, config = {}) {
     const newChildElement = baseElementMetadataObject(childElement);
@@ -76,6 +87,9 @@ export function baseChildElementMetadataObject(childElement = {}, config = {}) {
     return Object.assign(newChildElement, { label }, connectorMetadata);
 }
 
+/**
+ * @param condition
+ */
 export function createConditionMetadataObject(condition) {
     if (!condition) {
         throw new Error('Condition is not defined');

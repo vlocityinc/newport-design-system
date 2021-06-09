@@ -29,9 +29,10 @@ import { isRunInModeSupported } from 'builder_platform_interaction/triggerTypeLi
 
 /**
  * Reducer for properties
+ *
  * @param {Object} state properties object in the store
  * @param {Object} action with type and payload
- * @return {Object} new state after reduction
+ * @returns {Object} new state after reduction
  */
 
 const INIT = 'INIT';
@@ -49,6 +50,13 @@ const flowProperties = createFlowProperties();
  *
  */
 /* eslint-disable-next-line complexity */
+/**
+ * @param state
+ * @param root0
+ * @param root0.payload
+ * @param root0.type
+ */
+// eslint-disable-next-line complexity
 export default function flowPropertiesReducer(state = flowProperties, { payload, type }) {
     switch (type) {
         case ADD_RESOURCE:

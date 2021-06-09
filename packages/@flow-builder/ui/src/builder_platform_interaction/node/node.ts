@@ -244,6 +244,7 @@ export default class Node extends LightningElement {
 
     /**
      * Handles the node click event on node div and fires off a nodeSelected event.
+     *
      * @param {object} event - node clicked event
      */
     handleNodeClick = (event) => {
@@ -267,6 +268,7 @@ export default class Node extends LightningElement {
 
     /**
      * Handles the node double click event on node div and fires off a edit element event.
+     *
      * @param {object} event - node double clicked event
      */
     handleDblClick = (event) => {
@@ -282,6 +284,7 @@ export default class Node extends LightningElement {
     /**
      * Fires an event to delete the node. We are passing the guid as an array
      * since multiple elements can be deleted using the delete key.
+     *
      * @param {object} event - trash can click event
      */
     handleTrashClick = (event) => {
@@ -297,6 +300,7 @@ export default class Node extends LightningElement {
 
     /**
      * Handles the mouse down event on node div and fires off a node mousedown event.
+     *
      * @param {object} event - node mousedown event
      */
     handleMouseDown = () => {
@@ -307,6 +311,7 @@ export default class Node extends LightningElement {
     /**
      * Marks the current node selected and deselects the rest (if not multi-selected)
      * as soon as drag begins
+     *
      * @param {object} event - drag start event
      */
     @api
@@ -321,6 +326,7 @@ export default class Node extends LightningElement {
 
     /**
      * Updates the location of the node once the user stops dragging it on the canvas.
+     *
      * @param {object} event - drag stop event
      */
     @api
@@ -337,6 +343,7 @@ export default class Node extends LightningElement {
 
     /**
      * Updates the location of the node while the user is dragging it on the canvas.
+     *
      * @param {object} event - drag event
      */
     @api

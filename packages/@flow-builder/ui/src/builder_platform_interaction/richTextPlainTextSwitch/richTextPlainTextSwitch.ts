@@ -24,6 +24,7 @@ export default class RichTextPlainTextSwitch extends LightningElement {
 
     /**
      * Handling native selection mode event and re dispatch {@link RichTextPlainTextSwitchChangedEvent}
+     *
      * @param {Object} event - "select" (see {@link CustomEvent})
      * @param {string} event.details.value - the selected mode see {@link TEXT_MODES}
      */

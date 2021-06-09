@@ -4,6 +4,8 @@ import { Validation } from 'builder_platform_interaction/validation';
 
 /**
  * validates against possible blank, empty or undefined value
+ *
+ * @param index
  * @returns {Array} corresponding array of validation rules
  */
 const validateAgainstBlankNullOrUndefined = (index) => {
@@ -16,7 +18,8 @@ const validateAgainstBlankNullOrUndefined = (index) => {
 
 /**
  * Validates the record filter item.
- * @returns {function} the function to be called with each filter item to return the array of rules.
+ *
+ * @returns {Function} the function to be called with each filter item to return the array of rules.
  */
 const validateFilters = () => ValidationRules.validateExpressionWith3PropertiesWithNoEmptyRHS();
 
@@ -25,6 +28,7 @@ export const recordDeleteValidation = new Validation();
 /**
  * @param {Object} nodeElement the element that need to be validated
  * @param {Object} grabbing properties isSObjectMode
+ * @param grabbing.isSObjectMode
  * @returns {Object} the overridden rules
  */
 export const getRules = (nodeElement, { isSObjectMode }) => {

@@ -123,9 +123,10 @@ const reorderWaitEvents = (state, event) => {
 
 /**
  * Reducer for updating wait events
+ *
  * @param {Object} state the entire wait state
  * @param {Object} event the event with payload information
- * @param {function} waitEventOperation the operation we want to perform on the state's waitEvents
+ * @param {Function} waitEventOperation the operation we want to perform on the state's waitEvents
  * @returns {Object} updated state
  */
 const waitEventReducer = (state, event, waitEventOperation) => {
@@ -142,8 +143,11 @@ const waitEventReducer = (state, event, waitEventOperation) => {
 /**
  * Curry function that accepts a property on a wait event and an operation we want to perform
  * on that property
- * @property {String} property the property we want to change on a waitEvent
- * @property {Function} operation callback that when invoked will change a waitEvent's property with a given event payload
+ *
+ * @param {string} property the property we want to change on a waitEvent
+ * @param {Function} operation callback that when invoked will change a waitEvent's property with a given event payload
+ * @param deletedGuids
+ * @param waitSingularLabel
  * @returns {Function} function that is called by waitEventReducer and passes in the chosen waitEvent and event payload to modify event
  */
 const waitEventOperation = (property, operation, deletedGuids, waitSingularLabel) => {
@@ -180,9 +184,10 @@ const configureConditionsByLogic = (waitEvent, event) => {
 /**
  * If the platform event logic is no conditions then remove all input parameters.  Otherwise (logic must be 'and')
  * ensure there is at least one input parameter
+ *
  * @param {WaitEvent} waitEvent initial state of the waitEvent
  * @param {WaitEventPropertyChangedEvent} event
- * @return {WaitEvent} WaitEvent with updated input parameters
+ * @returns {WaitEvent} WaitEvent with updated input parameters
  */
 const updatePlatformEventInputParametersByLogic = (waitEvent, event) => {
     const inputParameters = [];
@@ -204,6 +209,7 @@ const verifyParentGuidIsSet = (event) => {
 
 /**
  * Reducer that handles property changed events for a waitEvent
+ *
  * @param {Object} state the entire state of the waitEditor
  * @param {Object} event property changed event
  * @returns {Object} updated waitEditor state
@@ -384,6 +390,7 @@ const getWaitEventForGuid = (state, guid) => {
  * 2. Update the eventType for the wait event (parentGuid)
  * 3. Clear all the input and output parameters for the wait event
  * 4. Add input and output parameters for the wait event with empty values
+ *
  * @param {Object} state the entire wait state
  * @param {Object} event the event with payload information
  */
@@ -453,6 +460,7 @@ const updateWaitEventEventType = (state, event) => {
 
 /**
  * Wait reducer function runs validation rules and returns back the updated Wait element
+ *
  * @param {Object} state - element / Wait node
  * @param {Event} event - object containing type and payload
  * @returns {Object} Wait - updated Wait

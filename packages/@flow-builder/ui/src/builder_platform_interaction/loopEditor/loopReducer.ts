@@ -49,8 +49,10 @@ const loopCollectionChangedEvent = (state, event, elements) => {
 
 /**
  * Loop reducer function runs validation rules and returns back the updated element Loop
+ *
  * @param {Object} state - element / Loop node
  * @param {Event} event - object containing type and payload
+ * @param elements
  * @returns {Object} Loop - updated Loop
  */
 export const loopReducer = (state, event, elements) => {

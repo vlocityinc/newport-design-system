@@ -7,7 +7,8 @@ import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 
 /**
  * Creates a end element object in the shape expected by the store
- * @param {Object} endElement end element object used to construct the new object
+ *
+ * @param {Object} element end element object used to construct the new object
  * @returns {Object} endElement the new end element object
  */
 export function createEndElement(element = {}) {

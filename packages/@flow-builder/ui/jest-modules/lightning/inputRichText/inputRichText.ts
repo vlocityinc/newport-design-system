@@ -3,8 +3,8 @@ import { LightningElement, api } from 'lwc';
 
 /**
  * Dummy lightning input rich text component for use by Jest tests
- * @param {string} textEntered - The value
  *
+ * @param {string} textEntered - The value
  * @ScrumTeam Process Services
  * @author Raji Srikantan
  * @since 216

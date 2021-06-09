@@ -137,6 +137,7 @@ export default class VariableConstantEditor extends LightningElement {
     /**
      * Public api function to return the node
      * Called by the property editor controller on "OK"
+     *
      * @returns {object} node - node
      */
     @api
@@ -190,7 +191,8 @@ export default class VariableConstantEditor extends LightningElement {
     /**
      * Returns the external access options based on the data in variableConstantResource.
      * The values returned in array should match with EXTERNAL_ACCESS_VALUES value attribute.
-     * @return {Array} with options in format the checkbox-group expects. eg: ['isInput', 'isOutput']
+     *
+     * @returns {Array} with options in format the checkbox-group expects. eg: ['isInput', 'isOutput']
      */
     get externalAccessValue() {
         return [VARIABLE_CONSTANT_FIELDS.IS_INPUT, VARIABLE_CONSTANT_FIELDS.IS_OUTPUT].filter((value) => {
@@ -200,7 +202,8 @@ export default class VariableConstantEditor extends LightningElement {
 
     /**
      * External access input output checkbox values
-     * @return {Array} array of input for checkbox group
+     *
+     * @returns {Array} array of input for checkbox group
      */
     get externalAccessOptions() {
         return EXTERNAL_ACCESS_VALUES;
@@ -208,7 +211,8 @@ export default class VariableConstantEditor extends LightningElement {
 
     /**
      * Help text for external access input output checkboxes.
-     * @return {string} help text for external access.
+     *
+     * @returns {string} help text for external access.
      */
     get externalAccessHelpText() {
         return LABELS.externalAccessHelpText;
@@ -220,7 +224,8 @@ export default class VariableConstantEditor extends LightningElement {
 
     /**
      * Returns the default value for the variable/constant resource.
-     * @return {String|Object} returns the default value for the variable/constant resource if exists, otherwise empty string.
+     *
+     * @returns {string | Object} returns the default value for the variable/constant resource if exists, otherwise empty string.
      */
     get defaultValue() {
         const defaultValue = getValueFromHydratedItem(this.variableConstantResource.defaultValue);
@@ -248,7 +253,8 @@ export default class VariableConstantEditor extends LightningElement {
 
     /**
      * No Default Value for Picklist, Multipicklist, SObject, Apex and collection variables.
-     * @return {boolean} false for Picklist, Multipicklist, SObject, Apex data type or collection variables, otherwise true.
+     *
+     * @returns {boolean} false for Picklist, Multipicklist, SObject, Apex data type or collection variables, otherwise true.
      */
     get hasDefaultValue() {
         return (
@@ -334,6 +340,7 @@ export default class VariableConstantEditor extends LightningElement {
 
     /**
      * Based on the new dataType/scale/collection values, clear either default value, scale, or object type fields
+     *
      * @param {Object} value the object containing the new dataType, scale, and collection values
      */
     clearOnDataTypeChange(value) {
@@ -386,6 +393,7 @@ export default class VariableConstantEditor extends LightningElement {
 
     /**
      * Handles the value change for external access checkbox group.
+     *
      * @param {object} event onchange from checkbox group
      */
     handleExternalAccessPropertyChanged(event) {
@@ -407,6 +415,7 @@ export default class VariableConstantEditor extends LightningElement {
 
     /**
      * Handles the value change event from default value combobox.
+     *
      * @param {Object} event the value changed event from combobox
      */
     handleDefaultValuePropertyChanged(event) {
@@ -421,12 +430,13 @@ export default class VariableConstantEditor extends LightningElement {
         this.updateSubtype(event, null);
     }
 
-    /** *********************************/
+    /** */
     /*         Helper methods           */
-    /** *********************************/
+    /** */
 
     /**
      * Helper method to update the property based extracting value from the event.
+     *
      * @param {object} event to handle
      * @param {string} propertyName property name to update
      */
@@ -450,6 +460,7 @@ export default class VariableConstantEditor extends LightningElement {
 
     /**
      * Helper method to handle a flow combobox value changed event and update the given property name
+     *
      * @param {ComboboxStateChangedEvent} event flow combobobx value changed event to handle
      */
     updateDefaultValue(event) {
@@ -461,9 +472,10 @@ export default class VariableConstantEditor extends LightningElement {
 
     /**
      * Does the update property action with passed in property name, value and error.
-     * @param {String} propertyName to update
-     * @param {String} value to update with
-     * @param {String} error if any
+     *
+     * @param {string} propertyName to update
+     * @param {string} value to update with
+     * @param {string} error if any
      */
     updateProperty(propertyName, value, error) {
         const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName, value, error });
@@ -514,6 +526,7 @@ export default class VariableConstantEditor extends LightningElement {
 
     /**
      * Fires propeditorwarning event with warning message.
+     *
      * @param {string} propertyName to set the warning for
      * @param {string} message the warning message
      */
@@ -524,19 +537,21 @@ export default class VariableConstantEditor extends LightningElement {
 
     /**
      * Checks if the ferovDataType property exists with value 'reference'.
-     * @return {boolean} Returns true for ferovDataType 'reference', otherwise false.
+     *
+     * @returns {boolean} Returns true for ferovDataType 'reference', otherwise false.
      */
     hasFerovDataTypeRef() {
         return this.variableConstantResource[DEFAULT_VALUE_DATA_TYPE_PROPERTY] === FEROV_DATA_TYPE.REFERENCE;
     }
 
-    /** *********************************/
+    /** */
     /*       Validation methods         */
-    /** *********************************/
+    /** */
 
     /**
      * public api function to run the rules from assignment validation library
      * TODO: validation W-4900878
+     *
      * @returns {object} list of errors
      */
     @api

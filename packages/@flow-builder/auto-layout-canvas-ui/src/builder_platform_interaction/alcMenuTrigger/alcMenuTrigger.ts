@@ -105,7 +105,7 @@ export default class AlcMenuTrigger extends LightningElement {
             : 0;
     }
 
-    /** ***************************** Helper Functions *******************************/
+    /** ***************************** Helper Functions */
 
     focusOnButton() {
         this.template.querySelector('button').focus();
@@ -140,7 +140,7 @@ export default class AlcMenuTrigger extends LightningElement {
         this.dispatchEvent(event);
     }
 
-    /** ***************************** Public Functions *******************************/
+    /** ***************************** Public Functions */
 
     /**
      * Sets focus on the button.
@@ -150,7 +150,7 @@ export default class AlcMenuTrigger extends LightningElement {
         this.focusOnButton();
     }
 
-    /** ***************************** Event Handlers *******************************/
+    /** ***************************** Event Handlers */
 
     handleButtonClick(event) {
         event.stopPropagation();
@@ -214,7 +214,7 @@ export default class AlcMenuTrigger extends LightningElement {
         }
     };
 
-    /** ***************************** Callbacks *******************************/
+    /** ***************************** Callbacks */
 
     connectedCallback() {
         this.classList.add('slds-dropdown-trigger', 'slds-dropdown-trigger_click');

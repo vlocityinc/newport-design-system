@@ -242,6 +242,9 @@ const allAuraActions = {
     'c.getContext': createGetter(context)
 };
 
+/**
+ * @param actions
+ */
 export function initializeAuraFetch(actions = {}) {
     setAuraFetch(
         auraFetch({
@@ -252,6 +255,9 @@ export function initializeAuraFetch(actions = {}) {
     setAuraGetCallback((callback) => callback);
 }
 
+/**
+ *
+ */
 export function initializeContext() {
     setContext(context);
 }

@@ -71,6 +71,7 @@ const deleteGoToActionItem = {
 
 /**
  * Create ALC menu configuration from the elements metadata
+ *
  * @param elementsMetadata
  * @param showEndElement - Whether to show the end element item
  * @param isPasteAvailable - If paste is available

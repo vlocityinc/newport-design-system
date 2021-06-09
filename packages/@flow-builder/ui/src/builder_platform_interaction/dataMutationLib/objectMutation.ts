@@ -10,6 +10,7 @@ const rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?
  * Recursively traverses an object based on the given path
  * and updates the property at the end of the path with
  * the given value
+ *
  * @param {Object}      obj   current object being ispected
  * @param {Array}       path  current path
  * @param {Object}      value value that will be set once end of path is reached
@@ -53,9 +54,10 @@ const setValue = (obj, path, value) => {
 /**
  * Create a new object with updated properties
  * It can be used for creating a new object by calling the function without any argument.
+ *
  * @param {Object} obj existing object
  * @param {Object} props properties to be updated
- * @return {Object} new object with updated properties
+ * @returns {Object} new object with updated properties
  */
 export function updateProperties<T>(obj: T, props = {}): T {
     return Object.assign({}, obj, props);
@@ -68,7 +70,8 @@ export function updateProperties<T>(obj: T, props = {}): T {
  * Instead any array bracket notation is assumed to be accessing an index in the
  * value at the key position. So a string path with items[0].value would
  * be converted into a path of ['items', '0', 'value' ]
- * @param {String} string the string path we will convert to an array path
+ *
+ * @param {string} string the string path we will convert to an array path
  * @returns {Array}     array of keys that represent a path in an object
  */
 export const stringToPath = (string) => {
@@ -96,6 +99,7 @@ export const stringToPath = (string) => {
  * update a complex nested object in an immuatable way
  * If you just want to update a javascript object please
  * use dot notation, that works much better.
+ *
  * @param {Object}          obj   the object given
  * @param {Array/String}    path  the path to the part of the object you want to update. Can be '.' period separated string path
  * @param {Object}          value the value to be set at the path
@@ -111,9 +115,10 @@ export const set = (obj: object = {}, path: string[] | string = [], value: objec
  * Create a new object with only allowed props.
  * It makes shallow copy of the properties.
  * If there are no allowed properties, then empty object will be returned
+ *
  * @param {Object} obj existing object
  * @param {Array} allowedProps properties which are allowed in new object
- * @return {Object} new object with only allowed properties
+ * @returns {Object} new object with only allowed properties
  */
 export function pick(obj = {}, allowedProps = []) {
     const filterKeysRule = (key) => obj.hasOwnProperty(key);
@@ -127,9 +132,10 @@ export function pick(obj = {}, allowedProps = []) {
  * Create a new object with all the properties except omit one. It is opposite of pick function.
  * It makes shallow copy of the properties.
  * If there are no omitted properties, then new object with all the properties will be returned
+ *
  * @param {Object} obj existing object
  * @param {Array} omitProps array of omitted properties
- * @return {Object} new object without omitted properties
+ * @returns {Object} new object without omitted properties
  */
 export function omit(obj = {}, omitProps: string[] = []) {
     const filterKeysRule = (key) => omitProps.indexOf(key) === -1;

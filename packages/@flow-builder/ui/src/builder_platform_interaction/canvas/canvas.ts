@@ -141,6 +141,7 @@ export default class Canvas extends LightningElement {
 
     /**
      * Method to set up any new connections made within the canvas.
+     *
      * @param {object} connectorInfo - Contains all the information about the new connector
      */
     connectionAdded = (connectorInfo) => {
@@ -150,6 +151,7 @@ export default class Canvas extends LightningElement {
 
     /**
      * Fires connector selection event.
+     *
      * @param {object} connection - jsPlumb's connector object
      * @param {object} event - connection click event coming from drawing-lib.js
      */
@@ -438,6 +440,8 @@ export default class Canvas extends LightningElement {
 
     /**
      * Swallowing the zoomPanel mouse up and down
+     *
+     * @param event
      */
     handleZoomPanelMouseUp = (event) => {
         event.stopPropagation();
@@ -454,7 +458,7 @@ export default class Canvas extends LightningElement {
     /**
      * Helper method to update the cursor styling.
      *
-     * @param {String} cursorStyle - new cursor style
+     * @param {string} cursorStyle - new cursor style
      * @private
      */
     _updateCursorStyling = (cursorStyle) => {
@@ -486,7 +490,7 @@ export default class Canvas extends LightningElement {
     /**
      * Helper method to get the width, height and center of the canvas viewport
      *
-     * @return {Object} Returns an object containing the width, height and center of the canvas viewport
+     * @returns {Object} Returns an object containing the width, height and center of the canvas viewport
      * @private
      */
     _getViewportDimensions = () => {
@@ -508,7 +512,7 @@ export default class Canvas extends LightningElement {
     /**
      * Helper function to return the scaled inner canvas center offsets
      *
-     * @return {Number[]} Returns an array containing the scaled inner canvas center offsets
+     * @returns {number[]} Returns an array containing the scaled inner canvas center offsets
      * @private
      */
     _getScaledInnerCanvasCenterOffsets = () => {
@@ -547,7 +551,7 @@ export default class Canvas extends LightningElement {
     /**
      * Helper method to toggle the marquee mode.
      *
-     * @param {String} action - Marquee action coming from handleMarqueeOn or _clearMarqueeBox
+     * @param {string} action - Marquee action coming from handleMarqueeOn or _clearMarqueeBox
      * @private
      */
     _toggleMarqueeMode = (action) => {
@@ -593,8 +597,8 @@ export default class Canvas extends LightningElement {
     /**
      * Helper method to updated the offsets of the innerCanvas.
      *
-     * @param {Number} scaledOffsetLeft - left offset on a given scale
-     * @param {Number} scaledOffsetTop - top offset on a given scale
+     * @param {number} scaledOffsetLeft - left offset on a given scale
+     * @param {number} scaledOffsetTop - top offset on a given scale
      * @private
      */
     _updateInnerCanvasPosition = (scaledOffsetLeft = 0, scaledOffsetTop = 0) => {
@@ -605,7 +609,7 @@ export default class Canvas extends LightningElement {
     /**
      * Helper method to zoom the canvas.
      *
-     * @param {String} action - Zoom action coming from handleZoom
+     * @param {string} action - Zoom action coming from handleZoom
      * @private
      */
     _canvasZoom = (action) => {
@@ -677,7 +681,7 @@ export default class Canvas extends LightningElement {
     /**
      * Public function to access the canvas element container. This is used in deletion of elements
      *
-     * @param {String} guid - Guid of the canvas element for which we need the container
+     * @param {string} guid - Guid of the canvas element for which we need the container
      * @returns {Object} Returns the canvasElementContainer associated with a given guid
      */
     @api
@@ -688,7 +692,7 @@ export default class Canvas extends LightningElement {
     /**
      * Public function to access the jsPlumbConnector. This is used in deletion of connector from drawingLib.
      *
-     * @param {String} guid - Guid of the connector for which we need the container
+     * @param {string} guid - Guid of the connector for which we need the container
      * @returns {Object} Returns the jsPlumbConnector associated with a given guid
      */
     @api
@@ -699,7 +703,7 @@ export default class Canvas extends LightningElement {
     /**
      * Public function to delete the jsPlumbConnector from the map.
      *
-     * @param {String} guid - Guid for which we need for the deletion of jsPlumbConnector from the map
+     * @param {string} guid - Guid for which we need for the deletion of jsPlumbConnector from the map
      */
     @api
     deleteJsPlumbConnectorFromMap(guid) {
@@ -709,7 +713,7 @@ export default class Canvas extends LightningElement {
     /**
      * Public function to bring the element into the viewport if it's not already present in the viewport.
      *
-     * @param {String} canvasElementGuid - Guid of the element that needs to be searched and highlighted
+     * @param {string} canvasElementGuid - Guid of the element that needs to be searched and highlighted
      */
     @api
     panElementToViewIfNeeded = (canvasElementGuid = '') => {

@@ -37,7 +37,7 @@ export default class RecordQueryFields extends LightningElement {
     titleCss = 'slds-text-heading_small';
 
     /**
-     * @param {String} entityName the selected entity name (from select object combobox)
+     * @param {string} entityName the selected entity name (from select object combobox)
      */
     set recordEntityName(entityName) {
         this.state.recordEntityName = entityName;
@@ -49,7 +49,7 @@ export default class RecordQueryFields extends LightningElement {
     }
 
     /**
-     * @param {String} value the output reference (the selected sObject or sObject collection variable)
+     * @param {string} value the output reference (the selected sObject or sObject collection variable)
      */
     set outputReference(value) {
         this.state.outputReference = value;
@@ -61,7 +61,7 @@ export default class RecordQueryFields extends LightningElement {
     }
 
     /**
-     * @param {String[]} fields the selected fields
+     * @param {string[]} fields the selected fields
      */
     set queriedFields(fields) {
         this.state.queriedFields = fields;
@@ -96,6 +96,7 @@ export default class RecordQueryFields extends LightningElement {
 
     /**
      * handle event when adding the new field
+     *
      * @param {Object} event the add field event
      */
     handleAddField(event) {
@@ -106,6 +107,7 @@ export default class RecordQueryFields extends LightningElement {
 
     /**
      * handle event when updating the field
+     *
      * @param {Object} event the update field event
      */
     handleUpdateField(event) {
@@ -120,6 +122,7 @@ export default class RecordQueryFields extends LightningElement {
 
     /**
      * handle event when deleting the field
+     *
      * @param {Object} event the delete field event
      */
     handleDeleteField(event) {

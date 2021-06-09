@@ -48,6 +48,7 @@ const DEFAULT_Y_OFFSET = 86;
 
 /**
  * Helper function to determine how big the start element is in the Y direction.
+ *
  * @param startElement start element metadata structure
  * @returns Y offset
  */
@@ -80,7 +81,9 @@ export function findStartYOffset(startElement: UI.Start): number {
  *      b) Update/CreateAndUpdate - Scheduled Paths are only available when
  *          doesRequireRecordChangedToMeetCriteria is true and filters are defined
  * 2) Process type is autolaunched
+ *
  * @param startElement start element metadata structure
+ * @param processType
  */
 export function shouldSupportScheduledPaths(
     startElement: UI.Start | Metadata.Start,
@@ -103,6 +106,7 @@ export function shouldSupportScheduledPaths(
 
 /**
  * Creates a start element object
+ *
  * @param {Object} startElement start element object used to construct the new object
  * @returns {Object} startElement the new start element object
  */
@@ -191,6 +195,7 @@ export function createStartElement(startElement: UI.Start | Metadata.Start) {
 
 /**
  * Creates a start element object on opening any start element property editor
+ *
  * @param {Object} startElement start element object used to construct the new object
  * @returns {Object} startElement the new start element object
  */
@@ -224,8 +229,10 @@ export function createStartElementForPropertyEditor(startElement: UI.Start = {} 
 /**
  * Create the start element object with connectors using either the startElement metadata object or the startElementReference metadata property
  * This is used during translation from metadata to the client side UI model.
+ *
  * @param {Object} startElement start element metadata object
  * @param {string} startElementReference guid/name of the first element in the flow
+ * @param processType
  * @returns {Object} startElement the start element object
  */
 export function createStartElementWithConnectors(
@@ -294,6 +301,7 @@ export function createStartElementWithConnectors(
 
 /**
  * Create a start element Flow metadata object
+ *
  * @param {Object} startElement the start element client side object used to construct the metadata object
  * @param {Object} config configuration used to translate to the metadata object
  * @returns {Object} startElementMetadata the start element metadata object
@@ -401,12 +409,20 @@ export function createStartElementMetadataObject(startElement: UI.Start, config 
     });
 }
 
+/**
+ * @param timeinMillis
+ */
 function getISOTimeFromMillis(timeinMillis) {
     const date = new Date(timeinMillis);
     // ISO Time is in this format: 2008-09-15T15:53:00Z, and we just care about the latter time portion minus the Z
     return date.toISOString().slice(0, -1).split('T')[1];
 }
 
+/**
+ * @param startDate
+ * @param startTime
+ * @param frequency
+ */
 function getscheduledLabel(startDate, startTime, frequency) {
     let label;
     if (startDate && startTime) {
@@ -430,6 +446,9 @@ function getscheduledLabel(startDate, startTime, frequency) {
     return label;
 }
 
+/**
+ * @param scheduledPath
+ */
 export function createRunOnSuccessScheduledPath(scheduledPath: UI.ScheduledPath): UI.ScheduledPath {
     const newScheduledPath: UI.ChildElement = baseChildElement(scheduledPath, ELEMENT_TYPE.SCHEDULED_PATH);
     const label = LABELS.runOnSuccessScheduledPathLabel;
@@ -442,6 +461,9 @@ export function createRunOnSuccessScheduledPath(scheduledPath: UI.ScheduledPath)
     });
 }
 
+/**
+ * @param scheduledPath
+ */
 export function createScheduledPath(scheduledPath: UI.ScheduledPath | Metadata.ScheduledPath): UI.ScheduledPath {
     const newScheduledPath: UI.ChildElement = baseChildElement(scheduledPath, ELEMENT_TYPE.SCHEDULED_PATH);
 
@@ -491,6 +513,7 @@ export function createScheduledPath(scheduledPath: UI.ScheduledPath | Metadata.S
 
 /**
  * Creates a start element object on closing of any start property editor / when a new flow is opened for the first time which goes to store
+ *
  * @param {Object} startElement start element object used to construct the new object
  * @returns {Object} which contains startElement, children and ALC params
  */
@@ -568,6 +591,9 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
     };
 }
 
+/**
+ * @param startElement
+ */
 function calculateMaxConnections(startElement) {
     if (!startElement) {
         throw new Error('Max connection cannot be calculated because startElement is not defined');
@@ -585,6 +611,11 @@ function calculateMaxConnections(startElement) {
     return length;
 }
 
+/**
+ * @param availableConnections
+ * @param startElement
+ * @param type
+ */
 function addStartElementConnectorToAvailableConnections(
     availableConnections: UI.AvailableConnection[] = [],
     startElement: Metadata.Start,
@@ -605,6 +636,9 @@ function addStartElementConnectorToAvailableConnections(
     return availableConnections;
 }
 
+/**
+ * @param triggerType
+ */
 function getDefaultFilterLogic(triggerType) {
     if (getProcessType() === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW && isRecordChangeTriggerType(triggerType)) {
         return CONDITION_LOGIC.NO_CONDITIONS;

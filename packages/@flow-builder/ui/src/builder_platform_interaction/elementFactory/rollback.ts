@@ -11,6 +11,9 @@ import { createConnectorObjects } from './connector';
 const elementType = ELEMENT_TYPE.ROLLBACK;
 const maxConnections = 1;
 
+/**
+ * @param rollback
+ */
 export function createRollback(rollback = {}) {
     const newRollback: UI.CanvasElement = <UI.CanvasElement>baseCanvasElement(rollback);
     return Object.assign(newRollback, {
@@ -19,6 +22,19 @@ export function createRollback(rollback = {}) {
     });
 }
 
+/**
+ * @param root0
+ * @param root0.canvasElementToPaste
+ * @param root0.newGuid
+ * @param root0.newName
+ * @param root0.canvasElementGuidMap
+ * @param root0.topCutOrCopiedGuid
+ * @param root0.bottomCutOrCopiedGuid
+ * @param root0.prev
+ * @param root0.next
+ * @param root0.parent
+ * @param root0.childIndex
+ */
 export function createPastedRollback({
     canvasElementToPaste,
     newGuid,
@@ -49,6 +65,11 @@ export function createPastedRollback({
     };
 }
 
+/**
+ * @param rollback
+ * @param newGuid
+ * @param newName
+ */
 export function createDuplicateRollback(rollback = {}, newGuid, newName) {
     const newRollback = createRollback(rollback);
     const duplicateRollback = duplicateCanvasElement(newRollback, newGuid, newName);
@@ -56,6 +77,9 @@ export function createDuplicateRollback(rollback = {}, newGuid, newName) {
     return duplicateRollback;
 }
 
+/**
+ * @param rollback
+ */
 export function createRollbackWithConnectors(rollback = {}) {
     const newRollback = createRollback(rollback);
     const connectors = createConnectorObjects(rollback, newRollback.guid, null);
@@ -66,6 +90,10 @@ export function createRollbackWithConnectors(rollback = {}) {
     return baseCanvasElementsArrayToMap([rollbackObject], connectors);
 }
 
+/**
+ * @param rollback
+ * @param config
+ */
 export function createRollbackMetadataObject(rollback, config = {}) {
     if (!rollback) {
         throw new Error('rollback is not defined');

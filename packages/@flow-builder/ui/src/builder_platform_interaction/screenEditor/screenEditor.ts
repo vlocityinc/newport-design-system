@@ -61,6 +61,7 @@ export default class ScreenEditor extends LightningElement {
 
     /**
      * Screen node getter
+     *
      * @returns {object} The screen
      */
     @api get node() {
@@ -69,6 +70,7 @@ export default class ScreenEditor extends LightningElement {
 
     /**
      * Screen node setter, sets the value and initializes the selectedNode
+     *
      * @param {object} newValue - The new screen
      */
     set node(newValue) {
@@ -77,6 +79,7 @@ export default class ScreenEditor extends LightningElement {
 
     /**
      * public api function to return the node
+     *
      * @returns {object} node - node
      */
     @api getNode() {
@@ -85,6 +88,7 @@ export default class ScreenEditor extends LightningElement {
 
     /**
      * public api function to run the rules from assignment validation library
+     *
      * @returns {object} list of errors
      */
     @api validate() {
@@ -106,6 +110,7 @@ export default class ScreenEditor extends LightningElement {
 
     /**
      * Returns the selected node in the editor (added for testing)
+     *
      * @returns {object} - The selected node
      */
     @api getSelectedNode() {
@@ -162,6 +167,7 @@ export default class ScreenEditor extends LightningElement {
      * Retrieves the description for all extension screen fields and adds all required input parameters that are not present to those fields
      * (this should never happen as this would mean the flow is invalid, but it is a good check)
      * Triggers processPaletteExtensions
+     *
      * @param {Screen} newScreen - The screen to process
      */
     processScreenExtensions(newScreen) {
@@ -221,6 +227,7 @@ export default class ScreenEditor extends LightningElement {
 
     /**
      * Sets the selected node in the editor to the value provided
+     *
      * @param {object} value - The new selected node
      * @param {string} property - The property to select in the canvas in case the selected node is the screen (this would be either the header or the footer)
      */
@@ -238,6 +245,7 @@ export default class ScreenEditor extends LightningElement {
 
     /**
      * Update the active tab and the automatic field record variable
+     *
      * @param screenFieldNode
      */
     private updateActiveTabAndAutomaticFieldRecordVariable(screenFieldNode) {
@@ -252,6 +260,7 @@ export default class ScreenEditor extends LightningElement {
 
     /**
      * Handler for the add screen field event
+     *
      * @param {event} event - The event
      */
     handleAddScreenField = (event) => {
@@ -270,6 +279,7 @@ export default class ScreenEditor extends LightningElement {
     /**
      * Handler for adding a screen field to a container.  The parent container
      * will be set as the selected node
+     *
      * @param {event} event - The event
      */
     handleAddScreenFieldToContainerFieldWithParentFocus = (event) => {
@@ -286,6 +296,7 @@ export default class ScreenEditor extends LightningElement {
 
     /**
      * Handler for the delete screen element event. Invokes the delete confirmation modal.
+     *
      * @param {event} event - The event
      */
     handleDeleteScreenElement = (event) => {
@@ -346,6 +357,7 @@ export default class ScreenEditor extends LightningElement {
 
     /**
      * Get all the fields from the screen state fields.
+     *
      * @param {Array} fields screen state fields
      * @returns {Array} all the screen fields
      */
@@ -359,6 +371,7 @@ export default class ScreenEditor extends LightningElement {
 
     /**
      * Recursively flatten the screen field elements.
+     *
      * @param {Object} screenField
      * @returns {Array} all the screen fields after the flatten
      */
@@ -379,6 +392,7 @@ export default class ScreenEditor extends LightningElement {
 
     /**
      * Handler for screen state changed events
+     *
      * @param {event} event - The event
      */
     handleScreenStateChanged = (event) => {
@@ -454,6 +468,7 @@ export default class ScreenEditor extends LightningElement {
 
     /**
      * Handler for the select screen element event
+     *
      * @param {event} event - The event
      */
     handleSelectScreenElement = (event) => {
@@ -477,6 +492,7 @@ export default class ScreenEditor extends LightningElement {
 
     /**
      * Handles reordering a list of the screen fields
+     *
      * @param {event} event - reorderListEvent
      */
     handleMoveScreenElement = (event) => {

@@ -16,9 +16,10 @@ import { fetchActiveOrLatestFlowOutputVariables } from 'builder_platform_interac
 
 /**
  * Whether or not lookup traversal is supported in this flow
- * @param {String} processType the current process type
- * @param {String} triggerType the current trigger type
- * @returns {Boolean} true if lookup traversal is supported, false otherwise
+ *
+ * @param {string} processType the current process type
+ * @param {string} triggerType the current trigger type
+ * @returns {boolean} true if lookup traversal is supported, false otherwise
  */
 export const isLookupTraversalSupported = (processType: string, triggerType?: string) =>
     isLookupTraversalSupportedByProcessType(processType) && isLookupTraversalSupportedByTriggerType(triggerType);
@@ -28,6 +29,7 @@ export const isLookupTraversalSupported = (processType: string, triggerType?: st
  * The identifier can be a resource/element guid ('a4451815-988d-4f17-883d-64b6ad9fab7e'), a global constant identifier ('$GlobalConstant.EmptyString'), a system variable identifier or
  * a field reference identifier ('a4451815-988d-4f17-883d-64b6ad9fab7e.Account.User.Name')
  *
+ * @param identifier
  * @returns {Promise<Object[]|undefined>} Array with first item being the element (resource/global constant ...) and next items being the fields. Returns undefined if not a valid reference
  */
 export function resolveReferenceFromIdentifier(identifier: string): Promise<object[] | undefined> {
@@ -42,6 +44,10 @@ export function resolveReferenceFromIdentifier(identifier: string): Promise<obje
     return Promise.resolve([elementOrResource]);
 }
 
+/**
+ * @param flowResource
+ * @param fieldNames
+ */
 function resolveComplexTypeReference(flowResource, fieldNames?: string[]): Promise<object[] | undefined> {
     if (!fieldNames || fieldNames.length === 0) {
         return Promise.resolve([flowResource]);
@@ -66,10 +72,17 @@ function resolveComplexTypeReference(flowResource, fieldNames?: string[]): Promi
     return Promise.resolve(undefined);
 }
 
+/**
+ * @param clazz
+ */
 function fetchPropertiesForClass(clazz: string) {
     return loadApexClasses().then(() => getPropertiesForClass(clazz));
 }
 
+/**
+ * @param clazz
+ * @param fieldNames
+ */
 function resolveApexPropertyReference(clazz: string, fieldNames: string[]) {
     if (fieldNames.length === 0) {
         return Promise.resolve([]);
@@ -96,6 +109,10 @@ function resolveApexPropertyReference(clazz: string, fieldNames: string[]) {
     });
 }
 
+/**
+ * @param entityName
+ * @param fieldNames
+ */
 function resolveEntityFieldReference(entityName: string, fieldNames: string[]): Promise<object[] | undefined> {
     if (fieldNames.length === 0) {
         return Promise.resolve([]);
@@ -124,6 +141,10 @@ function resolveEntityFieldReference(entityName: string, fieldNames: string[]): 
     });
 }
 
+/**
+ * @param extensionName
+ * @param fieldNames
+ */
 function resolveLightningComponentOutputReference(
     extensionName: string,
     fieldNames: string[]
@@ -146,6 +167,10 @@ function resolveLightningComponentOutputReference(
     });
 }
 
+/**
+ * @param field
+ * @param fieldNames
+ */
 function resolveApexPropertyOrEntityFieldReference(field, fieldNames: string[]): Promise<object[] | undefined> {
     if (field.dataType === FLOW_DATA_TYPE.APEX.value) {
         return resolveApexPropertyReference(field.subtype, fieldNames);
@@ -155,6 +180,12 @@ function resolveApexPropertyOrEntityFieldReference(field, fieldNames: string[]):
     return Promise.resolve(undefined);
 }
 
+/**
+ * @param root0
+ * @param root0.actionType
+ * @param root0.actionName
+ * @param fieldNames
+ */
 function resolveActionOutputReference(
     { actionType, actionName }: { actionType: string; actionName: string },
     fieldNames: string[]
@@ -177,6 +208,11 @@ function resolveActionOutputReference(
     });
 }
 
+/**
+ * @param root0
+ * @param root0.flowName
+ * @param fieldNames
+ */
 function resolveSubflowOutputReference(
     { flowName }: { flowName: string },
     fieldNames: string[]
@@ -199,6 +235,10 @@ function resolveSubflowOutputReference(
     });
 }
 
+/**
+ * @param field
+ * @param specificEntityName
+ */
 export function getReferenceToName(field, specificEntityName?: string): string | undefined {
     let referenceToName;
     if (specificEntityName) {
@@ -215,6 +255,10 @@ export function getReferenceToName(field, specificEntityName?: string): string |
     return referenceToName;
 }
 
+/**
+ * @param entityField
+ * @param referenceToName
+ */
 function entityFieldIncludesReferenceToName(entityField, referenceToName: string): boolean {
     referenceToName = referenceToName.toLowerCase();
     return entityField.referenceToNames.some(
@@ -222,6 +266,9 @@ function entityFieldIncludesReferenceToName(entityField, referenceToName: string
     );
 }
 
+/**
+ * @param fieldName
+ */
 export function getPolymorphicRelationShipName(
     fieldName: string
 ): { relationshipName: string; specificEntityName?: string } {
@@ -235,6 +282,10 @@ export function getPolymorphicRelationShipName(
     };
 }
 
+/**
+ * @param fields
+ * @param relationshipName
+ */
 export function getEntityFieldWithRelationshipName(fields, relationshipName: string) {
     relationshipName = relationshipName.toLowerCase();
     for (const apiName in fields) {
@@ -252,6 +303,9 @@ export function getEntityFieldWithRelationshipName(fields, relationshipName: str
     return undefined;
 }
 
+/**
+ * @param extension
+ */
 function getExtensionOutputParamDescriptions(extension) {
     return extension.outputParameters.reduce((acc, parameter) => {
         acc[parameter.apiName] = getExtensionParamDescriptionAsComplexTypeFieldDescription(parameter);
@@ -259,12 +313,18 @@ function getExtensionOutputParamDescriptions(extension) {
     }, {});
 }
 
+/**
+ * @param extensionName
+ */
 function fetchExtensionOutputParameters(extensionName: string) {
     return describeExtension(extensionName, {
         disableErrorModal: true
     }).then((extension) => getExtensionOutputParamDescriptions(extension));
 }
 
+/**
+ * @param details
+ */
 function getActionOutputParameterDescriptions(details) {
     return details.parameters
         .filter((parameter) => parameter.isOutput === true)
@@ -274,6 +334,11 @@ function getActionOutputParameterDescriptions(details) {
         }, {});
 }
 
+/**
+ * @param root0
+ * @param root0.actionType
+ * @param root0.actionName
+ */
 function fetchActionOutputParameters({ actionType, actionName }: { actionType: string; actionName: string }) {
     return fetchDetailsForInvocableAction(
         { actionType, actionName },

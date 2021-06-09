@@ -98,6 +98,7 @@ export default class ScreenExtensionAttributeEditor extends LightningElement {
 
     /**
      * Prepend output for the screen-reducer to know it is handling with the output version of the attribute
+     *
      * @param {Event} event - The property change event
      */
     handlePropertyChanged = (event) => {

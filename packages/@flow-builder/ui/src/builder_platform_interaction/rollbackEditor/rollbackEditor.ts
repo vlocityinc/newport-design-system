@@ -37,6 +37,7 @@ export default class RollbackEditor extends LightningElement {
 
     /**
      * public api function to return the node
+     *
      * @returns node
      */
     @api getNode(): UI.HydratedElement {

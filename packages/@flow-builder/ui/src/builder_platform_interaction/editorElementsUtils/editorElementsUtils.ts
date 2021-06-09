@@ -12,6 +12,8 @@ const { logMetricsServiceErrorTransaction } = loggingUtils;
  *
  * @param {Object}
  *            elements list of all the elements
+ * @param elements
+ * @param palette
  * @returns {Object} a mapping of element type to a list of
  *          lightning-tree-grid-items
  */
@@ -90,6 +92,8 @@ const mutateElements = (elements, palette) =>
  *
  * @param {Object}
  *            elements list of all the elements
+ * @param elements
+ * @param palette
  * @returns {Array} collection of lightning-tree-grid items
  */
 export const getElementSections = (elements, palette) => {

@@ -17,8 +17,9 @@ const subtypeProperties = {
 
 /**
  * Either creates a new variable or create a new copy of existing variable
+ *
  * @param {Object} variable existing variable which needs to be copied
- * @return {Object} newVariable new variable which is created
+ * @returns {Object} newVariable new variable which is created
  */
 export function createVariable(variable = {}) {
     const newVariable = baseResource(variable);
@@ -58,8 +59,9 @@ export function createVariable(variable = {}) {
 
 /**
  * Create a new copy of existing variable in shape as expected by store.
+ *
  * @param {Object} variable existing variable which needs to be copied
- * @return {Object} Map containing guid as key and new variable as value
+ * @returns {Object} Map containing guid as key and new variable as value
  */
 export function createVariableForStore(variable) {
     if (!variable) {
@@ -71,8 +73,9 @@ export function createVariableForStore(variable) {
 
 /**
  * Create a new copy of existing variable in shape as expected by flow metadata.
+ *
  * @param {Object} variable existing variable which needs to be copied
- * @return {Object} newVariable new variable which is created
+ * @returns {Object} newVariable new variable which is created
  */
 export function createVariableMetadataObject(variable) {
     if (!variable) {

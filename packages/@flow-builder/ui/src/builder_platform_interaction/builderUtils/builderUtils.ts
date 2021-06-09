@@ -97,6 +97,7 @@ const createComponentPromise = (cmpName, attr) => {
 /**
  * @param {string} mode based on the event type
  * @param {string} elementType eg: Assignment, Decision, etc
+ * @param element
  * @returns {string} title for the modal
  */
 const getTitleForModalHeader = (mode, element) => {
@@ -213,6 +214,7 @@ const clearExpressionValidator = (panel) => {
 
 /**
  * Callback that executes just before closing any property editor modal
+ *
  * @param {Object} panel : panel Instance of status icon
  */
 const closeActionCallback = (panel) => {
@@ -223,9 +225,10 @@ const closeActionCallback = (panel) => {
 
 /**
  * Gets the connector picker config
+ *
  * @param {string} mode based on the event type
  * @param {object} attributes - contains a callback and actual data
- * @return {object} - contains the attr for the editor and panel config
+ * @returns {object} - contains the attr for the editor and panel config
  */
 const getConnectorPickerConfig = (mode, attributes) => {
     if (
@@ -274,9 +277,10 @@ const getConnectorPickerConfig = (mode, attributes) => {
 
 /**
  * Gets the property editor descriptor
+ *
  * @param {string} mode the event name(addelement, editelement)
  * @param {object} elementConfig - the element config
- * @return {string|undefined} - the element config descriptor
+ * @returns {string|undefined} - the element config descriptor
  */
 const getPropertyEditorDescriptor = (mode, elementConfig) => {
     const desc = elementConfig.descriptor;
@@ -288,6 +292,8 @@ const getPropertyEditorDescriptor = (mode, elementConfig) => {
 
 /**
  * Convert a property editor descriptor in to a class name for dynamic lwc loading.
+ *
+ * @param desc
  */
 const getPropertyEditorClassName = (desc) => {
     const packageAndClass = desc.split(':');
@@ -309,9 +315,10 @@ const invokeModalWithComponentsOnCreate = (modal, data) => {
 
 /**
  * Gets the property editor config
+ *
  * @param {string} mode based on the event type
  * @param {object} attributes - contains a callback and actual data
- * @return {object} - contains the attr for the editor and panel config
+ * @returns {object} - contains the attr for the editor and panel config
  */
 export const getPropertyEditorConfig = (mode, attributes) => {
     if (!attributes.node || !attributes.nodeUpdate) {
@@ -368,9 +375,10 @@ export const getPropertyEditorConfig = (mode, attributes) => {
 
 /**
  * Gets the editor config based on the mode
+ *
  * @param {string} mode based on the event type
  * @param {object} attributes - contains a callback and actual data
- * @return {object} - contains the attr for the editor and panel config
+ * @returns {object} - contains the attr for the editor and panel config
  */
 const getEditorConfig = (mode, attributes) => {
     if (mode === AddConnectionEvent.EVENT_NAME) {
@@ -384,6 +392,7 @@ const getEditorConfig = (mode, attributes) => {
 
 /**
  * Invokes the ui-panel
+ *
  * @param {string} cmpName - Name of the component to be created
  * @param {object} attr - contains a callback and actual data
  * @param {object} panelConfig - contains the modal title, flavor and css for the editor
@@ -434,6 +443,7 @@ const doInvoke = (cmpName, attr, panelConfig) => {
 
 /**
  * Callback invoked when the popover is created
+ *
  * @param {Object} panelInstance - the panel instance
  */
 function onCreatePopover(panelInstance) {
@@ -442,6 +452,8 @@ function onCreatePopover(panelInstance) {
 
 /**
  * Callback invoked when the popover is destroyed
+ *
+ * @param panel
  */
 function onDestroyPopover(panel) {
     if (popoverState) {
@@ -458,6 +470,7 @@ function onDestroyPopover(panel) {
 
 /**
  * Invokes the panel and creates property editor inside it
+ *
  * @param {string} cmpName - Name of the component to be created
  * @param {object} attributes - contains a callback and actual data
  */
@@ -477,6 +490,7 @@ export function invokePropertyEditor(cmpName, attributes) {
 
 /**
  * Invokes the debug modal.
+ *
  * @param {object} attributes - contains a callback and actual data
  */
 export function invokeDebugEditor(attributes) {
@@ -522,6 +536,7 @@ export function invokeDebugEditor(attributes) {
 
 /**
  * Invokes modals with the specified header, body, and footer promises.
+ *
  * @param data - contains data for modal header/body/footer
  * @param modalHeaderPromise - the promise for the header.
  * @param modalBodyPromise - the promise for the body.
@@ -599,12 +614,13 @@ const invokeWelcomeMatWithComponents = (data, modalBodyPromise, onCreate) => {
 
 /**
  * Open Debug Editor Popover.
+ *
  * @param {string} cmpHeader - Name of the header component to be created.
  * @param {string} cmpBody - Name of the body component to be created.
  * @param {string} cmpFooter - Name of the footer component to be created.
  * @param {object} cmpAttributes - Contains components' attributes.
  * @param {object} popoverProps - Contains popover properties
- * @param {function} runDebugInterviewCallback - callback after Run button is clicked
+ * @param {Function} runDebugInterviewCallback - callback after Run button is clicked
  */
 function showDebugEditorPopover(
     cmpHeader,
@@ -676,6 +692,7 @@ function showDebugEditorPopover(
 
 /**
  * Invokes the modal and creates the alert/confirmation modal inside it
+ *
  * @param {object} data - contains data for modal header/body/footer
  */
 export const invokeModal = (data) => {
@@ -709,6 +726,7 @@ export const invokeModal = (data) => {
 /**
  * Invokes the internal data modal and creates the alert/confirmation modal inside it.
  * This should only be used when displaying internal only data.
+ *
  * @param data
  */
 export const invokeModalInternalData = (data) => {
@@ -758,13 +776,15 @@ export const invokeAutoLayoutWelcomeMat = (processType, triggerType, createCallb
 
 /**
  * @typedef {Object} NewFlowModalProperties
- *
- * @property {String} bodyClass
- * @property {String} flavor
+ * @property {string} bodyClass
+ * @property {string} flavor
  */
 /**
  * Invokes the new flow modal.
+ *
  * @param {NewFlowModalProperties} modalProperties
+ * @param builderType
+ * @param configuration
  * @param {Function} closeFlowModalAction the callback to execute when clicking the exit icon
  * @param {Function} createFlowFromTemplateCallback the callback to execute when clicking the create button
  */
@@ -861,6 +881,9 @@ export function showHover(cmpName, attr, hoverId, panelConfig) {
     });
 }
 
+/**
+ *
+ */
 export function invokeKeyboardHelpDialog() {
     const modalHeaderPromise = createComponentPromise('builder_platform_interaction:modalHeader', {
         headerTitle: LABELS.keyboardShortcutListTitle
@@ -908,7 +931,8 @@ export function getPopoverReferenceElement() {
 
 /**
  * Checks if the popover singleton is opened
- * @return {boolean} - whether the popover is open
+ *
+ * @returns {boolean} - whether the popover is open
  */
 export function isPopoverOpen() {
     return !!popoverState;
@@ -916,6 +940,9 @@ export function isPopoverOpen() {
 
 /**
  * Hides the popover singleton
+ *
+ * @param root0
+ * @param root0.closedBy
  */
 export function hidePopover({ closedBy } = {}) {
     if (isPopoverOpen()) {
@@ -929,15 +956,17 @@ export function hidePopover({ closedBy } = {}) {
 
 /**
  * Object containing popover properties
+ *
  * @typedef {object} popoverProps - Contains popover attributes
  * @property {string} direction - Direction for the popover
  * @property {string} referenceElement - DOM element used to position the popover
  * @property {boolean} closeOnClickOut - Whether to close the popover on click out
- * @property {function} onClose - Callback invoked when the popover is closed
+ * @property {Function} onClose - Callback invoked when the popover is closed
  */
 
 /**
  * Shows a component in a popover singleton
+ *
  * @param {string} cmpName - Name of the component to be created
  * @param {object} cmpAttributes - Contains component attributes
  * @param {object} popoverProps - Contains popover properties
@@ -985,6 +1014,13 @@ export function showPopover(cmpName, cmpAttributes = {}, popoverProps) {
 /**
  * Create LWC component dynamically for custom property editor
  * PLEASE DON'T USE THIS UTIL EXCEPT FOR CUSTOM PROPERTY EDITOR
+ *
+ * @param root0
+ * @param root0.cmpName
+ * @param root0.container
+ * @param root0.attr
+ * @param root0.errorCallback
+ * @param root0.successCallback
  */
 export function createConfigurationEditor({
     cmpName,
@@ -1018,6 +1054,9 @@ export function createConfigurationEditor({
     return unrender;
 }
 
+/**
+ *
+ */
 export function focusOnDockingPanel() {
     dispatchGlobalEvent('force:shortcutCommand', { command: 'GoToPrompt', args: null });
 }

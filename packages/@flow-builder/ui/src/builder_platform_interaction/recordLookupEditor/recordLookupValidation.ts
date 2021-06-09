@@ -7,14 +7,16 @@ import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 
 /**
  * Validate the filter item. Here we can't use the ValidationRules.validateExpressionWith3Properties because this function allows empty RHS
- * @return {function} the function to be called with each filter item to return the array of rules.
+ *
+ * @returns {Function} the function to be called with each filter item to return the array of rules.
  */
 const validateFilter = () => ValidationRules.validateExpressionWith3PropertiesWithNoEmptyRHS();
 
 /**
  * Validate the assignments item.
  * The rule on the RHS is added only if the LHS has a value.
- * @return {function} the function to be called with each filter item to return the array of rules.
+ *
+ * @returns {Function} the function to be called with each filter item to return the array of rules.
  */
 const validateAssignments = () => {
     return ValidationRules.validateExpressionWith2PropertiesWithNoEmptyRHS();
@@ -22,7 +24,9 @@ const validateAssignments = () => {
 
 /**
  * Validate the outputReference item.
- * @return {function} the function to be called with each filter item to return the array of rules.
+ *
+ * @param outputReferenceIndex
+ * @returns {Function} the function to be called with each filter item to return the array of rules.
  */
 const validateOutputReference = (outputReferenceIndex) => {
     return [
@@ -34,7 +38,8 @@ const validateOutputReference = (outputReferenceIndex) => {
 
 /**
  * Validate the queried field.
- * @return {function} the function to be called with each queried field to return the array of rules.
+ *
+ * @returns {Function} the function to be called with each queried field to return the array of rules.
  */
 const validateQueriedField = () => {
     return () => {
@@ -53,6 +58,7 @@ export const recordLookupValidation = new Validation(additionalRules);
 
 /**
  * Build specific overridden rules
+ *
  * @param {Object} nodeElement the element that need to be validated
  * @param {string} nodeElement.filterLogic - current element's filterLogic
  * @param {string} nodeElement.sortOrder - current element's sortOrder
@@ -63,7 +69,9 @@ export const recordLookupValidation = new Validation(additionalRules);
  * @param {Object} nodeElement.outputReference - current element's outputReference
  * @param {Object[]} nodeElement.queriedFields - current element's queriedFields
  * @param {boolean} nodeElement.storeOutputAutomatically - current's element is using automatic output handling
- * @return {Object} the overridden rules
+ * @param nodeElement.objectIndex
+ * @param nodeElement.outputReferenceIndex
+ * @returns {Object} the overridden rules
  */
 export const getRules = ({
     filterLogic,

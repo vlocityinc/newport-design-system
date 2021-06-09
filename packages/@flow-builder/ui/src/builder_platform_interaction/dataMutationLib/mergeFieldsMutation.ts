@@ -13,8 +13,9 @@ import { EXPRESSION_RE } from 'builder_platform_interaction/flowMetadata';
  * e) "guidOrLiteral" holds an a complex type api name, and fieldNames is a field path on that sobject
  *
  * @typedef {Object} ComplexGuid
- * @param {String} guidOrLiteral                 a flow element's guid OR a literal
- * @param {String[]|undefined} fieldNames  if the flow element is an sobjectVar this may be a field on that sobject, or undefined
+ * @param {string} guidOrLiteral                 a flow element's guid OR a literal
+ * @param {string[] | undefined} fieldNames  if the flow element is an sobjectVar this may be a field on that sobject, or undefined
+ * @property
  */
 type ComplexGuid = {
     guidOrLiteral: string;
@@ -23,7 +24,8 @@ type ComplexGuid = {
 
 /**
  * If a guid contains more than one level, separates it out to two parts
- * @param {String} potentialGuid The guid to sanitize. This can be the value in the case of literals.
+ *
+ * @param {string} potentialGuid The guid to sanitize. This can be the value in the case of literals.
  * @returns {complexGuid} The complex object containing the guid and the field names. Returns an empty object in the literals case.
  */
 export const sanitizeGuid = (potentialGuid: string): ComplexGuid => {
@@ -83,14 +85,16 @@ const replaceMergeFieldReferences = (template, mappingFunction) => {
 
 /**
  * Mutate a text with merge fields (formula expression, text template body, body of screen field of type Display Text)
+ *
  * @param {string} template Template with merge fields containing guids
- * @return {string} The mutated template with merge fields containing devNames
+ * @returns {string} The mutated template with merge fields containing devNames
  */
 export const mutateTextWithMergeFields = (template) => replaceMergeFieldReferences(template, guidToDevName);
 
 /**
  * Demutate a text with merge fields
+ *
  * @param {string} template Template with merge fields containing devNames
- * @return {string} The mutated template with merge fields containing guids
+ * @returns {string} The mutated template with merge fields containing guids
  */
 export const demutateTextWithMergeFields = (template) => replaceMergeFieldReferences(template, devNameToGuid);

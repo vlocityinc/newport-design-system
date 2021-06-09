@@ -1,5 +1,6 @@
 /**
  * The number of records to store.
+ *
  * @type {{FIRST_RECORD: string, ALL_RECORDS: string}}
  */
 export enum NUMBER_RECORDS_TO_STORE {
@@ -17,6 +18,7 @@ export enum WAY_TO_STORE_FIELDS {
 
 /**
  * The sort order.
+ *
  * @type {{ASC: string, DESC: string, NOT_SORTED_VALUE: string}}
  */
 export enum SORT_ORDER {

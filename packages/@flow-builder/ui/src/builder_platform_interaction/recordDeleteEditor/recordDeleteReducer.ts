@@ -26,6 +26,7 @@ const PROP_NAMES = {
 
 /**
  * Empty record filter item
+ *
  * @returns {object} empty record filter item
  */
 const emptyFilterItem = () => ({
@@ -41,6 +42,7 @@ const emptyFilterItem = () => ({
 
 /**
  * Add record filter item
+ *
  * @param {object} state - element / node state
  * @returns {object} updated state
  */
@@ -51,9 +53,10 @@ const addRecordFilter = (state) => {
 
 /**
  * Delete record filter item
+ *
  * @param {object} state - element / node state
  * @param {object} event detail
- * @param {number} event.detail.index index of the record filter item to delete
+ * @param {number} event.index index of the record filter item to delete
  * @returns {object} updated state
  */
 const deleteRecordFilter = (state, { index }) => {
@@ -63,10 +66,11 @@ const deleteRecordFilter = (state, { index }) => {
 
 /**
  * Update record filter item
+ *
  * @param {object} state - element / node state
  * @param {object} event detail
- * @param {number} event.detail.index index of the record filter item to update
- * @param {string} event.detail.value new value of the record filter item to update
+ * @param {number} event.index index of the record filter item to update
+ * @param {string} event.value new value of the record filter item to update
  * @returns {object} updated state
  */
 const updateRecordFilter = (state, { index, value }) => {
@@ -77,6 +81,7 @@ const updateRecordFilter = (state, { index, value }) => {
 
 /**
  * Reset filter (with default empty record filter item entry)
+ *
  * @param {object} state - element / node state
  * @returns {object} updated state
  */
@@ -86,6 +91,7 @@ const resetFilters = (state) => {
 
 /**
  * Reset filters, inputReference and object state's property (last one only if resetObject true)
+ *
  * @param {object} state - element / node state
  * @param {boolean} resetObject - if true reset the object property
  * @returns {object} updated state
@@ -103,6 +109,10 @@ const resetRecordDelete = (state, resetObject) => {
 
 /**
  * Update the way the user store the records
+ *
+ * @param state
+ * @param root0
+ * @param root0.getFirstRecordOnly
  */
 const recordStoreOptionAndWayToStoreChanged = (state, { getFirstRecordOnly }) => {
     if (state.getFirstRecordOnly !== getFirstRecordOnly) {
@@ -114,13 +124,14 @@ const recordStoreOptionAndWayToStoreChanged = (state, { getFirstRecordOnly }) =>
 
 /**
  * Based on property to be changed operate specific routine
+ *
  * @param {object} state - element / node state
  * @param {object} event detail
- * @param {string} event.detail.propertyName property name
- * @param {boolean} event.detail.ignoreValidate if true ignore specific property validation
- * @param {error} event.detail.error error value
- * @param {string} event.detail.value new property value
- * @param {string} event.detail.oldValue current property value
+ * @param {string} event.propertyName property name
+ * @param {boolean} event.ignoreValidate if true ignore specific property validation
+ * @param {string} event.error error value
+ * @param {string} event.value new property value
+ * @param {string} event.oldValue current property value
  * @returns {object} updated state
  */
 const managePropertyChanged = (state, { propertyName: propName, ignoreValidate, error, value, oldValue }) => {
@@ -142,6 +153,7 @@ const managePropertyChanged = (state, { propertyName: propName, ignoreValidate, 
 
 /**
  * Record delete reducer function runs validation rules and returns back the updated element state
+ *
  * @param {object} state - element / node state
  * @param {object} event - The event to be handled
  * @returns {object} state - updated state

@@ -25,6 +25,7 @@ export default class OutputResourcePicker extends LightningElement {
 
     /**
      * The allowed param types based on the rule service
+     *
      * @type {Object}
      */
     @track
@@ -33,7 +34,8 @@ export default class OutputResourcePicker extends LightningElement {
     /**
      * A unique id for this resource picker(guid)
      * Required if you want validation on done
-     * @type {String}
+     *
+     * @type {string}
      */
     @api
     rowIndex;
@@ -43,6 +45,7 @@ export default class OutputResourcePicker extends LightningElement {
 
     /**
      * The current value of the picker
+     *
      * @param {module:base-resource-picker.item|String} newValue the new value for the picker
      */
     set value(newValue) {
@@ -60,7 +63,8 @@ export default class OutputResourcePicker extends LightningElement {
 
     /**
      * Custom error message to display
-     * @param {String} message - The error message
+     *
+     * @param {string} message - The error message
      */
     @api
     setCustomValidity(message) {
@@ -72,7 +76,8 @@ export default class OutputResourcePicker extends LightningElement {
 
     /**
      * Set the error message through props
-     * @param {String} error the new error message
+     *
+     * @param {string} error the new error message
      */
     set errorMessage(error) {
         this.setCustomValidity(error);
@@ -85,6 +90,7 @@ export default class OutputResourcePicker extends LightningElement {
 
     /**
      * The combobox config for the resource picker
+     *
      * @param {module:base-resource-picker.ComboboxConfig} newComboboxConfig the new combobox config object
      */
     set comboboxConfig(newComboboxConfig) {
@@ -102,13 +108,15 @@ export default class OutputResourcePicker extends LightningElement {
 
     /**
      * The element type of the property editor from element config.
-     * @type {String}
+     *
+     * @type {string}
      */
     @api
     propertyEditorElementType;
 
     /**
      * The element param that represents the left hand side in operator rules.
+     *
      * @type {module:operator-rule-util.param}
      */
     @api
@@ -140,12 +148,14 @@ export default class OutputResourcePicker extends LightningElement {
 
     /**
      * True if the component has been initialized, false otherwise. This is so we do not populate menu data twice on initializing api values
-     * @type {Boolean}
+     *
+     * @type {boolean}
      */
     _isInitialized = false;
 
     /**
      * The full menu data available for selection based on the resource picker props
+     *
      * @type {Object[]}
      */
     _menuData;
@@ -165,6 +175,8 @@ export default class OutputResourcePicker extends LightningElement {
     /**
      * Handler for when a user clicks on new resource button from the combobox
      * Update the store and save the rowIndex of the comobobox
+     *
+     * @param event
      */
     handleAddInlineResource = (event) => {
         if (event && event.detail && event.detail.position && typeof event.detail.position === 'string') {
@@ -249,6 +261,8 @@ export default class OutputResourcePicker extends LightningElement {
 
     /**
      * set the newly created resource in the combobox
+     *
+     * @param menuData
      */
     setInlineResource = (menuData) => {
         const {
@@ -269,7 +283,7 @@ export default class OutputResourcePicker extends LightningElement {
      * such as GUIDs for flow elements, and returns what
      * the expression builder will need to use to work with that.
      *
-     * @param {String} identifier    Used to identify the value (e.g. GUID for flow elements)
+     * @param {string} identifier    Used to identify the value (e.g. GUID for flow elements)
      * @returns normalizedValue      value to pass to the combobox
      */
     normalizeValue = (identifier) => {

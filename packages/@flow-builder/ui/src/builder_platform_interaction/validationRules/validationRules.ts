@@ -53,10 +53,11 @@ const regexConfig = {
 
 export const VALIDATE_ALL = 'VALIDATE_ALL';
 
-/** Exported Validation Rules Start **/
+/** Exported Validation Rules Start */
 
 /**
  * Function to test the value should not be blank
+ *
  * @param {string} value - value to be tested
  * @returns {string|null} errorString or null
  */
@@ -64,6 +65,7 @@ export const shouldNotBeBlank = (value) => evaluateRegex(regexConfig.shouldNotBe
 
 /**
  * Function to test the value should not begin or end with underscore
+ *
  * @param {string} value - value to be tested
  * @returns {string|null} errorString or null
  */
@@ -72,6 +74,7 @@ export const shouldNotBeginOrEndWithUnderscores = (value) =>
 
 /**
  * Function to test the value should not begin with numeric or special characters
+ *
  * @param {string} value - value to be tested
  * @returns {string|null} errorString or null
  */
@@ -80,6 +83,7 @@ export const shouldNotBeginWithNumericOrSpecialCharacters = (value) =>
 
 /**
  * Function to test the value should not be blank
+ *
  * @param {string} value - value to be tested
  * @returns {string|null} errorString or null
  */
@@ -88,6 +92,7 @@ export const shouldAcceptOnlyAlphanumericCharacters = (value) =>
 
 /**
  * Function to test the value is zero or a positive integer
+ *
  * @param {string} value - value to be tested
  * @returns {string|null} errorString or null
  */
@@ -96,6 +101,7 @@ export const shouldBeAPositiveIntegerOrZero = (value) =>
 
 /**
  * Function to test the value is a valid date
+ *
  * @param {string} value - value to be tested
  * @returns {string|null} errorString or null
  */
@@ -113,6 +119,7 @@ export const shouldBeADate = (value) => {
 
 /**
  * Function to test the value is a valid date/time
+ *
  * @param {string} value - value to be tested
  * @returns {string|null} errorString or null
  */
@@ -130,6 +137,7 @@ export const shouldBeADateTime = (value) => {
 
 /**
  * Function to test the value is under the max integer value allowed.
+ *
  * @param {string} maxLimit - max value allowed
  * @returns {string|null} errorString or null
  */
@@ -146,6 +154,7 @@ export const shouldBeUnderMaxValue = (maxLimit) => {
 
 /**
  * Function to test the value is a valid number
+ *
  * @param {string} value - value to be tested
  * @returns {string|null} errorString or null
  */
@@ -159,8 +168,9 @@ export const shouldBeANumber = (value) => {
 
 /**
  * Test if the value is null or undefined
- * @param {String} value the value to be tested
- * @returns {String|null} errorString or null
+ *
+ * @param {string} value the value to be tested
+ * @returns {string | null} errorString or null
  */
 export const shouldNotBeNullOrUndefined = (value) => {
     if (isUndefinedOrNull(value)) {
@@ -172,6 +182,7 @@ export const shouldNotBeNullOrUndefined = (value) => {
 /**
  * Curry Function to test the length of the value does not go beyond a maximum character limit specified
  * Usage - for a field rule : maximumCharacterLimit(80) it runs as :  maximumCharacterLimit(80) (value)
+ *
  * @param {number} limit - maximum number of characters possible in value
  * @returns {string|null} errorString or null
  */
@@ -185,6 +196,7 @@ export const maximumCharactersLimit = (limit) => {
 };
 /**
  * Tests if the value passed is within the given range or not.
+ *
  * @param {number} rangeMinimum Minimum
  * @param {number} rangeMaximum Maximum
  * @returns {string|null} errorString or null
@@ -203,7 +215,8 @@ export const shouldBeInRange = (rangeMinimum, rangeMaximum) => {
 
 /**
  * Run validation on LHS of an expression
- * @param {String} rowIndex the index(guid) of the expression
+ *
+ * @param {string} rowIndex the index(guid) of the expression
  */
 export const lhsShouldBeValid = (rowIndex) => {
     return function () {
@@ -213,7 +226,8 @@ export const lhsShouldBeValid = (rowIndex) => {
 
 /**
  * Run validation on RHS of an expression
- * @param {String} rowIndex the index(guid) of the expression
+ *
+ * @param {string} rowIndex the index(guid) of the expression
  */
 export const rhsShouldBeValid = (rowIndex) => {
     return function () {
@@ -223,7 +237,8 @@ export const rhsShouldBeValid = (rowIndex) => {
 
 /**
  * Run validation on a resource picker
- * @param {String} rowIndex the index(guid) of the picker
+ *
+ * @param {string} rowIndex the index(guid) of the picker
  */
 export const validateResourcePicker = (rowIndex) => {
     return function () {
@@ -257,6 +272,7 @@ export const validateExpressionWith3Properties = () => {
 
 /**
  * Validates 3 part expression builders but requires the RHS to not be empty
+ *
  * @returns {string|null} errorString or null
  */
 export const validateExpressionWith3PropertiesWithNoEmptyRHS = () => {
@@ -280,6 +296,7 @@ export const validateExpressionWith3PropertiesWithNoEmptyRHS = () => {
 
 /**
  * Validates 2 part expression builders
+ *
  * @returns {string|null} errorString or null
  */
 export const validateExpressionWith2Properties = () => {
@@ -302,6 +319,7 @@ export const validateExpressionWith2Properties = () => {
 
 /**
  * Validates 2 part expression builders but requires the RHS to not be empty
+ *
  * @returns {string|null} errorString or null
  */
 export const validateExpressionWith2PropertiesWithNoEmptyRHS = () => {
@@ -327,6 +345,7 @@ export const validateExpressionWith2PropertiesWithNoEmptyRHS = () => {
 /**
  * Checks the uniqueness of the devName string amongst the elements present in the store, ignoring the list of guids passed as blacklist to avoid checking against uniqueness.
  * This listOfGuids might be helpful in the future when an element like decision/screen wants to pass a list of outcome guids and checks for uniqueness internally for those guids, since it has the latest data for those guids
+ *
  * @param {string} nameToBeTested - for uniqueness in store
  * @param {string[]} listOfGuidsToSkip - for checking against uniqueness
  * @returns {string|null} errorString or null
@@ -337,6 +356,7 @@ export const isUniqueDevNameInStore = (nameToBeTested: string, listOfGuidsToSkip
 
 /**
  * Dev Name uniqueness check method while doing validate all.
+ *
  * @param {*} nameToBeTested - dev name to be tested for uniqueness in store.
  * @param {*} parentElement - parent element object to get the guid.
  */
@@ -351,6 +371,7 @@ export const checkDevNameUniqueness = (nameToBeTested, parentElement) => {
 /**
  * Checks the uniqueness of the order number amongst the elements present in the store, ignoring the list of guids passed as blacklist to avoid checking against uniqueness.
  * This listOfGuids might be helpful in the future when an element like decision/screen wants to pass a list of outcome guids and checks for uniqueness internally for those guids, since it has the latest data for those guids
+ *
  * @param {number} orderNumberToBeTested - for uniqueness in store
  * @param {string[]} listOfGuidsToSkip - for checking against uniqueness
  * @returns {string|null} errorString or null
@@ -361,6 +382,7 @@ export const isUniqueOrderNumberInStore = (orderNumberToBeTested, listOfGuidsToS
 
 /**
  * Calls validation libarary on the given text
+ *
  * @param {Object} options list of options to provide to merge field validation
  * @returns {Function} function that accepts the text to be validated. Returns an error from validation operation
  */
@@ -373,7 +395,8 @@ export const isValidTextWithMergeFields = (options) => {
 
 /**
  * Validates that the text inside a resourced text area is valid
- * @param {String} text the text to validate
+ *
+ * @param {string} text the text to validate
  */
 export const isValidResourcedTextArea = (text) => {
     return isValidTextWithMergeFields({
@@ -387,7 +410,8 @@ export const isValidResourcedTextArea = (text) => {
  * TODO The reason we have separate logic here to ignore global variables,
  * is because of W-8223654, once we have all global variables returned we
  * can do proper validation
- * @param {String} text the formula expression to validate
+ *
+ * @param {string} text the formula expression to validate
  */
 export const isValidFormulaExpression = (text) => {
     return isValidTextWithMergeFields({
@@ -399,6 +423,7 @@ export const isValidFormulaExpression = (text) => {
 
 /**
  * Validates that the given reference exists and is a collection
+ *
  * @param elements the elements where to look for the reference
  * @returns a function that accepts a reference to be validated and returns null if the reference corresponds to a collection, enterValidValue error message otherwise
  */
@@ -411,4 +436,4 @@ export const shouldReferenceACollection = (elements: FlowModel) => {
     };
 };
 
-/** Exported Validation Rules End **/
+/** Exported Validation Rules End */

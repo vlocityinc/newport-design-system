@@ -3,6 +3,9 @@ import { createTestScreenField } from 'builder_platform_interaction/builderTestU
 
 export const DYNAMIC_TYPES_DESCRIPTOR_NAME = 'c:lookup';
 
+/**
+ *
+ */
 export function createScreenFieldWithDynamicTypes() {
     return Object.assign({}, createTestScreenField('lcField', 'Extension', DYNAMIC_TYPES_DESCRIPTOR_NAME, {}, true), {
         isNewField: true,
@@ -23,6 +26,9 @@ export function createScreenFieldWithDynamicTypes() {
     });
 }
 
+/**
+ *
+ */
 export function createFlowExtensionWithDynamicTypes() {
     return {
         name: DYNAMIC_TYPES_DESCRIPTOR_NAME,

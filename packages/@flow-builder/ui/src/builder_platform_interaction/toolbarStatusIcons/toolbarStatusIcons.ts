@@ -23,6 +23,7 @@ export default class ToolbarStatusIcons extends LightningElement {
 
     /**
      * Opens the popovers based on flow results ( warnings & errors )
+     *
      * @param {Object} flowErrorsAndWarnings
      */
     openPopOver(flowErrorsAndWarnings) {

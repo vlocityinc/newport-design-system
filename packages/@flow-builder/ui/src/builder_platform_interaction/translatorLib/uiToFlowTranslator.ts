@@ -104,6 +104,10 @@ export function translateUIModelToFlow(uiModel) {
     };
 }
 
+/**
+ * @param element
+ * @param config
+ */
 function getElementForUiToFlowTranslation(element, config) {
     if (!element) {
         throw new Error('Element is not defined');

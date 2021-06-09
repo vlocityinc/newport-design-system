@@ -12,6 +12,10 @@ import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 const lhsMetadataPropertyName = 'value';
 const outputLhsMetadataPropertyName = 'assignToReference';
 
+/**
+ * @param filter
+ * @param objectType
+ */
 export function createFilter(filter = {}, objectType) {
     let newFilter;
 
@@ -31,6 +35,9 @@ export function createFilter(filter = {}, objectType) {
     return newFilter;
 }
 
+/**
+ * @param filter
+ */
 export function createFilterMetadataObject(filter) {
     if (!filter) {
         throw new Error('record filter is not defined');
@@ -44,6 +51,9 @@ export function createFilterMetadataObject(filter) {
     return newFilter;
 }
 
+/**
+ * @param inputParameter
+ */
 export function createFlowInputFieldAssignmentMetadataObject(inputParameter) {
     if (!inputParameter) {
         throw new Error('record Flow Input Field Assignment is not defined');
@@ -57,6 +67,10 @@ export function createFlowInputFieldAssignmentMetadataObject(inputParameter) {
     return { field };
 }
 
+/**
+ * @param inputAssignmentsItem
+ * @param objectType
+ */
 export function createFlowInputFieldAssignment(inputAssignmentsItem, objectType) {
     let newAssignment = {};
 
@@ -77,6 +91,10 @@ export function createFlowInputFieldAssignment(inputAssignmentsItem, objectType)
     return newAssignment;
 }
 
+/**
+ * @param outputAssignmentsItem
+ * @param objectType
+ */
 export function createFlowOutputFieldAssignment(outputAssignmentsItem, objectType) {
     let newAssignment = {};
 
@@ -90,6 +108,9 @@ export function createFlowOutputFieldAssignment(outputAssignmentsItem, objectTyp
     return newAssignment;
 }
 
+/**
+ * @param outputParameter
+ */
 export function createFlowOutputFieldAssignmentMetadataObject(outputParameter) {
     if (!outputParameter) {
         throw new Error('record Flow output Field Assignment is not defined');

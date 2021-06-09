@@ -3,6 +3,10 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const preloadedResources = {};
 
+/**
+ * @param key
+ * @param source
+ */
 function preloadImage(key, source) {
     const image = new Image();
     image.src = source;
@@ -33,6 +37,9 @@ export const ICONS_LARGE = {
     [ELEMENT_TYPE.ROLLBACK]: '/flow/icons/large/rollback.png'
 };
 
+/**
+ *
+ */
 export function preloadImages() {
     Object.values(ICONS_LARGE).forEach((source) => {
         preloadImage('ICONS_LARGE', source);

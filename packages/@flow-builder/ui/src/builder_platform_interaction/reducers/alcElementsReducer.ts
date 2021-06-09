@@ -495,6 +495,16 @@ function _getPastedChildElementNameMap(cutOrCopiedChildElements: UI.Element[], b
  *
  * @param elements - State of elements in the store
  * @param payload - Contains the data needed for pasting the cut or copied elements
+ * @param payload.canvasElementGuidMap
+ * @param payload.childElementGuidMap
+ * @param payload.cutOrCopiedCanvasElements
+ * @param payload.cutOrCopiedChildElements
+ * @param payload.topCutOrCopiedGuid
+ * @param payload.bottomCutOrCopiedGuid
+ * @param payload.prev
+ * @param payload.next
+ * @param payload.parent
+ * @param payload.childIndex
  * @returns newState - The updated state of elements in the store
  */
 function _pasteOnFixedCanvas(

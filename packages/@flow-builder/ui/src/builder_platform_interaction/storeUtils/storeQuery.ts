@@ -6,8 +6,9 @@ export const getElementByGuidFromState = ({ elements }, guid: string) => element
 /**
  * Fetches the element from the store for the input element guid.
  * NOTE: THIS FUNCTION IS NOT MEANT TO BE USED BY THE COMPONENTS.
+ *
  * @param {string} guid for the element
- * @return {*} store element or undefined if the guid does not exists.
+ * @returns {*} store element or undefined if the guid does not exists.
  */
 export const getElementByGuid = <T extends UI.Element>(guid: UI.Guid): T | undefined =>
     getElementByGuidFromState(Store.getStore().getCurrentState(), guid);
@@ -38,9 +39,10 @@ export const getElementByDevNameFromState = <T extends UI.Element>(
 /**
  * Fetches the element from the store for the input element devName.
  * Note : this function iterates over all the elements to find one with the given devName. This may have a big performance impact.
+ *
  * @param {string} devName for the element
  * @param {boolean} caseSensitive true if name comparison is case sensitive (false by default)
- * @return {*} store element or undefined if the devName does not exists.
+ * @returns {*} store element or undefined if the devName does not exists.
  */
 export const getElementByDevName = <T extends UI.Element>(devName: string, caseSensitive = false): T | undefined =>
     getElementByDevNameFromState(Store.getStore().getCurrentState(), devName, caseSensitive);
@@ -59,6 +61,7 @@ export const getStartElement = (): UI.Start | undefined => getStartElementFromSt
 
 /**
  * Common function to return duplicate dev name elements
+ *
  * @param {Object[]} elements
  * @param {string} nameToBeTested
  * @param {string[]} listOfGuidsToSkip
@@ -83,6 +86,7 @@ export const getDuplicateDevNameElements = (
 /**
  * Checks the uniqueness of the devName string amongst the elements present in the store, ignoring the list of guids passed as blacklist to avoid checking against uniqueness.
  * This listOfGuids might be helpful in the future when an element like decision/screen wants to pass a list of outcome guids and checks for uniqueness internally for those guids, since it has the latest data for those guids
+ *
  * @param {string} nameToBeTested - for uniqueness in store
  * @param {string[]} listOfGuidsToSkip - for checking against uniqueness
  * @returns {boolean}
@@ -97,6 +101,7 @@ export const isDevNameInStore = (nameToBeTested: string, listOfGuidsToSkip: UI.G
 /**
  * Checks the uniqueness of the order number amongst the elements present in the store, ignoring the list of guids passed as blacklist to avoid checking against uniqueness.
  * This listOfGuids might be helpful in the future when an element like decision/screen wants to pass a list of outcome guids and checks for uniqueness internally for those guids, since it has the latest data for those guids
+ *
  * @param {number} orderNumberToBeTested - for uniqueness in store
  * @param {string[]} listOfGuidsToSkip - for checking against uniqueness
  * @returns {boolean}
@@ -129,6 +134,7 @@ export const getStartObject = (): string | undefined => {
 
 /**
  * Returns the record trigger type for the current flow
+ *
  * @returns Create, CreateOrUpdate, Update, Delete
  */
 export const getRecordTriggerType = () => {
@@ -154,12 +160,14 @@ export const isExecuteOnlyWhenChangeMatchesConditionsPossible = () => {
 
 /**
  * Returns the process type for the current flow
- * @returns {String}
+ *
+ * @returns {string}
  */
 export const getProcessType = () => Store.getStore().getCurrentState().properties.processType;
 
 /**
  * Returns the value of isAutoLayoutCanvas as in the store. Returns false if the store has not been initialized
+ *
  * @returns true if isAutoLayoutCanvas is set to true in the store. Returns false otherwise
  */
 export const shouldUseAutoLayoutCanvas = (): boolean => {
@@ -172,6 +180,8 @@ export const shouldUseAutoLayoutCanvas = (): boolean => {
 
 /**
  * Fetches all elements of a given element type
+ *
+ * @param elementType
  */
 export const getElementsForElementType = (elementType: UI.ElementType): UI.Element[] => {
     return <UI.Element[]>Object.values(Store.getStore().getCurrentState().elements).reduce(

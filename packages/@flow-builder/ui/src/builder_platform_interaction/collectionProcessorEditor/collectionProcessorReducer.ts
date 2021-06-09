@@ -28,6 +28,7 @@ const updateCollectionProcessor = (state, event) => {
 
 /**
  * Collection processor reducer function runs validation rules and returns back the updated element
+ *
  * @param state - collectionsProcessor node
  * @param event - object containing type and payload eg: {type:'xyz', payload: {propertyName: '', value: '' , error: ''}}
  * @returns  collectionProcessor - updated collectionProcessor

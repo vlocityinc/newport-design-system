@@ -7,7 +7,7 @@ import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonU
  * Helper function to set the id on the canvas element container.
  *
  * @param {Object} canvasElementContainer - Container of the canvas element
- * @param {String} canvasElementGuid - Guid of the canvas element
+ * @param {string} canvasElementGuid - Guid of the canvas element
  * @private
  */
 const _setIdOnCanvasElementContainer = (canvasElementContainer, canvasElementGuid) => {
@@ -29,7 +29,7 @@ const _setIdOnCanvasElementContainer = (canvasElementContainer, canvasElementGui
  *
  * @param {Object} canvasElementContainerTemplate - Template of the canvas element
  * @param {Object} canvasElementContainer - Container of the canvas element
- * @param {String} elementType - Type of the canvas element
+ * @param {string} elementType - Type of the canvas element
  * @private
  */
 const _setElementAsDraggable = (canvasElementContainerTemplate, canvasElementContainer, elementType) => {
@@ -61,7 +61,7 @@ const _setElementAsDraggable = (canvasElementContainerTemplate, canvasElementCon
  * Helper function to set the canvas element as a target using jsPlumb.
  *
  * @param {Object} canvasElementContainer - Container of the canvas element
- * @param {String} elementType - Type of the canvas element
+ * @param {string} elementType - Type of the canvas element
  * @private
  */
 const _setElementAsTarget = (canvasElementContainer, elementType) => {
@@ -87,6 +87,7 @@ const _setElementAsTarget = (canvasElementContainer, elementType) => {
  * Helper function to set the canvas element as a source using jsPlumb.
  *
  * @param {Object} canvasElementContainer - Container of the canvas element
+ * @param elementType
  * @private
  */
 const _setElementAsSource = (canvasElementContainer, elementType) => {
@@ -113,9 +114,9 @@ const _setElementAsSource = (canvasElementContainer, elementType) => {
  * (canvasElementContainer contains the jtk-drag-selected class when the canvas element is selected), if so then
  * update its properties, otherwise skip updating the style and making heavy call from Jsplumb
  *
- * @param {Boolean} isCanvasElementSelected - New isSelected state of the canvas element
+ * @param {boolean} isCanvasElementSelected - New isSelected state of the canvas element
  * @param {Object} canvasElementContainer - Canvas element container
- * @returns {Boolean} true if canvas element selected state has changed
+ * @returns {boolean} true if canvas element selected state has changed
  */
 const _hasCanvasElementSelectionChanged = (isCanvasElementSelected, canvasElementContainer) => {
     if (!canvasElementContainer) {
@@ -187,9 +188,9 @@ const _setJsPlumbConnection = (connector, sourceElementContainer, targetElementC
  * (jsPlumbConnector contains the connector-selected class when the connector is selected), if so then
  * update its properties, otherwise skip updating the style and making heavy call from Jsplumb
  *
- * @param {Boolean} isConnectorSelected - New isSelected state of the connector
+ * @param {boolean} isConnectorSelected - New isSelected state of the connector
  * @param {Object} jsPlumbConnector - JsPlumb Connector
- * @returns {Boolean} true if connector selected state has changed
+ * @returns {boolean} true if connector selected state has changed
  */
 const _hasConnectorSelectionChanged = (isConnectorSelected, jsPlumbConnector) => {
     if (!jsPlumbConnector) {
@@ -297,6 +298,7 @@ export const isMultiSelect = (event) => {
  * pans the element into view if needed.
  *
  * @param {Object[]} canvasElementTemplates - Array of Canvas Element Templates
+ * @param disableDragElements
  * @returns {Object} canvasElementGuidToContainerMap - Map of Guid to Canvas Element Container
  */
 export const setupCanvasElements = (canvasElementTemplates, disableDragElements) => {
@@ -342,10 +344,9 @@ export const setupCanvasElements = (canvasElementTemplates, disableDragElements)
 /**
  * Helper function to set the jsPlumb properties on the connectors along with updating the styling of the connectors.
  *
- * @param {String[]} connectors - Array of store connector guids
+ * @param {string[]} connectors - Array of store connector guids
  * @param {Object} jsPlumbConnectorMap - Map of Guid to jsPlumbConnector instance
  * @param {Object} canvasElementGuidToContainerMap - Map of Guid to Canvas Element Container
- *
  * @returns {Object} - Map of Guid to jsPlumbConnector
  */
 export const setupConnectors = (connectors, jsPlumbConnectorMap, canvasElementGuidToContainerMap) => {

@@ -41,7 +41,8 @@ const DEFAULT_CONVERT_TO_AUTO_LAYOUT_CANVAS_OPTIONS: ConvertToAutoLayoutCanvasOp
  *
  * @param parentElement - the parent element
  * @param childSource - the child source guid
- * @return the connection index in the parent
+ * @param type
+ * @returns the connection index in the parent
  */
 function findConnectionIndex(parentElement: NodeModel, childSource: UI.Guid, type: UI.ConnectorType): number {
     const { maxConnections, elementType } = parentElement;
@@ -64,6 +65,9 @@ function findConnectionIndex(parentElement: NodeModel, childSource: UI.Guid, typ
         : parentElement[plural].findIndex((entry) => entry[singular] === childSource);
 }
 
+/**
+ * @param element
+ */
 function isBranchingElement(element: UI.Element) {
     return supportsChildren(element as UI.CanvasElement) && element.elementType !== ELEMENT_TYPE.LOOP;
 }
@@ -72,8 +76,7 @@ function isBranchingElement(element: UI.Element) {
  *  Returns the conversion infos for a Free Form flow that can be converted to Auto Layout Canvas
  *
  * @param storeState - The flow state
- * @return The conversion infos
- *
+ * @returns The conversion infos
  * @throws Error when the flow can't be converted
  */
 export function computeAndValidateConversionInfos(storeState: UI.StoreState): ConversionInfos {
@@ -148,6 +151,7 @@ export function computeAndValidateConversionInfos(storeState: UI.StoreState): Co
  * @param elements - The flow elements
  * @param conversionInfos - The conversion infos
  * @param loopElement - The loop element
+ * @param options
  * @params options - The ConvertToAutoLayoutCanvasOptions
  */
 function convertLoop(
@@ -183,6 +187,7 @@ function convertLoop(
  * @param elements - The flow elements
  * @param conversionInfos - The conversion infos
  * @param branchingElement - The branching element
+ * @param options
  */
 function convertBranchingElement(
     elements: FlowModel,
@@ -218,6 +223,9 @@ function convertBranchingElement(
     }
 }
 
+/**
+ * @param element
+ */
 function isLinked(element: NodeModel) {
     return (<BranchHeadNodeModel>element).parent != null || element.prev != null;
 }
@@ -228,7 +236,7 @@ function isLinked(element: NodeModel) {
  * @param elements - The flow model
  * @param conversionInfos - The conversion infos
  * @param currentElement - The current element for which we want to find its next element
- * @return the next element in the branch or null there is none
+ * @returns the next element in the branch or null there is none
  */
 function getNextElement(elements: FlowModel, conversionInfos: ConversionInfos, currentElement: NodeModel) {
     const { isLoop, isBranching, mergeGuid, outs } = conversionInfos[currentElement.guid];
@@ -353,7 +361,7 @@ function convertBranchToAutoLayout(
  * Creates the Auto Layout Canvas elements from the Free Form Canvas elements
  *
  * @param elements - The free form elements
- * @return the Auto Layout elements
+ * @returns the Auto Layout elements
  */
 function createAutoLayoutElements(elements: UI.Elements): FlowModel {
     const autoLayoutElements = Object.values(elements).reduce((elementsMap, element) => {
@@ -389,7 +397,7 @@ function createAutoLayoutElements(elements: UI.Elements): FlowModel {
  * @param elements - The Auto Layout Canvas elements
  * @param branchHead - The branch head
  * @param hasNext - whether the parent has a next
- * @return The consolidated Auto Layout Canvas elements
+ * @returns The consolidated Auto Layout Canvas elements
  */
 function consolidateEndConnectorsForBranch(
     elements: FlowModel,
@@ -456,7 +464,7 @@ function consolidateEndConnectorsForBranch(
  * Consolidates end connectors when possible in a Auto Layout Canvas UI Model
  *
  * @param elements - The Auto Layout Canvas elements
- * @return The consolidated Auto Layout Canvas elements
+ * @returns The consolidated Auto Layout Canvas elements
  */
 export function consolidateEndConnectors(elements: UI.Elements): UI.Elements {
     const flowModel = elements as FlowModel;
@@ -477,8 +485,7 @@ export function consolidateEndConnectors(elements: UI.Elements): UI.Elements {
  *
  * @param storeState - A Free Form Canvas UI model
  * @param options - Conversion options
- *
- * @return an Auto Layout Canvas UI model
+ * @returns an Auto Layout Canvas UI model
  */
 export function convertToAutoLayoutCanvas(
     storeState: UI.StoreState,
