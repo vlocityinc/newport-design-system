@@ -59,7 +59,8 @@ import {
     FLOW_TRIGGER_SAVE_TYPE,
     FLOW_TRIGGER_TYPE,
     isSystemElement,
-    SCHEDULED_PATH_TYPE
+    SCHEDULED_PATH_TYPE,
+    START_ELEMENT_FIELDS
 } from 'builder_platform_interaction/flowMetadata';
 import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
@@ -2705,7 +2706,14 @@ export default class Editor extends LightningElement {
         }
         if (this.guardrailsEngine?.flowDataProvider?.model?.metadata?.start?.scheduledPaths) {
             this.guardrailsEngine.flowDataProvider.model.metadata.start.scheduledPaths.forEach((key) => {
-                scheduledPathsList.push({ label: key.label, value: key.name });
+                if (
+                    START_ELEMENT_FIELDS.IS_RUN_ON_SUCCESS_PATH_ENABLED &&
+                    key.pathType === SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS
+                ) {
+                    scheduledPathsList.push({ label: LABELS.runOnSuccessScheduledPathLabel, value: key.pathType });
+                } else {
+                    scheduledPathsList.push({ label: key.label, value: key.name });
+                }
             });
         }
         return scheduledPathsList;
