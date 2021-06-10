@@ -14,6 +14,7 @@
         "check:pom": "node ./scripts/pom.js check -b $npm_package_config_branch",
         "check:pr": "yarn clean:build && yarn test:unit && yarn ci:lint",
         "check:push": "yarn check:pom && yarn test:nba-components && yarn check:goldFiles -l",
+        "check:stm-version": "./scripts/check-stm-version.sh",
         "clean:build": "yarn clean && yarn build",
         "clean:test": "yarn clean:build && yarn test:unit",
         "clean:start": "yarn clean:build && yarn start",
