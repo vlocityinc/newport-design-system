@@ -223,9 +223,9 @@ const closeActionCallback = (panel, attr) => {
     clearExpressionValidator(panel);
     panel.close();
     if (attr.bodyComponent.attr.mode === 'addelement') {
-        attr.moveFocusOnClose(attr.insertInfo);
+        attr.moveFocusOnCloseCallback(attr.insertInfo);
     } else if (attr.bodyComponent.attr.mode === 'editelement') {
-        attr.moveFocusOnClose(attr.bodyComponent.attr.node.guid);
+        attr.moveFocusOnCloseCallback(attr.bodyComponent.attr.node.guid);
     }
 };
 
@@ -333,7 +333,7 @@ export const getPropertyEditorConfig = (mode, attributes) => {
 
     const nodeUpdate = attributes.nodeUpdate,
         newResourceCallback = attributes.newResourceCallback,
-        moveFocusOnClose = attributes.moveFocusOnClose,
+        moveFocusOnCloseCallback = attributes.moveFocusOnCloseCallback,
         insertInfo = attributes.insertInfo,
         node = attributes.node,
         elementType = attributes.node.elementType,
@@ -354,7 +354,7 @@ export const getPropertyEditorConfig = (mode, attributes) => {
     const attr = {
         nodeUpdate,
         newResourceCallback,
-        moveFocusOnClose,
+        moveFocusOnCloseCallback,
         insertInfo,
         bodyComponent: {
             desc,
