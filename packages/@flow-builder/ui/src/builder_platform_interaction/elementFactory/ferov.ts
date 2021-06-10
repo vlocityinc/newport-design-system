@@ -12,7 +12,9 @@ const META_DATA_TYPES_TO_FEROV_TYPES_MAP = {
     dateValue: FEROV_DATA_TYPE.DATE,
     dateTimeValue: FEROV_DATA_TYPE.DATETIME,
     booleanValue: FEROV_DATA_TYPE.BOOLEAN,
-    elementReference: FEROV_DATA_TYPE.REFERENCE
+    elementReference: FEROV_DATA_TYPE.REFERENCE,
+    sobjectValue: FEROV_DATA_TYPE.SOBJECT,
+    apexValue: FEROV_DATA_TYPE.APEX
 };
 
 // the possible data types for the default value we find our FEROV obejcts
