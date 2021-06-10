@@ -54,7 +54,9 @@ jest.mock('builder_platform_interaction/referenceToVariableUtil', () => {
     const referenceMap = {
         collection: { label: 'aCollection', isCollection: true },
         singleValue: { label: 'I am not a collection', isCollection: false },
-        noCollectionFlag: { label: 'I don t have an isCollection' }
+        noCollectionFlag: { label: 'I don t have an isCollection' },
+        textCollection: { label: 'textCollection', isCollection: true, datatype: 'String' },
+        accountCollection: { label: 'accountCollection', isCollection: true, dataType: 'SObject' }
     };
     return {
         getVariableOrField: jest.fn().mockImplementation((reference) => {
@@ -394,18 +396,26 @@ describe('isValidResourceTextArea', () => {
 });
 
 describe('shouldReferenceACollection', () => {
-    const shouldReferenceACollectionFunc = rules.shouldReferenceACollection({});
-    it('is valid when reference is collection', () => {
-        expect(shouldReferenceACollectionFunc('collection')).toBeNull();
+    describe('should reference any collection', () => {
+        const shouldReferenceACollectionFunc = rules.shouldReferenceACollection({});
+        it('is valid when reference is collection', () => {
+            expect(shouldReferenceACollectionFunc('collection')).toBeNull();
+        });
+        it('is not valid when reference is not a collection', () => {
+            expect(shouldReferenceACollectionFunc('singeValue')).toEqual(LABELS.enterValidValue);
+        });
+        it('is not valid when reference has no isCollection flag', () => {
+            expect(shouldReferenceACollectionFunc('noCollectionFlag')).toEqual(LABELS.enterValidValue);
+        });
     });
-    it('is not valid when reference is not a collection', () => {
-        expect(shouldReferenceACollectionFunc('singeValue')).toEqual(LABELS.enterValidValue);
-    });
-    it('is not valid when reference has no isCollection flag', () => {
-        expect(shouldReferenceACollectionFunc('noCollectionFlag')).toEqual(LABELS.enterValidValue);
-    });
-    it('is not valid when reference does not exist', () => {
-        expect(shouldReferenceACollectionFunc('IDontExist')).toEqual(LABELS.enterValidValue);
+    describe('should reference SObject collection', () => {
+        const shouldReferenceACollectionFunc = rules.shouldReferenceACollection({}, true);
+        it('is not valid when reference is not SObject', () => {
+            expect(shouldReferenceACollectionFunc('textCollection')).toEqual(LABELS.enterValidValue);
+        });
+        it('is valid when reference is SObject', () => {
+            expect(shouldReferenceACollectionFunc('accountCollection')).toBeNull();
+        });
     });
 });
 

@@ -186,6 +186,9 @@ import startConnectorPickerHeader from '@salesforce/label/FlowBuilderConnectorPi
 import sortSingularLabel from '@salesforce/label/CollectionSort.Label';
 import sortPluralLabel from '@salesforce/label/CollectionSort.LabelPlural';
 import sortDescription from '@salesforce/label/CollectionSort.Description';
+import mapSingularLabel from '@salesforce/label/CollectionMap.Label';
+import mapPluralLabel from '@salesforce/label/CollectionMap.LabelPlural';
+import mapDescription from '@salesforce/label/CollectionMap.Description';
 import collectionProcessorSingularLabel from '@salesforce/label/CollectionProcessor.Label';
 import collectionProcessorPluralLabel from '@salesforce/label/CollectionProcessor.LabelPlural';
 import rollbackSingularLabel from '@salesforce/label/FlowBuilderElementConfig.rollbackSingularLabel';
@@ -383,6 +386,9 @@ export const LABELS = {
     sortSingularLabel,
     sortPluralLabel,
     sortDescription,
+    mapSingularLabel,
+    mapPluralLabel,
+    mapDescription,
     collectionProcessorSingularLabel,
     collectionProcessorPluralLabel,
     rollbackSingularLabel,

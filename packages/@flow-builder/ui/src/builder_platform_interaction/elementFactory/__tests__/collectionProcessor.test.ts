@@ -24,7 +24,7 @@ const defaultCollectionProcessorElement = {
     connectorCount: 0
 };
 
-const testCollectionProcessorElement = {
+const testSortCollectionProcessorElement = {
     elementType: ELEMENT_TYPE.COLLECTION_PROCESSOR,
     collectionProcessorType: COLLECTION_PROCESSOR_SUB_TYPE.SORT,
     description: 'testElementDesc',
@@ -44,7 +44,7 @@ const testCollectionProcessorElement = {
     collectionReference: 'collectionRef'
 };
 
-const testCollectionProcessorMetadataElement = {
+const testSortCollectionProcessorMetadataElement = {
     description: 'testElementDesc',
     name: 'collectionProcessor1',
     label: 'collectionProcessor1label',
@@ -54,6 +54,52 @@ const testCollectionProcessorMetadataElement = {
     limit: null,
     collectionReference: 'collectionRef',
     collectionProcessorType: COLLECTION_PROCESSOR_SUB_TYPE.SORT
+};
+
+const testMapCollectionProcessorElement = {
+    elementType: ELEMENT_TYPE.COLLECTION_PROCESSOR,
+    collectionProcessorType: COLLECTION_PROCESSOR_SUB_TYPE.MAP,
+    description: 'testElementDesc',
+    name: 'collectionProcessor1',
+    guid: 'testGUID',
+    label: 'collectionProcessor1label',
+    maxConnections: 1,
+    locationX: 10,
+    locationY: 10,
+    isCanvasElement: true,
+    config: {
+        isSelected: false
+    },
+    connectorCount: 0,
+    assignmentItems: [
+        {
+            leftHandSide: 'foo',
+            operator: 'Equals',
+            rightHandSide: 'bar',
+            rightHandSideDataType: 'String',
+            rowIndex: 'testGUID'
+        }
+    ],
+    collectionReference: 'collectionRef'
+};
+
+const testMapCollectionProcessorMetadataElement = {
+    description: 'testElementDesc',
+    name: 'collectionProcessor1',
+    label: 'collectionProcessor1label',
+    locationX: 10,
+    locationY: 10,
+    assignmentItems: [
+        {
+            assignToReference: 'foo',
+            operator: 'Equals',
+            value: {
+                stringValue: 'bar'
+            }
+        }
+    ],
+    collectionReference: 'collectionRef',
+    collectionProcessorType: COLLECTION_PROCESSOR_SUB_TYPE.MAP
 };
 
 jest.mock('builder_platform_interaction/storeLib', () => {
@@ -70,9 +116,13 @@ describe('CollectionProcessor Element Factory', () => {
             const result = createCollectionProcessor();
             expect(result).toMatchObject(defaultCollectionProcessorElement);
         });
-        it('copies an collectionProcessor element object if one is passed in', () => {
-            const result = createCollectionProcessor(testCollectionProcessorElement);
-            expect(result).toMatchObject(testCollectionProcessorElement);
+        it('returns a sort collectionProcessor element object', () => {
+            const result = createCollectionProcessor(testSortCollectionProcessorElement);
+            expect(result).toMatchObject(testSortCollectionProcessorElement);
+        });
+        it('returns a map collectionProcessor element object', () => {
+            const result = createCollectionProcessor(testMapCollectionProcessorElement);
+            expect(result).toMatchObject(testMapCollectionProcessorElement);
         });
     });
 });
@@ -103,9 +153,13 @@ describe('createDuplicateCollectionProcessor Function', () => {
 });
 
 describe('createCollectionProcessorMetadataObject Function', () => {
-    it('returns a new collection processor metadata object from a store collection processor object', () => {
-        const result = createCollectionProcessorMetadataObject(testCollectionProcessorElement);
-        expect(result).toMatchObject(testCollectionProcessorMetadataElement);
+    it('returns a new sort collection processor metadata object from a store collection processor object', () => {
+        const result = createCollectionProcessorMetadataObject(testSortCollectionProcessorElement);
+        expect(result).toMatchObject(testSortCollectionProcessorMetadataElement);
+    });
+    it('returns a new map collection processor metadata object from a store collection processor object', () => {
+        const result = createCollectionProcessorMetadataObject(testMapCollectionProcessorElement);
+        expect(result).toMatchObject(testMapCollectionProcessorMetadataElement);
     });
 });
 

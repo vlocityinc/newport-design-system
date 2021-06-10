@@ -1,0 +1,20 @@
+<template>
+    <div class="slds-p-around_small">
+        <h3 class="slds-text-heading_small slds-p-bottom_small">{labels.title}</h3>
+        <div class="slds-grid slds-grid_vertical-align-center">
+            <span>{outputHelpText}</span>
+        </div>
+        <div class="slds-size_medium">
+            <builder_platform_interaction-input-collection-picker
+                label={labels.inputCollection}
+                placeholder={labels.inputCollectionPlaceholder}
+                collection-reference={mapElement.collectionReference}
+                oncollectionreferencechanged={handleCollectionVariablePropertyChanged}
+                sobject-only
+            ></builder_platform_interaction-input-collection-picker>
+        </div>
+        <div class="slds-grid slds-grid_vertical-align-center slds-p-top_small helpText" if:true={helpText}>
+            <span>{helpText}</span>
+        </div>
+    </div>
+</template>

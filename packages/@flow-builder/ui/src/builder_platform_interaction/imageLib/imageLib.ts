@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, COLLECTION_PROCESSOR_SUB_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const preloadedResources = {};
 
@@ -33,7 +33,8 @@ export const ICONS_LARGE = {
     [ELEMENT_TYPE.SCREEN]: '/flow/icons/large/screen.png',
     [ELEMENT_TYPE.SUBFLOW]: '/flow/icons/large/subflow.png',
     [ELEMENT_TYPE.WAIT]: '/flow/icons/large/wait.png',
-    [ELEMENT_TYPE.COLLECTION_PROCESSOR]: '/flow/icons/large/sort.png',
+    [COLLECTION_PROCESSOR_SUB_TYPE.SORT]: '/flow/icons/large/sort.png',
+    [COLLECTION_PROCESSOR_SUB_TYPE.MAP]: '/flow/icons/large/data_mapping.png',
     [ELEMENT_TYPE.ROLLBACK]: '/flow/icons/large/rollback.png'
 };
 

@@ -1,0 +1,18 @@
+<template>
+    <builder_platform_interaction-ferov-resource-picker
+        class="test-flow-collection"
+        value={collectionVariable}
+        error-message={errorMessage}
+        combobox-config={collectionVariableComboboxConfig}
+        property-editor-element-type={elementType}
+        element-config={collectionVariableElementConfig}
+        oncomboboxstatechanged={handleCollectionVariablePropertyChanged}
+        onitemselected={handleCollectionVariablePropertyChanged}
+        hide-global-constants
+        hide-system-variables
+        hide-global-variables
+        hide-new-resource
+        is-pill-supported
+    >
+    </builder_platform_interaction-ferov-resource-picker>
+</template>

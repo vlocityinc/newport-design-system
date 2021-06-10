@@ -48,6 +48,8 @@
         "^(builder_platform_interaction)/builderTestUtils/events$": "<rootDir>/../ui/src/builder_platform_interaction/builderTestUtils/events",
         "^(builder_platform_interaction)/builderTestUtils/commonTestUtils$": "<rootDir>/../ui/src/builder_platform_interaction/builderTestUtils/commonTestUtils",
         "^(builder_platform_interaction)/builderTestUtils/domTestUtils$": "<rootDir>/../ui/src/builder_platform_interaction/builderTestUtils/domTestUtils",
+        "^(builder_platform_interaction)/collectionProcessorLib$": "<rootDir>/../ui/src/builder_platform_interaction/collectionProcessorLib/collectionProcessorLib",
+        "^(builder_platform_interaction)/mapEditorLib$": "<rootDir>/../ui/src/builder_platform_interaction/mapEditorLib/mapEditorLib",
         "^(builder_platform_interaction)/events$": "<rootDir>/../ui/src/builder_platform_interaction/events/events",
         "^(builder_platform_interaction)/(.+)$": "<rootDir>/src/$1/$2/$2"
     },

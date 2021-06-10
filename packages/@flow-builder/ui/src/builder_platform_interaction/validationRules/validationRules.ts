@@ -7,6 +7,7 @@ import { LABELS as labels } from './validationRulesLabels';
 import { validateLHS, validateRHS, validatePicker } from 'builder_platform_interaction/expressionValidator';
 import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
 import { FlowModel } from 'builder_platform_interaction/autoLayoutCanvas';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 /**
  * @param {Object} rule - object containing regex pattern and message
@@ -425,14 +426,20 @@ export const isValidFormulaExpression = (text) => {
  * Validates that the given reference exists and is a collection
  *
  * @param elements the elements where to look for the reference
+ * @param shouldReferenceSObjectCollection should reference to SObject collection
  * @returns a function that accepts a reference to be validated and returns null if the reference corresponds to a collection, enterValidValue error message otherwise
  */
-export const shouldReferenceACollection = (elements: FlowModel) => {
+export const shouldReferenceACollection = (elements: FlowModel, shouldReferenceSObjectCollection = false) => {
     return (reference: string): boolean => {
         const variableOrField = getVariableOrField(reference, elements);
-        return variableOrField && variableOrField.isCollection !== undefined && variableOrField.isCollection
-            ? null
-            : LABELS.enterValidValue;
+        if (variableOrField && variableOrField.isCollection !== undefined && variableOrField.isCollection) {
+            return !shouldReferenceSObjectCollection
+                ? null
+                : variableOrField.dataType === FLOW_DATA_TYPE.SOBJECT.value
+                ? null
+                : LABELS.enterValidValue;
+        }
+        return LABELS.enterValidValue;
     };
 };
 

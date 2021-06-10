@@ -14,7 +14,11 @@ import {
     SOBJECT_OR_SOBJECT_COLLECTION_FILTER,
     sObjectOrSObjectCollectionFilterToIsCollection
 } from 'builder_platform_interaction/filterTypeLib';
-import { SORT_COMPATIBLE_TYPES } from 'builder_platform_interaction/sortEditorLib';
+import {
+    sortableFilter,
+    mappableFilter,
+    CollectionProcessorFilter
+} from 'builder_platform_interaction/collectionProcessorLib';
 
 const elementsSelector = (state) => state.elements;
 
@@ -42,10 +46,6 @@ const isDeleteableSObject = (objectType) => {
     return getDeletableEntities().some((entity) => entity.apiName === objectType);
 };
 
-const isSortable = (dataType, isCollection) => {
-    return isCollection ? SORT_COMPATIBLE_TYPES.includes(dataType) : dataType === FLOW_DATA_TYPE.APEX.value;
-};
-
 const isCollectionFilter = (element, isCollection) => {
     return !!element.isCollection === !!isCollection;
 };
@@ -68,26 +68,6 @@ const updatableFilter = (element) => {
 
 const deletableFilter = (element) => {
     return isDeleteableSObject(element.subtype) || isDeleteableSObject(element.sobjectType);
-};
-
-/**
- * Filter the elements that can be sortable:
- * - A collection and its data type is in supported sortable types
- * - A apex class variable in the apex defined class
- * - An automatic variables
- * - An action call/subflow outputs (from next release)
- *
- * @param element element
- */
-const sortableFilter = (element) => {
-    return (
-        (!element.elementType ||
-            element.elementType === ELEMENT_TYPE.VARIABLE ||
-            element.elementType === ELEMENT_TYPE.RECORD_LOOKUP ||
-            element.elementType === ELEMENT_TYPE.APEX_CALL) &&
-        element.dataType &&
-        isSortable(element.dataType, element.isCollection)
-    );
 };
 
 const apexClassHasSomePropertyMatching = (apexClass: string, filter: (ApexTypeProperty) => boolean) => {
@@ -123,7 +103,7 @@ export interface RetrieveOptions {
     dataType?: string;
     elementType?: string;
     crudFilter?: CrudFilter;
-    sortable?: boolean;
+    collectionProcessorFilter?: CollectionProcessorFilter;
 }
 
 const filterByRetrieveOptions = (elements: UI.StringKeyedMap<any>, retrieveOptions: RetrieveOptions) => {
@@ -194,14 +174,23 @@ const filterByRetrieveOptions = (elements: UI.StringKeyedMap<any>, retrieveOptio
             return crudFilter({ createable, queryable, updateable, deletable });
         });
     }
-    if (retrieveOptions.sortable) {
-        filteredElements = filteredElements.filter(
-            (element) =>
-                sortableFilter(element) ||
-                (allowTraversal &&
-                    isApexTypeElement(element) &&
-                    apexClassHasSomePropertyMatching(element.apexClass, (apexProperty) => sortableFilter(apexProperty)))
-        );
+    if (retrieveOptions.collectionProcessorFilter) {
+        const { collectionProcessorFilter } = retrieveOptions;
+        filteredElements = filteredElements.filter((element) => {
+            const filter = (elementFilter) => (element) => {
+                return (
+                    elementFilter(element) ||
+                    (allowTraversal &&
+                        isApexTypeElement(element) &&
+                        apexClassHasSomePropertyMatching(element.apexClass, (apexProperty) =>
+                            elementFilter(apexProperty)
+                        ))
+                );
+            };
+            const sortable = filter(sortableFilter)(element);
+            const mappable = filter(mappableFilter)(element);
+            return collectionProcessorFilter({ sortable, mappable });
+        });
     }
     return filteredElements;
 };

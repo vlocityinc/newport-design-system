@@ -400,9 +400,10 @@ export const START_ELEMENT_FIELDS = {
     REQUIRE_RECORD_CHANGE: 'doesRequireRecordChangedToMeetCriteria'
 };
 
-export const COLLECTION_PROCESSOR_SUB_TYPE = {
-    SORT: 'SortCollectionProcessor'
-};
+export enum COLLECTION_PROCESSOR_SUB_TYPE {
+    SORT = 'SortCollectionProcessor',
+    MAP = 'MapCollectionProcessor'
+}
 
 export const SCHEDULED_PATH_TYPE = {
     RUN_ON_SUCCESS: 'AfterCommit',

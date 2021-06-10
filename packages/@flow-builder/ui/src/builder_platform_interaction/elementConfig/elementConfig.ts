@@ -1133,6 +1133,18 @@ export const elementTypeToConfigMap: {
             plural: LABELS.sortPluralLabel
         }
     },
+    [COLLECTION_PROCESSOR_SUB_TYPE.MAP]: {
+        nodeConfig: {
+            iconName: 'standard:data_mapping',
+            utilityIconName: 'utility:data_mapping',
+            iconBackgroundColor: 'background-orange'
+        },
+        canvasElement: true,
+        labels: {
+            singular: LABELS.mapSingularLabel,
+            plural: LABELS.mapPluralLabel
+        }
+    },
     [ELEMENT_TYPE.ROLLBACK]: {
         descriptor: 'builder_platform_interaction:rollbackEditor',
         nodeConfig: {
@@ -1197,6 +1209,7 @@ export const updateElementConfigMapWithSubtypes = (elements: Array<any>) => {
             elementToUpdate.nodeConfig!.iconBackgroundColor = element.color;
             elementToUpdate.nodeConfig!.iconName = element.icon!;
             elementToUpdate.nodeConfig!.description = element.description;
+            elementToUpdate.nodeConfig!.dragImageSrc = ICONS_LARGE[element.name];
             elementToUpdate.configComponent = element.configComponent;
         }
     }

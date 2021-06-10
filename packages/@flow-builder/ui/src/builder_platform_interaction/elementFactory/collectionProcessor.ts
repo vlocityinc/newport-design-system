@@ -6,6 +6,7 @@ import {
 } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createConnectorObjects } from './connector';
+import { createAssignmentItem, createAssignmentItemMetadataObject } from './assignment';
 import { COLLECTION_PROCESSOR_SUB_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { createSortOption, createSortOptionMetadataObject } from './sortOption';
 
@@ -13,7 +14,10 @@ const elementType = ELEMENT_TYPE.COLLECTION_PROCESSOR;
 const maxConnections = 1;
 
 /**
- * @param collectionProcessor
+ * Create the collection processor object
+ *
+ * @param collectionProcessor - collection processor md
+ * @returns collection processor object
  */
 export function createCollectionProcessor(collectionProcessor?) {
     const newCollectionProcessor = baseCanvasElement(collectionProcessor);
@@ -27,38 +31,45 @@ export function createCollectionProcessor(collectionProcessor?) {
 }
 
 /**
- * @param collectionProcessor
+ * Create the collection processor object
+ *
+ * @param collectionProcessor - collection processor md
+ * @returns collection processor object
  */
 function createCollectionProcessorItem(collectionProcessor) {
     const collectionProcessorType = collectionProcessor.collectionProcessorType
         ? collectionProcessor.collectionProcessorType
         : collectionProcessor.elementSubtype;
     const { collectionReference = null } = collectionProcessor;
+    let { sortOptions = null, assignmentItems = null } = collectionProcessor;
+    const cpItem = {
+        collectionReference,
+        collectionProcessorType,
+        elementType,
+        maxConnections,
+        limit: collectionProcessor.limit ? collectionProcessor.limit.toString() : null
+    };
     switch (collectionProcessorType) {
         case COLLECTION_PROCESSOR_SUB_TYPE.SORT: {
-            let { sortOptions } = collectionProcessor;
             if (sortOptions && sortOptions.length > 0) {
                 sortOptions = sortOptions.map((sortOption) => createSortOption(sortOption));
             } else {
                 const newSortOption = createSortOption();
                 sortOptions = [newSortOption];
             }
-            return {
-                collectionReference,
-                collectionProcessorType,
-                limit: collectionProcessor.limit ? collectionProcessor.limit.toString() : null,
-                sortOptions,
-                elementType,
-                maxConnections
-            };
+            return Object.assign(cpItem, { sortOptions });
+        }
+        case COLLECTION_PROCESSOR_SUB_TYPE.MAP: {
+            // create new assignment items
+            if (assignmentItems && assignmentItems.length > 0) {
+                assignmentItems = assignmentItems.map((assignmentItem) => createAssignmentItem(assignmentItem));
+            } else {
+                assignmentItems = [];
+            }
+            return Object.assign(cpItem, { assignmentItems });
         }
         default:
-            return {
-                collectionReference,
-                collectionProcessorType,
-                elementType,
-                maxConnections
-            };
+            return cpItem;
     }
 }
 
@@ -66,16 +77,17 @@ function createCollectionProcessorItem(collectionProcessor) {
  * Function to create the pasted CollectionProcessor element
  *
  * @param {Object} dataForPasting - Data required to create the pasted element
- * @param dataForPasting.canvasElementToPaste
- * @param dataForPasting.newGuid
- * @param dataForPasting.newName
- * @param dataForPasting.canvasElementGuidMap
- * @param dataForPasting.topCutOrCopiedGuid
- * @param dataForPasting.bottomCutOrCopiedGuid
- * @param dataForPasting.prev
- * @param dataForPasting.next
- * @param dataForPasting.parent
- * @param dataForPasting.childIndex
+ * @param dataForPasting.canvasElementToPaste collection processor object
+ * @param dataForPasting.newGuid new guid
+ * @param dataForPasting.newName new name
+ * @param dataForPasting.canvasElementGuidMap Map containing element guids -> pasted element guids
+ * @param dataForPasting.topCutOrCopiedGuid Guid of the top most cut or copied element
+ * @param dataForPasting.bottomCutOrCopiedGuid Guid of the bottom most cut or copied element
+ * @param dataForPasting.prev Guid of the element below which the cut/copied block will be pasted. This can be null when pasting at the top of a branch
+ * @param dataForPasting.next Guid of the element above which the cut/copied block will be pasted. This can be null when pasting at the bottom of a branch
+ * @param dataForPasting.parent Guid of the parent element. This has a value only when pasting at the top of a branch
+ * @param dataForPasting.childIndex Index of the branch. This has a value only when pasting at the top of a branch
+ * @returns the pasted collection processor node
  */
 export function createPastedCollectionProcessor({
     canvasElementToPaste,
@@ -108,9 +120,12 @@ export function createPastedCollectionProcessor({
 }
 
 /**
- * @param collectionProcessor
- * @param newGuid
- * @param newName
+ * Create a duplicated collection processor node with new name
+ *
+ * @param collectionProcessor collection processor object
+ * @param newGuid new guid
+ * @param newName new name
+ * @returns {Object} new collection processor object
  */
 export function createDuplicateCollectionProcessor(collectionProcessor = {}, newGuid, newName) {
     const newCollectionProcessor = createCollectionProcessor(collectionProcessor);
@@ -118,8 +133,11 @@ export function createDuplicateCollectionProcessor(collectionProcessor = {}, new
 }
 
 /**
- * @param collectionProcessor
- * @param config
+ * Create collection processor metadata object
+ *
+ * @param collectionProcessor collection processor object
+ * @param config the config
+ * @returns {Object} collection processor metadata object
  */
 export function createCollectionProcessorMetadataObject(collectionProcessor, config = {}) {
     if (!collectionProcessor) {
@@ -127,34 +145,50 @@ export function createCollectionProcessorMetadataObject(collectionProcessor, con
     }
     const { collectionReference = null, collectionProcessorType } = collectionProcessor;
     const newCollectionProcessor = baseCanvasElementMetadataObject(collectionProcessor, config);
-    const item = createCollectionProcessorItemMetadataObject(collectionProcessorType, collectionProcessor);
+    const item = createCollectionProcessorItemMetadataObject(collectionProcessor);
     return Object.assign(newCollectionProcessor, { collectionReference, collectionProcessorType }, item);
 }
 
 /**
- * @param collectionProcessorType
- * @param collectionProcessor
+ * Create collection processor metadata object
+ *
+ * @param collectionProcessor collection processor object
+ * @returns {Object} collection processor metadata object
  */
-function createCollectionProcessorItemMetadataObject(collectionProcessorType, collectionProcessor) {
+function createCollectionProcessorItemMetadataObject(collectionProcessor) {
+    const { collectionReference = null, collectionProcessorType, limit = null } = collectionProcessor;
+    const cpItemMd = { collectionReference, collectionProcessorType, limit };
+    let { sortOptions = null, assignmentItems = null } = collectionProcessor;
     switch (collectionProcessorType) {
         case COLLECTION_PROCESSOR_SUB_TYPE.SORT: {
-            const limit = collectionProcessor.limit;
-            let { sortOptions } = collectionProcessor;
             if (sortOptions && sortOptions.length > 0) {
                 sortOptions = sortOptions.map((sortOption) => createSortOptionMetadataObject(sortOption));
             } else {
                 const newSortOption = createSortOptionMetadataObject();
                 sortOptions = [newSortOption];
             }
-            return { limit, sortOptions };
+            return Object.assign(cpItemMd, { sortOptions });
+        }
+        case COLLECTION_PROCESSOR_SUB_TYPE.MAP: {
+            if (assignmentItems && assignmentItems.length > 0) {
+                assignmentItems = assignmentItems.map((assignmentItem) =>
+                    createAssignmentItemMetadataObject(assignmentItem)
+                );
+            } else {
+                assignmentItems = [];
+            }
+            return Object.assign(cpItemMd, { assignmentItems });
         }
         default:
-            return {};
+            return cpItemMd;
     }
 }
 
 /**
- * @param collectionProcessor
+ * Create collection processor with the connectors
+ *
+ * @param collectionProcessor collection processor object
+ * @returns the map of connector's guid and collection processor node
  */
 export function createCollectionProcessorWithConnectors(collectionProcessor) {
     const newCollectionProcessor = createCollectionProcessor(collectionProcessor);

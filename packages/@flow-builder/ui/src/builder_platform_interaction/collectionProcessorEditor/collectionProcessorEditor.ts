@@ -37,9 +37,6 @@ export default class CollectionProcessorEditor extends LightningElement {
     @api
     hasConfigurationEditor;
 
-    @api
-    collectionProcessorSubtype;
-
     @track
     elementInfo = {};
 
@@ -51,18 +48,17 @@ export default class CollectionProcessorEditor extends LightningElement {
     set node(newValue) {
         this.collectionProcessorElement = newValue || {};
         this.hasConfigurationEditor = true;
-        this.collectionProcessorSubtype = this.collectionProcessorElement.elementSubtype;
         this.configurationEditor = {
-            name: elementTypeToConfigMap[this.collectionProcessorSubtype].configComponent
+            name: elementTypeToConfigMap[this.collectionProcessorElement.elementSubtype].configComponent
         };
-        this.setElementInfo(this.collectionProcessorSubtype);
+        this.setElementInfo();
     }
 
     @api
     editorParams;
 
     /**
-     * public api function to return the node
+     * public api function to return the node.
      *
      * @returns {object} node - node
      */
@@ -88,18 +84,20 @@ export default class CollectionProcessorEditor extends LightningElement {
     }
 
     /**
-     * @param subType - the collection processor sub type: sort, filter ...
+     * set element info for sub editor
      */
-    setElementInfo(subType: string) {
-        switch (subType) {
-            case COLLECTION_PROCESSOR_SUB_TYPE.SORT: {
-                const { sortOptions, limit, collectionReference, elementSubtype } = this.collectionProcessorElement;
-                this.elementInfo = Object.assign({}, { sortOptions, limit, collectionReference, elementSubtype });
-                break;
-            }
-            default:
-                break;
-        }
+    setElementInfo() {
+        const {
+            limit,
+            collectionReference,
+            elementSubtype,
+            sortOptions,
+            assignmentItems
+        } = this.collectionProcessorElement;
+        this.elementInfo = Object.assign(
+            {},
+            { limit, collectionReference, elementSubtype, sortOptions, assignmentItems }
+        );
     }
 
     /**
