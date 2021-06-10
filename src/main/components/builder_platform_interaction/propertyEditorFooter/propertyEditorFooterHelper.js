@@ -34,6 +34,7 @@
     closePanel: function (cmp) {
         var closeActionCallback = cmp.get('v.closeActionCallback');
         var panelInstance = cmp.get('v.panelInstance');
-        closeActionCallback(panelInstance);
+        var attr = cmp.get('v.attr');
+        closeActionCallback(panelInstance, attr);
     }
 });

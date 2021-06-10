@@ -177,7 +177,7 @@ describe('Auto Layout Canvas', () => {
 
     beforeEach(() => {
         cmp = createComponentForTest();
-        cmp.moveFocusToConnector = jest.fn();
+        cmp.focusOnConnector = jest.fn();
     });
 
     const getOverlay = () => cmp.shadowRoot.querySelector('.canvas-overlay');
@@ -522,7 +522,6 @@ describe('Auto Layout Canvas', () => {
                 'Decision',
                 null
             );
-            cmp.moveFocusToConnector = jest.fn();
             await dispatchEvent(nodeMenu, deleteBranchElementEvent);
             expect(callback).toHaveBeenCalled();
         });
@@ -635,23 +634,7 @@ describe('Auto Layout Canvas', () => {
     });
 
     describe('focus', () => {
-        it('the focus changes to the right connector "+" when deleting an element', async () => {
-            const flow = getFlow();
-            const nodeToggleMenuEvent = new ToggleMenuEvent({
-                guid: 'screen-one',
-                left: 702.0999755859375,
-                offsetX: 2.4000244140625,
-                top: 140,
-                type: MenuType.NODE,
-                elementMetadata: { supportsMenu: true }
-            });
-            await dispatchEvent(flow, nodeToggleMenuEvent);
-            const nodeMenu = getNodeMenu();
-            const deleteElementEvent = new DeleteElementEvent(['screen-one'], 'Screen');
-            await dispatchEvent(nodeMenu, deleteElementEvent);
-            expect(cmp.moveFocusToConnector).toHaveBeenCalledWith('screen-one', undefined);
-        });
-        it('the focus changes to the right connector "+" when deleting an element with branches', async () => {
+        it('focusOnConnector should be called when deleting an element with branches', async () => {
             const flow = getFlow();
             const nodeToggleMenuEvent = new ToggleMenuEvent({
                 guid: 'decision',
@@ -663,11 +646,11 @@ describe('Auto Layout Canvas', () => {
             });
             await dispatchEvent(flow, nodeToggleMenuEvent);
             const nodeMenu = getNodeMenu();
-            const deleteElementEvent = new DeleteElementEvent(['decision'], 'Decision', null);
+            const deleteElementEvent = new DeleteBranchElementEvent(['decision'], 'Decision', null);
             await dispatchEvent(nodeMenu, deleteElementEvent);
-            expect(cmp.moveFocusToConnector).toHaveBeenCalledWith('decision', undefined);
+            expect(cmp.focusOnConnector).toHaveBeenCalledWith('screen-one', undefined);
         });
-        it('the focus changes to the right connector "+" when deleting a branch element', async () => {
+        it('focusOnConnector should be called when deleting a branch element', async () => {
             const flow = getFlow();
             const nodeToggleMenuEvent = new ToggleMenuEvent({
                 guid: 'screen-two',
@@ -679,9 +662,9 @@ describe('Auto Layout Canvas', () => {
             });
             await dispatchEvent(flow, nodeToggleMenuEvent);
             const nodeMenu = getNodeMenu();
-            const deleteElementEvent = new DeleteBranchElementEvent(['screen-two'], 'Screen', null);
+            const deleteElementEvent = new DeleteElementEvent(['screen-two'], 'Screen', null);
             await dispatchEvent(nodeMenu, deleteElementEvent);
-            expect(cmp.moveFocusToConnector).toHaveBeenCalledWith('screen-two', 1);
+            expect(cmp.focusOnConnector).toHaveBeenCalledWith('decision', 1);
         });
     });
 

@@ -216,11 +216,17 @@ const clearExpressionValidator = (panel) => {
  * Callback that executes just before closing any property editor modal
  *
  * @param {Object} panel : panel Instance of status icon
+ * @param {Object} attr : contains callback and actual data
  */
-const closeActionCallback = (panel) => {
+const closeActionCallback = (panel, attr) => {
     hidePopover();
     clearExpressionValidator(panel);
     panel.close();
+    if (attr.bodyComponent.attr.mode === 'addelement') {
+        attr.moveFocusOnClose(attr.insertInfo);
+    } else if (attr.bodyComponent.attr.mode === 'editelement') {
+        attr.moveFocusOnClose(attr.bodyComponent.attr.node.guid);
+    }
 };
 
 /**
@@ -327,6 +333,8 @@ export const getPropertyEditorConfig = (mode, attributes) => {
 
     const nodeUpdate = attributes.nodeUpdate,
         newResourceCallback = attributes.newResourceCallback,
+        moveFocusOnClose = attributes.moveFocusOnClose,
+        insertInfo = attributes.insertInfo,
         node = attributes.node,
         elementType = attributes.node.elementType,
         elementConfig = getConfigForElement(attributes.node),
@@ -346,6 +354,8 @@ export const getPropertyEditorConfig = (mode, attributes) => {
     const attr = {
         nodeUpdate,
         newResourceCallback,
+        moveFocusOnClose,
+        insertInfo,
         bodyComponent: {
             desc,
             className,
@@ -394,7 +404,7 @@ const getEditorConfig = (mode, attributes) => {
  * Invokes the ui-panel
  *
  * @param {string} cmpName - Name of the component to be created
- * @param {object} attr - contains a callback and actual data
+ * @param {object} attr - contains callback and actual data
  * @param {object} panelConfig - contains the modal title, flavor and css for the editor
  */
 const doInvoke = (cmpName, attr, panelConfig) => {
@@ -422,13 +432,14 @@ const doInvoke = (cmpName, attr, panelConfig) => {
                     header: newComponents[1],
                     footer: newComponents[2],
                     closeAction: (panel) => {
-                        closeActionCallback(panel);
+                        closeActionCallback(panel, attr);
                     }
                 },
                 onCreate: (panel) => {
                     const panelFooter = panel.get('v.footer')[0];
                     panelFooter.set('v.panelInstance', panel);
                     panelFooter.set('v.closeActionCallback', closeActionCallback);
+                    panelFooter.set('v.attr', attr);
                     const panelBody = panel.get('v.body')[0];
                     panelBody.set('v.panelInstance', panel);
                     panelBody.set('v.closeActionCallback', closeActionCallback);

@@ -294,6 +294,32 @@ export default class AlcCanvas extends LightningElement {
         alcFlow.findNode(pathToFocusNode).focus();
     };
 
+    @api
+    focusOnConnector = (elementGuid: Guid, childIndex: number) => {
+        const pathToFocusNode = getFocusPath(this.flowModel, [{ guid: elementGuid }]);
+        const alcFlow = this.template.querySelector('builder_platform_interaction-alc-flow');
+        alcFlow.findConnector(pathToFocusNode, childIndex).focus();
+    };
+
+    /**
+     * Closes any opened node or connector menu
+     */
+    @api
+    closeNodeOrConnectorMenu() {
+        const interactionState = closeFlowMenu(this._flowRenderContext.interactionState);
+        this._pendingInteractionState = null;
+        this.menu = null;
+        this.updateFlowRenderContext({ interactionState });
+    }
+
+    /**
+     * When focus is initiated on the canvas, set focus on the Start element
+     */
+    @api
+    focus() {
+        this.focusOnNode(this.getStartElementGuid());
+    }
+
     get isReconnecting() {
         return this._goToSourceGuid != null;
     }
@@ -386,7 +412,7 @@ export default class AlcCanvas extends LightningElement {
     // }
 
     getStartElementGuid() {
-        return this._flowModel[NodeType.ROOT].children[0];
+        return this.flowModel[NodeType.ROOT].children[0];
     }
 
     getOpenedMenu() {
@@ -413,7 +439,7 @@ export default class AlcCanvas extends LightningElement {
 
                 // open the start element menu on load
                 const startElementGuid = this.getStartElementGuid();
-                const startElement = this._flowModel[startElementGuid];
+                const startElement = this.flowModel[startElementGuid];
                 const containerGeometry = this.getDomElementGeometry(this._flowContainerElement);
 
                 const interactionState = {
@@ -456,7 +482,7 @@ export default class AlcCanvas extends LightningElement {
             }
         }
 
-        const numberOfElements = this._flowModel && Object.keys(this._flowModel).length;
+        const numberOfElements = this.flowModel && Object.keys(this.flowModel).length;
         logPerfTransactionEnd(AUTOLAYOUT_CANVAS, { numberOfElements }, null);
     }
 
@@ -482,7 +508,7 @@ export default class AlcCanvas extends LightningElement {
         const elementsMetadataMap = this._convertToElementMetadataMap();
 
         return {
-            flowModel: this._flowModel,
+            flowModel: this.flowModel,
             nodeLayoutMap: {},
             interactionState: {
                 menuInfo: { key: this.getStartElementGuid(), type: MenuType.NODE }
@@ -511,8 +537,8 @@ export default class AlcCanvas extends LightningElement {
             this._firstMergeableNonNullNext = null;
 
             // make all elements selectable and unselected when exiting selection mode
-            if (this._flowModel != null) {
-                const allGuids = Object.keys(this._flowModel);
+            if (this.flowModel != null) {
+                const allGuids = Object.keys(this.flowModel);
                 const alcSelectionEvent = new AlcSelectionEvent([], allGuids, allGuids, null);
                 this.dispatchEvent(alcSelectionEvent);
             }
@@ -525,7 +551,7 @@ export default class AlcCanvas extends LightningElement {
      * @param {FlowRenderContext} flowRenderContext - One or more flow render context properties
      */
     updateFlowRenderContext(flowRenderContext = {}) {
-        if (this._elementsMetadata == null || this._flowModel == null || this._canvasElement == null) {
+        if (this._elementsMetadata == null || this.flowModel == null || this._canvasElement == null) {
             return;
         }
 
@@ -538,7 +564,7 @@ export default class AlcCanvas extends LightningElement {
 
             // Note the number of dynamic node components we have.  A spinner will be shown
             // until they've all rendered
-            const nodes: { elementType: string }[] = Object.values(this._flowModel);
+            const nodes: { elementType: string }[] = Object.values(this.flowModel);
 
             let count = 0;
             nodes.forEach((node) => {
@@ -553,25 +579,6 @@ export default class AlcCanvas extends LightningElement {
 
         this._flowRenderContext = Object.assign(this._flowRenderContext, flowRenderContext);
         this.rerender(isFirstRender);
-    }
-
-    /**
-     * Closes any opened node or connector menu
-     */
-    @api
-    closeNodeOrConnectorMenu() {
-        const interactionState = closeFlowMenu(this._flowRenderContext.interactionState);
-        this._pendingInteractionState = null;
-        this.menu = null;
-        this.updateFlowRenderContext({ interactionState });
-    }
-
-    /**
-     * When focus is initiated on the canvas, set focus on the Start element
-     */
-    @api
-    focus() {
-        this.focusOnNode(this.getStartElementGuid());
     }
 
     /**
@@ -766,7 +773,7 @@ export default class AlcCanvas extends LightningElement {
         logPerfTransactionStart(AUTOLAYOUT_CANVAS_SELECTION, null, null);
         // transforms the elementsMetadata array to a map
         const elementsMetadataMap = this._convertToElementMetadataMap();
-        const flowModel = this._flowModel;
+        const flowModel = this.flowModel;
 
         const {
             canvasElementGuidsToSelect,
@@ -818,13 +825,13 @@ export default class AlcCanvas extends LightningElement {
                 let insertAt;
                 if (this._isReroutingGoto) {
                     // When a GoTo is present we need to use _goToSourceBranchIndex to generate insertAt
-                    sourceElement = this._flowModel[this._goToSourceGuid];
+                    sourceElement = this.flowModel[this._goToSourceGuid];
                     insertAt =
                         this._goToSourceBranchIndex != null
                             ? { parent: sourceElement.guid, childIndex: this._goToSourceBranchIndex }
                             : { prev: sourceElement.guid };
                 } else {
-                    sourceElement = this._flowModel[this._currentTargetGuid!];
+                    sourceElement = this.flowModel[this._currentTargetGuid!];
                     const { prev, childIndex, parent } = sourceElement;
                     insertAt = parent ? { parent, childIndex } : { prev };
                 }
@@ -861,13 +868,13 @@ export default class AlcCanvas extends LightningElement {
      */
     handleHighlightPathsToDelete = (event) => {
         const { elementGuidToDelete, childIndexToKeep } = event.detail;
-        const elementToDelete = resolveParent(this._flowModel, elementGuidToDelete);
+        const elementToDelete = resolveParent(this.flowModel, elementGuidToDelete);
 
         const shouldHighlightBeyondMergingPoint = !!(
-            shouldDeleteGoToOnNext(this._flowModel, elementToDelete, childIndexToKeep) ||
+            shouldDeleteGoToOnNext(this.flowModel, elementToDelete, childIndexToKeep) ||
             (elementToDelete.next &&
                 childIndexToKeep != null &&
-                isBranchTerminal(this._flowModel, elementToDelete, childIndexToKeep))
+                isBranchTerminal(this.flowModel, elementToDelete, childIndexToKeep))
         );
 
         const interactionState = updateDeletionPathInfo(
@@ -886,7 +893,7 @@ export default class AlcCanvas extends LightningElement {
      */
     handleMoveFocusToConnector = (event: MoveFocusToConnectorEvent) => {
         event.stopPropagation();
-        this.moveFocusToConnector(event.detail.focusGuid, event.detail.index);
+        this.focusOnConnector(event.detail.focusGuid, event.detail.index);
     };
 
     /**
@@ -1204,29 +1211,22 @@ export default class AlcCanvas extends LightningElement {
         }
     };
 
-    @api
-    moveFocusToConnector = (guid, childIndex) => {
-        const pathToFocusNode = getFocusPath(this.flowModel, [
-            { guid: this.flowModel[guid].prev || this.flowModel[guid].parent }
-        ]);
-        const alcFlow = this.template.querySelector('builder_platform_interaction-alc-flow');
-        alcFlow.findConnector(pathToFocusNode, childIndex).focus();
-    };
-
     handleDeleteElement = (event) => {
-        const guid = event.detail.selectedElementGUID[0];
-        this.moveFocusToConnector(guid, this.flowModel[guid].childIndex);
+        const { selectedElementGUID } = event.detail;
+        const elementToDelete = this.flowModel[selectedElementGUID[0]];
+        const focusGuid = elementToDelete.prev || elementToDelete.parent;
+        this.focusOnConnector(focusGuid, elementToDelete.childIndex);
     };
 
     handleBranchElementDeletion = (event: DeleteBranchElementEvent) => {
         const { selectedElementGUID, selectedElementType, childIndexToKeep } = event.detail;
+        const selectedElement = this.flowModel[selectedElementGUID[0]];
         if (childIndexToKeep != null) {
-            const selectedElement = resolveParent(this._flowModel, selectedElementGUID[0]);
             if (
                 selectedElement.next &&
-                isBranchTerminal(this._flowModel, selectedElement, childIndexToKeep) &&
-                this._flowModel[selectedElement.next!].nodeType !== NodeType.END &&
-                !hasGoToOnNext(this._flowModel, selectedElement.guid)
+                isBranchTerminal(this.flowModel, selectedElement, childIndexToKeep) &&
+                this.flowModel[selectedElement.next!].nodeType !== NodeType.END &&
+                !hasGoToOnNext(this.flowModel, selectedElement.guid)
             ) {
                 // When the branch to persist is terminated and the deleting element's next is not an end element
                 // or a GoTo target, a warning modal would be invoked, otherwise a DeleteElementEvent would be dispatched
@@ -1261,6 +1261,7 @@ export default class AlcCanvas extends LightningElement {
         } else {
             this.dispatchEvent(new DeleteElementEvent(selectedElementGUID, selectedElementType, childIndexToKeep));
         }
-        this.moveFocusToConnector(selectedElementGUID[0], this.flowModel[selectedElementGUID[0]].childIndex);
+        const focusGuid = selectedElement.prev || selectedElement.parent;
+        this.focusOnConnector(focusGuid, selectedElement.childIndex);
     };
 }

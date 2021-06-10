@@ -843,7 +843,8 @@ describe('property editor', () => {
             nodeUpdate: expect.anything(),
             newResourceCallback: expect.anything(),
             processType: undefined,
-            panelConfig: undefined
+            panelConfig: undefined,
+            moveFocusOnCloseCallback: expect.anything()
         });
     });
 
@@ -930,7 +931,6 @@ describe('property editor', () => {
     describe('in modal', () => {
         it('addelement nodeUpdate dispatches addElement to store', async () => {
             expect.assertions(5);
-
             const editorComponent = createComponentUnderTest();
 
             const addElementEvent = new AddElementEvent('ASSIGNMENT');

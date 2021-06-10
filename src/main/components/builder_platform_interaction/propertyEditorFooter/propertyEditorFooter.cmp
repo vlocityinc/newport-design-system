@@ -7,7 +7,8 @@
     <aura:attribute type="boolean" name="isSaveDisabled" default="false" description="true if save is disabled" />
     <aura:attribute type="boolean" name="showOnlyNumberOfErrors" default="false" description="only show the number of errors in the body" />
     <aura:attribute name="labelForOkButton" type="String" default="{#$Label.FlowBuilderCommonPropertyEditor.okButton}" description="label for ok button" />
-    
+    <aura:attribute name="attr" type="Object" description="attributes for property editor"/>
+
     <div class="slds-grid slds-grid--align-end">
         <div class="slds-col slds-p-left_x-small">
             <builder_platform_interaction:statusIcon 

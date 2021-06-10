@@ -12,7 +12,8 @@ import {
     hasTrigger,
     hasContext,
     isRecordTriggeredFlow,
-    setElementsMetadata
+    setElementsMetadata,
+    getFocusPath
 } from 'builder_platform_interaction/alcCanvasUtils';
 import { deselectOnCanvas } from 'builder_platform_interaction/actions';
 import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
@@ -247,6 +248,14 @@ export default class AlcCanvasContainer extends LightningElement {
         const alcCanvas = this.template.querySelector('builder_platform_interaction-alc-canvas');
         if (alcCanvas) {
             alcCanvas.focusOnNode(elementGuid);
+        }
+    };
+
+    @api
+    focusOnConnector = (elementGuid: Guid, childIndex: number) => {
+        const alcCanvas = this.template.querySelector('builder_platform_interaction-alc-canvas');
+        if (alcCanvas) {
+            alcCanvas.focusOnConnector(elementGuid, childIndex);
         }
     };
 

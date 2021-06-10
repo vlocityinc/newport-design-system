@@ -1682,6 +1682,16 @@ export default class Editor extends LightningElement {
         );
     };
 
+    /**
+     * the callback function to move focus correctly when closing property editor
+     *
+     * @param insertInfo - callback and actual data
+     */
+    moveFocusToConnector = (insertInfo: any) => {
+        const alcCanvasContainer = this.template.querySelector('builder_platform_interaction-alc-canvas-container');
+        alcCanvasContainer.focusOnConnector(insertInfo.prev || insertInfo.parent, insertInfo.childIndex);
+    };
+
     /** *********** Canvas and Node Event Handling */
 
     /**
@@ -1720,7 +1730,7 @@ export default class Editor extends LightningElement {
                 ? this.deMutateAndUpdateNodeCollection
                 : // creating a closure here to pass thru alcInsertAt to deMutateAndAddNodeCollection when it is called
                   (node, parentGuid) => this.deMutateAndAddNodeCollection(node, parentGuid, alcInsertAt);
-
+            const moveFocusOnCloseCallback = this.moveFocusToConnector;
             const newResourceCallback = this.newResourceCallback;
             const processType = this.properties.processType;
 
@@ -1732,38 +1742,36 @@ export default class Editor extends LightningElement {
                 return;
             }
 
-            this.queueOpenPropertyEditor(
-                async () => {
-                    // getElementForPropertyEditor need to be called after propertyEditorBlockerCalls
-                    // has been resolved
-                    const node = getElementForPropertyEditor({
-                        locationX,
-                        locationY,
-                        elementType,
-                        elementSubtype,
-                        actionType,
-                        actionName,
-                        parent,
-                        isNewElement: true
-                    });
+            this.queueOpenPropertyEditor(async () => {
+                // getElementForPropertyEditor need to be called after propertyEditorBlockerCalls
+                // has been resolved
+                const node = getElementForPropertyEditor({
+                    locationX,
+                    locationY,
+                    elementType,
+                    elementSubtype,
+                    actionType,
+                    actionName,
+                    parent,
+                    isNewElement: true
+                });
 
-                    // For a panel, the element is created upon opening the property editor
-                    // the parent guid is also passed in if a child element is being created
-                    if (this.usePanelForPropertyEditor) {
-                        await this.deMutateAndAddNodeCollection(node, parent, alcInsertAt);
-                    }
+                // For a panel, the element is created upon opening the property editor
+                // the parent guid is also passed in if a child element is being created
+                if (this.usePanelForPropertyEditor) {
+                    await this.deMutateAndAddNodeCollection(node, parent, alcInsertAt);
+                }
 
-                    return {
-                        mode,
-                        node,
-                        nodeUpdate,
-                        newResourceCallback,
-                        processType
-                    };
-                },
-                false,
-                designateFocus
-            );
+                return {
+                    mode,
+                    node,
+                    nodeUpdate,
+                    newResourceCallback,
+                    processType,
+                    moveFocusOnCloseCallback,
+                    insertInfo: alcInsertAt
+                };
+            });
         }
     };
 
@@ -2186,6 +2194,16 @@ export default class Editor extends LightningElement {
     }
 
     /**
+     * the callback function to move focus correctly when closing property editor
+     *
+     * @param focusGuid - the guid of the element that the focus should go to
+     */
+    moveFocusToNode = (focusGuid: Guid) => {
+        const alcCanvasContainer = this.template.querySelector('builder_platform_interaction-alc-canvas-container');
+        alcCanvasContainer.focusOnNode(focusGuid);
+    };
+
+    /**
      * Method to open the property editor of the element needs to be edited
      *
      * @param mode - Mode of the event being handled
@@ -2200,6 +2218,7 @@ export default class Editor extends LightningElement {
         }
 
         const nodeUpdate = this.deMutateAndUpdateNodeCollection;
+        const moveFocusOnCloseCallback = this.moveFocusToNode;
         const newResourceCallback = this.newResourceCallback;
         const processType = this.properties.processType;
         if (
@@ -2207,21 +2226,17 @@ export default class Editor extends LightningElement {
             (element.elementType === ELEMENT_TYPE.START_ELEMENT && isConfigurableStartSupported(processType))
         ) {
             logPerfTransactionStart('PropertyEditor');
-            this.queueOpenPropertyEditor(
-                () => {
-                    const node = getElementForPropertyEditor(element);
-                    return {
-                        mode,
-                        nodeUpdate,
-                        node,
-                        newResourceCallback,
-                        processType
-                    };
-                },
-                forceModal,
-                designateFocus
-            );
-
+            this.queueOpenPropertyEditor(() => {
+                const node = getElementForPropertyEditor(element);
+                return {
+                    mode,
+                    nodeUpdate,
+                    node,
+                    newResourceCallback,
+                    processType,
+                    moveFocusOnCloseCallback
+                };
+            }, forceModal);
             if (element && element.isCanvasElement && !this.properties.isAutoLayoutCanvas) {
                 storeInstance.dispatch(
                     selectOnCanvas({
