@@ -688,4 +688,44 @@ describe('AlcNode', () => {
             expect(decisionTextElementType.classList).toContain('highlighted-container');
         });
     });
+
+    describe('Focus', () => {
+        beforeEach(() => {
+            nodeInfo = {
+                guid: 'guid',
+                config: {
+                    isSelected: false,
+                    isSelectable: true
+                },
+                metadata: {
+                    icon: 'dummyIcon',
+                    label: 'elementType',
+                    type: NodeType.DEFAULT
+                },
+                menuOpened: false
+            };
+        });
+
+        it('Focus event on menu trigger should be fired when focusOnSelectionBox is false', () => {
+            const alcNodeComponent = createComponentUnderTest({
+                nodeInfo,
+                canvasMode: AutoLayoutCanvasMode.DEFAULT
+            });
+            const menuTrigger = alcNodeComponent.shadowRoot.querySelector(selectors.menuTrigger);
+            menuTrigger.focus = jest.fn();
+            alcNodeComponent.focus();
+            expect(menuTrigger.focus).toHaveBeenCalled();
+        });
+
+        it('Focus event on selection checkbox should be fired when focusOnSelectionBox is true', () => {
+            const alcNodeComponent = createComponentUnderTest({
+                nodeInfo,
+                canvasMode: AutoLayoutCanvasMode.RECONNECTION
+            });
+            const selectionCheckbox = alcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
+            selectionCheckbox.focus = jest.fn();
+            alcNodeComponent.focus(true);
+            expect(selectionCheckbox.focus).toHaveBeenCalled();
+        });
+    });
 });

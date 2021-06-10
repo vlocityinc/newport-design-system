@@ -1,9 +1,7 @@
-// @ts-nocheck
 const eventName = 'toggleselectionmode';
-
-export class ToggleSelectionModeEvent {
+export class ToggleSelectionModeEvent extends CustomEvent<{}> {
     constructor() {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true

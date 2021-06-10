@@ -46,11 +46,6 @@ export default class AlcNode extends LightningElement {
     }
 
     @api
-    focus() {
-        this.template.querySelector('builder_platform_interaction-alc-menu-trigger').focus();
-    }
-
-    @api
     canvasMode!: AutoLayoutCanvasMode;
 
     get labels() {
@@ -137,6 +132,8 @@ export default class AlcNode extends LightningElement {
     /**
      * Set the class for the icon container.
      * 2 classes exist for the highlight because of different icon size and multiple connectors linked to the icon.
+     *
+     * @returns String of classes for the icon container
      */
     get iconContainerClasses() {
         let vClassSet = classSet('icon-container').add({
@@ -184,6 +181,8 @@ export default class AlcNode extends LightningElement {
         return this.nodeInfo.node && this.nodeInfo.node.incomingGoTo && this.nodeInfo.node.incomingGoTo.length > 0;
     }
 
+    /** ***************************** Helper Functions */
+
     /**
      * Import the constructor and update the component params
      *
@@ -191,7 +190,7 @@ export default class AlcNode extends LightningElement {
      * constructor and params could be out of sync (old constructor with new params
      * or new constructor with old params)
      *
-     * @param comp
+     * @param comp dynamic node component
      */
     // eslint-disable-next-line @lwc/lwc/no-async-await
     async processDynamicNodeComponent(comp: string): Promise<void> {
@@ -204,6 +203,21 @@ export default class AlcNode extends LightningElement {
             this.dynamicNodeConstructor = module.default;
         }
     }
+
+    /** ***************************** Public Functions */
+
+    @api
+    focus() {
+        const selector = !this.isDefaultMode ? '.selection-checkbox' : 'builder_platform_interaction-alc-menu-trigger';
+        const divToFocus = this.template.querySelector(selector);
+        // // TODO (W-9424079): We need the check here in order to prevent the gack
+        // when moving focus to start element through F6 in selection mode
+        if (divToFocus) {
+            divToFocus.focus();
+        }
+    }
+
+    /** ***************************** Event Handlers */
 
     /**
      * Handles the edit element event and fires SelectNodeEvent

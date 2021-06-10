@@ -46,12 +46,14 @@ import {
     DeleteBranchElementEvent,
     TabOnMenuTriggerEvent
 } from 'builder_platform_interaction/alcEvents';
-import { getAlcFlowData, getAlcMenuData } from 'builder_platform_interaction/alcComponentsUtils';
 import {
+    getAlcFlowData,
+    getAlcMenuData,
     getCanvasElementSelectionData,
     getCanvasElementDeselectionData,
     AutoLayoutCanvasMode,
-    AutoLayoutCanvasContext
+    AutoLayoutCanvasContext,
+    getFirstSelectableElementGuid
 } from 'builder_platform_interaction/alcComponentsUtils';
 import { getFocusPath } from './alcCanvasUtils';
 import { commands, keyboardInteractionUtils, loggingUtils } from 'builder_platform_interaction/sharedUtils';
@@ -171,6 +173,12 @@ export default class AlcCanvas extends LightningElement {
     /* guid of the first mergeable non-next element */
     _firstMergeableNonNullNext!: Guid | null;
 
+    /**
+     * Guid to set focus on when entering selection mode
+     * to select a GoTo target
+     */
+    _elementGuidToFocus!: Guid | null;
+
     /* the current scale with a domain of [MIN_ZOOM, MAX_ZOOM] */
     _scale!: number;
 
@@ -270,7 +278,7 @@ export default class AlcCanvas extends LightningElement {
     @api
     set isSelectionMode(isSelectionMode) {
         this._isSelectionMode = isSelectionMode;
-        this.handleSelectionChange();
+        this.handleSelectionModeChange();
     }
 
     get isSelectionMode() {
@@ -317,15 +325,12 @@ export default class AlcCanvas extends LightningElement {
      */
     @api
     focus() {
+        // TODO (W-9424079): Move focus to first focus-able element when in selection mode
         this.focusOnNode(this.getStartElementGuid());
     }
 
-    get isReconnecting() {
-        return this._goToSourceGuid != null;
-    }
-
     get autoLayoutCanvasContext(): AutoLayoutCanvasContext {
-        const mode = this.isReconnecting
+        const mode = this._goToSourceGuid
             ? AutoLayoutCanvasMode.RECONNECTION
             : this.isSelectionMode
             ? AutoLayoutCanvasMode.SELECTION
@@ -398,19 +403,6 @@ export default class AlcCanvas extends LightningElement {
         );
     }
 
-    // TODO to be fix in @W-7865113. This function was used in both alc-node-menu and alc-start-menu to replace menu.elementMetadata
-    // get getElementMetadata() {
-    //     let item;
-    //     if (this._elementsMetadata) {
-    //         for (item of this._elementsMetadata) {
-    //             if (item.type === this.menu.elementMetadata.type) {
-    //                 return item;
-    //             }
-    //         }
-    //     }
-    //     return undefined;
-    // }
-
     getStartElementGuid() {
         return this.flowModel[NodeType.ROOT].children[0];
     }
@@ -482,6 +474,14 @@ export default class AlcCanvas extends LightningElement {
             }
         }
 
+        // Moving focus to the expected element when entering selection mode to
+        // select the GoTo target. This needs to happen in the renderedCallback since we
+        // need to wait for all the nodes to re-render before moving the focus.
+        if (this._elementGuidToFocus) {
+            this.focusOnNode(this._elementGuidToFocus);
+            this._elementGuidToFocus = null;
+        }
+
         const numberOfElements = this.flowModel && Object.keys(this.flowModel).length;
         logPerfTransactionEnd(AUTOLAYOUT_CANVAS, { numberOfElements }, null);
     }
@@ -523,9 +523,17 @@ export default class AlcCanvas extends LightningElement {
     /**
      * Handles a elements selection change
      */
-    handleSelectionChange() {
-        if (this._isSelectionMode) {
+    handleSelectionModeChange() {
+        if (this.isSelectionMode) {
             this.closeNodeOrConnectorMenu();
+            if (this.autoLayoutCanvasContext.mode === AutoLayoutCanvasMode.RECONNECTION) {
+                const firstSelectableElementGuid = getFirstSelectableElementGuid(this.flowModel, 'root');
+                if (firstSelectableElementGuid) {
+                    // Setting _elementGuidToFocus to firstSelectableElementGuid so that
+                    // we can set focus on the correct node during the renderedCallback
+                    this._elementGuidToFocus = firstSelectableElementGuid;
+                }
+            }
         } else {
             this._topSelectedGuid = null;
             this._goToSourceGuid = null;

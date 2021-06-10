@@ -1262,7 +1262,7 @@ export default class Editor extends LightningElement {
      */
     closeAutoLayoutContextualMenu = () => {
         if (this.properties.isAutoLayoutCanvas) {
-            const alcCanvasContainer = this.template.querySelector('builder_platform_interaction-alc-canvas-container');
+            const alcCanvasContainer = this.template.querySelector(PANELS.AUTOLAYOUT_CANVAS);
             if (alcCanvasContainer) {
                 alcCanvasContainer.callCloseNodeOrConnectorMenuInBuilder();
             }
@@ -1280,6 +1280,7 @@ export default class Editor extends LightningElement {
     handleToggleSelectionMode = () => {
         this.isSelectionMode = !this.isSelectionMode;
         this.handleClosePropertyEditor();
+        this.template.querySelector(PANELS.TOOLBAR).focus();
     };
 
     /**
@@ -1830,9 +1831,7 @@ export default class Editor extends LightningElement {
 
             const flowState = storeInstance.getCurrentState();
 
-            const autoLayoutCanvasContainer = this.template.querySelector(
-                'builder_platform_interaction-alc-canvas-container'
-            );
+            const autoLayoutCanvasContainer = this.template.querySelector(PANELS.AUTOLAYOUT_CANVAS);
 
             // OffsetX will be at left-most point of the Start Circle when switching to Free-Form.
             // Subtracting 24 (half icon width) to get to that point from the center.
@@ -2178,13 +2177,13 @@ export default class Editor extends LightningElement {
      */
     highlightOnCanvas(elementGuid: string) {
         // Panning the canvas element into the viewport if needed
-        const canvasContainer = this.template.querySelector('builder_platform_interaction-canvas-container');
+        const canvasContainer = this.template.querySelector(PANELS.FREEFORM_CANVAS);
         if (canvasContainer && canvasContainer.panElementToView) {
             canvasContainer.panElementToView(elementGuid);
         }
 
         // Zooming on element on autolayout canvas
-        const alcCanvasContainer = this.template.querySelector('builder_platform_interaction-alc-canvas-container');
+        const alcCanvasContainer = this.template.querySelector(PANELS.AUTOLAYOUT_CANVAS);
         if (alcCanvasContainer) {
             alcCanvasContainer.focusOnNode(elementGuid);
         }

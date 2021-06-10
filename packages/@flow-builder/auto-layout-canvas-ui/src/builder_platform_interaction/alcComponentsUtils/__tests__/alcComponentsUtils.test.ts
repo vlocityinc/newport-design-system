@@ -4,6 +4,7 @@ import {
     getCanvasElementSelectionData,
     getCanvasElementDeselectionData,
     getCanvasElementDeselectionDataOnToggleOff,
+    getFirstSelectableElementGuid,
     getAlcMenuData,
     getMenuStyle,
     getAlcNodeData
@@ -1100,6 +1101,163 @@ describe('ALC Canvas Utils test', () => {
                 [],
                 ''
             );
+        });
+    });
+
+    describe('getFirstSelectableElementGuid', () => {
+        let flowModel = {};
+
+        beforeEach(() => {
+            flowModel = {
+                d1: {
+                    guid: 'd1',
+                    elementType: ELEMENT_TYPE_DECISION,
+                    nodeType: NodeType.BRANCH,
+                    config: {
+                        isSelectable: false
+                    },
+                    prev: null,
+                    next: 's4',
+                    children: ['d2', 's3', 'ac1'],
+                    childReferences: [
+                        {
+                            childReference: 'o1'
+                        },
+                        {
+                            childReference: 'o2'
+                        }
+                    ]
+                },
+                d2: {
+                    guid: 'd2',
+                    elementType: ELEMENT_TYPE_DECISION,
+                    nodeType: NodeType.BRANCH,
+                    config: {
+                        isSelectable: false
+                    },
+                    parent: 'd1',
+                    prev: null,
+                    next: null,
+                    childIndex: 0,
+                    isTerminal: false,
+                    children: [null, 's1'],
+                    childReferences: [
+                        {
+                            childReference: 'o3'
+                        }
+                    ]
+                },
+                s1: {
+                    guid: 's1',
+                    elementType: ELEMENT_TYPE_SCREEN,
+                    nodeType: NodeType.DEFAULT,
+                    config: {
+                        isSelectable: false
+                    },
+                    parent: 'd1',
+                    prev: null,
+                    next: 's2',
+                    childIndex: 1,
+                    isTerminal: false
+                },
+                s2: {
+                    guid: 's2',
+                    elementType: ELEMENT_TYPE_SCREEN,
+                    nodeType: NodeType.DEFAULT,
+                    config: {
+                        isSelectable: false
+                    },
+                    prev: 's1',
+                    next: null
+                },
+                ac1: {
+                    guid: 'ac1',
+                    elementType: ELEMENT_TYPE_SCREEN,
+                    nodeType: NodeType.DEFAULT,
+                    config: {
+                        isSelectable: false
+                    },
+                    parent: 'd1',
+                    prev: null,
+                    next: null,
+                    childIndex: 2,
+                    isTerminal: false,
+                    fault: 's3'
+                },
+                s3: {
+                    guid: 's3',
+                    elementType: ELEMENT_TYPE_SCREEN,
+                    nodeType: NodeType.DEFAULT,
+                    config: {
+                        isSelectable: false
+                    },
+                    parent: 'ac1',
+                    prev: null,
+                    next: 's5',
+                    childIndex: -1,
+                    isTerminal: true,
+                    incomingGoTo: ['d1:o2']
+                },
+                s4: {
+                    guid: 's4',
+                    elementType: ELEMENT_TYPE_SCREEN,
+                    nodeType: NodeType.DEFAULT,
+                    config: {
+                        isSelectable: false
+                    },
+                    prev: 'd1',
+                    next: 's5'
+                },
+                s5: {
+                    guid: 's5',
+                    elementType: ELEMENT_TYPE_SCREEN,
+                    nodeType: NodeType.DEFAULT,
+                    config: {
+                        isSelectable: false
+                    },
+                    prev: 's4',
+                    next: 'end',
+                    incomingGoTo: ['s3']
+                },
+                end: {
+                    guid: 'end',
+                    elementType: ELEMENT_TYPE_END_ELEMENT,
+                    nodeType: NodeType.END,
+                    config: {
+                        isSelectable: false
+                    },
+                    prev: 'd1',
+                    next: null
+                }
+            };
+        });
+
+        const setIsSelectableToTrue = (elementGuidToUpdate) => {
+            flowModel[elementGuidToUpdate].config.isSelectable = true;
+        };
+
+        it('When no element is selectable', () => {
+            const selectableGuid = getFirstSelectableElementGuid(flowModel, 'd1');
+            expect(selectableGuid).toBeUndefined();
+        });
+
+        it('When a nested element is the first selectable element', () => {
+            setIsSelectableToTrue('s2');
+            const selectableGuid = getFirstSelectableElementGuid(flowModel, 'd1');
+            expect(selectableGuid).toEqual('s2');
+        });
+
+        it('When first selectable element is in the fault branch', () => {
+            setIsSelectableToTrue('s3');
+            const selectableGuid = getFirstSelectableElementGuid(flowModel, 'd1');
+            expect(selectableGuid).toEqual('s3');
+        });
+
+        it('When first selectable element is after before another selectable element which is a GoTo target', () => {
+            setIsSelectableToTrue('s4');
+            setIsSelectableToTrue('s5');
+            const selectableGuid = getFirstSelectableElementGuid(flowModel, 'd1');
+            expect(selectableGuid).toEqual('s4');
         });
     });
 
