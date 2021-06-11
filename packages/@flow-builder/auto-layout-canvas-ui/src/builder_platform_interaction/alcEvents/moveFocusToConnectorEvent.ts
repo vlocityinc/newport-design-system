@@ -7,15 +7,15 @@ const eventName = 'movefocustoconnector';
 
 interface MoveFocusToConnectorEventDetail {
     focusGuid: Guid;
-    index: number;
+    index: number | undefined;
 }
 
 export class MoveFocusToConnectorEvent extends CustomEvent<MoveFocusToConnectorEventDetail> {
     /**
      * @param focusGuid - Guid of the focus connector's source element
-     * @param index - Index of the ficus branch (if any)
+     * @param index - Index of the focus branch (if any)
      */
-    constructor(focusGuid: Guid, index: number) {
+    constructor(focusGuid: Guid, index?: number) {
         super(eventName, {
             bubbles: true,
             composed: true,

@@ -303,7 +303,7 @@ export default class AlcCanvas extends LightningElement {
     };
 
     @api
-    focusOnConnector = (elementGuid: Guid, childIndex: number) => {
+    focusOnConnector = (elementGuid: Guid, childIndex?: number) => {
         const pathToFocusNode = getFocusPath(this.flowModel, [{ guid: elementGuid }]);
         const alcFlow = this.template.querySelector('builder_platform_interaction-alc-flow');
         alcFlow.findConnector(pathToFocusNode, childIndex).focus();

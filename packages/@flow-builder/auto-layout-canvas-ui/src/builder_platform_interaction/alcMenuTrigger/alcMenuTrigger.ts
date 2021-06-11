@@ -208,7 +208,7 @@ export default class AlcMenuTrigger extends LightningElement {
             event.preventDefault();
             this.dispatchEvent(new TabOnMenuTriggerEvent(shiftKey));
         } else if (key === 'Tab') {
-            // The CanvasMouseUpEvent is used to un-highligth
+            // The CanvasMouseUpEvent is used to un-highlight
             const canvasMouseUpEvent = new CanvasMouseUpEvent();
             this.dispatchEvent(canvasMouseUpEvent);
         }

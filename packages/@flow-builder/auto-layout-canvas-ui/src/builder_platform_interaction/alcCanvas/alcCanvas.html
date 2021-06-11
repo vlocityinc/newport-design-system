@@ -16,11 +16,11 @@
         <template if:true={flow}>
             <div class="flow-container">
                 <builder_platform_interaction-alc-flow
-                    style={flow.style}
-                    class={flow.class}
-                    flow={flow.flowInfo}
                     canvas-mode={autoLayoutCanvasContext.mode}
+                    class={flow.class}
                     disable-add-elements={disableAddElements}
+                    flow={flow.flowInfo}
+                    style={flow.style}
                     onalcselectdeselectnode={handleNodeSelectionDeselection}
                     onnoderesize={handleDynamicNodeRender}
                     ontabonmenutrigger={handleTabOnMenuTrigger}
@@ -31,19 +31,19 @@
                     <template if:true={showConnectorMenu}>
                         <builder_platform_interaction-alc-connector-menu
                             class="menu overlay slds-dropdown"
-                            style={menu.style}
-                            prev={menu.prev}
+                            can-add-goto={menu.isTargetEnd}
+                            can-merge-ended-branch={menu.canMergeEndedBranch}
+                            child-index={menu.childIndex}
+                            elements-metadata={menu.elementsMetadata}
+                            has-end-element={menu.hasEndElement}
                             next={menu.next}
                             parent={menu.parent}
-                            can-merge-ended-branch={menu.canMergeEndedBranch}
-                            has-end-element={menu.hasEndElement}
-                            can-add-goto={menu.isTargetEnd}
+                            prev={menu.prev}
                             is-go-to-connector={menu.isGoToConnector}
-                            child-index={menu.childIndex}
                             is-paste-available={autoLayoutCanvasContext.isPasteAvailable}
-                            elements-metadata={menu.elementsMetadata}
-                            ongotopath={handleAddOrRerouteGoToItemSelection}
                             move-focus-to-menu={moveFocusToMenu}
+                            style={menu.style}
+                            ongotopath={handleAddOrRerouteGoToItemSelection}
                             onmovefocustoconnector={handleMoveFocusToConnector}
                         ></builder_platform_interaction-alc-connector-menu>
                     </template>
@@ -57,13 +57,13 @@
                             element-metadata={menu.elementMetadata}
                             can-have-fault-connector={menu.canHaveFaultConnector}
                             guid={menu.guid}
+                            move-focus-to-menu={moveFocusToMenu}
                             style={menu.style}
                             onclearhighlightedpath={handleClearHighlightedPath}
-                            onhighlightpathstodelete={handleHighlightPathsToDelete}
-                            move-focus-to-menu={moveFocusToMenu}
-                            onmovefocustonode={handleMoveFocusToNode}
                             ondeletebranchelement={handleBranchElementDeletion}
                             ondeleteelement={handleDeleteElement}
+                            onhighlightpathstodelete={handleHighlightPathsToDelete}
+                            onmovefocustonode={handleMoveFocusToNode}
                         ></builder_platform_interaction-alc-node-menu>
                         <builder_platform_interaction-alc-start-menu
                             if:true={startMenuElement}
@@ -71,13 +71,13 @@
                             condition-options={menu.conditionOptionsForNode}
                             element-has-fault={menu.elementHasFault}
                             element-metadata={menu.elementMetadata}
-                            start-data={startMenuElement}
-                            child-index={menu.childIndex}
                             guid={menu.guid}
+                            move-focus-to-menu={moveFocusToMenu}
+                            start-data={startMenuElement}
                             style={menu.style}
                             supports-scheduled-paths={supportsScheduledPaths}
                             onhighlightpathstodelete={handleHighlightPathsToDelete}
-                            move-focus-to-menu={moveFocusToMenu}
+                            onmovefocustoconnector={handleMoveFocusToConnector}
                             onmovefocustonode={handleMoveFocusToNode}
                         ></builder_platform_interaction-alc-start-menu>
                     </template>

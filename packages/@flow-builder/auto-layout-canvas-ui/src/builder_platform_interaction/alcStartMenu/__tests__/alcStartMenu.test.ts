@@ -2,7 +2,11 @@
 import { createElement } from 'lwc';
 import AlcStartMenu from 'builder_platform_interaction/alcStartMenu';
 import { ArrowKeyDownEvent } from 'builder_platform_interaction/events';
-import { CloseMenuEvent, MoveFocusToNodeEvent } from 'builder_platform_interaction/alcEvents';
+import {
+    CloseMenuEvent,
+    MoveFocusToNodeEvent,
+    MoveFocusToConnectorEvent
+} from 'builder_platform_interaction/alcEvents';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
@@ -30,7 +34,8 @@ const autolaunchedFlowStart = {
     label: 'Start',
     supportsMenu: true,
     type: NodeType.START,
-    value: 'START_ELEMENT'
+    value: 'START_ELEMENT',
+    guid: 'startGuid'
 };
 
 const platformEventStart = {
@@ -242,6 +247,26 @@ describe('Start Node Menu', () => {
         it('Body should not be rendered', () => {
             const body = menu.shadowRoot.querySelector(selectors.body);
             expect(body).toBeNull();
+        });
+
+        it('moveFocus should fire the CloseMenuEvent since body is empty', () => {
+            menu = createComponentUnderTest(autolaunchedFlowStart, {});
+            const callback = jest.fn();
+            menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
+            menu.moveFocus();
+            expect(callback).toHaveBeenCalled();
+        });
+
+        it('moveFocus should fire the MoveFocusToConnectorEvent since body is empty', () => {
+            menu = createComponentUnderTest(autolaunchedFlowStart, {});
+            const callback = jest.fn();
+            menu.addEventListener(MoveFocusToConnectorEvent.EVENT_NAME, callback);
+            menu.moveFocus();
+            expect(callback).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    detail: { focusGuid: 'startGuid', index: undefined }
+                })
+            );
         });
     });
 

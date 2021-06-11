@@ -28,13 +28,13 @@ enum TabFocusRingItems {
 
 export default class AlcStartMenu extends AlcNodeMenu {
     @api
-    startData;
-
-    @api
     moveFocusToMenu;
 
     @api
-    childIndex!: number;
+    startData;
+
+    @api
+    supportsScheduledPaths;
 
     get hasTrigger() {
         return this.elementMetadata.hasTrigger;
@@ -47,9 +47,6 @@ export default class AlcStartMenu extends AlcNodeMenu {
     get isRecordTriggeredFlow() {
         return this.elementMetadata.isRecordTriggeredFlow;
     }
-
-    @api
-    supportsScheduledPaths;
 
     get startNode() {
         return { ...this.startData, ...{ guid: this.guid } };
@@ -71,7 +68,11 @@ export default class AlcStartMenu extends AlcNodeMenu {
         if (!triggerButton && !contextButton && !scheduledPathButton && !recordTriggerButton) {
             // close the menu when there's no rows in the menu
             this.dispatchEvent(new CloseMenuEvent());
-            this.dispatchEvent(new MoveFocusToConnectorEvent(this.guid, this.childIndex));
+            // Move focus to the left most branch if one exists, else move focus to the next connector.
+            // There's no use case where the start element can have branches but no buttons in the menu.
+            // Hence branchIndexToFocus should always be undefined.
+            const branchIndexToFocus = this.startData.children ? 0 : undefined;
+            this.dispatchEvent(new MoveFocusToConnectorEvent(this.guid, branchIndexToFocus));
         } else {
             // move focus to the first row item
             this.tabFocusRingIndex = TabFocusRingItems.Icon;
