@@ -211,6 +211,37 @@ describe('screen-properties-editor for screen with standard pause message', () =
     });
 });
 
+describe('screen-properties-editor for screen with hidden header and footer', () => {
+    let screenPropEditor;
+    const testScreen = createTestScreen('screen1');
+    testScreen.description.value = 'this is a test screen';
+    testScreen.showFooter = false;
+    testScreen.showHeader = false;
+    beforeEach(() => {
+        screenPropEditor = createComponentUnderTest({
+            screen: testScreen
+        });
+    });
+    it('Provide help checkbox is present', () => {
+        const allowHelp = query(screenPropEditor, SELECTORS.ALLOW_HELP);
+        expect(allowHelp).not.toBeNull();
+    });
+
+    it('Custom footer controls are present', () => {
+        const nextOrFinishLabelType = query(screenPropEditor, SELECTORS.NEXT_OR_FINISH_LABEL_TYPE);
+        expect(nextOrFinishLabelType).not.toBeNull();
+
+        const pauseLabelType = query(screenPropEditor, SELECTORS.PAUSE_LABEL_TYPE);
+        expect(pauseLabelType).not.toBeNull();
+
+        const backLabelType = query(screenPropEditor, SELECTORS.PREVIOUS_LABEL_TYPE);
+        expect(backLabelType).not.toBeNull();
+
+        const pauseMessageType = query(screenPropEditor, SELECTORS.PAUSE_MESSAGE_TYPE);
+        expect(pauseMessageType).not.toBeNull();
+    });
+});
+
 describe('screen-properties-editor for screen with custom pause message', () => {
     let screenPropEditor;
     const testScreen = createTestScreen('screen1');

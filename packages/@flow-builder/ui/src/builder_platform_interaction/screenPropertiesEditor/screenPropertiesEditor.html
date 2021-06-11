@@ -26,27 +26,27 @@
                     hide-top-padding
                 >
                 </builder_platform_interaction-screen-property-field>
-                <div if:true={screen.showHeader}>
-                    <h3 class="slds-text-title_bold slds-p-top_small">{labels.helpTextForAccordion}</h3>
+                <h3 class="slds-form-element__label slds-form-element__legend slds-p-top_small">
+                    {labels.helpTextForAccordion}
+                </h3>
 
-                    <builder_platform_interaction-screen-property-field
-                        name="allowHelp"
-                        label={labels.allowHelp}
-                        type="boolean"
-                        value={screen.allowHelp}
-                    >
-                    </builder_platform_interaction-screen-property-field>
+                <builder_platform_interaction-screen-property-field
+                    name="allowHelp"
+                    label={labels.allowHelp}
+                    type="boolean"
+                    value={screen.allowHelp}
+                >
+                </builder_platform_interaction-screen-property-field>
 
-                    <builder_platform_interaction-screen-property-field
-                        if:true={screen.allowHelp}
-                        name="helpText"
-                        label={labels.helpSectionHeader}
-                        type="rich_string"
-                        value={screen.helpText}
-                        required="true"
-                    >
-                    </builder_platform_interaction-screen-property-field>
-                </div>
+                <builder_platform_interaction-screen-property-field
+                    if:true={screen.allowHelp}
+                    name="helpText"
+                    label={labels.helpSectionHeader}
+                    type="rich_string"
+                    value={screen.helpText}
+                    required="true"
+                >
+                </builder_platform_interaction-screen-property-field>
             </lightning-accordion-section>
 
             <lightning-accordion-section name="configureFooter" label={labels.configureFooter}>
@@ -57,130 +57,128 @@
                     value={screen.showFooter}
                 >
                 </builder_platform_interaction-screen-property-field>
-                <div if:true={screen.showFooter}>
-                    <h3 class="slds-text-body_regular slds-p-top_x-small">{labels.navigationLabel}</h3>
+                <h3 class="navigation slds-p-top_x-small">{labels.navigationLabel}</h3>
 
-                    <div>
-                        <div class="slds-grid slds-grid_align-spread slds-m-top_x-small">
-                            <lightning-radio-group
-                                class="slds-col"
-                                label={labels.allowFinishButton}
-                                name="nextOrFinishLabelType"
-                                value={nextOrFinishButtonType}
-                                options={nextOrFinishLabelTypeOptions}
-                                onchange={handlePropertyChanged}
-                            >
-                            </lightning-radio-group>
-
-                            <div slot="actions" class="slds-col">
-                                <lightning-helptext
-                                    class="slds-list_inline slds-m-left_small"
-                                    content={labels.allowNextOrFinishButtonTooltip}
-                                ></lightning-helptext>
-                            </div>
-                        </div>
-
-                        <builder_platform_interaction-screen-property-field
-                            class="slds-m-top_xx-small"
-                            if:true={isNextOrFinishButtonCustom}
-                            name="nextOrFinishLabel"
-                            label={labels.nextOrFinishButtonConfigLabel}
-                            value={screen.nextOrFinishLabel}
-                            type="string"
-                            required="true"
-                            placeholder={labels.footerLabelInputPlaceHolder}
+                <div>
+                    <div class="slds-grid slds-grid_align-spread slds-m-top_x-small">
+                        <lightning-radio-group
+                            class="slds-col"
+                            label={labels.allowFinishButton}
+                            name="nextOrFinishLabelType"
+                            value={nextOrFinishButtonType}
+                            options={nextOrFinishLabelTypeOptions}
+                            onchange={handlePropertyChanged}
                         >
-                        </builder_platform_interaction-screen-property-field>
+                        </lightning-radio-group>
+
+                        <div slot="actions" class="slds-col">
+                            <lightning-helptext
+                                class="slds-list_inline slds-m-left_small"
+                                content={labels.allowNextOrFinishButtonTooltip}
+                            ></lightning-helptext>
+                        </div>
                     </div>
 
-                    <div>
-                        <div class="slds-grid slds-grid_align-spread slds-m-top_x-small">
-                            <lightning-radio-group
-                                class="slds-col"
-                                label={labels.allowPreviousButton}
-                                name="backLabelType"
-                                value={previousButtonType}
-                                options={previousLabelTypeOptions}
-                                onchange={handlePropertyChanged}
-                            >
-                            </lightning-radio-group>
-                            <div slot="actions" class="slds-col">
-                                <lightning-helptext
-                                    class="slds-list_inline slds-m-left_small"
-                                    content={labels.allowPreviousButtonTooltip}
-                                ></lightning-helptext>
-                            </div>
-                        </div>
+                    <builder_platform_interaction-screen-property-field
+                        class="slds-m-top_xx-small"
+                        if:true={isNextOrFinishButtonCustom}
+                        name="nextOrFinishLabel"
+                        label={labels.nextOrFinishButtonConfigLabel}
+                        value={screen.nextOrFinishLabel}
+                        type="string"
+                        required="true"
+                        placeholder={labels.footerLabelInputPlaceHolder}
+                    >
+                    </builder_platform_interaction-screen-property-field>
+                </div>
 
-                        <builder_platform_interaction-screen-property-field
-                            class="slds-m-top_xx-small"
-                            if:true={isPreviousButtonCustom}
-                            name="backLabel"
-                            label={labels.previousButtonConfigLabel}
-                            value={screen.backLabel}
-                            type="string"
-                            required="true"
-                            placeholder={labels.footerLabelInputPlaceHolder}
+                <div>
+                    <div class="slds-grid slds-grid_align-spread slds-m-top_x-small">
+                        <lightning-radio-group
+                            class="slds-col"
+                            label={labels.allowPreviousButton}
+                            name="backLabelType"
+                            value={previousButtonType}
+                            options={previousLabelTypeOptions}
+                            onchange={handlePropertyChanged}
                         >
-                        </builder_platform_interaction-screen-property-field>
+                        </lightning-radio-group>
+                        <div slot="actions" class="slds-col">
+                            <lightning-helptext
+                                class="slds-list_inline slds-m-left_small"
+                                content={labels.allowPreviousButtonTooltip}
+                            ></lightning-helptext>
+                        </div>
                     </div>
-                    <div>
-                        <div class="slds-grid slds-grid_align-spread slds-m-top_x-small">
-                            <lightning-radio-group
-                                class="slds-col"
-                                label={labels.allowPauseButton}
-                                name="pauseLabelType"
-                                value={pauseButtonType}
-                                options={pauseLabelTypeOptions}
-                                onchange={handlePropertyChanged}
-                            >
-                            </lightning-radio-group>
-                            <div slot="actions" class="slds-col">
-                                <lightning-helptext
-                                    class="slds-list_inline slds-m-left_small"
-                                    content={labels.allowPauseButtonTooltip}
-                                ></lightning-helptext>
-                            </div>
-                        </div>
-                        <builder_platform_interaction-screen-property-field
-                            class="slds-m-top_xx-small"
-                            if:true={isPauseButtonCustom}
-                            name="pauseLabel"
-                            label={labels.pauseButtonConfigLabel}
-                            value={screen.pauseLabel}
-                            type="string"
-                            required="true"
-                            placeholder={labels.footerLabelInputPlaceHolder}
+
+                    <builder_platform_interaction-screen-property-field
+                        class="slds-m-top_xx-small"
+                        if:true={isPreviousButtonCustom}
+                        name="backLabel"
+                        label={labels.previousButtonConfigLabel}
+                        value={screen.backLabel}
+                        type="string"
+                        required="true"
+                        placeholder={labels.footerLabelInputPlaceHolder}
+                    >
+                    </builder_platform_interaction-screen-property-field>
+                </div>
+                <div>
+                    <div class="slds-grid slds-grid_align-spread slds-m-top_x-small">
+                        <lightning-radio-group
+                            class="slds-col"
+                            label={labels.allowPauseButton}
+                            name="pauseLabelType"
+                            value={pauseButtonType}
+                            options={pauseLabelTypeOptions}
+                            onchange={handlePropertyChanged}
                         >
-                        </builder_platform_interaction-screen-property-field>
-                        <div class="slds-grid slds-grid_align-spread slds-m-top_x-small" if:true={isPauseButtonAllowed}>
-                            <lightning-radio-group
-                                class="slds-col"
-                                label={labels.pauseConfirmationMessage}
-                                name="pauseMessageType"
-                                value={pauseMessageType}
-                                options={pauseMessageTypeOptions}
-                                onchange={handlePropertyChanged}
-                            >
-                            </lightning-radio-group>
-                            <div slot="actions" class="slds-col">
-                                <lightning-helptext
-                                    class="slds-list_inline slds-m-left_small"
-                                    content={labels.standardPauseMessage}
-                                ></lightning-helptext>
-                            </div>
+                        </lightning-radio-group>
+                        <div slot="actions" class="slds-col">
+                            <lightning-helptext
+                                class="slds-list_inline slds-m-left_small"
+                                content={labels.allowPauseButtonTooltip}
+                            ></lightning-helptext>
                         </div>
-                        <builder_platform_interaction-screen-property-field
-                            class="slds-m-top_xx-small"
-                            if:true={showPauseConfirmationMessageEditor}
-                            name="pausedText"
+                    </div>
+                    <builder_platform_interaction-screen-property-field
+                        class="slds-m-top_xx-small"
+                        if:true={isPauseButtonCustom}
+                        name="pauseLabel"
+                        label={labels.pauseButtonConfigLabel}
+                        value={screen.pauseLabel}
+                        type="string"
+                        required="true"
+                        placeholder={labels.footerLabelInputPlaceHolder}
+                    >
+                    </builder_platform_interaction-screen-property-field>
+                    <div class="slds-grid slds-grid_align-spread slds-m-top_x-small" if:true={isPauseButtonAllowed}>
+                        <lightning-radio-group
+                            class="slds-col"
                             label={labels.pauseConfirmationMessage}
-                            type="rich_string"
-                            value={screen.pausedText}
-                            required="true"
+                            name="pauseMessageType"
+                            value={pauseMessageType}
+                            options={pauseMessageTypeOptions}
+                            onchange={handlePropertyChanged}
                         >
-                        </builder_platform_interaction-screen-property-field>
+                        </lightning-radio-group>
+                        <div slot="actions" class="slds-col">
+                            <lightning-helptext
+                                class="slds-list_inline slds-m-left_small"
+                                content={labels.standardPauseMessage}
+                            ></lightning-helptext>
+                        </div>
                     </div>
+                    <builder_platform_interaction-screen-property-field
+                        class="slds-m-top_xx-small"
+                        if:true={showPauseConfirmationMessageEditor}
+                        name="pausedText"
+                        label={labels.pauseConfirmationMessage}
+                        type="rich_string"
+                        value={screen.pausedText}
+                        required="true"
+                    >
+                    </builder_platform_interaction-screen-property-field>
                 </div>
             </lightning-accordion-section>
         </lightning-accordion>
