@@ -8,6 +8,7 @@
             active-section-name={openSections}
         >
             <lightning-accordion-section name="errorDetails" label={labels.errorDetailsTitle}>
+                <div class="slds-var-p-bottom_medium">{labels.flowErrorScreenHint}</div>
                 <div class="stacktrace">{bodyTextTwo}</div>
             </lightning-accordion-section>
         </lightning-accordion>
