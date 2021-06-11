@@ -222,10 +222,12 @@ const closeActionCallback = (panel, attr) => {
     hidePopover();
     clearExpressionValidator(panel);
     panel.close();
-    if (attr.bodyComponent.attr.mode === 'addelement') {
-        attr.moveFocusOnCloseCallback(attr.insertInfo);
-    } else if (attr.bodyComponent.attr.mode === 'editelement') {
-        attr.moveFocusOnCloseCallback(attr.bodyComponent.attr.node.guid);
+    if (attr.isAutoLayoutCanvas) {
+        if (attr.bodyComponent.attr.mode === 'addelement') {
+            attr.moveFocusOnCloseCallback(attr.insertInfo);
+        } else if (attr.bodyComponent.attr.mode === 'editelement') {
+            attr.moveFocusOnCloseCallback(attr.bodyComponent.attr.node.guid);
+        }
     }
 };
 
@@ -335,6 +337,7 @@ export const getPropertyEditorConfig = (mode, attributes) => {
         newResourceCallback = attributes.newResourceCallback,
         moveFocusOnCloseCallback = attributes.moveFocusOnCloseCallback,
         insertInfo = attributes.insertInfo,
+        isAutoLayoutCanvas = attributes.isAutoLayoutCanvas,
         node = attributes.node,
         elementType = attributes.node.elementType,
         elementConfig = getConfigForElement(attributes.node),
@@ -356,6 +359,7 @@ export const getPropertyEditorConfig = (mode, attributes) => {
         newResourceCallback,
         moveFocusOnCloseCallback,
         insertInfo,
+        isAutoLayoutCanvas,
         bodyComponent: {
             desc,
             className,

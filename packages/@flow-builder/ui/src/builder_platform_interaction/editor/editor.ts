@@ -1770,7 +1770,8 @@ export default class Editor extends LightningElement {
                     newResourceCallback,
                     processType,
                     moveFocusOnCloseCallback,
-                    insertInfo: alcInsertAt
+                    insertInfo: alcInsertAt,
+                    isAutoLayoutCanvas: this.properties.isAutoLayoutCanvas
                 };
             });
         }
@@ -2233,7 +2234,8 @@ export default class Editor extends LightningElement {
                     node,
                     newResourceCallback,
                     processType,
-                    moveFocusOnCloseCallback
+                    moveFocusOnCloseCallback,
+                    isAutoLayoutCanvas: this.properties.isAutoLayoutCanvas
                 };
             }, forceModal);
             if (element && element.isCanvasElement && !this.properties.isAutoLayoutCanvas) {
