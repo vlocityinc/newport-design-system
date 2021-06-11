@@ -1,4 +1,4 @@
-import { FlowModel, Guid, HighlightInfo } from './model';
+import { FlowModel, Guid, HighlightInfo, ConnectionSource } from './model';
 import {
     addElement,
     deleteElement,
@@ -8,7 +8,6 @@ import {
     initFlowModel,
     addFault,
     updateChildren,
-    InsertAt,
     createGoToConnection,
     deleteGoToConnection,
     decorateElements,
@@ -64,11 +63,11 @@ export function initAction(startElementGuid: Guid, endElementGuid: Guid) {
  *
  * @param elementGuid - The guid of the element to add
  * @param nodeType  - The node type for the element
- * @param insertAt - The insertAt location
+ * @param source - The connection source
  * @returns An AddElement action
  */
-export function addElementAction(elementGuid: Guid, nodeType: NodeType, insertAt: InsertAt) {
-    return createPayloadAction(<const>ActionType.AddElement, { elementGuid, nodeType, insertAt });
+export function addElementAction(elementGuid: Guid, nodeType: NodeType, source: ConnectionSource) {
+    return createPayloadAction(<const>ActionType.AddElement, { elementGuid, nodeType, source });
 }
 
 /**
@@ -96,12 +95,12 @@ export function deleteFaultAction(elementGuid: Guid) {
  * Creates a ConnectToElement action.
  * To break a connection, use addElement with an End element.
  *
- * @param fromInsertAt - The guid of the end element to delete
+ * @param source - The connection source
  * @param toElementGuid - The guid of the element to reconnect
  * @returns A ConnectToElement action
  */
-export function connectToElementAction(fromInsertAt: InsertAt, toElementGuid: Guid) {
-    return createPayloadAction(<const>ActionType.ConnectToElement, { fromInsertAt, toElementGuid });
+export function connectToElementAction(source: ConnectionSource, toElementGuid: Guid) {
+    return createPayloadAction(<const>ActionType.ConnectToElement, { source, toElementGuid });
 }
 
 /**
@@ -225,8 +224,8 @@ function reducer(config: ElementService, flowModel: Readonly<FlowModel>, action:
             return initFlowModel(nextFlowModel, startElementGuid, endElementGuid);
         }
         case ActionType.AddElement: {
-            const { elementGuid, nodeType, insertAt } = action.payload;
-            return addElement(nextFlowModel, elementGuid, nodeType, insertAt);
+            const { elementGuid, nodeType, source } = action.payload;
+            return addElement(nextFlowModel, elementGuid, nodeType, source);
         }
         case ActionType.DeleteElement: {
             const { elementGuid, childIndexToKeep } = action.payload;
@@ -239,8 +238,8 @@ function reducer(config: ElementService, flowModel: Readonly<FlowModel>, action:
             return deleteFault(config, nextFlowModel, elementGuid);
         }
         case ActionType.ConnectToElement: {
-            const { fromInsertAt, toElementGuid } = action.payload;
-            return connectToElement(config, nextFlowModel, fromInsertAt, toElementGuid);
+            const { source, toElementGuid } = action.payload;
+            return connectToElement(config, nextFlowModel, source, toElementGuid);
         }
         case ActionType.CreateGoToConnection: {
             const { sourceGuid: guid, sourceBranchIndex: childIndex, targetGuid, isReroute } = action.payload;

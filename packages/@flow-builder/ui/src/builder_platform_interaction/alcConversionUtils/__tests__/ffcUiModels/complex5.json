@@ -181,9 +181,9 @@
             "name": ""
         },
         "3a80a441-2059-485e-be98-d7bb44bf137e": {
-            "alcInsertAt": {
+            "alcConnectionSource": {
                 "childIndex": 1,
-                "parent": "97b070b5-0657-47ee-bb95-800405a7bcd0"
+                "guid": "97b070b5-0657-47ee-bb95-800405a7bcd0"
             },
             "assignNextValueToReference": null,
             "assignNextValueToReferenceIndex": "de4be497-9351-43cc-bb15-ad2399e2f039",
@@ -506,9 +506,9 @@
             "name": ""
         },
         "d9974434-9afd-4efb-aa8b-4583e830a125": {
-            "alcInsertAt": {
+            "alcConnectionSource": {
                 "childIndex": 0,
-                "parent": "a0506ab1-02eb-4e4b-af72-15134f5946cc"
+                "guid": "a0506ab1-02eb-4e4b-af72-15134f5946cc"
             },
             "assignNextValueToReference": null,
             "assignNextValueToReferenceIndex": "55221590-85c5-4982-a56e-3c8542a8ecd4",

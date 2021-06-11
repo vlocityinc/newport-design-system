@@ -1719,18 +1719,18 @@ export default class Editor extends LightningElement {
                 parent,
                 designateFocus,
 
-                // TODO: we are passing alcInsertAt information here, but ideally we should remove it and expose
+                // TODO: we are passing alcConnectionSource information here, but ideally we should remove it and expose
                 // a method that creates an element and returns a promise. Then that method can be called the
-                // @flow-builder/auto-layout-canvas-ui code, which can then take care of insertAt stuff.
-                alcInsertAt
+                // @flow-builder/auto-layout-canvas-ui code, which can then take care of connection source stuff.
+                alcConnectionSource
             } = event.detail;
 
             // If displaying in a modal then the element is added at the end via nodeUpdate.
             // In a panel, the element is added upon opening and nodeUpdate updates
             const nodeUpdate = this.usePanelForPropertyEditor
                 ? this.deMutateAndUpdateNodeCollection
-                : // creating a closure here to pass thru alcInsertAt to deMutateAndAddNodeCollection when it is called
-                  (node, parentGuid) => this.deMutateAndAddNodeCollection(node, parentGuid, alcInsertAt);
+                : // creating a closure here to pass thru alcConnectionSource to deMutateAndAddNodeCollection when it is called
+                  (node, parentGuid) => this.deMutateAndAddNodeCollection(node, parentGuid, alcConnectionSource);
             const moveFocusOnCloseCallback = this.moveFocusToConnector;
             const newResourceCallback = this.newResourceCallback;
             const processType = this.properties.processType;
@@ -1739,7 +1739,7 @@ export default class Editor extends LightningElement {
             if (elementType === ELEMENT_TYPE.END_ELEMENT) {
                 const endElement = createEndElement();
 
-                this.dispatchAddElement({ ...endElement, alcInsertAt });
+                this.dispatchAddElement({ ...endElement, alcConnectionSource });
                 return;
             }
 
@@ -1760,7 +1760,7 @@ export default class Editor extends LightningElement {
                 // For a panel, the element is created upon opening the property editor
                 // the parent guid is also passed in if a child element is being created
                 if (this.usePanelForPropertyEditor) {
-                    await this.deMutateAndAddNodeCollection(node, parent, alcInsertAt);
+                    await this.deMutateAndAddNodeCollection(node, parent, alcConnectionSource);
                 }
 
                 return {
@@ -1770,7 +1770,7 @@ export default class Editor extends LightningElement {
                     newResourceCallback,
                     processType,
                     moveFocusOnCloseCallback,
-                    insertInfo: alcInsertAt,
+                    insertInfo: alcConnectionSource,
                     isAutoLayoutCanvas: this.properties.isAutoLayoutCanvas
                 };
             });
@@ -2349,9 +2349,9 @@ export default class Editor extends LightningElement {
      * @param node The element to add
      * @param parentGuid Needed when adding a non-canvas child element (StageStep, Outcome, etc...)
      * directly from the canvas so we know where to add it
-     * @param alcInsertAt
+     * @param alcConnectionSource
      */
-    deMutateAndAddNodeCollection = (node: UI.Element, parentGuid: UI.Guid, alcInsertAt: any) => {
+    deMutateAndAddNodeCollection = (node: UI.Element, parentGuid: UI.Guid, alcConnectionSource: any) => {
         // TODO: This looks almost exactly like deMutateAndUpdateNodeCollection. Maybe we should
         // pass the node collection modification mode (CREATE, UPDATE, etc) and switch the store
         // action based on that.
@@ -2372,8 +2372,8 @@ export default class Editor extends LightningElement {
             } as NodeWithParent;
         }
 
-        if (alcInsertAt) {
-            payload.alcInsertAt = alcInsertAt;
+        if (alcConnectionSource) {
+            payload.alcConnectionSource = alcConnectionSource;
         }
         this.dispatchAddElement(payload);
         this._isAddingResourceViaLeftPanel = false;

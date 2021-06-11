@@ -173,9 +173,9 @@
             "name": ""
         },
         "42973d40-2b0e-4d84-abe4-0bcc216f3ad5": {
-            "alcInsertAt": {
+            "alcConnectionSource": {
                 "childIndex": 0,
-                "parent": "36ce28e6-d7fd-4429-884c-2b777d0aaa27"
+                "guid": "36ce28e6-d7fd-4429-884c-2b777d0aaa27"
             },
             "assignNextValueToReference": null,
             "assignNextValueToReferenceIndex": "949f9c47-693d-451e-9406-70b1b93f9ddd",

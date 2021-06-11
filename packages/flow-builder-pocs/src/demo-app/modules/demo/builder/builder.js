@@ -116,7 +116,7 @@ function addOutcome(elementGuid) {
     };
 
     canvasElement.childReferences = [availableConnection, ...canvasElement.childReferences];
-    debugger;
+
     const payload = {
         elementType: 'WAIT_WITH_MODIFIED_AND_DELETED_WAIT_EVENTS',
         canvasElement,
@@ -129,7 +129,7 @@ function addOutcome(elementGuid) {
 
 function translateEventToAction(event) {
     const { type } = event;
-    const { elementType, prev, next, parent, childIndex, alcInsertAt } = event.detail;
+    const { elementType, prev, next, parent, childIndex, alcConnectionSource } = event.detail;
 
     let element;
 
@@ -156,7 +156,7 @@ function translateEventToAction(event) {
 
                 if (elementType === ELEMENT_TYPE.WAIT) {
                     const { canvasElement } = element;
-                    element.alcInsertAt = alcInsertAt;
+                    element.alcConnectionSource = alcConnectionSource;
                     storeInstance.dispatch(addElement(element));
                     addOutcome(canvasElement.guid);
                     return null;
@@ -258,12 +258,12 @@ export default class Builder extends LightningElement {
 
     handleAddElement(addEvent) {
         const payload = translateEventToAction(addEvent);
-        const { alcInsertAt, elementType } = addEvent.detail;
+        const { alcConnectionSource, elementType } = addEvent.detail;
 
         if (payload != null) {
-            payload.alcInsertAt = alcInsertAt;
-            if (elementType === 'RecordDelete' && alcInsertAt.parent) {
-                removeOutcome(alcInsertAt.parent, alcInsertAt.childIndex);
+            payload.alcConnectionSource = alcConnectionSource;
+            if (elementType === 'RecordDelete' && alcConnectionSource.childIndex) {
+                removeOutcome(alcConnectionSource.guid, alcConnectionSource.childIndex);
             } else {
                 storeInstance.dispatch(addElement(payload));
             }
@@ -411,8 +411,8 @@ export default class Builder extends LightningElement {
     };
 
     handleAlcCreateConnection = (event) => {
-        const { insertAt, targetGuid } = event.detail;
-        storeInstance.dispatch(alcCreateConnection({ insertAt, targetGuid }));
+        const { source, targetGuid } = event.detail;
+        storeInstance.dispatch(alcCreateConnection({ source, targetGuid }));
     };
 
     handleAlcSelection = (event) => {

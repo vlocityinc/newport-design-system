@@ -44,10 +44,10 @@ describe('reducer', () => {
             const flowModel = {};
             const elementGuid = 'add-element-guid';
             const nodeType = NodeType.DEFAULT;
-            const insertAt = { prev: 'prev-element' };
-            const action = actions.addElementAction(elementGuid, nodeType, insertAt);
+            const source = { guid: 'prev-element' };
+            const action = actions.addElementAction(elementGuid, nodeType, source);
             configuredReducer(flowModel, action);
-            expect(addElement).toHaveBeenLastCalledWith(flowModel, elementGuid, nodeType, insertAt);
+            expect(addElement).toHaveBeenLastCalledWith(flowModel, elementGuid, nodeType, source);
         });
     });
 
@@ -85,10 +85,10 @@ describe('reducer', () => {
         it('delegates to connectToElement', () => {
             const flowModel = {};
             const targetGuid = 'target-guid';
-            const fromInsertAt = { prev: 'prev-element' };
-            const action = actions.connectToElementAction(fromInsertAt, targetGuid);
+            const source = { guid: 'prev-element' };
+            const action = actions.connectToElementAction(source, targetGuid);
             configuredReducer(flowModel, action);
-            expect(connectToElement).toHaveBeenLastCalledWith(elementService, flowModel, fromInsertAt, targetGuid);
+            expect(connectToElement).toHaveBeenLastCalledWith(elementService, flowModel, source, targetGuid);
         });
     });
 

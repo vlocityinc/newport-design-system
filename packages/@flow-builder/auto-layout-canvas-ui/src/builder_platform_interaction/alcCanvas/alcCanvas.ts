@@ -24,7 +24,8 @@ import {
     isBranchTerminal,
     hasGoToOnNext,
     shouldDeleteGoToOnNext,
-    ElementMetadata
+    ElementMetadata,
+    ConnectionSource
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import {
     ZOOM_ACTION,
@@ -830,21 +831,18 @@ export default class AlcCanvas extends LightningElement {
                 );
             } else if (this._mergeableGuids.includes(event.detail.canvasElementGUID)) {
                 let sourceElement;
-                let insertAt;
+                let source: ConnectionSource;
                 if (this._isReroutingGoto) {
-                    // When a GoTo is present we need to use _goToSourceBranchIndex to generate insertAt
+                    // When a GoTo is present we need to use _goToSourceBranchIndex to generate the source
                     sourceElement = this.flowModel[this._goToSourceGuid];
-                    insertAt =
-                        this._goToSourceBranchIndex != null
-                            ? { parent: sourceElement.guid, childIndex: this._goToSourceBranchIndex }
-                            : { prev: sourceElement.guid };
+                    source = { guid: sourceElement.guid, childIndex: this._goToSourceBranchIndex };
                 } else {
                     sourceElement = this.flowModel[this._currentTargetGuid!];
                     const { prev, childIndex, parent } = sourceElement;
-                    insertAt = parent ? { parent, childIndex } : { prev };
+                    source = { guid: parent || prev, childIndex };
                 }
 
-                this.dispatchEvent(new AlcCreateConnectionEvent(insertAt, event.detail.canvasElementGUID));
+                this.dispatchEvent(new AlcCreateConnectionEvent(source, event.detail.canvasElementGUID));
             } else if (this._firstMergeableNonNullNext === event.detail.canvasElementGUID) {
                 this.dispatchEvent(
                     new DeleteElementEvent(

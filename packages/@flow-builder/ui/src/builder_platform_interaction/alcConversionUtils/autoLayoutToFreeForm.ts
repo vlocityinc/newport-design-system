@@ -189,18 +189,19 @@ function calculateElementPositionsForBranch(
 /**
  * For a branch head connector, return the connector type, and the childSource if any.
  *
+ * @param elements - The elements
  * @param parentElement - The parent element
  * @param childIndex - The child index
  * @returns the connectorType and childSource for the branch
  */
-function getBranchHeadConnectorInfo(parentElement: ParentNodeModel, childIndex: number) {
+function getBranchHeadConnectorInfo(elements: UI.Elements, parentElement: ParentNodeModel, childIndex: number) {
     let connectionType;
     let childSource;
 
     if (parentElement.nodeType === NodeType.LOOP) {
         connectionType = CONNECTOR_TYPE.LOOP_NEXT;
     } else {
-        const suffix = getSuffixForGoToConnection(parentElement, childIndex);
+        const suffix = getSuffixForGoToConnection(elements as FlowModel, { guid: parentElement.guid, childIndex });
 
         switch (suffix) {
             case GOTO_CONNECTION_SUFFIX.FAULT:
@@ -224,27 +225,26 @@ function getBranchHeadConnectorInfo(parentElement: ParentNodeModel, childIndex: 
 /**
  * Creates the connector for a branch head element
  *
- * @param elements - The flow elements
+ * @param flowModel - The flow model
  * @param parentElement - The parent element
  * @param childIndex - The index of the child in its parent
- * @param TargetInfo - Where to go when the branch head is null
- * @param targetInfo
+ * @param targetInfo - Where to go when the branch head is null
  * @returns a connector for the branch head
  */
 function createConnectorForBranchHead(
-    elements: UI.Elements,
+    flowModel: FlowModel,
     parentElement: ParentNodeModel,
     childIndex: number,
     targetInfo: TargetInfo
 ): UI.Connector {
     const source = parentElement.guid;
-    const { childSource, connectionType } = getBranchHeadConnectorInfo(parentElement, childIndex);
+    const { childSource, connectionType } = getBranchHeadConnectorInfo(flowModel, parentElement, childIndex);
 
-    const connector = createNewConnector(elements, source, targetInfo.guid, connectionType, targetInfo.isGoTo);
+    const connector = createNewConnector(flowModel, source, targetInfo.guid, connectionType, targetInfo.isGoTo);
     if (childSource != null) {
         Object.assign(connector, {
             childSource,
-            label: elements[childSource].label || null
+            label: flowModel[childSource].label || null
         });
     }
 

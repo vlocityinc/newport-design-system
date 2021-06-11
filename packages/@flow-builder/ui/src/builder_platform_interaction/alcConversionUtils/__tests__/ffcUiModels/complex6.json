@@ -170,9 +170,8 @@
             "triggerType": "None"
         },
         "599a8757-bd29-4a42-868f-5e2c7bc255f7": {
-            "alcInsertAt": {
-                "next": "96c55b59-8644-4676-b36f-37076af439f1",
-                "prev": "55e51819-e668-43c5-a6bb-bdb7730664d1"
+            "alcConnectionSource": {
+                "guid": "55e51819-e668-43c5-a6bb-bdb7730664d1"
             },
             "assignNextValueToReference": null,
             "assignNextValueToReferenceIndex": "c30e7a89-a25b-47bc-9578-2f89259a0981",
@@ -279,9 +278,9 @@
             "name": ""
         },
         "b92fe408-7a6a-4625-844c-3e4dbf14f437": {
-            "alcInsertAt": {
+            "alcConnectionSource": {
                 "childIndex": 1,
-                "parent": "8ed5b518-a99f-4e2e-9373-3f6b6ad1f172"
+                "guid": "8ed5b518-a99f-4e2e-9373-3f6b6ad1f172"
             },
             "assignNextValueToReference": null,
             "assignNextValueToReferenceIndex": "a3ef5224-36aa-4da8-a369-b39a45c06a4f",

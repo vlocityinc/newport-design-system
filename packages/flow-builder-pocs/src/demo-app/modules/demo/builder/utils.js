@@ -94,29 +94,28 @@ export const randomElement = (store, filter = () => true) => {
  * after the specified element.
  *
  * @param element - The element used as the insertion point
- * @return an alcInsertAt object
+ * @return an random ConnectionSource
  */
-export const randomInsertAt = (element) => {
+export const randomConnectionSource = (element) => {
     const { next, prev, children, guid, elementType, parent, childIndex } = element;
 
-    let alcInsertAt;
+    let alcConnectionSource;
 
     if (elementType === ELEMENT_TYPE.END_ELEMENT) {
         // since we have an end element, we must insert before it
         if (prev) {
-            alcInsertAt = {
-                prev,
-                next: guid
+            alcConnectionSource = {
+                guid: prev
             };
         } else {
             // const parentElement = findParentElement(element);
             // if (parentElement.fault) {
-            alcInsertAt = {
-                parent,
+            alcConnectionSource = {
+                guid: parent,
                 childIndex
             };
             // } else {
-            //     alcInsertAt = {
+            //     alcConnectionSource = {
             //         parent,
             //         childIndex
             //     };
@@ -126,25 +125,23 @@ export const randomInsertAt = (element) => {
         // if the elements has children, insert as a child
         const index = randomIndex(children, next != null ? 1 : 0);
         if (index === children.length) {
-            alcInsertAt = {
-                prev: guid,
-                next
+            alcConnectionSource = {
+                guid
             };
         } else {
-            alcInsertAt = {
-                parent: guid,
+            alcConnectionSource = {
+                guid,
                 childIndex: Math.floor(Math.random() * children.length)
             };
         }
     } else {
         // the default: insert after the element
-        alcInsertAt = {
-            prev: guid,
-            next
+        alcConnectionSource = {
+            guid
         };
     }
 
-    return alcInsertAt;
+    return alcConnectionSource;
 };
 
 // supported element types to add
@@ -311,8 +308,8 @@ function randomDeleteOrReconnectEvent(storeInstance) {
         const targetGuid = selectableGuids[randomIndex(selectableGuids)];
 
         const { prev, childIndex, parent } = element;
-        const insertAt = parent ? { parent, childIndex } : { prev };
-        return new AlcCreateConnectionEvent(insertAt, targetGuid);
+        const source = childIndex != null ? { guid: parent, childIndex } : { guid: prev };
+        return new AlcCreateConnectionEvent(source, targetGuid);
     }
     const deleteIndex = randomDeleteBranchIndex(element);
     return new DeleteElementEvent([element.guid], element.elementType, deleteIndex);
@@ -325,9 +322,9 @@ function getChildAt(elements, parent, childIndex) {
     return elements[parent].children[childIndex];
 }
 
-function isInLoop(elements, alcInsertAt) {
-    const { parent, prev } = alcInsertAt;
-    let parentElement = elements[parent] || elements[prev];
+function isInLoop(elements, alcConnectionSource) {
+    const { guid } = alcConnectionSource;
+    let parentElement = elements[guid];
 
     while (parentElement != null) {
         if (parentElement.elementType === ELEMENT_TYPE.LOOP) {
@@ -341,22 +338,22 @@ function isInLoop(elements, alcInsertAt) {
 function randomAddEvent(storeInstance) {
     const { elements } = storeInstance.getCurrentState();
 
-    const alcInsertAt = randomInsertAt(randomElement(storeInstance));
+    const alcConnectionSource = randomConnectionSource(randomElement(storeInstance));
     const detail = {
         elementType: randomElementType(),
         locationX: 0,
         locationY: 0,
-        alcInsertAt
+        alcConnectionSource
     };
 
     if (detail.elementType === ELEMENT_TYPE.END_ELEMENT) {
-        if (isInLoop(elements, alcInsertAt)) {
+        if (isInLoop(elements, alcConnectionSource)) {
             return null;
         }
-        const { next, parent, childIndex } = alcInsertAt;
-        if (next != null) {
+        const { guid, childIndex } = alcConnectionSource;
+        if (childIndex == null) {
             return null;
-        } else if (parent && getChildAt(elements, parent, childIndex) != null) {
+        } else if (guid && getChildAt(elements, guid, childIndex) != null) {
             return null;
         }
     }

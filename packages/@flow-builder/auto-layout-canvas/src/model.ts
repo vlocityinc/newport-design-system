@@ -20,8 +20,14 @@ export interface HighlightInfo {
     mergeBranchIndexesToHighlight?: Array<number>;
 }
 
+/**
+ * Represents the source of a connection
+ */
 export interface ConnectionSource {
+    // the guid of the source element
     guid: Guid;
+
+    // the child index of the source element for a branch head, null otherwise
     childIndex?: number | null;
 }
 

@@ -105,15 +105,15 @@ describe('alc-elements-reducer', () => {
         it('dispatches a ConnectToElement action', () => {
             const state = {};
 
-            const insertAt = { prev: 'source-guid' };
+            const source = { guid: 'source-guid' };
             const targetGuid = 'target-guid';
 
             alcElementsReducer(state, {
                 type: ALC_CREATE_CONNECTION,
-                payload: { insertAt, targetGuid }
+                payload: { source, targetGuid }
             });
 
-            const connectToElementAction = actions.connectToElementAction(insertAt, targetGuid);
+            const connectToElementAction = actions.connectToElementAction(source, targetGuid);
             expect(reducer()).toHaveBeenLastCalledWith(state, connectToElementAction);
         });
     });
@@ -122,14 +122,14 @@ describe('alc-elements-reducer', () => {
         it('dispatches an AddElement action', () => {
             const state = {};
 
-            const alcInsertAt = {
-                prev: 'prev-element'
+            const alcConnectionSource = {
+                guid: 'prev-element'
             };
 
             const newElement = {
                 guid: 'new-element-guid',
                 elementType: 'some-element-type',
-                alcInsertAt
+                alcConnectionSource
             };
 
             alcElementsReducer(state, {
@@ -138,12 +138,12 @@ describe('alc-elements-reducer', () => {
             });
 
             const nodeType = 'Default';
-            const addElementAction = actions.addElementAction(newElement.guid, nodeType, alcInsertAt);
+            const addElementAction = actions.addElementAction(newElement.guid, nodeType, alcConnectionSource);
             expect(reducer()).toHaveBeenLastCalledWith({ [newElement.guid]: newElement }, addElementAction);
         });
 
         it('initializes the children correctly', () => {
-            const alcInsertAt = {
+            const alcConnectionSource = {
                 prev: 'prev-element'
             };
 
@@ -168,7 +168,7 @@ describe('alc-elements-reducer', () => {
                 type: ADD_CANVAS_ELEMENT,
                 payload: {
                     canvasElement,
-                    alcInsertAt
+                    alcConnectionSource
                 }
             });
 
@@ -178,7 +178,7 @@ describe('alc-elements-reducer', () => {
 
     describe('When ADD_SCREEN_WITH_FIELDS', () => {
         it('children should be set to null', () => {
-            const alcInsertAt = {
+            const alcConnectionSource = {
                 prev: 'prev-element'
             };
 
@@ -203,7 +203,7 @@ describe('alc-elements-reducer', () => {
                 type: ADD_SCREEN_WITH_FIELDS,
                 payload: {
                     canvasElement,
-                    alcInsertAt
+                    alcConnectionSource
                 }
             });
 

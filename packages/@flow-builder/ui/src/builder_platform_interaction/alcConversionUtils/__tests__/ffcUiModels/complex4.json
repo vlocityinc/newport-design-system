@@ -160,9 +160,9 @@
         "0d7a8b1c-b269-4e0f-a975-f724f622613f": {
             "actionName": "",
             "actionType": "",
-            "alcInsertAt": {
+            "alcConnectionSource": {
                 "childIndex": 0,
-                "parent": "38ed6c1e-d122-4fa6-8a7f-bf3ba6b55bc5"
+                "guid": "38ed6c1e-d122-4fa6-8a7f-bf3ba6b55bc5"
             },
             "availableConnections": [
                 {
@@ -359,9 +359,9 @@
             }
         },
         "38ed6c1e-d122-4fa6-8a7f-bf3ba6b55bc5": {
-            "alcInsertAt": {
+            "alcConnectionSource": {
                 "childIndex": 1,
-                "parent": "12d50f4c-db26-43be-842f-a7a4829aacdc"
+                "guid": "12d50f4c-db26-43be-842f-a7a4829aacdc"
             },
             "assignNextValueToReference": null,
             "assignNextValueToReferenceIndex": "39b704bf-8093-4842-aeaf-059abf89fbb9",
@@ -388,9 +388,9 @@
             "storeOutputAutomatically": true
         },
         "55e7ca21-909b-4f1b-9606-c0c02744abc4": {
-            "alcInsertAt": {
+            "alcConnectionSource": {
                 "childIndex": 0,
-                "parent": "38ed6c1e-d122-4fa6-8a7f-bf3ba6b55bc5"
+                "guid": "38ed6c1e-d122-4fa6-8a7f-bf3ba6b55bc5"
             },
             "assignNextValueToReference": null,
             "assignNextValueToReferenceIndex": "84ab1e0b-9448-49f9-b54f-e6be422ff1c0",
@@ -690,9 +690,9 @@
             "showHeader": true
         },
         "e9ac10b0-0649-4ce5-941b-262dcd328193": {
-            "alcInsertAt": {
+            "alcConnectionSource": {
                 "childIndex": 0,
-                "parent": "55e7ca21-909b-4f1b-9606-c0c02744abc4"
+                "guid": "55e7ca21-909b-4f1b-9606-c0c02744abc4"
             },
             "assignNextValueToReference": null,
             "assignNextValueToReferenceIndex": "5f912ae6-0f19-4389-bf1d-69f69a63c793",

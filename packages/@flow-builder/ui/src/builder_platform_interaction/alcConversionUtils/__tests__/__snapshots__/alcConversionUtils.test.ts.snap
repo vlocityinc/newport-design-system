@@ -7140,9 +7140,9 @@ Object {
       "prev": "NULL",
     },
     "42973d40-2b0e-4d84-abe4-0bcc216f3ad5": Object {
-      "alcInsertAt": Object {
+      "alcConnectionSource": Object {
         "childIndex": 0,
-        "parent": "36ce28e6-d7fd-4429-884c-2b777d0aaa27",
+        "guid": "36ce28e6-d7fd-4429-884c-2b777d0aaa27",
       },
       "assignNextValueToReference": "NULL",
       "assignNextValueToReferenceIndex": "949f9c47-693d-451e-9406-70b1b93f9ddd",
@@ -7365,9 +7365,9 @@ Object {
     "0d7a8b1c-b269-4e0f-a975-f724f622613f": Object {
       "actionName": "",
       "actionType": "",
-      "alcInsertAt": Object {
+      "alcConnectionSource": Object {
         "childIndex": 0,
-        "parent": "38ed6c1e-d122-4fa6-8a7f-bf3ba6b55bc5",
+        "guid": "38ed6c1e-d122-4fa6-8a7f-bf3ba6b55bc5",
       },
       "availableConnections": Array [
         Object {
@@ -7581,9 +7581,9 @@ Object {
       },
     },
     "38ed6c1e-d122-4fa6-8a7f-bf3ba6b55bc5": Object {
-      "alcInsertAt": Object {
+      "alcConnectionSource": Object {
         "childIndex": 1,
-        "parent": "12d50f4c-db26-43be-842f-a7a4829aacdc",
+        "guid": "12d50f4c-db26-43be-842f-a7a4829aacdc",
       },
       "assignNextValueToReference": "NULL",
       "assignNextValueToReferenceIndex": "39b704bf-8093-4842-aeaf-059abf89fbb9",
@@ -7619,9 +7619,9 @@ Object {
       "storeOutputAutomatically": true,
     },
     "55e7ca21-909b-4f1b-9606-c0c02744abc4": Object {
-      "alcInsertAt": Object {
+      "alcConnectionSource": Object {
         "childIndex": 0,
-        "parent": "38ed6c1e-d122-4fa6-8a7f-bf3ba6b55bc5",
+        "guid": "38ed6c1e-d122-4fa6-8a7f-bf3ba6b55bc5",
       },
       "assignNextValueToReference": "NULL",
       "assignNextValueToReferenceIndex": "84ab1e0b-9448-49f9-b54f-e6be422ff1c0",
@@ -7944,9 +7944,9 @@ Object {
       "showHeader": true,
     },
     "e9ac10b0-0649-4ce5-941b-262dcd328193": Object {
-      "alcInsertAt": Object {
+      "alcConnectionSource": Object {
         "childIndex": 0,
-        "parent": "55e7ca21-909b-4f1b-9606-c0c02744abc4",
+        "guid": "55e7ca21-909b-4f1b-9606-c0c02744abc4",
       },
       "assignNextValueToReference": "NULL",
       "assignNextValueToReferenceIndex": "5f912ae6-0f19-4389-bf1d-69f69a63c793",
@@ -8098,9 +8098,9 @@ Object {
       "prev": "8deb2092-a995-4ac6-8725-aa8ae3192859",
     },
     "3a80a441-2059-485e-be98-d7bb44bf137e": Object {
-      "alcInsertAt": Object {
+      "alcConnectionSource": Object {
         "childIndex": 1,
-        "parent": "97b070b5-0657-47ee-bb95-800405a7bcd0",
+        "guid": "97b070b5-0657-47ee-bb95-800405a7bcd0",
       },
       "assignNextValueToReference": "NULL",
       "assignNextValueToReferenceIndex": "de4be497-9351-43cc-bb15-ad2399e2f039",
@@ -8459,9 +8459,9 @@ Object {
       "name": "",
     },
     "d9974434-9afd-4efb-aa8b-4583e830a125": Object {
-      "alcInsertAt": Object {
+      "alcConnectionSource": Object {
         "childIndex": 0,
-        "parent": "a0506ab1-02eb-4e4b-af72-15134f5946cc",
+        "guid": "a0506ab1-02eb-4e4b-af72-15134f5946cc",
       },
       "assignNextValueToReference": "NULL",
       "assignNextValueToReferenceIndex": "55221590-85c5-4982-a56e-3c8542a8ecd4",
@@ -8668,9 +8668,8 @@ Object {
       "triggerType": "None",
     },
     "599a8757-bd29-4a42-868f-5e2c7bc255f7": Object {
-      "alcInsertAt": Object {
-        "next": "96c55b59-8644-4676-b36f-37076af439f1",
-        "prev": "55e51819-e668-43c5-a6bb-bdb7730664d1",
+      "alcConnectionSource": Object {
+        "guid": "55e51819-e668-43c5-a6bb-bdb7730664d1",
       },
       "assignNextValueToReference": "NULL",
       "assignNextValueToReferenceIndex": "c30e7a89-a25b-47bc-9578-2f89259a0981",
@@ -8805,9 +8804,9 @@ Object {
       "prev": "NULL",
     },
     "b92fe408-7a6a-4625-844c-3e4dbf14f437": Object {
-      "alcInsertAt": Object {
+      "alcConnectionSource": Object {
         "childIndex": 1,
-        "parent": "8ed5b518-a99f-4e2e-9373-3f6b6ad1f172",
+        "guid": "8ed5b518-a99f-4e2e-9373-3f6b6ad1f172",
       },
       "assignNextValueToReference": "NULL",
       "assignNextValueToReferenceIndex": "a3ef5224-36aa-4da8-a369-b39a45c06a4f",

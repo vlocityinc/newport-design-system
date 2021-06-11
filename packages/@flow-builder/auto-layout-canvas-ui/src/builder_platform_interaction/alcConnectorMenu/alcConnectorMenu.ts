@@ -134,7 +134,7 @@ export default class AlcConnectorMenu extends Menu {
                 break;
             default: {
                 const { prev, parent, childIndex } = this;
-                const alcInsertAt = prev ? { prev } : { parent, childIndex };
+                const alcConnectionSource = { guid: prev || parent, childIndex };
 
                 this.dispatchEvent(
                     new AddElementEvent({
@@ -142,7 +142,7 @@ export default class AlcConnectorMenu extends Menu {
                         elementSubtype: currentTarget.getAttribute('data-sub-type')!,
                         locationX: 0,
                         locationY: 0,
-                        alcInsertAt
+                        alcConnectionSource
                     })
                 );
             }

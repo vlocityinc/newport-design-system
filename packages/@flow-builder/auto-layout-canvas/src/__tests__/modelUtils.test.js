@@ -50,10 +50,11 @@ import {
     getBranchIndexForGoToConnection,
     cleanUpIncomingGoTos,
     removeGoTosFromElement,
-    shouldDeleteGoToOnNext
+    shouldDeleteGoToOnNext,
+    getSuffixForGoToConnection
 } from '../modelUtils';
 
-import { FAULT_INDEX, START_IMMEDIATE_INDEX } from '../model';
+import { GOTO_CONNECTION_SUFFIX, FAULT_INDEX, START_IMMEDIATE_INDEX } from '../model';
 import NodeType from '../NodeType';
 
 /**
@@ -101,6 +102,36 @@ function createEndElement(elements, guid) {
 }
 
 describe('modelUtils', () => {
+    describe('getSuffixForGoToConnection', () => {
+        const elements = createFlow([BRANCH_ELEMENT_GUID]);
+
+        const branchElement = elements[BRANCH_ELEMENT_GUID];
+        branchElement.childReferences = [
+            {
+                childReference: 'o1'
+            }
+        ];
+        it('is null when no childIndex is in the connection source', () => {
+            expect(getSuffixForGoToConnection(elements, { guid: BRANCH_ELEMENT_GUID })).toBeNull();
+        });
+
+        it('is fault when childIndex is a fault', () => {
+            expect(getSuffixForGoToConnection(elements, { guid: BRANCH_ELEMENT_GUID, childIndex: FAULT_INDEX })).toBe(
+                GOTO_CONNECTION_SUFFIX.FAULT
+            );
+        });
+
+        it('is default when childIndex is the last branch', () => {
+            expect(getSuffixForGoToConnection(elements, { guid: BRANCH_ELEMENT_GUID, childIndex: 1 })).toBe(
+                GOTO_CONNECTION_SUFFIX.DEFAULT
+            );
+        });
+
+        it('is the childReference when childIndex is not the last branch', () => {
+            expect(getSuffixForGoToConnection(elements, { guid: BRANCH_ELEMENT_GUID, childIndex: 0 })).toBe('o1');
+        });
+    });
+
     describe('initFlowModel', () => {
         it('creates a root and links start and end', () => {
             const elements = {
@@ -124,7 +155,7 @@ describe('modelUtils', () => {
             createEndElement(elements, endGuid);
 
             addElement(elements, endGuid, NodeType.END, {
-                parent: 'branch-guid',
+                guid: 'branch-guid',
                 childIndex: 0
             });
             expect(elements).toMatchSnapshot();
@@ -139,7 +170,7 @@ describe('modelUtils', () => {
             createEndElement(elements, endGuid);
 
             addElement(elements, endGuid, NodeType.END, {
-                parent: 'branch-guid',
+                guid: 'branch-guid',
                 childIndex: 0
             });
             expect(elements).toMatchSnapshot();
@@ -154,7 +185,7 @@ describe('modelUtils', () => {
             createEndElement(elements, endGuid);
 
             addElement(elements, 'new-end-element-guid', NodeType.END, {
-                prev: 'branch-guid:0-head-guid'
+                guid: 'branch-guid:0-head-guid'
             });
             expect(elements).toMatchSnapshot();
         });
@@ -172,7 +203,7 @@ describe('modelUtils', () => {
             createEndElement(elements, endGuid);
 
             addElement(elements, 'new-end-element-guid', NodeType.END, {
-                parent: 'branch-guid',
+                guid: 'branch-guid',
                 childIndex: 1
             });
             expect(elements).toMatchSnapshot();
@@ -191,7 +222,7 @@ describe('modelUtils', () => {
             createEndElement(elements, endGuid);
 
             addElement(elements, 'new-end-element-guid', NodeType.END, {
-                parent: 'branch-guid:0-branch-guid',
+                guid: 'branch-guid:0-branch-guid',
                 childIndex: 1
             });
             expect(elements).toMatchSnapshot();
@@ -209,7 +240,7 @@ describe('modelUtils', () => {
             const { flowModel } = flowRenderContext;
             flowModel['new-screen-guid'] = newScreen;
             addElement(flowModel, 'new-screen-guid', NodeType.DEFAULT, {
-                prev: 'goto-source-guid'
+                guid: 'goto-source-guid'
             });
             expect(flowModel).toMatchSnapshot();
         });
@@ -226,7 +257,7 @@ describe('modelUtils', () => {
             const { flowModel } = flowRenderContext;
             flowModel['new-screen-guid'] = newScreen;
             addElement(flowModel, 'new-screen-guid', NodeType.DEFAULT, {
-                parent: 'branch-guid',
+                guid: 'branch-guid',
                 childIndex: 0
             });
             expect(flowModel).toMatchSnapshot();
@@ -244,7 +275,7 @@ describe('modelUtils', () => {
             const { flowModel } = flowRenderContext;
             flowModel['new-screen-guid'] = newScreen;
             addElement(flowModel, 'new-screen-guid', NodeType.DEFAULT, {
-                parent: 'branch-guid',
+                guid: 'branch-guid',
                 childIndex: FAULT_INDEX
             });
             expect(flowModel).toMatchSnapshot();
@@ -710,36 +741,36 @@ describe('modelUtils', () => {
             branchingElement.children = [null, ['head-guid'], ['head-guid', 'random-guid', END_ELEMENT_GUID]];
             const elements = createFlow([branchingElement]);
 
-            const insertAt = {
-                parent: 'branch-guid',
+            const source = {
+                guid: 'branch-guid',
                 childIndex: 0
             };
 
             expect(() => {
-                connectToElement(elementService(elements), elements, insertAt, BRANCH_ELEMENT.guid);
+                connectToElement(elementService(elements), elements, source, BRANCH_ELEMENT.guid);
             }).toThrowError();
         });
 
-        it('can only connect to an element from an insertAt followed by end element', () => {
+        it('can only connect to an element from a source followed by end element', () => {
             const branchingElement = { ...BRANCH_ELEMENT };
             branchingElement.children = [null, ['head-guid'], ['head-guid', 'random-guid', END_ELEMENT_GUID]];
             const elements = createFlow([branchingElement]);
 
-            let insertAt = {
-                parent: 'branch-guid',
+            let source = {
+                guid: 'branch-guid',
                 childIndex: 0
             };
 
             expect(() => {
-                connectToElement(elementService(elements), elements, insertAt, 'end-guid');
+                connectToElement(elementService(elements), elements, source, 'end-guid');
             }).toThrowError();
 
-            insertAt = {
-                prev: 'branch-guid:1-head-guid'
+            source = {
+                guid: 'branch-guid:1-head-guid'
             };
 
             expect(() => {
-                connectToElement(elementService(elements), elements, insertAt, 'end-guid');
+                connectToElement(elementService(elements), elements, source, 'end-guid');
             }).toThrowError();
         });
 
@@ -751,13 +782,13 @@ describe('modelUtils', () => {
             branchingElement.children = [[endElement1], ['head-guid', 'random-guid', endElement2]];
             const elements = createFlow([branchingElement]);
 
-            const insertAt = {
-                parent: 'branch-guid',
+            const source = {
+                guid: 'branch-guid',
                 childIndex: 0
             };
 
             expect(
-                connectToElement(elementService(elements), elements, insertAt, 'branch-guid:1-random-guid')
+                connectToElement(elementService(elements), elements, source, 'branch-guid:1-random-guid')
             ).toMatchSnapshot();
         });
 
@@ -766,11 +797,11 @@ describe('modelUtils', () => {
             branchingElement.children = [['head-guid', END_ELEMENT_GUID], ['head-guid', 'random-guid'], ['head-guid']];
             const elements = createFlow([branchingElement]);
 
-            const insertAt = {
-                prev: 'branch-guid:0-head-guid'
+            const source = {
+                guid: 'branch-guid:0-head-guid'
             };
 
-            expect(connectToElement(elementService(elements), elements, insertAt, 'end-guid')).toMatchSnapshot();
+            expect(connectToElement(elementService(elements), elements, source, 'end-guid')).toMatchSnapshot();
         });
     });
 
@@ -1093,15 +1124,15 @@ describe('modelUtils', () => {
 
             expect(newFlowModel).toMatchSnapshot();
 
-            const insertAt = {
-                parent: 'branch-guid',
+            const source = {
+                guid: 'branch-guid',
                 childIndex: 0
             };
 
             // reconnect with end of the right branch
 
             expect(
-                connectToElement(elementService(newFlowModel), newFlowModel, insertAt, 'branch-guid:1-end-guid')
+                connectToElement(elementService(newFlowModel), newFlowModel, source, 'branch-guid:1-end-guid')
             ).toMatchSnapshot();
         });
 

@@ -418,7 +418,7 @@ const flowWithFault = {
                 type: 'straight'
             },
             node: {
-                alcInsertAt: { prev: 'decision' },
+                alcConnectionSource: { guid: 'decision' },
                 assignRecordIdToReference: '',
                 assignRecordIdToReferenceIndex: '6b4d0784-4073-42fc-9941-d32af5b035ec',
                 availableConnections: [],

@@ -1,3 +1,5 @@
+import { ConnectionSource } from 'builder_platform_interaction/autoLayoutCanvas';
+
 /**
  * Used to open an empty property editor for the given element type
  */
@@ -10,8 +12,8 @@ interface AddElementEventDetail {
     actionType?: string;
     actionName?: string;
     parent?: string;
-    // insertion information for the alc when adding an element
-    alcInsertAt?: object;
+    // connection source information for the alc when adding an element
+    alcConnectionSource?: ConnectionSource;
     // used to designate focus to the property editor
     designateFocus?: boolean;
 }

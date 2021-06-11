@@ -48,7 +48,8 @@ export {
     getRootNode,
     canHaveChildren,
     getElementMetadata,
-    GOTO_CONNECTION_SUFFIX
+    GOTO_CONNECTION_SUFFIX,
+    ConnectionSource
 } from './model';
 
 export {
@@ -68,7 +69,6 @@ export {
     resolveBranchHead,
     isRoot,
     getTargetGuidsForReconnection,
-    InsertAt,
     createRootElement,
     hasGoTo,
     hasGoToOnNext,

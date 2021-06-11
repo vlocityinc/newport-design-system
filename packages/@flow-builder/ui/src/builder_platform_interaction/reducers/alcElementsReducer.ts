@@ -107,8 +107,8 @@ export default function alcElementsReducer(state: Readonly<UI.Elements>, action:
             break;
         }
         case ALC_CREATE_CONNECTION: {
-            const { insertAt, targetGuid } = action.payload;
-            const connectToElementAction = actions.connectToElementAction(insertAt, targetGuid);
+            const { source, targetGuid } = action.payload;
+            const connectToElementAction = actions.connectToElementAction(source, targetGuid);
             nextState = autoLayoutCanvasReducer(nextState, connectToElementAction);
             break;
         }
@@ -152,14 +152,14 @@ export default function alcElementsReducer(state: Readonly<UI.Elements>, action:
                 nextState[element.guid] = element;
             }
 
-            const insertAt = action.payload.alcInsertAt;
+            const source = action.payload.alcConnectionSource;
             const children = getChildren(element);
 
             if (children) {
                 nextState[element.guid].children = children;
             }
             const nodeType = metadata[element.elementType].type;
-            const alcAction = actions.addElementAction(element.guid, nodeType, insertAt);
+            const alcAction = actions.addElementAction(element.guid, nodeType, source);
             nextState = autoLayoutCanvasReducer(nextState, alcAction);
             break;
         }

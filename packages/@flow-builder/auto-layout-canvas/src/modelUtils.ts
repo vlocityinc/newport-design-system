@@ -17,13 +17,6 @@ import {
 import NodeType from './NodeType';
 
 /**
- * Type that represents a location where a node can be created: Either before an
- * existing node (prev), or as the child of a parent node (parent + childIndex)
- */
-// TODO: replace with ConnectionSource
-export type InsertAt = { prev: Guid } & { parent: Guid; childIndex: number };
-
-/**
  * Utils for the flow model
  */
 
@@ -54,30 +47,34 @@ export interface ElementService {
 /**
  * Returns the suffix for the GoTo connection being pushed into the Target element's incomingGoTo []
  *
- * @param sourceElement - The Parent Element
- * @param sourceBranchIndex - The branch index on which the GoTo connection is being added
+ * @param flowModel - The flow model
+ * @param source - The connection source
  * @returns the goto source ref suffix if any
  */
-function getSuffixForGoToConnection(sourceElement: NodeModel, sourceBranchIndex: number) {
-    const childReferences = (sourceElement as ParentNodeModel).childReferences;
+function getSuffixForGoToConnection(flowModel: FlowModel, source: ConnectionSource) {
+    const { guid, childIndex } = source;
+
+    if (childIndex == null) {
+        return null;
+    }
+
+    const { nodeType, childReferences } = resolveParent(flowModel, guid);
+
     // Should be START_IMMEDIATE_INDEX for Start Node and length of childReferences for other branching elements
     const defaultIndex =
-        sourceElement.nodeType === NodeType.BRANCH && childReferences
+        nodeType === NodeType.BRANCH && childReferences
             ? childReferences.length
-            : sourceElement.nodeType === NodeType.START
+            : nodeType === NodeType.START
             ? START_IMMEDIATE_INDEX
             : null;
-    if (sourceBranchIndex === defaultIndex) {
-        return sourceElement.nodeType === NodeType.START
-            ? GOTO_CONNECTION_SUFFIX.IMMEDIATE
-            : GOTO_CONNECTION_SUFFIX.DEFAULT;
-    } else if (sourceBranchIndex === FAULT_INDEX) {
+    if (childIndex === defaultIndex) {
+        return nodeType === NodeType.START ? GOTO_CONNECTION_SUFFIX.IMMEDIATE : GOTO_CONNECTION_SUFFIX.DEFAULT;
+    } else if (childIndex === FAULT_INDEX) {
         return GOTO_CONNECTION_SUFFIX.FAULT;
-    } else if (childReferences) {
+    } else if (childReferences != null) {
         // Accounting for Immediate Branch being on the 0th index in case of Start Element
-        return sourceElement.nodeType === NodeType.START
-            ? childReferences![sourceBranchIndex - 1].childReference
-            : childReferences![sourceBranchIndex].childReference;
+        const referenceIndex = nodeType === NodeType.START ? childIndex - 1 : childIndex;
+        return childReferences[referenceIndex].childReference;
     }
     return null;
 }
@@ -90,14 +87,8 @@ function getSuffixForGoToConnection(sourceElement: NodeModel, sourceBranchIndex:
  * @returns The goto source reference
  */
 function createGoToSourceRef(flowModel: FlowModel, source: ConnectionSource): GoToSourceRef {
-    const { guid, childIndex } = source;
-    if (childIndex == null) {
-        return guid;
-    } else {
-        const parent = resolveParent(flowModel, guid);
-        const suffix = getSuffixForGoToConnection(parent, childIndex);
-        return `${parent.guid}:${suffix}`;
-    }
+    const suffix = getSuffixForGoToConnection(flowModel, source);
+    return suffix != null ? `${source.guid}:${suffix}` : source.guid;
 }
 
 /**
@@ -219,22 +210,21 @@ function isBranchTerminal(flowModel: FlowModel, element: NodeModel, childIndex: 
 }
 
 /**
- * Returns the node at an InsertAt location
+ * Returns the target of a ConnectionSource
  *
  * @param flowModel - The flow model
- * @param insertAt - The InsertAt location
- * @returns The node following the InsertAt, or null if no node follows it
+ * @param source - The connection source
+ * @returns The target
  */
-function getNodeAtInsertAt(flowModel: FlowModel, insertAt: InsertAt): NodeModel | null {
-    const { parent, childIndex, prev } = insertAt;
+function getConnectionSourceTarget(flowModel: FlowModel, source: ConnectionSource): NodeModel | null {
+    const { childIndex } = source;
+    let guid: string | null = source.guid;
 
-    let guid: Guid | null;
-
-    if (parent) {
-        const parentElement = resolveParent(flowModel, parent);
+    if (childIndex != null) {
+        const parentElement = resolveParent(flowModel, guid);
         guid = getChild(parentElement, childIndex);
     } else {
-        const element = resolveNode(flowModel, prev);
+        const element = resolveNode(flowModel, guid);
         guid = element.next;
     }
 
@@ -270,47 +260,45 @@ function validChildIndexOrThrow(parentElement: ParentNodeModel, childIndex: numb
 }
 
 /**
- * Verifies that an InsertAt location exists, throws an error otherwise
+ * Verifies that a ConnectionSource location exists, throws an error otherwise
  *
  * @param flowModel - The flowModel
- * @param insertAt - The insert location
- * @throws An Error the InsertAt location doesn't exist
+ * @param source - The connection source
+ * @throws An error if the ConnectionSource location doesn't exist
  */
-function validInsertAtOrThrow(flowModel: FlowModel, insertAt: InsertAt) {
-    const { prev, parent, childIndex } = insertAt;
+function validConnectionSourceOrThrow(flowModel: FlowModel, source: ConnectionSource) {
+    const { guid, childIndex } = source;
 
-    if (parent != null) {
-        const parentElement = resolveParent(flowModel, parent);
+    if (childIndex != null) {
+        const parentElement = resolveParent(flowModel, guid);
         validChildIndexOrThrow(parentElement, childIndex);
     } else {
-        resolveNode(flowModel, prev);
+        resolveNode(flowModel, guid);
     }
 }
 
 /**
- * Creates a connection from an InsertAt location to a target element.
+ * Creates a connection from a ConnectionSource to a target element.
  *
  * @param elementService - The element service
  * @param flowModel - The flow model
- * @param fromInsertAt - The insert point. For now the InsertAt location must have an end element unless there is a GoTo
+ * @param source - The connection source. For now the ConnectionSource's target must be an end element unless there is a GoTo
  * @param toElementGuid - The guid of the element to connect to
  * @returns The updated flow model
  */
 function connectToElement(
     elementService: ElementService,
     flowModel: FlowModel,
-    fromInsertAt: InsertAt,
+    source: ConnectionSource,
     toElementGuid: Guid
 ): FlowModel {
-    const { prev, parent, childIndex } = fromInsertAt;
-    const source = { guid: prev || parent, childIndex };
     if (hasGoTo(flowModel, source)) {
         flowModel = deleteGoToConnection(elementService, flowModel, source);
     }
 
-    const endElement = getNodeAtInsertAt(flowModel, fromInsertAt);
+    const endElement = getConnectionSourceTarget(flowModel, source);
     if (!endElement || endElement.nodeType !== NodeType.END) {
-        throw new Error('When connecting, a end node must be at insertAt');
+        throw new Error('When connecting, an end node must the target of a ConnectionSource');
     }
 
     validElementGuidOrThrow(flowModel, toElementGuid);
@@ -1721,31 +1709,30 @@ function deleteElementDescendents(
  * @param flowModel - The flowModel to update
  * @param elementGuid - The guid of the new element
  * @param nodeType - The node type of the new element
- * @param insertAt - The insert location for the new element
+ * @param source - The connection source
  * @returns - The flow model
  */
-function addElement(flowModel: FlowModel, elementGuid: Guid, nodeType: NodeType, insertAt: InsertAt): FlowModel {
+function addElement(flowModel: FlowModel, elementGuid: Guid, nodeType: NodeType, source: ConnectionSource): FlowModel {
     const element = resolveNode(flowModel, elementGuid);
 
-    validInsertAtOrThrow(flowModel, insertAt);
+    validConnectionSourceOrThrow(flowModel, source);
 
-    if (nodeType === NodeType.END && getNodeAtInsertAt(flowModel, insertAt) != null) {
-        throw new Error(`Can only add an end element when no element follows the insertAt: ${insertAt}`);
+    if (nodeType === NodeType.END && getConnectionSourceTarget(flowModel, source) != null) {
+        throw new Error(`Can only add an end element when no element follows the ConnectionSource: ${source}`);
     }
 
     element.nodeType = nodeType;
     if (nodeType !== NodeType.END) {
         element.incomingGoTo = [];
     }
-    const { prev, parent, childIndex } = insertAt;
-    const sourceElement = prev ? flowModel[prev] : resolveParent(flowModel, parent);
+    const { guid, childIndex } = source;
+    const sourceElement = childIndex == null ? flowModel[guid] : resolveParent(flowModel, guid);
 
-    const source = { guid: sourceElement.guid, childIndex };
     const newSource = { guid: elementGuid };
 
-    if (prev) {
+    if (childIndex == null) {
         const next = sourceElement.next;
-        element.prev = prev;
+        element.prev = guid;
         if (next) {
             element.next = next;
             if (hasGoToOnNext(flowModel, sourceElement.guid)) {
@@ -1756,7 +1743,7 @@ function addElement(flowModel: FlowModel, elementGuid: Guid, nodeType: NodeType,
         }
         linkElement(flowModel, element);
     } else {
-        Object.assign(element, { parent, childIndex });
+        Object.assign(element, { parent: guid, childIndex });
         if (hasGoToOnBranchHead(flowModel, sourceElement.guid, childIndex)) {
             const targetGuid = getChild(sourceElement, childIndex);
 
