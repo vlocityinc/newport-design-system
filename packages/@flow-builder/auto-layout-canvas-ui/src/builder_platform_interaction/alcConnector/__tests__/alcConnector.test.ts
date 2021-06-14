@@ -13,6 +13,7 @@ const selectors = {
     addElementButton: '.circle-text',
     defaultConnectorBadge: '.connector-badge span',
     faultConnectorBadge: '.connector-badge.fault-badge span',
+    goToInfo: '.go-to-info',
     goToTargetLabel: '.go-to-info .go-to-target-label span',
     goToTargetArrow: '.go-to-info span',
     alcMenuTrigger: 'builder_platform_interaction-alc-menu-trigger'
@@ -180,6 +181,13 @@ describe('Auto-Layout connector tests', () => {
         );
         const addElementButton = regularConnector.shadowRoot.querySelector(selectors.addElementButton);
         expect(addElementButton).toBeNull();
+    });
+
+    it('Should have the label property on a GoTo connector', () => {
+        const goToConnectorInfo = getGoToConnectorInfo();
+        const goToConnector = createComponentUnderTest(goToConnectorInfo, AutoLayoutCanvasMode.DEFAULT);
+        const goToInfo = goToConnector.shadowRoot.querySelector(selectors.goToInfo);
+        expect(goToInfo.title).toBe(goToConnectorInfo.goToTargetLabel);
     });
 
     it('Should have the target info (label) on a GoTo connector', () => {

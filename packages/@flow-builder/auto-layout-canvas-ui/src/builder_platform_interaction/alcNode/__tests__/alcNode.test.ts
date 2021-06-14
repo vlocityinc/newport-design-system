@@ -30,7 +30,7 @@ const selectors = {
     selectionCheckbox: '.selection-checkbox',
     textContainerElementType: '.text-element-type',
     textElementLabel: '.text-element-label',
-    textElementGotoCount: '.text-element-goto-count',
+    textIncomingGoTo: '.text-incoming-goto',
     errorIcon: '.error-icon',
     iconContainer: '.icon-container'
 };
@@ -410,8 +410,8 @@ describe('AlcNode', () => {
                 nodeInfo: decisionNodeInfo,
                 canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
-            const gotoCount = alcNodeComponent.shadowRoot.querySelector(selectors.textElementGotoCount);
-            expect(gotoCount.textContent).toEqual('+ 1 Incoming');
+            const gotoCount = alcNodeComponent.shadowRoot.querySelector(selectors.textIncomingGoTo);
+            expect(gotoCount.textContent).toEqual('+1 Incoming');
         });
 
         it('Should not show incoming count if goto does not exist', () => {
@@ -419,7 +419,7 @@ describe('AlcNode', () => {
                 nodeInfo: noIncomingGotoNodeInfo,
                 canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
-            const gotoCount = alcNodeComponent.shadowRoot.querySelector(selectors.textElementGotoCount);
+            const gotoCount = alcNodeComponent.shadowRoot.querySelector(selectors.textIncomingGoTo);
             expect(gotoCount).toBeNull();
         });
     });

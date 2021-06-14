@@ -79,7 +79,7 @@ builder_platform_interaction-alc-menu-trigger.slds-is-open .circle-text {
 }
 
 .go-to-info {
-    color: var(--lwc-colorTextDestructive);
+    color: var(--lwc-brandTextLink);
     display: inline-flex;
     font-style: italic;
 }

@@ -35,7 +35,12 @@
         </builder_platform_interaction-alc-menu-trigger>
     </template>
 
-    <div if:true={connectorInfo.goToTargetLabel} class="slds-is-absolute go-to-info" style={goToTargetLabelStyle}>
+    <div
+        if:true={connectorInfo.goToTargetLabel}
+        class="slds-is-absolute go-to-info"
+        style={goToTargetLabelStyle}
+        title={connectorInfo.goToTargetLabel}
+    >
         <div class="slds-m-right_xx-small slds-truncate go-to-target-label">
             <span>{connectorInfo.goToTargetLabel}</span>
         </div>
