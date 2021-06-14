@@ -1,5 +1,13 @@
 import { Store } from 'builder_platform_interaction/storeLib';
-import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE, FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    ELEMENT_TYPE,
+    FLOW_TRIGGER_TYPE,
+    FLOW_TRIGGER_SAVE_TYPE,
+    SCHEDULED_PATH_TYPE,
+    CONNECTOR_TYPE
+} from 'builder_platform_interaction/flowMetadata';
+import immediateScheduledPathLabel from '@salesforce/label/FlowBuilderStartEditor.immediateScheduledPathLabel';
+import runOnSuccessScheduledPathLabel from '@salesforce/label/FlowBuilderStartEditor.runOnSuccessScheduledPathLabel';
 
 export const getElementByGuidFromState = ({ elements }, guid: string) => elements[guid];
 
@@ -194,4 +202,111 @@ export const getElementsForElementType = (elementType: UI.ElementType): UI.Eleme
         },
         []
     );
+};
+
+/**
+ *  Returns the list of paths displayed on the canvas
+ */
+export const getScheduledPathsList = (): object => {
+    const scheduledPathsList: any[] = [];
+
+    if (shouldUseAutoLayoutCanvas()) {
+        const startElement = getStartElement();
+        const elements = Store.getStore().getCurrentState().elements;
+
+        scheduledPathsList.push({
+            label: immediateScheduledPathLabel,
+            value: SCHEDULED_PATH_TYPE.IMMEDIATE_SCHEDULED_PATH,
+            pathType: null
+        });
+
+        if (startElement?.childReferences) {
+            Object.keys(startElement.childReferences).forEach((key) => {
+                const child = getChildElementInfo(elements, startElement.childReferences[key].childReference);
+                if (child && child.elementType === ELEMENT_TYPE.SCHEDULED_PATH) {
+                    if (child.pathType && child.pathType === SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS) {
+                        scheduledPathsList.push({
+                            label: runOnSuccessScheduledPathLabel,
+                            value: child.pathType,
+                            pathType: child.pathType
+                        });
+                    } else {
+                        scheduledPathsList.push({ label: child.label, value: child.name, pathType: null });
+                    }
+                }
+            });
+        }
+    } else {
+        const connectors = Store.getStore().getCurrentState().connectors;
+        const scheduledPathElements = getElementsForElementType(ELEMENT_TYPE.SCHEDULED_PATH);
+        if (connectors) {
+            Object.keys(connectors).forEach((key) => {
+                if (connectors[key].type && connectors[key].type === CONNECTOR_TYPE.IMMEDIATE) {
+                    scheduledPathsList.push({
+                        label: immediateScheduledPathLabel,
+                        value: SCHEDULED_PATH_TYPE.IMMEDIATE_SCHEDULED_PATH,
+                        pathType: null
+                    });
+                }
+            });
+        }
+
+        if (scheduledPathElements) {
+            Object.keys(scheduledPathElements).forEach((key) => {
+                if (isGuidConnected(connectors, scheduledPathElements[key].guid)) {
+                    if (scheduledPathElements[key].elementType === ELEMENT_TYPE.SCHEDULED_PATH) {
+                        if (
+                            scheduledPathElements[key].pathType &&
+                            scheduledPathElements[key].pathType === SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS
+                        ) {
+                            scheduledPathsList.push({
+                                label: runOnSuccessScheduledPathLabel,
+                                value: scheduledPathElements[key].pathType,
+                                pathType: scheduledPathElements[key].pathType
+                            });
+                        } else {
+                            scheduledPathsList.push({
+                                label: scheduledPathElements[key].label,
+                                value: scheduledPathElements[key].name,
+                                pathType: null
+                            });
+                        }
+                    }
+                }
+            });
+        }
+    }
+    return scheduledPathsList;
+};
+
+/**
+ * Checks whether a path is connected or not
+ *
+ * @returns {boolean}
+ * @param object
+ * @param id
+ */
+export const isGuidConnected = (object, id): boolean => {
+    if (object == null) {
+        return false;
+    }
+    return object.some((val) => {
+        return id === val?.childSource;
+    });
+};
+
+/**
+ * fetches the child element info by id and returns it
+ *
+ * @param object
+ * @param id
+ */
+export const getChildElementInfo = (object, id): any => {
+    let child = null;
+    Object.keys(object).forEach((key) => {
+        if (key === id) {
+            child = object[key];
+        }
+    });
+    return child;
 };

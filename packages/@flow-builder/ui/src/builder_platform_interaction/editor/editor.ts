@@ -60,7 +60,8 @@ import {
     FLOW_TRIGGER_TYPE,
     isSystemElement,
     SCHEDULED_PATH_TYPE,
-    START_ELEMENT_FIELDS
+    START_ELEMENT_FIELDS,
+    CONNECTOR_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
@@ -138,6 +139,7 @@ import { FlowGuardrailsExecutor, GuardrailsResultEvent } from 'builder_platform_
 import {
     getElementByGuid,
     getRecordTriggerType,
+    getScheduledPathsList,
     getStartElement,
     getStartObject,
     getTriggerType
@@ -1076,7 +1078,14 @@ export default class Editor extends LightningElement {
         this.spinners.showDebugSpinner = true;
         const startInterviewTime = new Date();
         const enableRollbackMode = !!debugOptions.enableRollback;
-
+        const runOnSuccessScheduledPathOption = getScheduledPathsList().find(
+            (option) => SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS === option.pathType
+        );
+        const pathType =
+            runOnSuccessScheduledPathOption &&
+            runOnSuccessScheduledPathOption.value === debugOptions.scheduledPathSelection
+                ? runOnSuccessScheduledPathOption.pathType
+                : null;
         fetch(
             SERVER_ACTION_TYPE.RUN_DEBUG,
             ({ data, error }) => {
@@ -1121,7 +1130,8 @@ export default class Editor extends LightningElement {
                 debugWaits: !!debugOptions.debugWaits,
                 ignoreEntryCriteria: !!debugOptions.ignoreEntryCriteria,
                 dmlType: debugOptions.dmlType,
-                scheduledPathSelection: debugOptions.scheduledPathSelection
+                scheduledPathSelection: debugOptions.scheduledPathSelection,
+                pathType
             }
         );
     };
@@ -1192,7 +1202,7 @@ export default class Editor extends LightningElement {
                 let createOrUpdate = false;
                 let showScheduledPathComboBox = false;
                 let startElement = null;
-                const scheduledPathsList = this.getScheduledPathsList();
+                const scheduledPathsList = getScheduledPathsList();
                 const defaultPath = scheduledPathsList?.length > 0 ? scheduledPathsList[0].value : null;
                 if (isRecordChangeTriggerType(this.triggerType)) {
                     triggerSaveType = getRecordTriggerType();
@@ -2711,30 +2721,6 @@ export default class Editor extends LightningElement {
                 this.requiredVariablesLoading = false;
             });
     };
-
-    getScheduledPathsList() {
-        const scheduledPathsList = [];
-        if (this.guardrailsEngine?.flowDataProvider?.model?.metadata?.start?.connector) {
-            scheduledPathsList.push({
-                label: LABELS.immediateScheduledPathLabel,
-                value: SCHEDULED_PATH_TYPE.IMMEDIATE_SCHEDULED_PATH
-            });
-        }
-        if (this.guardrailsEngine?.flowDataProvider?.model?.metadata?.start?.scheduledPaths) {
-            this.guardrailsEngine.flowDataProvider.model.metadata.start.scheduledPaths.forEach((key) => {
-                if (
-                    START_ELEMENT_FIELDS.IS_RUN_ON_SUCCESS_PATH_ENABLED &&
-                    key.pathType === SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS
-                ) {
-                    scheduledPathsList.push({ label: LABELS.runOnSuccessScheduledPathLabel, value: key.pathType });
-                } else {
-                    scheduledPathsList.push({ label: key.label, value: key.name });
-                }
-            });
-        }
-        return scheduledPathsList;
-    }
-
     /**
      * Reset flow properties when the flow is created from a template
      * (namely: versionNumber, status, isLightningFlowBuilder, isTemplate, lastModifiedDate, lastModifiedBy and name)
