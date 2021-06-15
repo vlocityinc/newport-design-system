@@ -7,7 +7,7 @@ import {
     resumedInterviewWithErrors
 } from 'mock/debugResponse/mock-completed-interview-errors';
 import { completedInterview } from 'mock/debugResponse/mock-completed-interview';
-import { errorWithTraceInterview } from 'mock/debugResponse/mock-error-interview';
+import { errorWithTraceInterview, errorWithTraceInterviewWithRollback } from 'mock/debugResponse/mock-error-interview';
 import { fakePausedInterview } from 'mock/debugResponse/mock-fake-paused-interview';
 import { fakePausedInterviewWithoutAlarmEvent } from 'mock/debugResponse/mock-fake-paused-interview';
 
@@ -136,10 +136,27 @@ describe('debug utils', () => {
 
         it('should display the error message', () => {
             const len = updatedDebugTraceObject.length;
-            expect(len).toBe(errorWithTraceInterview.debugTrace.length);
-            expect(updatedDebugTraceObject[len - 1].title).toMatch(errorWithTraceInterview.debugTrace[0].elementType);
-            expect(updatedDebugTraceObject[len - 1].error).toMatch(errorWithTraceInterview.debugTrace[0].error);
-            expect(updatedDebugTraceObject[len - 1].lines).toEqual([]);
+            expect(len).toBe(errorWithTraceInterview.debugTrace.length + 1);
+            expect(updatedDebugTraceObject[0].title).toMatch(errorWithTraceInterview.debugTrace[0].elementType);
+            expect(updatedDebugTraceObject[0].error).toMatch(errorWithTraceInterview.debugTrace[0].error);
+            expect(updatedDebugTraceObject[0].lines).toEqual([]);
+        });
+    });
+
+    describe('error interview rolled back without interview starting', () => {
+        let updatedDebugTraceObject;
+        beforeEach(() => {
+            updatedDebugTraceObject = copyAndUpdateDebugTraceObject(errorWithTraceInterviewWithRollback).debugTraces;
+        });
+
+        it('should display the error message', () => {
+            const len = updatedDebugTraceObject.length;
+            expect(len).toBe(errorWithTraceInterviewWithRollback.debugTrace.length + 1);
+            expect(updatedDebugTraceObject[0].title).toMatch(
+                errorWithTraceInterviewWithRollback.debugTrace[0].elementType
+            );
+            expect(updatedDebugTraceObject[0].error).toMatch(errorWithTraceInterviewWithRollback.debugTrace[0].error);
+            expect(updatedDebugTraceObject[0].lines).toEqual([]);
         });
     });
 

@@ -19,5 +19,29 @@ export const errorWithTraceInterview = {
             lines: [],
             entryType: 'DefaultDebugInfoEntry'
         }
-    ]
+    ],
+    startInterviewTime: new Date('June 17, 2020 03:24:00'),
+    endInterviewTime: new Date('June 17, 2020 03:25:00')
+};
+
+export const errorWithTraceInterviewWithRollback = {
+    interviewStatus: 'ERROR',
+    debugTrace: [
+        {
+            elementType: 'Error element el_0 (FlowStart).',
+            error: 'Apex CPU time limit exceeded',
+            lines: [],
+            entryType: 'DefaultDebugInfoEntry'
+        },
+        {
+            elementType: 'Transaction Rolled Back',
+            lines: [
+                'TRANSACTION ROLLED BACK',
+                "Because an error occurred, any records that the flow was ready to create, update, or delete weren't committed to the database."
+            ],
+            entryType: 'TransactionInfoEntry'
+        }
+    ],
+    startInterviewTime: new Date('June 17, 2020 03:24:00'),
+    endInterviewTime: new Date('June 17, 2020 03:25:00')
 };

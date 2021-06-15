@@ -27,80 +27,75 @@ const ELEMENT_ERR_TITLE = LABELS.errorBody.replace(/ \{0\} \(\{1\}\)./, '').trim
 export function copyAndUpdateDebugTraceObject(debugData) {
     const debugTraces = [];
     let copyTraces = [];
-    // handle special case where a flow's start element is not connected to any other element
-    if (debugData.debugTrace.length === 1 && debugData.debugTrace[0].error != null) {
-        debugTraces.push({
-            title: makeElementTitle(debugData.debugTrace[0]),
-            lines: debugData.debugTrace[0].lines,
-            entryType: debugData.debugTrace[0].entryType,
-            error: debugData.debugTrace[0].error,
-            id: generateGuid()
-        });
+    let startIndex = 1;
+    if (debugData.debugTrace[0].error != null) {
+        // the first entry has an error, so treat it as a normal entry
+        startIndex = 0;
     } else {
         debugTraces.push(getStartInterviewInfo(debugData));
-        for (let i = 1; i < debugData.debugTrace.length; i++) {
-            const trace = debugData.debugTrace[i].lines.filter((e) => {
-                return !!e;
-            });
-            const cardTitle = makeElementTitle(debugData.debugTrace[i]);
+    }
+    for (let i = startIndex; i < debugData.debugTrace.length; i++) {
+        const trace = debugData.debugTrace[i].lines.filter((e) => {
+            return !!e;
+        });
+        const cardTitle = makeElementTitle(debugData.debugTrace[i]);
+        debugTraces.push({
+            title: cardTitle,
+            lines: cardTitle !== '' ? trace.slice(1) : trace, // remove 1st elem cause it has the title (see BaseInterviewHTMLWriter#addElementHeader)
+            entryType: debugData.debugTrace[i].entryType,
+            error: debugData.debugTrace[i].error,
+            limits:
+                Array.isArray(debugData.debugTrace[i].limits) && debugData.debugTrace[i].limits.length > 0
+                    ? debugData.debugTrace[i].limits.map((limit: String) => ({
+                          limit: limit + '\n',
+                          id: generateGuid()
+                      }))
+                    : undefined,
+            id: generateGuid()
+        });
+    }
+
+    let end;
+    if (debugData.waitEvent) {
+        const waitEvents = [];
+        const resumeTime = new Map();
+        let hasAlarmEvent = false;
+        for (const property in debugData.waitEvent) {
+            if (debugData.waitEvent[property]) {
+                waitEvents.push({ label: property, value: property });
+                const time = formatUTCTime(debugData.waitEvent[property]);
+                resumeTime.set(property, time);
+                hasAlarmEvent = true;
+            }
+        }
+
+        if (hasAlarmEvent) {
+            // If there's alarm event, which there could be navigation, then store successful transactions
+            // This could be extended to non-alarm event and other navigation types
+            copyTraces = Object.assign([], debugTraces);
+
             debugTraces.push({
-                title: cardTitle,
-                lines: cardTitle !== '' ? trace.slice(1) : trace, // remove 1st elem cause it has the title (see BaseInterviewHTMLWriter#addElementHeader)
-                entryType: debugData.debugTrace[i].entryType,
-                error: debugData.debugTrace[i].error,
-                limits:
-                    Array.isArray(debugData.debugTrace[i].limits) && debugData.debugTrace[i].limits.length > 0
-                        ? debugData.debugTrace[i].limits.map((limit: String) => ({
-                              limit: limit + '\n',
-                              id: generateGuid()
-                          }))
-                        : undefined,
+                title: LABELS.waitEventSelectionHeader,
+                lines: [LABELS.alarmEventHelpText],
+                waitevents: waitEvents,
+                resumetime: resumeTime,
                 id: generateGuid()
             });
-        }
-
-        let end;
-        if (debugData.waitEvent) {
-            const waitEvents = [];
-            const resumeTime = new Map();
-            let hasAlarmEvent = false;
-            for (const property in debugData.waitEvent) {
-                if (debugData.waitEvent[property]) {
-                    waitEvents.push({ label: property, value: property });
-                    const time = formatUTCTime(debugData.waitEvent[property]);
-                    resumeTime.set(property, time);
-                    hasAlarmEvent = true;
-                }
-            }
-
-            if (hasAlarmEvent) {
-                // If there's alarm event, which there could be navigation, then store successful transactions
-                // This could be extended to non-alarm event and other navigation types
-                copyTraces = Object.assign([], debugTraces);
-
-                debugTraces.push({
-                    title: LABELS.waitEventSelectionHeader,
-                    lines: [LABELS.alarmEventHelpText],
-                    waitevents: waitEvents,
-                    resumetime: resumeTime,
-                    id: generateGuid()
-                });
-            } else {
-                debugTraces.push({
-                    title: LABELS.waitEventSelectionHeader,
-                    lines: [LABELS.noAlarmEventLine],
-                    id: generateGuid()
-                });
-
-                end = getEndInterviewInfo(debugData);
-            }
         } else {
+            debugTraces.push({
+                title: LABELS.waitEventSelectionHeader,
+                lines: [LABELS.noAlarmEventLine],
+                id: generateGuid()
+            });
+
             end = getEndInterviewInfo(debugData);
         }
+    } else {
+        end = getEndInterviewInfo(debugData);
+    }
 
-        if (end) {
-            debugTraces.push(end);
-        }
+    if (end) {
+        debugTraces.push(end);
     }
     return {
         debugTraces,
@@ -110,6 +105,7 @@ export function copyAndUpdateDebugTraceObject(debugData) {
 
 /**
  * @param utcTime
+ * @returns dateString in the utc format
  */
 function formatUTCTime(utcTime) {
     const localeTime = new Date(utcTime).toLocaleString();
@@ -209,7 +205,8 @@ export function formatDateHelper(dateTime, locale = undefined) {
  * corner case: element error card format doesn't need colon
  * eg: Error element <elementApiName> (<elementType>)
  *
- * @param debugTrace
+ * @param debugTrace the trace of a single entry
+ * @returns title
  */
 export function makeElementTitle(debugTrace) {
     if (debugTrace.elementApiName && !debugTrace.elementType.includes(ELEMENT_ERR_TITLE)) {
