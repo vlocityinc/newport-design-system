@@ -11,7 +11,7 @@
         <div class="slds-p-around_medium">
             <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2">
                 <div class="slds-text-heading_medium">{editTriggerObjectLabel}</div>
-                <div class="slds-text-body_small slds-text-color_weak slds-m-bottom_medium slds-p-top_small">
+                <div class="slds-text-body_small slds-text-color_weak slds-p-vertical_x-small">
                     {contextObjectDescription}
                 </div>
             </div>
@@ -44,9 +44,9 @@
     </div>
     <!-- Choose record save trigger (on create vs update) -->
     <div class="slds-border_top slds-p-horizontal_small slds-p-around_medium">
-        <div class="slds-form slds-p-horizontal_small slds-p-bottom_small slds-size_1-of-2">
+        <div class="slds-form slds-p-horizontal_small slds-size_1-of-2">
             <div class="slds-text-heading_medium">{editTriggerLabel}</div>
-            <div class="slds-text-body_small slds-text-color_weak slds-m-bottom_medium slds-p-top_small">
+            <div class="slds-text-body_small slds-text-color_weak slds-p-vertical_x-small">
                 {editTriggerDescription}
             </div>
             <lightning-radio-group
@@ -62,9 +62,9 @@
         </div>
     </div>
     <div class="slds-border_top slds-p-around_medium">
-        <div class="slds-form slds-p-bottom_small slds-size_1-of-2">
+        <div class="slds-form slds-size_1-of-2">
             <div class="slds-p-left_small slds-text-heading_medium slds-form-element">{setConditionsHeaderLabel}</div>
-            <div class="slds-p-left_small slds-text-body_small slds-text-color_weak slds-p-left_small slds-p-top_small">
+            <div class="slds-p-left_small slds-text-body_small slds-text-color_weak slds-p-vertical_x-small">
                 {setConditionsDescription}
             </div>
         </div>
@@ -89,7 +89,9 @@
         >
         </builder_platform_interaction-record-filter>
         <div class="slds-border_top" if:true={showRequireRecordChangeOptions}>
-            <div class="test-require-record-change-option slds-form_stacked slds-p-around_small slds-no-flex">
+            <div
+                class="test-require-record-change-option slds-form_stacked slds-p-top_small slds-p-horizontal_small slds-no-flex"
+            >
                 <label class="slds-form-element__legend slds-form-element__label"
                     >{labels.requireRecordChangeOption}</label
                 >
@@ -122,14 +124,14 @@
         <div class="slds-form">
             <fieldset class="slds-form-element">
                 <legend class="slds-form-element__legend slds-form-element__label">
-                    <div class="slds-align-top slds-p-vertical_small">
+                    <div class="slds-align-top slds-p-top_small slds-p-left_small">
                         <abbr class="slds-required" title={labels.requiredLabel}>*</abbr
                         >{labels.recordChangeTriggerTypeInputLabel}
                     </div>
                 </legend>
                 <div class="slds-form-element__control">
                     <!-- Display BeforeSave and AfterSave Trigger label and description -->
-                    <div if:false={isDeleteRecordTriggerType}>
+                    <div if:false={isDeleteRecordTriggerType} class="slds-p-top_small">
                         <builder_platform_interaction-visual-picker-list
                             items={beforeAfterSaveItems}
                             radio-group-name="BeforeAfterSave"
@@ -138,7 +140,7 @@
                         </builder_platform_interaction-visual-picker-list>
                     </div>
                     <!-- Display Before Delete Trigger label and description if RecordTriggerType "Delete" is selected -->
-                    <div if:true={isDeleteRecordTriggerType} class="slds-m-left_large">
+                    <div if:true={isDeleteRecordTriggerType} class="slds-m-left_large slds-p-top_xx-small">
                         <label class="slds-radio__label afterSave" for="radio-before-delete">
                             <b><span class="slds-form-element__label">{labels.triggerTypeBeforeDelete}</span></b>
                         </label>
@@ -148,7 +150,7 @@
                         </div>
 
                         <div
-                            class="beforeDeleteInfo slds-scoped-notification slds-m-right_small slds-m-top_x-small slds-media slds-media_center slds-color__background_gray-3"
+                            class="beforeDeleteInfo slds-scoped-notification slds-m-bottom_small slds-m-right_small slds-m-top_x-small slds-media slds-media_center slds-color__background_gray-3"
                         >
                             <div class="slds-media__figure">
                                 <lightning-icon icon-name="utility:info" size="small"></lightning-icon>
@@ -168,7 +170,7 @@
             disabled={disableRunOnSuccessScheduledPathCheckbox}
             checked={checkRunOnSuccessScheduledPath}
             onchange={toggleRunOnSuccessScheduledPath}
-            class="test-input-selection-checkbox"
+            class="test-input-selection-checkbox slds-p-left_medium"
         >
         </lightning-input>
     </div>
