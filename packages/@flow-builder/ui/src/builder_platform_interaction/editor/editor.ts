@@ -163,6 +163,7 @@ import {
     removeEndElementsAndConnectorsTransform
 } from 'builder_platform_interaction/alcConversionUtils';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { ConnectionSource } from 'builder_platform_interaction/autoLayoutCanvas';
 
 const { generateGuid } = storeUtils;
 const { logInteraction, logPerfTransactionEnd, logPerfTransactionStart, setAppName } = loggingUtils;
@@ -1696,11 +1697,11 @@ export default class Editor extends LightningElement {
     /**
      * the callback function to move focus correctly when closing property editor
      *
-     * @param insertInfo - callback and actual data
+     * @param source - The source for the connection
      */
-    moveFocusToConnector = (insertInfo: any) => {
+    moveFocusToConnector = (source: ConnectionSource) => {
         const alcCanvasContainer = this.template.querySelector('builder_platform_interaction-alc-canvas-container');
-        alcCanvasContainer.focusOnConnector(insertInfo.prev || insertInfo.parent, insertInfo.childIndex);
+        alcCanvasContainer.focusOnConnector(source.guid, source.childIndex);
     };
 
     /** *********** Canvas and Node Event Handling */
@@ -2361,7 +2362,7 @@ export default class Editor extends LightningElement {
      * directly from the canvas so we know where to add it
      * @param alcConnectionSource
      */
-    deMutateAndAddNodeCollection = (node: UI.Element, parentGuid: UI.Guid, alcConnectionSource: any) => {
+    deMutateAndAddNodeCollection = (node: UI.Element, parentGuid: UI.Guid, alcConnectionSource: ConnectionSource) => {
         // TODO: This looks almost exactly like deMutateAndUpdateNodeCollection. Maybe we should
         // pass the node collection modification mode (CREATE, UPDATE, etc) and switch the store
         // action based on that.
