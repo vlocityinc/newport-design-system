@@ -16,7 +16,8 @@ export const additionalRules = {
         ValidationRules.shouldBeAPositiveIntegerOrZero
     ],
     label: [ValidationRules.shouldNotBeBlank],
-    name: [ValidationRules.shouldNotBeBlank]
+    name: [ValidationRules.shouldNotBeBlank],
+    maxBatchSize: [ValidationRules.shouldBeANumber, ValidationRules.shouldBeInRange(1, 200)]
 };
 class ScheduledPathsValidation extends Validation {
     /**

@@ -71,6 +71,7 @@ declare namespace Metadata {
         pathType?: string;
         connector: Connector;
         label?: string;
+        maxBatchSize?: string;
     }
 
     interface Connector extends BaseElement {

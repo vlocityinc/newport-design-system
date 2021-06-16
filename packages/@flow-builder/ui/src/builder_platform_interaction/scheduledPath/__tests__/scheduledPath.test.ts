@@ -14,7 +14,8 @@ const scheduledPathMock = {
     timeSource: { value: 'ClosedDate', error: null },
     guid: 'some guid',
     offsetNumber: { value: 2, error: null },
-    offsetUnit: { value: TIME_OPTION.HOURS_BEFORE, error: null }
+    offsetUnit: { value: TIME_OPTION.HOURS_BEFORE, error: null },
+    maxBatchSize: { value: 100, error: null }
 };
 
 const selectors = {
@@ -22,7 +23,8 @@ const selectors = {
     timeSource: '.timeSourceCombobox',
     offsetNumber: '.offsetNumberInput',
     offsetUnitAndDirection: '.offsetUnitAndDirectionCombobox',
-    deletePathButton: '.delete-scheduled-path-btn'
+    deletePathButton: '.delete-scheduled-path-btn',
+    batchSizeInput: '.batchSizeInput'
 };
 
 const createComponentUnderTest = () => {
@@ -66,6 +68,12 @@ describe('ScheduledPath', () => {
             expect(offsetUnitAndDirectionComponent).toHaveLength(1);
             expect(offsetUnitAndDirectionComponent[0].value).toBe(scheduledPathMock.offsetUnit.value);
             expect(offsetUnitAndDirectionComponent[0].required).toBeTruthy();
+        });
+        it('has batch size input component which is not required', () => {
+            const batchSizeInputComponent = element.shadowRoot.querySelectorAll(selectors.batchSizeInput);
+            expect(batchSizeInputComponent).toHaveLength(1);
+            expect(batchSizeInputComponent[0].value).toBe(scheduledPathMock.maxBatchSize.value);
+            expect(batchSizeInputComponent[0].required).toBeFalsy();
         });
     });
 
@@ -124,6 +132,19 @@ describe('ScheduledPath', () => {
                 detail: {
                     guid: 'some guid',
                     propertyName: 'offsetNumber',
+                    error: null
+                }
+            });
+        });
+        it('fires the property changed event when batch size number is changed', () => {
+            expect.assertions(2);
+            const batchSizeInputComponent = element.shadowRoot.querySelector(selectors.batchSizeInput);
+            batchSizeInputComponent.dispatchEvent(new CustomEvent('focusout'));
+            expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                detail: {
+                    guid: 'some guid',
+                    propertyName: 'maxBatchSize',
                     error: null
                 }
             });

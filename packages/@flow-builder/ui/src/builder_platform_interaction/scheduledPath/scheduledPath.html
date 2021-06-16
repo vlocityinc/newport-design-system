@@ -62,5 +62,24 @@
                 class="offsetUnitAndDirectionCombobox slds-size_2-of-7"
             ></lightning-combobox>
         </div>
+        <div>
+            <lightning-accordion allow-multiple-sections-open class="slds-p-around_none slds-m-around_none">
+                <lightning-accordion-section
+                    label="Advanced Options"
+                    name="A"
+                    class="slds-p-around_none slds-m-around_none"
+                >
+                    <lightning-input
+                        label="Configure Batch Size (1-200)"
+                        value={batchSizeNumberValue}
+                        placeholder="Default: 200"
+                        type="input"
+                        class="batchSizeInput slds-size_2-of-5"
+                        onfocusout={handleBatchSizeNumberChanged}
+                        field-level-help="Additional details about how maximum batch size affects process and performance."
+                    ></lightning-input>
+                </lightning-accordion-section>
+            </lightning-accordion>
+        </div>
     </div>
 </template>

@@ -183,6 +183,7 @@ declare namespace UI {
         offsetUnit?: string;
         offsetNumber?: string;
         pathType?: string;
+        maxBatchSize?: string;
     }
 
     type ConnectorType = string;

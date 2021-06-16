@@ -12,7 +12,8 @@ const SELECTORS = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
     TIME_SOURCE_COMBOBOX: '.timeSourceCombobox',
     OFFSET_NUMBER_INPUT: '.offsetNumberInput',
-    OFFSET_UNIT: '.offsetUnitAndDirectionCombobox'
+    OFFSET_UNIT: '.offsetUnitAndDirectionCombobox',
+    BATCH_SIZE_INPUT: '.batchSizeInput'
 };
 
 export default class ScheduledPath extends LightningElement {
@@ -86,6 +87,12 @@ export default class ScheduledPath extends LightningElement {
         return this.timeSourceOptions;
     }
 
+    get batchSizeNumberValue() {
+        const val = getValueFromHydratedItem(this.scheduledPath.maxBatchSize);
+        // TODO: if unset maxBatchSize default value of scheduledPath is no longer 0, this condition can be removed
+        return val === 0 ? null : val;
+    }
+
     connectedCallback() {
         this.updateTimeSourceOptions();
     }
@@ -139,23 +146,30 @@ export default class ScheduledPath extends LightningElement {
         const offsetUnitCombobox = this.template.querySelector(SELECTORS.OFFSET_UNIT);
         this.resetError(offsetUnitCombobox, this.scheduledPath.offsetUnit.error);
         this.setInputErrorMessage(offsetUnitCombobox, this.scheduledPath.offsetUnit.error);
+
+        const batchSizeInput = this.template.querySelector(SELECTORS.BATCH_SIZE_INPUT);
+        if (batchSizeInput.value) {
+            this.resetError(batchSizeInput, this.scheduledPath.maxBatchSize.error, false);
+            this.setInputErrorMessage(batchSizeInput, this.scheduledPath.maxBatchSize.error);
+        }
     }
 
     /**
      * Reset the error of the input
      * The lightning-input component does not provide an easy way to reset errors
      * We need to remove requiredness (our only constraint) and report validity
-     * Then put the constraint back to its prevous state
+     * Then put the constraint back to its previous state
      *
-     * @param element
-     * @param error
+     * @param element - the input element
+     * @param error - the current error of the element
+     * @param isRequired - the previous state of the constraint, default value is true, which means the input element is requried
      */
-    resetError(element, error) {
+    resetError(element, error, isRequired = true) {
         if (element && !error) {
             element.required = false;
             element.setCustomValidity('');
             element.showHelpMessageIfInvalid();
-            element.required = true;
+            element.required = isRequired;
         }
     }
 
@@ -256,6 +270,22 @@ export default class ScheduledPath extends LightningElement {
         const propertyChangedEvent = new PropertyChangedEvent(
             'offsetUnit',
             event.detail.value,
+            null,
+            this.scheduledPath.guid
+        );
+        this.dispatchEvent(propertyChangedEvent);
+    }
+
+    /**
+     * Handles the event for batch size change under Advanced Options.
+     * Fires the propertyChangedEvent to be handled by the parent.
+     *
+     * @param event - the event fires when batch size input component is about to lose focus
+     */
+    handleBatchSizeNumberChanged(event) {
+        const propertyChangedEvent = new PropertyChangedEvent(
+            'maxBatchSize',
+            event.target.value,
             null,
             this.scheduledPath.guid
         );

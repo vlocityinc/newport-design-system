@@ -24,10 +24,21 @@ describe('Additional Scheduled Path Validations', () => {
         it('and when valid number is passed should return - null', () => {
             expect(scheduledPathsValidation.validateProperty('offsetNumber', 1)).toBeNull();
         });
-        it('and when a negatif number is passed should return - Enter a valid value..', () => {
+        it('and when a negative number is passed should return - Enter a valid value..', () => {
             expect(scheduledPathsValidation.validateProperty('offsetNumber', -3)).toBe(
                 LABELS.shouldBeAPositiveIntegerOrZero
             );
+        });
+    });
+    describe('when props set to maxBatchSize', () => {
+        it('and when NaN is passed should return - mustBeAValidNumber', () => {
+            expect(scheduledPathsValidation.validateProperty('maxBatchSize', 'a')).toBe(LABELS.mustBeAValidNumber);
+        });
+        it('and when an invalid number is passed should return - shouldBeInRange', () => {
+            expect(scheduledPathsValidation.validateProperty('maxBatchSize', 300)).toBe(LABELS.shouldBeInRange);
+        });
+        it('and when a valid number is passed should return - null', () => {
+            expect(scheduledPathsValidation.validateProperty('maxBatchSize', 100)).toBeNull();
         });
     });
 });

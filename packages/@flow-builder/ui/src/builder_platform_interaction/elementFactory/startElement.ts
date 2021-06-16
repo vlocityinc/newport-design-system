@@ -382,11 +382,14 @@ export function createStartElementMetadataObject(startElement: UI.Start, config 
                 });
             }
 
+            const maxBatchSize = scheduledPath.maxBatchSize ? Number(scheduledPath.maxBatchSize) : undefined;
+
             return Object.assign(metadataScheduledPath, {
                 timeSource,
                 offsetUnit,
                 offsetNumber: offsetNumberAsNumber,
-                recordField
+                recordField,
+                maxBatchSize
             });
         });
     }
@@ -467,7 +470,7 @@ export function createRunOnSuccessScheduledPath(scheduledPath: UI.ScheduledPath)
 export function createScheduledPath(scheduledPath: UI.ScheduledPath | Metadata.ScheduledPath): UI.ScheduledPath {
     const newScheduledPath: UI.ChildElement = baseChildElement(scheduledPath, ELEMENT_TYPE.SCHEDULED_PATH);
 
-    const { recordField, pathType } = <Metadata.ScheduledPath>scheduledPath;
+    const { recordField, pathType, maxBatchSize } = <Metadata.ScheduledPath>scheduledPath;
 
     let { timeSource = '', offsetUnit = '', offsetNumber = '' } = scheduledPath;
 
@@ -507,7 +510,8 @@ export function createScheduledPath(scheduledPath: UI.ScheduledPath | Metadata.S
         timeSource,
         offsetUnit,
         offsetNumber,
-        pathType
+        pathType,
+        maxBatchSize
     });
 }
 
