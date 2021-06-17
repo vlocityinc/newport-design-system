@@ -143,6 +143,12 @@ export default class AlcCanvasContainer extends LightningElement {
         return this._elementsMetadata;
     }
 
+    /**
+     * The active element refers to the element currently being edited using the property editor panel
+     */
+    @api
+    activeElementGuid;
+
     @api
     isPasteAvailable;
 

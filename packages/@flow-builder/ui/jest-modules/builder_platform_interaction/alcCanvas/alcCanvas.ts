@@ -32,5 +32,8 @@ export default class AlcCanvas extends LightningElement {
     @api
     disableDebounce;
 
+    @api
+    activeElementGuid;
+
     @api closeNodeOrConnectorMenu = jest.fn();
 }

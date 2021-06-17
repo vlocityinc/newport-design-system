@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from 'lwc';
+import { LightningElement, api } from 'lwc';
 import { NodeResizeEvent } from 'builder_platform_interaction/alcEvents';
 import { AddElementEvent, DeleteElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
 import { StageStep } from 'builder_platform_interaction/elementFactory';
@@ -28,14 +28,27 @@ export default class OrchestratedStageNode extends LightningElement {
     private width?: number;
     private height?: number;
 
-    @track
-    items: (StageStep & { tabIndex: number })[] = [];
+    private _items: (StageStep & { tabIndex: number; ariaSelected: boolean })[] = [];
+
+    set items(steps) {
+        this._items = steps;
+    }
+
+    get items() {
+        return this.computeStepItems(this._items, this.activeElementGuid);
+    }
 
     @api
     isDefaultMode?: boolean;
 
     @api
     keyboardInteractions;
+
+    /**
+     * The active element refers to the element currently being edited using the property editor panel
+     */
+    @api
+    activeElementGuid;
 
     @api
     get node() {
@@ -53,9 +66,6 @@ export default class OrchestratedStageNode extends LightningElement {
                 this.items.length === 1
                     ? this.labels.stageStepHeaderSingular
                     : format(this.labels.stageStepHeaderPlural, this.items.length);
-
-            // any time the node is changed, we need to reevaluate the tab indexes of it's items
-            this.setTabIndexes(this.items);
         }
     }
 
@@ -104,12 +114,14 @@ export default class OrchestratedStageNode extends LightningElement {
         const currentItemInFocus = this.template.activeElement;
         if (currentItemInFocus) {
             const stepItems = Array.from(this.template.querySelectorAll(selectors.stepItem)) as any;
+            const deleteItemButtons = Array.from(this.template.querySelectorAll(selectors.deleteStepItemButton)) as any;
+
             if (stepItems.includes(currentItemInFocus)) {
                 this.handleOpenItemPropertyEditor(undefined, currentItemInFocus);
+            } else if (deleteItemButtons.includes(currentItemInFocus)) {
+                this.handleDeleteItem(undefined, currentItemInFocus);
             } else if (currentItemInFocus === this.template.querySelector(selectors.addStepItemButton)) {
                 this.handleAddItem(undefined, true);
-            } else if (currentItemInFocus === this.template.querySelector(selectors.deleteStepItemButton)) {
-                this.handleDeleteItem(undefined, currentItemInFocus);
             }
         }
     }
@@ -191,22 +203,43 @@ export default class OrchestratedStageNode extends LightningElement {
     }
 
     /**
-     * Initializer & Indexer used to map the proper a11y tab-indexes for a stage's step items
-     * Additional Info: tabIndex should be 0 for the first step element in each stage and -1 for all others
+     * Initializer, Indexer, and Aria-Selection State Manager - used to map the proper a11y tab-indexes and
+     * aria-selection (editing) states for a stage's step items
      *
      * @param items - an array of step items defined in the stage
+     * @param items.tabIndex - should be 0 for the first step element or the last item to be (focused or active) and -1 for all others
+     * @param items.ariaSelected - should only ever be true for 0 or 1 step - represents the step currently being edited
+     * @param activeElementGuid - the guid of the step which is currently being edited in the property editor panel
+     * in the property editor panel
+     * @returns - a list of computed step items with aria-selected and tab-index properties
      */
-    setTabIndexes(items: (StageStep & { tabIndex: number })[]) {
+    computeStepItems(
+        items: (StageStep & { tabIndex: number; ariaSelected: boolean })[],
+        activeElementGuid: string | null
+    ) {
         let indexedItem;
+        let activeItem;
         if (items.length) {
             items.forEach((item, i) => {
-                item.tabIndex = -1;
-                if (i === 0) {
+                item.ariaSelected = false;
+
+                if (item.guid === activeElementGuid) {
+                    item.ariaSelected = true;
+                }
+                if (item.ariaSelected) {
+                    activeItem = item;
+                }
+                // if its the first step, or if it was the last focused, or if it was the last edited
+                // note: tab focus should prioritize: last active > last focused > first step
+                if (i === 0 || (item.tabIndex === 0 && !activeItem) || item.ariaSelected) {
                     indexedItem = item;
                 }
+
+                item.tabIndex = -1;
             });
             indexedItem.tabIndex = 0;
         }
+        return items;
     }
 
     /**
@@ -231,7 +264,10 @@ export default class OrchestratedStageNode extends LightningElement {
             }
             if (this.items.length) {
                 // remove the tabIndex from current focused item, and add it to the next focused item
-                [this.items[currentFocusIndex].tabIndex, this.items[nextFocusIndex].tabIndex] = [-1, 0];
+                this.items = this.items.map((item, index) => {
+                    item.tabIndex = index === nextFocusIndex ? 0 : -1;
+                    return item;
+                });
             }
 
             stepItems[nextFocusIndex].focus();

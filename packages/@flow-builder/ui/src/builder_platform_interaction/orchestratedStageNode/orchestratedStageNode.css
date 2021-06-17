@@ -61,6 +61,20 @@ h3 {
     box-shadow: var(--lwc-shadowButtonFocus);
 }
 
+.item[aria-selected='true'] {
+    box-shadow: 0 0 0 2px var(--lwc-colorBorderRowSelected);
+}
+
+.item[aria-selected='true']:hover {
+    background: var(--lwc-verticalNavigationColorBackgroundShadeRowHover);
+    box-shadow: 0 0 0 2px var(--lwc-colorBorderRowSelected);
+}
+
+.item[aria-selected='true']:hover:focus {
+    background: var(--lwc-verticalNavigationColorBackgroundShadeRowHover);
+    box-shadow: 0 0 0 2px var(--lwc-colorBorderRowSelected);
+}
+
 .item:not(:first-child) {
     border-top: var(--lwc-borderWidthThin) solid var(--lwc-colorBorder);
 }

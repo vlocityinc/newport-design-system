@@ -43,6 +43,12 @@ export default class AlcMenuTrigger extends LightningElement {
     @api
     conditionOptionsForNode;
 
+    /**
+     * The active element refers to the element currently being edited using the property editor panel
+     */
+    @api
+    activeElementGuid;
+
     @api
     get menuOpened() {
         return this._menuOpened;

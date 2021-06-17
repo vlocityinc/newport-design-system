@@ -4,6 +4,7 @@
         class={simpleNode.className}
         canvas-mode={canvasMode}
         node-info={simpleNode.nodeInfo}
+        active-element-guid={activeElementGuid}
     ></builder_platform_interaction-alc-node>
 
     <template for:each={logicConnectors} for:item="logicConnector" if:true={node.logicConnectors}>
@@ -24,6 +25,7 @@
             canvas-mode={canvasMode}
             flow={branch.flowInfo}
             disable-add-elements={disableAddElements}
+            active-element-guid={activeElementGuid}
         ></builder_platform_interaction-alc-flow>
     </template>
 

@@ -262,6 +262,12 @@ export default class AlcCanvas extends LightningElement {
     @api
     supportsScheduledPaths;
 
+    /**
+     * The active element refers to the element currently being edited using the property editor panel
+     */
+    @api
+    activeElementGuid;
+
     @api
     set elementsMetadata(elementsMetadata: ElementMetadata[]) {
         this._elementsMetadata = elementsMetadata;

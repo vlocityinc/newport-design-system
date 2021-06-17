@@ -11,6 +11,7 @@
             canvas-mode={canvasMode}
             onclick={handleButtonClick}
             ondblclick={handleOnDblClick}
+            active-element-guid={activeElementGuid}
         >
             <!-- Element Icon -->
             <div slot="trigger" class={rotateIconClass}>
@@ -67,6 +68,7 @@
         lwc:dynamic={dynamicNodeConstructor}
         node={nodeInfo}
         is-default-mode={isDefaultMode}
+        active-element-guid={activeElementGuid}
         class="dynamic-component"
     ></x-lazy>
 </template>

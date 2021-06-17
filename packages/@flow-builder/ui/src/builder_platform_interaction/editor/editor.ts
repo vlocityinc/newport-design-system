@@ -300,6 +300,11 @@ export default class Editor extends LightningElement {
     recordTriggerType;
     guardrailsEngine;
 
+    /**
+     * The active element refers to the element currently being edited using the property editor panel
+     */
+    activeElementGuid = null;
+
     @track
     properties = {};
 
@@ -1623,7 +1628,7 @@ export default class Editor extends LightningElement {
 
     async showPropertyEditor(params, forceModal = false) {
         if (this.usePanelForPropertyEditor && !forceModal) {
-            await this.handleClosePropertyEditor();
+            await this.handleClosePropertyEditor(false);
 
             this.showPropertyEditorRightPanel = true;
             this.propertyEditorParams = getPropertyEditorConfig(params.mode, params);
@@ -1754,37 +1759,41 @@ export default class Editor extends LightningElement {
                 return;
             }
 
-            this.queueOpenPropertyEditor(async () => {
-                // getElementForPropertyEditor need to be called after propertyEditorBlockerCalls
-                // has been resolved
-                const node = getElementForPropertyEditor({
-                    locationX,
-                    locationY,
-                    elementType,
-                    elementSubtype,
-                    actionType,
-                    actionName,
-                    parent,
-                    isNewElement: true
-                });
+            this.queueOpenPropertyEditor(
+                async () => {
+                    // getElementForPropertyEditor need to be called after propertyEditorBlockerCalls
+                    // has been resolved
+                    const node = getElementForPropertyEditor({
+                        locationX,
+                        locationY,
+                        elementType,
+                        elementSubtype,
+                        actionType,
+                        actionName,
+                        parent,
+                        isNewElement: true
+                    });
+                    // For a panel, the element is created upon opening the property editor
+                    // the parent guid is also passed in if a child element is being created
+                    if (this.usePanelForPropertyEditor) {
+                        await this.deMutateAndAddNodeCollection(node, parent, alcConnectionSource);
+                        this.activeElementGuid = node.guid;
+                    }
 
-                // For a panel, the element is created upon opening the property editor
-                // the parent guid is also passed in if a child element is being created
-                if (this.usePanelForPropertyEditor) {
-                    await this.deMutateAndAddNodeCollection(node, parent, alcConnectionSource);
-                }
-
-                return {
-                    mode,
-                    node,
-                    nodeUpdate,
-                    newResourceCallback,
-                    processType,
-                    moveFocusOnCloseCallback,
-                    insertInfo: alcConnectionSource,
-                    isAutoLayoutCanvas: this.properties.isAutoLayoutCanvas
-                };
-            });
+                    return {
+                        mode,
+                        node,
+                        nodeUpdate,
+                        newResourceCallback,
+                        processType,
+                        moveFocusOnCloseCallback,
+                        insertInfo: alcConnectionSource,
+                        isAutoLayoutCanvas: this.properties.isAutoLayoutCanvas
+                    };
+                },
+                false,
+                designateFocus
+            );
         }
     };
 
@@ -1988,11 +1997,17 @@ export default class Editor extends LightningElement {
 
     /**
      * Close the currently displayed property editor panel
+     *
+     * @param clearActiveElement - indicates whether or not to clear the canvas element being actively edited
      */
-    handleClosePropertyEditor() {
+    handleClosePropertyEditor(clearActiveElement = true) {
         this.showPropertyEditorRightPanel = false;
         this.propertyEditorParams = null;
         this.elementBeingEditedInPanel = null;
+
+        if (clearActiveElement) {
+            this.activeElementGuid = null;
+        }
     }
 
     /**
@@ -2237,24 +2252,30 @@ export default class Editor extends LightningElement {
             (element.elementType === ELEMENT_TYPE.START_ELEMENT && isConfigurableStartSupported(processType))
         ) {
             logPerfTransactionStart('PropertyEditor');
-            this.queueOpenPropertyEditor(() => {
-                const node = getElementForPropertyEditor(element);
-                return {
-                    mode,
-                    nodeUpdate,
-                    node,
-                    newResourceCallback,
-                    processType,
-                    moveFocusOnCloseCallback,
-                    isAutoLayoutCanvas: this.properties.isAutoLayoutCanvas
-                };
-            }, forceModal);
+            this.queueOpenPropertyEditor(
+                () => {
+                    const node = getElementForPropertyEditor(element);
+                    return {
+                        mode,
+                        nodeUpdate,
+                        node,
+                        newResourceCallback,
+                        processType,
+                        moveFocusOnCloseCallback,
+                        isAutoLayoutCanvas: this.properties.isAutoLayoutCanvas
+                    };
+                },
+                forceModal,
+                designateFocus
+            );
             if (element && element.isCanvasElement && !this.properties.isAutoLayoutCanvas) {
                 storeInstance.dispatch(
                     selectOnCanvas({
                         guid
                     })
                 );
+            } else if (this.properties.isAutoLayoutCanvas && this.usePanelForPropertyEditor) {
+                this.activeElementGuid = guid;
             }
         }
     }

@@ -23,6 +23,12 @@ export default class AlcNode extends LightningElement {
     // @ts-ignore
     private dynamicNodeData: NodeModel;
 
+    /**
+     * The active element refers to the element currently being edited using the property editor panel
+     */
+    @api
+    activeElementGuid;
+
     @api
     get nodeInfo() {
         return this._nodeInfo;

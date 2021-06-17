@@ -10,4 +10,7 @@ export default class AlcFlow extends LightningElement {
 
     @api
     disableAddElements;
+
+    @api
+    activeElementGuid;
 }

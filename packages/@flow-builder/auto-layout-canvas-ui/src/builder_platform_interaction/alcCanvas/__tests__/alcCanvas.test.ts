@@ -11,7 +11,10 @@ import {
 import { invokeModal, MenuType, updateDeletionPathInfo } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ClickToZoomEvent, DeleteElementEvent, ZOOM_ACTION } from 'builder_platform_interaction/events';
 import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
-import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
+import {
+    setDocumentBodyChildren,
+    removeDocumentBodyChildren
+} from 'builder_platform_interaction/builderTestUtils/domTestUtils';
 import { commands } from 'builder_platform_interaction/sharedUtils';
 import { EditElementEvent } from 'builder_platform_interaction/events';
 import { setup } from '@sa11y/jest';
@@ -178,6 +181,10 @@ describe('Auto Layout Canvas', () => {
     beforeEach(() => {
         cmp = createComponentForTest();
         cmp.focusOnConnector = jest.fn();
+    });
+
+    afterEach(() => {
+        removeDocumentBodyChildren();
     });
 
     const getOverlay = () => cmp.shadowRoot.querySelector('.canvas-overlay');

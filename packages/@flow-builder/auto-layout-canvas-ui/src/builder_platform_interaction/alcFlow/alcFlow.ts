@@ -16,6 +16,12 @@ export default class AlcFlow extends LightningElement {
     @api
     disableAddElements;
 
+    /**
+     * The active element refers to the element currently being edited using the property editor panel
+     */
+    @api
+    activeElementGuid;
+
     get preConnector() {
         const { preConnector } = this.flow;
         return preConnector && getAlcConnectorData(preConnector);

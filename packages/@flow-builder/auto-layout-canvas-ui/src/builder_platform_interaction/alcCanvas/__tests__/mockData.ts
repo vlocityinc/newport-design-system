@@ -122,6 +122,10 @@ const flowModel = {
     '837e0692-6f17-4d5c-ba5d-854851d31f99': {
         guid: '837e0692-6f17-4d5c-ba5d-854851d31f99',
         name: 'ORCHESTRATED_STAGE',
+        childReferences: [
+            { childReference: '369e5cef-f661-460a-a0ae-ab2ed95fed03' },
+            { childReference: 'f509c9e4-32a6-47cb-aa7a-9b02fe3c9715' }
+        ],
         description: '',
         next: '1c397973-762d-443f-9780-2b9777b6d6a3',
         prev: '837e0692-6f17-4d5c-ba5d-854851d31fcb',
@@ -134,6 +138,20 @@ const flowModel = {
         elementType: 'orchestratedstage',
         value: 'orchestratedstage',
         text: 'orchestratedstage'
+    },
+    '369e5cef-f661-460a-a0ae-ab2ed95fed03': {
+        guid: '369e5cef-f661-460a-a0ae-ab2ed95fed03',
+        name: 'STAGE_STEP',
+        elementType: 'STAGE_STEP',
+        dataType: 'STAGE_STEP',
+        label: 'Step 1 of Stage 1'
+    },
+    'f509c9e4-32a6-47cb-aa7a-9b02fe3c9715': {
+        guid: 'f509c9e4-32a6-47cb-aa7a-9b02fe3c9715',
+        name: 'STAGE_STEP_2',
+        elementType: 'STAGE_STEP',
+        dataType: 'STAGE_STEP',
+        label: 'Step 2 of Stage 1'
     },
     '1c397973-762d-443f-9780-2b9777b6d6a3': {
         availableConnections: [],

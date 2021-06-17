@@ -22,6 +22,12 @@ export default class AlcCompoundNode extends LightningElement {
     @api
     disableAddElements;
 
+    /**
+     * The active element refers to the element currently being edited using the property editor panel
+     */
+    @api
+    activeElementGuid;
+
     get simpleNode() {
         return getAlcNodeData(this.node);
     }

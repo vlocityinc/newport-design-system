@@ -36,9 +36,10 @@ describe('Stepped-Stage-Node', () => {
     const ssGuid = 'ORCHESTRATED_STAGE_11';
     const itemGuid = 'someStepGuid';
     let orchestratedStageElement;
+    let mockNode;
 
     beforeEach(() => {
-        orchestratedStageElement = createComponentUnderTest({
+        mockNode = {
             name: 'myOrchestratedStageName',
             label: 'myOrchestratedStageLabel',
             description: 'myDescription',
@@ -63,7 +64,9 @@ describe('Stepped-Stage-Node', () => {
                 }
             },
             isCanvasElement: true
-        });
+        };
+
+        orchestratedStageElement = createComponentUnderTest(mockNode);
     });
 
     describe('add step item', () => {
@@ -82,12 +85,11 @@ describe('Stepped-Stage-Node', () => {
                     detail: {
                         designateFocus: false,
                         elementType: 'STAGE_STEP',
-                        parent: 'ORCHESTRATED_STAGE_11'
+                        parent: ssGuid
                     }
                 })
             );
         });
-
         it('adds a new step item (on space/enter keydown)', () => {
             const cb = jest.fn();
             orchestratedStageElement.addEventListener(AddElementEvent.EVENT_NAME, cb);
@@ -103,7 +105,7 @@ describe('Stepped-Stage-Node', () => {
                     detail: {
                         designateFocus: true,
                         elementType: 'STAGE_STEP',
-                        parent: 'ORCHESTRATED_STAGE_11'
+                        parent: ssGuid
                     }
                 })
             );
@@ -143,6 +145,39 @@ describe('Stepped-Stage-Node', () => {
                 elementType: 'STAGE_STEP',
                 mode: 'editelement'
             });
+        });
+        it('ensures that setting the guidForPropertyEditor selects the corresponding step', async () => {
+            const stepItems = Array.from(
+                orchestratedStageElement.shadowRoot.querySelectorAll(selectors.STEP_ITEM)
+            ) as any;
+
+            // mock setting the activeElementGuid to the current step being edited
+            orchestratedStageElement.activeElementGuid = 'someStepGuid_3';
+
+            await ticks(1);
+
+            expect(stepItems[2].ariaSelected).toEqual('true');
+        });
+        it('ensures that setting the guidForPropertyEditor as null resets the last edited element selection', async () => {
+            expect.assertions(2);
+
+            const stepItems = Array.from(
+                orchestratedStageElement.shadowRoot.querySelectorAll(selectors.STEP_ITEM)
+            ) as any;
+
+            // mock setting the activeElementGuid to the current step being edited
+            orchestratedStageElement.activeElementGuid = 'someStepGuid_3';
+
+            await ticks(1);
+
+            expect(stepItems[2].ariaSelected).toEqual('true');
+
+            // mock clearing the activeElementGuid to falsify aria-selected on the last edited step
+            orchestratedStageElement.activeElementGuid = null;
+
+            await ticks(1);
+
+            expect(stepItems[2].ariaSelected).toEqual('false');
         });
     });
 
@@ -215,7 +250,6 @@ describe('Stepped-Stage-Node', () => {
 
             expect(cb).toHaveBeenCalled();
         });
-
         it('moves the tab focus to the bottom step item', () => {
             const cb = jest.fn();
 
@@ -243,7 +277,7 @@ describe('Stepped-Stage-Node', () => {
 
             expect([stepItems[0].tabIndex, stepItems[1].tabIndex, stepItems[2].tabIndex]).toEqual([0, -1, -1]);
         });
-        it('ensures that only the last focused/active step item has a tab index', async () => {
+        it('ensures that only the last focused step item has a tab index', async () => {
             const stepItems = Array.from(
                 orchestratedStageElement.shadowRoot.querySelectorAll(selectors.STEP_ITEM)
             ) as any;
@@ -255,6 +289,18 @@ describe('Stepped-Stage-Node', () => {
             await ticks(1);
 
             expect([stepItems[0].tabIndex, stepItems[1].tabIndex, stepItems[2].tabIndex]).toEqual([-1, 0, -1]);
+        });
+        it('ensures that only the last edited step item has a tab index', async () => {
+            const stepItems = Array.from(
+                orchestratedStageElement.shadowRoot.querySelectorAll(selectors.STEP_ITEM)
+            ) as any;
+
+            // mock setting the activeElementGuid to the current step being edited
+            orchestratedStageElement.activeElementGuid = 'someStepGuid_3';
+
+            await ticks(1);
+
+            expect([stepItems[0].tabIndex, stepItems[1].tabIndex, stepItems[2].tabIndex]).toEqual([-1, -1, 0]);
         });
     });
 });
