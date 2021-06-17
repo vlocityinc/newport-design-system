@@ -48,7 +48,7 @@ import { hasGoToOnNext } from 'builder_platform_interaction/autoLayoutCanvas';
 
 const LEFT_PANEL_ELEMENTS = 'LEFT_PANEL_ELEMENTS';
 const { logPerfTransactionStart, logPerfTransactionEnd } = loggingUtils;
-const afterCommit = '_AfterCommit';
+const afterCommit = 'AfterCommit';
 const runOnSuccess = 'Run_On_Success';
 /**
  * Helper method to determine if the connector is an associated connector or not
