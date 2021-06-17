@@ -48,8 +48,6 @@ import { hasGoToOnNext } from 'builder_platform_interaction/autoLayoutCanvas';
 
 const LEFT_PANEL_ELEMENTS = 'LEFT_PANEL_ELEMENTS';
 const { logPerfTransactionStart, logPerfTransactionEnd } = loggingUtils;
-const afterCommit = 'AfterCommit';
-const runOnSuccess = 'Run_On_Success';
 /**
  * Helper method to determine if the connector is an associated connector or not
  *
@@ -978,12 +976,7 @@ export const getConnectorsToHighlight = (canvasDecorator: Object): Object[] => {
                     } else {
                         connectorType = connector.connectorType;
                     }
-                    // TODO: @W-9421262 Below logic has to be changed when both the core and UI dev names for AfterCommit match
-                    const childSourceElement =
-                        connector.childSource &&
-                        getElementByDevName(
-                            connector.childSource === afterCommit ? runOnSuccess : connector.childSource
-                        );
+                    const childSourceElement = connector.childSource && getElementByDevName(connector.childSource);
                     if (!connector.childSource || (connector.childSource && childSourceElement)) {
                         connectorsToHighlight.push({
                             source: storeElement.guid,

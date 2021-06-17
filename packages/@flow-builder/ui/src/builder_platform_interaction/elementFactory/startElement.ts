@@ -124,7 +124,7 @@ export function createStartElement(startElement: UI.Start | Metadata.Start) {
         (scheduledPaths as Metadata.ScheduledPath[])!.find((el) => el.pathType === SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS);
     if (runOnSuccessPath) {
         const label = LABELS.runOnSuccessScheduledPathLabel;
-        Object.assign(runOnSuccessPath, { label, name: sanitizeDevName(label) });
+        Object.assign(runOnSuccessPath, { label, name: sanitizeDevName(SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS) });
     }
     const { objectIndex = generateGuid(), objectContainer } = <UI.Start>startElement;
     const maxConnections = calculateMaxConnections(startElement);
@@ -456,7 +456,7 @@ export function createRunOnSuccessScheduledPath(scheduledPath: UI.ScheduledPath)
     const newScheduledPath: UI.ChildElement = baseChildElement(scheduledPath, ELEMENT_TYPE.SCHEDULED_PATH);
     const label = LABELS.runOnSuccessScheduledPathLabel;
     const pathType = SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS;
-    const name = sanitizeDevName(label);
+    const name = sanitizeDevName(pathType);
     return Object.assign(newScheduledPath, {
         name,
         label,
