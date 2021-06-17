@@ -120,6 +120,7 @@ export const ACTION_TYPE = {
     COMPONENT: 'component',
     EXTERNAL_SERVICE: 'externalService',
     CREATE_WORK_ITEM: 'createWorkItem',
+    ORCHESTRATOR_AUTOLAUNCHED_FLOW: 'orchestratorAutolaunchedFlow',
     OUTBOUND_MESSAGE: 'outboundMessage'
 };
 

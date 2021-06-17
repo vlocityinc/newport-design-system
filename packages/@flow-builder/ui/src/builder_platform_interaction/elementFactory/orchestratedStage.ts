@@ -446,7 +446,7 @@ const createActionCallHelper = (
     let actionCall;
     if (action) {
         actionCall = createActionCall(action);
-    } else if (actionName && actionType) {
+    } else if (actionType) {
         actionCall = createActionCall({
             actionName,
             actionType

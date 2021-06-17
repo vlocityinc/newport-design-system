@@ -124,93 +124,94 @@
             ondeleteparameteritem={handleParameterPropertyChangedEvent}
         ></builder_platform_interaction-parameter-list>
     </div>
-
-    <div class="slds-border_top slds-p-top_medium slds-p-left_small slds-p-bottom_small slds-p-right_small">
-        <span class="slds-text-heading_small">{labels.recordSelectionSectionLabel}</span>
-        <builder_platform_interaction-ferov-resource-picker
-            class="slds-col slds-size_3-of-3 recordPicker"
-            combobox-config={recordComboBoxConfig}
-            property-editor-element-type={propertyEditorElementType}
-            element-param={recordElementParam}
-            rules={resourcePickerRules}
-            error-message={recordErrorMessage}
-            row-index={_recordPickerId}
-            oncomboboxstatechanged={handleRecordChanged}
-            onitemselected={handleRecordChanged}
-            value={recordValue}
-            is-pill-supported
-            hide-global-constants
-        ></builder_platform_interaction-ferov-resource-picker>
-    </div>
-
-    <div class="slds-border_top slds-p-top_medium slds-p-left_small slds-p-bottom_small slds-p-right_small">
-        <span class="slds-text-heading_small">{labels.actorSelectionSectionLabel}</span>
-        <builder_platform_interaction-ferov-resource-picker
-            class="slds-col slds-size_3-of-3 actorPicker"
-            combobox-config={actorComboBoxConfig}
-            property-editor-element-type={propertyEditorElementType}
-            element-param={actorElementParam}
-            rules={resourcePickerRules}
-            error-message={actorErrorMessage}
-            row-index={_actorPickerId}
-            oncomboboxstatechanged={handleActorChanged}
-            onitemselected={handleActorChanged}
-            value={actorValue}
-            is-pill-supported
-            hide-global-constants
-        ></builder_platform_interaction-ferov-resource-picker>
-    </div>
-
-    <div class="slds-border_top slds-p-top_medium slds-p-left_small slds-p-bottom_small slds-p-right_small">
-        <span class="slds-text-heading_small">{labels.exitSectionLabel}</span>
-        <div class="slds-p-top_x-small">
-            <lightning-combobox
-                name="stepCompletes"
-                label={labels.exitActionSelectionLabel}
-                value={selectedExitCriteria}
-                placeholder="Select Progress"
-                options={stepCompletesOptions}
-                onchange={handleStepCompletesChanged}
-                required
-                field-level-help={exitCriteriaHelpText}
-            ></lightning-combobox>
+    <div if:true={isStepWithUserAction}>
+        <div class="slds-border_top slds-p-top_medium slds-p-left_small slds-p-bottom_small slds-p-right_small">
+            <span class="slds-text-heading_small">{labels.recordSelectionSectionLabel}</span>
+            <builder_platform_interaction-ferov-resource-picker
+                class="slds-col slds-size_3-of-3 recordPicker"
+                combobox-config={recordComboBoxConfig}
+                property-editor-element-type={propertyEditorElementType}
+                element-param={recordElementParam}
+                rules={resourcePickerRules}
+                error-message={recordErrorMessage}
+                row-index={_recordPickerId}
+                oncomboboxstatechanged={handleRecordChanged}
+                onitemselected={handleRecordChanged}
+                value={recordValue}
+                is-pill-supported
+                hide-global-constants
+            ></builder_platform_interaction-ferov-resource-picker>
         </div>
-        <div class="slds-p-top_x-small" if:true={isExitCriteriaBasedOnCustomAction}>
-            <builder_platform_interaction-action-selector
-                class="slds-col slds-size_3-of-3"
-                selected-action={selectedExitAction}
-                error-message={exitActionErrorMessage}
-                invocable-actions={availableDeterminationActions}
-                invocable-actions-fetched={isActionsFetched}
-                selected-category={selectedCategory}
-                selected-filter-by={selectedFilterBy}
-                onvaluechanged={handleExitActionSelected}
-                oncannotretrieveactions={handleCannotRetrieveActions}
-                flow-process-type={processType}
-                label-override={labels.exitDeterminationFlowSelectorHeader}
+
+        <div class="slds-border_top slds-p-top_medium slds-p-left_small slds-p-bottom_small slds-p-right_small">
+            <span class="slds-text-heading_small">{labels.actorSelectionSectionLabel}</span>
+            <builder_platform_interaction-ferov-resource-picker
+                class="slds-col slds-size_3-of-3 actorPicker"
+                combobox-config={actorComboBoxConfig}
+                property-editor-element-type={propertyEditorElementType}
+                element-param={actorElementParam}
+                rules={resourcePickerRules}
+                error-message={actorErrorMessage}
+                row-index={_actorPickerId}
+                oncomboboxstatechanged={handleActorChanged}
+                onitemselected={handleActorChanged}
+                value={actorValue}
+                is-pill-supported
+                hide-global-constants
+            ></builder_platform_interaction-ferov-resource-picker>
+        </div>
+
+        <div class="slds-border_top slds-p-top_medium slds-p-left_small slds-p-bottom_small slds-p-right_small">
+            <span class="slds-text-heading_small">{labels.exitSectionLabel}</span>
+            <div class="slds-p-top_x-small">
+                <lightning-combobox
+                    name="stepCompletes"
+                    label={labels.exitActionSelectionLabel}
+                    value={selectedExitCriteria}
+                    placeholder="Select Progress"
+                    options={stepCompletesOptions}
+                    onchange={handleStepCompletesChanged}
+                    required
+                    field-level-help={exitCriteriaHelpText}
+                ></lightning-combobox>
+            </div>
+            <div class="slds-p-top_x-small" if:true={isExitCriteriaBasedOnCustomAction}>
+                <builder_platform_interaction-action-selector
+                    class="slds-col slds-size_3-of-3"
+                    selected-action={selectedExitAction}
+                    error-message={exitActionErrorMessage}
+                    invocable-actions={availableDeterminationActions}
+                    invocable-actions-fetched={isActionsFetched}
+                    selected-category={selectedCategory}
+                    selected-filter-by={selectedFilterBy}
+                    onvaluechanged={handleExitActionSelected}
+                    oncannotretrieveactions={handleCannotRetrieveActions}
+                    flow-process-type={processType}
+                    label-override={labels.exitDeterminationFlowSelectorHeader}
+                >
+                </builder_platform_interaction-action-selector>
+            </div>
+            <builder_platform_interaction-parameter-list
+                if:true={showExitParameterList}
+                inputs={exitActionParameterListConfig.inputs}
+                outputs={exitActionParameterListConfig.outputs}
+                warnings={exitActionParameterListConfig.warnings}
+                input-header={exitActionParameterListConfig.inputHeader}
+                output-header={exitActionParameterListConfig.outputHeader}
+                element-type={actionElementType}
+                sort-inputs={exitActionParameterListConfig.sortInputs}
+                sort-outputs={exitActionParameterListConfig.sortOutputs}
+                empty-inputs-title={exitActionParameterListConfig.emptyInputsTitle}
+                empty-inputs-body={exitActionParameterListConfig.emptyInputsBody}
+                empty-inputs-outputs-title={exitActionParameterListConfig.emptyInputsOutputsTitle}
+                empty-inputs-outputs-body={exitActionParameterListConfig.emptyInputsOutputsBody}
+                store-output-automatically={exitActionParameterListConfig.storeOutputAutomatically}
+                automatic-output-handling-supported={exitActionParameterListConfig.automaticOutputHandlingSupported}
+                element-info={exitActionElementInfo}
+                onupdateparameteritem={handleParameterPropertyChangedEvent}
+                ondeleteparameteritem={handleParameterPropertyChangedEvent}
             >
-            </builder_platform_interaction-action-selector>
+            </builder_platform_interaction-parameter-list>
         </div>
-        <builder_platform_interaction-parameter-list
-            if:true={showExitParameterList}
-            inputs={exitActionParameterListConfig.inputs}
-            outputs={exitActionParameterListConfig.outputs}
-            warnings={exitActionParameterListConfig.warnings}
-            input-header={exitActionParameterListConfig.inputHeader}
-            output-header={exitActionParameterListConfig.outputHeader}
-            element-type={actionElementType}
-            sort-inputs={exitActionParameterListConfig.sortInputs}
-            sort-outputs={exitActionParameterListConfig.sortOutputs}
-            empty-inputs-title={exitActionParameterListConfig.emptyInputsTitle}
-            empty-inputs-body={exitActionParameterListConfig.emptyInputsBody}
-            empty-inputs-outputs-title={exitActionParameterListConfig.emptyInputsOutputsTitle}
-            empty-inputs-outputs-body={exitActionParameterListConfig.emptyInputsOutputsBody}
-            store-output-automatically={exitActionParameterListConfig.storeOutputAutomatically}
-            automatic-output-handling-supported={exitActionParameterListConfig.automaticOutputHandlingSupported}
-            element-info={exitActionElementInfo}
-            onupdateparameteritem={handleParameterPropertyChangedEvent}
-            ondeleteparameteritem={handleParameterPropertyChangedEvent}
-        >
-        </builder_platform_interaction-parameter-list>
     </div>
 </template>

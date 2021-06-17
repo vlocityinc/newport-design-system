@@ -2,7 +2,7 @@ import { LightningElement, api } from 'lwc';
 import { NodeResizeEvent } from 'builder_platform_interaction/alcEvents';
 import { AddElementEvent, DeleteElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
 import { StageStep } from 'builder_platform_interaction/elementFactory';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ACTION_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { NodeRenderInfo } from 'builder_platform_interaction/autoLayoutCanvas';
 import { LABELS } from './orchestratedStageNodeLabels';
 import { format } from 'builder_platform_interaction/commonUtils';
@@ -140,6 +140,8 @@ export default class OrchestratedStageNode extends LightningElement {
 
         const addItemEvent = new AddElementEvent({
             elementType: ELEMENT_TYPE.STAGE_STEP,
+            // TODO this should come from the step type menu
+            // actionType: ACTION_TYPE.ORCHESTRATOR_AUTOLAUNCHED_FLOW,
             parent: this.node && this.node.guid,
             designateFocus
         });

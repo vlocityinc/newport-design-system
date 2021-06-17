@@ -133,7 +133,7 @@ describe('StageStepEditor', () => {
                 value: 'someActionName'
             },
             actionType: {
-                value: 'someActionType'
+                value: 'createWorkItem'
             }
         },
         assignees: [
@@ -142,6 +142,23 @@ describe('StageStepEditor', () => {
                 assigneeType: 'User'
             }
         ],
+        inputParameters: mockInputParameters
+    };
+
+    const autolaunchedNodeParams = {
+        guid: 'someGuid',
+        name: 'someName',
+        label: 'someLabel',
+        description: 'someDescription',
+        entryConditions: [],
+        action: {
+            actionName: {
+                value: 'someActionName'
+            },
+            actionType: {
+                value: 'orchestratorAutolaunchedFlow'
+            }
+        },
         inputParameters: mockInputParameters
     };
 
@@ -156,7 +173,7 @@ describe('StageStepEditor', () => {
                 value: 'someActionName'
             },
             actionType: {
-                value: 'someActionType'
+                value: 'createWorkItem'
             }
         },
         assignees: [{ assignee: 'orchestrator@salesforce.com', assigneeType: 'User' }],
@@ -274,6 +291,12 @@ describe('StageStepEditor', () => {
             editor = createComponentUnderTest(nodeParamsWithDeterminations);
             const dropdowns = editor.shadowRoot.querySelectorAll(selectors.CRITERIA_DROPDOWNS);
             expect(dropdowns[1].value).toEqual(EXIT_CRITERIA.ON_DETERMINATION_COMPLETE);
+        });
+
+        it('should not show exit criteria for autolaunched step', () => {
+            editor = createComponentUnderTest(autolaunchedNodeParams);
+            const dropdowns = editor.shadowRoot.querySelector(selectors.CRITERIA_DROPDOWNS);
+            expect(typeof dropdowns).toBe('object');
         });
     });
 
@@ -535,6 +558,12 @@ describe('StageStepEditor', () => {
                     })
                 );
             });
+
+            it('should not be visible for autolaunched step', () => {
+                editor = createComponentUnderTest(autolaunchedNodeParams);
+                const recordSelector = editor.shadowRoot.querySelector(selectors.ACTOR_SELECTOR);
+                expect(recordSelector).toBeNull();
+            });
         });
 
         describe('related record selection', () => {
@@ -593,6 +622,12 @@ describe('StageStepEditor', () => {
                         error: itemSelectedEvent.detail.item.error
                     })
                 );
+            });
+
+            it('should not be visible for autolaunched step', () => {
+                editor = createComponentUnderTest(autolaunchedNodeParams);
+                const recordSelector = editor.shadowRoot.querySelector(selectors.RELATED_RECORD_SELECTOR);
+                expect(recordSelector).toBeNull();
             });
         });
     });

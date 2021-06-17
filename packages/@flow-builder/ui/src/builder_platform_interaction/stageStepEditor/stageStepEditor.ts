@@ -19,7 +19,7 @@ import {
 import { LABELS } from './stageStepEditorLabels';
 import { stageStepReducer } from './stageStepReducer';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
-import { ELEMENT_TYPE, FLOW_TRANSACTION_MODEL } from 'builder_platform_interaction/flowMetadata';
+import { ACTION_TYPE, ELEMENT_TYPE, FLOW_TRANSACTION_MODEL } from 'builder_platform_interaction/flowMetadata';
 import {
     ASSIGNEE_DATA_TYPE_PROPERTY_NAME,
     ASSIGNEE_PROPERTY_NAME,
@@ -271,6 +271,13 @@ export default class StageStepEditor extends LightningElement {
 
     get stepStartValue(): string {
         return this.stepStartOptions[0].value;
+    }
+
+    get isStepWithUserAction(): boolean {
+        return (
+            this.element?.action?.actionType !== ACTION_TYPE.ORCHESTRATOR_AUTOLAUNCHED_FLOW &&
+            this.element?.action?.actionType.value !== ACTION_TYPE.ORCHESTRATOR_AUTOLAUNCHED_FLOW
+        );
     }
 
     get isStartCriteriaBasedOnStep(): boolean {
