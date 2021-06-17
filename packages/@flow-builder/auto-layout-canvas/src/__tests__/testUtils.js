@@ -1328,6 +1328,42 @@ function getFlowWithGoToOnImmediateBranchHead() {
     return createFlowRenderContext({ flowModel });
 }
 
+function getFlowWhenGoingToLoopBranchHead() {
+    const root = {
+        ...ROOT_ELEMENT,
+        children: ['start-guid']
+    };
+    let start = createElementWithElementType('start-guid', 'START_ELEMENT', NodeType.START);
+    let loop = createElementWithElementType(LOOP_ELEMENT_GUID, 'LOOP_ELEMENT', NodeType.LOOP);
+    let screen = createElementWithElementType('screen-guid', 'SCREEN_ELEMENT', NodeType.DEFAULT);
+
+    start = {
+        ...start,
+        parent: 'root',
+        childIndex: 0,
+        next: 'loop-guid'
+    };
+
+    loop = {
+        ...loop,
+        prev: 'start-guid',
+        next: 'screen-guid',
+        children: ['screen-guid']
+    };
+
+    screen = {
+        ...screen,
+        parent: 'loop-guid',
+        childIndex: LOOP_BACK_INDEX,
+        next: null,
+        incomingGoTo: ['loop-guid']
+    };
+
+    const elements = [root, start, loop, screen];
+    const flowModel = flowModelFromElements(elements);
+    return createFlowRenderContext({ flowModel });
+}
+
 export {
     ACTION_ELEMENT_GUID,
     BRANCH_ELEMENT_GUID,
@@ -1340,6 +1376,7 @@ export {
     BRANCH_ELEMENT,
     LOOP_ELEMENT,
     SCREEN_ELEMENT_GUID,
+    LOOP_ELEMENT_GUID,
     createDefaultElement,
     flowModelFromElements,
     createFlowRenderContext,
@@ -1376,5 +1413,6 @@ export {
     getFlowWhenGoingFromImmediateToScheduledPathBranch,
     getFlowWhenGoingFromScheduledPathToImmediateBranch,
     getFlowWithGoToOnImmediateBranchHead,
-    getFlowWithGoToFromAncestorToNestedElement
+    getFlowWithGoToFromAncestorToNestedElement,
+    getFlowWhenGoingToLoopBranchHead
 };

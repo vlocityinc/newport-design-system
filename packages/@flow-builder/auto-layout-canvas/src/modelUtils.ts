@@ -10,6 +10,7 @@ import {
     StartNodeModel,
     GOTO_CONNECTION_SUFFIX,
     START_IMMEDIATE_INDEX,
+    LOOP_BACK_INDEX,
     GoToSourceRef,
     ConnectionSource
 } from './model';
@@ -66,9 +67,15 @@ function getSuffixForGoToConnection(flowModel: FlowModel, source: ConnectionSour
             ? childReferences.length
             : nodeType === NodeType.START
             ? START_IMMEDIATE_INDEX
+            : nodeType === NodeType.LOOP
+            ? LOOP_BACK_INDEX
             : null;
     if (childIndex === defaultIndex) {
-        return nodeType === NodeType.START ? GOTO_CONNECTION_SUFFIX.IMMEDIATE : GOTO_CONNECTION_SUFFIX.DEFAULT;
+        return nodeType === NodeType.START
+            ? GOTO_CONNECTION_SUFFIX.IMMEDIATE
+            : nodeType === NodeType.LOOP
+            ? GOTO_CONNECTION_SUFFIX.FOR_EACH
+            : GOTO_CONNECTION_SUFFIX.DEFAULT;
     } else if (childIndex === FAULT_INDEX) {
         return GOTO_CONNECTION_SUFFIX.FAULT;
     } else if (childReferences != null) {
@@ -166,11 +173,17 @@ export function getBranchIndexForGoToConnection(
 ): number {
     const sourceElement = resolveParent(flowModel, sourceGuid);
 
-    if (goToSuffix === GOTO_CONNECTION_SUFFIX.IMMEDIATE || goToSuffix === GOTO_CONNECTION_SUFFIX.DEFAULT) {
+    if (
+        goToSuffix === GOTO_CONNECTION_SUFFIX.IMMEDIATE ||
+        goToSuffix === GOTO_CONNECTION_SUFFIX.DEFAULT ||
+        goToSuffix === GOTO_CONNECTION_SUFFIX.FOR_EACH
+    ) {
         // Should be START_IMMEDIATE_INDEX for Start Node and length of childReferences for other branching elements
         return sourceElement.nodeType === NodeType.BRANCH && sourceElement.childReferences
             ? sourceElement.childReferences.length
-            : START_IMMEDIATE_INDEX;
+            : sourceElement.nodeType === NodeType.START
+            ? START_IMMEDIATE_INDEX
+            : LOOP_BACK_INDEX;
     } else if (
         goToSuffix !== GOTO_CONNECTION_SUFFIX.FAULT &&
         sourceElement.childReferences &&

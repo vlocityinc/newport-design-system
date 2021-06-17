@@ -8,6 +8,7 @@ import {
     SCREEN_ELEMENT,
     BRANCH_ELEMENT_GUID,
     SCREEN_ELEMENT_GUID,
+    LOOP_ELEMENT_GUID,
     START_ELEMENT_GUID,
     END_ELEMENT_GUID,
     END_ELEMENT,
@@ -21,7 +22,8 @@ import {
     getFlowWhenGoingFromImmediateToScheduledPathBranch,
     getFlowWhenGoingFromScheduledPathToImmediateBranch,
     getFlowWithGoToOnImmediateBranchHead,
-    getFlowWithGoToFromAncestorToNestedElement
+    getFlowWithGoToFromAncestorToNestedElement,
+    getFlowWhenGoingToLoopBranchHead
 } from './testUtils';
 
 import {
@@ -54,7 +56,7 @@ import {
     getSuffixForGoToConnection
 } from '../modelUtils';
 
-import { GOTO_CONNECTION_SUFFIX, FAULT_INDEX, START_IMMEDIATE_INDEX } from '../model';
+import { GOTO_CONNECTION_SUFFIX, FAULT_INDEX, START_IMMEDIATE_INDEX, LOOP_BACK_INDEX } from '../model';
 import NodeType from '../NodeType';
 
 /**
@@ -125,6 +127,26 @@ describe('modelUtils', () => {
             expect(getSuffixForGoToConnection(elements, { guid: BRANCH_ELEMENT_GUID, childIndex: 1 })).toBe(
                 GOTO_CONNECTION_SUFFIX.DEFAULT
             );
+        });
+
+        it('is immediate when childIndex is START_IMMEDIATE_INDEX and nodeType is Start', () => {
+            const flowWithBranchingStart = getFlowWithTerminalImmediateBranch();
+            expect(
+                getSuffixForGoToConnection(flowWithBranchingStart, {
+                    guid: 'start-guid',
+                    childIndex: START_IMMEDIATE_INDEX
+                })
+            ).toBe(GOTO_CONNECTION_SUFFIX.IMMEDIATE);
+        });
+
+        it('is forEach when childIndex is LOOP_BACK_INDEX and nodeType is Loop', () => {
+            const flowRenderContext = getFlowWhenGoingToLoopBranchHead();
+            expect(
+                getSuffixForGoToConnection(flowRenderContext.flowModel, {
+                    guid: LOOP_ELEMENT_GUID,
+                    childIndex: LOOP_BACK_INDEX
+                })
+            ).toBe(GOTO_CONNECTION_SUFFIX.FOR_EACH);
         });
 
         it('is the childReference when childIndex is not the last branch', () => {

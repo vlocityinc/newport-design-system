@@ -3,7 +3,8 @@ import NodeType from './NodeType';
 export enum GOTO_CONNECTION_SUFFIX {
     DEFAULT = 'default',
     FAULT = 'fault',
-    IMMEDIATE = 'immediate'
+    IMMEDIATE = 'immediate',
+    FOR_EACH = 'forEach'
 }
 
 export type Guid = string;
