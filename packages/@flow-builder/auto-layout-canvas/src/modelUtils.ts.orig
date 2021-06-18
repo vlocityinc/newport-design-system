@@ -68,15 +68,9 @@ const gotoUtils = {
                 ? childReferences.length
                 : nodeType === NodeType.START
                 ? START_IMMEDIATE_INDEX
-                : nodeType === NodeType.LOOP
-                ? LOOP_BACK_INDEX
                 : null;
         if (childIndex === defaultIndex) {
-            return nodeType === NodeType.START
-                ? GOTO_CONNECTION_SUFFIX.IMMEDIATE
-                : nodeType === NodeType.LOOP
-                ? GOTO_CONNECTION_SUFFIX.FOR_EACH
-                : GOTO_CONNECTION_SUFFIX.DEFAULT;
+            return nodeType === NodeType.START ? GOTO_CONNECTION_SUFFIX.IMMEDIATE : GOTO_CONNECTION_SUFFIX.DEFAULT;
         } else if (childIndex === FAULT_INDEX) {
             return GOTO_CONNECTION_SUFFIX.FAULT;
         } else if (childReferences != null) {
@@ -99,6 +93,32 @@ const gotoUtils = {
         return suffix != null ? `${source.guid}:${suffix}` : source.guid;
     },
 
+<<<<<<< HEAD
+    // Should be START_IMMEDIATE_INDEX for Start Node and length of childReferences for other branching elements
+    const defaultIndex =
+        nodeType === NodeType.BRANCH && childReferences
+            ? childReferences.length
+            : nodeType === NodeType.START
+            ? START_IMMEDIATE_INDEX
+            : nodeType === NodeType.LOOP
+            ? LOOP_BACK_INDEX
+            : null;
+    if (childIndex === defaultIndex) {
+        return nodeType === NodeType.START
+            ? GOTO_CONNECTION_SUFFIX.IMMEDIATE
+            : nodeType === NodeType.LOOP
+            ? GOTO_CONNECTION_SUFFIX.FOR_EACH
+            : GOTO_CONNECTION_SUFFIX.DEFAULT;
+    } else if (childIndex === FAULT_INDEX) {
+        return GOTO_CONNECTION_SUFFIX.FAULT;
+    } else if (childReferences != null) {
+        // Accounting for Immediate Branch being on the 0th index in case of Start Element
+        const referenceIndex = nodeType === NodeType.START ? childIndex - 1 : childIndex;
+        return childReferences[referenceIndex].childReference;
+    }
+    return null;
+}
+=======
     /**
      * Parses a goto source reference into its guid and suffix
      *
@@ -109,6 +129,7 @@ const gotoUtils = {
         const [sourceGuid, suffix] = gotoSourceRef.split(':');
         return { sourceGuid, suffix };
     },
+>>>>>>> 2222b0ea9... goto refactor
 
     /**
      * Checks for the presence of a goto on a connection source
@@ -349,6 +370,87 @@ function getConnectionTarget(flowModel: FlowModel, source: ConnectionSource): Gu
 }
 
 /**
+<<<<<<< HEAD
+ * Checks for the presence of a goto on a connection source
+ *
+ * @param flowModel - The flow model
+ * @param source - The connection source
+ * @returns true if there is a goto, false otherwise
+ */
+function hasGoTo(flowModel: FlowModel, source: ConnectionSource) {
+    const goToSourceRef = createGoToSourceRef(flowModel, source);
+    const target = getConnectionTarget(flowModel, source);
+    return target != null ? (resolveNode(flowModel, target).incomingGoTo || []).includes(goToSourceRef) : false;
+}
+
+/**
+ * Checks for the presence of a goto on a branch head
+ *
+ * @param flowModel - The flow model
+ * @param parentGuid - The parent guid
+ * @param childIndex - The child index
+ * @returns true if there is a goto, false otherwise
+ */
+function hasGoToOnBranchHead(flowModel: FlowModel, parentGuid: Guid, childIndex: number) {
+    return hasGoTo(flowModel, { guid: parentGuid, childIndex });
+}
+
+/**
+ * Checks for the presence of a goto on an element's next
+ *
+ * @param flowModel - The flow model
+ * @param guid - The element's guid
+ * @returns true if there is a goto, false otherwise
+ */
+function hasGoToOnNext(flowModel: FlowModel, guid: Guid) {
+    return hasGoTo(flowModel, { guid });
+}
+
+/**
+ * Determines the branch index associated with a given source guid and the goTo suffix
+ *
+ * @param flowModel - The flow model
+ * @param sourceGuid - The guid of the source element
+ * @param goToSuffix - Suffix associated with the incomingGoTo if any
+ * @returns The branch index associated with the GoTo connection
+ */
+export function getBranchIndexForGoToConnection(
+    flowModel: FlowModel,
+    sourceGuid: Guid,
+    goToSuffix: GOTO_CONNECTION_SUFFIX | string
+): number {
+    const sourceElement = resolveParent(flowModel, sourceGuid);
+
+    if (
+        goToSuffix === GOTO_CONNECTION_SUFFIX.IMMEDIATE ||
+        goToSuffix === GOTO_CONNECTION_SUFFIX.DEFAULT ||
+        goToSuffix === GOTO_CONNECTION_SUFFIX.FOR_EACH
+    ) {
+        // Should be START_IMMEDIATE_INDEX for Start Node and length of childReferences for other branching elements
+        return sourceElement.nodeType === NodeType.BRANCH && sourceElement.childReferences
+            ? sourceElement.childReferences.length
+            : sourceElement.nodeType === NodeType.START
+            ? START_IMMEDIATE_INDEX
+            : LOOP_BACK_INDEX;
+    } else if (
+        goToSuffix !== GOTO_CONNECTION_SUFFIX.FAULT &&
+        sourceElement.childReferences &&
+        sourceElement.childReferences.length > 0
+    ) {
+        const index = sourceElement.childReferences.findIndex((child) => goToSuffix === child.childReference);
+        if (index >= 0) {
+            // Accounting for Immediate Branch being on the 0th index in case of Start Element
+            return sourceElement.nodeType === NodeType.START ? index + 1 : index;
+        }
+    }
+
+    // The only remaining possibility is that the GoTo is present on the Fault branch head
+    return FAULT_INDEX;
+}
+
+/**
+=======
+>>>>>>> 2222b0ea9... goto refactor
  * Checks if a branch at a given childIndex is terminal or not.
  * A branch is terminal if it has a GoTo connection at the branch head
  * or if the branchHead element's isTerminal property is set to true
