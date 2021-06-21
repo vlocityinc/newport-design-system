@@ -20,19 +20,22 @@
                         slot="listBody"
                     >
                         <div class="slds-list__item slds-is-relative" key={item.data.rowIndex}>
-                            <builder_platform_interaction-row item-index={itemIndex} show-delete={showDelete}>
+                            <builder_platform_interaction-row item-index={itemIndex} show-delete={item.deletable}>
                                 <div slot="rowBody">
                                     <builder_platform_interaction-field-to-ferov-expression-builder
                                         object-type={recordEntityName}
                                         container-element={elementType}
                                         lhs-fields={item.fields}
                                         expression={item.data}
-                                        lhs-label={labels.field}
-                                        lhs-placeholder={labels.getFieldPlaceholder}
+                                        lhs-label={lhsLabel}
+                                        lhs-placeholder={lhsPlaceholder}
+                                        operator-label={operatorLabel}
                                         operator-icon-name={operatorIconName}
                                         rhs-label={rhsLabel}
                                         rules={rules}
                                         hide-new-resource={hideNewResource}
+                                        required={item.required}
+                                        lhs-disabled={item.lhsDisabled}
                                     >
                                     </builder_platform_interaction-field-to-ferov-expression-builder>
                                 </div>

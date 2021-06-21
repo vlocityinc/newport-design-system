@@ -76,4 +76,10 @@ export default class BaseExpressionBuilder extends LightningElement {
 
     @api
     objectType;
+
+    @api
+    lhsDisabled;
+
+    @api
+    required;
 }

@@ -150,6 +150,26 @@ describe('field-to-ferov-expression-builder', () => {
             expect(baseExpressionBuilder.defaultOperator).toEqual(defaultOperator);
         });
     });
+    describe('lhsDisabled and required checks', () => {
+        let baseExpressionBuilder;
+        beforeAll(() => {
+            baseExpressionBuilder = getBaseExpressionBuilder(
+                createComponentForTest({
+                    expression: createMockPopulatedFieldExpression(),
+                    objectType: sobject,
+                    lhsFields: mockAccountFields,
+                    lhsDisabled: true,
+                    required: true
+                })
+            );
+        });
+        it('should disable lhs', () => {
+            expect(baseExpressionBuilder.lhsDisabled).toBeTruthy();
+        });
+        it('should set required to base expression builder', () => {
+            expect(baseExpressionBuilder.required).toBeTruthy();
+        });
+    });
     describe('parsing LHS', () => {
         it('should handle field on LHS', () => {
             const expressionBuilder = createComponentForTest({

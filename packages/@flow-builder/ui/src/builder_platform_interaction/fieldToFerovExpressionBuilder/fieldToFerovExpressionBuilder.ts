@@ -34,6 +34,10 @@ export default class FieldToFerovExpressionBuilder extends LightningElement {
 
     lhsMustBeWritable = false;
 
+    @api lhsDisabled = false;
+
+    @api required = false;
+
     @api
     operatorLabel;
 

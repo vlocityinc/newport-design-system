@@ -51,6 +51,18 @@ export default class RecordInputOutputAssignments extends LightningElement {
     @api
     hideNewResource = false;
 
+    @api
+    lhsLabel = this.labels.field;
+
+    @api
+    lhsPlaceholder = this.labels.getFieldPlaceholder;
+
+    @api
+    addFieldLabel = this.labels.addFieldButtonLabel;
+
+    @api
+    operatorLabel;
+
     /**
      * @param {string} entityName - the selected record object
      */
@@ -71,7 +83,7 @@ export default class RecordInputOutputAssignments extends LightningElement {
     }
 
     get operatorIconName() {
-        return this.isOutput ? 'utility:forward' : 'utility:back';
+        return this.operatorLabel ? null : this.isOutput ? 'utility:forward' : 'utility:back';
     }
 
     get showDelete() {
@@ -89,48 +101,47 @@ export default class RecordInputOutputAssignments extends LightningElement {
 
     /**
      * Create an array containing the fields. Fields already selected in other input/output assignment item should not be included.
+     *
+     * @returns {object[]} list of items with data and fields
      */
     get inputOutputAssignmentItemsWithLhsFields() {
-        // Exclude Fields
-        const excludedFields = [];
         const _inputOutputAssignmentsItems = [];
-        // In the inputOutputAssignmentsItems the left hand side value is formed like "entityName.FieldApiName"
-        this.inputOutputAssignmentsItems.forEach((item) => {
-            const fieldName = this.getLeftHandSideFieldName(item);
-            if (fieldName) {
-                excludedFields.push(fieldName);
-            }
-        });
-
-        this.inputOutputAssignmentsItems.forEach((item) => {
-            const itemApiName = this.getLeftHandSideFieldName(item);
-            const fields = this.recordFields && Object.values(this.recordFields);
-            const entityFilteredFields = {};
-            fields.forEach((field) => {
-                // The field list Should not contains the already selected field
-                if (this.includeField(excludedFields, field.apiName, itemApiName)) {
-                    entityFilteredFields[field.apiName] = field;
+        if (this.inputOutputAssignmentsItems) {
+            // Exclude Fields
+            const excludedFields: string[] = [];
+            // In the inputOutputAssignmentsItems the left hand side value is formed like "entityName.FieldApiName"
+            this.inputOutputAssignmentsItems.forEach((item) => {
+                const fieldName = this.getLeftHandSideFieldName(item);
+                if (fieldName) {
+                    excludedFields.push(fieldName);
                 }
             });
-
-            // Copy the item
-            const tmpItemWithField = {};
-            tmpItemWithField.data = item;
-
-            // add the field list related to the item
-            tmpItemWithField.fields = entityFilteredFields;
-
-            _inputOutputAssignmentsItems.push(tmpItemWithField);
-        });
+            const fields = this.recordFields && Object.values(this.recordFields);
+            this.inputOutputAssignmentsItems.forEach((item) => {
+                const itemApiName = this.getLeftHandSideFieldName(item);
+                const entityFilteredFields = {};
+                fields.forEach((field) => {
+                    // The field list should not contains the already selected field
+                    if (this.includeField(excludedFields, field.apiName, itemApiName)) {
+                        entityFilteredFields[field.apiName] = field;
+                    }
+                });
+                // Copy the item
+                const { deletable = this.showDelete, required = false, lhsDisabled = false } = item;
+                const tmpItemWithField = { data: item, fields: entityFilteredFields, deletable, required, lhsDisabled };
+                _inputOutputAssignmentsItems.push(tmpItemWithField);
+            });
+        }
         return _inputOutputAssignmentsItems;
     }
 
     /**
      * if a field has already been select then it should not be possible to select it again.
      *
-     * @param excludedFields
-     * @param fieldApiName
-     * @param itemApiName
+     * @param excludedFields list of fields
+     * @param fieldApiName field api name
+     * @param itemApiName item api name
+     * @returns {boolean} true if field is not in the list
      */
     includeField(excludedFields, fieldApiName, itemApiName) {
         return !excludedFields.includes(fieldApiName) || fieldApiName === itemApiName;

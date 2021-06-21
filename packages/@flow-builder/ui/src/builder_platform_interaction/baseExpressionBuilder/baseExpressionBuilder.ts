@@ -138,6 +138,9 @@ export default class BaseExpressionBuilder extends LightningElement {
     @api
     lhsError;
 
+    @api lhsDisabled = false;
+    @api required = false;
+
     /**
      * A left hand side error message:, which is either an externally set error message or
      * the generic error message, if the operator list is empty (W-6371025).

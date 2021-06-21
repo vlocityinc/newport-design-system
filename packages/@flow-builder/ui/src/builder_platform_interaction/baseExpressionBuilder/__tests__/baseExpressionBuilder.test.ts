@@ -286,6 +286,31 @@ describe('base expression builder', () => {
                 }
             ]);
         });
+        describe('lhsDisabled and required checks', () => {
+            let expressionBuilder;
+            beforeAll(() => {
+                expressionBuilder = createComponentForTest({
+                    rules: [],
+                    containerElement: ELEMENT_TYPE.ASSIGNMENT,
+                    lhsFields: null,
+                    lhsDisplayOption: expressionUtilsMock.LHS_DISPLAY_OPTION.NOT_FIELD,
+                    showLhsAsFieldReference: true,
+                    lhsMustBeWritable: true,
+                    lhsDisabled: true,
+                    required: true
+                });
+            });
+            it('should disable the lhs', () => {
+                const lhsCombobox = getComboboxElements(expressionBuilder)[0];
+                expect(lhsCombobox.disabled).toBeTruthy();
+            });
+            it('should set required to lhs and rhs', () => {
+                const lhsCombobox = getComboboxElements(expressionBuilder)[0];
+                expect(lhsCombobox.required).toBeTruthy();
+                const rhsCombobox = getComboboxElements(expressionBuilder)[1];
+                expect(rhsCombobox.required).toBeTruthy();
+            });
+        });
     });
     describe('handling value change events from combobox', () => {
         it('should throw RowContentsChangedEvent with new value when LHS value changes', async () => {
