@@ -26,12 +26,8 @@ const getScreenFieldDataType = (screenFieldObject = {}) => {
  * are grouped by element category so that they can more easily be placed into
  * sections.
  *
- * @param {Object}
- *            elements list of all the elements
- * @param {string}
- *            [searchRegex] the regular expression the item label need to match
- * @param elements
- * @param searchRegex
+ * @param {Object} elements list of all the elements
+ * @param {string} [searchRegex] the regular expression the item label need to match
  * @returns {Object} a mapping of element type to a list of
  *          lightning-tree-grid-items
  */
@@ -132,12 +128,8 @@ const getSearchRegExp = (searchString) => {
  * Combines elements into their respective groupings in a form that is usable by
  * lightning-tree-grid.
  *
- * @param {Object}
- *            elements list of all the elements
- * @param {string}
- *            [searchString] the search string if any
- * @param elements
- * @param searchString
+ * @param {Object} elements list of all the elements
+ * @param {string} [searchString] the search string if any
  * @returns {Array} collection of lightning-tree-grid items
  */
 export const getElementSections = (elements, searchString) => {
@@ -154,12 +146,8 @@ export const getElementSections = (elements, searchString) => {
  * Combines elements (considered as resources) into their respective groupings in a form that is usable by
  * lightning-tree-grid.
  *
- * @param {Object[]}
- *            elements list of all the elements
- * @param {string}
- *            [searchString] the search string if any
- * @param elements
- * @param searchString
+ * @param {Object[]} elements list of all the elements
+ * @param {string} [searchString] the search string if any
  * @returns {Array} collection of lightning-tree-grid items
  */
 export const getResourceSections = (elements, searchString) => {

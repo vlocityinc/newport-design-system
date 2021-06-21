@@ -40,6 +40,8 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
     expandedSectionNames = [CHOICES_SECTION_NAME];
     _activePicklistValues = [];
     _oldPicklistChoiceData;
+    isDeletable = true;
+    isEditable = true;
 
     getSingleOrMultiRadioButtons() {
         return this.template.querySelector(SINGLE_OR_MULTI_RADIO_GROUP_SELECTOR);

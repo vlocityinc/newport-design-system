@@ -57,9 +57,7 @@ export class MergeFieldsValidation {
     /**
      * Validate a merge field
      *
-     * @param {string}
-     *            mergeField the merge field (ex : {!variable1.Name})
-     * @param mergeField
+     * @param {string} mergeField the merge field (ex : {!variable1.Name})
      * @returns {ValidationError[]} The validation errors
      */
     validateMergeField(mergeField: string): ValidationError[] {

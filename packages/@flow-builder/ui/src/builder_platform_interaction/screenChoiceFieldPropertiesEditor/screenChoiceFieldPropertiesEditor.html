@@ -76,7 +76,6 @@
                         onpropertychanged={handleChoiceDisplayTypeChanged}
                     >
                     </builder_platform_interaction-screen-property-field>
-
                     <builder_platform_interaction-list
                         items={field.choiceReferences}
                         onaddlistitem={handleChoiceAdded}
@@ -86,7 +85,13 @@
                         <div slot="listBody" class="slds-p-top_xx-small">
                             <template for:each={fieldChoices} for:item="choice" for:index="itemIndex" slot="listBody">
                                 <div class="slds-list__item slds-is-relative" key={choice.guid}>
-                                    <builder_platform_interaction-row item-index={itemIndex} show-delete={showDelete}>
+                                    <builder_platform_interaction-row
+                                        item-index={itemIndex}
+                                        show-delete={showDelete}
+                                        is-deletable={isDeletable}
+                                        is-editable={isEditable}
+                                        enable-edit={choice.guid}
+                                    >
                                         <div slot="rowBody">
                                             <builder_platform_interaction-screen-property-field
                                                 name="choice"

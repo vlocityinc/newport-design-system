@@ -74,6 +74,7 @@ import helpSectionHeader from '@salesforce/label/FlowBuilderScreenEditor.helpSec
 import required from '@salesforce/label/FlowBuilderScreenEditor.required';
 import errorMessage from '@salesforce/label/FlowBuilderScreenEditor.errorMessage';
 import deleteAlternativeText from '@salesforce/label/FlowBuilderScreenEditor.deleteAlternativeText';
+import editAlternativeText from '@salesforce/label/FlowBuilderScreenEditor.editAlternativeText';
 import cancel from '@salesforce/label/FlowBuilderScreenEditor.cancel';
 import deleteConfirmation from '@salesforce/label/FlowBuilderScreenEditor.deleteConfirmation';
 import deleteColumnConfirmation from '@salesforce/label/FlowBuilderScreenEditor.deleteColumnConfirmation';
@@ -233,6 +234,7 @@ export const LABELS = {
     helpSectionHeader,
     required,
     deleteAlternativeText,
+    editAlternativeText,
     cancel,
     deleteConfirmation,
     deleteConsequence,

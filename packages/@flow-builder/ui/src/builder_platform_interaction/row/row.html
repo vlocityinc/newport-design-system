@@ -9,15 +9,39 @@
             <div class="slds-col">
                 <slot name="rowBody"></slot>
             </div>
-
-            <template if:true={showDeleteButton}>
+            <template if:true={isDeletableAndEditable}>
+                <div class="slds-col slds-grow-none">
+                    <span class="slds-form-element__label slds-is-visually-empty">&nbsp;</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-button-group" role="group">
+                            <lightning-button-icon
+                                icon-name="utility:edit"
+                                onclick={handleEdit}
+                                disabled={isEditDisabled}
+                                alternative-text={editRowAlternativeText}
+                                class="slds-button slds-button_icon slds-button_icon-border-filled"
+                            >
+                            </lightning-button-icon>
+                            <lightning-button-icon
+                                icon-name="utility:delete"
+                                onclick={handleDelete}
+                                disabled={isDeleteDisabled}
+                                alternative-text={deleteAlternativeText}
+                                class="slds-button slds-button_icon slds-button_icon-border-filled"
+                            >
+                            </lightning-button-icon>
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <template if:true={isDeletableOnly}>
                 <div class="slds-col slds-grow-none">
                     <span class="slds-form-element__label slds-is-visually-empty">&nbsp;</span>
                     <div class="slds-form-element__control">
                         <lightning-button-icon
                             icon-name="utility:delete"
                             onclick={handleDelete}
-                            disabled={disableDelete}
+                            disabled={isDeleteDisabled}
                             alternative-text={deleteAlternativeText}
                         >
                         </lightning-button-icon>

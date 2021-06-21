@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import statusIconSummary from '../statusIconSummary';
 
 function createComponentForTest(props) {

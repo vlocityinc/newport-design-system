@@ -2,6 +2,7 @@
 import { LightningElement, api } from 'lwc';
 import { DeleteListItemEvent, UpdateListItemEvent } from 'builder_platform_interaction/events';
 import deleteRowAlternativeText from '@salesforce/label/FlowBuilderRows.deleteRowAlternativeText';
+import editRowAlternativeText from '@salesforce/label/FlowBuilderRows.editRowAlternativeText';
 
 /**
  * Assignment Item List Row component for flow builder.
@@ -17,26 +18,82 @@ export default class Row extends LightningElement {
     @api showDelete;
     @api isVertical;
 
+    _isDeletable = true;
+    _isEditable = false;
+    _enableEdit = true;
+
     /**
      * @returns {boolean} Whether to show the delete button
+     *
+     * @param {boolean} the setter param to show the delete button
      */
     @api
-    get showDeleteButton() {
-        return this._showDeleteButton;
+    get isDeletable() {
+        return this._isDeletable;
     }
 
-    set showDeleteButton(showDeleteButton) {
-        this._showDeleteButton = showDeleteButton;
+    set isDeletable(isDeletable) {
+        this._isDeletable = isDeletable;
     }
 
-    _showDeleteButton = true;
+    /**
+     * @returns {boolean} Whether to show the edit button
+     */
+    @api
+    get isEditable() {
+        return this._isEditable;
+    }
 
-    get disableDelete() {
+    set isEditable(isEditable) {
+        this._isEditable = isEditable;
+    }
+
+    /**
+     * @returns {boolean} Whether the template will show ONLY the delete button because this is not editable
+     */
+    get isDeletableOnly() {
+        return this._isDeletable && !this._isEditable;
+    }
+
+    /**
+     * @returns {boolean} Whether the template will show the delete and edit buttons
+     */
+    get isDeletableAndEditable() {
+        return this._isDeletable && this._isEditable;
+    }
+
+    /**
+     * @returns {boolean} Whether the delete button should be disabled
+     */
+    get isDeleteDisabled() {
         return !this.showDelete;
+    }
+
+    /**
+     * @returns {boolean} Whether the edit button should be enabled
+     */
+    @api
+    get enableEdit() {
+        return this._enableEdit;
+    }
+
+    /**
+     * @param enable Use either the boolean flag of enable or send the required data to enable
+     */
+    set enableEdit(enableOrData) {
+        this._enableEdit = !!enableOrData;
+    }
+
+    get isEditDisabled() {
+        return !this.enableEdit;
     }
 
     get deleteAlternativeText() {
         return deleteRowAlternativeText;
+    }
+
+    get editRowAlternativeText() {
+        return editRowAlternativeText;
     }
 
     get rowContentsClass() {
@@ -65,5 +122,10 @@ export default class Row extends LightningElement {
         event.stopPropagation();
         const itemDeletedEvent = new DeleteListItemEvent(this.itemIndex);
         this.dispatchEvent(itemDeletedEvent);
+    }
+
+    handleEdit(event) {
+        event.stopPropagation();
+        // todo W-9144534 - inc finish this function etc
     }
 }

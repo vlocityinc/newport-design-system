@@ -198,7 +198,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : true,
-  "isTranslatable" : false,
+  "isTranslatable" : true,
   "label" : "Label",
   "maxOccurs" : 1
 },
@@ -212,7 +212,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
-  "isTranslatable" : false,
+  "isTranslatable" : true,
   "label" : "Placeholder Text",
   "maxOccurs" : 1
 },

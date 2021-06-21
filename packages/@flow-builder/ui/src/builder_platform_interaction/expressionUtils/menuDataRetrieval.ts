@@ -523,8 +523,7 @@ export function filterFieldsForChosenElement(
 /**
  * get children items
  *
- * @param {Object} the parent item
- * @param parentItem
+ * @param {Object} parentItem the parent item
  * @param {boolean} showMultiPicklistGlobalVariables whether we allow global variables of type multipicklist
  * @returns {Promise<Object>} the children items : key is the field name, value is the child item as a complex type field description
  */
@@ -545,8 +544,7 @@ export function getChildrenItemsPromise(parentItem, showMultiPicklistGlobalVaria
 /**
  * get children items
  *
- * @param {Object} the parent item
- * @param parentItem
+ * @param {Object} parentItem the parent item
  * @param {boolean} showMultiPicklistGlobalVariables whether we allow global variables of type multipicklist
  * @returns {Object} the children items : key is the field name, value is the child item as a complex type field description
  */
