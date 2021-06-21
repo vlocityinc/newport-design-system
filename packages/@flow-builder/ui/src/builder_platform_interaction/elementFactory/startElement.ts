@@ -644,7 +644,11 @@ function addStartElementConnectorToAvailableConnections(
  * @param triggerType
  */
 function getDefaultFilterLogic(triggerType) {
-    if (getProcessType() === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW && isRecordChangeTriggerType(triggerType)) {
+    const processType = getProcessType();
+    if (
+        (processType === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW || processType === FLOW_PROCESS_TYPE.ORCHESTRATOR) &&
+        isRecordChangeTriggerType(triggerType)
+    ) {
         return CONDITION_LOGIC.NO_CONDITIONS;
     }
     return CONDITION_LOGIC.AND;
