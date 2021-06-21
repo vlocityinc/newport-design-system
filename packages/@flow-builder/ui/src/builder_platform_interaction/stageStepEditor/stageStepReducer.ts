@@ -30,7 +30,7 @@ import { isPlainObject } from 'builder_platform_interaction/storeLib';
 import { shouldCallSwapFunction } from 'builder_platform_interaction/translatorLib';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { format } from 'builder_platform_interaction/commonUtils';
-import { invokeModal } from 'builder_platform_interaction/builderUtils';
+import { invokeModal } from 'builder_platform_interaction/sharedUtils';
 import { LABELS } from './stageStepEditorLabels';
 import {
     mergeParameters,
@@ -96,9 +96,7 @@ const hasOutputsReference = (object, guid: UI.Guid): boolean => {
  * Helper method to invoke the alert modal regarding an action output being referenced
  *
  * @param usedByElements - List of elements which are referencing step.Outputs
- * @param stepGuid - guid od the step whose action was changed
- * @param storeElements - Current state of elements in the store
- * @param actionName
+ * @param actionName - Action's name
  */
 function invokeUsedByAlertModal(usedByElements: UsedByElement[], actionName: string) {
     const listSectionHeader = LABELS.changeActionAlertListSectionHeader;
@@ -198,8 +196,9 @@ const actionChanged = (state: StageStep, event: OrchestrationActionValueChangedE
 /**
  * Updates an entry criteria
  *
- * @param state
- * @param event
+ * @param state The flow model
+ * @param event The event
+ * @returns The updated criteria
  */
 const updateEntryCriteria = (state: StageStep, event: UpdateConditionEvent): StageStep => {
     const newEntryCriteria = hydrateWithErrors(createCondition(event.detail.value));
@@ -218,8 +217,9 @@ const updateEntryCriteria = (state: StageStep, event: UpdateConditionEvent): Sta
 /**
  * delete entry criteria
  *
- * @param state
- * @param event
+ * @param state The flow model
+ * @param event The event
+ * @returns new object with updated properties
  */
 const deleteEntryCriteria = (state: StageStep, event: DeleteConditionEvent): StageStep => {
     return updateProperties(state, {
@@ -236,7 +236,8 @@ const createEntryConditions = (state: StageStep): StageStep => {
 /**
  * delete entry criteria
  *
- * @param state
+ * @param state The flow model
+ * @returns new object with updated properties
  */
 const deleteAllEntryConditions = (state: StageStep): StageStep => {
     return updateProperties(state, {
@@ -247,8 +248,9 @@ const deleteAllEntryConditions = (state: StageStep): StageStep => {
 /**
  * delete an entry/exit determination action
  *
- * @param state
- * @param event
+ * @param state The flow model
+ * @param event The Event
+ * @returns new object with updated properties
  */
 const deleteDeterminationAction = (state: StageStep, event: DeleteOrchestrationActionEvent): StageStep => {
     const src = event.detail.actionCategory;
@@ -273,8 +275,9 @@ const deleteDeterminationAction = (state: StageStep, event: DeleteOrchestrationA
 /**
  * orchestratedStage reducer function runs validation rules and returns back the updated element state
  *
- * @param state
- * @param event
+ * @param state The flow model
+ * @param event The Event
+ * @returns new object with updated properties
  */
 export const stageStepReducer = (state: StageStep, event: CustomEvent): StageStep => {
     let newState: StageStep = state;

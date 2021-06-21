@@ -8,7 +8,6 @@ import { toggleFlowMenu, closeFlowMenu, updateDeletionPathInfo, clearDeletionPat
 import { calculateFlowLayout } from './layout';
 import { getDefaultLayoutConfig } from './defaultLayoutConfig';
 import { Geometry } from './svgUtils';
-import { modalBodyVariant, modalFooterVariant, invokeModal } from './modalPopupUtils';
 
 import MenuType from './MenuType';
 import NodeType from './NodeType';
@@ -113,8 +112,5 @@ export {
     FlowInteractionState,
     NodeDimensionMap,
     Dimension,
-    reducer,
-    modalBodyVariant,
-    modalFooterVariant,
-    invokeModal
+    reducer
 };

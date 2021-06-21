@@ -276,7 +276,7 @@
         {
   "apiName" : "label",
   "dataType" : "string",
-  "defaultValue" : "Select value",
+  "defaultValue" : "Select Value",
   "description" : "The label that appears above the slider.",
   "fieldsToNull" : [ ],
   "hasDefaultValue" : true,

@@ -24,6 +24,7 @@ import { format, isObject } from 'builder_platform_interaction/commonUtils';
 import { clearExpressions } from 'builder_platform_interaction/expressionValidator';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { isAutoLayoutCanvasEnabled } from 'builder_platform_interaction/contextLib';
+import { invokeModalWithComponents } from 'builder_platform_interaction/sharedUtils';
 
 /**
  * @constant state of callback result
@@ -96,8 +97,7 @@ const createComponentPromise = (cmpName, attr) => {
 
 /**
  * @param {string} mode based on the event type
- * @param {string} elementType eg: Assignment, Decision, etc
- * @param element
+ * @param {string} element eg: Assignment, Decision, etc
  * @returns {string} title for the modal
  */
 const getTitleForModalHeader = (mode, element) => {
@@ -301,7 +301,8 @@ const getPropertyEditorDescriptor = (mode, elementConfig) => {
 /**
  * Convert a property editor descriptor in to a class name for dynamic lwc loading.
  *
- * @param desc
+ * @param desc Description
+ * @returns Property editor className
  */
 const getPropertyEditorClassName = (desc) => {
     const packageAndClass = desc.split(':');
@@ -468,7 +469,7 @@ function onCreatePopover(panelInstance) {
 /**
  * Callback invoked when the popover is destroyed
  *
- * @param panel
+ * @param panel Panel to destroy
  */
 function onDestroyPopover(panel) {
     if (popoverState) {
@@ -548,57 +549,6 @@ export function invokeDebugEditor(attributes) {
         attributes.runDebugInterviewCallback
     );
 }
-
-/**
- * Invokes modals with the specified header, body, and footer promises.
- *
- * @param data - contains data for modal header/body/footer
- * @param modalHeaderPromise - the promise for the header.
- * @param modalBodyPromise - the promise for the body.
- * @param modalFooterPromise - the promise for footer.
- * @param onCreate - function to apply specific behavior on create
- */
-export const invokeModalWithComponents = (
-    data,
-    modalHeaderPromise,
-    modalBodyPromise,
-    modalFooterPromise,
-    onCreate = invokeModalWithComponentsOnCreate
-) => {
-    Promise.all([modalHeaderPromise, modalBodyPromise, modalFooterPromise])
-        .then((newComponents) => {
-            const createPanelEventAttributes = {
-                panelType: MODAL,
-                visible: true,
-                panelConfig: {
-                    header: newComponents[0],
-                    body: newComponents[1],
-                    footer: newComponents[2],
-                    modalClass: data.modalClass || '',
-                    headerClass: data.headerClass || '',
-                    bodyClass: data.bodyClass || '',
-                    footerClass: data.footerClass || '',
-                    flavor: data.flavor || '',
-                    closeAction: (modal) => {
-                        let skipCloseAction = false;
-                        if (data.closeCallback) {
-                            skipCloseAction = data.closeCallback();
-                        }
-                        if (!skipCloseAction) {
-                            modal.close();
-                        }
-                    }
-                },
-                onCreate: (modal) => {
-                    onCreate(modal, data);
-                }
-            };
-            dispatchGlobalEvent(UI_CREATE_PANEL, createPanelEventAttributes);
-        })
-        .catch((errorMessage) => {
-            throw new Error('Modal creation failed : ' + errorMessage);
-        });
-};
 
 const invokeWelcomeMatWithComponents = (data, modalBodyPromise, onCreate) => {
     modalBodyPromise.then((newComponent) => {
@@ -706,43 +656,10 @@ function showDebugEditorPopover(
 }
 
 /**
- * Invokes the modal and creates the alert/confirmation modal inside it
- *
- * @param {object} data - contains data for modal header/body/footer
- */
-export const invokeModal = (data) => {
-    const modalHeaderPromise = createComponentPromise('builder_platform_interaction:modalHeader', {
-        headerTitle: data.headerData.headerTitle,
-        headerVariant: data.headerData.headerVariant
-    });
-    const modalBodyPromise = createComponentPromise('builder_platform_interaction:modalBody', {
-        bodyTextOne: data.bodyData.bodyTextOne,
-        bodyTextTwo: data.bodyData.bodyTextTwo,
-        listSectionHeader: data.bodyData.listSectionHeader,
-        listSectionItems: data.bodyData.listSectionItems,
-        listWarningItems: data.bodyData.listWarningItems,
-        bodyVariant: data.bodyData.bodyVariant,
-        showBodyTwoVariant: data.bodyData.showBodyTwoVariant
-    });
-    const modalFooterPromise = createComponentPromise('builder_platform_interaction:modalFooter', {
-        buttons: data.footerData,
-        footerVariant: data.footerData.footerVariant
-    });
-
-    invokeModalWithComponents(
-        data,
-        modalHeaderPromise,
-        modalBodyPromise,
-        modalFooterPromise,
-        invokeModalWithComponentsOnCreate
-    );
-};
-
-/**
  * Invokes the internal data modal and creates the alert/confirmation modal inside it.
  * This should only be used when displaying internal only data.
  *
- * @param data
+ * @param data contains data for modal header/body/footer
  */
 export const invokeModalInternalData = (data) => {
     const modalHeaderPromise = createComponentPromise('builder_platform_interaction:modalHeader', {
@@ -790,16 +707,10 @@ export const invokeAutoLayoutWelcomeMat = (processType, triggerType, createCallb
 };
 
 /**
- * @typedef {Object} NewFlowModalProperties
- * @property {string} bodyClass
- * @property {string} flavor
- */
-/**
  * Invokes the new flow modal.
  *
- * @param {NewFlowModalProperties} modalProperties
- * @param builderType
- * @param configuration
+ * @param builderType Builder Type
+ * @param configuration Configuration
  * @param {Function} closeFlowModalAction the callback to execute when clicking the exit icon
  * @param {Function} createFlowFromTemplateCallback the callback to execute when clicking the create button
  */
@@ -956,8 +867,8 @@ export function isPopoverOpen() {
 /**
  * Hides the popover singleton
  *
- * @param root0
- * @param root0.closedBy
+ * @param root0 Object
+ * @param root0.closedBy Close event name
  */
 export function hidePopover({ closedBy } = {}) {
     if (isPopoverOpen()) {
@@ -1030,12 +941,13 @@ export function showPopover(cmpName, cmpAttributes = {}, popoverProps) {
  * Create LWC component dynamically for custom property editor
  * PLEASE DON'T USE THIS UTIL EXCEPT FOR CUSTOM PROPERTY EDITOR
  *
- * @param root0
- * @param root0.cmpName
- * @param root0.container
- * @param root0.attr
- * @param root0.errorCallback
- * @param root0.successCallback
+ * @param root0 Object
+ * @param root0.cmpName Component Name
+ * @param root0.container Container
+ * @param root0.attr Attributes
+ * @param root0.errorCallback Error callback function
+ * @param root0.successCallback Success callback function
+ * @returns Editor configuration
  */
 export function createConfigurationEditor({
     cmpName,

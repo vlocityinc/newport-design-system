@@ -11,9 +11,9 @@ import {
     invokeAutoLayoutWelcomeMat,
     invokeKeyboardHelpDialog,
     invokeDebugEditor,
-    invokeModal,
     invokeModalInternalData
 } from '../builderUtils';
+import { invokeModalWithComponents } from 'builder_platform_interaction/sharedUtils';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 // eslint-disable-next-line lwc-core/no-interop-dispatch
@@ -30,6 +30,11 @@ const UI_CREATE_PANEL = 'ui:createPanel';
 
 let mockCreateComponentCallbackStatus = 'SUCCESS';
 let mockPanelValidity = true;
+
+jest.mock('builder_platform_interaction/sharedUtils', () => {
+    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
+    return Object.assign({}, sharedUtils, { invokeModalWithComponents: jest.fn() });
+});
 
 jest.mock('builder_platform_interaction/elementConfig', () => {
     const actual = jest.requireActual('builder_platform_interaction/elementConfig');
@@ -353,25 +358,7 @@ describe('builderUtils', () => {
                 },
                 expect.anything()
             );
-            expect(dispatchGlobalEvent).toHaveBeenCalledWith(
-                'ui:createPanel',
-                expect.objectContaining({
-                    onCreate: expect.anything(),
-                    panelType: 'modal',
-                    visible: true,
-                    panelConfig: {
-                        modalClass: '',
-                        header: [{ getElement: expect.anything() }],
-                        body: [{ getElement: expect.anything() }],
-                        footer: [{ getElement: expect.anything() }],
-                        bodyClass: '',
-                        headerClass: '',
-                        footerClass: '',
-                        flavor: 'small slds-modal_medium',
-                        closeAction: expect.anything()
-                    }
-                })
-            );
+            expect(invokeModalWithComponents).toHaveBeenCalled();
         });
     });
 
@@ -437,25 +424,7 @@ describe('builderUtils', () => {
                 expect.anything()
             );
 
-            expect(dispatchGlobalEvent).toHaveBeenCalledWith(
-                'ui:createPanel',
-                expect.objectContaining({
-                    panelType: 'modal',
-                    visible: true,
-                    onCreate: expect.anything(),
-                    panelConfig: {
-                        header: [{ getElement: expect.anything() }],
-                        body: [{ getElement: expect.anything() }],
-                        footer: [{ getElement: expect.anything() }],
-                        closeAction: expect.anything(),
-                        modalClass: '',
-                        headerClass: '',
-                        bodyClass: 'slds-p-around_none slds-is-relative',
-                        footerClass: '',
-                        flavor: 'small'
-                    }
-                })
-            );
+            expect(invokeModalWithComponents).toHaveBeenCalled();
         });
     });
 
@@ -490,83 +459,7 @@ describe('builderUtils', () => {
                 expect.anything()
             );
 
-            expect(dispatchGlobalEvent).toHaveBeenCalledWith(
-                'ui:createPanel',
-                expect.objectContaining({
-                    onCreate: expect.anything(),
-                    panelConfig: {
-                        body: [{ getElement: expect.anything() }],
-                        bodyClass: 'bodyClass',
-                        closeAction: expect.anything(),
-                        flavor: 'flavor',
-                        footer: [{ getElement: expect.anything() }],
-                        footerClass: 'footerClass',
-                        header: [{ getElement: expect.anything() }],
-                        headerClass: '',
-                        modalClass: 'modalClass'
-                    },
-                    panelType: 'modal',
-                    visible: true
-                })
-            );
-        });
-    });
-
-    describe('invokeModal', () => {
-        it('calls createComponent and dispatchGlobalEvent w/ expected parameters when given standard parameters', async () => {
-            invokeModal(createComponentData);
-            await ticks(1);
-            expect(createComponent).toHaveBeenCalledWith(
-                'builder_platform_interaction:modalHeader',
-                {
-                    headerTitle: 'headerTitleStr',
-                    headerVariant: 'headerVariantStr'
-                },
-                expect.anything()
-            );
-
-            expect(createComponent).toHaveBeenCalledWith(
-                'builder_platform_interaction:modalBody',
-                {
-                    bodyTextOne: 'bodyTextOneStr',
-                    bodyTextTwo: 'bodyTextTwoStr',
-                    bodyVariant: 'bodyVariantStr',
-                    listSectionHeader: 'listSectionHeaderStr',
-                    listSectionItems: 'listSectionItemsStr',
-                    listWarningItems: 'listWarningItemsStr',
-                    showBodyTwoVariant: 'showBodyTwoVariantStr'
-                },
-                expect.anything()
-            );
-
-            expect(createComponent).toHaveBeenCalledWith(
-                'builder_platform_interaction:modalFooter',
-                {
-                    buttons: { footerVariant: 'footerVariantStr' },
-                    footerVariant: 'footerVariantStr'
-                },
-                expect.anything()
-            );
-
-            expect(dispatchGlobalEvent).toHaveBeenCalledWith(
-                'ui:createPanel',
-                expect.objectContaining({
-                    onCreate: expect.anything(),
-                    panelConfig: {
-                        body: [{ getElement: expect.anything() }],
-                        bodyClass: 'bodyClass',
-                        closeAction: expect.anything(),
-                        flavor: 'flavor',
-                        footer: [{ getElement: expect.anything() }],
-                        footerClass: 'footerClass',
-                        header: [{ getElement: expect.anything() }],
-                        headerClass: '',
-                        modalClass: 'modalClass'
-                    },
-                    panelType: 'modal',
-                    visible: true
-                })
-            );
+            expect(invokeModalWithComponents).toHaveBeenCalled();
         });
     });
 
@@ -613,37 +506,7 @@ describe('builderUtils', () => {
                 },
                 expect.anything()
             );
-            expect(dispatchGlobalEvent).toHaveBeenCalledWith(
-                UI_CREATE_PANEL,
-                expect.objectContaining({
-                    onCreate: expect.anything(),
-                    panelConfig: {
-                        body: [
-                            {
-                                getElement: expect.anything()
-                            }
-                        ],
-                        bodyClass: 'slds-p-around_none slds-is-relative',
-                        closeAction: expect.anything(),
-                        flavor: 'large restrictWidthToSldsMedium',
-                        footer: [
-                            {
-                                getElement: expect.anything()
-                            }
-                        ],
-                        footerClass: '',
-                        header: [
-                            {
-                                getElement: expect.anything()
-                            }
-                        ],
-                        headerClass: '',
-                        modalClass: ''
-                    },
-                    panelType: 'modal',
-                    visible: true
-                })
-            );
+            expect(invokeModalWithComponents).toHaveBeenCalled();
         });
     });
 

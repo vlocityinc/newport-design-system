@@ -18,8 +18,6 @@ import {
     FlowRenderInfo,
     FlowInteractionState,
     Dimension,
-    invokeModal,
-    modalBodyVariant,
     resolveParent,
     isBranchTerminal,
     hasGoToOnNext,
@@ -57,7 +55,13 @@ import {
     getFirstSelectableElementGuid
 } from 'builder_platform_interaction/alcComponentsUtils';
 import { getFocusPath } from './alcCanvasUtils';
-import { commands, keyboardInteractionUtils, loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import {
+    commands,
+    keyboardInteractionUtils,
+    loggingUtils,
+    invokeModal,
+    modalBodyVariant
+} from 'builder_platform_interaction/sharedUtils';
 import { LABELS } from './alcCanvasLabels';
 
 // alloted time between click events in ms, where two clicks are interpreted as a double click

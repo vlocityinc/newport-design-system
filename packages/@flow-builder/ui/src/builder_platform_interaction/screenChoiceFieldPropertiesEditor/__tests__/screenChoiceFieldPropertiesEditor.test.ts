@@ -92,6 +92,11 @@ jest.mock('builder_platform_interaction/usedByLib', () => {
 
 jest.mock('builder_platform_interaction/builderUtils', () => {
     const actual = jest.requireActual('builder_platform_interaction/builderUtils');
+    return Object.assign({}, actual);
+});
+
+jest.mock('builder_platform_interaction/sharedUtils', () => {
+    const actual = jest.requireActual('builder_platform_interaction/sharedUtils');
     return Object.assign({}, actual, {
         invokeModal: jest.fn()
     });

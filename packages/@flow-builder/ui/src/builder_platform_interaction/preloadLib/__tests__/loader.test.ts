@@ -23,8 +23,7 @@ import {
     loadSystemVariables,
     loadWorkflowEnabledEntities
 } from '../dataForProcessType';
-import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
-import { invokeModal } from 'builder_platform_interaction/builderUtils';
+import { loggingUtils, invokeModal } from 'builder_platform_interaction/sharedUtils';
 import { ticks, makeQuerablePromise } from 'builder_platform_interaction/builderTestUtils';
 
 const { logPerfTransactionStart, logPerfTransactionEnd } = loggingUtils;

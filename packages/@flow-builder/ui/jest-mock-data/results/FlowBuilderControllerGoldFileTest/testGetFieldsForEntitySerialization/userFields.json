@@ -10328,6 +10328,39 @@
       "sobjectName":"User",
       "sortable":false
     },
+    "UserPreferencesShowTerritoryTimeZoneShifts":{
+      "activePicklistValues":[
+
+      ],
+      "apiName":"UserPreferencesShowTerritoryTimeZoneShifts",
+      "compoundFieldName":null,
+      "creatable":true,
+      "dataType":"Boolean",
+      "editable":true,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN",
+      "filterable":true,
+      "inlineHelpText":null,
+      "isAvailableForFormulas":false,
+      "isAvailableForMerge":false,
+      "isCalculated":false,
+      "isCompound":false,
+      "isCustom":false,
+      "isPolymorphic":false,
+      "isSpanningAllowed":false,
+      "isWorkflowFilterable":false,
+      "label":"ShowTerritoryTimeZoneShifts",
+      "length":0,
+      "precision":0,
+      "referenceToNames":[
+
+      ],
+      "relationshipName":null,
+      "required":true,
+      "scale":0,
+      "sobjectName":"User",
+      "sortable":false
+    },
     "UserPreferencesShowTitleToExternalUsers":{
       "activePicklistValues":[
 

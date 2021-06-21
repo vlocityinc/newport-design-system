@@ -8,14 +8,14 @@ import {
     HighlightPathsToDeleteEvent,
     MenuPositionUpdateEvent
 } from 'builder_platform_interaction/alcEvents';
-import { invokeModal, MenuType, updateDeletionPathInfo } from 'builder_platform_interaction/autoLayoutCanvas';
+import { MenuType, updateDeletionPathInfo } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ClickToZoomEvent, DeleteElementEvent, ZOOM_ACTION } from 'builder_platform_interaction/events';
 import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 import {
     setDocumentBodyChildren,
     removeDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
-import { commands } from 'builder_platform_interaction/sharedUtils';
+import { commands, invokeModal } from 'builder_platform_interaction/sharedUtils';
 import { EditElementEvent } from 'builder_platform_interaction/events';
 import { setup } from '@sa11y/jest';
 
@@ -79,7 +79,8 @@ const closeToggleMenuEvent = new ToggleMenuEvent({});
 jest.mock('builder_platform_interaction/sharedUtils', () => {
     const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
     const sharedcommands = jest.requireActual('builder_platform_interaction/sharedUtils/commands');
-    return Object.assign({}, sharedUtils, { commands: sharedcommands });
+    const auraUtils = jest.requireActual('builder_platform_interaction/sharedUtils/auraUtils');
+    return Object.assign({}, sharedUtils, auraUtils, { commands: sharedcommands, invokeModal: jest.fn() });
 });
 jest.mock('builder_platform_interaction/zoomPanel', () =>
     jest.requireActual('builder_platform_interaction_mocks/zoomPanel')
@@ -106,7 +107,6 @@ jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
         panzoom,
         resolveNode,
         toggleFlowMenu,
-        modalBodyVariant,
         hasGoToOnNext,
         resolveParent,
         isBranchTerminal,
@@ -130,7 +130,6 @@ jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
         resolveNode,
         invokeModal: jest.fn(),
         updateDeletionPathInfo: jest.fn(),
-        modalBodyVariant,
         MenuType: autoLayoutCanvas.MenuType,
         panzoom,
         NodeType,

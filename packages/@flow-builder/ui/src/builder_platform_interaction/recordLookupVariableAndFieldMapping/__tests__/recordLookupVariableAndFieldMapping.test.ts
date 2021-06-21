@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
-import { invokeModal } from 'builder_platform_interaction/builderUtils';
+import { invokeModal } from 'builder_platform_interaction/sharedUtils';
 import RecordLookupVariableAndFieldMapping from '../recordLookupVariableAndFieldMapping';
 import { LABELS } from '../recordLookupVariableAndFieldMappingLabels';
 import { VARIABLE_AND_FIELD_MAPPING_VALUES } from 'builder_platform_interaction/recordEditorLib';
@@ -15,7 +15,7 @@ function createComponentForTest(variableAndFieldMapping) {
     return el;
 }
 
-jest.mock('builder_platform_interaction/builderUtils', () => {
+jest.mock('builder_platform_interaction/sharedUtils', () => {
     return {
         invokeModal: jest.fn()
     };

@@ -11,6 +11,11 @@
       "description":"FTEST - File Based Flow Basic"
     },
     {
+      "masterLabel":"FTest-TestFileBasedPause",
+      "fullName":"FtestSfdcOnly__TestFileBasedPause",
+      "description":null
+    },
+    {
       "masterLabel":"FTEST-TestFileBasedT",
       "fullName":"FtestSfdcOnly__TestFileBasedT",
       "description":"FTEST - File Based Flow Template Basic"

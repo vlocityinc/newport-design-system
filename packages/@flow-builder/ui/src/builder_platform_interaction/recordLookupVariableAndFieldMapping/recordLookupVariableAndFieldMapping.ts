@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { LABELS, VARIABLE_AND_FIELD_MAPPING_OPTIONS } from './recordLookupVariableAndFieldMappingLabels';
-import { invokeModal } from 'builder_platform_interaction/builderUtils';
+import { invokeModal } from 'builder_platform_interaction/sharedUtils';
 import { VariableAndFieldMappingChangedEvent } from 'builder_platform_interaction/events';
 import { VARIABLE_AND_FIELD_MAPPING_VALUES } from 'builder_platform_interaction/recordEditorLib';
 

@@ -40,7 +40,7 @@ ${paths}
          }
     },
 
-    "include": ["src/builder_platform_interaction/**/*", "jest-modules/**/*", "jest-mock-data/**/*", "@types"]
+    "include": ["src/builder_platform_interaction/**/*", "jest-modules/**/*", "jest-mock-data/**/*", "@types", "../shared-utils/@types/index.d.ts"]
 }`
     );
 })(

@@ -10,7 +10,7 @@ import {
 } from 'builder_platform_interaction/dataMutationLib';
 import { format, splitStringBySeparator, hasOwnProperty } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './usedByLibLabels';
-import { invokeModal } from 'builder_platform_interaction/builderUtils';
+import { invokeModal } from 'builder_platform_interaction/sharedUtils';
 import { isTemplateField, isReferenceField, shouldCallSwapFunction } from 'builder_platform_interaction/translatorLib';
 import { isRegionContainerField, isRegionField } from 'builder_platform_interaction/screenEditorUtils';
 
@@ -36,7 +36,7 @@ export interface UsedByElement {
  *
  * @param elementGuids list of guids to be matched
  * @param elementsAndFlowProperties elements/flow properties where to search for elementGuids. Elements/flow properties in the store by default but a custom list of elements can be provided (may be hydrated)
- * @param options
+ * @param options The option object
  * @param options.replaceAnonymousElementByCanvasElement replace anonymous element (automatic fields) by parent canvas element in the returned list
  * @returns list of elements which contains elementGuids
  */
@@ -56,10 +56,11 @@ export function usedBy(
 }
 
 /**
- * @param elementGuids
- * @param elements
- * @param root0
- * @param root0.replaceAnonymousElementByCanvasElement
+ * @param elementGuids list of guids to be matched
+ * @param elements list of elements
+ * @param root0 The object
+ * @param root0.replaceAnonymousElementByCanvasElement replace anonymous element (automatic fields) by parent canvas element in the returned list
+ * @returns list of elements
  */
 function usedByElements(
     elementGuids: UI.Guid[],
@@ -114,8 +115,9 @@ function usedByElements(
 }
 
 /**
- * @param elementGuids
- * @param flowProps
+ * @param elementGuids list of guids to be matched
+ * @param flowProps The flow properties
+ * @returns list of elements
  */
 function usedByFlowProperties(elementGuids: UI.Guid[], flowProps: UI.Properties) {
     const elementGuidsReferencedByFlowProps = findReference(elementGuids, flowProps);
@@ -141,8 +143,9 @@ function usedByFlowProperties(elementGuids: UI.Guid[], flowProps: UI.Properties)
 /**
  * Returns guids that are guids of anonymous elements (elements without dev name (automatic fields) or with generated dev names (column in a screen section))
  *
- * @param elements
- * @param elementGuids
+ * @param elements The list of elements
+ * @param elementGuids The list of guids to be matched
+ * @returns List of anonymous elements
  */
 function getAnonymousElements(elements: UI.Elements | UI.HydratedElements, elementGuids: UI.Guid[]): UI.Guid[] {
     return elementGuids.filter((elementGuid) => {
@@ -268,7 +271,8 @@ function getKeysToIgnoreByElementType(elementType?: string): string[] {
 }
 
 /**
- * @param element
+ * @param element The element to be tested
+ * @returns The if the element is hydrated with fields
  */
 function isHydratedElementWithFields(
     element: UI.HydratedElement
@@ -281,7 +285,7 @@ function isHydratedElementWithFields(
  * This function gets all the nested children element guids
  * (e.g if a section/column is deleted, will also get its children's guids)
  *
- * @param element
+ * @param element The element to be tested
  * @returns list of children element guids
  */
 function getChildElementGuids(element: UI.HydratedElement): UI.Guid[] {
@@ -335,7 +339,8 @@ function insertChildReferences(elementGuids: UI.Guid[], elements: UI.Elements): 
 }
 
 /**
- * @param element
+ * @param element The element
+ * @returns True if the element has childReferences
  */
 function isCanvasElementWithChildReferences(
     element: UI.Element
@@ -350,7 +355,8 @@ function isCanvasElementWithChildReferences(
 }
 
 /**
- * @param element
+ * @param element The element
+ * @returns True if the element is a region container with child references
  */
 function isRegionContainerFieldWithChildReferences(
     element: UI.Element
@@ -359,7 +365,8 @@ function isRegionContainerFieldWithChildReferences(
 }
 
 /**
- * @param element
+ * @param element The element
+ * @returns True if the element is a region field with childReferences
  */
 function isRegionFieldWithChildReferences(
     element: UI.Element
@@ -368,7 +375,8 @@ function isRegionFieldWithChildReferences(
 }
 
 /**
- * @param element
+ * @param element The element
+ * @returns True if the element is a screen element with child
  */
 function isScreenElementWithChild(
     element: UI.Element
@@ -378,8 +386,9 @@ function isScreenElementWithChild(
 }
 
 /**
- * @param elements
- * @param elementsGuids
+ * @param elements The element
+ * @param elementsGuids List of elements Guid
+ * @returns The parent elements
  */
 function getParentCanvasElementGuids(
     elements: UI.Elements | UI.HydratedElements,
@@ -403,7 +412,8 @@ function getParentCanvasElementGuids(
 }
 
 /**
- * @param element
+ * @param element The element
+ * @returns True if the element has childReferences
  */
 function isElementWithChildReferences(
     element: UI.Element
@@ -412,9 +422,10 @@ function isElementWithChildReferences(
 }
 
 /**
- * @param elements
- * @param elementGuid
- * @param childrenCandidates
+ * @param elements The element
+ * @param elementGuid all element Guid
+ * @param childrenCandidates List of guid of children candidates
+ * @returns List of Guid of the child elements
  */
 function getChildrenElementsGuidsRecursively(
     elements: UI.Elements,
@@ -547,10 +558,9 @@ function matchElement(elementGuids: UI.Guid[], object: Object, key: string, valu
 /**
  * Factory function to generate used by element.
  *
- * @param element.element
- * @param element from the store
- * @param elementGuidsReferenced list of element which element is referencing
- * @param element.elementGuidsReferenced
+ * @param element The object
+ * @param element.element Element from the store
+ * @param element.elementGuidsReferenced list of element which element is referencing
  * @returns new object with selected properties
  */
 export function createUsedByElement({

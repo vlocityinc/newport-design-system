@@ -18,7 +18,7 @@ import {
     deleteItem,
     updateProperties
 } from 'builder_platform_interaction/dataMutationLib';
-import { invokeModal } from 'builder_platform_interaction/builderUtils';
+import { invokeModal } from 'builder_platform_interaction/sharedUtils';
 import { MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
 import { ACTION_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { removeAllUnsetParameters } from 'builder_platform_interaction/orchestratedStageAndStepReducerUtils';
@@ -86,10 +86,10 @@ jest.mock('builder_platform_interaction/dataMutationLib', () => {
     };
 });
 
-jest.mock('builder_platform_interaction/builderUtils', () => {
-    return {
-        invokeModal: jest.fn()
-    };
+jest.mock('builder_platform_interaction/sharedUtils', () => {
+    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
+    const sharedcommands = jest.requireActual('builder_platform_interaction/sharedUtils/commands');
+    return Object.assign({}, sharedUtils, { commands: sharedcommands, invokeModal: jest.fn() });
 });
 
 jest.mock('builder_platform_interaction/orchestratedStageAndStepReducerUtils', () => {

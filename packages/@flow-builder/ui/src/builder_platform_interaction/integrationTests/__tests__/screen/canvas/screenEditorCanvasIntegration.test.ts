@@ -4,10 +4,10 @@ import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { resetState, setupStateForFlow } from '../../integrationTestUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { createComponentUnderTest, ScreenEditorTestComponent } from '../../screenEditorTestUtils';
-import { invokeModal } from 'builder_platform_interaction/builderUtils';
+import { invokeModal } from 'builder_platform_interaction/sharedUtils';
 
-jest.mock('builder_platform_interaction/builderUtils', () => {
-    const actual = jest.requireActual('builder_platform_interaction/builderUtils');
+jest.mock('builder_platform_interaction/sharedUtils', () => {
+    const actual = jest.requireActual('builder_platform_interaction/sharedUtils');
     return Object.assign({}, actual, {
         invokeModal: jest.fn()
     });

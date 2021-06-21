@@ -100,10 +100,10 @@ export const stringToPath = (string) => {
  * If you just want to update a javascript object please
  * use dot notation, that works much better.
  *
- * @param {Object}          obj   the object given
- * @param {Array/String}    path  the path to the part of the object you want to update. Can be '.' period separated string path
- * @param {Object}          value the value to be set at the path
- * @returns {Object}              the new object with the updated vaue
+ * @param obj   the object given
+ * @param path  the path to the part of the object you want to update. Can be '.' period separated string path
+ * @param value the value to be set at the path
+ * @returns the new object with the updated vaue
  */
 export const set = (obj: object = {}, path: string[] | string = [], value: object | undefined) => {
     const keys = stringToPath(path);

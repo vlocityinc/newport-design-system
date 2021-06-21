@@ -51,11 +51,19 @@
   "source" : "Standard"
 },
     {
+  "category" : "Input",
   "description" : "Address Component",
-  "extensionType" : "aura",
+  "extensionType" : "lwc",
   "fieldsToNull" : [ ],
   "label" : "Address",
   "qualifiedApiName" : "flowruntime:address",
+  "source" : "Standard"
+},
+    {
+  "description" : "Represents an address compound field",
+  "extensionType" : "aura",
+  "fieldsToNull" : [ ],
+  "qualifiedApiName" : "flowruntime:address_deprecated",
   "source" : "Standard"
 },
     {
@@ -110,19 +118,35 @@
   "source" : "Standard"
 },
     {
+  "category" : "Input",
   "description" : "Slider Component",
-  "extensionType" : "aura",
+  "extensionType" : "lwc",
   "fieldsToNull" : [ ],
   "label" : "Slider",
   "qualifiedApiName" : "flowruntime:slider",
   "source" : "Standard"
 },
     {
-  "description" : "Toggle",
+  "description" : "An input slider for specifying a value between two specified numbers",
   "extensionType" : "aura",
+  "fieldsToNull" : [ ],
+  "qualifiedApiName" : "flowruntime:slider_deprecated",
+  "source" : "Standard"
+},
+    {
+  "category" : "Input",
+  "description" : "Toggle",
+  "extensionType" : "lwc",
   "fieldsToNull" : [ ],
   "label" : "Toggle",
   "qualifiedApiName" : "flowruntime:toggle",
+  "source" : "Standard"
+},
+    {
+  "description" : "An toggle input field",
+  "extensionType" : "aura",
+  "fieldsToNull" : [ ],
+  "qualifiedApiName" : "flowruntime:toggle_deprecated",
   "source" : "Standard"
 },
     {

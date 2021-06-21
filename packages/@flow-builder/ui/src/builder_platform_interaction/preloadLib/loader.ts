@@ -20,7 +20,7 @@ import {
     loadPalette
 } from './dataForProcessType';
 
-import { invokeModal } from 'builder_platform_interaction/builderUtils';
+import { invokeModal } from 'builder_platform_interaction/sharedUtils';
 
 import errorTitle from '@salesforce/label/FlowBuilderAlertModal.errorTitle';
 import errorMessage from '@salesforce/label/FlowBuilderAlertModal.errorMessage';
@@ -32,7 +32,8 @@ const { logPerfTransactionEnd, logPerfTransactionStart } = loggingUtils;
 /**
  * Promise.allSettled() polyfill.
  *
- * @param promises
+ * @param promises Promises
+ * @returns The Promised result
  */
 const promiseAllSettled = (promises) =>
     Promise.all(
@@ -52,9 +53,9 @@ const promiseAllSettled = (promises) =>
 /**
  * Promise.finally() polyfill.
  *
- * @param promise
- * @param onFinally
- * @returns
+ * @param promise The promise
+ * @param onFinally Function called onFinally
+ * @returns The Promise result
  */
 const promiseFinally = (promise, onFinally) =>
     promise.then(
@@ -150,6 +151,8 @@ class Loader {
 
     /**
      * WARNING: this is subject to take a long time. Do not use in a blocking call. Rather use loadApexClassesWithTimeout that will timeout if it takes too long.
+     *
+     * @returns The Apex Loaded promise
      */
     private loadApexClasses(): Promise<void> {
         if (!this.apexClassesLoaded.promise) {
@@ -243,7 +246,7 @@ let loader;
 /**
  * Initialiases the loader, giving it the store instance.
  *
- * @param {Store} store Store instance
+ * @param store Store instance
  */
 export function initializeLoader(store) {
     if (loader) {
@@ -262,6 +265,8 @@ export function clearLoader() {
 /**
  * Triggers loading of
  * - apex types
+ *
+ * @returns Load on start promise
  */
 export const loadOnStart = () => loader.loadOnStart();
 
@@ -272,13 +277,11 @@ export const loadOnStart = () => loader.loadOnStart();
  * - apex plugins
  * - subflows
  *
- * @param {string} processType Process type
- * @param {string} triggerType Trigger type
- * @param {string} recordTriggerType Record Trigger type
- * @param flowProcessType
- * @param flowTriggerType
- * @param flowRecordTriggerType
- * @param {string} flowDefinitionId
+ * @param flowProcessType The flow processType
+ * @param flowTriggerType The flow Trigger type
+ * @param flowRecordTriggerType The flow record trigger type
+ * @param {string} flowDefinitionId The Flow definition ID
+ * @returns the Promise
  */
 export const loadOnProcessTypeChange = (
     flowProcessType: string,
@@ -290,13 +293,9 @@ export const loadOnProcessTypeChange = (
 /**
  * Triggers loading of operators and operator rules
  *
- * @param {string} processType Process type
- * @param {string} triggerType Trigger type
- * @param {string} recordTriggerType Record Trigger type
- * @param {string} flowDefinitionId
- * @param flowProcessType
- * @param flowTriggerType
- * @param flowRecordTriggerType
+ * @param flowProcessType Process type
+ * @param flowTriggerType Trigger type
+ * @param flowRecordTriggerType Record Trigger type
  */
 export const loadOperatorsAndRulesOnTriggerTypeChange = (
     flowProcessType: string,
@@ -317,7 +316,8 @@ export const loadApexClasses = () => loader.loadApexClassesWithTimeout();
 /**
  * Load all supported features for the given list of process types
  *
- * @param processTypes
+ * @param processTypes The process type
+ * @returns The processType features
  */
 export const loadAllSupportedFeatures = (processTypes) =>
     processTypes.forEach((processType) => loadProcessTypeFeatures(processType.name));

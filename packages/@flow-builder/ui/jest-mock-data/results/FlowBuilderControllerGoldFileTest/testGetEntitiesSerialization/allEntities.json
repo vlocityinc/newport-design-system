@@ -641,6 +641,16 @@
       "updateable":true
     },
     {
+      "apiName":"AdminSearchScope",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Admin search scope",
+      "entityLabelPlural":"Admin search scopes",
+      "queryable":true,
+      "updateable":true
+    },
+    {
       "apiName":"AgentWork",
       "createable":true,
       "custom":false,
@@ -1611,6 +1621,16 @@
       "updateable":false
     },
     {
+      "apiName":"AssignmentDelta",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Assignment Delta",
+      "entityLabelPlural":"Assignment Deltas",
+      "queryable":true,
+      "updateable":false
+    },
+    {
       "apiName":"AssignmentRule",
       "createable":false,
       "custom":false,
@@ -2567,6 +2587,16 @@
       "deletable":true,
       "entityLabel":"Batch Apex Relationship",
       "entityLabelPlural":"Batch Apex Relationship",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"BatchInvoiceGenerationMetric",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"BatchInvoiceGenerationMetric",
+      "entityLabelPlural":"BatchInvoiceGenerationMetrics",
       "queryable":true,
       "updateable":true
     },
@@ -7051,6 +7081,16 @@
       "updateable":true
     },
     {
+      "apiName":"DashboardDynamicValue",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Dashboard Dynamic Value",
+      "entityLabelPlural":"Dashboard Dynamic Values",
+      "queryable":true,
+      "updateable":true
+    },
+    {
       "apiName":"DashboardFeed",
       "createable":false,
       "custom":false,
@@ -8747,6 +8787,16 @@
       "deletable":true,
       "entityLabel":"Entitlement and Support Record Update Rule",
       "entityLabelPlural":"Entitlement and Support Record Update Rules",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"AdminSearchScopeItem",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Entity",
+      "entityLabelPlural":"Admin search scope children",
       "queryable":true,
       "updateable":true
     },

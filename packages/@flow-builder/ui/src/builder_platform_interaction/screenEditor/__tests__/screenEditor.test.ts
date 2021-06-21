@@ -29,7 +29,7 @@ import {
     createAddAutomaticScreenFieldEvent,
     createSingleOrMultiChoiceTypeChangedEvent
 } from 'builder_platform_interaction/events';
-import { invokeModal } from 'builder_platform_interaction/builderUtils';
+import { invokeModal } from 'builder_platform_interaction/sharedUtils';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { ManuallyAssignVariablesChangedEvent } from 'builder_platform_interaction/events';
@@ -69,8 +69,8 @@ jest.mock('builder_platform_interaction/storeLib', () => {
     return storeLib;
 });
 
-jest.mock('builder_platform_interaction/builderUtils', () => {
-    const actual = jest.requireActual('builder_platform_interaction/builderUtils');
+jest.mock('builder_platform_interaction/sharedUtils', () => {
+    const actual = jest.requireActual('builder_platform_interaction/sharedUtils');
     return Object.assign({}, actual, {
         invokeModal: jest.fn()
     });
@@ -138,10 +138,10 @@ const createComponentUnderTest = (props) => {
 };
 
 jest.mock('builder_platform_interaction/builderUtils', () => {
-    return {
-        invokeModal: jest.fn(),
+    const actual = jest.requireActual('builder_platform_interaction/builderUtils');
+    return Object.assign({}, actual, {
         hidePopover: jest.fn()
-    };
+    });
 });
 
 jest.mock('builder_platform_interaction/selectors', () => {

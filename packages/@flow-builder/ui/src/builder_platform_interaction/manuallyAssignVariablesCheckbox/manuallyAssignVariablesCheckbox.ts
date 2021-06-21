@@ -2,17 +2,18 @@
 import { LightningElement, api } from 'lwc';
 import { LABELS } from './manuallyAssignVariablesCheckboxLabels';
 import { ManuallyAssignVariablesChangedEvent } from 'builder_platform_interaction/events';
-import { invokeModal } from 'builder_platform_interaction/builderUtils';
+import { invokeModal } from 'builder_platform_interaction/sharedUtils';
 
 /**
- * @param event
+ * @param event The Event
  */
 function confirmationModalButtonCallback(event) {
     this.dispatchEvent(new ManuallyAssignVariablesChangedEvent(event.detail.checked));
 }
 
 /**
- * @param event
+ * @param event The event
+ * @returns Confirmation Popup Data
  */
 function confirmationModalParameter(event) {
     return {

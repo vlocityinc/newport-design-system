@@ -31,6 +31,11 @@
       "description":"FTEST - File Based Flow Basic"
     },
     {
+      "masterLabel":"FTest-TestFileBasedPause",
+      "fullName":"FtestSfdcOnly__TestFileBasedPause",
+      "description":null
+    },
+    {
       "masterLabel":"FTest-TestFileBasedScreen",
       "fullName":"FtestSfdcOnly__TestFileBasedScreen",
       "description":"FTEST - File Based Flow Screen Flow"

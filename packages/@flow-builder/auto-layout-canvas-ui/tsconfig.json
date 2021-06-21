@@ -35,5 +35,5 @@
          }
     },
 
-    "include": ["src/**/*", "@types", "../ui/@types/uiModel.d.ts","../ui/@types/metadataModel.d.ts"]
+    "include": ["src/**/*", "@types", "../ui/@types/uiModel.d.ts","../ui/@types/metadataModel.d.ts", "../shared-utils/@types/index.d.ts"] 
 }

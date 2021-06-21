@@ -19,7 +19,7 @@
         "build": "yarn build:dev && yarn build:target:npm",
         "watch": "watch -p 'src/**/*.ts' -c 'yarn build:dev'",
         "lint": "eslint --max-warnings 0 src/**/*.ts",
-        "test": "jest src/**/*.test.js",
+        "test": "jest src",
         "test:update-snapshots": "yarn test -u",
         "ci:test": "yarn test -- -- --verbose false",
         "ci:test:coverage": "yarn ci:test"

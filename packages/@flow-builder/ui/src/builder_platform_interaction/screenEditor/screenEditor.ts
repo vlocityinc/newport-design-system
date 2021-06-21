@@ -13,7 +13,7 @@ import {
 import { getExtensionFieldTypes } from 'builder_platform_interaction/flowExtensionLib';
 import { screenReducer } from './screenReducer';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { invokeModal } from 'builder_platform_interaction/builderUtils';
+import { invokeModal } from 'builder_platform_interaction/sharedUtils';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { usedByStoreAndElementState, invokeUsedByAlertModal } from 'builder_platform_interaction/usedByLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -246,7 +246,7 @@ export default class ScreenEditor extends LightningElement {
     /**
      * Update the active tab and the automatic field record variable
      *
-     * @param screenFieldNode
+     * @param screenFieldNode The screenFieldNode
      */
     private updateActiveTabAndAutomaticFieldRecordVariable(screenFieldNode) {
         if (screenFieldNode.fieldType === FlowScreenFieldType.ObjectProvided) {
@@ -372,7 +372,7 @@ export default class ScreenEditor extends LightningElement {
     /**
      * Recursively flatten the screen field elements.
      *
-     * @param {Object} screenField
+     * @param {Object} screenField The screen field
      * @returns {Array} all the screen fields after the flatten
      */
     flattenScreenFields(screenField) {

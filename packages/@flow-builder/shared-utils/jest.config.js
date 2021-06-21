@@ -1,5 +1,6 @@
 module.exports = {
-    moduleNameMapper: {},
-
+    moduleNameMapper: {
+        '^aura$': '<rootDir>/jest-modules/aura.js'
+    },
     moduleFileExtensions: ['ts', 'js']
 };

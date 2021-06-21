@@ -5,5 +5,5 @@
         "declarationDir": "dist/types",
         "outDir": "build/esNext"
     },
-    "include": ["src/", "typings/"]
+    "include": ["src/", "typings/", "../shared-utils/@types/index.d.ts"]
 }

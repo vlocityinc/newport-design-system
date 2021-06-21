@@ -1,7 +1,7 @@
 import { createElement } from 'lwc';
 import ManuallyAssignVariablesCheckbox from '../manuallyAssignVariablesCheckbox';
 import { LABELS } from '../manuallyAssignVariablesCheckboxLabels';
-import { invokeModal } from 'builder_platform_interaction/builderUtils';
+import { invokeModal } from 'builder_platform_interaction/sharedUtils';
 import {
     ticks,
     LIGHTNING_COMPONENTS_SELECTORS,
@@ -17,7 +17,7 @@ function createComponentForTest(isAdvancedMode) {
     return el;
 }
 
-jest.mock('builder_platform_interaction/builderUtils', () => {
+jest.mock('builder_platform_interaction/sharedUtils', () => {
     return {
         invokeModal: jest.fn()
     };

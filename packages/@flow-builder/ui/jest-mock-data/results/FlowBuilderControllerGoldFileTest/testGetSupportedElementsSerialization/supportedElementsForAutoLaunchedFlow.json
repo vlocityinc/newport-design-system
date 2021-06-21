@@ -103,6 +103,20 @@
       "elementType":"CollectionProcessor",
       "labelPlural":"Collection Sorts",
       "configComponent":"builder_platform_interaction:sortEditor"
+    },
+    {
+      "labelEdit":"Edit Collection Filter",
+      "isElementSubtype":true,
+      "color":"background-orange",
+      "name":"FilterCollectionProcessor",
+      "icon":"standard:filter",
+      "description":"Filter items in a collection.",
+      "label":"Collection Filter",
+      "labelNew":"New Collection Filter",
+      "classification":"Node",
+      "elementType":"CollectionProcessor",
+      "labelPlural":"Collection Filters",
+      "configComponent":"builder_platform_interaction:filterEditor"
     }
   ]
 }
