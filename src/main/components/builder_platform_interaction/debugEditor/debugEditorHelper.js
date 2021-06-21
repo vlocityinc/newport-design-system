@@ -107,15 +107,13 @@
                     isCollection: argu.isCollection,
                     objectType: argu.objectType
                 });
+                //if record is updated, provide updates in args.value additionally
+                if (cmp.get('v.showDetails')) {
+                    var recordChanges = cmp.find('recordDetails').get('v.fieldUpdates');
+                    recordChanges['ID'] = value;
+                    args[0].value = recordChanges;
+                }
             }
-        }
-
-        //if record is updated, provide updates in args additionally
-        if (cmp.get('v.showDetails') && args.length == 1) {
-            var recordChanges = cmp.find('recordDetails').get('v.fieldUpdates');
-            var systemVariables = cmp.find('systemVariables');
-            args[0].name = systemVariables.SYSTEM_VARIABLE_RECORD_PRIOR_PREFIX;
-            args.push({ name: systemVariables.SYSTEM_VARIABLE_RECORD_PREFIX, type: 'Map', value: recordChanges });
         }
         return args;
     },
