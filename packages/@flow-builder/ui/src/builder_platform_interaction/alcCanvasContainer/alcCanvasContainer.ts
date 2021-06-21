@@ -12,8 +12,7 @@ import {
     hasTrigger,
     hasContext,
     isRecordTriggeredFlow,
-    setElementsMetadata,
-    getFocusPath
+    setElementsMetadata
 } from 'builder_platform_interaction/alcCanvasUtils';
 import { deselectOnCanvas } from 'builder_platform_interaction/actions';
 import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';

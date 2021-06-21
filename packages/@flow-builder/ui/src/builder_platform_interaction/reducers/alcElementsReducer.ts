@@ -91,7 +91,8 @@ const getElementService = (flowModel: UI.Elements) => {
 export default function alcElementsReducer(state: Readonly<UI.Elements>, action: any): Readonly<UI.Elements> {
     const metadata = getElementsMetadata();
 
-    let nextState = elementsReducer(deepCopy(state), action);
+    const statePostElementReducer = elementsReducer(state, action);
+    let nextState = deepCopy(statePostElementReducer);
     const elementService = getElementService(nextState);
     const autoLayoutCanvasReducer = reducer(elementService);
 
@@ -220,6 +221,10 @@ export default function alcElementsReducer(state: Readonly<UI.Elements>, action:
             nextState = autoLayoutCanvasReducer(nextState, actions.clearCanvasDecorationAction());
             break;
         default:
+            if (state === statePostElementReducer) {
+                nextState = state;
+            }
+            break;
     }
 
     assertInDev(() => assertAutoLayoutState(nextState));
