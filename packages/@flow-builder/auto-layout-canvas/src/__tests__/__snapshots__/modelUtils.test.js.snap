@@ -1491,6 +1491,69 @@ Object {
 }
 `;
 
+exports[`modelUtils inlineFromParent inline decision when next is goto with nested branch (W-9361495) inlines the nested branch correctly 1`] = `
+Object {
+  "decision": Object {
+    "childReferences": Array [
+      Object {
+        "childReference": "t1",
+      },
+    ],
+    "children": Array [
+      "nestedDecision",
+      null,
+    ],
+    "guid": "decision",
+    "name": "decision",
+    "next": "end1",
+    "nodeType": "branch",
+  },
+  "end1": Object {
+    "guid": "end1",
+    "name": "end1",
+    "prev": "decision",
+  },
+  "end2": Object {
+    "childIndex": 1,
+    "guid": "end2",
+    "isTerminal": true,
+    "name": "end2",
+    "parent": "nestedDecision",
+  },
+  "nestedDecision": Object {
+    "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "t1",
+      },
+    ],
+    "children": Array [
+      "screen2",
+      "end2",
+    ],
+    "guid": "nestedDecision",
+    "isTerminal": false,
+    "name": "nestedDecision",
+    "next": null,
+    "nodeType": "branch",
+    "parent": "decision",
+  },
+  "screen1": Object {
+    "guid": "screen1",
+    "name": "screen1",
+    "next": "decision",
+  },
+  "screen2": Object {
+    "childIndex": 0,
+    "guid": "screen2",
+    "isTerminal": false,
+    "name": "screen2",
+    "parent": "nestedDecision",
+    "prev": null,
+  },
+}
+`;
+
 exports[`modelUtils updateChildren Adding a branch and avoiding a self-loop 1`] = `
 Object {
   "decision1-guid": Object {
@@ -1820,6 +1883,7 @@ Object {
     "elementType": "BRANCH_ELEMENT",
     "guid": "decision1-guid",
     "incomingGoTo": Array [],
+    "isTerminal": false,
     "label": "default",
     "next": null,
     "nodeType": "branch",

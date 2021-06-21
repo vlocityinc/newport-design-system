@@ -1906,9 +1906,13 @@ function inlineBranches(state: FlowModel, parentElement: ParentNodeModel) {
         // clear the parent's next, since it has now been inlined
         parentElement.next = null;
 
-        // the branch is now terminal, mark it as such if the head is not a goto
+        // if the branch head is not a goto, set its isTerminal property
         if (!hasGoToOnBranchHead(state, parentElement.guid, branchIndex)) {
-            resolveChild(state, parentElement, branchIndex)!.isTerminal = true;
+            const branchHead = resolveChild(state, parentElement, branchIndex);
+            if (branchHead != null) {
+                const isTerminal = isEndOrAllTerminalBranchingElement(state, findLastElement(branchHead, state));
+                branchHead.isTerminal = isTerminal;
+            }
         }
 
         // if we had a branchTailBeforeInline, and it's branching, recursively inline from there

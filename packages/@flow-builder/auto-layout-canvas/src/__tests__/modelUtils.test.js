@@ -3920,11 +3920,11 @@ describe('modelUtils', () => {
             flowWithGoTo.flowModel['decision1-guid'] = {
                 ...flowWithGoTo.flowModel['decision1-guid'],
                 next: 'screen1-guid',
-                children: ['screen1-guid', null, 'screen1-guid']
+                children: ['screen1-guid', null, 'screen1-guid'],
+                isTerminal: false
             };
             flowWithGoTo.flowModel['screen1-guid'] = {
                 ...flowWithGoTo.flowModel['screen1-guid'],
-                isTerminal: false,
                 next: 'screen2-guid',
                 incomingGoTo: ['decision1-guid:default', 'decision1-guid']
             };
@@ -4124,6 +4124,65 @@ describe('modelUtils', () => {
     });
     describe('inlineFromParent', () => {
         describe('inline decision when next is goto', () => {
+            describe('with nested branch (W-9361495)', () => {
+                const originalStoreState = {
+                    screen1: {
+                        guid: 'screen1',
+                        name: 'screen1',
+                        next: 'decision'
+                    },
+                    decision: {
+                        guid: 'decision',
+                        name: 'decision',
+                        children: ['nestedDecision', null],
+                        next: 'end1',
+                        nodeType: NodeType.BRANCH,
+                        childReferences: [
+                            {
+                                childReference: 't1'
+                            }
+                        ]
+                    },
+                    nestedDecision: {
+                        guid: 'nestedDecision',
+                        name: 'nestedDecision',
+                        children: [null, 'end2'],
+                        childIndex: 0,
+                        parent: 'decision',
+                        next: 'screen2',
+                        isTerminal: false,
+                        nodeType: NodeType.BRANCH,
+                        childReferences: [
+                            {
+                                childReference: 't1'
+                            }
+                        ]
+                    },
+                    screen2: {
+                        guid: 'screen2',
+                        name: 'screen2',
+                        prev: 'nestedDecision'
+                    },
+                    end2: {
+                        guid: 'end2',
+                        name: 'end2',
+                        parent: 'nestedDecision',
+                        childIndex: 1,
+                        isTerminal: true
+                    },
+                    end1: {
+                        guid: 'end1',
+                        name: 'end1',
+                        prev: 'decision'
+                    }
+                };
+
+                const updatedState = inlineFromParent(originalStoreState, originalStoreState.nestedDecision);
+
+                it('inlines the nested branch correctly', () => {
+                    expect(updatedState).toMatchSnapshot();
+                });
+            });
             describe('when the non-terminal branch is empty', () => {
                 const originalStoreState = {
                     screen1: {
@@ -4210,7 +4269,8 @@ describe('modelUtils', () => {
                     guid: 'newDecision',
                     name: 'newDecision',
                     children: ['end1', null],
-                    next: 'screen1'
+                    next: 'screen1',
+                    isTerminal: true
                 },
                 end1: {
                     guid: 'end1',
