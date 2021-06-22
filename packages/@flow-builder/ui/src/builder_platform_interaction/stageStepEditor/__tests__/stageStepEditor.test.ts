@@ -10,7 +10,9 @@ import {
     ItemSelectedEvent,
     PropertyChangedEvent,
     UpdateConditionEvent,
-    UpdateParameterItemEvent
+    UpdateParameterItemEvent,
+    OrchestrationActionValueChangedEvent,
+    ValueChangedEvent
 } from 'builder_platform_interaction/events';
 import { mockActions } from 'mock/calloutData';
 import { Store } from 'builder_platform_interaction/storeLib';
@@ -153,13 +155,12 @@ describe('StageStepEditor', () => {
         entryConditions: [],
         action: {
             actionName: {
-                value: 'someActionName'
+                value: 'autolaunchedFlow'
             },
             actionType: {
                 value: 'orchestratorAutolaunchedFlow'
             }
-        },
-        inputParameters: mockInputParameters
+        }
     };
 
     const nodeParamsWithDeterminations = {
@@ -352,7 +353,18 @@ describe('StageStepEditor', () => {
 
         it('list set from available actions', () => {
             const actionSelector = editor.shadowRoot.querySelector(selectors.ACTION_SELECTOR);
-            expect(actionSelector.invocableActions).toEqual(mockActions);
+            // TODO W-9160375 update with mock action data
+            expect(actionSelector.invocableActions).toEqual([]);
+        });
+        describe('autolaunched step', () => {
+            beforeEach(() => {
+                editor = createComponentUnderTest(autolaunchedNodeParams);
+            });
+            it('list set from available actions for autolaunched step', () => {
+                const actionSelector = editor.shadowRoot.querySelector(selectors.ACTION_SELECTOR);
+                // TODO W-9160375 update with mock action data
+                expect(actionSelector.invocableActions).toEqual([]);
+            });
         });
     });
 
@@ -423,6 +435,30 @@ describe('StageStepEditor', () => {
                 expect(stageStepReducer).toHaveBeenCalledWith(
                     nodeParams,
                     new DeleteOrchestrationActionEvent(nodeParams.guid, ORCHESTRATED_ACTION_CATEGORY.EXIT)
+                );
+            });
+        });
+
+        describe('actionSelected updates Action', () => {
+            it('sets action type in event detail', () => {
+                editor = createComponentUnderTest(autolaunchedNodeParams);
+
+                const actionCombobox = editor.shadowRoot.querySelector(selectors.ACTION_SELECTOR);
+
+                const comboboxEvent = new ValueChangedEvent({ actionName: 'autolaunchedFlow' });
+                actionCombobox.dispatchEvent(comboboxEvent);
+
+                // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
+                // Until then use the more brittle `.mocks`
+                expect(stageStepReducer.mock.calls[2][1].detail).toEqual(
+                    expect.objectContaining({
+                        actionCategory: ORCHESTRATED_ACTION_CATEGORY.STEP,
+                        error: null,
+                        value: {
+                            actionName: 'autolaunchedFlow',
+                            actionType: 'orchestratorAutolaunchedFlow'
+                        }
+                    })
                 );
             });
         });

@@ -78,7 +78,7 @@
     </div>
 
     <div class="slds-border_top slds-p-top_medium slds-p-left_small slds-p-bottom_small slds-p-right_small">
-        <span class="slds-text-heading_small">{labels.implementationSectionLabel}</span>
+        <span class="slds-text-heading_small">{actionSectionLabel}</span>
         <lightning-spinner
             if:true={displayActionSpinner}
             size="medium"
@@ -99,7 +99,7 @@
                 flow-process-type={processType}
                 label-override={labels.actionSelectorLabel}
                 required="true"
-                field-level-help={labels.actionSelectorTooltip}
+                field-level-help={actionTooltipLabel}
             >
             </builder_platform_interaction-action-selector>
         </div>

@@ -1,3 +1,4 @@
+// DEPRECATED: DO NOT ADD TO THIS FILE! This is going away soon. See W-8232833
 export const mockActions = [
     {
         iconId: null,

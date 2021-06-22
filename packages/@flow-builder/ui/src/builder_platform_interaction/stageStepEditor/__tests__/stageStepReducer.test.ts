@@ -296,7 +296,8 @@ describe('StageStep Reducer', () => {
                 type: OrchestrationActionValueChangedEvent.EVENT_NAME,
                 detail: {
                     value: {
-                        actionName: 'someAction'
+                        actionName: 'someAction',
+                        actionType: ACTION_TYPE.CREATE_WORK_ITEM
                     },
                     error: null,
                     actionCategory: ORCHESTRATED_ACTION_CATEGORY.STEP
@@ -353,7 +354,8 @@ describe('StageStep Reducer', () => {
                     type: OrchestrationActionValueChangedEvent.EVENT_NAME,
                     detail: {
                         value: {
-                            actionName: 'anotherAction'
+                            actionName: 'anotherAction',
+                            actionType: ACTION_TYPE.CREATE_WORK_ITEM
                         },
                         error: null,
                         actionCategory: ORCHESTRATED_ACTION_CATEGORY.STEP
@@ -395,7 +397,8 @@ describe('StageStep Reducer', () => {
                     type: OrchestrationActionValueChangedEvent.EVENT_NAME,
                     detail: {
                         value: {
-                            actionName: 'anotherAction'
+                            actionName: 'anotherAction',
+                            actionType: ACTION_TYPE.CREATE_WORK_ITEM
                         },
                         error: null,
                         actionCategory: ORCHESTRATED_ACTION_CATEGORY.STEP

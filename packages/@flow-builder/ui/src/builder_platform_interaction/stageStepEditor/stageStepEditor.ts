@@ -280,6 +280,18 @@ export default class StageStepEditor extends LightningElement {
         );
     }
 
+    get actionSectionLabel(): string {
+        return this.isStepWithUserAction
+            ? this.labels.implementationSectionLabel
+            : this.labels.autolaunchedFlowSectionLabel;
+    }
+
+    get actionTooltipLabel(): string {
+        return this.isStepWithUserAction
+            ? this.labels.actionSelectorTooltip
+            : this.labels.autolaunchedFlowSelectorTooltip;
+    }
+
     get isStartCriteriaBasedOnStep(): boolean {
         return this.selectedEntryCriteria === ENTRY_CRITERIA.ON_STEP_COMPLETE;
     }
@@ -520,9 +532,16 @@ export default class StageStepEditor extends LightningElement {
 
             const stepActions: InvocableAction[] = [];
             const determinationActions: InvocableAction[] = [];
-            actions.forEach((action) =>
-                action.type === 'flow' ? determinationActions.push(action) : stepActions.push(action)
-            );
+            actions.forEach((action) => {
+                if (action.type === ACTION_TYPE.FLOW) {
+                    determinationActions.push(action);
+                } else if (
+                    (action.type === ACTION_TYPE.CREATE_WORK_ITEM && this.isStepWithUserAction) ||
+                    (action.type === ACTION_TYPE.ORCHESTRATOR_AUTOLAUNCHED_FLOW && !this.isStepWithUserAction)
+                ) {
+                    stepActions.push(action);
+                }
+            });
 
             this.availableActions = stepActions;
             this.availableDeterminationActions = determinationActions;
@@ -689,6 +708,7 @@ export default class StageStepEditor extends LightningElement {
     }
 
     async handleActionSelected(e: ValueChangedEvent<InvocableAction>) {
+        e.detail.value.actionType = this.element?.action?.actionType.value;
         this.actionSelected(ORCHESTRATED_ACTION_CATEGORY.STEP, e);
     }
 
@@ -706,7 +726,7 @@ export default class StageStepEditor extends LightningElement {
         // Update the selected action
         this.element = stageStepReducer(this.element!, orchEvt);
 
-        // Only load parameters if a vsalid action is selected
+        // Only load parameters if a valid action is selected
         if (e.detail.value.actionName) {
             if (actionCategory === ORCHESTRATED_ACTION_CATEGORY.STEP) {
                 await this.setActionParameters(this.selectedAction, actionCategory);

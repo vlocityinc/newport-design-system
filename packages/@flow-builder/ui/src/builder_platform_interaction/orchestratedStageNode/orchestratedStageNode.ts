@@ -141,7 +141,7 @@ export default class OrchestratedStageNode extends LightningElement {
         const addItemEvent = new AddElementEvent({
             elementType: ELEMENT_TYPE.STAGE_STEP,
             // TODO this should come from the step type menu
-            // actionType: ACTION_TYPE.ORCHESTRATOR_AUTOLAUNCHED_FLOW,
+            actionType: ACTION_TYPE.CREATE_WORK_ITEM,
             parent: this.node && this.node.guid,
             designateFocus
         });

@@ -143,10 +143,7 @@ const actionChanged = (state: StageStep, event: OrchestrationActionValueChangedE
         const actionProducer = (name) => {
             return hydrateWithErrors({
                 elementType: ELEMENT_TYPE.ACTION_CALL,
-                actionType:
-                    event.detail.actionCategory === ORCHESTRATED_ACTION_CATEGORY.STEP
-                        ? ACTION_TYPE.CREATE_WORK_ITEM
-                        : ACTION_TYPE.FLOW,
+                actionType: event.detail.value?.actionType,
                 actionName: name
             });
         };

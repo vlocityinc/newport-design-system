@@ -1,12 +1,14 @@
 import startSectionLabel from '@salesforce/label/FlowBuilderStageStepEditor.startSectionLabel';
 import startRadioLabel from '@salesforce/label/FlowBuilderStageStepEditor.startRadioLabel';
 import implementationSectionLabel from '@salesforce/label/FlowBuilderStageStepEditor.implementationSectionLabel';
+import autolaunchedFlowSectionLabel from '@salesforce/label/FlowBuilderStageStepEditor.autolaunchedFlowSectionLabel';
 import startOptionStageStart from '@salesforce/label/FlowBuilderStageStepEditor.startOptionStageStart';
 import startOptionBasedOnOtherStep from '@salesforce/label/FlowBuilderStageStepEditor.startOptionBasedOnOtherStep';
 import whenStepIsComplete from '@salesforce/label/FlowBuilderStageStepEditor.whenStepIsComplete';
 import entryCriteriaItemsPlaceholder from '@salesforce/label/FlowBuilderStageStepEditor.entryCriteriaItemsPlaceholder';
 import actionSelectorLabel from '@salesforce/label/FlowBuilderStageStepEditor.actionSelectorLabel';
 import actionSelectorTooltip from '@salesforce/label/FlowBuilderStageStepEditor.actionSelectorTooltip';
+import autolaunchedFlowSelectorTooltip from '@salesforce/label/FlowBuilderStageStepEditor.autolaunchedFlowSelectorTooltip';
 import actorSelectionSectionLabel from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectionSectionLabel';
 import actorSelectorLabel from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorLabel';
 import actorSelectorPlaceholder from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorPlaceholder';
@@ -46,12 +48,14 @@ export const LABELS = {
     startSectionLabel,
     startRadioLabel,
     implementationSectionLabel,
+    autolaunchedFlowSectionLabel,
     startOptionStageStart,
     startOptionBasedOnOtherStep,
     whenStepIsComplete,
     entryCriteriaItemsPlaceholder,
     actionSelectorLabel,
     actionSelectorTooltip,
+    autolaunchedFlowSelectorTooltip,
     inputHeader,
     outputHeader,
     emptyInputsTitle,

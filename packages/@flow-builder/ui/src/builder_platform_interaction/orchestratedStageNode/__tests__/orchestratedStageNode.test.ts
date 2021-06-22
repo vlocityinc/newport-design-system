@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import OrchestratedStageNode from '../orchestratedStageNode';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ACTION_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { AddElementEvent, DeleteElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { commands } from 'builder_platform_interaction/sharedUtils';
@@ -84,6 +84,7 @@ describe('Stepped-Stage-Node', () => {
                 expect.objectContaining({
                     detail: {
                         designateFocus: false,
+                        actionType: ACTION_TYPE.CREATE_WORK_ITEM,
                         elementType: 'STAGE_STEP',
                         parent: ssGuid
                     }
@@ -104,6 +105,7 @@ describe('Stepped-Stage-Node', () => {
                 expect.objectContaining({
                     detail: {
                         designateFocus: true,
+                        actionType: ACTION_TYPE.CREATE_WORK_ITEM,
                         elementType: 'STAGE_STEP',
                         parent: ssGuid
                     }
