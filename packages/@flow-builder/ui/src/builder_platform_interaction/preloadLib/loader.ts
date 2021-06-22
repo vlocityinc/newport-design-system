@@ -2,6 +2,7 @@
 import { format } from 'builder_platform_interaction/commonUtils';
 import { fetchOnce, SERVER_ACTION_TYPE, getAuraCallback } from 'builder_platform_interaction/serverDataLib';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
+import { getExtensionFieldTypes } from 'builder_platform_interaction/flowExtensionLib';
 import { updateApexClasses } from 'builder_platform_interaction/actions';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import {
@@ -130,6 +131,15 @@ class Loader {
         return this.apexClassesLoaded.promiseWithTimeout;
     }
 
+    /**
+     * Loads Auxiliary Metadata on Process Type Change
+     *
+     * @param flowProcessType - Flow Process Type
+     * @param flowTriggerType - Flow Trigger Type
+     * @param recordTriggerType - Record Trigger Type
+     * @param flowDefinitionId - Flow Defintion Id
+     * @returns Object with promises
+     */
     public loadOnProcessTypeChange(flowProcessType, flowTriggerType, recordTriggerType, flowDefinitionId) {
         // currently, we prefetch actions, apex plugins and subflows for performance reasons but we don't need them to be loaded
         // before we can open a Property Editor
@@ -142,6 +152,7 @@ class Loader {
             flowTriggerType,
             recordTriggerType
         );
+        this.loadExtensions(flowProcessType);
         return {
             loadActionsPromise,
             loadPeripheralMetadataPromise,
@@ -150,6 +161,24 @@ class Loader {
     }
 
     /**
+     * Loads Extensions
+     *
+     * @param flowProcessType - Flow Process Type
+     */
+    private loadExtensions(flowProcessType): void {
+        // It's a short term fix. Eventually we will have getFlowExtensions use FetchOnce in dataForProcessType.ts.
+        // After refactoring, the screen property editor will be using the same mechanism to cache as other places in the flow builder.
+        // Work item: https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000006Qf9JIAS/view
+        getExtensionFieldTypes(flowProcessType)
+            .then()
+            .catch((error) => {
+                // TODO: Address error handling as part of #W-9494646: https://gus.my.salesforce.com/a07AH000000P9RiYAK
+                throw error;
+            });
+    }
+
+    /**
+     * Loads Apex Classes
      * WARNING: this is subject to take a long time. Do not use in a blocking call. Rather use loadApexClassesWithTimeout that will timeout if it takes too long.
      *
      * @returns The Apex Loaded promise
@@ -169,6 +198,14 @@ class Loader {
         return this.apexClassesLoaded.promise;
     }
 
+    /**
+     * Loads Peripheral Metadata
+     *
+     * @param flowProcessType - Flow Process Type
+     * @param flowTriggerType - Flow Trigger Type
+     * @param recordTriggerType - Record Trigger Type
+     * @returns auraCallback
+     */
     private loadPeripheralMetadata(flowProcessType, flowTriggerType, recordTriggerType) {
         logPerfTransactionStart(SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR);
         return getAuraCallback(() =>

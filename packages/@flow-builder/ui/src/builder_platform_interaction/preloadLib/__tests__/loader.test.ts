@@ -10,6 +10,7 @@ import {
 } from '../loader';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
+import { getExtensionFieldTypes } from 'builder_platform_interaction/flowExtensionLib';
 import {
     loadActions,
     loadApexPlugins,
@@ -56,6 +57,12 @@ jest.mock('../dataForProcessType', () => {
         loadSubflows: jest.fn().mockResolvedValue('subflows'),
         loadPalette: jest.fn().mockResolvedValue('palette'),
         loadWorkflowEnabledEntities: jest.fn()
+    };
+});
+
+jest.mock('builder_platform_interaction/flowExtensionLib', () => {
+    return {
+        getExtensionFieldTypes: jest.fn().mockResolvedValue('extensions')
     };
 });
 
@@ -262,7 +269,13 @@ describe('Loader', () => {
                     SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR
                 );
             });
-
+            it('initiates loading of extensions', () => {
+                const processType = 'process_type_1';
+                loadOnStart();
+                loadOnProcessTypeChange(processType);
+                expect(getExtensionFieldTypes).toBeCalledTimes(1);
+                expect(getExtensionFieldTypes).toBeCalledWith(processType);
+            });
             it('brings up an alert when either of the calls fails', async () => {
                 loadResourceTypes.mockRejectedValue('something went wrong');
                 loadEventTypes.mockRejectedValue('something else went wrong');

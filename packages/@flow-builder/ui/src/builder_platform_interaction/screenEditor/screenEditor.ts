@@ -221,6 +221,7 @@ export default class ScreenEditor extends LightningElement {
                 }
             })
             .catch((error) => {
+                // TODO: Address error handling as part of #W-9494646: https://gus.my.salesforce.com/a07AH000000P9RiYAK
                 throw error;
             });
     }

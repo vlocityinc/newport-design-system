@@ -106,6 +106,9 @@ function getListExtensionsRetriever(flowProcessType) {
                         },
                         {
                             flowProcessType
+                        },
+                        {
+                            background: true
                         }
                     );
                 }
@@ -119,8 +122,8 @@ function getListExtensionsRetriever(flowProcessType) {
 /**
  * Returns a Promise that will be resolved once the extension field types have been retrieved.
  *
- * @param flowProcessType
- * @Returns {Promise} - The promise
+ * @param flowProcessType - Flow Process Type
+ * @returns {Promise} - The promise
  */
 export function getExtensionFieldTypes(flowProcessType) {
     const cachedFields = getAllCachedExtensionTypes();

@@ -24,8 +24,6 @@ export default class Row extends LightningElement {
 
     /**
      * @returns {boolean} Whether to show the delete button
-     *
-     * @param {boolean} the setter param to show the delete button
      */
     @api
     get isDeletable() {
