@@ -8,7 +8,6 @@ import {
     invokeAutoLayoutWelcomeMat,
     invokeDebugEditor,
     invokeKeyboardHelpDialog,
-    invokeModal,
     invokeModalInternalData,
     invokeNewFlowModal,
     invokePropertyEditor,
@@ -16,6 +15,7 @@ import {
     modalFooterVariant,
     PROPERTY_EDITOR
 } from 'builder_platform_interaction/builderUtils';
+import { invokeModal } from 'builder_platform_interaction/sharedUtils';
 import { deepCopy, Store } from 'builder_platform_interaction/storeLib';
 import { getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
 import {
@@ -59,9 +59,7 @@ import {
     FLOW_TRIGGER_SAVE_TYPE,
     FLOW_TRIGGER_TYPE,
     isSystemElement,
-    SCHEDULED_PATH_TYPE,
-    START_ELEMENT_FIELDS,
-    CONNECTOR_TYPE
+    SCHEDULED_PATH_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
@@ -256,6 +254,8 @@ export default class Editor extends LightningElement {
      *  running: true/false
      *  count: number of guardrails
      * }
+     *
+     * @returns Guardails params
      */
     @api
     get guardrailsParams() {
@@ -395,7 +395,9 @@ export default class Editor extends LightningElement {
 
     labels = LABELS;
 
-    /** Whether canvas elements are available. Don't render the canvas until then. */
+    /**
+     * @returns true Whether canvas elements are available. Don't render the canvas until then.
+     */
     get hasCanvasElements() {
         return (
             (this.hasFlow && storeInstance.getCurrentState().canvasElements.length > 0) ||
@@ -403,7 +405,9 @@ export default class Editor extends LightningElement {
         );
     }
 
-    /** Indicates if the component has a flow to edit (now or in future) */
+    /**
+     * @returns True if the component has a flow to edit (now or in future)
+     */
     get hasFlow() {
         if (storeInstance) {
             const currentState = storeInstance.getCurrentState();
@@ -415,14 +419,20 @@ export default class Editor extends LightningElement {
         return false;
     }
 
-    /** Default flow as supplied in the builder config */
+    /**
+     * @returns Default flow as supplied in the builder config
+     */
     get defaultFlow() {
         return (
             this.builderConfig && this.builderConfig.newFlowConfig && this.builderConfig.newFlowConfig.defaultNewFlow
         );
     }
 
-    /** Indicates that the new flow modal should be displayed */
+    /**
+     * Indicates that the new flow modal should be displayed
+     *
+     * @returns true if the new flow dialog must be shown
+     */
     get showNewFlowDialog() {
         // Show New Flow modal if there is no flow to edit,
         // builder configuration isn't loading
@@ -449,6 +459,8 @@ export default class Editor extends LightningElement {
 
     /**
      * Allows the right panel to size itself to fit its content without a max-width
+     *
+     * @returns True if the process type is ORCHESTRATOR
      */
     get isRightPanelVariableWidth() {
         // Hardcoded for App Process PoC
@@ -677,7 +689,8 @@ export default class Editor extends LightningElement {
     /**
      * Method to return the config based on the passed component(leftPanel, canvas etc.) config value.
      *
-     * @param componentConfig
+     * @param componentConfig - The component configuration name
+     * @returns the configuration
      */
     getConfig = (componentConfig) => {
         return (
@@ -826,10 +839,8 @@ export default class Editor extends LightningElement {
      *
      * @param {Object} has error property if there is error fetching the data else has data property
      * In case of data retrieved from a template, data points directly to flow.metadata
-     * @param has.data
-     * @param has.error
-     * @param has.data
-     * @param has.error
+     * @param has.data -
+     * @param has.error -
      */
     getFlowCallback = ({ data, error }) => {
         if (error) {
@@ -891,12 +902,9 @@ export default class Editor extends LightningElement {
     /**
      * Internal only callback which gets executed when we get a flow for diffing.
      *
-     * @param data.data
-     * @param data.data
-     * @param data
-     * @param error
-     * @param data.error
-     * @param data.error
+     * @param obj -
+     * @param obj.data -
+     * @param obj.error -
      */
     getFlowCallbackAndDiff = ({ data, error }) => {
         // TODO: W-5488109. We may want to revisit the idea of putting this functionality into a separate component.
@@ -978,11 +986,9 @@ export default class Editor extends LightningElement {
     /**
      * Callback which gets executed after saving a flow
      *
-     * @param {Object} has error property if there is error fetching the data else has data property
-     * @param has.data
-     * @param has.error
-     * @param has.data
-     * @param has.error
+     * @param has error property if there is error fetching the data else has data property
+     * @param has.data -
+     * @param has.error -
      */
     saveFlowCallback = ({ data, error }) => {
         if (error) {
@@ -1033,7 +1039,7 @@ export default class Editor extends LightningElement {
     /**
      * Callback which gets executed after getting data urls for header
      *
-     * @param data
+     * @param data -
      */
     getHeaderUrlsCallBack = (data) => {
         let isFromAloha = getPreferredExperience() === CLASSIC_EXPERIENCE;
@@ -1053,9 +1059,10 @@ export default class Editor extends LightningElement {
     /**
      * Helper method to construct the detail page back url for Aloha
      *
-     * @param {string} url - base url which we build on to construct the url for the detail page
+     * @param url - base url which we build on to construct the url for the detail page
+     * @returns The back url for aloha
      */
-    buildBackUrlForAloha = (url) => {
+    buildBackUrlForAloha = (url: string) => {
         if (this.currentFlowDefId) {
             url = '/' + this.currentFlowDefId;
         }
@@ -1065,9 +1072,10 @@ export default class Editor extends LightningElement {
     /**
      * Helper method to construct the detail page back url for Lightning
      *
-     * @param {string} url - base url which we build on to construct the url for the detail page
+     * @param url - base url which we build on to construct the url for the detail page
+     * @returns The back url for Lightning
      */
-    buildBackUrlForLightning = (url) => {
+    buildBackUrlForLightning = (url: string) => {
         if (this.currentFlowDefId) {
             url = url.split('/home')[0] + '/page?address=' + encodeURIComponent('/' + this.currentFlowDefId);
         }
@@ -1077,7 +1085,7 @@ export default class Editor extends LightningElement {
     /**
      * Callback after run debug interivew initiated by the debug modal
      *
-     * @param debugModal
+     * @param debugModal -
      */
     runDebugInterviewCallback = (debugModal) => {
         const debugOptions = debugModal.get('v.body')[0].getDebugInput() || {};
@@ -1337,7 +1345,7 @@ export default class Editor extends LightningElement {
      * Handles the copy event coming from the Element Action Contextual Menu and
      * updates the appropriate properties
      *
-     * @param event
+     * @param event - The copy single element event
      */
     handleCopySingleElement = (event) => {
         const { elementGuid } = event.detail;
@@ -1376,7 +1384,7 @@ export default class Editor extends LightningElement {
     /**
      * Handles the paste event and dispatches the pasteOnFixedCanvas action to the store
      *
-     * @param event
+     * @param event - The paste event
      */
     handlePasteOnCanvas = (event) => {
         const { prev, next, parent, childIndex } = event.detail;
@@ -1568,8 +1576,6 @@ export default class Editor extends LightningElement {
 
     /**
      * Handles the diff flow event fired by the toolbar. This is an internal only event.
-     *
-     * @param event
      */
     handleDiffFlow = (/* event */) => {
         // Only perform diff if there is a before diff.
@@ -1601,11 +1607,9 @@ export default class Editor extends LightningElement {
     /**
      * Callback which gets executed after activating a flow using the in-editor activate button
      *
-     * @param {Object} has error property if there is error fetching the data else has data property
-     * @param has.data
-     * @param has.error
-     * @param has.data
-     * @param has.error
+     * @param has error property if there is error fetching the data else has data property
+     * @param has.data -
+     * @param has.error -
      */
     toggleFlowStatusCallBack = ({ data, error }) => {
         if (error) {
@@ -1662,7 +1666,7 @@ export default class Editor extends LightningElement {
     /**
      * Queuing up the call out for display debug editor's pop-over modal.
      *
-     * @param paramsProvider
+     * @param paramsProvider - The invoke Debug editor parameters
      */
     queueOpenFlowDebugEditor = (paramsProvider) => {
         // borrow editor's spinner, UX approved.
@@ -2023,7 +2027,7 @@ export default class Editor extends LightningElement {
     /**
      * Handle adding of a node from an inline property editor
      *
-     * @param event
+     * @param event - The add node event
      */
     handleAddNode(event) {
         this.deMutateAndAddNodeCollection(event.detail.node);
@@ -2032,7 +2036,7 @@ export default class Editor extends LightningElement {
     /**
      * Handle adding of a node from an inline property editor
      *
-     * @param event
+     * @param event - the update node event
      */
     handleUpdateNode(event) {
         this.deMutateAndUpdateNodeCollection(event.detail.node);
@@ -2074,6 +2078,8 @@ export default class Editor extends LightningElement {
 
     /**
      * Get currently active canvas component (autolayout or freeform)
+     *
+     * @returns The canvas component
      */
     _getCanvasComponent = () => {
         return (
@@ -2381,7 +2387,7 @@ export default class Editor extends LightningElement {
      * @param node The element to add
      * @param parentGuid Needed when adding a non-canvas child element (StageStep, Outcome, etc...)
      * directly from the canvas so we know where to add it
-     * @param alcConnectionSource
+     * @param alcConnectionSource - The alc connection source
      */
     deMutateAndAddNodeCollection = (node: UI.Element, parentGuid: UI.Guid, alcConnectionSource: ConnectionSource) => {
         // TODO: This looks almost exactly like deMutateAndUpdateNodeCollection. Maybe we should
@@ -2416,7 +2422,7 @@ export default class Editor extends LightningElement {
     /**
      * Dispatch add element event and log it
      *
-     * @param element
+     * @param element - The element to add
      */
     dispatchAddElement(element: UI.Element | NodeWithParent) {
         storeInstance.dispatch(addElement(element));
@@ -2426,7 +2432,7 @@ export default class Editor extends LightningElement {
     /**
      * Fetches & caches the fields/properties for new sobject/apex variable types. Shows spinner until this is done
      *
-     * @param node
+     * @param node -
      */
     cacheNewComplexObjectFields(node) {
         if (node.elementType === ELEMENT_TYPE.VARIABLE && node.subtype && !node.isCollection) {
@@ -2471,7 +2477,7 @@ export default class Editor extends LightningElement {
     /**
      * Callback passed to various property editors which support inline creation
      *
-     * @param newResourceDetail
+     * @param newResourceDetail -
      */
     newResourceCallback = (newResourceDetail) => {
         // If we are adding a new resource for the user, we don't want to pop the property editor.
@@ -2610,6 +2616,7 @@ export default class Editor extends LightningElement {
      * Callback to be called when getting the template data
      *
      * @param modal the flow modal
+     * @returns The Template data
      */
     getTemplateDataCallback = (modal) => ({ data, error }) => {
         if (error) {
@@ -2626,6 +2633,8 @@ export default class Editor extends LightningElement {
 
     /**
      * Callback passed when user clicks on Exit icon from new flow modal
+     *
+     * @returns true if you want to skip the close modal
      */
     closeFlowModalCallback = () => {
         this.newFlowModalActive = false;
@@ -2709,7 +2718,7 @@ export default class Editor extends LightningElement {
      * Create the blank flow from the process type
      *
      * @param processType the selected process type
-     * @param triggerType
+     * @param triggerType the trigger type
      */
     createFlowFromProcessType = (processType, triggerType) => {
         const payload = { processType };
