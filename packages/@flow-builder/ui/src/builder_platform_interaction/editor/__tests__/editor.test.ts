@@ -206,6 +206,23 @@ jest.mock('builder_platform_interaction/actions', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    const actual = jest.requireActual('builder_platform_interaction/storeUtils');
+    return {
+        getElementByGuid: actual.getElementByGuid,
+        getElementByDevName: actual.getElementByDevName,
+        isDevNameInStore: jest.fn().mockImplementation((name) => {
+            return name === 'mustard';
+        }),
+        isOrderNumberInStore: actual.isOrderNumberInStore,
+        getDuplicateDevNameElements: actual.getDuplicateDevNameElements,
+        getStartElement: actual.getStartElement,
+        getStartElementFromState: actual.getStartElementFromState,
+        getTriggerType: actual.getTriggerType,
+        getRecordTriggerType: actual.getRecordTriggerType
+    };
+});
+
 jest.mock('builder_platform_interaction/storeLib', () => {
     const dispatchSpy = jest.fn().mockImplementation(() => {
         mockSubscribers.forEach((subscriber) => {
@@ -929,6 +946,61 @@ describe('property editor', () => {
     });
 
     describe('in modal', () => {
+        it('the newResourceCallback calls invokePropertyEditor when no new resource is passed in', async () => {
+            const editorComponent = createComponentUnderTest();
+
+            const addElementEvent = new AddElementEvent('SCREEN');
+            editorComponent.shadowRoot
+                .querySelector('builder_platform_interaction-left-panel')
+                .dispatchEvent(addElementEvent);
+
+            await ticks();
+
+            const newResourceCallback = invokePropertyEditor.mock.calls[0][1].newResourceCallback;
+            newResourceCallback({ newResourceInfo: { dataType: 'string', newResource: null } });
+
+            expect(invokePropertyEditor).toHaveBeenCalledTimes(2);
+        });
+        it('the newResourceCallback does not call invokePropertyEditor when a new resource is passed in', async () => {
+            const editorComponent = createComponentUnderTest();
+
+            const addElementEvent = new AddElementEvent('SCREEN');
+            editorComponent.shadowRoot
+                .querySelector('builder_platform_interaction-left-panel')
+                .dispatchEvent(addElementEvent);
+
+            await ticks();
+
+            const newChoice = { name: 'ketchup' };
+            const newResourceCallback = invokePropertyEditor.mock.calls[0][1].newResourceCallback;
+            newResourceCallback({ newResourceInfo: { newResource: newChoice, userProvidedText: 'ketchup' } });
+
+            expect(invokePropertyEditor).toHaveBeenCalledTimes(1);
+            expect(getElementForStore).toHaveBeenCalledWith(newChoice);
+            expect(addElement).toHaveBeenCalledWith(newChoice);
+            expect(Store.getStore().dispatch).toHaveBeenCalledWith({
+                value: newChoice
+            });
+        });
+        it('the newResourceCallback calls invokePropertyEditor when a new resource is passed in which causes a name collision', async () => {
+            const editorComponent = createComponentUnderTest();
+
+            const addElementEvent = new AddElementEvent('SCREEN');
+            editorComponent.shadowRoot
+                .querySelector('builder_platform_interaction-left-panel')
+                .dispatchEvent(addElementEvent);
+
+            await ticks();
+
+            const newResourceCallback = invokePropertyEditor.mock.calls[0][1].newResourceCallback;
+            newResourceCallback({ newResourceInfo: { newResource: { name: 'mustard' } } });
+
+            expect(invokePropertyEditor).toHaveBeenCalledWith(PROPERTY_EDITOR, {
+                mode: 'addnewresource',
+                newResourceInfo: { newResource: { name: 'mustard' }, preValidationNeeded: true },
+                nodeUpdate: expect.anything()
+            });
+        });
         it('addelement nodeUpdate dispatches addElement to store', async () => {
             expect.assertions(5);
             const editorComponent = createComponentUnderTest();

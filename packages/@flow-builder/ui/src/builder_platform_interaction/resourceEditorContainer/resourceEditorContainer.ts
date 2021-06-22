@@ -36,7 +36,7 @@ export default class ResourceEditorContainer extends LightningElement {
     /**
      * Info about the currently selected resource type
      *
-     * @type {Obejct}
+     * @type {Object}
      */
     _selectedResourceType = null;
 
@@ -59,7 +59,7 @@ export default class ResourceEditorContainer extends LightningElement {
      * This will create a flow element of the corresponding element type
      * The new flow element is then mutated and hydrated
      *
-     * @param {string} resourceType the selected resource type
+     * @param {string} selectedResourceType the selected resource type
      */
     set selectedResourceType(selectedResourceType) {
         if (!selectedResourceType) {
@@ -67,13 +67,7 @@ export default class ResourceEditorContainer extends LightningElement {
         }
 
         this._selectedResourceType = selectedResourceType;
-
-        // go through the needed steps to create a flow element and get it ready to be used by property editor
-        const elementType = resourceTypeElementTypeMap[selectedResourceType];
-        const dataType = this._newResourceInfo?.dataType;
-        this.node = getElementForPropertyEditor(
-            Object.assign({}, this._newResourceInfo?.newResource, { elementType }, { dataType })
-        );
+        this.populateNode();
     }
 
     @api
@@ -83,6 +77,7 @@ export default class ResourceEditorContainer extends LightningElement {
 
     set newResourceInfo(newResourceInfo) {
         this._newResourceInfo = newResourceInfo;
+        this.populateNode();
     }
 
     @api
@@ -116,6 +111,15 @@ export default class ResourceEditorContainer extends LightningElement {
             return this.template.querySelector(EDITOR_SELECTOR).validate();
         }
         return undefined;
+    }
+
+    populateNode() {
+        // go through the needed steps to create a flow element and get it ready to be used by property editor
+        if (this._selectedResourceType) {
+            const elementType = resourceTypeElementTypeMap[this._selectedResourceType];
+            const dataType = this._newResourceInfo?.dataType;
+            this.node = getElementForPropertyEditor({ ...this._newResourceInfo?.newResource, elementType, dataType });
+        }
     }
 
     render() {

@@ -354,4 +354,13 @@ declare namespace UI {
         iconSize?: string;
         value: string;
     }
+
+    interface NewResourceInfo {
+        userProvidedText?: string | null;
+        resourceTypes?: Array<string> | null;
+        dataType?: string | null;
+        newResourceTypeLabel?: string | null;
+        newResource?: {} | null;
+        preValidationNeeded?: boolean;
+    }
 }

@@ -85,11 +85,31 @@ describe('resource-editor', () => {
     });
 
     it('populate the resource types picker correctly when a newResourceInfo object with resourceTypes is passed in', () => {
-        const resourceEditor = setupComponentUnderTest({ newResourceInfo: { resourceTypes: [mockResourceType2] } });
+        const resourceEditor = setupComponentUnderTest({
+            newResourceInfo: { resourceTypes: [mockResourceType1, mockResourceType2] }
+        });
         const combobox = resourceEditor.shadowRoot.querySelector(selectors.COMBOBOX);
         expect(combobox.options).toEqual(expect.any(Array));
-        expect(combobox.options).toHaveLength(1);
+        expect(combobox.options).toHaveLength(2);
         expect(combobox.options).toContainEqual(mockResourceTypeOption2);
+    });
+
+    it('hides the resource types picker and sets the selectedResourceType when a newResourceInfo object with a single resourceType is passed in', () => {
+        const resourceEditor = setupComponentUnderTest({
+            newResourceInfo: { resourceTypes: [mockResourceType1] }
+        });
+        const combobox = resourceEditor.shadowRoot.querySelector(selectors.COMBOBOX);
+        expect(combobox).toBeNull();
+        const container = resourceEditor.shadowRoot.querySelector(selectors.CONTAINER);
+        expect(container.selectedResourceType).toEqual(mockResourceType1);
+    });
+
+    it('performs validation when a newResourceInfo object with preValidationNeeded set to true is passed in', () => {
+        const resourceEditor = setupComponentUnderTest({
+            newResourceInfo: { preValidationNeeded: true }
+        });
+        const container = resourceEditor.shadowRoot.querySelector(selectors.CONTAINER);
+        expect(container.validate).toHaveBeenCalledTimes(1);
     });
 
     it('calls the inner container validate method on validate', async () => {

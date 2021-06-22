@@ -5,7 +5,8 @@ import { getValueFromHydratedItem, sanitizeGuid } from 'builder_platform_interac
 import {
     hasScreenFieldVisibilityCondition,
     SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME,
-    ScreenFieldName
+    ScreenFieldName,
+    TEXT_AREA_MAX_LENGTH
 } from 'builder_platform_interaction/screenEditorUtils';
 import { format } from 'builder_platform_interaction/commonUtils';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
@@ -15,7 +16,6 @@ import automaticFieldLogicComboboxLabel from '@salesforce/label/FlowBuilderCompo
 
 export default class ScreenAutomaticFieldPropertiesEditor extends LightningElement {
     private static INTEGER_NUMBER_VALUES = { integer: 8, scale: 0 };
-    private static TEXT_AREA_MAX_LENGTH = 255;
 
     private labels = LABELS;
     private _field;
@@ -116,7 +116,7 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
             }
             case ScreenFieldName.LargeTextArea: {
                 const length = this.field.length!;
-                if (length <= ScreenAutomaticFieldPropertiesEditor.TEXT_AREA_MAX_LENGTH) {
+                if (length <= TEXT_AREA_MAX_LENGTH) {
                     dataType = format(this.labels.automaticFieldDataTypeTextArea, length);
                 } else {
                     dataType = format(this.labels.automaticFieldDataTypeLongTextArea, length);

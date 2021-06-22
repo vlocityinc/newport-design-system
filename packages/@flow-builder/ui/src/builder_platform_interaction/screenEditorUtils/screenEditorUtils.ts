@@ -3,6 +3,8 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 export * from './screenEditorFieldTypeUtils';
 export * from './screenEditorExtensionUtils';
 
+export const TEXT_AREA_MAX_LENGTH = 255;
+
 export const CURRENCY_FORMAT = 'currency';
 
 export const LIGHTNING_INPUT_TYPES = {

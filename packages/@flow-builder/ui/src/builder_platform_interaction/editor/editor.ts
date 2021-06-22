@@ -140,7 +140,8 @@ import {
     getScheduledPathsList,
     getStartElement,
     getStartObject,
-    getTriggerType
+    getTriggerType,
+    isDevNameInStore
 } from 'builder_platform_interaction/storeUtils';
 import {
     createEndElement,
@@ -162,6 +163,7 @@ import {
 } from 'builder_platform_interaction/alcConversionUtils';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { ConnectionSource } from 'builder_platform_interaction/autoLayoutCanvas';
+import { TEXT_AREA_MAX_LENGTH } from 'builder_platform_interaction/screenEditorUtils';
 
 const { generateGuid } = storeUtils;
 const { logInteraction, logPerfTransactionEnd, logPerfTransactionStart, setAppName } = loggingUtils;
@@ -213,9 +215,6 @@ const ELEMENT_TYPES_TO_ALWAYS_EDIT_IN_MODAL = [ELEMENT_TYPE.CONSTANT, ELEMENT_TY
  * Editor component for flow builder. This is the top-level smart component for
  * flow builder. It is responsible for maintaining the overall state of app and
  * handle event from various child components.
- *
- * @ScrumTeam Process UI
- * @since 214
  */
 export default class Editor extends LightningElement {
     _builderType;
@@ -2477,24 +2476,33 @@ export default class Editor extends LightningElement {
     /**
      * Callback passed to various property editors which support inline creation
      *
-     * @param newResourceDetail -
+     * @param newResourceDetail The new resource event's payload
      */
     newResourceCallback = (newResourceDetail) => {
-        // If we are adding a new resource for the user, we don't want to pop the property editor.
-        if (newResourceDetail.newResourceInfo?.newResource) {
-            this.deMutateAndAddNodeCollection(newResourceDetail.newResourceInfo.newResource);
-        } else {
-            // This doesn't need the promise since a property editor already has to be open in this case
-            // new resource is always shown in a modal
-            this.showPropertyEditor(
-                {
-                    mode: NewResourceEvent.EVENT_NAME,
-                    nodeUpdate: this.deMutateAndAddNodeCollection,
-                    newResourceInfo: newResourceDetail.newResourceInfo
-                },
-                true
-            );
+        // If we are adding a new resource for the user, we don't want to pop the property editor, unless there
+        // is an issue, such as name collision.
+        const { newResourceInfo } = newResourceDetail;
+        if (newResourceInfo?.newResource) {
+            const newResource = newResourceInfo.newResource;
+            if (
+                !isDevNameInStore(newResource.name) &&
+                newResourceInfo.userProvidedText?.length <= TEXT_AREA_MAX_LENGTH
+            ) {
+                this.deMutateAndAddNodeCollection(newResource);
+                return;
+            }
+            newResourceInfo.preValidationNeeded = true;
         }
+        // This doesn't need the promise since a property editor already has to be open in this case
+        // new resource is always shown in a modal
+        this.showPropertyEditor(
+            {
+                mode: NewResourceEvent.EVENT_NAME,
+                nodeUpdate: this.deMutateAndAddNodeCollection,
+                newResourceInfo
+            },
+            true
+        );
     };
 
     renderedCallback() {

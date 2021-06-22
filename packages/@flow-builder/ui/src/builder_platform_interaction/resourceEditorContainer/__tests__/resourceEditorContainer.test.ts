@@ -23,6 +23,7 @@ const setupComponentUnderTest = (props) => {
 const EDITOR_SELECTOR = '.editor_template';
 
 const mockNode = { elementType: ELEMENT_TYPE.VARIABLE };
+const mockNode2 = { elementType: ELEMENT_TYPE.VARIABLE, dataType: 'string', name: 'var1' };
 
 jest.mock('builder_platform_interaction/propertyEditorFactory', () => {
     return {
@@ -32,6 +33,7 @@ jest.mock('builder_platform_interaction/propertyEditorFactory', () => {
 
 describe('resource-editor-container', () => {
     const selectedResourceType = 'variable';
+    const newResourceInfo = { newResource: { name: 'var1' }, dataType: 'string' };
 
     it('should not have an inner node element without selected resource', () => {
         const container = setupComponentUnderTest();
@@ -51,6 +53,11 @@ describe('resource-editor-container', () => {
         const retVal = container.getNode();
         expect(retVal).toEqual(mockNode);
         expect(getElementForPropertyEditor).toHaveBeenCalled();
+    });
+
+    it('should create the correct flow element when resource type is selected and new resource info is provided', () => {
+        setupComponentUnderTest({ selectedResourceType, newResourceInfo });
+        expect(getElementForPropertyEditor).toHaveBeenCalledWith(mockNode2);
     });
 
     it('should call validate on the inner element when resource is selected', () => {

@@ -3,18 +3,10 @@
  */
 const eventName = 'addnewresource';
 
-type NewResourceInfo = {
-    userProvidedText?: string | null;
-    resourceTypes?: {} | null;
-    dataType?: string | null;
-    newResourceTypeLabel?: string | null;
-    newResource?: {} | null;
-};
-
 type NewResourceEventDetail = {
     position: null;
     viaLeftPanel: boolean;
-    newResourceInfo: NewResourceInfo | null;
+    newResourceInfo: UI.NewResourceInfo | null;
 };
 
 export class NewResourceEvent extends CustomEvent<NewResourceEventDetail> {
@@ -27,7 +19,8 @@ export class NewResourceEvent extends CustomEvent<NewResourceEventDetail> {
             resourceTypes: null,
             dataType: null,
             newResourceTypeLabel: null,
-            newResource: null
+            newResource: null,
+            preValidationNeeded: false
         }
     ) {
         super(eventName, {

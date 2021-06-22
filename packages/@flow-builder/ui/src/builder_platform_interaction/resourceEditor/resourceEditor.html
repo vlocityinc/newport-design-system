@@ -1,6 +1,6 @@
 <template>
     <div class="resource_editor">
-        <div class="slds-form slds-form_compound slds-p-around_small">
+        <div class="slds-form slds-form_compound slds-p-around_small" if:true={showResourceTypesSelector}>
             <lightning-combobox
                 class="slds-col slds-grow"
                 label={labels.resourceTypeLabel}

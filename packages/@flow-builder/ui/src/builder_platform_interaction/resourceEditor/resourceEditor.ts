@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { getResourceTypesMenuData } from 'builder_platform_interaction/expressionUtils';
 import { shouldNotBeNullOrUndefined } from 'builder_platform_interaction/validationRules';
@@ -19,25 +18,50 @@ const COMBOBOX_SELECTOR = 'lightning-combobox';
 export default class ResourceEditor extends LightningElement {
     /**
      * Menu items representing allowed resource types
-     *
-     * @type {module:builder_platform_interaction/expressionUtils.MenuItem[]}
      */
-    _resourceTypes;
+    _resourceTypes: Array<{ value: string; label: string }> | null = null;
+
+    /**
+     * Preconfiguration information about the new resource being created
+     */
+    _newResourceInfo: UI.NewResourceInfo | null = null;
+
+    /**
+     * When we are attempting to create a resource for the user, but there was a name collision or some other issue,
+     * we need to pop the resource editor, prepopulate the data and validate so the user see that the issues are.
+     * This flag indicates that the prevalidation is needed.
+     */
+    _preValidationNeeded = false;
+
+    /**
+     * A boolean flag indicating whether we should show the resource type selector or not
+     */
+    showResourceTypesSelector = true;
 
     /**
      * The currently selected resource type
-     *
-     * @type{String}
      */
     @track
-    selectedResourceType = null;
+    selectedResourceType: string | undefined | null = null;
 
     @api
     editorParams;
 
-    @api
-    newResourceInfo;
+    set newResourceInfo(newResourceInfo) {
+        this._newResourceInfo = newResourceInfo;
+        if (this._newResourceInfo?.resourceTypes?.length === 1) {
+            this.selectedResourceType = getConfigForElementType(
+                this._newResourceInfo.resourceTypes[0]
+            ).nodeConfig?.value;
+            this.showResourceTypesSelector = false;
+        }
+        this._preValidationNeeded = this._newResourceInfo?.preValidationNeeded ? true : false;
+    }
 
+    @api
+    get newResourceInfo() {
+        return this._newResourceInfo;
+    }
     /**
      * Setter for the node passed in on modal creation
      * This is essentially a dummy no-op because new resource does not have a node
@@ -96,21 +120,28 @@ export default class ResourceEditor extends LightningElement {
         return container.validate();
     }
 
+    renderedCallback() {
+        if (this._preValidationNeeded) {
+            this._preValidationNeeded = false;
+            this.validate();
+        }
+    }
+
     /**
      * Returns the resource types
      * If the resource menu data is not populated we call the expression utils to create the menu data
      *
-     * @returns {module:builder_platform_interaction/expressionUtils.MenuItem[]} Menu items representing allowed resource types
+     * @returns {Array} Menu items representing allowed resource types
      */
     get resourceTypes() {
         if (!this._resourceTypes) {
             const resourceTypes = getResourceTypesMenuData();
 
-            if (!this.newResourceInfo || !this.newResourceInfo.resourceTypes) {
+            if (!this._newResourceInfo || !this._newResourceInfo.resourceTypes) {
                 this._resourceTypes = resourceTypes;
             } else {
-                const resoureTypesFromEvent = this.newResourceInfo.resourceTypes.map(
-                    (resourceType) => getConfigForElementType(resourceType).nodeConfig.value
+                const resoureTypesFromEvent = this._newResourceInfo.resourceTypes.map(
+                    (resourceType) => getConfigForElementType(resourceType).nodeConfig?.value
                 );
                 this._resourceTypes = resourceTypes.filter((resourceType) => {
                     return resoureTypesFromEvent.includes(resourceType.value);
