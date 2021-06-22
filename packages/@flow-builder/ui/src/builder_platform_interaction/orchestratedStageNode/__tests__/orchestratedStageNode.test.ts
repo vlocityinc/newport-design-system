@@ -288,6 +288,9 @@ describe('Stepped-Stage-Node', () => {
 
             orchestratedStageElement.keyboardInteractions.execute(ArrowDown.COMMAND_NAME);
 
+            // mock the updated node object being passed into the component following some change event
+            orchestratedStageElement.node = mockNode;
+
             await ticks(1);
 
             expect([stepItems[0].tabIndex, stepItems[1].tabIndex, stepItems[2].tabIndex]).toEqual([-1, 0, -1]);
@@ -297,7 +300,10 @@ describe('Stepped-Stage-Node', () => {
                 orchestratedStageElement.shadowRoot.querySelectorAll(selectors.STEP_ITEM)
             ) as any;
 
-            // mock setting the activeElementGuid to the current step being edited
+            // mock clicking it, to open the PEiP for the element being edited
+            stepItems[2].click();
+
+            // mock setting the activeElementGuid to the step being edited
             orchestratedStageElement.activeElementGuid = 'someStepGuid_3';
 
             await ticks(1);

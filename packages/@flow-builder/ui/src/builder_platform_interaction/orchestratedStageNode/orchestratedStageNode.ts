@@ -23,9 +23,12 @@ export default class OrchestratedStageNode extends LightningElement {
 
     private _node?: NodeRenderInfo;
 
+    private _lastFocusedItemGuid?: string;
+
     private itemsHeader?: string;
 
     private width?: number;
+
     private height?: number;
 
     private _items: (StageStep & { tabIndex: number; ariaSelected: boolean })[] = [];
@@ -35,7 +38,7 @@ export default class OrchestratedStageNode extends LightningElement {
     }
 
     get items() {
-        return this.computeStepItems(this._items, this.activeElementGuid);
+        return this.computeStepItems(this._items);
     }
 
     @api
@@ -174,6 +177,7 @@ export default class OrchestratedStageNode extends LightningElement {
                     designateFocus
                 )
             );
+            this._lastFocusedItemGuid = target && target.dataset.itemGuid;
         }
     }
 
@@ -211,29 +215,17 @@ export default class OrchestratedStageNode extends LightningElement {
      * @param items - an array of step items defined in the stage
      * @param items.tabIndex - should be 0 for the first step element or the last item to be (focused or active) and -1 for all others
      * @param items.ariaSelected - should only ever be true for 0 or 1 step - represents the step currently being edited
-     * @param activeElementGuid - the guid of the step which is currently being edited in the property editor panel
      * in the property editor panel
      * @returns - a list of computed step items with aria-selected and tab-index properties
      */
-    computeStepItems(
-        items: (StageStep & { tabIndex: number; ariaSelected: boolean })[],
-        activeElementGuid: string | null
-    ) {
+    computeStepItems(items: (StageStep & { tabIndex: number; ariaSelected: boolean })[]) {
         let indexedItem;
-        let activeItem;
+
         if (items.length) {
             items.forEach((item, i) => {
-                item.ariaSelected = false;
+                item.ariaSelected = item.guid === this.activeElementGuid;
 
-                if (item.guid === activeElementGuid) {
-                    item.ariaSelected = true;
-                }
-                if (item.ariaSelected) {
-                    activeItem = item;
-                }
-                // if its the first step, or if it was the last focused, or if it was the last edited
-                // note: tab focus should prioritize: last active > last focused > first step
-                if (i === 0 || (item.tabIndex === 0 && !activeItem) || item.ariaSelected) {
+                if (i === 0 || item.guid === this._lastFocusedItemGuid) {
                     indexedItem = item;
                 }
 
@@ -264,15 +256,9 @@ export default class OrchestratedStageNode extends LightningElement {
                 // when the top of the step list is reached, focus the bottom step
                 nextFocusIndex = stepItems.length - 1;
             }
-            if (this.items.length) {
-                // remove the tabIndex from current focused item, and add it to the next focused item
-                this.items = this.items.map((item, index) => {
-                    item.tabIndex = index === nextFocusIndex ? 0 : -1;
-                    return item;
-                });
-            }
 
             stepItems[nextFocusIndex].focus();
+            this._lastFocusedItemGuid = stepItems[nextFocusIndex].dataset.itemGuid;
         }
     }
 
