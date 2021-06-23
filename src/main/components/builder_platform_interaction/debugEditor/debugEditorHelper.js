@@ -107,10 +107,10 @@
                     isCollection: argu.isCollection,
                     objectType: argu.objectType
                 });
-                //if record is updated, provide updates in args.value additionally
+                //if record is updated, provide updates AND recordId in args.value
                 if (cmp.get('v.showDetails')) {
                     var recordChanges = cmp.find('recordDetails').get('v.fieldUpdates');
-                    recordChanges['ID'] = value;
+                    recordChanges['Id'] = value;
                     args[0].value = recordChanges;
                 }
             }
