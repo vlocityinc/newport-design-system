@@ -284,3 +284,33 @@ describe('filter behaviour', () => {
         });
     });
 });
+
+describe('expand card behavior', () => {
+    let debugPanel;
+    beforeEach(() => {
+        debugPanel = createComponentUnderTest(completedInterview);
+    });
+    it('should change label on pressing button', async () => {
+        const expandButton = debugPanel.shadowRoot.querySelector('.test-expand-button');
+        expect(expandButton.label).toBe(LABELS.expandAllLabel);
+        expandButton.click();
+        await ticks(1);
+        expect(expandButton.label).toBe(LABELS.collapseAllLabel);
+    });
+    it('should change title on pressing button', async () => {
+        const expandButton = debugPanel.shadowRoot.querySelector('.test-expand-button');
+        expect(expandButton.title).toBe(LABELS.expandAllTitle);
+        expandButton.click();
+        await ticks(1);
+        expect(expandButton.title).toBe(LABELS.collapseAllTitle);
+    });
+    it('should change label back to original label on pressing even number of times', async () => {
+        const expandButton = debugPanel.shadowRoot.querySelector('.test-expand-button');
+        expect(expandButton.label).toBe(LABELS.expandAllLabel);
+        expandButton.click();
+        await ticks(1);
+        expandButton.click();
+        await ticks(1);
+        expect(expandButton.label).toBe(LABELS.expandAllLabel);
+    });
+});

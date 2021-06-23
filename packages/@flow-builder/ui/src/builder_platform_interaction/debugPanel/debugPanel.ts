@@ -17,6 +17,7 @@ export default class DebugPanel extends LightningElement {
     @api fromEmailDebugging;
 
     TRANSACTION_ENTRY = 'TransactionInfoEntry';
+
     // initial component rendering always blocks transaction boundaries
     blockedEntries = [this.TRANSACTION_ENTRY];
     _debugData;
@@ -43,6 +44,10 @@ export default class DebugPanel extends LightningElement {
             value: LABELS.transactionFilter
         }
     ];
+    expandAll = true;
+    expandLabelVar = LABELS.expandAllLabel;
+    expandTitleVar = LABELS.expandAllTitle;
+    activeSections = [];
 
     _selectedOptions = LABELS.basicFilter;
 
@@ -95,15 +100,21 @@ export default class DebugPanel extends LightningElement {
         this.blockedEntries.push(this.TRANSACTION_ENTRY);
     }
 
-    get hasErrors() {
-        return this.debugData && this.debugData.error && !!this.debugData.error[0];
+    handleExpandAll() {
+        if (this.expandAll) {
+            this.expandLabelVar = LABELS.collapseAllLabel;
+            this.expandTitleVar = LABELS.collapseAllTitle;
+            this.activeSections = this.debugTraces.map((e) => e.title);
+        } else {
+            this.expandLabelVar = LABELS.expandAllLabel;
+            this.expandTitleVar = LABELS.expandAllTitle;
+            this.activeSections = [];
+        }
+        this.expandAll = !this.expandAll;
     }
 
-    get allTitles() {
-        if (this.debugTraces) {
-            return this.debugTraces.map((e) => e.title);
-        }
-        return [];
+    get hasErrors() {
+        return this.debugData && this.debugData.error && !!this.debugData.error[0];
     }
 
     @api
@@ -114,6 +125,12 @@ export default class DebugPanel extends LightningElement {
     set debugData(value) {
         this._debugData = value;
         this.updateProperties(this._debugData);
+        this.activeSections = this.debugTraces.map((e) => {
+            if (e.error || e.title === LABELS.waitEventSelectionHeader) {
+                return e.title;
+            }
+            return '';
+        });
     }
 
     updateProperties(data) {
@@ -142,7 +159,7 @@ export default class DebugPanel extends LightningElement {
             ac[ac.length - 1].setAttribute('tabindex', '-1');
             ac[ac.length - 1].focus();
         } else {
-            const resumeCard = this.template.querySelector('div');
+            const resumeCard = this.template.querySelector('.slds-panel__header');
             resumeCard.focus();
         }
     }

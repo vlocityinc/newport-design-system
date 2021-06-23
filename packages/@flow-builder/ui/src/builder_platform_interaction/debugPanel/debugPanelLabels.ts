@@ -4,6 +4,11 @@ import transactionFilter from '@salesforce/label/FlowBuilderDebugPanel.transacti
 import basicFilter from '@salesforce/label/FlowBuilderDebugPanel.defaultDebugFilterOption';
 import filterPopoverAltText from '@salesforce/label/FlowBuilderDebugPanel.filterPopoverAltText';
 import filterClosePopoverAltText from '@salesforce/label/FlowBuilderDebugPanel.filterClosePopoverAltText';
+import expandAllLabel from '@salesforce/label/FlowBuilderDebugPanel.expandAllLabel';
+import expandAllTitle from '@salesforce/label/FlowBuilderDebugPanel.expandAllTitle';
+import collapseAllLabel from '@salesforce/label/FlowBuilderDebugPanel.collapseAllLabel';
+import collapseAllTitle from '@salesforce/label/FlowBuilderDebugPanel.collapseAllTitle';
+import waitEventSelectionHeader from '@salesforce/label/FlowBuilderDebugPanel.waitEventSelectionHeader';
 
 export const LABELS = {
     debugInspector,
@@ -11,5 +16,10 @@ export const LABELS = {
     transactionFilter,
     basicFilter,
     filterPopoverAltText,
-    filterClosePopoverAltText
+    filterClosePopoverAltText,
+    expandAllLabel,
+    expandAllTitle,
+    collapseAllLabel,
+    collapseAllTitle,
+    waitEventSelectionHeader
 };

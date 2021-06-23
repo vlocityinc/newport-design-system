@@ -3,40 +3,54 @@
         <h2 class="slds-panel__header-title slds-text-heading_small slds-truncate">{headerTitle}</h2>
     </div>
     <!-- filter gear icon and selected filters text-->
-    <div class="slds-border_bottom">
-        <div class="slds-m-left_xxx-small slds-m-vertical_small">
+    <div class="slds-grid slds-border_bottom">
+        <div class="slds-m-left_small slds-m-vertical_x-small">
+            <lightning-button
+                variant="Neutral"
+                label={expandLabelVar}
+                title={expandTitleVar}
+                onclick={handleExpandAll}
+                class="slds-m-left_x-medium test-expand-button"
+            >
+            </lightning-button>
+        </div>
+        <div class="slds-m-left_xxx-small slds-m-vertical_xx-small">
             <builder_platform_interaction-debug-panel-filter
                 onpanelfilter={handleDropdown}
                 selections={selectedOptions}
             >
             </builder_platform_interaction-debug-panel-filter>
+            <!-- popover containing checkboxes for filters -->
+            <template if:true={showOptions}>
+                <section
+                    aria-label={filterPopoverAltText}
+                    aria-describedby="popover-body-id"
+                    class="slds-popover slds-is-absolute slds-nubbin_top-left slds-m-left_xx-small"
+                    role="popover"
+                >
+                    <!--- close popover icon -->
+                    <lightning-button-icon
+                        icon-name="utility:close"
+                        onclick={handleDropdown}
+                        variant="bare"
+                        alternative-text={filterClosePopoverAltText}
+                        class="slds-float_right slds-popover__close"
+                        title={filterClosePopoverAltText}
+                    >
+                    </lightning-button-icon>
+                    <!-- popover body-->
+                    <div id="popover-body-id" class="slds-popover__body">
+                        <lightning-checkbox-group
+                            options={options}
+                            value={checkboxSelections}
+                            onchange={handleFilterChange}
+                        >
+                        </lightning-checkbox-group>
+                    </div>
+                </section>
+            </template>
         </div>
     </div>
-    <!-- popover containing checkboxes for filters -->
-    <template if:true={showOptions}>
-        <section
-            aria-label={filterPopoverAltText}
-            aria-describedby="popover-body-id"
-            class="slds-popover slds-is-absolute slds-nubbin_top-left slds-m-left_xx-small"
-            role="popover"
-        >
-            <!--- close popover icon -->
-            <lightning-button-icon
-                icon-name="utility:close"
-                onclick={handleDropdown}
-                variant="bare"
-                alternative-text={filterClosePopoverAltText}
-                class="slds-float_right slds-popover__close"
-                title={filterClosePopoverAltText}
-            >
-            </lightning-button-icon>
-            <!-- popover body-->
-            <div id="popover-body-id" class="slds-popover__body">
-                <lightning-checkbox-group options={options} value={checkboxSelections} onchange={handleFilterChange}>
-                </lightning-checkbox-group>
-            </div>
-        </section>
-    </template>
 
     <div class="slds-panel__body slds-scrollable--y">
         <!-- if there's an error, there will be no debugData.debugTraces-->
@@ -45,7 +59,7 @@
                 key={trace.id}
                 allow-multiple-sections-open
                 class="slds-has-divider--bottom slds-p-around_none slds-m-around_none"
-                active-section-name={trace.title}
+                active-section-name={activeSections}
             >
                 <lightning-accordion-section
                     data-name={trace.title}
