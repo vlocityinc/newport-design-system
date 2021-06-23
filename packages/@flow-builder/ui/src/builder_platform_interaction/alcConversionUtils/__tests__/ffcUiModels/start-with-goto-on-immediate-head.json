@@ -1,0 +1,263 @@
+{
+    "elements": {
+        "start-element-guid": {
+            "guid": "start-element-guid",
+            "description": "",
+            "locationX": 362,
+            "locationY": 48,
+            "isCanvasElement": true,
+            "connectorCount": 2,
+            "config": {
+                "isSelected": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "hasError": false
+            },
+            "elementType": "START_ELEMENT",
+            "maxConnections": 2,
+            "triggerType": "RecordAfterSave",
+            "recordTriggerType": "Create",
+            "filterType": "all",
+            "object": "",
+            "objectIndex": "2832cafc-39fc-41bf-95b1-c6d3881f6705",
+            "filters": [
+                {
+                    "rowIndex": "e7f9f0cf-3953-43b3-a578-3ddc8a10e4df",
+                    "leftHandSide": "",
+                    "rightHandSide": "",
+                    "rightHandSideDataType": "",
+                    "operator": ""
+                }
+            ],
+            "childReferences": [
+                {
+                    "childReference": "scheduled-path-element-guid"
+                }
+            ],
+            "availableConnections": []
+        },
+        "assignment-imm-element-guid": {
+            "guid": "assignment-imm-element-guid",
+            "description": "",
+            "locationX": 290,
+            "locationY": 336,
+            "isCanvasElement": true,
+            "connectorCount": 1,
+            "config": {
+                "isSelected": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "hasError": false
+            },
+            "assignmentItems": [
+                {
+                    "rowIndex": "cda83bda-2840-470c-aa57-1a8cfedee523",
+                    "leftHandSide": "",
+                    "rightHandSide": "",
+                    "rightHandSideDataType": "",
+                    "operator": ""
+                }
+            ],
+            "maxConnections": 1,
+            "elementType": "Assignment"
+        },
+        "assignment-async-element-guid": {
+            "guid": "assignment-async-element-guid",
+            "description": "",
+            "locationX": 686,
+            "locationY": 336,
+            "isCanvasElement": true,
+            "connectorCount": 1,
+            "config": {
+                "isSelected": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "hasError": false
+            },
+            "assignmentItems": [
+                {
+                    "rowIndex": "cda83bda-2840-470c-aa57-1a8cfedee523",
+                    "leftHandSide": "",
+                    "rightHandSide": "",
+                    "rightHandSideDataType": "",
+                    "operator": ""
+                }
+            ],
+            "maxConnections": 1,
+            "elementType": "Assignment"
+        },
+        "87796353-083b-48d3-91f4-24d89ba9ed01": {
+            "guid": "87796353-083b-48d3-91f4-24d89ba9ed01",
+            "name": "",
+            "description": "",
+            "label": "87796353-083b-48d3-91f4-24d89ba9ed01",
+            "locationX": 686,
+            "locationY": 456,
+            "isCanvasElement": true,
+            "connectorCount": 1,
+            "config": {
+                "isSelected": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "hasError": false
+            },
+            "canHaveFaultConnector": false,
+            "defaultConnectorLabel": "Default Outcome",
+            "childReferences": [
+                {
+                    "childReference": "081dc295-5cf5-412c-923a-414e09476ab1"
+                }
+            ],
+            "elementType": "Decision",
+            "maxConnections": 2,
+            "availableConnections": [
+                {
+                    "type": "REGULAR",
+                    "childReference": "081dc295-5cf5-412c-923a-414e09476ab1"
+                }
+            ]
+        },
+        "81732b76-3be0-43a2-ba44-54c7b7321eb4": {
+            "guid": "81732b76-3be0-43a2-ba44-54c7b7321eb4",
+            "name": "",
+            "description": "",
+            "label": "81732b76-3be0-43a2-ba44-54c7b7321eb4",
+            "locationX": 818,
+            "locationY": 576,
+            "isCanvasElement": true,
+            "connectorCount": 0,
+            "config": {
+                "isSelected": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "hasError": false
+            },
+            "canHaveFaultConnector": false,
+            "allowHelp": false,
+            "pauseMessageType": "standard",
+            "helpText": "",
+            "pausedText": "",
+            "showFooter": true,
+            "showHeader": true,
+            "nextOrFinishLabel": null,
+            "nextOrFinishLabelType": "standard",
+            "backLabel": null,
+            "backLabelType": "standard",
+            "pauseLabel": null,
+            "pauseLabelType": "standard",
+            "childReferences": [],
+            "elementType": "Screen",
+            "maxConnections": 1
+        },
+        "scheduled-path-element-guid": {
+            "guid": "scheduled-path-element-guid",
+            "elementType": "ScheduledPath",
+            "offsetNumber": "1",
+            "offsetUnit": "HoursBefore",
+            "timeSource": "SLAExpirationDate__c",
+            "name": "d1out",
+            "label": "d1out"
+        },
+        "081dc295-5cf5-412c-923a-414e09476ab1": {
+            "guid": "081dc295-5cf5-412c-923a-414e09476ab1",
+            "name": "",
+            "label": "",
+            "elementType": "OUTCOME",
+            "dataType": "Boolean",
+            "conditionLogic": "and",
+            "conditions": [
+                {
+                    "rowIndex": "d88ea664-9052-48fa-9e6d-9333a79c00c8",
+                    "leftHandSide": "",
+                    "rightHandSide": "",
+                    "rightHandSideDataType": "",
+                    "operator": ""
+                }
+            ],
+            "doesRequireRecordChangedToMeetCriteria": false
+        }
+    },
+    "properties": {
+        "canOnlySaveAsNewDefinition": false,
+        "description": "",
+        "elementType": "FLOW_PROPERTIES",
+        "hasUnsavedChanges": false,
+        "interviewLabel": "",
+        "isCreatedOutsideLfb": false,
+        "isLightningFlowBuilder": true,
+        "isTemplate": false,
+        "label": "",
+        "lastModifiedBy": null,
+        "lastModifiedDate": null,
+        "lastInlineResourceGuid": null,
+        "lastInlineResourcePosition": null,
+        "lastInlineResourceRowIndex": null,
+        "name": "",
+        "processType": null,
+        "runInMode": null,
+        "versionNumber": null,
+        "isAutoLayoutCanvas": true
+    },
+    "canvasElements": [
+        "start-element-guid",
+        "assignment-imm-element-guid",
+        "assignment-async-element-guid",
+        "87796353-083b-48d3-91f4-24d89ba9ed01",
+        "81732b76-3be0-43a2-ba44-54c7b7321eb4"
+    ],
+    "connectors": [
+        {
+            "guid": "start-element-guid -> assignment-imm-element-guid",
+            "source": "start-element-guid",
+            "target": "assignment-imm-element-guid",
+            "label": "IMMEDIATE",
+            "type": "IMMEDIATE",
+            "config": {
+                "isSelected": false
+            }
+        },
+        {
+            "guid": "assignment-imm-element-guid -> 81732b76-3be0-43a2-ba44-54c7b7321eb4",
+            "source": "assignment-imm-element-guid",
+            "target": "81732b76-3be0-43a2-ba44-54c7b7321eb4",
+            "label": null,
+            "type": "REGULAR",
+            "config": {
+                "isSelected": false
+            },
+            "isGoTo": true
+        },
+        {
+            "guid": "start-element-guid -> assignment-async-element-guid",
+            "source": "start-element-guid",
+            "childSource": "scheduled-path-element-guid",
+            "target": "assignment-async-element-guid",
+            "label": "d1out",
+            "type": "REGULAR",
+            "config": {
+                "isSelected": false
+            }
+        },
+        {
+            "guid": "assignment-async-element-guid -> 87796353-083b-48d3-91f4-24d89ba9ed01",
+            "source": "assignment-async-element-guid",
+            "target": "87796353-083b-48d3-91f4-24d89ba9ed01",
+            "label": null,
+            "type": "REGULAR",
+            "config": {
+                "isSelected": false
+            }
+        },
+        {
+            "guid": "87796353-083b-48d3-91f4-24d89ba9ed01 -> 81732b76-3be0-43a2-ba44-54c7b7321eb4",
+            "source": "87796353-083b-48d3-91f4-24d89ba9ed01",
+            "target": "81732b76-3be0-43a2-ba44-54c7b7321eb4",
+            "label": "DEFAULT",
+            "type": "DEFAULT",
+            "config": {
+                "isSelected": false
+            }
+        }
+    ],
+    "peripheralData": {}
+}

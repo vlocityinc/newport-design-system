@@ -476,7 +476,7 @@ const updateElementAction = {
 const connectorElement = {
     payload: {
         childSource: undefined,
-        guid: 68,
+        guid: 70,
         source: '1',
         target: '2',
         label: null,

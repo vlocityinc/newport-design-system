@@ -50,7 +50,8 @@ import {
     updateIsAutoLayoutCanvasProperty,
     updatePropertiesAfterActivateButtonPress,
     updatePropertiesAfterCreatingFlowFromProcessType,
-    updatePropertiesAfterCreatingFlowFromTemplate
+    updatePropertiesAfterCreatingFlowFromTemplate,
+    resetGoTos
 } from 'builder_platform_interaction/actions';
 import {
     ELEMENT_TYPE,
@@ -685,6 +686,22 @@ export default class Editor extends LightningElement {
         return this.properties.label + ' ' + time;
     }
 
+    get hasUnsavedChangesAfterTogglingCanvas() {
+        // this.properties.hasUnsavedChanges when toggling canvas modes will always be true because
+        // the property to track current canvas mode gets changed, so we rely on this.isUndoDisabled instead
+        return !this.isUndoDisabled;
+    }
+
+    get shouldResetExistingGoTos() {
+        // We want to reset existing gotos if the user has toggled from alc to free form and made changes
+        // OR if we are on a flow that has been saved in free form. If the user has just toggled back and forth
+        // between alc and ffc without making any changes, we want to preserve the existing goTos.
+        return (
+            this.hasUnsavedChangesAfterTogglingCanvas ||
+            (!this.properties.isAutoLayoutCanvas && !this.properties.hasUnsavedChanges)
+        );
+    }
+
     /**
      * Method to return the config based on the passed component(leftPanel, canvas etc.) config value.
      *
@@ -829,7 +846,8 @@ export default class Editor extends LightningElement {
         return canConvertToAutoLayoutCanvas(
             addEndElementsAndConnectorsTransform(deepCopy(storeInstance.getCurrentState())),
             this.properties.definitionId ? this.properties.definitionId : this.flowInitDefinitionId,
-            gack
+            gack,
+            { resetExistingGoTos: this.shouldResetExistingGoTos }
         );
     }
 
@@ -1860,8 +1878,9 @@ export default class Editor extends LightningElement {
             // OffsetX will be at left-most point of the Start Circle when switching to Free-Form.
             // Subtracting 24 (half icon width) to get to that point from the center.
             const offsetX = autoLayoutCanvasContainer ? autoLayoutCanvasContainer.clientWidth / 2 - 24 : 0;
+            const options = { resetExistingGoTos: this.shouldResetExistingGoTos };
             const { elements, canvasElements, connectors } = setupInAutoLayoutCanvas
-                ? convertToAutoLayoutCanvas(addEndElementsAndConnectorsTransform(deepCopy(flowState)))
+                ? convertToAutoLayoutCanvas(addEndElementsAndConnectorsTransform(deepCopy(flowState)), options)
                 : removeEndElementsAndConnectorsTransform(convertToFreeFormCanvas(flowState, [offsetX, 48]));
 
             const payload = {
@@ -1936,7 +1955,7 @@ export default class Editor extends LightningElement {
                     bodyClass: 'slds-p-around_medium',
                     footerClass: 'slds-theme_default'
                 });
-            } else if (!this.isUndoDisabled) {
+            } else if (this.hasUnsavedChangesAfterTogglingCanvas) {
                 // Show a warning modal if there are unsaved changes (besides the canvas mode change) on toggle
                 invokeModal({
                     headerData: {
@@ -2301,6 +2320,12 @@ export default class Editor extends LightningElement {
      */
     saveFlow = (saveType) => {
         this.ifBlockResume = true; // immediately disable submit button to avoid clicking during save
+
+        // Reset go to information on connectors if saving a free form canvas flow
+        if (!this.properties.isAutoLayoutCanvas) {
+            storeInstance.dispatch(resetGoTos);
+        }
+
         const flow = translateUIModelToFlow(storeInstance.getCurrentState());
         const params = {
             flow,

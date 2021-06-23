@@ -82,6 +82,14 @@ import ffcTestCase12 from './ffcUiModels/testCase12.json';
 import ffcLoopWithNestedLoopBack from './ffcUiModels/loop-with-nested-branch-that-loops-back.json';
 import ffcNextAndFaultSameElement from './ffcUiModels/element-with-next-and-fault-pointing-to-same-element.json';
 import ffcLoopForEachAndEndSameElement from './ffcUiModels/loop-foreach-and-end-same-element.json';
+import ffcDecisionWithGoToOnHead from './ffcUiModels/decision-with-goto-on-head.json';
+import ffcDecisionWithGoToOnDefaultHead from './ffcUiModels/decision-with-goto-on-default-head.json';
+import ffcDecisionWithGoToOnBranchNext from './ffcUiModels/decision-with-goto-on-branch-next.json';
+import ffcDecisionWithGoToInNestedBranch from './ffcUiModels/decision-with-goto-in-nested-branch.json';
+import ffcElementWithGoToOnFault from './ffcUiModels/decision-with-goto-on-branch-next.json';
+import ffcLoopWithGoToAfterLast from './ffcUiModels/loop-with-goto-after-last.json';
+import ffcStartWithGoToOnImmediateHead from './ffcUiModels/start-with-goto-on-immediate-head.json';
+import ffcStartWithGoToOnScheduledHead from './ffcUiModels/start-with-goto-on-scheduled-head.json';
 
 import {
     convertToFreeFormCanvas,
@@ -234,7 +242,7 @@ function translateNulls(uiModel) {
         if (v == null) {
             return k !== 'parent' && k !== 'childIndex' ? 'NULL' : undefined;
         }
-        if (v.incomingGoTo) {
+        if (v.incomingGoTo && v.incomingGoTo.length === 0) {
             delete v.incomingGoTo;
         }
         return v;
@@ -248,7 +256,9 @@ function assertConsolidatedEndConnectors(elements) {
 }
 
 function assertCanConvertToAutoLayoutCanvas(storeState, canConvert = true) {
-    expect(translateNulls(canConvertToAutoLayoutCanvas(storeState))).toEqual(canConvert);
+    expect(
+        translateNulls(canConvertToAutoLayoutCanvas(addEndElementsAndConnectorsTransform(deepCopy(storeState)), null))
+    ).toEqual(canConvert);
 }
 
 function assertRoundTripFromAutoLayoutCanvas(alcUiModel, expectedEndConnectors, assertRoundTrip = true) {
@@ -392,6 +402,17 @@ describe('alc conversion utils', () => {
             assertCanConvertToAutoLayoutCanvas(storeState);
         });
 
+        it('fault reconnect', () => {
+            const connectors = [
+                { source: 'start', target: 'action' },
+                { source: 'action', target: 'n1' },
+                { source: 'action', target: 'fault', type: CONNECTOR_TYPE.FAULT },
+                { source: 'fault', target: 'n1' }
+            ];
+            const storeState = storeStateFromConnectors(connectors);
+            assertCanConvertToAutoLayoutCanvas(storeState);
+        });
+
         describe('decision', () => {
             it('with two merging branches', () => {
                 const connectors = [
@@ -481,6 +502,204 @@ describe('alc conversion utils', () => {
                 });
 
                 addOutcomes(storeState.elements, 'outcome1', 'outcome2');
+                assertCanConvertToAutoLayoutCanvas(storeState);
+            });
+
+            it('with back edge', () => {
+                const connectors = [
+                    { source: 'start', target: 'n1' },
+                    { source: 'n1', target: 'if' },
+                    { source: 'if', target: 'n1' }
+                ];
+                const storeState = storeStateFromConnectors(connectors);
+                assertCanConvertToAutoLayoutCanvas(storeState);
+            });
+
+            it('with jump out forward', () => {
+                const connectors = [
+                    { source: 'start', target: 'if' },
+                    { source: 'if', target: 'n1', type: CONNECTOR_TYPE.REGULAR, childSource: 'outcome1' },
+                    { source: 'if', target: 'n2', type: CONNECTOR_TYPE.DEFAULT },
+                    { source: 'n1', target: 'merge', type: CONNECTOR_TYPE.REGULAR, childSource: 'outcome2' },
+                    { source: 'n2', target: 'merge' },
+                    { source: 'merge', target: 'n3' },
+                    { source: 'n1', target: 'n3', type: CONNECTOR_TYPE.DEFAULT }
+                ];
+                const storeState = storeStateFromConnectors(connectors);
+                Object.assign(storeState.elements.if, {
+                    elementType: ELEMENT_TYPE.DECISION,
+                    availableConnections: [],
+                    maxConnections: 2,
+                    childReferences: [
+                        {
+                            childReference: 'outcome1'
+                        }
+                    ]
+                });
+                Object.assign(storeState.elements.n1, {
+                    elementType: ELEMENT_TYPE.DECISION,
+                    availableConnections: [],
+                    maxConnections: 2,
+                    childReferences: [
+                        {
+                            childReference: 'outcome2'
+                        }
+                    ]
+                });
+                addOutcomes(storeState.elements, 'outcome1', 'outcome2');
+
+                assertCanConvertToAutoLayoutCanvas(storeState);
+            });
+
+            it('with cross connector', () => {
+                const connectors = [
+                    { source: 'start', target: 'if' },
+                    { source: 'if', target: 'n1', type: CONNECTOR_TYPE.REGULAR, childSource: 'outcome1' },
+                    { source: 'if', target: 'n2', type: CONNECTOR_TYPE.DEFAULT },
+                    { source: 'n1', target: 'n2', type: CONNECTOR_TYPE.REGULAR, childSource: 'outcome2' },
+                    { source: 'n1', target: 'merge', type: CONNECTOR_TYPE.DEFAULT },
+                    { source: 'n2', target: 'merge' }
+                ];
+                const storeState = storeStateFromConnectors(connectors);
+                Object.assign(storeState.elements.if, {
+                    elementType: ELEMENT_TYPE.DECISION,
+                    availableConnections: [],
+                    maxConnections: 2,
+                    childReferences: [
+                        {
+                            childReference: 'outcome1'
+                        }
+                    ]
+                });
+                Object.assign(storeState.elements.n1, {
+                    elementType: ELEMENT_TYPE.DECISION,
+                    availableConnections: [],
+                    maxConnections: 2,
+                    childReferences: [
+                        {
+                            childReference: 'outcome2'
+                        }
+                    ]
+                });
+                addOutcomes(storeState.elements, 'outcome1', 'outcome2');
+
+                assertCanConvertToAutoLayoutCanvas(storeState);
+            });
+
+            it('with cross connector example 2', () => {
+                const connectors = [
+                    { source: 'start', target: 'if' },
+                    { source: 'if', target: 'if2', type: CONNECTOR_TYPE.REGULAR, childSource: 'outcome1' },
+                    { source: 'if', target: 'merge', type: CONNECTOR_TYPE.DEFAULT },
+                    { source: 'if2', target: 'n1', type: CONNECTOR_TYPE.REGULAR, childSource: 'outcome2' },
+                    { source: 'if2', target: 'n2', type: CONNECTOR_TYPE.DEFAULT },
+                    { source: 'n1', target: 'merge2' },
+                    { source: 'n2', target: 'merge2', type: CONNECTOR_TYPE.REGULAR, childSource: 'outcome3' },
+                    { source: 'n2', target: 'merge', type: CONNECTOR_TYPE.DEFAULT }
+                ];
+                const storeState = storeStateFromConnectors(connectors);
+                Object.assign(storeState.elements.if, {
+                    elementType: ELEMENT_TYPE.DECISION,
+                    availableConnections: [],
+                    maxConnections: 2,
+                    childReferences: [
+                        {
+                            childReference: 'outcome1'
+                        }
+                    ]
+                });
+                Object.assign(storeState.elements.if2, {
+                    elementType: ELEMENT_TYPE.DECISION,
+                    availableConnections: [],
+                    maxConnections: 2,
+                    childReferences: [
+                        {
+                            childReference: 'outcome2'
+                        }
+                    ]
+                });
+                Object.assign(storeState.elements.n2, {
+                    elementType: ELEMENT_TYPE.DECISION,
+                    availableConnections: [],
+                    maxConnections: 2,
+                    childReferences: [
+                        {
+                            childReference: 'outcome3'
+                        }
+                    ]
+                });
+                addOutcomes(storeState.elements, 'outcome1', 'outcome2', 'outcome3');
+
+                assertCanConvertToAutoLayoutCanvas(storeState, true, true);
+            });
+
+            it('with cross connector example 3', () => {
+                const connectors = [
+                    { source: 'start', target: 'if' },
+                    { source: 'if', target: 'merge', type: CONNECTOR_TYPE.REGULAR, childSource: 'outcome1' },
+                    { source: 'if', target: 'if2', type: CONNECTOR_TYPE.DEFAULT },
+                    { source: 'if2', target: 'n1', type: CONNECTOR_TYPE.REGULAR, childSource: 'outcome2' },
+                    { source: 'if2', target: 'n2', type: CONNECTOR_TYPE.DEFAULT },
+                    { source: 'n1', target: 'merge2' },
+                    { source: 'n2', target: 'merge2', type: CONNECTOR_TYPE.REGULAR, childSource: 'outcome3' },
+                    { source: 'n2', target: 'merge', type: CONNECTOR_TYPE.DEFAULT }
+                ];
+                const storeState = storeStateFromConnectors(connectors);
+                Object.assign(storeState.elements.if, {
+                    elementType: ELEMENT_TYPE.DECISION,
+                    availableConnections: [],
+                    maxConnections: 2,
+                    childReferences: [
+                        {
+                            childReference: 'outcome1'
+                        }
+                    ]
+                });
+                Object.assign(storeState.elements.if2, {
+                    elementType: ELEMENT_TYPE.DECISION,
+                    availableConnections: [],
+                    maxConnections: 2,
+                    childReferences: [
+                        {
+                            childReference: 'outcome2'
+                        }
+                    ]
+                });
+                Object.assign(storeState.elements.n2, {
+                    elementType: ELEMENT_TYPE.DECISION,
+                    availableConnections: [],
+                    maxConnections: 2,
+                    childReferences: [
+                        {
+                            childReference: 'outcome3'
+                        }
+                    ]
+                });
+                addOutcomes(storeState.elements, 'outcome1', 'outcome2', 'outcome3');
+
+                assertCanConvertToAutoLayoutCanvas(storeState);
+            });
+
+            it('with connector back to decision', () => {
+                const connectors = [
+                    { source: 'start', target: 'if' },
+                    { source: 'if', target: 'n1', type: CONNECTOR_TYPE.REGULAR, childSource: 'outcome1' },
+                    { source: 'if', target: 'n2', type: CONNECTOR_TYPE.DEFAULT },
+                    { source: 'n1', target: 'if' }
+                ];
+                const storeState = storeStateFromConnectors(connectors);
+                Object.assign(storeState.elements.if, {
+                    elementType: ELEMENT_TYPE.DECISION,
+                    availableConnections: [],
+                    maxConnections: 2,
+                    childReferences: [
+                        {
+                            childReference: 'outcome1'
+                        }
+                    ]
+                });
+                addOutcomes(storeState.elements, 'outcome1');
+
                 assertCanConvertToAutoLayoutCanvas(storeState);
             });
         });
@@ -628,100 +847,6 @@ describe('alc conversion utils', () => {
             assertCanConvertToAutoLayoutCanvas(storeState, false);
         });
 
-        it('fault reconnect', () => {
-            const connectors = [
-                { source: 'start', target: 'action' },
-                { source: 'action', target: 'n1' },
-                { source: 'action', target: 'fault', type: CONNECTOR_TYPE.FAULT },
-                { source: 'fault', target: 'n1' }
-            ];
-            const storeState = storeStateFromConnectors(connectors);
-            assertCanConvertToAutoLayoutCanvas(storeState, false);
-        });
-
-        describe('decision', () => {
-            it('with back edge', () => {
-                const connectors = [
-                    { source: 'start', target: 'n1' },
-                    { source: 'n1', target: 'if' },
-                    { source: 'if', target: 'n1' }
-                ];
-                const storeState = storeStateFromConnectors(connectors);
-                assertCanConvertToAutoLayoutCanvas(storeState, false);
-            });
-            it('with jump out forward', () => {
-                const connectors = [
-                    { source: 'start', target: 'if' },
-                    { source: 'if', target: 'n1' },
-                    { source: 'if', target: 'n2' },
-                    { source: 'n1', target: 'merge' },
-                    { source: 'n2', target: 'merge' },
-                    { source: 'merge', target: 'n3' },
-                    { source: 'n1', target: 'n3' }
-                ];
-                const storeState = storeStateFromConnectors(connectors);
-                assertCanConvertToAutoLayoutCanvas(storeState, false);
-            });
-            it('with cross connector', () => {
-                const connectors = [
-                    { source: 'start', target: 'if' },
-                    { source: 'if', target: 'n1' },
-                    { source: 'if', target: 'n2' },
-                    { source: 'n1', target: 'n2' },
-                    { source: 'n1', target: 'merge' },
-                    { source: 'n2', target: 'merge' }
-                ];
-                const storeState = storeStateFromConnectors(connectors);
-                storeState.elements.if.elementType = ELEMENT_TYPE.DECISION;
-                assertCanConvertToAutoLayoutCanvas(storeState, false);
-            });
-
-            it('with cross connector example 2', () => {
-                const connectors = [
-                    { source: 'start', target: 'if' },
-                    { source: 'if', target: 'if2' },
-                    { source: 'if', target: 'merge' },
-                    { source: 'if2', target: 'n1' },
-                    { source: 'if2', target: 'n2' },
-                    { source: 'n1', target: 'merge2' },
-                    { source: 'n2', target: 'merge2' },
-                    { source: 'n2', target: 'merge' }
-                ];
-                const storeState = storeStateFromConnectors(connectors);
-                storeState.elements.if.elementType = ELEMENT_TYPE.DECISION;
-                storeState.elements.if2.elementType = ELEMENT_TYPE.DECISION;
-                assertCanConvertToAutoLayoutCanvas(storeState, false);
-            });
-
-            it('with cross connector example 3', () => {
-                const connectors = [
-                    { source: 'start', target: 'if' },
-                    { source: 'if', target: 'merge' },
-                    { source: 'if', target: 'if2' },
-                    { source: 'if2', target: 'n1' },
-                    { source: 'if2', target: 'n2' },
-                    { source: 'n1', target: 'merge2' },
-                    { source: 'n2', target: 'merge2' },
-                    { source: 'n2', target: 'merge' }
-                ];
-                const storeState = storeStateFromConnectors(connectors);
-                storeState.elements.if.elementType = ELEMENT_TYPE.DECISION;
-                storeState.elements.if2.elementType = ELEMENT_TYPE.DECISION;
-                assertCanConvertToAutoLayoutCanvas(storeState, false);
-            });
-        });
-
-        it('with connector back to decision', () => {
-            const connectors = [
-                { source: 'start', target: 'if' },
-                { source: 'if', target: 'n1' },
-                { source: 'if', target: 'n2' },
-                { source: 'n1', target: 'if' }
-            ];
-            const storeState = storeStateFromConnectors(connectors);
-            assertCanConvertToAutoLayoutCanvas(storeState, false);
-        });
-
         describe('loop', () => {
             it('with end element', () => {
                 const connectors = [
@@ -834,6 +959,9 @@ describe('alc conversion utils', () => {
                 describe('decision head', () => {
                     assertRoundTripFromFreeFormCanvas(ffcElementWithFaultWithDecisionHead);
                 });
+                describe('element with go to on fault', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcElementWithGoToOnFault);
+                });
             });
             describe('triggering record start', () => {
                 describe('only immediate', () => {
@@ -850,6 +978,12 @@ describe('alc conversion utils', () => {
                 });
                 describe('with merging imm and async path', () => {
                     assertRoundTripFromFreeFormCanvas(ffcStartWithMergingPaths);
+                });
+                describe('with go to on immediate path head', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcStartWithGoToOnImmediateHead);
+                });
+                describe('with go to on scheduled path head', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcStartWithGoToOnScheduledHead);
                 });
             });
             describe('decision', () => {
@@ -873,6 +1007,18 @@ describe('alc conversion utils', () => {
                 });
                 describe('with decision nested and join screen', () => {
                     assertRoundTripFromFreeFormCanvas(ffcDecisionWithNestedDecisionAndJoinScreen);
+                });
+                describe('with go to on head', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcDecisionWithGoToOnHead);
+                });
+                describe('with go to on default head', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcDecisionWithGoToOnDefaultHead);
+                });
+                describe('with go to on branch next', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcDecisionWithGoToOnBranchNext);
+                });
+                describe('with go to in nested branch', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcDecisionWithGoToInNestedBranch);
                 });
                 describe('complex 1', () => {
                     assertRoundTripFromFreeFormCanvas(ffcComplex1);
@@ -907,6 +1053,9 @@ describe('alc conversion utils', () => {
                 });
                 describe('empty', () => {
                     assertRoundTripFromFreeFormCanvas(ffcLoopEmpty);
+                });
+                describe('with go to after last', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcLoopWithGoToAfterLast);
                 });
             });
             describe('test cases', () => {

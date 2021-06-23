@@ -220,6 +220,7 @@ export default function alcElementsReducer(state: Readonly<UI.Elements>, action:
         case CLEAR_CANVAS_DECORATION:
             nextState = autoLayoutCanvasReducer(nextState, actions.clearCanvasDecorationAction());
             break;
+
         default:
             if (state === statePostElementReducer) {
                 nextState = state;

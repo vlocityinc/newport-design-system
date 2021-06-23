@@ -12,10 +12,13 @@ import {
     resolveBranchHead,
     resolveParent,
     NodeType,
-    createRootElement
+    createRootElement,
+    createGoToSourceRef,
+    setChild,
+    inlineFromParent
 } from 'builder_platform_interaction/autoLayoutCanvas';
 
-import { getChildReferencesKeys, getConfigForElementType } from 'builder_platform_interaction/elementConfig';
+import { getChildReferencesKeys } from 'builder_platform_interaction/elementConfig';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { findStartElement, getAlcElementType, supportsChildren } from 'builder_platform_interaction/alcCanvasUtils';
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
@@ -29,11 +32,15 @@ export type ConvertToAutoLayoutCanvasOptions = Readonly<{
 
     // whether to remove empty fault branches
     noEmptyFaults: boolean;
+
+    // whether to reset existing go to connections on all elements
+    resetExistingGoTos: boolean;
 }>;
 
 const DEFAULT_CONVERT_TO_AUTO_LAYOUT_CANVAS_OPTIONS: ConvertToAutoLayoutCanvasOptions = {
     shouldConsolidateEndConnectors: true,
-    noEmptyFaults: true
+    noEmptyFaults: true,
+    resetExistingGoTos: false
 };
 
 /**
@@ -74,10 +81,14 @@ function isBranchingElement(element: UI.Element) {
  *  Returns the conversion infos for a Free Form flow that can be converted to Auto Layout Canvas
  *
  * @param storeState - The flow state
+ * @param options - Conversion options
  * @returns The conversion infos
  * @throws Error when the flow can't be converted
  */
-export function computeAndValidateConversionInfos(storeState: UI.StoreState): ConversionInfos {
+export function computeAndValidateConversionInfos(
+    storeState: UI.StoreState,
+    options: Partial<ConvertToAutoLayoutCanvasOptions> = {}
+): ConversionInfos {
     const { elements, connectors } = storeState;
     const startElement = findStartElement(elements) as any;
 
@@ -113,6 +124,9 @@ export function computeAndValidateConversionInfos(storeState: UI.StoreState): Co
         if (target != null) {
             const sourceInfo = conversionInfos[source];
             const targetInfo = conversionInfos[target];
+            if (connector.isGoTo && options.resetExistingGoTos) {
+                connector.isGoTo = false;
+            }
 
             targetInfo.ins.push(connector);
             if (type === CONNECTOR_TYPE.FAULT) {
@@ -203,11 +217,11 @@ function convertBranchingElement(
     branchingElement.children = new Array(childCount).fill(null);
 
     if (outs.length > 0) {
-        outs.forEach(({ childSource, target, type }) => {
+        outs.forEach(({ childSource, target, type, isGoTo }) => {
             const childIndex = findConnectionIndex(branchingElement, childSource!, type);
             const targetElement = resolveNode(elements, target);
 
-            if (!isLinked(targetElement)) {
+            if (!isLinked(targetElement) && !isGoTo) {
                 convertBranchToAutoLayout(
                     elements,
                     conversionInfos,
@@ -216,6 +230,9 @@ function convertBranchingElement(
                     childIndex,
                     options
                 );
+            } else if (isGoTo) {
+                updateIncomingGoToArray(elements, targetElement, branchingElement, childIndex);
+                setChild(branchingElement, childIndex, targetElement, true);
             }
         });
     }
@@ -234,33 +251,53 @@ function isLinked(element: NodeModel) {
  * @param elements - The flow model
  * @param conversionInfos - The conversion infos
  * @param currentElement - The current element for which we want to find its next element
- * @returns the next element in the branch or null there is none
+ * @returns the next element in the branch (or null if there is none), and whether it's linked via a goto connector
  */
 function getNextElement(elements: FlowModel, conversionInfos: ConversionInfos, currentElement: NodeModel) {
     const { isLoop, isBranching, mergeGuid, outs } = conversionInfos[currentElement.guid];
-    let next;
+    let next, isGoTo;
 
     if (isLoop) {
         // for a loop, the end connector is the "next" element
         const loopEndConnector = outs.find((connector) => connector.type === CONNECTOR_TYPE.LOOP_END);
         next = loopEndConnector != null ? loopEndConnector.target : null;
+        isGoTo = loopEndConnector?.isGoTo;
     } else if (isBranching) {
         // if branching the mergeGuid is the "next" element
         next = mergeGuid;
     } else {
         // otherwise the out connector's target is the "next" element (if there is an out)
         next = outs.length === 1 ? outs[0].target : null;
+        isGoTo = outs.length === 1 ? outs[0].isGoTo : false;
     }
 
     const nextElement = elements[next];
-
-    // if the next element hasn't been linked, it belongs to this branch, so return it
-    if (nextElement && !isLinked(nextElement)) {
-        return nextElement;
+    // if the next element hasn't been linked yet, it belongs to this branch or is connected via a goto, so return it.
+    if (nextElement && (!isLinked(nextElement) || isGoTo)) {
+        return { nextElement, isGoTo };
     }
 
-    // otherwise it belongs to some ancestor branch, so return null
-    return null;
+    // otherwise, we're at the end of a loop pointing back to the parent loop element, so return null
+    return { nextElement: null, isGoTo };
+}
+
+/**
+ * Updates the incoming go to array of a target element with the correct source reference for a given source element
+ *
+ * @param elements - The elements in the flow model
+ * @param targetElement - target element to update
+ * @param sourceElement - source of the go to
+ * @param sourceChildIndex - child index of the source, if any
+ */
+function updateIncomingGoToArray(
+    elements: FlowModel,
+    targetElement: NodeModel,
+    sourceElement: NodeModel,
+    sourceChildIndex?: number
+) {
+    const goToSourceRef = createGoToSourceRef(elements, { guid: sourceElement.guid, childIndex: sourceChildIndex });
+    targetElement.incomingGoTo = targetElement.incomingGoTo || [];
+    targetElement.incomingGoTo.push(goToSourceRef);
 }
 
 /**
@@ -282,11 +319,7 @@ function convertBranchToAutoLayout(
     options: ConvertToAutoLayoutCanvasOptions
 ) {
     // set the parent pointers
-    if (childIndex === FAULT_INDEX) {
-        parentElement.fault = branchHead.guid;
-    } else {
-        parentElement.children[childIndex] = branchHead.guid;
-    }
+    setChild(parentElement, childIndex, branchHead);
 
     // set the branch head pointers
     Object.assign(branchHead, {
@@ -299,12 +332,11 @@ function convertBranchToAutoLayout(
     let currentElement: NodeModel | null = branchHead;
 
     while (currentElement != null) {
-        // TODO: update this to have the correct goto array
         if (
             currentElement.elementType !== ELEMENT_TYPE.START_ELEMENT &&
             currentElement.elementType !== ELEMENT_TYPE.END_ELEMENT
         ) {
-            currentElement.incomingGoTo = [];
+            currentElement.incomingGoTo = currentElement.incomingGoTo || [];
         }
 
         if (currentElement.elementType === ELEMENT_TYPE.END_ELEMENT) {
@@ -314,13 +346,19 @@ function convertBranchToAutoLayout(
 
         const { fault, isLoop, isBranching } = conversionInfos[currentElement.guid];
 
-        const nextElement = getNextElement(elements, conversionInfos, currentElement);
+        const { nextElement, isGoTo } = getNextElement(elements, conversionInfos, currentElement);
 
         if (nextElement) {
-            // if we have an next element, we need to link it immediately, so recursive calls below to
-            // convert a loop or a branch, will stop when when they encounter a linked element
-            nextElement.prev = currentElement.guid;
             currentElement.next = nextElement.guid;
+            if (isGoTo) {
+                // If we have a goto, add to the incomingGoTo array on the target element and set the branch head to be terminal
+                updateIncomingGoToArray(elements, nextElement, currentElement);
+                branchHead.isTerminal = true;
+            } else {
+                // Else, link to the prev of the next element immediately, so recursive calls below to
+                // convert a loop or a branch will stop when when they encounter an already linked element
+                nextElement.prev = currentElement.guid;
+            }
         } else {
             currentElement.next = null;
         }
@@ -330,6 +368,9 @@ function convertBranchToAutoLayout(
             const faultBranchHead = resolveNode(elements, fault.target);
             if (faultBranchHead.elementType === ELEMENT_TYPE.END_ELEMENT && options.noEmptyFaults) {
                 currentElement.fault = null;
+            } else if (fault.isGoTo) {
+                updateIncomingGoToArray(elements, faultBranchHead, currentElement, FAULT_INDEX);
+                setChild(currentElement, FAULT_INDEX, faultBranchHead, true);
             } else {
                 convertBranchToAutoLayout(
                     elements,
@@ -351,7 +392,8 @@ function convertBranchToAutoLayout(
             branchHead.isTerminal = areAllBranchesTerminals(branchingElement, elements);
         }
 
-        currentElement = nextElement;
+        // Continue along the branch unless the next connector is a goto
+        currentElement = isGoTo ? null : nextElement;
     }
 }
 
@@ -494,7 +536,7 @@ export function convertToAutoLayoutCanvas(
         ...options
     };
     // get the conversion infos
-    const conversionInfos = computeAndValidateConversionInfos(storeState);
+    const conversionInfos = computeAndValidateConversionInfos(storeState, convertOptions);
 
     // create the auto layout elements from the free form elements
     const autoLayoutElements = createAutoLayoutElements(storeState.elements);
@@ -505,9 +547,16 @@ export function convertToAutoLayoutCanvas(
     // set the auto layout element pointers
     convertBranchToAutoLayout(autoLayoutElements, conversionInfos, rootElement, startElement, 0, convertOptions);
 
-    const elements = options.shouldConsolidateEndConnectors
+    let elements = options.shouldConsolidateEndConnectors
         ? consolidateEndConnectors(autoLayoutElements)
         : autoLayoutElements;
+
+    // Inline all the branching elements to cleanup any elements with incoming go tos at merge points
+    Object.values(elements).forEach((element) => {
+        if (isBranchingElement(element)) {
+            elements = inlineFromParent(elements as FlowModel, resolveParent(autoLayoutElements, element.guid));
+        }
+    });
 
     assertInDev(() => assertAutoLayoutState(elements as FlowModel));
 

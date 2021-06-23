@@ -102,6 +102,8 @@ export const UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE = 'UPDATE_FLOW_ON_CANVAS_MODE_TOG
 
 export const UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY = 'UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY';
 
+export const RESET_GOTOS = 'RESET_GOTOS';
+
 /**
  * Helper function to create actions.
  *
@@ -462,3 +464,10 @@ export const updateFlowOnCanvasModeToggle = (payload: object): object =>
  */
 export const updateIsAutoLayoutCanvasProperty = (payload: boolean): object =>
     createAction(UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY, payload);
+
+/**
+ * Action for resetting go to information on all connectors
+ *
+ * @returns {Object} action - resetGoTos action
+ */
+export const resetGoTos = createAction(RESET_GOTOS);

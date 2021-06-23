@@ -82,7 +82,9 @@ export {
     getSuffixForGoToConnection,
     hasChildren,
     getConnectionTarget,
-    setChild
+    setChild,
+    createGoToSourceRef,
+    inlineFromParent
 } from './modelUtils';
 
 export { assertAutoLayoutState } from './assertUtils';

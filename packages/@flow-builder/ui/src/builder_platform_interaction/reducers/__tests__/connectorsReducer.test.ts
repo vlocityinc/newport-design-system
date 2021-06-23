@@ -12,7 +12,8 @@ import {
     MODIFY_WAIT_WITH_WAIT_EVENTS,
     MODIFY_START_WITH_SCHEDULED_PATHS,
     DECORATE_CANVAS,
-    CLEAR_CANVAS_DECORATION
+    CLEAR_CANVAS_DECORATION,
+    RESET_GOTOS
 } from 'builder_platform_interaction/actions';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import immediateConnectorLabel from '@salesforce/label/FlowBuilderConnectorLabels.immediateConnectorLabel';
@@ -839,6 +840,58 @@ describe('connectors-reducer', () => {
             expect(
                 reducer(initialConnectorsState, {
                     type: CLEAR_CANVAS_DECORATION
+                })
+            ).toEqual(expectedNewConnectorsState);
+        });
+    });
+
+    describe('Reset Go Tos', () => {
+        it('should set isGoTo to null on all connectors', () => {
+            const initialConnectorsState = [
+                {
+                    guid: 'c1',
+                    source: 's1',
+                    target: 's2',
+                    isGoTo: false
+                },
+                {
+                    guid: 'c2',
+                    source: 's2',
+                    target: 's3',
+                    isGoTo: true
+                },
+                {
+                    guid: 'c3',
+                    source: 's3',
+                    target: 's4',
+                    isGoTo: true
+                }
+            ];
+
+            const expectedNewConnectorsState = [
+                {
+                    guid: 'c1',
+                    source: 's1',
+                    target: 's2',
+                    isGoTo: null
+                },
+                {
+                    guid: 'c2',
+                    source: 's2',
+                    target: 's3',
+                    isGoTo: null
+                },
+                {
+                    guid: 'c3',
+                    source: 's3',
+                    target: 's4',
+                    isGoTo: null
+                }
+            ];
+
+            expect(
+                reducer(initialConnectorsState, {
+                    type: RESET_GOTOS
                 })
             ).toEqual(expectedNewConnectorsState);
         });

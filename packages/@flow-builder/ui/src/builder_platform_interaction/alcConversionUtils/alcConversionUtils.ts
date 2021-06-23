@@ -334,13 +334,19 @@ export function addEndElementsAndConnectorsTransform(
  * @param storeState
  * @param flowDefId - Flow definition id
  * @param gackIfFail - If we should gack if the conversion fails
+ * @param options - Conversion options
  * @returns true if can be convertd to Auto Layout Canvas
  */
-export function canConvertToAutoLayoutCanvas(storeState: UI.StoreState, flowDefId: string, gackIfFail = true) {
+export function canConvertToAutoLayoutCanvas(
+    storeState: UI.StoreState,
+    flowDefId: string,
+    gackIfFail = true,
+    options: Partial<ConvertToAutoLayoutCanvasOptions> = {}
+) {
     let canConvert = false;
 
     try {
-        const autoLayoutState = convertToAutoLayoutCanvas(deepCopy(storeState));
+        const autoLayoutState = convertToAutoLayoutCanvas(deepCopy(storeState), options);
         const freeFormState = convertToFreeFormCanvas(autoLayoutState, [0, 0]);
 
         canConvert = compareState(storeState, freeFormState);
@@ -414,7 +420,7 @@ const safeConvertToAutoLayoutCanvas = (
 ): UI.StoreState => {
     storeState = deepCopy(storeState);
 
-    if (!canConvertToAutoLayoutCanvas(storeState, flowDefId)) {
+    if (!canConvertToAutoLayoutCanvas(storeState, flowDefId, true, options)) {
         throw new Error(CONVERT_TO_AUTO_LAYOUT_FAILED);
     }
 

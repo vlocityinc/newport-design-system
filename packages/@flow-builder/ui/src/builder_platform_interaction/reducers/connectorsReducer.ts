@@ -13,7 +13,8 @@ import {
     MODIFY_START_WITH_SCHEDULED_PATHS,
     DECORATE_CANVAS,
     CLEAR_CANVAS_DECORATION,
-    UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE
+    UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE,
+    RESET_GOTOS
 } from 'builder_platform_interaction/actions';
 import { addItem, updateProperties, replaceItem } from 'builder_platform_interaction/dataMutationLib';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -74,6 +75,8 @@ export default function connectorsReducer(state = [], action) {
             );
         case CLEAR_CANVAS_DECORATION:
             return _clearConnectorHighlights(state);
+        case RESET_GOTOS:
+            return _resetGoTos(state);
         default:
             return state;
     }
@@ -380,4 +383,15 @@ function _clearConnectorHighlights(connectors: object[]) {
  */
 function _updateConnectorConfig(connector: object, updatedConfig: object) {
     return updateProperties(connector, { config: updateProperties(connector.config, updatedConfig) });
+}
+
+/**
+ * Helper function to reset go tos on all connectors.
+ *
+ * @param connectors - current state of connectors in the store
+ */
+function _resetGoTos(connectors: object[]) {
+    return connectors.map((connector) => {
+        return updateProperties(connector, { isGoTo: null });
+    });
 }
