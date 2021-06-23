@@ -3,5 +3,5 @@
     <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
 
     <builder_platform_interaction:serverDataLib aura:id="serverDataLib"/>
-    <builder_platform_interaction:builderUtils aura:id="builderUtils"/>    
+    <builder_platform_interaction:sharedUtils aura:id="sharedUtils"/>    
 </aura:component>

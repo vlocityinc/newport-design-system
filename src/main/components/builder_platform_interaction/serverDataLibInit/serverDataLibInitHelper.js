@@ -127,7 +127,7 @@
      */
     openAlertModal: function (cmp, headerTitle, bodyTextOne, buttonCloseCallback) {
         var buttonVariant, buttonLabel, alertModal;
-        alertModal = cmp.find('builderUtils').invokeModal;
+        alertModal = cmp.find('sharedUtils').invokeModal;
         buttonVariant = 'Brand';
         buttonLabel = $A.get('$Label.FlowBuilderAlertModal.okayButtonLabel');
         alertModal({

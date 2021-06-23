@@ -37,7 +37,7 @@
         return newErrorMessage;
     },
     invokeAlertModal: function (cmp, errorMessage, gackId) {
-        alertModal = cmp.find('builderUtils').invokeModal;
+        alertModal = cmp.find('sharedUtils').invokeModal;
         var newErrorMessage = errorMessage ? errorMessage : $A.get('$Label.FlowBuilderAlertModal.errorMessage');
         var errorId =
             gackId === 0 ? '' : ' ' + $A.util.format($A.get('$Label.FlowBuilderAlertModal.errorCode'), gackId) + '.';
