@@ -83,3 +83,7 @@ button.connector:focus {
     border-radius: var(--lwc-borderRadiusMedium);
     transform: rotate(45deg);
 }
+
+.default-container.round-container {
+    border-radius: var(--lwc-borderRadiusCircle);
+}

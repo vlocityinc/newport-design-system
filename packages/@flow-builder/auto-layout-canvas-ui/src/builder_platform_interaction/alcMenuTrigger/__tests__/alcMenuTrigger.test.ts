@@ -85,6 +85,7 @@ const createComponentUnderTest = (
 const selectors = {
     defaultTriggerContainer: '.default-container.slds-p-around_xx-small',
     diamondTriggerContainer: '.default-container.rotate-icon-container.slds-p-around_xx-small',
+    roundTriggerContainer: '.default-container.round-container.slds-p-around_xx-small',
     customComponentTriggerContainer: '.slds-p-around_xx-small',
     triggerButton: 'button',
     circularTriggerButton: '.circular-icon',
@@ -107,7 +108,14 @@ describe('the menu trigger', () => {
 
     it('Renders a diamond trigger container when iconShape in metadata is diamond', () => {
         const triggerContainer = createComponentUnderTest(decisionMetadata).shadowRoot.querySelector(
-            selectors.defaultTriggerContainer
+            selectors.diamondTriggerContainer
+        );
+        expect(triggerContainer).not.toBeNull();
+    });
+
+    it('Renders a round trigger container when iconShape in metadata is circle', () => {
+        const triggerContainer = createComponentUnderTest(startMetadata).shadowRoot.querySelector(
+            selectors.roundTriggerContainer
         );
         expect(triggerContainer).not.toBeNull();
     });
