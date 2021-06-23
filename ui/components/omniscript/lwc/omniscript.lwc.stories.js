@@ -1,6 +1,6 @@
 /* eslint-env browser */
 import { storiesOf } from '@storybook/html';
-import { withKnobs, number } from '@storybook/addon-knobs';
+import { withKnobs, number, boolean } from '@storybook/addon-knobs';
 import base from 'paths.macro';
 import notes from './doc.md';
 import scss from '../base/_index.scss';
@@ -36,13 +36,16 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
       });
     });
     const width = number(label, defaultValue, options, groupId);
+
+    let fixedFooterValue = boolean('Fixed Footer On Mobile', false, groupId);
+
     return withExample(`<vloc_mg-omniscript-preview id="a0Z1J00000FGWtHUAX"
   data-aura-rendered-by="6:0"
   vloc_mg-omniscriptpreview_omniscriptpreview_nds-host="">
   <div vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
   class="via-nds">
   <article vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
-  class="nds-card nds-grid nds-theme_default nds-grid_vertical">
+  class="nds-card nds-grid nds-theme_default nds-grid_vertical ${fixedFooterValue ? 'nds-omniscript_mobile-fixed-footer' : ''}">
   <div vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
   class="nds-card__body nds-card__body_inner nds-m-top_medium">
   <c-omniscript-step-chart vloc_mg-omniscriptpreview_omniscriptpreview_nds=""

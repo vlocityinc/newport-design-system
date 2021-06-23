@@ -13,6 +13,8 @@
  * @support dev-ready
  */
 
+@import "footer";
+
 @media (min-width: 30em) and (max-width: 48em) {
 
   // stylelint-disable-next-line selector-class-pattern
@@ -63,6 +65,7 @@
   &:focus {
     outline: none;
   }
+
   .nds-form-element .nds-tooltip__container {
     z-index: unset;
   }
