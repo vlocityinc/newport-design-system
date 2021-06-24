@@ -1,6 +1,9 @@
 {
   "allTypesApexActionDetails":{
     "configurationEditor":null,
+    "genericTypes":[
+
+    ],
     "parameters":[
       {
         "isRequired":false,

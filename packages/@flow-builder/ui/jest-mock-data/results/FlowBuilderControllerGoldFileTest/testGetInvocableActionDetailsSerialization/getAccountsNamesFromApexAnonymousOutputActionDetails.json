@@ -1,6 +1,9 @@
 {
   "getAccountsNamesFromApexAnonymousOutputActionDetails":{
     "configurationEditor":null,
+    "genericTypes":[
+
+    ],
     "parameters":[
       {
         "isRequired":false,

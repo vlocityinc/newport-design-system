@@ -60,6 +60,9 @@ export default class InvocableActionEditor extends LightningElement {
     @track
     invocableActionParametersDescriptor;
 
+    @track
+    invocableActionGenericTypesDescriptor;
+
     @api
     mode;
 
@@ -221,7 +224,7 @@ export default class InvocableActionEditor extends LightningElement {
             // Needed to unrender the existing configuration editor
             this.invocableActionConfigurationEditorDescriptor = undefined;
             fetchDetailsForInvocableAction(actionParams)
-                .then(({ configurationEditor, parameters }) => {
+                .then(({ configurationEditor, genericTypes, parameters }) => {
                     if (this.connected) {
                         if (this.actionCallNode.dataTypeMappings && this.actionCallNode.dataTypeMappings.length > 0) {
                             parameters = applyDynamicTypeMappings(parameters, this.actionCallNode.dataTypeMappings);
@@ -229,6 +232,8 @@ export default class InvocableActionEditor extends LightningElement {
                         this.displaySpinner = false;
                         this.invocableActionParametersDescriptor = parameters;
                         this.invocableActionConfigurationEditorDescriptor = configurationEditor;
+                        this.invocableActionGenericTypesDescriptor = genericTypes;
+                        this.updateDataTypeMappings();
                         const event = new CustomEvent(MERGE_WITH_PARAMETERS, {
                             detail: parameters
                         });
@@ -277,7 +282,6 @@ export default class InvocableActionEditor extends LightningElement {
                     this.invocableActionDescriptor = invocableActions.find(
                         (action) => action.name === actionParams.actionName && action.type === actionParams.actionType
                     );
-                    this.updateDataTypeMappings();
                     this.updatePropertyEditorTitle();
                     this.updateFlowTransactionModel();
                 }
@@ -485,10 +489,10 @@ export default class InvocableActionEditor extends LightningElement {
     }
 
     updateDataTypeMappings() {
-        if (this.invocableActionDescriptor && this.invocableActionDescriptor.genericTypes) {
+        if (this.invocableActionGenericTypesDescriptor) {
             const event = new CustomEvent(MERGE_WITH_DATA_TYPE_MAPPINGS, {
                 detail: {
-                    genericTypes: this.invocableActionDescriptor.genericTypes,
+                    genericTypes: this.invocableActionGenericTypesDescriptor,
                     isNewMode: this.isNewMode
                 }
             });

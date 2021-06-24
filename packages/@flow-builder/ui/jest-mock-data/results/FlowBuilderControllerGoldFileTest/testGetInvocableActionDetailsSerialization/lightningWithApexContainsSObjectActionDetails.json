@@ -1,6 +1,9 @@
 {
   "lightningWithApexContainsSObjectActionDetails":{
     "configurationEditor":null,
+    "genericTypes":[
+
+    ],
     "parameters":[
       {
         "isRequired":false,

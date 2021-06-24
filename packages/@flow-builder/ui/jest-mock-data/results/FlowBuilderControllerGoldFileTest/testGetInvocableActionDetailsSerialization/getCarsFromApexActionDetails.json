@@ -1,6 +1,9 @@
 {
   "getCarsFromApexActionDetails":{
     "configurationEditor":null,
+    "genericTypes":[
+
+    ],
     "parameters":[
       {
         "isRequired":false,

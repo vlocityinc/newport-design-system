@@ -1,6 +1,9 @@
 {
   "getAccountFromApexActionDetails":{
     "configurationEditor":null,
+    "genericTypes":[
+
+    ],
     "parameters":[
       {
         "isRequired":false,
