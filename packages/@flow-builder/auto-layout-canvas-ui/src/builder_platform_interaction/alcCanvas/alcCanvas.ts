@@ -331,13 +331,24 @@ export default class AlcCanvas extends LightningElement {
         this.updateFlowRenderContext({ interactionState });
     }
 
+    @api
+    focusOnZoomPanel() {
+        this.template.querySelector('builder_platform_interaction-zoom-panel').focus();
+    }
+
     /**
      * When focus is initiated on the canvas, set focus on the Start element
      */
     @api
     focus() {
-        // TODO (W-9424079): Move focus to first focus-able element when in selection mode
-        this.focusOnNode(this.getStartElementGuid());
+        const elementGuidToFocus = this.isSelectionMode
+            ? getFirstSelectableElementGuid(this.flowModel, 'root')
+            : this.getStartElementGuid();
+        if (!elementGuidToFocus) {
+            this.focusOnZoomPanel();
+        } else {
+            this.focusOnNode(elementGuidToFocus);
+        }
     }
 
     get autoLayoutCanvasContext(): AutoLayoutCanvasContext {
@@ -790,8 +801,6 @@ export default class AlcCanvas extends LightningElement {
 
     dispatchAlcSelectionEvent({ isSelected, canvasElementGUID }) {
         logPerfTransactionStart(AUTOLAYOUT_CANVAS_SELECTION, null, null);
-        // transforms the elementsMetadata array to a map
-        const elementsMetadataMap = this._convertToElementMetadataMap();
         const flowModel = this.flowModel;
 
         const {
@@ -800,8 +809,8 @@ export default class AlcCanvas extends LightningElement {
             selectableCanvasElementGuids,
             topSelectedGuid
         } = !isSelected
-            ? getCanvasElementSelectionData(elementsMetadataMap, flowModel, canvasElementGUID, this._topSelectedGuid)
-            : getCanvasElementDeselectionData(elementsMetadataMap, flowModel, canvasElementGUID, this._topSelectedGuid);
+            ? getCanvasElementSelectionData(flowModel, canvasElementGUID, this._topSelectedGuid)
+            : getCanvasElementDeselectionData(flowModel, canvasElementGUID, this._topSelectedGuid);
 
         this._topSelectedGuid = topSelectedGuid;
 

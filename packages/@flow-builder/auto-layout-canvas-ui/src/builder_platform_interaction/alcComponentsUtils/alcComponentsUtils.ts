@@ -50,14 +50,11 @@ enum ICON_SHAPE {
 }
 
 /**
- * @param elementsMetadata - Contains elementType -> data map
- * @param elementType - The current element type
+ * @param nodeType - The current node type
  * @returns - True if the element is a system element
  */
-function isSystemElement(elementsMetadata: ElementsMetadata, elementType: string) {
-    const type = getElementMetadata(elementsMetadata, elementType).type;
-
-    switch (type) {
+function isSystemElement(nodeType: NodeType) {
+    switch (nodeType) {
         case NodeType.ROOT:
         case NodeType.START:
         case NodeType.END:
@@ -89,18 +86,12 @@ function _shouldTraverseDown(action: string, currentBranchElement: NodeModel): b
 /**
  * Gets the branch elements present child branches of a Decision or Pause
  *
- * @param elementsMetadata - Contains elementType -> data map
  * @param action - Selection or Deselection action
  * @param parentElement - Parent Element of a given tree in the flow
  * @param flowModel - Representation of the flow as presented in the Canvas
  * @returns - Child element Guids
  */
-function _getChildBranchElements(
-    elementsMetadata: ElementsMetadata,
-    action: string,
-    parentElement: ParentNodeModel,
-    flowModel: FlowModel
-): Guid[] {
+function _getChildBranchElements(action: string, parentElement: ParentNodeModel, flowModel: FlowModel): Guid[] {
     let branchElementGuidsToSelectOrDeselect: Guid[] = [];
     if (parentElement && parentElement.children && parentElement.children.length > 0) {
         const branchRootsToVisitStack = parentElement.children;
@@ -117,12 +108,12 @@ function _getChildBranchElements(
             while (
                 currentBranchElement != null &&
                 _shouldTraverseDown(action, currentBranchElement) &&
-                !isSystemElement(elementsMetadata, currentBranchElement.elementType)
+                !isSystemElement(currentBranchElement.nodeType)
             ) {
                 branchElementGuidsToSelectOrDeselect.push(currentBranchElement.guid);
                 // Grabs all the elements in the child and fault branches as needed
                 branchElementGuidsToSelectOrDeselect = branchElementGuidsToSelectOrDeselect.concat(
-                    _getSubtreeElements(elementsMetadata, action, currentBranchElement as ParentNodeModel, flowModel)
+                    _getSubtreeElements(action, currentBranchElement as ParentNodeModel, flowModel)
                 );
                 currentBranchElement =
                     currentBranchElement.next && !hasGoToOnNext(flowModel, currentBranchElement.guid)
@@ -138,28 +129,22 @@ function _getChildBranchElements(
 /**
  * Gets all the elements present in the Fault branch of a given element
  *
- * @param elementsMetadata - Contains elementType -> data map
  * @param action - Selection or Deselection action
  * @param element - Parent Element of a given tree in the flow
  * @param flowModel - Representation of the flow as presented in the Canvas
  * @returns - Fault branch element Guids
  */
-function _getFaultBranchElements(
-    elementsMetadata: ElementsMetadata,
-    action: string,
-    element: NodeModel,
-    flowModel: FlowModel
-): Guid[] {
+function _getFaultBranchElements(action: string, element: NodeModel, flowModel: FlowModel): Guid[] {
     let branchElementGuidsToSelectOrDeselect: Guid[] = [];
     let currentBranchElement =
         element.fault && !hasGoToOnBranchHead(flowModel, element.guid, FAULT_INDEX) ? flowModel[element.fault] : null;
 
     // Iterate only up till the End Element of the Fault Branch
-    while (currentBranchElement != null && !isSystemElement(elementsMetadata, currentBranchElement.elementType)) {
+    while (currentBranchElement != null && !isSystemElement(currentBranchElement.nodeType)) {
         branchElementGuidsToSelectOrDeselect.push(currentBranchElement.guid);
         // Grabs all the elements in the child and fault branches as needed
         branchElementGuidsToSelectOrDeselect = branchElementGuidsToSelectOrDeselect.concat(
-            _getSubtreeElements(elementsMetadata, action, currentBranchElement as ParentNodeModel, flowModel)
+            _getSubtreeElements(action, currentBranchElement as ParentNodeModel, flowModel)
         );
         currentBranchElement =
             currentBranchElement.next && !hasGoToOnNext(flowModel, currentBranchElement.guid)
@@ -173,29 +158,23 @@ function _getFaultBranchElements(
 /**
  * Gets all the elements present in the child and/or fault branches of a given parent element
  *
- * @param elementsMetadata - Contains elementType -> data map
  * @param action - Selection or Deselection action
  * @param parentElement - Parent Element of a given tree in the flow
  * @param flowModel - Representation of the flow as presented in the Canvas
  * @returns - The subtree elements guids
  */
-function _getSubtreeElements(
-    elementsMetadata: ElementsMetadata,
-    action: string,
-    parentElement: NodeModel,
-    flowModel: FlowModel
-): Guid[] {
+function _getSubtreeElements(action: string, parentElement: NodeModel, flowModel: FlowModel): Guid[] {
     let canvasElementGuidsArray: Guid[] = [];
     // Getting all the elements present in the child branches based on the selection/deselection action
     if (hasChildren(parentElement)) {
         canvasElementGuidsArray = canvasElementGuidsArray.concat(
-            _getChildBranchElements(elementsMetadata, action, parentElement, flowModel)
+            _getChildBranchElements(action, parentElement, flowModel)
         );
     }
     // Getting all the elements present in the fault branch based on the selection/deselection action
     if (parentElement.fault) {
         canvasElementGuidsArray = canvasElementGuidsArray.concat(
-            _getFaultBranchElements(elementsMetadata, action, parentElement, flowModel)
+            _getFaultBranchElements(action, parentElement, flowModel)
         );
     }
 
@@ -205,23 +184,18 @@ function _getSubtreeElements(
 /**
  * Helper function to get all the possible elements that can be selected/deselected next
  *
- * @param elementsMetadata - Contains elementType -> data map
  * @param topSelectedGuid - Guid of the top-most selected element
  * @param flowModel - Representation of the flow as presented in the Canvas
  * @returns selectableCanvasElementGuids - An array containing all the selectable Canvas Element Guids
  */
-function _getSelectableCanvasElementGuids(
-    elementsMetadata: ElementsMetadata,
-    topSelectedGuid: Guid,
-    flowModel: FlowModel
-): Guid[] {
+function _getSelectableCanvasElementGuids(topSelectedGuid: Guid, flowModel: FlowModel): Guid[] {
     let selectableCanvasElementGuids: Guid[] = [];
     if (topSelectedGuid) {
         const topSelectedElement = flowModel[topSelectedGuid];
         let currentCanvasElement = topSelectedElement as NodeModel | null;
 
         // All the elements in the chain above (excluding the Start Element) should be selectable
-        while (currentCanvasElement && !isSystemElement(elementsMetadata, currentCanvasElement.elementType)) {
+        while (currentCanvasElement && !isSystemElement(currentCanvasElement.nodeType)) {
             selectableCanvasElementGuids.push(currentCanvasElement.guid);
             currentCanvasElement =
                 flowModel[currentCanvasElement.prev || (currentCanvasElement as BranchHeadNodeModel).parent];
@@ -231,18 +205,13 @@ function _getSelectableCanvasElementGuids(
         currentCanvasElement = topSelectedElement;
 
         // All the elements in the vertical chain below (such as element.next is not null) should be selectable
-        while (currentCanvasElement && !isSystemElement(elementsMetadata, currentCanvasElement.elementType)) {
+        while (currentCanvasElement && !isSystemElement(currentCanvasElement.nodeType)) {
             if (currentCanvasElement.guid !== topSelectedElement.guid) {
                 selectableCanvasElementGuids.push(currentCanvasElement.guid);
             }
             // Getting all the selectable elements present in the child and fault branches
             selectableCanvasElementGuids = selectableCanvasElementGuids.concat(
-                _getSubtreeElements(
-                    elementsMetadata,
-                    ELEMENT_SELECTED_ACTION,
-                    currentCanvasElement as ParentNodeModel,
-                    flowModel
-                )
+                _getSubtreeElements(ELEMENT_SELECTED_ACTION, currentCanvasElement as ParentNodeModel, flowModel)
             );
 
             currentCanvasElement =
@@ -259,14 +228,12 @@ function _getSelectableCanvasElementGuids(
  * Function to get all the selection data which includes canvasElementGuidsToSelect, canvasElementGuidsToDeselect,
  * selectableCanvasElementGuids and the updated topSelectedGuid
  *
- * @param elementsMetadata - Contains elementType -> data map
  * @param flowModel - Representation of the flow as presented in the Canvas
  * @param selectedCanvasElementGuid - Guid of the Canvas Element that just got selected
  * @param  topSelectedGuid - Guid of the top-most selected element
  * @returns Selection Data as needed by the store
  */
 const getCanvasElementSelectionData = (
-    elementsMetadata: ElementsMetadata,
     flowModel: FlowModel,
     selectedCanvasElementGuid: Guid,
     topSelectedGuid: Guid | null
@@ -291,7 +258,6 @@ const getCanvasElementSelectionData = (
                 if (hasChildren(currentCanvasElement)) {
                     canvasElementGuidsToSelect = canvasElementGuidsToSelect.concat(
                         _getChildBranchElements(
-                            elementsMetadata,
                             ELEMENT_SELECTED_ACTION,
                             currentCanvasElement as ParentNodeModel,
                             flowModel
@@ -305,7 +271,7 @@ const getCanvasElementSelectionData = (
             // In case we reach the start element without having found any selected element, then that means that our
             // topSelectedGuid is somewhere in the chain below. Hence emptying the canvasElementGuidsToSelect array
             // and breaking out of the loop
-            if (getElementMetadata(elementsMetadata, currentCanvasElement.elementType).type === NodeType.START) {
+            if (currentCanvasElement.nodeType === NodeType.START) {
                 canvasElementGuidsToSelect = [];
                 break;
             }
@@ -329,7 +295,6 @@ const getCanvasElementSelectionData = (
                     if (hasChildren(currentCanvasElement)) {
                         canvasElementGuidsToSelect = canvasElementGuidsToSelect.concat(
                             _getChildBranchElements(
-                                elementsMetadata,
                                 ELEMENT_SELECTED_ACTION,
                                 currentCanvasElement as ParentNodeModel,
                                 flowModel
@@ -352,7 +317,7 @@ const getCanvasElementSelectionData = (
     return {
         canvasElementGuidsToSelect,
         canvasElementGuidsToDeselect: [],
-        selectableCanvasElementGuids: _getSelectableCanvasElementGuids(elementsMetadata, topSelectedGuid, flowModel),
+        selectableCanvasElementGuids: _getSelectableCanvasElementGuids(topSelectedGuid, flowModel),
         topSelectedGuid
     };
 };
@@ -361,14 +326,12 @@ const getCanvasElementSelectionData = (
  * Function to get all the deselection data which includes canvasElementGuidsToSelect, canvasElementGuidsToDeselect,
  * selectableCanvasElementGuids and the updated topSelectedGuid
  *
- * @param elementsMetadata - Contains elementType -> data map
  * @param flowModel - Representation of the flow as presented in the Canvas
  * @param deselectedCanvasElementGuid - Guid of the Canvas Element that just got deselected
  * @param topSelectedGuid - Guid of the top-most selected element
  * @returns Deselection Data as needed by the store
  */
 const getCanvasElementDeselectionData = (
-    elementsMetadata: ElementsMetadata,
     flowModel: FlowModel,
     deselectedCanvasElementGuid: Guid,
     topSelectedGuid: Guid | null
@@ -395,12 +358,7 @@ const getCanvasElementDeselectionData = (
 
         // Getting all the child and fault branch elements to deselect
         canvasElementGuidsToDeselect = canvasElementGuidsToDeselect.concat(
-            _getSubtreeElements(
-                elementsMetadata,
-                ELEMENT_DESELECTED_ACTION,
-                deselectedCanvasElement as ParentNodeModel,
-                flowModel
-            )
+            _getSubtreeElements(ELEMENT_DESELECTED_ACTION, deselectedCanvasElement as ParentNodeModel, flowModel)
         );
     } else {
         let currentCanvasElement = deselectedCanvasElement as NodeModel | null;
@@ -411,12 +369,7 @@ const getCanvasElementDeselectionData = (
 
             // Getting all the child and fault branch elements to deselect
             canvasElementGuidsToDeselect = canvasElementGuidsToDeselect.concat(
-                _getSubtreeElements(
-                    elementsMetadata,
-                    ELEMENT_DESELECTED_ACTION,
-                    currentCanvasElement as ParentNodeModel,
-                    flowModel
-                )
+                _getSubtreeElements(ELEMENT_DESELECTED_ACTION, currentCanvasElement as ParentNodeModel, flowModel)
             );
 
             currentCanvasElement =
@@ -432,54 +385,9 @@ const getCanvasElementDeselectionData = (
         canvasElementGuidsToSelect: [],
         canvasElementGuidsToDeselect,
         selectableCanvasElementGuids: topSelectedGuid
-            ? _getSelectableCanvasElementGuids(elementsMetadata, topSelectedGuid, flowModel)
+            ? _getSelectableCanvasElementGuids(topSelectedGuid, flowModel)
             : [],
         topSelectedGuid
-    };
-};
-
-/**
- * Function to get the guids of all the canvas elements that need to be deselected when toggling off the selection mode.
- * Also setting the topSelectedGuid to null.
- *
- * @param elementsMetadata - Contains elementType -> data map
- * @param flowModel - Representation of the flow as presented in the Canvas
- * @param topSelectedGuid - Guid of the top-most selected element
- * @returns - The CanvasElementDeselectionDataOnToggleOff
- */
-const getCanvasElementDeselectionDataOnToggleOff = (
-    elementsMetadata: ElementsMetadata,
-    flowModel: FlowModel,
-    topSelectedGuid: Guid
-): CanvasElementSelectionData => {
-    const topSelectedElement = flowModel[topSelectedGuid];
-    let canvasElementGuidsToDeselect: Guid[] = [];
-
-    let currentCanvasElement = topSelectedElement as NodeModel | null;
-    // When toggling out of the selection mode, everything needs to be deselected
-    while (currentCanvasElement && currentCanvasElement.config && currentCanvasElement.config.isSelected) {
-        canvasElementGuidsToDeselect.push(currentCanvasElement.guid);
-
-        // Getting all the child and fault branch elements to deselect
-        canvasElementGuidsToDeselect = canvasElementGuidsToDeselect.concat(
-            _getSubtreeElements(
-                elementsMetadata,
-                ELEMENT_DESELECTED_ACTION,
-                currentCanvasElement as ParentNodeModel,
-                flowModel
-            )
-        );
-        currentCanvasElement =
-            currentCanvasElement.next && !hasGoToOnNext(flowModel, currentCanvasElement.guid)
-                ? flowModel[currentCanvasElement.next]
-                : null;
-    }
-
-    return {
-        canvasElementGuidsToSelect: [],
-        canvasElementGuidsToDeselect,
-        selectableCanvasElementGuids: [],
-        topSelectedGuid: null // TopSelectedGuid needs to be set back to null
     };
 };
 
@@ -492,7 +400,11 @@ const getCanvasElementDeselectionDataOnToggleOff = (
  */
 const getFirstSelectableElementGuid = (flowModel: FlowModel, elementGuid: Guid): Guid | undefined => {
     const currentCanvasElement = flowModel[elementGuid] as ParentNodeModel;
-    if (currentCanvasElement.config && currentCanvasElement.config.isSelectable) {
+    if (
+        !isSystemElement(currentCanvasElement.nodeType) &&
+        currentCanvasElement.config &&
+        currentCanvasElement.config.isSelectable
+    ) {
         return currentCanvasElement.guid;
     }
 
@@ -645,36 +557,6 @@ function getAlcNodeData(nodeInfo: NodeRenderInfo) {
         dynamicNodeComponentSelector
     };
 }
-
-// function getNonTerminalCount(state: FlowModel, node: ParentNodeModel) {
-//     return (node.children || []).reduce((count, child) => {
-//         if (child == null || !(state[child] as BranchHeadNodeModel).isTerminal) {
-//             count++;
-//         }
-
-//         return count;
-//     }, 0);
-// }
-
-// function isLastPathInLoop(flowModel: FlowModel, parentElement: ParentNodeModel, elementsMetadata: ElementsMetadata) {
-//     let parentType = getElementMetadata(elementsMetadata, parentElement.elementType).type;
-
-//     let lastPathInLoop = true;
-//     while (parentType !== NodeType.LOOP && parentType !== NodeType.ROOT && parentType != null) {
-//         if (getNonTerminalCount(flowModel, parentElement) > 1) {
-//             lastPathInLoop = false;
-//             break;
-//         }
-//         parentElement = findParentElement(parentElement, flowModel);
-//         parentType = getElementMetadata(elementsMetadata, parentElement.elementType).type;
-//     }
-
-//     if (parentType === NodeType.ROOT) {
-//         return false;
-//     }
-
-//     return lastPathInLoop;
-// }
 
 /**
  * @param flowModel - Representation of the flow as presented in the Canvas
@@ -829,6 +711,5 @@ export {
     getAlcMenuData,
     getCanvasElementSelectionData,
     getCanvasElementDeselectionData,
-    getCanvasElementDeselectionDataOnToggleOff,
     getFirstSelectableElementGuid
 };

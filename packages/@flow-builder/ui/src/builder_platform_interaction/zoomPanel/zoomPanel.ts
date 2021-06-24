@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from 'lwc';
+import { LightningElement, api } from 'lwc';
 import { ToggleMarqueeOnEvent, ClickToZoomEvent, ZOOM_ACTION } from 'builder_platform_interaction/events';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { LABELS } from './zoomPanelLabels';
@@ -8,12 +8,11 @@ let action;
 
 /**
  * Zoom Panel component for flow builder.
- *
- * @ScrumTeam Process UI
- * @author Priya Mittal
- * @since 214
  */
 export default class ZoomPanel extends LightningElement {
+    _zoomOutDisabled!: boolean;
+    _zoomInDisabled!: boolean;
+
     @api
     showMarqueeButton!: boolean;
 
@@ -25,7 +24,7 @@ export default class ZoomPanel extends LightningElement {
 
     @api
     get isZoomOutDisabled(): boolean {
-        return this.zoomOutDisabled;
+        return this._zoomOutDisabled;
     }
 
     set isZoomOutDisabled(newValue: boolean) {
@@ -33,12 +32,12 @@ export default class ZoomPanel extends LightningElement {
             this.template.querySelector('.expandButton').focus();
             action = null;
         }
-        this.zoomOutDisabled = newValue;
+        this._zoomOutDisabled = newValue;
     }
 
     @api
     get isZoomInDisabled(): boolean {
-        return this.zoomInDisabled;
+        return this._zoomInDisabled;
     }
 
     set isZoomInDisabled(newValue: boolean) {
@@ -46,14 +45,8 @@ export default class ZoomPanel extends LightningElement {
             this.template.querySelector('.zoomOutButton').focus();
             action = null;
         }
-        this.zoomInDisabled = newValue;
+        this._zoomInDisabled = newValue;
     }
-
-    @track
-    zoomOutDisabled!: boolean;
-
-    @track
-    zoomInDisabled!: boolean;
 
     get labels() {
         return LABELS;
@@ -62,7 +55,7 @@ export default class ZoomPanel extends LightningElement {
     /**
      * Handles click on the drag button and fires toggle marquee mode event.
      *
-     * @param event
+     * @param event - click event on the marquee button
      */
     handleToggleMarqueeOn = (event: Event) => {
         event.stopPropagation();
@@ -76,7 +69,7 @@ export default class ZoomPanel extends LightningElement {
     /**
      * Handles click on the zoom out button and fires click to zoom event.
      *
-     * @param event
+     * @param event - click event on the zoom out button
      */
     handleZoomOutClick = (event: Event) => {
         event.stopPropagation();
@@ -90,7 +83,7 @@ export default class ZoomPanel extends LightningElement {
     /**
      * Handles click on the zoom to fit button and fires click to zoom event.
      *
-     * @param event
+     * @param event - click event on the zoom to fit button
      */
     handleZoomToFitClick = (event: Event) => {
         event.stopPropagation();
@@ -105,7 +98,7 @@ export default class ZoomPanel extends LightningElement {
     /**
      * Handles click on the zoom to view button and fires click to zoom event.
      *
-     * @param event
+     * @param event - click event on the zoom to view button
      */
     handleZoomToViewClick = (event: Event) => {
         event.stopPropagation();
@@ -119,7 +112,7 @@ export default class ZoomPanel extends LightningElement {
     /**
      * Handles click on the zoom in button and fires click to zoom event.
      *
-     * @param event
+     * @param event - click event on the zoom in button
      */
     handleZoomInClick = (event: Event) => {
         event.stopPropagation();
@@ -138,5 +131,11 @@ export default class ZoomPanel extends LightningElement {
             this.template.querySelector('.expandButton').focus();
             action = null;
         }
+    }
+
+    @api
+    focus() {
+        const selector = this.isZoomOutDisabled ? '.expandButton' : '.zoomOutButton';
+        this.template.querySelector(selector).focus();
     }
 }

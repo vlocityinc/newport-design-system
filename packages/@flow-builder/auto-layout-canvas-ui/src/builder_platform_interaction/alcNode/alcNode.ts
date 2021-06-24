@@ -215,12 +215,7 @@ export default class AlcNode extends LightningElement {
     @api
     focus() {
         const selector = !this.isDefaultMode ? '.selection-checkbox' : 'builder_platform_interaction-alc-menu-trigger';
-        const divToFocus = this.template.querySelector(selector);
-        // // TODO (W-9424079): We need the check here in order to prevent the gack
-        // when moving focus to start element through F6 in selection mode
-        if (divToFocus) {
-            divToFocus.focus();
-        }
+        this.template.querySelector(selector).focus();
     }
 
     /** ***************************** Event Handlers */

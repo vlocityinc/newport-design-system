@@ -3,7 +3,6 @@ import { NodeType, MenuType } from 'builder_platform_interaction/autoLayoutCanva
 import {
     getCanvasElementSelectionData,
     getCanvasElementDeselectionData,
-    getCanvasElementDeselectionDataOnToggleOff,
     getFirstSelectableElementGuid,
     getAlcMenuData,
     getMenuStyle,
@@ -222,6 +221,7 @@ describe('ALC Canvas Utils test', () => {
                 guid1: {
                     guid: 'guid1',
                     elementType: ELEMENT_TYPE_ASSIGNMENT,
+                    nodeType: NodeType.DEFAULT,
                     config: {
                         isSelected: false
                     },
@@ -231,6 +231,7 @@ describe('ALC Canvas Utils test', () => {
                 guid2: {
                     guid: 'guid2',
                     elementType: ELEMENT_TYPE_ASSIGNMENT,
+                    nodeType: NodeType.DEFAULT,
                     config: {
                         isSelected: false
                     },
@@ -240,6 +241,7 @@ describe('ALC Canvas Utils test', () => {
                 guid3: {
                     guid: 'guid3',
                     elementType: ELEMENT_TYPE_ASSIGNMENT,
+                    nodeType: NodeType.DEFAULT,
                     config: {
                         isSelected: false
                     },
@@ -248,7 +250,7 @@ describe('ALC Canvas Utils test', () => {
                 }
             };
 
-            const result = getCanvasElementSelectionData(elementsMetadata, flowModel, 'guid2', null);
+            const result = getCanvasElementSelectionData(flowModel, 'guid2', null);
             checkSelectionDeselectionResultEquality(result, ['guid2'], [], ['guid2', 'guid1', 'guid3'], 'guid2');
         });
 
@@ -257,6 +259,7 @@ describe('ALC Canvas Utils test', () => {
                 guid1: {
                     guid: 'guid1',
                     elementType: ELEMENT_TYPE_SCREEN,
+                    nodeType: NodeType.DEFAULT,
                     config: {
                         isSelected: false
                     },
@@ -266,6 +269,7 @@ describe('ALC Canvas Utils test', () => {
                 guid2: {
                     guid: 'guid2',
                     elementType: ELEMENT_TYPE_DECISION,
+                    nodeType: NodeType.BRANCH,
                     config: {
                         isSelected: false
                     },
@@ -276,6 +280,7 @@ describe('ALC Canvas Utils test', () => {
                 guid3: {
                     guid: 'guid3',
                     elementType: ELEMENT_TYPE_SCREEN,
+                    nodeType: NodeType.DEFAULT,
                     config: {
                         isSelected: false
                     },
@@ -285,6 +290,7 @@ describe('ALC Canvas Utils test', () => {
                 guid4: {
                     guid: 'guid4',
                     elementType: ELEMENT_TYPE_SCREEN,
+                    nodeType: NodeType.DEFAULT,
                     config: {
                         isSelected: false
                     },
@@ -296,6 +302,7 @@ describe('ALC Canvas Utils test', () => {
                 guid5: {
                     guid: 'guid5',
                     elementType: ELEMENT_TYPE_SCREEN,
+                    nodeType: NodeType.DEFAULT,
                     config: {
                         isSelected: false
                     },
@@ -306,7 +313,7 @@ describe('ALC Canvas Utils test', () => {
                 }
             };
 
-            const result = getCanvasElementSelectionData(elementsMetadata, flowModel, 'guid4', null);
+            const result = getCanvasElementSelectionData(flowModel, 'guid4', null);
             checkSelectionDeselectionResultEquality(result, ['guid4'], [], ['guid4', 'guid2', 'guid1'], 'guid4');
         });
 
@@ -315,6 +322,7 @@ describe('ALC Canvas Utils test', () => {
                 guid1: {
                     guid: 'guid1',
                     elementType: ELEMENT_TYPE_SCREEN,
+                    nodeType: NodeType.DEFAULT,
                     config: {
                         isSelected: true
                     },
@@ -343,6 +351,7 @@ describe('ALC Canvas Utils test', () => {
                 guid3: {
                     guid: 'guid3',
                     elementType: ELEMENT_TYPE_SCREEN,
+                    nodeType: NodeType.DEFAULT,
                     config: {
                         isSelected: false
                     },
@@ -352,6 +361,7 @@ describe('ALC Canvas Utils test', () => {
                 guid4: {
                     guid: 'guid4',
                     elementType: ELEMENT_TYPE_WAIT,
+                    nodeType: NodeType.BRANCH,
                     config: {
                         isSelected: false
                     },
@@ -366,6 +376,7 @@ describe('ALC Canvas Utils test', () => {
                 guid5: {
                     guid: 'guid5',
                     elementType: ELEMENT_TYPE_SCREEN,
+                    nodeType: NodeType.DEFAULT,
                     config: {
                         isSelected: false
                     },
@@ -377,6 +388,7 @@ describe('ALC Canvas Utils test', () => {
                 guid6: {
                     guid: 'guid6',
                     elementType: ELEMENT_TYPE_SCREEN,
+                    nodeType: NodeType.DEFAULT,
                     config: {
                         isSelected: false
                     },
@@ -388,24 +400,27 @@ describe('ALC Canvas Utils test', () => {
                 end1: {
                     guid: 'end1',
                     elementType: ELEMENT_TYPE_END_ELEMENT,
+                    nodeType: NodeType.END,
                     prev: 'guid3',
                     next: null
                 },
                 end2: {
                     guid: 'end2',
                     elementType: ELEMENT_TYPE_END_ELEMENT,
+                    nodeType: NodeType.END,
                     prev: 'guid5',
                     next: null
                 },
                 end3: {
                     guid: 'end3',
                     elementType: ELEMENT_TYPE_END_ELEMENT,
+                    nodeType: NodeType.END,
                     prev: 'guid6',
                     next: null
                 }
             };
 
-            const result = getCanvasElementSelectionData(elementsMetadata, flowModel, 'guid3', 'guid1');
+            const result = getCanvasElementSelectionData(flowModel, 'guid3', 'guid1');
             checkSelectionDeselectionResultEquality(
                 result,
                 ['guid3', 'guid4', 'guid6', 'guid2'],
@@ -420,6 +435,7 @@ describe('ALC Canvas Utils test', () => {
                 guid1: {
                     guid: 'guid1',
                     elementType: ELEMENT_TYPE_START_ELEMENT,
+                    nodeType: NodeType.START,
                     prev: null,
                     next: 'guid2'
                 },
@@ -446,6 +462,7 @@ describe('ALC Canvas Utils test', () => {
                 guid3: {
                     guid: 'guid3',
                     elementType: ELEMENT_TYPE_LOOP,
+                    nodeType: NodeType.LOOP,
                     config: {
                         isSelected: false
                     },
@@ -456,6 +473,7 @@ describe('ALC Canvas Utils test', () => {
                 guid4: {
                     guid: 'guid4',
                     elementType: ELEMENT_TYPE_SCREEN,
+                    nodeType: NodeType.DEFAULT,
                     config: {
                         isSelected: false
                     },
@@ -468,6 +486,7 @@ describe('ALC Canvas Utils test', () => {
                 guid5: {
                     guid: 'guid5',
                     elementType: ELEMENT_TYPE_SCREEN,
+                    nodeType: NodeType.DEFAULT,
                     config: {
                         isSelected: false
                     },
@@ -479,6 +498,7 @@ describe('ALC Canvas Utils test', () => {
                 guid6: {
                     guid: 'guid6',
                     elementType: ELEMENT_TYPE_SCREEN,
+                    nodeType: NodeType.DEFAULT,
                     config: {
                         isSelected: true
                     },
@@ -490,7 +510,7 @@ describe('ALC Canvas Utils test', () => {
                 }
             };
 
-            const result = getCanvasElementSelectionData(elementsMetadata, flowModel, 'guid2', 'guid6');
+            const result = getCanvasElementSelectionData(flowModel, 'guid2', 'guid6');
             checkSelectionDeselectionResultEquality(
                 result,
                 ['guid3', 'guid4', 'guid5', 'guid2'],
@@ -508,6 +528,7 @@ describe('ALC Canvas Utils test', () => {
                     guid1: {
                         guid: 'guid1',
                         elementType: ELEMENT_TYPE_ASSIGNMENT,
+                        nodeType: NodeType.DEFAULT,
                         config: {
                             isSelected: false
                         },
@@ -517,6 +538,7 @@ describe('ALC Canvas Utils test', () => {
                     guid2: {
                         guid: 'guid2',
                         elementType: ELEMENT_TYPE_DECISION,
+                        nodeType: NodeType.BRANCH,
                         config: {
                             isSelected: true
                         },
@@ -527,6 +549,7 @@ describe('ALC Canvas Utils test', () => {
                     guid3: {
                         guid: 'guid3',
                         elementType: ELEMENT_TYPE_SCREEN,
+                        nodeType: NodeType.DEFAULT,
                         config: {
                             isSelected: false
                         },
@@ -536,6 +559,7 @@ describe('ALC Canvas Utils test', () => {
                     guid4: {
                         guid: 'guid4',
                         elementType: ELEMENT_TYPE_SCREEN,
+                        nodeType: NodeType.DEFAULT,
                         config: {
                             isSelected: false
                         },
@@ -546,7 +570,7 @@ describe('ALC Canvas Utils test', () => {
                     }
                 };
 
-                const result = getCanvasElementDeselectionData(elementsMetadata, flowModel, 'guid2', 'guid2');
+                const result = getCanvasElementDeselectionData(flowModel, 'guid2', 'guid2');
                 checkSelectionDeselectionResultEquality(result, [], ['guid2'], [], '');
             });
 
@@ -555,6 +579,7 @@ describe('ALC Canvas Utils test', () => {
                     guid1: {
                         guid: 'guid1',
                         elementType: ELEMENT_TYPE_ASSIGNMENT,
+                        nodeType: NodeType.DEFAULT,
                         config: {
                             isSelected: false
                         },
@@ -564,6 +589,7 @@ describe('ALC Canvas Utils test', () => {
                     guid2: {
                         guid: 'guid2',
                         elementType: ELEMENT_TYPE_DECISION,
+                        nodeType: NodeType.BRANCH,
                         config: {
                             isSelected: true
                         },
@@ -574,6 +600,7 @@ describe('ALC Canvas Utils test', () => {
                     guid3: {
                         guid: 'guid3',
                         elementType: ELEMENT_TYPE_SCREEN,
+                        nodeType: NodeType.DEFAULT,
                         config: {
                             isSelected: true
                         },
@@ -583,6 +610,7 @@ describe('ALC Canvas Utils test', () => {
                     guid4: {
                         guid: 'guid4',
                         elementType: ELEMENT_TYPE_SCREEN,
+                        nodeType: NodeType.DEFAULT,
                         config: {
                             isSelected: false
                         },
@@ -593,7 +621,7 @@ describe('ALC Canvas Utils test', () => {
                     }
                 };
 
-                const result = getCanvasElementDeselectionData(elementsMetadata, flowModel, 'guid2', 'guid2');
+                const result = getCanvasElementDeselectionData(flowModel, 'guid2', 'guid2');
                 checkSelectionDeselectionResultEquality(result, [], ['guid2'], ['guid3', 'guid2', 'guid1'], 'guid3');
             });
 
@@ -602,6 +630,7 @@ describe('ALC Canvas Utils test', () => {
                     guid1: {
                         guid: 'guid1',
                         elementType: ELEMENT_TYPE_ASSIGNMENT,
+                        nodeType: NodeType.DEFAULT,
                         config: {
                             isSelected: false
                         },
@@ -630,6 +659,7 @@ describe('ALC Canvas Utils test', () => {
                     guid3: {
                         guid: 'guid3',
                         elementType: ELEMENT_TYPE_SCREEN,
+                        nodeType: NodeType.DEFAULT,
                         config: {
                             isSelected: true
                         },
@@ -654,6 +684,7 @@ describe('ALC Canvas Utils test', () => {
                     guid5: {
                         guid: 'guid5',
                         elementType: ELEMENT_TYPE_SCREEN,
+                        nodeType: NodeType.DEFAULT,
                         config: {
                             isSelected: true
                         },
@@ -665,18 +696,20 @@ describe('ALC Canvas Utils test', () => {
                     end1: {
                         guid: 'end1',
                         elementType: ELEMENT_TYPE_END_ELEMENT,
+                        nodeType: NodeType.END,
                         prev: 'guid3',
                         next: null
                     },
                     end2: {
                         guid: 'end2',
                         elementType: ELEMENT_TYPE_END_ELEMENT,
+                        nodeType: NodeType.END,
                         prev: 'guid5',
                         next: null
                     }
                 };
 
-                const result = getCanvasElementDeselectionData(elementsMetadata, flowModel, 'guid2', 'guid2');
+                const result = getCanvasElementDeselectionData(flowModel, 'guid2', 'guid2');
                 checkSelectionDeselectionResultEquality(
                     result,
                     [],
@@ -686,422 +719,6 @@ describe('ALC Canvas Utils test', () => {
                 );
             });
         });
-
-        describe('Deselecting a middle selected element', () => {
-            it('When middle element in a simple flow (straight line) is deselected', () => {
-                const flowModel = {
-                    guid1: {
-                        guid: 'guid1',
-                        elementType: ELEMENT_TYPE_SCREEN,
-                        config: {
-                            isSelected: true
-                        },
-                        prev: null,
-                        next: 'guid2'
-                    },
-                    guid2: {
-                        guid: 'guid2',
-                        elementType: ELEMENT_TYPE_SCREEN,
-                        config: {
-                            isSelected: true
-                        },
-                        prev: 'guid1',
-                        next: 'guid3'
-                    },
-                    guid3: {
-                        guid: 'guid3',
-                        elementType: ELEMENT_TYPE_SCREEN,
-                        config: {
-                            isSelected: true
-                        },
-                        prev: 'guid2',
-                        next: null
-                    }
-                };
-
-                const result = getCanvasElementDeselectionData(elementsMetadata, flowModel, 'guid2', 'guid1');
-                checkSelectionDeselectionResultEquality(
-                    result,
-                    [],
-                    ['guid2', 'guid3'],
-                    ['guid1', 'guid2', 'guid3'],
-                    'guid1'
-                );
-            });
-
-            it('When the deselected middle element is a Decision element with a selected branch', () => {
-                const flowModel = {
-                    guid1: {
-                        guid: 'guid1',
-                        elementType: ELEMENT_TYPE_ASSIGNMENT,
-                        config: {
-                            isSelected: true
-                        },
-                        prev: null,
-                        next: 'guid2'
-                    },
-                    guid2: {
-                        guid: 'guid2',
-                        elementType: ELEMENT_TYPE_WAIT,
-                        config: {
-                            isSelected: true
-                        },
-                        prev: 'guid1',
-                        next: 'guid3',
-                        children: ['guid4', null],
-                        fault: 'guid5',
-                        incomingGoTo: ['guid4', 'guid5']
-                    },
-                    guid3: {
-                        guid: 'guid3',
-                        elementType: ELEMENT_TYPE_SCREEN,
-                        config: {
-                            isSelected: true
-                        },
-                        prev: 'guid2',
-                        next: 'end1'
-                    },
-                    guid4: {
-                        guid: 'guid4',
-                        elementType: ELEMENT_TYPE_WAIT,
-                        config: {
-                            isSelected: true
-                        },
-                        parent: 'guid2',
-                        prev: null,
-                        next: 'guid2',
-                        childIndex: 0,
-                        children: [null, null],
-                        fault: 'guid6',
-                        isTerminal: true
-                    },
-                    guid5: {
-                        guid: 'guid5',
-                        elementType: ELEMENT_TYPE_SCREEN,
-                        config: {
-                            isSelected: true
-                        },
-                        parent: 'guid2',
-                        prev: null,
-                        next: 'guid2',
-                        childIndex: -1
-                    },
-                    guid6: {
-                        guid: 'guid6',
-                        elementType: ELEMENT_TYPE_SCREEN,
-                        config: {
-                            isSelected: true
-                        },
-                        parent: 'guid4',
-                        prev: null,
-                        next: 'end3',
-                        childIndex: -1
-                    },
-                    end1: {
-                        guid: 'end1',
-                        elementType: ELEMENT_TYPE_END_ELEMENT,
-                        prev: 'guid3',
-                        next: null
-                    },
-                    end3: {
-                        guid: 'end3',
-                        elementType: ELEMENT_TYPE_END_ELEMENT,
-                        prev: 'guid6',
-                        next: null
-                    }
-                };
-
-                const result = getCanvasElementDeselectionData(elementsMetadata, flowModel, 'guid2', 'guid1');
-                checkSelectionDeselectionResultEquality(
-                    result,
-                    [],
-                    ['guid2', 'guid4', 'guid6', 'guid5', 'guid3'],
-                    ['guid1', 'guid2', 'guid4', 'guid6', 'guid5', 'guid3'],
-                    'guid1'
-                );
-            });
-
-            it('When the deselected middle element is a branch element where the parent is also selected', () => {
-                const flowModel = {
-                    guid1: {
-                        guid: 'guid1',
-                        elementType: ELEMENT_TYPE_SCREEN,
-                        config: {
-                            isSelected: true
-                        },
-                        prev: null,
-                        next: 'guid2',
-                        incomingGoTo: ['guid2:o2']
-                    },
-                    guid2: {
-                        guid: 'guid2',
-                        elementType: ELEMENT_TYPE_DECISION,
-                        nodeType: NodeType.BRANCH,
-                        config: {
-                            isSelected: true
-                        },
-                        prev: 'guid1',
-                        next: 'guid3',
-                        children: ['guid4', 'guid1', 'guid5'],
-                        childReferences: [
-                            {
-                                childReference: 'o1'
-                            },
-                            {
-                                childReference: 'o2'
-                            }
-                        ]
-                    },
-                    guid3: {
-                        guid: 'guid3',
-                        elementType: ELEMENT_TYPE_SCREEN,
-                        config: {
-                            isSelected: true
-                        },
-                        prev: 'guid2',
-                        next: null
-                    },
-                    guid4: {
-                        guid: 'guid4',
-                        elementType: ELEMENT_TYPE_SCREEN,
-                        config: {
-                            isSelected: false
-                        },
-                        parent: 'guid2',
-                        prev: null,
-                        next: null,
-                        childIndex: 0
-                    },
-                    guid5: {
-                        guid: 'guid5',
-                        elementType: ELEMENT_TYPE_SCREEN,
-                        config: {
-                            isSelected: true
-                        },
-                        parent: 'guid2',
-                        prev: null,
-                        next: null,
-                        childIndex: 2
-                    }
-                };
-
-                const result = getCanvasElementDeselectionData(elementsMetadata, flowModel, 'guid5', 'guid1');
-                checkSelectionDeselectionResultEquality(
-                    result,
-                    [],
-                    ['guid5'],
-                    ['guid1', 'guid2', 'guid4', 'guid5', 'guid3'],
-                    'guid1'
-                );
-            });
-        });
-    });
-
-    describe('getCanvasElementDeselectionDataOnToggleOff function', () => {
-        it('Deselects all selected elements in a simple flow (straight line)', () => {
-            const flowModel = {
-                guid1: {
-                    guid: 'guid1',
-                    elementType: ELEMENT_TYPE_DECISION,
-                    config: {
-                        isSelected: false
-                    },
-                    prev: null,
-                    next: 'guid2',
-                    children: [null, null]
-                },
-                guid2: {
-                    guid: 'guid2',
-                    elementType: ELEMENT_TYPE_ASSIGNMENT,
-                    config: {
-                        isSelected: true
-                    },
-                    prev: 'guid1',
-                    next: 'guid3'
-                },
-                guid3: {
-                    guid: 'guid3',
-                    elementType: ELEMENT_TYPE_SCREEN,
-                    config: {
-                        isSelected: true
-                    },
-                    prev: 'guid2',
-                    next: null
-                }
-            };
-
-            const result = getCanvasElementDeselectionDataOnToggleOff(elementsMetadata, flowModel, 'guid2');
-            checkSelectionDeselectionResultEquality(result, [], ['guid2', 'guid3'], [], '');
-        });
-
-        it('Deselects all selected branch elements and following selected elements', () => {
-            const flowModel = {
-                guid1: {
-                    guid: 'guid1',
-                    elementType: ELEMENT_TYPE_DECISION,
-                    config: {
-                        isSelected: true
-                    },
-                    prev: null,
-                    next: 'guid2',
-                    children: ['guid3', 'guid4'],
-                    incomingGoTo: ['guid3']
-                },
-                guid2: {
-                    guid: 'guid2',
-                    elementType: ELEMENT_TYPE_ASSIGNMENT,
-                    config: {
-                        isSelected: true
-                    },
-                    prev: 'guid1',
-                    next: null
-                },
-                guid3: {
-                    guid: 'guid3',
-                    elementType: ELEMENT_TYPE_SCREEN,
-                    config: {
-                        isSelected: true
-                    },
-                    parent: 'guid1',
-                    prev: null,
-                    next: 'guid1',
-                    childIndex: 0,
-                    isTerminal: true
-                },
-                guid4: {
-                    guid: 'guid4',
-                    elementType: ELEMENT_TYPE_SCREEN,
-                    config: {
-                        isSelected: false
-                    },
-                    parent: 'guid1',
-                    prev: null,
-                    next: null,
-                    childIndex: 1
-                }
-            };
-
-            const result = getCanvasElementDeselectionDataOnToggleOff(elementsMetadata, flowModel, 'guid1');
-            checkSelectionDeselectionResultEquality(result, [], ['guid1', 'guid3', 'guid2'], [], '');
-        });
-
-        it('Deselects all selected elements in a complex flow', () => {
-            const flowModel = {
-                guid1: {
-                    guid: 'guid1',
-                    elementType: ELEMENT_TYPE_DECISION,
-                    config: {
-                        isSelected: true
-                    },
-                    prev: null,
-                    next: 'guid8',
-                    children: ['guid2', 'guid3']
-                },
-                guid2: {
-                    guid: 'guid2',
-                    elementType: ELEMENT_TYPE_SCREEN,
-                    config: {
-                        isSelected: true
-                    },
-                    parent: 'guid1',
-                    prev: null,
-                    next: 'guid4',
-                    childIndex: 0
-                },
-                guid3: {
-                    guid: 'guid3',
-                    elementType: ELEMENT_TYPE_DECISION,
-                    config: {
-                        isSelected: true
-                    },
-                    parent: 'guid1',
-                    prev: null,
-                    next: null,
-                    childIndex: 1,
-                    children: ['guid5', 'guid6']
-                },
-                guid4: {
-                    guid: 'guid4',
-                    elementType: ELEMENT_TYPE_DECISION,
-                    config: {
-                        isSelected: true
-                    },
-                    prev: 'guid2',
-                    next: null,
-                    children: [null, 'guid7']
-                },
-                guid5: {
-                    guid: 'guid5',
-                    elementType: ELEMENT_TYPE_ASSIGNMENT,
-                    config: {
-                        isSelected: false
-                    },
-                    parent: 'guid3',
-                    prev: null,
-                    next: null,
-                    childIndex: 0
-                },
-                guid6: {
-                    guid: 'guid6',
-                    elementType: ELEMENT_TYPE_ASSIGNMENT,
-                    config: {
-                        isSelected: false
-                    },
-                    parent: 'guid3',
-                    prev: null,
-                    next: null,
-                    childIndex: 1
-                },
-                guid7: {
-                    guid: 'guid7',
-                    elementType: ELEMENT_TYPE_WAIT,
-                    config: {
-                        isSelected: true
-                    },
-                    parent: 'guid4',
-                    prev: null,
-                    next: null,
-                    childIndex: 1,
-                    children: [null, null],
-                    fault: 'guid9'
-                },
-                guid8: {
-                    guid: 'guid8',
-                    elementType: ELEMENT_TYPE_ASSIGNMENT,
-                    config: {
-                        isSelected: true
-                    },
-                    prev: 'guid1',
-                    next: null
-                },
-                guid9: {
-                    guid: 'guid9',
-                    elementType: ELEMENT_TYPE_ASSIGNMENT,
-                    config: {
-                        isSelected: true
-                    },
-                    prev: null,
-                    next: 'end1',
-                    parent: 'guid7',
-                    childIndex: -1
-                },
-                end1: {
-                    guid: 'end1',
-                    elementType: ELEMENT_TYPE_END_ELEMENT,
-                    prev: 'guid9',
-                    next: null
-                }
-            };
-
-            const result = getCanvasElementDeselectionDataOnToggleOff(elementsMetadata, flowModel, 'guid1');
-            checkSelectionDeselectionResultEquality(
-                result,
-                [],
-                ['guid1', 'guid2', 'guid4', 'guid7', 'guid9', 'guid3', 'guid8'],
-                [],
-                ''
-            );
-        });
     });
 
     describe('getFirstSelectableElementGuid', () => {
@@ -1109,6 +726,15 @@ describe('ALC Canvas Utils test', () => {
 
         beforeEach(() => {
             flowModel = {
+                start: {
+                    guid: 'start',
+                    elementType: ELEMENT_TYPE_START_ELEMENT,
+                    nodeType: NodeType.START,
+                    config: {
+                        isSelectable: true
+                    },
+                    next: 'd1'
+                },
                 d1: {
                     guid: 'd1',
                     elementType: ELEMENT_TYPE_DECISION,
@@ -1116,7 +742,7 @@ describe('ALC Canvas Utils test', () => {
                     config: {
                         isSelectable: false
                     },
-                    prev: null,
+                    prev: 'start',
                     next: 's4',
                     children: ['d2', 's3', 'ac1'],
                     childReferences: [
