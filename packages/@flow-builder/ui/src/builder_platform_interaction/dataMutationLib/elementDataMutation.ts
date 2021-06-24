@@ -137,10 +137,11 @@ export const getErrorsFromHydratedElement = (element, errorsList: ElementValidat
  *
  * @param  element - source for values
  * @param errorSourceElement - hydrated element checked for errors
+ * @param errorState - optional parameter for internal use during recursion, to store whether element and/or element's children has an error or not
  * @returns The existing object if no error source to merge.  Otherwise a new object including
  * all errors from the error source element
  */
-export const mergeErrorsFromHydratedElement = (element, errorSourceElement) => {
+export const mergeErrorsFromHydratedElement = (element, errorSourceElement, errorState = { hasError: false }) => {
     if (!errorSourceElement) {
         return element;
     }
@@ -155,9 +156,19 @@ export const mergeErrorsFromHydratedElement = (element, errorSourceElement) => {
                         mergedElement[key] = replaceItem(
                             mergedElement[key],
                             // Wrap the key value pair in an "item" so it can be processed by mergeErrorsFromHydratedElement
-                            mergeErrorsFromHydratedElement({ item }, { item: errorSourceElement[key][index] }).item,
+                            mergeErrorsFromHydratedElement(
+                                { item },
+                                { item: errorSourceElement[key][index] },
+                                errorState
+                            ).item,
                             index
                         );
+                    });
+                } else if (!errorState.hasError) {
+                    value.forEach((item) => {
+                        if (getErrorsFromHydratedElement({ item }).length > 0) {
+                            errorState.hasError = true;
+                        }
                     });
                 }
             } else if (isItemHydratedWithErrors(errorSourceElement[key])) {
@@ -166,10 +177,22 @@ export const mergeErrorsFromHydratedElement = (element, errorSourceElement) => {
                     mergedElement[key] = updateProperties(mergedElement[key], { error: errorString });
                 }
             } else if (errorSourceElement[key]) {
-                mergedElement[key] = mergeErrorsFromHydratedElement(value, errorSourceElement[key]);
+                mergedElement[key] = mergeErrorsFromHydratedElement(value, errorSourceElement[key], errorState);
+            } else if (!errorState.hasError) {
+                if (getErrorsFromHydratedElement(value).length > 0) {
+                    errorState.hasError = true;
+                }
+            }
+
+            if (isItemHydratedWithErrors(mergedElement[key]) && mergedElement[key].error != null) {
+                errorState.hasError = true;
             }
         }
     });
+
+    if (mergedElement.config) {
+        mergedElement.config = updateProperties(mergedElement.config, { hasError: errorState.hasError });
+    }
 
     return mergedElement;
 };

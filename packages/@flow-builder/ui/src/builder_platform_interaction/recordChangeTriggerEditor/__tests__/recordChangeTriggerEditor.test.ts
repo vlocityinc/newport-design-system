@@ -4,6 +4,7 @@ import { CONDITION_LOGIC, FLOW_TRIGGER_TYPE, FLOW_TRIGGER_SAVE_TYPE } from 'buil
 import { query, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import RecordChangeTriggerEditor from '../recordChangeTriggerEditor';
 import { UpdateNodeEvent } from 'builder_platform_interaction/events';
+import { mergeErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 
 const { AFTER_SAVE, BEFORE_DELETE, BEFORE_SAVE } = FLOW_TRIGGER_TYPE;
 const { CREATE, UPDATE, DELETE } = FLOW_TRIGGER_SAVE_TYPE;
@@ -26,6 +27,14 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
         getElementByGuid: jest.fn(),
         isExecuteOnlyWhenChangeMatchesConditionsPossible: jest.fn().mockReturnValue(true)
     };
+});
+
+jest.mock('builder_platform_interaction/dataMutationLib', () => {
+    const actual = jest.requireActual('builder_platform_interaction/dataMutationLib');
+
+    return Object.assign('', actual, {
+        mergeErrorsFromHydratedElement: jest.fn((e) => e)
+    });
 });
 
 function createComponentForTest(node) {
@@ -69,6 +78,47 @@ function recordChangeTriggerElement(flowTriggerType, recordTriggerType) {
 }
 
 describe('record-change-trigger-editor', () => {
+    describe('mergeErrorsFromHydratedElement', () => {
+        const startElement = recordChangeTriggerElement(BEFORE_SAVE, CREATE);
+
+        it('is called for new node', () => {
+            createComponentForTest(startElement);
+            expect(mergeErrorsFromHydratedElement).toHaveBeenCalledWith(startElement, undefined);
+        });
+
+        it('is called for existing node', async () => {
+            const startElementEditor = createComponentForTest(startElement);
+            await ticks(1);
+
+            const newNode = recordChangeTriggerElement(AFTER_SAVE, CREATE);
+            startElementEditor.node = newNode;
+
+            expect(mergeErrorsFromHydratedElement).toHaveBeenCalledWith(newNode, startElement);
+        });
+    });
+
+    describe('hasError state changes', () => {
+        it('sets hashError from undefined to true, then from true to false', async () => {
+            const startElement = recordChangeTriggerElement(BEFORE_SAVE, CREATE);
+            const startElementEditor = createComponentForTest(startElement);
+            await ticks(1);
+
+            expect.assertions(2);
+            const eventCallback = jest.fn();
+            startElementEditor.addEventListener(UpdateNodeEvent.EVENT_NAME, eventCallback);
+
+            let newNode = recordChangeTriggerElement(AFTER_SAVE, CREATE);
+            newNode.config = { hasError: true };
+            startElementEditor.node = newNode;
+            expect(eventCallback.mock.calls[0][0].detail.node).toEqual(newNode);
+
+            newNode = recordChangeTriggerElement(AFTER_SAVE, CREATE);
+            newNode.config = { hasError: false };
+            startElementEditor.node = newNode;
+            expect(eventCallback.mock.calls[1][0].detail.node).toEqual(newNode);
+        });
+    });
+
     it('handles recordTriggerType updates', () => {
         const element = createComponentForTest(recordChangeTriggerElement(BEFORE_SAVE, CREATE));
         const event = new CustomEvent('change', {

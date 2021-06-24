@@ -240,36 +240,54 @@ describe('mergeErrorsFromHydratedElement', () => {
         expect(mergedE).toEqual(e);
     });
     it('merges values from the element and errors from errorSourceElement', () => {
-        const e = { a: { value: 1, error: null } };
-        const errorSource = { a: { value: 5, error: 'someError' } };
+        const e = { a: { value: 1, error: null }, config: { hasError: false } };
+        const errorSource = { a: { value: 5, error: 'someError' }, config: { hasError: false } };
 
         const mergedE = mergeErrorsFromHydratedElement(e, errorSource);
         expect(mergedE.a.value).toEqual(e.a.value);
         expect(mergedE.a.error).toEqual(errorSource.a.error);
+        expect(mergedE.config.hasError).toBe(true);
     });
     it('keeps errors from the element if no error in errorSourceElement', () => {
-        const e = { a: { value: 1, error: 'test' } };
-        const errorSource = { a: { value: 5, error: null } };
+        const e = { a: { value: 1, error: 'test' }, config: { hasError: false } };
+        const errorSource = { a: { value: 5, error: null }, config: { hasError: false } };
 
         const mergedE = mergeErrorsFromHydratedElement(e, errorSource);
         expect(mergedE.a.value).toEqual(e.a.value);
         expect(mergedE.a.error).toEqual(e.a.error);
+        expect(mergedE.config.hasError).toBe(true);
     });
     it('merges values from objects in the element and errors from errorSourceElement', () => {
-        const e = { a: { b: { value: 1, error: null } } };
-        const errorSource = { a: { b: { value: 5, error: 'someError' } } };
+        const e = { a: { b: { value: 1, error: null } }, config: { hasError: false } };
+        const errorSource = { a: { b: { value: 5, error: 'someError' } }, config: { hasError: false } };
 
         const mergedE = mergeErrorsFromHydratedElement(e, errorSource);
         expect(mergedE.a.b.value).toEqual(e.a.b.value);
         expect(mergedE.a.b.error).toEqual(errorSource.a.b.error);
+        expect(mergedE.config.hasError).toBe(true);
     });
-
     it('merges values from arrays in the element and errors from errorSourceElement', () => {
-        const e = { a: [{ value: 1, error: null }] };
-        const errorSource = { a: [{ value: 5, error: 'someError' }] };
+        const e = { a: [{ value: 1, error: null }], config: { hasError: false } };
+        const errorSource = { a: [{ value: 5, error: 'someError' }], config: { hasError: false } };
 
         const mergedE = mergeErrorsFromHydratedElement(e, errorSource);
         expect(mergedE.a[0].value).toEqual(e.a[0].value);
         expect(mergedE.a[0].error).toEqual(errorSource.a[0].error);
+        expect(mergedE.config.hasError).toBe(true);
+    });
+    it('resets hasError to false if there are no errors', () => {
+        const e = { a: { value: 1, error: null }, config: { hasError: true } };
+        const errorSource = { a: { value: 5, error: null }, config: { hasError: true } };
+
+        const mergedE = mergeErrorsFromHydratedElement(e, errorSource);
+        expect(mergedE.config.hasError).toBe(false);
+    });
+    it('sets hasError to true if there is error from arrays in the element but no error from errorSourceElement', () => {
+        const e = { a: [{ value: 1, error: 'someError' }], config: { hasError: false } };
+        const errorSource = { config: { hasError: false } };
+        const mergedE = mergeErrorsFromHydratedElement(e, errorSource);
+        expect(mergedE.a[0].value).toEqual(e.a[0].value);
+        expect(mergedE.a[0].error).toEqual(e.a[0].error);
+        expect(mergedE.config.hasError).toBe(true);
     });
 });

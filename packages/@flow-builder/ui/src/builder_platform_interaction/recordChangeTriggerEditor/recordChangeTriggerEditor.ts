@@ -4,6 +4,7 @@ import { recordChangeTriggerReducer } from './recordChangeTriggerReducer';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { LABELS, requireRecordChangeOptions } from './recordChangeTriggerLabels';
+import { mergeErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import {
     ELEMENT_TYPE,
     FLOW_TRIGGER_TYPE,
@@ -90,7 +91,12 @@ export default class RecordChangeTriggerEditor extends LightningElement {
     }
 
     set node(newValue) {
-        this.startElement = newValue || {};
+        const oldHasError = this.startElement?.config?.hasError;
+        this.startElement = mergeErrorsFromHydratedElement(newValue, this.startElement);
+
+        if (this.startElement?.config?.hasError !== oldHasError) {
+            this.dispatchEvent(new UpdateNodeEvent(this.startElement));
+        }
     }
 
     /**
@@ -450,11 +456,9 @@ export default class RecordChangeTriggerEditor extends LightningElement {
         const { item, error, displayText } = event.detail;
         const oldRecordEntityName = this.recordEntityName;
         const newRecordEntityName = (item && item.value) || displayText;
-        if (newRecordEntityName !== oldRecordEntityName) {
-            this.updateProperty('object', newRecordEntityName, error, false, oldRecordEntityName);
-            if (!error && newRecordEntityName) {
-                this.recordEntityName = newRecordEntityName;
-            }
+        this.updateProperty('object', newRecordEntityName, error, false, oldRecordEntityName);
+        if (!error && newRecordEntityName) {
+            this.recordEntityName = newRecordEntityName;
         }
     }
 

@@ -143,6 +143,31 @@ describe('Decision Editor', () => {
         });
     });
 
+    describe('hasError state changes', () => {
+        it('sets hashError from undefined to true, then from true to false', async () => {
+            const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
+            await ticks(1);
+
+            expect.assertions(2);
+            const eventCallback = jest.fn();
+            decisionEditor.addEventListener(UpdateNodeEvent.EVENT_NAME, eventCallback);
+
+            let newNode = {
+                config: { hasError: true },
+                outcomes: [{ guid: 'outcome1' }]
+            };
+            decisionEditor.node = newNode;
+            expect(eventCallback.mock.calls[0][0].detail.node).toEqual(newNode);
+
+            newNode = {
+                config: { hasError: false },
+                outcomes: [{ guid: 'outcome1' }]
+            };
+            decisionEditor.node = newNode;
+            expect(eventCallback.mock.calls[1][0].detail.node).toEqual(newNode);
+        });
+    });
+
     describe('handleDeleteOutcome', () => {
         it('calls the reducer with the passed in action', async () => {
             const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);

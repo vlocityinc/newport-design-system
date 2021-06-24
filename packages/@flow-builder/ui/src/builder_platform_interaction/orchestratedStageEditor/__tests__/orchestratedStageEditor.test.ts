@@ -16,6 +16,7 @@ import { orchestratedStageReducer } from '../orchestratedStageReducer';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import {
     DeleteOrchestrationActionEvent,
+    UpdateNodeEvent,
     PropertyChangedEvent,
     UpdateParameterItemEvent
 } from 'builder_platform_interaction/events';
@@ -140,6 +141,24 @@ describe('OrchestratedStageEditor', () => {
                 editor.node = newNode;
 
                 expect(mergeErrorsFromHydratedElement).toHaveBeenCalledWith(newNode, nodeParams);
+            });
+        });
+
+        describe('hasError state changes', () => {
+            it('sets hashError from undefined to true, then from true to false', async () => {
+                await ticks(1);
+
+                expect.assertions(2);
+                const eventCallback = jest.fn();
+                editor.addEventListener(UpdateNodeEvent.EVENT_NAME, eventCallback);
+
+                let newNode = { config: { hasError: true } };
+                editor.node = newNode;
+                expect(eventCallback.mock.calls[0][0].detail.node).toEqual(newNode);
+
+                newNode = { config: { hasError: false } };
+                editor.node = newNode;
+                expect(eventCallback.mock.calls[1][0].detail.node).toEqual(newNode);
             });
         });
 

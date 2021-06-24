@@ -84,10 +84,15 @@ export default class DecisionEditor extends LightningElement {
     }
 
     set node(newValue) {
+        const oldHasError = this.decisionElement?.config?.hasError;
         this.decisionElement = mergeErrorsFromHydratedElement(newValue, this.decisionElement);
 
         if (!this.activeOutcomeId) {
             this.activeOutcomeId = this.decisionElement.outcomes[0].guid;
+        }
+
+        if (this.decisionElement?.config?.hasError !== oldHasError) {
+            this.dispatchEvent(new UpdateNodeEvent(this.decisionElement));
         }
     }
 
