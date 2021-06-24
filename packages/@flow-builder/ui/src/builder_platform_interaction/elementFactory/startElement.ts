@@ -27,7 +27,7 @@ import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { SYSTEM_VARIABLE_RECORD_PREFIX } from 'builder_platform_interaction/systemLib';
 import { isScheduledTriggerType, isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 import { formatDateTimeUTC, getDayOfTheWeek } from 'builder_platform_interaction/dateTimeUtils';
-import { isUndefinedOrNull, sanitizeDevName } from 'builder_platform_interaction/commonUtils';
+import { isUndefinedOrNull, generateInternalName } from 'builder_platform_interaction/commonUtils';
 import { isScheduledPathSupported } from 'builder_platform_interaction/processTypeLib';
 import { getElementByGuid, getProcessType } from 'builder_platform_interaction/storeUtils';
 import {
@@ -124,7 +124,7 @@ export function createStartElement(startElement: UI.Start | Metadata.Start) {
         (scheduledPaths as Metadata.ScheduledPath[])!.find((el) => el.pathType === SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS);
     if (runOnSuccessPath) {
         const label = LABELS.runOnSuccessScheduledPathLabel;
-        Object.assign(runOnSuccessPath, { label, name: sanitizeDevName(SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS) });
+        Object.assign(runOnSuccessPath, { label, name: generateInternalName(SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS) });
     }
     const { objectIndex = generateGuid(), objectContainer } = <UI.Start>startElement;
     const maxConnections = calculateMaxConnections(startElement);
@@ -450,13 +450,16 @@ function getscheduledLabel(startDate, startTime, frequency) {
 }
 
 /**
- * @param scheduledPath
+ * creates UI.ScheduledPath of type SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS
+ *
+ * @param scheduledPath passed in from recordChanegTriggerReducer, always empty, could be removed.
+ * @returns instance of UI.ScheduledPath.
  */
 export function createRunOnSuccessScheduledPath(scheduledPath: UI.ScheduledPath): UI.ScheduledPath {
     const newScheduledPath: UI.ChildElement = baseChildElement(scheduledPath, ELEMENT_TYPE.SCHEDULED_PATH);
     const label = LABELS.runOnSuccessScheduledPathLabel;
     const pathType = SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS;
-    const name = sanitizeDevName(pathType);
+    const name = generateInternalName(pathType);
     return Object.assign(newScheduledPath, {
         name,
         label,

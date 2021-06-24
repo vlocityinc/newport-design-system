@@ -7,7 +7,6 @@ import {
     CONNECTOR_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import immediateScheduledPathLabel from '@salesforce/label/FlowBuilderStartEditor.immediateScheduledPathLabel';
-import runOnSuccessScheduledPathLabel from '@salesforce/label/FlowBuilderStartEditor.runOnSuccessScheduledPathLabel';
 
 export const getElementByGuidFromState = ({ elements }, guid: string) => elements[guid];
 
@@ -224,15 +223,11 @@ export const getScheduledPathsList = (): object => {
             Object.keys(startElement.childReferences).forEach((key) => {
                 const child = getChildElementInfo(elements, startElement.childReferences[key].childReference);
                 if (child && child.elementType === ELEMENT_TYPE.SCHEDULED_PATH) {
-                    if (child.pathType && child.pathType === SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS) {
-                        scheduledPathsList.push({
-                            label: runOnSuccessScheduledPathLabel,
-                            value: child.pathType,
-                            pathType: child.pathType
-                        });
-                    } else {
-                        scheduledPathsList.push({ label: child.label, value: child.name, pathType: null });
-                    }
+                    scheduledPathsList.push({
+                        label: child.label,
+                        value: child.name,
+                        pathType: child.pathType
+                    });
                 }
             });
         }
@@ -255,22 +250,11 @@ export const getScheduledPathsList = (): object => {
             Object.keys(scheduledPathElements).forEach((key) => {
                 if (isGuidConnected(connectors, scheduledPathElements[key].guid)) {
                     if (scheduledPathElements[key].elementType === ELEMENT_TYPE.SCHEDULED_PATH) {
-                        if (
-                            scheduledPathElements[key].pathType &&
-                            scheduledPathElements[key].pathType === SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS
-                        ) {
-                            scheduledPathsList.push({
-                                label: runOnSuccessScheduledPathLabel,
-                                value: scheduledPathElements[key].pathType,
-                                pathType: scheduledPathElements[key].pathType
-                            });
-                        } else {
-                            scheduledPathsList.push({
-                                label: scheduledPathElements[key].label,
-                                value: scheduledPathElements[key].name,
-                                pathType: null
-                            });
-                        }
+                        scheduledPathsList.push({
+                            label: scheduledPathElements[key].label,
+                            value: scheduledPathElements[key].name,
+                            pathType: scheduledPathElements[key].pathType
+                        });
                     }
                 }
             });

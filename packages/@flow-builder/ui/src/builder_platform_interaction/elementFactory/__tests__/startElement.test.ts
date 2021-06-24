@@ -29,6 +29,7 @@ import {
     addRegularConnectorToAvailableConnections
 } from '../commonFactoryUtils/connectionPropertiesUtils';
 import { LABELS } from '../elementFactoryLabels';
+import { generateInternalName } from 'builder_platform_interaction/commonUtils';
 
 const startElementReference = 'assignment1';
 
@@ -313,7 +314,9 @@ describe('Start element', () => {
                 expect(actualResult.scheduledPaths[0].label).toEqual(
                     'FlowBuilderStartEditor.runOnSuccessScheduledPathLabel'
                 );
-                expect(actualResult.scheduledPaths[0].name).toEqual(SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS);
+                expect(actualResult.scheduledPaths[0].name).toEqual(
+                    generateInternalName(SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS)
+                );
             } finally {
                 delete startMetadata.scheduledPaths;
             }
@@ -591,7 +594,7 @@ describe('Start element', () => {
             const newScheduledPath = createRunOnSuccessScheduledPath({});
 
             expect(newScheduledPath.label).toEqual(LABELS.runOnSuccessScheduledPathLabel);
-            expect(newScheduledPath.name).toEqual(SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS);
+            expect(newScheduledPath.name).toEqual(generateInternalName(SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS));
             expect(newScheduledPath.pathType).toEqual(SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS);
         });
     });

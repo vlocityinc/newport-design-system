@@ -220,3 +220,14 @@ function equalArguments(left: IArguments, right: IArguments) {
 export function hasOwnProperty<X extends {}, Y extends PropertyKey>(obj: X, prop: Y): obj is X & Record<Y, unknown> {
     return obj.hasOwnProperty(prop);
 }
+
+/**
+ * User defined names cannot have _ at the beginning of the string.
+ * To be used in cases where need to define a name for the elements, but don't want to conflict with any user defined name.
+ *
+ * @param name non-internalized name
+ * @returns internal name
+ */
+export function generateInternalName(name: string): string {
+    return '_' + name;
+}
