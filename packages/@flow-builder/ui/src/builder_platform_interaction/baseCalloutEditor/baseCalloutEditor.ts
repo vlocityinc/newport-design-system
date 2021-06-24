@@ -180,4 +180,8 @@ export default class BaseCalloutEditor extends LightningElement {
             })
         );
     }
+
+    get emptyInputs() {
+        return this.state.parameterListConfig.inputs?.length === 0;
+    }
 }

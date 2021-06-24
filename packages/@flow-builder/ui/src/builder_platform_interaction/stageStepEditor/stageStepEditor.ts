@@ -841,4 +841,16 @@ export default class StageStepEditor extends LightningElement {
             this.dispatchEvent(new UpdateNodeEvent(this.element));
         }
     };
+
+    get isEntryActionInputsEmpty() {
+        return this.entryActionParameterListConfig?.inputs.length === 0;
+    }
+
+    get isActionInputsEmpty() {
+        return this.actionParameterListConfig?.inputs.length === 0;
+    }
+
+    get isExitActionInputsEmpty() {
+        return this.exitActionParameterListConfig?.inputs.length === 0;
+    }
 }

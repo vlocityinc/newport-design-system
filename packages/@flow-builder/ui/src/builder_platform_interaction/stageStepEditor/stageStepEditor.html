@@ -55,26 +55,30 @@
             >
             </builder_platform_interaction-combobox>
         </div>
-        <builder_platform_interaction-parameter-list
-            if:true={showEntryParameterList}
-            inputs={entryActionParameterListConfig.inputs}
-            outputs={entryActionParameterListConfig.outputs}
-            warnings={entryActionParameterListConfig.warnings}
-            input-header={entryActionParameterListConfig.inputHeader}
-            output-header={entryActionParameterListConfig.outputHeader}
-            element-type={actionElementType}
-            sort-inputs={entryActionParameterListConfig.sortInputs}
-            sort-outputs={entryActionParameterListConfig.sortOutputs}
-            empty-inputs-title={entryActionParameterListConfig.emptyInputsTitle}
-            empty-inputs-body={entryActionParameterListConfig.emptyInputsBody}
-            empty-inputs-outputs-title={entryActionParameterListConfig.emptyInputsOutputsTitle}
-            empty-inputs-outputs-body={entryActionParameterListConfig.emptyInputsOutputsBody}
-            store-output-automatically={entryActionParameterListConfig.storeOutputAutomatically}
-            automatic-output-handling-supported={entryActionParameterListConfig.automaticOutputHandlingSupported}
-            element-info={entryActionElementInfo}
-            onupdateparameteritem={handleParameterPropertyChangedEvent}
-            ondeleteparameteritem={handleParameterPropertyChangedEvent}
-        ></builder_platform_interaction-parameter-list>
+        <div if:true={showEntryParameterList}>
+            <h3 if:false={isEntryActionInputsEmpty} class="slds-text-color_weak slds-text-heading_small inputHeader">
+                {entryActionParameterListConfig.inputHeader}
+            </h3>
+            <builder_platform_interaction-parameter-list
+                inputs={entryActionParameterListConfig.inputs}
+                outputs={entryActionParameterListConfig.outputs}
+                warnings={entryActionParameterListConfig.warnings}
+                input-header={entryActionParameterListConfig.inputHeader}
+                output-header={entryActionParameterListConfig.outputHeader}
+                element-type={actionElementType}
+                sort-inputs={entryActionParameterListConfig.sortInputs}
+                sort-outputs={entryActionParameterListConfig.sortOutputs}
+                empty-inputs-title={entryActionParameterListConfig.emptyInputsTitle}
+                empty-inputs-body={entryActionParameterListConfig.emptyInputsBody}
+                empty-inputs-outputs-title={entryActionParameterListConfig.emptyInputsOutputsTitle}
+                empty-inputs-outputs-body={entryActionParameterListConfig.emptyInputsOutputsBody}
+                store-output-automatically={entryActionParameterListConfig.storeOutputAutomatically}
+                automatic-output-handling-supported={entryActionParameterListConfig.automaticOutputHandlingSupported}
+                element-info={entryActionElementInfo}
+                onupdateparameteritem={handleParameterPropertyChangedEvent}
+                ondeleteparameteritem={handleParameterPropertyChangedEvent}
+            ></builder_platform_interaction-parameter-list>
+        </div>
     </div>
 
     <div class="slds-border_top slds-p-top_medium slds-p-left_small slds-p-bottom_small slds-p-right_small">
@@ -103,26 +107,30 @@
             >
             </builder_platform_interaction-action-selector>
         </div>
-        <builder_platform_interaction-parameter-list
-            if:true={showParameterList}
-            inputs={actionParameterListConfig.inputs}
-            outputs={actionParameterListConfig.outputs}
-            warnings={actionParameterListConfig.warnings}
-            input-header={actionParameterListConfig.inputHeader}
-            output-header={actionParameterListConfig.outputHeader}
-            element-type={actionElementType}
-            sort-inputs={actionParameterListConfig.sortInputs}
-            sort-outputs={actionParameterListConfig.sortOutputs}
-            empty-inputs-title={actionParameterListConfig.emptyInputsTitle}
-            empty-inputs-body={actionParameterListConfig.emptyInputsBody}
-            empty-inputs-outputs-title={actionParameterListConfig.emptyInputsOutputsTitle}
-            empty-inputs-outputs-body={actionParameterListConfig.emptyInputsOutputsBody}
-            store-output-automatically={actionParameterListConfig.storeOutputAutomatically}
-            automatic-output-handling-supported={actionParameterListConfig.automaticOutputHandlingSupported}
-            element-info={actionElementInfo}
-            onupdateparameteritem={handleParameterPropertyChangedEvent}
-            ondeleteparameteritem={handleParameterPropertyChangedEvent}
-        ></builder_platform_interaction-parameter-list>
+        <div if:true={showParameterList}>
+            <h3 if:false={isActionInputsEmpty} class="slds-text-color_weak slds-text-heading_small inputHeader">
+                {actionParameterListConfig.inputHeader}
+            </h3>
+            <builder_platform_interaction-parameter-list
+                inputs={actionParameterListConfig.inputs}
+                outputs={actionParameterListConfig.outputs}
+                warnings={actionParameterListConfig.warnings}
+                input-header={actionParameterListConfig.inputHeader}
+                output-header={actionParameterListConfig.outputHeader}
+                element-type={actionElementType}
+                sort-inputs={actionParameterListConfig.sortInputs}
+                sort-outputs={actionParameterListConfig.sortOutputs}
+                empty-inputs-title={actionParameterListConfig.emptyInputsTitle}
+                empty-inputs-body={actionParameterListConfig.emptyInputsBody}
+                empty-inputs-outputs-title={actionParameterListConfig.emptyInputsOutputsTitle}
+                empty-inputs-outputs-body={actionParameterListConfig.emptyInputsOutputsBody}
+                store-output-automatically={actionParameterListConfig.storeOutputAutomatically}
+                automatic-output-handling-supported={actionParameterListConfig.automaticOutputHandlingSupported}
+                element-info={actionElementInfo}
+                onupdateparameteritem={handleParameterPropertyChangedEvent}
+                ondeleteparameteritem={handleParameterPropertyChangedEvent}
+            ></builder_platform_interaction-parameter-list>
+        </div>
     </div>
     <div if:true={isStepWithUserAction}>
         <div class="slds-border_top slds-p-top_medium slds-p-left_small slds-p-bottom_small slds-p-right_small">
@@ -191,27 +199,31 @@
                 >
                 </builder_platform_interaction-action-selector>
             </div>
-            <builder_platform_interaction-parameter-list
-                if:true={showExitParameterList}
-                inputs={exitActionParameterListConfig.inputs}
-                outputs={exitActionParameterListConfig.outputs}
-                warnings={exitActionParameterListConfig.warnings}
-                input-header={exitActionParameterListConfig.inputHeader}
-                output-header={exitActionParameterListConfig.outputHeader}
-                element-type={actionElementType}
-                sort-inputs={exitActionParameterListConfig.sortInputs}
-                sort-outputs={exitActionParameterListConfig.sortOutputs}
-                empty-inputs-title={exitActionParameterListConfig.emptyInputsTitle}
-                empty-inputs-body={exitActionParameterListConfig.emptyInputsBody}
-                empty-inputs-outputs-title={exitActionParameterListConfig.emptyInputsOutputsTitle}
-                empty-inputs-outputs-body={exitActionParameterListConfig.emptyInputsOutputsBody}
-                store-output-automatically={exitActionParameterListConfig.storeOutputAutomatically}
-                automatic-output-handling-supported={exitActionParameterListConfig.automaticOutputHandlingSupported}
-                element-info={exitActionElementInfo}
-                onupdateparameteritem={handleParameterPropertyChangedEvent}
-                ondeleteparameteritem={handleParameterPropertyChangedEvent}
-            >
-            </builder_platform_interaction-parameter-list>
+            <div if:true={showExitParameterList}>
+                <h3 if:false={isExitActionInputsEmpty} class="slds-text-color_weak slds-text-heading_small inputHeader">
+                    {exitActionParameterListConfig.inputHeader}
+                </h3>
+                <builder_platform_interaction-parameter-list
+                    inputs={exitActionParameterListConfig.inputs}
+                    outputs={exitActionParameterListConfig.outputs}
+                    warnings={exitActionParameterListConfig.warnings}
+                    input-header={exitActionParameterListConfig.inputHeader}
+                    output-header={exitActionParameterListConfig.outputHeader}
+                    element-type={actionElementType}
+                    sort-inputs={exitActionParameterListConfig.sortInputs}
+                    sort-outputs={exitActionParameterListConfig.sortOutputs}
+                    empty-inputs-title={exitActionParameterListConfig.emptyInputsTitle}
+                    empty-inputs-body={exitActionParameterListConfig.emptyInputsBody}
+                    empty-inputs-outputs-title={exitActionParameterListConfig.emptyInputsOutputsTitle}
+                    empty-inputs-outputs-body={exitActionParameterListConfig.emptyInputsOutputsBody}
+                    store-output-automatically={exitActionParameterListConfig.storeOutputAutomatically}
+                    automatic-output-handling-supported={exitActionParameterListConfig.automaticOutputHandlingSupported}
+                    element-info={exitActionElementInfo}
+                    onupdateparameteritem={handleParameterPropertyChangedEvent}
+                    ondeleteparameteritem={handleParameterPropertyChangedEvent}
+                >
+                </builder_platform_interaction-parameter-list>
+            </div>
         </div>
     </div>
 </template>

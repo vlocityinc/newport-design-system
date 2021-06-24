@@ -328,4 +328,8 @@ export default class OrchestratedStageEditor extends LightningElement {
             this.updateNodeForFieldLevelCommit(inputParam!.rowIndex);
         }
     }
+
+    get emptyInputs() {
+        return this.exitActionParameterListConfig?.inputs.length === 0;
+    }
 }

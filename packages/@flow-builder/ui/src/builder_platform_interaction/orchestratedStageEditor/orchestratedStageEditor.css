@@ -1,0 +1,5 @@
+.inputHeader {
+    padding-top: 0.75rem;
+    font-size: var(--lwc-fontSize3);
+    font-weight: var(--lwc-fontWeightBold);
+}

@@ -238,11 +238,6 @@ describe('parameter-list', () => {
             beforeEach(() => {
                 parameterList = createComponentForTest(defaultParameterList());
             });
-            it('should contains input div header', () => {
-                const inputHeader = getInputHeader(parameterList);
-                expect(inputHeader).not.toBeNull();
-                expect(inputHeader.firstChild.nodeValue).toEqual(defaultInputHeader);
-            });
             it('should contains output div header', () => {
                 const outputHeader = getOutputHeader(parameterList);
                 expect(outputHeader).not.toBeNull();
