@@ -107,13 +107,14 @@ describe('alc-elements-reducer', () => {
 
             const source = { guid: 'source-guid' };
             const targetGuid = 'target-guid';
+            const isMergeableGuid = true;
 
             alcElementsReducer(state, {
                 type: ALC_CREATE_CONNECTION,
-                payload: { source, targetGuid }
+                payload: { source, targetGuid, isMergeableGuid }
             });
 
-            const connectToElementAction = actions.connectToElementAction(source, targetGuid);
+            const connectToElementAction = actions.connectToElementAction(source, targetGuid, isMergeableGuid);
             expect(reducer()).toHaveBeenLastCalledWith(state, connectToElementAction);
         });
     });

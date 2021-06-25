@@ -607,6 +607,126 @@ Object {
 }
 `;
 
+exports[`modelUtils connectToElement When reconnecting to the first mergeable non null next 1`] = `
+Object {
+  "decision1-guid": Object {
+    "childReferences": Array [
+      Object {
+        "childReference": "o1",
+      },
+      Object {
+        "childReference": "o2",
+      },
+    ],
+    "children": Array [
+      "decision2-guid",
+      null,
+      null,
+    ],
+    "config": Object {},
+    "elementType": "BRANCH_ELEMENT",
+    "guid": "decision1-guid",
+    "label": "default",
+    "next": "screen-guid",
+    "nodeType": "branch",
+    "prev": "screen-guid",
+  },
+  "decision2-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "o3",
+      },
+    ],
+    "children": Array [
+      "decision3-guid",
+      "end1-guid",
+    ],
+    "config": Object {},
+    "elementType": "BRANCH_ELEMENT",
+    "guid": "decision2-guid",
+    "isTerminal": false,
+    "label": "default",
+    "next": null,
+    "nodeType": "branch",
+    "parent": "decision1-guid",
+  },
+  "decision3-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "o4",
+      },
+    ],
+    "children": Array [
+      null,
+      "end2-guid",
+    ],
+    "config": Object {},
+    "elementType": "BRANCH_ELEMENT",
+    "guid": "decision3-guid",
+    "isTerminal": false,
+    "label": "default",
+    "next": null,
+    "nodeType": "branch",
+    "parent": "decision2-guid",
+  },
+  "end1-guid": Object {
+    "childIndex": 1,
+    "config": Object {},
+    "elementType": "END_ELEMENT",
+    "guid": "end1-guid",
+    "isTerminal": true,
+    "label": "default",
+    "next": null,
+    "nodeType": "end",
+    "parent": "decision2-guid",
+  },
+  "end2-guid": Object {
+    "childIndex": 1,
+    "config": Object {},
+    "elementType": "END_ELEMENT",
+    "guid": "end2-guid",
+    "isTerminal": true,
+    "label": "default",
+    "next": null,
+    "nodeType": "end",
+    "parent": "decision3-guid",
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "screen-guid": Object {
+    "config": Object {},
+    "elementType": "SCREEN_ELEMENT",
+    "guid": "screen-guid",
+    "incomingGoTo": Array [
+      "decision1-guid",
+    ],
+    "isCanvasElement": true,
+    "label": "default",
+    "next": "decision1-guid",
+    "nodeType": "default",
+    "prev": "start-guid",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "config": Object {},
+    "elementType": "START_ELEMENT",
+    "guid": "start-guid",
+    "label": "default",
+    "next": "screen-guid",
+    "nodeType": "start",
+    "parent": "root",
+  },
+}
+`;
+
 exports[`modelUtils connectToElement reconnects to an element on another branch 1`] = `
 Object {
   "branch-guid": Object {

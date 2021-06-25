@@ -108,8 +108,8 @@ export default function alcElementsReducer(state: Readonly<UI.Elements>, action:
             break;
         }
         case ALC_CREATE_CONNECTION: {
-            const { source, targetGuid } = action.payload;
-            const connectToElementAction = actions.connectToElementAction(source, targetGuid);
+            const { source, targetGuid, isMergeableGuid } = action.payload;
+            const connectToElementAction = actions.connectToElementAction(source, targetGuid, isMergeableGuid);
             nextState = autoLayoutCanvasReducer(nextState, connectToElementAction);
             break;
         }

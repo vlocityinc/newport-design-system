@@ -23,7 +23,8 @@ import {
     getFlowWhenGoingFromScheduledPathToImmediateBranch,
     getFlowWithGoToOnImmediateBranchHead,
     getFlowWithGoToFromAncestorToNestedElement,
-    getFlowWhenGoingToLoopBranchHead
+    getFlowWhenGoingToLoopBranchHead,
+    getFlowWithGoToOnFirstMergeableNonNullNext
 } from './testUtils';
 
 import {
@@ -769,7 +770,7 @@ describe('modelUtils', () => {
             };
 
             expect(() => {
-                connectToElement(elementService(elements), elements, source, BRANCH_ELEMENT.guid);
+                connectToElement(elementService(elements), elements, source, BRANCH_ELEMENT.guid, true);
             }).toThrowError();
         });
 
@@ -784,7 +785,7 @@ describe('modelUtils', () => {
             };
 
             expect(() => {
-                connectToElement(elementService(elements), elements, source, 'end-guid');
+                connectToElement(elementService(elements), elements, source, 'end-guid', true);
             }).toThrowError();
 
             source = {
@@ -792,7 +793,7 @@ describe('modelUtils', () => {
             };
 
             expect(() => {
-                connectToElement(elementService(elements), elements, source, 'end-guid');
+                connectToElement(elementService(elements), elements, source, 'end-guid', true);
             }).toThrowError();
         });
 
@@ -810,7 +811,7 @@ describe('modelUtils', () => {
             };
 
             expect(
-                connectToElement(elementService(elements), elements, source, 'branch-guid:1-random-guid')
+                connectToElement(elementService(elements), elements, source, 'branch-guid:1-random-guid', true)
             ).toMatchSnapshot();
         });
 
@@ -823,7 +824,21 @@ describe('modelUtils', () => {
                 guid: 'branch-guid:0-head-guid'
             };
 
-            expect(connectToElement(elementService(elements), elements, source, 'end-guid')).toMatchSnapshot();
+            expect(connectToElement(elementService(elements), elements, source, 'end-guid', true)).toMatchSnapshot();
+        });
+
+        it('When reconnecting to the first mergeable non null next', () => {
+            const flowRenderContext = getFlowWithGoToOnFirstMergeableNonNullNext();
+            debugger;
+            expect(
+                connectToElement(
+                    elementService(flowRenderContext.flowModel),
+                    flowRenderContext.flowModel,
+                    { guid: 'decision3-guid', childIndex: 0 },
+                    'screen-guid',
+                    false
+                )
+            ).toMatchSnapshot();
         });
     });
 
@@ -1154,7 +1169,7 @@ describe('modelUtils', () => {
             // reconnect with end of the right branch
 
             expect(
-                connectToElement(elementService(newFlowModel), newFlowModel, source, 'branch-guid:1-end-guid')
+                connectToElement(elementService(newFlowModel), newFlowModel, source, 'branch-guid:1-end-guid', true)
             ).toMatchSnapshot();
         });
 

@@ -96,11 +96,12 @@ export function deleteFaultAction(elementGuid: Guid) {
  * To break a connection, use addElement with an End element.
  *
  * @param source - The connection source
- * @param toElementGuid - The guid of the element to reconnect
+ * @param targetGuid - The guid of the element to reconnect
+ * @param isMergeableGuid - True if the target is part of mergeableGuids
  * @returns A ConnectToElement action
  */
-export function connectToElementAction(source: ConnectionSource, toElementGuid: Guid) {
-    return createPayloadAction(<const>ActionType.ConnectToElement, { source, toElementGuid });
+export function connectToElementAction(source: ConnectionSource, targetGuid: Guid, isMergeableGuid: boolean) {
+    return createPayloadAction(<const>ActionType.ConnectToElement, { source, targetGuid, isMergeableGuid });
 }
 
 /**
@@ -238,8 +239,8 @@ function reducer(config: ElementService, flowModel: Readonly<FlowModel>, action:
             return deleteFault(config, nextFlowModel, elementGuid);
         }
         case ActionType.ConnectToElement: {
-            const { source, toElementGuid } = action.payload;
-            return connectToElement(config, nextFlowModel, source, toElementGuid);
+            const { source, targetGuid, isMergeableGuid } = action.payload;
+            return connectToElement(config, nextFlowModel, source, targetGuid, isMergeableGuid);
         }
         case ActionType.CreateGoToConnection: {
             const { sourceGuid: guid, sourceBranchIndex: childIndex, targetGuid, isReroute } = action.payload;

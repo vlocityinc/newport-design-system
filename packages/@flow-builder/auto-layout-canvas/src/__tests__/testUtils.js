@@ -1364,6 +1364,83 @@ function getFlowWhenGoingToLoopBranchHead() {
     return createFlowRenderContext({ flowModel });
 }
 
+function getFlowWithGoToOnFirstMergeableNonNullNext() {
+    const root = {
+        ...ROOT_ELEMENT,
+        children: ['start-guid']
+    };
+    let start = createElementWithElementType('start-guid', 'START_ELEMENT', NodeType.START);
+    let screen = createElementWithElementType('screen-guid', 'SCREEN_ELEMENT', NodeType.DEFAULT);
+    let decision1 = createElementWithElementType('decision1-guid', 'BRANCH_ELEMENT', NodeType.BRANCH);
+    let decision2 = createElementWithElementType('decision2-guid', 'BRANCH_ELEMENT', NodeType.BRANCH);
+    let decision3 = createElementWithElementType('decision3-guid', 'BRANCH_ELEMENT', NodeType.BRANCH);
+    let end1 = createElementWithElementType('end1-guid', 'END_ELEMENT', NodeType.END);
+    let end2 = createElementWithElementType('end2-guid', 'END_ELEMENT', NodeType.END);
+
+    start = {
+        ...start,
+        parent: 'root',
+        childIndex: 0,
+        next: 'screen-guid'
+    };
+
+    screen = {
+        ...screen,
+        prev: 'start-guid',
+        next: 'decision1-guid',
+        incomingGoTo: ['decision3-guid:o4', 'decision1-guid'],
+        isCanvasElement: true
+    };
+
+    decision1 = {
+        ...decision1,
+        prev: 'screen-guid',
+        next: 'screen-guid',
+        children: ['decision2-guid', null, null],
+        childReferences: [{ childReference: 'o1' }, { childReference: 'o2' }]
+    };
+
+    decision2 = {
+        ...decision2,
+        next: null,
+        children: ['decision3-guid', 'end1-guid'],
+        parent: 'decision1-guid',
+        childIndex: 0,
+        isTerminal: true,
+        childReferences: [{ childReference: 'o3' }]
+    };
+
+    decision3 = {
+        ...decision3,
+        next: null,
+        children: ['screen-guid', 'end2-guid'],
+        parent: 'decision2-guid',
+        childIndex: 0,
+        isTerminal: true,
+        childReferences: [{ childReference: 'o4' }]
+    };
+
+    end1 = {
+        ...end1,
+        parent: 'decision2-guid',
+        childIndex: 1,
+        next: null,
+        isTerminal: true
+    };
+
+    end2 = {
+        ...end2,
+        parent: 'decision3-guid',
+        childIndex: 1,
+        next: null,
+        isTerminal: true
+    };
+
+    const elements = [root, start, screen, decision1, decision2, decision3, end1, end2];
+    const flowModel = flowModelFromElements(elements);
+    return createFlowRenderContext({ flowModel });
+}
+
 export {
     ACTION_ELEMENT_GUID,
     BRANCH_ELEMENT_GUID,
@@ -1414,5 +1491,6 @@ export {
     getFlowWhenGoingFromScheduledPathToImmediateBranch,
     getFlowWithGoToOnImmediateBranchHead,
     getFlowWithGoToFromAncestorToNestedElement,
-    getFlowWhenGoingToLoopBranchHead
+    getFlowWhenGoingToLoopBranchHead,
+    getFlowWithGoToOnFirstMergeableNonNullNext
 };

@@ -178,7 +178,7 @@ export default class Toolbar extends LightningElement {
     }
 
     get showLastSavedPill() {
-        return !!this.saveAndPendingOperationStatus;
+        return !!this.saveAndPendingOperationStatus && this.showFlowStatus;
     }
 
     get isDoingOperation() {

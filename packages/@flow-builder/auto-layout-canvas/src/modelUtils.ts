@@ -439,33 +439,29 @@ function validConnectionSourceOrThrow(flowModel: FlowModel, source: ConnectionSo
 }
 
 /**
- * Creates a connection from a ConnectionSource to a target element.
+ * Helper function to create a connector between the source and a mergeable target
  *
  * @param elementService - The element service
  * @param flowModel - The flow model
- * @param source - The connection source. For now the ConnectionSource's target must be an end element unless there is a GoTo
- * @param toElementGuid - The guid of the element to connect to
+ * @param source The connection source.
+ * @param targetGuid - The guid of the element to connect to
  * @returns The updated flow model
  */
-function connectToElement(
+function createConnectionHelper(
     elementService: ElementService,
     flowModel: FlowModel,
     source: ConnectionSource,
-    toElementGuid: Guid
+    targetGuid: Guid
 ): FlowModel {
-    if (hasGoTo(flowModel, source)) {
-        flowModel = deleteGoToConnection(elementService, flowModel, source);
-    }
-
     const endElement = getConnectionSourceTarget(flowModel, source);
     if (!endElement || endElement.nodeType !== NodeType.END) {
         throw new Error('When connecting, an end node must the target of a ConnectionSource');
     }
 
-    validElementGuidOrThrow(flowModel, toElementGuid);
+    validElementGuidOrThrow(flowModel, targetGuid);
 
     const validTargets = getTargetGuidsForBranchReconnect(flowModel, endElement.guid);
-    if (validTargets.indexOf(toElementGuid) === -1) {
+    if (validTargets.indexOf(targetGuid) === -1) {
         throw new Error('Invalid target element for reconnect');
     }
 
@@ -480,18 +476,52 @@ function connectToElement(
     deleteElement(elementService, flowModel, endElement.guid, { inline: false });
 
     // nothing else to do if we are reconnecting to the merge element
-    if (parentElement.next === toElementGuid) {
+    if (parentElement.next === targetGuid) {
         return flowModel;
     }
 
     // otherwise the targetElement becomes the merge element
-    const targetElement = flowModel[toElementGuid];
+    const targetElement = flowModel[targetGuid];
     connectElements(flowModel, parentElement, targetElement);
 
     // update the parent branch's head
     const parentBranchHead = findFirstElement(parentElement, flowModel);
     const parentBranchTail = findLastElement(parentElement, flowModel);
     parentBranchHead.isTerminal = isEndOrAllTerminalBranchingElement(flowModel, parentBranchTail);
+
+    return flowModel;
+}
+
+/**
+ * Creates a connection from a ConnectionSource to a target element.
+ *
+ * @param elementService - The element service
+ * @param flowModel - The flow model
+ * @param source - The connection source. For now the ConnectionSource's target must be an end element unless there is a GoTo
+ * @param targetGuid - The guid of the element to connect to
+ * @param isMergeableGuid - True if the target is part of mergeableGuids
+ * @returns The updated flow model
+ */
+function connectToElement(
+    elementService: ElementService,
+    flowModel: FlowModel,
+    source: ConnectionSource,
+    targetGuid: Guid,
+    isMergeableGuid: boolean
+): FlowModel {
+    if (hasGoTo(flowModel, source)) {
+        // In case there's a GoTo, deleting it to connect the source to a newly create End element
+        flowModel = deleteGoToConnection(elementService, flowModel, source);
+    }
+
+    if (isMergeableGuid) {
+        // Connects the source and the target and updates the prev, next etc properties correctly
+        flowModel = createConnectionHelper(elementService, flowModel, source, targetGuid);
+    } else {
+        // Deleting the end element automatically connects the source to the firstMergeableNonNullNext
+        const endElement = getConnectionSourceTarget(flowModel, source);
+        flowModel = deleteElement(elementService, flowModel, endElement!.guid);
+    }
 
     return flowModel;
 }

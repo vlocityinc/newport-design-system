@@ -86,9 +86,16 @@ describe('reducer', () => {
             const flowModel = {};
             const targetGuid = 'target-guid';
             const source = { guid: 'prev-element' };
-            const action = actions.connectToElementAction(source, targetGuid);
+            const isMergeableGuid = true;
+            const action = actions.connectToElementAction(source, targetGuid, isMergeableGuid);
             configuredReducer(flowModel, action);
-            expect(connectToElement).toHaveBeenLastCalledWith(elementService, flowModel, source, targetGuid);
+            expect(connectToElement).toHaveBeenLastCalledWith(
+                elementService,
+                flowModel,
+                source,
+                targetGuid,
+                isMergeableGuid
+            );
         });
     });
 

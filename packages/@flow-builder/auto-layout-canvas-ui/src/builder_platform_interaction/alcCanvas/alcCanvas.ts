@@ -22,8 +22,7 @@ import {
     isBranchTerminal,
     hasGoToOnNext,
     shouldDeleteGoToOnNext,
-    ElementMetadata,
-    ConnectionSource
+    ElementMetadata
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import {
     ZOOM_ACTION,
@@ -839,6 +838,11 @@ export default class AlcCanvas extends LightningElement {
     handleNodeSelectionDeselection = (event) => {
         event.stopPropagation();
         if (this._goToSourceGuid != null) {
+            const source = {
+                guid: this._goToSourceGuid,
+                childIndex: this._goToSourceBranchIndex
+            };
+
             if (this._goToableGuids.includes(event.detail.canvasElementGUID)) {
                 this.dispatchEvent(
                     new CreateGoToConnectionEvent(
@@ -849,27 +853,9 @@ export default class AlcCanvas extends LightningElement {
                     )
                 );
             } else if (this._mergeableGuids.includes(event.detail.canvasElementGUID)) {
-                let sourceElement;
-                let source: ConnectionSource;
-                if (this._isReroutingGoto) {
-                    // When a GoTo is present we need to use _goToSourceBranchIndex to generate the source
-                    sourceElement = this.flowModel[this._goToSourceGuid];
-                    source = { guid: sourceElement.guid, childIndex: this._goToSourceBranchIndex };
-                } else {
-                    sourceElement = this.flowModel[this._currentTargetGuid!];
-                    const { prev, childIndex, parent } = sourceElement;
-                    source = { guid: parent || prev, childIndex };
-                }
-
                 this.dispatchEvent(new AlcCreateConnectionEvent(source, event.detail.canvasElementGUID));
             } else if (this._firstMergeableNonNullNext === event.detail.canvasElementGUID) {
-                this.dispatchEvent(
-                    new DeleteElementEvent(
-                        [this._currentTargetGuid!],
-                        this.flowModel[this._currentTargetGuid!].elementType,
-                        null
-                    )
-                );
+                this.dispatchEvent(new AlcCreateConnectionEvent(source, event.detail.canvasElementGUID, false));
             }
             this.dispatchEvent(new ToggleSelectionModeEvent());
         } else {
