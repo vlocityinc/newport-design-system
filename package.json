@@ -15,6 +15,7 @@
         "check:pr": "yarn clean:build && yarn test:unit && yarn ci:lint",
         "check:push": "yarn check:pom && yarn test:nba-components && yarn check:goldFiles -l",
         "check:stm-version": "./scripts/check-stm-version.sh",
+        "check:core-version": "./scripts/check-core-version.sh",
         "clean:build": "yarn clean && yarn build",
         "clean:test": "yarn clean:build && yarn test:unit",
         "clean:start": "yarn clean:build && yarn start",

@@ -8,8 +8,6 @@
 STEAM_A_URL=https://na44.stmfa.stm.salesforce.com
 STEAM_B_URL=https://na44.stmfb.stm.salesforce.com
 
-JAR=ui-interaction-builder-components
-
 STEAM=$1
 
 if [ "$STEAM" = "stmfa" -o "$STEAM" = "" ]; then
@@ -29,13 +27,7 @@ if [ "$BRANCH" != "main" ]; then
     BRANCH="$BRANCH/patch"
 fi
 
-TAG=$(p4 print //app/$BRANCH/core/pom.xml@$CL | grep "<$JAR.version>" | grep -Eo '[0-9]+.[0-9]+')
-
-echo "Branch: $BRANCH"
-echo "Latest Changelist: ${CL}"
-echo "Latest ui-interaction-builder-compnents jar: ${TAG}"
-echo ""
-
-git --no-pager show -s sfci-$TAG
+BASEDIR=$(dirname "$0")
+${BASEDIR}/check-core-version.sh "$BRANCH" "$CL"
 
 exit 0
