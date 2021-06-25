@@ -74,6 +74,22 @@
       "processType":"ContactRequestFlow"
     },
     {
+      "icon":"utility:orchestrator",
+      "description":"Set up orchestrator logic with flows in stage and step intervals.",
+      "label":"Orchestrator",
+      "processType":"Orchestrator"
+    },
+    {
+      "icon":"utility:record_update",
+      "description":"Launches the orchestration when a record is created or updated.",
+      "defaultTriggerType":"RecordAfterSave",
+      "label":"Record-Triggered Orchestration",
+      "processType":"Orchestrator",
+      "triggerTypes":[
+        "RecordAfterSave"
+      ]
+    },
+    {
       "icon":"utility:omni_channel",
       "description":"Define business and routing rules for service channel conversations.",
       "label":"Omni-Channel Flow (Beta)",

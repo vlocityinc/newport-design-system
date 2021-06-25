@@ -13,6 +13,7 @@ import { submitForApprovalActionDetails } from 'serverData/GetInvocableActionDet
 import { chatterPostActionDetails } from 'serverData/GetInvocableActionDetails/chatterPostActionDetails.json';
 import { invocableActionsForFlow } from 'serverData/GetAllInvocableActionsForType/invocableActionsForFlow.json';
 import { invocableActionsForAutoLaunchedFlow } from 'serverData/GetAllInvocableActionsForType/invocableActionsForAutoLaunchedFlow.json';
+import { invocableActionsForOrchestrator } from 'serverData/GetAllInvocableActionsForType/invocableActionsForOrchestrator.json';
 import { getAccountFromApexActionDetails } from 'serverData/GetInvocableActionDetails/getAccountFromApexActionDetails.json';
 import { logACallActionDetails } from 'serverData/GetInvocableActionDetails/logACallActionDetails.json';
 import { getAccountFromApexAnonymousOutputActionDetails } from 'serverData/GetInvocableActionDetails/getAccountFromApexAnonymousOutputActionDetails.json';
@@ -183,7 +184,8 @@ const allAuraActions = {
     }),
     'c.getAllInvocableActionsForType': getAllInvocableActionsForType({
         [FLOW_PROCESS_TYPE.FLOW]: invocableActionsForFlow,
-        [FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW]: invocableActionsForAutoLaunchedFlow
+        [FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW]: invocableActionsForAutoLaunchedFlow,
+        [FLOW_PROCESS_TYPE.ORCHESTRATOR]: invocableActionsForOrchestrator
     }),
     'c.getInvocableActionDetails': getInvocableActionDetails({
         apex: {

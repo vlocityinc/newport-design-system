@@ -11,10 +11,9 @@ import {
     PropertyChangedEvent,
     UpdateConditionEvent,
     UpdateParameterItemEvent,
-    OrchestrationActionValueChangedEvent,
     ValueChangedEvent
 } from 'builder_platform_interaction/events';
-import { mockActions } from 'mock/calloutData';
+import { invocableActionsForOrchestrator } from 'serverData/GetAllInvocableActionsForType/invocableActionsForOrchestrator.json';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getOtherItemsInOrchestratedStage } from 'builder_platform_interaction/elementFactory';
@@ -41,7 +40,7 @@ jest.mock('../stageStepReducer', () => {
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
-const mockActionsPromise = Promise.resolve(mockActions);
+const mockActionsPromise = Promise.resolve(invocableActionsForOrchestrator);
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/serverDataLib');
@@ -353,8 +352,7 @@ describe('StageStepEditor', () => {
 
         it('list set from available actions', () => {
             const actionSelector = editor.shadowRoot.querySelector(selectors.ACTION_SELECTOR);
-            // TODO W-9160375 update with mock action data
-            expect(actionSelector.invocableActions).toEqual([]);
+            expect(actionSelector.invocableActions).toEqual(invocableActionsForOrchestrator.slice(0, 9));
         });
         describe('autolaunched step', () => {
             beforeEach(() => {
@@ -362,8 +360,7 @@ describe('StageStepEditor', () => {
             });
             it('list set from available actions for autolaunched step', () => {
                 const actionSelector = editor.shadowRoot.querySelector(selectors.ACTION_SELECTOR);
-                // TODO W-9160375 update with mock action data
-                expect(actionSelector.invocableActions).toEqual([]);
+                expect(actionSelector.invocableActions).toEqual(invocableActionsForOrchestrator.slice(12, 15));
             });
         });
     });
