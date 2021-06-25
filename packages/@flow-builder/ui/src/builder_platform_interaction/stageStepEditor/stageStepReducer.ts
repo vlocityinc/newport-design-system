@@ -14,17 +14,18 @@ import {
     UpdateConditionEvent,
     UpdateParameterItemEvent,
     OrchestrationActionValueChangedEvent,
-    DeleteOrchestrationActionEvent
+    DeleteOrchestrationActionEvent,
+    OrchestrationAssigneeChangedEvent,
+    ORCHESTRATED_ACTION_CATEGORY
 } from 'builder_platform_interaction/events';
 import { createCondition, StageStep } from 'builder_platform_interaction/elementFactory';
-import { ORCHESTRATED_ACTION_CATEGORY } from 'builder_platform_interaction/events';
 import {
     deleteParameterItem,
     MERGE_WITH_PARAMETERS,
     REMOVE_UNSET_PARAMETERS
 } from 'builder_platform_interaction/calloutEditorLib';
 import { InvocableAction } from 'builder_platform_interaction/invocableActionLib';
-import { ACTION_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { usedBy, UsedByElement } from 'builder_platform_interaction/usedByLib';
 import { isPlainObject } from 'builder_platform_interaction/storeLib';
 import { shouldCallSwapFunction } from 'builder_platform_interaction/translatorLib';
@@ -41,6 +42,7 @@ import {
 } from 'builder_platform_interaction/orchestratedStageAndStepReducerUtils';
 import { Validation } from 'builder_platform_interaction/validation';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { getRules } from './stageStepValidation';
 
 const validation = new Validation();
 
@@ -126,57 +128,54 @@ function invokeUsedByAlertModal(usedByElements: UsedByElement[], actionName: str
 }
 
 const actionChanged = (state: StageStep, event: OrchestrationActionValueChangedEvent<InvocableAction>): StageStep => {
-    if (event.detail.value) {
-        let actionName: string = (<InvocableAction>event.detail.value).actionName;
-        const actionProperty: string = {
-            [ORCHESTRATED_ACTION_CATEGORY.ENTRY]: 'entryAction',
-            [ORCHESTRATED_ACTION_CATEGORY.EXIT]: 'exitAction',
-            [ORCHESTRATED_ACTION_CATEGORY.STEP]: 'action'
-        }[event.detail.actionCategory];
+    const actionProperty: string = {
+        [ORCHESTRATED_ACTION_CATEGORY.ENTRY]: 'entryAction',
+        [ORCHESTRATED_ACTION_CATEGORY.EXIT]: 'exitAction',
+        [ORCHESTRATED_ACTION_CATEGORY.STEP]: 'action'
+    }[event.detail.actionCategory];
 
-        const actionNameProperty: string = {
-            [ORCHESTRATED_ACTION_CATEGORY.ENTRY]: 'entryActionName',
-            [ORCHESTRATED_ACTION_CATEGORY.EXIT]: 'exitActionName',
-            [ORCHESTRATED_ACTION_CATEGORY.STEP]: 'actionName'
-        }[event.detail.actionCategory];
+    const actionNameProperty: string = {
+        [ORCHESTRATED_ACTION_CATEGORY.ENTRY]: 'entryActionName',
+        [ORCHESTRATED_ACTION_CATEGORY.EXIT]: 'exitActionName',
+        [ORCHESTRATED_ACTION_CATEGORY.STEP]: 'actionName'
+    }[event.detail.actionCategory];
 
-        const actionProducer = (name) => {
-            return hydrateWithErrors({
-                elementType: ELEMENT_TYPE.ACTION_CALL,
-                actionType: event.detail.value?.actionType,
-                actionName: name
+    const actionInputParametersProperty: string = {
+        [ORCHESTRATED_ACTION_CATEGORY.ENTRY]: PARAMETER_PROPERTY.ENTRY_INPUT,
+        [ORCHESTRATED_ACTION_CATEGORY.EXIT]: PARAMETER_PROPERTY.EXIT_INPUT,
+        [ORCHESTRATED_ACTION_CATEGORY.STEP]: PARAMETER_PROPERTY.INPUT
+    }[event.detail.actionCategory];
+
+    let actionName: string | UI.HydratedValue = (<InvocableAction>event.detail.value).actionName;
+
+    const actionProducer = (name) => {
+        return hydrateWithErrors({
+            elementType: ELEMENT_TYPE.ACTION_CALL,
+            actionType: event.detail.value?.actionType,
+            actionName: name
+        });
+    };
+
+    let usedElements: UsedByElement[] = usedBy([state.guid]);
+    // We only show this Alert Modal if a change happens to the Step Flow.
+    // Entry/Exit Criteria Flows can be modified without raising concern.
+    if (event.detail.actionCategory === ORCHESTRATED_ACTION_CATEGORY.STEP && usedElements && usedElements.length > 0) {
+        usedElements = usedElements.filter((usingElement) => {
+            return hasOutputsReference(getElementByGuid(usingElement.guid), state.guid);
+        });
+
+        if (usedElements.length > 0) {
+            invokeUsedByAlertModal(usedElements, <string>actionName);
+            actionName = <string>state.action.actionName?.value;
+
+            return updateProperties(state, {
+                [actionProperty]: actionProducer(actionName),
+                [actionNameProperty]: actionName
             });
-        };
-
-        let usedElements: UsedByElement[] = usedBy([state.guid]);
-        // We only show this Alert Modal if a change happens to the Step Flow.
-        // Entry/Exit Criteria Flows can be modified without raising concern.
-        if (
-            event.detail.actionCategory === ORCHESTRATED_ACTION_CATEGORY.STEP &&
-            usedElements &&
-            usedElements.length > 0
-        ) {
-            usedElements = usedElements.filter((usingElement) => {
-                return hasOutputsReference(getElementByGuid(usingElement.guid), state.guid);
-            });
-
-            if (usedElements.length > 0) {
-                invokeUsedByAlertModal(usedElements, actionName);
-                actionName = <string>state.action!.actionName.value;
-
-                return updateProperties(state, {
-                    [actionProperty]: actionProducer(actionName),
-                    [actionNameProperty]: actionName
-                });
-            }
         }
+    }
 
-        const actionInputParametersProperty: string = {
-            [ORCHESTRATED_ACTION_CATEGORY.ENTRY]: PARAMETER_PROPERTY.ENTRY_INPUT,
-            [ORCHESTRATED_ACTION_CATEGORY.EXIT]: PARAMETER_PROPERTY.EXIT_INPUT,
-            [ORCHESTRATED_ACTION_CATEGORY.STEP]: PARAMETER_PROPERTY.INPUT
-        }[event.detail.actionCategory];
-
+    if (event.detail.value?.actionName) {
         return updateProperties(state, {
             [actionProperty]: actionProducer(actionName),
             [actionNameProperty]: actionName,
@@ -186,8 +185,42 @@ const actionChanged = (state: StageStep, event: OrchestrationActionValueChangedE
                 event.detail.actionCategory === ORCHESTRATED_ACTION_CATEGORY.STEP ? [] : undefined
         });
     }
+    actionName = <UI.HydratedValue>{
+        value: '',
+        error: event.detail.error
+    };
+    return updateProperties(state, {
+        [actionProperty]: {
+            elementType: ELEMENT_TYPE.ACTION_CALL,
+            actionType: event.detail.value?.actionType,
+            actionName
+        },
+        [actionNameProperty]: actionName,
+        // Clear all parameters when changing action
+        [actionInputParametersProperty]: [],
+        [PARAMETER_PROPERTY.OUTPUT]: event.detail.actionCategory === ORCHESTRATED_ACTION_CATEGORY.STEP ? [] : undefined
+    });
+};
 
-    return state;
+/**
+ * Change assignee
+ *
+ * @param state The element state
+ * @param event The event
+ * @returns Updated state
+ */
+const assigneeChanged = (state: StageStep, event: OrchestrationAssigneeChangedEvent<any>): StageStep => {
+    return updateProperties(state, {
+        assignees: [
+            {
+                assignee: {
+                    value: event.detail.value,
+                    error: event.detail.error
+                },
+                assigneeType: 'User'
+            }
+        ]
+    });
 };
 
 /**
@@ -289,6 +322,9 @@ export const stageStepReducer = (state: StageStep, event: CustomEvent): StageSte
         case OrchestrationActionValueChangedEvent.EVENT_NAME:
             newState = actionChanged(state, event);
             break;
+        case OrchestrationAssigneeChangedEvent.EVENT_NAME:
+            newState = assigneeChanged(state, event);
+            break;
         case PropertyChangedEvent.EVENT_NAME:
             newState = itemPropertyChanged(state, event);
             break;
@@ -311,7 +347,7 @@ export const stageStepReducer = (state: StageStep, event: CustomEvent): StageSte
             newState = createEntryConditions(state);
             break;
         case VALIDATE_ALL:
-            return validation.validateAll(state, {});
+            return validation.validateAll(state, getRules());
         case MERGE_WITH_PARAMETERS:
             return mergeParameters(state, event.detail.parameters, event.detail.actionCategory);
         default:

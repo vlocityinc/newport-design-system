@@ -121,7 +121,7 @@ describe('Record Update Editor', () => {
         beforeAll(() => {
             recordUpdateNode = getElementForPropertyEditor({
                 elementType: ELEMENT_TYPE.RECORD_UPDATE,
-                isNewElement: true
+                isNew: true
             });
         });
         beforeEach(() => {
@@ -595,7 +595,7 @@ describe('Triggering Record Update Editor', () => {
         beforeAll(() => {
             recordUpdateNode = getElementForPropertyEditor({
                 elementType: ELEMENT_TYPE.RECORD_UPDATE,
-                isNewElement: true
+                isNew: true
             });
         });
         beforeEach(() => {

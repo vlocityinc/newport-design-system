@@ -96,7 +96,7 @@ const newLoopElement = {
     locationX: 88,
     locationY: 268,
     elementType: 'Loop',
-    isNewElement: true
+    isNew: true
 };
 
 const createComponentForTest = (node, processType = FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW) => {

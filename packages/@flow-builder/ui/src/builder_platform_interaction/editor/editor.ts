@@ -1792,7 +1792,7 @@ export default class Editor extends LightningElement {
                         actionType,
                         actionName,
                         parent,
-                        isNewElement: true
+                        isNew: true
                     });
                     // For a panel, the element is created upon opening the property editor
                     // the parent guid is also passed in if a child element is being created
@@ -2279,6 +2279,7 @@ export default class Editor extends LightningElement {
             this.queueOpenPropertyEditor(
                 () => {
                     const node = getElementForPropertyEditor(element);
+                    node.isNew = false;
                     return {
                         mode,
                         nodeUpdate,

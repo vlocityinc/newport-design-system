@@ -157,6 +157,9 @@ export default class OrchestratedStageEditor extends LightningElement {
 
     /**
      * Returns the information about the action element in which the configurationEditor is defined
+     *
+     * @returns The exit action.  This will always be an object, but if not a valid action,
+     * apiName will be ''
      */
     get exitActionElementInfo() {
         const actionInfo = { apiName: '', type: 'Action' };
@@ -236,7 +239,7 @@ export default class OrchestratedStageEditor extends LightningElement {
     }
 
     async setActionParameters(action: InvocableAction | null) {
-        if (!action) {
+        if (!action?.actionName) {
             return;
         }
 

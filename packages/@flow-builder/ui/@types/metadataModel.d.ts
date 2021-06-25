@@ -30,6 +30,7 @@ declare namespace Metadata {
     interface Element {
         name?: string;
         description?: string;
+        isNew?: boolean;
     }
 
     interface Node extends Element {

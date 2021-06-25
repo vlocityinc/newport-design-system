@@ -100,7 +100,7 @@ describe('Record Delete Editor', () => {
         beforeEach(() => {
             const recordDeleteNode = getElementForPropertyEditor({
                 elementType: ELEMENT_TYPE.RECORD_DELETE,
-                isNewElement: true
+                isNew: true
             });
             recordDeleteComponent = createComponentForTest({ node: recordDeleteNode });
         });

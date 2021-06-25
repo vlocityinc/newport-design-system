@@ -44,6 +44,7 @@ declare namespace UI {
         connector?: Connector;
         picklistObject?: string;
         picklistField?: string;
+        isNew?: boolean;
     }
 
     interface HydratedValue {

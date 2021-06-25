@@ -123,7 +123,35 @@ getElementByGuid.mockImplementation((guid) => {
             label: `${guid}-label`,
             name: `${guid}-name`,
             description: `${guid}-description`,
-            relatedRecordItem: <ParameterListRowItem>{ name: `relatedRecord-${guid}` },
+            relatedRecordItem: <ParameterListRowItem>{
+                name: `relatedRecord-${guid}`,
+                rowIndex: guid,
+                valueDataType: 'string'
+            },
+            entryAction: {
+                actionName: {
+                    value: null
+                },
+                actionType: {
+                    value: null
+                }
+            },
+            action: {
+                actionName: {
+                    value: 'autolaunchedFlow'
+                },
+                actionType: {
+                    value: 'orchestratorAutolaunchedFlow'
+                }
+            },
+            exitAction: {
+                actionName: {
+                    value: null
+                },
+                actionType: {
+                    value: null
+                }
+            },
             inputParameters: [
                 <ParameterListRowItem>{ name: 'ip' },
                 <ParameterListRowItem>{ name: RELATED_RECORD_INPUT_PARAMETER_NAME }
@@ -139,6 +167,30 @@ getElementByGuid.mockImplementation((guid) => {
             label: `${guid}-label`,
             name: `${guid}-name`,
             description: `${guid}-description`,
+            entryAction: {
+                actionName: {
+                    value: null
+                },
+                actionType: {
+                    value: null
+                }
+            },
+            action: {
+                actionName: {
+                    value: 'autolaunchedFlow'
+                },
+                actionType: {
+                    value: 'orchestratorAutolaunchedFlow'
+                }
+            },
+            exitAction: {
+                actionName: {
+                    value: null
+                },
+                actionType: {
+                    value: null
+                }
+            },
             inputParameters: [<ParameterListRowItem>{ name: 'ip' }],
             outputParameters: [<ParameterListRowItem>{ name: 'op1' }, <ParameterListRowItem>{ name: 'op2' }],
             entryActionInputParameters: [<ParameterListRowItem>jest.fn()],
@@ -331,7 +383,14 @@ describe('OrchestratedStage', () => {
 
         it('uses existing action if provided', () => {
             const mockItem = {
-                action: <InvocableAction>jest.fn(),
+                action: {
+                    actionName: {
+                        value: 'autolaunchedFlow'
+                    },
+                    actionType: {
+                        value: 'orchestratorAutolaunchedFlow'
+                    }
+                },
                 assignees: []
             };
 
@@ -401,12 +460,12 @@ describe('OrchestratedStage', () => {
 
                 expect(item.relatedRecordItem).toEqual(mockItem.inputParameters[1]);
             });
-            describe('is undefined', () => {
+            describe('is empty', () => {
                 it('if no existing relatedRecordItem', () => {
                     const mockItem = {};
                     const item = createStageStep(mockItem);
 
-                    expect(item.relatedRecordItem).toBeUndefined();
+                    expect(item.relatedRecordItem).toEqual({});
                 });
                 it('if input parameter is falsy', () => {
                     const mockItem = {
@@ -419,7 +478,7 @@ describe('OrchestratedStage', () => {
 
                     const item = createStageStep(mockItem);
 
-                    expect(item.relatedRecordItem).toBeUndefined();
+                    expect(item.relatedRecordItem).toEqual({});
                 });
             });
         });
@@ -570,6 +629,10 @@ describe('OrchestratedStage', () => {
                         childReference: 'step3'
                     }
                 ],
+                exitAction: {
+                    actionName: null,
+                    actionType: null
+                },
                 exitActionInputParameters: [<ParameterListRowItem>jest.fn()]
             };
         });
@@ -637,19 +700,19 @@ describe('OrchestratedStage', () => {
                     const orchestratedStage = createOrchestratedStageMetadataObject(orchestratedStageFromStore);
 
                     expect(orchestratedStage.stageSteps[0].inputParameters).toHaveLength(2);
-                    expect(orchestratedStage.stageSteps[0].inputParameters[1]).toEqual({
-                        name: `relatedRecord-${orchestratedStage.stageSteps[0].guid}`
-                    });
+                    expect(orchestratedStage.stageSteps[0].inputParameters[1]).toEqual(
+                        orchestratedStage.stageSteps[0].relatedRecordItem
+                    );
 
                     expect(orchestratedStage.stageSteps[1].inputParameters).toHaveLength(2);
-                    expect(orchestratedStage.stageSteps[1].inputParameters[1]).toEqual({
-                        name: `relatedRecord-${orchestratedStage.stageSteps[1].guid}`
-                    });
+                    expect(orchestratedStage.stageSteps[1].inputParameters[1]).toEqual(
+                        orchestratedStage.stageSteps[1].relatedRecordItem
+                    );
 
                     expect(orchestratedStage.stageSteps[2].inputParameters).toHaveLength(2);
-                    expect(orchestratedStage.stageSteps[2].inputParameters[1]).toEqual({
-                        name: `relatedRecord-${orchestratedStage.stageSteps[2].guid}`
-                    });
+                    expect(orchestratedStage.stageSteps[2].inputParameters[1]).toEqual(
+                        orchestratedStage.stageSteps[2].relatedRecordItem
+                    );
                 });
 
                 it('is not inject in to the action inputs if not present', () => {
@@ -797,7 +860,30 @@ describe('OrchestratedStage', () => {
         let step;
         beforeEach(() => {
             step = {
-                actionName: 'someScreenFlow',
+                entryAction: {
+                    actionName: {
+                        value: null
+                    },
+                    actionType: {
+                        value: null
+                    }
+                },
+                action: {
+                    actionName: {
+                        value: 'autolaunchedFlow'
+                    },
+                    actionType: {
+                        value: 'orchestratorAutolaunchedFlow'
+                    }
+                },
+                exitAction: {
+                    actionName: {
+                        value: null
+                    },
+                    actionType: {
+                        value: null
+                    }
+                },
                 outputParameters: []
             };
         });
@@ -828,7 +914,7 @@ describe('OrchestratedStage', () => {
                 expect(step.outputParameters[0]).toMatchObject(
                     data.Outputs.getChildrenItems()[step.outputParameters[0].apiName]
                 );
-                expect(data.Outputs.subtype).toEqual(step.actionName);
+                expect(data.Outputs.subtype).toEqual(step.action.actionName);
             });
             it('not present if no parameters', () => {
                 const data = getStageStepChildren(step);
@@ -836,21 +922,24 @@ describe('OrchestratedStage', () => {
                 expect(data.Status).toBeTruthy();
             });
             it('not present if no actionName', () => {
-                step.actionName = undefined;
+                step.action.actionName = undefined;
                 const data = getStageStepChildren(step);
                 expect(Object.keys(data)).toHaveLength(1);
                 expect(data.Status).toBeTruthy();
             });
             it('not present if no output parameters', () => {
-                step.actionName = mockActionWithInputParametersName;
+                step.action.actionName = mockActionWithInputParametersName;
                 const data = getStageStepChildren(step);
                 expect(Object.keys(data)).toHaveLength(1);
                 expect(data.Status).toBeTruthy();
             });
 
             it('is present if there are output parameters', () => {
-                step.actionName = mockActionWithOutputParametersName;
-                step.actionType = ACTION_TYPE.CREATE_WORK_ITEM;
+                step.action = {
+                    actionName: mockActionWithOutputParametersName,
+                    actionType: ACTION_TYPE.CREATE_WORK_ITEM
+                };
+
                 const data = getStageStepChildren(step);
                 expect(Object.keys(data)).toHaveLength(2);
                 expect(data.Outputs).toMatchObject({
@@ -861,8 +950,11 @@ describe('OrchestratedStage', () => {
                 });
             });
             it('getChildrenItems returns output parameters', () => {
-                step.actionName = mockActionWithOutputParametersName;
-                step.actionType = ACTION_TYPE.CREATE_WORK_ITEM;
+                step.action = {
+                    actionName: mockActionWithOutputParametersName,
+                    actionType: ACTION_TYPE.CREATE_WORK_ITEM
+                };
+
                 const data = getStageStepChildren(step);
                 const outputChildren = data.Outputs.getChildrenItems();
                 expect(Object.keys(outputChildren)).toHaveLength(2);

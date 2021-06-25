@@ -39,11 +39,11 @@ export function createRecordDelete(recordDelete = {}) {
         objectIndex = generateGuid(),
         filterLogic = CONDITION_LOGIC.AND,
         filters,
-        isNewElement
+        isNew
     } = recordDelete;
     const availableConnections = getAvailableConnections(recordDelete);
 
-    const useSobject = isNewElement || !!inputReference;
+    const useSobject = isNew || !!inputReference;
 
     return Object.assign(newRecordDelete, {
         inputReference,

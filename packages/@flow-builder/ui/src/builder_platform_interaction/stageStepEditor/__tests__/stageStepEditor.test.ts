@@ -75,11 +75,12 @@ const mockActionDetails = {
 const mockActionsDetailsPromise = Promise.resolve(mockActionDetails);
 
 jest.mock('builder_platform_interaction/invocableActionLib', () => {
-    return {
-        fetchDetailsForInvocableAction: jest.fn(() => {
-            return mockActionsDetailsPromise;
-        })
-    };
+    const invocableActionLib = Object.assign({}, jest.requireActual('builder_platform_interaction/invocableActionLib'));
+    invocableActionLib.fetchDetailsForInvocableAction = jest.fn(() => {
+        return mockActionsDetailsPromise;
+    });
+
+    return invocableActionLib;
 });
 jest.mock('builder_platform_interaction/elementFactory', () => {
     const elementFactory = Object.assign({}, jest.requireActual('builder_platform_interaction/elementFactory'));
@@ -127,7 +128,17 @@ describe('StageStepEditor', () => {
         relatedRecordItem: {
             name: { value: 'ActionInput__RecordId' },
             rowIndex: 'ActionInput__RecordIdGuid',
-            value: RELATED_RECORD_ID
+            value: { value: RELATED_RECORD_ID }
+        },
+        entryAction: {
+            actionName: {
+                name: null,
+                value: null
+            },
+            actionType: {
+                name: null,
+                value: null
+            }
         },
         action: {
             actionName: {
@@ -137,9 +148,19 @@ describe('StageStepEditor', () => {
                 value: 'createWorkItem'
             }
         },
+        exitAction: {
+            actionName: {
+                name: null,
+                value: null
+            },
+            actionType: {
+                name: null,
+                value: null
+            }
+        },
         assignees: [
             {
-                assignee: { assignee: 'orchestrator@salesforce.com' },
+                assignee: { value: 'orchestrator@salesforce.com' },
                 assigneeType: 'User'
             }
         ],
@@ -152,6 +173,19 @@ describe('StageStepEditor', () => {
         label: 'someLabel',
         description: 'someDescription',
         entryConditions: [],
+        relatedRecordItem: {
+            name: { value: 'ActionInput__RecordId' },
+            rowIndex: 'ActionInput__RecordIdGuid',
+            value: { value: RELATED_RECORD_ID }
+        },
+        entryAction: {
+            actionName: {
+                value: null
+            },
+            actionType: {
+                value: null
+            }
+        },
         action: {
             actionName: {
                 value: 'autolaunchedFlow'
@@ -159,7 +193,21 @@ describe('StageStepEditor', () => {
             actionType: {
                 value: 'orchestratorAutolaunchedFlow'
             }
-        }
+        },
+        exitAction: {
+            actionName: {
+                value: null
+            },
+            actionType: {
+                value: null
+            }
+        },
+        assignees: [
+            {
+                assignee: { value: 'orchestrator@salesforce.com' },
+                assigneeType: 'User'
+            }
+        ]
     };
 
     const nodeParamsWithDeterminations = {
@@ -168,6 +216,11 @@ describe('StageStepEditor', () => {
         label: 'someLabel',
         description: 'someDescription',
         entryConditions: [],
+        relatedRecordItem: {
+            name: { value: 'ActionInput__RecordId' },
+            rowIndex: 'ActionInput__RecordIdGuid',
+            value: { value: RELATED_RECORD_ID }
+        },
         action: {
             actionName: {
                 value: 'someActionName'
@@ -176,7 +229,12 @@ describe('StageStepEditor', () => {
                 value: 'createWorkItem'
             }
         },
-        assignees: [{ assignee: 'orchestrator@salesforce.com', assigneeType: 'User' }],
+        assignees: [
+            {
+                assignee: { value: 'orchestrator@salesforce.com' },
+                assigneeType: 'User'
+            }
+        ],
         inputParameters: mockInputParameters,
         entryAction: {
             actionName: {
@@ -217,14 +275,6 @@ describe('StageStepEditor', () => {
             it('is called for new node', () => {
                 expect(mergeErrorsFromHydratedElement).toHaveBeenCalledWith(nodeParams, undefined);
             });
-            it('is called for existing node', async () => {
-                await ticks(1);
-
-                const newNode = { a: 1 };
-                editor.node = newNode;
-
-                expect(mergeErrorsFromHydratedElement).toHaveBeenCalledWith(newNode, nodeParams);
-            });
         });
 
         it('sets selectedEntryCriteria by default', () => {
@@ -248,12 +298,20 @@ describe('StageStepEditor', () => {
         });
 
         it('initializes the entry criteria item combobox menu data', () => {
+            // Start when another step completes
             editor = createComponentUnderTest({
-                name: 'someName',
-                label: 'someLabel',
-                description: 'someDescription',
-                entryConditions: [{ leftHandSide: { value: 'nonexistentItem.Status' } }],
-                inputParameters: []
+                ...nodeParamsWithDeterminations,
+                ...{
+                    entryAction: {
+                        actionName: {
+                            value: null
+                        },
+                        actionType: {
+                            value: null
+                        }
+                    },
+                    entryConditions: [{ leftHandSide: { value: 'nonexistentItem.Status' } }]
+                }
             });
 
             const entryConditionsItem = editor.shadowRoot.querySelector(selectors.ENTRY_CRITERIA_ITEM);
@@ -270,11 +328,20 @@ describe('StageStepEditor', () => {
         });
 
         it('sets entry criteria item selected', () => {
+            // Start when another step completes
             editor = createComponentUnderTest({
-                name: 'someName',
-                label: 'someLabel',
-                description: 'someDescription',
-                entryConditions: [{ leftHandSide: { value: 'otherItemGuid.Status' } }]
+                ...nodeParamsWithDeterminations,
+                ...{
+                    entryAction: {
+                        actionName: {
+                            value: null
+                        },
+                        actionType: {
+                            value: null
+                        }
+                    },
+                    entryConditions: [{ leftHandSide: { value: 'otherItemGuid.Status' } }]
+                }
             });
 
             const entryConditionsItem = editor.shadowRoot.querySelector(selectors.ENTRY_CRITERIA_ITEM);
@@ -302,7 +369,21 @@ describe('StageStepEditor', () => {
 
     describe('input parameters', () => {
         it('are empty if no action is present', () => {
-            const nodeWithNoAction = { ...nodeParams, ...{ action: null } };
+            const nodeWithNoAction = {
+                ...nodeParams,
+                ...{
+                    action: {
+                        actionName: {
+                            name: null,
+                            value: null
+                        },
+                        actionType: {
+                            name: null,
+                            value: null
+                        }
+                    }
+                }
+            };
 
             editor = createComponentUnderTest(nodeWithNoAction);
 
@@ -335,7 +416,12 @@ describe('StageStepEditor', () => {
         });
 
         describe('list config', () => {
-            it('filters out app process internal input variables', () => {
+            it('filters out app process internal input variables', async () => {
+                editor = createComponentUnderTest(nodeParamsWithDeterminations);
+
+                // Wait for async param loading
+                await ticks(1);
+
                 const parameterList = editor.shadowRoot.querySelector(selectors.PARAMETER_LIST);
                 expect(parameterList.inputs).toHaveLength(1);
                 expect(parameterList.inputs[0]).toEqual(nodeParams.inputParameters[0]);
@@ -447,7 +533,7 @@ describe('StageStepEditor', () => {
 
                 // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                 // Until then use the more brittle `.mocks`
-                expect(stageStepReducer.mock.calls[2][1].detail).toEqual(
+                expect(stageStepReducer.mock.calls[10][1].detail).toEqual(
                     expect.objectContaining({
                         actionCategory: ORCHESTRATED_ACTION_CATEGORY.STEP,
                         error: null,
@@ -461,16 +547,24 @@ describe('StageStepEditor', () => {
         });
 
         it('handleEntryCriteriaItemChanged updates entry criteria', () => {
-            const params = {
-                guid: 'someGuid',
-                name: 'someName',
-                label: 'someLabel',
-                description: 'someDescription',
-                entryConditions: [{ leftHandSide: { value: 'nonexistentItem' } }],
-                inputParameters: []
+            // Start when another step completes
+            const element = {
+                ...nodeParamsWithDeterminations,
+                ...{
+                    entryAction: {
+                        actionName: {
+                            name: null,
+                            value: null
+                        },
+                        actionType: {
+                            name: null,
+                            value: null
+                        }
+                    },
+                    entryConditions: [{ leftHandSide: { value: 'nonexistentItem.Status' } }]
+                }
             };
-
-            editor = createComponentUnderTest(params);
+            editor = createComponentUnderTest(element);
 
             const devName = 'someOtherItem';
 
@@ -479,7 +573,7 @@ describe('StageStepEditor', () => {
             const comboboxEvent = new ComboboxStateChangedEvent({ value: devName });
             itemCombobox.dispatchEvent(comboboxEvent);
 
-            const event = new UpdateConditionEvent(params.guid, 0, {
+            const event = new UpdateConditionEvent(element.guid, 0, {
                 leftValueReference: devName,
                 operator: 'EqualTo',
                 rightValue: {
@@ -487,7 +581,7 @@ describe('StageStepEditor', () => {
                 }
             });
 
-            expect(stageStepReducer).toHaveBeenCalledWith(params, event);
+            expect(stageStepReducer).toHaveBeenCalledWith(element, event);
         });
 
         describe('handleParameterPropertyChangedEvent', () => {
@@ -541,7 +635,7 @@ describe('StageStepEditor', () => {
                 });
                 expect(actorSelector.rules).toEqual([]);
                 expect(actorSelector.errorMessage).toBe(undefined);
-                expect(actorSelector.value).toBe(nodeParams.assignees[0].assignee.assignee);
+                expect(actorSelector.value).toBe(nodeParams.assignees[0].assignee.value);
             });
 
             it('node should be updated on combobox state changed', () => {
@@ -551,17 +645,11 @@ describe('StageStepEditor', () => {
 
                 // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                 // Until then use the more brittle `.mocks`
-                expect(stageStepReducer.mock.calls[2][1].detail).toEqual(
+                expect(stageStepReducer.mock.calls[7][1].detail).toEqual(
                     expect.objectContaining({
-                        value: [
-                            {
-                                assignee: {
-                                    stringValue: comboboxEvent.detail.displayText
-                                },
-                                assigneeType: 'User'
-                            }
-                        ],
-                        error: comboboxEvent.detail.error
+                        value: {
+                            stringValue: comboboxEvent.detail.displayText
+                        }
                     })
                 );
             });
@@ -577,19 +665,25 @@ describe('StageStepEditor', () => {
 
                 // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                 // Until then use the more brittle `.mocks`
-                expect(stageStepReducer.mock.calls[2][1].detail).toEqual(
+                expect(stageStepReducer.mock.calls[7][1].detail).toEqual(
                     expect.objectContaining({
-                        value: [
-                            {
-                                assignee: {
-                                    stringValue: itemSelectedEvent.detail.item.value
-                                },
-                                assigneeType: 'User'
-                            }
-                        ],
-                        error: itemSelectedEvent.detail.item.error
+                        value: {
+                            stringValue: itemSelectedEvent.detail.item.value
+                        }
                     })
                 );
+            });
+
+            it('sets the actorErrorMessage', () => {
+                const actorSelector = editor.shadowRoot.querySelector(selectors.ACTOR_SELECTOR);
+                const itemSelectedEvent = new ItemSelectedEvent({
+                    value: 'some value',
+                    error: 'itemError',
+                    displayText: '{!$User.username}'
+                });
+                actorSelector.dispatchEvent(itemSelectedEvent);
+
+                expect(actorSelector.errorMessage).toEqual(itemSelectedEvent.detail.error);
             });
 
             it('should not be visible for autolaunched step', () => {
@@ -619,7 +713,7 @@ describe('StageStepEditor', () => {
                     variant: 'standard'
                 });
                 expect(recordSelector.rules).toEqual([]);
-                expect(recordSelector.errorMessage).toBe(undefined);
+                expect(recordSelector.errorMessage).toBe('');
                 expect(recordSelector.value).toBe(RELATED_RECORD_ID);
             });
 
@@ -630,7 +724,7 @@ describe('StageStepEditor', () => {
 
                 // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                 // Until then use the more brittle `.mocks`
-                expect(stageStepReducer.mock.calls[2][1].detail).toEqual(
+                expect(stageStepReducer.mock.calls[7][1].detail).toEqual(
                     expect.objectContaining({
                         value: expect.objectContaining({ value: comboboxEvent.detail.displayText }),
                         error: comboboxEvent.detail.error
@@ -649,7 +743,7 @@ describe('StageStepEditor', () => {
 
                 // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                 // Until then use the more brittle `.mocks`
-                expect(stageStepReducer.mock.calls[2][1].detail).toEqual(
+                expect(stageStepReducer.mock.calls[7][1].detail).toEqual(
                     expect.objectContaining({
                         value: expect.objectContaining({ value: itemSelectedEvent.detail.item.value }),
                         error: itemSelectedEvent.detail.item.error

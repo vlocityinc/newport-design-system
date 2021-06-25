@@ -2,6 +2,7 @@
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getDataTypeKey } from '../ferov';
 import { ValueWithError } from 'builder_platform_interaction/dataMutationLib';
+import { InvocableAction } from 'builder_platform_interaction/invocableActionLib';
 
 // @ts-nocheck
 /**
@@ -27,6 +28,13 @@ export type ParameterListRowItem = {
     isCollection?: boolean;
     maxOccurs?: number;
 };
+
+/**
+ * @param obj
+ */
+export function isParameterListRowItem(obj: any): obj is ParameterListRowItem {
+    return obj && obj.rowIndex !== undefined && obj.valueDataType !== undefined;
+}
 
 export const RHS_PROPERTY = 'rightHandSide';
 export const RHS_DATA_TYPE_PROPERTY = getDataTypeKey(RHS_PROPERTY);

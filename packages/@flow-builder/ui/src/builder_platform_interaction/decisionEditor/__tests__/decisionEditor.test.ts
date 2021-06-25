@@ -59,7 +59,8 @@ beforeEach(() => {
                 conditionLogic: { value: '' },
                 conditions: []
             }
-        ]
+        ],
+        isNew: true
     };
 
     decisionWithTwoOutcomes = {
@@ -79,7 +80,8 @@ beforeEach(() => {
                 conditionLogic: { value: '' },
                 conditions: []
             }
-        ]
+        ],
+        isNew: true
     };
 
     mockNewState = {

@@ -18,7 +18,7 @@ export const DUPLICATE_ELEMENT_XY_OFFSET = 75;
 export const INCOMPLETE_ELEMENT = Symbol('incomplete');
 
 /**
- * TODO: This function is overloaded to support both the construcvtion of resources (variables, constants, etc..)
+ * TODO: This function is overloaded to support both the construction of resources (variables, constants, etc..)
  * and as a "super" for methods like baseCanvasElement.  This should be cleaned up by combing the baseXXX
  * methods with the interfaces to make classes with constructors
  *
@@ -86,7 +86,8 @@ export function baseCanvasElement(
         connectorCount,
         config,
         elementSubtype,
-        canHaveFaultConnector: canHaveFaultConnectorBool
+        canHaveFaultConnector: canHaveFaultConnectorBool,
+        isNew: canvasElement.isNew
     });
 }
 

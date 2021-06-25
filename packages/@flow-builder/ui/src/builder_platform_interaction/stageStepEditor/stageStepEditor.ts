@@ -14,7 +14,8 @@ import {
     UpdateNodeEvent,
     ValueChangedEvent,
     OrchestrationActionValueChangedEvent,
-    DeleteOrchestrationActionEvent
+    DeleteOrchestrationActionEvent,
+    OrchestrationAssigneeChangedEvent
 } from 'builder_platform_interaction/events';
 import { LABELS } from './stageStepEditorLabels';
 import { stageStepReducer } from './stageStepReducer';
@@ -25,6 +26,7 @@ import {
     ASSIGNEE_PROPERTY_NAME,
     createFEROVMetadataObject,
     getOtherItemsInOrchestratedStage,
+    isParameterListRowItem,
     ParameterListRowItem,
     RELATED_RECORD_INPUT_PARAMETER_NAME,
     StageStep
@@ -163,7 +165,7 @@ export default class StageStepEditor extends LightningElement {
 
         // infer selected Entry Criteria on-load
         if (!this.selectedEntryCriteria) {
-            if (this.element.entryAction && this.element.entryAction.actionName) {
+            if (this.element.entryAction.actionName?.value) {
                 // entryAction exists and has populated data
                 this.selectedEntryCriteria = ENTRY_CRITERIA.ON_DETERMINATION_COMPLETE;
             } else if (
@@ -179,7 +181,7 @@ export default class StageStepEditor extends LightningElement {
 
         // infer selected Exit Criteria on-load
         if (!this.selectedExitCriteria) {
-            if (this.element.exitAction && this.element.exitAction.actionName) {
+            if (this.element.exitAction.actionName?.value) {
                 this.selectedExitCriteria = EXIT_CRITERIA.ON_DETERMINATION_COMPLETE;
             } else {
                 this.selectedExitCriteria = EXIT_CRITERIA.ON_STEP_COMPLETE;
@@ -222,6 +224,31 @@ export default class StageStepEditor extends LightningElement {
         this.exitActionParameterListConfig = undefined;
         if (this.selectedExitAction) {
             this.setActionParameters(this.selectedExitAction, ORCHESTRATED_ACTION_CATEGORY.EXIT);
+        }
+
+        // Reopening existing elements should always validate
+        // This has to be done manually in every property editor
+        if (!newValue!.isNew) {
+            this.validate();
+            this.actorErrorMessage = this.element.assignees[0]?.assignee?.error;
+
+            // If an error was explicitly set by the action selector, then use that
+            // rather than the error from validation.  This is needed because validation
+            // cannot know if an invalid action name has been entered.  It only checks
+            // for null or ''
+            if (!this.entryActionErrorMessage) {
+                this.entryActionErrorMessage = this.element.entryAction?.actionName.error || '';
+            }
+            if (!this.actionErrorMessage) {
+                this.actionErrorMessage = this.element.action.actionName?.error || '';
+            }
+            if (!this.exitActionErrorMessage) {
+                this.exitActionErrorMessage = this.element.exitAction?.actionName.error || '';
+            }
+
+            this.recordErrorMessage =
+                (!isParameterListRowItem(this.element.relatedRecordItem) && this.element.relatedRecordItem?.error) ||
+                '';
         }
     }
 
@@ -275,8 +302,8 @@ export default class StageStepEditor extends LightningElement {
 
     get isStepWithUserAction(): boolean {
         return (
-            this.element?.action?.actionType !== ACTION_TYPE.ORCHESTRATOR_AUTOLAUNCHED_FLOW &&
-            this.element?.action?.actionType.value !== ACTION_TYPE.ORCHESTRATOR_AUTOLAUNCHED_FLOW
+            this.element?.action.actionType !== ACTION_TYPE.ORCHESTRATOR_AUTOLAUNCHED_FLOW &&
+            this.element?.action.actionType.value !== ACTION_TYPE.ORCHESTRATOR_AUTOLAUNCHED_FLOW
         );
     }
 
@@ -348,7 +375,7 @@ export default class StageStepEditor extends LightningElement {
     }
 
     /**
-     * Returns the information about the action element in which the configurationEditor is defined
+     * @returns the information about the action element in which the configurationEditor is defined
      */
     get actionElementInfo() {
         const actionInfo = { apiName: '', type: 'Action' };
@@ -359,22 +386,18 @@ export default class StageStepEditor extends LightningElement {
         return actionInfo;
     }
 
-    get selectedAction(): InvocableAction | null {
-        if (this.element && this.element.action && this.element.action.actionName.value !== '') {
-            return {
-                elementType: ELEMENT_TYPE.ACTION_CALL,
-                actionType: this.element.action.actionType.value,
-                actionName: this.element.action.actionName.value,
-                inputParameters: [],
-                outputParameters: []
-            };
-        }
-
-        return null;
+    get selectedAction(): InvocableAction {
+        return {
+            elementType: ELEMENT_TYPE.ACTION_CALL,
+            actionType: this.element?.action.actionType.value,
+            actionName: this.element?.action.actionName?.value,
+            inputParameters: [],
+            outputParameters: []
+        };
     }
 
     /**
-     * Returns the information about the action element in which the configurationEditor is defined
+     * @returns the information about the action element in which the configurationEditor is defined
      */
     get entryActionElementInfo() {
         const actionInfo = { apiName: '', type: 'Action' };
@@ -385,22 +408,17 @@ export default class StageStepEditor extends LightningElement {
         return actionInfo;
     }
 
+    /**
+     * @returns The selected entry action
+     */
     get selectedEntryAction(): InvocableAction | null {
-        if (
-            this.element &&
-            this.element.entryAction &&
-            this.element.entryAction.actionName &&
-            this.element.entryAction.actionType
-        ) {
-            return {
-                elementType: ELEMENT_TYPE.ACTION_CALL,
-                actionType: this.element.entryAction.actionType.value,
-                actionName: this.element.entryAction.actionName.value,
-                inputParameters: [],
-                outputParameters: []
-            };
-        }
-        return null;
+        return {
+            elementType: ELEMENT_TYPE.ACTION_CALL,
+            actionType: this.element?.entryAction?.actionType?.value,
+            actionName: this.element?.entryAction?.actionName?.value,
+            inputParameters: [],
+            outputParameters: []
+        };
     }
 
     /**
@@ -416,25 +434,20 @@ export default class StageStepEditor extends LightningElement {
     }
 
     get selectedExitAction(): InvocableAction | null {
-        if (
-            this.element &&
-            this.element.exitAction &&
-            this.element.exitAction.actionName &&
-            this.element.exitAction.actionType
-        ) {
-            return {
-                elementType: ELEMENT_TYPE.ACTION_CALL,
-                actionType: this.element.exitAction.actionType.value,
-                actionName: this.element.exitAction.actionName.value,
-                inputParameters: [],
-                outputParameters: []
-            };
-        }
-        return null;
+        return {
+            elementType: ELEMENT_TYPE.ACTION_CALL,
+            actionType: this.element?.exitAction?.actionType?.value,
+            actionName: this.element?.exitAction?.actionName?.value,
+            inputParameters: [],
+            outputParameters: []
+        };
     }
 
     get recordValue() {
-        return this.element?.relatedRecordItem ? this.element.relatedRecordItem.value : null;
+        return !(typeof this.element?.relatedRecordItem.value === 'string') &&
+            this.element?.relatedRecordItem.value?.value
+            ? this.element.relatedRecordItem.value.value
+            : null;
     }
 
     get recordComboBoxConfig() {
@@ -461,11 +474,11 @@ export default class StageStepEditor extends LightningElement {
     }
 
     get actorValue() {
-        if (this.element && this.element.assignees && this.element.assignees.length > 0) {
-            if (this.element.assignees[0].assignee.elementReference) {
+        if (this.element?.assignees[0]?.assignee) {
+            if (this.element.assignees[0].assignee?.elementReference) {
                 return this.element.assignees[0].assignee.elementReference;
             }
-            return this.element.assignees[0].assignee.assignee;
+            return this.element.assignees[0].assignee.value;
         }
         return null;
     }
@@ -546,15 +559,9 @@ export default class StageStepEditor extends LightningElement {
             this.availableActions = stepActions;
             this.availableDeterminationActions = determinationActions;
 
-            if (this.selectedAction) {
-                await this.setActionParameters(this.selectedAction, ORCHESTRATED_ACTION_CATEGORY.STEP);
-            }
-            if (this.selectedEntryAction) {
-                await this.setActionParameters(this.selectedEntryAction, ORCHESTRATED_ACTION_CATEGORY.ENTRY);
-            }
-            if (this.selectedEntryAction) {
-                await this.setActionParameters(this.selectedExitAction, ORCHESTRATED_ACTION_CATEGORY.EXIT);
-            }
+            await this.setActionParameters(this.selectedAction, ORCHESTRATED_ACTION_CATEGORY.STEP);
+            await this.setActionParameters(this.selectedEntryAction!, ORCHESTRATED_ACTION_CATEGORY.ENTRY);
+            await this.setActionParameters(this.selectedExitAction!, ORCHESTRATED_ACTION_CATEGORY.EXIT);
         } catch (err) {
             this.isActionsFetched = true;
             this.displayActionSpinner = false;
@@ -575,10 +582,10 @@ export default class StageStepEditor extends LightningElement {
         });
     }
 
-    async setActionParameters(action: InvocableAction | null, actionCategory: ORCHESTRATED_ACTION_CATEGORY) {
+    async setActionParameters(action: InvocableAction, actionCategory: ORCHESTRATED_ACTION_CATEGORY) {
         let parameters: ParameterListRowItem[];
 
-        if (!action) {
+        if (!action.actionName) {
             parameters = [];
         } else {
             this.displayActionSpinner = true;
@@ -731,9 +738,9 @@ export default class StageStepEditor extends LightningElement {
             if (actionCategory === ORCHESTRATED_ACTION_CATEGORY.STEP) {
                 await this.setActionParameters(this.selectedAction, actionCategory);
             } else if (actionCategory === ORCHESTRATED_ACTION_CATEGORY.ENTRY) {
-                await this.setActionParameters(this.selectedEntryAction, actionCategory);
+                await this.setActionParameters(this.selectedEntryAction!, actionCategory);
             } else if (actionCategory === ORCHESTRATED_ACTION_CATEGORY.EXIT) {
-                await this.setActionParameters(this.selectedExitAction, actionCategory);
+                await this.setActionParameters(this.selectedExitAction!, actionCategory);
             }
         }
 
@@ -777,21 +784,17 @@ export default class StageStepEditor extends LightningElement {
             ferovDataType = getFerovDataTypeForValidId(assignee);
         }
 
-        const assignees = [
-            {
-                assignee: createFEROVMetadataObject(
-                    {
-                        assignee,
-                        assigneeDataType: ferovDataType
-                    },
-                    ASSIGNEE_PROPERTY_NAME,
-                    ASSIGNEE_DATA_TYPE_PROPERTY_NAME
-                ),
-                assigneeType: 'User'
-            }
-        ];
         const error = event.detail.item ? event.detail.item.error : event.detail.error;
-        const updateActor = new PropertyChangedEvent('assignees', assignees, error);
+        const updateActor = new OrchestrationAssigneeChangedEvent(
+            createFEROVMetadataObject(
+                {
+                    assignee,
+                    assigneeDataType: ferovDataType
+                },
+                ASSIGNEE_PROPERTY_NAME,
+                ASSIGNEE_DATA_TYPE_PROPERTY_NAME
+            )
+        );
         this.element = stageStepReducer(this.element!, updateActor);
         this.actorErrorMessage = error;
         this.dispatchEvent(new UpdateNodeEvent(this.element));
@@ -825,15 +828,13 @@ export default class StageStepEditor extends LightningElement {
         if (!inputParam || !inputParam.value || (<ValueWithError>inputParam.value).value !== sanitizedValue) {
             let valueToSet: ParameterListRowItem | null = null;
 
-            if (recordIdValue) {
-                valueToSet = {
-                    // Empty string only if no action has been selected yet
-                    rowIndex: inputParam ? inputParam.rowIndex : '',
-                    name: RELATED_RECORD_INPUT_PARAMETER_NAME,
-                    value: recordIdValue,
-                    valueDataType
-                };
-            }
+            valueToSet = {
+                // Empty string only if no action has been selected yet
+                rowIndex: inputParam ? inputParam.rowIndex : '',
+                name: RELATED_RECORD_INPUT_PARAMETER_NAME,
+                value: recordIdValue,
+                valueDataType
+            };
 
             const updateRecord = new PropertyChangedEvent('relatedRecordItem', valueToSet, error);
             this.element = stageStepReducer(this.element!, updateRecord);

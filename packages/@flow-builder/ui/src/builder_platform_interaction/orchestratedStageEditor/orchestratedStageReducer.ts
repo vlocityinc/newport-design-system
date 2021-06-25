@@ -26,6 +26,12 @@ import { Validation } from 'builder_platform_interaction/validation';
 
 const validation = new Validation();
 
+/**
+ * Call validateProperty for the given property
+ *
+ * @param state Element state
+ * @param event specifies the property to validate
+ */
 const validateProperty = (state, event) => {
     event.detail.error =
         event.detail.error === null
@@ -33,6 +39,13 @@ const validateProperty = (state, event) => {
             : event.detail.error;
 };
 
+/**
+ * Update a property (zpi name/label)
+ *
+ * @param state Element state
+ * @param event the event to be handled
+ * @returns New element state
+ */
 const orchestratedStagePropertyChanged = (state: OrchestratedStage, event: CustomEvent): OrchestratedStage => {
     event.detail.guid = state.guid;
 
@@ -49,8 +62,9 @@ const orchestratedStagePropertyChanged = (state: OrchestratedStage, event: Custo
 /**
  * delete an entry/exit determination action
  *
- * @param state
- * @param event
+ * @param state Element state
+ * @param event the delete event to be handled
+ * @returns New element state
  */
 const deleteDeterminationAction = (
     state: OrchestratedStage,
@@ -68,6 +82,13 @@ const deleteDeterminationAction = (
     return state;
 };
 
+/**
+ * Change for any of the actions
+ *
+ * @param state Element state
+ * @param event the change event to be handled
+ * @returns New element state
+ */
 const actionChanged = (
     state: OrchestratedStage,
     event: OrchestrationActionValueChangedEvent<InvocableAction>

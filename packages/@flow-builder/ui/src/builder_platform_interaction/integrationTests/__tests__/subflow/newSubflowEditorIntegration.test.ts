@@ -61,7 +61,7 @@ describe('Subflow Editor (new subflow)', () => {
             locationX: 100,
             locationY: 100,
             elementType: ELEMENT_TYPE.SUBFLOW,
-            isNewElement: true
+            isNew: true
         };
         const processType = FLOW_PROCESS_TYPE.FLOW;
         const subflowNode = getElementForPropertyEditor(element);

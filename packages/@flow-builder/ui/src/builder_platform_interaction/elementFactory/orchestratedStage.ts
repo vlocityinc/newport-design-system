@@ -20,7 +20,7 @@ import { getParametersForInvocableAction, InvocableAction } from 'builder_platfo
 import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
 import { createOutputParameter } from './outputParameter';
 import { createActionCall } from './actionCall';
-import { ParameterListRowItem } from './base/baseList';
+import { isParameterListRowItem, ParameterListRowItem } from './base/baseList';
 import { FEROV_DATA_TYPE, FLOW_DATA_TYPE, getFlowType } from 'builder_platform_interaction/dataTypeLib';
 import { createFEROV, createFEROVMetadataObject, getDataTypeKey } from './ferov';
 
@@ -36,27 +36,29 @@ export interface StageStep extends UI.ChildElement {
     parent: UI.Guid;
     stepTypeLabel: string;
 
-    relatedRecordItem?: ParameterListRowItem;
+    relatedRecordItem: ParameterListRowItem | UI.HydratedValue;
 
-    // TODO: type should be Ferov
-    assignees: { assignee: any; assigneeType: string }[];
+    assignees: ({ assignee: any; assigneeType: string } | null)[];
 
     entryConditions?: UI.Condition[];
     entryConditionLogic?: string;
-    entryAction?: InvocableAction;
-    entryActionName?: string;
-    entryActionType?: string;
+    entryAction: InvocableAction;
+    entryActionName: string;
+    entryActionType: string;
     entryActionInputParameters: ParameterListRowItem[];
 
-    action?: InvocableAction;
+    action: InvocableAction;
+
+    // Present when coming from the metadata, but not in the ui StageStep
     actionName?: string;
     actionType?: string;
+
     inputParameters: ParameterListRowItem[];
     outputParameters: ParameterListRowItem[];
 
-    exitAction?: InvocableAction;
-    exitActionName?: string;
-    exitActionType?: string;
+    exitAction: InvocableAction;
+    exitActionName: string;
+    exitActionType: string;
     exitActionInputParameters: ParameterListRowItem[];
 }
 
@@ -66,9 +68,9 @@ export interface OrchestratedStage extends UI.CanvasElement {
     stageSteps: StageStep[];
     childReferences: UI.ChildReference[];
 
-    exitAction?: InvocableAction;
-    exitActionName?: string;
-    exitActionType?: string;
+    exitAction: InvocableAction;
+    exitActionName: string;
+    exitActionType: string;
     exitActionInputParameters: ParameterListRowItem[];
 }
 
@@ -94,10 +96,8 @@ export function createOrchestratedStageWithItems(existingStage: OrchestratedStag
     });
 
     // set up Exit Action
-    newStage.exitAction = createActionCallHelper(
-        existingStage.exitAction,
-        existingStage.exitActionName,
-        existingStage.exitActionType
+    newStage.exitAction = <InvocableAction>(
+        createActionCallHelper(existingStage.exitAction, existingStage.exitActionName, existingStage.exitActionType)
     );
     newStage.exitActionInputParameters = existingStage.exitActionInputParameters
         ? existingStage.exitActionInputParameters.map((p) => createInputParameter(p))
@@ -174,12 +174,11 @@ export function createPastedOrchestratedStage({
 }
 
 /**
- * Function to create the duplicate Decision element
+ * Function to create the duplicate Orchestrated Stage element
  *
- * @param {Object} decision - Decision element being copied
- * @param orchestratedStage
- * @param {string} newGuid - Guid for the new duplicated decision element
- * @param {string} newName - Name for the new duplicated decision element
+ * @param {Object} orchestratedStage - OrchestratedStage element being copied
+ * @param {string} newGuid - Guid for the new duplicated element
+ * @param {string} newName - Name for the new duplicated element
  * @param {Object} childElementGuidMap - Map of child element guids to newly generated guids that will be used for
  * the duplicated child elements
  * @param {Object} childElementNameMap - Map of child element names to newly generated unique names that will be used for
@@ -217,6 +216,9 @@ export function createDuplicateOrchestratedStage(
         stageSteps: [],
         childReferences: updatedChildReferences,
         availableConnections,
+        exitAction: orchestratedStage.exitAction,
+        exitActionName: orchestratedStage.exitActionName,
+        exitActionType: orchestratedStage.exitActionType,
         exitActionInputParameters: [],
         exitActionOutputParameters: []
     });
@@ -305,8 +307,8 @@ export function createOrchestratedStageWithItemReferencesWhenUpdatingFromPropert
         maxConnections: 1,
         exitActionInputParameters,
         exitAction: exitActionCall ? exitActionCall : null,
-        exitActionName: exitActionCall ? exitActionCall.actionName : null,
-        exitActionType: exitActionCall ? exitActionCall.actionType : null
+        exitActionName: exitActionCall.actionName,
+        exitActionType: exitActionCall.actionType
     });
 
     return {
@@ -351,18 +353,11 @@ export function getOrchestratedStageChildren(): UI.StringKeyedMap<any> {
     };
 }
 
-const getActionNameAndType = (
-    action: InvocableAction | undefined,
-    name: string | undefined,
-    type: string | undefined
-): { actionName: string | undefined; actionType: string | undefined } => {
-    if (action) {
-        return {
-            actionName: action.actionName,
-            actionType: action.actionType
-        };
-    }
-    return { actionName: name, actionType: type };
+const getActionNameAndType = (action: InvocableAction): { actionName: string; actionType: string } => {
+    return {
+        actionName: action.actionName,
+        actionType: action.actionType
+    };
 };
 
 /**
@@ -381,7 +376,7 @@ export function getStageStepChildren(element: UI.Element): UI.StringKeyedMap<any
         }
     };
 
-    const { actionName, actionType } = getActionNameAndType(step.action, step.actionName, step.actionType);
+    const { actionName, actionType } = getActionNameAndType(step.action);
 
     let outputParameters: ParameterListRowItem[] = [];
     if (step.outputParameters.length > 0) {
@@ -414,7 +409,7 @@ export function getStageStepChildren(element: UI.Element): UI.StringKeyedMap<any
             dataType: FLOW_DATA_TYPE.ACTION_OUTPUT.value,
             // Subtype is added so that menu traversal will recognize outputs
             // for a given action as a different "type" needing a call to getChildrenItems
-            subtype: step.actionName,
+            subtype: step.action.actionName,
             isSpanningAllowed: true,
             getChildrenItems: () => {
                 const children = {};
@@ -439,19 +434,23 @@ export function getStageStepChildren(element: UI.Element): UI.StringKeyedMap<any
 }
 
 const createActionCallHelper = (
-    action: InvocableAction | undefined,
+    action: InvocableAction | null,
     actionName: string | undefined,
     actionType: string | undefined
-): InvocableAction | undefined => {
-    let actionCall;
+): InvocableAction => {
+    let actionCall: InvocableAction | null = null;
     if (action) {
         actionCall = createActionCall(action);
-    } else if (actionType) {
+    } else {
         actionCall = createActionCall({
             actionName,
             actionType
         });
     }
+
+    // actionType needs to be null not '' if not present
+    actionCall.actionType = actionCall.actionType ? actionCall.actionType : null;
+
     return actionCall;
 };
 
@@ -499,12 +498,12 @@ export function createStageStep(step: StageStep): StageStep {
         entryActionInputParameters = [],
         exitAction,
         exitActionInputParameters = [],
-        assignees = [],
-        relatedRecordItem = null
+        assignees,
+        relatedRecordItem
     } = step;
 
     // set up Step Action
-    newStep.action = createActionCallHelper(action, step.actionName, step.actionType);
+    newStep.action = createActionCallHelper(action, step.actionName, step.actionType)!;
     newStep.inputParameters = inputParameters.map((p) => createInputParameter(p));
     // Make sure valueDataType (expected by the ui) is set
     newStep.outputParameters = outputParameters.map((outputParameter) =>
@@ -517,9 +516,8 @@ export function createStageStep(step: StageStep): StageStep {
         })
     );
 
-    // Coming from the UI, just use relatedRecordItem.
-    if (relatedRecordItem) {
-        newStep.relatedRecordItem = Object.assign({}, relatedRecordItem);
+    if (typeof relatedRecordItem !== 'undefined') {
+        newStep.relatedRecordItem = { ...relatedRecordItem };
     } else {
         // Coming from metadata.  Get the related record out of the input parameters
         newStep.inputParameters.some((inputParameter) => {
@@ -529,32 +527,48 @@ export function createStageStep(step: StageStep): StageStep {
             }
             return false;
         });
+
+        // Nothing in metadata
+        if (!newStep.relatedRecordItem) {
+            newStep.relatedRecordItem = Object.assign({}, relatedRecordItem);
+        }
     }
 
     // Coming from metadata object - convert assignee
     if (
-        step.assignees &&
-        step.assignees.length > 0 &&
-        assignees[0].assignee &&
+        assignees?.length > 0 &&
+        assignees[0]?.assignee &&
         (assignees[0].assignee.stringValue || assignees[0].assignee.referenceValue)
     ) {
         newStep.assignees = assignees.map((assigneeFromMetadata) => {
-            return {
-                assignee: createFEROV(
-                    assigneeFromMetadata.assignee,
-                    ASSIGNEE_PROPERTY_NAME,
-                    ASSIGNEE_DATA_TYPE_PROPERTY_NAME
-                ),
-                assigneeType: assigneeFromMetadata.assigneeType
-            };
+            return assigneeFromMetadata
+                ? {
+                      assignee: {
+                          ...createFEROV(
+                              assigneeFromMetadata.assignee,
+                              ASSIGNEE_PROPERTY_NAME,
+                              ASSIGNEE_DATA_TYPE_PROPERTY_NAME
+                          )
+                      }[ASSIGNEE_PROPERTY_NAME],
+                      assigneeType: assigneeFromMetadata.assigneeType
+                  }
+                : null;
         });
     } else if (assignees) {
-        newStep.assignees = assignees.map((assignee) => {
-            return {
-                assignee: Object.assign({}, assignee.assignee),
-                assigneeType: assignee.assigneeType
-            };
+        // coming from UI
+        newStep.assignees = assignees.map((assigneeWithType) => {
+            return assigneeWithType
+                ? {
+                      assignee: assigneeWithType.assignee?.elementReference
+                          ? { ...assigneeWithType.assignee }
+                          : assigneeWithType.assignee,
+                      assigneeType: assigneeWithType.assigneeType
+                  }
+                : null;
         });
+    } else {
+        // No assignees
+        newStep.assignees = [null];
     }
 
     // set up Step's Entry Criteria
@@ -592,7 +606,7 @@ export function createOrchestratedStageMetadataObject(
 
         // Inject related record item input param
         const inputParametersWithRelatedRecord: ParameterListRowItem[] = step.inputParameters.map((p) => {
-            if (p.name === RELATED_RECORD_INPUT_PARAMETER_NAME && step.relatedRecordItem) {
+            if (p.name === RELATED_RECORD_INPUT_PARAMETER_NAME && isParameterListRowItem(step.relatedRecordItem)) {
                 return step.relatedRecordItem;
             }
 
@@ -612,36 +626,38 @@ export function createOrchestratedStageMetadataObject(
         return {
             ...baseChildElementMetadataObject(step, config),
             entryConditions: entryConditionsMetadata,
-            actionName: step.action ? step.action.actionName : null,
-            actionType: step.action ? step.action.actionType : null,
+            actionName: step.action.actionName,
+            actionType: step.action.actionType,
             inputParameters: inputParametersMetadata,
             description: step.description,
             assignees: step.assignees.map((assigneeUI) => {
-                let assigneeForMetadata = assigneeUI.assignee.assignee;
+                let assigneeForMetadata = assigneeUI ? assigneeUI.assignee : null;
 
                 let ferovDataType: string | null = FEROV_DATA_TYPE.STRING;
-                if (assigneeUI.assignee.elementReference) {
-                    assigneeForMetadata = assigneeUI.assignee.elementReference;
+                if (assigneeForMetadata && assigneeForMetadata.elementReference) {
+                    assigneeForMetadata = assigneeForMetadata.elementReference;
                     ferovDataType = FEROV_DATA_TYPE.REFERENCE;
                 }
 
-                return {
-                    assignee: createFEROVMetadataObject(
-                        {
-                            assignee: assigneeForMetadata,
-                            assigneeDataType: ferovDataType
-                        },
-                        ASSIGNEE_PROPERTY_NAME,
-                        ASSIGNEE_DATA_TYPE_PROPERTY_NAME
-                    ),
-                    assigneeType: assigneeUI.assigneeType
-                };
+                return assigneeUI
+                    ? {
+                          assignee: createFEROVMetadataObject(
+                              {
+                                  assignee: assigneeForMetadata,
+                                  assigneeDataType: ferovDataType
+                              },
+                              ASSIGNEE_PROPERTY_NAME,
+                              ASSIGNEE_DATA_TYPE_PROPERTY_NAME
+                          ),
+                          assigneeType: assigneeUI.assigneeType
+                      }
+                    : null;
             }),
-            entryActionName: step.entryAction && step.entryAction.actionName ? step.entryAction.actionName : null,
-            entryActionType: step.entryAction && step.entryAction.actionType ? step.entryAction.actionType : null,
+            entryActionName: step.entryAction.actionName ? step.entryAction.actionName : null,
+            entryActionType: step.entryAction.actionType,
             entryActionInputParameters: entryActionInputParametersMetadata,
-            exitActionName: step.exitAction && step.exitAction.actionName ? step.exitAction.actionName : null,
-            exitActionType: step.exitAction && step.exitAction.actionType ? step.exitAction.actionType : null,
+            exitActionName: step.exitAction.actionName ? step.exitAction.actionName : null,
+            exitActionType: step.exitAction.actionType,
             exitActionInputParameters: exitActionInputParametersMetadata
         };
     });
@@ -654,14 +670,8 @@ export function createOrchestratedStageMetadataObject(
         baseCanvasElementMetadataObject(orchestratedStage, config),
         {
             stageSteps,
-            exitActionName:
-                orchestratedStage.exitAction && orchestratedStage.exitAction.actionName
-                    ? orchestratedStage.exitAction.actionName
-                    : null,
-            exitActionType:
-                orchestratedStage.exitAction && orchestratedStage.exitAction.actionType
-                    ? orchestratedStage.exitAction.actionType
-                    : null,
+            exitActionName: orchestratedStage.exitAction?.actionName,
+            exitActionType: orchestratedStage.exitAction?.actionType,
             exitActionInputParameters: stageExitActionInputParametersMetadata
         }
     );

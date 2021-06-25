@@ -117,6 +117,7 @@ export { DeleteOrchestrationActionEvent } from './deleteOrchestrationActionEvent
 export { DeleteAllConditionsEvent } from './deleteAllConditionsEvent';
 export { CreateEntryConditionsEvent } from './createEntryConditionsEvent';
 export { OrchestrationActionValueChangedEvent } from './orchestrationActionValueChangedEvent';
+export { OrchestrationAssigneeChangedEvent } from './orchestrationAssigneeChangedEvent';
 export { ResumeDebugFlowEvent } from './debugPanelEvents/resumeDebugFlowEvent';
 export { ORCHESTRATED_ACTION_CATEGORY } from './orchestratedActionCategory';
 export { DebugPanelFilterEvent } from './debugPanelEvents/debugPanelFilterEvent';

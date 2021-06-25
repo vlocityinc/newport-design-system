@@ -289,14 +289,14 @@ export default class LabelDescription extends LightningElement {
      *
      */
     renderedCallback() {
-        if (this._shouldSetLabelError) {
+        if (this.isEditable && this._shouldSetLabelError) {
             const labelInput = this.template.querySelector(SELECTORS.LABEL);
             this.resetError(labelInput, this.state.label.error, this.labelRequired);
             this.setInputErrorMessage(labelInput, this.state.label.error);
             this._shouldSetLabelError = false;
         }
 
-        if (this._shouldSetDevNameError) {
+        if (this.isEditable && this._shouldSetDevNameError) {
             const devNameInput = this.template.querySelector(SELECTORS.DEV_NAME);
             this.resetError(devNameInput, this.state.devName.error, true);
             this.setInputErrorMessage(devNameInput, this.state.devName.error);

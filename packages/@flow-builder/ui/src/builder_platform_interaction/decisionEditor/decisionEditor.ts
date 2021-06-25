@@ -94,6 +94,12 @@ export default class DecisionEditor extends LightningElement {
         if (this.decisionElement?.config?.hasError !== oldHasError) {
             this.dispatchEvent(new UpdateNodeEvent(this.decisionElement));
         }
+
+        // Reopening existing elements should always validate
+        // This has to be done manually in every property editor
+        if (!newValue.isNew) {
+            this.validate();
+        }
     }
 
     get showDeleteOutcome() {

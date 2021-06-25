@@ -146,7 +146,7 @@ function translateEventToAction(event) {
                 element = getElementForStore(
                     getElementForPropertyEditor({
                         elementType,
-                        isNewElement: true,
+                        isNew: true,
                         prev,
                         next,
                         childIndex,
