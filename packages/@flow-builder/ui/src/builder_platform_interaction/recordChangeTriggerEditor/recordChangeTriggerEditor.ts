@@ -45,8 +45,6 @@ export default class RecordChangeTriggerEditor extends LightningElement {
     @track
     _configurationEditor;
 
-    @track requireRecordChangeOption = EXECUTE_OUTCOME_WHEN_OPTION_VALUES.EVERY_TIME_CONDITION_MET;
-
     labels = LABELS;
 
     // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
@@ -124,6 +122,12 @@ export default class RecordChangeTriggerEditor extends LightningElement {
             });
         }
         return this._configurationEditor;
+    }
+
+    get requireRecordChangeOption() {
+        return this.startElement.doesRequireRecordChangedToMeetCriteria
+            ? EXECUTE_OUTCOME_WHEN_OPTION_VALUES.ONLY_WHEN_CHANGES_MEET_CONDITIONS
+            : EXECUTE_OUTCOME_WHEN_OPTION_VALUES.EVERY_TIME_CONDITION_MET;
     }
 
     get elementType() {
@@ -470,12 +474,7 @@ export default class RecordChangeTriggerEditor extends LightningElement {
         this.startElement = recordChangeTriggerReducer(this.startElement, event);
         this.disableRecordChangeOptionsIndicator = this.hasFilterWithOperator(FlowComparisonOperator.IsChanged);
         if (this.disableRecordChangeOptionsIndicator) {
-            this.requireRecordChangeOption = EXECUTE_OUTCOME_WHEN_OPTION_VALUES.EVERY_TIME_CONDITION_MET;
             this.startElement.doesRequireRecordChangedToMeetCriteria = false;
-        } else {
-            this.requireRecordChangeOption = this.startElement.doesRequireRecordChangedToMeetCriteria
-                ? EXECUTE_OUTCOME_WHEN_OPTION_VALUES.ONLY_WHEN_CHANGES_MEET_CONDITIONS
-                : EXECUTE_OUTCOME_WHEN_OPTION_VALUES.EVERY_TIME_CONDITION_MET;
         }
         this.dispatchEvent(new UpdateNodeEvent(this.startElement));
     }
@@ -523,9 +522,8 @@ export default class RecordChangeTriggerEditor extends LightningElement {
     handleRequireRecordChangeOptionOnChange(event) {
         event.stopPropagation();
         const oldRRCMC = this.requireRecordChangeOption !== EXECUTE_OUTCOME_WHEN_OPTION_VALUES.EVERY_TIME_CONDITION_MET;
-        this.requireRecordChangeOption = event.detail.value;
         const doesRequireRecordChangedToMeetCriteria =
-            this.requireRecordChangeOption !== EXECUTE_OUTCOME_WHEN_OPTION_VALUES.EVERY_TIME_CONDITION_MET;
+            event.detail.value !== EXECUTE_OUTCOME_WHEN_OPTION_VALUES.EVERY_TIME_CONDITION_MET;
         this.updateProperty(
             'doesRequireRecordChangedToMeetCriteria',
             doesRequireRecordChangedToMeetCriteria,
