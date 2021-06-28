@@ -2,9 +2,10 @@
     <div if:true={showSpinner} class="slds-spinner_container">
         <lightning-spinner variant="brand" alternative-text={spinnerAlternativeText}></lightning-spinner>
     </div>
-    <div class="slds-grid slds-grid_vertical slds-is-fixed slds-grid_frame">
+    <div role="main" class="slds-grid slds-grid_vertical slds-is-fixed slds-grid_frame">
         <div class="slds-builder-header_container slds-is-relative">
             <builder_platform_interaction-header
+                role="banner"
                 aria-label={labels.ariaLabelHeader}
                 flow-name={properties.label}
                 flow-version={properties.versionNumber}
@@ -22,6 +23,7 @@
                 debug-interview-status={debugInterviewStatus}
             ></builder_platform_interaction-header>
             <builder_platform_interaction-toolbar
+                role="banner"
                 aria-label={labels.ariaLabelToolbar}
                 ontoggleselectionmode={handleToggleSelectionMode}
                 oncopyoncanvas={handleCopy}
@@ -84,6 +86,7 @@
                 elements={toolboxElements}
                 palette={palette}
                 show-elements-tab={showLeftPanelElementsTab}
+                role="complementary"
             ></builder_platform_interaction-left-panel>
             <div if:true={hasCanvasElements} class="slds-col">
                 <!--
@@ -100,6 +103,7 @@
                     ontogglemarqueeon={handleClosePropertyEditor}
                     onclosepropertyeditor={handleClosePropertyEditor}
                     onnodeselected={handleNodeSelected}
+                    role="region"
                 >
                 </builder_platform_interaction-canvas-container>
                 <builder_platform_interaction-alc-canvas-container
@@ -125,6 +129,7 @@
                     onalccreateconnection={handleAlcCreateConnection}
                     oncreategotoconnection={handleGoToCreation}
                     ondeletegotoconnection={handleGoToDeletion}
+                    role="region"
                 >
                 </builder_platform_interaction-alc-canvas-container>
             </div>
