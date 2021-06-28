@@ -316,7 +316,7 @@ export default class RecordCreateEditor extends LightningElement {
 
     handleAssignRecordIdToReferenceEvent(event) {
         event.stopPropagation();
-        const value = event.detail.item ? event.detail.item.value : undefined;
+        const value = event.detail.item ? event.detail.item.value : '';
         this.updateProperty('assignRecordIdToReference', value, event.detail.error, false);
     }
 

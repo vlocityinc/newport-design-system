@@ -10,7 +10,8 @@ import {
     SObjectReferenceChangedEvent,
     AddRecordFieldAssignmentEvent,
     DeleteRecordFieldAssignmentEvent,
-    UpdateRecordFieldAssignmentEvent
+    UpdateRecordFieldAssignmentEvent,
+    ComboboxStateChangedEvent
 } from 'builder_platform_interaction/events';
 import {
     getManuallyAssignVariablesCheckboxInputElement,
@@ -569,6 +570,16 @@ describe('record-create-editor', () => {
                         const outputResourcePickerForId = getOutputResourcePickerForId(recordCreateEditor);
                         const config = outputResourcePickerForId.comboboxConfig;
                         expect(config.enableFieldDrilldown).toEqual(true);
+                    });
+                    it('sets value to empty string when assignRecordIdToReference is made empty', () => {
+                        getOutputResourcePickerForId(recordCreateEditor).dispatchEvent(
+                            new ComboboxStateChangedEvent(null, '', null)
+                        );
+
+                        expect(recordCreateEditor.node.assignRecordIdToReference).toStrictEqual({
+                            value: '',
+                            error: null
+                        });
                     });
                     it('storeOutputAutomatically should be undefined', () => {
                         expect(recordCreateEditor.node.storeOutputAutomatically).toBeUndefined();
