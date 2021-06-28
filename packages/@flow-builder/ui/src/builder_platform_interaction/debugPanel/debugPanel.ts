@@ -44,12 +44,12 @@ export default class DebugPanel extends LightningElement {
             value: LABELS.transactionFilter
         }
     ];
+    _selectedOptions = LABELS.basicFilter;
     expandAll = true;
     expandLabelVar = LABELS.expandAllLabel;
     expandTitleVar = LABELS.expandAllTitle;
+    fromDebugRun = false;
     activeSections = [];
-
-    _selectedOptions = LABELS.basicFilter;
 
     get selectedOptions() {
         return this._selectedOptions;
@@ -72,7 +72,7 @@ export default class DebugPanel extends LightningElement {
             this._selectedOptions = LABELS.basicFilter;
             this.handleDefaultFilter();
         } else {
-            this._selectedOptions = this.checkboxSelections.join(', ');
+            this._selectedOptions = this.checkboxSelections.join(',\n');
             // the checkbox group event detail value ONLY contains selected options
             this.filterOptions = this.filterOptions.map((e) => {
                 switch (e.label) {
@@ -131,6 +131,10 @@ export default class DebugPanel extends LightningElement {
             }
             return '';
         });
+        this.fromDebugRun = true;
+        this.expandAll = true;
+        this.expandLabelVar = LABELS.expandAllLabel;
+        this.expandTitleVar = LABELS.expandAllTitle;
     }
 
     updateProperties(data) {
@@ -155,12 +159,14 @@ export default class DebugPanel extends LightningElement {
 
     renderedCallback() {
         const ac = this.template.querySelectorAll('[data-name="Resume label"]');
-        if (ac[ac.length - 1]) {
+        if (ac[ac.length - 1] && this.fromDebugRun) {
             ac[ac.length - 1].setAttribute('tabindex', '-1');
             ac[ac.length - 1].focus();
-        } else {
+        } else if (this.fromDebugRun) {
             const resumeCard = this.template.querySelector('.slds-panel__header');
             resumeCard.focus();
         }
+        // reset this here everytime the panel renders, so it's only set to true when a debug run is made
+        this.fromDebugRun = false;
     }
 }

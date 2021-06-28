@@ -266,11 +266,11 @@ describe('filter behaviour', () => {
         beforeEach(() => {
             debugPanel = createComponentUnderTest(fakeResumedInterview, undefined, false, true);
         });
-        it('resume card is focused when isFromFakeResume is true', () => {
-            const head = debugPanel.shadowRoot.querySelector('[data-name="Resume label"]');
+        it('resume card is focused when panel is rendered', () => {
+            const resumeSection = debugPanel.shadowRoot.querySelector('[data-name="Resume label"]');
             const focusedElement = document.activeElement;
             // eslint-disable-next-line
-            expect(head.innerHTML).toBe(focusedElement.shadowRoot.activeElement.innerHTML);
+            expect(resumeSection.innerHTML).toBe(focusedElement.shadowRoot.activeElement.innerHTML);
         });
     });
     describe('debug focus behavior', () => {
@@ -281,6 +281,16 @@ describe('filter behaviour', () => {
         it('tabindex of debug details header should be -1', () => {
             const head = debugPanel.shadowRoot.querySelector(selectors.header);
             expect(head.getAttribute('tabindex')).toEqual('-1');
+        });
+        it('focus is not shifted to resume card when other buttons are clicked', async () => {
+            const resumeSection = debugPanel.shadowRoot.querySelector('[data-name="Resume label"]');
+            const expandButton = debugPanel.shadowRoot.querySelector('.test-expand-button');
+            expandButton.focus();
+            const callback = jest.fn();
+            resumeSection.addEventListener('focus', callback);
+            expandButton.click();
+            await ticks(1);
+            expect(callback).toBeCalledTimes(0);
         });
     });
 });
