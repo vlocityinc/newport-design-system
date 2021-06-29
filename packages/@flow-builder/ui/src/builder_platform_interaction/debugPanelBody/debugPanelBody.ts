@@ -172,12 +172,7 @@ export default class debugPanelBody extends LightningElement {
     }
 
     needsWarningIcon(currString) {
-        if (
-            currString.match(NULL) ||
-            currString.match(EQUALSNULL) ||
-            currString.includes(NULLPARENS) ||
-            failedToCRUDRecordAbsoluteMatches.includes(currString)
-        ) {
+        if (failedToCRUDRecordAbsoluteMatches.includes(currString)) {
             return true;
         }
         return (

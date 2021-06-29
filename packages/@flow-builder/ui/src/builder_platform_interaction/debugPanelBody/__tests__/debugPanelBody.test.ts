@@ -354,16 +354,16 @@ describe('warning icon test cases', () => {
             expect(warningIcon).not.toBeNull();
         });
     });
-    describe('warning icons positive cases for null', () => {
+    describe('warning icons negative cases for null', () => {
         it('has warning icon when there variable "Equals" null', () => {
             debugPanelBody = createComponentUnderTest(varEqualsNull);
             const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
-            expect(warningIcon).not.toBeNull();
+            expect(warningIcon).toBeNull();
         });
         it('has warning icon when there variable "=" null', () => {
             debugPanelBody = createComponentUnderTest(varEqualSignNull);
             const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
-            expect(warningIcon).not.toBeNull();
+            expect(warningIcon).toBeNull();
         });
     });
     describe('Warning Icon negative cases', () => {
