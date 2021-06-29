@@ -155,6 +155,15 @@ export const MODAL_SIZE = {
 
 /**
  * @constant
+ * @type {string} PROPERTY_EDITOR_PANEL_SIZE full or x-large (default)
+ */
+export const PROPERTY_EDITOR_PANEL_SIZE = {
+    FULL: 'slds-size_full',
+    X_LARGE: 'size-x-large'
+};
+
+/**
+ * @constant
  * @type {string} ICON_SHAPE diamond, circle, or square (default)
  */
 export const ICON_SHAPE = {
@@ -236,7 +245,8 @@ export const elementTypeToConfigMap: {
             connectorPickerHeader: LABELS.startConnectorPickerHeader,
             comboBoxLabel: LABELS.startConnectorPickerComboBoxLabel,
             connectorPickerBodyText: LABELS.startConnectorPickerBodyText
-        }
+        },
+        propertyEditorPanelSize: PROPERTY_EDITOR_PANEL_SIZE.FULL
     },
     [ELEMENT_TYPE.SUBFLOW]: {
         descriptor: {
@@ -558,6 +568,7 @@ export const elementTypeToConfigMap: {
         canvasElement: true,
         areChildElementsSupported: true,
         canHaveDefaultConnector: true,
+        propertyEditorPanelSize: PROPERTY_EDITOR_PANEL_SIZE.FULL,
         factory: {
             propertyEditor: createDecisionWithOutcomes,
             closePropertyEditor: createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor,

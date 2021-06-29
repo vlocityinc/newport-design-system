@@ -379,7 +379,8 @@ export const getPropertyEditorConfig = (mode, attributes) => {
         bodyClass: elementConfig.bodyCssClass || '',
         isLabelCollapsibleToHeader: false,
         isFieldLevelCommitEnabled: false,
-        elementType
+        elementType,
+        propertyEditorPanelSize: elementConfig.propertyEditorPanelSize
     };
 
     return {

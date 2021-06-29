@@ -3,6 +3,7 @@ import { LightningElement, track, api } from 'lwc';
 
 import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
 import { LABELS } from './propertyEditorPanelLabels';
+import { PROPERTY_EDITOR_PANEL_SIZE } from 'builder_platform_interaction/elementConfig';
 
 /**
  * LWC version of the property editor, for use in lwc (as opposed to aura modal version)
@@ -74,5 +75,13 @@ export default class PropertyEditorPanel extends LightningElement {
     handleClose() {
         const closePropertyEditorEvent = new ClosePropertyEditorEvent();
         this.dispatchEvent(closePropertyEditorEvent);
+    }
+
+    get propertyEditorClass() {
+        let propertyEditorClass = 'property-editor-scroll ';
+        propertyEditorClass += this.editorParams?.panelConfig.propertyEditorPanelSize
+            ? this.editorParams?.panelConfig.propertyEditorPanelSize
+            : PROPERTY_EDITOR_PANEL_SIZE.X_LARGE;
+        return propertyEditorClass;
     }
 }

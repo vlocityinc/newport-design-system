@@ -9,3 +9,7 @@ lightning-button-icon.slds-icon-utility-close {
     right: 0px;
     z-index: 4;
 }
+
+.size-x-large {
+    width: var(--lwc-sizeXLarge);
+}

@@ -7,7 +7,7 @@
         class="slds-icon_container slds-icon-utility-close slds-current-color test-help-utility-icon slds-is-absolute slds-p-around_small slds-p-left_none close-panel-button"
         onclick={handleClose}
     ></lightning-button-icon>
-    <div class="property-editor-scroll" onsetpropertyeditortitle={setPropertyEditorTitle}>
+    <div onsetpropertyeditortitle={setPropertyEditorTitle} class={propertyEditorClass}>
         <x-lazy
             if:true={ready}
             class="inline-property-editor"

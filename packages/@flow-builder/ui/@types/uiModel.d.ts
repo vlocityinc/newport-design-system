@@ -280,6 +280,7 @@ declare namespace UI {
         nonHydratableProperties?: string[];
         getChildrenItems?: (element: Element) => StringKeyedMap<any>;
         hasOwnPropertyEditor?: boolean;
+        propertyEditorPanelSize?: string;
     }
 
     interface LabelsObject {
