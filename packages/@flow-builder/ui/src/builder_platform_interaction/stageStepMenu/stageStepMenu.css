@@ -1,0 +1,20 @@
+.header {
+    text-align: center;
+    background: #fafafb;
+}
+
+.cancel {
+    text-align: center;
+}
+
+.body {
+    background-color: #fff;
+}
+
+.body-fixed-height {
+    height: 12rem;
+}
+
+.background-dark {
+    background-color: rgb(0, 57, 107);
+}

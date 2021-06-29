@@ -1,5 +1,5 @@
 <template>
-    <div class="stepped-stage-node">
+    <div class="stepped-stage-node" onclosemenu={handleCloseStepMenu}>
         <div class="main">
             <h3
                 class="header slds-m-top_large slds-p-bottom_small slds-p-horizontal_small slds-border_bottom slds-text-heading_small slds-truncate"
@@ -52,8 +52,9 @@
                     </template>
                 </div>
                 <button
-                    onclick={handleAddItem}
-                    class="slds-m-horizontal_small slds-button slds-button_neutral slds-m-bottom_small slds-m-top_small add-item"
+                    if:false={showStepMenuHideAddItem}
+                    onclick={handleOpenStepMenu}
+                    class="slds-m-horizontal_small slds-button slds-button_neutral slds-m-bottom_small slds-m-top_medium add-item"
                 >
                     <lightning-icon
                         icon-name="utility:add"
@@ -62,6 +63,10 @@
                     ></lightning-icon>
                     {labels.addNewStageStep}
                 </button>
+                <builder_platform_interaction-stage-step-menu
+                    if:true={showStepMenuHideAddItem}
+                    node={node}
+                ></builder_platform_interaction-stage-step-menu>
             </div>
         </div>
     </div>

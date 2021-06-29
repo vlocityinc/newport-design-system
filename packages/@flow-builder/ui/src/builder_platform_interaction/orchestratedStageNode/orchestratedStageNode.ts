@@ -41,6 +41,8 @@ export default class OrchestratedStageNode extends LightningElement {
         return this.computeStepItems(this._items);
     }
 
+    private showStepMenuHideAddItem = false;
+
     @api
     isDefaultMode?: boolean;
 
@@ -124,31 +126,9 @@ export default class OrchestratedStageNode extends LightningElement {
             } else if (deleteItemButtons.includes(currentItemInFocus)) {
                 this.handleDeleteItem(undefined, currentItemInFocus);
             } else if (currentItemInFocus === this.template.querySelector(selectors.addStepItemButton)) {
-                this.handleAddItem(undefined, true);
+                this.handleOpenStepMenu();
             }
         }
-    }
-
-    /**
-     * Adding StageStep directly from canvas
-     *
-     * @param event - mouse event on Add Step button
-     * @param designateFocus - indicates whether or not to designate focus to the property editor when opened
-     */
-    handleAddItem(event?: MouseEvent, designateFocus = false) {
-        if (event) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
-
-        const addItemEvent = new AddElementEvent({
-            elementType: ELEMENT_TYPE.STAGE_STEP,
-            // TODO this should come from the step type menu
-            actionType: ACTION_TYPE.CREATE_WORK_ITEM,
-            parent: this.node && this.node.guid,
-            designateFocus
-        });
-        this.dispatchEvent(addItemEvent);
     }
 
     /**
@@ -277,5 +257,33 @@ export default class OrchestratedStageNode extends LightningElement {
         };
 
         setupKeyboardShortcutUtil(this.keyboardInteractions, keyboardCommands);
+    }
+
+    /**
+     * Show the step menu when the Add New Step button is clicked
+     *
+     * @param event - the mouse event upon the 'Add New Step' button
+     */
+    handleOpenStepMenu(event?: MouseEvent) {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
+        this.showStepMenuHideAddItem = true;
+    }
+
+    /**
+     * Hide the step menu when the Cancel button is clicked
+     *
+     * @param event - the mouse event upon the Step Menu's 'Cancel' button
+     */
+    handleCloseStepMenu(event?: MouseEvent) {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
+        this.showStepMenuHideAddItem = false;
     }
 }

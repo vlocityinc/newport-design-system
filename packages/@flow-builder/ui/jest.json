@@ -12,6 +12,8 @@
         "^builder_platform_interaction/alcCanvas$": "<rootDir>/../auto-layout-canvas-ui/src/builder_platform_interaction/alcCanvas/alcCanvas.ts",
         "^builder_platform_interaction/alcEvents$": "<rootDir>/../auto-layout-canvas-ui/src/builder_platform_interaction/alcEvents/alcEvents.ts",
         "^builder_platform_interaction/contextualMenuUtils$": "<rootDir>/../auto-layout-canvas-ui/src/builder_platform_interaction/contextualMenuUtils/contextualMenuUtils.ts",
+        "^builder_platform_interaction/menu$": "<rootDir>/../auto-layout-canvas-ui/src/builder_platform_interaction/menu/menu.ts",
+        "^builder_platform_interaction/alcComponentsUtils$": "<rootDir>/../auto-layout-canvas-ui/src/builder_platform_interaction/alcComponentsUtils/alcComponentsUtils.ts",
         "^(builder_platform_interaction)/(.+)$": "<rootDir>/src/$1/$2/$2",
         "^(builder_framework)/(.+)$": "<rootDir>/../shared-utils/jest-modules/$1/$2/$2",
 
