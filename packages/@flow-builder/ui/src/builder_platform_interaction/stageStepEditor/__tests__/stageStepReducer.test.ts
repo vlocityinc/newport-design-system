@@ -318,6 +318,59 @@ describe('StageStep Reducer', () => {
             });
         });
 
+        it('updates the autolaunched step action', () => {
+            const event = {
+                type: OrchestrationActionValueChangedEvent.EVENT_NAME,
+                detail: {
+                    value: {
+                        actionName: 'someAction',
+                        actionType: ACTION_TYPE.ORCHESTRATOR_AUTOLAUNCHED_FLOW
+                    },
+                    error: null,
+                    actionCategory: ORCHESTRATED_ACTION_CATEGORY.STEP
+                }
+            };
+
+            stageStepReducer(originalState, event);
+
+            expect(updateProperties).toHaveBeenCalledWith(originalState, {
+                action: {
+                    elementType: ELEMENT_TYPE.ACTION_CALL,
+                    actionType: ACTION_TYPE.ORCHESTRATOR_AUTOLAUNCHED_FLOW,
+                    actionName: event.detail.value.actionName
+                },
+                actionName: event.detail.value.actionName,
+                inputParameters: [],
+                outputParameters: []
+            });
+        });
+
+        it('preserves the action type even if the action name is cleared', () => {
+            const event = {
+                type: OrchestrationActionValueChangedEvent.EVENT_NAME,
+                detail: {
+                    value: {
+                        actionType: ACTION_TYPE.ORCHESTRATOR_AUTOLAUNCHED_FLOW
+                    },
+                    error: null,
+                    actionCategory: ORCHESTRATED_ACTION_CATEGORY.STEP
+                }
+            };
+
+            stageStepReducer(originalState, event);
+
+            expect(updateProperties).toHaveBeenCalledWith(originalState, {
+                action: {
+                    elementType: ELEMENT_TYPE.ACTION_CALL,
+                    actionType: ACTION_TYPE.ORCHESTRATOR_AUTOLAUNCHED_FLOW,
+                    actionName: { value: '', error: null }
+                },
+                actionName: { value: '', error: null },
+                inputParameters: [],
+                outputParameters: []
+            });
+        });
+
         it('calls removeAllUnsetParameters', () => {
             const event = {
                 type: OrchestrationActionValueChangedEvent.EVENT_NAME,
