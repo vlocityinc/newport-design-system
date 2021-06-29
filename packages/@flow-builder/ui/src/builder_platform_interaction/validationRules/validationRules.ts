@@ -34,6 +34,10 @@ const regexConfig = {
         regexPattern: '^\\s*$',
         message: cannotBeBlankError
     },
+    richTextAreaShouldNotBeBlank: {
+        regexPattern: '<p>*\\s*<\\/p>',
+        message: cannotBeBlankError
+    },
     shouldNotBeginOrEndWithUnderscores: {
         regexPattern: '^_{1,}|_{1,}$|_{2,}',
         message: LABELS.shouldNotBeginOrEndWithUnderscores
@@ -63,6 +67,8 @@ export const VALIDATE_ALL = 'VALIDATE_ALL';
  * @returns {string|null} errorString or null
  */
 export const shouldNotBeBlank = (value) => evaluateRegex(regexConfig.shouldNotBeBlank, value);
+
+export const richTextAreaShouldNotBeBlank = (value) => evaluateRegex(regexConfig.richTextAreaShouldNotBeBlank, value);
 
 /**
  * Function to test the value should not begin or end with underscore

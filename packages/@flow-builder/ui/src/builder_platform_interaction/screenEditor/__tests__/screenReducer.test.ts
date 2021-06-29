@@ -20,6 +20,9 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel, accountSObjectVariable } from 'mock/storeData';
 import { ScreenFieldName } from 'builder_platform_interaction/screenEditorUtils';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { FOOTER_LABEL_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { LABELS as validationRulesLabels } from 'builder_platform_interaction/validationRules';
+import { ScreenProperties } from 'builder_platform_interaction/screenEditorUtils';
 
 const section1Guid = 'section1';
 const column1Guid = 'column1';
@@ -74,6 +77,88 @@ describe('screen reducer', () => {
         expect(newScreen).toBeDefined();
         expect(newScreen.label.value).toEqual('newlabel');
         expect(newScreen).not.toBe(screen);
+    });
+
+    describe('custom footer labels', () => {
+        it('sets helpText error to null if allowHelp is changed to false and the helpText value is blank', () => {
+            const setAllowHelpToFalseEvent = {
+                type: PropertyChangedEvent.EVENT_NAME,
+                detail: {
+                    propertyName: ScreenProperties.ALLOW_HELP,
+                    value: { value: false, error: null },
+                    error: null
+                }
+            };
+            const screen = createTestScreen(SCREEN_NAME);
+            screen.helpText.error = validationRulesLabels.cannotBeBlank;
+            screen.allowHelp = true;
+            const newScreen2 = screenReducer(screen, setAllowHelpToFalseEvent, screen);
+            expect(newScreen2.helpText.error).toBeNull();
+        });
+
+        it('sets pausedText error to null if the pauseMessageType is changed to standard and pausedText is blank', () => {
+            const setPauseMessageTypeToStandardEvent = {
+                type: PropertyChangedEvent.EVENT_NAME,
+                detail: {
+                    propertyName: ScreenProperties.PAUSE_MESSAGE_TYPE,
+                    value: { value: FOOTER_LABEL_TYPE.STANDARD, error: null },
+                    error: null
+                }
+            };
+            const screen = createTestScreen(SCREEN_NAME);
+            screen.pausedText.error = validationRulesLabels.cannotBeBlank;
+            screen.pauseMessageType.value = FOOTER_LABEL_TYPE.CUSTOM;
+            const newScreen2 = screenReducer(screen, setPauseMessageTypeToStandardEvent, screen);
+            expect(newScreen2.pausedText.error).toBeNull();
+        });
+
+        it('sets nextOrFinishLabel error to null if the label type is not custom and the label value is blank', () => {
+            const changeLabelTypeEvent = {
+                type: PropertyChangedEvent.EVENT_NAME,
+                detail: {
+                    propertyName: ScreenProperties.NEXT_OR_FINISH_LABEL_TYPE,
+                    value: { value: FOOTER_LABEL_TYPE.HIDE, error: null },
+                    error: null
+                }
+            };
+            const screen = createTestScreen(SCREEN_NAME);
+            screen.nextOrFinishLabel.value = '';
+            screen.nextOrFinishLabel.error = validationRulesLabels.cannotBeBlank;
+            const newScreen = screenReducer(screen, changeLabelTypeEvent, screen);
+            expect(newScreen.nextOrFinishLabel.error).toBeNull();
+        });
+
+        it('sets pauseLabelType error to null if the label type is not custom and the label value is blank', () => {
+            const changeLabelTypeEvent = {
+                type: PropertyChangedEvent.EVENT_NAME,
+                detail: {
+                    propertyName: ScreenProperties.PAUSE_LABEL_TYPE,
+                    value: { value: FOOTER_LABEL_TYPE.HIDE, error: null },
+                    error: null
+                }
+            };
+            const screen = createTestScreen(SCREEN_NAME);
+            screen.pauseLabel.value = '';
+            screen.pauseLabel.error = validationRulesLabels.cannotBeBlank;
+            const newScreen = screenReducer(screen, changeLabelTypeEvent, screen);
+            expect(newScreen.pauseLabel.error).toBeNull();
+        });
+
+        it('sets backLabelType error to null if the label type is not custom and the label value is blank', () => {
+            const changeLabelTypeEvent = {
+                type: PropertyChangedEvent.EVENT_NAME,
+                detail: {
+                    propertyName: ScreenProperties.BACK_LABEL_TYPE,
+                    value: { value: FOOTER_LABEL_TYPE.HIDE, error: null },
+                    error: null
+                }
+            };
+            const screen = createTestScreen(SCREEN_NAME);
+            screen.backLabel.value = '';
+            screen.backLabel.error = validationRulesLabels.cannotBeBlank;
+            const newScreen = screenReducer(screen, changeLabelTypeEvent, screen);
+            expect(newScreen.backLabel.error).toBeNull();
+        });
     });
 
     it('change screen field property', () => {

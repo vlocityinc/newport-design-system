@@ -3,7 +3,8 @@ import {
     screenValidation,
     getExtensionParameterValidation,
     getRulesForField,
-    getDynamicTypeMappingValidation
+    getDynamicTypeMappingValidation,
+    getRules
 } from './screenValidation';
 import { VALIDATE_ALL, isUniqueDevNameInStore } from 'builder_platform_interaction/validationRules';
 import { conditionListReducer } from 'builder_platform_interaction/conditionListReducer';
@@ -15,7 +16,8 @@ import {
     replaceItem,
     hydrateWithErrors,
     isItemHydratedWithErrors,
-    getValueFromHydratedItem
+    getValueFromHydratedItem,
+    getErrorFromHydratedItem
 } from 'builder_platform_interaction/dataMutationLib';
 import {
     PropertyChangedEvent,
@@ -49,12 +51,14 @@ import {
     extendFlowExtensionScreenField,
     getColumnFieldType,
     isRegionContainerField,
-    getScreenFieldTypeByName
+    getScreenFieldTypeByName,
+    ScreenProperties
 } from 'builder_platform_interaction/screenEditorUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
 import { InputsOnNextNavToAssocScrnOption } from 'builder_platform_interaction/screenEditorUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { FOOTER_LABEL_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 /**
  * Replaces the field at the specified position with the updatedChild and then updates the fields
@@ -920,7 +924,52 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
         // If nothing changed, return the screen, unchanged.
         return screen;
     }
+
+    updatedNode = clearFooterLabelErrorToNullIfNecessary(
+        updatedNode,
+        getValueFromHydratedItem(event.detail.value),
+        property
+    );
+
+    updatedNode = clearTextAreaErrorToNullIfNecessary(
+        updatedNode,
+        getValueFromHydratedItem(event.detail.value),
+        property
+    );
+
     return updatedNode;
+};
+
+const clearTextAreaErrorToNullIfNecessary = (screenNode, value, property) => {
+    if (
+        property === ScreenProperties.PAUSE_MESSAGE_TYPE &&
+        value === FOOTER_LABEL_TYPE.STANDARD &&
+        getErrorFromHydratedItem(screenNode.pausedText) !== null
+    ) {
+        screenNode.pausedText.error = null;
+    } else if (
+        property === ScreenProperties.ALLOW_HELP &&
+        !value &&
+        getErrorFromHydratedItem(screenNode.helpText) !== null
+    ) {
+        screenNode.helpText.error = null;
+    }
+    return screenNode;
+};
+
+const clearFooterLabelErrorToNullIfNecessary = (screenNode, labelType, property) => {
+    if (labelType !== FOOTER_LABEL_TYPE.CUSTOM) {
+        if (property === ScreenProperties.NEXT_OR_FINISH_LABEL_TYPE && screenNode.nextOrFinishLabel.error !== null) {
+            screenNode.nextOrFinishLabel.error = null;
+        }
+        if (property === ScreenProperties.BACK_LABEL_TYPE && screenNode.backLabel.error !== null) {
+            screenNode.backLabel.error = null;
+        }
+        if (property === ScreenProperties.PAUSE_LABEL_TYPE && screenNode.pauseLabel.error !== null) {
+            screenNode.pauseLabel.error = null;
+        }
+    }
+    return screenNode;
 };
 
 /**
@@ -1047,7 +1096,7 @@ export const screenReducer = (state, event, selectedNode?) => {
             return changeColumnWidth(state, event);
 
         case VALIDATE_ALL:
-            return screenValidation.validateAll(state);
+            return screenValidation.validateAll(state, getRules(state));
 
         case AddConditionEvent.EVENT_NAME:
             return addCondition(state, selectedNode, event);

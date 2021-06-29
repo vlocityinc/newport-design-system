@@ -10,7 +10,7 @@ import {
 } from 'builder_platform_interaction/screenEditorUtils';
 import { isReference } from 'builder_platform_interaction/commonUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-
+import { FOOTER_LABEL_TYPE, PAUSE_MESSAGE_TYPE } from 'builder_platform_interaction/flowMetadata';
 const LONG_STRING_LEN = 65535;
 const MAX_SCALE_VALUE = 17;
 
@@ -53,10 +53,12 @@ const addDefaultRules = (rules) => {
  * @param {object} rules - The rules
  */
 const addCommonRules = (rules) => {
-    // Common rules
     addRules('helpText', rules, [ValidationRules.isValidResourcedTextArea]);
 
-    addRules('pausedText', rules, [ValidationRules.isValidResourcedTextArea]);
+    addRules('pausedText', rules, [
+        ValidationRules.isValidResourcedTextArea,
+        ValidationRules.maximumCharactersLimit(LONG_STRING_LEN)
+    ]);
 
     addDefaultRules(rules);
 };
@@ -430,3 +432,35 @@ export function getDynamicTypeMappingValidation(rowIndex) {
     // @ts-ignore
     return new Validation({ dynamicTypeMapping: rules });
 }
+
+export const getRules = ({ nextOrFinishLabelType, backLabelType, pauseLabelType, allowHelp, pauseMessageType }) => {
+    const overriddenRules = { ...screenValidation.finalizedRules };
+
+    if (pauseMessageType.value === PAUSE_MESSAGE_TYPE.CUSTOM) {
+        overriddenRules.pausedText = [
+            ValidationRules.richTextAreaShouldNotBeBlank,
+            ValidationRules.shouldNotBeBlank,
+            ValidationRules.shouldNotBeNullOrUndefined
+        ];
+    }
+    if (allowHelp) {
+        overriddenRules.helpText = [
+            ValidationRules.richTextAreaShouldNotBeBlank,
+            ValidationRules.shouldNotBeBlank,
+            ValidationRules.shouldNotBeNullOrUndefined
+        ];
+    }
+    if (nextOrFinishLabelType.value === FOOTER_LABEL_TYPE.CUSTOM) {
+        overriddenRules.nextOrFinishLabel = [
+            ValidationRules.shouldNotBeNullOrUndefined,
+            ValidationRules.shouldNotBeBlank
+        ];
+    }
+    if (backLabelType.value === FOOTER_LABEL_TYPE.CUSTOM) {
+        overriddenRules.backLabel = [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank];
+    }
+    if (pauseLabelType.value === FOOTER_LABEL_TYPE.CUSTOM) {
+        overriddenRules.pauseLabel = [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank];
+    }
+    return overriddenRules;
+};

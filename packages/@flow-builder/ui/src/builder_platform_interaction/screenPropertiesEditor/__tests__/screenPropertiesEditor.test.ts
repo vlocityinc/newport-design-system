@@ -7,6 +7,7 @@
 
 import { createElement } from 'lwc';
 import ScreenPropertiesEditor from '../screenPropertiesEditor';
+import { ScreenProperties } from 'builder_platform_interaction/screenEditorUtils';
 import { query, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import { createTestScreen } from '../../builderTestUtils/screenEditorTestUtils';
 import { createScreenWithFields } from 'builder_platform_interaction/elementFactory';
@@ -304,7 +305,7 @@ describe('Dispatching property changed event on footer config changes', () => {
             expect.objectContaining({
                 detail: expect.objectContaining({
                     oldValue: expect.objectContaining({ value: FOOTER_LABEL_TYPE.STANDARD }),
-                    propertyName: 'nextOrFinishLabelType',
+                    propertyName: ScreenProperties.NEXT_OR_FINISH_LABEL_TYPE,
                     value: expect.objectContaining({
                         value: FOOTER_LABEL_TYPE.CUSTOM
                     })
@@ -327,7 +328,7 @@ describe('Dispatching property changed event on footer config changes', () => {
             expect.objectContaining({
                 detail: expect.objectContaining({
                     oldValue: expect.objectContaining({ value: FOOTER_LABEL_TYPE.STANDARD }),
-                    propertyName: 'backLabelType',
+                    propertyName: ScreenProperties.BACK_LABEL_TYPE,
                     value: expect.objectContaining({
                         value: FOOTER_LABEL_TYPE.CUSTOM
                     })
@@ -350,7 +351,7 @@ describe('Dispatching property changed event on footer config changes', () => {
             expect.objectContaining({
                 detail: expect.objectContaining({
                     oldValue: expect.objectContaining({ value: FOOTER_LABEL_TYPE.STANDARD }),
-                    propertyName: 'pauseLabelType',
+                    propertyName: ScreenProperties.PAUSE_LABEL_TYPE,
                     value: expect.objectContaining({
                         value: FOOTER_LABEL_TYPE.CUSTOM
                     })
@@ -373,7 +374,7 @@ describe('Dispatching property changed event on footer config changes', () => {
             expect.objectContaining({
                 detail: expect.objectContaining({
                     oldValue: expect.objectContaining({ value: PAUSE_MESSAGE_TYPE.STANDARD }),
-                    propertyName: 'pauseMessageType',
+                    propertyName: ScreenProperties.PAUSE_MESSAGE_TYPE,
                     value: expect.objectContaining({
                         value: PAUSE_MESSAGE_TYPE.CUSTOM
                     })

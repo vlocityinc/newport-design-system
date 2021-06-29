@@ -48,6 +48,14 @@ export enum InputsOnNextNavToAssocScrnOption {
     RESET_VALUES = 'ResetValues'
 }
 
+export enum ScreenProperties {
+    PAUSE_MESSAGE_TYPE = 'pauseMessageType',
+    BACK_LABEL_TYPE = 'backLabelType',
+    NEXT_OR_FINISH_LABEL_TYPE = 'nextOrFinishLabelType',
+    PAUSE_LABEL_TYPE = 'pauseLabelType',
+    ALLOW_HELP = 'allowHelp'
+}
+
 /**
  * @param element
  */

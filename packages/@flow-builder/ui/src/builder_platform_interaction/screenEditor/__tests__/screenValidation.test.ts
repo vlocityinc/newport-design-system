@@ -1,6 +1,10 @@
 // @ts-nocheck
-import { getRulesForField, screenValidation, getDynamicTypeMappingValidation } from '../screenValidation';
-import { createTestScreenField, SCREEN_NO_DEF_VALUE } from 'builder_platform_interaction/builderTestUtils';
+import { getRulesForField, screenValidation, getDynamicTypeMappingValidation, getRules } from '../screenValidation';
+import {
+    createTestScreenField,
+    SCREEN_NO_DEF_VALUE,
+    createTestScreen
+} from 'builder_platform_interaction/builderTestUtils';
 import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
 import { LABELS } from 'builder_platform_interaction/validationRules';
 import { isValidMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
@@ -9,6 +13,7 @@ import { flowWithAllElementsUIModel, screenWithSection } from 'mock/storeData';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { flowExtensionDetails as mockFlowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
 import { setExtensionDescriptions } from 'builder_platform_interaction/flowExtensionLib';
+import { FOOTER_LABEL_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/dateTimeUtils', () => {
     return {
@@ -72,6 +77,232 @@ describe('When field has validation enabled', () => {
     it('the rules for formulaExpression should be as expected', () => {
         const rules = getRulesForField(field);
         expect(rules.validationRule.formulaExpression[1].name).toBe('isValidFormulaExpression');
+    });
+});
+describe('When screen have custom footer labels', () => {
+    let screenNode;
+    beforeEach(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+        screenNode = createTestScreen('TestScreen', null);
+    });
+    it('should get an error if backLabelType is custom and backLabel is an empty string', () => {
+        screenNode.backLabel.value = '';
+        screenNode.backLabelType.value = FOOTER_LABEL_TYPE.CUSTOM;
+        const screen = screenValidation.validateAll(screenNode, getRules(screenNode));
+        expect(screen.backLabel).toMatchObject({
+            error: LABELS.cannotBeBlank,
+            value: ''
+        });
+    });
+
+    it('should get an error if backLabelType is custom and backLabel is an string with multiple spaces only', () => {
+        screenNode.backLabel.value = '  ';
+        screenNode.backLabelType.value = FOOTER_LABEL_TYPE.CUSTOM;
+        const screen = screenValidation.validateAll(screenNode, getRules(screenNode));
+        expect(screen.backLabel).toMatchObject({
+            error: LABELS.cannotBeBlank,
+            value: '  '
+        });
+    });
+
+    it('should get an error if backLabelType is custom and backLabel is null', () => {
+        screenNode.backLabel.value = null;
+        screenNode.backLabelType.value = FOOTER_LABEL_TYPE.CUSTOM;
+        const screen = screenValidation.validateAll(screenNode, getRules(screenNode));
+        expect(screen.backLabel).toMatchObject({
+            error: LABELS.cannotBeBlank,
+            value: null
+        });
+    });
+
+    it('should not get an error if backLabelType is custom and backLabel is an valid string', () => {
+        screenNode.backLabel.value = 'string';
+        screenNode.backLabelType.value = FOOTER_LABEL_TYPE.CUSTOM;
+        const screen = screenValidation.validateAll(screenNode, getRules(screenNode));
+        expect(screen.backLabel).toMatchObject({
+            error: null,
+            value: 'string'
+        });
+    });
+
+    it('should get an error if nextOrFinishLabelType is custom and nextOrFinishLabel is an empty string', () => {
+        screenNode.nextOrFinishLabel.value = '';
+        screenNode.nextOrFinishLabelType.value = FOOTER_LABEL_TYPE.CUSTOM;
+        const screen = screenValidation.validateAll(screenNode, getRules(screenNode));
+        expect(screen.nextOrFinishLabel).toMatchObject({
+            error: LABELS.cannotBeBlank,
+            value: ''
+        });
+    });
+
+    it('should get an error if nextOrFinishLabelType is custom and nextOrFinishLabel is an string with multiple spaces only', () => {
+        screenNode.nextOrFinishLabel.value = '  ';
+        screenNode.nextOrFinishLabelType.value = FOOTER_LABEL_TYPE.CUSTOM;
+        const screen = screenValidation.validateAll(screenNode, getRules(screenNode));
+        expect(screen.nextOrFinishLabel).toMatchObject({
+            error: LABELS.cannotBeBlank,
+            value: '  '
+        });
+    });
+
+    it('should get an error if nextOrFinishLabelType is custom and nextOrFinishLabel is null', () => {
+        screenNode.nextOrFinishLabel.value = null;
+        screenNode.nextOrFinishLabelType.value = FOOTER_LABEL_TYPE.CUSTOM;
+        const screen = screenValidation.validateAll(screenNode, getRules(screenNode));
+        expect(screen.nextOrFinishLabel).toMatchObject({
+            error: LABELS.cannotBeBlank,
+            value: null
+        });
+    });
+
+    it('should not get an error if nextOrFinishLabelType is custom and nextOrFinishLabel is an valid string', () => {
+        screenNode.nextOrFinishLabel.value = 'string';
+        screenNode.nextOrFinishLabelType.value = FOOTER_LABEL_TYPE.CUSTOM;
+        const screen = screenValidation.validateAll(screenNode, getRules(screenNode));
+        expect(screen.nextOrFinishLabel).toMatchObject({
+            error: null,
+            value: 'string'
+        });
+    });
+
+    it('should get an error if pauseLabelType is custom and pauseLabel is an empty string', () => {
+        screenNode.pauseLabel.value = '';
+        screenNode.pauseLabelType.value = FOOTER_LABEL_TYPE.CUSTOM;
+        const screen = screenValidation.validateAll(screenNode, getRules(screenNode));
+        expect(screen.pauseLabel).toMatchObject({
+            error: LABELS.cannotBeBlank,
+            value: ''
+        });
+    });
+
+    it('should get an error if pauseLabelType is custom and pauseLabel is an string with multiple spaces only', () => {
+        screenNode.pauseLabel.value = '  ';
+        screenNode.pauseLabelType.value = FOOTER_LABEL_TYPE.CUSTOM;
+        const screen = screenValidation.validateAll(screenNode, getRules(screenNode));
+        expect(screen.pauseLabel).toMatchObject({
+            error: LABELS.cannotBeBlank,
+            value: '  '
+        });
+    });
+
+    it('should get an error if pauseLabelType is custom and pauseLabel is null', () => {
+        screenNode.pauseLabel.value = null;
+        screenNode.pauseLabelType.value = FOOTER_LABEL_TYPE.CUSTOM;
+        const screen = screenValidation.validateAll(screenNode, getRules(screenNode));
+        expect(screen.pauseLabel).toMatchObject({
+            error: LABELS.cannotBeBlank,
+            value: null
+        });
+    });
+
+    it('should not get an error if pauseLabelType is custom and pauseLabel is an valid string', () => {
+        screenNode.pauseLabel.value = 'string';
+        screenNode.pauseLabelType.value = FOOTER_LABEL_TYPE.CUSTOM;
+        const screen = screenValidation.validateAll(screenNode, getRules(screenNode));
+        expect(screen.pauseLabel).toMatchObject({
+            error: null,
+            value: 'string'
+        });
+    });
+
+    it('should get an error if pauseMessageType is custom and pausedText is an empty string', () => {
+        screenNode.pausedText.value = '';
+        screenNode.pauseMessageType.value = FOOTER_LABEL_TYPE.CUSTOM;
+        const screen = screenValidation.validateAll(screenNode, getRules(screenNode));
+        expect(screen.pausedText).toMatchObject({
+            error: LABELS.cannotBeBlank,
+            value: ''
+        });
+    });
+
+    it('should get an error if pauseMessageType is custom and pausedText is an string with multiple spaces only', () => {
+        screenNode.pausedText.value = '   ';
+        screenNode.pauseMessageType.value = FOOTER_LABEL_TYPE.CUSTOM;
+        const screen = screenValidation.validateAll(screenNode, getRules(screenNode));
+        expect(screen.pausedText).toMatchObject({
+            error: LABELS.cannotBeBlank,
+            value: '   '
+        });
+    });
+
+    it('should get an error if pauseMessageType is custom and pausedText is a blank string with p tag', () => {
+        screenNode.pausedText.value = '<p> </p>';
+        screenNode.pauseMessageType.value = FOOTER_LABEL_TYPE.CUSTOM;
+        const screen = screenValidation.validateAll(screenNode, getRules(screenNode));
+        expect(screen.pausedText).toMatchObject({
+            error: LABELS.cannotBeBlank,
+            value: '<p> </p>'
+        });
+    });
+
+    it('should not get an error if pauseMessageType is custom and pausedText is an valid string', () => {
+        screenNode.pausedText.value = '<p>string</p>';
+        screenNode.pauseMessageType.value = FOOTER_LABEL_TYPE.CUSTOM;
+        const screen = screenValidation.validateAll(screenNode, getRules(screenNode));
+        expect(screen.pausedText).toMatchObject({
+            error: null,
+            value: '<p>string</p>'
+        });
+    });
+
+    it('should get an error if pauseMessageType is custom and pausedText is null', () => {
+        screenNode.pausedText.value = null;
+        screenNode.pauseMessageType.value = FOOTER_LABEL_TYPE.CUSTOM;
+        const screen = screenValidation.validateAll(screenNode, getRules(screenNode));
+        expect(screen.pausedText).toMatchObject({
+            error: LABELS.cannotBeBlank,
+            value: null
+        });
+    });
+
+    it('should get an error if allowHelp is true and helpText is an empty string', () => {
+        screenNode.helpText.value = '';
+        screenNode.allowHelp = true;
+        const screen = screenValidation.validateAll(screenNode, getRules(screenNode));
+        expect(screen.helpText).toMatchObject({
+            error: LABELS.cannotBeBlank,
+            value: ''
+        });
+    });
+
+    it('should get an error if allowHelp is true and helpText is an string with multiple spaces only', () => {
+        screenNode.helpText.value = '  ';
+        screenNode.allowHelp = true;
+        const screen = screenValidation.validateAll(screenNode, getRules(screenNode));
+        expect(screen.helpText).toMatchObject({
+            error: LABELS.cannotBeBlank,
+            value: '  '
+        });
+    });
+
+    it('should get an error if allowHelp is true and helpText is a blank string with <p> tag', () => {
+        screenNode.helpText.value = '<p> </p>';
+        screenNode.allowHelp = true;
+        const screen = screenValidation.validateAll(screenNode, getRules(screenNode));
+        expect(screen.helpText).toMatchObject({
+            error: LABELS.cannotBeBlank,
+            value: '<p> </p>'
+        });
+    });
+
+    it('should not get an error if allowHelp is true and helpText is a valid string', () => {
+        screenNode.helpText.value = '<p>string</p>';
+        screenNode.allowHelp = true;
+        const screen = screenValidation.validateAll(screenNode, getRules(screenNode));
+        expect(screen.helpText).toMatchObject({
+            error: null,
+            value: '<p>string</p>'
+        });
+    });
+
+    it('should get an error if allowHelp is true and helpText is null', () => {
+        screenNode.helpText.value = null;
+        screenNode.allowHelp = true;
+        const screen = screenValidation.validateAll(screenNode, getRules(screenNode));
+        expect(screen.helpText).toMatchObject({
+            error: LABELS.cannotBeBlank,
+            value: null
+        });
     });
 });
 
