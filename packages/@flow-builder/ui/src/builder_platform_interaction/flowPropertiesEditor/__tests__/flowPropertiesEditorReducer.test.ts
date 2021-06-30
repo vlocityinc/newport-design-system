@@ -11,6 +11,7 @@ const state = {
     isCreatedOutsideLfb: false,
     isLightningFlowBuilder: true,
     isTemplate: false,
+    isOverridable: false,
     label: '423sd',
     lastModifiedBy: 'Admin User',
     lastModifiedDate: '2018-11-25T00:10:34.000Z',

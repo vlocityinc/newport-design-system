@@ -62,6 +62,37 @@
             >
             </lightning-combobox>
 
+            <div class="slds-list_horizontal slds-p-bottom_medium slds-p-top_small">
+                <lightning-input
+                    label={labels.templateLabel}
+                    type="checkbox"
+                    checked={_isTemplate}
+                    onchange={handleTemplateCheckBox}
+                    disabled={templateDisabled}
+                    class="template_check slds-p-top_xx-small"
+                >
+                </lightning-input>
+                <lightning-helptext
+                    class="slds-form-element"
+                    content={labels.templateCheckHelpText}
+                ></lightning-helptext>
+                <div class="slds-align_absolute-center">
+                    <lightning-input
+                        label={labels.overridableLabel}
+                        type="checkbox"
+                        checked={_isOverridable}
+                        onchange={handleOverridableCheckBox}
+                        disabled={overridableDisabled}
+                        class="overridable_check slds-p-top_xx-small"
+                    >
+                    </lightning-input>
+                    <lightning-helptext
+                        class="slds-form-element"
+                        content={labels.overridableCheckHelpText}
+                    ></lightning-helptext>
+                </div>
+            </div>
+
             <lightning-combobox
                 if:true={showApiVersionComboBox}
                 class="api-version slds-col slds-grow"

@@ -21,6 +21,10 @@ import currentType from '@salesforce/label/FlowBuilderFlowPropertiesEditor.curre
 import currentVersion from '@salesforce/label/FlowBuilderFlowPropertiesEditor.currentVersion';
 import currentVersionHelpText from '@salesforce/label/FlowBuilderFlowPropertiesEditor.currentVersionHelpText';
 import apiVersionLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.apiVersionLabel';
+import templateLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.templateLabel';
+import overridableLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.overridableLabel';
+import templateCheckHelpText from '@salesforce/label/FlowBuilderFlowPropertiesEditor.templateCheckHelpText';
+import overridableCheckHelpText from '@salesforce/label/FlowBuilderFlowPropertiesEditor.overridableCheckHelpText';
 
 export const LABELS = {
     nameLabel,
@@ -44,5 +48,9 @@ export const LABELS = {
     currentType,
     currentVersion,
     currentVersionHelpText,
-    apiVersionLabel
+    apiVersionLabel,
+    templateLabel,
+    overridableLabel,
+    templateCheckHelpText,
+    overridableCheckHelpText
 };

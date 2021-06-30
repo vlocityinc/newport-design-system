@@ -44,6 +44,9 @@ export default class FlowPropertiesEditor extends LightningElement {
     _instanceLabelId = generateGuid();
     _toggleAdvancedClass = TOGGLE_CLASS_SHOW;
     _toggleAdvancedLabel = LABELS.showAdvanced;
+    _isTemplate = false;
+    _isOverridable = false;
+    _overriddenFlow = null;
 
     // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
     @api
@@ -71,6 +74,9 @@ export default class FlowPropertiesEditor extends LightningElement {
         this._originalRunInMode = this.flowProperties.runInMode.value;
         this._originalInterviewLabel = this.flowProperties.interviewLabel.value;
         this._originalApiVersion = this.flowProperties.apiVersion ? this.flowProperties.apiVersion : null;
+        this._isTemplate = this.flowProperties.isTemplate;
+        this._isOverridable = this.flowProperties.isOverridable;
+        this._overriddenFlow = this.flowProperties.overriddenFlow ? this.flowProperties.overriddenFlow.value : null;
 
         if (this.flowProperties.saveType === SaveType.NEW_DEFINITION) {
             this.clearForNewDefinition();
@@ -250,6 +256,20 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     get systemModeDisabled() {
         return this.isSystemModeDisabled();
+    }
+
+    get templateDisabled() {
+        if (this._isOverridable || this._overriddenFlow) {
+            return 1;
+        }
+        return 0;
+    }
+
+    get overridableDisabled() {
+        if (this._isTemplate || this._overriddenFlow) {
+            return 1;
+        }
+        return 0;
     }
 
     get showSaveAsTypePicker() {
@@ -476,6 +496,18 @@ export default class FlowPropertiesEditor extends LightningElement {
         this.isAdvancedShown = !this.isAdvancedShown;
         this._toggleAdvancedLabel = !this.isAdvancedShown ? showAdvanced : hideAdvanced;
         this._toggleAdvancedClass = !this.isAdvancedShown ? TOGGLE_CLASS_SHOW : TOGGLE_CLASS_HIDE;
+    }
+
+    handleTemplateCheckBox(event) {
+        event.stopPropagation();
+        this._isTemplate = !this._isTemplate;
+        this.updateProperty('isTemplate', this._isTemplate);
+    }
+
+    handleOverridableCheckBox(event) {
+        event.stopPropagation();
+        this._isOverridable = !this._isOverridable;
+        this.updateProperty('isOverridable', this._isOverridable);
     }
 
     handleApiVersionChange(event) {

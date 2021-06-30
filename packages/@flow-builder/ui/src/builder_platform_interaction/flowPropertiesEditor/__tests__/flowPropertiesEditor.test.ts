@@ -143,7 +143,9 @@ const SELECTORS = {
     VERSION_NUMBER: 'div.versionNumber',
     RESOURCE_TEXT_AREA: 'builder_platform_interaction-resourced-textarea',
     RICH_TEXT_PLAIN_TEXT_SWITCH: 'builder_platform_interaction-rich-text-plain-text-switch',
-    API_VERSION: 'lightning-combobox.api-version'
+    API_VERSION: 'lightning-combobox.api-version',
+    TEMPLATE_CHECK: 'lightning-input.template_check',
+    OVERRIDABLE_CHECK: 'lightning-input.overridable_check'
 };
 
 const getLabelDescription = (flowPropertiesEditor) => {
@@ -193,6 +195,14 @@ const dispatchLabelChangedEvent = (flowPropertiesEditor, newLabelValue, error) =
 
 const getApiVersion = (flowPropertiesEditor) => {
     return flowPropertiesEditor.shadowRoot.querySelector(SELECTORS.API_VERSION);
+};
+
+const getTemplateCheck = (flowPropertiesEditor) => {
+    return flowPropertiesEditor.shadowRoot.querySelector(SELECTORS.TEMPLATE_CHECK);
+};
+
+const getOverridableCheck = (flowPropertiesEditor) => {
+    return flowPropertiesEditor.shadowRoot.querySelector(SELECTORS.OVERRIDABLE_CHECK);
 };
 
 describe('FlowPropertiesEditor', () => {
@@ -643,6 +653,102 @@ describe('FlowPropertiesEditor', () => {
                 processType.dispatchEvent(processTypeEvent);
                 await ticks(1);
                 expect(getApiVersion(flowPropertiesEditor).value).toBe('49');
+            });
+        });
+    });
+    describe('Template and Overridable', () => {
+        describe('Toggle between isTemplate and isOverridable', () => {
+            let defaultNode;
+            beforeEach(() => {
+                defaultNode = {
+                    label: { value: 'flow label' },
+                    name: { value: 'flow name' },
+                    description: { value: 'flow description' },
+                    processType: { value: 'AutoLaunchedFlow' },
+                    triggerType: { value: 'RecordBeforeSave' },
+                    status: { value: 'Active' },
+                    interviewLabel: { value: 'interviewLabel' },
+                    versionNumber: 1,
+                    saveType: SaveType.NEW_DEFINITION,
+                    runInMode: { value: null, error: null },
+                    lastModifiedBy: { value: 'some user' },
+                    lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
+                    apiVersion: 50,
+                    isTemplate: true,
+                    isOverridable: false
+                };
+            });
+
+            it('switch from isTemplate to isOverridable ', async () => {
+                flowPropertiesEditor = createComponentUnderTest(defaultNode);
+                getShowAdvancedButton(flowPropertiesEditor).click();
+                await ticks(1);
+                expect(flowPropertiesEditor.node.isTemplate).toBe(true);
+                expect(flowPropertiesEditor.node.isOverridable).toBe(false);
+
+                expect(getTemplateCheck(flowPropertiesEditor).checked).toBe(true);
+                expect(getOverridableCheck(flowPropertiesEditor).checked).toBe(false);
+
+                expect(getTemplateCheck(flowPropertiesEditor).disabled).toBe(0);
+                expect(getOverridableCheck(flowPropertiesEditor).disabled).toBe(1);
+
+                const toFalseEvent = new CustomEvent('change', {
+                    detail: false
+                });
+                const templateToFalse = getTemplateCheck(flowPropertiesEditor);
+                templateToFalse.dispatchEvent(toFalseEvent);
+                await ticks(1);
+                expect(getTemplateCheck(flowPropertiesEditor).checked).toBe(false);
+                expect(getOverridableCheck(flowPropertiesEditor).checked).toBe(false);
+
+                const toTrueEvent = new CustomEvent('change', {
+                    detail: true
+                });
+                const overridableToTrue = getOverridableCheck(flowPropertiesEditor);
+                overridableToTrue.dispatchEvent(toTrueEvent);
+                await ticks(1);
+                expect(getTemplateCheck(flowPropertiesEditor).checked).toBe(false);
+                expect(getOverridableCheck(flowPropertiesEditor).checked).toBe(true);
+
+                expect(getTemplateCheck(flowPropertiesEditor).disabled).toBe(1);
+                expect(getOverridableCheck(flowPropertiesEditor).disabled).toBe(0);
+            });
+        });
+        describe('Test overriddenFlow', () => {
+            let defaultNode;
+            beforeEach(() => {
+                defaultNode = {
+                    label: { value: 'flow label' },
+                    name: { value: 'flow name' },
+                    description: { value: 'flow description' },
+                    processType: { value: 'AutoLaunchedFlow' },
+                    triggerType: { value: 'RecordBeforeSave' },
+                    status: { value: 'Active' },
+                    interviewLabel: { value: 'interviewLabel' },
+                    versionNumber: 1,
+                    saveType: SaveType.NEW_DEFINITION,
+                    runInMode: { value: null, error: null },
+                    lastModifiedBy: { value: 'some user' },
+                    lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
+                    apiVersion: 50,
+                    isTemplate: false,
+                    isOverridable: false,
+                    overriddenFlow: { value: 'Flow1' }
+                };
+            });
+
+            it('test to see if isTemplate and isOverridable are disabled', async () => {
+                flowPropertiesEditor = createComponentUnderTest(defaultNode);
+                getShowAdvancedButton(flowPropertiesEditor).click();
+                await ticks(1);
+                expect(flowPropertiesEditor.node.isTemplate).toBe(false);
+                expect(flowPropertiesEditor.node.isOverridable).toBe(false);
+
+                expect(getTemplateCheck(flowPropertiesEditor).disabled).toBe(1);
+                expect(getOverridableCheck(flowPropertiesEditor).disabled).toBe(1);
+
+                expect(getTemplateCheck(flowPropertiesEditor).checked).toBe(false);
+                expect(getOverridableCheck(flowPropertiesEditor).checked).toBe(false);
             });
         });
     });
