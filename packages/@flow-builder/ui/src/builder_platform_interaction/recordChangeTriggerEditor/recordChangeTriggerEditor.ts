@@ -387,7 +387,8 @@ export default class RecordChangeTriggerEditor extends LightningElement {
      */
     async updateSelectedEntityFields() {
         try {
-            if (this.recordEntityName) {
+            // Fetch records only if context object is valid and without errors
+            if (this.recordEntityName && !this.startElement.object.error) {
                 this._fields = await fetchFieldsForEntity(this.recordEntityName);
             }
         } catch (err) {
