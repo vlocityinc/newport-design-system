@@ -13,7 +13,7 @@
                         <div
                             key={item.guid}
                             role="option"
-                            class="item slds-p-horizontal_x-small slds-clearfix slds-listbox__option"
+                            class="item slds-p-around_small slds-clearfix slds-listbox__option"
                             tabindex={item.tabIndex}
                             aria-label={item.label}
                             aria-selected={item.ariaSelected}
@@ -25,11 +25,11 @@
                                 <lightning-icon
                                     icon-name="standard:work_order_item"
                                     size="medium"
-                                    class="slds-float_left slds-m-right_small background-dark"
+                                    class="slds-float_left slds-m-right_small slds-m-top_xxx-small background-dark"
                                 ></lightning-icon>
                                 <div>
                                     <div
-                                        class="slds-p-vertical_xxx-small slds-truncate slds-listbox__option-text slds-listbox__option-text_entity"
+                                        class="itemStepTypeLabel slds-truncate slds-listbox__option-text slds-listbox__option-text_entity"
                                     >
                                         {item.stepTypeLabel}
                                     </div>
@@ -37,7 +37,7 @@
                                 </div>
                             </div>
                             <button
-                                class="slds-button slds-float_right slds-m-top_x-small delete-item"
+                                class="slds-button slds-float_right slds-m-top_small delete-item"
                                 onclick={handleDeleteItem}
                                 data-item-guid={item.guid}
                                 tabindex={item.tabIndex}

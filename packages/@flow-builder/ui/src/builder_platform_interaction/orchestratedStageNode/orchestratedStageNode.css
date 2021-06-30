@@ -41,7 +41,7 @@ h3 {
 
 .item {
     text-align: initial;
-    font-size: var(--lwc-fontSize3);
+    font-size: var(--lwc-fontSize2);
     padding-top: var(--lwc-spacingXSmall);
     padding-bottom: var(--lwc-spacingXSmall);
 }
@@ -82,6 +82,10 @@ h3 {
 .itemContent {
     max-width: 90%;
     width: 100%;
+}
+
+.itemStepTypeLabel {
+    margin-bottom: 0;
 }
 
 .itemLabel {
