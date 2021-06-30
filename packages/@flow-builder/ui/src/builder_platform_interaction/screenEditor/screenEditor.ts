@@ -36,6 +36,11 @@ export enum ScreenEditorTab {
     Fields = 'fieldsTab'
 }
 
+const LEGAL_NOTICE_HEADERS = {
+    AUTOMATIC_FIELDS: LABELS.automaticFieldsLegalNoticeHeader,
+    CUSTOM_FOOTERS: LABELS.customFooterLegalNoticeHeader
+};
+
 /**
  * Screen editor container and template (3-col layout) for palette, canvas and property editor
  */
@@ -49,6 +54,14 @@ export default class ScreenEditor extends LightningElement {
     activeTab = ScreenEditorTab.Components;
     automaticFieldRecordVariableGuid: UI.Guid = '';
     processTypeValue = '';
+
+    @track legalNotices: UI.LegalNotice[] = [
+        { header: LEGAL_NOTICE_HEADERS.AUTOMATIC_FIELDS, shown: false, dismissed: false },
+        { header: LEGAL_NOTICE_HEADERS.CUSTOM_FOOTERS, shown: false, dismissed: false }
+    ];
+
+    @track
+    noticesToLegalPopover: UI.LegalNotice[] = [];
 
     labels = LABELS;
 
@@ -161,6 +174,10 @@ export default class ScreenEditor extends LightningElement {
 
     set processType(newValue) {
         this.processTypeValue = newValue;
+    }
+
+    get showLegalNotice() {
+        return this.legalNotices.some((notice) => notice.shown && !notice.dismissed);
     }
 
     /**
@@ -511,6 +528,48 @@ export default class ScreenEditor extends LightningElement {
         const section = this.screen.getFieldByGUID(event.sectionGuid);
         this.setSelectedNode(section);
     };
+
+    handleAutomaticFieldsLegalNotice(event) {
+        event.stopPropagation();
+        const tab = event.srcElement.value;
+        if (tab === ScreenEditorTab.Fields) {
+            if (!this.legalNotices[0].shown && !this.legalNotices[0].dismissed) {
+                this.noticesToLegalPopover = [
+                    ...this.noticesToLegalPopover,
+                    { header: LEGAL_NOTICE_HEADERS.AUTOMATIC_FIELDS }
+                ];
+                this.legalNotices[0].shown = true;
+            }
+        } else {
+            this.noticesToLegalPopover = this.noticesToLegalPopover.filter(
+                (notice) => notice.header !== LEGAL_NOTICE_HEADERS.AUTOMATIC_FIELDS
+            );
+            this.legalNotices[0].shown = false;
+        }
+    }
+
+    handleFooterLegalNotice(event) {
+        event.stopPropagation();
+        if (!this.legalNotices[1].shown && !this.legalNotices[1].dismissed) {
+            this.noticesToLegalPopover = [
+                ...this.noticesToLegalPopover,
+                { header: LEGAL_NOTICE_HEADERS.CUSTOM_FOOTERS }
+            ];
+            this.legalNotices[1].shown = true;
+        }
+    }
+
+    handleLegalNoticeDismissed(event) {
+        event.stopPropagation();
+        for (let i = 0; i < this.legalNotices.length; i++) {
+            const header = this.legalNotices[i].header;
+            if (this.noticesToLegalPopover.some((n) => n.header === header)) {
+                this.noticesToLegalPopover = this.noticesToLegalPopover.filter((notice) => notice.header !== header);
+                this.legalNotices[i].shown = false;
+                this.legalNotices[i].dismissed = true;
+            }
+        }
+    }
 
     /**
      * Hide the popover on actions that results in it losing focus

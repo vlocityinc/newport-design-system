@@ -12,7 +12,9 @@ export enum ScreenEditorEventName {
     SingleOrMultiChoiceTypeChanged = 'singleormultichoicetypechanged',
     ChoiceDeleted = 'choicedeleted',
     ColumnWidthChanged = 'columnwidthchanged',
-    ChoiceReset = 'choicereset'
+    ChoiceReset = 'choicereset',
+    FooterBetaOptionSelected = 'footerbetaoptionselected',
+    LegalNoticeDismissed = 'legalnoticedismissed'
 }
 
 /**
@@ -160,6 +162,7 @@ export function createScreenNodeSelectedEvent(screenElement) {
  *
  * @param {object} screenElement - The screen field to add the choice to.
  * @param {number} position - The position at which the choice should be added.
+ * @returns {CustomEvent} - ChoiceAdded Event
  */
 export function createChoiceAddedEvent(screenElement, position) {
     return createScreenEditorEvent(ScreenEditorEventName.ChoiceAdded, {
@@ -171,9 +174,10 @@ export function createChoiceAddedEvent(screenElement, position) {
 /**
  * Creates an event to be fired when the user wants to change a choice of a choice screen field.
  *
- * @param {*} screenElement
- * @param {*} newValue
- * @param {*} position
+ * @param {*} screenElement - The choice screen fields in which user wants to change choice
+ * @param {*} newValue - New value of choice
+ * @param {*} position - Position of original choice in screen field which is being changed
+ * @returns {CustomEvent} - ChoiceChanged Event
  */
 export function createChoiceChangedEvent(screenElement, newValue, position) {
     return createScreenEditorEvent(ScreenEditorEventName.ChoiceChanged, {
@@ -188,6 +192,7 @@ export function createChoiceChangedEvent(screenElement, newValue, position) {
  *
  * @param {*} screenElement - The choice screen field to change display type of
  * @param {*} newDisplayType - New display type to which display of choice screen field should change to
+ * @returns {CustomEvent} - ChoiceDisplayChanged Event
  */
 export function createChoiceDisplayChangedEvent(screenElement, newDisplayType) {
     return createScreenEditorEvent(ScreenEditorEventName.ChoiceDisplayChanged, {
@@ -201,7 +206,7 @@ export function createChoiceDisplayChangedEvent(screenElement, newDisplayType) {
  *
  * @param screenElement - The choice screen field to change type of
  * @param newTypeChoice - New type to which type of choice screen field should change to
- * @returns SingleOrMultiChoiceTypeChangedEvent
+ * @returns {CustomEvent} - SingleOrMultiChoiceTypeChanged Event
  */
 export function createSingleOrMultiChoiceTypeChangedEvent(screenElement, newTypeChoice): CustomEvent {
     return createScreenEditorEvent(ScreenEditorEventName.SingleOrMultiChoiceTypeChanged, {
@@ -213,8 +218,9 @@ export function createSingleOrMultiChoiceTypeChangedEvent(screenElement, newType
 /**
  * Creates an event to be fired when the user wants to delete a choice from a choice screen field.
  *
- * @param {*} screenElement
- * @param {*} position
+ * @param {*} screenElement - The choice screen field in which the choice needs to be deleted
+ * @param {*} position - Position of the choice resource to be deleted
+ * @returns {CustomEvent} - ChoiceDeleted Event
  */
 export function createChoiceDeletedEvent(screenElement, position) {
     return createScreenEditorEvent(ScreenEditorEventName.ChoiceDeleted, {
@@ -229,6 +235,7 @@ export function createChoiceDeletedEvent(screenElement, position) {
  * @param {string} columnGuid - The guid of the column whose width is changing
  * @param {number} columnWidth - The column's new width
  * @param {string} sectionGuid - The guid of the column's parent section
+ * @returns {CustomEvent} - ColumnWidthChanged Event
  */
 export function createColumnWidthChangedEvent(columnGuid, columnWidth, sectionGuid) {
     return createScreenEditorEvent(ScreenEditorEventName.ColumnWidthChanged, {
@@ -236,4 +243,22 @@ export function createColumnWidthChangedEvent(columnGuid, columnWidth, sectionGu
         columnWidth,
         sectionGuid
     });
+}
+
+/**
+ * Creates an event to be fired when the user select Custom Footer Beta Option
+ *
+ * @returns {CustomEvent} - FooterBetaOptionSelected Event
+ */
+export function createScreenFooterBetaOptionSelectedEvent() {
+    return createScreenEditorEvent(ScreenEditorEventName.FooterBetaOptionSelected, {});
+}
+
+/**
+ * Creates an event to be fired when the Legal Notice is dismissed
+ *
+ * @returns {CustomEvent} - ScreenLegalNoticeDismissed Event
+ */
+export function createScreenLegalNoticeDismissedEvent() {
+    return createScreenEditorEvent(ScreenEditorEventName.LegalNoticeDismissed, {});
 }

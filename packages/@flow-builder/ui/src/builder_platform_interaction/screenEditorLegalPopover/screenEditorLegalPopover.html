@@ -1,0 +1,50 @@
+<template>
+    <lightning-popup
+        aria-describedby="popup-body"
+        aria-labelledby="beta-badge"
+        onautofocus={handleAutofocus}
+        onclickout={handleClickout}
+        onkeydown={handleKeyDown}
+    >
+        <div class="slds-popover slds-popover_prompt slds-popover_brand slds-popover_brand-bottom">
+            <lightning-button-icon
+                icon-name="utility:close"
+                variant="bare"
+                title={labels.closeButtonTitle}
+                alternative-text={labels.closeButtonAssistiveText}
+                onclick={handleCloseButtonClick}
+                class="slds-float_right slds-popover__close"
+            >
+            </lightning-button-icon>
+            <div class="slds-popover__body" id="popup-body">
+                <div class="slds-popover__meta">
+                    <lightning-badge id="beta-badge" label={labels.badgeLabel}>{labels.badgeLabel}</lightning-badge>
+                </div>
+                <div class="slds-media popover-body">
+                    <template for:each={notices} for:item="notice">
+                        <div class="slds-media__body slds-m-top_small popover-item" key={notice.header}>
+                            <div class="slds-media">
+                                <div class="slds-media__figure">
+                                    <lightning-icon icon-name="utility:prompt" size="small"> </lightning-icon>
+                                </div>
+                                <div class="slds-media__body">
+                                    <h2 class="slds-popover_prompt__heading">{notice.header}</h2>
+                                    <p>
+                                        {labels.legalText}&nbsp;
+                                        <lightning-formatted-url
+                                            value={screensLegalAgreementsUrl}
+                                            label={labels.agreementUrlLabel}
+                                            target="_blank"
+                                        >
+                                        </lightning-formatted-url>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </lightning-popup>
+    <div class="popupLocation"></div>
+</template>

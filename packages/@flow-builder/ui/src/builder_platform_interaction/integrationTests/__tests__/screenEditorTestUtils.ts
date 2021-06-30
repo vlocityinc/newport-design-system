@@ -17,6 +17,7 @@ import ScreenEditorPalette from 'builder_platform_interaction/screenEditorPalett
 import ScreenEditorAutomaticFieldPalette from 'builder_platform_interaction/screenEditorAutomaticFieldPalette';
 import ScreenEditorPropertiesEditorContainer from 'builder_platform_interaction/screenPropertiesEditorContainer';
 import ScreenExtensionPropertiesEditor from 'builder_platform_interaction/screenExtensionPropertiesEditor';
+import ScreenPropertiesEditor from 'builder_platform_interaction/screenPropertiesEditor';
 import ScreenField from 'builder_platform_interaction/screenField';
 import ManuallyAssignVariablesCheckbox from 'builder_platform_interaction/manuallyAssignVariablesCheckbox';
 import ScreenPropertyField from 'builder_platform_interaction/screenPropertyField';
@@ -32,7 +33,7 @@ import Palette from 'builder_platform_interaction/palette';
 import { TestComponent } from './testComponent';
 import { ComboboxTestComponent, getSObjectOrSObjectCollectionPickerCombobox } from './comboboxTestUtils';
 import { format } from 'builder_platform_interaction/commonUtils';
-import ScreenEditorAutomaticFieldLegalPopover from 'builder_platform_interaction/screenEditorAutomaticFieldLegalPopover';
+import ScreenEditorLegalPopover from 'src/builder_platform_interaction/screenEditorLegalPopover/screenEditorLegalPopover';
 import LearnMoreCard from 'builder_platform_interaction/learnMoreCard';
 import FerovResourcePicker from 'builder_platform_interaction/ferovResourcePicker';
 
@@ -57,6 +58,14 @@ export class ScreenEditorTestComponent extends TestComponent<ScreenEditor> {
         return this.element.shadowRoot!.querySelector<HTMLElement & { activeTabValue: ScreenEditorTab }>(
             LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_TABSET
         );
+    }
+
+    public getComponentsTab() {
+        return this.getTabsetElement()!.shadowRoot!.querySelector('slot')!.assignedNodes()[0] as HTMLElement;
+    }
+
+    public getAutomaticFieldsTab() {
+        return this.getTabsetElement()!.shadowRoot!.querySelector('slot')!.assignedNodes()[1] as HTMLElement;
     }
 
     public isFieldsTabActive() {
@@ -108,13 +117,14 @@ export class ScreenEditorTestComponent extends TestComponent<ScreenEditor> {
         return new ScreenEditorAutomaticFieldBetaDisclaimerTestComponent(betaDisclaimer);
     }
 
-    public getAutomaticFieldLegalPopover() {
-        const tabset = this.getTabsetElement();
-        const automaticFieldsTab = tabset!.shadowRoot!.querySelector('slot')!.assignedNodes()[1] as HTMLElement;
-        const popoverElement = automaticFieldsTab
-            .shadowRoot!.querySelector('slot')!
-            .assignedNodes()[1] as ScreenEditorAutomaticFieldLegalPopover & HTMLElement;
-        return new ScreenEditorAutomaticFieldLegalPopoverTestComponent(popoverElement);
+    public getScreenEditorLegalPopover() {
+        const popoverElement = this.element.shadowRoot!.querySelector(
+            INTERACTION_COMPONENTS_SELECTORS.SCREEN_EDITOR_LEGAL_POPOVER
+        ) as ScreenEditorLegalPopover & HTMLElement;
+        if (!popoverElement) {
+            return undefined;
+        }
+        return new ScreenEditorLegalPopoverTestComponent(popoverElement);
     }
 
     public getPropertiesEditorContainer() {
@@ -149,11 +159,25 @@ export class ScreenEditorAutomaticFieldBetaDisclaimerTestComponent extends TestC
     }
 }
 
-export class ScreenEditorAutomaticFieldLegalPopoverTestComponent extends TestComponent<ScreenEditorAutomaticFieldLegalPopover> {
+export class ScreenEditorLegalPopoverTestComponent extends TestComponent<ScreenEditorLegalPopover> {
     public getPopupElement() {
         return this.element.shadowRoot!.querySelector(SELECTORS.LIGHTNING_POPUP) as HTMLElement & {
             isVisible: () => boolean;
         };
+    }
+
+    private getLastHeaderElement() {
+        return this.getPopupElement().querySelectorAll('h2.slds-popover_prompt__heading')[
+            this.getNumberOfNoticesInPopup() - 1
+        ] as HTMLElement;
+    }
+
+    public getLastNoticeHeading() {
+        return this.getLastHeaderElement().textContent;
+    }
+
+    public getNumberOfNoticesInPopup() {
+        return this.getPopupElement().querySelectorAll('div.popover-item').length;
     }
 
     public isVisible() {
@@ -370,6 +394,16 @@ export class SectionScreenEditorHighlightTestComponent extends ScreenEditorHighl
 }
 
 export class PropertiesEditorContainerTestComponent extends TestComponent<ScreenEditorPropertiesEditorContainer> {
+    public getScreenPropertiesEditor(): ScreenPropertiesEditorTestComponent | undefined {
+        const screenPropertiesEditorElement = this.element.shadowRoot!.querySelector<
+            ScreenPropertiesEditor & HTMLElement
+        >(SELECTORS.SCREEN_PROPERTIES_EDITOR);
+        if (!screenPropertiesEditorElement) {
+            return undefined;
+        }
+        return new ScreenPropertiesEditorTestComponent(screenPropertiesEditorElement);
+    }
+
     public getExtensionPropertiesEditor(): ExtensionPropertiesEditorTestComponent | undefined {
         const extensionPropertiesEditorElement = this.element.shadowRoot!.querySelector<
             ScreenExtensionPropertiesEditor & HTMLElement
@@ -421,6 +455,19 @@ export class SectionPropertiesEditorTestComponent extends TestComponent<ScreenSe
     public clickAddColumn() {
         const addButton = deepQuerySelector(this.element, [SELECTORS.LIST, SELECTORS.LIGHTNING_BUTTON]);
         addButton.click();
+    }
+}
+export class ScreenPropertiesEditorTestComponent extends TestComponent<ScreenPropertiesEditor> {
+    public getNextOrFinishLabelTypeRadioButtons() {
+        return this.element.shadowRoot!.querySelectorAll(SELECTORS.LIGHTNING_RADIO_GROUP)[0];
+    }
+
+    public getPreviousLabelTypeRadioButtons() {
+        return this.element.shadowRoot!.querySelectorAll(SELECTORS.LIGHTNING_RADIO_GROUP)[1];
+    }
+
+    public getPauseLabelTypeRadioButtons() {
+        return this.element.shadowRoot!.querySelectorAll(SELECTORS.LIGHTNING_RADIO_GROUP)[2];
     }
 }
 

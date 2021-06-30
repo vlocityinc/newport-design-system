@@ -365,4 +365,10 @@ declare namespace UI {
         newResource?: {} | null;
         preValidationNeeded?: boolean;
     }
+
+    type LegalNotice = {
+        header: string;
+        shown?: boolean;
+        dismissed?: boolean;
+    };
 }

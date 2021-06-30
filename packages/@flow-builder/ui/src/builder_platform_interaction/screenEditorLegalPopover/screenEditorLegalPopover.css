@@ -1,0 +1,13 @@
+.popover-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.popover-item:nth-of-type(1) {
+    margin-top: 0;
+}
+
+/* Adds color to lightning icon via styling hooks: https://www.lightningdesignsystem.com/components/icons/#Styling-Hooks-Overview */
+:host {
+    --sds-c-icon-color-foreground-default: var(--lwc-brandAccessible, rgb(1, 118, 211));
+}

@@ -158,6 +158,8 @@ import automaticFieldVisibilitySectionTitle from '@salesforce/label/FlowBuilderS
 import automaticFieldDeleteConfirmation from '@salesforce/label/FlowBuilderScreenEditor.automaticFieldDeleteConfirmation';
 import automaticFieldDeleteConsequence from '@salesforce/label/FlowBuilderScreenEditor.automaticFieldDeleteConsequence';
 import automaticFieldPropertyEditorPanelTitle from '@salesforce/label/FlowBuilderAutomaticFieldEditor.panelTitle';
+import automaticFieldsLegalNoticeHeader from '@salesforce/label/FlowBuilderAutomaticFieldLegalPopover.headerText';
+import customFooterLegalNoticeHeader from '@salesforce/label/FlowBuilderScreenEditor.customFooterLegalNoticeHeader';
 
 export const LABELS = {
     errorRequired,
@@ -319,5 +321,7 @@ export const LABELS = {
     automaticFieldVisibilitySectionTitle,
     automaticFieldDeleteConfirmation,
     automaticFieldDeleteConsequence,
-    automaticFieldPropertyEditorPanelTitle
+    automaticFieldPropertyEditorPanelTitle,
+    automaticFieldsLegalNoticeHeader,
+    customFooterLegalNoticeHeader
 };

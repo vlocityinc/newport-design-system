@@ -1,7 +1,8 @@
 // @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
-import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { ScreenProperties } from 'builder_platform_interaction/screenEditorUtils';
+import { PropertyChangedEvent, createScreenFooterBetaOptionSelectedEvent } from 'builder_platform_interaction/events';
 import { hydrateIfNecessary, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { FOOTER_LABEL_TYPE, PAUSE_MESSAGE_TYPE } from 'builder_platform_interaction/flowMetadata';
 const EXPANDED_SECTION_NAMES = [];
@@ -140,6 +141,14 @@ export default class ScreenPropertiesEditor extends LightningElement {
         const property = event.detail.propertyName ? event.detail.propertyName : event.currentTarget?.name;
         const error = event.detail.error ? event.detail.error : null;
         const currentValue = hydrateIfNecessary(this.screen[property]);
+        if (
+            getValueFromHydratedItem(newValue) === FOOTER_LABEL_TYPE.CUSTOM &&
+            (property === ScreenProperties.NEXT_OR_FINISH_LABEL_TYPE ||
+                property === ScreenProperties.BACK_LABEL_TYPE ||
+                property === ScreenProperties.PAUSE_LABEL_TYPE)
+        ) {
+            this.dispatchEvent(createScreenFooterBetaOptionSelectedEvent());
+        }
         this.dispatchEvent(new PropertyChangedEvent(property, newValue, error, null, currentValue));
     };
 }

@@ -17,7 +17,12 @@
         <template if:true={orgHasFlowBuilderAutomaticFields}>
             <div class="slds-size_small slds-grow-none slds-shrink-none slds-border_right">
                 <lightning-tabset active-tab-value={activeTab}>
-                    <lightning-tab value="componentsTab" label={labels.componentsTabLabel} class="slds-p-around_none">
+                    <lightning-tab
+                        value="componentsTab"
+                        label={labels.componentsTabLabel}
+                        class="slds-p-around_none"
+                        onactive={handleAutomaticFieldsLegalNotice}
+                    >
                         <div class="tab-container-components">
                             <builder_platform_interaction-screen-editor-palette
                                 screen-field-types={screenFieldTypes}
@@ -27,17 +32,26 @@
                             </builder_platform_interaction-screen-editor-palette>
                         </div>
                     </lightning-tab>
-                    <lightning-tab value="fieldsTab" label={labels.fieldsTabLabel} class="slds-p-around_none">
+                    <lightning-tab
+                        value="fieldsTab"
+                        label={labels.fieldsTabLabel}
+                        class="slds-p-around_none"
+                        onactive={handleAutomaticFieldsLegalNotice}
+                    >
                         <div class="slds-scrollable_y tab-container-automaticfields">
                             <builder_platform_interaction-screen-editor-automatic-field-palette
                                 onaddautomaticscreenfield={handleAddScreenField}
                             >
                             </builder_platform_interaction-screen-editor-automatic-field-palette>
                         </div>
-                        <builder_platform_interaction-screen-editor-automatic-field-legal-popover>
-                        </builder_platform_interaction-screen-editor-automatic-field-legal-popover>
                     </lightning-tab>
                 </lightning-tabset>
+                <builder_platform_interaction-screen-editor-legal-popover
+                    if:true={showLegalNotice}
+                    notices={noticesToLegalPopover}
+                    onlegalnoticedismissed={handleLegalNoticeDismissed}
+                >
+                </builder_platform_interaction-screen-editor-legal-popover>
             </div>
         </template>
 
@@ -85,6 +99,7 @@
                 oninputsonnextnavtoassocscrnchanged={handleScreenStateChanged}
                 process-type={processType}
                 extension-types={extensionTypes}
+                onfooterbetaoptionselected={handleFooterLegalNotice}
             >
             </builder_platform_interaction-screen-properties-editor-container>
         </div>

@@ -110,24 +110,6 @@ describe('ScreenEditor automatic fields', () => {
                 expect(disclaimer.isPopupVisible()).toEqual(false);
             });
         });
-        describe('Legal agreement popover', () => {
-            beforeAll(async () => {
-                screenEditor = await createScreenEditor('screenWithAutomaticFields');
-            });
-            it('is visible in the Fields tab', async () => {
-                const popover = screenEditor.getAutomaticFieldLegalPopover();
-                expect(popover.isVisible()).toBe(true);
-            });
-            it('can be closed using the close button', async () => {
-                const popover = screenEditor.getAutomaticFieldLegalPopover();
-                await popover.clickOnCloseButton();
-                expect(popover.isVisible()).toBe(false);
-            });
-            it('contains a link to the agreement url', () => {
-                const popover = screenEditor.getAutomaticFieldLegalPopover();
-                expect(popover.getAgreementUrl()).toBe('https://www.salesforce.com/company/legal/agreements/');
-            });
-        });
         describe('"Select Object" combobox', () => {
             let combobox: ComboboxTestComponent;
             beforeAll(async () => {
