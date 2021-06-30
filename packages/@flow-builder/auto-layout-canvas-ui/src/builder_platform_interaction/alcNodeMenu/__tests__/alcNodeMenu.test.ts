@@ -864,19 +864,6 @@ describe('Node Menu', () => {
             expect(combobox.focus).toHaveBeenCalled();
         });
 
-        it('Pressing tab while focus moved to the combobox through clicking should move focus to the delete button', async () => {
-            const combobox = menu.shadowRoot.querySelector(selectors.conditionPicker);
-            const focusEvent = new FocusEvent('focus', {
-                bubbles: true,
-                cancelable: true
-            });
-            combobox.dispatchEvent(focusEvent);
-            const deleteButton = menu.shadowRoot.querySelector('.footer lightning-button');
-            deleteButton.focus = jest.fn();
-            menu.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
-            expect(deleteButton.focus).toHaveBeenCalled();
-        });
-
         it('Clicking on the Delete Action should reveal the path picking combobox', () => {
             const connectorCombobox = menu.shadowRoot.querySelector(selectors.conditionPicker);
             expect(connectorCombobox).not.toBeNull();

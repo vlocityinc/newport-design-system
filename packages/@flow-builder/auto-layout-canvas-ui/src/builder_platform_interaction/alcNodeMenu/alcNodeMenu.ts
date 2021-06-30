@@ -21,7 +21,10 @@ const { KeyboardInteractions } = keyboardInteractionUtils;
 const selectors = {
     menuItem: 'a[role="menuitem"]',
     backButton: '.back-button',
-    alcMenu: 'builder_platform_interaction-alc-menu'
+    alcMenu: 'builder_platform_interaction-alc-menu',
+    backButtonFocus: 'back-button',
+    comboBoxFocus: 'slds-form-element',
+    footerFocus: 'footer'
 };
 
 enum TabFocusRingItems {
@@ -59,9 +62,6 @@ export default class AlcNodeMenu extends Menu {
     @api
     elementHasFault;
 
-    @api
-    moveFocusToMenu;
-
     // Used for testing purposes
     @api
     keyboardInteractions;
@@ -71,10 +71,12 @@ export default class AlcNodeMenu extends Menu {
 
     @api
     moveFocus = (shift: boolean) => {
-        this.tabFocusRingIndex = this.isDeleteBranchElementMode
-            ? TabFocusRingItemsInDeleteMode.Icon
-            : TabFocusRingItems.Icon;
-        this.handleTabCommand(shift);
+        if (this.isDeleteBranchElementMode) {
+            (shift ? this.moveFocusToFooterButton : this.moveFocusToBackButton)();
+        } else {
+            this.tabFocusRingIndex = TabFocusRingItems.Icon;
+            this.handleTabCommand(shift);
+        }
     };
 
     _selectedConditionValue;
@@ -96,6 +98,7 @@ export default class AlcNodeMenu extends Menu {
     get labels() {
         return LABELS;
     }
+
     get menuConfiguration() {
         return getMenuConfiguration(
             this.elementMetadata,
@@ -109,24 +112,27 @@ export default class AlcNodeMenu extends Menu {
     get menuWrapper() {
         return this.elementMetadata.iconShape === ICON_SHAPE.DIAMOND ? 'diamond-element-menu' : '';
     }
+
     get isBaseActionMode() {
         return this.contextualMenuMode === CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE;
     }
+
     get isDeleteBranchElementMode() {
         return this.contextualMenuMode === CONTEXTUAL_MENU_MODE.DELETE_BRANCH_ELEMENT_MODE;
     }
+
     get selectedConditionValue() {
         return this._selectedConditionValue;
     }
+
     get descriptionHeader() {
         return this.menuConfiguration.header.description;
     }
+
     constructor() {
         super();
         this.keyboardInteractions = new KeyboardInteractions();
-        this.tabFocusRingIndex = this.isDeleteBranchElementMode
-            ? TabFocusRingItemsInDeleteMode.Icon
-            : TabFocusRingItems.Icon;
+        this.tabFocusRingIndex = TabFocusRingItems.Icon;
     }
 
     /**
@@ -145,6 +151,7 @@ export default class AlcNodeMenu extends Menu {
         this._moveFocusToDeleteBranchRow = true;
         this.dispatchEvent(new ClearHighlightedPathEvent());
     };
+
     /**
      * Handles the click on the action row item and dispatches the appropriate event
      *
@@ -196,6 +203,7 @@ export default class AlcNodeMenu extends Menu {
             this.dispatchEvent(new MoveFocusToNodeEvent(this.guid));
         }
     };
+
     /**
      * Handles onchange event coming from the combobox and updates the _selectedConditionValue accordingly
      *
@@ -213,15 +221,7 @@ export default class AlcNodeMenu extends Menu {
         this.dispatchEvent(new HighlightPathsToDeleteEvent(this.guid, this._childIndexToKeep));
         this.tabFocusRingIndex = TabFocusRingItemsInDeleteMode.Combobox;
     };
-    /**
-     * Handles the click on the combobox and set tabFocusRingIndex to the proper value
-     *
-     * @param event
-     */
-    handleComboboxFocus = (event) => {
-        event.stopPropagation();
-        this.tabFocusRingIndex = TabFocusRingItemsInDeleteMode.Combobox;
-    };
+
     /**
      * Handles the click on the Footer button and dispatches the relevant event
      *
@@ -240,6 +240,7 @@ export default class AlcNodeMenu extends Menu {
             );
         }
     };
+
     /**
      * Helper function to move the focus correctly when using arrow keys in the contextual menu
      *
@@ -254,6 +255,7 @@ export default class AlcNodeMenu extends Menu {
             moveFocusInMenuOnArrowKeyDown(items, currentItemInFocus, key);
         }
     }
+
     /**
      * Helper function used during keyboard commands
      */
@@ -311,8 +313,23 @@ export default class AlcNodeMenu extends Menu {
         () => this.moveFocusToFooterButton()
     ];
 
-    getFocusRingCmds() {
+    getTabFocusRingCmds() {
         return this.isDeleteBranchElementMode ? this.tabFocusRingCmdsInDeleteMode : this.tabFocusRingCmds;
+    }
+
+    getTabFocusRingIndex() {
+        if (this.isDeleteBranchElementMode) {
+            if (this.template.activeElement) {
+                if (this.template.activeElement.classList.value.includes(selectors.backButtonFocus)) {
+                    return TabFocusRingItemsInDeleteMode.BackButton;
+                } else if (this.template.activeElement.classList.value.includes(selectors.comboBoxFocus)) {
+                    return TabFocusRingItemsInDeleteMode.Combobox;
+                } else if (this.template.activeElement.parentElement.classList.value.includes(selectors.footerFocus)) {
+                    return TabFocusRingItemsInDeleteMode.Footer;
+                }
+            }
+        }
+        return super.getTabFocusRingIndex();
     }
 
     renderedCallback() {

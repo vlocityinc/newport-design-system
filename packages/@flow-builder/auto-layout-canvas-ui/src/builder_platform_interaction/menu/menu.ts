@@ -27,8 +27,12 @@ export default class Menu extends LightningElement {
         return getStyleFromGeometry({ y: this.top + 10, x: this.left });
     }
 
-    getFocusRingCmds() {
+    getTabFocusRingCmds() {
         return this.tabFocusRingCmds;
+    }
+
+    getTabFocusRingIndex() {
+        return this.tabFocusRingIndex;
     }
 
     handleSelectItem(event) {
@@ -44,8 +48,8 @@ export default class Menu extends LightningElement {
     }
 
     handleTabCommand(shift: boolean) {
-        const tabFocusRingIndex = this.tabFocusRingIndex;
-        const tabFocusRingCmds = this.getFocusRingCmds();
+        const tabFocusRingIndex = this.getTabFocusRingIndex();
+        const tabFocusRingCmds = this.getTabFocusRingCmds();
         this.tabFocusRingIndex = this.calcaulateTabFocusRingIdx(shift, tabFocusRingIndex, tabFocusRingCmds);
         tabFocusRingCmds[this.tabFocusRingIndex]();
     }
