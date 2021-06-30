@@ -339,8 +339,10 @@ export const loadOperatorsAndRulesOnTriggerTypeChange = (
     flowTriggerType?: string,
     flowRecordTriggerType?: string
 ) => {
-    loadRules(flowProcessType, flowTriggerType, flowRecordTriggerType);
-    loadOperators(flowProcessType, flowTriggerType, flowRecordTriggerType);
+    const promises = [];
+    promises.push(loadRules(flowProcessType, flowTriggerType, flowRecordTriggerType));
+    promises.push(loadOperators(flowProcessType, flowTriggerType, flowRecordTriggerType));
+    return Promise.all(promises);
 };
 
 /**

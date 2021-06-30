@@ -87,6 +87,11 @@ export default class BaseExpressionBuilder extends LightningElement {
         rhsRenderIncrementally: false
     };
 
+    @api
+    updateOperatorList() {
+        this.setOperatorMenuData(true);
+    }
+
     /**
      * @param {Object[]} rules  Rules to use when fetching menudata
      */
@@ -455,6 +460,7 @@ export default class BaseExpressionBuilder extends LightningElement {
     _hideFerovMenuData = false;
     _hideSystemVariables = false;
     _hideGlobalVariables = false;
+    _triggerSaveType;
 
     get containerClasses() {
         return this.variant === VARIANT_NARROW
@@ -519,8 +525,8 @@ export default class BaseExpressionBuilder extends LightningElement {
         return this._operatorMenuData;
     }
 
-    setOperatorMenuData() {
-        if (this.areAllDefined([this.containerElement]) && !this._operatorMenuData) {
+    setOperatorMenuData(forceUpdate = false) {
+        if (this.areAllDefined([this.containerElement]) && (!this._operatorMenuData || forceUpdate)) {
             let operators = [];
             if (this.lhsParam) {
                 operators = getOperators(this.containerElement, this.lhsParam, this.rules);

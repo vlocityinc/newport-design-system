@@ -29,6 +29,12 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/preloadLib', () => {
+    return {
+        loadOperatorsAndRulesOnTriggerTypeChange: jest.fn()
+    };
+});
+
 jest.mock('builder_platform_interaction/dataMutationLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/dataMutationLib');
 
@@ -119,7 +125,7 @@ describe('record-change-trigger-editor', () => {
         });
     });
 
-    it('handles recordTriggerType updates', () => {
+    it('handles recordTriggerType updates', async () => {
         const element = createComponentForTest(recordChangeTriggerElement(BEFORE_SAVE, CREATE));
         const event = new CustomEvent('change', {
             detail: {
@@ -127,7 +133,7 @@ describe('record-change-trigger-editor', () => {
             }
         });
         query(element, SELECTORS.SAVE_TYPE_SECTION).dispatchEvent(event);
-
+        await ticks(1);
         expect(element.node.recordTriggerType.value).toBe(UPDATE);
         const requireRecordChangeOptions = element.shadowRoot.querySelector(SELECTORS.REQUIRE_RECORD_CHANGE_OPTION);
         expect(requireRecordChangeOptions).not.toBeUndefined();

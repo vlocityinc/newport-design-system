@@ -14,6 +14,7 @@ import {
     EXECUTE_OUTCOME_WHEN_OPTION_VALUES,
     CONDITION_LOGIC
 } from 'builder_platform_interaction/flowMetadata';
+import { loadOperatorsAndRulesOnTriggerTypeChange } from 'builder_platform_interaction/preloadLib';
 import { PropertyChangedEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
 import { fetchFieldsForEntity, ENTITY_TYPE } from 'builder_platform_interaction/sobjectLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
@@ -346,6 +347,10 @@ export default class RecordChangeTriggerEditor extends LightningElement {
         ];
     }
 
+    get triggerSaveType() {
+        return this._triggerSaveType;
+    }
+
     /**
      * public api function to run the rules from record change trigger validation library
      *
@@ -403,12 +408,13 @@ export default class RecordChangeTriggerEditor extends LightningElement {
      *
      * @param event
      */
-    handleTriggerSaveTypeChange = (event) => {
-        this._updateField(START_ELEMENT_FIELDS.TRIGGER_SAVE_TYPE, event.detail.value);
-
+    handleTriggerSaveTypeChange = async (event) => {
+        const newTriggerTypeVal = event.detail.value;
+        this._triggerSaveType = newTriggerTypeVal;
+        this._updateField(START_ELEMENT_FIELDS.TRIGGER_SAVE_TYPE, newTriggerTypeVal);
         // If the user selects Delete as the record trigger type, store the existing FlowTriggerType value in a variable which
         // will be defaulted to if the user switches back from Delete to Create, Update, Create Or Update
-        if (event.detail.value === DELETE) {
+        if (newTriggerTypeVal === DELETE) {
             this.oldFlowTriggerType = this.startElement.triggerType.value;
             this.handleTypeBeforeDelete();
         } else if (this.startElement.triggerType.value === BEFORE_SAVE || this.oldFlowTriggerType === BEFORE_SAVE) {
@@ -416,6 +422,8 @@ export default class RecordChangeTriggerEditor extends LightningElement {
         } else {
             this.handleTypeAfterSave();
         }
+        await loadOperatorsAndRulesOnTriggerTypeChange(this.processType, this.triggerType, newTriggerTypeVal);
+        this.template.querySelector('builder_platform_interaction-record-filter')?.updateOperatorList();
     };
 
     /**
@@ -548,5 +556,13 @@ export default class RecordChangeTriggerEditor extends LightningElement {
     toggleRunOnSuccessScheduledPath(event) {
         event.stopPropagation();
         this._updateField(START_ELEMENT_FIELDS.IS_RUN_ON_SUCCESS_PATH_ENABLED, event.detail.checked);
+    }
+
+    connectedCallback() {
+        loadOperatorsAndRulesOnTriggerTypeChange(
+            this.processType,
+            this.triggerType,
+            this.startElement.recordTriggerType.value
+        );
     }
 }

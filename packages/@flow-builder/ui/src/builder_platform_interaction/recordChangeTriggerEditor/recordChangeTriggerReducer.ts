@@ -138,7 +138,7 @@ const deleteRecordFilter = (state, event) => {
 };
 
 const propertyChanged = (state, event) => {
-    if (!event.detailignoreValidate) {
+    if (!event.detail.ignoreValidate) {
         event.detail.error =
             event.detail.error === null
                 ? recordChangeTriggerValidation.validateProperty(

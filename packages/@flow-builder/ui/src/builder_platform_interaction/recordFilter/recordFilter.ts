@@ -61,6 +61,13 @@ export default class RecordFilter extends LightningElement {
     @api
     title: string | undefined;
 
+    @api
+    updateOperatorList() {
+        this.template
+            .querySelector('builder_platform_interaction-field-to-ferov-expression-builder')
+            ?.updateOperatorList();
+    }
+
     get rules() {
         return this.elementType ? getRulesForElementType(RULE_TYPES.COMPARISON, this.elementType) : undefined;
     }
