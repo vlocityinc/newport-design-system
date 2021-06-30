@@ -32,7 +32,7 @@
                     <template if:true={showConnectorMenu}>
                         <builder_platform_interaction-alc-connector-menu
                             class="menu overlay slds-dropdown"
-                            can-add-goto={menu.isTargetEnd}
+                            can-add-goto={menu.canAddGoto}
                             can-merge-ended-branch={menu.canMergeEndedBranch}
                             child-index={menu.childIndex}
                             elements-metadata={menu.elementsMetadata}

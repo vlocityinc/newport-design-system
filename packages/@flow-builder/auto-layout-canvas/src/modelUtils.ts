@@ -45,6 +45,17 @@ export interface ElementService {
     createEndElement: () => Guid;
 }
 
+/**
+ * Function for making deep copy of a FlowModel
+ *
+ * @param element The FlowModel to be copied
+ * @returns The New copied FlowModel
+ * @private
+ */
+function deepCopy(element: FlowModel) {
+    return JSON.parse(JSON.stringify(element));
+}
+
 const gotoUtils = {
     /**
      * Returns the suffix for the GoTo connection being pushed into the Target element's incomingGoTo []
@@ -185,6 +196,7 @@ const gotoUtils = {
     /**
      * Function to create a GoTo connector between a given source and target
      *
+     * @param elementService - The element service
      * @param flowModel - The flow model
      * @param source - The connection source
      * @param targetGuid - Guid of the target element
@@ -192,6 +204,7 @@ const gotoUtils = {
      * @returns The flow model
      */
     createGoToConnection(
+        elementService: ElementService,
         flowModel: FlowModel,
         source: ConnectionSource,
         targetGuid: Guid,
@@ -199,13 +212,16 @@ const gotoUtils = {
     ): FlowModel {
         const { guid: sourceGuid, childIndex: sourceBranchIndex } = source;
 
+        if (isReroute) {
+            // In case there's a GoTo, deleting it to connect the source to a newly create End element
+            flowModel = removeSourceFromIncomingGoTo(flowModel, source);
+        } else if (getConnectionSourceTarget(flowModel, source) == null) {
+            // creating GoTo without ending branch
+            flowModel = addElement(flowModel, createEndElement(elementService, flowModel).guid, NodeType.END, source);
+        }
+
         const sourceElement = resolveParent(flowModel, sourceGuid);
         const targetElement = flowModel[targetGuid];
-
-        // If this is a reroute of an existing goto connection, first cleanup the incomingGoTo of the existing target
-        if (isReroute) {
-            flowModel = removeSourceFromIncomingGoTo(flowModel, source);
-        }
 
         if (sourceBranchIndex == null) {
             // Deleting the connected End Element if this is not a reroute
@@ -439,6 +455,25 @@ function validConnectionSourceOrThrow(flowModel: FlowModel, source: ConnectionSo
 }
 
 /**
+ * Used to get the flow model in the desired state for goto selection logic
+ *
+ * @param elements - The flow model
+ * @param source - The connection source
+ * @param targetGuid - Either the next element guid or null (branch not ended)
+ * @returns - FlowModel
+ */
+function prepareFlowModel(elements: FlowModel, source: ConnectionSource, targetGuid: Guid | null): FlowModel {
+    // If there is an end element or goto then return the current FlowModel
+    if (targetGuid) {
+        return elements;
+    }
+    // If the branch is not ended, we need to "fake" end the branch to get the flowModel in the correct state
+    const fakeFlowModel = deepCopy(elements);
+    fakeFlowModel.temporaryEndElement = { guid: 'temporaryEndElement' };
+    return addElement(fakeFlowModel, 'temporaryEndElement', NodeType.END, source);
+}
+
+/**
  * Helper function to create a connector between the source and a mergeable target
  *
  * @param elementService - The element service
@@ -459,11 +494,6 @@ function createConnectionHelper(
     }
 
     validElementGuidOrThrow(flowModel, targetGuid);
-
-    const validTargets = getTargetGuidsForBranchReconnect(flowModel, endElement.guid);
-    if (validTargets.indexOf(targetGuid) === -1) {
-        throw new Error('Invalid target element for reconnect');
-    }
 
     const branchHeadElement = findFirstElement(endElement, flowModel);
 
@@ -497,7 +527,7 @@ function createConnectionHelper(
  *
  * @param elementService - The element service
  * @param flowModel - The flow model
- * @param source - The connection source. For now the ConnectionSource's target must be an end element unless there is a GoTo
+ * @param source - The connection source.
  * @param targetGuid - The guid of the element to connect to
  * @param isMergeableGuid - True if the target is part of mergeableGuids
  * @returns The updated flow model
@@ -512,6 +542,9 @@ function connectToElement(
     if (hasGoTo(flowModel, source)) {
         // In case there's a GoTo, deleting it to connect the source to a newly create End element
         flowModel = deleteGoToConnection(elementService, flowModel, source);
+    } else if (getConnectionSourceTarget(flowModel, source) == null) {
+        // creating GoTo without ending branch
+        flowModel = addElement(flowModel, createEndElement(elementService, flowModel).guid, NodeType.END, source);
     }
 
     if (isMergeableGuid) {
@@ -884,17 +917,23 @@ function getMergeableGuids(elements: FlowModel, prev: Guid, parentGuid: Guid | n
         ? findFirstElement(elements[prev], elements)
         : { parent: parentGuid, childIndex: index };
     const branchingElement = elements[parent!] as ParentNodeModel;
+    const amountOfNonTerminalBranches = getNonTerminalBranchIndexes(branchingElement, elements).length;
 
     // Making sure we do not include the branchParent if there is a self-loop from the merge point to it
     if (branchingElement.next && branchingElement.next !== parentGuid && branchingElement.next !== prev) {
         return [branchingElement.next];
     }
 
-    if (areAllBranchesTerminals(branchingElement, elements)) {
+    if (amountOfNonTerminalBranches <= 1) {
         return branchingElement.children.reduce((acc: Guid[], child: NodeRef, index: number) => {
             // Getting the mergeable elements from the sibling branches.
             // Also ignoring any sibling branch that has a GoTo connection at it's branchHead
-            if (child != null && index !== childIndex && !hasGoToOnBranchHead(elements, branchingElement.guid, index)) {
+            if (
+                child != null &&
+                index !== childIndex &&
+                !hasGoToOnBranchHead(elements, branchingElement.guid, index) &&
+                !((elements[child] as BranchHeadNodeModel).isTerminal && amountOfNonTerminalBranches === 1)
+            ) {
                 const branchElements = new AlcList(elements, child).map((element) => element.guid) as Guid[];
                 return acc.concat(branchElements);
             }
@@ -1020,8 +1059,9 @@ function getTargetGuidsForReconnection(
     canMergeEndedBranch: boolean,
     childIndex: number
 ): { mergeableGuids: Guid[]; goToableGuids: Guid[]; firstMergeableNonNullNext: Guid | null } {
+    elements = prepareFlowModel(elements, { guid: prev || parent, childIndex }, next);
     // Gets all the mergeable guids
-    const mergeableGuids = canMergeEndedBranch ? getMergeableGuids(elements, prev, parent, childIndex) : [];
+    const mergeableGuids = canMergeEndedBranch || !next ? getMergeableGuids(elements, prev, parent, childIndex) : [];
     // Variable to keep track of the first non-null next element of a branching element (going up the branch)
     // that the user can merge into
     let firstMergeableNonNullNext: string | null = null;
@@ -1029,7 +1069,7 @@ function getTargetGuidsForReconnection(
     let isSteppingOutOfFault = false;
     let branchHead = prev
         ? findFirstElement(elements[prev], elements)
-        : hasGoToOnBranchHead(elements, parent, childIndex) // If GoTo on branchHead then return null since there is element for branchHead
+        : hasGoToOnBranchHead(elements, parent, childIndex) || !next // If GoTo on branchHead then return null since there is element for branchHead
         ? null
         : resolveBranchHead(elements, next);
     let branchParent = branchHead ? elements[branchHead.parent] : elements[parent];
@@ -2368,5 +2408,6 @@ export {
     shouldDeleteGoToOnNext,
     isEndOrAllTerminalBranchingElement,
     getConnectionTarget,
-    setChild
+    setChild,
+    prepareFlowModel
 };

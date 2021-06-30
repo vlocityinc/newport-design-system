@@ -54,7 +54,8 @@ import {
     cleanUpIncomingGoTos,
     removeGoTosFromElement,
     shouldDeleteGoToOnNext,
-    getSuffixForGoToConnection
+    getSuffixForGoToConnection,
+    prepareFlowModel
 } from '../modelUtils';
 
 import { GOTO_CONNECTION_SUFFIX, FAULT_INDEX, START_IMMEDIATE_INDEX, LOOP_BACK_INDEX } from '../model';
@@ -305,498 +306,630 @@ describe('modelUtils', () => {
         });
     });
 
-    describe('', () => {
-        it('No branches are merged and undefined parent parameter', () => {
-            const branchingElement = { ...BRANCH_ELEMENT };
-            branchingElement.children = [
-                ['head-guid', 'random-guid', 'random-guid2', END_ELEMENT_GUID],
-                ['head-guid', 'random-guid', END_ELEMENT_GUID]
-            ];
+    describe('getTargetGuidsForReconnection', () => {
+        describe('branch ended or goto', () => {
+            it('No branches are merged and undefined parent parameter', () => {
+                const branchingElement = { ...BRANCH_ELEMENT };
+                branchingElement.children = [
+                    ['head-guid', 'random-guid', 'random-guid2', END_ELEMENT_GUID],
+                    ['head-guid', 'random-guid', END_ELEMENT_GUID]
+                ];
 
-            const elements = createFlow([START_ELEMENT_GUID, branchingElement], false);
-            expect(
-                getTargetGuidsForReconnection(
-                    elements,
-                    'branch-guid:0-random-guid2',
-                    undefined,
-                    'branch-guid:0-end-guid',
-                    true,
-                    undefined
-                )
-            ).toEqual({
-                firstMergeableNonNullNext: null,
-                goToableGuids: ['branch-guid:0-head-guid', 'branch-guid:0-random-guid', 'branch-guid'],
-                mergeableGuids: ['branch-guid:1-head-guid', 'branch-guid:1-random-guid', 'branch-guid:1-end-guid']
+                const elements = createFlow([START_ELEMENT_GUID, branchingElement], false);
+                expect(
+                    getTargetGuidsForReconnection(
+                        elements,
+                        'branch-guid:0-random-guid2',
+                        undefined,
+                        'branch-guid:0-end-guid',
+                        true,
+                        undefined
+                    )
+                ).toEqual({
+                    firstMergeableNonNullNext: null,
+                    goToableGuids: ['branch-guid:0-head-guid', 'branch-guid:0-random-guid', 'branch-guid'],
+                    mergeableGuids: ['branch-guid:1-head-guid', 'branch-guid:1-random-guid', 'branch-guid:1-end-guid']
+                });
+            });
+
+            it('Immediately ended branch with parent.next == null', () => {
+                const branchingElement = { ...BRANCH_ELEMENT };
+                branchingElement.children = [[END_ELEMENT_GUID], ['head-guid', 'random-guid', END_ELEMENT_GUID]];
+
+                const elements = createFlow([START_ELEMENT_GUID, branchingElement], false);
+                expect(
+                    getTargetGuidsForReconnection(elements, undefined, 'branch-guid', 'branch-guid:0-end-guid', true, 0)
+                ).toEqual({
+                    firstMergeableNonNullNext: null,
+                    goToableGuids: [],
+                    mergeableGuids: ['branch-guid:1-head-guid', 'branch-guid:1-random-guid', 'branch-guid:1-end-guid']
+                });
+            });
+
+            it('Selected from a decisions merge point with one branch empty', () => {
+                const elements = {
+                    'branch-guid': {
+                        guid: 'branch-guid',
+                        prev: 'start-guid',
+                        label: 'branch-guid',
+                        elementType: 'branch',
+                        next: 'end-guid',
+                        nodeType: 'branch',
+                        children: ['branch-guid:0-head1-guid', null]
+                    },
+                    'branch-guid:0-head1-guid': {
+                        guid: 'branch-guid:0-head1-guid',
+                        isCanvasElement: true,
+                        parent: 'branch-guid',
+                        childIndex: 0
+                    },
+                    'end-guid': {
+                        guid: 'end-guid',
+                        label: 'end-guid',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isCanvasElement: true,
+                        prev: 'branch-guid'
+                    },
+                    root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
+                    'start-guid': {
+                        childIndex: 0,
+                        elementType: 'start',
+                        guid: 'start-guid',
+                        isCanvasElement: true,
+                        isTerminal: true,
+                        label: 'start-guid',
+                        next: 'branch-guid',
+                        nodeType: 'start',
+                        parent: 'root'
+                    }
+                };
+                expect(
+                    getTargetGuidsForReconnection(elements, 'branch-guid', undefined, 'end-guid', false, undefined)
+                ).toEqual({
+                    firstMergeableNonNullNext: null,
+                    goToableGuids: [],
+                    mergeableGuids: []
+                });
+            });
+
+            it('Selected from a decisions merge point with both branches only having 1 element', () => {
+                const elements = {
+                    'branch-guid': {
+                        guid: 'branch-guid',
+                        prev: 'start-guid',
+                        label: 'branch-guid',
+                        elementType: 'branch',
+                        next: 'end-guid',
+                        nodeType: 'branch',
+                        children: ['branch-guid:0-head1-guid', 'branch-guid:1-head1-guid']
+                    },
+                    'branch-guid:0-head1-guid': {
+                        guid: 'branch-guid:0-head1-guid',
+                        isCanvasElement: true,
+                        parent: 'branch-guid',
+                        childIndex: 0
+                    },
+                    'branch-guid:1-head1-guid': {
+                        guid: 'branch-guid:1-head1-guid',
+                        isCanvasElement: true,
+                        parent: 'branch-guid',
+                        childIndex: 1
+                    },
+                    'end-guid': {
+                        guid: 'end-guid',
+                        label: 'end-guid',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isCanvasElement: true,
+                        prev: 'branch-guid'
+                    },
+                    root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
+                    'start-guid': {
+                        childIndex: 0,
+                        elementType: 'start',
+                        guid: 'start-guid',
+                        isCanvasElement: true,
+                        isTerminal: true,
+                        label: 'start-guid',
+                        next: 'branch-guid',
+                        nodeType: 'start',
+                        parent: 'root'
+                    }
+                };
+                expect(
+                    getTargetGuidsForReconnection(elements, 'branch-guid', undefined, 'end-guid', false, undefined)
+                ).toEqual({
+                    firstMergeableNonNullNext: null,
+                    goToableGuids: ['branch-guid'],
+                    mergeableGuids: []
+                });
+            });
+
+            it('Selected from a nested decision to the first firstMergeableNonNullNext that is a goto further up in the flow', () => {
+                const elements = {
+                    screen1: {
+                        guid: 'screen1',
+                        isCanvasElement: true,
+                        prev: 'start-guid',
+                        next: 'branch-guid',
+                        incomingGoTo: ['branch-guid']
+                    },
+                    'branch-guid': {
+                        guid: 'branch-guid',
+                        isCanvasElement: true,
+                        prev: 'screen1',
+                        label: 'branch-guid',
+                        elementType: 'branch',
+                        next: 'screen1',
+                        nodeType: 'branch',
+                        children: ['branch-guid:0-head1-guid', null, null]
+                    },
+                    'branch-guid:0-head1-guid': {
+                        guid: 'branch-guid:0-head1-guid',
+                        isCanvasElement: true,
+                        parent: 'branch-guid',
+                        elementType: 'branch',
+                        nodeType: 'branch',
+                        childIndex: 0,
+                        children: ['head1-end1-guid', 'head1-end2-guid'],
+                        isTerminal: true
+                    },
+                    'head1-end1-guid': {
+                        childIndex: 0,
+                        guid: 'head1-end1-guid',
+                        label: 'head1-end1-guid',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isCanvasElement: true,
+                        parent: 'branch-guid:0-head1-guid',
+                        isTerminal: true
+                    },
+                    'head1-end2-guid': {
+                        childIndex: 1,
+                        guid: 'head1-end2-guid',
+                        label: 'head1-end2-guid',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isCanvasElement: true,
+                        parent: 'branch-guid:0-head1-guid',
+                        isTerminal: true
+                    },
+                    root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
+                    'start-guid': {
+                        childIndex: 0,
+                        elementType: 'start',
+                        guid: 'start-guid',
+                        isCanvasElement: true,
+                        isTerminal: true,
+                        label: 'start-guid',
+                        next: 'screen1',
+                        nodeType: 'start',
+                        parent: 'root'
+                    }
+                };
+                expect(
+                    getTargetGuidsForReconnection(
+                        elements,
+                        undefined,
+                        'branch-guid:0-head1-guid',
+                        'head1-end1-guid',
+                        true,
+                        0
+                    )
+                ).toEqual({
+                    firstMergeableNonNullNext: 'screen1',
+                    goToableGuids: ['branch-guid'],
+                    mergeableGuids: ['head1-end2-guid']
+                });
+            });
+
+            it('Only the start element is present', () => {
+                const elements = {
+                    root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
+                    'start-guid': {
+                        childIndex: 0,
+                        elementType: 'start',
+                        guid: 'start-guid',
+                        isCanvasElement: true,
+                        isTerminal: true,
+                        label: 'start-guid',
+                        nodeType: 'start',
+                        parent: 'root',
+                        next: 'end-guid'
+                    },
+                    'end-guid': {
+                        guid: 'end-guid',
+                        label: 'end-guid',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isCanvasElement: true,
+                        prev: 'start-guid'
+                    }
+                };
+                expect(
+                    getTargetGuidsForReconnection(elements, 'start-guid', undefined, 'end-guid', false, undefined)
+                ).toEqual({
+                    firstMergeableNonNullNext: null,
+                    goToableGuids: [],
+                    mergeableGuids: []
+                });
+            });
+
+            it('Only one element is connected to the start element', () => {
+                const elements = {
+                    root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
+                    'start-guid': {
+                        childIndex: 0,
+                        elementType: 'start',
+                        guid: 'start-guid',
+                        isCanvasElement: true,
+                        isTerminal: true,
+                        label: 'start-guid',
+                        nodeType: 'start',
+                        parent: 'root',
+                        next: 'random-guid'
+                    },
+                    'end-guid': {
+                        guid: 'end-guid',
+                        label: 'end-guid',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isCanvasElement: true,
+                        prev: 'random-guid'
+                    },
+                    'random-guid': { guid: 'random-guid', isCanvasElement: true, prev: 'start-guid', next: 'end-guid' }
+                };
+                expect(
+                    getTargetGuidsForReconnection(elements, 'random-guid', undefined, 'end-guid', false, undefined)
+                ).toEqual({
+                    firstMergeableNonNullNext: null,
+                    goToableGuids: [],
+                    mergeableGuids: []
+                });
+            });
+
+            it('Selected from a decisions merge point with nested decisions', () => {
+                const elements = {
+                    'branch-guid': {
+                        guid: 'branch-guid',
+                        prev: 'start-guid',
+                        label: 'branch-guid',
+                        elementType: 'branch',
+                        next: 'end-guid',
+                        nodeType: 'branch',
+                        children: ['branch-guid:0-head1-guid', 'branch-guid2']
+                    },
+                    'branch-guid:0-head1-guid': {
+                        guid: 'branch-guid:0-head1-guid',
+                        isCanvasElement: true,
+                        parent: 'branch-guid',
+                        childIndex: 0,
+                        isTerminal: false
+                    },
+                    'branch-guid2': {
+                        guid: 'branch-guid2',
+                        isTerminal: false,
+                        label: 'branch-guid2',
+                        elementType: 'branch',
+                        nodeType: 'branch',
+                        isCanvasElement: true,
+                        parent: 'branch-guid',
+                        childIndex: 1,
+                        children: ['branch-guid:0-nested1-guid', 'branch-guid3']
+                    },
+                    'branch-guid:0-nested1-guid': {
+                        guid: 'branch-guid:0-nested1-guid',
+                        isTerminal: false,
+                        isCanvasElement: true,
+                        parent: 'branch-guid2',
+                        childIndex: 0
+                    },
+                    'branch-guid3': {
+                        guid: 'branch-guid3',
+                        isTerminal: false,
+                        label: 'branch-gui3',
+                        elementType: 'branch',
+                        nodeType: 'branch',
+                        isCanvasElement: true,
+                        parent: 'branch-guid2',
+                        childIndex: 1,
+                        children: [null, null]
+                    },
+                    'end-guid': {
+                        guid: 'end-guid',
+                        label: 'end-guid',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isCanvasElement: true,
+                        prev: 'branch-guid'
+                    },
+                    root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
+                    'start-guid': {
+                        childIndex: 0,
+                        elementType: 'start',
+                        guid: 'start-guid',
+                        isCanvasElement: true,
+                        isTerminal: true,
+                        label: 'start-guid',
+                        next: 'branch-guid',
+                        nodeType: 'start',
+                        parent: 'root'
+                    }
+                };
+                expect(
+                    getTargetGuidsForReconnection(elements, 'branch-guid', undefined, 'end-guid', false, undefined)
+                ).toEqual({
+                    firstMergeableNonNullNext: null,
+                    goToableGuids: ['branch-guid', 'branch-guid2'],
+                    mergeableGuids: []
+                });
+            });
+
+            it('Selected from a nested decision when GoTos are present', () => {
+                const flowModel = {
+                    root: {
+                        guid: 'root',
+                        nodeType: NodeType.ROOT,
+                        children: ['startGuid']
+                    },
+                    startGuid: {
+                        guid: 'startGuid',
+                        nodeType: NodeType.START,
+                        parent: 'root',
+                        childIndex: 0,
+                        isTerminal: true,
+                        next: 'screen1',
+                        isCanvasElement: true
+                    },
+                    screen1: {
+                        guid: 'screen1',
+                        nodeType: NodeType.DEFAULT,
+                        prev: 'startGuid',
+                        next: 'decision1',
+                        incomingGoTo: ['decision1:o3'],
+                        isCanvasElement: true
+                    },
+                    decision1: {
+                        guid: 'decision1',
+                        nodeType: NodeType.BRANCH,
+                        prev: 'screen1',
+                        next: 'end',
+                        children: ['decision2', null, 'screen1', 'screen2'],
+                        childReferences: [
+                            {
+                                childReference: 'o1'
+                            },
+                            {
+                                childReference: 'o2'
+                            },
+                            {
+                                childReference: 'o3'
+                            }
+                        ],
+                        isCanvasElement: true
+                    },
+                    decision2: {
+                        guid: 'decision2',
+                        nodeType: NodeType.BRANCH,
+                        parent: 'decision1',
+                        childIndex: 0,
+                        children: ['end1', 'screen3'],
+                        isTerminal: true,
+                        incomingGoTo: ['screen3'],
+                        isCanvasElement: true
+                    },
+                    end1: {
+                        guid: 'end1',
+                        nodeType: NodeType.END,
+                        parent: 'decision2',
+                        childIndex: 0,
+                        isTerminal: true,
+                        isCanvasElement: true
+                    },
+                    screen3: {
+                        guid: 'screen3',
+                        nodeType: NodeType.DEFAULT,
+                        parent: 'decision2',
+                        childIndex: 1,
+                        isTerminal: true,
+                        next: 'decision2',
+                        isCanvasElement: true
+                    },
+                    screen2: {
+                        guid: 'screen2',
+                        nodeType: NodeType.DEFAULT,
+                        parent: 'decision1',
+                        childIndex: 3,
+                        isCanvasElement: true
+                    },
+                    end: {
+                        guid: 'end',
+                        nodeType: NodeType.END,
+                        prev: 'decision1',
+                        isCanvasElement: true
+                    }
+                };
+
+                expect(getTargetGuidsForReconnection(flowModel, undefined, 'decision2', 'end1', true, 0)).toEqual({
+                    firstMergeableNonNullNext: 'end',
+                    goToableGuids: ['screen1', 'decision1', 'screen2'],
+                    mergeableGuids: ['screen3']
+                });
+            });
+
+            it('nested merge with single merge branch', () => {
+                const elements = {
+                    'branch-guid': {
+                        guid: 'branch-guid',
+                        prev: 'start-guid',
+                        label: 'branch-guid',
+                        elementType: 'branch',
+                        next: 'end-guid',
+                        nodeType: 'branch',
+                        children: ['branch-guid2', null],
+                        isCanvasElement: true
+                    },
+                    'branch-guid2': {
+                        guid: 'branch-guid2',
+                        isTerminal: false,
+                        label: 'branch-guid2',
+                        elementType: 'branch',
+                        nodeType: 'branch',
+                        isCanvasElement: true,
+                        parent: 'branch-guid',
+                        childIndex: 0,
+                        children: ['end-guid2', 'random-guid']
+                    },
+                    'random-guid': {
+                        guid: 'random-guid',
+                        isTerminal: false,
+                        isCanvasElement: true,
+                        parent: 'branch-guid2',
+                        childIndex: 1
+                    },
+                    'end-guid2': {
+                        guid: 'end-guid2',
+                        label: 'end-guid2',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isCanvasElement: true,
+                        parent: 'branch-guid2',
+                        isTerminal: true,
+                        childIndex: 0
+                    },
+                    'end-guid': {
+                        guid: 'end-guid',
+                        label: 'end-guid',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isCanvasElement: true,
+                        prev: 'branch-guid'
+                    },
+                    root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
+                    'start-guid': {
+                        childIndex: 0,
+                        elementType: 'start',
+                        guid: 'start-guid',
+                        isCanvasElement: true,
+                        isTerminal: true,
+                        label: 'start-guid',
+                        next: 'branch-guid',
+                        nodeType: 'start',
+                        parent: 'root'
+                    }
+                };
+                expect(
+                    getTargetGuidsForReconnection(elements, undefined, 'branch-guid2', 'end-guid2', true, 0)
+                ).toEqual({
+                    firstMergeableNonNullNext: 'end-guid',
+                    goToableGuids: ['branch-guid'],
+                    mergeableGuids: ['random-guid']
+                });
             });
         });
+        describe('branch not ended', () => {
+            it('No branches are merged and undefined parent parameter', () => {
+                const branchingElement = { ...BRANCH_ELEMENT };
+                branchingElement.children = [
+                    ['head-guid', 'random-guid', 'random-guid2'],
+                    ['head-guid', 'random-guid']
+                ];
 
-        it('Immediately ended branch with parent.next == null', () => {
-            const branchingElement = { ...BRANCH_ELEMENT };
-            branchingElement.children = [[END_ELEMENT_GUID], ['head-guid', 'random-guid', END_ELEMENT_GUID]];
-
-            const elements = createFlow([START_ELEMENT_GUID, branchingElement], false);
-            expect(
-                getTargetGuidsForReconnection(elements, undefined, 'branch-guid', 'branch-guid:0-end-guid', true, 0)
-            ).toEqual({
-                firstMergeableNonNullNext: null,
-                goToableGuids: [],
-                mergeableGuids: ['branch-guid:1-head-guid', 'branch-guid:1-random-guid', 'branch-guid:1-end-guid']
+                const elements = createFlow([branchingElement], true);
+                expect(
+                    getTargetGuidsForReconnection(
+                        elements,
+                        'branch-guid:0-random-guid2',
+                        undefined,
+                        undefined,
+                        false,
+                        undefined
+                    )
+                ).toEqual({
+                    firstMergeableNonNullNext: null,
+                    goToableGuids: ['branch-guid:0-head-guid', 'branch-guid:0-random-guid', 'branch-guid'],
+                    mergeableGuids: ['branch-guid:1-head-guid', 'branch-guid:1-random-guid', 'end-guid']
+                });
             });
-        });
 
-        it('Selected from a decisions merge point with one branch empty', () => {
-            const elements = {
-                'branch-guid': {
-                    guid: 'branch-guid',
-                    prev: 'start-guid',
-                    label: 'branch-guid',
-                    elementType: 'branch',
-                    next: 'end-guid',
-                    nodeType: 'branch',
-                    children: ['branch-guid:0-head1-guid', null]
-                },
-                'branch-guid:0-head1-guid': {
-                    guid: 'branch-guid:0-head1-guid',
-                    isCanvasElement: true,
-                    parent: 'branch-guid',
-                    childIndex: 0
-                },
-                'end-guid': {
-                    guid: 'end-guid',
-                    label: 'end-guid',
-                    elementType: 'END_ELEMENT',
-                    nodeType: 'end',
-                    isCanvasElement: true,
-                    prev: 'branch-guid'
-                },
-                root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
-                'start-guid': {
-                    childIndex: 0,
-                    elementType: 'start',
-                    guid: 'start-guid',
-                    isCanvasElement: true,
-                    isTerminal: true,
-                    label: 'start-guid',
-                    next: 'branch-guid',
-                    nodeType: 'start',
-                    parent: 'root'
-                }
-            };
-            expect(
-                getTargetGuidsForReconnection(elements, 'branch-guid', undefined, 'end-guid', false, undefined)
-            ).toEqual({
-                firstMergeableNonNullNext: null,
-                goToableGuids: [],
-                mergeableGuids: []
+            it('Immediately ended branch with parent.next == null', () => {
+                const branchingElement = { ...BRANCH_ELEMENT };
+                branchingElement.children = [['head-guid', 'random-guid']];
+
+                const elements = createFlow([branchingElement], true);
+                elements['branch-guid'].children[1] = null;
+
+                expect(getTargetGuidsForReconnection(elements, undefined, 'branch-guid', undefined, false, 1)).toEqual({
+                    firstMergeableNonNullNext: null,
+                    goToableGuids: [],
+                    mergeableGuids: ['branch-guid:0-head-guid', 'branch-guid:0-random-guid', 'end-guid']
+                });
             });
-        });
 
-        it('Selected from a decisions merge point with both branches only having 1 element', () => {
-            const elements = {
-                'branch-guid': {
-                    guid: 'branch-guid',
-                    prev: 'start-guid',
-                    label: 'branch-guid',
-                    elementType: 'branch',
-                    next: 'end-guid',
-                    nodeType: 'branch',
-                    children: ['branch-guid:0-head1-guid', 'branch-guid:1-head1-guid']
-                },
-                'branch-guid:0-head1-guid': {
-                    guid: 'branch-guid:0-head1-guid',
-                    isCanvasElement: true,
-                    parent: 'branch-guid',
-                    childIndex: 0
-                },
-                'branch-guid:1-head1-guid': {
-                    guid: 'branch-guid:1-head1-guid',
-                    isCanvasElement: true,
-                    parent: 'branch-guid',
-                    childIndex: 1
-                },
-                'end-guid': {
-                    guid: 'end-guid',
-                    label: 'end-guid',
-                    elementType: 'END_ELEMENT',
-                    nodeType: 'end',
-                    isCanvasElement: true,
-                    prev: 'branch-guid'
-                },
-                root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
-                'start-guid': {
-                    childIndex: 0,
-                    elementType: 'start',
-                    guid: 'start-guid',
-                    isCanvasElement: true,
-                    isTerminal: true,
-                    label: 'start-guid',
-                    next: 'branch-guid',
-                    nodeType: 'start',
-                    parent: 'root'
-                }
-            };
-            expect(
-                getTargetGuidsForReconnection(elements, 'branch-guid', undefined, 'end-guid', false, undefined)
-            ).toEqual({
-                firstMergeableNonNullNext: null,
-                goToableGuids: ['branch-guid'],
-                mergeableGuids: []
-            });
-        });
-
-        it('Selected from a nested decision to the first firstMergeableNonNullNext that is a goto further up in the flow', () => {
-            const elements = {
-                screen1: {
-                    guid: 'screen1',
-                    isCanvasElement: true,
-                    prev: 'start-guid',
-                    next: 'branch-guid',
-                    incomingGoTo: ['branch-guid']
-                },
-                'branch-guid': {
-                    guid: 'branch-guid',
-                    isCanvasElement: true,
-                    prev: 'screen1',
-                    label: 'branch-guid',
-                    elementType: 'branch',
-                    next: 'screen1',
-                    nodeType: 'branch',
-                    children: ['branch-guid:0-head1-guid', null, null]
-                },
-                'branch-guid:0-head1-guid': {
-                    guid: 'branch-guid:0-head1-guid',
-                    isCanvasElement: true,
-                    parent: 'branch-guid',
-                    elementType: 'branch',
-                    nodeType: 'branch',
-                    childIndex: 0,
-                    children: ['head1-end1-guid', 'head1-end2-guid'],
-                    isTerminal: true
-                },
-                'head1-end1-guid': {
-                    childIndex: 0,
-                    guid: 'head1-end1-guid',
-                    label: 'head1-end1-guid',
-                    elementType: 'END_ELEMENT',
-                    nodeType: 'end',
-                    isCanvasElement: true,
-                    parent: 'branch-guid:0-head1-guid',
-                    isTerminal: true
-                },
-                'head1-end2-guid': {
-                    childIndex: 1,
-                    guid: 'head1-end2-guid',
-                    label: 'head1-end2-guid',
-                    elementType: 'END_ELEMENT',
-                    nodeType: 'end',
-                    isCanvasElement: true,
-                    parent: 'branch-guid:0-head1-guid',
-                    isTerminal: true
-                },
-                root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
-                'start-guid': {
-                    childIndex: 0,
-                    elementType: 'start',
-                    guid: 'start-guid',
-                    isCanvasElement: true,
-                    isTerminal: true,
-                    label: 'start-guid',
-                    next: 'screen1',
-                    nodeType: 'start',
-                    parent: 'root'
-                }
-            };
-            expect(
-                getTargetGuidsForReconnection(
-                    elements,
-                    undefined,
-                    'branch-guid:0-head1-guid',
-                    'head1-end1-guid',
-                    true,
-                    0
-                )
-            ).toEqual({
-                firstMergeableNonNullNext: 'screen1',
-                goToableGuids: ['branch-guid'],
-                mergeableGuids: ['head1-end2-guid']
-            });
-        });
-
-        it('Only the start element is present', () => {
-            const elements = {
-                root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
-                'start-guid': {
-                    childIndex: 0,
-                    elementType: 'start',
-                    guid: 'start-guid',
-                    isCanvasElement: true,
-                    isTerminal: true,
-                    label: 'start-guid',
-                    nodeType: 'start',
-                    parent: 'root',
-                    next: 'end-guid'
-                },
-                'end-guid': {
-                    guid: 'end-guid',
-                    label: 'end-guid',
-                    elementType: 'END_ELEMENT',
-                    nodeType: 'end',
-                    isCanvasElement: true,
-                    prev: 'start-guid'
-                }
-            };
-            expect(
-                getTargetGuidsForReconnection(elements, 'start-guid', undefined, 'end-guid', false, undefined)
-            ).toEqual({
-                firstMergeableNonNullNext: null,
-                goToableGuids: [],
-                mergeableGuids: []
-            });
-        });
-
-        it('Only one element is connected to the start element', () => {
-            const elements = {
-                root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
-                'start-guid': {
-                    childIndex: 0,
-                    elementType: 'start',
-                    guid: 'start-guid',
-                    isCanvasElement: true,
-                    isTerminal: true,
-                    label: 'start-guid',
-                    nodeType: 'start',
-                    parent: 'root',
-                    next: 'random-guid'
-                },
-                'end-guid': {
-                    guid: 'end-guid',
-                    label: 'end-guid',
-                    elementType: 'END_ELEMENT',
-                    nodeType: 'end',
-                    isCanvasElement: true,
-                    prev: 'random-guid'
-                },
-                'random-guid': { guid: 'random-guid', isCanvasElement: true, prev: 'start-guid', next: 'end-guid' }
-            };
-            expect(
-                getTargetGuidsForReconnection(elements, 'random-guid', undefined, 'end-guid', false, undefined)
-            ).toEqual({
-                firstMergeableNonNullNext: null,
-                goToableGuids: [],
-                mergeableGuids: []
-            });
-        });
-
-        it('Selected from a decisions merge point with nested decisions', () => {
-            const elements = {
-                'branch-guid': {
-                    guid: 'branch-guid',
-                    prev: 'start-guid',
-                    label: 'branch-guid',
-                    elementType: 'branch',
-                    next: 'end-guid',
-                    nodeType: 'branch',
-                    children: ['branch-guid:0-head1-guid', 'branch-guid2']
-                },
-                'branch-guid:0-head1-guid': {
-                    guid: 'branch-guid:0-head1-guid',
-                    isCanvasElement: true,
-                    parent: 'branch-guid',
-                    childIndex: 0,
-                    isTerminal: false
-                },
-                'branch-guid2': {
-                    guid: 'branch-guid2',
-                    isTerminal: false,
-                    label: 'branch-guid2',
-                    elementType: 'branch',
-                    nodeType: 'branch',
-                    isCanvasElement: true,
-                    parent: 'branch-guid',
-                    childIndex: 1,
-                    children: ['branch-guid:0-nested1-guid', 'branch-guid3']
-                },
-                'branch-guid:0-nested1-guid': {
-                    guid: 'branch-guid:0-nested1-guid',
-                    isTerminal: false,
-                    isCanvasElement: true,
-                    parent: 'branch-guid2',
-                    childIndex: 0
-                },
-                'branch-guid3': {
-                    guid: 'branch-guid3',
-                    isTerminal: false,
-                    label: 'branch-gui3',
-                    elementType: 'branch',
-                    nodeType: 'branch',
-                    isCanvasElement: true,
-                    parent: 'branch-guid2',
-                    childIndex: 1,
-                    children: [null, null]
-                },
-                'end-guid': {
-                    guid: 'end-guid',
-                    label: 'end-guid',
-                    elementType: 'END_ELEMENT',
-                    nodeType: 'end',
-                    isCanvasElement: true,
-                    prev: 'branch-guid'
-                },
-                root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
-                'start-guid': {
-                    childIndex: 0,
-                    elementType: 'start',
-                    guid: 'start-guid',
-                    isCanvasElement: true,
-                    isTerminal: true,
-                    label: 'start-guid',
-                    next: 'branch-guid',
-                    nodeType: 'start',
-                    parent: 'root'
-                }
-            };
-            expect(
-                getTargetGuidsForReconnection(elements, 'branch-guid', undefined, 'end-guid', false, undefined)
-            ).toEqual({
-                firstMergeableNonNullNext: null,
-                goToableGuids: ['branch-guid', 'branch-guid2'],
-                mergeableGuids: []
-            });
-        });
-
-        it('Selected from a nested decision when GoTos are present', () => {
-            const flowModel = {
-                root: {
-                    guid: 'root',
-                    nodeType: NodeType.ROOT,
-                    children: ['startGuid']
-                },
-                startGuid: {
-                    guid: 'startGuid',
-                    nodeType: NodeType.START,
-                    parent: 'root',
-                    childIndex: 0,
-                    isTerminal: true,
-                    next: 'screen1',
-                    isCanvasElement: true
-                },
-                screen1: {
-                    guid: 'screen1',
-                    nodeType: NodeType.DEFAULT,
-                    prev: 'startGuid',
-                    next: 'decision1',
-                    incomingGoTo: ['decision1:o3'],
-                    isCanvasElement: true
-                },
-                decision1: {
-                    guid: 'decision1',
-                    nodeType: NodeType.BRANCH,
-                    prev: 'screen1',
-                    next: 'end',
-                    children: ['decision2', null, 'screen1', 'screen2'],
-                    childReferences: [
-                        {
-                            childReference: 'o1'
-                        },
-                        {
-                            childReference: 'o2'
-                        },
-                        {
-                            childReference: 'o3'
-                        }
-                    ],
-                    isCanvasElement: true
-                },
-                decision2: {
-                    guid: 'decision2',
-                    nodeType: NodeType.BRANCH,
-                    parent: 'decision1',
-                    childIndex: 0,
-                    children: ['end1', 'screen3'],
-                    isTerminal: true,
-                    incomingGoTo: ['screen3'],
-                    isCanvasElement: true
-                },
-                end1: {
-                    guid: 'end1',
-                    nodeType: NodeType.END,
-                    parent: 'decision2',
-                    childIndex: 0,
-                    isTerminal: true,
-                    isCanvasElement: true
-                },
-                screen3: {
-                    guid: 'screen3',
-                    nodeType: NodeType.DEFAULT,
-                    parent: 'decision2',
-                    childIndex: 1,
-                    isTerminal: true,
-                    next: 'decision2',
-                    isCanvasElement: true
-                },
-                screen2: {
-                    guid: 'screen2',
-                    nodeType: NodeType.DEFAULT,
-                    parent: 'decision1',
-                    childIndex: 3,
-                    isCanvasElement: true
-                },
-                end: {
-                    guid: 'end',
-                    nodeType: NodeType.END,
-                    prev: 'decision1',
-                    isCanvasElement: true
-                }
-            };
-
-            expect(getTargetGuidsForReconnection(flowModel, undefined, 'decision2', 'end1', true, 0)).toEqual({
-                firstMergeableNonNullNext: 'end',
-                goToableGuids: ['screen1', 'decision1', 'screen2'],
-                mergeableGuids: ['screen3']
+            it('Selected from a nested decision to the first firstMergeableNonNullNext that is a goto further up in the flow', () => {
+                const elements = {
+                    screen1: {
+                        guid: 'screen1',
+                        isCanvasElement: true,
+                        prev: 'start-guid',
+                        next: 'branch-guid',
+                        incomingGoTo: ['branch-guid']
+                    },
+                    'branch-guid': {
+                        guid: 'branch-guid',
+                        isCanvasElement: true,
+                        prev: 'screen1',
+                        label: 'branch-guid',
+                        elementType: 'branch',
+                        next: 'screen1',
+                        nodeType: 'branch',
+                        children: ['branch-guid:0-head1-guid', null, null]
+                    },
+                    'branch-guid:0-head1-guid': {
+                        guid: 'branch-guid:0-head1-guid',
+                        isCanvasElement: true,
+                        parent: 'branch-guid',
+                        elementType: 'branch',
+                        nodeType: 'branch',
+                        childIndex: 0,
+                        children: [null, null],
+                        isTerminal: true,
+                        next: 'end1-guid'
+                    },
+                    'end1-guid': {
+                        guid: 'end1-guid',
+                        label: 'end1-guid',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isCanvasElement: true,
+                        prev: 'branch-guid:0-head1-guid'
+                    },
+                    root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
+                    'start-guid': {
+                        childIndex: 0,
+                        elementType: 'start',
+                        guid: 'start-guid',
+                        isCanvasElement: true,
+                        isTerminal: true,
+                        label: 'start-guid',
+                        next: 'screen1',
+                        nodeType: 'start',
+                        parent: 'root'
+                    }
+                };
+                expect(
+                    getTargetGuidsForReconnection(elements, undefined, 'branch-guid:0-head1-guid', undefined, false, 0)
+                ).toEqual({
+                    firstMergeableNonNullNext: 'screen1',
+                    goToableGuids: ['branch-guid'],
+                    mergeableGuids: ['end1-guid']
+                });
             });
         });
     });
 
     describe('connectToElement', () => {
-        it('can only connect to a valid target element (no gotos)', () => {
-            const branchingElement = { ...BRANCH_ELEMENT };
-
-            branchingElement.children = [null, ['head-guid'], ['head-guid', 'random-guid', END_ELEMENT_GUID]];
-            const elements = createFlow([branchingElement]);
-
-            const source = {
-                guid: 'branch-guid',
-                childIndex: 0
-            };
-
-            expect(() => {
-                connectToElement(elementService(elements), elements, source, BRANCH_ELEMENT.guid, true);
-            }).toThrowError();
-        });
-
-        it('can only connect to an element from a source followed by end element', () => {
-            const branchingElement = { ...BRANCH_ELEMENT };
-            branchingElement.children = [null, ['head-guid'], ['head-guid', 'random-guid', END_ELEMENT_GUID]];
-            const elements = createFlow([branchingElement]);
-
-            let source = {
-                guid: 'branch-guid',
-                childIndex: 0
-            };
-
-            expect(() => {
-                connectToElement(elementService(elements), elements, source, 'end-guid', true);
-            }).toThrowError();
-
-            source = {
-                guid: 'branch-guid:1-head-guid'
-            };
-
-            expect(() => {
-                connectToElement(elementService(elements), elements, source, 'end-guid', true);
-            }).toThrowError();
-        });
-
         it('reconnects to an element on another branch', () => {
             const branchingElement = { ...BRANCH_ELEMENT };
             const endElement1 = { ...END_ELEMENT, guid: 'end1-guid', prev: null };
@@ -829,7 +962,6 @@ describe('modelUtils', () => {
 
         it('When reconnecting to the first mergeable non null next', () => {
             const flowRenderContext = getFlowWithGoToOnFirstMergeableNonNullNext();
-            debugger;
             expect(
                 connectToElement(
                     elementService(flowRenderContext.flowModel),
@@ -4485,741 +4617,1056 @@ describe('modelUtils', () => {
     });
 
     describe('createGoToConnection function', () => {
-        let flowModel = {};
-        beforeEach(() => {
-            flowModel = {
-                start: {
-                    guid: 'start',
-                    next: 'screen1',
-                    children: ['startEnd', 't1End', null, null],
-                    nodeType: NodeType.START,
-                    childReferences: [
-                        {
-                            childReference: 't1'
-                        },
-                        {
-                            childReference: 't2'
-                        },
-                        {
-                            childReference: 't3'
-                        }
-                    ]
-                },
-                startEnd: {
-                    guid: 'startEnd',
-                    parent: 'start',
-                    childIndex: 0,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                },
-                t1End: {
-                    guid: 't1End',
-                    parent: 'start',
-                    childIndex: 1,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                },
-                screen1: {
-                    guid: 'screen1',
-                    next: 'branchElement',
-                    incomingGoTo: []
-                },
-                branchElement: {
-                    guid: 'branchElement',
-                    prev: 'screen1',
-                    children: ['end1', 'screen2', 'end3'],
-                    fault: 'end4',
-                    incomingGoTo: [],
-                    nodeType: NodeType.BRANCH,
-                    childReferences: [
-                        {
-                            childReference: 'o1'
-                        },
-                        {
-                            childReference: 'o2'
-                        }
-                    ]
-                },
-                end1: {
-                    guid: 'end1',
-                    parent: 'branchElement',
-                    childIndex: 0,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                },
-                screen2: {
-                    guid: 'screen2',
-                    next: 'end2',
-                    parent: 'branchElement',
-                    childIndex: 1,
-                    isTerminal: true,
-                    incomingGoTo: []
-                },
-                end2: {
-                    guid: 'end2',
-                    prev: 'screen2'
-                },
-                end3: {
-                    guid: 'end3',
-                    parent: 'branchElement',
-                    childIndex: 2,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                },
-                end4: {
-                    guid: 'end4',
-                    parent: 'branchElement',
-                    childIndex: FAULT_INDEX,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                }
-            };
+        describe('branch ended or goto', () => {
+            let flowModel = {};
+            beforeEach(() => {
+                flowModel = {
+                    start: {
+                        guid: 'start',
+                        next: 'screen1',
+                        children: ['startEnd', 't1End', null, null],
+                        nodeType: NodeType.START,
+                        childReferences: [
+                            {
+                                childReference: 't1'
+                            },
+                            {
+                                childReference: 't2'
+                            },
+                            {
+                                childReference: 't3'
+                            }
+                        ]
+                    },
+                    startEnd: {
+                        guid: 'startEnd',
+                        parent: 'start',
+                        childIndex: 0,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    t1End: {
+                        guid: 't1End',
+                        parent: 'start',
+                        childIndex: 1,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    screen1: {
+                        guid: 'screen1',
+                        next: 'branchElement',
+                        incomingGoTo: []
+                    },
+                    branchElement: {
+                        guid: 'branchElement',
+                        prev: 'screen1',
+                        children: ['end1', 'screen2', 'end3'],
+                        fault: 'end4',
+                        incomingGoTo: [],
+                        nodeType: NodeType.BRANCH,
+                        childReferences: [
+                            {
+                                childReference: 'o1'
+                            },
+                            {
+                                childReference: 'o2'
+                            }
+                        ]
+                    },
+                    end1: {
+                        guid: 'end1',
+                        parent: 'branchElement',
+                        childIndex: 0,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    screen2: {
+                        guid: 'screen2',
+                        next: 'end2',
+                        parent: 'branchElement',
+                        childIndex: 1,
+                        isTerminal: true,
+                        incomingGoTo: []
+                    },
+                    end2: {
+                        guid: 'end2',
+                        prev: 'screen2'
+                    },
+                    end3: {
+                        guid: 'end3',
+                        parent: 'branchElement',
+                        childIndex: 2,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    end4: {
+                        guid: 'end4',
+                        parent: 'branchElement',
+                        childIndex: FAULT_INDEX,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    }
+                };
+            });
+
+            it('createGoToConnection with start (0th aka immediate branch) as the source and branchElement as the target should update the state correctly', () => {
+                const updatedFlowModel = {
+                    start: {
+                        guid: 'start',
+                        next: 'screen1',
+                        children: ['branchElement', 't1End', null, null],
+                        nodeType: NodeType.START,
+                        childReferences: [
+                            {
+                                childReference: 't1'
+                            },
+                            {
+                                childReference: 't2'
+                            },
+                            {
+                                childReference: 't3'
+                            }
+                        ]
+                    },
+                    t1End: {
+                        guid: 't1End',
+                        parent: 'start',
+                        childIndex: 1,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    screen1: {
+                        guid: 'screen1',
+                        next: 'branchElement',
+                        incomingGoTo: []
+                    },
+                    branchElement: {
+                        guid: 'branchElement',
+                        prev: 'screen1',
+                        children: ['end1', 'screen2', 'end3'],
+                        fault: 'end4',
+                        incomingGoTo: ['start:immediate'],
+                        nodeType: NodeType.BRANCH,
+                        childReferences: [
+                            {
+                                childReference: 'o1'
+                            },
+                            {
+                                childReference: 'o2'
+                            }
+                        ]
+                    },
+                    end1: {
+                        guid: 'end1',
+                        parent: 'branchElement',
+                        childIndex: 0,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    screen2: {
+                        guid: 'screen2',
+                        next: 'end2',
+                        parent: 'branchElement',
+                        childIndex: 1,
+                        isTerminal: true,
+                        incomingGoTo: []
+                    },
+                    end2: {
+                        guid: 'end2',
+                        prev: 'screen2'
+                    },
+                    end3: {
+                        guid: 'end3',
+                        parent: 'branchElement',
+                        childIndex: 2,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    end4: {
+                        guid: 'end4',
+                        parent: 'branchElement',
+                        childIndex: FAULT_INDEX,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    }
+                };
+
+                const source = { guid: 'start', childIndex: START_IMMEDIATE_INDEX };
+                expect(
+                    createGoToConnection(elementService(flowModel), flowModel, source, 'branchElement')
+                ).toMatchObject(updatedFlowModel);
+            });
+
+            it('createGoToConnection with start (1st branch) as the source and branchElement as the target should update the state correctly', () => {
+                const updatedFlowModel = {
+                    start: {
+                        guid: 'start',
+                        next: 'screen1',
+                        children: ['startEnd', 'branchElement', null, null],
+                        nodeType: NodeType.START,
+                        childReferences: [
+                            {
+                                childReference: 't1'
+                            },
+                            {
+                                childReference: 't2'
+                            },
+                            {
+                                childReference: 't3'
+                            }
+                        ]
+                    },
+                    startEnd: {
+                        guid: 'startEnd',
+                        parent: 'start',
+                        childIndex: 0,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    screen1: {
+                        guid: 'screen1',
+                        next: 'branchElement',
+                        incomingGoTo: []
+                    },
+                    branchElement: {
+                        guid: 'branchElement',
+                        prev: 'screen1',
+                        children: ['end1', 'screen2', 'end3'],
+                        fault: 'end4',
+                        incomingGoTo: ['start:t1'],
+                        nodeType: NodeType.BRANCH,
+                        childReferences: [
+                            {
+                                childReference: 'o1'
+                            },
+                            {
+                                childReference: 'o2'
+                            }
+                        ]
+                    },
+                    end1: {
+                        guid: 'end1',
+                        parent: 'branchElement',
+                        childIndex: 0,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    screen2: {
+                        guid: 'screen2',
+                        next: 'end2',
+                        parent: 'branchElement',
+                        childIndex: 1,
+                        isTerminal: true,
+                        incomingGoTo: []
+                    },
+                    end2: {
+                        guid: 'end2',
+                        prev: 'screen2'
+                    },
+                    end3: {
+                        guid: 'end3',
+                        parent: 'branchElement',
+                        childIndex: 2,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    end4: {
+                        guid: 'end4',
+                        parent: 'branchElement',
+                        childIndex: FAULT_INDEX,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    }
+                };
+
+                const source = { guid: 'start', childIndex: 1 };
+                expect(
+                    createGoToConnection(elementService(flowModel), flowModel, source, 'branchElement')
+                ).toMatchObject(updatedFlowModel);
+            });
+
+            it('createGoToConnection with screen2 as the source and branchElement as the target should update the state correctly', () => {
+                const updatedFlowModel = {
+                    start: {
+                        guid: 'start',
+                        next: 'screen1',
+                        children: ['startEnd', 't1End', null, null],
+                        nodeType: NodeType.START,
+                        childReferences: [
+                            {
+                                childReference: 't1'
+                            },
+                            {
+                                childReference: 't2'
+                            },
+                            {
+                                childReference: 't3'
+                            }
+                        ]
+                    },
+                    startEnd: {
+                        guid: 'startEnd',
+                        parent: 'start',
+                        childIndex: 0,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    t1End: {
+                        guid: 't1End',
+                        parent: 'start',
+                        childIndex: 1,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    screen1: {
+                        guid: 'screen1',
+                        next: 'branchElement',
+                        incomingGoTo: []
+                    },
+                    branchElement: {
+                        guid: 'branchElement',
+                        prev: 'screen1',
+                        children: ['end1', 'screen2', 'end3'],
+                        fault: 'end4',
+                        incomingGoTo: ['screen2'],
+                        nodeType: NodeType.BRANCH,
+                        childReferences: [
+                            {
+                                childReference: 'o1'
+                            },
+                            {
+                                childReference: 'o2'
+                            }
+                        ]
+                    },
+                    end1: {
+                        guid: 'end1',
+                        parent: 'branchElement',
+                        childIndex: 0,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    screen2: {
+                        guid: 'screen2',
+                        next: 'branchElement',
+                        parent: 'branchElement',
+                        childIndex: 1,
+                        isTerminal: true,
+                        incomingGoTo: []
+                    },
+                    end3: {
+                        guid: 'end3',
+                        parent: 'branchElement',
+                        childIndex: 2,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    end4: {
+                        guid: 'end4',
+                        parent: 'branchElement',
+                        childIndex: FAULT_INDEX,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    }
+                };
+
+                const source = { guid: 'screen2' };
+                expect(
+                    createGoToConnection(elementService(flowModel), flowModel, source, 'branchElement')
+                ).toMatchObject(updatedFlowModel);
+            });
+
+            it('createGoToConnection with branchElement (0th branch) as the source and screen1 as the target should update the state correctly', () => {
+                const updatedFlowModel = {
+                    start: {
+                        guid: 'start',
+                        next: 'screen1',
+                        children: ['startEnd', 't1End', null, null],
+                        nodeType: NodeType.START,
+                        childReferences: [
+                            {
+                                childReference: 't1'
+                            },
+                            {
+                                childReference: 't2'
+                            },
+                            {
+                                childReference: 't3'
+                            }
+                        ]
+                    },
+                    startEnd: {
+                        guid: 'startEnd',
+                        parent: 'start',
+                        childIndex: 0,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    t1End: {
+                        guid: 't1End',
+                        parent: 'start',
+                        childIndex: 1,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    screen1: {
+                        guid: 'screen1',
+                        next: 'branchElement',
+                        incomingGoTo: ['branchElement:o1']
+                    },
+                    branchElement: {
+                        guid: 'branchElement',
+                        prev: 'screen1',
+                        children: ['screen1', 'screen2', 'end3'],
+                        fault: 'end4',
+                        incomingGoTo: [],
+                        nodeType: NodeType.BRANCH,
+                        childReferences: [
+                            {
+                                childReference: 'o1'
+                            },
+                            {
+                                childReference: 'o2'
+                            }
+                        ]
+                    },
+                    screen2: {
+                        guid: 'screen2',
+                        next: 'end2',
+                        parent: 'branchElement',
+                        childIndex: 1,
+                        isTerminal: true,
+                        incomingGoTo: []
+                    },
+                    end2: {
+                        guid: 'end2',
+                        prev: 'screen2'
+                    },
+                    end3: {
+                        guid: 'end3',
+                        parent: 'branchElement',
+                        childIndex: 2,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    end4: {
+                        guid: 'end4',
+                        parent: 'branchElement',
+                        childIndex: FAULT_INDEX,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    }
+                };
+
+                const source = { guid: 'branchElement', childIndex: 0 };
+                expect(createGoToConnection(elementService(flowModel), flowModel, source, 'screen1')).toMatchObject(
+                    updatedFlowModel
+                );
+            });
+
+            it('createGoToConnection with branchElement (default branch) as the source and screen1 as the target should update the state correctly', () => {
+                const updatedFlowModel = {
+                    start: {
+                        guid: 'start',
+                        next: 'screen1',
+                        children: ['startEnd', 't1End', null, null],
+                        nodeType: NodeType.START,
+                        childReferences: [
+                            {
+                                childReference: 't1'
+                            },
+                            {
+                                childReference: 't2'
+                            },
+                            {
+                                childReference: 't3'
+                            }
+                        ]
+                    },
+                    startEnd: {
+                        guid: 'startEnd',
+                        parent: 'start',
+                        childIndex: 0,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    t1End: {
+                        guid: 't1End',
+                        parent: 'start',
+                        childIndex: 1,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    screen1: {
+                        guid: 'screen1',
+                        next: 'branchElement',
+                        incomingGoTo: ['branchElement:default']
+                    },
+                    branchElement: {
+                        guid: 'branchElement',
+                        prev: 'screen1',
+                        children: ['end1', 'screen2', 'screen1'],
+                        fault: 'end4',
+                        incomingGoTo: [],
+                        nodeType: NodeType.BRANCH,
+                        childReferences: [
+                            {
+                                childReference: 'o1'
+                            },
+                            {
+                                childReference: 'o2'
+                            }
+                        ]
+                    },
+                    end1: {
+                        guid: 'end1',
+                        parent: 'branchElement',
+                        childIndex: 0,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    screen2: {
+                        guid: 'screen2',
+                        next: 'end2',
+                        parent: 'branchElement',
+                        childIndex: 1,
+                        isTerminal: true,
+                        incomingGoTo: []
+                    },
+                    end2: {
+                        guid: 'end2',
+                        prev: 'screen2'
+                    },
+                    end4: {
+                        guid: 'end4',
+                        parent: 'branchElement',
+                        childIndex: FAULT_INDEX,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    }
+                };
+
+                const source = { guid: 'branchElement', childIndex: 2 };
+                expect(createGoToConnection(elementService(flowModel), flowModel, source, 'screen1')).toMatchObject(
+                    updatedFlowModel
+                );
+            });
+
+            it('createGoToConnection with branchElement (fault branch) as the source and screen1 as the target should update the state correctly', () => {
+                const updatedFlowModel = {
+                    start: {
+                        guid: 'start',
+                        next: 'screen1',
+                        children: ['startEnd', 't1End', null, null],
+                        nodeType: NodeType.START,
+                        childReferences: [
+                            {
+                                childReference: 't1'
+                            },
+                            {
+                                childReference: 't2'
+                            },
+                            {
+                                childReference: 't3'
+                            }
+                        ]
+                    },
+                    startEnd: {
+                        guid: 'startEnd',
+                        parent: 'start',
+                        childIndex: 0,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    t1End: {
+                        guid: 't1End',
+                        parent: 'start',
+                        childIndex: 1,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    screen1: {
+                        guid: 'screen1',
+                        next: 'branchElement',
+                        incomingGoTo: ['branchElement:fault']
+                    },
+                    branchElement: {
+                        guid: 'branchElement',
+                        prev: 'screen1',
+                        children: ['end1', 'screen2', 'end3'],
+                        fault: 'screen1',
+                        incomingGoTo: [],
+                        nodeType: NodeType.BRANCH,
+                        childReferences: [
+                            {
+                                childReference: 'o1'
+                            },
+                            {
+                                childReference: 'o2'
+                            }
+                        ]
+                    },
+                    end1: {
+                        guid: 'end1',
+                        parent: 'branchElement',
+                        childIndex: 0,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    screen2: {
+                        guid: 'screen2',
+                        next: 'end2',
+                        parent: 'branchElement',
+                        childIndex: 1,
+                        isTerminal: true,
+                        incomingGoTo: []
+                    },
+                    end2: {
+                        guid: 'end2',
+                        prev: 'screen2'
+                    },
+                    end3: {
+                        guid: 'end3',
+                        parent: 'branchElement',
+                        childIndex: 2,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    }
+                };
+
+                const source = { guid: 'branchElement', childIndex: FAULT_INDEX };
+                expect(createGoToConnection(elementService(flowModel), flowModel, source, 'screen1')).toMatchObject(
+                    updatedFlowModel
+                );
+            });
+
+            it('createGoToConnection with reroute where screen2 is the source and rerouting target from branchElement to screen1', () => {
+                flowModel.screen2.next = 'branchElement';
+                flowModel.branchElement.incomingGoTo = ['screen2'];
+
+                const updatedFlowModel = {
+                    start: {
+                        guid: 'start',
+                        next: 'screen1',
+                        children: ['startEnd', 't1End', null, null],
+                        nodeType: NodeType.START,
+                        childReferences: [
+                            {
+                                childReference: 't1'
+                            },
+                            {
+                                childReference: 't2'
+                            },
+                            {
+                                childReference: 't3'
+                            }
+                        ]
+                    },
+                    startEnd: {
+                        guid: 'startEnd',
+                        parent: 'start',
+                        childIndex: 0,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    t1End: {
+                        guid: 't1End',
+                        parent: 'start',
+                        childIndex: 1,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    screen1: {
+                        guid: 'screen1',
+                        next: 'branchElement',
+                        incomingGoTo: ['screen2']
+                    },
+                    branchElement: {
+                        guid: 'branchElement',
+                        prev: 'screen1',
+                        children: ['end1', 'screen2', 'end3'],
+                        fault: 'end4',
+                        incomingGoTo: [],
+                        nodeType: NodeType.BRANCH,
+                        childReferences: [
+                            {
+                                childReference: 'o1'
+                            },
+                            {
+                                childReference: 'o2'
+                            }
+                        ]
+                    },
+                    end1: {
+                        guid: 'end1',
+                        parent: 'branchElement',
+                        childIndex: 0,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    screen2: {
+                        guid: 'screen2',
+                        next: 'screen1',
+                        parent: 'branchElement',
+                        childIndex: 1,
+                        isTerminal: true,
+                        incomingGoTo: []
+                    },
+                    end3: {
+                        guid: 'end3',
+                        parent: 'branchElement',
+                        childIndex: 2,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    end4: {
+                        guid: 'end4',
+                        parent: 'branchElement',
+                        childIndex: FAULT_INDEX,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    }
+                };
+
+                const source = { guid: 'screen2' };
+                expect(
+                    createGoToConnection(elementService(flowModel), flowModel, source, 'screen1', true)
+                ).toMatchObject(updatedFlowModel);
+            });
         });
+        describe('branch not ended', () => {
+            let flowModel = {};
+            beforeEach(() => {
+                flowModel = {
+                    start: {
+                        guid: 'start',
+                        next: 'screen1',
+                        children: [null, null, null, null],
+                        nodeType: NodeType.START,
+                        childReferences: [
+                            {
+                                childReference: 't1'
+                            },
+                            {
+                                childReference: 't2'
+                            },
+                            {
+                                childReference: 't3'
+                            }
+                        ]
+                    },
+                    screen1: {
+                        guid: 'screen1',
+                        next: 'branchElement',
+                        incomingGoTo: []
+                    },
+                    branchElement: {
+                        guid: 'branchElement',
+                        prev: 'screen1',
+                        children: ['end1', 'screen2', null],
+                        fault: 'end4',
+                        incomingGoTo: [],
+                        next: 'end2',
+                        nodeType: NodeType.BRANCH,
+                        childReferences: [
+                            {
+                                childReference: 'o1'
+                            },
+                            {
+                                childReference: 'o2'
+                            }
+                        ]
+                    },
+                    end1: {
+                        guid: 'end1',
+                        parent: 'branchElement',
+                        childIndex: 0,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    screen2: {
+                        guid: 'screen2',
+                        parent: 'branchElement',
+                        childIndex: 1,
+                        isTerminal: false,
+                        incomingGoTo: []
+                    },
+                    end2: {
+                        guid: 'end2',
+                        prev: 'branchElement'
+                    },
+                    end4: {
+                        guid: 'end4',
+                        parent: 'branchElement',
+                        childIndex: FAULT_INDEX,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    }
+                };
+            });
+            it('createGoToConnection with start (0th aka immediate branch) as the source and branchElement as the target should update the state correctly', () => {
+                const updatedFlowModel = {
+                    start: {
+                        guid: 'start',
+                        next: 'screen1',
+                        children: ['branchElement', null, null, null],
+                        nodeType: NodeType.START,
+                        childReferences: [
+                            {
+                                childReference: 't1'
+                            },
+                            {
+                                childReference: 't2'
+                            },
+                            {
+                                childReference: 't3'
+                            }
+                        ]
+                    },
+                    screen1: {
+                        guid: 'screen1',
+                        next: 'branchElement',
+                        incomingGoTo: []
+                    },
+                    branchElement: {
+                        guid: 'branchElement',
+                        prev: 'screen1',
+                        children: ['end1', 'screen2', null],
+                        fault: 'end4',
+                        incomingGoTo: ['start:immediate'],
+                        nodeType: NodeType.BRANCH,
+                        childReferences: [
+                            {
+                                childReference: 'o1'
+                            },
+                            {
+                                childReference: 'o2'
+                            }
+                        ]
+                    },
+                    end1: {
+                        guid: 'end1',
+                        parent: 'branchElement',
+                        childIndex: 0,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    screen2: {
+                        guid: 'screen2',
+                        parent: 'branchElement',
+                        childIndex: 1,
+                        isTerminal: false,
+                        incomingGoTo: []
+                    },
+                    end2: {
+                        guid: 'end2',
+                        prev: 'branchElement'
+                    },
+                    end4: {
+                        guid: 'end4',
+                        parent: 'branchElement',
+                        childIndex: FAULT_INDEX,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    }
+                };
 
-        it('createGoToConnection with start (0th aka immediate branch) as the source and branchElement as the target should update the state correctly', () => {
-            const updatedFlowModel = {
-                start: {
-                    guid: 'start',
-                    next: 'screen1',
-                    children: ['branchElement', 't1End', null, null],
-                    nodeType: NodeType.START,
-                    childReferences: [
-                        {
-                            childReference: 't1'
-                        },
-                        {
-                            childReference: 't2'
-                        },
-                        {
-                            childReference: 't3'
-                        }
-                    ]
-                },
-                t1End: {
-                    guid: 't1End',
-                    parent: 'start',
-                    childIndex: 1,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                },
-                screen1: {
-                    guid: 'screen1',
-                    next: 'branchElement',
-                    incomingGoTo: []
-                },
-                branchElement: {
-                    guid: 'branchElement',
-                    prev: 'screen1',
-                    children: ['end1', 'screen2', 'end3'],
-                    fault: 'end4',
-                    incomingGoTo: ['start:immediate'],
-                    nodeType: NodeType.BRANCH,
-                    childReferences: [
-                        {
-                            childReference: 'o1'
-                        },
-                        {
-                            childReference: 'o2'
-                        }
-                    ]
-                },
-                end1: {
-                    guid: 'end1',
-                    parent: 'branchElement',
-                    childIndex: 0,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                },
-                screen2: {
-                    guid: 'screen2',
-                    next: 'end2',
-                    parent: 'branchElement',
-                    childIndex: 1,
-                    isTerminal: true,
-                    incomingGoTo: []
-                },
-                end2: {
-                    guid: 'end2',
-                    prev: 'screen2'
-                },
-                end3: {
-                    guid: 'end3',
-                    parent: 'branchElement',
-                    childIndex: 2,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                },
-                end4: {
-                    guid: 'end4',
-                    parent: 'branchElement',
-                    childIndex: FAULT_INDEX,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                }
-            };
+                const source = { guid: 'start', childIndex: START_IMMEDIATE_INDEX };
+                expect(
+                    createGoToConnection(elementService(flowModel), flowModel, source, 'branchElement', undefined)
+                ).toMatchObject(updatedFlowModel);
+            });
 
-            const source = { guid: 'start', childIndex: START_IMMEDIATE_INDEX };
-            expect(createGoToConnection(flowModel, source, 'branchElement')).toMatchObject(updatedFlowModel);
-        });
+            it('createGoToConnection with start (1st branch) as the source and branchElement as the target should update the state correctly', () => {
+                const updatedFlowModel = {
+                    start: {
+                        guid: 'start',
+                        next: 'screen1',
+                        children: [null, 'branchElement', null, null],
+                        nodeType: NodeType.START,
+                        childReferences: [
+                            {
+                                childReference: 't1'
+                            },
+                            {
+                                childReference: 't2'
+                            },
+                            {
+                                childReference: 't3'
+                            }
+                        ]
+                    },
+                    screen1: {
+                        guid: 'screen1',
+                        next: 'branchElement',
+                        incomingGoTo: []
+                    },
+                    branchElement: {
+                        guid: 'branchElement',
+                        prev: 'screen1',
+                        children: ['end1', 'screen2', null],
+                        fault: 'end4',
+                        incomingGoTo: ['start:t1'],
+                        nodeType: NodeType.BRANCH,
+                        childReferences: [
+                            {
+                                childReference: 'o1'
+                            },
+                            {
+                                childReference: 'o2'
+                            }
+                        ]
+                    },
+                    end1: {
+                        guid: 'end1',
+                        parent: 'branchElement',
+                        childIndex: 0,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    screen2: {
+                        guid: 'screen2',
+                        parent: 'branchElement',
+                        childIndex: 1,
+                        isTerminal: false,
+                        incomingGoTo: []
+                    },
+                    end2: {
+                        guid: 'end2',
+                        prev: 'branchElement'
+                    },
+                    end4: {
+                        guid: 'end4',
+                        parent: 'branchElement',
+                        childIndex: FAULT_INDEX,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    }
+                };
 
-        it('createGoToConnection with start (1st branch) as the source and branchElement as the target should update the state correctly', () => {
-            const updatedFlowModel = {
-                start: {
-                    guid: 'start',
-                    next: 'screen1',
-                    children: ['startEnd', 'branchElement', null, null],
-                    nodeType: NodeType.START,
-                    childReferences: [
-                        {
-                            childReference: 't1'
-                        },
-                        {
-                            childReference: 't2'
-                        },
-                        {
-                            childReference: 't3'
-                        }
-                    ]
-                },
-                startEnd: {
-                    guid: 'startEnd',
-                    parent: 'start',
-                    childIndex: 0,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                },
-                screen1: {
-                    guid: 'screen1',
-                    next: 'branchElement',
-                    incomingGoTo: []
-                },
-                branchElement: {
-                    guid: 'branchElement',
-                    prev: 'screen1',
-                    children: ['end1', 'screen2', 'end3'],
-                    fault: 'end4',
-                    incomingGoTo: ['start:t1'],
-                    nodeType: NodeType.BRANCH,
-                    childReferences: [
-                        {
-                            childReference: 'o1'
-                        },
-                        {
-                            childReference: 'o2'
-                        }
-                    ]
-                },
-                end1: {
-                    guid: 'end1',
-                    parent: 'branchElement',
-                    childIndex: 0,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                },
-                screen2: {
-                    guid: 'screen2',
-                    next: 'end2',
-                    parent: 'branchElement',
-                    childIndex: 1,
-                    isTerminal: true,
-                    incomingGoTo: []
-                },
-                end2: {
-                    guid: 'end2',
-                    prev: 'screen2'
-                },
-                end3: {
-                    guid: 'end3',
-                    parent: 'branchElement',
-                    childIndex: 2,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                },
-                end4: {
-                    guid: 'end4',
-                    parent: 'branchElement',
-                    childIndex: FAULT_INDEX,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                }
-            };
+                const source = { guid: 'start', childIndex: 1 };
+                expect(
+                    createGoToConnection(elementService(flowModel), flowModel, source, 'branchElement', undefined)
+                ).toMatchObject(updatedFlowModel);
+            });
 
-            const source = { guid: 'start', childIndex: 1 };
-            expect(createGoToConnection(flowModel, source, 'branchElement')).toMatchObject(updatedFlowModel);
-        });
+            it('createGoToConnection with screen2 as the source and branchElement as the target should update the state correctly', () => {
+                const updatedFlowModel = {
+                    start: {
+                        guid: 'start',
+                        next: 'screen1',
+                        children: [null, null, null, null],
+                        nodeType: NodeType.START,
+                        childReferences: [
+                            {
+                                childReference: 't1'
+                            },
+                            {
+                                childReference: 't2'
+                            },
+                            {
+                                childReference: 't3'
+                            }
+                        ]
+                    },
+                    screen1: {
+                        guid: 'screen1',
+                        next: 'branchElement',
+                        incomingGoTo: []
+                    },
+                    branchElement: {
+                        guid: 'branchElement',
+                        prev: 'screen1',
+                        children: ['end1', 'screen2', 'end2'],
+                        fault: 'end4',
+                        incomingGoTo: ['screen2'],
+                        nodeType: NodeType.BRANCH,
+                        childReferences: [
+                            {
+                                childReference: 'o1'
+                            },
+                            {
+                                childReference: 'o2'
+                            }
+                        ]
+                    },
+                    end1: {
+                        guid: 'end1',
+                        parent: 'branchElement',
+                        childIndex: 0,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    screen2: {
+                        guid: 'screen2',
+                        next: 'branchElement',
+                        parent: 'branchElement',
+                        childIndex: 1,
+                        isTerminal: true,
+                        incomingGoTo: []
+                    },
+                    end4: {
+                        guid: 'end4',
+                        parent: 'branchElement',
+                        childIndex: FAULT_INDEX,
+                        isTerminal: true,
+                        prev: null,
+                        next: null
+                    },
+                    end2: {
+                        guid: 'end2',
+                        childIndex: 2,
+                        parent: 'branchElement'
+                    }
+                };
 
-        it('createGoToConnection with screen2 as the source and branchElement as the target should update the state correctly', () => {
-            const updatedFlowModel = {
-                start: {
-                    guid: 'start',
-                    next: 'screen1',
-                    children: ['startEnd', 't1End', null, null],
-                    nodeType: NodeType.START,
-                    childReferences: [
-                        {
-                            childReference: 't1'
-                        },
-                        {
-                            childReference: 't2'
-                        },
-                        {
-                            childReference: 't3'
-                        }
-                    ]
-                },
-                startEnd: {
-                    guid: 'startEnd',
-                    parent: 'start',
-                    childIndex: 0,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                },
-                t1End: {
-                    guid: 't1End',
-                    parent: 'start',
-                    childIndex: 1,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                },
-                screen1: {
-                    guid: 'screen1',
-                    next: 'branchElement',
-                    incomingGoTo: []
-                },
-                branchElement: {
-                    guid: 'branchElement',
-                    prev: 'screen1',
-                    children: ['end1', 'screen2', 'end3'],
-                    fault: 'end4',
-                    incomingGoTo: ['screen2'],
-                    nodeType: NodeType.BRANCH,
-                    childReferences: [
-                        {
-                            childReference: 'o1'
-                        },
-                        {
-                            childReference: 'o2'
-                        }
-                    ]
-                },
-                end1: {
-                    guid: 'end1',
-                    parent: 'branchElement',
-                    childIndex: 0,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                },
-                screen2: {
-                    guid: 'screen2',
-                    next: 'branchElement',
-                    parent: 'branchElement',
-                    childIndex: 1,
-                    isTerminal: true,
-                    incomingGoTo: []
-                },
-                end3: {
-                    guid: 'end3',
-                    parent: 'branchElement',
-                    childIndex: 2,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                },
-                end4: {
-                    guid: 'end4',
-                    parent: 'branchElement',
-                    childIndex: FAULT_INDEX,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                }
-            };
-
-            const source = { guid: 'screen2' };
-            expect(createGoToConnection(flowModel, source, 'branchElement')).toMatchObject(updatedFlowModel);
-        });
-
-        it('createGoToConnection with branchElement (0th branch) as the source and screen1 as the target should update the state correctly', () => {
-            const updatedFlowModel = {
-                start: {
-                    guid: 'start',
-                    next: 'screen1',
-                    children: ['startEnd', 't1End', null, null],
-                    nodeType: NodeType.START,
-                    childReferences: [
-                        {
-                            childReference: 't1'
-                        },
-                        {
-                            childReference: 't2'
-                        },
-                        {
-                            childReference: 't3'
-                        }
-                    ]
-                },
-                startEnd: {
-                    guid: 'startEnd',
-                    parent: 'start',
-                    childIndex: 0,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                },
-                t1End: {
-                    guid: 't1End',
-                    parent: 'start',
-                    childIndex: 1,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                },
-                screen1: {
-                    guid: 'screen1',
-                    next: 'branchElement',
-                    incomingGoTo: ['branchElement:o1']
-                },
-                branchElement: {
-                    guid: 'branchElement',
-                    prev: 'screen1',
-                    children: ['screen1', 'screen2', 'end3'],
-                    fault: 'end4',
-                    incomingGoTo: [],
-                    nodeType: NodeType.BRANCH,
-                    childReferences: [
-                        {
-                            childReference: 'o1'
-                        },
-                        {
-                            childReference: 'o2'
-                        }
-                    ]
-                },
-                screen2: {
-                    guid: 'screen2',
-                    next: 'end2',
-                    parent: 'branchElement',
-                    childIndex: 1,
-                    isTerminal: true,
-                    incomingGoTo: []
-                },
-                end2: {
-                    guid: 'end2',
-                    prev: 'screen2'
-                },
-                end3: {
-                    guid: 'end3',
-                    parent: 'branchElement',
-                    childIndex: 2,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                },
-                end4: {
-                    guid: 'end4',
-                    parent: 'branchElement',
-                    childIndex: FAULT_INDEX,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                }
-            };
-
-            const source = { guid: 'branchElement', childIndex: 0 };
-            expect(createGoToConnection(flowModel, source, 'screen1')).toMatchObject(updatedFlowModel);
-        });
-
-        it('createGoToConnection with branchElement (default branch) as the source and screen1 as the target should update the state correctly', () => {
-            const updatedFlowModel = {
-                start: {
-                    guid: 'start',
-                    next: 'screen1',
-                    children: ['startEnd', 't1End', null, null],
-                    nodeType: NodeType.START,
-                    childReferences: [
-                        {
-                            childReference: 't1'
-                        },
-                        {
-                            childReference: 't2'
-                        },
-                        {
-                            childReference: 't3'
-                        }
-                    ]
-                },
-                startEnd: {
-                    guid: 'startEnd',
-                    parent: 'start',
-                    childIndex: 0,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                },
-                t1End: {
-                    guid: 't1End',
-                    parent: 'start',
-                    childIndex: 1,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                },
-                screen1: {
-                    guid: 'screen1',
-                    next: 'branchElement',
-                    incomingGoTo: ['branchElement:default']
-                },
-                branchElement: {
-                    guid: 'branchElement',
-                    prev: 'screen1',
-                    children: ['end1', 'screen2', 'screen1'],
-                    fault: 'end4',
-                    incomingGoTo: [],
-                    nodeType: NodeType.BRANCH,
-                    childReferences: [
-                        {
-                            childReference: 'o1'
-                        },
-                        {
-                            childReference: 'o2'
-                        }
-                    ]
-                },
-                end1: {
-                    guid: 'end1',
-                    parent: 'branchElement',
-                    childIndex: 0,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                },
-                screen2: {
-                    guid: 'screen2',
-                    next: 'end2',
-                    parent: 'branchElement',
-                    childIndex: 1,
-                    isTerminal: true,
-                    incomingGoTo: []
-                },
-                end2: {
-                    guid: 'end2',
-                    prev: 'screen2'
-                },
-                end4: {
-                    guid: 'end4',
-                    parent: 'branchElement',
-                    childIndex: FAULT_INDEX,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                }
-            };
-
-            const source = { guid: 'branchElement', childIndex: 2 };
-            expect(createGoToConnection(flowModel, source, 'screen1')).toMatchObject(updatedFlowModel);
-        });
-
-        it('createGoToConnection with branchElement (fault branch) as the source and screen1 as the target should update the state correctly', () => {
-            const updatedFlowModel = {
-                start: {
-                    guid: 'start',
-                    next: 'screen1',
-                    children: ['startEnd', 't1End', null, null],
-                    nodeType: NodeType.START,
-                    childReferences: [
-                        {
-                            childReference: 't1'
-                        },
-                        {
-                            childReference: 't2'
-                        },
-                        {
-                            childReference: 't3'
-                        }
-                    ]
-                },
-                startEnd: {
-                    guid: 'startEnd',
-                    parent: 'start',
-                    childIndex: 0,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                },
-                t1End: {
-                    guid: 't1End',
-                    parent: 'start',
-                    childIndex: 1,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                },
-                screen1: {
-                    guid: 'screen1',
-                    next: 'branchElement',
-                    incomingGoTo: ['branchElement:fault']
-                },
-                branchElement: {
-                    guid: 'branchElement',
-                    prev: 'screen1',
-                    children: ['end1', 'screen2', 'end3'],
-                    fault: 'screen1',
-                    incomingGoTo: [],
-                    nodeType: NodeType.BRANCH,
-                    childReferences: [
-                        {
-                            childReference: 'o1'
-                        },
-                        {
-                            childReference: 'o2'
-                        }
-                    ]
-                },
-                end1: {
-                    guid: 'end1',
-                    parent: 'branchElement',
-                    childIndex: 0,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                },
-                screen2: {
-                    guid: 'screen2',
-                    next: 'end2',
-                    parent: 'branchElement',
-                    childIndex: 1,
-                    isTerminal: true,
-                    incomingGoTo: []
-                },
-                end2: {
-                    guid: 'end2',
-                    prev: 'screen2'
-                },
-                end3: {
-                    guid: 'end3',
-                    parent: 'branchElement',
-                    childIndex: 2,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                }
-            };
-
-            const source = { guid: 'branchElement', childIndex: FAULT_INDEX };
-            expect(createGoToConnection(flowModel, source, 'screen1')).toMatchObject(updatedFlowModel);
-        });
-
-        it('createGoToConnection with reroute where screen2 is the source and rerouting target from branchElement to screen1', () => {
-            flowModel.screen2.next = 'branchElement';
-            flowModel.branchElement.incomingGoTo = ['screen2'];
-
-            const updatedFlowModel = {
-                start: {
-                    guid: 'start',
-                    next: 'screen1',
-                    children: ['startEnd', 't1End', null, null],
-                    nodeType: NodeType.START,
-                    childReferences: [
-                        {
-                            childReference: 't1'
-                        },
-                        {
-                            childReference: 't2'
-                        },
-                        {
-                            childReference: 't3'
-                        }
-                    ]
-                },
-                startEnd: {
-                    guid: 'startEnd',
-                    parent: 'start',
-                    childIndex: 0,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                },
-                t1End: {
-                    guid: 't1End',
-                    parent: 'start',
-                    childIndex: 1,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                },
-                screen1: {
-                    guid: 'screen1',
-                    next: 'branchElement',
-                    incomingGoTo: ['screen2']
-                },
-                branchElement: {
-                    guid: 'branchElement',
-                    prev: 'screen1',
-                    children: ['end1', 'screen2', 'end3'],
-                    fault: 'end4',
-                    incomingGoTo: [],
-                    nodeType: NodeType.BRANCH,
-                    childReferences: [
-                        {
-                            childReference: 'o1'
-                        },
-                        {
-                            childReference: 'o2'
-                        }
-                    ]
-                },
-                end1: {
-                    guid: 'end1',
-                    parent: 'branchElement',
-                    childIndex: 0,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                },
-                screen2: {
-                    guid: 'screen2',
-                    next: 'screen1',
-                    parent: 'branchElement',
-                    childIndex: 1,
-                    isTerminal: true,
-                    incomingGoTo: []
-                },
-                end3: {
-                    guid: 'end3',
-                    parent: 'branchElement',
-                    childIndex: 2,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                },
-                end4: {
-                    guid: 'end4',
-                    parent: 'branchElement',
-                    childIndex: FAULT_INDEX,
-                    isTerminal: true,
-                    prev: null,
-                    next: null
-                }
-            };
-
-            const source = { guid: 'screen2' };
-            expect(createGoToConnection(flowModel, source, 'screen1', true)).toMatchObject(updatedFlowModel);
+                const source = { guid: 'screen2' };
+                expect(
+                    createGoToConnection(elementService(flowModel), flowModel, source, 'branchElement', undefined)
+                ).toMatchObject(updatedFlowModel);
+            });
         });
     });
 
@@ -6389,6 +6836,110 @@ describe('modelUtils', () => {
                 flowRenderContext.flowModel['screen-guid']
             );
             expect(newFlowModel).toEqual(expectedFlowModel);
+        });
+    });
+    describe('prepareFlowModel', () => {
+        const elements = {
+            'branch-guid': {
+                guid: 'branch-guid',
+                prev: 'start-guid',
+                label: 'branch-guid',
+                elementType: 'branch',
+                next: 'end-guid',
+                nodeType: 'branch',
+                children: ['branch-guid:0-head1-guid', null]
+            },
+            'branch-guid:0-head1-guid': {
+                guid: 'branch-guid:0-head1-guid',
+                isCanvasElement: true,
+                parent: 'branch-guid',
+                childIndex: 0
+            },
+            'end-guid': {
+                guid: 'end-guid',
+                label: 'end-guid',
+                elementType: 'END_ELEMENT',
+                nodeType: 'end',
+                isCanvasElement: true,
+                prev: 'branch-guid'
+            },
+            root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
+            'start-guid': {
+                childIndex: 0,
+                elementType: 'start',
+                guid: 'start-guid',
+                isCanvasElement: true,
+                isTerminal: true,
+                label: 'start-guid',
+                next: 'branch-guid',
+                nodeType: 'start',
+                parent: 'root'
+            }
+        };
+        it('ended branch', () => {
+            expect(
+                prepareFlowModel(
+                    elements,
+                    { guid: elements['branch-guid'].guid, childIndex: undefined },
+                    elements['end-guid'].guid
+                )
+            ).toBe(elements);
+        });
+        it('GoTo option without ending branch', () => {
+            const expectedElements = {
+                'branch-guid': {
+                    guid: 'branch-guid',
+                    prev: 'start-guid',
+                    label: 'branch-guid',
+                    elementType: 'branch',
+                    next: null,
+                    nodeType: 'branch',
+                    children: ['branch-guid:0-head1-guid', 'end-guid']
+                },
+                'branch-guid:0-head1-guid': {
+                    guid: 'branch-guid:0-head1-guid',
+                    isCanvasElement: true,
+                    parent: 'branch-guid',
+                    childIndex: 0,
+                    isTerminal: true,
+                    next: 'temporaryEndElement'
+                },
+                'end-guid': {
+                    guid: 'end-guid',
+                    label: 'end-guid',
+                    elementType: 'END_ELEMENT',
+                    nodeType: 'end',
+                    isCanvasElement: true,
+                    parent: 'branch-guid',
+                    prev: null,
+                    childIndex: 1,
+                    isTerminal: true
+                },
+                temporaryEndElement: {
+                    guid: 'temporaryEndElement',
+                    nodeType: 'end',
+                    prev: 'branch-guid:0-head1-guid'
+                },
+                root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
+                'start-guid': {
+                    childIndex: 0,
+                    elementType: 'start',
+                    guid: 'start-guid',
+                    isCanvasElement: true,
+                    isTerminal: true,
+                    label: 'start-guid',
+                    next: 'branch-guid',
+                    nodeType: 'start',
+                    parent: 'root'
+                }
+            };
+            expect(
+                prepareFlowModel(
+                    elements,
+                    { guid: elements['branch-guid:0-head1-guid'].guid, childIndex: undefined },
+                    undefined
+                )
+            ).toEqual(expectedElements);
         });
     });
 });

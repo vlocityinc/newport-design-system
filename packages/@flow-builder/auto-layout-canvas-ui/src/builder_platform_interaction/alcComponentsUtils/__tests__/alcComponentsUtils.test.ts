@@ -45,7 +45,7 @@ const checkSelectionDeselectionResultEquality = (
     }
 };
 
-function testGetAlcMenuData(toggleMenuDetail, expectedHasEndElement, expectedIsGoToConnector) {
+function testGetAlcMenuData(toggleMenuDetail, expectedHasEndElement, expectedIsGoToConnector, expectedCanAddGoto) {
     const flowModel = {
         root: {
             guid: 'root',
@@ -88,7 +88,7 @@ function testGetAlcMenuData(toggleMenuDetail, expectedHasEndElement, expectedIsG
             config: {
                 isSelected: false
             },
-            prev: 'guid2',
+            prev: 'branch-guid',
             next: null
         },
         guid4: {
@@ -132,6 +132,7 @@ function testGetAlcMenuData(toggleMenuDetail, expectedHasEndElement, expectedIsG
 
     expect(menuData.hasEndElement).toEqual(expectedHasEndElement);
     expect(menuData.isGoToConnector).toEqual(expectedIsGoToConnector);
+    expect(menuData.canAddGoto).toEqual(expectedCanAddGoto);
 }
 
 describe('ALC Canvas Utils test', () => {
@@ -167,7 +168,8 @@ describe('ALC Canvas Utils test', () => {
                     childIndex: 3
                 },
                 true,
-                false
+                false,
+                true
             );
         });
 
@@ -181,7 +183,8 @@ describe('ALC Canvas Utils test', () => {
                     childIndex: 0
                 },
                 false,
-                false
+                false,
+                true
             );
         });
 
@@ -195,7 +198,8 @@ describe('ALC Canvas Utils test', () => {
                     type: MenuType.CONNECTOR
                 },
                 false,
-                true
+                true,
+                false
             );
         });
 
@@ -210,7 +214,8 @@ describe('ALC Canvas Utils test', () => {
                     type: MenuType.CONNECTOR
                 },
                 false,
-                true
+                true,
+                false
             );
         });
     });

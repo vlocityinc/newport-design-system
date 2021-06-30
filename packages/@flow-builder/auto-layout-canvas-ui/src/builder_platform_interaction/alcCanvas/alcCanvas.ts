@@ -769,8 +769,6 @@ export default class AlcCanvas extends LightningElement {
      * @param event - The Goto path event
      */
     handleAddOrRerouteGoToItemSelection = (event) => {
-        event.stopPropagation();
-
         const { prev, parent, childIndex, next, canMergeEndedBranch, isReroute } = event.detail;
         this._goToSourceGuid = prev || parent;
         this._goToSourceBranchIndex = childIndex;
@@ -785,6 +783,7 @@ export default class AlcCanvas extends LightningElement {
             canMergeEndedBranch,
             childIndex
         );
+
         this._mergeableGuids = mergeableGuids;
         this._goToableGuids = goToableGuids;
         this._firstMergeableNonNullNext = firstMergeableNonNullNext;

@@ -624,6 +624,12 @@ function _pasteOnFixedCanvas(
     }
 
     return savedGoto
-        ? createGoToConnection(newState, { guid: canvasElementGuidMap[bottomCutOrCopiedGuid] }, savedGoto, false)
+        ? createGoToConnection(
+              getElementService(newState),
+              newState,
+              { guid: canvasElementGuidMap[bottomCutOrCopiedGuid] },
+              savedGoto,
+              false
+          )
         : newState;
 }

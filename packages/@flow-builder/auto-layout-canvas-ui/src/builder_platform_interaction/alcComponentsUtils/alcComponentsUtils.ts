@@ -670,10 +670,10 @@ function getAlcMenuData(
         : findParentElement(flowModel[guid!], flowModel)) as ParentNodeModel;
 
     const hasEndElement = targetGuid == null && !isInLoop(flowModel, parentElement, elementsMetadata);
-
+    const canAddGoto = isTargetEnd || hasEndElement;
     return {
         canMergeEndedBranch,
-        isTargetEnd,
+        canAddGoto,
         hasEndElement,
         canHaveFaultConnector,
         elementHasFault,

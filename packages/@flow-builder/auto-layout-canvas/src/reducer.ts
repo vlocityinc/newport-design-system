@@ -244,7 +244,7 @@ function reducer(config: ElementService, flowModel: Readonly<FlowModel>, action:
         }
         case ActionType.CreateGoToConnection: {
             const { sourceGuid: guid, sourceBranchIndex: childIndex, targetGuid, isReroute } = action.payload;
-            return createGoToConnection(nextFlowModel, { guid, childIndex }, targetGuid, isReroute);
+            return createGoToConnection(config, nextFlowModel, { guid, childIndex }, targetGuid, isReroute);
         }
         case ActionType.DeleteGoToConnection: {
             const { sourceGuid: guid, sourceBranchIndex: childIndex } = action.payload;

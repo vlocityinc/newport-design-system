@@ -130,6 +130,7 @@ describe('reducer', () => {
             const action = actions.createGoToConnectionAction('sourceGuid', null, 'targetGuid', true);
             configuredReducer(flowModel, action);
             expect(createGoToConnection).toHaveBeenLastCalledWith(
+                elementService,
                 flowModel,
                 { guid: 'sourceGuid', childIndex: null },
                 'targetGuid',
