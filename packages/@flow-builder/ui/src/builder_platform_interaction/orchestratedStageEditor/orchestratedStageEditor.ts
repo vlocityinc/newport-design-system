@@ -42,8 +42,10 @@ export default class OrchestratedStageEditor extends LightningElement {
     isActionsFetched = false;
     availableDeterminationActions: InvocableAction[] = [];
     actionElementType = ELEMENT_TYPE.ACTION_CALL;
+    exitActionErrorMessage;
 
     exitActionParameterListConfig?: ParameterListConfig;
+
     exitInvocableActionParametersDescriptor?: InvocableAction;
 
     displayActionSpinner = false;
@@ -112,16 +114,27 @@ export default class OrchestratedStageEditor extends LightningElement {
 
         // infer selected Exit Criteria on-load
         if (!this.selectedExitCriteria) {
-            if (this.element.exitAction && this.element.exitAction.actionName) {
+            if (this.element.exitAction && this.element.exitAction.actionName?.value) {
                 this.selectedExitCriteria = EXIT_CRITERIA.ON_DETERMINATION_COMPLETE;
             } else {
                 this.selectedExitCriteria = EXIT_CRITERIA.ON_STEP_COMPLETE;
             }
         }
 
-        this.exitActionParameterListConfig = undefined;
-        if (this.selectedExitAction) {
+        if (this.selectedExitAction?.actionName) {
             this.setActionParameters(this.selectedExitAction);
+        }
+
+        // Reopening existing elements should always validate
+        // This has to be done manually in every property editor
+        if (!newValue?.isNew) {
+            this.validate();
+            // rather than the error from validation.  This is needed because validation
+            // cannot know if an invalid action name has been entered.  It only checks
+            // for null or ''
+            if (!this.exitActionErrorMessage) {
+                this.exitActionErrorMessage = this.element.exitAction.actionName.error || '';
+            }
         }
     }
 
@@ -152,7 +165,7 @@ export default class OrchestratedStageEditor extends LightningElement {
     }
 
     get showExitParameterList(): boolean {
-        return !!this.exitActionParameterListConfig;
+        return this.selectedExitAction?.actionName && this.exitActionParameterListConfig;
     }
 
     /**
@@ -296,17 +309,21 @@ export default class OrchestratedStageEditor extends LightningElement {
     }
 
     async handleExitActionSelected(e: ValueChangedEvent<InvocableAction>) {
+        const orchEvt = new OrchestrationActionValueChangedEvent(
+            ORCHESTRATED_ACTION_CATEGORY.EXIT,
+            e.detail.value,
+            e.detail.error
+        );
+        this.element = orchestratedStageReducer(this.element!, orchEvt);
+
         if (e.detail.value.actionName) {
-            const actionCategory = ORCHESTRATED_ACTION_CATEGORY.EXIT;
-            const orchEvt = new OrchestrationActionValueChangedEvent(actionCategory, e.detail.value, e.detail.error);
-            // Update the selected action
-            this.element = orchestratedStageReducer(this.element!, orchEvt);
-
             await this.setActionParameters(this.selectedExitAction);
-
-            // Update the node in the store
-            this.dispatchEvent(new UpdateNodeEvent(this.element));
         }
+
+        this.exitActionErrorMessage = e.detail.item ? e.detail.item.error : e.detail.error;
+
+        // Update the node in the store
+        this.dispatchEvent(new UpdateNodeEvent(this.element));
     }
 
     updateNodeForFieldLevelCommit(rowIndex: UI.Guid) {
@@ -338,6 +355,6 @@ export default class OrchestratedStageEditor extends LightningElement {
     }
 
     get emptyInputs() {
-        return this.exitActionParameterListConfig?.inputs.length === 0;
+        return this.exitActionParameterListConfig?.inputs?.length === 0;
     }
 }

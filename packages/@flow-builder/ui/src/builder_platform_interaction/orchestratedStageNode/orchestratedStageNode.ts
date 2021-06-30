@@ -1,8 +1,8 @@
 import { LightningElement, api } from 'lwc';
 import { NodeResizeEvent } from 'builder_platform_interaction/alcEvents';
-import { AddElementEvent, DeleteElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
+import { DeleteElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
 import { StageStep } from 'builder_platform_interaction/elementFactory';
-import { ACTION_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { NodeRenderInfo } from 'builder_platform_interaction/autoLayoutCanvas';
 import { LABELS } from './orchestratedStageNodeLabels';
 import { format } from 'builder_platform_interaction/commonUtils';

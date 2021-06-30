@@ -33,7 +33,10 @@ jest.mock('builder_platform_interaction/validation', () => {
     const Validation = function () {
         return {
             validateAll: mockValidateAll,
-            validateProperty: mockValidateProperty
+            validateProperty: mockValidateProperty,
+            finalizedRules: {
+                someRules: true
+            }
         };
     };
 
@@ -287,6 +290,9 @@ describe('OrchestratedStageReducer', () => {
         orchestratedStageReducer(originalStateWithExitAction, event);
 
         const validation = new Validation();
-        expect(validation.validateAll).toHaveBeenCalledWith(originalStateWithExitAction, {});
+        expect(validation.validateAll).toHaveBeenCalledWith(
+            originalStateWithExitAction,
+            new Validation().finalizedRules
+        );
     });
 });

@@ -96,6 +96,12 @@ export default class RecordChangeTriggerEditor extends LightningElement {
         if (this.startElement?.config?.hasError !== oldHasError) {
             this.dispatchEvent(new UpdateNodeEvent(this.startElement));
         }
+
+        // Reopening existing elements should always validate
+        // This has to be done manually in every property editor
+        if (!newValue.isNew) {
+            this.validate();
+        }
     }
 
     /**
@@ -406,7 +412,7 @@ export default class RecordChangeTriggerEditor extends LightningElement {
     /**
      * Handles Record Trigger Type and Flow Trigger Type radio button selection in Configure Trigger Modal
      *
-     * @param event
+     * @param event Change event with the new save type value
      */
     handleTriggerSaveTypeChange = async (event) => {
         const newTriggerTypeVal = event.detail.value;

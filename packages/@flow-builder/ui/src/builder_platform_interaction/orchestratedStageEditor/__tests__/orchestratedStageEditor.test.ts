@@ -137,7 +137,21 @@ describe('OrchestratedStageEditor', () => {
             it('is called for existing node', async () => {
                 await ticks(1);
 
-                const newNode = { a: 1 };
+                const newNode = {
+                    guid: 'someOtherGuid',
+                    name: 'someOtherName',
+                    label: 'someLabel',
+                    description: 'someDescription',
+                    exitAction: {
+                        actionName: {
+                            value: 'someActionName'
+                        },
+                        actionType: {
+                            value: 'someActionType'
+                        }
+                    },
+                    exitActionInputParameters: mockInputParameters
+                };
                 editor.node = newNode;
 
                 expect(mergeErrorsFromHydratedElement).toHaveBeenCalledWith(newNode, nodeParams);
@@ -145,18 +159,51 @@ describe('OrchestratedStageEditor', () => {
         });
 
         describe('hasError state changes', () => {
-            it('sets hashError from undefined to true, then from true to false', async () => {
+            it('sets hasError from undefined to true, then from true to false', async () => {
                 await ticks(1);
 
                 expect.assertions(2);
                 const eventCallback = jest.fn();
                 editor.addEventListener(UpdateNodeEvent.EVENT_NAME, eventCallback);
 
-                let newNode = { config: { hasError: true } };
+                let newNode = {
+                    guid: 'someOtherGuid',
+                    name: 'someOtherName',
+                    label: 'someLabel',
+                    description: 'someDescription',
+                    exitAction: {
+                        actionName: {
+                            value: 'someActionName'
+                        },
+                        actionType: {
+                            value: 'someActionType'
+                        }
+                    },
+                    config: {
+                        hasError: true
+                    }
+                };
+
                 editor.node = newNode;
                 expect(eventCallback.mock.calls[0][0].detail.node).toEqual(newNode);
 
-                newNode = { config: { hasError: false } };
+                newNode = {
+                    guid: 'someOtherGuid',
+                    name: 'someOtherName',
+                    label: 'someLabel',
+                    description: 'someDescription',
+                    exitAction: {
+                        actionName: {
+                            value: 'someActionName'
+                        },
+                        actionType: {
+                            value: 'someActionType'
+                        }
+                    },
+                    config: {
+                        hasError: false
+                    }
+                };
                 editor.node = newNode;
                 expect(eventCallback.mock.calls[1][0].detail.node).toEqual(newNode);
             });
@@ -167,7 +214,13 @@ describe('OrchestratedStageEditor', () => {
                 guid: 'someGuid',
                 name: 'someName',
                 label: 'someLabel',
-                description: 'someDescription'
+                description: 'someDescription',
+                exitAction: {
+                    actionName: {
+                        value: ''
+                    }
+                },
+                exitActionInputParameters: mockInputParameters
             });
             const exitCriteriaDropdown = editor.shadowRoot.querySelector(
                 LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_COMBOBOX
@@ -264,7 +317,13 @@ describe('OrchestratedStageEditor', () => {
                     guid: 'someGuid',
                     name: 'someName',
                     label: 'someLabel',
-                    description: 'someDescription'
+                    description: 'someDescription',
+                    exitAction: {
+                        actionName: {
+                            value: ''
+                        }
+                    },
+                    exitActionInputParameters: mockInputParameters
                 });
                 const exitCriteriaDropdown = editor.shadowRoot.querySelector(
                     LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_COMBOBOX

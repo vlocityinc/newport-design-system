@@ -134,10 +134,10 @@ const actionChanged = (state: StageStep, event: OrchestrationActionValueChangedE
         [ORCHESTRATED_ACTION_CATEGORY.STEP]: 'action'
     }[event.detail.actionCategory];
 
-    const actionNameProperty: string = {
-        [ORCHESTRATED_ACTION_CATEGORY.ENTRY]: 'entryActionName',
-        [ORCHESTRATED_ACTION_CATEGORY.EXIT]: 'exitActionName',
-        [ORCHESTRATED_ACTION_CATEGORY.STEP]: 'actionName'
+    const actionErrorProperty: string = {
+        [ORCHESTRATED_ACTION_CATEGORY.ENTRY]: 'entryActionError',
+        [ORCHESTRATED_ACTION_CATEGORY.EXIT]: 'exitActionError',
+        [ORCHESTRATED_ACTION_CATEGORY.STEP]: 'actionError'
     }[event.detail.actionCategory];
 
     const actionInputParametersProperty: string = {
@@ -149,11 +149,23 @@ const actionChanged = (state: StageStep, event: OrchestrationActionValueChangedE
     let actionName: string | UI.HydratedValue = (<InvocableAction>event.detail.value).actionName;
 
     const actionProducer = (name) => {
-        return hydrateWithErrors({
+        let hydratedAction = hydrateWithErrors({
             elementType: ELEMENT_TYPE.ACTION_CALL,
             actionType: event.detail.value?.actionType,
             actionName: name
         });
+
+        if (event.detail.error) {
+            hydratedAction = {
+                ...hydratedAction,
+                actionName: {
+                    value: event.detail.value?.displayText,
+                    error: event.detail.error
+                }
+            };
+        }
+
+        return hydratedAction;
     };
 
     let usedElements: UsedByElement[] = usedBy([state.guid]);
@@ -169,33 +181,15 @@ const actionChanged = (state: StageStep, event: OrchestrationActionValueChangedE
             actionName = <string>state.action.actionName?.value;
 
             return updateProperties(state, {
-                [actionProperty]: actionProducer(actionName),
-                [actionNameProperty]: actionName
+                [actionProperty]: actionProducer(actionName)
             });
         }
     }
 
-    if (event.detail.value?.actionName) {
-        return updateProperties(state, {
-            [actionProperty]: actionProducer(actionName),
-            [actionNameProperty]: actionName,
-            // Clear all parameters when changing action
-            [actionInputParametersProperty]: [],
-            [PARAMETER_PROPERTY.OUTPUT]:
-                event.detail.actionCategory === ORCHESTRATED_ACTION_CATEGORY.STEP ? [] : undefined
-        });
-    }
-    actionName = <UI.HydratedValue>{
-        value: '',
-        error: event.detail.error
-    };
+    // if (event.detail.value?.actionName) {
     return updateProperties(state, {
-        [actionProperty]: {
-            elementType: ELEMENT_TYPE.ACTION_CALL,
-            actionType: event.detail.value?.actionType,
-            actionName
-        },
-        [actionNameProperty]: actionName,
+        [actionProperty]: actionProducer(actionName),
+        [actionErrorProperty]: event.detail.error,
         // Clear all parameters when changing action
         [actionInputParametersProperty]: [],
         [PARAMETER_PROPERTY.OUTPUT]: event.detail.actionCategory === ORCHESTRATED_ACTION_CATEGORY.STEP ? [] : undefined

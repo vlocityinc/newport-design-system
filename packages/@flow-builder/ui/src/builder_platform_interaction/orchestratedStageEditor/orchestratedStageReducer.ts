@@ -11,7 +11,8 @@ import { ORCHESTRATED_ACTION_CATEGORY } from 'builder_platform_interaction/event
 import {
     deleteParameterItem,
     MERGE_WITH_PARAMETERS,
-    REMOVE_UNSET_PARAMETERS
+    REMOVE_UNSET_PARAMETERS,
+    validateParameter
 } from 'builder_platform_interaction/calloutEditorLib';
 import { InvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { ACTION_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -23,8 +24,18 @@ import {
 } from 'builder_platform_interaction/orchestratedStageAndStepReducerUtils';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { Validation } from 'builder_platform_interaction/validation';
+import * as ValidationRules from 'builder_platform_interaction/validationRules';
 
-const validation = new Validation();
+const validationRules = {
+    label: [ValidationRules.shouldNotBeNullOrUndefined],
+    name: [ValidationRules.shouldNotBeNullOrUndefined],
+    exitAction: {
+        actionName: [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank]
+    },
+    exitActionInputParameters: validateParameter()
+};
+
+const validation = new Validation(validationRules);
 
 /**
  * Call validateProperty for the given property
@@ -144,7 +155,7 @@ export const orchestratedStageReducer = (state: OrchestratedStage, event: Custom
             newState = deleteParameterItem(state, event.detail);
             break;
         case VALIDATE_ALL:
-            return validation.validateAll(state, {});
+            return validation.validateAll(state, validation.finalizedRules);
         case MERGE_WITH_PARAMETERS:
             return mergeParameters(state, event.detail.parameters, ORCHESTRATED_ACTION_CATEGORY.EXIT);
         default:

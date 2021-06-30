@@ -23,9 +23,13 @@ import { createActionCall } from './actionCall';
 import { isParameterListRowItem, ParameterListRowItem } from './base/baseList';
 import { FEROV_DATA_TYPE, FLOW_DATA_TYPE, getFlowType } from 'builder_platform_interaction/dataTypeLib';
 import { createFEROV, createFEROVMetadataObject, getDataTypeKey } from './ferov';
+import { ValueWithError } from 'builder_platform_interaction/dataMutationLib';
 
 export const ASSIGNEE_PROPERTY_NAME = 'assignee';
 export const ASSIGNEE_DATA_TYPE_PROPERTY_NAME = getDataTypeKey(ASSIGNEE_PROPERTY_NAME);
+export enum ASSIGNEE_TYPE {
+    User = 'User'
+}
 
 // Used to extra related record for display in its own input
 export const RELATED_RECORD_INPUT_PARAMETER_NAME = 'ActionInput__RecordId';
@@ -43,11 +47,18 @@ export interface StageStep extends UI.ChildElement {
     entryConditions?: UI.Condition[];
     entryConditionLogic?: string;
     entryAction: InvocableAction;
+    // Used by the UI to keep track of errors on the action between displays
+    // of the property editor
+    entryActionError?: string | ValueWithError;
+
     entryActionName: string;
     entryActionType: string;
     entryActionInputParameters: ParameterListRowItem[];
 
     action: InvocableAction;
+    // Used by the UI to keep track of errors on the action between displays
+    // of the property editor
+    actionError?: string | ValueWithError;
 
     // Present when coming from the metadata, but not in the ui StageStep
     actionName?: string;
@@ -57,6 +68,10 @@ export interface StageStep extends UI.ChildElement {
     outputParameters: ParameterListRowItem[];
 
     exitAction: InvocableAction;
+    // Used by the UI to keep track of errors on the action between displays
+    // of the property editor
+    exitActionError?: string | ValueWithError;
+
     exitActionName: string;
     exitActionType: string;
     exitActionInputParameters: ParameterListRowItem[];
@@ -76,9 +91,11 @@ export interface OrchestratedStage extends UI.CanvasElement {
 
 const elementType = ELEMENT_TYPE.ORCHESTRATED_STAGE;
 
-// For Opening Property editor for a OrchestratedStage
 /**
- * @param existingStage
+ * For Opening Property editor for a OrchestratedStage
+ *
+ * @param existingStage OrchestratedStage to transform
+ * @returns OrchestratedStage for property editor usage
  */
 export function createOrchestratedStageWithItems(existingStage: OrchestratedStage): OrchestratedStage {
     const newStage: OrchestratedStage = baseCanvasElement(existingStage) as OrchestratedStage;
@@ -114,9 +131,9 @@ export function createOrchestratedStageWithItems(existingStage: OrchestratedStag
  * Function to create the pasted OrchestratedStage element
  *
  * @param dataForPasting - Data required to create the pasted element
- * @param dataForPasting.canvasElementToPaste
- * @param dataForPasting.newGuid
- * @param dataForPasting.newName
+ * @param dataForPasting.canvasElementToPaste - The OrchestratedStage to copy
+ * @param dataForPasting.newGuid - guid for the new OrchestratedStage
+ * @param dataForPasting.newName - name for the new OrchestratedStage
  * @param dataForPasting.canvasElementGuidMap
  * @param dataForPasting.childElementGuidMap
  * @param dataForPasting.childElementNameMap
@@ -127,6 +144,7 @@ export function createOrchestratedStageWithItems(existingStage: OrchestratedStag
  * @param dataForPasting.next
  * @param dataForPasting.parent
  * @param dataForPasting.childIndex
+ * @returns An object with the pasted OrchestratorStage and all new children
  */
 export function createPastedOrchestratedStage({
     canvasElementToPaste,
@@ -230,6 +248,7 @@ export function createDuplicateOrchestratedStage(
 
 /**
  * @param originalItems
+ * @returns Object with array of StageSteps and childReferences
  */
 function createStageStepsWithReferences(
     originalItems: StageStep[]
@@ -534,6 +553,14 @@ export function createStageStep(step: StageStep): StageStep {
         }
     }
 
+    // Default to no assignees
+    newStep.assignees = [
+        {
+            assignee: null,
+            assigneeType: ASSIGNEE_TYPE.User
+        }
+    ];
+
     // Coming from metadata object - convert assignee
     if (
         assignees?.length > 0 &&
@@ -557,18 +584,18 @@ export function createStageStep(step: StageStep): StageStep {
     } else if (assignees) {
         // coming from UI
         newStep.assignees = assignees.map((assigneeWithType) => {
-            return assigneeWithType
+            return assigneeWithType?.assignee
                 ? {
                       assignee: assigneeWithType.assignee?.elementReference
                           ? { ...assigneeWithType.assignee }
                           : assigneeWithType.assignee,
                       assigneeType: assigneeWithType.assigneeType
                   }
-                : null;
+                : {
+                      assignee: null,
+                      assigneeType: ASSIGNEE_TYPE.User
+                  };
         });
-    } else {
-        // No assignees
-        newStep.assignees = [null];
     }
 
     // set up Step's Entry Criteria
@@ -630,29 +657,32 @@ export function createOrchestratedStageMetadataObject(
             actionType: step.action.actionType,
             inputParameters: inputParametersMetadata,
             description: step.description,
-            assignees: step.assignees.map((assigneeUI) => {
-                let assigneeForMetadata = assigneeUI ? assigneeUI.assignee : null;
+            // Filter out any assignees on the UI side who don't actually have an assignee set
+            assignees: step.assignees
+                .filter((assigneeUI) => assigneeUI?.assignee)
+                .map((assigneeUI) => {
+                    let assigneeForMetadata = assigneeUI!.assignee;
 
-                let ferovDataType: string | null = FEROV_DATA_TYPE.STRING;
-                if (assigneeForMetadata && assigneeForMetadata.elementReference) {
-                    assigneeForMetadata = assigneeForMetadata.elementReference;
-                    ferovDataType = FEROV_DATA_TYPE.REFERENCE;
-                }
+                    let ferovDataType: string | null = FEROV_DATA_TYPE.STRING;
+                    if (assigneeForMetadata && assigneeForMetadata.elementReference) {
+                        assigneeForMetadata = assigneeForMetadata.elementReference;
+                        ferovDataType = FEROV_DATA_TYPE.REFERENCE;
+                    }
 
-                return assigneeUI
-                    ? {
-                          assignee: createFEROVMetadataObject(
-                              {
-                                  assignee: assigneeForMetadata,
-                                  assigneeDataType: ferovDataType
-                              },
-                              ASSIGNEE_PROPERTY_NAME,
-                              ASSIGNEE_DATA_TYPE_PROPERTY_NAME
-                          ),
-                          assigneeType: assigneeUI.assigneeType
-                      }
-                    : null;
-            }),
+                    return assigneeUI
+                        ? {
+                              assignee: createFEROVMetadataObject(
+                                  {
+                                      assignee: assigneeForMetadata,
+                                      assigneeDataType: ferovDataType
+                                  },
+                                  ASSIGNEE_PROPERTY_NAME,
+                                  ASSIGNEE_DATA_TYPE_PROPERTY_NAME
+                              ),
+                              assigneeType: assigneeUI.assigneeType
+                          }
+                        : null;
+                }),
             entryActionName: step.entryAction.actionName ? step.entryAction.actionName : null,
             entryActionType: step.entryAction.actionType,
             entryActionInputParameters: entryActionInputParametersMetadata,
@@ -726,7 +756,8 @@ function getDeletedStepsUsingStore(originalOrchestratedStage: OrchestratedStage,
  * Returns all items in the parent OrchestratedStage *other* than the item passed in.
  * If no parent orchestratedStage is found, an Error is thrown
  *
- * @param guid
+ * @param guid of the OrchestratedStage
+ * @returns Array of StageSteps contained in the OrchestratedStage
  */
 export function getOtherItemsInOrchestratedStage(guid: UI.Guid): StageStep[] {
     const parent: OrchestratedStage | null = <OrchestratedStage>getElementsForElementType(

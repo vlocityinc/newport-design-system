@@ -533,7 +533,7 @@ describe('StageStepEditor', () => {
 
                 // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                 // Until then use the more brittle `.mocks`
-                expect(stageStepReducer.mock.calls[10][1].detail).toEqual(
+                expect(stageStepReducer.mock.calls[8][1].detail).toEqual(
                     expect.objectContaining({
                         actionCategory: ORCHESTRATED_ACTION_CATEGORY.STEP,
                         error: null,
@@ -645,7 +645,7 @@ describe('StageStepEditor', () => {
 
                 // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                 // Until then use the more brittle `.mocks`
-                expect(stageStepReducer.mock.calls[7][1].detail).toEqual(
+                expect(stageStepReducer.mock.calls[6][1].detail).toEqual(
                     expect.objectContaining({
                         value: {
                             stringValue: comboboxEvent.detail.displayText
@@ -665,7 +665,7 @@ describe('StageStepEditor', () => {
 
                 // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                 // Until then use the more brittle `.mocks`
-                expect(stageStepReducer.mock.calls[7][1].detail).toEqual(
+                expect(stageStepReducer.mock.calls[6][1].detail).toEqual(
                     expect.objectContaining({
                         value: {
                             stringValue: itemSelectedEvent.detail.item.value
@@ -724,7 +724,7 @@ describe('StageStepEditor', () => {
 
                 // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                 // Until then use the more brittle `.mocks`
-                expect(stageStepReducer.mock.calls[7][1].detail).toEqual(
+                expect(stageStepReducer.mock.calls[6][1].detail).toEqual(
                     expect.objectContaining({
                         value: expect.objectContaining({ value: comboboxEvent.detail.displayText }),
                         error: comboboxEvent.detail.error
@@ -743,7 +743,7 @@ describe('StageStepEditor', () => {
 
                 // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                 // Until then use the more brittle `.mocks`
-                expect(stageStepReducer.mock.calls[7][1].detail).toEqual(
+                expect(stageStepReducer.mock.calls[6][1].detail).toEqual(
                     expect.objectContaining({
                         value: expect.objectContaining({ value: itemSelectedEvent.detail.item.value }),
                         error: itemSelectedEvent.detail.item.error

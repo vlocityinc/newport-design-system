@@ -47,8 +47,9 @@
   "source" : "Standard"
 },
     {
+  "category" : "Input",
   "description" : "Email Component",
-  "extensionType" : "aura",
+  "extensionType" : "lwc",
   "fieldsToNull" : [ ],
   "label" : "Email",
   "qualifiedApiName" : "flowruntime:email",
@@ -134,6 +135,14 @@
   "extensionType" : "aura",
   "fieldsToNull" : [ ],
   "qualifiedApiName" : "interactiontest:LcInAllFlows",
+  "source" : "Standard"
+},
+    {
+  "description" : "Uses apex type parameters",
+  "extensionType" : "lwc",
+  "fieldsToNull" : [ ],
+  "label" : "Apex Type Screens Test Component",
+  "qualifiedApiName" : "interactiontest:lwcApexTypes",
   "source" : "Standard"
 },
     {

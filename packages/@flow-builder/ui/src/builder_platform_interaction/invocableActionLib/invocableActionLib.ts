@@ -16,6 +16,7 @@ export type InvocableAction = {
     actionName: string | ValueWithError;
     inputParameters: ParameterListRowItem[];
     outputParameters: ParameterListRowItem[];
+    displayText?: string | ValueWithError;
 };
 
 /**

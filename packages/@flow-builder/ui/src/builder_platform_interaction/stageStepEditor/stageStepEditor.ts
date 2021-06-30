@@ -165,7 +165,7 @@ export default class StageStepEditor extends LightningElement {
 
         // infer selected Entry Criteria on-load
         if (!this.selectedEntryCriteria) {
-            if (this.element.entryAction.actionName?.value) {
+            if (this.element.entryAction.actionName?.value || this.element.entryActionName) {
                 // entryAction exists and has populated data
                 this.selectedEntryCriteria = ENTRY_CRITERIA.ON_DETERMINATION_COMPLETE;
             } else if (
@@ -181,7 +181,7 @@ export default class StageStepEditor extends LightningElement {
 
         // infer selected Exit Criteria on-load
         if (!this.selectedExitCriteria) {
-            if (this.element.exitAction.actionName?.value) {
+            if (this.element.exitAction.actionName?.value || this.element.exitActionName) {
                 this.selectedExitCriteria = EXIT_CRITERIA.ON_DETERMINATION_COMPLETE;
             } else {
                 this.selectedExitCriteria = EXIT_CRITERIA.ON_STEP_COMPLETE;
@@ -214,21 +214,13 @@ export default class StageStepEditor extends LightningElement {
             this.entryConditionsAvailableStepItems.push(comboboxItem);
         });
 
+        this.setActionParameters(this.selectedEntryAction, ORCHESTRATED_ACTION_CATEGORY.ENTRY);
         this.setActionParameters(this.selectedAction, ORCHESTRATED_ACTION_CATEGORY.STEP);
-
-        this.entryActionParameterListConfig = undefined;
-        if (this.selectedEntryAction) {
-            this.setActionParameters(this.selectedEntryAction, ORCHESTRATED_ACTION_CATEGORY.ENTRY);
-        }
-
-        this.exitActionParameterListConfig = undefined;
-        if (this.selectedExitAction) {
-            this.setActionParameters(this.selectedExitAction, ORCHESTRATED_ACTION_CATEGORY.EXIT);
-        }
+        this.setActionParameters(this.selectedExitAction, ORCHESTRATED_ACTION_CATEGORY.EXIT);
 
         // Reopening existing elements should always validate
         // This has to be done manually in every property editor
-        if (!newValue!.isNew) {
+        if (!newValue?.isNew) {
             this.validate();
             this.actorErrorMessage = this.element.assignees[0]?.assignee?.error;
 
@@ -237,13 +229,20 @@ export default class StageStepEditor extends LightningElement {
             // cannot know if an invalid action name has been entered.  It only checks
             // for null or ''
             if (!this.entryActionErrorMessage) {
-                this.entryActionErrorMessage = this.element.entryAction?.actionName.error || '';
+                this.entryActionErrorMessage =
+                    this.element.entryAction?.actionName.error ||
+                    (this.element.entryActionError as ValueWithError)?.value ||
+                    '';
             }
             if (!this.actionErrorMessage) {
-                this.actionErrorMessage = this.element.action.actionName?.error || '';
+                this.actionErrorMessage =
+                    this.element.action.actionName?.error || (this.element.actionError as ValueWithError)?.value || '';
             }
             if (!this.exitActionErrorMessage) {
-                this.exitActionErrorMessage = this.element.exitAction?.actionName.error || '';
+                this.exitActionErrorMessage =
+                    this.element.exitAction?.actionName.error ||
+                    (this.element.exitActionError as ValueWithError)?.value ||
+                    '';
             }
 
             this.recordErrorMessage =
@@ -332,15 +331,21 @@ export default class StageStepEditor extends LightningElement {
     }
 
     get showParameterList(): boolean {
-        return !!this.actionParameterListConfig;
+        return this.selectedAction?.actionName && !this.actionErrorMessage && !!this.actionParameterListConfig;
     }
 
     get showEntryParameterList(): boolean {
-        return !!this.entryActionParameterListConfig;
+        return (
+            this.selectedEntryAction?.actionName &&
+            !this.entryActionErrorMessage &&
+            !!this.entryActionParameterListConfig
+        );
     }
 
     get showExitParameterList(): boolean {
-        return !!this.exitActionParameterListConfig;
+        return (
+            this.selectedExitAction?.actionName && !this.exitActionErrorMessage && !!this.exitActionParameterListConfig
+        );
     }
 
     createActionParameterListConfig(
@@ -386,14 +391,22 @@ export default class StageStepEditor extends LightningElement {
         return actionInfo;
     }
 
-    get selectedAction(): InvocableAction {
-        return {
-            elementType: ELEMENT_TYPE.ACTION_CALL,
-            actionType: this.element?.action.actionType.value,
-            actionName: this.element?.action.actionName?.value,
-            inputParameters: [],
-            outputParameters: []
-        };
+    get selectedAction(): InvocableAction | null {
+        if (this.element?.action.actionName.error) {
+            this.actionErrorMessage = this.element?.action.actionName.error;
+        }
+
+        if (this.element && this.element.action && this.element.action.actionName.value !== '') {
+            return {
+                elementType: ELEMENT_TYPE.ACTION_CALL,
+                actionType: this.element?.action.actionType.value,
+                actionName: this.element?.action.actionName?.value,
+                inputParameters: [],
+                outputParameters: []
+            };
+        }
+
+        return null;
     }
 
     /**
@@ -412,13 +425,21 @@ export default class StageStepEditor extends LightningElement {
      * @returns The selected entry action
      */
     get selectedEntryAction(): InvocableAction | null {
-        return {
-            elementType: ELEMENT_TYPE.ACTION_CALL,
-            actionType: this.element?.entryAction?.actionType?.value,
-            actionName: this.element?.entryAction?.actionName?.value,
-            inputParameters: [],
-            outputParameters: []
-        };
+        if (this.element?.entryAction.actionName.error) {
+            this.entryActionErrorMessage = this.element?.entryAction.actionName.error;
+        }
+
+        if (this.element && this.element.entryAction && this.element.entryAction.actionName.value !== '') {
+            return {
+                elementType: ELEMENT_TYPE.ACTION_CALL,
+                actionType: this.element?.entryAction?.actionType?.value,
+                actionName: this.element?.entryAction?.actionName?.value || this.actorValue,
+                inputParameters: [],
+                outputParameters: []
+            };
+        }
+
+        return null;
     }
 
     /**
@@ -434,13 +455,21 @@ export default class StageStepEditor extends LightningElement {
     }
 
     get selectedExitAction(): InvocableAction | null {
-        return {
-            elementType: ELEMENT_TYPE.ACTION_CALL,
-            actionType: this.element?.exitAction?.actionType?.value,
-            actionName: this.element?.exitAction?.actionName?.value,
-            inputParameters: [],
-            outputParameters: []
-        };
+        if (this.element?.exitAction.actionName.error) {
+            this.exitActionErrorMessage = this.element?.exitAction.actionName.error;
+        }
+
+        if (this.element && this.element.exitAction && this.element.exitAction.actionName.value !== '') {
+            return {
+                elementType: ELEMENT_TYPE.ACTION_CALL,
+                actionType: this.element?.exitAction?.actionType?.value,
+                actionName: this.element?.exitAction?.actionName?.value,
+                inputParameters: [],
+                outputParameters: []
+            };
+        }
+
+        return null;
     }
 
     get recordValue() {
@@ -582,10 +611,10 @@ export default class StageStepEditor extends LightningElement {
         });
     }
 
-    async setActionParameters(action: InvocableAction, actionCategory: ORCHESTRATED_ACTION_CATEGORY) {
+    async setActionParameters(action: InvocableAction | null, actionCategory: ORCHESTRATED_ACTION_CATEGORY) {
         let parameters: ParameterListRowItem[];
 
-        if (!action.actionName) {
+        if (!action?.actionName) {
             parameters = [];
         } else {
             this.displayActionSpinner = true;

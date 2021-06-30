@@ -470,6 +470,11 @@ export default class ActionSelector extends LightningElement {
             newSelectedActionValue = item.value;
         }
         const newSelectedAction = this.getSelectedActionFrom(this.state.selectedElementType, newSelectedActionValue);
+
+        // Include the entered text in the event response so that a handling component
+        // has access to it
+        newSelectedAction.displayText = displayText;
+
         const valueChangedEvent = new ValueChangedEvent(newSelectedAction, error);
         this.dispatchEvent(valueChangedEvent);
     }

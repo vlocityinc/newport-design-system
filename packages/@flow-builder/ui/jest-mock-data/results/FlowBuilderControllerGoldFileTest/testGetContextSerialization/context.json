@@ -111,6 +111,7 @@
         "Orchestrator",
         "RecommendationStrategy",
         "RoutingFlow",
+        "ServiceCatalogItemFlow",
         "Survey",
         "SurveyEnrich",
         "TransactionSecurityFlow",

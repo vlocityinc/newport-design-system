@@ -1,8 +1,8 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import OrchestratedStageNode from '../orchestratedStageNode';
-import { ACTION_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { AddElementEvent, DeleteElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { DeleteElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { commands } from 'builder_platform_interaction/sharedUtils';
 

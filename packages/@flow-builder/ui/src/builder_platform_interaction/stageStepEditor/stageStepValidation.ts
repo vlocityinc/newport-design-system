@@ -1,9 +1,6 @@
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
 import { Validation } from 'builder_platform_interaction/validation';
 import { validateParameter } from 'builder_platform_interaction/calloutEditorLib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
-import { lhsShouldBeValid, rhsShouldBeValid, shouldNotBeBlank } from 'builder_platform_interaction/validationRules';
 
 const validateActionName = () => {
     return {

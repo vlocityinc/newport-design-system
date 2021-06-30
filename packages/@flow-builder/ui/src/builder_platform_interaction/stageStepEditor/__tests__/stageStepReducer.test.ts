@@ -312,7 +312,7 @@ describe('StageStep Reducer', () => {
                     actionType: ACTION_TYPE.CREATE_WORK_ITEM,
                     actionName: event.detail.value.actionName
                 },
-                actionName: event.detail.value.actionName,
+                actionError: null,
                 inputParameters: [],
                 outputParameters: []
             });
@@ -339,7 +339,7 @@ describe('StageStep Reducer', () => {
                     actionType: ACTION_TYPE.ORCHESTRATOR_AUTOLAUNCHED_FLOW,
                     actionName: event.detail.value.actionName
                 },
-                actionName: event.detail.value.actionName,
+                actionError: null,
                 inputParameters: [],
                 outputParameters: []
             });
@@ -361,11 +361,11 @@ describe('StageStep Reducer', () => {
 
             expect(updateProperties).toHaveBeenCalledWith(originalState, {
                 action: {
+                    actionName: undefined,
                     elementType: ELEMENT_TYPE.ACTION_CALL,
-                    actionType: ACTION_TYPE.ORCHESTRATOR_AUTOLAUNCHED_FLOW,
-                    actionName: { value: '', error: null }
+                    actionType: ACTION_TYPE.ORCHESTRATOR_AUTOLAUNCHED_FLOW
                 },
-                actionName: { value: '', error: null },
+                actionError: null,
                 inputParameters: [],
                 outputParameters: []
             });
@@ -397,7 +397,6 @@ describe('StageStep Reducer', () => {
                         actionType: 'createWorkItem',
                         elementType: 'ActionCall'
                     },
-                    actionName: { value: 'originalAction' },
                     entryConditions: [],
                     inputParameters: [{}],
                     outputParameters: [{}]
@@ -421,9 +420,8 @@ describe('StageStep Reducer', () => {
                     action: {
                         elementType: ELEMENT_TYPE.ACTION_CALL,
                         actionType: ACTION_TYPE.CREATE_WORK_ITEM,
-                        actionName: stateWithReferencedAction.actionName.value
-                    },
-                    actionName: stateWithReferencedAction.actionName.value
+                        actionName: stateWithReferencedAction.action.actionName.value
+                    }
                 });
             });
 
@@ -440,7 +438,6 @@ describe('StageStep Reducer', () => {
                         actionType: 'createWorkItem',
                         elementType: 'ActionCall'
                     },
-                    actionName: { value: 'originalAction' },
                     entryConditions: [],
                     inputParameters: [{}],
                     outputParameters: [{}]
@@ -464,9 +461,8 @@ describe('StageStep Reducer', () => {
                     action: {
                         elementType: ELEMENT_TYPE.ACTION_CALL,
                         actionType: ACTION_TYPE.CREATE_WORK_ITEM,
-                        actionName: stateWithReferencedAction.actionName.value
-                    },
-                    actionName: stateWithReferencedAction.actionName.value
+                        actionName: stateWithReferencedAction.action.actionName.value
+                    }
                 });
             });
 
