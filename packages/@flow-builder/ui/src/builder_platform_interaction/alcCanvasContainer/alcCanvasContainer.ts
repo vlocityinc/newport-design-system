@@ -264,6 +264,11 @@ export default class AlcCanvasContainer extends LightningElement {
         }
     };
 
+    @api
+    shiftFocus = (shiftBackward: boolean) => {
+        this.template.querySelector('builder_platform_interaction-alc-canvas').shiftFocus(shiftBackward);
+    };
+
     /**
      * Handles the canvas mouse up event and dispatches an action to deselect all selected nodes and connectors.
      */

@@ -98,6 +98,7 @@ import {
     screenFieldsReferencedByLoops,
     setErrorMessage,
     setFlowErrorsAndWarnings,
+    shiftFocusFromCanvas,
     updateStoreAfterSaveAsNewFlowIsFailed,
     updateStoreAfterSaveAsNewVersionIsFailed,
     updateStoreAfterSaveFlowIsSuccessful,
@@ -2105,6 +2106,42 @@ export default class Editor extends LightningElement {
         );
     };
 
+    /**
+     * Get the left panel component
+     *
+     * @returns The left panel component
+     */
+    _getLeftPanelComponent = () => {
+        return this.template.querySelector(PANELS.TOOLBOX);
+    };
+
+    /**
+     * Get the toolbar component
+     *
+     * @returns The toolbar component
+     */
+    _getToolbarComponent = () => {
+        return this.template.querySelector(PANELS.TOOLBAR);
+    };
+
+    /**
+     * Get the header component
+     *
+     * @returns The header component
+     */
+    _getHeaderComponent = () => {
+        return this.template.querySelector(PANELS.HEADER);
+    };
+
+    handleCanvasFocusOut = (event) => {
+        shiftFocusFromCanvas(
+            this._getLeftPanelComponent(),
+            this._getToolbarComponent(),
+            this._getHeaderComponent(),
+            event.detail.shiftBackward
+        );
+    };
+
     handleShiftFocus = (shiftBackward) => {
         const currentlyFocusedElement =
             this.template.activeElement && this.template.activeElement.tagName.toLowerCase();
@@ -2114,15 +2151,15 @@ export default class Editor extends LightningElement {
                 if (shiftBackward) {
                     this._getCanvasComponent().focus();
                 } else {
-                    this.template.querySelector(PANELS.TOOLBAR).focus();
+                    this._getToolbarComponent().focus();
                 }
                 break;
 
             case PANELS.TOOLBAR:
                 if (shiftBackward) {
-                    this.template.querySelector(PANELS.HEADER).focus();
-                } else if (this.template.querySelector(PANELS.TOOLBOX)) {
-                    this.template.querySelector(PANELS.TOOLBOX).focus();
+                    this._getHeaderComponent().focus();
+                } else if (this._getLeftPanelComponent()) {
+                    this._getLeftPanelComponent().focus();
                 } else {
                     this._getCanvasComponent().focus();
                 }
@@ -2131,30 +2168,30 @@ export default class Editor extends LightningElement {
 
             case PANELS.TOOLBOX:
                 if (shiftBackward) {
-                    this.template.querySelector(PANELS.TOOLBAR).focus();
+                    this._getToolbarComponent().focus();
                 } else {
                     this._getCanvasComponent().focus();
                 }
                 break;
 
-            case PANELS.AUTOLAYOUT_CANVAS:
             case PANELS.FREEFORM_CANVAS:
-                if (shiftBackward) {
-                    if (this.template.querySelector(PANELS.TOOLBOX)) {
-                        this.template.querySelector(PANELS.TOOLBOX).focus();
-                    } else {
-                        this.template.querySelector(PANELS.TOOLBAR).focus();
-                    }
-                } else {
-                    this.template.querySelector(PANELS.HEADER).focus();
-                }
+                shiftFocusFromCanvas(
+                    this._getLeftPanelComponent(),
+                    this._getToolbarComponent(),
+                    this._getHeaderComponent(),
+                    shiftBackward
+                );
+                break;
+
+            case PANELS.AUTOLAYOUT_CANVAS:
+                this._getCanvasComponent().shiftFocus(shiftBackward);
                 break;
 
             default:
                 if (shiftBackward) {
-                    this.template.querySelector(PANELS.CANVAS).focus();
+                    this._getCanvasComponent().focus();
                 } else {
-                    this.template.querySelector(PANELS.HEADER).focus();
+                    this._getHeaderComponent().focus();
                 }
         }
         logInteraction('editor', 'editor', { operationStatus: 'shift panel focus' }, 'keydown');

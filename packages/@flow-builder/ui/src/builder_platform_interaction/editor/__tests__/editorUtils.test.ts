@@ -18,7 +18,8 @@ import {
     getConnectorsToHighlight,
     getElementsWithError,
     screenFieldsReferencedByLoops,
-    debugInterviewResponseCallback
+    debugInterviewResponseCallback,
+    shiftFocusFromCanvas
 } from '../editorUtils';
 import {
     ELEMENT_TYPE as mockElementType,
@@ -1609,6 +1610,38 @@ describe('Editor Utils Test', () => {
             expect(dispatch).toHaveBeenCalledWith({
                 type: 'clearCanvasDecoration'
             });
+        });
+    });
+
+    describe('shiftFocusFromCanvas function', () => {
+        it('focuses on header when shifting focus forward', () => {
+            const mockFocusFunction = jest.fn();
+            const mockHeaderComponent = {
+                focus: mockFocusFunction
+            };
+
+            shiftFocusFromCanvas(null, null, mockHeaderComponent, false);
+            expect(mockFocusFunction).toHaveBeenCalled();
+        });
+
+        it('focuses on left panel when shifting focus backward', () => {
+            const mockFocusFunction = jest.fn();
+            const mockLeftPanelComponent = {
+                focus: mockFocusFunction
+            };
+
+            shiftFocusFromCanvas(mockLeftPanelComponent, null, null, true);
+            expect(mockFocusFunction).toHaveBeenCalled();
+        });
+
+        it('focuses on toolbar when shifting focus backward and left panel is not present', () => {
+            const mockFocusFunction = jest.fn();
+            const mockToolbarComponent = {
+                focus: mockFocusFunction
+            };
+
+            shiftFocusFromCanvas(null, mockToolbarComponent, null, true);
+            expect(mockFocusFunction).toHaveBeenCalled();
         });
     });
 });

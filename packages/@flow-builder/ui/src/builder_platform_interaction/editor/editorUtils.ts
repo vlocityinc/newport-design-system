@@ -1085,3 +1085,28 @@ export const debugInterviewResponseCallback = (
         serializedInterview: interview
     };
 };
+
+/**
+ * Helper function to handle shift focus from either canvas component
+ *
+ * @param leftPanelComponent Left panel component
+ * @param toolbarComponent Toolbar component
+ * @param headerComponent Header component
+ * @param shiftBackward Whether focus is shifted forwarded (F6) or backwards (shift + F6) from canvas
+ */
+export const shiftFocusFromCanvas = (
+    leftPanelComponent: Object,
+    toolbarComponent: Object,
+    headerComponent: Object,
+    shiftBackward: boolean
+) => {
+    if (shiftBackward) {
+        if (leftPanelComponent) {
+            leftPanelComponent.focus();
+        } else {
+            toolbarComponent.focus();
+        }
+    } else {
+        headerComponent.focus();
+    }
+};

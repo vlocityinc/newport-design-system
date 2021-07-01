@@ -42,7 +42,8 @@ import {
     MoveFocusToConnectorEvent,
     CreateGoToConnectionEvent,
     DeleteBranchElementEvent,
-    TabOnMenuTriggerEvent
+    TabOnMenuTriggerEvent,
+    FocusOutEvent
 } from 'builder_platform_interaction/alcEvents';
 import {
     getAlcFlowData,
@@ -305,6 +306,16 @@ export default class AlcCanvas extends LightningElement {
         return this._flowModel;
     }
 
+    isZoomPanelFocused() {
+        return this.template.activeElement?.tagName.toLowerCase().includes('zoom-panel');
+    }
+
+    getFirstFocusableNode() {
+        return this.isSelectionMode
+            ? getFirstSelectableElementGuid(this.flowModel, 'root')
+            : this.getStartElementGuid();
+    }
+
     @api
     focusOnNode = (elementGuid: Guid) => {
         const pathToFocusNode = getFocusPath(this.flowModel, [{ guid: elementGuid }]);
@@ -330,7 +341,6 @@ export default class AlcCanvas extends LightningElement {
         this.updateFlowRenderContext({ interactionState });
     }
 
-    @api
     focusOnZoomPanel() {
         this.template.querySelector('builder_platform_interaction-zoom-panel').focus();
     }
@@ -340,13 +350,31 @@ export default class AlcCanvas extends LightningElement {
      */
     @api
     focus() {
-        const elementGuidToFocus = this.isSelectionMode
-            ? getFirstSelectableElementGuid(this.flowModel, 'root')
-            : this.getStartElementGuid();
+        const elementGuidToFocus = this.getFirstFocusableNode();
         if (!elementGuidToFocus) {
             this.focusOnZoomPanel();
         } else {
             this.focusOnNode(elementGuidToFocus);
+        }
+    }
+
+    /**
+     * Shift focus between the canvas and zoom panel (or focus out) depending on direction
+     *
+     * @param shiftBackward Whether to shift focus backwards or forwards
+     */
+    @api
+    shiftFocus(shiftBackward: boolean) {
+        if (shiftBackward) {
+            if (this.isZoomPanelFocused() && this.getFirstFocusableNode()) {
+                this.focus();
+            } else {
+                this.dispatchEvent(new FocusOutEvent(true));
+            }
+        } else if (this.isZoomPanelFocused()) {
+            this.dispatchEvent(new FocusOutEvent(false));
+        } else {
+            this.focusOnZoomPanel();
         }
     }
 
