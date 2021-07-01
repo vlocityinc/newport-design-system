@@ -85,7 +85,7 @@ describe('Stepped-Stage-Node', () => {
     //             expect.objectContaining({
     //                 detail: {
     //                     designateFocus: false,
-    //                     actionType: ACTION_TYPE.CREATE_WORK_ITEM,
+    //                     actionType: ACTION_TYPE.STEP_INTERACTIVE,
     //                     elementType: 'STAGE_STEP',
     //                     parent: ssGuid
     //                 }
@@ -106,7 +106,7 @@ describe('Stepped-Stage-Node', () => {
     //             expect.objectContaining({
     //                 detail: {
     //                     designateFocus: true,
-    //                     actionType: ACTION_TYPE.CREATE_WORK_ITEM,
+    //                     actionType: ACTION_TYPE.STEP_INTERACTIVE,
     //                     elementType: 'STAGE_STEP',
     //                     parent: ssGuid
     //                 }

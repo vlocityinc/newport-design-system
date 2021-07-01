@@ -145,7 +145,7 @@ describe('StageStepEditor', () => {
                 value: 'someActionName'
             },
             actionType: {
-                value: 'createWorkItem'
+                value: 'stepInteractive'
             }
         },
         exitAction: {
@@ -191,7 +191,7 @@ describe('StageStepEditor', () => {
                 value: 'autolaunchedFlow'
             },
             actionType: {
-                value: 'orchestratorAutolaunchedFlow'
+                value: 'stepBackground'
             }
         },
         exitAction: {
@@ -226,7 +226,7 @@ describe('StageStepEditor', () => {
                 value: 'someActionName'
             },
             actionType: {
-                value: 'createWorkItem'
+                value: 'stepInteractive'
             }
         },
         assignees: [
@@ -539,7 +539,7 @@ describe('StageStepEditor', () => {
                         error: null,
                         value: {
                             actionName: 'autolaunchedFlow',
-                            actionType: 'orchestratorAutolaunchedFlow'
+                            actionType: 'stepBackground'
                         }
                     })
                 );

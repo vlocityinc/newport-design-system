@@ -301,8 +301,8 @@ export default class StageStepEditor extends LightningElement {
 
     get isStepWithUserAction(): boolean {
         return (
-            this.element?.action.actionType !== ACTION_TYPE.ORCHESTRATOR_AUTOLAUNCHED_FLOW &&
-            this.element?.action.actionType.value !== ACTION_TYPE.ORCHESTRATOR_AUTOLAUNCHED_FLOW
+            this.element?.action.actionType !== ACTION_TYPE.STEP_BACKGROUND &&
+            this.element?.action.actionType.value !== ACTION_TYPE.STEP_BACKGROUND
         );
     }
 
@@ -578,8 +578,8 @@ export default class StageStepEditor extends LightningElement {
                 if (action.type === ACTION_TYPE.FLOW) {
                     determinationActions.push(action);
                 } else if (
-                    (action.type === ACTION_TYPE.CREATE_WORK_ITEM && this.isStepWithUserAction) ||
-                    (action.type === ACTION_TYPE.ORCHESTRATOR_AUTOLAUNCHED_FLOW && !this.isStepWithUserAction)
+                    (action.type === ACTION_TYPE.STEP_INTERACTIVE && this.isStepWithUserAction) ||
+                    (action.type === ACTION_TYPE.STEP_BACKGROUND && !this.isStepWithUserAction)
                 ) {
                     stepActions.push(action);
                 }

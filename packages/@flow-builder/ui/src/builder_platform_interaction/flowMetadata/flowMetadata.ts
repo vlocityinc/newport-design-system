@@ -119,8 +119,8 @@ export const ACTION_TYPE = {
     FLOW: 'flow',
     COMPONENT: 'component',
     EXTERNAL_SERVICE: 'externalService',
-    CREATE_WORK_ITEM: 'createWorkItem',
-    ORCHESTRATOR_AUTOLAUNCHED_FLOW: 'orchestratorAutolaunchedFlow',
+    STEP_INTERACTIVE: 'stepInteractive',
+    STEP_BACKGROUND: 'stepBackground',
     OUTBOUND_MESSAGE: 'outboundMessage'
 };
 

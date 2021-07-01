@@ -297,7 +297,7 @@ describe('StageStep Reducer', () => {
                 detail: {
                     value: {
                         actionName: 'someAction',
-                        actionType: ACTION_TYPE.CREATE_WORK_ITEM
+                        actionType: ACTION_TYPE.STEP_INTERACTIVE
                     },
                     error: null,
                     actionCategory: ORCHESTRATED_ACTION_CATEGORY.STEP
@@ -309,7 +309,7 @@ describe('StageStep Reducer', () => {
             expect(updateProperties).toHaveBeenCalledWith(originalState, {
                 action: {
                     elementType: ELEMENT_TYPE.ACTION_CALL,
-                    actionType: ACTION_TYPE.CREATE_WORK_ITEM,
+                    actionType: ACTION_TYPE.STEP_INTERACTIVE,
                     actionName: event.detail.value.actionName
                 },
                 actionError: null,
@@ -394,7 +394,7 @@ describe('StageStep Reducer', () => {
                     guid: mockReferencedGuid,
                     action: {
                         actionName: { value: 'originalAction' },
-                        actionType: 'createWorkItem',
+                        actionType: 'stepInteractive',
                         elementType: 'ActionCall'
                     },
                     entryConditions: [],
@@ -407,7 +407,7 @@ describe('StageStep Reducer', () => {
                     detail: {
                         value: {
                             actionName: 'anotherAction',
-                            actionType: ACTION_TYPE.CREATE_WORK_ITEM
+                            actionType: ACTION_TYPE.STEP_INTERACTIVE
                         },
                         error: null,
                         actionCategory: ORCHESTRATED_ACTION_CATEGORY.STEP
@@ -419,7 +419,7 @@ describe('StageStep Reducer', () => {
                 expect(updateProperties).toHaveBeenCalledWith(stateWithReferencedAction, {
                     action: {
                         elementType: ELEMENT_TYPE.ACTION_CALL,
-                        actionType: ACTION_TYPE.CREATE_WORK_ITEM,
+                        actionType: ACTION_TYPE.STEP_INTERACTIVE,
                         actionName: stateWithReferencedAction.action.actionName.value
                     }
                 });
@@ -435,7 +435,7 @@ describe('StageStep Reducer', () => {
                     guid: mockReferencedGuid,
                     action: {
                         actionName: { value: 'originalAction' },
-                        actionType: 'createWorkItem',
+                        actionType: 'stepInteractive',
                         elementType: 'ActionCall'
                     },
                     entryConditions: [],
@@ -448,7 +448,7 @@ describe('StageStep Reducer', () => {
                     detail: {
                         value: {
                             actionName: 'anotherAction',
-                            actionType: ACTION_TYPE.CREATE_WORK_ITEM
+                            actionType: ACTION_TYPE.STEP_INTERACTIVE
                         },
                         error: null,
                         actionCategory: ORCHESTRATED_ACTION_CATEGORY.STEP
@@ -460,7 +460,7 @@ describe('StageStep Reducer', () => {
                 expect(updateProperties).toHaveBeenCalledWith(stateWithReferencedAction, {
                     action: {
                         elementType: ELEMENT_TYPE.ACTION_CALL,
-                        actionType: ACTION_TYPE.CREATE_WORK_ITEM,
+                        actionType: ACTION_TYPE.STEP_INTERACTIVE,
                         actionName: stateWithReferencedAction.action.actionName.value
                     }
                 });
@@ -471,7 +471,7 @@ describe('StageStep Reducer', () => {
                     guid: mockReferencedGuid,
                     action: {
                         actionName: { value: 'anotherAction' },
-                        actionType: 'createWorkItem',
+                        actionType: 'stepInteractive',
                         elementType: 'ActionCall'
                     },
                     actionName: { value: 'anotherAction' }

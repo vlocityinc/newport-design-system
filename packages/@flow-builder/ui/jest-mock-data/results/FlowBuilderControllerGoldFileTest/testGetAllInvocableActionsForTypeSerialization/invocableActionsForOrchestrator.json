@@ -6,7 +6,7 @@
       "iconName":null,
       "description":null,
       "label":"TestFileBase",
-      "type":"createWorkItem",
+      "type":"stepInteractive",
       "fillColor":null,
       "isStandard":false,
       "name":"BusOp__TestFileBasedInaccessible",
@@ -15,7 +15,7 @@
       "genericTypes":[
 
       ],
-      "durableId":"createWorkItem-BusOp__TestFileBasedInaccessible"
+      "durableId":"stepInteractive-BusOp__TestFileBasedInaccessible"
     },
     {
       "iconId":null,
@@ -23,7 +23,7 @@
       "iconName":null,
       "description":"FTEST - File Based Flow CRUD",
       "label":"FTest-TestFileBasedCrud",
-      "type":"createWorkItem",
+      "type":"stepInteractive",
       "fillColor":null,
       "isStandard":false,
       "name":"FtestSfdcOnly__TestFileBasedCrud",
@@ -32,7 +32,7 @@
       "genericTypes":[
 
       ],
-      "durableId":"createWorkItem-FtestSfdcOnly__TestFileBasedCrud"
+      "durableId":"stepInteractive-FtestSfdcOnly__TestFileBasedCrud"
     },
     {
       "iconId":null,
@@ -40,7 +40,7 @@
       "iconName":null,
       "description":"FTEST - File Based Flow Screen Flow",
       "label":"FTest-TestFileBasedScreen",
-      "type":"createWorkItem",
+      "type":"stepInteractive",
       "fillColor":null,
       "isStandard":false,
       "name":"FtestSfdcOnly__TestFileBasedScreen",
@@ -49,7 +49,7 @@
       "genericTypes":[
 
       ],
-      "durableId":"createWorkItem-FtestSfdcOnly__TestFileBasedScreen"
+      "durableId":"stepInteractive-FtestSfdcOnly__TestFileBasedScreen"
     },
     {
       "iconId":null,
@@ -57,7 +57,7 @@
       "iconName":null,
       "description":"FTEST - File Based Flow Subflow Flow",
       "label":"FTest-TestFileBasedSubflow",
-      "type":"createWorkItem",
+      "type":"stepInteractive",
       "fillColor":null,
       "isStandard":false,
       "name":"FtestSfdcOnly__TestFileBasedSubflow",
@@ -66,7 +66,7 @@
       "genericTypes":[
 
       ],
-      "durableId":"createWorkItem-FtestSfdcOnly__TestFileBasedSubflow"
+      "durableId":"stepInteractive-FtestSfdcOnly__TestFileBasedSubflow"
     },
     {
       "iconId":null,
@@ -74,7 +74,7 @@
       "iconName":null,
       "description":"Enter values for the flow's input variables. For each value left blank, the flow starts with the variable's default value. You can't enter values for collection variables or Apex-defined variables.",
       "label":"Debug Options",
-      "type":"createWorkItem",
+      "type":"stepInteractive",
       "fillColor":null,
       "isStandard":false,
       "name":"FtestSfdcOnly__TestFileBasedTranslated",
@@ -83,7 +83,7 @@
       "genericTypes":[
 
       ],
-      "durableId":"createWorkItem-FtestSfdcOnly__TestFileBasedTranslated"
+      "durableId":"stepInteractive-FtestSfdcOnly__TestFileBasedTranslated"
     },
     {
       "iconId":null,
@@ -91,7 +91,7 @@
       "iconName":null,
       "description":null,
       "label":"SomeFlow",
-      "type":"createWorkItem",
+      "type":"stepInteractive",
       "fillColor":null,
       "isStandard":false,
       "name":"screenFlow",
@@ -100,7 +100,7 @@
       "genericTypes":[
 
       ],
-      "durableId":"createWorkItem-screenFlow"
+      "durableId":"stepInteractive-screenFlow"
     },
     {
       "iconId":null,
@@ -108,7 +108,7 @@
       "iconName":null,
       "description":null,
       "label":"Create a Case",
-      "type":"createWorkItem",
+      "type":"stepInteractive",
       "fillColor":null,
       "isStandard":false,
       "name":"setup_service_experience__Create_Case",
@@ -117,7 +117,7 @@
       "genericTypes":[
 
       ],
-      "durableId":"createWorkItem-setup_service_experience__Create_Case"
+      "durableId":"stepInteractive-setup_service_experience__Create_Case"
     },
     {
       "iconId":null,
@@ -125,7 +125,7 @@
       "iconName":null,
       "description":null,
       "label":"Reset Password",
-      "type":"createWorkItem",
+      "type":"stepInteractive",
       "fillColor":null,
       "isStandard":false,
       "name":"setup_service_experience__Reset_Pwd",
@@ -134,7 +134,7 @@
       "genericTypes":[
 
       ],
-      "durableId":"createWorkItem-setup_service_experience__Reset_Pwd"
+      "durableId":"stepInteractive-setup_service_experience__Reset_Pwd"
     },
     {
       "iconId":null,
@@ -142,7 +142,7 @@
       "iconName":null,
       "description":"Removed custom field references",
       "label":"Verify Identity",
-      "type":"createWorkItem",
+      "type":"stepInteractive",
       "fillColor":null,
       "isStandard":false,
       "name":"setup_service_experience__Verify_Cust",
@@ -151,7 +151,7 @@
       "genericTypes":[
 
       ],
-      "durableId":"createWorkItem-setup_service_experience__Verify_Cust"
+      "durableId":"stepInteractive-setup_service_experience__Verify_Cust"
     },
     {
       "iconId":null,
@@ -210,7 +210,7 @@
       "iconName":null,
       "description":"FTEST - File Based Flow Basic",
       "label":"FTest-TestFileBased",
-      "type":"orchestratorAutolaunchedFlow",
+      "type":"stepBackground",
       "fillColor":null,
       "isStandard":false,
       "name":"FtestSfdcOnly__TestFileBased",
@@ -219,7 +219,7 @@
       "genericTypes":[
 
       ],
-      "durableId":"orchestratorAutolaunchedFlow-FtestSfdcOnly__TestFileBased"
+      "durableId":"stepBackground-FtestSfdcOnly__TestFileBased"
     },
     {
       "iconId":null,
@@ -227,7 +227,7 @@
       "iconName":null,
       "description":null,
       "label":"FTest-TestFileBasedPause",
-      "type":"orchestratorAutolaunchedFlow",
+      "type":"stepBackground",
       "fillColor":null,
       "isStandard":false,
       "name":"FtestSfdcOnly__TestFileBasedPause",
@@ -236,7 +236,7 @@
       "genericTypes":[
 
       ],
-      "durableId":"orchestratorAutolaunchedFlow-FtestSfdcOnly__TestFileBasedPause"
+      "durableId":"stepBackground-FtestSfdcOnly__TestFileBasedPause"
     },
     {
       "iconId":null,
@@ -244,7 +244,7 @@
       "iconName":null,
       "description":"FTEST - File Based Flow Template Basic",
       "label":"FTEST-TestFileBasedT",
-      "type":"orchestratorAutolaunchedFlow",
+      "type":"stepBackground",
       "fillColor":null,
       "isStandard":false,
       "name":"FtestSfdcOnly__TestFileBasedT",
@@ -253,7 +253,7 @@
       "genericTypes":[
 
       ],
-      "durableId":"orchestratorAutolaunchedFlow-FtestSfdcOnly__TestFileBasedT"
+      "durableId":"stepBackground-FtestSfdcOnly__TestFileBasedT"
     }
   ]
 }

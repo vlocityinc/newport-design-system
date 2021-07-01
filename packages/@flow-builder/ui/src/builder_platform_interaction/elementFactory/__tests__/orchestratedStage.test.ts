@@ -141,7 +141,7 @@ getElementByGuid.mockImplementation((guid) => {
                     value: 'autolaunchedFlow'
                 },
                 actionType: {
-                    value: 'orchestratorAutolaunchedFlow'
+                    value: 'stepBackground'
                 }
             },
             exitAction: {
@@ -180,7 +180,7 @@ getElementByGuid.mockImplementation((guid) => {
                     value: 'autolaunchedFlow'
                 },
                 actionType: {
-                    value: 'orchestratorAutolaunchedFlow'
+                    value: 'stepBackground'
                 }
             },
             exitAction: {
@@ -388,7 +388,7 @@ describe('OrchestratedStage', () => {
                         value: 'autolaunchedFlow'
                     },
                     actionType: {
-                        value: 'orchestratorAutolaunchedFlow'
+                        value: 'stepBackground'
                     }
                 },
                 assignees: []
@@ -873,7 +873,7 @@ describe('OrchestratedStage', () => {
                         value: 'autolaunchedFlow'
                     },
                     actionType: {
-                        value: 'orchestratorAutolaunchedFlow'
+                        value: 'stepBackground'
                     }
                 },
                 exitAction: {
@@ -937,7 +937,7 @@ describe('OrchestratedStage', () => {
             it('is present if there are output parameters', () => {
                 step.action = {
                     actionName: mockActionWithOutputParametersName,
-                    actionType: ACTION_TYPE.CREATE_WORK_ITEM
+                    actionType: ACTION_TYPE.STEP_INTERACTIVE
                 };
 
                 const data = getStageStepChildren(step);
@@ -952,7 +952,7 @@ describe('OrchestratedStage', () => {
             it('getChildrenItems returns output parameters', () => {
                 step.action = {
                     actionName: mockActionWithOutputParametersName,
-                    actionType: ACTION_TYPE.CREATE_WORK_ITEM
+                    actionType: ACTION_TYPE.STEP_INTERACTIVE
                 };
 
                 const data = getStageStepChildren(step);

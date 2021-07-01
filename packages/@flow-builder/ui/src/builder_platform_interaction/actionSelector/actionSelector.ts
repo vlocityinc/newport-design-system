@@ -19,8 +19,8 @@ type ElementActionType = {
 const allElementActionTypes: ElementActionType[] = [
     { elementType: ELEMENT_TYPE.ACTION_CALL, actionType: ACTION_TYPE.QUICK_ACTION },
     { elementType: ELEMENT_TYPE.ACTION_CALL, actionType: ACTION_TYPE.COMPONENT },
-    { elementType: ELEMENT_TYPE.ACTION_CALL, actionType: ACTION_TYPE.CREATE_WORK_ITEM },
-    { elementType: ELEMENT_TYPE.ACTION_CALL, actionType: ACTION_TYPE.ORCHESTRATOR_AUTOLAUNCHED_FLOW },
+    { elementType: ELEMENT_TYPE.ACTION_CALL, actionType: ACTION_TYPE.STEP_INTERACTIVE },
+    { elementType: ELEMENT_TYPE.ACTION_CALL, actionType: ACTION_TYPE.STEP_BACKGROUND },
     { elementType: ELEMENT_TYPE.ACTION_CALL, actionType: ACTION_TYPE.FLOW },
     { elementType: ELEMENT_TYPE.ACTION_CALL, actionType: ACTION_TYPE.OUTBOUND_MESSAGE },
     { elementType: ELEMENT_TYPE.EXTERNAL_SERVICE, actionType: ACTION_TYPE.EXTERNAL_SERVICE },
