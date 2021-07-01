@@ -39,6 +39,13 @@
         }
     },
 
+    handleEditResource: function (cmp, editElementDetail) {
+        var editResourceCallback = cmp.get('v.editResourceCallback');
+        if (editResourceCallback && typeof editResourceCallback === 'function') {
+            editResourceCallback(editElementDetail);
+        }
+    },
+
     closePanel: function (cmp) {
         var closeActionCallback = cmp.get('v.closeActionCallback');
         var panelInstance = cmp.get('v.panelInstance');

@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { LightningElement, api } from 'lwc';
-import { DeleteListItemEvent, UpdateListItemEvent } from 'builder_platform_interaction/events';
+import { DeleteListItemEvent, UpdateListItemEvent, EditListItemEvent } from 'builder_platform_interaction/events';
 import deleteRowAlternativeText from '@salesforce/label/FlowBuilderRows.deleteRowAlternativeText';
 import editRowAlternativeText from '@salesforce/label/FlowBuilderRows.editRowAlternativeText';
 
@@ -76,7 +76,7 @@ export default class Row extends LightningElement {
     }
 
     /**
-     * @param enable Use either the boolean flag of enable or send the required data to enable
+     * @param enableOrData Use either the boolean flag of enable or send the required data to enable
      */
     set enableEdit(enableOrData) {
         this._enableEdit = !!enableOrData;
@@ -124,6 +124,7 @@ export default class Row extends LightningElement {
 
     handleEdit(event) {
         event.stopPropagation();
-        // todo W-9144534 - inc finish this function etc
+        const itemEditedEvent = new EditListItemEvent(this.itemIndex);
+        this.dispatchEvent(itemEditedEvent);
     }
 }

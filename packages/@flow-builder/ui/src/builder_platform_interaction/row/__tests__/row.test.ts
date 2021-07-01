@@ -178,7 +178,7 @@ describe('isDeletableAndEditable and isDeletableOnly', () => {
 
 describe('Row Events', () => {
     it('Row delete event should be fired when delete button is clicked for a row with proper index info in the event detail', async () => {
-        const myrowElement = createComponentUnderTest();
+        const myrowElement = createComponentUnderTest({});
         myrowElement.itemIndex = itemIndex;
         await ticks(1);
         const eventCallback = jest.fn();

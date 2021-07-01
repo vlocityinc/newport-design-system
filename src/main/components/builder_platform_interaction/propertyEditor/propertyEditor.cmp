@@ -4,6 +4,7 @@
     <!-- callback to update-->
     <aura:attribute name="nodeUpdate" type="Object" description="callback function run on node update"/>
     <aura:attribute name="newResourceCallback" type="Object" description="new resource callback for inline resource creation"/>
+    <aura:attribute name="editResourceCallback" type="Object" description="edit resource callback for inline resource editing"/>
     <aura:attribute name="bodyComponent" type="Object" description="contains descriptor and attributes for inner component"/>
     <aura:attribute type="Object" name="panelInstance" description="set after panel creation" />
     <aura:attribute type="Object" name="closeActionCallback" description="set after panel creation" />
@@ -17,6 +18,7 @@
 
     <div id="modal-content-id" aura:id="body-content"
     	onaddnewresource="{!c.handleAddNewResource}"
+        oneditelement="{!c.handleEditResource}"
     	onsetpropertyeditortitle="{!c.setPropertyEditorTitle}"
     	onclosepropertyeditor="{!c.handleClose}">
         {!v.body}

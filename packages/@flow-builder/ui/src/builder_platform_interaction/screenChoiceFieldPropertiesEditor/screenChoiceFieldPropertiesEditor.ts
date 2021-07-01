@@ -6,7 +6,8 @@ import {
     createChoiceDeletedEvent,
     createChoiceDisplayChangedEvent,
     createSingleOrMultiChoiceTypeChangedEvent,
-    NewResourceEvent
+    NewResourceEvent,
+    EditElementEvent
 } from 'builder_platform_interaction/events';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
@@ -105,6 +106,25 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
         return this.field?.dataType === FLOW_DATA_TYPE.STRING.value;
     }
 
+    /**
+     * Fires edit resource event based on the data of the field in question
+     *
+     * @param {object} detail - The detail of the event
+     */
+    fireEditElementEvent(detail) {
+        if (
+            detail.index !== undefined &&
+            this.field.choiceReferences &&
+            detail.index < this.field.choiceReferences.length
+        ) {
+            const thisResource = this.field.choiceReferences[detail.index];
+            if (thisResource?.choiceReference?.value) {
+                const editElementEvent = new EditElementEvent(thisResource.choiceReference.value);
+                this.dispatchEvent(editElementEvent);
+            }
+        }
+    }
+
     handlePropertyChanged = (event) => {
         this.dispatchEvent(addCurrentValueToEvent(event, this.field, this.field[event.detail.propertyName]));
         event.stopPropagation();
@@ -156,6 +176,13 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
     handleChoiceDeleted = (event) => {
         event.stopPropagation();
         this.dispatchEvent(createChoiceDeletedEvent(this.field, event.detail.index));
+    };
+
+    handleChoiceEdit = (event) => {
+        event.stopPropagation();
+        if (event.detail) {
+            this.fireEditElementEvent(event.detail);
+        }
     };
 
     handleChoiceAdded = (event) => {

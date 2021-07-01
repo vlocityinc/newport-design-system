@@ -336,6 +336,7 @@ export const getPropertyEditorConfig = (mode, attributes) => {
 
     const nodeUpdate = attributes.nodeUpdate,
         newResourceCallback = attributes.newResourceCallback,
+        editResourceCallback = attributes.editResourceCallback,
         moveFocusOnCloseCallback = attributes.moveFocusOnCloseCallback,
         insertInfo = attributes.insertInfo,
         isAutoLayoutCanvas = attributes.isAutoLayoutCanvas,
@@ -358,6 +359,7 @@ export const getPropertyEditorConfig = (mode, attributes) => {
     const attr = {
         nodeUpdate,
         newResourceCallback,
+        editResourceCallback,
         moveFocusOnCloseCallback,
         insertInfo,
         isAutoLayoutCanvas,

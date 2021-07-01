@@ -1468,6 +1468,7 @@ export default class Editor extends LightningElement {
         const triggerType = getTriggerType();
         const nodeUpdate = flowPropertiesCallback(storeInstance);
         const newResourceCallback = this.newResourceCallback;
+
         this.queueOpenPropertyEditor(() => {
             const node = getElementForPropertyEditor(Object.assign({}, flowProperties, { triggerType }));
             node.saveType = SaveType.UPDATE;
@@ -1771,6 +1772,7 @@ export default class Editor extends LightningElement {
                   (node, parentGuid) => this.deMutateAndAddNodeCollection(node, parentGuid, alcConnectionSource);
             const moveFocusOnCloseCallback = this.moveFocusToConnector;
             const newResourceCallback = this.newResourceCallback;
+            const editResourceCallback = this.editResourceCallback;
             const processType = this.properties.processType;
 
             // skip the editor for elements that don't need one
@@ -1807,6 +1809,7 @@ export default class Editor extends LightningElement {
                         node,
                         nodeUpdate,
                         newResourceCallback,
+                        editResourceCallback,
                         processType,
                         moveFocusOnCloseCallback,
                         insertInfo: alcConnectionSource,
@@ -2306,6 +2309,7 @@ export default class Editor extends LightningElement {
 
         const nodeUpdate = this.deMutateAndUpdateNodeCollection;
         const moveFocusOnCloseCallback = this.moveFocusToNode;
+        const editResourceCallback = this.editResourceCallback;
         const newResourceCallback = this.newResourceCallback;
         const processType = this.properties.processType;
         if (
@@ -2322,6 +2326,7 @@ export default class Editor extends LightningElement {
                         nodeUpdate,
                         node,
                         newResourceCallback,
+                        editResourceCallback,
                         processType,
                         moveFocusOnCloseCallback,
                         isAutoLayoutCanvas: this.properties.isAutoLayoutCanvas
@@ -2341,6 +2346,12 @@ export default class Editor extends LightningElement {
             }
         }
     }
+
+    editResourceCallback = (editElementDetail) => {
+        if (editElementDetail) {
+            this.editElement(editElementDetail.mode, editElementDetail.canvasElementGUID);
+        }
+    };
 
     /**
      * Private method to call clear undo redo stack and make the undo redo buttons disabled

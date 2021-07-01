@@ -859,6 +859,7 @@ describe('property editor', () => {
             node: getElementForPropertyEditor(mockStoreState.elements['1']),
             nodeUpdate: expect.anything(),
             newResourceCallback: expect.anything(),
+            editResourceCallback: expect.anything(),
             processType: undefined,
             panelConfig: undefined,
             moveFocusOnCloseCallback: expect.anything()

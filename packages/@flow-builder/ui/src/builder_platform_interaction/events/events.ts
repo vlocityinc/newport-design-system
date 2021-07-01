@@ -48,6 +48,7 @@ export { ToggleCanvasModeEvent } from './toolbarEvents/toggleCanvasModeEvent';
 export { AddElementEvent } from './elementEvents/addElementEvent';
 export { AddNonCanvasElementEvent } from './elementEvents/addNonCanvasElementEvent';
 export { EditElementEvent } from './elementEvents/editElementEvent';
+export { EditListItemEvent } from './editListItemEvent';
 export { DeleteElementEvent } from './elementEvents/deleteElementEvent';
 export { DeleteElementEventDetail } from './elementEvents/deleteElementEvent';
 export { PaletteItemClickedEvent } from './paletteEvents/paletteItemClickedEvent';

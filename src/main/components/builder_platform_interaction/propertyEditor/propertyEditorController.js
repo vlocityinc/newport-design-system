@@ -11,6 +11,10 @@
         helper.closePanel(cmp);
     },
 
+    handleEditResource: function (cmp, event, helper) {
+        helper.handleEditResource(cmp, event.detail);
+    },
+
     setPropertyEditorTitle: function (cmp, event, helper) {
         // panelInstance is set once the panel has been created.
         // It may not be set yet when we receive the setpropertyeditortitle event.

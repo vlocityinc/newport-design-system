@@ -148,7 +148,8 @@ const getAttributes = (mode) => ({
             error: null
         }
     },
-    nodeUpdate: jest.fn()
+    nodeUpdate: jest.fn(),
+    editResourceCallback: jest.fn()
 });
 
 describe('builderUtils', () => {
@@ -158,6 +159,10 @@ describe('builderUtils', () => {
             test('Edit mode', () => {
                 const actualResult = getPropertyEditorConfig(EDIT_MODE, getAttributes(EDIT_MODE));
                 expect(actualResult).toHaveProperty(modePropertyNestedPath, EDIT_MODE);
+            });
+            test('Edit mode w editResourceCallback', () => {
+                const actualResult = getPropertyEditorConfig(EDIT_MODE, getAttributes(EDIT_MODE));
+                expect(actualResult.attr).toHaveProperty('editResourceCallback');
             });
             test('Add mode', () => {
                 const actualResult = getPropertyEditorConfig(ADD_MODE, getAttributes(ADD_MODE));
