@@ -14,9 +14,10 @@
 
 .nds-action {
     .nds-action_item {
-        display: table;
+        display: inline-block;
         color: inherit;
         min-height: 1.7rem;
+        vertical-align: middle;
     }
     .nds-action_inline {
         display: inline-block;
@@ -26,9 +27,12 @@
         vertical-align: middle;
     }
     .nds-action_text {
-        font-size: $font-size-text-medium;
+        font-size: inherit;
         display: table-cell;
         color: inherit;
         vertical-align: middle;
+    }
+    .menu-item-label {
+        width: 100%;
     }
 }
