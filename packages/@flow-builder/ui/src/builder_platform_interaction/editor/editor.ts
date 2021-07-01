@@ -390,7 +390,6 @@ export default class Editor extends LightningElement {
     requiredVariablesLoading = false;
 
     supportedElements = [];
-    supportedActions = [];
 
     flowInitDefinitionId;
 
@@ -603,7 +602,7 @@ export default class Editor extends LightningElement {
     }
 
     get toolboxElements() {
-        return [...this.supportedElements, ...this.supportedActions];
+        return [...this.supportedElements];
     }
 
     get headerConfig() {
@@ -740,19 +739,13 @@ export default class Editor extends LightningElement {
             });
             let palettePromise;
             if (flowProcessTypeChanged) {
-                const {
-                    loadActionsPromise,
-                    loadPeripheralMetadataPromise,
-                    loadPalettePromise
-                } = loadOnProcessTypeChange(flowProcessType, flowTriggerType, flowRecordTriggerType, definitionId);
+                const { loadPeripheralMetadataPromise, loadPalettePromise } = loadOnProcessTypeChange(
+                    flowProcessType,
+                    flowTriggerType,
+                    flowRecordTriggerType,
+                    definitionId
+                );
                 this.propertyEditorBlockerCalls.push(loadPeripheralMetadataPromise);
-
-                loadActionsPromise.then(() => {
-                    const actions = getInvocableActions();
-                    if (actions) {
-                        this.supportedActions = actions;
-                    }
-                });
 
                 palettePromise = loadPalettePromise.then((data) => {
                     this.palette = data;

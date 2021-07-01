@@ -74,7 +74,7 @@ git clone git@git.soma.salesforce.com:automation-platform/ui-interaction-builder
     If you have any auth errors here, make sure the file `~/.m2/settings.xml` has your valid nexus tokens.
     If you don't have a `~/.m2/settings.xml` see this setting up maven doc: https://git.soma.salesforce.com/modularization-team/maven-settings/blob/master/QuickStart.md or this one here: https://git.soma.salesforce.com/modularization-team/maven-settings
 
-9.  Run this watch command so that when you modify files, they are picked up by core:
+9.  Run this watch command so that when you modify files, they are picked up by core (for best results picking up changes, run the app in an incognito browser):
 
 ```sh
  yarn watch:core
@@ -114,7 +114,7 @@ When doing development you need to configure core and point it to where you clon
 -->
 ```
 
-3.  Add the following properties to the `<properties>` node if they are not already present.
+3.  Add the following properties to the `<properties>` node if they are not already present, substituting your actual branch number, e.g., 234, for <CURRENT_RELEASE_NUMBER>.
     `<properties>` node is under `<workspace>` node.
 
     ```xml
@@ -122,7 +122,7 @@ When doing development you need to configure core and point it to where you clon
         <repository.system.validation>DISABLED</repository.system.validation>
         <modularity.enforcer.disabled>true</modularity.enforcer.disabled>
         <skipJsDoc>true</skipJsDoc>
-        <ui-interaction-builder-components.version>`CURRENT_RELEASE_NUMBER`-SNAPSHOT</ui-interaction-builder-components.version>
+        <ui-interaction-builder-components.version><CURRENT_RELEASE_NUMBER>-SNAPSHOT</ui-interaction-builder-components.version>
       </properties>
     ```
 
@@ -147,7 +147,7 @@ When doing development you need to configure core and point it to where you clon
           <repository.system.validation>DISABLED</repository.system.validation>
           <modularity.enforcer.disabled>true</modularity.enforcer.disabled>
           <skipJsDoc>true</skipJsDoc>
-          <ui-interaction-builder-components.version>`CURRENT_RELEASE_NUMBER`-SNAPSHOT</ui-interaction-builder-components.version>
+          <ui-interaction-builder-components.version>234-SNAPSHOT</ui-interaction-builder-components.version>
       </properties>
   </workspace>
 ```

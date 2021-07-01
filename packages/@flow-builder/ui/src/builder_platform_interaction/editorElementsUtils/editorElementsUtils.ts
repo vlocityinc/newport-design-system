@@ -47,12 +47,15 @@ const mutateElements = (elements, palette) =>
                                 iconName,
                                 dragImageSrc,
                                 iconBackgroundColor,
-                                description,
                                 iconShape,
                                 iconSize,
                                 dynamicNodeComponent,
                                 dynamicNodeComponentSelector
                             } = nodeConfig;
+
+                            // Favor using the description supplied by the element if it exists, otherwise
+                            // fall back to the default description.
+                            const description = element.description || nodeConfig.description;
 
                             if (!acc[headerLabel]) {
                                 acc[headerLabel] = [];
