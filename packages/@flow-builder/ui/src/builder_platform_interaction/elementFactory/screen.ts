@@ -223,7 +223,16 @@ export function createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(sc
  */
 export function createScreenWithFieldReferences(screen = {}) {
     const newScreen = createScreenElement(screen);
-    const { fields = [], nextOrFinishLabel, allowFinish, backLabel, allowBack, pauseLabel, allowPause } = screen;
+    const {
+        fields = [],
+        nextOrFinishButtonLabel: nextOrFinishLabel,
+        allowFinish,
+        backButtonLabel: backLabel,
+        allowBack,
+        pauseButtonLabel: pauseLabel,
+        allowPause
+    } = screen;
+
     const nextOrFinishLabelType = allowFinish
         ? nextOrFinishLabel
             ? FOOTER_LABEL_TYPE.CUSTOM
@@ -309,18 +318,20 @@ export function createScreenMetadataObject(screen, config = {}) {
         pausedText,
         showFooter,
         showHeader,
+        nextOrFinishLabel,
+        pauseLabel,
+        backLabel,
         nextOrFinishLabelType,
         pauseLabelType,
         backLabelType
     } = screen;
-    let { nextOrFinishLabel, pauseLabel, backLabel } = screen;
     const allowFinish = nextOrFinishLabelType !== FOOTER_LABEL_TYPE.HIDE;
-    nextOrFinishLabel =
+    const nextOrFinishButtonLabel =
         nextOrFinishLabelType === FOOTER_LABEL_TYPE.CUSTOM && nextOrFinishLabel ? nextOrFinishLabel : null;
     const allowPause = pauseLabelType !== FOOTER_LABEL_TYPE.HIDE;
-    pauseLabel = pauseLabelType === FOOTER_LABEL_TYPE.CUSTOM && pauseLabel ? pauseLabel : null;
+    const pauseButtonLabel = pauseLabelType === FOOTER_LABEL_TYPE.CUSTOM && pauseLabel ? pauseLabel : null;
     const allowBack = backLabelType !== FOOTER_LABEL_TYPE.HIDE;
-    backLabel = backLabelType === FOOTER_LABEL_TYPE.CUSTOM && backLabel ? backLabel : null;
+    const backButtonLabel = backLabelType === FOOTER_LABEL_TYPE.CUSTOM && backLabel ? backLabel : null;
 
     let { fields = [] } = screen;
     const { childReferences } = screen;
@@ -339,9 +350,9 @@ export function createScreenMetadataObject(screen, config = {}) {
         pausedText,
         showFooter,
         showHeader,
-        nextOrFinishLabel,
-        pauseLabel,
-        backLabel
+        nextOrFinishButtonLabel,
+        pauseButtonLabel,
+        backButtonLabel
     });
 }
 

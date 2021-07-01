@@ -359,18 +359,18 @@ describe('screen', () => {
                 expect(screen.allowFinish).toEqual(false);
                 expect(screen.allowPause).toEqual(false);
                 expect(screen.allowBack).toEqual(false);
-                expect(screen.nextOrFinishLabel).toBeNull();
-                expect(screen.pauseLabel).toBeNull();
-                expect(screen.backLabel).toBeNull();
+                expect(screen.nextOrFinishButtonLabel).toBeNull();
+                expect(screen.pauseButtonLabel).toBeNull();
+                expect(screen.backButtonLabel).toBeNull();
             });
             it('if footer label type is standard, footer label should be null, and allow label should be true', () => {
                 screenFromStore.nextOrFinishLabelType = FOOTER_LABEL_TYPE.STANDARD;
                 screenFromStore.pauseLabelType = FOOTER_LABEL_TYPE.STANDARD;
                 screenFromStore.backLabelType = FOOTER_LABEL_TYPE.STANDARD;
                 const screen = createScreenMetadataObject(screenFromStore);
-                expect(screen.nextOrFinishLabel).toBeNull();
-                expect(screen.pauseLabel).toBeNull();
-                expect(screen.backLabel).toBeNull();
+                expect(screen.nextOrFinishButtonLabel).toBeNull();
+                expect(screen.pauseButtonLabel).toBeNull();
+                expect(screen.backButtonLabel).toBeNull();
                 expect(screen.allowFinish).toEqual(true);
                 expect(screen.allowPause).toEqual(true);
                 expect(screen.allowBack).toEqual(true);
@@ -380,9 +380,9 @@ describe('screen', () => {
                 screenFromStore.pauseLabelType = FOOTER_LABEL_TYPE.CUSTOM;
                 screenFromStore.backLabelType = FOOTER_LABEL_TYPE.CUSTOM;
                 const screen = createScreenMetadataObject(screenFromStore);
-                expect(screen.nextOrFinishLabel).toEqual('testNextOrFinish');
-                expect(screen.pauseLabel).toEqual('testPause');
-                expect(screen.backLabel).toEqual('testBack');
+                expect(screen.nextOrFinishButtonLabel).toEqual('testNextOrFinish');
+                expect(screen.pauseButtonLabel).toEqual('testPause');
+                expect(screen.backButtonLabel).toEqual('testBack');
                 expect(screen.allowFinish).toEqual(true);
                 expect(screen.allowPause).toEqual(true);
                 expect(screen.allowBack).toEqual(true);
@@ -432,11 +432,11 @@ describe('screen', () => {
         describe('custom footer labels', () => {
             it('creates correct footer label type when allow is true and label is present', () => {
                 screenFromFlow.allowFinish = true;
-                screenFromFlow.nextOrFinishLabel = 'testFinishLabel';
+                screenFromFlow.nextOrFinishButtonLabel = 'testFinishLabel';
                 screenFromFlow.allowBack = true;
-                screenFromFlow.backLabel = 'testBackLabel';
+                screenFromFlow.backButtonLabel = 'testBackLabel';
                 screenFromFlow.allowPause = true;
-                screenFromFlow.pauseLabel = 'testPauseLabel';
+                screenFromFlow.pauseButtonLabel = 'testPauseLabel';
                 const result = createScreenWithFieldReferences(screenFromFlow);
                 const screen = result.elements[existingScreenGuid];
                 expect(screen.nextOrFinishLabelType).toEqual(FOOTER_LABEL_TYPE.CUSTOM);
@@ -448,11 +448,11 @@ describe('screen', () => {
             });
             it('creates correct footer label type when allow is false and label is present', () => {
                 screenFromFlow.allowFinish = false;
-                screenFromFlow.nextOrFinishLabel = 'testFinishLabel';
+                screenFromFlow.nextOrFinishButtonLabel = 'testFinishLabel';
                 screenFromFlow.allowBack = false;
-                screenFromFlow.backLabel = 'testBackLabel';
+                screenFromFlow.backButtonLabel = 'testBackLabel';
                 screenFromFlow.allowPause = false;
-                screenFromFlow.pauseLabel = 'testPauseLabel';
+                screenFromFlow.pauseButtonLabel = 'testPauseLabel';
                 const result = createScreenWithFieldReferences(screenFromFlow);
                 const screen = result.elements[existingScreenGuid];
                 expect(screen.nextOrFinishLabelType).toEqual(FOOTER_LABEL_TYPE.HIDE);
@@ -461,11 +461,11 @@ describe('screen', () => {
             });
             it('creates correct footer label type when allow is true and label is not present', () => {
                 screenFromFlow.allowFinish = true;
-                screenFromFlow.nextOrFinishLabel = null;
+                screenFromFlow.nextOrFinishButtonLabel = null;
                 screenFromFlow.allowBack = true;
-                screenFromFlow.backLabel = null;
+                screenFromFlow.backButtonLabel = null;
                 screenFromFlow.allowPause = true;
-                screenFromFlow.pauseLabel = null;
+                screenFromFlow.pauseButtonLabel = null;
                 const result = createScreenWithFieldReferences(screenFromFlow);
                 const screen = result.elements[existingScreenGuid];
                 expect(screen.nextOrFinishLabelType).toEqual(FOOTER_LABEL_TYPE.STANDARD);
