@@ -17,4 +17,15 @@
             <span>{helpText}</span>
         </div>
     </div>
+    <div class="slds-border_top" if:true={inputObjectType}>
+        <builder_platform_interaction-map-items
+            map-items={mapElement.mapItems}
+            output-object-type={outputObjectType}
+            input-object-type={inputObjectType}
+            record-fields={outputFields}
+            onaddrecordfieldassignment={handleMapItemChanged}
+            onupdaterecordfieldassignment={handleMapItemChanged}
+            ondeleterecordfieldassignment={handleMapItemChanged}
+        ></builder_platform_interaction-map-items>
+    </div>
 </template>

@@ -64,7 +64,8 @@ const filterInformationProviderMap = {
     [ELEMENT_TYPE.STAGE_STEP]: () => writableOrReadableElement(),
     [ELEMENT_TYPE.WAIT]: ({ shouldBeWritable }) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.SCREEN]: ({ shouldBeWritable, dataType, choices, staticChoiceGuids }) =>
-        screenSelectors(shouldBeWritable, choices, staticChoiceGuids, dataType)
+        screenSelectors(shouldBeWritable, choices, staticChoiceGuids, dataType),
+    [ELEMENT_TYPE.COLLECTION_PROCESSOR]: ({ shouldBeWritable }) => writableOrReadableElement(shouldBeWritable)
 };
 
 const CLUD_ELEMENT_TYPES = [

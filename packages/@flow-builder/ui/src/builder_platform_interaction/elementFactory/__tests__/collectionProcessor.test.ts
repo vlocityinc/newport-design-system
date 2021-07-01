@@ -71,16 +71,18 @@ const testMapCollectionProcessorElement = {
         isSelected: false
     },
     connectorCount: 0,
-    assignmentItems: [
+    mapItems: [
         {
-            leftHandSide: 'foo',
+            leftHandSide: 'Recommendation.foo',
             operator: 'Equals',
             rightHandSide: 'bar',
             rightHandSideDataType: 'String',
             rowIndex: 'testGUID'
         }
     ],
-    collectionReference: 'collectionRef'
+    collectionReference: 'collectionRef',
+    currentValueFromCollection: 'vVariable',
+    outputTable: 'Recommendation'
 };
 
 const testMapCollectionProcessorMetadataElement = {
@@ -89,9 +91,9 @@ const testMapCollectionProcessorMetadataElement = {
     label: 'collectionProcessor1label',
     locationX: 10,
     locationY: 10,
-    assignmentItems: [
+    mapItems: [
         {
-            assignToReference: 'foo',
+            targetField: 'foo',
             operator: 'Equals',
             value: {
                 stringValue: 'bar'
@@ -99,7 +101,9 @@ const testMapCollectionProcessorMetadataElement = {
         }
     ],
     collectionReference: 'collectionRef',
-    collectionProcessorType: COLLECTION_PROCESSOR_SUB_TYPE.MAP
+    collectionProcessorType: COLLECTION_PROCESSOR_SUB_TYPE.MAP,
+    currentValueFromCollection: 'vVariable',
+    outputTable: 'Recommendation'
 };
 
 jest.mock('builder_platform_interaction/storeLib', () => {

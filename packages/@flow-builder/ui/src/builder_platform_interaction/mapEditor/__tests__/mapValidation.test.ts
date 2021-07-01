@@ -26,7 +26,10 @@ const validate = (node) => {
 
 const validMapNode = () => ({
     collectionReference: { value: store.accountSObjectCollectionVariable.guid, error: null },
-    assignmentItems: []
+    mapItems: [],
+    currentValueFromCollection: { value: store.contactSObjectVariable.name, error: null },
+    outputTable: { value: 'Contact', error: null },
+    storeOutputAutomatically: true
 });
 
 describe('Map Validation', () => {
@@ -69,4 +72,5 @@ describe('Map Validation', () => {
             expect(errors[0].errorString).toBe(LABELS.enterValidValue);
         });
     });
+    // TODO: will add more tests in next PR
 });

@@ -18,19 +18,33 @@ commonUtils.format = jest
 
 const defaultEmptyElementInfo = {
     collectionReference: { value: null, error: null },
-    assignmentItems: []
+    currentValueFromCollection: { value: null, error: null },
+    mapItems: [],
+    outputTable: { value: '', error: null },
+    storeOutputAutomatically: true
 };
 
 const testElementInfoWithSObjectCollection = {
     collectionReference: { value: store.accountSObjectCollectionVariable.guid, error: null },
-    assignmentItems: []
+    currentValueFromCollection: { value: store.contactSObjectVariable.name, error: null },
+    mapItems: [
+        {
+            leftHandSide: { value: 'Contact.Description', error: null },
+            rightHandSide: { value: 'This is my description', error: null },
+            rightHandSideDataType: { value: 'String', error: null },
+            operator: { value: 'Assign', error: null },
+            rowIndex: 'MapItem_1'
+        }
+    ],
+    outputTable: { value: 'Contact', error: null },
+    storeOutputAutomatically: true
 };
 
-const createComponentUnderTest = ({ elementInfo = defaultEmptyElementInfo } = {}) => {
+const createComponentUnderTest = (props?: {}) => {
     const el = createElement('builder_platform_interaction-map-editor', {
         is: MapEditor
     });
-    Object.assign(el, { elementInfo });
+    Object.assign(el, props);
     setDocumentBodyChildren(el);
     return el;
 };
@@ -57,6 +71,9 @@ const getCombobox = (inputCollection) => {
 
 const getHelpText = (mapEditor) => mapEditor.shadowRoot.querySelector('.helpText');
 
+const getMapItems = (mapEditor) =>
+    mapEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_INPUT_OUTPUT_ASSIGNMENTS);
+
 const GROUP_LABELS = {
     APEX_COLLECTION_VARIABLES: 'FLOWBUILDERELEMENTCONFIG.APEXCOLLECTIONVARIABLEPLURALLABEL',
     COLLECTION_VARIABLES: 'FLOWBUILDERELEMENTCONFIG.COLLECTIONVARIABLEPLURALLABEL',
@@ -75,7 +92,7 @@ describe('map-editor', () => {
     describe('new map mode', () => {
         let mapEditor, inputCollection;
         beforeEach(() => {
-            mapEditor = createComponentUnderTest();
+            mapEditor = createComponentUnderTest({ elementInfo: defaultEmptyElementInfo });
             inputCollection = getInputCollection(mapEditor);
         });
         it('should not be null', () => {
@@ -108,6 +125,10 @@ describe('map-editor', () => {
                 )
             ).toBeUndefined();
         });
+        it('should not contain map items', () => {
+            const mapItems = getMapItems(mapEditor);
+            expect(mapItems).toBeNull();
+        });
     });
     describe('edit map mode', () => {
         describe('SObject Collection', () => {
@@ -129,7 +150,9 @@ describe('map-editor', () => {
             it('should have helpText', () => {
                 const helpText = getHelpText(mapEditor);
                 expect(helpText).not.toBeNull();
-                expect(helpText.textContent).toBe('FlowBuilderMapEditor.newCollection(Recommendation)');
+                expect(helpText.textContent).toBe(
+                    'FlowBuilderMapEditor.newCollection(' + testElementInfoWithSObjectCollection.outputTable.value + ')'
+                );
             });
         });
         describe('handling events', () => {
@@ -149,16 +172,9 @@ describe('map-editor', () => {
                     inputCollection.dispatchEvent(valueChangedEvent);
                     await ticks(1);
                     expect(eventCallback).toHaveBeenCalled();
-                    expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                        detail: {
-                            element: {
-                                collectionReference: { value: store.caseSObjectCollectionVariable.guid, error: null },
-                                assignmentItems: []
-                            }
-                        }
-                    });
                 });
             });
         });
+        // TODO: will add more tests in next PR
     });
 });

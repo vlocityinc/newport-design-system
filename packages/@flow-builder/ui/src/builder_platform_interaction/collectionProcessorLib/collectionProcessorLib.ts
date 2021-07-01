@@ -2,6 +2,7 @@ import { SORT_COMPATIBLE_TYPES } from 'builder_platform_interaction/sortEditorLi
 import { MAP_COMPATIBLE_TYPES } from 'builder_platform_interaction/mapEditorLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { Store } from 'builder_platform_interaction/storeLib';
 
 export type CollectionProcessorFilter = ({ sortable, mappable }: { sortable: boolean; mappable: boolean }) => boolean;
 
@@ -52,4 +53,22 @@ export const sortableFilter = (element) => {
  */
 export const mappableFilter = (element) => {
     return collectionProcessorFilter(element, MAP_COMPATIBLE_TYPES);
+};
+
+/**
+ * Get the container of current item variable in collection
+ *
+ * @param element element
+ * @returns the container editor element
+ */
+export const getContainerOfCurrentItemVariableInCollection = (element) => {
+    if (element.elementType === ELEMENT_TYPE.VARIABLE) {
+        const elements = Store.getStore().getCurrentState().elements;
+        return Object.values(elements).find(
+            (value) =>
+                value.elementType === ELEMENT_TYPE.COLLECTION_PROCESSOR &&
+                (value as any).currentValueFromCollection === element.name
+        );
+    }
+    return null;
 };

@@ -112,6 +112,7 @@
             "builder_platform_interaction/manuallyAssignVariablesCheckbox": ["./src/builder_platform_interaction/manuallyAssignVariablesCheckbox/manuallyAssignVariablesCheckbox.ts"],
             "builder_platform_interaction/mapEditor": ["./src/builder_platform_interaction/mapEditor/mapEditor.ts"],
             "builder_platform_interaction/mapEditorLib": ["./src/builder_platform_interaction/mapEditorLib/mapEditorLib.ts"],
+            "builder_platform_interaction/mapItems": ["./src/builder_platform_interaction/mapItems/mapItems.ts"],
             "builder_platform_interaction/marqueeSelectionBox": ["./src/builder_platform_interaction/marqueeSelectionBox/marqueeSelectionBox.ts"],
             "builder_platform_interaction/mergeFieldLib": ["./src/builder_platform_interaction/mergeFieldLib/mergeFieldLib.ts"],
             "builder_platform_interaction/metadataUtils": ["./src/builder_platform_interaction/metadataUtils/metadataUtils.ts"],

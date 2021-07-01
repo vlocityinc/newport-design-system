@@ -1,5 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
-import { ELEMENT_TYPE, COLLECTION_PROCESSOR_SUB_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { UpdateNodeEvent } from 'builder_platform_interaction/events';
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 import { collectionProcessorReducer } from './collectionProcessorReducer';
@@ -30,9 +30,6 @@ export default class CollectionProcessorEditor extends LightningElement {
 
     @api
     configurationEditor;
-
-    @api
-    configurationEditorValues;
 
     @api
     hasConfigurationEditor;
@@ -90,14 +87,37 @@ export default class CollectionProcessorEditor extends LightningElement {
         const {
             limit,
             collectionReference,
+            currentValueFromCollection,
+            outputTable,
+            storeOutputAutomatically,
+            elementType,
             elementSubtype,
             sortOptions,
-            assignmentItems
+            mapItems
         } = this.collectionProcessorElement;
         this.elementInfo = Object.assign(
             {},
-            { limit, collectionReference, elementSubtype, sortOptions, assignmentItems }
+            {
+                limit,
+                collectionReference,
+                elementType,
+                elementSubtype,
+                sortOptions,
+                mapItems,
+                currentValueFromCollection,
+                outputTable,
+                storeOutputAutomatically
+            }
         );
+    }
+
+    get configurationEditorValues() {
+        return [
+            {
+                name: 'nodeName',
+                value: this.collectionProcessorElement.name && this.collectionProcessorElement.name.value
+            }
+        ];
     }
 
     /**

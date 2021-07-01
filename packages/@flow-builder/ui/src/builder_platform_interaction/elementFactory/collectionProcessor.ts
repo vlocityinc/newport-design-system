@@ -6,9 +6,9 @@ import {
 } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createConnectorObjects } from './connector';
-import { createAssignmentItem, createAssignmentItemMetadataObject } from './assignment';
 import { COLLECTION_PROCESSOR_SUB_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { createSortOption, createSortOptionMetadataObject } from './sortOption';
+import { createMapItem, createMapItemMetadataObject } from './mapItem';
 
 const elementType = ELEMENT_TYPE.COLLECTION_PROCESSOR;
 const maxConnections = 1;
@@ -40,8 +40,13 @@ function createCollectionProcessorItem(collectionProcessor) {
     const collectionProcessorType = collectionProcessor.collectionProcessorType
         ? collectionProcessor.collectionProcessorType
         : collectionProcessor.elementSubtype;
-    const { collectionReference = null } = collectionProcessor;
-    let { sortOptions = null, assignmentItems = null } = collectionProcessor;
+    const {
+        collectionReference = null,
+        currentValueFromCollection = null,
+        outputTable = null,
+        storeOutputAutomatically = true
+    } = collectionProcessor;
+    let { sortOptions = null, mapItems = null } = collectionProcessor;
     const cpItem = {
         collectionReference,
         collectionProcessorType,
@@ -61,12 +66,17 @@ function createCollectionProcessorItem(collectionProcessor) {
         }
         case COLLECTION_PROCESSOR_SUB_TYPE.MAP: {
             // create new assignment items
-            if (assignmentItems && assignmentItems.length > 0) {
-                assignmentItems = assignmentItems.map((assignmentItem) => createAssignmentItem(assignmentItem));
+            if (mapItems && mapItems.length > 0) {
+                mapItems = mapItems.map((mapItem) => createMapItem(mapItem, outputTable));
             } else {
-                assignmentItems = [];
+                mapItems = [];
             }
-            return Object.assign(cpItem, { assignmentItems });
+            return Object.assign(cpItem, {
+                mapItems,
+                currentValueFromCollection,
+                outputTable,
+                storeOutputAutomatically
+            });
         }
         default:
             return cpItem;
@@ -156,9 +166,16 @@ export function createCollectionProcessorMetadataObject(collectionProcessor, con
  * @returns {Object} collection processor metadata object
  */
 function createCollectionProcessorItemMetadataObject(collectionProcessor) {
-    const { collectionReference = null, collectionProcessorType, limit = null } = collectionProcessor;
+    const {
+        collectionReference = null,
+        collectionProcessorType,
+        limit = null,
+        currentValueFromCollection = null,
+        outputTable = null,
+        storeOutputAutomatically = true
+    } = collectionProcessor;
     const cpItemMd = { collectionReference, collectionProcessorType, limit };
-    let { sortOptions = null, assignmentItems = null } = collectionProcessor;
+    let { sortOptions = null, mapItems = null } = collectionProcessor;
     switch (collectionProcessorType) {
         case COLLECTION_PROCESSOR_SUB_TYPE.SORT: {
             if (sortOptions && sortOptions.length > 0) {
@@ -170,14 +187,17 @@ function createCollectionProcessorItemMetadataObject(collectionProcessor) {
             return Object.assign(cpItemMd, { sortOptions });
         }
         case COLLECTION_PROCESSOR_SUB_TYPE.MAP: {
-            if (assignmentItems && assignmentItems.length > 0) {
-                assignmentItems = assignmentItems.map((assignmentItem) =>
-                    createAssignmentItemMetadataObject(assignmentItem)
-                );
+            if (mapItems && mapItems.length > 0) {
+                mapItems = mapItems.map((mapItem) => createMapItemMetadataObject(mapItem));
             } else {
-                assignmentItems = [];
+                mapItems = [];
             }
-            return Object.assign(cpItemMd, { assignmentItems });
+            return Object.assign(cpItemMd, {
+                mapItems,
+                currentValueFromCollection,
+                outputTable,
+                storeOutputAutomatically
+            });
         }
         default:
             return cpItemMd;

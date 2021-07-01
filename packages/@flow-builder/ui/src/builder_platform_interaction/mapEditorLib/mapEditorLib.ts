@@ -5,7 +5,10 @@ export const MAP_COMPATIBLE_TYPES = [FLOW_DATA_TYPE.SOBJECT.value];
 
 export interface MapElement {
     collectionReference: { value: string | null; error: string | null };
-    assignmentItems: any[];
+    currentValueFromCollection: { value: string | null; error: string | null };
+    outputTable: { value: string | null; error: string | null };
+    mapItems: [];
+    storeOutputAutomatically: true;
 }
 
 export const getUniqueElementName = (name): string => {
@@ -23,3 +26,7 @@ export const devNameToGuid = (devName): string | undefined => {
     }
     return undefined;
 };
+
+export const DEFAULT_CURRENT_ITEM_VARIABLE = 'currentItemFromCollection';
+export const DEFAULT_CURRENT_ITEM_VARIABLE_PREFIX = 'currentItem_';
+export const DEFAULT_OUTPUT_TYPE = 'Recommendation';

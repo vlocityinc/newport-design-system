@@ -7,7 +7,10 @@ describe('map-reducer', () => {
     beforeEach(() => {
         originalState = {
             collectionReference: { value: store.accountSObjectCollectionVariable.guid, error: null },
-            assignmentItems: []
+            mapItems: [],
+            currentValueFromCollection: { value: store.contactSObjectVariable.name, error: null },
+            outputTable: { value: 'Contact', error: null },
+            storeOutputAutomatically: true
         };
     });
 
@@ -37,4 +40,5 @@ describe('map-reducer', () => {
             expect(newState.collectionReference.error).toEqual(event.detail.error);
         });
     });
+    // TODO: will add more tests in next PR
 });
