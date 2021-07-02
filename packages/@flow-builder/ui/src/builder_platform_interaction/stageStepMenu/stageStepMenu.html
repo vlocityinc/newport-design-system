@@ -22,12 +22,7 @@
                 <span>{labels.automaticSubsectionHeader}</span>
             </li>
             <div>
-                <li
-                    class="slds-listbox__item"
-                    action="orchestratorAutolaunchedFlow"
-                    role="presentation"
-                    onclick={handleAddStageStep}
-                >
+                <li class="slds-listbox__item" action="stepBackground" role="presentation" onclick={handleAddStageStep}>
                     <div
                         class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
                         role="option"
@@ -58,7 +53,12 @@
                 <span>{labels.userInteractionSubsectionHeader}</span>
             </li>
             <div>
-                <li class="slds-listbox__item" action="createWorkItem" role="presentation" onclick={handleAddStageStep}>
+                <li
+                    class="slds-listbox__item"
+                    action="stepInteractive"
+                    role="presentation"
+                    onclick={handleAddStageStep}
+                >
                     <div
                         class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
                         role="option"
