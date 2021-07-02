@@ -31,6 +31,8 @@ export default class RecordFilter extends LightningElement {
 
     @track entityName = '';
 
+    @track _rules;
+
     @api
     elementType;
 
@@ -62,14 +64,12 @@ export default class RecordFilter extends LightningElement {
     title: string | undefined;
 
     @api
-    updateOperatorList() {
-        this.template
-            .querySelector('builder_platform_interaction-field-to-ferov-expression-builder')
-            ?.updateOperatorList();
+    updateRules() {
+        this._rules = this.elementType ? getRulesForElementType(RULE_TYPES.COMPARISON, this.elementType) : undefined;
     }
 
     get rules() {
-        return this.elementType ? getRulesForElementType(RULE_TYPES.COMPARISON, this.elementType) : undefined;
+        return this._rules;
     }
 
     /**
@@ -254,5 +254,9 @@ export default class RecordFilter extends LightningElement {
         event.stopPropagation();
         const propertyChangedEvent = new PropertyChangedEvent('filterLogic', event.detail.value);
         this.dispatchEvent(propertyChangedEvent);
+    }
+
+    connectedCallback() {
+        this.updateRules();
     }
 }

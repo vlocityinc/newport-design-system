@@ -47,11 +47,6 @@ export default class FieldToFerovExpressionBuilder extends LightningElement {
     @api
     defaultOperator;
 
-    @api
-    updateOperatorList() {
-        this.template.querySelector('builder_platform_interaction-base-expression-builder')?.updateOperatorList();
-    }
-
     /**
      * True if operator combobox should be hidden
      */

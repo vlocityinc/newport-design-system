@@ -87,17 +87,12 @@ export default class BaseExpressionBuilder extends LightningElement {
         rhsRenderIncrementally: false
     };
 
-    @api
-    updateOperatorList() {
-        this.setOperatorMenuData(true);
-    }
-
     /**
      * @param {Object[]} rules  Rules to use when fetching menudata
      */
     set rules(rules) {
         this._rules = rules;
-        this.setLhsMenuData();
+        this.setLhsMenuData(true);
     }
 
     @api
@@ -485,9 +480,11 @@ export default class BaseExpressionBuilder extends LightningElement {
 
     /**
      * Sets LHS menu data if all the necessary attributes have been initialized
+     *
+     * @param forceUpdate
      */
-    setLhsMenuData() {
-        this.setOperatorMenuData();
+    setLhsMenuData(forceUpdate = false) {
+        this.setOperatorMenuData(forceUpdate);
 
         if (
             !this.areAllDefined([

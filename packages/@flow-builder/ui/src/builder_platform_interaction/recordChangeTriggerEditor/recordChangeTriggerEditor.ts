@@ -430,7 +430,7 @@ export default class RecordChangeTriggerEditor extends LightningElement {
             this.handleTypeAfterSave();
         }
         await loadOperatorsAndRulesOnTriggerTypeChange(this.processType, this.triggerType, newTriggerTypeVal);
-        this.template.querySelector('builder_platform_interaction-record-filter')?.updateOperatorList();
+        this.template.querySelector('builder_platform_interaction-record-filter')?.updateRules();
     };
 
     /**
