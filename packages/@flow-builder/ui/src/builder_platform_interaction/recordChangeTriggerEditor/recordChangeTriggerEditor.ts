@@ -12,7 +12,8 @@ import {
     START_ELEMENT_FIELDS,
     SCHEDULED_PATH_TYPE,
     EXECUTE_OUTCOME_WHEN_OPTION_VALUES,
-    CONDITION_LOGIC
+    CONDITION_LOGIC,
+    FLOW_PROCESS_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import { loadOperatorsAndRulesOnTriggerTypeChange } from 'builder_platform_interaction/preloadLib';
 import { PropertyChangedEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
@@ -26,6 +27,7 @@ import {
     isRecordChangeTriggerType
 } from 'builder_platform_interaction/triggerTypeLib';
 import { FlowComparisonOperator } from 'builder_platform_interaction/flowMetadata';
+import { getProcessType } from 'builder_platform_interaction/storeUtils';
 
 const { BEFORE_SAVE, BEFORE_DELETE, AFTER_SAVE, SCHEDULED, SCHEDULED_JOURNEY } = FLOW_TRIGGER_TYPE;
 const { CREATE, UPDATE, CREATE_AND_UPDATE, DELETE } = FLOW_TRIGGER_SAVE_TYPE;
@@ -97,9 +99,16 @@ export default class RecordChangeTriggerEditor extends LightningElement {
             this.dispatchEvent(new UpdateNodeEvent(this.startElement));
         }
 
-        // Reopening existing elements should always validate
-        // This has to be done manually in every property editor
-        if (!newValue.isNew) {
+        // The problem with this is that recordchangetrigger is NEVER new, it's always
+        // an update when opening from the start menu.
+        //
+        // We need a way to indicate that this is the first time it is being opened
+        // and so no validation should be done versus this is a reopen and validation
+        // is needed
+        //
+        // Hardcoded to Orchestrator.  We'll need a holistic solution in the future
+        // TODO: W-9552528
+        if (!newValue.isNew && getProcessType() === FLOW_PROCESS_TYPE.ORCHESTRATOR) {
             this.validate();
         }
     }
@@ -355,6 +364,10 @@ export default class RecordChangeTriggerEditor extends LightningElement {
 
     get triggerSaveType() {
         return this._triggerSaveType;
+    }
+
+    get showChooseTriggerType() {
+        return getProcessType() !== FLOW_PROCESS_TYPE.ORCHESTRATOR;
     }
 
     /**

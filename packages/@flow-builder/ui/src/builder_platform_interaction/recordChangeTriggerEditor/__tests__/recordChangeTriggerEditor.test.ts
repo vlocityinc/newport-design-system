@@ -1,10 +1,17 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
-import { CONDITION_LOGIC, FLOW_TRIGGER_TYPE, FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    CONDITION_LOGIC,
+    FLOW_TRIGGER_TYPE,
+    FLOW_TRIGGER_SAVE_TYPE,
+    FLOW_PROCESS_TYPE
+} from 'builder_platform_interaction/flowMetadata';
 import { query, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import RecordChangeTriggerEditor from '../recordChangeTriggerEditor';
 import { UpdateNodeEvent } from 'builder_platform_interaction/events';
 import { mergeErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { getProcessType } from 'builder_platform_interaction/storeUtils';
+import { Validation } from 'builder_platform_interaction/validation';
 
 const { AFTER_SAVE, BEFORE_DELETE, BEFORE_SAVE } = FLOW_TRIGGER_TYPE;
 const { CREATE, UPDATE, DELETE } = FLOW_TRIGGER_SAVE_TYPE;
@@ -25,7 +32,8 @@ jest.mock('builder_platform_interaction/storeLib', () => require('builder_platfo
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
         getElementByGuid: jest.fn(),
-        isExecuteOnlyWhenChangeMatchesConditionsPossible: jest.fn().mockReturnValue(true)
+        isExecuteOnlyWhenChangeMatchesConditionsPossible: jest.fn().mockReturnValue(true),
+        getProcessType: jest.fn()
     };
 });
 
@@ -38,9 +46,28 @@ jest.mock('builder_platform_interaction/preloadLib', () => {
 jest.mock('builder_platform_interaction/dataMutationLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/dataMutationLib');
 
-    return Object.assign('', actual, {
-        mergeErrorsFromHydratedElement: jest.fn((e) => e)
+    return Object.assign({}, actual, {
+        mergeErrorsFromHydratedElement: jest.fn((e) => e),
+        getErrorsFromHydratedElement: jest.fn()
     });
+});
+
+jest.mock('builder_platform_interaction/validation', () => {
+    const mockValidateAll = jest.fn((state) => state);
+    const mockValidateProperty = jest.fn(() => {
+        return null;
+    });
+
+    const Validation = function () {
+        return {
+            validateAll: mockValidateAll,
+            validateProperty: mockValidateProperty
+        };
+    };
+
+    return {
+        Validation
+    };
 });
 
 function createComponentForTest(node) {
@@ -100,6 +127,25 @@ describe('record-change-trigger-editor', () => {
             startElementEditor.node = newNode;
 
             expect(mergeErrorsFromHydratedElement).toHaveBeenCalledWith(newNode, startElement);
+        });
+    });
+
+    describe('validation', () => {
+        it('is called for new node if ProcessType is Orchestrator', () => {
+            getProcessType.mockReturnValueOnce(FLOW_PROCESS_TYPE.ORCHESTRATOR);
+
+            const startElement = recordChangeTriggerElement(BEFORE_SAVE, CREATE);
+            createComponentForTest(startElement);
+
+            const validator = new Validation();
+            expect(validator.validateAll).toHaveBeenCalled();
+        });
+        it('is not called for new node for other process types', () => {
+            const startElement = recordChangeTriggerElement(BEFORE_SAVE, CREATE);
+            createComponentForTest(startElement);
+
+            const validator = new Validation();
+            expect(validator.validateAll).not.toHaveBeenCalled();
         });
     });
 
@@ -198,6 +244,29 @@ describe('record-change-trigger-editor', () => {
         // trigger type value and doesn't leave the start element in invalid state
         expect(element.node.recordTriggerType.value).toBe(CREATE);
         expect(element.node.triggerType.value).toBe(AFTER_SAVE);
+    });
+
+    describe('choose trigger type', () => {
+        it('is not shown for process type Orchestrator', async () => {
+            getProcessType.mockReturnValueOnce(FLOW_PROCESS_TYPE.ORCHESTRATOR);
+
+            const startElement = recordChangeTriggerElement(BEFORE_SAVE, CREATE);
+            const element = createComponentForTest(startElement);
+
+            await ticks(1);
+
+            const requireRecordChangeOptions = element.shadowRoot.querySelector(SELECTORS.REQUIRE_RECORD_CHANGE_OPTION);
+            expect(requireRecordChangeOptions).toBeNull();
+        });
+        it('is shown for other process types', async () => {
+            const startElement = recordChangeTriggerElement(BEFORE_SAVE, CREATE);
+            const element = createComponentForTest(startElement);
+
+            await ticks(1);
+
+            const requireRecordChangeOptions = element.shadowRoot.querySelector(SELECTORS.REQUIRE_RECORD_CHANGE_OPTION);
+            expect(requireRecordChangeOptions).not.toBeUndefined();
+        });
     });
 
     describe('UpdateNodeEvent', () => {
