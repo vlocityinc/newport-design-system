@@ -25,6 +25,7 @@ import { flowWithVariables } from './flows/flowWithVariables';
 import { flowWithAssignments } from './flows/flowWithAssignments';
 import { flowLegalNameChange } from './flows/flowLegalNameChange';
 import { flowCollectionServicesDemo } from './flows/flowCollectionServicesDemo';
+import { getLocalizationService } from 'lightning/configProvider';
 
 expect.extend(deepFindMatchers);
 expect.extend(goldObjectMatchers);
@@ -255,6 +256,7 @@ const getExpectedFlowMetadata = (uiFlow, flowFromMetadataAPI) => {
 
 describe('Flow Translator', () => {
     let store, uiFlow;
+    const localizationService = getLocalizationService();
 
     beforeEach(() => {
         store = Store.getStore(reducer);
@@ -263,6 +265,7 @@ describe('Flow Translator', () => {
     describe('Getting flow metadata, calling flow-to-ui translation and calling ui-to-flow', () => {
         SAMPLE_FLOWS.forEach((metadataFlow) => {
             it(`returns the same metadata for sample flow ${metadataFlow.fullName}`, () => {
+                localizationService.parseDateTimeUTC.mockReturnValue(new Date());
                 uiFlow = translateFlowToUIModel(metadataFlow);
                 expect(uiFlow).toHaveNoCommonMutableObjectWith(metadataFlow);
                 store.dispatch(updateFlow(uiFlow));

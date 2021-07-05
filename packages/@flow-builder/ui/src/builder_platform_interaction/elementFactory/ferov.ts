@@ -2,23 +2,21 @@
 import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 // import { mutateTextWithMergeFields } from './mergeFieldsMutation';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import { addCurlyBraces, splitStringBySeparator } from 'builder_platform_interaction/commonUtils';
+import { addCurlyBraces, splitStringBySeparator, isValidNumber } from 'builder_platform_interaction/commonUtils';
+import { isValidFormattedDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 
-// keys are the types we find in our ferov objects, values are flow builder ferov data types
-const META_DATA_TYPES_TO_FEROV_TYPES_MAP = {
-    stringValue: FEROV_DATA_TYPE.STRING,
-    numberValue: FEROV_DATA_TYPE.NUMBER,
-    dateValue: FEROV_DATA_TYPE.DATE,
-    dateTimeValue: FEROV_DATA_TYPE.DATETIME,
-    booleanValue: FEROV_DATA_TYPE.BOOLEAN,
-    elementReference: FEROV_DATA_TYPE.REFERENCE,
-    sobjectValue: FEROV_DATA_TYPE.SOBJECT,
-    apexValue: FEROV_DATA_TYPE.APEX
+// keys are flow builder ferov data types, values are the types we find in our ferov objects
+const FEROV_TYPES_TO_METADATA_KEYS = {
+    [FEROV_DATA_TYPE.STRING]: 'stringValue',
+    [FEROV_DATA_TYPE.NUMBER]: 'numberValue',
+    [FEROV_DATA_TYPE.DATE]: 'dateValue',
+    [FEROV_DATA_TYPE.DATETIME]: 'dateTimeValue',
+    [FEROV_DATA_TYPE.BOOLEAN]: 'booleanValue',
+    [FEROV_DATA_TYPE.REFERENCE]: 'elementReference',
+    [FEROV_DATA_TYPE.SOBJECT]: 'sobjectValue',
+    [FEROV_DATA_TYPE.APEX]: 'apexValue'
 };
-
-// the possible data types for the default value we find our FEROV obejcts
-const FEROV_DATA_TYPE_VALUES = Object.keys(META_DATA_TYPES_TO_FEROV_TYPES_MAP);
 
 // guid suffix to add to defaultValue when ferov object value is a reference
 export const GUID_SUFFIX = 'Guid';
@@ -30,7 +28,7 @@ export const GUID_SUFFIX = 'Guid';
  * @returns {boolean}    true if metaDataType is reference otherwise false
  */
 function isFerovReference(metaDataType) {
-    return META_DATA_TYPES_TO_FEROV_TYPES_MAP[metaDataType] === FEROV_DATA_TYPE.REFERENCE;
+    return FEROV_TYPES_TO_METADATA_KEYS[FEROV_DATA_TYPE.REFERENCE] === metaDataType;
 }
 
 /**
@@ -40,7 +38,7 @@ function isFerovReference(metaDataType) {
  * @returns {boolean}    true if metaDataType is boolean otherwise false
  */
 function isFerovBoolean(metaDataType) {
-    return META_DATA_TYPES_TO_FEROV_TYPES_MAP[metaDataType] === FEROV_DATA_TYPE.BOOLEAN;
+    return FEROV_TYPES_TO_METADATA_KEYS[FEROV_DATA_TYPE.BOOLEAN] === metaDataType;
 }
 
 /**
@@ -50,7 +48,7 @@ function isFerovBoolean(metaDataType) {
  * @returns {boolean}    true if metaDataType is string otherwise false
  */
 function isFerovString(metaDataType) {
-    return META_DATA_TYPES_TO_FEROV_TYPES_MAP[metaDataType] === FEROV_DATA_TYPE.STRING;
+    return FEROV_TYPES_TO_METADATA_KEYS[FEROV_DATA_TYPE.STRING] === metaDataType;
 }
 
 /**
@@ -60,7 +58,7 @@ function isFerovString(metaDataType) {
  * @returns {boolean}    true if metaDataType is reference otherwise false
  */
 function isFerovNumber(metaDataType) {
-    return META_DATA_TYPES_TO_FEROV_TYPES_MAP[metaDataType] === FEROV_DATA_TYPE.NUMBER;
+    return FEROV_TYPES_TO_METADATA_KEYS[FEROV_DATA_TYPE.NUMBER] === metaDataType;
 }
 
 /**
@@ -120,7 +118,7 @@ function getFerovObjectValue(ferovObject) {
  * @returns {string}     returns the metadataType
  */
 function getMetaDataType(ferovObject) {
-    return FEROV_DATA_TYPE_VALUES.find((type) => {
+    return Object.values(FEROV_TYPES_TO_METADATA_KEYS).find((type) => {
         return ferovObject.hasOwnProperty(type);
     });
 }
@@ -205,7 +203,9 @@ export const createFEROV = (ferovObject, valueProperty, dataTypeProperty) => {
 
         if (!isUndefined(value)) {
             const metadataType = getMetaDataType(ferovObject);
-            props[dataTypeProperty] = META_DATA_TYPES_TO_FEROV_TYPES_MAP[metadataType];
+            props[dataTypeProperty] = Object.keys(FEROV_TYPES_TO_METADATA_KEYS).find((type) => {
+                return metadataType === FEROV_TYPES_TO_METADATA_KEYS[type];
+            });
             if (isFerovBoolean(metadataType)) {
                 if (value === true) {
                     props[valueProperty] = GLOBAL_CONSTANTS.BOOLEAN_TRUE;
@@ -246,11 +246,12 @@ export const createFEROVMetadataObject = (element, valueProperty, dataTypeProper
         const valuePropertyGuid = valueProperty + GUID_SUFFIX;
 
         if (dataType && value !== '' && value !== undefined && value !== null) {
-            // find the data type key of the element object
+            // if the ferov is invalid for it's specified data type, we'll store it as the string value of the ferov
+            const stringDataTypeKey = FEROV_TYPES_TO_METADATA_KEYS[FEROV_DATA_TYPE.STRING];
             const ferovDataTypeValue = getFerovDataTypeValue(dataType);
-            const ferovDataTypeKey = FEROV_DATA_TYPE_VALUES.find((type) => {
-                return ferovDataTypeValue === META_DATA_TYPES_TO_FEROV_TYPES_MAP[type];
-            });
+
+            // determine where it will be stored in the ferov if it is valid
+            let ferovDataTypeKey = FEROV_TYPES_TO_METADATA_KEYS[ferovDataTypeValue];
 
             // set the value of the ferov to the given property or its guid on the element
             let ferovValue;
@@ -263,9 +264,30 @@ export const createFEROVMetadataObject = (element, valueProperty, dataTypeProper
                     ferovValue = true;
                 } else if (value === GLOBAL_CONSTANTS.BOOLEAN_FALSE || value === false) {
                     ferovValue = false;
+                } else {
+                    // if it isn't true or false it isn't a valid boolean, preserve the given value but store it as a string
+                    ferovValue = value;
+                    ferovDataTypeKey = stringDataTypeKey;
                 }
             } else {
-                ferovValue = element[valueProperty];
+                // validate that the value is valid for the given data type, if not we'll store it as a stringValue in the FEROV
+                switch (dataType) {
+                    case FLOW_DATA_TYPE.NUMBER.value:
+                    case FLOW_DATA_TYPE.CURRENCY.value:
+                        if (!isValidNumber(value)) {
+                            ferovDataTypeKey = stringDataTypeKey;
+                        }
+                        break;
+                    case FLOW_DATA_TYPE.DATE.value:
+                    case FLOW_DATA_TYPE.DATE_TIME.value:
+                        if (!isValidFormattedDateTime(value, dataType === FLOW_DATA_TYPE.DATE_TIME.value)) {
+                            ferovDataTypeKey = stringDataTypeKey;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                ferovValue = value;
             }
 
             ferovObject = Object.assign({}, { [ferovDataTypeKey]: ferovValue });
