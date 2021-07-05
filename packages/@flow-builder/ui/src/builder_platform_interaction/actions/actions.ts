@@ -11,8 +11,8 @@ export const UPDATE_PROPERTIES_AFTER_SAVING = 'UPDATE_PROPERTIES_AFTER_SAVING';
 export const UPDATE_PROPERTIES_AFTER_ACTIVATING = 'UPDATE_PROPERTIES_AFTER_ACTIVATING';
 export const UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE =
     'UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE';
-export const UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE =
-    'UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE';
+export const UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE_AND_TRIGGER_TYPE =
+    'UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE_AND_TRIGGER_TYPE';
 
 export const DO_DUPLICATE = 'DO_DUPLICATE';
 
@@ -185,8 +185,8 @@ export const updatePropertiesAfterCreatingFlowFromTemplate = (payload) =>
  * @param {Object} payload - contains new flow information
  * @returns {Object} action new action based on type and payload
  */
-export const updatePropertiesAfterCreatingFlowFromProcessType = (payload) =>
-    createAction(UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE, payload);
+export const updatePropertiesAfterCreatingFlowFromProcessTypeAndTriggerType = (payload) =>
+    createAction(UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE_AND_TRIGGER_TYPE, payload);
 
 /**
  * Action for duplicating canvas elements and connectors.

@@ -121,6 +121,9 @@ export default class StageStepEditor extends LightningElement {
     processType;
 
     @api
+    triggerType;
+
+    @api
     editorParams;
 
     constructor() {
@@ -566,7 +569,8 @@ export default class StageStepEditor extends LightningElement {
 
         try {
             const actions = await fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, {
-                flowProcessType: this.processType
+                flowProcessType: this.processType,
+                flowTriggerType: this.triggerType
             });
 
             this.displayActionSpinner = false;

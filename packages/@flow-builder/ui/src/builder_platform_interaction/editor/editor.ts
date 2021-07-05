@@ -42,14 +42,14 @@ import {
     UPDATE_APEX_CLASSES,
     UPDATE_ENTITIES,
     UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY,
-    UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE,
+    UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE_AND_TRIGGER_TYPE,
     UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE,
     updateElement,
     updateFlow,
     updateFlowOnCanvasModeToggle,
     updateIsAutoLayoutCanvasProperty,
     updatePropertiesAfterActivateButtonPress,
-    updatePropertiesAfterCreatingFlowFromProcessType,
+    updatePropertiesAfterCreatingFlowFromProcessTypeAndTriggerType,
     updatePropertiesAfterCreatingFlowFromTemplate,
     resetGoTos
 } from 'builder_platform_interaction/actions';
@@ -124,6 +124,7 @@ import {
     loadFieldsForComplexTypesInFlow,
     loadFieldsForExtensionsInFlowFromMetadata,
     loadOnProcessTypeChange,
+    loadOnTriggerTypeChange,
     loadOnStart,
     loadOperatorsAndRulesOnTriggerTypeChange,
     loadParametersForInvocableApexActionsInFlowFromMetadata,
@@ -507,7 +508,7 @@ export default class Editor extends LightningElement {
             UPDATE_APEX_CLASSES,
             ADD_START_ELEMENT,
             UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE,
-            UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE,
+            UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE_AND_TRIGGER_TYPE,
             UPDATE_ENTITIES,
             SELECTION_ON_FIXED_CANVAS,
             UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY
@@ -725,9 +726,13 @@ export default class Editor extends LightningElement {
         const currentState = storeInstance.getCurrentState();
         this.isUndoDisabled = !isUndoAvailable();
         this.isRedoDisabled = !isRedoAvailable();
-        const { status, processType: flowProcessType, definitionId } = currentState.properties;
+        const {
+            status,
+            processType: flowProcessType,
+            triggerType: flowTriggerType,
+            definitionId
+        } = currentState.properties;
         this.flowStatus = status;
-        const flowTriggerType = getTriggerType();
         const flowRecordTriggerType = getRecordTriggerType();
         const flowProcessTypeChanged = flowProcessType && flowProcessType !== this.properties.processType;
         const recordTriggerTypeChanged = flowRecordTriggerType !== this.recordTriggerType;
@@ -770,6 +775,21 @@ export default class Editor extends LightningElement {
                         setEventTypes(eventTypesData, MANAGED_SETUP);
                     });
                     this.propertyEditorBlockerCalls.push(loadEventTypesManagedSetup);
+                }
+                if (!flowProcessTypeChanged) {
+                    const { loadActionsPromise, loadPeripheralMetadataPromise } = loadOnTriggerTypeChange(
+                        flowProcessType,
+                        flowTriggerType,
+                        flowRecordTriggerType
+                    );
+                    this.propertyEditorBlockerCalls.push(loadPeripheralMetadataPromise);
+
+                    loadActionsPromise.then(() => {
+                        const actions = getInvocableActions();
+                        if (actions) {
+                            this.supportedActions = actions;
+                        }
+                    });
                 }
             }
 
@@ -1767,6 +1787,7 @@ export default class Editor extends LightningElement {
             const newResourceCallback = this.newResourceCallback;
             const editResourceCallback = this.editResourceCallback;
             const processType = this.properties.processType;
+            const triggerType = this.properties.triggerType;
 
             // skip the editor for elements that don't need one
             if (elementType === ELEMENT_TYPE.END_ELEMENT) {
@@ -1804,6 +1825,7 @@ export default class Editor extends LightningElement {
                         newResourceCallback,
                         editResourceCallback,
                         processType,
+                        triggerType,
                         moveFocusOnCloseCallback,
                         insertInfo: alcConnectionSource,
                         isAutoLayoutCanvas: this.properties.isAutoLayoutCanvas
@@ -2781,7 +2803,7 @@ export default class Editor extends LightningElement {
         if (setupInAutoLayoutCanvas) {
             this.spinners.showAutoLayoutSpinner = true;
         }
-        this.createFlowFromProcessType(processType, triggerType);
+        this.createFlowFromProcessTypeAndTriggerType(processType, triggerType);
         this.spinners.showFlowMetadataSpinner = false;
         // To Do: W-9299993: update this to not rely on hardcoded checks for process type and trigger type
         if (processType === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW && triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE) {
@@ -2790,14 +2812,14 @@ export default class Editor extends LightningElement {
     };
 
     /**
-     * Create the blank flow from the process type
+     * Create the blank flow from the process type and trigger type
      *
      * @param processType the selected process type
      * @param triggerType the trigger type
      */
-    createFlowFromProcessType = (processType, triggerType) => {
-        const payload = { processType };
-        storeInstance.dispatch(updatePropertiesAfterCreatingFlowFromProcessType(payload));
+    createFlowFromProcessTypeAndTriggerType = (processType, triggerType) => {
+        const payload = { processType, triggerType };
+        storeInstance.dispatch(updatePropertiesAfterCreatingFlowFromProcessTypeAndTriggerType(payload));
 
         createStartElement(storeInstance, triggerType);
 

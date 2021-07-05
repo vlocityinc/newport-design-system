@@ -34,10 +34,12 @@ export default class CalloutEditor extends LightningElement {
     labels = LABELS;
     location = {};
     processTypeValue = '';
+    triggerTypeValue = '';
 
     connectedCallback() {
         fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, {
-            flowProcessType: this.processTypeValue
+            flowProcessType: this.processTypeValue,
+            flowTriggerType: this.triggerTypeValue
         })
             .then((invocableActions) => {
                 this.invocableActionsFetched = true;
@@ -104,6 +106,18 @@ export default class CalloutEditor extends LightningElement {
 
     set processType(newValue) {
         this.processTypeValue = newValue;
+    }
+
+    /**
+     * @returns {FLOW_TRIGGER_TYPE}
+     */
+    @api
+    get triggerType() {
+        return this.triggerTypeValue;
+    }
+
+    set triggerType(newValue) {
+        this.triggerTypeValue = newValue;
     }
 
     /**

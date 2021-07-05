@@ -250,7 +250,7 @@ describe('Loader', () => {
                 expect(logPerfTransactionStart).toBeCalledWith(
                     SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR
                 );
-                expect(loadActions).toBeCalledWith(processType);
+                expect(loadActions).toBeCalledWith(processType, triggerType);
                 expect(loadApexPlugins).toBeCalledTimes(1);
                 expect(loadRules).toBeCalledTimes(1);
                 expect(loadRules).toBeCalledWith(processType, triggerType, recordTriggerType);

@@ -177,6 +177,18 @@ export default class InvocableActionEditor extends LightningElement {
         this.processTypeValue = newValue;
     }
 
+    /**
+     * @returns {FLOW_TRIGGER_TYPE}
+     */
+    @api
+    get triggerType() {
+        return this.triggerTypeValue;
+    }
+
+    set triggerType(newValue) {
+        this.triggerTypeValue = newValue;
+    }
+
     get elementType() {
         return this.actionCallNode && this.actionCallNode.elementType ? this.actionCallNode.elementType : undefined;
     }
@@ -269,11 +281,15 @@ export default class InvocableActionEditor extends LightningElement {
             actionType: getValueFromHydratedItem(this.node.actionType)
         };
         const options = { disableErrorModal: true };
-        const { processType: flowProcessType } = Store.getStore().getCurrentState().properties;
+        const {
+            processType: flowProcessType,
+            triggerType: flowTriggerType
+        } = Store.getStore().getCurrentState().properties;
         fetchOnce(
             SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS,
             {
-                flowProcessType
+                flowProcessType,
+                flowTriggerType
             },
             options
         )

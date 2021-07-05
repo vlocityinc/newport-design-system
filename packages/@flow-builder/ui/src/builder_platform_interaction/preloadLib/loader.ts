@@ -143,7 +143,7 @@ class Loader {
     public loadOnProcessTypeChange(flowProcessType, flowTriggerType, recordTriggerType, flowDefinitionId) {
         // currently, we prefetch actions, apex plugins and subflows for performance reasons but we don't need them to be loaded
         // before we can open a Property Editor
-        const loadActionsPromise = loadActions(flowProcessType);
+        const loadActionsPromise = loadActions(flowProcessType, flowTriggerType);
         loadApexPlugins();
         loadSubflows(flowProcessType, flowDefinitionId);
         const loadPalettePromise = loadPalette(flowProcessType);
@@ -157,6 +157,27 @@ class Loader {
             loadActionsPromise,
             loadPeripheralMetadataPromise,
             loadPalettePromise
+        };
+    }
+
+    /**
+     * Loads Auxiliary Metadata on Trigger Type Change
+     *
+     * @param flowProcessType - Flow Process Type
+     * @param flowTriggerType - Flow Trigger Type
+     * @param recordTriggerType - Record Trigger Type
+     * @returns Object with promises
+     */
+    public loadOnTriggerTypeChange(flowProcessType, flowTriggerType, recordTriggerType) {
+        const loadActionsPromise = loadActions(flowProcessType, flowTriggerType);
+        const loadPeripheralMetadataPromise = this.loadPeripheralMetadata(
+            flowProcessType,
+            flowTriggerType,
+            recordTriggerType
+        );
+        return {
+            loadActionsPromise,
+            loadPeripheralMetadataPromise
         };
     }
 
@@ -326,6 +347,22 @@ export const loadOnProcessTypeChange = (
     flowRecordTriggerType?: string,
     flowDefinitionId?: string
 ) => loader.loadOnProcessTypeChange(flowProcessType, flowTriggerType, flowRecordTriggerType, flowDefinitionId);
+
+/**
+ * Triggers loading of
+ * - peripheral metadata
+ * - invocable actions
+ *
+ * @param flowProcessType The flow processType
+ * @param flowTriggerType The flow Trigger type
+ * @param flowRecordTriggerType The flow record trigger type
+ * @returns Object with promises
+ */
+export const loadOnTriggerTypeChange = (
+    flowProcessType: string,
+    flowTriggerType?: string,
+    flowRecordTriggerType?: string
+) => loader.loadOnTriggerTypeChange(flowProcessType, flowTriggerType, flowRecordTriggerType);
 
 /**
  * Triggers loading of operators and operator rules

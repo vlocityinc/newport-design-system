@@ -27,10 +27,12 @@ import { setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
 import { setSubflows } from 'builder_platform_interaction/subflowsLib';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
 
-export const loadActions = (flowProcessType) =>
-    fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, { flowProcessType }, { background: true }).then(
-        setInvocableActions
-    );
+export const loadActions = (flowProcessType, flowTriggerType) =>
+    fetchOnce(
+        SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS,
+        { flowProcessType, flowTriggerType },
+        { background: true }
+    ).then(setInvocableActions);
 
 export const loadApexPlugins = () => fetchOnce(SERVER_ACTION_TYPE.GET_APEX_PLUGINS, {}, { background: true });
 

@@ -59,6 +59,9 @@ export default class OrchestratedStageEditor extends LightningElement {
     processType;
 
     @api
+    triggerType;
+
+    @api
     editorParams;
 
     get isLabelCollapsibleToHeader() {
@@ -206,7 +209,8 @@ export default class OrchestratedStageEditor extends LightningElement {
 
         try {
             const actions = await fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, {
-                flowProcessType: this.processType
+                flowProcessType: this.processType,
+                flowTriggerType: this.triggerType
             });
 
             this.availableDeterminationActions = actions.filter((action) => action.type === 'flow');
