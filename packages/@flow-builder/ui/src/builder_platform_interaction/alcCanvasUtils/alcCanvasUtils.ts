@@ -168,7 +168,11 @@ export const hasContext = (triggerType) => {
 
 // TODO: W-9299993 Remove reliance on hardcoded processType and triggerType for launching merged recordChangeTriggerEditor
 export const isRecordTriggeredFlow = (triggerType) => {
-    return getProcessType() === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW && isRecordChangeTriggerType(triggerType);
+    return (
+        (getProcessType() === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW ||
+            getProcessType() === FLOW_PROCESS_TYPE.ORCHESTRATOR) &&
+        isRecordChangeTriggerType(triggerType)
+    );
 };
 
 /**
