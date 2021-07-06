@@ -1,5 +1,8 @@
 .property-editor-scroll {
-    height: calc(100vh - 195px);
+    /* as the number of elements outside of the scroll area grows, this will need to be manually 
+       updated to prevent a white block from appearing at the bottom of the panel, please see: W-9537402 
+    */
+    height: calc(100vh - 7rem);
     -webkit-overflow-scrolling: touch;
     overflow: hidden;
     overflow-y: auto;
