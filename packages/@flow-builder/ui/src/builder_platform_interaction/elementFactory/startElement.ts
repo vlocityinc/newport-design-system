@@ -330,8 +330,10 @@ export function createStartElementMetadataObject(startElement: UI.Start, config 
     let { doesRequireRecordChangedToMeetCriteria, filterLogic } = startElement;
     let recordFilters;
 
-    if (filters.length > 0 && filters[0].leftHandSide && filterLogic !== CONDITION_LOGIC.NO_CONDITIONS) {
-        recordFilters = filters.map((filter) => createFilterMetadataObject(filter));
+    recordFilters = filters.filter((filter) => filter.leftHandSide);
+
+    if (recordFilters.length > 0 && filterLogic !== CONDITION_LOGIC.NO_CONDITIONS) {
+        recordFilters = recordFilters.map((filter) => createFilterMetadataObject(filter));
     } else {
         recordFilters = [];
         filterLogic = undefined;

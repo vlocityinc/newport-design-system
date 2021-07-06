@@ -1071,7 +1071,7 @@ describe('Start element', () => {
             expect(actualResult).toMatchObject(expectedResult);
         });
 
-        it('creates start element metadata object with filters', () => {
+        it('creates start element metadata object with filters, ignoring empty filters', () => {
             expect.assertions(1);
             const startElement = {
                 filterLogic: '1 AND 2 OR 3',
@@ -1096,6 +1096,11 @@ describe('Start element', () => {
                         rightHandSide: 'yourAccount',
                         rightHandSideDataType: 'String',
                         rowIndex: MOCK_GUID
+                    },
+                    {
+                        leftHandSide: '',
+                        operator: 'EqualTo',
+                        rightHandSide: ''
                     }
                 ],
                 object: 'Account',
