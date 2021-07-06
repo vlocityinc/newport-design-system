@@ -111,6 +111,12 @@ function recordChangeTriggerElement(flowTriggerType, recordTriggerType) {
 }
 
 describe('record-change-trigger-editor', () => {
+    beforeEach(() => {
+        // Some tests override the getProcessType return value
+        // so reset at the beginning of each test
+        getProcessType.mockReturnValue(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
+    });
+
     describe('mergeErrorsFromHydratedElement', () => {
         const startElement = recordChangeTriggerElement(BEFORE_SAVE, CREATE);
 
@@ -248,14 +254,14 @@ describe('record-change-trigger-editor', () => {
 
     describe('choose trigger type', () => {
         it('is not shown for process type Orchestrator', async () => {
-            getProcessType.mockReturnValueOnce(FLOW_PROCESS_TYPE.ORCHESTRATOR);
+            getProcessType.mockReturnValue(FLOW_PROCESS_TYPE.ORCHESTRATOR);
 
             const startElement = recordChangeTriggerElement(BEFORE_SAVE, CREATE);
             const element = createComponentForTest(startElement);
 
             await ticks(1);
 
-            const requireRecordChangeOptions = element.shadowRoot.querySelector(SELECTORS.REQUIRE_RECORD_CHANGE_OPTION);
+            const requireRecordChangeOptions = element.shadowRoot.querySelector(SELECTORS.TRIGGER_TYPE_SELECTION);
             expect(requireRecordChangeOptions).toBeNull();
         });
         it('is shown for other process types', async () => {
@@ -264,8 +270,31 @@ describe('record-change-trigger-editor', () => {
 
             await ticks(1);
 
-            const requireRecordChangeOptions = element.shadowRoot.querySelector(SELECTORS.REQUIRE_RECORD_CHANGE_OPTION);
-            expect(requireRecordChangeOptions).not.toBeUndefined();
+            const requireRecordChangeOptions = element.shadowRoot.querySelector(SELECTORS.TRIGGER_TYPE_SELECTION);
+            expect(requireRecordChangeOptions).not.toBeNull();
+        });
+    });
+
+    describe('run on success', () => {
+        it('is not shown for process type Orchestrator', async () => {
+            getProcessType.mockReturnValue(FLOW_PROCESS_TYPE.ORCHESTRATOR);
+
+            const startElement = recordChangeTriggerElement(BEFORE_SAVE, CREATE);
+            const element = createComponentForTest(startElement);
+
+            await ticks(1);
+
+            const requireRecordChangeOptions = element.shadowRoot.querySelector(SELECTORS.RUN_ON_SUCCESS_CHECKBOX);
+            expect(requireRecordChangeOptions).toBeNull();
+        });
+        it('is shown for other process types', async () => {
+            const startElement = recordChangeTriggerElement(BEFORE_SAVE, CREATE);
+            const element = createComponentForTest(startElement);
+
+            await ticks(1);
+
+            const requireRecordChangeOptions = element.shadowRoot.querySelector(SELECTORS.RUN_ON_SUCCESS_CHECKBOX);
+            expect(requireRecordChangeOptions).not.toBeNull();
         });
     });
 

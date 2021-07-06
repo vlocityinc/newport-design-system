@@ -370,6 +370,10 @@ export default class RecordChangeTriggerEditor extends LightningElement {
         return getProcessType() !== FLOW_PROCESS_TYPE.ORCHESTRATOR;
     }
 
+    get showRunOnSuccess() {
+        return getProcessType() !== FLOW_PROCESS_TYPE.ORCHESTRATOR;
+    }
+
     /**
      * public api function to run the rules from record change trigger validation library
      *
