@@ -274,7 +274,7 @@ declare namespace UI {
         labels?: LabelsObject;
         metadataFilter?: (args: any) => boolean;
         metadataKey?: string;
-        modalSize?: string;
+        modalSize?: string | ModalSize;
         name?: string;
         nodeConfig?: NodeConfig;
         nonHydratableProperties?: string[];
@@ -330,6 +330,10 @@ declare namespace UI {
     }
 
     interface Descriptor {
+        [p: string]: string;
+    }
+
+    interface ModalSize {
         [p: string]: string;
     }
 

@@ -299,6 +299,21 @@ const getPropertyEditorDescriptor = (mode, elementConfig) => {
 };
 
 /**
+ * Gets the modal size for the property editor
+ *
+ * @param mode indicating the start element editor to be invoked(RecordAfterSave, RecordBeforeSave, Scheduled etc.)
+ * @param elementConfig - the element config
+ * @returns - the modal size for the property editor
+ */
+const getModalSize = (mode: string, elementConfig: UI.ElementConfig): string | undefined => {
+    const modalSize = elementConfig.modalSize;
+    if (!isObject(modalSize)) {
+        return modalSize;
+    }
+    return modalSize[mode];
+};
+
+/**
  * Convert a property editor descriptor in to a class name for dynamic lwc loading.
  *
  * @param desc Description
@@ -378,7 +393,7 @@ export const getPropertyEditorConfig = (mode, attributes) => {
     const panelConfig = {
         titleForModal,
         labelForOkButton,
-        flavor: elementConfig.modalSize,
+        flavor: getModalSize(mode, elementConfig),
         bodyClass: elementConfig.bodyCssClass || '',
         isLabelCollapsibleToHeader: false,
         isFieldLevelCommitEnabled: false,

@@ -210,7 +210,18 @@ export const elementTypeToConfigMap: {
             [EDIT_START_JOURNEY_CONTEXT]: 'builder_platform_interaction:contextRecordEditor',
             [EDIT_START_SCHEDULED_PATHS]: 'builder_platform_interaction:scheduledPathsEditor'
         },
-        modalSize: MODAL_SIZE.LARGE,
+        modalSize: {
+            [FLOW_TRIGGER_TYPE.BEFORE_SAVE]: MODAL_SIZE.LARGE,
+            [FLOW_TRIGGER_TYPE.BEFORE_DELETE]: MODAL_SIZE.LARGE,
+            [FLOW_TRIGGER_TYPE.AFTER_SAVE]: MODAL_SIZE.LARGE,
+            [FLOW_TRIGGER_TYPE.SCHEDULED]: MODAL_SIZE.MEDIUM,
+            [FLOW_TRIGGER_TYPE.SCHEDULED_JOURNEY]: MODAL_SIZE.MEDIUM,
+            [FLOW_TRIGGER_TYPE.PLATFORM_EVENT]: MODAL_SIZE.MEDIUM,
+            [EDIT_START_RECORD_CHANGE_CONTEXT]: MODAL_SIZE.MEDIUM,
+            [EDIT_START_SCHEDULE_CONTEXT]: MODAL_SIZE.MEDIUM,
+            [EDIT_START_JOURNEY_CONTEXT]: MODAL_SIZE.MEDIUM,
+            [EDIT_START_SCHEDULED_PATHS]: MODAL_SIZE.LARGE
+        },
         nodeConfig: {
             iconName: 'utility:right',
             iconShape: ICON_SHAPE.CIRCLE,
