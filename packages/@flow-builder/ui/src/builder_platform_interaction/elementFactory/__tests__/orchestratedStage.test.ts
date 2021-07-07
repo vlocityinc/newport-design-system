@@ -12,7 +12,8 @@ import {
     createPastedOrchestratedStage,
     getOrchestratedStageChildren,
     getStageStepChildren,
-    RELATED_RECORD_INPUT_PARAMETER_NAME
+    RELATED_RECORD_INPUT_PARAMETER_NAME,
+    ASSIGNEE_TYPE
 } from '../orchestratedStage';
 import { ACTION_TYPE, CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
@@ -422,22 +423,31 @@ describe('OrchestratedStage', () => {
             expect(item.outputParameters).toHaveLength(1);
             expect(item.outputParameters[0]).toEqual(createOutputParameter(mockItem.outputParameters[0]));
         });
-        it('sets assignees', () => {
-            const mockItem = {
-                assignees: [
-                    {
-                        assignee: {
-                            assignee: 'foo'
-                        },
-                        assigneeType: 'User'
-                    }
-                ]
-            };
+        describe('assignees', () => {
+            it('contains a single asignee of type User and value null if not provided', () => {
+                const item = createStageStep({});
 
-            const item = createStageStep(mockItem);
+                expect(item.assignees).toHaveLength(1);
+                expect(item.assignees[0].assignee).toBeNull();
+                expect(item.assignees[0].assigneeType).toEqual(ASSIGNEE_TYPE.User);
+            });
+            it('are set if provided', () => {
+                const mockItem = {
+                    assignees: [
+                        {
+                            assignee: {
+                                assignee: 'foo'
+                            },
+                            assigneeType: 'User'
+                        }
+                    ]
+                };
 
-            expect(item.assignees).toHaveLength(1);
-            expect(item.assignees[0]).toEqual(mockItem.assignees[0]);
+                const item = createStageStep(mockItem);
+
+                expect(item.assignees).toHaveLength(1);
+                expect(item.assignees[0]).toEqual(mockItem.assignees[0]);
+            });
         });
         describe('relatedRecordItem', () => {
             it('is set from existing relatedRecordItem if present', () => {

@@ -365,6 +365,29 @@ describe('StageStepEditor', () => {
             const dropdowns = editor.shadowRoot.querySelector(selectors.CRITERIA_DROPDOWNS);
             expect(typeof dropdowns).toBe('object');
         });
+
+        describe('validation', () => {
+            it('is not called if isNew', () => {
+                editor = createComponentUnderTest({
+                    ...autolaunchedNodeParams,
+                    isNew: true
+                });
+
+                // This is brittle, but there's not a better way without
+                // converting VALIDATE_ALL to an actual event class
+                expect(stageStepReducer).toHaveBeenCalledTimes(7);
+            });
+            it('is called if !isNew', () => {
+                const node = {
+                    ...autolaunchedNodeParams,
+                    isNew: false
+                };
+                editor = createComponentUnderTest(node);
+
+                expect(stageStepReducer.mock.calls[7][0]).toEqual(node);
+                expect(stageStepReducer.mock.calls[7][1]).toEqual(new CustomEvent(VALIDATE_ALL));
+            });
+        });
     });
 
     describe('input parameters', () => {

@@ -75,15 +75,15 @@
     },
     {
       "icon":"utility:orchestrator",
-      "description":"Set up orchestrator logic with flows in stage and step intervals.",
-      "label":"Orchestrator",
+      "description":"Launches when invoked by Apex, processes, REST API, and more.",
+      "label":"Flow Orchestrator (Beta)",
       "processType":"Orchestrator"
     },
     {
       "icon":"utility:record_update",
-      "description":"Launches the orchestration when a record is created or updated.",
+      "description":"Launches when a record is created or updated.",
       "defaultTriggerType":"RecordAfterSave",
-      "label":"Record-Triggered Orchestration",
+      "label":"Record-Triggered Orchestration (Beta)",
       "processType":"Orchestrator",
       "triggerTypes":[
         "RecordAfterSave"

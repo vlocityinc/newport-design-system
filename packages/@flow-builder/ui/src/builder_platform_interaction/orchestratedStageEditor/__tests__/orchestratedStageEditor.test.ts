@@ -244,6 +244,52 @@ describe('OrchestratedStageEditor', () => {
             expect(labelDescription.devName).toBe(nodeParams.name);
             expect(labelDescription.description).toBe(nodeParams.description);
         });
+
+        describe('validation', () => {
+            it('is not called if isNew', () => {
+                const newNode = {
+                    guid: 'someOtherGuid',
+                    name: 'someOtherName',
+                    label: 'someLabel',
+                    description: 'someDescription',
+                    exitAction: {
+                        actionName: {
+                            value: 'someActionName'
+                        },
+                        actionType: {
+                            value: 'someActionType'
+                        }
+                    },
+                    exitActionInputParameters: mockInputParameters,
+                    isNew: true
+                };
+                editor.node = newNode;
+
+                // This is brittle, but there's not a better way without
+                // converting VALIDATE_ALL to an actual event class
+                expect(orchestratedStageReducer).toHaveBeenCalledTimes(3);
+            });
+            it('is called if !isNew', () => {
+                const newNode = {
+                    guid: 'someOtherGuid',
+                    name: 'someOtherName',
+                    label: 'someLabel',
+                    description: 'someDescription',
+                    exitAction: {
+                        actionName: {
+                            value: 'someActionName'
+                        },
+                        actionType: {
+                            value: 'someActionType'
+                        }
+                    },
+                    exitActionInputParameters: mockInputParameters
+                };
+                editor.node = newNode;
+                expect(orchestratedStageReducer.mock.calls[3][0]).toEqual(newNode);
+                expect(orchestratedStageReducer.mock.calls[3][1]).toEqual(new CustomEvent(VALIDATE_ALL));
+            });
+        });
     });
 
     describe('input parameters', () => {

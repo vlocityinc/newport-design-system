@@ -27,14 +27,14 @@
     {
   "fieldsToNull" : [ ],
   "isListViewManaged" : true,
-  "label" : "Omni-Channel Flow (Beta)",
-  "name" : "RoutingFlow"
+  "label" : "Flow Orchestrator (Beta)",
+  "name" : "Orchestrator"
 },
     {
   "fieldsToNull" : [ ],
   "isListViewManaged" : true,
-  "label" : "Orchestrator",
-  "name" : "Orchestrator"
+  "label" : "Omni-Channel Flow (Beta)",
+  "name" : "RoutingFlow"
 },
     {
   "fieldsToNull" : [ ],
