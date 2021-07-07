@@ -4,7 +4,8 @@ import {
     getDuplicateDevNameElements,
     isExecuteOnlyWhenChangeMatchesConditionsPossible,
     shouldUseAutoLayoutCanvas,
-    getElementsForElementType
+    getElementsForElementType,
+    getScheduledPathsList
 } from '../storeQuery';
 import { assignmentElement } from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
@@ -139,5 +140,195 @@ describe('getElementsForElementType', () => {
 
         const results: ElementUi[] = getElementsForElementType(ELEMENT_TYPE.SCREEN);
         expect(results).toEqual([screen1, screen2]);
+    });
+});
+
+describe('getScheduledPathsList for Auto Layout flow', () => {
+    it('return empty when no elements are found', () => {
+        const result = getScheduledPathsList();
+        expect(result).toHaveLength(0);
+    });
+
+    it('default path is RunImmediately for auto layout', () => {
+        Store.setMockState({
+            properties: {
+                isAutoLayoutCanvas: true
+            },
+            elements: {
+                '8ae1f238-5415-4cc2-b1b2-57fab555ad14': {
+                    elementType: 'START_ELEMENT',
+                    triggerType: 'RecordAfterSave',
+                    recordTriggerType: 'Update'
+                }
+            }
+        });
+        const result = getScheduledPathsList();
+        expect(result).toHaveLength(1);
+        expect(result).toEqual([
+            { label: 'FlowBuilderStartEditor.immediateScheduledPathLabel', pathType: null, value: 'RunImmediately' }
+        ]);
+    });
+
+    it('RunOnSuccess path has pathType: AfterCommit', () => {
+        Store.setMockState({
+            properties: {
+                isAutoLayoutCanvas: true
+            },
+            elements: {
+                '8ae1f238-5415-4cc2-b1b2-57fab555ad14': {
+                    elementType: 'START_ELEMENT',
+                    triggerType: 'RecordAfterSave',
+                    recordTriggerType: 'Update',
+                    childReferences: [
+                        {
+                            childReference: '643e1143-cb91-44fe-8b54-aab2ebf4be0c'
+                        }
+                    ]
+                },
+                '643e1143-cb91-44fe-8b54-aab2ebf4be0c': {
+                    name: 'Run_On_Success',
+                    label: 'Run On Success',
+                    elementType: 'ScheduledPath',
+                    pathType: 'AfterCommit'
+                }
+            }
+        });
+        const result = getScheduledPathsList();
+        expect(result).toHaveLength(2);
+        expect(result).toEqual([
+            { label: 'FlowBuilderStartEditor.immediateScheduledPathLabel', pathType: null, value: 'RunImmediately' },
+            { label: 'Run On Success', pathType: 'AfterCommit', value: 'Run_On_Success' }
+        ]);
+    });
+
+    it('Scheduled path has pathType null', () => {
+        Store.setMockState({
+            properties: {
+                isAutoLayoutCanvas: true
+            },
+            elements: {
+                '8ae1f238-5415-4cc2-b1b2-57fab555ad14': {
+                    elementType: 'START_ELEMENT',
+                    triggerType: 'RecordAfterSave',
+                    recordTriggerType: 'Update',
+                    childReferences: [
+                        {
+                            childReference: '1d142b94-5b10-419a-bff0-8c155f5a3c12'
+                        }
+                    ]
+                },
+                '1d142b94-5b10-419a-bff0-8c155f5a3c12': {
+                    guid: '1d142b94-5b10-419a-bff0-8c155f5a3c12',
+                    name: 'sch_path',
+                    label: 'sch path',
+                    elementType: 'ScheduledPath',
+                    dataType: 'Boolean',
+                    timeSource: 'CreatedDate',
+                    offsetUnit: 'DaysAfter',
+                    offsetNumber: '1'
+                }
+            }
+        });
+        const result = getScheduledPathsList();
+        expect(result).toHaveLength(2);
+        expect(result).toEqual([
+            { label: 'FlowBuilderStartEditor.immediateScheduledPathLabel', pathType: null, value: 'RunImmediately' },
+            { label: 'sch path', pathType: undefined, value: 'sch_path' }
+        ]);
+    });
+});
+
+describe('getScheduledPathsList for free form flow', () => {
+    it('conditions for RunImmediately', () => {
+        Store.setMockState({
+            properties: {
+                processType: 'AutoLaunchedFlow',
+                isAutoLayoutCanvas: false
+            },
+            connectors: [
+                {
+                    guid: '1edefabb-5b08-454e-9cbf-7579a768d8db',
+                    source: '8ae1f238-5415-4cc2-b1b2-57fab555ad14',
+                    childSource: null,
+                    target: 'd8360f3b-1add-4234-843d-b991044e96b9',
+                    label: 'Run Immediately',
+                    type: 'IMMEDIATE'
+                }
+            ],
+            elements: {
+                '8ae1f238-5415-4cc2-b1b2-57fab555ad14': {
+                    elementType: 'START_ELEMENT',
+                    triggerType: 'RecordAfterSave',
+                    recordTriggerType: 'Update'
+                }
+            }
+        });
+        const result = getScheduledPathsList();
+        expect(result).toHaveLength(1);
+        expect(result).toEqual([
+            { label: 'FlowBuilderStartEditor.immediateScheduledPathLabel', pathType: null, value: 'RunImmediately' }
+        ]);
+    });
+
+    it('Run on Success path', () => {
+        Store.setMockState({
+            properties: {
+                processType: 'AutoLaunchedFlow',
+                isAutoLayoutCanvas: false
+            },
+            connectors: [
+                {
+                    guid: '1b790eff-8470-4293-be4c-9144f83dffb6',
+                    source: '8ae1f238-5415-4cc2-b1b2-57fab555ad14',
+                    childSource: '643e1143-cb91-44fe-8b54-aab2ebf4be0c',
+                    target: '7af5a0a8-616d-4598-a070-b328ab0f38e9',
+                    label: 'Run On Success',
+                    type: 'REGULAR'
+                }
+            ],
+            elements: {
+                '643e1143-cb91-44fe-8b54-aab2ebf4be0c': {
+                    guid: '643e1143-cb91-44fe-8b54-aab2ebf4be0c',
+                    name: 'Run_On_Success',
+                    label: 'Run On Success',
+                    elementType: 'ScheduledPath',
+                    pathType: 'AfterCommit'
+                }
+            }
+        });
+        const result = getScheduledPathsList();
+        expect(result).toHaveLength(1);
+        expect(result).toEqual([{ label: 'Run On Success', pathType: 'AfterCommit', value: 'Run_On_Success' }]);
+    });
+
+    it('Scheduled path', () => {
+        Store.setMockState({
+            properties: {
+                processType: 'AutoLaunchedFlow',
+                isAutoLayoutCanvas: false
+            },
+            connectors: [
+                {
+                    guid: '1b790eff-8470-4293-be4c-9144f83dffb6',
+                    source: '8ae1f238-5415-4cc2-b1b2-57fab555ad14',
+                    childSource: '643e1143-cb91-44fe-8b54-aab2ebf4be0c',
+                    target: '7af5a0a8-616d-4598-a070-b328ab0f38e9',
+                    label: 'Run On Success',
+                    type: 'REGULAR'
+                }
+            ],
+            elements: {
+                '643e1143-cb91-44fe-8b54-aab2ebf4be0c': {
+                    guid: '643e1143-cb91-44fe-8b54-aab2ebf4be0c',
+                    name: 'Scheduled_Path',
+                    label: 'Scheduled Path',
+                    elementType: 'ScheduledPath',
+                    pathType: null
+                }
+            }
+        });
+        const result = getScheduledPathsList();
+        expect(result).toHaveLength(1);
+        expect(result).toEqual([{ label: 'Scheduled Path', pathType: null, value: 'Scheduled_Path' }]);
     });
 });

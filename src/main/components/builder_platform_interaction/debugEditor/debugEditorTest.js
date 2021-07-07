@@ -818,10 +818,16 @@
                     value: 'Sample_Scheduled_Path'
                 }
             ],
-            showScheduledPathComboBox: true
+            showScheduledPathComboBox: true,
+            defaultValue: 'RunImmediately'
         },
         test: function (cmp) {
             $A.test.assertNotNull(cmp.find('scheduledPathComboBox'), 'Scheduled Path ComboBox does not exist');
+            $A.test.assertEquals(
+                'Run_Immediately',
+                cmp.getDebugInput().scheduledPathSelection,
+                'default value is incorrect'
+            );
             // scheduledPathSelection should change after setting ComboBox value to 'Sample_Scheduled_Path'
             cmp.find('scheduledPathComboBox').set('v.value', 'Sample_Scheduled_Path');
             $A.test.assertEquals(
