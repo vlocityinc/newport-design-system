@@ -1294,6 +1294,28 @@ describe('property editor', () => {
             const propertyEditorPanel = editorComponent.shadowRoot.querySelector(selectors.PROPERTY_EDITOR_PANEL);
             expect(propertyEditorPanel.params.panelConfig.isFieldLevelCommitEnabled).toEqual(true);
         });
+
+        it('element.isNew set to false on editor save', async () => {
+            expect.assertions(3);
+            expect(rightPanel).not.toBeNull();
+
+            await ticks(1);
+
+            // Manually set to new so we can see the change
+            mockStoreState.elements['1'].isNew = true;
+
+            const propertyEditorPanel = editorComponent.shadowRoot.querySelector(selectors.PROPERTY_EDITOR_PANEL);
+
+            expect(propertyEditorPanel.element.isNew).toBeTruthy();
+
+            const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+            const saveButton = toolbar.shadowRoot.querySelector(selectors.save);
+            saveButton.click();
+
+            await ticks(1);
+
+            expect(propertyEditorPanel.element.isNew).toBeFalsy();
+        });
     });
 });
 

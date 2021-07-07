@@ -1571,6 +1571,8 @@ export default class Editor extends LightningElement {
      * @param {object} event when save or save as buttons are clicked
      */
     handleSaveFlow = (event) => {
+        this.setElementBeingEditedInPanelAsNotNew();
+
         if (event && event.detail && event.detail.type) {
             const eventType = event.detail.type;
             let flowProperties = storeInstance.getCurrentState().properties;
@@ -2868,6 +2870,19 @@ export default class Editor extends LightningElement {
         this.cutOrCopiedChildElements = {};
         this.topCutOrCopiedGuid = null;
         this.topSelectedGuid = null;
+    }
+
+    /**
+     * Used to inform the property editor panel that the element currently being edited
+     * should no longer be treated as new (and thus should be validated)
+     */
+    setElementBeingEditedInPanelAsNotNew() {
+        if (this.elementBeingEditedInPanel) {
+            this.elementBeingEditedInPanel = {
+                ...this.elementBeingEditedInPanel,
+                isNew: false
+            };
+        }
     }
 }
 
