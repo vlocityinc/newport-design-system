@@ -146,6 +146,9 @@ export default class BaseCalloutEditor extends LightningElement {
     configurationEditorInputVariables;
 
     @api
+    configurationEditorAllInputVariables;
+
+    @api
     automaticOutputVariables;
 
     /**

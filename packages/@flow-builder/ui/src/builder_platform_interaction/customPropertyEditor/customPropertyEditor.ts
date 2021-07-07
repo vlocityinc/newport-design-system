@@ -87,6 +87,9 @@ export default class CustomPropertyEditor extends LightningElement {
     }
 
     @api
+    configurationEditorAllInputVariables = [];
+
+    @api
     set configurationEditorTypeMappings(genericTypeMappings) {
         this._genericTypeMappings = genericTypeMappings ? unwrap(genericTypeMappings) : [];
         if (this._isComponentCreated) {
@@ -223,7 +226,8 @@ export default class CustomPropertyEditor extends LightningElement {
                 builderContext: this.builderContext,
                 inputVariables: this.configurationEditorInputVariables,
                 genericTypeMappings: this.configurationEditorTypeMappings,
-                automaticOutputVariables: this.automaticOutputVariables
+                automaticOutputVariables: this.automaticOutputVariables,
+                allInputVariables: this.configurationEditorAllInputVariables
             }
         };
         this._unrenderFn = createConfigurationEditor(params);

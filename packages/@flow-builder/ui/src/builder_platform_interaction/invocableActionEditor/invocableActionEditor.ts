@@ -488,6 +488,29 @@ export default class InvocableActionEditor extends LightningElement {
         return [];
     }
 
+    /**
+     * Return list of all input parameters defined on the CPE action
+     *
+     * @returns list of action call input parameters
+     */
+    get configurationEditorAllInputVariables() {
+        if (
+            this.invocableActionParametersDescriptor &&
+            this.actionCallNode &&
+            this._shouldCreateConfigurationEditor()
+        ) {
+            return this.actionCallNode.inputParameters.map(({ label, name, dataType, isRequired, maxOccurs }) => ({
+                label,
+                name,
+                dataType,
+                isRequired,
+                maxOccurs
+            }));
+        }
+
+        return [];
+    }
+
     updateNodeForFieldLevelCommit() {
         const removeUnsetParamsEvent = new CustomEvent(REMOVE_UNSET_PARAMETERS);
         const actionNodeForFieldLevelCommit = invocableActionReducer(this.actionCallNode, removeUnsetParamsEvent);

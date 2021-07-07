@@ -204,6 +204,9 @@ export default class ParameterList extends LightningElement {
     configurationEditorInputVariables;
 
     @api
+    configurationEditorAllInputVariables;
+
+    @api
     validate() {
         if (this.hasConfigurationEditor) {
             const customPropertyEditor = this.template.querySelector(
