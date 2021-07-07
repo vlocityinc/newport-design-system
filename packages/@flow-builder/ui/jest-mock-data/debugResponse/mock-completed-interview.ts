@@ -29,7 +29,8 @@ export const completedInterview = {
                 'DML rows: 297 out of 10000'
             ],
             elementType: 'DELETE RECORDS',
-            elementApiName: 'Delete_All_Accounts',
+            elementApiName: 'Delete_All_Accounts_Api',
+            elementLabel: 'Delete_All_Accounts_Label',
             entryType: 'DefaultDebugInfoEntry'
         },
         {

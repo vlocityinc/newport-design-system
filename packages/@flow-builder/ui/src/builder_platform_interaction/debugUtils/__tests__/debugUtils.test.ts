@@ -28,7 +28,7 @@ describe('debug utils', () => {
 
         it('should only display the alarm wait events info', () => {
             const len = updatedDebugTraceObject.length;
-            expect(updatedDebugTraceObject[len - 1].title).toMatch(LABELS.waitEventSelectionHeader);
+            expect(updatedDebugTraceObject[len - 1].titleWithLabel).toMatch(LABELS.waitEventSelectionHeader);
             expect(updatedDebugTraceObject[len - 1].waitevents.length).toEqual(2);
             expect(tracesCopy.length).toEqual(updatedDebugTraceObject.length - 1); // Copy doesn't contain wait event info
         });
@@ -45,8 +45,8 @@ describe('debug utils', () => {
 
         it('should only display the alarm wait events info', () => {
             const len = updatedDebugTraceObject.length;
-            expect(updatedDebugTraceObject[len - 1].title).toMatch(LABELS.interviewFinishHeader);
-            expect(updatedDebugTraceObject[len - 2].title).toMatch(LABELS.waitEventSelectionHeader);
+            expect(updatedDebugTraceObject[len - 1].titleWithLabel).toMatch(LABELS.interviewFinishHeader);
+            expect(updatedDebugTraceObject[len - 2].titleWithLabel).toMatch(LABELS.waitEventSelectionHeader);
             expect(updatedDebugTraceObject[len - 2].lines[0]).toMatch(LABELS.noAlarmEventLine);
             expect(updatedDebugTraceObject[len - 2].waitevents).toBe(undefined);
             expect(tracesCopy.length).toEqual(0); // No copy because this interview has finished and there couldn't be any navigation
@@ -60,7 +60,7 @@ describe('debug utils', () => {
         });
 
         it('should display interview started info', () => {
-            expect(updatedDebugTraceObject[0].title).toMatch(completedInterview.debugTrace[0].lines[0]);
+            expect(updatedDebugTraceObject[0].titleWithLabel).toMatch(completedInterview.debugTrace[0].lines[0]);
             const startedLines = updatedDebugTraceObject[0].lines;
             expect(startedLines[startedLines.length - 1]).toContain(LABELS.interviewStartedAt);
         });
@@ -68,12 +68,12 @@ describe('debug utils', () => {
         it('should display the completed info', () => {
             const len = updatedDebugTraceObject.length;
             expect(len).toBe(completedInterview.debugTrace.length + 1);
-            expect(updatedDebugTraceObject[len - 1].title).toMatch(LABELS.interviewFinishHeader);
+            expect(updatedDebugTraceObject[len - 1].titleWithLabel).toMatch(LABELS.interviewFinishHeader);
         });
 
         it('should display debug info header', () => {
-            const expectedHeader = makeElementTitle(completedInterview.debugTrace[1]);
-            expect(updatedDebugTraceObject[1].title).toMatch(expectedHeader);
+            const expectedHeader = makeElementTitle(completedInterview.debugTrace[1], false);
+            expect(updatedDebugTraceObject[1].titleWithLabel).toMatch(expectedHeader);
         });
     });
 
@@ -85,7 +85,7 @@ describe('debug utils', () => {
         it('should display the completed with error info', () => {
             const len = updatedDebugTraceObject.length;
             expect(len).toBe(completedInterviewWithErrors.debugTrace.length + 1);
-            expect(updatedDebugTraceObject[len - 1].title).toMatch(LABELS.interviewError);
+            expect(updatedDebugTraceObject[len - 1].titleWithLabel).toMatch(LABELS.interviewError);
         });
 
         it('should display accurate duration', () => {
@@ -109,7 +109,7 @@ describe('debug utils', () => {
         it('should display the paused message', () => {
             const len = updatedDebugTraceObject.length;
             expect(len).toBe(pausedInterview.debugTrace.length + 1);
-            expect(updatedDebugTraceObject[len - 1].title).toMatch(LABELS.interviewPausedHeader);
+            expect(updatedDebugTraceObject[len - 1].titleWithLabel).toMatch(LABELS.interviewPausedHeader);
             expect(updatedDebugTraceObject[len - 1].lines[0]).toMatch(LABELS.interviewPaused);
         });
     });
@@ -123,7 +123,7 @@ describe('debug utils', () => {
         it('debug card should display with no title but with content', () => {
             const len = updatedDebugTraceObject.length;
             expect(len).toBe(resumedInterviewWithErrors.debugTrace.length + 1);
-            expect(updatedDebugTraceObject[2].title).toMatch('');
+            expect(updatedDebugTraceObject[2].titleWithLabel).toMatch('');
             expect(updatedDebugTraceObject[2].lines[0]).toMatch(resumedInterviewWithErrors.debugTrace[2].lines[0]);
         });
     });
@@ -137,7 +137,9 @@ describe('debug utils', () => {
         it('should display the error message', () => {
             const len = updatedDebugTraceObject.length;
             expect(len).toBe(errorWithTraceInterview.debugTrace.length + 1);
-            expect(updatedDebugTraceObject[0].title).toMatch(errorWithTraceInterview.debugTrace[0].elementType);
+            expect(updatedDebugTraceObject[0].titleWithLabel).toMatch(
+                errorWithTraceInterview.debugTrace[0].elementType
+            );
             expect(updatedDebugTraceObject[0].error).toMatch(errorWithTraceInterview.debugTrace[0].error);
             expect(updatedDebugTraceObject[0].lines).toEqual([]);
         });
@@ -152,7 +154,7 @@ describe('debug utils', () => {
         it('should display the error message', () => {
             const len = updatedDebugTraceObject.length;
             expect(len).toBe(errorWithTraceInterviewWithRollback.debugTrace.length + 1);
-            expect(updatedDebugTraceObject[0].title).toMatch(
+            expect(updatedDebugTraceObject[0].titleWithLabel).toMatch(
                 errorWithTraceInterviewWithRollback.debugTrace[0].elementType
             );
             expect(updatedDebugTraceObject[0].error).toMatch(errorWithTraceInterviewWithRollback.debugTrace[0].error);

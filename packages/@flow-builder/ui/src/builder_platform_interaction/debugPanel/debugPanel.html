@@ -1,6 +1,6 @@
 <template>
     <div class="slds-panel__header" tabindex="-1">
-        <h2 class="slds-panel__header-title slds-text-heading_small slds-truncate">{headerTitle}</h2>
+        <h2 class="slds-panel__header-title slds-text-heading_small slds-truncate">{labels.debugInspector}</h2>
     </div>
     <!-- filter gear icon and selected filters text-->
     <div class="slds-grid slds-border_bottom">
@@ -23,7 +23,7 @@
             <!-- popover containing checkboxes for filters -->
             <template if:true={showOptions}>
                 <section
-                    aria-label={filterPopoverAltText}
+                    aria-label={labels.filterPopoverAltText}
                     aria-describedby="popover-body-id"
                     class="slds-popover slds-is-absolute slds-nubbin_top-left slds-m-left_xx-small"
                     role="popover"
@@ -33,11 +33,13 @@
                         icon-name="utility:close"
                         onclick={handleDropdown}
                         variant="bare"
-                        alternative-text={filterClosePopoverAltText}
+                        alternative-text={labels.filterClosePopoverAltText}
                         class="slds-float_right slds-popover__close"
-                        title={filterClosePopoverAltText}
+                        title={labels.filterClosePopoverAltText}
                     >
                     </lightning-button-icon>
+                    <!--- popover title -->
+                    <lightning-formatted-rich-text value={labels.filterTitleText}></lightning-formatted-rich-text>
                     <!-- popover body-->
                     <div id="popover-body-id" class="slds-popover__body">
                         <lightning-checkbox-group
@@ -61,23 +63,45 @@
                 class="slds-has-divider--bottom slds-p-around_none slds-m-around_none"
                 active-section-name={activeSections}
             >
-                <lightning-accordion-section
-                    data-name={trace.title}
-                    key={trace.id}
-                    label={trace.title}
-                    name={trace.title}
-                >
-                    <builder_platform_interaction-debug-panel-body
-                        lines={trace.lines}
-                        error={trace.error}
-                        title={trace.title}
-                        waitevents={trace.waitevents}
-                        resumetime={trace.resumetime}
-                        limits={trace.limits}
-                        ifblockresume={ifBlockResume}
-                        show-gov-lim={showGovLim}
-                    ></builder_platform_interaction-debug-panel-body>
-                </lightning-accordion-section>
+                <template key={trace.id} if:true={showApiNames}>
+                    <lightning-accordion-section
+                        data-name={trace.titleWithApiName}
+                        key={trace.id}
+                        label={trace.titleWithApiName}
+                        name={trace.titleWithApiName}
+                    >
+                        <builder_platform_interaction-debug-panel-body
+                            lines={trace.lines}
+                            error={trace.error}
+                            title={trace.titleWithApiName}
+                            waitevents={trace.waitevents}
+                            resumetime={trace.resumetime}
+                            limits={trace.limits}
+                            ifblockresume={ifBlockResume}
+                            show-gov-lim={showGovLim}
+                        ></builder_platform_interaction-debug-panel-body>
+                    </lightning-accordion-section>
+                </template>
+
+                <template key={trace.id} if:false={showApiNames}>
+                    <lightning-accordion-section
+                        data-name={trace.titleWithLabel}
+                        key={trace.id}
+                        label={trace.titleWithLabel}
+                        name={trace.titleWithLabel}
+                    >
+                        <builder_platform_interaction-debug-panel-body
+                            lines={trace.lines}
+                            error={trace.error}
+                            title={trace.titleWithLabel}
+                            waitevents={trace.waitevents}
+                            resumetime={trace.resumetime}
+                            limits={trace.limits}
+                            ifblockresume={ifBlockResume}
+                            show-gov-lim={showGovLim}
+                        ></builder_platform_interaction-debug-panel-body>
+                    </lightning-accordion-section>
+                </template>
             </lightning-accordion>
         </template>
 

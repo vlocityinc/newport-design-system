@@ -2,6 +2,7 @@
 import { LightningElement, api } from 'lwc';
 import { LABELS } from './debugPanelLabels';
 import { copyAndUpdateDebugTraceObject } from 'builder_platform_interaction/debugUtils';
+import { format } from 'builder_platform_interaction/commonUtils';
 
 /**
  * This is the debug panel that shows the debug run info on builder canvas (debugMode)
@@ -16,6 +17,8 @@ export default class DebugPanel extends LightningElement {
 
     @api fromEmailDebugging;
 
+    labels = LABELS;
+
     TRANSACTION_ENTRY = 'TransactionInfoEntry';
 
     // initial component rendering always blocks transaction boundaries
@@ -27,13 +30,11 @@ export default class DebugPanel extends LightningElement {
 
     /* this is the error message for a failed debug run, not per flow element errors */
     errorMessage = '';
-    headerTitle = LABELS.debugInspector;
     showGovLim = false;
+    showApiNames = false;
 
     checkboxSelections: string[] = [];
     showOptions = false;
-    filterPopoverAltText = LABELS.filterPopoverAltText;
-    filterClosePopoverAltText = LABELS.filterClosePopoverAltText;
     filterOptions = [
         {
             label: LABELS.govLimFilter,
@@ -42,6 +43,10 @@ export default class DebugPanel extends LightningElement {
         {
             label: LABELS.transactionFilter,
             value: LABELS.transactionFilter
+        },
+        {
+            label: LABELS.showApiNamesFilter,
+            value: LABELS.showApiNamesFilter
         }
     ];
     _selectedOptions = LABELS.basicFilter;
@@ -68,43 +73,38 @@ export default class DebugPanel extends LightningElement {
 
     handleFilterChange(e) {
         this.checkboxSelections = Object.assign([], e.detail.value);
+
         if (this.checkboxSelections.length === 0) {
             this._selectedOptions = LABELS.basicFilter;
-            this.handleDefaultFilter();
+        } else if (this.checkboxSelections.length === 1) {
+            this._selectedOptions = format(LABELS.singleFilterText, this.checkboxSelections.length);
         } else {
-            this._selectedOptions = this.checkboxSelections.join(',\n');
-            // the checkbox group event detail value ONLY contains selected options
-            this.filterOptions = this.filterOptions.map((e) => {
-                switch (e.label) {
-                    case LABELS.govLimFilter:
-                        this.showGovLim = this.checkboxSelections.includes(LABELS.govLimFilter);
-                        break;
-                    case LABELS.transactionFilter:
-                        if (this.checkboxSelections.includes(LABELS.transactionFilter)) {
-                            this.blockedEntries = this.blockedEntries.filter((e) => e === !this.TRANSACTION_ENTRY);
-                        } else if (!this.blockedEntries.includes(this.TRANSACTION_ENTRY)) {
-                            this.blockedEntries.push(this.TRANSACTION_ENTRY);
-                        }
-                        break;
-                    default:
-                        break;
-                }
-                return e;
-            });
+            this._selectedOptions = format(LABELS.numFiltersText, this.checkboxSelections.length);
         }
-        this.removeBlockedEntries();
-    }
 
-    handleDefaultFilter() {
-        this.showGovLim = false;
-        this.blockedEntries.push(this.TRANSACTION_ENTRY);
+        this.showGovLim = this.checkboxSelections.includes(LABELS.govLimFilter);
+
+        if (this.checkboxSelections.includes(LABELS.transactionFilter)) {
+            this.blockedEntries = this.blockedEntries.filter((e) => e !== this.TRANSACTION_ENTRY);
+        } else if (!this.blockedEntries.includes(this.TRANSACTION_ENTRY)) {
+            this.blockedEntries.push(this.TRANSACTION_ENTRY);
+        }
+
+        this.showApiNames = this.checkboxSelections.includes(LABELS.showApiNamesFilter);
+
+        this.removeBlockedEntries();
     }
 
     handleExpandAll() {
         if (this.expandAll) {
             this.expandLabelVar = LABELS.collapseAllLabel;
             this.expandTitleVar = LABELS.collapseAllTitle;
-            this.activeSections = this.debugTraces.map((e) => e.title);
+            this.activeSections = this.debugTraces.map((e) => {
+                if (this.showApiNames) {
+                    return e.titleWithApiName;
+                }
+                return e.titleWithLabel;
+            });
         } else {
             this.expandLabelVar = LABELS.expandAllLabel;
             this.expandTitleVar = LABELS.expandAllTitle;
@@ -126,8 +126,11 @@ export default class DebugPanel extends LightningElement {
         this._debugData = value;
         this.updateProperties(this._debugData);
         this.activeSections = this.debugTraces.map((e) => {
-            if (e.error || e.title === LABELS.waitEventSelectionHeader) {
-                return e.title;
+            if (e.error || e.titleWithLabel === LABELS.waitEventSelectionHeader) {
+                if (this.showApiNames) {
+                    return e.titleWithApiName;
+                }
+                return e.titleWithLabel;
             }
             return '';
         });

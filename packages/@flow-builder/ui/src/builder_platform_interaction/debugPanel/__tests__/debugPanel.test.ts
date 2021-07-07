@@ -7,6 +7,7 @@ import { fakePausedInterview } from 'mock/debugResponse/mock-fake-paused-intervi
 import { fakeResumedInterviewWithError, fakeResumedInterview } from 'mock/debugResponse/mock-fake-paused-interview';
 import { completedInterview } from 'mock/debugResponse/mock-completed-interview';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { format } from 'builder_platform_interaction/commonUtils';
 
 const commonUtils = jest.requireActual('builder_platform_interaction/commonUtils');
 commonUtils.format = jest
@@ -31,10 +32,12 @@ const createComponentUnderTest = (debugData, newData = undefined, fromEmailDebug
 const selectors = {
     errorMessage: '.errorMsg',
     govLimText: '.govLim',
+    accordionSection: 'lightning-accordion-section',
     debugPanelBodyComponent: 'builder_platform_interaction-debug-panel-body',
     debugPanelFilterComponent: 'builder_platform_interaction-debug-panel-filter',
     checkboxesGroup: 'lightning-checkbox-group',
     filterButton: 'lightning-button-icon.filterButton',
+    filterDescription: 'lightning-formatted-text.selected-options',
     popover: 'section.slds-popover',
     closePopover: 'lightning-button-icon.slds-popover__close',
     header: 'div.slds-panel__header'
@@ -121,6 +124,20 @@ describe('filter behaviour', () => {
             expect(allDebugEntries.length).toEqual(completedInterview.debugTrace.length);
             expect(allDebugEntries[1].shadowRoot.querySelector(selectors.govLimText)).toBeFalsy();
         });
+
+        it('should not display api names on initial render', () => {
+            expect(allDebugEntries.length).toEqual(completedInterview.debugTrace.length);
+            expect(debugPanel.shadowRoot.querySelectorAll(selectors.accordionSection)[1].label).toBe(
+                completedInterview.debugTrace[1].elementType + ': ' + completedInterview.debugTrace[1].elementLabel
+            );
+        });
+
+        it('show "basic debug log" next to the filter icon', async () => {
+            const debugPanelFilter = debugPanel.shadowRoot.querySelector(selectors.debugPanelFilterComponent);
+            const filterDescription = debugPanelFilter.shadowRoot.querySelector(selectors.filterDescription).value;
+            expect(filterDescription).not.toBeNull();
+            expect(filterDescription).toEqual(LABELS.basicFilter);
+        });
     });
 
     describe('Debug panel after filters', () => {
@@ -131,11 +148,55 @@ describe('filter behaviour', () => {
             await ticks(1);
         });
 
+        it('should display correct number of filters selected next to it', async () => {
+            // checking for 0 checkboxes
+            let debugPanelFilter = debugPanel.shadowRoot.querySelector(selectors.debugPanelFilterComponent);
+            let filterDescription = debugPanelFilter.shadowRoot.querySelector(selectors.filterDescription).value;
+            expect(filterDescription).not.toBeNull();
+            expect(filterDescription).toEqual(LABELS.basicFilter);
+
+            // checking for 2 checkboxes
+            debugPanel.shadowRoot.querySelector(selectors.checkboxesGroup).value = [LABELS.transactionFilter];
+            const checkboxGroup = debugPanel.shadowRoot.querySelector(selectors.checkboxesGroup);
+
+            expect(checkboxGroup.value).toHaveLength(1);
+            expect(checkboxGroup.options).toHaveLength(3);
+
+            checkboxGroup.dispatchEvent(
+                new CustomEvent('change', {
+                    detail: {
+                        value: [LABELS.govLimFilter, LABELS.showApiNamesFilter]
+                    }
+                })
+            );
+            await ticks(1);
+
+            filterDescription = debugPanelFilter.shadowRoot.querySelector(selectors.filterDescription).value;
+            expect(filterDescription).not.toBeNull();
+            expect(filterDescription).toEqual(format(LABELS.numFiltersText, 2));
+
+            // checking for 1 checkbox
+            filterDescription = debugPanelFilter.shadowRoot.querySelector(selectors.filterDescription).value;
+            checkboxGroup.dispatchEvent(
+                new CustomEvent('change', {
+                    detail: {
+                        value: [LABELS.govLimFilter]
+                    }
+                })
+            );
+            await ticks(1);
+
+            debugPanelFilter = debugPanel.shadowRoot.querySelector(selectors.debugPanelFilterComponent);
+            filterDescription = debugPanelFilter.shadowRoot.querySelector(selectors.filterDescription).value;
+            expect(filterDescription).not.toBeNull();
+            expect(filterDescription).toEqual(format(LABELS.singleFilterText, 1));
+        });
+
         it('should display transaction boundaries when filtered in', async () => {
             debugPanel.shadowRoot.querySelector(selectors.checkboxesGroup).value = [LABELS.transactionFilter];
             const checkboxGroup = debugPanel.shadowRoot.querySelector(selectors.checkboxesGroup);
             expect(checkboxGroup.value).toHaveLength(1);
-            expect(checkboxGroup.options).toHaveLength(2);
+            expect(checkboxGroup.options).toHaveLength(3);
             checkboxGroup.dispatchEvent(
                 new CustomEvent('change', {
                     detail: {
@@ -154,7 +215,7 @@ describe('filter behaviour', () => {
             debugPanel.shadowRoot.querySelector(selectors.checkboxesGroup).value = [LABELS.govLimFilter];
             const checkboxGroup = debugPanel.shadowRoot.querySelector(selectors.checkboxesGroup);
             expect(checkboxGroup.value).toHaveLength(1);
-            expect(checkboxGroup.options).toHaveLength(2);
+            expect(checkboxGroup.options).toHaveLength(3);
             checkboxGroup.dispatchEvent(
                 new CustomEvent('change', {
                     detail: {
@@ -168,6 +229,25 @@ describe('filter behaviour', () => {
             expect(govLimContent).toBeTruthy();
             const limits = govLimContent.querySelectorAll('lightning-formatted-rich-text');
             expect(limits.length).toEqual(completedInterview.debugTrace[1].limits.length);
+        });
+
+        it('should display api names when filtered in', async () => {
+            debugPanel.shadowRoot.querySelector(selectors.checkboxesGroup).value = [LABELS.showApiNamesFilter];
+            const checkboxGroup = debugPanel.shadowRoot.querySelector(selectors.checkboxesGroup);
+            expect(checkboxGroup.value).toHaveLength(1);
+            expect(checkboxGroup.options).toHaveLength(3);
+            checkboxGroup.dispatchEvent(
+                new CustomEvent('change', {
+                    detail: {
+                        value: [LABELS.showApiNamesFilter]
+                    }
+                })
+            );
+            await ticks(1);
+
+            expect(debugPanel.shadowRoot.querySelectorAll(selectors.accordionSection)[1].label).toBe(
+                completedInterview.debugTrace[1].elementType + ': ' + completedInterview.debugTrace[1].elementApiName
+            );
         });
 
         it('should NOT display transaction boundaries when filtered out', async () => {
@@ -218,6 +298,31 @@ describe('filter behaviour', () => {
             expect(allDebugEntries.length).toEqual(completedInterview.debugTrace.length);
             expect(allDebugEntries[1].shadowRoot.querySelector(selectors.govLimText)).toBeFalsy();
         });
+
+        it('should NOT display api names when filtered out', async () => {
+            const checkboxGroup = debugPanel.shadowRoot.querySelector(selectors.checkboxesGroup);
+            checkboxGroup.dispatchEvent(
+                new CustomEvent('change', {
+                    detail: {
+                        value: [LABELS.showApiNamesFilter]
+                    }
+                })
+            );
+            await ticks(1);
+            checkboxGroup.dispatchEvent(
+                new CustomEvent('change', {
+                    detail: {
+                        value: []
+                    }
+                })
+            );
+            await ticks(1);
+
+            expect(allDebugEntries.length).toEqual(completedInterview.debugTrace.length);
+            expect(debugPanel.shadowRoot.querySelectorAll(selectors.accordionSection)[1].label).toBe(
+                completedInterview.debugTrace[1].elementType + ': ' + completedInterview.debugTrace[1].elementLabel
+            );
+        });
     });
 
     describe('Debug panel in one click debugging filter behaviour', () => {
@@ -245,7 +350,7 @@ describe('filter behaviour', () => {
             debugPanel.shadowRoot.querySelector(selectors.checkboxesGroup).value = [LABELS.transactionFilter];
             const checkboxGroup = debugPanel.shadowRoot.querySelector(selectors.checkboxesGroup);
             expect(checkboxGroup.value).toHaveLength(1);
-            expect(checkboxGroup.options).toHaveLength(1);
+            expect(checkboxGroup.options).toHaveLength(2);
             checkboxGroup.dispatchEvent(
                 new CustomEvent('change', {
                     detail: {
@@ -258,6 +363,32 @@ describe('filter behaviour', () => {
             const allDebugEntries = debugPanel.shadowRoot.querySelectorAll(selectors.debugPanelBodyComponent);
             expect(allDebugEntries.length).toEqual(completedInterview.debugTrace.length + 1);
             expect(allDebugEntries[2].title).toContain('ROLLBACK');
+        });
+
+        it('should not display api names by default', () => {
+            expect(allDebugEntries.length).toEqual(completedInterview.debugTrace.length);
+            expect(debugPanel.shadowRoot.querySelectorAll(selectors.accordionSection)[1].label).toBe(
+                completedInterview.debugTrace[1].elementType + ': ' + completedInterview.debugTrace[1].elementLabel
+            );
+        });
+
+        it('should display api names when filtered in', async () => {
+            debugPanel.shadowRoot.querySelector(selectors.checkboxesGroup).value = [LABELS.showApiNamesFilter];
+            const checkboxGroup = debugPanel.shadowRoot.querySelector(selectors.checkboxesGroup);
+            expect(checkboxGroup.value).toHaveLength(1);
+            expect(checkboxGroup.options).toHaveLength(2);
+            checkboxGroup.dispatchEvent(
+                new CustomEvent('change', {
+                    detail: {
+                        value: [LABELS.showApiNamesFilter]
+                    }
+                })
+            );
+            await ticks(1);
+
+            expect(debugPanel.shadowRoot.querySelectorAll(selectors.accordionSection)[1].label).toBe(
+                completedInterview.debugTrace[1].elementType + ': ' + completedInterview.debugTrace[1].elementApiName
+            );
         });
     });
 
@@ -273,6 +404,7 @@ describe('filter behaviour', () => {
             expect(resumeSection.innerHTML).toBe(focusedElement.shadowRoot.activeElement.innerHTML);
         });
     });
+
     describe('debug focus behavior', () => {
         let debugPanel;
         beforeEach(() => {

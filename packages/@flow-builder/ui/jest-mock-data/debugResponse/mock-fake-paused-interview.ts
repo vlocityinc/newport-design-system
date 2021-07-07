@@ -24,6 +24,7 @@ export const fakePausedInterview = {
             ],
             elementType: 'Assignment',
             elementApiName: 'A',
+            elementLabel: 'ALabel',
             entryType: 'DefaultDebugInfoEntry'
         },
         {
@@ -52,6 +53,7 @@ export const fakePausedInterview = {
             ],
             elementType: 'Pause',
             elementApiName: 'P',
+            elementLabel: 'PLabel',
             entryType: 'DefaultDebugInfoEntry'
         },
         {
@@ -92,6 +94,7 @@ export const fakePausedInterviewWithoutAlarmEvent = {
             ],
             elementType: 'Assignment',
             elementApiName: 'A',
+            elementLabel: 'ALabel',
             entryType: 'DefaultDebugInfoEntry'
         },
         {
@@ -120,6 +123,7 @@ export const fakePausedInterviewWithoutAlarmEvent = {
             ],
             elementType: 'Pause',
             elementApiName: 'P',
+            elementLabel: 'PLabel',
             entryType: 'DefaultDebugInfoEntry'
         },
         {
@@ -165,12 +169,14 @@ export const fakeResumedInterview = {
             ],
             elementType: 'Assignment',
             elementApiName: 'A',
+            elementLabel: 'ALabel',
             entryType: 'DefaultDebugInfoEntry'
         },
         {
             lines: ['RESUME LABEL: ', 'The interview was resumed at 2021-05-24T23:32:07Z '],
             elementType: 'Resume label',
             elementApiName: '',
+            elementLabel: '',
             entryType: 'DefaultDebugInfoEntry'
         }
     ],

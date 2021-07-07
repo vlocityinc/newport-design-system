@@ -38,10 +38,10 @@ export function copyAndUpdateDebugTraceObject(debugData) {
         const trace = debugData.debugTrace[i].lines.filter((e) => {
             return !!e;
         });
-        const cardTitle = makeElementTitle(debugData.debugTrace[i]);
         debugTraces.push({
-            title: cardTitle,
-            lines: cardTitle !== '' ? trace.slice(1) : trace, // remove 1st elem cause it has the title (see BaseInterviewHTMLWriter#addElementHeader)
+            titleWithApiName: makeElementTitle(debugData.debugTrace[i], true),
+            titleWithLabel: makeElementTitle(debugData.debugTrace[i], false),
+            lines: trace,
             entryType: debugData.debugTrace[i].entryType,
             error: debugData.debugTrace[i].error,
             limits:
@@ -75,7 +75,8 @@ export function copyAndUpdateDebugTraceObject(debugData) {
             copyTraces = Object.assign([], debugTraces);
 
             debugTraces.push({
-                title: LABELS.waitEventSelectionHeader,
+                titleWithApiName: LABELS.waitEventSelectionHeader,
+                titleWithLabel: LABELS.waitEventSelectionHeader,
                 lines: [LABELS.alarmEventHelpText],
                 waitevents: waitEvents,
                 resumetime: resumeTime,
@@ -83,7 +84,8 @@ export function copyAndUpdateDebugTraceObject(debugData) {
             });
         } else {
             debugTraces.push({
-                title: LABELS.waitEventSelectionHeader,
+                titleWithApiName: LABELS.waitEventSelectionHeader,
+                titleWithLabel: LABELS.waitEventSelectionHeader,
                 lines: [LABELS.noAlarmEventLine],
                 id: generateGuid()
             });
@@ -133,7 +135,8 @@ function getStartInterviewInfo(debugData) {
     });
     startedInfo.push(format(LABELS.interviewStartedAt, formatDateHelper(debugData.startInterviewTime).dateAndTime));
     return {
-        title: startedInfo[0],
+        titleWithApiName: startedInfo[0],
+        titleWithLabel: startedInfo[0],
         lines: startedInfo,
         id: generateGuid()
     };
@@ -155,21 +158,24 @@ function getEndInterviewInfo(debugData) {
     switch (debugData.interviewStatus) {
         case STATUS.FINISHED:
             end = {
-                title: LABELS.interviewFinishHeader,
+                titleWithApiName: LABELS.interviewFinishHeader,
+                titleWithLabel: LABELS.interviewFinishHeader,
                 lines: [format(LABELS.interviewFinishedAt, duration, dateTime.date, dateTime.time)],
                 id: generateGuid()
             };
             break;
         case STATUS.ERROR:
             end = {
-                title: LABELS.interviewError,
+                titleWithApiName: LABELS.interviewError,
+                titleWithLabel: LABELS.interviewError,
                 lines: [format(LABELS.interviewErrorAt, dateTime.date, dateTime.time, duration)],
                 id: generateGuid()
             };
             break;
         case STATUS.WAITING:
             end = {
-                title: LABELS.interviewPausedHeader,
+                titleWithApiName: LABELS.interviewPausedHeader,
+                titleWithLabel: LABELS.interviewPausedHeader,
                 lines: [LABELS.interviewPaused],
                 id: generateGuid()
             };
@@ -199,21 +205,32 @@ export function formatDateHelper(dateTime, locale = undefined) {
 }
 
 /**
- * Format the title for the element debug card
+ * Format the title with api name or label for the element debug card
  * eg: elementType: elementApiName
  *
  * corner case: element error card format doesn't need colon
  * eg: Error element <elementApiName> (<elementType>)
  *
  * @param debugTrace the trace of a single entry
+ * @param createTitleWithApi
  * @returns title
  */
-export function makeElementTitle(debugTrace) {
-    if (debugTrace.elementApiName && !debugTrace.elementType.includes(ELEMENT_ERR_TITLE)) {
-        return debugTrace.elementType + ': ' + debugTrace.elementApiName;
+export function makeElementTitle(debugTrace, createTitleWithApi) {
+    let title = '';
+
+    if (debugTrace.elementType && debugTrace.elementType.includes(ELEMENT_ERR_TITLE)) {
+        return debugTrace.elementType;
     }
-    if (!debugTrace.elementApiName && !debugTrace.elementType) {
-        return '';
+
+    if (debugTrace.elementType) {
+        title += debugTrace.elementType;
     }
-    return debugTrace.elementType;
+
+    if (createTitleWithApi && debugTrace.elementApiName) {
+        title += ': ' + debugTrace.elementApiName;
+    } else if (!createTitleWithApi && debugTrace.elementLabel) {
+        title += ': ' + debugTrace.elementLabel;
+    }
+
+    return title;
 }

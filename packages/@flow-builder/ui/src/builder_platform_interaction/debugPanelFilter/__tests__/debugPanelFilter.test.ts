@@ -49,10 +49,16 @@ describe('filter behaviour', () => {
             let selections = debugPanelFilter.shadowRoot.querySelector(selectors.selectedOptions).value;
             expect(selections).not.toBeNull();
             expect(selections).toEqual(LABELS.govLimFilter);
+
             debugPanelFilter = createComponentUnderTest(LABELS.transactionFilter);
             selections = debugPanelFilter.shadowRoot.querySelector(selectors.selectedOptions).value;
             expect(selections).not.toBeNull();
             expect(selections).toEqual(LABELS.transactionFilter);
+
+            debugPanelFilter = createComponentUnderTest(LABELS.showApiNamesFilter);
+            selections = debugPanelFilter.shadowRoot.querySelector(selectors.selectedOptions).value;
+            expect(selections).not.toBeNull();
+            expect(selections).toEqual(LABELS.showApiNamesFilter);
         });
     });
 });
