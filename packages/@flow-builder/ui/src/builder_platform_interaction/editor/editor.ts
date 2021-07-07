@@ -726,13 +726,9 @@ export default class Editor extends LightningElement {
         const currentState = storeInstance.getCurrentState();
         this.isUndoDisabled = !isUndoAvailable();
         this.isRedoDisabled = !isRedoAvailable();
-        const {
-            status,
-            processType: flowProcessType,
-            triggerType: flowTriggerType,
-            definitionId
-        } = currentState.properties;
+        const { status, processType: flowProcessType, definitionId } = currentState.properties;
         this.flowStatus = status;
+        const flowTriggerType = getTriggerType();
         const flowRecordTriggerType = getRecordTriggerType();
         const flowProcessTypeChanged = flowProcessType && flowProcessType !== this.properties.processType;
         const recordTriggerTypeChanged = flowRecordTriggerType !== this.recordTriggerType;
@@ -777,19 +773,12 @@ export default class Editor extends LightningElement {
                     this.propertyEditorBlockerCalls.push(loadEventTypesManagedSetup);
                 }
                 if (!flowProcessTypeChanged) {
-                    const { loadActionsPromise, loadPeripheralMetadataPromise } = loadOnTriggerTypeChange(
+                    const { loadPeripheralMetadataPromise } = loadOnTriggerTypeChange(
                         flowProcessType,
                         flowTriggerType,
                         flowRecordTriggerType
                     );
                     this.propertyEditorBlockerCalls.push(loadPeripheralMetadataPromise);
-
-                    loadActionsPromise.then(() => {
-                        const actions = getInvocableActions();
-                        if (actions) {
-                            this.supportedActions = actions;
-                        }
-                    });
                 }
             }
 
