@@ -172,4 +172,9 @@ export default class DebugPanel extends LightningElement {
         // reset this here everytime the panel renders, so it's only set to true when a debug run is made
         this.fromDebugRun = false;
     }
+
+    @api
+    focus() {
+        // ToDo: Assign focus to the first focusable item in the Debug Panel
+    }
 }

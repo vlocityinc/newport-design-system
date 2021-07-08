@@ -1092,12 +1092,14 @@ export const debugInterviewResponseCallback = (
  * @param leftPanelComponent Left panel component
  * @param toolbarComponent Toolbar component
  * @param headerComponent Header component
+ * @param rightPanelComponent Right Panel component
  * @param shiftBackward Whether focus is shifted forwarded (F6) or backwards (shift + F6) from canvas
  */
 export const shiftFocusFromCanvas = (
     leftPanelComponent: Object,
     toolbarComponent: Object,
     headerComponent: Object,
+    rightPanelComponent: Object,
     shiftBackward: boolean
 ) => {
     if (shiftBackward) {
@@ -1106,6 +1108,8 @@ export const shiftFocusFromCanvas = (
         } else {
             toolbarComponent.focus();
         }
+    } else if (rightPanelComponent) {
+        rightPanelComponent.focus();
     } else {
         headerComponent.focus();
     }

@@ -1614,13 +1614,23 @@ describe('Editor Utils Test', () => {
     });
 
     describe('shiftFocusFromCanvas function', () => {
-        it('focuses on header when shifting focus forward', () => {
+        it('focuses on header when shifting focus forward and right panel is not present', () => {
             const mockFocusFunction = jest.fn();
             const mockHeaderComponent = {
                 focus: mockFocusFunction
             };
 
-            shiftFocusFromCanvas(null, null, mockHeaderComponent, false);
+            shiftFocusFromCanvas(null, null, mockHeaderComponent, null, false);
+            expect(mockFocusFunction).toHaveBeenCalled();
+        });
+
+        it('focuses on right panel when shifting focus forward and right panel is present', () => {
+            const mockFocusFunction = jest.fn();
+            const mockRightPanelComponent = {
+                focus: mockFocusFunction
+            };
+
+            shiftFocusFromCanvas(null, null, null, mockRightPanelComponent, false);
             expect(mockFocusFunction).toHaveBeenCalled();
         });
 
@@ -1630,7 +1640,7 @@ describe('Editor Utils Test', () => {
                 focus: mockFocusFunction
             };
 
-            shiftFocusFromCanvas(mockLeftPanelComponent, null, null, true);
+            shiftFocusFromCanvas(mockLeftPanelComponent, null, null, null, true);
             expect(mockFocusFunction).toHaveBeenCalled();
         });
 
@@ -1640,7 +1650,7 @@ describe('Editor Utils Test', () => {
                 focus: mockFocusFunction
             };
 
-            shiftFocusFromCanvas(null, mockToolbarComponent, null, true);
+            shiftFocusFromCanvas(null, mockToolbarComponent, null, null, true);
             expect(mockFocusFunction).toHaveBeenCalled();
         });
     });

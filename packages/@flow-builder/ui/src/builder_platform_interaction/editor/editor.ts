@@ -195,7 +195,8 @@ const PANELS = {
     TOOLBOX: 'builder_platform_interaction-left-panel',
     FREEFORM_CANVAS: 'builder_platform_interaction-canvas-container',
     AUTOLAYOUT_CANVAS: 'builder_platform_interaction-alc-canvas-container',
-    PROPERTY_EDITOR: 'builder_platform_interaction-property-editor-panel'
+    PROPERTY_EDITOR_PANEL: 'builder_platform_interaction-property-editor-panel',
+    DEBUG_PANEL: 'builder_platform_interaction-debug-panel'
 };
 
 const EDITOR_COMPONENT_CONFIGS = {
@@ -2045,7 +2046,7 @@ export default class Editor extends LightningElement {
      * Handler method for designating focus to the property editor panel
      */
     handleFocusPropertyEditor() {
-        const propertyEditor = this.template.querySelector(PANELS.PROPERTY_EDITOR);
+        const propertyEditor = this.template.querySelector(PANELS.PROPERTY_EDITOR_PANEL);
         if (propertyEditor) {
             propertyEditor.focus();
         }
@@ -2141,11 +2142,23 @@ export default class Editor extends LightningElement {
         return this.template.querySelector(PANELS.HEADER);
     };
 
+    /**
+     * Get the right panel component
+     *
+     * @returns The property editor panel or debug panel component (if present)
+     */
+    _getRightPanelComponent = () => {
+        return (
+            this.template.querySelector(PANELS.PROPERTY_EDITOR_PANEL) || this.template.querySelector(PANELS.DEBUG_PANEL)
+        );
+    };
+
     handleCanvasFocusOut = (event) => {
         shiftFocusFromCanvas(
             this._getLeftPanelComponent(),
             this._getToolbarComponent(),
             this._getHeaderComponent(),
+            this._getRightPanelComponent(),
             event.detail.shiftBackward
         );
     };
@@ -2157,7 +2170,12 @@ export default class Editor extends LightningElement {
         switch (currentlyFocusedElement) {
             case PANELS.HEADER:
                 if (shiftBackward) {
-                    this._getCanvasComponent().focus();
+                    const rightPanelComponent = this._getRightPanelComponent();
+                    if (rightPanelComponent) {
+                        rightPanelComponent.focus();
+                    } else {
+                        this._getCanvasComponent().focus();
+                    }
                 } else {
                     this._getToolbarComponent().focus();
                 }
@@ -2187,12 +2205,22 @@ export default class Editor extends LightningElement {
                     this._getLeftPanelComponent(),
                     this._getToolbarComponent(),
                     this._getHeaderComponent(),
+                    this._getRightPanelComponent(),
                     shiftBackward
                 );
                 break;
 
             case PANELS.AUTOLAYOUT_CANVAS:
                 this._getCanvasComponent().shiftFocus(shiftBackward);
+                break;
+
+            case PANELS.PROPERTY_EDITOR_PANEL:
+            case PANELS.DEBUG_PANEL:
+                if (shiftBackward) {
+                    this._getCanvasComponent().focus();
+                } else {
+                    this._getHeaderComponent().focus();
+                }
                 break;
 
             default:
