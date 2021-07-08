@@ -44,11 +44,8 @@
     </div>
     <!-- Choose record save trigger (on create vs update) -->
     <div class="slds-border_top slds-p-horizontal_small slds-p-around_medium">
-        <div class="slds-form slds-p-horizontal_small slds-size_1-of-2">
-            <div class="slds-text-heading_medium">{editTriggerLabel}</div>
-            <div class="slds-text-body_small slds-text-color_weak slds-p-vertical_x-small">
-                {editTriggerDescription}
-            </div>
+        <div class="slds-form slds-p-horizontal_small slds-size_3-of-4">
+            <div class="slds-text-heading_medium slds-p-bottom_x-small">{editTriggerLabel}</div>
             <lightning-radio-group
                 class="recordCreateOrUpdate slds-form-element slds-col slds-grow"
                 name="recordCreateOrUpdate"
@@ -62,10 +59,10 @@
         </div>
     </div>
     <div class="slds-border_top slds-p-around_medium">
-        <div class="slds-form slds-size_1-of-2">
+        <div class="slds-form slds-size_3-of-4">
             <div class="slds-p-left_small slds-text-heading_medium slds-form-element">{setConditionsHeaderLabel}</div>
             <div class="slds-p-left_small slds-text-body_small slds-text-color_weak slds-p-vertical_x-small">
-                {setConditionsDescription}
+                <lightning-formatted-rich-text value={setConditionsDescription}></lightning-formatted-rich-text>
             </div>
         </div>
         <builder_platform_interaction-record-filter

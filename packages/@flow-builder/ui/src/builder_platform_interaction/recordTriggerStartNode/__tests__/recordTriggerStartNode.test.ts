@@ -129,7 +129,7 @@ describe('When flow triggerType is AFTER_SAVE', () => {
 
     it('Checks if selectedRunFlowLabel rendered correctly', () => {
         expect(runQuerySelector(startElement, selectors.selectedRunFlowLabel).textContent).toBe(
-            'FlowBuilderStartEditor.triggerTypeAfterSave'
+            'FlowBuilderStartEditor.recordChangeTriggerTypeAfterSave'
         );
     });
 });
@@ -150,7 +150,7 @@ describe('When flow triggerType is BEFORE_SAVE', () => {
 
     it('Checks if selectedRunFlowLabel rendered correctly', () => {
         expect(runQuerySelector(startElement, selectors.selectedRunFlowLabel).textContent).toBe(
-            'FlowBuilderStartEditor.triggerTypeBeforeSave'
+            'FlowBuilderStartEditor.recordChangeTriggerTypeBeforeSave'
         );
     });
 });

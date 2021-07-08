@@ -55,16 +55,16 @@ export default class RecordTriggerStartNode extends LightningElement {
         return LABELS.startElementTrigger;
     }
 
-    get runFlowLabel() {
-        return LABELS.startElementRunFlow;
+    get optimizeForLabel() {
+        return LABELS.startElementOptimizeFor;
     }
 
-    get selectedRunFlowLabel() {
+    get selectedOptimizeForLabel() {
         switch (this.node.triggerType) {
             case BEFORE_SAVE:
-                return LABELS.triggerTypeBeforeSave;
+                return LABELS.recordChangeTriggerTypeBeforeSave;
             case AFTER_SAVE:
-                return LABELS.triggerTypeAfterSave;
+                return LABELS.recordChangeTriggerTypeAfterSave;
             case BEFORE_DELETE:
                 return LABELS.triggerTypeBeforeDelete;
             default:

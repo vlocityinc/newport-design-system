@@ -71,14 +71,14 @@ export default class RecordChangeTriggerEditor extends LightningElement {
         return [
             {
                 itemId: BEFORE_SAVE,
-                label: this.labels.triggerTypeBeforeSave,
+                label: this.labels.recordChangeTriggerTypeBeforeSave,
                 description: this.labels.triggerTypeBeforeSaveDescription,
                 isSelected: this.isBeforeSave,
                 iconName: null
             },
             {
                 itemId: AFTER_SAVE,
-                label: this.labels.triggerTypeAfterSave,
+                label: this.labels.recordChangeTriggerTypeAfterSave,
                 description: this.labels.triggerTypeAfterSaveDescription,
                 isSelected: this.isAfterSave,
                 iconName: null
@@ -197,7 +197,7 @@ export default class RecordChangeTriggerEditor extends LightningElement {
     get triggerTypeOptions() {
         return [
             {
-                label: LABELS.triggerTypeBeforeSave,
+                label: LABELS.recordChangeTriggerTypeBeforeSave,
                 value: BEFORE_SAVE
             },
             {
@@ -205,7 +205,7 @@ export default class RecordChangeTriggerEditor extends LightningElement {
                 value: BEFORE_DELETE
             },
             {
-                label: LABELS.triggerTypeAfterSave,
+                label: LABELS.recordChangeTriggerTypeAfterSave,
                 value: AFTER_SAVE
             }
         ];
@@ -244,15 +244,11 @@ export default class RecordChangeTriggerEditor extends LightningElement {
     }
 
     get editTriggerObjectLabel() {
-        return this.labels.editTriggerObjectLabel;
+        return this.labels.startElementSelectObject;
     }
 
     get editTriggerLabel() {
         return this.labels.editTriggerLabel;
-    }
-
-    get editTriggerDescription() {
-        return this.labels.editTriggerDescription;
     }
 
     get setConditionsHeaderLabel() {
@@ -266,10 +262,9 @@ export default class RecordChangeTriggerEditor extends LightningElement {
     get contextObjectDescription() {
         switch (this.triggerType) {
             case BEFORE_DELETE:
-                return this.labels.contextObjectDeleteDescription;
             case BEFORE_SAVE:
             case AFTER_SAVE:
-                return this.labels.contextObjectDescription;
+                return this.labels.recordChangeContextObjectDescription;
             case SCHEDULED:
             case SCHEDULED_JOURNEY:
                 return this.labels.filterRecordsDescription;

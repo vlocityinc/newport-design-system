@@ -5,9 +5,9 @@ import recordTriggerTypeUpdated from '@salesforce/label/FlowBuilderStartEditor.r
 import recordTriggerTypeCreated from '@salesforce/label/FlowBuilderStartEditor.recordTriggerTypeCreated';
 import recordTriggerTypeCreatedOrUpdated from '@salesforce/label/FlowBuilderStartEditor.recordTriggerTypeCreatedOrUpdated';
 import recordTriggerTypeDeleted from '@salesforce/label/FlowBuilderStartEditor.recordTriggerTypeDeleted';
-import triggerTypeBeforeSave from '@salesforce/label/FlowBuilderStartEditor.triggerTypeBeforeSave';
+import recordChangeTriggerTypeBeforeSave from '@salesforce/label/FlowBuilderStartEditor.recordChangeTriggerTypeBeforeSave';
 import triggerTypeBeforeDelete from '@salesforce/label/FlowBuilderStartEditor.triggerTypeBeforeDelete';
-import triggerTypeAfterSave from '@salesforce/label/FlowBuilderStartEditor.triggerTypeAfterSave';
+import recordChangeTriggerTypeAfterSave from '@salesforce/label/FlowBuilderStartEditor.recordChangeTriggerTypeAfterSave';
 import triggerTypeBeforeSaveDescription from '@salesforce/label/FlowBuilderStartEditor.triggerTypeBeforeSaveDescription';
 import triggerTypeAfterSaveDescription from '@salesforce/label/FlowBuilderStartEditor.triggerTypeAfterSaveDescription';
 import triggerTypeBeforeDeleteDescription from '@salesforce/label/FlowBuilderStartEditor.triggerTypeBeforeDeleteDescription';
@@ -18,10 +18,9 @@ import chooseObjectAndRecord from '@salesforce/label/FlowBuilderStartEditor.choo
 import contextObjectHeader from '@salesforce/label/FlowBuilderStartEditor.contextObjectHeader';
 import object from '@salesforce/label/FlowBuilderRecordEditor.object';
 import objectPlaceholder from '@salesforce/label/FlowBuilderRecordEditor.objectPlaceholder';
-import editTriggerObjectLabel from '@salesforce/label/FlowBuilderElementConfig.editTriggerObjectLabel';
-import contextObjectDescription from '@salesforce/label/FlowBuilderStartEditor.contextObjectDescription';
+import startElementSelectObject from '@salesforce/label/FlowBuilderCanvasElement.startElementSelectObject';
+import recordChangeContextObjectDescription from '@salesforce/label/FlowBuilderStartEditor.recordChangeContextObjectDescription';
 import editTriggerLabel from '@salesforce/label/FlowBuilderElementConfig.editTriggerLabel';
-import editTriggerDescription from '@salesforce/label/FlowBuilderElementConfig.editTriggerDescription';
 import contextObjectDeleteDescription from '@salesforce/label/FlowBuilderStartEditor.contextObjectDeleteDescription';
 import filterRecordsDescription from '@salesforce/label/FlowBuilderStartEditor.filterRecordsDescription';
 import requireRecordChangeOption from '@salesforce/label/FlowBuilderRecordEditor.requireRecordChangeOption';
@@ -40,8 +39,8 @@ export const LABELS = {
     recordTriggerTypeCreated,
     recordTriggerTypeCreatedOrUpdated,
     recordTriggerTypeDeleted,
-    triggerTypeBeforeSave,
-    triggerTypeAfterSave,
+    recordChangeTriggerTypeBeforeSave,
+    recordChangeTriggerTypeAfterSave,
     triggerTypeBeforeDelete,
     triggerTypeBeforeSaveDescription,
     triggerTypeAfterSaveDescription,
@@ -51,8 +50,8 @@ export const LABELS = {
     runAsyncScheduledPathCheckboxLabel,
     chooseObjectAndRecord,
     contextObjectHeader,
-    contextObjectDescription,
-    editTriggerObjectLabel,
+    recordChangeContextObjectDescription,
+    startElementSelectObject,
     contextObjectDeleteDescription,
     filterRecordsDescription,
     object,
@@ -61,7 +60,6 @@ export const LABELS = {
     requireChangeOptionsHelptext,
     disableRadioGroupStartText,
     editTriggerLabel,
-    editTriggerDescription,
     setConditionsHeaderLabel,
     setConditionsDescription
 };
