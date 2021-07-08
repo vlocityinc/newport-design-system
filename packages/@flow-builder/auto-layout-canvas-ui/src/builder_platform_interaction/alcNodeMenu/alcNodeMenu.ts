@@ -72,7 +72,11 @@ export default class AlcNodeMenu extends Menu {
     @api
     moveFocus = (shift: boolean) => {
         if (this.isDeleteBranchElementMode) {
-            (shift ? this.moveFocusToFooterButton : this.moveFocusToBackButton)();
+            if (shift) {
+                this.moveFocusToFooterButton();
+            } else {
+                this.moveFocusToBackButton();
+            }
         } else {
             this.tabFocusRingIndex = TabFocusRingItems.Icon;
             this.handleTabCommand(shift);
