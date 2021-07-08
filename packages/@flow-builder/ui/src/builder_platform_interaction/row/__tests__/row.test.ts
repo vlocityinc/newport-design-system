@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import Row from 'builder_platform_interaction/row';
-import { DeleteListItemEvent } from 'builder_platform_interaction/events';
+import { DeleteListItemEvent, EditListItemEvent } from 'builder_platform_interaction/events';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const prefix = 'myAwesomePrefix';
@@ -185,6 +185,23 @@ describe('Row Events', () => {
         myrowElement.addEventListener(DeleteListItemEvent.EVENT_NAME, eventCallback);
         const deleteButton = getButtonIconFromName(myrowElement, iconTypes.deleteButtonIcon);
         deleteButton.click();
+        expect(eventCallback).toHaveBeenCalled();
+        expect(eventCallback.mock.calls[0][0]).toMatchObject({
+            detail: { index: itemIndex }
+        });
+    });
+
+    it('Row edit event should be fired when edit button is clicked for a row with proper index info in the event detail', async () => {
+        const myrowElement = createComponentUnderTest({
+            enableEdit: undefined,
+            isEditable: true
+        });
+        myrowElement.itemIndex = itemIndex;
+        await ticks(1);
+        const eventCallback = jest.fn();
+        myrowElement.addEventListener(EditListItemEvent.EVENT_NAME, eventCallback);
+        const editButton = getButtonIconFromName(myrowElement, iconTypes.editButtonIcon);
+        editButton.click();
         expect(eventCallback).toHaveBeenCalled();
         expect(eventCallback.mock.calls[0][0]).toMatchObject({
             detail: { index: itemIndex }

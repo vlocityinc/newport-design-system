@@ -8,7 +8,12 @@ import {
     ticks,
     setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
-import { PropertyChangedEvent, ScreenEditorEventName } from 'builder_platform_interaction/events';
+import {
+    PropertyChangedEvent,
+    ScreenEditorEventName,
+    EditElementEvent,
+    EditListItemEvent
+} from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import { ChoiceDisplayOptions } from 'builder_platform_interaction/screenEditorUtils';
 import { addCurrentValueToEvent } from 'builder_platform_interaction/screenEditorCommonUtils';
@@ -638,7 +643,7 @@ describe('Switching visual display type', () => {
         );
     });
 });
-describe('screen-choise-field-properties-editor expanded picklist values', () => {
+describe('screen-choice-field-properties-editor expanded picklist values', () => {
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
         const testField = createTestScreenField(fieldName, FlowScreenFieldType.DropdownBox, SCREEN_NO_DEF_VALUE, {});
@@ -691,6 +696,30 @@ describe('screen-choice-field-properties-editor for single select, type Number',
             );
             await ticks(1);
             expect(choiceChangedSpy).toHaveBeenCalled();
+        });
+    });
+
+    describe('handleEditChoice', () => {
+        let screenChoiceFieldPropEditor;
+        beforeEach(() => {
+            screenChoiceFieldPropEditor = createComponentUnderTest({
+                field: createTestScreenField(fieldName, FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
+                    dataType: 'String',
+                    createChoices: true
+                })
+            });
+        });
+        it('fires editElementEvent with correct choice GUID', async () => {
+            const eventCallback = jest.fn();
+            screenChoiceFieldPropEditor.addEventListener(EditElementEvent.EVENT_NAME, eventCallback);
+            const list = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.LIST);
+            list.dispatchEvent(new EditListItemEvent(1));
+            expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                detail: {
+                    canvasElementGUID: 'choice1'
+                }
+            });
         });
     });
 });

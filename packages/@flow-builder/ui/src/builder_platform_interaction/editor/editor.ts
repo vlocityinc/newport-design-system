@@ -2319,8 +2319,9 @@ export default class Editor extends LightningElement {
         const newResourceCallback = this.newResourceCallback;
         const processType = this.properties.processType;
         if (
-            !isSystemElement(element.elementType) ||
-            (element.elementType === ELEMENT_TYPE.START_ELEMENT && isConfigurableStartSupported(processType))
+            element &&
+            (!isSystemElement(element.elementType) ||
+                (element.elementType === ELEMENT_TYPE.START_ELEMENT && isConfigurableStartSupported(processType)))
         ) {
             logPerfTransactionStart('PropertyEditor');
             this.queueOpenPropertyEditor(

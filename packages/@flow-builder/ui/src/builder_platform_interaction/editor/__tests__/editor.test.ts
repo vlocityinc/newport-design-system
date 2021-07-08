@@ -915,7 +915,6 @@ describe('property editor', () => {
 
     it('for edit resource is always opened in a modal', async () => {
         expect.assertions(1);
-
         mockStoreState.properties.processType = 'right';
 
         const editorComponent = createComponentUnderTest({
@@ -947,6 +946,77 @@ describe('property editor', () => {
     });
 
     describe('in modal', () => {
+        it('the editResourceCallback calls invokePropertyEditor twice when editElementEvent is dispatched with a genuine guid', async () => {
+            const editorComponent = createComponentUnderTest();
+
+            const editElementEvent = new EditElementEvent('1');
+            editorComponent.shadowRoot
+                .querySelector('builder_platform_interaction-left-panel')
+                .dispatchEvent(editElementEvent);
+
+            await ticks(1);
+            const editResourceCallback = invokePropertyEditor.mock.calls[0][1].editResourceCallback;
+            editResourceCallback({
+                mode: 'editelement',
+                canvasElementGUID: '2'
+            });
+            await ticks(1);
+            expect(invokePropertyEditor).toHaveBeenCalledTimes(2);
+            expect(invokePropertyEditor).toHaveBeenNthCalledWith(
+                1,
+                'builder_platform_interaction:propertyEditor',
+                expect.objectContaining({
+                    mode: 'editelement',
+                    newResourceCallback: expect.anything(),
+                    editResourceCallback: expect.anything(),
+                    node: expect.objectContaining({
+                        guid: '1'
+                    })
+                })
+            );
+            expect(invokePropertyEditor).toHaveBeenNthCalledWith(
+                2,
+                'builder_platform_interaction:propertyEditor',
+                expect.objectContaining({
+                    mode: 'editelement',
+                    newResourceCallback: expect.anything(),
+                    editResourceCallback: expect.anything(),
+                    node: expect.objectContaining({
+                        guid: '2'
+                    })
+                })
+            );
+        });
+        it('the editResourceCallback calls invokePropertyEditor when editElementEvent is dispatched with a non-existent guid', async () => {
+            const editorComponent = createComponentUnderTest();
+
+            const editElementEvent = new EditElementEvent('1');
+            editorComponent.shadowRoot
+                .querySelector('builder_platform_interaction-left-panel')
+                .dispatchEvent(editElementEvent);
+
+            await ticks(1);
+            const editResourceCallback = invokePropertyEditor.mock.calls[0][1].editResourceCallback;
+            editResourceCallback({
+                mode: 'editelement',
+                canvasElementGUID: 'TK421'
+            });
+
+            await ticks(1);
+            expect(invokePropertyEditor).toHaveBeenCalledTimes(1);
+            expect(invokePropertyEditor).toHaveBeenCalledWith(
+                'builder_platform_interaction:propertyEditor',
+                expect.objectContaining({
+                    mode: 'editelement',
+                    newResourceCallback: expect.anything(),
+                    editResourceCallback: expect.anything(),
+                    node: expect.objectContaining({
+                        guid: '1'
+                    })
+                })
+            );
+        });
+
         it('the newResourceCallback calls invokePropertyEditor when no new resource is passed in', async () => {
             const editorComponent = createComponentUnderTest();
 
@@ -959,12 +1029,10 @@ describe('property editor', () => {
 
             const newResourceCallback = invokePropertyEditor.mock.calls[0][1].newResourceCallback;
             newResourceCallback({ newResourceInfo: { dataType: 'string', newResource: null } });
-
             expect(invokePropertyEditor).toHaveBeenCalledTimes(2);
         });
         it('the newResourceCallback does not call invokePropertyEditor when a new resource is passed in', async () => {
             const editorComponent = createComponentUnderTest();
-
             const addElementEvent = new AddElementEvent('SCREEN');
             editorComponent.shadowRoot
                 .querySelector('builder_platform_interaction-left-panel')
