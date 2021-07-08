@@ -32,7 +32,8 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
                 isCollection: false,
                 name: guid,
                 choiceText: { value: guid, error: null },
-                picklistField: { value: 'Industry', error: null }
+                picklistField: { value: 'Industry', error: null },
+                picklistObject: { value: 'industryObj', error: null }
             };
         },
         isDevNameInStore: jest.fn()

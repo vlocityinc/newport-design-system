@@ -12,6 +12,7 @@ import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { format } from 'builder_platform_interaction/commonUtils';
 
 /**
  * Wrapper used to represent visual preview of choiced based screen fields, including
@@ -35,9 +36,17 @@ export default class ScreenChoiceField extends LightningElement {
                     // Figure out which property should be used as the label, based on choice type.
                     let label;
                     if (previewChoice.elementType === ELEMENT_TYPE.PICKLIST_CHOICE_SET) {
-                        label = previewChoice.picklistField.value;
+                        label = format(
+                            LABELS.picklistChoiceSetChoiceLabel,
+                            previewChoice.picklistField.value,
+                            previewChoice.picklistObject.value
+                        );
                     } else if (previewChoice.elementType === ELEMENT_TYPE.RECORD_CHOICE_SET) {
-                        label = '[' + LABELS.dynamicRecordChoiceLabel + '] ' + choiceElement.displayField;
+                        label = format(
+                            LABELS.recordChoiceSetChoiceLabel,
+                            choiceElement.displayField,
+                            choiceElement.object
+                        );
                     } else if (previewChoice.elementType === ELEMENT_TYPE.CHOICE) {
                         label = previewChoice.choiceText.value;
                     } else {

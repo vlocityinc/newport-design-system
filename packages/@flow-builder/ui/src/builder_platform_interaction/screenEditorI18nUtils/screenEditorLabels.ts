@@ -160,6 +160,8 @@ import automaticFieldDeleteConsequence from '@salesforce/label/FlowBuilderScreen
 import automaticFieldPropertyEditorPanelTitle from '@salesforce/label/FlowBuilderAutomaticFieldEditor.panelTitle';
 import automaticFieldsLegalNoticeHeader from '@salesforce/label/FlowBuilderAutomaticFieldLegalPopover.headerText';
 import customFooterLegalNoticeHeader from '@salesforce/label/FlowBuilderScreenEditor.customFooterLegalNoticeHeader';
+import picklistChoiceSetChoiceLabel from '@salesforce/label/FlowBuilderScreenEditor.picklistChoiceSetChoiceLabel';
+import recordChoiceSetChoiceLabel from '@salesforce/label/FlowBuilderScreenEditor.recordChoiceSetChoiceLabel';
 
 export const LABELS = {
     errorRequired,
@@ -323,5 +325,7 @@ export const LABELS = {
     automaticFieldDeleteConsequence,
     automaticFieldPropertyEditorPanelTitle,
     automaticFieldsLegalNoticeHeader,
-    customFooterLegalNoticeHeader
+    customFooterLegalNoticeHeader,
+    picklistChoiceSetChoiceLabel,
+    recordChoiceSetChoiceLabel
 };
