@@ -338,25 +338,6 @@ describe('screen-choice-field-properties-editor choice selectors', () => {
         expect(choiceSelectors[1].value.value).toMatch('choice1');
         expect(choiceSelectors[2].value.value).toMatch('choice2');
     });
-    it('Does not fire choice changed event when the choice has not changed', async () => {
-        const propChangedEvent = new PropertyChangedEvent(
-            null,
-            null,
-            null,
-            screenChoiceFieldPropEditor.field.choiceReferences[0].choiceReference.value,
-            null,
-            0,
-            null
-        );
-        const renderedChoiceSelector = query(screenChoiceFieldPropEditor, SELECTORS.CHOICE_SELECTOR);
-
-        const choiceChangedSpy = jest.fn();
-        window.addEventListener(ScreenEditorEventName.ChoiceChanged, choiceChangedSpy);
-        renderedChoiceSelector.dispatchEvent(propChangedEvent);
-        await ticks(1);
-        window.removeEventListener(ScreenEditorEventName.ChoiceChanged, choiceChangedSpy);
-        expect(choiceChangedSpy).not.toHaveBeenCalled();
-    });
     it('Fires a choice changed event when the error on a choice has changed', async () => {
         const propChangedEvent = new PropertyChangedEvent(
             null,

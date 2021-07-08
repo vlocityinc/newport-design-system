@@ -21,7 +21,8 @@ import {
     DECORATE_CANVAS,
     CLEAR_CANVAS_DECORATION,
     UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE,
-    UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY
+    UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY,
+    UPDATE_RESOURCE
 } from 'builder_platform_interaction/actions';
 import { createFlowProperties } from 'builder_platform_interaction/elementFactory';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -65,6 +66,12 @@ export default function flowPropertiesReducer(state = flowProperties, { payload,
                 lastInlineResourceGuid: payload.isAddingResourceViaLeftPanel
                     ? state.lastInlineResourceGuid
                     : payload.guid,
+                hasUnsavedChanges: true
+            };
+        case UPDATE_RESOURCE:
+            return {
+                ...state,
+                lastInlineResourceGuid: payload.isInlineEditingResource ? payload.guid : state.lastInlineResourceGuid,
                 hasUnsavedChanges: true
             };
         case REMOVE_LAST_CREATED_INLINE_RESOURCE:

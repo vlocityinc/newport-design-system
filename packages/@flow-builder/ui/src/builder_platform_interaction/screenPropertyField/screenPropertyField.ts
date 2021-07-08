@@ -75,6 +75,16 @@ export default class ScreenPropertyField extends LightningElement {
 
         this.currentError = newError;
     }
+
+    set ferovPickerId(ferovPickerId) {
+        this._ferovPickerId = ferovPickerId ? ferovPickerId : generateGuid();
+    }
+
+    @api
+    get ferovPickerId() {
+        return this._ferovPickerId;
+    }
+
     get propertyEditorElementType() {
         return ELEMENT_TYPE.SCREEN;
     }

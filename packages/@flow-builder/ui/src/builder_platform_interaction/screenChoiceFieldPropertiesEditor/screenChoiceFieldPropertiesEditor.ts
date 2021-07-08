@@ -25,6 +25,8 @@ import {
 } from 'builder_platform_interaction/screenEditorUtils';
 import { fetchFieldsForEntity, getEntityFieldWithApiName } from 'builder_platform_interaction/sobjectLib';
 import { sanitizeDevName } from 'builder_platform_interaction/commonUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { updateInlineResourceProperties } from 'builder_platform_interaction/actions';
 
 const CHOICES_SECTION_NAME = 'choicesSection';
 const FLOW_INPUT_FIELD_SUB_TYPES = Object.values(INPUT_FIELD_DATA_TYPE);
@@ -34,6 +36,9 @@ export const SINGLE_OR_MULTI_RADIO_GROUP_SELECTOR = 'lightning-radio-group';
 /*
  * Screen element property editor for the radio field.
  */
+
+let storeInstance;
+
 export default class ScreenChoiceFieldPropertiesEditor extends LightningElement {
     labels = LABELS;
     inputFieldMap = INPUT_FIELD_DATA_TYPE;
@@ -43,6 +48,11 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
     _oldPicklistChoiceData;
     isDeletable = true;
     isEditable = true;
+
+    constructor() {
+        super();
+        storeInstance = Store.getStore();
+    }
 
     getSingleOrMultiRadioButtons() {
         return this.template.querySelector(SINGLE_OR_MULTI_RADIO_GROUP_SELECTOR);
@@ -83,7 +93,11 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
             (fieldChoice) => fieldChoice.elementType === ELEMENT_TYPE.PICKLIST_CHOICE_SET
         );
         if (picklistChoiceData) {
-            if (!this._oldPicklistChoiceData || picklistChoiceData.guid !== this._oldPicklistChoiceData.guid) {
+            if (
+                !this._oldPicklistChoiceData ||
+                picklistChoiceData.guid !== this._oldPicklistChoiceData.guid ||
+                picklistChoiceData.picklistField !== this._oldPicklistChoiceData.picklistField
+            ) {
                 fetchFieldsForEntity(picklistChoiceData.picklistObject).then((entity) => {
                     this._activePicklistValues = getEntityFieldWithApiName(
                         entity,
@@ -119,6 +133,11 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
         ) {
             const thisResource = this.field.choiceReferences[detail.index];
             if (thisResource?.choiceReference?.value) {
+                storeInstance.dispatch(
+                    updateInlineResourceProperties({
+                        lastInlineResourceRowIndex: thisResource.choiceReference.value
+                    })
+                );
                 const editElementEvent = new EditElementEvent(thisResource.choiceReference.value);
                 this.dispatchEvent(editElementEvent);
             }
@@ -150,16 +169,6 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
         // We get the display value from the event, which might be something
         // like {!choice1}, but we want the devName. Get the devName by using the GUID.
         if (event && event.detail) {
-            // If the choice value didn't actually change, don't do anything.
-            if (
-                this.field.choiceReferences[event.detail.listIndex] &&
-                this.field.choiceReferences[event.detail.listIndex].choiceReference &&
-                this.field.choiceReferences[event.detail.listIndex].choiceReference.value === event.detail.guid &&
-                this.field.choiceReferences[event.detail.listIndex].choiceReference.error === event.detail.error
-            ) {
-                return;
-            }
-
             this.dispatchEvent(
                 createChoiceChangedEvent(
                     this.field,

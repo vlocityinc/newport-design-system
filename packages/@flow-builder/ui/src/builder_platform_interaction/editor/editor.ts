@@ -292,6 +292,7 @@ export default class Editor extends LightningElement {
     flowRetrieveError;
     hideDebugAgainButton = false;
     _isAddingResourceViaLeftPanel = false;
+    _isInlineEditingResource = false;
     ifBlockResume = false;
 
     originalFlowLabel;
@@ -1838,6 +1839,7 @@ export default class Editor extends LightningElement {
             const { mode, canvasElementGUID: guid, designateFocus, elementType } = event.detail;
 
             const forceModal = elementType && ELEMENT_TYPES_TO_ALWAYS_EDIT_IN_MODAL.includes(elementType);
+            this._isInlineEditingResource = false;
             this.editElement(mode, guid, forceModal, designateFocus);
         }
     };
@@ -2382,6 +2384,7 @@ export default class Editor extends LightningElement {
 
     editResourceCallback = (editElementDetail) => {
         if (editElementDetail) {
+            this._isInlineEditingResource = true;
             this.editElement(editElementDetail.mode, editElementDetail.canvasElementGUID);
         }
     };
@@ -2480,7 +2483,9 @@ export default class Editor extends LightningElement {
         // calls on OK doesn't actually work and keeps the proxy wrappers.
         const nodeForStore = getElementForStore(node);
         const currentNode = getElementByGuid(nodeForStore.guid);
+        nodeForStore.isInlineEditingResource = this._isInlineEditingResource;
         storeInstance.dispatch(updateElement(nodeForStore));
+        this._isInlineEditingResource = false;
         logInteraction(`update-node-of-type-${node.elementType}`, 'modal', null, 'click');
         if (node.elementType === ELEMENT_TYPE.RECORD_LOOKUP) {
             this.updateRecordLookupDependenciesIfNeeded(currentNode, nodeForStore);
