@@ -29,9 +29,6 @@ import * as ValidationRules from 'builder_platform_interaction/validationRules';
 const validationRules = {
     label: [ValidationRules.shouldNotBeNullOrUndefined],
     name: [ValidationRules.shouldNotBeNullOrUndefined],
-    exitAction: {
-        actionName: [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank]
-    },
     exitActionInputParameters: validateParameter()
 };
 
