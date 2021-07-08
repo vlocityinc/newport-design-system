@@ -18,7 +18,8 @@ import {
     CanvasMouseUpEvent,
     ConnectorSelectedEvent,
     DragNodeStopEvent,
-    AddConnectionEvent
+    AddConnectionEvent,
+    EditFlowPropertiesEvent
 } from 'builder_platform_interaction/events';
 import { addElement, updateCanvasElementLocation, updateElement } from 'builder_platform_interaction/actions';
 import { Store, generateGuid } from 'builder_platform_interaction/storeLib';
@@ -939,6 +940,44 @@ describe('property editor', () => {
             expect.objectContaining({
                 mode: 'editelement',
                 node: mockStoreState.elements['1'],
+                nodeUpdate: expect.anything(),
+                newResourceCallback: expect.anything()
+            })
+        );
+    });
+
+    it('for edit flow properties is always opened in a modal', async () => {
+        expect.assertions(1);
+        mockStoreState.properties.processType = 'right';
+
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderMode: 'editMode',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                usePanelForPropertyEditor: true,
+                componentConfigs: { editMode: { leftPanelConfig: { showLeftPanel: true } } }
+            }
+        });
+
+        await ticks(1);
+
+        const event = new EditFlowPropertiesEvent();
+        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+        toolbar.dispatchEvent(event);
+
+        await ticks(1);
+
+        expect(invokePropertyEditor).toHaveBeenCalledWith(
+            PROPERTY_EDITOR,
+            expect.objectContaining({
+                mode: 'editelement',
+                node: {
+                    ...mockStoreState.properties,
+                    saveType: 'saveDraft',
+                    versionNumber: '1',
+                    triggerType: 'None'
+                },
                 nodeUpdate: expect.anything(),
                 newResourceCallback: expect.anything()
             })

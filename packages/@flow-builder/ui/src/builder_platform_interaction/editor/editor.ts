@@ -151,7 +151,6 @@ import {
     shouldSupportScheduledPaths,
     createVariable
 } from 'builder_platform_interaction/elementFactory';
-import { getInvocableActions } from 'builder_platform_interaction/invocableActionLib';
 import { usedBy } from 'builder_platform_interaction/usedByLib';
 import { getConfigForElement } from 'builder_platform_interaction/elementConfig';
 
@@ -1480,7 +1479,7 @@ export default class Editor extends LightningElement {
                 nodeUpdate,
                 newResourceCallback
             };
-        });
+        }, true);
     };
 
     /**
