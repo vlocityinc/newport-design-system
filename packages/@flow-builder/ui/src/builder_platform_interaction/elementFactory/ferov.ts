@@ -3,7 +3,7 @@ import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction/da
 // import { mutateTextWithMergeFields } from './mergeFieldsMutation';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { addCurlyBraces, splitStringBySeparator, isValidNumber } from 'builder_platform_interaction/commonUtils';
-import { isValidFormattedDateTime } from 'builder_platform_interaction/dateTimeUtils';
+import { isValidMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 
 // keys are flow builder ferov data types, values are the types we find in our ferov objects
@@ -280,7 +280,7 @@ export const createFEROVMetadataObject = (element, valueProperty, dataTypeProper
                         break;
                     case FLOW_DATA_TYPE.DATE.value:
                     case FLOW_DATA_TYPE.DATE_TIME.value:
-                        if (!isValidFormattedDateTime(value, dataType === FLOW_DATA_TYPE.DATE_TIME.value)) {
+                        if (!isValidMetadataDateTime(value, dataType === FLOW_DATA_TYPE.DATE_TIME.value)) {
                             ferovDataTypeKey = stringDataTypeKey;
                         }
                         break;
