@@ -15,7 +15,7 @@ import {
     hydrateWithErrors,
     insertItem
 } from 'builder_platform_interaction/dataMutationLib';
-import { createRunOnSuccessScheduledPath } from 'builder_platform_interaction/elementFactory';
+import { createRunAsyncScheduledPath } from 'builder_platform_interaction/elementFactory';
 import {
     AddRecordFilterEvent,
     DeleteRecordFilterEvent,
@@ -82,15 +82,15 @@ export const recordChangeTriggerReducer = (state, event) => {
     }
 };
 
-const toggleRunOnSuccess = (state, runOnSuccess) => {
+const togglerunAsync = (state, runAsync) => {
     let scheduledPaths;
-    if (runOnSuccess) {
-        let newScheduledPath = createRunOnSuccessScheduledPath(<UI.ScheduledPath>{});
+    if (runAsync) {
+        let newScheduledPath = createRunAsyncScheduledPath(<UI.ScheduledPath>{});
         newScheduledPath = hydrateWithErrors(newScheduledPath);
         scheduledPaths = insertItem(state.scheduledPaths, newScheduledPath, 0);
     } else {
         scheduledPaths = state.scheduledPaths.filter((scheduledPath) => {
-            return scheduledPath.pathType?.value !== SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS;
+            return scheduledPath.pathType?.value !== SCHEDULED_PATH_TYPE.RUN_ASYNC;
         });
     }
     return updateProperties(state, { scheduledPaths });
@@ -175,8 +175,8 @@ const propertyChanged = (state, event) => {
         }
     }
 
-    if (event.detail.propertyName === START_ELEMENT_FIELDS.IS_RUN_ON_SUCCESS_PATH_ENABLED) {
-        return toggleRunOnSuccess(state, event.detail.value);
+    if (event.detail.propertyName === START_ELEMENT_FIELDS.IS_RUN_ASYNC_PATH_ENABLED) {
+        return togglerunAsync(state, event.detail.value);
     }
 
     return state;

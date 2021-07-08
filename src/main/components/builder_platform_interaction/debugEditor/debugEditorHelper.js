@@ -351,7 +351,7 @@
 
             // only show if after commit or immediate
             if (
-                pathType !== flowMetadata.SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS &&
+                pathType !== flowMetadata.SCHEDULED_PATH_TYPE.RUN_ASYNC &&
                 pathType !== flowMetadata.SCHEDULED_PATH_TYPE.IMMEDIATE_SCHEDULED_PATH
             ) {
                 cmp.set('v.showDetails', false);

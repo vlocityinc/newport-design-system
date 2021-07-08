@@ -119,12 +119,12 @@ export function createStartElement(startElement: UI.Start | Metadata.Start) {
         filters = [],
         scheduledPaths
     } = startElement;
-    const runOnSuccessPath =
+    const runAsyncPath =
         scheduledPaths &&
-        (scheduledPaths as Metadata.ScheduledPath[])!.find((el) => el.pathType === SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS);
-    if (runOnSuccessPath) {
-        const label = LABELS.runOnSuccessScheduledPathLabel;
-        Object.assign(runOnSuccessPath, { label, name: generateInternalName(SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS) });
+        (scheduledPaths as Metadata.ScheduledPath[])!.find((el) => el.pathType === SCHEDULED_PATH_TYPE.RUN_ASYNC);
+    if (runAsyncPath) {
+        const label = LABELS.runAsyncScheduledPathLabel;
+        Object.assign(runAsyncPath, { label, name: generateInternalName(SCHEDULED_PATH_TYPE.RUN_ASYNC) });
     }
     const { objectIndex = generateGuid(), objectContainer } = <UI.Start>startElement;
     const maxConnections = calculateMaxConnections(startElement);
@@ -377,7 +377,7 @@ export function createStartElementMetadataObject(startElement: UI.Start, config 
                 timeSource = SCHEDULED_PATH_TIME_SOURCE_TYPE.RECORD_FIELD;
             }
 
-            if (pathType === SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS) {
+            if (pathType === SCHEDULED_PATH_TYPE.RUN_ASYNC) {
                 delete metadataScheduledPath.label;
                 return Object.assign(metadataScheduledPath, {
                     pathType
@@ -452,15 +452,15 @@ function getscheduledLabel(startDate, startTime, frequency) {
 }
 
 /**
- * creates UI.ScheduledPath of type SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS
+ * creates UI.ScheduledPath of type SCHEDULED_PATH_TYPE.RUN_ASYNC
  *
  * @param scheduledPath passed in from recordChanegTriggerReducer, always empty, could be removed.
  * @returns instance of UI.ScheduledPath.
  */
-export function createRunOnSuccessScheduledPath(scheduledPath: UI.ScheduledPath): UI.ScheduledPath {
+export function createRunAsyncScheduledPath(scheduledPath: UI.ScheduledPath): UI.ScheduledPath {
     const newScheduledPath: UI.ChildElement = baseChildElement(scheduledPath, ELEMENT_TYPE.SCHEDULED_PATH);
-    const label = LABELS.runOnSuccessScheduledPathLabel;
-    const pathType = SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS;
+    const label = LABELS.runAsyncScheduledPathLabel;
+    const pathType = SCHEDULED_PATH_TYPE.RUN_ASYNC;
     const name = generateInternalName(pathType);
     return Object.assign(newScheduledPath, {
         name,

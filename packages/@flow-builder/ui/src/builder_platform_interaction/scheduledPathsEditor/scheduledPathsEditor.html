@@ -30,14 +30,14 @@
                 ></builder_platform_interaction-illustration>
             </div>
             <div if:false={isImmediateScheduledPath}>
-                <div if:true={isRunOnSuccessScheduledPath}>
+                <div if:true={isrunAsyncScheduledPath}>
                     <builder_platform_interaction-illustration
                         illustration="lakeMountain"
-                        title={labels.runOnSuccessScheduledPathLabel}
-                        body={labels.runOnSuccessScheduledPathDescription}
+                        title={labels.runAsyncScheduledPathTitle}
+                        body={labels.runAsyncScheduledPathDescription}
                     ></builder_platform_interaction-illustration>
                 </div>
-                <div if:false={isRunOnSuccessScheduledPath}>
+                <div if:false={isrunAsyncScheduledPath}>
                     <builder_platform_interaction-scheduled-path
                         scheduled-path={activeScheduledPath}
                         object={node.object}

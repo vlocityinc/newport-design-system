@@ -1112,13 +1112,12 @@ export default class Editor extends LightningElement {
         this.spinners.showDebugSpinner = true;
         const startInterviewTime = new Date();
         const enableRollbackMode = !!debugOptions.enableRollback;
-        const runOnSuccessScheduledPathOption = getScheduledPathsList().find(
-            (option) => SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS === option.pathType
+        const runAsyncScheduledPathOption = getScheduledPathsList().find(
+            (option) => SCHEDULED_PATH_TYPE.RUN_ASYNC === option.pathType
         );
         const pathType =
-            runOnSuccessScheduledPathOption &&
-            runOnSuccessScheduledPathOption.value === debugOptions.scheduledPathSelection
-                ? runOnSuccessScheduledPathOption.pathType
+            runAsyncScheduledPathOption && runAsyncScheduledPathOption.value === debugOptions.scheduledPathSelection
+                ? runAsyncScheduledPathOption.pathType
                 : null;
         fetch(
             SERVER_ACTION_TYPE.RUN_DEBUG,

@@ -155,10 +155,10 @@ export default class ScheduledPathsEditor extends LightningElement {
         return this.activeScheduledPathId === IMMEDIATE_SCHEDULED_PATH_ID;
     }
 
-    get isRunOnSuccessScheduledPath() {
+    get isrunAsyncScheduledPath() {
         return (
             this.startElement.scheduledPaths.find((el) => el.guid === this.activeScheduledPathId).pathType?.value ===
-            SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS
+            SCHEDULED_PATH_TYPE.RUN_ASYNC
         );
     }
 

@@ -10,7 +10,7 @@ import loopEndComboBoxOption from '@salesforce/label/FlowBuilderConnectorPicker.
 import triggerFrequencyOnce from '@salesforce/label/FlowBuilderStartEditor.triggerFrequencyOnce';
 import triggerFrequencyDaily from '@salesforce/label/FlowBuilderStartEditor.triggerFrequencyDaily';
 import triggerFrequencyWeekly from '@salesforce/label/FlowBuilderStartEditor.triggerFrequencyWeekly';
-import runOnSuccessScheduledPathLabel from '@salesforce/label/FlowBuilderStartEditor.runOnSuccessScheduledPathLabel';
+import runAsyncScheduledPathLabel from '@salesforce/label/FlowBuilderStartEditor.runAsyncScheduledPathLabel';
 import startElementRecordCreated from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordCreated';
 import startElementRecordUpdated from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordUpdated';
 import startElementRecordCreatedUpdated from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordCreatedUpdated';
@@ -35,7 +35,7 @@ export const LABELS = {
     triggerFrequencyOnce,
     triggerFrequencyDaily,
     triggerFrequencyWeekly,
-    runOnSuccessScheduledPathLabel,
+    runAsyncScheduledPathLabel,
     startElementRecordCreated,
     startElementRecordUpdated,
     startElementRecordCreatedUpdated,

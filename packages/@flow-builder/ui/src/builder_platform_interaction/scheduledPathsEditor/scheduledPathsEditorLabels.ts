@@ -6,8 +6,8 @@ import addScheduledPathButtonLabel from '@salesforce/label/FlowBuilderStartEdito
 import immediateScheduledPathLabel from '@salesforce/label/FlowBuilderStartEditor.immediateScheduledPathLabel';
 import immediateScheduledPathDetailsDescription1 from '@salesforce/label/FlowBuilderScheduledPath.immediateScheduledPathDetailsDescription1';
 import immediateScheduledPathDetailsDescription2 from '@salesforce/label/FlowBuilderScheduledPath.immediateScheduledPathDetailsDescription2';
-import runOnSuccessScheduledPathLabel from '@salesforce/label/FlowBuilderStartEditor.runOnSuccessScheduledPathLabel';
-import runOnSuccessScheduledPathDescription from '@salesforce/label/FlowBuilderStartEditor.runOnSuccessScheduledPathDescription';
+import runAsyncScheduledPathTitle from '@salesforce/label/FlowBuilderStartEditor.runAsyncScheduledPathTitle';
+import runAsyncScheduledPathDescription from '@salesforce/label/FlowBuilderStartEditor.runAsyncScheduledPathDescription';
 export const LABELS = {
     emptyScheduledPathLabel,
     scheduledPathListHeader,
@@ -16,6 +16,6 @@ export const LABELS = {
     immediateScheduledPathLabel,
     immediateScheduledPathDetailsDescription1,
     immediateScheduledPathDetailsDescription2,
-    runOnSuccessScheduledPathLabel,
-    runOnSuccessScheduledPathDescription
+    runAsyncScheduledPathTitle,
+    runAsyncScheduledPathDescription
 };

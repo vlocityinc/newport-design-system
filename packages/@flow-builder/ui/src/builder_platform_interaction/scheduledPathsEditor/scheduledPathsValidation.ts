@@ -28,7 +28,7 @@ class ScheduledPathsValidation extends Validation {
     validateAll(nodeElement, overrideRules) {
         if (nodeElement.scheduledPaths) {
             const scheduledPaths = nodeElement.scheduledPaths.map((scheduledPath) => {
-                if (scheduledPath.pathType?.value === SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS) {
+                if (scheduledPath.pathType?.value === SCHEDULED_PATH_TYPE.RUN_ASYNC) {
                     return scheduledPath;
                 }
                 return super.validateAll(scheduledPath, overrideRules);

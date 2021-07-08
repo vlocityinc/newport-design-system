@@ -397,7 +397,7 @@ export const START_ELEMENT_FIELDS = {
     START_DATE: 'startDate',
     START_TIME: 'startTime',
     FILTER_LOGIC: 'filterLogic',
-    IS_RUN_ON_SUCCESS_PATH_ENABLED: 'runOnSuccess',
+    IS_RUN_ASYNC_PATH_ENABLED: 'runAsync',
     REQUIRE_RECORD_CHANGE: 'doesRequireRecordChangedToMeetCriteria'
 };
 
@@ -407,7 +407,7 @@ export enum COLLECTION_PROCESSOR_SUB_TYPE {
 }
 
 export const SCHEDULED_PATH_TYPE = {
-    RUN_ON_SUCCESS: 'AfterCommit',
+    RUN_ASYNC: 'AsyncAfterCommit',
     IMMEDIATE_SCHEDULED_PATH: 'RunImmediately'
 };
 

@@ -7,7 +7,7 @@ import {
     createStartElementMetadataObject,
     createScheduledPath,
     createStartElement,
-    createRunOnSuccessScheduledPath,
+    createRunAsyncScheduledPath,
     createStartElementWhenUpdatingFromPropertyEditor
 } from '../startElement';
 import { baseCanvasElementMetadataObject, baseChildElementMetadataObject } from '../base/baseMetadata';
@@ -45,7 +45,7 @@ const newStartElementGuid = 'newStart';
 const existingStartElementGuid = 'existingStart';
 const startElementWithChildrenGuid = 'newStartWithChildren';
 const existingStartElementWithChildrenGuid = 'existingStartWithChildren';
-const runOnSuccessScheduledPathChildReferenceGuid = 'runOnSuccessChildReference';
+const runAsyncScheduledPathChildReferenceGuid = 'runAsyncChildReference';
 
 const existingStartElement = {
     guid: existingStartElementGuid,
@@ -112,11 +112,11 @@ getElementByGuid.mockImplementation((guid) => {
             offsetUnit: TIME_OPTION.HOURS_BEFORE,
             timeSource: 'abc'
         };
-    } else if (guid === runOnSuccessScheduledPathChildReferenceGuid) {
+    } else if (guid === runAsyncScheduledPathChildReferenceGuid) {
         return {
-            name: 'Run On Success',
-            label: 'Run_On_Success',
-            pathType: 'AfterCommit'
+            name: 'Run Async',
+            label: 'Run_Async',
+            pathType: 'AsyncAfterCommit'
         };
     }
     return {
@@ -302,20 +302,20 @@ describe('Start element', () => {
             expect(actualResult).toMatchObject(expectedResult);
         });
 
-        it('label and name should be added to the runOnSuccess scheduled path', () => {
+        it('label and name should be added to the runAsync scheduled path', () => {
             expect.assertions(2);
             startMetadata.scheduledPaths = [
                 {
-                    pathType: 'AfterCommit'
+                    pathType: 'AsyncAfterCommit'
                 }
             ];
             try {
                 const actualResult = createStartElement(startMetadata);
                 expect(actualResult.scheduledPaths[0].label).toEqual(
-                    'FlowBuilderStartEditor.runOnSuccessScheduledPathLabel'
+                    'FlowBuilderStartEditor.runAsyncScheduledPathLabel'
                 );
                 expect(actualResult.scheduledPaths[0].name).toEqual(
-                    generateInternalName(SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS)
+                    generateInternalName(SCHEDULED_PATH_TYPE.RUN_ASYNC)
                 );
             } finally {
                 delete startMetadata.scheduledPaths;
@@ -588,14 +588,14 @@ describe('Start element', () => {
         });
     });
 
-    describe('createRunOnSuccessScheduledPath', () => {
+    describe('createrunAsyncScheduledPath', () => {
         it('configures label, pathType and name correctly for run on success path', () => {
             expect.assertions(3);
-            const newScheduledPath = createRunOnSuccessScheduledPath({});
+            const newScheduledPath = createRunAsyncScheduledPath({});
 
-            expect(newScheduledPath.label).toEqual(LABELS.runOnSuccessScheduledPathLabel);
-            expect(newScheduledPath.name).toEqual(generateInternalName(SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS));
-            expect(newScheduledPath.pathType).toEqual(SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS);
+            expect(newScheduledPath.label).toEqual(LABELS.runAsyncScheduledPathLabel);
+            expect(newScheduledPath.name).toEqual(generateInternalName(SCHEDULED_PATH_TYPE.RUN_ASYNC));
+            expect(newScheduledPath.pathType).toEqual(SCHEDULED_PATH_TYPE.RUN_ASYNC);
         });
     });
 
@@ -1292,13 +1292,13 @@ describe('Start element', () => {
                     expect.assertions(3);
                     startElement.childReferences = [
                         {
-                            childReference: runOnSuccessScheduledPathChildReferenceGuid
+                            childReference: runAsyncScheduledPathChildReferenceGuid
                         }
                     ];
                     const actualResult = createStartElementMetadataObject(startElement);
 
                     expect(actualResult.scheduledPaths).toHaveLength(1);
-                    expect(actualResult.scheduledPaths[0].pathType).toEqual('AfterCommit');
+                    expect(actualResult.scheduledPaths[0].pathType).toEqual('AsyncAfterCommit');
                     expect(actualResult.scheduledPaths[0].label).toBeUndefined();
                 });
             });

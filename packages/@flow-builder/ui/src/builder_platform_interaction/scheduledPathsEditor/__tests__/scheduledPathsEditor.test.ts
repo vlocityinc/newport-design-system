@@ -38,7 +38,7 @@ const SELECTORS = {
 
 let startElementWithTwoScheduledPaths;
 let startElementWithOneScheduledPaths;
-let startElementWithRunOnSuccessScheduledPaths;
+let startElementWithrunAsyncScheduledPaths;
 
 const IMMEDIATE_SCHEDULED_PATH_ID = 'immediateScheduledPath';
 
@@ -88,14 +88,14 @@ describe('Scheduled Paths Editor', () => {
             ]
         };
 
-        startElementWithRunOnSuccessScheduledPaths = {
+        startElementWithrunAsyncScheduledPaths = {
             guid: { value: 'startElement' },
             scheduledPaths: [
                 {
-                    guid: 'runOnSuccess',
-                    pathType: { value: 'AfterCommit', error: null },
-                    label: { value: 'Run On Success', error: null },
-                    name: { value: 'Run_On_Success', error: null },
+                    guid: 'runAsync',
+                    pathType: { value: 'AsyncAfterCommit', error: null },
+                    label: { value: 'Run Async', error: null },
+                    name: { value: 'Run_Async', error: null },
                     offsetNumber: { value: 0, error: null },
                     offsetUnit: { value: '', error: null },
                     timeSource: { value: '', error: null }
@@ -306,20 +306,20 @@ describe('Scheduled Paths Editor', () => {
     describe('run on success scheduled path', () => {
         it('run on success scheduled path is displayed in rhs when selected in left panel', async () => {
             expect.assertions(1);
-            const scheduledPathsEditor = createComponentForTest(startElementWithRunOnSuccessScheduledPaths);
+            const scheduledPathsEditor = createComponentForTest(startElementWithrunAsyncScheduledPaths);
             const reorderableOutcomeNav = scheduledPathsEditor.shadowRoot.querySelector(
                 INTERACTION_COMPONENTS_SELECTORS.REORDERABLE_VERTICAL_NAVIGATION
             );
             reorderableOutcomeNav.dispatchEvent(
                 new CustomEvent('itemselected', {
-                    detail: { itemId: 'runOnSuccess' }
+                    detail: { itemId: 'runAsync' }
                 })
             );
             await ticks(1);
-            const runOnSuccessScheduledPathSection = scheduledPathsEditor.shadowRoot.querySelector(
+            const runAsyncScheduledPathSection = scheduledPathsEditor.shadowRoot.querySelector(
                 INTERACTION_COMPONENTS_SELECTORS.ILLUSTRATION
             );
-            expect(runOnSuccessScheduledPathSection).not.toBeNull();
+            expect(runAsyncScheduledPathSection).not.toBeNull();
         });
     });
 });

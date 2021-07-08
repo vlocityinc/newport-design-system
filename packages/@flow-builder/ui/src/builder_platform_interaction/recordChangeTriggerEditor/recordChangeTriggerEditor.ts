@@ -161,15 +161,15 @@ export default class RecordChangeTriggerEditor extends LightningElement {
         return this.startElement.recordTriggerType ? this.startElement.recordTriggerType.value : CREATE;
     }
 
-    get runOnSuccessScheduledPathCheckboxLabel() {
-        return LABELS.runOnSuccessScheduledPathCheckboxLabel;
+    get runAsyncScheduledPathCheckboxLabel() {
+        return LABELS.runAsyncScheduledPathCheckboxLabel;
     }
 
-    get checkRunOnSuccessScheduledPath() {
+    get checkrunAsyncScheduledPath() {
         return (
             this.startElement.scheduledPaths &&
             this.startElement.scheduledPaths.length > 0 &&
-            this.startElement.scheduledPaths[0].pathType?.value === SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS
+            this.startElement.scheduledPaths[0].pathType?.value === SCHEDULED_PATH_TYPE.RUN_ASYNC
         );
     }
 
@@ -227,7 +227,7 @@ export default class RecordChangeTriggerEditor extends LightningElement {
         return this.startElement.recordTriggerType.value === DELETE;
     }
 
-    get disableRunOnSuccessScheduledPathCheckbox() {
+    get disablerunAsyncScheduledPathCheckbox() {
         return !this.isAfterSave;
     }
 
@@ -370,7 +370,7 @@ export default class RecordChangeTriggerEditor extends LightningElement {
         return getProcessType() !== FLOW_PROCESS_TYPE.ORCHESTRATOR;
     }
 
-    get showRunOnSuccess() {
+    get showrunAsync() {
         return getProcessType() !== FLOW_PROCESS_TYPE.ORCHESTRATOR;
     }
 
@@ -577,9 +577,9 @@ export default class RecordChangeTriggerEditor extends LightningElement {
         return operators.includes(operator);
     }
 
-    toggleRunOnSuccessScheduledPath(event) {
+    togglerunAsyncScheduledPath(event) {
         event.stopPropagation();
-        this._updateField(START_ELEMENT_FIELDS.IS_RUN_ON_SUCCESS_PATH_ENABLED, event.detail.checked);
+        this._updateField(START_ELEMENT_FIELDS.IS_RUN_ASYNC_PATH_ENABLED, event.detail.checked);
     }
 
     connectedCallback() {

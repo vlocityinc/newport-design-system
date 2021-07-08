@@ -163,13 +163,13 @@
         </div>
     </div>
 
-    <div class="slds-p-horizontal_medium slds-m-bottom_large" if:true={showRunOnSuccess}>
+    <div class="slds-p-horizontal_medium slds-m-bottom_large" if:true={showrunAsync}>
         <lightning-input
-            label={runOnSuccessScheduledPathCheckboxLabel}
+            label={runAsyncScheduledPathCheckboxLabel}
             type="checkbox"
-            disabled={disableRunOnSuccessScheduledPathCheckbox}
-            checked={checkRunOnSuccessScheduledPath}
-            onchange={toggleRunOnSuccessScheduledPath}
+            disabled={disablerunAsyncScheduledPathCheckbox}
+            checked={checkrunAsyncScheduledPath}
+            onchange={togglerunAsyncScheduledPath}
             class="test-input-selection-checkbox slds-p-left_medium"
         >
         </lightning-input>

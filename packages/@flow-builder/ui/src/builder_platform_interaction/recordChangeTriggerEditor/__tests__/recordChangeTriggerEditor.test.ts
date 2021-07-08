@@ -20,7 +20,7 @@ const SELECTORS = {
     SAVE_TYPE_SECTION: 'lightning-radio-group.recordCreateOrUpdate',
     TRIGGER_TYPE_SELECTION: 'builder_platform_interaction-visual-picker-list',
     BEFORE_DELETE_INFO_BOX: 'div.beforeDeleteInfo',
-    RUN_ON_SUCCESS_CHECKBOX: 'lightning-input.test-input-selection-checkbox',
+    RUN_ASYNC_CHECKBOX: 'lightning-input.test-input-selection-checkbox',
     REQUIRE_RECORD_CHANGE_OPTION: 'div.test-require-record-change-option',
     RECORD_ENTRY_CONDITIONS: 'builder_platform_interaction-record-filter',
     CONDITION_LIST: 'builder_platform_interaction-condition-list',
@@ -284,7 +284,7 @@ describe('record-change-trigger-editor', () => {
 
             await ticks(1);
 
-            const requireRecordChangeOptions = element.shadowRoot.querySelector(SELECTORS.RUN_ON_SUCCESS_CHECKBOX);
+            const requireRecordChangeOptions = element.shadowRoot.querySelector(SELECTORS.RUN_ASYNC_CHECKBOX);
             expect(requireRecordChangeOptions).toBeNull();
         });
         it('is shown for other process types', async () => {
@@ -293,7 +293,7 @@ describe('record-change-trigger-editor', () => {
 
             await ticks(1);
 
-            const requireRecordChangeOptions = element.shadowRoot.querySelector(SELECTORS.RUN_ON_SUCCESS_CHECKBOX);
+            const requireRecordChangeOptions = element.shadowRoot.querySelector(SELECTORS.RUN_ASYNC_CHECKBOX);
             expect(requireRecordChangeOptions).not.toBeNull();
         });
     });
@@ -361,7 +361,7 @@ describe('record-change-trigger-editor', () => {
             );
         });
 
-        it('dispatched on toggleRunOnSuccess', async () => {
+        it('dispatched on togglerunAsync', async () => {
             expect.assertions(1);
             const element = createComponentForTest(recordChangeTriggerElement(AFTER_SAVE, CREATE));
 
@@ -375,7 +375,7 @@ describe('record-change-trigger-editor', () => {
                     value: true
                 }
             });
-            query(element, SELECTORS.RUN_ON_SUCCESS_CHECKBOX).dispatchEvent(event);
+            query(element, SELECTORS.RUN_ASYNC_CHECKBOX).dispatchEvent(event);
 
             expect(updateNodeCallback).toHaveBeenCalledWith(
                 expect.objectContaining({
