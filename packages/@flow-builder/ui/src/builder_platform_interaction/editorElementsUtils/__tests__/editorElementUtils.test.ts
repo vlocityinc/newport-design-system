@@ -36,7 +36,7 @@ describe('element-lib', () => {
                 { elementType: ELEMENT_TYPE.RECORD_LOOKUP },
                 { elementType: ELEMENT_TYPE.RECORD_CREATE },
                 { elementType: ELEMENT_TYPE.ACTION_CALL },
-                { type: 'marketingEmail', name: 'testAction', label: 'testActionLabel' }
+                { type: 'marketingEmail', name: 'marketingEmail', label: 'testActionLabel' }
             ];
 
             const palette = {
@@ -80,7 +80,7 @@ describe('element-lib', () => {
                         {
                             elementType: ELEMENT_TYPE.ACTION_CALL,
                             actionType: 'marketingEmail',
-                            actionName: 'testAction'
+                            actionName: 'marketingEmail'
                         }
                     ],
                     guid: 'testGUID',

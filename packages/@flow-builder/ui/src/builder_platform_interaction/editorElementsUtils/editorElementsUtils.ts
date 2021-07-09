@@ -26,23 +26,32 @@ const mutateElements = (elements, palette) =>
                         if (headerItem.type === 'element') {
                             return headerItem.name === el.elementType;
                         }
-                        if (headerItem.type === 'action') {
-                            return headerItem.name === el.type;
-                        }
                         if (headerItem.type === 'elementSubtype') {
                             return headerItem.name === el.name;
                         }
 
                         return false;
                     });
+
+                    if (headerItem.type === 'action') {
+                        const item = {
+                            elementType: ELEMENT_TYPE.ACTION_CALL,
+                            actionLabel: headerItem.actionLabel,
+                            actionType: headerItem.name,
+                            actionName: headerItem.name,
+                            description: headerItem.actionLabel
+                        };
+                        filteredElements.push(item);
+                    }
+
                     if (filteredElements.length > 0) {
                         filteredElements.forEach((element) => {
-                            const elementType = element.elementType || ELEMENT_TYPE.ACTION_CALL;
+                            const elementType = element.elementType;
                             const elementSubtype = element.isElementSubtype ? element.name : null;
                             const { nodeConfig, labels, canHaveFaultConnector } = getConfigForElement(element);
-                            const label = element.elementType ? labels && labels.leftPanel : element.label;
-                            const actionType = element.elementType ? undefined : element.type;
-                            const actionName = element.elementType ? undefined : element.name;
+                            const label = element.actionLabel || (labels && labels.leftPanel);
+                            const actionType = element.actionType;
+                            const actionName = element.actionName;
                             const {
                                 iconName,
                                 dragImageSrc,
