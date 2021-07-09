@@ -347,15 +347,20 @@
         }
 
         if (cmp.get('v.showScheduledPathComboBox')) {
-            var pathType = cmp.find('scheduledPathComboBox').get('v.value');
-
-            // only show if after commit or immediate
-            if (
-                pathType !== flowMetadata.SCHEDULED_PATH_TYPE.RUN_ASYNC &&
-                pathType !== flowMetadata.SCHEDULED_PATH_TYPE.IMMEDIATE_SCHEDULED_PATH
-            ) {
-                cmp.set('v.showDetails', false);
-                return;
+            var name = cmp.find('scheduledPathComboBox').get('v.value');
+            var schedPathList = cmp.get('v.scheduledPathsList');
+            for (var i in schedPathList) {
+                var schedPath = schedPathList[i];
+                if (schedPath.value === name) {
+                    // only show if after commit or immediate
+                    if (
+                        schedPath.pathType !== flowMetadata.SCHEDULED_PATH_TYPE.RUN_ASYNC &&
+                        schedPath.value !== flowMetadata.SCHEDULED_PATH_TYPE.IMMEDIATE_SCHEDULED_PATH
+                    ) {
+                        cmp.set('v.showDetails', false);
+                        return;
+                    }
+                }
             }
         }
 
