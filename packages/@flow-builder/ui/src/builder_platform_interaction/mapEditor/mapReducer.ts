@@ -79,7 +79,7 @@ const updateMapItem = (state, event) => {
 
 const prepopulateMapItems = (state, event) => {
     state = resetMapItems(state);
-    const _assignmentItems: any[] = [];
+    const _mapItems: any[] = [];
     const outputObjectType = event.detail.outputObjectType;
     const outputFields = event.detail.outputFields;
     const inputObjectType = event.detail.inputObjectType;
@@ -94,7 +94,7 @@ const prepopulateMapItems = (state, event) => {
                     const inputKeyFound = Object.keys(inputFields).find((inputKey) => inputKey === key);
                     if (inputKeyFound) {
                         prepopulate = true;
-                        _assignmentItems.push(
+                        _mapItems.push(
                             newMapItem(
                                 outputObjectType + '.' + key,
                                 RULE_OPERATOR.ASSIGN,
@@ -105,14 +105,14 @@ const prepopulateMapItems = (state, event) => {
                     }
                 }
                 if (!prepopulate) {
-                    _assignmentItems.push(newMapItem(outputObjectType + '.' + key, RULE_OPERATOR.ASSIGN, '', ''));
+                    _mapItems.push(newMapItem(outputObjectType + '.' + key, RULE_OPERATOR.ASSIGN, '', ''));
                 }
             }
         });
     } else {
-        _assignmentItems.push(newMapItem('', '', '', ''));
+        _mapItems.push(newMapItem('', '', '', ''));
     }
-    return set(state, MAP_PROPERTIES.MAP_ITEMS, _assignmentItems);
+    return set(state, MAP_PROPERTIES.MAP_ITEMS, _mapItems);
 };
 /**
  * filter reducer function runs validation rules and returns back the updated element filter

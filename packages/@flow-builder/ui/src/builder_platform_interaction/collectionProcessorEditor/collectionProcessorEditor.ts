@@ -73,11 +73,7 @@ export default class CollectionProcessorEditor extends LightningElement {
         const event = new CustomEvent(VALIDATE_ALL);
         this.collectionProcessorElement = collectionProcessorReducer(this.collectionProcessorElement, event);
         errors.push(...getErrorsFromHydratedElement(this.collectionProcessorElement));
-        // remove duplicated error
-        const errorKey = 'key';
-        return errors.filter(
-            (element, index, self) => self.findIndex((t) => t[errorKey] === element[errorKey]) === index
-        );
+        return errors;
     }
 
     /**

@@ -262,13 +262,13 @@ export default class MapEditor extends LightningElement {
      */
     updateHelpText() {
         if (this.inputObjectType) {
-            if (this.inputObjectType === this.outputObjectType) {
-                this.helpText = format(this.labels.updateCollection, this.outputObjectType);
-                this.outputHelpText = this.labels.addFields;
-            } else {
-                this.helpText = format(this.labels.newCollection, this.outputObjectType);
-                this.outputHelpText = this.labels.selectCollection;
-            }
+            this.helpText = format(this.labels.newCollection, this.outputObjectType);
+            this.outputHelpText =
+                this.inputObjectType === this.outputObjectType ? this.labels.addFields : this.labels.selectCollection;
+        } else {
+            // reset help text
+            this.helpText = null;
+            this.outputHelpText = this.labels.selectCollection;
         }
     }
 
@@ -308,15 +308,15 @@ export default class MapEditor extends LightningElement {
                     this.inputObjectType = newInputObjectType;
                     // reset map items
                     this.updateMapItems();
-                    // update storeOutputAutomatically
-                    this.updateStoreOutputAutomatically();
-                    // update help text
-                    this.updateHelpText();
                     // update current item variable type
                     this.updateCurrentItemVariable('subtype', this.inputObjectType);
                 }
             }
+        } else {
+            this.inputObjectType = null;
         }
+        // update help text
+        this.updateHelpText();
     }
 
     /**
@@ -330,15 +330,6 @@ export default class MapEditor extends LightningElement {
         this.dispatchEvent(new UpdateCollectionProcessorEvent(this.mapElement));
     }
 
-    updateStoreOutputAutomatically() {
-        const event = new PropertyChangedEvent(
-            'storeOutputAutomatically',
-            this.inputObjectType !== this.outputObjectType,
-            null
-        );
-        this.mapElement = mapReducer(this.mapElement, event);
-    }
-
     /**
      * Handle input collection changed event
      *
@@ -347,9 +338,7 @@ export default class MapEditor extends LightningElement {
     handleCollectionVariablePropertyChanged(event: CustomEvent) {
         event.stopPropagation();
         this.mapElement = mapReducer(this.mapElement, event);
-        if (this.mapElement.collectionReference.value && !this.mapElement.collectionReference.error) {
-            this.updateInputObjectType(this.mapElement.collectionReference.value);
-        }
+        this.updateInputObjectType(this.mapElement.collectionReference.value);
         // dispatch event to the parent editor
         this.dispatchEvent(new UpdateCollectionProcessorEvent(this.mapElement));
     }

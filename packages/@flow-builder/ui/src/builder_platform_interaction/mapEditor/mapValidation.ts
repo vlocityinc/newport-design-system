@@ -16,6 +16,8 @@ const validateCollectionReference = (elements) => {
     ];
 };
 
+const validateMapItems = () => ValidationRules.validateExpressionWith3Properties();
+
 export const mapValidation = new Validation();
 
 /**
@@ -26,7 +28,16 @@ export const mapValidation = new Validation();
 export const getRules = () => {
     const overriddenRules = { ...mapValidation.finalizedRules };
     const elements = Store.getStore().getCurrentState().elements;
+    // validate currentValueFromCollection
+    overriddenRules.currentValueFromCollection = [
+        ValidationRules.shouldNotBeNullOrUndefined,
+        ValidationRules.shouldNotBeBlank
+    ];
+    // validate outputTable
+    overriddenRules.outputTable = [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank];
     // validate collectionReference
     overriddenRules.collectionReference = validateCollectionReference(elements);
+    // validate mapItems
+    overriddenRules.mapItems = validateMapItems();
     return overriddenRules;
 };

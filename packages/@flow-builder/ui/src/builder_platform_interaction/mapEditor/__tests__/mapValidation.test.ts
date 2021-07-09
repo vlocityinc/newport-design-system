@@ -9,6 +9,15 @@ import * as store from 'mock/storeData';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
+    require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
+);
+jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
+    require('builder_platform_interaction_mocks/ferovResourcePicker')
+);
+jest.mock('builder_platform_interaction/expressionValidator', () =>
+    require('builder_platform_interaction_mocks/expressionValidator')
+);
 
 const createComponentForTest = (elementInfo) => {
     const el = createElement('builder_platform_interaction-map-editor', {
@@ -26,8 +35,16 @@ const validate = (node) => {
 
 const validMapNode = () => ({
     collectionReference: { value: store.accountSObjectCollectionVariable.guid, error: null },
-    mapItems: [],
     currentValueFromCollection: { value: store.contactSObjectVariable.name, error: null },
+    mapItems: [
+        {
+            leftHandSide: { value: 'Contact.Description', error: null },
+            rightHandSide: { value: 'This is my description', error: null },
+            rightHandSideDataType: { value: 'String', error: null },
+            operator: { value: 'Assign', error: null },
+            rowIndex: 'MapItem_1'
+        }
+    ],
     outputTable: { value: 'Contact', error: null },
     storeOutputAutomatically: true
 });
@@ -54,8 +71,8 @@ describe('Map Validation', () => {
     });
     describe('no input collection', () => {
         it('should return an error', () => {
-            mapEditorNode.collectionReference.value = '';
             const mapEditor = createComponentForTest(mapEditorNode);
+            mapEditorNode.collectionReference.value = '';
             const errors = validate(mapEditor.elementInfo);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('collectionReference');
@@ -64,13 +81,51 @@ describe('Map Validation', () => {
     });
     describe('primitive input collection', () => {
         it('should return an error', () => {
-            mapEditorNode.collectionReference.value = store.stringCollectionVariable1.guid;
             const mapEditor = createComponentForTest(mapEditorNode);
+            mapEditorNode.collectionReference.value = store.stringCollectionVariable1.guid;
             const errors = validate(mapEditor.elementInfo);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('collectionReference');
             expect(errors[0].errorString).toBe(LABELS.enterValidValue);
         });
     });
-    // TODO: will add more tests in next PR
+    describe('no outputTable', () => {
+        it('should return an error', () => {
+            const mapEditor = createComponentForTest(mapEditorNode);
+            mapEditorNode.outputTable.value = '';
+            const errors = validate(mapEditor.elementInfo);
+            expect(errors).toHaveLength(1);
+            expect(errors[0].key).toBe('outputTable');
+            expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
+        });
+    });
+    describe('no currentValueFromCollection', () => {
+        it('should return an error', () => {
+            const mapEditor = createComponentForTest(mapEditorNode);
+            mapEditorNode.currentValueFromCollection.value = '';
+            const errors = validate(mapEditor.elementInfo);
+            expect(errors).toHaveLength(1);
+            expect(errors[0].key).toBe('currentValueFromCollection');
+            expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
+        });
+    });
+    describe('mapItems is not valid', () => {
+        it('should return an error if leftHandSide is empty', () => {
+            const mapEditor = createComponentForTest(mapEditorNode);
+            mapEditorNode.mapItems[0].leftHandSide.value = '';
+            const errors = validate(mapEditor.elementInfo);
+            expect(errors).toHaveLength(1);
+            expect(errors[0].key).toBe('leftHandSide');
+            expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
+        });
+        it('should return an error if operator is empty', () => {
+            const mapEditor = createComponentForTest(mapEditorNode);
+            mapEditorNode.mapItems[0].leftHandSide.value = 'Contact.Name';
+            mapEditorNode.mapItems[0].operator.value = '';
+            const errors = validate(mapEditor.elementInfo);
+            expect(errors).toHaveLength(1);
+            expect(errors[0].key).toBe('operator');
+            expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
+        });
+    });
 });

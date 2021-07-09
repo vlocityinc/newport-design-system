@@ -133,6 +133,7 @@ export const feedItemVariable = getElementByName('feedItemVariable');
 export const caseSObjectVariable = getElementByName('caseSObjectVariable');
 export const contactSObjectVariable = getElementByName('contactSObjectVariable');
 export const campaignSObjectVariable = getElementByName('campaignSObjectVariable');
+export const contractSObjectVariable = getElementByName('contractSObjectVariable');
 export const opportunitySObjectVariable = getElementByName('opportunitySObjectVariable');
 export const opportunitySObjectCollectionVariable = getElementByName('opportunitySObjectCollectionVariable');
 export const subflowAutomaticOutput = getElementByName('subflowAutomaticOutput');

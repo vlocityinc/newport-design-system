@@ -6,12 +6,50 @@ import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
-import { CollectionReferenceChangedEvent, UpdateCollectionProcessorEvent } from 'builder_platform_interaction/events';
+import { CollectionReferenceChangedEvent } from 'builder_platform_interaction/events';
 import { ComboboxTestComponent } from '../../integrationTests/__tests__/comboboxTestUtils';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { feedItemFields as mockFeedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
+import { contractFields as mockContractFields } from 'serverData/GetFieldsForEntity/contractFields.json';
+import { getExpectedMapItems } from './mapEditorTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
+jest.mock('builder_platform_interaction/sobjectLib', () => {
+    const sobjectLib = jest.requireActual('builder_platform_interaction/sobjectLib');
+    const mockSobjectLib = Object.assign({}, sobjectLib);
+    mockSobjectLib.fetchFieldsForEntity = jest.fn().mockImplementation((entityName) => {
+        if (entityName === 'Account') {
+            return Promise.resolve(mockAccountFields);
+        } else if (entityName === 'Case') {
+            return Promise.resolve(mockFeedItemFields);
+        } else if (entityName === 'Contract') {
+            return Promise.resolve(mockContractFields);
+        }
+        return Promise.reject(`No entity with name ${entityName}`);
+    });
+    return mockSobjectLib;
+});
+jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
+    require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
+);
+jest.mock('builder_platform_interaction/ruleLib', () => {
+    const actual = jest.requireActual('builder_platform_interaction/ruleLib');
+    return {
+        getRulesForElementType: jest
+            .fn()
+            .mockImplementation(() => [])
+            .mockName('getRulesForElementType'),
+        RULE_TYPES: actual.RULE_TYPES,
+        RULE_OPERATOR: actual.RULE_OPERATOR,
+        PARAM_PROPERTY: actual.PARAM_PROPERTY,
+        getDataType: actual.getDataType,
+        isMatch: jest.fn().mockImplementationOnce(() => true)
+    };
+});
+
 const commonUtils = jest.requireActual('builder_platform_interaction/commonUtils');
+
 commonUtils.format = jest
     .fn()
     .mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')');
@@ -26,17 +64,17 @@ const defaultEmptyElementInfo = {
 
 const testElementInfoWithSObjectCollection = {
     collectionReference: { value: store.accountSObjectCollectionVariable.guid, error: null },
-    currentValueFromCollection: { value: store.contactSObjectVariable.name, error: null },
+    currentValueFromCollection: { value: store.contractSObjectVariable.name, error: null },
     mapItems: [
         {
-            leftHandSide: { value: 'Contact.Description', error: null },
+            leftHandSide: { value: 'Contract.Description', error: null },
             rightHandSide: { value: 'This is my description', error: null },
             rightHandSideDataType: { value: 'String', error: null },
             operator: { value: 'Assign', error: null },
             rowIndex: 'MapItem_1'
         }
     ],
-    outputTable: { value: 'Contact', error: null },
+    outputTable: { value: 'Contract', error: null },
     storeOutputAutomatically: true
 };
 
@@ -71,8 +109,15 @@ const getCombobox = (inputCollection) => {
 
 const getHelpText = (mapEditor) => mapEditor.shadowRoot.querySelector('.helpText');
 
-const getMapItems = (mapEditor) =>
-    mapEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_INPUT_OUTPUT_ASSIGNMENTS);
+const getMapItems = (mapEditor) => {
+    const mapItemsCmp = mapEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.MAP_ITEMS);
+    if (mapItemsCmp) {
+        return mapItemsCmp.shadowRoot
+            .querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_INPUT_OUTPUT_ASSIGNMENTS)
+            .shadowRoot.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.FIELD_TO_FEROV_EXPRESSION_BUILDER);
+    }
+    return null;
+};
 
 const GROUP_LABELS = {
     APEX_COLLECTION_VARIABLES: 'FLOWBUILDERELEMENTCONFIG.APEXCOLLECTIONVARIABLEPLURALLABEL',
@@ -154,6 +199,10 @@ describe('map-editor', () => {
                     'FlowBuilderMapEditor.newCollection(' + testElementInfoWithSObjectCollection.outputTable.value + ')'
                 );
             });
+            it('should have mapItems', () => {
+                const mapItems = getMapItems(mapEditor);
+                expect(mapItems).toHaveLength(testElementInfoWithSObjectCollection.mapItems.length);
+            });
         });
         describe('handling events', () => {
             describe('changing the input collection', () => {
@@ -162,19 +211,44 @@ describe('map-editor', () => {
                     mapEditor = createComponentUnderTest({ elementInfo: testElementInfoWithSObjectCollection });
                     inputCollection = getInputCollection(mapEditor);
                 });
-                it('should fire UpdateCollectionProcessorEvent', async () => {
-                    const eventCallback = jest.fn();
-                    mapEditor.addEventListener(UpdateCollectionProcessorEvent.EVENT_NAME, eventCallback);
+                it('should update collectionReference', async () => {
                     const valueChangedEvent = new CollectionReferenceChangedEvent(
                         store.caseSObjectCollectionVariable.guid,
                         null
                     );
                     inputCollection.dispatchEvent(valueChangedEvent);
                     await ticks(1);
-                    expect(eventCallback).toHaveBeenCalled();
+                    const ferovResourcePicker = getFerovResourcePicker(inputCollection);
+                    expect(ferovResourcePicker.value.value).toEqual(store.caseSObjectCollectionVariable.guid);
+                });
+                it('should reset and prepopulate the map items', async () => {
+                    const valueChangedEvent = new CollectionReferenceChangedEvent(
+                        store.caseSObjectCollectionVariable.guid,
+                        null
+                    );
+                    inputCollection.dispatchEvent(valueChangedEvent);
+                    await ticks(1);
+                    const expectedMapItems = getExpectedMapItems(
+                        mockContractFields,
+                        mockFeedItemFields,
+                        store.contractSObjectVariable.guid
+                    );
+                    const mapItems = getMapItems(mapEditor);
+                    expect(mapItems).toHaveLength(expectedMapItems.length);
+                    mapItems.forEach((mapItem, index) => {
+                        expect(mapItem.expression.leftHandSide.value).toEqual(
+                            expectedMapItems[index].leftHandSide.value
+                        );
+                        expect(mapItem.expression.operator.value).toEqual(expectedMapItems[index].operator.value);
+                        expect(mapItem.expression.rightHandSide.value).toEqual(
+                            expectedMapItems[index].rightHandSide.value
+                        );
+                        expect(mapItem.expression.rightHandSideDataType.value).toEqual(
+                            expectedMapItems[index].rightHandSideDataType.value
+                        );
+                    });
                 });
             });
         });
-        // TODO: will add more tests in next PR
     });
 });
