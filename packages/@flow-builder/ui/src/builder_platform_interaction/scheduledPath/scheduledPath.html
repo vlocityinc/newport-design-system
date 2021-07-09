@@ -70,13 +70,13 @@
                     class="slds-p-around_none slds-m-around_none"
                 >
                     <lightning-input
-                        label="Configure Batch Size (1-200)"
+                        label={labels.batchSizeFieldLabel}
                         value={batchSizeNumberValue}
-                        placeholder="Default: 200"
+                        placeholder={labels.batchSizeTextPlaceholder}
                         type="input"
                         class="batchSizeInput slds-size_2-of-5"
                         onfocusout={handleBatchSizeNumberChanged}
-                        field-level-help="Additional details about how maximum batch size affects process and performance."
+                        field-level-help={labels.batchSizeInfobubble}
                     ></lightning-input>
                 </lightning-accordion-section>
             </lightning-accordion>

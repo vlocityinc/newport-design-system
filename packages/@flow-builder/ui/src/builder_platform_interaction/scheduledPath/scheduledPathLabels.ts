@@ -18,6 +18,9 @@ import startElementRecordUpdated from '@salesforce/label/FlowBuilderCanvasElemen
 import startElementRecordDeleted from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordDeleted';
 import startElementRecordCreatedUpdated from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordCreatedUpdated';
 import deleteScheduledPathLabel from '@salesforce/label/FlowBuilderScheduledPath.deleteScheduledPathLabel';
+import batchSizeFieldLabel from '@salesforce/label/FlowBuilderScheduledPath.batchSizeFieldLabel';
+import batchSizeTextPlaceholder from '@salesforce/label/FlowBuilderScheduledPath.batchSizeTextPlaceholder';
+import batchSizeInfobubble from '@salesforce/label/FlowBuilderScheduledPath.batchSizeInfobubble';
 
 export const LABELS = {
     pathLabel,
@@ -38,5 +41,8 @@ export const LABELS = {
     startElementRecordUpdated,
     startElementRecordDeleted,
     startElementRecordCreatedUpdated,
-    deleteScheduledPathLabel
+    deleteScheduledPathLabel,
+    batchSizeFieldLabel,
+    batchSizeTextPlaceholder,
+    batchSizeInfobubble
 };
