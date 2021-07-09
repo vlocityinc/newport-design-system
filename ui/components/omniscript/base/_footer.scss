@@ -1,4 +1,4 @@
-@media screen and (max-width: 48em) {
+@include mq-small-max {
   &.nds-omniscript_mobile-fixed-footer> :last-child {
     position: sticky;
     bottom: 0;
