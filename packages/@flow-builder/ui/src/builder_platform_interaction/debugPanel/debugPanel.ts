@@ -55,6 +55,9 @@ export default class DebugPanel extends LightningElement {
     expandTitleVar = LABELS.expandAllTitle;
     fromDebugRun = false;
     activeSections = [];
+    // to maintain list of sections open presently, maybe different from the initial activeSections set
+    openSections = [];
+    fromLabelFilter = false;
 
     get selectedOptions() {
         return this._selectedOptions;
@@ -89,10 +92,14 @@ export default class DebugPanel extends LightningElement {
         } else if (!this.blockedEntries.includes(this.TRANSACTION_ENTRY)) {
             this.blockedEntries.push(this.TRANSACTION_ENTRY);
         }
-
+        const previousShowApiNames = this.showApiNames;
         this.showApiNames = this.checkboxSelections.includes(LABELS.showApiNamesFilter);
-
         this.removeBlockedEntries();
+        if (this.showApiNames !== previousShowApiNames) {
+            // set to empty to trigger handleSectionToggle which opens the previously opened sections
+            this.activeSections = [];
+            this.fromLabelFilter = true;
+        }
     }
 
     handleExpandAll() {
@@ -111,6 +118,23 @@ export default class DebugPanel extends LightningElement {
             this.activeSections = [];
         }
         this.expandAll = !this.expandAll;
+    }
+
+    handleSectionToggle(event) {
+        if (this.fromLabelFilter) {
+            if (this.showApiNames) {
+                this.activeSections = this.debugTraces
+                    .filter((e) => this.openSections.includes(e.titleWithLabel))
+                    .map((e) => e.titleWithApiName);
+            } else {
+                this.activeSections = this.debugTraces
+                    .filter((e) => this.openSections.includes(e.titleWithApiName))
+                    .map((e) => e.titleWithLabel);
+            }
+        } else {
+            this.openSections = event.detail.openSections;
+        }
+        this.fromLabelFilter = false;
     }
 
     get hasErrors() {

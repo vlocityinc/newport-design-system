@@ -56,13 +56,13 @@
 
     <div class="slds-panel__body slds-scrollable--y">
         <!-- if there's an error, there will be no debugData.debugTraces-->
-        <template for:each={debugTraces} for:item="trace">
-            <lightning-accordion
-                key={trace.id}
-                allow-multiple-sections-open
-                class="slds-has-divider--bottom slds-p-around_none slds-m-around_none"
-                active-section-name={activeSections}
-            >
+        <lightning-accordion
+            allow-multiple-sections-open
+            class="slds-has-divider--bottom slds-p-around_none slds-m-around_none"
+            active-section-name={activeSections}
+            onsectiontoggle={handleSectionToggle}
+        >
+            <template for:each={debugTraces} for:item="trace">
                 <template key={trace.id} if:true={showApiNames}>
                     <lightning-accordion-section
                         data-name={trace.titleWithApiName}
@@ -102,8 +102,8 @@
                         ></builder_platform_interaction-debug-panel-body>
                     </lightning-accordion-section>
                 </template>
-            </lightning-accordion>
-        </template>
+            </template>
+        </lightning-accordion>
 
         <div if:true={hasErrors} class="error">
             <lightning-formatted-rich-text
