@@ -523,14 +523,6 @@ export default class AlcCanvas extends LightningElement {
             }
         }
 
-        // Moving focus to the expected element when entering selection mode to
-        // select the GoTo target. This needs to happen in the renderedCallback since we
-        // need to wait for all the nodes to re-render before moving the focus.
-        if (this._elementGuidToFocus) {
-            this.focusOnNode(this._elementGuidToFocus);
-            this._elementGuidToFocus = null;
-        }
-
         const numberOfElements = this.flowModel && Object.keys(this.flowModel).length;
         logPerfTransactionEnd(AUTOLAYOUT_CANVAS, { numberOfElements }, null);
     }
@@ -579,7 +571,7 @@ export default class AlcCanvas extends LightningElement {
                 const firstSelectableElementGuid = getFirstSelectableElementGuid(this.flowModel, 'root');
                 if (firstSelectableElementGuid) {
                     // Setting _elementGuidToFocus to firstSelectableElementGuid so that
-                    // we can set focus on the correct node during the renderedCallback
+                    // we can set focus on the correct node during the rerender
                     this._elementGuidToFocus = firstSelectableElementGuid;
                 }
             }
@@ -869,7 +861,7 @@ export default class AlcCanvas extends LightningElement {
                 guid: this._goToSourceGuid,
                 childIndex: this._goToSourceBranchIndex
             };
-
+            this._elementGuidToFocus = event.detail.canvasElementGUID;
             if (this._goToableGuids.includes(event.detail.canvasElementGUID)) {
                 this.dispatchEvent(
                     new CreateGoToConnectionEvent(
@@ -990,6 +982,20 @@ export default class AlcCanvas extends LightningElement {
             const duration = menuInfo != null && menuInfo.needToPosition ? 10 : undefined;
 
             this._animatePromise = animate((progress) => this.renderFlow(progress), duration);
+            this._animatePromise.then(() => {
+                // Moving focus to the expected element when entering selection mode to
+                // select the GoTo target and when the target is selected.
+                if (this._elementGuidToFocus) {
+                    if (this.flowModel[this._elementGuidToFocus].nodeType === NodeType.END) {
+                        const endElement = this.flowModel[this._elementGuidToFocus];
+                        const focusGuid = endElement.prev || endElement.parent;
+                        this.focusOnConnector(focusGuid, endElement.childIndex);
+                    } else {
+                        this.focusOnNode(this._elementGuidToFocus);
+                    }
+                    this._elementGuidToFocus = null;
+                }
+            });
         }
     };
 
