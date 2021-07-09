@@ -30,13 +30,14 @@
                                 <div class="slds-media__body">
                                     <h2 class="slds-popover_prompt__heading">{notice.header}</h2>
                                     <p>
-                                        {labels.legalText}&nbsp;
+                                        {legalTextFirstPart}&nbsp;
                                         <lightning-formatted-url
-                                            value={screensLegalAgreementsUrl}
-                                            label={labels.agreementUrlLabel}
+                                            value={agreementUrl}
+                                            label={agreementUrlLabel}
                                             target="_blank"
                                         >
                                         </lightning-formatted-url>
+                                        {legalTextSecondPart}
                                     </p>
                                 </div>
                             </div>

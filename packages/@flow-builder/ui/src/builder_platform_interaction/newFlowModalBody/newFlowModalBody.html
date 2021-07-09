@@ -77,5 +77,15 @@
                 </div>
             </div>
         </lightning-tab>
+        <builder_platform_interaction-legal-popover
+            if:true={showBetaLegalPopover}
+            horizontal-position="right"
+            notices={noticesToLegalPopover}
+            legal-text-first-part={labels.orchestratorLegalNoticeTextFirstPart}
+            legal-text-second-part={labels.orchestratorLegalNoticeTextSecondPart}
+            agreement-url-label={labels.orchestratorLegalNoticeAgreementUrlLabel}
+            onlegalnoticedismissed={handleLegalNoticeDismissed}
+        >
+        </builder_platform_interaction-legal-popover>
     </lightning-tabset>
 </template>

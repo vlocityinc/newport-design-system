@@ -6,6 +6,10 @@ import templates from '@salesforce/label/FlowBuilderProcessTypeTemplates.templat
 import errorLoadingProcessTypes from '@salesforce/label/FlowBuilderNewFlowModal.errorLoadingProcessTypes';
 import errorLoadingTemplates from '@salesforce/label/FlowBuilderNewFlowModal.errorLoadingTemplates';
 import errorLoadingFlowEntries from '@salesforce/label/FlowBuilderNewFlowModal.errorLoadingFlowEntries';
+import orchestratorLegalNoticeHeader from '@salesforce/label/FlowBuilderNewFlowModal.orchestratorLegalNoticeHeader';
+import orchestratorLegalNoticeTextFirstPart from '@salesforce/label/FlowBuilderNewFlowModal.orchestratorLegalNoticeTextFirstPart';
+import orchestratorLegalNoticeTextSecondPart from '@salesforce/label/FlowBuilderNewFlowModal.orchestratorLegalNoticeTextSecondPart';
+import orchestratorLegalNoticeAgreementUrlLabel from '@salesforce/label/FlowBuilderNewFlowModal.orchestratorLegalNoticeAgreementUrlLabel';
 
 export const LABELS = {
     spinnerAlternativeText,
@@ -13,5 +17,9 @@ export const LABELS = {
     templates,
     errorLoadingTemplates,
     errorLoadingProcessTypes,
-    errorLoadingFlowEntries
+    errorLoadingFlowEntries,
+    orchestratorLegalNoticeHeader,
+    orchestratorLegalNoticeTextFirstPart,
+    orchestratorLegalNoticeTextSecondPart,
+    orchestratorLegalNoticeAgreementUrlLabel
 };

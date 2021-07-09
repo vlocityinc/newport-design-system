@@ -87,6 +87,7 @@ export { VisualPickerItemChangedEvent } from './visualPickerItemChangedEvent';
 export { VisualPickerListChangedEvent } from './visualPickerListChangedEvent';
 export { ProcessTypeSelectedEvent } from './processTypeSelectedEvent';
 export { TemplateChangedEvent } from './templateChangedEvent';
+export { LegalNoticeDismissedEvent } from './legalNoticeDismissedEvent';
 export { CannotRetrieveTemplatesEvent } from './cannotRetrieveTemplatesEvent';
 export { NumberRecordToStoreChangedEvent } from './numberRecordToStoreChangedEvent';
 export { ManuallyAssignVariablesChangedEvent } from './manuallyAssignVariablesChangedEvent';

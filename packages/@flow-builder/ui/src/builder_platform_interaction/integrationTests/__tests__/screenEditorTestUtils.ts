@@ -33,9 +33,10 @@ import Palette from 'builder_platform_interaction/palette';
 import { TestComponent } from './testComponent';
 import { ComboboxTestComponent, getSObjectOrSObjectCollectionPickerCombobox } from './comboboxTestUtils';
 import { format } from 'builder_platform_interaction/commonUtils';
-import ScreenEditorLegalPopover from 'src/builder_platform_interaction/screenEditorLegalPopover/screenEditorLegalPopover';
+import LegalPopover from 'src/builder_platform_interaction/legalPopover/legalPopover';
 import LearnMoreCard from 'builder_platform_interaction/learnMoreCard';
 import FerovResourcePicker from 'builder_platform_interaction/ferovResourcePicker';
+import { LegalPopoverTestComponent } from './integrationTestUtils';
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
@@ -117,14 +118,14 @@ export class ScreenEditorTestComponent extends TestComponent<ScreenEditor> {
         return new ScreenEditorAutomaticFieldBetaDisclaimerTestComponent(betaDisclaimer);
     }
 
-    public getScreenEditorLegalPopover() {
+    public getLegalPopover() {
         const popoverElement = this.element.shadowRoot!.querySelector(
-            INTERACTION_COMPONENTS_SELECTORS.SCREEN_EDITOR_LEGAL_POPOVER
-        ) as ScreenEditorLegalPopover & HTMLElement;
+            INTERACTION_COMPONENTS_SELECTORS.LEGAL_POPOVER
+        ) as LegalPopover & HTMLElement;
         if (!popoverElement) {
             return undefined;
         }
-        return new ScreenEditorLegalPopoverTestComponent(popoverElement);
+        return new LegalPopoverTestComponent(popoverElement);
     }
 
     public getPropertiesEditorContainer() {
@@ -156,53 +157,6 @@ export class ScreenEditorAutomaticFieldBetaDisclaimerTestComponent extends TestC
         const closeButton = popupElement.querySelector(SELECTORS.LIGHTNING_BUTTON_ICON) as HTMLElement;
         closeButton.click();
         await ticks();
-    }
-}
-
-export class ScreenEditorLegalPopoverTestComponent extends TestComponent<ScreenEditorLegalPopover> {
-    public getPopupElement() {
-        return this.element.shadowRoot!.querySelector(SELECTORS.LIGHTNING_POPUP) as HTMLElement & {
-            isVisible: () => boolean;
-        };
-    }
-
-    private getLastHeaderElement() {
-        return this.getPopupElement().querySelectorAll('h2.slds-popover_prompt__heading')[
-            this.getNumberOfNoticesInPopup() - 1
-        ] as HTMLElement;
-    }
-
-    public getLastNoticeHeading() {
-        return this.getLastHeaderElement().textContent;
-    }
-
-    public getNumberOfNoticesInPopup() {
-        return this.getPopupElement().querySelectorAll('div.popover-item').length;
-    }
-
-    public isVisible() {
-        return this.getPopupElement().isVisible();
-    }
-
-    public async clickOnCloseButton() {
-        const popupElement = this.getPopupElement();
-        const closeButton = popupElement.querySelector(SELECTORS.LIGHTNING_BUTTON_ICON) as HTMLElement;
-        closeButton.click();
-        await ticks();
-    }
-
-    public getFormattedUrlElement() {
-        const popupElement = this.getPopupElement();
-        return (
-            (popupElement.querySelector(SELECTORS.LIGHTNING_FORMATTED_URL) as HTMLElement & {
-                value: string;
-                label: string;
-            }) || null
-        );
-    }
-
-    public getAgreementUrl() {
-        return this.getFormattedUrlElement()?.value;
     }
 }
 

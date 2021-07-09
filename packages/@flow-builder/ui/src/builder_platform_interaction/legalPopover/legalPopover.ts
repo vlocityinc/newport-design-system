@@ -1,16 +1,36 @@
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { LightningElement, track, api } from 'lwc';
-import { createScreenLegalNoticeDismissedEvent } from 'builder_platform_interaction/events';
-import { LABELS } from './screenEditorLegalPopoverLabels';
+import { LegalNoticeDismissedEvent } from 'builder_platform_interaction/events';
+import { LABELS } from './legalPopoverLabels';
 
-export default class ScreenEditorLegalPopover extends LightningElement {
+export enum HorizontalPosition {
+    Left = 'left',
+    Right = 'right'
+}
+
+export default class LegalPopover extends LightningElement {
     protected labels = LABELS;
     private needToFocusOnUrl = true;
 
     private needToUpdatePopupPosition = true;
 
+    @api
+    legalTextFirstPart = LABELS.legalText;
+
+    @api
+    agreementUrlLabel = LABELS.agreementUrlLabel;
+
+    /**
+     * Optional text that comes after the formatted URL
+     */
+    @api
+    legalTextSecondPart?: string;
+
+    @api
+    horizontalPosition = HorizontalPosition.Left;
+
     @track
-    private screensLegalAgreementsUrl?: string;
+    private agreementUrl?: string;
 
     @track _notices = [];
 
@@ -31,9 +51,17 @@ export default class ScreenEditorLegalPopover extends LightningElement {
         }
     }
 
+    /**
+     * Re-render the popover to the correct position
+     */
+    @api
+    updatePopupPosition() {
+        this.showPopup();
+    }
+
     connectedCallback() {
         fetchOnce(SERVER_ACTION_TYPE.GET_AUTOMATIC_FIELD_BETA_URLS).then(
-            ({ automaticFieldLegalAgreements }) => (this.screensLegalAgreementsUrl = automaticFieldLegalAgreements)
+            ({ automaticFieldLegalAgreements }) => (this.agreementUrl = automaticFieldLegalAgreements)
         );
     }
 
@@ -41,7 +69,7 @@ export default class ScreenEditorLegalPopover extends LightningElement {
         if (event.key === 'Escape') {
             // do not propagate ESC as it would close the (aura) property editor dialog
             event.stopPropagation();
-            this.dispatchEvent(createScreenLegalNoticeDismissedEvent());
+            this.dispatchEvent(new LegalNoticeDismissedEvent());
         }
     };
 
@@ -60,7 +88,7 @@ export default class ScreenEditorLegalPopover extends LightningElement {
             // Renders the popup at the right location
             this.showPopup();
         }
-        if (this.needToFocusOnUrl && this.screensLegalAgreementsUrl != null) {
+        if (this.needToFocusOnUrl && this.agreementUrl != null) {
             this.needToFocusOnUrl = false;
             // formattedUrlElement is null if popup already closed
             this.formattedUrlElement?.focus();
@@ -72,15 +100,15 @@ export default class ScreenEditorLegalPopover extends LightningElement {
         // This is done in order to re-render the popup at the right position
         this.popupElement.close();
         this.popupElement.show(popupLocation, {
-            reference: { horizontal: 'left', vertical: 'top' },
-            popup: { horizontal: 'left', vertical: 'bottom' },
-            padding: 1,
+            reference: { horizontal: this.horizontalPosition, vertical: 'top' },
+            popup: { horizontal: this.horizontalPosition, vertical: 'bottom' },
+            padding: 0.5,
             offset: 1
         });
     }
 
     handleCloseButtonClick = () => {
-        this.dispatchEvent(createScreenLegalNoticeDismissedEvent());
+        this.dispatchEvent(new LegalNoticeDismissedEvent());
     };
 
     get formattedUrlElement() {

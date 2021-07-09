@@ -13,8 +13,7 @@ export enum ScreenEditorEventName {
     ChoiceDeleted = 'choicedeleted',
     ColumnWidthChanged = 'columnwidthchanged',
     ChoiceReset = 'choicereset',
-    FooterBetaOptionSelected = 'footerbetaoptionselected',
-    LegalNoticeDismissed = 'legalnoticedismissed'
+    FooterBetaOptionSelected = 'footerbetaoptionselected'
 }
 
 /**
@@ -252,13 +251,4 @@ export function createColumnWidthChangedEvent(columnGuid, columnWidth, sectionGu
  */
 export function createScreenFooterBetaOptionSelectedEvent() {
     return createScreenEditorEvent(ScreenEditorEventName.FooterBetaOptionSelected, {});
-}
-
-/**
- * Creates an event to be fired when the Legal Notice is dismissed
- *
- * @returns {CustomEvent} - ScreenLegalNoticeDismissed Event
- */
-export function createScreenLegalNoticeDismissedEvent() {
-    return createScreenEditorEvent(ScreenEditorEventName.LegalNoticeDismissed, {});
 }

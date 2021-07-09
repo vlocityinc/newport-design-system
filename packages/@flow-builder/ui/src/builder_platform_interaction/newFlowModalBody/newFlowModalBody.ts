@@ -5,6 +5,7 @@ import { ALL_PROCESS_TYPE } from 'builder_platform_interaction/processTypeLib';
 import { loadAllSupportedFeatures } from 'builder_platform_interaction/preloadLib';
 import { LABELS } from './newFlowModalBodyLabels';
 import { setProcessTypes } from 'builder_platform_interaction/systemLib';
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const TAB_RECOMMENDED = 'recommended';
 const TAB_TEMPLATES = 'templates';
@@ -74,6 +75,19 @@ export default class NewFlowModalBody extends LightningElement {
         return this.state.selectedProcessType;
     }
 
+    @track
+    noticesToLegalPopover: UI.LegalNotice[] = [
+        { header: LABELS.orchestratorLegalNoticeHeader, shown: true, dismissed: false }
+    ];
+
+    get showBetaLegalPopover() {
+        return (
+            this.state.selectedTemplatesItem &&
+            this.state.selectedTemplatesItem.processType === FLOW_PROCESS_TYPE.ORCHESTRATOR &&
+            this.noticesToLegalPopover[0].shown
+        );
+    }
+
     @api
     get selectedItem() {
         switch (this.state.activeTab) {
@@ -124,6 +138,15 @@ export default class NewFlowModalBody extends LightningElement {
     handleSelectProcessType(event) {
         event.stopPropagation();
         this.state.selectedProcessType = event.detail.name;
+
+        // If the user switches between "All" and "Orchestrator" process type categories,
+        // since the Beta applies to multiple tiles (both Record-triggered and normal orchestration),
+        // safer to just show the legal popover again
+        this.noticesToLegalPopover[0].shown = true;
+        const legalPopover = this.template.querySelector('builder_platform_interaction-legal-popover');
+        if (legalPopover) {
+            legalPopover.updatePopupPosition();
+        }
         if (this.isResetErrorMessageNeeded() && this.state.activeTab === TAB_TEMPLATES) {
             this.resetErrorMessage();
         }
@@ -253,5 +276,10 @@ export default class NewFlowModalBody extends LightningElement {
                 this.state.errorMessage = LABELS.errorLoadingFlowEntries;
                 this.footer.disableButtons();
             });
+    }
+
+    handleLegalNoticeDismissed(event) {
+        event.stopPropagation();
+        this.noticesToLegalPopover[0].shown = false;
     }
 }

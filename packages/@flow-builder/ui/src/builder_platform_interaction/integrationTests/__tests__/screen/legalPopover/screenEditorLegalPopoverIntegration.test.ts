@@ -2,18 +2,14 @@ import { getElementForPropertyEditor } from 'builder_platform_interaction/proper
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { FLOW_PROCESS_TYPE, FOOTER_LABEL_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
-import {
-    createComponentUnderTest,
-    ScreenEditorLegalPopoverTestComponent,
-    ScreenEditorTestComponent
-} from '../../screenEditorTestUtils';
+import { createComponentUnderTest, ScreenEditorTestComponent } from '../../screenEditorTestUtils';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import { resetState, setupStateForFlow } from '../../integrationTestUtils';
+import { LegalPopoverTestComponent, resetState, setupStateForFlow } from '../../integrationTestUtils';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 describe('Screen Editor Legal Popover', () => {
     let screenEditor: ScreenEditorTestComponent;
-    let popover: ScreenEditorLegalPopoverTestComponent | undefined;
+    let popover: LegalPopoverTestComponent | undefined;
     const footerCustomOptionSelectEvent = new CustomEvent('change', {
         detail: { value: FOOTER_LABEL_TYPE.CUSTOM }
     });
@@ -40,7 +36,7 @@ describe('Screen Editor Legal Popover', () => {
             screenEditor = await createScreenEditor('screenWithAutomaticFields');
             screenEditor.getAutomaticFieldsTab().dispatchEvent(activeTabEvent);
             await ticks();
-            popover = screenEditor.getScreenEditorLegalPopover();
+            popover = screenEditor.getLegalPopover();
         });
         it('is visible in the Fields tab if not dismissed', async () => {
             expect(popover!.isVisible()).toBe(true);
@@ -50,13 +46,13 @@ describe('Screen Editor Legal Popover', () => {
         it('is not visible if switched to the Components tab', async () => {
             screenEditor.getComponentsTab().dispatchEvent(activeTabEvent);
             await ticks();
-            popover = screenEditor.getScreenEditorLegalPopover();
+            popover = screenEditor.getLegalPopover();
             expect(popover).toBeUndefined();
         });
         it('is not visible if dismissed using the close button', async () => {
             popover!.clickOnCloseButton();
             await ticks();
-            popover = screenEditor.getScreenEditorLegalPopover();
+            popover = screenEditor.getLegalPopover();
             expect(popover).toBeUndefined();
         });
         it('is not visible once dismissed even on tab switch to component and back to fields', async () => {
@@ -66,7 +62,7 @@ describe('Screen Editor Legal Popover', () => {
             await ticks();
             screenEditor.getAutomaticFieldsTab().dispatchEvent(activeTabEvent);
             await ticks();
-            popover = screenEditor.getScreenEditorLegalPopover();
+            popover = screenEditor.getLegalPopover();
             expect(popover).toBeUndefined();
         });
         it('it contains a link to the agreement url when visible', () => {
@@ -85,7 +81,7 @@ describe('Screen Editor Legal Popover', () => {
         it('is visible if next or finish label custom option is selected', async () => {
             propertiesEditor!.getNextOrFinishLabelTypeRadioButtons().dispatchEvent(footerCustomOptionSelectEvent);
             await ticks();
-            popover = screenEditor.getScreenEditorLegalPopover();
+            popover = screenEditor.getLegalPopover();
             expect(popover!.isVisible()).toBe(true);
             expect(popover!.getNumberOfNoticesInPopup()).toEqual(1);
             expect(popover!.getLastNoticeHeading()).toEqual(LABELS.customFooterLegalNoticeHeader);
@@ -93,7 +89,7 @@ describe('Screen Editor Legal Popover', () => {
         it('is visible if previous label custom option is selected', async () => {
             propertiesEditor!.getPreviousLabelTypeRadioButtons().dispatchEvent(footerCustomOptionSelectEvent);
             await ticks();
-            popover = screenEditor.getScreenEditorLegalPopover();
+            popover = screenEditor.getLegalPopover();
             expect(popover!.isVisible()).toBe(true);
             expect(popover!.getNumberOfNoticesInPopup()).toEqual(1);
             expect(popover!.getLastNoticeHeading()).toEqual(LABELS.customFooterLegalNoticeHeader);
@@ -101,7 +97,7 @@ describe('Screen Editor Legal Popover', () => {
         it('is visible if pause label custom option is selected', async () => {
             propertiesEditor!.getPauseLabelTypeRadioButtons().dispatchEvent(footerCustomOptionSelectEvent);
             await ticks();
-            popover = screenEditor.getScreenEditorLegalPopover();
+            popover = screenEditor.getLegalPopover();
             expect(popover!.isVisible()).toBe(true);
             expect(popover!.getNumberOfNoticesInPopup()).toEqual(1);
             expect(popover!.getLastNoticeHeading()).toEqual(LABELS.customFooterLegalNoticeHeader);
@@ -109,16 +105,16 @@ describe('Screen Editor Legal Popover', () => {
         it('is not visible if dismissed using the close button', async () => {
             propertiesEditor!.getNextOrFinishLabelTypeRadioButtons().dispatchEvent(footerCustomOptionSelectEvent);
             await ticks();
-            popover = screenEditor.getScreenEditorLegalPopover();
+            popover = screenEditor.getLegalPopover();
             popover!.clickOnCloseButton();
             await ticks();
-            popover = screenEditor.getScreenEditorLegalPopover();
+            popover = screenEditor.getLegalPopover();
             expect(popover).toBeUndefined();
         });
         it('is not visible even on trigger if dismissed previously', async () => {
             propertiesEditor!.getNextOrFinishLabelTypeRadioButtons().dispatchEvent(footerCustomOptionSelectEvent);
             await ticks();
-            popover = screenEditor.getScreenEditorLegalPopover();
+            popover = screenEditor.getLegalPopover();
             popover!.clickOnCloseButton();
             await ticks();
             propertiesEditor!.getNextOrFinishLabelTypeRadioButtons().dispatchEvent(
@@ -129,7 +125,7 @@ describe('Screen Editor Legal Popover', () => {
             await ticks();
             propertiesEditor!.getNextOrFinishLabelTypeRadioButtons().dispatchEvent(footerCustomOptionSelectEvent);
             await ticks();
-            popover = screenEditor.getScreenEditorLegalPopover();
+            popover = screenEditor.getLegalPopover();
             expect(popover).toBeUndefined();
         });
         it('is not visible if label type hide / standard option is selected', async () => {
@@ -139,7 +135,7 @@ describe('Screen Editor Legal Popover', () => {
                 })
             );
             await ticks();
-            popover = screenEditor.getScreenEditorLegalPopover();
+            popover = screenEditor.getLegalPopover();
             expect(popover).toBeUndefined();
             propertiesEditor!.getNextOrFinishLabelTypeRadioButtons().dispatchEvent(
                 new CustomEvent('change', {
@@ -147,13 +143,13 @@ describe('Screen Editor Legal Popover', () => {
                 })
             );
             await ticks();
-            popover = screenEditor.getScreenEditorLegalPopover();
+            popover = screenEditor.getLegalPopover();
             expect(popover).toBeUndefined();
         });
         it('it contains a link to the agreement url when visible', async () => {
             propertiesEditor!.getNextOrFinishLabelTypeRadioButtons().dispatchEvent(footerCustomOptionSelectEvent);
             await ticks();
-            popover = screenEditor.getScreenEditorLegalPopover();
+            popover = screenEditor.getLegalPopover();
             expect(popover!.getNumberOfNoticesInPopup()).toEqual(1);
             expect(popover!.getLastNoticeHeading()).toEqual(LABELS.customFooterLegalNoticeHeader);
             expect(popover!.getAgreementUrl()).toBe('https://www.salesforce.com/company/legal/agreements/');
@@ -169,12 +165,12 @@ describe('Screen Editor Legal Popover', () => {
         it('more than 1 notice show up in same popup if triggered', async () => {
             propertiesEditor!.getNextOrFinishLabelTypeRadioButtons().dispatchEvent(footerCustomOptionSelectEvent);
             await ticks();
-            popover = screenEditor.getScreenEditorLegalPopover();
+            popover = screenEditor.getLegalPopover();
             expect(popover!.isVisible()).toBe(true);
             expect(popover!.getNumberOfNoticesInPopup()).toEqual(1);
             screenEditor.getAutomaticFieldsTab().dispatchEvent(activeTabEvent);
             await ticks();
-            popover = screenEditor.getScreenEditorLegalPopover();
+            popover = screenEditor.getLegalPopover();
             expect(popover!.isVisible()).toBe(true);
             expect(popover!.getNumberOfNoticesInPopup()).toEqual(2);
         });
@@ -183,7 +179,7 @@ describe('Screen Editor Legal Popover', () => {
             await ticks();
             screenEditor.getAutomaticFieldsTab().dispatchEvent(activeTabEvent);
             await ticks();
-            popover = screenEditor.getScreenEditorLegalPopover();
+            popover = screenEditor.getLegalPopover();
             expect(popover!.isVisible()).toBe(true);
             expect(popover!.getNumberOfNoticesInPopup()).toEqual(2);
             expect(popover!.getLastNoticeHeading()).toEqual(LABELS.automaticFieldsLegalNoticeHeader);
@@ -191,15 +187,15 @@ describe('Screen Editor Legal Popover', () => {
         it('if 1 notice has been dismissed, other one can show up on trigger if not dismissed', async () => {
             propertiesEditor!.getNextOrFinishLabelTypeRadioButtons().dispatchEvent(footerCustomOptionSelectEvent);
             await ticks();
-            popover = screenEditor.getScreenEditorLegalPopover();
+            popover = screenEditor.getLegalPopover();
             expect(popover!.isVisible()).toBe(true);
             popover!.clickOnCloseButton();
             await ticks();
-            popover = screenEditor.getScreenEditorLegalPopover();
+            popover = screenEditor.getLegalPopover();
             expect(popover).toBeUndefined();
             screenEditor.getAutomaticFieldsTab().dispatchEvent(activeTabEvent);
             await ticks();
-            popover = screenEditor.getScreenEditorLegalPopover();
+            popover = screenEditor.getLegalPopover();
             expect(popover!.isVisible()).toBe(true);
             expect(popover!.getNumberOfNoticesInPopup()).toEqual(1);
             expect(popover!.getLastNoticeHeading()).toEqual(LABELS.automaticFieldsLegalNoticeHeader);
@@ -209,12 +205,12 @@ describe('Screen Editor Legal Popover', () => {
             await ticks();
             screenEditor.getAutomaticFieldsTab().dispatchEvent(activeTabEvent);
             await ticks();
-            popover = screenEditor.getScreenEditorLegalPopover();
+            popover = screenEditor.getLegalPopover();
             expect(popover!.isVisible()).toBe(true);
             expect(popover!.getNumberOfNoticesInPopup()).toEqual(2);
             popover!.clickOnCloseButton();
             await ticks();
-            popover = screenEditor.getScreenEditorLegalPopover();
+            popover = screenEditor.getLegalPopover();
             expect(popover).toBeUndefined();
         });
     });

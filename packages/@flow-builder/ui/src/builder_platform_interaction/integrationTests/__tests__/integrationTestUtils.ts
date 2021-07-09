@@ -10,7 +10,8 @@ import {
     textInputEvent,
     blurEvent,
     lightningRadioGroupChangeEvent,
-    ticks
+    ticks,
+    LIGHTNING_COMPONENTS_SELECTORS
 } from 'builder_platform_interaction/builderTestUtils';
 import { clearExtensionsCache } from 'builder_platform_interaction/flowExtensionLib';
 import { setResourceTypes } from 'builder_platform_interaction/dataTypeLib';
@@ -27,6 +28,8 @@ import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
 import { updateFlow } from 'builder_platform_interaction/actions';
 import type { StoreReducer } from 'builder_platform_interaction/storeLib';
+import LegalPopover from 'src/builder_platform_interaction/legalPopover/legalPopover';
+import { TestComponent } from './testComponent';
 
 export const FLOW_BUILDER_VALIDATION_ERROR_MESSAGES = {
     CANNOT_BE_BLANK: 'FlowBuilderValidation.cannotBeBlank',
@@ -117,3 +120,52 @@ export const resetState = () => {
     setApexClasses(null);
     clearLoader();
 };
+
+export class LegalPopoverTestComponent extends TestComponent<LegalPopover> {
+    public getPopupElement() {
+        return this.element.shadowRoot!.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_POPUP) as HTMLElement & {
+            isVisible: () => boolean;
+        };
+    }
+
+    private getLastHeaderElement() {
+        return this.getPopupElement().querySelectorAll('h2.slds-popover_prompt__heading')[
+            this.getNumberOfNoticesInPopup() - 1
+        ] as HTMLElement;
+    }
+
+    public getLastNoticeHeading() {
+        return this.getLastHeaderElement().textContent;
+    }
+
+    public getNumberOfNoticesInPopup() {
+        return this.getPopupElement().querySelectorAll('div.popover-item').length;
+    }
+
+    public isVisible() {
+        return this.getPopupElement().isVisible();
+    }
+
+    public async clickOnCloseButton() {
+        const popupElement = this.getPopupElement();
+        const closeButton = popupElement.querySelector(
+            LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BUTTON_ICON
+        ) as HTMLElement;
+        closeButton.click();
+        await ticks();
+    }
+
+    public getFormattedUrlElement() {
+        const popupElement = this.getPopupElement();
+        return (
+            (popupElement.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_FORMATTED_URL) as HTMLElement & {
+                value: string;
+                label: string;
+            }) || null
+        );
+    }
+
+    public getAgreementUrl() {
+        return this.getFormattedUrlElement()?.value;
+    }
+}
