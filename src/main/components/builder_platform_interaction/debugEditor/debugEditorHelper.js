@@ -3,10 +3,10 @@
     /**
      * Call out to FlowBuilderController and construct debug modal with input vars
      * @param {Aura} cmp, the debug modal
-     * @param {String} flowName
+     * @param {String} flowId
      * @param {Boolean} rerun, whether this is a debug rerun
      */
-    buildInput: function (cmp, flowName, flowId, processType, triggerType, rerun) {
+    buildInput: function (cmp, flowId, processType, triggerType, rerun) {
         this.getDebugRunAsValidation(cmp, processType, triggerType);
 
         if (processType === 'AutoLaunchedFlow' && triggerType === 'Scheduled') {
@@ -27,12 +27,12 @@
             cmp.set('v.enableRollbackCB', true);
             cmp.set('v.createOrUpdateOptions', this.getCreateOrUpdateOptions());
         } else {
-            var action = cmp.get('c.getFlowInputOutputVariables');
-            action.setParams({ flowName: flowName });
+            var action = cmp.get('c.getVersionInputOutputVariables');
+            action.setParams({ id: flowId });
             action.setCallback(this, function (response) {
                 var state = response.getState();
                 if (state === 'SUCCESS') {
-                    this.buildInputVarComponents(cmp, response.getReturnValue()[0], rerun);
+                    this.buildInputVarComponents(cmp, response.getReturnValue(), rerun);
                 }
                 cmp.set('v.displaySpinner', false);
             });

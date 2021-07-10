@@ -8,7 +8,6 @@
         }
         helper.buildInput(
             cmp,
-            cmp.get('v.flowName'),
             cmp.get('v.flowId'),
             cmp.get('v.processType'),
             cmp.get('v.triggerType'),

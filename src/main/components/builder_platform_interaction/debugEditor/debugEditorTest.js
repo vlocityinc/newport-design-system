@@ -15,14 +15,12 @@
             descriptor: 'serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController',
             stubs: [
                 {
-                    method: { name: 'getFlowInputOutputVariables' },
+                    method: { name: 'getVersionInputOutputVariables' },
                     answers: [
                         {
-                            value: [
-                                {
-                                    variables: []
-                                }
-                            ]
+                            value: {
+                                variables: []
+                            }
                         }
                     ]
                 },
@@ -243,79 +241,77 @@
                 descriptor: 'serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController',
                 stubs: [
                     {
-                        method: { name: 'getFlowInputOutputVariables' },
+                        method: { name: 'getVersionInputOutputVariables' },
                         answers: [
                             {
-                                value: [
-                                    {
-                                        variables: [
-                                            {
-                                                dataType: 'String',
-                                                isCollection: false,
-                                                isInput: true,
-                                                isOutput: false,
-                                                name: 'test1-Text'
-                                            },
-                                            {
-                                                dataType: 'Number',
-                                                isCollection: false,
-                                                isInput: true,
-                                                isOutput: false,
-                                                name: 'test2-Number'
-                                            },
-                                            {
-                                                dataType: 'Currency',
-                                                isCollection: false,
-                                                isInput: true,
-                                                isOutput: false,
-                                                name: 'test3-Currency'
-                                            },
-                                            {
-                                                dataType: 'Boolean',
-                                                isCollection: false,
-                                                isInput: true,
-                                                isOutput: false,
-                                                name: 'test4-Boolean'
-                                            },
-                                            {
-                                                dataType: 'Date',
-                                                isCollection: false,
-                                                isInput: true,
-                                                isOutput: false,
-                                                name: 'test5-Date'
-                                            },
-                                            {
-                                                dataType: 'DateTime',
-                                                isCollection: false,
-                                                isInput: true,
-                                                isOutput: false,
-                                                name: 'test6-DateTime'
-                                            },
-                                            {
-                                                dataType: 'Picklist',
-                                                isCollection: false,
-                                                isInput: true,
-                                                isOutput: false,
-                                                name: 'test7-Picklist'
-                                            },
-                                            {
-                                                dataType: 'Multipicklist',
-                                                isCollection: false,
-                                                isInput: true,
-                                                isOutput: false,
-                                                name: 'test8-Multipicklist'
-                                            },
-                                            {
-                                                dataType: 'SObject',
-                                                isCollection: false,
-                                                isInput: true,
-                                                isOutput: false,
-                                                name: 'test9-SObject',
-                                                objectType: 'Account'
-                                            }
-                                        ]
-                                    }
-                                ]
+                                value: {
+                                    variables: [
+                                        {
+                                            dataType: 'String',
+                                            isCollection: false,
+                                            isInput: true,
+                                            isOutput: false,
+                                            name: 'test1-Text'
+                                        },
+                                        {
+                                            dataType: 'Number',
+                                            isCollection: false,
+                                            isInput: true,
+                                            isOutput: false,
+                                            name: 'test2-Number'
+                                        },
+                                        {
+                                            dataType: 'Currency',
+                                            isCollection: false,
+                                            isInput: true,
+                                            isOutput: false,
+                                            name: 'test3-Currency'
+                                        },
+                                        {
+                                            dataType: 'Boolean',
+                                            isCollection: false,
+                                            isInput: true,
+                                            isOutput: false,
+                                            name: 'test4-Boolean'
+                                        },
+                                        {
+                                            dataType: 'Date',
+                                            isCollection: false,
+                                            isInput: true,
+                                            isOutput: false,
+                                            name: 'test5-Date'
+                                        },
+                                        {
+                                            dataType: 'DateTime',
+                                            isCollection: false,
+                                            isInput: true,
+                                            isOutput: false,
+                                            name: 'test6-DateTime'
+                                        },
+                                        {
+                                            dataType: 'Picklist',
+                                            isCollection: false,
+                                            isInput: true,
+                                            isOutput: false,
+                                            name: 'test7-Picklist'
+                                        },
+                                        {
+                                            dataType: 'Multipicklist',
+                                            isCollection: false,
+                                            isInput: true,
+                                            isOutput: false,
+                                            name: 'test8-Multipicklist'
+                                        },
+                                        {
+                                            dataType: 'SObject',
+                                            isCollection: false,
+                                            isInput: true,
+                                            isOutput: false,
+                                            name: 'test9-SObject',
+                                            objectType: 'Account'
+                                        }
+                                    ]
+                                }
                             }
                         ]
                     }
@@ -347,22 +343,20 @@
                 descriptor: 'serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController',
                 stubs: [
                     {
-                        method: { name: 'getFlowInputOutputVariables' },
+                        method: { name: 'getVersionInputOutputVariables' },
                         answers: [
                             {
-                                value: [
-                                    {
-                                        variables: [
-                                            {
-                                                dataType: 'String',
-                                                isCollection: false,
-                                                isInput: false,
-                                                isOutput: true,
-                                                name: 'output-only'
-                                            }
-                                        ]
-                                    }
-                                ]
+                                value: {
+                                    variables: [
+                                        {
+                                            dataType: 'String',
+                                            isCollection: false,
+                                            isInput: false,
+                                            isOutput: true,
+                                            name: 'output-only'
+                                        }
+                                    ]
+                                }
                             }
                         ]
                     }
@@ -456,23 +450,21 @@
                 descriptor: 'serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController',
                 stubs: [
                     {
-                        method: { name: 'getFlowInputOutputVariables' },
+                        method: { name: 'getVersionInputOutputVariables' },
                         answers: [
                             {
-                                value: [
-                                    {
-                                        variables: [
-                                            {
-                                                dataType: 'Apex',
-                                                isCollection: false,
-                                                isInput: true,
-                                                isOutput: false,
-                                                name: 'Apex-defined var',
-                                                objectType: 'test_Greeting'
-                                            }
-                                        ]
-                                    }
-                                ]
+                                value: {
+                                    variables: [
+                                        {
+                                            dataType: 'Apex',
+                                            isCollection: false,
+                                            isInput: true,
+                                            isOutput: false,
+                                            name: 'Apex-defined var',
+                                            objectType: 'test_Greeting'
+                                        }
+                                    ]
+                                }
                             }
                         ]
                     }
@@ -504,22 +496,20 @@
                 descriptor: 'serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController',
                 stubs: [
                     {
-                        method: { name: 'getFlowInputOutputVariables' },
+                        method: { name: 'getVersionInputOutputVariables' },
                         answers: [
                             {
-                                value: [
-                                    {
-                                        variables: [
-                                            {
-                                                dataType: 'String',
-                                                isCollection: true,
-                                                isInput: true,
-                                                isOutput: true,
-                                                name: 'collection_var'
-                                            }
-                                        ]
-                                    }
-                                ]
+                                value: {
+                                    variables: [
+                                        {
+                                            dataType: 'String',
+                                            isCollection: true,
+                                            isInput: true,
+                                            isOutput: true,
+                                            name: 'collection_var'
+                                        }
+                                    ]
+                                }
                             }
                         ]
                     }
@@ -554,22 +544,20 @@
                 descriptor: 'serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController',
                 stubs: [
                     {
-                        method: { name: 'getFlowInputOutputVariables' },
+                        method: { name: 'getVersionInputOutputVariables' },
                         answers: [
                             {
-                                value: [
-                                    {
-                                        variables: [
-                                            {
-                                                dataType: 'String',
-                                                isCollection: false,
-                                                isInput: true,
-                                                isOutput: false,
-                                                name: 'testVar'
-                                            }
-                                        ]
-                                    }
-                                ]
+                                value: {
+                                    variables: [
+                                        {
+                                            dataType: 'String',
+                                            isCollection: false,
+                                            isInput: true,
+                                            isOutput: false,
+                                            name: 'testVar'
+                                        }
+                                    ]
+                                }
                             }
                         ]
                     }
@@ -613,23 +601,21 @@
                 descriptor: 'serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController',
                 stubs: [
                     {
-                        method: { name: 'getFlowInputOutputVariables' },
+                        method: { name: 'getVersionInputOutputVariables' },
                         answers: [
                             {
-                                value: [
-                                    {
-                                        variables: [
-                                            {
-                                                dataType: 'String',
-                                                isCollection: false,
-                                                isInput: true,
-                                                isOutput: false,
-                                                name: 'previousInput',
-                                                value: 'previous input value' //the controller doesn't actually return this. This is the mocked previousInputs var
-                                            }
-                                        ]
-                                    }
-                                ]
+                                value: {
+                                    variables: [
+                                        {
+                                            dataType: 'String',
+                                            isCollection: false,
+                                            isInput: true,
+                                            isOutput: false,
+                                            name: 'previousInput',
+                                            value: 'previous input value' //the controller doesn't actually return this. This is the mocked previousInputs var
+                                        }
+                                    ]
+                                }
                             }
                         ]
                     }
@@ -667,30 +653,28 @@
                 descriptor: 'serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController',
                 stubs: [
                     {
-                        method: { name: 'getFlowInputOutputVariables' },
+                        method: { name: 'getVersionInputOutputVariables' },
                         answers: [
                             {
-                                value: [
-                                    {
-                                        variables: [
-                                            {
-                                                dataType: 'String',
-                                                isCollection: true,
-                                                isInput: true,
-                                                isOutput: false,
-                                                name: 'previousInput'
-                                            },
-                                            {
-                                                dataType: 'SObject',
-                                                isCollection: false,
-                                                isInput: true,
-                                                isOutput: false,
-                                                name: 'some_account',
-                                                objectType: 'Account'
-                                            }
-                                        ]
-                                    }
-                                ]
+                                value: {
+                                    variables: [
+                                        {
+                                            dataType: 'String',
+                                            isCollection: true,
+                                            isInput: true,
+                                            isOutput: false,
+                                            name: 'previousInput'
+                                        },
+                                        {
+                                            dataType: 'SObject',
+                                            isCollection: false,
+                                            isInput: true,
+                                            isOutput: false,
+                                            name: 'some_account',
+                                            objectType: 'Account'
+                                        }
+                                    ]
+                                }
                             }
                         ]
                     }
