@@ -30,6 +30,8 @@ import ScreenAutomaticFieldPropertiesEditor from 'builder_platform_interaction/s
 import ScreenInputField from 'builder_platform_interaction/screenInputField';
 import SObjectOrSObjectCollectionPicker from 'builder_platform_interaction/sobjectOrSobjectCollectionPicker';
 import Palette from 'builder_platform_interaction/palette';
+import Row from 'builder_platform_interaction/row';
+
 import { TestComponent } from './testComponent';
 import { ComboboxTestComponent, getSObjectOrSObjectCollectionPickerCombobox } from './comboboxTestUtils';
 import { format } from 'builder_platform_interaction/commonUtils';
@@ -41,6 +43,10 @@ import { LegalPopoverTestComponent } from './integrationTestUtils';
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
     ...INTERACTION_COMPONENTS_SELECTORS
+};
+
+const iconTypes = {
+    editButtonIcon: 'utility:edit'
 };
 
 export class ScreenEditorTestComponent extends TestComponent<ScreenEditor> {
@@ -425,6 +431,27 @@ export class ScreenPropertiesEditorTestComponent extends TestComponent<ScreenPro
     }
 }
 
+export class RowTestComponent extends TestComponent<Row> {
+    getButtonIconFromName = (iconName): HTMLElement | null => {
+        const iconNameProperty = 'iconName';
+        const buttonIcons = <HTMLElement[]>(
+            Array.from(this.element.shadowRoot!.querySelectorAll(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BUTTON_ICON))
+        );
+
+        if (buttonIcons?.length > 0) {
+            const filteredButtonIcons = buttonIcons.filter((item: HTMLElement) => item[iconNameProperty] === iconName);
+            if (filteredButtonIcons) {
+                return filteredButtonIcons[0];
+            }
+        }
+        return null;
+    };
+
+    getEditButton = (): HTMLElement | null => {
+        return this.getButtonIconFromName(iconTypes.editButtonIcon);
+    };
+}
+
 export class ChoicePropertiesEditorTestComponent extends TestComponent<ScreenChoiceFieldPropertiesEditor> {
     public getScreenPropertyFields() {
         return this.element.shadowRoot!.querySelectorAll(SELECTORS.SCREEN_PROPERTY_FIELD_EDITOR);
@@ -441,6 +468,16 @@ export class ChoicePropertiesEditorTestComponent extends TestComponent<ScreenCho
                 INTERACTION_COMPONENTS_SELECTORS.COMBOBOX
             ])
         );
+    }
+
+    public getChoiceRows(): RowTestComponent[] {
+        const rows = Array.from(
+            this.element.shadowRoot!.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.ROW)
+        ) as (Row & HTMLElement)[];
+
+        return rows.map((row) => {
+            return new RowTestComponent(row);
+        });
     }
 
     public getScreenComponentVisibilitySection() {

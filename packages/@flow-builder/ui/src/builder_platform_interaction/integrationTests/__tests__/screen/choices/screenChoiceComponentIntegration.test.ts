@@ -7,6 +7,7 @@ import {
     createComponentUnderTest,
     ScreenCanvasTestComponent,
     ScreenEditorTestComponent,
+    RowTestComponent,
     ChoicePropertiesEditorTestComponent
 } from '../../screenEditorTestUtils';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
@@ -52,7 +53,9 @@ describe('ScreenEditor choice components', () => {
         describe('Quick inline choice creation', () => {
             let canvas: ScreenCanvasTestComponent;
             let choicePropertyEditor: ChoicePropertiesEditorTestComponent | undefined;
+            let choiceRowList: RowTestComponent[] | null | undefined;
             let choicePicker: ComboboxTestComponent | null | undefined;
+
             beforeAll(async () => {
                 screenEditor = await createScreenEditor('ScreenWithSection');
                 canvas = screenEditor.getCanvas();
@@ -62,11 +65,23 @@ describe('ScreenEditor choice components', () => {
                     .getPropertiesEditorContainer()
                     .getChoiceFieldPropertiesEditorElement();
                 choicePicker = choicePropertyEditor?.getChoicePicker();
+                choiceRowList = choicePropertyEditor?.getChoiceRows();
                 addNewResourceEventListener();
             });
             afterAll(() => {
                 removeNewResourceEventListener();
             });
+            it('Fires a editelement event when a choice edit button is clicked', async () => {
+                expect(choiceRowList).not.toBeNull();
+                expect(choiceRowList!.length).toBeGreaterThan(0);
+                const editButton = choiceRowList![0].getEditButton();
+                expect(editButton).not.toBeNull();
+                const callback = jest.fn(() => {});
+                window.addEventListener('editelement', callback);
+                editButton!.click();
+                expect(callback).toHaveBeenCalled();
+            });
+
             it('Create the choice automatically with the user specified name when the user selects the quick create option', async () => {
                 const inlineChoice = createChoice({
                     name: 'newChoice',
