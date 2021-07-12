@@ -97,7 +97,7 @@ const { ZoomInCommand, ZoomOutCommand, ZoomToFitCommand, ZoomToViewCommand } = c
 
 const { KeyboardInteractions } = keyboardInteractionUtils;
 
-const { logPerfTransactionEnd, logPerfTransactionStart } = loggingUtils;
+const { logPerfTransactionEnd, logPerfTransactionStart, logInteraction } = loggingUtils;
 
 const AUTOLAYOUT_CANVAS = 'AUTOLAYOUT_CANVAS';
 
@@ -857,12 +857,16 @@ export default class AlcCanvas extends LightningElement {
     handleNodeSelectionDeselection = (event) => {
         event.stopPropagation();
         if (this._goToSourceGuid != null) {
+            this._elementGuidToFocus = event.detail.canvasElementGUID;
+
             const source = {
                 guid: this._goToSourceGuid,
                 childIndex: this._goToSourceBranchIndex
             };
-            this._elementGuidToFocus = event.detail.canvasElementGUID;
+            let connectionType = '';
+
             if (this._goToableGuids.includes(event.detail.canvasElementGUID)) {
+                connectionType = 'GoTo';
                 this.dispatchEvent(
                     new CreateGoToConnectionEvent(
                         this._goToSourceGuid,
@@ -872,11 +876,14 @@ export default class AlcCanvas extends LightningElement {
                     )
                 );
             } else if (this._mergeableGuids.includes(event.detail.canvasElementGUID)) {
+                connectionType = 'Merge';
                 this.dispatchEvent(new AlcCreateConnectionEvent(source, event.detail.canvasElementGUID));
             } else if (this._firstMergeableNonNullNext === event.detail.canvasElementGUID) {
+                connectionType = 'Merge';
                 this.dispatchEvent(new AlcCreateConnectionEvent(source, event.detail.canvasElementGUID, false));
             }
             this.dispatchEvent(new ToggleSelectionModeEvent());
+            logInteraction('create-goto-or-merge', AUTOLAYOUT_CANVAS, { connectionType }, 'click', 'user');
         } else {
             this.dispatchAlcSelectionEvent(event.detail);
         }

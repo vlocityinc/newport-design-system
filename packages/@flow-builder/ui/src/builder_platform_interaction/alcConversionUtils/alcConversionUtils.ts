@@ -335,7 +335,7 @@ export function addEndElementsAndConnectorsTransform(
  * @param flowDefId - Flow definition id
  * @param gackIfFail - If we should gack if the conversion fails
  * @param options - Conversion options
- * @returns true if can be convertd to Auto Layout Canvas
+ * @returns true if can be converted to Auto Layout Canvas
  */
 export function canConvertToAutoLayoutCanvas(
     storeState: UI.StoreState,
@@ -344,6 +344,7 @@ export function canConvertToAutoLayoutCanvas(
     options: Partial<ConvertToAutoLayoutCanvasOptions> = {}
 ) {
     let canConvert = false;
+    let errorType;
 
     try {
         const autoLayoutState = convertToAutoLayoutCanvas(deepCopy(storeState), options);
@@ -352,13 +353,15 @@ export function canConvertToAutoLayoutCanvas(
         canConvert = compareState(storeState, freeFormState);
     } catch (e) {
         // handled by the code below
+        errorType = e.message;
     }
 
     if (!canConvert) {
+        const errorMessage = errorType ? errorType : 'Round trip state comparison failed';
         logInteraction(
             'alcConversionUtils',
             'alcConversionUtils',
-            { flowDefId, operationStatus: 'convert to auto layout canvas failed' },
+            { flowDefId, operationStatus: 'convert to auto layout canvas failed', errorMessage },
             ''
         );
 
@@ -382,6 +385,7 @@ export function canConvertToAutoLayoutCanvas(
  */
 export function canConvertToFreeFormCanvas(storeState: UI.StoreState, flowDefId: string) {
     let canConvert = false;
+    let errorType;
 
     try {
         const endConnectors = [];
@@ -396,13 +400,15 @@ export function canConvertToFreeFormCanvas(storeState: UI.StoreState, flowDefId:
         canConvert = compareState(storeState, autoLayoutState, true);
     } catch (e) {
         // handled by the code below
+        errorType = e.message;
     }
 
     if (!canConvert) {
+        const errorMessage = errorType ? errorType : 'Round trip state comparison failed';
         logInteraction(
             'alcConversionUtils',
             'alcConversionUtils',
-            { flowDefId, operationStatus: CONVERT_TO_FREE_FORM_FAILED },
+            { flowDefId, operationStatus: CONVERT_TO_FREE_FORM_FAILED, errorMessage },
             ''
         );
 
