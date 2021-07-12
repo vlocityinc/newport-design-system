@@ -128,6 +128,12 @@ describe('CollectionProcessor Element Factory', () => {
             const result = createCollectionProcessor(testMapCollectionProcessorElement);
             expect(result).toMatchObject(testMapCollectionProcessorElement);
         });
+        it('returns a map collectionProcessor element object that has isCollection, dataType and subtype properties', () => {
+            const result = createCollectionProcessor(testMapCollectionProcessorElement);
+            expect(result.isCollection).toBeTruthy();
+            expect(result.dataType).toEqual('SObject');
+            expect(result.subtype).toEqual(testMapCollectionProcessorElement.outputTable);
+        });
     });
 });
 

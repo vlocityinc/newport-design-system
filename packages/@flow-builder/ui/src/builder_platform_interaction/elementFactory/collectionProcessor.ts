@@ -7,6 +7,7 @@ import {
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createConnectorObjects } from './connector';
 import { COLLECTION_PROCESSOR_SUB_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { createSortOption, createSortOptionMetadataObject } from './sortOption';
 import { createMapItem, createMapItemMetadataObject } from './mapItem';
 
@@ -75,7 +76,10 @@ function createCollectionProcessorItem(collectionProcessor) {
                 mapItems,
                 currentValueFromCollection,
                 outputTable,
-                storeOutputAutomatically
+                storeOutputAutomatically,
+                dataType: FLOW_DATA_TYPE.SOBJECT.value,
+                isCollection: storeOutputAutomatically,
+                subtype: outputTable
             });
         }
         default:
