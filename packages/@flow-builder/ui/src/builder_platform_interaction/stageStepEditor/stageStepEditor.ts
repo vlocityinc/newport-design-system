@@ -168,7 +168,7 @@ export default class StageStepEditor extends LightningElement {
 
         // infer selected Entry Criteria on-load
         if (!this.selectedEntryCriteria) {
-            if (this.element.entryAction.actionName?.value || this.element.entryActionName) {
+            if (this.element.entryAction.actionName?.value) {
                 // entryAction exists and has populated data
                 this.selectedEntryCriteria = ENTRY_CRITERIA.ON_DETERMINATION_COMPLETE;
             } else if (

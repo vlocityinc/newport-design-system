@@ -340,6 +340,9 @@ describe('StageStepEditor', () => {
                             value: null
                         }
                     },
+                    entryActionName: {
+                        value: null
+                    },
                     entryConditions: [{ leftHandSide: { value: 'otherItemGuid.Status' } }]
                 }
             });
