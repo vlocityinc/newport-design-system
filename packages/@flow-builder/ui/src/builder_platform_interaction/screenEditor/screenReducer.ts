@@ -948,10 +948,13 @@ const clearTextAreaErrorToNullIfNecessary = (screenNode, value, property) => {
     ) {
         screenNode.pausedText.error = null;
     } else if (
-        property === ScreenProperties.ALLOW_HELP &&
-        !value &&
-        getErrorFromHydratedItem(screenNode.helpText) !== null
+        property === ScreenProperties.PAUSE_LABEL_TYPE &&
+        value === FOOTER_LABEL_TYPE.HIDE &&
+        getErrorFromHydratedItem(screenNode.pausedText) !== null
     ) {
+        screenNode.pausedText.error = null;
+    }
+    if (property === ScreenProperties.ALLOW_HELP && !value && getErrorFromHydratedItem(screenNode.helpText) !== null) {
         screenNode.helpText.error = null;
     }
     return screenNode;

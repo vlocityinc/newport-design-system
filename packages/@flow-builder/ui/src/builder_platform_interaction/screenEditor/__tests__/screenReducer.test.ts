@@ -112,6 +112,22 @@ describe('screen reducer', () => {
             expect(newScreen2.pausedText.error).toBeNull();
         });
 
+        it('sets pausedText error to null if the pauseLabelType is changed to hide and pausedText is blank', () => {
+            const setPauseMessageTypeToStandardEvent = {
+                type: PropertyChangedEvent.EVENT_NAME,
+                detail: {
+                    propertyName: ScreenProperties.PAUSE_LABEL_TYPE,
+                    value: { value: FOOTER_LABEL_TYPE.HIDE, error: null },
+                    error: null
+                }
+            };
+            const screen = createTestScreen(SCREEN_NAME);
+            screen.pausedText.error = validationRulesLabels.cannotBeBlank;
+            screen.pauseMessageType.value = FOOTER_LABEL_TYPE.CUSTOM;
+            const newScreen2 = screenReducer(screen, setPauseMessageTypeToStandardEvent, screen);
+            expect(newScreen2.pausedText.error).toBeNull();
+        });
+
         it('sets nextOrFinishLabel error to null if the label type is not custom and the label value is blank', () => {
             const changeLabelTypeEvent = {
                 type: PropertyChangedEvent.EVENT_NAME,

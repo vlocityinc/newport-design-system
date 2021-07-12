@@ -255,6 +255,16 @@ describe('When screen have custom footer labels', () => {
         });
     });
 
+    it('should not get an error if pausedText is an empty string and pauseLabelType is hide', () => {
+        screenNode.pausedText.value = '';
+        screenNode.pauseMessageType.value = FOOTER_LABEL_TYPE.HIDE;
+        const screen = screenValidation.validateAll(screenNode, getRules(screenNode));
+        expect(screen.pausedText).toMatchObject({
+            error: null,
+            value: ''
+        });
+    });
+
     it('should get an error if allowHelp is true and helpText is an empty string', () => {
         screenNode.helpText.value = '';
         screenNode.allowHelp = true;

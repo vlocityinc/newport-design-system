@@ -436,7 +436,7 @@ export function getDynamicTypeMappingValidation(rowIndex) {
 export const getRules = ({ nextOrFinishLabelType, backLabelType, pauseLabelType, allowHelp, pauseMessageType }) => {
     const overriddenRules = { ...screenValidation.finalizedRules };
 
-    if (pauseMessageType.value === PAUSE_MESSAGE_TYPE.CUSTOM) {
+    if (pauseMessageType.value === PAUSE_MESSAGE_TYPE.CUSTOM && pauseLabelType.value !== FOOTER_LABEL_TYPE.HIDE) {
         overriddenRules.pausedText = [
             ValidationRules.richTextAreaShouldNotBeBlank,
             ValidationRules.shouldNotBeBlank,
