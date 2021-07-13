@@ -24,7 +24,7 @@ export default class LegalPopover extends LightningElement {
      * Optional text that comes after the formatted URL
      */
     @api
-    legalTextSecondPart?: string;
+    legalTextSecondPart = '';
 
     @api
     horizontalPosition = HorizontalPosition.Left;
@@ -56,7 +56,15 @@ export default class LegalPopover extends LightningElement {
      */
     @api
     updatePopupPosition() {
-        this.showPopup();
+        const popupLocation = this.template.querySelector('.popupLocation');
+        // This is done in order to re-render the popup at the right position
+        this.popupElement.close();
+        this.popupElement.show(popupLocation, {
+            reference: { horizontal: this.horizontalPosition, vertical: 'top' },
+            popup: { horizontal: this.horizontalPosition, vertical: 'bottom' },
+            padding: 0.5,
+            offset: 1
+        });
     }
 
     connectedCallback() {
@@ -86,25 +94,13 @@ export default class LegalPopover extends LightningElement {
         if (this.needToUpdatePopupPosition) {
             this.needToUpdatePopupPosition = false;
             // Renders the popup at the right location
-            this.showPopup();
+            this.updatePopupPosition();
         }
         if (this.needToFocusOnUrl && this.agreementUrl != null) {
             this.needToFocusOnUrl = false;
             // formattedUrlElement is null if popup already closed
             this.formattedUrlElement?.focus();
         }
-    }
-
-    showPopup() {
-        const popupLocation = this.template.querySelector('.popupLocation');
-        // This is done in order to re-render the popup at the right position
-        this.popupElement.close();
-        this.popupElement.show(popupLocation, {
-            reference: { horizontal: this.horizontalPosition, vertical: 'top' },
-            popup: { horizontal: this.horizontalPosition, vertical: 'bottom' },
-            padding: 0.5,
-            offset: 1
-        });
     }
 
     handleCloseButtonClick = () => {
