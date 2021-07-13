@@ -66,13 +66,13 @@
                 label={labels.overridableFlowLabel}
                 options={_overridableFlowOptions}
                 value={_overriddenFlow}
-                disabled={overridenFlowDisabled}
+                disabled={overriddenFlowDisabled}
                 placeholder={labels.overridableFlowPlaceholderLabel}
                 dropdown-alignment="auto"
+                field-level-help={labels.overridableFlowHelpText}
                 onchange={handleOverriddenFlowChange}
             >
             </lightning-combobox>
-
             <div class="slds-list_horizontal slds-p-bottom_medium slds-p-top_small">
                 <lightning-input
                     label={labels.templateLabel}

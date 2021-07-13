@@ -47,6 +47,7 @@ export default class FlowPropertiesEditor extends LightningElement {
     _isTemplate = false;
     _isOverridable = false;
     _overriddenFlow = null;
+    _overriddenFlowDisabled = false;
 
     // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
     @api
@@ -159,8 +160,8 @@ export default class FlowPropertiesEditor extends LightningElement {
         return this._runInModes == null || this._runInModes.length === 0;
     }
 
-    get overridenFlowDisabled() {
-        return this.templateDisabled || this.overridableDisabled;
+    get overriddenFlowDisabled() {
+        return this._overriddenFlowDisabled;
     }
 
     get runInSystemMode() {
@@ -201,6 +202,10 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     get overridableFlowPlaceholderLabel() {
         return LABELS.overridableFlowPlaceholderLabel;
+    }
+
+    get overridableFlowHelpText() {
+        return LABELS.overridableFlowHelpText;
     }
 
     /**
@@ -375,6 +380,7 @@ export default class FlowPropertiesEditor extends LightningElement {
                 this.apiVersionSpinner = false;
             });
         }
+        this._overriddenFlowDisabled = this._isOverridable || this._isTemplate;
     }
 
     initApiVersion(setOriginalValue) {
@@ -484,6 +490,7 @@ export default class FlowPropertiesEditor extends LightningElement {
                 triggerType = event.detail.value.substring(i + 1);
             }
         }
+        this._overriddenFlowDisabled = false;
         this.updateProperty('processType', processType);
 
         // This is a not so good way to support one entry for After/Before Save triggers.
@@ -507,6 +514,16 @@ export default class FlowPropertiesEditor extends LightningElement {
         if (this.showApiVersionComboBox && this.apiVersion < getMinApiVersion()) {
             this.apiVersion = getMinApiVersion();
         }
+
+        fetchOnce(SERVER_ACTION_TYPE.GET_OVERRIDABLE_FLOWS, {
+            flowProcessType: processType,
+            flowTriggerType: triggerType
+        }).then((overridableFlows) => {
+            this._overridableFlowOptions = overridableFlows.map(({ name, apiname }) => ({
+                label: name,
+                value: apiname
+            }));
+        });
     }
 
     handleRunInModeChange(event) {
