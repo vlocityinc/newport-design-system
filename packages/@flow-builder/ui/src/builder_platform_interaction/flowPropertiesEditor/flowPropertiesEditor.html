@@ -61,6 +61,17 @@
                 onchange={handleProcessTypeChange}
             >
             </lightning-combobox>
+            <lightning-combobox
+                class="overrides-flow-template slds-col slds-grow"
+                label={labels.overridableFlowLabel}
+                options={_overridableFlowOptions}
+                value={_overriddenFlow}
+                disabled={overridenFlowDisabled}
+                placeholder={labels.overridableFlowPlaceholderLabel}
+                dropdown-alignment="auto"
+                onchange={handleOverriddenFlowChange}
+            >
+            </lightning-combobox>
 
             <div class="slds-list_horizontal slds-p-bottom_medium slds-p-top_small">
                 <lightning-input

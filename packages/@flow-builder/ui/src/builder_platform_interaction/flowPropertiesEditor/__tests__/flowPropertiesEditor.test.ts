@@ -6,7 +6,7 @@ import { LABELS } from '../flowPropertiesEditorLabels';
 import normalizeDateTime from 'builder_platform_interaction/dateTimeUtils';
 import format from 'builder_platform_interaction/commonUtils';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
-import { MOCK_ALL_FLOW_ENTRIES } from 'mock/flowEntryData';
+import { MOCK_ALL_FLOW_ENTRIES, MOCK_OVERRIDABLE_FLOWS } from 'mock/flowEntryData';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
@@ -85,6 +85,8 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
             switch (serverActionType) {
                 case SERVER_ACTION_TYPE.GET_FLOW_ENTRIES:
                     return Promise.resolve(MOCK_ALL_FLOW_ENTRIES);
+                case SERVER_ACTION_TYPE.GET_OVERRIDABLE_FLOWS:
+                    return Promise.resolve(MOCK_OVERRIDABLE_FLOWS);
                 default:
                     return Promise.reject(new Error('Unexpected server action ' + serverActionType));
             }

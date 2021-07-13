@@ -77,7 +77,6 @@ export default class FlowPropertiesEditor extends LightningElement {
         this._isTemplate = this.flowProperties.isTemplate;
         this._isOverridable = this.flowProperties.isOverridable;
         this._overriddenFlow = this.flowProperties.overriddenFlow ? this.flowProperties.overriddenFlow.value : null;
-
         if (this.flowProperties.saveType === SaveType.NEW_DEFINITION) {
             this.clearForNewDefinition();
         }
@@ -142,6 +141,7 @@ export default class FlowPropertiesEditor extends LightningElement {
     _originalInterviewLabel;
     _apiVersionsList;
     _originalApiVersion;
+    _overridableFlowOptions = [];
 
     saveAsTypeOptions = [
         {
@@ -157,6 +157,10 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     isSystemModeDisabled() {
         return this._runInModes == null || this._runInModes.length === 0;
+    }
+
+    get overridenFlowDisabled() {
+        return this.templateDisabled || this.overridableDisabled;
     }
 
     get runInSystemMode() {
@@ -189,6 +193,14 @@ export default class FlowPropertiesEditor extends LightningElement {
     get processTypeLabel() {
         const entry = this.findCurrentProcessTypeEntry();
         return entry ? entry.label : null;
+    }
+
+    get overridableFlowLabel() {
+        return LABELS.overridableFlowLabel;
+    }
+
+    get overridableFlowPlaceholderLabel() {
+        return LABELS.overridableFlowPlaceholderLabel;
     }
 
     /**
@@ -341,6 +353,18 @@ export default class FlowPropertiesEditor extends LightningElement {
                 }));
         });
 
+        fetchOnce(SERVER_ACTION_TYPE.GET_OVERRIDABLE_FLOWS, {
+            flowProcessType: this.flowProperties.processType ? this.flowProperties.processType.value : this.processType,
+            flowTriggerType: this.flowProperties.triggerType
+                ? this.flowProperties.triggerType.value
+                : this._originalTriggerType
+        }).then((overridableFlows) => {
+            this._overridableFlowOptions = overridableFlows.map(({ name, apiname }) => ({
+                label: name,
+                value: apiname
+            }));
+        });
+
         if (isVersioningDataInitialized()) {
             initVersioningInfoForProcessType(this._originalProcessType);
             this.initApiVersion(true);
@@ -488,6 +512,12 @@ export default class FlowPropertiesEditor extends LightningElement {
     handleRunInModeChange(event) {
         event.stopPropagation();
         this.updateProperty('runInMode', event.detail.value);
+    }
+
+    handleOverriddenFlowChange(event) {
+        event.stopPropagation();
+        this.updateProperty('overriddenFlow', event.detail.value);
+        _overriddenFlow = event.detail.value;
     }
 
     handleAdvancedToggle(event) {
