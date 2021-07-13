@@ -20,6 +20,9 @@ import { addCurrentValueToEvent } from 'builder_platform_interaction/screenEdito
 import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import * as usebyMock from 'builder_platform_interaction/usedByLib';
+import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+
+const { logInteraction } = loggingUtils;
 
 const mockEvent = new Event('test');
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
@@ -101,7 +104,7 @@ jest.mock('builder_platform_interaction/builderUtils', () => {
 });
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {
-    const actual = jest.requireActual('builder_platform_interaction/sharedUtils');
+    const actual = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
     return Object.assign({}, actual, {
         invokeModal: jest.fn()
     });
@@ -679,28 +682,40 @@ describe('screen-choice-field-properties-editor for single select, type Number',
             expect(choiceChangedSpy).toHaveBeenCalled();
         });
     });
+});
 
-    describe('handleEditChoice', () => {
-        let screenChoiceFieldPropEditor;
-        beforeEach(() => {
-            screenChoiceFieldPropEditor = createComponentUnderTest({
-                field: createTestScreenField(fieldName, FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
-                    dataType: 'String',
-                    createChoices: true
-                })
-            });
+describe('handleEditChoice', () => {
+    let screenChoiceFieldPropEditor, list;
+    beforeEach(() => {
+        logInteraction.mockClear();
+        screenChoiceFieldPropEditor = createComponentUnderTest({
+            field: createTestScreenField(fieldName, FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
+                dataType: 'String',
+                createChoices: true
+            })
         });
-        it('fires editElementEvent with correct choice GUID', async () => {
-            const eventCallback = jest.fn();
-            screenChoiceFieldPropEditor.addEventListener(EditElementEvent.EVENT_NAME, eventCallback);
-            const list = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.LIST);
-            list.dispatchEvent(new EditListItemEvent(1));
-            expect(eventCallback).toHaveBeenCalled();
-            expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                detail: {
-                    canvasElementGUID: 'choice1'
-                }
-            });
+        list = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.LIST);
+    });
+    it('fires editElementEvent with correct choice GUID', () => {
+        const eventCallback = jest.fn();
+        screenChoiceFieldPropEditor.addEventListener(EditElementEvent.EVENT_NAME, eventCallback);
+        list.dispatchEvent(new EditListItemEvent(1));
+        expect(eventCallback).toHaveBeenCalled();
+        expect(eventCallback.mock.calls[0][0]).toMatchObject({
+            detail: {
+                canvasElementGUID: 'choice1'
+            }
         });
+    });
+    it('logs edit choice resource in-line data', () => {
+        list.dispatchEvent(new EditListItemEvent(1));
+        expect(logInteraction).toHaveBeenCalled();
+        expect(logInteraction.mock.calls[0][1]).toBe('choiceResourceEdit');
+        expect(logInteraction.mock.calls[0][3]).toBe('click');
+        const loggedData = {
+            fieldType: FlowScreenFieldType.RadioButtons,
+            dataType: 'String'
+        };
+        expect(logInteraction.mock.calls[0][2]).toEqual(loggedData);
     });
 });
