@@ -8,21 +8,27 @@
     <aura:attribute name="fields" type="Map" />
     <aura:attribute name="fieldUpdates" type="Map" default="{}" />
 
-    <lightning:recordEditForm aura:id="recordEditForm" recordId="{!v.recordId}" objectApiName="{!v.entityApiName}" onload="{!c.handleLoad}">
+    <lightning:recordEditForm recordId="{!v.recordId}" objectApiName="{!v.entityApiName}" onload="{!c.handleLoad}">
         <aura:if isTrue="{!v.showDetails}">
-            <div class="slds-grid">
-                <lightning:messages />
-                <div aura:id="leftCol" class="slds-col slds-size_1-of-2">
-                    <!-- first half of the fields -->
-                    <aura:iteration var="field" items="{!v.fieldNames}" end="{!v.fieldNames.length/2}">
-                        <lightning:inputField fieldName="{!field}" onchange="{!c.handleChange}" />
-                    </aura:iteration>
+            <div class="slds-border_top slds-p-top_medium" aura:id="recordEditForm">
+                <div class="text slds-p-bottom_medium">
+                    <h2>{#$Label.FlowDebug.UpdateTriggerRecord}</h2>
                 </div>
-                <div aura:id="rightCol" class="slds-col slds-size_1-of-2">
-                    <!-- second half of the fields -->
-                    <aura:iteration var="field" items="{!v.fieldNames}" start="{!v.fieldNames.length/2}">
-                        <lightning:inputField fieldName="{!field}" onchange="{!c.handleChange}" />
-                    </aura:iteration>
+                <div class="text">{#$Label.FlowDebug.UpdateTriggerRecordDesc}</div>
+                <div class="slds-grid slds-p-top_medium">
+                    <lightning:messages />
+                    <div aura:id="leftCol" class="slds-col slds-size_1-of-2">
+                        <!-- first half of the fields -->
+                        <aura:iteration var="field" items="{!v.fieldNames}" end="{!v.fieldNames.length/2}">
+                            <lightning:inputField fieldName="{!field}" onchange="{!c.handleChange}" />
+                        </aura:iteration>
+                    </div>
+                    <div aura:id="rightCol" class="slds-col slds-size_1-of-2">
+                        <!-- second half of the fields -->
+                        <aura:iteration var="field" items="{!v.fieldNames}" start="{!v.fieldNames.length/2}">
+                            <lightning:inputField fieldName="{!field}" onchange="{!c.handleChange}" />
+                        </aura:iteration>
+                    </div>
                 </div>
             </div>
         </aura:if>

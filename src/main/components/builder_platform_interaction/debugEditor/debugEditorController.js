@@ -68,7 +68,7 @@
         cmp.set('v.showDetails', false);
     },
 
-    handleRadioOnChange: function (cmp, event, helper) {
+    handleCreateOrUpdateRadioOnChange: function (cmp, event, helper) {
         helper.updateShowDetails(cmp);
     },
 

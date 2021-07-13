@@ -112,6 +112,15 @@
            </aura:set>
        </aura:if>
 
+        <div class="slds-is-relative">
+            <aura:if isTrue="{!v.isCreateOrUpdate}">
+                <lightning:radioGroup class="slds-p-top_small" aura:id="debugCreateOrUpdate"
+                    label="{!format($Label.FlowDebug.CreateOrUpdateDMLTypeLabel, v.dollarRecordName)}"
+                    onchange="{!c.handleCreateOrUpdateRadioOnChange}" options="{!v.createOrUpdateOptions}" value="{!v.saveType}"
+                    required="true" type="radio" />
+            </aura:if>
+        </div>
+
         <aura:if isTrue="{!v.shouldHasInputs}">
             <!-- Input Variables -->
             <aura:if isTrue="{!v.isDMLTrigger}">
@@ -146,18 +155,6 @@
 
         <div class="slds-is-relative">
             <div aria-hidden="false" aura:id="flowInput" class="content">{!v.body}</div>
-            <aura:if isTrue="{!v.isCreateOrUpdate}">
-                <lightning:radioGroup
-                class="slds-p-top_small"
-                aura:id="debugCreateOrUpdate"
-                label="{!format($Label.FlowDebug.CreateOrUpdateDMLTypeLabel, v.dollarRecordName)}"
-                onchange="{!c.handleRadioOnChange}"
-                options="{!v.createOrUpdateOptions}"
-                value="{!v.saveType}"
-                required="true"
-                type="radio"
-                />
-            </aura:if>
         </div>
 
         <div class="slds-p-top_medium">
