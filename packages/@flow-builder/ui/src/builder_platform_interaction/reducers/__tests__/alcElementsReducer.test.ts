@@ -941,7 +941,8 @@ describe('alc-elements-reducer', () => {
                     config: {
                         isSelected: false,
                         isHighlighted: false,
-                        isSelectable: true
+                        isSelectable: true,
+                        hasError: true
                     }
                 },
                 guid2: {
@@ -949,7 +950,8 @@ describe('alc-elements-reducer', () => {
                     config: {
                         isSelected: false,
                         isHighlighted: false,
-                        isSelectable: false
+                        isSelectable: false,
+                        hasError: true
                     }
                 },
                 guid3: {
@@ -977,7 +979,8 @@ describe('alc-elements-reducer', () => {
                 config: {
                     isSelected: true,
                     isHighlighted: false,
-                    isSelectable: true
+                    isSelectable: true,
+                    hasError: true
                 }
             });
         });
@@ -1010,7 +1013,8 @@ describe('alc-elements-reducer', () => {
                     config: {
                         isSelected: false,
                         isHighlighted: false,
-                        isSelectable: true
+                        isSelectable: true,
+                        hasError: true
                     }
                 },
                 guid2: {
@@ -1048,7 +1052,8 @@ describe('alc-elements-reducer', () => {
                     config: {
                         isSelected: false,
                         isHighlighted: false,
-                        isSelectable: false
+                        isSelectable: false,
+                        hasError: true
                     }
                 },
                 guid2: {
@@ -1056,7 +1061,8 @@ describe('alc-elements-reducer', () => {
                     config: {
                         isSelected: false,
                         isHighlighted: false,
-                        isSelectable: true
+                        isSelectable: true,
+                        hasError: true
                     }
                 },
                 guid3: {

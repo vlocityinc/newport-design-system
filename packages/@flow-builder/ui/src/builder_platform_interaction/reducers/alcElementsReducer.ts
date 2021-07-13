@@ -446,6 +446,7 @@ function _selectionOnFixedCanvas(
                     config: {
                         isSelected: updatedIsSelected,
                         isHighlighted: newState[guid].config.isHighlighted,
+                        hasError: newState[guid].config.hasError,
                         isSelectable: updatedIsSelectable
                     }
                 });
