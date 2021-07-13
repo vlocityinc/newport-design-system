@@ -15,14 +15,6 @@
   "source" : "Standard"
 },
     {
-  "description" : "Uses apex type parameters",
-  "extensionType" : "lwc",
-  "fieldsToNull" : [ ],
-  "label" : "Apex Type Screens Test Component",
-  "qualifiedApiName" : "interactiontest:lwcApexTypes",
-  "source" : "Standard"
-},
-    {
   "category" : "Inputs",
   "description" : "A raptor testing component",
   "extensionType" : "lwc",

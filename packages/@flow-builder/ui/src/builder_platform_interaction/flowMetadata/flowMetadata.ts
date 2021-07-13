@@ -81,7 +81,7 @@ export enum ELEMENT_TYPE {
     ORCHESTRATED_STAGE = 'OrchestratedStage',
     ORCHESTRATED_STAGE_WITH_MODIFIED_AND_DELETED_STEPS = 'ORCHESTRATED_STAGE_WITH_MODIFIED_AND_DELETED_STEPS',
     STAGE_STEP = 'STAGE_STEP',
-    ROLLBACK = 'Rollback',
+    ROLLBACK = 'RecordRollback',
     DEFAULT = 'defaultElement'
 }
 
@@ -148,7 +148,7 @@ export const METADATA_KEY = {
     STEPS: 'steps',
     DYNAMIC_CHOICE_SETS: 'dynamicChoiceSets',
     ORCHESTRATED_STAGES: 'orchestratedStages',
-    ROLLBACKS: 'rollbacks'
+    ROLLBACKS: 'recordRollbacks'
 };
 
 export const UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE = {
@@ -179,7 +179,7 @@ export const UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE = {
     [ELEMENT_TYPE.WAIT]: 'WAIT',
     [ELEMENT_TYPE.START_ELEMENT]: 'START',
     [ELEMENT_TYPE.START_ON_DML]: 'START',
-    [ELEMENT_TYPE.ROLLBACK]: 'ROLLBACK'
+    [ELEMENT_TYPE.ROLLBACK]: 'RECORDROLLBACK'
 };
 
 /**

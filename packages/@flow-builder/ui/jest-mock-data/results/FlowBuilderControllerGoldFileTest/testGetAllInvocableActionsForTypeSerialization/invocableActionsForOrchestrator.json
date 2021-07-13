@@ -4,6 +4,108 @@
       "iconId":null,
       "allowsTransactionControl":false,
       "iconName":null,
+      "description":"FTEST - File Based Flow Basic",
+      "label":"FTest-TestFileBased",
+      "type":"flow",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"FtestSfdcOnly__TestFileBased",
+      "configurationEditor":null,
+      "category":null,
+      "genericTypes":[
+
+      ],
+      "durableId":"flow-FtestSfdcOnly__TestFileBased"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":null,
+      "label":"FTest-TestFileBasedPause",
+      "type":"flow",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"FtestSfdcOnly__TestFileBasedPause",
+      "configurationEditor":null,
+      "category":null,
+      "genericTypes":[
+
+      ],
+      "durableId":"flow-FtestSfdcOnly__TestFileBasedPause"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":"FTEST - File Based Flow Template Basic",
+      "label":"FTEST-TestFileBasedT",
+      "type":"flow",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"FtestSfdcOnly__TestFileBasedT",
+      "configurationEditor":null,
+      "category":null,
+      "genericTypes":[
+
+      ],
+      "durableId":"flow-FtestSfdcOnly__TestFileBasedT"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":"FTEST - File Based Flow Basic",
+      "label":"FTest-TestFileBased",
+      "type":"stepBackground",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"FtestSfdcOnly__TestFileBased",
+      "configurationEditor":null,
+      "category":null,
+      "genericTypes":[
+
+      ],
+      "durableId":"stepBackground-FtestSfdcOnly__TestFileBased"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":null,
+      "label":"FTest-TestFileBasedPause",
+      "type":"stepBackground",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"FtestSfdcOnly__TestFileBasedPause",
+      "configurationEditor":null,
+      "category":null,
+      "genericTypes":[
+
+      ],
+      "durableId":"stepBackground-FtestSfdcOnly__TestFileBasedPause"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":"FTEST - File Based Flow Template Basic",
+      "label":"FTEST-TestFileBasedT",
+      "type":"stepBackground",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"FtestSfdcOnly__TestFileBasedT",
+      "configurationEditor":null,
+      "category":null,
+      "genericTypes":[
+
+      ],
+      "durableId":"stepBackground-FtestSfdcOnly__TestFileBasedT"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
       "description":null,
       "label":"TestFileBase",
       "type":"stepInteractive",
@@ -152,108 +254,6 @@
 
       ],
       "durableId":"stepInteractive-setup_service_experience__Verify_Cust"
-    },
-    {
-      "iconId":null,
-      "allowsTransactionControl":false,
-      "iconName":null,
-      "description":"FTEST - File Based Flow Basic",
-      "label":"FTest-TestFileBased",
-      "type":"flow",
-      "fillColor":null,
-      "isStandard":false,
-      "name":"FtestSfdcOnly__TestFileBased",
-      "configurationEditor":null,
-      "category":null,
-      "genericTypes":[
-
-      ],
-      "durableId":"flow-FtestSfdcOnly__TestFileBased"
-    },
-    {
-      "iconId":null,
-      "allowsTransactionControl":false,
-      "iconName":null,
-      "description":null,
-      "label":"FTest-TestFileBasedPause",
-      "type":"flow",
-      "fillColor":null,
-      "isStandard":false,
-      "name":"FtestSfdcOnly__TestFileBasedPause",
-      "configurationEditor":null,
-      "category":null,
-      "genericTypes":[
-
-      ],
-      "durableId":"flow-FtestSfdcOnly__TestFileBasedPause"
-    },
-    {
-      "iconId":null,
-      "allowsTransactionControl":false,
-      "iconName":null,
-      "description":"FTEST - File Based Flow Template Basic",
-      "label":"FTEST-TestFileBasedT",
-      "type":"flow",
-      "fillColor":null,
-      "isStandard":false,
-      "name":"FtestSfdcOnly__TestFileBasedT",
-      "configurationEditor":null,
-      "category":null,
-      "genericTypes":[
-
-      ],
-      "durableId":"flow-FtestSfdcOnly__TestFileBasedT"
-    },
-    {
-      "iconId":null,
-      "allowsTransactionControl":false,
-      "iconName":null,
-      "description":"FTEST - File Based Flow Basic",
-      "label":"FTest-TestFileBased",
-      "type":"stepBackground",
-      "fillColor":null,
-      "isStandard":false,
-      "name":"FtestSfdcOnly__TestFileBased",
-      "configurationEditor":null,
-      "category":null,
-      "genericTypes":[
-
-      ],
-      "durableId":"stepBackground-FtestSfdcOnly__TestFileBased"
-    },
-    {
-      "iconId":null,
-      "allowsTransactionControl":false,
-      "iconName":null,
-      "description":null,
-      "label":"FTest-TestFileBasedPause",
-      "type":"stepBackground",
-      "fillColor":null,
-      "isStandard":false,
-      "name":"FtestSfdcOnly__TestFileBasedPause",
-      "configurationEditor":null,
-      "category":null,
-      "genericTypes":[
-
-      ],
-      "durableId":"stepBackground-FtestSfdcOnly__TestFileBasedPause"
-    },
-    {
-      "iconId":null,
-      "allowsTransactionControl":false,
-      "iconName":null,
-      "description":"FTEST - File Based Flow Template Basic",
-      "label":"FTEST-TestFileBasedT",
-      "type":"stepBackground",
-      "fillColor":null,
-      "isStandard":false,
-      "name":"FtestSfdcOnly__TestFileBasedT",
-      "configurationEditor":null,
-      "category":null,
-      "genericTypes":[
-
-      ],
-      "durableId":"stepBackground-FtestSfdcOnly__TestFileBasedT"
     }
   ]
 }

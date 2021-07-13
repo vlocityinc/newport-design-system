@@ -16,6 +16,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":true,
       "isPolymorphic":false,
@@ -31,7 +32,8 @@
       "required":true,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "Checkbox_Field__c":{
       "activePicklistValues":[
@@ -49,6 +51,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":true,
       "isPolymorphic":false,
@@ -64,7 +67,8 @@
       "required":true,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "CloneSourceId":{
       "activePicklistValues":[
@@ -82,6 +86,7 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -97,7 +102,8 @@
       "required":false,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "ConnectionReceivedId":{
       "activePicklistValues":[
@@ -115,6 +121,7 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -130,7 +137,8 @@
       "required":false,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "ConnectionSentId":{
       "activePicklistValues":[
@@ -148,6 +156,7 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -163,7 +172,8 @@
       "required":false,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "CreatedById":{
       "activePicklistValues":[
@@ -181,6 +191,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -196,7 +207,8 @@
       "required":true,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "CreatedDate":{
       "activePicklistValues":[
@@ -214,6 +226,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -229,7 +242,8 @@
       "required":true,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "Currency_Field__c":{
       "activePicklistValues":[
@@ -247,6 +261,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":true,
       "isPolymorphic":false,
@@ -262,7 +277,8 @@
       "required":false,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "CurrencyIsoCode":{
       "activePicklistValues":[
@@ -291,6 +307,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -306,7 +323,8 @@
       "required":false,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "Date_Field__c":{
       "activePicklistValues":[
@@ -324,6 +342,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":true,
       "isPolymorphic":false,
@@ -339,7 +358,8 @@
       "required":false,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "Date_Time_Field__c":{
       "activePicklistValues":[
@@ -357,6 +377,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":true,
       "isPolymorphic":false,
@@ -372,7 +393,8 @@
       "required":false,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "Division":{
       "activePicklistValues":[
@@ -393,6 +415,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -408,7 +431,8 @@
       "required":true,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "Email_Field__c":{
       "activePicklistValues":[
@@ -426,6 +450,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":true,
       "isPolymorphic":false,
@@ -441,7 +466,8 @@
       "required":false,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "Formula_Field__c":{
       "activePicklistValues":[
@@ -459,6 +485,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":true,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":true,
       "isPolymorphic":false,
@@ -474,7 +501,8 @@
       "required":false,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "Geolocation_Field__c":{
       "activePicklistValues":[
@@ -492,6 +520,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":true,
       "isCustom":true,
       "isPolymorphic":false,
@@ -507,7 +536,8 @@
       "required":false,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":false
+      "sortable":false,
+      "subtype":null
     },
     "Geolocation_Field__Latitude__s":{
       "activePicklistValues":[
@@ -525,6 +555,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":true,
       "isPolymorphic":false,
@@ -540,7 +571,8 @@
       "required":false,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "Geolocation_Field__Longitude__s":{
       "activePicklistValues":[
@@ -558,6 +590,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":true,
       "isPolymorphic":false,
@@ -573,7 +606,8 @@
       "required":false,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "Id":{
       "activePicklistValues":[
@@ -591,6 +625,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -606,7 +641,8 @@
       "required":true,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "IsDeleted":{
       "activePicklistValues":[
@@ -624,6 +660,7 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -639,7 +676,8 @@
       "required":true,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "IsLocked":{
       "activePicklistValues":[
@@ -657,6 +695,7 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -672,7 +711,8 @@
       "required":true,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "LastModifiedById":{
       "activePicklistValues":[
@@ -690,6 +730,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -705,7 +746,8 @@
       "required":true,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "LastModifiedDate":{
       "activePicklistValues":[
@@ -723,6 +765,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -738,7 +781,8 @@
       "required":true,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "Look_Up_Field__c":{
       "activePicklistValues":[
@@ -756,6 +800,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":true,
       "isPolymorphic":false,
@@ -771,7 +816,8 @@
       "required":false,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "Master_Detail_Field__c":{
       "activePicklistValues":[
@@ -789,6 +835,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":true,
       "isPolymorphic":false,
@@ -804,7 +851,8 @@
       "required":true,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "MayEdit":{
       "activePicklistValues":[
@@ -822,6 +870,7 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -837,7 +886,8 @@
       "required":true,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "Name":{
       "activePicklistValues":[
@@ -855,6 +905,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -870,7 +921,8 @@
       "required":false,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "Number_Field__c":{
       "activePicklistValues":[
@@ -888,6 +940,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":true,
       "isPolymorphic":false,
@@ -903,7 +956,8 @@
       "required":false,
       "scale":2,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "Percent_Field__c":{
       "activePicklistValues":[
@@ -921,6 +975,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":true,
       "isPolymorphic":false,
@@ -936,7 +991,8 @@
       "required":false,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "Phone_Field__c":{
       "activePicklistValues":[
@@ -954,6 +1010,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":true,
       "isPolymorphic":false,
@@ -969,7 +1026,8 @@
       "required":false,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "Picklist_Field__c":{
       "activePicklistValues":[
@@ -1010,6 +1068,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":true,
       "isPolymorphic":false,
@@ -1025,7 +1084,8 @@
       "required":false,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "Picklist_Multi_Select_Field__c":{
       "activePicklistValues":[
@@ -1066,6 +1126,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":true,
       "isPolymorphic":false,
@@ -1081,7 +1142,8 @@
       "required":false,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":false
+      "sortable":false,
+      "subtype":null
     },
     "Roll_Up_Field__c":{
       "activePicklistValues":[
@@ -1099,6 +1161,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":true,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":true,
       "isPolymorphic":false,
@@ -1114,7 +1177,8 @@
       "required":false,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "SystemModstamp":{
       "activePicklistValues":[
@@ -1132,6 +1196,7 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1147,7 +1212,8 @@
       "required":true,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "Text_Area_Field__c":{
       "activePicklistValues":[
@@ -1165,6 +1231,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":true,
       "isPolymorphic":false,
@@ -1180,7 +1247,8 @@
       "required":false,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "Text_Area_Long_Field__c":{
       "activePicklistValues":[
@@ -1198,6 +1266,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":true,
       "isPolymorphic":false,
@@ -1213,7 +1282,8 @@
       "required":false,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":false
+      "sortable":false,
+      "subtype":null
     },
     "Text_Area_Rich_Field__c":{
       "activePicklistValues":[
@@ -1231,6 +1301,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":true,
       "isPolymorphic":false,
@@ -1246,7 +1317,8 @@
       "required":false,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":false
+      "sortable":false,
+      "subtype":null
     },
     "Text_Encrypted_Field__c":{
       "activePicklistValues":[
@@ -1264,6 +1336,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":true,
       "isPolymorphic":false,
@@ -1279,7 +1352,8 @@
       "required":false,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":false
+      "sortable":false,
+      "subtype":null
     },
     "Text_Field__c":{
       "activePicklistValues":[
@@ -1297,6 +1371,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":true,
       "isPolymorphic":false,
@@ -1312,7 +1387,8 @@
       "required":true,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "Time_Field__c":{
       "activePicklistValues":[
@@ -1330,6 +1406,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":true,
       "isPolymorphic":false,
@@ -1345,7 +1422,8 @@
       "required":false,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     },
     "URL_Field__c":{
       "activePicklistValues":[
@@ -1363,6 +1441,7 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
+      "isCollection":false,
       "isCompound":false,
       "isCustom":true,
       "isPolymorphic":false,
@@ -1378,7 +1457,8 @@
       "required":false,
       "scale":0,
       "sobjectName":"Object_with_all_possible_fields__c",
-      "sortable":true
+      "sortable":true,
+      "subtype":null
     }
   }
 }

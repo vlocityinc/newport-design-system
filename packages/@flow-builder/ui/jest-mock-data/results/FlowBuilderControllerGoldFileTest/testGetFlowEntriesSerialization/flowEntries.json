@@ -76,7 +76,7 @@
     {
       "icon":"utility:orchestrator",
       "description":"Launches when invoked by Apex, processes, REST API, and more.",
-      "label":"Flow Orchestrator (Beta)",
+      "label":"Autolaunched Orchestration (Beta)",
       "processType":"Orchestrator"
     },
     {

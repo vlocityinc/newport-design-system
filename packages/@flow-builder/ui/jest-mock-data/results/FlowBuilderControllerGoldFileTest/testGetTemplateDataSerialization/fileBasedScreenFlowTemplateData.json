@@ -74,8 +74,8 @@
   "recordCreates" : [ ],
   "recordDeletes" : [ ],
   "recordLookups" : [ ],
+  "recordRollbacks" : [ ],
   "recordUpdates" : [ ],
-  "rollbacks" : [ ],
   "screens" : [ {
     "allowBack" : true,
     "allowFinish" : true,
@@ -161,7 +161,16 @@
   "steps" : [ ],
   "subflows" : [ ],
   "textTemplates" : [ ],
-  "variables" : [ ],
+  "variables" : [ {
+    "dataType" : "SObject",
+    "isCollection" : false,
+    "isInput" : true,
+    "isOutput" : false,
+    "name" : "InputAccount",
+    "objectType" : "Account",
+    "processMetadataValues" : [ ],
+    "scale" : 0
+  } ],
   "waits" : [ ]
 }
 }

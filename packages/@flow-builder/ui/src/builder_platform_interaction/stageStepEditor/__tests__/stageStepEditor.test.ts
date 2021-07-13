@@ -464,7 +464,7 @@ describe('StageStepEditor', () => {
 
         it('list set from available actions', () => {
             const actionSelector = editor.shadowRoot.querySelector(selectors.ACTION_SELECTOR);
-            expect(actionSelector.invocableActions).toEqual(invocableActionsForOrchestrator.slice(0, 9));
+            expect(actionSelector.invocableActions).toEqual(invocableActionsForOrchestrator.slice(6, 15));
         });
         describe('autolaunched step', () => {
             beforeEach(() => {
@@ -472,7 +472,7 @@ describe('StageStepEditor', () => {
             });
             it('list set from available actions for autolaunched step', () => {
                 const actionSelector = editor.shadowRoot.querySelector(selectors.ACTION_SELECTOR);
-                expect(actionSelector.invocableActions).toEqual(invocableActionsForOrchestrator.slice(12, 15));
+                expect(actionSelector.invocableActions).toEqual(invocableActionsForOrchestrator.slice(3, 6));
             });
         });
     });
