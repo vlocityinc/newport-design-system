@@ -20,6 +20,8 @@ import { addCurrentValueToEvent } from 'builder_platform_interaction/screenEdito
 import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import * as usebyMock from 'builder_platform_interaction/usedByLib';
+import { updateInlineResourceProperties } from 'builder_platform_interaction/actions';
+import { Store } from 'builder_platform_interaction/storeLib';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 
 const { logInteraction } = loggingUtils;
@@ -57,11 +59,9 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
             } else if (guid.includes('PICKLIST')) {
                 elementType = ELEMENT_TYPE.PICKLIST_CHOICE_SET;
                 picklistField = 'val1';
-                elementType = ELEMENT_TYPE.PICKLIST_CHOICE_SET;
             } else if (guid.includes('altPCS')) {
                 elementType = ELEMENT_TYPE.PICKLIST_CHOICE_SET;
                 picklistField = 'val2';
-                elementType = ELEMENT_TYPE.PICKLIST_CHOICE_SET;
             } else {
                 elementType = ELEMENT_TYPE.CHOICE;
             }
@@ -108,6 +108,12 @@ jest.mock('builder_platform_interaction/sharedUtils', () => {
     return Object.assign({}, actual, {
         invokeModal: jest.fn()
     });
+});
+
+jest.mock('builder_platform_interaction/actions', () => {
+    return {
+        updateInlineResourceProperties: jest.fn(() => 'test response')
+    };
 });
 
 const SELECTORS = {
@@ -705,6 +711,17 @@ describe('handleEditChoice', () => {
             detail: {
                 canvasElementGUID: 'choice1'
             }
+        });
+    });
+    it('dispaches response from updateInlineResourceProperties when dispatching editelement', async () => {
+        const updateInlineResourceSpy = updateInlineResourceProperties;
+        const spy = Store.getStore().dispatch;
+        const list = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.LIST);
+        list.dispatchEvent(new EditListItemEvent(1));
+        await ticks(1);
+        expect(spy).toHaveBeenCalledWith('test response');
+        expect(updateInlineResourceSpy).toHaveBeenCalledWith({
+            lastInlineResourceRowIndex: 'choice1'
         });
     });
     it('logs edit choice resource in-line data', () => {

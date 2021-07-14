@@ -16,18 +16,29 @@ import { resetState, setupStateForFlow } from '../../integrationTestUtils';
 import {
     setNextInlineResource,
     addNewResourceEventListener,
-    removeNewResourceEventListener
+    removeNewResourceEventListener,
+    addEditResourceEventListener,
+    removeEditResourceEventListener
 } from '../../resourceTestUtils';
 import { ComboboxTestComponent } from '../../comboboxTestUtils';
 
-const commonUtils = jest.requireActual('builder_platform_interaction/commonUtils');
-commonUtils.format = jest
-    .fn()
-    .mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')');
-
-jest.mock('@salesforce/label/FlowBuilderExpressionUtils.newTypedResourceLabel', () => ({ default: 'New Resource' }), {
+jest.mock('@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelChoice', () => ({ default: 'Choice' }), {
     virtual: true
 });
+
+jest.mock(
+    '@salesforce/label/FlowBuilderExpressionUtils.newTypedResourceLabel',
+    () => ({ default: 'New {0} Resource' }),
+    {
+        virtual: true
+    }
+);
+
+jest.mock(
+    '@salesforce/label/FlowBuilderExpressionUtils.quickCreateResourceLabel',
+    () => ({ default: "Create '{0}' {1}" }),
+    { virtual: true }
+);
 
 describe('ScreenEditor choice components', () => {
     let screenEditor: ScreenEditorTestComponent;
@@ -42,7 +53,6 @@ describe('ScreenEditor choice components', () => {
         await ticks(50);
         return editor;
     };
-
     describe('Existing flow', () => {
         beforeAll(async () => {
             await setupStateForFlow(flowWithAllElements);
@@ -53,7 +63,6 @@ describe('ScreenEditor choice components', () => {
         describe('Quick inline choice creation', () => {
             let canvas: ScreenCanvasTestComponent;
             let choicePropertyEditor: ChoicePropertiesEditorTestComponent | undefined;
-            let choiceRowList: RowTestComponent[] | null | undefined;
             let choicePicker: ComboboxTestComponent | null | undefined;
 
             beforeAll(async () => {
@@ -65,21 +74,10 @@ describe('ScreenEditor choice components', () => {
                     .getPropertiesEditorContainer()
                     .getChoiceFieldPropertiesEditorElement();
                 choicePicker = choicePropertyEditor?.getChoicePicker();
-                choiceRowList = choicePropertyEditor?.getChoiceRows();
                 addNewResourceEventListener();
             });
             afterAll(() => {
                 removeNewResourceEventListener();
-            });
-            it('Fires a editelement event when a choice edit button is clicked', async () => {
-                expect(choiceRowList).not.toBeNull();
-                expect(choiceRowList!.length).toBeGreaterThan(0);
-                const editButton = choiceRowList![0].getEditButton();
-                expect(editButton).not.toBeNull();
-                const callback = jest.fn(() => {});
-                window.addEventListener('editelement', callback);
-                editButton!.click();
-                expect(callback).toHaveBeenCalled();
             });
 
             it('Create the choice automatically with the user specified name when the user selects the quick create option', async () => {
@@ -102,14 +100,60 @@ describe('ScreenEditor choice components', () => {
                     dataType: FLOW_DATA_TYPE.STRING.value
                 });
                 setNextInlineResource(inlineChoice);
-                await choicePicker?.selectItemBy('text', [
-                    'New Resource(FlowBuilderScreenEditor.fieldTypeLabelChoice)'
-                ]);
+                await choicePicker?.selectItemBy('text', ['New Choice Resource']);
                 expect(choicePicker?.element.value).toMatchObject({
                     dataType: 'String',
                     displayText: '{!newChoice}',
                     text: 'newChoice'
                 });
+            });
+        });
+        describe('Inline choice editing', () => {
+            let canvas: ScreenCanvasTestComponent;
+            let choicePropertyEditor: ChoicePropertiesEditorTestComponent | undefined;
+            let choiceRowList: RowTestComponent[] | null | undefined;
+            let choicePicker: ComboboxTestComponent | null | undefined;
+
+            beforeAll(async () => {
+                screenEditor = await createScreenEditor('ScreenWithSection');
+                canvas = screenEditor.getCanvas();
+                const accounts = canvas.getScreenEditorHighlightForScreenFieldWithName('accounts');
+                await accounts!.click();
+                choicePropertyEditor = screenEditor
+                    .getPropertiesEditorContainer()
+                    .getChoiceFieldPropertiesEditorElement();
+                choicePicker = choicePropertyEditor?.getChoicePicker();
+                choiceRowList = choicePropertyEditor?.getChoiceRows();
+            });
+            afterAll(() => {});
+            it('Fires a editelement event when a choice edit button is clicked', async () => {
+                expect(choiceRowList).not.toBeNull();
+                expect(choiceRowList!.length).toBeGreaterThan(0);
+                const editButton = choiceRowList![0].getEditButton();
+                expect(editButton).not.toBeNull();
+                const callback = jest.fn(() => {});
+                window.addEventListener('editelement', callback);
+                editButton!.click();
+                expect(callback).toHaveBeenCalled();
+            });
+            it('Screen editor gets updated correctly when we inline edit a choice ', async () => {
+                addEditResourceEventListener();
+                const staticChoice = getElementByDevName('other');
+                expect(staticChoice).not.toBeNull();
+                if (staticChoice) {
+                    staticChoice.name = 'editedChoice';
+                }
+                setNextInlineResource(staticChoice);
+                const editButton = choiceRowList![1].getEditButton();
+                expect(editButton).not.toBeNull();
+                editButton!.click();
+                await ticks(1);
+                expect(choicePicker?.element.value).toMatchObject({
+                    dataType: 'String',
+                    displayText: '{!editedChoice}',
+                    text: 'editedChoice'
+                });
+                removeEditResourceEventListener();
             });
         });
     });
