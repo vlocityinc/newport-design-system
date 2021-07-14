@@ -534,7 +534,7 @@ describe('ferov-resource-picker', () => {
             event = new TextChangedEvent('');
             baseResourcePicker.dispatchEvent(event);
             await ticks(1);
-            expect(combobox.menuData[0].text).toEqual('FlowBuilderExpressionUtils.newResourceLabel(Choice)');
+            expect(combobox.menuData[0].text).toEqual('FlowBuilderExpressionUtils.newTypedResourceLabel(Choice)');
         });
     });
     describe('handles system & global variables', () => {

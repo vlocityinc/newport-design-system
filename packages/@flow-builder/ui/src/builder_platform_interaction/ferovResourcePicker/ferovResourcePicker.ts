@@ -12,6 +12,7 @@ import { isLookupTraversalSupported } from 'builder_platform_interaction/mergeFi
 import { getTriggerType } from 'builder_platform_interaction/storeUtils';
 import resourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.resourceLabel';
 import newResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.newResourceLabel';
+import newTypedResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.newTypedResourceLabel';
 import quickCreateResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.quickCreateResourceLabel';
 import { NewResourceEvent } from 'builder_platform_interaction/events';
 
@@ -304,16 +305,18 @@ export default class FerovResourcePicker extends LightningElement {
         event.stopPropagation();
         if (this.includeQuickCreateResourceOption && this._quickCreateResourceText !== event.detail.text) {
             this._quickCreateResourceText = event.detail.text;
-            const resourceTypelabel = this.newResourceTypeLabel ? this.newResourceTypeLabel : resourceLabel;
             let newResourceItemText;
             if (this._quickCreateResourceText) {
+                const resourceTypelabel = this.newResourceTypeLabel ? this.newResourceTypeLabel : resourceLabel;
                 newResourceItemText = format(
                     quickCreateResourceLabel,
                     this._quickCreateResourceText,
                     resourceTypelabel
                 );
             } else {
-                newResourceItemText = format(newResourceLabel, resourceTypelabel);
+                newResourceItemText = this.newResourceTypeLabel
+                    ? format(newTypedResourceLabel, this.newResourceTypeLabel)
+                    : format(newResourceLabel, resourceLabel);
             }
             if (this._menuData?.length > 0) {
                 this._menuData[0].displayText = newResourceItemText;

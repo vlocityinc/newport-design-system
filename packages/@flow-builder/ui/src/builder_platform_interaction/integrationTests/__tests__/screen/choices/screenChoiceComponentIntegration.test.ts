@@ -25,7 +25,7 @@ commonUtils.format = jest
     .fn()
     .mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')');
 
-jest.mock('@salesforce/label/FlowBuilderExpressionUtils.newResourceLabel', () => ({ default: 'New Resource' }), {
+jest.mock('@salesforce/label/FlowBuilderExpressionUtils.newTypedResourceLabel', () => ({ default: 'New Resource' }), {
     virtual: true
 });
 

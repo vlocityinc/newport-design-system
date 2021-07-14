@@ -369,7 +369,7 @@ describe('screen-choice-field-properties-editor choice selectors', () => {
         expect(addNewResourceEvent.detail.newResourceInfo).toBeDefined();
         expect(addNewResourceEvent.detail.newResourceInfo.dataType).toEqual('String');
         expect(addNewResourceEvent.detail.newResourceInfo.newResourceTypeLabel).toEqual(
-            'FlowBuilderScreenEditor.fieldTypeLabelChoice'
+            'FlowBuilderScreenEditor.typedResourceLabel'
         );
         expect(addNewResourceEvent.detail.newResourceInfo.resourceTypes).toBeDefined();
         expect(addNewResourceEvent.detail.newResourceInfo.resourceTypes).toHaveLength(3);

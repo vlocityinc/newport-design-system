@@ -24,7 +24,7 @@ import {
     ChoiceDisplayOptions
 } from 'builder_platform_interaction/screenEditorUtils';
 import { fetchFieldsForEntity, getEntityFieldWithApiName } from 'builder_platform_interaction/sobjectLib';
-import { sanitizeDevName } from 'builder_platform_interaction/commonUtils';
+import { format, sanitizeDevName } from 'builder_platform_interaction/commonUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { updateInlineResourceProperties } from 'builder_platform_interaction/actions';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
@@ -354,7 +354,10 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
         if (event && event.detail) {
             const newResourceInfo = event.detail.newResourceInfo ? event.detail.newResourceInfo : {};
             newResourceInfo.dataType = this.field.dataType;
-            newResourceInfo.newResourceTypeLabel = this.labels.fieldTypeLabelChoice;
+            newResourceInfo.newResourceTypeLabel = format(
+                this.labels.typedResourceLabel,
+                this.labels.fieldTypeLabelChoice
+            );
             if (newResourceInfo?.userProvidedText) {
                 newResourceInfo.resourceTypes = [ELEMENT_TYPE.CHOICE];
                 let devName = sanitizeDevName(newResourceInfo.userProvidedText);
