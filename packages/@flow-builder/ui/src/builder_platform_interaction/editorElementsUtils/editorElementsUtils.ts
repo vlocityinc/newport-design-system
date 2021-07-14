@@ -39,7 +39,7 @@ const mutateElements = (elements, palette) =>
                             actionLabel: headerItem.actionLabel,
                             actionType: headerItem.name,
                             actionName: headerItem.name,
-                            description: headerItem.actionLabel
+                            description: headerItem.actionDescription
                         };
                         filteredElements.push(item);
                     }
