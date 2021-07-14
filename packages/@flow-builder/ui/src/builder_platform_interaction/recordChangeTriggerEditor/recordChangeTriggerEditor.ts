@@ -146,6 +146,12 @@ export default class RecordChangeTriggerEditor extends LightningElement {
             : EXECUTE_OUTCOME_WHEN_OPTION_VALUES.EVERY_TIME_CONDITION_MET;
     }
 
+    get requireRecordChangeOptionLabel() {
+        return this.isOrchestrator()
+            ? this.labels.requireRecordChangeOptionOrchestrator
+            : this.labels.requireRecordChangeOption;
+    }
+
     get elementType() {
         if (isRecordChangeTriggerType(this.triggerType)) {
             return ELEMENT_TYPE.START_ON_DML;
@@ -174,7 +180,7 @@ export default class RecordChangeTriggerEditor extends LightningElement {
     }
 
     get createOrUpdateOptions() {
-        return [
+        const options = [
             {
                 label: LABELS.recordTriggerTypeCreated,
                 value: CREATE
@@ -186,12 +192,15 @@ export default class RecordChangeTriggerEditor extends LightningElement {
             {
                 label: LABELS.recordTriggerTypeCreatedOrUpdated,
                 value: CREATE_AND_UPDATE
-            },
-            {
-                label: LABELS.recordTriggerTypeDeleted,
-                value: DELETE
             }
         ];
+        if (!this.isOrchestrator()) {
+            options.push({
+                label: LABELS.recordTriggerTypeDeleted,
+                value: DELETE
+            });
+        }
+        return options;
     }
 
     get triggerTypeOptions() {
@@ -256,10 +265,15 @@ export default class RecordChangeTriggerEditor extends LightningElement {
     }
 
     get setConditionsDescription() {
-        return this.labels.setConditionsDescription;
+        return this.isOrchestrator()
+            ? this.labels.setConditionsDescriptionOrchestrator
+            : this.labels.setConditionsDescription;
     }
 
     get contextObjectDescription() {
+        if (this.isOrchestrator()) {
+            return this.labels.recordChangeContextObjectDescriptionOrchestrator;
+        }
         switch (this.triggerType) {
             case BEFORE_DELETE:
             case BEFORE_SAVE:
@@ -271,6 +285,12 @@ export default class RecordChangeTriggerEditor extends LightningElement {
             default:
                 return '';
         }
+    }
+
+    get createOrUpdateInputLabel() {
+        return this.isOrchestrator()
+            ? this.labels.createOrUpdateInputLabelOrchestrator
+            : this.labels.createOrUpdateInputLabel;
     }
 
     get queryableFilter() {
@@ -362,11 +382,11 @@ export default class RecordChangeTriggerEditor extends LightningElement {
     }
 
     get showChooseTriggerType() {
-        return getProcessType() !== FLOW_PROCESS_TYPE.ORCHESTRATOR;
+        return !this.isOrchestrator();
     }
 
     get showrunAsync() {
-        return getProcessType() !== FLOW_PROCESS_TYPE.ORCHESTRATOR;
+        return !this.isOrchestrator();
     }
 
     /**
@@ -583,5 +603,9 @@ export default class RecordChangeTriggerEditor extends LightningElement {
             this.triggerType,
             this.startElement.recordTriggerType.value
         );
+    }
+
+    isOrchestrator(): boolean {
+        return getProcessType() === FLOW_PROCESS_TYPE.ORCHESTRATOR;
     }
 }

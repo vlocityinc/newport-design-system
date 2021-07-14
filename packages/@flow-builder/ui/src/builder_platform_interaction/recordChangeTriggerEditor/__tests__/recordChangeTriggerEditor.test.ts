@@ -24,7 +24,10 @@ const SELECTORS = {
     REQUIRE_RECORD_CHANGE_OPTION: 'div.test-require-record-change-option',
     RECORD_ENTRY_CONDITIONS: 'builder_platform_interaction-record-filter',
     CONDITION_LIST: 'builder_platform_interaction-condition-list',
-    CONDITION_LOGIC: 'lightning-combobox.conditionLogic'
+    CONDITION_LOGIC: 'lightning-combobox.conditionLogic',
+    CONTEXT_OBJECT_DESCRIPTION: '.test-context-object-description',
+    SET_CONDITIONS_DESCRIPTION: '.test-set-conditions-description',
+    REQUIRE_RECORD_CHANGE_OPTION_LABEL: '.test-require-record-change-option-label'
 };
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
@@ -395,6 +398,72 @@ describe('record-change-trigger-editor', () => {
             expect(recordEntryConditions).not.toBeNull();
             expect(conditionLogic).not.toBeNull();
             expect(conditionLogic.disabled).toBe(true);
+        });
+
+        describe('trigger when a record is deleted', () => {
+            it('is not shown for process type Orchestrator', async () => {
+                getProcessType.mockReturnValue(FLOW_PROCESS_TYPE.ORCHESTRATOR);
+
+                const startElement = recordChangeTriggerElement(AFTER_SAVE, CREATE);
+                const element = createComponentForTest(startElement);
+
+                await ticks(1);
+
+                const recordTriggerOptions = element.shadowRoot.querySelector(SELECTORS.SAVE_TYPE_SECTION).options;
+                const deleteOption = recordTriggerOptions.find((option) => option.value === DELETE);
+                expect(deleteOption).toBeUndefined();
+            });
+            it('is shown for other process types', async () => {
+                const startElement = recordChangeTriggerElement(AFTER_SAVE, CREATE);
+                const element = createComponentForTest(startElement);
+
+                await ticks(1);
+
+                const recordTriggerOptions = element.shadowRoot.querySelector(SELECTORS.SAVE_TYPE_SECTION).options;
+                const deleteOption = recordTriggerOptions.find((option) => option.value === DELETE);
+                expect(deleteOption).not.toBeUndefined();
+            });
+        });
+
+        describe('labels', () => {
+            it('labels are rendered correctly for process type Orchestrator', async () => {
+                getProcessType.mockReturnValue(FLOW_PROCESS_TYPE.ORCHESTRATOR);
+
+                const startElement = recordChangeTriggerElement(AFTER_SAVE, UPDATE);
+                const element = createComponentForTest(startElement);
+
+                await ticks(1);
+                expect(element.shadowRoot.querySelector(SELECTORS.CONTEXT_OBJECT_DESCRIPTION).textContent).toBe(
+                    'FlowBuilderStartEditor.recordChangeContextObjectDescriptionOrchestrator'
+                );
+                expect(element.shadowRoot.querySelector(SELECTORS.SAVE_TYPE_SECTION).label).toBe(
+                    'FlowBuilderStartEditor.createOrUpdateInputLabelOrchestrator'
+                );
+                expect(element.shadowRoot.querySelector(SELECTORS.SET_CONDITIONS_DESCRIPTION).value).toBe(
+                    'FlowBuilderStartEditor.setConditionsDescriptionOrchestrator'
+                );
+                expect(element.shadowRoot.querySelector(SELECTORS.REQUIRE_RECORD_CHANGE_OPTION_LABEL).textContent).toBe(
+                    'FlowBuilderRecordEditor.requireRecordChangeOptionOrchestrator'
+                );
+            });
+            it('labels are rendered correctly for for other process types', async () => {
+                const startElement = recordChangeTriggerElement(AFTER_SAVE, UPDATE);
+                const element = createComponentForTest(startElement);
+
+                await ticks(1);
+                expect(element.shadowRoot.querySelector(SELECTORS.CONTEXT_OBJECT_DESCRIPTION).textContent).toBe(
+                    'FlowBuilderStartEditor.recordChangeContextObjectDescription'
+                );
+                expect(element.shadowRoot.querySelector(SELECTORS.SAVE_TYPE_SECTION).label).toBe(
+                    'FlowBuilderStartEditor.createOrUpdateInputLabel'
+                );
+                expect(element.shadowRoot.querySelector(SELECTORS.SET_CONDITIONS_DESCRIPTION).value).toBe(
+                    'FlowBuilderStartEditor.setConditionsDescription'
+                );
+                expect(element.shadowRoot.querySelector(SELECTORS.REQUIRE_RECORD_CHANGE_OPTION_LABEL).textContent).toBe(
+                    'FlowBuilderRecordEditor.requireRecordChangeOption'
+                );
+            });
         });
     });
 });

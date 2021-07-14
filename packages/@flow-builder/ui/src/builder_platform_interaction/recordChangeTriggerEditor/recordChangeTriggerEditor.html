@@ -11,7 +11,9 @@
         <div class="slds-p-around_medium">
             <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2">
                 <div class="slds-text-heading_medium">{editTriggerObjectLabel}</div>
-                <div class="slds-text-body_small slds-text-color_weak slds-p-vertical_x-small">
+                <div
+                    class="test-context-object-description slds-text-body_small slds-text-color_weak slds-p-vertical_x-small"
+                >
                     {contextObjectDescription}
                 </div>
             </div>
@@ -49,7 +51,7 @@
             <lightning-radio-group
                 class="recordCreateOrUpdate slds-form-element slds-col slds-grow"
                 name="recordCreateOrUpdate"
-                label={labels.createOrUpdateInputLabel}
+                label={createOrUpdateInputLabel}
                 options={createOrUpdateOptions}
                 onchange={handleTriggerSaveTypeChange}
                 value={saveType}
@@ -62,7 +64,8 @@
         <div class="slds-form slds-size_3-of-4">
             <div class="slds-p-left_small slds-text-heading_medium slds-form-element">{setConditionsHeaderLabel}</div>
             <div class="slds-p-left_small slds-text-body_small slds-text-color_weak slds-p-vertical_x-small">
-                <lightning-formatted-rich-text value={setConditionsDescription}></lightning-formatted-rich-text>
+                <lightning-formatted-rich-text class="test-set-conditions-description" value={setConditionsDescription}>
+                </lightning-formatted-rich-text>
             </div>
         </div>
         <builder_platform_interaction-record-filter
@@ -89,8 +92,9 @@
             <div
                 class="test-require-record-change-option slds-form_stacked slds-p-top_small slds-p-horizontal_small slds-no-flex"
             >
-                <label class="slds-form-element__legend slds-form-element__label"
-                    >{labels.requireRecordChangeOption}</label
+                <label
+                    class="test-require-record-change-option-label slds-form-element__legend slds-form-element__label"
+                    >{requireRecordChangeOptionLabel}</label
                 >
                 <lightning-helptext content={labels.requireChangeOptionsHelptext}></lightning-helptext>
                 <lightning-radio-group

@@ -31,6 +31,10 @@ import requireChangeOptionsHelptext from '@salesforce/label/FlowBuilderRecordEdi
 import disableRadioGroupStartText from '@salesforce/label/FlowBuilderStartEditor.disableRadioGroupStartText';
 import setConditionsHeaderLabel from '@salesforce/label/FlowBuilderStartEditor.setConditionsHeaderLabel';
 import setConditionsDescription from '@salesforce/label/FlowBuilderStartEditor.setConditionsDescription';
+import createOrUpdateInputLabelOrchestrator from '@salesforce/label/FlowBuilderStartEditor.createOrUpdateInputLabelOrchestrator';
+import recordChangeContextObjectDescriptionOrchestrator from '@salesforce/label/FlowBuilderStartEditor.recordChangeContextObjectDescriptionOrchestrator';
+import setConditionsDescriptionOrchestrator from '@salesforce/label/FlowBuilderStartEditor.setConditionsDescriptionOrchestrator';
+import requireRecordChangeOptionOrchestrator from '@salesforce/label/FlowBuilderRecordEditor.requireRecordChangeOptionOrchestrator';
 
 export const LABELS = {
     createOrUpdateInputLabel,
@@ -61,7 +65,11 @@ export const LABELS = {
     disableRadioGroupStartText,
     editTriggerLabel,
     setConditionsHeaderLabel,
-    setConditionsDescription
+    setConditionsDescription,
+    createOrUpdateInputLabelOrchestrator,
+    recordChangeContextObjectDescriptionOrchestrator,
+    setConditionsDescriptionOrchestrator,
+    requireRecordChangeOptionOrchestrator
 };
 
 export const requireRecordChangeOptions = () => {
