@@ -12,6 +12,7 @@ $b2b-flex-end: flex-end;
 $b2b-text-center: center;
 $b2b-config-promo-wrapper-blue: #a5ccef;
 $b2b-config-promo-details-blue: #1586e8;
+$b2b-checkbox-focus: $offset-none $offset-none ($offset-small)+px ($offset-x-small)+px $azure !default;
 
 @mixin multiLineEllipsis($lineHeight: 1.2em, $lineCount: 1, $bgColor: white) {
   overflow: hidden;
