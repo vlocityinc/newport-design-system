@@ -250,6 +250,8 @@ export default class Editor extends LightningElement {
 
     _guardrailsParams;
 
+    _isToolbarFocusedPostInitialLoad = false;
+
     /**
      * Params to execute guardrails and propagate info to help menu in header
      * {
@@ -257,7 +259,7 @@ export default class Editor extends LightningElement {
      *  count: number of guardrails
      * }
      *
-     * @returns Guardails params
+     * @returns Guardrails params
      */
     @api
     get guardrailsParams() {
@@ -2688,6 +2690,13 @@ export default class Editor extends LightningElement {
                 this.isRetrieveInterviewHistoryCallInProgress = false;
                 throw e;
             }
+        }
+
+        // Moving focus to the Toolbar when Flow Builder is loaded for the first time
+        const toolbarComponent = this._getToolbarComponent();
+        if (this.hasCanvasElements && toolbarComponent && !this._isToolbarFocusedPostInitialLoad) {
+            toolbarComponent.focus();
+            this._isToolbarFocusedPostInitialLoad = true;
         }
     }
 
