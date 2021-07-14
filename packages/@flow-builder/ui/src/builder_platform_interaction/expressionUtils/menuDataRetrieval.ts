@@ -21,6 +21,7 @@ import {
 } from './menuDataGenerator';
 import resourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.resourceLabel';
 import newResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.newResourceLabel';
+import newTypedResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.newTypedResourceLabel';
 import picklistValuesLabel from '@salesforce/label/FlowBuilderExpressionUtils.picklistValuesLabel';
 import systemGlobalVariableCategoryLabel from '@salesforce/label/FlowBuilderSystemGlobalVariables.systemGlobalVariableCategory';
 import {
@@ -196,7 +197,9 @@ export const COMBOBOX_NEW_RESOURCE_VALUE = '%%NewResource%%';
  * @returns {Object} menu data group object with only new resource as item
  */
 function getNewResourceItem(resourceTypeLabel: String) {
-    const newResourceItemText = format(newResourceLabel, resourceTypeLabel ? resourceTypeLabel : resourceLabel);
+    const newResourceItemText = resourceTypeLabel
+        ? format(newTypedResourceLabel, resourceTypeLabel)
+        : format(newResourceLabel, resourceLabel);
     return {
         displayText: newResourceItemText,
         text: newResourceItemText,

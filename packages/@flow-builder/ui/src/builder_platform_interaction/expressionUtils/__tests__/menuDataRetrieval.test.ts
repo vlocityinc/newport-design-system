@@ -813,7 +813,7 @@ describe('Menu data retrieval', () => {
                 newResourceTypeLabel: 'test resource type'
             });
             expect(menuData).toHaveLength(2);
-            expect(menuData[0].text).toBe('FlowBuilderExpressionUtils.newResourceLabel(test resource type)');
+            expect(menuData[0].text).toBe('FlowBuilderExpressionUtils.newTypedResourceLabel(test resource type)');
         });
     });
 
