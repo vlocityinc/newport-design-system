@@ -7,7 +7,8 @@ import {
     UPDATE_PROPERTIES,
     UPDATE_APEX_CLASSES,
     UPDATE_ENTITIES,
-    ADD_RESOURCE
+    ADD_RESOURCE,
+    HIGHLIGHT_ON_CANVAS
 } from 'builder_platform_interaction/actions';
 
 const defaultProperties = {
@@ -165,5 +166,15 @@ describe('flow-properties-reducer', () => {
 
         expect(newPropertiesState).not.toBe(oldProperties);
         expect(newPropertiesState.lastInlineResourceGuid).toBe(newProperties.guid);
+    });
+
+    it('Should not change the state when HIGHLIGHT_ON_CANVAS action is dispatched', () => {
+        const newProperties = {};
+        const newPropertiesState = reducer(oldProperties, {
+            type: HIGHLIGHT_ON_CANVAS,
+            payload: newProperties
+        });
+
+        expect(newPropertiesState).toBe(oldProperties);
     });
 });

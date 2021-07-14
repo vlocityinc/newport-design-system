@@ -22,7 +22,8 @@ import {
     CLEAR_CANVAS_DECORATION,
     UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE,
     UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY,
-    UPDATE_RESOURCE
+    UPDATE_RESOURCE,
+    HIGHLIGHT_ON_CANVAS
 } from 'builder_platform_interaction/actions';
 import { createFlowProperties } from 'builder_platform_interaction/elementFactory';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -128,6 +129,7 @@ export default function flowPropertiesReducer(state = flowProperties, { payload,
         case UPDATE_ENTITIES:
         case DECORATE_CANVAS:
         case CLEAR_CANVAS_DECORATION:
+        case HIGHLIGHT_ON_CANVAS:
             return state;
         case UPDATE_CANVAS_ELEMENT:
             // If the start element is updated with a trigger type that does not support
