@@ -120,3 +120,7 @@
 .background-pink {
     background-color: #eb7092;
 }
+
+.background-dark-blue {
+    background-color: var(--lwc-paletteBlue30);
+}

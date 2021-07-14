@@ -14,12 +14,12 @@ h3 {
     box-shadow: var(--lwc-shadowDropDown);
 }
 
-.background-light {
-    background-color: var(--lwc-colorBrandDarker);
+.background-stage-divider {
+    background-color: var(--lwc-paletteBlue30);
 }
 
-.background-dark {
-    background-color: rgb(0, 57, 107);
+.background-step-icon {
+    background-color: #54698d;
 }
 
 .header {

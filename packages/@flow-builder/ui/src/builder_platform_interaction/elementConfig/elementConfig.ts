@@ -1084,7 +1084,8 @@ export const elementTypeToConfigMap: {
             dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.ORCHESTRATED_STAGE],
             maxConnections: 1,
             section: LABELS.flowInteractionComponentsLabel,
-            description: LABELS.orchestratedStageComponentDescription
+            description: LABELS.orchestratedStageComponentDescription,
+            iconBackgroundColor: 'background-dark-blue'
         },
         modalSize: MODAL_SIZE.LARGE,
         metadataKey: METADATA_KEY.ORCHESTRATED_STAGES,
