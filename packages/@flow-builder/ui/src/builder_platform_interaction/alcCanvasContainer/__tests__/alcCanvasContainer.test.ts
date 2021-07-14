@@ -184,11 +184,11 @@ describe('alc builder container', () => {
 
     it('offsets when in selection mode', async () => {
         await ticks(1);
-        expect(getAlcCanvas().offsets).toEqual([0, 28]);
+        expect(getAlcCanvas().offsets).toEqual([0, 58]);
 
         cmp.isSelectionMode = true;
         await ticks(1);
-        expect(getAlcCanvas().offsets).toEqual([320, 28]);
+        expect(getAlcCanvas().offsets).toEqual([320, 58]);
     });
 
     it('intializes augmented metadata types correctly', async () => {

@@ -19,7 +19,7 @@ import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
 import { shouldSupportScheduledPaths } from 'builder_platform_interaction/elementFactory';
 
 const LEFT_PANE_WIDTH = 320;
-const NODE_ICON_HALF_HEIGHT_WITH_PADDING = 28;
+const NODE_ICON_HALF_HEIGHT_WITH_PADDING = 58;
 
 let startElementMetadata = null;
 
