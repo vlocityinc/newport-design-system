@@ -29,7 +29,6 @@
                 placeholder="Select Progress"
                 options={stageCompletesOptions}
                 onchange={handleStageCompletesChanged}
-                field-level-help={exitCriteriaHelpText}
                 required
             ></lightning-combobox>
         </div>
@@ -46,6 +45,7 @@
                 oncannotretrieveactions={handleCannotRetrieveActions}
                 flow-process-type={processType}
                 label-override={labels.determinationFlowSelectorHeader}
+                field-level-help={exitCriteriaHelpText}
             >
             </builder_platform_interaction-action-selector>
         </div>
