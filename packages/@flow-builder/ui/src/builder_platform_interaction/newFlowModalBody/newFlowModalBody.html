@@ -1,84 +1,90 @@
 <template>
-    <!-- should be replaced by stencil placeholder: W-5921905 -->
-    <div class="slds-grid slds-grid_align-center" if:true={showSpinner}>
-        <div class="slds-col spinner">
-            <lightning-spinner
-                size="medium"
-                variant="brand"
-                class="spinner"
-                alternative-text={labels.spinnerAlternativeText}
-            ></lightning-spinner>
-        </div>
-    </div>
-    <div if:true={showErrorMessage} class="slds-notify_container slds-is-relative errorMessage">
-        <div class="slds-notify slds-notify_toast slds-theme_error" role="status">
-            <lightning-icon
-                icon-name="utility:error"
-                class="slds-m-right_small slds-no-flex slds-align-top"
-                variant="inverse"
-                size="x-small"
-            >
-            </lightning-icon>
-            <div class="slds-notify__content">
-                <span>{errorMessage}</span>
-            </div>
-            <div class="slds-notify__close">
-                <lightning-button-icon
-                    icon-name="utility:close"
-                    variant="bare-inverse"
-                    class="slds-m-left_xx-small"
-                    onclick={handleCloseErrorMessage}
-                ></lightning-button-icon>
+    <div class="newFlowModalContainer">
+        <!-- should be replaced by stencil placeholder: W-5921905 -->
+        <div class="slds-grid slds-grid_align-center" if:true={showSpinner}>
+            <div class="slds-col spinner">
+                <lightning-spinner
+                    size="medium"
+                    variant="brand"
+                    class="spinner"
+                    alternative-text={labels.spinnerAlternativeText}
+                ></lightning-spinner>
             </div>
         </div>
-    </div>
-    <lightning-tabset if:false={showSpinner}>
-        <lightning-tab
-            if:true={showRecommended}
-            label={labels.recommended}
-            value={TAB_RECOMMENDED}
-            class="recommended"
-            onactive={handleTabActive}
-        >
-            <builder_platform_interaction-visual-picker-list
-                if:true={state.recommendedItems}
-                items={state.recommendedItems}
-                radio-group-name="recommended"
-                onvisualpickerlistchanged={handleSelectRecommendedItem}
-            >
-            </builder_platform_interaction-visual-picker-list>
-        </lightning-tab>
-        <lightning-tab
-            if:true={showAllTab}
-            label={labels.templates}
-            value={TAB_TEMPLATES}
-            class="templates"
-            onactive={handleTabActive}
-        >
-            <div class="slds-grid">
-                <div class="slds-col slds-size_small slds-grow-none slds-shrink-none slds-scrollable slds-is-relative">
-                    <builder_platform_interaction-process-types-vertical-navigation
-                        process-types={state.processTypes}
-                        selected-process-type={state.selectedProcessType}
-                        onprocesstypeselected={handleSelectProcessType}
-                    >
-                    </builder_platform_interaction-process-types-vertical-navigation>
+        <div if:true={showErrorMessage} class="slds-notify_container slds-is-relative errorMessage">
+            <div class="slds-notify slds-notify_toast slds-theme_error" role="status">
+                <lightning-icon
+                    icon-name="utility:error"
+                    class="slds-m-right_small slds-no-flex slds-align-top"
+                    variant="inverse"
+                    size="x-small"
+                >
+                </lightning-icon>
+                <div class="slds-notify__content">
+                    <span>{errorMessage}</span>
                 </div>
-                <div class="slds-col canvas-container slds-grow slds-shrink slds-scrollable slds-is-relative">
-                    <builder_platform_interaction-process-types-templates
-                        process-types={state.processTypes}
-                        blank-items={state.items}
-                        process-type={state.selectedProcessType}
-                        radio-group-name="templates"
-                        ontemplatechanged={handleSelectTemplatesItem}
-                        oncannotretrievetemplates={handleCannotRetrieveTemplates}
-                    >
-                    </builder_platform_interaction-process-types-templates>
+                <div class="slds-notify__close">
+                    <lightning-button-icon
+                        icon-name="utility:close"
+                        variant="bare-inverse"
+                        class="slds-m-left_xx-small"
+                        onclick={handleCloseErrorMessage}
+                    ></lightning-button-icon>
                 </div>
             </div>
-        </lightning-tab>
+        </div>
+        <lightning-tabset if:false={showSpinner}>
+            <lightning-tab
+                if:true={showRecommended}
+                label={labels.recommended}
+                value={TAB_RECOMMENDED}
+                class="recommended"
+                onactive={handleTabActive}
+            >
+                <builder_platform_interaction-visual-picker-list
+                    if:true={state.recommendedItems}
+                    items={state.recommendedItems}
+                    radio-group-name="recommended"
+                    onvisualpickerlistchanged={handleSelectRecommendedItem}
+                >
+                </builder_platform_interaction-visual-picker-list>
+            </lightning-tab>
+            <lightning-tab
+                if:true={showAllTab}
+                label={labels.templates}
+                value={TAB_TEMPLATES}
+                class="templates"
+                onactive={handleTabActive}
+            >
+                <div class="slds-grid">
+                    <div
+                        class="slds-col slds-size_small slds-grow-none slds-shrink-none slds-scrollable slds-is-relative"
+                    >
+                        <builder_platform_interaction-process-types-vertical-navigation
+                            process-types={state.processTypes}
+                            selected-process-type={state.selectedProcessType}
+                            onprocesstypeselected={handleSelectProcessType}
+                        >
+                        </builder_platform_interaction-process-types-vertical-navigation>
+                    </div>
+                    <div class="slds-col templates-container slds-grow slds-shrink slds-scrollable slds-is-relative">
+                        <builder_platform_interaction-process-types-templates
+                            process-types={state.processTypes}
+                            blank-items={state.items}
+                            process-type={state.selectedProcessType}
+                            radio-group-name="templates"
+                            ontemplatechanged={handleSelectTemplatesItem}
+                            oncannotretrievetemplates={handleCannotRetrieveTemplates}
+                        >
+                        </builder_platform_interaction-process-types-templates>
+                    </div>
+                </div>
+            </lightning-tab>
+        </lightning-tabset>
+
         <builder_platform_interaction-legal-popover
             if:true={showBetaLegalPopover}
+            class="legalPopover"
             horizontal-position="right"
             notices={noticesToLegalPopover}
             legal-text-first-part={labels.orchestratorLegalNoticeTextFirstPart}
@@ -87,5 +93,5 @@
             onlegalnoticedismissed={handleLegalNoticeDismissed}
         >
         </builder_platform_interaction-legal-popover>
-    </lightning-tabset>
+    </div>
 </template>

@@ -1,3 +1,14 @@
 .spinner {
     height: 6rem;
 }
+
+.newFlowModalContainer {
+    overflow-y: scroll;
+    height: 100%;
+}
+
+.legalPopover {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
