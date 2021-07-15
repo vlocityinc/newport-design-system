@@ -142,12 +142,12 @@ function isUndefined(value) {
  */
 function getFerovDataTypeValue(value) {
     let dataType;
-    switch (value) {
-        case FLOW_DATA_TYPE.CURRENCY.value:
+    switch (value && value.toLowerCase()) {
+        case FLOW_DATA_TYPE.CURRENCY.value.toLowerCase():
             dataType = FLOW_DATA_TYPE.NUMBER.value;
             break;
-        case FLOW_DATA_TYPE.PICKLIST.value:
-        case FLOW_DATA_TYPE.MULTI_PICKLIST.value:
+        case FLOW_DATA_TYPE.PICKLIST.value.toLowerCase():
+        case FLOW_DATA_TYPE.MULTI_PICKLIST.value.toLowerCase():
             dataType = FLOW_DATA_TYPE.STRING.value;
             break;
         default:
@@ -155,6 +155,16 @@ function getFerovDataTypeValue(value) {
     }
 
     return dataType;
+}
+
+/**
+ *
+ * @param object - key/value object to be searched
+ * @param key - key that we compare to
+ * @returns the value of that key ignoring case sensitivity
+ */
+function getFerovDataTypeKeyCaseInsensitive(object, key) {
+    return Object.entries(object).find((pair) => pair[0].toLowerCase() === key.toLowerCase())[1];
 }
 
 /**
@@ -251,7 +261,7 @@ export const createFEROVMetadataObject = (element, valueProperty, dataTypeProper
             const ferovDataTypeValue = getFerovDataTypeValue(dataType);
 
             // determine where it will be stored in the ferov if it is valid
-            let ferovDataTypeKey = FEROV_TYPES_TO_METADATA_KEYS[ferovDataTypeValue];
+            let ferovDataTypeKey = getFerovDataTypeKeyCaseInsensitive(FEROV_TYPES_TO_METADATA_KEYS, ferovDataTypeValue);
 
             // set the value of the ferov to the given property or its guid on the element
             let ferovValue;
