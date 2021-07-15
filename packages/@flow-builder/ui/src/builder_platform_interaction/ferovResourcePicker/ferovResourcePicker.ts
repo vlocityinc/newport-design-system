@@ -1,7 +1,7 @@
 import { LightningElement, api, track } from 'lwc';
 import { normalizeFEROV, getMenuData } from 'builder_platform_interaction/expressionUtils';
 import { getRHSTypes, RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
-import { format, isObject } from 'builder_platform_interaction/commonUtils';
+import { isObject } from 'builder_platform_interaction/commonUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 
@@ -15,6 +15,8 @@ import newResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.newRe
 import newTypedResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.newTypedResourceLabel';
 import quickCreateResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.quickCreateResourceLabel';
 import { NewResourceEvent } from 'builder_platform_interaction/events';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 const { logInteraction } = loggingUtils;
 

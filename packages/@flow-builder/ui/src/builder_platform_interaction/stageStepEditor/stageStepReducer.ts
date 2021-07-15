@@ -30,8 +30,7 @@ import { usedBy, UsedByElement } from 'builder_platform_interaction/usedByLib';
 import { isPlainObject } from 'builder_platform_interaction/storeLib';
 import { shouldCallSwapFunction } from 'builder_platform_interaction/translatorLib';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import { format } from 'builder_platform_interaction/commonUtils';
-import { invokeModal } from 'builder_platform_interaction/sharedUtils';
+import { invokeModal, commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { LABELS } from './stageStepEditorLabels';
 import {
     mergeParameters,
@@ -43,6 +42,7 @@ import {
 import { Validation } from 'builder_platform_interaction/validation';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { getRules } from './stageStepValidation';
+const { format } = commonUtils;
 
 const validation = new Validation();
 

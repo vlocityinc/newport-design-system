@@ -2,7 +2,8 @@
 import { LightningElement, api } from 'lwc';
 import { LABELS } from './debugPanelLabels';
 import { copyAndUpdateDebugTraceObject } from 'builder_platform_interaction/debugUtils';
-import { format } from 'builder_platform_interaction/commonUtils';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 /**
  * This is the debug panel that shows the debug run info on builder canvas (debugMode)

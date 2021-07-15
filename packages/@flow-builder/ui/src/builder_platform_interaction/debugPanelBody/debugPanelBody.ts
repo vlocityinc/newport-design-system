@@ -1,9 +1,10 @@
 // @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { LABELS, failedToCRUDRecordAbsoluteMatches, failedToCRUDRecordRelativeMatches } from './debugPanelBodyLabels';
-import { format } from 'builder_platform_interaction/commonUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { ResumeDebugFlowEvent } from 'builder_platform_interaction/events';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 /**
  * This is the debug panel body that shows the debug run info inside each accordion on

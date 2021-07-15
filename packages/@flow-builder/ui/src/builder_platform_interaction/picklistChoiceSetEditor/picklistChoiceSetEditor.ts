@@ -8,8 +8,9 @@ import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
 import { LABELS } from './picklistChoiceSetEditorLabels';
-import { format } from 'builder_platform_interaction/commonUtils';
 import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 const SORT_ORDER_OPTIONS = [
     {

@@ -8,7 +8,17 @@ import { ICON_SHAPE, AutoLayoutCanvasMode } from 'builder_platform_interaction/a
 import { LABELS } from '../alcNodeLabels';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
 
-jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
+// jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
+
+jest.mock('builder_platform_interaction/sharedUtils', () => {
+    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
+    const commonUtils = Object.assign({}, sharedUtils.commonUtils, {
+        format: jest.fn(() => {
+            return '+1 connections';
+        })
+    });
+    return Object.assign({}, sharedUtils, { commonUtils });
+});
 
 const createComponentUnderTest = (props = {}) => {
     const el = createElement('builder_platform_interaction-alcNode', {
@@ -411,7 +421,7 @@ describe('AlcNode', () => {
                 canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
             const gotoCount = alcNodeComponent.shadowRoot.querySelector(selectors.textIncomingGoTo);
-            expect(gotoCount.textContent).toEqual('+1 Incoming');
+            expect(gotoCount.textContent).toEqual('+1 connections');
         });
 
         it('Should not show incoming count if goto does not exist', () => {

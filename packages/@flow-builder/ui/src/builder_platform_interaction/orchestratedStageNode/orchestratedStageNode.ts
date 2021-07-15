@@ -5,9 +5,9 @@ import { StageStep } from 'builder_platform_interaction/elementFactory';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { NodeRenderInfo } from 'builder_platform_interaction/autoLayoutCanvas';
 import { LABELS } from './orchestratedStageNodeLabels';
-import { format } from 'builder_platform_interaction/commonUtils';
 import { setupKeyboardShortcutUtil } from 'builder_platform_interaction/contextualMenuUtils';
-import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+import { commands, keyboardInteractionUtils, commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
 const { KeyboardInteractions } = keyboardInteractionUtils;

@@ -7,10 +7,11 @@ import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { format } from 'builder_platform_interaction/commonUtils';
 import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
 import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 const RECORD_CHOICE_SET_FIELDS = {
     RECORD_OBJECT: 'object',

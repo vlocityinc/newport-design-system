@@ -4,12 +4,13 @@ import { assignmentElement, stageElement } from 'mock/storeData';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 import { LABELS } from '../validationRulesLabels';
-import { format } from 'builder_platform_interaction/commonUtils';
 import { isValidMetadataDateTime, getFormat } from 'builder_platform_interaction/dateTimeUtils';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 import { validatePicker } from 'builder_platform_interaction/expressionValidator';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/expressionValidator', () =>

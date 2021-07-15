@@ -22,7 +22,6 @@ import { hidePopover } from 'builder_platform_interaction/builderUtils';
 import { setScreenElement } from 'builder_platform_interaction/expressionUtils';
 import { getSupportedScreenFieldTypes } from 'builder_platform_interaction/screenFieldTypeLib';
 import { getTriggerType } from 'builder_platform_interaction/storeUtils';
-import { format } from 'builder_platform_interaction/commonUtils';
 import { orgHasFlowBuilderAutomaticFields } from 'builder_platform_interaction/contextLib';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import ScreenEditorAutomaticFieldPalette from 'builder_platform_interaction/screenEditorAutomaticFieldPalette';
@@ -31,6 +30,8 @@ import {
     createSingleOrMultiChoiceTypeChangedEvent
 } from 'builder_platform_interaction/events';
 import { modalBodyVariant } from 'builder_platform_interaction/builderUtils';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 export enum ScreenEditorTab {
     Components = 'componentsTab',
     Fields = 'fieldsTab'

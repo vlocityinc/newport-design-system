@@ -1,5 +1,5 @@
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
-import { isUndefinedOrNull, format } from 'builder_platform_interaction/commonUtils';
+import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { isDevNameInStore, isOrderNumberInStore } from 'builder_platform_interaction/storeUtils';
 import { isValidMetadataDateTime, getFormat } from 'builder_platform_interaction/dateTimeUtils';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
@@ -8,6 +8,8 @@ import { validateLHS, validateRHS, validatePicker } from 'builder_platform_inter
 import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
 import { FlowModel } from 'builder_platform_interaction/autoLayoutCanvas';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 /**
  * @param {Object} rule - object containing regex pattern and message

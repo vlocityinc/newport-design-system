@@ -105,8 +105,20 @@ jest.mock('builder_platform_interaction/builderUtils', () => {
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {
     const actual = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
+    const commonUtils = Object.assign({}, actual.commonUtils, {
+        format: jest.fn().mockImplementation((formatString, ...args) => {
+            return formatString.replace(/\{(\d+)\}/gm, (match, index) => {
+                const substitution = args[index];
+                if (substitution === undefined) {
+                    return match;
+                }
+                return substitution + '';
+            });
+        })
+    });
     return Object.assign({}, actual, {
-        invokeModal: jest.fn()
+        invokeModal: jest.fn(),
+        commonUtils
     });
 });
 

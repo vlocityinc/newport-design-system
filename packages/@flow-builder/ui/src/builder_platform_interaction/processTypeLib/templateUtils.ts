@@ -1,9 +1,10 @@
 // @ts-nocheck
 import { LABELS, TRIGGER_TYPE_LABELS } from './processTypeLibLabels';
-import { format } from 'builder_platform_interaction/commonUtils';
 import { ALL_PROCESS_TYPE, getProcessTypeIcon, getTriggerTypeIcon } from './processTypeUtils';
 import { FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { orgHasBeforeSaveEnabled } from 'builder_platform_interaction/contextLib';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 let allTemplates = {};
 

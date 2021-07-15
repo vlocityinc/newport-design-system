@@ -8,11 +8,13 @@ import {
     unionOfArrays,
     omit
 } from 'builder_platform_interaction/dataMutationLib';
-import { format, splitStringBySeparator, hasOwnProperty } from 'builder_platform_interaction/commonUtils';
+import { splitStringBySeparator, hasOwnProperty } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './usedByLibLabels';
 import { invokeModal } from 'builder_platform_interaction/sharedUtils';
 import { isTemplateField, isReferenceField, shouldCallSwapFunction } from 'builder_platform_interaction/translatorLib';
 import { isRegionContainerField, isRegionField } from 'builder_platform_interaction/screenEditorUtils';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 // elements may be hydrated
 let mapOfChildElements: UI.Elements | UI.HydratedElements = {};

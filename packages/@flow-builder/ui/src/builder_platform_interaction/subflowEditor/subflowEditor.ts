@@ -3,7 +3,6 @@ import { LightningElement, api, track } from 'lwc';
 import { LABELS } from './subflowEditorLabels';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { getValueFromHydratedItem, getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import { format } from 'builder_platform_interaction/commonUtils';
 import { subflowReducer, MERGE_WITH_VARIABLES, REMOVE_UNSET_ASSIGNMENTS } from './subflowReducer';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { getParameterListWarnings } from 'builder_platform_interaction/calloutEditorLib';
@@ -17,7 +16,8 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import { isAutomaticOutputHandlingSupported } from 'builder_platform_interaction/invocableActionLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { fetchFlowInputOutputVariables } from 'builder_platform_interaction/subflowsLib';
-
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 export default class SubflowEditor extends LightningElement {
     @track subflowNode = {};
 

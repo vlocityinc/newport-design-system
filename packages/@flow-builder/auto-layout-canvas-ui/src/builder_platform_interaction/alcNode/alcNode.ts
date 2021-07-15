@@ -5,6 +5,8 @@ import { AlcSelectDeselectNodeEvent } from 'builder_platform_interaction/alcEven
 import { classSet } from 'lightning/utils';
 import { ICON_SHAPE, AutoLayoutCanvasMode } from 'builder_platform_interaction/alcComponentsUtils';
 import { LABELS } from './alcNodeLabels';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 enum ConditionOptions {
     DEFAULT_PATH = 'DEFAULT_PATH',
@@ -185,6 +187,10 @@ export default class AlcNode extends LightningElement {
 
     get hasIncomingGoto() {
         return this.nodeInfo.node && this.nodeInfo.node.incomingGoTo && this.nodeInfo.node.incomingGoTo.length > 0;
+    }
+
+    get incomingGoToLabel() {
+        return format(this.labels.incomingGoToLabel, this.nodeInfo.node?.incomingGoTo?.length);
     }
 
     /** ***************************** Helper Functions */

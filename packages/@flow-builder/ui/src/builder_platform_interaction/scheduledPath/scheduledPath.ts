@@ -5,8 +5,9 @@ import { PropertyChangedEvent, DeleteScheduledPathEvent } from 'builder_platform
 import { TIME_OPTION } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_TRIGGER_SAVE_TYPE, RECORD_TIGGER_EVENT } from 'builder_platform_interaction/flowMetadata';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
-import { format } from 'builder_platform_interaction/commonUtils';
 import { RECORD_TRIGGER_TYPE_LABEL_LOOKUP } from 'builder_platform_interaction/triggerTypeLib';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 const SELECTORS = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',

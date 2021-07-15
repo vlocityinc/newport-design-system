@@ -4,7 +4,6 @@ import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interacti
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { fetchFieldsForEntity, getEntity } from 'builder_platform_interaction/sobjectLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { format } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './screenEditorAutomaticFieldPaletteLabels';
 import { containsMatcher } from 'builder_platform_interaction/filterLib';
 import { ExtraTypeInfo, FieldDataType, getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
@@ -20,6 +19,8 @@ import FerovResourcePicker from 'builder_platform_interaction/ferovResourcePicke
 import SObjectOrSObjectCollectionPicker from 'builder_platform_interaction/sobjectOrSobjectCollectionPicker';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { CrudFilter } from 'builder_platform_interaction/selectors';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 const SUPPORTED_FIELD_DATA_TYPES = [
     FieldDataType.String,

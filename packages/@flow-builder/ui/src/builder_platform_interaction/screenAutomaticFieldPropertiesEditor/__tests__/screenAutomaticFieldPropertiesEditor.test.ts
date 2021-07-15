@@ -21,8 +21,9 @@ import { createScreenFieldWithFields, createAutomaticField } from 'builder_platf
 import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
 import { objectManagerUrls as mockObjectManagerUrls } from 'serverData/GetObjectManagerUrls/objectManagerUrls.json';
 import { CLASSIC_EXPERIENCE, getPreferredExperience } from 'builder_platform_interaction/contextLib';
-import { format } from 'builder_platform_interaction/commonUtils';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     const getCurrentState = () => ({

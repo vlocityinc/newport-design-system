@@ -21,8 +21,6 @@ import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
 import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
-jest.mock('builder_platform_interaction/sharedUtils');
-
 const createComponentUnderTest = (props = {}) => {
     const el = createElement('builder_platform_interaction-toolbar', {
         is: Toolbar

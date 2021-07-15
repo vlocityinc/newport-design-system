@@ -19,7 +19,8 @@ function createComponentForTest(isAdvancedMode) {
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {
     return {
-        invokeModal: jest.fn()
+        invokeModal: jest.fn(),
+        commonUtils: { format: jest.fn() }
     };
 });
 

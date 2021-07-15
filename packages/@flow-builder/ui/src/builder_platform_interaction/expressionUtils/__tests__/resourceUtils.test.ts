@@ -10,7 +10,7 @@ import {
     setScreenElement
 } from '../resourceUtils';
 import * as store from 'mock/storeData';
-import { addCurlyBraces, format } from 'builder_platform_interaction/commonUtils';
+import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { getMenuItemForField } from '../menuDataGenerator';
@@ -31,6 +31,8 @@ import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { recordTriggeredFlowUIModel } from 'mock/storeDataRecordTriggered';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/commonUtils', () => {
@@ -38,9 +40,11 @@ jest.mock('builder_platform_interaction/commonUtils', () => {
     return {
         addCurlyBraces: actual.addCurlyBraces,
         removeCurlyBraces: actual.removeCurlyBraces,
-        isObject: actual.isObject,
-        format: jest.fn()
+        isObject: actual.isObject
     };
+});
+jest.mock('builder_platform_interaction/sharedUtils', () => {
+    return { commonUtils: { format: jest.fn() } };
 });
 const account = 'Account';
 const anError = 'an error';

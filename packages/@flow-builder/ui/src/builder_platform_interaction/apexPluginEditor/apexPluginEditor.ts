@@ -2,7 +2,6 @@
 import { LightningElement, api, track } from 'lwc';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { LABELS } from './apexPluginEditorLabels';
-import { format } from 'builder_platform_interaction/commonUtils';
 import { getValueFromHydratedItem, getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { apexPluginReducer } from './apexPluginReducer';
 import {
@@ -17,7 +16,8 @@ import {
     SetPropertyEditorTitleEvent,
     UpdateNodeEvent
 } from 'builder_platform_interaction/events';
-
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 export default class ApexPluginEditor extends LightningElement {
     /**
      * Internal state for the editor

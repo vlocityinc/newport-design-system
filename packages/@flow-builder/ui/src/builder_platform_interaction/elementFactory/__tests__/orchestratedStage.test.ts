@@ -31,11 +31,15 @@ import { createActionCall } from '../actionCall';
 import { createInputParameter, createInputParameterMetadataObject } from '../inputParameter';
 import { createOutputParameter, createOutputParameterMetadataObject } from '../outputParameter';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 
-const commonUtils = jest.requireActual('builder_platform_interaction/commonUtils');
-commonUtils.format = jest
-    .fn()
-    .mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')');
+jest.mock('builder_platform_interaction/sharedUtils', () => {
+    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
+    const commonUtils = Object.assign({}, sharedUtils.commonUtils, {
+        format: jest.fn().mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')')
+    });
+    return Object.assign({}, sharedUtils, { commonUtils });
+});
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {

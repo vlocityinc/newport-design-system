@@ -11,7 +11,6 @@ import {
     getUpdateableEntities,
     getEntity
 } from 'builder_platform_interaction/sobjectLib';
-import { format } from 'builder_platform_interaction/commonUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
@@ -23,7 +22,8 @@ import {
 } from 'builder_platform_interaction/flowMetadata';
 import { doesSupportTriggeringRecordUpdate } from 'builder_platform_interaction/triggerTypeLib';
 import { UPDATEABLE_FILTER } from 'builder_platform_interaction/selectors';
-
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 export default class RecordUpdateEditor extends LightningElement {
     labels = LABELS;
     sobjectCollectionCriterion = SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_OR_SOBJECT_COLLECTION;

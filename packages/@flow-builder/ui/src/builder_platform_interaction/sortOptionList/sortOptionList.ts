@@ -2,8 +2,9 @@ import { LightningElement, api, track } from 'lwc';
 import { LABELS } from './sortOptionListLabels';
 import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
 import { AddSortOptionItemEvent, DeleteSortOptionItemEvent } from 'builder_platform_interaction/events';
-import { format } from 'builder_platform_interaction/commonUtils';
 import { SortOption, SObjectOrApexReference, isSObjectOrApexClass } from 'builder_platform_interaction/sortEditorLib';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 export default class SortOptionList extends LightningElement {
     labels = LABELS;

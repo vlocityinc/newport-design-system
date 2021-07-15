@@ -1,7 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
-import { format } from 'builder_platform_interaction/commonUtils';
 import {
     MapElement,
     getUniqueElementName,
@@ -26,6 +25,8 @@ import { addElement, deleteElements, updateElement } from 'builder_platform_inte
 import { createVariable } from 'builder_platform_interaction/elementFactory';
 import { getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 export default class MapEditor extends LightningElement {
     labels = LABELS;

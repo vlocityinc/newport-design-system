@@ -10,7 +10,7 @@ import {
     isSystemVariablesCategoryNotEmpty
 } from 'builder_platform_interaction/systemLib';
 import { getResourceCategory } from 'builder_platform_interaction/elementLabelLib';
-import { addCurlyBraces, format } from 'builder_platform_interaction/commonUtils';
+import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { getDataType } from 'builder_platform_interaction/ruleLib';
 import { isComplexType } from 'builder_platform_interaction/dataTypeLib';
 import systemGlobalVariableCategoryLabel from '@salesforce/label/FlowBuilderSystemGlobalVariables.systemGlobalVariableCategory';
@@ -24,6 +24,8 @@ import { isGlobalVariablesSupported } from 'builder_platform_interaction/process
 import { getIconNameFromDataType } from 'builder_platform_interaction/screenEditorUtils';
 import { LABELS } from './expressionUtilsLabels';
 import { getSystemVariables } from 'builder_platform_interaction/systemLib';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 export const MAXIMUM_NUMBER_OF_LEVELS = 10;
 

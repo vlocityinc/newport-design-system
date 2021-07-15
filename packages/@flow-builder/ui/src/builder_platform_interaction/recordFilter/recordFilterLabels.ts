@@ -1,4 +1,3 @@
-import { format } from 'builder_platform_interaction/commonUtils';
 import findRecords from '@salesforce/label/FlowBuilderRecordEditor.findRecords';
 import addCriteria from '@salesforce/label/FlowBuilderRecordEditor.addCriteria';
 import filterLhsLabel from '@salesforce/label/FlowBuilderRecordEditor.filterLhsLabel';
@@ -25,6 +24,8 @@ import customConditionLogicLabel from '@salesforce/label/FlowBuilderConditionLis
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import recordSingularLabel from '@salesforce/label/FlowBuilderRecordUpdateEditor.recordSingularLabel';
 import recordPluralLabel from '@salesforce/label/FlowBuilderRecordUpdateEditor.recordPluralLabel';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 export const LABELS = {
     findRecords,

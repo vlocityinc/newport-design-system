@@ -7,12 +7,15 @@ import { fakePausedInterview } from 'mock/debugResponse/mock-fake-paused-intervi
 import { fakeResumedInterviewWithError, fakeResumedInterview } from 'mock/debugResponse/mock-fake-paused-interview';
 import { completedInterview } from 'mock/debugResponse/mock-completed-interview';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
-import { format } from 'builder_platform_interaction/commonUtils';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 
-const commonUtils = jest.requireActual('builder_platform_interaction/commonUtils');
-commonUtils.format = jest
-    .fn()
-    .mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')');
+jest.mock('builder_platform_interaction/sharedUtils', () => {
+    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
+    const commonUtils = Object.assign({}, sharedUtils.commonUtils, {
+        format: jest.fn().mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')')
+    });
+    return Object.assign({}, sharedUtils, { commonUtils });
+});
 
 const createComponentUnderTest = (debugData, newData = undefined, fromEmailDebugging = false) => {
     const el = createElement('builder_platform_interaction-debug-panel', {
@@ -173,7 +176,7 @@ describe('filter behaviour', () => {
 
             filterDescription = debugPanelFilter.shadowRoot.querySelector(selectors.filterDescription).value;
             expect(filterDescription).not.toBeNull();
-            expect(filterDescription).toEqual(format(LABELS.numFiltersText, 2));
+            expect(filterDescription).toEqual(commonUtils.format(LABELS.numFiltersText, 2));
 
             // checking for 1 checkbox
             filterDescription = debugPanelFilter.shadowRoot.querySelector(selectors.filterDescription).value;
@@ -189,7 +192,7 @@ describe('filter behaviour', () => {
             debugPanelFilter = debugPanel.shadowRoot.querySelector(selectors.debugPanelFilterComponent);
             filterDescription = debugPanelFilter.shadowRoot.querySelector(selectors.filterDescription).value;
             expect(filterDescription).not.toBeNull();
-            expect(filterDescription).toEqual(format(LABELS.singleFilterText, 1));
+            expect(filterDescription).toEqual(commonUtils.format(LABELS.singleFilterText, 1));
         });
 
         it('should display transaction boundaries when filtered in', async () => {

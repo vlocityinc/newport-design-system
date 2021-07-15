@@ -10,7 +10,6 @@ import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from 'builder_platform_i
 import { PARAM_PROPERTY } from 'builder_platform_interaction/ruleLib';
 import { ENTITY_TYPE, fetchFieldsForEntity, getCreateableEntities } from 'builder_platform_interaction/sobjectLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import { format } from 'builder_platform_interaction/commonUtils';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import {
     FLOW_AUTOMATIC_OUTPUT_HANDLING,
@@ -18,7 +17,8 @@ import {
 } from 'builder_platform_interaction/processTypeLib';
 import { getSObjectOrSObjectCollectionFilter } from 'builder_platform_interaction/filterTypeLib';
 import { CREATEABLE_FILTER } from 'builder_platform_interaction/selectors';
-
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 export default class RecordCreateEditor extends LightningElement {
     labels = LABELS;
     propertyEditorElementType = ELEMENT_TYPE.RECORD_CREATE;

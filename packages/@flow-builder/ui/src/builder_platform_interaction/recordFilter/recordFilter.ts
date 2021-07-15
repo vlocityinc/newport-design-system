@@ -2,7 +2,6 @@
 import { LightningElement, api, track } from 'lwc';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS, criteriaLabels, WARNING_LABELS, filterLogicOptionsLabels } from './recordFilterLabels';
-import { format } from 'builder_platform_interaction/commonUtils';
 import { getRulesForElementType, RULE_TYPES, RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 import {
     AddRecordFilterEvent,
@@ -12,6 +11,8 @@ import {
 } from 'builder_platform_interaction/events';
 import { getConditionsWithPrefixes } from 'builder_platform_interaction/conditionListUtils';
 import { getEntity } from 'builder_platform_interaction/sobjectLib';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 const VARIANT_START = 'startElement';
 

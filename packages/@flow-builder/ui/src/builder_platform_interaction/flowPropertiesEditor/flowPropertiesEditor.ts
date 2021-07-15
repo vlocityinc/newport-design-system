@@ -8,7 +8,7 @@ import {
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { LABELS } from './flowPropertiesEditorLabels';
 import { flowPropertiesEditorReducer } from './flowPropertiesEditorReducer';
-import { format, addCurlyBraces } from 'builder_platform_interaction/commonUtils';
+import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { normalizeDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { SaveType } from 'builder_platform_interaction/saveType';
 import { getRunInModesMenuData, getApiVersionMenuData } from 'builder_platform_interaction/expressionUtils';
@@ -28,6 +28,8 @@ import { isRunInModeSupported, isRecordChangeTriggerType } from 'builder_platfor
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { loadVersioningData } from 'builder_platform_interaction/preloadLib';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 /**
  * Flow Properties property editor for Flow Builder

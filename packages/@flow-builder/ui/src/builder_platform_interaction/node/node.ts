@@ -12,7 +12,7 @@ import {
 } from 'builder_platform_interaction/events';
 import { getDrawingLibInstance } from 'builder_platform_interaction/drawingLib';
 import { LABELS } from './nodeLabels';
-import { format, getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
+import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
 import { isTestMode } from 'builder_platform_interaction/contextLib';
 import { clamp } from 'builder_platform_interaction/clampLib';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
@@ -23,7 +23,8 @@ import startNode from './startNode.html';
 import nodeElement from './node.html';
 import { startElementDescription, isRecordTriggeredFlow } from 'builder_platform_interaction/alcCanvasUtils';
 import { shouldSupportScheduledPaths } from 'builder_platform_interaction/elementFactory';
-
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 const { logInteraction } = loggingUtils;
 
 /**

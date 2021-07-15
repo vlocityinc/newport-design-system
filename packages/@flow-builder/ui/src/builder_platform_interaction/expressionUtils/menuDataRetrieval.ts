@@ -42,11 +42,12 @@ import {
     retrieveResourceComplexTypeFields,
     isAutomaticOutputElementWithoutChildren
 } from 'builder_platform_interaction/complexTypeLib';
-import { format } from 'builder_platform_interaction/commonUtils';
 import { getScreenElement } from './resourceUtils';
 import { getStoreElements } from './storeElementsFilter';
 import { canElementContain, RetrieveOptions } from 'builder_platform_interaction/selectors';
 import { isAutomaticField } from 'builder_platform_interaction/screenEditorUtils';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 const { SOBJECT_FIELD_REQUIREMENT, SYSTEM_VARIABLE_REQUIREMENT } = PARAM_PROPERTY;
 

@@ -11,7 +11,6 @@ import {
 import { FLOW_DATA_TYPE, isComplexType } from 'builder_platform_interaction/dataTypeLib';
 import { COMBOBOX_NEW_RESOURCE_VALUE } from 'builder_platform_interaction/expressionUtils';
 import {
-    format,
     isUndefinedOrNull,
     isObject,
     isValidNumber,
@@ -44,6 +43,8 @@ import {
 } from 'builder_platform_interaction/dateTimeUtils';
 
 import { sliceMenu, getMenuLength, setSelectableMenuItem } from './utils';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 const SELECTORS = {
     GROUPED_COMBOBOX: 'lightning-grouped-combobox',

@@ -6,7 +6,8 @@ import {
     DeleteRecordLookupFieldEvent,
     UpdateRecordLookupFieldEvent
 } from 'builder_platform_interaction/events';
-import { format } from 'builder_platform_interaction/commonUtils';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 export default class RecordQueryFields extends LightningElement {
     labels = LABELS;

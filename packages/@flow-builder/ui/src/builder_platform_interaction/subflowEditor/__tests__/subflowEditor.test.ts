@@ -33,10 +33,13 @@ const createComponentUnderTest = (node, { isNewMode = false } = {}) => {
     return el;
 };
 
-const commonUtils = jest.requireActual('builder_platform_interaction/commonUtils');
-commonUtils.format = jest
-    .fn()
-    .mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')');
+jest.mock('builder_platform_interaction/sharedUtils', () => {
+    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
+    const commonUtils = Object.assign({}, sharedUtils.commonUtils, {
+        format: jest.fn().mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')')
+    });
+    return Object.assign({}, sharedUtils, { commonUtils });
+});
 
 let mockSubflowVariablesPromise = Promise.resolve(mockSubflowVariables);
 let mockSubflowsPromise = Promise.resolve(mockSubflows);

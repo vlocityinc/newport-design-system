@@ -12,10 +12,12 @@ import { getMenuItemForField, mutateFlowResourceToComboboxShape } from './menuDa
 import { getElementByGuid, getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { elementToParam } from 'builder_platform_interaction/ruleLib';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { isObject, addCurlyBraces, removeCurlyBraces, format } from 'builder_platform_interaction/commonUtils';
+import { isObject, addCurlyBraces, removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
 import removedResource from '@salesforce/label/FlowBuilderValidation.removedResource';
 import { getChildrenItems, filterFieldsForChosenElement } from './menuDataRetrieval';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 /* Global variable to hold the current state of the screen element.
  *  This is being populated by the screenEditor component and

@@ -4,6 +4,7 @@ import deleteAllPathsComboboxLabel from '@salesforce/label/AlcNodeContextualMenu
 import errorIconAlternativeText from '@salesforce/label/FlowBuilderCanvasElement.errorIconAlternativeText';
 import errorIconTitle from '@salesforce/label/FlowBuilderCanvasElement.errorIconTitle';
 import checkboxLabel from '@salesforce/label/AlcNode.checkboxLabel';
+import incomingGoToLabel from '@salesforce/label/AlcNode.incomingGoToLabel';
 
 export const LABELS: Labels = {
     nodeIconAltText,
@@ -11,5 +12,6 @@ export const LABELS: Labels = {
     deleteAllPathsComboboxLabel,
     errorIconAlternativeText,
     errorIconTitle,
-    checkboxLabel
+    checkboxLabel,
+    incomingGoToLabel
 };

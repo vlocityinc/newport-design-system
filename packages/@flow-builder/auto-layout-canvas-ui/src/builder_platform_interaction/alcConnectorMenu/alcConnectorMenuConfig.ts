@@ -40,7 +40,7 @@ const addGoToActionItem = {
     iconClass: '',
     iconSize: 'x-small',
     iconVariant: '',
-    label: `${LABELS.goToPathItemLabel} (WIP)`,
+    label: LABELS.goToPathItemLabel,
     elementType: GOTO_ACTION,
     rowClass: 'slds-listbox__item action-row-line-height'
 };

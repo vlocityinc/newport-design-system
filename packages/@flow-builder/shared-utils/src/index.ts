@@ -3,3 +3,4 @@ export * as storeUtils from './storeUtils';
 export * as commands from './commands';
 export * as keyboardInteractionUtils from './keyboardInteractionUtils';
 export * from './auraUtils';
+export * as commonUtils from './commonUtils';

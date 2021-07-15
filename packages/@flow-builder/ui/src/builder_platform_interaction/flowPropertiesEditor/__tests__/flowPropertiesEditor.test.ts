@@ -4,10 +4,11 @@ import FlowPropertiesEditor from '../flowPropertiesEditor';
 import { SaveType } from 'builder_platform_interaction/saveType';
 import { LABELS } from '../flowPropertiesEditorLabels';
 import normalizeDateTime from 'builder_platform_interaction/dateTimeUtils';
-import format from 'builder_platform_interaction/commonUtils';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { MOCK_ALL_FLOW_ENTRIES, MOCK_OVERRIDABLE_FLOWS } from 'mock/flowEntryData';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -109,7 +110,6 @@ normalizeDateTime.normalizeDateTime = jest.fn(() => {
 const mockFormattedLabel = 'some user last saved at some date time string';
 jest.mock('builder_platform_interaction/commonUtils', () => {
     return {
-        format: jest.fn(),
         isUndefinedOrNull: jest.fn(),
         addCurlyBraces: jest.requireActual('builder_platform_interaction/commonUtils').addCurlyBraces,
         removeCurlyBraces: jest.fn()
@@ -122,8 +122,14 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
     };
 });
 
-format.format = jest.fn(() => {
-    return mockFormattedLabel;
+jest.mock('builder_platform_interaction/sharedUtils', () => {
+    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
+    const commonUtils = Object.assign({}, sharedUtils.commonUtils, {
+        format: jest.fn(() => {
+            return 'some user last saved at some date time string';
+        })
+    });
+    return Object.assign({}, sharedUtils, { commonUtils });
 });
 
 const createComponentUnderTest = (node) => {
@@ -349,7 +355,7 @@ describe('FlowPropertiesEditor', () => {
                 it('calls format with the label, user and datetime', async () => {
                     getShowAdvancedButton(flowPropertiesEditor).click();
                     await ticks(1);
-                    expect(format.format).toHaveBeenCalledWith(
+                    expect(format).toHaveBeenCalledWith(
                         LABELS.lastModifiedText,
                         flowPropertiesEditor.node.lastModifiedBy.value,
                         mockDateTimeString

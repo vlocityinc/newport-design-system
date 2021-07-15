@@ -14,7 +14,7 @@ import {
 } from './base/baseMetadata';
 import { getElementByGuid, getElementsForElementType } from 'builder_platform_interaction/storeUtils';
 import { createConnectorObjects } from './connector';
-import { format, sanitizeDevName } from 'builder_platform_interaction/commonUtils';
+import { sanitizeDevName } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './elementFactoryLabels';
 import { getParametersForInvocableAction, InvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
@@ -24,6 +24,8 @@ import { isParameterListRowItem, ParameterListRowItem } from './base/baseList';
 import { FEROV_DATA_TYPE, FLOW_DATA_TYPE, getFlowType } from 'builder_platform_interaction/dataTypeLib';
 import { createFEROV, createFEROVMetadataObject, getDataTypeKey } from './ferov';
 import { ValueWithError } from 'builder_platform_interaction/dataMutationLib';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 export const ASSIGNEE_PROPERTY_NAME = 'assignee';
 export const ASSIGNEE_DATA_TYPE_PROPERTY_NAME = getDataTypeKey(ASSIGNEE_PROPERTY_NAME);

@@ -13,7 +13,9 @@ import goToAutolayoutButtonLabel from '@salesforce/label/FlowBuilderAlertModal.g
 import unsupportedFeaturesHeaderTitle from '@salesforce/label/FlowBuilderAlertModal.unsupportedFeaturesHeaderTitle';
 import unsupportedFeaturesBodyTextLabel from '@salesforce/label/FlowBuilderAlertModal.unsupportedFeaturesBodyTextLabel';
 import errorMessageDisconnectedElements from '@salesforce/label/FlowBuilderAlertModal.errorMessageDisconnectedElements';
-import errorMessageMultipleIncomingConnections from '@salesforce/label/FlowBuilderAlertModal.errorMessageMultipleIncomingConnections';
+import errorMessageTerminatedForEach from '@salesforce/label/FlowBuilderAlertModal.errorMessageTerminatedForEach';
+import errorMessageEndInLoopDecision from '@salesforce/label/FlowBuilderAlertModal.errorMessageEndInLoopDecision';
+import errorMessageEndInLoopPause from '@salesforce/label/FlowBuilderAlertModal.errorMessageEndInLoopPause';
 import errorMessageStepElement from '@salesforce/label/FlowBuilderAlertModal.errorMessageStepElement';
 import continueToDebugTitle from '@salesforce/label/FlowBuilderAlertModal.continueToDebugTitle';
 import immediateScheduledPathLabel from '@salesforce/label/FlowBuilderStartEditor.immediateScheduledPathLabel';
@@ -40,7 +42,9 @@ export const LABELS = {
     unsupportedFeaturesHeaderTitle,
     unsupportedFeaturesBodyTextLabel,
     errorMessageDisconnectedElements,
-    errorMessageMultipleIncomingConnections,
+    errorMessageTerminatedForEach,
+    errorMessageEndInLoopDecision,
+    errorMessageEndInLoopPause,
     errorMessageStepElement,
     immediateScheduledPathLabel,
     ariaLabelHeader,

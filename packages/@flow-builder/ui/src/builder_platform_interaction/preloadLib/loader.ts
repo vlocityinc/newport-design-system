@@ -1,5 +1,4 @@
 // @ts-nocheck
-import { format } from 'builder_platform_interaction/commonUtils';
 import { fetchOnce, SERVER_ACTION_TYPE, getAuraCallback } from 'builder_platform_interaction/serverDataLib';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { getExtensionFieldTypes } from 'builder_platform_interaction/flowExtensionLib';
@@ -27,6 +26,9 @@ import errorTitle from '@salesforce/label/FlowBuilderAlertModal.errorTitle';
 import errorMessage from '@salesforce/label/FlowBuilderAlertModal.errorMessage';
 import errorCode from '@salesforce/label/FlowBuilderAlertModal.errorCode';
 import okayButtonLabel from '@salesforce/label/FlowBuilderAlertModal.okayButtonLabel';
+
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 const { logPerfTransactionEnd, logPerfTransactionStart } = loggingUtils;
 

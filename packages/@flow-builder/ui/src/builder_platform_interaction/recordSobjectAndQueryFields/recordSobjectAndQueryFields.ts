@@ -1,8 +1,9 @@
 import { LightningElement, api, track } from 'lwc';
 import { LABELS } from './recordSobjectAndQueryFieldsLabels';
-import { format } from 'builder_platform_interaction/commonUtils';
 import { getSObjectOrSObjectCollectionFilter } from 'builder_platform_interaction/filterTypeLib';
 import { QUERYABLE_FILTER } from 'builder_platform_interaction/selectors';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 export default class RecordSobjectAndQueryFields extends LightningElement {
     labels = LABELS;

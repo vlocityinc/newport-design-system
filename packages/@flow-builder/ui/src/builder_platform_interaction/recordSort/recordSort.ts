@@ -3,7 +3,8 @@ import { LightningElement, api, track } from 'lwc';
 import { LABELS } from './recordSortLabels';
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
-import { format } from 'builder_platform_interaction/commonUtils';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 const NOT_SORTED_VALUE = SORT_ORDER.NOT_SORTED;
 

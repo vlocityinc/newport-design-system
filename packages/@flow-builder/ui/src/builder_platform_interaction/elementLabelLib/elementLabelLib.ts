@@ -1,10 +1,11 @@
 // @ts-nocheck
-import { format } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './elementLabelLibLabels';
 import { getEntity } from 'builder_platform_interaction/sobjectLib';
 import { FLOW_DATA_TYPE, isComplexType, getDataTypeLabel } from 'builder_platform_interaction/dataTypeLib';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 const SOBJECT_TYPE = FLOW_DATA_TYPE.SOBJECT.value;
 const APEX_TYPE = FLOW_DATA_TYPE.APEX.value;

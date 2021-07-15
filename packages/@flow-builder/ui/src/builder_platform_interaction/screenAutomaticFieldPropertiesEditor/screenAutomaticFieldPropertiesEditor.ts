@@ -8,11 +8,12 @@ import {
     ScreenFieldName,
     TEXT_AREA_MAX_LENGTH
 } from 'builder_platform_interaction/screenEditorUtils';
-import { format } from 'builder_platform_interaction/commonUtils';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { CLASSIC_EXPERIENCE, getPreferredExperience } from 'builder_platform_interaction/contextLib';
 import { getEntity } from 'builder_platform_interaction/sobjectLib';
 import automaticFieldLogicComboboxLabel from '@salesforce/label/FlowBuilderComponentVisibility.automaticFieldLogicComboboxLabel';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 export default class ScreenAutomaticFieldPropertiesEditor extends LightningElement {
     private static INTEGER_NUMBER_VALUES = { integer: 8, scale: 0 };

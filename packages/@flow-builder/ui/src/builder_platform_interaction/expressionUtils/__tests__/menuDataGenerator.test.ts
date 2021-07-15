@@ -23,12 +23,13 @@ import {
     loopOnApexTypeCollectionAutoOutput
 } from 'mock/storeDataScheduleTriggered';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { format } from 'builder_platform_interaction/commonUtils';
 import collectionDataType from '@salesforce/label/FlowBuilderDataTypes.collectionDataType';
 import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
 import { setGlobalVariables, setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
 import { startElement as startElementRecordTriggered } from 'mock/storeDataRecordTriggered';
 import { getStartElementFromState } from 'builder_platform_interaction/storeUtils';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

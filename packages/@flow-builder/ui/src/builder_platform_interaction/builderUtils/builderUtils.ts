@@ -20,11 +20,13 @@ import {
 } from 'builder_platform_interaction/events';
 import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from './builderUtilsLabels';
-import { format, isObject } from 'builder_platform_interaction/commonUtils';
+import { isObject } from 'builder_platform_interaction/commonUtils';
 import { clearExpressions } from 'builder_platform_interaction/expressionValidator';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { isAutoLayoutCanvasEnabled } from 'builder_platform_interaction/contextLib';
 import { invokeModalWithComponents } from 'builder_platform_interaction/sharedUtils';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 /**
  * @constant state of callback result

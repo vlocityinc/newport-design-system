@@ -1,7 +1,8 @@
 // @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { LABELS } from './statusIconSummaryLabels';
-import { format } from 'builder_platform_interaction/commonUtils';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 export default class StatusIconSummary extends LightningElement {
     @api header;

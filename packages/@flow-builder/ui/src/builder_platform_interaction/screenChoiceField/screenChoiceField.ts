@@ -12,7 +12,8 @@ import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { format } from 'builder_platform_interaction/commonUtils';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 /**
  * Wrapper used to represent visual preview of choiced based screen fields, including

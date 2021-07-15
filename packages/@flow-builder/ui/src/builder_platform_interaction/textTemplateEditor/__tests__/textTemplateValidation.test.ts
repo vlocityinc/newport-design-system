@@ -2,7 +2,8 @@
 import { textTemplateValidation, MAX_TEXT_LENGTH } from '../textTemplateValidation';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 import { LABELS } from '../../validationRules/validationRulesLabels';
-import { format } from 'builder_platform_interaction/commonUtils';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 const CANNOT_BE_BLANK_ERROR = LABELS.cannotBeBlank;
 const MAXIMUM_CHARS_LIMIT_ERROR_FORMAT = LABELS.maximumCharactersLimit;

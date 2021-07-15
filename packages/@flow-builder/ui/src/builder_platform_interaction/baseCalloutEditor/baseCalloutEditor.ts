@@ -1,9 +1,10 @@
 // @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { LABELS } from './baseCalloutEditorLabels';
-import { format } from 'builder_platform_interaction/commonUtils';
 import { DynamicTypeMappingChangeEvent } from 'builder_platform_interaction/events';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 export default class BaseCalloutEditor extends LightningElement {
     @track

@@ -2,7 +2,8 @@ import { createElement } from 'lwc';
 import { LABELS, failedToCRUDRecordAbsoluteMatches, failedToCRUDRecordRelativeMatches } from '../debugPanelBodyLabels';
 import DebugPanelBody from '../debugPanelBody';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
-import { format } from 'builder_platform_interaction/commonUtils';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 const createComponentUnderTest = (props = {}) => {
     const element = createElement('builder_platform_interaction-debug-panel-body', { is: DebugPanelBody });

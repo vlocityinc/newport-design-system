@@ -2,7 +2,6 @@
 import { LightningElement, api, track } from 'lwc';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { LABELS, ACTION_TYPE_LABEL } from './invocableActionEditorLabels';
-import { format } from 'builder_platform_interaction/commonUtils';
 import {
     dehydrate,
     getValueFromHydratedItem,
@@ -37,6 +36,8 @@ import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { UpdateNodeEvent } from 'builder_platform_interaction/events';
 import { getAutomaticOutputParameters } from 'builder_platform_interaction/complexTypeLib';
 import { getProcessTypeTransactionControlledActionsSupport } from 'builder_platform_interaction/processTypeLib';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 const { logInteraction } = loggingUtils;
 

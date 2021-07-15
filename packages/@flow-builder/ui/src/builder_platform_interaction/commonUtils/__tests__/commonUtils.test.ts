@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { memoize, escapeForRegExp, isValidNumber, format, sanitizeBoolean, isReference } from '../commonUtils';
+import { memoize, escapeForRegExp, isValidNumber, sanitizeBoolean, isReference } from '../commonUtils';
 
 describe('memoize', () => {
     it('throws an exception if parameter is not a function', () => {
@@ -65,14 +65,6 @@ describe('isValidNumber', () => {
     `('isValidNumber for parameter value: $parameterValue', ({ parameterValue, expected }) => {
         const actual = isValidNumber(parameterValue);
         expect(actual).toBe(expected);
-    });
-});
-
-describe('format', () => {
-    it('returns the string as it is with token (eg: {0}) if no substitution provided', () => {
-        const stringWithToken = 'this was about to be done in: {0}';
-        const actual = format(stringWithToken);
-        expect(actual).toBe(stringWithToken);
     });
 });
 

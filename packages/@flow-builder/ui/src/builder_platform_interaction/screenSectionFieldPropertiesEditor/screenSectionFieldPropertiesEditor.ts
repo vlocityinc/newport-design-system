@@ -3,7 +3,6 @@ import { LightningElement, api } from 'lwc';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 
 import { addCurrentValueToEvent } from 'builder_platform_interaction/screenEditorCommonUtils';
-import { format } from 'builder_platform_interaction/commonUtils';
 import {
     getColumnFieldType,
     hasScreenFieldVisibilityCondition,
@@ -16,6 +15,8 @@ import {
     createColumnWidthChangedEvent
 } from 'builder_platform_interaction/events';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 const MAX_COLUMNS = 4;
 

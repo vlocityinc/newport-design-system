@@ -5,6 +5,7 @@
         "^builder_platform_interaction/autoLayoutCanvas$": "<rootDir>/../auto-layout-canvas/dist/index.dev.js",
         "^builder_platform_interaction/sharedUtils/commands": "<rootDir>/../shared-utils/src/commands",
         "^builder_platform_interaction/sharedUtils/auraUtils": "<rootDir>/../shared-utils/src/auraUtils",
+        "^builder_platform_interaction/sharedUtils/commonUtils": "<rootDir>/../shared-utils/src/commonUtils",
         "^builder_platform_interaction/sharedUtils$": "<rootDir>/../shared-utils/dist/index.esNext.js",
         "^(builder_platform_interaction)/zoomPanel$": "<rootDir>/../ui/src/builder_platform_interaction/zoomPanel/zoomPanel",
         "^(builder_platform_interaction)/sortEditorLib$": "<rootDir>/../ui/src/builder_platform_interaction/sortEditorLib/sortEditorLib",

@@ -1,5 +1,6 @@
 import { LABELS } from './mergeFieldValidationLabels';
-import { format } from 'builder_platform_interaction/commonUtils';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 const VALIDATION_ERROR_TYPE = {
     INVALID_MERGE_FIELD: 'notAValidMergeField',

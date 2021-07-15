@@ -8,7 +8,7 @@ import {
     DeleteRecordFieldAssignmentEvent
 } from 'builder_platform_interaction/events';
 
-const commonUtils = jest.requireActual('builder_platform_interaction/commonUtils');
+const commonUtils = jest.requireActual('builder_platform_interaction/sharedUtils');
 commonUtils.format = jest
     .fn()
     .mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')');

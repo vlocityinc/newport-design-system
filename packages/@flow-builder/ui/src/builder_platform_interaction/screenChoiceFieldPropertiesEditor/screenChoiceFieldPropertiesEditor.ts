@@ -24,10 +24,11 @@ import {
     ChoiceDisplayOptions
 } from 'builder_platform_interaction/screenEditorUtils';
 import { fetchFieldsForEntity, getEntityFieldWithApiName } from 'builder_platform_interaction/sobjectLib';
-import { format, sanitizeDevName } from 'builder_platform_interaction/commonUtils';
+import { sanitizeDevName } from 'builder_platform_interaction/commonUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { updateInlineResourceProperties } from 'builder_platform_interaction/actions';
-import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { loggingUtils, commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 const { logInteraction } = loggingUtils;
 

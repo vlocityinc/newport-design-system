@@ -22,8 +22,6 @@ import {
 import { Store } from 'builder_platform_interaction/storeLib';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
-jest.mock('builder_platform_interaction/sharedUtils');
-
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 const createComponentUnderTest = () => {

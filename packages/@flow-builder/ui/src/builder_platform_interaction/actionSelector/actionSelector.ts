@@ -7,9 +7,10 @@ import { filterMatches } from 'builder_platform_interaction/expressionUtils';
 import { LABELS } from './actionSelectorLabels';
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
 import cannotBeBlank from '@salesforce/label/FlowBuilderValidation.cannotBeBlank';
-import { format } from 'builder_platform_interaction/commonUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { InvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 type ElementActionType = {
     elementType: string;

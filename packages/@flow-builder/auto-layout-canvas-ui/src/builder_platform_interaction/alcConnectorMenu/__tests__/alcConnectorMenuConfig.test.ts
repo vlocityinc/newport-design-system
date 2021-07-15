@@ -74,7 +74,7 @@ describe('connector menu config', () => {
 
     it('goToPath should have the right label', () => {
         expect(configureMenu(metaData, false, true, true, false).sections[0].items[0].label).toBe(
-            `${LABELS.goToPathItemLabel} (WIP)`
+            `${LABELS.goToPathItemLabel}`
         );
     });
 

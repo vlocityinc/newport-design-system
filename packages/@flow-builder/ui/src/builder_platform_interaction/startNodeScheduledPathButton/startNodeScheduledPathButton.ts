@@ -4,8 +4,9 @@ import { LABELS } from './startNodeScheduledPathButtonLabels';
 import { EditElementEvent, ArrowKeyDownEvent } from 'builder_platform_interaction/events';
 import { EDIT_START_SCHEDULED_PATHS } from 'builder_platform_interaction/elementConfig';
 import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
-import { format } from 'builder_platform_interaction/commonUtils';
 import { setupKeyboardShortcutUtil } from 'builder_platform_interaction/contextualMenuUtils';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
 const { KeyboardInteractions } = keyboardInteractionUtils;

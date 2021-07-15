@@ -14,8 +14,7 @@ jest.mock('builder_platform_interaction/storeLib', () => require('builder_platfo
 jest.mock('builder_platform_interaction/commonUtils', () => {
     const actual = jest.requireActual('builder_platform_interaction/commonUtils');
     return {
-        isUndefinedOrNull: actual.isUndefinedOrNull,
-        format: actual.format
+        isUndefinedOrNull: actual.isUndefinedOrNull
     };
 });
 jest.mock('builder_platform_interaction/expressionUtils', () => {

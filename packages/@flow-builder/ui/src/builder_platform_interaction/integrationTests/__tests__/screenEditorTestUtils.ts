@@ -34,11 +34,12 @@ import Row from 'builder_platform_interaction/row';
 
 import { TestComponent } from './testComponent';
 import { ComboboxTestComponent, getSObjectOrSObjectCollectionPickerCombobox } from './comboboxTestUtils';
-import { format } from 'builder_platform_interaction/commonUtils';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import LegalPopover from 'src/builder_platform_interaction/legalPopover/legalPopover';
 import LearnMoreCard from 'builder_platform_interaction/learnMoreCard';
 import FerovResourcePicker from 'builder_platform_interaction/ferovResourcePicker';
 import { LegalPopoverTestComponent } from './integrationTestUtils';
+const { format } = commonUtils;
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,

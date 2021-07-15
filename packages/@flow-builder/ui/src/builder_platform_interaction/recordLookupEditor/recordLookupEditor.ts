@@ -18,12 +18,13 @@ import {
     WAY_TO_STORE_FIELDS,
     VARIABLE_AND_FIELD_MAPPING_VALUES
 } from 'builder_platform_interaction/recordEditorLib';
-import { format } from 'builder_platform_interaction/commonUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     FLOW_AUTOMATIC_OUTPUT_HANDLING,
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 export default class RecordLookupEditor extends LightningElement {
     labels = LABELS;
