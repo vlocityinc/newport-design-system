@@ -385,7 +385,8 @@ export default class RecordLookupEditor extends LightningElement {
         const { item, error } = event.detail;
         const oldRecordEntityName = this.recordEntityName;
         const newRecordEntityName = (item && item.value) || '';
-        if (newRecordEntityName !== oldRecordEntityName) {
+        const oldError = this.state.recordLookupElement.object.error;
+        if (newRecordEntityName !== oldRecordEntityName || error !== oldError) {
             this.updateProperty('object', newRecordEntityName, error, false, oldRecordEntityName);
             this.recordEntityName = newRecordEntityName;
         }

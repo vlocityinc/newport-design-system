@@ -31,7 +31,8 @@ import {
     getRecordFilter,
     getRecordSobjectAndQueryFields,
     getRecordSort,
-    getRecordInputOutputAssignments
+    getRecordInputOutputAssignments,
+    getEntityResourcePickerComponent
 } from './cludEditorTestUtils';
 import {
     expectCanBeTraversed,
@@ -174,13 +175,30 @@ describe('Record Lookup Editor', () => {
             });
         });
         describe('Add new element', () => {
-            it('entity picker should be empty', () => {
+            let recordLookupElement;
+            beforeEach(() => {
                 recordLookupNode = getElementForPropertyEditor({
                     elementType: ELEMENT_TYPE.RECORD_LOOKUP
                 });
-                const recordLookupElement = createComponentForTest(recordLookupNode, AddElementEvent.EVENT_NAME);
-                const entityResourcePicker = getEntityResourcePicker(recordLookupElement);
-                expect(entityResourcePicker.value.displayText).toBeUndefined();
+                recordLookupElement = createComponentForTest(recordLookupNode, AddElementEvent.EVENT_NAME);
+            });
+            describe('entity picker', () => {
+                it('should be empty', () => {
+                    const entityResourcePicker = getEntityResourcePicker(recordLookupElement);
+                    expect(entityResourcePicker.value.displayText).toBeUndefined();
+                });
+                it('should display an error message if no variable is selected', async () => {
+                    const entityResourcePicker = getEntityResourcePickerComponent(recordLookupElement);
+                    await entityResourcePicker.getCombobox().typeLiteralValue('');
+                    expect(entityResourcePicker.getCombobox().validity).toEqual('FlowBuilderValidation.cannotBeBlank');
+                });
+                it('should remove the error when a valid value is selected', async () => {
+                    const entityResourcePicker = getEntityResourcePickerComponent(recordLookupElement);
+                    await entityResourcePicker.getCombobox().typeLiteralValue('');
+                    expect(entityResourcePicker.getCombobox().validity).toEqual('FlowBuilderValidation.cannotBeBlank');
+                    await entityResourcePicker.getCombobox().selectItemBy('text', ['Account']);
+                    expect(entityResourcePicker.getCombobox().validity).toBeNull();
+                });
             });
         });
         describe('Existing element', () => {

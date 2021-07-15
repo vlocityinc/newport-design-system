@@ -122,6 +122,10 @@ export class GroupedComboboxTestComponent extends TestComponent<any> {
         await ticks(50);
         return comboboxItem;
     }
+
+    public get validity(): string | null {
+        return this.element.validity;
+    }
 }
 
 const checkHasNext = (selectedItem, expectedHasNext: boolean) => {

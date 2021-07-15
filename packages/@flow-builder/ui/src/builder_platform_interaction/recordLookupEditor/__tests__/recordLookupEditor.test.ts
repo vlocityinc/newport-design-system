@@ -102,7 +102,11 @@ const entityCaseItemDetailEvent = {
     subTextNoHighlight: 'Case'
 };
 
-const getComboboxStateChangedEvent = (item = entityCaseItemDetailEvent, displayText = 'Account', error = null) =>
+const getComboboxStateChangedEvent = (
+    item: any = entityCaseItemDetailEvent,
+    displayText = 'Account',
+    error: string | null = null
+) =>
     // @ts-ignore
     new ComboboxStateChangedEvent(item, displayText, error);
 
@@ -247,13 +251,24 @@ describe('record-lookup-editor (Process type NOT supporting automatic mode)', ()
         describe('After entity (object) is selected', () => {
             beforeEach(() => {
                 entityResourcePicker = getEntityResourcePicker(recordLookupEditor);
-                entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent());
             });
-            it('check UI - child components displayed or not (snapshot)', () => {
+            it('check UI - child components displayed or not (snapshot)', async () => {
+                entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent());
+                await ticks(1);
                 expect(recordLookupEditor).toMatchSnapshot();
             });
-            it(`entity picker (object) value should be "${entityCaseItemDetailEvent.value}"`, () => {
+            it(`entity picker (object) value should be "${entityCaseItemDetailEvent.value}"`, async () => {
+                entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent());
+                await ticks(1);
                 expect(entityResourcePicker.value).toBe(entityCaseItemDetailEvent.value);
+            });
+            it('should clear error on node.object if any', async () => {
+                entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent(null, '', 'A value is required'));
+                await ticks(1);
+                expect(recordLookupEditor.node.object.error).toBe('A value is required');
+                entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent());
+                await ticks(1);
+                expect(recordLookupEditor.node.object.error).toBeNull();
             });
         });
     });

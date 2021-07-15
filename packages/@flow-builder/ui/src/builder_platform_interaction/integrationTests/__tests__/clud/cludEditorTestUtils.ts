@@ -5,6 +5,7 @@ import {
 } from 'builder_platform_interaction/builderTestUtils';
 import EntityResourcePicker from 'builder_platform_interaction/entityResourcePicker';
 import { ComboboxTestComponent } from '../comboboxTestUtils';
+import { EntityResourcePickerTestComponent } from '../entityResourcePickerTestUtils';
 import { GroupedComboboxTestComponent } from '../groupedComboboxTestUtils';
 
 export const getBaseResourcePickerCombobox = (element) => {
@@ -57,6 +58,11 @@ export const getEntityResourcePickerChildGroupedComboboxComponent = (parentPicke
 export const getEntityResourcePicker = (editor) =>
     editor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.ENTITY_RESOURCE_PICKER) as EntityResourcePicker &
         HTMLElement;
+
+export const getEntityResourcePickerComponent = (editor) =>
+    new EntityResourcePickerTestComponent(
+        deepQuerySelector(editor, [INTERACTION_COMPONENTS_SELECTORS.ENTITY_RESOURCE_PICKER])
+    );
 
 export const getRecordStoreOption = (editor) =>
     editor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_STORE_OPTION);

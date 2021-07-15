@@ -126,6 +126,10 @@ export class ComboboxTestComponent extends TestComponent<Combobox> {
         } while (value);
         return result;
     }
+
+    public get validity(): string | null {
+        return this.getGroupedCombobox().validity;
+    }
 }
 
 declare global {
