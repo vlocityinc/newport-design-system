@@ -24,6 +24,7 @@ import {
 } from 'builder_platform_interaction/autoLayoutCanvas';
 
 import { ToggleMenuEvent } from 'builder_platform_interaction/alcEvents';
+import { PrivateItemRegisterEvent } from 'builder_platform_interaction/alcEvents';
 
 export interface AutoLayoutCanvasContext {
     isPasteAvailable: boolean;
@@ -602,6 +603,15 @@ export function getMenuStyle(detail, containerElementGeometry, menuButtonHalfWid
           });
 }
 
+/**
+ * Dispatches a privateitemregister event to register a child component with its parent
+ *
+ * @param component The component to register
+ * @event privateitemregister always dispatched
+ */
+export function dispatchPrivateItemRegister(component) {
+    component.dispatchEvent(new PrivateItemRegisterEvent(component));
+}
 /**
  * Creates an object with the properties needed to render the node + connector menus
  *

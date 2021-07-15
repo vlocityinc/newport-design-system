@@ -16,6 +16,7 @@ import { LOOP_BACK_INDEX, NodeType } from 'builder_platform_interaction/autoLayo
 import { LABELS } from './alcNodeMenuLabels';
 import { keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import { moveFocusInMenuOnArrowKeyDown } from 'builder_platform_interaction/contextualMenuUtils';
+
 const { KeyboardInteractions } = keyboardInteractionUtils;
 
 const selectors = {
@@ -39,6 +40,8 @@ enum TabFocusRingItemsInDeleteMode {
     Combobox = 2,
     Footer = 3
 }
+
+// TODO: W-9581892 Make alcNodeMenu use the popover component
 
 /**
  * The node menu overlay, displayed when clicking on a node.
@@ -244,6 +247,14 @@ export default class AlcNodeMenu extends Menu {
             );
         }
     };
+
+    /**
+     * Closes the menu and moves the focus back to the element icon
+     */
+    handleEscape() {
+        super.handleEscape();
+        this.dispatchEvent(new MoveFocusToNodeEvent(this.guid));
+    }
 
     /**
      * Helper function to move the focus correctly when using arrow keys in the contextual menu

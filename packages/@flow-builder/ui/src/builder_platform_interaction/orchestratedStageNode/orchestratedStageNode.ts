@@ -5,17 +5,18 @@ import { StageStep } from 'builder_platform_interaction/elementFactory';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { NodeRenderInfo } from 'builder_platform_interaction/autoLayoutCanvas';
 import { LABELS } from './orchestratedStageNodeLabels';
-import { setupKeyboardShortcutUtil } from 'builder_platform_interaction/contextualMenuUtils';
-import { commands, keyboardInteractionUtils, commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { addKeyboardShortcuts, Keys } from 'builder_platform_interaction/contextualMenuUtils';
+import { commands } from 'builder_platform_interaction/sharedUtils';
+
 const { format } = commonUtils;
 
-const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
-const { KeyboardInteractions } = keyboardInteractionUtils;
+const { ArrowDown, ArrowUp } = commands;
 
 const selectors = {
     stepItem: 'div[role="option"]',
-    addStepItemButton: 'button.add-item',
-    deleteStepItemButton: 'button.delete-item'
+    deleteStepItemButton: 'button.delete-item',
+    triggerButton: 'button[role="popover-trigger"]'
 };
 
 export default class OrchestratedStageNode extends LightningElement {
@@ -40,8 +41,6 @@ export default class OrchestratedStageNode extends LightningElement {
     get items() {
         return this.computeStepItems(this._items);
     }
-
-    private showStepMenuHideAddItem = false;
 
     @api
     isDefaultMode?: boolean;
@@ -75,26 +74,53 @@ export default class OrchestratedStageNode extends LightningElement {
     }
 
     /**
+     * Helper function for resizing the node depending upon whether
+     * the popover is open; fires a NodeResizeEvent accordingly.
+     */
+    resize() {
+        const node = this.template.querySelector('div');
+        const rect = node.getBoundingClientRect();
+
+        let totalWidth = rect.width;
+        let totalHeight = rect.height;
+
+        const popover = this.template.querySelector('.content');
+
+        // add extra width + height for the popover if any
+        if (popover) {
+            const popoverRect = popover.getBoundingClientRect();
+            totalWidth += popoverRect.width;
+
+            // TODO: cleanup this up, 16 is the half icon size
+            totalHeight += popoverRect.height - 16;
+        }
+
+        // Only fire the event if the height or width have changed
+        if ((this.width !== totalWidth || this.height !== totalHeight) && this.node != null) {
+            this.width = totalWidth;
+            this.height = totalHeight;
+
+            const event = new NodeResizeEvent(this.node.guid, totalWidth, totalHeight);
+            this.dispatchEvent(event);
+        }
+    }
+
+    /**
      * Fires a NodeResizeEvent if the dimensions change after rendering
      */
     renderedCallback() {
         const node: HTMLElement = this.template.querySelector('div');
 
         if (node && this.node) {
-            const rect: DOMRect = node.getBoundingClientRect();
-
-            // Only fire the event if the height or width have changed
-            if (rect.width !== this.width || rect.height !== this.height) {
-                this.width = rect.width;
-                this.height = rect.height;
-                const event = new NodeResizeEvent(this.node.guid, this.width, this.height);
-                this.dispatchEvent(event);
-            }
+            this.resize();
         }
     }
 
-    connectedCallback() {
-        this.setupCommandsAndShortcuts();
+    /**
+     * Resizes when the the popover is toggled
+     */
+    handlePopoverToggled() {
+        this.resize();
     }
 
     /**
@@ -125,8 +151,6 @@ export default class OrchestratedStageNode extends LightningElement {
                 this.handleOpenItemPropertyEditor(undefined, currentItemInFocus);
             } else if (deleteItemButtons.includes(currentItemInFocus)) {
                 this.handleDeleteItem(undefined, currentItemInFocus);
-            } else if (currentItemInFocus === this.template.querySelector(selectors.addStepItemButton)) {
-                this.handleOpenStepMenu();
             }
         }
     }
@@ -242,48 +266,30 @@ export default class OrchestratedStageNode extends LightningElement {
         }
     }
 
-    /**
-     * Helper function used for mapping component level key actions to their handlers
-     */
-    setupCommandsAndShortcuts() {
-        this.keyboardInteractions = new KeyboardInteractions();
-        this.keyboardInteractions.addKeyDownEventListener(this.template);
+    connectedCallback() {
+        this.keyboardInteractions = addKeyboardShortcuts(this, [
+            { key: Keys.Enter, handler: () => this.handleEnterOrSpaceKey() },
+            { key: Keys.Space, handler: () => this.handleEnterOrSpaceKey() },
+            { key: Keys.ArrowUp, handler: () => this.handleArrowKeys(ArrowUp.COMMAND_NAME) },
+            { key: Keys.ArrowDown, handler: () => this.handleArrowKeys(ArrowDown.COMMAND_NAME) }
+        ]);
+    }
 
-        const keyboardCommands = {
-            ArrowDown: new ArrowDown(() => this.handleArrowKeys(ArrowDown.COMMAND_NAME)),
-            ArrowUp: new ArrowUp(() => this.handleArrowKeys(ArrowUp.COMMAND_NAME)),
-            Enter: new EnterCommand(() => this.handleEnterOrSpaceKey()),
-            ' ': new SpaceCommand(() => this.handleEnterOrSpaceKey())
+    disconnectedCallback() {
+        this.keyboardInteractions.removeKeyDownEventListener(this.template);
+    }
+
+    get popoverLabelInfo() {
+        return {
+            open: LABELS.cancelButton,
+            close: LABELS.addNewStageStep
         };
-
-        setupKeyboardShortcutUtil(this.keyboardInteractions, keyboardCommands);
     }
 
-    /**
-     * Show the step menu when the Add New Step button is clicked
-     *
-     * @param event - the mouse event upon the 'Add New Step' button
-     */
-    handleOpenStepMenu(event?: MouseEvent) {
-        if (event) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
-
-        this.showStepMenuHideAddItem = true;
-    }
-
-    /**
-     * Hide the step menu when the Cancel button is clicked
-     *
-     * @param event - the mouse event upon the Step Menu's 'Cancel' button
-     */
-    handleCloseStepMenu(event?: MouseEvent) {
-        if (event) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
-
-        this.showStepMenuHideAddItem = false;
+    get popoverIconInfo() {
+        return {
+            open: 'utility:close',
+            close: 'utility:add'
+        };
     }
 }

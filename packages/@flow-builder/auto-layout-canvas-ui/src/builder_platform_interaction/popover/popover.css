@@ -1,0 +1,14 @@
+.content {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: var(--z-index-popover);
+}
+
+.content.inline {
+    position: relative;
+}
+
+.container {
+    position: relative;
+}

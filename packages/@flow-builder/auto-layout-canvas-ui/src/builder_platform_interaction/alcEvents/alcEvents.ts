@@ -19,3 +19,6 @@ export { DeleteGoToConnectionEvent } from './deleteGoToConnectionEvent';
 export { DeleteBranchElementEvent } from './deleteBranchElementEvent';
 export { TabOnMenuTriggerEvent } from './tabOnMenuTriggerEvent';
 export { FocusOutEvent } from './focusOutEvent';
+export { PopoverTriggerEvent } from './popoverTriggerEvent';
+export { PopoverToggledEvent } from './popoverToggledEvent';
+export { PrivateItemRegisterEvent } from './privateItemRegisterEvent';

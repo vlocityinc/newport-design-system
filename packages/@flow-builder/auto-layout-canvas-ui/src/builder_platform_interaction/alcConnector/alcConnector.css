@@ -1,6 +1,6 @@
 svg {
     position: absolute;
-    z-index: -1;
+    z-index: var(--z-index-alc-connector-svg);
     fill: none;
     stroke: var(--lwc-colorGray6);
     stroke-width: 6;
@@ -14,7 +14,7 @@ svg.fault {
 
 svg.connector-to-be-deleted {
     stroke: var(--lwc-colorBorderError);
-    z-index: 0;
+    z-index: var(--z-index-alc-connector-to-be-deleted);
 }
 
 svg.fault.connector-to-be-deleted {
@@ -30,7 +30,7 @@ svg.goTo {
 svg.connector-highlighted {
     stroke: #ffb75d;
     stroke-width: 6;
-    z-index: 0;
+    z-index: var(--z-index-alc-connector-highlighted);
 }
 
 svg.fault.connector-highlighted {

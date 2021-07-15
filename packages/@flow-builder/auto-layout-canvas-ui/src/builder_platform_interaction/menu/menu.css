@@ -1,6 +1,6 @@
 .menu {
     position: absolute;
-    z-index: 100;
+    z-index: var(--z-index-menu);
     transform: translateX(-50%);
     background-color: #fff;
     border-radius: 4px;

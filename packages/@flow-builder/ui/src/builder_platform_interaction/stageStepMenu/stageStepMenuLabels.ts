@@ -1,6 +1,5 @@
+import steps from '@salesforce/label/FlowBuilderElementConfig.stepPluralLabel';
 import cancelButton from '@salesforce/label/FlowBuilderStageStepMenu.cancelButton';
-import automaticSubsectionHeader from '@salesforce/label/FlowBuilderStageStepMenu.automaticSubsectionHeader';
-import userInteractionSubsectionHeader from '@salesforce/label/FlowBuilderStageStepMenu.userInteractionSubsectionHeader';
 import workStep from '@salesforce/label/FlowBuilderStageStepMenu.workStep';
 import autolaunchedStep from '@salesforce/label/FlowBuilderStageStepMenu.autolaunchedStep';
 import autolaunchedStepDescription from '@salesforce/label/FlowBuilderStageStepMenu.autolaunchedStepDescription';
@@ -8,9 +7,8 @@ import workStepDescription from '@salesforce/label/FlowBuilderStageStepMenu.work
 import addStepButton from '@salesforce/label/FlowBuilderStageStepMenu.addStepButton';
 
 export const LABELS = {
+    steps,
     cancelButton,
-    automaticSubsectionHeader,
-    userInteractionSubsectionHeader,
     workStep,
     autolaunchedStep,
     autolaunchedStepDescription,

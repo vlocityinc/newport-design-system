@@ -1,4 +1,5 @@
 declare module 'aura';
+declare module 'builder_framework/command';
 
 interface InvokeModalData {
     modalClass?: string;

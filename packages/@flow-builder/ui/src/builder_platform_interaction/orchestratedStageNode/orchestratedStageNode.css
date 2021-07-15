@@ -96,7 +96,22 @@ h3 {
     overflow: hidden;
 }
 
-.add-item {
+builder_platform_interaction-popover {
     width: -webkit-fill-available;
     width: -moz-available;
+    text-align: center;
+}
+
+.content {
+    position: relative;
+    border: var(--lwc-borderWidthThin) solid var(--lwc-colorBorder);
+    margin: 0 5px;
+    margin-top: -1.5rem;
+    margin-bottom: 5px;
+}
+
+.trigger {
+    /* TODO: need centralized z-index management */
+    z-index: 1;
+    position: relative;
 }

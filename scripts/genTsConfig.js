@@ -35,6 +35,8 @@ ${pathPropertyIndent()}"lightning/utils": ["../../../node_modules/lwc-components
 ${pathPropertyIndent()}"builder_platform_interaction/autoLayoutCanvas": ["../auto-layout-canvas/dist/types/index.d.js"],
 ${pathPropertyIndent()}"builder_platform_interaction/sharedUtils": ["../shared-utils/dist/types/index.d.js"],
 ${pathPropertyIndent()}"builder_platform_interaction/alcEvents": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcEvents/alcEvents.ts"],
+${pathPropertyIndent()}"builder_platform_interaction/popover": ["../auto-layout-canvas-ui/src/builder_platform_interaction/popover/popover.ts"],
+${pathPropertyIndent()}"builder_platform_interaction/popoverTrigger": ["../auto-layout-canvas-ui/src/builder_platform_interaction/popoverTrigger/popoverTrigger.ts"],
 ${pathPropertyIndent()}"builder_platform_interaction/contextualMenuUtils": ["../auto-layout-canvas-ui/src/builder_platform_interaction/contextualMenuUtils/contextualMenuUtils.ts"],
 ${pathPropertyIndent()}"builder_platform_interaction/menu": ["../auto-layout-canvas-ui/src/builder_platform_interaction/menu/menu.ts"],
 ${pathPropertyIndent()}"builder_platform_interaction/alcComponentsUtils": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcComponentsUtils/alcComponentsUtils.ts"],

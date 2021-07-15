@@ -1,9 +1,6 @@
 import { api, LightningElement } from 'lwc';
 import { classSet } from 'lightning/utils';
 
-// TODO: need to fix this
-// import { handleKeyDownOnMenuItem, handleKeyDownOnMenuTrigger } from './keyboard';
-
 import {
     ToggleMenuEvent,
     MenuPositionUpdateEvent,

@@ -1,88 +1,47 @@
 <template>
-    <div class="cancel">
-        <button onclick={handleCloseStepMenu} class="slds-button slds-button_neutral">
-            <lightning-icon
-                icon-name="utility:close"
-                class="slds-button__icon_left slds-current-color slds-m-right_x-small"
-                size="xx-small"
-            ></lightning-icon>
-            {labels.cancelButton}
-        </button>
-    </div>
-    <div class="header">
-        <slot class="header" name="header">
-            <div slot="header" class="slds-border_bottom slds-dropdown__header slds-truncate" role="separator">
-                <h3 class="slds-m-vertical_small slds-text-heading_small">{labels.addStepButton}</h3>
-            </div>
-        </slot>
-    </div>
-    <div slot="body" class="slds-scrollable_y body-fixed-height">
-        <ul aria-label="Automatic" class="slds-listbox slds-listbox_vertical" role="group">
-            <li class="slds-dropdown__header" role="separator" title="Automatic">
-                <span>{labels.automaticSubsectionHeader}</span>
-            </li>
-            <div>
-                <li class="slds-listbox__item" action="stepBackground" role="presentation" onclick={handleAddStageStep}>
-                    <div
-                        class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
-                        role="option"
-                        tabindex="0"
-                    >
-                        <span class="slds-icon_container">
-                            <lightning-icon
-                                icon-name="standard:flow"
-                                size="medium"
-                                class="slds-float_left slds-m-right_small background-step-icon"
-                                variant="inverse"
-                            ></lightning-icon>
-                        </span>
-                        <span class="slds-media__body">
-                            <span class="slds-listbox__option-text slds-listbox__option-text_entity">
-                                {labels.autolaunchedStep}
-                            </span>
-                            <span class="slds-listbox__option-meta slds-listbox__option-meta_entity slds-truncate">
-                                {labels.autolaunchedStepDescription}
-                            </span>
-                        </span>
-                    </div>
-                </li>
-            </div>
-        </ul>
-        <ul aria-label="User Interaction" class="slds-listbox slds-listbox_vertical" role="group">
-            <li class="slds-dropdown__header" role="separator" title="User Interaction">
-                <span>{labels.userInteractionSubsectionHeader}</span>
-            </li>
-            <div>
-                <li
-                    class="slds-listbox__item"
-                    action="stepInteractive"
-                    role="presentation"
-                    onclick={handleAddStageStep}
-                >
-                    <div
-                        class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
-                        role="option"
-                        tabindex="0"
-                    >
-                        <span class="slds-icon_container">
-                            <lightning-icon
-                                icon-name="standard:work_order_item"
-                                size="medium"
-                                class="slds-float_left slds-m-right_small background-step-icon"
-                                variant="inverse"
-                            ></lightning-icon>
-                        </span>
-                        <span class="slds-media__body">
-                            <span class="slds-listbox__option-text slds-listbox__option-text_entity">
-                                {labels.workStep}
-                            </span>
-                            <span class="slds-listbox__option-meta slds-listbox__option-meta_entity slds-truncate">
-                                {labels.workStepDescription}
-                            </span>
-                        </span>
-                    </div>
-                </li>
-            </div>
-        </ul>
-    </div>
+    <builder_platform_interaction-alc-menu>
+        <div slot="header" class="slds-border_bottom slds-dropdown__header slds-truncate" role="separator">
+            <h3 class="slds-m-vertical_small slds-text-heading_small">{labels.addStepButton}</h3>
+        </div>
+        <div slot="body" class="slds-scrollable_y body body-fixed-height">
+            <template for:each={menuConfiguration.sections} for:item="section">
+                <ul key={section.guid} class="slds-listbox slds-listbox_vertical" role="group">
+                    <li class="slds-dropdown__header" role="separator" title="Automatic">
+                        <span>{section.header}</span>
+                    </li>
+                    <template for:each={section.items} for:item="item">
+                        <div key={item.guid}>
+                            <li class="slds-listbox__item" action="orchestratorAutolaunchedFlow" role="presentation">
+                                <div
+                                    class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                    role="option"
+                                    tabindex="0"
+                                    onclick={handleSelectMenuItem}
+                                >
+                                    <span class="slds-icon_container push-icon-down">
+                                        <lightning-icon
+                                            icon-name={item.iconName}
+                                            size={item.iconSize}
+                                            class="slds-float_left slds-m-right_small background-step-icon"
+                                            variant={item.iconVariant}
+                                        ></lightning-icon>
+                                    </span>
+                                    <span class="slds-media__body">
+                                        <span class="slds-listbox__option-text slds-listbox__option-text_entity">
+                                            {item.label}
+                                        </span>
+                                        <span
+                                            class="slds-listbox__option-meta slds-listbox__option-meta_entity slds-truncate"
+                                        >
+                                            {item.description}
+                                        </span>
+                                    </span>
+                                </div>
+                            </li>
+                        </div>
+                    </template>
+                </ul>
+            </template>
+        </div>
+    </builder_platform_interaction-alc-menu>
 </template>

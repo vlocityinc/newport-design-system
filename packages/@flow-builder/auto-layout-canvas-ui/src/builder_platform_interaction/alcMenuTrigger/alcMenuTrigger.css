@@ -62,7 +62,7 @@ button.connector:focus {
 }
 
 :host(.slds-is-open) {
-    z-index: 10;
+    z-index: var(--z-index-alc-menu-trigger-open);
 }
 
 :host(.slds-is-open) button.connector {

@@ -13,6 +13,8 @@ enum ConditionOptions {
     NO_PATH = 'NO_PATH'
 }
 
+const DYNAMIC_COMPONENT_SELECTOR = 'dynamic-component';
+
 /**
  * Autolayout Canvas Node Component
  */
@@ -24,6 +26,8 @@ export default class AlcNode extends LightningElement {
 
     // @ts-ignore
     private dynamicNodeData: NodeModel;
+
+    private expanded = false;
 
     /**
      * The active element refers to the element currently being edited using the property editor panel
@@ -145,7 +149,7 @@ export default class AlcNode extends LightningElement {
      */
     get iconContainerClasses() {
         let vClassSet = classSet('icon-container').add({
-            'menu-opened': this.nodeInfo.menuOpened
+            'menu-opened': this.nodeInfo.menuOpened || this.expanded
         });
 
         if (this.nodeInfo.config.isHighlighted) {
@@ -160,6 +164,12 @@ export default class AlcNode extends LightningElement {
         }
 
         return vClassSet.toString();
+    }
+
+    get dynamicNodeClasses() {
+        return classSet(DYNAMIC_COMPONENT_SELECTOR).add({
+            expanded: this.expanded
+        });
     }
 
     get isShifted() {
@@ -276,4 +286,13 @@ export default class AlcNode extends LightningElement {
         );
         this.dispatchEvent(toggleNodeSelectionEvent);
     };
+
+    /**
+     * Handles the toggling of the popover menu component.
+     *
+     * @param event - the event fired when popover toggled
+     */
+    handlePopoverToggled(event) {
+        this.expanded = event.detail.opened;
+    }
 }

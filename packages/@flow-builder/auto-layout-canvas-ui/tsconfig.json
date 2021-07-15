@@ -31,9 +31,10 @@
             "builder_platform_interaction/alcMenu": ["./builder_platform_interaction/alcMenu/alcMenu.ts"],
             "builder_platform_interaction/alcNode": ["./builder_platform_interaction/alcNode/alcNode.ts"],
             "builder_platform_interaction/alcNodeMenu": ["./builder_platform_interaction/alcNodeMenu/alcNodeMenu.ts"],
-            "builder_platform_interaction/menu": ["./builder_platform_interaction/menu/menu.ts"]
+            "builder_platform_interaction/menu": ["./builder_platform_interaction/menu/menu.ts"],
+            "builder_platform_interaction/popover": ["./builder_platform_interaction/popover/popover.ts"]
          }
     },
 
-    "include": ["src/**/*", "@types", "../ui/@types/uiModel.d.ts","../ui/@types/metadataModel.d.ts", "../shared-utils/@types/index.d.ts"] 
+    "include": ["src/**/*", "@types", "../ui/@types/uiModel.d.ts","../ui/@types/metadataModel.d.ts", "../shared-utils/@types/index.d.ts"]
 }

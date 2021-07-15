@@ -70,15 +70,13 @@
 .icon-container {
     position: relative;
 
-    transform: translate(
-        calc(var(--node-icon-half-width-with-padding) * -1),
-        calc(var(--node-icon-half-width-with-padding) * -1)
-    );
-    z-index: 1;
+    top: calc(var(--node-icon-half-width-with-padding) * -1);
+    left: calc(var(--node-icon-half-width-with-padding) * -1);
+    z-index: var(--z-index-alc-node-icon-container);
 }
 
 .icon-container.menu-opened {
-    z-index: 10;
+    z-index: var(--z-index-alc-node-icon-container-menu-opened);
 }
 
 .highlighted-container .text-container > div {
@@ -115,6 +113,11 @@
     position: absolute;
     top: 0;
     transform: translateX(-50%);
+    z-index: var(--z-index-alc-node-dynamic-component);
+}
+
+.dynamic-component.expanded {
+    z-index: var(--z-index-alc-node-dynamic-component-expanded);
 }
 
 .background-pink {

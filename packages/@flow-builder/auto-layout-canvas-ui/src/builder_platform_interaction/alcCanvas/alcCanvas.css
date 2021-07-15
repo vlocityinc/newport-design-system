@@ -11,6 +11,23 @@
     --node-icon-half-width-with-padding: calc(var(--node-icon-width-with-padding) / 2);
     --node-icon-half-height-with-padding: calc(var(--node-icon-height-with-padding) / 2);
     overflow: hidden;
+
+    /* TODO: W-9582142: Group, clean up and rationalize the the z-index number assignments   */
+    --z-index-alc-connector-svg: -1;
+    --z-index-alc-node-dynamic-component: 1;
+    --z-index-alc-node-icon-container: 2;
+    --z-index-alc-node-dynamic-component-expanded: 9;
+    /*--z-index-popover: 10; */
+    --z-index-alc-menu-trigger-open: 20;
+    --z-index-alc-node-icon-container-menu-opened: 20;
+    --z-index-menu: 100;
+
+    --z-index-alc-connector-to-be-deleted: 0;
+    --z-index-alc-connector-highlighted: 0;
+
+    --z-index-alc-canvas-canvas-overlay: 99999;
+    --z-index-alc-canvas-menu: 15;
+    --z-index-alc-canvas-menu-container-full-opacity: 15;
 }
 
 .canvas-overlay {
@@ -19,12 +36,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 99999;
-}
-
-.menu {
-    position: absolute;
-    z-index: 1;
+    z-index: var(--z-index-alc-canvas-canvas-overlay);
 }
 
 .hidden {
@@ -55,7 +67,7 @@ builder_platform_interaction-zoom-panel {
 
 .menu {
     position: absolute;
-    z-index: 5;
+    z-index: var(--z-index-alc-canvas-menu);
 }
 
 .overlay {
@@ -66,7 +78,7 @@ builder_platform_interaction-zoom-panel {
 .menu-container.full-opacity {
     opacity: 1;
     transition: opacity 0.1s ease;
-    z-index: 1;
+    z-index: var(--z-index-alc-canvas-menu-container-full-opacity);
 }
 
 .menu-container {

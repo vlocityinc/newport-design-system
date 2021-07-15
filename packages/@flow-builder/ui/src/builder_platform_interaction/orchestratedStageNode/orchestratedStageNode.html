@@ -51,22 +51,20 @@
                         </div>
                     </template>
                 </div>
-                <button
-                    if:false={showStepMenuHideAddItem}
-                    onclick={handleOpenStepMenu}
-                    class="slds-m-horizontal_small slds-button slds-button_neutral slds-m-bottom_small slds-m-top_medium add-item"
-                >
-                    <lightning-icon
-                        icon-name="utility:add"
-                        class="slds-button__icon_left slds-current-color slds-m-right_x-small"
-                        size="xx-small"
-                    ></lightning-icon>
-                    {labels.addNewStageStep}
-                </button>
-                <builder_platform_interaction-stage-step-menu
-                    if:true={showStepMenuHideAddItem}
-                    node={node}
-                ></builder_platform_interaction-stage-step-menu>
+
+                <builder_platform_interaction-popover onpopovertoggled={handlePopoverToggled}>
+                    <div slot="trigger" class="trigger">
+                        <builder_platform_interaction-popover-trigger
+                            label-info={popoverLabelInfo}
+                            icon-info={popoverIconInfo}
+                        ></builder_platform_interaction-popover-trigger>
+                    </div>
+                    <div slot="content" class="content">
+                        <builder_platform_interaction-stage-step-menu
+                            node={node}
+                        ></builder_platform_interaction-stage-step-menu>
+                    </div>
+                </builder_platform_interaction-popover>
             </div>
         </div>
     </div>

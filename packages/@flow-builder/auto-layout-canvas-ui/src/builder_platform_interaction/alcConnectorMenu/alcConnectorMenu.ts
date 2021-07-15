@@ -3,7 +3,6 @@ import { Guid, ElementMetadata } from 'builder_platform_interaction/autoLayoutCa
 import { api } from 'lwc';
 import { AddElementEvent } from 'builder_platform_interaction/events';
 import {
-    CloseMenuEvent,
     PasteOnCanvasEvent,
     MoveFocusToConnectorEvent,
     GoToPathEvent,
@@ -19,18 +18,15 @@ import {
 } from './alcConnectorMenuConfig';
 import { LABELS } from './alcConnectorMenuLabels';
 import { keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
-import { moveFocusInMenuOnArrowKeyDown } from 'builder_platform_interaction/contextualMenuUtils';
-const { KeyboardInteractions } = keyboardInteractionUtils;
 
-const selectors = {
-    menuItem: 'div[role="option"]',
-    alcMenu: 'builder_platform_interaction-alc-menu'
-};
+const { KeyboardInteractions } = keyboardInteractionUtils;
 
 enum TabFocusRingItems {
     Icon = 0,
     ListItems = 1
 }
+
+// TODO: W-9581902: Make alcConnectorMenu use the popover component
 
 /**
  * The connector menu overlay. It is displayed when clicking on a connector.
@@ -72,12 +68,6 @@ export default class AlcConnectorMenu extends Menu {
     @api
     keyboardInteractions;
 
-    @api
-    moveFocus = () => {
-        this.tabFocusRingIndex = TabFocusRingItems.Icon;
-        this.handleTabCommand(false);
-    };
-
     get menuConfiguration() {
         return configureMenu(
             this.elementsMetadata,
@@ -99,18 +89,19 @@ export default class AlcConnectorMenu extends Menu {
     }
 
     /**
-     * Menu item action behaviour dependent on yjr attributes of the selected element
+     * Menu item action behaviour dependent on the attributes of the selected element
      *
-     * @param currentTarget
+     * @param currentTarget the HTML element selected in the menu
      */
     doSelectMenuItem(currentTarget: HTMLElement) {
-        this.dispatchEvent(new CloseMenuEvent());
+        super.doSelectMenuItem(currentTarget);
+
         const action = currentTarget.getAttribute('data-value');
 
         switch (action) {
             case PASTE_ACTION:
                 this.dispatchEvent(new PasteOnCanvasEvent(this.prev, this.next, this.parent, this.childIndex));
-                this.dispatchEvent(new MoveFocusToConnectorEvent(this.prev || this.parent, this.childIndex));
+                this.moveFocusToConnector();
                 break;
             case GOTO_ACTION:
                 this.dispatchEvent(
@@ -150,67 +141,24 @@ export default class AlcConnectorMenu extends Menu {
     }
 
     /**
-     * Item selected via mouse click.  Does not propagate
-     *
-     * @param event
+     * Moves the focus back to the connector trigger
      */
-    handleSelectMenuItem(event) {
-        event.stopPropagation();
-        this.doSelectMenuItem(event.currentTarget);
-    }
-
-    getItemFromItemList(index) {
-        const listItems = Array.from(this.template.querySelectorAll(selectors.menuItem)) as HTMLElement[];
-        return listItems && listItems[index];
-    }
-
-    moveFocusToFirstListItem() {
-        const firstRowItem = this.getItemFromItemList(0);
-        firstRowItem.focus();
-    }
-
-    /**
-     * Helper function to move the focus correctly when using arrow keys in the contextual menu
-     *
-     * @param key - the key pressed (arrowDown or arrowUp)
-     */
-    handleArrowKeyDown(key) {
-        const currentItemInFocus = this.template.activeElement;
-        if (currentItemInFocus) {
-            const items = Array.from(this.template.querySelectorAll(selectors.menuItem)) as HTMLElement[];
-            moveFocusInMenuOnArrowKeyDown(items, currentItemInFocus, key);
-        }
-    }
-
-    /**
-     * Helper function used during keyboard commands
-     */
-    handleSpaceOrEnter() {
-        const currentItemInFocus = this.template.activeElement;
-        if (currentItemInFocus) {
-            this.doSelectMenuItem(currentItemInFocus.parentElement);
-        }
-    }
-
-    handleEscape() {
-        this.dispatchEvent(new CloseMenuEvent());
+    moveFocusToConnector() {
         this.dispatchEvent(new MoveFocusToConnectorEvent(this.prev || this.parent, this.childIndex));
+    }
+
+    /**
+     * Closes the menu and moves the focus back to the connector trigger
+     */
+    handleEscape() {
+        super.handleEscape();
+        this.moveFocusToConnector();
     }
 
     tabFocusRingCmds = [
         // focus on the connector icon
-        () => this.dispatchEvent(new MoveFocusToConnectorEvent(this.prev || this.parent, this.childIndex)),
+        () => this.moveFocusToConnector(),
         // focus on the first item
         () => this.moveFocusToFirstListItem()
     ];
-
-    renderedCallback() {
-        if (this.moveFocusToMenu) {
-            const items = Array.from(this.template.querySelectorAll(selectors.menuItem)) as HTMLElement[];
-            if (items.length > 0) {
-                this.tabFocusRingIndex = TabFocusRingItems.ListItems;
-                this.tabFocusRingCmds[this.tabFocusRingIndex]();
-            }
-        }
-    }
 }

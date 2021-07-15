@@ -28,9 +28,6 @@ enum TabFocusRingItems {
 
 export default class AlcStartMenu extends AlcNodeMenu {
     @api
-    moveFocusToMenu;
-
-    @api
     startData;
 
     @api
@@ -182,6 +179,7 @@ export default class AlcStartMenu extends AlcNodeMenu {
     ];
 
     setupCommandsAndShortcuts() {
+        // TODO @W-9582167: Use addKeyboardShortcuts
         const keyboardCommands = {
             Tab: new TabCommand(() => this.handleTabCommand(false), false),
             Escape: new EscapeCommand(() => this.handleEscape())

@@ -1,5 +1,5 @@
-// @ts-nocheck
 import { CommandRegistry, KeyboardShortcutServiceImpl } from 'builder_framework/command';
+import { BaseCommand } from '../commands/baseCommand';
 
 export class KeyboardInteractions {
     commandRegistry;
@@ -10,23 +10,23 @@ export class KeyboardInteractions {
         this.keyboardService = new KeyboardShortcutServiceImpl(this.commandRegistry);
     }
 
-    keydownListener = (event) => {
+    keydownListener = (event: Event) => {
         this.keyboardService.handleKeydown(event);
     };
 
-    addKeyDownEventListener(template) {
+    addKeyDownEventListener(template: Element) {
         template.addEventListener('keydown', this.keydownListener);
     }
 
-    removeKeyDownEventListener(template) {
+    removeKeyDownEventListener(template: Element) {
         template.removeEventListener('keydown', this.keydownListener);
     }
 
-    setupCommandAndShortcut(command, shortcutKeys) {
+    setupCommandAndShortcut(command: BaseCommand, shortcut: string) {
         this.commandRegistry.registerCommands([command]);
         this.keyboardService.registerShortcuts([
             {
-                shortcut: shortcutKeys,
+                shortcut,
                 commandId: command.id
             }
         ]);
