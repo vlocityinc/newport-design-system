@@ -210,6 +210,10 @@ export default class FlowPropertiesEditor extends LightningElement {
         return LABELS.overridableFlowHelpText;
     }
 
+    get showNewFlowOverrideBanner() {
+        return this._isOverridable || this._isTemplate;
+    }
+
     /**
      * Finds a closest process type entry matching by process type and trigger type.
      */
@@ -289,6 +293,10 @@ export default class FlowPropertiesEditor extends LightningElement {
             return 1;
         }
         return 0;
+    }
+
+    get newFlowOverrideBannerLabel() {
+        return LABELS.newFlowOverrideBannerLabel;
     }
 
     get showSaveAsTypePicker() {

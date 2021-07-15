@@ -28,6 +28,7 @@ import overridableCheckHelpText from '@salesforce/label/FlowBuilderFlowPropertie
 import overridableFlowLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.overridableFlowLabel';
 import overridableFlowPlaceholderLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.overridableFlowPlaceholderLabel';
 import overridableFlowHelpText from '@salesforce/label/FlowBuilderFlowPropertiesEditor.overridableFlowHelpText';
+import newFlowOverrideBannerLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.newFlowOverrideBannerLabel';
 
 export const LABELS = {
     nameLabel,
@@ -58,5 +59,6 @@ export const LABELS = {
     overridableCheckHelpText,
     overridableFlowLabel,
     overridableFlowPlaceholderLabel,
-    overridableFlowHelpText
+    overridableFlowHelpText,
+    newFlowOverrideBannerLabel
 };

@@ -153,7 +153,8 @@ const SELECTORS = {
     RICH_TEXT_PLAIN_TEXT_SWITCH: 'builder_platform_interaction-rich-text-plain-text-switch',
     API_VERSION: 'lightning-combobox.api-version',
     TEMPLATE_CHECK: 'lightning-input.template_check',
-    OVERRIDABLE_CHECK: 'lightning-input.overridable_check'
+    OVERRIDABLE_CHECK: 'lightning-input.overridable_check',
+    NEW_FLOW_OVERRIDES_BANNER: 'div.test-overrides-banner'
 };
 
 const getLabelDescription = (flowPropertiesEditor) => {
@@ -211,6 +212,10 @@ const getTemplateCheck = (flowPropertiesEditor) => {
 
 const getOverridableCheck = (flowPropertiesEditor) => {
     return flowPropertiesEditor.shadowRoot.querySelector(SELECTORS.OVERRIDABLE_CHECK);
+};
+
+const getNewFlowOverridesBanner = (flowPropertiesEditor) => {
+    return flowPropertiesEditor.shadowRoot.querySelector(SELECTORS.NEW_FLOW_OVERRIDES_BANNER);
 };
 
 describe('FlowPropertiesEditor', () => {
@@ -757,6 +762,21 @@ describe('FlowPropertiesEditor', () => {
 
                 expect(getTemplateCheck(flowPropertiesEditor).checked).toBe(false);
                 expect(getOverridableCheck(flowPropertiesEditor).checked).toBe(false);
+
+                expect(getNewFlowOverridesBanner(flowPropertiesEditor)).toBeNull();
+            });
+
+            it('test to see if new flow overrides banner is visible when isTemplate is enabled', async () => {
+                defaultNode.isTemplate = true;
+                flowPropertiesEditor = createComponentUnderTest(defaultNode);
+                await ticks(1);
+                expect(getNewFlowOverridesBanner(flowPropertiesEditor)).not.toBeNull();
+            });
+            it('test to see if new flow overrides banner is visible when isOverridable is enabled', async () => {
+                defaultNode.isOverridable = true;
+                flowPropertiesEditor = createComponentUnderTest(defaultNode);
+                await ticks(1);
+                expect(getNewFlowOverridesBanner(flowPropertiesEditor)).not.toBeNull();
             });
         });
     });
