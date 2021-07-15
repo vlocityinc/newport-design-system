@@ -314,14 +314,19 @@ function setIncomingCrossForwardConnectorsAsGoTos(conversionInfos: ConversionInf
         const { outs, edgeTypes } = conversionInfos[source];
         for (let i = 0; i < outs.length; i++) {
             if (outs[i].target === elementGuid) {
-                outs[i].isGoTo = ['forward', 'cross'].includes(edgeTypes![i]);
+                if (['forward', 'cross'].includes(edgeTypes![i])) {
+                    if (conversionInfos[source].executionContext!.type === 'loop') {
+                        throw new Error('gotoInLoop');
+                    }
+                    outs[i].isGoTo = true;
+                }
             }
         }
     }
 }
 
 /**
- * Evaluates the incoming edges of a non-merge element and sets go tos as needed
+ * Evaluates the incoming edges of a non-merge element and sets gotos as needed
  *
  * @param conversionInfos - conversion infos of all elements
  * @param elementInfo - element info
@@ -445,6 +450,9 @@ function checkIntervals(ctx: DfsContext) {
                 }
 
                 if (targetTopoSortIndex > innermostInterval[1] && edgeType !== 'tree') {
+                    if (conversionInfos[out.source].executionContext!.type === 'loop') {
+                        throw new Error('gotoInLoop');
+                    }
                     out.isGoTo = true;
                 }
             }

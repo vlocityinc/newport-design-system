@@ -7,7 +7,7 @@ type FlowCheckType =
     | 'unsupportedElement' /* if an unsupported element was found in the flow */
     | 'scheduledPaths' /* scheduled path issue */
     | 'endInLoop' /* if an end was found in a loop */
-    | 'backEdge' /* if a back edge goto was found */
+    | 'gotoInLoop' /* if a back edge goto was found in a loop */
     | 'crossBoundary' /* if a cross boundrary goto was found */
     | 'branchMergeNesting' /* if an invalid [branchingGuid - mergingGuid] matching was found */
     | 'loopNextAndEndTheSame'; /* if a loop's next and end connectors point to the same element */
@@ -36,6 +36,9 @@ function checkOutgoingEdgeForGoTo(conversionInfos: ConversionInfos, out: UI.Conn
 
     if (edgeType === 'forward' || edgeType === 'cross') {
         if (sourceNode.executionContext !== targetNode.executionContext) {
+            if (sourceNode.executionContext!.type === 'loop') {
+                failFlowCheck('gotoInLoop');
+            }
             // a cross boundary edge is a goto
             out.isGoTo = true;
         }
@@ -47,6 +50,9 @@ function checkOutgoingEdgeForGoTo(conversionInfos: ConversionInfos, out: UI.Conn
         // the edge is a goto if it does not come from inside a loop and point back to the loop header
         if (executionContext.type !== 'loop' || target !== executionContext.id) {
             if (!isDegenerateLoop) {
+                if (executionContext.type === 'loop') {
+                    failFlowCheck('gotoInLoop');
+                }
                 out.isGoTo = true;
             }
         }
