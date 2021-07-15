@@ -60,7 +60,7 @@ function checkOutgoingEdgeForGoTo(conversionInfos: ConversionInfos, out: UI.Conn
 }
 
 /**
- * Evalute the element's outgoing edges for "gotos"
+ * Evaluate the element's outgoing edges for "gotos"
  *
  * @param conversionInfos - The conversion infos
  * @param elementInfo - The element

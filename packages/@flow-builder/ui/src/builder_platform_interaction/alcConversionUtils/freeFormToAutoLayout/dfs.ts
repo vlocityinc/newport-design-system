@@ -138,7 +138,7 @@ function getEdgeType(source: ConversionInfo, target: ConversionInfo): EdgeType {
  * @returns - The edge type for the outgoing connector
  */
 function processConnector(ctx: DfsContext, node: ConversionInfo, out: UI.Connector): EdgeType {
-    const { target } = out;
+    const { target, isGoTo } = out;
 
     // update an element's reachCount when we reach it
     const targetElement = ctx.conversionInfos[target];
@@ -150,8 +150,8 @@ function processConnector(ctx: DfsContext, node: ConversionInfo, out: UI.Connect
 
     const edgeType = getEdgeType(node, targetElement);
 
-    // only visit nodes that have not been visited yet
-    if (edgeType === 'tree') {
+    // only visit nodes that have not been visited yet and are not connected via a go to connector
+    if (edgeType === 'tree' && !isGoTo) {
         visitNode(ctx, target);
     }
 
@@ -213,6 +213,21 @@ function visitNodeEnd(ctx: DfsContext, elementInfo: ConversionInfo) {
 }
 
 /**
+ * Get a unique stable key for a given connector
+ *
+ * @param conversionInfos - All the conversion infos
+ * @param conn - The connector
+ * @returns Unique key for the connector
+ */
+function getStableKey(conversionInfos, conn) {
+    const { source, target, childSource } = conn;
+    const stableSource = childSource ? `${source} (${childSource})` : source;
+    const stableEnd = conversionInfos[target].isEnd ? 'end' : target;
+
+    return `${stableSource}->${stableEnd}`;
+}
+
+/**
  * Processes the outgoing connectors of an element
  *
  * @param ctx - The dfs context
@@ -227,7 +242,9 @@ function processConnectors(ctx: DfsContext, elementInfo: ConversionInfo) {
         elementInfo.faultEdgeType = processConnector(ctx, elementInfo, fault);
     }
 
-    elementInfo.edgeTypes = outs.map((out) => processConnector(ctx, elementInfo, out));
+    elementInfo.edgeTypes = outs
+        .sort((a, b) => (getStableKey(ctx.conversionInfos, a) > getStableKey(ctx.conversionInfos, b) ? 1 : -1))
+        .map((out) => processConnector(ctx, elementInfo, out));
 }
 
 /**
@@ -398,16 +415,23 @@ function checkIntervals(ctx: DfsContext) {
             let hasGoTo = false;
 
             if (currentInterval) {
-                const [, end] = currentInterval;
+                const [start, end] = currentInterval;
 
                 if (topologicalSortIndex! > end) {
                     // If we get here, we have a goTo connector situation in a nested branch
                     hasGoTo = true;
-                    setGoTosOnNonMergeElement(conversionInfos, conversionInfos[mergeGuid]);
 
-                    // Clean up the merge / branching guid properties since this is not really a merge element anymore
-                    conversionInfos[mergeGuid].branchingGuid = null;
+                    // Reset the current interval to end at the topologicalSortIndex of the new merge element
+                    currentInterval = [start, topologicalSortIndex];
+
+                    // Set incoming connectors to be go tos on the previous (nested) merge element
+                    setGoTosOnNonMergeElement(conversionInfos, topologicalSort[end]);
+
+                    // Reset the branching and merge guid properties on the elements at the interval ends
+                    topologicalSort[start].mergeGuid = conversionInfos[mergeGuid].branchingGuid;
+                    conversionInfos[mergeGuid].branchingGuid = topologicalSort[start].elementGuid;
                     topologicalSort[i].mergeGuid = null;
+                    topologicalSort[end].branchingGuid = null;
                 }
             }
 
@@ -471,25 +495,25 @@ function checkIntervals(ctx: DfsContext) {
 function isMerge(ctx: DfsContext, node: ConversionInfo) {
     const { ins, isLoop } = node;
 
-    // if not a loop, check to see if we have more than one inbound connector
+    // if not a loop, check to see if we have more than one inbound connector that is not a go to
     if (!isLoop) {
-        return ins.length > 1;
+        return ins.filter((inConnector) => !inConnector.isGoTo).length > 1;
     }
 
-    // the count of connectors that loop back (eg back edges)
-    let loopBackConnectorCount = 0;
+    // the count of connectors that loop back (eg back edges) or are incoming go tos
+    let loopBackOrGoToConnectorCount = 0;
 
     for (const inConnector of ins) {
-        const { source } = inConnector;
+        const { source, isGoTo } = inConnector;
         const sourceNode = ctx.conversionInfos[source];
 
         // check if we have a back edge
-        if (sourceNode.dfsEnd! <= node.dfsEnd!) {
-            loopBackConnectorCount++;
+        if (isGoTo || sourceNode.dfsEnd! <= node.dfsEnd!) {
+            loopBackOrGoToConnectorCount++;
         }
     }
 
-    return ins.length - loopBackConnectorCount > 1;
+    return ins.length - loopBackOrGoToConnectorCount > 1;
 }
 
 /**

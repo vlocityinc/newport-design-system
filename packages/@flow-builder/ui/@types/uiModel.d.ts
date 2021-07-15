@@ -199,6 +199,7 @@ declare namespace UI {
     }
 
     interface Connector {
+        guid: Guid;
         source: Guid;
         target: Guid;
         type: ConnectorType;

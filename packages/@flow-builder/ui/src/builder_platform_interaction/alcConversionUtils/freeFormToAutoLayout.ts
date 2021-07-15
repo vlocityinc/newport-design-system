@@ -117,7 +117,8 @@ export function computeAndValidateConversionInfos(
         {}
     );
 
-    // populate the ins, outs and fault for each ConnectorInfo
+    // Sort the connectors in the flow by guid, so that our dfs traversal is deterministic during roundtrip conversions,
+    // then loop over them and populate the ins, outs and fault for each ConnectorInfo
     connectors.forEach((connector) => {
         const { source, target, type } = connector;
 
