@@ -690,6 +690,39 @@ describe('ferov-resource-picker', () => {
             await ticks(1);
             expect(spy).toHaveBeenCalledWith(removeLastCreatedInlineResource);
         });
+        it('does not clear errorMessage when there is no inline resource and fetchMenuData is triggered', async () => {
+            Store.setMockState({
+                properties: {
+                    lastInlineResourceRowIndex: 'kl214fea-9c9a-45cf-b804-76fc6df47c2v',
+                    lastInlineResourceGuid: '6f346269-409c-422e-9e8c-3898d16429tt'
+                }
+            });
+            const cmp = setupComponentUnderTest(props);
+            cmp.errorMessage = 'sample error';
+            const picker = cmp.shadowRoot.querySelector('builder_platform_interaction-base-resource-picker');
+            picker.dispatchEvent(fetchMenuData());
+
+            await ticks(1);
+            expect(cmp.errorMessage).toEqual('sample error');
+        });
+        it('clears errorMessage when there is an inline resource and fetchMenuData is triggered', async () => {
+            const idx = 'kl214fea-9c9a-45cf-b804-76fc6df47c2v';
+            props.rowIndex = idx;
+
+            Store.setMockState({
+                properties: {
+                    lastInlineResourceRowIndex: idx,
+                    lastInlineResourceGuid: '6f346269-409c-422e-9e8c-3898d16429tt'
+                }
+            });
+            const cmp = setupComponentUnderTest(props);
+            cmp.errorMessage = 'sample error';
+            const picker = cmp.shadowRoot.querySelector('builder_platform_interaction-base-resource-picker');
+            picker.dispatchEvent(fetchMenuData());
+
+            await ticks(1);
+            expect(cmp.errorMessage).toBeNull();
+        });
         it('calls getMenuData when an inline resource is set and fetchMenuData is triggered', async () => {
             const idx = 'kl214fea-9c9a-45cf-b804-76fc6df47c23';
             props.rowIndex = idx;

@@ -435,6 +435,9 @@ export default class FerovResourcePicker extends LightningElement {
         if (inlineGuid && inlineResourceRowIndex === this.rowIndex) {
             const inlineResource = getInlineResource(inlineGuid, menuData);
             if (inlineResource) {
+                if (this.errorMessage) {
+                    this.errorMessage = null;
+                }
                 this.inlineItem = inlineResource;
                 storeInstance.dispatch(removeLastCreatedInlineResource);
             }
