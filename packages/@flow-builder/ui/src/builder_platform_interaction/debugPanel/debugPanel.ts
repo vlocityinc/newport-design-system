@@ -132,9 +132,19 @@ export default class DebugPanel extends LightningElement {
                     .filter((e) => this.openSections.includes(e.titleWithApiName))
                     .map((e) => e.titleWithLabel);
             }
-        } else {
-            this.openSections = event.detail.openSections;
+        } else if (this.fromDebugRun) {
+            this.activeSections = this.debugTraces
+                .filter((e) => {
+                    return e.error || e.titleWithLabel === LABELS.waitEventSelectionHeader;
+                })
+                .map((e) => {
+                    if (this.showApiNames) {
+                        return e.titleWithApiName;
+                    }
+                    return e.titleWithLabel;
+                });
         }
+        this.openSections = event.detail.openSections;
         this.fromLabelFilter = false;
     }
 
@@ -151,13 +161,10 @@ export default class DebugPanel extends LightningElement {
         this._debugData = value;
         this.updateProperties(this._debugData);
         this.activeSections = this.debugTraces.map((e) => {
-            if (e.error || e.titleWithLabel === LABELS.waitEventSelectionHeader) {
-                if (this.showApiNames) {
-                    return e.titleWithApiName;
-                }
-                return e.titleWithLabel;
+            if (this.showApiNames) {
+                return e.titleWithApiName;
             }
-            return '';
+            return e.titleWithLabel;
         });
         this.fromDebugRun = true;
         this.expandAll = true;
