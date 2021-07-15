@@ -1,4 +1,4 @@
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { ConversionInfo, ConversionInfos, EdgeType, setGoTosOnNonMergeElement } from './dfs';
 
 type FlowCheckType =
@@ -29,7 +29,7 @@ function failFlowCheck(type: FlowCheckType) {
  * @param edgeType - The edge type for the outgoing connector
  */
 function checkOutgoingEdgeForGoTo(conversionInfos: ConversionInfos, out: UI.Connector, edgeType: EdgeType) {
-    const { source, target } = out;
+    const { source, target, type } = out;
     const sourceNode = conversionInfos[source];
     const targetNode = conversionInfos[target];
     const executionContext = sourceNode.executionContext!;
@@ -40,6 +40,10 @@ function checkOutgoingEdgeForGoTo(conversionInfos: ConversionInfos, out: UI.Conn
                 failFlowCheck('gotoInLoop');
             }
             // a cross boundary edge is a goto
+            out.isGoTo = true;
+        }
+        if (sourceNode.executionContext === targetNode.executionContext && type === CONNECTOR_TYPE.FAULT) {
+            // A cross/forward fault connector between 2 nodes in the same context is a goto
             out.isGoTo = true;
         }
     } else if (edgeType === 'back') {

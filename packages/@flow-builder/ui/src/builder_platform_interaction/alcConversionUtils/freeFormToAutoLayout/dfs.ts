@@ -236,15 +236,13 @@ function getStableKey(conversionInfos, conn) {
 function processConnectors(ctx: DfsContext, elementInfo: ConversionInfo) {
     const { outs, fault } = elementInfo;
 
-    // need to process the fault first so that the following elements are
-    // created under a fault context
-    if (fault) {
-        elementInfo.faultEdgeType = processConnector(ctx, elementInfo, fault);
-    }
-
     elementInfo.edgeTypes = outs
         .sort((a, b) => (getStableKey(ctx.conversionInfos, a) > getStableKey(ctx.conversionInfos, b) ? 1 : -1))
         .map((out) => processConnector(ctx, elementInfo, out));
+
+    if (fault) {
+        elementInfo.faultEdgeType = processConnector(ctx, elementInfo, fault);
+    }
 }
 
 /**
