@@ -1,5 +1,5 @@
 .body-fixed-height {
-    height: 16rem;
+    max-height: 16rem;
 }
 
 .branch-merge {
