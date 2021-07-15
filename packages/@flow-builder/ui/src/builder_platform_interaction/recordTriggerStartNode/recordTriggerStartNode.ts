@@ -1,11 +1,17 @@
 // @ts-nocheck
 import { LightningElement, api } from 'lwc';
-import { FLOW_TRIGGER_TYPE, FLOW_TRIGGER_SAVE_TYPE, CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import {
+    FLOW_TRIGGER_TYPE,
+    FLOW_PROCESS_TYPE,
+    FLOW_TRIGGER_SAVE_TYPE,
+    CONDITION_LOGIC
+} from 'builder_platform_interaction/flowMetadata';
 import { EditElementEvent, ArrowKeyDownEvent } from 'builder_platform_interaction/events';
 import { LABELS } from './recordTriggerStartNodeLabels';
 import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import { setupKeyboardShortcutUtil } from 'builder_platform_interaction/contextualMenuUtils';
 import { getEntitiesMenuData } from 'builder_platform_interaction/expressionUtils';
+import { getProcessType } from 'builder_platform_interaction/storeUtils';
 
 const { BEFORE_SAVE, BEFORE_DELETE, AFTER_SAVE } = FLOW_TRIGGER_TYPE;
 const { CREATE, UPDATE, CREATE_AND_UPDATE, DELETE } = FLOW_TRIGGER_SAVE_TYPE;
@@ -91,6 +97,10 @@ export default class RecordTriggerStartNode extends LightningElement {
     get selectedObject() {
         const item = getEntitiesMenuData().find((menuItem) => menuItem.value === this.node.object);
         return item ? item.displayText : this.node.object;
+    }
+
+    get showFlowTriggerType() {
+        return getProcessType() !== FLOW_PROCESS_TYPE.ORCHESTRATOR;
     }
 
     constructor() {

@@ -7,7 +7,7 @@ import {
     ParentNodeModel
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE, FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { TRIGGER_TYPE_LABELS } from 'builder_platform_interaction/processTypeLib';
+import { TRIGGER_TYPE_LABELS, PROCESS_TRIGGER_TYPE_LABELS } from 'builder_platform_interaction/processTypeLib';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
 import { getProcessTypes } from 'builder_platform_interaction/systemLib';
 import { isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
@@ -130,16 +130,17 @@ export const copyAlcExtraProps = (fromElement: UI.Element, toElement: UI.Element
  * @returns the description
  */
 export const startElementDescription = (triggerType: string): string | undefined => {
-    if (isRecordChangeTriggerType(triggerType) || triggerType === SCHEDULED || triggerType === PLATFORM_EVENT) {
-        return TRIGGER_TYPE_LABELS[triggerType];
-    }
     const processType = getProcessType();
+    if (isRecordChangeTriggerType(triggerType) || triggerType === SCHEDULED || triggerType === PLATFORM_EVENT) {
+        return PROCESS_TRIGGER_TYPE_LABELS[processType + triggerType] || TRIGGER_TYPE_LABELS[triggerType];
+    }
+
     // Grab the label of the current processType flow type
     const processTypes = getProcessTypes();
     if (processTypes) {
         for (const item of processTypes) {
             if (item.name === processType) {
-                return item.label;
+                return PROCESS_TRIGGER_TYPE_LABELS[processType + triggerType] || item.label;
             }
         }
     }

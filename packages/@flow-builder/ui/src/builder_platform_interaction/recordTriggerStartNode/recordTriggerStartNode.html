@@ -20,7 +20,11 @@
                 <span class="slds-m-right_xx-small test-record-conditions-label">{recordConditionsLabel}</span
                 ><span class="text-labels-bold test-conditions-length-label">{conditionsLengthLabel}</span>
             </div>
-            <div class="slds-truncate slds-m-top_xx-small test-run-flow" title={selectedOptimizeForLabel}>
+            <div
+                class="slds-truncate slds-m-top_xx-small test-run-flow"
+                title={selectedOptimizeForLabel}
+                if:true={showFlowTriggerType}
+            >
                 <span class="slds-m-right_xx-small test-run-flow-label">{optimizeForLabel}</span>
                 <span class="text-labels-bold test-selected-run-flow-label">{selectedOptimizeForLabel}</span>
             </div>

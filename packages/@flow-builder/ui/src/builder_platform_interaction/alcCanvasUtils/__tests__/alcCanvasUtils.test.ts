@@ -1,8 +1,10 @@
 // @ts-nocheck
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
-import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { TRIGGER_TYPE_LABELS } from 'builder_platform_interaction/processTypeLib';
+import { FLOW_TRIGGER_TYPE, FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { TRIGGER_TYPE_LABELS, PROCESS_TRIGGER_TYPE_LABELS } from 'builder_platform_interaction/processTypeLib';
+import { getProcessType } from 'builder_platform_interaction/storeUtils';
+import { getProcessTypes } from 'builder_platform_interaction/systemLib';
 
 import {
     copyAlcExtraProps,
@@ -14,38 +16,35 @@ import {
     startElementDescription
 } from '../alcCanvasUtils';
 
-import { Store } from 'builder_platform_interaction/storeLib';
-
 jest.mock('builder_platform_interaction/systemLib', () => {
     return {
-        getProcessTypes: jest.fn(() => [
-            {
-                name: 'testProcessType',
-                label: 'test process type label'
-            }
-        ])
+        getProcessTypes: jest.fn()
     };
 });
 
 jest.mock('builder_platform_interaction/storeLib');
 
-Store.getStore.mockImplementation(() => {
+jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
-        getCurrentState: jest.fn(() => {
-            return {
-                properties: {
-                    processType: 'testProcessType'
-                }
-            };
-        }),
-        subscribe: jest.fn(() => jest.fn()),
-        unsubscribe: jest.fn()
+        getProcessType: jest.fn()
     };
 });
 
 const { AFTER_SAVE, BEFORE_DELETE, BEFORE_SAVE, SCHEDULED, PLATFORM_EVENT } = FLOW_TRIGGER_TYPE;
 
 describe('alc canvas utils', () => {
+    beforeEach(() => {
+        // Some tests override the getProcessType return value
+        // so reset at the beginning of each test
+        getProcessType.mockReturnValue('testProcessType');
+        getProcessTypes.mockReturnValue([
+            {
+                name: 'testProcessType',
+                label: 'test process type label'
+            }
+        ]);
+    });
+
     describe('startElementDescription', () => {
         it('returns the trigger type label for record change, scheduled and platform event trigger types', () => {
             const triggerTypes = [AFTER_SAVE, BEFORE_DELETE, BEFORE_SAVE, SCHEDULED, PLATFORM_EVENT];
@@ -56,6 +55,29 @@ describe('alc canvas utils', () => {
 
         it('returns the process type label when no trigger type', () => {
             expect(startElementDescription(FLOW_TRIGGER_TYPE.NONE)).toEqual('test process type label');
+        });
+
+        it('returns the correct label for record-triggerred orchestration', () => {
+            getProcessType.mockReturnValue(FLOW_PROCESS_TYPE.ORCHESTRATOR);
+            const processType = FLOW_PROCESS_TYPE.ORCHESTRATOR;
+            const triggerType = AFTER_SAVE;
+            expect(startElementDescription(triggerType)).toEqual(
+                PROCESS_TRIGGER_TYPE_LABELS[processType + triggerType]
+            );
+        });
+
+        it('returns the correct label for autolaunched orchestration', () => {
+            getProcessType.mockReturnValue(FLOW_PROCESS_TYPE.ORCHESTRATOR);
+            getProcessTypes.mockReturnValue([
+                {
+                    name: FLOW_PROCESS_TYPE.ORCHESTRATOR
+                }
+            ]);
+            const processType = FLOW_PROCESS_TYPE.ORCHESTRATOR;
+            const triggerType = FLOW_TRIGGER_TYPE.NONE;
+            expect(startElementDescription(triggerType)).toEqual(
+                PROCESS_TRIGGER_TYPE_LABELS[processType + triggerType]
+            );
         });
     });
 

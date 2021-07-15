@@ -14,6 +14,8 @@ import newAppProcessDescription from '@salesforce/label/FlowBuilderProcessTypeTe
 import newScheduledFlowLabel from '@salesforce/label/FlowBuilderProcessTypeTemplates.newScheduledFlowLabel';
 import newRecordChangedFlowLabel from '@salesforce/label/FlowBuilderProcessTypeTemplates.newRecordChangedFlowLabel';
 import newPlatformEventFlowLabel from '@salesforce/label/FlowBuilderProcessTypeTemplates.newPlatformEventFlowLabel';
+import newRecordChangedOrchestrationLabel from '@salesforce/label/FlowBuilderProcessTypeTemplates.newRecordChangedOrchestrationLabel';
+import newOrchestrationLabel from '@salesforce/label/FlowBuilderProcessTypeTemplates.newOrchestrationLabel';
 
 export const LABELS = {
     newProcessTypeDescription,
@@ -36,4 +38,9 @@ export const TRIGGER_TYPE_LABELS = {
     [FLOW_TRIGGER_TYPE.BEFORE_DELETE]: newRecordChangedFlowLabel,
     [FLOW_TRIGGER_TYPE.AFTER_SAVE]: newRecordChangedFlowLabel,
     [FLOW_TRIGGER_TYPE.PLATFORM_EVENT]: newPlatformEventFlowLabel
+};
+
+export const PROCESS_TRIGGER_TYPE_LABELS = {
+    [FLOW_PROCESS_TYPE.ORCHESTRATOR + FLOW_TRIGGER_TYPE.NONE]: newOrchestrationLabel,
+    [FLOW_PROCESS_TYPE.ORCHESTRATOR + FLOW_TRIGGER_TYPE.AFTER_SAVE]: newRecordChangedOrchestrationLabel
 };
