@@ -64,7 +64,7 @@ export default class ScreenEditorCanvas extends LightningElement {
         return (
             getValueFromHydratedItem(this.screen.backLabelType) === FOOTER_LABEL_TYPE.STANDARD ||
             (getValueFromHydratedItem(this.screen.backLabelType) === FOOTER_LABEL_TYPE.CUSTOM &&
-                getValueFromHydratedItem(this.screen.backLabelType))
+                getValueFromHydratedItem(this.screen.backLabel))
         );
     }
 

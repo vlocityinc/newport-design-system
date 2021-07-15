@@ -159,7 +159,8 @@ describe('Screen canvas footer labels', () => {
         const nextOrFinishBtn = screenEditorCanvasElement.shadowRoot.querySelector(selectors.nextOrFinishBtn);
         expect(nextOrFinishBtn).toBeNull();
     });
-    it('Footer label is not shown when footer label type is CUSTOM but label is empty or not defined', () => {
+
+    it('Next or Finish Footer label is not shown when footer label type is CUSTOM but label is empty or not defined', () => {
         screen.nextOrFinishLabelType = hydrateIfNecessary(FOOTER_LABEL_TYPE.CUSTOM);
         const screenEditorCanvasElement = createComponentUnderTest({
             screen,
@@ -168,6 +169,25 @@ describe('Screen canvas footer labels', () => {
         const nextOrFinishBtn = screenEditorCanvasElement.shadowRoot.querySelector(selectors.nextOrFinishBtn);
         expect(nextOrFinishBtn).toBeNull();
     });
+    it('Back Footer label is not shown when footer label type is CUSTOM but label is empty or not defined', () => {
+        screen.backLabelType = hydrateIfNecessary(FOOTER_LABEL_TYPE.CUSTOM);
+        const screenEditorCanvasElement = createComponentUnderTest({
+            screen,
+            labels: {}
+        });
+        const backLabelBtn = screenEditorCanvasElement.shadowRoot.querySelector(selectors.backBtn);
+        expect(backLabelBtn).toBeNull();
+    });
+    it('Pause Footer label is not shown when footer label type is CUSTOM but label is empty or not defined', () => {
+        screen.pauseLabelType = hydrateIfNecessary(FOOTER_LABEL_TYPE.CUSTOM);
+        const screenEditorCanvasElement = createComponentUnderTest({
+            screen,
+            labels: {}
+        });
+        const pauseBtn = screenEditorCanvasElement.shadowRoot.querySelector(selectors.pauseBtn);
+        expect(pauseBtn).toBeNull();
+    });
+
     it('Next or Finish footer label is shown nextOrFinishLabelType is CUSTOM and nextOrFinishLabel is defined', () => {
         screen.nextOrFinishLabelType = hydrateIfNecessary(FOOTER_LABEL_TYPE.CUSTOM);
         screen.nextOrFinishLabel = hydrateIfNecessary('Custom Next');
@@ -190,7 +210,7 @@ describe('Screen canvas footer labels', () => {
     });
     it('Pause footer label is shown pauseLabelType is CUSTOM and pauseLabel is defined', () => {
         screen.pauseLabelType = hydrateIfNecessary(FOOTER_LABEL_TYPE.CUSTOM);
-        screen.backLabel = hydrateIfNecessary('Custom Pause');
+        screen.pauseLabel = hydrateIfNecessary('Custom Pause');
         const screenEditorCanvasElement = createComponentUnderTest({
             screen,
             labels: {}
