@@ -293,8 +293,9 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     get overriddenFlow() {
         if (this.flowProperties.overriddenFlow && this.flowProperties.overriddenFlow.value) {
-            const local = this.convertSlashToDoubleUnderscore(this.flowProperties.overriddenFlow.value);
-            const menuItem = this._filteredOverridableFlowOptions.find((element) => element.value === local);
+            const menuItem = this._filteredOverridableFlowOptions.find(
+                (element) => element.value === this.flowProperties.overriddenFlow.value
+            );
             if (menuItem) {
                 return menuItem;
             }
@@ -309,25 +310,15 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     get sourceTemplate() {
         if (this.flowProperties.sourceTemplate && this.flowProperties.sourceTemplate.value) {
-            const local = this.convertSlashToDoubleUnderscore(this.flowProperties.sourceTemplate.value);
-            const menuItem = this._filteredSourceTemplateOptions.find((element) => element.value === local);
+            const menuItem = this._filteredSourceTemplateOptions.find(
+                (element) => element.value === this.flowProperties.sourceTemplate.value
+            );
             if (menuItem) {
                 return menuItem;
             }
             return this.flowProperties.sourceTemplate.value;
         }
         return null;
-    }
-
-    /**
-     * TODO this is a bug in the API, need to return the standard flow name consistently
-     * Remove, once the this bug is fixed: W-9608110
-     *
-     * @param name slashed name
-     * @returns doubleunscored string
-     */
-    convertSlashToDoubleUnderscore(name: string) {
-        return name.replace('/', '__');
     }
 
     get templateDisabled() {

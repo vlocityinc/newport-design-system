@@ -26,7 +26,6 @@ export function createFlowPropertiesForEditor(flowProperties = {}) {
 
     if (newFlowProperties.canOnlySaveAsNewDefinition) {
         newFlowProperties.manageableState = null;
-        newFlowProperties.isTemplate = false;
     }
 
     return newFlowProperties;
