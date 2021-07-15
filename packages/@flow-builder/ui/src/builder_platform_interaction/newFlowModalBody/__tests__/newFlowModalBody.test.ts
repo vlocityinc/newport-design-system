@@ -58,6 +58,7 @@ function createComponentForTest(props) {
 }
 
 const getTemplatesTab = (modalBody) => modalBody.shadowRoot.querySelector('lightning-tab.templates');
+const getRecommendedTab = (modalBody) => modalBody.shadowRoot.querySelector('lightning-tab.recommended');
 
 const getProcessTypesNavigation = (modalBody) =>
     modalBody.shadowRoot.querySelector('builder_platform_interaction-process-types-vertical-navigation');
@@ -224,8 +225,13 @@ describe('new-flow-modal-body', () => {
 
     describe('beta legal popover', () => {
         let newFlowModalBody;
-        beforeEach(() => {
+        beforeEach(async () => {
             newFlowModalBody = createComponentForTest();
+            await ticks();
+            // Switch to the templates tab
+            const templatesTab = getTemplatesTab(newFlowModalBody);
+            templatesTab.dispatchEvent(new CustomEvent('active'));
+            await ticks();
         });
         afterAll(() => {
             resetProcessTypesCache();
@@ -258,6 +264,22 @@ describe('new-flow-modal-body', () => {
             await ticks();
             const legalPopover = getLegalPopover(newFlowModalBody);
             expect(legalPopover).not.toBeNull();
+        });
+        it('should not show up if the selected tab is "recommended"', async () => {
+            const templates = getProcessTypesTemplates(newFlowModalBody);
+            templates.dispatchEvent(
+                new TemplateChangedEvent({
+                    processType: FLOW_PROCESS_TYPE.ORCHESTRATOR
+                })
+            );
+            await ticks();
+            let legalPopover = getLegalPopover(newFlowModalBody);
+            expect(legalPopover).not.toBeNull();
+            const recommendedTab = getRecommendedTab(newFlowModalBody);
+            recommendedTab.dispatchEvent(new CustomEvent('active'));
+            await ticks();
+            legalPopover = getLegalPopover(newFlowModalBody);
+            expect(legalPopover).toBeNull();
         });
         it('should not show the popup if it is dismissed', async () => {
             const templates = getProcessTypesTemplates(newFlowModalBody);

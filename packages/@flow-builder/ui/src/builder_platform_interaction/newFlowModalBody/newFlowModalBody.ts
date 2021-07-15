@@ -84,7 +84,8 @@ export default class NewFlowModalBody extends LightningElement {
         return (
             this.state.selectedTemplatesItem &&
             this.state.selectedTemplatesItem.processType === FLOW_PROCESS_TYPE.ORCHESTRATOR &&
-            this.noticesToLegalPopover[0].shown
+            this.noticesToLegalPopover[0].shown &&
+            this.state.activeTab === TAB_TEMPLATES
         );
     }
 
