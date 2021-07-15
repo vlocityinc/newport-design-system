@@ -23,7 +23,10 @@
                         <div class={itemClasses}>
                             <h2 class="slds-truncate slds-text-heading_small" title={label}>{label}</h2>
                             <span title={description} class="slds-p-right_none slds-m-top_small slds-m-left_none">
-                                <span class="text-content">{description}</span>
+                                <div class="slds-scrollable_none container">
+                                    <lightning-formatted-rich-text class="rich-text-content" value={description}>
+                                    </lightning-formatted-rich-text>
+                                </div>
                             </span>
                         </div>
                     </slot>

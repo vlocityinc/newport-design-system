@@ -11,35 +11,35 @@
     height: 5rem;
 }
 
-/*truncate the text to 3 lines*/
-.text-content {
-    /* Over flow hidden hides the text if it is more than N lines  */
-    line-height: 1.2em;
-    max-height: 3.6em;
-    overflow: hidden;
+/*container to help truncate the text to 3 lines*/
+.container {
+    max-height: 3.6em; /* = max lines x line-height defined in rich-text-content */
     position: relative;
-    text-align: left;
     /* place for '...' */
     margin-right: 1em;
     padding-right: 1em;
 }
 
-/* create the ... */
-.text-content:before {
+/* display ... in the end if we have long text, which is more than max lines */
+.container::before {
     content: '...';
     position: absolute;
-    right: 0;
     bottom: 0;
+    right: 0;
 }
 
-/* hide ... if we have text, which is less than or equal to max lines */
-.text-content:after {
-    /* points in the end */
+/* hide ... in the end if we have short text, which is less than or equal to max lines */
+.container::after {
     content: '';
     position: absolute;
     right: 0;
     width: 1em;
     height: 1em;
-    margin-top: 0.2em;
+    margin-top: -0.6em;
     background: var(--lwc-colorBackgroundAlt);
+}
+
+.rich-text-content {
+    line-height: 1.2em;
+    text-align: left;
 }

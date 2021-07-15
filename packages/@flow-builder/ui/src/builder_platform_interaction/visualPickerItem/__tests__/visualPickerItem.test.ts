@@ -30,7 +30,7 @@ const SELECTORS = {
     MEDIA_FIGURE: '.slds-media__figure ',
     VISUAL_PICKER_TEXT: '.slds-visual-picker input:checked ~ label .slds-visual-picker__text',
     LABEL: '.slds-media__body .slds-text-heading_small',
-    DESCRIPTION: '.slds-media__body .text-content',
+    DESCRIPTION: '.rich-text-content',
     LIGHTNING_ICON: 'lightning-icon',
     CHECKBOX: 'input[type="radio"]'
 };
@@ -70,7 +70,7 @@ describe('visual-picker-item', () => {
     });
 
     it('shows the description as a template description', () => {
-        expect(getTemplateDescription(visualPickerItemCmp).textContent).toEqual(TEMPLATE_DESCRIPTION);
+        expect(getTemplateDescription(visualPickerItemCmp).value).toEqual(TEMPLATE_DESCRIPTION);
     });
 
     it('should not be selected', () => {
