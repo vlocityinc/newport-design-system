@@ -5293,6 +5293,9 @@ export const flowWithAllElementsUIModel = {
         status: 'InvalidDraft',
         versionNumber: 1,
         apiVersion: 50,
-        isAutoLayoutCanvas: false
+        isAutoLayoutCanvas: false,
+        isOverridable: false,
+        overriddenFlow: null,
+        sourceTemplate: null
     }
 };

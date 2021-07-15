@@ -146,6 +146,7 @@ export const flowWithVariables = {
         ],
         description: '',
         interviewLabel: 'FlowWithVariables {!$Flow.CurrentDateTime}',
+        isOverridable: false,
         isTemplate: false,
         label: 'FlowWithVariables',
         processMetadataValues: [

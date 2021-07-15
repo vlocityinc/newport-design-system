@@ -103,6 +103,7 @@ export const flowWithAssignments = {
         ],
         description: '',
         interviewLabel: 'FlowWithAssignment {!$Flow.CurrentDateTime}',
+        isOverridable: false,
         isTemplate: false,
         label: 'FlowWithAssignment',
         processMetadataValues: [

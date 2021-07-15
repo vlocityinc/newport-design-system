@@ -518,6 +518,9 @@ export const fieldServiceMobileFlowUIModel = {
         runInMode: null,
         status: 'InvalidDraft',
         versionNumber: 1,
-        isAutoLayoutCanvas: false
+        isAutoLayoutCanvas: false,
+        isOverridable: false,
+        overriddenFlow: null,
+        sourceTemplate: null
     }
 };

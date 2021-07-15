@@ -356,6 +356,9 @@ export const recordTriggeredFlowUIModel = {
         status: 'InvalidDraft',
         versionNumber: 1,
         apiVersion: 51,
-        isAutoLayoutCanvas: false
+        isAutoLayoutCanvas: false,
+        isOverridable: false,
+        overriddenFlow: null,
+        sourceTemplate: null
     }
 };

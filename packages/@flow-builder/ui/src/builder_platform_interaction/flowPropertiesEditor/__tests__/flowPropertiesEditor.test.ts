@@ -108,13 +108,8 @@ normalizeDateTime.normalizeDateTime = jest.fn(() => {
 });
 
 const mockFormattedLabel = 'some user last saved at some date time string';
-jest.mock('builder_platform_interaction/commonUtils', () => {
-    return {
-        isUndefinedOrNull: jest.fn(),
-        addCurlyBraces: jest.requireActual('builder_platform_interaction/commonUtils').addCurlyBraces,
-        removeCurlyBraces: jest.fn()
-    };
-});
+const cmnUtils = jest.requireActual('builder_platform_interaction/commonUtils');
+cmnUtils.format = jest.fn().mockImplementation(() => mockFormattedLabel);
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
@@ -682,7 +677,7 @@ describe('FlowPropertiesEditor', () => {
                     status: { value: 'Active' },
                     interviewLabel: { value: 'interviewLabel' },
                     versionNumber: 1,
-                    saveType: SaveType.NEW_DEFINITION,
+                    saveType: SaveType.UPDATE,
                     runInMode: { value: null, error: null },
                     lastModifiedBy: { value: 'some user' },
                     lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
@@ -702,11 +697,11 @@ describe('FlowPropertiesEditor', () => {
                 expect(getTemplateCheck(flowPropertiesEditor).checked).toBe(true);
                 expect(getOverridableCheck(flowPropertiesEditor).checked).toBe(false);
 
-                expect(getTemplateCheck(flowPropertiesEditor).disabled).toBe(0);
-                expect(getOverridableCheck(flowPropertiesEditor).disabled).toBe(1);
+                expect(getTemplateCheck(flowPropertiesEditor).disabled).toBeFalsy();
+                expect(getOverridableCheck(flowPropertiesEditor).disabled).toBeTruthy();
 
                 const toFalseEvent = new CustomEvent('change', {
-                    detail: false
+                    detail: { checked: false }
                 });
                 const templateToFalse = getTemplateCheck(flowPropertiesEditor);
                 templateToFalse.dispatchEvent(toFalseEvent);
@@ -715,7 +710,7 @@ describe('FlowPropertiesEditor', () => {
                 expect(getOverridableCheck(flowPropertiesEditor).checked).toBe(false);
 
                 const toTrueEvent = new CustomEvent('change', {
-                    detail: true
+                    detail: { checked: true }
                 });
                 const overridableToTrue = getOverridableCheck(flowPropertiesEditor);
                 overridableToTrue.dispatchEvent(toTrueEvent);
@@ -723,8 +718,8 @@ describe('FlowPropertiesEditor', () => {
                 expect(getTemplateCheck(flowPropertiesEditor).checked).toBe(false);
                 expect(getOverridableCheck(flowPropertiesEditor).checked).toBe(true);
 
-                expect(getTemplateCheck(flowPropertiesEditor).disabled).toBe(1);
-                expect(getOverridableCheck(flowPropertiesEditor).disabled).toBe(0);
+                expect(getTemplateCheck(flowPropertiesEditor).disabled).toBeTruthy();
+                expect(getOverridableCheck(flowPropertiesEditor).disabled).toBeFalsy();
             });
         });
         describe('Test overriddenFlow', () => {
@@ -739,7 +734,7 @@ describe('FlowPropertiesEditor', () => {
                     status: { value: 'Active' },
                     interviewLabel: { value: 'interviewLabel' },
                     versionNumber: 1,
-                    saveType: SaveType.NEW_DEFINITION,
+                    saveType: SaveType.UPDATE,
                     runInMode: { value: null, error: null },
                     lastModifiedBy: { value: 'some user' },
                     lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
@@ -757,8 +752,8 @@ describe('FlowPropertiesEditor', () => {
                 expect(flowPropertiesEditor.node.isTemplate).toBe(false);
                 expect(flowPropertiesEditor.node.isOverridable).toBe(false);
 
-                expect(getTemplateCheck(flowPropertiesEditor).disabled).toBe(1);
-                expect(getOverridableCheck(flowPropertiesEditor).disabled).toBe(1);
+                expect(getTemplateCheck(flowPropertiesEditor).disabled).toBeTruthy();
+                expect(getOverridableCheck(flowPropertiesEditor).disabled).toBeTruthy();
 
                 expect(getTemplateCheck(flowPropertiesEditor).checked).toBe(false);
                 expect(getOverridableCheck(flowPropertiesEditor).checked).toBe(false);
@@ -768,12 +763,14 @@ describe('FlowPropertiesEditor', () => {
 
             it('test to see if new flow overrides banner is visible when isTemplate is enabled', async () => {
                 defaultNode.isTemplate = true;
+                defaultNode.saveType = SaveType.NEW_DEFINITION;
                 flowPropertiesEditor = createComponentUnderTest(defaultNode);
                 await ticks(1);
                 expect(getNewFlowOverridesBanner(flowPropertiesEditor)).not.toBeNull();
             });
             it('test to see if new flow overrides banner is visible when isOverridable is enabled', async () => {
                 defaultNode.isOverridable = true;
+                defaultNode.saveType = SaveType.NEW_DEFINITION;
                 flowPropertiesEditor = createComponentUnderTest(defaultNode);
                 await ticks(1);
                 expect(getNewFlowOverridesBanner(flowPropertiesEditor)).not.toBeNull();

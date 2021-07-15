@@ -11,7 +11,11 @@ import { flowPropertiesEditorReducer } from './flowPropertiesEditorReducer';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { normalizeDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { SaveType } from 'builder_platform_interaction/saveType';
-import { getRunInModesMenuData, getApiVersionMenuData } from 'builder_platform_interaction/expressionUtils';
+import {
+    getRunInModesMenuData,
+    getApiVersionMenuData,
+    filterMatches
+} from 'builder_platform_interaction/expressionUtils';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import {
     SYSTEM_VARIABLES,
@@ -30,6 +34,7 @@ import { FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interacti
 import { loadVersioningData } from 'builder_platform_interaction/preloadLib';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 const { format } = commonUtils;
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 /**
  * Flow Properties property editor for Flow Builder
@@ -46,10 +51,7 @@ export default class FlowPropertiesEditor extends LightningElement {
     _instanceLabelId = generateGuid();
     _toggleAdvancedClass = TOGGLE_CLASS_SHOW;
     _toggleAdvancedLabel = LABELS.showAdvanced;
-    _isTemplate = false;
-    _isOverridable = false;
-    _overriddenFlow = null;
-    _overriddenFlowDisabled = false;
+    _showOverridesBanner = false;
 
     // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
     @api
@@ -77,11 +79,12 @@ export default class FlowPropertiesEditor extends LightningElement {
         this._originalRunInMode = this.flowProperties.runInMode.value;
         this._originalInterviewLabel = this.flowProperties.interviewLabel.value;
         this._originalApiVersion = this.flowProperties.apiVersion ? this.flowProperties.apiVersion : null;
-        this._isTemplate = this.flowProperties.isTemplate;
-        this._isOverridable = this.flowProperties.isOverridable;
-        this._overriddenFlow = this.flowProperties.overriddenFlow ? this.flowProperties.overriddenFlow.value : null;
+        this._showOverridesBanner = false;
         if (this.flowProperties.saveType === SaveType.NEW_DEFINITION) {
             this.clearForNewDefinition();
+
+            // this call is internally gaured by isTemplate and isOverride
+            this.setOverrideTemplateSettings();
         }
     }
 
@@ -144,7 +147,10 @@ export default class FlowPropertiesEditor extends LightningElement {
     _originalInterviewLabel;
     _apiVersionsList;
     _originalApiVersion;
-    _overridableFlowOptions = [];
+    _overridableFlowOptions: UI.ComboboxItem[] = [];
+    _filteredOverridableFlowOptions: UI.ComboboxItem[] = [];
+    _sourceTemplateOptions: UI.ComboboxItem[] = [];
+    _filteredSourceTemplateOptions: UI.ComboboxItem[] = [];
 
     saveAsTypeOptions = [
         {
@@ -160,10 +166,6 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     isSystemModeDisabled() {
         return this._runInModes == null || this._runInModes.length === 0;
-    }
-
-    get overriddenFlowDisabled() {
-        return this._overriddenFlowDisabled;
     }
 
     get runInSystemMode() {
@@ -198,20 +200,8 @@ export default class FlowPropertiesEditor extends LightningElement {
         return entry ? entry.label : null;
     }
 
-    get overridableFlowLabel() {
-        return LABELS.overridableFlowLabel;
-    }
-
-    get overridableFlowPlaceholderLabel() {
-        return LABELS.overridableFlowPlaceholderLabel;
-    }
-
-    get overridableFlowHelpText() {
-        return LABELS.overridableFlowHelpText;
-    }
-
     get showNewFlowOverrideBanner() {
-        return this._isOverridable || this._isTemplate;
+        return this._showOverridesBanner;
     }
 
     /**
@@ -281,22 +271,79 @@ export default class FlowPropertiesEditor extends LightningElement {
         return this.isSystemModeDisabled();
     }
 
-    get templateDisabled() {
-        if (this._isOverridable || this._overriddenFlow) {
-            return 1;
+    set isOverridable(value) {
+        this.updateProperty('isOverridable', value);
+    }
+
+    get isOverridable() {
+        return getValueFromHydratedItem(this.flowProperties.isOverridable);
+    }
+
+    set isTemplate(value) {
+        this.updateProperty('isTemplate', value);
+    }
+
+    get isTemplate() {
+        return getValueFromHydratedItem(this.flowProperties.isTemplate);
+    }
+
+    set overriddenFlow(value) {
+        this.updateProperty('overriddenFlow', value);
+    }
+
+    get overriddenFlow() {
+        if (this.flowProperties.overriddenFlow && this.flowProperties.overriddenFlow.value) {
+            const local = this.convertSlashToDoubleUnderscore(this.flowProperties.overriddenFlow.value);
+            const menuItem = this._filteredOverridableFlowOptions.find((element) => element.value === local);
+            if (menuItem) {
+                return menuItem;
+            }
+            return this.flowProperties.overriddenFlow.value;
         }
-        return 0;
+        return null;
+    }
+
+    set sourceTemplate(value) {
+        this.updateProperty('sourceTemplate', value);
+    }
+
+    get sourceTemplate() {
+        if (this.flowProperties.sourceTemplate && this.flowProperties.sourceTemplate.value) {
+            const local = this.convertSlashToDoubleUnderscore(this.flowProperties.sourceTemplate.value);
+            const menuItem = this._filteredSourceTemplateOptions.find((element) => element.value === local);
+            if (menuItem) {
+                return menuItem;
+            }
+            return this.flowProperties.sourceTemplate.value;
+        }
+        return null;
+    }
+
+    /**
+     * TODO this is a bug in the API, need to return the standard flow name consistently
+     * Remove, once the this bug is fixed: W-9608110
+     *
+     * @param name slashed name
+     * @returns doubleunscored string
+     */
+    convertSlashToDoubleUnderscore(name: string) {
+        return name.replace('/', '__');
+    }
+
+    get templateDisabled() {
+        return this.isOverridable || this.overriddenFlow || this.sourceTemplate;
     }
 
     get overridableDisabled() {
-        if (this._isTemplate || this._overriddenFlow) {
-            return 1;
-        }
-        return 0;
+        return this.isTemplate || this.overriddenFlow || this.sourceTemplate;
     }
 
-    get newFlowOverrideBannerLabel() {
-        return LABELS.newFlowOverrideBannerLabel;
+    get overriddenFlowDisabled() {
+        return this.isOverridable || this.isTemplate || this.sourceTemplate;
+    }
+
+    get sourceTemplateDisabeld() {
+        return this.isOverridable || this.isTemplate || this.overriddenFlow;
     }
 
     get showSaveAsTypePicker() {
@@ -368,17 +415,12 @@ export default class FlowPropertiesEditor extends LightningElement {
                 }));
         });
 
-        fetchOnce(SERVER_ACTION_TYPE.GET_OVERRIDABLE_FLOWS, {
-            flowProcessType: this.flowProperties.processType ? this.flowProperties.processType.value : this.processType,
-            flowTriggerType: this.flowProperties.triggerType
-                ? this.flowProperties.triggerType.value
-                : this._originalTriggerType
-        }).then((overridableFlows) => {
-            this._overridableFlowOptions = overridableFlows.map(({ name, apiname }) => ({
-                label: name,
-                value: apiname
-            }));
-        });
+        const processType = this.flowProperties.processType ? this.flowProperties.processType.value : this.processType;
+        const triggerType = this.flowProperties.triggerType
+            ? this.flowProperties.triggerType.value
+            : this._originalTriggerType;
+        this.getOverridableComboboxItems(processType, triggerType);
+        this.getTemplateComboboxItems(processType, triggerType);
 
         if (isVersioningDataInitialized()) {
             initVersioningInfoForProcessType(this._originalProcessType);
@@ -390,7 +432,58 @@ export default class FlowPropertiesEditor extends LightningElement {
                 this.apiVersionSpinner = false;
             });
         }
-        this._overriddenFlowDisabled = this._isOverridable || this._isTemplate;
+    }
+
+    /**
+     * given a processType, triggerType and isTemplate flag, update the overriddenFlow combobox
+     *
+     * @param processType FlowProcessType
+     * @param triggerType FlowTriggerType
+     */
+    getOverridableComboboxItems(processType: string, triggerType: string) {
+        fetchOnce(SERVER_ACTION_TYPE.GET_OVERRIDABLE_FLOWS, {
+            flowProcessType: processType,
+            flowTriggerType: triggerType,
+            isTemplate: false
+        }).then((overridableFlows) => {
+            this._overridableFlowOptions = overridableFlows.map(({ masterLabel, apiname }) => {
+                const comboboxItem: UI.ComboboxItem = {
+                    type: 'option-card',
+                    dataType: FLOW_DATA_TYPE.STRING.value,
+                    text: masterLabel,
+                    displayText: masterLabel,
+                    value: apiname
+                };
+                return comboboxItem;
+            });
+            this._filteredOverridableFlowOptions = this._overridableFlowOptions;
+        });
+    }
+
+    /**
+     * given a processType, triggerType and isTemplate flag, update the sourceTemplate combobox
+     *
+     * @param processType FlowProcessType
+     * @param triggerType FlowTriggerType
+     */
+    getTemplateComboboxItems(processType: string, triggerType: string) {
+        fetchOnce(SERVER_ACTION_TYPE.GET_OVERRIDABLE_FLOWS, {
+            flowProcessType: processType,
+            flowTriggerType: triggerType,
+            isTemplate: true
+        }).then((templateFlows) => {
+            this._sourceTemplateOptions = templateFlows.map(({ masterLabel, apiname }) => {
+                const comboboxItem: UI.ComboboxItem = {
+                    type: 'option-card',
+                    dataType: FLOW_DATA_TYPE.STRING.value,
+                    text: masterLabel,
+                    displayText: masterLabel,
+                    value: apiname
+                };
+                return comboboxItem;
+            });
+            this._filteredSourceTemplateOptions = this._sourceTemplateOptions;
+        });
     }
 
     initApiVersion(setOriginalValue) {
@@ -486,6 +579,18 @@ export default class FlowPropertiesEditor extends LightningElement {
         this.updateProperty('interviewLabel', '');
     }
 
+    setOverrideTemplateSettings() {
+        if (this.flowProperties.isOverridable) {
+            this.isOverridable = false;
+            this.overriddenFlow = this._originalApiName;
+            this._showOverridesBanner = true;
+        } else if (this.flowProperties.isTemplate) {
+            this.isTemplate = false;
+            this.sourceTemplate = this._originalApiName;
+            this._showOverridesBanner = true;
+        }
+    }
+
     /**
      * @param {object} event - change event coming from the lightning-combobox component displaying process types
      */
@@ -500,7 +605,6 @@ export default class FlowPropertiesEditor extends LightningElement {
                 triggerType = event.detail.value.substring(i + 1);
             }
         }
-        this._overriddenFlowDisabled = false;
         this.updateProperty('processType', processType);
 
         // This is a not so good way to support one entry for After/Before Save triggers.
@@ -525,15 +629,8 @@ export default class FlowPropertiesEditor extends LightningElement {
             this.apiVersion = getMinApiVersion();
         }
 
-        fetchOnce(SERVER_ACTION_TYPE.GET_OVERRIDABLE_FLOWS, {
-            flowProcessType: processType,
-            flowTriggerType: triggerType
-        }).then((overridableFlows) => {
-            this._overridableFlowOptions = overridableFlows.map(({ name, apiname }) => ({
-                label: name,
-                value: apiname
-            }));
-        });
+        this.getOverridableComboboxItems(processType, triggerType);
+        this.getTemplateComboboxItems(processType, triggerType);
     }
 
     handleRunInModeChange(event) {
@@ -543,8 +640,46 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     handleOverriddenFlowChange(event) {
         event.stopPropagation();
-        this.updateProperty('overriddenFlow', event.detail.value);
-        _overriddenFlow = event.detail.value;
+        if (event.detail.item) {
+            this.overriddenFlow = event.detail.item.value;
+        } else {
+            this.overriddenFlow = null;
+        }
+    }
+
+    handleOverridableFilterMatches(event) {
+        this._filteredOverridableFlowOptions = filterMatches(
+            event.detail.value,
+            this._overridableFlowOptions,
+            event.detail.isMergeField
+        );
+    }
+
+    handleSourceTemplateChange(event) {
+        event.stopPropagation();
+        if (event.detail.item) {
+            this.sourceTemplate = event.detail.item.value;
+        } else {
+            this.sourceTemplate = null;
+        }
+    }
+
+    handleTemplateFilterMatches(event) {
+        this._filteredSourceTemplateOptions = filterMatches(
+            event.detail.value,
+            this._sourceTemplateOptions,
+            event.detail.isMergeField
+        );
+    }
+
+    handleTemplateCheckBox(event) {
+        event.stopPropagation();
+        this.isTemplate = event.detail.checked;
+    }
+
+    handleOverridableCheckBox(event) {
+        event.stopPropagation();
+        this.isOverridable = event.detail.checked;
     }
 
     handleAdvancedToggle(event) {
@@ -553,18 +688,6 @@ export default class FlowPropertiesEditor extends LightningElement {
         this.isAdvancedShown = !this.isAdvancedShown;
         this._toggleAdvancedLabel = !this.isAdvancedShown ? showAdvanced : hideAdvanced;
         this._toggleAdvancedClass = !this.isAdvancedShown ? TOGGLE_CLASS_SHOW : TOGGLE_CLASS_HIDE;
-    }
-
-    handleTemplateCheckBox(event) {
-        event.stopPropagation();
-        this._isTemplate = !this._isTemplate;
-        this.updateProperty('isTemplate', this._isTemplate);
-    }
-
-    handleOverridableCheckBox(event) {
-        event.stopPropagation();
-        this._isOverridable = !this._isOverridable;
-        this.updateProperty('isOverridable', this._isOverridable);
     }
 
     handleApiVersionChange(event) {

@@ -1262,6 +1262,7 @@ export const flowLegalNameChange = {
         description:
             'This Flow prompts for and changes the name of the Contact or Person Account, it also requires upload of documentation (pdf, jpg, png) and it updates the Feed for the record after the change. Can be launched from Contact, Person Account or Case records.',
         interviewLabel: 'Legal Name Change {!$Flow.CurrentDateTime}',
+        isOverridable: false,
         isTemplate: false,
         label: 'Legal Name Change',
         processMetadataValues: [

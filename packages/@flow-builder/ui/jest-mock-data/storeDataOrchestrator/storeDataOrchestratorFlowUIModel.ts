@@ -203,6 +203,9 @@ export const orchestratorFlowUIModel = {
         status: 'Draft',
         versionNumber: 1,
         apiVersion: 53,
-        isAutoLayoutCanvas: true
+        isAutoLayoutCanvas: true,
+        isOverridable: false,
+        overriddenFlow: null,
+        sourceTemplate: null
     }
 };

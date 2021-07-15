@@ -54,8 +54,9 @@ export function createFlowProperties(flowProperties = {}) {
         status,
         triggerType,
         apiVersion,
-        isOverridable,
-        overriddenFlow
+        isOverridable = false,
+        overriddenFlow = null,
+        sourceTemplate = null
     } = flowProperties.metadata || flowProperties;
 
     let {
@@ -103,7 +104,8 @@ export function createFlowProperties(flowProperties = {}) {
         apiVersion,
         isAutoLayoutCanvas,
         isOverridable,
-        overriddenFlow
+        overriddenFlow,
+        sourceTemplate
     };
 }
 
@@ -129,7 +131,8 @@ export function createFlowPropertiesMetadataObject(flowProperties) {
         apiVersion,
         isAutoLayoutCanvas,
         isOverridable,
-        overriddenFlow
+        overriddenFlow,
+        sourceTemplate
     } = flowProperties;
 
     // Adding a bit to make sure that flow is a saved/created in flow builder. And storing the Canvas Mode.
@@ -146,7 +149,8 @@ export function createFlowPropertiesMetadataObject(flowProperties) {
         status,
         apiVersion,
         isOverridable,
-        overriddenFlow
+        overriddenFlow,
+        sourceTemplate
     };
 }
 

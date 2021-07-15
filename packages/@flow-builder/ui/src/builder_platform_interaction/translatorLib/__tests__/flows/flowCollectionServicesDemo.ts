@@ -1035,6 +1035,7 @@ export const flowCollectionServicesDemo = {
         ],
         description: 'PM demo org flow - Extracted on Oct 3rd, 2018',
         interviewLabel: 'CollectionOperators Demo {!$Flow.CurrentDateTime}',
+        isOverridable: false,
         isTemplate: false,
         label: 'Collection Services Demonstration',
         processMetadataValues: [

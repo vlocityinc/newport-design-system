@@ -431,6 +431,9 @@ export const contactRequestFlowUIModel = {
         runInMode: null,
         versionNumber: 1,
         apiVersion: 50,
-        isAutoLayoutCanvas: false
+        isAutoLayoutCanvas: false,
+        isOverridable: false,
+        overriddenFlow: null,
+        sourceTemplate: null
     }
 };
