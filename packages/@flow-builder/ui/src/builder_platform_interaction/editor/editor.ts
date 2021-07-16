@@ -102,8 +102,7 @@ import {
     updateStoreAfterSaveAsNewFlowIsFailed,
     updateStoreAfterSaveAsNewVersionIsFailed,
     updateStoreAfterSaveFlowIsSuccessful,
-    updateUrl,
-    logElementCreation
+    updateUrl
 } from './editorUtils';
 import { cachePropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import {
@@ -295,7 +294,6 @@ export default class Editor extends LightningElement {
     flowRetrieveError;
     hideDebugAgainButton = false;
     _isAddingResourceViaLeftPanel = false;
-    _isResourceQuickCreated = false;
     _isInlineEditingResource = false;
     ifBlockResume = false;
 
@@ -2517,6 +2515,7 @@ export default class Editor extends LightningElement {
 
         let payload: UI.Element | NodeWithParent = nodeForStore;
         payload.isAddingResourceViaLeftPanel = this._isAddingResourceViaLeftPanel;
+
         // This is a non-canvas child element being added directly on the canvas
         if (!nodeForStore.canvasElement && parentGuid) {
             payload = {
@@ -2542,7 +2541,7 @@ export default class Editor extends LightningElement {
      */
     dispatchAddElement(element: UI.Element | NodeWithParent) {
         storeInstance.dispatch(addElement(element));
-        logElementCreation(element, this._isResourceQuickCreated);
+        logInteraction(`add-node-of-type-${element.elementType}`, 'modal', null, 'click');
     }
 
     /**
@@ -2599,9 +2598,7 @@ export default class Editor extends LightningElement {
         // If we are adding a new resource for the user, we don't want to pop the property editor, unless there
         // is an issue, such as name collision.
         const { newResourceInfo } = newResourceDetail;
-        this._isResourceQuickCreated = false;
         if (newResourceInfo?.newResource) {
-            this._isResourceQuickCreated = true;
             const newResource = newResourceInfo.newResource;
             if (
                 !isDevNameInStore(newResource.name) &&
