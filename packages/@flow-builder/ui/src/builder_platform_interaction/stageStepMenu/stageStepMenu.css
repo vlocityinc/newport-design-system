@@ -1,3 +1,11 @@
+.menu {
+    z-index: var(--z-index-alc-canvas-menu);
+}
+
+.overlay {
+    background-color: #fafafb;
+}
+
 .header {
     text-align: center;
     background: #fafafb;

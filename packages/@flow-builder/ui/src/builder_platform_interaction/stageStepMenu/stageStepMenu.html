@@ -1,47 +1,49 @@
 <template>
-    <builder_platform_interaction-alc-menu>
-        <div slot="header" class="slds-border_bottom slds-dropdown__header slds-truncate" role="separator">
-            <h3 class="slds-m-vertical_small slds-text-heading_small">{labels.addStepButton}</h3>
-        </div>
-        <div slot="body" class="slds-scrollable_y body body-fixed-height">
-            <template for:each={menuConfiguration.sections} for:item="section">
-                <ul key={section.guid} class="slds-listbox slds-listbox_vertical" role="group">
-                    <li class="slds-dropdown__header" role="separator" title="Automatic">
-                        <span>{section.header}</span>
-                    </li>
-                    <template for:each={section.items} for:item="item">
-                        <div key={item.guid}>
-                            <li class="slds-listbox__item" action={item.action} role="presentation">
-                                <div
-                                    class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
-                                    role="option"
-                                    tabindex="0"
-                                    onclick={handleSelectMenuItem}
-                                >
-                                    <span class="slds-icon_container push-icon-down">
-                                        <lightning-icon
-                                            icon-name={item.iconName}
-                                            size={item.iconSize}
-                                            class="slds-float_left slds-m-right_small background-step-icon"
-                                            variant={item.iconVariant}
-                                        ></lightning-icon>
-                                    </span>
-                                    <span class="slds-media__body">
-                                        <span class="slds-listbox__option-text slds-listbox__option-text_entity">
-                                            {item.label}
+    <div class="menu overlay slds-dropdown">
+        <builder_platform_interaction-alc-menu>
+            <div slot="header" class="slds-border_bottom slds-dropdown__header slds-truncate" role="separator">
+                <h3 class="slds-m-vertical_small slds-text-heading_small">{labels.addStepButton}</h3>
+            </div>
+            <div slot="body" class="slds-scrollable_y body body-fixed-height">
+                <template for:each={menuConfiguration.sections} for:item="section">
+                    <ul key={section.guid} class="slds-listbox slds-listbox_vertical" role="group">
+                        <li class="slds-dropdown__header" role="separator" title="Automatic">
+                            <span>{section.header}</span>
+                        </li>
+                        <template for:each={section.items} for:item="item">
+                            <div key={item.guid}>
+                                <li class="slds-listbox__item" action={item.action} role="presentation">
+                                    <div
+                                        class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                        role="option"
+                                        tabindex="0"
+                                        onclick={handleSelectMenuItem}
+                                    >
+                                        <span class="slds-icon_container push-icon-down">
+                                            <lightning-icon
+                                                icon-name={item.iconName}
+                                                size={item.iconSize}
+                                                class="slds-float_left slds-m-right_small background-step-icon"
+                                                variant={item.iconVariant}
+                                            ></lightning-icon>
                                         </span>
-                                        <span
-                                            class="slds-listbox__option-meta slds-listbox__option-meta_entity slds-truncate"
-                                        >
-                                            {item.description}
+                                        <span class="slds-media__body">
+                                            <span class="slds-listbox__option-text slds-listbox__option-text_entity">
+                                                {item.label}
+                                            </span>
+                                            <span
+                                                class="slds-listbox__option-meta slds-listbox__option-meta_entity slds-truncate"
+                                            >
+                                                {item.description}
+                                            </span>
                                         </span>
-                                    </span>
-                                </div>
-                            </li>
-                        </div>
-                    </template>
-                </ul>
-            </template>
-        </div>
-    </builder_platform_interaction-alc-menu>
+                                    </div>
+                                </li>
+                            </div>
+                        </template>
+                    </ul>
+                </template>
+            </div>
+        </builder_platform_interaction-alc-menu>
+    </div>
 </template>
