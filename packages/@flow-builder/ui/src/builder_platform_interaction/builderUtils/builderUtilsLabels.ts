@@ -3,6 +3,7 @@ import newElementHeaderPrefix from '@salesforce/label/FlowBuilderCommonPropertyE
 import newResourceEditorTitle from '@salesforce/label/FlowBuilderResourceEditor.newResourceEditorTitle';
 import newDebugEditorTitle from '@salesforce/label/FlowBuilderDebugEditor.headerTitle';
 import createFlowTitle from '@salesforce/label/FlowBuilderFlowPropertiesEditor.createFlowTitle';
+import orchestrationCreateFlowTitle from '@salesforce/label/FlowBuilderFlowPropertiesEditor.orchestrationCreateFlowTitle';
 import saveFlowAsTitle from '@salesforce/label/FlowBuilderFlowPropertiesEditor.saveFlowAsTitle';
 import saveButtonLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.saveButtonLabel';
 import createButtonLabel from '@salesforce/label/FlowBuilderNewFlowModal.createButtonLabel';
@@ -19,6 +20,7 @@ export const LABELS = {
     newResourceEditorTitle,
     newDebugEditorTitle,
     createFlowTitle,
+    orchestrationCreateFlowTitle,
     saveFlowAsTitle,
     saveButtonLabel,
     createButtonLabel,

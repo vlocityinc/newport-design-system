@@ -25,6 +25,7 @@ import { clearExpressions } from 'builder_platform_interaction/expressionValidat
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { isAutoLayoutCanvasEnabled } from 'builder_platform_interaction/contextLib';
 import { invokeModalWithComponents } from 'builder_platform_interaction/sharedUtils';
+import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 const { format } = commonUtils;
 
@@ -98,14 +99,17 @@ const createComponentPromise = (cmpName, attr) => {
 };
 
 /**
- * @param {string} mode based on the event type
- * @param {string} element eg: Assignment, Decision, etc
- * @returns {string} title for the modal
+ * @param mode - based on the event type
+ * @param elementMetadata - eg: Assignment, Decision, etc
+ * @param processType - eg: Flow, Orchestrator, Workflow
+ * @returns title for the modal
  */
-const getTitleForModalHeader = (mode, element) => {
-    const elementConfig = getConfigForElement(element);
+const getTitleForModalHeader = (mode: string, elementMetadata: Object, processType?: string): string => {
+    const elementConfig = getConfigForElement(elementMetadata);
     if (!elementConfig || !elementConfig.labels) {
-        throw new Error('label is not defined in the element config for the element type: ' + element.elementType);
+        throw new Error(
+            'label is not defined in the element config for the element type: ' + elementMetadata.elementType
+        );
     }
 
     let titlePrefix = '',
@@ -113,7 +117,7 @@ const getTitleForModalHeader = (mode, element) => {
 
     switch (mode) {
         case SaveFlowEvent.Type.SAVE:
-            label = LABELS.createFlowTitle;
+            label = isOrchestrator(processType) ? LABELS.orchestrationCreateFlowTitle : LABELS.createFlowTitle;
             break;
         case SaveFlowEvent.Type.SAVE_AS:
             label = LABELS.saveFlowAsTitle;
@@ -360,10 +364,14 @@ export const getPropertyEditorConfig = (mode, attributes) => {
         node = attributes.node,
         elementType = attributes.node.elementType,
         elementConfig = getConfigForElement(attributes.node),
-        titleForModal = getTitleForModalHeader(mode, {
-            elementType,
-            elementSubtype: getValueFromHydratedItem(attributes.node.elementSubtype)
-        }),
+        titleForModal = getTitleForModalHeader(
+            mode,
+            {
+                elementType,
+                elementSubtype: getValueFromHydratedItem(attributes.node.elementSubtype)
+            },
+            attributes.processType || attributes.node?.processType?.value
+        ),
         labelForOkButton = getLabelForOkButton(mode),
         desc = getPropertyEditorDescriptor(mode, elementConfig),
         className = getPropertyEditorClassName(desc),

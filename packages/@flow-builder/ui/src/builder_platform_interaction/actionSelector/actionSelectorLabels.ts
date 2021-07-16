@@ -5,6 +5,7 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import actionTypeLabel from '@salesforce/label/FlowBuilderActionSelector.actionTypeLabel';
 import actionTypeOption from '@salesforce/label/FlowBuilderActionSelector.actionTypeOption';
 import actionComboboxPlaceholder from '@salesforce/label/FlowBuilderActionSelector.actionComboboxPlaceholder';
+import orchestratorActionComboboxPlaceholder from '@salesforce/label/FlowBuilderActionSelector.orchestratorActionComboboxPlaceholder';
 import apexPluginTypeOption from '@salesforce/label/FlowBuilderActionSelector.apexPluginTypeOption';
 import apexPluginComboboxPlaceholder from '@salesforce/label/FlowBuilderActionSelector.apexPluginComboboxPlaceholder';
 import apexTypeOption from '@salesforce/label/FlowBuilderActionSelector.apexTypeOption';
@@ -36,6 +37,7 @@ export const LABELS = {
     categoryComboboxPlaceholder,
     flowSearchInputLabel,
     actionSearchInputLabel,
+    orchestratorActionComboboxPlaceholder,
     [ELEMENT_TYPE.ACTION_CALL]: {
         TYPE_OPTION_LABEL: actionTypeOption,
         ACTION_COMBO_PLACEHOLDER: actionComboboxPlaceholder

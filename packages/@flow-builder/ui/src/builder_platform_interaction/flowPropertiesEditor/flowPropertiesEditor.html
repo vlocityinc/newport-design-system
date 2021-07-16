@@ -33,7 +33,7 @@
         >
         </builder_platform_interaction-label-description>
 
-        <div class="slds-m-top_small">
+        <div if:false={shouldHideAdvancedPropertiesButton} class="slds-m-top_small">
             <lightning-button
                 variant="base"
                 class={_toggleAdvancedClass}

@@ -1,6 +1,8 @@
 // @ts-nocheck
 import nameLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.nameLabel';
+import orchestrationNameLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.orchestrationNameLabel';
 import uniqueNameLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.uniqueNameLabel';
+import orchestrationUniqueNameLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.orchestrationUniqueNameLabel';
 import runInSystemModeLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.runInSystemModeLabel';
 import runInModeHelpText from '@salesforce/label/FlowBuilderFlowPropertiesEditor.runInModeHelpText';
 import processTypeLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.processTypeLabel';
@@ -35,7 +37,9 @@ import sourceTemplateHelpText from '@salesforce/label/FlowBuilderFlowPropertiesE
 
 export const LABELS = {
     nameLabel,
+    orchestrationNameLabel,
     uniqueNameLabel,
+    orchestrationUniqueNameLabel,
     runInSystemModeLabel,
     runInModeHelpText,
     processTypeLabel,

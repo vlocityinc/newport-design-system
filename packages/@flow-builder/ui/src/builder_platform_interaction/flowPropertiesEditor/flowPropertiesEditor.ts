@@ -32,6 +32,7 @@ import { isRunInModeSupported, isRecordChangeTriggerType } from 'builder_platfor
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { loadVersioningData } from 'builder_platform_interaction/preloadLib';
+import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 const { format } = commonUtils;
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
@@ -46,6 +47,17 @@ import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const TOGGLE_CLASS_SHOW = 'show-advanced-button';
 const TOGGLE_CLASS_HIDE = 'hide-advanced-button';
+
+/**
+ * As Orchestrator begins to move into a more 'unified branding' the labeling from flows is beginning to diverge
+ * These labels provide Orchestrator specific saving labels - eg: Save the Orchestration, Orchestration API Name, etc...
+ * TODO: Refactor this label branching to use the 236 labelProvider utility
+ */
+const LABELS_ORCHESTRATION = {
+    ...LABELS,
+    uniqueNameLabel: LABELS.orchestrationUniqueNameLabel,
+    nameLabel: LABELS.orchestrationNameLabel
+};
 
 export default class FlowPropertiesEditor extends LightningElement {
     _instanceLabelId = generateGuid();
@@ -132,8 +144,6 @@ export default class FlowPropertiesEditor extends LightningElement {
     @track
     apiVersionSpinner = true;
 
-    labels = LABELS;
-
     @track
     _processTypes = [];
 
@@ -199,9 +209,18 @@ export default class FlowPropertiesEditor extends LightningElement {
         const entry = this.findCurrentProcessTypeEntry();
         return entry ? entry.label : null;
     }
-
     get showNewFlowOverrideBanner() {
         return this._showOverridesBanner;
+    }
+
+    get shouldHideAdvancedPropertiesButton(): boolean {
+        return isOrchestrator(this.flowProperties.processType && this.flowProperties.processType.value);
+    }
+
+    get labels() {
+        return isOrchestrator(this.flowProperties.processType && this.flowProperties.processType.value)
+            ? LABELS_ORCHESTRATION
+            : LABELS;
     }
 
     /**

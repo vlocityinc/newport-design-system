@@ -10,6 +10,7 @@ import cannotBeBlank from '@salesforce/label/FlowBuilderValidation.cannotBeBlank
 import { Store } from 'builder_platform_interaction/storeLib';
 import { InvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
 const { format } = commonUtils;
 
 type ElementActionType = {
@@ -381,7 +382,11 @@ export default class ActionSelector extends LightningElement {
                 items = [];
         }
 
-        this.state.actionPlaceholder = this.labels[selectedElementType].ACTION_COMBO_PLACEHOLDER;
+        // TODO: Remove this label branching for Orchestrator and use the 236 label provider
+        this.state.actionPlaceholder = isOrchestrator(this.flowProcessType)
+            ? this.labels.orchestratorActionComboboxPlaceholder
+            : this.labels[selectedElementType].ACTION_COMBO_PLACEHOLDER;
+
         return items;
     }
 

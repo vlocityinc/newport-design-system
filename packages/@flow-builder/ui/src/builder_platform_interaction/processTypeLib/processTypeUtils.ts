@@ -177,6 +177,16 @@ export const isAutoLayoutCanvasOnly = (processType) => {
 };
 
 /**
+ * Utility method to determine if the flow is of process type: Orchestrator
+ *
+ * @param processType eg: Flow, Orchestrator, Workflow, etc...
+ * @returns whether or not the flow is Orchestrator
+ */
+export const isOrchestrator = (processType?: string): boolean => {
+    return processType === FLOW_PROCESS_TYPE.ORCHESTRATOR;
+};
+
+/**
  * Scheduled Paths are supported exclusively for Auto Launched Flows. Returns true iff process type is auto launched.
  *
  * @param processtype
