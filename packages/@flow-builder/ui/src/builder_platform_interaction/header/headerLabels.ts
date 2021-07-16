@@ -15,6 +15,7 @@ import debugBadgeCompleted from '@salesforce/label/FlowBuilderHeader.debugBadgeC
 import debugBadgePaused from '@salesforce/label/FlowBuilderHeader.debugBadgePaused';
 import debugBadgeError from '@salesforce/label/FlowBuilderHeader.debugBadgeError';
 import interviewLabelTitle from '@salesforce/label/FlowBuilderHeader.interviewLabelTitle';
+import overrideBadge from '@salesforce/label/FlowBuilderHeader.overrideBadge';
 
 export const LABELS = {
     appNameText,
@@ -32,5 +33,6 @@ export const LABELS = {
     debugBadgeCompleted,
     debugBadgePaused,
     debugBadgeError,
-    interviewLabelTitle
+    interviewLabelTitle,
+    overrideBadge
 };

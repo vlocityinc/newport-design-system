@@ -42,6 +42,15 @@
                 >{flowVersionNumber}</span
             >
         </h1>
+        <div class="slds-builder-header__item" if:true={overriddenFlow}>
+            <lightning-badge
+                label={labels.overrideBadge}
+                title={labels.overrideBadge}
+                class={badgeClasses}
+                tab-index="0"
+            >
+            </lightning-badge>
+        </div>
         <lightning-badge if:true={isSystemMode} label={systemModeLabel} title={systemModeLabel} class={badgeClasses}>
         </lightning-badge>
         <h1

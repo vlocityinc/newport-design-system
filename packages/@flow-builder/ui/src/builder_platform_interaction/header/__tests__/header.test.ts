@@ -44,7 +44,8 @@ const SELECTORS = {
     guardrailsMenuItem: 'analyzer_framework-help-menu-item',
     interviewLabel: '.test-interview-label',
     debugBadge: '.test-debug-badge',
-    systemModeBadge: `${LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BADGE}[title = "FlowBuilderHeader.systemModeLabelText"]`
+    systemModeBadge: `${LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BADGE}[title = "FlowBuilderHeader.systemModeLabelText"]`,
+    overrideBadge: `${LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BADGE}[title = "FlowBuilderHeader.overrideBadge"]`
 };
 const getAppNameDiv = (header) => header.shadowRoot.querySelector(SELECTORS.appName);
 const getMenuTrigger = (headerComponent) =>
@@ -212,6 +213,18 @@ describe('header', () => {
                 expect(debugStatusBadge.className).toMatch(expectedExtraCssClass);
             }
         );
+    });
+
+    describe('override badge with overridden flow', () => {
+        const headerComponent = createComponentForTest({ overriddenFlow: 'OverriddenFlowName' });
+        const overrideBadge = headerComponent.shadowRoot.querySelector(SELECTORS.overrideBadge);
+        expect(overrideBadge).not.toBeNull();
+    });
+
+    describe('override badge with no overridden flow', () => {
+        const headerComponent = createComponentForTest();
+        const overrideBadge = headerComponent.shadowRoot.querySelector(SELECTORS.overrideBadge);
+        expect(overrideBadge).toBeNull();
     });
 
     describe('help menu', () => {

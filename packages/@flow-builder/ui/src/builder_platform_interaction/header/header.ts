@@ -57,6 +57,9 @@ export default class Header extends LightningElement {
     @api
     debugInterviewStatus;
 
+    @api
+    overriddenFlow;
+
     @api focus() {
         const headerFocusableElement = this.template.querySelector('[href].test-back-url');
         if (headerFocusableElement) {
