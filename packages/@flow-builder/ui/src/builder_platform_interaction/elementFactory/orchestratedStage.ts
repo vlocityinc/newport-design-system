@@ -1,4 +1,4 @@
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, ACTION_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
@@ -41,6 +41,7 @@ export const RELATED_RECORD_INPUT_PARAMETER_NAME = 'ActionInput__RecordId';
 export interface StageStep extends UI.ChildElement {
     parent: UI.Guid;
     stepTypeLabel: string;
+    icon: string;
 
     relatedRecordItem: ParameterListRowItem | UI.HydratedValue;
 
@@ -351,15 +352,38 @@ export function getSteps(guid: UI.Guid): StageStep[] {
 
     return orchestratedStage.childReferences.map(
         (ref: UI.ChildReference): StageStep => {
+            const stageStep = getElementByGuid<StageStep>(ref.childReference)!;
+            const stepTypeLabel = resolveStepTypeLabel(stageStep.actionType!);
+
             return <StageStep>{
-                ...getElementByGuid(ref.childReference)!,
-                // TODO: W-8051764: This will eventually need to be dynamic based on the step type
-                stepTypeLabel: LABELS.workStepLabel
+                ...stageStep,
+                stepTypeLabel
             };
         }
     );
 }
 
+/**
+ * Resolve the step label using the action type.
+ * If no action type is present, i.e. user had not set flow details
+ * on the step, choose no action type is set, return the default step type - interactive step.
+ *
+ * @param actionType
+ * @returns
+ */
+const resolveStepTypeLabel = (actionType: string) => {
+    if (actionType === ACTION_TYPE.STEP_BACKGROUND) {
+        return LABELS.backgroundStepLabel;
+    } else if (actionType === ACTION_TYPE.STEP_INTERACTIVE) {
+        return LABELS.interactiveStepLabel;
+    }
+
+    // User will be blocked to save an orchestration without
+    // action. i.e. without choosing the flow to be run.
+    // So, ideally, action should always be populated in the step.
+    // return null if action is not present.
+    return null;
+};
 /**
  *
  */
@@ -492,11 +516,8 @@ const setupStepWithLabels = (step: StageStep): StageStep => {
         baseStep.name = sanitizeDevName(baseStep.label);
     }
 
-    // Currently, we only have one step type
-    if (!baseStep.stepTypeLabel) {
-        baseStep.stepTypeLabel = LABELS.workStepLabel;
-    }
-
+    // Determine the step type label using the action type.
+    baseStep.stepTypeLabel = resolveStepTypeLabel(baseStep.actionType!);
     return <StageStep>baseChildElement(baseStep, ELEMENT_TYPE.STAGE_STEP);
 };
 

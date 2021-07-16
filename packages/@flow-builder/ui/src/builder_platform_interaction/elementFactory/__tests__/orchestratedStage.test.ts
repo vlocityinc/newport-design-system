@@ -99,6 +99,7 @@ const existingOrchestratedStageGuid = 'existingOrchestratedStage';
 const orchestratedStageWithChildrenGuid = 'newOrchestratedStageWithChildren';
 const existingOrchestratedStageWithOneChildGuid = 'existingOrchestratedStageWithOneChild';
 const existingOrchestratedStageWithChildrenGuid = 'existingOrchestratedStageWithChildren';
+const existingOrchestrationStageWithDiffStepTypeChildrenGuid = 'existingOrchestrationStageWithDiffStepTypeChildren';
 
 const existingOrchestratedStage: OrchestratedStage = {
     guid: existingOrchestratedStageGuid,
@@ -107,12 +108,21 @@ const existingOrchestratedStage: OrchestratedStage = {
 };
 const existingOrchestratedStageWithOneChild = {
     guid: existingOrchestratedStageWithOneChildGuid,
-    childReferences: [{ childReference: 'existingItem1' }]
+    childReferences: [{ childReference: 'interactiveStep' }]
 };
 
 const existingOrchestratedStageWithChildren = {
     guid: existingOrchestratedStageWithChildrenGuid,
-    childReferences: [{ childReference: 'existingItem1' }, { childReference: 'existingItem2' }]
+    childReferences: [{ childReference: 'interactiveStep' }, { childReference: 'backgroundStep' }]
+};
+
+const existingOrchestrationStageWithDiffStepTypeChildren = {
+    guid: existingOrchestrationStageWithDiffStepTypeChildrenGuid,
+    childReferences: [
+        { childReference: 'backgroundStep' },
+        { childReference: 'interactiveStep' },
+        { childReference: 'neither' }
+    ]
 };
 
 getElementByGuid.mockImplementation((guid) => {
@@ -122,6 +132,22 @@ getElementByGuid.mockImplementation((guid) => {
         return existingOrchestratedStage;
     } else if (guid === existingOrchestratedStageWithChildren.guid) {
         return existingOrchestratedStageWithChildren;
+    } else if (guid === existingOrchestrationStageWithDiffStepTypeChildren.guid) {
+        return existingOrchestrationStageWithDiffStepTypeChildren;
+    } else if (guid === 'interactiveStep') {
+        return {
+            guid,
+            actionType: 'stepInteractive'
+        };
+    } else if (guid === 'backgroundStep') {
+        return {
+            guid,
+            actionType: 'stepBackground'
+        };
+    } else if (guid === 'neither') {
+        return {
+            guid
+        };
     } else if (guid === 'step1' || guid === 'step2' || guid === 'step3') {
         return {
             guid,
@@ -347,13 +373,15 @@ describe('OrchestratedStage', () => {
             expect(baseChildElement.mock.calls[0][1]).toEqual(ELEMENT_TYPE.STAGE_STEP);
         });
 
-        it('calls baseChildElement with a step type of "work step"', () => {
-            const workStepLabel = 'FlowBuilderElementConfig.workStepLabel';
+        it('calls baseChildElement with a step type of "Interactive Step"', () => {
+            const interactiveStepLabel = 'FlowBuilderElementConfig.interactiveStepLabel';
             createStageStep({
+                actionType: 'stepInteractive',
                 assignees: []
             });
             expect(baseChildElement.mock.calls[0][0]).toEqual({
-                stepTypeLabel: workStepLabel,
+                actionType: 'stepInteractive',
+                stepTypeLabel: interactiveStepLabel,
                 assignees: []
             });
         });
@@ -748,10 +776,12 @@ describe('OrchestratedStage', () => {
     });
 
     describe('getSteps', () => {
+        const interactiveStepLabel = 'FlowBuilderElementConfig.interactiveStepLabel';
+        const backgroundStepLabel = 'FlowBuilderElementConfig.backgroundStepLabel';
+
         it('returns all items for the OrchestratedStage', () => {
             const data = getSteps(existingOrchestratedStageWithChildren.guid);
             expect(data).toHaveLength(2);
-
             expect(getElementByGuid).toHaveBeenCalledTimes(3);
             expect(getElementByGuid.mock.calls[1][0]).toEqual(
                 existingOrchestratedStageWithChildren.childReferences[0].childReference
@@ -760,11 +790,18 @@ describe('OrchestratedStage', () => {
                 existingOrchestratedStageWithChildren.childReferences[1].childReference
             );
         });
-        it('sets the label to WorkStep for all stageSteps', () => {
-            const workStepLabel = 'FlowBuilderElementConfig.workStepLabel';
+
+        it('sets the label to Interactive Step for worksteps', () => {
             const data = getSteps(existingOrchestratedStageWithChildren.guid);
-            expect(data[0].stepTypeLabel).toEqual(workStepLabel);
-            expect(data[1].stepTypeLabel).toEqual(workStepLabel);
+            expect(data[0].stepTypeLabel).toEqual(interactiveStepLabel);
+            expect(data[1].stepTypeLabel).toEqual(backgroundStepLabel);
+        });
+
+        it('sets the label to steps appropriately', () => {
+            const data = getSteps(existingOrchestrationStageWithDiffStepTypeChildren.guid);
+            expect(data[0].stepTypeLabel).toEqual(backgroundStepLabel);
+            expect(data[1].stepTypeLabel).toEqual(interactiveStepLabel);
+            expect(data[2].stepTypeLabel).toEqual(null);
         });
     });
 
@@ -782,7 +819,7 @@ describe('OrchestratedStage', () => {
                 return [existingOrchestratedStageWithOneChild];
             });
 
-            const data = getOtherItemsInOrchestratedStage('existingItem1');
+            const data = getOtherItemsInOrchestratedStage('interactiveStep');
 
             expect(data).toHaveLength(0);
         });
@@ -792,10 +829,10 @@ describe('OrchestratedStage', () => {
                 return [existingOrchestratedStageWithChildren];
             });
 
-            const data = getOtherItemsInOrchestratedStage('existingItem1');
+            const data = getOtherItemsInOrchestratedStage('interactiveStep');
 
             expect(data).toHaveLength(1);
-            expect(data[0]).toMatchObject({ guid: 'existingItem2' });
+            expect(data[0]).toMatchObject({ guid: 'backgroundStep' });
         });
     });
 

@@ -124,6 +124,11 @@ export const ACTION_TYPE = {
     OUTBOUND_MESSAGE: 'outboundMessage'
 };
 
+export const ICONS = {
+    interactiveStep: 'standard:marketing_actions',
+    backgroundStep: 'standard:flow'
+};
+
 export const METADATA_KEY = {
     START: 'start',
     ACTION_CALLS: 'actionCalls',

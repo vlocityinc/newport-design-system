@@ -62,6 +62,10 @@
           {
             "name":"RecordDelete",
             "type":"element"
+          },
+          {
+            "name":"RecordRollback",
+            "type":"element"
           }
         ],
         "headerFreeformVisibility":true

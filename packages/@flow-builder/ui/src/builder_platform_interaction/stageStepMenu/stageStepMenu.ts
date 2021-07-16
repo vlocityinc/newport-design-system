@@ -23,18 +23,18 @@ export default class StageStepMenu extends Menu {
                 header: LABELS.steps,
                 items: [
                     {
-                        guid: 'autolaunched-step',
+                        guid: 'background-step',
                         action: ACTION_TYPE.STEP_BACKGROUND,
-                        label: LABELS.autolaunchedStep,
+                        label: LABELS.backgroundStepLabel,
                         description: LABELS.autolaunchedStepDescription,
                         iconName: 'standard:flow',
                         iconSize: 'small',
                         iconVariant: 'inverse'
                     },
                     {
-                        guid: 'work-step',
+                        guid: 'interactive-step',
                         action: ACTION_TYPE.STEP_INTERACTIVE,
-                        label: LABELS.workStep,
+                        label: LABELS.interactiveStepLabel,
                         description: LABELS.workStepDescription,
                         iconName: 'standard:marketing_actions',
                         iconSize: 'small',
@@ -56,7 +56,7 @@ export default class StageStepMenu extends Menu {
 
         const addItemEvent = new AddElementEvent({
             elementType: ELEMENT_TYPE.STAGE_STEP,
-            actionType: currentTarget.getAttribute('action')!,
+            actionType: currentTarget.parentElement!.getAttribute('action')!,
             parent: this.node && this.node.guid,
             designateFocus
         });

@@ -141,6 +141,23 @@
       "allowsTransactionControl":false,
       "iconName":null,
       "description":"FTEST - File Based Flow Screen Flow",
+      "label":"FTest-TestFileBasedOverridableScreen",
+      "type":"stepInteractive",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"FtestSfdcOnly__TestFileBasedOverScreen",
+      "configurationEditor":null,
+      "category":null,
+      "genericTypes":[
+
+      ],
+      "durableId":"stepInteractive-FtestSfdcOnly__TestFileBasedOverScreen"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":"FTEST - File Based Flow Screen Flow",
       "label":"FTest-TestFileBasedScreen",
       "type":"stepInteractive",
       "fillColor":null,
@@ -237,23 +254,6 @@
 
       ],
       "durableId":"stepInteractive-setup_service_experience__Reset_Pwd"
-    },
-    {
-      "iconId":null,
-      "allowsTransactionControl":false,
-      "iconName":null,
-      "description":"Removed custom field references",
-      "label":"Verify Identity",
-      "type":"stepInteractive",
-      "fillColor":null,
-      "isStandard":false,
-      "name":"setup_service_experience__Verify_Cust",
-      "configurationEditor":null,
-      "category":null,
-      "genericTypes":[
-
-      ],
-      "durableId":"stepInteractive-setup_service_experience__Verify_Cust"
     }
   ]
 }

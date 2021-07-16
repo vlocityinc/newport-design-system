@@ -2,7 +2,7 @@ import { LightningElement, api } from 'lwc';
 import { NodeResizeEvent } from 'builder_platform_interaction/alcEvents';
 import { DeleteElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
 import { StageStep } from 'builder_platform_interaction/elementFactory';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, ICONS } from 'builder_platform_interaction/flowMetadata';
 import { NodeRenderInfo } from 'builder_platform_interaction/autoLayoutCanvas';
 import { LABELS } from './orchestratedStageNodeLabels';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
@@ -229,6 +229,12 @@ export default class OrchestratedStageNode extends LightningElement {
             items.forEach((item, i) => {
                 item.ariaSelected = item.guid === this.activeElementGuid;
 
+                if (item.stepTypeLabel === LABELS.interactiveStepLabel) {
+                    item.icon = ICONS.interactiveStep;
+                } else if (item.stepTypeLabel === LABELS.backgroundStepLabel) {
+                    item.icon = ICONS.backgroundStep;
+                }
+
                 if (i === 0 || item.guid === this._lastFocusedItemGuid) {
                     indexedItem = item;
                 }
@@ -237,6 +243,7 @@ export default class OrchestratedStageNode extends LightningElement {
             });
             indexedItem.tabIndex = 0;
         }
+
         return items;
     }
 

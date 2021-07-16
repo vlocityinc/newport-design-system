@@ -1,0 +1,752 @@
+{
+  "invocableActionsForAfterSaveRecordTriggeredFlow":[
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":"Activates a session-based permission set for the running user.",
+      "label":"Activate Session-Based Permission Set",
+      "type":"activateSessionPermSet",
+      "fillColor":null,
+      "isStandard":true,
+      "name":"activateSessionPermSet",
+      "configurationEditor":null,
+      "category":"Users",
+      "genericTypes":[
+
+      ],
+      "durableId":"activateSessionPermSet-activateSessionPermSet"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":"Add Work Plans to a Work Order or Work Order Line Item",
+      "label":"Add Work Plans",
+      "type":"addWorkPlans",
+      "fillColor":null,
+      "isStandard":true,
+      "name":"addWorkPlans",
+      "configurationEditor":null,
+      "category":"Work Plans",
+      "genericTypes":[
+
+      ],
+      "durableId":"addWorkPlans-addWorkPlans"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":"Add Work Steps to a Work Plan",
+      "label":"Add Work Steps",
+      "type":"addWorkSteps",
+      "fillColor":null,
+      "isStandard":true,
+      "name":"addWorkSteps",
+      "configurationEditor":null,
+      "category":"Work Steps",
+      "genericTypes":[
+
+      ],
+      "durableId":"addWorkSteps-addWorkSteps"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":true,
+      "iconName":null,
+      "description":null,
+      "label":"All types apex action",
+      "type":"apex",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"AllTypesApexAction",
+      "configurationEditor":null,
+      "category":null,
+      "genericTypes":[
+
+      ],
+      "durableId":"apex-AllTypesApexAction"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":true,
+      "iconName":null,
+      "description":null,
+      "label":"Gen account",
+      "type":"apex",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"GenerateDraftAccount",
+      "configurationEditor":null,
+      "category":null,
+      "genericTypes":[
+
+      ],
+      "durableId":"apex-GenerateDraftAccount"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":true,
+      "iconName":null,
+      "description":null,
+      "label":"Get account name",
+      "type":"apex",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"GetAccountName",
+      "configurationEditor":null,
+      "category":null,
+      "genericTypes":[
+
+      ],
+      "durableId":"apex-GetAccountName"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":true,
+      "iconName":null,
+      "description":null,
+      "label":"Get account in anonymous output mode",
+      "type":"apex",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"InvocableGetAccount",
+      "configurationEditor":null,
+      "category":null,
+      "genericTypes":[
+
+      ],
+      "durableId":"apex-InvocableGetAccount"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":true,
+      "iconName":null,
+      "description":null,
+      "label":"Get account name in anonymous output mode",
+      "type":"apex",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"InvocableGetAccountName",
+      "configurationEditor":null,
+      "category":null,
+      "genericTypes":[
+
+      ],
+      "durableId":"apex-InvocableGetAccountName"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":true,
+      "iconName":null,
+      "description":"Returns a list of accounts",
+      "label":"Get several Accounts",
+      "type":"apex",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"InvocableGetAccounts",
+      "configurationEditor":null,
+      "category":null,
+      "genericTypes":[
+
+      ],
+      "durableId":"apex-InvocableGetAccounts"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":true,
+      "iconName":null,
+      "description":"Get a list of accounts names·",
+      "label":"get accounts names",
+      "type":"apex",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"InvocableGetAccountsNames",
+      "configurationEditor":null,
+      "category":null,
+      "genericTypes":[
+
+      ],
+      "durableId":"apex-InvocableGetAccountsNames"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":true,
+      "iconName":null,
+      "description":null,
+      "label":"Get Car",
+      "type":"apex",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"InvocableGetCar",
+      "configurationEditor":null,
+      "category":null,
+      "genericTypes":[
+
+      ],
+      "durableId":"apex-InvocableGetCar"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":true,
+      "iconName":null,
+      "description":null,
+      "label":"Get Cars",
+      "type":"apex",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"InvocableGetCars",
+      "configurationEditor":null,
+      "category":null,
+      "genericTypes":[
+
+      ],
+      "durableId":"apex-InvocableGetCars"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":"Post to the feed for a specific record, user, or Chatter group.",
+      "label":"Post to Chatter",
+      "type":"chatterPost",
+      "fillColor":null,
+      "isStandard":true,
+      "name":"chatterPost",
+      "configurationEditor":null,
+      "category":"Messaging",
+      "genericTypes":[
+
+      ],
+      "durableId":"chatterPost-chatterPost"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":"Choose Price Book",
+      "label":"Choose Price Book",
+      "type":"choosePricebook",
+      "fillColor":null,
+      "isStandard":true,
+      "name":"choosePricebook",
+      "configurationEditor":null,
+      "category":"Price books",
+      "genericTypes":[
+
+      ],
+      "durableId":"choosePricebook-choosePricebook"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":"Request contact from support on behalf of the customer. Use a screen to let customers provide their contact details and describe their issue.",
+      "label":"Create Customer Contact Request",
+      "type":"contactRequestAction",
+      "fillColor":null,
+      "isStandard":true,
+      "name":"contactRequestAction",
+      "configurationEditor":null,
+      "category":null,
+      "genericTypes":[
+
+      ],
+      "durableId":"contactRequestAction-contactRequestAction"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":"Create Service Report",
+      "label":"Create Service Report from a standard or custom template.",
+      "type":"createServiceReport",
+      "fillColor":null,
+      "isStandard":true,
+      "name":"createServiceReport",
+      "configurationEditor":null,
+      "category":"Field service",
+      "genericTypes":[
+
+      ],
+      "durableId":"createServiceReport-createServiceReport"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":"Send custom notifications to recipients through desktop or mobile",
+      "label":"Send Custom Notification",
+      "type":"customNotificationAction",
+      "fillColor":null,
+      "isStandard":true,
+      "name":"customNotificationAction",
+      "configurationEditor":null,
+      "category":"Notifications",
+      "genericTypes":[
+
+      ],
+      "durableId":"customNotificationAction-customNotificationAction"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":"Deactivate a session-based permission set for the running user.",
+      "label":"Deactivate Session-Based Permission Set",
+      "type":"deactivateSessionPermSet",
+      "fillColor":null,
+      "isStandard":true,
+      "name":"deactivateSessionPermSet",
+      "configurationEditor":null,
+      "category":"Users",
+      "genericTypes":[
+
+      ],
+      "durableId":"deactivateSessionPermSet-deactivateSessionPermSet"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":"Delete Work Plans for a Work Order or Work Order Line Item",
+      "label":"Delete Work Plans",
+      "type":"deleteWorkPlans",
+      "fillColor":null,
+      "isStandard":true,
+      "name":"deleteWorkPlans",
+      "configurationEditor":null,
+      "category":"Work Plans",
+      "genericTypes":[
+
+      ],
+      "durableId":"deleteWorkPlans-deleteWorkPlans"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":"Send an email where you specify the subject, body, and recipients.",
+      "label":"Send Email",
+      "type":"emailSimple",
+      "fillColor":null,
+      "isStandard":true,
+      "name":"emailSimple",
+      "configurationEditor":null,
+      "category":"Email",
+      "genericTypes":[
+
+      ],
+      "durableId":"emailSimple-emailSimple"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":"Generate work orders from a maintenance plan.",
+      "label":"Generate Work Orders",
+      "type":"generateWorkOrders",
+      "fillColor":null,
+      "isStandard":true,
+      "name":"generateWorkOrders",
+      "configurationEditor":null,
+      "category":"Field service",
+      "genericTypes":[
+
+      ],
+      "durableId":"generateWorkOrders-generateWorkOrders"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":"Generate Work Plans for a Work Order or Work Order Line Item",
+      "label":"Generate Work Plans",
+      "type":"generateWorkPlans",
+      "fillColor":null,
+      "isStandard":true,
+      "name":"generateWorkPlans",
+      "configurationEditor":null,
+      "category":"Work Plans",
+      "genericTypes":[
+
+      ],
+      "durableId":"generateWorkPlans-generateWorkPlans"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":null,
+      "label":"outboundMessage",
+      "type":"outboundMessage",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"Lead.outboundMessage",
+      "configurationEditor":null,
+      "category":"Outbound Message",
+      "genericTypes":[
+
+      ],
+      "durableId":"outboundMessage-Lead.outboundMessage"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":null,
+      "label":"Log a Call",
+      "type":"quickAction",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"Case.LogACall",
+      "configurationEditor":null,
+      "category":"Case",
+      "genericTypes":[
+
+      ],
+      "durableId":"quickAction-Case.LogACall"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":null,
+      "label":"New Child Case",
+      "type":"quickAction",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"Case.NewChildCase",
+      "configurationEditor":null,
+      "category":"Case",
+      "genericTypes":[
+
+      ],
+      "durableId":"quickAction-Case.NewChildCase"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":null,
+      "label":"Add Member",
+      "type":"quickAction",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"CollaborationGroup.NewGroupMember",
+      "configurationEditor":null,
+      "category":"Group",
+      "genericTypes":[
+
+      ],
+      "durableId":"quickAction-CollaborationGroup.NewGroupMember"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":null,
+      "label":"Add Record",
+      "type":"quickAction",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"CollaborationGroup.NewGroupRecord",
+      "configurationEditor":null,
+      "category":"Group",
+      "genericTypes":[
+
+      ],
+      "durableId":"quickAction-CollaborationGroup.NewGroupRecord"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":null,
+      "label":"Create New Task",
+      "type":"quickAction",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"FeedItem.NewTaskFromFeedItem",
+      "configurationEditor":null,
+      "category":"Feed Item",
+      "genericTypes":[
+
+      ],
+      "durableId":"quickAction-FeedItem.NewTaskFromFeedItem"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":null,
+      "label":"Log a Call",
+      "type":"quickAction",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"LogACall",
+      "configurationEditor":null,
+      "category":"Task",
+      "genericTypes":[
+
+      ],
+      "durableId":"quickAction-LogACall"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":null,
+      "label":"New Account",
+      "type":"quickAction",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"NewAccount",
+      "configurationEditor":null,
+      "category":"Account",
+      "genericTypes":[
+
+      ],
+      "durableId":"quickAction-NewAccount"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":null,
+      "label":"New Case",
+      "type":"quickAction",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"NewCase",
+      "configurationEditor":null,
+      "category":"Case",
+      "genericTypes":[
+
+      ],
+      "durableId":"quickAction-NewCase"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":null,
+      "label":"New Contact",
+      "type":"quickAction",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"NewContact",
+      "configurationEditor":null,
+      "category":"Contact",
+      "genericTypes":[
+
+      ],
+      "durableId":"quickAction-NewContact"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":null,
+      "label":"New Event",
+      "type":"quickAction",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"NewEvent",
+      "configurationEditor":null,
+      "category":"Event",
+      "genericTypes":[
+
+      ],
+      "durableId":"quickAction-NewEvent"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":null,
+      "label":"New Group",
+      "type":"quickAction",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"NewGroup",
+      "configurationEditor":null,
+      "category":"Group",
+      "genericTypes":[
+
+      ],
+      "durableId":"quickAction-NewGroup"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":null,
+      "label":"New Lead",
+      "type":"quickAction",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"NewLead",
+      "configurationEditor":null,
+      "category":"Lead",
+      "genericTypes":[
+
+      ],
+      "durableId":"quickAction-NewLead"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":null,
+      "label":"New Note",
+      "type":"quickAction",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"NewNote",
+      "configurationEditor":null,
+      "category":"Note",
+      "genericTypes":[
+
+      ],
+      "durableId":"quickAction-NewNote"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":null,
+      "label":"New Opportunity",
+      "type":"quickAction",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"NewOpportunity",
+      "configurationEditor":null,
+      "category":"Opportunity",
+      "genericTypes":[
+
+      ],
+      "durableId":"quickAction-NewOpportunity"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":null,
+      "label":"New Task",
+      "type":"quickAction",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"NewTask",
+      "configurationEditor":null,
+      "category":"Task",
+      "genericTypes":[
+
+      ],
+      "durableId":"quickAction-NewTask"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":null,
+      "label":"Change Date",
+      "type":"quickAction",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"Task.Defer",
+      "configurationEditor":null,
+      "category":"Task",
+      "genericTypes":[
+
+      ],
+      "durableId":"quickAction-Task.Defer"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":null,
+      "label":"Edit Comments",
+      "type":"quickAction",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"Task.EditDescription",
+      "configurationEditor":null,
+      "category":"Task",
+      "genericTypes":[
+
+      ],
+      "durableId":"quickAction-Task.EditDescription"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":null,
+      "label":"Change Priority",
+      "type":"quickAction",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"Task.UpdatePriority",
+      "configurationEditor":null,
+      "category":"Task",
+      "genericTypes":[
+
+      ],
+      "durableId":"quickAction-Task.UpdatePriority"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":null,
+      "label":"Change Status",
+      "type":"quickAction",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"Task.UpdateStatus",
+      "configurationEditor":null,
+      "category":"Task",
+      "genericTypes":[
+
+      ],
+      "durableId":"quickAction-Task.UpdateStatus"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":"Route Work",
+      "label":"Route Work (Beta)",
+      "type":"routeWork",
+      "fillColor":null,
+      "isStandard":true,
+      "name":"routeWork",
+      "configurationEditor":"omni-route-action",
+      "category":"Routing",
+      "genericTypes":[
+
+      ],
+      "durableId":"routeWork-routeWork"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":"Submit a Salesforce record for approval.",
+      "label":"Submit for Approval",
+      "type":"submit",
+      "fillColor":null,
+      "isStandard":true,
+      "name":"submit",
+      "configurationEditor":null,
+      "category":"Approvals",
+      "genericTypes":[
+
+      ],
+      "durableId":"submit-submit"
+    }
+  ]
+}

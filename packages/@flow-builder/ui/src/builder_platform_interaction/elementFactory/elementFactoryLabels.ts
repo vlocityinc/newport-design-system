@@ -17,7 +17,8 @@ import startElementRecordCreatedUpdated from '@salesforce/label/FlowBuilderCanva
 import endElementSingularLabel from '@salesforce/label/FlowBuilderElementConfig.endElementSingularLabel';
 import defaultOrchestratedStageName from '@salesforce/label/FlowBuilderElementConfig.defaultOrchestratedStageName';
 import defaultStageStepName from '@salesforce/label/FlowBuilderElementConfig.defaultStageStepName';
-import workStepLabel from '@salesforce/label/FlowBuilderElementConfig.workStepLabel';
+import interactiveStepLabel from '@salesforce/label/FlowBuilderElementConfig.interactiveStepLabel';
+import backgroundStepLabel from '@salesforce/label/FlowBuilderElementConfig.backgroundStepLabel';
 import immediateConnectorLabel from '@salesforce/label/FlowBuilderConnectorLabels.immediateConnectorLabel';
 import stageStepStatus from '@salesforce/label/FlowBuilderElementConfig.stageStepStatus';
 import stageStepOutput from '@salesforce/label/FlowBuilderElementConfig.stageStepOutput';
@@ -42,7 +43,8 @@ export const LABELS = {
     endElementSingularLabel,
     defaultOrchestratedStageName,
     defaultStageStepName,
-    workStepLabel,
+    interactiveStepLabel,
+    backgroundStepLabel,
     immediateConnectorLabel,
     stageStepStatus,
     stageStepOutput,

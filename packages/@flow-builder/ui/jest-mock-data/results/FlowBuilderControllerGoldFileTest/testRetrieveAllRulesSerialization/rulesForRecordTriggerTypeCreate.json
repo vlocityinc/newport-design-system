@@ -8381,7 +8381,7 @@
         ],
         "collection":false,
         "mustBeElements":[
-          "RECORDROLLBACK"
+          "ROLLBACK"
         ],
         "null":false,
         "paramType":"Element"

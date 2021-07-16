@@ -11,7 +11,7 @@
                     </li>
                     <template for:each={section.items} for:item="item">
                         <div key={item.guid}>
-                            <li class="slds-listbox__item" action="orchestratorAutolaunchedFlow" role="presentation">
+                            <li class="slds-listbox__item" action={item.action} role="presentation">
                                 <div
                                     class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
                                     role="option"
