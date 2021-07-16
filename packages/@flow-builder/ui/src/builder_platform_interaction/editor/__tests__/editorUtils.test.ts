@@ -19,7 +19,8 @@ import {
     getElementsWithError,
     screenFieldsReferencedByLoops,
     debugInterviewResponseCallback,
-    shiftFocusFromCanvas
+    shiftFocusFromCanvas,
+    logElementCreation
 } from '../editorUtils';
 import {
     ELEMENT_TYPE as mockElementType,
@@ -30,6 +31,9 @@ import { SaveType } from 'builder_platform_interaction/saveType';
 import { SaveFlowEvent } from 'builder_platform_interaction/events';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
+import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+
+const { logInteraction } = loggingUtils;
 
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
@@ -214,6 +218,11 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
         }),
         getProcessType: jest.fn()
     };
+});
+
+jest.mock('builder_platform_interaction/sharedUtils', () => {
+    const actual = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
+    return Object.assign({}, actual, {});
 });
 
 const canvasElement1 = {
@@ -1652,6 +1661,39 @@ describe('Editor Utils Test', () => {
 
             shiftFocusFromCanvas(null, mockToolbarComponent, null, null, true);
             expect(mockFocusFunction).toHaveBeenCalled();
+        });
+    });
+    describe('logElementCreation', () => {
+        beforeEach(() => {
+            logInteraction.mockClear();
+        });
+        it('logs on element creation with correct element type', () => {
+            const element = {
+                elementType: 'Variable'
+            };
+            logElementCreation(element, false);
+            expect(logInteraction).toHaveBeenCalled();
+            expect(logInteraction.mock.calls[0][0]).toBe(`add-node-of-type-Variable`);
+        });
+        it('logs on choice creation with correct element type and data', () => {
+            const element = {
+                elementType: 'Choice',
+                isAddingResourceViaLeftPanel: true
+            };
+            logElementCreation(element, false);
+            expect(logInteraction).toHaveBeenCalled();
+            expect(logInteraction.mock.calls[0][0]).toBe(`add-node-of-type-Choice`);
+            expect(logInteraction.mock.calls[0][2].isAddingResourceViaLeftPanel).toBe(true);
+        });
+        it('logs on choice creation with correct element type and isResourceQuickCreated is true', () => {
+            const element = {
+                elementType: 'Choice',
+                isAddingResourceViaLeftPanel: false
+            };
+            logElementCreation(element, true);
+            expect(logInteraction).toHaveBeenCalled();
+            expect(logInteraction.mock.calls[0][0]).toBe(`add-node-of-type-Choice`);
+            expect(logInteraction.mock.calls[0][2].isResourceQuickCreated).toBe(true);
         });
     });
 });
