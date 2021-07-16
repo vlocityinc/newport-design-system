@@ -10,6 +10,8 @@ import {
 } from 'builder_platform_interaction/events';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { mergeErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { getProcessType } from 'builder_platform_interaction/storeUtils';
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 let mockNewState;
 
@@ -36,18 +38,30 @@ jest.mock('builder_platform_interaction/dataMutationLib', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    return {
+        getProcessType: jest.fn()
+    };
+});
+
 const SELECTORS = {
     OUTCOME: 'builder_platform_interaction-outcome',
     REORDERABLE_NAV: 'builder_platform_interaction-reorderable-vertical-navigation',
     DEFAULT_OUTCOME: 'builder_platform_interaction-label-description.defaultOutcome',
     ADD_OUTCOME_BUTTON: 'lightning-button-icon',
-    LABEL_DESCRIPTION: 'div.slds-p-horizontal_small.slds-p-top_small builder_platform_interaction-label-description'
+    LABEL_DESCRIPTION: 'div.slds-p-horizontal_small.slds-p-top_small builder_platform_interaction-label-description',
+    OUTCOMES_SECTION_DESCRIPTION: '.test-outcomes-section-description',
+    DEFAULT_OUTCOME_DETAILS_DESCRIPTION2: '.test-default-outcome-details-description2'
 };
 
 let decisionWithOneOutcome;
 let decisionWithTwoOutcomes;
 
 beforeEach(() => {
+    // Some tests override the getProcessType return value
+    // so reset at the beginning of each test
+    getProcessType.mockReturnValue('testProcessType');
+
     decisionWithOneOutcome = {
         label: { value: 'Test Name of the Decision' },
         name: { value: 'Test Dev Name' },
@@ -497,6 +511,53 @@ describe('Decision Editor', () => {
             await ticks(1);
             const labelDescription = decisionEditor.shadowRoot.querySelector(SELECTORS.LABEL_DESCRIPTION);
             expect(labelDescription).toBeNull();
+        });
+    });
+
+    describe('labels', () => {
+        it('labels are rendered correctly for process type Orchestrator', async () => {
+            getProcessType.mockReturnValue(FLOW_PROCESS_TYPE.ORCHESTRATOR);
+
+            const decisionEditor = createComponentForTest(decisionWithOneOutcome);
+
+            await ticks(1);
+            expect(decisionEditor.shadowRoot.querySelector(SELECTORS.OUTCOMES_SECTION_DESCRIPTION).textContent).toBe(
+                'FlowBuilderDecisionEditor.orchestratorOutcomesSectionDescription'
+            );
+
+            // trigger showing of default outcome
+            const reorderableOutcomeNav = decisionEditor.shadowRoot.querySelector(SELECTORS.REORDERABLE_NAV);
+            reorderableOutcomeNav.dispatchEvent(
+                new CustomEvent('itemselected', {
+                    detail: { itemId: DEFAULT_OUTCOME_ID }
+                })
+            );
+            await ticks(1);
+
+            expect(
+                decisionEditor.shadowRoot.querySelector(SELECTORS.DEFAULT_OUTCOME_DETAILS_DESCRIPTION2).textContent
+            ).toBe('FlowBuilderDecisionEditor.orchestratorDefaultOutcomeDetailsDescription2');
+        });
+        it('labels are rendered correctly for for other process types', async () => {
+            const decisionEditor = createComponentForTest(decisionWithOneOutcome);
+
+            await ticks(1);
+            expect(decisionEditor.shadowRoot.querySelector(SELECTORS.OUTCOMES_SECTION_DESCRIPTION).textContent).toBe(
+                'FlowBuilderDecisionEditor.outcomesSectionDescription'
+            );
+
+            // trigger showing of default outcome
+            const reorderableOutcomeNav = decisionEditor.shadowRoot.querySelector(SELECTORS.REORDERABLE_NAV);
+            reorderableOutcomeNav.dispatchEvent(
+                new CustomEvent('itemselected', {
+                    detail: { itemId: DEFAULT_OUTCOME_ID }
+                })
+            );
+            await ticks(1);
+
+            expect(
+                decisionEditor.shadowRoot.querySelector(SELECTORS.DEFAULT_OUTCOME_DETAILS_DESCRIPTION2).textContent
+            ).toBe('FlowBuilderDecisionEditor.defaultOutcomeDetailsDescription2');
         });
     });
 });

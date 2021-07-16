@@ -9,6 +9,8 @@ import {
 import { PropertyChangedEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
 import { LABELS } from './decisionEditorLabels';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { getProcessType } from 'builder_platform_interaction/storeUtils';
+import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
 
 const SELECTORS = {
     OUTCOME: 'builder_platform_interaction-outcome'
@@ -135,6 +137,18 @@ export default class DecisionEditor extends LightningElement {
 
     get isDefaultOutcome() {
         return this.activeOutcomeId === DEFAULT_OUTCOME_ID;
+    }
+
+    get outcomesSectionDescription() {
+        return isOrchestrator(getProcessType())
+            ? this.labels.orchestratorOutcomesSectionDescription
+            : this.labels.outcomesSectionDescription;
+    }
+
+    get defaultOutcomeDetailsDescription2() {
+        return isOrchestrator(getProcessType())
+            ? this.labels.orchestratorDefaultOutcomeDetailsDescription2
+            : this.labels.defaultOutcomeDetailsDescription2;
     }
 
     handleAddOutcome(event) {
