@@ -18,6 +18,7 @@ import { deselectOnCanvas } from 'builder_platform_interaction/actions';
 import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
 import { shouldSupportScheduledPaths } from 'builder_platform_interaction/elementFactory';
 
+// TODO: W-9613981 [Trust] Remove hardcoded alccanvas offsets
 const LEFT_PANE_WIDTH = 320;
 const NODE_ICON_HALF_HEIGHT_WITH_PADDING = 58;
 
@@ -177,6 +178,7 @@ export default class AlcCanvasContainer extends LightningElement {
     isAutoLayoutCanvas = true;
 
     get canvasOffsets() {
+        // TODO: W-9613981 [Trust] Remove hardcoded alccanvas offsets
         return this.isSelectionMode
             ? [LEFT_PANE_WIDTH, NODE_ICON_HALF_HEIGHT_WITH_PADDING]
             : [0, NODE_ICON_HALF_HEIGHT_WITH_PADDING];

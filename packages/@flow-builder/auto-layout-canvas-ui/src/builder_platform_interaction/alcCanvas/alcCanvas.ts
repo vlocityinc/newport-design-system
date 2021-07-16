@@ -84,6 +84,9 @@ const selectors = {
     flowContainerClass: '.flow-container'
 };
 
+// TODO: W-9613981 [Trust] Remove hardcoded alccanvas offsets
+const LEFT_PANE_WIDTH = 320;
+
 const defaultConfig = getDefaultLayoutConfig();
 
 const CONNECTOR_ICON_SIZE = defaultConfig.connector.icon.w;
@@ -430,12 +433,6 @@ export default class AlcCanvas extends LightningElement {
         this.isZoomToView = this.isZoomInDisabled;
     }
 
-    get canvasStyle() {
-        const [x, y] = this.offsets;
-
-        return `margin-left: ${x}px; margin-top: ${y}px`;
-    }
-
     /**
      * Spinner shown if all dynamic node components have not rendered
      * We need to wait for them since the layout will not be valid until they are done
@@ -489,10 +486,12 @@ export default class AlcCanvas extends LightningElement {
                     deletionPathInfo: null
                 };
 
+                // TODO: W-9613981 [Trust] Remove hardcoded alccanvas offsets
                 const event = new ToggleMenuEvent({
-                    top: containerGeometry.y - MENU_ICON_SIZE / 2,
+                    top: containerGeometry.y + MENU_ICON_SIZE,
                     left: containerGeometry.x - MENU_ICON_SIZE / 2,
                     offsetX: 0,
+                    height: 0,
                     type: MenuType.NODE,
                     guid: startElementGuid,
                     elementMetadata: this._flowRenderContext.elementsMetadata[startElement.elementType]
@@ -591,6 +590,11 @@ export default class AlcCanvas extends LightningElement {
                 const alcSelectionEvent = new AlcSelectionEvent([], allGuids, allGuids, null);
                 this.dispatchEvent(alcSelectionEvent);
             }
+        }
+
+        if (this._panzoom) {
+            const offsetX = this.isSelectionMode ? LEFT_PANE_WIDTH : -LEFT_PANE_WIDTH;
+            this._panzoom.moveBy(offsetX, 0);
         }
     }
 

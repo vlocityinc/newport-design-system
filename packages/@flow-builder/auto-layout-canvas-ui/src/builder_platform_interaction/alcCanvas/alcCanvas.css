@@ -45,6 +45,7 @@
 
 builder_platform_interaction-alc-flow {
     position: absolute;
+    margin-top: 48px;
 }
 
 .flow-container {
@@ -63,6 +64,7 @@ builder_platform_interaction-zoom-panel {
     flex: auto;
     outline: none;
     position: relative;
+    overflow: hidden; /* @see W-9498813: Panning offsets are not updated when bringing the element into the viewport */
 }
 
 .menu {

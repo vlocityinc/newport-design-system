@@ -46,10 +46,16 @@ lightning-combobox {
 }
 .container {
     flex: 1;
+    display: flex;
+}
+
+.left-pane {
+    width: 320px;
+    background: gray;
 }
 
 builder_platform_interaction-alc-canvas-container {
     position: relative;
-
     overflow: hidden;
+    flex: 1 1 0;
 }

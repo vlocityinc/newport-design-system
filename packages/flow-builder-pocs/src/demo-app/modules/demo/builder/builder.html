@@ -61,6 +61,7 @@
         </div>
 
         <div class="container">
+            <div if:false={isSelectionMode} class="left-pane">left pane</div>
             <builder_platform_interaction-alc-canvas-container
                 onaddelement={handleAddElement}
                 ondeleteelement={handleDeleteElement}
