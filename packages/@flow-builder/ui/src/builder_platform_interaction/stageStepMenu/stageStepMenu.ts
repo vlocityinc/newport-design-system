@@ -56,7 +56,7 @@ export default class StageStepMenu extends Menu {
 
         const addItemEvent = new AddElementEvent({
             elementType: ELEMENT_TYPE.STAGE_STEP,
-            actionType: currentTarget.parentElement!.getAttribute('action')!,
+            actionType: currentTarget.getAttribute('action')!,
             parent: this.node && this.node.guid,
             designateFocus
         });

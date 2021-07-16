@@ -12,12 +12,16 @@
                         </li>
                         <template for:each={section.items} for:item="item">
                             <div key={item.guid}>
-                                <li class="slds-listbox__item" action={item.action} role="presentation">
+                                <li
+                                    class="slds-listbox__item"
+                                    action={item.action}
+                                    role="presentation"
+                                    onclick={handleSelectMenuItem}
+                                >
                                     <div
                                         class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
                                         role="option"
                                         tabindex="0"
-                                        onclick={handleSelectMenuItem}
                                     >
                                         <span class="slds-icon_container push-icon-down">
                                             <lightning-icon
