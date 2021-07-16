@@ -122,6 +122,12 @@ const getTitleForModalHeader = (mode: string, elementMetadata: Object, processTy
         case SaveFlowEvent.Type.SAVE_AS:
             label = LABELS.saveFlowAsTitle;
             break;
+        case SaveFlowEvent.Type.SAVE_AS_OVERRIDDEN:
+            label = LABELS.saveAsOverriddenTitle;
+            break;
+        case SaveFlowEvent.Type.SAVE_AS_TEMPLATE:
+            label = LABELS.saveAsTemplateTitle;
+            break;
         case EditElementEvent.EVENT_NAME:
             label = elementConfig.labels.editModal;
             break;

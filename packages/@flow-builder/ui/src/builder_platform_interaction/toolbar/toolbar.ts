@@ -18,6 +18,7 @@ import {
     RestartDebugFlowEvent,
     ToggleCanvasModeEvent
 } from 'builder_platform_interaction/events';
+import { Store } from 'builder_platform_interaction/storeLib';
 import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { orgHasFlowBuilderDebug, isAutoLayoutCanvasEnabled } from 'builder_platform_interaction/contextLib';
 import { loggingUtils, commonUtils } from 'builder_platform_interaction/sharedUtils';
@@ -381,7 +382,8 @@ export default class Toolbar extends LightningElement {
 
     handleSaveAs(event) {
         event.preventDefault();
-        const saveAsEvent = new SaveFlowEvent(SaveFlowEvent.Type.SAVE_AS);
+        const saveAsEventType = this.getSaveAsEventType();
+        const saveAsEvent = new SaveFlowEvent(saveAsEventType);
         this.dispatchEvent(saveAsEvent);
         logInteraction(`save-as-button`, 'toolbar', null, 'click');
     }
@@ -397,6 +399,15 @@ export default class Toolbar extends LightningElement {
         event.preventDefault();
         const diffEvent = new DiffFlowEvent();
         this.dispatchEvent(diffEvent);
+    }
+
+    getSaveAsEventType() {
+        const currentState = Store.getStore().getCurrentState();
+        return currentState.properties.isTemplate
+            ? SaveFlowEvent.Type.SAVE_AS_TEMPLATE
+            : currentState.properties.isOverridable
+            ? SaveFlowEvent.Type.SAVE_AS_OVERRIDDEN
+            : SaveFlowEvent.Type.SAVE_AS;
     }
 
     handleToggleFlowStatus(event) {

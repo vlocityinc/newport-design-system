@@ -5,6 +5,8 @@ import newDebugEditorTitle from '@salesforce/label/FlowBuilderDebugEditor.header
 import createFlowTitle from '@salesforce/label/FlowBuilderFlowPropertiesEditor.createFlowTitle';
 import orchestrationCreateFlowTitle from '@salesforce/label/FlowBuilderFlowPropertiesEditor.orchestrationCreateFlowTitle';
 import saveFlowAsTitle from '@salesforce/label/FlowBuilderFlowPropertiesEditor.saveFlowAsTitle';
+import saveAsOverriddenTitle from '@salesforce/label/FlowBuilderFlowPropertiesEditor.saveAsOverriddenTitle';
+import saveAsTemplateTitle from '@salesforce/label/FlowBuilderFlowPropertiesEditor.saveAsTemplateTitle';
 import saveButtonLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.saveButtonLabel';
 import createButtonLabel from '@salesforce/label/FlowBuilderNewFlowModal.createButtonLabel';
 import nextButtonLabel from '@salesforce/label/FlowBuilderNewFlowModal.nextButtonLabel';
@@ -22,6 +24,8 @@ export const LABELS = {
     createFlowTitle,
     orchestrationCreateFlowTitle,
     saveFlowAsTitle,
+    saveAsOverriddenTitle,
+    saveAsTemplateTitle,
     saveButtonLabel,
     createButtonLabel,
     nextButtonLabel,

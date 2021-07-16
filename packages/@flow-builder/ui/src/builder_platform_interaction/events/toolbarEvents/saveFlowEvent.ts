@@ -20,6 +20,8 @@ export class SaveFlowEvent {
 
     static Type = {
         SAVE: 'save',
-        SAVE_AS: 'saveas'
+        SAVE_AS: 'saveas',
+        SAVE_AS_OVERRIDDEN: 'saveasoverridden',
+        SAVE_AS_TEMPLATE: 'saveastemplate'
     };
 }
