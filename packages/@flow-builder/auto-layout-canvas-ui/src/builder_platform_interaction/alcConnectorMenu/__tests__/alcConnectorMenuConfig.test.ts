@@ -2,6 +2,7 @@
 import { configureMenu } from '../alcConnectorMenuConfig';
 import { ICON_SHAPE } from 'builder_platform_interaction/alcComponentsUtils';
 import { LABELS } from '../alcConnectorMenuLabels';
+import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {
     return {
@@ -113,5 +114,35 @@ describe('connector menu config', () => {
         expect(configureMenu(metaData, false, true, false, true).sections[0].items[1].rowClass).toBe(
             'slds-listbox__item action-row-line-height'
         );
+    });
+});
+
+describe('Section Heading', () => {
+    it('is null when type is Orchestrator', () => {
+        const metaDataWithOrchestrator = [
+            {
+                section: 'Logic',
+                type: NodeType.ORCHESTRATED_STAGE,
+                label: 'Stage',
+                value: 'Orchestratedstage',
+                elementType: 'Orchestratedstage',
+                isSupported: true
+            },
+            {
+                section: 'Logic',
+                type: 'branch',
+                label: 'Decision',
+                value: 'Decision',
+                elementType: 'Decision',
+                isSupported: true
+            }
+        ];
+        const menu = configureMenu(metaDataWithOrchestrator, false, true, false, true);
+        expect(menu.sections.find((section) => section.label === 'Logic').heading).toBe(null);
+    });
+
+    it('is not null for other types', () => {
+        const menu = configureMenu(metaData, false, true, false, true);
+        expect(menu.sections.find((section) => section.label === 'Logic').heading).toBe('Logic');
     });
 });

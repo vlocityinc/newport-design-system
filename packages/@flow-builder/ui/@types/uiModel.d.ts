@@ -307,6 +307,7 @@ declare namespace UI {
     interface NodeConfig {
         canBeConnectorTarget?: boolean;
         description?: string;
+        orchestratorDescription?: string;
         dragImageSrc?: string;
         dynamicNodeComponent?: string;
         dynamicNodeComponentSelector?: (args: any) => any;

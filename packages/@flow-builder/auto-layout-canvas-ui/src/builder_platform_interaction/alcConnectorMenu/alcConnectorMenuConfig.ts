@@ -129,7 +129,7 @@ export const configureMenu = (
             if (!sectionDefinition) {
                 sectionDefinitionsMap[section] = sectionDefinition = {
                     guid: generateGuid(),
-                    heading: section,
+                    heading: type === NodeType.ORCHESTRATED_STAGE ? null : section,
                     label: section,
                     items: []
                 };

@@ -1,8 +1,9 @@
 // @ts-nocheck
 import { getConfigForElement } from 'builder_platform_interaction/elementConfig';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { getProcessType } from 'builder_platform_interaction/storeUtils';
 
 const { logMetricsServiceErrorTransaction } = loggingUtils;
 /**
@@ -64,7 +65,11 @@ const mutateElements = (elements, palette) =>
 
                             // Favor using the description supplied by the element if it exists, otherwise
                             // fall back to the default description.
-                            const description = element.description || nodeConfig.description;
+                            const description =
+                                element.description ||
+                                (getProcessType() === FLOW_PROCESS_TYPE.ORCHESTRATOR
+                                    ? nodeConfig.orchestratorDescription || nodeConfig.description
+                                    : nodeConfig.description);
 
                             if (!acc[headerLabel]) {
                                 acc[headerLabel] = [];

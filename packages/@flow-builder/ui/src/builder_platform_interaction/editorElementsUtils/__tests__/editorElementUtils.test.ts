@@ -1,6 +1,8 @@
 // @ts-nocheck
 import { getElementSections } from 'builder_platform_interaction/editorElementsUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getProcessType } from 'builder_platform_interaction/storeUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/storeLib');
@@ -12,7 +14,19 @@ jest.mock('builder_platform_interaction/storeLib', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    return {
+        getProcessType: jest.fn()
+    };
+});
+
 describe('element-lib', () => {
+    beforeEach(() => {
+        // Some tests override the getProcessType return value
+        // so reset at the beginning of each test
+        getProcessType.mockReturnValue('testProcessType');
+    });
+
     describe('When no elements are available', () => {
         it('returns an empty list when elements is undefined', () => {
             expect(getElementSections()).toEqual([]);
@@ -97,6 +111,68 @@ describe('element-lib', () => {
             ];
 
             expect(getElementSections(unsortedElements, palette)).toMatchObject(expectedElementSections);
+        });
+    });
+
+    describe('item description', () => {
+        it('returns the orchestration description for process type Orchestrator', () => {
+            getProcessType.mockReturnValue(FLOW_PROCESS_TYPE.ORCHESTRATOR);
+
+            const unsortedElements = [
+                { elementType: ELEMENT_TYPE.ORCHESTRATED_STAGE },
+                { elementType: ELEMENT_TYPE.DECISION },
+                { name: 'SortCollectionProcessor', label: 'Collection Sort' }
+            ];
+
+            const palette = {
+                headers: [
+                    {
+                        headerLabel: 'FlowBuilderLeftPanelElements.flowControlLogicLabel',
+                        headerItems: [
+                            { type: 'element', name: ELEMENT_TYPE.ORCHESTRATED_STAGE },
+                            { type: 'element', name: ELEMENT_TYPE.DECISION }
+                        ]
+                    }
+                ]
+            };
+
+            const items = getElementSections(unsortedElements, palette);
+            const stageDescription = items[0]._children.find(
+                (child) => child.elementType === ELEMENT_TYPE.ORCHESTRATED_STAGE
+            ).description;
+            const discisionDescription = items[0]._children.find((child) => child.elementType === ELEMENT_TYPE.DECISION)
+                .description;
+            expect(stageDescription).toBe('FlowBuilderLeftPanelElements.orchestratedStageComponentDescription');
+            expect(discisionDescription).toBe('FlowBuilderLeftPanelElements.orchestratorDecisionLogicDescription');
+        });
+
+        it('returns correct descriptions for other process types', () => {
+            const unsortedElements = [
+                { elementType: ELEMENT_TYPE.SCREEN },
+                { elementType: ELEMENT_TYPE.DECISION },
+                { name: 'SortCollectionProcessor', label: 'Collection Sort' }
+            ];
+
+            const palette = {
+                headers: [
+                    {
+                        headerLabel: 'FlowBuilderLeftPanelElements.flowInteractionComponentsLabel',
+                        headerItems: [{ type: 'element', name: ELEMENT_TYPE.SCREEN }]
+                    },
+                    {
+                        headerLabel: 'FlowBuilderLeftPanelElements.flowControlLogicLabel',
+                        headerItems: [{ type: 'element', name: ELEMENT_TYPE.DECISION }]
+                    }
+                ]
+            };
+
+            const items = getElementSections(unsortedElements, palette);
+            const screenDescription = items[0]._children.find((child) => child.elementType === ELEMENT_TYPE.SCREEN)
+                .description;
+            const discisionDescription = items[1]._children.find((child) => child.elementType === ELEMENT_TYPE.DECISION)
+                .description;
+            expect(screenDescription).toBe('FlowBuilderLeftPanelElements.screenComponentDescription');
+            expect(discisionDescription).toBe('FlowBuilderLeftPanelElements.decisionLogicDescription');
         });
     });
 });

@@ -562,7 +562,8 @@ export const elementTypeToConfigMap: {
             dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.DECISION],
             maxConnections: 1,
             section: LABELS.flowControlLogicLabel,
-            description: LABELS.decisionLogicDescription
+            description: LABELS.decisionLogicDescription,
+            orchestratorDescription: LABELS.orchestratorDecisionLogicDescription
         },
         modalSize: MODAL_SIZE.LARGE,
         metadataKey: METADATA_KEY.DECISIONS,

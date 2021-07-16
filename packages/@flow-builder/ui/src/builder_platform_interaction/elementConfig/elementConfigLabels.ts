@@ -91,6 +91,7 @@ import deleteDataOperationLabel from '@salesforce/label/FlowBuilderLeftPanelElem
 import actionFlowComponentLabel from '@salesforce/label/FlowBuilderLeftPanelElements.actionFlowComponentLabel';
 import subflowFlowComponentLabel from '@salesforce/label/FlowBuilderLeftPanelElements.subflowFlowComponentLabel';
 import decisionLogicDescription from '@salesforce/label/FlowBuilderLeftPanelElements.decisionLogicDescription';
+import orchestratorDecisionLogicDescription from '@salesforce/label/FlowBuilderLeftPanelElements.orchestratorDecisionLogicDescription';
 import waitLogicDescription from '@salesforce/label/FlowBuilderLeftPanelElements.waitLogicDescription';
 import assignmentLogicDescription from '@salesforce/label/FlowBuilderLeftPanelElements.assignmentLogicDescription';
 import loopLogicDescription from '@salesforce/label/FlowBuilderLeftPanelElements.loopLogicDescription';
@@ -291,6 +292,7 @@ export const LABELS = {
     actionFlowComponentLabel,
     subflowFlowComponentLabel,
     decisionLogicDescription,
+    orchestratorDecisionLogicDescription,
     waitLogicDescription,
     assignmentLogicDescription,
     loopLogicDescription,
