@@ -71,33 +71,6 @@
             >
             </lightning-combobox>
 
-            <!-- Override Elements -->
-            <div class="slds-p-top_small">
-                <builder_platform_interaction-combobox
-                    class="overrides-flow-template slds-col slds-grow"
-                    menu-data={_filteredOverridableFlowOptions}
-                    oncomboboxstatechanged={handleOverriddenFlowChange}
-                    onitemselected={handleOverriddenFlowChange}
-                    label={labels.overridableFlowLabel}
-                    value={overriddenFlow}
-                    placeholder={labels.overridableFlowPlaceholderLabel}
-                    field-level-help={labels.overridableFlowHelpText}
-                    disabled={overriddenFlowDisabled}
-                    onfiltermatches={handleOverridableFilterMatches}
-                >
-                </builder_platform_interaction-combobox>
-            </div>
-            <lightning-input
-                label={labels.overridableLabel}
-                type="checkbox"
-                checked={isOverridable}
-                onchange={handleOverridableCheckBox}
-                disabled={overridableDisabled}
-                class="overridable_check slds-col slds-grow slds-p-top_small"
-                field-level-help={labels.overridableCheckHelpText}
-            >
-            </lightning-input>
-
             <!-- Template Elements -->
             <div class="slds-p-top_small">
                 <builder_platform_interaction-combobox
@@ -122,6 +95,33 @@
                 disabled={templateDisabled}
                 class="template_check slds-col slds-grow slds-p-top_small"
                 field-level-help={labels.templateCheckHelpText}
+            >
+            </lightning-input>
+
+            <!-- Override Elements -->
+            <div class="slds-p-top_small">
+                <builder_platform_interaction-combobox
+                    class="overrides-flow-template slds-col slds-grow"
+                    menu-data={_filteredOverridableFlowOptions}
+                    oncomboboxstatechanged={handleOverriddenFlowChange}
+                    onitemselected={handleOverriddenFlowChange}
+                    label={labels.overridableFlowLabel}
+                    value={overriddenFlow}
+                    placeholder={labels.overridableFlowPlaceholderLabel}
+                    field-level-help={labels.overridableFlowHelpText}
+                    disabled={overriddenFlowDisabled}
+                    onfiltermatches={handleOverridableFilterMatches}
+                >
+                </builder_platform_interaction-combobox>
+            </div>
+            <lightning-input
+                label={labels.overridableLabel}
+                type="checkbox"
+                checked={isOverridable}
+                onchange={handleOverridableCheckBox}
+                disabled={overridableDisabled}
+                class="overridable_check slds-col slds-grow slds-p-top_small"
+                field-level-help={labels.overridableCheckHelpText}
             >
             </lightning-input>
 

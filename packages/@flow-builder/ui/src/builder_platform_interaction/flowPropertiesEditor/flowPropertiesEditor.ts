@@ -423,13 +423,6 @@ export default class FlowPropertiesEditor extends LightningElement {
                 }));
         });
 
-        const processType = this.flowProperties.processType ? this.flowProperties.processType.value : this.processType;
-        const triggerType = this.flowProperties.triggerType
-            ? this.flowProperties.triggerType.value
-            : this._originalTriggerType;
-        this.getOverridableComboboxItems(processType, triggerType);
-        this.getTemplateComboboxItems(processType, triggerType);
-
         if (isVersioningDataInitialized()) {
             initVersioningInfoForProcessType(this._originalProcessType);
             this.initApiVersion(true);
@@ -696,6 +689,13 @@ export default class FlowPropertiesEditor extends LightningElement {
         this.isAdvancedShown = !this.isAdvancedShown;
         this._toggleAdvancedLabel = !this.isAdvancedShown ? showAdvanced : hideAdvanced;
         this._toggleAdvancedClass = !this.isAdvancedShown ? TOGGLE_CLASS_SHOW : TOGGLE_CLASS_HIDE;
+
+        if (this.isAdvancedShown) {
+            const processType = getValueFromHydratedItem(this.flowProperties.processType);
+            const triggerType = getValueFromHydratedItem(this.flowProperties.triggerType);
+            this.getOverridableComboboxItems(processType, triggerType);
+            this.getTemplateComboboxItems(processType, triggerType);
+        }
     }
 
     handleApiVersionChange(event) {
