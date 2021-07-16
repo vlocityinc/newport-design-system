@@ -299,7 +299,6 @@ export default class FlowPropertiesEditor extends LightningElement {
             if (menuItem) {
                 return menuItem;
             }
-            return this.flowProperties.overriddenFlow.value;
         }
         return null;
     }
@@ -316,7 +315,6 @@ export default class FlowPropertiesEditor extends LightningElement {
             if (menuItem) {
                 return menuItem;
             }
-            return this.flowProperties.sourceTemplate.value;
         }
         return null;
     }
