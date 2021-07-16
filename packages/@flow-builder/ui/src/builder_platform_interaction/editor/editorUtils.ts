@@ -28,7 +28,8 @@ import {
 } from 'builder_platform_interaction/flowMetadata';
 import {
     getConfigForElementType,
-    updateElementConfigMapWithSubtypes
+    updateElementConfigMapWithSubtypes,
+    elementTypeToConfigMap
 } from 'builder_platform_interaction/elementConfig';
 import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
 import {
@@ -47,7 +48,7 @@ import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
 import { hasGoToOnNext } from 'builder_platform_interaction/autoLayoutCanvas';
 
 const LEFT_PANEL_ELEMENTS = 'LEFT_PANEL_ELEMENTS';
-const { logPerfTransactionStart, logPerfTransactionEnd } = loggingUtils;
+const { logPerfTransactionStart, logPerfTransactionEnd, logInteraction } = loggingUtils;
 /**
  * Helper method to determine if the connector is an associated connector or not
  *
@@ -1113,4 +1114,28 @@ export const shiftFocusFromCanvas = (
     } else {
         headerComponent.focus();
     }
+};
+
+/**
+ * Function to log element creation
+ *
+ * @param element pass in created element to be logged
+ * @param isQuickCreate option for choice elements, true if quick created from screen editor
+ */
+
+export const logElementCreation = (element, isResourceQuickCreated) => {
+    const elementType = element.elementType;
+    let data;
+    if (
+        elementType === ELEMENT_TYPE.CHOICE ||
+        elementType === ELEMENT_TYPE.RECORD_CHOICE_SET ||
+        elementType === ELEMENT_TYPE.PICKLIST_CHOICE_SET
+    ) {
+        if (element.isAddingResourceViaLeftPanel) {
+            data = { isAddingResourceViaLeftPanel: true };
+        } else if (isResourceQuickCreated) {
+            data = { isResourceQuickCreated: true };
+        }
+    }
+    logInteraction(`add-node-of-type-${element.elementType}`, 'modal', data, 'click');
 };
