@@ -11,7 +11,8 @@ import {
     PropertyChangedEvent,
     UpdateConditionEvent,
     UpdateParameterItemEvent,
-    ValueChangedEvent
+    ValueChangedEvent,
+    OrchestrationAssigneeChangedEvent
 } from 'builder_platform_interaction/events';
 import { invocableActionsForOrchestrator } from 'serverData/GetAllInvocableActionsForType/invocableActionsForOrchestrator.json';
 import { Store } from 'builder_platform_interaction/storeLib';
@@ -378,7 +379,7 @@ describe('StageStepEditor', () => {
 
                 // This is brittle, but there's not a better way without
                 // converting VALIDATE_ALL to an actual event class
-                expect(stageStepReducer).toHaveBeenCalledTimes(7);
+                expect(stageStepReducer).toHaveBeenCalledTimes(9);
             });
             it('is called if !isNew', () => {
                 const node = {
@@ -420,6 +421,48 @@ describe('StageStepEditor', () => {
                         parameters: []
                     }
                 })
+            );
+        });
+        it('are empty if either action name or type is missing', () => {
+            const nodeWithNoActions = [
+                {
+                    ...nodeParams,
+                    ...{
+                        action: {
+                            actionName: {
+                                value: 'ScreenFlow'
+                            },
+                            actionType: {
+                                value: null
+                            }
+                        }
+                    }
+                },
+                {
+                    ...nodeParams,
+                    ...{
+                        action: {
+                            actionName: {
+                                value: null
+                            },
+                            actionType: {
+                                value: 'stepInteractive'
+                            }
+                        }
+                    }
+                }
+            ];
+
+            editor = createComponentUnderTest(nodeWithNoActions[0]);
+            expect(stageStepReducer).toHaveBeenCalledWith(
+                nodeWithNoActions[0],
+                new CustomEvent(MERGE_WITH_PARAMETERS, { detail: { parameters: [] } })
+            );
+
+            editor = createComponentUnderTest(nodeWithNoActions[1]);
+            expect(stageStepReducer).toHaveBeenCalledWith(
+                nodeWithNoActions[1],
+                new CustomEvent(MERGE_WITH_PARAMETERS, { detail: { parameters: [] } })
             );
         });
         it('are retrieved via fetchDetailsForInvocableAction', () => {
@@ -554,21 +597,12 @@ describe('StageStepEditor', () => {
 
                 const actionCombobox = editor.shadowRoot.querySelector(selectors.ACTION_SELECTOR);
 
-                const comboboxEvent = new ValueChangedEvent({ actionName: 'autolaunchedFlow' });
+                const comboboxEvent = new ValueChangedEvent({ actionName: 'stepBackground' });
                 actionCombobox.dispatchEvent(comboboxEvent);
 
                 // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                 // Until then use the more brittle `.mocks`
-                expect(stageStepReducer.mock.calls[8][1].detail).toEqual(
-                    expect.objectContaining({
-                        actionCategory: ORCHESTRATED_ACTION_CATEGORY.STEP,
-                        error: null,
-                        value: {
-                            actionName: 'autolaunchedFlow',
-                            actionType: 'stepBackground'
-                        }
-                    })
-                );
+                expect(stageStepReducer.mock.calls[8][1].detail).toEqual({ actionCategory: 2, parameters: [] });
             });
         });
 
@@ -671,13 +705,12 @@ describe('StageStepEditor', () => {
 
                 // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                 // Until then use the more brittle `.mocks`
-                expect(stageStepReducer.mock.calls[6][1].detail).toEqual(
-                    expect.objectContaining({
-                        value: {
-                            stringValue: comboboxEvent.detail.displayText
-                        }
-                    })
-                );
+                // Note that the action category says this is a change on the STEP - this is what we really test.
+                expect(stageStepReducer.mock.calls[5][1].detail).toEqual({
+                    actionCategory: 0 /* step*/,
+                    parameters: []
+                });
+                expect(stageStepReducer).toHaveBeenCalledWith(nodeParams, new OrchestrationAssigneeChangedEvent());
             });
 
             it('node should be updated on item selected with item', () => {
@@ -691,13 +724,11 @@ describe('StageStepEditor', () => {
 
                 // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                 // Until then use the more brittle `.mocks`
-                expect(stageStepReducer.mock.calls[6][1].detail).toEqual(
-                    expect.objectContaining({
-                        value: {
-                            stringValue: itemSelectedEvent.detail.item.value
-                        }
-                    })
-                );
+                expect(stageStepReducer.mock.calls[5][1].detail).toEqual({
+                    actionCategory: 0 /* step*/,
+                    parameters: []
+                });
+                expect(stageStepReducer).toHaveBeenCalledWith(nodeParams, new OrchestrationAssigneeChangedEvent());
             });
 
             it('sets the actorErrorMessage', () => {
@@ -750,12 +781,8 @@ describe('StageStepEditor', () => {
 
                 // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                 // Until then use the more brittle `.mocks`
-                expect(stageStepReducer.mock.calls[6][1].detail).toEqual(
-                    expect.objectContaining({
-                        value: expect.objectContaining({ value: comboboxEvent.detail.displayText }),
-                        error: comboboxEvent.detail.error
-                    })
-                );
+                expect(stageStepReducer.mock.calls[5][1].detail).toEqual({ actionCategory: 0, parameters: [] });
+                expect(stageStepReducer).toHaveBeenCalledWith(nodeParams, new PropertyChangedEvent());
             });
 
             it('node should be updated on item selected with item', () => {
@@ -769,12 +796,8 @@ describe('StageStepEditor', () => {
 
                 // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                 // Until then use the more brittle `.mocks`
-                expect(stageStepReducer.mock.calls[6][1].detail).toEqual(
-                    expect.objectContaining({
-                        value: expect.objectContaining({ value: itemSelectedEvent.detail.item.value }),
-                        error: itemSelectedEvent.detail.item.error
-                    })
-                );
+                expect(stageStepReducer.mock.calls[5][1].detail).toEqual({ actionCategory: 0, parameters: [] });
+                expect(stageStepReducer).toHaveBeenCalledWith(nodeParams, new PropertyChangedEvent());
             });
 
             it('should not be visible for autolaunched step', () => {

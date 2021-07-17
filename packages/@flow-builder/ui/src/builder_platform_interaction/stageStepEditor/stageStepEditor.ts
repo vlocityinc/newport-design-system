@@ -436,7 +436,7 @@ export default class StageStepEditor extends LightningElement {
             return {
                 elementType: ELEMENT_TYPE.ACTION_CALL,
                 actionType: this.element?.entryAction?.actionType?.value,
-                actionName: this.element?.entryAction?.actionName?.value || this.actorValue,
+                actionName: this.element?.entryAction?.actionName?.value,
                 inputParameters: [],
                 outputParameters: []
             };
@@ -618,7 +618,7 @@ export default class StageStepEditor extends LightningElement {
     async setActionParameters(action: InvocableAction | null, actionCategory: ORCHESTRATED_ACTION_CATEGORY) {
         let parameters: ParameterListRowItem[];
 
-        if (!action?.actionName) {
+        if (!action?.actionName || !action?.actionType) {
             parameters = [];
         } else {
             this.displayActionSpinner = true;
