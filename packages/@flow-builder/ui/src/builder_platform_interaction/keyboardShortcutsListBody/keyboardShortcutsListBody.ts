@@ -16,7 +16,10 @@ export default class KeyboardShortcutsListBody extends LightningElement {
     };
 
     get keyboardHelpShortcut() {
-        return '/';
+        if (this.isMacPlatform()) {
+            return KEYS.CMD_KEY + '+/';
+        }
+        return KEYS.CTRL_KEY + '+/';
     }
 
     get zoomInShortcut() {

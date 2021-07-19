@@ -2582,7 +2582,7 @@ export default class Editor extends LightningElement {
 
         // Display shortcuts Command
         const displayShortcutsCommand = new DisplayShortcutsCommand(() => invokeKeyboardHelpDialog());
-        const displayShortcutKeyCombo = { key: '/' };
+        const displayShortcutKeyCombo = { ctrlOrCmd: true, key: '/' };
         this.keyboardInteractions.setupCommandAndShortcut(displayShortcutsCommand, displayShortcutKeyCombo);
 
         // Move Focus To Docking Panel Command
