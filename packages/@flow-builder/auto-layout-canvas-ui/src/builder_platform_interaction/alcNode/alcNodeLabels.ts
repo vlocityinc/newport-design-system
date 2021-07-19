@@ -5,6 +5,7 @@ import errorIconAlternativeText from '@salesforce/label/FlowBuilderCanvasElement
 import errorIconTitle from '@salesforce/label/FlowBuilderCanvasElement.errorIconTitle';
 import checkboxLabel from '@salesforce/label/AlcNode.checkboxLabel';
 import incomingGoToLabel from '@salesforce/label/AlcNode.incomingGoToLabel';
+import ariaLabelNode from '@salesforce/label/AlcNode.ariaLabelNode';
 
 export const LABELS: Labels = {
     nodeIconAltText,
@@ -13,5 +14,6 @@ export const LABELS: Labels = {
     errorIconAlternativeText,
     errorIconTitle,
     checkboxLabel,
-    incomingGoToLabel
+    incomingGoToLabel,
+    ariaLabelNode
 };

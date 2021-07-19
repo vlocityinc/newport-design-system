@@ -48,13 +48,7 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
     };
 });
 
-jest.mock('builder_platform_interaction/sharedUtils', () => {
-    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
-    const commonUtils = Object.assign({}, sharedUtils.commonUtils, {
-        format: jest.fn().mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')')
-    });
-    return Object.assign({}, sharedUtils, { commonUtils });
-});
+jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
 const defaultEmptyElementInfo = {
     collectionReference: { value: null, error: null },

@@ -9,13 +9,7 @@ import { completedInterview } from 'mock/debugResponse/mock-completed-interview'
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 
-jest.mock('builder_platform_interaction/sharedUtils', () => {
-    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
-    const commonUtils = Object.assign({}, sharedUtils.commonUtils, {
-        format: jest.fn().mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')')
-    });
-    return Object.assign({}, sharedUtils, { commonUtils });
-});
+jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
 const createComponentUnderTest = (debugData, newData = undefined, fromEmailDebugging = false) => {
     const el = createElement('builder_platform_interaction-debug-panel', {

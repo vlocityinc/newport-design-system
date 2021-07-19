@@ -11,13 +11,7 @@ import { errorWithTraceInterview, errorWithTraceInterviewWithRollback } from 'mo
 import { fakePausedInterview } from 'mock/debugResponse/mock-fake-paused-interview';
 import { fakePausedInterviewWithoutAlarmEvent } from 'mock/debugResponse/mock-fake-paused-interview';
 
-jest.mock('builder_platform_interaction/sharedUtils', () => {
-    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
-    const commonUtils = Object.assign({}, sharedUtils.commonUtils, {
-        format: jest.fn().mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')')
-    });
-    return Object.assign({}, sharedUtils, { commonUtils });
-});
+jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
 describe('debug utils', () => {
     describe('fake paused interview', () => {

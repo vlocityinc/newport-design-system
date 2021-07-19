@@ -8,17 +8,7 @@ import { ICON_SHAPE, AutoLayoutCanvasMode } from 'builder_platform_interaction/a
 import { LABELS } from '../alcNodeLabels';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
 
-// jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
-
-jest.mock('builder_platform_interaction/sharedUtils', () => {
-    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
-    const commonUtils = Object.assign({}, sharedUtils.commonUtils, {
-        format: jest.fn(() => {
-            return '+1 connections';
-        })
-    });
-    return Object.assign({}, sharedUtils, { commonUtils });
-});
+jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
 const createComponentUnderTest = (props = {}) => {
     const el = createElement('builder_platform_interaction-alcNode', {
@@ -421,7 +411,8 @@ describe('AlcNode', () => {
                 canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
             const gotoCount = alcNodeComponent.shadowRoot.querySelector(selectors.textIncomingGoTo);
-            expect(gotoCount.textContent).toEqual('+1 connections');
+            const expectText = `${LABELS.incomingGoToLabel}(${decisionNodeInfo.node.incomingGoTo.length})`;
+            expect(gotoCount.textContent).toEqual(expectText);
         });
 
         it('Should not show incoming count if goto does not exist', () => {
@@ -595,7 +586,8 @@ describe('AlcNode', () => {
                 canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
             const decisionIcon = alcNodeComponent.shadowRoot.querySelector(selectors.decisionIcon);
-            expect(decisionIcon.getAttribute('aria-label')).toEqual('[Decision] elementType');
+            const expectedAriaLabel = `${LABELS.ariaLabelNode}(${decisionNodeInfo.metadata.elementType},${decisionNodeInfo.metadata.label})`;
+            expect(decisionIcon.getAttribute('aria-label')).toEqual(expectedAriaLabel);
             expect(decisionIcon.getAttribute('aria-haspopup')).toEqual('dialog');
         });
 
@@ -605,7 +597,8 @@ describe('AlcNode', () => {
                 canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
             const startIcon = alcNodeComponent.shadowRoot.querySelector(selectors.startIcon);
-            expect(startIcon.getAttribute('aria-label')).toEqual('[START_ELEMENT] start description');
+            const expectedAriaLabel = `${LABELS.ariaLabelNode}(${startNodeInfo.metadata.elementType},${startNodeInfo.metadata.description})`;
+            expect(startIcon.getAttribute('aria-label')).toEqual(expectedAriaLabel);
             expect(startIcon.getAttribute('aria-haspopup')).toEqual('dialog');
         });
     });
