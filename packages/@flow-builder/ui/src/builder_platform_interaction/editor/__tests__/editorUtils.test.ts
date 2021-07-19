@@ -483,29 +483,28 @@ describe('Editor Utils Test', () => {
             }).toThrow();
         });
 
-        it('return "UPDATE" save type if flow event type is "save" and flowid is defined', () => {
-            expect(getSaveType(SaveFlowEvent.Type.SAVE, 'flowid', false)).toBe(SaveType.UPDATE);
-        });
-
-        it('return "CREATE" save type if flow event type is "save" and flow id is not defined', () => {
-            expect(getSaveType(SaveFlowEvent.Type.SAVE, undefined, false)).toBe(SaveType.CREATE);
-        });
-
-        it('return "NEW_DEFINITION" save type if flow event type is "save_as", "flowId" is undefined and "canOnlySaveAsNewDefinition" is true', () => {
-            expect(getSaveType(SaveFlowEvent.Type.SAVE_AS, undefined, true)).toBe(SaveType.NEW_DEFINITION);
-        });
-
-        it('return "NEW_DEFINITION" save type if flow event type is "save_as", "flowId" is defined and "canOnlySaveAsNewDefinition" is true', () => {
-            expect(getSaveType(SaveFlowEvent.Type.SAVE_AS, 'flowid', true)).toBe(SaveType.NEW_DEFINITION);
-        });
-
-        it('return "NEW_VERSION" save type if flow event type is "save_as", "flowId" is undefined and "canOnlySaveAsNewDefinition" is false', () => {
-            expect(getSaveType(SaveFlowEvent.Type.SAVE_AS, undefined, false)).toBe(SaveType.NEW_VERSION);
-        });
-
-        it('return "NEW_VERSION" save type if flow event type is "save_as", "flowId" is defined and "canOnlySaveAsNewDefinition" is false', () => {
-            expect(getSaveType(SaveFlowEvent.Type.SAVE_AS, 'flowid', false)).toBe(SaveType.NEW_VERSION);
-        });
+        it.each`
+            eventType                                | flowId       | canOnlySaveAsNewDefinition | saveType
+            ${SaveFlowEvent.Type.SAVE}               | ${'flowid'}  | ${false}                   | ${SaveType.UPDATE}
+            ${SaveFlowEvent.Type.SAVE}               | ${undefined} | ${false}                   | ${SaveType.CREATE}
+            ${SaveFlowEvent.Type.SAVE_AS}            | ${undefined} | ${true}                    | ${SaveType.NEW_DEFINITION}
+            ${SaveFlowEvent.Type.SAVE_AS}            | ${'flowid'}  | ${true}                    | ${SaveType.NEW_DEFINITION}
+            ${SaveFlowEvent.Type.SAVE_AS}            | ${undefined} | ${false}                   | ${SaveType.NEW_VERSION}
+            ${SaveFlowEvent.Type.SAVE_AS}            | ${'flowid'}  | ${false}                   | ${SaveType.NEW_VERSION}
+            ${SaveFlowEvent.Type.SAVE_AS_OVERRIDDEN} | ${undefined} | ${true}                    | ${SaveType.NEW_DEFINITION}
+            ${SaveFlowEvent.Type.SAVE_AS_OVERRIDDEN} | ${'flowid'}  | ${true}                    | ${SaveType.NEW_DEFINITION}
+            ${SaveFlowEvent.Type.SAVE_AS_OVERRIDDEN} | ${undefined} | ${false}                   | ${SaveType.NEW_VERSION}
+            ${SaveFlowEvent.Type.SAVE_AS_OVERRIDDEN} | ${'flowid'}  | ${false}                   | ${SaveType.NEW_VERSION}
+            ${SaveFlowEvent.Type.SAVE_AS_TEMPLATE}   | ${undefined} | ${true}                    | ${SaveType.NEW_DEFINITION}
+            ${SaveFlowEvent.Type.SAVE_AS_TEMPLATE}   | ${'flowid'}  | ${true}                    | ${SaveType.NEW_DEFINITION}
+            ${SaveFlowEvent.Type.SAVE_AS_TEMPLATE}   | ${undefined} | ${false}                   | ${SaveType.NEW_VERSION}
+            ${SaveFlowEvent.Type.SAVE_AS_TEMPLATE}   | ${'flowid'}  | ${false}                   | ${SaveType.NEW_VERSION}
+        `(
+            'return "$saveType" save type if flow event type is "$eventType", flowid is $flowId and canOnlySaveAsNewDefinition is $canOnlySaveAsNewDefinition',
+            async ({ saveType, eventType, flowId, canOnlySaveAsNewDefinition }) => {
+                expect(getSaveType(eventType, flowId, canOnlySaveAsNewDefinition)).toBe(saveType);
+            }
+        );
     });
 
     describe('updateStoreAfterSaveFlowIsSuccessful function', () => {

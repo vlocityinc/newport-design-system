@@ -238,7 +238,12 @@ export const getSaveType = (eventType, flowId, canOnlySaveAsNewDefinition) => {
     if (eventType === SaveFlowEvent.Type.SAVE) {
         return SaveType.CREATE;
     }
-    if (eventType === SaveFlowEvent.Type.SAVE_AS && canOnlySaveAsNewDefinition) {
+    if (
+        (eventType === SaveFlowEvent.Type.SAVE_AS ||
+            eventType === SaveFlowEvent.Type.SAVE_AS_OVERRIDDEN ||
+            eventType === SaveFlowEvent.Type.SAVE_AS_TEMPLATE) &&
+        canOnlySaveAsNewDefinition
+    ) {
         return SaveType.NEW_DEFINITION;
     }
     return SaveType.NEW_VERSION;
