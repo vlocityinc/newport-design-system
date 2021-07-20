@@ -28,21 +28,21 @@
                     class="slds-popover slds-is-absolute slds-nubbin_top-left slds-m-left_xx-small"
                     role="popover"
                 >
-                    <!--- close popover icon -->
-                    <lightning-button-icon
-                        icon-name="utility:close"
-                        onclick={handleDropdown}
-                        variant="bare"
-                        alternative-text={labels.filterClosePopoverAltText}
-                        class="slds-float_right slds-popover__close"
-                        title={labels.filterClosePopoverAltText}
-                    >
-                    </lightning-button-icon>
-                    <!--- popover title -->
-                    <lightning-formatted-rich-text value={labels.filterTitleText}></lightning-formatted-rich-text>
-                    <!-- popover body-->
                     <div id="popover-body-id" class="slds-popover__body">
+                        <!--- close popover icon -->
+                        <lightning-button-icon
+                            icon-name="utility:close"
+                            onclick={handleDropdown}
+                            variant="bare"
+                            alternative-text={labels.filterClosePopoverAltText}
+                            class="slds-float_right slds-popover__close"
+                            title={labels.filterClosePopoverAltText}
+                        >
+                        </lightning-button-icon>
+                        <!-- popover body-->
                         <lightning-checkbox-group
+                            name={labels.filterTitleText}
+                            label={labels.filterTitleText}
                             options={options}
                             value={checkboxSelections}
                             onchange={handleFilterChange}

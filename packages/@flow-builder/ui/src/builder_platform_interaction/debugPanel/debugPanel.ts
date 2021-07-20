@@ -38,16 +38,16 @@ export default class DebugPanel extends LightningElement {
     showOptions = false;
     filterOptions = [
         {
+            label: LABELS.showApiNamesFilter,
+            value: LABELS.showApiNamesFilter
+        },
+        {
             label: LABELS.govLimFilter,
             value: LABELS.govLimFilter
         },
         {
             label: LABELS.transactionFilter,
             value: LABELS.transactionFilter
-        },
-        {
-            label: LABELS.showApiNamesFilter,
-            value: LABELS.showApiNamesFilter
         }
     ];
     _selectedOptions = LABELS.basicFilter;
