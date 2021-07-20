@@ -8,7 +8,6 @@ import whenStepIsComplete from '@salesforce/label/FlowBuilderStageStepEditor.whe
 import entryCriteriaItemsPlaceholder from '@salesforce/label/FlowBuilderStageStepEditor.entryCriteriaItemsPlaceholder';
 import actionSelectorLabel from '@salesforce/label/FlowBuilderStageStepEditor.actionSelectorLabel';
 import actionSelectorTooltip from '@salesforce/label/FlowBuilderStageStepEditor.actionSelectorTooltip';
-import autolaunchedFlowSelectorTooltip from '@salesforce/label/FlowBuilderStageStepEditor.autolaunchedFlowSelectorTooltip';
 import actorSelectionSectionLabel from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectionSectionLabel';
 import actorSelectorLabel from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorLabel';
 import actorSelectorPlaceholder from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorPlaceholder';
@@ -55,7 +54,6 @@ export const LABELS = {
     entryCriteriaItemsPlaceholder,
     actionSelectorLabel,
     actionSelectorTooltip,
-    autolaunchedFlowSelectorTooltip,
     inputHeader,
     outputHeader,
     emptyInputsTitle,

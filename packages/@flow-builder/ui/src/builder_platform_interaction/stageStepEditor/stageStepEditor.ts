@@ -316,9 +316,7 @@ export default class StageStepEditor extends LightningElement {
     }
 
     get actionTooltipLabel(): string {
-        return this.isStepWithUserAction
-            ? this.labels.actionSelectorTooltip
-            : this.labels.autolaunchedFlowSelectorTooltip;
+        return this.labels.actionSelectorTooltip;
     }
 
     get isStartCriteriaBasedOnStep(): boolean {
