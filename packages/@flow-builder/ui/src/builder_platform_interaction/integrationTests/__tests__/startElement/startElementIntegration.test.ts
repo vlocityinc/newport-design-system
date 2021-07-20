@@ -244,10 +244,10 @@ describe('Start Element Editor (Record Triggered Flow)', () => {
             expect(getReorderableVerticalNavigationItems(scheduledPathComponent)).toHaveLength(3);
         });
         it('should display the Path Label as link', () => {
-            let link = getReorderableVerticalNavigationTitle(scheduledPathComponent, 0);
+            let link = getReorderableVerticalNavigationTitle(scheduledPathComponent, 1);
             expect(link.textContent).toBe(scheduledPathsNode.scheduledPaths[0].label.value);
 
-            link = getReorderableVerticalNavigationTitle(scheduledPathComponent, 1);
+            link = getReorderableVerticalNavigationTitle(scheduledPathComponent, 2);
             expect(link.textContent).toBe(scheduledPathsNode.scheduledPaths[1].label.value);
         });
     });
@@ -282,7 +282,7 @@ describe('Start Element Editor (Record Triggered Flow)', () => {
         let scheduledPath;
         beforeEach(async () => {
             scheduledPath = scheduledPathsNode.scheduledPaths[1];
-            getReorderableVerticalNavigationTitle(scheduledPathComponent, 1).click();
+            getReorderableVerticalNavigationTitle(scheduledPathComponent, 2).click();
             await ticks(10);
         });
         it('should be display scheduled path Label in the Label description Component', () => {
@@ -309,7 +309,7 @@ describe('Start Element Editor (Record Triggered Flow)', () => {
     });
     describe('Scheduled Path Time Source Options', () => {
         beforeEach(async () => {
-            getReorderableVerticalNavigationTitle(scheduledPathComponent, 0).click();
+            getReorderableVerticalNavigationTitle(scheduledPathComponent, 1).click();
             await ticks(10);
         });
         it('First Option has value Record Trigger Event', () => {
@@ -349,7 +349,7 @@ describe('Start Element Editor (Record Triggered Flow)', () => {
         });
         it('Should display the emptyScheduledPathLabel in the navigation menu', () => {
             expect(getReorderableVerticalNavigationItems(scheduledPathComponent)).toHaveLength(4);
-            const link = getReorderableVerticalNavigationTitle(scheduledPathComponent, 2);
+            const link = getReorderableVerticalNavigationTitle(scheduledPathComponent, 3);
             expect(link.textContent).toBe('FlowBuilderStartEditor.emptyScheduledPathLabel');
         });
         it('Label should be display in the Label description Component', () => {
@@ -371,7 +371,7 @@ describe('Start Element Editor (Record Triggered Flow)', () => {
     describe('Delete Scheduled Path', () => {
         it('sets the first scheduled path as active when there are 3 scheduled paths (including immediate) and the second one is deleted', async () => {
             expect.assertions(1);
-            getReorderableVerticalNavigationTitle(scheduledPathComponent, 1).click();
+            getReorderableVerticalNavigationTitle(scheduledPathComponent, 2).click();
             await ticks(1);
             getDeleteScheduledPathButton(scheduledPathComponent).click();
             await ticks(1);

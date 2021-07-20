@@ -125,7 +125,7 @@ describe('Scheduled Paths Editor', () => {
     });
     describe('scheduled paths menu', () => {
         describe('array of menu items', () => {
-            it('contains all scheduled paths in order including immediate scheduled path at the end', () => {
+            it('contains all scheduled paths in order including immediate scheduled path at the start', () => {
                 expect.assertions(4);
                 const scheduledPathsEditor = createComponentForTest(startElementWithTwoScheduledPaths);
                 const reorderableScheduledPathNav = scheduledPathsEditor.shadowRoot.querySelector(
@@ -133,16 +133,16 @@ describe('Scheduled Paths Editor', () => {
                 );
                 const menuItems = reorderableScheduledPathNav.menuItems;
                 // menu includes the default
-                expect(menuItems).toHaveLength(3);
-                expect(menuItems[0].element).toEqual(startElementWithTwoScheduledPaths.scheduledPaths[0]);
-                expect(menuItems[1].element).toEqual(startElementWithTwoScheduledPaths.scheduledPaths[1]);
-                expect(menuItems[2]).toEqual({
+                expect(menuItems[0]).toEqual({
                     element: {
                         guid: IMMEDIATE_SCHEDULED_PATH_ID
                     },
                     label: 'FlowBuilderStartEditor.immediateScheduledPathLabel',
                     isDraggable: false
                 });
+                expect(menuItems).toHaveLength(3);
+                expect(menuItems[1].element).toEqual(startElementWithTwoScheduledPaths.scheduledPaths[0]);
+                expect(menuItems[2].element).toEqual(startElementWithTwoScheduledPaths.scheduledPaths[1]);
             });
             it('scheduled paths are not draggable', () => {
                 const scheduledPathsEditor = createComponentForTest(startElementWithTwoScheduledPaths);
@@ -165,8 +165,8 @@ describe('Scheduled Paths Editor', () => {
 
                 // We mocked getErrorsFromHydratedElement to always return an error
                 // so all non-immediate scheduled paths will show the error
-                expect(menuItems[0].hasErrors).toBeTruthy();
                 expect(menuItems[1].hasErrors).toBeTruthy();
+                expect(menuItems[2].hasErrors).toBeTruthy();
             });
         });
     });
@@ -300,7 +300,7 @@ describe('Scheduled Paths Editor', () => {
             );
             const menuItems = reorderableOutcomeNav.menuItems;
 
-            expect(menuItems[2].hasErrors).toBeFalsy();
+            expect(menuItems[0].hasErrors).toBeFalsy();
         });
     });
     describe('run on success scheduled path', () => {

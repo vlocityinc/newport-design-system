@@ -95,7 +95,7 @@ export default class ScheduledPathsEditor extends LightningElement {
                 };
             });
         }
-        scheduledPathsWithImmediateTrigger.push({
+        scheduledPathsWithImmediateTrigger.unshift({
             element: {
                 guid: IMMEDIATE_SCHEDULED_PATH_ID
             },
