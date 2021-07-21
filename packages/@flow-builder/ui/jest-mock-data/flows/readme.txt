@@ -1,4 +1,4 @@
-To update flowWithAllElements.json :
+To update flowWithAllElements.json, orchestratorFlow.json or recordTriggeredFlow.json:
 
 1) create a scratch org using https://git.soma.salesforce.com/automation-platform/test-environments/tree/master/flowbuilder-eng
 2) open flowWithAllElements

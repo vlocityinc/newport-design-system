@@ -1,181 +1,115 @@
 {
-    "createdById": "005RM000001kjoRYAQ",
-    "createdDate": "2020-11-10T14:54:45.000+0000",
-    "definitionId": "300RM0000000Jt4YAE",
+    "createdById": "005xx000001XJuXAAW",
+    "createdDate": "2021-07-20T12:50:07.000+0000",
+    "definitionId": "300xx000000cENNAA2",
     "fieldsToNull": [],
     "fullName": "RecordTriggeredFlow",
-    "id": "301RM0000000V2xYAE",
-    "lastModifiedBy": { "fieldsToNull": [], "name": "Admin User" },
-    "lastModifiedById": "005RM000001kjoRYAQ",
-    "lastModifiedDate": "2020-11-10T14:54:47.000+0000",
+    "id": "301xx000003Gy4lAAC",
+    "lastModifiedBy": {
+        "fieldsToNull": [],
+        "name": "User User"
+    },
+    "lastModifiedById": "005xx000001XJuXAAW",
+    "lastModifiedDate": "2021-07-20T12:50:11.000+0000",
     "manageableState": "unmanaged",
     "masterLabel": "RecordTriggeredFlow",
     "metadata": {
-        "start": {
-            "locationX": 170,
-            "locationY": 53,
-            "triggerType": "RecordAfterSave",
-            "object": "Account",
-            "recordTriggerType": "Update",
-            "doesRequireRecordChangedToMeetCriteria": true,
-            "filterLogic": "and",
-            "filters": [
-                {
-                    "field": "BillingCity",
-                    "operator": "EqualTo",
-                    "value": {
-                        "stringValue": "San Francisco"
+        "actionCalls": [
+            {
+                "actionName": "chatterPost",
+                "actionType": "chatterPost",
+                "dataTypeMappings": [],
+                "flowTransactionModel": "CurrentTransaction",
+                "inputParameters": [
+                    {
+                        "name": "text",
+                        "processMetadataValues": [],
+                        "value": {
+                            "stringValue": "Foo"
+                        }
+                    },
+                    {
+                        "name": "subjectNameOrId",
+                        "processMetadataValues": [],
+                        "value": {
+                            "stringValue": "Bar"
+                        }
                     }
-                }
-            ],
-            "scheduledPaths": [
-                {
-                    "name": "myScheduledPath2DaysBefore",
-                    "label": "myScheduledPath2DaysBefore",
-                    "timeSource": "RecordField",
-                    "offsetUnit": "Days",
-                    "offsetNumber": -2,
-                    "recordField": "CreatedDate"
-                },
-                {
-                    "name": "myScheduledPathHoursAfter",
-                    "label": "myScheduledPathHoursAfter",
-                    "timeSource": "RecordField",
-                    "offsetUnit": "Hours",
-                    "offsetNumber": 4,
-                    "recordField": "LastModifiedDate"
-                }
-            ]
-        },
+                ],
+                "label": "Post to Chatter Action",
+                "locationX": 94,
+                "locationY": 555,
+                "name": "Post_to_Chatter_Action",
+                "outputParameters": [],
+                "processMetadataValues": [],
+                "storeOutputAutomatically": false
+            }
+        ],
+        "apexPluginCalls": [],
+        "apiVersion": 51,
         "assignments": [
             {
-                "name": "assign",
-                "description": "",
-                "label": "assign",
-                "locationX": 623,
-                "locationY": 403,
                 "assignmentItems": [
                     {
                         "assignToReference": "$Record.Description",
                         "operator": "Add",
+                        "processMetadataValues": [],
                         "value": {
                             "elementReference": "$Record__Prior.AnnualRevenue"
                         }
                     }
-                ]
+                ],
+                "label": "assign",
+                "locationX": 623,
+                "locationY": 403,
+                "name": "assign",
+                "processMetadataValues": []
             }
         ],
+        "choices": [],
+        "collectionProcessors": [],
+        "constants": [],
         "decisions": [
             {
-                "name": "decision",
-                "description": "",
+                "defaultConnectorLabel": "Default Outcome",
                 "label": "decision",
                 "locationX": 815,
                 "locationY": 408,
+                "name": "decision",
+                "processMetadataValues": [],
                 "rules": [
                     {
-                        "name": "outcome",
-                        "label": "outcome",
+                        "conditionLogic": "and",
                         "conditions": [
                             {
                                 "leftValueReference": "$Record__Prior.Name",
+                                "operator": "EqualTo",
+                                "processMetadataValues": [],
                                 "rightValue": {
                                     "stringValue": "theAccount"
-                                },
-                                "operator": "EqualTo"
+                                }
                             }
                         ],
-                        "conditionLogic": "and",
-                        "doesRequireRecordChangedToMeetCriteria": false
-                    }
-                ],
-                "defaultConnectorLabel": "Default Outcome"
-            }
-        ],
-        "variables": [
-            {
-                "name": "accountSObjectVariable",
-                "description": "",
-                "objectType": "Account",
-                "dataType": "SObject",
-                "isCollection": false,
-                "isInput": false,
-                "isOutput": false,
-                "scale": 0
-            },
-            {
-                "name": "stringVariable",
-                "description": "",
-                "dataType": "String",
-                "isCollection": false,
-                "isInput": false,
-                "isOutput": false,
-                "scale": 0
-            }
-        ],
-        "recordCreates": [
-            {
-                "name": "create_account_manual_output",
-                "description": "",
-                "label": "create account manual output",
-                "locationX": 337,
-                "locationY": 373,
-                "object": "Account",
-                "inputAssignments": [
-                    {
-                        "field": "Name",
-                        "value": {
-                            "stringValue": "accountName"
-                        }
-                    }
-                ],
-                "storeOutputAutomatically": false,
-                "assignRecordIdToReference": "stringVariable"
-            },
-            {
-                "name": "create_account_from_an_account",
-                "description": "",
-                "label": "create account from an account",
-                "locationX": 105,
-                "locationY": 361.3125,
-                "elementSubtype": null,
-                "inputReference": "accountSObjectVariable"
-            }
-        ],
-        "recordUpdates": [
-            {
-                "name": "Update_Triggering_Record",
-                "description": "",
-                "label": "Update Triggering Record",
-                "locationX": 491,
-                "locationY": 673.3125,
-                "elementSubtype": null,
-                "inputReference": "$Record",
-                "filters": [],
-                "object": "",
-                "inputAssignments": [
-                    {
-                        "field": "Name",
-                        "value": {
-                            "stringValue": "Trigg"
-                        }
+                        "doesRequireRecordChangedToMeetCriteria": false,
+                        "label": "outcome",
+                        "name": "outcome",
+                        "processMetadataValues": []
                     }
                 ]
             }
         ],
-        "description": "",
+        "dynamicChoiceSets": [],
+        "formulas": [],
         "interviewLabel": "RecordTriggeredFlow {!$Flow.CurrentDateTime}",
+        "isAdditionalPermissionRequiredToRun": false,
+        "isOverridable": false,
         "isTemplate": false,
         "label": "RecordTriggeredFlow",
+        "loops": [],
+        "orchestratedStages": [],
         "processMetadataValues": [
             {
                 "name": "BuilderType",
-                "value": {
-                    "stringValue": "LightningFlowBuilder"
-                }
-            },
-            {
-                "name": "OriginBuilderType",
                 "value": {
                     "stringValue": "LightningFlowBuilder"
                 }
@@ -185,12 +119,139 @@
                 "value": {
                     "stringValue": "FREE_FORM_CANVAS"
                 }
+            },
+            {
+                "name": "OriginBuilderType",
+                "value": {
+                    "stringValue": "LightningFlowBuilder"
+                }
             }
         ],
         "processType": "AutoLaunchedFlow",
-        "runInMode": null,
+        "recordCreates": [
+            {
+                "inputAssignments": [],
+                "inputReference": "accountSObjectVariable",
+                "label": "create account from an account",
+                "locationX": 105,
+                "locationY": 361,
+                "name": "create_account_from_an_account",
+                "processMetadataValues": [],
+                "storeOutputAutomatically": false
+            },
+            {
+                "assignRecordIdToReference": "stringVariable",
+                "inputAssignments": [
+                    {
+                        "field": "Name",
+                        "processMetadataValues": [],
+                        "value": {
+                            "stringValue": "accountName"
+                        }
+                    }
+                ],
+                "label": "create account manual output",
+                "locationX": 337,
+                "locationY": 373,
+                "name": "create_account_manual_output",
+                "object": "Account",
+                "processMetadataValues": [],
+                "storeOutputAutomatically": false
+            }
+        ],
+        "recordDeletes": [],
+        "recordLookups": [],
+        "recordRollbacks": [],
+        "recordUpdates": [
+            {
+                "filters": [],
+                "inputAssignments": [
+                    {
+                        "field": "Name",
+                        "processMetadataValues": [],
+                        "value": {
+                            "stringValue": "Trigg"
+                        }
+                    }
+                ],
+                "inputReference": "$Record",
+                "label": "Update Triggering Record",
+                "locationX": 491,
+                "locationY": 673,
+                "name": "Update_Triggering_Record",
+                "processMetadataValues": []
+            }
+        ],
+        "screens": [],
+        "stages": [],
+        "start": {
+            "doesRequireRecordChangedToMeetCriteria": true,
+            "filterLogic": "and",
+            "filters": [
+                {
+                    "field": "BillingCity",
+                    "operator": "EqualTo",
+                    "processMetadataValues": [],
+                    "value": {
+                        "stringValue": "San Francisco"
+                    }
+                }
+            ],
+            "locationX": 170,
+            "locationY": 53,
+            "object": "Account",
+            "processMetadataValues": [],
+            "recordTriggerType": "Update",
+            "scheduledPaths": [
+                {
+                    "label": "myScheduledPath2DaysBefore",
+                    "maxBatchSize": 0,
+                    "name": "myScheduledPath2DaysBefore",
+                    "offsetNumber": -2,
+                    "offsetUnit": "Days",
+                    "processMetadataValues": [],
+                    "recordField": "CreatedDate",
+                    "timeSource": "RecordField"
+                },
+                {
+                    "label": "myScheduledPathHoursAfter",
+                    "maxBatchSize": 0,
+                    "name": "myScheduledPathHoursAfter",
+                    "offsetNumber": 4,
+                    "offsetUnit": "Hours",
+                    "processMetadataValues": [],
+                    "recordField": "LastModifiedDate",
+                    "timeSource": "RecordField"
+                }
+            ],
+            "triggerType": "RecordAfterSave"
+        },
         "status": "InvalidDraft",
-        "apiVersion": 51
+        "steps": [],
+        "subflows": [],
+        "textTemplates": [],
+        "variables": [
+            {
+                "dataType": "SObject",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "accountSObjectVariable",
+                "objectType": "Account",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "dataType": "String",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "stringVariable",
+                "processMetadataValues": [],
+                "scale": 0
+            }
+        ],
+        "waits": []
     },
     "processType": "AutoLaunchedFlow",
     "status": "InvalidDraft",

@@ -91,7 +91,7 @@ describe('Invocable Action Editor', () => {
             expect(inputElement.type).toBe('checkbox');
             expect(inputElement.checked).toBe(false);
         });
-        it('should have the output parameter displayed', () => {
+        it('should not have the output parameter displayed', () => {
             const parameterListOutputDiv = getAdvancedAccordionOutputDiv(coreActionElement);
             expect(parameterListOutputDiv).toBeNull();
         });

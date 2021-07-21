@@ -69,7 +69,8 @@ export const recordTriggeredFlowUIModel = {
             dataType: 'Boolean',
             timeSource: 'CreatedDate',
             offsetUnit: 'DaysBefore',
-            offsetNumber: '2'
+            offsetNumber: '2',
+            maxBatchSize: 0
         },
         'fc408daa-3152-46bf-8733-c1083018292b': {
             guid: 'fc408daa-3152-46bf-8733-c1083018292b',
@@ -79,10 +80,63 @@ export const recordTriggeredFlowUIModel = {
             dataType: 'Boolean',
             timeSource: 'LastModifiedDate',
             offsetUnit: 'HoursAfter',
-            offsetNumber: '4'
+            offsetNumber: '4',
+            maxBatchSize: 0
         },
         '6d690706-908c-4d94-9513-1b219301b4c5': {
             guid: '6d690706-908c-4d94-9513-1b219301b4c5',
+            name: 'Post_to_Chatter_Action',
+            description: '',
+            label: 'Post to Chatter Action',
+            locationX: 94,
+            locationY: 555,
+            isCanvasElement: true,
+            connectorCount: 0,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true,
+                hasError: false
+            },
+            canHaveFaultConnector: true,
+            actionType: 'chatterPost',
+            actionName: 'chatterPost',
+            dataTypeMappings: [],
+            inputParameters: [
+                {
+                    rowIndex: 'e682f03e-925a-4d84-adc3-f1c5ceea0201',
+                    name: 'text',
+                    value: 'Foo',
+                    valueDataType: 'String',
+                    subtype: '',
+                    isCollection: false
+                },
+                {
+                    rowIndex: '2e01b9c4-5144-4db2-9543-7899c5c34329',
+                    name: 'subjectNameOrId',
+                    value: 'Bar',
+                    valueDataType: 'String',
+                    subtype: '',
+                    isCollection: false
+                }
+            ],
+            outputParameters: [],
+            availableConnections: [
+                {
+                    type: 'REGULAR'
+                },
+                {
+                    type: 'FAULT'
+                }
+            ],
+            maxConnections: 2,
+            elementType: 'ActionCall',
+            dataType: 'Boolean',
+            storeOutputAutomatically: false,
+            flowTransactionModel: 'CurrentTransaction'
+        },
+        'fe30ada4-6781-4ffd-84d1-9efbadaa29ab': {
+            guid: 'fe30ada4-6781-4ffd-84d1-9efbadaa29ab',
             name: 'assign',
             description: '',
             label: 'assign',
@@ -99,7 +153,7 @@ export const recordTriggeredFlowUIModel = {
             canHaveFaultConnector: false,
             assignmentItems: [
                 {
-                    rowIndex: '90246d76-2818-4059-b0fd-425e241f8708',
+                    rowIndex: 'bf05168b-6bd9-483a-8ea8-5e4d73a1c717',
                     leftHandSide: '$Record.Description',
                     rightHandSide: '$Record__Prior.AnnualRevenue',
                     rightHandSideDataType: 'reference',
@@ -109,8 +163,8 @@ export const recordTriggeredFlowUIModel = {
             maxConnections: 1,
             elementType: 'Assignment'
         },
-        'e682f03e-925a-4d84-adc3-f1c5ceea0201': {
-            guid: 'e682f03e-925a-4d84-adc3-f1c5ceea0201',
+        'cc0381a7-0c64-4935-bc0c-25ecc2e958f1': {
+            guid: 'cc0381a7-0c64-4935-bc0c-25ecc2e958f1',
             name: 'decision',
             description: '',
             label: 'decision',
@@ -127,7 +181,7 @@ export const recordTriggeredFlowUIModel = {
             canHaveFaultConnector: false,
             childReferences: [
                 {
-                    childReference: '297834ec-f5c8-4128-aa38-dc437f0c6a9b'
+                    childReference: '4968239c-5e3d-45ee-9339-f575c917e223'
                 }
             ],
             defaultConnectorLabel: 'Default Outcome',
@@ -136,15 +190,15 @@ export const recordTriggeredFlowUIModel = {
             availableConnections: [
                 {
                     type: 'REGULAR',
-                    childReference: '297834ec-f5c8-4128-aa38-dc437f0c6a9b'
+                    childReference: '4968239c-5e3d-45ee-9339-f575c917e223'
                 },
                 {
                     type: 'DEFAULT'
                 }
             ]
         },
-        '297834ec-f5c8-4128-aa38-dc437f0c6a9b': {
-            guid: '297834ec-f5c8-4128-aa38-dc437f0c6a9b',
+        '4968239c-5e3d-45ee-9339-f575c917e223': {
+            guid: '4968239c-5e3d-45ee-9339-f575c917e223',
             name: 'outcome',
             label: 'outcome',
             elementType: 'OUTCOME',
@@ -152,7 +206,7 @@ export const recordTriggeredFlowUIModel = {
             conditionLogic: 'and',
             conditions: [
                 {
-                    rowIndex: '2e01b9c4-5144-4db2-9543-7899c5c34329',
+                    rowIndex: 'ed85c895-feb5-45cb-b486-49cfd9da8e20',
                     leftHandSide: '$Record__Prior.Name',
                     rightHandSide: 'theAccount',
                     rightHandSideDataType: 'String',
@@ -161,8 +215,8 @@ export const recordTriggeredFlowUIModel = {
             ],
             doesRequireRecordChangedToMeetCriteria: false
         },
-        'fe30ada4-6781-4ffd-84d1-9efbadaa29ab': {
-            guid: 'fe30ada4-6781-4ffd-84d1-9efbadaa29ab',
+        '0ecd3000-0adc-4d34-bdc1-acd331740de0': {
+            guid: '0ecd3000-0adc-4d34-bdc1-acd331740de0',
             name: 'accountSObjectVariable',
             description: '',
             elementType: 'Variable',
@@ -171,14 +225,14 @@ export const recordTriggeredFlowUIModel = {
             isOutput: false,
             dataType: 'SObject',
             subtype: 'Account',
-            subtypeIndex: 'bf05168b-6bd9-483a-8ea8-5e4d73a1c717',
+            subtypeIndex: '7f4ddba5-e41b-456b-b686-94b257cc9914',
             scale: 0,
             defaultValue: null,
             defaultValueDataType: null,
-            defaultValueIndex: 'cc0381a7-0c64-4935-bc0c-25ecc2e958f1'
+            defaultValueIndex: '7bc6bd8f-26da-45cb-81de-6b8dcc0ad7be'
         },
-        '4968239c-5e3d-45ee-9339-f575c917e223': {
-            guid: '4968239c-5e3d-45ee-9339-f575c917e223',
+        '53329036-32e6-4965-a1d2-b12cd0344f99': {
+            guid: '53329036-32e6-4965-a1d2-b12cd0344f99',
             name: 'stringVariable',
             description: '',
             elementType: 'Variable',
@@ -187,14 +241,48 @@ export const recordTriggeredFlowUIModel = {
             isOutput: false,
             dataType: 'String',
             subtype: null,
-            subtypeIndex: 'ed85c895-feb5-45cb-b486-49cfd9da8e20',
+            subtypeIndex: '04e1c283-fc0b-4928-a495-89d956368769',
             scale: 0,
             defaultValue: null,
             defaultValueDataType: null,
-            defaultValueIndex: '0ecd3000-0adc-4d34-bdc1-acd331740de0'
+            defaultValueIndex: 'a193d56e-2ee7-422d-a3ff-664fc82a0fd8'
         },
-        '7f4ddba5-e41b-456b-b686-94b257cc9914': {
-            guid: '7f4ddba5-e41b-456b-b686-94b257cc9914',
+        '3e57f4c5-fecd-4be0-83a2-3238cdda979c': {
+            guid: '3e57f4c5-fecd-4be0-83a2-3238cdda979c',
+            name: 'create_account_from_an_account',
+            description: '',
+            label: 'create account from an account',
+            locationX: 105,
+            locationY: 361,
+            isCanvasElement: true,
+            connectorCount: 0,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true,
+                hasError: false
+            },
+            canHaveFaultConnector: true,
+            object: '',
+            objectIndex: '85d76151-9bec-4869-b691-791baf964b4f',
+            getFirstRecordOnly: true,
+            inputReference: '0ecd3000-0adc-4d34-bdc1-acd331740de0',
+            inputReferenceIndex: '7ab29c0c-3dbf-4f99-a94c-311ef891973f',
+            availableConnections: [
+                {
+                    type: 'REGULAR'
+                },
+                {
+                    type: 'FAULT'
+                }
+            ],
+            maxConnections: 2,
+            elementType: 'RecordCreate',
+            assignRecordIdToReferenceIndex: 'bb597c66-db1e-4636-85b6-31f89b320bd4',
+            dataType: 'Boolean'
+        },
+        '2f00ca0d-743f-4639-a084-272bbc548f8b': {
+            guid: '2f00ca0d-743f-4639-a084-272bbc548f8b',
             name: 'create_account_manual_output',
             description: '',
             label: 'create account manual output',
@@ -210,10 +298,10 @@ export const recordTriggeredFlowUIModel = {
             },
             canHaveFaultConnector: true,
             object: 'Account',
-            objectIndex: '53329036-32e6-4965-a1d2-b12cd0344f99',
+            objectIndex: '5383bf9b-8314-42bd-a51e-cbee56ec3570',
             inputAssignments: [
                 {
-                    rowIndex: 'a193d56e-2ee7-422d-a3ff-664fc82a0fd8',
+                    rowIndex: '787fd564-24db-448c-ba59-ef88c8a5cbd9',
                     leftHandSide: 'Account.Name',
                     rightHandSide: 'accountName',
                     rightHandSideDataType: 'String'
@@ -221,7 +309,7 @@ export const recordTriggeredFlowUIModel = {
             ],
             getFirstRecordOnly: true,
             inputReference: '',
-            inputReferenceIndex: '7bc6bd8f-26da-45cb-81de-6b8dcc0ad7be',
+            inputReferenceIndex: 'a18b3d06-504c-4e47-9f44-6663c42703cf',
             availableConnections: [
                 {
                     type: 'REGULAR'
@@ -232,53 +320,18 @@ export const recordTriggeredFlowUIModel = {
             ],
             maxConnections: 2,
             elementType: 'RecordCreate',
-            assignRecordIdToReference: '4968239c-5e3d-45ee-9339-f575c917e223',
-            assignRecordIdToReferenceIndex: '04e1c283-fc0b-4928-a495-89d956368769',
+            assignRecordIdToReference: '53329036-32e6-4965-a1d2-b12cd0344f99',
+            assignRecordIdToReferenceIndex: '20336b8d-01e4-49eb-bb24-87deba5f6ef8',
             dataType: 'Boolean',
             storeOutputAutomatically: false
         },
         'cc44cf67-84c7-4dc5-b851-44d57be8fa66': {
             guid: 'cc44cf67-84c7-4dc5-b851-44d57be8fa66',
-            name: 'create_account_from_an_account',
-            description: '',
-            label: 'create account from an account',
-            locationX: 105,
-            locationY: 361.3125,
-            isCanvasElement: true,
-            connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
-            elementSubtype: null,
-            canHaveFaultConnector: true,
-            object: '',
-            objectIndex: 'c5fd40ed-f8bb-4cea-a00d-8f3697b5731c',
-            getFirstRecordOnly: true,
-            inputReference: 'fe30ada4-6781-4ffd-84d1-9efbadaa29ab',
-            inputReferenceIndex: 'c8bc407d-a8ed-49c8-aaf6-2fac342a9fd1',
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
-            maxConnections: 2,
-            elementType: 'RecordCreate',
-            assignRecordIdToReferenceIndex: '86f9f34d-e2e4-45e3-a574-78ddcd669ebf',
-            dataType: 'Boolean'
-        },
-        '2f00ca0d-743f-4639-a084-272bbc548f8b': {
-            guid: '2f00ca0d-743f-4639-a084-272bbc548f8b',
             name: 'Update_Triggering_Record',
             description: '',
             label: 'Update Triggering Record',
             locationX: 491,
-            locationY: 673.3125,
+            locationY: 673,
             isCanvasElement: true,
             connectorCount: 0,
             config: {
@@ -287,10 +340,9 @@ export const recordTriggeredFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
-            elementSubtype: null,
             canHaveFaultConnector: true,
             inputReference: '$Record',
-            inputReferenceIndex: 'a18b3d06-504c-4e47-9f44-6663c42703cf',
+            inputReferenceIndex: 'c8bc407d-a8ed-49c8-aaf6-2fac342a9fd1',
             maxConnections: 2,
             availableConnections: [
                 {
@@ -303,7 +355,7 @@ export const recordTriggeredFlowUIModel = {
             elementType: 'RecordUpdate',
             inputAssignments: [
                 {
-                    rowIndex: '20336b8d-01e4-49eb-bb24-87deba5f6ef8',
+                    rowIndex: '86f9f34d-e2e4-45e3-a574-78ddcd669ebf',
                     leftHandSide: '.Name',
                     rightHandSide: 'Trigg',
                     rightHandSideDataType: 'String'
@@ -311,7 +363,7 @@ export const recordTriggeredFlowUIModel = {
             ],
             filters: [
                 {
-                    rowIndex: '787fd564-24db-448c-ba59-ef88c8a5cbd9',
+                    rowIndex: 'a6849bcb-05b6-4898-8cc1-12ff825524c5',
                     leftHandSide: '',
                     rightHandSide: '',
                     rightHandSideDataType: '',
@@ -320,7 +372,7 @@ export const recordTriggeredFlowUIModel = {
             ],
             filterLogic: 'no_conditions',
             object: '',
-            objectIndex: '5383bf9b-8314-42bd-a51e-cbee56ec3570',
+            objectIndex: 'c5fd40ed-f8bb-4cea-a00d-8f3697b5731c',
             dataType: 'Boolean',
             wayToFindRecords: 'triggeringRecord'
         }
@@ -329,14 +381,15 @@ export const recordTriggeredFlowUIModel = {
     canvasElements: [
         '07fd2a44-4192-4709-888d-8ccc18cb4580',
         '6d690706-908c-4d94-9513-1b219301b4c5',
-        'e682f03e-925a-4d84-adc3-f1c5ceea0201',
-        '7f4ddba5-e41b-456b-b686-94b257cc9914',
-        'cc44cf67-84c7-4dc5-b851-44d57be8fa66',
-        '2f00ca0d-743f-4639-a084-272bbc548f8b'
+        'fe30ada4-6781-4ffd-84d1-9efbadaa29ab',
+        'cc0381a7-0c64-4935-bc0c-25ecc2e958f1',
+        '3e57f4c5-fecd-4be0-83a2-3238cdda979c',
+        '2f00ca0d-743f-4639-a084-272bbc548f8b',
+        'cc44cf67-84c7-4dc5-b851-44d57be8fa66'
     ],
     properties: {
         canOnlySaveAsNewDefinition: false,
-        definitionId: '300RM0000000Jt4YAE',
+        definitionId: '300xx000000cENNAA2',
         description: '',
         elementType: 'FLOW_PROPERTIES',
         hasUnsavedChanges: false,
@@ -345,8 +398,8 @@ export const recordTriggeredFlowUIModel = {
         isLightningFlowBuilder: true,
         isTemplate: false,
         label: 'RecordTriggeredFlow',
-        lastModifiedBy: 'Admin User',
-        lastModifiedDate: '2020-11-10T14:54:47.000+0000',
+        lastModifiedBy: 'User User',
+        lastModifiedDate: '2021-07-20T12:50:11.000+0000',
         lastInlineResourceGuid: null,
         lastInlineResourcePosition: null,
         lastInlineResourceRowIndex: null,

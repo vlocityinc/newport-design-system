@@ -26,3 +26,4 @@ const getStartElement = () => {
 };
 
 export const startElement = getStartElement();
+export const actionPostToChatter = getElementByName('Post_to_Chatter_Action');
