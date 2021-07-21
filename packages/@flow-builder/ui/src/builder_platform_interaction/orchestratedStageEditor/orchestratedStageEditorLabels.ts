@@ -20,7 +20,7 @@ import thisActionHasNoInputOutputBody from '@salesforce/label/FlowBuilderCallout
 import exitSectionLabel from '@salesforce/label/FlowBuilderOrchestratedStageEditor.exitSectionLabel';
 import exitActionSelectionLabel from '@salesforce/label/FlowBuilderOrchestratedStageEditor.exitActionSelectionLabel';
 import exitOptionBasedOnAllStepsComplete from '@salesforce/label/FlowBuilderOrchestratedStageEditor.exitOptionBasedOnAllStepsComplete';
-import basedOnCustomFlow from '@salesforce/label/FlowBuilderOrchestratedStageEditor.basedOnCustomFlow';
+import completeOptionBasedOnCustomFlow from '@salesforce/label/FlowBuilderOrchestratedStageEditor.completeOptionBasedOnCustomFlow';
 import determinationFlowSelectorHeader from '@salesforce/label/FlowBuilderOrchestratedStageEditor.determinationFlowSelectorHeader';
 import criteriaActionHelpText from '@salesforce/label/FlowBuilderStageStepEditor.criteriaActionHelpText';
 
@@ -45,7 +45,7 @@ export const LABELS = {
     exitSectionLabel,
     exitActionSelectionLabel,
     exitOptionBasedOnAllStepsComplete,
-    basedOnCustomFlow,
+    completeOptionBasedOnCustomFlow,
     determinationFlowSelectorHeader,
     criteriaActionHelpText
 };

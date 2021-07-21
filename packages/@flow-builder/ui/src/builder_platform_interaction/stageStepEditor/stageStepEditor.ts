@@ -278,7 +278,7 @@ export default class StageStepEditor extends LightningElement {
             },
 
             {
-                label: LABELS.basedOnCustomFlow,
+                label: LABELS.startOptionBasedOnCustomFlow,
                 value: ENTRY_CRITERIA.ON_DETERMINATION_COMPLETE
             }
         ];
@@ -292,7 +292,7 @@ export default class StageStepEditor extends LightningElement {
             },
 
             {
-                label: LABELS.basedOnCustomFlow,
+                label: LABELS.completeOptionBasedOnCustomFlow,
                 value: EXIT_CRITERIA.ON_DETERMINATION_COMPLETE
             }
         ];

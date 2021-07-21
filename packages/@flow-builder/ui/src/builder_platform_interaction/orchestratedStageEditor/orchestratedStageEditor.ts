@@ -149,7 +149,7 @@ export default class OrchestratedStageEditor extends LightningElement {
             },
 
             {
-                label: LABELS.basedOnCustomFlow,
+                label: LABELS.completeOptionBasedOnCustomFlow,
                 value: EXIT_CRITERIA.ON_DETERMINATION_COMPLETE
             }
         ];
