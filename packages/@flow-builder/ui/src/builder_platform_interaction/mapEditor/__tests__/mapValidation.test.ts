@@ -35,7 +35,7 @@ const validate = (node) => {
 
 const validMapNode = () => ({
     collectionReference: { value: store.accountSObjectCollectionVariable.guid, error: null },
-    currentValueFromCollection: { value: store.contactSObjectVariable.name, error: null },
+    assignNextValueToReference: { value: store.contactSObjectVariable.guid, error: null },
     mapItems: [
         {
             leftHandSide: { value: 'Contact.Description', error: null },
@@ -45,8 +45,7 @@ const validMapNode = () => ({
             rowIndex: 'MapItem_1'
         }
     ],
-    outputTable: { value: 'Contact', error: null },
-    storeOutputAutomatically: true
+    outputSObjectType: { value: 'Contact', error: null }
 });
 
 describe('Map Validation', () => {
@@ -89,23 +88,23 @@ describe('Map Validation', () => {
             expect(errors[0].errorString).toBe(LABELS.enterValidValue);
         });
     });
-    describe('no outputTable', () => {
+    describe('no outputSObjectType', () => {
         it('should return an error', () => {
             const mapEditor = createComponentForTest(mapEditorNode);
-            mapEditorNode.outputTable.value = '';
+            mapEditorNode.outputSObjectType.value = '';
             const errors = validate(mapEditor.elementInfo);
             expect(errors).toHaveLength(1);
-            expect(errors[0].key).toBe('outputTable');
+            expect(errors[0].key).toBe('outputSObjectType');
             expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
         });
     });
-    describe('no currentValueFromCollection', () => {
+    describe('no assignNextValueToReference', () => {
         it('should return an error', () => {
             const mapEditor = createComponentForTest(mapEditorNode);
-            mapEditorNode.currentValueFromCollection.value = '';
+            mapEditorNode.assignNextValueToReference.value = '';
             const errors = validate(mapEditor.elementInfo);
             expect(errors).toHaveLength(1);
-            expect(errors[0].key).toBe('currentValueFromCollection');
+            expect(errors[0].key).toBe('assignNextValueToReference');
             expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
         });
     });

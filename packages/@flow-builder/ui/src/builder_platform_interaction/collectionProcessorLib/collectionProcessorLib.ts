@@ -67,7 +67,7 @@ export const getContainerOfCurrentItemVariableInCollection = (element) => {
         return Object.values(elements).find(
             (value) =>
                 value.elementType === ELEMENT_TYPE.COLLECTION_PROCESSOR &&
-                (value as any).currentValueFromCollection === element.name
+                (value as any).assignNextValueToReference === element.name
         );
     }
     return null;

@@ -43,9 +43,8 @@ function createCollectionProcessorItem(collectionProcessor) {
         : collectionProcessor.elementSubtype;
     const {
         collectionReference = null,
-        currentValueFromCollection = null,
-        outputTable = null,
-        storeOutputAutomatically = true
+        assignNextValueToReference = null,
+        outputSObjectType = null
     } = collectionProcessor;
     let { sortOptions = null, mapItems = null } = collectionProcessor;
     const cpItem = {
@@ -68,18 +67,17 @@ function createCollectionProcessorItem(collectionProcessor) {
         case COLLECTION_PROCESSOR_SUB_TYPE.MAP: {
             // create new assignment items
             if (mapItems && mapItems.length > 0) {
-                mapItems = mapItems.map((mapItem) => createMapItem(mapItem, outputTable));
+                mapItems = mapItems.map((mapItem) => createMapItem(mapItem, outputSObjectType));
             } else {
                 mapItems = [];
             }
             return Object.assign(cpItem, {
                 mapItems,
-                currentValueFromCollection,
-                outputTable,
-                storeOutputAutomatically,
+                assignNextValueToReference,
+                outputSObjectType,
                 dataType: FLOW_DATA_TYPE.SOBJECT.value,
-                isCollection: storeOutputAutomatically,
-                subtype: outputTable
+                isCollection: true,
+                subtype: outputSObjectType
             });
         }
         default:
@@ -174,9 +172,8 @@ function createCollectionProcessorItemMetadataObject(collectionProcessor) {
         collectionReference = null,
         collectionProcessorType,
         limit = null,
-        currentValueFromCollection = null,
-        outputTable = null,
-        storeOutputAutomatically = true
+        assignNextValueToReference = null,
+        outputSObjectType = null
     } = collectionProcessor;
     const cpItemMd = { collectionReference, collectionProcessorType, limit };
     let { sortOptions = null, mapItems = null } = collectionProcessor;
@@ -198,9 +195,8 @@ function createCollectionProcessorItemMetadataObject(collectionProcessor) {
             }
             return Object.assign(cpItemMd, {
                 mapItems,
-                currentValueFromCollection,
-                outputTable,
-                storeOutputAutomatically
+                assignNextValueToReference,
+                outputSObjectType
             });
         }
         default:

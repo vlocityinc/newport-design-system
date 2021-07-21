@@ -34,9 +34,8 @@ describe('map-reducer', () => {
                     rowIndex: 'MapItem_1'
                 }
             ],
-            currentValueFromCollection: { value: store.contractSObjectVariable.name, error: null },
-            outputTable: { value: 'Contract', error: null },
-            storeOutputAutomatically: true
+            assignNextValueToReference: { value: store.contractSObjectVariable.guid, error: null },
+            outputSObjectType: { value: 'Contract', error: null }
         };
     });
 

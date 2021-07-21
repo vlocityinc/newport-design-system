@@ -24,7 +24,7 @@ import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { addElement, deleteElements, updateElement } from 'builder_platform_interaction/actions';
 import { createVariable } from 'builder_platform_interaction/elementFactory';
 import { getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import { getElementByDevName, getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 const { format } = commonUtils;
 
@@ -32,10 +32,9 @@ export default class MapEditor extends LightningElement {
     labels = LABELS;
     @track mapElement: MapElement = {
         collectionReference: { value: null, error: null },
-        currentValueFromCollection: { value: null, error: null },
+        assignNextValueToReference: { value: null, error: null },
         mapItems: [],
-        outputTable: { value: null, error: null },
-        storeOutputAutomatically: true
+        outputSObjectType: { value: null, error: null }
     };
 
     @track
@@ -75,12 +74,12 @@ export default class MapEditor extends LightningElement {
         if (value) {
             this.mapElement = value;
         }
-        // set outputTable to 'Recommendation' by default
-        if (!this.mapElement.outputTable.value) {
-            const event = new PropertyChangedEvent('outputTable', DEFAULT_OUTPUT_TYPE, null);
+        // set outputSObjectType to 'Recommendation' by default
+        if (!this.mapElement.outputSObjectType.value) {
+            const event = new PropertyChangedEvent('outputSObjectType', DEFAULT_OUTPUT_TYPE, null);
             this.updateMapElement(event);
         }
-        this.outputObjectType = this.mapElement.outputTable.value;
+        this.outputObjectType = this.mapElement.outputSObjectType.value;
         // get collection variable and update help text
         if (this.mapElement.collectionReference.value) {
             const collectionVariable = getVariableOrField(
@@ -93,8 +92,11 @@ export default class MapEditor extends LightningElement {
             }
         }
         // get current item variable
-        if (this.mapElement.currentValueFromCollection.value) {
-            this.currentItemVariable = this.mapElement.currentValueFromCollection.value;
+        if (this.mapElement.assignNextValueToReference.value) {
+            const currentVar = getElementByGuid(this.mapElement.assignNextValueToReference.value);
+            if (currentVar) {
+                this.currentItemVariable = currentVar.name;
+            }
         }
     }
 
@@ -161,8 +163,8 @@ export default class MapEditor extends LightningElement {
                 isOutput: false
             });
             Store.getStore().dispatch(addElement(varElement));
-            // update currentValueFromCollection in map element
-            const event = new PropertyChangedEvent('currentValueFromCollection', this.currentItemVariable, null);
+            // update assignNextValueToReference in map element
+            const event = new PropertyChangedEvent('assignNextValueToReference', this.currentItemVariable, null);
             this.updateMapElement(event);
             this.shouldCreateVariable = true;
         } else if (!this.originalVariable) {
@@ -217,8 +219,8 @@ export default class MapEditor extends LightningElement {
      *
      */
     fetchOutputFields() {
-        if (this.mapElement.outputTable.value) {
-            fetchFieldsForEntity(this.mapElement.outputTable.value)
+        if (this.mapElement.outputSObjectType.value) {
+            fetchFieldsForEntity(this.mapElement.outputSObjectType.value)
                 .then((fields) => {
                     this.outputFields = Object.keys(fields)
                         .filter((key) => fields[key].creatable)
@@ -288,8 +290,8 @@ export default class MapEditor extends LightningElement {
             Store.getStore().dispatch(updateElement(currentItemInStore));
             if (property === 'name') {
                 this.currentItemVariable = value;
-                // update currentValueFromCollection in map element
-                const event = new PropertyChangedEvent('currentValueFromCollection', this.currentItemVariable, null);
+                // update assignNextValueToReference in map element
+                const event = new PropertyChangedEvent('assignNextValueToReference', this.currentItemVariable, null);
                 this.updateMapElement(event);
             }
         }
@@ -307,10 +309,10 @@ export default class MapEditor extends LightningElement {
                 const newInputObjectType = collectionVariable.subtype;
                 if (this.inputObjectType !== newInputObjectType) {
                     this.inputObjectType = newInputObjectType;
-                    // reset map items
-                    this.updateMapItems();
                     // update current item variable type
                     this.updateCurrentItemVariable('subtype', this.inputObjectType);
+                    // reset map items
+                    this.updateMapItems();
                 }
             }
         } else {

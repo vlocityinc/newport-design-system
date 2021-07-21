@@ -5,10 +5,9 @@ export const MAP_COMPATIBLE_TYPES = [FLOW_DATA_TYPE.SOBJECT.value];
 
 export interface MapElement {
     collectionReference: { value: string | null; error: string | null };
-    currentValueFromCollection: { value: string | null; error: string | null };
-    outputTable: { value: string | null; error: string | null };
+    assignNextValueToReference: { value: string | null; error: string | null };
+    outputSObjectType: { value: string | null; error: string | null };
     mapItems: [];
-    storeOutputAutomatically: true;
 }
 
 export const getUniqueElementName = (name): string => {

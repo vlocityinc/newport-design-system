@@ -83,9 +83,8 @@ export default class CollectionProcessorEditor extends LightningElement {
         const {
             limit,
             collectionReference,
-            currentValueFromCollection,
-            outputTable,
-            storeOutputAutomatically,
+            assignNextValueToReference,
+            outputSObjectType,
             elementType,
             elementSubtype,
             sortOptions,
@@ -100,9 +99,8 @@ export default class CollectionProcessorEditor extends LightningElement {
                 elementSubtype,
                 sortOptions,
                 mapItems,
-                currentValueFromCollection,
-                outputTable,
-                storeOutputAutomatically
+                assignNextValueToReference,
+                outputSObjectType
             }
         );
     }

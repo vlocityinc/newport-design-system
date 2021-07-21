@@ -28,13 +28,13 @@ export const mapValidation = new Validation();
 export const getRules = () => {
     const overriddenRules = { ...mapValidation.finalizedRules };
     const elements = Store.getStore().getCurrentState().elements;
-    // validate currentValueFromCollection
-    overriddenRules.currentValueFromCollection = [
+    // validate assignNextValueToReference
+    overriddenRules.assignNextValueToReference = [
         ValidationRules.shouldNotBeNullOrUndefined,
         ValidationRules.shouldNotBeBlank
     ];
-    // validate outputTable
-    overriddenRules.outputTable = [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank];
+    // validate outputSObjectType
+    overriddenRules.outputSObjectType = [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank];
     // validate collectionReference
     overriddenRules.collectionReference = validateCollectionReference(elements);
     // validate mapItems

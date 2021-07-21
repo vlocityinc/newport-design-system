@@ -3,14 +3,14 @@ import { createFEROV, createFEROVMetadataObject } from './ferov';
 
 /**
  * @param mapItem map item
- * @param outputTable the output table
+ * @param outputSObjectType the output sObject type
  * @returns new map item
  */
-export function createMapItem(mapItem, outputTable) {
-    if (mapItem && outputTable) {
+export function createMapItem(mapItem, outputSObjectType) {
+    if (mapItem && outputSObjectType) {
         let newMapItem;
-        if (mapItem.hasOwnProperty('targetField')) {
-            const leftHandSide = outputTable + '.' + mapItem.targetField;
+        if (mapItem.hasOwnProperty('assignToFieldReference')) {
+            const leftHandSide = outputSObjectType + '.' + mapItem.assignToFieldReference;
             const operator = mapItem.operator;
             const rhsFerovObject = createFEROV(mapItem.value, RHS_PROPERTY, RHS_DATA_TYPE_PROPERTY);
             newMapItem = Object.assign({}, { leftHandSide, operator }, rhsFerovObject);
@@ -20,7 +20,7 @@ export function createMapItem(mapItem, outputTable) {
         }
         return newMapItem;
     }
-    throw new Error('mapItem or outputTable is not defined');
+    throw new Error('mapItem or outputSObjectType is not defined');
 }
 
 /**
@@ -32,11 +32,11 @@ export function createMapItemMetadataObject(mapItem) {
         throw new Error('mapItem is not defined');
     }
 
-    const targetField = mapItem.leftHandSide.split('.')[1];
+    const assignToFieldReference = mapItem.leftHandSide.split('.')[1];
     const operator = mapItem.operator;
     const value = createFEROVMetadataObject(mapItem, RHS_PROPERTY, RHS_DATA_TYPE_PROPERTY);
 
-    const newMapItem = Object.assign({}, { targetField, operator, value });
+    const newMapItem = Object.assign({}, { assignToFieldReference, operator, value });
 
     return newMapItem;
 }

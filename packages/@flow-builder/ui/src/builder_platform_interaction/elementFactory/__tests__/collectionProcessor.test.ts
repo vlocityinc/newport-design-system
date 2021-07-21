@@ -81,8 +81,8 @@ const testMapCollectionProcessorElement = {
         }
     ],
     collectionReference: 'collectionRef',
-    currentValueFromCollection: 'vVariable',
-    outputTable: 'Recommendation'
+    assignNextValueToReference: 'vVariable',
+    outputSObjectType: 'Recommendation'
 };
 
 const testMapCollectionProcessorMetadataElement = {
@@ -93,7 +93,7 @@ const testMapCollectionProcessorMetadataElement = {
     locationY: 10,
     mapItems: [
         {
-            targetField: 'foo',
+            assignToFieldReference: 'foo',
             operator: 'Equals',
             value: {
                 stringValue: 'bar'
@@ -102,8 +102,8 @@ const testMapCollectionProcessorMetadataElement = {
     ],
     collectionReference: 'collectionRef',
     collectionProcessorType: COLLECTION_PROCESSOR_SUB_TYPE.MAP,
-    currentValueFromCollection: 'vVariable',
-    outputTable: 'Recommendation'
+    assignNextValueToReference: 'vVariable',
+    outputSObjectType: 'Recommendation'
 };
 
 jest.mock('builder_platform_interaction/storeLib', () => {
@@ -132,7 +132,7 @@ describe('CollectionProcessor Element Factory', () => {
             const result = createCollectionProcessor(testMapCollectionProcessorElement);
             expect(result.isCollection).toBeTruthy();
             expect(result.dataType).toEqual('SObject');
-            expect(result.subtype).toEqual(testMapCollectionProcessorElement.outputTable);
+            expect(result.subtype).toEqual(testMapCollectionProcessorElement.outputSObjectType);
         });
     });
 });

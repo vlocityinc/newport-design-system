@@ -52,15 +52,14 @@ jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_pla
 
 const defaultEmptyElementInfo = {
     collectionReference: { value: null, error: null },
-    currentValueFromCollection: { value: null, error: null },
+    assignNextValueToReference: { value: null, error: null },
     mapItems: [],
-    outputTable: { value: '', error: null },
-    storeOutputAutomatically: true
+    outputSObjectType: { value: '', error: null }
 };
 
 const testElementInfoWithSObjectCollection = {
     collectionReference: { value: store.accountSObjectCollectionVariable.guid, error: null },
-    currentValueFromCollection: { value: store.contractSObjectVariable.name, error: null },
+    assignNextValueToReference: { value: store.contractSObjectVariable.guid, error: null },
     mapItems: [
         {
             leftHandSide: { value: 'Contract.Description', error: null },
@@ -70,8 +69,7 @@ const testElementInfoWithSObjectCollection = {
             rowIndex: 'MapItem_1'
         }
     ],
-    outputTable: { value: 'Contract', error: null },
-    storeOutputAutomatically: true
+    outputSObjectType: { value: 'Contract', error: null }
 };
 
 const createComponentUnderTest = (props?: {}) => {
@@ -192,7 +190,9 @@ describe('map-editor', () => {
                 const helpText = getHelpText(mapEditor);
                 expect(helpText).not.toBeNull();
                 expect(helpText.textContent).toBe(
-                    'FlowBuilderMapEditor.newCollection(' + testElementInfoWithSObjectCollection.outputTable.value + ')'
+                    'FlowBuilderMapEditor.newCollection(' +
+                        testElementInfoWithSObjectCollection.outputSObjectType.value +
+                        ')'
                 );
             });
             it('should have mapItems', () => {
