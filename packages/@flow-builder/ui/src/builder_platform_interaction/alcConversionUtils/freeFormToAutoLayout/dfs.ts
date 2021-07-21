@@ -486,11 +486,11 @@ function checkIntervals(ctx: DfsContext) {
  * Checks if a node is a "merge" node.
  * A merge node is a node that has more than one inbound, non-loop back, connector
  *
- * @param ctx - The dfs context
+ * @param conversionInfos - The conversion infos of all nodes
  * @param node - A node
  * @returns - True if the node is a "merge" node, false otherwise
  */
-function isMerge(ctx: DfsContext, node: ConversionInfo) {
+export function isMerge(conversionInfos: ConversionInfos, node: ConversionInfo) {
     const { ins, isLoop } = node;
 
     // if not a loop, check to see if we have more than one inbound connector that is not a go to
@@ -503,7 +503,7 @@ function isMerge(ctx: DfsContext, node: ConversionInfo) {
 
     for (const inConnector of ins) {
         const { source, isGoTo } = inConnector;
-        const sourceNode = ctx.conversionInfos[source];
+        const sourceNode = conversionInfos[source];
 
         // check if we have a back edge
         if (isGoTo || sourceNode.dfsEnd! <= node.dfsEnd!) {
@@ -531,7 +531,7 @@ function computeBranchingIntervals(ctx: DfsContext) {
         // assign each node its topological sort index
         node.topologicalSortIndex = i;
 
-        if (isMerge(ctx, node)) {
+        if (isMerge(ctx.conversionInfos, node)) {
             const branchingNode = findBranchingNode(ctx, node);
 
             if (branchingNode != null) {

@@ -32,7 +32,7 @@
         aura:id="serverDataLibInit"
     ></builder_platform_interaction:serverDataLibInit>
 
-    <builder_platform_interaction:sharedUtils aura:id="sharedUtils "/> 
+    <builder_platform_interaction:sharedUtils aura:id="sharedUtils"/>
 
     <builder_platform_interaction:contextLib aura:id="contextLib"></builder_platform_interaction:contextLib>
 

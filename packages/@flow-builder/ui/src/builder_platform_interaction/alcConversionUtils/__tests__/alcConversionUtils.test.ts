@@ -95,6 +95,7 @@ import ffcStartWithGoToOnImmediateHead from './ffcUiModels/start-with-goto-on-im
 import ffcStartWithGoToOnScheduledHead from './ffcUiModels/start-with-goto-on-scheduled-head.json';
 import ffcGoToOnCrossEdgeFault from './ffcUiModels/goto-on-cross-edge-fault.json';
 import ffcComplexNestedDecisionsWithGoTos from './ffcUiModels/complex-decision-with-mutiple-nested-decisions-and-gotos.json';
+import ffcDecisionsWithGoToInNestedDecision from './ffcUiModels/decision-with-goto-in-nested-decision.json';
 
 import {
     convertToFreeFormCanvas,
@@ -1039,6 +1040,9 @@ describe('alc conversion utils', () => {
                 });
                 describe('with go to in nested branch', () => {
                     assertRoundTripFromFreeFormCanvas(ffcDecisionWithGoToInNestedBranch);
+                });
+                describe('with go to in nested decision', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcDecisionsWithGoToInNestedDecision);
                 });
                 describe('complex decision with multiple nested branches and go tos', () => {
                     assertRoundTripFromFreeFormCanvas(ffcComplexNestedDecisionsWithGoTos);

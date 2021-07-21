@@ -1,5 +1,5 @@
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { ConversionInfo, ConversionInfos, EdgeType, setGoTosOnNonMergeElement } from './dfs';
+import { ConversionInfo, ConversionInfos, EdgeType, setGoTosOnNonMergeElement, isMerge } from './dfs';
 
 type FlowCheckType =
     | 'orphan' /* if a node that is unreachable from the start node */
@@ -137,6 +137,19 @@ export function validateConversionInfos(elements: UI.Elements, conversionInfos: 
                 // set go tos on element if an invalid branching interval is encountered
                 setGoTosOnNonMergeElement(conversionInfos, elementInfo);
                 elementInfo.branchingGuid = null;
+            }
+        }
+    }
+
+    // Do a final check of all elements initially evaluated to be merge elements, taking into account any go tos that were set
+    for (const element of flowElements) {
+        const elementInfo = conversionInfos[element.guid];
+
+        if (elementInfo != null) {
+            const { branchingGuid } = elementInfo;
+            if (branchingGuid != null && !isMerge(conversionInfos, elementInfo)) {
+                elementInfo.branchingGuid = null;
+                conversionInfos[branchingGuid].mergeGuid = null;
             }
         }
     }
