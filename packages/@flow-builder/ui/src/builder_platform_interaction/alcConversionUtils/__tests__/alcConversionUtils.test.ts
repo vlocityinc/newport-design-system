@@ -89,13 +89,22 @@ import ffcDecisionWithGoToOnHead from './ffcUiModels/decision-with-goto-on-head.
 import ffcDecisionWithGoToOnDefaultHead from './ffcUiModels/decision-with-goto-on-default-head.json';
 import ffcDecisionWithGoToOnBranchNext from './ffcUiModels/decision-with-goto-on-branch-next.json';
 import ffcDecisionWithGoToInNestedBranch from './ffcUiModels/decision-with-goto-in-nested-branch.json';
-import ffcElementWithGoToOnFault from './ffcUiModels/decision-with-goto-on-branch-next.json';
+import ffcElementWithGoToOnFault from './ffcUiModels/element-with-goto-on-fault.json';
 import ffcLoopWithGoToAfterLast from './ffcUiModels/loop-with-goto-after-last.json';
 import ffcStartWithGoToOnImmediateHead from './ffcUiModels/start-with-goto-on-immediate-head.json';
 import ffcStartWithGoToOnScheduledHead from './ffcUiModels/start-with-goto-on-scheduled-head.json';
 import ffcGoToOnCrossEdgeFault from './ffcUiModels/goto-on-cross-edge-fault.json';
 import ffcComplexNestedDecisionsWithGoTos from './ffcUiModels/complex-decision-with-mutiple-nested-decisions-and-gotos.json';
 import ffcDecisionsWithGoToInNestedDecision from './ffcUiModels/decision-with-goto-in-nested-decision.json';
+import ffcOgDecisionWithGoToOnHead from './ffcUiModels/original-decision-with-goto-on-head.json';
+import ffcOgDecisionWithGoToOnDefaultHead from './ffcUiModels/original-decision-with-goto-on-default-head.json';
+import ffcOgDecisionWithGoToOnBranchNext from './ffcUiModels/original-decision-with-goto-on-branch-next.json';
+import ffcOgDecisionWithGoToInNestedBranch from './ffcUiModels/original-decision-with-goto-in-nested-branch.json';
+import ffcOgElementWithGoToOnFault from './ffcUiModels/original-element-with-goto-on-fault.json';
+import ffcOgLoopWithGoToAfterLast from './ffcUiModels/original-loop-with-goto-after-last.json';
+import ffcOgGoToOnCrossEdgeFault from './ffcUiModels/original-goto-on-cross-edge-fault.json';
+import ffcOgComplexNestedDecisionsWithGoTos from './ffcUiModels/original-complex-decision-with-mutiple-nested-decisions-and-gotos.json';
+import ffcOgDecisionsWithGoToInNestedDecision from './ffcUiModels/original-decision-with-goto-in-nested-decision.json';
 
 import {
     convertToFreeFormCanvas,
@@ -300,7 +309,7 @@ function assertRoundTripFromAutoLayoutCanvas(alcUiModel, expectedEndConnectors, 
     }
 }
 
-function assertRoundTripFromFreeFormCanvas(ffcUiModel, coords = startElementCoords) {
+function assertRoundTripFromFreeFormCanvas(ffcUiModel, coords = startElementCoords, assertRoundTrip = true) {
     let alcUiModel;
 
     it('from Free Form Canvas', () => {
@@ -309,15 +318,17 @@ function assertRoundTripFromFreeFormCanvas(ffcUiModel, coords = startElementCoor
         expect(translateNulls(alcUiModel)).toMatchSnapshot();
     });
 
-    it('to Free Form Canvas', () => {
-        const roundTripFfcUiModel = sortCanvasElementsAndConnectors(
-            removeEndElementsAndConnectorsTransform(convertToFreeFormCanvas(deepCopy(alcUiModel), coords))
-        );
+    if (assertRoundTrip) {
+        it('to Free Form Canvas', () => {
+            const roundTripFfcUiModel = sortCanvasElementsAndConnectors(
+                removeEndElementsAndConnectorsTransform(convertToFreeFormCanvas(deepCopy(alcUiModel), coords))
+            );
 
-        expect(translateNulls(roundTripFfcUiModel)).toEqual(
-            translateNulls(sortCanvasElementsAndConnectors(ffcUiModel))
-        );
-    });
+            expect(translateNulls(roundTripFfcUiModel)).toEqual(
+                translateNulls(sortCanvasElementsAndConnectors(ffcUiModel))
+            );
+        });
+    }
 }
 
 describe('deepEquals', () => {
@@ -964,6 +975,35 @@ describe('alc conversion utils', () => {
                 );
 
                 expect(translateNulls(ffcUiModel)).toMatchSnapshot();
+            });
+        });
+        describe('Free Form to Autolayout canvas', () => {
+            describe('Decision with go to on branch head', () => {
+                assertRoundTripFromFreeFormCanvas(ffcOgDecisionWithGoToOnHead, undefined, false);
+            });
+            describe('Decision with go to on default branch head', () => {
+                assertRoundTripFromFreeFormCanvas(ffcOgDecisionWithGoToOnDefaultHead, undefined, false);
+            });
+            describe('Decision with go to on branch next', () => {
+                assertRoundTripFromFreeFormCanvas(ffcOgDecisionWithGoToOnBranchNext, undefined, false);
+            });
+            describe('Decision with go to in nested branch', () => {
+                assertRoundTripFromFreeFormCanvas(ffcOgDecisionWithGoToInNestedBranch, undefined, false);
+            });
+            describe('Decision with go to in nested decision', () => {
+                assertRoundTripFromFreeFormCanvas(ffcOgDecisionsWithGoToInNestedDecision, undefined, false);
+            });
+            describe('Complex Nested Decisions with go tos', () => {
+                assertRoundTripFromFreeFormCanvas(ffcOgComplexNestedDecisionsWithGoTos, undefined, false);
+            });
+            describe('Element with go to on fault', () => {
+                assertRoundTripFromFreeFormCanvas(ffcOgElementWithGoToOnFault, undefined, false);
+            });
+            describe('Elements with go to on cross edge fault', () => {
+                assertRoundTripFromFreeFormCanvas(ffcOgGoToOnCrossEdgeFault, undefined, false);
+            });
+            describe('Loop with go to on after last connector', () => {
+                assertRoundTripFromFreeFormCanvas(ffcOgLoopWithGoToAfterLast, undefined, false);
             });
         });
         describe('round trip from Free Form', () => {

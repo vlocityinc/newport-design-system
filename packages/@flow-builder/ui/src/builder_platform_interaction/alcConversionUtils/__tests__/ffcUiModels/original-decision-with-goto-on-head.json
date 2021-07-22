@@ -1,7 +1,7 @@
 {
     "elements": {
-        "9f83cec4-1b24-4904-9f8a-5ce8c524c765": {
-            "guid": "9f83cec4-1b24-4904-9f8a-5ce8c524c765",
+        "a7a6ee44-498f-4c68-adf9-63a1b6847a97": {
+            "guid": "a7a6ee44-498f-4c68-adf9-63a1b6847a97",
             "description": "",
             "locationX": 362,
             "locationY": 48,
@@ -19,10 +19,10 @@
             "triggerType": "None",
             "filterLogic": "and",
             "object": "",
-            "objectIndex": "81d94a0d-6ead-43ee-a84d-d08d4d45031d",
+            "objectIndex": "ac14c04e-7cf3-4566-8709-3e6fcce00170",
             "filters": [
                 {
-                    "rowIndex": "d5d0f529-3106-42e9-86a6-64118ae22d81",
+                    "rowIndex": "1b6920bb-0e96-4e83-a67b-f5995d6e0c2a",
                     "leftHandSide": "",
                     "rightHandSide": "",
                     "rightHandSideDataType": "",
@@ -32,11 +32,11 @@
             "childReferences": [],
             "availableConnections": []
         },
-        "792e585c-92c7-416b-a298-07038f6791f0": {
-            "guid": "792e585c-92c7-416b-a298-07038f6791f0",
+        "ffaf600e-f0d3-4028-8102-14c895592791": {
+            "guid": "ffaf600e-f0d3-4028-8102-14c895592791",
             "name": "",
             "description": "",
-            "label": "792e585c-92c7-416b-a298-07038f6791f0",
+            "label": "ffaf600e-f0d3-4028-8102-14c895592791",
             "locationX": 488,
             "locationY": 206,
             "isCanvasElement": true,
@@ -64,11 +64,11 @@
             "elementType": "Screen",
             "maxConnections": 1
         },
-        "0d33af04-9a9c-49dc-8488-c1683b91444b": {
-            "guid": "0d33af04-9a9c-49dc-8488-c1683b91444b",
+        "2cc728b0-34ff-4242-b34e-efd25bb23f4b": {
+            "guid": "2cc728b0-34ff-4242-b34e-efd25bb23f4b",
             "name": "",
             "description": "",
-            "label": "0d33af04-9a9c-49dc-8488-c1683b91444b",
+            "label": "2cc728b0-34ff-4242-b34e-efd25bb23f4b",
             "locationX": 488,
             "locationY": 326,
             "isCanvasElement": true,
@@ -79,24 +79,38 @@
                 "isSelectable": true,
                 "hasError": false
             },
-            "canHaveFaultConnector": true,
-            "object": "",
-            "objectIndex": "9c2ddd8a-b5f7-47c6-9208-e427a3427649",
-            "getFirstRecordOnly": true,
-            "inputReference": "",
-            "inputReferenceIndex": "34dcd3fe-2c9a-4eb0-9b6d-c4b23b43f79c",
-            "availableConnections": [
+            "canHaveFaultConnector": false,
+            "defaultConnectorLabel": "Default Outcome",
+            "childReferences": [
                 {
-                    "type": "REGULAR"
+                    "childReference": "d7f00588-82d4-4741-8d8a-b3034018f3ff"
                 }
             ],
+            "elementType": "Decision",
             "maxConnections": 2,
-            "elementType": "RecordCreate",
-            "assignRecordIdToReferenceIndex": "96ce9428-c2f7-40ea-a2a5-50b9cd58b0ed",
+            "availableConnections": [
+                {
+                    "type": "DEFAULT"
+                }
+            ]
+        },
+        "d7f00588-82d4-4741-8d8a-b3034018f3ff": {
+            "guid": "d7f00588-82d4-4741-8d8a-b3034018f3ff",
+            "name": "",
+            "label": "",
+            "elementType": "OUTCOME",
             "dataType": "Boolean",
-            "alcInsertAt": {
-                "prev": "792e585c-92c7-416b-a298-07038f6791f0"
-            }
+            "conditionLogic": "and",
+            "conditions": [
+                {
+                    "rowIndex": "206c51b5-e02a-446a-9163-4dd3bbd65668",
+                    "leftHandSide": "",
+                    "rightHandSide": "",
+                    "rightHandSideDataType": "",
+                    "operator": ""
+                }
+            ],
+            "doesRequireRecordChangedToMeetCriteria": false
         }
     },
     "properties": {
@@ -121,15 +135,15 @@
         "isAutoLayoutCanvas": true
     },
     "canvasElements": [
-        "9f83cec4-1b24-4904-9f8a-5ce8c524c765",
-        "792e585c-92c7-416b-a298-07038f6791f0",
-        "0d33af04-9a9c-49dc-8488-c1683b91444b"
+        "a7a6ee44-498f-4c68-adf9-63a1b6847a97",
+        "ffaf600e-f0d3-4028-8102-14c895592791",
+        "2cc728b0-34ff-4242-b34e-efd25bb23f4b"
     ],
     "connectors": [
         {
-            "guid": "9f83cec4-1b24-4904-9f8a-5ce8c524c765 -> 792e585c-92c7-416b-a298-07038f6791f0",
-            "source": "9f83cec4-1b24-4904-9f8a-5ce8c524c765",
-            "target": "792e585c-92c7-416b-a298-07038f6791f0",
+            "guid": "a7a6ee44-498f-4c68-adf9-63a1b6847a97 -> ffaf600e-f0d3-4028-8102-14c895592791",
+            "source": "a7a6ee44-498f-4c68-adf9-63a1b6847a97",
+            "target": "ffaf600e-f0d3-4028-8102-14c895592791",
             "label": null,
             "type": "REGULAR",
             "config": {
@@ -137,9 +151,9 @@
             }
         },
         {
-            "guid": "792e585c-92c7-416b-a298-07038f6791f0 -> 0d33af04-9a9c-49dc-8488-c1683b91444b",
-            "source": "792e585c-92c7-416b-a298-07038f6791f0",
-            "target": "0d33af04-9a9c-49dc-8488-c1683b91444b",
+            "guid": "ffaf600e-f0d3-4028-8102-14c895592791 -> 2cc728b0-34ff-4242-b34e-efd25bb23f4b",
+            "source": "ffaf600e-f0d3-4028-8102-14c895592791",
+            "target": "2cc728b0-34ff-4242-b34e-efd25bb23f4b",
             "label": null,
             "type": "REGULAR",
             "config": {
@@ -147,15 +161,15 @@
             }
         },
         {
-            "guid": "0d33af04-9a9c-49dc-8488-c1683b91444b -> 792e585c-92c7-416b-a298-07038f6791f0",
-            "source": "0d33af04-9a9c-49dc-8488-c1683b91444b",
-            "target": "792e585c-92c7-416b-a298-07038f6791f0",
-            "label": "FAULT",
-            "type": "FAULT",
+            "guid": "2cc728b0-34ff-4242-b34e-efd25bb23f4b -> ffaf600e-f0d3-4028-8102-14c895592791",
+            "source": "2cc728b0-34ff-4242-b34e-efd25bb23f4b",
+            "childSource": "d7f00588-82d4-4741-8d8a-b3034018f3ff",
+            "target": "ffaf600e-f0d3-4028-8102-14c895592791",
+            "label": null,
+            "type": "REGULAR",
             "config": {
                 "isSelected": false
-            },
-            "isGoTo": true
+            }
         }
     ],
     "peripheralData": {}

@@ -3,8 +3,8 @@
         "9f83cec4-1b24-4904-9f8a-5ce8c524c765": {
             "guid": "9f83cec4-1b24-4904-9f8a-5ce8c524c765",
             "description": "",
-            "locationX": 362,
-            "locationY": 48,
+            "locationX": -126,
+            "locationY": 0,
             "isCanvasElement": true,
             "connectorCount": 1,
             "config": {
@@ -37,8 +37,8 @@
             "name": "",
             "description": "",
             "label": "792e585c-92c7-416b-a298-07038f6791f0",
-            "locationX": 488,
-            "locationY": 206,
+            "locationX": 0,
+            "locationY": 158,
             "isCanvasElement": true,
             "connectorCount": 1,
             "config": {
@@ -69,8 +69,8 @@
             "name": "",
             "description": "",
             "label": "0d33af04-9a9c-49dc-8488-c1683b91444b",
-            "locationX": 488,
-            "locationY": 326,
+            "locationX": 0,
+            "locationY": 278,
             "isCanvasElement": true,
             "connectorCount": 1,
             "config": {
@@ -150,12 +150,11 @@
             "guid": "0d33af04-9a9c-49dc-8488-c1683b91444b -> 792e585c-92c7-416b-a298-07038f6791f0",
             "source": "0d33af04-9a9c-49dc-8488-c1683b91444b",
             "target": "792e585c-92c7-416b-a298-07038f6791f0",
-            "label": "FAULT",
+            "label": "Fault",
             "type": "FAULT",
             "config": {
                 "isSelected": false
-            },
-            "isGoTo": true
+            }
         }
     ],
     "peripheralData": {}

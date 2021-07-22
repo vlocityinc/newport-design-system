@@ -1,0 +1,219 @@
+{
+    "elements": {
+        "7b876609-1420-463f-a371-184c3a83455e": {
+            "guid": "7b876609-1420-463f-a371-184c3a83455e",
+            "description": "",
+            "locationX": 362,
+            "locationY": 48,
+            "isCanvasElement": true,
+            "connectorCount": 1,
+            "config": {
+                "isSelected": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "hasError": false
+            },
+            "canHaveFaultConnector": false,
+            "elementType": "START_ELEMENT",
+            "maxConnections": 1,
+            "triggerType": "None",
+            "filterLogic": "and",
+            "object": "",
+            "objectIndex": "b1fc40a4-42ee-430c-a56d-065050101551",
+            "filters": [
+                {
+                    "rowIndex": "ff7fd7d2-7d71-42be-9f6e-02f84a583ae1",
+                    "leftHandSide": "",
+                    "rightHandSide": "",
+                    "rightHandSideDataType": "",
+                    "operator": ""
+                }
+            ],
+            "childReferences": [],
+            "availableConnections": []
+        },
+        "a34105de-a3a1-4093-af7f-b4bc67ae6d30": {
+            "guid": "a34105de-a3a1-4093-af7f-b4bc67ae6d30",
+            "name": "",
+            "description": "",
+            "label": "a34105de-a3a1-4093-af7f-b4bc67ae6d30",
+            "locationX": 488,
+            "locationY": 206,
+            "isCanvasElement": true,
+            "connectorCount": 1,
+            "config": {
+                "isSelected": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "hasError": false
+            },
+            "canHaveFaultConnector": false,
+            "allowHelp": false,
+            "pauseMessageType": "standard",
+            "helpText": "",
+            "pausedText": "",
+            "showFooter": true,
+            "showHeader": true,
+            "nextOrFinishLabel": null,
+            "nextOrFinishLabelType": "standard",
+            "backLabel": null,
+            "backLabelType": "standard",
+            "pauseLabel": null,
+            "pauseLabelType": "standard",
+            "childReferences": [],
+            "elementType": "Screen",
+            "maxConnections": 1
+        },
+        "b7691834-51d1-4f53-9446-321acd403f0b": {
+            "guid": "b7691834-51d1-4f53-9446-321acd403f0b",
+            "name": "",
+            "description": "",
+            "label": "b7691834-51d1-4f53-9446-321acd403f0b",
+            "locationX": 488,
+            "locationY": 326,
+            "isCanvasElement": true,
+            "connectorCount": 1,
+            "config": {
+                "isSelected": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "hasError": false
+            },
+            "canHaveFaultConnector": false,
+            "defaultConnectorLabel": "Default Outcome",
+            "childReferences": [
+                {
+                    "childReference": "d8b495e2-ba03-4869-8611-62cae327fee1"
+                }
+            ],
+            "elementType": "Decision",
+            "maxConnections": 2,
+            "availableConnections": [
+                {
+                    "type": "DEFAULT"
+                }
+            ]
+        },
+        "9380cca4-c30d-4420-8d01-ffb7320dd090": {
+            "guid": "9380cca4-c30d-4420-8d01-ffb7320dd090",
+            "name": "",
+            "description": "",
+            "label": "9380cca4-c30d-4420-8d01-ffb7320dd090",
+            "locationX": 356,
+            "locationY": 446,
+            "isCanvasElement": true,
+            "connectorCount": 1,
+            "config": {
+                "isSelected": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "hasError": false
+            },
+            "canHaveFaultConnector": false,
+            "allowHelp": false,
+            "pauseMessageType": "standard",
+            "helpText": "",
+            "pausedText": "",
+            "showFooter": true,
+            "showHeader": true,
+            "nextOrFinishLabel": null,
+            "nextOrFinishLabelType": "standard",
+            "backLabel": null,
+            "backLabelType": "standard",
+            "pauseLabel": null,
+            "pauseLabelType": "standard",
+            "childReferences": [],
+            "elementType": "Screen",
+            "maxConnections": 1
+        },
+        "d8b495e2-ba03-4869-8611-62cae327fee1": {
+            "guid": "d8b495e2-ba03-4869-8611-62cae327fee1",
+            "name": "",
+            "label": "",
+            "elementType": "OUTCOME",
+            "dataType": "Boolean",
+            "conditionLogic": "and",
+            "conditions": [
+                {
+                    "rowIndex": "8e98c33f-e7fe-4101-9edb-36662e2546d4",
+                    "leftHandSide": "",
+                    "rightHandSide": "",
+                    "rightHandSideDataType": "",
+                    "operator": ""
+                }
+            ],
+            "doesRequireRecordChangedToMeetCriteria": false
+        }
+    },
+    "properties": {
+        "canOnlySaveAsNewDefinition": false,
+        "description": "",
+        "elementType": "FLOW_PROPERTIES",
+        "hasUnsavedChanges": true,
+        "interviewLabel": "",
+        "isCreatedOutsideLfb": false,
+        "isLightningFlowBuilder": true,
+        "isTemplate": false,
+        "label": "",
+        "lastModifiedBy": null,
+        "lastModifiedDate": null,
+        "lastInlineResourceGuid": null,
+        "lastInlineResourcePosition": null,
+        "lastInlineResourceRowIndex": null,
+        "name": "",
+        "processType": null,
+        "runInMode": null,
+        "versionNumber": null,
+        "isAutoLayoutCanvas": true
+    },
+    "canvasElements": [
+        "7b876609-1420-463f-a371-184c3a83455e",
+        "a34105de-a3a1-4093-af7f-b4bc67ae6d30",
+        "b7691834-51d1-4f53-9446-321acd403f0b",
+        "9380cca4-c30d-4420-8d01-ffb7320dd090"
+    ],
+    "connectors": [
+        {
+            "guid": "7b876609-1420-463f-a371-184c3a83455e -> a34105de-a3a1-4093-af7f-b4bc67ae6d30",
+            "source": "7b876609-1420-463f-a371-184c3a83455e",
+            "target": "a34105de-a3a1-4093-af7f-b4bc67ae6d30",
+            "label": null,
+            "type": "REGULAR",
+            "config": {
+                "isSelected": false
+            }
+        },
+        {
+            "guid": "a34105de-a3a1-4093-af7f-b4bc67ae6d30 -> b7691834-51d1-4f53-9446-321acd403f0b",
+            "source": "a34105de-a3a1-4093-af7f-b4bc67ae6d30",
+            "target": "b7691834-51d1-4f53-9446-321acd403f0b",
+            "label": null,
+            "type": "REGULAR",
+            "config": {
+                "isSelected": false
+            }
+        },
+        {
+            "guid": "b7691834-51d1-4f53-9446-321acd403f0b -> 9380cca4-c30d-4420-8d01-ffb7320dd090",
+            "source": "b7691834-51d1-4f53-9446-321acd403f0b",
+            "childSource": "d8b495e2-ba03-4869-8611-62cae327fee1",
+            "target": "9380cca4-c30d-4420-8d01-ffb7320dd090",
+            "label": null,
+            "type": "REGULAR",
+            "config": {
+                "isSelected": false
+            }
+        },
+        {
+            "guid": "9380cca4-c30d-4420-8d01-ffb7320dd090 -> a34105de-a3a1-4093-af7f-b4bc67ae6d30",
+            "source": "9380cca4-c30d-4420-8d01-ffb7320dd090",
+            "target": "a34105de-a3a1-4093-af7f-b4bc67ae6d30",
+            "label": null,
+            "type": "REGULAR",
+            "config": {
+                "isSelected": false
+            }
+        }
+    ],
+    "peripheralData": {}
+}
