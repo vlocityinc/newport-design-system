@@ -4,8 +4,8 @@ import FlowPropertiesEditor from '../flowPropertiesEditor';
 import { SaveType } from 'builder_platform_interaction/saveType';
 import { LABELS } from '../flowPropertiesEditorLabels';
 import normalizeDateTime from 'builder_platform_interaction/dateTimeUtils';
-import { PropertyChangedEvent } from 'builder_platform_interaction/events';
-import { MOCK_ALL_FLOW_ENTRIES, MOCK_OVERRIDABLE_FLOWS } from 'mock/flowEntryData';
+import { PropertyChangedEvent, ComboboxStateChangedEvent } from 'builder_platform_interaction/events';
+import { MOCK_ALL_FLOW_ENTRIES, MOCK_OVERRIDABLE_FLOWS, MOCK_TEMPLATE_FLOWS } from 'mock/flowEntryData';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 const { format } = commonUtils;
@@ -82,11 +82,14 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
     return {
         SERVER_ACTION_TYPE,
-        fetchOnce: (serverActionType) => {
+        fetchOnce: (serverActionType, params) => {
             switch (serverActionType) {
                 case SERVER_ACTION_TYPE.GET_FLOW_ENTRIES:
                     return Promise.resolve(MOCK_ALL_FLOW_ENTRIES);
                 case SERVER_ACTION_TYPE.GET_OVERRIDABLE_FLOWS:
+                    if (params.isTemplate === true) {
+                        return Promise.resolve(MOCK_TEMPLATE_FLOWS);
+                    }
                     return Promise.resolve(MOCK_OVERRIDABLE_FLOWS);
                 default:
                     return Promise.reject(new Error('Unexpected server action ' + serverActionType));
@@ -148,7 +151,9 @@ const SELECTORS = {
     RICH_TEXT_PLAIN_TEXT_SWITCH: 'builder_platform_interaction-rich-text-plain-text-switch',
     API_VERSION: 'lightning-combobox.api-version',
     TEMPLATE_CHECK: 'lightning-input.template_check',
+    SOURCE_TEMPLATE_COMBOBOX: 'builder_platform_interaction-combobox.source-template',
     OVERRIDABLE_CHECK: 'lightning-input.overridable_check',
+    OVERRIDABLE_COMBOBOX: 'builder_platform_interaction-combobox.overrides-flow-template',
     NEW_FLOW_OVERRIDES_BANNER: 'div.test-overrides-banner'
 };
 
@@ -207,6 +212,14 @@ const getTemplateCheck = (flowPropertiesEditor) => {
 
 const getOverridableCheck = (flowPropertiesEditor) => {
     return flowPropertiesEditor.shadowRoot.querySelector(SELECTORS.OVERRIDABLE_CHECK);
+};
+
+const getSourceTemplateCombobox = (flowPropertiesEditor) => {
+    return flowPropertiesEditor.shadowRoot.querySelector(SELECTORS.SOURCE_TEMPLATE_COMBOBOX);
+};
+
+const getOverridenFlowCombobox = (flowPropertiesEditor) => {
+    return flowPropertiesEditor.shadowRoot.querySelector(SELECTORS.OVERRIDABLE_COMBOBOX);
 };
 
 const getNewFlowOverridesBanner = (flowPropertiesEditor) => {
@@ -664,116 +677,429 @@ describe('FlowPropertiesEditor', () => {
             });
         });
     });
-    describe('Template and Overridable', () => {
-        describe('Toggle between isTemplate and isOverridable', () => {
-            let defaultNode;
-            beforeEach(() => {
-                defaultNode = {
-                    label: { value: 'flow label' },
-                    name: { value: 'flow name' },
-                    description: { value: 'flow description' },
-                    processType: { value: 'AutoLaunchedFlow' },
-                    triggerType: { value: 'RecordBeforeSave' },
-                    status: { value: 'Active' },
-                    interviewLabel: { value: 'interviewLabel' },
-                    versionNumber: 1,
-                    saveType: SaveType.UPDATE,
-                    runInMode: { value: null, error: null },
-                    lastModifiedBy: { value: 'some user' },
-                    lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
-                    apiVersion: 50,
-                    isTemplate: true,
-                    isOverridable: false
-                };
-            });
-
-            it('switch from isTemplate to isOverridable ', async () => {
+    describe('Test overrides and templates from gear icon', () => {
+        let defaultNode;
+        beforeAll(() => {
+            defaultNode = {
+                label: { value: 'flow label' },
+                name: { value: 'flow name' },
+                description: { value: 'flow description' },
+                processType: { value: 'AutoLaunchedFlow' },
+                triggerType: { value: 'RecordBeforeSave' },
+                status: { value: 'Active' },
+                interviewLabel: { value: 'interviewLabel' },
+                versionNumber: 1,
+                saveType: SaveType.UPDATE,
+                runInMode: { value: null, error: null },
+                lastModifiedBy: { value: 'some user' },
+                lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
+                apiVersion: 50,
+                isTemplate: false,
+                isOverridable: false,
+                overriddenFlow: null,
+                sourceTemplate: null
+            };
+        });
+        describe('When no values are set', () => {
+            beforeAll(() => {
                 flowPropertiesEditor = createComponentUnderTest(defaultNode);
                 getShowAdvancedButton(flowPropertiesEditor).click();
+            });
+            beforeEach(async () => {
                 await ticks(1);
-                expect(flowPropertiesEditor.node.isTemplate).toBe(true);
-                expect(flowPropertiesEditor.node.isOverridable).toBe(false);
-
-                expect(getTemplateCheck(flowPropertiesEditor).checked).toBe(true);
-                expect(getOverridableCheck(flowPropertiesEditor).checked).toBe(false);
-
+            });
+            it('should have isTemplate checkbox enabled and unchecked', async () => {
+                expect(getTemplateCheck(flowPropertiesEditor).checked).toBe(false);
                 expect(getTemplateCheck(flowPropertiesEditor).disabled).toBeFalsy();
-                expect(getOverridableCheck(flowPropertiesEditor).disabled).toBeTruthy();
-
-                const toFalseEvent = new CustomEvent('change', {
-                    detail: { checked: false }
-                });
-                const templateToFalse = getTemplateCheck(flowPropertiesEditor);
-                templateToFalse.dispatchEvent(toFalseEvent);
-                await ticks(1);
-                expect(getTemplateCheck(flowPropertiesEditor).checked).toBe(false);
+            });
+            it('should have isOverridable checkbox enabled and unchecked', async () => {
                 expect(getOverridableCheck(flowPropertiesEditor).checked).toBe(false);
-
-                const toTrueEvent = new CustomEvent('change', {
-                    detail: { checked: true }
+                expect(getOverridableCheck(flowPropertiesEditor).disabled).toBeFalsy();
+            });
+            it('should have sourceTemplate combobox enabled and empty', async () => {
+                expect(getSourceTemplateCombobox(flowPropertiesEditor).value).toBe('');
+                expect(getSourceTemplateCombobox(flowPropertiesEditor).disabled).toBeFalsy();
+            });
+            it('should have overriddenFlow combobox enabled and empty', async () => {
+                expect(getOverridenFlowCombobox(flowPropertiesEditor).value).toBe('');
+                expect(getOverridenFlowCombobox(flowPropertiesEditor).disabled).toBeFalsy();
+            });
+            describe('when isTemplate checkbox is toggled on', () => {
+                beforeAll(() => {
+                    const toFalseEvent = new CustomEvent('change', {
+                        detail: { checked: true }
+                    });
+                    getTemplateCheck(flowPropertiesEditor).dispatchEvent(toFalseEvent);
                 });
-                const overridableToTrue = getOverridableCheck(flowPropertiesEditor);
-                overridableToTrue.dispatchEvent(toTrueEvent);
+                it('should have isTemplate checkbox enabled and checked', async () => {
+                    expect(getTemplateCheck(flowPropertiesEditor).checked).toBe(true);
+                    expect(getTemplateCheck(flowPropertiesEditor).disabled).toBeFalsy();
+                });
+                it('should have isOverridable checkbox disabled', async () => {
+                    expect(getOverridableCheck(flowPropertiesEditor).checked).toBe(false);
+                    expect(getOverridableCheck(flowPropertiesEditor).disabled).toBeTruthy();
+                });
+                it('should have sourceTemplate combobox disabled and empty', async () => {
+                    expect(getSourceTemplateCombobox(flowPropertiesEditor).disabled).toBeTruthy();
+                    expect(getSourceTemplateCombobox(flowPropertiesEditor).value).toBe('');
+                });
+                it('should have overriddenFlow combobox disabled and empty', async () => {
+                    expect(getOverridenFlowCombobox(flowPropertiesEditor).value).toBe('');
+                    expect(getOverridenFlowCombobox(flowPropertiesEditor).disabled).toBeTruthy();
+                });
+            });
+        });
+        describe('When isTemplate is set', () => {
+            beforeAll(() => {
+                defaultNode.isTemplate = true;
+                defaultNode.isOverridable = false;
+                defaultNode.overriddenFlow = null;
+                defaultNode.sourceTemplate = null;
+                flowPropertiesEditor = createComponentUnderTest(defaultNode);
+                getShowAdvancedButton(flowPropertiesEditor).click();
+            });
+            beforeEach(async () => {
                 await ticks(1);
-                expect(getTemplateCheck(flowPropertiesEditor).checked).toBe(false);
+            });
+            it('should have isTemplate checkbox enabled and checked', async () => {
+                expect(getTemplateCheck(flowPropertiesEditor).checked).toBe(true);
+                expect(getTemplateCheck(flowPropertiesEditor).disabled).toBeFalsy();
+            });
+            it('should have isOverridable checkbox disabled', async () => {
+                expect(getOverridableCheck(flowPropertiesEditor).checked).toBe(false);
+                expect(getOverridableCheck(flowPropertiesEditor).disabled).toBeTruthy();
+            });
+            it('should have sourceTemplate combobox disabled and empty', async () => {
+                expect(getSourceTemplateCombobox(flowPropertiesEditor).disabled).toBeTruthy();
+                expect(getSourceTemplateCombobox(flowPropertiesEditor).value).toBe('');
+            });
+            it('should have overriddenFlow combobox disabled and empty', async () => {
+                expect(getOverridenFlowCombobox(flowPropertiesEditor).value).toBe('');
+                expect(getOverridenFlowCombobox(flowPropertiesEditor).disabled).toBeTruthy();
+            });
+            describe('when isTemplate checkbox is toggled off', () => {
+                beforeAll(() => {
+                    const toFalseEvent = new CustomEvent('change', {
+                        detail: { checked: false }
+                    });
+                    getTemplateCheck(flowPropertiesEditor).dispatchEvent(toFalseEvent);
+                });
+                it('should have isTemplate checkbox enabled and unchecked', async () => {
+                    expect(getTemplateCheck(flowPropertiesEditor).checked).toBe(false);
+                    expect(getTemplateCheck(flowPropertiesEditor).disabled).toBeFalsy();
+                });
+                it('should have isOverridable checkbox enabled and unchecked', async () => {
+                    expect(getOverridableCheck(flowPropertiesEditor).checked).toBe(false);
+                    expect(getOverridableCheck(flowPropertiesEditor).disabled).toBeFalsy();
+                });
+                it('should have sourceTemplate combobox enabled and empty', async () => {
+                    expect(getSourceTemplateCombobox(flowPropertiesEditor).value).toBe('');
+                    expect(getSourceTemplateCombobox(flowPropertiesEditor).disabled).toBeFalsy();
+                });
+                it('should have overriddenFlow combobox enabled and empty', async () => {
+                    expect(getOverridenFlowCombobox(flowPropertiesEditor).value).toBe('');
+                    expect(getOverridenFlowCombobox(flowPropertiesEditor).disabled).toBeFalsy();
+                });
+            });
+        });
+        describe('When isOverridable is set', () => {
+            beforeAll(() => {
+                defaultNode.isTemplate = false;
+                defaultNode.isOverridable = true;
+                defaultNode.overriddenFlow = null;
+                defaultNode.sourceTemplate = null;
+                flowPropertiesEditor = createComponentUnderTest(defaultNode);
+                getShowAdvancedButton(flowPropertiesEditor).click();
+            });
+            beforeEach(async () => {
+                await ticks(1);
+            });
+            it('should have isOverridable checkbox enabled and checked', async () => {
                 expect(getOverridableCheck(flowPropertiesEditor).checked).toBe(true);
-
+                expect(getOverridableCheck(flowPropertiesEditor).disabled).toBeFalsy();
+            });
+            it('should have isTemplate checkbox disabled', async () => {
+                expect(getTemplateCheck(flowPropertiesEditor).checked).toBe(false);
                 expect(getTemplateCheck(flowPropertiesEditor).disabled).toBeTruthy();
+            });
+            it('should have sourceTemplate combobox disabled and empty', async () => {
+                expect(getSourceTemplateCombobox(flowPropertiesEditor).value).toBe('');
+                expect(getSourceTemplateCombobox(flowPropertiesEditor).disabled).toBeTruthy();
+            });
+            it('should have overriddenFlow combobox disabled and empty', async () => {
+                expect(getOverridenFlowCombobox(flowPropertiesEditor).value).toBe('');
+                expect(getOverridenFlowCombobox(flowPropertiesEditor).disabled).toBeTruthy();
+            });
+            describe('when isOverriddable checkbox is toggled off', () => {
+                beforeAll(() => {
+                    const toFalseEvent = new CustomEvent('change', {
+                        detail: { checked: false }
+                    });
+                    getOverridableCheck(flowPropertiesEditor).dispatchEvent(toFalseEvent);
+                });
+                it('should have isTemplate checkbox enabled and unchecked', async () => {
+                    expect(getTemplateCheck(flowPropertiesEditor).checked).toBe(false);
+                    expect(getTemplateCheck(flowPropertiesEditor).disabled).toBeFalsy();
+                });
+                it('should have isOverridable checkbox enabled and unchecked', async () => {
+                    expect(getOverridableCheck(flowPropertiesEditor).checked).toBe(false);
+                    expect(getOverridableCheck(flowPropertiesEditor).disabled).toBeFalsy();
+                });
+                it('should have sourceTemplate combobox enabled and empty', async () => {
+                    expect(getSourceTemplateCombobox(flowPropertiesEditor).value).toBe('');
+                    expect(getSourceTemplateCombobox(flowPropertiesEditor).disabled).toBeFalsy();
+                });
+                it('should have overriddenFlow combobox enabled and empty', async () => {
+                    expect(getOverridenFlowCombobox(flowPropertiesEditor).value).toBe('');
+                    expect(getOverridenFlowCombobox(flowPropertiesEditor).disabled).toBeFalsy();
+                });
+            });
+        });
+        describe('When overriddenFlow is set', () => {
+            beforeAll(() => {
+                defaultNode.isTemplate = false;
+                defaultNode.isOverridable = false;
+                defaultNode.overriddenFlow = 'Flow1';
+                defaultNode.sourceTemplate = null;
+                flowPropertiesEditor = createComponentUnderTest(defaultNode);
+                getShowAdvancedButton(flowPropertiesEditor).click();
+            });
+            beforeEach(async () => {
+                await ticks(1);
+            });
+            it('should have isOverridable checkbox disabled', async () => {
+                expect(getOverridableCheck(flowPropertiesEditor).checked).toBe(false);
+                expect(getOverridableCheck(flowPropertiesEditor).disabled).toBeTruthy();
+            });
+            it('should have isTemplate checkbox disabled', async () => {
+                expect(getTemplateCheck(flowPropertiesEditor).checked).toBe(false);
+                expect(getTemplateCheck(flowPropertiesEditor).disabled).toBeTruthy();
+            });
+            it('should have sourceTemplate combobox disabled and empty', async () => {
+                expect(getSourceTemplateCombobox(flowPropertiesEditor).value).toBe('');
+                expect(getSourceTemplateCombobox(flowPropertiesEditor).disabled).toBeTruthy();
+            });
+            it('should have overriddenFlow combobox enabled with a value', async () => {
+                expect(getOverridenFlowCombobox(flowPropertiesEditor).value.value).toBe('Flow1');
+                expect(getOverridenFlowCombobox(flowPropertiesEditor).disabled).toBeFalsy();
+            });
+            describe('when overriddenFlow combobox is cleared', () => {
+                beforeAll(() => {
+                    const toEmptyEvent = new ComboboxStateChangedEvent(null, null, null);
+                    getOverridenFlowCombobox(flowPropertiesEditor).dispatchEvent(toEmptyEvent);
+                });
+                beforeEach(async () => {
+                    await ticks(1);
+                });
+                it('should have isTemplate checkbox enabled and unchecked', async () => {
+                    expect(getTemplateCheck(flowPropertiesEditor).checked).toBe(false);
+                    expect(getTemplateCheck(flowPropertiesEditor).disabled).toBeFalsy();
+                });
+                it('should have isOverridable checkbox enabled and unchecked', async () => {
+                    expect(getOverridableCheck(flowPropertiesEditor).checked).toBe(false);
+                    expect(getOverridableCheck(flowPropertiesEditor).disabled).toBeFalsy();
+                });
+                it('should have sourceTemplate combobox enabled and empty', async () => {
+                    expect(getSourceTemplateCombobox(flowPropertiesEditor).value).toBe('');
+                    expect(getSourceTemplateCombobox(flowPropertiesEditor).disabled).toBeFalsy();
+                });
+                it('should have overriddenFlow combobox enabled and empty', async () => {
+                    expect(getOverridenFlowCombobox(flowPropertiesEditor).value).toBe('');
+                    expect(getOverridenFlowCombobox(flowPropertiesEditor).disabled).toBeFalsy();
+                });
+            });
+        });
+        describe('When sourceTemplate is set', () => {
+            beforeAll(() => {
+                defaultNode.isTemplate = false;
+                defaultNode.isOverridable = false;
+                defaultNode.overriddenFlow = null;
+                defaultNode.sourceTemplate = 'Temp1';
+                flowPropertiesEditor = createComponentUnderTest(defaultNode);
+                getShowAdvancedButton(flowPropertiesEditor).click();
+            });
+            beforeEach(async () => {
+                await ticks(1);
+            });
+            it('should have isOverridable checkbox disabled', async () => {
+                expect(getOverridableCheck(flowPropertiesEditor).checked).toBe(false);
+                expect(getOverridableCheck(flowPropertiesEditor).disabled).toBeTruthy();
+            });
+            it('should have isTemplate checkbox disabled', async () => {
+                expect(getTemplateCheck(flowPropertiesEditor).checked).toBe(false);
+                expect(getTemplateCheck(flowPropertiesEditor).disabled).toBeTruthy();
+            });
+            it('should have sourceTemplate combobox enabled with a value', async () => {
+                expect(getSourceTemplateCombobox(flowPropertiesEditor).value.value).toBe('Temp1');
+                expect(getSourceTemplateCombobox(flowPropertiesEditor).disabled).toBeFalsy();
+            });
+            it('should have overriddenFlow combobox disabled and empty', async () => {
+                expect(getOverridenFlowCombobox(flowPropertiesEditor).value).toBe('');
+                expect(getOverridenFlowCombobox(flowPropertiesEditor).disabled).toBeTruthy();
+            });
+            describe('when isTemplate combobox is cleared', () => {
+                beforeAll(() => {
+                    const toEmptyEvent = new ComboboxStateChangedEvent(null, null, null);
+                    getSourceTemplateCombobox(flowPropertiesEditor).dispatchEvent(toEmptyEvent);
+                });
+                beforeEach(async () => {
+                    await ticks(1);
+                });
+                it('should have isTemplate checkbox enabled and unchecked', async () => {
+                    expect(getTemplateCheck(flowPropertiesEditor).checked).toBe(false);
+                    expect(getTemplateCheck(flowPropertiesEditor).disabled).toBeFalsy();
+                });
+                it('should have isOverridable checkbox enabled and unchecked', async () => {
+                    expect(getOverridableCheck(flowPropertiesEditor).checked).toBe(false);
+                    expect(getOverridableCheck(flowPropertiesEditor).disabled).toBeFalsy();
+                });
+                it('should have sourceTemplate combobox enabled and empty', async () => {
+                    expect(getSourceTemplateCombobox(flowPropertiesEditor).value).toBe('');
+                    expect(getSourceTemplateCombobox(flowPropertiesEditor).disabled).toBeFalsy();
+                });
+                it('should have overriddenFlow combobox enabled and empty', async () => {
+                    expect(getOverridenFlowCombobox(flowPropertiesEditor).value).toBe('');
+                    expect(getOverridenFlowCombobox(flowPropertiesEditor).disabled).toBeFalsy();
+                });
+            });
+        });
+    });
+    describe('Test overrides and templates from Save As New Definition', () => {
+        let defaultNode;
+        beforeAll(() => {
+            defaultNode = {
+                label: { value: 'flow label' },
+                description: { value: 'flow description' },
+                processType: { value: 'AutoLaunchedFlow' },
+                triggerType: { value: 'RecordBeforeSave' },
+                status: { value: 'Active' },
+                interviewLabel: { value: 'interviewLabel' },
+                versionNumber: 1,
+                saveType: SaveType.NEW_DEFINITION,
+                runInMode: { value: null, error: null },
+                lastModifiedBy: { value: 'some user' },
+                lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
+                apiVersion: 50,
+                isTemplate: false,
+                isOverridable: false,
+                overriddenFlow: null,
+                sourceTemplate: null
+            };
+        });
+        describe('When isOverridable is set', () => {
+            beforeAll(() => {
+                defaultNode.isTemplate = false;
+                defaultNode.isOverridable = true;
+                defaultNode.name = { value: 'Flow1' };
+                flowPropertiesEditor = createComponentUnderTest(defaultNode);
+                getShowAdvancedButton(flowPropertiesEditor).click();
+            });
+            beforeEach(async () => {
+                await ticks(1);
+            });
+            it('should have overriddenFlow combobox enabled and set to Flow1', async () => {
+                expect(getOverridenFlowCombobox(flowPropertiesEditor).value.value).toBe('Flow1');
+                expect(getOverridenFlowCombobox(flowPropertiesEditor).disabled).toBeFalsy();
+            });
+            it('should have isOverridable checkbox disabled', async () => {
+                expect(getOverridableCheck(flowPropertiesEditor).checked).toBe(false);
+                expect(getOverridableCheck(flowPropertiesEditor).disabled).toBeTruthy();
+            });
+            it('should have template related banner', async () => {
+                expect(getNewFlowOverridesBanner(flowPropertiesEditor)).not.toBeNull();
+                expect(getNewFlowOverridesBanner(flowPropertiesEditor).textContent).toBe(
+                    LABELS.newFlowOverrideBannerLabel
+                );
+            });
+        });
+        describe('When isTemplate is set', () => {
+            beforeAll(() => {
+                defaultNode.isTemplate = true;
+                defaultNode.isOverridable = false;
+                defaultNode.name = { value: 'Temp1' };
+                flowPropertiesEditor = createComponentUnderTest(defaultNode);
+                getShowAdvancedButton(flowPropertiesEditor).click();
+            });
+            beforeEach(async () => {
+                await ticks(1);
+            });
+            it('should have sourceTemplate combobox enabled and set to Flow1', async () => {
+                expect(getSourceTemplateCombobox(flowPropertiesEditor).value.value).toBe('Temp1');
+                expect(getSourceTemplateCombobox(flowPropertiesEditor).disabled).toBeFalsy();
+            });
+            it('should have isTemplate checkbox disabled', async () => {
+                expect(getTemplateCheck(flowPropertiesEditor).checked).toBe(false);
+                expect(getTemplateCheck(flowPropertiesEditor).disabled).toBeTruthy();
+            });
+            it('should have template related banner', async () => {
+                expect(getNewFlowOverridesBanner(flowPropertiesEditor)).not.toBeNull();
+                expect(getNewFlowOverridesBanner(flowPropertiesEditor).textContent).toBe(
+                    LABELS.newSourceTemplateBannerLabel
+                );
+            });
+        });
+    });
+    // TODO Update some tests to empty values instead of null
+    describe('Test overrides and templates from Save As New Version', () => {
+        let defaultNode;
+        beforeAll(() => {
+            defaultNode = {
+                label: { value: 'flow label' },
+                description: { value: 'flow description' },
+                processType: { value: 'AutoLaunchedFlow' },
+                triggerType: { value: 'RecordBeforeSave' },
+                status: { value: 'Active' },
+                interviewLabel: { value: 'interviewLabel' },
+                versionNumber: 1,
+                saveType: SaveType.NEW_VERSION,
+                runInMode: { value: null, error: null },
+                lastModifiedBy: { value: 'some user' },
+                lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
+                apiVersion: 50,
+                isTemplate: false,
+                isOverridable: false,
+                overriddenFlow: null,
+                sourceTemplate: null
+            };
+        });
+        describe('When isOverridable is set', () => {
+            beforeAll(() => {
+                defaultNode.isTemplate = false;
+                defaultNode.isOverridable = true;
+                defaultNode.name = { value: 'Flow1' };
+                flowPropertiesEditor = createComponentUnderTest(defaultNode);
+                getShowAdvancedButton(flowPropertiesEditor).click();
+            });
+            beforeEach(async () => {
+                await ticks(1);
+            });
+            it('should have overriddenFlow combobox disabled and empty', async () => {
+                expect(getOverridenFlowCombobox(flowPropertiesEditor).value).toBe('');
+                expect(getOverridenFlowCombobox(flowPropertiesEditor).disabled).toBeTruthy();
+            });
+            it('should have isOverridable checkbox enabled and checked', async () => {
+                expect(getOverridableCheck(flowPropertiesEditor).checked).toBe(true);
                 expect(getOverridableCheck(flowPropertiesEditor).disabled).toBeFalsy();
             });
         });
-        describe('Test overriddenFlow', () => {
-            let defaultNode;
-            beforeEach(() => {
-                defaultNode = {
-                    label: { value: 'flow label' },
-                    name: { value: 'flow name' },
-                    description: { value: 'flow description' },
-                    processType: { value: 'AutoLaunchedFlow' },
-                    triggerType: { value: 'RecordBeforeSave' },
-                    status: { value: 'Active' },
-                    interviewLabel: { value: 'interviewLabel' },
-                    versionNumber: 1,
-                    saveType: SaveType.UPDATE,
-                    runInMode: { value: null, error: null },
-                    lastModifiedBy: { value: 'some user' },
-                    lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
-                    apiVersion: 50,
-                    isTemplate: false,
-                    isOverridable: false,
-                    overriddenFlow: { value: 'Flow1' }
-                };
-            });
-
-            it('test to see if isTemplate and isOverridable are disabled', async () => {
+        describe('When isTemplate is set', () => {
+            beforeAll(() => {
+                defaultNode.isTemplate = true;
+                defaultNode.isOverridable = false;
+                defaultNode.name = { value: 'Temp1' };
                 flowPropertiesEditor = createComponentUnderTest(defaultNode);
                 getShowAdvancedButton(flowPropertiesEditor).click();
-                await ticks(1);
-                expect(flowPropertiesEditor.node.isTemplate).toBe(false);
-                expect(flowPropertiesEditor.node.isOverridable).toBe(false);
-
-                // expect(getTemplateCheck(flowPropertiesEditor).disabled).toBeTruthy();
-                // expect(getOverridableCheck(flowPropertiesEditor).disabled).toBeTruthy();
-
-                // expect(getTemplateCheck(flowPropertiesEditor).checked).toBe(false);
-                // expect(getOverridableCheck(flowPropertiesEditor).checked).toBe(false);
-
-                expect(getNewFlowOverridesBanner(flowPropertiesEditor)).toBeNull();
             });
-
-            it('test to see if new flow overrides banner is visible when isTemplate is enabled', async () => {
-                defaultNode.isTemplate = true;
-                defaultNode.saveType = SaveType.NEW_DEFINITION;
-                flowPropertiesEditor = createComponentUnderTest(defaultNode);
+            beforeEach(async () => {
                 await ticks(1);
-                expect(getNewFlowOverridesBanner(flowPropertiesEditor)).not.toBeNull();
             });
-            it('test to see if new flow overrides banner is visible when isOverridable is enabled', async () => {
-                defaultNode.isOverridable = true;
-                defaultNode.saveType = SaveType.NEW_DEFINITION;
-                flowPropertiesEditor = createComponentUnderTest(defaultNode);
-                await ticks(1);
-                expect(getNewFlowOverridesBanner(flowPropertiesEditor)).not.toBeNull();
+            it('should have sourceTemplate combobox disabled and empty', async () => {
+                expect(getSourceTemplateCombobox(flowPropertiesEditor).value).toBe('');
+                expect(getSourceTemplateCombobox(flowPropertiesEditor).disabled).toBeTruthy();
+            });
+            it('should have isTemplate checkbox enabled and checked', async () => {
+                expect(getTemplateCheck(flowPropertiesEditor).checked).toBe(true);
+                expect(getTemplateCheck(flowPropertiesEditor).disabled).toBeFalsy();
             });
         });
     });

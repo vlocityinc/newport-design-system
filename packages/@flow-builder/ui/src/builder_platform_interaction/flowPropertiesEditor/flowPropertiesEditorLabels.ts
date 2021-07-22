@@ -34,6 +34,7 @@ import newFlowOverrideBannerLabel from '@salesforce/label/FlowBuilderFlowPropert
 import sourceTemplateLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.sourceTemplateLabel';
 import sourceTemplatePlaceholderLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.overridableFlowPlaceholderLabel';
 import sourceTemplateHelpText from '@salesforce/label/FlowBuilderFlowPropertiesEditor.sourceTemplateHelpText';
+import newSourceTemplateBannerLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.newSourceTemplateBannerLabel';
 
 export const LABELS = {
     nameLabel,
@@ -70,5 +71,6 @@ export const LABELS = {
     newFlowOverrideBannerLabel,
     sourceTemplateLabel,
     sourceTemplatePlaceholderLabel,
-    sourceTemplateHelpText
+    sourceTemplateHelpText,
+    newSourceTemplateBannerLabel
 };

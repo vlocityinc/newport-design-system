@@ -12,13 +12,13 @@
         </lightning-radio-group>
     </div>
     <div
-        if:true={showNewFlowOverrideBanner}
+        if:true={_templateOverrideBannerLabel}
         class="test-overrides-banner slds-scoped-notification slds-media slds-media_center slds-color__background_gray-3 slds-m-left_small slds-m-top_small slds-m-right_small slds-m-bottom_small"
     >
         <div class="slds-media__figure">
             <lightning-icon icon-name="utility:info" size="small"></lightning-icon>
         </div>
-        <div class="slds-media__body">{labels.newFlowOverrideBannerLabel}</div>
+        <div class="slds-media__body">{_templateOverrideBannerLabel}</div>
     </div>
     <div class="slds-p-around_small">
         <builder_platform_interaction-label-description
@@ -79,7 +79,8 @@
                     oncomboboxstatechanged={handleSourceTemplateChange}
                     onitemselected={handleSourceTemplateChange}
                     label={labels.sourceTemplateLabel}
-                    value={sourceTemplate}
+                    value={_selectedSourceTemplate}
+                    error-message={sourceTemplateError}
                     placeholder={labels.sourceTemplatePlaceholderLabel}
                     field-level-help={labels.sourceTemplateHelpText}
                     disabled={sourceTemplateDisabeld}
@@ -107,7 +108,8 @@
                     oncomboboxstatechanged={handleOverriddenFlowChange}
                     onitemselected={handleOverriddenFlowChange}
                     label={labels.overridableFlowLabel}
-                    value={overriddenFlow}
+                    value={_selectedOverriddenFlow}
+                    error-message={overriddenFlowError}
                     placeholder={labels.overridableFlowPlaceholderLabel}
                     field-level-help={labels.overridableFlowHelpText}
                     disabled={overriddenFlowDisabled}

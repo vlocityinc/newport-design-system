@@ -63,7 +63,7 @@ export default class FlowPropertiesEditor extends LightningElement {
     _instanceLabelId = generateGuid();
     _toggleAdvancedClass = TOGGLE_CLASS_SHOW;
     _toggleAdvancedLabel = LABELS.showAdvanced;
-    _showOverridesBanner = false;
+    _templateOverrideBannerLabel = null;
 
     // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
     @api
@@ -161,6 +161,8 @@ export default class FlowPropertiesEditor extends LightningElement {
     _filteredOverridableFlowOptions: UI.ComboboxItem[] = [];
     _sourceTemplateOptions: UI.ComboboxItem[] = [];
     _filteredSourceTemplateOptions: UI.ComboboxItem[] = [];
+    _selectedSourceTemplate: UI.ComboboxItem;
+    _selectedOverriddenFlow: UI.ComboboxItem;
 
     saveAsTypeOptions = [
         {
@@ -208,9 +210,6 @@ export default class FlowPropertiesEditor extends LightningElement {
     get processTypeLabel() {
         const entry = this.findCurrentProcessTypeEntry();
         return entry ? entry.label : null;
-    }
-    get showNewFlowOverrideBanner() {
-        return this._showOverridesBanner;
     }
 
     get shouldHideAdvancedPropertiesButton(): boolean {
@@ -311,15 +310,11 @@ export default class FlowPropertiesEditor extends LightningElement {
     }
 
     get overriddenFlow() {
-        if (this.flowProperties.overriddenFlow && this.flowProperties.overriddenFlow.value) {
-            const menuItem = this._filteredOverridableFlowOptions.find(
-                (element) => element.value === this.flowProperties.overriddenFlow.value
-            );
-            if (menuItem) {
-                return menuItem;
-            }
-        }
-        return null;
+        return getValueFromHydratedItem(this.flowProperties.overriddenFlow);
+    }
+
+    get overriddenFlowError() {
+        return getErrorFromHydratedItem(this.flowProperties.overriddenFlow);
     }
 
     set sourceTemplate(value) {
@@ -327,31 +322,27 @@ export default class FlowPropertiesEditor extends LightningElement {
     }
 
     get sourceTemplate() {
-        if (this.flowProperties.sourceTemplate && this.flowProperties.sourceTemplate.value) {
-            const menuItem = this._filteredSourceTemplateOptions.find(
-                (element) => element.value === this.flowProperties.sourceTemplate.value
-            );
-            if (menuItem) {
-                return menuItem;
-            }
-        }
-        return null;
+        return getValueFromHydratedItem(this.flowProperties.sourceTemplate);
+    }
+
+    get sourceTemplateError() {
+        return getErrorFromHydratedItem(this.flowProperties.sourceTemplate);
     }
 
     get templateDisabled() {
-        return this.isOverridable || this.overriddenFlow || this.sourceTemplate;
+        return this.overriddenFlow || this.sourceTemplate || this.isOverridable;
     }
 
     get overridableDisabled() {
-        return this.isTemplate || this.overriddenFlow || this.sourceTemplate;
+        return this.overriddenFlow || this.sourceTemplate || this.isTemplate;
     }
 
     get overriddenFlowDisabled() {
-        return this.isOverridable || this.isTemplate || this.sourceTemplate;
+        return this.sourceTemplate || this.isOverridable || this.isTemplate;
     }
 
     get sourceTemplateDisabeld() {
-        return this.isOverridable || this.isTemplate || this.overriddenFlow;
+        return this.overriddenFlow || this.isOverridable || this.isTemplate;
     }
 
     get showSaveAsTypePicker() {
@@ -458,6 +449,13 @@ export default class FlowPropertiesEditor extends LightningElement {
                 return comboboxItem;
             });
             this._filteredOverridableFlowOptions = this._overridableFlowOptions;
+
+            const menuItem = this._filteredOverridableFlowOptions.find(
+                (element) => element.value === this.overriddenFlow
+            );
+            if (menuItem) {
+                this._selectedOverriddenFlow = menuItem;
+            }
         });
     }
 
@@ -484,6 +482,13 @@ export default class FlowPropertiesEditor extends LightningElement {
                 return comboboxItem;
             });
             this._filteredSourceTemplateOptions = this._sourceTemplateOptions;
+
+            const menuItem = this._filteredSourceTemplateOptions.find(
+                (element) => element.value === this.sourceTemplate
+            );
+            if (menuItem) {
+                this._selectedSourceTemplate = menuItem;
+            }
         });
     }
 
@@ -523,8 +528,9 @@ export default class FlowPropertiesEditor extends LightningElement {
         }
     }
 
-    updateProperty(propName, newValue, error = null) {
-        const propChangedEvent = new PropertyChangedEvent(propName, newValue, error);
+    updateProperty(propName, newValue, error = null, ignoreValidate = false, oldValue = null) {
+        const propChangedEvent = new PropertyChangedEvent(propName, newValue, error, null, oldValue);
+        propChangedEvent.detail.ignoreValidate = ignoreValidate;
         this.flowProperties = flowPropertiesEditorReducer(this.flowProperties, propChangedEvent);
     }
 
@@ -580,15 +586,26 @@ export default class FlowPropertiesEditor extends LightningElement {
         this.updateProperty('interviewLabel', '');
     }
 
+    /**
+     * handles the scenario where user is hitting "save as" on a managed-installed flow
+     */
     setOverrideTemplateSettings() {
         if (this.flowProperties.isOverridable) {
             this.isOverridable = false;
             this.overriddenFlow = this._originalApiName;
-            this._showOverridesBanner = true;
+            this._templateOverrideBannerLabel = this.labels.newFlowOverrideBannerLabel;
+
+            // only gets hits in the managedInstalled case, so okay to load overridableFlows
+            // since we set the apiName here, preloading before hitting advanced sets up the combobox item.
+            this.getOverridableComboboxItems(this._originalProcessType, this._originalTriggerType);
         } else if (this.flowProperties.isTemplate) {
             this.isTemplate = false;
             this.sourceTemplate = this._originalApiName;
-            this._showOverridesBanner = true;
+            this._templateOverrideBannerLabel = this.labels.newSourceTemplateBannerLabel;
+
+            // only gets hits in the managedInstalled case, so okay to load templateFlows
+            // since we set the apiName here, preloading before hitting advanced sets up the combobox item.
+            this.getTemplateComboboxItems(this._originalProcessType, this._originalTriggerType);
         }
     }
 
@@ -641,13 +658,28 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     handleOverriddenFlowChange(event) {
         event.stopPropagation();
-        if (event.detail.item) {
-            this.overriddenFlow = event.detail.item.value;
+        const { item, displayText, error } = event.detail;
+        if (item) {
+            // when a valid item is selected
+            this._selectedOverriddenFlow = item;
+            this.overriddenFlow = item.value;
+        } else if (error) {
+            // for when an invalid item is entered. combobox wants empty string to show error
+            this.updateProperty('overriddenFlow', null, error);
+            this._selectedOverriddenFlow = displayText;
         } else {
+            // for when the value is cleared
+            this._selectedOverriddenFlow = null;
             this.overriddenFlow = null;
         }
     }
 
+    /**
+     * event handler for onfiltermatches of builder_platform_interaction-combobox.
+     * Updates menu-data, so that the UI reflects the options correctly.
+     *
+     * @param event contains entered value in event.detail.value
+     */
     handleOverridableFilterMatches(event) {
         this._filteredOverridableFlowOptions = filterMatches(
             event.detail.value,
@@ -658,13 +690,28 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     handleSourceTemplateChange(event) {
         event.stopPropagation();
-        if (event.detail.item) {
-            this.sourceTemplate = event.detail.item.value;
+        const { item, displayText, error } = event.detail;
+        if (item) {
+            // when a valid item is selected
+            this._selectedSourceTemplate = item;
+            this.sourceTemplate = item.value;
+        } else if (error) {
+            // for when an invalid item is entered. combobox wants empty string to show error
+            this.updateProperty('sourceTemplate', null, error);
+            this._selectedSourceTemplate = displayText;
         } else {
+            // for when the value is cleared
+            this._selectedSourceTemplate = null;
             this.sourceTemplate = null;
         }
     }
 
+    /**
+     * event handler for onfiltermatches of builder_platform_interaction-combobox.
+     * Updates menu-data, so that the UI reflects the options correctly.
+     *
+     * @param event contains entered value in event.detail.value
+     */
     handleTemplateFilterMatches(event) {
         this._filteredSourceTemplateOptions = filterMatches(
             event.detail.value,
