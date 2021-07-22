@@ -18,6 +18,10 @@ export class SaveFlowEvent {
 
     static EVENT_NAME = eventName;
 
+    /**
+     * When adding a new Type, checkout editorUtil's getSaveType and builderUtils's getLabelForOkButton.
+     * In addition to other places these values are referenced.
+     */
     static Type = {
         SAVE: 'save',
         SAVE_AS: 'saveas',

@@ -176,7 +176,7 @@ const getTitleForModalHeader = (mode: string, elementMetadata: Object, processTy
 
 const getLabelForOkButton = (mode) => {
     let label;
-    if (mode === SaveFlowEvent.Type.SAVE || mode === SaveFlowEvent.Type.SAVE_AS) {
+    if (Object.values(SaveFlowEvent.Type).includes(mode)) {
         label = LABELS.saveButtonLabel;
     }
     return label;
