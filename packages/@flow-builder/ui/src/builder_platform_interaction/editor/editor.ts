@@ -1486,6 +1486,8 @@ export default class Editor extends LightningElement {
         const nodeUpdate = flowPropertiesCallback(storeInstance);
         const newResourceCallback = this.newResourceCallback;
 
+        const forceModal = ELEMENT_TYPES_TO_ALWAYS_EDIT_IN_MODAL.includes(ELEMENT_TYPE.FLOW_PROPERTIES);
+
         this.queueOpenPropertyEditor(() => {
             const node = getElementForPropertyEditor(Object.assign({}, flowProperties, { triggerType }));
             node.saveType = SaveType.UPDATE;
@@ -1495,7 +1497,7 @@ export default class Editor extends LightningElement {
                 nodeUpdate,
                 newResourceCallback
             };
-        }, true);
+        }, forceModal);
     };
 
     /**
@@ -1682,7 +1684,7 @@ export default class Editor extends LightningElement {
         }
     }
 
-    queueOpenPropertyEditor = async (paramsProvider, forceModal, designateFocus = false) => {
+    queueOpenPropertyEditor = async (paramsProvider, forceModal = false, designateFocus = false) => {
         this.spinners.showPropertyEditorSpinner = true;
 
         try {
