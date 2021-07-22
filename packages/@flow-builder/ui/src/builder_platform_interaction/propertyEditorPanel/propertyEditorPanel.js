@@ -1,7 +1,8 @@
 // @ts-nocheck
 import { LightningElement, track, api } from 'lwc';
 
-import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
+import { ClosePropertyEditorEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
+import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { LABELS } from './propertyEditorPanelLabels';
 import { PROPERTY_EDITOR_PANEL_SIZE } from 'builder_platform_interaction/elementConfig';
 
@@ -73,6 +74,14 @@ export default class PropertyEditorPanel extends LightningElement {
     }
 
     handleClose() {
+        // dummy updateProperties to trigger set node
+        this.element = updateProperties(this.element, {
+            config: this.element?.config
+        });
+
+        const updateNodeEvent = new UpdateNodeEvent(this.element);
+        this.dispatchEvent(updateNodeEvent);
+
         const closePropertyEditorEvent = new ClosePropertyEditorEvent();
         this.dispatchEvent(closePropertyEditorEvent);
     }

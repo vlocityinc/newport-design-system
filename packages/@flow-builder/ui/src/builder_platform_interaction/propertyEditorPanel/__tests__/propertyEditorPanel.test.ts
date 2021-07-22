@@ -2,7 +2,7 @@
 import { createElement } from 'lwc';
 
 import PropertyEditorPanel from '../propertyEditorPanel';
-import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
+import { ClosePropertyEditorEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/stageEditor', () => require('builder_platform_interaction_mocks/stageEditor'));
@@ -23,15 +23,20 @@ const createComponentUnderTest = (props) => {
 };
 
 describe('propertyEditorPanel', () => {
-    it('close button dispatches closePropertyEditorEvent', () => {
-        const eventCallback = jest.fn();
+    it('close button dispatches updateNodeEvent and closePropertyEditorEvent', () => {
+        expect.assertions(2);
+
+        const updateNodeEventCallback = jest.fn();
+        const closePropertyEditorEventCallback = jest.fn();
         const propertyEditorPanel = createComponentUnderTest();
-        propertyEditorPanel.addEventListener(ClosePropertyEditorEvent.EVENT_NAME, eventCallback);
+        propertyEditorPanel.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeEventCallback);
+        propertyEditorPanel.addEventListener(ClosePropertyEditorEvent.EVENT_NAME, closePropertyEditorEventCallback);
 
         const closeButton = propertyEditorPanel.shadowRoot.querySelector(selectors.CLOSE_BUTTON);
         closeButton.click();
 
-        expect(eventCallback).toHaveBeenCalled();
+        expect(updateNodeEventCallback).toHaveBeenCalled();
+        expect(closePropertyEditorEventCallback).toHaveBeenCalled();
     });
     it('should focus the close panel button when the panel is designated with tab focus', () => {
         const propertyEditorPanel = createComponentUnderTest();
