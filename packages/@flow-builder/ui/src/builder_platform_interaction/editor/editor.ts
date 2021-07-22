@@ -15,25 +15,32 @@ import {
     modalFooterVariant,
     PROPERTY_EDITOR
 } from 'builder_platform_interaction/builderUtils';
-import { invokeModal } from 'builder_platform_interaction/sharedUtils';
+import {
+    commands,
+    invokeModal,
+    keyboardInteractionUtils,
+    loggingUtils,
+    storeUtils
+} from 'builder_platform_interaction/sharedUtils';
 import { deepCopy, Store } from 'builder_platform_interaction/storeLib';
 import { getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
 import {
     ADD_START_ELEMENT,
     addElement,
     addElementFault,
+    alcCreateConnection,
     clearCanvasDecoration,
     clearUndoRedo,
     createGoToConnection,
     deleteElementFault,
+    deleteGoToConnection,
     DESELECT_ON_CANVAS,
     doDuplicate,
-    alcCreateConnection,
-    deleteGoToConnection,
     MARQUEE_SELECT_ON_CANVAS,
     pasteOnFixedCanvas,
     redo,
     removeLastCreatedInlineResource,
+    resetGoTos,
     SELECTION_ON_FIXED_CANVAS,
     selectionOnFixedCanvas,
     selectOnCanvas,
@@ -50,8 +57,7 @@ import {
     updateIsAutoLayoutCanvasProperty,
     updatePropertiesAfterActivateButtonPress,
     updatePropertiesAfterCreatingFlowFromProcessTypeAndTriggerType,
-    updatePropertiesAfterCreatingFlowFromTemplate,
-    resetGoTos
+    updatePropertiesAfterCreatingFlowFromTemplate
 } from 'builder_platform_interaction/actions';
 import {
     ELEMENT_TYPE,
@@ -69,7 +75,6 @@ import { INIT, isRedoAvailable, isUndoAvailable, undoRedo } from 'builder_platfo
 import { fetchFieldsForEntity, getEntity, MANAGED_SETUP, setEventTypes } from 'builder_platform_interaction/sobjectLib';
 import { LABELS } from './editorLabels';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { commands, keyboardInteractionUtils, loggingUtils, storeUtils } from 'builder_platform_interaction/sharedUtils';
 import { EditElementEvent, LocatorIconClickedEvent, NewResourceEvent } from 'builder_platform_interaction/events';
 import { SaveType } from 'builder_platform_interaction/saveType';
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
@@ -94,6 +99,7 @@ import {
     getToolboxElements,
     highlightCanvasElement,
     isGuardrailsEnabled,
+    logElementCreation,
     saveAsFlowCallback,
     screenFieldsReferencedByLoops,
     setErrorMessage,
@@ -102,8 +108,7 @@ import {
     updateStoreAfterSaveAsNewFlowIsFailed,
     updateStoreAfterSaveAsNewVersionIsFailed,
     updateStoreAfterSaveFlowIsSuccessful,
-    updateUrl,
-    logElementCreation
+    updateUrl
 } from './editorUtils';
 import { cachePropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import {
@@ -125,8 +130,8 @@ import {
     loadFieldsForComplexTypesInFlow,
     loadFieldsForExtensionsInFlowFromMetadata,
     loadOnProcessTypeChange,
-    loadOnTriggerTypeChange,
     loadOnStart,
+    loadOnTriggerTypeChange,
     loadOperatorsAndRulesOnTriggerTypeChange,
     loadParametersForInvocableApexActionsInFlowFromMetadata,
     loadVersioningData
@@ -149,8 +154,8 @@ import {
 } from 'builder_platform_interaction/storeUtils';
 import {
     createEndElement,
-    shouldSupportScheduledPaths,
-    createVariable
+    createVariable,
+    shouldSupportScheduledPaths
 } from 'builder_platform_interaction/elementFactory';
 import { usedBy } from 'builder_platform_interaction/usedByLib';
 import { getConfigForElement } from 'builder_platform_interaction/elementConfig';
@@ -214,7 +219,13 @@ type NodeWithParent = {
     parentGuid: UI.Guid;
 };
 
-const ELEMENT_TYPES_TO_ALWAYS_EDIT_IN_MODAL = [ELEMENT_TYPE.CONSTANT, ELEMENT_TYPE.TEXT_TEMPLATE, ELEMENT_TYPE.FORMULA];
+const ELEMENT_TYPES_TO_ALWAYS_EDIT_IN_MODAL = [
+    ELEMENT_TYPE.CONSTANT,
+    ELEMENT_TYPE.TEXT_TEMPLATE,
+    ELEMENT_TYPE.FORMULA,
+    ELEMENT_TYPE.VARIABLE,
+    ELEMENT_TYPE.FLOW_PROPERTIES
+];
 /**
  * Editor component for flow builder. This is the top-level smart component for
  * flow builder. It is responsible for maintaining the overall state of app and

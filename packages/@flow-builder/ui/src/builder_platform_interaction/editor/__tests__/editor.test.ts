@@ -914,38 +914,99 @@ describe('property editor', () => {
         });
     });
 
-    it('for edit resource is always opened in a modal', async () => {
-        expect.assertions(1);
-        mockStoreState.properties.processType = 'right';
+    describe('for edit resource is always opened in a modal', () => {
+        let editorComponent;
 
-        const editorComponent = createComponentUnderTest({
-            builderType: 'new',
-            builderMode: 'editMode',
-            builderConfig: {
-                supportedProcessTypes: ['right'],
-                usePanelForPropertyEditor: true,
-                componentConfigs: { editMode: { leftPanelConfig: { showLeftPanel: true } } }
-            }
+        beforeEach(() => {
+            mockStoreState.properties.processType = 'right';
+
+            editorComponent = createComponentUnderTest({
+                builderType: 'new',
+                builderMode: 'editMode',
+                builderConfig: {
+                    supportedProcessTypes: ['right'],
+                    usePanelForPropertyEditor: true,
+                    componentConfigs: { editMode: { leftPanelConfig: { showLeftPanel: true } } }
+                }
+            });
         });
 
-        const event = new EditElementEvent('1', EditElementEvent.EVENT_NAME, ELEMENT_TYPE.CONSTANT);
+        it('constant', async () => {
+            expect.assertions(1);
 
-        await ticks(1);
-        editorComponent.shadowRoot.querySelector('builder_platform_interaction-left-panel').dispatchEvent(event);
+            const event = new EditElementEvent('1', EditElementEvent.EVENT_NAME, ELEMENT_TYPE.CONSTANT);
+            editorComponent.shadowRoot.querySelector('builder_platform_interaction-left-panel').dispatchEvent(event);
 
-        await ticks(1);
+            await ticks(1);
 
-        expect(invokePropertyEditor).toHaveBeenCalledWith(
-            PROPERTY_EDITOR,
-            expect.objectContaining({
-                mode: 'editelement',
-                node: mockStoreState.elements['1'],
-                nodeUpdate: expect.anything(),
-                newResourceCallback: expect.anything()
-            })
-        );
+            expect(invokePropertyEditor).toHaveBeenCalledWith(
+                PROPERTY_EDITOR,
+                expect.objectContaining({
+                    mode: 'editelement',
+                    node: mockStoreState.elements['1'],
+                    nodeUpdate: expect.anything(),
+                    newResourceCallback: expect.anything()
+                })
+            );
+        });
+
+        it('formula', async () => {
+            expect.assertions(1);
+
+            const event = new EditElementEvent('1', EditElementEvent.EVENT_NAME, ELEMENT_TYPE.FORMULA);
+            editorComponent.shadowRoot.querySelector('builder_platform_interaction-left-panel').dispatchEvent(event);
+
+            await ticks(1);
+
+            expect(invokePropertyEditor).toHaveBeenCalledWith(
+                PROPERTY_EDITOR,
+                expect.objectContaining({
+                    mode: 'editelement',
+                    node: mockStoreState.elements['1'],
+                    nodeUpdate: expect.anything(),
+                    newResourceCallback: expect.anything()
+                })
+            );
+        });
+
+        it('text template', async () => {
+            expect.assertions(1);
+
+            const event = new EditElementEvent('1', EditElementEvent.EVENT_NAME, ELEMENT_TYPE.TEXT_TEMPLATE);
+            editorComponent.shadowRoot.querySelector('builder_platform_interaction-left-panel').dispatchEvent(event);
+
+            await ticks(1);
+
+            expect(invokePropertyEditor).toHaveBeenCalledWith(
+                PROPERTY_EDITOR,
+                expect.objectContaining({
+                    mode: 'editelement',
+                    node: mockStoreState.elements['1'],
+                    nodeUpdate: expect.anything(),
+                    newResourceCallback: expect.anything()
+                })
+            );
+        });
+
+        it('variable', async () => {
+            expect.assertions(1);
+
+            const event = new EditElementEvent('1', EditElementEvent.EVENT_NAME, ELEMENT_TYPE.VARIABLE);
+            editorComponent.shadowRoot.querySelector('builder_platform_interaction-left-panel').dispatchEvent(event);
+
+            await ticks(1);
+
+            expect(invokePropertyEditor).toHaveBeenCalledWith(
+                PROPERTY_EDITOR,
+                expect.objectContaining({
+                    mode: 'editelement',
+                    node: mockStoreState.elements['1'],
+                    nodeUpdate: expect.anything(),
+                    newResourceCallback: expect.anything()
+                })
+            );
+        });
     });
-
     it('for edit flow properties is always opened in a modal', async () => {
         expect.assertions(1);
         mockStoreState.properties.processType = 'right';
