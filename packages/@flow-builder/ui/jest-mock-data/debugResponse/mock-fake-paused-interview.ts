@@ -158,7 +158,6 @@ export const fakeResumedInterview = {
         },
         {
             lines: [
-                'ASSIGNMENT: A',
                 '{!var} Equals Now',
                 '{!time1} Equals January 2, 2022',
                 '{!time2} Equals 1/2/2022, 8:40 AM',
@@ -173,8 +172,8 @@ export const fakeResumedInterview = {
             entryType: 'DefaultDebugInfoEntry'
         },
         {
-            lines: ['RESUME LABEL: ', 'The interview was resumed at 2021-05-24T23:32:07Z '],
-            elementType: 'Resume label',
+            lines: ['The interview was resumed at 2021-05-24T23:32:07Z '],
+            elementType: 'FlowBuilderDebugPanel.resumeLabel',
             elementApiName: '',
             elementLabel: '',
             entryType: 'DefaultDebugInfoEntry'

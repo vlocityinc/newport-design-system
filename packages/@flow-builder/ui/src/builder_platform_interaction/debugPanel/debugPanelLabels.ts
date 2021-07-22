@@ -13,6 +13,7 @@ import expandAllTitle from '@salesforce/label/FlowBuilderDebugPanel.expandAllTit
 import collapseAllLabel from '@salesforce/label/FlowBuilderDebugPanel.collapseAllLabel';
 import collapseAllTitle from '@salesforce/label/FlowBuilderDebugPanel.collapseAllTitle';
 import waitEventSelectionHeader from '@salesforce/label/FlowBuilderDebugPanel.waitEventSelectionHeader';
+import resumeLabel from '@salesforce/label/FlowBuilderDebugPanel.resumeLabel';
 
 export const LABELS = {
     debugInspector,
@@ -29,5 +30,6 @@ export const LABELS = {
     expandAllTitle,
     collapseAllLabel,
     collapseAllTitle,
-    waitEventSelectionHeader
+    waitEventSelectionHeader,
+    resumeLabel
 };

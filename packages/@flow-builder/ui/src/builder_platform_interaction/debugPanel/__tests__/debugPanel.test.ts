@@ -395,7 +395,7 @@ describe('filter behaviour', () => {
             debugPanel = createComponentUnderTest(fakeResumedInterview, undefined, false, true);
         });
         it('resume card is focused when panel is rendered', () => {
-            const resumeSection = debugPanel.shadowRoot.querySelector('[data-name="Resume label"]');
+            const resumeSection = debugPanel.shadowRoot.querySelector(`[data-name="${LABELS.resumeLabel}"]`);
             const focusedElement = document.activeElement;
             // eslint-disable-next-line
             expect(resumeSection.innerHTML).toBe(focusedElement.shadowRoot.activeElement.innerHTML);
@@ -412,7 +412,7 @@ describe('filter behaviour', () => {
             expect(head.getAttribute('tabindex')).toEqual('-1');
         });
         it('focus is not shifted to resume card when other buttons are clicked', async () => {
-            const resumeSection = debugPanel.shadowRoot.querySelector('[data-name="Resume label"]');
+            const resumeSection = debugPanel.shadowRoot.querySelector(`[data-name="${LABELS.resumeLabel}"]`);
             const expandButton = debugPanel.shadowRoot.querySelector('.test-expand-button');
             expandButton.focus();
             const callback = jest.fn();

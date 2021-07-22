@@ -193,13 +193,13 @@ export default class DebugPanel extends LightningElement {
     }
 
     renderedCallback() {
-        const ac = this.template.querySelectorAll('[data-name="Resume label"]');
-        if (ac[ac.length - 1] && this.fromDebugRun) {
+        const ac = this.template.querySelectorAll(`[data-name="${LABELS.resumeLabel}"]`);
+        if (ac.length > 0 && ac[ac.length - 1] && this.fromDebugRun) {
             ac[ac.length - 1].setAttribute('tabindex', '-1');
             ac[ac.length - 1].focus();
         } else if (this.fromDebugRun) {
-            const resumeCard = this.template.querySelector('.slds-panel__header');
-            resumeCard.focus();
+            const header = this.template.querySelector('.slds-panel__header');
+            header.focus();
         }
         // reset this here everytime the panel renders, so it's only set to true when a debug run is made
         this.fromDebugRun = false;
