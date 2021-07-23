@@ -32,7 +32,7 @@ import overridableFlowPlaceholderLabel from '@salesforce/label/FlowBuilderFlowPr
 import overridableFlowHelpText from '@salesforce/label/FlowBuilderFlowPropertiesEditor.overridableFlowHelpText';
 import newFlowOverrideBannerLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.newFlowOverrideBannerLabel';
 import sourceTemplateLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.sourceTemplateLabel';
-import sourceTemplatePlaceholderLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.overridableFlowPlaceholderLabel';
+import sourceTemplatePlaceholderLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.sourceTemplatePlaceholderLabel';
 import sourceTemplateHelpText from '@salesforce/label/FlowBuilderFlowPropertiesEditor.sourceTemplateHelpText';
 import newSourceTemplateBannerLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.newSourceTemplateBannerLabel';
 

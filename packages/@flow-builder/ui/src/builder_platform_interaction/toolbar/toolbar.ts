@@ -403,11 +403,14 @@ export default class Toolbar extends LightningElement {
 
     getSaveAsEventType() {
         const currentState = Store.getStore().getCurrentState();
-        return currentState.properties.isTemplate
-            ? SaveFlowEvent.Type.SAVE_AS_TEMPLATE
-            : currentState.properties.isOverridable
-            ? SaveFlowEvent.Type.SAVE_AS_OVERRIDDEN
-            : SaveFlowEvent.Type.SAVE_AS;
+        if (currentState.properties.canOnlySaveAsNewDefinition) {
+            if (currentState.properties.isTemplate) {
+                return SaveFlowEvent.Type.SAVE_AS_TEMPLATE;
+            } else if (currentState.properties.isOverridable) {
+                return SaveFlowEvent.Type.SAVE_AS_OVERRIDDEN;
+            }
+        }
+        return SaveFlowEvent.Type.SAVE_AS;
     }
 
     handleToggleFlowStatus(event) {

@@ -277,85 +277,45 @@ describe('toolbar', () => {
         expect(eventCallback.mock.calls[0][0].detail.type).toBe(SaveFlowEvent.Type.SAVE);
     });
 
-    it('fires saveas event when save as button is clicked and isTemplate and isOverridable are disabled', () => {
-        Store.getStore.mockImplementation(() => {
-            return {
-                getCurrentState: jest.fn(() => {
+    describe('save type', () => {
+        it.each`
+            isOverridable | isTemplate | canOnlySaveAsNewDefinition | eventType
+            ${false}      | ${false}   | ${false}                   | ${SaveFlowEvent.Type.SAVE_AS}
+            ${true}       | ${false}   | ${false}                   | ${SaveFlowEvent.Type.SAVE_AS}
+            ${false}      | ${true}    | ${false}                   | ${SaveFlowEvent.Type.SAVE_AS}
+            ${false}      | ${false}   | ${true}                    | ${SaveFlowEvent.Type.SAVE_AS}
+            ${true}       | ${false}   | ${true}                    | ${SaveFlowEvent.Type.SAVE_AS_OVERRIDDEN}
+            ${false}      | ${true}    | ${true}                    | ${SaveFlowEvent.Type.SAVE_AS_TEMPLATE}
+        `(
+            'fires a ${eventType} event when save as button is clicked and isTemplate and isOverridable are disabled',
+            async ({ isOverridable, isTemplate, canOnlySaveAsNewDefinition, eventType }) => {
+                Store.getStore.mockImplementation(() => {
                     return {
-                        properties: {
-                            isOverridable: false,
-                            isTemplate: false
-                        },
-                        elements: {}
+                        getCurrentState: jest.fn(() => {
+                            return {
+                                properties: {
+                                    isOverridable,
+                                    isTemplate,
+                                    canOnlySaveAsNewDefinition
+                                },
+                                elements: {}
+                            };
+                        }),
+                        getStore: jest.fn(() => {
+                            return {
+                                getCurrentState
+                            };
+                        })
                     };
-                }),
-                getStore: jest.fn(() => {
-                    return {
-                        getCurrentState
-                    };
-                })
-            };
-        });
-        const toolbarComponent = createComponentUnderTest();
-        const eventCallback = jest.fn();
-        toolbarComponent.addEventListener(SaveFlowEvent.EVENT_NAME, eventCallback);
-        toolbarComponent.shadowRoot.querySelector(selectors.saveas).click();
-        expect(eventCallback).toHaveBeenCalled();
-        expect(eventCallback.mock.calls[0][0].detail.type).toBe(SaveFlowEvent.Type.SAVE_AS);
-    });
-
-    it('fires saveasoverridden event when save as button is clicked and isOverridable is enabled', () => {
-        Store.getStore.mockImplementation(() => {
-            return {
-                getCurrentState: jest.fn(() => {
-                    return {
-                        properties: {
-                            isOverridable: true,
-                            isTemplate: false
-                        },
-                        elements: {}
-                    };
-                }),
-                getStore: jest.fn(() => {
-                    return {
-                        getCurrentState
-                    };
-                })
-            };
-        });
-        const toolbarComponent = createComponentUnderTest();
-        const eventCallback = jest.fn();
-        toolbarComponent.addEventListener(SaveFlowEvent.EVENT_NAME, eventCallback);
-        toolbarComponent.shadowRoot.querySelector(selectors.saveas).click();
-        expect(eventCallback).toHaveBeenCalled();
-        expect(eventCallback.mock.calls[0][0].detail.type).toBe(SaveFlowEvent.Type.SAVE_AS_OVERRIDDEN);
-    });
-
-    it('fires saveastemplate event when save as button is clicked and isTemplate is enabled', () => {
-        Store.getStore.mockImplementation(() => {
-            return {
-                getCurrentState: jest.fn(() => {
-                    return {
-                        properties: {
-                            isOverridable: false,
-                            isTemplate: true
-                        },
-                        elements: {}
-                    };
-                }),
-                getStore: jest.fn(() => {
-                    return {
-                        getCurrentState
-                    };
-                })
-            };
-        });
-        const toolbarComponent = createComponentUnderTest();
-        const eventCallback = jest.fn();
-        toolbarComponent.addEventListener(SaveFlowEvent.EVENT_NAME, eventCallback);
-        toolbarComponent.shadowRoot.querySelector(selectors.saveas).click();
-        expect(eventCallback).toHaveBeenCalled();
-        expect(eventCallback.mock.calls[0][0].detail.type).toBe(SaveFlowEvent.Type.SAVE_AS_TEMPLATE);
+                });
+                const toolbarComponent = createComponentUnderTest();
+                const eventCallback = jest.fn();
+                toolbarComponent.addEventListener(SaveFlowEvent.EVENT_NAME, eventCallback);
+                toolbarComponent.shadowRoot.querySelector(selectors.saveas).click();
+                expect(eventCallback).toHaveBeenCalled();
+                expect(eventCallback.mock.calls[0][0].detail.type).toBe(eventType);
+            }
+        );
     });
 
     it('fires toggle flow status event when activate button is clicked', () => {
