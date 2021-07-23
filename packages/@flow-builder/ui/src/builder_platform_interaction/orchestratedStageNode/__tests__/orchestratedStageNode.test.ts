@@ -69,7 +69,16 @@ describe('Stepped-Stage-Node', () => {
         orchestratedStageElement = createComponentUnderTest(mockNode);
     });
 
-    // TODO @W-9127952: Change the below tests to check that the 'Add Step' button opens the Step Menu
+    // TODO W-9648734: NEW TESTS FOR STEP MENU
+    // 1. Clicking/spacing/entering "Add New Step" button opens the Step Menu
+    // 2. Spacing/entering on "Add New Step" button places focus on the first item in the Step Menu
+    // 3. Clicking/spacing/entering on the "Cancel" button of the Step Menu closes the menu
+    // 4. Spacing/entering on the "Cancel" button of the Step Menu places focus on the "Add New Step" button
+    // 5. Tabbing when focus is on the "Cancel" button of the Step Menu places focus on the first menu item
+    // 6. Tabbing when focus is on a menu item places focus on the "Cancel" button of the Step Menu
+    // 7. Escape on menu item in the Step Menu places focus on the "Add New Step" button
+
+    // NOTE: the below tests for adding new steps are now handled in stageStepMenu.test.ts
     // describe('add step item', () => {
     //     it('adds a new step item (on click)', () => {
     //         const cb = jest.fn();
