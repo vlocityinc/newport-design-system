@@ -79,9 +79,6 @@ export default class PropertyEditorPanel extends LightningElement {
             config: this.element?.config
         });
 
-        const updateNodeEvent = new UpdateNodeEvent(this.element);
-        this.dispatchEvent(updateNodeEvent);
-
         const closePropertyEditorEvent = new ClosePropertyEditorEvent();
         this.dispatchEvent(closePropertyEditorEvent);
     }

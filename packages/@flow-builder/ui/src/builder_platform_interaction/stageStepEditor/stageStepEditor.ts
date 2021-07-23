@@ -184,7 +184,7 @@ export default class StageStepEditor extends LightningElement {
 
         // infer selected Exit Criteria on-load
         if (!this.selectedExitCriteria) {
-            if (this.element.exitAction.actionName?.value || this.element.exitActionName) {
+            if (this.element.exitAction.actionName?.value) {
                 this.selectedExitCriteria = EXIT_CRITERIA.ON_DETERMINATION_COMPLETE;
             } else {
                 this.selectedExitCriteria = EXIT_CRITERIA.ON_STEP_COMPLETE;

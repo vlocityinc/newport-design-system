@@ -24,19 +24,14 @@ const createComponentUnderTest = (props) => {
 
 describe('propertyEditorPanel', () => {
     it('close button dispatches updateNodeEvent and closePropertyEditorEvent', () => {
-        expect.assertions(2);
-
-        const updateNodeEventCallback = jest.fn();
-        const closePropertyEditorEventCallback = jest.fn();
+        const eventCallback = jest.fn();
         const propertyEditorPanel = createComponentUnderTest();
-        propertyEditorPanel.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeEventCallback);
-        propertyEditorPanel.addEventListener(ClosePropertyEditorEvent.EVENT_NAME, closePropertyEditorEventCallback);
+        propertyEditorPanel.addEventListener(ClosePropertyEditorEvent.EVENT_NAME, eventCallback);
 
         const closeButton = propertyEditorPanel.shadowRoot.querySelector(selectors.CLOSE_BUTTON);
         closeButton.click();
 
-        expect(updateNodeEventCallback).toHaveBeenCalled();
-        expect(closePropertyEditorEventCallback).toHaveBeenCalled();
+        expect(eventCallback).toHaveBeenCalled();
     });
     it('should focus the close panel button when the panel is designated with tab focus', () => {
         const propertyEditorPanel = createComponentUnderTest();
