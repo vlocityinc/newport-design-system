@@ -163,6 +163,7 @@ import customFooterLegalNoticeHeader from '@salesforce/label/FlowBuilderScreenEd
 import picklistChoiceSetChoiceLabel from '@salesforce/label/FlowBuilderScreenEditor.picklistChoiceSetChoiceLabel';
 import recordChoiceSetChoiceLabel from '@salesforce/label/FlowBuilderScreenEditor.recordChoiceSetChoiceLabel';
 import typedResourceLabel from '@salesforce/label/FlowBuilderScreenEditor.typedResourceLabel';
+import cannotBeBlank from '@salesforce/label/FlowBuilderValidation.cannotBeBlank';
 
 export const LABELS = {
     errorRequired,
@@ -329,5 +330,6 @@ export const LABELS = {
     customFooterLegalNoticeHeader,
     picklistChoiceSetChoiceLabel,
     recordChoiceSetChoiceLabel,
-    typedResourceLabel
+    typedResourceLabel,
+    cannotBeBlank
 };
