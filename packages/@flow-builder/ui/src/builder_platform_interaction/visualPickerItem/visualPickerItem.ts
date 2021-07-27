@@ -15,10 +15,12 @@ export default class VisualPickerItem extends LightningElement {
     itemId;
     @api
     radioGroupName;
+    @api
+    focusOnRerendering = false;
 
     renderedCallback() {
         const inputSelector = this.template.querySelector('input');
-        if (inputSelector && this.isSelected) {
+        if (inputSelector && this.isSelected && this.focusOnRerendering) {
             inputSelector.focus();
         }
     }

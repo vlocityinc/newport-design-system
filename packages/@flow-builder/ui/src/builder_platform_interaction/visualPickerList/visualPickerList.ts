@@ -34,6 +34,9 @@ export default class VisualPickerList extends LightningElement {
     allowMultipleSelection = false;
 
     @api
+    focusOnRerendering;
+
+    @api
     radioGroupName;
 
     /**
@@ -44,7 +47,6 @@ export default class VisualPickerList extends LightningElement {
      * @property {string} [iconName]   the item's icon
      * @property {string} itemId     the item's id
      */
-
     @track
     state = {
         items: [],

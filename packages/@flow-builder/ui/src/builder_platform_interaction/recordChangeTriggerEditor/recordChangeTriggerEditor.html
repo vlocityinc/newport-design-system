@@ -135,6 +135,7 @@
                     <div if:false={isDeleteRecordTriggerType} class="slds-p-top_small">
                         <builder_platform_interaction-visual-picker-list
                             items={beforeAfterSaveItems}
+                            focus-on-rerendering="false"
                             radio-group-name="BeforeAfterSave"
                             onvisualpickerlistchanged={handleTypeSelection}
                         >
