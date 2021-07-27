@@ -12,7 +12,8 @@ import {
     email2,
     screenFieldAccounts,
     slider1,
-    displayTextUsingResources
+    displayTextUsingResources,
+    variableWithSameNameAsAccount
 } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
@@ -525,6 +526,10 @@ describe('Used by library', () => {
         it('returns an empty array in case the references are cyclic', () => {
             const elementGuids = ['DECISION_1', 'OUTCOME_3', 'WAIT_EVENT_3', 'FORMULA_1'];
             const actualResult = usedBy(elementGuids, { elements });
+            expect(actualResult).toHaveLength(0);
+        });
+        it('returns an empty array if variable has the same name than an object name and is not referenced anywhere', () => {
+            const actualResult = usedBy([variableWithSameNameAsAccount.guid]);
             expect(actualResult).toHaveLength(0);
         });
         describe('automatic fields', () => {

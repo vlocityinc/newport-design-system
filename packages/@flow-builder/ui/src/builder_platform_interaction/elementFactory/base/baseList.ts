@@ -63,6 +63,7 @@ export function createListRowItem(listRowItem = {}) {
 export function createExpressionListRowItemWithoutOperator(listRowItem = {}) {
     const {
         leftHandSide = '',
+        leftHandSideDataType,
         rightHandSide = '',
         rightHandSideDataType = '',
         rowIndex = generateGuid()
@@ -71,6 +72,7 @@ export function createExpressionListRowItemWithoutOperator(listRowItem = {}) {
     return {
         rowIndex,
         leftHandSide,
+        leftHandSideDataType,
         rightHandSide,
         rightHandSideDataType
     };
@@ -83,11 +85,12 @@ export function createExpressionListRowItemWithoutOperator(listRowItem = {}) {
  * @returns {Object} new list row item object
  */
 export function createExpressionListRowItemWithoutOperatorAndRHSDataType(listRowItem = {}) {
-    const { leftHandSide = '', rightHandSide = '', rowIndex = generateGuid() } = listRowItem;
+    const { leftHandSide = '', leftHandSideDataType, rightHandSide = '', rowIndex = generateGuid() } = listRowItem;
 
     return {
         rowIndex,
         leftHandSide,
+        leftHandSideDataType,
         rightHandSide
     };
 }

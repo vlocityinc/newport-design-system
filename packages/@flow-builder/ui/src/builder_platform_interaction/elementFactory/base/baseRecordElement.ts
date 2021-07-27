@@ -6,8 +6,9 @@ import {
     RHS_PROPERTY,
     RHS_DATA_TYPE_PROPERTY
 } from './baseList';
-import { createFEROV, createFEROVMetadataObject } from '../ferov';
+import { createFEROV, createFEROVMetadataObject, getDataTypeKey } from '../ferov';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const lhsMetadataPropertyName = 'value';
 const outputLhsMetadataPropertyName = 'assignToReference';
@@ -26,7 +27,12 @@ export function createFilter(filter = {}, objectType) {
         }
         const { operator = '' } = filter;
         const rhsFerovObject = createFEROV(filter.value, RHS_PROPERTY, RHS_DATA_TYPE_PROPERTY);
-        newFilter = Object.assign({}, { leftHandSide, operator }, rhsFerovObject);
+        // we add leftHandSideDataType to make sure that leftHandSide ('Account.Name') is not transformed to a guid if a variable has the same name as the entity
+        newFilter = Object.assign(
+            {},
+            { leftHandSide, leftHandSideDataType: FLOW_DATA_TYPE.STRING.value, operator },
+            rhsFerovObject
+        );
         newFilter = createListRowItem(newFilter);
     } else {
         newFilter = createListRowItem(filter);
@@ -83,7 +89,9 @@ export function createFlowInputFieldAssignment(inputAssignmentsItem, objectType)
                 RHS_DATA_TYPE_PROPERTY
             );
         }
-        Object.assign(newAssignment, { leftHandSide });
+        // we add leftHandSideDataType to make sure that leftHandSide ('Account.Name') is not transformed to a guid if a variable has the same name as the entity
+        const leftHandSideDataTypeKey = getDataTypeKey('leftHandSide');
+        Object.assign(newAssignment, { leftHandSide, [leftHandSideDataTypeKey]: FLOW_DATA_TYPE.STRING.value });
         newAssignment = createExpressionListRowItemWithoutOperator(newAssignment);
     } else {
         newAssignment = createExpressionListRowItemWithoutOperator(inputAssignmentsItem);
@@ -101,7 +109,12 @@ export function createFlowOutputFieldAssignment(outputAssignmentsItem, objectTyp
     if (outputAssignmentsItem.hasOwnProperty('field')) {
         const leftHandSide = objectType + '.' + outputAssignmentsItem.field;
         const rightHandSide = outputAssignmentsItem[outputLhsMetadataPropertyName];
-        newAssignment = createExpressionListRowItemWithoutOperatorAndRHSDataType({ leftHandSide, rightHandSide });
+        // we add leftHandSideDataType to make sure that leftHandSide ('Account.Name') is not transformed to a guid if a variable has the same name as the entity
+        newAssignment = createExpressionListRowItemWithoutOperatorAndRHSDataType({
+            leftHandSide,
+            leftHandSideDataType: FLOW_DATA_TYPE.STRING.value,
+            rightHandSide
+        });
     } else {
         newAssignment = createExpressionListRowItemWithoutOperatorAndRHSDataType(outputAssignmentsItem);
     }

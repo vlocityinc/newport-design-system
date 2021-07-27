@@ -178,6 +178,10 @@ export const screenFieldTextBoxSomeText = getElementByName('someText');
 
 export const staticChoiceOther = getElementByName('other');
 
+export const createAccountFromLiteralValues = getElementByName('createAccountFromLiteralValues');
+export const variableWithSameNameAsAccount = getElementByName('Account');
+export const recordChoiceSet = getElementByName('recordChoiceSet');
+
 // elements after getElementForPropertyEditor
 const deepCopy = (obj) => JSON.parse(JSON.stringify(obj));
 export const numberVariableForPropertyEditor = () => deepCopy(elementsForPropertyEditors[numberVariable.name]);

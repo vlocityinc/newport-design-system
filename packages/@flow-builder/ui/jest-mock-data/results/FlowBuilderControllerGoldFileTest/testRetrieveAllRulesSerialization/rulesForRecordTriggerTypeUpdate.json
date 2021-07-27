@@ -9209,7 +9209,7 @@
         ],
         "collection":false,
         "mustBeElements":[
-          "ROLLBACK"
+          "RECORDROLLBACK"
         ],
         "null":false,
         "paramType":"Element"

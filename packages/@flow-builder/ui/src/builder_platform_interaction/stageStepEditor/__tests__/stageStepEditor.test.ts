@@ -507,7 +507,7 @@ describe('StageStepEditor', () => {
 
         it('list set from available actions', () => {
             const actionSelector = editor.shadowRoot.querySelector(selectors.ACTION_SELECTOR);
-            expect(actionSelector.invocableActions).toEqual(invocableActionsForOrchestrator.slice(6, 15));
+            expect(actionSelector.invocableActions).toEqual(invocableActionsForOrchestrator.slice(6, 16));
         });
         describe('autolaunched step', () => {
             beforeEach(() => {

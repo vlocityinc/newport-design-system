@@ -27,6 +27,7 @@ export const recordTriggeredFlowUIModel = {
                 {
                     rowIndex: '3f91c315-f597-4dc0-bd4e-1f27a8fa59e3',
                     leftHandSide: 'Account.BillingCity',
+                    leftHandSideDataType: 'String',
                     rightHandSide: 'San Francisco',
                     rightHandSideDataType: 'String',
                     operator: 'EqualTo'
@@ -303,6 +304,7 @@ export const recordTriggeredFlowUIModel = {
                 {
                     rowIndex: '787fd564-24db-448c-ba59-ef88c8a5cbd9',
                     leftHandSide: 'Account.Name',
+                    leftHandSideDataType: 'String',
                     rightHandSide: 'accountName',
                     rightHandSideDataType: 'String'
                 }
@@ -357,6 +359,7 @@ export const recordTriggeredFlowUIModel = {
                 {
                     rowIndex: '86f9f34d-e2e4-45e3-a574-78ddcd669ebf',
                     leftHandSide: '.Name',
+                    leftHandSideDataType: 'String',
                     rightHandSide: 'Trigg',
                     rightHandSideDataType: 'String'
                 }

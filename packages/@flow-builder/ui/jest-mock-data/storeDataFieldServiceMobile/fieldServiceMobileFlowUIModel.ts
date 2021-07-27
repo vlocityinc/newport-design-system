@@ -215,6 +215,7 @@ export const fieldServiceMobileFlowUIModel = {
                 {
                     rowIndex: 'bebf0e8d-339f-4227-ab7e-84d7c15daf07',
                     leftHandSide: 'Account.Name',
+                    leftHandSideDataType: 'String',
                     rightHandSide: 'myTestAccount',
                     rightHandSideDataType: 'String',
                     operator: 'EqualTo'
@@ -273,6 +274,7 @@ export const fieldServiceMobileFlowUIModel = {
                 {
                     rowIndex: '60f7e7ac-6177-4f7c-843d-6ebb0b9bd929',
                     leftHandSide: 'Account.Name',
+                    leftHandSideDataType: 'String',
                     rightHandSide: 'myT',
                     rightHandSideDataType: 'String',
                     operator: 'StartsWith'
@@ -328,11 +330,13 @@ export const fieldServiceMobileFlowUIModel = {
                 {
                     rowIndex: 'e653d56e-898d-4e69-87c3-07338d100647',
                     leftHandSide: 'Account.BillingAddress',
+                    leftHandSideDataType: 'String',
                     rightHandSide: '297834ec-f5c8-4128-aa38-dc437f0c6a9b'
                 },
                 {
                     rowIndex: '956ee0bf-ff21-44f4-9917-65676160e094',
                     leftHandSide: 'Account.Id',
+                    leftHandSideDataType: 'String',
                     rightHandSide: '6d690706-908c-4d94-9513-1b219301b4c5'
                 }
             ],
@@ -342,6 +346,7 @@ export const fieldServiceMobileFlowUIModel = {
                 {
                     rowIndex: '700b8f1c-98eb-48ea-90f0-35e1a864a1a8',
                     leftHandSide: 'Account.Name',
+                    leftHandSideDataType: 'String',
                     rightHandSide: 'MyTestAccount',
                     rightHandSideDataType: 'String',
                     operator: 'EqualTo'

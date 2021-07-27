@@ -677,6 +677,7 @@
         ],
         "interviewLabel": "mockFlow {!$Flow.CurrentDateTime}",
         "isAdditionalPermissionRequiredToRun": false,
+        "isOverridable": false,
         "isTemplate": false,
         "label": "flowWithAllElements",
         "loops": [
@@ -806,6 +807,24 @@
                 "name": "create_multiple_from_apex_two_level_traversal",
                 "processMetadataValues": [],
                 "storeOutputAutomatically": false
+            },
+            {
+                "inputAssignments": [
+                    {
+                        "field": "Name",
+                        "processMetadataValues": [],
+                        "value": {
+                            "stringValue": "a value"
+                        }
+                    }
+                ],
+                "label": "createAccountFromLiteralValues",
+                "locationX": 1601,
+                "locationY": 385,
+                "name": "createAccountFromLiteralValues",
+                "object": "Account",
+                "processMetadataValues": [],
+                "storeOutputAutomatically": true
             },
             {
                 "assignRecordIdToReference": "vAccountIdFromCreate",
@@ -1157,6 +1176,7 @@
                 "storeOutputAutomatically": false
             }
         ],
+        "recordRollbacks": [],
         "recordUpdates": [
             {
                 "filterLogic": "(1 AND 2) OR 3",
@@ -1220,7 +1240,6 @@
                 "processMetadataValues": []
             }
         ],
-        "rollbacks": [],
         "screens": [
             {
                 "allowBack": true,
@@ -2230,6 +2249,17 @@
             }
         ],
         "variables": [
+            {
+                "dataType": "SObject",
+                "description": "Variable with same name as record Object",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "Account",
+                "objectType": "Account",
+                "processMetadataValues": [],
+                "scale": 0
+            },
             {
                 "dataType": "SObject",
                 "isCollection": true,

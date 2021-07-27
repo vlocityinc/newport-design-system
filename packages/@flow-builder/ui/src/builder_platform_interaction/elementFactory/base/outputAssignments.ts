@@ -1,5 +1,7 @@
 // @ts-nocheck
 import { createExpressionListRowItemWithoutOperatorAndRHSDataType } from './baseList';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+
 /**
  * Factory function for creating output assignment used in record lookup and recordChoiceSet
  *
@@ -11,7 +13,12 @@ export const createOutputAssignment = (outputAssignment = {}, sObject) => {
     if (outputAssignment.hasOwnProperty('field') && outputAssignment.hasOwnProperty('assignToReference')) {
         const leftHandSide = sObject + '.' + outputAssignment.field;
         const rightHandSide = outputAssignment.assignToReference;
-        newOutputAssignment = createExpressionListRowItemWithoutOperatorAndRHSDataType({ leftHandSide, rightHandSide });
+        // we add leftHandSideDataType to make sure that leftHandSide ('Account.Name') is not transformed to a guid if a variable has the same name as the entity
+        newOutputAssignment = createExpressionListRowItemWithoutOperatorAndRHSDataType({
+            leftHandSide,
+            leftHandSideDataType: FLOW_DATA_TYPE.STRING.value,
+            rightHandSide
+        });
     } else {
         newOutputAssignment = createExpressionListRowItemWithoutOperatorAndRHSDataType(outputAssignment);
     }

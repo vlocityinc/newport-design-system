@@ -777,6 +777,7 @@ describe('isOrCanContainSelector', () => {
             })(flowWithAllElementsUIModel);
 
             expect(toSortedNames(result)).toEqual([
+                'Account',
                 'accountSObjectVariable',
                 'apexCarVariable',
                 'apexComplexTypeTwoVariable',
@@ -809,6 +810,7 @@ describe('isOrCanContainSelector', () => {
             );
 
             expect(toSortedNames(result)).toEqual([
+                'Account',
                 'accountSObjectVariable',
                 'actionCallLC_apex_with_sobject_auto',
                 'apexCall_account_automatic_output',
@@ -848,6 +850,7 @@ describe('isOrCanContainSelector', () => {
                 'apexCarVariable',
                 'apexComplexTypeTwoVariable',
                 'apexComplexTypeVariable',
+                'createAccountFromLiteralValues',
                 'createAccountWithAutomaticOutput',
                 'doNotUseThisVar',
                 'emailScreenFieldAutomaticOutput',
@@ -881,6 +884,7 @@ describe('isOrCanContainSelector', () => {
             })(flowWithAllElementsUIModel);
 
             expect(toSortedNames(result)).toEqual([
+                'Account',
                 'accountSObjectVariable',
                 'apexCarVariable',
                 'apexComplexTypeTwoVariable',

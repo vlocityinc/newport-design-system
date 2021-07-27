@@ -92,7 +92,7 @@
     {
       "icon":"utility:omni_channel",
       "description":"Define business and routing rules for service channel conversations.",
-      "label":"Omni-Channel Flow (Beta)",
+      "label":"Omni-Channel Flow",
       "processType":"RoutingFlow"
     }
   ]

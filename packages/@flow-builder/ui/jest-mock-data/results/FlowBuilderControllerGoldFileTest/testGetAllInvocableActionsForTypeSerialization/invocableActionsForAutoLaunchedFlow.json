@@ -702,7 +702,7 @@
       "allowsTransactionControl":false,
       "iconName":null,
       "description":"Route Work",
-      "label":"Route Work (Beta)",
+      "label":"Route Work",
       "type":"routeWork",
       "fillColor":null,
       "isStandard":true,

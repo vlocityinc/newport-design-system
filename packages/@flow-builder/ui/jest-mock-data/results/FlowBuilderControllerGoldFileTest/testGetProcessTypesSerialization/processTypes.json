@@ -33,7 +33,7 @@
     {
   "fieldsToNull" : [ ],
   "isListViewManaged" : true,
-  "label" : "Omni-Channel Flow (Beta)",
+  "label" : "Omni-Channel Flow",
   "name" : "RoutingFlow"
 },
     {

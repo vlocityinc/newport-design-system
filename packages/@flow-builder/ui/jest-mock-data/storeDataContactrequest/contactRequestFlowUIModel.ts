@@ -177,11 +177,13 @@ export const contactRequestFlowUIModel = {
                 {
                     rowIndex: 'a35e28e0-3d3b-44b1-9638-9caba6ef3820',
                     leftHandSide: 'Account.Id',
+                    leftHandSideDataType: 'String',
                     rightHandSide: '6d690706-908c-4d94-9513-1b219301b4c5'
                 },
                 {
                     rowIndex: 'e12af1ed-86ee-4f2f-8de8-9dc3cc64dca1',
                     leftHandSide: 'Account.BillingAddress',
+                    leftHandSideDataType: 'String',
                     rightHandSide: '297834ec-f5c8-4128-aa38-dc437f0c6a9b'
                 }
             ],
@@ -191,6 +193,7 @@ export const contactRequestFlowUIModel = {
                 {
                     rowIndex: '41c6da8a-c6e0-418b-8b23-9906b4adab11',
                     leftHandSide: 'Account.Name',
+                    leftHandSideDataType: 'String',
                     rightHandSide: 'MyTestAccount',
                     rightHandSideDataType: 'String',
                     operator: 'EqualTo'
@@ -240,6 +243,7 @@ export const contactRequestFlowUIModel = {
                 {
                     rowIndex: 'a8368340-a386-4406-9118-02389237ad54',
                     leftHandSide: 'Account.Name',
+                    leftHandSideDataType: 'String',
                     rightHandSide: 'myTestAccount',
                     rightHandSideDataType: 'String',
                     operator: 'EqualTo'
@@ -298,6 +302,7 @@ export const contactRequestFlowUIModel = {
                 {
                     rowIndex: '40c11213-36c0-451e-a5aa-8790aee02559',
                     leftHandSide: 'Account.Name',
+                    leftHandSideDataType: 'String',
                     rightHandSide: 'myT',
                     rightHandSideDataType: 'String',
                     operator: 'StartsWith'

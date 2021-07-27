@@ -1,5 +1,11 @@
 // @ts-nocheck
 import { swapUidsForDevNames, swapDevNamesToUids, swapSingleExpression, getSwapValueFunction } from '../uidSwapping';
+import {
+    createAccountFromLiteralValues,
+    lookupRecordAutomaticOutputWithFields,
+    recordChoiceSet,
+    getAccountSeparateFieldsWithFilters
+} from 'mock/storeData';
 
 const elementUidMap = { before: { name: 'after' }, pre: { name: 'post' } };
 const guidMapping = { before: 'after', pre: 'post' };
@@ -112,6 +118,15 @@ describe('UID Swapper', () => {
                 enableDevnameToGuidSwappingForReferenceFields: false
             });
             expect(object.items[0].first.elementReference).toEqual('post.abc');
+        });
+
+        it('Does not swap devname to guid for fields that are not reference fields', () => {
+            // leftHandSide generally can be a reference but not for recordCreate inputAssignments because FlowInputFieldAssignment.field is the name of the field
+            expect(createAccountFromLiteralValues.inputAssignments[0].leftHandSide).toBe('Account.Name');
+            expect(lookupRecordAutomaticOutputWithFields.filters[0].leftHandSide).toBe('Account.BillingCity');
+            expect(recordChoiceSet.filters[0].leftHandSide).toBe('Account.BillingCity');
+            expect(recordChoiceSet.outputAssignments[0].leftHandSide).toBe('Account.Id');
+            expect(getAccountSeparateFieldsWithFilters.outputAssignments[0].leftHandSide).toBe('Account.BillingCity');
         });
     });
 });
