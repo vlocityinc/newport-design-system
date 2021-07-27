@@ -234,7 +234,7 @@ const closeActionCallback = (panel, attr) => {
     hidePopover();
     clearExpressionValidator(panel);
     panel.close();
-    if (attr.isAutoLayoutCanvas) {
+    if (attr.isAutoLayoutCanvas && attr.bodyComponent.attr?.node?.isCanvasElement) {
         if (attr.bodyComponent.attr.mode === 'addelement') {
             attr.moveFocusOnCloseCallback(attr.insertInfo);
         } else if (attr.bodyComponent.attr.mode === 'editelement') {
