@@ -24,7 +24,8 @@ import {
     getFlowWithGoToOnImmediateBranchHead,
     getFlowWithGoToFromAncestorToNestedElement,
     getFlowWhenGoingToLoopBranchHead,
-    getFlowWithGoToOnFirstMergeableNonNullNext
+    getFlowWithGoToOnFirstMergeableNonNullNext,
+    getFlowWhenGoingFromForEachBranch
 } from './testUtils';
 
 import {
@@ -58,7 +59,7 @@ import {
     prepareFlowModel
 } from '../modelUtils';
 
-import { GOTO_CONNECTION_SUFFIX, FAULT_INDEX, START_IMMEDIATE_INDEX, LOOP_BACK_INDEX } from '../model';
+import { GOTO_CONNECTION_SUFFIX, FAULT_INDEX, START_IMMEDIATE_INDEX, FOR_EACH_INDEX } from '../model';
 import NodeType from '../NodeType';
 
 /**
@@ -141,12 +142,12 @@ describe('modelUtils', () => {
             ).toBe(GOTO_CONNECTION_SUFFIX.IMMEDIATE);
         });
 
-        it('is forEach when childIndex is LOOP_BACK_INDEX and nodeType is Loop', () => {
+        it('is forEach when childIndex is FOR_EACH_INDEX and nodeType is Loop', () => {
             const flowRenderContext = getFlowWhenGoingToLoopBranchHead();
             expect(
                 getSuffixForGoToConnection(flowRenderContext.flowModel, {
                     guid: LOOP_ELEMENT_GUID,
-                    childIndex: LOOP_BACK_INDEX
+                    childIndex: FOR_EACH_INDEX
                 })
             ).toBe(GOTO_CONNECTION_SUFFIX.FOR_EACH);
         });
@@ -827,6 +828,284 @@ describe('modelUtils', () => {
                     mergeableGuids: ['random-guid']
                 });
             });
+
+            describe('GoTos from within a Loop', () => {
+                it('Adding GoTo on a Loop Branch Head', () => {
+                    const elements = {
+                        root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
+                        'start-guid': {
+                            childIndex: 0,
+                            elementType: 'start',
+                            guid: 'start-guid',
+                            isCanvasElement: true,
+                            isTerminal: true,
+                            label: 'start-guid',
+                            next: 'branch-guid',
+                            nodeType: 'start',
+                            parent: 'root'
+                        },
+                        'loop-guid': {
+                            guid: 'loop-guid',
+                            prev: 'start-guid',
+                            label: 'loop-guid',
+                            elementType: 'Loop',
+                            next: 'screen-guid',
+                            nodeType: 'loop',
+                            children: ['end-guid'],
+                            isCanvasElement: true
+                        },
+                        'end-guid': {
+                            guid: 'end-guid',
+                            label: 'end-guid',
+                            elementType: 'END_ELEMENT',
+                            nodeType: 'end',
+                            isCanvasElement: true,
+                            parent: 'loop-guid',
+                            childIndex: FOR_EACH_INDEX,
+                            prev: null,
+                            next: null,
+                            isTerminal: true
+                        },
+                        'screen-guid': {
+                            guid: 'screen-guid',
+                            label: 'screen-guid',
+                            elementType: 'Screen',
+                            nodeType: 'default',
+                            isCanvasElement: true,
+                            prev: 'loop-guid',
+                            next: 'end-guid2'
+                        },
+                        'end-guid2': {
+                            guid: 'end-guid2',
+                            label: 'end-guid2',
+                            elementType: 'END_ELEMENT',
+                            nodeType: 'end',
+                            isCanvasElement: true,
+                            prev: 'screen-guid',
+                            next: null
+                        }
+                    };
+                    expect(
+                        getTargetGuidsForReconnection(
+                            elements,
+                            undefined,
+                            'loop-guid',
+                            'end-guid',
+                            true,
+                            FOR_EACH_INDEX
+                        )
+                    ).toEqual({
+                        firstMergeableNonNullNext: 'loop-guid',
+                        goToableGuids: ['screen-guid'],
+                        mergeableGuids: []
+                    });
+                });
+
+                it('Adding GoTo from within a branch of a fully terminated branching element inside a Loop', () => {
+                    const elements = {
+                        root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
+                        'start-guid': {
+                            childIndex: 0,
+                            elementType: 'start',
+                            guid: 'start-guid',
+                            isCanvasElement: true,
+                            isTerminal: true,
+                            label: 'start-guid',
+                            next: 'branch-guid',
+                            nodeType: 'start',
+                            parent: 'root'
+                        },
+                        'loop-guid': {
+                            guid: 'loop-guid',
+                            prev: 'start-guid',
+                            label: 'loop-guid',
+                            elementType: 'Loop',
+                            next: 'screen-guid',
+                            nodeType: 'loop',
+                            children: ['decision-guid'],
+                            isCanvasElement: true
+                        },
+                        'decision-guid': {
+                            guid: 'decision-guid',
+                            label: 'decision-guid',
+                            elementType: 'Decision',
+                            nodeType: 'branch',
+                            isCanvasElement: true,
+                            parent: 'loop-guid',
+                            childIndex: FOR_EACH_INDEX,
+                            prev: null,
+                            next: null,
+                            isTerminal: true,
+                            childReferences: [
+                                {
+                                    childReference: 'o1'
+                                },
+                                {
+                                    childReference: 'o2'
+                                }
+                            ],
+                            children: ['left-end-guid', 'middle-end-guid', 'right-end-guid']
+                        },
+                        'left-end-guid': {
+                            guid: 'left-end-guid',
+                            label: 'left-end-guid',
+                            elementType: 'END_ELEMENT',
+                            nodeType: 'end',
+                            isCanvasElement: true,
+                            prev: null,
+                            next: null,
+                            parent: 'decision-guid',
+                            childIndex: 0,
+                            isTerminal: true
+                        },
+                        'middle-end-guid': {
+                            guid: 'middle-end-guid',
+                            label: 'middle-end-guid',
+                            elementType: 'END_ELEMENT',
+                            nodeType: 'end',
+                            isCanvasElement: true,
+                            prev: null,
+                            next: null,
+                            parent: 'decision-guid',
+                            childIndex: 1,
+                            isTerminal: true
+                        },
+                        'right-end-guid': {
+                            guid: 'right-end-guid',
+                            label: 'right-end-guid',
+                            elementType: 'END_ELEMENT',
+                            nodeType: 'end',
+                            isCanvasElement: true,
+                            prev: null,
+                            next: null,
+                            parent: 'decision-guid',
+                            childIndex: 2,
+                            isTerminal: true
+                        },
+                        'screen-guid': {
+                            guid: 'screen-guid',
+                            label: 'screen-guid',
+                            elementType: 'Screen',
+                            nodeType: 'default',
+                            isCanvasElement: true,
+                            prev: 'loop-guid',
+                            next: 'end-guid2'
+                        },
+                        'end-guid2': {
+                            guid: 'end-guid2',
+                            label: 'end-guid2',
+                            elementType: 'END_ELEMENT',
+                            nodeType: 'end',
+                            isCanvasElement: true,
+                            prev: 'screen-guid',
+                            next: null
+                        }
+                    };
+
+                    expect(
+                        getTargetGuidsForReconnection(elements, undefined, 'decision-guid', 'left-end-guid', true, 0)
+                    ).toEqual({
+                        firstMergeableNonNullNext: 'loop-guid',
+                        goToableGuids: ['screen-guid'],
+                        mergeableGuids: ['middle-end-guid', 'right-end-guid']
+                    });
+                });
+
+                it('Adding GoTo from within a branch of a partially terminated branching element inside a Loop', () => {
+                    const elements = {
+                        root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
+                        'start-guid': {
+                            childIndex: 0,
+                            elementType: 'start',
+                            guid: 'start-guid',
+                            isCanvasElement: true,
+                            isTerminal: true,
+                            label: 'start-guid',
+                            next: 'branch-guid',
+                            nodeType: 'start',
+                            parent: 'root'
+                        },
+                        'loop-guid': {
+                            guid: 'loop-guid',
+                            prev: 'start-guid',
+                            label: 'loop-guid',
+                            elementType: 'Loop',
+                            next: 'screen-guid',
+                            nodeType: 'loop',
+                            children: ['decision-guid'],
+                            isCanvasElement: true
+                        },
+                        'decision-guid': {
+                            guid: 'decision-guid',
+                            label: 'decision-guid',
+                            elementType: 'Decision',
+                            nodeType: 'branch',
+                            isCanvasElement: true,
+                            parent: 'loop-guid',
+                            childIndex: FOR_EACH_INDEX,
+                            prev: null,
+                            next: 'end-guid',
+                            isTerminal: true,
+                            childReferences: [
+                                {
+                                    childReference: 'o1'
+                                },
+                                {
+                                    childReference: 'o2'
+                                }
+                            ],
+                            children: ['left-end-guid', null, null]
+                        },
+                        'left-end-guid': {
+                            guid: 'left-end-guid',
+                            label: 'left-end-guid',
+                            elementType: 'END_ELEMENT',
+                            nodeType: 'end',
+                            isCanvasElement: true,
+                            prev: null,
+                            next: null,
+                            parent: 'decision-guid',
+                            childIndex: 0,
+                            isTerminal: true
+                        },
+                        'end-guid': {
+                            guid: 'end-guid',
+                            label: 'end-guid',
+                            elementType: 'END_ELEMENT',
+                            nodeType: 'end',
+                            isCanvasElement: true,
+                            prev: 'decision-guid',
+                            next: null
+                        },
+                        'screen-guid': {
+                            guid: 'screen-guid',
+                            label: 'screen-guid',
+                            elementType: 'Screen',
+                            nodeType: 'default',
+                            isCanvasElement: true,
+                            prev: 'loop-guid',
+                            next: 'end-guid2'
+                        },
+                        'end-guid2': {
+                            guid: 'end-guid2',
+                            label: 'end-guid2',
+                            elementType: 'END_ELEMENT',
+                            nodeType: 'end',
+                            isCanvasElement: true,
+                            prev: 'screen-guid',
+                            next: null
+                        }
+                    };
+
+                    expect(
+                        getTargetGuidsForReconnection(elements, undefined, 'decision-guid', 'left-end-guid', true, 0)
+                    ).toEqual({
+                        firstMergeableNonNullNext: 'end-guid',
+                        goToableGuids: ['loop-guid', 'screen-guid'],
+                        mergeableGuids: ['end-guid']
+                    });
+                });
+            });
         });
         describe('branch not ended', () => {
             it('No branches are merged and undefined parent parameter', () => {
@@ -924,6 +1203,153 @@ describe('modelUtils', () => {
                     firstMergeableNonNullNext: 'screen1',
                     goToableGuids: ['branch-guid'],
                     mergeableGuids: ['end1-guid']
+                });
+            });
+
+            describe('GoTos from within a Loop', () => {
+                it('Adding GoTo on a Loop Branch Head', () => {
+                    const elements = {
+                        root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
+                        'start-guid': {
+                            childIndex: 0,
+                            elementType: 'start',
+                            guid: 'start-guid',
+                            isCanvasElement: true,
+                            isTerminal: true,
+                            label: 'start-guid',
+                            next: 'branch-guid',
+                            nodeType: 'start',
+                            parent: 'root'
+                        },
+                        'loop-guid': {
+                            guid: 'loop-guid',
+                            prev: 'start-guid',
+                            label: 'loop-guid',
+                            elementType: 'Loop',
+                            next: 'screen-guid',
+                            nodeType: 'loop',
+                            children: [null],
+                            isCanvasElement: true
+                        },
+                        'screen-guid': {
+                            guid: 'screen-guid',
+                            label: 'screen-guid',
+                            elementType: 'Screen',
+                            nodeType: 'default',
+                            isCanvasElement: true,
+                            prev: 'loop-guid',
+                            next: 'end-guid2'
+                        },
+                        'end-guid2': {
+                            guid: 'end-guid2',
+                            label: 'end-guid2',
+                            elementType: 'END_ELEMENT',
+                            nodeType: 'end',
+                            isCanvasElement: true,
+                            prev: 'screen-guid',
+                            next: null
+                        }
+                    };
+                    expect(
+                        getTargetGuidsForReconnection(elements, undefined, 'loop-guid', null, true, FOR_EACH_INDEX)
+                    ).toEqual({
+                        firstMergeableNonNullNext: 'loop-guid',
+                        goToableGuids: ['screen-guid'],
+                        mergeableGuids: []
+                    });
+                });
+
+                it('Adding GoTo from within a branch of a partially terminated branching element inside a Loop', () => {
+                    const elements = {
+                        root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
+                        'start-guid': {
+                            childIndex: 0,
+                            elementType: 'start',
+                            guid: 'start-guid',
+                            isCanvasElement: true,
+                            isTerminal: true,
+                            label: 'start-guid',
+                            next: 'branch-guid',
+                            nodeType: 'start',
+                            parent: 'root'
+                        },
+                        'loop-guid': {
+                            guid: 'loop-guid',
+                            prev: 'start-guid',
+                            label: 'loop-guid',
+                            elementType: 'Loop',
+                            next: 'screen-guid',
+                            nodeType: 'loop',
+                            children: ['decision-guid'],
+                            isCanvasElement: true
+                        },
+                        'decision-guid': {
+                            guid: 'decision-guid',
+                            label: 'decision-guid',
+                            elementType: 'Decision',
+                            nodeType: 'branch',
+                            isCanvasElement: true,
+                            parent: 'loop-guid',
+                            childIndex: FOR_EACH_INDEX,
+                            prev: null,
+                            next: 'end-guid',
+                            isTerminal: true,
+                            childReferences: [
+                                {
+                                    childReference: 'o1'
+                                },
+                                {
+                                    childReference: 'o2'
+                                }
+                            ],
+                            children: ['left-end-guid', null, null]
+                        },
+                        'left-end-guid': {
+                            guid: 'left-end-guid',
+                            label: 'left-end-guid',
+                            elementType: 'END_ELEMENT',
+                            nodeType: 'end',
+                            isCanvasElement: true,
+                            prev: null,
+                            next: null,
+                            parent: 'decision-guid',
+                            childIndex: 0,
+                            isTerminal: true
+                        },
+                        'end-guid': {
+                            guid: 'end-guid',
+                            label: 'end-guid',
+                            elementType: 'END_ELEMENT',
+                            nodeType: 'end',
+                            isCanvasElement: true,
+                            prev: 'decision-guid',
+                            next: null
+                        },
+                        'screen-guid': {
+                            guid: 'screen-guid',
+                            label: 'screen-guid',
+                            elementType: 'Screen',
+                            nodeType: 'default',
+                            isCanvasElement: true,
+                            prev: 'loop-guid',
+                            next: 'end-guid2'
+                        },
+                        'end-guid2': {
+                            guid: 'end-guid2',
+                            label: 'end-guid2',
+                            elementType: 'END_ELEMENT',
+                            nodeType: 'end',
+                            isCanvasElement: true,
+                            prev: 'screen-guid',
+                            next: null
+                        }
+                    };
+
+                    expect(getTargetGuidsForReconnection(elements, undefined, 'decision-guid', null, true, 2)).toEqual({
+                        firstMergeableNonNullNext: 'loop-guid',
+                        goToableGuids: ['screen-guid'],
+                        mergeableGuids: ['left-end-guid', 'end-guid']
+                    });
                 });
             });
         });
@@ -6469,6 +6895,12 @@ describe('modelUtils', () => {
             };
             const branchIndex = getBranchIndexForGoToConnection(flowModel, 'start-guid', 't2');
             expect(branchIndex).toEqual(2);
+        });
+
+        it('Getting the branchIndex when having an incomingGoTo from the For_Each branch head of a Loop Element', () => {
+            const flowRenderContext = getFlowWhenGoingFromForEachBranch();
+            const branchIndex = getBranchIndexForGoToConnection(flowRenderContext.flowModel, 'loop-guid', 'forEach');
+            expect(branchIndex).toEqual(FOR_EACH_INDEX);
         });
     });
 

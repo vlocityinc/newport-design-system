@@ -48,7 +48,7 @@ const DEFAULT_CONVERT_TO_AUTO_LAYOUT_CANVAS_OPTIONS: ConvertToAutoLayoutCanvasOp
  *
  * @param parentElement - the parent element
  * @param childSource - the child source guid
- * @param type
+ * @param type The connector Type
  * @returns the connection index in the parent
  */
 function findConnectionIndex(parentElement: NodeModel, childSource: UI.Guid, type: UI.ConnectorType): number {
@@ -71,10 +71,11 @@ function findConnectionIndex(parentElement: NodeModel, childSource: UI.Guid, typ
 }
 
 /**
- * @param element
+ * @param element The element
+ * @returns true if the element supports children
  */
 function isBranchingElement(element: UI.Element) {
-    return supportsChildren(element as UI.CanvasElement) && element.elementType !== ELEMENT_TYPE.LOOP;
+    return supportsChildren(element as UI.CanvasElement);
 }
 
 /**
@@ -164,8 +165,7 @@ export function computeAndValidateConversionInfos(
  * @param elements - The flow elements
  * @param conversionInfos - The conversion infos
  * @param loopElement - The loop element
- * @param options
- * @params options - The ConvertToAutoLayoutCanvasOptions
+ * @param options - The ConvertToAutoLayoutCanvasOptions
  */
 function convertLoop(
     elements: FlowModel,
@@ -200,7 +200,7 @@ function convertLoop(
  * @param elements - The flow elements
  * @param conversionInfos - The conversion infos
  * @param branchingElement - The branching element
- * @param options
+ * @param options - The conversion options
  */
 function convertBranchingElement(
     elements: FlowModel,
@@ -240,7 +240,8 @@ function convertBranchingElement(
 }
 
 /**
- * @param element
+ * @param element The current element
+ * @returns True if the element is linked
  */
 function isLinked(element: NodeModel) {
     return (<BranchHeadNodeModel>element).parent != null || element.prev != null;

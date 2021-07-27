@@ -128,7 +128,7 @@ export interface ElementMetadata {
 }
 
 export const FAULT_INDEX = -1;
-export const LOOP_BACK_INDEX = 0;
+export const FOR_EACH_INDEX = 0;
 export const START_IMMEDIATE_INDEX = 0;
 
 const ELEMENT_METADATA_DEFAULT = {

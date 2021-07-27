@@ -10,7 +10,7 @@ import {
     StartNodeModel,
     GOTO_CONNECTION_SUFFIX,
     START_IMMEDIATE_INDEX,
-    LOOP_BACK_INDEX,
+    FOR_EACH_INDEX,
     GoToSourceRef,
     ConnectionSource
 } from './model';
@@ -80,7 +80,7 @@ const gotoUtils = {
                 : nodeType === NodeType.START
                 ? START_IMMEDIATE_INDEX
                 : nodeType === NodeType.LOOP
-                ? LOOP_BACK_INDEX
+                ? FOR_EACH_INDEX
                 : null;
         if (childIndex === defaultIndex) {
             return nodeType === NodeType.START
@@ -172,11 +172,18 @@ const gotoUtils = {
     ): number {
         const sourceElement = resolveParent(flowModel, sourceGuid);
 
-        if (goToSuffix === GOTO_CONNECTION_SUFFIX.IMMEDIATE || goToSuffix === GOTO_CONNECTION_SUFFIX.DEFAULT) {
-            // Should be START_IMMEDIATE_INDEX for Start Node and length of childReferences for other branching elements
+        if (
+            goToSuffix === GOTO_CONNECTION_SUFFIX.IMMEDIATE ||
+            goToSuffix === GOTO_CONNECTION_SUFFIX.FOR_EACH ||
+            goToSuffix === GOTO_CONNECTION_SUFFIX.DEFAULT
+        ) {
+            // Should be START_IMMEDIATE_INDEX for Start Element, FOR_EACH_INDEX for Loop Element
+            // and length of childReferences for other branching elements
             return sourceElement.nodeType === NodeType.BRANCH && sourceElement.childReferences
                 ? sourceElement.childReferences.length
-                : START_IMMEDIATE_INDEX;
+                : sourceElement.nodeType === NodeType.START
+                ? START_IMMEDIATE_INDEX
+                : FOR_EACH_INDEX;
         } else if (
             goToSuffix !== GOTO_CONNECTION_SUFFIX.FAULT &&
             sourceElement.childReferences &&
@@ -271,11 +278,11 @@ const gotoUtils = {
     },
 
     /**
-     * Removes gotos from an element and its decendents
+     * Removes goTos from an element and its descendants
      *
      * @param flowModel - The flow model
      * @param element - An element
-     * @returns The element without gotos
+     * @returns The element without goTos
      */
     removeGoTosFromElement(flowModel: FlowModel, element: NodeModel) {
         const partialFlowModel = {} as any;
@@ -919,8 +926,14 @@ function getMergeableGuids(elements: FlowModel, prev: Guid, parentGuid: Guid | n
     const branchingElement = elements[parent!] as ParentNodeModel;
     const amountOfNonTerminalBranches = getNonTerminalBranchIndexes(branchingElement, elements).length;
 
-    // Making sure we do not include the branchParent if there is a self-loop from the merge point to it
-    if (branchingElement.next && branchingElement.next !== parentGuid && branchingElement.next !== prev) {
+    // Making sure we do not include the branchParent if there is a self-loop from the merge point to it.
+    // Also ensuring that Loop's next is not considered as mergeable guid
+    if (
+        branchingElement.next &&
+        branchingElement.next !== parentGuid &&
+        branchingElement.next !== prev &&
+        branchingElement.nodeType !== NodeType.LOOP
+    ) {
         return [branchingElement.next];
     }
 
@@ -943,6 +956,31 @@ function getMergeableGuids(elements: FlowModel, prev: Guid, parentGuid: Guid | n
     }
 
     return [];
+}
+
+/**
+ * Returns the branchHead element (if any) of a given branch
+ *
+ * @param elements - The flow model
+ * @param prev - The guid of a previous element
+ * @param parent - The guid of the parent element
+ * @param childIndex - The index of the child
+ * @param next - the guid of a next element
+ * @returns The branchHead element or null if there isn't any
+ */
+function getBranchHead(
+    elements: FlowModel,
+    prev: Guid,
+    parent: Guid,
+    childIndex: number,
+    next: Guid
+): BranchHeadNodeModel | null {
+    const branchHead = prev
+        ? findFirstElement(elements[prev], elements)
+        : hasGoToOnBranchHead(elements, parent, childIndex) || !next // If GoTo on branchHead then return null since there is element for branchHead
+        ? null
+        : resolveBranchHead(elements, next);
+    return branchHead;
 }
 
 /**
@@ -1067,30 +1105,40 @@ function getTargetGuidsForReconnection(
     let firstMergeableNonNullNext: string | null = null;
 
     let isSteppingOutOfFault = false;
-    let branchHead = prev
-        ? findFirstElement(elements[prev], elements)
-        : hasGoToOnBranchHead(elements, parent, childIndex) || !next // If GoTo on branchHead then return null since there is element for branchHead
-        ? null
-        : resolveBranchHead(elements, next);
+    let isSteppingOutOfLoop = false;
+
+    let branchHead = getBranchHead(elements, prev, parent, childIndex, next);
     let branchParent = branchHead ? elements[branchHead.parent] : elements[parent];
 
     if (childIndex === FAULT_INDEX || branchHead?.childIndex === FAULT_INDEX) {
         isSteppingOutOfFault = true;
     }
 
-    // Traversing up to find the branching element with a non-null next. We skip the Fault branch since
-    // Fault branch can not be merged into anything outside itself
-    while (!isSteppingOutOfFault && !isRoot(branchParent.guid) && branchParent.next == null) {
+    if (branchParent.nodeType === NodeType.LOOP) {
+        isSteppingOutOfLoop = true;
+    }
+
+    // Traversing up to find the branching element with a non-null next. We skip the Fault/Loop branch since
+    // those can not be merged into anything outside itself
+    while (!isSteppingOutOfFault && !isSteppingOutOfLoop && !isRoot(branchParent.guid) && branchParent.next == null) {
         branchHead = findFirstElement(branchParent, elements);
         branchParent = elements[branchHead.parent];
         if (branchHead.childIndex === FAULT_INDEX) {
             isSteppingOutOfFault = true;
         }
+
+        if (branchParent.nodeType === NodeType.LOOP) {
+            isSteppingOutOfLoop = true;
+        }
     }
 
     // Checking if the found next element is mergeable or not
     if (!isSteppingOutOfFault && !isRoot(branchParent.guid) && branchParent.next !== parent) {
-        if (branchParent.next !== prev || isPrevSelectable(resolveParent(elements, prev))) {
+        if (isSteppingOutOfLoop) {
+            // In case we are stepping out of the Loop branch, then the loop element itself becomes
+            // the firstMergeable element
+            firstMergeableNonNullNext = branchParent.guid;
+        } else if (branchParent.next !== prev || isPrevSelectable(resolveParent(elements, prev))) {
             firstMergeableNonNullNext = branchParent.next;
         }
     }

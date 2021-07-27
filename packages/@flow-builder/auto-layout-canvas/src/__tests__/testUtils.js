@@ -1,7 +1,7 @@
 import { areAllBranchesTerminals, isBranchingElement, hasGoToOnNext } from '../modelUtils';
 import NodeType from '../NodeType';
 import { getDefaultLayoutConfig } from '../defaultLayoutConfig';
-import { FAULT_INDEX, LOOP_BACK_INDEX } from '../model';
+import { FAULT_INDEX, FOR_EACH_INDEX } from '../model';
 
 const layoutConfig = getDefaultLayoutConfig();
 
@@ -331,7 +331,7 @@ function getFlowWithHighlightedLoopBranches() {
     const loopElement = {
         ...LOOP_ELEMENT,
         config: {
-            highlightInfo: { highlightNext: true, highlightLoopBack: true, branchIndexesToHighlight: [LOOP_BACK_INDEX] }
+            highlightInfo: { highlightNext: true, highlightLoopBack: true, branchIndexesToHighlight: [FOR_EACH_INDEX] }
         }
     };
 
@@ -1354,7 +1354,7 @@ function getFlowWhenGoingToLoopBranchHead() {
     screen = {
         ...screen,
         parent: 'loop-guid',
-        childIndex: LOOP_BACK_INDEX,
+        childIndex: FOR_EACH_INDEX,
         next: null,
         incomingGoTo: ['loop-guid']
     };
@@ -1441,6 +1441,49 @@ function getFlowWithGoToOnFirstMergeableNonNullNext() {
     return createFlowRenderContext({ flowModel });
 }
 
+function getFlowWhenGoingFromForEachBranch() {
+    const root = {
+        ...ROOT_ELEMENT,
+        children: ['start-guid']
+    };
+    let start = createElementWithElementType('start-guid', 'START_ELEMENT', NodeType.START);
+    let screen = createElementWithElementType('screen-guid', 'SCREEN_ELEMENT', NodeType.DEFAULT);
+    let loop = createElementWithElementType('loop-guid', 'LOOP_ELEMENT', NodeType.LOOP);
+    let end = createElementWithElementType('end-guid', 'END_ELEMENT', NodeType.END);
+
+    start = {
+        ...start,
+        parent: 'root',
+        childIndex: 0,
+        next: 'screen-guid'
+    };
+
+    screen = {
+        ...screen,
+        prev: 'start-guid',
+        next: 'loop-guid',
+        incomingGoTo: ['loop-guid:forEach'],
+        isCanvasElement: true
+    };
+
+    loop = {
+        ...loop,
+        prev: 'screen-guid',
+        next: 'end-guid',
+        children: ['screen-guid']
+    };
+
+    end = {
+        ...end,
+        prev: 'loop-guid',
+        next: null
+    };
+
+    const elements = [root, start, screen, loop, end];
+    const flowModel = flowModelFromElements(elements);
+    return createFlowRenderContext({ flowModel });
+}
+
 export {
     ACTION_ELEMENT_GUID,
     BRANCH_ELEMENT_GUID,
@@ -1492,5 +1535,6 @@ export {
     getFlowWithGoToOnImmediateBranchHead,
     getFlowWithGoToFromAncestorToNestedElement,
     getFlowWhenGoingToLoopBranchHead,
-    getFlowWithGoToOnFirstMergeableNonNullNext
+    getFlowWithGoToOnFirstMergeableNonNullNext,
+    getFlowWhenGoingFromForEachBranch
 };

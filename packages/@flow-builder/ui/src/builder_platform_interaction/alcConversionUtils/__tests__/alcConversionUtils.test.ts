@@ -54,6 +54,7 @@ import ffcDecisionWithDecisionNext from './ffcUiModels/decision-with-decision-ne
 import ffcDecisionWithNestedEmptyDecision from './ffcUiModels/decision-with-nested-empty-decision.json';
 import ffcLoopWithForEachAndAfterLast from './ffcUiModels/loop-with-for-each-and-after-last.json';
 import ffcLoopEmptyWithAfterLast from './ffcUiModels/loop-empty-with-after-last.json';
+import ffcLoopWithEndPathWithin from './ffcUiModels/loop-with-end-path-within.json';
 import ffcLoopEmpty from './ffcUiModels/loop-empty.json';
 import ffcDecisionWithNestedDecisionAndJoinScreen from './ffcUiModels/decision-with-nested-decision-and-join-screen.json';
 import ffcComplex1 from './ffcUiModels/complex1.json';
@@ -824,6 +825,10 @@ describe('alc conversion utils', () => {
                 });
 
                 assertCanConvertToAutoLayoutCanvas(storeState);
+            });
+
+            it('loop - end path within a loop', () => {
+                assertCanConvertToAutoLayoutCanvas(ffcLoopWithEndPathWithin, true);
             });
         });
     });

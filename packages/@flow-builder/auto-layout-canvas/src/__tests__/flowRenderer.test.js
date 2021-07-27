@@ -21,7 +21,8 @@ import {
     getFlowWhenGoingFromParentDefaultBranchToPreviousElement,
     getFlowWhenGoingFromParentFaultBranchToPreviousElement,
     getFlowWithGoToOnTheNestedBranchElement,
-    getFlowWhenGoingToLoopBranchHead
+    getFlowWhenGoingToLoopBranchHead,
+    getFlowWhenGoingFromForEachBranch
 } from './testUtils';
 
 function renderAndAssert(ctx) {
@@ -112,6 +113,9 @@ describe('flowRenderer', () => {
         });
         it('flow with a GoTo connection from the loop next to the branch head element in the ForEach branch', () => {
             renderAndAssert(getFlowWhenGoingToLoopBranchHead());
+        });
+        it('flow with a GoTo connection from the loop for-each branch to the previous element', () => {
+            renderAndAssert(getFlowWhenGoingFromForEachBranch());
         });
 
         describe('with menu', () => {

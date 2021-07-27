@@ -12,7 +12,7 @@ import {
     getElementMetadata,
     Guid,
     FAULT_INDEX,
-    LOOP_BACK_INDEX,
+    FOR_EACH_INDEX,
     START_IMMEDIATE_INDEX
 } from './model';
 import {
@@ -43,6 +43,7 @@ import NodeType from './NodeType';
 import MenuType from './MenuType';
 import { isMenuOpened } from './interactionUtils';
 import ConnectorLabelType from './ConnectorLabelTypeEnum';
+import { getDefaultLayoutConfig } from './defaultLayoutConfig';
 
 const IS_BRANCH = true;
 
@@ -483,6 +484,11 @@ function createGoToConnectorOnParentBranch(
         variants = [ConnectorVariant.BRANCH_HEAD, variant];
     }
 
+    let height = h;
+    if (nodeType === NodeType.LOOP) {
+        height = h - getDefaultLayoutConfig().grid.h;
+    }
+
     return connectorLib.createConnectorToNextNode(
         { parent: parentNode.guid, childIndex },
         ConnectorType.GO_TO,
@@ -491,7 +497,7 @@ function createGoToConnectorOnParentBranch(
             isLoop: nodeType === NodeType.LOOP
         }),
         NO_OFFSET,
-        h,
+        height,
         isMenuOpened(getBranchLayoutKey(parentNode.guid, childIndex), MenuType.CONNECTOR, interactionState),
         context.layoutConfig,
         context.isFault || childIndex === FAULT_INDEX,
@@ -711,12 +717,7 @@ function renderBranches(
                 createLoopAfterLastConnector(node.guid, context, !!node.config.highlightInfo?.highlightNext)
             ];
 
-            const loopBranchHeadGuid = node.children[0];
-            const loopBranchHead =
-                loopBranchHeadGuid != null ? (flowModel[loopBranchHeadGuid] as BranchHeadNodeModel) : null;
-            const renderLoopBackConnector = loopBranchHead == null || !loopBranchHead.isTerminal;
-
-            if (renderLoopBackConnector) {
+            if (!isBranchTerminal(flowModel, node, FOR_EACH_INDEX)) {
                 nodeRenderInfo.logicConnectors.push(
                     createLoopBackConnector(node.guid, context, !!node.config.highlightInfo?.highlightLoopBack)
                 );
@@ -983,7 +984,7 @@ function createLoopAfterLastConnector(
     isHighlighted: boolean
 ): ConnectorRenderInfo {
     const { progress, nodeLayoutMap, layoutConfig } = context;
-    const childIndex = LOOP_BACK_INDEX;
+    const childIndex = FOR_EACH_INDEX;
 
     const branchLayout = getBranchLayout(parentGuid, childIndex, progress, nodeLayoutMap);
     const connectorToBeDeleted = shouldDeleteConnector(context, parentGuid, childIndex);
@@ -1022,7 +1023,7 @@ function createLoopBackConnector(
     isHighlighted: boolean
 ): ConnectorRenderInfo {
     const { progress, nodeLayoutMap, layoutConfig } = context;
-    const childIndex = LOOP_BACK_INDEX;
+    const childIndex = FOR_EACH_INDEX;
     const branchLayout = getBranchLayout(parentGuid, childIndex, progress, nodeLayoutMap);
     const connectorToBeDeleted = shouldDeleteConnector(context, parentGuid, childIndex);
     const w = branchLayout.offsetX;

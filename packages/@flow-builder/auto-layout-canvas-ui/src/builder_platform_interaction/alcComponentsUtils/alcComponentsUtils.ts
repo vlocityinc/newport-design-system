@@ -4,7 +4,6 @@ import {
     NodeType,
     getElementMetadata,
     FlowModel,
-    ElementsMetadata,
     ParentNodeModel,
     NodeModel,
     Guid,
@@ -12,7 +11,6 @@ import {
     ConnectorRenderInfo,
     NodeRenderInfo,
     FlowRenderInfo,
-    findParentElement,
     findFirstElement,
     getChild,
     Geometry,
@@ -560,27 +558,6 @@ function getAlcNodeData(nodeInfo: NodeRenderInfo) {
 }
 
 /**
- * @param flowModel - Representation of the flow as presented in the Canvas
- * @param parentElement - Parent Element of a given tree in the flow
- * @param elementsMetadata - Contains elementType -> data map
- * @returns - True if the element is in a loop
- */
-function isInLoop(flowModel: FlowModel, parentElement: ParentNodeModel, elementsMetadata: ElementsMetadata) {
-    let parentType = getElementMetadata(elementsMetadata, parentElement.elementType).type;
-
-    while (parentType !== NodeType.ROOT && parentType != null) {
-        if (parentType === NodeType.LOOP) {
-            return true;
-        }
-
-        parentElement = findParentElement(parentElement, flowModel);
-        parentType = getElementMetadata(elementsMetadata, parentElement.elementType).type;
-    }
-
-    return false;
-}
-
-/**
  * @param detail - Event detail
  * @param containerElementGeometry - Geometry of the container element
  * @param menuButtonHalfWidth - The half-width of the menu trigger button
@@ -675,11 +652,7 @@ function getAlcMenuData(
         }
     }
 
-    const parentElement = (parent != null
-        ? flowModel[parent]
-        : findParentElement(flowModel[guid!], flowModel)) as ParentNodeModel;
-
-    const hasEndElement = targetGuid == null && !isInLoop(flowModel, parentElement, elementsMetadata);
+    const hasEndElement = targetGuid == null;
     const canAddGoto = isTargetEnd || hasEndElement;
     return {
         canMergeEndedBranch,

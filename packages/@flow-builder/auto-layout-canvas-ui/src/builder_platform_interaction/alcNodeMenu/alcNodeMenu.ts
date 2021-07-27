@@ -12,7 +12,7 @@ import {
 import Menu from 'builder_platform_interaction/menu';
 import { CONTEXTUAL_MENU_MODE, ELEMENT_ACTION_CONFIG, getMenuConfiguration } from './alcNodeMenuConfig';
 import { ICON_SHAPE } from 'builder_platform_interaction/alcComponentsUtils';
-import { LOOP_BACK_INDEX, NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { FOR_EACH_INDEX, NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { LABELS } from './alcNodeMenuLabels';
 import { keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import { moveFocusInMenuOnArrowKeyDown } from 'builder_platform_interaction/contextualMenuUtils';
@@ -184,7 +184,7 @@ export default class AlcNodeMenu extends Menu {
                     closeMenu = false;
                 } else if (this.elementMetadata.type === NodeType.LOOP) {
                     this.dispatchEvent(
-                        new DeleteElementEvent([this.guid], this.elementMetadata.elementType, LOOP_BACK_INDEX)
+                        new DeleteElementEvent([this.guid], this.elementMetadata.elementType, FOR_EACH_INDEX)
                     );
                 } else {
                     this.dispatchEvent(new DeleteElementEvent([this.guid], this.elementMetadata.elementType));

@@ -6,16 +6,15 @@ type FlowCheckType =
     | 'reachedCount' /* if a node was reached an unexpected number of times */
     | 'unsupportedElement' /* if an unsupported element was found in the flow */
     | 'scheduledPaths' /* scheduled path issue */
-    | 'endInLoop' /* if an end was found in a loop */
     | 'gotoInLoop' /* if a back edge goto was found in a loop */
-    | 'crossBoundary' /* if a cross boundrary goto was found */
+    | 'crossBoundary' /* if a cross boundary goto was found */
     | 'branchMergeNesting' /* if an invalid [branchingGuid - mergingGuid] matching was found */
     | 'loopNextAndEndTheSame'; /* if a loop's next and end connectors point to the same element */
 
 const unsupportedElementTypes = [ELEMENT_TYPE.STEP] as string[];
 
 /**
- * @param type
+ * @param type The Flow Check type
  */
 function failFlowCheck(type: FlowCheckType) {
     throw new Error(type);
@@ -82,7 +81,8 @@ function checkOutgoingEdgesForGoTos(conversionInfos: ConversionInfos, elementInf
 }
 
 /**
- * @param outs
+ * @param outs List of output connectors
+ * @returns true if the number of connectors is equal to 2 and have the same target
  */
 function areLoopNextAndEndTheSame(outs: UI.Connector[]) {
     return outs.length === 2 && outs[0].target === outs[1].target;
@@ -92,7 +92,7 @@ function areLoopNextAndEndTheSame(outs: UI.Connector[]) {
  *
  * @param elements - The flow elements
  * @param conversionInfos - The conversion infos
- * @throw An error when the flow can't be converted
+ * @throws An error when the flow can't be converted
  */
 export function validateConversionInfos(elements: UI.Elements, conversionInfos: ConversionInfos) {
     const flowElements = Object.values(elements);
@@ -107,16 +107,7 @@ export function validateConversionInfos(elements: UI.Elements, conversionInfos: 
         }
 
         if (elementInfo != null) {
-            const {
-                reachedCount,
-                ins,
-                dfsStart,
-                executionContext,
-                branchingGuid,
-                elementGuid,
-                isLoop,
-                outs
-            } = elementInfo;
+            const { reachedCount, ins, dfsStart, branchingGuid, elementGuid, isLoop, outs } = elementInfo;
 
             checkOutgoingEdgesForGoTos(conversionInfos, elementInfo);
             const expectedReachedCount = ins.length;
@@ -130,9 +121,6 @@ export function validateConversionInfos(elements: UI.Elements, conversionInfos: 
             } else if (dfsStart == null) {
                 // if a not doesn't have a dfsStart value, then it hasn't been visited and is considered an orphan
                 failFlowCheck('orphan');
-            } else if (elementType === ELEMENT_TYPE.END_ELEMENT && executionContext!.type === 'loop') {
-                // we currently disallow end elements inside a loop
-                failFlowCheck('endInLoop');
             } else if (branchingGuid != null && conversionInfos[branchingGuid].mergeGuid !== elementGuid) {
                 // set go tos on element if an invalid branching interval is encountered
                 setGoTosOnNonMergeElement(conversionInfos, elementInfo);

@@ -41,7 +41,7 @@ export {
     MenuSection,
     HighlightInfo,
     FAULT_INDEX,
-    LOOP_BACK_INDEX,
+    FOR_EACH_INDEX,
     START_IMMEDIATE_INDEX,
     resolveNode,
     getRootNode,

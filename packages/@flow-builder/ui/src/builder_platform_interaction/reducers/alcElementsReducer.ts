@@ -31,7 +31,7 @@ import { getElementsMetadata, getAlcElementType, getChildCount } from 'builder_p
 import {
     deleteBranchHeadProperties,
     FAULT_INDEX,
-    LOOP_BACK_INDEX,
+    FOR_EACH_INDEX,
     START_IMMEDIATE_INDEX,
     HighlightInfo,
     findLastElement,
@@ -76,17 +76,13 @@ const getElementService = (flowModel: UI.Elements) => {
     };
 };
 
+/* eslint-disable-next-line complexity */
 /**
  * ALC Reducer for elements
  *
  * @param state - elements in the store
  * @param action - with type and payload
  * @returns new state after reduction
- */
-/* eslint-disable-next-line complexity */
-/**
- * @param state
- * @param action
  */
 export default function alcElementsReducer(state: Readonly<UI.Elements>, action: any): Readonly<UI.Elements> {
     const metadata = getElementsMetadata();
@@ -250,6 +246,7 @@ function getChildren(element: ParentNodeModel): (Guid | null)[] | null {
  * @param element store element
  * @param connectorType connector type to highlight
  * @param childReference child guid associated with the connector to highlight (eg. outcome guid)
+ * @returns - The branch index to highlight
  */
 function getBranchIndexToHighlight(
     element: ParentNodeModel,
@@ -265,7 +262,7 @@ function getBranchIndexToHighlight(
     } else if (connectorType === CONNECTOR_TYPE.DEFAULT) {
         branchIndexToHighlight = childReferences.length;
     } else if (connectorType === CONNECTOR_TYPE.LOOP_NEXT) {
-        branchIndexToHighlight = LOOP_BACK_INDEX;
+        branchIndexToHighlight = FOR_EACH_INDEX;
     } else if (connectorType === CONNECTOR_TYPE.IMMEDIATE && children) {
         branchIndexToHighlight = START_IMMEDIATE_INDEX;
     } else if (childReferences != null && childReference) {
@@ -298,6 +295,7 @@ function setMergeBranchIndexesToHighlight(parentHighlightInfo: HighlightInfo, me
  *
  * @param state flow state
  * @param connectorsToHighlight array of connectors to highlight from the decorate action payload
+ * @returns List of decorated elements
  */
 function getDecoratedElements(state: FlowModel, connectorsToHighlight: any[]): Map<Guid, HighlightInfo> {
     const decoratedElements = new Map<Guid, HighlightInfo>();
@@ -329,7 +327,7 @@ function getDecoratedElements(state: FlowModel, connectorsToHighlight: any[]): M
             // For loop elements that don't have any elements in the loop back branch, directly set highlightLoopBack to true
             if (
                 element.nodeType === NodeType.LOOP &&
-                branchIndexToHighlight === LOOP_BACK_INDEX &&
+                branchIndexToHighlight === FOR_EACH_INDEX &&
                 !elementAsParent.children[branchIndexToHighlight]
             ) {
                 highlightInfo.highlightLoopBack = true;
@@ -381,7 +379,8 @@ function getDecoratedElements(state: FlowModel, connectorsToHighlight: any[]): M
 }
 
 /**
- * @param payload
+ * @param payload - The action payload
+ * @returns The element
  */
 function _getElementFromActionPayload(payload) {
     return payload.screen || payload.canvasElement || payload;
@@ -395,7 +394,8 @@ function _getElementFromActionPayload(payload) {
  * @param canvasElementGuidsToSelect - Array of canvas elements to be selected
  * @param canvasElementGuidsToDeselect - Array of canvas elements to be deselected
  * @param selectableGuids - Array of canvas element guids that are selectable next
- * @param allowAllDisabledElements
+ * @param allowAllDisabledElements - True if disabled elements are allowed
+ * @returns The new state
  */
 function _selectionOnFixedCanvas(
     elements: Readonly<UI.StoreState>,
@@ -481,6 +481,7 @@ function _getUniquePastedElementName(name: string, blacklistNames: string[] = []
  *
  * @param cutOrCopiedChildElements - list of child elements to paste
  * @param blacklistNames - blacklisted list of names to check against in addition to store
+ * @returns List of child elements
  */
 function _getPastedChildElementNameMap(cutOrCopiedChildElements: UI.Element[], blacklistNames: string[]) {
     const childElementNameMap = {};
@@ -502,16 +503,16 @@ function _getPastedChildElementNameMap(cutOrCopiedChildElements: UI.Element[], b
  *
  * @param elements - State of elements in the store
  * @param payload - Contains the data needed for pasting the cut or copied elements
- * @param payload.canvasElementGuidMap
- * @param payload.childElementGuidMap
- * @param payload.cutOrCopiedCanvasElements
- * @param payload.cutOrCopiedChildElements
- * @param payload.topCutOrCopiedGuid
- * @param payload.bottomCutOrCopiedGuid
- * @param payload.prev
- * @param payload.next
- * @param payload.parent
- * @param payload.childIndex
+ * @param payload.canvasElementGuidMap - List of Element Guid
+ * @param payload.childElementGuidMap - List of child element guid
+ * @param payload.cutOrCopiedCanvasElements -
+ * @param payload.cutOrCopiedChildElements -
+ * @param payload.topCutOrCopiedGuid -
+ * @param payload.bottomCutOrCopiedGuid -
+ * @param payload.prev -
+ * @param payload.next -
+ * @param payload.parent -
+ * @param payload.childIndex -
  * @returns newState - The updated state of elements in the store
  */
 function _pasteOnFixedCanvas(

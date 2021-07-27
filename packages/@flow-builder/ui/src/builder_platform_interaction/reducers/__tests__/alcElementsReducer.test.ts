@@ -19,7 +19,7 @@ import {
     actions,
     HighlightInfo,
     FAULT_INDEX,
-    LOOP_BACK_INDEX,
+    FOR_EACH_INDEX,
     NodeType,
     START_IMMEDIATE_INDEX
 } from 'builder_platform_interaction/autoLayoutCanvas';
@@ -1924,7 +1924,7 @@ describe('alc-elements-reducer', () => {
             decoratedElements.set('guid1', {
                 highlightNext: true,
                 highlightLoopBack: true,
-                branchIndexesToHighlight: [LOOP_BACK_INDEX]
+                branchIndexesToHighlight: [FOR_EACH_INDEX]
             });
             decoratedElements.set('guid2', { highlightNext: true });
             const expectedAction = actions.decorateCanvasAction(decoratedElements);
@@ -1949,7 +1949,7 @@ describe('alc-elements-reducer', () => {
             decoratedElements.set('guid1', {
                 highlightNext: true,
                 highlightLoopBack: true,
-                branchIndexesToHighlight: [LOOP_BACK_INDEX]
+                branchIndexesToHighlight: [FOR_EACH_INDEX]
             });
             const expectedAction = actions.decorateCanvasAction(decoratedElements);
             expect(reducer()).toHaveBeenLastCalledWith(flowModel, expectedAction);
@@ -1972,7 +1972,7 @@ describe('alc-elements-reducer', () => {
                 }
             });
             const decoratedElements = new Map<Guid, HighlightInfo>();
-            decoratedElements.set('guid1', { highlightNext: true, branchIndexesToHighlight: [LOOP_BACK_INDEX] });
+            decoratedElements.set('guid1', { highlightNext: true, branchIndexesToHighlight: [FOR_EACH_INDEX] });
             decoratedElements.set('guid2', {});
             const expectedAction = actions.decorateCanvasAction(decoratedElements);
             expect(reducer()).toHaveBeenLastCalledWith(flowModel, expectedAction);
@@ -1996,7 +1996,7 @@ describe('alc-elements-reducer', () => {
                 }
             });
             const decoratedElements = new Map<Guid, HighlightInfo>();
-            decoratedElements.set('guid1', { highlightLoopBack: true, branchIndexesToHighlight: [LOOP_BACK_INDEX] });
+            decoratedElements.set('guid1', { highlightLoopBack: true, branchIndexesToHighlight: [FOR_EACH_INDEX] });
             decoratedElements.set('guid2', { highlightNext: true });
             const expectedAction = actions.decorateCanvasAction(decoratedElements);
             expect(reducer()).toHaveBeenLastCalledWith(flowModel, expectedAction);
