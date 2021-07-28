@@ -59,6 +59,7 @@ import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLi
 import { InputsOnNextNavToAssocScrnOption } from 'builder_platform_interaction/screenEditorUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { FOOTER_LABEL_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { usedBy } from 'builder_platform_interaction/usedByLib';
 
 /**
  * Replaces the field at the specified position with the updatedChild and then updates the fields
@@ -412,9 +413,40 @@ const changeChoice = (screen, event, field) => {
     const updatedField = set(field, 'choiceReferences', updatedChoices);
     clearDefaultValueIfNecessary(updatedField);
 
+    if (hydratedChoice?.choiceReference?.value) {
+        screen = updateOtherChoicesWithSameChoiceReference(hydratedChoice, screen, field, updatedField);
+    }
     // Replace the field in the screen
     const positions = screen.getFieldIndexesByGUID(field.guid);
     return updateAncestors(screen, positions, updatedField);
+};
+
+/**
+ * This function update all the fields in the screen that are using the Choice updated.
+ *
+ * @param hydratedChoice Hydrated choice
+ * @param screen Parent Screen
+ * @param field Field to update
+ * @param updatedField updateField
+ * @returns Updated Screen
+ */
+const updateOtherChoicesWithSameChoiceReference = (hydratedChoice: any, screen: any, field: any, updatedField: any) => {
+    const choiceUsedByList = usedBy([hydratedChoice.choiceReference.value]);
+    choiceUsedByList.forEach((choiceUsedBy) => {
+        // Search other field that are using the reference updated in the same screen
+        const tmpPosition = screen.getFieldIndexesByGUID(choiceUsedBy.guid);
+        if (tmpPosition.length > 0 && tmpPosition[0] > -1 && choiceUsedBy.guid !== field.guid) {
+            const fieldtmp = screen.fields[tmpPosition[0]];
+            // Find the choice reference index in the field
+            const index = fieldtmp.choiceReferences.findIndex(
+                (choiceRef) => choiceRef.choiceReference.value === hydratedChoice.choiceReference.value
+            );
+            const tmpUpdatedChoices = replaceItem(fieldtmp.choiceReferences, hydratedChoice, index);
+            const tmpUpdatedField = set(fieldtmp, 'choiceReferences', tmpUpdatedChoices);
+            screen = updateAncestors(screen, tmpPosition, tmpUpdatedField);
+        }
+    });
+    return screen;
 };
 
 /**

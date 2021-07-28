@@ -12,6 +12,7 @@ import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/
 
 import { ScreenEditorEventName } from 'builder_platform_interaction/events';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import * as usebyMock from 'builder_platform_interaction/usedByLib';
 
 const SCREEN_NAME = 'TestScreen1';
 const MOCK_PICKLIST_CHOICE_SET_PREFIX = 'picklistChoiceSet';
@@ -44,7 +45,14 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/usedByLib', () => {
+    return {
+        usedBy: jest.fn()
+    };
+});
+
 it('change choice screen field by changing the 1st choice', () => {
+    usebyMock.usedBy.mockReturnValueOnce([]);
     // Create screen with radio screenField and 3 choices
     const field = createTestScreenField('radioField1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
         dataType: FLOW_DATA_TYPE.STRING.value,
@@ -74,6 +82,7 @@ it('change choice screen field by changing the 1st choice', () => {
 });
 
 it('change choice screen field by changing the last choice', () => {
+    usebyMock.usedBy.mockReturnValueOnce([]);
     // Create screen with radio screenField and 3 choices
     const field = createTestScreenField('radioField1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
         dataType: FLOW_DATA_TYPE.STRING.value,
@@ -102,6 +111,7 @@ it('change choice screen field by changing the last choice', () => {
 });
 
 it('defaultValue is not cleared when a choice is changed', () => {
+    usebyMock.usedBy.mockReturnValueOnce([]);
     const screen = createTestScreen(SCREEN_NAME, []);
     screen.fields = [];
     const field = createTestScreenField('radio1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
