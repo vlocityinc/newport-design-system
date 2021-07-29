@@ -28,7 +28,7 @@ button.has-error,
 button.node-to-be-deleted {
     background-color: #f4f6f9;
     border-color: var(--lwc-colorBorderError);
-    box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-colorBorderError), 0 0 6px 3px var(--lwc-colorBorderError);
+    box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-colorBorderError);
     transform: scale(1.05);
 }
 
@@ -48,6 +48,10 @@ button.is-end-element:focus,
 button.node-in-selection-mode:focus {
     box-shadow: none;
     transform: scale(1);
+}
+
+button.has-error:focus {
+    box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-colorBorderError), 0 0 6px 3px var(--lwc-colorBorderError);
 }
 
 button.circular-icon {
