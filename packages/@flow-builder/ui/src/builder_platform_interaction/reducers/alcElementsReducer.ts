@@ -322,6 +322,7 @@ function getDecoratedElements(state: FlowModel, connectorsToHighlight: any[]): M
                 !elementAsParent.children[branchIndexToHighlight]
             ) {
                 highlightInfo.highlightNext = true;
+                setMergeBranchIndexesToHighlight(highlightInfo, branchIndexToHighlight);
             }
 
             // For loop elements that don't have any elements in the loop back branch, directly set highlightLoopBack to true

@@ -1805,7 +1805,11 @@ describe('alc-elements-reducer', () => {
                 }
             });
             const decoratedElements = new Map<Guid, HighlightInfo>();
-            decoratedElements.set('guid1', { highlightNext: true, branchIndexesToHighlight: [1] });
+            decoratedElements.set('guid1', {
+                highlightNext: true,
+                branchIndexesToHighlight: [1],
+                mergeBranchIndexesToHighlight: [1]
+            });
             const expectedAction = actions.decorateCanvasAction(decoratedElements);
             expect(reducer()).toHaveBeenLastCalledWith(flowModel, expectedAction);
         });
