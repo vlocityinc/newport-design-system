@@ -242,7 +242,7 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
                     this._activePicklistValues = getEntityFieldWithApiName(
                         entity,
                         picklistChoiceData.picklistField
-                    ).activePicklistValues;
+                    )?.activePicklistValues;
                 });
                 this._oldPicklistChoiceData = picklistChoiceData;
             }

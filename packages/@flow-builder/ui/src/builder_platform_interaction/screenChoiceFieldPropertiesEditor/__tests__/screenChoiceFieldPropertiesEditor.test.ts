@@ -61,7 +61,7 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
                 picklistField = 'val1';
             } else if (guid.includes('altPCS')) {
                 elementType = ELEMENT_TYPE.PICKLIST_CHOICE_SET;
-                picklistField = 'val2';
+                picklistField = null;
             } else {
                 elementType = ELEMENT_TYPE.CHOICE;
             }
@@ -85,9 +85,12 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
             });
         },
         getEntityFieldWithApiName(entity, field) {
-            return {
-                activePicklistValues: [field]
-            };
+            if (field) {
+                return {
+                    activePicklistValues: [field]
+                };
+            }
+            return null;
         }
     };
 });
@@ -659,9 +662,25 @@ describe('screen-choice-field-properties-editor expanded picklist values', () =>
             field: testField
         });
     });
-    it('shows expanded picklist choices in default field for first picklist', () => {
+    it('shows expanded picklist values in default field for first picklist choice set', () => {
         const defaultValueElement = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_VALUE);
         expect(defaultValueElement.activePicklistValues).toEqual(['val1']);
+    });
+});
+describe('screen-choice-field-properties-editor missing picklist choice field', () => {
+    let screenChoiceFieldPropEditor;
+    beforeEach(() => {
+        const testField = createTestScreenField(fieldName, FlowScreenFieldType.DropdownBox, SCREEN_NO_DEF_VALUE, {});
+        testField.choiceReferences[0] = {
+            choiceReference: { value: 'choice-altPCS', error: null }
+        };
+        screenChoiceFieldPropEditor = createComponentUnderTest({
+            field: testField
+        });
+    });
+    it('shows no picklist values in default field for first picklist choice set', () => {
+        const defaultValueElement = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_VALUE);
+        expect(defaultValueElement.activePicklistValues).toBeUndefined();
     });
 });
 describe('screen-choice-field-properties-editor for single select, type Number', () => {
