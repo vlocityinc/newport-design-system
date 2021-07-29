@@ -21,7 +21,7 @@
         "lint": "eslint --max-warnings 0 src/**/*.ts",
         "test": "jest src",
         "test:update-snapshots": "yarn test -u",
-        "ci:test": "yarn test -- -- --verbose false",
+        "ci:test": "yarn test --verbose false",
         "ci:test:coverage": "yarn ci:test"
     },
     "devDependencies": {

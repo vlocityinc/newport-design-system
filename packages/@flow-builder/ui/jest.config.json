@@ -1,0 +1,35 @@
+{
+    "preset": "@lwc/jest-preset",
+    "verbose": true,
+    "transformIgnorePatterns": ["/node_modules/(?!lightning-components-stubs/modules/lightning-stubs/)"],
+    "testPathIgnorePatterns": ["/build/"],
+    "moduleNameMapper": {
+        "^aura$": "<rootDir>/jest-modules/aura/aura",
+        "^(aura-instrumentation|instrumentation/service)$": "<rootDir>/jest-modules/aura/auraInstrumentation",
+        "^aura-storage$": "<rootDir>/jest-modules/aura/auraStorage",
+        "^mock/flows/(.+)$": "<rootDir>/jest-mock-data/flows/$1",
+        "^mock/debugResponse/(.+)$": "<rootDir>/jest-mock-data/debugResponse/$1",
+        "^mock/(.+)$": "<rootDir>/jest-mock-data/$1/$1",
+        "^builder_platform_interaction/sharedUtils/commands": "<rootDir>/../shared-utils/src/commands",
+        "^builder_platform_interaction_mocks/sharedUtils$": "<rootDir>/../shared-utils/jest-modules/builder_platform_interaction/sharedUtils/sharedUtils",
+        "^builder_platform_interaction_mocks/(.+)$": "<rootDir>/jest-modules/builder_platform_interaction/$1/$1",
+        "^serverData/(.+)/(.+)$": "<rootDir>/jest-mock-data/results/FlowBuilderControllerGoldFileTest/test$1Serialization/$2",
+        "^builder_platform_interaction/autoLayoutCanvas$": "<rootDir>/../auto-layout-canvas/dist/index.dev.js",
+        "^builder_platform_interaction/sharedUtils$": "<rootDir>/../shared-utils/dist/index.esNext.js",
+        "^builder_platform_interaction/(alcCanvas|alcEvents|alcMenu|alcComponentsUtils|menu|popover|popoverTrigger|contextualMenuUtils)$": "<rootDir>/../auto-layout-canvas-ui/src/builder_platform_interaction/$1/$1",
+        "^(builder_platform_interaction)/(.+)$": "<rootDir>/src/$1/$2/$2",
+        "^(builder_framework)/(.+)$": "<rootDir>/../shared-utils/jest-modules/$1/$2/$2",
+        "^lightning/(configProvider|input|textarea|groupedCombobox|baseCombobox|inputRichText|popup|primitiveIcon)$": "<rootDir>/jest-modules/lightning/$1/$1",
+        "^lightning/(.+)$": "<rootDir>/../../../node_modules/lightning-components-stubs/modules/lightning-stubs/core/$1/$1",
+        "^analyzer_framework/(.+)$": "<rootDir>/jest-modules/analyzer_framework/$1/$1"
+    },
+    "setupFilesAfterEnv": ["<rootDir>/jestSetup.js"],
+    "clearMocks": true,
+    "coverageDirectory": "../../../coverage",
+    "collectCoverageFrom": [
+        "<rootDir>/src/*/!(builderTestUtils)**/*",
+        "!**/*Labels*",
+        "!**/integrationTests/**/*",
+        "!**/__tests__/**/*"
+    ]
+}
