@@ -34,7 +34,7 @@ export default class VisualPickerList extends LightningElement {
     allowMultipleSelection = false;
 
     @api
-    focusOnRerendering;
+    focusOnRerendering = false;
 
     @api
     radioGroupName;

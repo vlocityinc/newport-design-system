@@ -9,6 +9,7 @@
         ></lightning-spinner>
         <div class="templates slds-template__container" if:false={state.templatesLoading}>
             <builder_platform_interaction-visual-picker-list
+                focus-on-rerendering
                 items={items}
                 radio-group-name={radioGroupName}
                 onvisualpickerlistchanged={handleTemplateOrProcessTypeTileChanged}

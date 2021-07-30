@@ -1,8 +1,10 @@
 // @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { VisualPickerItemChangedEvent } from 'builder_platform_interaction/events';
+import { sanitizeBoolean } from 'builder_platform_interaction/commonUtils';
 
 export default class VisualPickerItem extends LightningElement {
+    _focusOnRerendering = false;
     @api
     isSelected;
     @api
@@ -16,11 +18,16 @@ export default class VisualPickerItem extends LightningElement {
     @api
     radioGroupName;
     @api
-    focusOnRerendering = false;
+    get focusOnRerendering() {
+        return this._focusOnRerendering;
+    }
+    set focusOnRerendering(val) {
+        this._focusOnRerendering = sanitizeBoolean(val);
+    }
 
     renderedCallback() {
         const inputSelector = this.template.querySelector('input');
-        if (inputSelector && this.isSelected && this.focusOnRerendering) {
+        if (inputSelector && this.isSelected && this._focusOnRerendering) {
             inputSelector.focus();
         }
     }
