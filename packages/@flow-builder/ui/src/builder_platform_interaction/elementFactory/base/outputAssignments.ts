@@ -20,7 +20,8 @@ export const createOutputAssignment = (outputAssignment = {}, sObject) => {
             rightHandSide
         });
     } else {
-        newOutputAssignment = createExpressionListRowItemWithoutOperatorAndRHSDataType(outputAssignment);
+        newOutputAssignment = Object.assign(outputAssignment, { leftHandSideDataType: FLOW_DATA_TYPE.STRING.value });
+        newOutputAssignment = createExpressionListRowItemWithoutOperatorAndRHSDataType(newOutputAssignment);
     }
     return newOutputAssignment;
 };

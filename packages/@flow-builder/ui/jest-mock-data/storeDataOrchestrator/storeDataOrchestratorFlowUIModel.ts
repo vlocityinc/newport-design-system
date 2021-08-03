@@ -26,6 +26,7 @@ export const orchestratorFlowUIModel = {
                 {
                     rowIndex: '703162a5-d48f-40b6-b52e-ec4e1944ba34',
                     leftHandSide: '',
+                    leftHandSideDataType: 'String',
                     rightHandSide: '',
                     rightHandSideDataType: '',
                     operator: ''

@@ -6,14 +6,13 @@ import { getElementForPropertyEditor } from 'builder_platform_interaction/proper
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import {
     ticks,
-    focusoutEvent,
     textInputEvent,
     blurEvent,
     setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { resetState, setupStateForFlow } from '../integrationTestUtils';
-import { getLabelDescriptionNameElement, getLabelDescriptionLabelElement } from '../labelDescriptionTestUtils';
+import { LabelDescriptionComponentTest, getLabelDescriptionElement } from '../labelDescriptionTestUtils';
 import {
     VALIDATION_ERROR_MESSAGES,
     getBaseCalloutElement,
@@ -60,42 +59,34 @@ describe('Invocable Action Editor', () => {
             actionNode = getElementForPropertyEditor(element);
         });
         describe('name and dev name', () => {
+            let labelDescription: LabelDescriptionComponentTest;
             beforeEach(() => {
                 coreActionElement = createComponentForTest(actionNode, {
                     isNewMode: true
                 });
+                labelDescription = new LabelDescriptionComponentTest(
+                    getLabelDescriptionElement(getBaseCalloutElement(coreActionElement))
+                );
             });
             it('does not change devName if it already exists after the user modifies the name', async () => {
                 const newLabel = 'new label';
-                const labelInput = getLabelDescriptionLabelElement(getBaseCalloutElement(coreActionElement));
-                labelInput.value = newLabel;
-                labelInput.dispatchEvent(focusoutEvent);
-                await ticks();
+                await labelDescription.setLabel(newLabel);
                 expect(coreActionElement.node.label.value).toBe(newLabel);
                 expect(coreActionElement.node.name.value).toBe('allTypesApexAction');
             });
             it('modifies the dev name', async () => {
                 const newDevName = 'newName';
-                const devNameInput = getLabelDescriptionNameElement(getBaseCalloutElement(coreActionElement));
-                devNameInput.value = newDevName;
-                devNameInput.dispatchEvent(focusoutEvent);
-                await ticks();
+                await labelDescription.setName(newDevName);
                 expect(coreActionElement.node.name.value).toBe(newDevName);
             });
             it('displays error if name is cleared', async () => {
                 const newLabel = '';
-                const labelInput = getLabelDescriptionLabelElement(getBaseCalloutElement(coreActionElement));
-                labelInput.value = newLabel;
-                labelInput.dispatchEvent(focusoutEvent);
-                await ticks();
+                await labelDescription.setLabel(newLabel);
                 expect(coreActionElement.node.label.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
             });
             it('displays error if devName is cleared', async () => {
                 const newDevName = '';
-                const devNameInput = getLabelDescriptionNameElement(getBaseCalloutElement(coreActionElement));
-                devNameInput.value = newDevName;
-                devNameInput.dispatchEvent(focusoutEvent);
-                await ticks();
+                await labelDescription.setName(newDevName);
                 expect(coreActionElement.node.name.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
             });
         });

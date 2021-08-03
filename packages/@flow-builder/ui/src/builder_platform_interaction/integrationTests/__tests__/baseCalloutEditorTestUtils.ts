@@ -155,7 +155,7 @@ export const verifyOptionalInputParameterNoValue = (parameter, label) => {
     expect(icon.iconName).toEqual(iconName);
 };
 
-export const verifyOutputParameter = (parameter, label, value) => {
+export const verifyOutputParameter = (parameter, label, value?) => {
     const outputComboboxElement = getOutputParameterComboboxElement(parameter);
     const icon = getParameterIcon(parameter);
     expect(outputComboboxElement.required).toBe(false);

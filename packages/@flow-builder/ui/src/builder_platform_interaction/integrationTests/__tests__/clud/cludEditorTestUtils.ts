@@ -17,12 +17,6 @@ export const getBaseResourcePickerCombobox = (element) => {
     );
 };
 
-export const getOutputResourcePicker = (recordEditor) =>
-    recordEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.OUTPUT_RESOURCE_PICKER);
-
-export const getOutputBaseResourcePickerCombobox = (recordEditor) =>
-    getBaseResourcePickerCombobox(getOutputResourcePicker(recordEditor));
-
 export const getResourceCombobox = (recordEditor, extraParentSelectors: string[] = []) =>
     getBaseResourcePickerCombobox(
         deepQuerySelector(recordEditor, [

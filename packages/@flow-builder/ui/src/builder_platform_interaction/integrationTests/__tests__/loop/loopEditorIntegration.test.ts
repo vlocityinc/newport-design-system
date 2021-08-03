@@ -18,10 +18,9 @@ import {
     deepQuerySelector,
     ticks,
     blurEvent,
-    focusoutEvent,
     setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
-import { getLabelDescriptionLabelElement, getLabelDescriptionNameElement } from '../labelDescriptionTestUtils';
+import { getLabelDescriptionElement, LabelDescriptionComponentTest } from '../labelDescriptionTestUtils';
 import { ComboboxTestComponent } from '../comboboxTestUtils';
 import { GroupedComboboxTestComponent } from '../groupedComboboxTestUtils';
 
@@ -220,46 +219,32 @@ describe('Loop Editor with processType supporting automatic output', () => {
     });
     describe('name and dev name', () => {
         let loopElementComponent;
+        let labelDescription: LabelDescriptionComponentTest;
         beforeEach(async () => {
             const element = getElementByDevName('loopAccountAutomaticOutput');
             loopNode = getElementForPropertyEditor(element);
             loopElementComponent = createComponentForTest(loopNode);
             await ticks(50);
+            labelDescription = new LabelDescriptionComponentTest(getLabelDescriptionElement(loopElementComponent));
         });
         it('do not change devName if it already exists after the user modifies the name', async () => {
             const newLabel = 'new label';
-            await ticks(50);
-            const labelInput = getLabelDescriptionLabelElement(loopElementComponent);
-            labelInput.value = newLabel;
-            labelInput.dispatchEvent(focusoutEvent);
-            await ticks(50);
+            await labelDescription.setLabel(newLabel);
             expect(loopElementComponent.node.label.value).toBe(newLabel);
         });
         it('modify the dev name', async () => {
             const newDevName = 'newName';
-            await ticks(50);
-            const devNameInput = getLabelDescriptionNameElement(loopElementComponent);
-            devNameInput.value = newDevName;
-            devNameInput.dispatchEvent(focusoutEvent);
-            await ticks(50);
+            await labelDescription.setName(newDevName);
             expect(loopElementComponent.node.name.value).toBe(newDevName);
         });
         it('displays error if name is cleared', async () => {
             const newLabel = '';
-            await ticks(50);
-            const labelInput = getLabelDescriptionLabelElement(loopElementComponent);
-            labelInput.value = newLabel;
-            labelInput.dispatchEvent(focusoutEvent);
-            await ticks(50);
+            await labelDescription.setLabel(newLabel);
             expect(loopElementComponent.node.label.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
         });
         it('displays error if devName is cleared', async () => {
             const newDevName = '';
-            await ticks(50);
-            const devNameInput = getLabelDescriptionNameElement(loopElementComponent);
-            devNameInput.value = newDevName;
-            devNameInput.dispatchEvent(focusoutEvent);
-            await ticks(50);
+            await labelDescription.setName(newDevName);
             expect(loopElementComponent.node.name.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
         });
     });

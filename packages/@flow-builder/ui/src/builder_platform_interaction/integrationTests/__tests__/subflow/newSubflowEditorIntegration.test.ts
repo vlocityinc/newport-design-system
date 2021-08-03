@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { createElement } from 'lwc';
 import CalloutEditor from 'builder_platform_interaction/calloutEditor';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
@@ -11,7 +10,7 @@ import {
     setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 import { resetState, setupStateForProcessType, translateFlowToUIAndDispatch } from '../integrationTestUtils';
-import { getLabelDescriptionLabelElement, getLabelDescriptionNameElement } from '../labelDescriptionTestUtils';
+import { getLabelDescriptionElement, LabelDescriptionComponentTest } from '../labelDescriptionTestUtils';
 import { ELEMENT_TYPE, FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     getBaseCalloutElement,
@@ -19,6 +18,7 @@ import {
     getInputParameterItems
 } from '../baseCalloutEditorTestUtils';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import { AddElementEvent } from 'builder_platform_interaction/events';
 
 const createComponentForTest = (node, processType, mode) => {
     const el = createElement('builder_platform_interaction-callout-editor', {
@@ -65,7 +65,7 @@ describe('Subflow Editor (new subflow)', () => {
         };
         const processType = FLOW_PROCESS_TYPE.FLOW;
         const subflowNode = getElementForPropertyEditor(element);
-        propertyEditor = createComponentForTest(subflowNode, processType);
+        propertyEditor = createComponentForTest(subflowNode, processType, AddElementEvent.EVENT_NAME);
         await ticks(50);
     });
     it('shows subflows in the action selector combobox', () => {
@@ -83,13 +83,10 @@ describe('Subflow Editor (new subflow)', () => {
             subflowElement = getSubflowEditorElement(propertyEditor);
         });
         it('let the user enter label, api name and description', () => {
-            const baseCalloutElement = getBaseCalloutElement(subflowElement, {
-                isEditMode: true
-            });
-            const labelInput = getLabelDescriptionLabelElement(baseCalloutElement);
-            expect(labelInput).toBeDefined();
-            const devNameInput = getLabelDescriptionNameElement(baseCalloutElement);
-            expect(devNameInput).toBeDefined();
+            const baseCalloutElement = getBaseCalloutElement(subflowElement);
+            const labelDescription = new LabelDescriptionComponentTest(getLabelDescriptionElement(baseCalloutElement));
+            expect(labelDescription.getLabelElement()).not.toBeNull();
+            expect(labelDescription.getNameElement()).not.toBeNull();
         });
         it('displays parameters for the subflow if any', () => {
             const inputAssignments = getInputParameterItems(subflowElement);

@@ -4,7 +4,6 @@ import {
     ticks,
     INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS,
-    focusoutEvent,
     blurEvent,
     setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
@@ -16,7 +15,7 @@ import {
     setupStateForProcessType,
     translateFlowToUIAndDispatch
 } from '../integrationTestUtils';
-import { getLabelDescriptionNameElement } from '../labelDescriptionTestUtils';
+import { getLabelDescriptionElement, LabelDescriptionComponentTest } from '../labelDescriptionTestUtils';
 import { resetFetchOnceCache } from 'builder_platform_interaction/serverDataLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
@@ -90,20 +89,19 @@ describe('Formula Editor', () => {
             expect(propertyEditor.validate()).toEqual([]);
         });
         describe('dev name', () => {
+            let labelDescription: LabelDescriptionComponentTest;
+            beforeEach(() => {
+                labelDescription = new LabelDescriptionComponentTest(getLabelDescriptionElement(propertyEditor));
+            });
+
             it('modify the dev name', async () => {
                 const newDevName = 'newName';
-                const devNameInput = getLabelDescriptionNameElement(propertyEditor);
-                devNameInput.value = newDevName;
-                devNameInput.dispatchEvent(focusoutEvent);
-                await ticks();
+                await labelDescription.setName(newDevName);
                 expect(propertyEditor.node.name.value).toBe(newDevName);
             });
             it('display error if devName is cleared', async () => {
                 const newDevName = '';
-                const devNameInput = getLabelDescriptionNameElement(propertyEditor);
-                devNameInput.value = newDevName;
-                devNameInput.dispatchEvent(focusoutEvent);
-                await ticks();
+                await labelDescription.setName(newDevName);
                 expect(propertyEditor.node.name.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
             });
         });

@@ -2,13 +2,12 @@ import { createElement } from 'lwc';
 import RecordUpdateEditor from 'builder_platform_interaction/recordUpdateEditor';
 import { AddElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
 import {
-    changeInputValue,
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
     resetState,
     setupStateForFlow,
     translateFlowToUIAndDispatch
 } from '../integrationTestUtils';
-import { getLabelDescriptionLabelElement, getLabelDescriptionNameElement } from '../labelDescriptionTestUtils';
+import { getLabelDescriptionElement, LabelDescriptionComponentTest } from '../labelDescriptionTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
@@ -87,6 +86,7 @@ describe('Record Update Editor', () => {
         resetState();
     });
     describe('name and dev name', () => {
+        let labelDescription: LabelDescriptionComponentTest;
         beforeAll(() => {
             const element = getElementByDevName('updateSObject');
             recordUpdateNode = getElementForPropertyEditor(element);
@@ -96,24 +96,25 @@ describe('Record Update Editor', () => {
                 node: recordUpdateNode,
                 mode: AddElementEvent.EVENT_NAME
             });
+            labelDescription = new LabelDescriptionComponentTest(getLabelDescriptionElement(recordUpdateComponent));
         });
         it('does not change "dev name" if it already exists after the user modifies the "label"', async () => {
             const newLabel = 'new label';
-            await changeInputValue(getLabelDescriptionLabelElement(recordUpdateComponent), newLabel);
+            await labelDescription.setLabel(newLabel);
             expect(recordUpdateComponent.node.label.value).toBe(newLabel);
             expect(recordUpdateComponent.node.name.value).toBe(recordUpdateNode.name.value);
         });
         it('modifies the "dev name"', async () => {
             const newDevName = 'newDevName';
-            await changeInputValue(getLabelDescriptionNameElement(recordUpdateComponent), newDevName);
+            await labelDescription.setName(newDevName);
             expect(recordUpdateComponent.node.name.value).toBe(newDevName);
         });
         it('displays error if the "label" is cleared', async () => {
-            await changeInputValue(getLabelDescriptionLabelElement(recordUpdateComponent), '');
+            await labelDescription.setLabel('');
             expect(recordUpdateComponent.node.label.error).toBe(FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
         });
         it('displays error if the "dev name" is cleared', async () => {
-            await changeInputValue(getLabelDescriptionNameElement(recordUpdateComponent), '');
+            await labelDescription.setName('');
             expect(recordUpdateComponent.node.name.error).toBe(FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
         });
     });

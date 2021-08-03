@@ -31,6 +31,7 @@ export const scheduleTriggeredFlowUIModel = {
                 {
                     rowIndex: '703162a5-d48f-40b6-b52e-ec4e1944ba34',
                     leftHandSide: '',
+                    leftHandSideDataType: 'String',
                     rightHandSide: '',
                     rightHandSideDataType: '',
                     operator: ''
@@ -346,6 +347,7 @@ export const scheduleTriggeredFlowUIModel = {
                 {
                     rowIndex: '956ee0bf-ff21-44f4-9917-65676160e094',
                     leftHandSide: '',
+                    leftHandSideDataType: 'String',
                     rightHandSide: '',
                     rightHandSideDataType: '',
                     operator: ''

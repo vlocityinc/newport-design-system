@@ -25,6 +25,7 @@ export const flowWithAllElementsUIModel = {
                 {
                     rowIndex: '703162a5-d48f-40b6-b52e-ec4e1944ba34',
                     leftHandSide: '',
+                    leftHandSideDataType: 'String',
                     rightHandSide: '',
                     rightHandSideDataType: '',
                     operator: ''
@@ -2339,6 +2340,7 @@ export const flowWithAllElementsUIModel = {
                 {
                     rowIndex: '52736a70-f96b-4c6f-803b-355bff915424',
                     leftHandSide: '',
+                    leftHandSideDataType: 'String',
                     rightHandSide: '',
                     rightHandSideDataType: '',
                     operator: ''
@@ -2393,6 +2395,7 @@ export const flowWithAllElementsUIModel = {
                 {
                     rowIndex: 'c7bb47cd-f402-49d5-963b-681d7987ff13',
                     leftHandSide: '',
+                    leftHandSideDataType: 'String',
                     rightHandSide: '',
                     rightHandSideDataType: '',
                     operator: ''
@@ -2654,6 +2657,7 @@ export const flowWithAllElementsUIModel = {
                 {
                     rowIndex: '76e934ba-572c-48aa-9c08-848447c2eef8',
                     leftHandSide: '',
+                    leftHandSideDataType: 'String',
                     rightHandSide: '',
                     rightHandSideDataType: '',
                     operator: ''
@@ -2706,6 +2710,7 @@ export const flowWithAllElementsUIModel = {
                 {
                     rowIndex: 'f876df5e-ccc8-43a5-921f-4730c6c8052b',
                     leftHandSide: '',
+                    leftHandSideDataType: 'String',
                     rightHandSide: '',
                     rightHandSideDataType: '',
                     operator: ''
@@ -2755,6 +2760,7 @@ export const flowWithAllElementsUIModel = {
                 {
                     rowIndex: 'acbbb552-1389-4ec3-9807-d8c3aa378d70',
                     leftHandSide: '',
+                    leftHandSideDataType: 'String',
                     rightHandSide: '',
                     rightHandSideDataType: '',
                     operator: ''
@@ -3051,6 +3057,7 @@ export const flowWithAllElementsUIModel = {
                 {
                     rowIndex: 'b1d673a1-a2cd-4106-ae02-5d184d3aaa37',
                     leftHandSide: '',
+                    leftHandSideDataType: 'String',
                     rightHandSide: '',
                     rightHandSideDataType: '',
                     operator: ''

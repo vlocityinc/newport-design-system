@@ -6,7 +6,7 @@ import {
     RHS_PROPERTY,
     RHS_DATA_TYPE_PROPERTY
 } from './baseList';
-import { createFEROV, createFEROVMetadataObject, getDataTypeKey } from '../ferov';
+import { createFEROV, createFEROVMetadataObject } from '../ferov';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
@@ -35,7 +35,8 @@ export function createFilter(filter = {}, objectType) {
         );
         newFilter = createListRowItem(newFilter);
     } else {
-        newFilter = createListRowItem(filter);
+        newFilter = Object.assign({}, filter, { leftHandSideDataType: FLOW_DATA_TYPE.STRING.value });
+        newFilter = createListRowItem(newFilter);
     }
 
     return newFilter;
@@ -90,11 +91,11 @@ export function createFlowInputFieldAssignment(inputAssignmentsItem, objectType)
             );
         }
         // we add leftHandSideDataType to make sure that leftHandSide ('Account.Name') is not transformed to a guid if a variable has the same name as the entity
-        const leftHandSideDataTypeKey = getDataTypeKey('leftHandSide');
-        Object.assign(newAssignment, { leftHandSide, [leftHandSideDataTypeKey]: FLOW_DATA_TYPE.STRING.value });
+        Object.assign(newAssignment, { leftHandSide, leftHandSideDataType: FLOW_DATA_TYPE.STRING.value });
         newAssignment = createExpressionListRowItemWithoutOperator(newAssignment);
     } else {
-        newAssignment = createExpressionListRowItemWithoutOperator(inputAssignmentsItem);
+        Object.assign(newAssignment, inputAssignmentsItem, { leftHandSideDataType: FLOW_DATA_TYPE.STRING.value });
+        newAssignment = createExpressionListRowItemWithoutOperator(newAssignment);
     }
     return newAssignment;
 }
@@ -116,7 +117,8 @@ export function createFlowOutputFieldAssignment(outputAssignmentsItem, objectTyp
             rightHandSide
         });
     } else {
-        newAssignment = createExpressionListRowItemWithoutOperatorAndRHSDataType(outputAssignmentsItem);
+        Object.assign(newAssignment, outputAssignmentsItem, { leftHandSideDataType: FLOW_DATA_TYPE.STRING.value });
+        newAssignment = createExpressionListRowItemWithoutOperatorAndRHSDataType(newAssignment);
     }
     return newAssignment;
 }

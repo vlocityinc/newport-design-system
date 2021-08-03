@@ -3,12 +3,11 @@ import RecordLookupEditor from 'builder_platform_interaction/recordLookupEditor'
 import {
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
     getChildComponent,
-    changeInputValue,
     resetState,
     setupStateForFlow,
     changeLightningRadioGroupValue
 } from '../integrationTestUtils';
-import { getLabelDescriptionLabelElement, getLabelDescriptionNameElement } from '../labelDescriptionTestUtils';
+import { getLabelDescriptionElement, LabelDescriptionComponentTest } from '../labelDescriptionTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { EditElementEvent, AddElementEvent } from 'builder_platform_interaction/events';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
@@ -137,38 +136,36 @@ describe('Record Lookup Editor', () => {
         });
         describe('name and dev name', () => {
             let recordLookupElement, newLabel, newDevName;
+            let labelDescription: LabelDescriptionComponentTest;
             beforeAll(() => {
                 const element = getElementByDevName('lookupRecordOutputReference');
                 recordLookupNode = getElementForPropertyEditor(element);
             });
             beforeEach(() => {
                 recordLookupElement = createComponentForTest(recordLookupNode, AddElementEvent.EVENT_NAME);
+                labelDescription = new LabelDescriptionComponentTest(getLabelDescriptionElement(recordLookupElement));
             });
             it('does not change devName if it already exists after the user modifies the name', async () => {
                 newLabel = 'new label';
-                const labelInput = getLabelDescriptionLabelElement(recordLookupElement);
-                await changeInputValue(labelInput, newLabel);
+                await labelDescription.setLabel(newLabel);
                 expect(recordLookupElement.node.label.value).toBe(newLabel);
                 expect(recordLookupElement.node.name.value).toBe('lookupRecordOutputReference');
             });
             it('modifies the dev name', async () => {
                 newDevName = 'newName';
-                const devNameInput = getLabelDescriptionNameElement(recordLookupElement);
-                await changeInputValue(devNameInput, newDevName);
+                await labelDescription.setName(newDevName);
                 expect(recordLookupElement.node.name.value).toBe(newDevName);
             });
             it('display error if name is cleared', async () => {
                 newLabel = '';
-                const labelInput = getLabelDescriptionLabelElement(recordLookupElement);
-                await changeInputValue(labelInput, newLabel);
+                await labelDescription.setLabel(newLabel);
                 expect(recordLookupElement.node.label.error).toBe(
                     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
                 );
             });
             it('display error if devName is cleared', async () => {
                 newDevName = '';
-                const devNameInput = getLabelDescriptionNameElement(recordLookupElement);
-                await changeInputValue(devNameInput, newDevName);
+                await labelDescription.setName(newDevName);
                 expect(recordLookupElement.node.name.error).toBe(
                     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
                 );

@@ -368,6 +368,7 @@ export const recordTriggeredFlowUIModel = {
                 {
                     rowIndex: 'a6849bcb-05b6-4898-8cc1-12ff825524c5',
                     leftHandSide: '',
+                    leftHandSideDataType: 'String',
                     rightHandSide: '',
                     rightHandSideDataType: '',
                     operator: ''

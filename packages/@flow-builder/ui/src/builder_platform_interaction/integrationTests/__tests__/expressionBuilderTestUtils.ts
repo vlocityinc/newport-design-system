@@ -62,9 +62,8 @@ export class ExpressionBuilderComponentTest extends TestComponent<
     /**
      * Returns LHS combobox component removing pill if needed
      *
-     * @param {HTMLElement} expressionBuilder - current expression builder containing the combobox
      * @param {boolean} [clickOnPill=false] - if true we do click on the pill switching to merge field notation
-     * @returns {Promise<Combobox>} - promise fulfilled with LHS combobox component
+     * @returns {Promise<ComboboxTestComponent>} - promise fulfilled with LHS combobox component
      */
     public async getLhsCombobox(clickOnPill = false) {
         return this.getCombobox(EXPRESSION_BUILDER_SELECTORS.LHS_COMBOBOX, clickOnPill);
@@ -73,9 +72,8 @@ export class ExpressionBuilderComponentTest extends TestComponent<
     /**
      * Returns RHS combobox component removing pill if needed
      *
-     * @param {HTMLElement} expressionBuilder - current expression builder containing the combobox
      * @param {boolean} [clickOnPill=false] - if true we do click on the pill switching to merge field notation
-     * @returns {Promise<Combobox>} - promise fulfilled with RHS combobox component
+     * @returns {Promise<ComboboxTestComponent>} - promise fulfilled with RHS combobox component
      */
     public async getRhsCombobox(clickOnPill = false) {
         return this.getCombobox(EXPRESSION_BUILDER_SELECTORS.RHS_COMBOBOX, clickOnPill);
@@ -115,6 +113,7 @@ export class ExpressionBuilderComponentTest extends TestComponent<
  *   `;
  *
  * @param expressionBuilderProvider Function that provides the expression builder
+ * @returns the expression tester
  */
 export const getExpressionTester = (
     expressionBuilderProvider: () => (FerToFerovExpressionBuilder | FieldToFerovExpressionBuilder) & HTMLElement

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { createElement } from 'lwc';
 import SubflowEditor from 'builder_platform_interaction/subflowEditor';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
@@ -6,7 +5,7 @@ import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { changeComboboxValue, resetState, setupStateForFlow } from '../integrationTestUtils';
-import { getLabelDescriptionLabelElement, getLabelDescriptionNameElement } from '../labelDescriptionTestUtils';
+import { getLabelDescriptionElement, LabelDescriptionComponentTest } from '../labelDescriptionTestUtils';
 import {
     VALIDATION_ERROR_MESSAGES,
     getBaseCalloutElement,
@@ -32,7 +31,6 @@ import {
 } from '../baseCalloutEditorTestUtils';
 import {
     ticks,
-    focusoutEvent,
     textInputEvent,
     blurEvent,
     checkboxChangeEvent,
@@ -97,33 +95,31 @@ describe('Subflow Editor', () => {
             subflowElement = createComponentForTest(subflowNode, AddElementEvent.EVENT_NAME);
         });
         describe('name and dev name', () => {
-            it('does not change devName if it already exists after the user modifies the name', () => {
+            let labelDescription: LabelDescriptionComponentTest;
+            beforeAll(() => {
+                labelDescription = new LabelDescriptionComponentTest(
+                    getLabelDescriptionElement(getBaseCalloutElement(subflowElement))
+                );
+            });
+            it('does not change devName if it already exists after the user modifies the name', async () => {
                 const newLabel = 'new label';
-                const labelInput = getLabelDescriptionLabelElement(getBaseCalloutElement(subflowElement));
-                labelInput.value = newLabel;
-                labelInput.dispatchEvent(focusoutEvent);
+                await labelDescription.setLabel(newLabel);
                 expect(subflowElement.node.label.value).toBe(newLabel);
                 expect(subflowElement.node.name.value).toBe('subflow_with_all_type_variables');
             });
-            it('modifies the dev name', () => {
+            it('modifies the dev name', async () => {
                 const newDevName = 'newName';
-                const devNameInput = getLabelDescriptionNameElement(getBaseCalloutElement(subflowElement));
-                devNameInput.value = newDevName;
-                devNameInput.dispatchEvent(focusoutEvent);
+                await labelDescription.setName(newDevName);
                 expect(subflowElement.node.name.value).toBe(newDevName);
             });
-            it('displays error if name is cleared', () => {
+            it('displays error if name is cleared', async () => {
                 const newLabel = '';
-                const labelInput = getLabelDescriptionLabelElement(getBaseCalloutElement(subflowElement));
-                labelInput.value = newLabel;
-                labelInput.dispatchEvent(focusoutEvent);
+                await labelDescription.setLabel(newLabel);
                 expect(subflowElement.node.label.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
             });
-            it('displays error if devName is cleared', () => {
+            it('displays error if devName is cleared', async () => {
                 const newDevName = '';
-                const devNameInput = getLabelDescriptionNameElement(getBaseCalloutElement(subflowElement));
-                devNameInput.value = newDevName;
-                devNameInput.dispatchEvent(focusoutEvent);
+                await labelDescription.setName(newDevName);
                 expect(subflowElement.node.name.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
             });
         });
@@ -430,7 +426,7 @@ describe('Subflow Editor', () => {
                 describe('duplicated parameters', () => {
                     let inputAssignments, numberParameterItems;
                     beforeAll(async () => {
-                        subflowElement = createComponentForTest(subflowNode);
+                        subflowElement = createComponentForTest(subflowNode, EditElementEvent.EVENT_NAME);
                         await ticks(1);
                         inputAssignments = getInputParameterItems(subflowElement);
                         numberParameterItems = filterParameterElements(inputAssignments, 'inputOutputNumberVar');
@@ -852,7 +848,7 @@ describe('Subflow Editor', () => {
                 describe('duplicated parameters', () => {
                     let numberParameterItems;
                     beforeAll(async () => {
-                        const subflowElement = createComponentForTest(subflowNode);
+                        const subflowElement = createComponentForTest(subflowNode, EditElementEvent.EVENT_NAME);
                         await ticks(1);
                         const outputAssignments = getOutputParameterItems(subflowElement);
                         numberParameterItems = filterParameterElements(outputAssignments, 'inputOutputNumberVar');
@@ -870,7 +866,7 @@ describe('Subflow Editor', () => {
                     });
                     it('deletes duplicated parameter and update the row after deleting when clicking the delete button', async () => {
                         // delete the second Number Parameter
-                        const subflowElement = createComponentForTest(subflowNode);
+                        const subflowElement = createComponentForTest(subflowNode, EditElementEvent.EVENT_NAME);
                         await ticks(1);
                         let outputAssignments = getOutputParameterItems(subflowElement);
                         numberParameterItems = filterParameterElements(outputAssignments, 'inputOutputNumberVar');

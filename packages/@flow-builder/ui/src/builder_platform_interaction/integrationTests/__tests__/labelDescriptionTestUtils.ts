@@ -1,5 +1,7 @@
-// @ts-nocheck
 import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import LabelDescription from 'builder_platform_interaction/labelDescription';
+import { ticks, focusoutEvent } from 'builder_platform_interaction/builderTestUtils';
+import { TestComponent } from './testComponent';
 
 const LABEL_DESCRIPTION_SELECTORS = {
     DEV_NAME: '.devName',
@@ -10,10 +12,27 @@ export const getLabelDescriptionElement = (editor) => {
     return editor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.LABEL_DESCRIPTION);
 };
 
-export const getLabelDescriptionNameElement = (editor) => {
-    return getLabelDescriptionElement(editor).shadowRoot.querySelector(LABEL_DESCRIPTION_SELECTORS.DEV_NAME);
-};
-
-export const getLabelDescriptionLabelElement = (editor) => {
-    return getLabelDescriptionElement(editor).shadowRoot.querySelector(LABEL_DESCRIPTION_SELECTORS.LABEL);
-};
+export class LabelDescriptionComponentTest extends TestComponent<LabelDescription> {
+    public getNameElement() {
+        return this.element.shadowRoot!.querySelector(LABEL_DESCRIPTION_SELECTORS.DEV_NAME);
+    }
+    public getLabelElement() {
+        return this.element.shadowRoot!.querySelector(LABEL_DESCRIPTION_SELECTORS.LABEL);
+    }
+    public async setName(value) {
+        const nameElement = this.getNameElement();
+        if (nameElement) {
+            (nameElement as any).value = value;
+            nameElement.dispatchEvent(focusoutEvent);
+            await ticks(1);
+        }
+    }
+    public async setLabel(value) {
+        const labelElement = this.getLabelElement();
+        if (labelElement) {
+            (labelElement as any).value = value;
+            labelElement.dispatchEvent(focusoutEvent);
+            await ticks(1);
+        }
+    }
+}
