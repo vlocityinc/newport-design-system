@@ -1,6 +1,16 @@
 {
   "subflowsForAutoLaunchedFlow":[
     {
+      "masterLabel":"Chats Routed to Agents and Queues",
+      "fullName":"omnichannel_chat__QueuesChat",
+      "description":"Routes each chat to an agent or queue based on conditions that you define."
+    },
+    {
+      "masterLabel":"Chats Routed to Agents with the Right Skills",
+      "fullName":"omnichannel_chat__SkillsChat",
+      "description":"Routes each chat to an agent with the required skills based on conditions that you define."
+    },
+    {
       "masterLabel":"FTest-TestFileBased",
       "fullName":"FtestSfdcOnly__TestFileBased",
       "description":"FTEST - File Based Flow Basic"
@@ -21,9 +31,19 @@
       "description":"FTEST - File Based Flow Template Basic"
     },
     {
+      "masterLabel":"Messages Routed to Agents and Queues",
+      "fullName":"omnichannel_messaging__MessagingRouting",
+      "description":"Routes each message to an agent or queue based on conditions that you define."
+    },
+    {
       "masterLabel":"SomeFlow",
       "fullName":"autoLaunchedFlow",
       "description":"I didn't know description is required field?!"
+    },
+    {
+      "masterLabel":"Voice Calls Routed to Agents and Queues",
+      "fullName":"omnichannel_voice__VoiceRouting",
+      "description":"Routes each call to an agent or queue based on conditions that you define."
     }
   ]
 }
