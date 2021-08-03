@@ -240,7 +240,7 @@ export default class AlcNodeMenu extends Menu {
         }
         this.dispatchEvent(new CloseMenuEvent());
         if (this.contextualMenuMode === CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE) {
-            this.dispatchEvent(new EditElementEvent(this.guid));
+            this.dispatchEvent(new EditElementEvent(this.guid, undefined, undefined, true));
         } else if (this.contextualMenuMode === CONTEXTUAL_MENU_MODE.DELETE_BRANCH_ELEMENT_MODE) {
             this.dispatchEvent(
                 new DeleteBranchElementEvent([this.guid], this.elementMetadata.elementType, this._childIndexToKeep)

@@ -174,6 +174,7 @@ describe('connector menu', () => {
         cmp.addEventListener(AddElementEvent.EVENT_NAME, callback);
         cmp.shadowRoot.querySelector(selectors.listboxItem).click();
         expect(callback).toHaveBeenCalled();
+        expect(callback.mock.calls[0][0].detail.designateFocus).toBe(true);
     });
 
     it('should dispatch add element when paste is not specified using enter command ', async () => {
@@ -185,6 +186,7 @@ describe('connector menu', () => {
         cmp.addEventListener(AddElementEvent.EVENT_NAME, callback);
         cmp.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
         expect(callback).toHaveBeenCalled();
+        expect(callback.mock.calls[0][0].detail.designateFocus).toBe(true);
     });
 
     it('should dispatch add element when paste is not specified using space command ', async () => {
@@ -196,6 +198,7 @@ describe('connector menu', () => {
         cmp.addEventListener(AddElementEvent.EVENT_NAME, callback);
         cmp.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
         expect(callback).toHaveBeenCalled();
+        expect(callback.mock.calls[0][0].detail.designateFocus).toBe(true);
     });
 
     it('should dispatch PasteOnCanvasEvent event when paste is specified ', async () => {

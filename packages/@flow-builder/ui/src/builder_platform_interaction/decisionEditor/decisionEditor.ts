@@ -13,7 +13,8 @@ import { getProcessType } from 'builder_platform_interaction/storeUtils';
 import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
 
 const SELECTORS = {
-    OUTCOME: 'builder_platform_interaction-outcome'
+    OUTCOME: 'builder_platform_interaction-outcome',
+    labelDescription: 'builder_platform_interaction-label-description'
 };
 
 const EMPTY_OUTCOME_LABEL = LABELS.emptyOutcomeLabel;
@@ -149,6 +150,15 @@ export default class DecisionEditor extends LightningElement {
         return isOrchestrator(getProcessType())
             ? this.labels.orchestratorDefaultOutcomeDetailsDescription2
             : this.labels.defaultOutcomeDetailsDescription2;
+    }
+
+    @api
+    focus() {
+        const labelDescription = this.template.querySelector(SELECTORS.labelDescription);
+
+        if (labelDescription?.focus) {
+            labelDescription.focus();
+        }
     }
 
     handleAddOutcome(event) {

@@ -63,7 +63,7 @@ export default class StageStepMenu extends Menu {
      * @param currentTarget
      * @param designateFocus
      */
-    doSelectMenuItem(currentTarget: HTMLElement, designateFocus = false) {
+    doSelectMenuItem(currentTarget: HTMLElement, designateFocus = true) {
         super.doSelectMenuItem(currentTarget);
 
         const addItemEvent = new AddElementEvent({

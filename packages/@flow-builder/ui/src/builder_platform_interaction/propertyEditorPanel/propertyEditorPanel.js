@@ -25,7 +25,7 @@ export default class PropertyEditorPanel extends LightningElement {
     }
 
     set params(params) {
-        this.processParams(params);
+        this.processParams(params).then(() => this._focusWhenReady && this.focus());
     }
 
     get ready() {
@@ -39,13 +39,20 @@ export default class PropertyEditorPanel extends LightningElement {
 
     @track messages = {};
 
+    // @hack: using boolean flag to make sure that x-lazy dynamic component is loaded before calling focus
+    _focusWhenReady = false;
+
     /**
      * Public api method used to designate focus to the appropriate element within the property editor
      */
-    @api focus() {
-        const closeButton = this.template.querySelector('lightning-button-icon.close-panel-button');
-        if (closeButton) {
-            closeButton.focus();
+    @api
+    focus() {
+        const panelContent = this.template.querySelector('x-lazy');
+
+        if (panelContent?.focus) {
+            panelContent.focus();
+        } else {
+            this._focusWhenReady = true;
         }
     }
 

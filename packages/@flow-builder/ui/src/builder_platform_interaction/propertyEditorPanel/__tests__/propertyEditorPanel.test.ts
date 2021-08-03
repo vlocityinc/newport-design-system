@@ -3,12 +3,13 @@ import { createElement } from 'lwc';
 
 import PropertyEditorPanel from '../propertyEditorPanel';
 import { ClosePropertyEditorEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
-import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/stageEditor', () => require('builder_platform_interaction_mocks/stageEditor'));
 
 const selectors = {
-    CLOSE_BUTTON: 'lightning-button-icon.close-panel-button'
+    CLOSE_BUTTON: 'lightning-button-icon.close-panel-button',
+    DYNAMIC_CONTENT: 'x-lazy'
 };
 
 const createComponentUnderTest = (props) => {
@@ -33,15 +34,32 @@ describe('propertyEditorPanel', () => {
 
         expect(eventCallback).toHaveBeenCalled();
     });
-    it('should focus the close panel button when the panel is designated with tab focus', () => {
-        const propertyEditorPanel = createComponentUnderTest();
+    it('should focus the dynamic content when the panel is designated with tab focus', async () => {
+        const props = {
+            element: {},
+            params: {
+                attr: {
+                    bodyComponent: {
+                        className: 'builder_platform_interaction/stageEditor',
+                        attr: {
+                            mode: 'Test mode',
+                            processType: 'Test processType'
+                        }
+                    }
+                },
+                panelConfig: {
+                    titleForModal: 'Test titleForModal'
+                }
+            }
+        };
+        const propertyEditorPanel = createComponentUnderTest(props);
 
-        const closeButton = propertyEditorPanel.shadowRoot.querySelector(selectors.CLOSE_BUTTON);
+        await ticks(1);
 
-        closeButton.focus = jest.fn();
-
+        const dynamicContent = propertyEditorPanel.shadowRoot.querySelector(selectors.DYNAMIC_CONTENT);
+        dynamicContent.focus = jest.fn();
         propertyEditorPanel.focus();
 
-        expect(closeButton.focus).toHaveBeenCalled();
+        expect(dynamicContent.focus).toHaveBeenCalled();
     });
 });

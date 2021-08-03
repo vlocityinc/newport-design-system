@@ -98,6 +98,19 @@ describe('label-description', () => {
             expect(labelLightningInput.required).toBeFalsy();
         });
 
+        it('should focus on label field in AddElement mode when designated with tab focus', async () => {
+            const labelDescription = createComponentUnderTest({
+                mode: AddElementEvent.EVENT_NAME
+            });
+            await ticks(1);
+
+            const labelField = labelDescription.shadowRoot.querySelector(selectors.label);
+            labelField.focus = jest.fn();
+
+            labelDescription.focus();
+            expect(labelField.focus).toHaveBeenCalled();
+        });
+
         describe('on focus out', () => {
             it('fires propertyChanged event if changed', async () => {
                 const newValue = 'newValue';
@@ -820,6 +833,19 @@ describe('label-description', () => {
             editButton.click();
             const readOnly = labelDescription.shadowRoot.querySelector(selectors.readOnly);
             expect(readOnly).not.toBeNull();
+        });
+
+        it('should focus edit icon in Edit Mode when designated with tab focus', async () => {
+            const labelDescription = createComponentUnderTest({
+                mode: EditElementEvent.EVENT_NAME
+            });
+            await ticks(1);
+
+            const editButton = labelDescription.shadowRoot.querySelector(selectors.editButton);
+            editButton.focus = jest.fn();
+
+            labelDescription.focus();
+            expect(editButton.focus).toHaveBeenCalled();
         });
     });
     describe('Read only Label', () => {

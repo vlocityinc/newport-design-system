@@ -133,7 +133,8 @@ export default class AlcConnectorMenu extends Menu {
                         elementSubtype: currentTarget.getAttribute('data-sub-type')!,
                         locationX: 0,
                         locationY: 0,
-                        alcConnectionSource
+                        alcConnectionSource,
+                        designateFocus: true
                     })
                 );
             }

@@ -605,6 +605,11 @@ describe('Node Menu', () => {
                 menu.addEventListener(EditElementEvent.EVENT_NAME, callback);
                 editButton.click();
                 expect(callback).toHaveBeenCalled();
+                expect(callback.mock.calls[0][0].detail).toEqual({
+                    canvasElementGUID: dummySimpleElement.guid,
+                    mode: EditElementEvent.EVENT_NAME,
+                    designateFocus: true
+                });
             });
 
             it('Clicking the Edit Button should dispatch CloseMenuEvent', () => {

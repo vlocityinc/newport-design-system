@@ -436,4 +436,14 @@ describe('OrchestratedStageEditor', () => {
             expect(getErrorsFromHydratedElement).toHaveBeenCalledWith(editor.node);
         });
     });
+
+    describe('ui', () => {
+        it('should focus the label description when the editor is designated with tab focus', () => {
+            const label = editor.shadowRoot.querySelector('builder_platform_interaction-label-description');
+            label.focus = jest.fn();
+
+            editor.focus();
+            expect(label.focus).toHaveBeenCalled();
+        });
+    });
 });

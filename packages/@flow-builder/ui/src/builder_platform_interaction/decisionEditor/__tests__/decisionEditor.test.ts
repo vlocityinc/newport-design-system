@@ -560,4 +560,17 @@ describe('Decision Editor', () => {
             ).toBe('FlowBuilderDecisionEditor.defaultOutcomeDetailsDescription2');
         });
     });
+
+    describe('ui', () => {
+        it('should focus the label description when the editor is designated with tab focus', async () => {
+            const decisionEditor = createComponentForTest(decisionWithOneOutcome);
+            await ticks(1);
+
+            const label = decisionEditor.shadowRoot.querySelector(SELECTORS.LABEL_DESCRIPTION);
+            label.focus = jest.fn();
+
+            decisionEditor.focus();
+            expect(label.focus).toHaveBeenCalled();
+        });
+    });
 });

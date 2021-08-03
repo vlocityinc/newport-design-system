@@ -59,7 +59,7 @@ describe('Stage Step Menu', () => {
             elementType: ELEMENT_TYPE.STAGE_STEP,
             actionType: ACTION_TYPE.STEP_BACKGROUND,
             parent: undefined,
-            designateFocus: false
+            designateFocus: true
         });
     });
 
@@ -74,7 +74,7 @@ describe('Stage Step Menu', () => {
             elementType: ELEMENT_TYPE.STAGE_STEP,
             actionType: ACTION_TYPE.STEP_BACKGROUND,
             parent: undefined,
-            designateFocus: false
+            designateFocus: true
         });
     });
 
@@ -89,7 +89,7 @@ describe('Stage Step Menu', () => {
             elementType: ELEMENT_TYPE.STAGE_STEP,
             actionType: ACTION_TYPE.STEP_BACKGROUND,
             parent: undefined,
-            designateFocus: false
+            designateFocus: true
         });
     });
 
@@ -102,7 +102,7 @@ describe('Stage Step Menu', () => {
             elementType: ELEMENT_TYPE.STAGE_STEP,
             actionType: ACTION_TYPE.STEP_INTERACTIVE,
             parent: undefined,
-            designateFocus: false
+            designateFocus: true
         });
     });
 
@@ -117,7 +117,7 @@ describe('Stage Step Menu', () => {
             elementType: ELEMENT_TYPE.STAGE_STEP,
             actionType: ACTION_TYPE.STEP_INTERACTIVE,
             parent: undefined,
-            designateFocus: false
+            designateFocus: true
         });
     });
 
@@ -132,7 +132,7 @@ describe('Stage Step Menu', () => {
             elementType: ELEMENT_TYPE.STAGE_STEP,
             actionType: ACTION_TYPE.STEP_INTERACTIVE,
             parent: undefined,
-            designateFocus: false
+            designateFocus: true
         });
     });
 

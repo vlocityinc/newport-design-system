@@ -34,6 +34,9 @@ enum EXIT_CRITERIA {
     ON_DETERMINATION_COMPLETE = 'on_determination_complete'
 }
 
+const SELECTORS = {
+    LABEL_DESCRIPTION: 'builder_platform_interaction-label-description'
+};
 export default class OrchestratedStageEditor extends LightningElement {
     element;
 
@@ -63,6 +66,12 @@ export default class OrchestratedStageEditor extends LightningElement {
 
     @api
     editorParams;
+
+    @api
+    focus() {
+        const labelDescription = this.template.querySelector(SELECTORS.LABEL_DESCRIPTION);
+        labelDescription.focus?.();
+    }
 
     get isLabelCollapsibleToHeader() {
         return this.editorParams && this.editorParams.panelConfig.isLabelCollapsibleToHeader;

@@ -12,6 +12,7 @@ const { logInteraction } = loggingUtils;
 
 const SELECTORS = {
     LABEL: '.label',
+    EDIT_ICON: 'lightning-button-icon',
     DEV_NAME: '.devName',
     DESCRIPTION: '.description'
 };
@@ -258,9 +259,16 @@ export default class LabelDescription extends LightningElement {
     }
 
     /** Focus the label field */
-    @api focus() {
+    @api
+    focus() {
         const labelInput = this.template.querySelector(SELECTORS.LABEL);
-        labelInput.focus();
+
+        if (labelInput?.focus) {
+            labelInput.focus();
+        } else {
+            const editIcon = this.template.querySelector(SELECTORS.EDIT_ICON);
+            editIcon.focus?.();
+        }
     }
 
     /**

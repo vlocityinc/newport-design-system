@@ -152,6 +152,12 @@ export default class StageStepEditor extends LightningElement {
         return getErrorsFromHydratedElement(this.element);
     }
 
+    @api
+    focus(): void {
+        const labelDescription = this.template.querySelector('builder_platform_interaction-label-description');
+        labelDescription.focus?.();
+    }
+
     // getter and setter for nodes don't work well with mixins
     // currently need to be copied here for each property editor node
     @api
