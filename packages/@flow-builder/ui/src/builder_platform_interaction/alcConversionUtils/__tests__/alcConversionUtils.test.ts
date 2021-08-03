@@ -831,6 +831,91 @@ describe('alc conversion utils', () => {
                 assertCanConvertToAutoLayoutCanvas(ffcLoopWithEndPathWithin, true);
             });
         });
+
+        describe('record update', () => {
+            const connectors = [
+                {
+                    source: 'start',
+                    target: 'updater',
+                    guid: 'start -> updater',
+                    label: null,
+                    type: 'REGULAR',
+                    config: {
+                        isSelected: false
+                    }
+                }
+            ];
+            const storeState = storeStateFromConnectors(connectors);
+            Object.assign(storeState.elements.updater, {
+                elementType: ELEMENT_TYPE.RECORD_UPDATE,
+                maxConnections: 1,
+                availableConnections: [],
+                guid: 'updater',
+                isCanvasElement: true,
+                config: {
+                    isSelected: false,
+                    isHighlighted: false,
+                    isSelectable: true,
+                    hasError: false
+                },
+                connectorCount: 0
+            });
+
+            it('in a screen flow can be converted to autolayout and back', () => {
+                assertCanConvertToAutoLayoutCanvas(storeState);
+            });
+
+            it('in a record-before-save triggered type flow can be converted to autolayout and back', () => {
+                Object.assign(storeState.elements.start, {
+                    isCanvasElement: true,
+                    connectorCount: 1,
+                    canHaveFaultConnector: false,
+                    elementType: 'START_ELEMENT',
+                    maxConnections: 1,
+                    triggerType: 'RecordBeforeSave',
+                    filterLogic: 'no_conditions',
+                    recordTriggerType: 'Create',
+                    object: 'Account',
+                    haveSystemVariableFields: true,
+                    dataType: 'SObject',
+                    subtype: 'Account',
+                    defaultConnectorLabel: 'Run Immediately',
+                    nodeType: 'start',
+                    parent: 'root',
+                    childIndex: 0,
+                    isTerminal: true,
+                    prev: null,
+                    next: 'updater'
+                });
+
+                assertCanConvertToAutoLayoutCanvas(storeState);
+            });
+
+            it('in a record-after-save triggered type flow can be converted to autolayout and back', () => {
+                Object.assign(storeState.elements.start, {
+                    isCanvasElement: true,
+                    connectorCount: 1,
+                    canHaveFaultConnector: false,
+                    elementType: 'START_ELEMENT',
+                    maxConnections: 1,
+                    triggerType: 'RecordAfterSave',
+                    filterLogic: 'no_conditions',
+                    recordTriggerType: 'Create',
+                    object: 'Account',
+                    haveSystemVariableFields: true,
+                    dataType: 'SObject',
+                    subtype: 'Account',
+                    defaultConnectorLabel: 'Run Immediately',
+                    nodeType: 'start',
+                    parent: 'root',
+                    childIndex: 0,
+                    isTerminal: true,
+                    prev: null,
+                    next: 'updater'
+                });
+                assertCanConvertToAutoLayoutCanvas(storeState);
+            });
+        });
     });
 
     describe('cant convert Free Form Flow with', () => {
