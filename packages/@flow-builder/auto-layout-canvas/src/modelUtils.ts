@@ -1445,6 +1445,37 @@ function cleanUpBranchGoTos(flowModel: FlowModel, elementService: ElementService
 }
 
 /**
+ * Checks if a the target of a goto is being deleted when deleting a branching element
+ *
+ * @param flowModel - The state of elements in the store
+ * @param elementToDelete - The element to delete
+ * @param childIndexToKeep - The child index to keep
+ * @param targetElement - The goto target
+ * @returns True if the goto target is being deleted, false otherwise
+ */
+function isGoToTargetBeingDeleted(
+    flowModel: FlowModel,
+    elementToDelete: NodeModel,
+    childIndexToKeep: number,
+    targetElement: NodeModel
+): boolean {
+    if (targetElement.guid === elementToDelete.guid) {
+        return true;
+    }
+
+    let branchHead = findFirstElement(targetElement, flowModel);
+    while (
+        branchHead.parent !== elementToDelete.guid &&
+        branchHead.parent != null &&
+        branchHead.parent !== NodeType.ROOT
+    ) {
+        branchHead = findFirstElement(flowModel[branchHead.parent!], flowModel);
+    }
+
+    return branchHead.parent === elementToDelete.guid && branchHead.childIndex !== childIndexToKeep;
+}
+
+/**
  * Checks if there is a GoTo present on merge point a branching element that needs to be deleted
  *
  * @param flowModel - The state of elements in the store
@@ -1463,7 +1494,8 @@ function shouldDeleteGoToOnNext(
         return (
             childIndexToKeep == null ||
             !getChild(elementToDelete, childIndexToKeep) ||
-            isBranchTerminal(flowModel, elementToDelete, childIndexToKeep)
+            isBranchTerminal(flowModel, elementToDelete, childIndexToKeep) ||
+            isGoToTargetBeingDeleted(flowModel, elementToDelete, childIndexToKeep, flowModel[elementToDelete.next!])
         );
     }
     return false;

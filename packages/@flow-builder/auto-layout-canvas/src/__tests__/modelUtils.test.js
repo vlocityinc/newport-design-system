@@ -4065,6 +4065,212 @@ describe('modelUtils', () => {
 
             expect(shouldDeleteGoToOnNext(flowModel, flowModel.decision, 0)).toBeFalsy();
         });
+
+        it('Returns true if GoTo is present on next and GoTo target is on the branch being deleted', () => {
+            const flowModel = {
+                screen1: {
+                    config: {},
+                    elementType: 'Screen',
+                    guid: 'screen1',
+                    incomingGoTo: ['decision'],
+                    isCanvasElement: true,
+                    label: 'screen1',
+                    next: 'screen2',
+                    nodeType: 'default',
+                    isTerminal: false
+                },
+                screen2: {
+                    config: {},
+                    elementType: 'Screen',
+                    guid: 'screen2',
+                    incomingGoTo: [],
+                    isCanvasElement: true,
+                    label: 'screen2',
+                    prev: 'screen1',
+                    nodeType: 'default',
+                    next: 'decision'
+                },
+                decision: {
+                    childReferences: [
+                        {
+                            childReference: 'o1'
+                        }
+                    ],
+                    children: ['screen1', null],
+                    config: {},
+                    elementType: 'Decision',
+                    guid: 'decision',
+                    incomingGoTo: [],
+                    isCanvasElement: true,
+                    label: 'decision',
+                    next: 'screen1',
+                    nodeType: 'branch'
+                }
+            };
+
+            expect(shouldDeleteGoToOnNext(flowModel, flowModel.decision, 1)).toBeTruthy();
+        });
+
+        it('Returns true if GoTo is present on next and GoTo target is the element being deleted', () => {
+            const flowModel = {
+                screen1: {
+                    config: {},
+                    elementType: 'Screen',
+                    guid: 'screen1',
+                    incomingGoTo: [],
+                    isCanvasElement: true,
+                    label: 'screen1',
+                    nodeType: 'default',
+                    parent: 'decision',
+                    childIndex: 0,
+                    next: null,
+                    isTerminal: false
+                },
+                screen2: {
+                    config: {},
+                    elementType: 'Screen',
+                    guid: 'screen2',
+                    incomingGoTo: [],
+                    isCanvasElement: true,
+                    label: 'screen2',
+                    nodeType: 'default',
+                    parent: 'decision',
+                    childIndex: 1,
+                    next: null,
+                    isTerminal: false
+                },
+                decision: {
+                    childReferences: [
+                        {
+                            childReference: 'o1'
+                        }
+                    ],
+                    children: ['screen1', 'screen2'],
+                    config: {},
+                    elementType: 'Decision',
+                    guid: 'decision',
+                    incomingGoTo: ['decision'],
+                    isCanvasElement: true,
+                    label: 'decision',
+                    next: 'decision',
+                    nodeType: 'branch'
+                }
+            };
+
+            expect(shouldDeleteGoToOnNext(flowModel, flowModel.decision, 1)).toBeTruthy();
+        });
+
+        it('Returns true if GoTo present on next and GoTo target is on a nested branch of the branch being deleted', () => {
+            const flowModel = {
+                screen1: {
+                    config: {},
+                    elementType: 'Screen',
+                    guid: 'screen1',
+                    incomingGoTo: ['decision1'],
+                    isCanvasElement: true,
+                    label: 'screen1',
+                    nodeType: 'default',
+                    parent: 'decision2',
+                    childIndex: 1,
+                    isTerminal: false
+                },
+                screen2: {
+                    config: {},
+                    elementType: 'Screen',
+                    guid: 'screen2',
+                    incomingGoTo: [],
+                    isCanvasElement: true,
+                    label: 'screen2',
+                    nodeType: 'default',
+                    prev: 'screen1'
+                },
+                decision1: {
+                    childReferences: [
+                        {
+                            childReference: 'o1'
+                        }
+                    ],
+                    children: [null, 'decision2'],
+                    config: {},
+                    elementType: 'Decision',
+                    guid: 'decision1',
+                    incomingGoTo: [],
+                    isCanvasElement: true,
+                    label: 'decision1',
+                    next: 'screen1',
+                    nodeType: 'branch'
+                },
+                decision2: {
+                    childReferences: [
+                        {
+                            childReference: 'o2'
+                        }
+                    ],
+                    children: [null, 'screen1'],
+                    childIndex: 1,
+                    config: {},
+                    elementType: 'Decision',
+                    guid: 'decision2',
+                    incomingGoTo: [],
+                    isCanvasElement: true,
+                    label: 'decision2',
+                    parent: 'decision1',
+                    nodeType: 'branch',
+                    isTerminal: false
+                }
+            };
+
+            expect(shouldDeleteGoToOnNext(flowModel, flowModel.decision1, 0)).toBeTruthy();
+        });
+
+        it('Returns true if GoTo present on next and GoTo target is on a fault branch of the branch being deleted', () => {
+            const flowModel = {
+                screen: {
+                    config: {},
+                    elementType: 'Screen',
+                    guid: 'screen',
+                    incomingGoTo: ['decision'],
+                    isCanvasElement: true,
+                    label: 'screen',
+                    nodeType: 'default',
+                    parent: 'getRecord',
+                    childIndex: -1,
+                    isTerminal: true
+                },
+                getRecord: {
+                    config: {},
+                    elementType: 'RecordQuery',
+                    guid: 'getRecord',
+                    incomingGoTo: [],
+                    isCanvasElement: true,
+                    label: 'getRecord',
+                    nodeType: 'default',
+                    parent: 'decision',
+                    childIndex: 1,
+                    fault: 'screen',
+                    next: null,
+                    prev: null
+                },
+                decision: {
+                    childReferences: [
+                        {
+                            childReference: 'o1'
+                        }
+                    ],
+                    children: [null, 'getRecord'],
+                    config: {},
+                    elementType: 'Decision',
+                    guid: 'decision',
+                    incomingGoTo: [],
+                    isCanvasElement: true,
+                    label: 'decision',
+                    nodeType: 'branch',
+                    next: 'screen'
+                }
+            };
+
+            expect(shouldDeleteGoToOnNext(flowModel, flowModel.decision, 0)).toBeTruthy();
+        });
     });
 
     describe('addFault', () => {
