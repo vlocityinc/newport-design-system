@@ -16,6 +16,7 @@ import newRecordChangedFlowLabel from '@salesforce/label/FlowBuilderProcessTypeT
 import newPlatformEventFlowLabel from '@salesforce/label/FlowBuilderProcessTypeTemplates.newPlatformEventFlowLabel';
 import newRecordChangedOrchestrationLabel from '@salesforce/label/FlowBuilderProcessTypeTemplates.newRecordChangedOrchestrationLabel';
 import newOrchestrationLabel from '@salesforce/label/FlowBuilderProcessTypeTemplates.newOrchestrationLabel';
+import newEvaluationFlowDescription from '@salesforce/label/FlowBuilderProcessTypeTemplates.newEvaluationFlowDescription';
 
 export const LABELS = {
     newProcessTypeDescription,
@@ -29,7 +30,8 @@ export const LABELS = {
     [FLOW_TRIGGER_TYPE.SCHEDULED]: newScheduledFlowDescription,
     [FLOW_TRIGGER_TYPE.BEFORE_SAVE]: newRecordChangedFlowDescription,
     [FLOW_TRIGGER_TYPE.BEFORE_DELETE]: newRecordChangedFlowDescription,
-    [FLOW_TRIGGER_TYPE.AFTER_SAVE]: newRecordChangedFlowDescription
+    [FLOW_TRIGGER_TYPE.AFTER_SAVE]: newRecordChangedFlowDescription,
+    [FLOW_PROCESS_TYPE.EVALUATION_FLOW]: newEvaluationFlowDescription
 };
 
 export const TRIGGER_TYPE_LABELS = {
