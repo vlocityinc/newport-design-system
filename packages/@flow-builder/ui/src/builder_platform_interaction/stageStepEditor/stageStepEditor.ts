@@ -20,7 +20,7 @@ import {
 import { LABELS } from './stageStepEditorLabels';
 import { stageStepReducer } from './stageStepReducer';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
-import { ACTION_TYPE, ELEMENT_TYPE, FLOW_TRANSACTION_MODEL } from 'builder_platform_interaction/flowMetadata';
+import { ACTION_TYPE, ELEMENT_TYPE, FLOW_TRANSACTION_MODEL, ICONS } from 'builder_platform_interaction/flowMetadata';
 import {
     ASSIGNEE_DATA_TYPE_PROPERTY_NAME,
     ASSIGNEE_PROPERTY_NAME,
@@ -123,8 +123,30 @@ export default class StageStepEditor extends LightningElement {
     @api
     triggerType;
 
+    _editorParams;
+
     @api
-    editorParams;
+    get editorParams() {
+        const params = { ...this._editorParams };
+        const panelConfig = { ...this._editorParams?.panelConfig };
+
+        if (this.isStepWithType(ACTION_TYPE.STEP_INTERACTIVE)) {
+            panelConfig.customIcon = ICONS.interactiveStep;
+        } else if (this.isStepWithType(ACTION_TYPE.STEP_BACKGROUND)) {
+            panelConfig.customIcon = ICONS.backgroundStep;
+        } else if (this.isStepWithType(undefined)) {
+            return this._editorParams;
+        } else {
+            throw new Error('Action Type is not recognized in stageStepEditor');
+        }
+
+        params.panelConfig = panelConfig;
+        return params;
+    }
+
+    set editorParams(params) {
+        this._editorParams = params;
+    }
 
     constructor() {
         super();
@@ -309,10 +331,7 @@ export default class StageStepEditor extends LightningElement {
     }
 
     get isStepWithUserAction(): boolean {
-        return (
-            this.element?.action.actionType !== ACTION_TYPE.STEP_BACKGROUND &&
-            this.element?.action.actionType.value !== ACTION_TYPE.STEP_BACKGROUND
-        );
+        return this.isStepWithType(ACTION_TYPE.STEP_INTERACTIVE);
     }
 
     get actionSectionLabel(): string {
@@ -568,6 +587,18 @@ export default class StageStepEditor extends LightningElement {
         return this.rules;
     }
 
+    get isEntryActionInputsEmpty() {
+        return this.entryActionParameterListConfig?.inputs.length === 0;
+    }
+
+    get isActionInputsEmpty() {
+        return this.actionParameterListConfig?.inputs.length === 0;
+    }
+
+    get isExitActionInputsEmpty() {
+        return this.exitActionParameterListConfig?.inputs.length === 0;
+    }
+
     async connectedCallback() {
         this.displayActionSpinner = true;
 
@@ -603,6 +634,10 @@ export default class StageStepEditor extends LightningElement {
             this.isActionsFetched = true;
             this.displayActionSpinner = false;
         }
+    }
+
+    isStepWithType(actionType: ACTION_TYPE | undefined): boolean {
+        return this.element?.action.actionType === actionType || this.element?.action.actionType.value === actionType;
     }
 
     /**
@@ -879,16 +914,4 @@ export default class StageStepEditor extends LightningElement {
             this.dispatchEvent(new UpdateNodeEvent(this.element));
         }
     };
-
-    get isEntryActionInputsEmpty() {
-        return this.entryActionParameterListConfig?.inputs.length === 0;
-    }
-
-    get isActionInputsEmpty() {
-        return this.actionParameterListConfig?.inputs.length === 0;
-    }
-
-    get isExitActionInputsEmpty() {
-        return this.exitActionParameterListConfig?.inputs.length === 0;
-    }
 }

@@ -21,7 +21,7 @@ import { getOtherItemsInOrchestratedStage } from 'builder_platform_interaction/e
 import { ORCHESTRATED_ACTION_CATEGORY } from 'builder_platform_interaction/events';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ACTION_TYPE, ELEMENT_TYPE, ICONS } from 'builder_platform_interaction/flowMetadata';
 import { MERGE_WITH_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { LABELS } from '../stageStepEditorLabels';
@@ -146,7 +146,7 @@ describe('StageStepEditor', () => {
                 value: 'someActionName'
             },
             actionType: {
-                value: 'stepInteractive'
+                value: ACTION_TYPE.STEP_INTERACTIVE
             }
         },
         exitAction: {
@@ -192,7 +192,7 @@ describe('StageStepEditor', () => {
                 value: 'autolaunchedFlow'
             },
             actionType: {
-                value: 'stepBackground'
+                value: ACTION_TYPE.STEP_BACKGROUND
             }
         },
         exitAction: {
@@ -227,7 +227,7 @@ describe('StageStepEditor', () => {
                 value: 'someActionName'
             },
             actionType: {
-                value: 'stepInteractive'
+                value: ACTION_TYPE.STEP_INTERACTIVE
             }
         },
         assignees: [
@@ -296,6 +296,13 @@ describe('StageStepEditor', () => {
             expect(labelDescription.label).toBe(nodeParams.label);
             expect(labelDescription.devName).toBe(nodeParams.name);
             expect(labelDescription.description).toBe(nodeParams.description);
+        });
+
+        it('has correct custom icon for each step type', () => {
+            expect(editor.editorParams.panelConfig.customIcon).toBe(ICONS.interactiveStep);
+
+            editor = createComponentUnderTest(autolaunchedNodeParams);
+            expect(editor.editorParams.panelConfig.customIcon).toBe(ICONS.backgroundStep);
         });
 
         it('initializes the entry criteria item combobox menu data', () => {
@@ -401,12 +408,12 @@ describe('StageStepEditor', () => {
                 ...{
                     action: {
                         actionName: {
-                            name: null,
-                            value: null
+                            name: undefined,
+                            value: undefined
                         },
                         actionType: {
-                            name: null,
-                            value: null
+                            name: undefined,
+                            value: undefined
                         }
                     }
                 }
@@ -433,7 +440,7 @@ describe('StageStepEditor', () => {
                                 value: 'ScreenFlow'
                             },
                             actionType: {
-                                value: null
+                                value: undefined
                             }
                         }
                     }
@@ -443,10 +450,10 @@ describe('StageStepEditor', () => {
                     ...{
                         action: {
                             actionName: {
-                                value: null
+                                value: undefined
                             },
                             actionType: {
-                                value: 'stepInteractive'
+                                value: ACTION_TYPE.STEP_INTERACTIVE
                             }
                         }
                     }

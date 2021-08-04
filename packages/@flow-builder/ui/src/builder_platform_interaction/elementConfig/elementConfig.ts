@@ -1121,7 +1121,7 @@ export const elementTypeToConfigMap: {
         nodeConfig: {
             iconName: 'standard:work_order_item',
             utilityIconName: 'utility:retail_execution',
-            iconBackgroundColor: 'background-dark-blue'
+            iconBackgroundColor: 'background-navy'
         },
         labels: {
             singular: LABELS.stageStepSingularLabel,

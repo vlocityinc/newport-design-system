@@ -218,6 +218,9 @@ export default class LabelDescription extends LightningElement {
 
     get iconName() {
         if (this.editorParams && this.editorParams.panelConfig) {
+            if (this.editorParams.panelConfig.customIcon) {
+                return this.editorParams.panelConfig.customIcon;
+            }
             return getConfigForElementType(this.editorParams.panelConfig.elementType).nodeConfig.iconName;
         }
         return '';

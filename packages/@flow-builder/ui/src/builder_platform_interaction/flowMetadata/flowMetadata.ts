@@ -113,17 +113,17 @@ export const SUB_ELEMENT_TYPE = {
     RECORD_LOOKUP_FIELD: 'RECORD_LOOKUP_FIELD'
 };
 
-export const ACTION_TYPE = {
-    APEX: 'apex',
-    EMAIL_ALERT: 'emailAlert',
-    QUICK_ACTION: 'quickAction',
-    FLOW: 'flow',
-    COMPONENT: 'component',
-    EXTERNAL_SERVICE: 'externalService',
-    STEP_INTERACTIVE: 'stepInteractive',
-    STEP_BACKGROUND: 'stepBackground',
-    OUTBOUND_MESSAGE: 'outboundMessage'
-};
+export enum ACTION_TYPE {
+    APEX = 'apex',
+    EMAIL_ALERT = 'emailAlert',
+    QUICK_ACTION = 'quickAction',
+    FLOW = 'flow',
+    COMPONENT = 'component',
+    EXTERNAL_SERVICE = 'externalService',
+    STEP_INTERACTIVE = 'stepInteractive',
+    STEP_BACKGROUND = 'stepBackground',
+    OUTBOUND_MESSAGE = 'outboundMessage'
+}
 
 export const ICONS = {
     interactiveStep: 'standard:marketing_actions',
