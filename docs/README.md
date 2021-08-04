@@ -24,7 +24,7 @@ Flow Builder is a project that provides a builder app to create flows, and a set
 
 Instructions to set up your environment to develop and run the Flow Builder app in core can be found [here](/docs/DevelopmentSetup.md)
 
-Take a look at the [Setup FAQ](https://salesforce.quip.com/BFVUA1AxQWKb) if you run into any issues or the [#move-builder-to-git](https://platformcloud.slack.com/archives/CQH866GSZ) slack channel.
+Take a look at the [Setup FAQ](https://salesforce.quip.com/BFVUA1AxQWKb) if you run into any issues or the [#move-builder-to-git](https://salesforce-internal.slack.com/archives/C024ZHFT8J0) Slack channel.
 
 ## Overview of the structure of the repo
 
@@ -32,38 +32,37 @@ This repository defines multiple NPM packages in the `packages` folder. The pack
 
 It is built and managed using `yarn`.
 
-## Running the tests
+## Running/debugging the tests
 
 You can run all the tests by doing `yarn test:unit`
 
-If you want to run/debug a single test you should cd to the packages where the test is located and use `yarn lwc-test` eg
+To update all the snapshots:
+`yarn test:update-snapshots`
+
+If you want to run a single test file you should `cd` to the packages folder where the test is located and use `yarn jest` eg
 
 `cd packages/@flow-builder/ui`
-`yarn lwc-test src/builder_platform_interaction/editor/__tests__/editor.test.ts`
+`yarn jest src/builder_platform_interaction/editor/__tests__/editor.test.ts`
 
-To debug a test:
-`yarn lwc-test --debug src/builder_platform_interaction/editor/__tests__/editor.test.ts`
+then to debug a test file (via Node.js V8 inspector Manager: [NiM](https://chrome.google.com/webstore/detail/nodejs-v8-inspector-manag/gnhhdgbaldcilmgcpfddgdbkhjohddkj) - through a web browser session and dev tools breakpoints) :
 
-To update all the snapshots in a package:
-`yarn test:unit --updateSnapshot`
+`cd packages/@flow-builder/ui`
+`node --inspect-brk ../../../node_modules/.bin/jest src/builder_platform_interaction/editor/__tests__/editor.test.ts`
+
+
+NB: for UI packages (ie: [@flow-builder/ui](/packages/@flow-builder/ui) and [@flow-builder/auto-layout-canvas-ui](/packages/@flow-builder/auto-layout-canvas-ui)) a [VSCode](https://code.visualstudio.com/) [debug configuration file](/.vscode/launch.json) has been added to the repository.
+You can directly use this to debug inside VSCode adding some breakpoints directly in your IDE and benefit from [VSCode debug features](https://code.visualstudio.com/docs/editor/debugging).
+To debug your test file, open it, add your breakpoint, open the debug view from the activity bar and simply run the configuration in place ("Debug current Jest test file (ui packages)" by default).
+
+Example:
+
+![VScode_debug.png](assets/VScode_debug.png)
+
+A couple of [VSCode Jest extensions](https://marketplace.visualstudio.com/search?term=jest&target=VSCode&category=All%20categories&sortBy=Relevance) can make your life even easier, providing ways to debug a single test for instance (see [Jest Runner](https://marketplace.visualstudio.com/items?itemName=firsttris.vscode-jest-runner) among others).
 
 ## SFCI Setup and CLCO
 
-To add a new branch under SFCI you need to do the following:
-
--   Edit the `git-perforce-branch-mapping.yaml` and `sfci.yaml`
--   In the repo's github Settings, make the new branch protected
--   Run a SFCI seed job like here https://sfcirelease.dop.sfdc.net/job/SFCI%20MIGRATION%20JOBS/job/SFCI%20seed%20job/
-
-```text
-git_organization_name: automation-platform
-git_repository_name: ui-interaction-builder-components
-git_branches: 226 226-freeze 228 228-freeze 230 232 master
-existing_Jenkins_URL: https://automation-builderci.dop.sfdc.net
-jenkinsfile_path: Jenkinsfile
-```
-
--   Reach out to the SFCI team (`#sfci-support` on slack) and ask them to point the managed pipeline file to that seed job. (This is needed because we are using a managed pipeline, and we don't have a Jenkins file)
+https://salesforce.quip.com/1EaPA6rRXRCK
 
 ## Troubleshooting FAQ
 
@@ -71,6 +70,6 @@ https://salesforce.quip.com/z8xpAys68qkw
 
 ## Support on Slack
 
-For any CI build related issues, please post to our slack [automation-builder-ci-support](https://platformcloud.slack.com/archives/C018MEDNTRU) channel after reading the Troubleshooting FAQ.
+For any CI build related issues, please post to our Slack [automation-builder-ci-support](https://salesforce-internal.slack.com/archives/C024CJQ4C9M) channel after reading the Troubleshooting FAQ.
 
-For general git questions, please post to our [move-builder-to-git](https://platformcloud.slack.com/archives/CQH866GSZ) channel.
+For general Git questions, please post to our Slack [move-builder-to-git](https://salesforce-internal.slack.com/archives/C024ZHFT8J0) channel.
