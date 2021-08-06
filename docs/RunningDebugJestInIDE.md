@@ -1,6 +1,6 @@
 # Run/Debug Jest test(s) inside your IDE
 
-##VSCode
+## VSCode
 
 For UI packages (ie: [@flow-builder/ui](/packages/@flow-builder/ui) and [@flow-builder/auto-layout-canvas-ui](/packages/@flow-builder/auto-layout-canvas-ui)) a [VSCode](https://code.visualstudio.com/) [debug configuration file](/.vscode/launch.json) has been added to the repository.
 You can directly use this to debug inside VSCode adding some breakpoints directly in your IDE and benefit from [VSCode debug features](https://code.visualstudio.com/docs/editor/debugging).
@@ -12,8 +12,7 @@ Example:
 
 A couple of [VSCode Jest extensions](https://marketplace.visualstudio.com/search?term=jest&target=VSCode&category=All%20categories&sortBy=Relevance) can make your life even easier, providing ways to debug a single test for instance (see [Jest Runner](https://marketplace.visualstudio.com/items?itemName=firsttris.vscode-jest-runner) among others).
 
-
-###Jest runner extension configuration
+### Jest runner extension configuration
 
 The Jest runner extension needs to be configured: you do have to properly set the path to the Jest config file (ie: jest.config.json) of the UI package the test belongs to.
 
@@ -30,7 +29,7 @@ Then you should be good to go adding your breaking, and just clicking and the de
 ![JestRunner debug](assets/JestRunner_debug.png)
 
 
-##WebStorm
+## WebStorm
 
 WebStorm is a lightweight and powerful JavaScript IDE developed by JetBrains. It can easily handle complex client-side and server-side development with Node.js (https://nodejs.org/en/)
 
