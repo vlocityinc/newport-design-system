@@ -973,7 +973,7 @@ function getBranchHead(
     prev: Guid,
     parent: Guid,
     childIndex: number,
-    next: Guid
+    next: Guid /* TODO: remove this argument, it shouldn't be here */
 ): BranchHeadNodeModel | null {
     const branchHead = prev
         ? findFirstElement(elements[prev], elements)
@@ -1091,15 +1091,21 @@ function getValidGoToTargets(
  */
 function getTargetGuidsForReconnection(
     elements: FlowModel,
-    prev: Guid,
+    prev: Guid | null,
     parent: Guid,
     next: Guid,
     canMergeEndedBranch: boolean,
-    childIndex: number
+    childIndex: number | null | undefined
 ): { mergeableGuids: Guid[]; goToableGuids: Guid[]; firstMergeableNonNullNext: Guid | null } {
+    if (childIndex != null) {
+        prev = null;
+    } else {
+        parent = null!;
+    }
+
     elements = prepareFlowModel(elements, { guid: prev || parent, childIndex }, next);
     // Gets all the mergeable guids
-    const mergeableGuids = canMergeEndedBranch || !next ? getMergeableGuids(elements, prev, parent, childIndex) : [];
+    const mergeableGuids = canMergeEndedBranch || !next ? getMergeableGuids(elements, prev!, parent, childIndex!) : [];
     // Variable to keep track of the first non-null next element of a branching element (going up the branch)
     // that the user can merge into
     let firstMergeableNonNullNext: string | null = null;
@@ -1107,7 +1113,8 @@ function getTargetGuidsForReconnection(
     let isSteppingOutOfFault = false;
     let isSteppingOutOfLoop = false;
 
-    let branchHead = getBranchHead(elements, prev, parent, childIndex, next);
+    let branchHead = getBranchHead(elements, prev!, parent, childIndex!, next);
+
     let branchParent = branchHead ? elements[branchHead.parent] : elements[parent];
 
     if (childIndex === FAULT_INDEX || branchHead?.childIndex === FAULT_INDEX) {
@@ -1138,7 +1145,7 @@ function getTargetGuidsForReconnection(
             // In case we are stepping out of the Loop branch, then the loop element itself becomes
             // the firstMergeable element
             firstMergeableNonNullNext = branchParent.guid;
-        } else if (branchParent.next !== prev || isPrevSelectable(resolveParent(elements, prev))) {
+        } else if (branchParent.next !== prev || isPrevSelectable(resolveParent(elements, prev!))) {
             firstMergeableNonNullNext = branchParent.next;
         }
     }
@@ -1152,7 +1159,7 @@ function getTargetGuidsForReconnection(
 
     const goToableGuids = getValidGoToTargets(
         elements,
-        prev,
+        prev!,
         parent,
         mergeableGuids,
         firstMergeableNonNullNext,
@@ -2460,6 +2467,92 @@ export function shouldSupportScheduledPaths(node: StartNodeModel) {
  */
 export function fulfillsBranchingCriteria(node: NodeModel, type: NodeType) {
     return type === NodeType.BRANCH || ((node as ParentNodeModel).children && type === NodeType.START);
+}
+
+/**
+ * Checks if an ended branch is mergeable
+ *
+ * @param flowModel - The Flow model
+ * @param prev - The prev
+ * @param next - The next
+ * @param parent - The parent
+ * @param childIndex - The childIndex
+ * @returns true if the ended branch is mergeable, false otherwise
+ */
+export function isEndedBranchMergeable(
+    flowModel: FlowModel,
+    prev: Guid,
+    next: Guid,
+    parent: Guid,
+    childIndex: number | null | undefined
+) {
+    let canMergeEndedBranch = false;
+
+    const targetGuid = childIndex != null ? getChild(flowModel[parent!], childIndex) : next;
+    const targetElement = targetGuid != null ? flowModel[targetGuid] : null;
+
+    if (targetElement != null) {
+        // Checking for GoTo on branchHead and setting canMergeEndedBranch accordingly
+        if (parent && childIndex != null && hasGoToOnBranchHead(flowModel, parent, childIndex)) {
+            canMergeEndedBranch = childIndex !== FAULT_INDEX && flowModel[parent].nodeType !== NodeType.ROOT;
+        } else {
+            const isNextGoTo = prev && next && hasGoToOnNext(flowModel, prev);
+            const targetBranchHeadElement = isNextGoTo
+                ? findFirstElement(flowModel[prev!], flowModel)
+                : findFirstElement(targetElement, flowModel);
+            const targetParentElement = flowModel[targetBranchHeadElement.parent];
+            const isTargetParentRoot = targetParentElement.nodeType === NodeType.ROOT;
+
+            if (isNextGoTo) {
+                canMergeEndedBranch = targetBranchHeadElement.childIndex !== FAULT_INDEX && !isTargetParentRoot;
+            } else {
+                const isTargetEnd = targetElement.nodeType === NodeType.END;
+                canMergeEndedBranch =
+                    targetBranchHeadElement.childIndex !== FAULT_INDEX && !isTargetParentRoot && isTargetEnd;
+            }
+        }
+    }
+
+    return canMergeEndedBranch;
+}
+
+/**
+ * Creates a connection between the source and target.
+ * When possible a merge connection is created, otherwise we fallback to a goto.
+ *
+ * @param config - The element service
+ * @param flowModel - The flow model
+ * @param source - The connection source
+ * @param targetGuid - The target guid
+ * @param isReroute - If is reroute
+ * @returns The update flow model
+ */
+export function createConnection(
+    config: ElementService,
+    flowModel: FlowModel,
+    source: ConnectionSource,
+    targetGuid: Guid,
+    isReroute?: boolean
+): FlowModel {
+    const { guid, childIndex } = source;
+
+    const next = getConnectionTarget(flowModel, source)!;
+    const canMergeEndedBranch = isEndedBranchMergeable(flowModel, guid, next, guid, childIndex);
+    const { goToableGuids, firstMergeableNonNullNext } = getTargetGuidsForReconnection(
+        flowModel,
+        guid,
+        guid,
+        next,
+        canMergeEndedBranch,
+        childIndex
+    );
+
+    if (goToableGuids.includes(targetGuid)) {
+        return createGoToConnection(config, flowModel, source, targetGuid, isReroute);
+    } else {
+        const isMergeableGuid = firstMergeableNonNullNext !== targetGuid;
+        return connectToElement(config, flowModel, source, targetGuid, isMergeableGuid);
+    }
 }
 
 export {

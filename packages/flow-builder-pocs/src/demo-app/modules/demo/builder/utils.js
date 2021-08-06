@@ -1,10 +1,6 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { AddElementEvent, DeleteElementEvent } from 'builder_platform_interaction/events';
-import {
-    AlcCreateConnectionEvent,
-    AddElementFaultEvent,
-    DeleteElementFaultEvent
-} from 'builder_platform_interaction/alcEvents';
+import { AddElementFaultEvent, DeleteElementFaultEvent, GoToPathEvent } from 'builder_platform_interaction/alcEvents';
 
 import {
     convertToAutoLayoutCanvas,
@@ -309,7 +305,7 @@ function randomDeleteOrReconnectEvent(storeInstance) {
 
         const { prev, childIndex, parent } = element;
         const source = childIndex != null ? { guid: parent, childIndex } : { guid: prev };
-        return new AlcCreateConnectionEvent(source, targetGuid);
+        return new GoToPathEvent(targetGuid, source.guid, source.guid, source.childIndex);
     }
     const deleteIndex = randomDeleteBranchIndex(element);
     return new DeleteElementEvent([element.guid], element.elementType, deleteIndex);

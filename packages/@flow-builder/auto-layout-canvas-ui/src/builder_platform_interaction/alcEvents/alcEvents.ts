@@ -1,6 +1,5 @@
 export { AlcSelectDeselectNodeEvent } from './alcSelectDeselectNodeEvent';
 export { AlcSelectionEvent } from './alcSelectionEvent';
-export { AlcCreateConnectionEvent } from './alcCreateConnectionEvent';
 export { HighlightPathsToDeleteEvent } from './highlightPathsToDeleteEvent';
 export { SelectMenuItemEvent } from './selectMenuItemEvent';
 export { ToggleMenuEvent } from './toggleMenuEvent';

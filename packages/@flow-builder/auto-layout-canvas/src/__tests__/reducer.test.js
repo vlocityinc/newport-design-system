@@ -11,10 +11,9 @@ import {
     addElement,
     deleteElement,
     deleteFault,
-    connectToElement,
     addFault,
     updateChildren,
-    createGoToConnection,
+    createConnection,
     deleteGoToConnection,
     decorateElements,
     clearCanvasDecoration,
@@ -81,24 +80,6 @@ describe('reducer', () => {
         });
     });
 
-    describe('connectToElementAction', () => {
-        it('delegates to connectToElement', () => {
-            const flowModel = {};
-            const targetGuid = 'target-guid';
-            const source = { guid: 'prev-element' };
-            const isMergeableGuid = true;
-            const action = actions.connectToElementAction(source, targetGuid, isMergeableGuid);
-            configuredReducer(flowModel, action);
-            expect(connectToElement).toHaveBeenLastCalledWith(
-                elementService,
-                flowModel,
-                source,
-                targetGuid,
-                isMergeableGuid
-            );
-        });
-    });
-
     describe('addFaultAction', () => {
         it('delegates to addFault', () => {
             const flowModel = {};
@@ -129,7 +110,7 @@ describe('reducer', () => {
             const flowModel = {};
             const action = actions.createGoToConnectionAction('sourceGuid', null, 'targetGuid', true);
             configuredReducer(flowModel, action);
-            expect(createGoToConnection).toHaveBeenLastCalledWith(
+            expect(createConnection).toHaveBeenLastCalledWith(
                 elementService,
                 flowModel,
                 { guid: 'sourceGuid', childIndex: null },

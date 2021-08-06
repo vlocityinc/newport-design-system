@@ -3,16 +3,15 @@ import {
     addElement,
     deleteElement,
     deleteFault,
-    connectToElement,
     ElementService,
     initFlowModel,
     addFault,
     updateChildren,
-    createGoToConnection,
     deleteGoToConnection,
     decorateElements,
     clearCanvasDecoration,
-    updateChildrenOnAddingOrUpdatingScheduledPaths
+    updateChildrenOnAddingOrUpdatingScheduledPaths,
+    createConnection
 } from './modelUtils';
 
 import NodeType from './NodeType';
@@ -23,7 +22,6 @@ enum ActionType {
     DeleteElement,
     AddFault,
     DeleteFault,
-    ConnectToElement,
     UpdateChildren,
     CreateGoToConnection,
     DeleteGoToConnection,
@@ -89,19 +87,6 @@ export function deleteElementAction(elementGuid: Guid, childIndexToKeep?: number
  */
 export function deleteFaultAction(elementGuid: Guid) {
     return createPayloadAction(<const>ActionType.DeleteFault, { elementGuid });
-}
-
-/**
- * Creates a ConnectToElement action.
- * To break a connection, use addElement with an End element.
- *
- * @param source - The connection source
- * @param targetGuid - The guid of the element to reconnect
- * @param isMergeableGuid - True if the target is part of mergeableGuids
- * @returns A ConnectToElement action
- */
-export function connectToElementAction(source: ConnectionSource, targetGuid: Guid, isMergeableGuid: boolean) {
-    return createPayloadAction(<const>ActionType.ConnectToElement, { source, targetGuid, isMergeableGuid });
 }
 
 /**
@@ -199,7 +184,6 @@ type Action = ReturnType<
     | typeof addElementAction
     | typeof deleteElementAction
     | typeof deleteFaultAction
-    | typeof connectToElementAction
     | typeof initAction
     | typeof addFaultAction
     | typeof updateChildrenAction
@@ -238,13 +222,10 @@ function reducer(config: ElementService, flowModel: Readonly<FlowModel>, action:
             const { elementGuid } = action.payload;
             return deleteFault(config, nextFlowModel, elementGuid);
         }
-        case ActionType.ConnectToElement: {
-            const { source, targetGuid, isMergeableGuid } = action.payload;
-            return connectToElement(config, nextFlowModel, source, targetGuid, isMergeableGuid);
-        }
+
         case ActionType.CreateGoToConnection: {
             const { sourceGuid: guid, sourceBranchIndex: childIndex, targetGuid, isReroute } = action.payload;
-            return createGoToConnection(config, nextFlowModel, { guid, childIndex }, targetGuid, isReroute);
+            return createConnection(config, nextFlowModel, { guid, childIndex }, targetGuid, isReroute);
         }
         case ActionType.DeleteGoToConnection: {
             const { sourceGuid: guid, sourceBranchIndex: childIndex } = action.payload;

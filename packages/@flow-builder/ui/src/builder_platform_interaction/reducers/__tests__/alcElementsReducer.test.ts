@@ -8,7 +8,6 @@ import {
     SELECTION_ON_FIXED_CANVAS,
     ADD_FAULT,
     PASTE_ON_FIXED_CANVAS,
-    ALC_CREATE_CONNECTION,
     ADD_SCREEN_WITH_FIELDS,
     DECORATE_CANVAS,
     CLEAR_CANVAS_DECORATION
@@ -101,24 +100,6 @@ jest.mock('builder_platform_interaction/alcCanvasUtils', () => {
 });
 
 describe('alc-elements-reducer', () => {
-    describe('When ALC_CREATE_CONNECTION', () => {
-        it('dispatches a ConnectToElement action', () => {
-            const state = {};
-
-            const source = { guid: 'source-guid' };
-            const targetGuid = 'target-guid';
-            const isMergeableGuid = true;
-
-            alcElementsReducer(state, {
-                type: ALC_CREATE_CONNECTION,
-                payload: { source, targetGuid, isMergeableGuid }
-            });
-
-            const connectToElementAction = actions.connectToElementAction(source, targetGuid, isMergeableGuid);
-            expect(reducer()).toHaveBeenLastCalledWith(state, connectToElementAction);
-        });
-    });
-
     describe('When ADD_CANVAS_ELEMENT', () => {
         it('dispatches an AddElement action', () => {
             const state = {};

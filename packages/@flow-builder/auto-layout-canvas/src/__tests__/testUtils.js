@@ -1498,6 +1498,7 @@ export {
     SCREEN_ELEMENT_GUID,
     LOOP_ELEMENT_GUID,
     createDefaultElement,
+    deepCopy,
     flowModelFromElements,
     createFlowRenderContext,
     linkElements,

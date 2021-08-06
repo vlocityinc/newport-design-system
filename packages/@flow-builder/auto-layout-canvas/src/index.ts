@@ -84,7 +84,8 @@ export {
     getConnectionTarget,
     setChild,
     createGoToSourceRef,
-    inlineFromParent
+    inlineFromParent,
+    isEndedBranchMergeable
 } from './modelUtils';
 
 export { assertAutoLayoutState } from './assertUtils';

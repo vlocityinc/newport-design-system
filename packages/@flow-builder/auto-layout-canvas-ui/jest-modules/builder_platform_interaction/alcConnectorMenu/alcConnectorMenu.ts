@@ -21,9 +21,6 @@ export default class AlcConnectorMenu extends LightningElement {
     isPasteAvailable;
 
     @api
-    canMergeEndedBranch;
-
-    @api
     hasEndElement;
 
     @api

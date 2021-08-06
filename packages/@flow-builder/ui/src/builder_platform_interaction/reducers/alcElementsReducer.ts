@@ -12,7 +12,6 @@ import {
     PASTE_ON_FIXED_CANVAS,
     ADD_FAULT,
     DELETE_FAULT,
-    ALC_CREATE_CONNECTION,
     CREATE_GOTO_CONNECTION,
     ADD_PARENT_WITH_CHILDREN,
     DECORATE_CANVAS,
@@ -103,12 +102,7 @@ export default function alcElementsReducer(state: Readonly<UI.Elements>, action:
             nextState = autoLayoutCanvasReducer(nextState, initAction);
             break;
         }
-        case ALC_CREATE_CONNECTION: {
-            const { source, targetGuid, isMergeableGuid } = action.payload;
-            const connectToElementAction = actions.connectToElementAction(source, targetGuid, isMergeableGuid);
-            nextState = autoLayoutCanvasReducer(nextState, connectToElementAction);
-            break;
-        }
+
         case CREATE_GOTO_CONNECTION: {
             const { sourceGuid, sourceBranchIndex, targetGuid, isReroute } = action.payload;
             const createGoToConnectionAction = actions.createGoToConnectionAction(

@@ -10,7 +10,6 @@ interface GoToPathEventDetail {
     prev: Guid;
     parent: Guid;
     childIndex: number;
-    canMergeEndedBranch: boolean;
     isReroute?: boolean;
 }
 
@@ -20,10 +19,9 @@ export class GoToPathEvent extends CustomEvent<GoToPathEventDetail> {
      * @param prev - the guid of the prev element (possibly null)
      * @param parent - the guid of the parent element (possibly null)
      * @param childIndex - index of branch on which GoTo is being added
-     * @param canMergeEndedBranch - is merge possible
      * @param isReroute - whether this is a reroute of an existing goto connection
      */
-    constructor(next, prev, parent, childIndex, canMergeEndedBranch, isReroute?) {
+    constructor(next, prev, parent, childIndex, isReroute?) {
         super(eventName, {
             bubbles: true,
             composed: true,
@@ -33,7 +31,6 @@ export class GoToPathEvent extends CustomEvent<GoToPathEventDetail> {
                 prev,
                 parent,
                 childIndex,
-                canMergeEndedBranch,
                 isReroute
             }
         });

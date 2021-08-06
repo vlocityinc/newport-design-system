@@ -28,7 +28,6 @@ import {
     ADD_START_ELEMENT,
     addElement,
     addElementFault,
-    alcCreateConnection,
     clearCanvasDecoration,
     clearUndoRedo,
     createGoToConnection,
@@ -2255,10 +2254,6 @@ export default class Editor extends LightningElement {
 
     handleFocusOnDockingPanel = () => {
         focusOnDockingPanel();
-    };
-
-    handleAlcCreateConnection = (event) => {
-        storeInstance.dispatch(alcCreateConnection(event.detail));
     };
 
     /**

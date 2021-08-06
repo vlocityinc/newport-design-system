@@ -22,7 +22,8 @@ import {
     isBranchTerminal,
     hasGoToOnNext,
     shouldDeleteGoToOnNext,
-    ElementMetadata
+    ElementMetadata,
+    isEndedBranchMergeable
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import {
     ZOOM_ACTION,
@@ -35,7 +36,6 @@ import {
 } from 'builder_platform_interaction/events';
 import {
     AlcSelectionEvent,
-    AlcCreateConnectionEvent,
     ToggleMenuEvent,
     NodeResizeEvent,
     MoveFocusToNodeEvent,
@@ -161,25 +161,16 @@ export default class AlcCanvas extends LightningElement {
     /* the top most selected element's guid */
     _topSelectedGuid!: Guid | null;
 
-    /* the guid of the element we are reconnecting to another element */
-    _currentTargetGuid!: Guid | null;
-
     /* the guid of the source of the GoTo connection */
     _goToSourceGuid!: Guid | null;
 
     _goToSourceBranchIndex!: number | null;
 
-    /* whether a goto connection being made is part of rerouting an existing goto */
-    _isReroutingGoto!: boolean;
-
-    /* Array of guids the user can merge into */
-    _mergeableGuids!: Guid[];
-
     /* Array of guids the user can goTo */
     _goToableGuids!: Guid[];
 
-    /* guid of the first mergeable non-next element */
-    _firstMergeableNonNullNext!: Guid | null;
+    /* whether a goto connection being made is part of rerouting an existing goto */
+    _isReroutingGoto!: boolean;
 
     /**
      * Guid to set focus on when entering selection mode
@@ -579,10 +570,6 @@ export default class AlcCanvas extends LightningElement {
             this._goToSourceGuid = null;
             this._isReroutingGoto = false;
             this._goToSourceBranchIndex = null;
-            this._currentTargetGuid = null;
-            this._mergeableGuids = [];
-            this._goToableGuids = [];
-            this._firstMergeableNonNullNext = null;
 
             // make all elements selectable and unselected when exiting selection mode
             if (this.flowModel != null) {
@@ -793,12 +780,12 @@ export default class AlcCanvas extends LightningElement {
      * @param event - The Goto path event
      */
     handleAddOrRerouteGoToItemSelection = (event) => {
-        const { prev, parent, childIndex, next, canMergeEndedBranch, isReroute } = event.detail;
+        const { prev, parent, childIndex, next, isReroute } = event.detail;
         this._goToSourceGuid = prev || parent;
         this._goToSourceBranchIndex = childIndex;
-        this._currentTargetGuid = next;
         this._isReroutingGoto = isReroute;
 
+        const canMergeEndedBranch = isEndedBranchMergeable(this._flowModel, prev, next, parent, childIndex);
         const { mergeableGuids, goToableGuids, firstMergeableNonNullNext } = getTargetGuidsForReconnection(
             this.flowModel,
             prev,
@@ -808,9 +795,7 @@ export default class AlcCanvas extends LightningElement {
             childIndex
         );
 
-        this._mergeableGuids = mergeableGuids;
         this._goToableGuids = goToableGuids;
-        this._firstMergeableNonNullNext = firstMergeableNonNullNext;
 
         const selectableGuids = firstMergeableNonNullNext
             ? [...mergeableGuids, ...goToableGuids, firstMergeableNonNullNext]
@@ -863,30 +848,18 @@ export default class AlcCanvas extends LightningElement {
         if (this._goToSourceGuid != null) {
             this._elementGuidToFocus = event.detail.canvasElementGUID;
 
-            const source = {
-                guid: this._goToSourceGuid,
-                childIndex: this._goToSourceBranchIndex
-            };
-            let connectionType = '';
+            this.dispatchEvent(
+                new CreateGoToConnectionEvent(
+                    this._goToSourceGuid,
+                    this._goToSourceBranchIndex,
+                    event.detail.canvasElementGUID,
+                    this._isReroutingGoto
+                )
+            );
 
-            if (this._goToableGuids.includes(event.detail.canvasElementGUID)) {
-                connectionType = 'GoTo';
-                this.dispatchEvent(
-                    new CreateGoToConnectionEvent(
-                        this._goToSourceGuid,
-                        this._goToSourceBranchIndex,
-                        event.detail.canvasElementGUID,
-                        this._isReroutingGoto
-                    )
-                );
-            } else if (this._mergeableGuids.includes(event.detail.canvasElementGUID)) {
-                connectionType = 'Merge';
-                this.dispatchEvent(new AlcCreateConnectionEvent(source, event.detail.canvasElementGUID));
-            } else if (this._firstMergeableNonNullNext === event.detail.canvasElementGUID) {
-                connectionType = 'Merge';
-                this.dispatchEvent(new AlcCreateConnectionEvent(source, event.detail.canvasElementGUID, false));
-            }
             this.dispatchEvent(new ToggleSelectionModeEvent());
+
+            const connectionType = this._goToableGuids.includes(event.detail.canvasElementGUID) ? 'GoTo' : 'Merge';
             logInteraction('create-goto-or-merge', AUTOLAYOUT_CANVAS, { connectionType }, 'click', 'user');
         } else {
             this.dispatchAlcSelectionEvent(event.detail);

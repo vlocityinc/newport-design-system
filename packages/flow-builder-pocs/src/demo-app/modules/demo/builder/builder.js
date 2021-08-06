@@ -8,7 +8,6 @@ import {
     addElementFault,
     deleteElementFault,
     deleteElements,
-    alcCreateConnection,
     selectionOnFixedCanvas,
     updateIsAutoLayoutCanvasProperty,
     updateElement,
@@ -408,11 +407,6 @@ export default class Builder extends LightningElement {
 
     handleGoToDeletion = (event) => {
         storeInstance.dispatch(deleteGoToConnection(event.detail));
-    };
-
-    handleAlcCreateConnection = (event) => {
-        const { source, targetGuid } = event.detail;
-        storeInstance.dispatch(alcCreateConnection({ source, targetGuid }));
     };
 
     handleAlcSelection = (event) => {

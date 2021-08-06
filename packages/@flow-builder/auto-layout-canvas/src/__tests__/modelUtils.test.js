@@ -25,7 +25,8 @@ import {
     getFlowWithGoToFromAncestorToNestedElement,
     getFlowWhenGoingToLoopBranchHead,
     getFlowWithGoToOnFirstMergeableNonNullNext,
-    getFlowWhenGoingFromForEachBranch
+    getFlowWhenGoingFromForEachBranch,
+    deepCopy
 } from './testUtils';
 
 import {
@@ -56,11 +57,51 @@ import {
     removeGoTosFromElement,
     shouldDeleteGoToOnNext,
     getSuffixForGoToConnection,
-    prepareFlowModel
+    prepareFlowModel,
+    createConnection,
+    isEndedBranchMergeable,
+    getConnectionTarget
 } from '../modelUtils';
 
 import { GOTO_CONNECTION_SUFFIX, FAULT_INDEX, START_IMMEDIATE_INDEX, FOR_EACH_INDEX } from '../model';
 import NodeType from '../NodeType';
+
+function checkCreateMergeConnection(flowModel, source, target, isMergeable) {
+    const originalFlowModel = deepCopy(flowModel);
+
+    expect(connectToElement(elementService(flowModel), flowModel, source, target, isMergeable)).toMatchSnapshot();
+
+    expect(
+        createConnection(elementService(originalFlowModel), originalFlowModel, source, target, false)
+    ).toMatchSnapshot();
+}
+
+function checkCreateGoToConnection(
+    updatedFlowModel,
+    flowModel,
+    source,
+    target,
+    isReroute = false,
+    checkCreateConnection
+) {
+    const originalFlowModel = deepCopy(flowModel);
+
+    expect(createGoToConnection(elementService(flowModel), flowModel, source, target, isReroute)).toMatchObject(
+        updatedFlowModel
+    );
+
+    if (checkCreateConnection) {
+        const prev = source.childIndex == null ? source.guid : null;
+        const parent = source.childIndex != null ? source.guid : null;
+
+        const next = getConnectionTarget(originalFlowModel, source);
+        if (!isEndedBranchMergeable(originalFlowModel, prev, next, parent, source.childIndex)) {
+            expect(
+                createConnection(elementService(originalFlowModel), originalFlowModel, source, target, isReroute)
+            ).toMatchObject(updatedFlowModel);
+        }
+    }
+}
 
 /**
  * @param elements
@@ -1355,7 +1396,7 @@ describe('modelUtils', () => {
         });
     });
 
-    describe('connectToElement', () => {
+    describe('create merge connection', () => {
         it('reconnects to an element on another branch', () => {
             const branchingElement = { ...BRANCH_ELEMENT };
             const endElement1 = { ...END_ELEMENT, guid: 'end1-guid', prev: null };
@@ -1369,9 +1410,7 @@ describe('modelUtils', () => {
                 childIndex: 0
             };
 
-            expect(
-                connectToElement(elementService(elements), elements, source, 'branch-guid:1-random-guid', true)
-            ).toMatchSnapshot();
+            checkCreateMergeConnection(elements, source, 'branch-guid:1-random-guid', true);
         });
 
         it('reconnects to the merge element', () => {
@@ -1383,20 +1422,18 @@ describe('modelUtils', () => {
                 guid: 'branch-guid:0-head-guid'
             };
 
-            expect(connectToElement(elementService(elements), elements, source, 'end-guid', true)).toMatchSnapshot();
+            checkCreateMergeConnection(elements, source, 'end-guid', true);
         });
 
         it('When reconnecting to the first mergeable non null next', () => {
             const flowRenderContext = getFlowWithGoToOnFirstMergeableNonNullNext();
-            expect(
-                connectToElement(
-                    elementService(flowRenderContext.flowModel),
-                    flowRenderContext.flowModel,
-                    { guid: 'decision3-guid', childIndex: 0 },
-                    'screen-guid',
-                    false
-                )
-            ).toMatchSnapshot();
+
+            checkCreateMergeConnection(
+                flowRenderContext.flowModel,
+                { guid: 'decision3-guid', childIndex: 0 },
+                'screen-guid',
+                false
+            );
         });
     });
 
@@ -1726,9 +1763,7 @@ describe('modelUtils', () => {
 
             // reconnect with end of the right branch
 
-            expect(
-                connectToElement(elementService(newFlowModel), newFlowModel, source, 'branch-guid:1-end-guid', true)
-            ).toMatchSnapshot();
+            checkCreateMergeConnection(newFlowModel, source, 'branch-guid:1-end-guid', true);
         });
 
         it('persisting a terminated branch that has a regular element and an end element', () => {
@@ -5248,12 +5283,21 @@ describe('modelUtils', () => {
         });
     });
 
-    describe('createGoToConnection function', () => {
+    describe('create goto connection', () => {
         describe('branch ended or goto', () => {
             let flowModel = {};
             beforeEach(() => {
                 flowModel = {
+                    root: {
+                        children: ['start'],
+                        elementType: 'root',
+                        guid: 'root',
+                        nodeType: 'root'
+                    },
                     start: {
+                        isCanvasElement: true,
+                        parent: 'root',
+                        childIndex: 0,
                         guid: 'start',
                         next: 'screen1',
                         children: ['startEnd', 't1End', null, null],
@@ -5271,6 +5315,8 @@ describe('modelUtils', () => {
                         ]
                     },
                     startEnd: {
+                        isCanvasElement: true,
+                        nodeType: NodeType.END,
                         guid: 'startEnd',
                         parent: 'start',
                         childIndex: 0,
@@ -5279,6 +5325,8 @@ describe('modelUtils', () => {
                         next: null
                     },
                     t1End: {
+                        isCanvasElement: true,
+                        nodeType: NodeType.END,
                         guid: 't1End',
                         parent: 'start',
                         childIndex: 1,
@@ -5287,11 +5335,13 @@ describe('modelUtils', () => {
                         next: null
                     },
                     screen1: {
+                        isCanvasElement: true,
                         guid: 'screen1',
                         next: 'branchElement',
                         incomingGoTo: []
                     },
                     branchElement: {
+                        isCanvasElement: true,
                         guid: 'branchElement',
                         prev: 'screen1',
                         children: ['end1', 'screen2', 'end3'],
@@ -5308,6 +5358,8 @@ describe('modelUtils', () => {
                         ]
                     },
                     end1: {
+                        isCanvasElement: true,
+                        nodeType: NodeType.END,
                         guid: 'end1',
                         parent: 'branchElement',
                         childIndex: 0,
@@ -5316,6 +5368,7 @@ describe('modelUtils', () => {
                         next: null
                     },
                     screen2: {
+                        isCanvasElement: true,
                         guid: 'screen2',
                         next: 'end2',
                         parent: 'branchElement',
@@ -5324,10 +5377,14 @@ describe('modelUtils', () => {
                         incomingGoTo: []
                     },
                     end2: {
+                        isCanvasElement: true,
+                        nodeType: NodeType.END,
                         guid: 'end2',
                         prev: 'screen2'
                     },
                     end3: {
+                        isCanvasElement: true,
+                        nodeType: NodeType.END,
                         guid: 'end3',
                         parent: 'branchElement',
                         childIndex: 2,
@@ -5336,6 +5393,8 @@ describe('modelUtils', () => {
                         next: null
                     },
                     end4: {
+                        isCanvasElement: true,
+                        nodeType: NodeType.END,
                         guid: 'end4',
                         parent: 'branchElement',
                         childIndex: FAULT_INDEX,
@@ -5433,9 +5492,8 @@ describe('modelUtils', () => {
                 };
 
                 const source = { guid: 'start', childIndex: START_IMMEDIATE_INDEX };
-                expect(
-                    createGoToConnection(elementService(flowModel), flowModel, source, 'branchElement')
-                ).toMatchObject(updatedFlowModel);
+
+                checkCreateGoToConnection(updatedFlowModel, flowModel, source, 'branchElement');
             });
 
             it('createGoToConnection with start (1st branch) as the source and branchElement as the target should update the state correctly', () => {
@@ -5525,9 +5583,7 @@ describe('modelUtils', () => {
                 };
 
                 const source = { guid: 'start', childIndex: 1 };
-                expect(
-                    createGoToConnection(elementService(flowModel), flowModel, source, 'branchElement')
-                ).toMatchObject(updatedFlowModel);
+                checkCreateGoToConnection(updatedFlowModel, flowModel, source, 'branchElement');
             });
 
             it('createGoToConnection with screen2 as the source and branchElement as the target should update the state correctly', () => {
@@ -5550,6 +5606,7 @@ describe('modelUtils', () => {
                         ]
                     },
                     startEnd: {
+                        nodeType: NodeType.END,
                         guid: 'startEnd',
                         parent: 'start',
                         childIndex: 0,
@@ -5558,6 +5615,7 @@ describe('modelUtils', () => {
                         next: null
                     },
                     t1End: {
+                        nodeType: NodeType.END,
                         guid: 't1End',
                         parent: 'start',
                         childIndex: 1,
@@ -5587,6 +5645,7 @@ describe('modelUtils', () => {
                         ]
                     },
                     end1: {
+                        nodeType: NodeType.END,
                         guid: 'end1',
                         parent: 'branchElement',
                         childIndex: 0,
@@ -5603,6 +5662,7 @@ describe('modelUtils', () => {
                         incomingGoTo: []
                     },
                     end3: {
+                        nodeType: NodeType.END,
                         guid: 'end3',
                         parent: 'branchElement',
                         childIndex: 2,
@@ -5611,6 +5671,7 @@ describe('modelUtils', () => {
                         next: null
                     },
                     end4: {
+                        nodeType: NodeType.END,
                         guid: 'end4',
                         parent: 'branchElement',
                         childIndex: FAULT_INDEX,
@@ -5621,9 +5682,7 @@ describe('modelUtils', () => {
                 };
 
                 const source = { guid: 'screen2' };
-                expect(
-                    createGoToConnection(elementService(flowModel), flowModel, source, 'branchElement')
-                ).toMatchObject(updatedFlowModel);
+                checkCreateGoToConnection(updatedFlowModel, flowModel, source, 'branchElement');
             });
 
             it('createGoToConnection with branchElement (0th branch) as the source and screen1 as the target should update the state correctly', () => {
@@ -5646,6 +5705,7 @@ describe('modelUtils', () => {
                         ]
                     },
                     startEnd: {
+                        nodeType: NodeType.END,
                         guid: 'startEnd',
                         parent: 'start',
                         childIndex: 0,
@@ -5654,6 +5714,7 @@ describe('modelUtils', () => {
                         next: null
                     },
                     t1End: {
+                        nodeType: NodeType.END,
                         guid: 't1End',
                         parent: 'start',
                         childIndex: 1,
@@ -5691,10 +5752,12 @@ describe('modelUtils', () => {
                         incomingGoTo: []
                     },
                     end2: {
+                        nodeType: NodeType.END,
                         guid: 'end2',
                         prev: 'screen2'
                     },
                     end3: {
+                        nodeType: NodeType.END,
                         guid: 'end3',
                         parent: 'branchElement',
                         childIndex: 2,
@@ -5703,6 +5766,7 @@ describe('modelUtils', () => {
                         next: null
                     },
                     end4: {
+                        nodeType: NodeType.END,
                         guid: 'end4',
                         parent: 'branchElement',
                         childIndex: FAULT_INDEX,
@@ -5713,9 +5777,7 @@ describe('modelUtils', () => {
                 };
 
                 const source = { guid: 'branchElement', childIndex: 0 };
-                expect(createGoToConnection(elementService(flowModel), flowModel, source, 'screen1')).toMatchObject(
-                    updatedFlowModel
-                );
+                checkCreateGoToConnection(updatedFlowModel, flowModel, source, 'screen1');
             });
 
             it('createGoToConnection with branchElement (default branch) as the source and screen1 as the target should update the state correctly', () => {
@@ -5738,6 +5800,7 @@ describe('modelUtils', () => {
                         ]
                     },
                     startEnd: {
+                        nodeType: NodeType.END,
                         guid: 'startEnd',
                         parent: 'start',
                         childIndex: 0,
@@ -5746,6 +5809,7 @@ describe('modelUtils', () => {
                         next: null
                     },
                     t1End: {
+                        nodeType: NodeType.END,
                         guid: 't1End',
                         parent: 'start',
                         childIndex: 1,
@@ -5775,6 +5839,7 @@ describe('modelUtils', () => {
                         ]
                     },
                     end1: {
+                        nodeType: NodeType.END,
                         guid: 'end1',
                         parent: 'branchElement',
                         childIndex: 0,
@@ -5791,10 +5856,12 @@ describe('modelUtils', () => {
                         incomingGoTo: []
                     },
                     end2: {
+                        nodeType: NodeType.END,
                         guid: 'end2',
                         prev: 'screen2'
                     },
                     end4: {
+                        nodeType: NodeType.END,
                         guid: 'end4',
                         parent: 'branchElement',
                         childIndex: FAULT_INDEX,
@@ -5805,9 +5872,7 @@ describe('modelUtils', () => {
                 };
 
                 const source = { guid: 'branchElement', childIndex: 2 };
-                expect(createGoToConnection(elementService(flowModel), flowModel, source, 'screen1')).toMatchObject(
-                    updatedFlowModel
-                );
+                checkCreateGoToConnection(updatedFlowModel, flowModel, source, 'screen1');
             });
 
             it('createGoToConnection with branchElement (fault branch) as the source and screen1 as the target should update the state correctly', () => {
@@ -5830,6 +5895,7 @@ describe('modelUtils', () => {
                         ]
                     },
                     startEnd: {
+                        nodeType: NodeType.END,
                         guid: 'startEnd',
                         parent: 'start',
                         childIndex: 0,
@@ -5838,6 +5904,7 @@ describe('modelUtils', () => {
                         next: null
                     },
                     t1End: {
+                        nodeType: NodeType.END,
                         guid: 't1End',
                         parent: 'start',
                         childIndex: 1,
@@ -5867,6 +5934,7 @@ describe('modelUtils', () => {
                         ]
                     },
                     end1: {
+                        nodeType: NodeType.END,
                         guid: 'end1',
                         parent: 'branchElement',
                         childIndex: 0,
@@ -5883,10 +5951,12 @@ describe('modelUtils', () => {
                         incomingGoTo: []
                     },
                     end2: {
+                        nodeType: NodeType.END,
                         guid: 'end2',
                         prev: 'screen2'
                     },
                     end3: {
+                        nodeType: NodeType.END,
                         guid: 'end3',
                         parent: 'branchElement',
                         childIndex: 2,
@@ -5897,9 +5967,7 @@ describe('modelUtils', () => {
                 };
 
                 const source = { guid: 'branchElement', childIndex: FAULT_INDEX };
-                expect(createGoToConnection(elementService(flowModel), flowModel, source, 'screen1')).toMatchObject(
-                    updatedFlowModel
-                );
+                checkCreateGoToConnection(updatedFlowModel, flowModel, source, 'screen1', false);
             });
 
             it('createGoToConnection with reroute where screen2 is the source and rerouting target from branchElement to screen1', () => {
@@ -5925,6 +5993,7 @@ describe('modelUtils', () => {
                         ]
                     },
                     startEnd: {
+                        nodeType: NodeType.END,
                         guid: 'startEnd',
                         parent: 'start',
                         childIndex: 0,
@@ -5933,6 +6002,7 @@ describe('modelUtils', () => {
                         next: null
                     },
                     t1End: {
+                        nodeType: NodeType.END,
                         guid: 't1End',
                         parent: 'start',
                         childIndex: 1,
@@ -5962,6 +6032,7 @@ describe('modelUtils', () => {
                         ]
                     },
                     end1: {
+                        nodeType: NodeType.END,
                         guid: 'end1',
                         parent: 'branchElement',
                         childIndex: 0,
@@ -5978,6 +6049,7 @@ describe('modelUtils', () => {
                         incomingGoTo: []
                     },
                     end3: {
+                        nodeType: NodeType.END,
                         guid: 'end3',
                         parent: 'branchElement',
                         childIndex: 2,
@@ -5986,6 +6058,7 @@ describe('modelUtils', () => {
                         next: null
                     },
                     end4: {
+                        nodeType: NodeType.END,
                         guid: 'end4',
                         parent: 'branchElement',
                         childIndex: FAULT_INDEX,
@@ -5996,9 +6069,7 @@ describe('modelUtils', () => {
                 };
 
                 const source = { guid: 'screen2' };
-                expect(
-                    createGoToConnection(elementService(flowModel), flowModel, source, 'screen1', true)
-                ).toMatchObject(updatedFlowModel);
+                checkCreateGoToConnection(updatedFlowModel, flowModel, source, 'screen1', true);
             });
         });
         describe('branch not ended', () => {
@@ -6045,6 +6116,7 @@ describe('modelUtils', () => {
                         ]
                     },
                     end1: {
+                        nodeType: NodeType.END,
                         guid: 'end1',
                         parent: 'branchElement',
                         childIndex: 0,
@@ -6060,10 +6132,12 @@ describe('modelUtils', () => {
                         incomingGoTo: []
                     },
                     end2: {
+                        nodeType: NodeType.END,
                         guid: 'end2',
                         prev: 'branchElement'
                     },
                     end4: {
+                        nodeType: NodeType.END,
                         guid: 'end4',
                         parent: 'branchElement',
                         childIndex: FAULT_INDEX,
@@ -6114,6 +6188,7 @@ describe('modelUtils', () => {
                         ]
                     },
                     end1: {
+                        nodeType: NodeType.END,
                         guid: 'end1',
                         parent: 'branchElement',
                         childIndex: 0,
@@ -6129,10 +6204,12 @@ describe('modelUtils', () => {
                         incomingGoTo: []
                     },
                     end2: {
+                        nodeType: NodeType.END,
                         guid: 'end2',
                         prev: 'branchElement'
                     },
                     end4: {
+                        nodeType: NodeType.END,
                         guid: 'end4',
                         parent: 'branchElement',
                         childIndex: FAULT_INDEX,
@@ -6143,9 +6220,7 @@ describe('modelUtils', () => {
                 };
 
                 const source = { guid: 'start', childIndex: START_IMMEDIATE_INDEX };
-                expect(
-                    createGoToConnection(elementService(flowModel), flowModel, source, 'branchElement', undefined)
-                ).toMatchObject(updatedFlowModel);
+                checkCreateGoToConnection(updatedFlowModel, flowModel, source, 'branchElement', false, false);
             });
 
             it('createGoToConnection with start (1st branch) as the source and branchElement as the target should update the state correctly', () => {
@@ -6189,6 +6264,7 @@ describe('modelUtils', () => {
                         ]
                     },
                     end1: {
+                        nodeType: NodeType.END,
                         guid: 'end1',
                         parent: 'branchElement',
                         childIndex: 0,
@@ -6204,10 +6280,12 @@ describe('modelUtils', () => {
                         incomingGoTo: []
                     },
                     end2: {
+                        nodeType: NodeType.END,
                         guid: 'end2',
                         prev: 'branchElement'
                     },
                     end4: {
+                        nodeType: NodeType.END,
                         guid: 'end4',
                         parent: 'branchElement',
                         childIndex: FAULT_INDEX,
@@ -6218,9 +6296,7 @@ describe('modelUtils', () => {
                 };
 
                 const source = { guid: 'start', childIndex: 1 };
-                expect(
-                    createGoToConnection(elementService(flowModel), flowModel, source, 'branchElement', undefined)
-                ).toMatchObject(updatedFlowModel);
+                checkCreateGoToConnection(updatedFlowModel, flowModel, source, 'branchElement', false, false);
             });
 
             it('createGoToConnection with screen2 as the source and branchElement as the target should update the state correctly', () => {
@@ -6295,9 +6371,7 @@ describe('modelUtils', () => {
                 };
 
                 const source = { guid: 'screen2' };
-                expect(
-                    createGoToConnection(elementService(flowModel), flowModel, source, 'branchElement', undefined)
-                ).toMatchObject(updatedFlowModel);
+                checkCreateGoToConnection(updatedFlowModel, flowModel, source, 'branchElement', false, false);
             });
         });
     });

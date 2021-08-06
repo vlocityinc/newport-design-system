@@ -11,7 +11,6 @@ import {
     ConnectorRenderInfo,
     NodeRenderInfo,
     FlowRenderInfo,
-    findFirstElement,
     getChild,
     Geometry,
     FlowRenderContext,
@@ -622,32 +621,19 @@ function getAlcMenuData(
 
     const targetElement = targetGuid != null ? flowModel[targetGuid] : null;
 
-    let canMergeEndedBranch = false;
     let isTargetEnd = false;
     let isGoToConnector = false;
     if (targetElement != null) {
         // Checking for GoTo on branchHead and setting canMergeEndedBranch accordingly
         if (parent && childIndex != null && hasGoToOnBranchHead(flowModel, parent, childIndex)) {
-            canMergeEndedBranch =
-                childIndex !== FAULT_INDEX &&
-                getElementMetadata(elementsMetadata, flowModel[parent].elementType).type !== NodeType.ROOT;
             isGoToConnector = true;
         } else {
             const isNextGoTo = prev && next && hasGoToOnNext(flowModel, prev);
-            const targetBranchHeadElement = isNextGoTo
-                ? findFirstElement(flowModel[prev!], flowModel)
-                : findFirstElement(targetElement, flowModel);
-            const targetParentElement = flowModel[targetBranchHeadElement.parent];
-            const isTargetParentRoot =
-                getElementMetadata(elementsMetadata, targetParentElement.elementType).type === NodeType.ROOT;
 
             if (isNextGoTo) {
-                canMergeEndedBranch = targetBranchHeadElement.childIndex !== FAULT_INDEX && !isTargetParentRoot;
                 isGoToConnector = true;
             } else {
                 isTargetEnd = getElementMetadata(elementsMetadata, targetElement.elementType).type === NodeType.END;
-                canMergeEndedBranch =
-                    targetBranchHeadElement.childIndex !== FAULT_INDEX && !isTargetParentRoot && isTargetEnd;
             }
         }
     }
@@ -655,7 +641,6 @@ function getAlcMenuData(
     const hasEndElement = targetGuid == null;
     const canAddGoto = isTargetEnd || hasEndElement;
     return {
-        canMergeEndedBranch,
         canAddGoto,
         hasEndElement,
         canHaveFaultConnector,

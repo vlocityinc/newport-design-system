@@ -607,7 +607,7 @@ Object {
 }
 `;
 
-exports[`modelUtils connectToElement When reconnecting to the first mergeable non null next 1`] = `
+exports[`modelUtils create merge connection When reconnecting to the first mergeable non null next 1`] = `
 Object {
   "decision1-guid": Object {
     "childReferences": Array [
@@ -727,7 +727,127 @@ Object {
 }
 `;
 
-exports[`modelUtils connectToElement reconnects to an element on another branch 1`] = `
+exports[`modelUtils create merge connection When reconnecting to the first mergeable non null next 2`] = `
+Object {
+  "decision1-guid": Object {
+    "childReferences": Array [
+      Object {
+        "childReference": "o1",
+      },
+      Object {
+        "childReference": "o2",
+      },
+    ],
+    "children": Array [
+      "decision2-guid",
+      null,
+      null,
+    ],
+    "config": Object {},
+    "elementType": "BRANCH_ELEMENT",
+    "guid": "decision1-guid",
+    "label": "default",
+    "next": "screen-guid",
+    "nodeType": "branch",
+    "prev": "screen-guid",
+  },
+  "decision2-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "o3",
+      },
+    ],
+    "children": Array [
+      "decision3-guid",
+      "end1-guid",
+    ],
+    "config": Object {},
+    "elementType": "BRANCH_ELEMENT",
+    "guid": "decision2-guid",
+    "isTerminal": false,
+    "label": "default",
+    "next": null,
+    "nodeType": "branch",
+    "parent": "decision1-guid",
+  },
+  "decision3-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "o4",
+      },
+    ],
+    "children": Array [
+      null,
+      "end2-guid",
+    ],
+    "config": Object {},
+    "elementType": "BRANCH_ELEMENT",
+    "guid": "decision3-guid",
+    "isTerminal": false,
+    "label": "default",
+    "next": null,
+    "nodeType": "branch",
+    "parent": "decision2-guid",
+  },
+  "end1-guid": Object {
+    "childIndex": 1,
+    "config": Object {},
+    "elementType": "END_ELEMENT",
+    "guid": "end1-guid",
+    "isTerminal": true,
+    "label": "default",
+    "next": null,
+    "nodeType": "end",
+    "parent": "decision2-guid",
+  },
+  "end2-guid": Object {
+    "childIndex": 1,
+    "config": Object {},
+    "elementType": "END_ELEMENT",
+    "guid": "end2-guid",
+    "isTerminal": true,
+    "label": "default",
+    "next": null,
+    "nodeType": "end",
+    "parent": "decision3-guid",
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "screen-guid": Object {
+    "config": Object {},
+    "elementType": "SCREEN_ELEMENT",
+    "guid": "screen-guid",
+    "incomingGoTo": Array [
+      "decision1-guid",
+    ],
+    "isCanvasElement": true,
+    "label": "default",
+    "next": "decision1-guid",
+    "nodeType": "default",
+    "prev": "start-guid",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "config": Object {},
+    "elementType": "START_ELEMENT",
+    "guid": "start-guid",
+    "label": "default",
+    "next": "screen-guid",
+    "nodeType": "start",
+    "parent": "root",
+  },
+}
+`;
+
+exports[`modelUtils create merge connection reconnects to an element on another branch 1`] = `
 Object {
   "branch-guid": Object {
     "children": Array [
@@ -790,7 +910,148 @@ Object {
 }
 `;
 
-exports[`modelUtils connectToElement reconnects to the merge element 1`] = `
+exports[`modelUtils create merge connection reconnects to an element on another branch 2`] = `
+Object {
+  "branch-guid": Object {
+    "children": Array [
+      null,
+      "branch-guid:1-head-guid",
+    ],
+    "config": Object {},
+    "defaultConnectorLabel": "Default Connector Label",
+    "elementType": "branch",
+    "guid": "branch-guid",
+    "isCanvasElement": true,
+    "label": "branch-guid",
+    "next": "branch-guid:1-random-guid",
+    "nodeType": "branch",
+    "prev": "start-guid",
+  },
+  "branch-guid:1-end2-guid": Object {
+    "elementType": "END_ELEMENT",
+    "guid": "branch-guid:1-end2-guid",
+    "isCanvasElement": true,
+    "label": "end-guid",
+    "nodeType": "end",
+    "prev": "branch-guid:1-random-guid",
+  },
+  "branch-guid:1-head-guid": Object {
+    "childIndex": 1,
+    "guid": "branch-guid:1-head-guid",
+    "isCanvasElement": true,
+    "isTerminal": false,
+    "next": null,
+    "parent": "branch-guid",
+  },
+  "branch-guid:1-random-guid": Object {
+    "guid": "branch-guid:1-random-guid",
+    "isCanvasElement": true,
+    "next": "branch-guid:1-end2-guid",
+    "prev": "branch-guid",
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [],
+    "config": Object {},
+    "elementType": "start",
+    "guid": "start-guid",
+    "isCanvasElement": true,
+    "isTerminal": true,
+    "label": "start-guid",
+    "next": "branch-guid",
+    "nodeType": "start",
+    "parent": "root",
+  },
+}
+`;
+
+exports[`modelUtils create merge connection reconnects to the merge element 1`] = `
+Object {
+  "branch-guid": Object {
+    "children": Array [
+      "branch-guid:0-head-guid",
+      "branch-guid:1-head-guid",
+      "branch-guid:2-head-guid",
+    ],
+    "config": Object {},
+    "defaultConnectorLabel": "Default Connector Label",
+    "elementType": "branch",
+    "guid": "branch-guid",
+    "isCanvasElement": true,
+    "label": "branch-guid",
+    "next": "end-guid",
+    "nodeType": "branch",
+    "prev": "start-guid",
+  },
+  "branch-guid:0-head-guid": Object {
+    "childIndex": 0,
+    "guid": "branch-guid:0-head-guid",
+    "isCanvasElement": true,
+    "isTerminal": false,
+    "next": null,
+    "parent": "branch-guid",
+  },
+  "branch-guid:1-head-guid": Object {
+    "childIndex": 1,
+    "guid": "branch-guid:1-head-guid",
+    "isCanvasElement": true,
+    "isTerminal": false,
+    "next": "branch-guid:1-random-guid",
+    "parent": "branch-guid",
+  },
+  "branch-guid:1-random-guid": Object {
+    "guid": "branch-guid:1-random-guid",
+    "isCanvasElement": true,
+    "prev": "branch-guid:1-head-guid",
+  },
+  "branch-guid:2-head-guid": Object {
+    "childIndex": 2,
+    "guid": "branch-guid:2-head-guid",
+    "isCanvasElement": true,
+    "isTerminal": false,
+    "parent": "branch-guid",
+  },
+  "end-guid": Object {
+    "elementType": "END_ELEMENT",
+    "guid": "end-guid",
+    "isCanvasElement": true,
+    "label": "end-guid",
+    "nodeType": "end",
+    "prev": "branch-guid",
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [],
+    "config": Object {},
+    "elementType": "start",
+    "guid": "start-guid",
+    "isCanvasElement": true,
+    "isTerminal": true,
+    "label": "start-guid",
+    "next": "branch-guid",
+    "nodeType": "start",
+    "parent": "root",
+  },
+}
+`;
+
+exports[`modelUtils create merge connection reconnects to the merge element 2`] = `
 Object {
   "branch-guid": Object {
     "children": Array [
@@ -1072,6 +1333,55 @@ Object {
 `;
 
 exports[`modelUtils deleteElement delete nested decision with end elements and reconnect 2`] = `
+Object {
+  "branch-guid": Object {
+    "children": Array [
+      null,
+      null,
+    ],
+    "config": Object {},
+    "defaultConnectorLabel": "Default Connector Label",
+    "elementType": "branch",
+    "guid": "branch-guid",
+    "isCanvasElement": true,
+    "label": "branch-guid",
+    "next": "branch-guid:1-end-guid",
+    "nodeType": "branch",
+    "prev": "start-guid",
+  },
+  "branch-guid:1-end-guid": Object {
+    "elementType": "END_ELEMENT",
+    "guid": "branch-guid:1-end-guid",
+    "isCanvasElement": true,
+    "label": "end-guid",
+    "nodeType": "end",
+    "prev": "branch-guid",
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [],
+    "config": Object {},
+    "elementType": "start",
+    "guid": "start-guid",
+    "isCanvasElement": true,
+    "isTerminal": true,
+    "label": "start-guid",
+    "next": "branch-guid",
+    "nodeType": "start",
+    "parent": "root",
+  },
+}
+`;
+
+exports[`modelUtils deleteElement delete nested decision with end elements and reconnect 3`] = `
 Object {
   "branch-guid": Object {
     "children": Array [

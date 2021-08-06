@@ -38,10 +38,6 @@ export default class AlcConnectorMenu extends Menu {
     @api
     elementsMetadata: ElementMetadata[] = [];
 
-    /* true if this branch can be merged, false otherwise*/
-    @api
-    canMergeEndedBranch!: boolean;
-
     @api
     next!: Guid;
 
@@ -104,24 +100,13 @@ export default class AlcConnectorMenu extends Menu {
                 this.moveFocusToConnector();
                 break;
             case GOTO_ACTION:
-                this.dispatchEvent(
-                    new GoToPathEvent(this.next, this.prev, this.parent, this.childIndex, this.canMergeEndedBranch)
-                );
+                this.dispatchEvent(new GoToPathEvent(this.next, this.prev, this.parent, this.childIndex));
                 break;
             case GOTO_DELETE_ACTION:
                 this.dispatchEvent(new DeleteGoToConnectionEvent(this.prev || this.parent, this.childIndex));
                 break;
             case GOTO_REROUTE_ACTION:
-                this.dispatchEvent(
-                    new GoToPathEvent(
-                        this.next,
-                        this.prev,
-                        this.parent,
-                        this.childIndex,
-                        this.canMergeEndedBranch,
-                        true
-                    )
-                );
+                this.dispatchEvent(new GoToPathEvent(this.next, this.prev, this.parent, this.childIndex, true));
                 break;
             default: {
                 const { prev, parent, childIndex } = this;
