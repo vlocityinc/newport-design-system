@@ -49,16 +49,7 @@ then to debug a test file (via Node.js V8 inspector Manager: [NiM](https://chrom
 `cd packages/@flow-builder/ui`
 `node --inspect-brk ../../../node_modules/.bin/jest src/builder_platform_interaction/editor/__tests__/editor.test.ts`
 
-
-NB: for UI packages (ie: [@flow-builder/ui](/packages/@flow-builder/ui) and [@flow-builder/auto-layout-canvas-ui](/packages/@flow-builder/auto-layout-canvas-ui)) a [VSCode](https://code.visualstudio.com/) [debug configuration file](/.vscode/launch.json) has been added to the repository.
-You can directly use this to debug inside VSCode adding some breakpoints directly in your IDE and benefit from [VSCode debug features](https://code.visualstudio.com/docs/editor/debugging).
-To debug your test file, open it, add your breakpoint, open the debug view from the activity bar and simply run the configuration in place ("Debug current Jest test file (ui packages)" by default).
-
-Example:
-
-![VScode_debug.png](assets/VScode_debug.png)
-
-A couple of [VSCode Jest extensions](https://marketplace.visualstudio.com/search?term=jest&target=VSCode&category=All%20categories&sortBy=Relevance) can make your life even easier, providing ways to debug a single test for instance (see [Jest Runner](https://marketplace.visualstudio.com/items?itemName=firsttris.vscode-jest-runner) among others).
+NB: You can run/debug test(s) right in your IDE (eg: VSCode), [here](RunningDebugJestInIDE.md) for details.
 
 ## SFCI Setup and CLCO
 

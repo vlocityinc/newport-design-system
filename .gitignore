@@ -30,3 +30,4 @@ packages/**/dist
 staging-no-types
 /src/main/modules
 lerna-debug.log
+.sfdx/
