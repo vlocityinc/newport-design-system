@@ -19,7 +19,7 @@ The Jest runner extension needs to be configured: you do have to properly set th
 
 Example (for @flow-builder/ui package)
 
-![JestRunner config](/Users/franck.thomas/blt/ui-interaction-builder-components/docs/assets/JestRunner_config.png)
+![JestRunner config](assets/JestRunner_config.png)
 
 
 for @flow-builder/auto-layout-canvas-ui package, change accordingly:
@@ -27,7 +27,7 @@ for @flow-builder/auto-layout-canvas-ui package, change accordingly:
 
 Then you should be good to go adding your breaking, and just clicking and the debug link to run a single Jest test.
 
-![JestRunner debug](/Users/franck.thomas/blt/ui-interaction-builder-components/docs/assets/JestRunner_debug.png)
+![JestRunner debug](assets/JestRunner_debug.png)
 
 
 ##WebStorm
@@ -45,7 +45,7 @@ Source: _https://confluence.internal.salesforce.com/pages/viewpage.action?spaceK
 You can run and debug tests with Jest right in WebStorm. You can see the test results in a treeview and easily navigate to the test source from there. Test status is shown next to the test in the editor with an option to quickly run it or debug it.
 You can run a single test OOTB against any package (ie: not only UI ones) without any extra plugin required and its package specific configuration (as for Jest runner in VSCode for instance).
 
-![WebStorm_debug](/Users/franck.thomas/blt/ui-interaction-builder-components/docs/assets/WebStorm_debug.png)
+![WebStorm_debug](assets/WebStorm_debug.png)
 
 see https://www.jetbrains.com/help/webstorm/running-unit-tests-on-jest.html#ws_jest_running_tests for details.
 
