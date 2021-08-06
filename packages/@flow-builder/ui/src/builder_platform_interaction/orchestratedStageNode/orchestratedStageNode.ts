@@ -1,5 +1,5 @@
 import { LightningElement, api } from 'lwc';
-import { NodeResizeEvent } from 'builder_platform_interaction/alcEvents';
+import { CloseMenuEvent, NodeResizeEvent } from 'builder_platform_interaction/alcEvents';
 import { DeleteElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
 import { StageStep } from 'builder_platform_interaction/elementFactory';
 import { ELEMENT_TYPE, ICONS } from 'builder_platform_interaction/flowMetadata';
@@ -121,6 +121,15 @@ export default class OrchestratedStageNode extends LightningElement {
      */
     handlePopoverToggled() {
         this.resize();
+    }
+
+    /**
+     * Dispatches a CloseMenuEvent (which closes contextual menus) when popover is triggered
+     *
+     * @event CloseMenuEvent when the popover is triggered, close opened menu
+     */
+    handlePopoverTrigger() {
+        this.dispatchEvent(new CloseMenuEvent());
     }
 
     /**

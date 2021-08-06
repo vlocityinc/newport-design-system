@@ -1,5 +1,5 @@
 <template>
-    <div class="stepped-stage-node" onclosemenu={handleCloseStepMenu}>
+    <div class="stepped-stage-node">
         <div class="main">
             <h3
                 class="header slds-m-top_large slds-p-bottom_small slds-p-horizontal_small slds-border_bottom slds-text-heading_small slds-truncate"
@@ -53,7 +53,10 @@
                     </template>
                 </div>
 
-                <builder_platform_interaction-popover onpopovertoggled={handlePopoverToggled}>
+                <builder_platform_interaction-popover
+                    onpopovertrigger={handlePopoverTrigger}
+                    onpopovertoggled={handlePopoverToggled}
+                >
                     <div slot="trigger" class="trigger">
                         <builder_platform_interaction-popover-trigger
                             label-info={popoverLabelInfo}

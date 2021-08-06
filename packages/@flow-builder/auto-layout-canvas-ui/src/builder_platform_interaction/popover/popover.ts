@@ -161,13 +161,8 @@ export default class Popover extends LightningElement {
 
     /**
      * Toggles showing the content when the trigger is clicked
-     *
-     * @param event The click event
      */
-    handleTriggerClick(event: Event) {
-        event.preventDefault();
-        event.stopPropagation();
-
+    handleTriggerClick() {
         this.focusOnContent = false;
         this.toggleShowContent();
     }
