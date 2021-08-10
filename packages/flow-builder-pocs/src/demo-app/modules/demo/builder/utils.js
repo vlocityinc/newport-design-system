@@ -1,6 +1,12 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { AddElementEvent, DeleteElementEvent } from 'builder_platform_interaction/events';
-import { AddElementFaultEvent, DeleteElementFaultEvent, GoToPathEvent } from 'builder_platform_interaction/alcEvents';
+import {
+    AddElementFaultEvent,
+    DeleteElementFaultEvent,
+    GoToPathEvent,
+    CreateGoToConnectionEvent,
+    DeleteGoToConnectionEvent
+} from 'builder_platform_interaction/alcEvents';
 
 import {
     convertToAutoLayoutCanvas,
@@ -11,7 +17,11 @@ import {
 import {
     getTargetGuidsForBranchReconnect,
     findParentElement,
-    hasGoToOnNext
+    hasGoToOnNext,
+    getChild,
+    getTargetGuidsForReconnection,
+    isEndedBranchMergeable,
+    hasGoTo
 } from 'builder_platform_interaction/autoLayoutCanvas';
 
 import { updateFlow } from 'builder_platform_interaction/actions';
@@ -202,6 +212,14 @@ const actions = [
     {
         type: 'Add Fault',
         weight: 10
+    },
+    {
+        type: 'Add GoTo',
+        weight: 5
+    },
+    {
+        type: 'Delete GoTo',
+        weight: 2
     }
 ].reduce((acc, curr) => {
     return [...acc, ...Array(curr.weight).fill(curr.type)];
@@ -367,6 +385,73 @@ function randomAddDeleteFaultEvent(storeInstance) {
     }
     return null;
 }
+
+function getAlcMenuData(elements, prev, childIndex, parent) {
+    const targetGuid = childIndex != null ? getChild(elements[parent], childIndex) : elements[prev].next;
+    const targetElement = targetGuid != null ? elements[targetGuid] : null;
+
+    let isTargetEnd = false;
+    let next = null;
+    if (targetElement != null && childIndex == null) {
+        next = targetElement.guid;
+        const isNextGoTo = prev && elements[prev].next && hasGoToOnNext(elements, prev);
+        if (!isNextGoTo) {
+            isTargetEnd = targetElement.elementType === ELEMENT_TYPE.END_ELEMENT;
+        }
+    }
+
+    const hasEndElement = targetGuid == null;
+    const canAddGoTo = isTargetEnd || hasEndElement;
+    return { canAddGoTo, next };
+}
+
+function randomAddGoToEvent(storeInstance) {
+    const { elements } = storeInstance.getCurrentState();
+    const alcConnectionSource = randomConnectionSource(randomElement(storeInstance));
+    const { prev, childIndex, parent } =
+        alcConnectionSource.childIndex != null
+            ? { prev: null, childIndex: alcConnectionSource.childIndex, parent: alcConnectionSource.guid }
+            : { prev: alcConnectionSource.guid, childIndex: alcConnectionSource.childIndex, parent: null };
+
+    // TODO remove this check after W-9655375 and W-8544827
+    const elementType = prev ? elements[prev].elementType : null;
+    if (
+        elementType === ELEMENT_TYPE.WAIT ||
+        elementType === ELEMENT_TYPE.DECISION ||
+        isInLoop(elements, alcConnectionSource)
+    ) {
+        return null;
+    }
+
+    const { canAddGoTo, next } = getAlcMenuData(elements, prev, childIndex, parent);
+    const canMergeEndedBranch = isEndedBranchMergeable(elements, prev, next, parent, childIndex);
+
+    if (canAddGoTo) {
+        const { goToableGuids } = getTargetGuidsForReconnection(
+            elements,
+            prev,
+            parent,
+            next,
+            canMergeEndedBranch,
+            childIndex
+        );
+        if (goToableGuids.length > 0) {
+            const randomGoToGuid = goToableGuids[randomIndex(goToableGuids)];
+            return new CreateGoToConnectionEvent(alcConnectionSource.guid, childIndex, randomGoToGuid, false);
+        }
+    }
+    return null;
+}
+
+function randomDeleteGoToEvent(storeInstance) {
+    const { elements } = storeInstance.getCurrentState();
+    const elementFilter = (ele) => ele.elementType !== ELEMENT_TYPE.END_ELEMENT;
+    const alcConnectionSource = randomConnectionSource(randomElement(storeInstance, elementFilter));
+    if (hasGoTo(elements, alcConnectionSource)) {
+        return new DeleteGoToConnectionEvent(alcConnectionSource.guid, alcConnectionSource.childIndex);
+    }
+    return null;
+}
 /**
  * Returnn a random event to fire on the builder
  * @param storeInstance - The store
@@ -382,6 +467,10 @@ export const randomEvent = (storeInstance) => {
             return randomDeleteOrReconnectEvent(storeInstance);
         case 'Add Fault':
             return randomAddDeleteFaultEvent(storeInstance);
+        case 'Add GoTo':
+            return randomAddGoToEvent(storeInstance);
+        case 'Delete GoTo':
+            return randomDeleteGoToEvent(storeInstance);
         default:
             return null;
     }
