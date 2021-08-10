@@ -7,6 +7,7 @@ const KEYS = {
     CTRL_KEY: 'Ctrl',
     F6_KEY: 'F6',
     SHIFT_KEY: 'Shift',
+    OPTION_KEY: 'Option',
     ALT_KEY: 'Alt'
 };
 export default class KeyboardShortcutsListBody extends LightningElement {
@@ -25,28 +26,28 @@ export default class KeyboardShortcutsListBody extends LightningElement {
 
     get zoomInShortcut() {
         if (this.isMacPlatform()) {
-            return `${KEYS.CMD_KEY}+${KEYS.ALT_KEY}+=`;
+            return `${KEYS.CMD_KEY}+${KEYS.OPTION_KEY}+=`;
         }
         return `${KEYS.CTRL_KEY}+${KEYS.ALT_KEY}+=`;
     }
 
     get zoomOutShortcut() {
         if (this.isMacPlatform()) {
-            return `${KEYS.CMD_KEY}+${KEYS.ALT_KEY}+-`;
+            return `${KEYS.CMD_KEY}+${KEYS.OPTION_KEY}+-`;
         }
         return `${KEYS.CTRL_KEY}+${KEYS.ALT_KEY}+-`;
     }
 
     get zoomToFitShortcut() {
         if (this.isMacPlatform()) {
-            return `${KEYS.CMD_KEY}+${KEYS.ALT_KEY}+1`;
+            return `${KEYS.CMD_KEY}+${KEYS.OPTION_KEY}+1`;
         }
         return `${KEYS.CTRL_KEY}+${KEYS.ALT_KEY}+1`;
     }
 
     get zoomToViewShortcut() {
         if (this.isMacPlatform()) {
-            return `${KEYS.CMD_KEY}+${KEYS.ALT_KEY}+0`;
+            return `${KEYS.CMD_KEY}+${KEYS.OPTION_KEY}+0`;
         }
         return `${KEYS.CTRL_KEY}+${KEYS.ALT_KEY}+0`;
     }
