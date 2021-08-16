@@ -8,6 +8,7 @@ import {
     invokeAutoLayoutWelcomeMat,
     invokeDebugEditor,
     invokeKeyboardHelpDialog,
+    invokeModalInternalData,
     invokeNewFlowModal,
     invokePropertyEditor,
     modalBodyVariant,
@@ -78,6 +79,7 @@ import { SaveType } from 'builder_platform_interaction/saveType';
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
 import { mutateFlowResourceToComboboxShape } from 'builder_platform_interaction/expressionUtils';
 import { getElementForPropertyEditor, getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
+import { diffFlow } from 'builder_platform_interaction/metadataUtils';
 import {
     canRunDebugWith,
     closeModalAndNavigateTo,
@@ -933,6 +935,60 @@ export default class Editor extends LightningElement {
     }
 
     /**
+     * Internal only callback which gets executed when we get a flow for diffing.
+     *
+     * @param obj -
+     * @param obj.data -
+     * @param obj.error -
+     */
+    getFlowCallbackAndDiff = ({ data, error }) => {
+        // TODO: W-5488109. We may want to revisit the idea of putting this functionality into a separate component.
+        if (error) {
+            invokeModalInternalData({
+                headerData: {
+                    headerTitle: 'Metadata Diff'
+                },
+                bodyData: {
+                    bodyTextOne: 'Encountered an issue while trying to retrieve the before flow'
+                },
+                footerData: {
+                    buttonOne: {
+                        buttonLabel: 'OK'
+                    }
+                }
+            });
+        } else {
+            const originalFlow = data;
+            const newFlow = translateUIModelToFlow(storeInstance.getCurrentState());
+
+            // full diff
+            const fullDiff = diffFlow(originalFlow, newFlow, false, false, false);
+            const fullDiffJson = JSON.stringify(fullDiff, null, 2);
+
+            // Trimmed Diff - use blacklist, ignore undefined values, empty arrays, empty strings,
+            // and differences in date/dateTime formats
+            const trimmedDiff = diffFlow(originalFlow, newFlow, true, true, true);
+            const trimmedDiffJson = JSON.stringify(trimmedDiff, null, 2);
+
+            invokeModalInternalData({
+                headerData: {
+                    headerTitle: 'Metadata Diff'
+                },
+                bodyData: {
+                    bodyTextOne: 'Trimmed Diff\n\n' + trimmedDiffJson,
+                    bodyTextTwo: '\n\nFull diff\n\n' + fullDiffJson
+                },
+                footerData: {
+                    buttonOne: {
+                        buttonLabel: 'OK'
+                    }
+                }
+            });
+        }
+        this.isFlowServerCallInProgress = false;
+    };
+
+    /**
      * This is called when the flow has been loaded or successfully saved, so that we always have the label, description and
      * interviewLabel of the version of the flow that is currently persisted in the DB. This is so that if the user attempts to
      * save a new version, having changed any of these values, and the save fails, then we can revert back to the original values.
@@ -1554,6 +1610,19 @@ export default class Editor extends LightningElement {
                     };
                 }, true);
             }
+        }
+    };
+
+    /**
+     * Handles the diff flow event fired by the toolbar. This is an internal only event.
+     */
+    handleDiffFlow = (/* event */) => {
+        // Only perform diff if there is a before diff.
+        if (this.flowId) {
+            // Get the saved copy from the DB as our 'before' flow for comparing.
+            const params = { id: this.flowId };
+            // Keeping this as fetch because we want to go to the server
+            fetch(SERVER_ACTION_TYPE.GET_FLOW, this.getFlowCallbackAndDiff, params);
         }
     };
 

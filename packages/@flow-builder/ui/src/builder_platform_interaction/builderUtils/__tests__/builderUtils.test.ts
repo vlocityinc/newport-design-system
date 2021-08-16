@@ -10,7 +10,8 @@ import {
     invokeNewFlowModal,
     invokeAutoLayoutWelcomeMat,
     invokeKeyboardHelpDialog,
-    invokeDebugEditor
+    invokeDebugEditor,
+    invokeModalInternalData
 } from '../builderUtils';
 import { invokeModalWithComponents } from 'builder_platform_interaction/sharedUtils';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
@@ -424,6 +425,41 @@ describe('builderUtils', () => {
                             buttonVariant: 'brand'
                         }
                     }
+                },
+                expect.anything()
+            );
+
+            expect(invokeModalWithComponents).toHaveBeenCalled();
+        });
+    });
+
+    describe('invokeModalInternalData', () => {
+        it('calls createComponent and dispatchGlobalEvent w/ expected parameters when given standard parameters', async () => {
+            invokeModalInternalData(createComponentData);
+            await ticks(1);
+            expect(createComponent).toHaveBeenCalledWith(
+                'builder_platform_interaction:modalHeader',
+                {
+                    headerTitle: 'headerTitleStr'
+                },
+                expect.anything()
+            );
+
+            expect(createComponent).toHaveBeenCalledWith(
+                'builder_platform_interaction:modalBodyInternalData',
+                {
+                    bodyTextOne: 'bodyTextOneStr',
+                    bodyTextTwo: 'bodyTextTwoStr',
+                    listSectionHeader: 'listSectionHeaderStr',
+                    listSectionItems: 'listSectionItemsStr'
+                },
+                expect.anything()
+            );
+
+            expect(createComponent).toHaveBeenCalledWith(
+                'builder_platform_interaction:modalFooter',
+                {
+                    buttons: { footerVariant: 'footerVariantStr' }
                 },
                 expect.anything()
             );

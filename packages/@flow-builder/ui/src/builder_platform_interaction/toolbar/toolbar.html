@@ -171,6 +171,13 @@
                     class="test-toolbar-newdebug"
                 >
                 </lightning-button>
+                <lightning-button
+                    if:true={isDiffFlowAllowed}
+                    label={labels.diffFlowTitle}
+                    title={labels.diffFlowTitle}
+                    onclick={handleDiff}
+                >
+                </lightning-button>
             </lightning-button-group>
 
             <lightning-button

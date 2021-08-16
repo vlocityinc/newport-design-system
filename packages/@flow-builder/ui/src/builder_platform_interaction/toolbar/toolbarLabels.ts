@@ -10,6 +10,7 @@ import runTitle from '@salesforce/label/FlowBuilderToolbar.runTitle';
 import debugTitle from '@salesforce/label/FlowBuilderToolbar.debugTitle';
 import newdebugTitle from '@salesforce/label/FlowBuilderToolbar.newdebugTitle';
 import restartRunTitle from '@salesforce/label/FlowBuilderToolbar.restartRunTitle';
+import diffFlowTitle from '@salesforce/label/FlowBuilderToolbar.diffFlowTitle';
 import activateTitle from '@salesforce/label/FlowBuilderToolbar.activateTitle';
 import activating from '@salesforce/label/FlowBuilderToolbar.activating';
 import deactivateTitle from '@salesforce/label/FlowBuilderToolbar.deactivateTitle';
@@ -42,6 +43,7 @@ export const LABELS = {
     debugTitle,
     newdebugTitle,
     restartRunTitle,
+    diffFlowTitle,
     activateTitle,
     activating,
     deactivateTitle,

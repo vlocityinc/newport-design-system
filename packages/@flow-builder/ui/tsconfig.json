@@ -118,6 +118,7 @@
             "builder_platform_interaction/mapItems": ["./src/builder_platform_interaction/mapItems/mapItems.ts"],
             "builder_platform_interaction/marqueeSelectionBox": ["./src/builder_platform_interaction/marqueeSelectionBox/marqueeSelectionBox.ts"],
             "builder_platform_interaction/mergeFieldLib": ["./src/builder_platform_interaction/mergeFieldLib/mergeFieldLib.ts"],
+            "builder_platform_interaction/metadataUtils": ["./src/builder_platform_interaction/metadataUtils/metadataUtils.ts"],
             "builder_platform_interaction/modalBody": ["./src/builder_platform_interaction/modalBody/modalBody.ts"],
             "builder_platform_interaction/modalBodyInternalData": ["./src/builder_platform_interaction/modalBodyInternalData/modalBodyInternalData.ts"],
             "builder_platform_interaction/modalFooter": ["./src/builder_platform_interaction/modalFooter/modalFooter.ts"],

@@ -6,6 +6,7 @@ import {
     RunFlowEvent,
     DebugFlowEvent,
     SaveFlowEvent,
+    DiffFlowEvent,
     UndoEvent,
     RedoEvent,
     CopyOnCanvasEvent,
@@ -19,7 +20,7 @@ import {
 } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
-import { isAutoLayoutCanvasEnabled } from 'builder_platform_interaction/contextLib';
+import { orgHasFlowBuilderDebug, isAutoLayoutCanvasEnabled } from 'builder_platform_interaction/contextLib';
 import { loggingUtils, commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { LABELS } from './toolbarLabels';
 import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
@@ -273,6 +274,10 @@ export default class Toolbar extends LightningElement {
         return 'neutral';
     }
 
+    get isDiffFlowAllowed() {
+        return orgHasFlowBuilderDebug();
+    }
+
     /**
      * Check if the flow Id belongs to a Standard (File Based) Flow Definition (e.g sfdc_checkout__CartToOrder-1),
      * a normal flow Id always starts with 301.
@@ -381,6 +386,19 @@ export default class Toolbar extends LightningElement {
         const saveAsEvent = new SaveFlowEvent(saveAsEventType);
         this.dispatchEvent(saveAsEvent);
         logInteraction(`save-as-button`, 'toolbar', null, 'click');
+    }
+
+    /**
+     * Event handler for click event on the diff flow button.
+     * Dispatches an event named diff flow to perform a diff of the saved flow
+     * to the current flow state.
+     *
+     * @param event
+     */
+    handleDiff(event) {
+        event.preventDefault();
+        const diffEvent = new DiffFlowEvent();
+        this.dispatchEvent(diffEvent);
     }
 
     getSaveAsEventType() {

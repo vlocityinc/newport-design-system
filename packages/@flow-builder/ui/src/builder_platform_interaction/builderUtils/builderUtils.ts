@@ -690,6 +690,35 @@ function showDebugEditorPopover(
     );
 }
 
+/**
+ * Invokes the internal data modal and creates the alert/confirmation modal inside it.
+ * This should only be used when displaying internal only data.
+ *
+ * @param data contains data for modal header/body/footer
+ */
+export const invokeModalInternalData = (data) => {
+    const modalHeaderPromise = createComponentPromise('builder_platform_interaction:modalHeader', {
+        headerTitle: data.headerData.headerTitle
+    });
+    const modalBodyPromise = createComponentPromise('builder_platform_interaction:modalBodyInternalData', {
+        bodyTextOne: data.bodyData.bodyTextOne,
+        bodyTextTwo: data.bodyData.bodyTextTwo,
+        listSectionHeader: data.bodyData.listSectionHeader,
+        listSectionItems: data.bodyData.listSectionItems
+    });
+    const modalFooterPromise = createComponentPromise('builder_platform_interaction:modalFooter', {
+        buttons: data.footerData
+    });
+
+    invokeModalWithComponents(
+        data,
+        modalHeaderPromise,
+        modalBodyPromise,
+        modalFooterPromise,
+        invokeModalWithComponentsOnCreate
+    );
+};
+
 export const invokeAutoLayoutWelcomeMat = (processType, triggerType, createCallback, closeFlowModalCallback) => {
     const modalBodyPromise = createComponentPromise('builder_platform_interaction:welcomeMatBody', {
         processType,
