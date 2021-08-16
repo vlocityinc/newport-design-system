@@ -21,6 +21,12 @@
     {
   "fieldsToNull" : [ ],
   "isListViewManaged" : true,
+  "label" : "Evaluation Flow",
+  "name" : "EvaluationFlow"
+},
+    {
+  "fieldsToNull" : [ ],
+  "isListViewManaged" : true,
   "label" : "Field Service Mobile Flow",
   "name" : "FieldServiceMobile"
 },

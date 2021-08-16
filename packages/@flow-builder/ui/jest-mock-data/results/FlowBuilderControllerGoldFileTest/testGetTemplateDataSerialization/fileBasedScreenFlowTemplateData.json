@@ -2,7 +2,7 @@
   "fileBasedScreenFlowTemplateData":{
   "actionCalls" : [ ],
   "apexPluginCalls" : [ ],
-  "apiVersion" : 53.0,
+  "apiVersion" : 54.0,
   "assignments" : [ {
     "assignmentItems" : [ {
       "assignToReference" : "$Flow.CurrentStage",
@@ -137,6 +137,7 @@
     "showFooter" : true,
     "showHeader" : true
   } ],
+  "sourceTemplate" : "FtestSfdcOnly__TestFileBasedScreen",
   "stages" : [ {
     "isActive" : true,
     "label" : "MyStage",
