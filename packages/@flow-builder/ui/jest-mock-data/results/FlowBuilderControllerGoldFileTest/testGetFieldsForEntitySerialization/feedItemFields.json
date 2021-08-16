@@ -16,7 +16,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -32,8 +31,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BestCommentId":{
       "activePicklistValues":[
@@ -51,7 +49,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -67,8 +64,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BestCommentSelectedById":{
       "activePicklistValues":[
@@ -86,7 +82,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":true,
@@ -103,8 +98,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Body":{
       "activePicklistValues":[
@@ -122,7 +116,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -138,8 +131,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ClientOauthLink":{
       "activePicklistValues":[
@@ -157,7 +149,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -173,8 +164,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "CommentCount":{
       "activePicklistValues":[
@@ -192,7 +182,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -208,8 +197,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ConnectionId":{
       "activePicklistValues":[
@@ -227,7 +215,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -243,8 +230,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ContentId":{
       "activePicklistValues":[
@@ -262,7 +248,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":true,
@@ -279,8 +264,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "CreatedById":{
       "activePicklistValues":[
@@ -298,7 +282,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":true,
@@ -315,8 +298,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "CreatedDate":{
       "activePicklistValues":[
@@ -334,7 +316,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -350,8 +331,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Division":{
       "activePicklistValues":[
@@ -372,7 +352,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -388,8 +367,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "HasContent":{
       "activePicklistValues":[
@@ -407,7 +385,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -423,8 +400,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "HasFeedEntity":{
       "activePicklistValues":[
@@ -442,7 +418,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -458,8 +433,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "HasLink":{
       "activePicklistValues":[
@@ -477,7 +451,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -493,8 +466,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "HasVerifiedComment":{
       "activePicklistValues":[
@@ -512,7 +484,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -528,8 +499,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Id":{
       "activePicklistValues":[
@@ -547,7 +517,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -563,8 +532,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "InsertedById":{
       "activePicklistValues":[
@@ -582,7 +550,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":true,
@@ -599,8 +566,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Intention":{
       "activePicklistValues":[
@@ -618,7 +584,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -634,8 +599,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "IsClosed":{
       "activePicklistValues":[
@@ -653,7 +617,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -669,8 +632,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "IsDeleted":{
       "activePicklistValues":[
@@ -688,7 +650,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -704,8 +665,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "IsRichText":{
       "activePicklistValues":[
@@ -723,7 +683,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -739,8 +698,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LastEditById":{
       "activePicklistValues":[
@@ -758,7 +716,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":true,
@@ -775,8 +732,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LastEditDate":{
       "activePicklistValues":[
@@ -794,7 +750,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -810,8 +765,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LastModifiedDate":{
       "activePicklistValues":[
@@ -829,7 +783,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -845,8 +798,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LikeCount":{
       "activePicklistValues":[
@@ -864,7 +816,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -880,8 +831,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LinkUrl":{
       "activePicklistValues":[
@@ -899,7 +849,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -915,8 +864,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "OriginalCreatedById":{
       "activePicklistValues":[
@@ -934,7 +882,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -950,8 +897,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "OriginalFeedItemId":{
       "activePicklistValues":[
@@ -969,7 +915,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -985,8 +930,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ParentId":{
       "activePicklistValues":[
@@ -1004,7 +948,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":true,
@@ -1152,8 +1095,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PropertyBitsHasContent":{
       "activePicklistValues":[
@@ -1171,7 +1113,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1187,8 +1128,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "PropertyBitsHasEntityLinks":{
       "activePicklistValues":[
@@ -1206,7 +1146,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1222,8 +1161,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "PropertyBitsHasFeedEntity":{
       "activePicklistValues":[
@@ -1241,7 +1179,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1257,8 +1194,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "PropertyBitsHasLink":{
       "activePicklistValues":[
@@ -1276,7 +1212,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1292,8 +1227,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "PropertyBitsHasSmartAnswer":{
       "activePicklistValues":[
@@ -1311,7 +1245,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1327,8 +1260,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "PropertyBitsHasSmartAnswerBestAnswer":{
       "activePicklistValues":[
@@ -1346,7 +1278,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1362,8 +1293,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "PropertyBitsHasSmartAnswerPublished":{
       "activePicklistValues":[
@@ -1381,7 +1311,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1397,8 +1326,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "PropertyBitsHasSmartAnswerRated":{
       "activePicklistValues":[
@@ -1416,7 +1344,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1432,8 +1359,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "PropertyBitsHasVerifiedComment":{
       "activePicklistValues":[
@@ -1451,7 +1377,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1467,8 +1392,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "PropertyBitsIsAnnouncement":{
       "activePicklistValues":[
@@ -1486,7 +1410,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1502,8 +1425,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "PropertyBitsIsClosed":{
       "activePicklistValues":[
@@ -1521,7 +1443,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1537,8 +1458,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "RawBody":{
       "activePicklistValues":[
@@ -1556,7 +1476,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1572,8 +1491,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "RelatedRecordId":{
       "activePicklistValues":[
@@ -1591,7 +1509,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":true,
@@ -1610,8 +1527,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Revision":{
       "activePicklistValues":[
@@ -1629,7 +1545,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1645,8 +1560,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Status":{
       "activePicklistValues":[
@@ -1675,7 +1589,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1691,8 +1604,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "StorageType":{
       "activePicklistValues":[
@@ -1710,7 +1622,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1726,8 +1637,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "SystemModstamp":{
       "activePicklistValues":[
@@ -1745,7 +1655,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1761,8 +1670,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Title":{
       "activePicklistValues":[
@@ -1780,7 +1688,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1796,8 +1703,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Type":{
       "activePicklistValues":[
@@ -1930,7 +1836,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1946,8 +1851,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"FeedItem",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     }
   }
 }

@@ -641,6 +641,16 @@
       "updateable":true
     },
     {
+      "apiName":"AdminSearchScope",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Admin search scope",
+      "entityLabelPlural":"Admin search scopes",
+      "queryable":true,
+      "updateable":true
+    },
+    {
       "apiName":"AgentWork",
       "createable":true,
       "custom":false,
@@ -1277,36 +1287,6 @@
       "deletable":true,
       "entityLabel":"Application Version",
       "entityLabelPlural":"Application Version",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"ApptAssignmentRsrcPool",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Appointment Assignment Resource Pool",
-      "entityLabelPlural":"Appointment Assignment Resource Pool",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"ApptAssignmentRsrcPoolOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Appointment Assignment Resource Pool Owner Rule",
-      "entityLabelPlural":"Appointment Assignment Resource Pool Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"ApptAssignmentRsrcPoolShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Appointment Assignment Resource Pool Share",
-      "entityLabelPlural":"Appointment Assignment Resource Pool Share",
       "queryable":true,
       "updateable":true
     },
@@ -2821,36 +2801,6 @@
       "updateable":true
     },
     {
-      "apiName":"BusinessBrand",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Business Brand",
-      "entityLabelPlural":"Business Brands",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"BusinessBrandOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Business Brand Owner Rule",
-      "entityLabelPlural":"Business Brand Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"BusinessBrandShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Business Brand Share",
-      "entityLabelPlural":"Business Brand Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"BusinessHours",
       "createable":true,
       "custom":false,
@@ -4291,6 +4241,16 @@
       "updateable":true
     },
     {
+      "apiName":"ChatterMetrics",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Chatter Metrics",
+      "entityLabelPlural":"Chatter Metrics",
+      "queryable":true,
+      "updateable":true
+    },
+    {
       "apiName":"CrossOrgChatterMetrics",
       "createable":false,
       "custom":false,
@@ -4299,6 +4259,16 @@
       "entityLabelPlural":"Chatter Metrics",
       "queryable":true,
       "updateable":false
+    },
+    {
+      "apiName":"ChatterOrgWideMetrics",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Chatter Org Wide Metric",
+      "entityLabelPlural":"Chatter Org Wide Metric",
+      "queryable":true,
+      "updateable":true
     },
     {
       "apiName":"CrossOrgChatterOrgWideMetrics",
@@ -7251,6 +7221,16 @@
       "updateable":true
     },
     {
+      "apiName":"DataAssetUsageTrackingInfo",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Data Asset Usage Tracking Info",
+      "entityLabelPlural":"DataAssetUsageTrackingInfo",
+      "queryable":true,
+      "updateable":true
+    },
+    {
       "apiName":"DataCategory",
       "createable":true,
       "custom":false,
@@ -7617,6 +7597,16 @@
       "deletable":true,
       "entityLabel":"Data.com SocialKey Metrics",
       "entityLabelPlural":"Data.com SocialKey Metrics",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"DataAssetSemanticGraphEdge",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"DataAssetSemanticGraphEdge Info",
+      "entityLabelPlural":"DataAssetSemanticGraphEdge",
       "queryable":true,
       "updateable":true
     },
@@ -8801,6 +8791,16 @@
       "updateable":true
     },
     {
+      "apiName":"AdminSearchScopeItem",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Entity",
+      "entityLabelPlural":"Admin search scope children",
+      "queryable":true,
+      "updateable":true
+    },
+    {
       "apiName":"EntityBlacklist",
       "createable":true,
       "custom":false,
@@ -8829,16 +8829,6 @@
       "entityLabelPlural":"Feed Mentions",
       "queryable":true,
       "updateable":false
-    },
-    {
-      "apiName":"IndustriesTriggerHandler",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Entity",
-      "entityLabelPlural":"Industries Trigger Handlers",
-      "queryable":true,
-      "updateable":true
     },
     {
       "apiName":"ManagedContentMigration",
@@ -10401,46 +10391,6 @@
       "updateable":true
     },
     {
-      "apiName":"FlexipageEventProperty",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Flexipage Event Property",
-      "entityLabelPlural":"Flexipage Event Properties",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"FlexipageEventPropMapping",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Flexipage Event Property Mapping",
-      "entityLabelPlural":"Flexipage Event Property Mappings",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"FlexipageEventSource",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Flexipage Event Source",
-      "entityLabelPlural":"Flexipage Event Sources",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"FlexipageEventTarget",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Flexipage Event Target",
-      "entityLabelPlural":"Flexipage Event Targets",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"FlexipageFieldInstance",
       "createable":true,
       "custom":false,
@@ -10797,66 +10747,6 @@
       "deletable":true,
       "entityLabel":"Flow Metadata Value",
       "entityLabelPlural":"Flow Metadata Values",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"FlowOrchestrationEvent",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Flow Orchestration Event",
-      "entityLabelPlural":"Flow Orchestration Events",
-      "queryable":false,
-      "updateable":false
-    },
-    {
-      "apiName":"FlowOrchestrationHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Flow Orchestration History",
-      "entityLabelPlural":"Flow Orchestration Histories",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"FlowOrchestrationInstance",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Flow Orchestration Instance",
-      "entityLabelPlural":"Flow Orchestration Instances",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"FlowOrchestrationStageInstance",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Flow Orchestration Stage Instance",
-      "entityLabelPlural":"Flow Orchestration Stage Instances",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"FlowOrchestrationStepInstance",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Flow Orchestration Step Instance",
-      "entityLabelPlural":"Flow Orchestration Step Instances",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"FlowOrchestrationWorkItem",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Flow Orchestration Work Item",
-      "entityLabelPlural":"Flow Orchestration Work Items",
       "queryable":true,
       "updateable":true
     },
@@ -12472,13 +12362,13 @@
     },
     {
       "apiName":"FtestVirtualMain",
-      "createable":true,
+      "createable":false,
       "custom":false,
       "deletable":false,
       "entityLabel":"FtestVirtualMain Record",
       "entityLabelPlural":"FtestVirtualMain Records",
       "queryable":true,
-      "updateable":true
+      "updateable":false
     },
     {
       "apiName":"FtestZosParent",
@@ -13281,16 +13171,6 @@
       "updateable":true
     },
     {
-      "apiName":"ImageFeed",
-      "createable":false,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Image Feed",
-      "entityLabelPlural":"Image Feed",
-      "queryable":true,
-      "updateable":false
-    },
-    {
       "apiName":"ImageHistory",
       "createable":true,
       "custom":false,
@@ -13561,16 +13441,6 @@
       "updateable":true
     },
     {
-      "apiName":"IndustriesTriggersRegistry",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Industries Triggers Registry",
-      "entityLabelPlural":"Industries Triggers Registries",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"InfluenceRecalcStatus",
       "createable":true,
       "custom":false,
@@ -13647,16 +13517,6 @@
       "deletable":true,
       "entityLabel":"Interaction Allocation",
       "entityLabelPlural":"Interaction Allocations",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"InteractionCollMapItem",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Interaction Collection Map Item",
-      "entityLabelPlural":"Interaction Collection Map Items",
       "queryable":true,
       "updateable":true
     },
@@ -13821,16 +13681,6 @@
       "updateable":true
     },
     {
-      "apiName":"InteractionRollback",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Interaction Rollback",
-      "entityLabelPlural":"Interaction Rollbacks",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"InteractionDecision",
       "createable":true,
       "custom":false,
@@ -13887,6 +13737,16 @@
       "deletable":true,
       "entityLabel":"Interaction Stage",
       "entityLabelPlural":"Interaction Stages",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"InteractionStageStepAssignee",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Interaction Stage Step Assignee",
+      "entityLabelPlural":"Interaction Stage Step Assignees",
       "queryable":true,
       "updateable":true
     },
@@ -15341,26 +15201,6 @@
       "updateable":false
     },
     {
-      "apiName":"LiveChatObjectAccessConfig",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Live Chat Object Access Configuration",
-      "entityLabelPlural":"Live Chat Object Access Configuration",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"LiveChatObjectAccessDefinition",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Live Chat Object Access Definition",
-      "entityLabelPlural":"Live Chat Object Access Definition",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"LiveChatButtonCriteria",
       "createable":true,
       "custom":false,
@@ -16211,16 +16051,6 @@
       "updateable":true
     },
     {
-      "apiName":"ManagedContentSlackLink",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Managed Content Slack Link",
-      "entityLabelPlural":"Managed Content Slack Links",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"ManagedContentSpace",
       "createable":true,
       "custom":false,
@@ -16297,16 +16127,6 @@
       "deletable":true,
       "entityLabel":"Managed Content Space Member",
       "entityLabelPlural":"Managed Content Space Members",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"ManagedContentSpaceModule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Managed Content Space Module",
-      "entityLabelPlural":"Managed Content Space Modules",
       "queryable":true,
       "updateable":true
     },
@@ -16849,6 +16669,16 @@
       "entityLabelPlural":"Metric Share",
       "queryable":true,
       "updateable":true
+    },
+    {
+      "apiName":"MetricsDataFile",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Metrics Data File",
+      "entityLabelPlural":"Metrics Data Files",
+      "queryable":true,
+      "updateable":false
     },
     {
       "apiName":"ApexTestRunResultMetrics",
@@ -17931,16 +17761,6 @@
       "updateable":true
     },
     {
-      "apiName":"InteractionStageStepAssignee",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Orchestration Step Assignee",
-      "entityLabelPlural":"Orchestration Step Assignees",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"Order",
       "createable":true,
       "custom":false,
@@ -18969,16 +18789,6 @@
       "entityLabelPlural":"Pending Service Routings",
       "queryable":true,
       "updateable":true
-    },
-    {
-      "apiName":"PendingServiceRoutingInteractionInfo",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Pending Service Routing Interaction Information",
-      "entityLabelPlural":"Pending Service Routing Interaction Information",
-      "queryable":true,
-      "updateable":false
     },
     {
       "apiName":"PendingServiceRoutingOwnerSharingRule",
@@ -20251,16 +20061,6 @@
       "updateable":false
     },
     {
-      "apiName":"Product2CriteriaSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Product Criteria Rule",
-      "entityLabelPlural":"Product Criteria Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"ProductEntitlementTemplate",
       "createable":true,
       "custom":false,
@@ -20681,16 +20481,6 @@
       "updateable":false
     },
     {
-      "apiName":"Product2SharingRuleFilterItem",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Product Sharing Rule Filter Item",
-      "entityLabelPlural":"Product Sharing Rule Filter Item",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"ProductTransfer",
       "createable":true,
       "custom":false,
@@ -20792,7 +20582,7 @@
     },
     {
       "apiName":"Profile",
-      "createable":true,
+      "createable":false,
       "custom":false,
       "deletable":true,
       "entityLabel":"Profile",
@@ -21891,26 +21681,6 @@
       "updateable":false
     },
     {
-      "apiName":"CrossOrgRRAssocCriteriaMetrics",
-      "createable":false,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"RelatedRecordAssocCriteriaMetrics",
-      "entityLabelPlural":"RelatedRecordAssocCriteriaMetrics",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"RRAssocCriteriaMetrics",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"RelatedRecordAssocCriteriaMetrics",
-      "entityLabelPlural":"RelatedRecordAssocCriteriaMetrics",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"RelationshipInfo",
       "createable":false,
       "custom":false,
@@ -22961,26 +22731,6 @@
       "updateable":false
     },
     {
-      "apiName":"SalesforceCustomerContact",
-      "createable":false,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Salesforce Customer Contact",
-      "entityLabelPlural":"Salesforce Customer Contacts",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"SalesforceCustomerProduct",
-      "createable":false,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Salesforce Customer Product",
-      "entityLabelPlural":"Salesforce Customer Product",
-      "queryable":true,
-      "updateable":false
-    },
-    {
       "apiName":"SamplingStrategy",
       "createable":true,
       "custom":false,
@@ -23211,42 +22961,22 @@
       "updateable":true
     },
     {
+      "apiName":"SecureAgentsCluster",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Secure Agent Cluster",
+      "entityLabelPlural":"Secure Agent Clusters",
+      "queryable":true,
+      "updateable":true
+    },
+    {
       "apiName":"SecurityCustomBaseline",
       "createable":true,
       "custom":false,
       "deletable":true,
       "entityLabel":"Security Custom Baseline",
       "entityLabelPlural":"Security Custom Baselines",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"Seller",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Seller",
-      "entityLabelPlural":"Sellers",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"SellerOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Seller Owner Rule",
-      "entityLabelPlural":"Seller Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"SellerShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Seller Share",
-      "entityLabelPlural":"Seller Share",
       "queryable":true,
       "updateable":true
     },
@@ -25027,16 +24757,6 @@
       "deletable":true,
       "entityLabel":"Skinny Validation Request",
       "entityLabelPlural":"Skinny Validation Request",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"SlackApp",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Slack App",
-      "entityLabelPlural":"Slack Apps",
       "queryable":true,
       "updateable":true
     },
@@ -27561,26 +27281,6 @@
       "updateable":false
     },
     {
-      "apiName":"UserProfileSearchScope",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"User profile search scope",
-      "entityLabelPlural":"User profile search scopes",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"UserProfileSearchScopeItem",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"User profile search scope child",
-      "entityLabelPlural":"User profile search scope children",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"UserAppMenuCustomization",
       "createable":true,
       "custom":false,
@@ -27687,16 +27387,6 @@
       "deletable":true,
       "entityLabel":"Veritable Model",
       "entityLabelPlural":"Veritable Models",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"ViewDefinition",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"View Definition",
-      "entityLabelPlural":"View Definitions",
       "queryable":true,
       "updateable":true
     },
@@ -28837,6 +28527,16 @@
       "deletable":true,
       "entityLabel":"__MISSING LABEL__ PropertyFile - val AuthorizationFormText not found in section StandardFeedLabel",
       "entityLabelPlural":"__MISSING LABEL__ PropertyFile - val AuthorizationFormText not found in section StandardFeedLabel",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"ImageFeed",
+      "createable":false,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"__MISSING LABEL__ PropertyFile - val Image not found in section StandardFeedLabel",
+      "entityLabelPlural":"__MISSING LABEL__ PropertyFile - val Image not found in section StandardFeedLabel",
       "queryable":true,
       "updateable":false
     },

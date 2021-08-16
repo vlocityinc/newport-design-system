@@ -94,12 +94,6 @@
       "description":"Define business and routing rules for service channel conversations.",
       "label":"Omni-Channel Flow",
       "processType":"RoutingFlow"
-    },
-    {
-      "icon":"utility:flow",
-      "description":"These flows can be used to determine when an orchestration stage or step should start or end.",
-      "label":"Evaluation Flow (No Trigger)",
-      "processType":"EvaluationFlow"
     }
   ]
 }

@@ -16,7 +16,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -32,8 +31,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "AccountSource":{
       "activePicklistValues":[
@@ -94,7 +92,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -110,8 +107,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "AnnualRevenue":{
       "activePicklistValues":[
@@ -129,7 +125,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -145,8 +140,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BillingAddress":{
       "activePicklistValues":[
@@ -164,7 +158,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":true,
       "isCustom":false,
       "isPolymorphic":false,
@@ -180,8 +173,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "BillingCity":{
       "activePicklistValues":[
@@ -199,7 +191,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -215,8 +206,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BillingCountry":{
       "activePicklistValues":[
@@ -234,7 +224,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -250,8 +239,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BillingGeocodeAccuracy":{
       "activePicklistValues":[
@@ -312,7 +300,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -328,8 +315,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BillingLatitude":{
       "activePicklistValues":[
@@ -347,7 +333,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -363,8 +348,7 @@
       "required":false,
       "scale":15,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BillingLongitude":{
       "activePicklistValues":[
@@ -382,7 +366,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -398,8 +381,7 @@
       "required":false,
       "scale":15,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BillingPostalCode":{
       "activePicklistValues":[
@@ -417,7 +399,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -433,8 +414,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BillingState":{
       "activePicklistValues":[
@@ -452,7 +432,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -468,8 +447,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BillingStreet":{
       "activePicklistValues":[
@@ -487,7 +465,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -503,8 +480,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "CloneSourceId":{
       "activePicklistValues":[
@@ -522,7 +498,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -538,8 +513,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ConnectionReceivedId":{
       "activePicklistValues":[
@@ -557,7 +531,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -573,8 +546,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ConnectionSentId":{
       "activePicklistValues":[
@@ -592,7 +564,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -608,8 +579,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "CreatedById":{
       "activePicklistValues":[
@@ -627,7 +597,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -643,8 +612,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "CreatedDate":{
       "activePicklistValues":[
@@ -662,7 +630,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -678,8 +645,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "CurrencyIsoCode":{
       "activePicklistValues":[
@@ -708,7 +674,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -724,8 +689,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "CustomDateTime__c":{
       "activePicklistValues":[
@@ -743,7 +707,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":true,
       "isPolymorphic":false,
@@ -759,8 +722,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "DandbCompanyId":{
       "activePicklistValues":[
@@ -778,7 +740,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -794,8 +755,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Description":{
       "activePicklistValues":[
@@ -813,7 +773,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -829,8 +788,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "Division":{
       "activePicklistValues":[
@@ -851,7 +809,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -867,8 +824,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "DunsNumber":{
       "activePicklistValues":[
@@ -886,7 +842,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -902,8 +857,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Fax":{
       "activePicklistValues":[
@@ -921,7 +875,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -937,8 +890,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "FirstName":{
       "activePicklistValues":[
@@ -956,7 +908,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -972,8 +923,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Geolocation__c":{
       "activePicklistValues":[
@@ -991,7 +941,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":true,
       "isCustom":true,
       "isPolymorphic":false,
@@ -1007,8 +956,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "Geolocation__Latitude__s":{
       "activePicklistValues":[
@@ -1026,7 +974,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":true,
       "isPolymorphic":false,
@@ -1042,8 +989,7 @@
       "required":false,
       "scale":4,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Geolocation__Longitude__s":{
       "activePicklistValues":[
@@ -1061,7 +1007,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":true,
       "isPolymorphic":false,
@@ -1077,8 +1022,7 @@
       "required":false,
       "scale":4,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Id":{
       "activePicklistValues":[
@@ -1096,7 +1040,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1112,8 +1055,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Industry":{
       "activePicklistValues":[
@@ -1258,7 +1200,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1274,8 +1215,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "IsDeleted":{
       "activePicklistValues":[
@@ -1293,7 +1233,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1309,8 +1248,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "IsExcludedFromRealign":{
       "activePicklistValues":[
@@ -1328,7 +1266,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1344,8 +1281,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "IsLocked":{
       "activePicklistValues":[
@@ -1363,7 +1299,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1379,8 +1314,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "IsPersonAccount":{
       "activePicklistValues":[
@@ -1398,7 +1332,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1414,8 +1347,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Jigsaw":{
       "activePicklistValues":[
@@ -1433,7 +1365,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1449,8 +1380,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "JigsawCompanyId":{
       "activePicklistValues":[
@@ -1468,7 +1398,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1484,8 +1413,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LastActivityDate":{
       "activePicklistValues":[
@@ -1503,7 +1431,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1519,8 +1446,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LastModifiedById":{
       "activePicklistValues":[
@@ -1538,7 +1464,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1554,8 +1479,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LastModifiedDate":{
       "activePicklistValues":[
@@ -1573,7 +1497,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1589,8 +1512,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LastName":{
       "activePicklistValues":[
@@ -1608,7 +1530,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1624,8 +1545,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LastReferencedDate":{
       "activePicklistValues":[
@@ -1643,7 +1563,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1659,8 +1578,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LastViewedDate":{
       "activePicklistValues":[
@@ -1678,7 +1596,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1694,8 +1611,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LookupOnContact__pc":{
       "activePicklistValues":[
@@ -1713,7 +1629,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":true,
       "isPolymorphic":false,
@@ -1729,8 +1644,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "MasterRecordId":{
       "activePicklistValues":[
@@ -1748,7 +1662,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1764,8 +1677,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "MayEdit":{
       "activePicklistValues":[
@@ -1783,7 +1695,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1799,8 +1710,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "MiddleName":{
       "activePicklistValues":[
@@ -1818,7 +1728,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1834,8 +1743,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "NaicsCode":{
       "activePicklistValues":[
@@ -1853,7 +1761,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1869,8 +1776,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "NaicsDesc":{
       "activePicklistValues":[
@@ -1888,7 +1794,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1904,8 +1809,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Name":{
       "activePicklistValues":[
@@ -1923,7 +1827,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":true,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1939,8 +1842,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "NameLocal":{
       "activePicklistValues":[
@@ -1958,7 +1860,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1974,8 +1875,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "NumberOfEmployees":{
       "activePicklistValues":[
@@ -1993,7 +1893,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2009,8 +1908,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "OperatingHoursId":{
       "activePicklistValues":[
@@ -2028,7 +1926,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2044,8 +1941,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "OutstandingShares__c":{
       "activePicklistValues":[
@@ -2063,7 +1959,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":true,
       "isPolymorphic":false,
@@ -2079,8 +1974,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "OwnerId":{
       "activePicklistValues":[
@@ -2098,7 +1992,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2114,8 +2007,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Ownership":{
       "activePicklistValues":[
@@ -2148,7 +2040,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2164,8 +2055,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ParentId":{
       "activePicklistValues":[
@@ -2183,7 +2073,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2199,8 +2088,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonAssistantName":{
       "activePicklistValues":[
@@ -2218,7 +2106,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2234,8 +2121,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonAssistantPhone":{
       "activePicklistValues":[
@@ -2253,7 +2139,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2269,8 +2154,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonBirthdate":{
       "activePicklistValues":[
@@ -2288,7 +2172,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2304,8 +2187,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonContactId":{
       "activePicklistValues":[
@@ -2323,7 +2205,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2339,8 +2220,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonDepartment":{
       "activePicklistValues":[
@@ -2358,7 +2238,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2374,8 +2253,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonDoNotCall":{
       "activePicklistValues":[
@@ -2393,7 +2271,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2409,8 +2286,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonEmail":{
       "activePicklistValues":[
@@ -2428,7 +2304,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2444,8 +2319,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonEmailBouncedDate":{
       "activePicklistValues":[
@@ -2463,7 +2337,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2479,8 +2352,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonEmailBouncedReason":{
       "activePicklistValues":[
@@ -2498,7 +2370,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2514,8 +2385,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonFirstNameLocal":{
       "activePicklistValues":[
@@ -2533,7 +2403,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2549,8 +2418,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonHasOptedOutOfEmail":{
       "activePicklistValues":[
@@ -2568,7 +2436,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2584,8 +2451,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonHasOptedOutOfFax":{
       "activePicklistValues":[
@@ -2603,7 +2469,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2619,8 +2484,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonHomePhone":{
       "activePicklistValues":[
@@ -2638,7 +2502,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2654,8 +2517,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonIndividualId":{
       "activePicklistValues":[
@@ -2673,7 +2535,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2689,8 +2550,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonLastCURequestDate":{
       "activePicklistValues":[
@@ -2708,7 +2568,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2724,8 +2583,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonLastCUUpdateDate":{
       "activePicklistValues":[
@@ -2743,7 +2601,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2759,8 +2616,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonLastNameLocal":{
       "activePicklistValues":[
@@ -2778,7 +2634,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2794,8 +2649,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonLeadSource":{
       "activePicklistValues":[
@@ -2856,7 +2710,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2872,8 +2725,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonMailingAddress":{
       "activePicklistValues":[
@@ -2891,7 +2743,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":true,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2907,8 +2758,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "PersonMailingCity":{
       "activePicklistValues":[
@@ -2926,7 +2776,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2942,8 +2791,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonMailingCountry":{
       "activePicklistValues":[
@@ -2961,7 +2809,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2977,8 +2824,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonMailingGeocodeAccuracy":{
       "activePicklistValues":[
@@ -3039,7 +2885,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3055,8 +2900,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonMailingLatitude":{
       "activePicklistValues":[
@@ -3074,7 +2918,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3090,8 +2933,7 @@
       "required":false,
       "scale":15,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonMailingLongitude":{
       "activePicklistValues":[
@@ -3109,7 +2951,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3125,8 +2966,7 @@
       "required":false,
       "scale":15,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonMailingPostalCode":{
       "activePicklistValues":[
@@ -3144,7 +2984,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3160,8 +2999,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonMailingState":{
       "activePicklistValues":[
@@ -3179,7 +3017,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3195,8 +3032,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonMailingStreet":{
       "activePicklistValues":[
@@ -3214,7 +3050,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3230,8 +3065,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonMobilePhone":{
       "activePicklistValues":[
@@ -3249,7 +3083,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3265,8 +3098,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonOtherAddress":{
       "activePicklistValues":[
@@ -3284,7 +3116,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":true,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3300,8 +3131,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "PersonOtherCity":{
       "activePicklistValues":[
@@ -3319,7 +3149,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3335,8 +3164,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonOtherCountry":{
       "activePicklistValues":[
@@ -3354,7 +3182,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3370,8 +3197,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonOtherGeocodeAccuracy":{
       "activePicklistValues":[
@@ -3432,7 +3258,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3448,8 +3273,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonOtherLatitude":{
       "activePicklistValues":[
@@ -3467,7 +3291,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3483,8 +3306,7 @@
       "required":false,
       "scale":15,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonOtherLongitude":{
       "activePicklistValues":[
@@ -3502,7 +3324,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3518,8 +3339,7 @@
       "required":false,
       "scale":15,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonOtherPhone":{
       "activePicklistValues":[
@@ -3537,7 +3357,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3553,8 +3372,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonOtherPostalCode":{
       "activePicklistValues":[
@@ -3572,7 +3390,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3588,8 +3405,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonOtherState":{
       "activePicklistValues":[
@@ -3607,7 +3423,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3623,8 +3438,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonOtherStreet":{
       "activePicklistValues":[
@@ -3642,7 +3456,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3658,8 +3471,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonTitle":{
       "activePicklistValues":[
@@ -3677,7 +3489,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3693,8 +3504,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Phone":{
       "activePicklistValues":[
@@ -3712,7 +3522,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3728,8 +3537,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PhotoUrl":{
       "activePicklistValues":[
@@ -3747,7 +3555,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3763,8 +3570,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Rating":{
       "activePicklistValues":[
@@ -3793,7 +3599,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3809,8 +3614,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "RecordTypeId":{
       "activePicklistValues":[
@@ -3828,7 +3632,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3844,8 +3647,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "RowVersion":{
       "activePicklistValues":[
@@ -3863,7 +3665,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3879,8 +3680,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Salutation":{
       "activePicklistValues":[
@@ -3917,7 +3717,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3933,8 +3732,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ShippingAddress":{
       "activePicklistValues":[
@@ -3952,7 +3750,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":true,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3968,8 +3765,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "ShippingCity":{
       "activePicklistValues":[
@@ -3987,7 +3783,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4003,8 +3798,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ShippingCountry":{
       "activePicklistValues":[
@@ -4022,7 +3816,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4038,8 +3831,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ShippingGeocodeAccuracy":{
       "activePicklistValues":[
@@ -4100,7 +3892,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4116,8 +3907,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ShippingLatitude":{
       "activePicklistValues":[
@@ -4135,7 +3925,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4151,8 +3940,7 @@
       "required":false,
       "scale":15,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ShippingLongitude":{
       "activePicklistValues":[
@@ -4170,7 +3958,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4186,8 +3973,7 @@
       "required":false,
       "scale":15,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ShippingPostalCode":{
       "activePicklistValues":[
@@ -4205,7 +3991,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4221,8 +4006,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ShippingState":{
       "activePicklistValues":[
@@ -4240,7 +4024,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4256,8 +4039,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ShippingStreet":{
       "activePicklistValues":[
@@ -4275,7 +4057,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4291,8 +4072,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Sic":{
       "activePicklistValues":[
@@ -4310,7 +4090,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4326,8 +4105,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "SicDesc":{
       "activePicklistValues":[
@@ -4345,7 +4123,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4361,8 +4138,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Site":{
       "activePicklistValues":[
@@ -4380,7 +4156,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4396,8 +4171,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Suffix":{
       "activePicklistValues":[
@@ -4415,7 +4189,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4431,8 +4204,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "SystemModstamp":{
       "activePicklistValues":[
@@ -4450,7 +4222,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4466,8 +4237,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "TickerSymbol":{
       "activePicklistValues":[
@@ -4485,7 +4255,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4501,8 +4270,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Tradestyle":{
       "activePicklistValues":[
@@ -4520,7 +4288,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4536,8 +4303,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Type":{
       "activePicklistValues":[
@@ -4594,7 +4360,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4610,8 +4375,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "UserLookup__c":{
       "activePicklistValues":[
@@ -4629,7 +4393,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":true,
       "isPolymorphic":false,
@@ -4645,8 +4408,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Website":{
       "activePicklistValues":[
@@ -4664,7 +4426,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4680,8 +4441,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "YearStarted":{
       "activePicklistValues":[
@@ -4699,7 +4459,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4715,8 +4474,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Account",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     }
   }
 }

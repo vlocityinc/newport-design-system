@@ -16,7 +16,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -32,8 +31,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ActivatedById":{
       "activePicklistValues":[
@@ -51,7 +49,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -67,8 +64,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ActivatedDate":{
       "activePicklistValues":[
@@ -86,7 +82,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -102,8 +97,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "AutoRenewCode":{
       "activePicklistValues":[
@@ -128,7 +122,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -144,8 +137,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BalanceDue":{
       "activePicklistValues":[
@@ -163,7 +155,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -179,8 +170,7 @@
       "required":true,
       "scale":2,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BankAccountName":{
       "activePicklistValues":[
@@ -198,7 +188,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -214,8 +203,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BankAccountType":{
       "activePicklistValues":[
@@ -244,7 +232,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -260,8 +247,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BankAddress":{
       "activePicklistValues":[
@@ -279,7 +265,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":true,
       "isCustom":false,
       "isPolymorphic":false,
@@ -295,8 +280,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "BankBranchCode":{
       "activePicklistValues":[
@@ -314,7 +298,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -330,8 +313,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BankCity":{
       "activePicklistValues":[
@@ -349,7 +331,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -365,8 +346,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BankCode":{
       "activePicklistValues":[
@@ -384,7 +364,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -400,8 +379,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BankCountry":{
       "activePicklistValues":[
@@ -419,7 +397,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -435,8 +412,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BankGeocodeAccuracy":{
       "activePicklistValues":[
@@ -497,7 +473,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -513,8 +488,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BankLatitude":{
       "activePicklistValues":[
@@ -532,7 +506,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -548,8 +521,7 @@
       "required":false,
       "scale":15,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BankLongitude":{
       "activePicklistValues":[
@@ -567,7 +539,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -583,8 +554,7 @@
       "required":false,
       "scale":15,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BankName":{
       "activePicklistValues":[
@@ -602,7 +572,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -618,8 +587,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BankPostalCode":{
       "activePicklistValues":[
@@ -637,7 +605,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -653,8 +620,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BankReferenceNumber":{
       "activePicklistValues":[
@@ -672,7 +638,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -688,8 +653,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BankState":{
       "activePicklistValues":[
@@ -707,7 +671,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -723,8 +686,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BankStreet":{
       "activePicklistValues":[
@@ -742,7 +704,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -758,8 +719,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BillingAddress":{
       "activePicklistValues":[
@@ -777,7 +737,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":true,
       "isCustom":false,
       "isPolymorphic":false,
@@ -793,8 +752,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "BillingCity":{
       "activePicklistValues":[
@@ -812,7 +770,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -828,8 +785,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BillingCompany":{
       "activePicklistValues":[
@@ -847,7 +803,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -863,8 +818,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BillingCountry":{
       "activePicklistValues":[
@@ -882,7 +836,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -898,8 +851,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BillingEmail":{
       "activePicklistValues":[
@@ -917,7 +869,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -933,8 +884,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BillingFax":{
       "activePicklistValues":[
@@ -952,7 +902,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -968,8 +917,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BillingFirstName":{
       "activePicklistValues":[
@@ -987,7 +935,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1003,8 +950,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BillingGeocodeAccuracy":{
       "activePicklistValues":[
@@ -1065,7 +1011,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1081,8 +1026,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BillingLanguage":{
       "activePicklistValues":[
@@ -1171,7 +1115,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1187,8 +1130,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BillingLastName":{
       "activePicklistValues":[
@@ -1206,7 +1148,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1222,8 +1163,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BillingLatitude":{
       "activePicklistValues":[
@@ -1241,7 +1181,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1257,8 +1196,7 @@
       "required":false,
       "scale":15,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BillingLongitude":{
       "activePicklistValues":[
@@ -1276,7 +1214,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1292,8 +1229,7 @@
       "required":false,
       "scale":15,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BillingName":{
       "activePicklistValues":[
@@ -1311,7 +1247,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":true,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1327,8 +1262,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BillingPhone":{
       "activePicklistValues":[
@@ -1346,7 +1280,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1362,8 +1295,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BillingPostalCode":{
       "activePicklistValues":[
@@ -1381,7 +1313,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1397,8 +1328,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BillingSalutation":{
       "activePicklistValues":[
@@ -1435,7 +1365,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1451,8 +1380,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BillingState":{
       "activePicklistValues":[
@@ -1470,7 +1398,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1486,8 +1413,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BillingStreet":{
       "activePicklistValues":[
@@ -1505,7 +1431,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1521,8 +1446,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "CloneSourceId":{
       "activePicklistValues":[
@@ -1540,7 +1464,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1556,8 +1479,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "CompanySignedDate":{
       "activePicklistValues":[
@@ -1575,7 +1497,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1591,8 +1512,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "CompanySignedId":{
       "activePicklistValues":[
@@ -1610,7 +1530,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1626,8 +1545,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ContractNumber":{
       "activePicklistValues":[
@@ -1645,7 +1563,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1661,8 +1578,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ContractTerm":{
       "activePicklistValues":[
@@ -1680,7 +1596,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1696,8 +1611,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "CreatedById":{
       "activePicklistValues":[
@@ -1715,7 +1629,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1731,8 +1644,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "CreatedDate":{
       "activePicklistValues":[
@@ -1750,7 +1662,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1766,8 +1677,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "CreditCardExpirationDate":{
       "activePicklistValues":[
@@ -1785,7 +1695,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1801,8 +1710,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "CreditCardType":{
       "activePicklistValues":[
@@ -1835,7 +1743,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1851,8 +1758,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "CurrencyIsoCode":{
       "activePicklistValues":[
@@ -1881,7 +1787,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1897,8 +1802,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "CustomerExpirationNotice":{
       "activePicklistValues":[
@@ -1931,7 +1835,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1947,8 +1850,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "CustomerSignedDate":{
       "activePicklistValues":[
@@ -1966,7 +1868,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1982,8 +1883,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "CustomerSignedId":{
       "activePicklistValues":[
@@ -2001,7 +1901,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2017,8 +1916,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "CustomerSignedTitle":{
       "activePicklistValues":[
@@ -2036,7 +1934,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2052,8 +1949,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Description":{
       "activePicklistValues":[
@@ -2071,7 +1967,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2087,8 +1982,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "Division":{
       "activePicklistValues":[
@@ -2109,7 +2003,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2125,8 +2018,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "EndDate":{
       "activePicklistValues":[
@@ -2144,7 +2036,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2160,8 +2051,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "HasPurchaseRule":{
       "activePicklistValues":[
@@ -2179,7 +2069,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2195,8 +2084,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Id":{
       "activePicklistValues":[
@@ -2214,7 +2102,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2230,8 +2117,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "InvoiceDispatchMethod":{
       "activePicklistValues":[
@@ -2264,7 +2150,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2280,8 +2165,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "IsDeleted":{
       "activePicklistValues":[
@@ -2299,7 +2183,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2315,8 +2198,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "IsDunningSuppressed":{
       "activePicklistValues":[
@@ -2334,7 +2216,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2350,8 +2231,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "IsLocked":{
       "activePicklistValues":[
@@ -2369,7 +2249,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2385,8 +2264,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LastActivityDate":{
       "activePicklistValues":[
@@ -2404,7 +2282,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2420,8 +2297,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LastApprovedDate":{
       "activePicklistValues":[
@@ -2439,7 +2315,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2455,8 +2330,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LastModifiedById":{
       "activePicklistValues":[
@@ -2474,7 +2348,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2490,8 +2363,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LastModifiedDate":{
       "activePicklistValues":[
@@ -2509,7 +2381,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2525,8 +2396,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LastReferencedDate":{
       "activePicklistValues":[
@@ -2544,7 +2414,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2560,8 +2429,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LastViewedDate":{
       "activePicklistValues":[
@@ -2579,7 +2447,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2595,8 +2462,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LifetimeValue":{
       "activePicklistValues":[
@@ -2614,7 +2480,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2630,8 +2495,7 @@
       "required":true,
       "scale":2,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "MayEdit":{
       "activePicklistValues":[
@@ -2649,7 +2513,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2665,8 +2528,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Name":{
       "activePicklistValues":[
@@ -2684,7 +2546,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2700,8 +2561,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "NameOnCreditCard":{
       "activePicklistValues":[
@@ -2719,7 +2579,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2735,8 +2594,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "OfferExpirationDate":{
       "activePicklistValues":[
@@ -2754,7 +2612,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2770,8 +2627,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "OrderPrebillDays":{
       "activePicklistValues":[
@@ -2789,7 +2645,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2805,8 +2660,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "OwnerExpirationNotice":{
       "activePicklistValues":[
@@ -2847,7 +2701,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2863,8 +2716,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "OwnerId":{
       "activePicklistValues":[
@@ -2882,7 +2734,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2898,8 +2749,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PaymentTerm":{
       "activePicklistValues":[
@@ -2944,7 +2794,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2960,8 +2809,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PaymentType":{
       "activePicklistValues":[
@@ -2994,7 +2842,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3010,8 +2857,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Pricebook2Id":{
       "activePicklistValues":[
@@ -3029,7 +2875,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3045,8 +2890,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "RenewalDays":{
       "activePicklistValues":[
@@ -3064,7 +2908,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3080,8 +2923,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "RenewalTerm":{
       "activePicklistValues":[
@@ -3099,7 +2941,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3115,8 +2956,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Salesrep1Id":{
       "activePicklistValues":[
@@ -3134,7 +2974,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3150,8 +2989,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Salesrep1Percent":{
       "activePicklistValues":[
@@ -3169,7 +3007,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3185,8 +3022,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Salesrep2Id":{
       "activePicklistValues":[
@@ -3204,7 +3040,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3220,8 +3055,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Salesrep2Percent":{
       "activePicklistValues":[
@@ -3239,7 +3073,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3255,8 +3088,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Salesrep3Id":{
       "activePicklistValues":[
@@ -3274,7 +3106,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3290,8 +3121,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Salesrep3Percent":{
       "activePicklistValues":[
@@ -3309,7 +3139,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3325,8 +3154,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ShippingAddress":{
       "activePicklistValues":[
@@ -3344,7 +3172,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":true,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3360,8 +3187,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "ShippingCity":{
       "activePicklistValues":[
@@ -3379,7 +3205,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3395,8 +3220,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ShippingCountry":{
       "activePicklistValues":[
@@ -3414,7 +3238,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3430,8 +3253,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ShippingGeocodeAccuracy":{
       "activePicklistValues":[
@@ -3492,7 +3314,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3508,8 +3329,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ShippingLatitude":{
       "activePicklistValues":[
@@ -3527,7 +3347,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3543,8 +3362,7 @@
       "required":false,
       "scale":15,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ShippingLongitude":{
       "activePicklistValues":[
@@ -3562,7 +3380,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3578,8 +3395,7 @@
       "required":false,
       "scale":15,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ShippingPostalCode":{
       "activePicklistValues":[
@@ -3597,7 +3413,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3613,8 +3428,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ShippingState":{
       "activePicklistValues":[
@@ -3632,7 +3446,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3648,8 +3461,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ShippingStreet":{
       "activePicklistValues":[
@@ -3667,7 +3479,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3683,8 +3494,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "SpecialTerms":{
       "activePicklistValues":[
@@ -3702,7 +3512,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3718,8 +3527,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "StartDate":{
       "activePicklistValues":[
@@ -3737,7 +3545,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3753,8 +3560,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Status":{
       "activePicklistValues":[
@@ -3783,7 +3589,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3799,8 +3604,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "StatusCode":{
       "activePicklistValues":[
@@ -3837,7 +3641,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3853,8 +3656,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "SystemModstamp":{
       "activePicklistValues":[
@@ -3872,7 +3674,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3888,8 +3689,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "TaxExemptionCode":{
       "activePicklistValues":[
@@ -3907,7 +3707,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3923,8 +3722,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "TotalBilled":{
       "activePicklistValues":[
@@ -3942,7 +3740,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3958,8 +3755,7 @@
       "required":true,
       "scale":2,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "TotalCredit":{
       "activePicklistValues":[
@@ -3977,7 +3773,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3993,8 +3788,7 @@
       "required":true,
       "scale":2,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "TotalPaid":{
       "activePicklistValues":[
@@ -4012,7 +3806,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4028,8 +3821,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "TotalWriteoff":{
       "activePicklistValues":[
@@ -4047,7 +3839,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4063,8 +3854,7 @@
       "required":true,
       "scale":2,
       "sobjectName":"Contract",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     }
   }
 }

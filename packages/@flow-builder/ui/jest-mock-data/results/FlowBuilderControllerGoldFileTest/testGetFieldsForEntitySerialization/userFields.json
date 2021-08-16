@@ -16,7 +16,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -32,8 +31,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "AccountId":{
       "activePicklistValues":[
@@ -51,7 +49,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -67,8 +64,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Address":{
       "activePicklistValues":[
@@ -86,7 +82,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":true,
       "isCustom":false,
       "isPolymorphic":false,
@@ -102,8 +97,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "Alias":{
       "activePicklistValues":[
@@ -121,7 +115,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -137,8 +130,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BadgeText":{
       "activePicklistValues":[
@@ -156,7 +148,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -172,8 +163,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BannerPhotoId":{
       "activePicklistValues":[
@@ -191,7 +181,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -207,8 +196,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "BannerPhotoUrl":{
       "activePicklistValues":[
@@ -226,7 +214,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -242,8 +229,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "CallCenterId":{
       "activePicklistValues":[
@@ -261,7 +247,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -277,8 +262,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ChatterAdoptionStage":{
       "activePicklistValues":[
@@ -311,7 +295,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -327,8 +310,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ChatterAdoptionStageModifiedDate":{
       "activePicklistValues":[
@@ -346,7 +328,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -362,8 +343,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "City":{
       "activePicklistValues":[
@@ -381,7 +361,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -397,8 +376,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "CommunityNickname":{
       "activePicklistValues":[
@@ -416,7 +394,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -432,8 +409,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "CompanyName":{
       "activePicklistValues":[
@@ -451,7 +427,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -467,8 +442,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ContactId":{
       "activePicklistValues":[
@@ -486,7 +460,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -502,8 +475,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Country":{
       "activePicklistValues":[
@@ -521,7 +493,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -537,8 +508,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "CreatedById":{
       "activePicklistValues":[
@@ -556,7 +526,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -572,8 +541,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "CreatedDate":{
       "activePicklistValues":[
@@ -591,7 +559,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -607,8 +574,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "CurrencyIsoCode":{
       "activePicklistValues":[
@@ -637,7 +603,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -653,8 +618,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "DefaultCurrencyIsoCode":{
       "activePicklistValues":[
@@ -683,7 +647,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -699,8 +662,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "DefaultDivision":{
       "activePicklistValues":[
@@ -721,7 +683,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -737,8 +698,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "DefaultGroupNotificationFrequency":{
       "activePicklistValues":[
@@ -771,7 +731,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -787,8 +746,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "DelegatedApproverId":{
       "activePicklistValues":[
@@ -806,7 +764,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":true,
@@ -823,8 +780,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Department":{
       "activePicklistValues":[
@@ -842,7 +798,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -858,8 +813,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "DigestFrequency":{
       "activePicklistValues":[
@@ -888,7 +842,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -904,8 +857,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Division":{
       "activePicklistValues":[
@@ -923,7 +875,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -939,8 +890,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Email":{
       "activePicklistValues":[
@@ -958,7 +908,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -974,8 +923,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "EmailEncodingKey":{
       "activePicklistValues":[
@@ -1032,7 +980,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1048,8 +995,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "EmailPreferencesAutoBcc":{
       "activePicklistValues":[
@@ -1067,7 +1013,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1083,8 +1028,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "EmailPreferencesAutoBccStayInTouch":{
       "activePicklistValues":[
@@ -1102,7 +1046,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1118,8 +1061,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "EmailPreferencesStayInTouchReminder":{
       "activePicklistValues":[
@@ -1137,7 +1079,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1153,8 +1094,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "EmployeeNumber":{
       "activePicklistValues":[
@@ -1172,7 +1112,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1188,8 +1127,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Extension":{
       "activePicklistValues":[
@@ -1207,7 +1145,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1223,8 +1160,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Fax":{
       "activePicklistValues":[
@@ -1242,7 +1178,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1258,8 +1193,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "FederationIdentifier":{
       "activePicklistValues":[
@@ -1277,7 +1211,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1293,8 +1226,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "FirstName":{
       "activePicklistValues":[
@@ -1312,7 +1244,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1328,8 +1259,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ForecastEnabled":{
       "activePicklistValues":[
@@ -1347,7 +1277,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1363,8 +1292,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "FullPhotoUrl":{
       "activePicklistValues":[
@@ -1382,7 +1310,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1398,8 +1325,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "GeocodeAccuracy":{
       "activePicklistValues":[
@@ -1460,7 +1386,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1476,8 +1401,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Id":{
       "activePicklistValues":[
@@ -1495,7 +1419,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1511,8 +1434,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "IndividualId":{
       "activePicklistValues":[
@@ -1530,7 +1452,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1546,8 +1467,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "IsActive":{
       "activePicklistValues":[
@@ -1565,7 +1485,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1581,8 +1500,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "IsExtIndicatorVisible":{
       "activePicklistValues":[
@@ -1600,7 +1518,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1616,8 +1533,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "IsProfilePhotoActive":{
       "activePicklistValues":[
@@ -1635,7 +1551,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1651,8 +1566,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "IsSystemControlled":{
       "activePicklistValues":[
@@ -1670,7 +1584,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1686,8 +1599,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LanguageLocaleKey":{
       "activePicklistValues":[
@@ -1776,7 +1688,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1792,8 +1703,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LastDashboardId":{
       "activePicklistValues":[
@@ -1811,7 +1721,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1827,8 +1736,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LastLoginDate":{
       "activePicklistValues":[
@@ -1846,7 +1754,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1862,8 +1769,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LastLoginMessageDate":{
       "activePicklistValues":[
@@ -1881,7 +1787,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1897,8 +1802,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LastModifiedById":{
       "activePicklistValues":[
@@ -1916,7 +1820,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1932,8 +1835,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LastModifiedDate":{
       "activePicklistValues":[
@@ -1951,7 +1853,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -1967,8 +1868,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LastName":{
       "activePicklistValues":[
@@ -1986,7 +1886,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2002,8 +1901,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LastPasswordChangeDate":{
       "activePicklistValues":[
@@ -2021,7 +1919,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2037,8 +1934,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LastPricebookId":{
       "activePicklistValues":[
@@ -2056,7 +1952,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2072,8 +1967,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LastReferencedDate":{
       "activePicklistValues":[
@@ -2091,7 +1985,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2107,8 +2000,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LastTabSetId":{
       "activePicklistValues":[
@@ -2126,7 +2018,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2142,8 +2033,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LastViewedDate":{
       "activePicklistValues":[
@@ -2161,7 +2051,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2177,8 +2066,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Latitude":{
       "activePicklistValues":[
@@ -2196,7 +2084,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -2212,8 +2099,7 @@
       "required":false,
       "scale":15,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "LocaleSidKey":{
       "activePicklistValues":[
@@ -2430,10 +2316,6 @@
           "value":"en_BB"
         },
         {
-          "label":"English (Belgium)",
-          "value":"en_BE"
-        },
-        {
           "label":"English (Belize)",
           "value":"en_BZ"
         },
@@ -2458,10 +2340,6 @@
           "value":"en_KY"
         },
         {
-          "label":"English (Cyprus)",
-          "value":"en_CY"
-        },
-        {
           "label":"English (Eritrea)",
           "value":"en_ER"
         },
@@ -2480,10 +2358,6 @@
         {
           "label":"English (Gambia)",
           "value":"en_GM"
-        },
-        {
-          "label":"English (Germany)",
-          "value":"en_DE"
         },
         {
           "label":"English (Ghana)",
@@ -2518,10 +2392,6 @@
           "value":"en_IE"
         },
         {
-          "label":"English (Israel)",
-          "value":"en_IL"
-        },
-        {
           "label":"English (Jamaica)",
           "value":"en_JM"
         },
@@ -2546,20 +2416,12 @@
           "value":"en_MY"
         },
         {
-          "label":"English (Malta)",
-          "value":"en_MT"
-        },
-        {
           "label":"English (Mauritius)",
           "value":"en_MU"
         },
         {
           "label":"English (Namibia)",
           "value":"en_NA"
-        },
-        {
-          "label":"English (Netherlands)",
-          "value":"en_NL"
         },
         {
           "label":"English (New Zealand)",
@@ -2634,10 +2496,6 @@
           "value":"en_UG"
         },
         {
-          "label":"English (United Arab Emirates)",
-          "value":"en_AE"
-        },
-        {
           "label":"English (United Kingdom)",
           "value":"en_GB"
         },
@@ -2702,10 +2560,6 @@
           "value":"fr_MC"
         },
         {
-          "label":"French (Morocco)",
-          "value":"fr_MA"
-        },
-        {
           "label":"French (Switzerland)",
           "value":"fr_CH"
         },
@@ -2748,10 +2602,6 @@
         {
           "label":"German (Switzerland)",
           "value":"de_CH"
-        },
-        {
-          "label":"Greek (Cyprus)",
-          "value":"el_CY"
         },
         {
           "label":"Greek (Greece)",
@@ -2808,10 +2658,6 @@
         {
           "label":"Japanese (Japan)",
           "value":"ja_JP"
-        },
-        {
-          "label":"Kalaallisut (Greenland)",
-          "value":"kl_GL"
         },
         {
           "label":"Kannada (India)",
@@ -3186,10 +3032,6 @@
           "value":"xh_ZA"
         },
         {
-          "label":"Yiddish (United States)",
-          "value":"ji_US"
-        },
-        {
           "label":"Yoruba (Benin)",
           "value":"yo_BJ"
         },
@@ -3210,7 +3052,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3226,8 +3067,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Longitude":{
       "activePicklistValues":[
@@ -3245,7 +3085,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3261,8 +3100,7 @@
       "required":false,
       "scale":15,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ManagerId":{
       "activePicklistValues":[
@@ -3280,7 +3118,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3296,8 +3133,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "MediumBannerPhotoUrl":{
       "activePicklistValues":[
@@ -3315,7 +3151,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3331,8 +3166,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "MediumPhotoUrl":{
       "activePicklistValues":[
@@ -3350,7 +3184,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3366,8 +3199,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "MiddleName":{
       "activePicklistValues":[
@@ -3385,7 +3217,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3401,8 +3232,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "MobilePhone":{
       "activePicklistValues":[
@@ -3420,7 +3250,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3436,8 +3265,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Name":{
       "activePicklistValues":[
@@ -3455,7 +3283,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":true,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3471,8 +3298,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "NumberOfFailedLogins":{
       "activePicklistValues":[
@@ -3490,7 +3316,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3506,8 +3331,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "OfflinePdaTrialExpirationDate":{
       "activePicklistValues":[
@@ -3525,7 +3349,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3541,8 +3364,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "OfflineTrialExpirationDate":{
       "activePicklistValues":[
@@ -3560,7 +3382,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3576,8 +3397,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "OutOfOfficeMessage":{
       "activePicklistValues":[
@@ -3595,7 +3415,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3611,8 +3430,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PersonId":{
       "activePicklistValues":[
@@ -3630,7 +3448,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":true,
@@ -3647,8 +3464,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Phone":{
       "activePicklistValues":[
@@ -3666,7 +3482,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3682,8 +3497,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "PostalCode":{
       "activePicklistValues":[
@@ -3701,7 +3515,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3717,8 +3530,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ProfileId":{
       "activePicklistValues":[
@@ -3736,7 +3548,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3752,8 +3563,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ProfilePhotoId":{
       "activePicklistValues":[
@@ -3771,7 +3581,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3787,8 +3596,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "RawCurrentStatus":{
       "activePicklistValues":[
@@ -3806,7 +3614,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3822,8 +3629,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ReceivesAdminInfoEmails":{
       "activePicklistValues":[
@@ -3841,7 +3647,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3857,8 +3662,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "ReceivesInfoEmails":{
       "activePicklistValues":[
@@ -3876,7 +3680,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3892,8 +3695,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "SenderEmail":{
       "activePicklistValues":[
@@ -3911,7 +3713,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3927,8 +3728,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "SenderName":{
       "activePicklistValues":[
@@ -3946,7 +3746,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3962,8 +3761,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "SharingType":{
       "activePicklistValues":[
@@ -3981,7 +3779,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -3997,8 +3794,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Signature":{
       "activePicklistValues":[
@@ -4016,7 +3812,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4032,8 +3827,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "SmallBannerPhotoUrl":{
       "activePicklistValues":[
@@ -4051,7 +3845,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4067,8 +3860,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "SmallPhotoUrl":{
       "activePicklistValues":[
@@ -4086,7 +3878,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4102,8 +3893,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "State":{
       "activePicklistValues":[
@@ -4121,7 +3911,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4137,8 +3926,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "StayInTouchNote":{
       "activePicklistValues":[
@@ -4156,7 +3944,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4172,8 +3959,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "StayInTouchSignature":{
       "activePicklistValues":[
@@ -4191,7 +3977,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4207,8 +3992,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "StayInTouchSubject":{
       "activePicklistValues":[
@@ -4226,7 +4010,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4242,8 +4025,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Street":{
       "activePicklistValues":[
@@ -4261,7 +4043,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4277,8 +4058,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Suffix":{
       "activePicklistValues":[
@@ -4296,7 +4076,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4312,8 +4091,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "SystemModstamp":{
       "activePicklistValues":[
@@ -4331,7 +4109,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4347,8 +4124,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "TimeZoneSidKey":{
       "activePicklistValues":[],
@@ -4364,7 +4140,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4380,8 +4155,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Title":{
       "activePicklistValues":[
@@ -4399,7 +4173,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4415,8 +4188,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "Username":{
       "activePicklistValues":[
@@ -4434,7 +4206,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4450,8 +4221,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "UserPermissionsAvantgoUser":{
       "activePicklistValues":[
@@ -4469,7 +4239,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4485,8 +4254,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPermissionsCallCenterAutoLogin":{
       "activePicklistValues":[
@@ -4504,7 +4272,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4520,8 +4287,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPermissionsChatterAnswersUser":{
       "activePicklistValues":[
@@ -4539,7 +4305,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4555,8 +4320,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPermissionsInteractionUser":{
       "activePicklistValues":[
@@ -4574,7 +4338,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4590,8 +4353,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPermissionsLiveAgentUser":{
       "activePicklistValues":[
@@ -4609,7 +4371,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4625,8 +4386,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPermissionsMarketingUser":{
       "activePicklistValues":[
@@ -4644,7 +4404,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4660,8 +4419,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPermissionsOfflineUser":{
       "activePicklistValues":[
@@ -4679,7 +4437,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4695,8 +4452,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPermissionsSFContentUser":{
       "activePicklistValues":[
@@ -4714,7 +4470,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4730,8 +4485,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPermissionsSupportUser":{
       "activePicklistValues":[
@@ -4749,7 +4503,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4765,8 +4518,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPermissionsWirelessUser":{
       "activePicklistValues":[
@@ -4784,7 +4536,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4800,8 +4551,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPermissionsWorkDotComUserFeature":{
       "activePicklistValues":[
@@ -4819,7 +4569,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4835,8 +4584,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesAccessibleMode":{
       "activePicklistValues":[
@@ -4854,7 +4602,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4870,8 +4617,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesActivityRemindersPopup":{
       "activePicklistValues":[
@@ -4889,7 +4635,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4905,8 +4650,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesApexPagesDeveloperMode":{
       "activePicklistValues":[
@@ -4924,7 +4668,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4940,8 +4683,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesCacheDiagnostics":{
       "activePicklistValues":[
@@ -4959,7 +4701,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -4975,8 +4716,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesChartsColorblindPalette":{
       "activePicklistValues":[
@@ -4994,7 +4734,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -5010,8 +4749,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesCompleteCSNAddAGroupDescTask":{
       "activePicklistValues":[
@@ -5029,7 +4767,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -5045,8 +4782,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesCompleteCSNAddAGroupPhotoTask":{
       "activePicklistValues":[
@@ -5064,7 +4800,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -5080,8 +4815,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesCompleteCSNAddAPhotoTask":{
       "activePicklistValues":[
@@ -5099,7 +4833,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -5115,8 +4848,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesCompleteCSNAddGroupMembersTask":{
       "activePicklistValues":[
@@ -5134,7 +4866,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -5150,8 +4881,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesCompleteCSNAddHashTagTask":{
       "activePicklistValues":[
@@ -5169,7 +4899,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -5185,8 +4914,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesCompleteCSNChangeGroupEmailSettingsTask":{
       "activePicklistValues":[
@@ -5204,7 +4932,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -5220,8 +4947,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesCompleteCSNDesktopTask":{
       "activePicklistValues":[
@@ -5239,7 +4965,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -5255,8 +4980,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesCompleteCSNDownloadOfflineTask":{
       "activePicklistValues":[
@@ -5274,7 +4998,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -5290,8 +5013,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesCompleteCSNEnterContactInfoTask":{
       "activePicklistValues":[
@@ -5309,7 +5031,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -5325,8 +5046,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesCompleteCSNFollowGroupsTask":{
       "activePicklistValues":[
@@ -5344,7 +5064,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -5360,8 +5079,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesCompleteCSNFollowPeopleTask":{
       "activePicklistValues":[
@@ -5379,7 +5097,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -5395,8 +5112,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesCompleteCSNFollowRecordsTask":{
       "activePicklistValues":[
@@ -5414,7 +5130,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -5430,8 +5145,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesCompleteCSNGetChatterMobileTask":{
       "activePicklistValues":[
@@ -5449,7 +5163,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -5465,8 +5178,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesCompleteCSNGroupTasks":{
       "activePicklistValues":[
@@ -5484,7 +5196,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -5500,8 +5211,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesCompleteCSNInvitePeopleTask":{
       "activePicklistValues":[
@@ -5519,7 +5229,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -5535,8 +5244,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesCompleteCSNPeopleTasks":{
       "activePicklistValues":[
@@ -5554,7 +5262,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -5570,8 +5277,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesCompleteCSNProfileTasks":{
       "activePicklistValues":[
@@ -5589,7 +5295,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -5605,8 +5310,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesCompleteCSNShareAFileTask":{
       "activePicklistValues":[
@@ -5624,7 +5328,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -5640,8 +5343,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesCompleteCSNShareWhatYouAreWorkingOnTask":{
       "activePicklistValues":[
@@ -5659,7 +5361,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -5675,8 +5376,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesCompleteCSNStartAGroupTask":{
       "activePicklistValues":[
@@ -5694,7 +5394,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -5710,8 +5409,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesCompleteCSNWatchAVideoTask":{
       "activePicklistValues":[
@@ -5729,7 +5427,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -5745,8 +5442,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesCompleteCSNWriteABioTask":{
       "activePicklistValues":[
@@ -5764,7 +5460,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -5780,8 +5475,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesCompleteCSNWtdnBox":{
       "activePicklistValues":[
@@ -5799,7 +5493,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -5815,8 +5508,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesContentEmailAsAndWhen":{
       "activePicklistValues":[
@@ -5834,7 +5526,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -5850,8 +5541,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesContentMultiUpload":{
       "activePicklistValues":[
@@ -5869,7 +5559,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -5885,8 +5574,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesContentNoEmail":{
       "activePicklistValues":[
@@ -5904,7 +5592,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -5920,8 +5607,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesCreateLEXAppsWTShown":{
       "activePicklistValues":[
@@ -5939,7 +5625,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -5955,8 +5640,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesDedupeStorageMigrationComplete":{
       "activePicklistValues":[
@@ -5974,7 +5658,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -5990,8 +5673,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesDisableAllFeedsEmail":{
       "activePicklistValues":[
@@ -6009,7 +5691,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -6025,8 +5706,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesDisableBookmarkEmail":{
       "activePicklistValues":[
@@ -6044,7 +5724,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -6060,8 +5739,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesDisableChangeCommentEmail":{
       "activePicklistValues":[
@@ -6079,7 +5757,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -6095,8 +5772,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesDisableEndorsementEmail":{
       "activePicklistValues":[
@@ -6114,7 +5790,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -6130,8 +5805,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesDisableEQWalkthrough":{
       "activePicklistValues":[
@@ -6149,7 +5823,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -6165,8 +5838,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesDisableFeedbackEmail":{
       "activePicklistValues":[
@@ -6184,7 +5856,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -6200,8 +5871,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesDisableFileShareNotificationsForApi":{
       "activePicklistValues":[
@@ -6219,7 +5889,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -6235,8 +5904,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesDisableFollowersEmail":{
       "activePicklistValues":[
@@ -6254,7 +5922,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -6270,8 +5937,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesDisableGroupCommentEmail":{
       "activePicklistValues":[
@@ -6289,7 +5955,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -6305,8 +5970,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesDisableGroupPostEmail":{
       "activePicklistValues":[
@@ -6324,7 +5988,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -6340,8 +6003,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesDisableLaterCommentEmail":{
       "activePicklistValues":[
@@ -6359,7 +6021,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -6375,8 +6036,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesDisableLikeEmail":{
       "activePicklistValues":[
@@ -6394,7 +6054,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -6410,8 +6069,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesDisableMentionsPostEmail":{
       "activePicklistValues":[
@@ -6429,7 +6087,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -6445,8 +6102,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesDisableMessageEmail":{
       "activePicklistValues":[
@@ -6464,7 +6120,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -6480,8 +6135,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesDisablePendingReviewEmail":{
       "activePicklistValues":[
@@ -6499,7 +6153,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -6515,8 +6168,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesDisableProfilePostEmail":{
       "activePicklistValues":[
@@ -6534,7 +6186,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -6550,8 +6201,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesDisableRewardEmail":{
       "activePicklistValues":[
@@ -6569,7 +6219,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -6585,8 +6234,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesDisableSccEmail":{
       "activePicklistValues":[
@@ -6604,7 +6252,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -6620,8 +6267,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesDisableSharePostEmail":{
       "activePicklistValues":[
@@ -6639,7 +6285,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -6655,8 +6300,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesDisableSocialProfiles":{
       "activePicklistValues":[
@@ -6674,7 +6318,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -6690,8 +6333,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesDisableSocialProfilesFB":{
       "activePicklistValues":[
@@ -6709,7 +6351,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -6725,8 +6366,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesDisableSocialProfilesLI":{
       "activePicklistValues":[
@@ -6744,7 +6384,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -6760,8 +6399,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesDisableSocialProfilesTW":{
       "activePicklistValues":[
@@ -6779,7 +6417,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -6795,8 +6432,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesDisableSocialProfilesYT":{
       "activePicklistValues":[
@@ -6814,7 +6450,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -6830,8 +6465,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesDisableWorkEmail":{
       "activePicklistValues":[
@@ -6849,7 +6483,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -6865,8 +6498,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesDisCommentAfterLikeEmail":{
       "activePicklistValues":[
@@ -6884,7 +6516,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -6900,8 +6531,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesDisMentionsCommentEmail":{
       "activePicklistValues":[
@@ -6919,7 +6549,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -6935,8 +6564,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesDisProfPostCommentEmail":{
       "activePicklistValues":[
@@ -6954,7 +6582,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -6970,8 +6597,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesEnableAutoSubForFeeds":{
       "activePicklistValues":[
@@ -6989,7 +6615,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -7005,8 +6630,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesEventRemindersCheckboxDefault":{
       "activePicklistValues":[
@@ -7024,7 +6648,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -7040,8 +6663,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesExcludeMailAppAttachments":{
       "activePicklistValues":[
@@ -7059,7 +6681,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -7075,8 +6696,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesFavoritesShowTopFavorites":{
       "activePicklistValues":[
@@ -7094,7 +6714,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -7110,8 +6729,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesFavoritesWTShown":{
       "activePicklistValues":[
@@ -7129,7 +6747,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -7145,8 +6762,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesFirstTimeInLightning":{
       "activePicklistValues":[
@@ -7164,7 +6780,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -7180,8 +6795,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesGlobalNavBarWTShown":{
       "activePicklistValues":[
@@ -7199,7 +6813,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -7215,8 +6828,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesGlobalNavGridMenuWTShown":{
       "activePicklistValues":[
@@ -7234,7 +6846,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -7250,8 +6861,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesGoogleTalkCollapsed":{
       "activePicklistValues":[
@@ -7269,7 +6879,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -7285,8 +6894,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHasCelebrationBadge":{
       "activePicklistValues":[
@@ -7304,7 +6912,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -7320,8 +6927,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHasShownEACForEveryonePopup":{
       "activePicklistValues":[
@@ -7339,7 +6945,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -7355,8 +6960,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideAtMentionsHelpBubble":{
       "activePicklistValues":[
@@ -7374,7 +6978,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -7390,8 +6993,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideBiggerPhotoCallout":{
       "activePicklistValues":[
@@ -7409,7 +7011,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -7425,8 +7026,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideBrowseProductRedirectConfirmation":{
       "activePicklistValues":[
@@ -7444,7 +7044,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -7460,8 +7059,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideChatterOnboardingSplash":{
       "activePicklistValues":[
@@ -7479,7 +7077,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -7495,8 +7092,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideCSNAddAGroupDescTask":{
       "activePicklistValues":[
@@ -7514,7 +7110,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -7530,8 +7125,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideCSNAddAGroupPhotoTask":{
       "activePicklistValues":[
@@ -7549,7 +7143,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -7565,8 +7158,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideCSNAddAPhotoTask":{
       "activePicklistValues":[
@@ -7584,7 +7176,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -7600,8 +7191,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideCSNAddGroupMembersTask":{
       "activePicklistValues":[
@@ -7619,7 +7209,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -7635,8 +7224,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideCSNAddHashTagTask":{
       "activePicklistValues":[
@@ -7654,7 +7242,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -7670,8 +7257,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideCSNChangeGroupEmailSettingsTask":{
       "activePicklistValues":[
@@ -7689,7 +7275,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -7705,8 +7290,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideCSNDesktopTask":{
       "activePicklistValues":[
@@ -7724,7 +7308,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -7740,8 +7323,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideCSNDownloadOfflineTask":{
       "activePicklistValues":[
@@ -7759,7 +7341,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -7775,8 +7356,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideCSNEnterContactInfoTask":{
       "activePicklistValues":[
@@ -7794,7 +7374,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -7810,8 +7389,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideCSNFollowGroupsTask":{
       "activePicklistValues":[
@@ -7829,7 +7407,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -7845,8 +7422,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideCSNFollowPeopleTask":{
       "activePicklistValues":[
@@ -7864,7 +7440,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -7880,8 +7455,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideCSNFollowRecordsTask":{
       "activePicklistValues":[
@@ -7899,7 +7473,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -7915,8 +7488,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideCSNGetChatterMobileTask":{
       "activePicklistValues":[
@@ -7934,7 +7506,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -7950,8 +7521,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideCSNGroupTasks":{
       "activePicklistValues":[
@@ -7969,7 +7539,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -7985,8 +7554,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideCSNInvitePeopleTask":{
       "activePicklistValues":[
@@ -8004,7 +7572,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -8020,8 +7587,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideCSNPeopleTasks":{
       "activePicklistValues":[
@@ -8039,7 +7605,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -8055,8 +7620,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideCSNProfileTasks":{
       "activePicklistValues":[
@@ -8074,7 +7638,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -8090,8 +7653,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideCSNShareAFileTask":{
       "activePicklistValues":[
@@ -8109,7 +7671,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -8125,8 +7686,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideCSNShareWhatYouAreWorkingOnTask":{
       "activePicklistValues":[
@@ -8144,7 +7704,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -8160,8 +7719,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideCSNStartAGroupTask":{
       "activePicklistValues":[
@@ -8179,7 +7737,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -8195,8 +7752,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideCSNWatchAVideoTask":{
       "activePicklistValues":[
@@ -8214,7 +7770,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -8230,8 +7785,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideCSNWriteABioTask":{
       "activePicklistValues":[
@@ -8249,7 +7803,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -8265,8 +7818,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideCSNWtdnBox":{
       "activePicklistValues":[
@@ -8284,7 +7836,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -8300,8 +7851,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideDataCategorySplash":{
       "activePicklistValues":[
@@ -8319,7 +7869,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -8335,8 +7884,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideDedupeMatchResultCallout":{
       "activePicklistValues":[
@@ -8354,7 +7902,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -8370,8 +7917,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideEndUserOnboardingAssistantModal":{
       "activePicklistValues":[
@@ -8389,7 +7935,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -8405,8 +7950,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideEntitlementManagementSplash":{
       "activePicklistValues":[
@@ -8424,7 +7968,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -8440,8 +7983,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideEventCalendar":{
       "activePicklistValues":[
@@ -8459,7 +8001,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -8475,8 +8016,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideFeedToggleGuidedTour":{
       "activePicklistValues":[
@@ -8494,7 +8034,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -8510,8 +8049,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideFilePageGuidedTour":{
       "activePicklistValues":[
@@ -8529,7 +8067,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -8545,8 +8082,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideGoogleSplash":{
       "activePicklistValues":[
@@ -8564,7 +8100,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -8580,8 +8115,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideGroupAllowsGuestsMsg":{
       "activePicklistValues":[
@@ -8599,7 +8133,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -8615,8 +8148,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideGroupAllowsGuestsMsgOnMemberWidget":{
       "activePicklistValues":[
@@ -8634,7 +8166,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -8650,8 +8181,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideLearningPathModal":{
       "activePicklistValues":[
@@ -8669,7 +8199,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -8685,8 +8214,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideLegacyRetirementModal":{
       "activePicklistValues":[
@@ -8704,7 +8232,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -8720,8 +8247,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideLightningMigrationModal":{
       "activePicklistValues":[
@@ -8739,7 +8265,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -8755,8 +8280,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideMailAppEAPUserGuidance":{
       "activePicklistValues":[
@@ -8774,7 +8298,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -8790,8 +8313,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideMailAppWelcomeMat":{
       "activePicklistValues":[
@@ -8809,7 +8331,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -8825,8 +8346,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideNowAllowGuestsMsg":{
       "activePicklistValues":[
@@ -8844,7 +8364,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -8860,8 +8379,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideOnlineSalesAppWelcomeMat":{
       "activePicklistValues":[
@@ -8879,7 +8397,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -8895,8 +8412,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideOtherInfluenceGetStarted":{
       "activePicklistValues":[
@@ -8914,7 +8430,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -8930,8 +8445,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideQTEBanner":{
       "activePicklistValues":[
@@ -8949,7 +8463,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -8965,8 +8478,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideS1BrowserUI":{
       "activePicklistValues":[
@@ -8984,7 +8496,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -9000,8 +8511,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideSecondChatterOnboardingSplash":{
       "activePicklistValues":[
@@ -9019,7 +8529,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -9035,8 +8544,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideSelfInfluenceGetStarted":{
       "activePicklistValues":[
@@ -9054,7 +8562,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -9070,8 +8577,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideSfxWelcomeMat":{
       "activePicklistValues":[
@@ -9089,7 +8595,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -9105,8 +8610,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideSocialAccountsAndContactsGuidedTour":{
       "activePicklistValues":[
@@ -9124,7 +8628,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -9140,8 +8643,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideTaskListViewsPopover":{
       "activePicklistValues":[
@@ -9159,7 +8661,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -9175,8 +8676,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideTrialsCelebration":{
       "activePicklistValues":[
@@ -9194,7 +8694,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -9210,8 +8709,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideTrialsWelcomeMat":{
       "activePicklistValues":[
@@ -9229,7 +8727,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -9245,8 +8742,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesHideWhatAreGuestsMsg":{
       "activePicklistValues":[
@@ -9264,7 +8760,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -9280,8 +8775,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesLightningExperiencePreferred":{
       "activePicklistValues":[
@@ -9299,7 +8793,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -9315,8 +8808,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesLteAutoPopup1Seen":{
       "activePicklistValues":[
@@ -9334,7 +8826,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -9350,8 +8841,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesLteAutoPopup2Seen":{
       "activePicklistValues":[
@@ -9369,7 +8859,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -9385,8 +8874,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesLteAutoPopup3Seen":{
       "activePicklistValues":[
@@ -9404,7 +8892,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -9420,8 +8907,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesLteAutoPopup4Seen":{
       "activePicklistValues":[
@@ -9439,7 +8925,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -9455,8 +8940,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesLteAutoPopup5Seen":{
       "activePicklistValues":[
@@ -9474,7 +8958,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -9490,8 +8973,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesLteLexWelcomeMatPopupSeen":{
       "activePicklistValues":[
@@ -9509,7 +8991,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -9525,8 +9006,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesLteTransitionCompleted":{
       "activePicklistValues":[
@@ -9544,7 +9024,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -9560,8 +9039,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesLtngPromoReserved10UserPref":{
       "activePicklistValues":[
@@ -9579,7 +9057,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -9595,8 +9072,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesLtngPromoReserved16UserPref":{
       "activePicklistValues":[
@@ -9614,7 +9090,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -9630,8 +9105,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesLtngPromoReserved19UserPref":{
       "activePicklistValues":[
@@ -9649,7 +9123,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -9665,8 +9138,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesNativeEmailClient":{
       "activePicklistValues":[
@@ -9684,7 +9156,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -9700,8 +9171,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesNewLightningReportRunPageEnabled":{
       "activePicklistValues":[
@@ -9719,7 +9189,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -9735,8 +9204,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesPathAssistantCollapsed":{
       "activePicklistValues":[
@@ -9754,7 +9222,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -9770,8 +9237,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesPreviewCustomTheme":{
       "activePicklistValues":[
@@ -9789,7 +9255,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -9805,8 +9270,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesPreviewLightning":{
       "activePicklistValues":[
@@ -9824,7 +9288,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -9840,8 +9303,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesReadReceiptLastToggleValue":{
       "activePicklistValues":[
@@ -9859,7 +9321,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -9875,8 +9336,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesReceiveNoNotificationsAsApprover":{
       "activePicklistValues":[
@@ -9894,7 +9354,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -9910,8 +9369,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesReceiveNotificationsAsDelegatedApprover":{
       "activePicklistValues":[
@@ -9929,7 +9387,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -9945,8 +9402,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesRecordHomeReservedWTShown":{
       "activePicklistValues":[
@@ -9964,7 +9420,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -9980,8 +9435,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesRecordHomeSectionCollapseWTShown":{
       "activePicklistValues":[
@@ -9999,7 +9453,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -10015,8 +9468,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesRedirectToLightning":{
       "activePicklistValues":[
@@ -10034,7 +9486,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -10050,8 +9501,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesReminderSortByDueDate":{
       "activePicklistValues":[
@@ -10069,7 +9519,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -10085,8 +9534,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesReminderSoundOff":{
       "activePicklistValues":[
@@ -10104,7 +9552,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -10120,8 +9567,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesReverseOpenActivitiesView":{
       "activePicklistValues":[
@@ -10139,7 +9585,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -10155,8 +9600,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesSalesEssentialsSetupAssistantCompleted":{
       "activePicklistValues":[
@@ -10174,7 +9618,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -10190,8 +9633,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesSendEmailUsingExternalService":{
       "activePicklistValues":[
@@ -10209,7 +9651,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -10225,8 +9666,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesSetupAssistantUserPref1":{
       "activePicklistValues":[
@@ -10244,7 +9684,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -10260,8 +9699,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesShowCityToExternalUsers":{
       "activePicklistValues":[
@@ -10279,7 +9717,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -10295,8 +9732,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesShowCityToGuestUsers":{
       "activePicklistValues":[
@@ -10314,7 +9750,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -10330,8 +9765,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesShowCountryToExternalUsers":{
       "activePicklistValues":[
@@ -10349,7 +9783,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -10365,8 +9798,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesShowCountryToGuestUsers":{
       "activePicklistValues":[
@@ -10384,7 +9816,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -10400,8 +9831,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesShowEmailToExternalUsers":{
       "activePicklistValues":[
@@ -10419,7 +9849,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -10435,8 +9864,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesShowEmailToGuestUsers":{
       "activePicklistValues":[
@@ -10454,7 +9882,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -10470,8 +9897,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesShowFaxToExternalUsers":{
       "activePicklistValues":[
@@ -10489,7 +9915,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -10505,8 +9930,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesShowFaxToGuestUsers":{
       "activePicklistValues":[
@@ -10524,7 +9948,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -10540,8 +9963,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesShowManagerToExternalUsers":{
       "activePicklistValues":[
@@ -10559,7 +9981,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -10575,8 +9996,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesShowManagerToGuestUsers":{
       "activePicklistValues":[
@@ -10594,7 +10014,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -10610,8 +10029,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesShowMobilePhoneToExternalUsers":{
       "activePicklistValues":[
@@ -10629,7 +10047,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -10645,8 +10062,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesShowMobilePhoneToGuestUsers":{
       "activePicklistValues":[
@@ -10664,7 +10080,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -10680,8 +10095,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesShowPostalCodeToExternalUsers":{
       "activePicklistValues":[
@@ -10699,7 +10113,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -10715,8 +10128,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesShowPostalCodeToGuestUsers":{
       "activePicklistValues":[
@@ -10734,7 +10146,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -10750,8 +10161,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesShowProfilePicToGuestUsers":{
       "activePicklistValues":[
@@ -10769,7 +10179,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -10785,8 +10194,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesShowStateToExternalUsers":{
       "activePicklistValues":[
@@ -10804,7 +10212,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -10820,8 +10227,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesShowStateToGuestUsers":{
       "activePicklistValues":[
@@ -10839,7 +10245,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -10855,8 +10260,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesShowStreetAddressToExternalUsers":{
       "activePicklistValues":[
@@ -10874,7 +10278,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -10890,8 +10293,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesShowStreetAddressToGuestUsers":{
       "activePicklistValues":[
@@ -10909,7 +10311,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -10925,8 +10326,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesShowTerritoryTimeZoneShifts":{
       "activePicklistValues":[
@@ -10944,7 +10344,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -10960,8 +10359,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesShowTitleToExternalUsers":{
       "activePicklistValues":[
@@ -10979,7 +10377,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -10995,8 +10392,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesShowTitleToGuestUsers":{
       "activePicklistValues":[
@@ -11014,7 +10410,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -11030,8 +10425,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesShowViewstate":{
       "activePicklistValues":[
@@ -11049,7 +10443,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -11065,8 +10458,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesShowWorkPhoneToExternalUsers":{
       "activePicklistValues":[
@@ -11084,7 +10476,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -11100,8 +10491,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesShowWorkPhoneToGuestUsers":{
       "activePicklistValues":[
@@ -11119,7 +10509,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -11135,8 +10524,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesSortFeedByComment":{
       "activePicklistValues":[
@@ -11154,7 +10542,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -11170,8 +10557,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesSRHOverrideActivities":{
       "activePicklistValues":[
@@ -11189,7 +10575,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -11205,8 +10590,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesSuppressEventSFXReminders":{
       "activePicklistValues":[
@@ -11224,7 +10608,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -11240,8 +10623,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesSuppressTaskSFXReminders":{
       "activePicklistValues":[
@@ -11259,7 +10641,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -11275,8 +10656,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesTaskRemindersCheckboxDefault":{
       "activePicklistValues":[
@@ -11294,7 +10674,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -11310,8 +10689,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesTodayGettingStarted":{
       "activePicklistValues":[
@@ -11329,7 +10707,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -11345,8 +10722,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesTrailheadBadgeCreated":{
       "activePicklistValues":[
@@ -11364,7 +10740,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -11380,8 +10755,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserPreferencesUserDebugModePref":{
       "activePicklistValues":[
@@ -11399,7 +10773,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -11415,8 +10788,7 @@
       "required":true,
       "scale":0,
       "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "sortable":false
     },
     "UserRoleId":{
       "activePicklistValues":[
@@ -11434,7 +10806,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -11450,8 +10821,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "UserSubtype":{
       "activePicklistValues":[
@@ -11469,7 +10839,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -11485,8 +10854,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "UserType":{
       "activePicklistValues":[
@@ -11535,7 +10903,6 @@
       "isAvailableForFormulas":true,
       "isAvailableForMerge":true,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -11551,8 +10918,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "WirelessEmail":{
       "activePicklistValues":[
@@ -11570,7 +10936,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -11586,8 +10951,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     },
     "WorkspaceId":{
       "activePicklistValues":[
@@ -11605,7 +10969,6 @@
       "isAvailableForFormulas":false,
       "isAvailableForMerge":false,
       "isCalculated":false,
-      "isCollection":false,
       "isCompound":false,
       "isCustom":false,
       "isPolymorphic":false,
@@ -11621,8 +10984,7 @@
       "required":false,
       "scale":0,
       "sobjectName":"User",
-      "sortable":true,
-      "subtype":null
+      "sortable":true
     }
   }
 }
