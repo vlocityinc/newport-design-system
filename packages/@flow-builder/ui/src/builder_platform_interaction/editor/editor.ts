@@ -1794,7 +1794,7 @@ export default class Editor extends LightningElement {
             const newResourceCallback = this.newResourceCallback;
             const editResourceCallback = this.editResourceCallback;
             const processType = this.properties.processType;
-            const triggerType = this.properties.triggerType;
+            const triggerType = getTriggerType();
 
             // skip the editor for elements that don't need one
             if (elementType === ELEMENT_TYPE.END_ELEMENT) {
