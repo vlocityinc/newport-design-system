@@ -46,7 +46,16 @@ const ASSIGNMENT_DETAILS = {
     name: 'guid1',
     editable: true,
     deletable: true,
-    usedByElements: [],
+    usedByElements: [
+        {
+            guid: 'used-by-guid',
+            label: 'used-by-label',
+            name: 'used-by-name',
+            elementGuidsReferenced: [],
+            iconName: 'standard:iconName',
+            isCanvasElement: true
+        }
+    ],
     storeOutputAutomatically: undefined,
     title: 'assign1',
     typeIconName: undefined,
@@ -74,6 +83,14 @@ const getApiNameLineTextContent = (resourceDetailsComponent) =>
 
 describe('Resource Details', () => {
     describe('For elements', () => {
+        it('Should display usage section', () => {
+            const resourceDetailsComponent = createComponentUnderTest(ASSIGNMENT_DETAILS);
+            const usedByList = resourceDetailsComponent.shadowRoot.querySelector(
+                `${SELECTORS.usedBySection} ${SELECTORS.usedByList}`
+            );
+            expect(usedByList).toBeDefined();
+            expect(usedByList.showLocatorIcon).toBeTruthy();
+        });
         it('should display Edit Button', () => {
             const element = createComponentUnderTest(ASSIGNMENT_DETAILS);
             const editBtn = element.shadowRoot.querySelector(SELECTORS.editButton);
@@ -157,6 +174,7 @@ describe('Resource Details', () => {
                 expect(createdByList.listSectionItems).toEqual([
                     mockGetRecordsAutomaticOutputModeResourceDetails.createdByElement
                 ]);
+                expect(createdByList.showLocatorIcon).toBeTruthy();
                 expect(resourceDetailsComponent.createdByElements).toEqual([
                     mockGetRecordsAutomaticOutputModeResourceDetails.createdByElement
                 ]);
@@ -196,6 +214,7 @@ describe('Resource Details', () => {
                         const createdByList = createdBySection.querySelector(SELECTORS.createdByList);
                         expect(createdByList.listSectionHeader).toBe('FlowBuilderResourceDetailsPanel.createdByText');
                         expect(createdByList.listSectionItems).toEqual([mockLoopResourceDetails.createdByElement]);
+                        expect(createdByList.showLocatorIcon).toBeTruthy();
                         expect(resourceDetailsComponent.createdByElements).toEqual([
                             mockLoopResourceDetails.createdByElement
                         ]);
@@ -233,6 +252,7 @@ describe('Resource Details', () => {
                 expect(createdByList.listSectionItems).toEqual([
                     mockExtensionScreenfieldAutomaticOutputsModeResourceDetails.createdByElement
                 ]);
+                expect(createdByList.showLocatorIcon).toBeTruthy();
                 expect(resourceDetailsComponent.createdByElements).toEqual([
                     mockExtensionScreenfieldAutomaticOutputsModeResourceDetails.createdByElement
                 ]);
@@ -269,6 +289,7 @@ describe('Resource Details', () => {
                 expect(createdByList.listSectionItems).toEqual([
                     mockActionSubmitForApprovalAutomaticOutputsModeResourceDetails.createdByElement
                 ]);
+                expect(createdByList.showLocatorIcon).toBeTruthy();
                 expect(resourceDetailsComponent.createdByElements).toEqual([
                     mockActionSubmitForApprovalAutomaticOutputsModeResourceDetails.createdByElement
                 ]);
@@ -305,6 +326,7 @@ describe('Resource Details', () => {
                 expect(createdByList.listSectionItems).toEqual([
                     mockApexActionInAutomaticOutputsModeResourceDetails.createdByElement
                 ]);
+                expect(createdByList.showLocatorIcon).toBeTruthy();
                 expect(resourceDetailsComponent.createdByElements).toEqual([
                     mockApexActionInAutomaticOutputsModeResourceDetails.createdByElement
                 ]);
@@ -352,6 +374,7 @@ describe('Resource Details', () => {
                 expect(createdByList.listSectionItems).toEqual([
                     mockCreateRecordAutomaticOutputModeResourceDetails.createdByElement
                 ]);
+                expect(createdByList.showLocatorIcon).toBeTruthy();
                 expect(resourceDetailsComponent.createdByElements).toEqual([
                     mockCreateRecordAutomaticOutputModeResourceDetails.createdByElement
                 ]);
@@ -385,6 +408,7 @@ describe('Resource Details', () => {
                 expect(createdByList.listSectionItems).toEqual([
                     mockSubflowInAutomaticOutputModeResourceDetails.createdByElement
                 ]);
+                expect(createdByList.showLocatorIcon).toBeTruthy();
                 expect(resourceDetailsComponent.createdByElements).toEqual([
                     mockSubflowInAutomaticOutputModeResourceDetails.createdByElement
                 ]);
