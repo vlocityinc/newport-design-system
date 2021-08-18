@@ -172,6 +172,19 @@ describe('default path', () => {
         const menuItems = reorderableWaitEventsNav.menuItems;
         expect(menuItems[1].hasErrors).toBeTruthy();
     });
+    it('aria-hidden property of the img for the default path should be true', async () => {
+        const waitElement = createComponentForTest({ node: noErrorState });
+        await ticks(1);
+        const reorderableWaitEventNav = waitElement.shadowRoot.querySelector(selectors.REORDERABLE_NAV);
+        reorderableWaitEventNav.dispatchEvent(
+            new CustomEvent('itemselected', {
+                detail: { itemId: DEFAULT_WAIT_EVENT_ID }
+            })
+        );
+        await ticks(1);
+        const img = waitElement.shadowRoot.querySelector('.slds-text-align_center').querySelector('img');
+        expect(img.getAttribute('aria-hidden')).toBeTruthy();
+    });
 });
 
 describe('handleDeleteWaitEvent', () => {

@@ -425,6 +425,20 @@ describe('Decision Editor', () => {
                 })
             );
         });
+
+        it('aria-hidden property of the img for the default outcome should be true', async () => {
+            const decisionEditor = createComponentForTest(decisionWithOneOutcome);
+            await ticks(1);
+            const reorderableOutcomeNav = decisionEditor.shadowRoot.querySelector(SELECTORS.REORDERABLE_NAV);
+            reorderableOutcomeNav.dispatchEvent(
+                new CustomEvent('itemselected', {
+                    detail: { itemId: DEFAULT_OUTCOME_ID }
+                })
+            );
+            await ticks(1);
+            const img = decisionEditor.shadowRoot.querySelector('.slds-text-align_center').querySelector('img');
+            expect(img.getAttribute('aria-hidden')).toBeTruthy();
+        });
     });
 
     describe('handleAddOutcome', () => {
