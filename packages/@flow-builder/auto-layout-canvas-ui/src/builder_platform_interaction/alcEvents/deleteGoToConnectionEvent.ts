@@ -1,4 +1,4 @@
-import { Guid } from 'builder_platform_interaction/autoLayoutCanvas';
+import { ConnectionSource } from 'builder_platform_interaction/autoLayoutCanvas';
 
 /**
  * Event used to delete a goTo connection between a source and a target element.
@@ -7,23 +7,20 @@ import { Guid } from 'builder_platform_interaction/autoLayoutCanvas';
 const eventName = 'deletegotoconnection';
 
 interface DeleteGoToConnectionEventDetail {
-    sourceGuid: Guid;
-    sourceBranchIndex: number;
+    source: ConnectionSource;
 }
 
 export class DeleteGoToConnectionEvent extends CustomEvent<DeleteGoToConnectionEventDetail> {
     /**
-     * @param sourceGuid - Guid of the source element
-     * @param sourceBranchIndex - Index of branch on which GoTo is present
+     * @param source - The connection source
      */
-    constructor(sourceGuid, sourceBranchIndex) {
+    constructor(source: ConnectionSource) {
         super(eventName, {
             bubbles: true,
             composed: true,
             cancelable: true,
             detail: {
-                sourceGuid,
-                sourceBranchIndex
+                source
             }
         });
     }

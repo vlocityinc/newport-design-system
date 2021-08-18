@@ -1,4 +1,4 @@
-import { Guid } from 'builder_platform_interaction/autoLayoutCanvas';
+import { ConnectionSource, Guid } from 'builder_platform_interaction/autoLayoutCanvas';
 
 /**
  * Event used to create a goTo connection between a source and a target element.
@@ -7,9 +7,8 @@ import { Guid } from 'builder_platform_interaction/autoLayoutCanvas';
 const eventName = 'creategotoconnection';
 
 interface CreateGoToConnectionEventDetail {
-    sourceGuid: Guid;
-    sourceBranchIndex: number;
-    targetGuid: Guid;
+    source: ConnectionSource;
+    target: Guid;
     isReroute: boolean;
 }
 
@@ -20,15 +19,14 @@ export class CreateGoToConnectionEvent extends CustomEvent<CreateGoToConnectionE
      * @param targetGuid - Guid of the target element
      * @param isReroute - Whether this is a reroute of an existing Goto connection
      */
-    constructor(sourceGuid, sourceBranchIndex, targetGuid, isReroute) {
+    constructor(source, target, isReroute) {
         super(eventName, {
             bubbles: true,
             composed: true,
             cancelable: true,
             detail: {
-                sourceGuid,
-                sourceBranchIndex,
-                targetGuid,
+                source,
+                target,
                 isReroute
             }
         });

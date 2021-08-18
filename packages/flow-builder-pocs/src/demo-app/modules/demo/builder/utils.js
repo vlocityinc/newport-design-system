@@ -15,7 +15,6 @@ import {
     addEndElementsAndConnectorsTransform
 } from 'builder_platform_interaction/alcConversionUtils';
 import {
-    getTargetGuidsForBranchReconnect,
     findParentElement,
     hasGoToOnNext,
     getChild,
@@ -31,6 +30,40 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 
 const FAULT_INDEX = -1;
+
+/**
+ * Returns an array of valid target guids to reconnect a branch element to
+ *
+ * @param elements - The flow model
+ * @param sourceGuid - The guid of a branch element
+ * @returns An array of valid target guids
+ */
+// TODO NEED TO REMOVE BEFORE MERGE WITH MAIN
+function getTargetGuidsForBranchReconnect(elements, sourceGuid) {
+    const { parent, childIndex } = findFirstElement(elements[sourceGuid], elements);
+    const branchingElement = resolveParent(elements, parent);
+
+    // if the branching element has a next element, then that is the only valid target guid
+    if (branchingElement.next != null) {
+        return [branchingElement.next];
+    }
+
+    // otherwise all the other branches must terminals
+    if (!areAllBranchesTerminals(branchingElement, elements)) {
+        return [];
+    }
+
+    // and any element on those branches is a valid target
+    return branchingElement.children.reduce((acc, child, index) => {
+        // only elements on other branches can be targets
+        if (child != null && index !== childIndex) {
+            const branchElements = new AlcList(elements, child).map((element) => element.guid);
+            return acc.concat(branchElements);
+        }
+
+        return acc;
+    }, []);
+}
 
 function randomIndex(arr, extraLength = 0) {
     const len = arr.length + extraLength;
@@ -323,7 +356,7 @@ function randomDeleteOrReconnectEvent(storeInstance) {
 
         const { prev, childIndex, parent } = element;
         const source = childIndex != null ? { guid: parent, childIndex } : { guid: prev };
-        return new GoToPathEvent(targetGuid, source.guid, source.guid, source.childIndex);
+        return new GoToPathEvent(source);
     }
     const deleteIndex = randomDeleteBranchIndex(element);
     return new DeleteElementEvent([element.guid], element.elementType, deleteIndex);
@@ -423,21 +456,15 @@ function randomAddGoToEvent(storeInstance) {
         return null;
     }
 
+    const source = { guid: prev || parent, childIndex };
     const { canAddGoTo, next } = getAlcMenuData(elements, prev, childIndex, parent);
-    const canMergeEndedBranch = isEndedBranchMergeable(elements, prev, next, parent, childIndex);
+    const canMergeEndedBranch = isEndedBranchMergeable(elements, source);
 
     if (canAddGoTo) {
-        const { goToableGuids } = getTargetGuidsForReconnection(
-            elements,
-            prev,
-            parent,
-            next,
-            canMergeEndedBranch,
-            childIndex
-        );
+        const { goToableGuids } = getTargetGuidsForReconnection(elements, source, next, canMergeEndedBranch);
         if (goToableGuids.length > 0) {
             const randomGoToGuid = goToableGuids[randomIndex(goToableGuids)];
-            return new CreateGoToConnectionEvent(alcConnectionSource.guid, childIndex, randomGoToGuid, false);
+            return new CreateGoToConnectionEvent({ guid: alcConnectionSource.guid, childIndex }, randomGoToGuid, false);
         }
     }
     return null;
@@ -448,7 +475,7 @@ function randomDeleteGoToEvent(storeInstance) {
     const elementFilter = (ele) => ele.elementType !== ELEMENT_TYPE.END_ELEMENT;
     const alcConnectionSource = randomConnectionSource(randomElement(storeInstance, elementFilter));
     if (hasGoTo(elements, alcConnectionSource)) {
-        return new DeleteGoToConnectionEvent(alcConnectionSource.guid, alcConnectionSource.childIndex);
+        return new DeleteGoToConnectionEvent(alcConnectionSource);
     }
     return null;
 }

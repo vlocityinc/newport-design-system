@@ -94,19 +94,21 @@ export default class AlcConnectorMenu extends Menu {
 
         const action = currentTarget.getAttribute('data-value');
 
+        const source = { guid: this.prev || this.parent, childIndex: this.childIndex };
+
         switch (action) {
             case PASTE_ACTION:
                 this.dispatchEvent(new PasteOnCanvasEvent(this.prev, this.next, this.parent, this.childIndex));
                 this.moveFocusToConnector();
                 break;
             case GOTO_ACTION:
-                this.dispatchEvent(new GoToPathEvent(this.next, this.prev, this.parent, this.childIndex));
+                this.dispatchEvent(new GoToPathEvent(source));
                 break;
             case GOTO_DELETE_ACTION:
-                this.dispatchEvent(new DeleteGoToConnectionEvent(this.prev || this.parent, this.childIndex));
+                this.dispatchEvent(new DeleteGoToConnectionEvent(source));
                 break;
             case GOTO_REROUTE_ACTION:
-                this.dispatchEvent(new GoToPathEvent(this.next, this.prev, this.parent, this.childIndex, true));
+                this.dispatchEvent(new GoToPathEvent(source, true));
                 break;
             default: {
                 const { prev, parent, childIndex } = this;

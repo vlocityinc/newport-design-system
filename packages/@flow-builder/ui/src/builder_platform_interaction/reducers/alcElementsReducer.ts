@@ -104,13 +104,8 @@ export default function alcElementsReducer(state: Readonly<UI.Elements>, action:
         }
 
         case CREATE_GOTO_CONNECTION: {
-            const { sourceGuid, sourceBranchIndex, targetGuid, isReroute } = action.payload;
-            const createGoToConnectionAction = actions.createGoToConnectionAction(
-                sourceGuid,
-                sourceBranchIndex,
-                targetGuid,
-                isReroute
-            );
+            const { source, target, isReroute } = action.payload;
+            const createGoToConnectionAction = actions.createGoToConnectionAction(source, target, isReroute);
             nextState = autoLayoutCanvasReducer(nextState, createGoToConnectionAction);
             break;
         }

@@ -526,7 +526,7 @@ describe('connector menu', () => {
         expect(callback).toHaveBeenCalled();
     });
 
-    it('should dispatch gotopath event when reroute goto is clicked ', async () => {
+    it('should dispatch gotopath event when reroute goto is clicked', async () => {
         configureMenu.mockReturnValueOnce({
             sections: [
                 {
@@ -550,7 +550,9 @@ describe('connector menu', () => {
         const callback = jest.fn();
         cmp.addEventListener(GoToPathEvent.EVENT_NAME, callback);
         cmp.shadowRoot.querySelector(selectors.listboxItem).click();
-        expect(callback).toHaveBeenCalledWith(expect.objectContaining({ detail: { isReroute: true } }));
+        expect(callback).toHaveBeenCalledWith(
+            expect.objectContaining({ detail: { source: { guid: undefined, childIndex: undefined }, isReroute: true } })
+        );
     });
 
     it('Decision element row span should be present', () => {

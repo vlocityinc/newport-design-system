@@ -23,7 +23,9 @@ import {
     hasGoToOnNext,
     shouldDeleteGoToOnNext,
     ElementMetadata,
-    isEndedBranchMergeable
+    isEndedBranchMergeable,
+    getConnectionTarget,
+    ConnectionSource
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import {
     ZOOM_ACTION,
@@ -43,7 +45,8 @@ import {
     CreateGoToConnectionEvent,
     DeleteBranchElementEvent,
     TabOnMenuTriggerEvent,
-    FocusOutEvent
+    FocusOutEvent,
+    GoToPathEvent
 } from 'builder_platform_interaction/alcEvents';
 import {
     getAlcFlowData,
@@ -162,9 +165,7 @@ export default class AlcCanvas extends LightningElement {
     _topSelectedGuid!: Guid | null;
 
     /* the guid of the source of the GoTo connection */
-    _goToSourceGuid!: Guid | null;
-
-    _goToSourceBranchIndex!: number | null;
+    _goToSource: ConnectionSource | null = null;
 
     /* Array of guids the user can goTo */
     _goToableGuids!: Guid[];
@@ -373,11 +374,12 @@ export default class AlcCanvas extends LightningElement {
     }
 
     get autoLayoutCanvasContext(): AutoLayoutCanvasContext {
-        const mode = this._goToSourceGuid
-            ? AutoLayoutCanvasMode.RECONNECTION
-            : this.isSelectionMode
-            ? AutoLayoutCanvasMode.SELECTION
-            : AutoLayoutCanvasMode.DEFAULT;
+        const mode =
+            this._goToSource != null
+                ? AutoLayoutCanvasMode.RECONNECTION
+                : this.isSelectionMode
+                ? AutoLayoutCanvasMode.SELECTION
+                : AutoLayoutCanvasMode.DEFAULT;
         const isPasteAvailable = this.isPasteAvailable;
         return {
             isPasteAvailable,
@@ -567,9 +569,8 @@ export default class AlcCanvas extends LightningElement {
             }
         } else {
             this._topSelectedGuid = null;
-            this._goToSourceGuid = null;
+            this._goToSource = null;
             this._isReroutingGoto = false;
-            this._goToSourceBranchIndex = null;
 
             // make all elements selectable and unselected when exiting selection mode
             if (this.flowModel != null) {
@@ -779,20 +780,19 @@ export default class AlcCanvas extends LightningElement {
      *
      * @param event - The Goto path event
      */
-    handleAddOrRerouteGoToItemSelection = (event) => {
-        const { prev, parent, childIndex, next, isReroute } = event.detail;
-        this._goToSourceGuid = prev || parent;
-        this._goToSourceBranchIndex = childIndex;
-        this._isReroutingGoto = isReroute;
+    handleAddOrRerouteGoToItemSelection = (event: GoToPathEvent) => {
+        const { source, isReroute } = event.detail;
+        this._goToSource = source;
 
-        const canMergeEndedBranch = isEndedBranchMergeable(this._flowModel, prev, next, parent, childIndex);
+        this._isReroutingGoto = isReroute!;
+
+        const next = getConnectionTarget(this.flowModel, source)!;
+        const canMergeEndedBranch = isEndedBranchMergeable(this._flowModel, source);
         const { mergeableGuids, goToableGuids, firstMergeableNonNullNext } = getTargetGuidsForReconnection(
             this.flowModel,
-            prev,
-            parent,
+            source,
             next,
-            canMergeEndedBranch,
-            childIndex
+            canMergeEndedBranch
         );
 
         this._goToableGuids = goToableGuids;
@@ -844,18 +844,14 @@ export default class AlcCanvas extends LightningElement {
      * @param event - The Selected Deselected event
      */
     handleNodeSelectionDeselection = (event) => {
+        const goToSource = this._goToSource;
+        const target = event.detail.canvasElementGUID;
+
         event.stopPropagation();
-        if (this._goToSourceGuid != null) {
+        if (goToSource != null) {
             this._elementGuidToFocus = event.detail.canvasElementGUID;
 
-            this.dispatchEvent(
-                new CreateGoToConnectionEvent(
-                    this._goToSourceGuid,
-                    this._goToSourceBranchIndex,
-                    event.detail.canvasElementGUID,
-                    this._isReroutingGoto
-                )
-            );
+            this.dispatchEvent(new CreateGoToConnectionEvent(goToSource, target, this._isReroutingGoto));
 
             this.dispatchEvent(new ToggleSelectionModeEvent());
 

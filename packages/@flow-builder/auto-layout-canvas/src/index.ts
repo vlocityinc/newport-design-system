@@ -60,7 +60,6 @@ export {
     findFirstElement,
     findParentElement,
     getChild,
-    getTargetGuidsForBranchReconnect,
     deleteBranch,
     areAllBranchesTerminals,
     resolveChild,
