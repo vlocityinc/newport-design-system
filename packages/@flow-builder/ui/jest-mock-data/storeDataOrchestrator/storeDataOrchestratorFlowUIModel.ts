@@ -5,7 +5,7 @@ export const orchestratorFlowUIModel = {
         '07fd2a44-4192-4709-888d-8ccc18cb4580': {
             guid: '07fd2a44-4192-4709-888d-8ccc18cb4580',
             description: '',
-            locationX: 56,
+            locationX: 122,
             locationY: 0,
             isCanvasElement: true,
             connectorCount: 1,
@@ -41,7 +41,7 @@ export const orchestratorFlowUIModel = {
             name: 'Decision1',
             description: 'This is the first Decision',
             label: 'Decision1',
-            locationX: 182,
+            locationX: 248,
             locationY: 158,
             isCanvasElement: true,
             connectorCount: 1,

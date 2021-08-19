@@ -7,8 +7,8 @@ export const scheduleTriggeredFlowUIModel = {
             name: '$Record',
             description: '',
             label: 'undefined, undefined, FlowBuilderStartEditor.triggerFrequencyOnce',
-            locationX: 59,
-            locationY: 42,
+            locationX: 43,
+            locationY: 40,
             isCanvasElement: true,
             connectorCount: 1,
             config: {
@@ -22,7 +22,7 @@ export const scheduleTriggeredFlowUIModel = {
             maxConnections: 1,
             triggerType: 'Scheduled',
             filterLogic: 'no_conditions',
-            startDate: '2019-11-18',
+            startDate: '2019-11-18T00:00:00.000+0000',
             startTime: '05:45:00.000',
             frequency: 'Once',
             object: 'Account',
@@ -95,7 +95,8 @@ export const scheduleTriggeredFlowUIModel = {
             maxConnections: 2,
             elementType: 'ActionCall',
             dataType: 'ActionOutput',
-            storeOutputAutomatically: true
+            storeOutputAutomatically: true,
+            flowTransactionModel: 'CurrentTransaction'
         },
         '297834ec-f5c8-4128-aa38-dc437f0c6a9b': {
             guid: '297834ec-f5c8-4128-aa38-dc437f0c6a9b',
@@ -191,7 +192,7 @@ export const scheduleTriggeredFlowUIModel = {
             conditions: [
                 {
                     rowIndex: 'ed85c895-feb5-45cb-b486-49cfd9da8e20',
-                    leftHandSide: '7bc6bd8f-26da-45cb-81de-6b8dcc0ad7be',
+                    leftHandSide: '787fd564-24db-448c-ba59-ef88c8a5cbd9',
                     rightHandSide: 'text',
                     rightHandSideDataType: 'String',
                     operator: 'EqualTo'
@@ -214,14 +215,14 @@ export const scheduleTriggeredFlowUIModel = {
         },
         '7bc6bd8f-26da-45cb-81de-6b8dcc0ad7be': {
             guid: '7bc6bd8f-26da-45cb-81de-6b8dcc0ad7be',
-            name: 'stringVariable',
+            name: 'accounts',
             description: '',
             elementType: 'Variable',
-            isCollection: false,
+            isCollection: true,
             isInput: false,
             isOutput: false,
-            dataType: 'String',
-            subtype: null,
+            dataType: 'SObject',
+            subtype: 'Account',
             subtypeIndex: '53329036-32e6-4965-a1d2-b12cd0344f99',
             scale: 0,
             defaultValue: null,
@@ -239,61 +240,13 @@ export const scheduleTriggeredFlowUIModel = {
             dataType: 'SObject',
             subtype: 'Account',
             subtypeIndex: '41c6da8a-c6e0-418b-8b23-9906b4adab11',
-            scale: 2,
+            scale: 0,
             defaultValue: null,
             defaultValueDataType: null,
             defaultValueIndex: 'a35e28e0-3d3b-44b1-9638-9caba6ef3820'
         },
         'e12af1ed-86ee-4f2f-8de8-9dc3cc64dca1': {
             guid: 'e12af1ed-86ee-4f2f-8de8-9dc3cc64dca1',
-            name: 'accounts',
-            description: '',
-            elementType: 'Variable',
-            isCollection: true,
-            isInput: false,
-            isOutput: false,
-            dataType: 'SObject',
-            subtype: 'Account',
-            subtypeIndex: '3f1c4d9a-ea88-4c6c-85ac-6aa009601964',
-            scale: 2,
-            defaultValue: null,
-            defaultValueDataType: null,
-            defaultValueIndex: '2f00ca0d-743f-4639-a084-272bbc548f8b'
-        },
-        'a18b3d06-504c-4e47-9f44-6663c42703cf': {
-            guid: 'a18b3d06-504c-4e47-9f44-6663c42703cf',
-            name: 'textCollection',
-            description: '',
-            elementType: 'Variable',
-            isCollection: true,
-            isInput: false,
-            isOutput: false,
-            dataType: 'String',
-            subtype: null,
-            subtypeIndex: '5383bf9b-8314-42bd-a51e-cbee56ec3570',
-            scale: 2,
-            defaultValue: null,
-            defaultValueDataType: null,
-            defaultValueIndex: '20336b8d-01e4-49eb-bb24-87deba5f6ef8'
-        },
-        '787fd564-24db-448c-ba59-ef88c8a5cbd9': {
-            guid: '787fd564-24db-448c-ba59-ef88c8a5cbd9',
-            name: 'textVariable',
-            description: '',
-            elementType: 'Variable',
-            isCollection: false,
-            isInput: false,
-            isOutput: false,
-            dataType: 'String',
-            subtype: null,
-            subtypeIndex: 'cc44cf67-84c7-4dc5-b851-44d57be8fa66',
-            scale: 2,
-            defaultValue: null,
-            defaultValueDataType: null,
-            defaultValueIndex: 'c8bc407d-a8ed-49c8-aaf6-2fac342a9fd1'
-        },
-        'c5fd40ed-f8bb-4cea-a00d-8f3697b5731c': {
-            guid: 'c5fd40ed-f8bb-4cea-a00d-8f3697b5731c',
             name: 'apexComplexTypeVariable',
             description: '',
             elementType: 'Variable',
@@ -302,14 +255,14 @@ export const scheduleTriggeredFlowUIModel = {
             isOutput: false,
             dataType: 'Apex',
             subtype: 'ApexComplexTypeTestOne216',
-            subtypeIndex: '86f9f34d-e2e4-45e3-a574-78ddcd669ebf',
-            scale: 2,
+            subtypeIndex: '3f1c4d9a-ea88-4c6c-85ac-6aa009601964',
+            scale: 0,
             defaultValue: null,
             defaultValueDataType: null,
-            defaultValueIndex: 'a6849bcb-05b6-4898-8cc1-12ff825524c5'
+            defaultValueIndex: '2f00ca0d-743f-4639-a084-272bbc548f8b'
         },
-        '3e57f4c5-fecd-4be0-83a2-3238cdda979c': {
-            guid: '3e57f4c5-fecd-4be0-83a2-3238cdda979c',
+        'a18b3d06-504c-4e47-9f44-6663c42703cf': {
+            guid: 'a18b3d06-504c-4e47-9f44-6663c42703cf',
             name: 'apexTypeComplexCollection',
             description: '',
             elementType: 'Variable',
@@ -318,8 +271,56 @@ export const scheduleTriggeredFlowUIModel = {
             isOutput: false,
             dataType: 'Apex',
             subtype: 'ApexComplexTypeTestOne216',
+            subtypeIndex: '5383bf9b-8314-42bd-a51e-cbee56ec3570',
+            scale: 0,
+            defaultValue: null,
+            defaultValueDataType: null,
+            defaultValueIndex: '20336b8d-01e4-49eb-bb24-87deba5f6ef8'
+        },
+        '787fd564-24db-448c-ba59-ef88c8a5cbd9': {
+            guid: '787fd564-24db-448c-ba59-ef88c8a5cbd9',
+            name: 'stringVariable',
+            description: '',
+            elementType: 'Variable',
+            isCollection: false,
+            isInput: false,
+            isOutput: false,
+            dataType: 'String',
+            subtype: null,
+            subtypeIndex: 'cc44cf67-84c7-4dc5-b851-44d57be8fa66',
+            scale: 0,
+            defaultValue: null,
+            defaultValueDataType: null,
+            defaultValueIndex: 'c8bc407d-a8ed-49c8-aaf6-2fac342a9fd1'
+        },
+        'c5fd40ed-f8bb-4cea-a00d-8f3697b5731c': {
+            guid: 'c5fd40ed-f8bb-4cea-a00d-8f3697b5731c',
+            name: 'textCollection',
+            description: '',
+            elementType: 'Variable',
+            isCollection: true,
+            isInput: false,
+            isOutput: false,
+            dataType: 'String',
+            subtype: null,
+            subtypeIndex: '86f9f34d-e2e4-45e3-a574-78ddcd669ebf',
+            scale: 0,
+            defaultValue: null,
+            defaultValueDataType: null,
+            defaultValueIndex: 'a6849bcb-05b6-4898-8cc1-12ff825524c5'
+        },
+        '3e57f4c5-fecd-4be0-83a2-3238cdda979c': {
+            guid: '3e57f4c5-fecd-4be0-83a2-3238cdda979c',
+            name: 'textVariable',
+            description: '',
+            elementType: 'Variable',
+            isCollection: false,
+            isInput: false,
+            isOutput: false,
+            dataType: 'String',
+            subtype: null,
             subtypeIndex: '7ab29c0c-3dbf-4f99-a94c-311ef891973f',
-            scale: 2,
+            scale: 0,
             defaultValue: null,
             defaultValueDataType: null,
             defaultValueIndex: '85d76151-9bec-4869-b691-791baf964b4f'
@@ -392,7 +393,7 @@ export const scheduleTriggeredFlowUIModel = {
             canHaveFaultConnector: false,
             assignNextValueToReference: null,
             assignNextValueToReferenceIndex: 'ade42d1f-d120-4ff9-9888-c202b289571c',
-            collectionReference: 'e12af1ed-86ee-4f2f-8de8-9dc3cc64dca1',
+            collectionReference: '7bc6bd8f-26da-45cb-81de-6b8dcc0ad7be',
             collectionReferenceIndex: '6cb9b58e-4246-44c0-85a9-8f7d32172da6',
             iterationOrder: 'Asc',
             maxConnections: 2,
@@ -409,45 +410,12 @@ export const scheduleTriggeredFlowUIModel = {
             dataType: 'SObject',
             subtype: 'Account'
         },
-        'a8368340-a386-4406-9118-02389237ad54': {
-            guid: 'a8368340-a386-4406-9118-02389237ad54',
-            name: 'loopOnTextCollection',
-            description: 'This is a test without automatic Output',
-            label: 'loopOnTextCollection',
-            locationX: 638,
-            locationY: 435,
-            isCanvasElement: true,
-            connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
-            canHaveFaultConnector: false,
-            assignNextValueToReference: '787fd564-24db-448c-ba59-ef88c8a5cbd9',
-            assignNextValueToReferenceIndex: '2bf626b1-9430-49ca-ad02-a75241931b16',
-            collectionReference: 'a18b3d06-504c-4e47-9f44-6663c42703cf',
-            collectionReferenceIndex: '6e77e9cf-2492-44ca-a088-ee4b8159d478',
-            iterationOrder: 'Asc',
-            maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'LOOP_NEXT'
-                },
-                {
-                    type: 'LOOP_END'
-                }
-            ],
-            elementType: 'Loop',
-            storeOutputAutomatically: false
-        },
         'a733e74b-1a25-43dc-b43c-d126c849023d': {
             guid: 'a733e74b-1a25-43dc-b43c-d126c849023d',
-            name: 'loopOnTextAutomaticOutput',
+            name: 'loopOnApexTypeCollectionAutoOutput',
             description: '',
-            label: 'loopOnTextAutomaticOutput',
-            locationX: 648,
+            label: 'loopOnApexTypeCollectionAutoOutput',
+            locationX: 487,
             locationY: 291,
             isCanvasElement: true,
             connectorCount: 0,
@@ -474,15 +442,15 @@ export const scheduleTriggeredFlowUIModel = {
             ],
             elementType: 'Loop',
             storeOutputAutomatically: true,
-            dataType: 'String',
-            subtype: null
+            dataType: 'Apex',
+            subtype: 'ApexComplexTypeTestOne216'
         },
         'bebf0e8d-339f-4227-ab7e-84d7c15daf07': {
             guid: 'bebf0e8d-339f-4227-ab7e-84d7c15daf07',
-            name: 'loopOnApexTypeCollectionAutoOutput',
+            name: 'loopOnTextAutomaticOutput',
             description: '',
-            label: 'loopOnApexTypeCollectionAutoOutput',
-            locationX: 487,
+            label: 'loopOnTextAutomaticOutput',
+            locationX: 648,
             locationY: 291,
             isCanvasElement: true,
             connectorCount: 0,
@@ -495,7 +463,7 @@ export const scheduleTriggeredFlowUIModel = {
             canHaveFaultConnector: false,
             assignNextValueToReference: null,
             assignNextValueToReferenceIndex: 'b93ea139-c9df-49cb-a42e-52c5f496ab07',
-            collectionReference: '3e57f4c5-fecd-4be0-83a2-3238cdda979c',
+            collectionReference: 'c5fd40ed-f8bb-4cea-a00d-8f3697b5731c',
             collectionReferenceIndex: '8573e2d4-ccfb-4701-be66-e38b54ba7375',
             iterationOrder: 'Asc',
             maxConnections: 2,
@@ -509,8 +477,41 @@ export const scheduleTriggeredFlowUIModel = {
             ],
             elementType: 'Loop',
             storeOutputAutomatically: true,
-            dataType: 'Apex',
-            subtype: 'ApexComplexTypeTestOne216'
+            dataType: 'String',
+            subtype: null
+        },
+        'd1fda889-4f3a-48cd-ba79-be4fbca04da2': {
+            guid: 'd1fda889-4f3a-48cd-ba79-be4fbca04da2',
+            name: 'loopOnTextCollection',
+            description: 'This is a test without automatic Output',
+            label: 'loopOnTextCollection',
+            locationX: 638,
+            locationY: 435,
+            isCanvasElement: true,
+            connectorCount: 0,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true,
+                hasError: false
+            },
+            canHaveFaultConnector: false,
+            assignNextValueToReference: '3e57f4c5-fecd-4be0-83a2-3238cdda979c',
+            assignNextValueToReferenceIndex: '40c11213-36c0-451e-a5aa-8790aee02559',
+            collectionReference: 'c5fd40ed-f8bb-4cea-a00d-8f3697b5731c',
+            collectionReferenceIndex: 'e62ce284-ccf2-46af-8446-c0a110a4bba0',
+            iterationOrder: 'Asc',
+            maxConnections: 2,
+            availableConnections: [
+                {
+                    type: 'LOOP_NEXT'
+                },
+                {
+                    type: 'LOOP_END'
+                }
+            ],
+            elementType: 'Loop',
+            storeOutputAutomatically: false
         }
     },
     connectors: [
@@ -544,9 +545,9 @@ export const scheduleTriggeredFlowUIModel = {
         'bf05168b-6bd9-483a-8ea8-5e4d73a1c717',
         'bb597c66-db1e-4636-85b6-31f89b320bd4',
         '34ff5f58-8d99-470d-a755-a2aa0dc69f59',
-        'a8368340-a386-4406-9118-02389237ad54',
         'a733e74b-1a25-43dc-b43c-d126c849023d',
-        'bebf0e8d-339f-4227-ab7e-84d7c15daf07'
+        'bebf0e8d-339f-4227-ab7e-84d7c15daf07',
+        'd1fda889-4f3a-48cd-ba79-be4fbca04da2'
     ],
     properties: {
         canOnlySaveAsNewDefinition: false,

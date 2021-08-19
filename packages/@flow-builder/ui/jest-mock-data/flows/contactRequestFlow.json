@@ -11,198 +11,51 @@
     "manageableState": "unmanaged",
     "masterLabel": "contactRequest",
     "metadata": {
-        "start": {
-            "locationX": 80,
-            "locationY": 53,
-            "doesRequireRecordChangedToMeetCriteria": false,
-            "filters": []
-        },
+        "actionCalls": [],
+        "apexPluginCalls": [],
+        "apiVersion": 50,
+        "assignments": [],
+        "choices": [],
+        "collectionProcessors": [],
+        "constants": [],
         "decisions": [
             {
-                "name": "decision",
-                "description": "",
+                "defaultConnectorLabel": "Default Outcome",
                 "label": "decision",
                 "locationX": 227,
-                "locationY": 360.6875,
+                "locationY": 360,
+                "name": "decision",
+                "processMetadataValues": [],
                 "rules": [
                     {
-                        "name": "outcome",
-                        "label": "outcome",
+                        "conditionLogic": "and",
                         "conditions": [
                             {
                                 "leftValueReference": "vMyTestAccount.CloneSourceId",
-                                "operator": "EqualTo"
+                                "operator": "EqualTo",
+                                "processMetadataValues": []
                             }
                         ],
-                        "conditionLogic": "and",
-                        "doesRequireRecordChangedToMeetCriteria": false
+                        "doesRequireRecordChangedToMeetCriteria": false,
+                        "label": "outcome",
+                        "name": "outcome",
+                        "processMetadataValues": []
                     }
-                ],
-                "defaultConnectorLabel": "Default Outcome"
+                ]
             }
         ],
-        "variables": [
-            {
-                "name": "accountID",
-                "description": "",
-                "dataType": "String",
-                "isCollection": false,
-                "isInput": false,
-                "isOutput": false,
-                "scale": 2
-            },
-            {
-                "name": "vAccountBillingAddress",
-                "description": "",
-                "dataType": "String",
-                "isCollection": false,
-                "isInput": false,
-                "isOutput": false,
-                "scale": 2
-            },
-            {
-                "name": "vMyTestAccount",
-                "description": "",
-                "objectType": "Account",
-                "dataType": "SObject",
-                "isCollection": false,
-                "isInput": false,
-                "isOutput": false,
-                "scale": 2
-            },
-            {
-                "name": "vAccounts",
-                "description": "",
-                "objectType": "Account",
-                "dataType": "SObject",
-                "isCollection": true,
-                "isInput": false,
-                "isOutput": false,
-                "scale": 2
-            }
-        ],
-        "recordLookups": [
-            {
-                "name": "getAccountWithFields",
-                "description": "Get account with fields and sort",
-                "label": "Get Account With Fields and filters",
-                "locationX": 228,
-                "locationY": 147,
-                "object": "Account",
-                "outputAssignments": [
-                    {
-                        "field": "Id",
-                        "assignToReference": "accountID"
-                    },
-                    {
-                        "field": "BillingAddress",
-                        "assignToReference": "vAccountBillingAddress"
-                    }
-                ],
-                "assignNullValuesIfNoRecordsFound": true,
-                "filterLogic": "and",
-                "filters": [
-                    {
-                        "field": "Name",
-                        "operator": "EqualTo",
-                        "value": {
-                            "stringValue": "MyTestAccount"
-                        }
-                    }
-                ],
-                "queriedFields": [],
-                "sortOrder": "Asc",
-                "sortField": "Id"
-            },
-            {
-                "name": "get_Account_with_sObject",
-                "description": "",
-                "label": "get Account with sObject",
-                "locationX": 397,
-                "locationY": 148,
-                "object": "Account",
-                "outputReference": "vMyTestAccount",
-                "assignNullValuesIfNoRecordsFound": true,
-                "filterLogic": "and",
-                "filters": [
-                    {
-                        "field": "Name",
-                        "operator": "EqualTo",
-                        "value": {
-                            "stringValue": "myTestAccount"
-                        }
-                    }
-                ],
-                "queriedFields": ["Id", "BillingAddress"]
-            },
-            {
-                "name": "get_Accounts",
-                "description": "",
-                "label": "get Accounts",
-                "locationX": 558,
-                "locationY": 155,
-                "object": "Account",
-                "outputReference": "vAccounts",
-                "assignNullValuesIfNoRecordsFound": true,
-                "filterLogic": "and",
-                "filters": [
-                    {
-                        "field": "Name",
-                        "operator": "StartsWith",
-                        "value": {
-                            "stringValue": "myT"
-                        }
-                    }
-                ],
-                "queriedFields": ["Id", "BillingAddress"]
-            }
-        ],
-        "screens": [
-            {
-                "name": "screenWithAddress",
-                "description": "",
-                "label": "screenWithAddress",
-                "locationX": 741,
-                "locationY": 154.6875,
-                "pausedText": "",
-                "fields": [
-                    {
-                        "choiceReferences": [],
-                        "fieldText": "",
-                        "fieldType": "ComponentInstance",
-                        "helpText": "",
-                        "inputParameters": [],
-                        "isRequired": true,
-                        "name": "Address",
-                        "outputParameters": [],
-                        "scale": 0,
-                        "fields": [],
-                        "inputsOnNextNavToAssocScrn": "UseStoredValues",
-                        "storeOutputAutomatically": false,
-                        "extensionName": "flowruntime:address"
-                    }
-                ],
-                "allowBack": true,
-                "allowFinish": true,
-                "allowPause": true,
-                "helpText": "",
-                "showFooter": true,
-                "showHeader": true
-            }
-        ],
-        "description": "",
+        "dynamicChoiceSets": [],
+        "formulas": [],
         "interviewLabel": "contactRequestFlowWithElements {!$Flow.CurrentDateTime}",
+        "isAdditionalPermissionRequiredToRun": false,
+        "isOverridable": false,
         "isTemplate": false,
         "label": "contactRequestFlowWithElements",
+        "loops": [],
+        "orchestratedStages": [],
         "processMetadataValues": [
             {
                 "name": "BuilderType",
-                "value": {
-                    "stringValue": "LightningFlowBuilder"
-                }
-            },
-            {
-                "name": "OriginBuilderType",
                 "value": {
                     "stringValue": "LightningFlowBuilder"
                 }
@@ -212,11 +65,195 @@
                 "value": {
                     "stringValue": "FREE_FORM_CANVAS"
                 }
+            },
+            {
+                "name": "OriginBuilderType",
+                "value": {
+                    "stringValue": "LightningFlowBuilder"
+                }
             }
         ],
         "processType": "ContactRequestFlow",
-        "runInMode": null,
-        "apiVersion": 50
+        "recordCreates": [],
+        "recordDeletes": [],
+        "recordLookups": [
+            {
+                "assignNullValuesIfNoRecordsFound": true,
+                "filterLogic": "and",
+                "filters": [
+                    {
+                        "field": "Name",
+                        "operator": "EqualTo",
+                        "processMetadataValues": [],
+                        "value": {
+                            "stringValue": "myTestAccount"
+                        }
+                    }
+                ],
+                "getFirstRecordOnly": false,
+                "label": "get Account with sObject",
+                "locationX": 397,
+                "locationY": 148,
+                "name": "get_Account_with_sObject",
+                "object": "Account",
+                "outputAssignments": [],
+                "outputReference": "vMyTestAccount",
+                "processMetadataValues": [],
+                "queriedFields": ["Id", "BillingAddress"],
+                "storeOutputAutomatically": false
+            },
+            {
+                "assignNullValuesIfNoRecordsFound": true,
+                "filterLogic": "and",
+                "filters": [
+                    {
+                        "field": "Name",
+                        "operator": "StartsWith",
+                        "processMetadataValues": [],
+                        "value": {
+                            "stringValue": "myT"
+                        }
+                    }
+                ],
+                "getFirstRecordOnly": false,
+                "label": "get Accounts",
+                "locationX": 558,
+                "locationY": 155,
+                "name": "get_Accounts",
+                "object": "Account",
+                "outputAssignments": [],
+                "outputReference": "vAccounts",
+                "processMetadataValues": [],
+                "queriedFields": ["Id", "BillingAddress"],
+                "storeOutputAutomatically": false
+            },
+            {
+                "assignNullValuesIfNoRecordsFound": true,
+                "description": "Get account with fields and sort",
+                "filterLogic": "and",
+                "filters": [
+                    {
+                        "field": "Name",
+                        "operator": "EqualTo",
+                        "processMetadataValues": [],
+                        "value": {
+                            "stringValue": "MyTestAccount"
+                        }
+                    }
+                ],
+                "getFirstRecordOnly": false,
+                "label": "Get Account With Fields and filters",
+                "locationX": 228,
+                "locationY": 147,
+                "name": "getAccountWithFields",
+                "object": "Account",
+                "outputAssignments": [
+                    {
+                        "assignToReference": "vAccountBillingAddress",
+                        "field": "BillingAddress",
+                        "processMetadataValues": []
+                    },
+                    {
+                        "assignToReference": "accountID",
+                        "field": "Id",
+                        "processMetadataValues": []
+                    }
+                ],
+                "processMetadataValues": [],
+                "queriedFields": [],
+                "sortField": "Id",
+                "sortOrder": "Asc",
+                "storeOutputAutomatically": false
+            }
+        ],
+        "recordRollbacks": [],
+        "recordUpdates": [],
+        "screens": [
+            {
+                "allowBack": true,
+                "allowFinish": true,
+                "allowPause": true,
+                "fields": [
+                    {
+                        "choiceReferences": [],
+                        "dataTypeMappings": [],
+                        "extensionName": "flowruntime:address",
+                        "fieldType": "ComponentInstance",
+                        "fields": [],
+                        "inputParameters": [],
+                        "inputsOnNextNavToAssocScrn": "UseStoredValues",
+                        "isRequired": true,
+                        "name": "Address",
+                        "outputParameters": [],
+                        "processMetadataValues": [],
+                        "scale": 0,
+                        "storeOutputAutomatically": false
+                    }
+                ],
+                "label": "screenWithAddress",
+                "locationX": 741,
+                "locationY": 154,
+                "name": "screenWithAddress",
+                "processMetadataValues": [],
+                "rules": [],
+                "showFooter": true,
+                "showHeader": true
+            }
+        ],
+        "stages": [],
+        "start": {
+            "doesRequireRecordChangedToMeetCriteria": false,
+            "filters": [],
+            "locationX": 99,
+            "locationY": 42,
+            "processMetadataValues": [],
+            "scheduledPaths": []
+        },
+        "status": "InvalidDraft",
+        "steps": [],
+        "subflows": [],
+        "textTemplates": [],
+        "variables": [
+            {
+                "dataType": "String",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "accountID",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "dataType": "String",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "vAccountBillingAddress",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "dataType": "SObject",
+                "isCollection": true,
+                "isInput": false,
+                "isOutput": false,
+                "name": "vAccounts",
+                "objectType": "Account",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "dataType": "SObject",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "vMyTestAccount",
+                "objectType": "Account",
+                "processMetadataValues": [],
+                "scale": 0
+            }
+        ],
+        "waits": []
     },
     "processType": "ContactRequestFlow",
     "status": "InvalidDraft",

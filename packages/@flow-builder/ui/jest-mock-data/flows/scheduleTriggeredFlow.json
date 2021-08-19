@@ -14,246 +14,124 @@
     "manageableState": "unmanaged",
     "masterLabel": "autolaunchedFlow",
     "metadata": {
-        "start": {
-            "locationX": 59,
-            "locationY": 42,
-            "connector": {
-                "targetReference": "wait1"
-            },
-            "triggerType": "Scheduled",
-            "schedule": {
-                "startDate": "2019-11-18",
-                "startTime": "05:45:00.000",
-                "frequency": "Once"
-            },
-            "object": "Account",
-            "doesRequireRecordChangedToMeetCriteria": false,
-            "filters": []
-        },
         "actionCalls": [
             {
-                "name": "postToChatter",
-                "description": "",
-                "label": "postToChatter",
-                "locationX": 563,
-                "locationY": 174,
-                "actionType": "chatterPost",
                 "actionName": "chatterPost",
+                "actionType": "chatterPost",
+                "dataTypeMappings": [],
+                "flowTransactionModel": "CurrentTransaction",
                 "inputParameters": [
                     {
                         "name": "text",
+                        "processMetadataValues": [],
                         "value": {
                             "stringValue": "this is a post to chatter"
                         }
                     },
                     {
                         "name": "subjectNameOrId",
+                        "processMetadataValues": [],
                         "value": {
                             "stringValue": "Automation Builder Simplification"
                         }
                     }
                 ],
+                "label": "postToChatter",
+                "locationX": 563,
+                "locationY": 174,
+                "name": "postToChatter",
                 "outputParameters": [],
+                "processMetadataValues": [],
                 "storeOutputAutomatically": true
             }
         ],
+        "apexPluginCalls": [],
+        "apiVersion": 50,
+        "assignments": [],
+        "choices": [],
+        "collectionProcessors": [],
+        "constants": [],
         "decisions": [
             {
-                "name": "decision",
-                "description": "",
+                "defaultConnectorLabel": "Default Outcome",
                 "label": "decision",
                 "locationX": 552,
                 "locationY": 42,
+                "name": "decision",
+                "processMetadataValues": [],
                 "rules": [
                     {
-                        "name": "outcome",
-                        "label": "outcome",
+                        "conditionLogic": "and",
                         "conditions": [
                             {
                                 "leftValueReference": "accountVariable.CreatedById",
+                                "operator": "EqualTo",
+                                "processMetadataValues": [],
                                 "rightValue": {
                                     "elementReference": "accountVariable.CreatedById"
-                                },
-                                "operator": "EqualTo"
+                                }
                             }
                         ],
-                        "conditionLogic": "and",
-                        "doesRequireRecordChangedToMeetCriteria": false
+                        "doesRequireRecordChangedToMeetCriteria": false,
+                        "label": "outcome",
+                        "name": "outcome",
+                        "processMetadataValues": []
                     }
-                ],
-                "defaultConnectorLabel": "Default Outcome"
+                ]
             }
         ],
-        "waits": [
-            {
-                "name": "wait1",
-                "description": "",
-                "label": "wait1",
-                "locationX": 311,
-                "locationY": 284,
-                "waitEvents": [
-                    {
-                        "name": "waitEvent1",
-                        "label": "waitEvent1",
-                        "connector": {
-                            "targetReference": "lookupRecord"
-                        },
-                        "conditions": [
-                            {
-                                "leftValueReference": "stringVariable",
-                                "rightValue": {
-                                    "stringValue": "text"
-                                },
-                                "operator": "EqualTo"
-                            }
-                        ],
-                        "conditionLogic": "and",
-                        "eventType": "FlowExecutionErrorEvent",
-                        "inputParameters": [],
-                        "outputParameters": []
-                    }
-                ],
-                "defaultConnectorLabel": "Default Path"
-            }
-        ],
-        "variables": [
-            {
-                "name": "stringVariable",
-                "description": "",
-                "dataType": "String",
-                "isCollection": false,
-                "isInput": false,
-                "isOutput": false,
-                "scale": 0
-            },
-            {
-                "name": "accountVariable",
-                "description": "",
-                "objectType": "Account",
-                "dataType": "SObject",
-                "isCollection": false,
-                "isInput": false,
-                "isOutput": false,
-                "scale": 2
-            },
-            {
-                "name": "accounts",
-                "description": "",
-                "objectType": "Account",
-                "dataType": "SObject",
-                "isCollection": true,
-                "isInput": false,
-                "isOutput": false,
-                "scale": 2
-            },
-            {
-                "name": "textCollection",
-                "description": "",
-                "dataType": "String",
-                "isCollection": true,
-                "isInput": false,
-                "isOutput": false,
-                "scale": 2
-            },
-            {
-                "name": "textVariable",
-                "description": "",
-                "dataType": "String",
-                "isCollection": false,
-                "isInput": false,
-                "isOutput": false,
-                "scale": 2
-            },
-            {
-                "name": "apexComplexTypeVariable",
-                "description": "",
-                "apexClass": "ApexComplexTypeTestOne216",
-                "dataType": "Apex",
-                "isCollection": false,
-                "isInput": false,
-                "isOutput": false,
-                "scale": 2
-            },
-            {
-                "name": "apexTypeComplexCollection",
-                "description": "",
-                "apexClass": "ApexComplexTypeTestOne216",
-                "dataType": "Apex",
-                "isCollection": true,
-                "isInput": false,
-                "isOutput": false,
-                "scale": 2
-            }
-        ],
-        "recordLookups": [
-            {
-                "name": "lookupRecord",
-                "description": "",
-                "label": "lookupRecord",
-                "locationX": 303,
-                "locationY": 457,
-                "object": "Account",
-                "filters": [],
-                "queriedFields": null,
-                "storeOutputAutomatically": true,
-                "getFirstRecordOnly": true
-            }
-        ],
+        "dynamicChoiceSets": [],
+        "formulas": [],
+        "interviewLabel": "flow {!$Flow.CurrentDateTime}",
+        "isAdditionalPermissionRequiredToRun": false,
+        "isOverridable": false,
+        "isTemplate": false,
+        "label": "autolaunchedFlow",
         "loops": [
             {
-                "name": "loopAccountAutomaticOutput",
+                "collectionReference": "accounts",
                 "description": "This is a test with automatic Output",
+                "iterationOrder": "Asc",
                 "label": "loopAccountAutomaticOutput",
                 "locationX": 491,
                 "locationY": 435,
-                "assignNextValueToReference": null,
-                "collectionReference": "accounts",
-                "iterationOrder": "Asc"
+                "name": "loopAccountAutomaticOutput",
+                "processMetadataValues": []
             },
             {
-                "name": "loopOnTextCollection",
-                "description": "This is a test without automatic Output",
-                "label": "loopOnTextCollection",
-                "locationX": 638,
-                "locationY": 435,
-                "assignNextValueToReference": "textVariable",
-                "collectionReference": "textCollection",
-                "iterationOrder": "Asc"
-            },
-            {
-                "name": "loopOnTextAutomaticOutput",
-                "description": "",
-                "label": "loopOnTextAutomaticOutput",
-                "locationX": 648,
-                "locationY": 291,
-                "assignNextValueToReference": null,
-                "collectionReference": "textCollection",
-                "iterationOrder": "Asc"
-            },
-            {
-                "name": "loopOnApexTypeCollectionAutoOutput",
-                "description": "",
+                "collectionReference": "apexTypeComplexCollection",
+                "iterationOrder": "Asc",
                 "label": "loopOnApexTypeCollectionAutoOutput",
                 "locationX": 487,
                 "locationY": 291,
-                "assignNextValueToReference": null,
-                "collectionReference": "apexTypeComplexCollection",
-                "iterationOrder": "Asc"
+                "name": "loopOnApexTypeCollectionAutoOutput",
+                "processMetadataValues": []
+            },
+            {
+                "collectionReference": "textCollection",
+                "iterationOrder": "Asc",
+                "label": "loopOnTextAutomaticOutput",
+                "locationX": 648,
+                "locationY": 291,
+                "name": "loopOnTextAutomaticOutput",
+                "processMetadataValues": []
+            },
+            {
+                "assignNextValueToReference": "textVariable",
+                "collectionReference": "textCollection",
+                "description": "This is a test without automatic Output",
+                "iterationOrder": "Asc",
+                "label": "loopOnTextCollection",
+                "locationX": 638,
+                "locationY": 435,
+                "name": "loopOnTextCollection",
+                "processMetadataValues": []
             }
         ],
-        "description": "",
-        "interviewLabel": "flow {!$Flow.CurrentDateTime}",
-        "isTemplate": false,
-        "label": "autolaunchedFlow",
+        "orchestratedStages": [],
         "processMetadataValues": [
             {
                 "name": "BuilderType",
-                "value": {
-                    "stringValue": "LightningFlowBuilder"
-                }
-            },
-            {
-                "name": "OriginBuilderType",
                 "value": {
                     "stringValue": "LightningFlowBuilder"
                 }
@@ -263,12 +141,168 @@
                 "value": {
                     "stringValue": "FREE_FORM_CANVAS"
                 }
+            },
+            {
+                "name": "OriginBuilderType",
+                "value": {
+                    "stringValue": "LightningFlowBuilder"
+                }
             }
         ],
         "processType": "AutoLaunchedFlow",
-        "runInMode": null,
+        "recordCreates": [],
+        "recordDeletes": [],
+        "recordLookups": [
+            {
+                "assignNullValuesIfNoRecordsFound": false,
+                "filters": [],
+                "getFirstRecordOnly": true,
+                "label": "lookupRecord",
+                "locationX": 303,
+                "locationY": 457,
+                "name": "lookupRecord",
+                "object": "Account",
+                "outputAssignments": [],
+                "processMetadataValues": [],
+                "queriedFields": [],
+                "storeOutputAutomatically": true
+            }
+        ],
+        "recordRollbacks": [],
+        "recordUpdates": [],
+        "screens": [],
+        "stages": [],
+        "start": {
+            "connector": {
+                "isGoTo": false,
+                "processMetadataValues": [],
+                "targetReference": "wait1"
+            },
+            "doesRequireRecordChangedToMeetCriteria": false,
+            "filters": [],
+            "locationX": 43,
+            "locationY": 40,
+            "object": "Account",
+            "processMetadataValues": [],
+            "schedule": {
+                "frequency": "Once",
+                "startDate": "2019-11-18T00:00:00.000+0000",
+                "startTime": {
+                    "timeInMillis": 20700000
+                }
+            },
+            "scheduledPaths": [],
+            "triggerType": "Scheduled"
+        },
         "status": "Draft",
-        "apiVersion": 50
+        "steps": [],
+        "subflows": [],
+        "textTemplates": [],
+        "variables": [
+            {
+                "dataType": "SObject",
+                "isCollection": true,
+                "isInput": false,
+                "isOutput": false,
+                "name": "accounts",
+                "objectType": "Account",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "dataType": "SObject",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "accountVariable",
+                "objectType": "Account",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "apexClass": "ApexComplexTypeTestOne216",
+                "dataType": "Apex",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "apexComplexTypeVariable",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "apexClass": "ApexComplexTypeTestOne216",
+                "dataType": "Apex",
+                "isCollection": true,
+                "isInput": false,
+                "isOutput": false,
+                "name": "apexTypeComplexCollection",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "dataType": "String",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "stringVariable",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "dataType": "String",
+                "isCollection": true,
+                "isInput": false,
+                "isOutput": false,
+                "name": "textCollection",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "dataType": "String",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "textVariable",
+                "processMetadataValues": [],
+                "scale": 0
+            }
+        ],
+        "waits": [
+            {
+                "defaultConnectorLabel": "Default Path",
+                "label": "wait1",
+                "locationX": 311,
+                "locationY": 284,
+                "name": "wait1",
+                "processMetadataValues": [],
+                "waitEvents": [
+                    {
+                        "conditionLogic": "and",
+                        "conditions": [
+                            {
+                                "leftValueReference": "stringVariable",
+                                "operator": "EqualTo",
+                                "processMetadataValues": [],
+                                "rightValue": {
+                                    "stringValue": "text"
+                                }
+                            }
+                        ],
+                        "connector": {
+                            "isGoTo": false,
+                            "processMetadataValues": [],
+                            "targetReference": "lookupRecord"
+                        },
+                        "eventType": "FlowExecutionErrorEvent",
+                        "inputParameters": [],
+                        "label": "waitEvent1",
+                        "name": "waitEvent1",
+                        "outputParameters": [],
+                        "processMetadataValues": []
+                    }
+                ]
+            }
+        ]
     },
     "processType": "AutoLaunchedFlow",
     "status": "Draft",

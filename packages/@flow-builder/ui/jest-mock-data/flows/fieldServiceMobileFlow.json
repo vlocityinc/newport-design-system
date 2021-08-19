@@ -15,8 +15,8 @@
     "masterLabel": "fieldServiceMobileFlowWithElements",
     "metadata": {
         "start": {
-            "locationX": 50,
-            "locationY": 50,
+            "locationX": 31,
+            "locationY": 49,
             "doesRequireRecordChangedToMeetCriteria": false,
             "filters": []
         },
@@ -225,7 +225,10 @@
                 "allowPause": true,
                 "helpText": "",
                 "showFooter": true,
-                "showHeader": true
+                "showHeader": true,
+                "nextOrFinishButtonLabel": null,
+                "pauseButtonLabel": null,
+                "backButtonLabel": null
             }
         ],
         "description": "",
@@ -254,7 +257,10 @@
         ],
         "processType": "FieldServiceMobile",
         "runInMode": null,
-        "status": "InvalidDraft"
+        "status": "InvalidDraft",
+        "isOverridable": false,
+        "overriddenFlow": null,
+        "sourceTemplate": null
     },
     "processType": "FieldServiceMobile",
     "status": "InvalidDraft",

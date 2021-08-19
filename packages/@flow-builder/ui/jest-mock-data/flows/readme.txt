@@ -1,4 +1,4 @@
-To update flowWithAllElements.json, orchestratorFlow.json or recordTriggeredFlow.json:
+To update flowWithAllElements.json, autoLaunchedFlowScheduled.json, orchestratorFlow.json, recordTriggeredFlow.json, contactRequest.json (to be opened in the Setup from "Customer Contact Requests" using Lightning) or scheduleTriggeredFlow.json:
 
 1) create a scratch org using https://git.soma.salesforce.com/automation-platform/test-environments/tree/master/flowbuilder-eng
 2) open flowWithAllElements
@@ -11,7 +11,7 @@ To update flowWithAllElements.json, orchestratorFlow.json or recordTriggeredFlow
 11) update https://git.soma.salesforce.com/automation-platform/test-environments/tree/master/flowbuilder-eng with the new flow and anything needed by the newly added elements (e.g. apex classes)
 12) run the tests suite
 
-To update autolaunchedFlowScheduled.json (and other):
+To update fieldServiceMobileFlow.json:
 
 1) create a new flow named "autolaunchedFlowScheduled" and save it (you can move the start element to have the save button enabled)
 2) add a breakpoint in TranslatorLib.translateFlowToUIModel
