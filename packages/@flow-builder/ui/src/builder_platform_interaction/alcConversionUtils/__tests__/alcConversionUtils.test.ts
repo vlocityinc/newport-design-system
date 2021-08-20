@@ -82,6 +82,7 @@ import ffcTestCase12 from './ffcUiModels/testCase12.json';
 
 import ffcLoopWithNestedLoopBack from './ffcUiModels/loop-with-nested-branch-that-loops-back.json';
 import ffcLoopWithBackEdge from './ffcUiModels/loop-with-back-edge.json';
+import ffcLoopWithGoToOnBranchHead from './ffcUiModels/loop-with-goto-on-branch-head.json';
 import ffcLoopWithCrossAsGotoEdge from './ffcUiModels/loop-with-cross-as-goto-edge.json';
 import ffcLoopWithFowardAsGotoEdge from './ffcUiModels/loop-with-forward-as-goto-edge.json';
 import ffcNextAndFaultSameElement from './ffcUiModels/element-with-next-and-fault-pointing-to-same-element.json';
@@ -830,6 +831,22 @@ describe('alc conversion utils', () => {
             it('loop - end path within a loop', () => {
                 assertCanConvertToAutoLayoutCanvas(ffcLoopWithEndPathWithin, true);
             });
+
+            it('loop with back edge goto', () => {
+                assertCanConvertToAutoLayoutCanvas(ffcLoopWithBackEdge, true);
+            });
+
+            it('loop with cross as goto edge', () => {
+                assertCanConvertToAutoLayoutCanvas(ffcLoopWithCrossAsGotoEdge, true);
+            });
+
+            it('loop with goto edge on brachHead', () => {
+                assertCanConvertToAutoLayoutCanvas(ffcLoopWithGoToOnBranchHead, true);
+            });
+
+            it('loop with forward as goto edge and execution context does not match', () => {
+                assertCanConvertToAutoLayoutCanvas(ffcLoopWithFowardAsGotoEdge, true);
+            });
         });
 
         describe('record update', () => {
@@ -929,18 +946,6 @@ describe('alc conversion utils', () => {
 
         it('loop with nested loop back', () => {
             assertCanConvertToAutoLayoutCanvas(ffcLoopWithNestedLoopBack, false);
-        });
-
-        it('loop with back edge goto', () => {
-            assertCanConvertToAutoLayoutCanvas(ffcLoopWithBackEdge, false);
-        });
-
-        it('loop with cross as goto edge', () => {
-            assertCanConvertToAutoLayoutCanvas(ffcLoopWithCrossAsGotoEdge, false);
-        });
-
-        it('loop with forward as goto edge and execution context does not match', () => {
-            assertCanConvertToAutoLayoutCanvas(ffcLoopWithFowardAsGotoEdge, false);
         });
 
         it('with start node that has set childReferences', () => {

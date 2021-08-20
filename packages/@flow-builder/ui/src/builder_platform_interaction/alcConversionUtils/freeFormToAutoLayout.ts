@@ -15,7 +15,8 @@ import {
     createRootElement,
     createGoToSourceRef,
     setChild,
-    inlineFromParent
+    inlineFromParent,
+    FOR_EACH_INDEX
 } from 'builder_platform_interaction/autoLayoutCanvas';
 
 import { getChildReferencesKeys } from 'builder_platform_interaction/elementConfig';
@@ -179,15 +180,18 @@ function convertLoop(
     const loopNextConnector = outs.find((connector) => connector.type === CONNECTOR_TYPE.LOOP_NEXT);
 
     if (loopNextConnector != null) {
-        const targetElement = elements[loopNextConnector.target];
-        if (targetElement && targetElement.guid !== loopElement.guid) {
+        const targetElement = resolveNode(elements, loopNextConnector.target);
+        if (loopNextConnector.isGoTo) {
+            updateIncomingGoToArray(elements, targetElement, loopElement, FOR_EACH_INDEX);
+            setChild(loopElement, FOR_EACH_INDEX, targetElement, true);
+        } else if (targetElement && targetElement.guid !== loopElement.guid) {
             const branchHead = resolveNode(elements, loopNextConnector.target);
             convertBranchToAutoLayout(
                 elements,
                 conversionInfos,
                 loopElement,
                 branchHead as BranchHeadNodeModel,
-                0,
+                FOR_EACH_INDEX,
                 options
             );
         }

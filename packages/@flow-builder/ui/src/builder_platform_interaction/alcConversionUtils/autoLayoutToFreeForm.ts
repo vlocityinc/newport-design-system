@@ -17,7 +17,9 @@ import {
     resolveBranchHead,
     BranchHeadNodeModel,
     isBranchingElement,
-    hasChildren
+    hasChildren,
+    resolveNode,
+    FOR_EACH_INDEX
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
@@ -176,7 +178,9 @@ function calculateElementPositionsForBranch(
         // if a loop has a branch head that loops back to itself, we need to adjust the offsetY as in free form this will be a loop with
         // no LOOP_NEXT connector
         if (element.nodeType === NodeType.LOOP) {
-            const loopBranchHead = resolveChild(flowModel as FlowModel, elementAsParent, 0);
+            const loopBranchHead = hasGoToOnBranchHead(flowModel, elementAsParent.guid, FOR_EACH_INDEX)
+                ? resolveNode(flowModel, elementAsParent.children[FOR_EACH_INDEX])
+                : resolveChild(flowModel as FlowModel, elementAsParent, FOR_EACH_INDEX);
             if (loopBranchHead != null && loopBranchHead.guid === element.guid) {
                 offsetY -= y;
             }
@@ -271,7 +275,7 @@ function toCanvasElement(elements: UI.Elements, alcCanvasElement: NodeModel): UI
     }
 
     if (nodeType === NodeType.LOOP) {
-        if (isEndElementOrNull(elements, (alcCanvasElement as ParentNodeModel).children[0])) {
+        if (isEndElementOrNull(elements, (alcCanvasElement as ParentNodeModel).children[FOR_EACH_INDEX])) {
             availableConnections.push({ type: CONNECTOR_TYPE.LOOP_NEXT });
         }
 
@@ -414,13 +418,14 @@ function convertLoopElement(
     loopElement: ParentNodeModel,
     ancestorNext: TargetInfo | null
 ) {
-    const loopNext = resolveChild(flowModel, loopElement, 0);
+    const hasGoToOnLoopNext = hasGoToOnBranchHead(flowModel, loopElement.guid, FOR_EACH_INDEX);
+
+    const loopNext = hasGoToOnLoopNext
+        ? (resolveNode(flowModel, loopElement.children[FOR_EACH_INDEX]) as BranchHeadNodeModel)
+        : resolveChild(flowModel, loopElement, FOR_EACH_INDEX);
     ancestorNext = getTargetInfo(flowModel, loopElement, ancestorNext);
 
     if (loopNext != null) {
-        // we don't support goto in loops right now
-        const hasGoToOnLoopNext = false;
-
         addConnector(
             flowModel,
             loopElement.guid,
@@ -430,13 +435,15 @@ function convertLoopElement(
             hasGoToOnLoopNext
         );
 
-        // the loop element is where non-ended branches will reconnect to
-        const loopBackTarget = {
-            guid: loopElement.guid,
-            isGoTo: false
-        };
+        if (!hasGoToOnLoopNext) {
+            // the loop element is where non-ended branches will reconnect to
+            const loopBackTarget = {
+                guid: loopElement.guid,
+                isGoTo: false
+            };
 
-        convertBranchToFreeForm(storeState, flowModel, loopNext, loopBackTarget);
+            convertBranchToFreeForm(storeState, flowModel, loopNext, loopBackTarget);
+        }
     }
 
     if (ancestorNext != null) {

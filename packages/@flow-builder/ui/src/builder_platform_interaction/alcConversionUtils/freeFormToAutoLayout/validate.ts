@@ -35,9 +35,6 @@ function checkOutgoingEdgeForGoTo(conversionInfos: ConversionInfos, out: UI.Conn
 
     if (edgeType === 'forward' || edgeType === 'cross') {
         if (sourceNode.executionContext !== targetNode.executionContext) {
-            if (sourceNode.executionContext!.type === 'loop') {
-                failFlowCheck('gotoInLoop');
-            }
             // a cross boundary edge is a goto
             out.isGoTo = true;
         }
@@ -53,9 +50,6 @@ function checkOutgoingEdgeForGoTo(conversionInfos: ConversionInfos, out: UI.Conn
         // the edge is a goto if it does not come from inside a loop and point back to the loop header
         if (executionContext.type !== 'loop' || target !== executionContext.id) {
             if (!isDegenerateLoop) {
-                if (executionContext.type === 'loop') {
-                    failFlowCheck('gotoInLoop');
-                }
                 out.isGoTo = true;
             }
         }
