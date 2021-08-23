@@ -41,7 +41,7 @@ enum TabFocusRingItemsInDeleteMode {
     Footer = 3
 }
 
-// TODO: W-9581892 Make alcNodeMenu use the popover component
+// TODO: W-9581892 make alcNodeMenu use the popover component
 
 /**
  * The node menu overlay, displayed when clicking on a node.

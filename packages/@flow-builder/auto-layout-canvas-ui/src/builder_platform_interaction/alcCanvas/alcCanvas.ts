@@ -487,7 +487,8 @@ export default class AlcCanvas extends LightningElement {
                     height: 0,
                     type: MenuType.NODE,
                     guid: startElementGuid,
-                    elementMetadata: this._flowRenderContext.elementsMetadata[startElement.elementType]
+                    elementMetadata: this._flowRenderContext.elementsMetadata[startElement.elementType],
+                    moveFocusToMenu: true
                 });
 
                 this.openMenu(event, interactionState);

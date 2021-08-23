@@ -1,39 +1,36 @@
 <template>
-    <!--TRIGGER/SCHEDULE-->
-    <div
-        tabindex="0"
-        class="slds-border_top trigger-button"
-        style="background-color: white"
-        onclick={handleTriggerClick}
-    >
-        <!--UNSET TRIGGER/SCHEDULE-->
-        <div if:false={isSetTrigger} class={unsetStartButtonClasses}>
-            <!--icon-->
-            <lightning-icon
-                icon-name="utility:add"
-                class="slds-current-color slds-m-right_x-small"
-                size="xx-small"
-            ></lightning-icon>
-            <span> {chooseScheduleOrEvent} </span>
-        </div>
-        <!--CONFIGURED TRIGGER/SCHEDULE-->
-        <div if:true={isSetTrigger} class={startButtonClasses}>
-            <div class="slds-grid">
-                <span class="slds-col slds-size_10-of-12 slds-truncate" title={selectedTriggerLabel}>
-                    <span class="slds-m-right_xxx-small"> {triggerLabel} </span>
-                    <span class="text-labels-bold">{selectedTriggerLabel}</span>
-                </span>
-                <span class="slds-col slds-size_2-of-12 slds-m-left_xxx-small">
-                    <span class="edit slds-truncate" title={editLabel}>{editLabel}</span>
-                </span>
+    <div class="slds-border_top">
+        <!--TRIGGER/SCHEDULE-->
+        <div tabindex="0" class="trigger-button button" onclick={handleTriggerClick}>
+            <!--UNSET TRIGGER/SCHEDULE-->
+            <div if:false={isSetTrigger} class={unsetStartButtonClasses}>
+                <!--icon-->
+                <lightning-icon
+                    icon-name="utility:add"
+                    class="slds-current-color slds-m-right_x-small"
+                    size="xx-small"
+                ></lightning-icon>
+                <span> {chooseScheduleOrEvent} </span>
             </div>
-            <div
-                if:false={isPlatformEvent}
-                class="slds-m-top_xx-small slds-truncate test-run-flow"
-                title={selectedRunFlowLabel}
-            >
-                <span class="slds-m-right_xx-small">{runFlowLabel}</span
-                ><span class="text-labels-bold">{selectedRunFlowLabel}</span>
+            <!--CONFIGURED TRIGGER/SCHEDULE-->
+            <div if:true={isSetTrigger} class={startButtonClasses}>
+                <div class="slds-grid">
+                    <span class="slds-col slds-size_10-of-12 slds-truncate" title={selectedTriggerLabel}>
+                        <span class="slds-m-right_xxx-small"> {triggerLabel} </span>
+                        <span class="text-labels-bold">{selectedTriggerLabel}</span>
+                    </span>
+                    <span class="slds-col slds-size_2-of-12 slds-m-left_xxx-small">
+                        <span class="edit slds-truncate" title={editLabel}>{editLabel}</span>
+                    </span>
+                </div>
+                <div
+                    if:false={isPlatformEvent}
+                    class="slds-m-top_xx-small slds-truncate test-run-flow"
+                    title={selectedRunFlowLabel}
+                >
+                    <span class="slds-m-right_xx-small">{runFlowLabel}</span
+                    ><span class="text-labels-bold">{selectedRunFlowLabel}</span>
+                </div>
             </div>
         </div>
     </div>

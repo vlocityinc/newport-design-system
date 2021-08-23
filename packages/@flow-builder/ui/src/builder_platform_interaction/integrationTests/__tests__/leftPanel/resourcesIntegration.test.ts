@@ -30,8 +30,11 @@ jest.mock('builder_platform_interaction/alcCanvas', () => require('builder_platf
 jest.mock('builder_platform_interaction/sharedUtils', () => {
     const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
     const sharedcommands = jest.requireActual('builder_platform_interaction/sharedUtils/commands');
+    const sharedLwcUtils = jest.requireActual('builder_platform_interaction/sharedUtils/lwcUtils');
+
     return Object.assign({}, sharedUtils, {
         commands: sharedcommands,
+        lwcUtils: sharedLwcUtils,
         invokeModalWithComponents: jest.fn(),
         invokeModal: jest.fn()
     });

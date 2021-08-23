@@ -17,7 +17,9 @@ const { EscapeCommand, ArrowDown, ArrowUp, TabCommand } = commands;
 jest.mock('builder_platform_interaction/sharedUtils', () => {
     const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
     const sharedCommands = jest.requireActual('builder_platform_interaction/sharedUtils/commands');
-    return Object.assign({}, sharedUtils, { commands: sharedCommands });
+    const sharedLwcUtils = jest.requireActual('builder_platform_interaction/sharedUtils/lwcUtils');
+
+    return Object.assign({}, sharedUtils, { commands: sharedCommands, lwcUtils: sharedLwcUtils });
 });
 
 const autolaunchedFlowStart = {
@@ -194,7 +196,7 @@ const scheduledTriggeredStartData = {
     triggerType: 'Scheduled'
 };
 
-const createComponentUnderTest = (metaData, startData, supportsScheduledPaths = false) => {
+const createComponentUnderTest = (metaData, startData, supportsScheduledPaths = false, moveFocusToMenu = false) => {
     const el = createElement('builder_platform_interaction-alc-start-menu', {
         is: AlcStartMenu
     });
@@ -202,6 +204,7 @@ const createComponentUnderTest = (metaData, startData, supportsScheduledPaths = 
     el.elementMetadata = metaData;
     el.startData = startData;
     el.guid = metaData.guid;
+    el.moveFocusToMenu = moveFocusToMenu;
     setDocumentBodyChildren(el);
     return el;
 };
@@ -221,11 +224,28 @@ async function dispatchEvent(element, event) {
     await ticks(1);
 }
 
+function getFirstButton(menu) {
+    const triggerButton = menu.shadowRoot.querySelector(selectors.triggerButton);
+    const recordTriggerButton = menu.shadowRoot.querySelector(selectors.recordTriggerButton);
+    return recordTriggerButton ? recordTriggerButton : triggerButton;
+}
+
+function assertFocusOnFirstButton(menu) {
+    expect(getFirstButton(menu).shadowRoot.activeElement).toEqual(
+        getFirstButton(menu).shadowRoot.querySelector('.button')
+    );
+}
+
 describe('Start Node Menu', () => {
     describe('Autolaunched Start Menu', () => {
         let menu;
         beforeEach(() => {
             menu = createComponentUnderTest(autolaunchedFlowStart);
+        });
+
+        it('Should have focus on the first button', () => {
+            const menu = createComponentUnderTest(scheduledTriggeredFlowStart, scheduledTriggeredStartData, null, true);
+            assertFocusOnFirstButton(menu);
         });
 
         it('renders the start contextual menu', () => {
@@ -274,6 +294,11 @@ describe('Start Node Menu', () => {
         let menu;
         beforeEach(() => {
             menu = createComponentUnderTest(platformEventStart, menuStartData);
+        });
+
+        it('Should have focus on the first button', () => {
+            const menu = createComponentUnderTest(scheduledTriggeredFlowStart, scheduledTriggeredStartData, null, true);
+            assertFocusOnFirstButton(menu);
         });
 
         it('renders the start contextual menu', () => {
@@ -327,6 +352,11 @@ describe('Start Node Menu', () => {
             menu = createComponentUnderTest(screenFlowStart);
         });
 
+        it('Should have focus on the first button', () => {
+            const menu = createComponentUnderTest(scheduledTriggeredFlowStart, scheduledTriggeredStartData, null, true);
+            assertFocusOnFirstButton(menu);
+        });
+
         it('renders the start contextual menu', () => {
             expect(menu).toBeDefined();
         });
@@ -353,6 +383,11 @@ describe('Start Node Menu', () => {
         let menu;
         beforeEach(() => {
             menu = createComponentUnderTest(recordTriggeredFlowStart, recordTriggeredStartData);
+        });
+
+        it('Should have focus on the first button', () => {
+            const menu = createComponentUnderTest(scheduledTriggeredFlowStart, scheduledTriggeredStartData, null, true);
+            assertFocusOnFirstButton(menu);
         });
 
         it('renders the start contextual menu', () => {
@@ -402,7 +437,7 @@ describe('Start Node Menu', () => {
             const trigger = body.querySelector(selectors.triggerButton);
             const scheduledPath = body.querySelector(selectors.scheduledPathButton);
             const callback = jest.fn();
-            scheduledPath.shadowRoot.querySelector('div').addEventListener('focus', callback);
+            scheduledPath.shadowRoot.querySelector('.button').addEventListener('focus', callback);
             await dispatchEvent(trigger, new ArrowKeyDownEvent(ArrowUp.COMMAND_NAME));
             expect(callback).toHaveBeenCalled();
         });
@@ -413,7 +448,7 @@ describe('Start Node Menu', () => {
             const context = body.querySelector(selectors.contextButton);
             const scheduledPath = body.querySelector(selectors.scheduledPathButton);
             const callback = jest.fn();
-            scheduledPath.shadowRoot.querySelector('div').addEventListener('focus', callback);
+            scheduledPath.shadowRoot.querySelector('.button').addEventListener('focus', callback);
             await dispatchEvent(context, new ArrowKeyDownEvent(ArrowDown.COMMAND_NAME));
             expect(callback).toHaveBeenCalled();
         });
@@ -424,7 +459,7 @@ describe('Start Node Menu', () => {
             const scheduledPath = body.querySelector(selectors.scheduledPathButton);
             const context = body.querySelector(selectors.contextButton);
             const callback = jest.fn();
-            context.shadowRoot.querySelector('div').addEventListener('focus', callback);
+            context.shadowRoot.querySelector('.button').addEventListener('focus', callback);
             await dispatchEvent(scheduledPath, new ArrowKeyDownEvent(ArrowUp.COMMAND_NAME));
             expect(callback).toHaveBeenCalled();
         });
@@ -435,7 +470,7 @@ describe('Start Node Menu', () => {
             const scheduledPath = body.querySelector(selectors.scheduledPathButton);
             const trigger = body.querySelector(selectors.triggerButton);
             const callback = jest.fn();
-            trigger.shadowRoot.querySelector('div').addEventListener('focus', callback);
+            trigger.shadowRoot.querySelector('.button').addEventListener('focus', callback);
             await dispatchEvent(scheduledPath, new ArrowKeyDownEvent(ArrowDown.COMMAND_NAME));
             expect(callback).toHaveBeenCalled();
         });
@@ -456,7 +491,7 @@ describe('Start Node Menu', () => {
             const trigger = body.querySelector(selectors.triggerButton);
             const context = body.querySelector(selectors.contextButton);
             const callback = jest.fn();
-            context.shadowRoot.querySelector('div').addEventListener('focus', callback);
+            context.shadowRoot.querySelector('.button').addEventListener('focus', callback);
             await dispatchEvent(trigger, new ArrowKeyDownEvent(ArrowDown.COMMAND_NAME));
             expect(callback).toHaveBeenCalled();
         });
@@ -466,7 +501,7 @@ describe('Start Node Menu', () => {
             const trigger = body.querySelector(selectors.triggerButton);
             const context = body.querySelector(selectors.contextButton);
             const callback = jest.fn();
-            context.shadowRoot.querySelector('div').addEventListener('focus', callback);
+            context.shadowRoot.querySelector('.button').addEventListener('focus', callback);
             await dispatchEvent(trigger, new ArrowKeyDownEvent(ArrowUp.COMMAND_NAME));
             expect(callback).toHaveBeenCalled();
         });
@@ -476,7 +511,7 @@ describe('Start Node Menu', () => {
             const trigger = body.querySelector(selectors.triggerButton);
             const context = body.querySelector(selectors.contextButton);
             const callback = jest.fn();
-            trigger.shadowRoot.querySelector('div').addEventListener('focus', callback);
+            trigger.shadowRoot.querySelector('.button').addEventListener('focus', callback);
             await dispatchEvent(context, new ArrowKeyDownEvent(ArrowDown.COMMAND_NAME));
             expect(callback).toHaveBeenCalled();
         });
@@ -486,7 +521,7 @@ describe('Start Node Menu', () => {
             const trigger = body.querySelector(selectors.triggerButton);
             const context = body.querySelector(selectors.contextButton);
             const callback = jest.fn();
-            trigger.shadowRoot.querySelector('div').addEventListener('focus', callback);
+            trigger.shadowRoot.querySelector('.button').addEventListener('focus', callback);
             await dispatchEvent(context, new ArrowKeyDownEvent(ArrowUp.COMMAND_NAME));
             expect(callback).toHaveBeenCalled();
         });
@@ -532,7 +567,7 @@ describe('Start Node Menu', () => {
             const body = menu.shadowRoot.querySelector(selectors.body);
             const trigger = body.querySelector(selectors.triggerButton);
             const callback = jest.fn();
-            trigger.shadowRoot.querySelector('div').addEventListener('focus', callback);
+            trigger.shadowRoot.querySelector('.button').addEventListener('focus', callback);
             menu.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
             menu.keyboardInteractions.execute(ArrowDown.COMMAND_NAME);
             menu.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
@@ -548,6 +583,11 @@ describe('Start Node Menu', () => {
 
         it('renders the start contextual menu', () => {
             expect(menu).toBeDefined();
+        });
+
+        it('Should have focus on the first button', () => {
+            const menu = createComponentUnderTest(scheduledTriggeredFlowStart, scheduledTriggeredStartData, null, true);
+            assertFocusOnFirstButton(menu);
         });
 
         it('Should have a label in the header', () => {
@@ -585,7 +625,7 @@ describe('Start Node Menu', () => {
             const trigger = body.querySelector(selectors.triggerButton);
             const context = body.querySelector(selectors.contextButton);
             const callback = jest.fn();
-            context.shadowRoot.querySelector('div').addEventListener('focus', callback);
+            context.shadowRoot.querySelector('.button').addEventListener('focus', callback);
             await dispatchEvent(trigger, new ArrowKeyDownEvent(ArrowDown.COMMAND_NAME));
             expect(callback).toHaveBeenCalled();
         });
@@ -595,7 +635,7 @@ describe('Start Node Menu', () => {
             const trigger = body.querySelector(selectors.triggerButton);
             const context = body.querySelector(selectors.contextButton);
             const callback = jest.fn();
-            context.shadowRoot.querySelector('div').addEventListener('focus', callback);
+            context.shadowRoot.querySelector('.button').addEventListener('focus', callback);
             await dispatchEvent(trigger, new ArrowKeyDownEvent(ArrowUp.COMMAND_NAME));
             expect(callback).toHaveBeenCalled();
         });
@@ -605,7 +645,7 @@ describe('Start Node Menu', () => {
             const trigger = body.querySelector(selectors.triggerButton);
             const context = body.querySelector(selectors.contextButton);
             const callback = jest.fn();
-            trigger.shadowRoot.querySelector('div').addEventListener('focus', callback);
+            trigger.shadowRoot.querySelector('.button').addEventListener('focus', callback);
             await dispatchEvent(context, new ArrowKeyDownEvent(ArrowDown.COMMAND_NAME));
             expect(callback).toHaveBeenCalled();
         });
@@ -615,7 +655,7 @@ describe('Start Node Menu', () => {
             const trigger = body.querySelector(selectors.triggerButton);
             const context = body.querySelector(selectors.contextButton);
             const callback = jest.fn();
-            trigger.shadowRoot.querySelector('div').addEventListener('focus', callback);
+            trigger.shadowRoot.querySelector('.button').addEventListener('focus', callback);
             await dispatchEvent(context, new ArrowKeyDownEvent(ArrowUp.COMMAND_NAME));
             expect(callback).toHaveBeenCalled();
         });

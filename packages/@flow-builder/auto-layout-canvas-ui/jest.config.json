@@ -9,6 +9,7 @@
         "^builder_platform_interaction_mocks/(.+)$": "<rootDir>/jest-modules/builder_platform_interaction/$1/$1",
         "^builder_platform_interaction/autoLayoutCanvas$": "<rootDir>/../auto-layout-canvas/dist/index.dev.js",
         "^builder_platform_interaction/sharedUtils/commands": "<rootDir>/../shared-utils/src/commands",
+        "^builder_platform_interaction/sharedUtils/lwcUtils": "<rootDir>/../shared-utils/src/lwcUtils",
         "^builder_platform_interaction/sharedUtils/auraUtils": "<rootDir>/../shared-utils/src/auraUtils",
         "^builder_platform_interaction/sharedUtils/commonUtils": "<rootDir>/../shared-utils/src/commonUtils",
         "^builder_platform_interaction/sharedUtils$": "<rootDir>/../shared-utils/dist/index.esNext.js",

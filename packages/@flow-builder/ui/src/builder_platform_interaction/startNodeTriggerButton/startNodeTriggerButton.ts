@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { FLOW_TRIGGER_TYPE, FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { EditElementEvent, ArrowKeyDownEvent } from 'builder_platform_interaction/events';
@@ -7,21 +6,25 @@ const { CREATE, UPDATE, CREATE_AND_UPDATE, DELETE } = FLOW_TRIGGER_SAVE_TYPE;
 import { LABELS } from './startNodeTriggerButtonLabels';
 import { getEventTypes, MANAGED_SETUP } from 'builder_platform_interaction/sobjectLib';
 import { isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
-import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+import { commands, keyboardInteractionUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
 import { setupKeyboardShortcutUtil } from 'builder_platform_interaction/contextualMenuUtils';
 
 const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
 const { KeyboardInteractions } = keyboardInteractionUtils;
 
+const selectors = {
+    button: '.button'
+};
+
 export default class StartNodeTriggerButton extends LightningElement {
+    dom = lwcUtils.createDomProxy(this, selectors);
+
     @api
-    node = {
-        config: {}
-    };
+    node!: UI.Start;
 
     @api
     focus() {
-        this.template.querySelector('.trigger-button').focus();
+        this.dom.button.focus();
     }
 
     get unsetStartButtonClasses() {
@@ -138,7 +141,7 @@ export default class StartNodeTriggerButton extends LightningElement {
         this.keyboardInteractions = new KeyboardInteractions();
     }
 
-    handleTriggerClick = (event) => {
+    handleTriggerClick = (event?: Event) => {
         if (event) {
             event.stopPropagation();
         }

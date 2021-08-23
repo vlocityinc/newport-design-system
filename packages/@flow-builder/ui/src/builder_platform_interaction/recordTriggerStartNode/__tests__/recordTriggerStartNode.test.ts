@@ -21,7 +21,8 @@ jest.mock('builder_platform_interaction/storeLib', () => require('builder_platfo
 jest.mock('builder_platform_interaction/sharedUtils', () => {
     const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
     const sharedcommands = require('builder_platform_interaction/sharedUtils/commands');
-    return Object.assign({}, sharedUtils, { commands: sharedcommands });
+    const sharedLwcUtils = require('builder_platform_interaction/sharedUtils/lwcUtils');
+    return Object.assign({}, sharedUtils, { commands: sharedcommands, lwcUtils: sharedLwcUtils });
 });
 
 jest.mock('builder_platform_interaction/storeUtils', () => {

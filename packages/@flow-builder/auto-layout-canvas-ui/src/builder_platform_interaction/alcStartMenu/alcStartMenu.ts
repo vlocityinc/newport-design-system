@@ -108,7 +108,7 @@ export default class AlcStartMenu extends AlcNodeMenu {
 
         // Moving focus to the next button if needed
         if (nextFocusElement) {
-            nextFocusElement.shadowRoot.querySelector('div').focus();
+            nextFocusElement.focus();
         }
     };
 

@@ -14,7 +14,8 @@ const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
 jest.mock('builder_platform_interaction/sharedUtils', () => {
     const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
     const sharedcommands = require('builder_platform_interaction/sharedUtils/commands');
-    return Object.assign({}, sharedUtils, { commands: sharedcommands });
+    const sharedLwcUtils = jest.requireActual('builder_platform_interaction/sharedUtils/lwcUtils');
+    return Object.assign({}, sharedUtils, { commands: sharedcommands, lwcUtils: sharedLwcUtils });
 });
 
 jest.mock(
@@ -40,7 +41,7 @@ const setupComponentUnderTest = (startElementObject, flowTriggerType) => {
     if (startElementObject) {
         element.node = startElementObject;
     } else if (flowTriggerType) {
-        element.node.triggerType = flowTriggerType;
+        element.node = { triggerType: flowTriggerType };
     }
 
     setDocumentBodyChildren(element);

@@ -8,9 +8,11 @@
     color: var(--lwc-brandAccessible, rgb(0, 112, 210));
 }
 
-.start-button-trigger-context:active {
+.context:focus,
+.context:active {
     position: relative;
     box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-colorBorderSelection), 0 0 6px 3px var(--lwc-colorBorderSelection);
+    outline: 0;
 }
 
 .start-button-trigger-context:hover {

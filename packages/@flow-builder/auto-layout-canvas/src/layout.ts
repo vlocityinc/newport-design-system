@@ -110,7 +110,6 @@ function getMenuHeight({ menuInfo }: { menuInfo: InteractionMenuInfo }): number 
 function calculateFlowLayout(context: FlowRenderContext): void {
     const startNodeIndex = 0;
     calculateBranchLayout(context.flowModel.root as ParentNodeModel, startNodeIndex, context, 0);
-    // console.log(context.nodeLayoutMap);
 }
 
 /**

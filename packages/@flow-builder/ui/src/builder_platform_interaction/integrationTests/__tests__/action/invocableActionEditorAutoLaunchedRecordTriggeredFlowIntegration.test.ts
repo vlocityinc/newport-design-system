@@ -49,7 +49,6 @@ describe('Invocable Action Editor', () => {
             const outputParameters = getOutputParameterItemsFromAcc(coreActionElement);
             expect(outputParameters).toHaveLength(1);
             verifyOutputParameter(outputParameters[0], 'Feed Item ID', null);
-            console.log(outputParameters[0]);
         });
         it.each`
             outputResourcePickerDisplayText | expectedErrorMessage

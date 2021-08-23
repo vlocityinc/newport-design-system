@@ -12,20 +12,21 @@
     color: var(--lwc-brandAccessible, rgb(0, 112, 210));
 }
 
-.unset-start-button:active {
-    position: relative;
-    box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-colorBorderSelection), 0 0 6px 3px var(--lwc-colorBorderSelection);
-}
-
 .unset-start-button:hover {
     background-color: var(--lwc-colorGray3);
     color: var(--lwc-colorTextLinkHover);
     cursor: pointer;
 }
 
-.start-button-trigger-context:active {
+.trigger-button {
+    background-color: white;
+}
+
+.trigger-button:focus,
+.trigger-button:active {
     position: relative;
     box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-colorBorderSelection), 0 0 6px 3px var(--lwc-colorBorderSelection);
+    outline: 0;
 }
 
 .start-button-trigger-context:hover {

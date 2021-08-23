@@ -416,7 +416,7 @@ export function filterAndMutateMenuData(
  * @param {string} entityType   The entity type that we want in our menu data (ex: queryable, updatable etc)
  * @returns {MenuData}             Combobox menu data with our entities
  */
-export const getEntitiesMenuData = (entityType) => {
+export const getEntitiesMenuData = (entityType = null) => {
     let entities;
     switch (entityType) {
         case sobjectLib.ENTITY_TYPE.QUERYABLE:

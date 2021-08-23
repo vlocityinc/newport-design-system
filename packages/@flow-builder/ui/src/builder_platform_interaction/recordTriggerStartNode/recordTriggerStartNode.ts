@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import {
     FLOW_TRIGGER_TYPE,
@@ -12,6 +11,7 @@ import { commands, keyboardInteractionUtils } from 'builder_platform_interaction
 import { setupKeyboardShortcutUtil } from 'builder_platform_interaction/contextualMenuUtils';
 import { getEntitiesMenuData } from 'builder_platform_interaction/expressionUtils';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
+import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
 
 const { BEFORE_SAVE, BEFORE_DELETE, AFTER_SAVE } = FLOW_TRIGGER_TYPE;
 const { CREATE, UPDATE, CREATE_AND_UPDATE, DELETE } = FLOW_TRIGGER_SAVE_TYPE;
@@ -19,11 +19,14 @@ const { CREATE, UPDATE, CREATE_AND_UPDATE, DELETE } = FLOW_TRIGGER_SAVE_TYPE;
 const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
 const { KeyboardInteractions } = keyboardInteractionUtils;
 
+const selectors = {
+    button: '.button'
+};
 export default class RecordTriggerStartNode extends LightningElement {
+    dom = lwcUtils.createDomProxy(this, selectors);
+
     @api
-    node = {
-        config: {}
-    };
+    node!: UI.Start;
 
     // Used for testing purposes
     @api
@@ -31,7 +34,16 @@ export default class RecordTriggerStartNode extends LightningElement {
 
     @api
     focus() {
-        this.template.querySelector('.context').focus();
+        this.dom.button.focus();
+    }
+
+    connectedCallback() {
+        this.keyboardInteractions.addKeyDownEventListener(this.template);
+        this.setupCommandsAndShortcuts();
+    }
+
+    disconnectedCallback() {
+        this.keyboardInteractions.removeKeyDownEventListener(this.template);
     }
 
     get startButtonClasses() {
@@ -87,7 +99,7 @@ export default class RecordTriggerStartNode extends LightningElement {
     }
 
     get conditionsLengthLabel() {
-        return this.node.filters.length;
+        return this.node.filters!.length;
     }
 
     get isConditions() {
@@ -108,7 +120,7 @@ export default class RecordTriggerStartNode extends LightningElement {
         this.keyboardInteractions = new KeyboardInteractions();
     }
 
-    handleTriggerClick = (event) => {
+    handleTriggerClick = (event?: Event) => {
         if (event) {
             event.stopPropagation();
         }
@@ -144,14 +156,5 @@ export default class RecordTriggerStartNode extends LightningElement {
             ArrowUp: new ArrowUp(() => this.handleArrowKeyDown(ArrowUp.COMMAND_NAME))
         };
         setupKeyboardShortcutUtil(this.keyboardInteractions, keyboardCommands);
-    }
-
-    connectedCallback() {
-        this.keyboardInteractions.addKeyDownEventListener(this.template);
-        this.setupCommandsAndShortcuts();
-    }
-
-    disconnectedCallback() {
-        this.keyboardInteractions.removeKeyDownEventListener(this.template);
     }
 }

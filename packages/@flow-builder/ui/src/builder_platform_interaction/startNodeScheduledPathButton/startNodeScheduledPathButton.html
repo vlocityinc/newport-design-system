@@ -1,25 +1,27 @@
 <template>
-    <!--SCHEDULED PATH-->
-    <div tabindex="0" class="start-scheduled-path slds-border_top" onclick={handleObjectClick}>
-        <!--UNSET SCHEDULED PATH-->
-        <div if:false={hasScheduledPaths} class={unsetStartButtonClasses}>
-            <lightning-icon
-                icon-name="utility:add"
-                class="slds-current-color slds-m-right_x-small"
-                size="xx-small"
-            ></lightning-icon>
-            <span title={addScheduledPathsLabel}>{addScheduledPathsLabel}</span>
-        </div>
-        <!--CONFIGURED SCHEDULED PATH-->
-        <div if:true={hasScheduledPaths} class={startButtonClasses}>
-            <div class="slds-grid">
-                <span class="slds-col slds-size_10-of-12 slds-truncate">
-                    <span class="slds-m-right_xx-small" title={scheduledPathsTitle}>{scheduledPathsLabel}</span>
-                    <span class="text-labels-bold" title={scheduledPathsTitle}>{scheduledPathsAmount}</span>
-                </span>
-                <span class="slds-col slds-size_2-of-12 slds-m-left_xxx-small">
-                    <span class="edit slds-float_right slds-truncate" title={editLabel}>{editLabel}</span>
-                </span>
+    <div class="slds-border_top">
+        <!--SCHEDULED PATH-->
+        <div tabindex="0" class="start-scheduled-path button" onclick={handleObjectClick}>
+            <!--UNSET SCHEDULED PATH-->
+            <div if:false={hasScheduledPaths} class={unsetStartButtonClasses}>
+                <lightning-icon
+                    icon-name="utility:add"
+                    class="slds-current-color slds-m-right_x-small"
+                    size="xx-small"
+                ></lightning-icon>
+                <span title={addScheduledPathsLabel}>{addScheduledPathsLabel}</span>
+            </div>
+            <!--CONFIGURED SCHEDULED PATH-->
+            <div if:true={hasScheduledPaths} class={startButtonClasses}>
+                <div class="slds-grid">
+                    <span class="slds-col slds-size_10-of-12 slds-truncate">
+                        <span class="slds-m-right_xx-small" title={scheduledPathsTitle}>{scheduledPathsLabel}</span>
+                        <span class="text-labels-bold" title={scheduledPathsTitle}>{scheduledPathsAmount}</span>
+                    </span>
+                    <span class="slds-col slds-size_2-of-12 slds-m-left_xxx-small">
+                        <span class="edit slds-float_right slds-truncate" title={editLabel}>{editLabel}</span>
+                    </span>
+                </div>
             </div>
         </div>
     </div>

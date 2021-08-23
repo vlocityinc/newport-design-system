@@ -1,25 +1,32 @@
-// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { LABELS } from './startNodeScheduledPathButtonLabels';
 import { EditElementEvent, ArrowKeyDownEvent } from 'builder_platform_interaction/events';
 import { EDIT_START_SCHEDULED_PATHS } from 'builder_platform_interaction/elementConfig';
 import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import { setupKeyboardShortcutUtil } from 'builder_platform_interaction/contextualMenuUtils';
-import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { commonUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
 const { format } = commonUtils;
 
 const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
 const { KeyboardInteractions } = keyboardInteractionUtils;
 
+const selectors = {
+    button: '.button'
+};
 export default class StartNodeScheduledPathButton extends LightningElement {
+    dom = lwcUtils.createDomProxy(this, selectors);
+
     @api
-    node = {
-        config: {}
-    };
+    node!: UI.Start;
 
     // Used for testing purposes
     @api
     keyboardInteractions;
+
+    @api
+    focus() {
+        this.dom.button.focus();
+    }
 
     get unsetStartButtonClasses() {
         return 'unset-start-button slds-p-vertical_x-small slds-p-horizontal_medium slds-truncate';
@@ -58,7 +65,7 @@ export default class StartNodeScheduledPathButton extends LightningElement {
         this.keyboardInteractions = new KeyboardInteractions();
     }
 
-    handleObjectClick = (event) => {
+    handleObjectClick = (event?: Event) => {
         if (event) {
             event.stopPropagation();
         }

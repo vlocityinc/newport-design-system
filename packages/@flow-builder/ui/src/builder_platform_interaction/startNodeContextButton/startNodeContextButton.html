@@ -1,30 +1,32 @@
 <template>
-    <!--CONTEXT-->
-    <div tabindex="0" class="start-context slds-border_top" onclick={handleObjectClick}>
-        <!--UNSET CONTEXT-->
-        <div if:false={isContextSet} class={unsetStartButtonClasses}>
-            <lightning-icon
-                icon-name="utility:add"
-                class="slds-current-color slds-m-right_x-small"
-                size="xx-small"
-            ></lightning-icon>
-            <span>{chooseContext}</span>
-            <span if:true={isOptional} class="optional slds-m-left_xx-small">{optionalLabel}</span>
-        </div>
-        <!--CONFIGURED CONTEXT-->
-        <div if:true={isContextSet} class={startButtonClasses}>
-            <div class="slds-grid">
-                <span class="slds-col slds-size_10-of-12 slds-truncate" title={selectedObject}>
-                    <span class="slds-m-right_xxx-small test-object-label"> {objectLabel} </span>
-                    <span class="text-labels-bold test-selected-object">{selectedObject}</span>
-                </span>
-                <span class="slds-col slds-size_2-of-12 slds-m-left_xxx-small">
-                    <span class="edit slds-truncate" title={editLabel}>{editLabel}</span>
-                </span>
+    <div class="slds-border_top">
+        <!--CONTEXT-->
+        <div tabindex="0" class="start-context button" onclick={handleObjectClick}>
+            <!--UNSET CONTEXT-->
+            <div if:false={isContextSet} class={unsetStartButtonClasses}>
+                <lightning-icon
+                    icon-name="utility:add"
+                    class="slds-current-color slds-m-right_x-small"
+                    size="xx-small"
+                ></lightning-icon>
+                <span>{chooseContext}</span>
+                <span if:true={isOptional} class="optional slds-m-left_xx-small">{optionalLabel}</span>
             </div>
-            <div if:true={isConditions} class="test-conditions slds-truncate slds-m-top_xx-small">
-                <span class="slds-m-right_xx-small">{recordConditionsLabel}</span
-                ><span class="text-labels-bold">{conditionsLengthLabel}</span>
+            <!--CONFIGURED CONTEXT-->
+            <div if:true={isContextSet} class={startButtonClasses}>
+                <div class="slds-grid">
+                    <span class="slds-col slds-size_10-of-12 slds-truncate" title={selectedObject}>
+                        <span class="slds-m-right_xxx-small test-object-label"> {objectLabel} </span>
+                        <span class="text-labels-bold test-selected-object">{selectedObject}</span>
+                    </span>
+                    <span class="slds-col slds-size_2-of-12 slds-m-left_xxx-small">
+                        <span class="edit slds-truncate" title={editLabel}>{editLabel}</span>
+                    </span>
+                </div>
+                <div if:true={isConditions} class="test-conditions slds-truncate slds-m-top_xx-small">
+                    <span class="slds-m-right_xx-small">{recordConditionsLabel}</span
+                    ><span class="text-labels-bold">{conditionsLengthLabel}</span>
+                </div>
             </div>
         </div>
     </div>
