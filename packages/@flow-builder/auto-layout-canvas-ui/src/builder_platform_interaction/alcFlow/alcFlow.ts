@@ -4,9 +4,12 @@ import {
     getAlcCompoundNodeData,
     AutoLayoutCanvasMode
 } from 'builder_platform_interaction/alcComponentsUtils';
-import { FAULT_INDEX, FlowRenderInfo, Guid } from 'builder_platform_interaction/autoLayoutCanvas';
+import { FAULT_INDEX, FlowModel, FlowRenderInfo, Guid } from 'builder_platform_interaction/autoLayoutCanvas';
 
 export default class AlcFlow extends LightningElement {
+    @api
+    flowModel!: Readonly<FlowModel>;
+
     @api
     flow!: FlowRenderInfo;
 
@@ -40,6 +43,7 @@ export default class AlcFlow extends LightningElement {
      *
      * @param compoundNode - compoundNode found on the path to the node/connector
      * @param nestedBranchIndex - Index of the branch that needs to be traversed/focused
+     * @returns The fault or nested flow
      */
     getFaultOrNestedFlow(compoundNode, nestedBranchIndex?: number) {
         if (nestedBranchIndex === FAULT_INDEX) {

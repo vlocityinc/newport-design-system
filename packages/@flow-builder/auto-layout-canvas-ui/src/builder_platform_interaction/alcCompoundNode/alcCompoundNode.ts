@@ -1,6 +1,6 @@
 import { LightningElement, api } from 'lwc';
 
-import { NodeRenderInfo } from 'builder_platform_interaction/autoLayoutCanvas';
+import { FlowModel, NodeRenderInfo } from 'builder_platform_interaction/autoLayoutCanvas';
 import {
     AutoLayoutCanvasMode,
     getAlcConnectorData,
@@ -13,6 +13,9 @@ import {
  *  This components renders a node, along with its branches, faults and connectors it may have
  */
 export default class AlcCompoundNode extends LightningElement {
+    @api
+    flowModel!: Readonly<FlowModel>;
+
     @api
     node!: NodeRenderInfo;
 

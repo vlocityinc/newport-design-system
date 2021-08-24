@@ -1,5 +1,5 @@
 import { LightningElement, api } from 'lwc';
-import { NodeType, NodeRenderInfo, NodeModel } from 'builder_platform_interaction/autoLayoutCanvas';
+import { NodeType, NodeRenderInfo, NodeModel, FlowModel } from 'builder_platform_interaction/autoLayoutCanvas';
 import { EditElementEvent, SelectNodeEvent } from 'builder_platform_interaction/events';
 import { AlcSelectDeselectNodeEvent } from 'builder_platform_interaction/alcEvents';
 import { classSet } from 'lightning/utils';
@@ -61,6 +61,9 @@ export default class AlcNode extends LightningElement {
 
     @api
     canvasMode!: AutoLayoutCanvasMode;
+
+    @api
+    flowModel!: Readonly<FlowModel>;
 
     get labels() {
         return LABELS;

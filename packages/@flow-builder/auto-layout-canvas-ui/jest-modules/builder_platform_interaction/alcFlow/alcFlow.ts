@@ -13,4 +13,7 @@ export default class AlcFlow extends LightningElement {
 
     @api
     activeElementGuid;
+
+    @api
+    flowModel;
 }
