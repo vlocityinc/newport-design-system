@@ -110,8 +110,8 @@ export default function alcElementsReducer(state: Readonly<UI.Elements>, action:
             break;
         }
         case DELETE_GOTO_CONNECTION: {
-            const { sourceGuid, sourceBranchIndex } = action.payload;
-            const deleteGoToConnectionAction = actions.deleteGoToConnectionAction(sourceGuid, sourceBranchIndex);
+            const { source } = action.payload;
+            const deleteGoToConnectionAction = actions.deleteGoToConnectionAction(source.guid, source.childIndex);
             nextState = autoLayoutCanvasReducer(nextState, deleteGoToConnectionAction);
             break;
         }

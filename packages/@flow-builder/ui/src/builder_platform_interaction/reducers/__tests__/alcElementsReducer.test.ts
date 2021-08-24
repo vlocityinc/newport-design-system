@@ -10,7 +10,8 @@ import {
     PASTE_ON_FIXED_CANVAS,
     ADD_SCREEN_WITH_FIELDS,
     DECORATE_CANVAS,
-    CLEAR_CANVAS_DECORATION
+    CLEAR_CANVAS_DECORATION,
+    DELETE_GOTO_CONNECTION
 } from 'builder_platform_interaction/actions';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 import {
@@ -100,6 +101,27 @@ jest.mock('builder_platform_interaction/alcCanvasUtils', () => {
 });
 
 describe('alc-elements-reducer', () => {
+    describe('When delete goto', () => {
+        it('it calls the goto reducer', () => {
+            const state = {};
+
+            const source = {
+                guid: 'some-element-guid',
+                childIndex: 'some-child-index'
+            };
+
+            alcElementsReducer(state, {
+                type: DELETE_GOTO_CONNECTION,
+                payload: {
+                    source
+                }
+            });
+
+            const deleteGoToConnectionAction = actions.deleteGoToConnectionAction(source.guid, source.childIndex);
+            expect(reducer()).toHaveBeenLastCalledWith(state, deleteGoToConnectionAction);
+        });
+    });
+
     describe('When ADD_CANVAS_ELEMENT', () => {
         it('dispatches an AddElement action', () => {
             const state = {};

@@ -1,6 +1,6 @@
-// @ts-nocheck
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { UNDO, REDO, CLEAR_UNDO_REDO } from 'builder_platform_interaction/undoRedoLib';
+import { ConnectionSource } from 'builder_platform_interaction/autoLayoutCanvas';
 
 export const UPDATE_ENTITIES = 'UPDATE_ENTITIES';
 export const UPDATE_FLOW = 'UPDATE_FLOW';
@@ -375,7 +375,8 @@ export const marqueeSelectOnCanvas = (payload) => createAction(MARQUEE_SELECT_ON
 export const selectionOnFixedCanvas = (payload) => createAction(SELECTION_ON_FIXED_CANVAS, payload);
 
 export const createGoToConnection = (payload) => createAction(CREATE_GOTO_CONNECTION, payload);
-export const deleteGoToConnection = (payload) => createAction(DELETE_GOTO_CONNECTION, payload);
+export const deleteGoToConnection = (payload: { source: ConnectionSource }) =>
+    createAction(DELETE_GOTO_CONNECTION, payload);
 export const addElementFault = (payload) => createAction(ADD_FAULT, payload);
 
 export const deleteElementFault = (payload) => createAction(DELETE_FAULT, payload);

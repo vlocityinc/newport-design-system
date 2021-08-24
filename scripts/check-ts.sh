@@ -11,8 +11,11 @@ for file in "$@"; do
 
     # checks that a non-test ts file is not disabling typescript
     if [[ "$res" =~ ^1 ]]; then
-         echo -e "${RED}Found @ts-nocheck at the top of non-test file: $file. Please remove."
-         status=1
+          # only enforce for added files
+          if [[ "$(git status -s $file)" =~ ^A ]]; then
+            echo -e "${RED}Found @ts-nocheck at the top of a new, non-test file: $file. Please remove."
+            status=1
+         fi
     fi
 done
 
