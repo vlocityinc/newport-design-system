@@ -27,6 +27,8 @@ export default class AlcNode extends LightningElement {
     // @ts-ignore
     private dynamicNodeData: NodeModel;
 
+    private dynamicNodeComp: string | undefined;
+
     private expanded = false;
 
     /**
@@ -167,9 +169,11 @@ export default class AlcNode extends LightningElement {
     }
 
     get dynamicNodeClasses() {
-        return classSet(DYNAMIC_COMPONENT_SELECTOR).add({
-            expanded: this.expanded
-        });
+        return classSet(DYNAMIC_COMPONENT_SELECTOR)
+            .add({
+                expanded: this.expanded
+            })
+            .add(this.dynamicNodeComp?.split('/')[1]);
     }
 
     get isShifted() {
@@ -223,6 +227,7 @@ export default class AlcNode extends LightningElement {
             const module = await import(comp);
 
             this.dynamicNodeConstructor = module.default;
+            this.dynamicNodeComp = comp;
         }
     }
 

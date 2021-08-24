@@ -5,6 +5,7 @@ import { ClosePropertyEditorEvent, UpdateNodeEvent } from 'builder_platform_inte
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { LABELS } from './propertyEditorPanelLabels';
 import { PROPERTY_EDITOR_PANEL_SIZE } from 'builder_platform_interaction/elementConfig';
+import { classSet } from 'lightning/utils';
 
 /**
  * LWC version of the property editor, for use in lwc (as opposed to aura modal version)
@@ -96,5 +97,9 @@ export default class PropertyEditorPanel extends LightningElement {
             ? this.editorParams?.panelConfig.propertyEditorPanelSize
             : PROPERTY_EDITOR_PANEL_SIZE.X_LARGE;
         return propertyEditorClass;
+    }
+
+    get dynamicClass() {
+        return classSet('inline-property-editor').add(this.params?.attr.bodyComponent.className.split('/')[1]);
     }
 }

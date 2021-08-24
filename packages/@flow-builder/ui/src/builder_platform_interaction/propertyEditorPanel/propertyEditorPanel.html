@@ -10,7 +10,7 @@
     <div onsetpropertyeditortitle={setPropertyEditorTitle} class={propertyEditorClass}>
         <x-lazy
             if:true={ready}
-            class="inline-property-editor"
+            class={dynamicClass}
             lwc:dynamic={ctor}
             node={element}
             mode={params.attr.bodyComponent.attr.mode}
