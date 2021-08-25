@@ -73,7 +73,9 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
                     label: '50'
                 }
             ];
-        }
+        },
+
+        filterMatches: jest.fn()
     };
 });
 

@@ -46,35 +46,43 @@ const DEFAULT_CLIENT_RECT = {
     right: 100
 };
 
-const connectorToggleMenuEvent = new ToggleMenuEvent({
-    left: 716.5,
-    next: '618725c2-75a5-4374-b625-d64045e831d1',
-    offsetX: 2,
-    prev: '837e0692-6f17-4d5c-ba5d-854851d31fcb',
-    top: 84,
-    type: MenuType.CONNECTOR,
-    elementMetadata: { supportsMenu: true }
-});
+const getConnectorToggleMenuEvent = () => {
+    return new ToggleMenuEvent({
+        left: 716.5,
+        next: '618725c2-75a5-4374-b625-d64045e831d1',
+        offsetX: 2,
+        prev: '837e0692-6f17-4d5c-ba5d-854851d31fcb',
+        top: 84,
+        type: MenuType.CONNECTOR,
+        elementMetadata: { supportsMenu: true }
+    });
+};
 
-const nodeToggleMenuEvent = new ToggleMenuEvent({
-    guid: 'eb01a710-d341-4ba0-81d2-f7ef03300db5',
-    left: 702.0999755859375,
-    offsetX: 2.4000244140625,
-    top: -2.3999996185302734,
-    type: MenuType.NODE,
-    elementMetadata: { supportsMenu: true }
-});
+const getNodeToggleMenuEvent = () => {
+    return new ToggleMenuEvent({
+        guid: 'eb01a710-d341-4ba0-81d2-f7ef03300db5',
+        left: 702.0999755859375,
+        offsetX: 2.4000244140625,
+        top: -2.3999996185302734,
+        type: MenuType.NODE,
+        elementMetadata: { supportsMenu: true }
+    });
+};
 
-const nodeToggleMenuEvent2 = new ToggleMenuEvent({
-    guid: '837e0692-6f17-4d5c-ba5d-854851d31fcb',
-    left: 702.0999755859375,
-    offsetX: 2.4000244140625,
-    top: 140,
-    type: MenuType.NODE,
-    elementMetadata: { supportsMenu: true }
-});
+const getNodeToggleMenuEvent2 = () => {
+    return new ToggleMenuEvent({
+        guid: '837e0692-6f17-4d5c-ba5d-854851d31fcb',
+        left: 702.0999755859375,
+        offsetX: 2.4000244140625,
+        top: 140,
+        type: MenuType.NODE,
+        elementMetadata: { supportsMenu: true }
+    });
+};
 
-const closeToggleMenuEvent = new ToggleMenuEvent({});
+const getCloseToggleMenuEvent = () => {
+    return new ToggleMenuEvent({});
+};
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {
     const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
@@ -315,7 +323,7 @@ describe('Auto Layout Canvas', () => {
 
             const flow = getFlow();
 
-            await dispatchEvent(flow, nodeToggleMenuEvent);
+            await dispatchEvent(flow, getNodeToggleMenuEvent());
             checkMenusOpened(NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED);
 
             cmp.closeNodeOrConnectorMenu();
@@ -330,7 +338,7 @@ describe('Auto Layout Canvas', () => {
 
             const flow = getFlow();
 
-            await dispatchEvent(flow, nodeToggleMenuEvent);
+            await dispatchEvent(flow, getNodeToggleMenuEvent());
             checkMenusOpened(NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED);
         });
 
@@ -342,15 +350,15 @@ describe('Auto Layout Canvas', () => {
             const flow = getFlow();
 
             // open the menu for a node
-            await dispatchEvent(flow, nodeToggleMenuEvent2);
+            await dispatchEvent(flow, getNodeToggleMenuEvent2());
             checkMenusOpened(NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED);
 
             // open the menu for another node
-            await dispatchEvent(flow, nodeToggleMenuEvent);
+            await dispatchEvent(flow, getNodeToggleMenuEvent());
             checkMenusOpened(NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED);
 
             // close the menu
-            await dispatchEvent(flow, nodeToggleMenuEvent);
+            await dispatchEvent(flow, getNodeToggleMenuEvent());
             checkMenusOpened(!NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED);
         });
 
@@ -359,10 +367,10 @@ describe('Auto Layout Canvas', () => {
 
             const flow = getFlow();
 
-            await dispatchEvent(flow, connectorToggleMenuEvent);
+            await dispatchEvent(flow, getConnectorToggleMenuEvent());
             checkMenusOpened(!NODE_MENU_OPENED, CONNECTOR_MENU_OPENED);
 
-            await dispatchEvent(flow, closeToggleMenuEvent);
+            await dispatchEvent(flow, getCloseToggleMenuEvent());
             checkMenusOpened(false, false);
         });
 
@@ -372,15 +380,15 @@ describe('Auto Layout Canvas', () => {
             const flow = getFlow();
 
             // open a connector menu
-            await dispatchEvent(flow, connectorToggleMenuEvent);
+            await dispatchEvent(flow, getConnectorToggleMenuEvent());
             checkMenusOpened(!NODE_MENU_OPENED, CONNECTOR_MENU_OPENED);
 
             // open the menu for a node
-            await dispatchEvent(flow, nodeToggleMenuEvent);
+            await dispatchEvent(flow, getNodeToggleMenuEvent());
             checkMenusOpened(NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED);
 
             // close the menu
-            await dispatchEvent(flow, nodeToggleMenuEvent);
+            await dispatchEvent(flow, getNodeToggleMenuEvent());
             checkMenusOpened(!NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED);
         });
 
@@ -389,7 +397,7 @@ describe('Auto Layout Canvas', () => {
 
             const flow = getFlow();
 
-            await dispatchEvent(flow, connectorToggleMenuEvent);
+            await dispatchEvent(flow, getConnectorToggleMenuEvent());
             checkMenusOpened(!NODE_MENU_OPENED, CONNECTOR_MENU_OPENED);
 
             await dispatchEvent(
@@ -414,15 +422,15 @@ describe('Auto Layout Canvas', () => {
             const flow = getFlow();
 
             // open the menu for a node
-            await dispatchEvent(flow, nodeToggleMenuEvent2);
+            await dispatchEvent(flow, getNodeToggleMenuEvent2());
             checkMenusOpened(NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED);
 
             // open the menu for another node
-            await dispatchEvent(flow, nodeToggleMenuEvent);
+            await dispatchEvent(flow, getNodeToggleMenuEvent());
             checkMenusOpened(NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED);
 
             // fire the a menu position update event (as done by alcMenuTrigger in this scenario)
-            const menuUpdateEvent = new MenuPositionUpdateEvent({ ...nodeToggleMenuEvent, needToPosition: true });
+            const menuUpdateEvent = new MenuPositionUpdateEvent({ ...getNodeToggleMenuEvent(), needToPosition: true });
             await dispatchEvent(flow, menuUpdateEvent);
 
             // at this point the overlay should be present to capture the second click

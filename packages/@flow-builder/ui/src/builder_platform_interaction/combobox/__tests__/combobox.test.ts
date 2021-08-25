@@ -1470,11 +1470,10 @@ describe('Combobox', () => {
                     }
                 });
             });
-            it('should fire a new resource event with the correct position ', async (done) => {
+            it('should fire a new resource event with the correct position ', async () => {
                 const LEFT = 'LEFT';
                 const newResourceCallback = jest.fn((event) => {
                     expect(event.detail.position).toEqual(LEFT);
-                    done();
                 });
                 combobox.addEventListener('addnewresource', newResourceCallback);
                 combobox.position = LEFT;
@@ -2728,11 +2727,10 @@ describe('Combobox', () => {
                     }
                 });
             });
-            it('should fire a new resource event with the correct position ', async (done) => {
+            it('should fire a new resource event with the correct position ', async () => {
                 const LEFT = 'LEFT';
                 const newResourceCallback = jest.fn((event) => {
                     expect(event.detail.position).toEqual(LEFT);
-                    done();
                 });
                 combobox.isPillSupported = true;
                 combobox.addEventListener('addnewresource', newResourceCallback);

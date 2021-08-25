@@ -15,7 +15,9 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via API Switch off 
           <span
             class="slds-form-element__label"
             id="[shadow:guid]"
-          />
+          >
+            
+          </span>
         </div>
       </div>
       <div
@@ -68,7 +70,9 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via API Switch to i
           <span
             class="slds-form-element__label"
             id="[shadow:guid]"
-          />
+          >
+            
+          </span>
         </div>
       </div>
       <div

@@ -50,7 +50,7 @@ describe('Debug Panel', () => {
         expect(entries.length).toEqual(0);
 
         const text = errorText.value[0];
-        expect(text).toContain(errorInterview.error);
+        expect(text).toEqual(errorInterview.error[0]);
     });
 });
 
@@ -69,7 +69,7 @@ describe('Debug Panel for Pause and Error Resume', () => {
         expect(entries.length).toEqual(fakePausedInterview.debugTrace.length - 1);
 
         const text = errorText.value[0];
-        expect(text).toContain(fakeResumedInterviewWithError.error);
+        expect(text).toEqual(fakeResumedInterviewWithError.error[0]);
     });
 
     it('should still display correct entries on filter', async () => {
@@ -95,7 +95,7 @@ describe('Debug Panel for Pause and Error Resume', () => {
         const errorText = panel.shadowRoot.querySelector(selectors.errorMessage);
         expect(errorText).not.toBeUndefined();
         const text = errorText.value[0];
-        expect(text).toContain(fakeResumedInterviewWithError.error);
+        expect(text).toEqual(fakeResumedInterviewWithError.error[0]);
     });
 });
 

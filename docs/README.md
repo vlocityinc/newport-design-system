@@ -14,7 +14,7 @@
   </a>
 
   <a href="https://github.com/microsoft/TypeScript">
-    <img src="https://img.shields.io/badge/typescript-~4.1.3-green">
+    <img src="https://img.shields.io/badge/typescript-~4.3.5-green">
   </a>
 </p>
 
