@@ -44,7 +44,8 @@
                     ],
                     "@lwc/lwc/valid-api": [
                         "**/builder_platform_interaction/connectorPicker/connectorPicker.ts",
-                        "**/builder_platform_interaction/palette/palette.ts"
+                        "**/builder_platform_interaction/palette/palette.ts",
+                        "**/builder_platform_interaction/accordionSectionWithIcon/accordionSectionWithIcon.ts"
                     ],
                     "@lwc/lwc/no-async-await": [
                         "**/builder_platform_interaction/guardrails/execute.ts",

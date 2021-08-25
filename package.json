@@ -152,5 +152,8 @@
         "!(scripts|__tests__|jest-modules)/**/*.ts": [
             "./scripts/check-ts.sh"
         ]
+    },
+    "dependencies": {
+        "lwc-components-lightning": "^1.11.2-alpha"
     }
 }

@@ -8,6 +8,7 @@ import { fakeResumedInterviewWithError, fakeResumedInterview } from 'mock/debugR
 import { completedInterview } from 'mock/debugResponse/mock-completed-interview';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
@@ -29,7 +30,7 @@ const createComponentUnderTest = (debugData, newData = undefined, fromEmailDebug
 const selectors = {
     errorMessage: '.errorMsg',
     govLimText: '.govLim',
-    accordionSection: 'lightning-accordion-section',
+    accordionSection: 'builder_platform_interaction-accordion-section-with-icon',
     debugPanelBodyComponent: 'builder_platform_interaction-debug-panel-body',
     debugPanelFilterComponent: 'builder_platform_interaction-debug-panel-filter',
     checkboxesGroup: 'lightning-checkbox-group',
@@ -451,5 +452,27 @@ describe('expand card behavior', () => {
         expandButton.click();
         await ticks(1);
         expect(expandButton.label).toBe(LABELS.expandAllLabel);
+    });
+});
+
+describe('element icon behavior', () => {
+    let debugPanel;
+    const sectionNumber = 1;
+    beforeEach(() => {
+        debugPanel = createComponentUnderTest(completedInterview);
+    });
+
+    it('should display correct icon', () => {
+        expect(debugPanel.shadowRoot.querySelectorAll(selectors.accordionSection)[sectionNumber].iconName).toBe(
+            elementTypeToConfigMap[completedInterview.debugTrace[sectionNumber].elementIconType].nodeConfig.iconName
+        );
+    });
+
+    it('should display no icon if iconname is undefined', () => {
+        expect(debugPanel.shadowRoot.querySelectorAll(selectors.accordionSection)[0].iconName).toBe(undefined);
+    });
+
+    it('alt text should be empty', () => {
+        expect(debugPanel.shadowRoot.querySelectorAll(selectors.accordionSection)[0].alternativeText).toBe(undefined);
     });
 });
