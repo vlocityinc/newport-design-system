@@ -82,10 +82,7 @@ function usedByElements(
             if (elementGuidsReferenced.size > 0) {
                 const usedByElementGuid = key;
                 const set = acc.get(usedByElementGuid) || new Set<UI.Guid>();
-                acc.set(
-                    usedByElementGuid,
-                    new Set<UI.Guid>([...set, ...elementGuidsReferenced])
-                );
+                acc.set(usedByElementGuid, new Set<UI.Guid>([...set, ...elementGuidsReferenced]));
             }
         }
         return acc;
@@ -98,10 +95,7 @@ function usedByElements(
             const set = usedByElementsMap.get(usedByElementGuid) || new Set<UI.Guid>();
             const elementGuidsReferenced = usedByElementsMap.get(anonymousElementGuid)!;
             usedByElementsMap.delete(anonymousElementGuid);
-            usedByElementsMap.set(
-                usedByElementGuid,
-                new Set<UI.Guid>([...set, ...elementGuidsReferenced])
-            );
+            usedByElementsMap.set(usedByElementGuid, new Set<UI.Guid>([...set, ...elementGuidsReferenced]));
         });
     }
     const usedByElements: UsedByElement[] = [];
@@ -403,11 +397,9 @@ function getParentCanvasElementGuids(
     return Object.keys(elements).reduce<Map<UI.Guid, UI.Guid>>((childToParentMap, elementGuid) => {
         const element = elements[elementGuid];
         if (isCanvasElementWithChildReferences(element as UI.Element)) {
-            getChildrenElementsGuidsRecursively(
-                elements as UI.Elements,
-                elementGuid,
-                elementsGuidsSet
-            ).forEach((childGuid) => childToParentMap.set(childGuid, elementGuid));
+            getChildrenElementsGuidsRecursively(elements as UI.Elements, elementGuid, elementsGuidsSet).forEach(
+                (childGuid) => childToParentMap.set(childGuid, elementGuid)
+            );
         }
         return childToParentMap;
     }, new Map());

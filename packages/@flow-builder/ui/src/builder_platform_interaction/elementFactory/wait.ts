@@ -295,21 +295,17 @@ export function createDuplicateWait(
         }
     ];
 
-    const {
-        duplicatedElement,
-        duplicatedChildElements,
-        updatedChildReferences,
-        availableConnections
-    } = duplicateCanvasElementWithChildElements(
-        wait,
-        newGuid,
-        newName,
-        childElementGuidMap,
-        childElementNameMap,
-        cutOrCopiedChildElements,
-        createWaitEvent,
-        defaultAvailableConnections
-    );
+    const { duplicatedElement, duplicatedChildElements, updatedChildReferences, availableConnections } =
+        duplicateCanvasElementWithChildElements(
+            wait,
+            newGuid,
+            newName,
+            childElementGuidMap,
+            childElementNameMap,
+            cutOrCopiedChildElements,
+            createWaitEvent,
+            defaultAvailableConnections
+        );
 
     const updatedDuplicatedElement = Object.assign(duplicatedElement, {
         childReferences: updatedChildReferences,

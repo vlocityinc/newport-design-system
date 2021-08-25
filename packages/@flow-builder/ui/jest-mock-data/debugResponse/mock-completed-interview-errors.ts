@@ -63,8 +63,7 @@ export const completedInterviewWithErrors = {
                 ''
             ],
             limits: ['DML statements: 1 out of 150', 'DML rows: 1 out of 10000'],
-            error:
-                "Error Occurred: This error occurred when the flow tried to create records: DUPLICATES_DETECTED: Use one of these records?. You can look up ExceptionCode values in the <a href='https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/sforce_api_calls_concepts_core_data_objects.htm#'>SOAP API Developer Guide</a>.",
+            error: "Error Occurred: This error occurred when the flow tried to create records: DUPLICATES_DETECTED: Use one of these records?. You can look up ExceptionCode values in the <a href='https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/sforce_api_calls_concepts_core_data_objects.htm#'>SOAP API Developer Guide</a>.",
             elementType: 'CREATE RECORDS',
             elementApiName: 'create_succesful_account',
             entryType: 'DefaultDebugInfoEntry'
@@ -126,8 +125,7 @@ export const resumedInterviewWithErrors = {
         },
         {
             lines: ['ERROR ELEMENT ASSN_BIGNUMBER (FLOWASSIGNMENT).: assn_bigNumber'],
-            error:
-                "The 'assn_bigNumber' element can't remove the item in position 99,900,000,000,000,000,000,000,000,000 of the 'numList' collection variable because the position '99,900,000,000,000,000,000,000,000,000' isn't a positive integer.",
+            error: "The 'assn_bigNumber' element can't remove the item in position 99,900,000,000,000,000,000,000,000,000 of the 'numList' collection variable because the position '99,900,000,000,000,000,000,000,000,000' isn't a positive integer.",
             elementType: 'Error element assn_bigNumber (FlowAssignment).',
             elementApiName: 'assn_bigNumber',
             entryType: 'DefaultDebugInfoEntry'

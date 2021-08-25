@@ -18,5 +18,5 @@ export function createDomProxy<P extends string>(component: LightningElement, se
         }
     };
 
-    return (new Proxy(component, handler) as unknown) as Record<P, HTMLElement>;
+    return new Proxy(component, handler) as unknown as Record<P, HTMLElement>;
 }

@@ -361,9 +361,8 @@ describe('record-lookup-editor (Process type NOT supporting automatic mode)', ()
                     );
                     await ticks(1);
                     const recordSobjectAndQueryFields = getRecordSobjectAndQueryFields(recordLookupEditor);
-                    const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(
-                        recordSobjectAndQueryFields
-                    );
+                    const sObjectOrSObjectCollectionPicker =
+                        getSObjectOrSObjectCollectionPicker(recordSobjectAndQueryFields);
                     expect(sObjectOrSObjectCollectionPicker.placeholder).toBe(
                         'FlowBuilderRecordEditor.searchRecordCollections'
                     );
@@ -402,9 +401,8 @@ describe('record-lookup-editor (Process type NOT supporting automatic mode)', ()
                 });
                 it('"SObjectReferenceChangedEvent" reselect same "outputReference" should not reset query fields', async () => {
                     const recordSobjectAndQueryFields = getRecordSobjectAndQueryFields(recordLookupEditor);
-                    const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(
-                        recordSobjectAndQueryFields
-                    );
+                    const sObjectOrSObjectCollectionPicker =
+                        getSObjectOrSObjectCollectionPicker(recordSobjectAndQueryFields);
                     sObjectOrSObjectCollectionPicker.dispatchEvent(
                         new SObjectReferenceChangedEvent(recordLookupEditor.node.outputReference.value)
                     );

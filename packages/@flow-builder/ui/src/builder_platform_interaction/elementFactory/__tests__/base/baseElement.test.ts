@@ -644,21 +644,17 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
             }
         ];
 
-        const {
-            duplicatedElement,
-            duplicatedChildElements,
-            updatedChildReferences,
-            availableConnections
-        } = duplicateCanvasElementWithChildElements(
-            originalCanvasElement,
-            'duplicateElement',
-            'Decision1_0',
-            childElementGuidMap,
-            childElementNameMap,
-            undefined,
-            createChildElement,
-            defaultAvailableConnections
-        );
+        const { duplicatedElement, duplicatedChildElements, updatedChildReferences, availableConnections } =
+            duplicateCanvasElementWithChildElements(
+                originalCanvasElement,
+                'duplicateElement',
+                'Decision1_0',
+                childElementGuidMap,
+                childElementNameMap,
+                undefined,
+                createChildElement,
+                defaultAvailableConnections
+            );
 
         it('The duplicated element should have updated properties', () => {
             const newElement = {
@@ -733,26 +729,22 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
             ];
         };
 
-        const {
-            duplicatedElement,
-            duplicatedChildElements,
-            updatedChildReferences,
-            availableConnections
-        } = duplicateCanvasElementWithChildElements(
-            originalCanvasElement,
-            'duplicateElement',
-            'Screen1_0',
-            {
-                section1: 'duplicateSection1',
-                column1: 'duplicateColumn1'
-            },
-            {
-                section1: 'duplicateSection1',
-                column1: 'duplicateColumn1'
-            },
-            undefined,
-            createDuplicateChildElements
-        );
+        const { duplicatedElement, duplicatedChildElements, updatedChildReferences, availableConnections } =
+            duplicateCanvasElementWithChildElements(
+                originalCanvasElement,
+                'duplicateElement',
+                'Screen1_0',
+                {
+                    section1: 'duplicateSection1',
+                    column1: 'duplicateColumn1'
+                },
+                {
+                    section1: 'duplicateSection1',
+                    column1: 'duplicateColumn1'
+                },
+                undefined,
+                createDuplicateChildElements
+            );
 
         it('The duplicated element should have updated properties', () => {
             const newElement = {
@@ -814,20 +806,16 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
             childReferences: []
         };
 
-        const {
-            duplicatedElement,
-            duplicatedChildElements,
-            updatedChildReferences,
-            availableConnections
-        } = duplicateCanvasElementWithChildElements(
-            originalCanvasElement,
-            'duplicateElement',
-            'Screen1_0',
-            childElementGuidMap,
-            childElementNameMap,
-            undefined,
-            createChildElement
-        );
+        const { duplicatedElement, duplicatedChildElements, updatedChildReferences, availableConnections } =
+            duplicateCanvasElementWithChildElements(
+                originalCanvasElement,
+                'duplicateElement',
+                'Screen1_0',
+                childElementGuidMap,
+                childElementNameMap,
+                undefined,
+                createChildElement
+            );
 
         it('The duplicated element should have updated properties', () => {
             const newElement = {

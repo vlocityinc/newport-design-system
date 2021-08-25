@@ -460,9 +460,8 @@ describe('Record Lookup Editor', () => {
                 });
                 describe('SObjectOrSObjectCollectionPicker', () => {
                     it('displays variable vAccountCollection', () => {
-                        const sObjectOrSObjectCollectionPickerElement = getSObjectOrSObjectCollectionPicker(
-                            recordLookupComponent
-                        );
+                        const sObjectOrSObjectCollectionPickerElement =
+                            getSObjectOrSObjectCollectionPicker(recordLookupComponent);
                         expect(sObjectOrSObjectCollectionPickerElement.value).toBe(
                             recordLookupComponent.node.outputReference.value
                         );
@@ -556,9 +555,8 @@ describe('Record Lookup Editor', () => {
                                 changeEvent(CONDITION_LOGIC.CUSTOM_LOGIC)
                             );
                             await ticks(1);
-                            const filterCustomConditionLogic = getFilterCustomConditionLogicInput(
-                                recordLookupComponent
-                            );
+                            const filterCustomConditionLogic =
+                                getFilterCustomConditionLogicInput(recordLookupComponent);
                             expect(filterCustomConditionLogic).not.toBeNull();
                             expect(filterCustomConditionLogic.value).toBe('1 OR 2');
                         });
@@ -674,7 +672,8 @@ describe('Record Lookup Editor', () => {
                         });
                     });
                     it('operators available for the first filter', () => {
-                        const operatorsComboboxComponent = fieldToFerovExpressionBuilders[0].getOperatorComboboxElement();
+                        const operatorsComboboxComponent =
+                            fieldToFerovExpressionBuilders[0].getOperatorComboboxElement();
 
                         expect(operatorsComboboxComponent.options).toHaveLength(6);
                         expect(operatorsComboboxComponent.options).toEqual(
@@ -741,7 +740,8 @@ describe('Record Lookup Editor', () => {
                         expect(outputAssignments.inputOutputAssignmentsItems).toHaveLength(1);
                     });
                     it('LHS/Operator/LHS values', () => {
-                        const baseExpressionBuilder = fieldToFerovExpressionBuilder[0].getBaseExpressionBuilderElement();
+                        const baseExpressionBuilder =
+                            fieldToFerovExpressionBuilder[0].getBaseExpressionBuilderElement();
                         expect(baseExpressionBuilder.lhsValue).toMatchObject({
                             value: 'Account.BillingCity'
                         });

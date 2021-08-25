@@ -485,8 +485,8 @@ describe('Record Delete Editor', () => {
                     const combobox = getBaseResourcePickerCombobox(entityResourcePicker);
                     combobox.element.renderIncrementally = false;
                     await ticks(1);
-                    const comboboxItems = getEntityResourcePickerChildGroupedComboboxComponent(entityResourcePicker)
-                        .element.items;
+                    const comboboxItems =
+                        getEntityResourcePickerChildGroupedComboboxComponent(entityResourcePicker).element.items;
                     expect(comboboxItems).toContainEqual(expect.objectContaining({ displayText: 'Account' }));
                     expect(comboboxItems).toContainEqual(expect.objectContaining({ displayText: 'Case' }));
                     expect(comboboxItems).not.toContainEqual(
@@ -607,9 +607,8 @@ describe('Record Delete Editor', () => {
                     );
                 });
                 it('operators available for the first filter', () => {
-                    const operatorsComboboxComponent = getFieldToFerovExpressionBuilders(
-                        recordFilter
-                    )[0].getOperatorComboboxElement();
+                    const operatorsComboboxComponent =
+                        getFieldToFerovExpressionBuilders(recordFilter)[0].getOperatorComboboxElement();
                     expect(operatorsComboboxComponent.options).toHaveLength(6);
                     expect(operatorsComboboxComponent.options).toEqual(
                         expect.arrayContaining([

@@ -241,8 +241,11 @@ describe('Loader', () => {
                 const triggerType = 'record_after_save';
                 const recordTriggerType = 'update';
                 loadOnStart();
-                const promise = loadOnProcessTypeChange(processType, triggerType, recordTriggerType)
-                    .loadPeripheralMetadataPromise;
+                const promise = loadOnProcessTypeChange(
+                    processType,
+                    triggerType,
+                    recordTriggerType
+                ).loadPeripheralMetadataPromise;
                 expect(promise).not.toBeNull();
                 await promise;
                 // Resolves to nothing currently in that there is no need to handle loaded data down in the promise chain.

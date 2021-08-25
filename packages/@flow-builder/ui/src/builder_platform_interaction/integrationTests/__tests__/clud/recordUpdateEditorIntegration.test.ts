@@ -276,9 +276,8 @@ describe('Record Update Editor', () => {
                                 `(
                                     'When typing "$resourcePickerMergefieldValue" error message should be: $errorMessage',
                                     async ({ resourcePickerMergefieldValue, errorMessage }) => {
-                                        const combobox = getRecordVariablePickerChildComboboxComponent(
-                                            recordVariablePicker
-                                        );
+                                        const combobox =
+                                            getRecordVariablePickerChildComboboxComponent(recordVariablePicker);
                                         await combobox.removePill();
                                         await combobox.typeMergeField(resourcePickerMergefieldValue);
                                         expect(combobox.element.hasPill).toBe(false);
@@ -302,9 +301,8 @@ describe('Record Update Editor', () => {
                                 `(
                                     'When typing "$resourcePickerMergefieldValue" pill should be: $expectedPill',
                                     async ({ resourcePickerMergefieldValue, expectedPill }) => {
-                                        const combobox = getRecordVariablePickerChildComboboxComponent(
-                                            recordVariablePicker
-                                        );
+                                        const combobox =
+                                            getRecordVariablePickerChildComboboxComponent(recordVariablePicker);
                                         await combobox.removePill();
                                         await combobox.typeMergeField(resourcePickerMergefieldValue);
                                         expect(combobox.element.hasPill).toBe(true);
@@ -329,9 +327,8 @@ describe('Record Update Editor', () => {
                             `(
                                 'When selecting "$resourcePickerValue" pill should be: $expectedPill',
                                 async ({ resourcePickerValue, expectedPill }) => {
-                                    const combobox = getRecordVariablePickerChildComboboxComponent(
-                                        recordVariablePicker
-                                    );
+                                    const combobox =
+                                        getRecordVariablePickerChildComboboxComponent(recordVariablePicker);
                                     await combobox.removePill();
                                     await combobox.selectItemBy('text', resourcePickerValue.split('.'));
                                     expect(combobox.element.hasPill).toBe(true);
@@ -423,8 +420,8 @@ describe('Record Update Editor', () => {
                     const combobox = getBaseResourcePickerCombobox(entityResourcePicker);
                     combobox.element.renderIncrementally = false;
                     await ticks(1);
-                    const comboboxItems = getEntityResourcePickerChildGroupedComboboxComponent(entityResourcePicker)
-                        .element.items;
+                    const comboboxItems =
+                        getEntityResourcePickerChildGroupedComboboxComponent(entityResourcePicker).element.items;
                     expect(comboboxItems).toContainEqual(expect.objectContaining({ displayText: 'Contract' }));
                     expect(comboboxItems).toContainEqual(expect.objectContaining({ displayText: 'Contact' }));
                     expect(comboboxItems).not.toContainEqual(expect.objectContaining({ displayText: 'Account Feed' }));

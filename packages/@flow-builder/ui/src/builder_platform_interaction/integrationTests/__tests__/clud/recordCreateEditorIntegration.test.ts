@@ -130,16 +130,19 @@ describe('Record Create Editor', () => {
                 recordCreateElement = createComponentForTest(recordCreateNode);
             });
             it('"sobjectOrSobjectCollectionPicker" should be empty', () => {
-                const sObjectOrSObjectCollectionPickerElement = recordCreateElement.getSObjectOrSObjectCollectionPicker();
+                const sObjectOrSObjectCollectionPickerElement =
+                    recordCreateElement.getSObjectOrSObjectCollectionPicker();
                 expect(sObjectOrSObjectCollectionPickerElement!.element.value).toBe('');
             });
             it('should not display a pill for the "sobjectOrSobjectCollectionPicker"', () => {
-                const sObjectOrSObjectCollectionPickerCombobox = recordCreateElement.getSObjectOrSObjectCollectionPicker();
+                const sObjectOrSObjectCollectionPickerCombobox =
+                    recordCreateElement.getSObjectOrSObjectCollectionPicker();
                 expect(sObjectOrSObjectCollectionPickerCombobox!.getCombobox().element.hasPill).toBe(false);
             });
             // W-7118031
             it('does NOT display "A value is required." error message for "sobjectOrSobjectCollectionPicker" ("record selection")', () => {
-                const sObjectOrSObjectCollectionPickerElement = recordCreateElement.getSObjectOrSObjectCollectionPicker();
+                const sObjectOrSObjectCollectionPickerElement =
+                    recordCreateElement.getSObjectOrSObjectCollectionPicker();
                 expect(sObjectOrSObjectCollectionPickerElement!.element.errorMessage).toBeNull();
             });
             it('record Store Option should have firstRecord and sObjectVariable selected', () => {
@@ -183,7 +186,8 @@ describe('Record Create Editor', () => {
                     );
                 });
                 it('displays selected "inputReference" (sObject) pill', () => {
-                    const sObjectOrSObjectCollectionPickerCombobox = recordCreateElement.getSObjectOrSObjectCollectionPickerCombobox()!;
+                    const sObjectOrSObjectCollectionPickerCombobox =
+                        recordCreateElement.getSObjectOrSObjectCollectionPickerCombobox()!;
                     expect(sObjectOrSObjectCollectionPickerCombobox.element.hasPill).toBe(true);
                     expect(sObjectOrSObjectCollectionPickerCombobox.element.pill).toEqual({
                         iconName: 'utility:sobject',
@@ -254,13 +258,15 @@ describe('Record Create Editor', () => {
                     expect(radioGroupElements).toHaveLength(1);
                 });
                 it('"inputReference" value should be "vAccountCollection"', () => {
-                    const sObjectOrSObjectCollectionPickerElement = recordCreateElement.getSObjectOrSObjectCollectionPicker()!;
+                    const sObjectOrSObjectCollectionPickerElement =
+                        recordCreateElement.getSObjectOrSObjectCollectionPicker()!;
                     expect(sObjectOrSObjectCollectionPickerElement.element.value).toBe(
                         (recordCreateElement.element.node as any).inputReference.value
                     );
                 });
                 it('displays selected "inputReference" (sObjectCollection) pill', () => {
-                    const sObjectOrSObjectCollectionPickerCombobox = recordCreateElement.getSObjectOrSObjectCollectionPickerCombobox()!;
+                    const sObjectOrSObjectCollectionPickerCombobox =
+                        recordCreateElement.getSObjectOrSObjectCollectionPickerCombobox()!;
                     expect(sObjectOrSObjectCollectionPickerCombobox.element.hasPill).toBe(true);
                     expect(sObjectOrSObjectCollectionPickerCombobox.element.pill).toEqual({
                         iconName: 'utility:sobject',
@@ -479,7 +485,8 @@ describe('Record Create Editor', () => {
                         for (let i = 0; i < creatableFields.length; i++) {
                             const creatableField = creatableFields[i];
                             const inputOutputAssignments = inputAssignments;
-                            const fieldToFerovExpressionBuilders = inputOutputAssignments.getFieldToFerovExpressionBuilders();
+                            const fieldToFerovExpressionBuilders =
+                                inputOutputAssignments.getFieldToFerovExpressionBuilders();
                             // eslint-disable-next-line no-await-in-loop
                             const lhsCombobox = await fieldToFerovExpressionBuilders[i].getLhsCombobox();
                             expect(lhsCombobox.getItems()).toHaveLength(creatableFields.length - i);
@@ -621,7 +628,8 @@ describe('Record Create Editor', () => {
                 });
                 describe('pills', () => {
                     it('displays selected "inputReference" (sObject) pill', () => {
-                        const sObjectOrSObjectCollectionPickerCombobox = recordCreateElement.getSObjectOrSObjectCollectionPickerCombobox()!;
+                        const sObjectOrSObjectCollectionPickerCombobox =
+                            recordCreateElement.getSObjectOrSObjectCollectionPickerCombobox()!;
                         expect(sObjectOrSObjectCollectionPickerCombobox.element.hasPill).toBe(true);
                         expect(sObjectOrSObjectCollectionPickerCombobox.element.pill).toEqual({
                             iconName: 'utility:sobject',
@@ -734,7 +742,8 @@ describe('Record Create Editor', () => {
                 });
                 describe('pills', () => {
                     it('displays selected "inputReference" (sObjectCollection) pill', () => {
-                        const sObjectOrSObjectCollectionPickerCombobox = recordCreateElement.getSObjectOrSObjectCollectionPickerCombobox()!;
+                        const sObjectOrSObjectCollectionPickerCombobox =
+                            recordCreateElement.getSObjectOrSObjectCollectionPickerCombobox()!;
                         expect(sObjectOrSObjectCollectionPickerCombobox.element.hasPill).toBe(true);
                         expect(sObjectOrSObjectCollectionPickerCombobox.element.pill).toEqual({
                             iconName: 'utility:sobject',

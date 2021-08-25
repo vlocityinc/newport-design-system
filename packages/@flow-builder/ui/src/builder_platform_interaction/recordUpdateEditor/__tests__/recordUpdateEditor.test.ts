@@ -452,9 +452,8 @@ describe('record-update-editor', () => {
                     });
                     it('displays sobject collection picker and value is empty', async () => {
                         await ticks(1);
-                        const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(
-                            recordUpdateEditor
-                        );
+                        const sObjectOrSObjectCollectionPicker =
+                            getSObjectOrSObjectCollectionPicker(recordUpdateEditor);
                         expect(sObjectOrSObjectCollectionPicker).not.toBeNull();
                         expect(sObjectOrSObjectCollectionPicker.value).toBe('');
                     });

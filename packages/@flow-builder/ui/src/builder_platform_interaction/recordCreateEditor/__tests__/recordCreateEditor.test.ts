@@ -338,9 +338,8 @@ describe('record-create-editor', () => {
                         const event = new RecordStoreOptionChangedEvent(false, WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE);
                         getRecordStoreOption(recordCreateEditor).dispatchEvent(event);
                         await ticks(1);
-                        const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(
-                            recordCreateEditor
-                        );
+                        const sObjectOrSObjectCollectionPicker =
+                            getSObjectOrSObjectCollectionPicker(recordCreateEditor);
                         expect(sObjectOrSObjectCollectionPicker.value).toBe('');
                     });
                     it('Number of record change should change the sObject or sObject Collection picker placeHolder', async () => {
@@ -360,9 +359,8 @@ describe('record-create-editor', () => {
                         const event = new SObjectReferenceChangedEvent('sObj2', null);
                         getSObjectOrSObjectCollectionPicker(recordCreateEditor).dispatchEvent(event);
                         await ticks(1);
-                        const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(
-                            recordCreateEditor
-                        );
+                        const sObjectOrSObjectCollectionPicker =
+                            getSObjectOrSObjectCollectionPicker(recordCreateEditor);
                         expect(sObjectOrSObjectCollectionPicker.value).toBe('sObj2');
                     });
                 });
@@ -445,9 +443,8 @@ describe('record-create-editor', () => {
                         const event = new RecordStoreOptionChangedEvent(true, WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE);
                         getRecordStoreOption(recordCreateEditor).dispatchEvent(event);
                         await ticks(1);
-                        const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(
-                            recordCreateEditor
-                        );
+                        const sObjectOrSObjectCollectionPicker =
+                            getSObjectOrSObjectCollectionPicker(recordCreateEditor);
                         expect(sObjectOrSObjectCollectionPicker.value).toBe('');
                     });
                     it('Number of record change should change the sObject or sObject Collection picker placeHolder', async () => {
@@ -467,9 +464,8 @@ describe('record-create-editor', () => {
                         const event = new SObjectReferenceChangedEvent('sObj2', null);
                         getSObjectOrSObjectCollectionPicker(recordCreateEditor).dispatchEvent(event);
                         await ticks(1);
-                        const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(
-                            recordCreateEditor
-                        );
+                        const sObjectOrSObjectCollectionPicker =
+                            getSObjectOrSObjectCollectionPicker(recordCreateEditor);
                         expect(sObjectOrSObjectCollectionPicker.value).toBe('sObj2');
                     });
                 });
@@ -621,9 +617,8 @@ describe('record-create-editor', () => {
                 describe('Handle Events with advanced option', () => {
                     let manuallyAssignVariablesCheckbox;
                     beforeEach(() => {
-                        manuallyAssignVariablesCheckbox = getManuallyAssignVariablesCheckboxInputElement(
-                            recordCreateEditor
-                        );
+                        manuallyAssignVariablesCheckbox =
+                            getManuallyAssignVariablesCheckboxInputElement(recordCreateEditor);
                         manuallyAssignVariablesCheckbox.dispatchEvent(toggleOnChangeEvent);
                     });
                     it('Manually assign variables checkbox should be checked', async () => {

@@ -148,21 +148,17 @@ export function createDuplicateDecision(
         }
     ];
 
-    const {
-        duplicatedElement,
-        duplicatedChildElements,
-        updatedChildReferences,
-        availableConnections
-    } = duplicateCanvasElementWithChildElements(
-        decision,
-        newGuid,
-        newName,
-        childElementGuidMap,
-        childElementNameMap,
-        cutOrCopiedChildElements,
-        createOutcome,
-        defaultAvailableConnections
-    );
+    const { duplicatedElement, duplicatedChildElements, updatedChildReferences, availableConnections } =
+        duplicateCanvasElementWithChildElements(
+            decision,
+            newGuid,
+            newName,
+            childElementGuidMap,
+            childElementNameMap,
+            cutOrCopiedChildElements,
+            createOutcome,
+            defaultAvailableConnections
+        );
 
     const updatedDuplicatedElement = Object.assign(duplicatedElement, {
         childReferences: updatedChildReferences,

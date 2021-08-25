@@ -46,7 +46,7 @@ export default class OutputResourcePicker extends LightningElement {
     /**
      * The current value of the picker
      *
-     * @param {module:base-resource-picker.item|String} newValue the new value for the picker
+     * @param {module:base-resource-picker.item | string} newValue the new value for the picker
      */
     set value(newValue) {
         // TODO: W-5511396 this should only be if the value's "level" has changed
@@ -265,10 +265,8 @@ export default class OutputResourcePicker extends LightningElement {
      * @param menuData
      */
     setInlineResource = (menuData) => {
-        const {
-            lastInlineResourceRowIndex: inlineResourceRowIndex,
-            lastInlineResourceGuid: inlineGuid
-        } = storeInstance.getCurrentState().properties;
+        const { lastInlineResourceRowIndex: inlineResourceRowIndex, lastInlineResourceGuid: inlineGuid } =
+            storeInstance.getCurrentState().properties;
         if (inlineGuid && inlineResourceRowIndex === this.rowIndex) {
             const inlineResource = getInlineResource(inlineGuid, menuData);
             if (inlineResource) {

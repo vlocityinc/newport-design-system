@@ -101,10 +101,8 @@ const newRecordDeleteElement = {
     useSobject: true
 };
 
-const {
-    deleteAccount: recordDeleteElementWithSObject,
-    deleteAccountWithFilters: recordDeleteElementWithFields
-} = elementsForPropertyEditors;
+const { deleteAccount: recordDeleteElementWithSObject, deleteAccountWithFilters: recordDeleteElementWithFields } =
+    elementsForPropertyEditors;
 
 const filterElement = {
     leftHandSide: { value: 'Account.Id', error: null },

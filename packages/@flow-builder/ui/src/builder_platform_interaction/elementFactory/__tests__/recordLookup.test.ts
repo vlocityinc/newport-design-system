@@ -322,13 +322,15 @@ describe('recordLookup', () => {
                 expect(getFirstRecordOnly).toEqual(true);
             });
             it('has getFirstRecordOnly true for manual output single record into an apex variable', () => {
-                const getFirstRecordOnly = createRecordLookup(getAccountManualOutputIntoApexVariable)
-                    .getFirstRecordOnly;
+                const getFirstRecordOnly = createRecordLookup(
+                    getAccountManualOutputIntoApexVariable
+                ).getFirstRecordOnly;
                 expect(getFirstRecordOnly).toEqual(true);
             });
             it('has getFirstRecordOnly false for manual output multiple records into an apex variable', () => {
-                const getFirstRecordOnly = createRecordLookup(getAccountsManualOutputIntoApexVariable)
-                    .getFirstRecordOnly;
+                const getFirstRecordOnly = createRecordLookup(
+                    getAccountsManualOutputIntoApexVariable
+                ).getFirstRecordOnly;
                 expect(getFirstRecordOnly).toEqual(false);
             });
         });

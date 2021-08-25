@@ -122,9 +122,8 @@ export function getActiveOrLatestFlowInputVariables(flowName) {
     if (!flowInputOutputVariables) {
         return undefined;
     }
-    cachedActiveOrLatestInputOutputVariables[flowName] = getActiveOrLatestInputOutputVariables(
-        flowInputOutputVariables
-    );
+    cachedActiveOrLatestInputOutputVariables[flowName] =
+        getActiveOrLatestInputOutputVariables(flowInputOutputVariables);
     return cachedActiveOrLatestInputOutputVariables[flowName].inputVariables;
 }
 
@@ -142,9 +141,8 @@ export function getActiveOrLatestFlowOutputVariables(flowName) {
     if (!flowInputOutputVariables) {
         return undefined;
     }
-    cachedActiveOrLatestInputOutputVariables[flowName] = getActiveOrLatestInputOutputVariables(
-        flowInputOutputVariables
-    );
+    cachedActiveOrLatestInputOutputVariables[flowName] =
+        getActiveOrLatestInputOutputVariables(flowInputOutputVariables);
     return cachedActiveOrLatestInputOutputVariables[flowName].outputVariables;
 }
 

@@ -48,9 +48,8 @@ describe('process-types-vertical-navigation ', () => {
         test('should fire "ProcessTypeSelectedEvent" when selecting a process type with process type name', async () => {
             const eventCallback = jest.fn();
             processTypesVerticalNavigation.addEventListener(ProcessTypeSelectedEvent.EVENT_NAME, eventCallback);
-            const processTypesVerticalNavigationItemIcon = getAllVerticalNavigationItemIcons(
-                processTypesVerticalNavigation
-            )[1];
+            const processTypesVerticalNavigationItemIcon =
+                getAllVerticalNavigationItemIcons(processTypesVerticalNavigation)[1];
 
             processTypesVerticalNavigationItemIcon.dispatchEvent(
                 new CustomEvent('select', {

@@ -68,9 +68,14 @@ export function baseCanvasElement(
     canHaveFaultConnectorBool = false
 ): UI.Element {
     const newCanvasElement = baseResource(canvasElement);
-    const { label = '', locationX = 0, locationY = 0, connectorCount = 0, elementSubtype, canHaveFaultConnector } = <
-        UI.BaseCanvasElement
-    >canvasElement;
+    const {
+        label = '',
+        locationX = 0,
+        locationY = 0,
+        connectorCount = 0,
+        elementSubtype,
+        canHaveFaultConnector
+    } = <UI.BaseCanvasElement>canvasElement;
     let { config } = <UI.BaseCanvasElement>canvasElement;
     config = createCanvasElementConfig(config);
     canHaveFaultConnectorBool = canHaveFaultConnector ?? canHaveFaultConnectorBool;

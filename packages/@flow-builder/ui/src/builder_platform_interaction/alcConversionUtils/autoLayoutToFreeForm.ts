@@ -556,14 +556,8 @@ function assertStoreState(storeState: UI.StoreState) {
     Object.values(elements)
         .filter((element) => element.isCanvasElement)
         .forEach((element) => {
-            const {
-                guid,
-                elementType,
-                connectorCount,
-                availableConnections,
-                childReferences,
-                canHaveFaultConnector
-            } = element as UI.CanvasElement;
+            const { guid, elementType, connectorCount, availableConnections, childReferences, canHaveFaultConnector } =
+                element as UI.CanvasElement;
             let { maxConnections } = getConfigForElementType(elementType) as any;
             const elementConnectors = connectors.filter((connector) => connector.source === guid);
 

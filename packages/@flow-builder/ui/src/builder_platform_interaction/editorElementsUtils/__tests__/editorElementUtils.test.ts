@@ -140,8 +140,9 @@ describe('element-lib', () => {
             const stageDescription = items[0]._children.find(
                 (child) => child.elementType === ELEMENT_TYPE.ORCHESTRATED_STAGE
             ).description;
-            const discisionDescription = items[0]._children.find((child) => child.elementType === ELEMENT_TYPE.DECISION)
-                .description;
+            const discisionDescription = items[0]._children.find(
+                (child) => child.elementType === ELEMENT_TYPE.DECISION
+            ).description;
             expect(stageDescription).toBe('FlowBuilderLeftPanelElements.orchestratedStageComponentDescription');
             expect(discisionDescription).toBe('FlowBuilderLeftPanelElements.orchestratorDecisionLogicDescription');
         });
@@ -167,10 +168,12 @@ describe('element-lib', () => {
             };
 
             const items = getElementSections(unsortedElements, palette);
-            const screenDescription = items[0]._children.find((child) => child.elementType === ELEMENT_TYPE.SCREEN)
-                .description;
-            const discisionDescription = items[1]._children.find((child) => child.elementType === ELEMENT_TYPE.DECISION)
-                .description;
+            const screenDescription = items[0]._children.find(
+                (child) => child.elementType === ELEMENT_TYPE.SCREEN
+            ).description;
+            const discisionDescription = items[1]._children.find(
+                (child) => child.elementType === ELEMENT_TYPE.DECISION
+            ).description;
             expect(screenDescription).toBe('FlowBuilderLeftPanelElements.screenComponentDescription');
             expect(discisionDescription).toBe('FlowBuilderLeftPanelElements.decisionLogicDescription');
         });

@@ -238,11 +238,8 @@ export const checkMarqueeSelection = (canvasElements, connectors, currentScale, 
         throw new Error('viewportCenterPoint is not defined. It must be defined.');
     }
 
-    const {
-        canvasElementGuidsToSelect,
-        canvasElementGuidsToDeselect,
-        allSelectedCanvasElementGuids
-    } = _getCanvasElementGuidsToSelectAndDeselect(canvasElements, currentScale, marqueeConfig, viewportCenterPoint);
+    const { canvasElementGuidsToSelect, canvasElementGuidsToDeselect, allSelectedCanvasElementGuids } =
+        _getCanvasElementGuidsToSelectAndDeselect(canvasElements, currentScale, marqueeConfig, viewportCenterPoint);
     const { connectorGuidsToSelect, connectorGuidsToDeselect } = _getConnectorGuidsToSelectAndDeselect(
         connectors,
         allSelectedCanvasElementGuids

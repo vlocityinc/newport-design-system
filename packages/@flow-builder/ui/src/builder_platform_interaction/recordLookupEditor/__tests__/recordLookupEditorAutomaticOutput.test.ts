@@ -224,9 +224,8 @@ describe('record-lookup-editor', () => {
                 });
                 it('Variable and Field Mapping radiobutton group should be visible and Automatic should be selected', async () => {
                     await ticks(1);
-                    const variableAndFieldMappingRadioButtonGroup = getVariableAndFieldMappingRadioButtonGroup(
-                        recordLookupEditor
-                    );
+                    const variableAndFieldMappingRadioButtonGroup =
+                        getVariableAndFieldMappingRadioButtonGroup(recordLookupEditor);
                     expect(variableAndFieldMappingRadioButtonGroup).toBeDefined();
                     expect(variableAndFieldMappingRadioButtonGroup.value).toBe(
                         VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC
@@ -255,9 +254,8 @@ describe('record-lookup-editor', () => {
                 });
             });
             it('Variable and Field Mapping radiobutton group: Automatic should be selected', () => {
-                const variableAndFieldMappingRadioButtonGroup = getVariableAndFieldMappingRadioButtonGroup(
-                    recordLookupEditor
-                );
+                const variableAndFieldMappingRadioButtonGroup =
+                    getVariableAndFieldMappingRadioButtonGroup(recordLookupEditor);
                 expect(variableAndFieldMappingRadioButtonGroup).not.toBeNull();
                 expect(variableAndFieldMappingRadioButtonGroup.value).toBe(VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC);
             });
@@ -268,9 +266,8 @@ describe('record-lookup-editor', () => {
             describe('Select Manual on the variable And Field Mapping Radio Button Group', () => {
                 let variableAndFieldMappingRadioButtonGroup;
                 beforeEach(() => {
-                    variableAndFieldMappingRadioButtonGroup = getVariableAndFieldMappingRadioButtonGroup(
-                        recordLookupEditor
-                    );
+                    variableAndFieldMappingRadioButtonGroup =
+                        getVariableAndFieldMappingRadioButtonGroup(recordLookupEditor);
                     variableAndFieldMappingRadioButtonGroup.dispatchEvent(
                         changeEvent(VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL)
                     );
@@ -308,9 +305,8 @@ describe('record-lookup-editor', () => {
                 );
             });
             it('Variable and Field Mapping radiobutton group: Automatic Variable, Manual Fields (advanced) should be selected', () => {
-                const variableAndFieldMappingRadioButtonGroup = getVariableAndFieldMappingRadioButtonGroup(
-                    recordLookupEditor
-                );
+                const variableAndFieldMappingRadioButtonGroup =
+                    getVariableAndFieldMappingRadioButtonGroup(recordLookupEditor);
                 expect(variableAndFieldMappingRadioButtonGroup).toBeDefined();
                 expect(variableAndFieldMappingRadioButtonGroup.value).toBe(
                     VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC_WITH_FIELDS
@@ -324,9 +320,8 @@ describe('record-lookup-editor', () => {
             describe('Select Manual', () => {
                 let variableAndFieldMappingRadioButtonGroup;
                 beforeEach(async () => {
-                    variableAndFieldMappingRadioButtonGroup = getVariableAndFieldMappingRadioButtonGroup(
-                        recordLookupEditor
-                    );
+                    variableAndFieldMappingRadioButtonGroup =
+                        getVariableAndFieldMappingRadioButtonGroup(recordLookupEditor);
                     variableAndFieldMappingRadioButtonGroup.dispatchEvent(
                         changeEvent(VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL)
                     );
@@ -342,9 +337,8 @@ describe('record-lookup-editor', () => {
                 });
                 it('should not reset query fields in place once you select an sobject variable', () => {
                     const recordSobjectAndQueryFields = getRecordSobjectAndQueryFields(recordLookupEditor);
-                    const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(
-                        recordSobjectAndQueryFields
-                    );
+                    const sObjectOrSObjectCollectionPicker =
+                        getSObjectOrSObjectCollectionPicker(recordSobjectAndQueryFields);
                     sObjectOrSObjectCollectionPicker.dispatchEvent(
                         new SObjectReferenceChangedEvent(lookupRecordAutomaticOutput.outputReference)
                     );
@@ -362,9 +356,8 @@ describe('record-lookup-editor', () => {
         describe('Flow using Automatic output handling saved with a process type that does not support Automatic output handling ', () => {
             let recordLookupElementWithoutOutputRefNorOutputAssignment;
             beforeAll(() => {
-                recordLookupElementWithoutOutputRefNorOutputAssignment = getElementForPropertyEditor(
-                    lookupRecordAutomaticOutput
-                );
+                recordLookupElementWithoutOutputRefNorOutputAssignment =
+                    getElementForPropertyEditor(lookupRecordAutomaticOutput);
                 // @ts-ignore
                 getResourceByUniqueIdentifier.mockReturnValue(lookupRecordAutomaticOutput);
             });
@@ -437,9 +430,8 @@ describe('record-lookup-editor', () => {
         });
 
         it('Variable and Field Mapping radiobutton group: Manual (advanced) should be selected', () => {
-            const variableAndFieldMappingRadioButtonGroup = getVariableAndFieldMappingRadioButtonGroup(
-                recordLookupEditor
-            );
+            const variableAndFieldMappingRadioButtonGroup =
+                getVariableAndFieldMappingRadioButtonGroup(recordLookupEditor);
             expect(variableAndFieldMappingRadioButtonGroup).not.toBeNull();
             expect(variableAndFieldMappingRadioButtonGroup.value).toBe(VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL);
         });

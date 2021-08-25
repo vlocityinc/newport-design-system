@@ -604,26 +604,23 @@ describe('decision', () => {
         });
 
         it('element type is DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES', () => {
-            const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
-                decisionFromPropertyEditor
-            );
+            const result =
+                createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decisionFromPropertyEditor);
 
             expect(result.elementType).toEqual(ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES);
         });
 
         it('decision element type is DECISION', () => {
-            const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
-                decisionFromPropertyEditor
-            );
+            const result =
+                createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decisionFromPropertyEditor);
 
             expect(result.canvasElement.elementType).toEqual(ELEMENT_TYPE.DECISION);
         });
 
         describe('defaultConnectorLabel', () => {
             it('defaults to LABELS.emptyDefaultOutcomeLabel', () => {
-                const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
-                    decisionFromPropertyEditor
-                );
+                const result =
+                    createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decisionFromPropertyEditor);
 
                 expect(result.canvasElement.defaultConnectorLabel).toEqual(LABELS.emptyDefaultOutcomeLabel);
             });
@@ -631,9 +628,8 @@ describe('decision', () => {
                 const defaultConnectorLabel = 'some label';
 
                 decisionFromPropertyEditor.defaultConnectorLabel = defaultConnectorLabel;
-                const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
-                    decisionFromPropertyEditor
-                );
+                const result =
+                    createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decisionFromPropertyEditor);
 
                 expect(result.canvasElement.defaultConnectorLabel).toEqual(defaultConnectorLabel);
             });
@@ -641,9 +637,8 @@ describe('decision', () => {
 
         describe('connection properties of a decision', () => {
             it('result has availableConnections', () => {
-                const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
-                    decisionFromPropertyEditor
-                );
+                const result =
+                    createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decisionFromPropertyEditor);
                 expect(result.canvasElement.availableConnections).toHaveLength(1);
                 expect(result.canvasElement.availableConnections[0]).toEqual({
                     type: CONNECTOR_TYPE.DEFAULT
@@ -651,16 +646,14 @@ describe('decision', () => {
             });
 
             it('has connectorCount', () => {
-                const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
-                    decisionFromPropertyEditor
-                );
+                const result =
+                    createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decisionFromPropertyEditor);
                 expect(result.canvasElement.connectorCount).toEqual(1);
             });
 
             it('decision has the right maxConnections', () => {
-                const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
-                    decisionFromPropertyEditor
-                );
+                const result =
+                    createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decisionFromPropertyEditor);
                 expect(result.canvasElement.maxConnections).toEqual(2);
             });
         });
@@ -675,9 +668,8 @@ describe('decision', () => {
             });
 
             it('decision includes outcome references for all outcomes present', () => {
-                const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
-                    decisionFromPropertyEditor
-                );
+                const result =
+                    createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decisionFromPropertyEditor);
 
                 expect(result.canvasElement.childReferences).toHaveLength(3);
                 expect(result.canvasElement.childReferences[0].childReference).toEqual(outcomes[0].guid);
@@ -686,9 +678,8 @@ describe('decision', () => {
             });
 
             it('includes outcomes for all outcomes present', () => {
-                const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
-                    decisionFromPropertyEditor
-                );
+                const result =
+                    createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decisionFromPropertyEditor);
 
                 expect(result.childElements).toHaveLength(3);
                 expect(result.childElements[0].guid).toEqual(outcomes[0].guid);
@@ -697,9 +688,8 @@ describe('decision', () => {
             });
 
             it('has the right maxConnections', () => {
-                const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
-                    decisionFromPropertyEditor
-                );
+                const result =
+                    createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decisionFromPropertyEditor);
 
                 expect(result.canvasElement.maxConnections).toEqual(4);
             });
@@ -744,9 +734,8 @@ describe('decision', () => {
             });
 
             it('decision does not include outcome references for deleted outcomes', () => {
-                const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
-                    decisionFromPropertyEditor
-                );
+                const result =
+                    createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decisionFromPropertyEditor);
 
                 expect(result.canvasElement.childReferences).toHaveLength(1);
                 expect(result.canvasElement.childReferences[0].childReference).toEqual(
@@ -765,9 +754,8 @@ describe('decision', () => {
             // });
 
             it('has the right maxConnections', () => {
-                const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
-                    decisionFromPropertyEditor
-                );
+                const result =
+                    createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decisionFromPropertyEditor);
 
                 expect(result.canvasElement.maxConnections).toEqual(2);
             });

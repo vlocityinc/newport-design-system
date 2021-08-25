@@ -136,11 +136,8 @@ export function getConnectionProperties(
         // Gets any additionalConnectorCount and defaultAvailableConnection associated with the Default Connection along
         // with a boolean to indicate whether a Fault Connection needs to be added or not. The addition of the Fault Connection
         // or the increment in the connectorCount due to the unavailability of the Fault Connection is handle in the wait factory
-        const {
-            additionalConnectorCount,
-            defaultAvailableConnection,
-            addFaultConnection
-        } = _calculateForDefaultAndFaultAvailableConnections(flatOriginalAvailableConnections);
+        const { additionalConnectorCount, defaultAvailableConnection, addFaultConnection } =
+            _calculateForDefaultAndFaultAvailableConnections(flatOriginalAvailableConnections);
 
         connectorCount = usedChildReferences.length + additionalConnectorCount;
         availableConnections = [...childAvailableConnections, ...defaultAvailableConnection];

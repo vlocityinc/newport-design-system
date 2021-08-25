@@ -127,19 +127,16 @@ export function createDuplicateScreen(
     cutOrCopiedChildElements
 ) {
     const duplicateScreen = createScreenElement(screen);
-    const {
-        duplicatedElement,
-        duplicatedChildElements,
-        updatedChildReferences
-    } = duplicateCanvasElementWithChildElements(
-        screen,
-        newGuid,
-        newName,
-        childElementGuidMap,
-        childElementNameMap,
-        cutOrCopiedChildElements,
-        createDuplicateNestedScreenFields
-    );
+    const { duplicatedElement, duplicatedChildElements, updatedChildReferences } =
+        duplicateCanvasElementWithChildElements(
+            screen,
+            newGuid,
+            newName,
+            childElementGuidMap,
+            childElementNameMap,
+            cutOrCopiedChildElements,
+            createDuplicateNestedScreenFields
+        );
 
     const updatedDuplicatedElement = Object.assign(duplicateScreen, duplicatedElement, {
         childReferences: updatedChildReferences

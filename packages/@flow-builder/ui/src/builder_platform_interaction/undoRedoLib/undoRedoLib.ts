@@ -82,47 +82,49 @@ export const isRedoAvailable = () => {
  * @param config.groupedActions
  * @returns {Object} Reduced state object
  */
-export const undoRedo = (reducer, { blacklistedActions = [], groupedActions = [] }) => (state = {}, action) => {
-    switch (action.type) {
-        case CLEAR_UNDO_REDO: {
-            past = [];
-            future = [];
-            lastAction = undefined;
-            break;
-        }
-        case UNDO: {
-            ({ past, present, future } = undo(past, present, future));
-            break;
-        }
-        case REDO: {
-            ({ past, present, future } = redo(past, present, future));
-            break;
-        }
-        default: {
-            const newState = reducer(state, action);
-
-            // Memoization
-            if (newState === state) {
-                lastAction = action.type;
-                return newState;
-            }
-
-            // Blacklisted Actions
-            if (blacklistedActions.includes(action.type)) {
-                return newState;
-            }
-
-            // Grouped Actions
-            if (groupedActions.includes(action.type) && lastAction === action.type) {
-                present = newState;
-            } else {
-                // Do not ever put undefined in the past state. Else it would result in undo state corruption.
-                past = present ? [...past, present] : past;
-                present = newState;
+export const undoRedo =
+    (reducer, { blacklistedActions = [], groupedActions = [] }) =>
+    (state = {}, action) => {
+        switch (action.type) {
+            case CLEAR_UNDO_REDO: {
+                past = [];
                 future = [];
+                lastAction = undefined;
+                break;
             }
-            lastAction = action.type;
+            case UNDO: {
+                ({ past, present, future } = undo(past, present, future));
+                break;
+            }
+            case REDO: {
+                ({ past, present, future } = redo(past, present, future));
+                break;
+            }
+            default: {
+                const newState = reducer(state, action);
+
+                // Memoization
+                if (newState === state) {
+                    lastAction = action.type;
+                    return newState;
+                }
+
+                // Blacklisted Actions
+                if (blacklistedActions.includes(action.type)) {
+                    return newState;
+                }
+
+                // Grouped Actions
+                if (groupedActions.includes(action.type) && lastAction === action.type) {
+                    present = newState;
+                } else {
+                    // Do not ever put undefined in the past state. Else it would result in undo state corruption.
+                    past = present ? [...past, present] : past;
+                    present = newState;
+                    future = [];
+                }
+                lastAction = action.type;
+            }
         }
-    }
-    return present;
-};
+        return present;
+    };

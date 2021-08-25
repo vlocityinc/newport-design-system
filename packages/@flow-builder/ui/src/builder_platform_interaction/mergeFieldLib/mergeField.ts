@@ -269,9 +269,10 @@ function entityFieldIncludesReferenceToName(entityField, referenceToName: string
 /**
  * @param fieldName
  */
-export function getPolymorphicRelationShipName(
-    fieldName: string
-): { relationshipName: string; specificEntityName?: string } {
+export function getPolymorphicRelationShipName(fieldName: string): {
+    relationshipName: string;
+    specificEntityName?: string;
+} {
     const index = fieldName.indexOf(':');
     if (index < 0) {
         return { relationshipName: fieldName };

@@ -42,12 +42,8 @@ import {
 import { ASSIGNMENT, COMPARISON, setOfDistinctRhsParams } from './operatorAndRulesTestUtil';
 const ASSIGNMENT_OPERATOR = 'Assign';
 const EQUALS_OPERATOR = 'EqualTo';
-const {
-    IS_COLLECTION,
-    SYSTEM_VARIABLE_REQUIREMENT,
-    SOBJECT_FIELD_REQUIREMENT,
-    APEX_PROPERTY_REQUIREMENT
-} = PARAM_PROPERTY;
+const { IS_COLLECTION, SYSTEM_VARIABLE_REQUIREMENT, SOBJECT_FIELD_REQUIREMENT, APEX_PROPERTY_REQUIREMENT } =
+    PARAM_PROPERTY;
 const mockAccountField = {
     sobjectName: 'Account',
     dataType: 'Number'
@@ -200,10 +196,8 @@ describe('Operator Rule Util', () => {
         });
 
         it('should return all the left hand side types for rules, excluding appropriately', () => {
-            const {
-                lhsDataTypesOfRuleWithExclusion,
-                lhsElementsOfRuleWithExclusion
-            } = dataTypeAndElementsFromRuleLefts(RULES_WITH_EXCLUSION_LEFTS);
+            const { lhsDataTypesOfRuleWithExclusion, lhsElementsOfRuleWithExclusion } =
+                dataTypeAndElementsFromRuleLefts(RULES_WITH_EXCLUSION_LEFTS);
             const expectedDataTypes = (excludedDataType) =>
                 setOfStringifiedParamsToArray(
                     setOfDistinctLeftParams(
@@ -284,10 +278,8 @@ describe('Operator Rule Util', () => {
         });
 
         it('should remove duplicates from list of left hand side types', () => {
-            const {
-                lhsDataTypesOfRuleWithExclusion,
-                lhsElementsOfRuleWithExclusion
-            } = dataTypeAndElementsFromRuleLefts(assignmentComparisonRules.map((rule) => rule.left));
+            const { lhsDataTypesOfRuleWithExclusion, lhsElementsOfRuleWithExclusion } =
+                dataTypeAndElementsFromRuleLefts(assignmentComparisonRules.map((rule) => rule.left));
             lhsDataTypesOfRuleWithExclusion.push(...lhsElementsOfRuleWithExclusion);
             const nbDistinctDataTypesAndElements = new Set(lhsDataTypesOfRuleWithExclusion).size;
 

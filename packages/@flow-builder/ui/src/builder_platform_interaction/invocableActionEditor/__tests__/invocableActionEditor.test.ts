@@ -547,9 +547,8 @@ describe('Invocable Action editor', () => {
         });
         it('Should display the Manually Assign Variables Checkbox', () => {
             const advancedSettingsAccordion = getAdvancedSettingsAccordion(invocableActionEditor);
-            const manuallyAssignCheckboxInputElement = getManuallyAssignVariablesCheckboxInputElement(
-                advancedSettingsAccordion
-            );
+            const manuallyAssignCheckboxInputElement =
+                getManuallyAssignVariablesCheckboxInputElement(advancedSettingsAccordion);
             expect(manuallyAssignCheckboxInputElement).toBeDefined();
             expect(manuallyAssignCheckboxInputElement.type).toBe('checkbox');
             expect(manuallyAssignCheckboxInputElement.checked).toBe(false);

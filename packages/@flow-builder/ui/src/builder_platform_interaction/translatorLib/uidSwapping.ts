@@ -93,14 +93,16 @@ const swapReferenceField = (swapFunction, value) => {
  *                 fieldName is the name of the field,
  *                 value is the value containing ids for swapping (ex: 'hi', 'accountVar', 'accountVar.name', 'hi {!accountVar.name} ')
  */
-export const getSwapValueFunction = (swapFunction, checkReferenceFields = true) => (object, fieldName, value) => {
-    if (isTemplateField(object, fieldName)) {
-        return swapTemplateField(swapFunction, value);
-    } else if (checkReferenceFields && isReferenceField(object, fieldName)) {
-        return swapReferenceField(swapFunction, value);
-    }
-    return value;
-};
+export const getSwapValueFunction =
+    (swapFunction, checkReferenceFields = true) =>
+    (object, fieldName, value) => {
+        if (isTemplateField(object, fieldName)) {
+            return swapTemplateField(swapFunction, value);
+        } else if (checkReferenceFields && isReferenceField(object, fieldName)) {
+            return swapReferenceField(swapFunction, value);
+        }
+        return value;
+    };
 
 /**
  * Traverse the flow tree ( or any tree ) and replace all devNames with Uids ( or the opposite )

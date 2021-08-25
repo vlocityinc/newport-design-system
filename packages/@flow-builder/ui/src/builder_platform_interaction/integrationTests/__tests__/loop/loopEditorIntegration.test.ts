@@ -149,9 +149,8 @@ describe('Loop Editor with processType does not support automatic output', () =>
         it('loop variable is disabled when creating a new loop', async () => {
             await ticks(50);
             // collection variable is enabled
-            const colVariableLightningCombobox = getCollectionVariableCombobox(
-                loopElementComponent
-            ).getGroupedCombobox();
+            const colVariableLightningCombobox =
+                getCollectionVariableCombobox(loopElementComponent).getGroupedCombobox();
             expect(colVariableLightningCombobox.element.disabled).toBeFalsy();
             // loop variable is disabled initially when a new loop is
             // created
@@ -160,9 +159,8 @@ describe('Loop Editor with processType does not support automatic output', () =>
         });
         it('loop variable is enabled after the collection variable is set to a valid value', async () => {
             const vAccounts = getElementByDevName('vAccounts')!;
-            const colVariableLightningCombobox = getCollectionVariableCombobox(
-                loopElementComponent
-            ).getGroupedCombobox();
+            const colVariableLightningCombobox =
+                getCollectionVariableCombobox(loopElementComponent).getGroupedCombobox();
             await colVariableLightningCombobox.type(`{!${vAccounts.name}}`);
             // loop variable should be enabled now
             const loopVariableLightningCombobox = getLoopVariableCombobox(loopElementComponent)!.getGroupedCombobox();

@@ -172,12 +172,8 @@ import { TEXT_AREA_MAX_LENGTH } from 'builder_platform_interaction/screenEditorU
 
 const { generateGuid } = storeUtils;
 const { logInteraction, logPerfTransactionEnd, logPerfTransactionStart, setAppName } = loggingUtils;
-const {
-    ShiftFocusForwardCommand,
-    ShiftFocusBackwardCommand,
-    DisplayShortcutsCommand,
-    FocusOnDockingPanelCommand
-} = commands;
+const { ShiftFocusForwardCommand, ShiftFocusBackwardCommand, DisplayShortcutsCommand, FocusOnDockingPanelCommand } =
+    commands;
 const { KeyboardInteractions } = keyboardInteractionUtils;
 let unsubscribeStore;
 let storeInstance: Store;
@@ -1393,11 +1389,8 @@ export default class Editor extends LightningElement {
      */
     handleDuplicate = () => {
         const currentState = storeInstance.getCurrentState();
-        const {
-            canvasElementGuidMap,
-            childElementGuidMap,
-            unduplicatedCanvasElementsGuids
-        } = getDuplicateElementGuidMaps(currentState.canvasElements, currentState.elements);
+        const { canvasElementGuidMap, childElementGuidMap, unduplicatedCanvasElementsGuids } =
+            getDuplicateElementGuidMaps(currentState.canvasElements, currentState.elements);
 
         if (canvasElementGuidMap && Object.keys(canvasElementGuidMap).length > 0) {
             const connectorsToDuplicate = getConnectorToDuplicate(currentState.connectors, canvasElementGuidMap);
@@ -2692,18 +2685,20 @@ export default class Editor extends LightningElement {
      * @param modal the flow modal
      * @returns The Template data
      */
-    getTemplateDataCallback = (modal) => ({ data, error }) => {
-        if (error) {
-            // update error message to show in flow modal
-            this.isFlowServerCallInProgress = false;
-            this.spinners.showFlowMetadataSpinner = false;
-            setErrorMessage(modal, error[0].data.contextMessage);
-        } else {
-            this.getFlowCallback({ data, error });
-            modal.close();
-            this.newFlowModalActive = false;
-        }
-    };
+    getTemplateDataCallback =
+        (modal) =>
+        ({ data, error }) => {
+            if (error) {
+                // update error message to show in flow modal
+                this.isFlowServerCallInProgress = false;
+                this.spinners.showFlowMetadataSpinner = false;
+                setErrorMessage(modal, error[0].data.contextMessage);
+            } else {
+                this.getFlowCallback({ data, error });
+                modal.close();
+                this.newFlowModalActive = false;
+            }
+        };
 
     /**
      * Callback passed when user clicks on Exit icon from new flow modal

@@ -73,40 +73,50 @@ const auraFetch = (actions) => async (actionName, shouldExecuteCallback, callbac
     callback(result);
 };
 
-export const getSubflows = (flowProcessTypeToSubflows) => ({ flowProcessType }) => {
-    const subflows = flowProcessTypeToSubflows[flowProcessType] || [];
-    return {
-        data: subflows
+export const getSubflows =
+    (flowProcessTypeToSubflows) =>
+    ({ flowProcessType }) => {
+        const subflows = flowProcessTypeToSubflows[flowProcessType] || [];
+        return {
+            data: subflows
+        };
     };
-};
 
-export const getFlowInputOutputVariables = (flowNameToFlowInputOutputVariables) => ({ flowName }) => {
-    const flowInputOutputVariables = flowNameToFlowInputOutputVariables[flowName];
-    if (flowInputOutputVariables != null) {
-        return { data: flowInputOutputVariables };
-    }
-    return { error: 'Unknown flow' };
-};
-
-const getAllInvocableActionsForType = (flowProcessTypeToInvocableActions) => ({ flowProcessType }) => {
-    const invocableActions = flowProcessTypeToInvocableActions[flowProcessType] || [];
-    return {
-        data: invocableActions
+export const getFlowInputOutputVariables =
+    (flowNameToFlowInputOutputVariables) =>
+    ({ flowName }) => {
+        const flowInputOutputVariables = flowNameToFlowInputOutputVariables[flowName];
+        if (flowInputOutputVariables != null) {
+            return { data: flowInputOutputVariables };
+        }
+        return { error: 'Unknown flow' };
     };
-};
 
-const getFieldsForEntity = (entityApiNameToEntityFields) => ({ entityApiName }) => {
-    const fields = entityApiNameToEntityFields[entityApiName];
-    if (fields != null) {
-        return { data: fields };
-    }
-    return { error: 'Unknown entity' };
-};
+const getAllInvocableActionsForType =
+    (flowProcessTypeToInvocableActions) =>
+    ({ flowProcessType }) => {
+        const invocableActions = flowProcessTypeToInvocableActions[flowProcessType] || [];
+        return {
+            data: invocableActions
+        };
+    };
 
-export const getTemplates = (allTemplates) => ({ processTypes }) => {
-    const matchingTemplates = allTemplates.filter((template) => processTypes.includes(template.ProcessType));
-    return { data: matchingTemplates };
-};
+const getFieldsForEntity =
+    (entityApiNameToEntityFields) =>
+    ({ entityApiName }) => {
+        const fields = entityApiNameToEntityFields[entityApiName];
+        if (fields != null) {
+            return { data: fields };
+        }
+        return { error: 'Unknown entity' };
+    };
+
+export const getTemplates =
+    (allTemplates) =>
+    ({ processTypes }) => {
+        const matchingTemplates = allTemplates.filter((template) => processTypes.includes(template.ProcessType));
+        return { data: matchingTemplates };
+    };
 
 const getInvocableActionDetails = (invocableActionParameters) => (params) => {
     let invocableActionParametersForAction;
@@ -123,9 +133,11 @@ const getInvocableActionDetails = (invocableActionParameters) => (params) => {
 
 const createGetter = (data) => () => ({ data });
 
-export const createGetterByProcessType = (map, defaultValue = []) => ({ flowProcessType }) => ({
-    data: map[flowProcessType] || defaultValue
-});
+export const createGetterByProcessType =
+    (map, defaultValue = []) =>
+    ({ flowProcessType }) => ({
+        data: map[flowProcessType] || defaultValue
+    });
 
 const getFlowExtensionListParams = (flowExtensionListParameters) => (params) => ({
     data: params.names.reduce((obj, name) => {
@@ -141,13 +153,15 @@ const getFlowExtensionDetails = (flowExtDetails) => (params) => ({
     }, {})
 });
 
-const retrieveFlow = (flowIdToFlow) => ({ flowId }) => {
-    const flow = flowIdToFlow[flowId];
-    if (flow != null) {
-        return { data: flow };
-    }
-    return { error: 'Unknown flow' };
-};
+const retrieveFlow =
+    (flowIdToFlow) =>
+    ({ flowId }) => {
+        const flow = flowIdToFlow[flowId];
+        if (flow != null) {
+            return { data: flow };
+        }
+        return { error: 'Unknown flow' };
+    };
 
 const allAuraActions = {
     'c.retrieveFlow': retrieveFlow({

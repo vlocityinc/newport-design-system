@@ -73,7 +73,7 @@ body {
     --lwc-brandHeaderIconDisabled: rgba(145, 145, 145, 0.25);
     --lwc-brandLight: rgb(244, 246, 254);
     --lwc-brandLightActive: rgb(227, 229, 237);
-    --lwc-brandLogoImage: / _slds/images/logo-noname.svg?cache=4fba1402;
+    --lwc-brandLogoImage: /_slds/images/logo-noname.svg?cache=4fba1402;
     --lwc-brandPrimary: rgb(21, 137, 238);
     --lwc-brandPrimaryActive: rgb(0, 122, 221);
     --lwc-brandPrimaryTransparent: rgba(21, 137, 238, 0.1);
@@ -441,9 +441,9 @@ body {
     --lwc-durationSlowly: 0.4s;
     --lwc-durationToastMedium: 9.6s;
     --lwc-durationToastShort: 4.8s;
-    --lwc-einsteinHeaderBackground: / _slds/images/einstein-headers/einstein-header-background.svg?cache=1ce8687b;
+    --lwc-einsteinHeaderBackground: /_slds/images/einstein-headers/einstein-header-background.svg?cache=1ce8687b;
     --lwc-einsteinHeaderBackgroundColor: rgb(149, 203, 252);
-    --lwc-einsteinHeaderFigure: / _slds/images/einstein-headers/einstein-figure.svg?cache=6e21da99;
+    --lwc-einsteinHeaderFigure: /_slds/images/einstein-headers/einstein-figure.svg?cache=6e21da99;
     --lwc-einsteinHeaderTextShadow: #9edaff;
     --lwc-elevation0: 0;
     --lwc-elevation16: 16;
@@ -516,9 +516,9 @@ body {
     --lwc-globalHeaderColorBackground: rgb(255, 255, 255);
     --lwc-globalnavigationItemHeightAccentActive: 3px;
     --lwc-globalnavigationItemHeightAccentFocus: 4px;
-    --lwc-groupDefaultAvatar: / _slds/images/group_avatar_200.png?cache=9311a1d0;
-    --lwc-groupDefaultAvatarMedium: / _slds/images/group_avatar_160.png?cache=b372599f;
-    --lwc-groupDefaultAvatarSmall: / _slds/images/group_avatar_96.png?cache=86a3ad10;
+    --lwc-groupDefaultAvatar: /_slds/images/group_avatar_200.png?cache=9311a1d0;
+    --lwc-groupDefaultAvatarMedium: /_slds/images/group_avatar_160.png?cache=b372599f;
+    --lwc-groupDefaultAvatarSmall: /_slds/images/group_avatar_96.png?cache=86a3ad10;
     --lwc-heightContextBar: 2.5rem;
     --lwc-heightDockedBar: 2.5rem;
     --lwc-heightHeader: 2.75rem;
@@ -528,9 +528,9 @@ body {
     --lwc-heightToggle: 1.5rem;
     --lwc-illustrationColorPrimary: rgb(140, 211, 248);
     --lwc-illustrationColorSecondary: rgb(194, 232, 255);
-    --lwc-illustrationEmptyStateAssistant: / _slds/images/illustrations/empty-state-assistant.svg?cache=4a3d2793;
-    --lwc-illustrationEmptyStateEvents: / _slds/images/illustrations/empty-state-events.svg?cache=9ab6224c;
-    --lwc-illustrationEmptyStateTasks: / _slds/images/illustrations/empty-state-tasks.svg?cache=5202d6db;
+    --lwc-illustrationEmptyStateAssistant: /_slds/images/illustrations/empty-state-assistant.svg?cache=4a3d2793;
+    --lwc-illustrationEmptyStateEvents: /_slds/images/illustrations/empty-state-events.svg?cache=9ab6224c;
+    --lwc-illustrationEmptyStateTasks: /_slds/images/illustrations/empty-state-tasks.svg?cache=5202d6db;
     --lwc-inputReadonlyFontWeight: 400;
     --lwc-inputStaticColor: rgb(8, 7, 7);
     --lwc-inputStaticFontSize: 0.8125rem;
@@ -667,9 +667,9 @@ body {
     --lwc-typingIconDotColorBackgroundGray: rgb(221, 219, 218);
     --lwc-typingIconDotColorBackgroundGrayDark: rgb(201, 199, 197);
     --lwc-typingIconDotSize: 0.5rem;
-    --lwc-userDefaultAvatar: / _slds/images/profile_avatar_200.png?cache=d962235b;
-    --lwc-userDefaultAvatarMedium: / _slds/images/profile_avatar_160.png?cache=32ea9f27;
-    --lwc-userDefaultAvatarSmall: / _slds/images/profile_avatar_96.png?cache=ece13643;
+    --lwc-userDefaultAvatar: /_slds/images/profile_avatar_200.png?cache=d962235b;
+    --lwc-userDefaultAvatarMedium: /_slds/images/profile_avatar_160.png?cache=32ea9f27;
+    --lwc-userDefaultAvatarSmall: /_slds/images/profile_avatar_96.png?cache=ece13643;
     --lwc-utilityBarColorBackgroundNotificationBadge: rgb(212, 80, 76);
     --lwc-utilityBarColorBackgroundNotificationFocus: rgb(201, 199, 197);
     --lwc-varFontSize1: 0.625rem;
@@ -712,7 +712,7 @@ body {
     --lwc-verticalNavigationColorBackgroundShadeRowActive: rgb(236, 235, 234);
     --lwc-verticalNavigationColorBackgroundShadeRowHover: rgb(243, 242, 242);
     --lwc-welcomeMatBackgroundColorInfo: rgb(202, 230, 241);
-    --lwc-welcomeMatBackgroundImageInfo: / _slds/images/welcome-mat/bg-info @2x.png?cache=fccf7475;
+    --lwc-welcomeMatBackgroundImageInfo: /_slds/images/welcome-mat/bg-info @2x.png?cache=fccf7475;
     --lwc-welcomeMatCheckSize: 0.625rem;
     --lwc-welcomeMatColorActionShadow: rgba(0, 0, 0, 0.05);
     --lwc-welcomeMatColorBackgroundProgressBar: rgb(255, 255, 255);

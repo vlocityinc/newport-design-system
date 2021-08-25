@@ -1770,9 +1770,9 @@ function deleteElement(
         deleteBranch(elementService, state, next);
     }
 
-    const branchHead = (parent != null
-        ? nextElement
-        : findFirstElement(resolveNode(state, prev!), state)) as BranchHeadNodeModel;
+    const branchHead = (
+        parent != null ? nextElement : findFirstElement(resolveNode(state, prev!), state)
+    ) as BranchHeadNodeModel;
 
     // update the branch's isTerminal and attempt to inline
     if (branchHead != null) {

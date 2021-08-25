@@ -21,8 +21,11 @@ export function createConstant(constant = {}) {
     if (value) {
         valueFerov = createFEROV(value, DEFAULT_VALUE_PROPERTY, DEFAULT_VALUE_DATA_TYPE_PROPERTY);
     }
-    const { defaultValue = null, defaultValueDataType = null, defaultValueIndex = generateGuid() } =
-        valueFerov || constant;
+    const {
+        defaultValue = null,
+        defaultValueDataType = null,
+        defaultValueIndex = generateGuid()
+    } = valueFerov || constant;
     Object.assign(newConstant, {
         elementType,
         dataType,

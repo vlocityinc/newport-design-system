@@ -78,9 +78,8 @@ describe('Record Lookup Editor (automatic support)', () => {
             recordLookupElement = createComponentForTest(recordLookupNode, EditElementEvent.EVENT_NAME);
         });
         it('Variable and Field Mapping radiobutton group: Automatic should be selected', () => {
-            const variableAndFieldMappingRadioButtonGroup = getVariableAndFieldMappingRadioButtonGroup(
-                recordLookupElement
-            );
+            const variableAndFieldMappingRadioButtonGroup =
+                getVariableAndFieldMappingRadioButtonGroup(recordLookupElement);
             expect(variableAndFieldMappingRadioButtonGroup).not.toBeNull();
             expect(variableAndFieldMappingRadioButtonGroup.value).toBe(VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC);
         });
@@ -99,9 +98,8 @@ describe('Record Lookup Editor (automatic support)', () => {
         describe('Select Automatic with flow on the variable And Field Mapping Radio Button Group', () => {
             let variableAndFieldMappingRadioButtonGroup;
             beforeEach(async () => {
-                variableAndFieldMappingRadioButtonGroup = getVariableAndFieldMappingRadioButtonGroup(
-                    recordLookupElement
-                );
+                variableAndFieldMappingRadioButtonGroup =
+                    getVariableAndFieldMappingRadioButtonGroup(recordLookupElement);
                 variableAndFieldMappingRadioButtonGroup.dispatchEvent(
                     changeEvent(VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC_WITH_FIELDS)
                 );
@@ -123,9 +121,8 @@ describe('Record Lookup Editor (automatic support)', () => {
         describe('Select Manual on the variable And Field Mapping Radio Button Group', () => {
             let variableAndFieldMappingRadioButtonGroup;
             beforeEach(async () => {
-                variableAndFieldMappingRadioButtonGroup = getVariableAndFieldMappingRadioButtonGroup(
-                    recordLookupElement
-                );
+                variableAndFieldMappingRadioButtonGroup =
+                    getVariableAndFieldMappingRadioButtonGroup(recordLookupElement);
                 variableAndFieldMappingRadioButtonGroup.dispatchEvent(
                     changeEvent(VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL)
                 );

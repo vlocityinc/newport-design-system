@@ -88,9 +88,8 @@ describe('record-sobject-and-query-fields', () => {
                     recordSobjectAndQueryFields = createComponentUnderTest(config);
                 });
                 it('contains an "SObjectSObjectCollectionPicker" displaying an empty value', () => {
-                    const sobjectOrSobjectCollectionPicker = getSObjectSObjectCollectionPicker(
-                        recordSobjectAndQueryFields
-                    );
+                    const sobjectOrSobjectCollectionPicker =
+                        getSObjectSObjectCollectionPicker(recordSobjectAndQueryFields);
                     expect(sobjectOrSobjectCollectionPicker).not.toBeNull();
                     expect(sobjectOrSobjectCollectionPicker.value).toEqual('');
                 });
@@ -111,9 +110,8 @@ describe('record-sobject-and-query-fields', () => {
                     recordSobjectAndQueryFields = createComponentUnderTest(config);
                 });
                 it('contains an "SObjectSObjectCollectionPicker" displaying the "outputReference" value', () => {
-                    const sobjectOrSobjectCollectionPicker = getSObjectSObjectCollectionPicker(
-                        recordSobjectAndQueryFields
-                    );
+                    const sobjectOrSobjectCollectionPicker =
+                        getSObjectSObjectCollectionPicker(recordSobjectAndQueryFields);
                     expect(sobjectOrSobjectCollectionPicker).not.toBeNull();
                     expect(sobjectOrSobjectCollectionPicker.value).toEqual(config.outputReference);
                 });

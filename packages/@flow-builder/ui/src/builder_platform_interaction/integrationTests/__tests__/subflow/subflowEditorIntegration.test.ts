@@ -64,9 +64,8 @@ describe('Subflow Editor', () => {
                 subflowElement = createComponentForTest(subflowNode, EditElementEvent.EVENT_NAME);
             });
             test('"Manually Assign Variables" should be unchecked', () => {
-                const advancedOptionCheckbox = getManuallyAssignVariablesCheckboxInputElementFromActionEditor(
-                    subflowElement
-                );
+                const advancedOptionCheckbox =
+                    getManuallyAssignVariablesCheckboxInputElementFromActionEditor(subflowElement);
 
                 expect(advancedOptionCheckbox).toBeDefined();
                 expect(advancedOptionCheckbox.type).toBe('checkbox');

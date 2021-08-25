@@ -133,10 +133,8 @@ export default class SubflowEditor extends LightningElement {
         this.subflowDescriptor = undefined;
         const flowName = getValueFromHydratedItem(this.subflowNode.flowName);
         const options = { disableErrorModal: true };
-        const {
-            processType: flowProcessType,
-            definitionId: flowDefinitionId
-        } = Store.getStore().getCurrentState().properties;
+        const { processType: flowProcessType, definitionId: flowDefinitionId } =
+            Store.getStore().getCurrentState().properties;
         fetchOnce(
             SERVER_ACTION_TYPE.GET_SUBFLOWS,
             {

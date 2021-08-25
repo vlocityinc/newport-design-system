@@ -103,9 +103,9 @@ export class ScreenEditorTestComponent extends TestComponent<ScreenEditor> {
     public getAutomaticFieldsPalette() {
         const tabset = this.getTabsetElement();
         const automaticFieldsTab = tabset!.shadowRoot!.querySelector('slot')!.assignedNodes()[1] as HTMLElement;
-        const paletteElement = (automaticFieldsTab
-            .shadowRoot!.querySelector('slot')!
-            .assignedNodes()[0] as Element).querySelector(
+        const paletteElement = (
+            automaticFieldsTab.shadowRoot!.querySelector('slot')!.assignedNodes()[0] as Element
+        ).querySelector(
             INTERACTION_COMPONENTS_SELECTORS.SCREEN_AUTOMATIC_FIELD_PALETTE
         ) as ScreenEditorAutomaticFieldPalette & HTMLElement;
         return new ScreenEditorAutomaticFieldsPaletteTestComponent(paletteElement);
@@ -114,9 +114,9 @@ export class ScreenEditorTestComponent extends TestComponent<ScreenEditor> {
     public getAutomaticFieldBetaDisclaimer() {
         const tabset = this.getTabsetElement();
         const automaticFieldsTab = tabset!.shadowRoot!.querySelector('slot')!.assignedNodes()[1] as HTMLElement;
-        const paletteElement = (automaticFieldsTab
-            .shadowRoot!.querySelector('slot')!
-            .assignedNodes()[0] as Element).querySelector(
+        const paletteElement = (
+            automaticFieldsTab.shadowRoot!.querySelector('slot')!.assignedNodes()[0] as Element
+        ).querySelector(
             INTERACTION_COMPONENTS_SELECTORS.SCREEN_AUTOMATIC_FIELD_PALETTE
         ) as ScreenEditorAutomaticFieldPalette & HTMLElement;
         const betaDisclaimer = paletteElement.shadowRoot!.querySelector(
@@ -240,9 +240,8 @@ export class ScreenCanvasTestComponent extends TestComponent<ScreenCanvas> {
                 if (predicate(screenEditorHighlight.screenElement)) {
                     return sectionHighlightTestComponent;
                 }
-                const screenEditorHighlightTestComponent = sectionHighlightTestComponent.getScreenEditorHighlight(
-                    predicate
-                );
+                const screenEditorHighlightTestComponent =
+                    sectionHighlightTestComponent.getScreenEditorHighlight(predicate);
                 if (screenEditorHighlightTestComponent) {
                     return screenEditorHighlightTestComponent;
                 }

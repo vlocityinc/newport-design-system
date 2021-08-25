@@ -218,20 +218,16 @@ export function createDuplicateOrchestratedStage(
     duplicatedElement: OrchestratedStage;
     duplicatedChildElements: Map<UI.Guid, StageStep>;
 } {
-    const {
-        duplicatedElement,
-        duplicatedChildElements,
-        updatedChildReferences,
-        availableConnections
-    } = duplicateCanvasElementWithChildElements(
-        orchestratedStage,
-        newGuid,
-        newName,
-        childElementGuidMap,
-        childElementNameMap,
-        cutOrCopiedChildElements,
-        createStageStep
-    );
+    const { duplicatedElement, duplicatedChildElements, updatedChildReferences, availableConnections } =
+        duplicateCanvasElementWithChildElements(
+            orchestratedStage,
+            newGuid,
+            newName,
+            childElementGuidMap,
+            childElementNameMap,
+            cutOrCopiedChildElements,
+            createStageStep
+        );
 
     const updatedDuplicatedElement = Object.assign(duplicatedElement, {
         stageSteps: [],
@@ -253,9 +249,7 @@ export function createDuplicateOrchestratedStage(
  * @param originalItems
  * @returns Object with array of StageSteps and childReferences
  */
-function createStageStepsWithReferences(
-    originalItems: StageStep[]
-): {
+function createStageStepsWithReferences(originalItems: StageStep[]): {
     items: StageStep[];
     childReferences: UI.ChildReference[];
 } {
@@ -350,17 +344,15 @@ export function createOrchestratedStageWithItemReferencesWhenUpdatingFromPropert
 export function getSteps(guid: UI.Guid): StageStep[] {
     const orchestratedStage = getElementByGuid<OrchestratedStage>(guid)!;
 
-    return orchestratedStage.childReferences.map(
-        (ref: UI.ChildReference): StageStep => {
-            const stageStep = getElementByGuid<StageStep>(ref.childReference)!;
-            const stepTypeLabel = resolveStepTypeLabel(stageStep.actionType!);
+    return orchestratedStage.childReferences.map((ref: UI.ChildReference): StageStep => {
+        const stageStep = getElementByGuid<StageStep>(ref.childReference)!;
+        const stepTypeLabel = resolveStepTypeLabel(stageStep.actionType!);
 
-            return <StageStep>{
-                ...stageStep,
-                stepTypeLabel
-            };
-        }
-    );
+        return <StageStep>{
+            ...stageStep,
+            stepTypeLabel
+        };
+    });
 }
 
 /**
@@ -411,7 +403,7 @@ const getActionNameAndType = (action: InvocableAction): { actionName: string; ac
 export function getStageStepChildren(element: UI.Element): UI.StringKeyedMap<any> {
     // Explicit cast should be safe since we should only call this version
     // with StageSteps
-    const step = (element as unknown) as StageStep;
+    const step = element as unknown as StageStep;
     const comboboxitems: UI.StringKeyedMap<any> = {
         Status: {
             label: LABELS.stageStepStatus,

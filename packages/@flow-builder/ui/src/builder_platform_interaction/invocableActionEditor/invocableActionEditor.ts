@@ -282,10 +282,8 @@ export default class InvocableActionEditor extends LightningElement {
             actionType: getValueFromHydratedItem(this.node.actionType)
         };
         const options = { disableErrorModal: true };
-        const {
-            processType: flowProcessType,
-            triggerType: flowTriggerType
-        } = Store.getStore().getCurrentState().properties;
+        const { processType: flowProcessType, triggerType: flowTriggerType } =
+            Store.getStore().getCurrentState().properties;
         fetchOnce(
             SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS,
             {

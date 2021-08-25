@@ -39,8 +39,11 @@ export function createVariable(variable = {}) {
     if (value) {
         valueFerov = createFEROV(value, DEFAULT_VALUE_PROPERTY, DEFAULT_VALUE_DATA_TYPE_PROPERTY);
     }
-    const { defaultValue = null, defaultValueDataType = null, defaultValueIndex = generateGuid() } =
-        valueFerov || variable;
+    const {
+        defaultValue = null,
+        defaultValueDataType = null,
+        defaultValueIndex = generateGuid()
+    } = valueFerov || variable;
     Object.assign(newVariable, {
         elementType,
         isCollection,

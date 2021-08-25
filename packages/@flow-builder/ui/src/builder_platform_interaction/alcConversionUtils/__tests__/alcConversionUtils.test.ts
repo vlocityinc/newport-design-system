@@ -1337,8 +1337,7 @@ describe('alc conversion utils', () => {
                             config: {
                                 isSelected: false
                             },
-                            guid:
-                                'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
+                            guid: 'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
                             label: null,
                             source: 'screen-after-decision-element-guid',
                             target: 'end-element-guid (screen-after-decision-element-guid)',
@@ -1353,8 +1352,7 @@ describe('alc conversion utils', () => {
                             config: {
                                 isSelected: false
                             },
-                            guid:
-                                'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
+                            guid: 'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
                             label: null,
                             source: 'screen-after-decision-element-guid',
                             target: 'end-element-guid (screen-after-decision-element-guid)',
@@ -1381,8 +1379,7 @@ describe('alc conversion utils', () => {
                             config: {
                                 isSelected: false
                             },
-                            guid:
-                                'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
+                            guid: 'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
                             label: null,
                             source: 'screen-after-decision-element-guid',
                             target: 'end-element-guid (screen-after-decision-element-guid)',
@@ -1413,8 +1410,7 @@ describe('alc conversion utils', () => {
                 describe('start with goto on immediate path', () => {
                     const endConnectors = [
                         {
-                            guid:
-                                'assignment-async-element-guid -> end-element-guid (scheduled-path-start-element-guid)',
+                            guid: 'assignment-async-element-guid -> end-element-guid (scheduled-path-start-element-guid)',
                             source: 'assignment-async-element-guid',
                             target: 'end-element-guid (scheduled-path-start-element-guid)',
                             label: null,
@@ -1422,8 +1418,7 @@ describe('alc conversion utils', () => {
                             config: { isSelected: false }
                         },
                         {
-                            guid:
-                                'assignment-async2-element-guid -> end-element-guid (scheduled-path-start-element-guid)',
+                            guid: 'assignment-async2-element-guid -> end-element-guid (scheduled-path-start-element-guid)',
                             source: 'assignment-async2-element-guid',
                             target: 'end-element-guid (scheduled-path-start-element-guid)',
                             label: null,
@@ -1436,8 +1431,7 @@ describe('alc conversion utils', () => {
                 describe('start with only scheduled paths', () => {
                     const endConnectors = [
                         {
-                            guid:
-                                'scheduled-path-start-element-guid -> end-element-guid (scheduled-path-start-element-guid)',
+                            guid: 'scheduled-path-start-element-guid -> end-element-guid (scheduled-path-start-element-guid)',
                             source: 'scheduled-path-start-element-guid',
                             target: 'end-element-guid (scheduled-path-start-element-guid)',
                             label: 'IMMEDIATE',
@@ -1569,8 +1563,7 @@ describe('alc conversion utils', () => {
                 describe('empty with screen next', () => {
                     const endConnectors = [
                         {
-                            guid:
-                                'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
+                            guid: 'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
                             source: 'screen-after-decision-element-guid',
                             target: 'end-element-guid (screen-after-decision-element-guid)',
                             label: null,
@@ -1605,8 +1598,7 @@ describe('alc conversion utils', () => {
                 describe('with child on non default outcome', () => {
                     const endConnectors = [
                         {
-                            guid:
-                                'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
+                            guid: 'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
                             source: 'screen-after-decision-element-guid',
                             target: 'end-element-guid (screen-after-decision-element-guid)',
                             label: null,
@@ -1640,8 +1632,7 @@ describe('alc conversion utils', () => {
                 describe('with testCaseW8010546', () => {
                     const endConnectors = [
                         {
-                            guid:
-                                'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
+                            guid: 'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
                             source: 'screen-after-decision-element-guid',
                             target: 'end-element-guid (screen-after-decision-element-guid)',
                             label: null,
@@ -1655,8 +1646,7 @@ describe('alc conversion utils', () => {
                 describe('with one child on each branch, followed by a screen element', () => {
                     const endConnectors = [
                         {
-                            guid:
-                                'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
+                            guid: 'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
                             source: 'screen-after-decision-element-guid',
                             target: 'end-element-guid (screen-after-decision-element-guid)',
                             label: null,
@@ -1741,8 +1731,7 @@ describe('alc conversion utils', () => {
                 describe('with nested left decision', () => {
                     const endConnectors = [
                         {
-                            guid:
-                                'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
+                            guid: 'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
                             source: 'screen-after-decision-element-guid',
                             target: 'end-element-guid (screen-after-decision-element-guid)',
                             label: null,
@@ -1755,8 +1744,7 @@ describe('alc conversion utils', () => {
                 describe('with nested right decision', () => {
                     const endConnectors = [
                         {
-                            guid:
-                                'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
+                            guid: 'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
                             source: 'screen-after-decision-element-guid',
                             target: 'end-element-guid (screen-after-decision-element-guid)',
                             label: null,

@@ -275,7 +275,7 @@ const elements = {
     }
 };
 
-const elementsFromScreenEditor = ({
+const elementsFromScreenEditor = {
     SCREEN_FIELD_1: {
         name: { value: 'SCREEN FIELD 1', error: null },
         guid: 'SCREEN_FIELD_1',
@@ -339,7 +339,7 @@ const elementsFromScreenEditor = ({
     },
     guid: 'SCREEN_3',
     elementType: ELEMENT_TYPE.SCREEN
-} as unknown) as UI.HydratedElements;
+} as unknown as UI.HydratedElements;
 
 describe('Used by library', () => {
     const expectNoDuplicatesInUsedBy = (usedByElements: UsedByElement[]) => {
