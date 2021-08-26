@@ -8,7 +8,6 @@ import {
     hidePopover,
     invokePropertyEditor,
     invokeNewFlowModal,
-    invokeAutoLayoutWelcomeMat,
     invokeKeyboardHelpDialog,
     invokeDebugEditor
 } from '../builderUtils';
@@ -20,7 +19,6 @@ import { createComponent, dispatchGlobalEvent } from 'aura';
 
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { SaveFlowEvent } from 'builder_platform_interaction/events';
-import { isAutoLayoutCanvasEnabled } from 'builder_platform_interaction/contextLib';
 import { LABELS } from '../builderUtilsLabels';
 
 const mockPackage = 'foo';
@@ -366,37 +364,6 @@ describe('builderUtils', () => {
         });
     });
 
-    describe('invokeAutoLayoutWelcomeMat', () => {
-        it('calls createComponent and dispatchGlobalEvent w/ expected parameters when given standard parameters', async () => {
-            invokeAutoLayoutWelcomeMat('processType', 'triggerType', jest.fn(), jest.fn());
-            await ticks(1);
-            expect(createComponent).toHaveBeenCalledWith(
-                'builder_platform_interaction:welcomeMatBody',
-                {
-                    createCallback: expect.anything(),
-                    processType: 'processType',
-                    triggerType: 'triggerType'
-                },
-                expect.anything()
-            );
-
-            expect(dispatchGlobalEvent).toHaveBeenCalledWith(
-                'ui:createPanel',
-                expect.objectContaining({
-                    onCreate: expect.anything(),
-                    panelType: 'modal',
-                    visible: true,
-                    panelConfig: {
-                        modalClass: 'slds-modal_small',
-                        body: [{ getElement: expect.anything() }],
-                        bodyClass: '',
-                        closeAction: expect.anything()
-                    }
-                })
-            );
-        });
-    });
-
     describe('invokeKeyboardHelpDialog', () => {
         it('calls createComponent and dispatchGlobalEvent w/ expected parameters when given standard parameters', async () => {
             invokeKeyboardHelpDialog();
@@ -466,9 +433,7 @@ describe('builderUtils', () => {
                 {
                     buttons: {
                         buttonOne: {
-                            buttonLabel: isAutoLayoutCanvasEnabled()
-                                ? LABELS.nextButtonLabel
-                                : LABELS.createButtonLabel,
+                            buttonLabel: LABELS.createButtonLabel,
                             buttonVariant: 'brand'
                         }
                     }

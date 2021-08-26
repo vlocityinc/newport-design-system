@@ -23,7 +23,6 @@ import { LABELS } from './builderUtilsLabels';
 import { isObject } from 'builder_platform_interaction/commonUtils';
 import { clearExpressions } from 'builder_platform_interaction/expressionValidator';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
-import { isAutoLayoutCanvasEnabled } from 'builder_platform_interaction/contextLib';
 import { invokeModalWithComponents } from 'builder_platform_interaction/sharedUtils';
 import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
@@ -585,33 +584,6 @@ export function invokeDebugEditor(attributes) {
     );
 }
 
-const invokeWelcomeMatWithComponents = (data, modalBodyPromise, onCreate) => {
-    modalBodyPromise.then((newComponent) => {
-        const createPanelEventAttributes = {
-            panelType: MODAL,
-            visible: true,
-            panelConfig: {
-                modalClass: data.modalClass || '',
-                body: newComponent,
-                bodyClass: data.bodyClass || '',
-                closeAction: (modal) => {
-                    let skipCloseAction = false;
-                    if (data.closeCallback) {
-                        skipCloseAction = data.closeCallback();
-                    }
-                    if (!skipCloseAction) {
-                        modal.close();
-                    }
-                }
-            },
-            onCreate: (modal) => {
-                onCreate(modal);
-            }
-        };
-        dispatchGlobalEvent(UI_CREATE_PANEL, createPanelEventAttributes);
-    });
-};
-
 /**
  * Open Debug Editor Popover.
  *
@@ -690,28 +662,6 @@ function showDebugEditorPopover(
     );
 }
 
-export const invokeAutoLayoutWelcomeMat = (processType, triggerType, createCallback, closeFlowModalCallback) => {
-    const modalBodyPromise = createComponentPromise('builder_platform_interaction:welcomeMatBody', {
-        processType,
-        triggerType,
-        createCallback
-    });
-
-    const invokeModalWithComponentsOnCreateOverride = (modal) => {
-        const panelBody = modal.get('v.body')[0];
-        panelBody.set('v.closeCallback', modal.close);
-    };
-
-    invokeWelcomeMatWithComponents(
-        {
-            modalClass: 'slds-modal_small',
-            closeCallback: closeFlowModalCallback
-        },
-        modalBodyPromise,
-        invokeModalWithComponentsOnCreateOverride
-    );
-};
-
 /**
  * Invokes the new flow modal.
  *
@@ -740,7 +690,7 @@ export const invokeNewFlowModal = (
     const modalFooterPromise = createComponentPromise('builder_platform_interaction:modalFooter', {
         buttons: {
             buttonOne: {
-                buttonLabel: isAutoLayoutCanvasEnabled() ? LABELS.nextButtonLabel : LABELS.createButtonLabel,
+                buttonLabel: LABELS.createButtonLabel,
                 buttonVariant: 'brand'
             }
         }

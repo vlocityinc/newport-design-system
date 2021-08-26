@@ -19,7 +19,6 @@ import {
 } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
-import { isAutoLayoutCanvasEnabled } from 'builder_platform_interaction/contextLib';
 import { loggingUtils, commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { LABELS } from './toolbarLabels';
 import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
@@ -156,16 +155,8 @@ export default class Toolbar extends LightningElement {
         }
     }
 
-    get isAutoLayoutCanvasEnabled() {
-        return isAutoLayoutCanvasEnabled();
-    }
-
     get showSelectionButton() {
         return this.isAutoLayoutCanvas && !this.hideSelectionButton;
-    }
-
-    get showCanvasToggle() {
-        return this.isAutoLayoutCanvasEnabled && this.showCanvasModeToggle;
     }
 
     get showDuplicateElementButton() {

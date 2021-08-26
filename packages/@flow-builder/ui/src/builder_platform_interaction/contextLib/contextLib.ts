@@ -130,16 +130,6 @@ export function orgHasComponentPreview() {
     return context.access && context.access.orgHasComponentPreview;
 }
 
-/*
- * @returns true if the auto layout feature is available
- */
-/**
- *
- */
-export function isAutoLayoutCanvasEnabled() {
-    return !isTestMode();
-}
-
 /**
  *
  */

@@ -5,7 +5,6 @@ import {
     focusOnDockingPanel,
     getPropertyEditorConfig,
     hidePopover,
-    invokeAutoLayoutWelcomeMat,
     invokeDebugEditor,
     invokeKeyboardHelpDialog,
     invokeNewFlowModal,
@@ -133,11 +132,7 @@ import {
     loadParametersForInvocableApexActionsInFlowFromMetadata,
     loadVersioningData
 } from 'builder_platform_interaction/preloadLib';
-import {
-    CLASSIC_EXPERIENCE,
-    getPreferredExperience,
-    isAutoLayoutCanvasEnabled
-} from 'builder_platform_interaction/contextLib';
+import { CLASSIC_EXPERIENCE, getPreferredExperience } from 'builder_platform_interaction/contextLib';
 import { loadReferencesIn } from 'builder_platform_interaction/mergeFieldLib';
 import { FlowGuardrailsExecutor, GuardrailsResultEvent } from 'builder_platform_interaction/guardrails';
 import {
@@ -2735,46 +2730,30 @@ export default class Editor extends LightningElement {
                     'click',
                     'user'
                 );
-
-                // True if this process type should always be opened in autolayout
-                const isAutoLayoutCanvas: boolean = isAutoLayoutCanvasOnly(processType);
-
-                // TODO: Directly call invokeAutoLayoutWelcomeMat when releasing
-                if (isAutoLayoutCanvasEnabled() && !isAutoLayoutCanvas) {
-                    invokeAutoLayoutWelcomeMat(
-                        processType,
-                        defaultTriggerType,
-                        this.setupCanvas,
-                        this.closeFlowModalCallback
-                    );
-                } else {
-                    this.setupCanvas(processType, defaultTriggerType, isAutoLayoutCanvas);
-                }
+                this.setupCanvas(processType, defaultTriggerType);
             }
             modal.close();
             this.newFlowModalActive = false;
         }
     };
 
-    setupCanvas = (processType, triggerType, setupInAutoLayoutCanvas) => {
+    setupCanvas = (processType, triggerType) => {
         logInteraction(
             'canvas-mode-checkbox',
             'canvas-selection-modal',
             {
                 flowDefId: this.properties.definitionId ? this.properties.definitionId : this.flowInitDefinitionId,
-                selectedMode: setupInAutoLayoutCanvas ? 'auto-layout' : 'free-form'
+                selectedMode: 'auto-layout'
             },
             'click'
         );
         // Updating the isAutoLayoutCanvas property in the store based on user's selection.
         // Elements are accordingly created based on this property.
-        storeInstance.dispatch(updateIsAutoLayoutCanvasProperty(setupInAutoLayoutCanvas));
+        storeInstance.dispatch(updateIsAutoLayoutCanvasProperty(true));
 
         // create the empty flow for the selected process type
         this.spinners.showFlowMetadataSpinner = true;
-        if (setupInAutoLayoutCanvas) {
-            this.spinners.showAutoLayoutSpinner = true;
-        }
+        this.spinners.showAutoLayoutSpinner = true;
         this.createFlowFromProcessTypeAndTriggerType(processType, triggerType);
         this.spinners.showFlowMetadataSpinner = false;
         // To Do: W-9299993: update this to not rely on hardcoded checks for process type and trigger type
