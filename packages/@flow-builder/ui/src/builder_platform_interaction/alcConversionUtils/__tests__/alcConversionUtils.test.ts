@@ -85,6 +85,7 @@ import ffcLoopWithBackEdge from './ffcUiModels/loop-with-back-edge.json';
 import ffcLoopWithGoToOnBranchHead from './ffcUiModels/loop-with-goto-on-branch-head.json';
 import ffcLoopWithCrossAsGotoEdge from './ffcUiModels/loop-with-cross-as-goto-edge.json';
 import ffcLoopWithFowardAsGotoEdge from './ffcUiModels/loop-with-forward-as-goto-edge.json';
+import ffcLoopWithNextAndEndSameGoto from './ffcUiModels/loop-with-next-and-end-the-same-goto.json';
 import ffcNextAndFaultSameElement from './ffcUiModels/element-with-next-and-fault-pointing-to-same-element.json';
 import ffcLoopForEachAndEndSameElement from './ffcUiModels/loop-foreach-and-end-same-element.json';
 import ffcDecisionWithGoToOnHead from './ffcUiModels/decision-with-goto-on-head.json';
@@ -847,6 +848,10 @@ describe('alc conversion utils', () => {
 
             it('loop with forward as goto edge and execution context does not match', () => {
                 assertCanConvertToAutoLayoutCanvas(ffcLoopWithFowardAsGotoEdge, true);
+            });
+
+            it('loop with next and end the same with goto', () => {
+                assertCanConvertToAutoLayoutCanvas(ffcLoopWithNextAndEndSameGoto, true);
             });
         });
 

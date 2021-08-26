@@ -75,13 +75,6 @@ function checkOutgoingEdgesForGoTos(conversionInfos: ConversionInfos, elementInf
 }
 
 /**
- * @param outs List of output connectors
- * @returns true if the number of connectors is equal to 2 and have the same target
- */
-function areLoopNextAndEndTheSame(outs: UI.Connector[]) {
-    return outs.length === 2 && outs[0].target === outs[1].target;
-}
-/**
  * Validates the conversion infos
  *
  * @param elements - The flow elements
@@ -101,14 +94,12 @@ export function validateConversionInfos(elements: UI.Elements, conversionInfos: 
         }
 
         if (elementInfo != null) {
-            const { reachedCount, ins, dfsStart, branchingGuid, elementGuid, isLoop, outs } = elementInfo;
+            const { reachedCount, ins, dfsStart, branchingGuid, elementGuid } = elementInfo;
 
             checkOutgoingEdgesForGoTos(conversionInfos, elementInfo);
             const expectedReachedCount = ins.length;
 
-            if (isLoop && areLoopNextAndEndTheSame(outs)) {
-                failFlowCheck('loopNextAndEndTheSame');
-            } else if (reachedCount !== expectedReachedCount) {
+            if (reachedCount !== expectedReachedCount) {
                 // The number of times a node was reached by dfs should be the equal to the
                 // count of inbound connectors for that node
                 failFlowCheck('reachedCount');
