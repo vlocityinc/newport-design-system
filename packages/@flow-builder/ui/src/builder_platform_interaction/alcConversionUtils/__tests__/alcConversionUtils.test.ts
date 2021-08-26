@@ -107,6 +107,7 @@ import ffcOgLoopWithGoToAfterLast from './ffcUiModels/original-loop-with-goto-af
 import ffcOgGoToOnCrossEdgeFault from './ffcUiModels/original-goto-on-cross-edge-fault.json';
 import ffcOgComplexNestedDecisionsWithGoTos from './ffcUiModels/original-complex-decision-with-mutiple-nested-decisions-and-gotos.json';
 import ffcOgDecisionsWithGoToInNestedDecision from './ffcUiModels/original-decision-with-goto-in-nested-decision.json';
+import ffcMergeNodeWithIncomingBranchGoTo from './ffcUiModels/merge-node-with-incoming-branch-goto.json';
 
 import {
     convertToFreeFormCanvas,
@@ -1178,6 +1179,9 @@ describe('alc conversion utils', () => {
                 });
                 describe('with go to in nested decision', () => {
                     assertRoundTripFromFreeFormCanvas(ffcDecisionsWithGoToInNestedDecision);
+                });
+                describe("with go to on branch pointing to another element's merge node", () => {
+                    assertRoundTripFromFreeFormCanvas(ffcMergeNodeWithIncomingBranchGoTo);
                 });
                 describe('complex decision with multiple nested branches and go tos', () => {
                     assertRoundTripFromFreeFormCanvas(ffcComplexNestedDecisionsWithGoTos);

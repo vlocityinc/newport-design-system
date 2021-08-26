@@ -288,9 +288,10 @@ function findBranchingNode(ctx: DfsContext, mergeNode: ConversionInfo): Conversi
     let minStart;
     let maxEnd;
 
-    // go through all the inbound connectors of the merge node and calculate the
+    // go through all the non go to inbound connectors of the merge node and calculate the
     // smallest [dfsStart, dfsEnd] interval that contains all the merge source nodes
-    for (const inConnector of mergeNode.ins) {
+    const mergeNodeIns = mergeNode.ins.filter((inConnector) => !inConnector.isGoTo);
+    for (const inConnector of mergeNodeIns) {
         const { source } = inConnector;
         const { dfsStart, dfsEnd } = conversionInfos[source];
         minStart = minStart == null ? dfsStart : Math.min(minStart, dfsStart!);
