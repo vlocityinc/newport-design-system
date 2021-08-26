@@ -80,13 +80,22 @@ git clone git@git.soma.salesforce.com:automation-platform/ui-interaction-builder
  yarn watch:core
 ```
 
+Once core is up and running, if you make changes in your git repo, they should be reflected in your running core instance after a few seconds.
+
 10. (Optional) Run the unit tests:
 
 ```sh
 yarn test:unit
 ```
 
-Once core is up and running, if you make changes in your git repo, they should be reflected in your running core instance after a few seconds.
+11. (Optional) Configure your local git repository
+
+Starting git v2.23, `git blame` supports an option to automatically ignore some revisions that are not meaningful. Those PR are listed in the `.git-blame-ignore-revs` file. If you don't want to specify this file each time you use [`git blame`](https://git-scm.com/docs/git-blame/), you can configure your repository:
+
+```sh
+git config blame.ignoreRevsFile .git-blame-ignore-revs
+```
+
 
 ## Core Setup
 
