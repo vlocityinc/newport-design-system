@@ -119,7 +119,12 @@ jest.mock('builder_platform_interaction/processTypeLib', () => {
         })
     });
 });
-jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
+
+jest.mock('builder_platform_interaction/sharedUtils', () => {
+    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
+    const sharedLwcUtils = require('builder_platform_interaction/sharedUtils/lwcUtils');
+    return Object.assign({}, sharedUtils, { lwcUtils: sharedLwcUtils });
+});
 
 jest.mock('builder_platform_interaction/translatorLib', () => {
     return {
@@ -132,11 +137,11 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     return {
         fetch: jest.fn().mockImplementation((actionType, callback, params) => {
             if (actionType === actual.SERVER_ACTION_TYPE.SAVE_FLOW) {
-                if (params.flow.fullName === 'FAIL') {
+                if (params.flow?.fullName === 'FAIL') {
                     callback({
                         data: { isSuccess: false }
                     });
-                } else if (params.flow.fullName === 'ERROR') {
+                } else if (params.flow?.fullName === 'ERROR') {
                     callback({
                         error: { error: 'Something Wrong' }
                     });

@@ -9,7 +9,7 @@ import {
 import { Store } from 'builder_platform_interaction/storeLib';
 import { isChildElement } from 'builder_platform_interaction/elementConfig';
 import { isTestMode } from 'builder_platform_interaction/contextLib';
-import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { loggingUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
 import { LABELS } from './leftPanelLabels';
 import { getResourceSections, getElementSections, getResourceIconName } from './resourceLib';
 import { usedBy, createUsedByElement } from 'builder_platform_interaction/usedByLib';
@@ -26,7 +26,14 @@ const { logInteraction } = loggingUtils;
 let storeInstance;
 let unsubscribeStore;
 
+const selectors = {
+    tabset: 'lightning-tabset'
+};
+
 export default class LeftPanel extends LightningElement {
+    private dom = lwcUtils.createDomProxy(this, selectors);
+    private elementToFocus: HTMLElement;
+
     @track
     showResourceDetailsPanel = false;
 
@@ -52,15 +59,9 @@ export default class LeftPanel extends LightningElement {
     showElementsTab;
 
     @api focus() {
-        // Ideally, we should not use shadowRoot to access the child components. The base components
-        // should provide overidden focus() method to set focus within the components.
-        // However, this method is missing for lightning-tabset. Hence, implemented such for now.
-        const activeTab = this.template.querySelector('lightning-tabset').activeTabValue;
-        this.template
-            .querySelector('lightning-tabset')
-            .shadowRoot.querySelector('lightning-tab-bar')
-            .shadowRoot.querySelector('a#' + activeTab + '__item')
-            .focus();
+        this.elementToFocus = this.dom.tabset;
+        // need to force render because the change to 'elementToFocus' above won't trigger a render since 'elementToFocus' is not used in the template
+        this.forceRender();
     }
 
     constructor() {
@@ -167,6 +168,18 @@ export default class LeftPanel extends LightningElement {
               )
             : new DeleteElementEvent([this.resourceDetails.elementGuid], this.resourceDetails.elementType);
         this.dispatchEvent(deleteEvent);
+
+        this.focus();
+    }
+
+    /**
+     * Force renders the components
+     */
+    forceRender() {
+        const nonCanvasElements = this.nonCanvasElements || [];
+
+        // clone the array to force a render cycle
+        this.nonCanvasElements = [...nonCanvasElements];
     }
 
     handleResourceSearch(event) {
@@ -219,6 +232,13 @@ export default class LeftPanel extends LightningElement {
             };
         } else {
             this.showResourceDetailsPanel = false;
+        }
+    }
+
+    renderedCallback() {
+        if (this.elementToFocus != null) {
+            this.elementToFocus.focus();
+            this.elementToFocus = null;
         }
     }
 

@@ -3,7 +3,8 @@ import { createElement } from 'lwc';
 import {
     EditElementEvent,
     PaletteItemClickedEvent,
-    ShowResourceDetailsEvent
+    ShowResourceDetailsEvent,
+    DeleteResourceEvent
 } from 'builder_platform_interaction/events';
 import LeftPanel from 'builder_platform_interaction/leftPanel';
 import backButtonAltText from '@salesforce/label/FlowBuilderResourceDetailsPanel.backButtonAltText';
@@ -17,6 +18,7 @@ import {
     stringConstant,
     stringVariable,
     assignmentElement,
+    loopOnAccountAutoOutput,
     flowWithAllElementsUIModel
 } from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
@@ -341,6 +343,44 @@ describe('left-panel', () => {
                     }
                 });
             });
+        });
+    });
+
+    describe('focus', () => {
+        it('focus is called on tabset when deleting a resource', async () => {
+            const element = createComponentUnderTest();
+            const tabset = element.shadowRoot.querySelector('lightning-tabset');
+            tabset.focus = jest.fn();
+            const showResourceDetailsEvent = new ShowResourceDetailsEvent(numberVariable.guid);
+            element.shadowRoot
+                .querySelector('builder_platform_interaction-left-panel-resources')
+                .dispatchEvent(showResourceDetailsEvent);
+            await ticks(1);
+
+            const resourceDetails = element.shadowRoot.querySelector(selectors.resourceDetailsBody);
+            resourceDetails.dispatchEvent(new DeleteResourceEvent(numberVariable.guid, numberVariable.elementType));
+            await ticks(1);
+
+            expect(tabset.focus).toHaveBeenCalled();
+        });
+
+        it('focus is called on tabset when deleting a loop element', async () => {
+            const element = createComponentUnderTest();
+            const tabset = element.shadowRoot.querySelector('lightning-tabset');
+            tabset.focus = jest.fn();
+            const showResourceDetailsEvent = new ShowResourceDetailsEvent(loopOnAccountAutoOutput.guid);
+            element.shadowRoot
+                .querySelector('builder_platform_interaction-left-panel-resources')
+                .dispatchEvent(showResourceDetailsEvent);
+            await ticks(1);
+
+            const resourceDetails = element.shadowRoot.querySelector(selectors.resourceDetailsBody);
+            resourceDetails.dispatchEvent(
+                new DeleteResourceEvent(loopOnAccountAutoOutput.guid, loopOnAccountAutoOutput.elementType)
+            );
+            await ticks(1);
+
+            expect(tabset.focus).toHaveBeenCalled();
         });
     });
 });

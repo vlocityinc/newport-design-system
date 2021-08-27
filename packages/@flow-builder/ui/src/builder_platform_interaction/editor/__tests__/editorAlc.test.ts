@@ -19,7 +19,11 @@ jest.mock('builder_platform_interaction/alcCanvas', () => require('builder_platf
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
-jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
+jest.mock('builder_platform_interaction/sharedUtils', () => {
+    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
+    const sharedLwcUtils = require('builder_platform_interaction/sharedUtils/lwcUtils');
+    return Object.assign({}, sharedUtils, { lwcUtils: sharedLwcUtils });
+});
 
 jest.mock('builder_platform_interaction/preloadLib', () => {
     return {
