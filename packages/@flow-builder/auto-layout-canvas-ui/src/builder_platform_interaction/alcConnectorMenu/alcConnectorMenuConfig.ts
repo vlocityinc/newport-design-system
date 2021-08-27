@@ -180,7 +180,7 @@ export const configureMenu = (
     );
     // Filtering out sections that no longer have items in them.
     const updatedSections = sections.filter((section) => {
-        return section.items && section.items.length > 0;
+        return section.items?.length > 0;
     });
     return { sections: updatedSections };
 };

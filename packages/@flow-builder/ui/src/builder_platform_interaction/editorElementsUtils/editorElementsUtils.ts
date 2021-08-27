@@ -19,89 +19,94 @@ const { logMetricsServiceErrorTransaction } = loggingUtils;
  *          lightning-tree-grid-items
  */
 const mutateElements = (elements, palette) =>
-    palette.headers.reduce((acc, { headerLabel, headerItems }) => {
-        try {
-            if (headerLabel && headerItems) {
-                headerItems.forEach((headerItem) => {
-                    const filteredElements = elements.filter((el) => {
-                        if (headerItem.type === 'element') {
-                            return headerItem.name === el.elementType;
-                        }
-                        if (headerItem.type === 'elementSubtype') {
-                            return headerItem.name === el.name;
-                        }
-
-                        return false;
-                    });
-
-                    if (headerItem.type === 'action') {
-                        const item = {
-                            elementType: ELEMENT_TYPE.ACTION_CALL,
-                            actionLabel: headerItem.actionLabel,
-                            actionType: headerItem.name,
-                            actionName: headerItem.name,
-                            description: headerItem.actionDescription
-                        };
-                        filteredElements.push(item);
-                    }
-
-                    if (filteredElements.length > 0) {
-                        filteredElements.forEach((element) => {
-                            const elementType = element.elementType;
-                            const elementSubtype = element.isElementSubtype ? element.name : null;
-                            const { nodeConfig, labels, canHaveFaultConnector } = getConfigForElement(element);
-                            const label = element.actionLabel || (labels && labels.leftPanel);
-                            const actionType = element.actionType;
-                            const actionName = element.actionName;
-                            const {
-                                iconName,
-                                dragImageSrc,
-                                iconBackgroundColor,
-                                iconShape,
-                                iconSize,
-                                dynamicNodeComponent,
-                                dynamicNodeComponentSelector
-                            } = nodeConfig;
-
-                            // Favor using the description supplied by the element if it exists, otherwise
-                            // fall back to the default description.
-                            const description =
-                                element.description ||
-                                (getProcessType() === FLOW_PROCESS_TYPE.ORCHESTRATOR
-                                    ? nodeConfig.orchestratorDescription || nodeConfig.description
-                                    : nodeConfig.description);
-
-                            if (!acc[headerLabel]) {
-                                acc[headerLabel] = [];
+    palette.headers.reduce(
+        (acc, { headerLabel, headerItems, headerFreeformVisibility, headerAutolayoutVisibility }) => {
+            try {
+                if (headerLabel && headerItems) {
+                    headerItems.forEach((headerItem) => {
+                        const filteredElements = elements.filter((el) => {
+                            if (headerItem.type === 'element') {
+                                return headerItem.name === el.elementType;
                             }
-                            const item = {
-                                guid: generateGuid(),
-                                iconName,
-                                dragImageSrc,
-                                iconBackgroundColor,
-                                label,
-                                description,
-                                elementType,
-                                elementSubtype,
-                                actionType,
-                                actionName,
-                                canHaveFaultConnector,
-                                iconShape,
-                                iconSize,
-                                dynamicNodeComponent,
-                                dynamicNodeComponentSelector
-                            };
-                            acc[headerLabel].push(item);
+                            if (headerItem.type === 'elementSubtype') {
+                                return headerItem.name === el.name;
+                            }
+
+                            return false;
                         });
-                    }
-                });
+
+                        if (headerItem.type === 'action') {
+                            const item = {
+                                elementType: ELEMENT_TYPE.ACTION_CALL,
+                                actionLabel: headerItem.actionLabel,
+                                actionType: headerItem.name,
+                                actionName: headerItem.name,
+                                description: headerItem.actionDescription
+                            };
+                            filteredElements.push(item);
+                        }
+
+                        if (filteredElements.length > 0) {
+                            filteredElements.forEach((element) => {
+                                const elementType = element.elementType;
+                                const elementSubtype = element.isElementSubtype ? element.name : null;
+                                const { nodeConfig, labels, canHaveFaultConnector } = getConfigForElement(element);
+                                const label = element.actionLabel || (labels && labels.leftPanel);
+                                const actionType = element.actionType;
+                                const actionName = element.actionName;
+                                const {
+                                    iconName,
+                                    dragImageSrc,
+                                    iconBackgroundColor,
+                                    iconShape,
+                                    iconSize,
+                                    dynamicNodeComponent,
+                                    dynamicNodeComponentSelector
+                                } = nodeConfig;
+
+                                // Favor using the description supplied by the element if it exists, otherwise
+                                // fall back to the default description.
+                                const description =
+                                    element.description ||
+                                    (getProcessType() === FLOW_PROCESS_TYPE.ORCHESTRATOR
+                                        ? nodeConfig.orchestratorDescription || nodeConfig.description
+                                        : nodeConfig.description);
+
+                                if (!acc[headerLabel]) {
+                                    acc[headerLabel] = [];
+                                }
+                                const item = {
+                                    guid: generateGuid(),
+                                    iconName,
+                                    dragImageSrc,
+                                    iconBackgroundColor,
+                                    label,
+                                    description,
+                                    elementType,
+                                    elementSubtype,
+                                    actionType,
+                                    actionName,
+                                    canHaveFaultConnector,
+                                    iconShape,
+                                    iconSize,
+                                    dynamicNodeComponent,
+                                    dynamicNodeComponentSelector,
+                                    freeformVisible: headerFreeformVisibility,
+                                    alcVisible: headerAutolayoutVisibility
+                                };
+                                acc[headerLabel].push(item);
+                            });
+                        }
+                    });
+                }
+            } catch (e) {
+                // if an element is invalid, just log it but don't stop the rest from loading
+                logMetricsServiceErrorTransaction(JSON.stringify(e, Object.getOwnPropertyNames(e)));
             }
-        } catch (e) {
-            // if an element is invalid, just log it but don't stop the rest from loading
-            logMetricsServiceErrorTransaction(JSON.stringify(e, Object.getOwnPropertyNames(e)));
-        }
-        return acc;
-    }, {});
+            return acc;
+        },
+        {}
+    );
 
 /**
  * Combines elements into their respective groupings in a form that is usable by

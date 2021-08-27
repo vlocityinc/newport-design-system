@@ -911,7 +911,8 @@ export function getElementsMetadata(toolboxElements, palette, existingMetadata =
                 iconShape,
                 iconSize,
                 dynamicNodeComponent,
-                dynamicNodeComponentSelector
+                dynamicNodeComponentSelector,
+                alcVisible
             }) => {
                 const newElementMetadata = {
                     section: section.label,
@@ -927,7 +928,7 @@ export function getElementsMetadata(toolboxElements, palette, existingMetadata =
                     dynamicNodeComponent,
                     dynamicNodeComponentSelector,
                     value: elementType, // TODO: ALC remove this property and just use elementType
-                    isSupported: true
+                    isSupported: alcVisible // make use of isSupported to filter out invisible item in auto-layout
                 };
                 if (elementSubtype) {
                     newElementMetadata.elementSubtype = elementSubtype;

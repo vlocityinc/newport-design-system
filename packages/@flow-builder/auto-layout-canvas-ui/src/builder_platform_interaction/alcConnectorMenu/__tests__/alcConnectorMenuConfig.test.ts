@@ -24,6 +24,17 @@ const metaData = [
         isSupported: true
     },
     {
+        section: 'Interaction',
+        type: 'default',
+        icon: 'standard:custom_notification',
+        label: 'Action',
+        value: 'ActionCall',
+        elementType: 'ActionCall',
+        description:
+            'Perform an action outside of the flow. Choose from your org’s custom create and update actions or an out-of-the-box action, like Post to Chatter or Submit for Approval.',
+        isSupported: false // it should be invisible in auto-layout, and not show up in snapshot
+    },
+    {
         section: 'Logic',
         type: 'branch',
         icon: 'standard:decision',

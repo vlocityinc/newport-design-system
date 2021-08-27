@@ -18,10 +18,18 @@ export default class LeftPanelElements extends LightningElement {
 
     /**
      * The data format should be compatible with lightning-tree-grid.
+     * Filter out invisible item in elements list
      */
     get leftPanelElementsList() {
         if (this.elements && this.palette) {
-            return getElementSections(this.elements, this.palette);
+            const updatedSection = [];
+            getElementSections(this.elements, this.palette).forEach((section) => {
+                const children = section._children?.filter((child) => child.freeformVisible);
+                if (children?.length > 0) {
+                    updatedSection.push({ ...section, _children: children });
+                }
+            });
+            return updatedSection;
         }
         return [];
     }
