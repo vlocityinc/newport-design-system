@@ -313,7 +313,7 @@ const selectors = {
     root: '.editor',
     save: '.test-toolbar-save',
     addnewresource: '.test-left-panel-add-resource',
-    canvasToggle: '.canvas-mode-toggle',
+    canvasCombobox: '.canvas-mode-combobox',
     debug: '.test-toolbar-debug',
     run: '.test-toolbar-run'
 };
@@ -821,16 +821,16 @@ describe('editor', () => {
 });
 
 describe('toolbar', () => {
-    describe('showCanvasModeToggle', () => {
+    describe('showCanvasModeCombobox', () => {
         it('is not shown if isAutoLayoutCanvasOnly', async () => {
             mockIsAutolayoutCanvas = true;
 
             const editorComponent = createComponentUnderTest();
 
             const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
-            const canvasToggle = toolbar.shadowRoot.querySelector(selectors.canvasToggle);
+            const canvasCombobox = toolbar.shadowRoot.querySelector(selectors.canvasCombobox);
 
-            expect(canvasToggle).toBeNull();
+            expect(canvasCombobox).toBeNull();
 
             mockIsAutolayoutCanvas = false;
         });
@@ -838,8 +838,8 @@ describe('toolbar', () => {
             const editorComponent = createComponentUnderTest();
 
             const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
-            const canvasToggle = toolbar.shadowRoot.querySelector(selectors.canvasToggle);
-            expect(canvasToggle).toBeTruthy();
+            const canvasCombobox = toolbar.shadowRoot.querySelector(selectors.canvasCombobox);
+            expect(canvasCombobox).toBeTruthy();
         });
     });
 });

@@ -3,7 +3,7 @@
         <lightning-spinner variant="brand" alternative-text={spinnerAlternativeText}></lightning-spinner>
     </div>
     <div role="main" class="slds-grid slds-grid_vertical slds-is-fixed slds-grid_frame">
-        <div class="slds-builder-header_container slds-is-relative">
+        <div class="slds-builder-header_container slds-is-relative toolbar-header-container">
             <builder_platform_interaction-header
                 role="banner"
                 aria-label={labels.ariaLabelHeader}
@@ -44,7 +44,7 @@
                 onclosepropertyeditor={handleClosePropertyEditor}
                 show-copy-paste-button={toolbarConfig.showCopyPasteButton}
                 show-edit-flow-properties-button={toolbarConfig.showEditFlowPropertiesButton}
-                show-canvas-mode-toggle={showCanvasModeToggle}
+                show-canvas-mode-combobox={showCanvasModeCombobox}
                 show-edit-flow-button={toolbarConfig.showEditFlowButton}
                 show-run-button={showRunButton}
                 show-debug-button={showDebugButton}

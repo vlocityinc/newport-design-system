@@ -44,6 +44,11 @@ const STATE = {
 const MODAL = 'modal';
 const PANEL = 'panel';
 
+export enum CanvasMode {
+    AutoLayout,
+    FreeForm
+}
+
 export enum modalBodyVariant {
     WARNING_ON_CANVAS_MODE_TOGGLE
 }

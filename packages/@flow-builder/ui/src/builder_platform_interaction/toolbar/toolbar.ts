@@ -22,6 +22,8 @@ import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtil
 import { loggingUtils, commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { LABELS } from './toolbarLabels';
 import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
+import { CanvasMode } from 'builder_platform_interaction/builderUtils';
+
 const { format } = commonUtils;
 const { logInteraction } = loggingUtils;
 /**
@@ -96,7 +98,7 @@ export default class Toolbar extends LightningElement {
     showEditFlowPropertiesButton;
 
     @api
-    showCanvasModeToggle;
+    showCanvasModeCombobox;
 
     @api
     showFlowStatus;
@@ -157,6 +159,17 @@ export default class Toolbar extends LightningElement {
 
     get showSelectionButton() {
         return this.isAutoLayoutCanvas && !this.hideSelectionButton;
+    }
+
+    get canvasOptions() {
+        return [
+            { label: this.labels.canvasModeAutoLayout, value: CanvasMode.AutoLayout },
+            { label: this.labels.canvasModeFreeform, value: CanvasMode.FreeForm }
+        ];
+    }
+
+    get selectedCanvasValue() {
+        return this.isAutoLayoutCanvas ? CanvasMode.AutoLayout : CanvasMode.FreeForm;
     }
 
     get showDuplicateElementButton() {
@@ -398,6 +411,5 @@ export default class Toolbar extends LightningElement {
     handleToggleCanvasMode(event) {
         event.stopPropagation();
         this.dispatchEvent(new ToggleCanvasModeEvent());
-        this.template.querySelector('.toggle-canvas-mode').checked = false;
     }
 }

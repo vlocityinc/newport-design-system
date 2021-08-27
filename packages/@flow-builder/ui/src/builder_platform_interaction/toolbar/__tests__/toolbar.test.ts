@@ -21,6 +21,7 @@ import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
 import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { CanvasMode } from 'builder_platform_interaction/builderUtils';
 
 jest.mock('builder_platform_interaction/storeLib');
 
@@ -40,7 +41,7 @@ const createComponentUnderTest = (props = {}) => {
     el.isNewDebugSupported = props.isNewDebugSupported;
     el.showCopyPasteButton = getPropertyOrDefaultToTrue(props, 'showCopyPasteButton');
     el.showEditFlowPropertiesButton = getPropertyOrDefaultToTrue(props, 'showEditFlowPropertiesButton');
-    el.showCanvasModeToggle = getPropertyOrDefaultToTrue(props, 'showCanvasModeToggle');
+    el.showCanvasModeCombobox = getPropertyOrDefaultToTrue(props, 'showCanvasModeCombobox');
     el.showFlowStatus = getPropertyOrDefaultToTrue(props, 'showFlowStatus');
     el.showEditFlowButton = props.showEditFlowButton;
     el.showRunButton = getPropertyOrDefaultToTrue(props, 'showRunButton');
@@ -64,7 +65,7 @@ const selectors = {
     duplicate: '.test-toolbar-duplicate',
     activate: '.test-toolbar-activate',
     relativedatetime: 'lightning-relative-date-time',
-    canvasModeToggle: '.canvas-mode-toggle',
+    canvasModeCombobox: '.canvas-mode-combobox',
     editFlow: '.test-toolbar-editflow',
     debug: '.test-toolbar-debug',
     newDebug: '.test-toolbar-newdebug',
@@ -571,82 +572,75 @@ describe('toolbar', () => {
         });
     });
 
-    describe('Canvas Mode Toggling', () => {
-        it('Displays the Canvas Mode Toggle with right configuration when in Auto-Layout Mode', () => {
-            const toolbarComponent = createComponentUnderTest({ isAutoLayoutCanvas: true, showCanvasModeToggle: true });
-            const canvasModeToggle = toolbarComponent.shadowRoot.querySelector(selectors.canvasModeToggle);
-            const canvasModeToggleButton = canvasModeToggle.querySelector('lightning-input');
-
-            expect(canvasModeToggleButton).not.toBeNull();
-            expect(canvasModeToggleButton.type).toBe('toggle');
-            expect(canvasModeToggleButton.messageToggleActive).toBe('');
-            expect(canvasModeToggleButton.messageToggleInactive).toBe('');
-            expect(canvasModeToggleButton.label).toBe(LABELS.canvasModeToggleLabel);
-            expect(canvasModeToggleButton.checked).toBeTruthy();
-        });
-
-        it('Displays the Canvas Mode Toggle with right configuration when in Free-Form Mode', () => {
-            const toolbarComponent = createComponentUnderTest({
-                isAutoLayoutCanvas: false,
-                showCanvasModeToggle: true
-            });
-            const canvasModeToggle = toolbarComponent.shadowRoot.querySelector(selectors.canvasModeToggle);
-            const canvasModeToggleButton = canvasModeToggle.querySelector('lightning-input');
-
-            expect(canvasModeToggleButton).not.toBeNull();
-            expect(canvasModeToggleButton.type).toBe('toggle');
-            expect(canvasModeToggleButton.messageToggleActive).toBe('');
-            expect(canvasModeToggleButton.messageToggleInactive).toBe('');
-            expect(canvasModeToggleButton.label).toBe(LABELS.canvasModeToggleLabel);
-            expect(canvasModeToggleButton.checked).toBeFalsy();
-        });
-
-        it('Should not display Canvas Mode Toggle when showCanvasModeToggle is false and mode is Auto-Layout', () => {
+    describe('Canvas Mode Switching', () => {
+        it('Displays the Canvas Mode Combobox with right configuration when in Auto-Layout Mode', () => {
             const toolbarComponent = createComponentUnderTest({
                 isAutoLayoutCanvas: true,
-                showCanvasModeToggle: false
+                showCanvasModeCombobox: true
             });
-            const canvasModeToggle = toolbarComponent.shadowRoot.querySelector(selectors.canvasModeToggle);
-            expect(canvasModeToggle).toBeNull();
+            const canvasModeCombobox = toolbarComponent.shadowRoot.querySelector(selectors.canvasModeCombobox);
+            const canvasModeComboboxButton = canvasModeCombobox.querySelector('lightning-combobox');
+
+            expect(canvasModeComboboxButton).not.toBeNull();
+            expect(canvasModeComboboxButton.value).toBe(CanvasMode.AutoLayout);
         });
 
-        it('Should not display Canvas Mode Toggle when showCanvasModeToggle is false and mode is Free-Form', () => {
+        it('Displays the Canvas Mode Combobox with right configuration when in Free-Form Mode', () => {
             const toolbarComponent = createComponentUnderTest({
                 isAutoLayoutCanvas: false,
-                showCanvasModeToggle: false
+                showCanvasModeCombobox: true
             });
-            const canvasModeToggle = toolbarComponent.shadowRoot.querySelector(selectors.canvasModeToggle);
-            expect(canvasModeToggle).toBeNull();
+            const canvasModeCombobox = toolbarComponent.shadowRoot.querySelector(selectors.canvasModeCombobox);
+            const canvasModeComboboxButton = canvasModeCombobox.querySelector('lightning-combobox');
+
+            expect(canvasModeComboboxButton).not.toBeNull();
+            expect(canvasModeComboboxButton.value).toBe(CanvasMode.FreeForm);
         });
 
-        it('When in Auto-Layout mode, clicking on the mode toggle button should fire ToggleCanvasModeEvent event and have right configuration', () => {
+        it('Should not display Canvas Mode Combobox when showCanvasModeCombobox is false and mode is Auto-Layout', () => {
             const toolbarComponent = createComponentUnderTest({
                 isAutoLayoutCanvas: true,
-                showCanvasModeToggle: true
+                showCanvasModeCombobox: false
             });
-            const canvasModeToggle = toolbarComponent.shadowRoot.querySelector(selectors.canvasModeToggle);
-            const canvasModeToggleButton = canvasModeToggle.querySelector('lightning-input');
+            const canvasModeCombobox = toolbarComponent.shadowRoot.querySelector(selectors.canvasModeCombobox);
+            expect(canvasModeCombobox).toBeNull();
+        });
+
+        it('Should not display Canvas Mode Combobox when showCanvasModeCombobox is false and mode is Free-Form', () => {
+            const toolbarComponent = createComponentUnderTest({
+                isAutoLayoutCanvas: false,
+                showCanvasModeCombobox: false
+            });
+            const canvasModeCombobox = toolbarComponent.shadowRoot.querySelector(selectors.canvasModeCombobox);
+            expect(canvasModeCombobox).toBeNull();
+        });
+
+        it('When in Auto-Layout mode, clicking on the mode combobox button should fire ToggleCanvasModeEvent event and have right configuration', () => {
+            const toolbarComponent = createComponentUnderTest({
+                isAutoLayoutCanvas: true,
+                showCanvasModeCombobox: true
+            });
+            const canvasModeCombobox = toolbarComponent.shadowRoot.querySelector(selectors.canvasModeCombobox);
+            const canvasModeComboboxButton = canvasModeCombobox.querySelector('lightning-combobox');
 
             const eventCallback = jest.fn();
             toolbarComponent.addEventListener(ToggleCanvasModeEvent.EVENT_NAME, eventCallback);
-            change(canvasModeToggleButton);
+            change(canvasModeComboboxButton);
             expect(eventCallback).toHaveBeenCalled();
-            expect(canvasModeToggleButton.checked).toBeFalsy();
         });
 
-        it('When in Free-Form, clicking on the mode toggle button should fire ToggleCanvasModeEvent event and have right configuration', () => {
+        it('When in Free-Form, clicking on the mode combobox button should fire ToggleCanvasModeEvent event and have right configuration', () => {
             const toolbarComponent = createComponentUnderTest({
                 isAutoLayoutCanvas: false,
-                showCanvasModeToggle: true
+                showCanvasModeCombobox: true
             });
-            const canvasModeToggle = toolbarComponent.shadowRoot.querySelector(selectors.canvasModeToggle);
-            const canvasModeToggleButton = canvasModeToggle.querySelector('lightning-input');
+            const canvasModeCombobox = toolbarComponent.shadowRoot.querySelector(selectors.canvasModeCombobox);
+            const canvasModeComboboxButton = canvasModeCombobox.querySelector('lightning-combobox');
 
             const eventCallback = jest.fn();
             toolbarComponent.addEventListener(ToggleCanvasModeEvent.EVENT_NAME, eventCallback);
-            change(canvasModeToggleButton, true);
+            change(canvasModeComboboxButton, true);
             expect(eventCallback).toHaveBeenCalled();
-            expect(canvasModeToggleButton.checked).toBeFalsy();
         });
     });
 });

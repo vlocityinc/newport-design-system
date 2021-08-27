@@ -3,7 +3,8 @@ import undoTitle from '@salesforce/label/FlowBuilderToolbar.undoTitle';
 import redoTitle from '@salesforce/label/FlowBuilderToolbar.redoTitle';
 import duplicateTitle from '@salesforce/label/FlowBuilderToolbar.duplicateTitle';
 import flowPropertiesTitle from '@salesforce/label/FlowBuilderToolbar.flowPropertiesTitle';
-import canvasModeToggleLabel from '@salesforce/label/FlowBuilderToolbar.canvasModeToggleLabel';
+import canvasModeAutoLayout from '@salesforce/label/FlowBuilderToolbar.canvasModeAutoLayout';
+import canvasModeFreeform from '@salesforce/label/FlowBuilderToolbar.canvasModeFreeform';
 import savingStatus from '@salesforce/label/FlowBuilderToolbar.savingStatus';
 import editFlowTitle from '@salesforce/label/FlowBuilderToolbar.editFlowTitle';
 import runTitle from '@salesforce/label/FlowBuilderToolbar.runTitle';
@@ -35,7 +36,8 @@ export const LABELS = {
     redoTitle,
     duplicateTitle,
     flowPropertiesTitle,
-    canvasModeToggleLabel,
+    canvasModeAutoLayout,
+    canvasModeFreeform,
     savingStatus,
     editFlowTitle,
     runTitle,

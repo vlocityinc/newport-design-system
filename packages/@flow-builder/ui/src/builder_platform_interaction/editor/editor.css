@@ -3,3 +3,7 @@ builder_platform_interaction-alc-canvas-container {
     flex: auto;
     height: 100%;
 }
+
+.toolbar-header-container {
+    z-index: 500;
+}

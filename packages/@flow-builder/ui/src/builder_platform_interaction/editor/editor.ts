@@ -11,7 +11,8 @@ import {
     invokePropertyEditor,
     modalBodyVariant,
     modalFooterVariant,
-    PROPERTY_EDITOR
+    PROPERTY_EDITOR,
+    CanvasMode
 } from 'builder_platform_interaction/builderUtils';
 import {
     commands,
@@ -618,7 +619,7 @@ export default class Editor extends LightningElement {
         return this.getConfig(EDITOR_COMPONENT_CONFIGS.TOOLBAR_CONFIG);
     }
 
-    get showCanvasModeToggle() {
+    get showCanvasModeCombobox() {
         return this.toolbarConfig.showCanvasModeToggle && !isAutoLayoutCanvasOnly(this.properties.processType);
     }
 
@@ -2358,7 +2359,7 @@ export default class Editor extends LightningElement {
             {
                 flowDefId: this.properties.definitionId ? this.properties.definitionId : this.flowInitDefinitionId,
                 saveType,
-                canvasMode: this.properties.isAutoLayoutCanvas ? 'auto-layout' : 'free-form'
+                canvasMode: this.properties.isAutoLayoutCanvas ? CanvasMode.AutoLayout : CanvasMode.FreeForm
             },
             'click'
         );

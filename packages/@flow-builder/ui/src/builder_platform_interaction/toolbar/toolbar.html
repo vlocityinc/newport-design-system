@@ -95,18 +95,15 @@
         <!-- Right Hand Side -->
         <div class="slds-builder-toolbar__actions">
             <div
-                class="inline-display slds-p-right_medium slds-is-relative canvas-mode-toggle"
-                if:true={showCanvasModeToggle}
+                class="inline-display slds-p-right_medium slds-is-relative canvas-mode-combobox"
+                if:true={showCanvasModeCombobox}
             >
-                <lightning-input
-                    class="toggle-canvas-mode"
-                    type="toggle"
-                    label={labels.canvasModeToggleLabel}
-                    message-toggle-active=""
-                    message-toggle-inactive=""
-                    checked={isAutoLayoutCanvas}
+                <lightning-combobox
+                    variant="label-hidden"
+                    value={selectedCanvasValue}
+                    options={canvasOptions}
                     onchange={handleToggleCanvasMode}
-                ></lightning-input>
+                ></lightning-combobox>
             </div>
 
             <button

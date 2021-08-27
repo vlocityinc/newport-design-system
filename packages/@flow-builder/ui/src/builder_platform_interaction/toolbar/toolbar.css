@@ -2,11 +2,11 @@
     display: inline-flex;
 }
 
-.canvas-mode-toggle:hover > .canvas-mode-toggle-tooltip {
+.canvas-mode-combobox:hover > .canvas-mode-combobox-tooltip {
     display: block;
 }
 
-.canvas-mode-toggle-tooltip {
+.canvas-mode-combobox-tooltip {
     display: none;
     transform: translateY(120%);
     margin-left: auto;
