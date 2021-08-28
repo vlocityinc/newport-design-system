@@ -122,7 +122,8 @@ export enum ACTION_TYPE {
     EXTERNAL_SERVICE = 'externalService',
     STEP_INTERACTIVE = 'stepInteractive',
     STEP_BACKGROUND = 'stepBackground',
-    OUTBOUND_MESSAGE = 'outboundMessage'
+    OUTBOUND_MESSAGE = 'outboundMessage',
+    EVALUATION_FLOW = 'evaluationFlow'
 }
 
 export const ICONS = {

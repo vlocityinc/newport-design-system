@@ -15,7 +15,7 @@ import {
 import { LABELS } from './orchestratedStageEditorLabels';
 import { orchestratedStageReducer } from './orchestratedStageReducer';
 import { fetchDetailsForInvocableAction, InvocableAction } from 'builder_platform_interaction/invocableActionLib';
-import { ELEMENT_TYPE, FLOW_TRANSACTION_MODEL } from 'builder_platform_interaction/flowMetadata';
+import { ACTION_TYPE, ELEMENT_TYPE, FLOW_TRANSACTION_MODEL } from 'builder_platform_interaction/flowMetadata';
 import {
     getParameterListWarnings,
     MERGE_WITH_PARAMETERS,
@@ -222,7 +222,9 @@ export default class OrchestratedStageEditor extends LightningElement {
                 flowTriggerType: this.triggerType
             });
 
-            this.availableDeterminationActions = actions.filter((action) => action.type === 'flow');
+            this.availableDeterminationActions = actions.filter(
+                (action) => action.type === ACTION_TYPE.EVALUATION_FLOW
+            );
 
             if (this.selectedExitAction) {
                 this.setActionParameters(this.selectedExitAction);

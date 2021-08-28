@@ -614,7 +614,7 @@ export default class StageStepEditor extends LightningElement {
             const stepActions: InvocableAction[] = [];
             const determinationActions: InvocableAction[] = [];
             actions.forEach((action) => {
-                if (action.type === ACTION_TYPE.FLOW) {
+                if (action.type === ACTION_TYPE.EVALUATION_FLOW) {
                     determinationActions.push(action);
                 } else if (
                     (action.type === ACTION_TYPE.STEP_INTERACTIVE && this.isStepWithUserAction) ||

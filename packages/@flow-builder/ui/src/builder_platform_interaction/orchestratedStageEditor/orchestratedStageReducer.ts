@@ -106,7 +106,7 @@ const actionChanged = (
 
         const action = hydrateWithErrors({
             elementType: ELEMENT_TYPE.ACTION_CALL,
-            actionType: ACTION_TYPE.FLOW,
+            actionType: event.detail.value?.actionType,
             actionName
         });
 

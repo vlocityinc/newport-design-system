@@ -25,6 +25,7 @@ const allElementActionTypes: ElementActionType[] = [
     { elementType: ELEMENT_TYPE.ACTION_CALL, actionType: ACTION_TYPE.STEP_BACKGROUND },
     { elementType: ELEMENT_TYPE.ACTION_CALL, actionType: ACTION_TYPE.FLOW },
     { elementType: ELEMENT_TYPE.ACTION_CALL, actionType: ACTION_TYPE.OUTBOUND_MESSAGE },
+    { elementType: ELEMENT_TYPE.ACTION_CALL, actionType: ACTION_TYPE.EVALUATION_FLOW },
     { elementType: ELEMENT_TYPE.EXTERNAL_SERVICE, actionType: ACTION_TYPE.EXTERNAL_SERVICE },
     { elementType: ELEMENT_TYPE.APEX_CALL, actionType: ACTION_TYPE.APEX },
     { elementType: ELEMENT_TYPE.EMAIL_ALERT, actionType: ACTION_TYPE.EMAIL_ALERT }

@@ -107,7 +107,8 @@ describe('OrchestratedStageReducer', () => {
                 type: OrchestrationActionValueChangedEvent.EVENT_NAME,
                 detail: {
                     value: {
-                        actionName: 'someAction'
+                        actionName: 'someAction',
+                        actionType: ACTION_TYPE.EVALUATION_FLOW
                     },
                     error: null,
                     actionCategory: ORCHESTRATED_ACTION_CATEGORY.STEP
@@ -119,7 +120,7 @@ describe('OrchestratedStageReducer', () => {
             expect(updateProperties).toHaveBeenCalledWith(originalState, {
                 exitAction: {
                     elementType: ELEMENT_TYPE.ACTION_CALL,
-                    actionType: ACTION_TYPE.FLOW,
+                    actionType: ACTION_TYPE.EVALUATION_FLOW,
                     actionName: event.detail.value.actionName
                 },
                 exitActionName: event.detail.value.actionName,
