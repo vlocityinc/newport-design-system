@@ -16,6 +16,8 @@ import { CanvasMouseUpEvent } from 'builder_platform_interaction/events';
  * Used by Node and Connector components to render their buttons
  */
 export default class AlcMenuTrigger extends LightningElement {
+    target;
+
     @api
     guid;
 
@@ -188,7 +190,7 @@ export default class AlcMenuTrigger extends LightningElement {
         } else {
             // Checking and unchecking the element when in selection mode
             // The checkbox is in a slot being filled by alcnode
-            this.querySelector('.selection-checkbox').click();
+            this.querySelector<HTMLElement>('.selection-checkbox').click();
         }
     }
 

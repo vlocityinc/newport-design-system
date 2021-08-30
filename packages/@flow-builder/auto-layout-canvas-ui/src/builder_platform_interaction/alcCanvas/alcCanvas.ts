@@ -135,6 +135,7 @@ function debounce(fct, wait) {
 }
 
 export default class AlcCanvas extends LightningElement {
+    _panzoom;
     _animatePromise: Promise<void> = Promise.resolve() as Promise<void>;
 
     /* if the builder has been disconnected */

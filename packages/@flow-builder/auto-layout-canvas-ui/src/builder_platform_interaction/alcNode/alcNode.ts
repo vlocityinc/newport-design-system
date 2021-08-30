@@ -192,7 +192,7 @@ export default class AlcNode extends LightningElement {
         return label;
     }
 
-    get ariaLabel() {
+    get iconAriaLabel() {
         // Use description in metadata as label for element whose label is not set (start node for example)
         const label = this.nodeInfo.label ? this.nodeInfo.label : this.nodeInfo.metadata.description;
         return format(this.labels.ariaLabelNode, this.nodeInfo.metadata.elementType, label);

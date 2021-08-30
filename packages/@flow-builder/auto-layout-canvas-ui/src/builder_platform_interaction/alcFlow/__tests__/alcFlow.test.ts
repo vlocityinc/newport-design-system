@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import AlcFlow from 'builder_platform_interaction/alcFlow';
 import { flowWithFault } from './mockData';
