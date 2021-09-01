@@ -71,6 +71,14 @@ describe('create FEROV Metadata Object', () => {
             });
         });
 
+        it('stores zero passed as a number', () => {
+            expect(
+                createFEROVMetadataObject({ value: 0, dataType: FLOW_DATA_TYPE.NUMBER.value }, 'value', 'dataType')
+            ).toMatchObject({
+                numberValue: 0
+            });
+        });
+
         it('stores currency', () => {
             expect(
                 createFEROVMetadataObject({ value: 123, dataType: FLOW_DATA_TYPE.CURRENCY.value }, 'value', 'dataType')
