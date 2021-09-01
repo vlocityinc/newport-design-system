@@ -29,12 +29,10 @@ const additionalRules = {
     label: [ValidationRules.shouldNotBeNullOrUndefined],
     name: [ValidationRules.shouldNotBeNullOrUndefined],
     assignees: assigneeShouldNotBeBlank,
-    entryAction: validateActionName(),
     entryActionInputParameters: validateParameter(),
     action: validateActionName(),
     inputParameters: validateParameter(),
     relatedRecordItem: [relatedRecordItemValueShouldNotBeBlank],
-    exitAction: validateActionName(),
     exitActionInputParameters: validateParameter()
 };
 

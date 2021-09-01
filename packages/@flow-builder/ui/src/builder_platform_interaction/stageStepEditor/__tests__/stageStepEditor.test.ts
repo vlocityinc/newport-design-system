@@ -12,7 +12,8 @@ import {
     UpdateConditionEvent,
     UpdateParameterItemEvent,
     ValueChangedEvent,
-    OrchestrationAssigneeChangedEvent
+    OrchestrationAssigneeChangedEvent,
+    UpdateNodeEvent
 } from 'builder_platform_interaction/events';
 import { invocableActionsForOrchestrator } from 'serverData/GetAllInvocableActionsForType/invocableActionsForOrchestrator.json';
 import { Store } from 'builder_platform_interaction/storeLib';
@@ -165,7 +166,10 @@ describe('StageStepEditor', () => {
                 assigneeType: 'User'
             }
         ],
-        inputParameters: mockInputParameters
+        inputParameters: mockInputParameters,
+        config: {
+            hasError: false
+        }
     };
 
     const autolaunchedNodeParams = {
@@ -375,6 +379,27 @@ describe('StageStepEditor', () => {
             editor = createComponentUnderTest(autolaunchedNodeParams);
             const dropdowns = editor.shadowRoot.querySelector(selectors.CRITERIA_DROPDOWNS);
             expect(typeof dropdowns).toBe('object');
+        });
+
+        it('dispatches UpdateNodeEvent if hasError does not match oldHasError', async () => {
+            expect.assertions(1);
+
+            let eventCaught = false;
+            const updateNodeEventCallback = () => {
+                eventCaught = true;
+            };
+            editor.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeEventCallback);
+
+            const newNode = {
+                ...nodeParams,
+                config: { hasError: true }
+            };
+
+            editor.node = newNode;
+
+            ticks(1);
+
+            expect(eventCaught).toBeTruthy();
         });
 
         describe('validation', () => {

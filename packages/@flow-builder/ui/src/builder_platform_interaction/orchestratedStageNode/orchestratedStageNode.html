@@ -17,11 +17,11 @@
             <div class="items-header background-stage-divider slds-p-around_small">{itemsHeader}</div>
             <div class="items-section">
                 <div class="items-list slds-listbox slds-listbox_vertical" role="listbox">
-                    <template for:each={items} for:item="item" for:index="index">
+                    <template for:each={stageStepsWithErrorClass} for:item="item" for:index="index">
                         <div
                             key={item.guid}
                             role="option"
-                            class="item slds-p-around_small slds-clearfix slds-listbox__option"
+                            class={item.cssClass}
                             tabindex={item.tabIndex}
                             aria-label={item.label}
                             aria-selected={item.ariaSelected}

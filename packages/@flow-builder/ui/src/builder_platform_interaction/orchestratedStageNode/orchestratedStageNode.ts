@@ -59,6 +59,15 @@ export default class OrchestratedStageNode extends LightningElement {
         return this._node;
     }
 
+    get stageStepsWithErrorClass() {
+        const baseClasses = 'item slds-p-around_small slds-clearfix slds-listbox__option';
+
+        return this.items.map((item) => ({
+            ...item,
+            cssClass: baseClasses + (item.config.hasError ? ' stage-step-error' : '')
+        }));
+    }
+
     set node(node) {
         this._node = node;
 

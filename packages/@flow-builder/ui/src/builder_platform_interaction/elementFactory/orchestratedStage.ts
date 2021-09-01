@@ -78,6 +78,9 @@ export interface StageStep extends UI.ChildElement {
     exitActionName: string;
     exitActionType: string;
     exitActionInputParameters: ParameterListRowItem[];
+
+    // This has a canvas config for display of error state but this is not actually a base canvas element (i.e. it has no connectors)
+    config: UI.CanvasElementConfig;
 }
 
 // TODO: Move to UIModel.d.ts after action dependencies have been moved there
@@ -625,6 +628,11 @@ export function createStageStep(step: StageStep): StageStep {
     // set up Step's Exit Criteria
     newStep.exitAction = createActionCallHelper(exitAction, step.exitActionName, step.exitActionType);
     newStep.exitActionInputParameters = exitActionInputParameters.map((p) => createInputParameter(p));
+
+    // check if there's an existing config
+    if (!step.config) {
+        newStep.config = { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false };
+    }
 
     return { ...step, ...newStep };
 }

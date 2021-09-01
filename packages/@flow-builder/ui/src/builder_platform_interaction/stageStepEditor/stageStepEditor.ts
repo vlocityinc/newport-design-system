@@ -188,10 +188,15 @@ export default class StageStepEditor extends LightningElement {
     }
 
     set node(newValue) {
+        const oldHasError = this.element?.config?.hasError;
         this.element = mergeErrorsFromHydratedElement(newValue, this.element);
 
         if (!this.element) {
             return;
+        }
+
+        if (this.element?.config?.hasError !== oldHasError) {
+            this.dispatchEvent(new UpdateNodeEvent(this.element));
         }
 
         // infer selected Entry Criteria on-load

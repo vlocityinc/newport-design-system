@@ -115,3 +115,7 @@ builder_platform_interaction-popover {
     z-index: 1;
     position: relative;
 }
+
+.stage-step-error {
+    box-shadow: 0 0 0 2px #c23934;
+}

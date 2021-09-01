@@ -50,15 +50,20 @@ describe('Stepped-Stage-Node', () => {
                     return [
                         {
                             name: 'some_step',
-                            guid: itemGuid
+                            guid: itemGuid,
+                            config: {}
                         },
                         {
                             name: 'some_step_2',
-                            guid: itemGuid + '_2'
+                            guid: itemGuid + '_2',
+                            config: {}
                         },
                         {
                             name: 'some_step_3',
-                            guid: itemGuid + '_3'
+                            guid: itemGuid + '_3',
+                            config: {
+                                hasError: true
+                            }
                         }
                     ];
                 }
@@ -123,6 +128,21 @@ describe('Stepped-Stage-Node', () => {
     //         );
     //     });
     // });
+
+    describe('step error state', () => {
+        const STAGE_STEP_ERROR_CLASS = 'stage-step-error';
+
+        it('css class not present if no error', async () => {
+            const stepItem = orchestratedStageElement.shadowRoot.querySelector(`div[data-item-guid='${itemGuid}']`);
+            expect(stepItem.classList.contains(STAGE_STEP_ERROR_CLASS)).toBeFalsy();
+        });
+
+        it('css class present if error', async () => {
+            const stepItem = orchestratedStageElement.shadowRoot.querySelector(`div[data-item-guid='${itemGuid}_3']`);
+
+            expect(stepItem.classList.contains(STAGE_STEP_ERROR_CLASS)).toBeTruthy();
+        });
+    });
 
     describe('edit step item', () => {
         it('opens the property editor panel for a step item (on click)', () => {

@@ -449,6 +449,34 @@ describe('OrchestratedStage', () => {
             expect(item.outputParameters).toHaveLength(1);
             expect(item.outputParameters[0]).toEqual(createOutputParameter(mockItem.outputParameters[0]));
         });
+
+        describe('config', () => {
+            it('uses default if not provided', () => {
+                const mockItem = {
+                    assignees: []
+                };
+
+                const item = createStageStep(mockItem);
+
+                expect(item.config).toEqual({
+                    isSelected: false,
+                    isHighlighted: false,
+                    isSelectable: true,
+                    hasError: false
+                });
+            });
+            it('uses existing if provided', () => {
+                const mockItem = {
+                    config: jest.fn(),
+                    assignees: []
+                };
+
+                const item = createStageStep(mockItem);
+
+                expect(item.config).toEqual(mockItem.config);
+            });
+        });
+
         describe('assignees', () => {
             it('contains a single asignee of type User and value null if not provided', () => {
                 const item = createStageStep({});
