@@ -82,6 +82,11 @@ export default class OrchestratedStageNode extends LightningElement {
         }
     }
 
+    @api
+    findNode(guid: string) {
+        return this.template.querySelector(`div[data-item-guid='${guid}']`);
+    }
+
     /**
      * Helper function for resizing the node depending upon whether
      * the popover is open; fires a NodeResizeEvent accordingly.

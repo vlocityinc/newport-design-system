@@ -2251,6 +2251,10 @@ export default class Editor extends LightningElement {
         highlightCanvasElement(storeInstance, elementGuid);
     }
 
+    handleReturnFocus = (event) => {
+        event.stopPropagation();
+        this.moveFocusToNode(event.detail.elementGuid);
+    };
     /**
      * the callback function to move focus correctly when closing property editor
      *

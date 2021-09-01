@@ -59,6 +59,8 @@ export interface NodeModel {
 
     // goto
     incomingGoTo?: GoToSourceRef[];
+
+    canHaveCanvasEmbeddedElement?: boolean;
 }
 
 export interface StartNodeModel extends NodeModel {

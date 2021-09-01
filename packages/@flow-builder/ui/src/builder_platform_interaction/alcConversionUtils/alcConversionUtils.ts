@@ -16,8 +16,7 @@ const CONVERT_TO_AUTO_LAYOUT_FAILED = 'Convert to auto layout canvas failed';
  * Generates end connectors for a Free Form Canvas UI Model.
  * Generates end connectors for the available connections of each canvas element
  *
- * @param storeState - The FFC UI Model
- * @param elements
+ * @param elements - The state of element in the store
  * @returns The generated end connectorss
  */
 function generateEndConnectors(elements: UI.Elements): UI.Connector[] {
@@ -93,7 +92,7 @@ const guidCompare = (obj1, obj2) => (obj1.guid >= obj2.guid ? 1 : -1);
  * Normalizes store elements
  *
  * @param elements - The elements
- * @param isAutoLayout
+ * @param isAutoLayout - Is autolayout canvas used
  * @returns the normalized elements
  */
 function normalizeElements(elements: Record<string, UI.Element>, isAutoLayout = false) {
@@ -117,7 +116,7 @@ function normalizeConnectors(connectors) {
 }
 
 /**
- * @param canvasElements
+ * @param canvasElements - Canvas elements from the store
  */
 function sortCanvasElements(canvasElements) {
     [...canvasElements].sort(guidCompare);
@@ -159,7 +158,8 @@ export function deepEquals(objA, objB) {
 }
 
 /**
- * @param state
+ * @param state - The flow model
+ * @returns The modified state
  */
 function updateConnectorGuids(state: UI.StoreState) {
     state.connectors.forEach((conn: any) => {
@@ -176,7 +176,7 @@ function updateConnectorGuids(state: UI.StoreState) {
  *
  * @param prevState - The previous state
  * @param nextState - The next state
- * @param isAutoLayout
+ * @param isAutoLayout - True : Autolayout canvas is used
  * @returns true if the normalized state is the same
  */
 const compareState = (prevState: UI.StoreState, nextState: UI.StoreState, isAutoLayout = false) => {
@@ -189,8 +189,8 @@ const compareState = (prevState: UI.StoreState, nextState: UI.StoreState, isAuto
 /**
  * Normalizes the essential state of the store by picking and sorting selected properties.
  *
- * @param state
- * @param isAutoLayout
+ * @param state - The flow model
+ * @param isAutoLayout - True : Autolayout canvas is used
  * @returns the normalized state
  */
 export function normalizeState(state: UI.StoreState, isAutoLayout = false): any {
@@ -330,8 +330,7 @@ export function addEndElementsAndConnectorsTransform(
  * To ensure the conversion is valid it does a round trip conversion and compares
  * the resulting state with the original state
  *
- * @param state - A Free Form Canvas UI flow state
- * @param storeState
+ * @param storeState - The flow Model
  * @param flowDefId - Flow definition id
  * @param gackIfFail - If we should gack if the conversion fails
  * @param options - Conversion options

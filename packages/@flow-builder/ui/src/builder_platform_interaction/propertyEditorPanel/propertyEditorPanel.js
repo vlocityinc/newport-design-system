@@ -6,6 +6,7 @@ import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { LABELS } from './propertyEditorPanelLabels';
 import { PROPERTY_EDITOR_PANEL_SIZE } from 'builder_platform_interaction/elementConfig';
 import { classSet } from 'lightning/utils';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 /**
  * LWC version of the property editor, for use in lwc (as opposed to aura modal version)
@@ -86,6 +87,10 @@ export default class PropertyEditorPanel extends LightningElement {
         this.element = updateProperties(this.element, {
             config: this.element?.config
         });
+
+        /* Return focus on the canvas element */
+        const returnFocusOnElement = new CustomEvent('returnfocus', { detail: { elementGuid: this.element?.guid } });
+        this.dispatchEvent(returnFocusOnElement);
 
         const closePropertyEditorEvent = new ClosePropertyEditorEvent();
         this.dispatchEvent(closePropertyEditorEvent);

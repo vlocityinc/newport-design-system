@@ -47,6 +47,12 @@ enum ICON_SHAPE {
     SQUARE = 'square'
 }
 
+const SELECTORS = {
+    node: 'builder_platform_interaction-alc-node',
+    xLazy: 'x-lazy',
+    flow: 'builder_platform_interaction-alc-flow'
+};
+
 /**
  * @param nodeType - The current node type
  * @returns - True if the element is a system element
@@ -669,6 +675,7 @@ function connectorKey(connectorInfo: ConnectorRenderInfo): string {
 export {
     ICON_SHAPE,
     AutoLayoutCanvasMode,
+    SELECTORS,
     connectorKey,
     getCssStyle,
     getStyleFromGeometry,

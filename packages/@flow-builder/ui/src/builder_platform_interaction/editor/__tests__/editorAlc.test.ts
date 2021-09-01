@@ -180,6 +180,21 @@ describe('auto-layout', () => {
                 const propertyEditorPanel = rightPanel.querySelector(selectors.PROPERTY_EDITOR_PANEL);
                 expect(propertyEditorPanel.element.guid).toEqual(Decision1.guid);
             });
+            it('should call focusOnNode on return focus event', async () => {
+                const mockFocus = jest.fn();
+                const alcCanvasContainer = editorComponent.shadowRoot.querySelector(
+                    'builder_platform_interaction-alc-canvas-container'
+                );
+                alcCanvasContainer.focusOnNode = mockFocus;
+
+                rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);
+                const propertyEditorPanel = rightPanel.querySelector(selectors.PROPERTY_EDITOR_PANEL);
+                const returnFocusOnElement = new CustomEvent('returnfocus', { detail: { elementGuid: 'elementGuid' } });
+                propertyEditorPanel.dispatchEvent(returnFocusOnElement);
+
+                await ticks(1);
+                expect(mockFocus).toHaveBeenCalledWith('elementGuid');
+            });
         });
     });
 });

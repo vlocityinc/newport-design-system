@@ -1,5 +1,4 @@
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
-
 import { getFocusPath } from '../alcCanvasUtils';
 
 const flowModel = {
@@ -99,6 +98,118 @@ const flowModel = {
     }
 };
 
+const orchestratorModel = {
+    startGuid: {
+        guid: 'startGuid',
+        label: 'start node',
+        elementType: 'START_ELEMENT',
+        nodeType: NodeType.START,
+        prev: null,
+        next: 'stageGuid',
+        parent: 'root',
+        childIndex: 0,
+        maxConnections: 1,
+        config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
+        fault: null,
+        incomingGoTo: [],
+        canHaveFaultConnector: false,
+        isCanvasElement: true
+    },
+    stageGuid: {
+        guid: 'stageGuid',
+        name: 'Stage_1',
+        fault: null,
+        description: '',
+        label: 'Stage 1',
+        locationX: 0,
+        locationY: 0,
+        isCanvasElement: true,
+        canHaveCanvasEmbeddedElement: true,
+        connectorCount: 1,
+        config: {
+            isSelected: false,
+            isHighlighted: false,
+            isSelectable: true,
+            hasError: false
+        },
+        canHaveFaultConnector: false,
+        childReferences: [
+            {
+                childReference: 'step1Guid'
+            },
+            {
+                childReference: 'step2Guid'
+            }
+        ],
+        maxConnections: 1,
+        elementType: 'OrchestratedStage',
+        dataType: 'ORCHESTRATED_STAGE',
+        exitActionInputParameters: [],
+        nodeType: NodeType.ORCHESTRATED_STAGE,
+        prev: 'startGuid',
+        incomingGoTo: [],
+        next: 'endGuid',
+        children: ['step1Guid', 'step2Guid']
+    },
+    step1Guid: {
+        nodeType: NodeType.DEFAULT,
+        next: null,
+        maxConnections: 0,
+        config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
+        incomingGoTo: [],
+        canHaveFaultConnector: false,
+        isCanvasElement: false,
+
+        label: 'Step 1 of Stage 1',
+        name: 'Step_1_of_Stage_1',
+        outputParameters: [],
+        processMetadataValues: [],
+        guid: 'step1Guid',
+        fault: null,
+        elementType: 'STAGE_STEP',
+        dataType: 'STAGE_STEP',
+        parent: 'stageGuid',
+        childIndex: 0,
+        isTerminal: false,
+        prev: null
+    },
+    step2Guid: {
+        label: 'Step 2 of Stage 1',
+        name: 'Step_2_of_Stage_1',
+        outputParameters: [],
+        processMetadataValues: [],
+        guid: 'step2Guid',
+        fault: null,
+        elementType: 'STAGE_STEP',
+        dataType: 'STAGE_STEP',
+        parent: 'stageGuid',
+        childIndex: 1,
+        isTerminal: false,
+        prev: null,
+        nodeType: NodeType.DEFAULT,
+        next: null,
+        maxConnections: 0,
+        config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
+        incomingGoTo: [],
+        canHaveFaultConnector: false,
+        isCanvasElement: false
+    },
+    endGuid: {
+        guid: 'endGuid',
+        label: 'end node',
+        elementType: 'END_ELEMENT',
+        nodeType: NodeType.END,
+        prev: 'branch1',
+        next: null,
+        maxConnections: 0,
+        config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
+        fault: null,
+        incomingGoTo: [],
+        canHaveFaultConnector: false,
+        isCanvasElement: true
+    }
+};
+
 describe('ALC Builder Utils tests', () => {
     describe('getFocusPath tests', () => {
         it('When focusing on Start Element', () => {
@@ -138,6 +249,17 @@ describe('ALC Builder Utils tests', () => {
                 {
                     guid: 'screen1'
                 }
+            ]);
+        });
+    });
+});
+describe('ALC Builder Utils tests for Orchestrator', () => {
+    describe('getFocusPath tests', () => {
+        it('When focusing on Step 1 from stage element', () => {
+            const focusPath = [{ guid: 'step1Guid' }];
+            expect(getFocusPath(orchestratorModel, focusPath)).toEqual([
+                { guid: 'stageGuid', index: 0, canHaveCanvasEmbeddedElement: true },
+                { guid: 'step1Guid' }
             ]);
         });
     });

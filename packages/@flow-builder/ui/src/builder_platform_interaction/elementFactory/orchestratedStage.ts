@@ -86,6 +86,7 @@ export interface StageStep extends UI.ChildElement {
 // TODO: Move to UIModel.d.ts after action dependencies have been moved there
 // https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B00000095RTIIA2/view
 export interface OrchestratedStage extends UI.CanvasElement {
+    parent?: UI.Guid;
     stageSteps: StageStep[];
     childReferences: UI.ChildReference[];
 
@@ -129,6 +130,7 @@ export function createOrchestratedStageWithItems(existingStage: OrchestratedStag
     newStage.maxConnections = 1;
     newStage.elementType = elementType;
     newStage.dataType = FLOW_DATA_TYPE.ORCHESTRATED_STAGE.value;
+    newStage.canHaveCanvasEmbeddedElement = true;
 
     return newStage;
 }
@@ -232,6 +234,14 @@ export function createDuplicateOrchestratedStage(
             createStageStep
         );
 
+    // the parent property is used to create the focus path it is added to the step in freeFormToAutoLayout.ts
+    // When we copy the element we need to be sure to modify the parent Guid
+    for (const childElement in duplicatedChildElements) {
+        if (duplicatedChildElements[childElement].hasOwnProperty('parent')) {
+            duplicatedChildElements[childElement].parent = newGuid;
+        }
+    }
+
     const updatedDuplicatedElement = Object.assign(duplicatedElement, {
         stageSteps: [],
         childReferences: updatedChildReferences,
@@ -250,9 +260,13 @@ export function createDuplicateOrchestratedStage(
 
 /**
  * @param originalItems
+ * @param parentStageGuid
  * @returns Object with array of StageSteps and childReferences
  */
-function createStageStepsWithReferences(originalItems: StageStep[]): {
+function createStageStepsWithReferences(
+    originalItems: StageStep[],
+    parentStageGuid: UI.Guid
+): {
     items: StageStep[];
     childReferences: UI.ChildReference[];
 } {
@@ -261,6 +275,7 @@ function createStageStepsWithReferences(originalItems: StageStep[]): {
 
     for (let i = 0; i < originalItems.length; i++) {
         const item: StageStep = createStageStep(originalItems[i]);
+        item.parent = parentStageGuid;
         items = [...items, item];
         childReferences = updateItemReferences(childReferences, item);
     }
@@ -282,7 +297,7 @@ export function createOrchestratedStageWithItemReferences(stage: OrchestratedSta
     const connectors = createConnectorObjects(stage, newStage.guid, null);
     const connectorCount = connectors ? connectors.length : 0;
 
-    const { items, childReferences } = createStageStepsWithReferences(stageSteps);
+    const { items, childReferences } = createStageStepsWithReferences(stageSteps, newStage.guid);
 
     Object.assign(newStage, {
         childReferences,
@@ -292,7 +307,8 @@ export function createOrchestratedStageWithItemReferences(stage: OrchestratedSta
         dataType: FLOW_DATA_TYPE.ORCHESTRATED_STAGE.value,
         exitActionName,
         exitActionType,
-        exitActionInputParameters
+        exitActionInputParameters,
+        canHaveCanvasEmbeddedElement: true
     });
 
     return baseCanvasElementsArrayToMap([newStage, ...items], connectors);
@@ -311,7 +327,7 @@ export function createOrchestratedStageWithItemReferencesWhenUpdatingFromPropert
 
     const exitActionCall = createActionCallHelper(exitAction, exitActionName, exitActionType);
 
-    const { items, childReferences } = createStageStepsWithReferences(stageSteps);
+    const { items, childReferences } = createStageStepsWithReferences(stageSteps, orchestratedStage.guid);
 
     const { deletedSteps } = getDeletedStepsUsingStore(orchestratedStage, items);
 
@@ -327,7 +343,8 @@ export function createOrchestratedStageWithItemReferencesWhenUpdatingFromPropert
         exitActionInputParameters,
         exitAction: exitActionCall ? exitActionCall : null,
         exitActionName: exitActionCall.actionName,
-        exitActionType: exitActionCall.actionType
+        exitActionType: exitActionCall.actionType,
+        canHaveCanvasEmbeddedElement: true
     });
 
     return {

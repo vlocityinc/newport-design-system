@@ -1,9 +1,9 @@
 import { LightningElement, api } from 'lwc';
-import { NodeType, NodeRenderInfo, NodeModel, FlowModel } from 'builder_platform_interaction/autoLayoutCanvas';
+import { NodeType, NodeRenderInfo, NodeModel, FlowModel, Guid } from 'builder_platform_interaction/autoLayoutCanvas';
 import { EditElementEvent, SelectNodeEvent } from 'builder_platform_interaction/events';
 import { AlcSelectDeselectNodeEvent } from 'builder_platform_interaction/alcEvents';
 import { classSet } from 'lightning/utils';
-import { ICON_SHAPE, AutoLayoutCanvasMode } from 'builder_platform_interaction/alcComponentsUtils';
+import { ICON_SHAPE, AutoLayoutCanvasMode, SELECTORS } from 'builder_platform_interaction/alcComponentsUtils';
 import { LABELS } from './alcNodeLabels';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 const { format } = commonUtils;
@@ -240,6 +240,12 @@ export default class AlcNode extends LightningElement {
     focus() {
         const selector = !this.isDefaultMode ? '.selection-checkbox' : 'builder_platform_interaction-alc-menu-trigger';
         this.template.querySelector(selector).focus();
+    }
+
+    @api
+    findNode(guid: Guid) {
+        const xLazy = this.template.querySelector(SELECTORS.xLazy);
+        return xLazy.findNode(guid);
     }
 
     /** ***************************** Event Handlers */

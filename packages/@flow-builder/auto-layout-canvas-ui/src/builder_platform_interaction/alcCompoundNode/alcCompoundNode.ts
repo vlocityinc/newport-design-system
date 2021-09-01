@@ -1,11 +1,12 @@
 import { LightningElement, api } from 'lwc';
 
-import { FlowModel, NodeRenderInfo } from 'builder_platform_interaction/autoLayoutCanvas';
+import { FlowModel, Guid, NodeRenderInfo } from 'builder_platform_interaction/autoLayoutCanvas';
 import {
     AutoLayoutCanvasMode,
     getAlcConnectorData,
     getAlcFlowData,
-    getAlcNodeData
+    getAlcNodeData,
+    SELECTORS
 } from 'builder_platform_interaction/alcComponentsUtils';
 
 /**
@@ -50,6 +51,12 @@ export default class AlcCompoundNode extends LightningElement {
     }
 
     @api
+    findNode(guid: Guid) {
+        const alcNode = this.template.querySelector(SELECTORS.node);
+        return alcNode.findNode(guid);
+    }
+
+    @api
     getNextConnector() {
         const nextConnector = this.nextConnector;
         if (nextConnector != null) {
@@ -63,11 +70,11 @@ export default class AlcCompoundNode extends LightningElement {
 
     @api
     getNestedFlow(branchIndex: number) {
-        return this.template.querySelectorAll('builder_platform_interaction-alc-flow')[branchIndex];
+        return this.template.querySelectorAll(SELECTORS.flow)[branchIndex];
     }
 
     @api
     focus() {
-        this.template.querySelector('builder_platform_interaction-alc-node').focus();
+        this.template.querySelector(SELECTORS.node).focus();
     }
 }

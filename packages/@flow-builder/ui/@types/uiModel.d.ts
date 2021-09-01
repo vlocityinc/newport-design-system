@@ -84,6 +84,7 @@ declare namespace UI {
         childReferences?: ChildReference[];
         elementType: string;
         maxConnections: number;
+        canHaveCanvasEmbeddedElement?: boolean;
     }
 
     interface ChildElement extends Element {

@@ -55,13 +55,16 @@ export default class AlcFlow extends LightningElement {
     }
 
     @api
-    findNode(pathToFocusNode: Array<{ guid: Guid; index?: number }>) {
+    findNode(pathToFocusNode: Array<{ guid: Guid; index?: number; canHaveCanvasEmbeddedElement?: boolean }>) {
         const compoundNode = this.template.querySelector(
             `builder_platform_interaction-alc-compound-node[data-key='${pathToFocusNode[0].guid}']`
         );
         if (pathToFocusNode.length === 1) {
             // If there's only a single item remaining, that would mean that we have found the desired node
             return compoundNode;
+        }
+        if (pathToFocusNode[0].canHaveCanvasEmbeddedElement) {
+            return compoundNode.findNode(pathToFocusNode[1].guid);
         }
         // Recursively going down the nested flows to reach the desired node
         const nestedFlow = this.getFaultOrNestedFlow(compoundNode, pathToFocusNode[0].index);
