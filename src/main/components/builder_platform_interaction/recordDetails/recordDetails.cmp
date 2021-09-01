@@ -8,6 +8,9 @@
     <aura:attribute name="fields" type="Map" />
     <aura:attribute name="fieldUpdates" type="Map" default="{}" />
 
+    <!-- Handlers -->
+    <aura:handler name="fieldChangeEvent" event="c:fieldChange" action="{!c.updateRecordUpdates}" phase="capture" />
+
     <lightning:recordEditForm recordId="{!v.recordId}" objectApiName="{!v.entityApiName}" onload="{!c.handleLoad}">
         <aura:if isTrue="{!v.showDetails}">
             <div class="slds-border_top slds-p-top_medium" aura:id="recordEditForm">
@@ -20,13 +23,13 @@
                     <div aura:id="leftCol" class="slds-col slds-size_1-of-2">
                         <!-- first half of the fields -->
                         <aura:iteration var="field" items="{!v.fieldNames}" end="{!v.fieldNames.length/2}">
-                            <lightning:inputField fieldName="{!field}" onchange="{!c.handleChange}" />
+                            <builder_platform_interaction:inputFieldWrapper fieldName="{!field}"/>
                         </aura:iteration>
                     </div>
                     <div aura:id="rightCol" class="slds-col slds-size_1-of-2">
                         <!-- second half of the fields -->
                         <aura:iteration var="field" items="{!v.fieldNames}" start="{!v.fieldNames.length/2}">
-                            <lightning:inputField fieldName="{!field}" onchange="{!c.handleChange}" />
+                            <builder_platform_interaction:inputFieldWrapper fieldName="{!field}"/>
                         </aura:iteration>
                     </div>
                 </div>

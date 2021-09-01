@@ -1,0 +1,6 @@
+<!--c:fieldChange-->
+<aura:event type="COMPONENT">
+    <aura:attribute name="fieldName" type="String"/>
+    <aura:attribute name="fieldValue" type="String"/> 
+    <!-- TODO: change shape of value attribute -->
+</aura:event>

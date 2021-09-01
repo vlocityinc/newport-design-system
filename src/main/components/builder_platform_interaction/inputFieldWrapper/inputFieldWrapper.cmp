@@ -1,0 +1,9 @@
+<aura:component>
+    <!-- Attributes -->
+    <aura:attribute name="fieldName" type="String" />
+
+    <!-- Events -->
+    <aura:registerEvent name="fieldChangeEvent" type="c:fieldChange"/>
+
+    <lightning:inputField fieldName="{!v.fieldName}" onchange="{!c.handleChange}" />
+</aura:component>
