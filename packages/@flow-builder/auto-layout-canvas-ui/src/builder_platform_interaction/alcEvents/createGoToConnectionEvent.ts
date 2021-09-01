@@ -17,6 +17,8 @@ export class CreateGoToConnectionEvent extends CustomEvent<CreateGoToConnectionE
      * @param sourceGuid - Guid of the source element
      * @param sourceBranchIndex - Index of branch on which GoTo is being added
      * @param targetGuid - Guid of the target element
+     * @param source
+     * @param target
      * @param isReroute - Whether this is a reroute of an existing Goto connection
      */
     constructor(source, target, isReroute) {

@@ -1,5 +1,5 @@
 import { LightningElement, api } from 'lwc';
-import { CloseMenuEvent, NodeResizeEvent } from 'builder_platform_interaction/alcEvents';
+import { NodeResizeEvent, PopoverToggledEvent } from 'builder_platform_interaction/alcEvents';
 import { DeleteElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
 import { StageStep } from 'builder_platform_interaction/elementFactory';
 import { ELEMENT_TYPE, ICONS } from 'builder_platform_interaction/flowMetadata';
@@ -16,7 +16,9 @@ const { ArrowDown, ArrowUp } = commands;
 const selectors = {
     stepItem: 'div[role="option"]',
     deleteStepItemButton: 'button.delete-item',
-    triggerButton: 'button[role="popover-trigger"]'
+    stepMenuTrigger: 'button.step-menu-trigger',
+    stepMenuContainer: '.stepMenuContainer',
+    lightningPopup: 'lightning-popup'
 };
 
 export default class OrchestratedStageNode extends LightningElement {
@@ -33,6 +35,23 @@ export default class OrchestratedStageNode extends LightningElement {
     private height?: number;
 
     private _items: (StageStep & { tabIndex: number; ariaSelected: boolean })[] = [];
+
+    private isStepMenuOpened = false;
+
+    // used to prevent double triggering of the menu popup (before and after a click)
+    private originalIsStepMenuOpened = false;
+
+    get popup() {
+        return this.template.querySelector(selectors.lightningPopup);
+    }
+
+    get stepMenuButtonIcon() {
+        return this.isStepMenuOpened ? ICONS.closeStepMenu : ICONS.openStepMenu;
+    }
+
+    get stepMenuButtonLabel() {
+        return this.isStepMenuOpened ? LABELS.cancelButton : LABELS.addNewStageStep;
+    }
 
     set items(steps) {
         this._items = steps;
@@ -97,12 +116,10 @@ export default class OrchestratedStageNode extends LightningElement {
 
         let totalWidth = rect.width;
         let totalHeight = rect.height;
-
-        const popover = this.template.querySelector('.content');
-
         // add extra width + height for the popover if any
-        if (popover) {
-            const popoverRect = popover.getBoundingClientRect();
+
+        if (this.popover) {
+            const popoverRect = this.popover.getBoundingClientRect();
             totalWidth += popoverRect.width;
 
             // TODO: cleanup this up, 16 is the half icon size
@@ -131,19 +148,51 @@ export default class OrchestratedStageNode extends LightningElement {
     }
 
     /**
-     * Resizes when the the popover is toggled
+     * Handler used to hack the trigger button to prevent a double trigger from occurring on click
      */
-    handlePopoverToggled() {
-        this.resize();
+    handleButtonPreClick() {
+        this.originalIsStepMenuOpened = this.isStepMenuOpened;
     }
 
     /**
-     * Dispatches a CloseMenuEvent (which closes contextual menus) when popover is triggered
-     *
-     * @event CloseMenuEvent when the popover is triggered, close opened menu
+     * StageStepMenu Trigger used to show and close the lightning popup component
      */
-    handlePopoverTrigger() {
-        this.dispatchEvent(new CloseMenuEvent());
+    triggerStageStepMenu() {
+        this.resize();
+        if (!this.isStepMenuOpened && !this.originalIsStepMenuOpened) {
+            const referenceElement = this.template.querySelector(selectors.stepMenuContainer);
+
+            this.popup.show(referenceElement, {
+                reference: { horizontal: 'center', vertical: 'center' },
+                popup: { horizontal: 'center', vertical: 'center' }
+            });
+            this.isStepMenuOpened = true;
+        } else {
+            this.popup.close();
+            this.isStepMenuOpened = false;
+        }
+
+        this.dispatchEvent(new PopoverToggledEvent(this.isStepMenuOpened));
+        this.originalIsStepMenuOpened = this.isStepMenuOpened;
+    }
+
+    /**
+     * Handler for the 'close' event - used to toggle the trigger icon/label via the isStepMenuOpened flag
+     */
+    handleCloseStepMenu() {
+        this.isStepMenuOpened = false;
+        this.dispatchEvent(new PopoverToggledEvent(false));
+    }
+
+    /**
+     * Event handler for FocusOutEvent used to return focus to menu trigger
+     * Additional Note: fired in the stage step menu on esc/tab key
+     *
+     * @param event - FocusOutEvent used to stop the event from propagating
+     */
+    handleCanvasFocusOut(event) {
+        event.stopPropagation();
+        this.template.querySelector(selectors.stepMenuTrigger).focus();
     }
 
     /**
@@ -174,6 +223,9 @@ export default class OrchestratedStageNode extends LightningElement {
                 this.handleOpenItemPropertyEditor(undefined, currentItemInFocus);
             } else if (deleteItemButtons.includes(currentItemInFocus)) {
                 this.handleDeleteItem(undefined, currentItemInFocus);
+            } else if (currentItemInFocus === this.template.querySelector(selectors.stepMenuTrigger)) {
+                this.originalIsStepMenuOpened = this.isStepMenuOpened;
+                this.triggerStageStepMenu();
             }
         }
     }
@@ -307,19 +359,5 @@ export default class OrchestratedStageNode extends LightningElement {
 
     disconnectedCallback() {
         this.keyboardInteractions.removeKeyDownEventListener(this.template);
-    }
-
-    get popoverLabelInfo() {
-        return {
-            open: LABELS.cancelButton,
-            close: LABELS.addNewStageStep
-        };
-    }
-
-    get popoverIconInfo() {
-        return {
-            open: 'utility:close',
-            close: 'utility:add'
-        };
     }
 }

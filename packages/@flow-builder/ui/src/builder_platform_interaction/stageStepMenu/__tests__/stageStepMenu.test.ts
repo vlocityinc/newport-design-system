@@ -3,11 +3,11 @@ import StageStepMenu from 'builder_platform_interaction/stageStepMenu';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { ACTION_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { AddElementEvent } from 'builder_platform_interaction/events';
-import { CloseMenuEvent } from 'builder_platform_interaction/alcEvents';
+import { CloseMenuEvent, FocusOutEvent } from 'builder_platform_interaction/alcEvents';
 import { commands } from 'builder_platform_interaction/sharedUtils';
 import { removeDocumentBodyChildren, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
-const { EnterCommand, SpaceCommand, ArrowDown, ArrowUp, EscapeCommand } = commands;
+const { EnterCommand, SpaceCommand, ArrowDown, ArrowUp, EscapeCommand, TabCommand } = commands;
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {
     const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
@@ -172,12 +172,21 @@ describe('Stage Step Menu', () => {
         expect(callback).toHaveBeenCalled();
     });
 
-    it('pressing escape while focus is on a row item should fire the CloseMenuEvent', () => {
+    it('pressing escape while focus is on a row item should fire the FocusOutEvent', () => {
         const listItems = stageStepMenuElement.shadowRoot.querySelectorAll(selectors.menuItem);
         const callback = jest.fn();
-        stageStepMenuElement.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
+        stageStepMenuElement.addEventListener(FocusOutEvent.EVENT_NAME, callback);
         listItems[0].focus();
         stageStepMenuElement.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
+        expect(callback).toHaveBeenCalled();
+    });
+
+    it('pressing tab while focus is on a row item should fire the FocusOutEvent', () => {
+        const listItems = stageStepMenuElement.shadowRoot.querySelectorAll(selectors.menuItem);
+        const callback = jest.fn();
+        stageStepMenuElement.addEventListener(FocusOutEvent.EVENT_NAME, callback);
+        listItems[0].focus();
+        stageStepMenuElement.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
         expect(callback).toHaveBeenCalled();
     });
 });

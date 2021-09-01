@@ -128,7 +128,9 @@ export enum ACTION_TYPE {
 
 export const ICONS = {
     interactiveStep: 'standard:marketing_actions',
-    backgroundStep: 'standard:flow'
+    backgroundStep: 'standard:flow',
+    closeStepMenu: 'utility:close',
+    openStepMenu: 'utility:add'
 };
 
 export const METADATA_KEY = {

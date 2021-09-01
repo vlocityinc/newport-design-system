@@ -5,10 +5,11 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { DeleteElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { commands } from 'builder_platform_interaction/sharedUtils';
+import { FocusOutEvent } from 'builder_platform_interaction/alcEvents';
 
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
-const { EnterCommand, ArrowDown, ArrowUp } = commands;
+const { EnterCommand, SpaceCommand, ArrowDown, ArrowUp } = commands;
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {
     const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
@@ -29,7 +30,9 @@ const createComponentUnderTest = (node) => {
 const selectors = {
     STEP_ITEM: 'div[role="option"]',
     ADD_ITEM: 'button.add-item',
-    DELETE_ITEM: 'button.delete-item'
+    DELETE_ITEM: 'button.delete-item',
+    STEP_MENU_TRIGGER: 'button.step-menu-trigger',
+    LIGHTNING_POPUP: 'lightning-popup'
 };
 
 describe('Stepped-Stage-Node', () => {
@@ -74,60 +77,69 @@ describe('Stepped-Stage-Node', () => {
         orchestratedStageElement = createComponentUnderTest(mockNode);
     });
 
-    // TODO W-9648734: NEW TESTS FOR STEP MENU
-    // 1. Clicking/spacing/entering "Add New Step" button opens the Step Menu
-    // 2. Spacing/entering on "Add New Step" button places focus on the first item in the Step Menu
-    // 3. Clicking/spacing/entering on the "Cancel" button of the Step Menu closes the menu
-    // 4. Spacing/entering on the "Cancel" button of the Step Menu places focus on the "Add New Step" button
-    // 5. Tabbing when focus is on the "Cancel" button of the Step Menu places focus on the first menu item
-    // 6. Tabbing when focus is on a menu item places focus on the "Cancel" button of the Step Menu
-    // 7. Escape on menu item in the Step Menu places focus on the "Add New Step" button
+    describe('menu interactions', () => {
+        it('opens the stage step menu via trigger button (on click)', () => {
+            const lightningPopup = orchestratedStageElement.shadowRoot.querySelector(selectors.LIGHTNING_POPUP);
+            const stepMenuTrigger = orchestratedStageElement.shadowRoot.querySelector(selectors.STEP_MENU_TRIGGER);
 
-    // NOTE: the below tests for adding new steps are now handled in stageStepMenu.test.ts
-    // describe('add step item', () => {
-    //     it('adds a new step item (on click)', () => {
-    //         const cb = jest.fn();
-    //         orchestratedStageElement.addEventListener(AddElementEvent.EVENT_NAME, cb);
+            lightningPopup.show = jest.fn();
 
-    //         const addStepButton = orchestratedStageElement.shadowRoot.querySelector(selectors.ADD_ITEM);
+            stepMenuTrigger.click();
 
-    //         const event = new MouseEvent('click');
+            expect(lightningPopup.show).toBeCalled();
+        });
 
-    //         addStepButton.dispatchEvent(event);
+        it('closes the opened stage step menu via trigger button (on click)', () => {
+            const lightningPopup = orchestratedStageElement.shadowRoot.querySelector(selectors.LIGHTNING_POPUP);
+            const stepMenuTrigger = orchestratedStageElement.shadowRoot.querySelector(selectors.STEP_MENU_TRIGGER);
 
-    //         expect(cb).toHaveBeenCalledWith(
-    //             expect.objectContaining({
-    //                 detail: {
-    //                     designateFocus: false,
-    //                     actionType: ACTION_TYPE.STEP_INTERACTIVE,
-    //                     elementType: 'STAGE_STEP',
-    //                     parent: ssGuid
-    //                 }
-    //             })
-    //         );
-    //     });
-    //     it('adds a new step item (on space/enter keydown)', () => {
-    //         const cb = jest.fn();
-    //         orchestratedStageElement.addEventListener(AddElementEvent.EVENT_NAME, cb);
+            lightningPopup.show = jest.fn();
+            lightningPopup.close = jest.fn();
 
-    //         const addStepButton = orchestratedStageElement.shadowRoot.querySelector(selectors.ADD_ITEM);
+            // open step menu
+            stepMenuTrigger.click();
+            // assert the popover is opened
+            expect(lightningPopup.show).toBeCalled();
 
-    //         addStepButton.focus();
+            // close step menu
+            stepMenuTrigger.click();
+            // assert the popover is closed
+            expect(lightningPopup.close).toBeCalled();
+        });
 
-    //         orchestratedStageElement.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
+        it('closes the opened stage step menu via trigger button (mixed Space/Enter)', () => {
+            const lightningPopup = orchestratedStageElement.shadowRoot.querySelector(selectors.LIGHTNING_POPUP);
+            const stepMenuTrigger = orchestratedStageElement.shadowRoot.querySelector(selectors.STEP_MENU_TRIGGER);
 
-    //         expect(cb).toHaveBeenCalledWith(
-    //             expect.objectContaining({
-    //                 detail: {
-    //                     designateFocus: true,
-    //                     actionType: ACTION_TYPE.STEP_INTERACTIVE,
-    //                     elementType: 'STAGE_STEP',
-    //                     parent: ssGuid
-    //                 }
-    //             })
-    //         );
-    //     });
-    // });
+            lightningPopup.show = jest.fn();
+            lightningPopup.close = jest.fn();
+
+            stepMenuTrigger.focus();
+
+            // open step menu
+            orchestratedStageElement.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
+            // assert the popover is opened
+            expect(lightningPopup.show).toBeCalled();
+
+            // close step menu
+            orchestratedStageElement.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
+            // assert the popover is closed
+            expect(lightningPopup.close).toBeCalled();
+        });
+
+        it('returns focus to the menu trigger on FocusOutEvent', () => {
+            const focusCallback = jest.fn();
+
+            const lightningPopup = orchestratedStageElement.shadowRoot.querySelector(selectors.LIGHTNING_POPUP);
+            const stepMenuTrigger = orchestratedStageElement.shadowRoot.querySelector(selectors.STEP_MENU_TRIGGER);
+
+            stepMenuTrigger.addEventListener('focus', focusCallback);
+
+            lightningPopup.dispatchEvent(new FocusOutEvent());
+
+            expect(focusCallback).toBeCalled();
+        });
+    });
 
     describe('step error state', () => {
         const STAGE_STEP_ERROR_CLASS = 'stage-step-error';

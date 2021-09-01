@@ -96,24 +96,19 @@ h3 {
     overflow: hidden;
 }
 
-builder_platform_interaction-popover {
-    width: -webkit-fill-available;
-    width: -moz-available;
-    text-align: center;
+.stepMenuContainer {
+    display: flex;
+    justify-content: center;
 }
 
-.content {
+lightning-popup {
     position: relative;
-    border: var(--lwc-borderWidthThin) solid var(--lwc-colorBorder);
-    margin: 0 5px;
-    margin-top: -1.5rem;
-    margin-bottom: 5px;
+    z-index: var(--z-index-alc-canvas-menu);
 }
 
-.trigger {
-    /* TODO: need centralized z-index management */
-    z-index: 1;
+.step-menu-trigger {
     position: relative;
+    z-index: var(--z-index-alc-menu-trigger-open);
 }
 
 .stage-step-error {

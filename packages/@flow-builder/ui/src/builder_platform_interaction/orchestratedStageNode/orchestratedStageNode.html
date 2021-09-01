@@ -64,23 +64,37 @@
                         </div>
                     </template>
                 </div>
-
-                <builder_platform_interaction-popover
-                    onpopovertrigger={handlePopoverTrigger}
-                    onpopovertoggled={handlePopoverToggled}
-                >
-                    <div slot="trigger" class="trigger">
-                        <builder_platform_interaction-popover-trigger
-                            label-info={popoverLabelInfo}
-                            icon-info={popoverIconInfo}
-                        ></builder_platform_interaction-popover-trigger>
-                    </div>
-                    <div slot="content" class="content">
-                        <builder_platform_interaction-stage-step-menu
-                            node={node}
-                        ></builder_platform_interaction-stage-step-menu>
-                    </div>
-                </builder_platform_interaction-popover>
+                <div class="stepMenuContainer">
+                    <button
+                        class="
+                            step-menu-trigger
+                            slds-m-horizontal_small
+                            slds-button slds-button_neutral
+                            slds-m-bottom_small
+                            slds-m-top_medium
+                        "
+                        onclick={triggerStageStepMenu}
+                        onmousedown={handleButtonPreClick}
+                    >
+                        <lightning-icon
+                            icon-name={stepMenuButtonIcon}
+                            class="slds-button__icon_left slds-current-color slds-m-right_x-small"
+                            size="xx-small"
+                        ></lightning-icon>
+                        {stepMenuButtonLabel}
+                    </button>
+                    <lightning-popup
+                        onclose={handleCloseStepMenu}
+                        aria-describedby="popup-body"
+                        oncanvasfocusout={handleCanvasFocusOut}
+                    >
+                        <div id="popup-body" class="popup-body">
+                            <builder_platform_interaction-stage-step-menu
+                                node={node}
+                            ></builder_platform_interaction-stage-step-menu>
+                        </div>
+                    </lightning-popup>
+                </div>
             </div>
         </div>
     </div>

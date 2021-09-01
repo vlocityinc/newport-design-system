@@ -60,8 +60,8 @@ export default class StageStepMenu extends Menu {
     /**
      * Adds StageStep of the type specified by the attributes of the selected element.
      *
-     * @param currentTarget
-     * @param designateFocus
+     * @param currentTarget the menu option (step) to select/create
+     * @param designateFocus used to signify that focus should be directed to the property editor panel
      */
     doSelectMenuItem(currentTarget: HTMLElement, designateFocus = true) {
         super.doSelectMenuItem(currentTarget);
@@ -77,6 +77,10 @@ export default class StageStepMenu extends Menu {
     }
 
     handleTabCommand() {
+        this.dispatchEvent(new FocusOutEvent(true));
+    }
+
+    handleEscape() {
         this.dispatchEvent(new FocusOutEvent(true));
     }
 }
