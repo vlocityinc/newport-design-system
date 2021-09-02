@@ -80,7 +80,8 @@
                     ],
                     "lwc-core/no-dynamic-import": [
                         "**/builder_platform_interaction/propertyEditorPanel/propertyEditorPanel.ts",
-                        "**/builder_platform_interaction/screenExtensionField/auraInterop.ts"
+                        "**/builder_platform_interaction/screenExtensionField/auraInterop.ts",
+                        "**/builder_platform_interaction/integrationTests/__tests__/propertyEditor/propertyEditorIntegration.test.js"
                     ],
                     "lwc-core/no-process-env": ["**/jestSetup.js"],
 
@@ -106,7 +107,8 @@
                     ],
                     "no-await-in-loop": [
                         "**/builder_platform_interaction/integrationTests/__tests__/groupedComboboxTestUtils.ts",
-                        "**/builder_platform_interaction/integrationTests/__tests__/clud/recordCreateEditorIntegration.test.ts"
+                        "**/builder_platform_interaction/integrationTests/__tests__/clud/recordCreateEditorIntegration.test.ts",
+                        "**/builder_platform_interaction/integrationTests/__tests__/propertyEditor/propertyEditorIntegration.test.js"
                     ]
                 }
             }

@@ -32,7 +32,7 @@
     },
     {
       "masterLabel":"Messages Routed to Agents and Queues",
-      "fullName":"omnichannel_messaging__MessagingRouting",
+      "fullName":"omnichannel_messaging__MsgRouting",
       "description":"Routes each message to an agent or queue based on conditions that you define."
     },
     {

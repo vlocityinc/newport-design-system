@@ -272,8 +272,10 @@ export function initializeAuraFetch(actions = {}) {
 }
 
 /**
- *
+ * @param contextOptions
+ * @param contextOptions.devMode
  */
-export function initializeContext() {
-    setContext(context);
+export function initializeContext({ devMode = false } = {}) {
+    const modifiedContext = { ...context, devMode };
+    setContext(modifiedContext);
 }

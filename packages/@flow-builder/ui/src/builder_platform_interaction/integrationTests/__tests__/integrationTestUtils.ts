@@ -70,8 +70,8 @@ export const changeLightningRadioGroupValue = (lightningRadioGroup, newValue) =>
     lightningRadioGroup.dispatchEvent(lightningRadioGroupChangeEvent(newValue));
 };
 
-export const setupState = () => {
-    initializeContext();
+export const setupState = ({ devMode = false } = {}) => {
+    initializeContext({ devMode });
     const store = Store.getStore(reducer as StoreReducer);
     initializeAuraFetch();
     initializeLoader(store);
@@ -93,8 +93,8 @@ export const loadFlow = async (flow, store) => {
     await loadFieldsForComplexTypesInFlow(uiFlow);
 };
 
-export const setupStateForFlow = async (flow) => {
-    const store = await setupState();
+export const setupStateForFlow = async (flow, { devMode = false } = {}) => {
+    const store = await setupState({ devMode });
     await loadFlow(flow, store);
     await loadApexClasses();
     return store;
