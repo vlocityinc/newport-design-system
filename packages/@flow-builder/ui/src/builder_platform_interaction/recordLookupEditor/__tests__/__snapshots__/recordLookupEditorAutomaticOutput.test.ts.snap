@@ -139,10 +139,12 @@ exports[`record-lookup-editor Process type supporting the automatic mode Adding 
                     </div>
                   </builder_platform_interaction-list>
                 <div
+                  role="list"
                   slot="conditions"
                 >
                   <div
                     class="slds-list__item slds-is-relative"
+                    role="listitem"
                   >
                     <builder_platform_interaction-row>
                       #shadow-root(open)
@@ -645,10 +647,12 @@ exports[`record-lookup-editor Process type supporting the automatic mode Edit el
                     </div>
                   </builder_platform_interaction-list>
                 <div
+                  role="list"
                   slot="conditions"
                 >
                   <div
                     class="slds-list__item slds-is-relative"
+                    role="listitem"
                   >
                     <builder_platform_interaction-row>
                       #shadow-root(open)
@@ -699,6 +703,7 @@ exports[`record-lookup-editor Process type supporting the automatic mode Edit el
                   </div>
                   <div
                     class="slds-list__item slds-is-relative"
+                    role="listitem"
                   >
                     <builder_platform_interaction-row>
                       #shadow-root(open)

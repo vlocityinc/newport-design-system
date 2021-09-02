@@ -139,10 +139,12 @@ exports[`record-lookup-editor (Process type NOT supporting automatic mode) Addin
                     </div>
                   </builder_platform_interaction-list>
                 <div
+                  role="list"
                   slot="conditions"
                 >
                   <div
                     class="slds-list__item slds-is-relative"
+                    role="listitem"
                   >
                     <builder_platform_interaction-row>
                       #shadow-root(open)
@@ -533,10 +535,12 @@ exports[`record-lookup-editor (Process type NOT supporting automatic mode) Exist
                     </div>
                   </builder_platform_interaction-list>
                 <div
+                  role="list"
                   slot="conditions"
                 >
                   <div
                     class="slds-list__item slds-is-relative"
+                    role="listitem"
                   >
                     <builder_platform_interaction-row>
                       #shadow-root(open)
@@ -1108,10 +1112,12 @@ exports[`record-lookup-editor (Process type NOT supporting automatic mode) Exist
                     </div>
                   </builder_platform_interaction-list>
                 <div
+                  role="list"
                   slot="conditions"
                 >
                   <div
                     class="slds-list__item slds-is-relative"
+                    role="listitem"
                   >
                     <builder_platform_interaction-row>
                       #shadow-root(open)

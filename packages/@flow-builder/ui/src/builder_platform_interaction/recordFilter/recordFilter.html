@@ -34,9 +34,13 @@
                 onupdatecondition={handleUpdateFilter}
                 onpropertychanged={handlePropertyChanged}
             >
-                <div slot="conditions">
+                <div slot="conditions" role="list">
                     <template for:each={conditionsWithPrefixes} for:item="filterItem" for:index="filterIndex">
-                        <div class="slds-list__item slds-is-relative" key={filterItem.condition.rowIndex}>
+                        <div
+                            class="slds-list__item slds-is-relative"
+                            key={filterItem.condition.rowIndex}
+                            role="listitem"
+                        >
                             <builder_platform_interaction-row
                                 item-prefix={filterItem.prefix}
                                 item-index={filterIndex}
