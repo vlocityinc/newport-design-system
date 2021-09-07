@@ -133,7 +133,7 @@ import {
     loadParametersForInvocableApexActionsInFlowFromMetadata,
     loadVersioningData
 } from 'builder_platform_interaction/preloadLib';
-import { CLASSIC_EXPERIENCE, getPreferredExperience } from 'builder_platform_interaction/contextLib';
+import { CLASSIC_EXPERIENCE, getPreferredExperience, isTestMode } from 'builder_platform_interaction/contextLib';
 import { loadReferencesIn } from 'builder_platform_interaction/mergeFieldLib';
 import { FlowGuardrailsExecutor, GuardrailsResultEvent } from 'builder_platform_interaction/guardrails';
 import {
@@ -2735,30 +2735,33 @@ export default class Editor extends LightningElement {
                     'click',
                     'user'
                 );
-                this.setupCanvas(processType, defaultTriggerType);
+                // Remove isTestMode after completion of W-9866226
+                this.setupCanvas(processType, defaultTriggerType, !isTestMode());
             }
             modal.close();
             this.newFlowModalActive = false;
         }
     };
 
-    setupCanvas = (processType, triggerType) => {
+    setupCanvas = (processType, triggerType, setupInAutoLayoutCanvas) => {
         logInteraction(
             'canvas-mode-checkbox',
             'canvas-selection-modal',
             {
                 flowDefId: this.properties.definitionId ? this.properties.definitionId : this.flowInitDefinitionId,
-                selectedMode: 'auto-layout'
+                selectedMode: setupInAutoLayoutCanvas ? 'auto-layout' : 'free-form'
             },
             'click'
         );
         // Updating the isAutoLayoutCanvas property in the store based on user's selection.
         // Elements are accordingly created based on this property.
-        storeInstance.dispatch(updateIsAutoLayoutCanvasProperty(true));
+        storeInstance.dispatch(updateIsAutoLayoutCanvasProperty(setupInAutoLayoutCanvas));
 
         // create the empty flow for the selected process type
         this.spinners.showFlowMetadataSpinner = true;
-        this.spinners.showAutoLayoutSpinner = true;
+        if (setupInAutoLayoutCanvas) {
+            this.spinners.showAutoLayoutSpinner = true;
+        }
         this.createFlowFromProcessTypeAndTriggerType(processType, triggerType);
         this.spinners.showFlowMetadataSpinner = false;
         // To Do: W-9299993: update this to not rely on hardcoded checks for process type and trigger type
