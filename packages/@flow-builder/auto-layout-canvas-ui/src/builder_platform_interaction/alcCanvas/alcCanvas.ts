@@ -528,7 +528,7 @@ export default class AlcCanvas extends LightningElement {
      */
     _convertToElementMetadataMap() {
         return this._elementsMetadata!.reduce((acc, elementMetadata) => {
-            acc[elementMetadata.elementType] = elementMetadata;
+            acc[elementMetadata.elementSubtype || elementMetadata.elementType] = elementMetadata;
             return acc;
         }, {});
     }
@@ -607,11 +607,11 @@ export default class AlcCanvas extends LightningElement {
 
             // Note the number of dynamic node components we have.  A spinner will be shown
             // until they've all rendered
-            const nodes: { elementType: string }[] = Object.values(this.flowModel);
+            const nodes: { elementType: string; elementSubtype: string }[] = Object.values(this.flowModel);
 
             let count = 0;
             nodes.forEach((node) => {
-                const metadata = this._flowRenderContext.elementsMetadata[node.elementType];
+                const metadata = this._flowRenderContext.elementsMetadata[node.elementSubtype || node.elementType];
                 if (metadata && metadata.dynamicNodeComponent) {
                     count++;
                 }

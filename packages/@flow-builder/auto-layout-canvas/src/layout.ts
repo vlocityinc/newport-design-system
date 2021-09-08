@@ -305,7 +305,7 @@ function calculateExtraHeightForMenu({
  * @returns the ElementType for the node
  */
 function getElementType(context: FlowRenderContext, nodeModel: NodeModel): NodeType {
-    return getElementMetadata(context.elementsMetadata, nodeModel.elementType).type;
+    return getElementMetadata(context.elementsMetadata, nodeModel.elementSubtype || nodeModel.elementType).type;
 }
 
 /**

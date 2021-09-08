@@ -36,6 +36,7 @@ export interface NodeModel {
     guid: Guid;
     label: string;
     elementType: string;
+    elementSubtype?: string;
     maxConnections: number;
     isCanvasElement: boolean;
     canHaveFaultConnector: boolean;

@@ -639,7 +639,9 @@ function getAlcMenuData(
             if (isNextGoTo) {
                 isGoToConnector = true;
             } else {
-                isTargetEnd = getElementMetadata(elementsMetadata, targetElement.elementType).type === NodeType.END;
+                isTargetEnd =
+                    getElementMetadata(elementsMetadata, targetElement.elementSubtype || targetElement.elementType)
+                        .type === NodeType.END;
             }
         }
     }
