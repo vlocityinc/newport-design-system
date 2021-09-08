@@ -5,48 +5,16 @@
       "isStandard":false,
       "allowsTransactionControl":false,
       "iconName":null,
-      "name":"FtestSfdcOnly__TestFileBased",
-      "description":"FTEST - File Based Flow Basic",
-      "configurationEditor":null,
-      "label":"FTest-TestFileBased",
-      "type":"flow",
-      "category":null,
-      "genericTypes":[
-
-      ],
-      "durableId":"flow-FtestSfdcOnly__TestFileBased"
-    },
-    {
-      "iconId":null,
-      "isStandard":false,
-      "allowsTransactionControl":false,
-      "iconName":null,
-      "name":"FtestSfdcOnly__TestFileBasedPause",
+      "name":"evaluationFlow",
       "description":null,
       "configurationEditor":null,
-      "label":"FTest-TestFileBasedPause",
-      "type":"flow",
+      "label":"SomeFlow",
+      "type":"evaluationFlow",
       "category":null,
       "genericTypes":[
 
       ],
-      "durableId":"flow-FtestSfdcOnly__TestFileBasedPause"
-    },
-    {
-      "iconId":null,
-      "isStandard":false,
-      "allowsTransactionControl":false,
-      "iconName":null,
-      "name":"FtestSfdcOnly__TestFileBasedT",
-      "description":"FTEST - File Based Flow Template Basic",
-      "configurationEditor":null,
-      "label":"FTEST-TestFileBasedT",
-      "type":"flow",
-      "category":null,
-      "genericTypes":[
-
-      ],
-      "durableId":"flow-FtestSfdcOnly__TestFileBasedT"
+      "durableId":"evaluationFlow-evaluationFlow"
     },
     {
       "iconId":null,

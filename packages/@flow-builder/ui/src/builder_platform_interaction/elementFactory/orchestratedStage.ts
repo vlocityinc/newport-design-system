@@ -292,7 +292,8 @@ function createStageStepsWithReferences(
 export function createOrchestratedStageWithItemReferences(stage: OrchestratedStage) {
     const newStage = baseCanvasElement(stage);
 
-    const { stageSteps = [], exitActionInputParameters = [], exitActionName, exitActionType } = stage;
+    const { stageSteps = [], exitActionInputParameters = [], exitAction, exitActionName, exitActionType } = stage;
+    const exitActionCall = createActionCallHelper(exitAction, exitActionName, exitActionType);
 
     const connectors = createConnectorObjects(stage, newStage.guid, null);
     const connectorCount = connectors ? connectors.length : 0;
@@ -305,6 +306,7 @@ export function createOrchestratedStageWithItemReferences(stage: OrchestratedSta
         maxConnections: 1,
         elementType,
         dataType: FLOW_DATA_TYPE.ORCHESTRATED_STAGE.value,
+        exitAction: exitActionCall,
         exitActionName,
         exitActionType,
         exitActionInputParameters,

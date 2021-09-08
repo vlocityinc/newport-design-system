@@ -96,9 +96,9 @@
       "processType":"RoutingFlow"
     },
     {
-      "icon":"utility:flow",
-      "description":"These flows can be used to determine when an orchestration stage or step should start or end.",
-      "label":"Evaluation Flow (No Trigger)",
+      "icon":"utility:magicwand",
+      "description":"Launches when invoked by an orchestration to evaluate custom criteria for a stage or step. To indicate that the criteria are met, set the output variable isOrchestrationConditionMet to True.",
+      "label":"Evaluation Flow",
       "processType":"EvaluationFlow"
     }
   ]

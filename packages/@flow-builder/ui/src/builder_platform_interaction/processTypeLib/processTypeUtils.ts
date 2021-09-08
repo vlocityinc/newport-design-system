@@ -33,7 +33,8 @@ const PROCESS_TYPES_ICONS = new Map([
     [FLOW_PROCESS_TYPE.WORKFLOW, 'utility:pause'],
     [FLOW_PROCESS_TYPE.SALES_ENTRY_EXPERIENCE_FLOW, 'utility:macros'],
     [FLOW_PROCESS_TYPE.ROUTING_FLOW, 'utility:omni_channel'],
-    [FLOW_PROCESS_TYPE.RECOMMENDATION_STRATEGY, 'utility:strategy']
+    [FLOW_PROCESS_TYPE.RECOMMENDATION_STRATEGY, 'utility:strategy'],
+    [FLOW_PROCESS_TYPE.EVALUATION_FLOW, 'utility:magicwand']
 ]);
 
 const TRIGGER_TYPE_ICONS = new Map([

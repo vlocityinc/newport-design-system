@@ -1,5 +1,4 @@
 // @ts-nocheck
-import { mockActions } from 'mock/calloutData';
 import { createElement } from 'lwc';
 import OrchestratedStageEditor from 'builder_platform_interaction/orchestratedStageEditor';
 import {
@@ -26,6 +25,7 @@ import {
     mergeErrorsFromHydratedElement
 } from 'builder_platform_interaction/dataMutationLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { invocableActionsForOrchestrator } from 'serverData/GetAllInvocableActionsForType/invocableActionsForOrchestrator.json';
 
 jest.mock('../orchestratedStageReducer', () => {
     return {
@@ -54,7 +54,7 @@ jest.mock('builder_platform_interaction/dataMutationLib', () => {
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
-const mockActionsPromise = Promise.resolve(mockActions);
+const mockActionsPromise = Promise.resolve(invocableActionsForOrchestrator);
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/serverDataLib');
@@ -96,6 +96,10 @@ const createComponentUnderTest = (node) => {
     el.processType = 'someProcessType';
     setDocumentBodyChildren(el);
     return el;
+};
+
+const selectors = {
+    ACTION_SELECTOR: 'builder_platform_interaction-action-selector'
 };
 
 describe('OrchestratedStageEditor', () => {
@@ -444,6 +448,13 @@ describe('OrchestratedStageEditor', () => {
 
             editor.focus();
             expect(label.focus).toHaveBeenCalled();
+        });
+    });
+
+    describe('evaluation flow', () => {
+        it('list set from available actions for evaluation flow', () => {
+            const exitActionSelector = editor.shadowRoot.querySelector(selectors.ACTION_SELECTOR);
+            expect(exitActionSelector.invocableActions).toEqual(invocableActionsForOrchestrator.slice(0, 1));
         });
     });
 });

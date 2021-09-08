@@ -117,7 +117,9 @@ const selectors = {
     ACTION_SELECTOR: 'builder_platform_interaction-action-selector',
     PARAMETER_LIST: 'builder_platform_interaction-parameter-list',
     RELATED_RECORD_SELECTOR: 'builder_platform_interaction-ferov-resource-picker.recordPicker',
-    ACTOR_SELECTOR: 'builder_platform_interaction-ferov-resource-picker.actorPicker'
+    ACTOR_SELECTOR: 'builder_platform_interaction-ferov-resource-picker.actorPicker',
+    ENTRY_ACTION: '.entry-action',
+    EXIT_ACTION: '.exit-action'
 };
 
 describe('StageStepEditor', () => {
@@ -539,7 +541,7 @@ describe('StageStepEditor', () => {
 
         it('list set from available actions', () => {
             const actionSelector = editor.shadowRoot.querySelector(selectors.ACTION_SELECTOR);
-            expect(actionSelector.invocableActions).toEqual(invocableActionsForOrchestrator.slice(6, 16));
+            expect(actionSelector.invocableActions).toEqual(invocableActionsForOrchestrator.slice(4, 14));
         });
         describe('autolaunched step', () => {
             beforeEach(() => {
@@ -547,7 +549,20 @@ describe('StageStepEditor', () => {
             });
             it('list set from available actions for autolaunched step', () => {
                 const actionSelector = editor.shadowRoot.querySelector(selectors.ACTION_SELECTOR);
-                expect(actionSelector.invocableActions).toEqual(invocableActionsForOrchestrator.slice(3, 6));
+                expect(actionSelector.invocableActions).toEqual(invocableActionsForOrchestrator.slice(1, 4));
+            });
+        });
+
+        describe('evaluation flow', () => {
+            beforeEach(() => {
+                editor = createComponentUnderTest(nodeParamsWithDeterminations);
+            });
+            it('list set from available actions for evaluation flow', () => {
+                const entryActionSelector = editor.shadowRoot.querySelector(selectors.ENTRY_ACTION);
+                expect(entryActionSelector.invocableActions).toEqual(invocableActionsForOrchestrator.slice(0, 1));
+
+                const exitActionSelector = editor.shadowRoot.querySelector(selectors.EXIT_ACTION);
+                expect(exitActionSelector.invocableActions).toEqual(invocableActionsForOrchestrator.slice(0, 1));
             });
         });
     });

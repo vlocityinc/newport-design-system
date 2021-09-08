@@ -30,7 +30,7 @@
 
         <div class="slds-p-top_x-small" if:true={isStartCriteriaBasedOnCustomAction}>
             <builder_platform_interaction-action-selector
-                class="slds-col slds-size_3-of-3"
+                class="slds-col slds-size_3-of-3 entry-action"
                 selected-action={selectedEntryAction}
                 error-message={entryActionErrorMessage}
                 invocable-actions={availableDeterminationActions}
@@ -185,7 +185,7 @@
             </div>
             <div class="slds-p-top_x-small" if:true={isExitCriteriaBasedOnCustomAction}>
                 <builder_platform_interaction-action-selector
-                    class="slds-col slds-size_3-of-3"
+                    class="slds-col slds-size_3-of-3 exit-action"
                     selected-action={selectedExitAction}
                     error-message={exitActionErrorMessage}
                     invocable-actions={availableDeterminationActions}
