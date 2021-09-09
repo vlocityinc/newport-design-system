@@ -1,7 +1,16 @@
 import ConnectorType from './ConnectorTypeEnum';
 import ConnectorLabelType from './ConnectorLabelTypeEnum';
 import { SvgInfo, Geometry } from './svgUtils';
-import { FlowModel, ElementsMetadata, ElementMetadata, NodeRef, NodeModel, ParentNodeModel, Guid } from './model';
+import {
+    FlowModel,
+    ElementsMetadata,
+    ElementMetadata,
+    NodeRef,
+    NodeModel,
+    ParentNodeModel,
+    Guid,
+    ConnectionSource
+} from './model';
 import { isBranchTerminal } from './modelUtils';
 import MenuType from './MenuType';
 
@@ -170,14 +179,6 @@ export interface SelectInfo {
     value: NodeRef;
     options: Option[];
 }
-
-export interface ConnectorConnectionInfo {
-    prev?: NodeRef;
-    next?: NodeRef;
-    parent?: NodeRef;
-    childIndex?: number;
-}
-
 export interface ConnectorRenderInfo {
     type: ConnectorType;
     labelType: ConnectorLabelType;
@@ -185,7 +186,7 @@ export interface ConnectorRenderInfo {
     svgInfo: SvgInfo;
     goToTargetLabel?: string | undefined;
     addInfo?: ConnectorAddInfo;
-    connectionInfo: ConnectorConnectionInfo;
+    source: ConnectionSource;
     isFault: boolean;
     labelOffsetY?: number;
     labelOffsetX?: number;

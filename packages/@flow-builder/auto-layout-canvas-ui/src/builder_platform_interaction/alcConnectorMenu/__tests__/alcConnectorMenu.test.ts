@@ -145,6 +145,7 @@ const createComponentUnderTest = () => {
         is: AlcConnectorMenu
     });
     el.elementsMetadata = metaData;
+    el.source = {};
     setDocumentBodyChildren(el);
     return el;
 };
@@ -522,6 +523,7 @@ describe('connector menu', () => {
         await ticks(1);
         const callback = jest.fn();
         cmp.addEventListener(DeleteGoToConnectionEvent.EVENT_NAME, callback);
+
         cmp.shadowRoot.querySelector(selectors.listboxItem).click();
         expect(callback).toHaveBeenCalled();
     });
@@ -550,9 +552,11 @@ describe('connector menu', () => {
         const callback = jest.fn();
         cmp.addEventListener(GoToPathEvent.EVENT_NAME, callback);
         cmp.shadowRoot.querySelector(selectors.listboxItem).click();
-        expect(callback).toHaveBeenCalledWith(
-            expect.objectContaining({ detail: { source: { guid: undefined, childIndex: undefined }, isReroute: true } })
-        );
+
+        expect(callback.mock.calls[0][0].detail).toEqual({
+            source: {},
+            isReroute: true
+        });
     });
 
     it('Decision element row span should be present', () => {

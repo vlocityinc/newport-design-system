@@ -11,13 +11,14 @@ import {
     ConnectorRenderInfo,
     NodeRenderInfo,
     FlowRenderInfo,
-    getChild,
     Geometry,
     FlowRenderContext,
     hasChildren,
     hasGoToOnNext,
     hasGoToOnBranchHead,
-    FAULT_INDEX
+    FAULT_INDEX,
+    ConnectionSource,
+    getConnectionTarget
 } from 'builder_platform_interaction/autoLayoutCanvas';
 
 import { ToggleMenuEvent } from 'builder_platform_interaction/alcEvents';
@@ -500,13 +501,14 @@ function getAlcConnectorData(connectorInfo: ConnectorRenderInfo) {
  * Get the data needed to render a alcFlow component
  *
  * @param flowInfo - Info about a flow
- * @param parentNodeInfo - The flow's parent node info
- * @param childIndex - The flow's childIndex
+ * @param source - The connection source
  * @returns The alcFlow component data
  */
-function getAlcFlowData(flowInfo: FlowRenderInfo, parentNodeInfo: NodeRenderInfo, childIndex: number) {
+function getAlcFlowData(flowInfo: FlowRenderInfo, source: ConnectionSource) {
+    const { guid, childIndex } = source;
+
     return {
-        key: `flow-${parentNodeInfo.guid}-${childIndex}`,
+        key: `flow-${guid}-${childIndex}`,
         flowInfo,
         style: getStyleFromGeometry(flowInfo.geometry),
         className: ''
@@ -523,7 +525,9 @@ function getAlcCompoundNodeData(nodeInfo: NodeRenderInfo) {
     const { geometry, guid } = nodeInfo;
     const className = classSet({ [CLASS_IS_NEW]: nodeInfo.isNew });
 
-    const faultFlow = nodeInfo.faultFlow ? getAlcFlowData(nodeInfo.faultFlow, nodeInfo, -1) : null;
+    const faultFlow = nodeInfo.faultFlow
+        ? getAlcFlowData(nodeInfo.faultFlow, { guid: nodeInfo.guid, childIndex: FAULT_INDEX })
+        : null;
 
     // let the browser manage the width
     const geo = { ...geometry, w: undefined };
@@ -615,7 +619,8 @@ function getAlcMenuData(
 ) {
     const detail = event.detail;
 
-    const { guid, prev, next, parent, childIndex } = detail;
+    const { guid, childIndex } = detail.source;
+    const parent = childIndex != null ? guid : null;
 
     const { flowModel, elementsMetadata } = context;
 
@@ -623,7 +628,7 @@ function getAlcMenuData(
     const canHaveFaultConnector = guid && flowModel[guid].canHaveFaultConnector;
 
     const elementHasFault = guid ? flowModel[guid].fault : false;
-    const targetGuid = childIndex != null ? getChild(flowModel[parent!], childIndex) : next;
+    const targetGuid = detail.source ? getConnectionTarget(flowModel, detail.source) : null;
 
     const targetElement = targetGuid != null ? flowModel[targetGuid] : null;
 
@@ -634,7 +639,7 @@ function getAlcMenuData(
         if (parent && childIndex != null && hasGoToOnBranchHead(flowModel, parent, childIndex)) {
             isGoToConnector = true;
         } else {
-            const isNextGoTo = prev && next && hasGoToOnNext(flowModel, prev);
+            const isNextGoTo = hasGoToOnNext(flowModel, guid);
 
             if (isNextGoTo) {
                 isGoToConnector = true;
@@ -668,9 +673,9 @@ function getAlcMenuData(
  * @returns a string key
  */
 function connectorKey(connectorInfo: ConnectorRenderInfo): string {
-    const { connectionInfo, type } = connectorInfo;
-    const { prev, next, parent, childIndex } = connectionInfo;
-    const suffix = prev ? `${prev}:${next}` : `${parent}:${childIndex}`;
+    const { source, type } = connectorInfo;
+    const { guid, childIndex } = source;
+    const suffix = childIndex == null ? `${guid}` : `${guid}:${childIndex}`;
     return `connector-${type}-${suffix}`;
 }
 

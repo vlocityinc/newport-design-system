@@ -1,4 +1,4 @@
-import { Guid } from 'builder_platform_interaction/autoLayoutCanvas';
+import { ConnectionSource } from 'builder_platform_interaction/autoLayoutCanvas';
 
 /**
  * Event fired when focus needs to be moved to the connector
@@ -6,23 +6,20 @@ import { Guid } from 'builder_platform_interaction/autoLayoutCanvas';
 const eventName = 'movefocustoconnector';
 
 interface MoveFocusToConnectorEventDetail {
-    focusGuid: Guid;
-    index: number | undefined;
+    source: ConnectionSource;
 }
 
 export class MoveFocusToConnectorEvent extends CustomEvent<MoveFocusToConnectorEventDetail> {
     /**
-     * @param focusGuid - Guid of the focus connector's source element
-     * @param index - Index of the focus branch (if any)
+     * @param source - The connection source
      */
-    constructor(focusGuid: Guid, index?: number) {
+    constructor(source: ConnectionSource) {
         super(eventName, {
             bubbles: true,
             composed: true,
             cancelable: true,
             detail: {
-                focusGuid,
-                index
+                source
             }
         });
     }

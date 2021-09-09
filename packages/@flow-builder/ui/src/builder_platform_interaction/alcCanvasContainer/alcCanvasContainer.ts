@@ -259,10 +259,10 @@ export default class AlcCanvasContainer extends LightningElement {
     };
 
     @api
-    focusOnConnector = (elementGuid: Guid, childIndex?: number) => {
+    focusOnConnector = (source: ConnectionSource) => {
         const alcCanvas = this.template.querySelector('builder_platform_interaction-alc-canvas');
         if (alcCanvas) {
-            alcCanvas.focusOnConnector(elementGuid, childIndex);
+            alcCanvas.focusOnConnector(source);
         }
     };
 

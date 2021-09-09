@@ -33,12 +33,9 @@
                         <builder_platform_interaction-alc-connector-menu
                             class="menu overlay slds-dropdown"
                             can-add-goto={menu.canAddGoto}
-                            child-index={menu.childIndex}
+                            source={menu.source}
                             elements-metadata={menu.elementsMetadata}
                             has-end-element={menu.hasEndElement}
-                            next={menu.next}
-                            parent={menu.parent}
-                            prev={menu.prev}
                             is-go-to-connector={menu.isGoToConnector}
                             is-paste-available={autoLayoutCanvasContext.isPasteAvailable}
                             move-focus-to-menu={moveFocusToMenu}
@@ -56,7 +53,7 @@
                             element-has-fault={menu.elementHasFault}
                             element-metadata={menu.elementMetadata}
                             can-have-fault-connector={menu.canHaveFaultConnector}
-                            guid={menu.guid}
+                            guid={menu.source.guid}
                             move-focus-to-menu={moveFocusToMenu}
                             style={menu.style}
                             onclearhighlightedpath={handleClearHighlightedPath}
@@ -71,7 +68,7 @@
                             condition-options={menu.conditionOptionsForNode}
                             element-has-fault={menu.elementHasFault}
                             element-metadata={menu.elementMetadata}
-                            guid={menu.guid}
+                            guid={menu.source.guid}
                             move-focus-to-menu={moveFocusToMenu}
                             start-data={startMenuElement}
                             style={menu.style}

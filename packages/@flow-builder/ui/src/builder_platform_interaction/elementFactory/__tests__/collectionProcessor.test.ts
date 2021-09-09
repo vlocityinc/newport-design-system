@@ -194,10 +194,8 @@ describe('create pasted collection processor', () => {
         canvasElementGuidMap: {},
         topCutOrCopiedGuid: '',
         bottomCutOrCopiedGuid: '',
-        prev: {},
-        next: {},
-        parent: {},
-        childIndex: 1
+        source: { guid: null },
+        next: null
     };
 
     const { pastedCanvasElement } = createPastedCollectionProcessor(dataForPasting);

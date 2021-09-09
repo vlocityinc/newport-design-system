@@ -251,8 +251,7 @@ function renderNode(
 
         nodeRenderInfo.logicConnectors = (nodeRenderInfo.logicConnectors || []).concat([
             connectorLib.createBranchConnector(
-                parentNode.guid,
-                FAULT_INDEX,
+                { guid: parentNode.guid, childIndex: FAULT_INDEX },
                 createBranchOrMergeConnectorGeometry(branchLayout, layoutConfig, IS_BRANCH),
                 ConnectorType.BRANCH_RIGHT,
                 layoutConfig,
@@ -378,7 +377,7 @@ function createNextConnector(
             : undefined;
 
     return connectorLib.createConnectorToNextNode(
-        { prev: node.guid, next: node.next },
+        { guid: node.guid },
         ConnectorType.STRAIGHT,
         connectorLabelType,
         offsetY,
@@ -424,7 +423,7 @@ function createGoToConnector(
             : undefined;
 
     return connectorLib.createConnectorToNextNode(
-        { prev: node.guid, next: node.next },
+        { guid: node.guid },
         ConnectorType.GO_TO,
         ConnectorLabelType.NONE,
         joinOffsetY,
@@ -490,7 +489,7 @@ function createGoToConnectorOnParentBranch(
     }
 
     return connectorLib.createConnectorToNextNode(
-        { parent: parentNode.guid, childIndex },
+        { guid: parentNode.guid, childIndex },
         ConnectorType.GO_TO,
         getConnectorLabelType({
             isFault: childIndex === FAULT_INDEX,
@@ -857,7 +856,7 @@ function createPreConnector(
     const branchLayout = getBranchLayout(parentNode.guid, childIndex, progress, nodeLayoutMap);
 
     return connectorLib.createConnectorToNextNode(
-        { parent: parentNode.guid, childIndex },
+        { guid: parentNode.guid, childIndex },
         ConnectorType.STRAIGHT,
         getConnectorLabelType({
             isFault: childIndex === FAULT_INDEX,
@@ -903,8 +902,7 @@ function createBranchConnectors(
             const isHighlighted = isBranchHighlighted(parentNode, branchIndex);
 
             return connectorLib.createBranchConnector(
-                parentNode.guid,
-                branchIndex,
+                { guid: parentNode.guid, childIndex: branchIndex },
                 createBranchOrMergeConnectorGeometry(branchLayout, layoutConfig, IS_BRANCH),
                 branchLayout.x < 0 ? ConnectorType.BRANCH_LEFT : ConnectorType.BRANCH_RIGHT,
                 layoutConfig,
@@ -954,8 +952,7 @@ function createMergeConnectors(
 
             if (connectorType != null && branchLayout.x !== 0) {
                 return connectorLib.createMergeConnector(
-                    parentNode.guid,
-                    index,
+                    { guid: parentNode.guid, childIndex: index },
                     geometry,
                     connectorType,
                     layoutConfig,
@@ -998,7 +995,7 @@ function createLoopAfterLastConnector(
     };
 
     return connectorLib.createLoopAfterLastConnector(
-        parentGuid,
+        { guid: parentGuid },
         geometry,
         layoutConfig,
         context.isFault,
@@ -1036,7 +1033,7 @@ function createLoopBackConnector(
     };
 
     return connectorLib.createLoopBackConnector(
-        parentGuid,
+        { guid: parentGuid },
         geometry,
         layoutConfig,
         context.isFault,

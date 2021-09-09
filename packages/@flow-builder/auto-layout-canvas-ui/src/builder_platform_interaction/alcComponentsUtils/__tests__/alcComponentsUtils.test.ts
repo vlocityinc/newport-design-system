@@ -164,8 +164,7 @@ describe('ALC Canvas Utils test', () => {
                     top: 0,
                     left: 0,
                     elementMetadata: { type: NodeType.DEFAULT },
-                    parent: 'branch-guid',
-                    childIndex: 3
+                    source: { guid: 'branch-guid', childIndex: 3 }
                 },
                 true,
                 false,
@@ -179,8 +178,7 @@ describe('ALC Canvas Utils test', () => {
                     top: 0,
                     left: 0,
                     elementMetadata: { type: NodeType.DEFAULT },
-                    parent: 'branch-guid',
-                    childIndex: 0
+                    source: { guid: 'branch-guid', childIndex: 0 }
                 },
                 false,
                 false,
@@ -193,8 +191,7 @@ describe('ALC Canvas Utils test', () => {
                 {
                     top: 0,
                     left: 0,
-                    parent: 'branch-guid',
-                    childIndex: 1,
+                    source: { guid: 'branch-guid', childIndex: 1 },
                     type: MenuType.CONNECTOR
                 },
                 false,
@@ -209,8 +206,7 @@ describe('ALC Canvas Utils test', () => {
                     guid: 'guid5',
                     top: 0,
                     left: 0,
-                    prev: 'guid5',
-                    next: 'guid1',
+                    source: { guid: 'guid5' },
                     type: MenuType.CONNECTOR
                 },
                 false,

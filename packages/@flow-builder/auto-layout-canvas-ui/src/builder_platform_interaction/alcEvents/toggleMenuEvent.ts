@@ -1,4 +1,4 @@
-import { Guid, ElementMetadata, MenuType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { ElementMetadata, MenuType, ConnectionSource } from 'builder_platform_interaction/autoLayoutCanvas';
 
 const eventName = 'togglemenu';
 
@@ -8,12 +8,7 @@ interface ToggleMenuEventDetail {
     offsetX: number;
     type: MenuType;
     elementMetadata: ElementMetadata;
-
-    prev?: Guid;
-    next?: Guid;
-    guid?: Guid;
-    parent?: Guid;
-    childIndex?: number;
+    source: ConnectionSource;
     moveFocusToMenu?: boolean;
 }
 

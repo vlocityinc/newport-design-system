@@ -127,10 +127,8 @@ describe('Rollback Element Factory', () => {
             canvasElementGuidMap: {},
             topCutOrCopiedGuid: '',
             bottomCutOrCopiedGuid: '',
-            prev: {},
-            next: {},
-            parent: {},
-            childIndex: 1
+            source: { guid: null },
+            next: null
         };
 
         const { pastedCanvasElement } = createPastedRollback(dataForPasting);

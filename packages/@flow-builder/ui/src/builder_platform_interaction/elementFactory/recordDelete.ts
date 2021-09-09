@@ -80,10 +80,8 @@ export function createPastedRecordDelete({
     canvasElementGuidMap,
     topCutOrCopiedGuid,
     bottomCutOrCopiedGuid,
-    prev,
-    next,
-    parent,
-    childIndex
+    source,
+    next
 }) {
     const { duplicatedElement } = createDuplicateRecordDelete(canvasElementToPaste, newGuid, newName);
 
@@ -92,10 +90,8 @@ export function createPastedRecordDelete({
         canvasElementGuidMap,
         topCutOrCopiedGuid,
         bottomCutOrCopiedGuid,
-        prev,
-        next,
-        parent,
-        childIndex
+        source,
+        next
     );
 
     return {

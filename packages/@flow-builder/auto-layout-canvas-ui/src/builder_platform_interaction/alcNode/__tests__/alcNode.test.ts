@@ -643,7 +643,7 @@ describe('AlcNode', () => {
             logicConnectors: [],
             menuOpened: false,
             metadata: {},
-            nextConnector: { labelType: 0, geometry: {}, addInfo: {}, connectionInfo: {}, svgInfo: {} }
+            nextConnector: { labelType: 0, geometry: {}, addInfo: {}, source: {}, svgInfo: {} }
         };
 
         const getRecordNodeInfoWithFault = {
@@ -661,7 +661,7 @@ describe('AlcNode', () => {
             logicConnectors: [],
             menuOpened: false,
             metadata: {},
-            nextConnector: { labelType: 0, geometry: {}, addInfo: {}, connectionInfo: {}, svgInfo: {} }
+            nextConnector: { labelType: 0, geometry: {}, addInfo: {}, source: {}, svgInfo: {} }
         };
 
         it('Should have the CSS class : "highlighted-container-multioutput" for Highlighted element with multiple connectors', () => {

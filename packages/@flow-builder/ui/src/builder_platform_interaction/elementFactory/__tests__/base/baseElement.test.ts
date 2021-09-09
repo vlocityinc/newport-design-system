@@ -267,8 +267,10 @@ describe('createPastedCanvasElement Function', () => {
         };
         const topCutOrCopiedGuid = 'screen1';
         const bottomCutOrCopiedGuid = 'screen4';
-        const prev = 'startElement';
-        const next = 'screen1';
+
+        const source = {
+            guid: 'startElement'
+        };
 
         it('Should have updated guid, prev and next properties', () => {
             const duplicatedElement = {
@@ -282,10 +284,8 @@ describe('createPastedCanvasElement Function', () => {
                 canvasElementGuidMap,
                 topCutOrCopiedGuid,
                 bottomCutOrCopiedGuid,
-                prev,
-                next,
-                null,
-                null
+                source,
+                'screen1'
             );
 
             expect(pastedCanvasElement).toMatchObject({
@@ -309,10 +309,7 @@ describe('createPastedCanvasElement Function', () => {
                 canvasElementGuidMap,
                 topCutOrCopiedGuid,
                 bottomCutOrCopiedGuid,
-                prev,
-                next,
-                null,
-                null
+                source
             );
 
             expect(pastedCanvasElement).toMatchObject({
@@ -338,10 +335,7 @@ describe('createPastedCanvasElement Function', () => {
                 canvasElementGuidMap,
                 topCutOrCopiedGuid,
                 bottomCutOrCopiedGuid,
-                prev,
-                next,
-                null,
-                null
+                source
             );
 
             expect(pastedCanvasElement).toMatchObject({
@@ -362,8 +356,12 @@ describe('createPastedCanvasElement Function', () => {
         };
         const topCutOrCopiedGuid = 'decision1';
         const bottomCutOrCopiedGuid = 'screen2';
-        const prev = 'startElement';
+
         const next = 'screen1';
+
+        const source = {
+            guid: 'startElement'
+        };
 
         it('Top-Selected: Should update the prev and next properties', () => {
             const duplicatedElement = {
@@ -378,10 +376,7 @@ describe('createPastedCanvasElement Function', () => {
                 canvasElementGuidMap,
                 topCutOrCopiedGuid,
                 bottomCutOrCopiedGuid,
-                prev,
-                next,
-                null,
-                null
+                source
             );
 
             expect(pastedCanvasElement).toMatchObject({
@@ -406,10 +401,8 @@ describe('createPastedCanvasElement Function', () => {
                 canvasElementGuidMap,
                 topCutOrCopiedGuid,
                 bottomCutOrCopiedGuid,
-                prev,
-                next,
-                null,
-                null
+                source,
+                next
             );
 
             expect(pastedCanvasElement).toMatchObject({
@@ -436,10 +429,8 @@ describe('createPastedCanvasElement Function', () => {
                 canvasElementGuidMap,
                 topCutOrCopiedGuid,
                 bottomCutOrCopiedGuid,
-                prev,
-                next,
-                null,
-                null
+                source,
+                next
             );
 
             expect(pastedCanvasElement).toMatchObject({
@@ -465,16 +456,14 @@ describe('createPastedCanvasElement Function', () => {
                 canvasElementGuidMap,
                 topCutOrCopiedGuid,
                 bottomCutOrCopiedGuid,
-                null,
-                null,
-                'tempDecision',
-                1
+                { guid: 'tempDecision', childIndex: 1 },
+                next
             );
 
             expect(pastedCanvasElement).toMatchObject({
                 guid: 'pastedDecision1',
                 config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
-                prev: null,
+                prev: undefined,
                 next: 'pastedScreen2',
                 children: [null, null],
                 parent: 'tempDecision',
@@ -494,10 +483,8 @@ describe('createPastedCanvasElement Function', () => {
                 canvasElementGuidMap,
                 topCutOrCopiedGuid,
                 bottomCutOrCopiedGuid,
-                prev,
-                next,
-                null,
-                null
+                source,
+                next
             );
 
             expect(pastedCanvasElement).toMatchObject({
@@ -516,8 +503,12 @@ describe('createPastedCanvasElement Function', () => {
         };
         const topCutOrCopiedGuid = 'pause1';
         const bottomCutOrCopiedGuid = 'pause1';
-        const prev = 'pause2';
+
         const next = 'end2';
+
+        const source = {
+            guid: 'pause2'
+        };
 
         it('Pasted Pause 1 should have updated guid, prev, next and fault properties', () => {
             const duplicatedElement = {
@@ -532,10 +523,8 @@ describe('createPastedCanvasElement Function', () => {
                 canvasElementGuidMap,
                 topCutOrCopiedGuid,
                 bottomCutOrCopiedGuid,
-                prev,
-                next,
-                null,
-                null
+                source,
+                next
             );
 
             expect(pastedCanvasElement).toEqual({
@@ -563,10 +552,7 @@ describe('createPastedCanvasElement Function', () => {
                 canvasElementGuidMap,
                 topCutOrCopiedGuid,
                 bottomCutOrCopiedGuid,
-                prev,
-                next,
-                null,
-                null
+                source
             );
 
             expect(pastedCanvasElement).toEqual({

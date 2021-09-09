@@ -50,7 +50,8 @@ import {
     removeGoTosFromElement,
     findFirstElement,
     NodeType,
-    setChild
+    setChild,
+    getValuesFromConnectionSource
 } from 'builder_platform_interaction/autoLayoutCanvas';
 
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -495,14 +496,11 @@ function _getPastedChildElementNameMap(cutOrCopiedChildElements: UI.Element[], b
  * @param payload - Contains the data needed for pasting the cut or copied elements
  * @param payload.canvasElementGuidMap - List of Element Guid
  * @param payload.childElementGuidMap - List of child element guid
- * @param payload.cutOrCopiedCanvasElements -
- * @param payload.cutOrCopiedChildElements -
- * @param payload.topCutOrCopiedGuid -
- * @param payload.bottomCutOrCopiedGuid -
- * @param payload.prev -
- * @param payload.next -
- * @param payload.parent -
- * @param payload.childIndex -
+ * @param payload.cutOrCopiedCanvasElements - the cutOrCopiedCanvasElements
+ * @param payload.cutOrCopiedChildElements - the cutOrCopiedChildElements
+ * @param payload.topCutOrCopiedGuid - the topCutOrCopiedGuid
+ * @param payload.bottomCutOrCopiedGuid - the bottomCutOrCopiedGuid
+ * @param payload.source - The connection source
  * @returns newState - The updated state of elements in the store
  */
 function _pasteOnFixedCanvas(
@@ -514,24 +512,21 @@ function _pasteOnFixedCanvas(
         cutOrCopiedChildElements,
         topCutOrCopiedGuid,
         bottomCutOrCopiedGuid,
-        prev = null,
-        next,
-        parent = null,
-        childIndex = null
+        source
     }
 ) {
     let newState = { ...elements };
 
+    const { prev, parent, childIndex } = getValuesFromConnectionSource(source);
+
     let savedGoto;
-    const source = { guid: (parent || prev)!, childIndex };
 
     if (hasGoTo(newState, source)) {
         savedGoto = getConnectionTarget(newState, source);
         newState = deleteGoToConnection(getElementService(newState), newState, source);
-
-        // get the guid of the end element inserted when deleting the goto above
-        next = getConnectionTarget(newState, source);
     }
+
+    const next = getConnectionTarget(newState, source);
 
     const elementGuidsToPaste = Object.keys(canvasElementGuidMap);
     const blacklistNames: string[] = [];
@@ -566,10 +561,8 @@ function _pasteOnFixedCanvas(
                 cutOrCopiedChildElements,
                 topCutOrCopiedGuid,
                 bottomCutOrCopiedGuid,
-                prev,
-                next,
-                parent,
-                childIndex
+                source,
+                next
             });
         newState[pastedCanvasElement.guid] = pastedCanvasElement;
         newState = { ...newState, ...pastedChildElements };

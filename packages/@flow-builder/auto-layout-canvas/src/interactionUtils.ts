@@ -1,6 +1,6 @@
 import { FlowInteractionState, getBranchLayoutKey } from './flowRendererUtils';
 import MenuType from './MenuType';
-import { Guid } from './model';
+import { ConnectionSource, Guid } from './model';
 
 /**
  * Util functions for flow interactions
@@ -8,9 +8,7 @@ import { Guid } from './model';
 interface MenuEventDetail {
     top: number;
     left: number;
-    guid: string;
-    parent: string;
-    childIndex: number;
+    source: ConnectionSource;
     type: MenuType;
     isPositionUpdate?: boolean;
 }
@@ -44,8 +42,12 @@ function toggleFlowMenu(
     interactionState: FlowInteractionState
 ): FlowInteractionState {
     let menuInfo = interactionState.menuInfo;
-    const { parent, childIndex, type, guid, isPositionUpdate } = menuEventDetail;
-    const key = parent ? getBranchLayoutKey(parent, childIndex) : guid;
+    const { source, type, isPositionUpdate } = menuEventDetail;
+    if (!source) {
+        return closeFlowMenu(interactionState);
+    }
+    const { guid, childIndex } = source;
+    const key = childIndex != null ? getBranchLayoutKey(guid, childIndex) : guid;
 
     const isDifferentTarget = menuInfo != null && (menuInfo.key !== key || menuInfo.type !== type);
 

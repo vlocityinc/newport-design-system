@@ -452,7 +452,7 @@ export default class Builder extends LightningElement {
     }
 
     handlePasteOnCanvas(event) {
-        const { prev, next, parent, childIndex } = event.detail;
+        const { source } = event.detail;
 
         const { canvasElementGuidMap, childElementGuidMap } = getPasteElementGuidMaps(
             this.cutOrCopiedCanvasElements,
@@ -466,10 +466,7 @@ export default class Builder extends LightningElement {
             cutOrCopiedChildElements: this.cutOrCopiedChildElements,
             topCutOrCopiedGuid: this.topCutOrCopiedGuid,
             bottomCutOrCopiedGuid: this.bottomCutOrCopiedGuid,
-            prev,
-            next,
-            parent,
-            childIndex
+            source
         };
         storeInstance.dispatch(pasteOnFixedCanvas(payload));
     }

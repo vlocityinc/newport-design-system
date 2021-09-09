@@ -34,9 +34,8 @@ const flowWithFault = {
                     menuOpened: false,
                     offsetY: 60
                 },
-                connectionInfo: {
-                    next: 'decision',
-                    prev: 'start'
+                source: {
+                    guid: 'start'
                 },
                 geometry: {},
                 goToTargetLabel: undefined,
@@ -90,7 +89,7 @@ const flowWithFault = {
                     nodes: [],
                     preConnector: {
                         addInfo: { offsetY: 84, menuOpened: false },
-                        connectionInfo: { parent: 'decision', childIndex: 0 },
+                        source: { guid: 'decision', childIndex: 0 },
                         connectorBadgeLabel: 'o1',
                         geometry: {},
                         goToTargetLabel: undefined,
@@ -114,7 +113,7 @@ const flowWithFault = {
                     nodes: [],
                     preConnector: {
                         addInfo: { offsetY: 84, menuOpened: false },
-                        connectionInfo: { parent: 'decision', childIndex: 1 },
+                        source: { guid: 'decision', childIndex: 1 },
                         connectorBadgeLabel: 'Default Outcome',
                         geometry: {},
                         goToTargetLabel: undefined,
@@ -158,9 +157,8 @@ const flowWithFault = {
             },
             nextConnector: {
                 addInfo: { offsetY: 36, menuOpened: false },
-                connectionInfo: {
-                    prev: 'decision',
-                    next: 'createRecords'
+                source: {
+                    guid: 'decision'
                 },
                 geometry: {},
                 goToTargetLabel: undefined,
@@ -239,7 +237,7 @@ const flowWithFault = {
                         },
                         nextConnector: {
                             addInfo: { offsetY: 60, menuOpened: false },
-                            connectionInfo: { prev: 'screen', next: 'faultEnd' },
+                            source: { guid: 'screen' },
                             geometry: {},
                             goToTargetLabel: undefined,
                             isFault: undefined,
@@ -341,7 +339,7 @@ const flowWithFault = {
                 ],
                 preConnector: {
                     addInfo: { offsetY: 60, menuOpened: false },
-                    connectionInfo: { parent: 'createRecords', childIndex: -1 },
+                    source: { guid: 'createRecords', childIndex: -1 },
                     geometry: {},
                     goToTargetLabel: undefined,
                     isFault: true,
@@ -365,7 +363,7 @@ const flowWithFault = {
             label: 'createRecords',
             logicConnectors: [
                 {
-                    connectionInfo: { parent: 'root', childIndex: -1 },
+                    source: { guid: 'root', childIndex: -1 },
                     geometry: {},
                     isFault: true,
                     isHighlighted: false,
@@ -399,9 +397,8 @@ const flowWithFault = {
             },
             nextConnector: {
                 addInfo: { offsetY: 60, menuOpened: false },
-                connectionInfo: {
-                    prev: 'createRecords',
-                    next: 'end'
+                source: {
+                    guid: 'createRecords'
                 },
                 geometry: {},
                 goToTargetLabel: undefined,

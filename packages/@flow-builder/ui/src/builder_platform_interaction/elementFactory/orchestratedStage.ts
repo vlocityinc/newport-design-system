@@ -164,10 +164,8 @@ export function createPastedOrchestratedStage({
     cutOrCopiedChildElements,
     topCutOrCopiedGuid,
     bottomCutOrCopiedGuid,
-    prev,
-    next,
-    parent,
-    childIndex
+    source,
+    next
 }): { pastedCanvasElement: OrchestratedStage; pastedChildElements: Map<UI.Guid, StageStep> } {
     const { duplicatedElement, duplicatedChildElements } = createDuplicateOrchestratedStage(
         canvasElementToPaste,
@@ -184,12 +182,11 @@ export function createPastedOrchestratedStage({
             canvasElementGuidMap,
             topCutOrCopiedGuid,
             bottomCutOrCopiedGuid,
-            prev,
-            next,
-            parent,
-            childIndex
+            source,
+            next
         )
     );
+
     pastedCanvasElement.stageSteps = [];
     pastedCanvasElement.exitActionInputParameters = [];
 

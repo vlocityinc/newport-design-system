@@ -1,12 +1,6 @@
-import {
-    ConnectorRenderInfo,
-    LayoutConfig,
-    ConnectorVariant,
-    ConnectorConnectionInfo,
-    getConnectorConfig
-} from './flowRendererUtils';
+import { ConnectorRenderInfo, LayoutConfig, ConnectorVariant, getConnectorConfig } from './flowRendererUtils';
 
-import { Guid } from './model';
+import { ConnectionSource } from './model';
 import ConnectorType from './ConnectorTypeEnum';
 import ConnectorLabelType from './ConnectorLabelTypeEnum';
 import {
@@ -107,7 +101,7 @@ function createGoToConnectorSvgInfo(
 /**
  * Creates a ConnectorRenderInfo for a connector (regular or goTo) that links a node to its next node.
  *
- * @param connectionInfo - The connector connection info
+ * @param source - The connection source
  * @param connectorType - Type of the connector being created
  * @param connectorLabelType - Type of Connector Label
  * @param offsetY - y offset of the connector relative to the source element
@@ -125,7 +119,7 @@ function createGoToConnectorSvgInfo(
  * @returns The ConnectorRenderInfo for the connector
  */
 function createConnectorToNextNode(
-    connectionInfo: ConnectorConnectionInfo,
+    source: ConnectionSource,
     connectorType: ConnectorType,
     connectorLabelType: ConnectorLabelType,
     offsetY: number,
@@ -155,7 +149,7 @@ function createConnectorToNextNode(
         labelType: connectorLabelType,
         geometry,
         addInfo: addOffset != null ? { offsetY: addOffset, menuOpened } : undefined,
-        connectionInfo,
+        source,
         svgInfo:
             connectorType === ConnectorType.GO_TO
                 ? createGoToConnectorSvgInfo(height, svgMarginTop, svgMarginBottom, layoutConfig)
@@ -248,8 +242,7 @@ function getBranchSvgInfo(
  * Creates a ConnectorRenderInfo for a branch connector.
  * This is the connector that joins a parent node to its outermost branch
  *
- * @param parent - The parent guid
- * @param childIndex - The child branch index
+ * @param source - The connection source
  * @param geometry - The geometry for the connector
  * @param connectorType - The branch type: left or right
  * @param layoutConfig - The config for the layout
@@ -259,8 +252,7 @@ function getBranchSvgInfo(
  * @returns a ConnectorRenderInfo for the branch connector
  */
 function createBranchConnector(
-    parent: Guid,
-    childIndex: number,
+    source: ConnectionSource,
     geometry: Geometry,
     connectorType: ConnectorType.BRANCH_LEFT | ConnectorType.BRANCH_RIGHT,
     layoutConfig: LayoutConfig,
@@ -277,10 +269,7 @@ function createBranchConnector(
         geometry,
         svgInfo,
         isFault,
-        connectionInfo: {
-            parent,
-            childIndex
-        },
+        source,
         toBeDeleted,
         isHighlighted
     };
@@ -290,8 +279,7 @@ function createBranchConnector(
  * Creates a ConnectorRenderInfo for a merge connector.
  * This is the connector that joins an outermost merging branch back to its parent
  *
- * @param parent - The parent guid
- * @param childIndex - The child branch index
+ * @param source - The connecton source
  * @param geometry - The geometry for the connector
  * @param connectorType - The merge type: left or right
  * @param layoutConfig  - The layout config
@@ -301,8 +289,7 @@ function createBranchConnector(
  * @returns a ConnectorRenderInfo for the merge connector
  */
 function createMergeConnector(
-    parent: Guid,
-    childIndex: number,
+    source: ConnectionSource,
     geometry: Geometry,
     connectorType: ConnectorType.MERGE_LEFT | ConnectorType.MERGE_RIGHT,
     layoutConfig: LayoutConfig,
@@ -317,10 +304,7 @@ function createMergeConnector(
         type: connectorType,
         labelType: ConnectorLabelType.NONE,
         isFault,
-        connectionInfo: {
-            parent,
-            childIndex
-        },
+        source,
         toBeDeleted,
         isHighlighted
     };
@@ -330,7 +314,7 @@ function createMergeConnector(
  * Creates a ConnectorRenderInfo for a loop after connector.
  * This is the connector that joins the loop element to the first element following a loop
  *
- * @param parent - The parent guid
+ * @param source - The connection source
  * @param geometry - The geometry for the connector
  * @param layoutConfig - The config for the layout
  * @param isFault - Whether this is part of a fault connector
@@ -341,7 +325,7 @@ function createMergeConnector(
  * @returns a ConnectorRenderInfo for the loop connector
  */
 function createLoopAfterLastConnector(
-    parent: Guid,
+    source: ConnectionSource,
     geometry: Geometry,
     layoutConfig: LayoutConfig,
     isFault: boolean,
@@ -358,9 +342,7 @@ function createLoopAfterLastConnector(
         geometry,
         svgInfo: createLoopSvgInfo(w, h, connectorType, layoutConfig),
         type: connectorType,
-        connectionInfo: {
-            parent
-        },
+        source,
         isFault,
         labelOffsetY,
         labelOffsetX,
@@ -373,7 +355,7 @@ function createLoopAfterLastConnector(
  * Creates a ConnectorRenderInfo for a loop back connector.
  * This is the connector that the last element of a loop back to the loop element
  *
- * @param parent - The parent guid
+ * @param source - The connection source
  * @param geometry - The geometry for the connector
  * @param layoutConfig - The config for the layout
  * @param isFault - Whether this is part of a fault connector
@@ -382,7 +364,7 @@ function createLoopAfterLastConnector(
  * @returns a ConnectorRenderInfo for the loop connector
  */
 function createLoopBackConnector(
-    parent: Guid,
+    source: ConnectionSource,
     geometry: Geometry,
     layoutConfig: LayoutConfig,
     isFault: boolean,
@@ -395,9 +377,7 @@ function createLoopBackConnector(
     return {
         geometry,
         svgInfo: createLoopSvgInfo(w, h, connectorType, layoutConfig),
-        connectionInfo: {
-            parent
-        },
+        source,
         type: connectorType,
         labelType: ConnectorLabelType.NONE,
         isFault,

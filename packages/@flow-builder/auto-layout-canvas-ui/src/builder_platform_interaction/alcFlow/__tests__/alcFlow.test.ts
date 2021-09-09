@@ -59,27 +59,26 @@ describe('ALC Flow tests', () => {
         it('findConnector for the main branch should return the searched connector', () => {
             const compoundConnector = flowComponent.findConnector([{ guid: 'decision' }]);
             expect(compoundConnector).not.toBeNull();
-            expect(compoundConnector.connectorInfo.connectionInfo).toEqual({
-                prev: 'decision',
-                next: 'createRecords'
+            expect(compoundConnector.connectorInfo.source).toEqual({
+                guid: 'decision'
             });
         });
 
         it('findConnector for the 0th branch of the decision should return the searched connector', () => {
             const compoundConnector = flowComponent.findConnector([{ guid: 'decision' }], 0);
             expect(compoundConnector).not.toBeNull();
-            expect(compoundConnector.connectorInfo.connectionInfo).toEqual({
+            expect(compoundConnector.connectorInfo.source).toEqual({
                 childIndex: 0,
-                parent: 'decision'
+                guid: 'decision'
             });
         });
 
         it('findConnector for the Fault branch should return the searched connector', () => {
             const compoundConnector = flowComponent.findConnector([{ guid: 'createRecords' }], FAULT_INDEX);
             expect(compoundConnector).not.toBeNull();
-            expect(compoundConnector.connectorInfo.connectionInfo).toEqual({
+            expect(compoundConnector.connectorInfo.source).toEqual({
                 childIndex: FAULT_INDEX,
-                parent: 'createRecords'
+                guid: 'createRecords'
             });
         });
     });

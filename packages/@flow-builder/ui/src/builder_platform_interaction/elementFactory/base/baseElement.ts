@@ -11,6 +11,7 @@ import {
 } from 'builder_platform_interaction/processTypeLib';
 import { copyAlcExtraProps } from 'builder_platform_interaction/alcCanvasUtils';
 
+import { getValuesFromConnectionSource } from 'builder_platform_interaction/autoLayoutCanvas';
 export const DUPLICATE_ELEMENT_XY_OFFSET = 75;
 
 // Used to mark an element as incomplete. An element is incomplete when it cannot fully be created because the factory needs information from an element that has
@@ -104,6 +105,7 @@ export function baseCanvasElement(
  * @param {string} topCutOrCopiedGuid - Guid of the top most cut or copied element
  * @param {string} bottomCutOrCopiedGuid - Guid of the bottom most cut or copied element
  * @param {string} prev - Guid of the element below which the cut/copied block will be pasted. This can be null when pasting at the top of a branch
+ * @param source
  * @param {string} next - Guid of the element above which the cut/copied block will be pasted. This can be null when pasting at the bottom of a branch
  * @param {string} parent - Guid of the parent element. This has a value only when pasting at the top of a branch
  * @param {number} childIndex - Index of the branch. This has a value only when pasting at the top of a branch
@@ -114,11 +116,11 @@ export function createPastedCanvasElement(
     canvasElementGuidMap,
     topCutOrCopiedGuid,
     bottomCutOrCopiedGuid,
-    prev,
-    next,
-    parent,
-    childIndex
+    source,
+    next
 ): UI.CanvasElement {
+    const { prev, parent, childIndex } = getValuesFromConnectionSource(source);
+
     const pastedCanvasElement = Object.assign(duplicatedElement, {
         config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
         incomingGoTo: [],

@@ -64,7 +64,7 @@ const endMetadata = {
 const createComponentUnderTest = (
     metadata = screenMetadata,
     variant = '',
-    connectionInfo = {},
+    source = {},
     isNodeGettingDeleted = false,
     canvasMode = AutoLayoutCanvasMode.DEFAULT,
     hasError = false
@@ -76,7 +76,7 @@ const createComponentUnderTest = (
     el.isNodeGettingDeleted = isNodeGettingDeleted;
     el.canvasMode = canvasMode;
     el.variant = variant;
-    el.connectionInfo = connectionInfo;
+    el.source = source;
     el.hasError = hasError;
     setDocumentBodyChildren(el);
     return el;

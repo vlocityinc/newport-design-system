@@ -113,10 +113,8 @@ export function createActionCall(actionCall = {}, elementType = ELEMENT_TYPE.ACT
  * @param root0.canvasElementGuidMap
  * @param root0.topCutOrCopiedGuid
  * @param root0.bottomCutOrCopiedGuid
- * @param root0.prev
- * @param root0.next
- * @param root0.parent
- * @param root0.childIndex
+ * @param root0.source - the connection source
+ * @param root0.next - the next guid
  */
 export function createPastedActionCall({
     canvasElementToPaste,
@@ -125,10 +123,8 @@ export function createPastedActionCall({
     canvasElementGuidMap,
     topCutOrCopiedGuid,
     bottomCutOrCopiedGuid,
-    prev,
-    next,
-    parent,
-    childIndex
+    source,
+    next
 }) {
     const { duplicatedElement } = createDuplicateActionCall(canvasElementToPaste, newGuid, newName);
 
@@ -137,10 +133,8 @@ export function createPastedActionCall({
         canvasElementGuidMap,
         topCutOrCopiedGuid,
         bottomCutOrCopiedGuid,
-        prev,
-        next,
-        parent,
-        childIndex
+        source,
+        next
     );
 
     return {

@@ -174,10 +174,6 @@ Object {
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "end-guid",
-          "prev": "start-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -189,6 +185,9 @@ Object {
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "start-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -428,10 +427,6 @@ Object {
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "screen-guid",
-          "prev": "start-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -443,6 +438,9 @@ Object {
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "start-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -499,10 +497,6 @@ L 3, 120",
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "branch-guid",
-          "prev": "screen-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -514,6 +508,9 @@ L 3, 120",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "screen-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -705,10 +702,6 @@ L 3, 120",
               "menuOpened": false,
               "offsetY": 84,
             },
-            "connectionInfo": Object {
-              "childIndex": 0,
-              "parent": "branch-guid",
-            },
             "geometry": Object {
               "h": 180,
               "w": 6,
@@ -720,6 +713,10 @@ L 3, 120",
             "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 0,
+              "guid": "branch-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -892,10 +889,6 @@ L 3, 156",
               "menuOpened": false,
               "offsetY": 84,
             },
-            "connectionInfo": Object {
-              "childIndex": 1,
-              "parent": "branch-guid",
-            },
             "geometry": Object {
               "h": 180,
               "w": 6,
@@ -907,6 +900,10 @@ L 3, 156",
             "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 1,
+              "guid": "branch-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -1079,10 +1076,6 @@ L 3, 228",
               "menuOpened": false,
               "offsetY": 84,
             },
-            "connectionInfo": Object {
-              "childIndex": 2,
-              "parent": "branch-guid",
-            },
             "connectorBadgeLabel": "Default Connector Label",
             "geometry": Object {
               "h": 132,
@@ -1095,6 +1088,10 @@ L 3, 228",
             "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 2,
+              "guid": "branch-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 20,
@@ -1128,10 +1125,6 @@ L 20, 124",
       "label": "branch-guid",
       "logicConnectors": Array [
         Object {
-          "connectionInfo": Object {
-            "childIndex": 0,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 176,
@@ -1141,6 +1134,10 @@ L 20, 124",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 0,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -1161,10 +1158,6 @@ L 3, 27",
           "type": "branchLeft",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 2,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 176,
@@ -1174,6 +1167,10 @@ L 3, 27",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 2,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 179,
@@ -1194,10 +1191,6 @@ L 179, 27",
           "type": "branchRight",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 0,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 48,
             "w": 176,
@@ -1207,6 +1200,10 @@ L 179, 27",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 0,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 179,
@@ -1239,10 +1236,6 @@ L 179, 48",
           "menuOpened": false,
           "offsetY": 36,
         },
-        "connectionInfo": Object {
-          "next": "end-guid",
-          "prev": "branch-guid",
-        },
         "geometry": Object {
           "h": 96,
           "w": 6,
@@ -1254,6 +1247,9 @@ L 179, 48",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "branch-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -1504,10 +1500,6 @@ Object {
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "screen-guid",
-          "prev": "start-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -1519,6 +1511,9 @@ Object {
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "start-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -1575,10 +1570,6 @@ L 3, 120",
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "branch-guid",
-          "prev": "screen-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -1590,6 +1581,9 @@ L 3, 120",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "screen-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -1780,10 +1774,6 @@ L 3, 120",
             "menuOpened": false,
             "offsetY": 84,
           },
-          "connectionInfo": Object {
-            "childIndex": -1,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 132,
             "w": 6,
@@ -1795,6 +1785,10 @@ L 3, 120",
           "isHighlighted": false,
           "labelOffsetY": 48,
           "labelType": 4,
+          "source": Object {
+            "childIndex": -1,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 20,
@@ -1970,10 +1964,6 @@ L 20, 124",
               "menuOpened": false,
               "offsetY": 84,
             },
-            "connectionInfo": Object {
-              "childIndex": 0,
-              "parent": "branch-guid",
-            },
             "geometry": Object {
               "h": 120,
               "w": 6,
@@ -1985,6 +1975,10 @@ L 20, 124",
             "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 0,
+              "guid": "branch-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -2157,10 +2151,6 @@ L 3, 96",
               "menuOpened": false,
               "offsetY": 84,
             },
-            "connectionInfo": Object {
-              "childIndex": 1,
-              "parent": "branch-guid",
-            },
             "geometry": Object {
               "h": 120,
               "w": 6,
@@ -2172,6 +2162,10 @@ L 3, 96",
             "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 1,
+              "guid": "branch-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -2344,10 +2338,6 @@ L 3, 168",
               "menuOpened": false,
               "offsetY": 84,
             },
-            "connectionInfo": Object {
-              "childIndex": 2,
-              "parent": "branch-guid",
-            },
             "connectorBadgeLabel": "Default Connector Label",
             "geometry": Object {
               "h": 120,
@@ -2360,6 +2350,10 @@ L 3, 168",
             "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 2,
+              "guid": "branch-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -2391,10 +2385,6 @@ L 3, 96",
       "label": "branch-guid",
       "logicConnectors": Array [
         Object {
-          "connectionInfo": Object {
-            "childIndex": 0,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 176,
@@ -2404,6 +2394,10 @@ L 3, 96",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 0,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -2424,10 +2418,6 @@ L 3, 27",
           "type": "branchLeft",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 2,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 176,
@@ -2437,6 +2427,10 @@ L 3, 27",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 2,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 179,
@@ -2457,10 +2451,6 @@ L 179, 27",
           "type": "branchRight",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 0,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 48,
             "w": 176,
@@ -2470,6 +2460,10 @@ L 179, 27",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 0,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 179,
@@ -2492,10 +2486,6 @@ L 179, 48",
           "type": "mergeLeft",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 2,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 48,
             "w": 176,
@@ -2505,6 +2495,10 @@ L 179, 48",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 2,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -2527,10 +2521,6 @@ L 3, 48",
           "type": "mergeRight",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": -1,
-            "parent": "root",
-          },
           "geometry": Object {
             "h": 24,
             "w": 352,
@@ -2540,6 +2530,10 @@ L 3, 48",
           "isFault": true,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": -1,
+            "guid": "root",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 355,
@@ -2570,10 +2564,6 @@ L 355, 27",
           "menuOpened": false,
           "offsetY": 36,
         },
-        "connectionInfo": Object {
-          "next": "end-guid",
-          "prev": "branch-guid",
-        },
         "geometry": Object {
           "h": 96,
           "w": 6,
@@ -2585,6 +2575,9 @@ L 355, 27",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "branch-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -2836,10 +2829,6 @@ Object {
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "screen-guid",
-          "prev": "start-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -2851,6 +2840,9 @@ Object {
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "start-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -2907,10 +2899,6 @@ L 3, 120",
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "branch-guid",
-          "prev": "screen-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -2922,6 +2910,9 @@ L 3, 120",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "screen-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -3113,10 +3104,6 @@ L 3, 120",
               "menuOpened": false,
               "offsetY": 84,
             },
-            "connectionInfo": Object {
-              "childIndex": 0,
-              "parent": "branch-guid",
-            },
             "geometry": Object {
               "h": 132,
               "w": 6,
@@ -3128,6 +3115,10 @@ L 3, 120",
             "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 0,
+              "guid": "branch-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 20,
@@ -3302,10 +3293,6 @@ L 20, 124",
               "menuOpened": false,
               "offsetY": 84,
             },
-            "connectionInfo": Object {
-              "childIndex": 1,
-              "parent": "branch-guid",
-            },
             "geometry": Object {
               "h": 180,
               "w": 6,
@@ -3317,6 +3304,10 @@ L 20, 124",
             "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 1,
+              "guid": "branch-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -3489,10 +3480,6 @@ L 3, 156",
               "menuOpened": false,
               "offsetY": 84,
             },
-            "connectionInfo": Object {
-              "childIndex": 2,
-              "parent": "branch-guid",
-            },
             "connectorBadgeLabel": "Default Connector Label",
             "geometry": Object {
               "h": 180,
@@ -3505,6 +3492,10 @@ L 3, 156",
             "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 2,
+              "guid": "branch-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -3536,10 +3527,6 @@ L 3, 156",
       "label": "branch-guid",
       "logicConnectors": Array [
         Object {
-          "connectionInfo": Object {
-            "childIndex": 0,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 220,
@@ -3549,6 +3536,10 @@ L 3, 156",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 0,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -3569,10 +3560,6 @@ L 3, 27",
           "type": "branchLeft",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 1,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 44,
@@ -3582,6 +3569,10 @@ L 3, 27",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 1,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 47,
@@ -3602,10 +3593,6 @@ L 47, 27",
           "type": "branchRight",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 2,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 220,
@@ -3615,6 +3602,10 @@ L 47, 27",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 2,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 223,
@@ -3635,10 +3626,6 @@ L 223, 27",
           "type": "branchRight",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 1,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 48,
             "w": 44,
@@ -3648,6 +3635,10 @@ L 223, 27",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 1,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -3670,10 +3661,6 @@ L 3, 48",
           "type": "mergeRight",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 2,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 48,
             "w": 220,
@@ -3683,6 +3670,10 @@ L 3, 48",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 2,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -3715,10 +3706,6 @@ L 3, 48",
           "menuOpened": false,
           "offsetY": 36,
         },
-        "connectionInfo": Object {
-          "next": "end-guid",
-          "prev": "branch-guid",
-        },
         "geometry": Object {
           "h": 96,
           "w": 6,
@@ -3730,6 +3717,9 @@ L 3, 48",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "branch-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -3980,10 +3970,6 @@ Object {
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "screen-guid",
-          "prev": "start-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -3995,6 +3981,9 @@ Object {
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "start-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -4051,10 +4040,6 @@ L 3, 120",
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "branch-guid",
-          "prev": "screen-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -4066,6 +4051,9 @@ L 3, 120",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "screen-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -4257,10 +4245,6 @@ L 3, 120",
               "menuOpened": false,
               "offsetY": 281,
             },
-            "connectionInfo": Object {
-              "childIndex": 0,
-              "parent": "branch-guid",
-            },
             "geometry": Object {
               "h": 329,
               "w": 6,
@@ -4272,6 +4256,10 @@ L 3, 120",
             "isHighlighted": false,
             "labelOffsetY": 245,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 0,
+              "guid": "branch-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 20,
@@ -4446,10 +4434,6 @@ L 20, 321",
               "menuOpened": false,
               "offsetY": 281,
             },
-            "connectionInfo": Object {
-              "childIndex": 1,
-              "parent": "branch-guid",
-            },
             "geometry": Object {
               "h": 377,
               "w": 6,
@@ -4461,6 +4445,10 @@ L 20, 321",
             "isHighlighted": false,
             "labelOffsetY": 245,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 1,
+              "guid": "branch-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -4633,10 +4621,6 @@ L 3, 353",
               "menuOpened": false,
               "offsetY": 281,
             },
-            "connectionInfo": Object {
-              "childIndex": 2,
-              "parent": "branch-guid",
-            },
             "connectorBadgeLabel": "Default Connector Label",
             "geometry": Object {
               "h": 377,
@@ -4649,6 +4633,10 @@ L 3, 353",
             "isHighlighted": false,
             "labelOffsetY": 245,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 2,
+              "guid": "branch-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -4680,10 +4668,6 @@ L 3, 353",
       "label": "branch-guid",
       "logicConnectors": Array [
         Object {
-          "connectionInfo": Object {
-            "childIndex": 0,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 220,
@@ -4693,6 +4677,10 @@ L 3, 353",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 0,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -4713,10 +4701,6 @@ L 3, 27",
           "type": "branchLeft",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 1,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 44,
@@ -4726,6 +4710,10 @@ L 3, 27",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 1,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 47,
@@ -4746,10 +4734,6 @@ L 47, 27",
           "type": "branchRight",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 2,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 220,
@@ -4759,6 +4743,10 @@ L 47, 27",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 2,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 223,
@@ -4779,10 +4767,6 @@ L 223, 27",
           "type": "branchRight",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 1,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 48,
             "w": 44,
@@ -4792,6 +4776,10 @@ L 223, 27",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 1,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -4814,10 +4802,6 @@ L 3, 48",
           "type": "mergeRight",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 2,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 48,
             "w": 220,
@@ -4827,6 +4811,10 @@ L 3, 48",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 2,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -4859,10 +4847,6 @@ L 3, 48",
           "menuOpened": false,
           "offsetY": 36,
         },
-        "connectionInfo": Object {
-          "next": "end-guid",
-          "prev": "branch-guid",
-        },
         "geometry": Object {
           "h": 96,
           "w": 6,
@@ -4874,6 +4858,9 @@ L 3, 48",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "branch-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -5124,10 +5111,6 @@ Object {
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "screen-guid",
-          "prev": "start-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -5139,6 +5122,9 @@ Object {
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "start-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -5195,10 +5181,6 @@ L 3, 120",
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "branch-guid",
-          "prev": "screen-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -5210,6 +5192,9 @@ L 3, 120",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "screen-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -5401,10 +5386,6 @@ L 3, 120",
               "menuOpened": true,
               "offsetY": 84,
             },
-            "connectionInfo": Object {
-              "childIndex": 0,
-              "parent": "branch-guid",
-            },
             "geometry": Object {
               "h": 353,
               "w": 6,
@@ -5416,6 +5397,10 @@ L 3, 120",
             "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 0,
+              "guid": "branch-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 20,
@@ -5590,10 +5575,6 @@ L 20, 345",
               "menuOpened": false,
               "offsetY": 84,
             },
-            "connectionInfo": Object {
-              "childIndex": 1,
-              "parent": "branch-guid",
-            },
             "geometry": Object {
               "h": 401,
               "w": 6,
@@ -5605,6 +5586,10 @@ L 20, 345",
             "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 1,
+              "guid": "branch-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -5777,10 +5762,6 @@ L 3, 377",
               "menuOpened": false,
               "offsetY": 84,
             },
-            "connectionInfo": Object {
-              "childIndex": 2,
-              "parent": "branch-guid",
-            },
             "connectorBadgeLabel": "Default Connector Label",
             "geometry": Object {
               "h": 401,
@@ -5793,6 +5774,10 @@ L 3, 377",
             "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 2,
+              "guid": "branch-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -5824,10 +5809,6 @@ L 3, 377",
       "label": "branch-guid",
       "logicConnectors": Array [
         Object {
-          "connectionInfo": Object {
-            "childIndex": 0,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 220,
@@ -5837,6 +5818,10 @@ L 3, 377",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 0,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -5857,10 +5842,6 @@ L 3, 27",
           "type": "branchLeft",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 1,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 44,
@@ -5870,6 +5851,10 @@ L 3, 27",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 1,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 47,
@@ -5890,10 +5875,6 @@ L 47, 27",
           "type": "branchRight",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 2,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 220,
@@ -5903,6 +5884,10 @@ L 47, 27",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 2,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 223,
@@ -5923,10 +5908,6 @@ L 223, 27",
           "type": "branchRight",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 1,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 48,
             "w": 44,
@@ -5936,6 +5917,10 @@ L 223, 27",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 1,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -5958,10 +5943,6 @@ L 3, 48",
           "type": "mergeRight",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 2,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 48,
             "w": 220,
@@ -5971,6 +5952,10 @@ L 3, 48",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 2,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -6003,10 +5988,6 @@ L 3, 48",
           "menuOpened": false,
           "offsetY": 36,
         },
-        "connectionInfo": Object {
-          "next": "end-guid",
-          "prev": "branch-guid",
-        },
         "geometry": Object {
           "h": 96,
           "w": 6,
@@ -6018,6 +5999,9 @@ L 3, 48",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "branch-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -6268,10 +6252,6 @@ Object {
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "screen-guid",
-          "prev": "start-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -6283,6 +6263,9 @@ Object {
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "start-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -6339,10 +6322,6 @@ L 3, 120",
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "branch-guid",
-          "prev": "screen-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -6354,6 +6333,9 @@ L 3, 120",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "screen-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -6545,10 +6527,6 @@ L 3, 120",
               "menuOpened": false,
               "offsetY": 84,
             },
-            "connectionInfo": Object {
-              "childIndex": 0,
-              "parent": "branch-guid",
-            },
             "geometry": Object {
               "h": 132,
               "w": 6,
@@ -6560,6 +6538,10 @@ L 3, 120",
             "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 0,
+              "guid": "branch-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 20,
@@ -6734,10 +6716,6 @@ L 20, 124",
               "menuOpened": false,
               "offsetY": 84,
             },
-            "connectionInfo": Object {
-              "childIndex": 1,
-              "parent": "branch-guid",
-            },
             "geometry": Object {
               "h": 180,
               "w": 6,
@@ -6749,6 +6727,10 @@ L 20, 124",
             "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 1,
+              "guid": "branch-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -6921,10 +6903,6 @@ L 3, 156",
               "menuOpened": false,
               "offsetY": 84,
             },
-            "connectionInfo": Object {
-              "childIndex": 2,
-              "parent": "branch-guid",
-            },
             "connectorBadgeLabel": "Default Connector Label",
             "geometry": Object {
               "h": 180,
@@ -6937,6 +6915,10 @@ L 3, 156",
             "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 2,
+              "guid": "branch-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -6968,10 +6950,6 @@ L 3, 156",
       "label": "branch-guid",
       "logicConnectors": Array [
         Object {
-          "connectionInfo": Object {
-            "childIndex": 0,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 220,
@@ -6981,6 +6959,10 @@ L 3, 156",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 0,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -7001,10 +6983,6 @@ L 3, 27",
           "type": "branchLeft",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 1,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 44,
@@ -7014,6 +6992,10 @@ L 3, 27",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 1,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 47,
@@ -7034,10 +7016,6 @@ L 47, 27",
           "type": "branchRight",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 2,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 220,
@@ -7047,6 +7025,10 @@ L 47, 27",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 2,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 223,
@@ -7067,10 +7049,6 @@ L 223, 27",
           "type": "branchRight",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 1,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 48,
             "w": 44,
@@ -7080,6 +7058,10 @@ L 223, 27",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 1,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -7102,10 +7084,6 @@ L 3, 48",
           "type": "mergeRight",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 2,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 48,
             "w": 220,
@@ -7115,6 +7093,10 @@ L 3, 48",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 2,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -7147,10 +7129,6 @@ L 3, 48",
           "menuOpened": true,
           "offsetY": 36,
         },
-        "connectionInfo": Object {
-          "next": "end-guid",
-          "prev": "branch-guid",
-        },
         "geometry": Object {
           "h": 305,
           "w": 6,
@@ -7162,6 +7140,9 @@ L 3, 48",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "branch-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -7412,10 +7393,6 @@ Object {
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "screen-guid",
-          "prev": "start-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -7427,6 +7404,9 @@ Object {
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "start-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -7480,10 +7460,6 @@ L 3, 120",
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "loop-guid",
-          "prev": "screen-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -7495,6 +7471,9 @@ L 3, 120",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "screen-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -7686,10 +7665,6 @@ L 3, 120",
               "menuOpened": false,
               "offsetY": 60,
             },
-            "connectionInfo": Object {
-              "childIndex": 0,
-              "parent": "loop-guid",
-            },
             "geometry": Object {
               "h": 84,
               "w": 6,
@@ -7701,6 +7676,10 @@ L 3, 120",
             "isHighlighted": false,
             "labelOffsetY": 24,
             "labelType": 2,
+            "source": Object {
+              "childIndex": 0,
+              "guid": "loop-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 20,
@@ -7734,9 +7713,6 @@ L 20, 76",
       "label": "default",
       "logicConnectors": Array [
         Object {
-          "connectionInfo": Object {
-            "parent": "loop-guid",
-          },
           "geometry": Object {
             "h": 108,
             "w": 176,
@@ -7748,6 +7724,9 @@ L 20, 76",
           "labelOffsetX": 176,
           "labelOffsetY": 24,
           "labelType": 3,
+          "source": Object {
+            "guid": "loop-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -7782,10 +7761,6 @@ L 3, 135",
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "end-guid",
-          "prev": "loop-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -7797,6 +7772,9 @@ L 3, 135",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "loop-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -8036,10 +8014,6 @@ Object {
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "loop-guid",
-          "prev": "start-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -8051,6 +8025,9 @@ Object {
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "start-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -8258,10 +8235,6 @@ L 3, 120",
                   "menuOpened": false,
                   "offsetY": 60,
                 },
-                "connectionInfo": Object {
-                  "next": null,
-                  "prev": "screen-guid",
-                },
                 "geometry": Object {
                   "h": 96,
                   "w": 6,
@@ -8273,6 +8246,9 @@ L 3, 120",
                 "isHighlighted": false,
                 "labelOffsetY": 48,
                 "labelType": 0,
+                "source": Object {
+                  "guid": "screen-guid",
+                },
                 "svgInfo": Object {
                   "endLocation": Object {
                     "x": 3,
@@ -8311,10 +8287,6 @@ L 3, 48",
               "menuOpened": false,
               "offsetY": 60,
             },
-            "connectionInfo": Object {
-              "childIndex": 0,
-              "parent": "loop-guid",
-            },
             "geometry": Object {
               "h": 120,
               "w": 6,
@@ -8326,6 +8298,10 @@ L 3, 48",
             "isHighlighted": false,
             "labelOffsetY": 24,
             "labelType": 2,
+            "source": Object {
+              "childIndex": 0,
+              "guid": "loop-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -8357,9 +8333,6 @@ L 3, 120",
       "label": "default",
       "logicConnectors": Array [
         Object {
-          "connectionInfo": Object {
-            "parent": "loop-guid",
-          },
           "geometry": Object {
             "h": 216,
             "w": 176,
@@ -8371,6 +8344,9 @@ L 3, 120",
           "labelOffsetX": 176,
           "labelOffsetY": 24,
           "labelType": 3,
+          "source": Object {
+            "guid": "loop-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -8395,9 +8371,6 @@ L 3, 243",
           "type": "loopAfterLast",
         },
         Object {
-          "connectionInfo": Object {
-            "parent": "loop-guid",
-          },
           "geometry": Object {
             "h": 216,
             "w": 88,
@@ -8407,6 +8380,9 @@ L 3, 243",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "guid": "loop-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 91,
@@ -8441,10 +8417,6 @@ L 91, 171",
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "screen-guid",
-          "prev": "loop-guid",
-        },
         "geometry": Object {
           "h": 108,
           "w": 6,
@@ -8456,6 +8428,9 @@ L 91, 171",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "loop-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 20,
@@ -8667,10 +8642,6 @@ Object {
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "decision1-guid",
-          "prev": "start-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -8682,6 +8653,9 @@ Object {
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "start-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -8871,10 +8845,6 @@ L 3, 120",
               "menuOpened": false,
               "offsetY": 60,
             },
-            "connectionInfo": Object {
-              "childIndex": 0,
-              "parent": "decision1-guid",
-            },
             "geometry": Object {
               "h": 372,
               "w": 6,
@@ -8886,6 +8856,10 @@ L 3, 120",
             "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 0,
+              "guid": "decision1-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -9212,10 +9186,6 @@ L 3, 348",
                       "menuOpened": false,
                       "offsetY": 60,
                     },
-                    "connectionInfo": Object {
-                      "childIndex": 0,
-                      "parent": "decision2-guid",
-                    },
                     "geometry": Object {
                       "h": 108,
                       "w": 6,
@@ -9227,6 +9197,10 @@ L 3, 348",
                     "isHighlighted": false,
                     "labelOffsetY": 24,
                     "labelType": 1,
+                    "source": Object {
+                      "childIndex": 0,
+                      "guid": "decision2-guid",
+                    },
                     "svgInfo": Object {
                       "endLocation": Object {
                         "x": 20,
@@ -9401,10 +9375,6 @@ L 20, 100",
                       "menuOpened": false,
                       "offsetY": 60,
                     },
-                    "connectionInfo": Object {
-                      "childIndex": 1,
-                      "parent": "decision2-guid",
-                    },
                     "geometry": Object {
                       "h": 156,
                       "w": 6,
@@ -9416,6 +9386,10 @@ L 20, 100",
                     "isHighlighted": false,
                     "labelOffsetY": 48,
                     "labelType": 1,
+                    "source": Object {
+                      "childIndex": 1,
+                      "guid": "decision2-guid",
+                    },
                     "svgInfo": Object {
                       "endLocation": Object {
                         "x": 3,
@@ -9447,10 +9421,6 @@ L 3, 132",
               "label": "default",
               "logicConnectors": Array [
                 Object {
-                  "connectionInfo": Object {
-                    "childIndex": 0,
-                    "parent": "decision2-guid",
-                  },
                   "geometry": Object {
                     "h": 24,
                     "w": 132,
@@ -9460,6 +9430,10 @@ L 3, 132",
                   "isFault": undefined,
                   "isHighlighted": false,
                   "labelType": 0,
+                  "source": Object {
+                    "childIndex": 0,
+                    "guid": "decision2-guid",
+                  },
                   "svgInfo": Object {
                     "endLocation": Object {
                       "x": 3,
@@ -9480,10 +9454,6 @@ L 3, 27",
                   "type": "branchLeft",
                 },
                 Object {
-                  "connectionInfo": Object {
-                    "childIndex": 1,
-                    "parent": "decision2-guid",
-                  },
                   "geometry": Object {
                     "h": 24,
                     "w": 132,
@@ -9493,6 +9463,10 @@ L 3, 27",
                   "isFault": undefined,
                   "isHighlighted": false,
                   "labelType": 0,
+                  "source": Object {
+                    "childIndex": 1,
+                    "guid": "decision2-guid",
+                  },
                   "svgInfo": Object {
                     "endLocation": Object {
                       "x": 135,
@@ -9513,10 +9487,6 @@ L 135, 27",
                   "type": "branchRight",
                 },
                 Object {
-                  "connectionInfo": Object {
-                    "childIndex": 1,
-                    "parent": "decision2-guid",
-                  },
                   "geometry": Object {
                     "h": 48,
                     "w": 132,
@@ -9526,6 +9496,10 @@ L 135, 27",
                   "isFault": undefined,
                   "isHighlighted": false,
                   "labelType": 0,
+                  "source": Object {
+                    "childIndex": 1,
+                    "guid": "decision2-guid",
+                  },
                   "svgInfo": Object {
                     "endLocation": Object {
                       "x": 3,
@@ -9555,10 +9529,6 @@ L 3, 48",
               },
               "nextConnector": Object {
                 "addInfo": undefined,
-                "connectionInfo": Object {
-                  "next": null,
-                  "prev": "decision2-guid",
-                },
                 "geometry": Object {
                   "h": 96,
                   "w": 6,
@@ -9570,6 +9540,9 @@ L 3, 48",
                 "isHighlighted": false,
                 "labelOffsetY": 48,
                 "labelType": 0,
+                "source": Object {
+                  "guid": "decision2-guid",
+                },
                 "svgInfo": Object {
                   "endLocation": Object {
                     "x": 3,
@@ -9616,10 +9589,6 @@ L 3, 72",
               "menuOpened": false,
               "offsetY": 60,
             },
-            "connectionInfo": Object {
-              "childIndex": 1,
-              "parent": "decision1-guid",
-            },
             "geometry": Object {
               "h": 120,
               "w": 6,
@@ -9631,6 +9600,10 @@ L 3, 72",
             "isHighlighted": false,
             "labelOffsetY": 24,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 1,
+              "guid": "decision1-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -9662,10 +9635,6 @@ L 3, 120",
       "label": "default",
       "logicConnectors": Array [
         Object {
-          "connectionInfo": Object {
-            "childIndex": 0,
-            "parent": "decision1-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 154,
@@ -9675,6 +9644,10 @@ L 3, 120",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 0,
+            "guid": "decision1-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -9695,10 +9668,6 @@ L 3, 27",
           "type": "branchLeft",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 1,
-            "parent": "decision1-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 154,
@@ -9708,6 +9677,10 @@ L 3, 27",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 1,
+            "guid": "decision1-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 157,
@@ -9728,10 +9701,6 @@ L 157, 27",
           "type": "branchRight",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 0,
-            "parent": "decision1-guid",
-          },
           "geometry": Object {
             "h": 48,
             "w": 154,
@@ -9741,6 +9710,10 @@ L 157, 27",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 0,
+            "guid": "decision1-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 157,
@@ -9763,10 +9736,6 @@ L 157, 48",
           "type": "mergeLeft",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 1,
-            "parent": "decision1-guid",
-          },
           "geometry": Object {
             "h": 48,
             "w": 154,
@@ -9776,6 +9745,10 @@ L 157, 48",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 1,
+            "guid": "decision1-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -9808,10 +9781,6 @@ L 3, 48",
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "end1-guid",
-          "prev": "decision1-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -9823,6 +9792,9 @@ L 3, 48",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "decision1-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -10070,10 +10042,6 @@ Object {
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "goto-target-guid",
-          "prev": "start-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -10085,6 +10053,9 @@ Object {
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "start-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -10141,10 +10112,6 @@ L 3, 120",
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "goto-source-guid",
-          "prev": "goto-target-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -10156,6 +10123,9 @@ L 3, 120",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "goto-target-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -10212,10 +10182,6 @@ L 3, 120",
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "goto-target-guid",
-          "prev": "goto-source-guid",
-        },
         "geometry": Object {
           "h": 108,
           "w": 6,
@@ -10227,6 +10193,9 @@ L 3, 120",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "goto-source-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 20,
@@ -10436,10 +10405,6 @@ Object {
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "goto-target-guid",
-          "prev": "start-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -10451,6 +10416,9 @@ Object {
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "start-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -10507,10 +10475,6 @@ L 3, 120",
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "goto-source-guid",
-          "prev": "goto-target-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -10522,6 +10486,9 @@ L 3, 120",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "goto-target-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -10578,10 +10545,6 @@ L 3, 120",
           "menuOpened": true,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "goto-target-guid",
-          "prev": "goto-source-guid",
-        },
         "geometry": Object {
           "h": 329,
           "w": 6,
@@ -10593,6 +10556,9 @@ L 3, 120",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "goto-source-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 20,
@@ -10802,10 +10768,6 @@ Object {
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "goto-target-guid",
-          "prev": "start-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -10817,6 +10779,9 @@ Object {
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "start-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -10873,10 +10838,6 @@ L 3, 120",
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "goto-source-guid",
-          "prev": "goto-target-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -10888,6 +10849,9 @@ L 3, 120",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "goto-target-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -10944,10 +10908,6 @@ L 3, 120",
           "menuOpened": false,
           "offsetY": 245,
         },
-        "connectionInfo": Object {
-          "next": "goto-target-guid",
-          "prev": "goto-source-guid",
-        },
         "geometry": Object {
           "h": 293,
           "w": 6,
@@ -10959,6 +10919,9 @@ L 3, 120",
         "isHighlighted": false,
         "labelOffsetY": 233,
         "labelType": 0,
+        "source": Object {
+          "guid": "goto-source-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 20,
@@ -11168,10 +11131,6 @@ Object {
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "branch-guid",
-          "prev": "start-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -11183,6 +11142,9 @@ Object {
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "start-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -11384,10 +11346,6 @@ L 3, 120",
               "menuOpened": false,
               "offsetY": 84,
             },
-            "connectionInfo": Object {
-              "childIndex": 0,
-              "parent": "branch-guid",
-            },
             "geometry": Object {
               "h": 120,
               "w": 6,
@@ -11399,6 +11357,10 @@ L 3, 120",
             "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 0,
+              "guid": "branch-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -11571,10 +11533,6 @@ L 3, 96",
               "menuOpened": false,
               "offsetY": 84,
             },
-            "connectionInfo": Object {
-              "childIndex": 1,
-              "parent": "branch-guid",
-            },
             "connectorBadgeLabel": "Default Connector Label",
             "geometry": Object {
               "h": 120,
@@ -11587,6 +11545,10 @@ L 3, 96",
             "isHighlighted": true,
             "labelOffsetY": 48,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 1,
+              "guid": "branch-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -11618,10 +11580,6 @@ L 3, 96",
       "label": "branch-guid",
       "logicConnectors": Array [
         Object {
-          "connectionInfo": Object {
-            "childIndex": 0,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 88,
@@ -11631,6 +11589,10 @@ L 3, 96",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 0,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -11651,10 +11613,6 @@ L 3, 27",
           "type": "branchLeft",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 1,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 88,
@@ -11664,6 +11622,10 @@ L 3, 27",
           "isFault": undefined,
           "isHighlighted": true,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 1,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 91,
@@ -11684,10 +11646,6 @@ L 91, 27",
           "type": "branchRight",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 0,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 48,
             "w": 88,
@@ -11697,6 +11655,10 @@ L 91, 27",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 0,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 91,
@@ -11719,10 +11681,6 @@ L 91, 48",
           "type": "mergeLeft",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 1,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 48,
             "w": 88,
@@ -11732,6 +11690,10 @@ L 91, 48",
           "isFault": undefined,
           "isHighlighted": true,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 1,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -11764,10 +11726,6 @@ L 3, 48",
           "menuOpened": false,
           "offsetY": 36,
         },
-        "connectionInfo": Object {
-          "next": "end-guid",
-          "prev": "branch-guid",
-        },
         "geometry": Object {
           "h": 96,
           "w": 6,
@@ -11779,6 +11737,9 @@ L 3, 48",
         "isHighlighted": true,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "branch-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -12030,10 +11991,6 @@ Object {
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "branch-guid",
-          "prev": "start-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -12045,6 +12002,9 @@ Object {
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "start-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -12242,10 +12202,6 @@ L 3, 120",
               "menuOpened": false,
               "offsetY": 84,
             },
-            "connectionInfo": Object {
-              "childIndex": 0,
-              "parent": "branch-guid",
-            },
             "geometry": Object {
               "h": 120,
               "w": 6,
@@ -12257,6 +12213,10 @@ L 3, 120",
             "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 0,
+              "guid": "branch-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -12429,10 +12389,6 @@ L 3, 96",
               "menuOpened": false,
               "offsetY": 84,
             },
-            "connectionInfo": Object {
-              "childIndex": 1,
-              "parent": "branch-guid",
-            },
             "connectorBadgeLabel": "Default Connector Label",
             "geometry": Object {
               "h": 120,
@@ -12445,6 +12401,10 @@ L 3, 96",
             "isHighlighted": true,
             "labelOffsetY": 48,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 1,
+              "guid": "branch-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -12476,10 +12436,6 @@ L 3, 96",
       "label": "branch-guid",
       "logicConnectors": Array [
         Object {
-          "connectionInfo": Object {
-            "childIndex": 0,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 88,
@@ -12489,6 +12445,10 @@ L 3, 96",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 0,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -12509,10 +12469,6 @@ L 3, 27",
           "type": "branchLeft",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 1,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 88,
@@ -12522,6 +12478,10 @@ L 3, 27",
           "isFault": undefined,
           "isHighlighted": true,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 1,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 91,
@@ -12542,10 +12502,6 @@ L 91, 27",
           "type": "branchRight",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 0,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 48,
             "w": 88,
@@ -12555,6 +12511,10 @@ L 91, 27",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 0,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 91,
@@ -12577,10 +12537,6 @@ L 91, 48",
           "type": "mergeLeft",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 1,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 48,
             "w": 88,
@@ -12590,6 +12546,10 @@ L 91, 48",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 1,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -12622,10 +12582,6 @@ L 3, 48",
           "menuOpened": false,
           "offsetY": 36,
         },
-        "connectionInfo": Object {
-          "next": "end-guid",
-          "prev": "branch-guid",
-        },
         "geometry": Object {
           "h": 96,
           "w": 6,
@@ -12637,6 +12593,9 @@ L 3, 48",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "branch-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -12884,10 +12843,6 @@ Object {
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "branch-guid",
-          "prev": "start-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -12899,6 +12854,9 @@ Object {
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "start-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -13109,10 +13067,6 @@ L 3, 120",
                   "menuOpened": false,
                   "offsetY": 60,
                 },
-                "connectionInfo": Object {
-                  "next": undefined,
-                  "prev": "branch-left-head-guid",
-                },
                 "geometry": Object {
                   "h": 96,
                   "w": 6,
@@ -13124,6 +13078,9 @@ L 3, 120",
                 "isHighlighted": false,
                 "labelOffsetY": 48,
                 "labelType": 0,
+                "source": Object {
+                  "guid": "branch-left-head-guid",
+                },
                 "svgInfo": Object {
                   "endLocation": Object {
                     "x": 3,
@@ -13158,10 +13115,6 @@ L 3, 72",
               "menuOpened": false,
               "offsetY": 84,
             },
-            "connectionInfo": Object {
-              "childIndex": 0,
-              "parent": "branch-guid",
-            },
             "geometry": Object {
               "h": 144,
               "w": 6,
@@ -13173,6 +13126,10 @@ L 3, 72",
             "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 0,
+              "guid": "branch-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -13345,10 +13302,6 @@ L 3, 144",
               "menuOpened": false,
               "offsetY": 84,
             },
-            "connectionInfo": Object {
-              "childIndex": 1,
-              "parent": "branch-guid",
-            },
             "connectorBadgeLabel": "Default Connector Label",
             "geometry": Object {
               "h": 240,
@@ -13361,6 +13314,10 @@ L 3, 144",
             "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 1,
+              "guid": "branch-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -13392,10 +13349,6 @@ L 3, 216",
       "label": "branch-guid",
       "logicConnectors": Array [
         Object {
-          "connectionInfo": Object {
-            "childIndex": 0,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 132,
@@ -13405,6 +13358,10 @@ L 3, 216",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 0,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -13425,10 +13382,6 @@ L 3, 27",
           "type": "branchLeft",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 1,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 132,
@@ -13438,6 +13391,10 @@ L 3, 27",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 1,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 135,
@@ -13458,10 +13415,6 @@ L 135, 27",
           "type": "branchRight",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 0,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 48,
             "w": 132,
@@ -13471,6 +13424,10 @@ L 135, 27",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 0,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 135,
@@ -13493,10 +13450,6 @@ L 135, 48",
           "type": "mergeLeft",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 1,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 48,
             "w": 132,
@@ -13506,6 +13459,10 @@ L 135, 48",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 1,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -13538,10 +13495,6 @@ L 3, 48",
           "menuOpened": false,
           "offsetY": 36,
         },
-        "connectionInfo": Object {
-          "next": "end-guid",
-          "prev": "branch-guid",
-        },
         "geometry": Object {
           "h": 96,
           "w": 6,
@@ -13553,6 +13506,9 @@ L 3, 48",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "branch-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -13794,10 +13750,6 @@ Object {
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "decision1-guid",
-          "prev": "start-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -13809,6 +13761,9 @@ Object {
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "start-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -14181,10 +14136,6 @@ L 3, 120",
                       "menuOpened": false,
                       "offsetY": 60,
                     },
-                    "connectionInfo": Object {
-                      "childIndex": 0,
-                      "parent": "decision2-guid",
-                    },
                     "geometry": Object {
                       "h": 120,
                       "w": 6,
@@ -14196,6 +14147,10 @@ L 3, 120",
                     "isHighlighted": false,
                     "labelOffsetY": 24,
                     "labelType": 1,
+                    "source": Object {
+                      "childIndex": 0,
+                      "guid": "decision2-guid",
+                    },
                     "svgInfo": Object {
                       "endLocation": Object {
                         "x": 3,
@@ -14398,10 +14353,6 @@ L 3, 120",
                       "menuOpened": false,
                       "offsetY": 60,
                     },
-                    "connectionInfo": Object {
-                      "childIndex": 1,
-                      "parent": "decision2-guid",
-                    },
                     "geometry": Object {
                       "h": 120,
                       "w": 6,
@@ -14413,6 +14364,10 @@ L 3, 120",
                     "isHighlighted": false,
                     "labelOffsetY": 24,
                     "labelType": 1,
+                    "source": Object {
+                      "childIndex": 1,
+                      "guid": "decision2-guid",
+                    },
                     "svgInfo": Object {
                       "endLocation": Object {
                         "x": 3,
@@ -14444,10 +14399,6 @@ L 3, 120",
               "label": "default",
               "logicConnectors": Array [
                 Object {
-                  "connectionInfo": Object {
-                    "childIndex": 0,
-                    "parent": "decision2-guid",
-                  },
                   "geometry": Object {
                     "h": 24,
                     "w": 132,
@@ -14457,6 +14408,10 @@ L 3, 120",
                   "isFault": undefined,
                   "isHighlighted": false,
                   "labelType": 0,
+                  "source": Object {
+                    "childIndex": 0,
+                    "guid": "decision2-guid",
+                  },
                   "svgInfo": Object {
                     "endLocation": Object {
                       "x": 3,
@@ -14477,10 +14432,6 @@ L 3, 27",
                   "type": "branchLeft",
                 },
                 Object {
-                  "connectionInfo": Object {
-                    "childIndex": 1,
-                    "parent": "decision2-guid",
-                  },
                   "geometry": Object {
                     "h": 24,
                     "w": 132,
@@ -14490,6 +14441,10 @@ L 3, 27",
                   "isFault": undefined,
                   "isHighlighted": false,
                   "labelType": 0,
+                  "source": Object {
+                    "childIndex": 1,
+                    "guid": "decision2-guid",
+                  },
                   "svgInfo": Object {
                     "endLocation": Object {
                       "x": 135,
@@ -14510,10 +14465,6 @@ L 135, 27",
                   "type": "branchRight",
                 },
                 Object {
-                  "connectionInfo": Object {
-                    "childIndex": 0,
-                    "parent": "decision2-guid",
-                  },
                   "geometry": Object {
                     "h": 48,
                     "w": 132,
@@ -14523,6 +14474,10 @@ L 135, 27",
                   "isFault": undefined,
                   "isHighlighted": false,
                   "labelType": 0,
+                  "source": Object {
+                    "childIndex": 0,
+                    "guid": "decision2-guid",
+                  },
                   "svgInfo": Object {
                     "endLocation": Object {
                       "x": 135,
@@ -14545,10 +14500,6 @@ L 135, 48",
                   "type": "mergeLeft",
                 },
                 Object {
-                  "connectionInfo": Object {
-                    "childIndex": 1,
-                    "parent": "decision2-guid",
-                  },
                   "geometry": Object {
                     "h": 48,
                     "w": 132,
@@ -14558,6 +14509,10 @@ L 135, 48",
                   "isFault": undefined,
                   "isHighlighted": false,
                   "labelType": 0,
+                  "source": Object {
+                    "childIndex": 1,
+                    "guid": "decision2-guid",
+                  },
                   "svgInfo": Object {
                     "endLocation": Object {
                       "x": 3,
@@ -14590,10 +14545,6 @@ L 3, 48",
                   "menuOpened": false,
                   "offsetY": 60,
                 },
-                "connectionInfo": Object {
-                  "next": null,
-                  "prev": "decision2-guid",
-                },
                 "geometry": Object {
                   "h": 96,
                   "w": 6,
@@ -14605,6 +14556,9 @@ L 3, 48",
                 "isHighlighted": false,
                 "labelOffsetY": 48,
                 "labelType": 0,
+                "source": Object {
+                  "guid": "decision2-guid",
+                },
                 "svgInfo": Object {
                   "endLocation": Object {
                     "x": 3,
@@ -14651,10 +14605,6 @@ L 3, 72",
               "menuOpened": false,
               "offsetY": 60,
             },
-            "connectionInfo": Object {
-              "childIndex": 0,
-              "parent": "decision1-guid",
-            },
             "geometry": Object {
               "h": 120,
               "w": 6,
@@ -14666,6 +14616,10 @@ L 3, 72",
             "isHighlighted": false,
             "labelOffsetY": 24,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 0,
+              "guid": "decision1-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -14838,10 +14792,6 @@ L 3, 120",
               "menuOpened": false,
               "offsetY": 60,
             },
-            "connectionInfo": Object {
-              "childIndex": 1,
-              "parent": "decision1-guid",
-            },
             "geometry": Object {
               "h": 384,
               "w": 6,
@@ -14853,6 +14803,10 @@ L 3, 120",
             "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 1,
+              "guid": "decision1-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -15025,10 +14979,6 @@ L 3, 360",
               "menuOpened": false,
               "offsetY": 60,
             },
-            "connectionInfo": Object {
-              "childIndex": 2,
-              "parent": "decision1-guid",
-            },
             "geometry": Object {
               "h": 384,
               "w": 6,
@@ -15040,6 +14990,10 @@ L 3, 360",
             "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 2,
+              "guid": "decision1-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -15071,10 +15025,6 @@ L 3, 360",
       "label": "default",
       "logicConnectors": Array [
         Object {
-          "connectionInfo": Object {
-            "childIndex": 0,
-            "parent": "decision1-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 286,
@@ -15084,6 +15034,10 @@ L 3, 360",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 0,
+            "guid": "decision1-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -15104,10 +15058,6 @@ L 3, 27",
           "type": "branchLeft",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 1,
-            "parent": "decision1-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 110,
@@ -15117,6 +15067,10 @@ L 3, 27",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 1,
+            "guid": "decision1-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 113,
@@ -15137,10 +15091,6 @@ L 113, 27",
           "type": "branchRight",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 2,
-            "parent": "decision1-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 286,
@@ -15150,6 +15100,10 @@ L 113, 27",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 2,
+            "guid": "decision1-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 289,
@@ -15170,10 +15124,6 @@ L 289, 27",
           "type": "branchRight",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 1,
-            "parent": "decision1-guid",
-          },
           "geometry": Object {
             "h": 48,
             "w": 110,
@@ -15183,6 +15133,10 @@ L 289, 27",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 1,
+            "guid": "decision1-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -15205,10 +15159,6 @@ L 3, 48",
           "type": "mergeRight",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 2,
-            "parent": "decision1-guid",
-          },
           "geometry": Object {
             "h": 48,
             "w": 286,
@@ -15218,6 +15168,10 @@ L 3, 48",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 2,
+            "guid": "decision1-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -15250,10 +15204,6 @@ L 3, 48",
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "screen1-guid",
-          "prev": "decision1-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -15265,6 +15215,9 @@ L 3, 48",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "decision1-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -15330,10 +15283,6 @@ L 3, 168",
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "decision3-guid",
-          "prev": "screen1-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -15345,6 +15294,9 @@ L 3, 168",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "screen1-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -15705,10 +15657,6 @@ L 3, 120",
                           "menuOpened": false,
                           "offsetY": 60,
                         },
-                        "connectionInfo": Object {
-                          "next": "end4-guid",
-                          "prev": "screen2-guid",
-                        },
                         "geometry": Object {
                           "h": 120,
                           "w": 6,
@@ -15720,6 +15668,9 @@ L 3, 120",
                         "isHighlighted": false,
                         "labelOffsetY": 48,
                         "labelType": 0,
+                        "source": Object {
+                          "guid": "screen2-guid",
+                        },
                         "svgInfo": Object {
                           "endLocation": Object {
                             "x": 3,
@@ -15785,10 +15736,6 @@ L 3, 120",
                       "menuOpened": false,
                       "offsetY": 60,
                     },
-                    "connectionInfo": Object {
-                      "childIndex": 0,
-                      "parent": "decision4-guid",
-                    },
                     "geometry": Object {
                       "h": 120,
                       "w": 6,
@@ -15800,6 +15747,10 @@ L 3, 120",
                     "isHighlighted": false,
                     "labelOffsetY": 24,
                     "labelType": 1,
+                    "source": Object {
+                      "childIndex": 0,
+                      "guid": "decision4-guid",
+                    },
                     "svgInfo": Object {
                       "endLocation": Object {
                         "x": 3,
@@ -16002,10 +15953,6 @@ L 3, 120",
                       "menuOpened": false,
                       "offsetY": 60,
                     },
-                    "connectionInfo": Object {
-                      "childIndex": 1,
-                      "parent": "decision4-guid",
-                    },
                     "geometry": Object {
                       "h": 120,
                       "w": 6,
@@ -16017,6 +15964,10 @@ L 3, 120",
                     "isHighlighted": false,
                     "labelOffsetY": 24,
                     "labelType": 1,
+                    "source": Object {
+                      "childIndex": 1,
+                      "guid": "decision4-guid",
+                    },
                     "svgInfo": Object {
                       "endLocation": Object {
                         "x": 3,
@@ -16048,10 +15999,6 @@ L 3, 120",
               "label": "default",
               "logicConnectors": Array [
                 Object {
-                  "connectionInfo": Object {
-                    "childIndex": 0,
-                    "parent": "decision4-guid",
-                  },
                   "geometry": Object {
                     "h": 24,
                     "w": 132,
@@ -16061,6 +16008,10 @@ L 3, 120",
                   "isFault": undefined,
                   "isHighlighted": false,
                   "labelType": 0,
+                  "source": Object {
+                    "childIndex": 0,
+                    "guid": "decision4-guid",
+                  },
                   "svgInfo": Object {
                     "endLocation": Object {
                       "x": 3,
@@ -16081,10 +16032,6 @@ L 3, 27",
                   "type": "branchLeft",
                 },
                 Object {
-                  "connectionInfo": Object {
-                    "childIndex": 1,
-                    "parent": "decision4-guid",
-                  },
                   "geometry": Object {
                     "h": 24,
                     "w": 132,
@@ -16094,6 +16041,10 @@ L 3, 27",
                   "isFault": undefined,
                   "isHighlighted": false,
                   "labelType": 0,
+                  "source": Object {
+                    "childIndex": 1,
+                    "guid": "decision4-guid",
+                  },
                   "svgInfo": Object {
                     "endLocation": Object {
                       "x": 135,
@@ -16114,10 +16065,6 @@ L 135, 27",
                   "type": "branchRight",
                 },
                 Object {
-                  "connectionInfo": Object {
-                    "childIndex": 1,
-                    "parent": "decision4-guid",
-                  },
                   "geometry": Object {
                     "h": 48,
                     "w": 132,
@@ -16127,6 +16074,10 @@ L 135, 27",
                   "isFault": undefined,
                   "isHighlighted": false,
                   "labelType": 0,
+                  "source": Object {
+                    "childIndex": 1,
+                    "guid": "decision4-guid",
+                  },
                   "svgInfo": Object {
                     "endLocation": Object {
                       "x": 3,
@@ -16156,10 +16107,6 @@ L 3, 48",
               },
               "nextConnector": Object {
                 "addInfo": undefined,
-                "connectionInfo": Object {
-                  "next": null,
-                  "prev": "decision4-guid",
-                },
                 "geometry": Object {
                   "h": 96,
                   "w": 6,
@@ -16171,6 +16118,9 @@ L 3, 48",
                 "isHighlighted": false,
                 "labelOffsetY": 48,
                 "labelType": 0,
+                "source": Object {
+                  "guid": "decision4-guid",
+                },
                 "svgInfo": Object {
                   "endLocation": Object {
                     "x": 3,
@@ -16217,10 +16167,6 @@ L 3, 72",
               "menuOpened": false,
               "offsetY": 60,
             },
-            "connectionInfo": Object {
-              "childIndex": 0,
-              "parent": "decision3-guid",
-            },
             "geometry": Object {
               "h": 120,
               "w": 6,
@@ -16232,6 +16178,10 @@ L 3, 72",
             "isHighlighted": false,
             "labelOffsetY": 24,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 0,
+              "guid": "decision3-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -16576,10 +16526,6 @@ L 3, 120",
                         "menuOpened": false,
                         "offsetY": 60,
                       },
-                      "connectionInfo": Object {
-                        "next": "end6-guid",
-                        "prev": "screen3-guid",
-                      },
                       "geometry": Object {
                         "h": 120,
                         "w": 6,
@@ -16591,6 +16537,9 @@ L 3, 120",
                       "isHighlighted": false,
                       "labelOffsetY": 48,
                       "labelType": 0,
+                      "source": Object {
+                        "guid": "screen3-guid",
+                      },
                       "svgInfo": Object {
                         "endLocation": Object {
                           "x": 3,
@@ -16657,10 +16606,6 @@ L 3, 120",
                     "menuOpened": false,
                     "offsetY": 60,
                   },
-                  "connectionInfo": Object {
-                    "childIndex": -1,
-                    "parent": "action1-guid",
-                  },
                   "geometry": Object {
                     "h": 120,
                     "w": 6,
@@ -16672,6 +16617,10 @@ L 3, 120",
                   "isHighlighted": false,
                   "labelOffsetY": 24,
                   "labelType": 4,
+                  "source": Object {
+                    "childIndex": -1,
+                    "guid": "action1-guid",
+                  },
                   "svgInfo": Object {
                     "endLocation": Object {
                       "x": 3,
@@ -16703,10 +16652,6 @@ L 3, 120",
               "label": "action-guid",
               "logicConnectors": Array [
                 Object {
-                  "connectionInfo": Object {
-                    "childIndex": -1,
-                    "parent": "decision3-guid",
-                  },
                   "geometry": Object {
                     "h": 24,
                     "w": 264,
@@ -16716,6 +16661,10 @@ L 3, 120",
                   "isFault": true,
                   "isHighlighted": false,
                   "labelType": 0,
+                  "source": Object {
+                    "childIndex": -1,
+                    "guid": "decision3-guid",
+                  },
                   "svgInfo": Object {
                     "endLocation": Object {
                       "x": 267,
@@ -16746,10 +16695,6 @@ L 267, 27",
                   "menuOpened": false,
                   "offsetY": 60,
                 },
-                "connectionInfo": Object {
-                  "next": "end5-guid",
-                  "prev": "action1-guid",
-                },
                 "geometry": Object {
                   "h": 120,
                   "w": 6,
@@ -16761,6 +16706,9 @@ L 267, 27",
                 "isHighlighted": false,
                 "labelOffsetY": 48,
                 "labelType": 0,
+                "source": Object {
+                  "guid": "action1-guid",
+                },
                 "svgInfo": Object {
                   "endLocation": Object {
                     "x": 3,
@@ -16828,10 +16776,6 @@ L 3, 120",
               "menuOpened": false,
               "offsetY": 60,
             },
-            "connectionInfo": Object {
-              "childIndex": 1,
-              "parent": "decision3-guid",
-            },
             "geometry": Object {
               "h": 120,
               "w": 6,
@@ -16843,6 +16787,10 @@ L 3, 120",
             "isHighlighted": false,
             "labelOffsetY": 24,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 1,
+              "guid": "decision3-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -16874,10 +16822,6 @@ L 3, 120",
       "label": "default",
       "logicConnectors": Array [
         Object {
-          "connectionInfo": Object {
-            "childIndex": 0,
-            "parent": "decision3-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 198,
@@ -16887,6 +16831,10 @@ L 3, 120",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 0,
+            "guid": "decision3-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -16907,10 +16855,6 @@ L 3, 27",
           "type": "branchLeft",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 1,
-            "parent": "decision3-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 198,
@@ -16920,6 +16864,10 @@ L 3, 27",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 1,
+            "guid": "decision3-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 201,
@@ -16940,10 +16888,6 @@ L 201, 27",
           "type": "branchRight",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 1,
-            "parent": "decision3-guid",
-          },
           "geometry": Object {
             "h": 48,
             "w": 198,
@@ -16953,6 +16897,10 @@ L 201, 27",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 1,
+            "guid": "decision3-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -16982,10 +16930,6 @@ L 3, 48",
       },
       "nextConnector": Object {
         "addInfo": undefined,
-        "connectionInfo": Object {
-          "next": null,
-          "prev": "decision3-guid",
-        },
         "geometry": Object {
           "h": -504,
           "w": 6,
@@ -16997,6 +16941,9 @@ L 3, 48",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "decision3-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -17212,10 +17159,6 @@ Object {
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "screen-guid",
-          "prev": "start-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -17227,6 +17170,9 @@ Object {
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "start-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -17283,10 +17229,6 @@ L 3, 120",
           "menuOpened": false,
           "offsetY": 224,
         },
-        "connectionInfo": Object {
-          "next": "end-guid",
-          "prev": "screen-guid",
-        },
         "geometry": Object {
           "h": 284,
           "w": 6,
@@ -17298,6 +17240,9 @@ L 3, 120",
         "isHighlighted": false,
         "labelOffsetY": 212,
         "labelType": 0,
+        "source": Object {
+          "guid": "screen-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -17534,10 +17479,6 @@ Object {
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "branch-guid",
-          "prev": "start-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -17549,6 +17490,9 @@ Object {
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "start-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -17740,10 +17684,6 @@ L 3, 120",
               "menuOpened": false,
               "offsetY": 84,
             },
-            "connectionInfo": Object {
-              "childIndex": 0,
-              "parent": "branch-guid",
-            },
             "geometry": Object {
               "h": 120,
               "w": 6,
@@ -17755,6 +17695,10 @@ L 3, 120",
             "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 0,
+              "guid": "branch-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -17927,10 +17871,6 @@ L 3, 96",
               "menuOpened": false,
               "offsetY": 84,
             },
-            "connectionInfo": Object {
-              "childIndex": 1,
-              "parent": "branch-guid",
-            },
             "connectorBadgeLabel": "Default Connector Label",
             "geometry": Object {
               "h": 120,
@@ -17943,6 +17883,10 @@ L 3, 96",
             "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 1,
+              "guid": "branch-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -17974,10 +17918,6 @@ L 3, 96",
       "label": "branch-guid",
       "logicConnectors": Array [
         Object {
-          "connectionInfo": Object {
-            "childIndex": 0,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 88,
@@ -17987,6 +17927,10 @@ L 3, 96",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 0,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -18007,10 +17951,6 @@ L 3, 27",
           "type": "branchLeft",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 1,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 88,
@@ -18020,6 +17960,10 @@ L 3, 27",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 1,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 91,
@@ -18040,10 +17984,6 @@ L 91, 27",
           "type": "branchRight",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 0,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 48,
             "w": 88,
@@ -18053,6 +17993,10 @@ L 91, 27",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 0,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 91,
@@ -18075,10 +18019,6 @@ L 91, 48",
           "type": "mergeLeft",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 1,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 48,
             "w": 88,
@@ -18088,6 +18028,10 @@ L 91, 48",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 1,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -18120,10 +18064,6 @@ L 3, 48",
           "menuOpened": false,
           "offsetY": 36,
         },
-        "connectionInfo": Object {
-          "next": "end-guid",
-          "prev": "branch-guid",
-        },
         "geometry": Object {
           "h": 96,
           "w": 6,
@@ -18135,6 +18075,9 @@ L 3, 48",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "branch-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -18376,10 +18319,6 @@ Object {
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "branch-guid",
-          "prev": "start-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -18391,6 +18330,9 @@ Object {
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "start-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -18582,10 +18524,6 @@ L 3, 120",
               "menuOpened": false,
               "offsetY": 84,
             },
-            "connectionInfo": Object {
-              "childIndex": 0,
-              "parent": "branch-guid",
-            },
             "geometry": Object {
               "h": 120,
               "w": 6,
@@ -18597,6 +18535,10 @@ L 3, 120",
             "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 0,
+              "guid": "branch-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -18769,10 +18711,6 @@ L 3, 96",
               "menuOpened": false,
               "offsetY": 84,
             },
-            "connectionInfo": Object {
-              "childIndex": 1,
-              "parent": "branch-guid",
-            },
             "geometry": Object {
               "h": 120,
               "w": 6,
@@ -18784,6 +18722,10 @@ L 3, 96",
             "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 1,
+              "guid": "branch-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -18956,10 +18898,6 @@ L 3, 168",
               "menuOpened": false,
               "offsetY": 84,
             },
-            "connectionInfo": Object {
-              "childIndex": 2,
-              "parent": "branch-guid",
-            },
             "connectorBadgeLabel": "Default Connector Label",
             "geometry": Object {
               "h": 120,
@@ -18972,6 +18910,10 @@ L 3, 168",
             "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
+            "source": Object {
+              "childIndex": 2,
+              "guid": "branch-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -19003,10 +18945,6 @@ L 3, 96",
       "label": "branch-guid",
       "logicConnectors": Array [
         Object {
-          "connectionInfo": Object {
-            "childIndex": 0,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 176,
@@ -19016,6 +18954,10 @@ L 3, 96",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 0,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -19036,10 +18978,6 @@ L 3, 27",
           "type": "branchLeft",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 2,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 24,
             "w": 176,
@@ -19049,6 +18987,10 @@ L 3, 27",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 2,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 179,
@@ -19069,10 +19011,6 @@ L 179, 27",
           "type": "branchRight",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 0,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 48,
             "w": 176,
@@ -19082,6 +19020,10 @@ L 179, 27",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 0,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 179,
@@ -19104,10 +19046,6 @@ L 179, 48",
           "type": "mergeLeft",
         },
         Object {
-          "connectionInfo": Object {
-            "childIndex": 2,
-            "parent": "branch-guid",
-          },
           "geometry": Object {
             "h": 48,
             "w": 176,
@@ -19117,6 +19055,10 @@ L 179, 48",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": 2,
+            "guid": "branch-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -19149,10 +19091,6 @@ L 3, 48",
           "menuOpened": false,
           "offsetY": 36,
         },
-        "connectionInfo": Object {
-          "next": "end-guid",
-          "prev": "branch-guid",
-        },
         "geometry": Object {
           "h": 96,
           "w": 6,
@@ -19164,6 +19102,9 @@ L 3, 48",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "branch-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -19406,10 +19347,6 @@ Object {
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "loop-guid",
-          "prev": "start-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -19421,6 +19358,9 @@ Object {
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "start-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -19612,10 +19552,6 @@ L 3, 120",
               "menuOpened": false,
               "offsetY": 84,
             },
-            "connectionInfo": Object {
-              "childIndex": 0,
-              "parent": "loop-guid",
-            },
             "geometry": Object {
               "h": 144,
               "w": 6,
@@ -19627,6 +19563,10 @@ L 3, 120",
             "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 2,
+            "source": Object {
+              "childIndex": 0,
+              "guid": "loop-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -19658,9 +19598,6 @@ L 3, 96",
       "label": "loop-guid",
       "logicConnectors": Array [
         Object {
-          "connectionInfo": Object {
-            "parent": "loop-guid",
-          },
           "geometry": Object {
             "h": 144,
             "w": 88,
@@ -19672,6 +19609,9 @@ L 3, 96",
           "labelOffsetX": 88,
           "labelOffsetY": 48,
           "labelType": 3,
+          "source": Object {
+            "guid": "loop-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -19696,9 +19636,6 @@ L 3, 171",
           "type": "loopAfterLast",
         },
         Object {
-          "connectionInfo": Object {
-            "parent": "loop-guid",
-          },
           "geometry": Object {
             "h": 144,
             "w": 88,
@@ -19708,6 +19645,9 @@ L 3, 171",
           "isFault": undefined,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "guid": "loop-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 91,
@@ -19742,10 +19682,6 @@ L 91, 99",
           "menuOpened": false,
           "offsetY": 36,
         },
-        "connectionInfo": Object {
-          "next": "end-guid",
-          "prev": "loop-guid",
-        },
         "geometry": Object {
           "h": 96,
           "w": 6,
@@ -19757,6 +19693,9 @@ L 91, 99",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "loop-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -19996,10 +19935,6 @@ Object {
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "action-element-one",
-          "prev": "start-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -20011,6 +19946,9 @@ Object {
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "start-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -20238,10 +20176,6 @@ L 3, 120",
             "menuOpened": false,
             "offsetY": 60,
           },
-          "connectionInfo": Object {
-            "childIndex": -1,
-            "parent": "action-element-one",
-          },
           "geometry": Object {
             "h": 120,
             "w": 6,
@@ -20253,6 +20187,10 @@ L 3, 120",
           "isHighlighted": true,
           "labelOffsetY": 24,
           "labelType": 4,
+          "source": Object {
+            "childIndex": -1,
+            "guid": "action-element-one",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -20284,10 +20222,6 @@ L 3, 120",
       "label": "action-guid",
       "logicConnectors": Array [
         Object {
-          "connectionInfo": Object {
-            "childIndex": -1,
-            "parent": "root",
-          },
           "geometry": Object {
             "h": 24,
             "w": 264,
@@ -20297,6 +20231,10 @@ L 3, 120",
           "isFault": true,
           "isHighlighted": true,
           "labelType": 0,
+          "source": Object {
+            "childIndex": -1,
+            "guid": "root",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 267,
@@ -20327,10 +20265,6 @@ L 267, 27",
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "end-guid",
-          "prev": "action-element-one",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -20342,6 +20276,9 @@ L 267, 27",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "action-element-one",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -20585,10 +20522,6 @@ Object {
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "loop-guid",
-          "prev": "start-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -20600,6 +20533,9 @@ Object {
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "start-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -20799,10 +20735,6 @@ L 3, 120",
               "menuOpened": false,
               "offsetY": 84,
             },
-            "connectionInfo": Object {
-              "childIndex": 0,
-              "parent": "loop-guid",
-            },
             "geometry": Object {
               "h": 144,
               "w": 6,
@@ -20814,6 +20746,10 @@ L 3, 120",
             "isHighlighted": true,
             "labelOffsetY": 48,
             "labelType": 2,
+            "source": Object {
+              "childIndex": 0,
+              "guid": "loop-guid",
+            },
             "svgInfo": Object {
               "endLocation": Object {
                 "x": 3,
@@ -20845,9 +20781,6 @@ L 3, 96",
       "label": "loop-guid",
       "logicConnectors": Array [
         Object {
-          "connectionInfo": Object {
-            "parent": "loop-guid",
-          },
           "geometry": Object {
             "h": 144,
             "w": 88,
@@ -20859,6 +20792,9 @@ L 3, 96",
           "labelOffsetX": 88,
           "labelOffsetY": 48,
           "labelType": 3,
+          "source": Object {
+            "guid": "loop-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -20883,9 +20819,6 @@ L 3, 171",
           "type": "loopAfterLast",
         },
         Object {
-          "connectionInfo": Object {
-            "parent": "loop-guid",
-          },
           "geometry": Object {
             "h": 144,
             "w": 88,
@@ -20895,6 +20828,9 @@ L 3, 171",
           "isFault": undefined,
           "isHighlighted": true,
           "labelType": 0,
+          "source": Object {
+            "guid": "loop-guid",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 91,
@@ -20929,10 +20865,6 @@ L 91, 99",
           "menuOpened": false,
           "offsetY": 36,
         },
-        "connectionInfo": Object {
-          "next": "end-guid",
-          "prev": "loop-guid",
-        },
         "geometry": Object {
           "h": 96,
           "w": 6,
@@ -20944,6 +20876,9 @@ L 91, 99",
         "isHighlighted": true,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "loop-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -21191,10 +21126,6 @@ Object {
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "action-element-one",
-          "prev": "start-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -21206,6 +21137,9 @@ Object {
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "start-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -21427,10 +21361,6 @@ L 3, 120",
             "menuOpened": false,
             "offsetY": 245,
           },
-          "connectionInfo": Object {
-            "childIndex": -1,
-            "parent": "action-element-one",
-          },
           "geometry": Object {
             "h": 305,
             "w": 6,
@@ -21442,6 +21372,10 @@ L 3, 120",
           "isHighlighted": false,
           "labelOffsetY": 209,
           "labelType": 4,
+          "source": Object {
+            "childIndex": -1,
+            "guid": "action-element-one",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -21473,10 +21407,6 @@ L 3, 305",
       "label": "action-guid",
       "logicConnectors": Array [
         Object {
-          "connectionInfo": Object {
-            "childIndex": -1,
-            "parent": "root",
-          },
           "geometry": Object {
             "h": 24,
             "w": 528,
@@ -21486,6 +21416,10 @@ L 3, 305",
           "isFault": true,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": -1,
+            "guid": "root",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 531,
@@ -21516,10 +21450,6 @@ L 531, 27",
           "menuOpened": false,
           "offsetY": 245,
         },
-        "connectionInfo": Object {
-          "next": "action-element-two",
-          "prev": "action-element-one",
-        },
         "geometry": Object {
           "h": 305,
           "w": 6,
@@ -21531,6 +21461,9 @@ L 531, 27",
         "isHighlighted": false,
         "labelOffsetY": 233,
         "labelType": 0,
+        "source": Object {
+          "guid": "action-element-one",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -21750,10 +21683,6 @@ L 3, 305",
             "menuOpened": false,
             "offsetY": 60,
           },
-          "connectionInfo": Object {
-            "childIndex": -1,
-            "parent": "action-element-two",
-          },
           "geometry": Object {
             "h": 120,
             "w": 6,
@@ -21765,6 +21694,10 @@ L 3, 305",
           "isHighlighted": false,
           "labelOffsetY": 24,
           "labelType": 4,
+          "source": Object {
+            "childIndex": -1,
+            "guid": "action-element-two",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 3,
@@ -21796,10 +21729,6 @@ L 3, 120",
       "label": "action-guid",
       "logicConnectors": Array [
         Object {
-          "connectionInfo": Object {
-            "childIndex": -1,
-            "parent": "root",
-          },
           "geometry": Object {
             "h": 24,
             "w": 264,
@@ -21809,6 +21738,10 @@ L 3, 120",
           "isFault": true,
           "isHighlighted": false,
           "labelType": 0,
+          "source": Object {
+            "childIndex": -1,
+            "guid": "root",
+          },
           "svgInfo": Object {
             "endLocation": Object {
               "x": 267,
@@ -21839,10 +21772,6 @@ L 267, 27",
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "end-guid",
-          "prev": "action-element-two",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -21854,6 +21783,9 @@ L 267, 27",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "action-element-two",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -22091,10 +22023,6 @@ Object {
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "screen-guid",
-          "prev": "start-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -22106,6 +22034,9 @@ Object {
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "start-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -22162,10 +22093,6 @@ L 3, 120",
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "end-guid",
-          "prev": "screen-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -22177,6 +22104,9 @@ L 3, 120",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "screen-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -22413,10 +22343,6 @@ Object {
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "screen-guid",
-          "prev": "start-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -22428,6 +22354,9 @@ Object {
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "start-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,
@@ -22484,10 +22413,6 @@ L 3, 120",
           "menuOpened": false,
           "offsetY": 60,
         },
-        "connectionInfo": Object {
-          "next": "end-guid",
-          "prev": "screen-guid",
-        },
         "geometry": Object {
           "h": 120,
           "w": 6,
@@ -22499,6 +22424,9 @@ L 3, 120",
         "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
+        "source": Object {
+          "guid": "screen-guid",
+        },
         "svgInfo": Object {
           "endLocation": Object {
             "x": 3,

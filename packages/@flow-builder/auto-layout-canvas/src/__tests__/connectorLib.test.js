@@ -49,8 +49,7 @@ describe('connectorLib', () => {
 
     it('createBranchConnector', () => {
         const connectorRenderInfo = createBranchConnector(
-            'guid',
-            0,
+            { guid: 'guid', childIndex: 0 },
             { x: 0, y: 0, w: 100, h: 28 },
             ConnectorType.BRANCH_LEFT,
             getDefaultLayoutConfig(),
@@ -65,8 +64,7 @@ describe('connectorLib', () => {
 
     it('createMergeConnector', () => {
         const connectorRenderInfo = createMergeConnector(
-            'guid',
-            0,
+            { guid: 'guid', childIndex: 0 },
             { x: 0, y: 0, w: 100, h: 28 },
             ConnectorType.MERGE_LEFT,
             getDefaultLayoutConfig(),

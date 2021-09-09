@@ -8,7 +8,7 @@ import {
     TabOnMenuTriggerEvent
 } from 'builder_platform_interaction/alcEvents';
 import { ICON_SHAPE, AutoLayoutCanvasMode } from 'builder_platform_interaction/alcComponentsUtils';
-import { MenuType, NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { ConnectionSource, MenuType, NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { CanvasMouseUpEvent } from 'builder_platform_interaction/events';
 
 /**
@@ -37,7 +37,7 @@ export default class AlcMenuTrigger extends LightningElement {
     canvasMode!: AutoLayoutCanvasMode;
 
     @api
-    connectionInfo;
+    source!: ConnectionSource;
 
     @api
     conditionOptionsForNode;
@@ -124,8 +124,10 @@ export default class AlcMenuTrigger extends LightningElement {
         // account for border and stuff
         const offsetX = (width - clientWidth) / 2;
 
-        const { conditionOptionsForNode, guid, connectionInfo, elementMetadata } = this;
-        const type = connectionInfo ? MenuType.CONNECTOR : MenuType.NODE;
+        const { conditionOptionsForNode, elementMetadata } = this;
+        const type = this.source ? MenuType.CONNECTOR : MenuType.NODE;
+
+        const source = this.source || { guid: this.guid };
 
         const detail = {
             top,
@@ -133,12 +135,11 @@ export default class AlcMenuTrigger extends LightningElement {
             height: height - 4, // TODO: clean up positioning
             offsetX,
             type,
-            guid: guid || connectionInfo.prev,
             elementMetadata,
             conditionOptionsForNode,
             isPositionUpdate,
             moveFocusToMenu,
-            ...connectionInfo
+            source
         };
 
         const event = isPositionUpdate ? new MenuPositionUpdateEvent(detail) : new ToggleMenuEvent(detail);

@@ -2,10 +2,6 @@
 
 exports[`connectorLib createBranchConnector 1`] = `
 Object {
-  "connectionInfo": Object {
-    "childIndex": 0,
-    "parent": "guid",
-  },
   "geometry": Object {
     "h": 28,
     "w": 100,
@@ -15,6 +11,10 @@ Object {
   "isFault": false,
   "isHighlighted": true,
   "labelType": 0,
+  "source": Object {
+    "childIndex": 0,
+    "guid": "guid",
+  },
   "svgInfo": Object {
     "startOffset": Array [
       3,
@@ -52,10 +52,6 @@ Object {
     "menuOpened": false,
     "offsetY": 84,
   },
-  "connectionInfo": Object {
-    "childIndex": 0,
-    "parent": "parentGuid",
-  },
   "connectorBadgeLabel": "Badge Label",
   "geometry": Object {
     "h": 132,
@@ -68,6 +64,10 @@ Object {
   "isHighlighted": false,
   "labelOffsetY": 48,
   "labelType": 1,
+  "source": Object {
+    "childIndex": 0,
+    "parent": "parentGuid",
+  },
   "svgInfo": Object {
     "endLocation": undefined,
     "geometry": Object {
@@ -89,10 +89,6 @@ Object {
     "menuOpened": false,
     "offsetY": 60,
   },
-  "connectionInfo": Object {
-    "next": "nextGuid",
-    "prev": "prevGuid",
-  },
   "geometry": Object {
     "h": 108,
     "w": 6,
@@ -104,6 +100,10 @@ Object {
   "isHighlighted": false,
   "labelOffsetY": 48,
   "labelType": 0,
+  "source": Object {
+    "next": "nextGuid",
+    "prev": "prevGuid",
+  },
   "svgInfo": Object {
     "endLocation": undefined,
     "geometry": Object {
@@ -125,10 +125,6 @@ Object {
     "menuOpened": false,
     "offsetY": 60,
   },
-  "connectionInfo": Object {
-    "childIndex": -1,
-    "parent": "parentGuid",
-  },
   "connectorBadgeLabel": "Fault Badge Label",
   "geometry": Object {
     "h": 108,
@@ -141,6 +137,10 @@ Object {
   "isHighlighted": false,
   "labelOffsetY": 24,
   "labelType": 4,
+  "source": Object {
+    "childIndex": -1,
+    "parent": "parentGuid",
+  },
   "svgInfo": Object {
     "endLocation": undefined,
     "geometry": Object {
@@ -162,10 +162,6 @@ Object {
     "menuOpened": false,
     "offsetY": 36,
   },
-  "connectionInfo": Object {
-    "next": "nextGuid",
-    "prev": "prevGuid",
-  },
   "geometry": Object {
     "h": 120,
     "w": 6,
@@ -177,6 +173,10 @@ Object {
   "isHighlighted": false,
   "labelOffsetY": 48,
   "labelType": 0,
+  "source": Object {
+    "next": "nextGuid",
+    "prev": "prevGuid",
+  },
   "svgInfo": Object {
     "endLocation": undefined,
     "geometry": Object {
@@ -198,10 +198,6 @@ Object {
     "menuOpened": false,
     "offsetY": 0,
   },
-  "connectionInfo": Object {
-    "next": "nextGuid",
-    "prev": "prevGuid",
-  },
   "geometry": Object {
     "h": 144,
     "w": 6,
@@ -213,6 +209,10 @@ Object {
   "isHighlighted": undefined,
   "labelOffsetY": 48,
   "labelType": 0,
+  "source": Object {
+    "next": "nextGuid",
+    "prev": "prevGuid",
+  },
   "svgInfo": Object {
     "endLocation": undefined,
     "geometry": Object {
@@ -230,9 +230,6 @@ Object {
 
 exports[`connectorLib createLoopAfterLastConnector 1`] = `
 Object {
-  "connectionInfo": Object {
-    "parent": "guid",
-  },
   "geometry": Object {
     "h": 168,
     "w": 88,
@@ -244,6 +241,7 @@ Object {
   "labelOffsetX": 88,
   "labelOffsetY": 48,
   "labelType": 3,
+  "source": "guid",
   "svgInfo": Object {
     "startOffset": Array [
       3,
@@ -293,9 +291,6 @@ Object {
 
 exports[`connectorLib createLoopBackConnector 1`] = `
 Object {
-  "connectionInfo": Object {
-    "parent": "guid",
-  },
   "geometry": Object {
     "h": 168,
     "w": 88,
@@ -305,6 +300,7 @@ Object {
   "isFault": false,
   "isHighlighted": false,
   "labelType": 0,
+  "source": "guid",
   "svgInfo": Object {
     "startOffset": Array [
       3,
@@ -354,10 +350,6 @@ Object {
 
 exports[`connectorLib createMergeConnector 1`] = `
 Object {
-  "connectionInfo": Object {
-    "childIndex": 0,
-    "parent": "guid",
-  },
   "geometry": Object {
     "h": 28,
     "w": 100,
@@ -367,6 +359,10 @@ Object {
   "isFault": false,
   "isHighlighted": true,
   "labelType": 0,
+  "source": Object {
+    "childIndex": 0,
+    "guid": "guid",
+  },
   "svgInfo": Object {
     "startOffset": Array [
       3,

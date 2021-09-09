@@ -27,9 +27,8 @@ const flowRenderInfo = {
             nextConnector: {
                 geometry: { x: 0, y: 0, w: 6, h: 144 },
                 addInfo: { offsetY: 72, menuOpened: false },
-                connectionInfo: {
-                    prev: 'eb01a710-d341-4ba0-81d2-f7ef03300db5',
-                    next: '837e0692-6f17-4d5c-ba5d-854851d31fcb'
+                source: {
+                    guid: 'eb01a710-d341-4ba0-81d2-f7ef03300db5'
                 },
                 svgInfo: { geometry: { x: -3, y: 0, w: 6, h: 144 }, path: 'M 3, 24\nL 3, 144' },
                 labelOffsetY: 24,

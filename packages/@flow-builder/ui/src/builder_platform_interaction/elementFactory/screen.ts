@@ -74,10 +74,8 @@ export function createPastedScreen({
     cutOrCopiedChildElements,
     topCutOrCopiedGuid,
     bottomCutOrCopiedGuid,
-    prev,
-    next,
-    parent,
-    childIndex
+    source,
+    next
 }) {
     const { duplicatedElement, duplicatedChildElements } = createDuplicateScreen(
         canvasElementToPaste,
@@ -93,10 +91,8 @@ export function createPastedScreen({
         canvasElementGuidMap,
         topCutOrCopiedGuid,
         bottomCutOrCopiedGuid,
-        prev,
-        next,
-        parent,
-        childIndex
+        source,
+        next
     );
 
     return {

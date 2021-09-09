@@ -3,19 +3,10 @@ import { LightningElement, api } from 'lwc';
 
 export default class AlcConnectorMenu extends LightningElement {
     @api
-    childIndex;
+    source;
 
     @api
     elementsMetadata;
-
-    @api
-    next;
-
-    @api
-    parent;
-
-    @api
-    prev;
 
     @api
     isPasteAvailable;

@@ -57,10 +57,8 @@ export function createPastedAssignment({
     canvasElementGuidMap,
     topCutOrCopiedGuid,
     bottomCutOrCopiedGuid,
-    prev,
-    next,
-    parent,
-    childIndex
+    source,
+    next
 }) {
     const { duplicatedElement } = createDuplicateAssignment(canvasElementToPaste, newGuid, newName);
 
@@ -69,10 +67,8 @@ export function createPastedAssignment({
         canvasElementGuidMap,
         topCutOrCopiedGuid,
         bottomCutOrCopiedGuid,
-        prev,
-        next,
-        parent,
-        childIndex
+        source,
+        next
     );
 
     return {

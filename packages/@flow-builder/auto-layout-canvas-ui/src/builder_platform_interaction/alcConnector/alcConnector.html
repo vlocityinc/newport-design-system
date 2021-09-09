@@ -15,7 +15,7 @@
     <template if:true={showAddElementButton}>
         <builder_platform_interaction-alc-menu-trigger
             icon-size="small"
-            connection-info={connectorInfo.connectionInfo}
+            source={connectorInfo.source}
             menu-opened={connectorInfo.addInfo.menuOpened}
             canvas-mode={canvasMode}
             style={menuTriggerStyle}

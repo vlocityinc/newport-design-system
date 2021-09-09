@@ -37,7 +37,9 @@ export default class AlcCompoundNode extends LightningElement {
     }
 
     get branches() {
-        return (this.node.flows || []).map((flowInfo, i) => getAlcFlowData(flowInfo, this.node, i));
+        return (this.node.flows || []).map((flowInfo, childIndex) =>
+            getAlcFlowData(flowInfo, { guid: this.node.guid, childIndex })
+        );
     }
 
     get logicConnectors() {

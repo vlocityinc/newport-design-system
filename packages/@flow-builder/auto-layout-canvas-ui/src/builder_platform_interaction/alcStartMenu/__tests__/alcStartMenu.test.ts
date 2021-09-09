@@ -284,7 +284,7 @@ describe('Start Node Menu', () => {
             menu.moveFocus();
             expect(callback).toHaveBeenCalledWith(
                 expect.objectContaining({
-                    detail: { focusGuid: 'startGuid', index: undefined }
+                    detail: { source: { guid: 'startGuid', childIndex: undefined } }
                 })
             );
         });

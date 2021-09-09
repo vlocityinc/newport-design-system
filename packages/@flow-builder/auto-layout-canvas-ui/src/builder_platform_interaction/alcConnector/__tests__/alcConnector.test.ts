@@ -45,9 +45,8 @@ const getRegularConnectorInfo = () => {
         geometry,
         svgInfo,
         addInfo,
-        connectionInfo: {
-            prev: 'prevGuid1',
-            next: 'nextGuid1'
+        source: {
+            guid: 'prevGuid1'
         },
         isFault: false,
         labelOffsetY,
@@ -62,9 +61,8 @@ const getDefaultConnectorInfo = (toBeDeleted = false) => {
         geometry,
         svgInfo,
         addInfo,
-        connectionInfo: {
-            next: 'nextGuid1',
-            parent: 'parentGuid1',
+        source: {
+            guid: 'parentGuid1',
             childIndex: 1
         },
         isFault: false,
@@ -81,9 +79,8 @@ const getFaultConnectorInfo = () => {
         geometry,
         svgInfo,
         addInfo,
-        connectionInfo: {
-            next: 'nextGuid1',
-            parent: 'parentGuid1',
+        source: {
+            guid: 'parentGuid1',
             childIndex: -1
         },
         isFault: true,
@@ -99,9 +96,8 @@ const getGoToConnectorInfo = (toBeDeleted = false) => {
         geometry,
         svgInfo,
         addInfo,
-        connectionInfo: {
-            next: 'nextGuid1',
-            parent: 'parentGuid1',
+        source: {
+            guid: 'parentGuid1',
             childIndex: 1
         },
         isFault: false,

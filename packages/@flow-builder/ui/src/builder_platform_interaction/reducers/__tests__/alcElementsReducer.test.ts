@@ -1214,10 +1214,10 @@ describe('alc-elements-reducer', () => {
                         cutOrCopiedChildElements: {},
                         topCutOrCopiedGuid,
                         bottomCutOrCopiedGuid,
-                        prev: null,
-                        next: 'screen1',
-                        parent: 'getRecords',
-                        childIndex: -1
+                        source: {
+                            guid: 'getRecords',
+                            childIndex: FAULT_INDEX
+                        }
                     }
                 });
             });
@@ -1256,10 +1256,9 @@ describe('alc-elements-reducer', () => {
                         cutOrCopiedChildElements,
                         topCutOrCopiedGuid,
                         bottomCutOrCopiedGuid,
-                        prev: 'screen2',
-                        next: 'screen1',
-                        parent: null,
-                        childIndex: null
+                        source: {
+                            guid: 'screen2'
+                        }
                     }
                 });
             });
@@ -1300,10 +1299,10 @@ describe('alc-elements-reducer', () => {
                         cutOrCopiedChildElements,
                         topCutOrCopiedGuid,
                         bottomCutOrCopiedGuid,
-                        prev: null,
-                        next: 'screen1',
-                        parent: 'decision1',
-                        childIndex: 0
+                        source: {
+                            guid: 'decision1',
+                            childIndex: 0
+                        }
                     }
                 });
             });
@@ -1460,10 +1459,9 @@ describe('alc-elements-reducer', () => {
                         cutOrCopiedChildElements,
                         topCutOrCopiedGuid,
                         bottomCutOrCopiedGuid,
-                        prev: 'assignment1',
-                        next: 'wait1',
-                        parent: null,
-                        childIndex: null
+                        source: {
+                            guid: 'assignment1'
+                        }
                     }
                 });
             });
@@ -1508,10 +1506,10 @@ describe('alc-elements-reducer', () => {
                         cutOrCopiedChildElements,
                         topCutOrCopiedGuid,
                         bottomCutOrCopiedGuid,
-                        prev: null,
-                        next: 'screen1',
-                        parent: 'wait1',
-                        childIndex: 0
+                        source: {
+                            guid: 'wait1',
+                            childIndex: 0
+                        }
                     }
                 });
             });
@@ -1560,10 +1558,10 @@ describe('alc-elements-reducer', () => {
                         cutOrCopiedChildElements,
                         topCutOrCopiedGuid,
                         bottomCutOrCopiedGuid,
-                        prev: null,
-                        next: null,
-                        parent: 'wait1',
-                        childIndex: 1
+                        source: {
+                            guid: 'wait1',
+                            childIndex: 1
+                        }
                     }
                 });
             });
@@ -1602,10 +1600,10 @@ describe('alc-elements-reducer', () => {
                         cutOrCopiedChildElements,
                         topCutOrCopiedGuid,
                         bottomCutOrCopiedGuid,
-                        prev: null,
-                        next: 'screen2',
-                        parent: 'wait1',
-                        childIndex: 2
+                        source: {
+                            guid: 'wait1',
+                            childIndex: 2
+                        }
                     }
                 });
             });

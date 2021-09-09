@@ -2497,6 +2497,39 @@ export function createConnection(
     }
 }
 
+/**
+ * Returns a connection source for a node
+ *
+ * @param node - The node
+ * @returns - The connection source for the node
+ */
+export function getConnectionSource(node: NodeModel | BranchHeadNodeModel): ConnectionSource {
+    if (isBranchHead(node)) {
+        return { guid: node.parent, childIndex: node.childIndex };
+    }
+
+    return { guid: node.prev! };
+}
+
+/**
+ * Returns the prev, parent and childIndex values from a connection source
+ *
+ * @param source - a connection source
+ * @returns the prev, parent and childIndex values for the connection source
+ */
+export function getValuesFromConnectionSource(source: ConnectionSource) {
+    const { childIndex } = source;
+    let prev, parent;
+
+    if (childIndex != null) {
+        parent = source.guid;
+    } else {
+        prev = source.guid;
+    }
+
+    return { prev, parent, childIndex };
+}
+
 export {
     connectToElement,
     linkElement,

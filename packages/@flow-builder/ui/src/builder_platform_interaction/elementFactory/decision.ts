@@ -75,10 +75,8 @@ export function createDecisionWithOutcomes(decision = {}) {
  * @param dataForPasting.cutOrCopiedChildElements
  * @param dataForPasting.topCutOrCopiedGuid
  * @param dataForPasting.bottomCutOrCopiedGuid
- * @param dataForPasting.prev
+ * @param dataForPasting.source - the connection source
  * @param dataForPasting.next
- * @param dataForPasting.parent
- * @param dataForPasting.childIndex
  */
 export function createPastedDecision({
     canvasElementToPaste,
@@ -90,10 +88,8 @@ export function createPastedDecision({
     cutOrCopiedChildElements,
     topCutOrCopiedGuid,
     bottomCutOrCopiedGuid,
-    prev,
-    next,
-    parent,
-    childIndex
+    source,
+    next
 }) {
     const { duplicatedElement, duplicatedChildElements } = createDuplicateDecision(
         canvasElementToPaste,
@@ -109,10 +105,8 @@ export function createPastedDecision({
         canvasElementGuidMap,
         topCutOrCopiedGuid,
         bottomCutOrCopiedGuid,
-        prev,
-        next,
-        parent,
-        childIndex
+        source,
+        next
     );
 
     return {

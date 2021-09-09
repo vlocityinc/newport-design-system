@@ -234,10 +234,8 @@ export function createPastedWait({
     cutOrCopiedChildElements,
     topCutOrCopiedGuid,
     bottomCutOrCopiedGuid,
-    prev,
-    next,
-    parent,
-    childIndex
+    source,
+    next
 }) {
     const { duplicatedElement, duplicatedChildElements } = createDuplicateWait(
         canvasElementToPaste,
@@ -253,10 +251,8 @@ export function createPastedWait({
         canvasElementGuidMap,
         topCutOrCopiedGuid,
         bottomCutOrCopiedGuid,
-        prev,
-        next,
-        parent,
-        childIndex
+        source,
+        next
     );
 
     return {

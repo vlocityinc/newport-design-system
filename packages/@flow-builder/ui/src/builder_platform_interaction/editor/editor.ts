@@ -154,7 +154,11 @@ import { usedBy } from 'builder_platform_interaction/usedByLib';
 import { getConfigForElement } from 'builder_platform_interaction/elementConfig';
 
 import { pubSub, PubSubEvent } from 'builder_platform_interaction/pubSub';
-import { CreateGoToConnectionEvent, DeleteGoToConnectionEvent } from 'builder_platform_interaction/alcEvents';
+import {
+    CreateGoToConnectionEvent,
+    DeleteGoToConnectionEvent,
+    PasteOnCanvasEvent
+} from 'builder_platform_interaction/alcEvents';
 import {
     addEndElementsAndConnectorsTransform,
     canConvertToAutoLayoutCanvas,
@@ -1356,8 +1360,8 @@ export default class Editor extends LightningElement {
      *
      * @param event - The paste event
      */
-    handlePasteOnCanvas = (event) => {
-        const { prev, next, parent, childIndex } = event.detail;
+    handlePasteOnCanvas = (event: PasteOnCanvasEvent) => {
+        const { source } = event.detail;
 
         const { canvasElementGuidMap, childElementGuidMap } = getPasteElementGuidMaps(
             this.cutOrCopiedCanvasElements,
@@ -1371,10 +1375,7 @@ export default class Editor extends LightningElement {
             cutOrCopiedChildElements: this.cutOrCopiedChildElements,
             topCutOrCopiedGuid: this.topCutOrCopiedGuid,
             bottomCutOrCopiedGuid: this.bottomCutOrCopiedGuid,
-            prev,
-            next,
-            parent,
-            childIndex
+            source
         };
         storeInstance.dispatch(pasteOnFixedCanvas(payload));
     };
@@ -1669,7 +1670,7 @@ export default class Editor extends LightningElement {
      */
     moveFocusToConnector = (source: ConnectionSource) => {
         const alcCanvasContainer = this.template.querySelector('builder_platform_interaction-alc-canvas-container');
-        alcCanvasContainer.focusOnConnector(source.guid, source.childIndex);
+        alcCanvasContainer.focusOnConnector(source);
     };
 
     /** *********** Canvas and Node Event Handling */

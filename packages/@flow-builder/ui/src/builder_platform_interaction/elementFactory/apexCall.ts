@@ -23,10 +23,8 @@ export function createApexCall(apexCall = {}) {
  * @param root0.canvasElementGuidMap
  * @param root0.topCutOrCopiedGuid
  * @param root0.bottomCutOrCopiedGuid
- * @param root0.prev
- * @param root0.next
- * @param root0.parent
- * @param root0.childIndex
+ * @param root0.source - The connection source
+ * @param root0.next - The next guid
  */
 export function createPastedApexCall({
     canvasElementToPaste,
@@ -35,10 +33,8 @@ export function createPastedApexCall({
     canvasElementGuidMap,
     topCutOrCopiedGuid,
     bottomCutOrCopiedGuid,
-    prev,
-    next,
-    parent,
-    childIndex
+    source,
+    next
 }) {
     const { duplicatedElement } = createDuplicateApexCall(canvasElementToPaste, newGuid, newName);
 
@@ -47,10 +43,8 @@ export function createPastedApexCall({
         canvasElementGuidMap,
         topCutOrCopiedGuid,
         bottomCutOrCopiedGuid,
-        prev,
-        next,
-        parent,
-        childIndex
+        source,
+        next
     );
 
     return {

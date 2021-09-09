@@ -184,10 +184,8 @@ export function createPastedRecordUpdate({
     canvasElementGuidMap,
     topCutOrCopiedGuid,
     bottomCutOrCopiedGuid,
-    prev,
-    next,
-    parent,
-    childIndex
+    source,
+    next
 }) {
     const { duplicatedElement } = createDuplicateRecordUpdate(canvasElementToPaste, newGuid, newName);
 
@@ -196,10 +194,8 @@ export function createPastedRecordUpdate({
         canvasElementGuidMap,
         topCutOrCopiedGuid,
         bottomCutOrCopiedGuid,
-        prev,
-        next,
-        parent,
-        childIndex
+        source,
+        next
     );
 
     return {

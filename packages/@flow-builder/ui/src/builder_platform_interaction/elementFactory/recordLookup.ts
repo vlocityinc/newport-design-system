@@ -287,10 +287,8 @@ export function createPastedRecordLookup({
     canvasElementGuidMap,
     topCutOrCopiedGuid,
     bottomCutOrCopiedGuid,
-    prev,
-    next,
-    parent,
-    childIndex
+    source,
+    next
 }) {
     const { duplicatedElement } = createDuplicateRecordLookup(canvasElementToPaste, newGuid, newName);
 
@@ -299,10 +297,8 @@ export function createPastedRecordLookup({
         canvasElementGuidMap,
         topCutOrCopiedGuid,
         bottomCutOrCopiedGuid,
-        prev,
-        next,
-        parent,
-        childIndex
+        source,
+        next
     );
 
     return {

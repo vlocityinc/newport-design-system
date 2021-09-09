@@ -1,4 +1,4 @@
-import { Guid, ElementMetadata } from 'builder_platform_interaction/autoLayoutCanvas';
+import { ElementMetadata, ConnectionSource } from 'builder_platform_interaction/autoLayoutCanvas';
 
 import { api } from 'lwc';
 import { AddElementEvent } from 'builder_platform_interaction/events';
@@ -33,19 +33,10 @@ enum TabFocusRingItems {
  */
 export default class AlcConnectorMenu extends Menu {
     @api
-    childIndex!: number;
+    source!: ConnectionSource;
 
     @api
     elementsMetadata: ElementMetadata[] = [];
-
-    @api
-    next!: Guid;
-
-    @api
-    parent!: Guid;
-
-    @api
-    prev!: Guid;
 
     @api
     isPasteAvailable!: boolean;
@@ -94,11 +85,11 @@ export default class AlcConnectorMenu extends Menu {
 
         const action = currentTarget.getAttribute('data-value');
 
-        const source = { guid: this.prev || this.parent, childIndex: this.childIndex };
+        const source = this.source;
 
         switch (action) {
             case PASTE_ACTION:
-                this.dispatchEvent(new PasteOnCanvasEvent(this.prev, this.next, this.parent, this.childIndex));
+                this.dispatchEvent(new PasteOnCanvasEvent(this.source));
                 this.moveFocusToConnector();
                 break;
             case GOTO_ACTION:
@@ -111,8 +102,7 @@ export default class AlcConnectorMenu extends Menu {
                 this.dispatchEvent(new GoToPathEvent(source, true));
                 break;
             default: {
-                const { prev, parent, childIndex } = this;
-                const alcConnectionSource = { guid: prev || parent, childIndex };
+                const alcConnectionSource = source;
 
                 this.dispatchEvent(
                     new AddElementEvent({
@@ -132,7 +122,7 @@ export default class AlcConnectorMenu extends Menu {
      * Moves the focus back to the connector trigger
      */
     moveFocusToConnector() {
-        this.dispatchEvent(new MoveFocusToConnectorEvent(this.prev || this.parent, this.childIndex));
+        this.dispatchEvent(new MoveFocusToConnectorEvent(this.source));
     }
 
     /**

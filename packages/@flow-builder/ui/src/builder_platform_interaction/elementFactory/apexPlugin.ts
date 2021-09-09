@@ -74,10 +74,8 @@ export function createPastedApexPlugin({
     canvasElementGuidMap,
     topCutOrCopiedGuid,
     bottomCutOrCopiedGuid,
-    prev,
-    next,
-    parent,
-    childIndex
+    source,
+    next
 }) {
     const { duplicatedElement } = createDuplicateApexPlugin(canvasElementToPaste, newGuid, newName);
 
@@ -86,10 +84,8 @@ export function createPastedApexPlugin({
         canvasElementGuidMap,
         topCutOrCopiedGuid,
         bottomCutOrCopiedGuid,
-        prev,
-        next,
-        parent,
-        childIndex
+        source,
+        next
     );
 
     return {

@@ -69,7 +69,11 @@ export default class AlcStartMenu extends AlcNodeMenu {
             // There's no use case where the start element can have branches but no buttons in the menu.
             // Hence branchIndexToFocus should always be undefined.
             const branchIndexToFocus = this.startData.children ? 0 : undefined;
-            this.dispatchEvent(new MoveFocusToConnectorEvent(this.guid, branchIndexToFocus));
+            const source = {
+                guid: this.guid,
+                childIndex: branchIndexToFocus
+            };
+            this.dispatchEvent(new MoveFocusToConnectorEvent(source));
         } else {
             // move focus to the first row item
             this.tabFocusRingIndex = TabFocusRingItems.Icon;
