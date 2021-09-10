@@ -7,3 +7,14 @@ builder_platform_interaction-alc-canvas-container {
 .toolbar-header-container {
     z-index: 500;
 }
+
+builder_platform_interaction-right-panel {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.editor-content {
+    position: relative;
+}
