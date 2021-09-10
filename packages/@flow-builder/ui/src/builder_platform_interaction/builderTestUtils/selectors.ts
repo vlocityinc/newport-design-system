@@ -120,6 +120,7 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     SUBFLOW_EDITOR: 'builder_platform_interaction-subflow-editor',
     SCHEDULED_PATH: 'builder_platform_interaction-scheduled-path',
     TOOLBAR: 'builder_platform_interaction-toolbar',
+    TOOLBAR_STATUS_ICONS: 'builder_platform_interaction-toolbar-status-icons',
     USE_ADVANCED_OPTIONS_CHECKBOX: 'builder_platform_interaction-use-advanced-options-checkbox',
     USE_ADVANCED_SETTINGS_ACCORDION: 'builder_platform_interaction-use-advanced-settings-accordion',
     USED_BY_CONTENT: 'builder_platform_interaction-used-by-content',

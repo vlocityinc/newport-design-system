@@ -8,8 +8,8 @@ import {
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
-
 const { logInteraction } = loggingUtils;
+import { setup } from '@sa11y/jest';
 
 jest.mock('builder_platform_interaction/contextLib', () =>
     Object.assign({}, require('builder_platform_interaction_mocks/contextLib'), {
@@ -63,6 +63,13 @@ const getBackUrlIcon = (headerComponent) =>
     getBackUrl(headerComponent).querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_ICON);
 
 describe('header', () => {
+    beforeAll(() => {
+        setup();
+    });
+    test('Accessibility', async () => {
+        const headerComponent = createComponentForTest({ backUrl: '/300' });
+        await expect(headerComponent).toBeAccessible();
+    });
     test('focus API function calls backUrl focus', () => {
         const headerComponent = createComponentForTest({ backUrl: '/300' });
         const mockFocusEventHandler = jest.fn();

@@ -19,9 +19,15 @@ import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtil
 import { LABELS } from '../toolbarLabels';
 import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
 import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
-import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import {
+    changeEvent,
+    INTERACTION_COMPONENTS_SELECTORS,
+    LIGHTNING_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren
+} from 'builder_platform_interaction/builderTestUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { CanvasMode } from 'builder_platform_interaction/builderUtils';
+import { setup } from '@sa11y/jest';
 
 jest.mock('builder_platform_interaction/storeLib');
 
@@ -29,31 +35,20 @@ const createComponentUnderTest = (props = {}) => {
     const el = createElement('builder_platform_interaction-toolbar', {
         is: Toolbar
     });
-
-    el.lastModifiedDate = props.lastModifiedDate;
-    el.saveAndPendingOperationStatus = props.saveAndPendingOperationStatus;
-    el.flowStatus = props.flowStatus;
-    el.hasUnsavedChanges = props.hasUnsavedChanges;
-    el.flowVersion = props.flowVersion;
-    el.isCutCopyDisabled = props.isCutCopyDisabled;
-    el.isSelectionMode = props.isSelectionMode;
-    el.isAutoLayoutCanvas = props.isAutoLayoutCanvas;
-    el.isNewDebugSupported = props.isNewDebugSupported;
-    el.showCopyPasteButton = getPropertyOrDefaultToTrue(props, 'showCopyPasteButton');
-    el.showEditFlowPropertiesButton = getPropertyOrDefaultToTrue(props, 'showEditFlowPropertiesButton');
-    el.showCanvasModeCombobox = getPropertyOrDefaultToTrue(props, 'showCanvasModeCombobox');
-    el.showFlowStatus = getPropertyOrDefaultToTrue(props, 'showFlowStatus');
-    el.showEditFlowButton = props.showEditFlowButton;
-    el.showRunButton = getPropertyOrDefaultToTrue(props, 'showRunButton');
-    el.showDebugButton = getPropertyOrDefaultToTrue(props, 'showDebugButton');
-    el.showRestartRunButton = props.showRestartRunButton;
-    el.hideSelectionButton = props.hideSelectionButton;
+    Object.assign(el, props, {
+        showCopyPasteButton: getPropertyOrDefaultToTrue(props, 'showCopyPasteButton'),
+        showEditFlowPropertiesButton: getPropertyOrDefaultToTrue(props, 'showEditFlowPropertiesButton'),
+        showCanvasModeCombobox: getPropertyOrDefaultToTrue(props, 'showCanvasModeCombobox'),
+        showFlowStatus: getPropertyOrDefaultToTrue(props, 'showFlowStatus'),
+        showRunButton: getPropertyOrDefaultToTrue(props, 'showRunButton'),
+        showDebugButton: getPropertyOrDefaultToTrue(props, 'showDebugButton')
+    });
 
     setDocumentBodyChildren(el);
     return el;
 };
 
-const selectors = {
+const SELECTORS = {
     select: '.test-toolbar-select',
     undoRedo: '.test-undo-redo',
     cut: '.test-toolbar-cut',
@@ -61,7 +56,7 @@ const selectors = {
     editflowproperties: '.test-toolbar-editflowproperties',
     saveas: '.test-toolbar-saveas',
     save: '.test-toolbar-save',
-    lastSave: '.test-toolbar-last-saved',
+    lastSave: '.toolbar-last-saved',
     duplicate: '.test-toolbar-duplicate',
     activate: '.test-toolbar-activate',
     relativedatetime: 'lightning-relative-date-time',
@@ -72,47 +67,47 @@ const selectors = {
     restartRun: '.test-toolbar-restartrun'
 };
 
-jest.mock('builder_platform_interaction/dateTimeUtils', () => {
-    return {
-        parseMetadataDateTime: jest.fn().mockName('parseMetadataDateTime')
-    };
-});
+jest.mock('builder_platform_interaction/dateTimeUtils', () => ({
+    parseMetadataDateTime: jest.fn().mockName('parseMetadataDateTime')
+}));
 
-const change = (component, checked = false) => {
-    const changeEvent = new CustomEvent('change', {
-        bubbles: true,
-        cancelable: true,
-        detail: {
-            checked
-        }
-    });
-    component.dispatchEvent(changeEvent);
-};
+const change = (component, checked = false) => component.dispatchEvent(changeEvent(checked));
 
 describe('toolbar', () => {
+    beforeAll(() => {
+        setup();
+    });
+
+    it('accessibility', async () => {
+        const toolbarComponent = createComponentUnderTest({
+            saveAndPendingOperationStatus: FLOW_STATUS.SAVING
+        });
+        await expect(toolbarComponent).toBeAccessible();
+    });
+
     it('fires editflowproperties event when edit flow properties button is clicked', () => {
         const toolbarComponent = createComponentUnderTest();
         const eventCallback = jest.fn();
         toolbarComponent.addEventListener(EditFlowPropertiesEvent.EVENT_NAME, eventCallback);
-        toolbarComponent.shadowRoot.querySelector(selectors.editflowproperties).click();
+        toolbarComponent.shadowRoot.querySelector(SELECTORS.editflowproperties).click();
         expect(eventCallback).toHaveBeenCalled();
     });
 
     it('Undo Redo should be present', () => {
         const toolbarComponent = createComponentUnderTest();
-        const undoRedoGroup = toolbarComponent.shadowRoot.querySelector(selectors.undoRedo);
+        const undoRedoGroup = toolbarComponent.shadowRoot.querySelector(SELECTORS.undoRedo);
         expect(undoRedoGroup).not.toBeNull();
     });
 
     it('Edit Flow button should not be present by default', () => {
         const toolbarComponent = createComponentUnderTest();
-        const editFlowButton = toolbarComponent.shadowRoot.querySelector(selectors.editFlow);
+        const editFlowButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.editFlow);
         expect(editFlowButton).toBeNull();
     });
 
     it('Edit Flow button should be present if api property is set', () => {
         const toolbarComponent = createComponentUnderTest({ showEditFlowButton: true });
-        const editFlowButton = toolbarComponent.shadowRoot.querySelector(selectors.editFlow);
+        const editFlowButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.editFlow);
         expect(editFlowButton).not.toBeNull();
     });
 
@@ -120,26 +115,26 @@ describe('toolbar', () => {
         const toolbarComponent = createComponentUnderTest({ showEditFlowButton: true });
         const eventCallback = jest.fn();
         toolbarComponent.addEventListener(EditFlowEvent.EVENT_NAME, eventCallback);
-        const editFlowButton = toolbarComponent.shadowRoot.querySelector(selectors.editFlow);
+        const editFlowButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.editFlow);
         editFlowButton.click();
         expect(eventCallback).toHaveBeenCalled();
     });
 
     it('Debug button should not be present if show debug button api property is not set', () => {
         const toolbarComponent = createComponentUnderTest({ showDebugButton: false });
-        const debug = toolbarComponent.shadowRoot.querySelector(selectors.debug);
+        const debug = toolbarComponent.shadowRoot.querySelector(SELECTORS.debug);
         expect(debug).toBeNull();
     });
 
     it('Old Debug button should not be present if new debug is supported', () => {
         const toolbarComponent = createComponentUnderTest({ isNewDebugSupported: true, showDebugButton: true });
-        const debug = toolbarComponent.shadowRoot.querySelector(selectors.debug);
+        const debug = toolbarComponent.shadowRoot.querySelector(SELECTORS.debug);
         expect(debug).toBeNull();
     });
 
     it('Old Debug button should be present if show debug button api property is set and new debug is not supported', () => {
         const toolbarComponent = createComponentUnderTest({ isNewDebugSupported: false, showDebugButton: true });
-        const debug = toolbarComponent.shadowRoot.querySelector(selectors.debug);
+        const debug = toolbarComponent.shadowRoot.querySelector(SELECTORS.debug);
         expect(debug).not.toBeNull();
     });
 
@@ -147,26 +142,26 @@ describe('toolbar', () => {
         const toolbarComponent = createComponentUnderTest({ showDebugButton: true });
         const eventCallback = jest.fn();
         toolbarComponent.addEventListener(DebugFlowEvent.EVENT_NAME, eventCallback);
-        const debug = toolbarComponent.shadowRoot.querySelector(selectors.debug);
+        const debug = toolbarComponent.shadowRoot.querySelector(SELECTORS.debug);
         debug.click();
         expect(eventCallback).toHaveBeenCalled();
     });
 
     it('New Debug button should not be present if new debug is not supported', () => {
         const toolbarComponent = createComponentUnderTest({ isNewDebugSupported: false, showDebugButton: true });
-        const newDebug = toolbarComponent.shadowRoot.querySelector(selectors.newDebug);
+        const newDebug = toolbarComponent.shadowRoot.querySelector(SELECTORS.newDebug);
         expect(newDebug).toBeNull();
     });
 
     it('New Debug button should not be present if show debug button api property is not set', () => {
         const toolbarComponent = createComponentUnderTest({ isNewDebugSupported: true, showDebugButton: false });
-        const newDebug = toolbarComponent.shadowRoot.querySelector(selectors.newDebug);
+        const newDebug = toolbarComponent.shadowRoot.querySelector(SELECTORS.newDebug);
         expect(newDebug).toBeNull();
     });
 
     it('New Debug button should be present if new debug is supported and show debug button api property is set', () => {
         const toolbarComponent = createComponentUnderTest({ isNewDebugSupported: true, showDebugButton: true });
-        const newDebug = toolbarComponent.shadowRoot.querySelector(selectors.newDebug);
+        const newDebug = toolbarComponent.shadowRoot.querySelector(SELECTORS.newDebug);
         expect(newDebug).not.toBeNull();
     });
 
@@ -174,20 +169,20 @@ describe('toolbar', () => {
         const toolbarComponent = createComponentUnderTest({ isNewDebugSupported: true, showDebugButton: true });
         const eventCallback = jest.fn();
         toolbarComponent.addEventListener(NewDebugFlowEvent.EVENT_NAME, eventCallback);
-        const newDebug = toolbarComponent.shadowRoot.querySelector(selectors.newDebug);
+        const newDebug = toolbarComponent.shadowRoot.querySelector(SELECTORS.newDebug);
         newDebug.click();
         expect(eventCallback).toHaveBeenCalled();
     });
 
     it('Restart Run button should not be present by default', () => {
         const toolbarComponent = createComponentUnderTest();
-        const restartRun = toolbarComponent.shadowRoot.querySelector(selectors.restartRun);
+        const restartRun = toolbarComponent.shadowRoot.querySelector(SELECTORS.restartRun);
         expect(restartRun).toBeNull();
     });
 
     it('Restart Run button should be present if api property is set', () => {
         const toolbarComponent = createComponentUnderTest({ showRestartRunButton: true });
-        const restartRun = toolbarComponent.shadowRoot.querySelector(selectors.restartRun);
+        const restartRun = toolbarComponent.shadowRoot.querySelector(SELECTORS.restartRun);
         expect(restartRun).not.toBeNull();
     });
 
@@ -195,7 +190,7 @@ describe('toolbar', () => {
         const toolbarComponent = createComponentUnderTest({ showRestartRunButton: true });
         const eventCallback = jest.fn();
         toolbarComponent.addEventListener(RestartDebugFlowEvent.EVENT_NAME, eventCallback);
-        const newDebug = toolbarComponent.shadowRoot.querySelector(selectors.restartRun);
+        const newDebug = toolbarComponent.shadowRoot.querySelector(SELECTORS.restartRun);
         newDebug.click();
         expect(eventCallback).toHaveBeenCalled();
     });
@@ -203,20 +198,20 @@ describe('toolbar', () => {
     it('Status Icons section should be present', () => {
         const toolbarComponent = createComponentUnderTest();
         const toolbarStatusIcons = toolbarComponent.shadowRoot.querySelector(
-            'builder_platform_interaction-toolbar-status-icons'
+            INTERACTION_COMPONENTS_SELECTORS.TOOLBAR_STATUS_ICONS
         );
         expect(toolbarStatusIcons).not.toBeNull();
     });
 
     it('Activate button should be present', () => {
         const toolbarComponent = createComponentUnderTest();
-        const activateButton = toolbarComponent.shadowRoot.querySelector(selectors.activate);
+        const activateButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.activate);
         expect(activateButton).not.toBeNull();
     });
 
     it('Activate button text should be "deactivate" when flow is active', () => {
         const toolbarComponent = createComponentUnderTest({ flowStatus: FLOW_STATUS.ACTIVE });
-        const activateButton = toolbarComponent.shadowRoot.querySelector(selectors.activate);
+        const activateButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.activate);
         expect(activateButton.label).toBe(LABELS.deactivateTitle);
     });
 
@@ -225,7 +220,7 @@ describe('toolbar', () => {
             flowStatus: FLOW_STATUS.DRAFT,
             hasUnsavedChanges: true
         });
-        const activateButton = toolbarComponent.shadowRoot.querySelector(selectors.activate);
+        const activateButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.activate);
         expect(activateButton.disabled).toBe(true);
     });
 
@@ -234,7 +229,7 @@ describe('toolbar', () => {
             flowId: '301xx000003GZDLAA4',
             flowStatus: FLOW_STATUS.ACTIVE
         });
-        const activateButton = toolbarComponent.shadowRoot.querySelector(selectors.activate);
+        const activateButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.activate);
         expect(activateButton.disabled).toBeUndefined();
     });
 
@@ -242,7 +237,7 @@ describe('toolbar', () => {
         const toolbarComponent = createComponentUnderTest({
             flowId: 'sfdc_checkout__CartToOrder-1'
         });
-        const activateButton = toolbarComponent.shadowRoot.querySelector(selectors.activate);
+        const activateButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.activate);
         expect(activateButton.disabled).toBe(true);
     });
 
@@ -250,13 +245,13 @@ describe('toolbar', () => {
         const toolbarComponent = createComponentUnderTest({
             flowStatus: FLOW_STATUS.INVALID_DRAFT
         });
-        const activateButton = toolbarComponent.shadowRoot.querySelector(selectors.activate);
+        const activateButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.activate);
         expect(activateButton.disabled).toBe(true);
     });
 
     it('Activate button should be active when flow is a draft and has no unsaved changes', () => {
         const toolbarComponent = createComponentUnderTest({ flowStatus: FLOW_STATUS.DRAFT, hasUnsavedChanges: false });
-        const activateButton = toolbarComponent.shadowRoot.querySelector(selectors.activate);
+        const activateButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.activate);
         expect(activateButton.disabled).toBe(false);
     });
 
@@ -265,7 +260,7 @@ describe('toolbar', () => {
             flowStatus: FLOW_STATUS.OBSOLETE,
             hasUnsavedChanges: false
         });
-        const activateButton = toolbarComponent.shadowRoot.querySelector(selectors.activate);
+        const activateButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.activate);
         expect(activateButton.disabled).toBe(false);
     });
 
@@ -273,7 +268,7 @@ describe('toolbar', () => {
         const toolbarComponent = createComponentUnderTest();
         const eventCallback = jest.fn();
         toolbarComponent.addEventListener(SaveFlowEvent.EVENT_NAME, eventCallback);
-        toolbarComponent.shadowRoot.querySelector(selectors.save).click();
+        toolbarComponent.shadowRoot.querySelector(SELECTORS.save).click();
         expect(eventCallback).toHaveBeenCalled();
         expect(eventCallback.mock.calls[0][0].detail.type).toBe(SaveFlowEvent.Type.SAVE);
     });
@@ -312,7 +307,7 @@ describe('toolbar', () => {
                 const toolbarComponent = createComponentUnderTest();
                 const eventCallback = jest.fn();
                 toolbarComponent.addEventListener(SaveFlowEvent.EVENT_NAME, eventCallback);
-                toolbarComponent.shadowRoot.querySelector(selectors.saveas).click();
+                toolbarComponent.shadowRoot.querySelector(SELECTORS.saveas).click();
                 expect(eventCallback).toHaveBeenCalled();
                 expect(eventCallback.mock.calls[0][0].detail.type).toBe(eventType);
             }
@@ -323,7 +318,7 @@ describe('toolbar', () => {
         const toolbarComponent = createComponentUnderTest();
         const eventCallback = jest.fn();
         toolbarComponent.addEventListener(ToggleFlowStatusEvent.EVENT_NAME, eventCallback);
-        toolbarComponent.shadowRoot.querySelector(selectors.activate).click();
+        toolbarComponent.shadowRoot.querySelector(SELECTORS.activate).click();
         expect(eventCallback).toHaveBeenCalled();
     });
 
@@ -331,7 +326,7 @@ describe('toolbar', () => {
         const toolbarComponent = createComponentUnderTest();
         const eventCallback = jest.fn();
         toolbarComponent.addEventListener(DuplicateEvent.EVENT_NAME, eventCallback);
-        toolbarComponent.shadowRoot.querySelector(selectors.duplicate).click();
+        toolbarComponent.shadowRoot.querySelector(SELECTORS.duplicate).click();
         expect(eventCallback).toHaveBeenCalled();
     });
 
@@ -339,7 +334,7 @@ describe('toolbar', () => {
         const toolbarComponent = createComponentUnderTest();
         const eventCallback = jest.fn();
         toolbarComponent.addEventListener(ClosePropertyEditorEvent.EVENT_NAME, eventCallback);
-        toolbarComponent.shadowRoot.querySelector(selectors.duplicate).click();
+        toolbarComponent.shadowRoot.querySelector(SELECTORS.duplicate).click();
         expect(eventCallback).toHaveBeenCalled();
     });
 
@@ -354,8 +349,8 @@ describe('toolbar', () => {
                 flowVersion: 1
             });
 
-            const lastSavedButton = toolbarComponent.shadowRoot.querySelector(selectors.lastSave);
-            const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(selectors.relativedatetime);
+            const lastSavedButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.lastSave);
+            const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(SELECTORS.relativedatetime);
             expect(lastSavedButton.textContent.trim()).toEqual(LABELS.toolbarStatus);
             expect(relativeDateTimeComponent).not.toBeNull();
             expect(relativeDateTimeComponent.value).toEqual(currentDate);
@@ -372,8 +367,8 @@ describe('toolbar', () => {
                 flowVersion: 1
             });
 
-            const lastSavedButton = toolbarComponent.shadowRoot.querySelector(selectors.lastSave);
-            const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(selectors.relativedatetime);
+            const lastSavedButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.lastSave);
+            const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(SELECTORS.relativedatetime);
 
             expect(lastSavedButton.textContent.trim()).toEqual(LABELS.toolbarStatus);
             expect(relativeDateTimeComponent).not.toBeNull();
@@ -389,8 +384,8 @@ describe('toolbar', () => {
                 flowVersion: 1
             });
 
-            const lastSavedButton = toolbarComponent.shadowRoot.querySelector(selectors.lastSave);
-            const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(selectors.relativedatetime);
+            const lastSavedButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.lastSave);
+            const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(SELECTORS.relativedatetime);
 
             expect(lastSavedButton.textContent.trim()).toEqual(LABELS.toolbarStatus);
             expect(relativeDateTimeComponent).not.toBeNull();
@@ -406,8 +401,8 @@ describe('toolbar', () => {
                 flowVersion: 1
             });
 
-            const lastSavedButton = toolbarComponent.shadowRoot.querySelector(selectors.lastSave);
-            const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(selectors.relativedatetime);
+            const lastSavedButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.lastSave);
+            const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(SELECTORS.relativedatetime);
 
             expect(lastSavedButton.textContent.trim()).toEqual(LABELS.toolbarStatus);
             expect(relativeDateTimeComponent).not.toBeNull();
@@ -423,8 +418,8 @@ describe('toolbar', () => {
                 flowVersion: 1
             });
 
-            const lastSavedButton = toolbarComponent.shadowRoot.querySelector(selectors.lastSave);
-            const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(selectors.relativedatetime);
+            const lastSavedButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.lastSave);
+            const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(SELECTORS.relativedatetime);
 
             expect(lastSavedButton.textContent.trim()).toEqual(LABELS.activating);
             expect(relativeDateTimeComponent).toBeNull();
@@ -437,8 +432,8 @@ describe('toolbar', () => {
                 flowVersion: 1
             });
 
-            const lastSavedButton = toolbarComponent.shadowRoot.querySelector(selectors.lastSave);
-            const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(selectors.relativedatetime);
+            const lastSavedButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.lastSave);
+            const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(SELECTORS.relativedatetime);
             expect(lastSavedButton.textContent).toBe(LABELS.savingStatus);
             expect(relativeDateTimeComponent).toBeNull();
         });
@@ -453,7 +448,7 @@ describe('toolbar', () => {
             });
 
             it('Displays Select Button with right configuration when in Base Mode', () => {
-                const selectButton = toolbarComponent.shadowRoot.querySelector(selectors.select);
+                const selectButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.select);
                 expect(selectButton).not.toBeNull();
                 expect(selectButton.label).toBe(LABELS.selectLabel);
                 expect(selectButton.title).toBe(LABELS.selectTitle);
@@ -463,35 +458,35 @@ describe('toolbar', () => {
 
             it('Select Button should not be available when hideSelectionButton is passed as true', () => {
                 toolbarComponent = createComponentUnderTest({ isAutoLayoutCanvas: true, hideSelectionButton: true });
-                const selectButton = toolbarComponent.shadowRoot.querySelector(selectors.select);
+                const selectButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.select);
                 expect(selectButton).toBeNull();
             });
 
             it('Displays the undo redo group in Base Mode', () => {
-                const undoRedoGroup = toolbarComponent.shadowRoot.querySelector(selectors.undoRedo);
+                const undoRedoGroup = toolbarComponent.shadowRoot.querySelector(SELECTORS.undoRedo);
                 expect(undoRedoGroup).not.toBeNull();
             });
 
             it('Does not display Duplicate Button in Base Mode', () => {
-                const duplicateButton = toolbarComponent.shadowRoot.querySelector(selectors.duplicate);
+                const duplicateButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.duplicate);
                 expect(duplicateButton).toBeNull();
             });
 
             // TODO: Enable this test back when we add support for Cutting of multiple elements
             // it('Does not display Cut Button in Base Mode', () => {
-            //     const cutButton = toolbarComponent.shadowRoot.querySelector(selectors.cut);
+            //     const cutButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.cut);
             //     expect(cutButton).toBeNull();
             // });
 
             it('Does not display Copy Button in Base Mode', () => {
-                const copyButton = toolbarComponent.shadowRoot.querySelector(selectors.copy);
+                const copyButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.copy);
                 expect(copyButton).toBeNull();
             });
 
             it('Click on the Select Button should fire the ToggleSelectionModeEvent', () => {
                 const eventCallback = jest.fn();
                 toolbarComponent.addEventListener(ToggleSelectionModeEvent.EVENT_NAME, eventCallback);
-                toolbarComponent.shadowRoot.querySelector(selectors.select).click();
+                toolbarComponent.shadowRoot.querySelector(SELECTORS.select).click();
                 expect(eventCallback).toHaveBeenCalled();
             });
         });
@@ -506,7 +501,7 @@ describe('toolbar', () => {
             });
 
             it('Displays Select Button with right configuration when in Selection Mode', () => {
-                const selectButton = toolbarComponent.shadowRoot.querySelector(selectors.select);
+                const selectButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.select);
                 expect(selectButton).not.toBeNull();
                 expect(selectButton.label).toBe(LABELS.selectLabel);
                 expect(selectButton.title).toBe(LABELS.selectTitle);
@@ -517,23 +512,23 @@ describe('toolbar', () => {
             it('Click on the Select Button should fire the ToggleSelectionModeEvent', () => {
                 const eventCallback = jest.fn();
                 toolbarComponent.addEventListener(ToggleSelectionModeEvent.EVENT_NAME, eventCallback);
-                toolbarComponent.shadowRoot.querySelector(selectors.select).click();
+                toolbarComponent.shadowRoot.querySelector(SELECTORS.select).click();
                 expect(eventCallback).toHaveBeenCalled();
             });
 
             it('Does not display the undo redo group in Selection Mode', () => {
-                const undoRedoGroup = toolbarComponent.shadowRoot.querySelector(selectors.undoRedo);
+                const undoRedoGroup = toolbarComponent.shadowRoot.querySelector(SELECTORS.undoRedo);
                 expect(undoRedoGroup).toBeNull();
             });
 
             it('Does not display Duplicate Button in Selection Mode', () => {
-                const duplicateButton = toolbarComponent.shadowRoot.querySelector(selectors.duplicate);
+                const duplicateButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.duplicate);
                 expect(duplicateButton).toBeNull();
             });
 
             // TODO: Enable this test back when we add support for Cutting of multiple elements
             // it('Displays the Cut Button with right configuration when in Selection Mode', () => {
-            //     const cutButton = toolbarComponent.shadowRoot.querySelector(selectors.cut);
+            //     const cutButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.cut);
             //     expect(cutButton).not.toBeNull();
             //     expect(cutButton.alternativeText).toBe(LABELS.cutAltText);
             //     expect(cutButton.title).toBe(LABELS.cutTitle);
@@ -544,12 +539,12 @@ describe('toolbar', () => {
             // TODO: Enable this test back when we add support for Cutting of multiple elements
             // it('The cut button should be enabled when isCutCopyDisabled is false', () => {
             //     toolbarComponent = createComponentUnderTest({ isCutCopyDisabled: false, isSelectionMode: true });
-            //     const cutButton = toolbarComponent.shadowRoot.querySelector(selectors.cut);
+            //     const cutButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.cut);
             //     expect(cutButton.disabled).toBeFalsy();
             // });
 
             it('Displays the Copy Button with right configuration when in Selection Mode', () => {
-                const copyButton = toolbarComponent.shadowRoot.querySelector(selectors.copy);
+                const copyButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.copy);
                 expect(copyButton).not.toBeNull();
                 expect(copyButton.alternativeText).toBe(LABELS.copyAltText);
                 expect(copyButton.title).toBe(LABELS.copyTitle);
@@ -559,14 +554,14 @@ describe('toolbar', () => {
 
             it('The copy button should be enabled when isCutCopyDisabled is false', () => {
                 toolbarComponent = createComponentUnderTest({ isCutCopyDisabled: false, isSelectionMode: true });
-                const copyButton = toolbarComponent.shadowRoot.querySelector(selectors.copy);
+                const copyButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.copy);
                 expect(copyButton.disabled).toBeFalsy();
             });
 
             it('Click on the Copy Button should fire the CopyOnCanvasEvent', () => {
                 const eventCallback = jest.fn();
                 toolbarComponent.addEventListener(CopyOnCanvasEvent.EVENT_NAME, eventCallback);
-                toolbarComponent.shadowRoot.querySelector(selectors.copy).click();
+                toolbarComponent.shadowRoot.querySelector(SELECTORS.copy).click();
                 expect(eventCallback).toHaveBeenCalled();
             });
         });
@@ -578,8 +573,10 @@ describe('toolbar', () => {
                 isAutoLayoutCanvas: true,
                 showCanvasModeCombobox: true
             });
-            const canvasModeCombobox = toolbarComponent.shadowRoot.querySelector(selectors.canvasModeCombobox);
-            const canvasModeComboboxButton = canvasModeCombobox.querySelector('lightning-combobox');
+            const canvasModeCombobox = toolbarComponent.shadowRoot.querySelector(SELECTORS.canvasModeCombobox);
+            const canvasModeComboboxButton = canvasModeCombobox.querySelector(
+                LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_COMBOBOX
+            );
 
             expect(canvasModeComboboxButton).not.toBeNull();
             expect(canvasModeComboboxButton.value).toBe(CanvasMode.AutoLayout);
@@ -590,8 +587,10 @@ describe('toolbar', () => {
                 isAutoLayoutCanvas: false,
                 showCanvasModeCombobox: true
             });
-            const canvasModeCombobox = toolbarComponent.shadowRoot.querySelector(selectors.canvasModeCombobox);
-            const canvasModeComboboxButton = canvasModeCombobox.querySelector('lightning-combobox');
+            const canvasModeCombobox = toolbarComponent.shadowRoot.querySelector(SELECTORS.canvasModeCombobox);
+            const canvasModeComboboxButton = canvasModeCombobox.querySelector(
+                LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_COMBOBOX
+            );
 
             expect(canvasModeComboboxButton).not.toBeNull();
             expect(canvasModeComboboxButton.value).toBe(CanvasMode.FreeForm);
@@ -602,7 +601,7 @@ describe('toolbar', () => {
                 isAutoLayoutCanvas: true,
                 showCanvasModeCombobox: false
             });
-            const canvasModeCombobox = toolbarComponent.shadowRoot.querySelector(selectors.canvasModeCombobox);
+            const canvasModeCombobox = toolbarComponent.shadowRoot.querySelector(SELECTORS.canvasModeCombobox);
             expect(canvasModeCombobox).toBeNull();
         });
 
@@ -611,7 +610,7 @@ describe('toolbar', () => {
                 isAutoLayoutCanvas: false,
                 showCanvasModeCombobox: false
             });
-            const canvasModeCombobox = toolbarComponent.shadowRoot.querySelector(selectors.canvasModeCombobox);
+            const canvasModeCombobox = toolbarComponent.shadowRoot.querySelector(SELECTORS.canvasModeCombobox);
             expect(canvasModeCombobox).toBeNull();
         });
 
@@ -620,8 +619,10 @@ describe('toolbar', () => {
                 isAutoLayoutCanvas: true,
                 showCanvasModeCombobox: true
             });
-            const canvasModeCombobox = toolbarComponent.shadowRoot.querySelector(selectors.canvasModeCombobox);
-            const canvasModeComboboxButton = canvasModeCombobox.querySelector('lightning-combobox');
+            const canvasModeCombobox = toolbarComponent.shadowRoot.querySelector(SELECTORS.canvasModeCombobox);
+            const canvasModeComboboxButton = canvasModeCombobox.querySelector(
+                LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_COMBOBOX
+            );
 
             const eventCallback = jest.fn();
             toolbarComponent.addEventListener(ToggleCanvasModeEvent.EVENT_NAME, eventCallback);
@@ -634,8 +635,10 @@ describe('toolbar', () => {
                 isAutoLayoutCanvas: false,
                 showCanvasModeCombobox: true
             });
-            const canvasModeCombobox = toolbarComponent.shadowRoot.querySelector(selectors.canvasModeCombobox);
-            const canvasModeComboboxButton = canvasModeCombobox.querySelector('lightning-combobox');
+            const canvasModeCombobox = toolbarComponent.shadowRoot.querySelector(SELECTORS.canvasModeCombobox);
+            const canvasModeComboboxButton = canvasModeCombobox.querySelector(
+                LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_COMBOBOX
+            );
 
             const eventCallback = jest.fn();
             toolbarComponent.addEventListener(ToggleCanvasModeEvent.EVENT_NAME, eventCallback);

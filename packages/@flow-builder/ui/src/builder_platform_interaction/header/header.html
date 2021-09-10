@@ -27,10 +27,11 @@
                     icon-name={iconName}
                     class="slds-media__figure test-flow-utility-icon"
                 ></lightning-icon>
-                <div class="slds-media__body test-app-name" aria-hidden>{name}</div>
+                <div class="slds-media__body test-app-name" aria-hidden="true">{name}</div>
             </div>
         </div>
         <h1
+            if:true={currentFlowName}
             title={flowNameAndVersionTitle}
             class="slds-builder-header__item custom-item-width test-flow-name-version-title"
         >

@@ -1,14 +1,15 @@
 .inline-display {
     display: inline-flex;
 }
-
 .canvas-mode-combobox:hover > .canvas-mode-combobox-tooltip {
     display: block;
 }
-
 .canvas-mode-combobox-tooltip {
     display: none;
     transform: translateY(120%);
     margin-left: auto;
     margin-right: auto;
+}
+.toolbar-last-saved {
+    color: var(--lwc-colorTextActionLabelActive);
 }

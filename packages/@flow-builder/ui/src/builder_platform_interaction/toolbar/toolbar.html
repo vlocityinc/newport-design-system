@@ -106,13 +106,9 @@
                 ></lightning-combobox>
             </div>
 
-            <button
-                if:true={showLastSavedPill}
-                class="slds-button test-toolbar-last-saved"
-                title={statusIndicatorTitle}
-            >
+            <div if:true={showLastSavedPill} class="toolbar-last-saved" title={statusIndicatorTitle}>
                 <span if:true={isDoingOperation}>{toolbarStatus}</span>
-                <span if:true={isDoingOperation} style="padding-left: 5px" aria-hidden>
+                <span if:true={isDoingOperation} style="padding-left: 5px" aria-hidden="true">
                     <div class="slds-spinner slds-spinner_x-small slds-spinner_brand slds-is-relative">
                         <div class="slds-spinner__dot-a"></div>
                         <div class="slds-spinner__dot-b"></div>
@@ -123,7 +119,7 @@
                         value={currentDate}
                     ></lightning-relative-date-time
                 ></span>
-            </button>
+            </div>
 
             <div class="inline-display slds-m-left_xx-small">
                 <builder_platform_interaction-toolbar-status-icons flow-errors-and-warnings={flowErrorsAndWarnings}>
