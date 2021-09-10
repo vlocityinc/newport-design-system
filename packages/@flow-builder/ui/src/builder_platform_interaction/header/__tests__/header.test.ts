@@ -129,10 +129,10 @@ describe('header', () => {
     });
 
     test('checks the rendering FLOW NAME VERSION TITLE', () => {
+        const EXPECTED_TITLE = `Flow Name${LABELS.versionLabelText}1`;
         const headerComponent = createComponentForTest({ flowName: 'Flow Name', flowVersion: '1' });
-        expect(headerComponent.shadowRoot.querySelector(SELECTORS.flowNameVersionTitle).title).toEqual(
-            `Flow Name${LABELS.versionLabelText}1`
-        );
+        expect(headerComponent.shadowRoot.querySelector(SELECTORS.flowNameVersionTitle).title).toEqual(EXPECTED_TITLE);
+        expect(document.title).toEqual(EXPECTED_TITLE);
     });
 
     test('checks the rendering FLOW NAME', () => {

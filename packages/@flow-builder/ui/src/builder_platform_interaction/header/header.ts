@@ -15,11 +15,28 @@ const DEBUG_STATUS = {
 const BACK_TOOLTIP_CONST = 'slds-popover  slds-nubbin_top slds-popover_tooltip custom-tooltip';
 
 export default class Header extends LightningElement {
-    @api
-    flowName;
+    private _flowName;
+    private _flowVersion;
 
     @api
-    flowVersion;
+    get flowName() {
+        return this._flowName;
+    }
+
+    set flowName(flowName) {
+        this._flowName = flowName;
+        this.updateDocumentTitle();
+    }
+
+    @api
+    get flowVersion() {
+        return this._flowVersion;
+    }
+
+    set flowVersion(flowVersion) {
+        this._flowVersion = flowVersion;
+        this.updateDocumentTitle();
+    }
 
     @api
     runInMode;
@@ -147,6 +164,12 @@ export default class Header extends LightningElement {
             classes = `${classes} slds-badge_lightest`;
         }
         return classes;
+    }
+
+    updateDocumentTitle() {
+        if (this.currentFlowName && this.flowVersionNumber) {
+            document.title = `${this.currentFlowName}${this.flowVersionNumber}`;
+        }
     }
 
     handleClickHelp() {
