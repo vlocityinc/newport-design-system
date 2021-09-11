@@ -89,6 +89,7 @@ export function createLoop(loop = {}, { elements } = Store.getStore().getCurrent
  * @param dataForPasting.next
  * @param dataForPasting.parent
  * @param dataForPasting.childIndex
+ * @param dataForPasting.source
  */
 export function createPastedLoop({
     canvasElementToPaste,

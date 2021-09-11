@@ -410,6 +410,10 @@ export default class Toolbar extends LightningElement {
 
     handleToggleCanvasMode(event) {
         event.stopPropagation();
+        // Checking if the unsaved positions modal will show up and forcing combobox to have freeform selected
+        if (!this.isUndoDisabled && !this.isAutoLayoutCanvas) {
+            event.target.value = CanvasMode.FreeForm;
+        }
         this.dispatchEvent(new ToggleCanvasModeEvent());
     }
 }

@@ -71,7 +71,7 @@ jest.mock('builder_platform_interaction/dateTimeUtils', () => ({
     parseMetadataDateTime: jest.fn().mockName('parseMetadataDateTime')
 }));
 
-const change = (component, checked = false) => component.dispatchEvent(changeEvent(checked));
+const change = (component, newValue) => component.dispatchEvent(changeEvent(newValue));
 
 describe('toolbar', () => {
     beforeAll(() => {
@@ -626,7 +626,7 @@ describe('toolbar', () => {
 
             const eventCallback = jest.fn();
             toolbarComponent.addEventListener(ToggleCanvasModeEvent.EVENT_NAME, eventCallback);
-            change(canvasModeComboboxButton);
+            change(canvasModeComboboxButton, CanvasMode.FreeForm);
             expect(eventCallback).toHaveBeenCalled();
         });
 
@@ -642,8 +642,26 @@ describe('toolbar', () => {
 
             const eventCallback = jest.fn();
             toolbarComponent.addEventListener(ToggleCanvasModeEvent.EVENT_NAME, eventCallback);
-            change(canvasModeComboboxButton, true);
+            change(canvasModeComboboxButton, CanvasMode.AutoLayout);
             expect(eventCallback).toHaveBeenCalled();
+        });
+
+        it('When in Free-Form with hasUnsavedChanges, clicking on Auto-Layout does not change canvas mode', () => {
+            const toolbarComponent = createComponentUnderTest({
+                isAutoLayoutCanvas: false,
+                showCanvasModeCombobox: true,
+                hasUnsavedChanges: true
+            });
+            const canvasModeCombobox = toolbarComponent.shadowRoot.querySelector(SELECTORS.canvasModeCombobox);
+            const canvasModeComboboxButton = canvasModeCombobox.querySelector(
+                LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_COMBOBOX
+            );
+
+            const eventCallback = jest.fn();
+            toolbarComponent.addEventListener(ToggleCanvasModeEvent.EVENT_NAME, eventCallback);
+            change(canvasModeComboboxButton, CanvasMode.AutoLayout);
+            expect(eventCallback).toHaveBeenCalled();
+            expect(canvasModeComboboxButton.value).toEqual(CanvasMode.FreeForm);
         });
     });
 });

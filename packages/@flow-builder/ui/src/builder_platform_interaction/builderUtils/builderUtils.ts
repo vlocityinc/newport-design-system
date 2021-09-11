@@ -45,8 +45,8 @@ const MODAL = 'modal';
 const PANEL = 'panel';
 
 export enum CanvasMode {
-    AutoLayout,
-    FreeForm
+    AutoLayout = 'auto-layout',
+    FreeForm = 'free-form'
 }
 
 export enum modalBodyVariant {

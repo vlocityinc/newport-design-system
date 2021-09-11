@@ -27,6 +27,7 @@ export function createEmailAlert(emailAlert = {}) {
  * @param root0.next
  * @param root0.parent
  * @param root0.childIndex
+ * @param root0.source
  */
 export function createPastedEmailAlert({
     canvasElementToPaste,

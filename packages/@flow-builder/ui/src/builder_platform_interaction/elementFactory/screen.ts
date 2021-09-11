@@ -63,6 +63,7 @@ export function createScreenWithFields(screen = {}) {
  * @param dataForPasting.next
  * @param dataForPasting.parent
  * @param dataForPasting.childIndex
+ * @param dataForPasting.source
  */
 export function createPastedScreen({
     canvasElementToPaste,

@@ -152,6 +152,7 @@ export function createOrchestratedStageWithItems(existingStage: OrchestratedStag
  * @param dataForPasting.next
  * @param dataForPasting.parent
  * @param dataForPasting.childIndex
+ * @param dataForPasting.source
  * @returns An object with the pasted OrchestratorStage and all new children
  */
 export function createPastedOrchestratedStage({

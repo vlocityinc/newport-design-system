@@ -65,6 +65,7 @@ export function createSubflow(subflow = {}) {
  * @param dataForPasting.next
  * @param dataForPasting.parent
  * @param dataForPasting.childIndex
+ * @param dataForPasting.source
  */
 export function createPastedSubflow({
     canvasElementToPaste,

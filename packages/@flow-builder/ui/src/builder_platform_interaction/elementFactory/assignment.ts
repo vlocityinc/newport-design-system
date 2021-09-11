@@ -49,6 +49,7 @@ export function createAssignment(assignment = {}) {
  * @param dataForPasting.next
  * @param dataForPasting.parent
  * @param dataForPasting.childIndex
+ * @param dataForPasting.source
  */
 export function createPastedAssignment({
     canvasElementToPaste,

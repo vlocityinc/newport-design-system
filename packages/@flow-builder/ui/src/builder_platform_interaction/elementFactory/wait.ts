@@ -223,6 +223,7 @@ export function createWaitWithWaitEvents(wait = {}) {
  * @param dataForPasting.next
  * @param dataForPasting.parent
  * @param dataForPasting.childIndex
+ * @param dataForPasting.source
  */
 export function createPastedWait({
     canvasElementToPaste,

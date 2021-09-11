@@ -116,6 +116,7 @@ export function createRecordCreate(recordCreate = {}, { elements } = Store.getSt
  * @param root0.next
  * @param root0.parent
  * @param root0.childIndex
+ * @param root0.source
  */
 export function createPastedRecordCreate({
     canvasElementToPaste,

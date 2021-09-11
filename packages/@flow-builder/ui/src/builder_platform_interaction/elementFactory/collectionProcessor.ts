@@ -99,6 +99,7 @@ function createCollectionProcessorItem(collectionProcessor) {
  * @param dataForPasting.next Guid of the element above which the cut/copied block will be pasted. This can be null when pasting at the bottom of a branch
  * @param dataForPasting.parent Guid of the parent element. This has a value only when pasting at the top of a branch
  * @param dataForPasting.childIndex Index of the branch. This has a value only when pasting at the top of a branch
+ * @param dataForPasting.source
  * @returns the pasted collection processor node
  */
 export function createPastedCollectionProcessor({
