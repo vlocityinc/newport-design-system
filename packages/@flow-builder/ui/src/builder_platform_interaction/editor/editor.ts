@@ -133,7 +133,11 @@ import {
     loadParametersForInvocableApexActionsInFlowFromMetadata,
     loadVersioningData
 } from 'builder_platform_interaction/preloadLib';
-import { CLASSIC_EXPERIENCE, getPreferredExperience, isTestMode } from 'builder_platform_interaction/contextLib';
+import {
+    CLASSIC_EXPERIENCE,
+    getPreferredExperience,
+    isAutoLayoutCanvasEnabled
+} from 'builder_platform_interaction/contextLib';
 import { loadReferencesIn } from 'builder_platform_interaction/mergeFieldLib';
 import { FlowGuardrailsExecutor, GuardrailsResultEvent } from 'builder_platform_interaction/guardrails';
 import {
@@ -2736,8 +2740,9 @@ export default class Editor extends LightningElement {
                     'click',
                     'user'
                 );
-                // Remove isTestMode after completion of W-9866226
-                this.setupCanvas(processType, defaultTriggerType, !isTestMode());
+                // Remove isAutoLayoutCanvas after completion of W-9866226
+                const isAutoLayoutCanvas: boolean = isAutoLayoutCanvasEnabled() || isAutoLayoutCanvasOnly(processType);
+                this.setupCanvas(processType, defaultTriggerType, isAutoLayoutCanvas);
             }
             modal.close();
             this.newFlowModalActive = false;
