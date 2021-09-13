@@ -2,7 +2,6 @@
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import {
     createScreenWithFields,
-    createPastedScreen,
     createDuplicateScreen,
     createScreenElement,
     createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor,
@@ -18,7 +17,6 @@ import {
 import { ELEMENT_TYPE, FOOTER_LABEL_TYPE, PAUSE_MESSAGE_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
-    createPastedCanvasElement,
     duplicateCanvasElementWithChildElements,
     baseChildElement,
     baseCanvasElementsArrayToMap
@@ -100,16 +98,14 @@ getElementByGuid.mockImplementation((guid) => {
 });
 
 jest.mock('../base/baseElement');
+jest.mock('builder_platform_interaction/alcCanvasUtils');
+
 baseCanvasElement
     .mockImplementation((element) => {
         return Object.assign({}, element);
     })
     .mockName('baseCanvasElementMock');
-createPastedCanvasElement
-    .mockImplementation((duplicatedElement) => {
-        return duplicatedElement;
-    })
-    .mockName('createPastedCanvasElementMock');
+
 duplicateCanvasElementWithChildElements
     .mockImplementation(() => {
         const duplicatedElement = {};
@@ -255,35 +251,6 @@ describe('screen', () => {
                 });
                 expect(screen.fields).toHaveLength(3);
                 expect(screen.fields[0].guid).toEqual(foundElementGuidPrefix + 'a');
-            });
-        });
-    });
-
-    describe('createPastedScreen function', () => {
-        const dataForPasting = {
-            canvasElementToPaste: {},
-            newGuid: 'updatedScreen1Guid',
-            newName: 'updatedScreenName',
-            childElementGuidMap: {},
-            childElementNameMap: {},
-            cutOrCopiedChildElements: {}
-        };
-
-        const { pastedCanvasElement, pastedChildElements } = createPastedScreen(dataForPasting);
-
-        it('pastedCanvasElement in the result should have the updated childReferences', () => {
-            expect(pastedCanvasElement.childReferences).toEqual([
-                {
-                    childReference: 'duplicatedFieldGuid'
-                }
-            ]);
-        });
-        it('returns correct pastedChildElements', () => {
-            expect(pastedChildElements).toEqual({
-                duplicatedFieldGuid: {
-                    guid: 'duplicatedFieldGuid',
-                    name: 'duplicatedFieldName'
-                }
             });
         });
     });

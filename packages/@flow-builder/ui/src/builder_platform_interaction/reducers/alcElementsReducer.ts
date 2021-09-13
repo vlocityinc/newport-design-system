@@ -26,6 +26,7 @@ import { getConfigForElementType } from 'builder_platform_interaction/elementCon
 import elementsReducer from './elementsReducer';
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
 import { getElementsMetadata, getAlcElementType, getChildCount } from 'builder_platform_interaction/alcCanvasUtils';
+import { createPastedCanvasElement } from 'builder_platform_interaction/alcCanvasUtils';
 
 import {
     deleteBranchHeadProperties,
@@ -547,25 +548,31 @@ function _pasteOnFixedCanvas(
             deepCopy(cutOrCopiedCanvasElements[elementGuidsToPaste[i]])
         );
 
-        const { pastedCanvasElement, pastedChildElements = {} } =
-            elementConfig &&
-            elementConfig.factory &&
-            elementConfig.factory.pasteElement &&
-            elementConfig.factory.pasteElement({
-                canvasElementToPaste: pastedElement,
-                newGuid: pastedElementGuid,
-                newName: pastedElementName,
-                canvasElementGuidMap,
+        const duplicateElement = elementConfig?.factory?.duplicateElement;
+        if (duplicateElement != null) {
+            const { duplicatedElement, duplicatedChildElements: pastedChildElements } = duplicateElement(
+                pastedElement,
+                pastedElementGuid,
+                pastedElementName,
                 childElementGuidMap,
                 childElementNameMap,
                 cutOrCopiedChildElements,
                 topCutOrCopiedGuid,
+                bottomCutOrCopiedGuid
+            );
+
+            const pastedCanvasElement = createPastedCanvasElement(
+                duplicatedElement,
+                canvasElementGuidMap,
+                topCutOrCopiedGuid,
                 bottomCutOrCopiedGuid,
                 source,
                 next
-            });
-        newState[pastedCanvasElement.guid] = pastedCanvasElement;
-        newState = { ...newState, ...pastedChildElements };
+            );
+
+            newState[pastedCanvasElement.guid] = pastedCanvasElement;
+            newState = { ...newState, ...pastedChildElements };
+        }
     }
 
     // Updating previous element's next to the guid of the top-most pasted element

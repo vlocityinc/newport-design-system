@@ -9,7 +9,6 @@ import {
     getSteps,
     getOtherItemsInOrchestratedStage,
     createDuplicateOrchestratedStage,
-    createPastedOrchestratedStage,
     getOrchestratedStageChildren,
     getStageStepChildren,
     RELATED_RECORD_INPUT_PARAMETER_NAME,
@@ -20,9 +19,9 @@ import {
     baseCanvasElement,
     baseChildElement,
     baseCanvasElementsArrayToMap,
-    createPastedCanvasElement,
     duplicateCanvasElementWithChildElements
 } from '../base/baseElement';
+
 import { ParameterListRowItem } from '../base/baseList';
 import { baseCanvasElementMetadataObject, baseChildElementMetadataObject } from '../base/baseMetadata';
 import { sanitizeDevName } from 'builder_platform_interaction/commonUtils';
@@ -33,6 +32,7 @@ import { createOutputParameter, createOutputParameterMetadataObject } from '../o
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 
+jest.mock('builder_platform_interaction/alcCanvasUtils');
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
@@ -241,11 +241,6 @@ baseChildElement
     })
     .mockName('baseChildElementMock');
 
-createPastedCanvasElement
-    .mockImplementation((duplicatedElement) => {
-        return duplicatedElement;
-    })
-    .mockName('createPastedCanvasElementMock');
 duplicateCanvasElementWithChildElements
     .mockImplementation(() => {
         const duplicatedElement = {};
@@ -855,43 +850,6 @@ describe('OrchestratedStage', () => {
 
             expect(data).toHaveLength(1);
             expect(data[0]).toMatchObject({ guid: 'backgroundStep' });
-        });
-    });
-
-    describe('createPastedOrchestratedStage function', () => {
-        const dataForPasting = {
-            canvasElementToPaste: {},
-            newGuid: 'updatedSSGuid',
-            newName: 'updatedSSName',
-            childElementGuidMap: {},
-            childElementNameMap: {},
-            cutOrCopiedChildElements: {}
-        };
-
-        const { pastedCanvasElement, pastedChildElements } = createPastedOrchestratedStage(dataForPasting);
-
-        it('pastedCanvasElement in the result should have the updated childReferences', () => {
-            expect(pastedCanvasElement.childReferences).toEqual([
-                {
-                    childReference: 'duplicatedStageStepGuid'
-                }
-            ]);
-        });
-        it('pastedCanvasElement has updated availableConnections', () => {
-            expect(pastedCanvasElement.availableConnections).toEqual([
-                {
-                    type: CONNECTOR_TYPE.DEFAULT
-                }
-            ]);
-        });
-        it('returns correct pastedChildElements', () => {
-            expect(pastedChildElements).toEqual({
-                duplicatedStageStepGuid: {
-                    guid: 'duplicatedStageStepGuid',
-                    name: 'duplicatedStageStepName',
-                    assignees: []
-                }
-            });
         });
     });
 

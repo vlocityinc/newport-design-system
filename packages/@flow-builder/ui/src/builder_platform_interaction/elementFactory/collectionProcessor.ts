@@ -1,9 +1,5 @@
-import {
-    baseCanvasElement,
-    createPastedCanvasElement,
-    duplicateCanvasElement,
-    baseCanvasElementsArrayToMap
-} from './base/baseElement';
+import { baseCanvasElement, duplicateCanvasElement, baseCanvasElementsArrayToMap } from './base/baseElement';
+
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createConnectorObjects } from './connector';
 import { COLLECTION_PROCESSOR_SUB_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -83,49 +79,6 @@ function createCollectionProcessorItem(collectionProcessor) {
         default:
             return cpItem;
     }
-}
-
-/**
- * Function to create the pasted CollectionProcessor element
- *
- * @param {Object} dataForPasting - Data required to create the pasted element
- * @param dataForPasting.canvasElementToPaste collection processor object
- * @param dataForPasting.newGuid new guid
- * @param dataForPasting.newName new name
- * @param dataForPasting.canvasElementGuidMap Map containing element guids -> pasted element guids
- * @param dataForPasting.topCutOrCopiedGuid Guid of the top most cut or copied element
- * @param dataForPasting.bottomCutOrCopiedGuid Guid of the bottom most cut or copied element
- * @param dataForPasting.prev Guid of the element below which the cut/copied block will be pasted. This can be null when pasting at the top of a branch
- * @param dataForPasting.next Guid of the element above which the cut/copied block will be pasted. This can be null when pasting at the bottom of a branch
- * @param dataForPasting.parent Guid of the parent element. This has a value only when pasting at the top of a branch
- * @param dataForPasting.childIndex Index of the branch. This has a value only when pasting at the top of a branch
- * @param dataForPasting.source
- * @returns the pasted collection processor node
- */
-export function createPastedCollectionProcessor({
-    canvasElementToPaste,
-    newGuid,
-    newName,
-    canvasElementGuidMap,
-    topCutOrCopiedGuid,
-    bottomCutOrCopiedGuid,
-    source,
-    next
-}) {
-    const { duplicatedElement } = createDuplicateCollectionProcessor(canvasElementToPaste, newGuid, newName);
-
-    const pastedCanvasElement = createPastedCanvasElement(
-        duplicatedElement,
-        canvasElementGuidMap,
-        topCutOrCopiedGuid,
-        bottomCutOrCopiedGuid,
-        source,
-        next
-    );
-
-    return {
-        pastedCanvasElement
-    };
 }
 
 /**

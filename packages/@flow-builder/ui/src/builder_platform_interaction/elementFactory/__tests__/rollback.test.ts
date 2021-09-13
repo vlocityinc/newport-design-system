@@ -2,7 +2,6 @@ import {
     createRollback,
     createRollbackWithConnectors,
     createDuplicateRollback,
-    createPastedRollback,
     createRollbackMetadataObject
 } from '../rollback';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -103,66 +102,6 @@ describe('Rollback Element Factory', () => {
         it('returns a new rollback metadata object from a store rollback object', () => {
             const result = createRollbackMetadataObject(testRollbackElement);
             expect(result).toMatchObject(testRollbackMetadataElement);
-        });
-    });
-
-    describe('create pasted rollback', () => {
-        const dataForPasting = {
-            canvasElementToPaste: {
-                guid: 'originalGuid',
-                name: 'originalName',
-                label: 'label',
-                elementType: ELEMENT_TYPE.ROLLBACK,
-                locationX: 100,
-                locationY: 100,
-                config: {
-                    isSelected: true,
-                    isHighlighted: false
-                },
-                connectorCount: 0,
-                maxConnections: 1
-            },
-            newGuid: 'updatedSubflowGuid',
-            newName: 'updatedSubflowName',
-            canvasElementGuidMap: {},
-            topCutOrCopiedGuid: '',
-            bottomCutOrCopiedGuid: '',
-            source: { guid: null },
-            next: null
-        };
-
-        const { pastedCanvasElement } = createPastedRollback(dataForPasting);
-
-        it('has the new guid', () => {
-            expect(pastedCanvasElement.guid).toEqual('updatedSubflowGuid');
-        });
-        it('has the new name', () => {
-            expect(pastedCanvasElement.name).toEqual('updatedSubflowName');
-        });
-        it('has the updated locationX', () => {
-            expect(pastedCanvasElement.locationX).toEqual(
-                dataForPasting.canvasElementToPaste.locationX + DUPLICATE_ELEMENT_XY_OFFSET
-            );
-        });
-        it('has the updated locationY', () => {
-            expect(pastedCanvasElement.locationY).toEqual(
-                dataForPasting.canvasElementToPaste.locationY + DUPLICATE_ELEMENT_XY_OFFSET
-            );
-        });
-        it('has isSelected set to true', () => {
-            expect(pastedCanvasElement.config.isSelected).toBeFalsy();
-        });
-        it('has isHighlighted set to false', () => {
-            expect(pastedCanvasElement.config.isHighlighted).toBeFalsy();
-        });
-        it('has connectorCount set to 0', () => {
-            expect(pastedCanvasElement.connectorCount).toEqual(0);
-        });
-        it('has maxConnections set to 1', () => {
-            expect(pastedCanvasElement.maxConnections).toEqual(1);
-        });
-        it('has the right elementType', () => {
-            expect(pastedCanvasElement.elementType).toEqual(ELEMENT_TYPE.ROLLBACK);
         });
     });
 });

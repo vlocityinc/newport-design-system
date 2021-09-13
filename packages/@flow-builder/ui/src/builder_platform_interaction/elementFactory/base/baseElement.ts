@@ -11,7 +11,6 @@ import {
 } from 'builder_platform_interaction/processTypeLib';
 import { copyAlcExtraProps } from 'builder_platform_interaction/alcCanvasUtils';
 
-import { getValuesFromConnectionSource } from 'builder_platform_interaction/autoLayoutCanvas';
 export const DUPLICATE_ELEMENT_XY_OFFSET = 75;
 
 // Used to mark an element as incomplete. An element is incomplete when it cannot fully be created because the factory needs information from an element that has
@@ -95,83 +94,6 @@ export function baseCanvasElement(
         canHaveFaultConnector: canHaveFaultConnectorBool,
         isNew: canvasElement.isNew
     });
-}
-
-/**
- * Base function to create the Pasted Canvas Element
- *
- * @param {Object} duplicatedElement - Element object in it's duplicated state
- * @param {Object} canvasElementGuidMap - Map containing element guids -> pasted element guids
- * @param {string} topCutOrCopiedGuid - Guid of the top most cut or copied element
- * @param {string} bottomCutOrCopiedGuid - Guid of the bottom most cut or copied element
- * @param {string} prev - Guid of the element below which the cut/copied block will be pasted. This can be null when pasting at the top of a branch
- * @param source
- * @param {string} next - Guid of the element above which the cut/copied block will be pasted. This can be null when pasting at the bottom of a branch
- * @param {string} parent - Guid of the parent element. This has a value only when pasting at the top of a branch
- * @param {number} childIndex - Index of the branch. This has a value only when pasting at the top of a branch
- * @returns pastedCanvasElement
- */
-export function createPastedCanvasElement(
-    duplicatedElement,
-    canvasElementGuidMap,
-    topCutOrCopiedGuid,
-    bottomCutOrCopiedGuid,
-    source,
-    next
-): UI.CanvasElement {
-    const { prev, parent, childIndex } = getValuesFromConnectionSource(source);
-
-    const pastedCanvasElement = Object.assign(duplicatedElement, {
-        config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
-        incomingGoTo: [],
-        prev: canvasElementGuidMap[duplicatedElement.prev] || null,
-        next: canvasElementGuidMap[duplicatedElement.next] || null
-    });
-
-    // If the parent hasn't been cut or copied, and the pasted element is same as topCutOrCopiedElement, then update the prev, parent and childIndex properties.
-    if (pastedCanvasElement.guid === canvasElementGuidMap[topCutOrCopiedGuid]) {
-        pastedCanvasElement.prev = prev;
-
-        // If parent and childIndex are defined then update those properties or delete them
-        if (parent) {
-            pastedCanvasElement.parent = parent;
-            pastedCanvasElement.childIndex = childIndex;
-        } else {
-            delete pastedCanvasElement.parent;
-            delete pastedCanvasElement.childIndex;
-        }
-    } else if (canvasElementGuidMap[pastedCanvasElement.parent]) {
-        // If the parent element has also been cut or copied, then update the parent guid
-        pastedCanvasElement.parent = canvasElementGuidMap[pastedCanvasElement.parent];
-    }
-
-    // If the pasted canvas element is same as the bottomCutOrCopiedElement, then updating the next
-    if (pastedCanvasElement.guid === canvasElementGuidMap[bottomCutOrCopiedGuid]) {
-        pastedCanvasElement.next = next;
-    }
-
-    // Resetting the children array to include children guids that are being pasted or null for those that aren't
-    if (pastedCanvasElement.children) {
-        pastedCanvasElement.children = pastedCanvasElement.children.map((childGuid) => {
-            return canvasElementGuidMap[childGuid] || null;
-        });
-    }
-
-    // Updating the pasted element's fault property if it exists
-    if (pastedCanvasElement.fault) {
-        // If the fault element has been cut or copied, then update the fault reference
-        // to the newly pasted element, else delete it
-        if (canvasElementGuidMap[pastedCanvasElement.fault]) {
-            pastedCanvasElement.fault = canvasElementGuidMap[pastedCanvasElement.fault];
-        } else {
-            delete pastedCanvasElement.fault;
-        }
-    }
-
-    // Deleting the isTerminal property from the pastedCanvasElement. We reset it if needed in the reducer
-    delete pastedCanvasElement.isTerminal;
-
-    return pastedCanvasElement;
 }
 
 /**

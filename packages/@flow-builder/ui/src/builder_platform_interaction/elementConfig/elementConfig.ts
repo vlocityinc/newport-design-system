@@ -9,6 +9,7 @@ import { ICONS_LARGE } from 'builder_platform_interaction/imageLib';
 import { LABELS } from './elementConfigLabels';
 import { AddElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+
 import {
     createActionCall,
     createDuplicateActionCall,
@@ -102,22 +103,7 @@ import {
     createScreenWithFieldReferences,
     createScreenField,
     createStartElementMetadataObject,
-    createPastedScreen,
-    createPastedDecision,
-    createPastedWait,
-    createPastedAssignment,
-    createPastedSubflow,
-    createPastedRecordCreate,
-    createPastedRecordDelete,
-    createPastedRecordLookup,
-    createPastedRecordUpdate,
-    createPastedActionCall,
-    createPastedApexCall,
-    createPastedApexPlugin,
-    createPastedEmailAlert,
-    createPastedLoop,
     createCollectionProcessor,
-    createPastedCollectionProcessor,
     createDuplicateCollectionProcessor,
     createCollectionProcessorMetadataObject,
     createCollectionProcessorWithConnectors,
@@ -127,12 +113,10 @@ import {
     createOrchestratedStageWithItemReferences,
     getSteps,
     createStageStep,
-    createPastedOrchestratedStage,
     createDuplicateOrchestratedStage,
     getOrchestratedStageChildren,
     getStageStepChildren,
     createRollback,
-    createPastedRollback,
     createDuplicateRollback,
     createRollbackMetadataObject,
     createRollbackWithConnectors
@@ -286,7 +270,6 @@ export const elementTypeToConfigMap: {
         nonHydratableProperties: ['valueDataType'],
         factory: {
             propertyEditor: createSubflow,
-            pasteElement: createPastedSubflow,
             duplicateElement: createDuplicateSubflow,
             uiToFlow: createSubflowMetadataObject,
             flowToUi: createSubflowWithConnectors
@@ -324,7 +307,6 @@ export const elementTypeToConfigMap: {
         nonHydratableProperties: ['valueDataType'],
         factory: {
             propertyEditor: createActionCall,
-            pasteElement: createPastedActionCall,
             duplicateElement: createDuplicateActionCall,
             uiToFlow: createActionCallMetadataObject,
             flowToUi: createActionCallForStore
@@ -355,7 +337,6 @@ export const elementTypeToConfigMap: {
         nonHydratableProperties: ['valueDataType'],
         factory: {
             propertyEditor: createActionCall,
-            pasteElement: createPastedActionCall,
             duplicateElement: createDuplicateActionCall,
             uiToFlow: createActionCallMetadataObject,
             flowToUi: createActionCallForStore
@@ -385,7 +366,6 @@ export const elementTypeToConfigMap: {
         nonHydratableProperties: ['valueDataType'],
         factory: {
             propertyEditor: createApexPlugin,
-            pasteElement: createPastedApexPlugin,
             duplicateElement: createDuplicateApexPlugin,
             uiToFlow: createApexPluginMetadataObject,
             flowToUi: createApexPluginWithConnectors
@@ -416,7 +396,6 @@ export const elementTypeToConfigMap: {
         nonHydratableProperties: ['valueDataType'],
         factory: {
             propertyEditor: createApexCall,
-            pasteElement: createPastedApexCall,
             duplicateElement: createDuplicateApexCall,
             uiToFlow: createActionCallMetadataObject,
             flowToUi: createActionCallForStore
@@ -447,7 +426,6 @@ export const elementTypeToConfigMap: {
         nonHydratableProperties: ['valueDataType'],
         factory: {
             propertyEditor: createEmailAlert,
-            pasteElement: createPastedEmailAlert,
             duplicateElement: createDuplicateEmailAlert,
             uiToFlow: createActionCallMetadataObject,
             flowToUi: createActionCallForStore
@@ -476,7 +454,6 @@ export const elementTypeToConfigMap: {
         bodyCssClass: 'slds-p-around_none',
         factory: {
             propertyEditor: createAssignment,
-            pasteElement: createPastedAssignment,
             duplicateElement: createDuplicateAssignment,
             uiToFlow: createAssignmentMetadataObject,
             flowToUi: createAssignmentWithConnectors
@@ -503,7 +480,6 @@ export const elementTypeToConfigMap: {
         },
         factory: {
             propertyEditor: createCollectionProcessor,
-            pasteElement: createPastedCollectionProcessor,
             duplicateElement: createDuplicateCollectionProcessor,
             uiToFlow: createCollectionProcessorMetadataObject,
             flowToUi: createCollectionProcessorWithConnectors
@@ -545,7 +521,6 @@ export const elementTypeToConfigMap: {
         bodyCssClass: 'slds-scrollable_none',
         factory: {
             propertyEditor: createScreenWithFields,
-            pasteElement: createPastedScreen,
             duplicateElement: createDuplicateScreen,
             closePropertyEditor: createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor,
             uiToFlow: createScreenMetadataObject,
@@ -584,7 +559,6 @@ export const elementTypeToConfigMap: {
         factory: {
             propertyEditor: createDecisionWithOutcomes,
             closePropertyEditor: createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor,
-            pasteElement: createPastedDecision,
             duplicateElement: createDuplicateDecision,
             uiToFlow: createDecisionMetadataObject,
             flowToUi: createDecisionWithOutcomeReferences
@@ -618,7 +592,6 @@ export const elementTypeToConfigMap: {
         factory: {
             propertyEditor: createWaitWithWaitEvents,
             closePropertyEditor: createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor,
-            pasteElement: createPastedWait,
             duplicateElement: createDuplicateWait,
             uiToFlow: createWaitMetadataObject,
             flowToUi: createWaitWithWaitEventReferences
@@ -667,7 +640,6 @@ export const elementTypeToConfigMap: {
         canvasElement: true,
         factory: {
             propertyEditor: createLoop,
-            pasteElement: createPastedLoop,
             duplicateElement: createDuplicateLoop,
             uiToFlow: createLoopMetadataObject,
             flowToUi: createLoopWithConnectors
@@ -696,7 +668,6 @@ export const elementTypeToConfigMap: {
         nonHydratableProperties: ['numberRecordsToStore'],
         factory: {
             propertyEditor: createRecordCreate,
-            pasteElement: createPastedRecordCreate,
             duplicateElement: createDuplicateRecordCreate,
             uiToFlow: createRecordCreateMetadataObject,
             flowToUi: createRecordCreateWithConnectors
@@ -730,7 +701,6 @@ export const elementTypeToConfigMap: {
         ],
         factory: {
             propertyEditor: createRecordLookup,
-            pasteElement: createPastedRecordLookup,
             duplicateElement: createDuplicateRecordLookup,
             uiToFlow: createRecordLookupMetadataObject,
             flowToUi: createRecordLookupWithConnectors
@@ -758,7 +728,6 @@ export const elementTypeToConfigMap: {
         canvasElement: true,
         factory: {
             propertyEditor: createRecordDelete,
-            pasteElement: createPastedRecordDelete,
             duplicateElement: createDuplicateRecordDelete,
             uiToFlow: createRecordDeleteMetadataObject,
             flowToUi: createRecordDeleteWithConnectors
@@ -786,7 +755,6 @@ export const elementTypeToConfigMap: {
         canvasElement: true,
         factory: {
             propertyEditor: createRecordUpdate,
-            pasteElement: createPastedRecordUpdate,
             duplicateElement: createDuplicateRecordUpdate,
             uiToFlow: createRecordUpdateMetadataObject,
             flowToUi: createRecordUpdateWithConnectors
@@ -1107,7 +1075,6 @@ export const elementTypeToConfigMap: {
         bodyCssClass: 'slds-scrollable_none',
         factory: {
             propertyEditor: createOrchestratedStageWithItems,
-            pasteElement: createPastedOrchestratedStage,
             duplicateElement: createDuplicateOrchestratedStage,
             closePropertyEditor: createOrchestratedStageWithItemReferencesWhenUpdatingFromPropertyEditor,
             uiToFlow: createOrchestratedStageMetadataObject,
@@ -1192,7 +1159,6 @@ export const elementTypeToConfigMap: {
         bodyCssClass: 'slds-p-around_none',
         factory: {
             propertyEditor: createRollback,
-            pasteElement: createPastedRollback,
             duplicateElement: createDuplicateRollback,
             uiToFlow: createRollbackMetadataObject,
             flowToUi: createRollbackWithConnectors
@@ -1270,7 +1236,7 @@ export function getConfigForElementType(elementType?: string): UI.ElementConfig 
 /**
  * Returns a list of child element types likes Email Alert & Apex Call that have special properties, like their own icon
  */
-export function getChildElementTypesWithOverridenProperties(): String[] {
+export function getChildElementTypesWithOverridenProperties(): string[] {
     return [
         ELEMENT_TYPE.EMAIL_ALERT,
         ELEMENT_TYPE.APEX_CALL,

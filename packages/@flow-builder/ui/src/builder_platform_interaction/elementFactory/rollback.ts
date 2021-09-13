@@ -1,10 +1,5 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import {
-    baseCanvasElement,
-    createPastedCanvasElement,
-    duplicateCanvasElement,
-    baseCanvasElementsArrayToMap
-} from './base/baseElement';
+import { baseCanvasElement, duplicateCanvasElement, baseCanvasElementsArrayToMap } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createConnectorObjects } from './connector';
 
@@ -20,46 +15,6 @@ export function createRollback(rollback = {}) {
         elementType,
         maxConnections
     });
-}
-
-/**
- * @param root0
- * @param root0.canvasElementToPaste
- * @param root0.newGuid
- * @param root0.newName
- * @param root0.canvasElementGuidMap
- * @param root0.topCutOrCopiedGuid
- * @param root0.bottomCutOrCopiedGuid
- * @param root0.prev
- * @param root0.next
- * @param root0.parent
- * @param root0.childIndex
- * @param root0.source
- */
-export function createPastedRollback({
-    canvasElementToPaste,
-    newGuid,
-    newName,
-    canvasElementGuidMap,
-    topCutOrCopiedGuid,
-    bottomCutOrCopiedGuid,
-    source,
-    next
-}) {
-    const { duplicatedElement } = createDuplicateRollback(canvasElementToPaste, newGuid, newName);
-
-    const pastedCanvasElement = createPastedCanvasElement(
-        duplicatedElement,
-        canvasElementGuidMap,
-        topCutOrCopiedGuid,
-        bottomCutOrCopiedGuid,
-        source,
-        next
-    );
-
-    return {
-        pastedCanvasElement
-    };
 }
 
 /**

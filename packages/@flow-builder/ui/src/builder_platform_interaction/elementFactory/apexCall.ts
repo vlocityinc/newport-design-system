@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { createActionCall, getDefaultAvailableConnections } from './actionCall';
-import { createPastedCanvasElement, duplicateCanvasElement } from './base/baseElement';
+import { duplicateCanvasElement } from './base/baseElement';
 
 const elementType = ELEMENT_TYPE.APEX_CALL;
 
@@ -13,43 +13,6 @@ const elementType = ELEMENT_TYPE.APEX_CALL;
  */
 export function createApexCall(apexCall = {}) {
     return createActionCall(apexCall, elementType);
-}
-
-/**
- * @param root0
- * @param root0.canvasElementToPaste
- * @param root0.newGuid
- * @param root0.newName
- * @param root0.canvasElementGuidMap
- * @param root0.topCutOrCopiedGuid
- * @param root0.bottomCutOrCopiedGuid
- * @param root0.source - The connection source
- * @param root0.next - The next guid
- */
-export function createPastedApexCall({
-    canvasElementToPaste,
-    newGuid,
-    newName,
-    canvasElementGuidMap,
-    topCutOrCopiedGuid,
-    bottomCutOrCopiedGuid,
-    source,
-    next
-}) {
-    const { duplicatedElement } = createDuplicateApexCall(canvasElementToPaste, newGuid, newName);
-
-    const pastedCanvasElement = createPastedCanvasElement(
-        duplicatedElement,
-        canvasElementGuidMap,
-        topCutOrCopiedGuid,
-        bottomCutOrCopiedGuid,
-        source,
-        next
-    );
-
-    return {
-        pastedCanvasElement
-    };
 }
 
 /**

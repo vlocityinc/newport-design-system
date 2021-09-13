@@ -4,9 +4,9 @@ import {
     baseCanvasElementsArrayToMap,
     baseChildElement,
     createCondition,
-    createPastedCanvasElement,
     duplicateCanvasElementWithChildElements
 } from './base/baseElement';
+
 import {
     baseCanvasElementMetadataObject,
     baseChildElementMetadataObject,
@@ -136,73 +136,11 @@ export function createOrchestratedStageWithItems(existingStage: OrchestratedStag
 }
 
 /**
- * Function to create the pasted OrchestratedStage element
- *
- * @param dataForPasting - Data required to create the pasted element
- * @param dataForPasting.canvasElementToPaste - The OrchestratedStage to copy
- * @param dataForPasting.newGuid - guid for the new OrchestratedStage
- * @param dataForPasting.newName - name for the new OrchestratedStage
- * @param dataForPasting.canvasElementGuidMap
- * @param dataForPasting.childElementGuidMap
- * @param dataForPasting.childElementNameMap
- * @param dataForPasting.cutOrCopiedChildElements
- * @param dataForPasting.topCutOrCopiedGuid
- * @param dataForPasting.bottomCutOrCopiedGuid
- * @param dataForPasting.prev
- * @param dataForPasting.next
- * @param dataForPasting.parent
- * @param dataForPasting.childIndex
- * @param dataForPasting.source
- * @returns An object with the pasted OrchestratorStage and all new children
- */
-export function createPastedOrchestratedStage({
-    canvasElementToPaste,
-    newGuid,
-    newName,
-    canvasElementGuidMap,
-    childElementGuidMap,
-    childElementNameMap,
-    cutOrCopiedChildElements,
-    topCutOrCopiedGuid,
-    bottomCutOrCopiedGuid,
-    source,
-    next
-}): { pastedCanvasElement: OrchestratedStage; pastedChildElements: Map<UI.Guid, StageStep> } {
-    const { duplicatedElement, duplicatedChildElements } = createDuplicateOrchestratedStage(
-        canvasElementToPaste,
-        newGuid,
-        newName,
-        childElementGuidMap,
-        childElementNameMap,
-        cutOrCopiedChildElements
-    );
-
-    const pastedCanvasElement = <OrchestratedStage>(
-        createPastedCanvasElement(
-            duplicatedElement,
-            canvasElementGuidMap,
-            topCutOrCopiedGuid,
-            bottomCutOrCopiedGuid,
-            source,
-            next
-        )
-    );
-
-    pastedCanvasElement.stageSteps = [];
-    pastedCanvasElement.exitActionInputParameters = [];
-
-    return {
-        pastedCanvasElement,
-        pastedChildElements: duplicatedChildElements
-    };
-}
-
-/**
  * Function to create the duplicate Orchestrated Stage element
  *
- * @param {Object} orchestratedStage - OrchestratedStage element being copied
- * @param {string} newGuid - Guid for the new duplicated element
- * @param {string} newName - Name for the new duplicated element
+ * @param orchestratedStage - OrchestratedStage element being copied
+ * @param newGuid - Guid for the new duplicated element
+ * @param newName - Name for the new duplicated element
  * @param {Object} childElementGuidMap - Map of child element guids to newly generated guids that will be used for
  * the duplicated child elements
  * @param {Object} childElementNameMap - Map of child element names to newly generated unique names that will be used for
@@ -214,9 +152,9 @@ export function createDuplicateOrchestratedStage(
     orchestratedStage: OrchestratedStage,
     newGuid: UI.Guid,
     newName: string,
-    childElementGuidMap: any,
-    childElementNameMap: any,
-    cutOrCopiedChildElements: object[]
+    childElementGuidMap,
+    childElementNameMap,
+    cutOrCopiedChildElements
 ): {
     duplicatedElement: OrchestratedStage;
     duplicatedChildElements: Map<UI.Guid, StageStep>;

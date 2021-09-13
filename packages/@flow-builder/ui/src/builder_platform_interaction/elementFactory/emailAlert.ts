@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { createActionCall, getDefaultAvailableConnections } from './actionCall';
-import { createPastedCanvasElement, duplicateCanvasElement } from './base/baseElement';
+import { duplicateCanvasElement } from './base/baseElement';
 
 const elementType = ELEMENT_TYPE.EMAIL_ALERT;
 
@@ -13,46 +13,6 @@ const elementType = ELEMENT_TYPE.EMAIL_ALERT;
  */
 export function createEmailAlert(emailAlert = {}) {
     return createActionCall({ ...emailAlert, storeOutputAutomatically: false }, elementType);
-}
-
-/**
- * @param root0
- * @param root0.canvasElementToPaste
- * @param root0.newGuid
- * @param root0.newName
- * @param root0.canvasElementGuidMap
- * @param root0.topCutOrCopiedGuid
- * @param root0.bottomCutOrCopiedGuid
- * @param root0.prev
- * @param root0.next
- * @param root0.parent
- * @param root0.childIndex
- * @param root0.source
- */
-export function createPastedEmailAlert({
-    canvasElementToPaste,
-    newGuid,
-    newName,
-    canvasElementGuidMap,
-    topCutOrCopiedGuid,
-    bottomCutOrCopiedGuid,
-    source,
-    next
-}) {
-    const { duplicatedElement } = createDuplicateEmailAlert(canvasElementToPaste, newGuid, newName);
-
-    const pastedCanvasElement = createPastedCanvasElement(
-        duplicatedElement,
-        canvasElementGuidMap,
-        topCutOrCopiedGuid,
-        bottomCutOrCopiedGuid,
-        source,
-        next
-    );
-
-    return {
-        pastedCanvasElement
-    };
 }
 
 /**

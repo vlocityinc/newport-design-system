@@ -2,11 +2,11 @@
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
-    createPastedCanvasElement,
     duplicateCanvasElement,
     baseCanvasElementsArrayToMap,
     INCOMPLETE_ELEMENT
 } from './base/baseElement';
+
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createConnectorObjects } from './connector';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
@@ -73,48 +73,6 @@ export function createLoop(loop = {}, { elements } = Store.getStore().getCurrent
         },
         complete ? {} : { [INCOMPLETE_ELEMENT]: true }
     );
-}
-
-/**
- * Function to create the pasted Loop element
- *
- * @param {Object} dataForPasting - Data required to create the pasted element
- * @param dataForPasting.canvasElementToPaste
- * @param dataForPasting.newGuid
- * @param dataForPasting.newName
- * @param dataForPasting.canvasElementGuidMap
- * @param dataForPasting.topCutOrCopiedGuid
- * @param dataForPasting.bottomCutOrCopiedGuid
- * @param dataForPasting.prev
- * @param dataForPasting.next
- * @param dataForPasting.parent
- * @param dataForPasting.childIndex
- * @param dataForPasting.source
- */
-export function createPastedLoop({
-    canvasElementToPaste,
-    newGuid,
-    newName,
-    canvasElementGuidMap,
-    topCutOrCopiedGuid,
-    bottomCutOrCopiedGuid,
-    source,
-    next
-}) {
-    const { duplicatedElement } = createDuplicateLoop(canvasElementToPaste, newGuid, newName);
-
-    const pastedCanvasElement = createPastedCanvasElement(
-        duplicatedElement,
-        canvasElementGuidMap,
-        topCutOrCopiedGuid,
-        bottomCutOrCopiedGuid,
-        source,
-        next
-    );
-
-    return {
-        pastedCanvasElement
-    };
 }
 
 /**

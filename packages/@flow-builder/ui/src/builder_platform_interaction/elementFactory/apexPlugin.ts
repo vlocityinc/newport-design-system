@@ -4,7 +4,6 @@ import {
     baseCanvasElementWithFault,
     baseCanvasElementsArrayToMap,
     createAvailableConnection,
-    createPastedCanvasElement,
     duplicateCanvasElement
 } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
@@ -55,51 +54,11 @@ export function createApexPlugin(apexPlugin = {}) {
 }
 
 /**
- * @param root0
- * @param root0.canvasElementToPaste
- * @param root0.newGuid
- * @param root0.newName
- * @param root0.canvasElementGuidMap
- * @param root0.topCutOrCopiedGuid
- * @param root0.bottomCutOrCopiedGuid
- * @param root0.prev
- * @param root0.next
- * @param root0.parent
- * @param root0.childIndex
- * @param root0.source
+ * @param apexPlugin - The apex plugin element
+ * @param newGuid - the new guid
+ * @param newName - the new name
  */
-export function createPastedApexPlugin({
-    canvasElementToPaste,
-    newGuid,
-    newName,
-    canvasElementGuidMap,
-    topCutOrCopiedGuid,
-    bottomCutOrCopiedGuid,
-    source,
-    next
-}) {
-    const { duplicatedElement } = createDuplicateApexPlugin(canvasElementToPaste, newGuid, newName);
-
-    const pastedCanvasElement = createPastedCanvasElement(
-        duplicatedElement,
-        canvasElementGuidMap,
-        topCutOrCopiedGuid,
-        bottomCutOrCopiedGuid,
-        source,
-        next
-    );
-
-    return {
-        pastedCanvasElement
-    };
-}
-
-/**
- * @param apexPlugin
- * @param newGuid
- * @param newName
- */
-export function createDuplicateApexPlugin(apexPlugin, newGuid, newName) {
+export function createDuplicateApexPlugin(apexPlugin: UI.CanvasElement, newGuid: string, newName: string) {
     const newApexPlugin = createApexPlugin(apexPlugin);
     Object.assign(newApexPlugin, {
         availableConnections: getDefaultAvailableConnections()

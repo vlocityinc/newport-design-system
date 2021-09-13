@@ -1,11 +1,6 @@
 // @ts-nocheck
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import {
-    baseCanvasElement,
-    createPastedCanvasElement,
-    duplicateCanvasElement,
-    baseCanvasElementsArrayToMap
-} from './base/baseElement';
+import { baseCanvasElement, duplicateCanvasElement, baseCanvasElementsArrayToMap } from './base/baseElement';
 import { createListRowItem, RHS_PROPERTY, RHS_DATA_TYPE_PROPERTY } from './base/baseList';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createFEROV, createFEROVMetadataObject } from './ferov';
@@ -33,48 +28,6 @@ export function createAssignment(assignment = {}) {
     });
 
     return assignmentObject;
-}
-
-/**
- * Function to create the pasted Assignment element
- *
- * @param {Object} dataForPasting - Data required to create the pasted element
- * @param dataForPasting.canvasElementToPaste
- * @param dataForPasting.newGuid
- * @param dataForPasting.newName
- * @param dataForPasting.canvasElementGuidMap
- * @param dataForPasting.topCutOrCopiedGuid
- * @param dataForPasting.bottomCutOrCopiedGuid
- * @param dataForPasting.prev
- * @param dataForPasting.next
- * @param dataForPasting.parent
- * @param dataForPasting.childIndex
- * @param dataForPasting.source
- */
-export function createPastedAssignment({
-    canvasElementToPaste,
-    newGuid,
-    newName,
-    canvasElementGuidMap,
-    topCutOrCopiedGuid,
-    bottomCutOrCopiedGuid,
-    source,
-    next
-}) {
-    const { duplicatedElement } = createDuplicateAssignment(canvasElementToPaste, newGuid, newName);
-
-    const pastedCanvasElement = createPastedCanvasElement(
-        duplicatedElement,
-        canvasElementGuidMap,
-        topCutOrCopiedGuid,
-        bottomCutOrCopiedGuid,
-        source,
-        next
-    );
-
-    return {
-        pastedCanvasElement
-    };
 }
 
 /**

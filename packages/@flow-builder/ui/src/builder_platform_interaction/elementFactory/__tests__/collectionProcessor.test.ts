@@ -2,11 +2,9 @@ import {
     createCollectionProcessor,
     createCollectionProcessorWithConnectors,
     createDuplicateCollectionProcessor,
-    createCollectionProcessorMetadataObject,
-    createPastedCollectionProcessor
+    createCollectionProcessorMetadataObject
 } from '../collectionProcessor';
 import { COLLECTION_PROCESSOR_SUB_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
 
 const defaultCollectionProcessorElement = {
     elementType: ELEMENT_TYPE.COLLECTION_PROCESSOR,
@@ -170,65 +168,5 @@ describe('createCollectionProcessorMetadataObject Function', () => {
     it('returns a new map collection processor metadata object from a store collection processor object', () => {
         const result = createCollectionProcessorMetadataObject(testMapCollectionProcessorElement);
         expect(result).toMatchObject(testMapCollectionProcessorMetadataElement);
-    });
-});
-
-describe('create pasted collection processor', () => {
-    const dataForPasting = {
-        canvasElementToPaste: {
-            guid: 'originalGuid',
-            name: 'originalName',
-            label: 'label',
-            elementType: ELEMENT_TYPE.COLLECTION_PROCESSOR,
-            locationX: 100,
-            locationY: 100,
-            config: {
-                isSelected: true,
-                isHighlighted: false
-            },
-            connectorCount: 0,
-            maxConnections: 1
-        },
-        newGuid: 'updatedSubflowGuid',
-        newName: 'updatedSubflowName',
-        canvasElementGuidMap: {},
-        topCutOrCopiedGuid: '',
-        bottomCutOrCopiedGuid: '',
-        source: { guid: null },
-        next: null
-    };
-
-    const { pastedCanvasElement } = createPastedCollectionProcessor(dataForPasting);
-
-    it('has the new guid', () => {
-        expect(pastedCanvasElement.guid).toEqual('updatedSubflowGuid');
-    });
-    it('has the new name', () => {
-        expect(pastedCanvasElement.name).toEqual('updatedSubflowName');
-    });
-    it('has the updated locationX', () => {
-        expect(pastedCanvasElement.locationX).toEqual(
-            dataForPasting.canvasElementToPaste.locationX + DUPLICATE_ELEMENT_XY_OFFSET
-        );
-    });
-    it('has the updated locationY', () => {
-        expect(pastedCanvasElement.locationY).toEqual(
-            dataForPasting.canvasElementToPaste.locationY + DUPLICATE_ELEMENT_XY_OFFSET
-        );
-    });
-    it('has isSelected set to true', () => {
-        expect(pastedCanvasElement.config.isSelected).toBeFalsy();
-    });
-    it('has isHighlighted set to false', () => {
-        expect(pastedCanvasElement.config.isHighlighted).toBeFalsy();
-    });
-    it('has connectorCount set to 0', () => {
-        expect(pastedCanvasElement.connectorCount).toEqual(0);
-    });
-    it('has maxConnections set to 1', () => {
-        expect(pastedCanvasElement.maxConnections).toEqual(1);
-    });
-    it('has the right elementType', () => {
-        expect(pastedCanvasElement.elementType).toEqual(ELEMENT_TYPE.COLLECTION_PROCESSOR);
     });
 });

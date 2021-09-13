@@ -2504,11 +2504,7 @@ export function createConnection(
  * @returns - The connection source for the node
  */
 export function getConnectionSource(node: NodeModel | BranchHeadNodeModel): ConnectionSource {
-    if (isBranchHead(node)) {
-        return { guid: node.parent, childIndex: node.childIndex };
-    }
-
-    return { guid: node.prev! };
+    return isBranchHead(node) ? { guid: node.parent, childIndex: node.childIndex } : { guid: node.prev! };
 }
 
 /**

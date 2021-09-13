@@ -2,7 +2,6 @@
 import { ELEMENT_TYPE, FOOTER_LABEL_TYPE, PAUSE_MESSAGE_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
-    createPastedCanvasElement,
     duplicateCanvasElementWithChildElements,
     baseCanvasElementsArrayToMap
 } from './base/baseElement';
@@ -47,62 +46,6 @@ export function createScreenWithFields(screen = {}) {
 }
 
 /**
- * Function to create the pasted Screen element
- *
- * @param {Object} dataForPasting - Data required to create the pasted element
- * @param dataForPasting.canvasElementToPaste
- * @param dataForPasting.newGuid
- * @param dataForPasting.newName
- * @param dataForPasting.canvasElementGuidMap
- * @param dataForPasting.childElementGuidMap
- * @param dataForPasting.childElementNameMap
- * @param dataForPasting.cutOrCopiedChildElements
- * @param dataForPasting.topCutOrCopiedGuid
- * @param dataForPasting.bottomCutOrCopiedGuid
- * @param dataForPasting.prev
- * @param dataForPasting.next
- * @param dataForPasting.parent
- * @param dataForPasting.childIndex
- * @param dataForPasting.source
- */
-export function createPastedScreen({
-    canvasElementToPaste,
-    newGuid,
-    newName,
-    canvasElementGuidMap,
-    childElementGuidMap,
-    childElementNameMap,
-    cutOrCopiedChildElements,
-    topCutOrCopiedGuid,
-    bottomCutOrCopiedGuid,
-    source,
-    next
-}) {
-    const { duplicatedElement, duplicatedChildElements } = createDuplicateScreen(
-        canvasElementToPaste,
-        newGuid,
-        newName,
-        childElementGuidMap,
-        childElementNameMap,
-        cutOrCopiedChildElements
-    );
-
-    const pastedCanvasElement = createPastedCanvasElement(
-        duplicatedElement,
-        canvasElementGuidMap,
-        topCutOrCopiedGuid,
-        bottomCutOrCopiedGuid,
-        source,
-        next
-    );
-
-    return {
-        pastedCanvasElement,
-        pastedChildElements: duplicatedChildElements
-    };
-}
-
-/**
  * Function to create the duplicate Screen element
  *
  * @param {Object} screen - Screen element being copied
@@ -115,7 +58,7 @@ export function createPastedScreen({
  * @param {Object} cutOrCopiedChildElements - Local copy of the cut ot copied canvas elements. Undefined in the case of duplication on Free Form Canvas
  * @returns {Object} Returns an object containing the duplicated element and the duplicated childElements
  */
-export function createDuplicateScreen(
+export function createDuplicateScreen( // TODO: refactor the duplication code. The duplicate wait and other elements' code is very similar
     screen,
     newGuid,
     newName,

@@ -1,12 +1,5 @@
 // @ts-nocheck
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import {
-    createLoop,
-    createPastedLoop,
-    createDuplicateLoop,
-    createLoopWithConnectors,
-    createLoopMetadataObject
-} from '../loop';
+import { createLoop, createDuplicateLoop, createLoopWithConnectors, createLoopMetadataObject } from '../loop';
 import {
     flowWithAllElementsUIModel,
     loopOnAccountAutoOutput,
@@ -22,24 +15,19 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { getMetadataFlowElementByName } from 'mock/flows/mock-flow';
 import {
-    DUPLICATE_ELEMENT_XY_OFFSET,
     INCOMPLETE_ELEMENT,
     baseCanvasElement,
-    createPastedCanvasElement,
     duplicateCanvasElement,
     baseCanvasElementsArrayToMap
 } from '../base/baseElement';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 
+jest.mock('builder_platform_interaction/alcCanvasUtils');
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('../base/baseElement');
 baseCanvasElement.mockImplementation(jest.requireActual('../base/baseElement').baseCanvasElement);
-createPastedCanvasElement
-    .mockImplementation((duplicatedElement) => {
-        return duplicatedElement;
-    })
-    .mockName('createPastedCanvasElementMock');
+
 duplicateCanvasElement.mockImplementation(jest.requireActual('../base/baseElement').duplicateCanvasElement);
 baseCanvasElementsArrayToMap.mockImplementation(jest.requireActual('../base/baseElement').baseCanvasElementsArrayToMap);
 
@@ -150,61 +138,6 @@ describe('loop factory', () => {
 
                 expect(createdLoop.subtype).toBe(subtype);
             });
-        });
-    });
-
-    describe('create pasted loop', () => {
-        const dataForPasting = {
-            canvasElementToPaste: {
-                guid: 'originalGuid',
-                name: 'originalName',
-                label: 'label',
-                elementType: ELEMENT_TYPE.LOOP,
-                locationX: 100,
-                locationY: 100,
-                config: {
-                    isSelectd: true,
-                    isHighlighted: false
-                },
-                connectorCount: 0,
-                maxConnections: 2
-            },
-            newGuid: 'updatedSubflowGuid',
-            newName: 'updatedSubflowName'
-        };
-
-        const { pastedCanvasElement } = createPastedLoop(dataForPasting);
-
-        it('has the new guid', () => {
-            expect(pastedCanvasElement.guid).toEqual('updatedSubflowGuid');
-        });
-        it('has the new name', () => {
-            expect(pastedCanvasElement.name).toEqual('updatedSubflowName');
-        });
-        it('has the updated locationX', () => {
-            expect(pastedCanvasElement.locationX).toEqual(
-                dataForPasting.canvasElementToPaste.locationX + DUPLICATE_ELEMENT_XY_OFFSET
-            );
-        });
-        it('has the updated locationY', () => {
-            expect(pastedCanvasElement.locationY).toEqual(
-                dataForPasting.canvasElementToPaste.locationY + DUPLICATE_ELEMENT_XY_OFFSET
-            );
-        });
-        it('has isSelected set to true', () => {
-            expect(pastedCanvasElement.config.isSelected).toBeTruthy();
-        });
-        it('has isHighlighted set to false', () => {
-            expect(pastedCanvasElement.config.isHighlighted).toBeFalsy();
-        });
-        it('has connectorCount set to 0', () => {
-            expect(pastedCanvasElement.connectorCount).toEqual(0);
-        });
-        it('has maxConnections set to 1', () => {
-            expect(pastedCanvasElement.maxConnections).toEqual(2);
-        });
-        it('has the right elementType', () => {
-            expect(pastedCanvasElement.elementType).toEqual(ELEMENT_TYPE.LOOP);
         });
     });
 

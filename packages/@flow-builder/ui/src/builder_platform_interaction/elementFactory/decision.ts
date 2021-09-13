@@ -2,7 +2,6 @@
 import { ELEMENT_TYPE, CONNECTOR_TYPE, CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
-    createPastedCanvasElement,
     duplicateCanvasElementWithChildElements,
     baseChildElement,
     baseCanvasElementsArrayToMap,
@@ -60,59 +59,6 @@ export function createDecisionWithOutcomes(decision = {}) {
         defaultConnectorLabel,
         elementType
     });
-}
-
-/**
- * Function to create the pasted Decision element
- *
- * @param {Object} dataForPasting - Data required to create the pasted element
- * @param dataForPasting.canvasElementToPaste
- * @param dataForPasting.newGuid
- * @param dataForPasting.newName
- * @param dataForPasting.canvasElementGuidMap
- * @param dataForPasting.childElementGuidMap
- * @param dataForPasting.childElementNameMap
- * @param dataForPasting.cutOrCopiedChildElements
- * @param dataForPasting.topCutOrCopiedGuid
- * @param dataForPasting.bottomCutOrCopiedGuid
- * @param dataForPasting.source - the connection source
- * @param dataForPasting.next
- */
-export function createPastedDecision({
-    canvasElementToPaste,
-    newGuid,
-    newName,
-    canvasElementGuidMap,
-    childElementGuidMap,
-    childElementNameMap,
-    cutOrCopiedChildElements,
-    topCutOrCopiedGuid,
-    bottomCutOrCopiedGuid,
-    source,
-    next
-}) {
-    const { duplicatedElement, duplicatedChildElements } = createDuplicateDecision(
-        canvasElementToPaste,
-        newGuid,
-        newName,
-        childElementGuidMap,
-        childElementNameMap,
-        cutOrCopiedChildElements
-    );
-
-    const pastedCanvasElement = createPastedCanvasElement(
-        duplicatedElement,
-        canvasElementGuidMap,
-        topCutOrCopiedGuid,
-        bottomCutOrCopiedGuid,
-        source,
-        next
-    );
-
-    return {
-        pastedCanvasElement,
-        pastedChildElements: duplicatedChildElements
-    };
 }
 
 /**

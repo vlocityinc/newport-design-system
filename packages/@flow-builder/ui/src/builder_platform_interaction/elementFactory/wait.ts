@@ -9,7 +9,6 @@ import {
 } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElementWithFault,
-    createPastedCanvasElement,
     duplicateCanvasElementWithChildElements,
     baseCanvasElementsArrayToMap,
     baseChildElement,
@@ -204,62 +203,6 @@ export function createWaitWithWaitEvents(wait = {}) {
         maxConnections,
         elementType
     });
-}
-
-/**
- * Function to create the pasted Wait element
- *
- * @param {Object} dataForPasting - Data required to create the pasted element
- * @param dataForPasting.canvasElementToPaste
- * @param dataForPasting.newGuid
- * @param dataForPasting.newName
- * @param dataForPasting.canvasElementGuidMap
- * @param dataForPasting.childElementGuidMap
- * @param dataForPasting.childElementNameMap
- * @param dataForPasting.cutOrCopiedChildElements
- * @param dataForPasting.topCutOrCopiedGuid
- * @param dataForPasting.bottomCutOrCopiedGuid
- * @param dataForPasting.prev
- * @param dataForPasting.next
- * @param dataForPasting.parent
- * @param dataForPasting.childIndex
- * @param dataForPasting.source
- */
-export function createPastedWait({
-    canvasElementToPaste,
-    newGuid,
-    newName,
-    canvasElementGuidMap,
-    childElementGuidMap,
-    childElementNameMap,
-    cutOrCopiedChildElements,
-    topCutOrCopiedGuid,
-    bottomCutOrCopiedGuid,
-    source,
-    next
-}) {
-    const { duplicatedElement, duplicatedChildElements } = createDuplicateWait(
-        canvasElementToPaste,
-        newGuid,
-        newName,
-        childElementGuidMap,
-        childElementNameMap,
-        cutOrCopiedChildElements
-    );
-
-    const pastedCanvasElement = createPastedCanvasElement(
-        duplicatedElement,
-        canvasElementGuidMap,
-        topCutOrCopiedGuid,
-        bottomCutOrCopiedGuid,
-        source,
-        next
-    );
-
-    return {
-        pastedCanvasElement,
-        pastedChildElements: duplicatedChildElements
-    };
 }
 
 /**
