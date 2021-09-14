@@ -14,6 +14,7 @@
                     title={displayName}
                     text={labels.fieldExtensionPreviewDescription}
                     default-value={defaultValue}
+                    tabindex="-1"
                 >
                 </builder_platform_interaction-screen-extension-field-wrapper>
             </div>
@@ -26,6 +27,7 @@
                 value-type={screenfield.defaultValueDataType}
                 help-text={screenfield.helpText}
                 required={isRequired}
+                tabindex="-1"
             >
             </builder_platform_interaction-screen-input-field>
             <builder_platform_interaction-screen-display-text-field
@@ -33,6 +35,7 @@
                 type-name={screenfield.type.name}
                 title={name}
                 value={fieldText}
+                tabindex="-1"
             >
             </builder_platform_interaction-screen-display-text-field>
             <builder_platform_interaction-screen-section-field
@@ -41,6 +44,7 @@
                 title={name}
                 section={screenfield}
                 selected-item-guid={selectedItemGuid}
+                moved-item-guid={movedItemGuid}
             >
             </builder_platform_interaction-screen-section-field>
             <builder_platform_interaction-screen-textarea-field
@@ -49,12 +53,14 @@
                 value={defaultValue}
                 help-text={screenfield.helpText}
                 required={screenfield.isRequired}
+                tabindex="-1"
             >
             </builder_platform_interaction-screen-textarea-field>
             <builder_platform_interaction-screen-choice-field
                 if:true={isChoiceField}
                 label={fieldText}
                 field={screenfield}
+                tabindex="-1"
             >
             </builder_platform_interaction-screen-choice-field>
         </div>

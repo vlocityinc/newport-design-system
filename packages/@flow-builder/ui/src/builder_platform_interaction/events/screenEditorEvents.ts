@@ -13,7 +13,8 @@ export enum ScreenEditorEventName {
     ChoiceDeleted = 'choicedeleted',
     ColumnWidthChanged = 'columnwidthchanged',
     ChoiceReset = 'choicereset',
-    FooterBetaOptionSelected = 'footerbetaoptionselected'
+    FooterBetaOptionSelected = 'footerbetaoptionselected',
+    ScreenElementKeyboardInteraction = 'screenelementkeyboardinteraction'
 }
 
 /**
@@ -251,4 +252,18 @@ export function createColumnWidthChangedEvent(columnGuid, columnWidth, sectionGu
  */
 export function createScreenFooterBetaOptionSelectedEvent() {
     return createScreenEditorEvent(ScreenEditorEventName.FooterBetaOptionSelected, {});
+}
+
+/**
+ * Creates an event to be fired when the user keyboard interacts with a component
+ *
+ * @param sourceGuid - The guid of the screen element being moved
+ * @param interaction - Type of keyboard interaction
+ * @returns {CustomEvent} - ScreenElementKeyboardInteraction Event
+ */
+export function createScreenElementKeyboardInteractionEvent(sourceGuid, interaction) {
+    return createScreenEditorEvent(ScreenEditorEventName.ScreenElementKeyboardInteraction, {
+        sourceGuid,
+        interaction
+    });
 }

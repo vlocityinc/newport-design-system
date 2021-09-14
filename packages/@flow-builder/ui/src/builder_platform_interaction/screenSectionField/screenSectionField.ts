@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+
 /**
  * Wrapper used to represent visual preview of section fields.
  */
@@ -9,6 +10,7 @@ export default class ScreenSectionField extends LightningElement {
     @api typeName;
     @api section;
     @api selectedItemGuid;
+    @api movedItemGuid;
 
     get columns() {
         return this.section.fields.map((column) => {

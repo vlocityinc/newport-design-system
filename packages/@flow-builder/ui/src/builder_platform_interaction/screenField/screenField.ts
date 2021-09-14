@@ -22,6 +22,7 @@ import {
 export default class ScreenField extends LightningElement {
     @api screenfield;
     @api selectedItemGuid;
+    @api movedItemGuid; // guid of the component being reordered
 
     labels = LABELS;
 

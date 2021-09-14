@@ -44,6 +44,10 @@ export enum Keys {
     Escape = 'Escape',
     ArrowUp = 'ArrowUp',
     ArrowDown = 'ArrowDown',
+    ArrowLeft = 'ArrowLeft',
+    ArrowRight = 'ArrowRight',
+    Delete = 'Delete',
+    Backspace = 'Backspace',
     Tab = 'Tab'
 }
 

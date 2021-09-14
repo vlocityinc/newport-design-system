@@ -34,6 +34,7 @@ export const EXTENSION_PARAM_PREFIX = {
     OUTPUT: '$$output$$'
 };
 
+export const MOVING_CLASS = 'isInKeyboardReorderableMode';
 export const SELECTED_CLASS = 'selected';
 export const HOVERING_CLASS = 'hovering';
 export const DRAGGING_CLASS = 'dragging';
@@ -54,6 +55,17 @@ export enum ScreenProperties {
     NEXT_OR_FINISH_LABEL_TYPE = 'nextOrFinishLabelType',
     PAUSE_LABEL_TYPE = 'pauseLabelType',
     ALLOW_HELP = 'allowHelp'
+}
+
+export enum ScreenCanvasKeyboardInteractions {
+    Start = 'start',
+    Stop = 'stop',
+    Focus = 'focus',
+    Cancel = 'cancel',
+    Up = 'up',
+    Down = 'down',
+    Left = 'left',
+    Right = 'right'
 }
 
 /**

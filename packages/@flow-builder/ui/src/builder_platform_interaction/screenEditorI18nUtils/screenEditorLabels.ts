@@ -165,6 +165,18 @@ import picklistChoiceSetChoiceLabel from '@salesforce/label/FlowBuilderScreenEdi
 import recordChoiceSetChoiceLabel from '@salesforce/label/FlowBuilderScreenEditor.recordChoiceSetChoiceLabel';
 import typedResourceLabel from '@salesforce/label/FlowBuilderScreenEditor.typedResourceLabel';
 import cannotBeBlank from '@salesforce/label/FlowBuilderValidation.cannotBeBlank';
+import leftPanelAriaLabel from '@salesforce/label/FlowBuilderScreenEditor.leftPanelAriaLabel';
+import canvasAriaLabel from '@salesforce/label/FlowBuilderScreenEditor.canvasAriaLabel';
+import rightPanelAriaLabel from '@salesforce/label/FlowBuilderScreenEditor.rightPanelAriaLabel';
+import componentRemovedMessage from '@salesforce/label/FlowBuilderScreenEditor.componentRemovedMessage';
+import columnPosition from '@salesforce/label/FlowBuilderScreenEditor.columnPosition';
+import componentCurrentPosition from '@salesforce/label/FlowBuilderScreenEditor.componentCurrentPosition';
+import componentKeyboardInstruction from '@salesforce/label/FlowBuilderScreenEditor.componentKeyboardInstruction';
+import componentStartMovingInstruction from '@salesforce/label/FlowBuilderScreenEditor.componentStartMovingInstruction';
+import componentGrabbedMessage from '@salesforce/label/FlowBuilderScreenEditor.componentGrabbedMessage';
+import componentDroppedMessage from '@salesforce/label/FlowBuilderScreenEditor.componentDroppedMessage';
+import componentFinalPosition from '@salesforce/label/FlowBuilderScreenEditor.componentFinalPosition';
+import componentAriaLabel from '@salesforce/label/FlowBuilderScreenEditor.componentAriaLabel';
 
 export const LABELS = {
     errorRequired,
@@ -333,5 +345,17 @@ export const LABELS = {
     picklistChoiceSetChoiceLabel,
     recordChoiceSetChoiceLabel,
     typedResourceLabel,
-    cannotBeBlank
+    cannotBeBlank,
+    leftPanelAriaLabel,
+    canvasAriaLabel,
+    rightPanelAriaLabel,
+    componentRemovedMessage,
+    columnPosition,
+    componentCurrentPosition,
+    componentKeyboardInstruction,
+    componentStartMovingInstruction,
+    componentGrabbedMessage,
+    componentDroppedMessage,
+    componentFinalPosition,
+    componentAriaLabel
 };

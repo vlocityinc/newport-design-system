@@ -6,7 +6,12 @@
     <div if:true={screen} class={screenEditorContainerCssClass}>
         <!-- this div is the container for the left panel-->
         <template if:false={orgHasFlowBuilderAutomaticFields}>
-            <div class="slds-size_small slds-grow-none slds-shrink-none">
+            <div
+                class="left-panel slds-size_small slds-grow-none slds-shrink-none"
+                tabindex="0"
+                role="region"
+                aria-label={labels.leftPanelAriaLabel}
+            >
                 <builder_platform_interaction-screen-editor-palette
                     screen-field-types={screenFieldTypes}
                     extension-types={extensionTypes}
@@ -15,7 +20,12 @@
             </div>
         </template>
         <template if:true={orgHasFlowBuilderAutomaticFields}>
-            <div class="slds-size_small slds-grow-none slds-shrink-none slds-border_right">
+            <div
+                class="left-panel slds-size_small slds-grow-none slds-shrink-none slds-border_right"
+                tabindex="0"
+                role="region"
+                aria-label={labels.leftPanelAriaLabel}
+            >
                 <lightning-tabset active-tab-value={activeTab}>
                     <lightning-tab
                         value="componentsTab"
@@ -56,7 +66,12 @@
         </template>
 
         <!-- this div is the container for the canvas middle panel-->
-        <div class="canvas-container slds-grow slds-shrink slds-scrollable_x">
+        <div
+            class="canvas-container slds-grow slds-shrink slds-scrollable_x"
+            tabindex="0"
+            role="region"
+            aria-label={labels.canvasAriaLabel}
+        >
             <builder_platform_interaction-screen-editor-canvas
                 class="slds-size_full"
                 screen={screen}
@@ -73,7 +88,7 @@
         </div>
 
         <!-- this div is the container for the properties right panel-->
-        <div class="slds-grow-none slds-shrink-none">
+        <div class="slds-grow-none slds-shrink-none" role="region" aria-label={labels.rightPanelAriaLabel} tabindex="0">
             <builder_platform_interaction-screen-properties-editor-container
                 node={selectedNode}
                 mode={mode}

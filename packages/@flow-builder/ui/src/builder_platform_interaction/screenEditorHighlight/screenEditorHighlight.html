@@ -2,14 +2,20 @@
     <div
         class={classList}
         onclick={handleSelected}
-        tabindex={tabIndex}
+        tabindex="0"
         draggable={isDraggable}
         ondragstart={handleDragStart}
         ondragend={handleDragEnd}
         onmouseover={handleMouseOver}
         onmouseout={handleMouseOut}
+        onkeydown={handleKeyDown}
+        onfocus={handleFocus}
+        aria-label={ariaLabel}
     >
-        <div class="highlight-header slds-is-absolute slds-p-horizontal_x-small slds-align_absolute-center">
+        <div
+            class="highlight-header slds-is-absolute slds-p-horizontal_x-small slds-align_absolute-center"
+            aria-hidden="true"
+        >
             <lightning-icon icon-name={highlightIcon} size="x-small" variant="inverse"></lightning-icon>
             <div class="slds-p-left_xx-small slds-text-body_small slds-truncate">{title}</div>
             <lightning-badge
@@ -20,7 +26,6 @@
         </div>
 
         <div if:false={shouldPreventEvents} class="highlight-frame">
-            <slot name="screen-element" tabindex="-1"></slot>
             <div if:true={shouldDisplayIcons} class="highlight-icons-container slds-grid slds-is-absolute">
                 <div if:true={isElementWithVisibilityConditions} class="visibility-icon-container visibility">
                     <lightning-icon
@@ -29,7 +34,6 @@
                         icon-name="utility:preview"
                         size="xx-small"
                         variant="container"
-                        tab-index="-1"
                     ></lightning-icon>
                 </div>
                 <div class="highlight-icon-container slds-text-align_center">
@@ -39,7 +43,7 @@
                         variant="bare-inverse"
                         alternative-text={labels.moveAlternativeText}
                         size="small"
-                        tab-index="-1"
+                        aria-label={labels.moveAlternativeText}
                     ></lightning-button-icon>
                 </div>
                 <div class="highlight-icon-container slds-text-align_center">
@@ -50,7 +54,7 @@
                         size="small"
                         alternative-text={labels.deleteAlternativeText}
                         onclick={handleDelete}
-                        tab-index="-1"
+                        aria-label={labels.deleteAlternativeText}
                     ></lightning-button-icon>
                 </div>
             </div>
@@ -64,13 +68,13 @@
                     icon-name="utility:preview"
                     size="xx-small"
                     variant="container"
-                    tab-index="-1"
                 ></lightning-icon>
             </div>
+            <slot name="screen-element" tabindex={tabIndex}></slot>
         </div>
 
         <div if:true={shouldPreventEvents} class="slds-grid slds-is-relative">
-            <slot name="screen-element" tabindex="-1"></slot>
+            <slot name="screen-element" tabindex={tabIndex}></slot>
             <div class="slds-size_full slds-is-absolute highlight-frame">
                 <div
                     if:true={shouldDisplayIcons}
@@ -83,7 +87,6 @@
                             icon-name="utility:preview"
                             size="xx-small"
                             variant="container"
-                            tab-index="-1"
                         ></lightning-icon>
                     </div>
 
@@ -94,7 +97,7 @@
                             variant="bare-inverse"
                             alternative-text={labels.moveAlternativeText}
                             size="small"
-                            tab-index="-1"
+                            aria-label={labels.moveAlternativeText}
                         ></lightning-button-icon>
                     </div>
                     <div class="highlight-icon-container slds-text-align_center">
@@ -105,7 +108,7 @@
                             size="small"
                             alternative-text={labels.deleteAlternativeText}
                             onclick={handleDelete}
-                            tab-index="-1"
+                            aria-label={labels.deleteAlternativeText}
                         ></lightning-button-icon>
                     </div>
                 </div>
@@ -120,7 +123,6 @@
                     icon-name="utility:preview"
                     size="xx-small"
                     variant="container"
-                    tab-index="-1"
                 ></lightning-icon>
             </div>
         </div>

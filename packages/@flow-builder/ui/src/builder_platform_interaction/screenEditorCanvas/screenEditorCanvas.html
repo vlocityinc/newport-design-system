@@ -1,9 +1,12 @@
 <template>
+    <span aria-live="assertive" class="aria-live-instruction">{ariaLiveInstruction}</span>
+    <span aria-live="polite" class="aria-live-instruction">{ariaDescription}</span>
     <div
         if:true={screen}
         class="slds-p-around_small screen-editor-canvas-container slds-scrollable"
         onclick={handleOnClick}
         onscroll={handleScroll}
+        onscreenelementkeyboardinteraction={handleScreenElementKeyboardInteraction}
     >
         <div class="slds-grow screen-editor-canvas-content slds-p-top_small slds-grid">
             <div class="slds-card slds-card_boundary slds-grow slds-grid slds-grid_vertical">
@@ -14,10 +17,14 @@
                     property="showHeader"
                     prevent-events="true"
                     title={labels.header}
-                    tab-index={tabIndex}
                     selected={headerSelected}
                 >
-                    <div if:false={screenConfigurationHasErrors} slot="screen-element" class="slds-grid slds-grow">
+                    <div
+                        if:false={screenConfigurationHasErrors}
+                        slot="screen-element"
+                        class="slds-grid slds-grow"
+                        aria-label={screenTitle}
+                    >
                         <!-- Screen config is fine -->
                         <div class="slds-card__header slds-grid slds-grow slds-border_bottom">
                             <header class="slds-media slds-media_center slds-has-flexi-truncate slds-p-bottom_small">
@@ -58,6 +65,7 @@
                     element={screen}
                     selected-item-guid={selectedItemGuid}
                     show-empty-placeholder="false"
+                    moved-item-guid={movedItemGuid}
                 >
                 </builder_platform_interaction-screen-canvas>
 
@@ -68,7 +76,6 @@
                     property="showFooter"
                     prevent-events="true"
                     title={labels.footer}
-                    tab-index={tabIndex}
                     selected={footerSelected}
                 >
                     <div

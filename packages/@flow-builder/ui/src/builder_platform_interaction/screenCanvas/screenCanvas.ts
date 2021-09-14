@@ -29,6 +29,7 @@ export default class ScreenCanvas extends LightningElement {
     @api element;
     @api selectedItemGuid;
     @api showEmptyPlaceholder;
+    @api movedItemGuid;
     labels = LABELS;
     dragEnterCounter = 0;
 
@@ -38,7 +39,8 @@ export default class ScreenCanvas extends LightningElement {
                 return {
                     field,
                     selected: this.selectedItemGuid === field.guid,
-                    hasNoChildren: !isRegionContainerField(field)
+                    hasNoChildren: !isRegionContainerField(field),
+                    isInKeyboardReorderableMode: this.movedItemGuid === field.guid
                 };
             });
         }
