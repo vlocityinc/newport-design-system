@@ -1,5 +1,9 @@
-// @ts-nocheck
-import { booleanAttributeValue, attributesHaveChanged } from 'builder_platform_interaction/screenEditorUtils';
+import {
+    booleanAttributeValue,
+    attributesHaveChanged,
+    getAllScreenFields
+} from 'builder_platform_interaction/screenEditorUtils';
+import { elementsForPropertyEditors, screenWithSection } from 'mock/storeData';
 
 const bar = 'bar';
 
@@ -95,5 +99,16 @@ describe('attributesHaveChanged function', () => {
         const foo = null;
         const bar = { a: '1' };
         expect(attributesHaveChanged(foo, bar)).toBe(true);
+    });
+});
+describe('getAllScreenFields function', () => {
+    it('Returns a flattened list of screen fields', () => {
+        const screen = elementsForPropertyEditors[screenWithSection.name];
+        const fields = getAllScreenFields(screen.fields);
+        expect(fields).toHaveLength(12);
+        expect(fields[0].fieldType).toEqual('RegionContainer');
+        expect(fields[1].fieldType).toEqual('InputField');
+        expect(fields[4].fieldType).toEqual('Region');
+        expect(fields[11].fieldType).toEqual('DropdownBox');
     });
 });

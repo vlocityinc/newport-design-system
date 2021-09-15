@@ -47,7 +47,16 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
 
 jest.mock('builder_platform_interaction/usedByLib', () => {
     return {
-        usedBy: jest.fn()
+        usedBy: jest.fn(() => {
+            return [
+                {
+                    guid: 'choiceComponent1'
+                },
+                {
+                    guid: 'choiceComponent2'
+                }
+            ];
+        })
     };
 });
 
@@ -688,6 +697,49 @@ describe('Choice Visual Display Type Switching', () => {
             expect(newScreen.fields[0].choiceReferences[0]).toEqual(choiceReference1);
             expect(newScreen.fields[0].choiceReferences[1]).toEqual(choiceReference2);
             expect(newScreen.fields[0].isRequired).toEqual(field.isRequired);
+        });
+    });
+});
+describe('Two choice component using the same choice', () => {
+    it('When choice is changed via one choice component, then second choice component gets updated', () => {
+        const screen = createTestScreen(SCREEN_NAME, []);
+        screen.fields = [];
+        let field = createTestScreenField('choiceComponent1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
+            dataType: FLOW_DATA_TYPE.STRING.value,
+            validation: false,
+            helpText: false
+        });
+        field.guid = 'choiceComponent1';
+        field.choiceReferences = [];
+        const choiceReference = {
+            choiceReference: { value: 'choice1', error: null }
+        };
+        field.choiceReferences.push(choiceReference);
+        screen.fields.push(field);
+        field = createTestScreenField('choiceComponent2', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
+            dataType: FLOW_DATA_TYPE.STRING.value,
+            validation: false,
+            helpText: false
+        });
+        field.guid = 'choiceComponent2';
+        field.choiceReferences = [];
+        field.choiceReferences.push(choiceReference);
+        screen.fields.push(field);
+        const event = {
+            type: ScreenEditorEventName.ChoiceChanged,
+            detail: {
+                screenElement: field,
+                newValue: { value: 'choice1', error: 'error' },
+                position: 0
+            }
+        };
+        const newScreen = screenReducer(screen, event, screen.fields[0]);
+        expect(newScreen).toBeDefined();
+        expect(newScreen.fields[0].choiceReferences[0]).toEqual({
+            choiceReference: { value: 'choice1', error: 'error' }
+        });
+        expect(newScreen.fields[1].choiceReferences[0]).toEqual({
+            choiceReference: { value: 'choice1', error: 'error' }
         });
     });
 });

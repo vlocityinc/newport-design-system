@@ -52,7 +52,8 @@ import {
     getColumnFieldType,
     isRegionContainerField,
     getScreenFieldTypeByName,
-    ScreenProperties
+    ScreenProperties,
+    getAllScreenFields
 } from 'builder_platform_interaction/screenEditorUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
@@ -414,7 +415,7 @@ const changeChoice = (screen, event, field) => {
     clearDefaultValueIfNecessary(updatedField);
 
     if (hydratedChoice?.choiceReference?.value) {
-        screen = updateOtherChoicesWithSameChoiceReference(hydratedChoice, screen, field, updatedField);
+        screen = updateChoiceFieldsThatReferenceASpecificChoice(hydratedChoice, screen);
     }
     // Replace the field in the screen
     const positions = screen.getFieldIndexesByGUID(field.guid);
@@ -422,29 +423,30 @@ const changeChoice = (screen, event, field) => {
 };
 
 /**
- * This function update all the fields in the screen that are using the Choice updated.
+ * This function update all the fields in the screen that are using a Choice that has been updated.
  *
  * @param hydratedChoice Hydrated choice
  * @param screen Parent Screen
- * @param field Field to update
- * @param updatedField updateField
  * @returns Updated Screen
  */
-const updateOtherChoicesWithSameChoiceReference = (hydratedChoice: any, screen: any, field: any, updatedField: any) => {
-    const choiceUsedByList = usedBy([hydratedChoice.choiceReference.value]);
-    choiceUsedByList.forEach((choiceUsedBy) => {
-        // Search other field that are using the reference updated in the same screen
-        const tmpPosition = screen.getFieldIndexesByGUID(choiceUsedBy.guid);
-        if (tmpPosition.length > 0 && tmpPosition[0] > -1 && choiceUsedBy.guid !== field.guid) {
-            const fieldtmp = screen.fields[tmpPosition[0]];
-            // Find the choice reference index in the field
-            const index = fieldtmp.choiceReferences.findIndex(
-                (choiceRef) => choiceRef.choiceReference.value === hydratedChoice.choiceReference.value
-            );
-            const tmpUpdatedChoices = replaceItem(fieldtmp.choiceReferences, hydratedChoice, index);
-            const tmpUpdatedField = set(fieldtmp, 'choiceReferences', tmpUpdatedChoices);
-            screen = updateAncestors(screen, tmpPosition, tmpUpdatedField);
-        }
+const updateChoiceFieldsThatReferenceASpecificChoice = (hydratedChoice: any, screen: any) => {
+    const mapOfScreenFields = getAllScreenFields(screen.fields).reduce<UI.HydratedElements>((acc, screenField) => {
+        acc[screenField.guid] = screenField;
+        return acc;
+    }, {});
+    const choiceUsedByList = usedBy([hydratedChoice.choiceReference.value], { elements: mapOfScreenFields });
+    choiceUsedByList?.forEach((choiceUsedBy) => {
+        // Search for other choice fields in the screen that are using the updated choice
+        const choiceFieldPosition = screen.getFieldIndexesByGUID(choiceUsedBy.guid);
+        const choiceField = screen.getFieldByGUID(choiceUsedBy.guid);
+
+        // Find the choice reference index in the field
+        const index = choiceField.choiceReferences.findIndex(
+            (choiceReference) => choiceReference.choiceReference.value === hydratedChoice.choiceReference.value
+        );
+        const updatedChoiceReferences = replaceItem(choiceField.choiceReferences, hydratedChoice, index);
+        const updatedChoiceField = set(choiceField, 'choiceReferences', updatedChoiceReferences);
+        screen = updateAncestors(screen, choiceFieldPosition, updatedChoiceField);
     });
     return screen;
 };

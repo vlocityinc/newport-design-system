@@ -192,3 +192,38 @@ export function attributesHaveChanged(oldAttributes, newAttributes) {
     const diffKeys = Object.keys(newAttributes).filter((key) => newAttributes[key] !== oldAttributes[key]);
     return diffKeys && diffKeys.length > 0;
 }
+
+/**
+ * Get all the fields from the screen state fields.
+ *
+ * @param fields screen state fields
+ * @returns all the screen fields
+ */
+export function getAllScreenFields(fields: Array): Array {
+    let allFields: any[] = [];
+    fields.forEach((field) => {
+        allFields = [...allFields, ...flattenScreenFields(field)];
+    });
+    return [...fields, ...allFields];
+}
+
+/**
+ * Recursively flatten the screen field elements.
+ *
+ * @param screenField The screen field
+ * @returns all the screen fields after the flatten
+ */
+function flattenScreenFields(screenField: Object): Array {
+    if (!screenField) {
+        return [];
+    }
+    const allFields: any[] = [];
+    const fields = screenField.fields;
+    if (fields) {
+        fields.forEach((field) => {
+            allFields.push(field);
+            allFields.push(...flattenScreenFields(field));
+        });
+    }
+    return allFields;
+}

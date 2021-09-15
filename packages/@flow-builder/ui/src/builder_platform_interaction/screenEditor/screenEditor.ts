@@ -8,7 +8,8 @@ import {
     isRegionContainerField,
     isRegionField,
     ChoiceDisplayOptions,
-    ScreenFieldName
+    ScreenFieldName,
+    getAllScreenFields
 } from 'builder_platform_interaction/screenEditorUtils';
 import { getExtensionFieldTypes } from 'builder_platform_interaction/flowExtensionLib';
 import { screenReducer } from './screenReducer';
@@ -327,7 +328,7 @@ export default class ScreenEditor extends LightningElement {
         const usedElements = usedByStoreAndElementState(
             event.detail.screenElement.guid,
             parent.guid,
-            this.getAllScreenFields(state.fields)
+            getAllScreenFields(state.fields)
         );
         if (usedElements && usedElements.length > 0) {
             invokeUsedByAlertModal(usedElements, [event.detail.screenElement.guid], ELEMENT_TYPE.SCREEN_FIELD);
@@ -375,41 +376,6 @@ export default class ScreenEditor extends LightningElement {
     };
 
     /**
-     * Get all the fields from the screen state fields.
-     *
-     * @param {Array} fields screen state fields
-     * @returns {Array} all the screen fields
-     */
-    getAllScreenFields(fields) {
-        let allFields: any[] = [];
-        fields.forEach((field) => {
-            allFields = [...allFields, ...this.flattenScreenFields(field)];
-        });
-        return [...fields, ...allFields];
-    }
-
-    /**
-     * Recursively flatten the screen field elements.
-     *
-     * @param {Object} screenField The screen field
-     * @returns {Array} all the screen fields after the flatten
-     */
-    flattenScreenFields(screenField) {
-        if (!screenField) {
-            return [];
-        }
-        const allFields: any[] = [];
-        const fields = screenField.fields;
-        if (fields) {
-            fields.forEach((field) => {
-                allFields.push(field);
-                allFields.push(...this.flattenScreenFields(field));
-            });
-        }
-        return allFields;
-    }
-
-    /**
      * Handler for screen state changed events
      *
      * @param {event} event - The event
@@ -454,7 +420,7 @@ export default class ScreenEditor extends LightningElement {
         const usedByElements = usedByStoreAndElementState(
             screenElement.guid,
             this.screen.guid,
-            this.getAllScreenFields(this.screen.fields)
+            getAllScreenFields(this.screen.fields)
         );
         if (this.isWarningNeeded(usedByElements, screenElement, newDisplayType)) {
             invokeUsedByAlertModal(usedByElements, [screenElement.guid], ELEMENT_TYPE.CHOICE);

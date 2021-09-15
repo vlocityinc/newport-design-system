@@ -758,5 +758,940 @@ export const elementsForPropertyEditors = {
                 error: null
             }
         }
+    },
+    ScreenWithSection: {
+        guid: '5114b9f1-31d0-4d80-a988-50fa057294c1',
+        name: {
+            value: 'ScreenWithSection',
+            error: null
+        },
+        description: {
+            value: '',
+            error: null
+        },
+        label: {
+            value: 'ScreenWithSection',
+            error: null
+        },
+        locationX: 161,
+        locationY: 637,
+        isCanvasElement: true,
+        connectorCount: 0,
+        config: {
+            isSelected: false,
+            isHighlighted: false,
+            isSelectable: true,
+            hasError: false
+        },
+        canHaveFaultConnector: false,
+        allowHelp: false,
+        pauseMessageType: {
+            value: 'standard',
+            error: null
+        },
+        helpText: {
+            value: '',
+            error: null
+        },
+        pausedText: {
+            value: '',
+            error: null
+        },
+        showFooter: true,
+        showHeader: true,
+        nextOrFinishLabel: {
+            value: null,
+            error: null
+        },
+        nextOrFinishLabelType: {
+            value: 'standard',
+            error: null
+        },
+        backLabel: {
+            value: null,
+            error: null
+        },
+        backLabelType: {
+            value: 'standard',
+            error: null
+        },
+        pauseLabel: {
+            value: null,
+            error: null
+        },
+        pauseLabelType: {
+            value: 'standard',
+            error: null
+        },
+        fields: [
+            {
+                guid: '5a519501-1819-4874-a19d-3f964a138b2b',
+                name: {
+                    value: 'ScreenWithSection_Section1',
+                    error: null
+                },
+                choiceReferences: [],
+                defaultValue: {
+                    value: '',
+                    error: null
+                },
+                defaultValueIndex: {
+                    value: '34c2635d-312f-482e-8354-6074fccf7fa8',
+                    error: null
+                },
+                validationRule: {
+                    formulaExpression: {
+                        value: null,
+                        error: null
+                    },
+                    errorMessage: {
+                        value: null,
+                        error: null
+                    }
+                },
+                fieldType: 'RegionContainer',
+                fieldText: {
+                    value: '',
+                    error: null
+                },
+                helpText: {
+                    value: '',
+                    error: null
+                },
+                inputParameters: [],
+                isNewField: false,
+                isRequired: false,
+                outputParameters: [],
+                scale: {
+                    value: '0',
+                    error: null
+                },
+                type: {
+                    name: 'Section',
+                    fieldType: 'RegionContainer',
+                    label: 'FlowBuilderScreenEditor.fieldTypeLabelSection',
+                    icon: 'standard:section',
+                    category: 'FlowBuilderScreenEditor.fieldCategoryDisplay',
+                    description: 'FlowBuilderScreenEditor.fieldTypeDescriptionSection'
+                },
+                elementType: 'SCREEN_FIELD',
+                visibilityRule: {
+                    conditions: [],
+                    conditionLogic: {
+                        value: 'no_conditions',
+                        error: null
+                    }
+                },
+                fields: [
+                    {
+                        guid: '12a6ba74-604b-4f52-b6ea-56a3eece9919',
+                        name: {
+                            value: 'ScreenWithSection_Section1_Column1',
+                            error: null
+                        },
+                        choiceReferences: [],
+                        defaultValue: {
+                            value: '',
+                            error: null
+                        },
+                        defaultValueIndex: {
+                            value: '337b5789-e021-4e7b-ab5d-582c80803cca',
+                            error: null
+                        },
+                        validationRule: {
+                            formulaExpression: {
+                                value: null,
+                                error: null
+                            },
+                            errorMessage: {
+                                value: null,
+                                error: null
+                            }
+                        },
+                        fieldType: 'Region',
+                        fieldText: {
+                            value: '',
+                            error: null
+                        },
+                        helpText: {
+                            value: '',
+                            error: null
+                        },
+                        inputParameters: [
+                            {
+                                rowIndex: '402e3689-0dfb-44a0-8fea-b43c63293cd6',
+                                name: {
+                                    value: 'width',
+                                    error: null
+                                },
+                                value: {
+                                    value: '12',
+                                    error: null
+                                },
+                                valueDataType: 'String',
+                                subtype: {
+                                    value: '',
+                                    error: null
+                                },
+                                isCollection: false
+                            }
+                        ],
+                        isNewField: false,
+                        isRequired: false,
+                        outputParameters: [],
+                        scale: {
+                            value: '0',
+                            error: null
+                        },
+                        type: {
+                            name: 'Column',
+                            fieldType: 'Region'
+                        },
+                        elementType: 'SCREEN_FIELD',
+                        visibilityRule: {
+                            conditions: [],
+                            conditionLogic: {
+                                value: 'no_conditions',
+                                error: null
+                            }
+                        },
+                        fields: [
+                            {
+                                guid: 'cb2c1f94-a09d-4690-9c2b-1a2f37e16dbb',
+                                name: {
+                                    value: 'slider_1',
+                                    error: null
+                                },
+                                choiceReferences: [],
+                                dataType: 'LightningComponentOutput',
+                                defaultValue: {
+                                    value: '',
+                                    error: null
+                                },
+                                defaultValueIndex: {
+                                    value: '23a963ec-f168-4151-804b-9541689dc879',
+                                    error: null
+                                },
+                                validationRule: {
+                                    formulaExpression: {
+                                        value: null,
+                                        error: null
+                                    },
+                                    errorMessage: {
+                                        value: null,
+                                        error: null
+                                    }
+                                },
+                                extensionName: {
+                                    value: 'flowruntime:slider',
+                                    error: null
+                                },
+                                fieldType: 'ComponentInstance',
+                                fieldText: {
+                                    value: '',
+                                    error: null
+                                },
+                                helpText: {
+                                    value: '',
+                                    error: null
+                                },
+                                inputParameters: [
+                                    {
+                                        rowIndex: '2329aa7a-2605-400b-b066-a773bd8633f6',
+                                        name: {
+                                            value: 'label',
+                                            error: null
+                                        },
+                                        value: {
+                                            value: 'slider_1',
+                                            error: null
+                                        },
+                                        valueDataType: 'String',
+                                        subtype: {
+                                            value: '',
+                                            error: null
+                                        },
+                                        isCollection: false
+                                    }
+                                ],
+                                isNewField: false,
+                                isRequired: true,
+                                outputParameters: [],
+                                scale: {
+                                    value: '0',
+                                    error: null
+                                },
+                                type: {
+                                    name: 'flowruntime:slider',
+                                    fieldType: 'ComponentInstance',
+                                    label: 'flowruntime:slider',
+                                    icon: 'standard:lightning_component',
+                                    source: 'local'
+                                },
+                                elementType: 'SCREEN_FIELD',
+                                visibilityRule: {
+                                    conditions: [],
+                                    conditionLogic: {
+                                        value: 'no_conditions',
+                                        error: null
+                                    }
+                                },
+                                fields: [],
+                                inputsOnNextNavToAssocScrn: 'UseStoredValues',
+                                dynamicTypeMappings: [],
+                                storeOutputAutomatically: true
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                guid: 'd08b12f4-ac7b-4cb4-a3ff-621131fc450f',
+                name: {
+                    value: 'number_2',
+                    error: null
+                },
+                choiceReferences: [],
+                dataType: 'Number',
+                defaultValue: {
+                    value: '',
+                    error: null
+                },
+                defaultValueIndex: {
+                    value: '83d39edd-dc5c-43e8-b58b-999c0c6efcbc',
+                    error: null
+                },
+                validationRule: {
+                    formulaExpression: {
+                        value: null,
+                        error: null
+                    },
+                    errorMessage: {
+                        value: null,
+                        error: null
+                    }
+                },
+                fieldType: 'InputField',
+                fieldText: {
+                    value: 'number_2',
+                    error: null
+                },
+                helpText: {
+                    value: '',
+                    error: null
+                },
+                inputParameters: [],
+                isNewField: false,
+                isRequired: false,
+                outputParameters: [],
+                scale: {
+                    value: '0',
+                    error: null
+                },
+                type: {
+                    name: 'Number',
+                    fieldType: 'InputField',
+                    dataType: 'Number',
+                    label: 'FlowBuilderScreenEditor.fieldTypeLabelNumber',
+                    icon: 'standard:number_input',
+                    category: 'FlowBuilderScreenEditor.fieldCategoryInput',
+                    type: 'Number'
+                },
+                elementType: 'SCREEN_FIELD',
+                visibilityRule: {
+                    conditions: [],
+                    conditionLogic: {
+                        value: 'no_conditions',
+                        error: null
+                    }
+                },
+                fields: []
+            },
+            {
+                guid: '1ac79856-9d88-4a1f-b51b-099537bd458c',
+                name: {
+                    value: 'ScreenWithSection_Section2',
+                    error: null
+                },
+                choiceReferences: [],
+                defaultValue: {
+                    value: '',
+                    error: null
+                },
+                defaultValueIndex: {
+                    value: '497e601c-a901-4061-86c7-0852b1c9dd33',
+                    error: null
+                },
+                validationRule: {
+                    formulaExpression: {
+                        value: null,
+                        error: null
+                    },
+                    errorMessage: {
+                        value: null,
+                        error: null
+                    }
+                },
+                fieldType: 'RegionContainer',
+                fieldText: {
+                    value: '',
+                    error: null
+                },
+                helpText: {
+                    value: '',
+                    error: null
+                },
+                inputParameters: [],
+                isNewField: false,
+                isRequired: false,
+                outputParameters: [],
+                scale: {
+                    value: '0',
+                    error: null
+                },
+                type: {
+                    name: 'Section',
+                    fieldType: 'RegionContainer',
+                    label: 'FlowBuilderScreenEditor.fieldTypeLabelSection',
+                    icon: 'standard:section',
+                    category: 'FlowBuilderScreenEditor.fieldCategoryDisplay',
+                    description: 'FlowBuilderScreenEditor.fieldTypeDescriptionSection'
+                },
+                elementType: 'SCREEN_FIELD',
+                visibilityRule: {
+                    conditions: [],
+                    conditionLogic: {
+                        value: 'no_conditions',
+                        error: null
+                    }
+                },
+                fields: [
+                    {
+                        guid: 'b1ccd7d0-6210-4c95-a3c8-1e01ef242a3f',
+                        name: {
+                            value: 'ScreenWithSection_Section2_Column1',
+                            error: null
+                        },
+                        choiceReferences: [],
+                        defaultValue: {
+                            value: '',
+                            error: null
+                        },
+                        defaultValueIndex: {
+                            value: '8eff1e35-f996-490c-b2f1-f981186f4092',
+                            error: null
+                        },
+                        validationRule: {
+                            formulaExpression: {
+                                value: null,
+                                error: null
+                            },
+                            errorMessage: {
+                                value: null,
+                                error: null
+                            }
+                        },
+                        fieldType: 'Region',
+                        fieldText: {
+                            value: '',
+                            error: null
+                        },
+                        helpText: {
+                            value: '',
+                            error: null
+                        },
+                        inputParameters: [
+                            {
+                                rowIndex: '44c3a9ec-e8ee-43ce-9f4e-71048c744dfb',
+                                name: {
+                                    value: 'width',
+                                    error: null
+                                },
+                                value: {
+                                    value: '6',
+                                    error: null
+                                },
+                                valueDataType: 'String',
+                                subtype: {
+                                    value: '',
+                                    error: null
+                                },
+                                isCollection: false
+                            }
+                        ],
+                        isNewField: false,
+                        isRequired: false,
+                        outputParameters: [],
+                        scale: {
+                            value: '0',
+                            error: null
+                        },
+                        type: {
+                            name: 'Column',
+                            fieldType: 'Region'
+                        },
+                        elementType: 'SCREEN_FIELD',
+                        visibilityRule: {
+                            conditions: [],
+                            conditionLogic: {
+                                value: 'no_conditions',
+                                error: null
+                            }
+                        },
+                        fields: [
+                            {
+                                guid: '1562fcaa-21e3-4ab7-9950-bd34c7c5c444',
+                                name: {
+                                    value: 'text_2',
+                                    error: null
+                                },
+                                choiceReferences: [],
+                                dataType: 'String',
+                                defaultValue: {
+                                    value: '',
+                                    error: null
+                                },
+                                defaultValueIndex: {
+                                    value: 'd4fae3cf-4fd2-443f-89d2-9c4f7e72deb4',
+                                    error: null
+                                },
+                                validationRule: {
+                                    formulaExpression: {
+                                        value: null,
+                                        error: null
+                                    },
+                                    errorMessage: {
+                                        value: null,
+                                        error: null
+                                    }
+                                },
+                                fieldType: 'InputField',
+                                fieldText: {
+                                    value: 'text_2',
+                                    error: null
+                                },
+                                helpText: {
+                                    value: '',
+                                    error: null
+                                },
+                                inputParameters: [],
+                                isNewField: false,
+                                isRequired: false,
+                                outputParameters: [],
+                                scale: {
+                                    value: '0',
+                                    error: null
+                                },
+                                type: {
+                                    name: 'TextBox',
+                                    fieldType: 'InputField',
+                                    dataType: 'String',
+                                    label: 'FlowBuilderScreenEditor.fieldTypeLabelTextField',
+                                    icon: 'standard:textbox',
+                                    category: 'FlowBuilderScreenEditor.fieldCategoryInput',
+                                    type: 'String'
+                                },
+                                elementType: 'SCREEN_FIELD',
+                                visibilityRule: {
+                                    conditions: [],
+                                    conditionLogic: {
+                                        value: 'no_conditions',
+                                        error: null
+                                    }
+                                },
+                                fields: []
+                            },
+                            {
+                                guid: '51dd4b43-d68c-4aee-a601-12c30e7c926f',
+                                name: {
+                                    value: 'dateTimeInSection',
+                                    error: null
+                                },
+                                choiceReferences: [],
+                                dataType: 'DateTime',
+                                defaultValue: {
+                                    value: '$System.OriginDateTime',
+                                    error: null
+                                },
+                                defaultValueDataType: 'reference',
+                                defaultValueIndex: {
+                                    value: '8712ca46-d9c0-49ba-9641-bd15e2d1dcbe',
+                                    error: null
+                                },
+                                validationRule: {
+                                    formulaExpression: {
+                                        value: null,
+                                        error: null
+                                    },
+                                    errorMessage: {
+                                        value: null,
+                                        error: null
+                                    }
+                                },
+                                fieldType: 'InputField',
+                                fieldText: {
+                                    value: 'dateTimeInSection',
+                                    error: null
+                                },
+                                helpText: {
+                                    value: '',
+                                    error: null
+                                },
+                                inputParameters: [],
+                                isNewField: false,
+                                isRequired: false,
+                                outputParameters: [],
+                                scale: {
+                                    value: '0',
+                                    error: null
+                                },
+                                type: {
+                                    name: 'DateTime',
+                                    fieldType: 'InputField',
+                                    dataType: 'DateTime',
+                                    label: 'FlowBuilderScreenEditor.fieldTypeLabelDateTime',
+                                    icon: 'standard:date_time',
+                                    category: 'FlowBuilderScreenEditor.fieldCategoryInput',
+                                    type: 'DateTime'
+                                },
+                                elementType: 'SCREEN_FIELD',
+                                visibilityRule: {
+                                    conditions: [],
+                                    conditionLogic: {
+                                        value: 'no_conditions',
+                                        error: null
+                                    }
+                                },
+                                fields: []
+                            }
+                        ]
+                    },
+                    {
+                        guid: '5bea7404-f581-4e0a-8ff3-701b3bfa7e5c',
+                        name: {
+                            value: 'ScreenWithSection_Section2_Column2',
+                            error: null
+                        },
+                        choiceReferences: [],
+                        defaultValue: {
+                            value: '',
+                            error: null
+                        },
+                        defaultValueIndex: {
+                            value: '1181502b-7460-4f6a-b7ef-6e4851d39430',
+                            error: null
+                        },
+                        validationRule: {
+                            formulaExpression: {
+                                value: null,
+                                error: null
+                            },
+                            errorMessage: {
+                                value: null,
+                                error: null
+                            }
+                        },
+                        fieldType: 'Region',
+                        fieldText: {
+                            value: '',
+                            error: null
+                        },
+                        helpText: {
+                            value: '',
+                            error: null
+                        },
+                        inputParameters: [
+                            {
+                                rowIndex: '7b60da07-b6e5-4fb4-a895-3328fbd7983f',
+                                name: {
+                                    value: 'width',
+                                    error: null
+                                },
+                                value: {
+                                    value: '6',
+                                    error: null
+                                },
+                                valueDataType: 'String',
+                                subtype: {
+                                    value: '',
+                                    error: null
+                                },
+                                isCollection: false
+                            }
+                        ],
+                        isNewField: false,
+                        isRequired: false,
+                        outputParameters: [],
+                        scale: {
+                            value: '0',
+                            error: null
+                        },
+                        type: {
+                            name: 'Column',
+                            fieldType: 'Region'
+                        },
+                        elementType: 'SCREEN_FIELD',
+                        visibilityRule: {
+                            conditions: [],
+                            conditionLogic: {
+                                value: 'no_conditions',
+                                error: null
+                            }
+                        },
+                        fields: [
+                            {
+                                guid: '073edaa5-eb09-4bc8-9f20-43c320d56d18',
+                                name: {
+                                    value: 'email_2',
+                                    error: null
+                                },
+                                choiceReferences: [],
+                                dataType: 'LightningComponentOutput',
+                                defaultValue: {
+                                    value: '',
+                                    error: null
+                                },
+                                defaultValueIndex: {
+                                    value: '4297d5ea-aed3-421e-a33b-e988e84d10ac',
+                                    error: null
+                                },
+                                validationRule: {
+                                    formulaExpression: {
+                                        value: null,
+                                        error: null
+                                    },
+                                    errorMessage: {
+                                        value: null,
+                                        error: null
+                                    }
+                                },
+                                extensionName: {
+                                    value: 'flowruntime:email',
+                                    error: null
+                                },
+                                fieldType: 'ComponentInstance',
+                                fieldText: {
+                                    value: '',
+                                    error: null
+                                },
+                                helpText: {
+                                    value: '',
+                                    error: null
+                                },
+                                inputParameters: [
+                                    {
+                                        rowIndex: '4b0617d9-3abe-42ab-8ed4-ab1e5944d884',
+                                        name: {
+                                            value: 'label',
+                                            error: null
+                                        },
+                                        value: {
+                                            value: 'email_2',
+                                            error: null
+                                        },
+                                        valueDataType: 'String',
+                                        subtype: {
+                                            value: '',
+                                            error: null
+                                        },
+                                        isCollection: false
+                                    }
+                                ],
+                                isNewField: false,
+                                isRequired: true,
+                                outputParameters: [],
+                                scale: {
+                                    value: '0',
+                                    error: null
+                                },
+                                type: {
+                                    name: 'flowruntime:email',
+                                    fieldType: 'ComponentInstance',
+                                    label: 'flowruntime:email',
+                                    icon: 'standard:lightning_component',
+                                    source: 'local'
+                                },
+                                elementType: 'SCREEN_FIELD',
+                                visibilityRule: {
+                                    conditions: [],
+                                    conditionLogic: {
+                                        value: 'no_conditions',
+                                        error: null
+                                    }
+                                },
+                                fields: [],
+                                inputsOnNextNavToAssocScrn: 'UseStoredValues',
+                                dynamicTypeMappings: [],
+                                storeOutputAutomatically: true
+                            },
+                            {
+                                guid: '852e1dd4-eb4e-48a7-8319-977137281a8d',
+                                name: {
+                                    value: 'accounts',
+                                    error: null
+                                },
+                                choiceReferences: [
+                                    {
+                                        choiceReference: {
+                                            value: 'd2f9a0fc-fe13-46d4-8916-ff2aafd35cda',
+                                            error: null
+                                        }
+                                    },
+                                    {
+                                        choiceReference: {
+                                            value: '86488742-59ae-41c6-81c5-df64825d4c6b',
+                                            error: null
+                                        }
+                                    }
+                                ],
+                                dataType: 'String',
+                                defaultValue: {
+                                    value: '',
+                                    error: null
+                                },
+                                defaultValueIndex: {
+                                    value: '329f0584-f250-4be0-a094-4060ca2ca6f3',
+                                    error: null
+                                },
+                                validationRule: {
+                                    formulaExpression: {
+                                        value: null,
+                                        error: null
+                                    },
+                                    errorMessage: {
+                                        value: null,
+                                        error: null
+                                    }
+                                },
+                                fieldType: 'DropdownBox',
+                                fieldText: {
+                                    value: 'Accounts',
+                                    error: null
+                                },
+                                helpText: {
+                                    value: '',
+                                    error: null
+                                },
+                                inputParameters: [],
+                                isNewField: false,
+                                isRequired: true,
+                                outputParameters: [],
+                                scale: {
+                                    value: '0',
+                                    error: null
+                                },
+                                type: {
+                                    name: 'DropdownBox',
+                                    fieldType: 'DropdownBox',
+                                    dataType: 'String',
+                                    label: 'FlowBuilderScreenEditor.fieldTypeLabelPicklist',
+                                    icon: 'standard:picklist_type',
+                                    category: 'FlowBuilderScreenEditor.fieldCategoryInput'
+                                },
+                                elementType: 'SCREEN_FIELD',
+                                visibilityRule: {
+                                    conditions: [
+                                        {
+                                            rowIndex: 'babb725d-f89c-45e7-bf59-453c06cbfff1',
+                                            leftHandSide: {
+                                                value: 'cb2c1f94-a09d-4690-9c2b-1a2f37e16dbb.value',
+                                                error: null
+                                            },
+                                            rightHandSide: {
+                                                value: '50',
+                                                error: null
+                                            },
+                                            rightHandSideDataType: {
+                                                value: 'Number',
+                                                error: null
+                                            },
+                                            operator: {
+                                                value: 'GreaterThanOrEqualTo',
+                                                error: null
+                                            }
+                                        }
+                                    ],
+                                    conditionLogic: {
+                                        value: 'and',
+                                        error: null
+                                    }
+                                },
+                                fields: [],
+                                singleOrMultiSelect: 'SingleSelect'
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                guid: '35467ed7-75b9-4c62-b04a-6a0df25679a5',
+                name: {
+                    value: 'address_2',
+                    error: null
+                },
+                choiceReferences: [],
+                dataType: 'LightningComponentOutput',
+                defaultValue: {
+                    value: '',
+                    error: null
+                },
+                defaultValueIndex: {
+                    value: '452ba7ae-00a1-46ea-a315-a63aa41d1b32',
+                    error: null
+                },
+                validationRule: {
+                    formulaExpression: {
+                        value: null,
+                        error: null
+                    },
+                    errorMessage: {
+                        value: null,
+                        error: null
+                    }
+                },
+                extensionName: {
+                    value: 'flowruntime:address',
+                    error: null
+                },
+                fieldType: 'ComponentInstance',
+                fieldText: {
+                    value: '',
+                    error: null
+                },
+                helpText: {
+                    value: '',
+                    error: null
+                },
+                inputParameters: [],
+                isNewField: false,
+                isRequired: true,
+                outputParameters: [],
+                scale: {
+                    value: '0',
+                    error: null
+                },
+                type: {
+                    name: 'flowruntime:address',
+                    fieldType: 'ComponentInstance',
+                    label: 'flowruntime:address',
+                    icon: 'standard:lightning_component',
+                    source: 'local'
+                },
+                elementType: 'SCREEN_FIELD',
+                visibilityRule: {
+                    conditions: [],
+                    conditionLogic: {
+                        value: 'no_conditions',
+                        error: null
+                    }
+                },
+                fields: [],
+                inputsOnNextNavToAssocScrn: 'UseStoredValues',
+                dynamicTypeMappings: [],
+                storeOutputAutomatically: true
+            }
+        ],
+        maxConnections: 1,
+        elementType: 'Screen'
     }
 };
