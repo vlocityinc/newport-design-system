@@ -156,6 +156,24 @@
                 >
                 </lightning-button>
                 <lightning-button
+                    if:true={showAddToTestButton}
+                    label={labels.addToTestTitle}
+                    title={labels.addToTestTitle}
+                    onclick={handleAddToTest}
+                    class="test-toolbar-addToTest"
+                >
+                </lightning-button>
+                <!--since run test is a hack for 236 keep
+                disabled till service is ready-->
+                <lightning-button
+                    if:true={showRunTestButton}
+                    label={labels.runTestTitle}
+                    title={labels.runTestTitle}
+                    disabled="true"
+                >
+                </lightning-button>
+
+                <lightning-button
                     if:true={showNewDebugButton}
                     label={labels.newdebugTitle}
                     title={labels.newdebugTitle}

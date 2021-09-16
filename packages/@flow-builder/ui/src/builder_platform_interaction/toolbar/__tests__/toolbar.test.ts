@@ -11,6 +11,7 @@ import {
     EditFlowEvent,
     ToggleCanvasModeEvent,
     NewDebugFlowEvent,
+    AddToFlowTestEvent,
     RestartDebugFlowEvent,
     DebugFlowEvent
 } from 'builder_platform_interaction/events';
@@ -41,7 +42,8 @@ const createComponentUnderTest = (props = {}) => {
         showCanvasModeCombobox: getPropertyOrDefaultToTrue(props, 'showCanvasModeCombobox'),
         showFlowStatus: getPropertyOrDefaultToTrue(props, 'showFlowStatus'),
         showRunButton: getPropertyOrDefaultToTrue(props, 'showRunButton'),
-        showDebugButton: getPropertyOrDefaultToTrue(props, 'showDebugButton')
+        showDebugButton: getPropertyOrDefaultToTrue(props, 'showDebugButton'),
+        showAddToTestButton: getPropertyOrDefaultToTrue(props, 'showAddToTestButton')
     });
 
     setDocumentBodyChildren(el);
@@ -64,7 +66,8 @@ const SELECTORS = {
     editFlow: '.test-toolbar-editflow',
     debug: '.test-toolbar-debug',
     newDebug: '.test-toolbar-newdebug',
-    restartRun: '.test-toolbar-restartrun'
+    restartRun: '.test-toolbar-restartrun',
+    addToTest: '.test-toolbar-addToTest'
 };
 
 jest.mock('builder_platform_interaction/dateTimeUtils', () => ({
@@ -171,6 +174,27 @@ describe('toolbar', () => {
         toolbarComponent.addEventListener(NewDebugFlowEvent.EVENT_NAME, eventCallback);
         const newDebug = toolbarComponent.shadowRoot.querySelector(SELECTORS.newDebug);
         newDebug.click();
+        expect(eventCallback).toHaveBeenCalled();
+    });
+
+    it('Add to test button should not be present if showAddToTestButton button api property is not set', () => {
+        const toolbarComponent = createComponentUnderTest({ showAddToTestButton: false });
+        const addToTest = toolbarComponent.shadowRoot.querySelector(SELECTORS.addToTest);
+        expect(addToTest).toBeNull();
+    });
+
+    it('Add to test button should be present if showAddToTestButton button api property is set', () => {
+        const toolbarComponent = createComponentUnderTest({ showAddToTestButton: true });
+        const addToTest = toolbarComponent.shadowRoot.querySelector(SELECTORS.addToTest);
+        expect(addToTest).not.toBeNull();
+    });
+
+    it('Add to Test button should fire the add to test event if clicked', () => {
+        const toolbarComponent = createComponentUnderTest({ showAddToTestButton: true });
+        const eventCallback = jest.fn();
+        toolbarComponent.addEventListener(AddToFlowTestEvent.EVENT_NAME, eventCallback);
+        const addToTest = toolbarComponent.shadowRoot.querySelector(SELECTORS.addToTest);
+        addToTest.click();
         expect(eventCallback).toHaveBeenCalled();
     });
 

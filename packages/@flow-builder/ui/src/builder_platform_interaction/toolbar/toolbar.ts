@@ -15,7 +15,8 @@ import {
     ClosePropertyEditorEvent,
     NewDebugFlowEvent,
     RestartDebugFlowEvent,
-    ToggleCanvasModeEvent
+    ToggleCanvasModeEvent,
+    AddToFlowTestEvent
 } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
@@ -111,6 +112,12 @@ export default class Toolbar extends LightningElement {
 
     @api
     showDebugButton;
+
+    @api
+    showAddToTestButton;
+
+    @api
+    showRunTestButton;
 
     @api
     showRestartRunButton;
@@ -358,6 +365,13 @@ export default class Toolbar extends LightningElement {
         const newDebugFlowEvent = new NewDebugFlowEvent();
         this.dispatchEvent(newDebugFlowEvent);
         logInteraction(`new-debug-button`, 'toolbar', null, 'click');
+    }
+
+    handleAddToTest(event) {
+        event.preventDefault();
+        const addToFlowTestEvent = new AddToFlowTestEvent();
+        this.dispatchEvent(addToFlowTestEvent);
+        logInteraction(`add-to-test`, 'toolbar', null, 'click');
     }
 
     handleRestartDebug(event) {

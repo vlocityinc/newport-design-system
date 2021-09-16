@@ -1887,3 +1887,37 @@ describe('in debug mode', () => {
         });
     });
 });
+describe('in test mode', () => {
+    it('left panel is hidden', async () => {
+        expect.assertions(1);
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                componentConfigs: { [BUILDER_MODE.TEST_MODE]: { leftPanelConfig: { showLeftPanel: false } } }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.TEST_MODE);
+        await ticks(1);
+
+        const leftPanel = editorComponent.shadowRoot.querySelector(selectors.leftPanel);
+        expect(leftPanel).toBeNull();
+    });
+    it('right panel panel is displayed', async () => {
+        expect.assertions(2);
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderMode: 'testMode',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                componentConfigs: { [BUILDER_MODE.TEST_MODE]: { rightPanelConfig: { showDebugPanel: true } } }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.TEST_MODE);
+        await ticks(1);
+        const rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);
+        expect(rightPanel).not.toBeNull();
+        const debugPanel = editorComponent.shadowRoot.querySelector(selectors.DEBUG_PANEL);
+        expect(debugPanel).not.toBeNull();
+    });
+});

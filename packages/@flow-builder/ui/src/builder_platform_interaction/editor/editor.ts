@@ -657,6 +657,14 @@ export default class Editor extends LightningElement {
         return !!this.toolbarConfig.showDebugButton && this.properties.processType !== FLOW_PROCESS_TYPE.ORCHESTRATOR;
     }
 
+    get showAddToTestButton() {
+        return !!this.toolbarConfig.showAddToTestButton;
+    }
+
+    get showRunTestButton() {
+        return !!this.toolbarConfig.showRunTestButton;
+    }
+
     get showRunButton() {
         // Hardcoded to hide run button in Record-Triggered Orchestration
         // TODO:  W-8146747
@@ -1509,6 +1517,14 @@ export default class Editor extends LightningElement {
         } else {
             this.runOrDebugFlow(NEWDEBUG);
         }
+    };
+
+    /**
+     * handles the add to test flow event which changes the mode to become test mode
+     */
+    handleAddToTestFlow = () => {
+        this.builderMode = BUILDER_MODE.TEST_MODE;
+        // TODO server call for ETS once it is ready
     };
 
     /**
