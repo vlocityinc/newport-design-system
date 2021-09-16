@@ -195,7 +195,9 @@ export default class InvocableActionEditor extends LightningElement {
     }
 
     get dataTypeMappings() {
-        return this.invocableActionDescriptor ? this.actionCallNode.dataTypeMappings : [];
+        return this.invocableActionDescriptor && this.invocableActionGenericTypesDescriptor
+            ? this.actionCallNode.dataTypeMappings
+            : [];
     }
 
     get hasConfigurationEditor() {
