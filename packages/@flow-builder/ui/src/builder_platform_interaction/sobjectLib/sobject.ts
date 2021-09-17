@@ -92,10 +92,10 @@ export const getEntity = (apiName) => {
  */
 export const setWorkflowEnabledEntities = (orgWorkflowEnabledEntities = []) => {
     const workflowEnabledEntities: UI.EntityDefinition[] = [];
-    orgWorkflowEnabledEntities.forEach((entityApiName) => {
-        const entity = getEntity(entityApiName);
+    orgWorkflowEnabledEntities.forEach((enabledEntity: any) => {
+        const entity = getEntity(enabledEntity.QualifiedApiName);
         if (entity) {
-            workflowEnabledEntities.push(entity);
+            workflowEnabledEntities.push({ ...entity, durableId: enabledEntity.DurableId });
         }
     });
 

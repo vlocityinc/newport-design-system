@@ -52,6 +52,7 @@
         "^(builder_platform_interaction)/startNodeTriggerButton$": "<rootDir>/../ui/src/builder_platform_interaction/startNodeTriggerButton/startNodeTriggerButton",
         "^(builder_platform_interaction)/startNodeContextButton$": "<rootDir>/../ui/src/builder_platform_interaction/startNodeContextButton/startNodeContextButton",
         "^(builder_platform_interaction)/recordTriggerStartNode$": "<rootDir>/../ui/src/builder_platform_interaction/recordTriggerStartNode/recordTriggerStartNode",
+        "^(builder_platform_interaction)/startNodeFlowExplorerEntryPoint$": "<rootDir>/../ui/src/builder_platform_interaction/startNodeFlowExplorerEntryPoint/startNodeFlowExplorerEntryPoint",
         "^(builder_platform_interaction)/contextLib$": "<rootDir>/../ui/src/builder_platform_interaction/contextLib/contextLib",
         "^(builder_platform_interaction)/builderTestUtils/events$": "<rootDir>/../ui/src/builder_platform_interaction/builderTestUtils/events",
         "^(builder_platform_interaction)/builderTestUtils/commonTestUtils$": "<rootDir>/../ui/src/builder_platform_interaction/builderTestUtils/commonTestUtils",

@@ -226,6 +226,7 @@
             "builder_platform_interaction/stageStepEditor": ["./src/builder_platform_interaction/stageStepEditor/stageStepEditor.ts"],
             "builder_platform_interaction/stageStepMenu": ["./src/builder_platform_interaction/stageStepMenu/stageStepMenu.ts"],
             "builder_platform_interaction/startNodeContextButton": ["./src/builder_platform_interaction/startNodeContextButton/startNodeContextButton.ts"],
+            "builder_platform_interaction/startNodeFlowExplorerEntryPoint": ["./src/builder_platform_interaction/startNodeFlowExplorerEntryPoint/startNodeFlowExplorerEntryPoint.ts"],
             "builder_platform_interaction/startNodeScheduledPathButton": ["./src/builder_platform_interaction/startNodeScheduledPathButton/startNodeScheduledPathButton.ts"],
             "builder_platform_interaction/startNodeTriggerButton": ["./src/builder_platform_interaction/startNodeTriggerButton/startNodeTriggerButton.ts"],
             "builder_platform_interaction/statusIcon": ["./src/builder_platform_interaction/statusIcon/statusIcon.ts"],

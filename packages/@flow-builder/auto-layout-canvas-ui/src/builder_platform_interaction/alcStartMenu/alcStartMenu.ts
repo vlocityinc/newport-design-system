@@ -1,6 +1,6 @@
 import AlcNodeMenu from 'builder_platform_interaction/alcNodeMenu';
 import { api } from 'lwc';
-import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+import { commands, lwcUtils, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import {
     MoveFocusToNodeEvent,
     CloseMenuEvent,
@@ -14,11 +14,11 @@ const { ArrowDown, ArrowUp, TabCommand, EscapeCommand } = commands;
 const { KeyboardInteractions } = keyboardInteractionUtils;
 
 const selectors = {
-    alcMenu: 'builder_platform_interaction-alc-menu',
     triggerButton: 'builder_platform_interaction-start-node-trigger-button',
     contextButton: 'builder_platform_interaction-start-node-context-button',
     scheduledPathButton: 'builder_platform_interaction-start-node-scheduled-path-button',
-    recordTriggerButton: 'builder_platform_interaction-record-trigger-start-node'
+    recordTriggerButton: 'builder_platform_interaction-record-trigger-start-node',
+    flowExplorerOpenButton: 'builder_platform_interaction-start-node-flow-explorer-entry-point'
 };
 
 enum TabFocusRingItems {
@@ -27,6 +27,8 @@ enum TabFocusRingItems {
 }
 
 export default class AlcStartMenu extends AlcNodeMenu {
+    dom = lwcUtils.createDomProxy(this, selectors);
+
     @api
     startData;
 
@@ -57,11 +59,7 @@ export default class AlcStartMenu extends AlcNodeMenu {
 
     @api
     moveFocus = () => {
-        const alcMenu = this.template.querySelector(selectors.alcMenu);
-        const triggerButton = alcMenu.querySelector(selectors.triggerButton);
-        const contextButton = alcMenu.querySelector(selectors.contextButton);
-        const scheduledPathButton = alcMenu.querySelector(selectors.scheduledPathButton);
-        const recordTriggerButton = alcMenu.querySelector(selectors.recordTriggerButton);
+        const { triggerButton, contextButton, scheduledPathButton, recordTriggerButton } = this.dom;
         if (!triggerButton && !contextButton && !scheduledPathButton && !recordTriggerButton) {
             // close the menu when there's no rows in the menu
             this.dispatchEvent(new CloseMenuEvent());
@@ -88,8 +86,7 @@ export default class AlcStartMenu extends AlcNodeMenu {
     }
 
     firstButton() {
-        const triggerButton = this.template.querySelector(selectors.triggerButton);
-        const recordTriggerButton = this.template.querySelector(selectors.recordTriggerButton);
+        const { triggerButton, recordTriggerButton } = this.dom;
         return this.isRecordTriggeredFlow ? recordTriggerButton : triggerButton;
     }
 
@@ -100,12 +97,12 @@ export default class AlcStartMenu extends AlcNodeMenu {
     moveFocusToButton = (key, nextButton, prevButton) => {
         let nextFocusElement;
         // The focus should move from trigger button -> context button -> scheduled path button -> trigger button
-        // Or for record-triggered flow: record trigger button -> scheduled path button -> record trigger button
+        // Or for record-triggered flow: record trigger button -> scheduled path button -> flow explorer open button -> record trigger button
         if (key === ArrowDown.COMMAND_NAME) {
             nextFocusElement = nextButton || prevButton;
         }
         // The focus should move from trigger button -> scheduled path button -> context button  -> trigger button
-        // Or for record-triggered flow: record trigger button -> scheduled path button -> record trigger button
+        // Or for record-triggered flow: record trigger button -> flow explorer open button -> scheduled path button -> record trigger button
         if (key === ArrowUp.COMMAND_NAME) {
             nextFocusElement = prevButton || nextButton;
         }
@@ -124,8 +121,7 @@ export default class AlcStartMenu extends AlcNodeMenu {
      */
     handleTriggerButtonArrowKeyDown = (event) => {
         event.stopPropagation();
-        const contextButton = this.template.querySelector(selectors.contextButton);
-        const scheduledPathButton = this.template.querySelector(selectors.scheduledPathButton);
+        const { contextButton, scheduledPathButton } = this.dom;
 
         this.moveFocusToButton(event.detail.key, contextButton, scheduledPathButton);
     };
@@ -138,8 +134,7 @@ export default class AlcStartMenu extends AlcNodeMenu {
      */
     handleContextButtonArrowKeyDown = (event) => {
         event.stopPropagation();
-        const triggerButton = this.template.querySelector(selectors.triggerButton);
-        const scheduledPathButton = this.template.querySelector(selectors.scheduledPathButton);
+        const { triggerButton, scheduledPathButton } = this.dom;
 
         this.moveFocusToButton(event.detail.key, scheduledPathButton, triggerButton);
     };
@@ -152,11 +147,9 @@ export default class AlcStartMenu extends AlcNodeMenu {
      */
     handleScheduledPathButtonArrowKeyDown = (event) => {
         event.stopPropagation();
-        const triggerButton = this.template.querySelector(selectors.triggerButton);
-        const contextButton = this.template.querySelector(selectors.contextButton);
-        const recordTriggerButton = this.template.querySelector(selectors.recordTriggerButton);
+        const { triggerButton, contextButton, recordTriggerButton, flowExplorerOpenButton } = this.dom;
 
-        const nextButton = this.isRecordTriggeredFlow ? recordTriggerButton : triggerButton;
+        const nextButton = this.isRecordTriggeredFlow ? flowExplorerOpenButton : triggerButton;
         const prevButton = this.isRecordTriggeredFlow ? recordTriggerButton : contextButton;
 
         this.moveFocusToButton(event.detail.key, nextButton, prevButton);
@@ -170,9 +163,22 @@ export default class AlcStartMenu extends AlcNodeMenu {
      */
     handleRecordTriggerButtonArrowKeyDown = (event) => {
         event.stopPropagation();
-        const scheduledPathButton = this.template.querySelector(selectors.scheduledPathButton);
+        const { scheduledPathButton, flowExplorerOpenButton } = this.dom;
 
-        this.moveFocusToButton(event.detail.key, scheduledPathButton, scheduledPathButton);
+        this.moveFocusToButton(event.detail.key, scheduledPathButton, flowExplorerOpenButton);
+    };
+
+    /**
+     * Handles the ArrowKeyDownEvent coming from flow explorer open button and moves the focus correctly
+     * based on the arrow key pressed
+     *
+     * @param event - ArrowKeyDownEvent coming from start-node-flow-explorer-entry-point
+     */
+    handleFlowExplorerOpenButtonArrowKeyDown = (event) => {
+        event.stopPropagation();
+        const { scheduledPathButton, recordTriggerButton } = this.dom;
+
+        this.moveFocusToButton(event.detail.key, recordTriggerButton, scheduledPathButton);
     };
 
     tabFocusRingCmds = [

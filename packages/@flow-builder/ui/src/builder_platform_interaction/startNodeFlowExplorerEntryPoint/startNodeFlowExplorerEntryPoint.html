@@ -1,0 +1,16 @@
+<template>
+    <div class="slds-border_top">
+        <div
+            tabindex="0"
+            class="flow-explorer-entry-point button slds-p-vertical_x-small slds-p-horizontal_medium slds-truncate"
+            onclick={handleClick}
+        >
+            <lightning-icon
+                icon-name="utility:new_window"
+                class="slds-current-color slds-m-right_x-small"
+                size="xx-small"
+            ></lightning-icon>
+            <span class="label" title={entryPointLabel}>{entryPointLabel}</span>
+        </div>
+    </div>
+</template>

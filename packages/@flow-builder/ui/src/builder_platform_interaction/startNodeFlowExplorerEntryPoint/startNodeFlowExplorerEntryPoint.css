@@ -1,0 +1,18 @@
+.flow-explorer-entry-point {
+    background-color: white;
+    color: var(--lwc-brandAccessible, rgb(0, 112, 210));
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+}
+
+.flow-explorer-entry-point:active,
+.flow-explorer-entry-point:focus {
+    position: relative;
+    box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-colorBorderSelection), 0 0 6px 3px var(--lwc-colorBorderSelection);
+    outline: 0;
+}
+
+.flow-explorer-entry-point:hover {
+    background-color: var(--lwc-colorGray3);
+    cursor: pointer;
+}

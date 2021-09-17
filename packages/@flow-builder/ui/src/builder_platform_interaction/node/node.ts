@@ -15,7 +15,7 @@ import { LABELS } from './nodeLabels';
 import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
 import { isTestMode } from 'builder_platform_interaction/contextLib';
 import { clamp } from 'builder_platform_interaction/clampLib';
-import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { commonUtils, loggingUtils } from 'builder_platform_interaction/sharedUtils';
 
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
 
@@ -23,7 +23,7 @@ import startNode from './startNode.html';
 import nodeElement from './node.html';
 import { startElementDescription, isRecordTriggeredFlow } from 'builder_platform_interaction/alcCanvasUtils';
 import { shouldSupportScheduledPaths } from 'builder_platform_interaction/elementFactory';
-import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+
 const { format } = commonUtils;
 const { logInteraction } = loggingUtils;
 

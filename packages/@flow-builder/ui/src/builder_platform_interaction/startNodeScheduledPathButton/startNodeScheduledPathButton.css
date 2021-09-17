@@ -1,7 +1,5 @@
 .start-scheduled-path {
     background-color: white;
-    border-bottom-left-radius: 0.25rem;
-    border-bottom-right-radius: 0.25rem;
 }
 .start-scheduled-path:active,
 .start-scheduled-path:focus {

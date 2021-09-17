@@ -229,6 +229,7 @@ declare namespace UI {
         entityLabelPlural: string;
         queryable: boolean;
         updateable: boolean;
+        durableId?: string;
     };
 
     type StoredEntities = {
