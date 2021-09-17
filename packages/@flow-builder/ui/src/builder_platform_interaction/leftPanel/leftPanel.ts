@@ -27,7 +27,9 @@ let storeInstance;
 let unsubscribeStore;
 
 const selectors = {
-    tabset: 'lightning-tabset'
+    tabset: 'lightning-tabset',
+    backButton: 'lightning-button-icon',
+    leftPanelResources: 'builder_platform_interaction-left-panel-resources'
 };
 
 export default class LeftPanel extends LightningElement {
@@ -146,6 +148,7 @@ export default class LeftPanel extends LightningElement {
         const currentElementState = storeInstance.getCurrentState().elements[event.detail.elementGUID];
         this.retrieveResourceDetailsFromStore(currentElementState, !event.detail.canvasElement);
         this.showResourceDetailsPanel = true;
+        this.elementToFocus = this.dom.backButton;
     }
 
     handleAddNewResourceButtonClick = () => {
@@ -156,6 +159,8 @@ export default class LeftPanel extends LightningElement {
 
     handleResourceDetailsBackLinkClicked() {
         this.showResourceDetailsPanel = false;
+        const panelResources = this.dom.leftPanelResources;
+        panelResources.focus(this.resourceDetails.elementGuid);
     }
 
     handleDeleteButtonClicked() {
@@ -239,6 +244,9 @@ export default class LeftPanel extends LightningElement {
         if (this.elementToFocus != null) {
             this.elementToFocus.focus();
             this.elementToFocus = null;
+        }
+        if (this.showResourceDetailsPanel) {
+            this.dom.backButton.focus();
         }
     }
 

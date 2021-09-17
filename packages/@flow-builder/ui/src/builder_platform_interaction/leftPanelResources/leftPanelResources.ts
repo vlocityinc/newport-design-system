@@ -8,11 +8,25 @@ import { ShowResourceDetailsEvent } from 'builder_platform_interaction/events';
 const leftPanelResources = 'LEFT_PANEL_RESOURCES';
 const { logPerfTransactionStart, logPerfTransactionEnd } = loggingUtils;
 export default class LeftPanelResources extends LightningElement {
+    private elementToFocus: HTMLElement;
+
     @api
     canvasElements = [];
 
     @api
     nonCanvasElements = [];
+
+    @api focus(elementGuid) {
+        const palettes = this.template.querySelectorAll('builder_platform_interaction-palette');
+        for (const palette of palettes) {
+            const chevronElement = palette.findChevronElement(elementGuid);
+            if (chevronElement) {
+                this.elementToFocus = chevronElement.querySelector('.test-details-chevron-icon');
+                this.forceRender();
+                break;
+            }
+        }
+    }
 
     constructor() {
         super();
@@ -41,11 +55,24 @@ export default class LeftPanelResources extends LightningElement {
         });
     }
 
+    /**
+     * Force renders the components
+     */
+    forceRender() {
+        const nonCanvasElements = this.nonCanvasElements || [];
+        // clone the array to force a render cycle
+        this.nonCanvasElements = [...nonCanvasElements];
+    }
+
     renderedCallback() {
         logPerfTransactionEnd(leftPanelResources, {
             canvasElementsCount: this.canvasElements.length,
             nonCanvasElementsCount: this.nonCanvasElements.length
         });
+        if (this.elementToFocus != null) {
+            this.elementToFocus.focus();
+            this.elementToFocus = null;
+        }
     }
 
     handleNonCanvasElementChevronClicked(event) {

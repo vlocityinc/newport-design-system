@@ -18,6 +18,11 @@ export default class Palette extends LightningElement {
     @api showLocatorIcon;
 
     @api
+    findChevronElement(elementGuid) {
+        return this.template.querySelector('[data-key="' + elementGuid + '"]');
+    }
+
+    @api
     // eslint-disable-next-line @lwc/lwc/valid-api
     get data() {
         return this.rows;
