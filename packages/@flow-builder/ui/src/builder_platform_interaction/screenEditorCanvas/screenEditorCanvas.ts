@@ -32,7 +32,7 @@ export default class ScreenEditorCanvas extends LightningElement {
     @api flowLabel;
     @api screen;
     @api selectedItemGuid;
-    @api movedItemGuid; // guid of the item being moved with keyboard
+    movedItemGuid; // guid of the item being moved with keyboard
     destinationIndexForAriaText; // destination index, in case we're moving a component
     destinationColumnIndexForAriaText; // index of destination column, in case we're moving a component
     destinationSectionIndexForAriaText; // index of destination section, in case we're moving a component

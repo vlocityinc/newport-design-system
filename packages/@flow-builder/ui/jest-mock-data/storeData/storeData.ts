@@ -155,6 +155,10 @@ export const loopOnLocalActionSobjectCollInApexAutoOutput = getElementByName(
 export const deleteAccount = getElementByName('deleteAccount');
 export const deleteAccountWithFilters = getElementByName('deleteAccountWithFilters');
 export const screenWithSection = getElementByName('ScreenWithSection');
+export const section1 = getElementByName('ScreenWithSection_Section1');
+export const section2 = getElementByName('ScreenWithSection_Section2');
+export const section2Column1 = getElementByName('ScreenWithSection_Section2_Column1');
+export const section2Column2 = getElementByName('ScreenWithSection_Section2_Column2');
 export const screenWithAutomaticFields = getElementByName('screenWithAutomaticFields');
 export const accountVariableNameAutomaticField = getAutomaticFieldElement(
     'screenWithAutomaticFields',
@@ -173,6 +177,9 @@ export const address2 = getElementByName('address_2');
 export const email2 = getElementByName('email_2');
 export const displayTextUsingResources = getElementByName('displayTextUsingResources');
 export const slider1 = getElementByName('slider_1');
+export const number2 = getElementByName('number_2');
+export const text2 = getElementByName('text_2');
+export const dateTimeInSection = getElementByName('dateTimeInSection');
 export const screenFieldAccounts = getElementByName('accounts');
 export const screenFieldTextBoxSomeText = getElementByName('someText');
 

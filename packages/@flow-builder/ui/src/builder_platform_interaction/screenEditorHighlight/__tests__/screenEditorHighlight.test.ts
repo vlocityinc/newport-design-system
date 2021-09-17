@@ -16,7 +16,9 @@ import {
     CONTAINER_DIV_SELECTOR,
     VISIBILITY_ICON,
     VISIBILITY_ICON_CONTAINER,
-    HIGHLIGHT_DIV_HEADER
+    HIGHLIGHT_DIV_HEADER,
+    CANVAS_SCREEN_GUIDS,
+    ScreenCanvasKeyboardInteractions
 } from 'builder_platform_interaction/screenEditorUtils';
 import {
     flowWithAllElementsUIModel,
@@ -237,5 +239,360 @@ describe('Header (Icon/Visibility Icon/Badge)', () => {
                 }
             }
         );
+    });
+});
+
+describe('Keyboard interactions on a component', () => {
+    describe('Selecting a component with Enter', () => {
+        let highlight, highlightDiv;
+        beforeEach(() => {
+            highlight = createComponentForTest({
+                screenElement: screenFieldTextBoxSomeText
+            });
+            highlightDiv = getContainerDiv(highlight);
+        });
+        it('selecting component with Enter dispatches the correct event', () => {
+            const callback = jest.fn();
+            highlight.addEventListener(ScreenEditorEventName.ScreenElementSelected, callback);
+            const event = new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter' });
+            highlightDiv.dispatchEvent(event);
+            expect(callback).toHaveBeenCalled();
+        });
+        it('should not fire an event when already selected', () => {
+            highlight.selected = true;
+            const callback = jest.fn();
+            highlight.addEventListener(ScreenEditorEventName.ScreenElementSelected, callback);
+            const event = new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter' });
+            highlightDiv.dispatchEvent(event);
+            expect(callback).not.toHaveBeenCalled();
+        });
+        it('should not fire an event when in move mode', () => {
+            highlight.isInKeyboardReorderableMode = true;
+            const callback = jest.fn();
+            highlight.addEventListener(ScreenEditorEventName.ScreenElementSelected, callback);
+            const event = new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter' });
+            highlightDiv.dispatchEvent(event);
+            expect(callback).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('Deleting a component with Backspace key', () => {
+        let highlight, highlightDiv;
+        beforeEach(() => {
+            highlight = createComponentForTest({
+                screenElement: screenFieldTextBoxSomeText
+            });
+            highlightDiv = getContainerDiv(highlight);
+        });
+        it('deleting component with Backspace dispatches the correct event', () => {
+            const callback = jest.fn();
+            highlight.addEventListener(ScreenEditorEventName.ScreenElementDeleted, callback);
+            const event = new KeyboardEvent('keydown', { key: 'Backspace', code: 'Backspace' });
+            highlightDiv.dispatchEvent(event);
+            expect(callback).toHaveBeenCalled();
+        });
+        it('should not fire an event when in move mode', () => {
+            highlight.isInKeyboardReorderableMode = true;
+            const callback = jest.fn();
+            highlight.addEventListener(ScreenEditorEventName.ScreenElementSelected, callback);
+            const event = new KeyboardEvent('keydown', { key: 'Backspace', code: 'Backspace' });
+            highlightDiv.dispatchEvent(event);
+            expect(callback).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('Deleting a component with Delete key', () => {
+        let highlight, highlightDiv;
+        beforeEach(() => {
+            highlight = createComponentForTest({
+                screenElement: screenFieldTextBoxSomeText
+            });
+            highlightDiv = getContainerDiv(highlight);
+        });
+        it('deleting component with Delete dispatches the correct event', () => {
+            const callback = jest.fn();
+            highlight.addEventListener(ScreenEditorEventName.ScreenElementDeleted, callback);
+            const event = new KeyboardEvent('keydown', { key: 'Delete', code: 'Delete' });
+            highlightDiv.dispatchEvent(event);
+            expect(callback).toHaveBeenCalled();
+        });
+        it('should not fire an event when in move mode', () => {
+            highlight.isInKeyboardReorderableMode = true;
+            const callback = jest.fn();
+            highlight.addEventListener(ScreenEditorEventName.ScreenElementSelected, callback);
+            const event = new KeyboardEvent('keydown', { key: 'Delete', code: 'Delete' });
+            highlightDiv.dispatchEvent(event);
+            expect(callback).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('Entering / Exiting the move mode with Space key', () => {
+        let highlight, highlightDiv;
+        beforeEach(() => {
+            highlight = createComponentForTest({
+                screenElement: screenFieldTextBoxSomeText
+            });
+            highlightDiv = getContainerDiv(highlight);
+        });
+        it('Entering the move mode of a component dispatches the correct event', () => {
+            const callback = jest.fn();
+            highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
+            const event = new KeyboardEvent('keydown', { key: ' ', code: 'Space' });
+            highlightDiv.dispatchEvent(event);
+            expect(callback).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    detail: {
+                        sourceGuid: highlight.screenElement.guid,
+                        interaction: ScreenCanvasKeyboardInteractions.Start
+                    }
+                })
+            );
+        });
+        it("Does not dispatch event to enter move mode if it's a header component", () => {
+            const callback = jest.fn();
+            highlight.property = CANVAS_SCREEN_GUIDS.HEADER_GUID;
+            highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
+            const event = new KeyboardEvent('keydown', { key: ' ', code: 'Space' });
+            highlightDiv.dispatchEvent(event);
+            expect(callback).not.toHaveBeenCalled();
+        });
+
+        it("Does not dispatch event to enter move mode if it's a footer component", () => {
+            const callback = jest.fn();
+            highlight.property = CANVAS_SCREEN_GUIDS.FOOTER_GUID;
+            highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
+            const event = new KeyboardEvent('keydown', { key: ' ', code: 'Space' });
+            highlightDiv.dispatchEvent(event);
+            expect(callback).not.toHaveBeenCalled();
+        });
+        it('Exiting the move mode of a component dispatches the correct event', () => {
+            highlight.isInKeyboardReorderableMode = true;
+            const callback = jest.fn();
+            highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
+            const event = new KeyboardEvent('keydown', { key: ' ', code: 'Space' });
+            highlightDiv.dispatchEvent(event);
+            expect(callback).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    detail: {
+                        sourceGuid: highlight.screenElement.guid,
+                        interaction: ScreenCanvasKeyboardInteractions.Stop
+                    }
+                })
+            );
+        });
+    });
+
+    describe('Canceling the current move with Escape key', () => {
+        let highlight, highlightDiv;
+        beforeEach(() => {
+            highlight = createComponentForTest({
+                screenElement: screenFieldTextBoxSomeText
+            });
+            highlightDiv = getContainerDiv(highlight);
+        });
+        it('Canceling dispatches the correct event if in move mode', () => {
+            highlight.isInKeyboardReorderableMode = true;
+            const callback = jest.fn();
+            highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
+            const event = new KeyboardEvent('keydown', { key: 'Escape', code: 'Escape' });
+            highlightDiv.dispatchEvent(event);
+            expect(callback).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    detail: {
+                        sourceGuid: highlight.screenElement.guid,
+                        interaction: ScreenCanvasKeyboardInteractions.Cancel
+                    }
+                })
+            );
+        });
+        it('Should not fire an event to cancel if not in move mode', () => {
+            highlight.isInKeyboardReorderableMode = false;
+            const callback = jest.fn();
+            highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
+            const event = new KeyboardEvent('keydown', { key: 'Escape', code: 'Escape' });
+            highlightDiv.dispatchEvent(event);
+            expect(callback).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('Putting focus on a component', () => {
+        let highlight, highlightDiv;
+        beforeEach(() => {
+            highlight = createComponentForTest({
+                screenElement: screenFieldTextBoxSomeText
+            });
+            highlightDiv = getContainerDiv(highlight);
+        });
+        it('Dispatches the correct event if not in move mode', () => {
+            highlight.isInKeyboardReorderableMode = false;
+            const callback = jest.fn();
+            highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
+            highlightDiv.focus();
+            expect(callback).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    detail: {
+                        sourceGuid: highlight.screenElement.guid,
+                        interaction: ScreenCanvasKeyboardInteractions.Focus
+                    }
+                })
+            );
+        });
+        it('Should not fire an event if in move mode', () => {
+            highlight.isInKeyboardReorderableMode = true;
+            const callback = jest.fn();
+            highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
+            highlightDiv.focus();
+            expect(callback).not.toHaveBeenCalled();
+        });
+        it('Should not fire an event if component is header', () => {
+            highlight.isInKeyboardReorderableMode = false;
+            highlight.property = CANVAS_SCREEN_GUIDS.HEADER_GUID;
+            const callback = jest.fn();
+            highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
+            highlightDiv.focus();
+            expect(callback).not.toHaveBeenCalled();
+        });
+        it('Should not fire an event if component is footer', () => {
+            highlight.isInKeyboardReorderableMode = false;
+            highlight.property = CANVAS_SCREEN_GUIDS.FOOTER_GUID;
+            const callback = jest.fn();
+            highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
+            highlightDiv.focus();
+            expect(callback).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('Moving a component with arrow keys fires the correct event to Screen Editor Canvas', () => {
+        describe('Moving a component with the up arrow', () => {
+            let highlight, highlightDiv;
+            beforeEach(() => {
+                highlight = createComponentForTest({
+                    screenElement: screenFieldTextBoxSomeText
+                });
+                highlightDiv = getContainerDiv(highlight);
+            });
+            it('Moving a component with the up arrow dispatches the correct event', () => {
+                highlight.isInKeyboardReorderableMode = true;
+                const callback = jest.fn();
+                highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
+                const event = new KeyboardEvent('keydown', { key: 'ArrowUp', code: 'ArrowUp' });
+                highlightDiv.dispatchEvent(event);
+                expect(callback).toHaveBeenCalledWith(
+                    expect.objectContaining({
+                        detail: {
+                            sourceGuid: highlight.screenElement.guid,
+                            interaction: ScreenCanvasKeyboardInteractions.Up
+                        }
+                    })
+                );
+            });
+            it('Should not fire an event if not in move mode', () => {
+                highlight.isInKeyboardReorderableMode = false;
+                const callback = jest.fn();
+                highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
+                const event = new KeyboardEvent('keydown', { key: 'ArrowUp', code: 'ArrowUp' });
+                highlightDiv.dispatchEvent(event);
+                expect(callback).not.toHaveBeenCalled();
+            });
+        });
+
+        describe('Moving a component with the down arrow', () => {
+            let highlight, highlightDiv;
+            beforeEach(() => {
+                highlight = createComponentForTest({
+                    screenElement: screenFieldTextBoxSomeText
+                });
+                highlightDiv = getContainerDiv(highlight);
+            });
+            it('Moving a component with the down arrow dispatches the correct event', () => {
+                highlight.isInKeyboardReorderableMode = true;
+                const callback = jest.fn();
+                highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
+                const event = new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown' });
+                highlightDiv.dispatchEvent(event);
+                expect(callback).toHaveBeenCalledWith(
+                    expect.objectContaining({
+                        detail: {
+                            sourceGuid: highlight.screenElement.guid,
+                            interaction: ScreenCanvasKeyboardInteractions.Down
+                        }
+                    })
+                );
+            });
+            it('Should not fire an event if not in move mode', () => {
+                highlight.isInKeyboardReorderableMode = false;
+                const callback = jest.fn();
+                highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
+                const event = new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown' });
+                highlightDiv.dispatchEvent(event);
+                expect(callback).not.toHaveBeenCalled();
+            });
+        });
+
+        describe('Moving a component with the left arrow', () => {
+            let highlight, highlightDiv;
+            beforeEach(() => {
+                highlight = createComponentForTest({
+                    screenElement: screenFieldTextBoxSomeText
+                });
+                highlightDiv = getContainerDiv(highlight);
+            });
+            it('Moving a component with the left arrow dispatches the correct event', () => {
+                highlight.isInKeyboardReorderableMode = true;
+                const callback = jest.fn();
+                highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
+                const event = new KeyboardEvent('keydown', { key: 'ArrowLeft', code: 'ArrowLeft' });
+                highlightDiv.dispatchEvent(event);
+                expect(callback).toHaveBeenCalledWith(
+                    expect.objectContaining({
+                        detail: {
+                            sourceGuid: highlight.screenElement.guid,
+                            interaction: ScreenCanvasKeyboardInteractions.Left
+                        }
+                    })
+                );
+            });
+            it('Should not fire an event if not in move mode', () => {
+                highlight.isInKeyboardReorderableMode = false;
+                const callback = jest.fn();
+                highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
+                const event = new KeyboardEvent('keydown', { key: 'ArrowLeft', code: 'ArrowLeft' });
+                highlightDiv.dispatchEvent(event);
+                expect(callback).not.toHaveBeenCalled();
+            });
+        });
+
+        describe('Moving a component with the right arrow', () => {
+            let highlight, highlightDiv;
+            beforeEach(() => {
+                highlight = createComponentForTest({
+                    screenElement: screenFieldTextBoxSomeText
+                });
+                highlightDiv = getContainerDiv(highlight);
+            });
+            it('Moving a component with the right arrow dispatches the correct event', () => {
+                highlight.isInKeyboardReorderableMode = true;
+                const callback = jest.fn();
+                highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
+                const event = new KeyboardEvent('keydown', { key: 'ArrowRight', code: 'ArrowRight' });
+                highlightDiv.dispatchEvent(event);
+                expect(callback).toHaveBeenCalledWith(
+                    expect.objectContaining({
+                        detail: {
+                            sourceGuid: highlight.screenElement.guid,
+                            interaction: ScreenCanvasKeyboardInteractions.Right
+                        }
+                    })
+                );
+            });
+            it('Should not fire an event if not in move mode', () => {
+                highlight.isInKeyboardReorderableMode = false;
+                const callback = jest.fn();
+                highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
+                const event = new KeyboardEvent('keydown', { key: 'ArrowRight', code: 'ArrowRight' });
+                highlightDiv.dispatchEvent(event);
+                expect(callback).not.toHaveBeenCalled();
+            });
+        });
     });
 });
