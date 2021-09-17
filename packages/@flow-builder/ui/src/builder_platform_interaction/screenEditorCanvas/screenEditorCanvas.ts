@@ -170,12 +170,12 @@ export default class ScreenEditorCanvas extends LightningElement {
             info.numColumns = allColumns?.length;
             const allItems = allColumns[columnIndex]?.fields;
             info.numItems = allItems?.length;
-            info.type = allItems[sourceIndex]?.type.label;
-            info.label = allItems[sourceIndex]?.name.value;
+            info.type = allItems[sourceIndex]?.type?.label;
+            info.label = allItems[sourceIndex]?.name?.value;
         } else {
             info.numItems = this.screen?.fields?.length;
-            info.type = this.screen?.fields[sourceIndex]?.type.label;
-            info.label = this.screen?.fields[sourceIndex]?.name.value;
+            info.type = this.screen?.fields[sourceIndex]?.type?.label;
+            info.label = this.screen?.fields[sourceIndex]?.name?.value;
         }
         return info;
     }
