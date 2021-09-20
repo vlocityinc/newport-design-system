@@ -280,7 +280,9 @@ export class ScreenCanvasTestComponent extends TestComponent<ScreenCanvas> {
 
 export class ScreenEditorHighlightTestComponent extends TestComponent<ScreenEditorHighlight> {
     public async click() {
-        this.element.shadowRoot!.querySelector('div')!.click();
+        const div = this.element.shadowRoot!.querySelector('div');
+        div!.focus();
+        div!.click();
         await ticks(50);
     }
     public getScreenField() {
