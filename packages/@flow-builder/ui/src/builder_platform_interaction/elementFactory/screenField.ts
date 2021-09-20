@@ -516,7 +516,6 @@ export function createScreenFieldMetadataObject(screenField) {
     const {
         extensionName,
         defaultValue,
-        isRequired,
         fieldType,
         validationRule,
         visibilityRule,
@@ -535,7 +534,8 @@ export function createScreenFieldMetadataObject(screenField) {
         outputParameters,
         choiceReferences,
         fields,
-        storeOutputAutomatically
+        storeOutputAutomatically,
+        isRequired
     } = screenField;
 
     // Convert scale back to number. MD expects this to be a number, but within FlowBuilder, we want it to be a string.
@@ -583,6 +583,7 @@ export function createScreenFieldMetadataObject(screenField) {
         name = undefined;
         dataType = undefined;
         helpText = undefined;
+        isRequired = undefined;
     }
 
     choiceReferences = choiceReferences.map((choiceReference) => createChoiceReferenceMetadatObject(choiceReference));

@@ -782,7 +782,8 @@ describe('screenField', () => {
                     dataType: undefined,
                     name: undefined,
                     fieldText: undefined,
-                    helpText: undefined
+                    helpText: undefined,
+                    isRequired: undefined
                 });
                 expect(screenFieldMetadata.visibilityRule).toBeUndefined();
             });
@@ -796,7 +797,8 @@ describe('screenField', () => {
                     dataType: undefined,
                     name: undefined,
                     fieldText: undefined,
-                    helpText: undefined
+                    helpText: undefined,
+                    isRequired: undefined
                 });
             });
         });
