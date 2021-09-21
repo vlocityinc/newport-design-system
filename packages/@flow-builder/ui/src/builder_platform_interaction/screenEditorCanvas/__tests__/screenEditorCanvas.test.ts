@@ -423,7 +423,7 @@ describe('screen editor canvas', () => {
                     })
                 );
             });
-            it('should fire the correct event when using down arrow to section a component within the main canvas', () => {
+            it('should fire the correct event when using down arrow to move a section within the main canvas', () => {
                 const eventCallback = jest.fn().mockImplementation();
                 screenEditorCanvasElement.addEventListener(ScreenEditorEventName.ScreenElementMoved, eventCallback);
                 const canvasDiv = screenEditorCanvasElement.shadowRoot.querySelector(selectors.canvasContainer);

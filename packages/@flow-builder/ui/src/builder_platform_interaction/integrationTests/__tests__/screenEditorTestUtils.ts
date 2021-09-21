@@ -12,6 +12,7 @@ import {
 } from 'builder_platform_interaction/builderTestUtils';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import ScreenCanvas from 'builder_platform_interaction/screenCanvas';
+import ScreenEditorCanvas from 'builder_platform_interaction/screenEditorCanvas';
 import ScreenEditorHighlight from 'builder_platform_interaction/screenEditorHighlight';
 import ScreenEditorPalette from 'builder_platform_interaction/screenEditorPalette';
 import ScreenEditorAutomaticFieldPalette from 'builder_platform_interaction/screenEditorAutomaticFieldPalette';
@@ -43,7 +44,8 @@ const { format } = commonUtils;
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
-    ...INTERACTION_COMPONENTS_SELECTORS
+    ...INTERACTION_COMPONENTS_SELECTORS,
+    ARIA_LIVE_REGION: '.aria-live-instruction'
 };
 
 const iconTypes = {
@@ -51,12 +53,23 @@ const iconTypes = {
 };
 
 export class ScreenEditorTestComponent extends TestComponent<ScreenEditor> {
+    public getScreenNode() {
+        return this.element.getNode();
+    }
+
     public getCanvas() {
         const canvasElement = deepQuerySelector(this.element, [
             SELECTORS.SCREEN_EDITOR_CANVAS,
             SELECTORS.SCREEN_CANVAS
         ]);
         return new ScreenCanvasTestComponent(canvasElement);
+    }
+
+    public getScreenEditorCanvas() {
+        const screenEditorCanvas = this.element.shadowRoot!.querySelector(
+            SELECTORS.SCREEN_EDITOR_CANVAS
+        ) as ScreenEditorCanvas & HTMLElement;
+        return new ScreenEditorCanvasTestComponent(screenEditorCanvas);
     }
 
     /**
@@ -219,6 +232,12 @@ export class ScreenEditorAutomaticFieldsPaletteTestComponent extends TestCompone
     }
 }
 
+export class ScreenEditorCanvasTestComponent extends TestComponent<ScreenEditorCanvas> {
+    public getAriaLiveText() {
+        return this.element.shadowRoot!.querySelectorAll(SELECTORS.ARIA_LIVE_REGION)[0].textContent;
+    }
+}
+
 export class ScreenCanvasTestComponent extends TestComponent<ScreenCanvas> {
     /**
      * Get the first ScreenEditorHighlight that has a screen field element that matches the predicate
@@ -299,6 +318,12 @@ export class ScreenEditorHighlightTestComponent extends TestComponent<ScreenEdit
     public clickDelete() {
         const deleteButton = this.element.shadowRoot!.querySelectorAll(SELECTORS.LIGHTNING_BUTTON_ICON)[1] as any;
         deleteButton.click();
+    }
+
+    public pressKey(key: string) {
+        const highlightDiv = this.element.shadowRoot!.querySelector('div');
+        const event = new KeyboardEvent('keydown', { key, code: key === ' ' ? 'Space' : key });
+        highlightDiv?.dispatchEvent(event);
     }
 }
 

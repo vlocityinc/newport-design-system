@@ -28,6 +28,7 @@ import {
     accountVariableNameAutomaticField
 } from 'mock/storeData';
 import { createScreenFieldWithFields } from 'builder_platform_interaction/elementFactory';
+import { Keys } from 'builder_platform_interaction/contextualMenuUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -57,6 +58,10 @@ const getVisibilityIconNoShadow = (parent) => parent.querySelector(VISIBILITY_IC
 const getHeaderBadge = (element) => element.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BADGE);
 const getHeader = (element) => element.shadowRoot.querySelector(HIGHLIGHT_DIV_HEADER);
 const getIconInHeader = (parent) => parent.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_ICON);
+
+const createKeyDownEvent = (key) => {
+    return new KeyboardEvent('keydown', { key, code: key === Keys.Space ? 'Space' : key });
+};
 
 describe('Click highlight', () => {
     let highlight;
@@ -254,7 +259,7 @@ describe('Keyboard interactions on a component', () => {
         it('selecting component with Enter dispatches the correct event', () => {
             const callback = jest.fn();
             highlight.addEventListener(ScreenEditorEventName.ScreenElementSelected, callback);
-            const event = new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter' });
+            const event = createKeyDownEvent(Keys.Enter);
             highlightDiv.dispatchEvent(event);
             expect(callback).toHaveBeenCalled();
         });
@@ -262,7 +267,7 @@ describe('Keyboard interactions on a component', () => {
             highlight.selected = true;
             const callback = jest.fn();
             highlight.addEventListener(ScreenEditorEventName.ScreenElementSelected, callback);
-            const event = new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter' });
+            const event = createKeyDownEvent(Keys.Enter);
             highlightDiv.dispatchEvent(event);
             expect(callback).not.toHaveBeenCalled();
         });
@@ -270,7 +275,7 @@ describe('Keyboard interactions on a component', () => {
             highlight.isInKeyboardReorderableMode = true;
             const callback = jest.fn();
             highlight.addEventListener(ScreenEditorEventName.ScreenElementSelected, callback);
-            const event = new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter' });
+            const event = createKeyDownEvent(Keys.Enter);
             highlightDiv.dispatchEvent(event);
             expect(callback).not.toHaveBeenCalled();
         });
@@ -287,7 +292,7 @@ describe('Keyboard interactions on a component', () => {
         it('deleting component with Backspace dispatches the correct event', () => {
             const callback = jest.fn();
             highlight.addEventListener(ScreenEditorEventName.ScreenElementDeleted, callback);
-            const event = new KeyboardEvent('keydown', { key: 'Backspace', code: 'Backspace' });
+            const event = createKeyDownEvent(Keys.Backspace);
             highlightDiv.dispatchEvent(event);
             expect(callback).toHaveBeenCalled();
         });
@@ -295,7 +300,7 @@ describe('Keyboard interactions on a component', () => {
             highlight.isInKeyboardReorderableMode = true;
             const callback = jest.fn();
             highlight.addEventListener(ScreenEditorEventName.ScreenElementSelected, callback);
-            const event = new KeyboardEvent('keydown', { key: 'Backspace', code: 'Backspace' });
+            const event = createKeyDownEvent(Keys.Backspace);
             highlightDiv.dispatchEvent(event);
             expect(callback).not.toHaveBeenCalled();
         });
@@ -312,7 +317,7 @@ describe('Keyboard interactions on a component', () => {
         it('deleting component with Delete dispatches the correct event', () => {
             const callback = jest.fn();
             highlight.addEventListener(ScreenEditorEventName.ScreenElementDeleted, callback);
-            const event = new KeyboardEvent('keydown', { key: 'Delete', code: 'Delete' });
+            const event = createKeyDownEvent(Keys.Delete);
             highlightDiv.dispatchEvent(event);
             expect(callback).toHaveBeenCalled();
         });
@@ -320,7 +325,7 @@ describe('Keyboard interactions on a component', () => {
             highlight.isInKeyboardReorderableMode = true;
             const callback = jest.fn();
             highlight.addEventListener(ScreenEditorEventName.ScreenElementSelected, callback);
-            const event = new KeyboardEvent('keydown', { key: 'Delete', code: 'Delete' });
+            const event = createKeyDownEvent(Keys.Delete);
             highlightDiv.dispatchEvent(event);
             expect(callback).not.toHaveBeenCalled();
         });
@@ -337,7 +342,7 @@ describe('Keyboard interactions on a component', () => {
         it('Entering the move mode of a component dispatches the correct event', () => {
             const callback = jest.fn();
             highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
-            const event = new KeyboardEvent('keydown', { key: ' ', code: 'Space' });
+            const event = createKeyDownEvent(Keys.Space);
             highlightDiv.dispatchEvent(event);
             expect(callback).toHaveBeenCalledWith(
                 expect.objectContaining({
@@ -352,7 +357,7 @@ describe('Keyboard interactions on a component', () => {
             const callback = jest.fn();
             highlight.property = CANVAS_SCREEN_GUIDS.HEADER_GUID;
             highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
-            const event = new KeyboardEvent('keydown', { key: ' ', code: 'Space' });
+            const event = createKeyDownEvent(Keys.Space);
             highlightDiv.dispatchEvent(event);
             expect(callback).not.toHaveBeenCalled();
         });
@@ -361,7 +366,7 @@ describe('Keyboard interactions on a component', () => {
             const callback = jest.fn();
             highlight.property = CANVAS_SCREEN_GUIDS.FOOTER_GUID;
             highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
-            const event = new KeyboardEvent('keydown', { key: ' ', code: 'Space' });
+            const event = createKeyDownEvent(Keys.Space);
             highlightDiv.dispatchEvent(event);
             expect(callback).not.toHaveBeenCalled();
         });
@@ -369,7 +374,7 @@ describe('Keyboard interactions on a component', () => {
             highlight.isInKeyboardReorderableMode = true;
             const callback = jest.fn();
             highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
-            const event = new KeyboardEvent('keydown', { key: ' ', code: 'Space' });
+            const event = createKeyDownEvent(Keys.Space);
             highlightDiv.dispatchEvent(event);
             expect(callback).toHaveBeenCalledWith(
                 expect.objectContaining({
@@ -394,7 +399,7 @@ describe('Keyboard interactions on a component', () => {
             highlight.isInKeyboardReorderableMode = true;
             const callback = jest.fn();
             highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
-            const event = new KeyboardEvent('keydown', { key: 'Escape', code: 'Escape' });
+            const event = createKeyDownEvent(Keys.Escape);
             highlightDiv.dispatchEvent(event);
             expect(callback).toHaveBeenCalledWith(
                 expect.objectContaining({
@@ -409,7 +414,7 @@ describe('Keyboard interactions on a component', () => {
             highlight.isInKeyboardReorderableMode = false;
             const callback = jest.fn();
             highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
-            const event = new KeyboardEvent('keydown', { key: 'Escape', code: 'Escape' });
+            const event = createKeyDownEvent(Keys.Escape);
             highlightDiv.dispatchEvent(event);
             expect(callback).not.toHaveBeenCalled();
         });
@@ -475,7 +480,7 @@ describe('Keyboard interactions on a component', () => {
                 highlight.isInKeyboardReorderableMode = true;
                 const callback = jest.fn();
                 highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
-                const event = new KeyboardEvent('keydown', { key: 'ArrowUp', code: 'ArrowUp' });
+                const event = createKeyDownEvent(Keys.ArrowUp);
                 highlightDiv.dispatchEvent(event);
                 expect(callback).toHaveBeenCalledWith(
                     expect.objectContaining({
@@ -490,7 +495,7 @@ describe('Keyboard interactions on a component', () => {
                 highlight.isInKeyboardReorderableMode = false;
                 const callback = jest.fn();
                 highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
-                const event = new KeyboardEvent('keydown', { key: 'ArrowUp', code: 'ArrowUp' });
+                const event = createKeyDownEvent(Keys.ArrowUp);
                 highlightDiv.dispatchEvent(event);
                 expect(callback).not.toHaveBeenCalled();
             });
@@ -508,7 +513,7 @@ describe('Keyboard interactions on a component', () => {
                 highlight.isInKeyboardReorderableMode = true;
                 const callback = jest.fn();
                 highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
-                const event = new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown' });
+                const event = createKeyDownEvent(Keys.ArrowDown);
                 highlightDiv.dispatchEvent(event);
                 expect(callback).toHaveBeenCalledWith(
                     expect.objectContaining({
@@ -523,7 +528,7 @@ describe('Keyboard interactions on a component', () => {
                 highlight.isInKeyboardReorderableMode = false;
                 const callback = jest.fn();
                 highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
-                const event = new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown' });
+                const event = createKeyDownEvent(Keys.ArrowDown);
                 highlightDiv.dispatchEvent(event);
                 expect(callback).not.toHaveBeenCalled();
             });
@@ -541,7 +546,7 @@ describe('Keyboard interactions on a component', () => {
                 highlight.isInKeyboardReorderableMode = true;
                 const callback = jest.fn();
                 highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
-                const event = new KeyboardEvent('keydown', { key: 'ArrowLeft', code: 'ArrowLeft' });
+                const event = createKeyDownEvent(Keys.ArrowLeft);
                 highlightDiv.dispatchEvent(event);
                 expect(callback).toHaveBeenCalledWith(
                     expect.objectContaining({
@@ -556,7 +561,7 @@ describe('Keyboard interactions on a component', () => {
                 highlight.isInKeyboardReorderableMode = false;
                 const callback = jest.fn();
                 highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
-                const event = new KeyboardEvent('keydown', { key: 'ArrowLeft', code: 'ArrowLeft' });
+                const event = createKeyDownEvent(Keys.ArrowLeft);
                 highlightDiv.dispatchEvent(event);
                 expect(callback).not.toHaveBeenCalled();
             });
@@ -574,7 +579,7 @@ describe('Keyboard interactions on a component', () => {
                 highlight.isInKeyboardReorderableMode = true;
                 const callback = jest.fn();
                 highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
-                const event = new KeyboardEvent('keydown', { key: 'ArrowRight', code: 'ArrowRight' });
+                const event = createKeyDownEvent(Keys.ArrowRight);
                 highlightDiv.dispatchEvent(event);
                 expect(callback).toHaveBeenCalledWith(
                     expect.objectContaining({
@@ -589,7 +594,7 @@ describe('Keyboard interactions on a component', () => {
                 highlight.isInKeyboardReorderableMode = false;
                 const callback = jest.fn();
                 highlight.addEventListener(ScreenEditorEventName.ScreenElementKeyboardInteraction, callback);
-                const event = new KeyboardEvent('keydown', { key: 'ArrowRight', code: 'ArrowRight' });
+                const event = createKeyDownEvent(Keys.ArrowRight);
                 highlightDiv.dispatchEvent(event);
                 expect(callback).not.toHaveBeenCalled();
             });
