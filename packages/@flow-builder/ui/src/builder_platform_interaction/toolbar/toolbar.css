@@ -12,4 +12,5 @@
 }
 .toolbar-last-saved {
     color: var(--lwc-colorTextActionLabelActive);
+    display: inline-flex;
 }
