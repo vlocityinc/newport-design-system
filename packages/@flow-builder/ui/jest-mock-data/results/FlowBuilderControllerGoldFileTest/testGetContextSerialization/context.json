@@ -28,14 +28,19 @@
             "showDebugPanel":false
           },
           "toolbarConfig":{
-            "showEditFlowPropertiesButton":true,
             "showCopyPasteButton":true,
             "showDebugButton":true,
-            "showEditFlowButton":false,
+            "showRunTestButton":false,
+            "showSaveAsButton":true,
             "showCanvasModeToggle":true,
+            "showRestartRunButton":false,
+            "showEditFlowPropertiesButton":true,
+            "showEditFlowButton":false,
+            "showSaveButton":true,
+            "showAddToTestButton":false,
             "showRunButton":true,
             "showFlowStatus":true,
-            "showRestartRunButton":false
+            "showActivateButton":true
           },
           "headerConfig":{
             "showDebugStatus":false,
@@ -51,7 +56,45 @@
             "disableDragElements":false,
             "disableAddElements":false,
             "disableSelectConnectors":false,
+            "disablePropertyEditors":false,
             "disableMultiSelectElements":false
+          }
+        },
+        "testMode":{
+          "rightPanelConfig":{
+            "showDebugPanel":true
+          },
+          "toolbarConfig":{
+            "showCopyPasteButton":false,
+            "showDebugButton":false,
+            "showRunTestButton":true,
+            "showSaveAsButton":true,
+            "showCanvasModeToggle":false,
+            "showRestartRunButton":false,
+            "showEditFlowPropertiesButton":false,
+            "showEditFlowButton":true,
+            "showSaveButton":true,
+            "showAddToTestButton":false,
+            "showRunButton":false,
+            "showFlowStatus":false,
+            "showActivateButton":true
+          },
+          "headerConfig":{
+            "showDebugStatus":false,
+            "showInterviewLabel":true
+          },
+          "leftPanelConfig":{
+            "showLeftPanel":false
+          },
+          "canvasConfig":{
+            "disableAddConnectors":true,
+            "disableDeleteConnectors":true,
+            "disableDeleteElements":true,
+            "disableDragElements":true,
+            "disableAddElements":true,
+            "disableSelectConnectors":true,
+            "disablePropertyEditors":false,
+            "disableMultiSelectElements":true
           }
         },
         "debugMode":{
@@ -59,14 +102,19 @@
             "showDebugPanel":true
           },
           "toolbarConfig":{
-            "showEditFlowPropertiesButton":false,
             "showCopyPasteButton":false,
             "showDebugButton":false,
-            "showEditFlowButton":true,
+            "showRunTestButton":true,
+            "showSaveAsButton":true,
             "showCanvasModeToggle":false,
+            "showRestartRunButton":true,
+            "showEditFlowPropertiesButton":false,
+            "showEditFlowButton":true,
+            "showSaveButton":true,
+            "showAddToTestButton":true,
             "showRunButton":false,
             "showFlowStatus":false,
-            "showRestartRunButton":true
+            "showActivateButton":true
           },
           "headerConfig":{
             "showDebugStatus":true,
@@ -82,6 +130,7 @@
             "disableDragElements":true,
             "disableAddElements":true,
             "disableSelectConnectors":true,
+            "disablePropertyEditors":false,
             "disableMultiSelectElements":true
           }
         }
@@ -106,6 +155,7 @@
         "InvocableProcess",
         "JourneyBuilderIntegration",
         "LoginFlow",
+        "LoyaltyManagementFlow",
         "ManagedContentFlow",
         "OfflineFlow",
         "OrchestrationFlow",
