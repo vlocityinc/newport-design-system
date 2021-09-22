@@ -6,7 +6,8 @@ import {
     DeleteOutcomeEvent,
     PropertyChangedEvent,
     UpdateNodeEvent,
-    ReorderListEvent
+    ReorderListEvent,
+    ListItemInteractionEvent
 } from 'builder_platform_interaction/events';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { mergeErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
@@ -43,6 +44,10 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
         getProcessType: jest.fn()
     };
 });
+
+jest.mock('builder_platform_interaction/sharedUtils', () =>
+    jest.requireActual('builder_platform_interaction_mocks/sharedUtils')
+);
 
 const SELECTORS = {
     OUTCOME: 'builder_platform_interaction-outcome',
@@ -216,9 +221,7 @@ describe('Decision Editor', () => {
             const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
             const reorderableOutcomeNav = decisionEditor.shadowRoot.querySelector(SELECTORS.REORDERABLE_NAV);
             reorderableOutcomeNav.dispatchEvent(
-                new CustomEvent('itemselected', {
-                    detail: { itemId: 'outcome2' }
-                })
+                new ListItemInteractionEvent('outcome2', ListItemInteractionEvent.Type.Select)
             );
 
             return Promise.resolve()
@@ -349,9 +352,7 @@ describe('Decision Editor', () => {
             // trigger showing of default outcome
             const reorderableOutcomeNav = decisionEditor.shadowRoot.querySelector(SELECTORS.REORDERABLE_NAV);
             reorderableOutcomeNav.dispatchEvent(
-                new CustomEvent('itemselected', {
-                    detail: { itemId: DEFAULT_OUTCOME_ID }
-                })
+                new ListItemInteractionEvent(DEFAULT_OUTCOME_ID, ListItemInteractionEvent.Type.Select)
             );
 
             await ticks(1);
@@ -406,9 +407,7 @@ describe('Decision Editor', () => {
             // trigger showing of default outcome
             const reorderableOutcomeNav = decisionEditor.shadowRoot.querySelector(SELECTORS.REORDERABLE_NAV);
             reorderableOutcomeNav.dispatchEvent(
-                new CustomEvent('itemselected', {
-                    detail: { itemId: DEFAULT_OUTCOME_ID }
-                })
+                new ListItemInteractionEvent(DEFAULT_OUTCOME_ID, ListItemInteractionEvent.Type.Select)
             );
 
             const updateNodeCallBack = jest.fn();
@@ -431,9 +430,7 @@ describe('Decision Editor', () => {
             await ticks(1);
             const reorderableOutcomeNav = decisionEditor.shadowRoot.querySelector(SELECTORS.REORDERABLE_NAV);
             reorderableOutcomeNav.dispatchEvent(
-                new CustomEvent('itemselected', {
-                    detail: { itemId: DEFAULT_OUTCOME_ID }
-                })
+                new ListItemInteractionEvent(DEFAULT_OUTCOME_ID, ListItemInteractionEvent.Type.Select)
             );
             await ticks(1);
             const img = decisionEditor.shadowRoot.querySelector('.slds-text-align_center').querySelector('img');
@@ -542,9 +539,7 @@ describe('Decision Editor', () => {
             // trigger showing of default outcome
             const reorderableOutcomeNav = decisionEditor.shadowRoot.querySelector(SELECTORS.REORDERABLE_NAV);
             reorderableOutcomeNav.dispatchEvent(
-                new CustomEvent('itemselected', {
-                    detail: { itemId: DEFAULT_OUTCOME_ID }
-                })
+                new ListItemInteractionEvent(DEFAULT_OUTCOME_ID, ListItemInteractionEvent.Type.Select)
             );
             await ticks(1);
 
@@ -563,9 +558,7 @@ describe('Decision Editor', () => {
             // trigger showing of default outcome
             const reorderableOutcomeNav = decisionEditor.shadowRoot.querySelector(SELECTORS.REORDERABLE_NAV);
             reorderableOutcomeNav.dispatchEvent(
-                new CustomEvent('itemselected', {
-                    detail: { itemId: DEFAULT_OUTCOME_ID }
-                })
+                new ListItemInteractionEvent(DEFAULT_OUTCOME_ID, ListItemInteractionEvent.Type.Select)
             );
             await ticks(1);
 

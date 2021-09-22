@@ -9,6 +9,14 @@ import { ExpressionBuilderComponentTest } from '../expressionBuilderTestUtils';
 import { createComponentForTest, getFerToFerovExpressionBuilder } from './decisionEditorTestUtils';
 import { expectCanBeTraversed, expectCannotBeSelected, expectCannotBeTraversed } from '../groupedComboboxTestUtils';
 
+jest.mock('builder_platform_interaction/sharedUtils', () => {
+    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
+    return Object.assign({}, sharedUtils, {
+        invokeModal: require('builder_platform_interaction/sharedUtils/auraUtils').invokeModal,
+        commonUtils: require('builder_platform_interaction/sharedUtils/commonUtils')
+    });
+});
+
 describe('Decision Editor', () => {
     let decisionForPropertyEditor, decisionEditor, store;
     beforeAll(() => {

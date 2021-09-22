@@ -1,20 +1,17 @@
 <template>
-    <div class={itemClass}>
+    <div
+        class={itemClass}
+        tabindex={itemTabIndex}
+        aria-selected={ariaSelected}
+        onclick={handleClick}
+        onblur={handleBlur}
+    >
         <builder_platform_interaction-draggable
             if:true={isDraggable}
             index={navItemId}
             class="slds-grid slds-size_1-of-1"
         >
-            <a
-                class="slds-vertical-tabs__link slds-grid slds-hyphenate link-text"
-                href="javascript:void(0);"
-                draggable={isDraggable}
-                onclick={handleClick}
-                role="tab"
-                tabindex="0"
-                aria-selected={ariaSelected}
-                ondragstart={handleDragStart}
-            >
+            <span class="slds-vertical-tabs__link slds-grid slds-hyphenate link-text">
                 <template if:true={hasFrontIcon}>
                     <slot name="front-icon">
                         <!-- Example:
@@ -30,19 +27,10 @@
                         -->
                     </slot>
                 </template>
-            </a>
+            </span>
         </builder_platform_interaction-draggable>
         <div if:false={isDraggable} class="slds-grid slds-size_1-of-1">
-            <a
-                class="slds-vertical-tabs__link slds-grid slds-hyphenate link-text"
-                href="javascript:void(0);"
-                draggable={isDraggable}
-                onclick={handleClick}
-                role="tab"
-                tabindex="0"
-                aria-selected={ariaSelected}
-                ondragstart={handleDragStart}
-            >
+            <span class="slds-vertical-tabs__link slds-grid slds-hyphenate link-text">
                 <template if:true={hasFrontIcon}>
                     <slot name="front-icon">
                         <!-- Example:
@@ -58,7 +46,7 @@
                         -->
                     </slot>
                 </template>
-            </a>
+            </span>
         </div>
     </div>
 </template>

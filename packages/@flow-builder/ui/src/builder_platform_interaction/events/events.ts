@@ -125,3 +125,4 @@ export { ORCHESTRATED_ACTION_CATEGORY } from './orchestratedActionCategory';
 export { DebugPanelFilterEvent } from './debugPanelEvents/debugPanelFilterEvent';
 export { TextChangedEvent } from './textChangedEvent';
 export { PrepopulateMapItemsEvent } from './prepopulateMapItemsEvent';
+export { ListItemInteractionEvent } from './listItemInteractionEvent';

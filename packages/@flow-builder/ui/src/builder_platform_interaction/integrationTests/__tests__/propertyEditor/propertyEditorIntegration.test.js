@@ -15,6 +15,13 @@ import { isSystemElement } from 'builder_platform_interaction/flowMetadata';
 import { EditElementEvent } from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
+jest.mock('builder_platform_interaction/sharedUtils', () => {
+    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
+    return Object.assign({}, sharedUtils, {
+        invokeModal: require('builder_platform_interaction/sharedUtils/auraUtils').invokeModal
+    });
+});
+
 const createPropertyEditorComponent = async (
     elementForPropertyEditor,
     processType = Store.getStore().getCurrentState().properties.processType

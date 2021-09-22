@@ -8,7 +8,8 @@ import {
     PropertyChangedEvent,
     WaitEventPropertyChangedEvent,
     WaitEventParameterChangedEvent,
-    DeleteWaitEventEvent
+    DeleteWaitEventEvent,
+    ListItemInteractionEvent
 } from 'builder_platform_interaction/events';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import { waitReducer } from '../waitReducer';
@@ -19,6 +20,9 @@ jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
 );
 jest.mock('builder_platform_interaction/outputResourcePicker', () =>
     require('builder_platform_interaction_mocks/outputResourcePicker')
+);
+jest.mock('builder_platform_interaction/sharedUtils', () =>
+    jest.requireActual('builder_platform_interaction_mocks/sharedUtils')
 );
 
 function createComponentForTest(props) {
@@ -131,9 +135,7 @@ describe('default path', () => {
         // trigger showing of default path
         const reorderableWaitEventNav = waitElement.shadowRoot.querySelector(selectors.REORDERABLE_NAV);
         reorderableWaitEventNav.dispatchEvent(
-            new CustomEvent('itemselected', {
-                detail: { itemId: DEFAULT_WAIT_EVENT_ID }
-            })
+            new ListItemInteractionEvent(DEFAULT_WAIT_EVENT_ID, ListItemInteractionEvent.Type.Select)
         );
         await ticks(1);
         const defaultPathChangedEvent = new PropertyChangedEvent('defaultConnectorLabel', 'new label', null);
@@ -177,9 +179,7 @@ describe('default path', () => {
         await ticks(1);
         const reorderableWaitEventNav = waitElement.shadowRoot.querySelector(selectors.REORDERABLE_NAV);
         reorderableWaitEventNav.dispatchEvent(
-            new CustomEvent('itemselected', {
-                detail: { itemId: DEFAULT_WAIT_EVENT_ID }
-            })
+            new ListItemInteractionEvent(DEFAULT_WAIT_EVENT_ID, ListItemInteractionEvent.Type.Select)
         );
         await ticks(1);
         const img = waitElement.shadowRoot.querySelector('.slds-text-align_center').querySelector('img');
@@ -263,9 +263,7 @@ describe('handleDeleteWaitEvent', () => {
     it('does not change the active wait event if the wait event was not deleted', () => {
         const reorderableWaitEventNav = waitEditor.shadowRoot.querySelector(selectors.REORDERABLE_NAV);
         reorderableWaitEventNav.dispatchEvent(
-            new CustomEvent('itemselected', {
-                detail: { itemId: 'waitEvent2' }
-            })
+            new ListItemInteractionEvent('waitEvent2', ListItemInteractionEvent.Type.Select)
         );
 
         return Promise.resolve()

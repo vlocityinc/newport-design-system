@@ -17,6 +17,13 @@ jest.mock(
     () => ({ default: '{0} from {1}' }),
     { virtual: true }
 );
+jest.mock('builder_platform_interaction/sharedUtils', () => {
+    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
+    return Object.assign({}, sharedUtils, {
+        invokeModal: require('builder_platform_interaction/sharedUtils/auraUtils').invokeModal,
+        commonUtils: require('builder_platform_interaction/sharedUtils/commonUtils')
+    });
+});
 
 describe('Decision Editor expression builder', () => {
     let expressionBuilder: ExpressionBuilderComponentTest;

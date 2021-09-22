@@ -53,6 +53,13 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
     });
 });
 
+jest.mock('builder_platform_interaction/sharedUtils', () => {
+    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
+    return Object.assign({}, sharedUtils, {
+        invokeModal: require('builder_platform_interaction/sharedUtils/auraUtils').invokeModal
+    });
+});
+
 const createComponentForTest = (contextRecordEditorElement) => {
     const el = createElement('builder_platform_interaction-context-record-editor', {
         is: contextRecordEditor
@@ -82,7 +89,7 @@ const getReorderableVerticalNavigationItems = (scheduledPathEditor) => {
 
 const getReorderableVerticalNavigationTitle = (scheduledPathEditor, index) => {
     const items = getReorderableVerticalNavigationItems(scheduledPathEditor);
-    return items[index].shadowRoot.querySelector('a');
+    return items[index].shadowRoot.querySelector('.slds-vertical-tabs__link');
 };
 
 const getAddScheduledPathButton = (scheduledPathEditor) => {

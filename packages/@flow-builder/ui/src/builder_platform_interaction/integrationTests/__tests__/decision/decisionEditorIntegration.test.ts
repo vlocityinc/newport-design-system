@@ -19,6 +19,13 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
     return Object.assign({}, ruleLib);
 });
 
+jest.mock('builder_platform_interaction/sharedUtils', () => {
+    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
+    return Object.assign({}, sharedUtils, {
+        invokeModal: require('builder_platform_interaction/sharedUtils/auraUtils').invokeModal
+    });
+});
+
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
     ...INTERACTION_COMPONENTS_SELECTORS,
@@ -344,7 +351,7 @@ describe('Decision Editor', () => {
                     const outcomes = navigation.shadowRoot.querySelectorAll(
                         SELECTORS.REORDERABLE_VERTICAL_NAVIGATION_ITEM
                     );
-                    outcomes[1].shadowRoot.querySelector('a').click();
+                    outcomes[1].shadowRoot.querySelector('.slds-vertical-tabs__link').click();
                     return resolveRenderCycles(() => {
                         const deleteOutcomeButton = decisionEditor.shadowRoot.querySelector(SELECTORS.LIGHTNING_BUTTON);
                         expect(deleteOutcomeButton).toBeNull();
@@ -360,7 +367,7 @@ describe('Decision Editor', () => {
                     const outcomes = navigation.shadowRoot.querySelectorAll(
                         SELECTORS.REORDERABLE_VERTICAL_NAVIGATION_ITEM
                     );
-                    outcomes[1].shadowRoot.querySelector('a').click();
+                    outcomes[1].shadowRoot.querySelector('.slds-vertical-tabs__link').click();
                     return resolveRenderCycles(() => {
                         const labelDescription = decisionEditor.shadowRoot.querySelector(SELECTORS.DEFAULT_OUTCOME);
                         const defaultOutcomeLabelInput = labelDescription.shadowRoot.querySelector(SELECTORS.LABEL);

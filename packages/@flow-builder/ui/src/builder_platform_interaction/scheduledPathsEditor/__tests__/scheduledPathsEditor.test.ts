@@ -7,7 +7,12 @@ import {
     setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 import { scheduledPathsReducer } from '../scheduledPathsReducer';
-import { UpdateNodeEvent, PropertyChangedEvent, DeleteScheduledPathEvent } from 'builder_platform_interaction/events';
+import {
+    UpdateNodeEvent,
+    PropertyChangedEvent,
+    DeleteScheduledPathEvent,
+    ListItemInteractionEvent
+} from 'builder_platform_interaction/events';
 import { TIME_OPTION } from 'builder_platform_interaction/flowMetadata';
 
 let mockNewState;
@@ -31,6 +36,10 @@ jest.mock('builder_platform_interaction/dataMutationLib', () => {
         updateProperties: actual.updateProperties
     };
 });
+
+jest.mock('builder_platform_interaction/sharedUtils', () =>
+    jest.requireActual('builder_platform_interaction_mocks/sharedUtils')
+);
 
 const SELECTORS = {
     IMMEDIATE_SCHEDULED_PATH: '.test-immediate-scheduled-path'
@@ -220,9 +229,7 @@ describe('Scheduled Paths Editor', () => {
                 INTERACTION_COMPONENTS_SELECTORS.REORDERABLE_VERTICAL_NAVIGATION
             );
             reorderableScheduledPathNav.dispatchEvent(
-                new CustomEvent('itemselected', {
-                    detail: { itemId: 'scheduledPath2' }
-                })
+                new ListItemInteractionEvent('scheduledPath2', ListItemInteractionEvent.Type.Select)
             );
             await ticks(1);
             scheduledPathsReducer.mockReturnValueOnce(startElementWithTwoScheduledPaths);
@@ -283,9 +290,7 @@ describe('Scheduled Paths Editor', () => {
                 INTERACTION_COMPONENTS_SELECTORS.REORDERABLE_VERTICAL_NAVIGATION
             );
             reorderableOutcomeNav.dispatchEvent(
-                new CustomEvent('itemselected', {
-                    detail: { itemId: IMMEDIATE_SCHEDULED_PATH_ID }
-                })
+                new ListItemInteractionEvent(IMMEDIATE_SCHEDULED_PATH_ID, ListItemInteractionEvent.Type.Select)
             );
             await ticks(1);
             const immediateScheduledPathSection = scheduledPathsEditor.shadowRoot.querySelector(

@@ -1,3 +1,4 @@
 .navigation-content {
     max-height: var(--lwc-sizeLarge);
+    border-right: none;
 }
