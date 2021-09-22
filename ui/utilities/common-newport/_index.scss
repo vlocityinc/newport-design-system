@@ -57,7 +57,7 @@ hr[ng-if="!isPreviewEmbedded"] {
 a[ng-if="!isPreviewEmbedded && (!isSforce || (isSforce && !sforce.one))"] {
   position: fixed;
   top: 0;
-  z-index: 9998;
+  z-index: $z-index-dropdown;
   #{$right}: 1rem;
   font-weight: 400;
   font-size: 0.875rem;
@@ -164,7 +164,7 @@ ul.nds-dropdown-list {
   position: absolute;
   border: 2px solid $color-dropdown-border;
   border-top: 0;
-  z-index: 9999;
+  z-index: $z-index-dropdown;
   top: 2rem;
   width: 100%;
   border-radius: 0.25rem;
@@ -407,7 +407,7 @@ span[vlc-slds-pop-over] {
   /* stylelint-enable declaration-no-important */
   border: 2px solid $color-dropdown-border;
   border-top: 0;
-  z-index: 9999;
+  z-index: $z-index-dropdown;
   /* stylelint-disable declaration-no-important */
   top: 2rem !important;
   /* stylelint-enable declaration-no-important */
@@ -446,7 +446,7 @@ span[vlc-slds-pop-over] {
   right: 0;
   padding: 10px;
   background: $color-background-solitude;
-  z-index: 9000;
+  z-index: $z-index-modal;
 }
 
 .nds-header__mobile-only {

@@ -172,6 +172,11 @@
   .nds-edit-block_cards-selected-icon.nds-edit-block_cards-selected {
     visibility: visible;
   }
+&:focus,
+&:active {
+  @include focus-button;
+  z-index: $z-index-default; // Raises box shadow above adjacent buttons
+}
 }
 
 .nds-edit-block_longcards {
@@ -259,7 +264,14 @@
   .nds-edit-block_cards-selected-icon.nds-edit-block_cards-selected {
     visibility: visible;
   }
+  &:focus,
+  &:active {
+    @include focus-button;
+    z-index: $z-index-default; // Raises box shadow above adjacent buttons
+  }
 }
+
+
 
 
 
@@ -289,9 +301,6 @@
 .nds-editblock_action-button {
   width: 2rem;
   border: 1px solid $color-gray-border-primary;
-  /* stylelint-disable declaration-no-important */
-  box-shadow: unset !important;
-  /* stylelint-enable declaration-no-important */
   background: inherit;
   z-index: 1;
 
@@ -310,18 +319,6 @@
   white-space: nowrap;
   overflow: hidden;
 }
-
-// @media screen and (max-width: 48em) {
-//   /* stylelint-disable selector-class-pattern */
-//   .via-nds .nds-max-medium-table_stacked-horizontal tr>td:last-child {
-//     overflow: visible;
-//     position: relative;
-//     height: 3rem;
-//   }
-//   /* stylelint-enable selector-class-pattern */
-// }
-
-
 /**
  * Inline Edit Block
  */
@@ -333,7 +330,7 @@
     padding: 2rem;
     position: relative;
     width: 100%;
-    z-index: 8888;
+    z-index: $z-index-modal;
     background: $color-border-tab-active;
 
     svg.nds-editblock_close {
@@ -350,6 +347,21 @@
       color: $color-blue-text-primary;
       border: 1px solid $color-border-input;
       font-weight: 500;
+    }
+  }
+
+  [role="button"],
+  [tabindex="0"]:not(.nds-editblock_add-button) {
+
+    &:focus,
+    &:active {
+      outline: none;
+
+      >svg,
+      &.nds-grid {
+        @include focus-button;
+        z-index: $z-index-default; // Raises box shadow above adjacent buttons
+      }
     }
   }
 
@@ -391,6 +403,11 @@
     form {
       border: 1px solid $color-border-input;
       border-radius: 0.25rem;
+      &:focus,
+      &:active {
+        @include focus-button;
+        z-index: $z-index-default; // Raises box shadow above adjacent buttons
+      }
     }
 
     .nds-edit-block_inline-action-container {
@@ -406,7 +423,7 @@
 
   .nds-editblock_inline__edit-block {
     position: relative;
-    z-index: 99;
+    z-index: $z-index-spinner;
     margin-top: -5.1rem;
     background-color: $color-border-tab-active;
   }

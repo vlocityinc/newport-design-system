@@ -1,12 +1,26 @@
 .nds-b2b-config-promo-wrapper{
-    background-color:$b2b-config-promo-wrapper-blue;
+    background-color:#EEF4FF;
     padding: 0.6rem 1.4rem;
     
+    &.nds-b2b-summary-promotion{
+        width:270px;
+        padding: .6rem 0.3rem .6rem 0;
+        border-radius:0.1rem;
+    }
+
+    & .nds-b2b-promo-details{
+        text-decoration:underline;
+        cursor:pointer;
+        color:#1589ee;
+        padding:0 4rem 0 0;
+    }
     & .nds-b2b-config-promo-name{
         color: $black-primary;
+        font-weight: 700;
     }
     & .nds-b2b-config-promo-details{
-        color: $b2b-config-promo-details-blue;
+        color: $azure;
+        font-weight: 700;
     }
     & .nds-b2b-config-promo-selected{
         width: auto; 

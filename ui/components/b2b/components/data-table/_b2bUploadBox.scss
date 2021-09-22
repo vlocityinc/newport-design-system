@@ -1,5 +1,5 @@
 .nds-b2b-upload_wrapper {
-	min-height: calc(100vh - 20rem);
+  min-height: calc(100vh - 20rem);
 }
 
 .nds-b2b-upload {
@@ -30,4 +30,25 @@
 	.nds-b2b-upload_wrapper {
 		min-height: 100vh;
 	}
+}
+.nds-b2b-upload_wrapper {
+  .nds-b2b-selection-options{
+    .nds-radio{
+      margin-bottom: 0.5rem;
+      [type="radio"]:checked + .nds-radio__label .nds-radio_faux {
+        border-color: $azure;
+      }
+      [type="radio"]:checked
+      + .nds-radio__label
+      .nds-radio_faux:after {
+      background: $azure;
+      }
+      .nds-radio_faux{
+        margin-right: 0.75rem;
+      }
+      .nds-form-element__label{
+        font-weight: normal;
+      }
+    }
+  }
 }

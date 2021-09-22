@@ -100,7 +100,7 @@ $b2b-table-border: $palette-gray-5;
 			&:after {
 				background-color: $white;
 			}
-		}	
+		}
 	}
 }
 .nds-b2b-map-btn{
@@ -116,7 +116,7 @@ $b2b-table-border: $palette-gray-5;
 .nds-b2b-panel-container {
 	& .nds-is-relative {
 		overflow: visible;
-	} 
+	}
 	.nds-b2b-panel {
 		position: absolute;
 		right: 1rem;
@@ -138,7 +138,7 @@ $b2b-table-border: $palette-gray-5;
 		padding-left: 3rem;
 		@media (max-width: #{(map-get($breakpoints, $table-view-switch))}) {
 			padding-left: 1rem;
-		}		
+		}
 	}
 }
 .nds-b2b-input{
@@ -161,7 +161,7 @@ $b2b-table-border: $palette-gray-5;
 	.nds-b2b-table_cell-label {
 		display: block;
 	}
-	
+
 	.nds-b2b-table_transition-hide,
 	.nds-b2b-table_head {
 		display: none;
@@ -172,7 +172,7 @@ $b2b-table-border: $palette-gray-5;
 		flex-wrap: wrap;
 		padding-left: $spacing-x-large;
 		position: relative;
-		
+
 		.nds-b2b-row_hover-show {
 			opacity: 1
 		}
@@ -188,7 +188,7 @@ $b2b-table-border: $palette-gray-5;
 	.nds-b2b-table_cell-full {
 		flex: 0 0 100%;
 	}
-	
+
 	.nds-b2b-icon_cell {
 		flex: 0;
 		padding: 0;
@@ -204,7 +204,7 @@ $b2b-table-border: $palette-gray-5;
 	.nds-b2b-table_cell-box {
 		display: flex;
 	}
-	
+
 	.nds-b2b-table_cell-label {
 		flex: 0 0 50%;
 	}
@@ -218,7 +218,7 @@ $b2b-table-border: $palette-gray-5;
 	.nds-b2b-panel-container {
 		& .nds-is-relative {
 			overflow: visible;
-		} 
+		}
 		.nds-b2b-panel {
 			position: absolute;
 			right: 1rem;
@@ -253,7 +253,7 @@ $b2b-table-border: $palette-gray-5;
 		.nds-b2b-map-top{
 			margin-top: 7.5rem;
 		}
-	  }	
+	  }
 }
 
 @media (min-width: #{(map-get($breakpoints, $table-view-switch))}) {
@@ -272,7 +272,7 @@ $b2b-table-border: $palette-gray-5;
 		&.nds-b2b-table_cell-right{
 			padding-right: 1.6rem;
 		}
-	}	
+	}
 }
 
 .nds-b2b-detail-row {
@@ -321,12 +321,16 @@ $b2b-table-border: $palette-gray-5;
 		}
 	}
 }
-		
+
 .nds-b2b-desc-item_label {
-	text-transform: uppercase;	
+	text-transform: uppercase;
 	margin-right: .5rem;
 }
 
 .nds-item-desc-item_detail {
 	font-weight: bold;
+}
+
+.nds-b2b-data-row{
+  background-color: #EEF4FF;
 }
