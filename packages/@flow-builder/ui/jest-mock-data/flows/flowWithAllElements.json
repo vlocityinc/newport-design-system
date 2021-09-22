@@ -1230,6 +1230,34 @@
                 "processMetadataValues": []
             },
             {
+                "filterLogic": "and",
+                "filters": [
+                    {
+                        "field": "Name",
+                        "operator": "EqualTo",
+                        "processMetadataValues": [],
+                        "value": {
+                            "stringValue": "value"
+                        }
+                    }
+                ],
+                "inputAssignments": [
+                    {
+                        "field": "Name",
+                        "processMetadataValues": [],
+                        "value": {
+                            "stringValue": "newValue"
+                        }
+                    }
+                ],
+                "label": "updateRecordSetFieldsIndividually",
+                "locationX": 1691,
+                "locationY": 584,
+                "name": "updateRecordSetFieldsIndividually",
+                "object": "Account",
+                "processMetadataValues": []
+            },
+            {
                 "filters": [],
                 "inputAssignments": [],
                 "inputReference": "accountSObjectCollectionVariable",
@@ -1431,7 +1459,7 @@
                         "fieldType": "ObjectProvided",
                         "fields": [],
                         "inputParameters": [],
-                        "isRequired": true,
+                        "isRequired": false,
                         "objectFieldReference": "accountSObjectVariable.Name",
                         "outputParameters": [],
                         "processMetadataValues": [],
@@ -1471,7 +1499,7 @@
                         "fieldType": "ObjectProvided",
                         "fields": [],
                         "inputParameters": [],
-                        "isRequired": true,
+                        "isRequired": false,
                         "objectFieldReference": "lookupRecordAutomaticOutput.Name",
                         "outputParameters": [],
                         "processMetadataValues": [],
@@ -1497,7 +1525,7 @@
                         "fieldType": "ObjectProvided",
                         "fields": [],
                         "inputParameters": [],
-                        "isRequired": true,
+                        "isRequired": false,
                         "objectFieldReference": "objectWithAllPossiblFieldsVariable.Text_Field__c",
                         "outputParameters": [],
                         "processMetadataValues": [],
@@ -1563,7 +1591,7 @@
                                         "fieldType": "ObjectProvided",
                                         "fields": [],
                                         "inputParameters": [],
-                                        "isRequired": true,
+                                        "isRequired": false,
                                         "objectFieldReference": "accountSObjectVariable.Name",
                                         "outputParameters": [],
                                         "processMetadataValues": [],
@@ -2058,7 +2086,7 @@
         "start": {
             "doesRequireRecordChangedToMeetCriteria": false,
             "filters": [],
-            "locationX": 58,
+            "locationX": 59,
             "locationY": 51,
             "processMetadataValues": [],
             "scheduledPaths": []
