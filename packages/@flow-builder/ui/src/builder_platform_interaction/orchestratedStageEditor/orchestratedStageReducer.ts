@@ -9,7 +9,6 @@ import {
 import { OrchestratedStage } from 'builder_platform_interaction/elementFactory';
 import { ORCHESTRATED_ACTION_CATEGORY } from 'builder_platform_interaction/events';
 import {
-    deleteParameterItem,
     MERGE_WITH_PARAMETERS,
     REMOVE_UNSET_PARAMETERS,
     validateParameter
@@ -19,6 +18,7 @@ import { ACTION_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMeta
 import {
     mergeParameters,
     updateParameterItem,
+    deleteParameterItem,
     removeUnsetParameters,
     removeAllUnsetParameters
 } from 'builder_platform_interaction/orchestratedStageAndStepReducerUtils';

@@ -4,7 +4,8 @@ import {
     PARAMETER_PROPERTY,
     removeAllUnsetParameters,
     removeUnsetParameters,
-    updateParameterItem
+    updateParameterItem,
+    deleteParameterItem
 } from 'builder_platform_interaction/orchestratedStageAndStepReducerUtils';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { ORCHESTRATED_ACTION_CATEGORY } from 'builder_platform_interaction/events';
@@ -137,6 +138,59 @@ describe('OrchestratedStageAndStepReducerUtils', () => {
             };
 
             const newState = updateParameterItem(mockMultiParamPropertiesObject, param);
+
+            expect(newState).toBe(mockMultiParamPropertiesObject);
+        });
+    });
+
+    describe('deleteParameterItem', () => {
+        it('deletes a parameter for the inputParameters property', () => {
+            const deletedParam = mockMultiParamPropertiesObject[PARAMETER_PROPERTY.INPUT][0];
+
+            const newState = deleteParameterItem(mockMultiParamPropertiesObject, deletedParam);
+
+            expect(newState[PARAMETER_PROPERTY.INPUT]).toHaveLength(
+                mockMultiParamPropertiesObject[PARAMETER_PROPERTY.INPUT].length - 1
+            );
+            expect(newState[PARAMETER_PROPERTY.INPUT][0]).toBe(
+                mockMultiParamPropertiesObject[PARAMETER_PROPERTY.INPUT][1]
+            );
+        });
+
+        it('deletes a parameter for the entryActionInputParameters property', () => {
+            const deletedParam = mockMultiParamPropertiesObject[PARAMETER_PROPERTY.ENTRY_INPUT][0];
+
+            const newState = deleteParameterItem(mockMultiParamPropertiesObject, deletedParam);
+
+            expect(newState[PARAMETER_PROPERTY.ENTRY_INPUT]).toHaveLength(
+                mockMultiParamPropertiesObject[PARAMETER_PROPERTY.ENTRY_INPUT].length - 1
+            );
+            expect(newState[PARAMETER_PROPERTY.ENTRY_INPUT][0]).toBe(
+                mockMultiParamPropertiesObject[PARAMETER_PROPERTY.ENTRY_INPUT][1]
+            );
+        });
+
+        it('deletes a parameter for the exitActionInputParameters property', () => {
+            const deletedParam = mockMultiParamPropertiesObject[PARAMETER_PROPERTY.EXIT_INPUT][0];
+
+            const newState = deleteParameterItem(mockMultiParamPropertiesObject, deletedParam);
+
+            expect(newState[PARAMETER_PROPERTY.EXIT_INPUT]).toHaveLength(
+                mockMultiParamPropertiesObject[PARAMETER_PROPERTY.EXIT_INPUT].length - 1
+            );
+            expect(newState[PARAMETER_PROPERTY.EXIT_INPUT][0]).toBe(
+                mockMultiParamPropertiesObject[PARAMETER_PROPERTY.EXIT_INPUT][1]
+            );
+        });
+
+        it('returns the original state when the rowIndex is not found in the configured list', () => {
+            const param = {
+                name: { value: 'actionInput__stepDescription' },
+                value: { value: 'step description' },
+                rowIndex: 'other_actionInput__stepDescriptionGuid'
+            };
+
+            const newState = deleteParameterItem(mockMultiParamPropertiesObject, param);
 
             expect(newState).toBe(mockMultiParamPropertiesObject);
         });

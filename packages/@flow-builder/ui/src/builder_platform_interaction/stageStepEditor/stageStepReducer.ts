@@ -19,11 +19,7 @@ import {
     ORCHESTRATED_ACTION_CATEGORY
 } from 'builder_platform_interaction/events';
 import { createCondition, StageStep } from 'builder_platform_interaction/elementFactory';
-import {
-    deleteParameterItem,
-    MERGE_WITH_PARAMETERS,
-    REMOVE_UNSET_PARAMETERS
-} from 'builder_platform_interaction/calloutEditorLib';
+import { MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
 import { InvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { usedBy, UsedByElement } from 'builder_platform_interaction/usedByLib';
@@ -37,7 +33,8 @@ import {
     PARAMETER_PROPERTY,
     removeAllUnsetParameters,
     removeUnsetParameters,
-    updateParameterItem
+    updateParameterItem,
+    deleteParameterItem
 } from 'builder_platform_interaction/orchestratedStageAndStepReducerUtils';
 import { Validation } from 'builder_platform_interaction/validation';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';

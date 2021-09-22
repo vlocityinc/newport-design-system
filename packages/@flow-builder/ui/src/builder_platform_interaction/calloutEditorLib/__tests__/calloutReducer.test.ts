@@ -3,6 +3,7 @@ import {
     mergeWithInputOutputParameters,
     mergeWithInputOutputVariables,
     updateParameterItemByProperty,
+    deleteParameterItemByProperty,
     removeUnsetParametersByProperty
 } from '../calloutEditorLib';
 import { chatterPostActionDetails } from 'serverData/GetInvocableActionDetails/chatterPostActionDetails.json';
@@ -135,6 +136,64 @@ describe('updateParameterItemByProperty', () => {
         // Assert
         expect(newState[paramsProp][0].value.value).toStrictEqual(null);
         expect(newState[paramsProp[1]]).toStrictEqual(currentState[paramsProp[1]]);
+    });
+});
+
+describe('deleteParameterItemByProperty', () => {
+    beforeEach(() => {
+        currentParam = {
+            rowIndex: '54aae715-8881-4a52-b7a9-25c385d1482q',
+            value: 'v1',
+            valueDataType: 'String',
+            error: null,
+            isInput: true
+        };
+    });
+    it('deletes an inputs param', () => {
+        // Arrange
+        const paramsProp = 'inputs';
+        const otherParam = {
+            rowIndex: '14aae715-8881-4a52-b7a9-25c385d1482q',
+            value: 'irrelevant',
+            valueDataType: 'String',
+            error: null,
+            isInput: true
+        };
+        const currentState = {
+            [paramsProp]: [currentParam, otherParam]
+        };
+
+        // Act
+        const newState = deleteParameterItemByProperty(currentState, currentParam, paramsProp);
+
+        // Assert
+        expect(newState[paramsProp]).toHaveLength(1);
+        expect(newState[paramsProp][0]).toBe(otherParam);
+    });
+
+    it('deletes an output param', () => {
+        // Arrange
+        const paramsProp = 'outputs';
+        currentParam = updateProperties(currentParam, {
+            isInput: false
+        });
+        const otherParam = {
+            rowIndex: '14aae715-8881-4a52-b7a9-25c385d1482q',
+            value: 'irrelevant',
+            valueDataType: 'String',
+            error: null,
+            isInput: true
+        };
+        const currentState = {
+            [paramsProp]: [currentParam, otherParam]
+        };
+
+        // Act
+        const newState = deleteParameterItemByProperty(currentState, currentParam, paramsProp);
+
+        // Assert
+        expect(newState[paramsProp]).toHaveLength(1);
+        expect(newState[paramsProp][0]).toBe(otherParam);
     });
 });
 

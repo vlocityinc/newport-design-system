@@ -4,7 +4,8 @@ import {
     mergeInputOutputParameters,
     mergeWithInputOutputParameters,
     removeUnsetParametersByProperty,
-    updateParameterItemByProperty
+    updateParameterItemByProperty,
+    deleteParameterItemByProperty
 } from 'builder_platform_interaction/calloutEditorLib';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 
@@ -72,6 +73,20 @@ export const updateParameterItem = <T extends OrchestratedStage | StageStep>(sta
         return state;
     }
     return updateParameterItemByProperty(state, param, property);
+};
+
+/**
+ * @param state the OrchestratedStage or StageStep
+ * @param param the GUID of the row item that is being unset
+ * @returns the updated OrchestratedStage or StageStep
+ */
+export const deleteParameterItem = <T extends OrchestratedStage | StageStep>(state: T, param): T => {
+    const property: string | undefined = findInputParameterProperty(state, param.rowIndex);
+
+    if (!property) {
+        return state;
+    }
+    return deleteParameterItemByProperty(state, param, property);
 };
 
 /**

@@ -179,10 +179,7 @@ const getAllIndexes = (arr, callback) => {
     return indexes;
 };
 
-const removeDuplicateWarningIfOnlyOneWithName = (state, isInput, name) => {
-    const propertyName = isInput
-        ? getNodeInputsPropertyName(state.elementType)
-        : getNodeOutputsPropertyName(state.elementType);
+const removeDuplicateWarningIfOnlyOneWithName = (state, name, propertyName) => {
     const indexesWithSameName = getAllIndexes(
         state[propertyName],
         (parameter) => getValueFromHydratedItem(parameter.name) === name
@@ -212,23 +209,35 @@ const removeDuplicateWarningIfOnlyOneWithName = (state, isInput, name) => {
 /**
  * delete parameter item
  *
- * @param {Object} state the original node
- * @param {Object} param the parameter that we want to update (see DeleteParameterItemEvent.detail)
- * @returns {Object} the updated node
+ * @param state the original node
+ * @param param the parameter that we want to delete (see DeleteParameterItemEvent.detail)
+ * @param propertyName the property name for the parameters field
+ * @returns the updated node
  */
-export const deleteParameterItem = (state, param) => {
-    const { rowIndex, isInput, name } = param;
-    const propertyName = isInput
-        ? getNodeInputsPropertyName(state.elementType)
-        : getNodeOutputsPropertyName(state.elementType);
+export const deleteParameterItemByProperty = <T extends Object>(state: T, param, propertyName: String): T => {
+    const { rowIndex, name } = param;
     const paramIndex = state[propertyName].findIndex(
         (parameter) => getValueFromHydratedItem(parameter.rowIndex) === rowIndex
     );
     const updatedParameters = deleteItem(state[propertyName], paramIndex);
     const path = [[propertyName]];
     state = set(state, path, updatedParameters);
-    state = removeDuplicateWarningIfOnlyOneWithName(state, isInput, name);
+    state = removeDuplicateWarningIfOnlyOneWithName(state, name, propertyName);
     return state;
+};
+
+/**
+ * delete parameter item
+ *
+ * @param state the original node
+ * @param param the parameter that we want to delete (see DeleteParameterItemEvent.detail)
+ * @returns the updated node
+ */
+export const deleteParameterItem = <T extends Object>(state: T, param): T => {
+    const propertyName = param?.isInput
+        ? getNodeInputsPropertyName(state.elementType)
+        : getNodeOutputsPropertyName(state.elementType);
+    return deleteParameterItemByProperty(state, param, propertyName);
 };
 
 const removeOutputErrors = (state) => {

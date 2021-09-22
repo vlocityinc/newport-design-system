@@ -2,7 +2,9 @@
 import {
     DeleteOrchestrationActionEvent,
     OrchestrationActionValueChangedEvent,
-    PropertyChangedEvent
+    PropertyChangedEvent,
+    UpdateParameterItemEvent,
+    DeleteParameterItemEvent
 } from 'builder_platform_interaction/events';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { orchestratedStageReducer } from '../orchestratedStageReducer';
@@ -64,7 +66,10 @@ jest.mock('builder_platform_interaction/dataMutationLib', () => {
         deleteItem: jest.fn((state, index) => {
             return actual.deleteItem(state, index);
         }),
-        getValueFromHydratedItem: actual.getValueFromHydratedItem
+        getValueFromHydratedItem: actual.getValueFromHydratedItem,
+        set: jest.fn((object, path, value) => {
+            return actual.set(object, path, value);
+        })
     };
 });
 
@@ -295,5 +300,90 @@ describe('OrchestratedStageReducer', () => {
             originalStateWithExitAction,
             new Validation().finalizedRules
         );
+    });
+
+    describe('updateParameterItem', () => {
+        it('updates a parameter value in exit action inputs', () => {
+            // Arrange
+            const newVal = '$GlobalConstant.EmptyString';
+            const event = new CustomEvent(UpdateParameterItemEvent.EVENT_NAME, {
+                detail: {
+                    error: null,
+                    isInput: true,
+                    name: 'TestVar',
+                    rowIndex: originalStateWithExitAction.exitActionInputParameters[0].rowIndex,
+                    value: newVal,
+                    valueDataType: 'String'
+                }
+            });
+
+            // Act
+            const newState = orchestratedStageReducer(originalStateWithExitAction, event);
+
+            // Assert
+            expect(newState.exitActionInputParameters[0].value.value).toStrictEqual(newVal);
+        });
+
+        it('calls removeAllUnsetParameters', () => {
+            // Arrange
+            const newVal = '$GlobalConstant.EmptyString';
+            const event = new CustomEvent(UpdateParameterItemEvent.EVENT_NAME, {
+                detail: {
+                    error: null,
+                    isInput: true,
+                    name: 'TestVar',
+                    rowIndex: originalStateWithExitAction.exitActionInputParameters[0].rowIndex,
+                    value: newVal,
+                    valueDataType: 'String'
+                }
+            });
+
+            // Act
+            const newState = orchestratedStageReducer(originalStateWithExitAction, event);
+
+            expect(removeAllUnsetParameters).toHaveBeenCalledWith(newState);
+        });
+    });
+
+    describe('deleteParameterItem', () => {
+        it('deletes a parameter value in exit action inputs', () => {
+            // Arrange
+            const deletedParam = originalStateWithExitAction.exitActionInputParameters[0];
+            const event = new CustomEvent(DeleteParameterItemEvent.EVENT_NAME, {
+                detail: {
+                    isInput: true,
+                    name: deletedParam.name.value,
+                    rowIndex: deletedParam.rowIndex
+                }
+            });
+
+            // Act
+            const newState = orchestratedStageReducer(originalStateWithExitAction, event);
+
+            // Assert
+            expect(newState.exitActionInputParameters).toHaveLength(
+                originalStateWithExitAction.exitActionInputParameters.length - 1
+            );
+            expect(newState.exitActionInputParameters[0]).toBe(
+                originalStateWithExitAction.exitActionInputParameters[1]
+            );
+        });
+
+        it('calls removeAllUnsetParameters', () => {
+            // Arrange
+            const deletedParam = originalStateWithExitAction.exitActionInputParameters[0];
+            const event = new CustomEvent(DeleteParameterItemEvent.EVENT_NAME, {
+                detail: {
+                    isInput: true,
+                    name: deletedParam.name.value,
+                    rowIndex: deletedParam.rowIndex
+                }
+            });
+
+            // Act
+            const newState = orchestratedStageReducer(originalStateWithExitAction, event);
+
+            expect(removeAllUnsetParameters).toHaveBeenCalledWith(newState);
+        });
     });
 });

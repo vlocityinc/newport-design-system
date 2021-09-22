@@ -8,7 +8,8 @@ import {
     OrchestrationActionValueChangedEvent,
     PropertyChangedEvent,
     UpdateParameterItemEvent,
-    UpdateConditionEvent
+    UpdateConditionEvent,
+    DeleteParameterItemEvent
 } from 'builder_platform_interaction/events';
 import { createCondition } from 'builder_platform_interaction/elementFactory';
 import { ORCHESTRATED_ACTION_CATEGORY } from 'builder_platform_interaction/events';
@@ -144,7 +145,23 @@ describe('StageStep Reducer', () => {
         originalStateWithEntryExitActions = {
             guid: 'itemGuid',
 
-            inputParameters: [{}],
+            inputParameters: [
+                {
+                    name: { value: 'ip1' },
+                    value: { value: 'ip1Value' },
+                    rowIndex: 'Ip1Guid'
+                },
+                {
+                    name: { value: 'ip2' },
+                    value: { value: 'ip2Value' },
+                    rowIndex: 'Ip2Guid'
+                },
+                {
+                    name: { value: 'ip3' },
+                    value: null,
+                    rowIndex: 'Ip3Guid'
+                }
+            ],
             ouputParameters: [{}],
 
             entryAction: {},
@@ -719,7 +736,7 @@ describe('StageStep Reducer', () => {
     });
 
     describe('updateParameterItem', () => {
-        it('updates a parameter value in entry inputs', () => {
+        it('updates a parameter value in step action inputs', () => {
             // Arrange
             const newVal = '$GlobalConstant.EmptyString';
             const event = new CustomEvent(UpdateParameterItemEvent.EVENT_NAME, {
@@ -727,7 +744,28 @@ describe('StageStep Reducer', () => {
                     error: null,
                     isInput: true,
                     name: 'TestVar',
-                    rowIndex: 'entryIp1Guid',
+                    rowIndex: originalStateWithEntryExitActions.inputParameters[0].rowIndex,
+                    value: newVal,
+                    valueDataType: 'String'
+                }
+            });
+
+            // Act
+            const newState = stageStepReducer(originalStateWithEntryExitActions, event);
+
+            // Assert
+            expect(newState.inputParameters[0].value.value).toStrictEqual(newVal);
+        });
+
+        it('updates a parameter value in entry action inputs', () => {
+            // Arrange
+            const newVal = '$GlobalConstant.EmptyString';
+            const event = new CustomEvent(UpdateParameterItemEvent.EVENT_NAME, {
+                detail: {
+                    error: null,
+                    isInput: true,
+                    name: 'TestVar',
+                    rowIndex: originalStateWithEntryExitActions.entryActionInputParameters[0].rowIndex,
                     value: newVal,
                     valueDataType: 'String'
                 }
@@ -738,6 +776,27 @@ describe('StageStep Reducer', () => {
 
             // Assert
             expect(newState.entryActionInputParameters[0].value.value).toStrictEqual(newVal);
+        });
+
+        it('updates a parameter value in exit action inputs', () => {
+            // Arrange
+            const newVal = '$GlobalConstant.EmptyString';
+            const event = new CustomEvent(UpdateParameterItemEvent.EVENT_NAME, {
+                detail: {
+                    error: null,
+                    isInput: true,
+                    name: 'TestVar',
+                    rowIndex: originalStateWithEntryExitActions.exitActionInputParameters[0].rowIndex,
+                    value: newVal,
+                    valueDataType: 'String'
+                }
+            });
+
+            // Act
+            const newState = stageStepReducer(originalStateWithEntryExitActions, event);
+
+            // Assert
+            expect(newState.exitActionInputParameters[0].value.value).toStrictEqual(newVal);
         });
 
         it('calls removeAllUnsetParameters', () => {
@@ -813,5 +872,89 @@ describe('StageStep Reducer', () => {
 
         const validation = new Validation();
         expect(validation.validateAll).toHaveBeenCalledWith(originalStateWithEntryExitActions, {});
+    });
+
+    describe('deleteParameterItem', () => {
+        it('deletes a parameter value in step action inputs', () => {
+            // Arrange
+            const deletedParameter = originalStateWithEntryExitActions.inputParameters[0];
+            const event = new CustomEvent(DeleteParameterItemEvent.EVENT_NAME, {
+                detail: {
+                    isInput: true,
+                    name: deletedParameter.name.value,
+                    rowIndex: deletedParameter.rowIndex
+                }
+            });
+
+            // Act
+            const newState = stageStepReducer(originalStateWithEntryExitActions, event);
+
+            // Assert
+            expect(newState.inputParameters).toHaveLength(originalStateWithEntryExitActions.inputParameters.length - 1);
+            expect(newState.inputParameters[0]).toBe(originalStateWithEntryExitActions.inputParameters[1]);
+        });
+
+        it('deletes a parameter value in entry action inputs', () => {
+            // Arrange
+            const deletedParameter = originalStateWithEntryExitActions.entryActionInputParameters[0];
+            const event = new CustomEvent(DeleteParameterItemEvent.EVENT_NAME, {
+                detail: {
+                    isInput: true,
+                    name: deletedParameter.name.value,
+                    rowIndex: deletedParameter.rowIndex
+                }
+            });
+
+            // Act
+            const newState = stageStepReducer(originalStateWithEntryExitActions, event);
+
+            // Assert
+            expect(newState.entryActionInputParameters).toHaveLength(
+                originalStateWithEntryExitActions.entryActionInputParameters.length - 1
+            );
+            expect(newState.entryActionInputParameters[0]).toBe(
+                originalStateWithEntryExitActions.entryActionInputParameters[1]
+            );
+        });
+
+        it('deletes a parameter value in exit action inputs', () => {
+            // Arrange
+            const deletedParam = originalStateWithEntryExitActions.exitActionInputParameters[0];
+            const event = new CustomEvent(DeleteParameterItemEvent.EVENT_NAME, {
+                detail: {
+                    isInput: true,
+                    name: deletedParam.name.value,
+                    rowIndex: deletedParam.rowIndex
+                }
+            });
+
+            // Act
+            const newState = stageStepReducer(originalStateWithEntryExitActions, event);
+
+            // Assert
+            expect(newState.exitActionInputParameters).toHaveLength(
+                originalStateWithEntryExitActions.exitActionInputParameters.length - 1
+            );
+            expect(newState.exitActionInputParameters[0]).toBe(
+                originalStateWithEntryExitActions.exitActionInputParameters[1]
+            );
+        });
+
+        it('calls removeAllUnsetParameters', () => {
+            // Arrange
+            const deletedParameter = originalStateWithEntryExitActions.inputParameters[0];
+            const event = new CustomEvent(DeleteParameterItemEvent.EVENT_NAME, {
+                detail: {
+                    isInput: true,
+                    name: deletedParameter.name.value,
+                    rowIndex: deletedParameter.rowIndex
+                }
+            });
+
+            // Act
+            const newState = stageStepReducer(originalStateWithEntryExitActions, event);
+
+            expect(removeAllUnsetParameters).toHaveBeenCalledWith(newState);
+        });
     });
 });
