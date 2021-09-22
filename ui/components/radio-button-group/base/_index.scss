@@ -118,7 +118,7 @@
       #{$left}: -0.125rem;
       bottom: -0.125rem;
       display: block;
-      z-index: 999;
+      z-index: ($z-index-default + 1);
       border-radius: 0.25rem;
     }
 
@@ -130,7 +130,7 @@
     &:focus ~ .nds-radio--faux,
     &:focus + .nds-radio_button__label,
     &:focus + .nds-radio--button__label {
-      @include focus-button;
+      @include focus-radio;
       z-index: $z-index-default; // Raises box shadow above adjacent buttons
     }
 

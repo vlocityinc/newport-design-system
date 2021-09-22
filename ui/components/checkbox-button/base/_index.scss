@@ -90,7 +90,7 @@
     ~ .nds-checkbox--faux,
     + .nds-checkbox_faux,
     + .nds-checkbox--faux {
-      @include focus-button;
+      @include focus-radio;
       border-color: $color-border-input-active;
     }
   }

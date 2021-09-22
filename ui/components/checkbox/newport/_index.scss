@@ -107,9 +107,14 @@
       &:focus~.nds-checkbox_faux,
       &:focus~.nds-checkbox--faux,
       &:focus+.nds-checkbox_button__label,
-      &:focus+.nds-checkbox--button__label {
-        outline: 0;
-        box-shadow: none;
+      &:focus+.nds-checkbox--button__label,
+      &:active+.nds-checkbox_faux,
+      &:active+.nds-checkbox--faux,
+      &:active~.nds-checkbox_faux,
+      &:active~.nds-checkbox--faux,
+      &:active+.nds-checkbox_button__label,
+      &:active+.nds-checkbox--button__label {
+        @include focus-radio;
         z-index: $z-index-default; // Raises box shadow above adjacent buttons
       }
 
@@ -246,9 +251,18 @@ fieldset.nds-form-element+.nds-has-error.nds-grid div:first-child small {
   margin-bottom: 2rem;
 }
 
-.nds-checkbox_custom-group input[type="checkbox"]:checked+.nds-img_select-cont .nds-img-item_select-container {
-  border: 2px solid $color-border-input-active;
-}
+.nds-checkbox_custom-group {
+  input[type="checkbox"] {
+    &:checked+.nds-img_select-cont .nds-img-item_select-container {
+      border: 2px solid $color-border-input-active;
+    }
+    &:focus+.nds-img_select-cont .nds-img-item_select-container,
+    &:active+.nds-img_select-cont .nds-img-item_select-container {
+      @include focus-radio;
+      z-index: $z-index-default; // Raises box shadow above adjacent buttons
+    }
+    }
+    }
 
 .nds-checkbox_custom-group.nds-img-wrapper_cont label.nds-img_no-width-height {
   cursor: pointer;

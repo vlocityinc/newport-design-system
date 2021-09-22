@@ -82,7 +82,7 @@
       +.nds-checkbox__label .nds-checkbox--faux {
         content: '';
         border-color: $color-border-input-active;
-        box-shadow: $shadow-button-focus;
+        box-shadow: $shadow-radio-focus;
       }
 
       &:checked>.nds-checkbox_faux,
