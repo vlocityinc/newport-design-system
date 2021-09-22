@@ -383,9 +383,9 @@ export default class FlowPropertiesEditor extends LightningElement {
     }
 
     /**
-     * Returns field level help text for the process type selector if saving as a new flow
+     * helper method to get field level help text for the process type selector if saving as a new flow
      *
-     * @param {string}
+     * @returns field level help text
      */
     get processTypeFieldLevelHelp() {
         return this.isSavingExistingFlow() ? '' : LABELS.processTypeHelpText;
