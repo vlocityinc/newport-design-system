@@ -303,6 +303,43 @@ export function fetchOnce(
 }
 
 /**
+ *
+ * Fetch call that returns a Promise
+ *
+ * @param serverActionType  the name of the server action
+ * @param params parameters for the server action call
+ * @param optionalParams
+ * @param optionalParams.background need to be set to true if request needs to be run as a background action
+ * @param optionalParams.disableErrorModal need to be set to true to disable the default error modal panel
+ * @param optionalParams.messageForErrorModal the message to use instead of the default error message
+ * @returns {Promise} promise for handling the fetch call
+ */
+export function fetchPromise(
+    serverActionType: string,
+    params: Object = {},
+    { background = false, disableErrorModal = false, messageForErrorModal } = {}
+) {
+    return new Promise((resolve, reject) => {
+        fetch(
+            serverActionType,
+            ({ data, error }) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(data);
+                }
+            },
+            params,
+            {
+                background,
+                disableErrorModal,
+                messageForErrorModal
+            }
+        );
+    });
+}
+
+/**
  * @param serverActionType
  * @param params
  */

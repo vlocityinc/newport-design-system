@@ -66,7 +66,7 @@ import {
     isSystemElement,
     SCHEDULED_PATH_TYPE
 } from 'builder_platform_interaction/flowMetadata';
-import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+import { fetch, fetchOnce, fetchPromise, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { INIT, isRedoAvailable, isUndoAvailable, undoRedo } from 'builder_platform_interaction/undoRedoLib';
@@ -1070,11 +1070,40 @@ export default class Editor extends LightningElement {
     };
 
     /**
+     *
+     * Helper method that handles post run/resume debug calls. Populates debug panel data,
+     * converts canvas to debug mode, turns off spinner, makes call to setup canvas decoration/connector highlighting
+     *
+     * @param runInterviewResult  the RunInterviewResult object returned from server call
+     * @param optParams optional params
+     * @param optParams.startInterviewTime  the start time of the interview
+     * @param optParams.enableRollbackMode option to debug with rollback mode on or off
+     * @param optParams.isPausedDebugging is this request from resuming a debug interview?
+     *                                         Tells us if we need to keep connector highlighting
+     */
+    setupDebugger = (
+        runInterviewResult: Object,
+        { startInterviewTime, enableRollbackMode, isPausedDebugging = false }
+    ) => {
+        // Setup the debug data object for the debug panel, and switch to debug mode
+        this.builderMode = BUILDER_MODE.DEBUG_MODE;
+        this.hideDebugAgainButton = false;
+        const endInterviewTime = new Date();
+        const response = debugInterviewResponseCallback(
+            runInterviewResult,
+            storeInstance,
+            this.properties.hasUnsavedChanges,
+            isPausedDebugging
+        );
+        this.debugData = { ...response, startInterviewTime, endInterviewTime, enableRollbackMode };
+    };
+
+    /**
      * Callback after run debug interivew initiated by the debug modal
      *
      * @param debugModal -
      */
-    runDebugInterviewCallback = (debugModal) => {
+    runDebugInterviewCallback = async (debugModal) => {
         const debugOptions = debugModal.get('v.body')[0].getDebugInput() || {};
         this.spinners.showDebugSpinner = true;
         const startInterviewTime = new Date();
@@ -1086,57 +1115,36 @@ export default class Editor extends LightningElement {
             runAsyncScheduledPathOption && runAsyncScheduledPathOption.value === debugOptions.scheduledPathSelection
                 ? runAsyncScheduledPathOption.pathType
                 : null;
-        fetch(
-            SERVER_ACTION_TYPE.RUN_DEBUG,
-            ({ data, error }) => {
-                try {
-                    if (error) {
-                        // Handle server exception here if something is needed beyond our automatic server error popup
-                    } else {
-                        // Setup the debug data object for the debug panel, and switch to debug mode
-                        this.ifBlockResume = false;
-                        this.builderMode = BUILDER_MODE.DEBUG_MODE;
-                        this.hideDebugAgainButton = false;
-                        const endInterviewTime = new Date();
-                        const response = debugInterviewResponseCallback(
-                            data,
-                            storeInstance,
-                            this.properties.hasUnsavedChanges
-                        );
-                        this.debugData = Object.assign(response, {
-                            startInterviewTime,
-                            endInterviewTime,
-                            enableRollbackMode
-                        });
-
-                        this.clearUndoRedoStack();
-                    }
-                    this.spinners.showDebugSpinner = false;
-                    hidePopover();
-                } catch (e) {
-                    this.spinners.showDebugSpinner = false;
-                    throw e;
-                }
-            },
-            {
-                flowDevName: storeInstance.getCurrentState().properties.name,
-                flowVersionId: this.flowId,
-                arguments: JSON.stringify(debugOptions.inputs),
-                enabledTrace: true,
-                enableRollbackMode: !!debugOptions.enableRollback,
-                useLatestSubflow: true,
-                showGovernorlimit: true,
-                debugAsUserId: debugOptions.debugAsUserId,
-                debugWaits: !!debugOptions.debugWaits,
-                ignoreEntryCriteria: !!debugOptions.ignoreEntryCriteria,
-                dmlType: debugOptions.dmlType,
-                scheduledPathSelection: debugOptions.scheduledPathSelection,
-                pathType
-            }
-        );
+        const debugRunParams = {
+            flowDevName: storeInstance.getCurrentState().properties.name,
+            flowVersionId: this.flowId,
+            arguments: JSON.stringify(debugOptions.inputs),
+            enabledTrace: true,
+            enableRollbackMode: !!debugOptions.enableRollback,
+            useLatestSubflow: true,
+            showGovernorlimit: true,
+            debugAsUserId: debugOptions.debugAsUserId,
+            debugWaits: !!debugOptions.debugWaits,
+            ignoreEntryCriteria: !!debugOptions.ignoreEntryCriteria,
+            dmlType: debugOptions.dmlType,
+            scheduledPathSelection: debugOptions.scheduledPathSelection,
+            pathType
+        };
+        try {
+            const runInterviewResult = await fetchPromise(SERVER_ACTION_TYPE.RUN_DEBUG, debugRunParams);
+            this.ifBlockResume = false;
+            this.setupDebugger(runInterviewResult, {
+                startInterviewTime,
+                enableRollbackMode
+            });
+            this.clearUndoRedoStack();
+        } finally {
+            hidePopover(); // close the debug modal
+            this.spinners.showDebugSpinner = false;
+        }
     };
 
-    handleResumeDebugFlow = (event) => {
+    handleResumeDebugFlow = async (event) => {
         if (!this.blockDebugResume) {
             this.spinners.showDebugSpinner = true;
 
@@ -1144,43 +1152,28 @@ export default class Editor extends LightningElement {
             const startInterviewTime = this.debugData.startInterviewTime;
             // Record enableRollbackMode for next resume
             const enableRollback = !!this.debugData.enableRollbackMode;
-            fetch(
-                SERVER_ACTION_TYPE.RESUME_DEBUG_INTERVIEW,
-                ({ data, error }) => {
-                    try {
-                        if (error) {
-                            // Handle server exception here if something is needed beyond our automatic server error popup
-                        }
-                        this.hideDebugAgainButton = false;
-                        const endInterviewTime = new Date();
-                        const response = debugInterviewResponseCallback(
-                            data,
-                            storeInstance,
-                            this.properties.hasUnsavedChanges,
-                            true
-                        );
-                        this.debugData = Object.assign(response, {
-                            startInterviewTime,
-                            endInterviewTime,
-                            enableRollback
-                        });
+            const resumeDebugParams = {
+                showGovernorlimit: true,
+                enabledTrace: true,
+                enableRollbackMode: enableRollback,
+                useLatestSubflow: true,
+                serializedInterview: this.debugData.serializedInterview,
+                waitEvent: event.detail.waitEventName
+            };
 
-                        this.spinners.showDebugSpinner = false;
-                        this.ifDuringRunOrDebug = true;
-                    } catch (e) {
-                        this.spinners.showDebugSpinner = false;
-                        throw e;
-                    }
-                },
-                {
-                    showGovernorlimit: true,
-                    enabledTrace: true,
-                    enableRollbackMode: enableRollback,
-                    useLatestSubflow: true,
-                    serializedInterview: this.debugData.serializedInterview,
-                    waitEvent: event.detail.waitEventName
-                }
-            );
+            try {
+                const runInterviewResult = await fetchPromise(
+                    SERVER_ACTION_TYPE.RESUME_DEBUG_INTERVIEW,
+                    resumeDebugParams
+                );
+                this.setupDebugger(runInterviewResult, {
+                    startInterviewTime,
+                    enableRollback,
+                    isPausedDebugging: true
+                });
+            } finally {
+                this.spinners.showDebugSpinner = false;
+            }
         }
     };
 

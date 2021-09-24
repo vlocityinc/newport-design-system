@@ -37,7 +37,7 @@ export function copyAndUpdateDebugTraceObject(debugData) {
         debugTraces.push(getStartInterviewInfo(debugData));
     }
     for (let i = startIndex; i < debugData.debugTrace.length; i++) {
-        const trace = debugData.debugTrace[i].lines.filter((e) => {
+        const trace = debugData.debugTrace[i]?.lines?.filter((e) => {
             return !!e;
         });
         const elementType = debugData.debugTrace[i].elementIconType;
