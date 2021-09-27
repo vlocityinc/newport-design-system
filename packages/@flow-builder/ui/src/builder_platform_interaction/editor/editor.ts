@@ -255,7 +255,7 @@ export default class Editor extends LightningElement {
 
     debugData;
 
-    fromEmailDebugging;
+    fromEmailDebugging = false;
 
     _guardrailsParams;
 
@@ -658,11 +658,11 @@ export default class Editor extends LightningElement {
     }
 
     get showAddToTestButton() {
-        return !!this.toolbarConfig.showAddToTestButton;
+        return !!this.toolbarConfig.showAddToTestButton && !this.fromEmailDebugging;
     }
 
     get showRunTestButton() {
-        return !!this.toolbarConfig.showRunTestButton;
+        return !!this.toolbarConfig.showRunTestButton && !this.fromEmailDebugging;
     }
 
     get showRunButton() {
@@ -1516,8 +1516,27 @@ export default class Editor extends LightningElement {
      * handles the add to test flow event which changes the mode to become test mode
      */
     handleAddToTestFlow = () => {
-        this.builderMode = BUILDER_MODE.TEST_MODE;
-        // TODO server call for ETS once it is ready
+        // TODO refactor once ETS service is ready to be in the async-await model and and not swallow errors
+        fetch(
+            SERVER_ACTION_TYPE.RUN_TEST_ETS,
+            ({ data, error }) => {
+                try {
+                    if (error) {
+                        // Handle server exception here if something is needed beyond our automatic server error popup
+                    } else {
+                        // Setup the debug data object for the debug panel, and switch to debug mode
+                        this.ifBlockResume = false;
+                        this.builderMode = BUILDER_MODE.TEST_MODE;
+                    }
+                } catch (e) {
+                    this.spinners.showDebugSpinner = false;
+                    throw e;
+                }
+            },
+            {
+                serializedInterview: this.debugData.serializedInterview
+            }
+        );
     };
 
     /**
