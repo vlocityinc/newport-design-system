@@ -14,7 +14,7 @@ import {
 } from './base/baseMetadata';
 import { getElementByGuid, getElementsForElementType } from 'builder_platform_interaction/storeUtils';
 import { createConnectorObjects } from './connector';
-import { sanitizeDevName } from 'builder_platform_interaction/commonUtils';
+import { isReference, sanitizeDevName } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './elementFactoryLabels';
 import { getParametersForInvocableAction, InvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
@@ -33,6 +33,13 @@ export enum ASSIGNEE_TYPE {
     User = 'User'
 }
 
+/**
+ * These are used only on the frontend for distinguishing selection of hardcoded versus resource values for an assignee type
+ */
+export enum ASSIGNEE_RESOURCE_TYPE {
+    UserResource = 'UserResource'
+}
+
 // Used to extra related record for display in its own input
 export const RELATED_RECORD_INPUT_PARAMETER_NAME = 'ActionInput__RecordId';
 
@@ -45,7 +52,7 @@ export interface StageStep extends UI.ChildElement {
 
     relatedRecordItem: ParameterListRowItem | UI.HydratedValue;
 
-    assignees: ({ assignee: any; assigneeType: string } | null)[];
+    assignees: ({ assignee: any; assigneeType: ASSIGNEE_TYPE; isReference: boolean } | null)[];
 
     entryConditions?: UI.Condition[];
     entryConditionLogic?: string;
@@ -530,7 +537,8 @@ export function createStageStep(step: StageStep): StageStep {
     newStep.assignees = [
         {
             assignee: null,
-            assigneeType: ASSIGNEE_TYPE.User
+            assigneeType: ASSIGNEE_TYPE.User,
+            isReference: false
         }
     ];
 
@@ -550,7 +558,8 @@ export function createStageStep(step: StageStep): StageStep {
                               ASSIGNEE_DATA_TYPE_PROPERTY_NAME
                           )
                       }[ASSIGNEE_PROPERTY_NAME],
-                      assigneeType: assigneeFromMetadata.assigneeType
+                      assigneeType: assigneeFromMetadata.assigneeType,
+                      isReference: assigneeFromMetadata.isReference || isReference(assigneeFromMetadata.assignee)
                   }
                 : null;
         });
@@ -562,11 +571,13 @@ export function createStageStep(step: StageStep): StageStep {
                       assignee: assigneeWithType.assignee?.elementReference
                           ? { ...assigneeWithType.assignee }
                           : assigneeWithType.assignee,
-                      assigneeType: assigneeWithType.assigneeType
+                      assigneeType: assigneeWithType.assigneeType,
+                      isReference: assigneeWithType.isReference
                   }
                 : {
                       assignee: null,
-                      assigneeType: ASSIGNEE_TYPE.User
+                      assigneeType: assigneeWithType ? assigneeWithType.assigneeType : ASSIGNEE_TYPE.User,
+                      isReference: assigneeWithType ? assigneeWithType.isReference : false
                   };
         });
     }
@@ -639,12 +650,15 @@ export function createOrchestratedStageMetadataObject(
             assignees: step.assignees
                 .filter((assigneeUI) => assigneeUI?.assignee)
                 .map((assigneeUI) => {
+                    const isReference = assigneeUI!.isReference;
+
                     let assigneeForMetadata = assigneeUI!.assignee;
 
-                    let ferovDataType: string | null = FEROV_DATA_TYPE.STRING;
+                    const ferovDataType: string | null = isReference
+                        ? FEROV_DATA_TYPE.REFERENCE
+                        : FEROV_DATA_TYPE.STRING;
                     if (assigneeForMetadata && assigneeForMetadata.elementReference) {
                         assigneeForMetadata = assigneeForMetadata.elementReference;
-                        ferovDataType = FEROV_DATA_TYPE.REFERENCE;
                     }
 
                     return assigneeUI

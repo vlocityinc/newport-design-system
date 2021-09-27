@@ -8,10 +8,22 @@ import whenStepIsComplete from '@salesforce/label/FlowBuilderStageStepEditor.whe
 import entryCriteriaItemsPlaceholder from '@salesforce/label/FlowBuilderStageStepEditor.entryCriteriaItemsPlaceholder';
 import actionSelectorLabel from '@salesforce/label/FlowBuilderStageStepEditor.actionSelectorLabel';
 import actionSelectorTooltip from '@salesforce/label/FlowBuilderStageStepEditor.actionSelectorTooltip';
+
 import actorSelectionSectionLabel from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectionSectionLabel';
-import actorSelectorLabel from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorLabel';
-import actorSelectorPlaceholder from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorPlaceholder';
-import actorSelectorTooltip from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorTooltip';
+
+import assigneeTypeSelectionLabel from '@salesforce/label/FlowBuilderStageStepEditor.assigneeTypeSelectionLabel';
+import assigneeTypeUser from '@salesforce/label/FlowBuilderStageStepEditor.assigneeTypeUser';
+import assigneeTypeUserReference from '@salesforce/label/FlowBuilderStageStepEditor.assigneeTypeUserReference';
+
+import actorSelectorUserLabel from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorUserLabel';
+import actorSelectorUserReferenceLabel from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorUserReferenceLabel';
+import actorSelectorUserPlaceholder from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorUserPlaceholder';
+import actorSelectorUserReferencePlaceholder from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorUserReferencePlaceholder';
+import actorSelectorUserTooltip from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorUserTooltip';
+import actorSelectorUserReferenceTooltip from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorUserReferenceTooltip';
+
+import cannotBeBlank from '@salesforce/label/FlowBuilderValidation.cannotBeBlank';
+
 import entrySectionLabel from '@salesforce/label/FlowBuilderStageStepEditor.entrySectionLabel';
 import exitSectionLabel from '@salesforce/label/FlowBuilderStageStepEditor.exitSectionLabel';
 import exitActionSelectionLabel from '@salesforce/label/FlowBuilderStageStepEditor.exitActionSelectionLabel';
@@ -62,9 +74,19 @@ export const LABELS = {
     thisActionHasNoInputBody,
     thisActionHasNoInputOutputBody,
     actorSelectionSectionLabel,
-    actorSelectorLabel,
-    actorSelectorPlaceholder,
-    actorSelectorTooltip,
+    assigneeTypeSelectionLabel,
+    assigneeTypeUser,
+    assigneeTypeUserReference,
+
+    actorSelectorUserLabel,
+    actorSelectorUserReferenceLabel,
+    actorSelectorUserPlaceholder,
+    actorSelectorUserReferencePlaceholder,
+    actorSelectorUserTooltip,
+    actorSelectorUserReferenceTooltip,
+
+    cannotBeBlank,
+
     entrySectionLabel,
     exitSectionLabel,
     completeOptionBasedOnCustomFlow,

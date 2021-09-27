@@ -208,7 +208,8 @@ const assigneeChanged = (state: StageStep, event: OrchestrationAssigneeChangedEv
                     value: event.detail.value,
                     error: event.detail.error
                 },
-                assigneeType: 'User'
+                assigneeType: 'User',
+                isReference: event.detail.isReference
             }
         ]
     });

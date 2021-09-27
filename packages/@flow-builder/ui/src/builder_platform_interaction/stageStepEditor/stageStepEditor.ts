@@ -9,13 +9,14 @@ import {
     ComboboxStateChangedEvent,
     CreateEntryConditionsEvent,
     DeleteAllConditionsEvent,
+    DeleteOrchestrationActionEvent,
+    ORCHESTRATED_ACTION_CATEGORY,
+    OrchestrationActionValueChangedEvent,
+    OrchestrationAssigneeChangedEvent,
     PropertyChangedEvent,
     UpdateConditionEvent,
     UpdateNodeEvent,
-    ValueChangedEvent,
-    OrchestrationActionValueChangedEvent,
-    DeleteOrchestrationActionEvent,
-    OrchestrationAssigneeChangedEvent
+    ValueChangedEvent
 } from 'builder_platform_interaction/events';
 import { LABELS } from './stageStepEditorLabels';
 import { stageStepReducer } from './stageStepReducer';
@@ -24,6 +25,8 @@ import { ACTION_TYPE, ELEMENT_TYPE, FLOW_TRANSACTION_MODEL, ICONS } from 'builde
 import {
     ASSIGNEE_DATA_TYPE_PROPERTY_NAME,
     ASSIGNEE_PROPERTY_NAME,
+    ASSIGNEE_RESOURCE_TYPE,
+    ASSIGNEE_TYPE,
     createFEROVMetadataObject,
     getOtherItemsInOrchestratedStage,
     isParameterListRowItem,
@@ -31,7 +34,6 @@ import {
     RELATED_RECORD_INPUT_PARAMETER_NAME,
     StageStep
 } from 'builder_platform_interaction/elementFactory';
-import { ORCHESTRATED_ACTION_CATEGORY } from 'builder_platform_interaction/events';
 import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { fetchDetailsForInvocableAction, InvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import {
@@ -65,6 +67,10 @@ export enum EXIT_CRITERIA {
 
 // Standard inputs that should not show up as inputs associated with the selected action
 const STANDARD_INPUT_PREFIX = 'ActionInput__';
+
+const SELECTORS = {
+    ASSIGNEE_INPUT_FIELD: '.assigneePicker lightning-input'
+};
 
 export default class StageStepEditor extends LightningElement {
     labels = LABELS;
@@ -111,6 +117,17 @@ export default class StageStepEditor extends LightningElement {
 
     recordPickerId = generateGuid();
     recordErrorMessage;
+
+    assigneeTypeOptions: { label: String; value: ASSIGNEE_TYPE | ASSIGNEE_RESOURCE_TYPE }[] = [
+        {
+            label: LABELS.assigneeTypeUser,
+            value: ASSIGNEE_TYPE.User
+        },
+        {
+            label: LABELS.assigneeTypeUserReference,
+            value: ASSIGNEE_RESOURCE_TYPE.UserResource
+        }
+    ];
 
     // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
     @api
@@ -170,6 +187,8 @@ export default class StageStepEditor extends LightningElement {
     @api validate(): object {
         const event = new CustomEvent(VALIDATE_ALL);
         this.element = stageStepReducer(this.element!, event);
+
+        this.setActorError(this.element.assignees[0]?.assignee?.error);
 
         return getErrorsFromHydratedElement(this.element);
     }
@@ -258,7 +277,6 @@ export default class StageStepEditor extends LightningElement {
         // This has to be done manually in every property editor
         if (!newValue?.isNew) {
             this.validate();
-            this.actorErrorMessage = this.element.assignees[0]?.assignee?.error;
 
             // If an error was explicitly set by the action selector, then use that
             // rather than the error from validation.  This is needed because validation
@@ -533,6 +551,14 @@ export default class StageStepEditor extends LightningElement {
         };
     }
 
+    get isAssigneeReference() {
+        return this.element?.assignees[0]?.isReference;
+    }
+
+    get selectedAssigneeType() {
+        return this.element?.assignees[0]?.isReference ? ASSIGNEE_RESOURCE_TYPE.UserResource : ASSIGNEE_TYPE.User;
+    }
+
     get actorValue() {
         if (this.element?.assignees[0]?.assignee) {
             if (this.element.assignees[0].assignee?.elementReference) {
@@ -565,19 +591,19 @@ export default class StageStepEditor extends LightningElement {
         return null;
     }
 
-    get actorComboBoxConfig() {
+    get userReferenceComboBoxConfig() {
         return BaseResourcePicker.getComboboxConfig(
-            this.labels.actorSelectorLabel, // Label
-            this.labels.actorSelectorPlaceholder, // Placeholder
+            this.labels.actorSelectorUserReferenceLabel, // Label
+            this.labels.actorSelectorUserReferencePlaceholder, // Placeholder
             this.error, // errorMessage
-            true, // literalsAllowed
+            false, // literalsAllowed
             true, // required
             false, // disabled
             FLOW_DATA_TYPE.STRING.value,
             true, // enableFieldDrilldown,
             true, // allowSObjectFields
             LIGHTNING_INPUT_VARIANTS.STANDARD,
-            this.labels.actorSelectorTooltip // Field-level Help
+            this.labels.actorSelectorUserReferenceTooltip // Field-level Help
         );
     }
 
@@ -643,6 +669,27 @@ export default class StageStepEditor extends LightningElement {
 
     isStepWithType(actionType: ACTION_TYPE | undefined): boolean {
         return this.element?.action.actionType === actionType || this.element?.action.actionType.value === actionType;
+    }
+
+    /**
+     * LWC hook after rendering every component we are setting all errors via set Custom Validity
+     * except initial rendering
+     */
+    renderedCallback() {
+        this.setActorError(this.element?.assignees[0]?.assignee?.error);
+    }
+
+    setActorError(error: string | null) {
+        this.actorErrorMessage = error ? error : '';
+        const assigneeInput = this.template.querySelector(SELECTORS.ASSIGNEE_INPUT_FIELD);
+        this.setInputErrorMessage(assigneeInput, this.actorErrorMessage);
+    }
+
+    setInputErrorMessage(element, error = '') {
+        if (element) {
+            element.setCustomValidity(error);
+            element.showHelpMessageIfInvalid();
+        }
     }
 
     /**
@@ -848,20 +895,58 @@ export default class StageStepEditor extends LightningElement {
         }
     }
 
-    handleActorChanged = (event) => {
+    handleAssigneeTypeChanged = (event) => {
         event.stopPropagation();
 
-        let assignee = event.detail.item ? event.detail.item.value : event.detail.displayText;
+        const updateActor = new OrchestrationAssigneeChangedEvent(
+            createFEROVMetadataObject(
+                {
+                    assignee: null,
+                    assigneeDataType: FEROV_DATA_TYPE.STRING
+                },
+                ASSIGNEE_PROPERTY_NAME,
+                ASSIGNEE_DATA_TYPE_PROPERTY_NAME
+            ),
+            event.detail.value === ASSIGNEE_RESOURCE_TYPE.UserResource
+        );
+        this.element = stageStepReducer(this.element!, updateActor);
+
+        this.dispatchEvent(new UpdateNodeEvent(this.element));
+    };
+
+    /**
+     * Used for lightning-input (user)
+     *
+     * @param event
+     */
+    handleAssigneeFocusOut = (event) => {
+        event.stopPropagation();
+        this.updateAssignee(event.target.value, '');
+    };
+
+    /**
+     * Used for combobox (reference)
+     *
+     * @param event
+     */
+    handleActorChanged = (event) => {
+        event.stopPropagation();
+        this.updateAssignee(
+            event.detail.item ? event.detail.item.value : event.detail.displayText,
+            event.detail.item ? event.detail.item.error : event.detail.error
+        );
+    };
+
+    updateAssignee(assignee: string | null, error: string) {
         if (assignee === '') {
             assignee = null;
         }
 
         let ferovDataType: string | null = FEROV_DATA_TYPE.STRING;
-        if (getResourceByUniqueIdentifier(assignee)) {
+        if (assignee && getResourceByUniqueIdentifier(assignee)) {
             ferovDataType = getFerovDataTypeForValidId(assignee);
         }
 
-        const error = event.detail.item ? event.detail.item.error : event.detail.error;
         const updateActor = new OrchestrationAssigneeChangedEvent(
             createFEROVMetadataObject(
                 {
@@ -870,12 +955,14 @@ export default class StageStepEditor extends LightningElement {
                 },
                 ASSIGNEE_PROPERTY_NAME,
                 ASSIGNEE_DATA_TYPE_PROPERTY_NAME
-            )
+            ),
+            this.element?.assignees[0]?.isReference,
+            error
         );
         this.element = stageStepReducer(this.element!, updateActor);
-        this.actorErrorMessage = error;
+        this.setActorError(error);
         this.dispatchEvent(new UpdateNodeEvent(this.element));
-    };
+    }
 
     handleRecordChanged = (event) => {
         event.stopPropagation();

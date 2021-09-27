@@ -18,7 +18,11 @@ import {
 import { invocableActionsForOrchestrator } from 'serverData/GetAllInvocableActionsForType/invocableActionsForOrchestrator.json';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { getOtherItemsInOrchestratedStage } from 'builder_platform_interaction/elementFactory';
+import {
+    ASSIGNEE_RESOURCE_TYPE,
+    ASSIGNEE_TYPE,
+    getOtherItemsInOrchestratedStage
+} from 'builder_platform_interaction/elementFactory';
 import { ORCHESTRATED_ACTION_CATEGORY } from 'builder_platform_interaction/events';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
@@ -112,11 +116,15 @@ const createComponentUnderTest = (node) => {
 
 const selectors = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
-    CRITERIA_DROPDOWNS: 'lightning-combobox',
+    ENTRY_CRITERIA_DROPDOWN: 'lightning-combobox.stepStart',
     ENTRY_CRITERIA_ITEM: 'builder_platform_interaction-combobox',
+    EXIT_CRITERIA_DROPDOWN: 'lightning-combobox.stepCompletes',
     ACTION_SELECTOR: 'builder_platform_interaction-action-selector',
     PARAMETER_LIST: 'builder_platform_interaction-parameter-list',
     RELATED_RECORD_SELECTOR: 'builder_platform_interaction-ferov-resource-picker.recordPicker',
+    ASSIGNEE_TYPE_SELECTOR: 'lightning-combobox.assigneeType',
+    USER_SELECTOR: '.assigneePicker lightning-input',
+    USER_REFERENCE_SELECTOR: '.assigneePicker builder_platform_interaction-ferov-resource-picker',
     ACTOR_SELECTOR: 'builder_platform_interaction-ferov-resource-picker.actorPicker',
     ENTRY_ACTION: '.entry-action',
     EXIT_ACTION: '.exit-action'
@@ -212,7 +220,8 @@ describe('StageStepEditor', () => {
         assignees: [
             {
                 assignee: { value: 'orchestrator@salesforce.com' },
-                assigneeType: 'User'
+                assigneeType: 'User',
+                isReference: false
             }
         ]
     };
@@ -239,7 +248,8 @@ describe('StageStepEditor', () => {
         assignees: [
             {
                 assignee: { value: 'orchestrator@salesforce.com' },
-                assigneeType: 'User'
+                assigneeType: 'User',
+                isReference: false
             }
         ],
         inputParameters: mockInputParameters,
@@ -285,13 +295,13 @@ describe('StageStepEditor', () => {
         });
 
         it('sets selectedEntryCriteria by default', () => {
-            const entryCriteriaDropdown = editor.shadowRoot.querySelector(selectors.CRITERIA_DROPDOWNS);
+            const entryCriteriaDropdown = editor.shadowRoot.querySelector(selectors.ENTRY_CRITERIA_DROPDOWN);
             expect(entryCriteriaDropdown.value).toEqual(ENTRY_CRITERIA.ON_STAGE_START);
         });
 
         it('sets selectedEntryCriteria to on_determination_complete when there is entry action in metadata', () => {
             editor = createComponentUnderTest(nodeParamsWithDeterminations);
-            const entryCriteriaDropdown = editor.shadowRoot.querySelector(selectors.CRITERIA_DROPDOWNS);
+            const entryCriteriaDropdown = editor.shadowRoot.querySelector(selectors.ENTRY_CRITERIA_DROPDOWN);
             expect(entryCriteriaDropdown.value).toEqual(ENTRY_CRITERIA.ON_DETERMINATION_COMPLETE);
             expect(entryCriteriaDropdown.fieldLevelHelp).toEqual(LABELS.criteriaActionHelpText);
         });
@@ -367,20 +377,20 @@ describe('StageStepEditor', () => {
         });
 
         it('sets selectedExitCriteria by default', () => {
-            const dropdowns = editor.shadowRoot.querySelectorAll(selectors.CRITERIA_DROPDOWNS);
-            expect(dropdowns[1].value).toEqual(EXIT_CRITERIA.ON_STEP_COMPLETE);
+            const dropdown = editor.shadowRoot.querySelector(selectors.EXIT_CRITERIA_DROPDOWN);
+            expect(dropdown.value).toEqual(EXIT_CRITERIA.ON_STEP_COMPLETE);
         });
 
         it('sets selectedExitCriteria to on_determination_complete when there is entry action in metadata', () => {
             editor = createComponentUnderTest(nodeParamsWithDeterminations);
-            const dropdowns = editor.shadowRoot.querySelectorAll(selectors.CRITERIA_DROPDOWNS);
-            expect(dropdowns[1].value).toEqual(EXIT_CRITERIA.ON_DETERMINATION_COMPLETE);
+            const dropdown = editor.shadowRoot.querySelector(selectors.EXIT_CRITERIA_DROPDOWN);
+            expect(dropdown.value).toEqual(EXIT_CRITERIA.ON_DETERMINATION_COMPLETE);
         });
 
         it('should not show exit criteria for autolaunched step', () => {
             editor = createComponentUnderTest(autolaunchedNodeParams);
-            const dropdowns = editor.shadowRoot.querySelector(selectors.CRITERIA_DROPDOWNS);
-            expect(typeof dropdowns).toBe('object');
+            const dropdown = editor.shadowRoot.querySelector(selectors.EXIT_CRITERIA_DROPDOWN);
+            expect(typeof dropdown).toBe('object');
         });
 
         it('dispatches UpdateNodeEvent if hasError does not match oldHasError', async () => {
@@ -578,7 +588,7 @@ describe('StageStepEditor', () => {
 
         describe('handleStepStartChanged', () => {
             it('deletes entry criteria item if changing to ON_STAGE_START', () => {
-                const entryCriteriaDropdown = editor.shadowRoot.querySelector(selectors.CRITERIA_DROPDOWNS);
+                const entryCriteriaDropdown = editor.shadowRoot.querySelector(selectors.ENTRY_CRITERIA_DROPDOWN);
 
                 const event = new CustomEvent('change', {
                     detail: {
@@ -599,7 +609,7 @@ describe('StageStepEditor', () => {
             });
 
             it('instantiates entryConditions list, and deletes a potential entry action if changing to ON_STEP_COMPLETE', () => {
-                const entryCriteriaDropdown = editor.shadowRoot.querySelector(selectors.CRITERIA_DROPDOWNS);
+                const entryCriteriaDropdown = editor.shadowRoot.querySelector(selectors.ENTRY_CRITERIA_DROPDOWN);
 
                 const event = new CustomEvent('change', {
                     detail: {
@@ -622,8 +632,7 @@ describe('StageStepEditor', () => {
 
         describe('handleStepCompletesChanged updates Exit Determination Action', () => {
             it('deletes any exit determination action if changing to ON_STEP_COMPLETE', () => {
-                const dropdowns = editor.shadowRoot.querySelectorAll(selectors.CRITERIA_DROPDOWNS);
-                const exitCriteriaDropdown = dropdowns[1];
+                const exitCriteriaDropdown = editor.shadowRoot.querySelector(selectors.EXIT_CRITERIA_DROPDOWN);
                 const event = new CustomEvent('change', {
                     detail: {
                         value: EXIT_CRITERIA.ON_STEP_COMPLETE
@@ -721,79 +730,128 @@ describe('StageStepEditor', () => {
             });
         });
 
-        describe('assignee selection', () => {
-            it('sets combobox config correctly', () => {
-                const actorSelector = editor.shadowRoot.querySelector(selectors.ACTOR_SELECTOR);
-                expect(actorSelector).toBeDefined();
-                expect(actorSelector.propertyEditorElementType).toBe('STAGE_STEP');
-                expect(actorSelector.elementParam).toEqual({ collection: false, dataType: 'String' });
-                expect(actorSelector.comboboxConfig).toEqual({
-                    allowSObjectFields: true,
-                    disabled: false,
-                    enableFieldDrilldown: true,
-                    errorMessage: undefined,
-                    fieldLevelHelp: 'FlowBuilderStageStepEditor.actorSelectorTooltip',
-                    label: 'FlowBuilderStageStepEditor.actorSelectorLabel',
-                    literalsAllowed: true,
-                    placeholder: 'FlowBuilderStageStepEditor.actorSelectorPlaceholder',
-                    required: true,
-                    type: 'String',
-                    variant: 'standard'
-                });
-                expect(actorSelector.rules).toEqual([]);
-                expect(actorSelector.errorMessage).toBe(undefined);
-                expect(actorSelector.value).toBe(nodeParams.assignees[0].assignee.value);
-            });
-
-            it('node should be updated on combobox state changed', () => {
-                const actorSelector = editor.shadowRoot.querySelector(selectors.ACTOR_SELECTOR);
-                const comboboxEvent = new ComboboxStateChangedEvent(null, '{!$User.username}', 'Some error', false);
-                actorSelector.dispatchEvent(comboboxEvent);
-
-                // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
-                // Until then use the more brittle `.mocks`
-                // Note that the action category says this is a change on the STEP - this is what we really test.
-                expect(stageStepReducer.mock.calls[5][1].detail).toEqual({
-                    actionCategory: 0 /* step*/,
-                    parameters: []
-                });
-                expect(stageStepReducer).toHaveBeenCalledWith(nodeParams, new OrchestrationAssigneeChangedEvent());
-            });
-
-            it('node should be updated on item selected with item', () => {
-                const actorSelector = editor.shadowRoot.querySelector(selectors.ACTOR_SELECTOR);
-                const itemSelectedEvent = new ItemSelectedEvent({
-                    value: 'some value',
-                    error: 'itemError',
-                    displayText: '{!$User.username}'
-                });
-                actorSelector.dispatchEvent(itemSelectedEvent);
-
-                // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
-                // Until then use the more brittle `.mocks`
-                expect(stageStepReducer.mock.calls[5][1].detail).toEqual({
-                    actionCategory: 0 /* step*/,
-                    parameters: []
-                });
-                expect(stageStepReducer).toHaveBeenCalledWith(nodeParams, new OrchestrationAssigneeChangedEvent());
-            });
-
-            it('sets the actorErrorMessage', () => {
-                const actorSelector = editor.shadowRoot.querySelector(selectors.ACTOR_SELECTOR);
-                const itemSelectedEvent = new ItemSelectedEvent({
-                    value: 'some value',
-                    error: 'itemError',
-                    displayText: '{!$User.username}'
-                });
-                actorSelector.dispatchEvent(itemSelectedEvent);
-
-                expect(actorSelector.errorMessage).toEqual(itemSelectedEvent.detail.error);
-            });
-
+        describe('assignee', () => {
             it('should not be visible for autolaunched step', () => {
                 editor = createComponentUnderTest(autolaunchedNodeParams);
-                const recordSelector = editor.shadowRoot.querySelector(selectors.ACTOR_SELECTOR);
-                expect(recordSelector).toBeNull();
+                const assigneeType = editor.shadowRoot.querySelector(selectors.ASSIGNEE_TYPE_SELECTOR);
+                expect(assigneeType).toBeNull();
+            });
+
+            describe('type selection', () => {
+                it('user updates reducer', () => {
+                    const assigneeType = editor.shadowRoot.querySelector(selectors.ASSIGNEE_TYPE_SELECTOR);
+                    const changeEvent = new CustomEvent('change', {
+                        detail: {
+                            value: ASSIGNEE_TYPE.User
+                        }
+                    });
+                    assigneeType.dispatchEvent(changeEvent);
+
+                    // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
+                    // Until then use the more brittle `.mocks`
+                    expect(stageStepReducer.mock.calls[7][1].detail).toEqual({
+                        value: null,
+                        error: null,
+                        isReference: false
+                    });
+                });
+                it('user reference displays user reference combobox', async () => {
+                    const assigneeType = editor.shadowRoot.querySelector(selectors.ASSIGNEE_TYPE_SELECTOR);
+                    const changeEvent = new CustomEvent('change', {
+                        detail: {
+                            value: ASSIGNEE_RESOURCE_TYPE.UserResource
+                        }
+                    });
+                    assigneeType.dispatchEvent(changeEvent);
+
+                    // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
+                    // Until then use the more brittle `.mocks`
+                    expect(stageStepReducer.mock.calls[7][1].detail).toEqual({
+                        value: null,
+                        error: null,
+                        isReference: true
+                    });
+                });
+            });
+
+            describe('user reference', () => {
+                beforeEach(async () => {
+                    editor.node = {
+                        ...editor.node,
+                        assignees: [
+                            {
+                                assignee: nodeParams.assignees[0].assignee,
+                                assigneeType: 'User',
+                                isReference: true
+                            }
+                        ]
+                    };
+
+                    ticks(1);
+                });
+
+                it('sets combobox config correctly', () => {
+                    const userReferenceCombobox = editor.shadowRoot.querySelector(selectors.USER_REFERENCE_SELECTOR);
+
+                    expect(userReferenceCombobox).toBeDefined();
+                    expect(userReferenceCombobox.propertyEditorElementType).toBe('STAGE_STEP');
+                    expect(userReferenceCombobox.elementParam).toEqual({ collection: false, dataType: 'String' });
+                    expect(userReferenceCombobox.comboboxConfig).toEqual({
+                        allowSObjectFields: true,
+                        disabled: false,
+                        enableFieldDrilldown: true,
+                        errorMessage: undefined,
+                        fieldLevelHelp: 'FlowBuilderStageStepEditor.actorSelectorUserReferenceTooltip',
+                        label: 'FlowBuilderStageStepEditor.actorSelectorUserReferenceLabel',
+                        literalsAllowed: false,
+                        placeholder: 'FlowBuilderStageStepEditor.actorSelectorUserReferencePlaceholder',
+                        required: true,
+                        type: 'String',
+                        variant: 'standard'
+                    });
+                    expect(userReferenceCombobox.rules).toEqual([]);
+                    expect(userReferenceCombobox.errorMessage).toBe('');
+                    expect(userReferenceCombobox.value).toBe(nodeParams.assignees[0].assignee.value);
+                });
+
+                it('node should be updated on combobox state changed', () => {
+                    const userReferenceCombobox = editor.shadowRoot.querySelector(selectors.USER_REFERENCE_SELECTOR);
+
+                    const comboboxEvent = new ComboboxStateChangedEvent(null, '{!$User.username}', 'Some error', false);
+                    userReferenceCombobox.dispatchEvent(comboboxEvent);
+
+                    // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
+                    // Until then use the more brittle `.mocks`
+                    // Note that the action category says this is a change on the STEP - this is what we really test.
+                    expect(stageStepReducer.mock.calls[11][1].detail).toEqual({
+                        value: {
+                            stringValue: comboboxEvent.detail.displayText
+                        },
+                        error: comboboxEvent.detail.error,
+                        isReference: true
+                    });
+                });
+
+                it('node should be updated on item selected with item', () => {
+                    const userReferenceCombobox = editor.shadowRoot.querySelector(selectors.USER_REFERENCE_SELECTOR);
+
+                    const itemSelectedEvent = new ItemSelectedEvent({
+                        value: 'some value',
+                        error: 'itemError',
+                        displayText: '{!$User.username}'
+                    });
+                    userReferenceCombobox.dispatchEvent(itemSelectedEvent);
+
+                    // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
+                    // Until then use the more brittle `.mocks`
+                    expect(stageStepReducer.mock.calls[11][1].detail).toEqual({
+                        value: {
+                            stringValue: itemSelectedEvent.detail.item.value
+                        },
+                        error: itemSelectedEvent.detail.item.error,
+                        isReference: true
+                    });
+                });
             });
         });
 

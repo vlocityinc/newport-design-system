@@ -25,6 +25,7 @@
                 onchange={handleStepStartChanged}
                 required
                 field-level-help={entryCriteriaHelpText}
+                class="stepStart"
             ></lightning-combobox>
         </div>
 
@@ -136,7 +137,7 @@
         <div class="slds-border_top slds-p-top_medium slds-p-left_small slds-p-bottom_small slds-p-right_small">
             <span class="slds-text-heading_small">{labels.recordSelectionSectionLabel}</span>
             <builder_platform_interaction-ferov-resource-picker
-                class="slds-col slds-size_3-of-3 recordPicker"
+                class="slds-col slds-size_3-of-3 recordPicker slds-p-top_x-small"
                 combobox-config={recordComboBoxConfig}
                 property-editor-element-type={propertyEditorElementType}
                 element-param={recordElementParam}
@@ -153,20 +154,44 @@
 
         <div class="slds-border_top slds-p-top_medium slds-p-left_small slds-p-bottom_small slds-p-right_small">
             <span class="slds-text-heading_small">{labels.actorSelectionSectionLabel}</span>
-            <builder_platform_interaction-ferov-resource-picker
-                class="slds-col slds-size_3-of-3 actorPicker"
-                combobox-config={actorComboBoxConfig}
-                property-editor-element-type={propertyEditorElementType}
-                element-param={actorElementParam}
-                rules={resourcePickerRules}
-                error-message={actorErrorMessage}
-                row-index={_actorPickerId}
-                oncomboboxstatechanged={handleActorChanged}
-                onitemselected={handleActorChanged}
-                value={actorValue}
-                is-pill-supported
-                hide-global-constants
-            ></builder_platform_interaction-ferov-resource-picker>
+            <div class="slds-p-top_x-small">
+                <lightning-combobox
+                    name="assigneeType"
+                    label={labels.assigneeTypeSelectionLabel}
+                    value={selectedAssigneeType}
+                    options={assigneeTypeOptions}
+                    onchange={handleAssigneeTypeChanged}
+                    required
+                    field-level-help={labels.assigneeTypeHelpText}
+                    aria-controls="assigneePicker"
+                    class="slds-combobox-addon_start assigneeType"
+                ></lightning-combobox>
+                <div id="assigneePicker" class="assigneePicker">
+                    <lightning-input
+                        if:false={isAssigneeReference}
+                        label={labels.actorSelectorUserLabel}
+                        type="text"
+                        onfocusout={handleAssigneeFocusOut}
+                        field-level-help={labels.actorSelectorUserTooltip}
+                        value={actorValue}
+                        required
+                    ></lightning-input>
+                    <builder_platform_interaction-ferov-resource-picker
+                        if:true={isAssigneeReference}
+                        combobox-config={userReferenceComboBoxConfig}
+                        property-editor-element-type={propertyEditorElementType}
+                        element-param={actorElementParam}
+                        rules={resourcePickerRules}
+                        error-message={actorErrorMessage}
+                        row-index={_actorPickerId}
+                        oncomboboxstatechanged={handleActorChanged}
+                        onitemselected={handleActorChanged}
+                        value={actorValue}
+                        is-pill-supported
+                        hide-global-constants
+                    ></builder_platform_interaction-ferov-resource-picker>
+                </div>
+            </div>
         </div>
 
         <div class="slds-border_top slds-p-top_medium slds-p-left_small slds-p-bottom_small slds-p-right_small">
@@ -181,6 +206,7 @@
                     onchange={handleStepCompletesChanged}
                     required
                     field-level-help={exitCriteriaHelpText}
+                    class="stepCompletes"
                 ></lightning-combobox>
             </div>
             <div class="slds-p-top_x-small" if:true={isExitCriteriaBasedOnCustomAction}>

@@ -8,7 +8,7 @@ const validateActionName = () => {
     };
 };
 
-const assigneeShouldNotBeBlank = () => {
+const assigneeValidation = () => {
     return {
         assignee: [
             (value) => ValidationRules.shouldNotBeNullOrUndefined(value),
@@ -28,7 +28,7 @@ const relatedRecordItemValueShouldNotBeBlank = (relatedRecordParameterItem) => {
 const additionalRules = {
     label: [ValidationRules.shouldNotBeNullOrUndefined],
     name: [ValidationRules.shouldNotBeNullOrUndefined],
-    assignees: assigneeShouldNotBeBlank,
+    assignees: assigneeValidation,
     entryActionInputParameters: validateParameter(),
     action: validateActionName(),
     inputParameters: validateParameter(),

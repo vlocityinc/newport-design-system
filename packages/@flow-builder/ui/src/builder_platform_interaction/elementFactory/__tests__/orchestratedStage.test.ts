@@ -184,7 +184,13 @@ getElementByGuid.mockImplementation((guid) => {
             outputParameters: [<ParameterListRowItem>{ name: 'op1' }, <ParameterListRowItem>{ name: 'op2' }],
             entryActionInputParameters: [<ParameterListRowItem>jest.fn()],
             exitActionInputParameters: [<ParameterListRowItem>jest.fn()],
-            assignees: []
+            assignees: [
+                {
+                    assignee: `assignee-${guid}`,
+                    assigneeType: 'User',
+                    isReference: guid === 'step1' ? true : false
+                }
+            ]
         };
     } else if (guid === 'stepWithNoRelatedRecord') {
         return {
@@ -473,7 +479,7 @@ describe('OrchestratedStage', () => {
         });
 
         describe('assignees', () => {
-            it('contains a single asignee of type User and value null if not provided', () => {
+            it('contains a single assignee of type User and value null if not provided', () => {
                 const item = createStageStep({});
 
                 expect(item.assignees).toHaveLength(1);
@@ -752,6 +758,31 @@ describe('OrchestratedStage', () => {
                 expect(orchestratedStage.stageSteps[2].inputParameters[0]).toEqual(
                     createInputParameterMetadataObject(orchestratedStage.stageSteps[2].inputParameters[0])
                 );
+            });
+
+            describe('assignee', () => {
+                it('used  ferovDataType STRING if not a reference', () => {
+                    const orchestratedStage = createOrchestratedStageMetadataObject(orchestratedStageFromStore);
+                    expect(orchestratedStage.stageSteps[1].assignees).toEqual([
+                        {
+                            assignee: {
+                                stringValue: `assignee-${orchestratedStage.stageSteps[1].guid}`
+                            },
+                            assigneeType: 'User'
+                        }
+                    ]);
+                });
+                it('used  ferovDataType REFERENCE if not a reference', () => {
+                    const orchestratedStage = createOrchestratedStageMetadataObject(orchestratedStageFromStore);
+                    expect(orchestratedStage.stageSteps[0].assignees).toEqual([
+                        {
+                            assignee: {
+                                elementReference: `assignee-${orchestratedStage.stageSteps[0].guid}`
+                            },
+                            assigneeType: 'User'
+                        }
+                    ]);
+                });
             });
 
             describe('related record', () => {
