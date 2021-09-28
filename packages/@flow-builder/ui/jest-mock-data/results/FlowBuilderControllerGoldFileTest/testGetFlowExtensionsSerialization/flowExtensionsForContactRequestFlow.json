@@ -39,8 +39,9 @@
   "source" : "Standard"
 },
     {
+  "category" : "Input",
   "description" : "Dependent Picklists",
-  "extensionType" : "aura",
+  "extensionType" : "lwc",
   "fieldsToNull" : [ ],
   "label" : "Dependent Picklists",
   "qualifiedApiName" : "flowruntime:dependentPicklists",
