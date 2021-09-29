@@ -1,6 +1,7 @@
 {
     "name": "@flow-builder/auto-layout-canvas",
     "version": "0.0.1",
+    "private": true,
     "description": "Auto Layout Canvas Library",
     "main": "dist/index.js",
     "typings": "dist/types/index.d.ts",
