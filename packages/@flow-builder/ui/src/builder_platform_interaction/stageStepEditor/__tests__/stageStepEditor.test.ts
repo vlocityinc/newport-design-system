@@ -13,7 +13,8 @@ import {
     UpdateParameterItemEvent,
     ValueChangedEvent,
     OrchestrationAssigneeChangedEvent,
-    UpdateNodeEvent
+    UpdateNodeEvent,
+    RequiresAsyncProcessingChangedEvent
 } from 'builder_platform_interaction/events';
 import { invocableActionsForOrchestrator } from 'serverData/GetAllInvocableActionsForType/invocableActionsForOrchestrator.json';
 import { Store } from 'builder_platform_interaction/storeLib';
@@ -127,7 +128,8 @@ const selectors = {
     USER_REFERENCE_SELECTOR: '.assigneePicker builder_platform_interaction-ferov-resource-picker',
     ACTOR_SELECTOR: 'builder_platform_interaction-ferov-resource-picker.actorPicker',
     ENTRY_ACTION: '.entry-action',
-    EXIT_ACTION: '.exit-action'
+    EXIT_ACTION: '.exit-action',
+    ASYNC_PROCESSING_BOX: '.externalCalloutsCheckbox'
 };
 
 describe('StageStepEditor', () => {
@@ -659,6 +661,82 @@ describe('StageStepEditor', () => {
                 // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                 // Until then use the more brittle `.mocks`
                 expect(stageStepReducer.mock.calls[8][1].detail).toEqual({ actionCategory: 2, parameters: [] });
+            });
+        });
+
+        describe('requiresAsyncProcessing', () => {
+            it('should be false if not specified', () => {
+                editor = createComponentUnderTest(autolaunchedNodeParams);
+
+                expect(editor.node.requiresAsyncProcessing).toBeFalsy();
+
+                const asyncProcessingCheckbox = editor.shadowRoot.querySelector(selectors.ASYNC_PROCESSING_BOX);
+                expect(asyncProcessingCheckbox.checked).toBeFalsy();
+            });
+
+            it('should be true if specified and true', () => {
+                const paramsWithAsyncProcessing = {
+                    ...autolaunchedNodeParams,
+                    requiresAsyncProcessing: true
+                };
+                editor = createComponentUnderTest(paramsWithAsyncProcessing);
+
+                expect(editor.node.requiresAsyncProcessing).toBe(true);
+
+                const asyncProcessingCheckbox = editor.shadowRoot.querySelector(selectors.ASYNC_PROCESSING_BOX);
+                expect(asyncProcessingCheckbox.checked).toBe(true);
+            });
+
+            it('is clicked', () => {
+                editor = createComponentUnderTest(autolaunchedNodeParams);
+                const asyncProcessingCheckbox = editor.shadowRoot.querySelector(selectors.ASYNC_PROCESSING_BOX);
+                const checkboxEvent = new CustomEvent('change', {
+                    detail: {
+                        value: true
+                    }
+                });
+
+                asyncProcessingCheckbox.dispatchEvent(checkboxEvent);
+                expect(stageStepReducer).toHaveBeenCalledWith(
+                    autolaunchedNodeParams,
+                    new RequiresAsyncProcessingChangedEvent(true)
+                );
+
+                checkboxEvent.detail.value = false;
+                asyncProcessingCheckbox.dispatchEvent(checkboxEvent);
+                expect(stageStepReducer).toHaveBeenCalledWith(
+                    autolaunchedNodeParams,
+                    new RequiresAsyncProcessingChangedEvent(false)
+                );
+            });
+
+            it('should not exist for interactive steps', () => {
+                editor = createComponentUnderTest(nodeParams);
+
+                const asyncProcessingCheckbox = editor.shadowRoot.querySelector(selectors.ASYNC_PROCESSING_BOX);
+                expect(asyncProcessingCheckbox).toBeNull();
+            });
+
+            it('should not exist without an action', () => {
+                const nodeWithoutAction = {
+                    ...autolaunchedNodeParams
+                };
+                nodeWithoutAction.action.actionName.value = undefined;
+                editor = createComponentUnderTest(nodeWithoutAction);
+
+                const asyncProcessingCheckbox = editor.shadowRoot.querySelector(selectors.ASYNC_PROCESSING_BOX);
+                expect(asyncProcessingCheckbox).toBeNull();
+            });
+
+            it('should not exist without a valid action', () => {
+                const nodeWithActionErrorMessage = {
+                    ...autolaunchedNodeParams
+                };
+                nodeWithActionErrorMessage.action.actionName.error = 'error';
+                editor = createComponentUnderTest(nodeWithActionErrorMessage);
+
+                const asyncProcessingCheckbox = editor.shadowRoot.querySelector(selectors.ASYNC_PROCESSING_BOX);
+                expect(asyncProcessingCheckbox).toBeNull();
             });
         });
 

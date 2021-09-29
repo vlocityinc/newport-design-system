@@ -88,6 +88,8 @@ export interface StageStep extends UI.ChildElement {
 
     // This has a canvas config for display of error state but this is not actually a base canvas element (i.e. it has no connectors)
     config: UI.CanvasElementConfig;
+
+    requiresAsyncProcessing?: boolean;
 }
 
 // TODO: Move to UIModel.d.ts after action dependencies have been moved there
@@ -680,7 +682,8 @@ export function createOrchestratedStageMetadataObject(
             entryActionInputParameters: entryActionInputParametersMetadata,
             exitActionName: step.exitAction.actionName ? step.exitAction.actionName : null,
             exitActionType: step.exitAction.actionType,
-            exitActionInputParameters: exitActionInputParametersMetadata
+            exitActionInputParameters: exitActionInputParametersMetadata,
+            requiresAsyncProcessing: step.requiresAsyncProcessing
         };
     });
 

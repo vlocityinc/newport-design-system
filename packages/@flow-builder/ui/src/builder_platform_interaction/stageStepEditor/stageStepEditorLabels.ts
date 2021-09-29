@@ -8,6 +8,8 @@ import whenStepIsComplete from '@salesforce/label/FlowBuilderStageStepEditor.whe
 import entryCriteriaItemsPlaceholder from '@salesforce/label/FlowBuilderStageStepEditor.entryCriteriaItemsPlaceholder';
 import actionSelectorLabel from '@salesforce/label/FlowBuilderStageStepEditor.actionSelectorLabel';
 import actionSelectorTooltip from '@salesforce/label/FlowBuilderStageStepEditor.actionSelectorTooltip';
+import containsExternalCalloutsLabel from '@salesforce/label/FlowBuilderStageStepEditor.containsExternalCalloutsLabel';
+import containsExternalCalloutsTooltip from '@salesforce/label/FlowBuilderStageStepEditor.containsExternalCalloutsTooltip';
 
 import actorSelectionSectionLabel from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectionSectionLabel';
 
@@ -99,5 +101,8 @@ export const LABELS = {
     recordSelectionSectionLabel,
     recordSelectorLabel,
     recordSelectorPlaceholder,
-    recordSelectorTooltip
+    recordSelectorTooltip,
+
+    containsExternalCalloutsLabel,
+    containsExternalCalloutsTooltip
 };

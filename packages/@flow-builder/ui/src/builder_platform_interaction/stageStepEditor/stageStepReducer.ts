@@ -16,7 +16,8 @@ import {
     OrchestrationActionValueChangedEvent,
     DeleteOrchestrationActionEvent,
     OrchestrationAssigneeChangedEvent,
-    ORCHESTRATED_ACTION_CATEGORY
+    ORCHESTRATED_ACTION_CATEGORY,
+    RequiresAsyncProcessingChangedEvent
 } from 'builder_platform_interaction/events';
 import { createCondition, StageStep } from 'builder_platform_interaction/elementFactory';
 import { MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
@@ -295,6 +296,19 @@ const deleteDeterminationAction = (state: StageStep, event: DeleteOrchestrationA
 };
 
 /**
+ * Update the requiresAsyncProcessing field on the flow model
+ *
+ * @param state The flow model
+ * @param event The event
+ * @returns new object with updated properties
+ */
+const updateRequiresAsyncProcessingField = (state: StageStep, event: RequiresAsyncProcessingChangedEvent) => {
+    return updateProperties(state, {
+        requiresAsyncProcessing: event.detail.checked
+    });
+};
+
+/**
  * orchestratedStage reducer function runs validation rules and returns back the updated element state
  *
  * @param state The flow model
@@ -337,6 +351,9 @@ export const stageStepReducer = (state: StageStep, event: CustomEvent): StageSte
             break;
         case CreateEntryConditionsEvent.EVENT_NAME:
             newState = createEntryConditions(state);
+            break;
+        case RequiresAsyncProcessingChangedEvent.EVENT_NAME:
+            newState = updateRequiresAsyncProcessingField(state, event);
             break;
         case VALIDATE_ALL:
             return validation.validateAll(state, getRules());

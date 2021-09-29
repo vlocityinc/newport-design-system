@@ -16,7 +16,8 @@ import {
     PropertyChangedEvent,
     UpdateConditionEvent,
     UpdateNodeEvent,
-    ValueChangedEvent
+    ValueChangedEvent,
+    RequiresAsyncProcessingChangedEvent
 } from 'builder_platform_interaction/events';
 import { LABELS } from './stageStepEditorLabels';
 import { stageStepReducer } from './stageStepReducer';
@@ -117,6 +118,8 @@ export default class StageStepEditor extends LightningElement {
 
     recordPickerId = generateGuid();
     recordErrorMessage;
+
+    requiresAsyncProcessing;
 
     assigneeTypeOptions: { label: String; value: ASSIGNEE_TYPE | ASSIGNEE_RESOURCE_TYPE }[] = [
         {
@@ -273,6 +276,8 @@ export default class StageStepEditor extends LightningElement {
         this.setActionParameters(this.selectedAction, ORCHESTRATED_ACTION_CATEGORY.STEP);
         this.setActionParameters(this.selectedExitAction, ORCHESTRATED_ACTION_CATEGORY.EXIT);
 
+        this.requiresAsyncProcessing = this.element.requiresAsyncProcessing;
+
         // Reopening existing elements should always validate
         // This has to be done manually in every property editor
         if (!newValue?.isNew) {
@@ -381,6 +386,10 @@ export default class StageStepEditor extends LightningElement {
 
     get showParameterList(): boolean {
         return this.selectedAction?.actionName && !this.actionErrorMessage && !!this.actionParameterListConfig;
+    }
+
+    get showExternalCalloutsCheckbox(): boolean {
+        return this.selectedAction?.actionName && !this.actionErrorMessage && !this.isStepWithUserAction;
     }
 
     get showEntryParameterList(): boolean {
@@ -1006,4 +1015,11 @@ export default class StageStepEditor extends LightningElement {
             this.dispatchEvent(new UpdateNodeEvent(this.element));
         }
     };
+
+    handleCheckboxClicked(event: CustomEvent) {
+        event.stopPropagation();
+        this.requiresAsyncProcessing = event.detail.checked;
+        this.element = stageStepReducer(this.element!, new RequiresAsyncProcessingChangedEvent(event.detail.checked));
+        this.dispatchEvent(new UpdateNodeEvent(this.element));
+    }
 }

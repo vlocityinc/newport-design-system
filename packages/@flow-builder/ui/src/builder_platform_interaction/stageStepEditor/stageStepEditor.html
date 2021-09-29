@@ -108,6 +108,17 @@
             >
             </builder_platform_interaction-action-selector>
         </div>
+        <div if:true={showExternalCalloutsCheckbox} class="slds-p-top_small slds-grid">
+            <lightning-input
+                type="checkbox"
+                class="externalCalloutsCheckbox"
+                label={labels.containsExternalCalloutsLabel}
+                name="externalCalloutsCB"
+                checked={requiresAsyncProcessing}
+                onchange={handleCheckboxClicked}
+            ></lightning-input>
+            <lightning-helptext content={labels.containsExternalCalloutsTooltip}></lightning-helptext>
+        </div>
         <div if:true={showParameterList}>
             <h3 if:false={isActionInputsEmpty} class="slds-text-color_weak slds-text-heading_small inputHeader">
                 {actionParameterListConfig.inputHeader}

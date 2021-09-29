@@ -9,7 +9,8 @@ import {
     PropertyChangedEvent,
     UpdateParameterItemEvent,
     UpdateConditionEvent,
-    DeleteParameterItemEvent
+    DeleteParameterItemEvent,
+    RequiresAsyncProcessingChangedEvent
 } from 'builder_platform_interaction/events';
 import { createCondition } from 'builder_platform_interaction/elementFactory';
 import { ORCHESTRATED_ACTION_CATEGORY } from 'builder_platform_interaction/events';
@@ -667,6 +668,20 @@ describe('StageStep Reducer', () => {
             const newState = stageStepReducer(originalState, event);
 
             expect(removeAllUnsetParameters).toHaveBeenCalledWith(newState);
+        });
+    });
+
+    describe('RequiresAsyncProcessingChangedEvent', () => {
+        it('should change requiresAsyncProcessing to same value', () => {
+            expect(originalState.requiresAsyncProcessing).toStrictEqual(undefined);
+
+            let event = new RequiresAsyncProcessingChangedEvent(true);
+            let newState = stageStepReducer(originalState, event);
+            expect(newState.requiresAsyncProcessing).toStrictEqual(true);
+
+            event = new RequiresAsyncProcessingChangedEvent(false);
+            newState = stageStepReducer(originalState, event);
+            expect(newState.requiresAsyncProcessing).toStrictEqual(false);
         });
     });
 
