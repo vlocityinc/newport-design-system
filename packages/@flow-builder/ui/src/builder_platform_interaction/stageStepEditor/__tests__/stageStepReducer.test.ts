@@ -89,9 +89,8 @@ jest.mock('builder_platform_interaction/dataMutationLib', () => {
 });
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {
-    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
-    const sharedcommands = jest.requireActual('builder_platform_interaction/sharedUtils/commands');
-    return Object.assign({}, sharedUtils, { commands: sharedcommands, invokeModal: jest.fn() });
+    const sharedUtils = require('builder_platform_interaction_mocks/sharedUtils');
+    return Object.assign({}, sharedUtils, { invokeModal: jest.fn() });
 });
 
 jest.mock('builder_platform_interaction/orchestratedStageAndStepReducerUtils', () => {

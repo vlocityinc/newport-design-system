@@ -2,28 +2,24 @@ import { LightningElement, api } from 'lwc';
 import { ArrowKeyDownEvent } from 'builder_platform_interaction/events';
 import { LABELS } from './startNodeFlowExplorerEntryPointLabels';
 import { commands, commonUtils, lwcUtils, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
-import { setupKeyboardShortcutUtil } from 'builder_platform_interaction/contextualMenuUtils';
 import { getEntitiesMenuData } from 'builder_platform_interaction/expressionUtils';
 import { getWorkflowEnabledEntities } from 'builder_platform_interaction/sobjectLib';
 
 const { format } = commonUtils;
 const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
-const { KeyboardInteractions } = keyboardInteractionUtils;
+const { BaseKeyboardInteraction, KeyboardInteractions, Keys, createShortcut, withKeyboardInteractions } =
+    keyboardInteractionUtils;
 
 const selectors = {
     button: '.button'
 };
 const explorerUrl = '/interaction_explorer/flowExplorer.app?object={0}&recordTriggerType={1}';
 
-export default class StartNodeFlowExplorerEntryPoint extends LightningElement {
+export default class StartNodeFlowExplorerEntryPoint extends withKeyboardInteractions(LightningElement) {
     dom = lwcUtils.createDomProxy(this, selectors);
 
     @api
     node!: UI.Start;
-
-    // Used for testing purposes
-    @api
-    keyboardInteractions;
 
     @api
     focus() {
@@ -40,20 +36,6 @@ export default class StartNodeFlowExplorerEntryPoint extends LightningElement {
         const item = getEntitiesMenuData().find((menuItem) => menuItem.value === this.node.object);
         const sObject = item ? item.displayText : this.node.object;
         return format(LABELS.startNodeFlowExplorerEntryPointLabel, sObject);
-    }
-
-    constructor() {
-        super();
-        this.keyboardInteractions = new KeyboardInteractions();
-    }
-
-    connectedCallback() {
-        this.keyboardInteractions.addKeyDownEventListener(this.template);
-        this.setupCommandsAndShortcuts();
-    }
-
-    disconnectedCallback() {
-        this.keyboardInteractions.removeKeyDownEventListener(this.template);
     }
 
     handleClick = (event?: Event) => {
@@ -82,13 +64,14 @@ export default class StartNodeFlowExplorerEntryPoint extends LightningElement {
         this.handleClick();
     }
 
-    setupCommandsAndShortcuts() {
-        const keyboardCommands = {
-            Enter: new EnterCommand(() => this.handleSpaceOrEnter()),
-            ' ': new SpaceCommand(() => this.handleSpaceOrEnter()),
-            ArrowDown: new ArrowDown(() => this.handleArrowKeyDown(ArrowDown.COMMAND_NAME)),
-            ArrowUp: new ArrowUp(() => this.handleArrowKeyDown(ArrowUp.COMMAND_NAME))
-        };
-        setupKeyboardShortcutUtil(this.keyboardInteractions, keyboardCommands);
+    getKeyboardInteractions() {
+        return [
+            new BaseKeyboardInteraction([
+                createShortcut(Keys.Enter, new EnterCommand(() => this.handleSpaceOrEnter())),
+                createShortcut(Keys.Space, new SpaceCommand(() => this.handleSpaceOrEnter())),
+                createShortcut(Keys.ArrowDown, new ArrowDown(() => this.handleArrowKeyDown(ArrowDown.COMMAND_NAME))),
+                createShortcut(Keys.ArrowUp, new ArrowUp(() => this.handleArrowKeyDown(ArrowUp.COMMAND_NAME)))
+            ])
+        ];
     }
 }

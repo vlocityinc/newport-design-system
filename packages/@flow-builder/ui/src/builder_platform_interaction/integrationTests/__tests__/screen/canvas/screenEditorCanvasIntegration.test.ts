@@ -4,12 +4,12 @@ import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { resetState, setupStateForFlow } from '../../integrationTestUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { createComponentUnderTest, ScreenEditorTestComponent } from '../../screenEditorTestUtils';
-import { invokeModal, commonUtils } from 'builder_platform_interaction/sharedUtils';
-import { Keys } from 'builder_platform_interaction/contextualMenuUtils';
+import { invokeModal, commonUtils, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { text2, number2, section1 } from 'mock/storeData';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
+const { Keys } = keyboardInteractionUtils;
 const { format } = commonUtils;
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {

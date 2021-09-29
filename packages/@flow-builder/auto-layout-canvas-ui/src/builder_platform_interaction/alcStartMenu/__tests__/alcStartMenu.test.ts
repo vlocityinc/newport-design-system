@@ -10,17 +10,12 @@ import {
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
-import { commands } from 'builder_platform_interaction/sharedUtils';
+import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 
 const { EscapeCommand, ArrowDown, ArrowUp, TabCommand } = commands;
+const { Keys } = keyboardInteractionUtils;
 
-jest.mock('builder_platform_interaction/sharedUtils', () => {
-    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
-    const sharedCommands = jest.requireActual('builder_platform_interaction/sharedUtils/commands');
-    const sharedLwcUtils = jest.requireActual('builder_platform_interaction/sharedUtils/lwcUtils');
-
-    return Object.assign({}, sharedUtils, { commands: sharedCommands, lwcUtils: sharedLwcUtils });
-});
+jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
 const autolaunchedFlowStart = {
     canHaveFaultConnector: false,
@@ -438,7 +433,7 @@ describe('Start Node Menu', () => {
             const scheduledPath = body.querySelector(selectors.scheduledPathButton);
             const callback = jest.fn();
             scheduledPath.shadowRoot.querySelector('.button').addEventListener('focus', callback);
-            await dispatchEvent(trigger, new ArrowKeyDownEvent(ArrowUp.COMMAND_NAME));
+            await dispatchEvent(trigger, new ArrowKeyDownEvent(Keys.ArrowUp));
             expect(callback).toHaveBeenCalled();
         });
 
@@ -449,7 +444,7 @@ describe('Start Node Menu', () => {
             const scheduledPath = body.querySelector(selectors.scheduledPathButton);
             const callback = jest.fn();
             scheduledPath.shadowRoot.querySelector('.button').addEventListener('focus', callback);
-            await dispatchEvent(context, new ArrowKeyDownEvent(ArrowDown.COMMAND_NAME));
+            await dispatchEvent(context, new ArrowKeyDownEvent(Keys.ArrowDown));
             expect(callback).toHaveBeenCalled();
         });
 
@@ -460,7 +455,7 @@ describe('Start Node Menu', () => {
             const context = body.querySelector(selectors.contextButton);
             const callback = jest.fn();
             context.shadowRoot.querySelector('.button').addEventListener('focus', callback);
-            await dispatchEvent(scheduledPath, new ArrowKeyDownEvent(ArrowUp.COMMAND_NAME));
+            await dispatchEvent(scheduledPath, new ArrowKeyDownEvent(Keys.ArrowUp));
             expect(callback).toHaveBeenCalled();
         });
 
@@ -471,7 +466,7 @@ describe('Start Node Menu', () => {
             const trigger = body.querySelector(selectors.triggerButton);
             const callback = jest.fn();
             trigger.shadowRoot.querySelector('.button').addEventListener('focus', callback);
-            await dispatchEvent(scheduledPath, new ArrowKeyDownEvent(ArrowDown.COMMAND_NAME));
+            await dispatchEvent(scheduledPath, new ArrowKeyDownEvent(Keys.ArrowDown));
             expect(callback).toHaveBeenCalled();
         });
 
@@ -492,7 +487,7 @@ describe('Start Node Menu', () => {
             const context = body.querySelector(selectors.contextButton);
             const callback = jest.fn();
             context.shadowRoot.querySelector('.button').addEventListener('focus', callback);
-            await dispatchEvent(trigger, new ArrowKeyDownEvent(ArrowDown.COMMAND_NAME));
+            await dispatchEvent(trigger, new ArrowKeyDownEvent(Keys.ArrowDown));
             expect(callback).toHaveBeenCalled();
         });
 
@@ -502,7 +497,7 @@ describe('Start Node Menu', () => {
             const context = body.querySelector(selectors.contextButton);
             const callback = jest.fn();
             context.shadowRoot.querySelector('.button').addEventListener('focus', callback);
-            await dispatchEvent(trigger, new ArrowKeyDownEvent(ArrowUp.COMMAND_NAME));
+            await dispatchEvent(trigger, new ArrowKeyDownEvent(Keys.ArrowDown));
             expect(callback).toHaveBeenCalled();
         });
 
@@ -512,7 +507,7 @@ describe('Start Node Menu', () => {
             const context = body.querySelector(selectors.contextButton);
             const callback = jest.fn();
             trigger.shadowRoot.querySelector('.button').addEventListener('focus', callback);
-            await dispatchEvent(context, new ArrowKeyDownEvent(ArrowDown.COMMAND_NAME));
+            await dispatchEvent(context, new ArrowKeyDownEvent(Keys.ArrowDown));
             expect(callback).toHaveBeenCalled();
         });
 
@@ -522,7 +517,7 @@ describe('Start Node Menu', () => {
             const context = body.querySelector(selectors.contextButton);
             const callback = jest.fn();
             trigger.shadowRoot.querySelector('.button').addEventListener('focus', callback);
-            await dispatchEvent(context, new ArrowKeyDownEvent(ArrowUp.COMMAND_NAME));
+            await dispatchEvent(context, new ArrowKeyDownEvent(Keys.ArrowUp));
             expect(callback).toHaveBeenCalled();
         });
 
@@ -558,7 +553,7 @@ describe('Start Node Menu', () => {
             const callback = jest.fn();
             menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, callback);
             menu.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
-            menu.keyboardInteractions.execute(ArrowDown.COMMAND_NAME);
+            menu.keyboardInteractions.execute(ArrowUp.COMMAND_NAME);
             menu.keyboardInteractions.execute('shifttabcommand');
             expect(callback).toHaveBeenCalled();
         });
@@ -569,7 +564,7 @@ describe('Start Node Menu', () => {
             const callback = jest.fn();
             trigger.shadowRoot.querySelector('.button').addEventListener('focus', callback);
             menu.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
-            menu.keyboardInteractions.execute(ArrowDown.COMMAND_NAME);
+            menu.keyboardInteractions.execute(ArrowUp.COMMAND_NAME);
             menu.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
             expect(callback).toHaveBeenCalled();
         });
@@ -626,7 +621,7 @@ describe('Start Node Menu', () => {
             const context = body.querySelector(selectors.contextButton);
             const callback = jest.fn();
             context.shadowRoot.querySelector('.button').addEventListener('focus', callback);
-            await dispatchEvent(trigger, new ArrowKeyDownEvent(ArrowDown.COMMAND_NAME));
+            await dispatchEvent(trigger, new ArrowKeyDownEvent(Keys.ArrowDown));
             expect(callback).toHaveBeenCalled();
         });
 
@@ -636,7 +631,7 @@ describe('Start Node Menu', () => {
             const context = body.querySelector(selectors.contextButton);
             const callback = jest.fn();
             context.shadowRoot.querySelector('.button').addEventListener('focus', callback);
-            await dispatchEvent(trigger, new ArrowKeyDownEvent(ArrowUp.COMMAND_NAME));
+            await dispatchEvent(trigger, new ArrowKeyDownEvent(Keys.ArrowUp));
             expect(callback).toHaveBeenCalled();
         });
 
@@ -646,7 +641,7 @@ describe('Start Node Menu', () => {
             const context = body.querySelector(selectors.contextButton);
             const callback = jest.fn();
             trigger.shadowRoot.querySelector('.button').addEventListener('focus', callback);
-            await dispatchEvent(context, new ArrowKeyDownEvent(ArrowDown.COMMAND_NAME));
+            await dispatchEvent(context, new ArrowKeyDownEvent(Keys.ArrowDown));
             expect(callback).toHaveBeenCalled();
         });
 
@@ -656,7 +651,7 @@ describe('Start Node Menu', () => {
             const context = body.querySelector(selectors.contextButton);
             const callback = jest.fn();
             trigger.shadowRoot.querySelector('.button').addEventListener('focus', callback);
-            await dispatchEvent(context, new ArrowKeyDownEvent(ArrowUp.COMMAND_NAME));
+            await dispatchEvent(context, new ArrowKeyDownEvent(Keys.ArrowUp));
             expect(callback).toHaveBeenCalled();
         });
 

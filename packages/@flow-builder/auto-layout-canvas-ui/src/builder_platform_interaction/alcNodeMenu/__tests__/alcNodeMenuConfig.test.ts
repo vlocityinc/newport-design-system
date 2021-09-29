@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
-import { CONTEXTUAL_MENU_MODE, ELEMENT_ACTION_CONFIG, getMenuConfiguration } from '../alcNodeMenuConfig';
+import { NodeMenuMode, ELEMENT_ACTION_CONFIG, getMenuConfiguration } from '../alcNodeMenuConfig';
 import { LABELS } from '../alcNodeMenuLabels';
 
 const getElementMetadata = (type) => {
@@ -15,12 +15,12 @@ const getElementMetadata = (type) => {
 };
 
 describe('getMenuConfiguration tests', () => {
-    describe('When contextualMode is BASE_ACTIONS_MODE', () => {
+    describe('When menuMode is Default', () => {
         let configuration;
         beforeEach(() => {
             configuration = getMenuConfiguration(
                 getElementMetadata(NodeType.DEFAULT),
-                CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE,
+                NodeMenuMode.Default,
                 true,
                 false,
                 false
@@ -74,7 +74,7 @@ describe('getMenuConfiguration tests', () => {
         it('Delete Fault Action should have the right icon', () => {
             configuration = getMenuConfiguration(
                 getElementMetadata(NodeType.DEFAULT),
-                CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE,
+                NodeMenuMode.Default,
                 true,
                 true,
                 false
@@ -85,7 +85,7 @@ describe('getMenuConfiguration tests', () => {
         it('Delete Fault Action should have the right icon variant', () => {
             configuration = getMenuConfiguration(
                 getElementMetadata(NodeType.DEFAULT),
-                CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE,
+                NodeMenuMode.Default,
                 true,
                 true,
                 false
@@ -96,7 +96,7 @@ describe('getMenuConfiguration tests', () => {
         it('Delete Fault should have the right label', () => {
             configuration = getMenuConfiguration(
                 getElementMetadata(NodeType.DEFAULT),
-                CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE,
+                NodeMenuMode.Default,
                 true,
                 true,
                 false
@@ -115,7 +115,7 @@ describe('getMenuConfiguration tests', () => {
             async ({ canHaveFaultConnector, elementHasFault, faultAction }) => {
                 configuration = getMenuConfiguration(
                     getElementMetadata(NodeType.DEFAULT),
-                    CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE,
+                    NodeMenuMode.Default,
                     canHaveFaultConnector,
                     elementHasFault,
                     false
@@ -166,12 +166,12 @@ describe('getMenuConfiguration tests', () => {
         });
     });
 
-    describe('When contextualMode is DELETE_BRANCH_ELEMENT_MODE', () => {
+    describe('When menuMode is Delete', () => {
         let configuration;
         beforeEach(() => {
             configuration = getMenuConfiguration(
                 getElementMetadata(NodeType.BRANCH),
-                CONTEXTUAL_MENU_MODE.DELETE_BRANCH_ELEMENT_MODE,
+                NodeMenuMode.Delete,
                 true,
                 false,
                 false
@@ -216,7 +216,7 @@ describe('getMenuConfiguration tests', () => {
         beforeEach(() => {
             configuration = getMenuConfiguration(
                 getElementMetadata(NodeType.DEFAULT),
-                CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE,
+                NodeMenuMode.Default,
                 true,
                 false,
                 true

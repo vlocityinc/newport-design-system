@@ -5,13 +5,12 @@ import { StageStep } from 'builder_platform_interaction/elementFactory';
 import { ELEMENT_TYPE, ICONS } from 'builder_platform_interaction/flowMetadata';
 import { NodeRenderInfo } from 'builder_platform_interaction/autoLayoutCanvas';
 import { LABELS } from './orchestratedStageNodeLabels';
-import { commonUtils } from 'builder_platform_interaction/sharedUtils';
-import { addKeyboardShortcuts, Keys } from 'builder_platform_interaction/contextualMenuUtils';
-import { commands } from 'builder_platform_interaction/sharedUtils';
+import { commands, commonUtils, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+
+const { KeyboardInteractions, createShortcut, Keys } = keyboardInteractionUtils;
+const { EnterCommand, SpaceCommand, ArrowDown, ArrowUp } = commands;
 
 const { format } = commonUtils;
-
-const { ArrowDown, ArrowUp } = commands;
 
 const selectors = {
     stepItem: 'div[role="option"]',
@@ -65,7 +64,7 @@ export default class OrchestratedStageNode extends LightningElement {
     isDefaultMode?: boolean;
 
     @api
-    keyboardInteractions;
+    keyboardInteractions = new KeyboardInteractions();
 
     /**
      * The active element refers to the element currently being edited using the property editor panel
@@ -349,11 +348,11 @@ export default class OrchestratedStageNode extends LightningElement {
     }
 
     connectedCallback() {
-        this.keyboardInteractions = addKeyboardShortcuts(this, [
-            { key: Keys.Enter, handler: () => this.handleEnterOrSpaceKey() },
-            { key: Keys.Space, handler: () => this.handleEnterOrSpaceKey() },
-            { key: Keys.ArrowUp, handler: () => this.handleArrowKeys(ArrowUp.COMMAND_NAME) },
-            { key: Keys.ArrowDown, handler: () => this.handleArrowKeys(ArrowDown.COMMAND_NAME) }
+        this.keyboardInteractions.registerShortcuts([
+            createShortcut(Keys.Enter, new EnterCommand(() => this.handleEnterOrSpaceKey())),
+            createShortcut(Keys.Space, new SpaceCommand(() => this.handleEnterOrSpaceKey())),
+            createShortcut(Keys.ArrowUp, new ArrowUp(() => this.handleArrowKeys(ArrowUp.COMMAND_NAME))),
+            createShortcut(Keys.ArrowDown, new ArrowDown(() => this.handleArrowKeys(ArrowDown.COMMAND_NAME)))
         ]);
     }
 

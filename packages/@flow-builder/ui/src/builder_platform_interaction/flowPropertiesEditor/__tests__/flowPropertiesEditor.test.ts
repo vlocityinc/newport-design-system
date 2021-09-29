@@ -123,7 +123,7 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
 });
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {
-    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
+    const sharedUtils = require('builder_platform_interaction_mocks/sharedUtils');
     const commonUtils = Object.assign({}, sharedUtils.commonUtils, {
         format: jest.fn(() => {
             return 'some user last saved at some date time string';

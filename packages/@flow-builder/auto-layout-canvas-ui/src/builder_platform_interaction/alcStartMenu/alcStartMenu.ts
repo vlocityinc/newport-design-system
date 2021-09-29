@@ -6,12 +6,9 @@ import {
     CloseMenuEvent,
     MoveFocusToConnectorEvent
 } from 'builder_platform_interaction/alcEvents';
-import {
-    setupKeyboardShortcutUtil,
-    setupKeyboardShortcutWithShiftKey
-} from 'builder_platform_interaction/contextualMenuUtils';
-const { ArrowDown, ArrowUp, TabCommand, EscapeCommand } = commands;
-const { KeyboardInteractions } = keyboardInteractionUtils;
+
+const { TabCommand } = commands;
+const { Keys, createShortcutKey, createShortcut } = keyboardInteractionUtils;
 
 const selectors = {
     triggerButton: 'builder_platform_interaction-start-node-trigger-button',
@@ -81,7 +78,6 @@ export default class AlcStartMenu extends AlcNodeMenu {
 
     constructor() {
         super();
-        this.keyboardInteractions = new KeyboardInteractions();
         this.tabFocusRingIndex = TabFocusRingItems.Icon;
     }
 
@@ -98,12 +94,12 @@ export default class AlcStartMenu extends AlcNodeMenu {
         let nextFocusElement;
         // The focus should move from trigger button -> context button -> scheduled path button -> trigger button
         // Or for record-triggered flow: record trigger button -> scheduled path button -> flow explorer open button -> record trigger button
-        if (key === ArrowDown.COMMAND_NAME) {
+        if (key === Keys.ArrowDown) {
             nextFocusElement = nextButton || prevButton;
         }
         // The focus should move from trigger button -> scheduled path button -> context button  -> trigger button
         // Or for record-triggered flow: record trigger button -> flow explorer open button -> scheduled path button -> record trigger button
-        if (key === ArrowUp.COMMAND_NAME) {
+        if (key === Keys.ArrowUp) {
             nextFocusElement = prevButton || nextButton;
         }
 
@@ -189,14 +185,10 @@ export default class AlcStartMenu extends AlcNodeMenu {
     ];
 
     setupCommandsAndShortcuts() {
-        // TODO @W-9582167: Use addKeyboardShortcuts
-        const keyboardCommands = {
-            Tab: new TabCommand(() => this.handleTabCommand(false), false),
-            Escape: new EscapeCommand(() => this.handleEscape())
-        };
-        setupKeyboardShortcutUtil(this.keyboardInteractions, keyboardCommands);
-        const shiftTabCommand = new TabCommand(() => this.handleTabCommand(true), true);
-        setupKeyboardShortcutWithShiftKey(this.keyboardInteractions, shiftTabCommand, 'Tab');
+        this.keyboardInteractions.registerShortcuts([
+            createShortcut(Keys.Tab, new TabCommand(() => this.handleTabCommand(false), false)),
+            createShortcut(createShortcutKey(Keys.Tab, true), new TabCommand(() => this.handleTabCommand(true), true))
+        ]);
     }
 
     renderedCallback() {

@@ -19,7 +19,7 @@ import {
 jest.mock('builder_platform_interaction/processTypeLib');
 jest.mock('builder_platform_interaction/storeUtils');
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
-jest.mock('builder_platform_interaction/sharedUtils');
+
 jest.mock('builder_platform_interaction/inlineResourceUtils', () => {
     return {
         getInlineResource: jest.fn(() => {

@@ -5,9 +5,6 @@ import { ACTION_TYPE } from 'builder_platform_interaction/flowMetadata';
 import Menu from 'builder_platform_interaction/menu';
 import { LABELS } from './stageStepMenuLabels';
 import { FocusOutEvent } from 'builder_platform_interaction/alcEvents';
-import { keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
-
-const { KeyboardInteractions } = keyboardInteractionUtils;
 
 /**
  * The add step menu overlay. It is displayed when clicking on the Add Step button.
@@ -17,10 +14,6 @@ export default class StageStepMenu extends Menu {
 
     @api
     node;
-
-    // Used for testing purposes
-    @api
-    keyboardInteractions;
 
     // configuration for menu items
     menuConfiguration = {
@@ -51,11 +44,6 @@ export default class StageStepMenu extends Menu {
             }
         ]
     };
-
-    constructor() {
-        super();
-        this.keyboardInteractions = new KeyboardInteractions();
-    }
 
     /**
      * Adds StageStep of the type specified by the attributes of the selected element.

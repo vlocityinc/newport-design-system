@@ -9,24 +9,19 @@ import {
 import { EditElementEvent, ArrowKeyDownEvent } from 'builder_platform_interaction/events';
 import { getEntitiesMenuData } from 'builder_platform_interaction/expressionUtils';
 import { commands, keyboardInteractionUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
-import { setupKeyboardShortcutUtil } from 'builder_platform_interaction/contextualMenuUtils';
 
 const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
-const { KeyboardInteractions } = keyboardInteractionUtils;
+const { BaseKeyboardInteraction, Keys, createShortcut, withKeyboardInteractions } = keyboardInteractionUtils;
 const { BEFORE_SAVE, BEFORE_DELETE, AFTER_SAVE, SCHEDULED, SCHEDULED_JOURNEY } = FLOW_TRIGGER_TYPE;
 
 const selectors = {
     button: '.button'
 };
-export default class StartNodeContextButton extends LightningElement {
+export default class StartNodeContextButton extends withKeyboardInteractions(LightningElement) {
     dom = lwcUtils.createDomProxy(this, selectors);
 
     @api
     node!: UI.Start;
-
-    // Used for testing purposes
-    @api
-    keyboardInteractions;
 
     @api
     focus() {
@@ -108,11 +103,6 @@ export default class StartNodeContextButton extends LightningElement {
         return this.node.filters?.length;
     }
 
-    constructor() {
-        super();
-        this.keyboardInteractions = new KeyboardInteractions();
-    }
-
     getContextMode() {
         switch (this.node.triggerType) {
             case AFTER_SAVE:
@@ -156,22 +146,14 @@ export default class StartNodeContextButton extends LightningElement {
         this.handleObjectClick();
     }
 
-    setupCommandsAndShortcuts() {
-        const keyboardCommands = {
-            Enter: new EnterCommand(() => this.handleSpaceOrEnter()),
-            ' ': new SpaceCommand(() => this.handleSpaceOrEnter()),
-            ArrowDown: new ArrowDown(() => this.handleArrowKeyDown(ArrowDown.COMMAND_NAME)),
-            ArrowUp: new ArrowUp(() => this.handleArrowKeyDown(ArrowUp.COMMAND_NAME))
-        };
-        setupKeyboardShortcutUtil(this.keyboardInteractions, keyboardCommands);
-    }
-
-    connectedCallback() {
-        this.keyboardInteractions.addKeyDownEventListener(this.template);
-        this.setupCommandsAndShortcuts();
-    }
-
-    disconnectedCallback() {
-        this.keyboardInteractions.removeKeyDownEventListener(this.template);
+    getKeyboardInteractions() {
+        return [
+            new BaseKeyboardInteraction([
+                createShortcut(Keys.Enter, new EnterCommand(() => this.handleSpaceOrEnter())),
+                createShortcut(Keys.Space, new SpaceCommand(() => this.handleSpaceOrEnter())),
+                createShortcut(Keys.ArrowDown, new ArrowDown(() => this.handleArrowKeyDown(ArrowDown.COMMAND_NAME))),
+                createShortcut(Keys.ArrowUp, new ArrowUp(() => this.handleArrowKeyDown(ArrowUp.COMMAND_NAME)))
+            ])
+        ];
     }
 }

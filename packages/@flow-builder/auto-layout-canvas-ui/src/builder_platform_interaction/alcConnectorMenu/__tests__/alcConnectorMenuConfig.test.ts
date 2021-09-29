@@ -5,11 +5,12 @@ import { LABELS } from '../alcConnectorMenuLabels';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {
-    return {
+    const mockSharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
+    return Object.assign({}, mockSharedUtils, {
         storeUtils: {
             generateGuid: jest.fn(() => 1)
         }
-    };
+    });
 });
 
 const metaData = [

@@ -1163,6 +1163,7 @@ export default class AlcCanvas extends LightningElement {
         const zoomToViewCommand = new ZoomToViewCommand(() =>
             this.handleZoomAction(new ClickToZoomEvent(ZOOM_ACTION.ZOOM_TO_VIEW))
         );
+
         this.keyboardInteractions.setupCommandAndShortcut(zoomToViewCommand, {
             ctrlOrCmd: true,
             alt: true,

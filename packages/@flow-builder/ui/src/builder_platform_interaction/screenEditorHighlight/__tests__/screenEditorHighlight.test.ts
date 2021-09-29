@@ -28,7 +28,9 @@ import {
     accountVariableNameAutomaticField
 } from 'mock/storeData';
 import { createScreenFieldWithFields } from 'builder_platform_interaction/elementFactory';
-import { Keys } from 'builder_platform_interaction/contextualMenuUtils';
+import { keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+
+const { Keys } = keyboardInteractionUtils;
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

@@ -1,2 +1,6 @@
-export class CommandRegistry {}
-export class KeyboardShortcutServiceImpl {}
+export class CommandRegistry {
+    registerCommands() {}
+}
+export class KeyboardShortcutServiceImpl {
+    registerShortcuts() {}
+}

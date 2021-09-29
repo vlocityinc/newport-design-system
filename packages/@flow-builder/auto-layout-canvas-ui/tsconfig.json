@@ -16,7 +16,7 @@
             "builder_platform_interaction/autoLayoutCanvas": [
                 "../../auto-layout-canvas/dist/types/index.d.js"
             ],
-            "builder_platform_interaction/contextualMenuUtils": ["./builder_platform_interaction/contextualMenuUtils/contextualMenuUtils.ts"],
+
             "builder_platform_interaction/sharedUtils": [
                 "../../shared-utils/dist/types/index.d.js"
             ],

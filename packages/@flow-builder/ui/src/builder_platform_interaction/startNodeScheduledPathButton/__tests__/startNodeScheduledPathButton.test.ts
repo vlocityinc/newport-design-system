@@ -13,11 +13,21 @@ const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {
     const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
-    const sharedcommands = require('builder_platform_interaction/sharedUtils/commands');
+    const sharedCommands = jest.requireActual('builder_platform_interaction/sharedUtils/commands');
     const sharedLwcUtils = jest.requireActual('builder_platform_interaction/sharedUtils/lwcUtils');
-    return Object.assign({}, sharedUtils, { commands: sharedcommands, lwcUtils: sharedLwcUtils });
-});
+    const keyboardInteractionUtils = jest.requireActual(
+        'builder_platform_interaction/sharedUtils/keyboardInteractionUtils'
+    );
+    const mockKeyboardInteractionUtils = jest.requireActual(
+        'builder_platform_interaction_mocks/sharedUtils/keyboardInteractionUtils'
+    );
 
+    return Object.assign({}, sharedUtils, {
+        commands: sharedCommands,
+        lwcUtils: sharedLwcUtils,
+        keyboardInteractionUtils: Object.assign({}, keyboardInteractionUtils, mockKeyboardInteractionUtils)
+    });
+});
 jest.mock(
     '@salesforce/label/FlowBuilderCanvasElement.startElementAddScheduledPathsLabel',
     () => ({ default: 'Add Scheduled Paths (Optional)' }),

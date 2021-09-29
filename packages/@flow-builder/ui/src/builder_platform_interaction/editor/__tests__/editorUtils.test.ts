@@ -220,11 +220,7 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
     };
 });
 
-jest.mock('builder_platform_interaction/sharedUtils', () => {
-    const actual = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
-    return Object.assign({}, actual, {});
-});
-
+jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 const canvasElement1 = {
     guid: 'canvasElement1',
     elementType: mockElementType.ASSIGNMENT,

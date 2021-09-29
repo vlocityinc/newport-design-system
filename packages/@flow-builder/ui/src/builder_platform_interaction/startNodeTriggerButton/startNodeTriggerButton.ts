@@ -7,10 +7,9 @@ import { LABELS } from './startNodeTriggerButtonLabels';
 import { getEventTypes, MANAGED_SETUP } from 'builder_platform_interaction/sobjectLib';
 import { isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 import { commands, keyboardInteractionUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
-import { setupKeyboardShortcutUtil } from 'builder_platform_interaction/contextualMenuUtils';
 
 const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
-const { KeyboardInteractions } = keyboardInteractionUtils;
+const { KeyboardInteractions, createShortcut, Keys } = keyboardInteractionUtils;
 
 const selectors = {
     button: '.button'
@@ -170,13 +169,12 @@ export default class StartNodeTriggerButton extends LightningElement {
     }
 
     setupCommandsAndShortcuts() {
-        const keyboardCommands = {
-            Enter: new EnterCommand(() => this.handleSpaceOrEnter()),
-            ' ': new SpaceCommand(() => this.handleSpaceOrEnter()),
-            ArrowDown: new ArrowDown(() => this.handleArrowKeyDown(ArrowDown.COMMAND_NAME)),
-            ArrowUp: new ArrowUp(() => this.handleArrowKeyDown(ArrowUp.COMMAND_NAME))
-        };
-        setupKeyboardShortcutUtil(this.keyboardInteractions, keyboardCommands);
+        this.keyboardInteractions.registerShortcuts([
+            createShortcut(Keys.Enter, new EnterCommand(() => this.handleSpaceOrEnter())),
+            createShortcut(Keys.Space, new SpaceCommand(() => this.handleSpaceOrEnter())),
+            createShortcut(Keys.ArrowDown, new ArrowDown(() => this.handleArrowKeyDown(ArrowDown.COMMAND_NAME))),
+            createShortcut(Keys.ArrowUp, new ArrowUp(() => this.handleArrowKeyDown(ArrowUp.COMMAND_NAME)))
+        ]);
     }
 
     connectedCallback() {

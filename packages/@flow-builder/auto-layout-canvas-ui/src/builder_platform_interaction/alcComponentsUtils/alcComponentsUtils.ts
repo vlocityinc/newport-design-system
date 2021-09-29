@@ -1,5 +1,4 @@
 import { classSet } from 'lightning/utils';
-
 import {
     NodeType,
     getElementMetadata,
@@ -23,7 +22,6 @@ import {
 
 import { ToggleMenuEvent } from 'builder_platform_interaction/alcEvents';
 import { PrivateItemRegisterEvent } from 'builder_platform_interaction/alcEvents';
-
 export interface AutoLayoutCanvasContext {
     isPasteAvailable: boolean;
     mode: AutoLayoutCanvasMode;

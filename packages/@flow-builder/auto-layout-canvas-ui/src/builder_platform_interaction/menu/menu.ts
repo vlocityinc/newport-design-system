@@ -3,13 +3,16 @@ import { getStyleFromGeometry, dispatchPrivateItemRegister } from 'builder_platf
 
 import { SelectMenuItemEvent, CloseMenuEvent } from 'builder_platform_interaction/alcEvents';
 import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
-import {
-    setupKeyboardShortcutUtil,
-    setupKeyboardShortcutWithShiftKey,
-    moveFocusInMenuOnArrowKeyDown
-} from 'builder_platform_interaction/contextualMenuUtils';
-const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand, EscapeCommand, TabCommand } = commands;
-const { KeyboardInteractions } = keyboardInteractionUtils;
+
+const { EnterCommand, SpaceCommand, EscapeCommand, TabCommand } = commands;
+const {
+    ListKeyboardInteraction,
+    BaseKeyboardInteraction,
+    createShortcut,
+    createShortcutKey,
+    Keys,
+    withKeyboardInteractions
+} = keyboardInteractionUtils;
 
 const selectors = { menuItem: 'div[role="option"]' };
 
@@ -17,8 +20,7 @@ enum TabFocusRingItems {
     Icon = 0,
     ListItems = 1
 }
-
-export default class Menu extends LightningElement {
+export default class Menu extends withKeyboardInteractions(LightningElement) {
     @api top;
     @api left;
     @api items;
@@ -31,11 +33,28 @@ export default class Menu extends LightningElement {
         this.moveFocusToFirstListItem();
     };
 
-    keyboardInteractions = new KeyboardInteractions();
-
     tabFocusRingIndex = 0;
-
     tabFocusRingCmds: Function[] = [];
+
+    getKeyboardInteractions() {
+        return [
+            new BaseKeyboardInteraction([
+                createShortcut(Keys.Enter, new EnterCommand(() => this.handleSpaceOrEnter())),
+                createShortcut(Keys.Space, new SpaceCommand(() => this.handleSpaceOrEnter())),
+                createShortcut(Keys.Escape, new EscapeCommand(() => this.handleEscape()))
+            ]),
+            new ListKeyboardInteraction(this.template, this.getListKeyboardInteractionSelector())
+        ];
+    }
+
+    /**
+     * Returns the selector used to determine which elements should be part of the list keyboard interaction
+     *
+     * @returns the selector for the list keyboard interaction
+     */
+    getListKeyboardInteractionSelector() {
+        return selectors.menuItem;
+    }
 
     get style() {
         return getStyleFromGeometry({ y: this.top + 10, x: this.left });
@@ -103,44 +122,19 @@ export default class Menu extends LightningElement {
         this.closeMenu();
     }
 
-    // TODO: W-9582172 Fix addKeyboardShortcuts so it returns a cleanup method
     setupCommandsAndShortcuts() {
-        const keyboardCommands = {
-            Enter: new EnterCommand(() => this.handleSpaceOrEnter()),
-            ' ': new SpaceCommand(() => this.handleSpaceOrEnter()),
-            ArrowDown: new ArrowDown(() => this.handleArrowKeyDown(ArrowDown.COMMAND_NAME)),
-            ArrowUp: new ArrowUp(() => this.handleArrowKeyDown(ArrowUp.COMMAND_NAME)),
-            Escape: new EscapeCommand(() => this.handleEscape()),
-            Tab: new TabCommand(() => this.handleTabCommand(false), false)
-        };
-        setupKeyboardShortcutUtil(this.keyboardInteractions, keyboardCommands);
-        const shiftTabCommand = new TabCommand(() => this.handleTabCommand(true), true);
-        setupKeyboardShortcutWithShiftKey(this.keyboardInteractions, shiftTabCommand, 'Tab');
+        this.keyboardInteractions.registerShortcuts([
+            createShortcut(Keys.Tab, new TabCommand(() => this.handleTabCommand(false), false)),
+            createShortcut(createShortcutKey(Keys.Tab, true), new TabCommand(() => this.handleTabCommand(true), true))
+        ]);
     }
 
     connectedCallback() {
-        this.keyboardInteractions.addKeyDownEventListener(this.template);
+        super.connectedCallback();
         this.setupCommandsAndShortcuts();
 
         // registers this instance with its popover parent
         dispatchPrivateItemRegister(this);
-    }
-
-    disconnectedCallback() {
-        this.keyboardInteractions.removeKeyDownEventListener(this.template);
-    }
-
-    /**
-     * Helper function to move the focus correctly when using arrow keys in the contextual menu
-     *
-     * @param key - the key pressed (arrowDown or arrowUp)
-     */
-    handleArrowKeyDown(key) {
-        const currentItemInFocus = this.template.activeElement;
-        if (currentItemInFocus) {
-            const items = Array.from(this.template.querySelectorAll(selectors.menuItem)) as HTMLElement[];
-            moveFocusInMenuOnArrowKeyDown(items, currentItemInFocus, key);
-        }
     }
 
     /**
@@ -156,9 +150,9 @@ export default class Menu extends LightningElement {
     /**
      * Default implementation just closes the menu
      *
-     * @param element - The element selected
+     * @param element - The HTML element selected in the menu
      */
-    doSelectMenuItem(element: HTMLElement) {
+    doSelectMenuItem(element?: HTMLElement) {
         this.closeMenu();
     }
 
@@ -178,7 +172,7 @@ export default class Menu extends LightningElement {
      * @returns the menu item at the specified index
      */
     getItemFromItemList(index) {
-        const listItems = Array.from(this.template.querySelectorAll(selectors.menuItem)) as HTMLElement[];
+        const listItems = Array.from<HTMLElement>(this.template.querySelectorAll(selectors.menuItem));
         return listItems && listItems[index];
     }
 

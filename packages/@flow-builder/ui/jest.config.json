@@ -10,11 +10,19 @@
         "^mock/flows/(.+)$": "<rootDir>/jest-mock-data/flows/$1",
         "^mock/debugResponse/(.+)$": "<rootDir>/jest-mock-data/debugResponse/$1",
         "^mock/(.+)$": "<rootDir>/jest-mock-data/$1/$1",
+
+        "^builder_platform_interaction_mocks/sharedUtils/keyboardInteractionUtils$": "<rootDir>/../shared-utils/jest-modules/builder_platform_interaction/sharedUtils/keyboardInteractionUtils/keyboardInteractionUtils",
+
         "^builder_platform_interaction/sharedUtils/commands": "<rootDir>/../shared-utils/src/commands",
         "^builder_platform_interaction/sharedUtils/lwcUtils": "<rootDir>/../shared-utils/src/lwcUtils",
         "^builder_platform_interaction/sharedUtils/auraUtils": "<rootDir>/../shared-utils/src/auraUtils",
         "^builder_platform_interaction/sharedUtils/commonUtils": "<rootDir>/../shared-utils/src/commonUtils",
-        "^builder_platform_interaction_mocks/sharedUtils$": "<rootDir>/../shared-utils/jest-modules/builder_platform_interaction/sharedUtils/sharedUtils",
+
+        "^builder_platform_interaction/sharedUtils/keyboardInteractionUtils": "<rootDir>/../shared-utils/src/keyboardInteractionUtils",
+
+        "^builder_platform_interaction_mocks/sharedUtils/sharedUtils$": "<rootDir>/../shared-utils/jest-modules/builder_platform_interaction/sharedUtils/sharedUtils",
+        "^builder_platform_interaction_mocks/sharedUtils$": "<rootDir>/../auto-layout-canvas-ui/jest-modules/builder_platform_interaction/sharedUtils/sharedUtils",
+
         "^builder_platform_interaction_mocks/(.+)$": "<rootDir>/jest-modules/builder_platform_interaction/$1/$1",
         "^serverData/(.+)/(.+)$": "<rootDir>/jest-mock-data/results/FlowBuilderControllerGoldFileTest/test$1Serialization/$2",
         "^builder_platform_interaction/autoLayoutCanvas$": "<rootDir>/../auto-layout-canvas/dist/index.dev.js",

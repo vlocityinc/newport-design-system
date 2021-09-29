@@ -10,6 +10,7 @@ import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTes
 
 const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
 
+jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/commonUtils', () => {
     const actual = jest.requireActual('builder_platform_interaction/commonUtils');
@@ -32,12 +33,6 @@ jest.mock(
     }
 );
 
-jest.mock('builder_platform_interaction/sharedUtils', () => {
-    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
-    const sharedcommands = require('builder_platform_interaction/sharedUtils/commands');
-    const sharedLwcUtils = jest.requireActual('builder_platform_interaction/sharedUtils/lwcUtils');
-    return Object.assign({}, sharedUtils, { commands: sharedcommands, lwcUtils: sharedLwcUtils });
-});
 const setupComponentUnderTest = (startElementObject, flowTriggerType) => {
     const element = createElement('builder_platform_interaction-start-node-context-button', {
         is: StartNodeContextButton

@@ -1,9 +1,9 @@
 import { LABELS } from './alcNodeMenuLabels';
 
-export const CONTEXTUAL_MENU_MODE = {
-    BASE_ACTIONS_MODE: 'BASE_ACTIONS_MODE',
-    DELETE_BRANCH_ELEMENT_MODE: 'DELETE_BRANCH_ELEMENT_MODE'
-};
+export enum NodeMenuMode {
+    Default,
+    Delete
+}
 
 export const ELEMENT_ACTION_CONFIG = {
     COPY_ACTION: {
@@ -44,8 +44,8 @@ export const ELEMENT_ACTION_CONFIG = {
     }
 };
 
-const getFooterData = (contextualMenuMode) => {
-    return contextualMenuMode === CONTEXTUAL_MENU_MODE.DELETE_BRANCH_ELEMENT_MODE
+const getFooterData = (nodeMenuMode: NodeMenuMode) => {
+    return nodeMenuMode === NodeMenuMode.Delete
         ? ELEMENT_ACTION_CONFIG.DELETE_BRANCH_ELEMENT_ACTION
         : ELEMENT_ACTION_CONFIG.EDIT_DETAILS_ACTION;
 };

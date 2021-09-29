@@ -1,7 +1,3 @@
-// alias LightningElement to 'any' here since we can't import 'lwc' is currently defined as a namespace,
-// so it can't be referenced as a type
-type LightningElement = any;
-
 /**
  * Utility function that creates a proxy to query the DOM of a lightning component.
  * The proxy exposes the component's selector keys as type-safe properties

@@ -17,9 +17,10 @@ import {
     ScreenCanvasKeyboardInteractions
 } from 'builder_platform_interaction/screenEditorUtils';
 import * as screenEditorUtils from 'builder_platform_interaction/screenEditorUtils';
-import { Keys } from 'builder_platform_interaction/contextualMenuUtils';
+import { keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 const HIGHLIGHT_SELECTOR = '.highlight';
 
+const { Keys } = keyboardInteractionUtils;
 /*
  * Selection frame with a header and support for deleting components
  */

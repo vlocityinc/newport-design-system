@@ -10,14 +10,10 @@ import {
     DeleteBranchElementEvent
 } from 'builder_platform_interaction/alcEvents';
 import Menu from 'builder_platform_interaction/menu';
-import { CONTEXTUAL_MENU_MODE, ELEMENT_ACTION_CONFIG, getMenuConfiguration } from './alcNodeMenuConfig';
+import { NodeMenuMode, ELEMENT_ACTION_CONFIG, getMenuConfiguration } from './alcNodeMenuConfig';
 import { ICON_SHAPE } from 'builder_platform_interaction/alcComponentsUtils';
 import { FOR_EACH_INDEX, NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { LABELS } from './alcNodeMenuLabels';
-import { keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
-import { moveFocusInMenuOnArrowKeyDown } from 'builder_platform_interaction/contextualMenuUtils';
-
-const { KeyboardInteractions } = keyboardInteractionUtils;
 
 const selectors = {
     menuItem: 'a[role="menuitem"]',
@@ -65,12 +61,8 @@ export default class AlcNodeMenu extends Menu {
     @api
     elementHasFault;
 
-    // Used for testing purposes
-    @api
-    keyboardInteractions;
-
     @track
-    contextualMenuMode = CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE;
+    contextualMenuMode = NodeMenuMode.Default;
 
     @api
     moveFocus = (shift: boolean) => {
@@ -121,11 +113,11 @@ export default class AlcNodeMenu extends Menu {
     }
 
     get isBaseActionMode() {
-        return this.contextualMenuMode === CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE;
+        return this.contextualMenuMode === NodeMenuMode.Default;
     }
 
     get isDeleteBranchElementMode() {
-        return this.contextualMenuMode === CONTEXTUAL_MENU_MODE.DELETE_BRANCH_ELEMENT_MODE;
+        return this.contextualMenuMode === NodeMenuMode.Delete;
     }
 
     get selectedConditionValue() {
@@ -138,8 +130,11 @@ export default class AlcNodeMenu extends Menu {
 
     constructor() {
         super();
-        this.keyboardInteractions = new KeyboardInteractions();
         this.tabFocusRingIndex = TabFocusRingItems.Icon;
+    }
+
+    override getListKeyboardInteractionSelector() {
+        return selectors.menuItem;
     }
 
     /**
@@ -153,7 +148,7 @@ export default class AlcNodeMenu extends Menu {
         if (event != null) {
             event.stopPropagation();
         }
-        this.contextualMenuMode = CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE;
+        this.contextualMenuMode = NodeMenuMode.Default;
         this._hasDeleteBranchModeRendered = false;
         this._moveFocusToDeleteBranchRow = true;
         this.dispatchEvent(new ClearHighlightedPathEvent());
@@ -177,7 +172,7 @@ export default class AlcNodeMenu extends Menu {
                 break;
             case ELEMENT_ACTION_CONFIG.DELETE_ACTION.value:
                 if (this.elementMetadata.type === NodeType.BRANCH) {
-                    this.contextualMenuMode = CONTEXTUAL_MENU_MODE.DELETE_BRANCH_ELEMENT_MODE;
+                    this.contextualMenuMode = NodeMenuMode.Delete;
                     this._hasBaseModeRendered = false;
                     this._selectedConditionValue = this.conditionOptions[0].value;
                     this.dispatchEvent(new HighlightPathsToDeleteEvent(this.guid, this._childIndexToKeep));
@@ -239,9 +234,9 @@ export default class AlcNodeMenu extends Menu {
             event.stopPropagation();
         }
         this.dispatchEvent(new CloseMenuEvent());
-        if (this.contextualMenuMode === CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE) {
+        if (this.contextualMenuMode === NodeMenuMode.Default) {
             this.dispatchEvent(new EditElementEvent(this.guid, undefined, undefined, true));
-        } else if (this.contextualMenuMode === CONTEXTUAL_MENU_MODE.DELETE_BRANCH_ELEMENT_MODE) {
+        } else if (this.contextualMenuMode === NodeMenuMode.Delete) {
             this.dispatchEvent(
                 new DeleteBranchElementEvent([this.guid], this.elementMetadata.elementType, this._childIndexToKeep)
             );
@@ -251,30 +246,15 @@ export default class AlcNodeMenu extends Menu {
     /**
      * Closes the menu and moves the focus back to the element icon
      */
-    handleEscape() {
+    override handleEscape() {
         super.handleEscape();
         this.dispatchEvent(new MoveFocusToNodeEvent(this.guid));
     }
 
     /**
-     * Helper function to move the focus correctly when using arrow keys in the contextual menu
-     *
-     * @param key - the key pressed (arrowDown or arrowUp)
-     */
-    handleArrowKeyDown(key) {
-        const currentItemInFocus = this.template.activeElement;
-        // Need this check in case the current item in focus is something other than the list item
-        // (eg. back button or footer button)
-        if (currentItemInFocus && currentItemInFocus.role === 'menuitem') {
-            const items = Array.from(this.template.querySelectorAll(selectors.menuItem)) as HTMLElement[];
-            moveFocusInMenuOnArrowKeyDown(items, currentItemInFocus, key);
-        }
-    }
-
-    /**
      * Helper function used during keyboard commands
      */
-    handleSpaceOrEnter() {
+    override handleSpaceOrEnter() {
         const currentItemInFocus = this.template.activeElement;
         if (currentItemInFocus) {
             if (currentItemInFocus.role === 'menuitem') {
@@ -328,11 +308,11 @@ export default class AlcNodeMenu extends Menu {
         () => this.moveFocusToFooterButton()
     ];
 
-    getTabFocusRingCmds() {
+    override getTabFocusRingCmds() {
         return this.isDeleteBranchElementMode ? this.tabFocusRingCmdsInDeleteMode : this.tabFocusRingCmds;
     }
 
-    getTabFocusRingIndex() {
+    override getTabFocusRingIndex() {
         if (this.isDeleteBranchElementMode) {
             if (this.template.activeElement) {
                 if (this.template.activeElement.classList.value.includes(selectors.backButtonFocus)) {

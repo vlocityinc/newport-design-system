@@ -17,9 +17,6 @@ import {
     GOTO_REROUTE_ACTION
 } from './alcConnectorMenuConfig';
 import { LABELS } from './alcConnectorMenuLabels';
-import { keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
-
-const { KeyboardInteractions } = keyboardInteractionUtils;
 
 enum TabFocusRingItems {
     Icon = 0,
@@ -51,10 +48,6 @@ export default class AlcConnectorMenu extends Menu {
     @api
     isGoToConnector!: boolean;
 
-    // Used for testing purposes
-    @api
-    keyboardInteractions;
-
     get menuConfiguration() {
         return configureMenu(
             this.elementsMetadata,
@@ -71,7 +64,6 @@ export default class AlcConnectorMenu extends Menu {
 
     constructor() {
         super();
-        this.keyboardInteractions = new KeyboardInteractions();
         this.tabFocusRingIndex = TabFocusRingItems.Icon;
     }
 
@@ -80,7 +72,7 @@ export default class AlcConnectorMenu extends Menu {
      *
      * @param currentTarget the HTML element selected in the menu
      */
-    doSelectMenuItem(currentTarget: HTMLElement) {
+    override doSelectMenuItem(currentTarget: HTMLElement) {
         super.doSelectMenuItem(currentTarget);
 
         const action = currentTarget.getAttribute('data-value');
@@ -128,7 +120,7 @@ export default class AlcConnectorMenu extends Menu {
     /**
      * Closes the menu and moves the focus back to the connector trigger
      */
-    handleEscape() {
+    override handleEscape() {
         super.handleEscape();
         this.moveFocusToConnector();
     }

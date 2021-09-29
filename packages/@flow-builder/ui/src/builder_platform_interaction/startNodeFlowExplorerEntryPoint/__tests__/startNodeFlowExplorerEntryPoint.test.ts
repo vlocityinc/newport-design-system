@@ -9,13 +9,8 @@ import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTes
 const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
-jest.mock('builder_platform_interaction/sharedUtils', () => {
-    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
-    const sharedcommands = require('builder_platform_interaction/sharedUtils/commands');
-    const sharedLwcUtils = require('builder_platform_interaction/sharedUtils/lwcUtils');
-    return Object.assign({}, sharedUtils, { commands: sharedcommands, lwcUtils: sharedLwcUtils });
-});
 
+jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 const selectors = {
     entryPointLabel: '.label',
     button: '.button'

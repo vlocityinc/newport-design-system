@@ -11,11 +11,7 @@ import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTes
 
 const { EnterCommand, SpaceCommand, ArrowDown, ArrowUp } = commands;
 
-jest.mock('builder_platform_interaction/sharedUtils', () => {
-    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
-    const sharedcommands = require('builder_platform_interaction/sharedUtils/commands');
-    return Object.assign({}, sharedUtils, { commands: sharedcommands });
-});
+jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
 const createComponentUnderTest = (node) => {
     const el = createElement('builder_platform_interaction-orchestrated-stage-node', {

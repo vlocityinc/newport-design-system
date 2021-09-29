@@ -4,11 +4,7 @@ import { commands } from 'builder_platform_interaction/sharedUtils';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 const { EnterCommand } = commands;
 
-jest.mock('builder_platform_interaction/sharedUtils', () => {
-    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
-    const sharedcommands = require('builder_platform_interaction/sharedUtils/commands');
-    return Object.assign({}, sharedUtils, { commands: sharedcommands });
-});
+jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
 const createCallback = jest.fn();
 const closeCallback = jest.fn();

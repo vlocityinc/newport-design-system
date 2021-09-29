@@ -18,7 +18,7 @@
         "test": "jest src",
         "test:update-snapshots": "jest --updateSnapshot",
         "coverage": "yarn test --coverage",
-        "lint": "eslint --max-warnings 21 src/**/*.ts",
+        "lint": "eslint --max-warnings 12 src/**/*.ts",
         "ci:test": "yarn test --verbose false",
         "ci:test:coverage": "yarn ci:test"
     },
