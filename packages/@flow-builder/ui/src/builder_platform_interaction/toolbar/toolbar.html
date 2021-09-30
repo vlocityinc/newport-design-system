@@ -16,7 +16,10 @@
         </lightning-button>
 
         <!-- Undo/Redo -->
-        <lightning-button-group if:false={isSelectionMode} class="test-undo-redo slds-builder-toolbar__item-group">
+        <lightning-button-group
+            if:true={showUndoRedoButtonComposed}
+            class="test-undo-redo slds-builder-toolbar__item-group"
+        >
             <lightning-button-icon
                 variant="border-filled"
                 icon-name="utility:undo"
@@ -194,6 +197,7 @@
             </lightning-button>
 
             <lightning-button
+                if:true={showActivateButton}
                 id="toggleFlowStatusButton"
                 label={activateButtonText}
                 title={activateButtonText}
@@ -205,6 +209,7 @@
             </lightning-button>
 
             <lightning-button
+                if:true={showSaveAsButton}
                 label={labels.saveAsTitle}
                 title={labels.saveAsTitle}
                 onclick={handleSaveAs}
@@ -213,6 +218,7 @@
             >
             </lightning-button>
             <lightning-button
+                if:true={showSaveButton}
                 label={labels.saveTitle}
                 variant="brand"
                 title={labels.saveTitle}

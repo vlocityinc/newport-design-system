@@ -54,6 +54,10 @@ type ToolbarConfig = {
     showRunButton: boolean;
     showFlowStatus: boolean;
     showRestartRunButton: boolean;
+    showSaveAsButton: boolean;
+    showSaveButton: boolean;
+    showActivateButton: boolean;
+    showUndoRedoButton: boolean;
 };
 type HeaderConfig = {
     showDebugStatus: boolean;

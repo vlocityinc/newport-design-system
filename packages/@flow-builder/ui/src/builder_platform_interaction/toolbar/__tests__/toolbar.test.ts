@@ -43,7 +43,11 @@ const createComponentUnderTest = (props = {}) => {
         showFlowStatus: getPropertyOrDefaultToTrue(props, 'showFlowStatus'),
         showRunButton: getPropertyOrDefaultToTrue(props, 'showRunButton'),
         showDebugButton: getPropertyOrDefaultToTrue(props, 'showDebugButton'),
-        showAddToTestButton: getPropertyOrDefaultToTrue(props, 'showAddToTestButton')
+        showAddToTestButton: getPropertyOrDefaultToTrue(props, 'showAddToTestButton'),
+        showActivateButton: getPropertyOrDefaultToTrue(props, 'showActivateButton'),
+        showSaveButton: getPropertyOrDefaultToTrue(props, 'showSaveButton'),
+        showSaveAsButton: getPropertyOrDefaultToTrue(props, 'showSaveAsButton'),
+        showUndoRedoButton: getPropertyOrDefaultToTrue(props, 'showUndoRedoButton')
     });
 
     setDocumentBodyChildren(el);
@@ -288,6 +292,14 @@ describe('toolbar', () => {
         expect(activateButton.disabled).toBe(false);
     });
 
+    it('Activate button should be hidden if toolbar config is set as such', () => {
+        const toolbarComponent = createComponentUnderTest({
+            showActivateButton: false
+        });
+        const activateButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.activate);
+        expect(activateButton).toBeNull();
+    });
+
     it('fires save event when save button is clicked', () => {
         const toolbarComponent = createComponentUnderTest();
         const eventCallback = jest.fn();
@@ -295,6 +307,38 @@ describe('toolbar', () => {
         toolbarComponent.shadowRoot.querySelector(SELECTORS.save).click();
         expect(eventCallback).toHaveBeenCalled();
         expect(eventCallback.mock.calls[0][0].detail.type).toBe(SaveFlowEvent.Type.SAVE);
+    });
+
+    it('Save button should be hidden if toolbar config is set as such', () => {
+        const toolbarComponent = createComponentUnderTest({
+            showSaveButton: false
+        });
+        const saveButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.save);
+        expect(saveButton).toBeNull();
+    });
+
+    it('Save as button should be hidden if toolbar config is set as such', () => {
+        const toolbarComponent = createComponentUnderTest({
+            showSaveAsButton: false
+        });
+        const saveAsButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.saveas);
+        expect(saveAsButton).toBeNull();
+    });
+
+    it('Undo/redo button should be hidden if toolbar config is set as such, regardless of selection mode', () => {
+        let toolbarComponent = createComponentUnderTest({
+            showUndoRedoButton: false,
+            isSelectionMode: true
+        });
+        let undoRedoButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.undoRedo);
+        expect(undoRedoButton).toBeNull();
+
+        toolbarComponent = createComponentUnderTest({
+            showUndoRedoButton: false,
+            isSelectionMode: true
+        });
+        undoRedoButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.undoRedo);
+        expect(undoRedoButton).toBeNull();
     });
 
     describe('save type', () => {

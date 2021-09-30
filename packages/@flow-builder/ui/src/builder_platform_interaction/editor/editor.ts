@@ -684,6 +684,22 @@ export default class Editor extends LightningElement {
         return this.toolbarConfig.showRestartRunButton && !this.hideDebugAgainButton;
     }
 
+    get showSaveButton() {
+        return !!this.toolbarConfig.showSaveButton;
+    }
+
+    get showSaveAsButton() {
+        return !!this.toolbarConfig.showSaveAsButton;
+    }
+
+    get showActivateButton() {
+        return !!this.toolbarConfig.showActivateButton;
+    }
+
+    get showUndoRedoButton() {
+        return !!this.toolbarConfig.showUndoRedoButton;
+    }
+
     @api
     get blockDebugResume() {
         return this.builderMode === BUILDER_MODE.DEBUG_MODE && this.ifBlockResume;

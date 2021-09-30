@@ -125,6 +125,18 @@ export default class Toolbar extends LightningElement {
     @api
     hideSelectionButton;
 
+    @api
+    showSaveButton;
+
+    @api
+    showSaveAsButton;
+
+    @api
+    showActivateButton;
+
+    @api
+    showUndoRedoButton;
+
     labels = LABELS;
 
     statusLabelFromStatus = {
@@ -282,6 +294,11 @@ export default class Toolbar extends LightningElement {
             return 'destructive-text';
         }
         return 'neutral';
+    }
+
+    /** Logic is based off the builder config AND selection mode status */
+    get showUndoRedoButtonComposed() {
+        return !this.isSelectionMode && this.showUndoRedoButton;
     }
 
     /**

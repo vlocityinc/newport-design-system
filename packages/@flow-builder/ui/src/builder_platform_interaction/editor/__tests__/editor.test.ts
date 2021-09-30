@@ -604,7 +604,8 @@ describe('editor', () => {
                     editMode: {
                         leftPanelConfig: { showLeftPanel: true },
                         toolbarConfig: {
-                            showCanvasModeToggle: true
+                            showCanvasModeToggle: true,
+                            showSaveButton: true
                         }
                     }
                 }
@@ -1229,7 +1230,17 @@ describe('property editor', () => {
 
             editorComponent = createComponentUnderTest({
                 builderType: 'new',
-                builderConfig: { supportedProcessTypes: ['right'], usePanelForPropertyEditor: true }
+                builderConfig: {
+                    supportedProcessTypes: ['right'],
+                    usePanelForPropertyEditor: true,
+                    componentConfigs: {
+                        editMode: {
+                            toolbarConfig: {
+                                showSaveButton: true
+                            }
+                        }
+                    }
+                }
             });
 
             const editElementEvent = new EditElementEvent('1');
@@ -1837,7 +1848,16 @@ describe('in debug mode', () => {
                 builderMode: 'debugMode',
                 builderConfig: {
                     supportedProcessTypes: ['right'],
-                    componentConfigs: { [BUILDER_MODE.DEBUG_MODE]: { rightPanelConfig: { showDebugPanel: true } } }
+                    componentConfigs: {
+                        [BUILDER_MODE.DEBUG_MODE]: {
+                            rightPanelConfig: {
+                                showDebugPanel: true
+                            },
+                            toolbarConfig: {
+                                showSaveButton: true
+                            }
+                        }
+                    }
                 }
             });
             editorComponent.setBuilderMode(BUILDER_MODE.DEBUG_MODE);
