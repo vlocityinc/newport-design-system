@@ -156,7 +156,8 @@ const SELECTORS = {
     SOURCE_TEMPLATE_COMBOBOX: 'builder_platform_interaction-combobox.source-template',
     OVERRIDABLE_CHECK: 'lightning-input.overridable_check',
     OVERRIDABLE_COMBOBOX: 'builder_platform_interaction-combobox.overrides-flow-template',
-    NEW_FLOW_OVERRIDES_BANNER: 'div.test-overrides-banner'
+    NEW_FLOW_OVERRIDES_BANNER: 'div.test-overrides-banner',
+    PRIORITY: 'lightning-input.priority'
 };
 
 const getLabelDescription = (flowPropertiesEditor) => {
@@ -206,6 +207,10 @@ const dispatchLabelChangedEvent = (flowPropertiesEditor, newLabelValue, error) =
 
 const getApiVersion = (flowPropertiesEditor) => {
     return flowPropertiesEditor.shadowRoot.querySelector(SELECTORS.API_VERSION);
+};
+
+const getPriority = (flowPropertiesEditor) => {
+    return flowPropertiesEditor.shadowRoot.querySelector(SELECTORS.PRIORITY);
 };
 
 const getTemplateCheck = (flowPropertiesEditor) => {
@@ -535,6 +540,65 @@ describe('FlowPropertiesEditor', () => {
                 expect(flowPropertiesEditor.node.name.value).toBe('');
                 expect(flowPropertiesEditor.node.description.value).toBe('');
                 expect(flowPropertiesEditor.node.interviewLabel.value).toBe('');
+            });
+        });
+    });
+    describe('Priority Field', () => {
+        describe('Basic check', () => {
+            let baseProperties;
+            beforeEach(() => {
+                baseProperties = {
+                    label: { value: 'flow label' },
+                    name: { value: 'flow name' },
+                    description: { value: 'flow description' },
+                    processType: { value: 'process type2' },
+                    status: { value: 'Active' },
+                    interviewLabel: { value: 'interviewLabel' },
+                    lastModifiedBy: { value: 'some user' },
+                    lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
+                    versionNumber: 1,
+                    saveType: SaveType.UPDATE,
+                    runInMode: { value: null, error: null },
+                    priority: 150,
+                    apiVersion: 49
+                };
+                flowProperties = {
+                    ...baseProperties,
+                    priority: 150
+                };
+                flowPropertiesEditor = createComponentUnderTest(flowProperties);
+                getShowAdvancedButton(flowPropertiesEditor).click();
+            });
+
+            it('displays the value associated with current priority', async () => {
+                await Promise.resolve();
+                expect(getPriority(flowPropertiesEditor).value).toEqual(150);
+            });
+            it('will show an error if the value entered is out of the range', async () => {
+                await Promise.resolve();
+                const priorityField = getPriority(flowPropertiesEditor);
+                priorityField.dispatchEvent(
+                    new CustomEvent('change', {
+                        detail: { value: 2001 }
+                    })
+                );
+                expect(priorityField.getAttribute('aria-invalid')).toEqual('true');
+            });
+            it('will revert an error if the value is in the range', async () => {
+                const priorityField = getPriority(flowPropertiesEditor);
+                priorityField.dispatchEvent(
+                    new CustomEvent('change', {
+                        detail: { value: 2001 }
+                    })
+                );
+                expect(priorityField.getAttribute('aria-invalid')).toEqual('true');
+                priorityField.dispatchEvent(
+                    new CustomEvent('change', {
+                        detail: { value: 1000 }
+                    })
+                );
+                await ticks(1);
+                expect(priorityField.getAttribute('aria-invalid')).toEqual('false');
             });
         });
     });

@@ -151,6 +151,16 @@
             >
             </lightning-combobox>
 
+            <lightning-input
+                label={labels.priorityLabel}
+                type="number"
+                onchange={handlePriorityChanged}
+                value={priority}
+                class="priority slds-col slds-grow slds-p-top_small"
+                field-level-help={labels.priorityHelpText}
+            >
+            </lightning-input>
+
             <div class="slds-m-top_small">
                 <builder_platform_interaction-resourced-textarea
                     help-text={labels.instanceLabelHelpText}

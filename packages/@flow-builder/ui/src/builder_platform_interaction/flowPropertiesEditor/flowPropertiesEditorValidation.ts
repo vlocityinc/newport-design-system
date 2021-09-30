@@ -20,7 +20,8 @@ const additionalRules = {
         ValidationRules.shouldAcceptOnlyAlphanumericCharacters,
         ValidationRules.maximumCharactersLimit(80)
     ],
-    interviewLabel: [ValidationRules.maximumCharactersLimit(1000), ValidationRules.isValidResourcedTextArea]
+    interviewLabel: [ValidationRules.maximumCharactersLimit(1000), ValidationRules.isValidResourcedTextArea],
+    priority: [ValidationRules.shouldBeInRange(1, 2000)]
 };
 
 export const flowPropertiesEditorValidation = new Validation(additionalRules, true);

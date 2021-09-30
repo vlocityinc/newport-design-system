@@ -24,6 +24,8 @@ import currentVersion from '@salesforce/label/FlowBuilderFlowPropertiesEditor.cu
 import currentVersionHelpText from '@salesforce/label/FlowBuilderFlowPropertiesEditor.currentVersionHelpText';
 import apiVersionLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.apiVersionLabel';
 import templateLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.templateLabel';
+import priorityLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.priorityLabel';
+import priorityHelpText from '@salesforce/label/FlowBuilderFlowPropertiesEditor.priorityHelpText';
 import overridableLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.overridableLabel';
 import templateCheckHelpText from '@salesforce/label/FlowBuilderFlowPropertiesEditor.templateCheckHelpText';
 import overridableCheckHelpText from '@salesforce/label/FlowBuilderFlowPropertiesEditor.overridableCheckHelpText';
@@ -62,6 +64,8 @@ export const LABELS = {
     currentVersionHelpText,
     apiVersionLabel,
     templateLabel,
+    priorityLabel,
+    priorityHelpText,
     overridableLabel,
     templateCheckHelpText,
     overridableCheckHelpText,

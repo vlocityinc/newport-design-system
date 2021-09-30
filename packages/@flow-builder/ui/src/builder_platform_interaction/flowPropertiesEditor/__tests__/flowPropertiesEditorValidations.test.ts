@@ -2,6 +2,8 @@
 import { flowPropertiesEditorValidation } from '../flowPropertiesEditorValidation';
 import { LABELS } from 'builder_platform_interaction/validationRules';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 jest.mock('builder_platform_interaction/mergeFieldLib', () => {
     return {
@@ -36,6 +38,13 @@ describe('FlowPropertiesValidations', () => {
             validateTextWithMergeFields.mockReturnValueOnce([error]);
             expect(flowPropertiesEditorValidation.validateProperty('interviewLabel', 'some invalid text')).toEqual(
                 error.message
+            );
+        });
+    });
+    describe('Priority property', () => {
+        it('Cannot be outside of the range of 1 to 2000', () => {
+            expect(flowPropertiesEditorValidation.validateProperty('priority', 9000)).toBe(
+                format(LABELS.shouldBeInRange, 1, 2000)
             );
         });
     });

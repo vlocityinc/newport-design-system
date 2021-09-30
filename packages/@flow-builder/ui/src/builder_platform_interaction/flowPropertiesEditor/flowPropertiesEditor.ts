@@ -36,6 +36,7 @@ import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 const { format } = commonUtils;
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import * as ValidationRules from 'builder_platform_interaction/validationRules';
 
 /**
  * Flow Properties property editor for Flow Builder
@@ -47,6 +48,11 @@ import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const TOGGLE_CLASS_SHOW = 'show-advanced-button';
 const TOGGLE_CLASS_HIDE = 'hide-advanced-button';
+
+const SELECTORS = {
+    PRIORITY: '.priority',
+    PROCESS_TYPE: '.process-type'
+};
 
 /**
  * As Orchestrator begins to move into a more 'unified branding' the labeling from flows is beginning to diverge
@@ -122,7 +128,7 @@ export default class FlowPropertiesEditor extends LightningElement {
             isSavingExistingFlow: this.savingExistingFlow
         };
         this.flowProperties = flowPropertiesEditorReducer(this.flowProperties, event);
-        const processTypeElement = this.template.querySelector('.process-type');
+        const processTypeElement = this.template.querySelector(SELECTORS.PROCESS_TYPE);
         if (this.flowProperties.processType && this.flowProperties.processType.error) {
             this.setElementErrorMessage(processTypeElement, this.flowProperties.processType.error);
         }
@@ -256,6 +262,14 @@ export default class FlowPropertiesEditor extends LightningElement {
             retVal = String(this.flowProperties.apiVersion.value);
         }
         return retVal;
+    }
+
+    set priority(value) {
+        this.updateProperty('priority', value);
+    }
+
+    get priority() {
+        return getValueFromHydratedItem(this.flowProperties.priority);
     }
 
     get runInMode() {
@@ -521,8 +535,10 @@ export default class FlowPropertiesEditor extends LightningElement {
         if (element) {
             if (error) {
                 element.setCustomValidity(error);
+                element.setAttribute('aria-invalid', true);
             } else {
                 element.setCustomValidity('');
+                element.setAttribute('aria-invalid', false);
             }
             element.showHelpMessageIfInvalid();
         }
@@ -575,6 +591,18 @@ export default class FlowPropertiesEditor extends LightningElement {
             this.initApiVersion(true);
         } else {
             this.clearForNewDefinition();
+        }
+    }
+
+    handlePriorityChanged(event) {
+        event.stopPropagation();
+        const priorityElement = this.template.querySelector(SELECTORS.PRIORITY);
+        let error = null;
+        const value = parseInt(event.detail.value, 10);
+        if (value) {
+            error = ValidationRules.shouldBeInRange(1, 2000)(value);
+            this.updateProperty('priority', value);
+            this.setElementErrorMessage(priorityElement, error);
         }
     }
 
@@ -761,7 +789,7 @@ export default class FlowPropertiesEditor extends LightningElement {
             this.flowProperties.processType.value &&
             !this.flowProperties.processType.error
         ) {
-            const processTypeElement = this.template.querySelector('.process-type');
+            const processTypeElement = this.template.querySelector(SELECTORS.PROCESS_TYPE);
             this.setElementErrorMessage(processTypeElement, null);
         }
     }
