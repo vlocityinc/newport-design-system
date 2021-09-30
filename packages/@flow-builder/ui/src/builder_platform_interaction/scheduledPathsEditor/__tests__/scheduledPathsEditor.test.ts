@@ -42,6 +42,7 @@ jest.mock('builder_platform_interaction/sharedUtils', () =>
 );
 
 const SELECTORS = {
+    ADD_BUTTON: 'builder_platform_interaction-reorderable-vertical-navigation lightning-button-icon',
     IMMEDIATE_SCHEDULED_PATH: '.test-immediate-scheduled-path'
 };
 
@@ -183,7 +184,7 @@ describe('Scheduled Paths Editor', () => {
         it('calls the reducer with the passed in action', async () => {
             expect.assertions(1);
             const scheduledPathsEditor = createComponentForTest(startElementWithTwoScheduledPaths);
-            const deletescheduledPathEvent = new DeleteScheduledPathEvent('scheduledPathGuid');
+            const deletescheduledPathEvent = new DeleteScheduledPathEvent('scheduledPath1');
             const scheduledPath = scheduledPathsEditor.shadowRoot.querySelector(
                 INTERACTION_COMPONENTS_SELECTORS.SCHEDULED_PATH
             );
@@ -194,7 +195,7 @@ describe('Scheduled Paths Editor', () => {
         it('sets the first scheduled path as active when there are 3 scheduled paths (including immediate)', async () => {
             expect.assertions(1);
             const scheduledPathsEditor = createComponentForTest(startElementWithTwoScheduledPaths);
-            const deletescheduledPathEvent = new DeleteScheduledPathEvent('scheduledPathGuid');
+            const deletescheduledPathEvent = new DeleteScheduledPathEvent('scheduledPath1');
             let scheduledPathElement = scheduledPathsEditor.shadowRoot.querySelector(
                 INTERACTION_COMPONENTS_SELECTORS.SCHEDULED_PATH
             );
@@ -209,7 +210,7 @@ describe('Scheduled Paths Editor', () => {
         it('sets the immediate scheduled path as active when there are 2 scheduled paths (including immediate)', async () => {
             expect.assertions(1);
             const scheduledPathsEditor = createComponentForTest(startElementWithOneScheduledPaths);
-            const deletescheduledPathEvent = new DeleteScheduledPathEvent('scheduledPathGuid');
+            const deletescheduledPathEvent = new DeleteScheduledPathEvent('scheduledPath1');
             const scheduledPathElement = scheduledPathsEditor.shadowRoot.querySelector(
                 INTERACTION_COMPONENTS_SELECTORS.SCHEDULED_PATH
             );
@@ -260,6 +261,44 @@ describe('Scheduled Paths Editor', () => {
                     detail: { node: scheduledPathsEditor.node }
                 })
             );
+        });
+
+        it('Focus function on the scheduled path is called after deletion', () => {
+            const scheduledPathsEditor = createComponentForTest(startElementWithTwoScheduledPaths);
+            const event = new DeleteScheduledPathEvent('scheduledPath2');
+            const scheduledPathElement = scheduledPathsEditor.shadowRoot.querySelector(
+                INTERACTION_COMPONENTS_SELECTORS.SCHEDULED_PATH
+            );
+            scheduledPathElement.focus = jest.fn();
+            scheduledPathElement.dispatchEvent(event);
+            expect(scheduledPathElement.focus).toHaveBeenCalled();
+        });
+
+        it('Focus function on the scheduled path should not be called if the last path is deleted', () => {
+            const scheduledPathsEditor = createComponentForTest(startElementWithOneScheduledPaths);
+            const event = new DeleteScheduledPathEvent('scheduledPath1');
+            const scheduledPathElement = scheduledPathsEditor.shadowRoot.querySelector(
+                INTERACTION_COMPONENTS_SELECTORS.SCHEDULED_PATH
+            );
+            mockNewState.scheduledPaths.pop();
+            mockNewState.scheduledPaths.pop();
+            scheduledPathElement.focus = jest.fn();
+            scheduledPathElement.dispatchEvent(event);
+            expect(scheduledPathElement.focus).not.toHaveBeenCalled();
+        });
+
+        it('Focus function on the "+" button should be called if the last path is deleted', () => {
+            const scheduledPathsEditor = createComponentForTest(startElementWithOneScheduledPaths);
+            const event = new DeleteScheduledPathEvent('scheduledPath1');
+            const scheduledPathElement = scheduledPathsEditor.shadowRoot.querySelector(
+                INTERACTION_COMPONENTS_SELECTORS.SCHEDULED_PATH
+            );
+            mockNewState.scheduledPaths.pop();
+            mockNewState.scheduledPaths.pop();
+            const addButton = scheduledPathsEditor.shadowRoot.querySelector(SELECTORS.ADD_BUTTON);
+            addButton.focus = jest.fn();
+            scheduledPathElement.dispatchEvent(event);
+            expect(addButton.focus).toHaveBeenCalled();
         });
     });
     describe('handlePropertyChangedEvent', () => {

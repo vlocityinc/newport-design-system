@@ -133,6 +133,9 @@ export default class WaitEditor extends LightningElement {
         if (this.waitElement.waitEvents.length < originalNumberOfWaitEvents) {
             this.activeWaitEventId = this.waitElement.waitEvents[0].guid;
         }
+
+        // Move focus to the active pause event (first pause event) post deletion
+        this.template.querySelector(SELECTORS.WAIT_EVENT)?.focus();
     }
 
     /**

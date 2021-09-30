@@ -14,12 +14,14 @@ const EMPTY_SCHEDULED_PATH_LABEL = LABELS.emptyScheduledPathLabel;
 const IMMEDIATE_SCHEDULED_PATH_LABEL = LABELS.immediateScheduledPathLabel;
 const IMMEDIATE_SCHEDULED_PATH_ID = 'immediateScheduledPath';
 const SELECTORS = {
+    ADD_BUTTON: 'builder_platform_interaction-reorderable-vertical-navigation lightning-button-icon',
     SCHEDULED_PATH: 'builder_platform_interaction-scheduled-path'
 };
 
 export default class ScheduledPathsEditor extends LightningElement {
     @track activeScheduledPathId;
     @track startElement;
+    isAddingFirstScheduledPath = false;
 
     labels = LABELS;
 
@@ -115,12 +117,13 @@ export default class ScheduledPathsEditor extends LightningElement {
 
         // Focus on the newly selected scheduled path ( focus on the name/label field )
         const scheduledPath = this.template.querySelector(SELECTORS.SCHEDULED_PATH);
-        // Set focus even if the scheduledPath component is not currently present
         if (scheduledPath) {
             scheduledPath.focus();
+        } else {
+            // Scheduled path will be null when adding one for the first time.
+            // For this case we need to wait for the renderedCallback before shifting focus
+            this.isAddingFirstScheduledPath = true;
         }
-
-        this.shouldFocus = true;
     }
 
     /**
@@ -150,6 +153,15 @@ export default class ScheduledPathsEditor extends LightningElement {
             }
         }
         this.dispatchEvent(new UpdateNodeEvent(this.startElement));
+
+        // Move focus to the active scheduled path post deletion
+        // If "Run Immediately" path is the active path (happens when all scheduled paths have been deleted)
+        // then move focus to the add button, else move it to the active scheduled path
+        if (this.activeScheduledPathId === IMMEDIATE_SCHEDULED_PATH_ID) {
+            this.template.querySelector(SELECTORS.ADD_BUTTON).focus();
+        } else {
+            this.template.querySelector(SELECTORS.SCHEDULED_PATH)?.focus();
+        }
     }
 
     get isImmediateScheduledPath() {
@@ -179,5 +191,14 @@ export default class ScheduledPathsEditor extends LightningElement {
     handleScheduledPathSelected(event) {
         event.stopPropagation();
         this.activeScheduledPathId = event.detail.itemId;
+    }
+
+    renderedCallback() {
+        // Moving the focus to the scheduled path details section after the first path has been added.
+        // We need to wait for the UI to re-render before shifting focus
+        if (this.isAddingFirstScheduledPath) {
+            this.template.querySelector(SELECTORS.SCHEDULED_PATH).focus();
+            this.isAddingFirstScheduledPath = false;
+        }
     }
 }

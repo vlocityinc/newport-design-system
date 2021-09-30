@@ -255,6 +255,15 @@ describe('Decision Editor', () => {
                 })
             );
         });
+
+        it('Focus function on the outcome is called after deletion', () => {
+            const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
+            const event = new DeleteOutcomeEvent('outcome2');
+            const outcomeElement = decisionEditor.shadowRoot.querySelector(SELECTORS.OUTCOME);
+            outcomeElement.focus = jest.fn();
+            outcomeElement.dispatchEvent(event);
+            expect(outcomeElement.focus).toHaveBeenCalled();
+        });
     });
 
     describe('showDeleteOutcome', () => {

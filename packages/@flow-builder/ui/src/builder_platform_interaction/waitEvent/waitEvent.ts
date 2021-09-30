@@ -11,6 +11,10 @@ import {
     WaitEventParameterChangedEvent
 } from 'builder_platform_interaction/events';
 
+const SELECTORS = {
+    LABEL_DESCRIPTION: 'builder_platform_interaction-label-description'
+};
+
 export default class WaitEvent extends LightningElement {
     labels = LABELS;
     defaultOperator = RULE_OPERATOR.EQUAL_TO;
@@ -38,6 +42,11 @@ export default class WaitEvent extends LightningElement {
     }
 
     @api showDelete;
+
+    /** Focus the label field of the label description component */
+    @api focus() {
+        this.template.querySelector(SELECTORS.LABEL_DESCRIPTION).focus();
+    }
 
     handleDelete(event) {
         event.stopPropagation();

@@ -278,4 +278,12 @@ describe('handleDeleteWaitEvent', () => {
                 expect(waitEventElement.waitEvent).toEqual(waitWithTwoWaitEvents.waitEvents[1]);
             });
     });
+
+    it('Focus function on the wait event is called after deletion', () => {
+        const deleteWaitEventEvent = new DeleteWaitEventEvent('waitEvent1');
+        const waitEventElement = waitEditor.shadowRoot.querySelector(selectors.WAIT_EVENT);
+        waitEventElement.focus = jest.fn();
+        waitEventElement.dispatchEvent(deleteWaitEventEvent);
+        expect(waitEventElement.focus).toHaveBeenCalled();
+    });
 });

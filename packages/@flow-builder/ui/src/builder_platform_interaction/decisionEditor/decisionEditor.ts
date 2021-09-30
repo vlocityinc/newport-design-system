@@ -220,6 +220,9 @@ export default class DecisionEditor extends LightningElement {
             this.activeOutcomeId = this.decisionElement.outcomes[0].guid;
         }
         this.dispatchEvent(new UpdateNodeEvent(this.decisionElement));
+
+        // Move focus to the active outcome (first outcome) post deletion
+        this.template.querySelector(SELECTORS.OUTCOME)?.focus();
     }
 
     /**
