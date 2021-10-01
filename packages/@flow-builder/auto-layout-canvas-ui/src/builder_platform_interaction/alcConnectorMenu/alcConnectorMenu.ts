@@ -100,6 +100,8 @@ export default class AlcConnectorMenu extends Menu {
                     new AddElementEvent({
                         elementType: currentTarget.getAttribute('data-value')!,
                         elementSubtype: currentTarget.getAttribute('data-sub-type')!,
+                        actionType: currentTarget.getAttribute('data-action-type')!,
+                        actionName: currentTarget.getAttribute('data-action-name')!,
                         locationX: 0,
                         locationY: 0,
                         alcConnectionSource,

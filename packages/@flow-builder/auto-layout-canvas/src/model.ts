@@ -125,6 +125,8 @@ export interface ElementMetadata {
     label: string;
     elementType: string;
     elementSubtype?: string;
+    actionType?: string;
+    actionName?: string;
     isSupported: boolean;
     dynamicNodeComponent?: string;
     dynamicNodeComponentSelector?: Function;

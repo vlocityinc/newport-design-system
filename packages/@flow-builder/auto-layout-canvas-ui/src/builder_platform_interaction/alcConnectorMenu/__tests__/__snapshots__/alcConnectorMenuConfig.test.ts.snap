@@ -38,6 +38,8 @@ Object {
       "heading": "Interaction",
       "items": Array [
         Object {
+          "actionName": undefined,
+          "actionType": undefined,
           "description": "Collect information from",
           "elementSubtype": undefined,
           "elementType": "Screen",
@@ -58,6 +60,8 @@ Object {
       "heading": "Logic",
       "items": Array [
         Object {
+          "actionName": "testActionName",
+          "actionType": "testActionType",
           "description": "Create Decision",
           "elementSubtype": undefined,
           "elementType": "Decision",

@@ -39,6 +39,17 @@ const metaData = [
         description: 'Collect information from'
     },
     {
+        section: 'Interaction',
+        type: 'default',
+        icon: 'standard:action',
+        label: 'Action',
+        value: 'Action',
+        elementType: 'Action',
+        actionType: 'TestActionType',
+        actionName: 'TestActionName',
+        description: 'Palette promoted action'
+    },
+    {
         section: 'Logic',
         type: 'branch',
         icon: 'standard:decision',
@@ -80,6 +91,20 @@ jest.mock('../alcConnectorMenuConfig', () => {
                                 iconSize: 'small',
                                 iconVariant: '',
                                 label: 'Screen',
+                                rowClass: 'slds-listbox__item'
+                            },
+                            {
+                                description: 'Palette promoted action',
+                                elementType: 'Action',
+                                actionType: 'TestActionType',
+                                actionName: 'TestActionName',
+                                guid: 2,
+                                icon: 'standard:action',
+                                iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
+                                iconClass: '',
+                                iconSize: 'small',
+                                iconVariant: '',
+                                label: 'Action',
                                 rowClass: 'slds-listbox__item'
                             }
                         ],
@@ -196,6 +221,19 @@ describe('connector menu', () => {
         cmp.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
         expect(callback).toHaveBeenCalled();
         expect(callback.mock.calls[0][0].detail.designateFocus).toBe(true);
+    });
+
+    it('should dispatch add element with actionType and actionName properties ', async () => {
+        const cmp = createComponentUnderTest();
+        await ticks(1);
+        const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
+        listItems[1].focus();
+        const callback = jest.fn();
+        cmp.addEventListener(AddElementEvent.EVENT_NAME, callback);
+        cmp.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
+        expect(callback).toHaveBeenCalled();
+        expect(callback.mock.calls[0][0].detail.actionType).toBe('TestActionType');
+        expect(callback.mock.calls[0][0].detail.actionName).toBe('TestActionName');
     });
 
     it('should dispatch PasteOnCanvasEvent event when paste is specified ', async () => {

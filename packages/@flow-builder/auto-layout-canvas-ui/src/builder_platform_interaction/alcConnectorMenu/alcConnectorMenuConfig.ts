@@ -117,6 +117,8 @@ export const configureMenu = (
                 label,
                 elementType,
                 elementSubtype,
+                actionType,
+                actionName,
                 type,
                 isSupported
             }
@@ -162,6 +164,8 @@ export const configureMenu = (
                     description,
                     label,
                     elementType,
+                    actionType,
+                    actionName,
                     icon,
                     iconContainerClass,
                     iconClass,
