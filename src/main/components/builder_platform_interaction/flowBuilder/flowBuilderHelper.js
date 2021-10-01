@@ -6,7 +6,10 @@
         if (!cmp.get('v.builderType')) {
             cmp.set('v.builderType', 'FlowBuilder');
         }
-        serverDataLib.fetch(serverActionType, this.getContextCallback, { builderType: cmp.get('v.builderType') });
+        serverDataLib.fetch(serverActionType, this.getContextCallback, {
+            builderType: cmp.get('v.builderType'),
+            flowId: cmp.get('v.flowId')
+        });
 
         var imageLib = cmp.find('imageLib');
         imageLib.preloadImages();
