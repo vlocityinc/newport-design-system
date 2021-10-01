@@ -548,7 +548,7 @@ export function createStageStep(step: StageStep): StageStep {
     if (
         assignees?.length > 0 &&
         assignees[0]?.assignee &&
-        (assignees[0].assignee.stringValue || assignees[0].assignee.referenceValue)
+        (assignees[0].assignee.stringValue || assignees[0]?.assignee.elementReference)
     ) {
         newStep.assignees = assignees.map((assigneeFromMetadata) => {
             return assigneeFromMetadata
@@ -561,7 +561,7 @@ export function createStageStep(step: StageStep): StageStep {
                           )
                       }[ASSIGNEE_PROPERTY_NAME],
                       assigneeType: assigneeFromMetadata.assigneeType,
-                      isReference: assigneeFromMetadata.isReference || isReference(assigneeFromMetadata.assignee)
+                      isReference: assigneeFromMetadata.isReference || !!assigneeFromMetadata.assignee.elementReference
                   }
                 : null;
         });

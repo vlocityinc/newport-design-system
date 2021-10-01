@@ -228,6 +228,8 @@ getElementByGuid.mockImplementation((guid) => {
             exitActionInputParameters: [<ParameterListRowItem>jest.fn()],
             assignees: []
         };
+    } else if (guid === '$Api') {
+        return undefined;
     }
 
     return {
@@ -486,22 +488,46 @@ describe('OrchestratedStage', () => {
                 expect(item.assignees[0].assignee).toBeNull();
                 expect(item.assignees[0].assigneeType).toEqual(ASSIGNEE_TYPE.User);
             });
-            it('are set if provided', () => {
-                const mockItem = {
-                    assignees: [
-                        {
-                            assignee: {
-                                assignee: 'foo'
-                            },
-                            assigneeType: 'User'
-                        }
-                    ]
-                };
+            describe('user', () => {
+                it('string values are set if provided', () => {
+                    const mockItem = {
+                        assignees: [
+                            {
+                                assignee: {
+                                    stringValue: 'foo'
+                                },
+                                assigneeType: 'User'
+                            }
+                        ]
+                    };
 
-                const item = createStageStep(mockItem);
+                    const item = createStageStep(mockItem);
 
-                expect(item.assignees).toHaveLength(1);
-                expect(item.assignees[0]).toEqual(mockItem.assignees[0]);
+                    expect(item.assignees).toHaveLength(1);
+                    expect(item.assignees[0].assignee).toEqual(mockItem.assignees[0].assignee.stringValue);
+                    expect(item.assignees[0].assigneeType).toEqual(mockItem.assignees[0].assigneeType);
+                    expect(item.assignees[0]?.isReference).toBeFalsy();
+                });
+
+                it('element reference are set if provided', () => {
+                    const mockItem = {
+                        assignees: [
+                            {
+                                assignee: {
+                                    elementReference: '$Api.Enterprise_Server_URL_140'
+                                },
+                                assigneeType: 'User'
+                            }
+                        ]
+                    };
+
+                    const item = createStageStep(mockItem);
+
+                    expect(item.assignees).toHaveLength(1);
+                    expect(item.assignees[0].assignee).toEqual(mockItem.assignees[0].assignee.elementReference);
+                    expect(item.assignees[0].assigneeType).toEqual(mockItem.assignees[0].assigneeType);
+                    expect(item.assignees[0]?.isReference).toBeTruthy();
+                });
             });
         });
         describe('relatedRecordItem', () => {
@@ -772,7 +798,7 @@ describe('OrchestratedStage', () => {
                         }
                     ]);
                 });
-                it('used  ferovDataType REFERENCE if not a reference', () => {
+                it('used  ferovDataType REFERENCE if a reference', () => {
                     const orchestratedStage = createOrchestratedStageMetadataObject(orchestratedStageFromStore);
                     expect(orchestratedStage.stageSteps[0].assignees).toEqual([
                         {
