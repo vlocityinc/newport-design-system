@@ -68,6 +68,8 @@ import stepSingularLabel from '@salesforce/label/FlowBuilderElementConfig.stepSi
 import stepPluralLabel from '@salesforce/label/FlowBuilderElementConfig.stepPluralLabel';
 import recordChoiceSetSingularLabel from '@salesforce/label/FlowBuilderElementConfig.recordChoiceSetSingularLabel';
 import recordChoiceSetPluralLabel from '@salesforce/label/FlowBuilderElementConfig.recordChoiceSetPluralLabel';
+import collectionChoiceSetSingularLabel from '@salesforce/label/FlowBuilderElementConfig.collectionChoiceSetSingularLabel';
+import collectionChoiceSetPluralLabel from '@salesforce/label/FlowBuilderElementConfig.collectionChoiceSetPluralLabel';
 import picklistChoiceSetSingularLabel from '@salesforce/label/FlowBuilderElementConfig.picklistChoiceSetSingularLabel';
 import picklistChoiceSetPluralLabel from '@salesforce/label/FlowBuilderElementConfig.picklistChoiceSetPluralLabel';
 import screenFieldSingularLabel from '@salesforce/label/FlowBuilderElementConfig.screenFieldSingularLabel';
@@ -117,6 +119,8 @@ import choiceLabel from '@salesforce/label/FlowBuilderNewResource.choiceLabel';
 import choiceDesc from '@salesforce/label/FlowBuilderNewResource.choiceDesc';
 import dynamicRecordChoiceLabel from '@salesforce/label/FlowBuilderNewResource.dynamicRecordChoiceLabel';
 import dynamicRecordChoiceDesc from '@salesforce/label/FlowBuilderNewResource.dynamicRecordChoiceDesc';
+import dynamicCollectionChoiceLabel from '@salesforce/label/FlowBuilderNewResource.dynamicCollectionChoiceLabel';
+import dynamicCollectionChoiceDesc from '@salesforce/label/FlowBuilderNewResource.dynamicCollectionChoiceDesc';
 import picklistChoiceLabel from '@salesforce/label/FlowBuilderNewResource.picklistChoiceLabel';
 import picklistChoiceDesc from '@salesforce/label/FlowBuilderNewResource.picklistChoiceDesc';
 import stageLabel from '@salesforce/label/FlowBuilderNewResource.stageLabel';
@@ -144,6 +148,7 @@ import editFormulaLabel from '@salesforce/label/FlowBuilderElementConfig.editFor
 import editTextTemplateLabel from '@salesforce/label/FlowBuilderElementConfig.editTextTemplateLabel';
 import editChoiceLabel from '@salesforce/label/FlowBuilderElementConfig.editChoiceLabel';
 import editRecordChoiceSetLabel from '@salesforce/label/FlowBuilderElementConfig.editRecordChoiceSetLabel';
+import editCollectionChoiceSetLabel from '@salesforce/label/FlowBuilderElementConfig.editCollectionChoiceSetLabel';
 import editPicklistChoiceSetLabel from '@salesforce/label/FlowBuilderElementConfig.editPicklistChoiceSetLabel';
 import editStartElementLabel from '@salesforce/label/FlowBuilderElementConfig.editStartElementLabel';
 import editScheduledPathLabel from '@salesforce/label/FlowBuilderElementConfig.editScheduledPathLabel';
@@ -268,6 +273,8 @@ export const LABELS = {
     stepPluralLabel,
     recordChoiceSetSingularLabel,
     recordChoiceSetPluralLabel,
+    collectionChoiceSetSingularLabel,
+    collectionChoiceSetPluralLabel,
     picklistChoiceSetSingularLabel,
     picklistChoiceSetPluralLabel,
     screenFieldSingularLabel,
@@ -318,6 +325,8 @@ export const LABELS = {
     choiceDesc,
     dynamicRecordChoiceLabel,
     dynamicRecordChoiceDesc,
+    dynamicCollectionChoiceLabel,
+    dynamicCollectionChoiceDesc,
     picklistChoiceLabel,
     picklistChoiceDesc,
     stageLabel,
@@ -345,6 +354,7 @@ export const LABELS = {
     editTextTemplateLabel,
     editChoiceLabel,
     editRecordChoiceSetLabel,
+    editCollectionChoiceSetLabel,
     editPicklistChoiceSetLabel,
     editStartElementLabel,
     editScheduledPathLabel,

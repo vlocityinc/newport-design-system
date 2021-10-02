@@ -38,4 +38,5 @@ export * from './emailAlert';
 export * from './apexCall';
 export * from './collectionProcessor';
 export * from './rollback';
+export * from './collectionChoiceSet';
 export { getConnectionProperties } from './commonFactoryUtils/connectionPropertiesUtils';

@@ -379,4 +379,10 @@ declare namespace UI {
         shown?: boolean;
         dismissed?: boolean;
     };
+    interface CollectionChoiceSetElement extends Element {
+        displayField?: string;
+        valueField?: string;
+        collectionReference?: string;
+        collectionReferenceIndex?: string;
+    }
 }

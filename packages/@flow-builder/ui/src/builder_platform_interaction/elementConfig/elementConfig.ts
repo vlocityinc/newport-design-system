@@ -45,6 +45,7 @@ import {
     createStep,
     createPicklistChoiceSet,
     createRecordChoiceSet,
+    createCollectionChoiceSet,
     createStartElementForPropertyEditor,
     createStartElement,
     createApexCall,
@@ -69,6 +70,7 @@ import {
     createRecordLookupMetadataObject,
     createRecordDeleteMetadataObject,
     createRecordChoiceSetMetadataObject,
+    createCollectionChoiceSetMetadataObject,
     createScreenMetadataObject,
     createSubflowMetadataObject,
     createVariableMetadataObject,
@@ -119,7 +121,8 @@ import {
     createRollback,
     createDuplicateRollback,
     createRollbackMetadataObject,
-    createRollbackWithConnectors
+    createRollbackWithConnectors,
+    createCollectionChoiceSetForStore
 } from 'builder_platform_interaction/elementFactory';
 
 export const EDIT_START_SCHEDULE_CONTEXT = 'editStartScheduleContext';
@@ -852,6 +855,29 @@ export const elementTypeToConfigMap: {
         factory: {
             propertyEditor: createRecordChoiceSet,
             uiToFlow: createRecordChoiceSetMetadataObject,
+            flowToUi: dynamicChoiceSetForStore
+        }
+    },
+    [ELEMENT_TYPE.COLLECTION_CHOICE_SET]: {
+        descriptor: 'builder_platform_interaction:recordChoiceSetEditor', // TODO change to collectionChoiceSetEditor when editor work is finished
+        nodeConfig: {
+            iconName: 'standard:dynamic_record_choice', // TODO: Change icons when collection choice set icons are made
+            utilityIconName: 'utility:dynamic_record_choice', // TODO: Change icons when collection choice set icons are made
+            value: 'dynamicCollectionChoice',
+            description: LABELS.dynamicCollectionChoiceDesc
+        },
+        modalSize: MODAL_SIZE.MEDIUM,
+        labels: {
+            singular: LABELS.collectionChoiceSetSingularLabel,
+            plural: LABELS.collectionChoiceSetPluralLabel,
+            menuData: LABELS.dynamicCollectionChoiceLabel,
+            editModal: LABELS.editCollectionChoiceSetLabel
+        },
+        canvasElement: false,
+        metadataKey: METADATA_KEY.DYNAMIC_CHOICE_SETS,
+        factory: {
+            propertyEditor: createCollectionChoiceSet,
+            uiToFlow: createCollectionChoiceSetMetadataObject,
             flowToUi: dynamicChoiceSetForStore
         }
     },

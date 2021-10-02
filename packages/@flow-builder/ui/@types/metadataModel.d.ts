@@ -89,4 +89,10 @@ declare namespace Metadata {
     type StartTime = {
         timeInMillis?: number;
     };
+
+    interface CollectionChoiceSetMetadata extends Element {
+        displayField?: string;
+        valueField?: string;
+        collectionReference?: string;
+    }
 }
