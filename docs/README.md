@@ -24,7 +24,7 @@ Flow Builder is a project that provides a builder app to create flows, and a set
 
 Instructions to set up your environment to develop and run the Flow Builder app in core can be found [here](/docs/DevelopmentSetup.md)
 
-Take a look at the [Setup FAQ](https://salesforce.quip.com/BFVUA1AxQWKb) if you run into any issues or the [#move-builder-to-git](https://salesforce-internal.slack.com/archives/C024ZHFT8J0) Slack channel.
+Take a look at the [Troubleshooting FAQ](https://salesforce.quip.com/z8xpAys68qkw) if you run into any issues or the [#move-builder-to-git](https://salesforce-internal.slack.com/archives/C024ZHFT8J0) Slack channel.
 
 ## Overview of the structure of the repo
 
