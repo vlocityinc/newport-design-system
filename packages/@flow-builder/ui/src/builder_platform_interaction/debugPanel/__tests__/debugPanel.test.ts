@@ -6,18 +6,26 @@ import { errorInterview } from 'mock/debugResponse/mock-error-interview';
 import { fakePausedInterview } from 'mock/debugResponse/mock-fake-paused-interview';
 import { fakeResumedInterviewWithError, fakeResumedInterview } from 'mock/debugResponse/mock-fake-paused-interview';
 import { completedInterview } from 'mock/debugResponse/mock-completed-interview';
+import { completedTestInterview } from 'mock/debugResponse/mock-completed-test-interview';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
+import { BUILDER_MODE } from 'builder_platform_interaction/systemLib';
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
-const createComponentUnderTest = (debugData, newData = undefined, fromEmailDebugging = false) => {
+const createComponentUnderTest = (
+    debugData,
+    newData = undefined,
+    fromEmailDebugging = false,
+    builderMode = BUILDER_MODE.DEBUG_MODE
+) => {
     const el = createElement('builder_platform_interaction-debug-panel', {
         is: DebugPanel
     });
     el.debugData = debugData;
     el.fromEmailDebugging = fromEmailDebugging;
+    el.builderMode = builderMode;
     setDocumentBodyChildren(el);
 
     if (newData !== undefined) {
@@ -32,6 +40,7 @@ const selectors = {
     govLimText: '.govLim',
     accordionSection: 'builder_platform_interaction-accordion-section-with-icon',
     debugPanelBodyComponent: 'builder_platform_interaction-debug-panel-body',
+    testPanelBodyComponent: 'builder_platform_interaction-test-panel-body',
     debugPanelFilterComponent: 'builder_platform_interaction-debug-panel-filter',
     checkboxesGroup: 'lightning-checkbox-group',
     filterButton: 'lightning-button-icon.filterButton',
@@ -474,5 +483,36 @@ describe('element icon behavior', () => {
 
     it('alt text should be empty', () => {
         expect(debugPanel.shadowRoot.querySelectorAll(selectors.accordionSection)[0].alternativeText).toBe(undefined);
+    });
+});
+
+describe('test assertion outcomes', () => {
+    let debugPanel;
+    it('should display test outcomes section only in TEST mode', () => {
+        debugPanel = createComponentUnderTest(completedTestInterview, undefined, false, BUILDER_MODE.TEST_MODE);
+        let testPanelBody = debugPanel.shadowRoot.querySelector(selectors.testPanelBodyComponent);
+        expect(testPanelBody).not.toBeNull();
+
+        debugPanel = createComponentUnderTest(completedInterview, undefined, false, BUILDER_MODE.TEST_MODE);
+        testPanelBody = debugPanel.shadowRoot.querySelector(selectors.testPanelBodyComponent);
+        expect(testPanelBody).toBeNull();
+    });
+
+    it('should not display test outcomes section if user opens flow builder from error email', () => {
+        debugPanel = createComponentUnderTest(completedTestInterview, undefined, true, BUILDER_MODE.TEST_MODE);
+        const testPanelBody = debugPanel.shadowRoot.querySelector(selectors.testPanelBodyComponent);
+        expect(testPanelBody).toBeNull();
+    });
+
+    it('should not display test outcomes section in DEBUG mode', () => {
+        debugPanel = createComponentUnderTest(completedTestInterview, undefined, false, BUILDER_MODE.DEBUG_MODE);
+        const testPanelBody = debugPanel.shadowRoot.querySelector(selectors.testPanelBodyComponent);
+        expect(testPanelBody).toBeNull();
+    });
+
+    it('should not display test outcomes section in EDIT mode', () => {
+        debugPanel = createComponentUnderTest(completedTestInterview, undefined, false, BUILDER_MODE.EDIT_MODE);
+        const testPanelBody = debugPanel.shadowRoot.querySelector(selectors.testPanelBodyComponent);
+        expect(testPanelBody).toBeNull();
     });
 });

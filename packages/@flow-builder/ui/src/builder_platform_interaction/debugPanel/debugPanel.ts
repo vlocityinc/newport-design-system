@@ -3,6 +3,7 @@ import { LightningElement, api } from 'lwc';
 import { LABELS } from './debugPanelLabels';
 import { copyAndUpdateDebugTraceObject } from 'builder_platform_interaction/debugUtils';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { BUILDER_MODE } from 'builder_platform_interaction/systemLib';
 const { format } = commonUtils;
 
 /**
@@ -17,6 +18,8 @@ export default class DebugPanel extends LightningElement {
     @api ifBlockResume;
 
     @api fromEmailDebugging;
+
+    @api builderMode;
 
     labels = LABELS;
 
@@ -59,6 +62,17 @@ export default class DebugPanel extends LightningElement {
     // to maintain list of sections open presently, maybe different from the initial activeSections set
     openSections = [];
     fromLabelFilter = false;
+
+    testAssertionTrace;
+
+    get showTestAssertions() {
+        return (
+            this.builderMode === BUILDER_MODE.TEST_MODE &&
+            !this.fromEmailDebugging &&
+            !!this.testAssertionTrace &&
+            Object.keys(this.testAssertionTrace).length > 0
+        );
+    }
 
     get selectedOptions() {
         return this._selectedOptions;
@@ -178,6 +192,7 @@ export default class DebugPanel extends LightningElement {
             const traces = copyAndUpdateDebugTraceObject(data);
             this.debugTracesFull = traces.debugTraces;
             this.debugTraceCopy = traces.copyTraces;
+            this.testAssertionTrace = data.testAssertionTrace;
         } else if (this.hasErrors) {
             this.debugTracesFull = this.debugTraceCopy;
             this.errorMessage = data.error;

@@ -1,0 +1,14 @@
+<template>
+    <template for:each={textObj} for:item="line">
+        <div key={line.id}>
+            <!-- Outcome subtitle -->
+            <p class="sub-title slds-text-color_weak slds-p-vertical_xx-small">{line.subtitle}</p>
+            <!-- Regular text -->
+            <lightning-formatted-rich-text
+                class="normal"
+                value={line.value}
+                disable-linkify="true"
+            ></lightning-formatted-rich-text>
+        </div>
+    </template>
+</template>

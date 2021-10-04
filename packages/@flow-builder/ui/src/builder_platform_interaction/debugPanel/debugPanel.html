@@ -111,6 +111,13 @@
                     </builder_platform_interaction-accordion-section-with-icon>
                 </template>
             </template>
+            <template if:true={showTestAssertions}>
+                <lightning-accordion-section label={labels.flowTestOutcomesLabel} name={labels.flowTestOutcomesLabel}>
+                    <builder_platform_interaction-test-panel-body
+                        test-assertion-trace={testAssertionTrace}
+                    ></builder_platform_interaction-test-panel-body>
+                </lightning-accordion-section>
+            </template>
         </lightning-accordion>
 
         <div if:true={hasErrors} class="error">

@@ -1,0 +1,9 @@
+p.sub-title {
+    font-size: 2;
+}
+
+lightning-formatted-rich-text.normal {
+    font-size: 2;
+    width: 338px;
+    border: 16px;
+}
