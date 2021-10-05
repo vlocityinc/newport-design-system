@@ -2760,4 +2760,14 @@ describe('Combobox', () => {
             });
         });
     });
+
+    describe('ui', () => {
+        it('should focus on lightning-combobox when the combobox calls focus', () => {
+            createCombobox();
+            groupedCombobox.focus = jest.fn();
+
+            combobox.focus();
+            expect(groupedCombobox.focus).toHaveBeenCalled();
+        });
+    });
 });

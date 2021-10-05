@@ -5,6 +5,7 @@ import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEdi
 import { saveResourcePicker } from 'builder_platform_interaction/expressionValidator';
 import { isUndefinedOrNull, sanitizeBoolean } from 'builder_platform_interaction/commonUtils';
 import { TextChangedEvent } from 'builder_platform_interaction/events';
+import Combobox from 'builder_platform_interaction/combobox';
 
 /**
  * The base resource picker that contains one flow combobox
@@ -80,6 +81,12 @@ export default class BaseResourcePicker extends LightningElement {
     @api
     get errorMessage() {
         return this._customValidity;
+    }
+
+    @api
+    focus(): void {
+        const labelDescription = this.template.querySelector(Combobox.SELECTOR);
+        labelDescription.focus();
     }
 
     /**

@@ -199,6 +199,11 @@ export default class Combobox extends LightningElement {
     }
 
     @api
+    focus(): void {
+        this._groupedComboboxFocus();
+    }
+
+    @api
     get label() {
         return this._comboboxLabel;
     }

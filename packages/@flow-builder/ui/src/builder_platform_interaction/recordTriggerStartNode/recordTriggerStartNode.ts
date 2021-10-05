@@ -107,7 +107,7 @@ export default class RecordTriggerStartNode extends withKeyboardInteractions(Lig
         }
 
         const canvasElementGUID = this.node.guid;
-        const editElementEvent = new EditElementEvent(canvasElementGUID, this.node.triggerType);
+        const editElementEvent = new EditElementEvent(canvasElementGUID, this.node.triggerType, undefined, true);
         this.dispatchEvent(editElementEvent);
     };
 

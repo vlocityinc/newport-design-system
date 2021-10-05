@@ -177,6 +177,18 @@ export default class AlcStartMenu extends AlcNodeMenu {
         this.moveFocusToButton(event.detail.key, recordTriggerButton, scheduledPathButton);
     };
 
+    /**
+     * When we receive an EditElementEvent, if we want to focus on the element to be edited
+     * then moveFocusToMenu must be false or it will not focus on the element properly
+     *
+     * @param event - The EditElementEvent event
+     */
+    handleEditElement(event) {
+        if (event.detail.designateFocus) {
+            this.moveFocusToMenu = false;
+        }
+    }
+
     tabFocusRingCmds = [
         // focus on the icon
         () => this.dispatchEvent(new MoveFocusToNodeEvent(this.guid)),

@@ -275,4 +275,17 @@ describe('entity-resource-picker', () => {
             expect(baseResourcePicker.placeholder).toEqual('abc');
         });
     });
+
+    describe('ui', () => {
+        it('should focus on base-resource-picker when the entity-resource-picker calls focus', () => {
+            const entityResourcePicker = setupComponentUnderTest(props);
+            const baseResourcePicker = entityResourcePicker.shadowRoot.querySelector(
+                'builder_platform_interaction-base-resource-picker'
+            );
+            baseResourcePicker.focus = jest.fn();
+
+            entityResourcePicker.focus();
+            expect(baseResourcePicker.focus).toHaveBeenCalled();
+        });
+    });
 });

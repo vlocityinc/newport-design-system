@@ -110,6 +110,12 @@ export default class EntityResourcePicker extends LightningElement {
         return this._crudFilterType;
     }
 
+    @api
+    focus(): void {
+        const labelDescription = this.template.querySelector(BaseResourcePicker.SELECTOR);
+        labelDescription.focus?.();
+    }
+
     set mode(mode) {
         if (this._mode !== mode) {
             if (this._mode === EntityResourcePicker.ENTITY_MODE.APEX) {
@@ -152,7 +158,7 @@ export default class EntityResourcePicker extends LightningElement {
     /**
      * The combobox item that represents the value selected
      *
-     * @param {module:base-resource-picker.item|String} itemOrDisplayText the new item
+     * @param {module:base-resource-picker.item | string} itemOrDisplayText the new item
      */
     set value(itemOrDisplayText) {
         if (isObject(itemOrDisplayText)) {

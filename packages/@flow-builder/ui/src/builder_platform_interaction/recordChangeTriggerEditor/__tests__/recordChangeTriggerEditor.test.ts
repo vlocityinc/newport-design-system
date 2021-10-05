@@ -27,7 +27,8 @@ const SELECTORS = {
     CONDITION_LOGIC: 'lightning-combobox.conditionLogic',
     CONTEXT_OBJECT_DESCRIPTION: '.test-context-object-description',
     SET_CONDITIONS_DESCRIPTION: '.test-set-conditions-description',
-    REQUIRE_RECORD_CHANGE_OPTION_LABEL: '.test-require-record-change-option-label'
+    REQUIRE_RECORD_CHANGE_OPTION_LABEL: '.test-require-record-change-option-label',
+    ENTITY_RESOURCE_PICKER: 'builder_platform_interaction-entity-resource-picker'
 };
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
@@ -464,6 +465,17 @@ describe('record-change-trigger-editor', () => {
                     'FlowBuilderRecordEditor.requireRecordChangeOption'
                 );
             });
+        });
+    });
+
+    describe('ui', () => {
+        it('should focus on entity-resource-picker when the editor calls focus', () => {
+            const editor = createComponentForTest(recordChangeTriggerElement(BEFORE_SAVE, CREATE));
+            const entityResourcePicker = editor.shadowRoot.querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
+            entityResourcePicker.focus = jest.fn();
+
+            editor.focus();
+            expect(entityResourcePicker.focus).toHaveBeenCalled();
         });
     });
 });

@@ -211,4 +211,15 @@ describe('base-resource-picker', () => {
         expect(flowCombobox.placeholder).not.toEqual(comboboxConfig.placeholder);
         expect(flowCombobox.placeholder).toEqual('abc');
     });
+
+    describe('ui', () => {
+        it('should focus on combobox when the base-resource-picker calls focus', () => {
+            const baseResourcePicker = setupComponentUnderTest({ comboboxConfig });
+            const combobox = getFlowCombobox(baseResourcePicker);
+            combobox.focus = jest.fn();
+
+            baseResourcePicker.focus();
+            expect(combobox.focus).toHaveBeenCalled();
+        });
+    });
 });

@@ -123,6 +123,19 @@ export default class RecordChangeTriggerEditor extends LightningElement {
         return this.startElement;
     }
 
+    @api
+    focus(): void {
+        let element;
+        if (this.hasConfigurationEditor) {
+            element = 'builder_platform_interaction-custom-property-editor';
+        } else {
+            element = 'builder_platform_interaction-entity-resource-picker';
+        }
+
+        const labelDescription = this.template.querySelector(element);
+        labelDescription.focus?.();
+    }
+
     get disableConditionLogicPicker() {
         return this.triggerHasCriteria ? false : true;
     }
