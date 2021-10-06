@@ -210,7 +210,7 @@ export default class AlcCanvas extends LightningElement {
 
     constructor() {
         super();
-        this.keyboardInteractions = new KeyboardInteractions();
+        this._keyboardInteraction = new KeyboardInteractions();
         logPerfTransactionStart(AUTOLAYOUT_CANVAS, null, null);
     }
 
@@ -250,8 +250,16 @@ export default class AlcCanvas extends LightningElement {
     @api
     offsets = [0, 0];
 
+    _keyboardInteraction;
+
     @api
-    keyboardInteractions;
+    get keyboardInteractions() {
+        return this._keyboardInteraction;
+    }
+
+    set keyboardInteractions(newVal) {
+        this._keyboardInteraction = newVal;
+    }
 
     @api
     disableAddElements;

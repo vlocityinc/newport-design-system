@@ -47,6 +47,16 @@
                         "**/builder_platform_interaction/palette/palette.ts",
                         "**/builder_platform_interaction/accordionSectionWithIcon/accordionSectionWithIcon.ts"
                     ],
+                    "@lwc/lwc/no-api-reassignments": [
+                        "**/builder_platform_interaction/baseExpressionBuilder/baseExpressionBuilder.ts",
+                        "**/builder_platform_interaction/collectionProcessorEditor/collectionProcessorEditor.ts",
+                        "**/builder_platform_interaction/combobox/combobox.ts",
+                        "**/builder_platform_interaction/entityResourcePicker/entityResourcePicker.ts",
+                        "**/builder_platform_interaction/ferovResourcePicker/ferovResourcePicker.ts",
+                        "**/builder_platform_interaction/processTypesTemplates/processTypesTemplates.ts",
+                        "**/builder_platform_interaction/waitPlatformEvent/waitPlatformEvent.ts",
+                        "**/builder_platform_interaction/welcomeMatBody/welcomeMatBody.ts"
+                    ],
                     "@lwc/lwc/no-async-await": [
                         "**/builder_platform_interaction/guardrails/execute.ts",
                         "**/builder_platform_interaction/propertyEditorPanel/propertyEditorPanel.ts",

@@ -185,10 +185,12 @@ export default class EntityResourcePicker extends LightningElement {
     }
 
     handleComboboxChange(event) {
+        // eslint-disable-next-line @lwc/lwc/no-api-reassignments
         this.value = event.detail.item || event.detail.displayText;
     }
 
     handleItemSelected(event) {
+        // eslint-disable-next-line @lwc/lwc/no-api-reassignments
         this.value = event.detail.item || event.detail.displayText;
     }
 

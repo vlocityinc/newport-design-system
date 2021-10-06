@@ -44,7 +44,9 @@ export default class CollectionProcessorEditor extends LightningElement {
 
     set node(newValue) {
         this.collectionProcessorElement = newValue || {};
+        // eslint-disable-next-line @lwc/lwc/no-api-reassignments
         this.hasConfigurationEditor = true;
+        // eslint-disable-next-line @lwc/lwc/no-api-reassignments
         this.configurationEditor = {
             name: elementTypeToConfigMap[this.collectionProcessorElement.elementSubtype].configComponent
         };

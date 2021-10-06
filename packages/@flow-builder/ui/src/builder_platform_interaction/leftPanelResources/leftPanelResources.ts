@@ -13,8 +13,16 @@ export default class LeftPanelResources extends LightningElement {
     @api
     canvasElements = [];
 
+    _nonCanvasElements = [];
+
     @api
-    nonCanvasElements = [];
+    get nonCanvasElements() {
+        return this._nonCanvasElements;
+    }
+
+    set nonCanvasElements(newVal) {
+        this._nonCanvasElements = newVal;
+    }
 
     @api focus(elementGuid) {
         const palettes = this.template.querySelectorAll('builder_platform_interaction-palette');
@@ -61,7 +69,7 @@ export default class LeftPanelResources extends LightningElement {
     forceRender() {
         const nonCanvasElements = this.nonCanvasElements || [];
         // clone the array to force a render cycle
-        this.nonCanvasElements = [...nonCanvasElements];
+        this._nonCanvasElements = [...nonCanvasElements];
     }
 
     renderedCallback() {

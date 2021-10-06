@@ -746,6 +746,7 @@ export default class BaseExpressionBuilder extends LightningElement {
     }
 
     _lhsClearPill(item) {
+        // eslint-disable-next-line @lwc/lwc/no-api-reassignments
         this.lhsDisplayOption = LHS_DISPLAY_OPTION.NOT_FIELD; // empty lhs qualifies as "not a field"
         this.state.operatorAndRhsDisabled = item === null;
     }

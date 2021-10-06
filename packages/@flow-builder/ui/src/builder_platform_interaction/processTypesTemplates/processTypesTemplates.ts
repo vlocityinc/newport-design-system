@@ -27,6 +27,7 @@ export default class ProcessTypesTemplates extends LightningElement {
 
     set processTypes(value) {
         this.state.processTypes = value;
+        // eslint-disable-next-line @lwc/lwc/no-api-reassignments
         this.selectedItem = null;
         this.updateTiles();
     }
@@ -38,6 +39,7 @@ export default class ProcessTypesTemplates extends LightningElement {
 
     set blankItems(value) {
         this.state.blankItems = value;
+        // eslint-disable-next-line @lwc/lwc/no-api-reassignments
         this.selectedItem = null;
         this.updateTiles();
     }
@@ -53,6 +55,7 @@ export default class ProcessTypesTemplates extends LightningElement {
     set processType(newValue) {
         if (this.state.processType !== newValue) {
             this.state.processType = newValue;
+            // eslint-disable-next-line @lwc/lwc/no-api-reassignments
             this.selectedItem = null;
             this.updateTiles();
         }
@@ -170,6 +173,7 @@ export default class ProcessTypesTemplates extends LightningElement {
         if (!selectedItem && items && items.length > 0) {
             selectedItem = items[0];
         }
+        // eslint-disable-next-line @lwc/lwc/no-api-reassignments
         this.selectedItem = selectedItem;
     }
 
@@ -177,6 +181,7 @@ export default class ProcessTypesTemplates extends LightningElement {
         const item = this.items.find((template) => template.itemId === itemId);
         item.isSelected = false;
         item.isSelected = true;
+        // eslint-disable-next-line @lwc/lwc/no-api-reassignments
         this.selectedItem = item;
     }
 

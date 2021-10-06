@@ -36,7 +36,6 @@
                 "jest/no-standalone-expect": "off",
                 "jest/no-test-callback": "off",
                 "jest/valid-title": "off",
-                "@lwc/lwc/no-api-reassignments": "off",
                 "@lwc/lwc/prefer-custom-event": "off",
 
                 "prefer-rest-params": "off",

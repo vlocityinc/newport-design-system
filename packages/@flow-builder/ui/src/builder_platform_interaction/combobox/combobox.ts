@@ -173,6 +173,7 @@ export default class Combobox extends LightningElement {
             if (!item.value) {
                 newItem = { ...item, value: item.guid };
             }
+            // eslint-disable-next-line @lwc/lwc/no-api-reassignments
             this.value = newItem;
             this._groupedComboboxFocus();
             this.fireComboboxStateChangedEvent();

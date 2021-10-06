@@ -205,6 +205,6 @@ export default class Menu extends withKeyboardInteractions(LightningElement) {
      * Moves focus to the menu.
      */
     focus() {
-        this.moveFocusToMenu = true;
+        this.moveFocusToFirstListItem();
     }
 }

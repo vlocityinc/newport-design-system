@@ -37,7 +37,16 @@ export default class debugPanelBody extends LightningElement {
 
     @api limits;
 
-    @api ifblockresume;
+    _ifblockresume;
+
+    @api
+    get ifblockresume() {
+        return this._ifblockresume;
+    }
+
+    set ifblockresume(newVal) {
+        this._ifblockresume = newVal;
+    }
 
     @api showGovLim;
 
@@ -59,7 +68,7 @@ export default class debugPanelBody extends LightningElement {
 
     handleWaitEventSubmit(event) {
         event.preventDefault();
-        this.ifblockresume = true;
+        this._ifblockresume = true;
         const resumeDebugFlowEvent = new ResumeDebugFlowEvent(this.selectedEvent.name);
         this.dispatchEvent(resumeDebugFlowEvent);
     }

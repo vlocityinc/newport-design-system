@@ -16,11 +16,19 @@ const AVAILABLE_MODES_OPTIONS = [
 export default class RichTextPlainTextSwitch extends LightningElement {
     availableModesOptions = AVAILABLE_MODES_OPTIONS;
 
+    _selectedMode = TEXT_MODES.richText;
+
     /**
      * Set/Get Selected mode
      */
     @api
-    selectedMode = TEXT_MODES.richText;
+    get selectedMode() {
+        return this._selectedMode;
+    }
+
+    set selectedMode(newVal) {
+        this._selectedMode = newVal;
+    }
 
     /**
      * Handling native selection mode event and re dispatch {@link RichTextPlainTextSwitchChangedEvent}
@@ -31,7 +39,7 @@ export default class RichTextPlainTextSwitch extends LightningElement {
     handlePlainTextModeChange(event) {
         event.stopPropagation();
         const { value } = event.detail;
-        this.selectedMode = value;
+        this._selectedMode = value;
         const isPlainText = value === TEXT_MODES.plainText;
         this.dispatchEvent(new RichTextPlainTextSwitchChangedEvent(isPlainText));
     }

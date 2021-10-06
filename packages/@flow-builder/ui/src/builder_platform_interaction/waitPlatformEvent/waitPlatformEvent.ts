@@ -306,6 +306,7 @@ export default class WaitPlatformEvent extends LightningElement {
         }
 
         // update the event type to new value and update error
+        // eslint-disable-next-line @lwc/lwc/no-api-reassignments
         this.eventType = { value, error };
     }
 

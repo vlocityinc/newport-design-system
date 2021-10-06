@@ -63,8 +63,16 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     knowledgeArticleLink = '';
     crudFilter: CrudFilter = ({ createable, updateable }) => createable || updateable;
 
+    _searchPattern?: string | null;
+
     @api
-    searchPattern?: string | null;
+    get searchPattern() {
+        return this._searchPattern;
+    }
+
+    set searchPattern(newVal) {
+        this._searchPattern = newVal;
+    }
 
     @track
     state: { recordVariable: string; supportedEntityFields: FieldDefinition[] } = {
@@ -80,8 +88,16 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
         return format(LABELS.filterFieldsPlaceHolderLabel, this.entityLabel);
     }
 
+    _paletteData: ScreenPaletteSection[] = [];
+
     @api
-    paletteData: ScreenPaletteSection[] = [];
+    get paletteData() {
+        return this._paletteData;
+    }
+
+    set paletteData(newVal) {
+        this._paletteData = newVal;
+    }
 
     @api
     get showNoItemIllustrationContainer() {
@@ -136,7 +152,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
         }
         this.sobjectPickerErrorMessage = errorMessage;
         this.state.recordVariable = recordVariable;
-        this.searchPattern = null;
+        this._searchPattern = null;
         if (
             this.state.recordVariable != null &&
             this.state.recordVariable !== '' &&
@@ -229,7 +245,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
      * @param {ScreenPaletteSection[]}  paletteSections to add to palette data
      */
     buildPaletteDataWithSections(paletteSections: ScreenPaletteSection[]) {
-        this.paletteData = [];
+        this._paletteData = [];
         paletteSections.forEach((paletteSection) => {
             if (paletteSection._children.length > 0) {
                 this.paletteData.push(paletteSection);
@@ -244,7 +260,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
      */
     handleSearch(event) {
         const filterValue = event.target.value;
-        this.searchPattern = filterValue ? filterValue : null;
+        this._searchPattern = filterValue ? filterValue : null;
         this.buildModel(this.searchPattern);
     }
 

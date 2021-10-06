@@ -132,10 +132,17 @@ type KeyboardEnabled = {
  */
 export function withKeyboardInteractions<TBase extends Constructor<LightningElement & KeyboardEnabled>>(Base: TBase) {
     return class extends Base {
+        _keyboardInteraction;
         // Used for testing purposes
         // @ts-ignore
         @api
-        keyboardInteractions;
+        get keyboardInteractions() {
+            return this._keyboardInteraction;
+        }
+
+        set keyboardInteractions(newVal) {
+            this._keyboardInteraction = newVal;
+        }
 
         constructor(...args: any[]) {
             super();
@@ -145,7 +152,7 @@ export function withKeyboardInteractions<TBase extends Constructor<LightningElem
                 keyboardInteractions.registerShortcuts(interaction.getBindings())
             );
 
-            this.keyboardInteractions = keyboardInteractions;
+            this._keyboardInteraction = keyboardInteractions;
         }
 
         connectedCallback() {

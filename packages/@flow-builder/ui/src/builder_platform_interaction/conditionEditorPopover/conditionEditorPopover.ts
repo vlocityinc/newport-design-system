@@ -13,8 +13,16 @@ export default class ConditionEditorPopover extends LightningElement {
 
     _updateConditionPromise = Promise.resolve();
 
+    _condition;
+
     @api
-    condition;
+    get condition() {
+        return this._condition;
+    }
+
+    set condition(newVal) {
+        this._condition = newVal;
+    }
 
     @api
     handleDone;
@@ -34,7 +42,7 @@ export default class ConditionEditorPopover extends LightningElement {
                 condition: [this.condition]
             }).condition[0];
 
-            this.condition = updateProperties(this.condition, validatedCondition);
+            this._condition = updateProperties(this.condition, validatedCondition);
 
             const { leftHandSide, operator, rightHandSide } = this.condition;
 
@@ -66,7 +74,7 @@ export default class ConditionEditorPopover extends LightningElement {
             // eslint-disable-next-line @lwc/lwc/no-async-operation
             setTimeout(() => resolve(), 100);
         }).then(() => {
-            this.condition = updateProperties(this.condition, newValue);
+            this._condition = updateProperties(this.condition, newValue);
         });
     };
 }

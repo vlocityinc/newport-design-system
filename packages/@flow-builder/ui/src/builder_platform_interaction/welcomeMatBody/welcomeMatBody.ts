@@ -18,6 +18,7 @@ export default class WelcomeMatBody extends LightningElement {
 
     constructor() {
         super();
+        // eslint-disable-next-line @lwc/lwc/no-api-reassignments
         this.keyboardInteractions = new KeyboardInteractions();
     }
 

@@ -25,7 +25,17 @@ const selectors = {
 export default class ReorderableVerticalNavigation extends LightningElement {
     @api defaultLabel = '';
     @api hideFooter = false;
-    @api keyboardInteractions;
+
+    _keyboardInteraction;
+
+    @api
+    get keyboardInteractions() {
+        return this._keyboardInteraction;
+    }
+
+    set keyboardInteractions(newVal) {
+        this._keyboardInteraction = newVal;
+    }
 
     /**
      * @typedef MenuItem
@@ -44,7 +54,7 @@ export default class ReorderableVerticalNavigation extends LightningElement {
 
     constructor() {
         super();
-        this.keyboardInteractions = new KeyboardInteractions();
+        this._keyboardInteraction = new KeyboardInteractions();
     }
 
     set activeItemId(selectedItem) {

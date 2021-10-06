@@ -66,8 +66,16 @@ export default class Canvas extends LightningElement {
     @api
     showMarqueeButton = false;
 
+    _keyboardInteraction;
+
     @api
-    keyboardInteractions;
+    get keyboardInteractions() {
+        return this._keyboardInteraction;
+    }
+
+    set keyboardInteractions(newVal) {
+        this._keyboardInteraction = newVal;
+    }
 
     @api
     canvasConfig = {};
@@ -136,7 +144,7 @@ export default class Canvas extends LightningElement {
         logPerfMarkStart(canvas);
         getDrawingLibInstance().setNewConnection(this.connectionAdded);
         getDrawingLibInstance().clickConnection(this.connectionClicked);
-        this.keyboardInteractions = new KeyboardInteractions();
+        this._keyboardInteraction = new KeyboardInteractions();
     }
 
     /**

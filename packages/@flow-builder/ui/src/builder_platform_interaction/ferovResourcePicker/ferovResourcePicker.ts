@@ -267,9 +267,9 @@ export default class FerovResourcePicker extends LightningElement {
             const displayText = event.detail.item.displayText;
             event.detail.displayText = displayText;
             event.detail.item = null;
-            this.value = displayText;
+            this._value = displayText;
         } else {
-            this.value = event.detail.item;
+            this._value = event.detail.item;
         }
     }
 
@@ -282,7 +282,7 @@ export default class FerovResourcePicker extends LightningElement {
         const item = event.detail.item;
         const displayText = event.detail.displayText;
 
-        this.value = item && !this.errorMessage ? item : displayText;
+        this._value = item && !this.errorMessage ? item : displayText;
     }
 
     handleFetchMenuData(event) {
@@ -386,7 +386,7 @@ export default class FerovResourcePicker extends LightningElement {
 
     initializeResourcePicker = (normalizedValue) => {
         // on first render we want to replace the given value with the itemOrDisplayText from normalized value
-        this.value = normalizedValue.itemOrDisplayText;
+        this._value = normalizedValue.itemOrDisplayText;
         this.populateMenuData(this.parentItem, normalizedValue.fields);
         this._isInitialized = true;
     };
@@ -434,6 +434,7 @@ export default class FerovResourcePicker extends LightningElement {
             const inlineResource = getInlineResource(inlineGuid, menuData);
             if (inlineResource) {
                 if (this.errorMessage) {
+                    // eslint-disable-next-line @lwc/lwc/no-api-reassignments
                     this.errorMessage = null;
                 }
                 this.inlineItem = inlineResource;
