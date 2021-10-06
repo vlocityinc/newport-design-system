@@ -13,6 +13,7 @@ import { CLASSIC_EXPERIENCE, getPreferredExperience } from 'builder_platform_int
 import { getEntity } from 'builder_platform_interaction/sobjectLib';
 import automaticFieldLogicComboboxLabel from '@salesforce/label/FlowBuilderComponentVisibility.automaticFieldLogicComboboxLabel';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { FieldDataType } from 'builder_platform_interaction/dataTypeLib';
 const { format } = commonUtils;
 
 export default class ScreenAutomaticFieldPropertiesEditor extends LightningElement {
@@ -48,6 +49,10 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
 
     get helptext() {
         return getValueFromHydratedItem(this.field.helpText);
+    }
+
+    get entityFieldDataType() {
+        return getValueFromHydratedItem(this.field.entityFieldDataType);
     }
 
     get displayedFields() {
@@ -111,8 +116,13 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
                 break;
             }
             case ScreenFieldName.TextBox: {
-                const length = this.field.length;
-                dataType = format(this.labels.automaticFieldDataTypeText, length);
+                if (this.entityFieldDataType === FieldDataType.Phone) {
+                    dataType = this.labels.automaticFieldDataTypePhone;
+                } else if (this.entityFieldDataType === FieldDataType.Email) {
+                    dataType = this.labels.automaticFieldDataTypeEmail;
+                } else {
+                    dataType = format(this.labels.automaticFieldDataTypeText, this.field.length);
+                }
                 break;
             }
             case ScreenFieldName.LargeTextArea: {

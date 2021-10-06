@@ -28,7 +28,9 @@ const SUPPORTED_FIELD_DATA_TYPES = [
     FieldDataType.Double,
     FieldDataType.DateTime,
     FieldDataType.Date,
-    FieldDataType.Boolean
+    FieldDataType.Boolean,
+    FieldDataType.Phone,
+    FieldDataType.Email
 ];
 
 const createEditFilter = (field: FieldDefinition): boolean => field.creatable || field.editable;

@@ -152,6 +152,8 @@ import automaticFieldDataTypeDate from '@salesforce/label/FlowBuilderAutomaticFi
 import automaticFieldDataTypeCheckbox from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeCheckbox';
 import automaticFieldDataTypeTextArea from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeTextArea';
 import automaticFieldDataTypeLongTextArea from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeLongTextArea';
+import automaticFieldDataTypePhone from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypePhone';
+import automaticFieldDataTypeEmail from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeEmail';
 import automaticFieldHighlightHeaderFieldLabel from '@salesforce/label/FlowBuilderScreenEditor.automaticFieldHighlightHeaderFieldLabel';
 import altTextVisibilityCondition from '@salesforce/label/FlowBuilderScreenEditor.altTextVisibilityCondition';
 import nonePicklistPlaceholder from '@salesforce/label/FlowBuilderScreenEditor.nonePicklistPlaceholder';
@@ -333,6 +335,8 @@ export const LABELS = {
     automaticFieldDataTypeCheckbox,
     automaticFieldDataTypeTextArea,
     automaticFieldDataTypeLongTextArea,
+    automaticFieldDataTypePhone,
+    automaticFieldDataTypeEmail,
     automaticFieldHighlightHeaderFieldLabel,
     altTextVisibilityCondition,
     nonePicklistPlaceholder,

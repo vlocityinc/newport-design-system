@@ -23,6 +23,7 @@ import { objectManagerUrls as mockObjectManagerUrls } from 'serverData/GetObject
 import { CLASSIC_EXPERIENCE, getPreferredExperience } from 'builder_platform_interaction/contextLib';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { FieldDataType } from 'builder_platform_interaction/dataTypeLib';
 const { format } = commonUtils;
 
 jest.mock('builder_platform_interaction/storeLib', () => {
@@ -88,6 +89,12 @@ jest.mock(
         virtual: true
     }
 );
+jest.mock('@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypePhone', () => ({ default: 'Phone' }), {
+    virtual: true
+});
+jest.mock('@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeEmail', () => ({ default: 'Email' }), {
+    virtual: true
+});
 const SELECTORS = {
     DESCRIPTION_VALUE_SELECTOR_FORMAT: `tr.{0} > td > ${LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_FORMATTED_TEXT}.autofield-description-value`,
     DATATYPE: 'autofield-datatype',
@@ -121,53 +128,30 @@ const getScreenComponentFieldVisibilitySection = (comp) =>
     getAccordion(comp).shadowRoot.querySelector('slot').assignedNodes()[0];
 
 describe('Data types formatting with tokens', () => {
-    let component;
-    test('Text field data type is properly formatted', () => {
-        component = createComponentForTest({
-            type: {
-                name: ScreenFieldName.TextBox
-            },
-            length: 60
-        });
-        expect(getDataTypeValue(component)).toEqual('Text(60)');
-    });
-    test('Number field data type is properly formatted', () => {
-        component = createComponentForTest({
-            type: {
-                name: ScreenFieldName.Number
-            },
-            precision: 15,
-            scale: 3
-        });
-        expect(getDataTypeValue(component)).toEqual('Number(12, 3)');
-    });
-    test('Number being Integer in the backend field data type is properly formatted', () => {
-        component = createComponentForTest({
-            type: {
-                name: ScreenFieldName.Number
-            },
-            precision: 0
-        });
-        expect(getDataTypeValue(component)).toEqual('Number(8, 0)');
-    });
-    test('Text Area field data type is properly formatted', () => {
-        component = createComponentForTest({
-            type: {
-                name: ScreenFieldName.LargeTextArea
-            },
-            length: 255
-        });
-        expect(getDataTypeValue(component)).toEqual('Text Area(255)');
-    });
-    it('Long Text Area field data type is properly formatted', () => {
-        component = createComponentForTest({
-            type: {
-                name: ScreenFieldName.LargeTextArea
-            },
-            length: 256
-        });
-        expect(getDataTypeValue(component)).toEqual('Long Text Area(256)');
-    });
+    const cases = [
+        [ScreenFieldName.TextBox, 60, null, null, null, 'Text(60)'],
+        [ScreenFieldName.TextBox, null, null, null, FieldDataType.Phone, 'Phone'],
+        [ScreenFieldName.TextBox, null, null, null, FieldDataType.Email, 'Email'],
+        [ScreenFieldName.Number, null, 15, 3, null, 'Number(12, 3)'],
+        [ScreenFieldName.Number, null, 0, null, null, 'Number(8, 0)'],
+        [ScreenFieldName.LargeTextArea, 255, null, null, null, 'Text Area(255)'],
+        [ScreenFieldName.LargeTextArea, 256, null, null, null, 'Long Text Area(256)']
+    ];
+    test.each(cases)(
+        'Given type name %p, length %p, precision %p, scale %p, entityFieldDataType %p, returns formated data type %p',
+        (screenFieldName, fieldLength, fieldPrecision, fieldScale, fieldDataType, expectedResult) => {
+            const component = createComponentForTest({
+                type: {
+                    name: screenFieldName
+                },
+                length: fieldLength,
+                precision: fieldPrecision,
+                scale: fieldScale,
+                entityFieldDataType: fieldDataType
+            });
+            expect(getDataTypeValue(component)).toEqual(expectedResult);
+        }
+    );
 });
 
 describe('Link to Object Manager', () => {

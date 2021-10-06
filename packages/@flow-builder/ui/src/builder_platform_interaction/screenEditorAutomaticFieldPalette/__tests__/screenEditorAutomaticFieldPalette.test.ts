@@ -104,8 +104,8 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     };
 });
 
-const TOTAL_SUPPORTED_FIELDS_IN_ACCOUNT = 29;
-const TOTAL_SUPPORTED_FIELDS_IN_OBJECT_WIH_ALL_POSSIBLE_FIELDS = 8;
+const TOTAL_SUPPORTED_FIELDS_IN_ACCOUNT = 36;
+const TOTAL_SUPPORTED_FIELDS_IN_OBJECT_WIH_ALL_POSSIBLE_FIELDS = 10;
 const NB_REQUIRED_FIELDS_IN_OBJECT_WIH_ALL_POSSIBLE_FIELDS = 1;
 
 const STRING_FIELD_NAME = 'SicDesc';
@@ -408,8 +408,8 @@ describe('Screen editor automatic field palette', () => {
                 ${LONG_TEXT_AREA_FIELD_NAME}    | ${true}
                 ${ACCOUNT_NAME_FIELD_NAME}      | ${true}
                 ${CURRENCY_FIELD_NAME}          | ${false}
-                ${PHONE_FIELD_NAME}             | ${false}
-                ${EMAIL_FIELD_NAME}             | ${false}
+                ${PHONE_FIELD_NAME}             | ${true}
+                ${EMAIL_FIELD_NAME}             | ${true}
                 ${URL_FIELD_NAME}               | ${false}
                 ${FIELD_OF_COMPOUND_FIELD_NAME} | ${false}
             `(
