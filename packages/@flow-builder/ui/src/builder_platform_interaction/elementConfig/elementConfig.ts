@@ -3,7 +3,8 @@ import {
     METADATA_KEY,
     ELEMENT_TYPE,
     COLLECTION_PROCESSOR_SUB_TYPE,
-    FLOW_TRIGGER_TYPE
+    FLOW_TRIGGER_TYPE,
+    ICONS
 } from 'builder_platform_interaction/flowMetadata';
 import { ICONS_LARGE } from 'builder_platform_interaction/imageLib';
 import { LABELS } from './elementConfigLabels';
@@ -1128,6 +1129,32 @@ export const elementTypeToConfigMap: {
             propertyEditor: createStageStep
         },
         getChildrenItems: getStageStepChildren
+    },
+    /**
+     * There are two types of Orchestration Stage Step elements: background and interactive. In order to have
+     * the correct step type element icon present in debug panel cards, we need to put the configure it here.
+     */
+    [ACTION_TYPE.STEP_INTERACTIVE]: {
+        nodeConfig: {
+            iconName: ICONS.interactiveStep,
+            iconBackgroundColor: 'background-navy'
+        },
+        canvasElement: true,
+        labels: {
+            singular: LABELS.stageStepSingularLabel,
+            plural: LABELS.stageStepPluralLabel
+        }
+    },
+    [ACTION_TYPE.STEP_BACKGROUND]: {
+        nodeConfig: {
+            iconName: ICONS.backgroundStep,
+            iconBackgroundColor: 'background-navy'
+        },
+        canvasElement: true,
+        labels: {
+            singular: LABELS.stageStepSingularLabel,
+            plural: LABELS.stageStepPluralLabel
+        }
     },
     /**
      * Currently, when the flowBuilder app is loaded - the canvas loads prior to the leftPanel.
