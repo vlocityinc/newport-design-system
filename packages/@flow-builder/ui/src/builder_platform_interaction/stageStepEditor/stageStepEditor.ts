@@ -877,6 +877,11 @@ export default class StageStepEditor extends LightningElement {
             }
         }
 
+        // Reset the external callouts checkbox
+        if (!this.isStepWithUserAction && actionCategory === ORCHESTRATED_ACTION_CATEGORY.STEP) {
+            this.element = stageStepReducer(this.element!, new RequiresAsyncProcessingChangedEvent(false));
+        }
+
         const error = e.detail.item ? e.detail.item.error : e.detail.error;
         if (actionCategory === ORCHESTRATED_ACTION_CATEGORY.STEP) {
             this.actionErrorMessage = error;
@@ -1018,7 +1023,6 @@ export default class StageStepEditor extends LightningElement {
 
     handleCheckboxClicked(event: CustomEvent) {
         event.stopPropagation();
-        this.requiresAsyncProcessing = event.detail.checked;
         this.element = stageStepReducer(this.element!, new RequiresAsyncProcessingChangedEvent(event.detail.checked));
         this.dispatchEvent(new UpdateNodeEvent(this.element));
     }

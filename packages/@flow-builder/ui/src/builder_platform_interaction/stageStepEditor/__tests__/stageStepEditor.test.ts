@@ -710,6 +710,18 @@ describe('StageStepEditor', () => {
                 );
             });
 
+            it('is reset when a new action is selected', () => {
+                editor = createComponentUnderTest(autolaunchedNodeParams);
+                const actionSelector = editor.shadowRoot.querySelector(selectors.ACTION_SELECTOR);
+                const selectorEvent = new ValueChangedEvent({ actionName: 'stepBackground' });
+                actionSelector.dispatchEvent(selectorEvent);
+
+                expect(stageStepReducer).toHaveBeenCalledWith(
+                    autolaunchedNodeParams,
+                    new RequiresAsyncProcessingChangedEvent(false)
+                );
+            });
+
             it('should not exist for interactive steps', () => {
                 editor = createComponentUnderTest(nodeParams);
 
