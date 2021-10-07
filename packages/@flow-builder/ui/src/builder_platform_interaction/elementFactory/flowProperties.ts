@@ -129,7 +129,7 @@ export function createFlowPropertiesMetadataObject(flowProperties) {
         processType,
         runInMode,
         status,
-        priority,
+        priority = Number(flowProperties.priority) || undefined,
         apiVersion,
         isAutoLayoutCanvas,
         isOverridable,

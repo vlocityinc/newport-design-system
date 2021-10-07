@@ -2,6 +2,7 @@
 import { createElement } from 'lwc';
 import FlowPropertiesEditor from '../flowPropertiesEditor';
 import { SaveType } from 'builder_platform_interaction/saveType';
+import { FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from '../flowPropertiesEditorLabels';
 import normalizeDateTime from 'builder_platform_interaction/dateTimeUtils';
 import { PropertyChangedEvent, ComboboxStateChangedEvent } from 'builder_platform_interaction/events';
@@ -551,12 +552,13 @@ describe('FlowPropertiesEditor', () => {
                     label: { value: 'flow label' },
                     name: { value: 'flow name' },
                     description: { value: 'flow description' },
-                    processType: { value: 'process type2' },
+                    processType: { value: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW },
                     status: { value: 'Active' },
                     interviewLabel: { value: 'interviewLabel' },
                     lastModifiedBy: { value: 'some user' },
                     lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
                     versionNumber: 1,
+                    triggerType: FLOW_TRIGGER_TYPE.AFTER_SAVE,
                     saveType: SaveType.UPDATE,
                     runInMode: { value: null, error: null },
                     priority: 150,
@@ -564,6 +566,8 @@ describe('FlowPropertiesEditor', () => {
                 };
                 flowProperties = {
                     ...baseProperties,
+                    triggerType: FLOW_TRIGGER_TYPE.AFTER_SAVE,
+                    processType: { value: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW },
                     priority: 150
                 };
                 flowPropertiesEditor = createComponentUnderTest(flowProperties);

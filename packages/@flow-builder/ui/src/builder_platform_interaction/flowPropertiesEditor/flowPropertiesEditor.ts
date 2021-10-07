@@ -269,7 +269,8 @@ export default class FlowPropertiesEditor extends LightningElement {
     }
 
     get priority() {
-        return getValueFromHydratedItem(this.flowProperties.priority);
+        const val = getValueFromHydratedItem(this.flowProperties.priority);
+        return val || null;
     }
 
     get runInMode() {
@@ -394,6 +395,18 @@ export default class FlowPropertiesEditor extends LightningElement {
             );
         }
         return '';
+    }
+
+    /**
+     * Returns if the current flow is a record triggered flow
+     *
+     * @returns {boolean}
+     */
+    get isRecordTriggeredFlow() {
+        return (
+            !isOrchestrator(getValueFromHydratedItem(this.flowProperties.processType)) &&
+            isRecordChangeTriggerType(getValueFromHydratedItem(this.flowProperties.triggerType))
+        );
     }
 
     /**
@@ -598,12 +611,15 @@ export default class FlowPropertiesEditor extends LightningElement {
         event.stopPropagation();
         const priorityElement = this.template.querySelector(SELECTORS.PRIORITY);
         let error = null;
-        const value = parseInt(event.detail.value, 10);
-        if (value) {
+        let value;
+        if (event.detail.value === '') {
+            this.updateProperty('priority', '');
+        } else {
+            value = parseInt(event.detail.value, 10);
             error = ValidationRules.shouldBeInRange(1, 2000)(value);
             this.updateProperty('priority', value);
-            this.setElementErrorMessage(priorityElement, error);
         }
+        this.setElementErrorMessage(priorityElement, error);
     }
 
     clearForNewDefinition() {
