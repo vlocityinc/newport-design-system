@@ -64,15 +64,11 @@
         >
             <template for:each={debugTraces} for:item="trace">
                 <template key={trace.id} if:true={showApiNames}>
-                    <builder_platform_interaction-accordion-section-with-icon
+                    <lightning-accordion-section
                         data-name={trace.titleWithApiName}
                         key={trace.id}
                         label={trace.titleWithApiName}
                         name={trace.titleWithApiName}
-                        icon-name={trace.iconName}
-                        icon-size={trace.iconSize}
-                        icon-class={trace.iconClass}
-                        container-class={trace.containerClass}
                     >
                         <builder_platform_interaction-debug-panel-body
                             lines={trace.lines}
@@ -84,19 +80,15 @@
                             ifblockresume={ifBlockResume}
                             show-gov-lim={showGovLim}
                         ></builder_platform_interaction-debug-panel-body>
-                    </builder_platform_interaction-accordion-section-with-icon>
+                    </lightning-accordion-section>
                 </template>
 
                 <template key={trace.id} if:false={showApiNames}>
-                    <builder_platform_interaction-accordion-section-with-icon
+                    <lightning-accordion-section
                         data-name={trace.titleWithLabel}
                         key={trace.id}
                         label={trace.titleWithLabel}
                         name={trace.titleWithLabel}
-                        icon-name={trace.iconName}
-                        icon-size={trace.iconSize}
-                        icon-class={trace.iconClass}
-                        container-class={trace.containerClass}
                     >
                         <builder_platform_interaction-debug-panel-body
                             lines={trace.lines}
@@ -108,7 +100,7 @@
                             ifblockresume={ifBlockResume}
                             show-gov-lim={showGovLim}
                         ></builder_platform_interaction-debug-panel-body>
-                    </builder_platform_interaction-accordion-section-with-icon>
+                    </lightning-accordion-section>
                 </template>
             </template>
             <template if:true={showTestAssertions}>

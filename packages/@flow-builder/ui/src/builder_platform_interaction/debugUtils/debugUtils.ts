@@ -3,7 +3,6 @@ import { LABELS } from './debugUtilsLabels';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 const { format } = commonUtils;
-import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 
 /**
  * @constant STATUS The Interview Status
@@ -40,21 +39,9 @@ export function copyAndUpdateDebugTraceObject(debugData) {
         const trace = debugData.debugTrace[i]?.lines?.filter((e) => {
             return !!e;
         });
-        const elementType = debugData.debugTrace[i].elementIconType;
-        const config = elementTypeToConfigMap[elementType]?.nodeConfig;
         debugTraces.push({
             titleWithApiName: makeElementTitle(debugData.debugTrace[i], true),
             titleWithLabel: makeElementTitle(debugData.debugTrace[i], false),
-            iconName: config?.iconName,
-            iconSize: 'small',
-            iconClass:
-                config?.iconName === 'standard:decision'
-                    ? 'rotate-icon-svg'
-                    : config?.iconBackgroundColor + ' slds-m-right_x-small',
-            containerClass:
-                config?.iconName === 'standard:decision'
-                    ? 'rotate-icon-container slds-icon-standard-decision non-canvas-decision-icon slds-m-right_x-small'
-                    : '',
             lines: trace,
             entryType: debugData.debugTrace[i].entryType,
             error: debugData.debugTrace[i].error,

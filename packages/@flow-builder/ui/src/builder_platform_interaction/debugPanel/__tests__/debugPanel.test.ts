@@ -9,7 +9,6 @@ import { completedInterview } from 'mock/debugResponse/mock-completed-interview'
 import { completedTestInterview } from 'mock/debugResponse/mock-completed-test-interview';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
-import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 import { BUILDER_MODE } from 'builder_platform_interaction/systemLib';
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
@@ -38,7 +37,7 @@ const createComponentUnderTest = (
 const selectors = {
     errorMessage: '.errorMsg',
     govLimText: '.govLim',
-    accordionSection: 'builder_platform_interaction-accordion-section-with-icon',
+    accordionSection: 'lightning-accordion-section',
     debugPanelBodyComponent: 'builder_platform_interaction-debug-panel-body',
     testPanelBodyComponent: 'builder_platform_interaction-test-panel-body',
     debugPanelFilterComponent: 'builder_platform_interaction-debug-panel-filter',
@@ -461,28 +460,6 @@ describe('expand card behavior', () => {
         expandButton.click();
         await ticks(1);
         expect(expandButton.label).toBe(LABELS.expandAllLabel);
-    });
-});
-
-describe('element icon behavior', () => {
-    let debugPanel;
-    const sectionNumber = 1;
-    beforeEach(() => {
-        debugPanel = createComponentUnderTest(completedInterview);
-    });
-
-    it('should display correct icon', () => {
-        expect(debugPanel.shadowRoot.querySelectorAll(selectors.accordionSection)[sectionNumber].iconName).toBe(
-            elementTypeToConfigMap[completedInterview.debugTrace[sectionNumber].elementIconType].nodeConfig.iconName
-        );
-    });
-
-    it('should display no icon if iconname is undefined', () => {
-        expect(debugPanel.shadowRoot.querySelectorAll(selectors.accordionSection)[0].iconName).toBe(undefined);
-    });
-
-    it('alt text should be empty', () => {
-        expect(debugPanel.shadowRoot.querySelectorAll(selectors.accordionSection)[0].alternativeText).toBe(undefined);
     });
 });
 

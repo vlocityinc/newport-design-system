@@ -27,7 +27,6 @@ export const LIGHTNING_COMPONENTS_SELECTORS = {
 };
 
 export const INTERACTION_COMPONENTS_SELECTORS = {
-    ACCORDION_SECTION_WITH_ICON: 'builder_platform_interaction-accordion-section-with-icon',
     ACTION_SELECTOR: 'builder_platform_interaction-action-selector',
     BASE_CALLOUT_EDITOR: 'builder_platform_interaction-base-callout-editor',
     BASE_EXPRESSION_BUILDER: 'builder_platform_interaction-base-expression-builder',
