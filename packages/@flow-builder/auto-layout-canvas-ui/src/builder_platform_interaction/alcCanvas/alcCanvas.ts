@@ -268,6 +268,9 @@ export default class AlcCanvas extends LightningElement {
     disableDeleteElements;
 
     @api
+    disableEditElements;
+
+    @api
     supportsScheduledPaths;
 
     /**

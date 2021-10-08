@@ -19,6 +19,12 @@ export default class AlcFlow extends LightningElement {
     @api
     disableAddElements;
 
+    @api
+    disableDeleteElements;
+
+    @api
+    disableEditElements;
+
     /**
      * The active element refers to the element currently being edited using the property editor panel
      */

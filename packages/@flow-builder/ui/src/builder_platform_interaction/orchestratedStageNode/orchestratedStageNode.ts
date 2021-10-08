@@ -66,6 +66,15 @@ export default class OrchestratedStageNode extends LightningElement {
     @api
     keyboardInteractions = new KeyboardInteractions();
 
+    @api
+    disableDeleteElements;
+
+    @api
+    disableAddElements;
+
+    @api
+    disableEditElements;
+
     /**
      * The active element refers to the element currently being edited using the property editor panel
      */
@@ -79,10 +88,13 @@ export default class OrchestratedStageNode extends LightningElement {
 
     get stageStepsWithErrorClass() {
         const baseClasses = 'item slds-p-around_small slds-clearfix slds-listbox__option';
+        const readOnlyBaseClasses = 'item disabled slds-p-around_small slds-clearfix';
 
         return this.items.map((item) => ({
             ...item,
-            cssClass: baseClasses + (item.config.hasError ? ' stage-step-error' : '')
+            cssClass:
+                (this.disableEditElements ? readOnlyBaseClasses : baseClasses) +
+                (item.config.hasError ? ' stage-step-error' : '')
         }));
     }
 
@@ -201,7 +213,7 @@ export default class OrchestratedStageNode extends LightningElement {
      */
     handleArrowKeys(key: string) {
         const currentItemInFocus = this.template.activeElement;
-        if (currentItemInFocus) {
+        if (!this.disableEditElements && currentItemInFocus) {
             const stepItems = Array.from(this.template.querySelectorAll(selectors.stepItem)) as any;
             if (stepItems.includes(currentItemInFocus)) {
                 this.moveFocusOnArrowKey(stepItems, currentItemInFocus, key);
@@ -218,11 +230,14 @@ export default class OrchestratedStageNode extends LightningElement {
             const stepItems = Array.from(this.template.querySelectorAll(selectors.stepItem)) as any;
             const deleteItemButtons = Array.from(this.template.querySelectorAll(selectors.deleteStepItemButton)) as any;
 
-            if (stepItems.includes(currentItemInFocus)) {
+            if (!this.disableEditElements && stepItems.includes(currentItemInFocus)) {
                 this.handleOpenItemPropertyEditor(undefined, currentItemInFocus);
-            } else if (deleteItemButtons.includes(currentItemInFocus)) {
+            } else if (!this.disableDeleteElements && deleteItemButtons.includes(currentItemInFocus)) {
                 this.handleDeleteItem(undefined, currentItemInFocus);
-            } else if (currentItemInFocus === this.template.querySelector(selectors.stepMenuTrigger)) {
+            } else if (
+                !this.disableEditElements &&
+                currentItemInFocus === this.template.querySelector(selectors.stepMenuTrigger)
+            ) {
                 this.originalIsStepMenuOpened = this.isStepMenuOpened;
                 this.triggerStageStepMenu();
             }
@@ -246,7 +261,7 @@ export default class OrchestratedStageNode extends LightningElement {
             target = event.currentTarget as HTMLElement;
         }
 
-        if (this.isDefaultMode) {
+        if (this.isDefaultMode && !this.disableEditElements) {
             this.dispatchEvent(
                 new EditElementEvent(
                     target && target.dataset.itemGuid,
@@ -315,7 +330,7 @@ export default class OrchestratedStageNode extends LightningElement {
 
                 item.tabIndex = -1;
             });
-            indexedItem.tabIndex = 0;
+            indexedItem.tabIndex = this.disableEditElements ? -1 : 0;
         }
 
         return items;

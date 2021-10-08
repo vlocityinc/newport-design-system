@@ -162,6 +162,9 @@ export default class AlcCanvasContainer extends LightningElement {
     disableDeleteElements;
 
     @api
+    disableEditElements;
+
+    @api
     disableAnimation;
 
     @api

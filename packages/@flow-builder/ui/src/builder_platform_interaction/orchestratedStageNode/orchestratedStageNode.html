@@ -50,6 +50,7 @@
                                 </div>
                             </div>
                             <button
+                                if:false={disableDeleteElements}
                                 class="slds-button slds-float_right slds-m-top_small delete-item"
                                 onclick={handleDeleteItem}
                                 data-item-guid={item.guid}
@@ -66,6 +67,7 @@
                 </div>
                 <div class="stepMenuContainer">
                     <button
+                        if:false={disableAddElements}
                         class="
                             step-menu-trigger
                             slds-m-horizontal_small

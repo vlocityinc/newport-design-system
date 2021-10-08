@@ -38,6 +38,15 @@ export default class AlcNode extends LightningElement {
     activeElementGuid;
 
     @api
+    disableAddElements;
+
+    @api
+    disableDeleteElements;
+
+    @api
+    disableEditElements;
+
+    @api
     get nodeInfo() {
         return this._nodeInfo;
     }

@@ -6,6 +6,9 @@
         node-info={simpleNode.nodeInfo}
         active-element-guid={activeElementGuid}
         flow-model={flowModel}
+        disable-add-elements={disableAddElements}
+        disable-delete-elements={disableDeleteElements}
+        disable-edit-elements={disableEditElements}
     ></builder_platform_interaction-alc-node>
 
     <template for:each={logicConnectors} for:item="logicConnector" if:true={node.logicConnectors}>

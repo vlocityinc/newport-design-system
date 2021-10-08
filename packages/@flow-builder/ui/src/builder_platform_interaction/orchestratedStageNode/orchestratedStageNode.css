@@ -46,31 +46,31 @@ h3 {
     padding-bottom: var(--lwc-spacingXSmall);
 }
 
-.item:hover {
+.item:not(.disabled):hover {
     background: var(--lwc-verticalNavigationColorBackgroundShadeRowHover);
     cursor: pointer;
 }
 
-.item:focus {
+.item:not(.disabled):focus {
     background: inherit;
     box-shadow: var(--lwc-shadowButtonFocus);
 }
 
-.item:focus:hover {
+.item:not(.disabled):focus:hover {
     background: var(--lwc-verticalNavigationColorBackgroundShadeRowHover);
     box-shadow: var(--lwc-shadowButtonFocus);
 }
 
-.item[aria-selected='true'] {
+.item[aria-selected='true']:not(.disabled) {
     box-shadow: inset 0 0 0 2px var(--lwc-colorBorderRowSelected);
 }
 
-.item[aria-selected='true']:hover {
+.item[aria-selected='true']:not(.disabled):hover {
     background: var(--lwc-verticalNavigationColorBackgroundShadeRowHover);
     box-shadow: inset 0 0 0 2px var(--lwc-colorBorderRowSelected);
 }
 
-.item[aria-selected='true']:hover:focus {
+.item[aria-selected='true']:not(.disabled):hover:focus {
     background: var(--lwc-verticalNavigationColorBackgroundShadeRowHover);
     box-shadow: inset 0 0 0 2px var(--lwc-colorBorderRowSelected);
 }
