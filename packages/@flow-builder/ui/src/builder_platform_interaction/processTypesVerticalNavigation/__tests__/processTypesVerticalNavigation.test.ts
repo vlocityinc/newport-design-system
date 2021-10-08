@@ -34,11 +34,11 @@ describe('process-types-vertical-navigation ', () => {
         });
 
         test('number of process types', () => {
-            expect(processTypesVerticalNavigation.items).toHaveLength(processTypes.length + 1); // 'ALL' entry included
+            expect(processTypesVerticalNavigation.processTypes).toHaveLength(processTypes.length + 1); // 'ALL' entry included
         });
 
         test('"All" entry in first place (among process types) (API)', () => {
-            expect(processTypesVerticalNavigation.items[0]).toMatchObject({
+            expect(processTypesVerticalNavigation.processTypes[0]).toMatchObject({
                 name: ALL_PROCESS_TYPE.name
             });
         });

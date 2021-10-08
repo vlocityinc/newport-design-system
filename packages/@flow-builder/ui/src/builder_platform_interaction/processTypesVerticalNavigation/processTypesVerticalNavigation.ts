@@ -8,6 +8,8 @@ import {
 } from 'builder_platform_interaction/processTypeLib';
 
 export default class ProcessTypesVerticalNavigation extends LightningElement {
+    _processTypes = [];
+
     /**
      * All process types
      *
@@ -15,33 +17,20 @@ export default class ProcessTypesVerticalNavigation extends LightningElement {
      */
     @api
     get processTypes() {
-        return this.state.processTypes;
+        return this._processTypes;
     }
 
-    set processTypes(processTypes) {
-        this.state.processTypes = processTypes ? processTypes.slice() : processTypes;
-        sortProcessTypes(this.state.processTypes);
-        this.state.items = getProcessTypesWithIcons([ALL_PROCESS_TYPE].concat(this.processTypes || []));
-    }
-
-    @api
-    get items() {
-        return this.state.items;
+    set processTypes(newVal) {
+        const processTypes = newVal ? newVal.slice() : [];
+        sortProcessTypes(processTypes);
+        this._processTypes = getProcessTypesWithIcons([ALL_PROCESS_TYPE].concat(processTypes));
     }
 
     /**
      * Select(ed) process type name
-     *
-     * @returns {string} select(ed) process type name
      */
     @api
     selectedProcessType = ALL_PROCESS_TYPE.name;
-
-    @track
-    state = {
-        processTypes: [],
-        items: []
-    };
 
     /**
      * Handler for process type selection

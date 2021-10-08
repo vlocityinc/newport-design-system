@@ -1,58 +1,58 @@
 {
   "processTypes":[
     {
-  "fieldsToNull" : [ ],
-  "isListViewManaged" : true,
-  "label" : "Autolaunched Flow",
-  "name" : "AutoLaunchedFlow"
-},
+      "iconName":"utility:magicwand",
+      "name":"AutoLaunchedFlow",
+      "label":"Autolaunched Flow",
+      "isListViewManaged":true
+    },
     {
-  "fieldsToNull" : [ ],
-  "isListViewManaged" : false,
-  "label" : "Contact Request Flow",
-  "name" : "ContactRequestFlow"
-},
+      "iconName":"utility:contact_request",
+      "name":"ContactRequestFlow",
+      "label":"Contact Request Flow",
+      "isListViewManaged":false
+    },
     {
-  "fieldsToNull" : [ ],
-  "isListViewManaged" : true,
-  "label" : "Embedded Appointment Management Flow",
-  "name" : "FieldServiceWeb"
-},
+      "iconName":"utility:insert_tag_field",
+      "name":"FieldServiceWeb",
+      "label":"Embedded Appointment Management Flow",
+      "isListViewManaged":true
+    },
     {
-  "fieldsToNull" : [ ],
-  "isListViewManaged" : true,
-  "label" : "Evaluation Flow",
-  "name" : "EvaluationFlow"
-},
+      "iconName":"utility:magicwand",
+      "name":"EvaluationFlow",
+      "label":"Evaluation Flow",
+      "isListViewManaged":true
+    },
     {
-  "fieldsToNull" : [ ],
-  "isListViewManaged" : true,
-  "label" : "Field Service Mobile Flow",
-  "name" : "FieldServiceMobile"
-},
+      "iconName":"utility:phone_portrait",
+      "name":"FieldServiceMobile",
+      "label":"Field Service Mobile Flow",
+      "isListViewManaged":true
+    },
     {
-  "fieldsToNull" : [ ],
-  "isListViewManaged" : true,
-  "label" : "Flow Orchestrator (Beta)",
-  "name" : "Orchestrator"
-},
+      "iconName":"utility:orchestrator",
+      "name":"Orchestrator",
+      "label":"Flow Orchestrator (Beta)",
+      "isListViewManaged":true
+    },
     {
-  "fieldsToNull" : [ ],
-  "isListViewManaged" : true,
-  "label" : "Omni-Channel Flow",
-  "name" : "RoutingFlow"
-},
+      "iconName":"utility:omni_channel",
+      "name":"RoutingFlow",
+      "label":"Omni-Channel Flow",
+      "isListViewManaged":true
+    },
     {
-  "fieldsToNull" : [ ],
-  "isListViewManaged" : true,
-  "label" : "Screen Flow",
-  "name" : "Flow"
-},
+      "iconName":"utility:desktop",
+      "name":"Flow",
+      "label":"Screen Flow",
+      "isListViewManaged":true
+    },
     {
-  "fieldsToNull" : [ ],
-  "isListViewManaged" : true,
-  "label" : "User Provisioning Flow",
-  "name" : "UserProvisioningFlow"
-}
+      "iconName":"utility:user",
+      "name":"UserProvisioningFlow",
+      "label":"User Provisioning Flow",
+      "isListViewManaged":true
+    }
   ]
 }

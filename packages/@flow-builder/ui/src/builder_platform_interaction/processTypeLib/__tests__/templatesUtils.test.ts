@@ -1,91 +1,12 @@
 // @ts-nocheck
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import {
-    ALL_PROCESS_TYPE,
-    createProcessTypeTile,
-    createFlowEntryTilesForProcessTypes,
-    cacheTemplates,
-    getTemplates
-} from 'builder_platform_interaction/processTypeLib';
-import { orgHasBeforeSaveEnabled } from 'builder_platform_interaction/contextLib';
+import { ALL_PROCESS_TYPE, cacheTemplates, getTemplates } from 'builder_platform_interaction/processTypeLib';
 import { MOCK_ALL_TEMPLATES, MOCK_AUTO_TEMPLATE, MOCK_SCREEN_TEMPLATE_1, MOCK_SCREEN_TEMPLATE_2 } from 'mock/templates';
 import { processTypes } from 'serverData/GetProcessTypes/processTypes.json';
 
-jest.mock('builder_platform_interaction/contextLib', () => {
-    return Object.assign({}, require('builder_platform_interaction_mocks/contextLib'), {
-        orgHasBeforeSaveEnabled: jest.fn().mockReturnValue(true)
-    });
-});
-
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
-const getProcessType = (processTypeName) => processTypes.find((processType) => processType.name === processTypeName);
-
 describe('templatesUtils', () => {
-    describe('getting the process types tiles', () => {
-        it('should return the new screen flow tile with title and description in label file', () => {
-            const screenProcessType = getProcessType(FLOW_PROCESS_TYPE.FLOW);
-            expect(screenProcessType).not.toBeUndefined();
-            const screenProcessTypeTiles = createFlowEntryTilesForProcessTypes([screenProcessType]);
-            expect(screenProcessTypeTiles).toEqual([
-                {
-                    itemId: FLOW_PROCESS_TYPE.FLOW,
-                    label: screenProcessType.label,
-                    iconName: 'utility:desktop',
-                    description: 'FlowBuilderProcessTypeTemplates.newFlowDescription',
-                    processType: FLOW_PROCESS_TYPE.FLOW
-                }
-            ]);
-        });
-        it('should return multiple tiles for autolauched flow', () => {
-            const autolaunchedProcessType = getProcessType(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
-            expect(autolaunchedProcessType).not.toBeUndefined();
-            const autolaunchedProcessTypeTiles = createFlowEntryTilesForProcessTypes([autolaunchedProcessType]);
-            expect(orgHasBeforeSaveEnabled).toHaveBeenCalled();
-            expect(autolaunchedProcessTypeTiles).toEqual([
-                {
-                    description: 'FlowBuilderProcessTypeTemplates.newRecordChangedFlowDescription',
-                    iconName: 'utility:record_update',
-                    itemId: 'AutoLaunchedFlow-RecordBeforeSave',
-                    label: 'FlowBuilderProcessTypeTemplates.newRecordChangedFlowLabel',
-                    processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
-                    triggerType: 'RecordBeforeSave'
-                },
-                {
-                    description: 'FlowBuilderProcessTypeTemplates.newScheduledFlowDescription',
-                    iconName: 'utility:clock',
-                    itemId: 'AutoLaunchedFlow-Scheduled',
-                    label: 'FlowBuilderProcessTypeTemplates.newScheduledFlowLabel',
-                    processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
-                    triggerType: 'Scheduled'
-                },
-                {
-                    description: 'FlowBuilderProcessTypeTemplates.newAutolaunchedFlowDescription',
-                    iconName: 'utility:magicwand',
-                    itemId: 'AutoLaunchedFlow',
-                    label: 'Autolaunched Flow',
-                    processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW
-                }
-            ]);
-        });
-        it('should return the new checkout flow tile with default title and description in label file', () => {
-            const checkoutProcessType = { label: 'Checkout Flow', name: FLOW_PROCESS_TYPE.CHECKOUT_FLOW };
-            expect(checkoutProcessType).not.toBeUndefined();
-            const checkoutProcessTypeTile = createFlowEntryTilesForProcessTypes([checkoutProcessType]);
-            expect(checkoutProcessTypeTile).toEqual([
-                {
-                    itemId: FLOW_PROCESS_TYPE.CHECKOUT_FLOW,
-                    label: checkoutProcessType.label,
-                    iconName: 'utility:cart',
-                    description: 'FlowBuilderProcessTypeTemplates.newProcessTypeDescription(Checkout Flow)',
-                    processType: 'CheckoutFlow'
-                }
-            ]);
-        });
-        it('thows an error when given an invalid process type name', () => {
-            expect(() => createProcessTypeTile('invalidProcessType', true)).toThrow();
-        });
-    });
     describe('caching the templates', () => {
         beforeEach(() => {
             cacheTemplates(processTypes, ALL_PROCESS_TYPE.name, MOCK_ALL_TEMPLATES);

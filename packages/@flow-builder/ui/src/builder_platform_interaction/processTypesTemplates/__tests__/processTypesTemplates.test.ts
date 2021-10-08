@@ -25,6 +25,27 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/systemLib', () => {
+    return {
+        getProcessTypes: () => {
+            return [
+                {
+                    iconName: 'utility:magicwand',
+                    name: 'AutoLaunchedFlow',
+                    label: 'Autolaunched Flow',
+                    isListViewManaged: true
+                },
+                {
+                    iconName: 'utility:desktop',
+                    name: 'Flow',
+                    label: 'Screen Flow',
+                    isListViewManaged: true
+                }
+            ];
+        }
+    };
+});
+
 const commonUtils = jest.requireActual('builder_platform_interaction/sharedUtils');
 commonUtils.format = jest
     .fn()

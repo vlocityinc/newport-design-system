@@ -1,47 +1,11 @@
 // @ts-nocheck
 import all from '@salesforce/label/FlowBuilderProcessTypesVerticalNavigation.all';
-import { FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { getProcessFeatures } from 'builder_platform_interaction/systemLib';
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getProcessFeatures, getProcessTypes } from 'builder_platform_interaction/systemLib';
 
-export const ALL_PROCESS_TYPE = { name: 'all', label: all };
+export const ALL_PROCESS_TYPE = { name: 'all', label: all, iconName: 'utility:flow' };
 
 const PROCESS_TYPE_DEFAULT_ICON = 'utility:flow';
-
-// TODO W-8523370
-const PROCESS_TYPES_ICONS = new Map([
-    [ALL_PROCESS_TYPE.name, 'utility:flow'],
-    [FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW, 'utility:magicwand'],
-    [FLOW_PROCESS_TYPE.FLOW, 'utility:desktop'],
-    [FLOW_PROCESS_TYPE.ACTION_CADENCE_FLOW, 'utility:activity'],
-    [FLOW_PROCESS_TYPE.ACTION_PLAN, 'utility:fallback'],
-    [FLOW_PROCESS_TYPE.APPOINTMENTS, 'utility:events'],
-    [FLOW_PROCESS_TYPE.CHECKOUT_FLOW, 'utility:cart'],
-    [FLOW_PROCESS_TYPE.CONTACT_REQUEST_FLOW, 'utility:contact_request'],
-    [FLOW_PROCESS_TYPE.CUSTOM_EVENT, 'utility:event'],
-    [FLOW_PROCESS_TYPE.FIELD_SERVICE_MOBILE, 'utility:phone_portrait'],
-    [FLOW_PROCESS_TYPE.FIELD_SERVICE_WEB, 'utility:insert_tag_field'],
-    [FLOW_PROCESS_TYPE.FORM, 'utility:edit_form'],
-    [FLOW_PROCESS_TYPE.INVOCABLE_PROCESS, 'utility:process'],
-    [FLOW_PROCESS_TYPE.JOURNEY_BUILDER_INTEGRATION, 'utility:builder'],
-    [FLOW_PROCESS_TYPE.LOGIN_FLOW, 'utility:password'],
-    [FLOW_PROCESS_TYPE.MANAGED_CONTENT_FLOW, 'utility:cases'],
-    [FLOW_PROCESS_TYPE.ORCHESTRATOR, 'utility:orchestrator'],
-    [FLOW_PROCESS_TYPE.ORCHESTRATION_FLOW, 'utility:classic_interface'],
-    [FLOW_PROCESS_TYPE.SURVEY, 'utility:survey'],
-    [FLOW_PROCESS_TYPE.USER_PROVISIONING_FLOW, 'utility:user'],
-    [FLOW_PROCESS_TYPE.TRANSACTION_SECURITY_FLOW, 'utility:inspector_panel'],
-    [FLOW_PROCESS_TYPE.WORKFLOW, 'utility:pause'],
-    [FLOW_PROCESS_TYPE.SALES_ENTRY_EXPERIENCE_FLOW, 'utility:macros'],
-    [FLOW_PROCESS_TYPE.ROUTING_FLOW, 'utility:omni_channel'],
-    [FLOW_PROCESS_TYPE.RECOMMENDATION_STRATEGY, 'utility:strategy'],
-    [FLOW_PROCESS_TYPE.EVALUATION_FLOW, 'utility:magicwand']
-]);
-
-const TRIGGER_TYPE_ICONS = new Map([
-    [FLOW_TRIGGER_TYPE.SCHEDULED, 'utility:clock'],
-    [FLOW_TRIGGER_TYPE.BEFORE_SAVE, 'utility:record_update'],
-    [FLOW_TRIGGER_TYPE.BEFORE_DELETE, 'utility:record_update']
-]);
 
 export enum FLOW_AUTOMATIC_OUTPUT_HANDLING {
     SUPPORTED = 'Supported',
@@ -58,10 +22,10 @@ export const FLOW_PROCESS_TYPE_FEATURE = {
     TRANSACTION_CONTROLLED_ACTIONS: 'TransactionControlledActions'
 };
 
-export const getProcessTypeIcon = (processType) => PROCESS_TYPES_ICONS.get(processType) || PROCESS_TYPE_DEFAULT_ICON;
-
-export const getTriggerTypeIcon = (processType, triggerType) =>
-    TRIGGER_TYPE_ICONS.get(triggerType) || PROCESS_TYPE_DEFAULT_ICON;
+export const getProcessTypeIcon = (processTypeName) => {
+    const processType = getProcessTypes().find((processType) => processType.name === processTypeName);
+    return (processType && processType.iconName) || PROCESS_TYPE_DEFAULT_ICON;
+};
 
 /**
  * @param processTypes
@@ -71,10 +35,10 @@ export const getTriggerTypeIcon = (processType, triggerType) =>
  * @property {string} iconName
  */
 export const getProcessTypesWithIcons = (processTypes) =>
-    processTypes.map(({ name, label }) => ({
+    processTypes.map(({ name, label, iconName }) => ({
         name,
         label,
-        iconName: getProcessTypeIcon(name)
+        iconName: iconName || PROCESS_TYPE_DEFAULT_ICON
     }));
 
 /**

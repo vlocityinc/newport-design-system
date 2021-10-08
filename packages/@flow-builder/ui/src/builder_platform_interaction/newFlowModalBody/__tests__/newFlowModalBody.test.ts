@@ -169,7 +169,7 @@ describe('new-flow-modal-body', () => {
         });
         it('shows correct number of process types in navigation', () => {
             const processTypesNavigation = getProcessTypesNavigation(newFlowModalBody);
-            expect(processTypesNavigation.processTypes).toHaveLength(processTypes.length);
+            expect(processTypesNavigation.processTypes).toHaveLength(processTypes.length + 1); // The +1 is for the 'All process types' option
         });
 
         it('selects "all" as the default process type', () => {
