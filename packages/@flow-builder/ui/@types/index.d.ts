@@ -88,3 +88,5 @@ type ScreenPaletteSection = {
     label: string;
     _children: ScreenPaletteItem[];
 };
+
+type RuleSet = Record<string, any>;

@@ -860,11 +860,11 @@ export const elementTypeToConfigMap: {
         }
     },
     [ELEMENT_TYPE.COLLECTION_CHOICE_SET]: {
-        descriptor: 'builder_platform_interaction:recordChoiceSetEditor', // TODO change to collectionChoiceSetEditor when editor work is finished
+        descriptor: 'builder_platform_interaction:collectionChoiceSetEditor',
         nodeConfig: {
             iconName: 'standard:dynamic_record_choice', // TODO: Change icons when collection choice set icons are made
             utilityIconName: 'utility:dynamic_record_choice', // TODO: Change icons when collection choice set icons are made
-            value: 'dynamicCollectionChoice',
+            value: 'collectionChoice',
             description: LABELS.dynamicCollectionChoiceDesc
         },
         modalSize: MODAL_SIZE.MEDIUM,

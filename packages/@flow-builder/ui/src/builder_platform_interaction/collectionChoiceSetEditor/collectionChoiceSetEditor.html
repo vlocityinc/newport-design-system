@@ -1,0 +1,79 @@
+<template>
+    <div class="slds-form slds-form_compound slds-p-around_small" if:true={collectionChoiceSet}>
+        <!-- Name Label Desc Component -->
+        <builder_platform_interaction-label-description
+            hide-label
+            dev-name={collectionChoiceSet.name}
+            description={collectionChoiceSet.description}
+            guid={collectionChoiceSet.guid}
+            onpropertychanged={handlePropertyChanged}
+            mode={mode}
+        >
+        </builder_platform_interaction-label-description>
+        <!-- Entity Resource Picker -->
+        <builder_platform_interaction-ferov-resource-picker
+            value={collectionChoiceSet.collectionReference.value}
+            row-index={ferovPickerId}
+            error-message={collectionChoiceSet.collectionReference.error}
+            combobox-config={resourceComboBoxConfig}
+            property-editor-element-type={propertyEditorElementType}
+            element-config={resourceElementConfig}
+            oncomboboxstatechanged={handleResourceChange}
+            onitemselected={handleResourceSelect}
+            hide-global-constants
+            hide-system-variables
+            hide-global-variables
+            hide-new-resource
+        >
+        </builder_platform_interaction-ferov-resource-picker>
+    </div>
+
+    <!-- Choice Template Section -->
+    <div class="slds-border_top slds-p-around_small" if:true={showSecondSection}>
+        <div class="slds-text-heading_small slds-p-bottom_small">{labels.collectionChoiceSetTemplateHeading}</div>
+        <div class="slds-text-color_weak slds-p-bottom_small">{labels.collectionChoiceSetTemplateSubHeading}</div>
+        <!-- Choice Label Field Picker -->
+        <div class="slds-grid slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small slds-m-bottom_x-small">
+            <builder_platform_interaction-field-picker
+                class="test-display-field slds-col slds-grow slds-size_1-of-2"
+                label={labels.collectionChoiceSetLabel}
+                placeholder={labels.collectionChoiceSetLabelPlaceholder}
+                value={collectionChoiceSet.displayField.value}
+                required
+                fields={menuDataFields}
+                error-message={collectionChoiceSet.displayField.error}
+                oncomboboxstatechanged={handleDisplayFieldChanged}
+            >
+            </builder_platform_interaction-field-picker>
+        </div>
+
+        <div class="slds-grid slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small">
+            <!-- Choice Data Type Picker -->
+            <div class="slds-col slds-grow slds-size_1-of-2">
+                <builder_platform_interaction-data-type-picker
+                    class-name="slds-size_1-of-1"
+                    available-data-types={dataTypeList}
+                    type-and-collection-disabled={isDataTypeDisabled}
+                    required
+                    combobox-error-message={collectionChoiceSet.dataType.error}
+                    value={dataTypePickerValue}
+                    onvaluechanged={handleDataTypeChanged}
+                >
+                </builder_platform_interaction-data-type-picker>
+            </div>
+            <!-- Choice Value Field Picker -->
+            <builder_platform_interaction-field-picker
+                class="test-value-field slds-col slds-grow slds-size_1-of-2"
+                label={labels.collectionChoiceSetValueLabel}
+                required
+                placeholder={labels.collectionChoiceSetValuePlaceholder}
+                value={collectionChoiceSet.valueField.value}
+                disabled={disableValueFieldPicker}
+                fields={filteredMenuDataFields}
+                error-message={collectionChoiceSet.valueField.error}
+                oncomboboxstatechanged={handleValueFieldChanged}
+            >
+            </builder_platform_interaction-field-picker>
+        </div>
+    </div>
+</template>

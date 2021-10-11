@@ -7,7 +7,7 @@ import { getDuplicateDevNameElements } from 'builder_platform_interaction/storeU
  * @constant defaultRules - map of propertyName to validation rules
  * @type {Object}
  */
-export const defaultRules = {
+export const defaultRules: RuleSet = {
     label: [
         ValidationRules.shouldNotBeBlank,
         ValidationRules.shouldNotBeNullOrUndefined,

@@ -9,6 +9,8 @@ import stageEditorTemplate from './stageEditorTemplate.html';
 import choiceEditorTemplate from './choiceEditorTemplate.html';
 import picklistChoiceSetEditorTemplate from './picklistChoiceSetEditorTemplate.html';
 import recordChoiceSetEditorTemplate from './recordChoiceSetEditorTemplate.html';
+import collectionChoiceSetEditorTemplate from './collectionChoiceSetEditorTemplate.html';
+
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import emptyTemplate from './emptyTemplate.html';
 
@@ -20,7 +22,8 @@ const resourceTypeElementTypeMap = {
     stage: ELEMENT_TYPE.STAGE,
     choice: ELEMENT_TYPE.CHOICE,
     picklistChoice: ELEMENT_TYPE.PICKLIST_CHOICE_SET,
-    dynamicRecordChoice: ELEMENT_TYPE.RECORD_CHOICE_SET
+    dynamicRecordChoice: ELEMENT_TYPE.RECORD_CHOICE_SET,
+    collectionChoice: ELEMENT_TYPE.COLLECTION_CHOICE_SET
 };
 
 const EDITOR_SELECTOR = '.editor_template';
@@ -141,6 +144,8 @@ export default class ResourceEditorContainer extends LightningElement {
                 return picklistChoiceSetEditorTemplate;
             case ELEMENT_TYPE.RECORD_CHOICE_SET:
                 return recordChoiceSetEditorTemplate;
+            case ELEMENT_TYPE.COLLECTION_CHOICE_SET:
+                return collectionChoiceSetEditorTemplate;
             default:
                 return emptyTemplate;
         }
