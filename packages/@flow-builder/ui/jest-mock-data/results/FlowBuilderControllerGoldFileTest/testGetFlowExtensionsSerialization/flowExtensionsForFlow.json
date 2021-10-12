@@ -148,6 +148,15 @@
   "source" : "Standard"
 },
     {
+  "category" : "Input",
+  "description" : "Identity Verification Flow Component.",
+  "extensionType" : "lwc",
+  "fieldsToNull" : [ ],
+  "label" : "Identity Verification",
+  "qualifiedApiName" : "industries_common:searchContainer",
+  "source" : "Standard"
+},
+    {
   "extensionType" : "aura",
   "fieldsToNull" : [ ],
   "qualifiedApiName" : "interactiontest:flowMarkerIntfTestComponent",
