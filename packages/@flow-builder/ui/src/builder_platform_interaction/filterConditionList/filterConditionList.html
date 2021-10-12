@@ -1,0 +1,54 @@
+<template>
+    <builder_platform_interaction-condition-list
+        parent-guid={elementGuid}
+        conditions={conditions}
+        condition-logic-options={conditionLogicOptions}
+        condition-logic={conditionLogic}
+        logic-combobox-label={labels.filterConditionsHeader}
+        onpropertychanged={handleConditionLogicChange}
+    >
+        <div if:false={isFormulaFilter} slot="conditions">
+            <template for:each={conditionsWithPrefixes} for:item="conditionWithPrefix" for:index="conditionIndex">
+                <div class="slds-list__item slds-is-relative" key={conditionWithPrefix.condition.rowIndex}>
+                    <builder_platform_interaction-row
+                        item-prefix={conditionWithPrefix.prefix}
+                        show-prefix={showPrefix}
+                        item-index={conditionIndex}
+                        show-delete={showDeleteCondition}
+                        key={conditionWithPrefix.condition.rowIndex}
+                    >
+                        <div slot="rowBody">
+                            <builder_platform_interaction-field-to-ferov-expression-builder
+                                if:true={showConditionsBuilderForSObjectOrApex}
+                                object-type={sobjectOrApexReference}
+                                container-element={elementType}
+                                lhs-fields={recordFields}
+                                rules={rulesForExpressionBuilder}
+                                expression={conditionWithPrefix.condition}
+                                lhs-label={labels.lhsLabel}
+                                lhs-placeholder={labels.lhsPlaceholder}
+                                operator-label={labels.operatorLabel}
+                                rhs-label={labels.rhsLabel}
+                                rhs-placeholder={labels.rhsPlaceholder}
+                            >
+                            </builder_platform_interaction-field-to-ferov-expression-builder>
+                            <builder_platform_interaction-fer-to-ferov-expression-builder
+                                if:true={showConditionsBuilderForPrimitive}
+                                container-element={elementType}
+                                rules={rulesForExpressionBuilder}
+                                expression={conditionWithPrefix.condition}
+                                lhs-label={labels.lhsLabel}
+                                lhs-placeholder={lhsPlaceholderText}
+                                lhs-must-be-writable={lhsWritable}
+                                operator-label={labels.operatorLabel}
+                                rhs-label={labels.rhsLabel}
+                                rhs-placeholder={labels.rhsPlaceholder}
+                            >
+                            </builder_platform_interaction-fer-to-ferov-expression-builder>
+                        </div>
+                    </builder_platform_interaction-row>
+                </div>
+            </template>
+        </div>
+    </builder_platform_interaction-condition-list>
+</template>

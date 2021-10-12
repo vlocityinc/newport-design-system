@@ -85,6 +85,7 @@
             "builder_platform_interaction/ferovResourcePicker": ["./src/builder_platform_interaction/ferovResourcePicker/ferovResourcePicker.ts"],
             "builder_platform_interaction/fieldPicker": ["./src/builder_platform_interaction/fieldPicker/fieldPicker.ts"],
             "builder_platform_interaction/fieldToFerovExpressionBuilder": ["./src/builder_platform_interaction/fieldToFerovExpressionBuilder/fieldToFerovExpressionBuilder.ts"],
+            "builder_platform_interaction/filterConditionList": ["./src/builder_platform_interaction/filterConditionList/filterConditionList.ts"],
             "builder_platform_interaction/filterLib": ["./src/builder_platform_interaction/filterLib/filterLib.ts"],
             "builder_platform_interaction/filterTypeLib": ["./src/builder_platform_interaction/filterTypeLib/filterTypeLib.ts"],
             "builder_platform_interaction/flowExtensionLib": ["./src/builder_platform_interaction/flowExtensionLib/flowExtensionLib.ts"],
