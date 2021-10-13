@@ -1,14 +1,18 @@
-import { LightningElement, api, track } from 'lwc';
+/* eslint-disable lwc-core/no-inline-disable */
+import { LightningElement, api } from 'lwc';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from './filterConditionListLabels';
 import { getConditionsWithPrefixes, showDeleteCondition } from 'builder_platform_interaction/conditionListUtils';
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
-import { isSObjectOrApexClass, SObjectOrApexReference } from 'builder_platform_interaction/sortEditorLib';
-import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
+import {
+    APEX_SORT_COMPATIBLE_TYPES,
+    isSObjectOrApexClass,
+    SObjectOrApexReference
+} from 'builder_platform_interaction/sortEditorLib';
 import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
-import { string } from 'yargs';
+import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 const { format } = commonUtils;
 
 /**
@@ -106,25 +110,38 @@ export default class FilterConditionList extends LightningElement {
         return this.conditions && showDeleteCondition(this.conditions);
     }
 
-    @track
-    _fields!: Object;
-
+    _filterableRecordFields = {};
     /**
-     * @param fields - filterable fields of the entity
+     * Populate filterable fields or apex properties in lhs of condition builder
+     *
+     * @param fields all fields or properties
      */
-    set recordFields(fields: Object) {
-        if (fields) {
-            this._fields = [];
-            const filterableFields = Object.values(fields).filter((field) => field.filterable);
-            filterableFields.forEach((filterableField) => {
-                this._fields[filterableField.apiName] = filterableField;
-            });
+    populateRecordFields(fields: Object) {
+        if (!fields || !isSObjectOrApexClass(this._sObjectOrApexReference)) {
+            return;
         }
+        let filterableFields;
+        this._filterableRecordFields = {};
+        if (this._sObjectOrApexReference.isSObject) {
+            filterableFields = Object.values(fields).filter((field) => field.filterable);
+        } else if (this._sObjectOrApexReference.isApexClass) {
+            // filter compatiable data type should be same as sort compatiable
+            filterableFields = Object.values(fields).filter(
+                (prop) => !prop.isCollection && APEX_SORT_COMPATIBLE_TYPES.includes(prop.dataType)
+            );
+        }
+        filterableFields.forEach((filterableField) => {
+            this._filterableRecordFields[filterableField.apiName] = filterableField;
+        });
     }
 
     @api
-    get recordFields(): any {
-        return this._fields;
+    get recordFields() {
+        return this._filterableRecordFields;
+    }
+
+    set recordFields(fields: Object) {
+        this.populateRecordFields(fields);
     }
 
     get lhsWritable() {
@@ -167,15 +184,19 @@ export default class FilterConditionList extends LightningElement {
 
     connectedCallback() {
         if (this._sObjectOrApexReference && this._sObjectOrApexReference.value) {
-            this._fields = {};
             if (this._sObjectOrApexReference.isSObject) {
                 // load sobject's fields
-                sobjectLib.fetchFieldsForEntity(this._sObjectOrApexReference.value).then((fields) => {
-                    this._fields = fields;
-                });
+                fetchFieldsForEntity(this._sObjectOrApexReference.value)
+                    .then((fields) => {
+                        this.populateRecordFields(fields);
+                    })
+                    .catch(() => {
+                        // fetchFieldsForEntity displays an error message
+                    });
             } else if (this._sObjectOrApexReference.isApexClass) {
                 // load filterable apex attributes
-                this._fields = apexTypeLib.getPropertiesForClass(this._sObjectOrApexReference.value);
+                const props = apexTypeLib.getPropertiesForClass(this._sObjectOrApexReference.value);
+                this.populateRecordFields(props);
             }
         }
     }

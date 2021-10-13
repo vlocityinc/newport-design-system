@@ -14,6 +14,14 @@ import {
     DeleteConditionEvent,
     PropertyChangedEvent
 } from 'builder_platform_interaction/events';
+import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
+import {
+    cachePropertiesForClass,
+    getPropertiesForClass,
+    setApexClasses
+} from 'builder_platform_interaction/apexTypeLib';
+import { APEX_SORT_COMPATIBLE_TYPES } from 'builder_platform_interaction/sortEditorLib';
+import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
 
 jest.mock('builder_platform_interaction/ferToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/ferToFerovExpressionBuilder')
@@ -24,6 +32,12 @@ jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
 );
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
+let mockAccountFieldsPromise = Promise.resolve(accountFields);
+jest.mock('builder_platform_interaction/sobjectLib', () => ({
+    fetchFieldsForEntity: jest.fn().mockImplementation(() => mockAccountFieldsPromise),
+    getEntity: jest.fn().mockImplementation((entityName) => mockEntities.find(({ apiName }) => apiName === entityName))
+}));
 
 const selectors = {
     conditionList: INTERACTION_COMPONENTS_SELECTORS.CONDITION_LIST,
@@ -62,6 +76,16 @@ const mockSObjectConditions = [
     }
 ];
 
+const mockApexTypeConditions = [
+    {
+        operator: { value: 'Contains', error: null },
+        leftHandSide: { value: 'name', error: null },
+        rightHandSide: { value: 'test', error: null },
+        rightHandSideDataType: { value: 'string', error: null },
+        rowIndex: 'sc1'
+    }
+];
+
 const mockPrimitiveConditions = [
     {
         operator: { value: 'StartsWith', error: null },
@@ -86,8 +110,10 @@ const mockPrimitiveConditions = [
     }
 ];
 
-const sobjectType = { value: 'Account', isSObject: true, error: null };
+const sobjectType = { value: 'Account', isSObject: true };
+const apexTypeRef = { value: 'ApexComplexTypeTestOne216', isApexClass: true };
 const testCustomLogic = '(1 or 2) and 3';
+
 const getConditionLogicCombobox = (filterCmp) =>
     deepQuerySelector(filterCmp, [selectors.conditionList, selectors.conditionCombobox]);
 
@@ -103,7 +129,6 @@ const createComponentUnderTest = (inputs) => {
     });
     Object.assign(el, {
         sobjectOrApexReference,
-        recordFields: accountFields,
         elementGuid: { value: '12345', error: null },
         conditionLogic,
         conditions,
@@ -111,6 +136,16 @@ const createComponentUnderTest = (inputs) => {
     });
     setDocumentBodyChildren(el);
     return el;
+};
+
+const getFilterableFields = (entity: Object) => {
+    return Object.values(entity).filter((field) => field.filterable);
+};
+
+const getApexClassSortableFields = (apexClassProps: Object) => {
+    return Object.values(apexClassProps).filter(
+        (property) => !property.isCollection && APEX_SORT_COMPATIBLE_TYPES.includes(property.dataType)
+    );
 };
 
 describe('filter-condition-list', () => {
@@ -123,6 +158,9 @@ describe('filter-condition-list', () => {
             });
             conditionLogicCombobox = getConditionLogicCombobox(element);
             fldExpressionBuilders = element.shadowRoot.querySelectorAll(selectors.fieldExpressionBuilder);
+        });
+        beforeEach(() => {
+            mockAccountFieldsPromise = Promise.resolve(accountFields);
         });
         it('should contain four conditon logic options', () => {
             expect(conditionLogicCombobox.options).toEqual(conditionLogicOptions);
@@ -160,6 +198,46 @@ describe('filter-condition-list', () => {
         });
         it('should have rhs label', () => {
             expect(fldExpressionBuilders[0].rhsLabel).toBe('FlowBuilderFilterEditor.rhsLabel');
+        });
+        it('populates all filterable fields', () => {
+            let actualFields: Object = {},
+                expectedFields: Object = {};
+            actualFields = element.recordFields;
+            expectedFields = getFilterableFields(accountFields);
+            // assert api names of received and expected object equal
+            const actualApiNames = Object.values(actualFields).map((p) => p.apiName);
+            const expectedApiNames = Object.values(expectedFields).map((p) => p.apiName);
+            expect(actualApiNames).toEqual(expectedApiNames);
+        });
+    });
+
+    describe('Initial state for apex defined type input collections', () => {
+        let element, apexClassProps;
+        beforeAll(() => {
+            setApexClasses(apexTypesForFlow);
+            cachePropertiesForClass('ApexComplexTypeTestOne216');
+            element = createComponentUnderTest({
+                sobjectOrApexReference: apexTypeRef,
+                conditions: mockApexTypeConditions
+            });
+            apexClassProps = getPropertiesForClass('ApexComplexTypeTestOne216');
+        });
+        afterAll(() => {
+            setApexClasses(null);
+        });
+        it('should display field expression builder', () => {
+            expect(element.shadowRoot.querySelectorAll(selectors.fieldExpressionBuilder)).toHaveLength(1);
+            expect(element.shadowRoot.querySelector(selectors.ferExpressionBuilder)).toBeNull();
+        });
+        it('populates filterable fields for lhs on initial load', () => {
+            let actual: Object = {},
+                expected: Object = {};
+            actual = element.recordFields;
+            expected = getApexClassSortableFields(apexClassProps);
+            // compare api names of received and expected object
+            actual = Object.values(actual).map((p) => p.apiName);
+            expected = Object.values(expected).map((p) => p.apiName);
+            expect(actual).toEqual(expected);
         });
     });
 
