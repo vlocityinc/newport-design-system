@@ -2,7 +2,7 @@
     <fieldset>
         <template if:true={showPrefix}>
             <legend class={rowClass}>
-                <strong>{itemPrefix}</strong>
+                <strong title={itemPrefix}>{itemPrefix}</strong>
             </legend>
         </template>
         <div class={rowContentsClass} onrowcontentschanged={handleRowContentsChanged}>

@@ -152,7 +152,9 @@ exports[`record-lookup-editor Process type supporting the automatic mode Adding 
                           <legend
                             class="slds-is-absolute slds-p-top_large slds-m-top_xx-small"
                           >
-                            <strong>
+                            <strong
+                              title=""
+                            >
                               
                             </strong>
                           </legend>
@@ -660,7 +662,9 @@ exports[`record-lookup-editor Process type supporting the automatic mode Edit el
                           <legend
                             class="slds-is-absolute slds-p-top_large slds-m-top_xx-small"
                           >
-                            <strong>
+                            <strong
+                              title=""
+                            >
                               
                             </strong>
                           </legend>
@@ -711,7 +715,9 @@ exports[`record-lookup-editor Process type supporting the automatic mode Edit el
                           <legend
                             class="slds-is-absolute slds-p-top_large slds-m-top_xx-small"
                           >
-                            <strong>
+                            <strong
+                              title="FLOWBUILDERCONDITIONLIST.ANDPREFIXLABEL"
+                            >
                               FLOWBUILDERCONDITIONLIST.ANDPREFIXLABEL
                             </strong>
                           </legend>

@@ -172,7 +172,8 @@ export const configureMenu = (
                     iconSize,
                     iconVariant,
                     rowClass: 'slds-listbox__item',
-                    elementSubtype
+                    elementSubtype,
+                    tooltip: description ? label + ': ' + description : label
                 };
 
                 sectionDefinition.items.push(item);

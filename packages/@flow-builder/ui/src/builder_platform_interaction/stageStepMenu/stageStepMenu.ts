@@ -29,7 +29,10 @@ export default class StageStepMenu extends Menu {
                         description: LABELS.autolaunchedStepDescription,
                         iconName: 'standard:flow',
                         iconSize: 'small',
-                        iconVariant: 'inverse'
+                        iconVariant: 'inverse',
+                        get tooltip() {
+                            return this.label + ': ' + this.description;
+                        }
                     },
                     {
                         guid: 'interactive-step',
@@ -38,7 +41,10 @@ export default class StageStepMenu extends Menu {
                         description: LABELS.workStepDescription,
                         iconName: 'standard:marketing_actions',
                         iconSize: 'small',
-                        iconVariant: 'inverse'
+                        iconVariant: 'inverse',
+                        get tooltip() {
+                            return this.label + ': ' + this.description;
+                        }
                     }
                 ]
             }

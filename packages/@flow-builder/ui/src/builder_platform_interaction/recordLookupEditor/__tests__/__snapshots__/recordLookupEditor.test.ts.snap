@@ -152,7 +152,9 @@ exports[`record-lookup-editor (Process type NOT supporting automatic mode) Addin
                           <legend
                             class="slds-is-absolute slds-p-top_large slds-m-top_xx-small"
                           >
-                            <strong>
+                            <strong
+                              title=""
+                            >
                               
                             </strong>
                           </legend>
@@ -548,7 +550,9 @@ exports[`record-lookup-editor (Process type NOT supporting automatic mode) Exist
                           <legend
                             class="slds-is-absolute slds-p-top_large slds-m-top_xx-small"
                           >
-                            <strong>
+                            <strong
+                              title=""
+                            >
                               
                             </strong>
                           </legend>
@@ -1125,7 +1129,9 @@ exports[`record-lookup-editor (Process type NOT supporting automatic mode) Exist
                           <legend
                             class="slds-is-absolute slds-p-top_large slds-m-top_xx-small"
                           >
-                            <strong>
+                            <strong
+                              title=""
+                            >
                               
                             </strong>
                           </legend>
