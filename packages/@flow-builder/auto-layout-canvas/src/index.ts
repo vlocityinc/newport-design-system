@@ -23,7 +23,8 @@ import {
     getBranchLayoutKey,
     FlowInteractionState,
     NodeDimensionMap,
-    Dimension
+    Dimension,
+    Option
 } from './flowRendererUtils';
 
 export * as actions from './reducer';
@@ -116,5 +117,6 @@ export {
     FlowInteractionState,
     NodeDimensionMap,
     Dimension,
-    reducer
+    reducer,
+    Option
 };

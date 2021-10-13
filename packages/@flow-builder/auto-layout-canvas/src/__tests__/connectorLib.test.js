@@ -90,7 +90,7 @@ describe('connectorLib', () => {
             false,
             0,
             48,
-            undefined
+            false
         );
 
         expect(connectorRenderInfo).toMatchSnapshot();
@@ -110,9 +110,7 @@ describe('connectorLib', () => {
             false,
             84,
             48,
-            'Badge Label',
-            false,
-            'Target Label'
+            false
         );
 
         expect(connectorRenderInfo).toMatchSnapshot();
@@ -132,9 +130,7 @@ describe('connectorLib', () => {
             false,
             60,
             48,
-            undefined,
-            false,
-            'Target Label'
+            false
         );
 
         expect(connectorRenderInfo).toMatchSnapshot();
@@ -154,9 +150,7 @@ describe('connectorLib', () => {
             false,
             36,
             48,
-            undefined,
-            false,
-            'Target Label'
+            false
         );
 
         expect(connectorRenderInfo).toMatchSnapshot();
@@ -176,9 +170,7 @@ describe('connectorLib', () => {
             false,
             60,
             24,
-            'Fault Badge Label',
-            false,
-            'Target Label'
+            false
         );
 
         expect(connectorRenderInfo).toMatchSnapshot();

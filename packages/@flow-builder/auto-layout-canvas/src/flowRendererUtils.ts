@@ -6,7 +6,6 @@ import {
     ElementsMetadata,
     ElementMetadata,
     NodeRef,
-    NodeModel,
     ParentNodeModel,
     Guid,
     ConnectionSource
@@ -74,21 +73,16 @@ export interface FlowRenderInfo {
 
 export interface NodeRenderInfo {
     geometry: Geometry;
-    label: string;
     metadata: ElementMetadata;
-    config: { isSelected: boolean; isHighlighted: boolean; isSelectable: boolean; hasError: boolean };
     nextConnector?: ConnectorRenderInfo;
     flows: FlowRenderInfo[];
     faultFlow?: FlowRenderInfo;
     isNew?: boolean;
     logicConnectors: ConnectorRenderInfo[];
-    conditionOptions?: Option[];
-    defaultConnectorLabel?: string;
     guid: string;
     menuOpened: boolean;
     isTerminal: boolean;
     toBeDeleted: boolean;
-    node?: NodeModel;
     dynamicNodeComponent?: string;
     dynamicNodeComponentSelector?: Function;
 }
@@ -174,23 +168,16 @@ export interface ConnectorAddInfo {
     offsetY: number;
     menuOpened: boolean;
 }
-
-export interface SelectInfo {
-    value: NodeRef;
-    options: Option[];
-}
 export interface ConnectorRenderInfo {
     type: ConnectorType;
     labelType: ConnectorLabelType;
     geometry: Geometry;
     svgInfo: SvgInfo;
-    goToTargetLabel?: string | undefined;
     addInfo?: ConnectorAddInfo;
     source: ConnectionSource;
     isFault: boolean;
     labelOffsetY?: number;
     labelOffsetX?: number;
-    connectorBadgeLabel?: string;
     isNew?: boolean;
     toBeDeleted: boolean;
     isHighlighted: boolean;

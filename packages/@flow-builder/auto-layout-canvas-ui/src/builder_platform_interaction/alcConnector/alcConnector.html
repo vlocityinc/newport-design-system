@@ -36,13 +36,13 @@
     </template>
 
     <div
-        if:true={connectorInfo.goToTargetLabel}
+        if:true={isGoToConnector}
         class="slds-is-absolute go-to-info"
         style={goToTargetLabelStyle}
-        title={connectorInfo.goToTargetLabel}
+        title={goToTargetLabel}
     >
         <div class="slds-m-right_xx-small slds-truncate go-to-target-label">
-            <span>{connectorInfo.goToTargetLabel}</span>
+            <span>{goToTargetLabel}</span>
         </div>
         <span>&#x2192;</span>
     </div>

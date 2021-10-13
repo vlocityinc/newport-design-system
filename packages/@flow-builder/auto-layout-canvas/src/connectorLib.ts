@@ -113,9 +113,7 @@ function createGoToConnectorSvgInfo(
  * @param isBranchGettingDeleted - True if the current branch is getting deleted
  * @param addOffset - offset to add
  * @param labelOffset - offset label
- * @param connectorBadgeLabel - The label of the standard branch connector. Undefined for Default and Fault Connector
  * @param isHighlighted - Whether this connector is highlighted
- * @param goToTargetLabel - label for gotTo
  * @returns The ConnectorRenderInfo for the connector
  */
 function createConnectorToNextNode(
@@ -131,9 +129,7 @@ function createConnectorToNextNode(
     isBranchGettingDeleted: boolean,
     addOffset: number | undefined,
     labelOffset: number | undefined,
-    connectorBadgeLabel: string | undefined,
-    isHighlighted: boolean,
-    goToTargetLabel: string | undefined
+    isHighlighted: boolean
 ): ConnectorRenderInfo {
     const { strokeWidth } = layoutConfig.connector;
 
@@ -154,18 +150,12 @@ function createConnectorToNextNode(
             connectorType === ConnectorType.GO_TO
                 ? createGoToConnectorSvgInfo(height, svgMarginTop, svgMarginBottom, layoutConfig)
                 : createStraightConnectorSvgInfo(height, svgMarginTop, svgMarginBottom, layoutConfig),
-        goToTargetLabel,
         labelOffsetY: labelOffset,
         type: connectorType,
-        connectorBadgeLabel,
         isFault,
         toBeDeleted: isBranchGettingDeleted,
         isHighlighted
     };
-
-    if (!connectorRenderInfo.connectorBadgeLabel) {
-        delete connectorRenderInfo.connectorBadgeLabel;
-    }
 
     return connectorRenderInfo;
 }

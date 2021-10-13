@@ -1,6 +1,13 @@
 import { LightningElement, api } from 'lwc';
 import { classSet } from 'lightning/utils';
-import { ConnectorRenderInfo, ConnectorLabelType } from 'builder_platform_interaction/autoLayoutCanvas';
+import {
+    ConnectorRenderInfo,
+    ConnectorLabelType,
+    hasGoTo,
+    NodeType,
+    START_IMMEDIATE_INDEX,
+    getConnectionTarget
+} from 'builder_platform_interaction/autoLayoutCanvas';
 import {
     getCssStyle,
     getStyleFromGeometry,
@@ -20,6 +27,9 @@ export default class AlcConnector extends LightningElement {
 
     @api
     disableAddElements;
+
+    @api
+    flowModel;
 
     get labels() {
         return LABELS;
@@ -73,6 +83,10 @@ export default class AlcConnector extends LightningElement {
         };
     }
 
+    get isGoToConnector() {
+        return this.flowModel && hasGoTo(this.flowModel, this.connectorInfo.source);
+    }
+
     /**
      * Gets the location for the goToTargetLabel using the end location of the goTo connector svg
      *
@@ -86,12 +100,13 @@ export default class AlcConnector extends LightningElement {
         });
     }
 
+    get goToTargetLabel() {
+        return this.flowModel[getConnectionTarget(this.flowModel, this.connectorInfo.source)!].label;
+    }
+
     // TODO: W-9025580 [Trust] Review how badge is displayed
     // based on if scheduled path is supported or not
     get hasConnectorBadge() {
-        if (this.connectorInfo.labelType === ConnectorLabelType.BRANCH) {
-            return this.connectorInfo.connectorBadgeLabel != null;
-        }
         return this.connectorInfo.labelType !== ConnectorLabelType.NONE;
     }
 
@@ -102,6 +117,23 @@ export default class AlcConnector extends LightningElement {
             'fault-badge': labelType === ConnectorLabelType.FAULT,
             'connector-highlighted': this.connectorInfo.isHighlighted
         });
+    }
+
+    getBranchLabel(source) {
+        const { guid, childIndex } = source;
+        const sourceNode = this.flowModel[guid];
+
+        if (childIndex == null) {
+            return sourceNode.defaultConnectorLabel;
+        }
+
+        const defaultIndex =
+            sourceNode.nodeType === NodeType.START ? START_IMMEDIATE_INDEX : sourceNode.children.length - 1;
+        return childIndex === defaultIndex
+            ? sourceNode.defaultConnectorLabel
+            : sourceNode.nodeType === NodeType.START
+            ? this.flowModel[sourceNode.childReferences[childIndex - 1].childReference].label
+            : this.flowModel[sourceNode.childReferences[childIndex].childReference].label;
     }
 
     get connectorBadgeLabel() {
@@ -115,7 +147,7 @@ export default class AlcConnector extends LightningElement {
             case ConnectorLabelType.LOOP_FOR_EACH:
                 return LABELS.forEachBadgeLabel;
             case ConnectorLabelType.BRANCH:
-                return this.connectorInfo.connectorBadgeLabel;
+                return this.getBranchLabel(this.connectorInfo.source);
             default:
                 return '';
         }

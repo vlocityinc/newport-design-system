@@ -1,5 +1,13 @@
 import { LightningElement, api } from 'lwc';
-import { NodeType, NodeRenderInfo, NodeModel, FlowModel, Guid } from 'builder_platform_interaction/autoLayoutCanvas';
+import {
+    NodeType,
+    NodeRenderInfo,
+    NodeModel,
+    FlowModel,
+    Guid,
+    ParentNodeModel,
+    Option
+} from 'builder_platform_interaction/autoLayoutCanvas';
 import { EditElementEvent, SelectNodeEvent } from 'builder_platform_interaction/events';
 import { AlcSelectDeselectNodeEvent } from 'builder_platform_interaction/alcEvents';
 import { classSet } from 'lightning/utils';
@@ -82,13 +90,32 @@ export default class AlcNode extends LightningElement {
         return this.canvasMode === AutoLayoutCanvasMode.DEFAULT;
     }
 
+    getNode() {
+        return this.flowModel[this.nodeInfo.guid];
+    }
+
+    createConditionOptions(): Option[] | undefined {
+        const node = this.getNode();
+        const childReferences = (node as ParentNodeModel).childReferences;
+        return (
+            childReferences &&
+            childReferences.map((reference) => {
+                const value = reference.childReference;
+                return {
+                    label: this.flowModel[value].label,
+                    value
+                };
+            })
+        );
+    }
+
     get conditionOptionsForNode() {
-        let conditionOptionsForNode;
-        if (this.nodeInfo.conditionOptions) {
+        let conditionOptionsForNode = this.createConditionOptions();
+        if (conditionOptionsForNode) {
             conditionOptionsForNode = [
-                ...this.nodeInfo.conditionOptions,
+                ...conditionOptionsForNode,
                 {
-                    label: this.nodeInfo.defaultConnectorLabel,
+                    label: this.getNode().defaultConnectorLabel!,
                     value: ConditionOptions.DEFAULT_PATH
                 },
                 {
@@ -135,15 +162,18 @@ export default class AlcNode extends LightningElement {
     }
 
     get shouldDisableCheckbox() {
-        return this.nodeInfo && this.nodeInfo.config && !this.nodeInfo.config.isSelectable;
+        const node = this.getNode();
+        return node.config && !node.config.isSelectable;
     }
 
     get checkboxIconName() {
-        return this.nodeInfo.config && this.nodeInfo.config.isSelected ? 'utility:check' : 'utility:add';
+        const node = this.getNode();
+        return node.config.isSelected ? 'utility:check' : 'utility:add';
     }
 
     get checkboxVariant() {
-        return this.nodeInfo.config && this.nodeInfo.config.isSelected ? 'brand' : 'border-filled';
+        const node = this.getNode();
+        return node.config.isSelected ? 'brand' : 'border-filled';
     }
 
     get textContainerClasses() {
@@ -166,13 +196,14 @@ export default class AlcNode extends LightningElement {
             'menu-opened': this.nodeInfo.menuOpened || this.expanded
         });
 
-        if (this.nodeInfo.config.isHighlighted) {
+        const node = this.getNode();
+        if (node.config.isHighlighted) {
             vClassSet = vClassSet.add({
-                'highlighted-container': this.nodeInfo.config.isHighlighted
+                'highlighted-container': true
             });
             if (this.isShifted) {
                 vClassSet = vClassSet.add({
-                    'highlighted-container-multioutput': this.nodeInfo.config.isHighlighted
+                    'highlighted-container-multioutput': true
                 });
             }
         }
@@ -193,7 +224,7 @@ export default class AlcNode extends LightningElement {
     }
 
     get nodeLabel() {
-        let label = this.nodeInfo.label;
+        let label = this.getNode().label;
         // Start has a dynamic label that is set in the metadata.
         if (!label && this.nodeInfo.metadata.type === NodeType.START) {
             label = this.nodeInfo.metadata.description;
@@ -203,7 +234,8 @@ export default class AlcNode extends LightningElement {
 
     get iconAriaLabel() {
         // Use description in metadata as label for element whose label is not set (start node for example)
-        const label = this.nodeInfo.label ? this.nodeInfo.label : this.nodeInfo.metadata.description;
+        const node = this.getNode();
+        const label = node.label ? node.label : this.nodeInfo.metadata.description;
         return format(this.labels.ariaLabelNode, this.nodeInfo.metadata.elementType, label);
     }
 
@@ -212,11 +244,18 @@ export default class AlcNode extends LightningElement {
     }
 
     get hasIncomingGoto() {
-        return this.nodeInfo.node && this.nodeInfo.node.incomingGoTo && this.nodeInfo.node.incomingGoTo.length > 0;
+        const node = this.getNode();
+        return node.incomingGoTo && node.incomingGoTo.length > 0;
     }
 
     get incomingGoToLabel() {
-        return format(this.labels.incomingGoToLabel, this.nodeInfo.node?.incomingGoTo?.length);
+        const node = this.getNode();
+        return format(this.labels.incomingGoToLabel, node.incomingGoTo!.length);
+    }
+
+    get nodeHasError() {
+        const node = this.getNode();
+        return node.config.hasError;
     }
 
     /** ***************************** Helper Functions */
@@ -273,11 +312,8 @@ export default class AlcNode extends LightningElement {
         event.stopPropagation();
         const { type } = this.nodeInfo.metadata;
         if (this.canvasMode === AutoLayoutCanvasMode.DEFAULT && type !== NodeType.END) {
-            const nodeSelectedEvent = new SelectNodeEvent(
-                this.nodeInfo.guid,
-                undefined,
-                this.nodeInfo.config.isSelected
-            );
+            const node = this.getNode();
+            const nodeSelectedEvent = new SelectNodeEvent(this.nodeInfo.guid, undefined, node.config.isSelected);
             this.dispatchEvent(nodeSelectedEvent);
         }
     }
@@ -303,10 +339,8 @@ export default class AlcNode extends LightningElement {
      */
     handleSelectionCheckboxClick = (event: Event) => {
         event.stopPropagation();
-        const toggleNodeSelectionEvent = new AlcSelectDeselectNodeEvent(
-            this.nodeInfo.guid,
-            this.nodeInfo.config.isSelected
-        );
+        const node = this.getNode();
+        const toggleNodeSelectionEvent = new AlcSelectDeselectNodeEvent(this.nodeInfo.guid, node.config.isSelected);
         this.dispatchEvent(toggleNodeSelectionEvent);
     };
 

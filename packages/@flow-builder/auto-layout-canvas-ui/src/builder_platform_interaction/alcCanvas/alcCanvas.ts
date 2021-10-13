@@ -419,13 +419,11 @@ export default class AlcCanvas extends LightningElement {
      * @returns - The start element
      */
     get startMenuElement() {
-        let startRenderInfo;
-
         if (this.menu.elementMetadata.type === NodeType.START) {
-            startRenderInfo = this.flow.flowInfo.nodes.find((info) => info.metadata.type === NodeType.START);
+            const startElementGuid = this.getStartElementGuid();
+            return this.flowModel[startElementGuid];
         }
-
-        return startRenderInfo != null ? startRenderInfo.node : null;
+        return null;
     }
 
     get scale() {
@@ -1043,6 +1041,8 @@ export default class AlcCanvas extends LightningElement {
     renderFlow(progress) {
         this._flowRenderInfo = renderFlow(this._flowRenderContext, progress);
         this.flow = getAlcFlowData(this._flowRenderInfo, { guid: NodeType.ROOT, childIndex: 0 });
+        // TODO: temp fix to keep flow and flowModel in sync
+        this.flow.flowModel = this._flowRenderContext.flowModel;
     }
 
     /**

@@ -3,7 +3,6 @@ import { Geometry } from './svgUtils';
 import ConnectorType from './ConnectorTypeEnum';
 
 import {
-    FlowModel,
     NodeModel,
     ParentNodeModel,
     BranchHeadNodeModel,
@@ -12,8 +11,7 @@ import {
     getElementMetadata,
     Guid,
     FAULT_INDEX,
-    FOR_EACH_INDEX,
-    START_IMMEDIATE_INDEX
+    FOR_EACH_INDEX
 } from './model';
 import {
     fulfillsBranchingCriteria,
@@ -32,7 +30,6 @@ import {
     NodeRenderInfo,
     getLayout,
     getBranchLayout,
-    Option,
     getMergeOutcomeCount,
     FlowRenderContext,
     LayoutInfo,
@@ -187,7 +184,7 @@ function isMergeBranchHighlighted(node: NodeModel, branchIndex: number) {
  * @returns A NodeRenderInfo for the rendered node
  */
 function renderSimpleNode(node: NodeModel, context: FlowRenderContext): NodeRenderInfo {
-    const { guid, label, config, nodeType } = node;
+    const { guid, config, nodeType } = node;
 
     const { elementsMetadata, nodeLayoutMap, progress, layoutConfig, isDeletingBranch } = context;
     const { y, h, x } = getLayout(node.guid, progress, nodeLayoutMap);
@@ -198,7 +195,6 @@ function renderSimpleNode(node: NodeModel, context: FlowRenderContext): NodeRend
         guid,
         geometry: { x, y, w: layoutConfig.node.icon.w, h },
         menuOpened: isMenuOpened(node.guid, MenuType.NODE, context.interactionState),
-        label,
         metadata,
         config,
         flows: [],
@@ -251,7 +247,7 @@ function renderNode(
 
         nodeRenderInfo.logicConnectors = (nodeRenderInfo.logicConnectors || []).concat([
             connectorLib.createBranchConnector(
-                { guid: parentNode.guid, childIndex: FAULT_INDEX },
+                { guid: node.guid, childIndex: FAULT_INDEX },
                 createBranchOrMergeConnectorGeometry(branchLayout, layoutConfig, IS_BRANCH),
                 ConnectorType.BRANCH_RIGHT,
                 layoutConfig,
@@ -371,11 +367,6 @@ function createNextConnector(
             ? ConnectorLabelType.BRANCH
             : ConnectorLabelType.NONE;
 
-    const connectorBadgeLabel =
-        !(node as ParentNodeModel).children && shouldSupportScheduledPaths(node)
-            ? node.defaultConnectorLabel
-            : undefined;
-
     return connectorLib.createConnectorToNextNode(
         { guid: node.guid },
         ConnectorType.STRAIGHT,
@@ -389,9 +380,7 @@ function createNextConnector(
         isDeletingBranch || isDeletingBeyondMergePoint(node.guid, context),
         showAdd ? addOffset : undefined,
         labelOffset,
-        connectorBadgeLabel,
-        !!node.config.highlightInfo?.highlightNext,
-        undefined
+        !!node.config.highlightInfo?.highlightNext
     );
 }
 
@@ -408,7 +397,7 @@ function createGoToConnector(
     context: FlowRenderContext,
     variant: ConnectorVariant
 ): ConnectorRenderInfo {
-    const { progress, nodeLayoutMap, interactionState, isDeletingBranch, layoutConfig, flowModel } = context;
+    const { progress, nodeLayoutMap, interactionState, isDeletingBranch, layoutConfig } = context;
     const { joinOffsetY, addOffset, labelOffset, h } = getLayout(node.guid, progress, nodeLayoutMap);
     const { nodeType } = node;
 
@@ -416,11 +405,6 @@ function createGoToConnector(
         fulfillsBranchingCriteria(node, nodeType) || nodeType === NodeType.LOOP
             ? ConnectorVariant.POST_MERGE
             : ConnectorVariant.DEFAULT;
-
-    const connectorBadgeLabel =
-        !(node as ParentNodeModel).children && shouldSupportScheduledPaths(node)
-            ? node.defaultConnectorLabel
-            : undefined;
 
     return connectorLib.createConnectorToNextNode(
         { guid: node.guid },
@@ -435,9 +419,7 @@ function createGoToConnector(
         isDeletingBranch || isDeletingBeyondMergePoint(node.guid, context),
         addOffset,
         labelOffset,
-        connectorBadgeLabel,
-        !!node.config.highlightInfo?.highlightNext,
-        flowModel[node.next!].label
+        !!node.config.highlightInfo?.highlightNext
     );
 }
 
@@ -447,7 +429,6 @@ function createGoToConnector(
  * @param parentNode - The branch's parent node
  * @param childIndex - The branch index
  * @param context - The flow rendering index
- * @param conditionOptions - The conditions options
  * @param isHighlighted - Whether to highlight this connector
  * @returns A ConnectorRenderInfo for the node's branch head goTo connector
  */
@@ -455,28 +436,12 @@ function createGoToConnectorOnParentBranch(
     parentNode: ParentNodeModel,
     childIndex: number,
     context: FlowRenderContext,
-    conditionOptions: Option[],
     isHighlighted: boolean
 ): ConnectorRenderInfo {
-    const { interactionState, isDeletingBranch, flowModel, progress, nodeLayoutMap } = context;
+    const { interactionState, isDeletingBranch, progress, nodeLayoutMap } = context;
     const { addOffset, labelOffset, h } = getBranchLayout(parentNode.guid, childIndex, progress, nodeLayoutMap);
-    const childCount = childIndex === FAULT_INDEX ? 1 : parentNode.children.length;
-
     const variant = getConnectorVariant(parentNode, childIndex, context);
     const { nodeType } = parentNode;
-
-    const defaultConditionIndex =
-        nodeType === NodeType.BRANCH ? childCount - 1 : nodeType === NodeType.START ? START_IMMEDIATE_INDEX : null;
-
-    let connectorBadgeLabel;
-    if (childIndex === defaultConditionIndex) {
-        connectorBadgeLabel = parentNode.defaultConnectorLabel;
-    } else if (childIndex !== FAULT_INDEX) {
-        connectorBadgeLabel =
-            nodeType === NodeType.START
-                ? conditionOptions && conditionOptions[childIndex - 1].label
-                : conditionOptions && conditionOptions[childIndex].label;
-    }
 
     let variants = [variant];
     if (nodeType === NodeType.BRANCH || nodeType === NodeType.LOOP || nodeType === NodeType.START) {
@@ -504,11 +469,7 @@ function createGoToConnectorOnParentBranch(
         isDeletingBranch,
         addOffset,
         labelOffset,
-        connectorBadgeLabel,
-        isHighlighted,
-        childIndex === FAULT_INDEX
-            ? flowModel[parentNode.fault!].label
-            : flowModel[parentNode.children[childIndex]!].label
+        isHighlighted
     );
 }
 
@@ -557,61 +518,6 @@ function renderFlowHelper(parentNode: ParentNodeModel, childIndex: number, conte
         isTerminal,
         layoutConfig: context.layoutConfig
     };
-}
-
-/**
- * Creates a SelectInfo for the conditions of a branch
- *
- * @param flowModel - The flow model
- * @param conditionReferences - The condition references
- * @param fieldName - The field name metadata
- * @returns A SelectInfo for the conditions of a branch
- */
-function createOptionsForConditionReferences(
-    flowModel: FlowModel,
-    conditionReferences: any[],
-    fieldName: string
-): Option[] {
-    return conditionReferences.map((reference: any) => {
-        const value = reference[fieldName];
-
-        return {
-            label: flowModel[value].label,
-            value
-        };
-    });
-}
-
-/**
- * @param parentNode parent node
- * @returns condition references
- */
-function getConditionReferences(parentNode: ParentNodeModel): any {
-    // TODO: Use NodeType instead of elementType and update tests
-    const elementType = parentNode.elementType;
-    if (elementType === 'Decision' || elementType === 'Wait' || elementType === 'START_ELEMENT') {
-        return {
-            refKey: 'childReference',
-            references: parentNode.childReferences
-        };
-    }
-}
-
-/**
- * Creates a SelectInfo for a branching node
- *
- * @param parentNode - The branching node
- * @param context - The flow rendering context
- * @returns A SelectInfo for the connector labels
- */
-function createConditionOptions(parentNode: ParentNodeModel, context: FlowRenderContext): Option[] | undefined {
-    const { flowModel } = context;
-
-    const conditionReferences = getConditionReferences(parentNode);
-    if (conditionReferences != null) {
-        const { refKey, references } = conditionReferences;
-        return createOptionsForConditionReferences(flowModel, references, refKey);
-    }
 }
 
 /**
@@ -669,7 +575,6 @@ function renderBranches(
     const { y, h } = layout;
 
     const childIndexes = children != null ? children.map((child, childIndex) => childIndex) : [FAULT_INDEX];
-    const conditionOptions = createConditionOptions(node, context);
 
     const flows = childIndexes.map((i) => {
         // When rendering branches for the element being deleted, setting context.isDeletingBranch to true
@@ -683,22 +588,9 @@ function renderBranches(
         const height = child == null ? layout.joinOffsetY : getLayout(child, progress, nodeLayoutMap).y;
         if (child && hasGoToOnBranchHead(flowModel, node.guid, i)) {
             // Draw out GoTo Connector
-            flowRenderInfo.preConnector = createGoToConnectorOnParentBranch(
-                node,
-                i,
-                context,
-                conditionOptions!,
-                isHighlighted
-            );
+            flowRenderInfo.preConnector = createGoToConnectorOnParentBranch(node, i, context, isHighlighted);
         } else {
-            flowRenderInfo.preConnector = createPreConnector(
-                node,
-                i,
-                context,
-                height,
-                conditionOptions!,
-                isHighlighted
-            );
+            flowRenderInfo.preConnector = createPreConnector(node, i, context, height, isHighlighted);
         }
 
         //  Resetting context.isDeletingBranch to false after rendering each branch of the parent element being deleted
@@ -737,9 +629,6 @@ function renderBranches(
         nodeRenderInfo.flows = flows;
         nodeRenderInfo.isTerminal = isTerminal;
     }
-
-    nodeRenderInfo.conditionOptions = conditionOptions;
-    nodeRenderInfo.defaultConnectorLabel = node.defaultConnectorLabel;
     nodeRenderInfo.geometry = { x: 0, y, w, h };
 }
 
@@ -812,7 +701,6 @@ function getConnectorLabelType({ isFault, isLoop }: { isFault?: boolean; isLoop?
  * @param childIndex - The branch index
  * @param context - The flow rendering index
  * @param height - The height of the connector
- * @param conditionOptions - The conditions options
  * @param isHighlighted - Whether to highlight this connector
  * @returns A ConnectorRenderInfo for the pre connector
  */
@@ -821,32 +709,15 @@ function createPreConnector(
     childIndex: number,
     context: FlowRenderContext,
     height: number,
-    conditionOptions: Option[],
     isHighlighted: boolean
 ): ConnectorRenderInfo {
     const { interactionState, isDeletingBranch, progress, nodeLayoutMap } = context;
 
-    const [branchHeadGuid, childCount] =
-        childIndex === FAULT_INDEX
-            ? [parentNode.fault, 1]
-            : [parentNode.children[childIndex], parentNode.children.length];
+    const branchHeadGuid = childIndex === FAULT_INDEX ? parentNode.fault : parentNode.children[childIndex];
 
     const isEmptyBranch = branchHeadGuid == null;
     const variant = getConnectorVariant(parentNode, childIndex, context);
     const { nodeType } = parentNode;
-
-    const defaultConditionIndex =
-        nodeType === NodeType.BRANCH ? childCount - 1 : nodeType === NodeType.START ? START_IMMEDIATE_INDEX : null;
-
-    let connectorBadgeLabel;
-    if (childIndex === defaultConditionIndex) {
-        connectorBadgeLabel = parentNode.defaultConnectorLabel;
-    } else if (childIndex !== FAULT_INDEX) {
-        connectorBadgeLabel =
-            nodeType === NodeType.START
-                ? conditionOptions && conditionOptions[childIndex - 1].label
-                : conditionOptions && conditionOptions[childIndex].label;
-    }
 
     let variants = [variant];
     if (nodeType === NodeType.BRANCH || nodeType === NodeType.LOOP || nodeType === NodeType.START) {
@@ -871,9 +742,7 @@ function createPreConnector(
         isDeletingBranch,
         branchLayout.addOffset,
         branchLayout.labelOffset,
-        connectorBadgeLabel,
-        isHighlighted,
-        undefined
+        isHighlighted
     );
 }
 

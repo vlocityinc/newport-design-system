@@ -15,6 +15,7 @@ const createComponentUnderTest = (props = {}) => {
         is: AlcNode
     });
 
+    el.flowModel = props.flowModel;
     el.nodeInfo = props.nodeInfo;
     el.canvasMode = props.canvasMode;
 
@@ -39,12 +40,14 @@ describe('AlcNode', () => {
     let nodeInfo;
 
     describe('Node Icon', () => {
+        const flowModel = {
+            guid: {
+                config: {}
+            }
+        };
+
         const startNodeInfo = {
             guid: 'guid',
-            config: {
-                isSelected: false,
-                isSelectable: true
-            },
             metadata: {
                 icon: 'utility:right',
                 iconBackgroundColor: 'background-green',
@@ -58,10 +61,6 @@ describe('AlcNode', () => {
 
         const decisionNodeInfo = {
             guid: 'guid',
-            config: {
-                isSelected: false,
-                isSelectable: true
-            },
             metadata: {
                 icon: 'standard:decision',
                 iconShape: ICON_SHAPE.DIAMOND,
@@ -73,6 +72,7 @@ describe('AlcNode', () => {
 
         it('Should have the diamondIconWrapper when iconShape is diamond', () => {
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo: decisionNodeInfo,
                 canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
@@ -82,6 +82,7 @@ describe('AlcNode', () => {
 
         it('Should have the correct icon classes when iconShape is circle and background color is defined', () => {
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo: startNodeInfo,
                 canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
@@ -91,6 +92,7 @@ describe('AlcNode', () => {
 
         it('Should have the correct icon classes when iconShape is diamond', () => {
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo: decisionNodeInfo,
                 canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
@@ -100,6 +102,7 @@ describe('AlcNode', () => {
 
         it('Should have the correct icon size (medium) when iconSize is defined in the nodeInfo', () => {
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo: startNodeInfo,
                 canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
@@ -109,13 +112,20 @@ describe('AlcNode', () => {
     });
 
     describe('Selection Checkbox', () => {
+        let flowModel;
+
         beforeEach(() => {
+            flowModel = {
+                guid: {
+                    config: {
+                        isSelected: false,
+                        isSelectable: true
+                    }
+                }
+            };
+
             nodeInfo = {
                 guid: 'guid',
-                config: {
-                    isSelected: false,
-                    isSelectable: true
-                },
                 metadata: {
                     icon: 'dummyIcon',
                     label: 'elementType',
@@ -127,6 +137,7 @@ describe('AlcNode', () => {
 
         it('Does not show the selection checkbox in Base Mode', () => {
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo,
                 canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
@@ -136,6 +147,7 @@ describe('AlcNode', () => {
 
         it('Shows the selection checkbox in Selection Mode', () => {
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo,
                 canvasMode: AutoLayoutCanvasMode.SELECTION
             });
@@ -146,6 +158,7 @@ describe('AlcNode', () => {
         it('Does not show selection box for Start Element in Selection Mode', () => {
             nodeInfo.metadata.type = NodeType.START;
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo,
                 canvasMode: AutoLayoutCanvasMode.SELECTION
             });
@@ -156,6 +169,7 @@ describe('AlcNode', () => {
         it('Does not show selection box for End Element in Selection Mode', () => {
             nodeInfo.metadata.type = NodeType.END;
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo,
                 canvasMode: AutoLayoutCanvasMode.SELECTION
             });
@@ -165,6 +179,7 @@ describe('AlcNode', () => {
 
         it('The Selection Box should have the correct alternative text', () => {
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo,
                 canvasMode: AutoLayoutCanvasMode.SELECTION
             });
@@ -174,6 +189,7 @@ describe('AlcNode', () => {
 
         it('The Selection Box should not be disabled when isSelectable is true', () => {
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo,
                 canvasMode: AutoLayoutCanvasMode.SELECTION
             });
@@ -182,8 +198,9 @@ describe('AlcNode', () => {
         });
 
         it('The Selection Box should be disabled when isSelectable is false', () => {
-            nodeInfo.config.isSelectable = false;
+            flowModel.guid.config.isSelectable = false;
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo,
                 canvasMode: AutoLayoutCanvasMode.SELECTION
             });
@@ -193,6 +210,7 @@ describe('AlcNode', () => {
 
         it('The Selection Box should have the correct icon name and variant when not selected', () => {
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo,
                 canvasMode: AutoLayoutCanvasMode.SELECTION
             });
@@ -202,8 +220,9 @@ describe('AlcNode', () => {
         });
 
         it('The Selection Box should have the correct icon name and variant when selected', () => {
-            nodeInfo.config.isSelected = true;
+            flowModel.guid.config.isSelected = true;
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo,
                 canvasMode: AutoLayoutCanvasMode.SELECTION
             });
@@ -214,6 +233,7 @@ describe('AlcNode', () => {
 
         it('Should dispatch AlcSelectDeselectNodeEvent event on checkbox click (when the checkbox is not selected)', () => {
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo,
                 canvasMode: AutoLayoutCanvasMode.SELECTION
             });
@@ -224,8 +244,9 @@ describe('AlcNode', () => {
         });
 
         it('Should dispatch AlcSelectDeselectNodeEvent event on checkbox click (when the checkbox is selected)', () => {
-            nodeInfo.config.isSelected = true;
+            flowModel.guid.config.isSelected = true;
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo,
                 canvasMode: AutoLayoutCanvasMode.SELECTION
             });
@@ -237,6 +258,7 @@ describe('AlcNode', () => {
 
         it('The Selection Box should have aria-label set properly', () => {
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo,
                 canvasMode: AutoLayoutCanvasMode.SELECTION
             });
@@ -246,12 +268,20 @@ describe('AlcNode', () => {
     });
 
     describe('Text Container', () => {
-        const decisionNodeInfo = {
-            guid: 'guid',
-            config: {
-                isSelected: false,
-                isSelectable: true
+        const flowModel = {
+            decisionGuid: {
+                config: {
+                    isSelected: false,
+                    isSelectable: true
+                }
             },
+            endGuid: {
+                config: {}
+            }
+        };
+
+        const decisionNodeInfo = {
+            guid: 'decisionGuid',
             metadata: {
                 icon: 'standard:decision',
                 iconShape: ICON_SHAPE.DIAMOND,
@@ -262,19 +292,19 @@ describe('AlcNode', () => {
         };
 
         const endNodeInfo = {
-            guid: 'guid',
+            guid: 'endGuid',
             metadata: {
                 icon: 'standard:end',
                 iconShape: ICON_SHAPE.CIRCLE,
                 label: 'End',
                 type: NodeType.END
             },
-            menuOpened: false,
-            config: {}
+            menuOpened: false
         };
 
         it('Should show the element type for Decision Element', () => {
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo: decisionNodeInfo,
                 canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
@@ -286,6 +316,7 @@ describe('AlcNode', () => {
 
         it('Should not show the element type for End Element', () => {
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo: endNodeInfo,
                 canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
@@ -295,12 +326,24 @@ describe('AlcNode', () => {
     });
 
     describe('Label Container', () => {
-        const decisionNodeInfo = {
-            guid: 'guid',
-            config: {
-                isSelected: false,
-                isSelectable: true
+        const flowModel = {
+            decisionGuid: {
+                config: {
+                    isSelected: false,
+                    isSelectable: true
+                },
+                label: 'elementType'
             },
+            endGuid: {
+                config: {}
+            },
+            startGuid: {
+                config: {}
+            }
+        };
+
+        const decisionNodeInfo = {
+            guid: 'decisionGuid',
             metadata: {
                 icon: 'standard:decision',
                 iconShape: ICON_SHAPE.DIAMOND,
@@ -308,24 +351,22 @@ describe('AlcNode', () => {
                 type: NodeType.BRANCH,
                 elementType: 'Decision'
             },
-            menuOpened: false,
-            label: 'elementType'
+            menuOpened: false
         };
 
         const noLabelNodeInfo = {
-            guid: 'guid',
+            guid: 'endGuid',
             metadata: {
                 icon: 'standard:end',
                 iconShape: ICON_SHAPE.CIRCLE,
-                label: 'start',
+                label: 'end',
                 type: NodeType.END
             },
-            menuOpened: false,
-            config: {}
+            menuOpened: false
         };
 
         const startLabelNodeInfo = {
-            guid: 'guid',
+            guid: 'startGuid',
             metadata: {
                 icon: 'standard:end',
                 iconShape: ICON_SHAPE.CIRCLE,
@@ -334,12 +375,12 @@ describe('AlcNode', () => {
                 description: 'start description',
                 elementType: 'START_ELEMENT'
             },
-            menuOpened: false,
-            config: {}
+            menuOpened: false
         };
 
         it('Should show the label for Decision Element', () => {
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo: decisionNodeInfo,
                 canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
@@ -349,6 +390,7 @@ describe('AlcNode', () => {
 
         it('Should not show the label if undefined', () => {
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo: noLabelNodeInfo,
                 canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
@@ -358,6 +400,7 @@ describe('AlcNode', () => {
 
         it('If start node and label is not set, use description in metadata', () => {
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo: startLabelNodeInfo,
                 canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
@@ -367,56 +410,59 @@ describe('AlcNode', () => {
     });
 
     describe('Goto Label', () => {
-        const decisionNodeInfo = {
-            guid: 'd1',
-            config: {
-                isSelected: false,
-                isSelectable: true
-            },
-            metadata: {
-                icon: 'standard:decision',
-                iconShape: ICON_SHAPE.DIAMOND,
-                label: 'elementType',
-                type: NodeType.BRANCH
-            },
-            menuOpened: false,
-            node: {
-                guid: 'd1',
+        const flowModel = {
+            d1: {
+                config: {
+                    isSelected: false,
+                    isSelectable: true
+                },
                 incomingGoTo: ['d2']
-            }
-        };
-
-        const noIncomingGotoNodeInfo = {
-            guid: 'd2',
-            config: {
-                isSelected: false,
-                isSelectable: true
             },
-            metadata: {
-                icon: 'standard:decision',
-                iconShape: ICON_SHAPE.DIAMOND,
-                label: 'elementType',
-                type: NodeType.BRANCH
-            },
-            menuOpened: false,
-            node: {
-                guid: 'd2',
+            d2: {
+                config: {
+                    isSelected: false,
+                    isSelectable: true
+                },
                 incomingGoTo: []
             }
         };
 
+        const decisionNodeInfo = {
+            guid: 'd1',
+            metadata: {
+                icon: 'standard:decision',
+                iconShape: ICON_SHAPE.DIAMOND,
+                label: 'elementType',
+                type: NodeType.BRANCH
+            },
+            menuOpened: false
+        };
+
+        const noIncomingGotoNodeInfo = {
+            guid: 'd2',
+            metadata: {
+                icon: 'standard:decision',
+                iconShape: ICON_SHAPE.DIAMOND,
+                label: 'elementType',
+                type: NodeType.BRANCH
+            },
+            menuOpened: false
+        };
+
         it('Should show incoming count on gotos target if goto exists', () => {
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo: decisionNodeInfo,
                 canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
             const gotoCount = alcNodeComponent.shadowRoot.querySelector(selectors.textIncomingGoTo);
-            const expectText = `${LABELS.incomingGoToLabel}(${decisionNodeInfo.node.incomingGoTo.length})`;
+            const expectText = `${LABELS.incomingGoToLabel}(${flowModel.d1.incomingGoTo.length})`;
             expect(gotoCount.textContent).toEqual(expectText);
         });
 
         it('Should not show incoming count if goto does not exist', () => {
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo: noIncomingGotoNodeInfo,
                 canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
@@ -426,13 +472,20 @@ describe('AlcNode', () => {
     });
 
     describe('Double clicking', () => {
+        let flowModel;
+
         beforeEach(() => {
+            flowModel = {
+                guid: {
+                    config: {
+                        isSelected: false,
+                        isSelectable: true
+                    }
+                }
+            };
+
             nodeInfo = {
                 guid: 'guid',
-                config: {
-                    isSelected: false,
-                    isSelectable: true
-                },
                 metadata: {
                     icon: 'dummyIcon',
                     label: 'elementType',
@@ -444,6 +497,7 @@ describe('AlcNode', () => {
 
         it('Double clicking on Default element should dispatch edit element event', () => {
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo,
                 canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
@@ -458,6 +512,7 @@ describe('AlcNode', () => {
         it('Double clicking on Start element should not dispatch edit element event', () => {
             nodeInfo.metadata.type = NodeType.START;
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo,
                 canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
@@ -472,6 +527,7 @@ describe('AlcNode', () => {
         it('Double clicking on End element should not dispatch edit element event', () => {
             nodeInfo.metadata.type = NodeType.END;
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo,
                 canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
@@ -485,6 +541,7 @@ describe('AlcNode', () => {
 
         it('Double clicking on Default element in Selection Mode should not dispatch edit element event', () => {
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo,
                 canvasMode: AutoLayoutCanvasMode.SELECTION
             });
@@ -499,11 +556,15 @@ describe('AlcNode', () => {
 
     describe('Error Icon', () => {
         it('Should not be displayed if node config has no error', () => {
+            const flowModel = {
+                guid: {
+                    config: {
+                        hasError: false
+                    }
+                }
+            };
             const nodeInfo = {
                 guid: 'guid',
-                config: {
-                    hasError: false
-                },
                 metadata: {
                     icon: 'dummyIcon',
                     label: 'elementType',
@@ -513,6 +574,7 @@ describe('AlcNode', () => {
             };
 
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo,
                 canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
@@ -521,11 +583,15 @@ describe('AlcNode', () => {
         });
 
         it('Should be displayed if node config has error', () => {
+            const flowModel = {
+                guid: {
+                    config: {
+                        hasError: true
+                    }
+                }
+            };
             const nodeInfo = {
                 guid: 'guid',
-                config: {
-                    hasError: true
-                },
                 metadata: {
                     icon: 'dummyIcon',
                     label: 'elementType',
@@ -535,6 +601,7 @@ describe('AlcNode', () => {
             };
 
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo,
                 canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
@@ -544,12 +611,24 @@ describe('AlcNode', () => {
     });
 
     describe('Aria attributes', () => {
-        const decisionNodeInfo = {
-            guid: 'guid',
-            config: {
-                isSelected: false,
-                isSelectable: true
+        const flowModel = {
+            decisionGuid: {
+                config: {
+                    isSelected: false,
+                    isSelectable: true
+                },
+                label: 'elementType'
             },
+            startGuid: {
+                config: {
+                    isSelected: false,
+                    isSelectable: true
+                }
+            }
+        };
+
+        const decisionNodeInfo = {
+            guid: 'decisionGuid',
             metadata: {
                 icon: 'standard:decision',
                 iconShape: ICON_SHAPE.DIAMOND,
@@ -557,16 +636,11 @@ describe('AlcNode', () => {
                 type: NodeType.BRANCH,
                 elementType: 'Decision'
             },
-            menuOpened: false,
-            label: 'elementType'
+            menuOpened: false
         };
 
         const startNodeInfo = {
-            guid: 'guid',
-            config: {
-                isSelected: false,
-                isSelectable: true
-            },
+            guid: 'startGuid',
             metadata: {
                 icon: 'utility:right',
                 iconBackgroundColor: 'background-green',
@@ -582,6 +656,7 @@ describe('AlcNode', () => {
 
         it('Should set the aria-label and aria-haspopup properly for decision', () => {
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo: decisionNodeInfo,
                 canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
@@ -593,6 +668,7 @@ describe('AlcNode', () => {
 
         it('Should set the aria-label properly for start node', () => {
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo: startNodeInfo,
                 canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
@@ -604,13 +680,32 @@ describe('AlcNode', () => {
     });
 
     describe('Highlighting', () => {
-        const decisionNodeInfo = {
-            guid: 'guid',
-            config: {
-                isSelected: false,
-                isSelectable: true,
-                isHighlighted: true
+        const flowModel = {
+            decisionGuid: {
+                config: {
+                    isSelected: false,
+                    isSelectable: true,
+                    isHighlighted: true
+                }
             },
+            assignmentGuid: {
+                config: {
+                    isSelected: false,
+                    isSelectable: true,
+                    isHighlighted: true
+                }
+            },
+            getRecordsGuid: {
+                config: {
+                    isSelected: false,
+                    isSelectable: true,
+                    isHighlighted: true
+                }
+            }
+        };
+
+        const decisionNodeInfo = {
+            guid: 'decisionGuid',
             metadata: {
                 icon: 'standard:decision',
                 iconShape: ICON_SHAPE.DIAMOND,
@@ -631,15 +726,9 @@ describe('AlcNode', () => {
 
         const assignmentNodeInfo = {
             geometry: { x: 0, y: 144, w: 48, h: 120 },
-            guid: '0c59e7db-144d-443a-9bf2-61a9e17d451a',
-            config: {
-                isSelected: false,
-                isSelectable: true,
-                isHighlighted: true
-            },
+            guid: 'assignmentGuid',
             isNew: false,
             isTerminal: false,
-            label: 'myAssignment',
             logicConnectors: [],
             menuOpened: false,
             metadata: {},
@@ -648,16 +737,10 @@ describe('AlcNode', () => {
 
         const getRecordNodeInfoWithFault = {
             geometry: { x: 0, y: 144, w: 48, h: 120 },
-            guid: '0c59e7db-144d-443a-9bf2-61a9e17d451a',
-            config: {
-                isSelected: false,
-                isSelectable: true,
-                isHighlighted: true
-            },
+            guid: 'getRecordsGuid',
             faultFlow: {},
             isNew: false,
             isTerminal: false,
-            label: 'myAssignment',
             logicConnectors: [],
             menuOpened: false,
             metadata: {},
@@ -666,6 +749,7 @@ describe('AlcNode', () => {
 
         it('Should have the CSS class : "highlighted-container-multioutput" for Highlighted element with multiple connectors', () => {
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo: decisionNodeInfo,
                 canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
@@ -675,6 +759,7 @@ describe('AlcNode', () => {
 
         it('Should have the CSS class : "highlighted-container-multioutput" for Highlighted element with fault connectors', () => {
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo: getRecordNodeInfoWithFault,
                 canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
@@ -684,6 +769,7 @@ describe('AlcNode', () => {
 
         it('Should have the CSS class : "highlighted-container" for Highlighted element with simple connector', () => {
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo: assignmentNodeInfo,
                 canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
@@ -693,13 +779,18 @@ describe('AlcNode', () => {
     });
 
     describe('Focus', () => {
+        let flowModel;
         beforeEach(() => {
+            flowModel = {
+                guid: {
+                    config: {
+                        isSelected: false,
+                        isSelectable: true
+                    }
+                }
+            };
             nodeInfo = {
                 guid: 'guid',
-                config: {
-                    isSelected: false,
-                    isSelectable: true
-                },
                 metadata: {
                     icon: 'dummyIcon',
                     label: 'elementType',
@@ -711,6 +802,7 @@ describe('AlcNode', () => {
 
         it('Focus event on menu trigger should be fired when focusOnSelectionBox is false', () => {
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo,
                 canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
@@ -722,6 +814,7 @@ describe('AlcNode', () => {
 
         it('Focus event on selection checkbox should be fired when focusOnSelectionBox is true', () => {
             const alcNodeComponent = createComponentUnderTest({
+                flowModel,
                 nodeInfo,
                 canvasMode: AutoLayoutCanvasMode.RECONNECTION
             });

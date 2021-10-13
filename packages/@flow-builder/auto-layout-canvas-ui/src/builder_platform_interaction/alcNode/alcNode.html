@@ -7,7 +7,7 @@
             guid={nodeInfo.guid}
             menu-opened={nodeInfo.menuOpened}
             is-node-getting-deleted={nodeInfo.toBeDeleted}
-            has-error={nodeInfo.config.hasError}
+            has-error={nodeHasError}
             canvas-mode={canvasMode}
             onclick={handleButtonClick}
             ondblclick={handleOnDblClick}
@@ -53,7 +53,7 @@
 
         <!--Error icon-->
         <lightning-icon
-            if:true={nodeInfo.config.hasError}
+            if:true={nodeHasError}
             icon-name="utility:error"
             variant="error"
             size="xx-small"

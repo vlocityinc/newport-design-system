@@ -6,11 +6,12 @@ import { FAULT_INDEX } from 'builder_platform_interaction/autoLayoutCanvas';
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
-const createComponentUnderTest = (flow) => {
+const createComponentUnderTest = (flow, flowModel) => {
     const el = createElement('builder_platform_interaction-alcNode', {
         is: AlcFlow
     });
 
+    el.flowModel = flowModel;
     el.flow = flow;
     el.canvasMode = 'default';
     el.isCanvasReady = true;
@@ -30,7 +31,52 @@ describe('ALC Flow tests', () => {
     describe('Flow with a Fault branch', () => {
         let flowComponent;
         beforeEach(() => {
-            flowComponent = createComponentUnderTest(flowWithFault);
+            const flowModel = {
+                start: {
+                    config: {},
+                    label: undefined
+                },
+                decision: {
+                    conditionOptions: [],
+                    config: {},
+                    defaultConnectorLabel: 'Default Outcome',
+                    label: 'decision',
+                    children: [null, null],
+                    childReferences: [
+                        {
+                            childReference: 'o1'
+                        },
+                        {
+                            childReference: 'o2'
+                        }
+                    ]
+                },
+                o1: {
+                    label: 'o1'
+                },
+                o2: {
+                    label: 'o2'
+                },
+                createRecords: {
+                    conditionOptions: undefined,
+                    config: {},
+                    defaultConnectorLabel: undefined,
+                    label: 'createRecords'
+                },
+                screen: {
+                    config: {},
+                    label: 'screen'
+                },
+                faultEnd: {
+                    config: {},
+                    label: 'End'
+                },
+                end: {
+                    config: {},
+                    label: 'End'
+                }
+            };
+            flowComponent = createComponentUnderTest(flowWithFault, flowModel);
         });
 
         it('Should not have any preConnector', () => {
