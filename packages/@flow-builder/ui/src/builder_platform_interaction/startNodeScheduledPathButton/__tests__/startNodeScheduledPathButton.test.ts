@@ -7,9 +7,10 @@ import { startElementWithAccountAndNoCondition } from 'mock/storeDataScheduleTri
 import { startElement } from 'mock/storeDataRecordTriggered';
 import { EDIT_START_SCHEDULED_PATHS } from 'builder_platform_interaction/elementConfig';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
-import { commands } from 'builder_platform_interaction/sharedUtils';
+import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 
 const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
+const { Keys } = keyboardInteractionUtils;
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {
     const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
@@ -74,7 +75,7 @@ describe('Focus Management', () => {
         startNodeScheduledPathButtonEditor.addEventListener(ArrowKeyDownEvent.EVENT_NAME, callback);
         startNodeScheduledPathButtonEditor.keyboardInteractions.execute(ArrowDown.COMMAND_NAME);
         expect(callback).toHaveBeenCalled();
-        expect(callback.mock.calls[0][0].detail.key).toBe(ArrowDown.COMMAND_NAME);
+        expect(callback.mock.calls[0][0].detail.key).toBe(Keys.ArrowDown);
     });
 
     it('Should fire ArrowKeyDownEvent with the right key on pressing arrow up key', () => {
@@ -83,7 +84,7 @@ describe('Focus Management', () => {
         startNodeScheduledPathButtonEditor.addEventListener(ArrowKeyDownEvent.EVENT_NAME, callback);
         startNodeScheduledPathButtonEditor.keyboardInteractions.execute(ArrowUp.COMMAND_NAME);
         expect(callback).toHaveBeenCalled();
-        expect(callback.mock.calls[0][0].detail.key).toBe(ArrowUp.COMMAND_NAME);
+        expect(callback.mock.calls[0][0].detail.key).toBe(Keys.ArrowUp);
     });
 });
 

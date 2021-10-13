@@ -5,7 +5,7 @@ import { ReorderListEvent, ListItemInteractionEvent } from 'builder_platform_int
 import { Guid } from 'builder_platform_interaction/autoLayoutCanvas';
 import { LABELS } from './reorderableVerticalNavigationLabels';
 const { ArrowDown, ArrowUp, SpaceCommand, EnterCommand } = commands;
-const { KeyboardInteractions } = keyboardInteractionUtils;
+const { KeyboardInteractions, createShortcut, Keys } = keyboardInteractionUtils;
 
 const selectors = {
     listSection: '.navigation-content',
@@ -123,9 +123,9 @@ export default class ReorderableVerticalNavigation extends LightningElement {
      * @param currentItemInFocus - Item that is currently in focus and being reordered
      * @param key - Arrow Down or Arrow Up key pressed
      */
-    reorderItems(items: HTMLElement[], currentItemInFocus: HTMLElement, key: ArrowDown.COMMAND_NAME) {
+    reorderItems(items: HTMLElement[], currentItemInFocus: HTMLElement, key: Keys.ArrowDown | Keys.ArrowUp) {
         const currentFocusIndex = items.indexOf(currentItemInFocus);
-        const nextFocusIndex = key === ArrowDown.COMMAND_NAME ? currentFocusIndex + 1 : currentFocusIndex - 1;
+        const nextFocusIndex = key === Keys.ArrowDown ? currentFocusIndex + 1 : currentFocusIndex - 1;
         // Ensuring that we don't reorder the default outcome/pause event option
         if (nextFocusIndex < items.length - 1 && nextFocusIndex >= 0) {
             const sourceId = currentItemInFocus.navItemId;
@@ -143,9 +143,13 @@ export default class ReorderableVerticalNavigation extends LightningElement {
      * @param currentItemInFocus - Item that is currently in focus
      * @param key - Arrow Down or Arrow Up key pressed
      */
-    moveFocusInListOnArrowKeyDown(items: HTMLElement[], currentItemInFocus: HTMLElement, key: ArrowDown.COMMAND_NAME) {
+    moveFocusInListOnArrowKeyDown(
+        items: HTMLElement[],
+        currentItemInFocus: HTMLElement,
+        key: Keys.ArrowDown | Keys.ArrowUp
+    ) {
         const currentFocusIndex = items.indexOf(currentItemInFocus);
-        let nextFocusIndex = key === ArrowDown.COMMAND_NAME ? currentFocusIndex + 1 : currentFocusIndex - 1;
+        let nextFocusIndex = key === Keys.ArrowDown ? currentFocusIndex + 1 : currentFocusIndex - 1;
         if (nextFocusIndex >= items.length) {
             // Case when you have reached the bottom of the list and press arrow down key.
             // Focus should move to the top of the list
@@ -164,7 +168,7 @@ export default class ReorderableVerticalNavigation extends LightningElement {
      *
      * @param key - Arrow Down or Arrow Up key pressed
      */
-    handleArrowKeyDown(key: ArrowDown.COMMAND_NAME | ArrowUp.COMMAND_NAME) {
+    handleArrowKeyDown(key: Keys.ArrowDown | Keys.ArrowUp) {
         const currentItemInFocus = this.template.activeElement;
         const items = Array.from(this.template.querySelectorAll(selectors.listItem)) as HTMLElement[];
         // Reordering items if any row has been grabbed else moving focus up/down the list
@@ -210,17 +214,13 @@ export default class ReorderableVerticalNavigation extends LightningElement {
         this.selectItem(currentItemInFocus.navItemId);
     }
 
-    // TODO: W-9582172 Fix addKeyboardShortcuts so it returns a cleanup method
     setupCommandsAndShortcuts() {
-        const keyboardCommands = {
-            ArrowDown: new ArrowDown(() => this.handleArrowKeyDown(ArrowDown.COMMAND_NAME)),
-            ArrowUp: new ArrowUp(() => this.handleArrowKeyDown(ArrowUp.COMMAND_NAME)),
-            ' ': new SpaceCommand(() => this.handleSpace()),
-            Enter: new EnterCommand(() => this.handleEnter())
-        };
-        Object.entries(keyboardCommands).forEach(([shortcutKeys, command]) => {
-            this.keyboardInteractions.setupCommandAndShortcut(command, { key: shortcutKeys });
-        });
+        this.keyboardInteractions.registerShortcuts([
+            createShortcut(Keys.ArrowDown, new ArrowDown(() => this.handleArrowKeyDown(Keys.ArrowDown))),
+            createShortcut(Keys.ArrowUp, new ArrowUp(() => this.handleArrowKeyDown(Keys.ArrowUp))),
+            createShortcut(Keys.Space, new SpaceCommand(() => this.handleSpace())),
+            createShortcut(Keys.Enter, new EnterCommand(() => this.handleEnter()))
+        ]);
     }
 
     connectedCallback() {

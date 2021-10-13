@@ -5,10 +5,11 @@ import { CONDITION_LOGIC, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction
 import { EditElementEvent, ArrowKeyDownEvent } from 'builder_platform_interaction/events';
 import { EDIT_START_RECORD_CHANGE_CONTEXT } from 'builder_platform_interaction/elementConfig';
 import { startElementWithAccountAndNoCondition } from 'mock/storeDataScheduleTriggered';
-import { commands } from 'builder_platform_interaction/sharedUtils';
+import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
+const { Keys } = keyboardInteractionUtils;
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
@@ -67,7 +68,7 @@ describe('Focus Management', () => {
         startNodeContextButtonEditor.addEventListener(ArrowKeyDownEvent.EVENT_NAME, callback);
         startNodeContextButtonEditor.keyboardInteractions.execute(ArrowDown.COMMAND_NAME);
         expect(callback).toHaveBeenCalled();
-        expect(callback.mock.calls[0][0].detail.key).toBe(ArrowDown.COMMAND_NAME);
+        expect(callback.mock.calls[0][0].detail.key).toBe(Keys.ArrowDown);
     });
 
     it('Should fire ArrowKeyDownEvent with the right key on pressing arrow up key', () => {
@@ -76,7 +77,7 @@ describe('Focus Management', () => {
         startNodeContextButtonEditor.addEventListener(ArrowKeyDownEvent.EVENT_NAME, callback);
         startNodeContextButtonEditor.keyboardInteractions.execute(ArrowUp.COMMAND_NAME);
         expect(callback).toHaveBeenCalled();
-        expect(callback.mock.calls[0][0].detail.key).toBe(ArrowUp.COMMAND_NAME);
+        expect(callback.mock.calls[0][0].detail.key).toBe(Keys.ArrowUp);
     });
 });
 

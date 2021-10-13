@@ -7,8 +7,7 @@ import { getWorkflowEnabledEntities } from 'builder_platform_interaction/sobject
 
 const { format } = commonUtils;
 const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
-const { BaseKeyboardInteraction, KeyboardInteractions, Keys, createShortcut, withKeyboardInteractions } =
-    keyboardInteractionUtils;
+const { BaseKeyboardInteraction, Keys, createShortcut, withKeyboardInteractions } = keyboardInteractionUtils;
 
 const selectors = {
     button: '.button'
@@ -69,8 +68,8 @@ export default class StartNodeFlowExplorerEntryPoint extends withKeyboardInterac
             new BaseKeyboardInteraction([
                 createShortcut(Keys.Enter, new EnterCommand(() => this.handleSpaceOrEnter())),
                 createShortcut(Keys.Space, new SpaceCommand(() => this.handleSpaceOrEnter())),
-                createShortcut(Keys.ArrowDown, new ArrowDown(() => this.handleArrowKeyDown(ArrowDown.COMMAND_NAME))),
-                createShortcut(Keys.ArrowUp, new ArrowUp(() => this.handleArrowKeyDown(ArrowUp.COMMAND_NAME)))
+                createShortcut(Keys.ArrowDown, new ArrowDown(() => this.handleArrowKeyDown(Keys.ArrowDown))),
+                createShortcut(Keys.ArrowUp, new ArrowUp(() => this.handleArrowKeyDown(Keys.ArrowUp)))
             ])
         ];
     }

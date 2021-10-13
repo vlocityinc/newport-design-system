@@ -3,10 +3,11 @@ import { startElement as recordTriggeredStartElement } from 'mock/storeDataRecor
 import StartNodeFlowExplorerEntryPoint from 'builder_platform_interaction/startNodeFlowExplorerEntryPoint';
 import { createElement } from 'lwc';
 import { ArrowKeyDownEvent } from 'builder_platform_interaction/events';
-import { commands } from 'builder_platform_interaction/sharedUtils';
+import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
+const { Keys } = keyboardInteractionUtils;
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -38,7 +39,7 @@ describe('Flow Explorer Entry Point', () => {
         startElement.addEventListener(ArrowKeyDownEvent.EVENT_NAME, callback);
         startElement.keyboardInteractions.execute(ArrowDown.COMMAND_NAME);
         expect(callback).toHaveBeenCalled();
-        expect(callback.mock.calls[0][0].detail.key).toBe(ArrowDown.COMMAND_NAME);
+        expect(callback.mock.calls[0][0].detail.key).toBe(Keys.ArrowDown);
     });
 
     it('Should fire ArrowKeyDownEvent with the right key on pressing arrow up key', () => {
@@ -46,7 +47,7 @@ describe('Flow Explorer Entry Point', () => {
         startElement.addEventListener(ArrowKeyDownEvent.EVENT_NAME, callback);
         startElement.keyboardInteractions.execute(ArrowUp.COMMAND_NAME);
         expect(callback).toHaveBeenCalled();
-        expect(callback.mock.calls[0][0].detail.key).toBe(ArrowUp.COMMAND_NAME);
+        expect(callback.mock.calls[0][0].detail.key).toBe(Keys.ArrowUp);
     });
 
     it('Checks if an window open is called when using the enter command on Flow Explorer Entry Point', () => {

@@ -151,8 +151,8 @@ export default class StartNodeContextButton extends withKeyboardInteractions(Lig
             new BaseKeyboardInteraction([
                 createShortcut(Keys.Enter, new EnterCommand(() => this.handleSpaceOrEnter())),
                 createShortcut(Keys.Space, new SpaceCommand(() => this.handleSpaceOrEnter())),
-                createShortcut(Keys.ArrowDown, new ArrowDown(() => this.handleArrowKeyDown(ArrowDown.COMMAND_NAME))),
-                createShortcut(Keys.ArrowUp, new ArrowUp(() => this.handleArrowKeyDown(ArrowUp.COMMAND_NAME)))
+                createShortcut(Keys.ArrowDown, new ArrowDown(() => this.handleArrowKeyDown(Keys.ArrowDown))),
+                createShortcut(Keys.ArrowUp, new ArrowUp(() => this.handleArrowKeyDown(Keys.ArrowUp)))
             ])
         ];
     }
