@@ -39,8 +39,7 @@ export enum ScreenEditorTab {
 }
 
 const LEGAL_NOTICE_HEADERS = {
-    AUTOMATIC_FIELDS: LABELS.automaticFieldsLegalNoticeHeader,
-    CUSTOM_FOOTERS: LABELS.customFooterLegalNoticeHeader
+    AUTOMATIC_FIELDS: LABELS.automaticFieldsLegalNoticeHeader
 };
 
 /**
@@ -58,8 +57,7 @@ export default class ScreenEditor extends LightningElement {
     processTypeValue = '';
 
     @track legalNotices: UI.LegalNotice[] = [
-        { header: LEGAL_NOTICE_HEADERS.AUTOMATIC_FIELDS, shown: false, dismissed: false },
-        { header: LEGAL_NOTICE_HEADERS.CUSTOM_FOOTERS, shown: false, dismissed: false }
+        { header: LEGAL_NOTICE_HEADERS.AUTOMATIC_FIELDS, shown: false, dismissed: false }
     ];
 
     @track
@@ -512,17 +510,6 @@ export default class ScreenEditor extends LightningElement {
                 (notice) => notice.header !== LEGAL_NOTICE_HEADERS.AUTOMATIC_FIELDS
             );
             this.legalNotices[0].shown = false;
-        }
-    }
-
-    handleFooterLegalNotice(event) {
-        event.stopPropagation();
-        if (!this.legalNotices[1].shown && !this.legalNotices[1].dismissed) {
-            this.noticesToLegalPopover = [
-                ...this.noticesToLegalPopover,
-                { header: LEGAL_NOTICE_HEADERS.CUSTOM_FOOTERS }
-            ];
-            this.legalNotices[1].shown = true;
         }
     }
 

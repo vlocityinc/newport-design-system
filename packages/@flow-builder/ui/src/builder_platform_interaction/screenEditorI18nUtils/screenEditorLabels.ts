@@ -162,7 +162,6 @@ import automaticFieldDeleteConfirmation from '@salesforce/label/FlowBuilderScree
 import automaticFieldDeleteConsequence from '@salesforce/label/FlowBuilderScreenEditor.automaticFieldDeleteConsequence';
 import automaticFieldPropertyEditorPanelTitle from '@salesforce/label/FlowBuilderAutomaticFieldEditor.panelTitle';
 import automaticFieldsLegalNoticeHeader from '@salesforce/label/FlowBuilderAutomaticFieldLegalPopover.headerText';
-import customFooterLegalNoticeHeader from '@salesforce/label/FlowBuilderScreenEditor.customFooterLegalNoticeHeader';
 import picklistChoiceSetChoiceLabel from '@salesforce/label/FlowBuilderScreenEditor.picklistChoiceSetChoiceLabel';
 import recordChoiceSetChoiceLabel from '@salesforce/label/FlowBuilderScreenEditor.recordChoiceSetChoiceLabel';
 import typedResourceLabel from '@salesforce/label/FlowBuilderScreenEditor.typedResourceLabel';
@@ -345,7 +344,6 @@ export const LABELS = {
     automaticFieldDeleteConsequence,
     automaticFieldPropertyEditorPanelTitle,
     automaticFieldsLegalNoticeHeader,
-    customFooterLegalNoticeHeader,
     picklistChoiceSetChoiceLabel,
     recordChoiceSetChoiceLabel,
     typedResourceLabel,

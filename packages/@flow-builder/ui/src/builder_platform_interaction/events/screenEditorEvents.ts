@@ -13,7 +13,6 @@ export enum ScreenEditorEventName {
     ChoiceDeleted = 'choicedeleted',
     ColumnWidthChanged = 'columnwidthchanged',
     ChoiceReset = 'choicereset',
-    FooterBetaOptionSelected = 'footerbetaoptionselected',
     ScreenElementKeyboardInteraction = 'screenelementkeyboardinteraction'
 }
 
@@ -243,15 +242,6 @@ export function createColumnWidthChangedEvent(columnGuid, columnWidth, sectionGu
         columnWidth,
         sectionGuid
     });
-}
-
-/**
- * Creates an event to be fired when the user select Custom Footer Beta Option
- *
- * @returns {CustomEvent} - FooterBetaOptionSelected Event
- */
-export function createScreenFooterBetaOptionSelectedEvent() {
-    return createScreenEditorEvent(ScreenEditorEventName.FooterBetaOptionSelected, {});
 }
 
 /**
