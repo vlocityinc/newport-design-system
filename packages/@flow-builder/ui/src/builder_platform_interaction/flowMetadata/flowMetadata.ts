@@ -37,7 +37,8 @@ export const FLOW_PROCESS_TYPE = {
     FSCLENDING: 'FSCLending',
     ROUTING_FLOW: 'RoutingFlow',
     RECOMMENDATION_STRATEGY: 'RecommendationStrategy',
-    EVALUATION_FLOW: 'EvaluationFlow'
+    EVALUATION_FLOW: 'EvaluationFlow',
+    CMS_ORCHESTRATOR: 'CMSOrchestrator'
 };
 
 export enum ELEMENT_TYPE {

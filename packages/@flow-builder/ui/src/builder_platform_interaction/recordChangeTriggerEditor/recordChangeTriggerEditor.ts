@@ -28,6 +28,7 @@ import {
 } from 'builder_platform_interaction/triggerTypeLib';
 import { FlowComparisonOperator } from 'builder_platform_interaction/flowMetadata';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
+import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
 
 const { BEFORE_SAVE, BEFORE_DELETE, AFTER_SAVE, SCHEDULED, SCHEDULED_JOURNEY } = FLOW_TRIGGER_TYPE;
 const { CREATE, UPDATE, CREATE_AND_UPDATE, DELETE } = FLOW_TRIGGER_SAVE_TYPE;
@@ -108,7 +109,7 @@ export default class RecordChangeTriggerEditor extends LightningElement {
         //
         // Hardcoded to Orchestrator.  We'll need a holistic solution in the future
         // TODO: W-9552528
-        if (!newValue.isNew && getProcessType() === FLOW_PROCESS_TYPE.ORCHESTRATOR) {
+        if (!newValue.isNew && isOrchestrator(getProcessType())) {
             this.validate();
         }
     }
@@ -619,6 +620,6 @@ export default class RecordChangeTriggerEditor extends LightningElement {
     }
 
     isOrchestrator(): boolean {
-        return getProcessType() === FLOW_PROCESS_TYPE.ORCHESTRATOR;
+        return isOrchestrator(getProcessType());
     }
 }

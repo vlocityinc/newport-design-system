@@ -117,7 +117,11 @@ import {
     setProcessTypes,
     setRunInModes
 } from 'builder_platform_interaction/systemLib';
-import { isAutoLayoutCanvasOnly, isConfigurableStartSupported } from 'builder_platform_interaction/processTypeLib';
+import {
+    isAutoLayoutCanvasOnly,
+    isConfigurableStartSupported,
+    isOrchestrator
+} from 'builder_platform_interaction/processTypeLib';
 import { getTriggerTypeInfo, isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 import {
     initializeLoader,
@@ -467,7 +471,7 @@ export default class Editor extends LightningElement {
             (this.builderConfig && this.builderConfig.usePanelForPropertyEditor) ||
             // Hardcoded for Orchestrator
             // TODO:  W-8146747 - remove in 234
-            this.properties.processType === FLOW_PROCESS_TYPE.ORCHESTRATOR
+            isOrchestrator(this.properties.processType)
         );
     }
 
@@ -479,7 +483,7 @@ export default class Editor extends LightningElement {
     get isRightPanelVariableWidth() {
         // Hardcoded for App Process PoC
         // TODO:  W-8146747 - remove in 234
-        return this.properties.processType === FLOW_PROCESS_TYPE.ORCHESTRATOR;
+        return isOrchestrator(this.properties.processType);
     }
 
     get useNewDebugExperience() {
@@ -654,7 +658,7 @@ export default class Editor extends LightningElement {
     get showDebugButton() {
         // Hardcoded to hide debug button in orchestrator
         // TODO:  W-8146747
-        return !!this.toolbarConfig.showDebugButton && this.properties.processType !== FLOW_PROCESS_TYPE.ORCHESTRATOR;
+        return !!this.toolbarConfig.showDebugButton && !isOrchestrator(this.properties.processType);
     }
 
     get showAddToTestButton() {
@@ -670,7 +674,7 @@ export default class Editor extends LightningElement {
         // TODO:  W-8146747
         return (
             !!this.toolbarConfig.showRunButton &&
-            (this.properties.processType !== FLOW_PROCESS_TYPE.ORCHESTRATOR ||
+            (!isOrchestrator(this.properties.processType) ||
                 !this.triggerType ||
                 this.triggerType === FLOW_TRIGGER_TYPE.NONE)
         );

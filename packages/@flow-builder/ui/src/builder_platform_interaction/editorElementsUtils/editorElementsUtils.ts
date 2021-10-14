@@ -4,6 +4,7 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE, FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
+import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
 
 const { logMetricsServiceErrorTransaction } = loggingUtils;
 /**
@@ -68,7 +69,7 @@ const mutateElements = (elements, palette) =>
                                 // fall back to the default description.
                                 const description =
                                     element.description ||
-                                    (getProcessType() === FLOW_PROCESS_TYPE.ORCHESTRATOR
+                                    (isOrchestrator(getProcessType())
                                         ? nodeConfig.orchestratorDescription || nodeConfig.description
                                         : nodeConfig.description);
 

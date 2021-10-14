@@ -28,7 +28,7 @@ import { SYSTEM_VARIABLE_RECORD_PREFIX } from 'builder_platform_interaction/syst
 import { isScheduledTriggerType, isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 import { formatDateTimeUTC, getDayOfTheWeek } from 'builder_platform_interaction/dateTimeUtils';
 import { isUndefinedOrNull, generateInternalName } from 'builder_platform_interaction/commonUtils';
-import { isScheduledPathSupported } from 'builder_platform_interaction/processTypeLib';
+import { isScheduledPathSupported, isOrchestrator } from 'builder_platform_interaction/processTypeLib';
 import { getElementByGuid, getProcessType } from 'builder_platform_interaction/storeUtils';
 import {
     getConnectionProperties,
@@ -651,7 +651,7 @@ function addStartElementConnectorToAvailableConnections(
 function getDefaultFilterLogic(triggerType) {
     const processType = getProcessType();
     if (
-        (processType === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW || processType === FLOW_PROCESS_TYPE.ORCHESTRATOR) &&
+        (processType === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW || isOrchestrator(processType)) &&
         isRecordChangeTriggerType(triggerType)
     ) {
         return CONDITION_LOGIC.NO_CONDITIONS;

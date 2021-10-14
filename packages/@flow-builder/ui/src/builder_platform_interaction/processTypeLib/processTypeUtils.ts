@@ -138,7 +138,7 @@ export const isAutoLayoutCanvasOnly = (processType) => {
     // TODO: This is a hack based on hardcoded process type.  This will be replaced
     //  (along with other hardcoded app process references in 234)
     // https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000008lMMtIAM/view
-    return processType === FLOW_PROCESS_TYPE.ORCHESTRATOR;
+    return isOrchestrator(processType);
 };
 
 /**
@@ -148,7 +148,7 @@ export const isAutoLayoutCanvasOnly = (processType) => {
  * @returns whether or not the flow is Orchestrator
  */
 export const isOrchestrator = (processType?: string): boolean => {
-    return processType === FLOW_PROCESS_TYPE.ORCHESTRATOR;
+    return processType === FLOW_PROCESS_TYPE.ORCHESTRATOR || processType === FLOW_PROCESS_TYPE.CMS_ORCHESTRATOR;
 };
 
 /**

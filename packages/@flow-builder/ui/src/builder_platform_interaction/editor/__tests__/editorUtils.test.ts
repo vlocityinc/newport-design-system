@@ -163,11 +163,14 @@ jest.mock('builder_platform_interaction/apexTypeLib', () => {
 });
 
 jest.mock('builder_platform_interaction/processTypeLib', () => {
+    const actual = jest.requireActual('builder_platform_interaction/processTypeLib');
+
     return {
         isConfigurableStartSupported: jest.fn().mockImplementation(() => {
             return true;
         }),
-        isScheduledPathSupported: jest.fn()
+        isScheduledPathSupported: jest.fn(),
+        isOrchestrator: actual.isOrchestrator
     };
 });
 

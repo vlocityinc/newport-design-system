@@ -17,6 +17,8 @@ import newPlatformEventFlowLabel from '@salesforce/label/FlowBuilderProcessTypeT
 import newRecordChangedOrchestrationLabel from '@salesforce/label/FlowBuilderProcessTypeTemplates.newRecordChangedOrchestrationLabel';
 import newOrchestrationLabel from '@salesforce/label/FlowBuilderProcessTypeTemplates.newOrchestrationLabel';
 import newEvaluationFlowDescription from '@salesforce/label/FlowBuilderProcessTypeTemplates.newEvaluationFlowDescription';
+import newCMSOrchestrationDescription from '@salesforce/label/FlowBuilderProcessTypeTemplates.newCMSOrchestrationDescription';
+import newCMSOrchestrationLabel from '@salesforce/label/FlowBuilderProcessTypeTemplates.newCMSOrchestrationLabel';
 
 export const LABELS = {
     newProcessTypeDescription,
@@ -31,7 +33,8 @@ export const LABELS = {
     [FLOW_TRIGGER_TYPE.BEFORE_SAVE]: newRecordChangedFlowDescription,
     [FLOW_TRIGGER_TYPE.BEFORE_DELETE]: newRecordChangedFlowDescription,
     [FLOW_TRIGGER_TYPE.AFTER_SAVE]: newRecordChangedFlowDescription,
-    [FLOW_PROCESS_TYPE.EVALUATION_FLOW]: newEvaluationFlowDescription
+    [FLOW_PROCESS_TYPE.EVALUATION_FLOW]: newEvaluationFlowDescription,
+    [FLOW_PROCESS_TYPE.CMS_ORCHESTRATOR]: newCMSOrchestrationDescription
 };
 
 export const TRIGGER_TYPE_LABELS = {
@@ -44,5 +47,6 @@ export const TRIGGER_TYPE_LABELS = {
 
 export const PROCESS_TRIGGER_TYPE_LABELS = {
     [FLOW_PROCESS_TYPE.ORCHESTRATOR + FLOW_TRIGGER_TYPE.NONE]: newOrchestrationLabel,
-    [FLOW_PROCESS_TYPE.ORCHESTRATOR + FLOW_TRIGGER_TYPE.AFTER_SAVE]: newRecordChangedOrchestrationLabel
+    [FLOW_PROCESS_TYPE.ORCHESTRATOR + FLOW_TRIGGER_TYPE.AFTER_SAVE]: newRecordChangedOrchestrationLabel,
+    [FLOW_PROCESS_TYPE.CMS_ORCHESTRATOR + FLOW_TRIGGER_TYPE.NONE]: newCMSOrchestrationLabel
 };

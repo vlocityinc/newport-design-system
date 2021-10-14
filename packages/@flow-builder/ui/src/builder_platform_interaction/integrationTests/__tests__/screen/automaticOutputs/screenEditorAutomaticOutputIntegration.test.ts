@@ -25,6 +25,7 @@ jest.mock('builder_platform_interaction/processTypeLib', () => {
         isGlobalVariablesSupported: jest.fn(() => {
             return true;
         }),
+        isOrchestrator: actual.isOrchestrator,
         getProcessTypeAutomaticOutPutHandlingSupport: jest.fn((processType) => {
             return processType === MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
                 ? FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
