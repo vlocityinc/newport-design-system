@@ -1,8 +1,8 @@
-// @ts-nocheck
 export const CANVAS_EVENT = {
     ADD_NEW_RESOURCE: 'addnewresource'
 };
 
+// TODO: refactor to ZoomAction enum
 export const ZOOM_ACTION = {
     ZOOM_OUT: 'zoomOut',
     ZOOM_TO_FIT: 'zoomToFit',

@@ -1,17 +1,23 @@
 import { LightningElement, api } from 'lwc';
 import { ToggleMarqueeOnEvent, ClickToZoomEvent, ZOOM_ACTION } from 'builder_platform_interaction/events';
-import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { loggingUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
+
 import { LABELS } from './zoomPanelLabels';
 
 const { logInteraction } = loggingUtils;
+
+const selectors = {
+    fitExpandButton: '.fitExpandButton',
+    zoomOutButton: '.zoomOutButton',
+    zoomInButton: '.zoomInButton'
+};
 
 /**
  * Zoom Panel component for flow builder.
  */
 export default class ZoomPanel extends LightningElement {
-    _zoomOutDisabled!: boolean;
-    _zoomInDisabled!: boolean;
-    _action!: string | null;
+    private dom = lwcUtils.createDomProxy(this, selectors);
+    private lastAction: string | undefined;
 
     @api
     showMarqueeButton!: boolean;
@@ -20,32 +26,14 @@ export default class ZoomPanel extends LightningElement {
     isMarqueeModeOn!: boolean;
 
     @api
-    isZoomToView!: boolean;
+    isZoomOutDisabled!: boolean;
 
     @api
-    get isZoomOutDisabled(): boolean {
-        return this._zoomOutDisabled;
-    }
-
-    set isZoomOutDisabled(newValue: boolean) {
-        if (this._action === ZOOM_ACTION.ZOOM_OUT && newValue) {
-            this.template.querySelector('.expandButton').focus();
-            this._action = null;
-        }
-        this._zoomOutDisabled = newValue;
-    }
+    isZoomInDisabled!: boolean;
 
     @api
-    get isZoomInDisabled(): boolean {
-        return this._zoomInDisabled;
-    }
-
-    set isZoomInDisabled(newValue: boolean) {
-        if (this._action === ZOOM_ACTION.ZOOM_IN && newValue) {
-            this.template.querySelector('.zoomOutButton').focus();
-            this._action = null;
-        }
-        this._zoomInDisabled = newValue;
+    focus() {
+        (this.isZoomOutDisabled ? this.dom.fitExpandButton : this.dom.zoomOutButton).focus();
     }
 
     get labels() {
@@ -53,87 +41,92 @@ export default class ZoomPanel extends LightningElement {
     }
 
     /**
+     * @returns the properties of the fitExpandButton
+     */
+    get fitExpandButton() {
+        if (this.isZoomToFit()) {
+            return { title: this.labels.zoomToFitTitle, iconName: 'utility:contract_alt' };
+        }
+
+        return { title: this.labels.zoomToViewTitle, iconName: 'utility:expand_alt' };
+    }
+
+    /**
+     * Checks if zoom to fit is enabled
+     *
+     * @returns true if fit is enabled
+     */
+    isZoomToFit() {
+        return this.isZoomInDisabled;
+    }
+
+    /**
+     * Returns the zoom action from a zoom button click event
+     *
+     * @param event - The click event
+     * @returns The associated zoom action
+     */
+    zoomActionFromEvent(event: Event): string {
+        const classNames = (<HTMLElement>event.target).className.split(' ');
+
+        if (classNames.includes('zoomOutButton')) {
+            return ZOOM_ACTION.ZOOM_OUT;
+        } else if (classNames.includes('zoomInButton')) {
+            return ZOOM_ACTION.ZOOM_IN;
+        }
+        return this.isZoomToFit() ? ZOOM_ACTION.ZOOM_TO_FIT : ZOOM_ACTION.ZOOM_TO_VIEW;
+    }
+
+    /**
      * Handles click on the drag button and fires toggle marquee mode event.
      *
      * @param event - click event on the marquee button
      */
-    handleToggleMarqueeOn = (event: Event) => {
+    handleToggleMarqueeOn(event: Event) {
         event.stopPropagation();
-
-        this._action = null;
         const toggleMarqueeOnEvent = new ToggleMarqueeOnEvent();
         this.dispatchEvent(toggleMarqueeOnEvent);
         logInteraction(`marquee-select-button`, 'zoom-panel', null, 'click');
-    };
-
-    /**
-     * Handles click on the zoom out button and fires click to zoom event.
-     *
-     * @param event - click event on the zoom out button
-     */
-    handleZoomOutClick = (event: Event) => {
-        event.stopPropagation();
-
-        this._action = ZOOM_ACTION.ZOOM_OUT;
-        const clickToZoomEvent = new ClickToZoomEvent(this._action);
-        this.dispatchEvent(clickToZoomEvent);
-        logInteraction(`zoom-out-button`, 'zoom-panel', null, 'click');
-    };
-
-    /**
-     * Handles click on the zoom to fit button and fires click to zoom event.
-     *
-     * @param event - click event on the zoom to fit button
-     */
-    handleZoomToFitClick = (event: Event) => {
-        event.stopPropagation();
-
-        this._action = ZOOM_ACTION.ZOOM_TO_FIT;
-        const clickToZoomEvent = new ClickToZoomEvent(this._action);
-        this.dispatchEvent(clickToZoomEvent);
-        logInteraction(`zoom-to-fit-button`, 'zoom-panel', null, 'click');
-        this.template.querySelector('.fitButton').focus();
-    };
-
-    /**
-     * Handles click on the zoom to view button and fires click to zoom event.
-     *
-     * @param event - click event on the zoom to view button
-     */
-    handleZoomToViewClick = (event: Event) => {
-        event.stopPropagation();
-
-        this._action = ZOOM_ACTION.ZOOM_TO_VIEW;
-        const clickToZoomEvent = new ClickToZoomEvent(this._action);
-        this.dispatchEvent(clickToZoomEvent);
-        logInteraction(`zoom-to-view-button`, 'zoom-panel', null, 'click');
-    };
-
-    /**
-     * Handles click on the zoom in button and fires click to zoom event.
-     *
-     * @param event - click event on the zoom in button
-     */
-    handleZoomInClick = (event: Event) => {
-        event.stopPropagation();
-
-        this._action = ZOOM_ACTION.ZOOM_IN;
-        const clickToZoomEvent = new ClickToZoomEvent(this._action);
-        this.dispatchEvent(clickToZoomEvent);
-        logInteraction(`zoom-in-button`, 'zoom-panel', null, 'click');
-    };
-
-    renderedCallback() {
-        if (this._action === ZOOM_ACTION.ZOOM_TO_VIEW) {
-            this.template.querySelector('.fitButton').focus();
-        } else if (this._action === ZOOM_ACTION.ZOOM_TO_FIT) {
-            this.template.querySelector('.expandButton').focus();
-        }
     }
 
-    @api
-    focus() {
-        const selector = this.isZoomOutDisabled ? '.expandButton' : '.zoomOutButton';
-        this.template.querySelector(selector).focus();
+    /**
+     * Handles a zoom action
+     *
+     * @param event - The click event for the zoom button pressed
+     */
+    handleZoomAction(event: Event) {
+        event.stopPropagation();
+
+        const action = this.zoomActionFromEvent(event);
+        this.lastAction = action;
+        this.dispatchEvent(new ClickToZoomEvent(action));
+        logInteraction(action, 'zoom-panel', null, 'click');
+    }
+
+    /**
+     * Returns the next element to programatically move the focus to, if any.
+     *
+     * @param lastAction - The last action performed
+     * @returns The element to move the focus to, or null if none.
+     */
+    getNextFocusElement(): HTMLElement | null {
+        if (this.lastAction === ZOOM_ACTION.ZOOM_IN && this.isZoomInDisabled) {
+            return this.dom.zoomOutButton;
+        } else if (this.lastAction === ZOOM_ACTION.ZOOM_OUT && this.isZoomOutDisabled) {
+            return this.dom.fitExpandButton;
+        }
+
+        return null;
+    }
+
+    renderedCallback() {
+        if (this.lastAction) {
+            const elementToFocus = this.getNextFocusElement();
+
+            this.lastAction = undefined;
+            if (elementToFocus != null) {
+                elementToFocus.focus();
+            }
+        }
     }
 }

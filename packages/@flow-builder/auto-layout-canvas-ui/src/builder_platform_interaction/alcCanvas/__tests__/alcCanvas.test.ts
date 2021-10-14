@@ -217,10 +217,9 @@ describe('Auto Layout Canvas', () => {
     }
 
     function checkZoomToView() {
-        const { isZoomInDisabled, isZoomOutDisabled, isZoomToView } = getZoomPanel();
+        const { isZoomInDisabled, isZoomOutDisabled } = getZoomPanel();
         expect(isZoomInDisabled).toEqual(true);
         expect(isZoomOutDisabled).toEqual(false);
-        expect(isZoomToView).toEqual(true);
     }
 
     it('renders the component', async () => {
@@ -247,7 +246,6 @@ describe('Auto Layout Canvas', () => {
             await dispatchEvent(zoomPanel, new ClickToZoomEvent(ZOOM_ACTION.ZOOM_OUT));
             expect(zoomPanel.isZoomInDisabled).toEqual(false);
             expect(zoomPanel.isZoomOutDisabled).toEqual(false);
-            expect(zoomPanel.isZoomToView).toEqual(false);
 
             await dispatchEvent(zoomPanel, new ClickToZoomEvent(ZOOM_ACTION.ZOOM_IN));
             checkZoomToView();
@@ -259,7 +257,6 @@ describe('Auto Layout Canvas', () => {
             await dispatchEvent(zoomPanel, new ClickToZoomEvent(ZOOM_ACTION.ZOOM_OUT));
             expect(zoomPanel.isZoomInDisabled).toEqual(false);
             expect(zoomPanel.isZoomOutDisabled).toEqual(false);
-            expect(zoomPanel.isZoomToView).toEqual(false);
 
             await dispatchEvent(zoomPanel, new ClickToZoomEvent(ZOOM_ACTION.ZOOM_TO_VIEW));
             checkZoomToView();
@@ -271,7 +268,6 @@ describe('Auto Layout Canvas', () => {
             await dispatchEvent(zoomPanel, new ClickToZoomEvent(ZOOM_ACTION.ZOOM_OUT));
             expect(zoomPanel.isZoomInDisabled).toEqual(false);
             expect(zoomPanel.isZoomOutDisabled).toEqual(false);
-            expect(zoomPanel.isZoomToView).toEqual(false);
 
             await dispatchEvent(zoomPanel, new ClickToZoomEvent(ZOOM_ACTION.ZOOM_TO_FIT));
             checkZoomToView();
@@ -283,7 +279,6 @@ describe('Auto Layout Canvas', () => {
             await dispatchKeyboardCommand(cmp, ZoomOutCommand.COMMAND_NAME);
             expect(zoomPanel.isZoomInDisabled).toEqual(false);
             expect(zoomPanel.isZoomOutDisabled).toEqual(false);
-            expect(zoomPanel.isZoomToView).toEqual(false);
 
             await dispatchKeyboardCommand(cmp, ZoomInCommand.COMMAND_NAME);
             checkZoomToView();
@@ -295,7 +290,6 @@ describe('Auto Layout Canvas', () => {
             await dispatchKeyboardCommand(cmp, ZoomOutCommand.COMMAND_NAME);
             expect(zoomPanel.isZoomInDisabled).toEqual(false);
             expect(zoomPanel.isZoomOutDisabled).toEqual(false);
-            expect(zoomPanel.isZoomToView).toEqual(false);
 
             await dispatchKeyboardCommand(cmp, ZoomToViewCommand.COMMAND_NAME);
             checkZoomToView();
@@ -307,7 +301,6 @@ describe('Auto Layout Canvas', () => {
             await dispatchKeyboardCommand(cmp, ZoomOutCommand.COMMAND_NAME);
             expect(zoomPanel.isZoomInDisabled).toEqual(false);
             expect(zoomPanel.isZoomOutDisabled).toEqual(false);
-            expect(zoomPanel.isZoomToView).toEqual(false);
 
             await dispatchKeyboardCommand(cmp, ZoomToFitCommand.COMMAND_NAME);
             checkZoomToView();

@@ -218,9 +218,6 @@ export default class AlcCanvas extends LightningElement {
     lastClickedElementGuid: string | null = null;
 
     @track
-    isZoomToView = true;
-
-    @track
     isZoomInDisabled = true;
 
     @track
@@ -434,7 +431,6 @@ export default class AlcCanvas extends LightningElement {
         this._scale = scale;
         this.isZoomInDisabled = scale >= MAX_ZOOM - FUDGE;
         this.isZoomOutDisabled = scale <= MIN_ZOOM + FUDGE;
-        this.isZoomToView = this.isZoomInDisabled;
     }
 
     /**

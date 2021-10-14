@@ -95,9 +95,6 @@ export default class Canvas extends LightningElement {
     @track
     isZoomInDisabled = true;
 
-    @track
-    isZoomToView = true;
-
     canvasArea;
     innerCanvasArea;
 
@@ -655,16 +652,7 @@ export default class Canvas extends LightningElement {
             // anything on the screen
             this.isZoomOutDisabled =
                 this.innerCanvasArea.style.transform === 'scale(0.2)' || this.currentScale < SCALE_BOUNDS.MIN_SCALE;
-            this.isZoomToView = this.isZoomInDisabled = this.innerCanvasArea.style.transform === 'scale(1)';
-            if (
-                (this.isZoomOutDisabled ||
-                    this.isZoomInDisabled ||
-                    action === ZOOM_ACTION.ZOOM_TO_FIT ||
-                    action === ZOOM_ACTION.ZOOM_TO_VIEW) &&
-                document.activeElement !== this.canvasArea
-            ) {
-                this.canvasArea.focus();
-            }
+            this.isZoomInDisabled = this.innerCanvasArea.style.transform === 'scale(1)';
         }
     };
 

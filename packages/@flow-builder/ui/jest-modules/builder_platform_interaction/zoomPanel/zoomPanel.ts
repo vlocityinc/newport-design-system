@@ -12,8 +12,5 @@ export default class ZoomPanel extends LightningElement {
     isZoomOutDisabled;
 
     @api
-    isZoomToView;
-
-    @api
     isZoomInDisabled;
 }

@@ -27,8 +27,7 @@ const selectors = {
     zoomButtonGroup: 'lightning-button-group',
     zoomOutButton: 'lightning-button-icon.zoomOutButton',
     zoomInButton: 'lightning-button-icon.zoomInButton',
-    zoomToFitButton: 'lightning-button-icon.fitButton',
-    zoomToViewButton: 'lightning-button-icon.expandButton'
+    fitExpandButton: 'lightning-button-icon.fitExpandButton'
 };
 
 describe('Zoom Panel', () => {
@@ -85,45 +84,24 @@ describe('Zoom Panel', () => {
             });
         });
 
-        it('shows the zoom to fit button when isZoomToView is true', () => {
+        it('dispatches the ClickToZoomEvent with the zoom-to-view action when the fully zoomed out and the fitExpandButton button is clicked', () => {
             const zoomPanelElement = createComponentUnderTest({
-                isZoomToView: true
+                isZoomInDisabled: true
             });
-            const zoomToFitButton = zoomPanelElement.shadowRoot.querySelector(selectors.zoomToFitButton);
-            const zoomToViewButton = zoomPanelElement.shadowRoot.querySelector(selectors.zoomToViewButton);
-            expect.assertions(2);
-            expect(zoomToFitButton).not.toBeNull();
-            expect(zoomToViewButton).toBeNull();
-        });
-        it('shows the zoom to view button when isZoomToView is false', () => {
-            const zoomPanelElement = createComponentUnderTest({
-                isZoomToView: false
-            });
-            const zoomToViewButton = zoomPanelElement.shadowRoot.querySelector(selectors.zoomToViewButton);
-            const zoomToFitButton = zoomPanelElement.shadowRoot.querySelector(selectors.zoomToFitButton);
-            expect.assertions(2);
-            expect(zoomToViewButton).not.toBeNull();
-            expect(zoomToFitButton).toBeNull();
-        });
-
-        it('dispatches the ClickToZoomEvent with the zoom-to-fit action when the zoom to fit button is clicked', () => {
-            const zoomPanelElement = createComponentUnderTest({
-                isZoomToView: true
-            });
-            const zoomToFitButton = zoomPanelElement.shadowRoot.querySelector(selectors.zoomToFitButton);
+            const fitExpandButton = zoomPanelElement.shadowRoot.querySelector(selectors.fitExpandButton);
             const callBack = jest.fn();
             zoomPanelElement.addEventListener(ClickToZoomEvent.EVENT_NAME, callBack);
-            zoomToFitButton.click();
+            fitExpandButton.click();
             expect(callBack.mock.calls[0][0].detail).toMatchObject({ action: ZOOM_ACTION.ZOOM_TO_FIT });
         });
-        it('dispatches the ClickToZoomEvent with the zoom-to-view action when the zoom to view button is clicked', () => {
+        it('dispatches the ClickToZoomEvent with the zoom-to-fit action when fully zoomed in and the fitExpandButton button is clicked', () => {
             const zoomPanelElement = createComponentUnderTest({
-                isZoomToView: false
+                isZoomInDisabled: false
             });
-            const zoomToViewButton = zoomPanelElement.shadowRoot.querySelector(selectors.zoomToViewButton);
+            const fitExpandButton = zoomPanelElement.shadowRoot.querySelector(selectors.fitExpandButton);
             const callBack = jest.fn();
             zoomPanelElement.addEventListener(ClickToZoomEvent.EVENT_NAME, callBack);
-            zoomToViewButton.click();
+            fitExpandButton.click();
             expect(callBack.mock.calls[0][0].detail).toMatchObject({ action: ZOOM_ACTION.ZOOM_TO_VIEW });
         });
     });

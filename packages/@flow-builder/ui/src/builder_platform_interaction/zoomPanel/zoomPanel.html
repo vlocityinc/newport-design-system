@@ -15,46 +15,29 @@
         <lightning-button-group>
             <lightning-button-icon
                 variant="border-filled"
-                disabled={isZoomOutDisabled}
                 icon-name="utility:dash"
-                id="zoomOutButton"
                 title={labels.zoomOutTitle}
                 alternative-text={labels.zoomOutTitle}
-                onclick={handleZoomOutClick}
-                ondblclick={handleZoomOutClick}
+                onclick={handleZoomAction}
                 class="zoomOutButton"
-            >
-            </lightning-button-icon>
-            <lightning-button-icon
-                variant="border-filled"
-                if:true={isZoomToView}
-                icon-name="utility:contract_alt"
-                id="fitButton"
-                title={labels.zoomToFitTitle}
-                alternative-text={labels.zoomToFitTitle}
-                onclick={handleZoomToFitClick}
-                class="fitButton"
+                disabled={isZoomOutDisabled}
             ></lightning-button-icon>
             <lightning-button-icon
                 variant="border-filled"
-                if:false={isZoomToView}
-                icon-name="utility:expand_alt"
-                id="expandButton"
-                title={labels.zoomToViewTitle}
-                alternative-text={labels.zoomToViewTitle}
-                onclick={handleZoomToViewClick}
-                class="expandButton"
+                icon-name={fitExpandButton.iconName}
+                title={fitExpandButton.title}
+                alternative-text={fitExpandButton.title}
+                onclick={handleZoomAction}
+                class="fitExpandButton"
             ></lightning-button-icon>
             <lightning-button-icon
                 variant="border-filled"
-                disabled={isZoomInDisabled}
                 icon-name="utility:add"
-                id="zoomInButton"
                 title={labels.zoomInTitle}
                 alternative-text={labels.zoomInTitle}
-                onclick={handleZoomInClick}
-                ondblclick={handleZoomInClick}
+                onclick={handleZoomAction}
                 class="zoomInButton"
+                disabled={isZoomInDisabled}
             ></lightning-button-icon>
         </lightning-button-group>
     </div>
