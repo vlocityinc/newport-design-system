@@ -8,7 +8,11 @@
  * @modifier
  */
 .nds-box {
+
   @include box($borders: around);
+  
+  box-shadow: 2px 2px 5px rgba(155,155,155,0.521);
+  border-radius: 5px;
 
   /**
    * @summary Changes padding to .25rem
