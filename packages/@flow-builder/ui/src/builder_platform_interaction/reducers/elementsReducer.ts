@@ -31,7 +31,9 @@ import {
     ADD_CHILD,
     DELETE_CHILDREN,
     DECORATE_CANVAS,
-    CLEAR_CANVAS_DECORATION
+    CLEAR_CANVAS_DECORATION,
+    UPDATE_CANVAS_ELEMENT_ERROR_STATE,
+    UPDATE_RESOURCE_ERROR_STATE
 } from 'builder_platform_interaction/actions';
 import { isDevNameInStore } from 'builder_platform_interaction/storeUtils';
 import { updateProperties, omit, addItem } from 'builder_platform_interaction/dataMutationLib';
@@ -70,6 +72,7 @@ export default function elementsReducer(state = {}, action) {
         case ADD_RESOURCE:
         case UPDATE_CANVAS_ELEMENT:
         case UPDATE_RESOURCE:
+        case UPDATE_RESOURCE_ERROR_STATE:
             return _addOrUpdateElement(state, action.payload.guid, action.payload);
         case UPDATE_CANVAS_ELEMENT_LOCATION:
             return _updateCanvasElementsLocation(state, action.payload);
@@ -113,6 +116,7 @@ export default function elementsReducer(state = {}, action) {
         case MODIFY_START_WITH_SCHEDULED_PATHS:
         case ADD_PARENT_WITH_CHILDREN:
         case MODIFY_PARENT_WITH_CHILDREN:
+        case UPDATE_CANVAS_ELEMENT_ERROR_STATE:
             return _addOrUpdateCanvasElementWithChildElements(
                 state,
                 action.payload.canvasElement,

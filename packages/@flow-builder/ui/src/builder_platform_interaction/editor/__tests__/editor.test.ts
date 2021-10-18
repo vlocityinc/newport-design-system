@@ -21,7 +21,12 @@ import {
     AddConnectionEvent,
     EditFlowPropertiesEvent
 } from 'builder_platform_interaction/events';
-import { addElement, updateCanvasElementLocation, updateElement } from 'builder_platform_interaction/actions';
+import {
+    addElement,
+    updateCanvasElementLocation,
+    updateElement,
+    updateElementErrorState
+} from 'builder_platform_interaction/actions';
 import { Store, generateGuid } from 'builder_platform_interaction/storeLib';
 import { translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
 import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
@@ -162,6 +167,12 @@ jest.mock('builder_platform_interaction/actions', () => {
         updateElement: jest.fn((el) => {
             return {
                 updateValue: el
+            };
+        }),
+        updateElementErrorState: jest.fn((el) => {
+            return {
+                type: 'UPDATE_ERROR_STATE',
+                payload: el
             };
         }),
         addConnector: jest.fn((payload) => {
@@ -1314,6 +1325,22 @@ describe('property editor', () => {
             expect(updateElement).toHaveBeenCalledWith(elementToUpdate);
             expect(Store.getStore().dispatch).toHaveBeenCalledWith({
                 updateValue: elementToUpdate
+            });
+        });
+        it('updatenodeevent dispatches updateElementErrorState to the store when the update is for element error state', async () => {
+            expect.assertions(4);
+            expect(rightPanel).not.toBeNull();
+
+            const elementToUpdate = { config: { hasError: true } };
+            const event = new UpdateNodeEvent(elementToUpdate);
+            rightPanel.dispatchEvent(event);
+            await ticks(1);
+
+            expect(getElementForStore).toHaveBeenCalledWith(elementToUpdate);
+            expect(updateElementErrorState).toHaveBeenCalledWith(elementToUpdate);
+            expect(Store.getStore().dispatch).toHaveBeenCalledWith({
+                type: 'UPDATE_ERROR_STATE',
+                payload: elementToUpdate
             });
         });
 

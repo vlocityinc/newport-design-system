@@ -103,6 +103,9 @@ export const UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY = 'UPDATE_IS_AUTO_LAYOUT_CANV
 
 export const RESET_GOTOS = 'RESET_GOTOS';
 
+export const UPDATE_CANVAS_ELEMENT_ERROR_STATE = 'UPDATE_CANVAS_ELEMENT_ERROR_STATE';
+export const UPDATE_RESOURCE_ERROR_STATE = 'UPDATE_RESOURCE_ERROR_STATE';
+
 /**
  * Helper function to create actions.
  *
@@ -278,6 +281,26 @@ export const updateElement = (payload) => {
 
                 // Added to support strategy builder non-canvas elements
                 return createAction(UPDATE_RESOURCE, payload);
+        }
+    }
+    return {};
+};
+
+/**
+ * Action for updating an element's error state in the store.
+ *
+ * @param payload - contains GUID of the element to be updated and new values
+ * @returns new action based on type and payload
+ */
+export const updateElementErrorState = (payload: any): object => {
+    if (payload) {
+        switch (payload.elementType) {
+            case ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES:
+            case ELEMENT_TYPE.START_WITH_MODIFIED_AND_DELETED_SCHEDULED_PATHS:
+            case ELEMENT_TYPE.ORCHESTRATED_STAGE_WITH_MODIFIED_AND_DELETED_STEPS:
+                return createAction(UPDATE_CANVAS_ELEMENT_ERROR_STATE, payload);
+            default:
+                return createAction(UPDATE_RESOURCE_ERROR_STATE, payload);
         }
     }
     return {};

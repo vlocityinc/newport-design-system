@@ -55,7 +55,10 @@ import {
     updateIsAutoLayoutCanvasProperty,
     updatePropertiesAfterActivateButtonPress,
     updatePropertiesAfterCreatingFlowFromProcessTypeAndTriggerType,
-    updatePropertiesAfterCreatingFlowFromTemplate
+    updatePropertiesAfterCreatingFlowFromTemplate,
+    UPDATE_CANVAS_ELEMENT_ERROR_STATE,
+    UPDATE_RESOURCE_ERROR_STATE,
+    updateElementErrorState
 } from 'builder_platform_interaction/actions';
 import {
     ELEMENT_TYPE,
@@ -528,7 +531,9 @@ export default class Editor extends LightningElement {
             UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE_AND_TRIGGER_TYPE,
             UPDATE_ENTITIES,
             SELECTION_ON_FIXED_CANVAS,
-            UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY
+            UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY,
+            UPDATE_CANVAS_ELEMENT_ERROR_STATE,
+            UPDATE_RESOURCE_ERROR_STATE
         ];
         const groupedActions = [
             TOGGLE_ON_CANVAS, // Used for shift-select elements on canvas.
@@ -2475,7 +2480,11 @@ export default class Editor extends LightningElement {
         const nodeForStore = getElementForStore(node);
         const currentNode = getElementByGuid(nodeForStore.guid);
         nodeForStore.isInlineEditingResource = this._isInlineEditingResource;
-        storeInstance.dispatch(updateElement(nodeForStore));
+        if (storeInstance.getCurrentState().elements[node.guid]?.config?.hasError !== node.config?.hasError) {
+            storeInstance.dispatch(updateElementErrorState(nodeForStore));
+        } else {
+            storeInstance.dispatch(updateElement(nodeForStore));
+        }
         this._isInlineEditingResource = false;
         logInteraction(`update-node-of-type-${node.elementType}`, 'modal', null, 'click');
         if (node.elementType === ELEMENT_TYPE.RECORD_LOOKUP) {

@@ -4,6 +4,7 @@ import {
     deleteElements,
     removeLastCreatedInlineResource,
     updateElement,
+    updateElementErrorState,
     ADD_DECISION_WITH_OUTCOMES,
     MODIFY_DECISION_WITH_OUTCOMES,
     UPDATE_VARIABLE_CONSTANT,
@@ -11,7 +12,9 @@ import {
     MODIFY_PARENT_WITH_CHILDREN,
     ADD_PARENT_WITH_CHILDREN,
     ADD_CHILD,
-    DELETE_CHILDREN
+    DELETE_CHILDREN,
+    UPDATE_CANVAS_ELEMENT_ERROR_STATE,
+    UPDATE_RESOURCE_ERROR_STATE
 } from '../actions';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
@@ -52,6 +55,56 @@ describe('Actions', () => {
             const action = updateElement(payload);
 
             expect(action.type).toEqual(MODIFY_PARENT_WITH_CHILDREN);
+        });
+    });
+
+    describe('updateElementErrorState', () => {
+        it('handles modify error state of decision with outcomes', () => {
+            const payload = {
+                elementType: ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES,
+                canvasElement: { elementType: 'Decision' },
+                childElements: [{ elementType: 'OUTCOME' }]
+            };
+
+            const action = updateElementErrorState(payload);
+
+            expect(action.type).toEqual(UPDATE_CANVAS_ELEMENT_ERROR_STATE);
+            expect(action.payload).toEqual(payload);
+        });
+
+        it('handles modify error state of OrchestratedStage', () => {
+            const payload = {
+                elementType: ELEMENT_TYPE.ORCHESTRATED_STAGE_WITH_MODIFIED_AND_DELETED_STEPS,
+                canvasElement: { elementType: 'OrchestratedStage' }
+            };
+
+            const action = updateElementErrorState(payload);
+
+            expect(action.type).toEqual(UPDATE_CANVAS_ELEMENT_ERROR_STATE);
+            expect(action.payload).toEqual(payload);
+        });
+
+        it('handles modify error state of StartElement', () => {
+            const payload = {
+                elementType: ELEMENT_TYPE.START_WITH_MODIFIED_AND_DELETED_SCHEDULED_PATHS,
+                canvasElement: { elementType: 'START_ELEMENT' }
+            };
+
+            const action = updateElementErrorState(payload);
+
+            expect(action.type).toEqual(UPDATE_CANVAS_ELEMENT_ERROR_STATE);
+            expect(action.payload).toEqual(payload);
+        });
+
+        it('handles modify error state of OrchestratedStageStep', () => {
+            const payload = {
+                elementType: 'STAGE_STEP'
+            };
+
+            const action = updateElementErrorState(payload);
+
+            expect(action.type).toEqual(UPDATE_RESOURCE_ERROR_STATE);
+            expect(action.payload).toEqual(payload);
         });
     });
 
