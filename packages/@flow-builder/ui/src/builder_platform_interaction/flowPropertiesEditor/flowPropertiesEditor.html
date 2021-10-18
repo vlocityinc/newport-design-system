@@ -153,12 +153,12 @@
 
             <lightning-input
                 if:true={isRecordTriggeredFlow}
-                label={labels.priorityLabel}
+                label={labels.triggerOrderLabel}
                 type="number"
-                onchange={handlePriorityChanged}
-                value={priority}
+                onchange={handleTriggerOrderChanged}
+                value={triggerOrder}
                 class="priority slds-col slds-grow slds-p-top_small"
-                field-level-help={labels.priorityHelpText}
+                field-level-help={labels.triggerOrderHelpText}
             >
             </lightning-input>
 

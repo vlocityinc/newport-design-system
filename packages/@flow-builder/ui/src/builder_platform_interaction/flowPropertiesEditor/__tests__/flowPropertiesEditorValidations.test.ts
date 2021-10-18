@@ -41,9 +41,9 @@ describe('FlowPropertiesValidations', () => {
             );
         });
     });
-    describe('Priority property', () => {
+    describe('Trigger Order property', () => {
         it('Cannot be outside of the range of 1 to 2000', () => {
-            expect(flowPropertiesEditorValidation.validateProperty('priority', 9000)).toBe(
+            expect(flowPropertiesEditorValidation.validateProperty('triggerOrder', 9000)).toBe(
                 format(LABELS.shouldBeInRange, 1, 2000)
             );
         });

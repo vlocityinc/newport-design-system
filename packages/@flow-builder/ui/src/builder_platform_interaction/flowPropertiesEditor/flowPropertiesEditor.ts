@@ -50,7 +50,7 @@ const TOGGLE_CLASS_SHOW = 'show-advanced-button';
 const TOGGLE_CLASS_HIDE = 'hide-advanced-button';
 
 const SELECTORS = {
-    PRIORITY: '.priority',
+    TRIGGER_ORDER: '.priority',
     PROCESS_TYPE: '.process-type'
 };
 
@@ -264,12 +264,12 @@ export default class FlowPropertiesEditor extends LightningElement {
         return retVal;
     }
 
-    set priority(value) {
-        this.updateProperty('priority', value);
+    set triggerOrder(value) {
+        this.updateProperty('triggerOrder', value);
     }
 
-    get priority() {
-        const val = getValueFromHydratedItem(this.flowProperties.priority);
+    get triggerOrder() {
+        const val = getValueFromHydratedItem(this.flowProperties.triggerOrder);
         return val || null;
     }
 
@@ -607,19 +607,19 @@ export default class FlowPropertiesEditor extends LightningElement {
         }
     }
 
-    handlePriorityChanged(event) {
+    handleTriggerOrderChanged(event) {
         event.stopPropagation();
-        const priorityElement = this.template.querySelector(SELECTORS.PRIORITY);
+        const triggerOrderElement = this.template.querySelector(SELECTORS.TRIGGER_ORDER);
         let error = null;
         let value;
         if (event.detail.value === '') {
-            this.updateProperty('priority', '');
+            this.updateProperty('triggerOrder', '');
         } else {
             value = parseInt(event.detail.value, 10);
             error = ValidationRules.shouldBeInRange(1, 2000)(value);
-            this.updateProperty('priority', value);
+            this.updateProperty('triggerOrder', value);
         }
-        this.setElementErrorMessage(priorityElement, error);
+        this.setElementErrorMessage(triggerOrderElement, error);
     }
 
     clearForNewDefinition() {

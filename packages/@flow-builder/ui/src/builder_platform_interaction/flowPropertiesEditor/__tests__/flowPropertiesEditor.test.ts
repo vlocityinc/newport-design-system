@@ -158,7 +158,7 @@ const SELECTORS = {
     OVERRIDABLE_CHECK: 'lightning-input.overridable_check',
     OVERRIDABLE_COMBOBOX: 'builder_platform_interaction-combobox.overrides-flow-template',
     NEW_FLOW_OVERRIDES_BANNER: 'div.test-overrides-banner',
-    PRIORITY: 'lightning-input.priority'
+    TRIGGER_ORDER: 'lightning-input.priority'
 };
 
 const getLabelDescription = (flowPropertiesEditor) => {
@@ -210,8 +210,8 @@ const getApiVersion = (flowPropertiesEditor) => {
     return flowPropertiesEditor.shadowRoot.querySelector(SELECTORS.API_VERSION);
 };
 
-const getPriority = (flowPropertiesEditor) => {
-    return flowPropertiesEditor.shadowRoot.querySelector(SELECTORS.PRIORITY);
+const getTriggerOrder = (flowPropertiesEditor) => {
+    return flowPropertiesEditor.shadowRoot.querySelector(SELECTORS.TRIGGER_ORDER);
 };
 
 const getTemplateCheck = (flowPropertiesEditor) => {
@@ -544,7 +544,7 @@ describe('FlowPropertiesEditor', () => {
             });
         });
     });
-    describe('Priority Field', () => {
+    describe('Trigger Order Field', () => {
         describe('Basic check', () => {
             let baseProperties;
             beforeEach(() => {
@@ -561,14 +561,14 @@ describe('FlowPropertiesEditor', () => {
                     triggerType: FLOW_TRIGGER_TYPE.AFTER_SAVE,
                     saveType: SaveType.UPDATE,
                     runInMode: { value: null, error: null },
-                    priority: 150,
+                    triggerOrder: 150,
                     apiVersion: 49
                 };
                 flowProperties = {
                     ...baseProperties,
                     triggerType: FLOW_TRIGGER_TYPE.AFTER_SAVE,
                     processType: { value: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW },
-                    priority: 150
+                    triggerOrder: 150
                 };
                 flowPropertiesEditor = createComponentUnderTest(flowProperties);
                 getShowAdvancedButton(flowPropertiesEditor).click();
@@ -576,33 +576,33 @@ describe('FlowPropertiesEditor', () => {
 
             it('displays the value associated with current priority', async () => {
                 await Promise.resolve();
-                expect(getPriority(flowPropertiesEditor).value).toEqual(150);
+                expect(getTriggerOrder(flowPropertiesEditor).value).toEqual(150);
             });
             it('will show an error if the value entered is out of the range', async () => {
                 await Promise.resolve();
-                const priorityField = getPriority(flowPropertiesEditor);
-                priorityField.dispatchEvent(
+                const triggerOrderField = getTriggerOrder(flowPropertiesEditor);
+                triggerOrderField.dispatchEvent(
                     new CustomEvent('change', {
                         detail: { value: 2001 }
                     })
                 );
-                expect(priorityField.getAttribute('aria-invalid')).toEqual('true');
+                expect(triggerOrderField.getAttribute('aria-invalid')).toEqual('true');
             });
             it('will revert an error if the value is in the range', async () => {
-                const priorityField = getPriority(flowPropertiesEditor);
-                priorityField.dispatchEvent(
+                const triggerOrderField = getTriggerOrder(flowPropertiesEditor);
+                triggerOrderField.dispatchEvent(
                     new CustomEvent('change', {
                         detail: { value: 2001 }
                     })
                 );
-                expect(priorityField.getAttribute('aria-invalid')).toEqual('true');
-                priorityField.dispatchEvent(
+                expect(triggerOrderField.getAttribute('aria-invalid')).toEqual('true');
+                triggerOrderField.dispatchEvent(
                     new CustomEvent('change', {
                         detail: { value: 1000 }
                     })
                 );
                 await ticks(1);
-                expect(priorityField.getAttribute('aria-invalid')).toEqual('false');
+                expect(triggerOrderField.getAttribute('aria-invalid')).toEqual('false');
             });
         });
     });
