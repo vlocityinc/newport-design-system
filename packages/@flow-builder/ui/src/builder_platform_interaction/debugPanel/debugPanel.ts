@@ -58,6 +58,8 @@ export default class DebugPanel extends LightningElement {
     expandLabelVar = LABELS.expandAllLabel;
     expandTitleVar = LABELS.expandAllTitle;
     fromDebugRun = false;
+    // to see if it's from a expand or collapse run
+    fromExpandCollapseClick = false;
     activeSections = [];
     // to maintain list of sections open presently, maybe different from the initial activeSections set
     openSections = [];
@@ -132,11 +134,15 @@ export default class DebugPanel extends LightningElement {
             this.expandTitleVar = LABELS.expandAllTitle;
             this.activeSections = [];
         }
+        this.fromExpandCollapseClick = true;
         this.expandAll = !this.expandAll;
     }
 
     handleSectionToggle(event) {
-        if (this.fromLabelFilter) {
+        // to see if it's from a exapnd-collapse all call
+        if (this.fromExpandCollapseClick) {
+            this.fromExpandCollapseClick = false;
+        } else if (this.fromLabelFilter) {
             if (this.showApiNames) {
                 this.activeSections = this.debugTraces
                     .filter((e) => this.openSections.includes(e.titleWithLabel))
