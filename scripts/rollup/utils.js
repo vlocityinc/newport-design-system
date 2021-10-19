@@ -7,7 +7,7 @@ export const banner = `
 // *******************************************************************************************************************
 `;
 
-const EXTERNALS = ['instrumentation/service', 'builder_framework/command', 'aura'];
+const EXTERNALS = ['o11y/client', 'instrumentation/service', 'builder_framework/command', 'aura'];
 
 export const external = (id) => {
     return EXTERNALS.includes(id) || id.startsWith('@salesforce/label');

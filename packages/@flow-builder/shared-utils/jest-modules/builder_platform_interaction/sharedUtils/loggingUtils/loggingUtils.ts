@@ -10,3 +10,5 @@ export const logPerfMarkStart = jest.fn();
 export const logPerfMarkEnd = jest.fn();
 export const logInteraction = jest.fn();
 export const setAppName = jest.fn();
+export const initMetricsTracker = jest.fn();
+export const writeMetrics = jest.fn();

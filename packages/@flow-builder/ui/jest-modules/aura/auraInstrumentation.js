@@ -18,6 +18,12 @@ const time = jest.fn().mockImplementation(() => 0);
 
 const interaction = jest.fn();
 
+const getInstrumentation = jest.fn();
+
+const trackValue = jest.fn();
+
+const incrementCounter = jest.fn();
+
 module.exports = {
     perfStart,
     perfEnd,
@@ -25,5 +31,8 @@ module.exports = {
     markStart,
     markEnd,
     time,
-    interaction
+    interaction,
+    getInstrumentation,
+    trackValue,
+    incrementCounter
 };

@@ -5,7 +5,7 @@
     "testPathIgnorePatterns": ["/build/"],
     "moduleNameMapper": {
         "^aura$": "<rootDir>/jest-modules/aura/aura",
-        "^(aura-instrumentation|instrumentation/service)$": "<rootDir>/jest-modules/aura/auraInstrumentation",
+        "^(aura-instrumentation|instrumentation/service|o11y/client)$": "<rootDir>/jest-modules/aura/auraInstrumentation",
         "^aura-storage$": "<rootDir>/jest-modules/aura/auraStorage",
         "^mock/flows/(.+)$": "<rootDir>/jest-mock-data/flows/$1",
         "^mock/debugResponse/(.+)$": "<rootDir>/jest-mock-data/debugResponse/$1",

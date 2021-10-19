@@ -180,9 +180,19 @@ import {
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { ConnectionSource } from 'builder_platform_interaction/autoLayoutCanvas';
 import { TEXT_AREA_MAX_LENGTH } from 'builder_platform_interaction/screenEditorUtils';
+import { time } from 'instrumentation/service';
 
 const { generateGuid } = storeUtils;
-const { logInteraction, logPerfTransactionEnd, logPerfTransactionStart, setAppName } = loggingUtils;
+const {
+    logInteraction,
+    logPerfTransactionEnd,
+    logPerfTransactionStart,
+    setAppName,
+    initMetricsTracker,
+    writeMetrics,
+    TOGGLE_CANVAS_MODE,
+    EDITOR
+} = loggingUtils;
 const { ShiftFocusForwardCommand, ShiftFocusBackwardCommand, DisplayShortcutsCommand, FocusOnDockingPanelCommand } =
     commands;
 const { KeyboardInteractions } = keyboardInteractionUtils;
@@ -194,8 +204,6 @@ const DEBUG = 'debug';
 const NEWDEBUG = 'new debug';
 const RESTARTDEBUG = 'restart debug';
 
-const EDITOR = 'EDITOR';
-const TOGGLE_CANVAS_MODE = 'TOGGLE_CANVAS_MODE';
 const ADD_ELEMENT = 'ADD_ELEMENT';
 const APP_NAME = 'FLOW_BUILDER';
 
@@ -520,6 +528,7 @@ export default class Editor extends LightningElement {
 
     constructor() {
         super();
+        initMetricsTracker();
         // Setting the app name to differentiate between FLOW_BUILDER or STRATEGY_BUILDER
         setAppName(APP_NAME);
         logPerfTransactionStart(EDITOR);
@@ -1856,6 +1865,8 @@ export default class Editor extends LightningElement {
      * @param setupInAutoLayoutCanvas - Determines what mode to setup the Canvas in
      */
     updateCanvasMode(setupInAutoLayoutCanvas = false) {
+        const duration = time();
+        let hasError = false;
         logPerfTransactionStart(TOGGLE_CANVAS_MODE);
         this.spinners.showAutoLayoutSpinner = true;
         try {
@@ -1912,9 +1923,14 @@ export default class Editor extends LightningElement {
                 newMode: setupInAutoLayoutCanvas ? 'auto-layout' : 'free-form'
             });
         } catch (e) {
+            hasError = true;
             this.spinners.showAutoLayoutSpinner = false;
             logPerfTransactionEnd(TOGGLE_CANVAS_MODE, { isSuccess: false });
             throw e;
+        } finally {
+            writeMetrics(TOGGLE_CANVAS_MODE, time() - duration, hasError, {
+                newMode: setupInAutoLayoutCanvas ? 'auto-layout' : 'free-form'
+            });
         }
     }
 

@@ -5,8 +5,7 @@ import { LABELS } from './leftPanelResourcesLabels';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { ShowResourceDetailsEvent } from 'builder_platform_interaction/events';
 
-const leftPanelResources = 'LEFT_PANEL_RESOURCES';
-const { logPerfTransactionStart, logPerfTransactionEnd } = loggingUtils;
+const { logPerfTransactionStart, logPerfTransactionEnd, LEFT_PANEL_RESOURCES } = loggingUtils;
 export default class LeftPanelResources extends LightningElement {
     private elementToFocus: HTMLElement;
 
@@ -38,7 +37,7 @@ export default class LeftPanelResources extends LightningElement {
 
     constructor() {
         super();
-        logPerfTransactionStart(leftPanelResources);
+        logPerfTransactionStart(LEFT_PANEL_RESOURCES);
     }
     get labels() {
         return LABELS;
@@ -73,7 +72,7 @@ export default class LeftPanelResources extends LightningElement {
     }
 
     renderedCallback() {
-        logPerfTransactionEnd(leftPanelResources, {
+        logPerfTransactionEnd(LEFT_PANEL_RESOURCES, {
             canvasElementsCount: this.canvasElements.length,
             nonCanvasElementsCount: this.nonCanvasElements.length
         });

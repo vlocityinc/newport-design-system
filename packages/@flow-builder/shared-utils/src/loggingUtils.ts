@@ -1,10 +1,37 @@
 import * as metricsService from 'instrumentation/service';
+import { getInstrumentation } from 'o11y/client';
+
+export const TOGGLE_CANVAS_MODE = 'TOGGLE_CANVAS_MODE';
+export const EDITOR = 'EDITOR';
+export const LEFT_PANEL_RESOURCES = 'LEFT_PANEL_RESOURCES';
+export const AUTOLAYOUT_CANVAS = 'AUTOLAYOUT_CANVAS';
 
 let appName = 'FLOW_BUILDER';
 
 // TODO: flesh these out
 type LoggingConfig = object | null;
 type LoggingContext = object | null;
+
+const metrics: any = {};
+
+export const initMetricsTracker = (): void => {
+    metrics.metricsForLoad = getInstrumentation('FLOWBUILDER.LOAD');
+    metrics.metricsForCanvas = getInstrumentation('FLOWBUILDER.CANVAS');
+};
+
+export const writeMetrics = (operation: string, duration: number, hasError: boolean, customTags: object): void => {
+    try {
+        if (operation === TOGGLE_CANVAS_MODE) {
+            metrics.metricsForCanvas.trackValue(operation, duration, hasError, customTags);
+            metrics.metricsForCanvas.incrementCounter(operation, 1, hasError, customTags);
+        } else if (operation === EDITOR || operation === LEFT_PANEL_RESOURCES || operation === AUTOLAYOUT_CANVAS) {
+            metrics.metricsForLoad.trackValue(operation, duration, hasError, customTags);
+            metrics.metricsForLoad.incrementCounter(operation, 1, hasError, customTags);
+        }
+    } catch (e) {
+        // do nothing for now
+    }
+};
 
 /**
  * Function to set the builder name e.g FLOW_BUILDER or STRATEGY_BUILDER

@@ -102,9 +102,7 @@ const { ZoomInCommand, ZoomOutCommand, ZoomToFitCommand, ZoomToViewCommand } = c
 
 const { KeyboardInteractions } = keyboardInteractionUtils;
 
-const { logPerfTransactionEnd, logPerfTransactionStart, logInteraction } = loggingUtils;
-
-const AUTOLAYOUT_CANVAS = 'AUTOLAYOUT_CANVAS';
+const { logPerfTransactionEnd, logPerfTransactionStart, logInteraction, AUTOLAYOUT_CANVAS } = loggingUtils;
 
 const AUTOLAYOUT_CANVAS_SELECTION = 'AUTOLAYOUT_CANVAS_SELECTION';
 
