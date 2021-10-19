@@ -19,7 +19,6 @@ import {
     hasGoToOnNext,
     getChild,
     getTargetGuidsForReconnection,
-    isEndedBranchMergeable,
     hasGoTo
 } from 'builder_platform_interaction/autoLayoutCanvas';
 
@@ -458,10 +457,9 @@ function randomAddGoToEvent(storeInstance) {
 
     const source = { guid: prev || parent, childIndex };
     const { canAddGoTo, next } = getAlcMenuData(elements, prev, childIndex, parent);
-    const canMergeEndedBranch = isEndedBranchMergeable(elements, source);
 
     if (canAddGoTo) {
-        const { goToableGuids } = getTargetGuidsForReconnection(elements, source, next, canMergeEndedBranch);
+        const { goToableGuids } = getTargetGuidsForReconnection(elements, source, next);
         if (goToableGuids.length > 0) {
             const randomGoToGuid = goToableGuids[randomIndex(goToableGuids)];
             return new CreateGoToConnectionEvent({ guid: alcConnectionSource.guid, childIndex }, randomGoToGuid, false);

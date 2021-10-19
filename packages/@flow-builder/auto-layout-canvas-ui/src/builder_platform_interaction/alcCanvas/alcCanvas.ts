@@ -22,7 +22,6 @@ import {
     hasGoToOnNext,
     shouldDeleteGoToOnNext,
     ElementMetadata,
-    isEndedBranchMergeable,
     getConnectionTarget,
     ConnectionSource,
     getConnectionSource
@@ -795,12 +794,10 @@ export default class AlcCanvas extends LightningElement {
         this._isReroutingGoto = isReroute!;
 
         const next = getConnectionTarget(this.flowModel, source)!;
-        const canMergeEndedBranch = isEndedBranchMergeable(this._flowModel, source);
         const { mergeableGuids, goToableGuids, firstMergeableNonNullNext } = getTargetGuidsForReconnection(
             this.flowModel,
             source,
-            next,
-            canMergeEndedBranch
+            next
         );
 
         this._goToableGuids = goToableGuids;

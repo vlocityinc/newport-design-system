@@ -15,6 +15,7 @@ import {
     hasChildren,
     hasGoToOnNext,
     hasGoToOnBranchHead,
+    hasGoTo,
     FAULT_INDEX,
     ConnectionSource,
     getConnectionTarget
@@ -617,9 +618,7 @@ function getAlcMenuData(
 ) {
     const detail = event.detail;
 
-    const { guid, childIndex } = detail.source;
-    const parent = childIndex != null ? guid : null;
-
+    const { guid } = detail.source;
     const { flowModel, elementsMetadata } = context;
 
     const style = getMenuStyle(detail, containerElementGeometry, menuButtonHalfWidth, scale, needToPosition);
@@ -629,25 +628,11 @@ function getAlcMenuData(
     const targetGuid = detail.source ? getConnectionTarget(flowModel, detail.source) : null;
 
     const targetElement = targetGuid != null ? flowModel[targetGuid] : null;
-
-    let isTargetEnd = false;
-    let isGoToConnector = false;
-    if (targetElement != null) {
-        // Checking for GoTo on branchHead and setting canMergeEndedBranch accordingly
-        if (parent && childIndex != null && hasGoToOnBranchHead(flowModel, parent, childIndex)) {
-            isGoToConnector = true;
-        } else {
-            const isNextGoTo = hasGoToOnNext(flowModel, guid);
-
-            if (isNextGoTo) {
-                isGoToConnector = true;
-            } else {
-                isTargetEnd =
-                    getElementMetadata(elementsMetadata, targetElement.elementSubtype || targetElement.elementType)
-                        .type === NodeType.END;
-            }
-        }
-    }
+    const isGoToConnector = hasGoTo(flowModel, detail.source);
+    const isTargetEnd =
+        targetElement != null &&
+        getElementMetadata(elementsMetadata, targetElement.elementSubtype || targetElement.elementType).type ===
+            NodeType.END;
 
     const hasEndElement = targetGuid == null;
     const canAddGoto = isTargetEnd || hasEndElement;

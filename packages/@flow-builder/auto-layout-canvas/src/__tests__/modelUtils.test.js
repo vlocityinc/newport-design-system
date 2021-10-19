@@ -24,6 +24,7 @@ import {
     getFlowWithGoToOnImmediateBranchHead,
     getFlowWithGoToFromAncestorToNestedElement,
     getFlowWhenGoingToLoopBranchHead,
+    getFlowWhenMergingToAncestorBranch,
     getFlowWithGoToOnFirstMergeableNonNullNext,
     getFlowWhenGoingFromForEachBranch,
     deepCopy
@@ -95,11 +96,9 @@ function checkCreateGoToConnection(
         const parent = source.childIndex != null ? source.guid : null;
 
         const next = getConnectionTarget(originalFlowModel, source);
-        if (!isEndedBranchMergeable(originalFlowModel, source)) {
-            expect(
-                createConnection(elementService(originalFlowModel), originalFlowModel, source, target, isReroute)
-            ).toMatchObject(updatedFlowModel);
-        }
+        expect(
+            createConnection(elementService(originalFlowModel), originalFlowModel, source, target, isReroute)
+        ).toMatchObject(updatedFlowModel);
     }
 }
 
@@ -361,7 +360,7 @@ describe('modelUtils', () => {
 
                 const source = { guid: 'branch-guid:0-random-guid2' };
 
-                expect(getTargetGuidsForReconnection(elements, source, 'branch-guid:0-end-guid', true)).toEqual({
+                expect(getTargetGuidsForReconnection(elements, source, 'branch-guid:0-end-guid')).toEqual({
                     firstMergeableNonNullNext: null,
                     goToableGuids: ['branch-guid:0-head-guid', 'branch-guid:0-random-guid', 'branch-guid'],
                     mergeableGuids: ['branch-guid:1-head-guid', 'branch-guid:1-random-guid', 'branch-guid:1-end-guid']
@@ -376,7 +375,7 @@ describe('modelUtils', () => {
 
                 const source = { guid: 'branch-guid', childIndex: 0 };
 
-                expect(getTargetGuidsForReconnection(elements, source, 'branch-guid:0-end-guid', true)).toEqual({
+                expect(getTargetGuidsForReconnection(elements, source, 'branch-guid:0-end-guid')).toEqual({
                     firstMergeableNonNullNext: null,
                     goToableGuids: [],
                     mergeableGuids: ['branch-guid:1-head-guid', 'branch-guid:1-random-guid', 'branch-guid:1-end-guid']
@@ -423,7 +422,7 @@ describe('modelUtils', () => {
                 };
                 const source = { guid: 'branch-guid' };
 
-                expect(getTargetGuidsForReconnection(elements, source, 'end-guid', false)).toEqual({
+                expect(getTargetGuidsForReconnection(elements, source, 'end-guid')).toEqual({
                     firstMergeableNonNullNext: null,
                     goToableGuids: [],
                     mergeableGuids: []
@@ -476,7 +475,7 @@ describe('modelUtils', () => {
                 };
                 const source = { guid: 'branch-guid' };
 
-                expect(getTargetGuidsForReconnection(elements, source, 'end-guid', false)).toEqual({
+                expect(getTargetGuidsForReconnection(elements, source, 'end-guid')).toEqual({
                     firstMergeableNonNullNext: null,
                     goToableGuids: ['branch-guid'],
                     mergeableGuids: []
@@ -548,7 +547,7 @@ describe('modelUtils', () => {
 
                 const source = { guid: 'branch-guid:0-head1-guid', childIndex: 0 };
 
-                expect(getTargetGuidsForReconnection(elements, source, 'head1-end1-guid', true)).toEqual({
+                expect(getTargetGuidsForReconnection(elements, source, 'head1-end1-guid')).toEqual({
                     firstMergeableNonNullNext: 'screen1',
                     goToableGuids: ['branch-guid'],
                     mergeableGuids: ['head1-end2-guid']
@@ -580,7 +579,7 @@ describe('modelUtils', () => {
                 };
                 const source = { guid: 'start-guid' };
 
-                expect(getTargetGuidsForReconnection(elements, source, 'end-guid', false)).toEqual({
+                expect(getTargetGuidsForReconnection(elements, source, 'end-guid')).toEqual({
                     firstMergeableNonNullNext: null,
                     goToableGuids: [],
                     mergeableGuids: []
@@ -613,7 +612,7 @@ describe('modelUtils', () => {
                 };
                 const source = { guid: 'random-guid' };
 
-                expect(getTargetGuidsForReconnection(elements, source, 'end-guid', false)).toEqual({
+                expect(getTargetGuidsForReconnection(elements, source, 'end-guid')).toEqual({
                     firstMergeableNonNullNext: null,
                     goToableGuids: [],
                     mergeableGuids: []
@@ -690,7 +689,7 @@ describe('modelUtils', () => {
                 };
                 const source = { guid: 'branch-guid' };
 
-                expect(getTargetGuidsForReconnection(elements, source, 'end-guid', false)).toEqual({
+                expect(getTargetGuidsForReconnection(elements, source, 'end-guid')).toEqual({
                     firstMergeableNonNullNext: null,
                     goToableGuids: ['branch-guid', 'branch-guid2'],
                     mergeableGuids: []
@@ -784,7 +783,7 @@ describe('modelUtils', () => {
 
                 const source = { guid: 'decision2', childIndex: 0 };
 
-                expect(getTargetGuidsForReconnection(flowModel, source, 'end1', true)).toEqual({
+                expect(getTargetGuidsForReconnection(flowModel, source, 'end1')).toEqual({
                     firstMergeableNonNullNext: 'end',
                     goToableGuids: ['screen1', 'decision1', 'screen2'],
                     mergeableGuids: ['screen3']
@@ -855,10 +854,646 @@ describe('modelUtils', () => {
 
                 const source = { guid: 'branch-guid2', childIndex: 0 };
 
-                expect(getTargetGuidsForReconnection(elements, source, 'end-guid2', true)).toEqual({
+                expect(getTargetGuidsForReconnection(elements, source, 'end-guid2')).toEqual({
                     firstMergeableNonNullNext: 'end-guid',
                     goToableGuids: ['branch-guid'],
                     mergeableGuids: ['random-guid']
+                });
+            });
+
+            it('merge with an accestor branch', () => {
+                const elements = {
+                    'branch-guid': {
+                        guid: 'branch-guid',
+                        prev: 'start-guid',
+                        label: 'branch-guid',
+                        elementType: 'branch',
+                        next: null,
+                        nodeType: 'branch',
+                        children: ['branch-guid2', 'screen-guid'],
+                        isCanvasElement: true
+                    },
+                    'branch-guid2': {
+                        guid: 'branch-guid2',
+                        isTerminal: true,
+                        label: 'branch-guid2',
+                        elementType: 'branch',
+                        nodeType: 'branch',
+                        isCanvasElement: true,
+                        parent: 'branch-guid',
+                        childIndex: 0,
+                        children: ['end-guid2', 'end-guid3']
+                    },
+                    'end-guid3': {
+                        guid: 'end-guid3',
+                        label: 'end-guid3',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isTerminal: true,
+                        isCanvasElement: true,
+                        parent: 'branch-guid2',
+                        childIndex: 1
+                    },
+                    'end-guid2': {
+                        guid: 'end-guid2',
+                        label: 'end-guid2',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isCanvasElement: true,
+                        parent: 'branch-guid2',
+                        isTerminal: true,
+                        childIndex: 0
+                    },
+                    'end-guid': {
+                        guid: 'end-guid',
+                        label: 'end-guid',
+                        elementType: 'END_ELEMENT',
+                        isCanvasElement: true,
+                        prev: 'screen-guid'
+                    },
+                    'screen-guid': {
+                        guid: 'screen-guid',
+                        isTerminal: true,
+                        label: 'screen-guid',
+                        elementType: 'Screen',
+                        nodeType: 'default',
+                        isCanvasElement: true,
+                        parent: 'branch-guid',
+                        childIndex: 1,
+                        next: 'end-guid'
+                    },
+                    root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
+                    'start-guid': {
+                        childIndex: 0,
+                        elementType: 'start',
+                        guid: 'start-guid',
+                        isCanvasElement: true,
+                        isTerminal: true,
+                        label: 'start-guid',
+                        next: 'branch-guid',
+                        nodeType: 'start',
+                        parent: 'root'
+                    }
+                };
+
+                const source = { guid: 'branch-guid2', childIndex: 0 };
+
+                expect(getTargetGuidsForReconnection(elements, source, 'end-guid2')).toEqual({
+                    firstMergeableNonNullNext: null,
+                    goToableGuids: ['branch-guid'],
+                    mergeableGuids: ['end-guid3', 'screen-guid', 'end-guid']
+                });
+            });
+
+            it('merge with an descendant branch', () => {
+                const elements = {
+                    'branch-guid': {
+                        guid: 'branch-guid',
+                        prev: 'start-guid',
+                        label: 'branch-guid',
+                        elementType: 'branch',
+                        next: null,
+                        nodeType: 'branch',
+                        children: ['branch-guid2', 'screen-guid'],
+                        isCanvasElement: true
+                    },
+                    'branch-guid2': {
+                        guid: 'branch-guid2',
+                        isTerminal: true,
+                        label: 'branch-guid2',
+                        elementType: 'branch',
+                        nodeType: 'branch',
+                        isCanvasElement: true,
+                        parent: 'branch-guid',
+                        childIndex: 0,
+                        children: ['end-guid2', 'end-guid3']
+                    },
+                    'end-guid3': {
+                        guid: 'end-guid3',
+                        label: 'end-guid3',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isTerminal: true,
+                        isCanvasElement: true,
+                        parent: 'branch-guid2',
+                        childIndex: 1
+                    },
+                    'end-guid2': {
+                        guid: 'end-guid2',
+                        label: 'end-guid2',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isCanvasElement: true,
+                        parent: 'branch-guid2',
+                        isTerminal: true,
+                        childIndex: 0
+                    },
+                    'end-guid': {
+                        guid: 'end-guid',
+                        label: 'end-guid',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isCanvasElement: true,
+                        prev: 'screen-guid'
+                    },
+                    'screen-guid': {
+                        guid: 'screen-guid',
+                        isTerminal: true,
+                        label: 'screen-guid',
+                        elementType: 'Screen',
+                        nodeType: 'default',
+                        isCanvasElement: true,
+                        parent: 'branch-guid',
+                        childIndex: 1,
+                        next: 'end-guid'
+                    },
+                    root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
+                    'start-guid': {
+                        childIndex: 0,
+                        elementType: 'start',
+                        guid: 'start-guid',
+                        isCanvasElement: true,
+                        isTerminal: true,
+                        label: 'start-guid',
+                        next: 'branch-guid',
+                        nodeType: 'start',
+                        parent: 'root'
+                    }
+                };
+
+                const source = { guid: 'screen-guid' };
+
+                expect(getTargetGuidsForReconnection(elements, source, 'end-guid')).toEqual({
+                    firstMergeableNonNullNext: null,
+                    goToableGuids: ['branch-guid'],
+                    mergeableGuids: ['branch-guid2', 'end-guid2', 'end-guid3']
+                });
+            });
+
+            it('merge with an ancestor from a merge point', () => {
+                const elements = {
+                    'branch-guid': {
+                        guid: 'branch-guid',
+                        prev: 'start-guid',
+                        label: 'branch-guid',
+                        elementType: 'branch',
+                        next: null,
+                        nodeType: 'branch',
+                        children: ['branch-guid2', 'screen-guid'],
+                        isCanvasElement: true
+                    },
+                    'branch-guid2': {
+                        guid: 'branch-guid2',
+                        isTerminal: true,
+                        label: 'branch-guid2',
+                        elementType: 'branch',
+                        nodeType: 'branch',
+                        isCanvasElement: true,
+                        parent: 'branch-guid',
+                        childIndex: 0,
+                        children: ['end-guid', 'end-guid1']
+                    },
+                    'end-guid1': {
+                        guid: 'end-guid1',
+                        label: 'end-guid1',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isTerminal: true,
+                        isCanvasElement: true,
+                        parent: 'branch-guid2',
+                        childIndex: 1
+                    },
+                    'end-guid': {
+                        guid: 'end-guid',
+                        label: 'end-guid',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isCanvasElement: true,
+                        parent: 'branch-guid2',
+                        isTerminal: true,
+                        childIndex: 0
+                    },
+                    'screen-guid': {
+                        guid: 'screen-guid',
+                        isTerminal: true,
+                        label: 'screen-guid',
+                        elementType: 'Screen',
+                        nodeType: 'default',
+                        isCanvasElement: true,
+                        parent: 'branch-guid',
+                        childIndex: 1,
+                        next: 'branch-guid3'
+                    },
+                    'branch-guid3': {
+                        guid: 'branch-guid3',
+                        label: 'branch-guid3',
+                        elementType: 'branch',
+                        nodeType: 'branch',
+                        isCanvasElement: true,
+                        prev: 'screen-guid',
+                        children: ['branch-guid4', null, null],
+                        next: 'end-guid-merged'
+                    },
+                    'branch-guid4': {
+                        guid: 'branch-guid4',
+                        label: 'branch-guid4',
+                        elementType: 'branch',
+                        nodeType: 'branch',
+                        isCanvasElement: true,
+                        prev: 'screen-guid',
+                        children: ['end-guid3', 'end-guid4'],
+                        parent: 'branch-guid3',
+                        childIndex: 0,
+                        isTerminal: true
+                    },
+                    'end-guid3': {
+                        guid: 'end-guid3',
+                        label: 'end-guid3',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isTerminal: true,
+                        isCanvasElement: true,
+                        parent: 'branch-guid4',
+                        childIndex: 0
+                    },
+                    'end-guid4': {
+                        guid: 'end-guid4',
+                        label: 'end-guid4',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isCanvasElement: true,
+                        parent: 'branch-guid4',
+                        isTerminal: true,
+                        childIndex: 1
+                    },
+                    'end-guid-merged': {
+                        guid: 'end-guid-merged',
+                        label: 'end-guid-merged',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isCanvasElement: true,
+                        prev: 'branch-guid3'
+                    },
+                    root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
+                    'start-guid': {
+                        childIndex: 0,
+                        elementType: 'start',
+                        guid: 'start-guid',
+                        isCanvasElement: true,
+                        isTerminal: true,
+                        label: 'start-guid',
+                        next: 'branch-guid',
+                        nodeType: 'start',
+                        parent: 'root'
+                    }
+                };
+
+                const source = { guid: 'branch-guid3' };
+
+                expect(getTargetGuidsForReconnection(elements, source, 'end-guid-merged')).toEqual({
+                    firstMergeableNonNullNext: null,
+                    goToableGuids: ['branch-guid', 'screen-guid'],
+                    mergeableGuids: ['branch-guid4', 'end-guid3', 'end-guid4', 'branch-guid2', 'end-guid', 'end-guid1']
+                });
+            });
+
+            it('complex nested merge with an ancestor', () => {
+                const elements = {
+                    'branch-guid': {
+                        guid: 'branch-guid',
+                        prev: 'start-guid',
+                        label: 'branch-guid',
+                        elementType: 'branch',
+                        next: null,
+                        nodeType: 'branch',
+                        children: ['branch-guid2', 'screen-guid'],
+                        isCanvasElement: true
+                    },
+                    'branch-guid2': {
+                        guid: 'branch-guid2',
+                        isTerminal: true,
+                        label: 'branch-guid2',
+                        elementType: 'branch',
+                        nodeType: 'branch',
+                        isCanvasElement: true,
+                        parent: 'branch-guid',
+                        childIndex: 0,
+                        children: ['end-guid', 'end-guid1']
+                    },
+                    'end-guid1': {
+                        guid: 'end-guid1',
+                        label: 'end-guid1',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isTerminal: true,
+                        isCanvasElement: true,
+                        parent: 'branch-guid2',
+                        childIndex: 1
+                    },
+                    'end-guid': {
+                        guid: 'end-guid',
+                        label: 'end-guid',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isCanvasElement: true,
+                        parent: 'branch-guid2',
+                        isTerminal: true,
+                        childIndex: 0
+                    },
+                    'screen-guid': {
+                        guid: 'screen-guid',
+                        isTerminal: true,
+                        label: 'screen-guid',
+                        elementType: 'Screen',
+                        nodeType: 'default',
+                        isCanvasElement: true,
+                        parent: 'branch-guid',
+                        childIndex: 1,
+                        next: 'branch-guid3'
+                    },
+                    'branch-guid3': {
+                        guid: 'branch-guid3',
+                        label: 'branch-guid3',
+                        elementType: 'branch',
+                        nodeType: 'branch',
+                        isCanvasElement: true,
+                        prev: 'screen-guid',
+                        children: ['branch-guid4', null, null],
+                        next: 'end-guid-merged'
+                    },
+                    'branch-guid4': {
+                        guid: 'branch-guid4',
+                        label: 'branch-guid4',
+                        elementType: 'branch',
+                        nodeType: 'branch',
+                        isCanvasElement: true,
+                        prev: 'screen-guid',
+                        children: ['end-guid3', 'end-guid4'],
+                        parent: 'branch-guid3',
+                        childIndex: 0,
+                        isTerminal: true
+                    },
+                    'end-guid3': {
+                        guid: 'end-guid3',
+                        label: 'end-guid3',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isTerminal: true,
+                        isCanvasElement: true,
+                        parent: 'branch-guid4',
+                        childIndex: 0
+                    },
+                    'end-guid4': {
+                        guid: 'end-guid4',
+                        label: 'end-guid4',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isCanvasElement: true,
+                        parent: 'branch-guid4',
+                        isTerminal: true,
+                        childIndex: 1
+                    },
+                    'end-guid-merged': {
+                        guid: 'end-guid-merged',
+                        label: 'end-guid-merged',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isCanvasElement: true,
+                        prev: 'branch-guid3'
+                    },
+                    root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
+                    'start-guid': {
+                        childIndex: 0,
+                        elementType: 'start',
+                        guid: 'start-guid',
+                        isCanvasElement: true,
+                        isTerminal: true,
+                        label: 'start-guid',
+                        next: 'branch-guid',
+                        nodeType: 'start',
+                        parent: 'root'
+                    }
+                };
+
+                const source = { guid: 'branch-guid2', childIndex: 1 };
+
+                expect(getTargetGuidsForReconnection(elements, source, 'end-guid1')).toEqual({
+                    firstMergeableNonNullNext: null,
+                    goToableGuids: ['branch-guid', 'branch-guid4'],
+                    mergeableGuids: ['end-guid', 'screen-guid', 'branch-guid3', 'end-guid-merged']
+                });
+            });
+
+            it('complex nested merge with an ancestor merge point removed', () => {
+                const elements = {
+                    'branch-guid': {
+                        guid: 'branch-guid',
+                        prev: 'start-guid',
+                        label: 'branch-guid',
+                        elementType: 'branch',
+                        next: null,
+                        nodeType: 'branch',
+                        children: ['branch-guid2', 'screen-guid'],
+                        isCanvasElement: true
+                    },
+                    'branch-guid2': {
+                        guid: 'branch-guid2',
+                        isTerminal: true,
+                        label: 'branch-guid2',
+                        elementType: 'branch',
+                        nodeType: 'branch',
+                        isCanvasElement: true,
+                        parent: 'branch-guid',
+                        childIndex: 0,
+                        children: ['end-guid', 'end-guid1']
+                    },
+                    'end-guid1': {
+                        guid: 'end-guid1',
+                        label: 'end-guid1',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isTerminal: true,
+                        isCanvasElement: true,
+                        parent: 'branch-guid2',
+                        childIndex: 1
+                    },
+                    'end-guid': {
+                        guid: 'end-guid',
+                        label: 'end-guid',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isCanvasElement: true,
+                        parent: 'branch-guid2',
+                        isTerminal: true,
+                        childIndex: 0
+                    },
+                    'screen-guid': {
+                        guid: 'screen-guid',
+                        isTerminal: true,
+                        label: 'screen-guid',
+                        elementType: 'Screen',
+                        nodeType: 'default',
+                        isCanvasElement: true,
+                        parent: 'branch-guid',
+                        childIndex: 1,
+                        next: 'branch-guid3'
+                    },
+                    'branch-guid3': {
+                        guid: 'branch-guid3',
+                        label: 'branch-guid3',
+                        elementType: 'branch',
+                        nodeType: 'branch',
+                        isCanvasElement: true,
+                        prev: 'screen-guid',
+                        children: ['branch-guid4', 'end-guid5', 'end-guid6'],
+                        next: null
+                    },
+                    'branch-guid4': {
+                        guid: 'branch-guid4',
+                        label: 'branch-guid4',
+                        elementType: 'branch',
+                        nodeType: 'branch',
+                        isCanvasElement: true,
+                        prev: 'screen-guid',
+                        children: ['end-guid3', 'end-guid4'],
+                        parent: 'branch-guid3',
+                        childIndex: 0,
+                        isTerminal: true
+                    },
+                    'end-guid3': {
+                        guid: 'end-guid3',
+                        label: 'end-guid3',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isTerminal: true,
+                        isCanvasElement: true,
+                        parent: 'branch-guid4',
+                        childIndex: 0
+                    },
+                    'end-guid4': {
+                        guid: 'end-guid4',
+                        label: 'end-guid4',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isCanvasElement: true,
+                        parent: 'branch-guid3',
+                        isTerminal: true,
+                        childIndex: 1
+                    },
+                    'end-guid5': {
+                        guid: 'end-guid5',
+                        label: 'end-guid5',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isTerminal: true,
+                        isCanvasElement: true,
+                        parent: 'branch-guid4',
+                        childIndex: 1
+                    },
+                    'end-guid6': {
+                        guid: 'end-guid6',
+                        label: 'end-guid6',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isCanvasElement: true,
+                        parent: 'branch-guid3',
+                        isTerminal: true,
+                        childIndex: 2
+                    },
+                    root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
+                    'start-guid': {
+                        childIndex: 0,
+                        elementType: 'start',
+                        guid: 'start-guid',
+                        isCanvasElement: true,
+                        isTerminal: true,
+                        label: 'start-guid',
+                        next: 'branch-guid',
+                        nodeType: 'start',
+                        parent: 'root'
+                    }
+                };
+
+                const source = { guid: 'branch-guid2', childIndex: 1 };
+
+                expect(getTargetGuidsForReconnection(elements, source, 'end-guid1')).toEqual({
+                    firstMergeableNonNullNext: null,
+                    goToableGuids: ['branch-guid'],
+                    mergeableGuids: [
+                        'end-guid',
+                        'screen-guid',
+                        'branch-guid3',
+                        'branch-guid4',
+                        'end-guid3',
+                        'end-guid4',
+                        'end-guid5',
+                        'end-guid6'
+                    ]
+                });
+            });
+
+            it('invalid guid that should not be selectable W-9967242', () => {
+                const elements = {
+                    'branch-guid': {
+                        guid: 'branch-guid',
+                        prev: 'start-guid',
+                        label: 'branch-guid',
+                        elementType: 'branch',
+                        next: 'screen-guid',
+                        nodeType: 'branch',
+                        children: ['branch-guid2', null, null],
+                        isCanvasElement: true
+                    },
+                    'branch-guid2': {
+                        guid: 'branch-guid2',
+                        isTerminal: true,
+                        label: 'branch-guid2',
+                        elementType: 'branch',
+                        nodeType: 'branch',
+                        isCanvasElement: true,
+                        parent: 'branch-guid',
+                        childIndex: 0,
+                        children: [null, 'screen-guid'],
+                        next: 'end-guid'
+                    },
+                    'end-guid': {
+                        guid: 'end-guid',
+                        label: 'end-guid',
+                        elementType: 'END_ELEMENT',
+                        nodeType: 'end',
+                        isCanvasElement: true,
+                        prev: 'branch-guid2'
+                    },
+                    'screen-guid': {
+                        guid: 'screen-guid',
+                        isTerminal: false,
+                        label: 'screen-guid',
+                        elementType: 'Screen',
+                        nodeType: 'default',
+                        isCanvasElement: true,
+                        parent: 'branch-guid2',
+                        childIndex: 1,
+                        incomingGoTo: ['branch-guid']
+                    },
+                    root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
+                    'start-guid': {
+                        childIndex: 0,
+                        elementType: 'start',
+                        guid: 'start-guid',
+                        isCanvasElement: true,
+                        isTerminal: true,
+                        label: 'start-guid',
+                        next: 'branch-guid',
+                        nodeType: 'start',
+                        parent: 'root'
+                    }
+                };
+                const source = { guid: 'branch-guid2' };
+
+                expect(getTargetGuidsForReconnection(elements, source, 'end-guid')).toEqual({
+                    firstMergeableNonNullNext: null,
+                    goToableGuids: ['branch-guid'],
+                    mergeableGuids: []
                 });
             });
 
@@ -921,7 +1556,7 @@ describe('modelUtils', () => {
 
                     const source = { guid: 'loop-guid', childIndex: FOR_EACH_INDEX };
 
-                    expect(getTargetGuidsForReconnection(elements, source, 'end-guid', true)).toEqual({
+                    expect(getTargetGuidsForReconnection(elements, source, 'end-guid')).toEqual({
                         firstMergeableNonNullNext: 'loop-guid',
                         goToableGuids: ['screen-guid'],
                         mergeableGuids: []
@@ -1031,7 +1666,7 @@ describe('modelUtils', () => {
 
                     const source = { guid: 'decision-guid', childIndex: 0 };
 
-                    expect(getTargetGuidsForReconnection(elements, source, 'left-end-guid', true)).toEqual({
+                    expect(getTargetGuidsForReconnection(elements, source, 'left-end-guid')).toEqual({
                         firstMergeableNonNullNext: 'loop-guid',
                         goToableGuids: ['screen-guid'],
                         mergeableGuids: ['middle-end-guid', 'right-end-guid']
@@ -1126,10 +1761,10 @@ describe('modelUtils', () => {
 
                     const source = { guid: 'decision-guid', childIndex: 0 };
 
-                    expect(getTargetGuidsForReconnection(elements, source, 'left-end-guid', true)).toEqual({
+                    expect(getTargetGuidsForReconnection(elements, source, 'left-end-guid')).toEqual({
                         firstMergeableNonNullNext: 'end-guid',
                         goToableGuids: ['loop-guid', 'screen-guid'],
-                        mergeableGuids: ['end-guid']
+                        mergeableGuids: []
                     });
                 });
             });
@@ -1145,7 +1780,7 @@ describe('modelUtils', () => {
                 const elements = createFlow([branchingElement], true);
                 const source = { guid: 'branch-guid:0-random-guid2' };
 
-                expect(getTargetGuidsForReconnection(elements, source, undefined, false)).toEqual({
+                expect(getTargetGuidsForReconnection(elements, source, undefined)).toEqual({
                     firstMergeableNonNullNext: null,
                     goToableGuids: ['branch-guid:0-head-guid', 'branch-guid:0-random-guid', 'branch-guid'],
                     mergeableGuids: ['branch-guid:1-head-guid', 'branch-guid:1-random-guid', 'end-guid']
@@ -1161,7 +1796,7 @@ describe('modelUtils', () => {
 
                 const source = { guid: 'branch-guid', childIndex: 1 };
 
-                expect(getTargetGuidsForReconnection(elements, source, undefined, false)).toEqual({
+                expect(getTargetGuidsForReconnection(elements, source, undefined)).toEqual({
                     firstMergeableNonNullNext: null,
                     goToableGuids: [],
                     mergeableGuids: ['branch-guid:0-head-guid', 'branch-guid:0-random-guid', 'end-guid']
@@ -1221,7 +1856,7 @@ describe('modelUtils', () => {
                 };
                 const source = { guid: 'branch-guid:0-head1-guid', childIndex: 0 };
 
-                expect(getTargetGuidsForReconnection(elements, source, undefined, false)).toEqual({
+                expect(getTargetGuidsForReconnection(elements, source, undefined)).toEqual({
                     firstMergeableNonNullNext: 'screen1',
                     goToableGuids: ['branch-guid'],
                     mergeableGuids: ['end1-guid']
@@ -1274,7 +1909,7 @@ describe('modelUtils', () => {
                     };
                     const source = { guid: 'loop-guid', childIndex: FOR_EACH_INDEX };
 
-                    expect(getTargetGuidsForReconnection(elements, source, null, true)).toEqual({
+                    expect(getTargetGuidsForReconnection(elements, source, null)).toEqual({
                         firstMergeableNonNullNext: 'loop-guid',
                         goToableGuids: ['screen-guid'],
                         mergeableGuids: []
@@ -1369,7 +2004,7 @@ describe('modelUtils', () => {
 
                     const source = { guid: 'decision-guid', childIndex: 2 };
 
-                    expect(getTargetGuidsForReconnection(elements, source, null, true)).toEqual({
+                    expect(getTargetGuidsForReconnection(elements, source, null)).toEqual({
                         firstMergeableNonNullNext: 'loop-guid',
                         goToableGuids: ['screen-guid'],
                         mergeableGuids: ['left-end-guid', 'end-guid']
@@ -1405,7 +2040,7 @@ describe('modelUtils', () => {
                 guid: 'branch-guid:0-head-guid'
             };
 
-            checkCreateMergeConnection(elements, source, 'end-guid', true);
+            checkCreateMergeConnection(elements, source, 'end-guid', false);
         });
 
         it('When reconnecting to the first mergeable non null next', () => {
@@ -1417,6 +2052,23 @@ describe('modelUtils', () => {
                 'screen-guid',
                 false
             );
+        });
+
+        it('When reconnecting to an ancestor branch', () => {
+            const flowRenderContext = getFlowWhenMergingToAncestorBranch();
+
+            checkCreateMergeConnection(
+                flowRenderContext.flowModel,
+                { guid: 'decision2-guid', childIndex: 0 },
+                'screen-guid',
+                true
+            );
+        });
+
+        it('When reconnecting to an descendant branch', () => {
+            const flowRenderContext = getFlowWhenMergingToAncestorBranch();
+
+            checkCreateMergeConnection(flowRenderContext.flowModel, { guid: 'screen-guid' }, 'end1-guid', true);
         });
     });
 

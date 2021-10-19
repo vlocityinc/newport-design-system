@@ -85,7 +85,6 @@ export {
     setChild,
     createGoToSourceRef,
     inlineFromParent,
-    isEndedBranchMergeable,
     getConnectionSource,
     getValuesFromConnectionSource
 } from './modelUtils';

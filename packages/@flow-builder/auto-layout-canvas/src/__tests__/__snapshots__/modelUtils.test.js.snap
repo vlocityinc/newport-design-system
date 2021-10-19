@@ -607,6 +607,374 @@ Object {
 }
 `;
 
+exports[`modelUtils create merge connection When reconnecting to an ancestor branch 1`] = `
+Object {
+  "decision1-guid": Object {
+    "childReferences": Array [
+      Object {
+        "childReference": "o1",
+      },
+    ],
+    "children": Array [
+      "decision2-guid",
+      null,
+    ],
+    "config": Object {},
+    "elementType": "BRANCH_ELEMENT",
+    "guid": "decision1-guid",
+    "label": "default",
+    "next": "screen-guid",
+    "nodeType": "branch",
+    "prev": "start-guid",
+  },
+  "decision2-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "o2",
+      },
+    ],
+    "children": Array [
+      null,
+      "end2-guid",
+    ],
+    "config": Object {},
+    "elementType": "BRANCH_ELEMENT",
+    "guid": "decision2-guid",
+    "isTerminal": false,
+    "label": "default",
+    "next": null,
+    "nodeType": "branch",
+    "parent": "decision1-guid",
+  },
+  "end2-guid": Object {
+    "childIndex": 1,
+    "config": Object {},
+    "elementType": "END_ELEMENT",
+    "guid": "end2-guid",
+    "isTerminal": true,
+    "label": "default",
+    "next": null,
+    "nodeType": "end",
+    "parent": "decision2-guid",
+  },
+  "end3-guid": Object {
+    "config": Object {},
+    "elementType": "END_ELEMENT",
+    "guid": "end3-guid",
+    "label": "default",
+    "next": null,
+    "nodeType": "end",
+    "prev": "screen-guid",
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "screen-guid": Object {
+    "config": Object {},
+    "elementType": "SCREEN_ELEMENT",
+    "guid": "screen-guid",
+    "isCanvasElement": true,
+    "label": "default",
+    "next": "end3-guid",
+    "nodeType": "default",
+    "prev": "decision1-guid",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "config": Object {},
+    "elementType": "START_ELEMENT",
+    "guid": "start-guid",
+    "label": "default",
+    "next": "screen-guid",
+    "nodeType": "start",
+    "parent": "root",
+  },
+}
+`;
+
+exports[`modelUtils create merge connection When reconnecting to an ancestor branch 2`] = `
+Object {
+  "decision1-guid": Object {
+    "childReferences": Array [
+      Object {
+        "childReference": "o1",
+      },
+    ],
+    "children": Array [
+      "decision2-guid",
+      null,
+    ],
+    "config": Object {},
+    "elementType": "BRANCH_ELEMENT",
+    "guid": "decision1-guid",
+    "label": "default",
+    "next": "screen-guid",
+    "nodeType": "branch",
+    "prev": "start-guid",
+  },
+  "decision2-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "o2",
+      },
+    ],
+    "children": Array [
+      null,
+      "end2-guid",
+    ],
+    "config": Object {},
+    "elementType": "BRANCH_ELEMENT",
+    "guid": "decision2-guid",
+    "isTerminal": false,
+    "label": "default",
+    "next": null,
+    "nodeType": "branch",
+    "parent": "decision1-guid",
+  },
+  "end2-guid": Object {
+    "childIndex": 1,
+    "config": Object {},
+    "elementType": "END_ELEMENT",
+    "guid": "end2-guid",
+    "isTerminal": true,
+    "label": "default",
+    "next": null,
+    "nodeType": "end",
+    "parent": "decision2-guid",
+  },
+  "end3-guid": Object {
+    "config": Object {},
+    "elementType": "END_ELEMENT",
+    "guid": "end3-guid",
+    "label": "default",
+    "next": null,
+    "nodeType": "end",
+    "prev": "screen-guid",
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "screen-guid": Object {
+    "config": Object {},
+    "elementType": "SCREEN_ELEMENT",
+    "guid": "screen-guid",
+    "isCanvasElement": true,
+    "label": "default",
+    "next": "end3-guid",
+    "nodeType": "default",
+    "prev": "decision1-guid",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "config": Object {},
+    "elementType": "START_ELEMENT",
+    "guid": "start-guid",
+    "label": "default",
+    "next": "screen-guid",
+    "nodeType": "start",
+    "parent": "root",
+  },
+}
+`;
+
+exports[`modelUtils create merge connection When reconnecting to an descendant branch 1`] = `
+Object {
+  "decision1-guid": Object {
+    "childReferences": Array [
+      Object {
+        "childReference": "o1",
+      },
+    ],
+    "children": Array [
+      "decision2-guid",
+      "screen-guid",
+    ],
+    "config": Object {},
+    "elementType": "BRANCH_ELEMENT",
+    "guid": "decision1-guid",
+    "label": "default",
+    "next": "end1-guid",
+    "nodeType": "branch",
+    "prev": "start-guid",
+  },
+  "decision2-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "o2",
+      },
+    ],
+    "children": Array [
+      null,
+      "end2-guid",
+    ],
+    "config": Object {},
+    "elementType": "BRANCH_ELEMENT",
+    "guid": "decision2-guid",
+    "isTerminal": false,
+    "label": "default",
+    "next": null,
+    "nodeType": "branch",
+    "parent": "decision1-guid",
+  },
+  "end1-guid": Object {
+    "config": Object {},
+    "elementType": "END_ELEMENT",
+    "guid": "end1-guid",
+    "label": "default",
+    "next": null,
+    "nodeType": "end",
+    "prev": "decision1-guid",
+  },
+  "end2-guid": Object {
+    "childIndex": 1,
+    "config": Object {},
+    "elementType": "END_ELEMENT",
+    "guid": "end2-guid",
+    "isTerminal": true,
+    "label": "default",
+    "next": null,
+    "nodeType": "end",
+    "parent": "decision2-guid",
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "screen-guid": Object {
+    "childIndex": 1,
+    "config": Object {},
+    "elementType": "SCREEN_ELEMENT",
+    "guid": "screen-guid",
+    "isCanvasElement": true,
+    "isTerminal": false,
+    "label": "default",
+    "next": null,
+    "nodeType": "default",
+    "parent": "decision1-guid",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "config": Object {},
+    "elementType": "START_ELEMENT",
+    "guid": "start-guid",
+    "label": "default",
+    "next": "screen-guid",
+    "nodeType": "start",
+    "parent": "root",
+  },
+}
+`;
+
+exports[`modelUtils create merge connection When reconnecting to an descendant branch 2`] = `
+Object {
+  "decision1-guid": Object {
+    "childReferences": Array [
+      Object {
+        "childReference": "o1",
+      },
+    ],
+    "children": Array [
+      "decision2-guid",
+      "screen-guid",
+    ],
+    "config": Object {},
+    "elementType": "BRANCH_ELEMENT",
+    "guid": "decision1-guid",
+    "label": "default",
+    "next": "end1-guid",
+    "nodeType": "branch",
+    "prev": "start-guid",
+  },
+  "decision2-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "o2",
+      },
+    ],
+    "children": Array [
+      null,
+      "end2-guid",
+    ],
+    "config": Object {},
+    "elementType": "BRANCH_ELEMENT",
+    "guid": "decision2-guid",
+    "isTerminal": false,
+    "label": "default",
+    "next": null,
+    "nodeType": "branch",
+    "parent": "decision1-guid",
+  },
+  "end1-guid": Object {
+    "config": Object {},
+    "elementType": "END_ELEMENT",
+    "guid": "end1-guid",
+    "label": "default",
+    "next": null,
+    "nodeType": "end",
+    "prev": "decision1-guid",
+  },
+  "end2-guid": Object {
+    "childIndex": 1,
+    "config": Object {},
+    "elementType": "END_ELEMENT",
+    "guid": "end2-guid",
+    "isTerminal": true,
+    "label": "default",
+    "next": null,
+    "nodeType": "end",
+    "parent": "decision2-guid",
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "screen-guid": Object {
+    "childIndex": 1,
+    "config": Object {},
+    "elementType": "SCREEN_ELEMENT",
+    "guid": "screen-guid",
+    "isCanvasElement": true,
+    "isTerminal": false,
+    "label": "default",
+    "next": null,
+    "nodeType": "default",
+    "parent": "decision1-guid",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "config": Object {},
+    "elementType": "START_ELEMENT",
+    "guid": "start-guid",
+    "label": "default",
+    "next": "screen-guid",
+    "nodeType": "start",
+    "parent": "root",
+  },
+}
+`;
+
 exports[`modelUtils create merge connection When reconnecting to the first mergeable non null next 1`] = `
 Object {
   "decision1-guid": Object {

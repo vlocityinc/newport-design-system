@@ -76,11 +76,15 @@ function testGetAlcMenuData(toggleMenuDetail, expectedHasEndElement, expectedIsG
                 },
                 {
                     childReference: 'o2'
+                },
+                {
+                    childReference: 'o3'
                 }
             ],
             prev: 'guid1',
             next: 'guid3',
-            children: ['guid4', 'guid1', 'guid5', null]
+            children: ['guid4', 'guid1', 'guid5', null],
+            nodeType: 'branch'
         },
         guid3: {
             guid: 'guid3',
