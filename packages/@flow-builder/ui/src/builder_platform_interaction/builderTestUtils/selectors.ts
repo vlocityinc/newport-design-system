@@ -49,6 +49,7 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     FEROV_RESOURCE_PICKER: 'builder_platform_interaction-ferov-resource-picker',
     FIELD_PICKER: 'builder_platform_interaction-field-picker',
     FIELD_TO_FEROV_EXPRESSION_BUILDER: 'builder_platform_interaction-field-to-ferov-expression-builder',
+    FILTER_CONDITION_LIST: 'builder_platform_interaction-filter-condition-list',
     ALC_BUILDER: 'builder_platform_interaction-alc-canvas',
     ALC_BUILDER_CONTAINER: 'builder_platform_interaction-alc-canvas-container',
     GET_TEMPLATES_TILE: 'builder_platform_interaction-get-templates-tile',

@@ -1,5 +1,5 @@
 /* eslint-disable lwc-core/no-inline-disable */
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from './filterConditionListLabels';
 import { getConditionsWithPrefixes, showDeleteCondition } from 'builder_platform_interaction/conditionListUtils';
@@ -11,8 +11,8 @@ import {
 } from 'builder_platform_interaction/sortEditorLib';
 import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
-import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
+import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 const { format } = commonUtils;
 
 /**
@@ -21,7 +21,6 @@ const { format } = commonUtils;
 export default class FilterConditionList extends LightningElement {
     labels = LABELS;
     elementType = ELEMENT_TYPE.COLLECTION_PROCESSOR;
-    conditionLogicFormula = 'formula_evaluates_to_true';
 
     conditionLogicOptions = [
         {
@@ -37,7 +36,7 @@ export default class FilterConditionList extends LightningElement {
             label: this.labels.customLogicLabel
         },
         {
-            value: this.conditionLogicFormula,
+            value: CONDITION_LOGIC.FORMULA,
             label: this.labels.formulaOptionLabel
         }
     ];
@@ -49,12 +48,29 @@ export default class FilterConditionList extends LightningElement {
     conditions = [];
 
     @api
-    formulaExpression;
+    formulaExpression = '';
 
     @api
     collectionReferenceDisplayText = '';
 
-    @api conditionLogic;
+    @track
+    _conditionLogic;
+
+    @track
+    showFormulaEditor = false;
+
+    set conditionLogic(value: Object) {
+        this._conditionLogic = value;
+        this.showFormulaEditor = false;
+        if (this._conditionLogic && this._conditionLogic.value === CONDITION_LOGIC.FORMULA) {
+            this.showFormulaEditor = true;
+        }
+    }
+
+    @api
+    get conditionLogic() {
+        return this._conditionLogic;
+    }
 
     _sObjectOrApexReference: SObjectOrApexReference = { value: null };
 
@@ -80,23 +96,14 @@ export default class FilterConditionList extends LightningElement {
     get showPrefix() {
         return (
             this._showPrefixValue ||
-            (this.conditionLogic !== CONDITION_LOGIC.AND && this.conditionLogic !== CONDITION_LOGIC.OR)
+            (this.conditionLogic !== CONDITION_LOGIC.AND &&
+                this.conditionLogic !== CONDITION_LOGIC.OR &&
+                this.conditionLogic !== CONDITION_LOGIC.FORMULA)
         );
     }
 
-    /**
-     * @returns true if selected condition logic is 'formula evaluates to true'.
-     */
-    get isFormulaFilter() {
-        return this.conditionLogic === this.conditionLogicFormula;
-    }
-
-    get showConditionsBuilderForSObjectOrApex() {
-        return isSObjectOrApexClass(this._sObjectOrApexReference) && !this.isFormulaFilter;
-    }
-
-    get showConditionsBuilderForPrimitive() {
-        return !isSObjectOrApexClass(this._sObjectOrApexReference) && !this.isFormulaFilter;
+    get isSObjectOrApex() {
+        return isSObjectOrApexClass(this._sObjectOrApexReference);
     }
 
     rulesForExpressionBuilder = getRulesForElementType(RULE_TYPES.COMPARISON, this.elementType);
@@ -110,7 +117,8 @@ export default class FilterConditionList extends LightningElement {
         return this.conditions && showDeleteCondition(this.conditions);
     }
 
-    _filterableRecordFields = {};
+    @track recordFields;
+
     /**
      * Populate filterable fields or apex properties in lhs of condition builder
      *
@@ -121,7 +129,7 @@ export default class FilterConditionList extends LightningElement {
             return;
         }
         let filterableFields;
-        this._filterableRecordFields = {};
+        this.recordFields = {};
         if (this._sObjectOrApexReference.isSObject) {
             filterableFields = Object.values(fields).filter((field) => field.filterable);
         } else if (this._sObjectOrApexReference.isApexClass) {
@@ -131,17 +139,8 @@ export default class FilterConditionList extends LightningElement {
             );
         }
         filterableFields.forEach((filterableField) => {
-            this._filterableRecordFields[filterableField.apiName] = filterableField;
+            this.recordFields[filterableField.apiName] = filterableField;
         });
-    }
-
-    @api
-    get recordFields() {
-        return this._filterableRecordFields;
-    }
-
-    set recordFields(fields: Object) {
-        this.populateRecordFields(fields);
     }
 
     get lhsWritable() {
@@ -162,24 +161,33 @@ export default class FilterConditionList extends LightningElement {
     }
 
     /**
-     * Hanlde condition logic 'formula'
+     * Handle condition logic 'formula'
      *
      * @param event PropertyChangedEvent
      */
-    handleConditionLogicChange(event) {
+    handleConditionLogicChanged(event) {
         const newLogicValue = event.detail.value;
-        if (newLogicValue === this.conditionLogicFormula) {
-            event.stopPropagation();
-            // need to hanlde the event when adding formula option
-        } else {
-            const propertyChangedEvent = new PropertyChangedEvent(
-                'conditionLogic',
-                newLogicValue,
-                null,
-                this.parentGuid
-            );
-            this.dispatchEvent(propertyChangedEvent);
+        this.showFormulaEditor = false;
+        if (newLogicValue === CONDITION_LOGIC.FORMULA) {
+            this.showFormulaEditor = true;
         }
+    }
+
+    /**
+     * Handle formula expression update.
+     *
+     * @param event resourced text area value change event
+     */
+    handleFormulaExpressionChanged(event) {
+        event.stopPropagation();
+        const newFormulaExpression = event.detail.value;
+        const updateFormulaEvent = new PropertyChangedEvent(
+            'formulaExpression',
+            newFormulaExpression,
+            null,
+            this.parentGuid
+        );
+        this.dispatchEvent(updateFormulaEvent);
     }
 
     connectedCallback() {

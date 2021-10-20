@@ -118,12 +118,15 @@ export default class ConditionList extends LightningElement {
     }
 
     /**
-     * Whether the conditions list will be rendered - true unless no conditions are needed
+     * Whether the conditions list will be rendered - true unless no conditions are needed or formula logic is selected
      *
      * @returns {null|boolean} whether the condition list will be displayed
      */
     get isConditionListVisible() {
-        return this.state.conditionLogic && this.state.conditionLogic.value === CONDITION_LOGIC.NO_CONDITIONS;
+        return (
+            (this.state.conditionLogic && this.state.conditionLogic.value === CONDITION_LOGIC.NO_CONDITIONS) ||
+            (this.state.conditionLogic && this.state.conditionLogic.value === CONDITION_LOGIC.FORMULA)
+        );
     }
 
     /**
@@ -180,7 +183,6 @@ export default class ConditionList extends LightningElement {
             }
             newLogicValue = this.getDefaultCustomLogicString(logicalOperator);
         }
-
         const propertyChangedEvent = new PropertyChangedEvent('conditionLogic', newLogicValue, null, this.parentGuid);
         this.dispatchEvent(propertyChangedEvent);
     }

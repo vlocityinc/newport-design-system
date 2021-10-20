@@ -5,9 +5,10 @@
         condition-logic-options={conditionLogicOptions}
         condition-logic={conditionLogic}
         logic-combobox-label={labels.filterConditionsHeader}
-        onpropertychanged={handleConditionLogicChange}
+        onpropertychanged={handleConditionLogicChanged}
     >
-        <div if:false={isFormulaFilter} slot="conditions">
+        <div slot="conditions">
+            <!-- List of condition expressions -->
             <template for:each={conditionsWithPrefixes} for:item="conditionWithPrefix" for:index="conditionIndex">
                 <div class="slds-list__item slds-is-relative" key={conditionWithPrefix.condition.rowIndex}>
                     <builder_platform_interaction-row
@@ -19,7 +20,7 @@
                     >
                         <div slot="rowBody">
                             <builder_platform_interaction-field-to-ferov-expression-builder
-                                if:true={showConditionsBuilderForSObjectOrApex}
+                                if:true={isSObjectOrApex}
                                 object-type={sobjectOrApexReference}
                                 container-element={elementType}
                                 lhs-fields={recordFields}
@@ -33,7 +34,7 @@
                             >
                             </builder_platform_interaction-field-to-ferov-expression-builder>
                             <builder_platform_interaction-fer-to-ferov-expression-builder
-                                if:true={showConditionsBuilderForPrimitive}
+                                if:false={isSObjectOrApex}
                                 container-element={elementType}
                                 rules={rulesForExpressionBuilder}
                                 expression={conditionWithPrefix.condition}
@@ -51,4 +52,16 @@
             </template>
         </div>
     </builder_platform_interaction-condition-list>
+    <!-- Use resourced text area for formula v1 -->
+    <builder_platform_interaction-resourced-textarea
+        if:true={showFormulaEditor}
+        label={labels.formulaFieldLabel}
+        name={labels.formulaFieldLabel}
+        required="true"
+        for-formula
+        row-index
+        value={formulaExpression}
+        onchange={handleFormulaExpressionChanged}
+    >
+    </builder_platform_interaction-resourced-textarea>
 </template>

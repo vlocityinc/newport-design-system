@@ -182,6 +182,17 @@ describe('Condition List', () => {
             const customLogicInput = element.shadowRoot.querySelector(selectors.conditionList);
             expect(customLogicInput).toBeNull();
         });
+        it('should hide the list of conditions for formula logic', async () => {
+            const list = Object.assign({}, listWithThreeConditionals);
+            list.conditionLogic = {
+                value: CONDITION_LOGIC.FORMULA
+            };
+            const element = createComponentUnderTest(list);
+
+            await ticks(1);
+            const conditionList = element.shadowRoot.querySelector(selectors.conditionList);
+            expect(conditionList).toBeNull();
+        });
 
         describe('AND', () => {
             it("sets the logic combobox to 'and'", async () => {

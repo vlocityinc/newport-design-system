@@ -32,19 +32,25 @@ jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
 );
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
-
+// sobject filterable field
 let mockAccountFieldsPromise = Promise.resolve(accountFields);
 jest.mock('builder_platform_interaction/sobjectLib', () => ({
     fetchFieldsForEntity: jest.fn().mockImplementation(() => mockAccountFieldsPromise),
     getEntity: jest.fn().mockImplementation((entityName) => mockEntities.find(({ apiName }) => apiName === entityName))
 }));
+// resourced text area
+jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
+    require('builder_platform_interaction_mocks/ferovResourcePicker')
+);
 
 const selectors = {
     conditionList: INTERACTION_COMPONENTS_SELECTORS.CONDITION_LIST,
     conditionCombobox: LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_CONDITION_COMBOBOX,
     lightningInput: LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_INPUT,
     fieldExpressionBuilder: INTERACTION_COMPONENTS_SELECTORS.FIELD_TO_FEROV_EXPRESSION_BUILDER,
-    ferExpressionBuilder: INTERACTION_COMPONENTS_SELECTORS.FER_TO_FEROV_EXPRESSION_BUILDER
+    ferExpressionBuilder: INTERACTION_COMPONENTS_SELECTORS.FER_TO_FEROV_EXPRESSION_BUILDER,
+    resourcedTextArea: INTERACTION_COMPONENTS_SELECTORS.RESOURCED_TEXTAREA,
+    fieldPicker: INTERACTION_COMPONENTS_SELECTORS.FIELD_PICKER
 };
 
 const conditionLogicOptions = [
@@ -61,7 +67,7 @@ const conditionLogicOptions = [
         label: LABELS.customLogicLabel
     },
     {
-        value: 'formula_evaluates_to_true',
+        value: CONDITION_LOGIC.FORMULA,
         label: LABELS.formulaOptionLabel
     }
 ];
@@ -69,7 +75,7 @@ const conditionLogicOptions = [
 const mockSObjectConditions = [
     {
         operator: { value: 'EqualTo', error: null },
-        leftHandSide: { value: 'Account.AccountSource', error: null },
+        leftHandSide: { value: 'currentItem_filterInput.AccountSource', error: null },
         rightHandSide: { value: 'web', error: null },
         rightHandSideDataType: { value: 'picklist', error: null },
         rowIndex: 'sc1'
@@ -79,7 +85,7 @@ const mockSObjectConditions = [
 const mockApexTypeConditions = [
     {
         operator: { value: 'Contains', error: null },
-        leftHandSide: { value: 'name', error: null },
+        leftHandSide: { value: 'currentItem_filterInput.name', error: null },
         rightHandSide: { value: 'test', error: null },
         rightHandSideDataType: { value: 'string', error: null },
         rowIndex: 'sc1'
@@ -165,6 +171,9 @@ describe('filter-condition-list', () => {
         it('should contain four conditon logic options', () => {
             expect(conditionLogicCombobox.options).toEqual(conditionLogicOptions);
         });
+        it('should have filter conditions header label', () => {
+            expect(conditionLogicCombobox.label).toBe('FlowBuilderFilterEditor.filterConditionsHeader');
+        });
         it('should have correct labels for condition logic options', () => {
             expect(conditionLogicCombobox.options[0].label).toBe('FlowBuilderConditionList.andConditionLogicLabel');
             expect(conditionLogicCombobox.options[1].label).toBe('FlowBuilderConditionList.orConditionLogicLabel');
@@ -202,7 +211,7 @@ describe('filter-condition-list', () => {
         it('populates all filterable fields', () => {
             let actualFields: Object = {},
                 expectedFields: Object = {};
-            actualFields = element.recordFields;
+            actualFields = fldExpressionBuilders[0].lhsFields;
             expectedFields = getFilterableFields(accountFields);
             // assert api names of received and expected object equal
             const actualApiNames = Object.values(actualFields).map((p) => p.apiName);
@@ -229,10 +238,14 @@ describe('filter-condition-list', () => {
             expect(element.shadowRoot.querySelectorAll(selectors.fieldExpressionBuilder)).toHaveLength(1);
             expect(element.shadowRoot.querySelector(selectors.ferExpressionBuilder)).toBeNull();
         });
+        it('should not display formula editor', () => {
+            expect(element.shadowRoot.querySelector(selectors.resourcedTextArea)).toBeNull();
+        });
         it('populates filterable fields for lhs on initial load', () => {
             let actual: Object = {},
                 expected: Object = {};
-            actual = element.recordFields;
+            const expressionBuilders = element.shadowRoot.querySelectorAll(selectors.fieldExpressionBuilder);
+            actual = expressionBuilders[0].lhsFields;
             expected = getApexClassSortableFields(apexClassProps);
             // compare api names of received and expected object
             actual = Object.values(actual).map((p) => p.apiName);
@@ -256,7 +269,7 @@ describe('filter-condition-list', () => {
             expect(conditionLogicCombobox.options).toEqual(conditionLogicOptions);
         });
         it('"Custom Logic" should be selected ', () => {
-            expect(getConditionLogicCombobox(element).value).toBe(CONDITION_LOGIC.CUSTOM_LOGIC);
+            expect(conditionLogicCombobox.value).toBe(CONDITION_LOGIC.CUSTOM_LOGIC);
         });
         it('Custom condition logic input should be displayed', async () => {
             await ticks(1);
@@ -278,16 +291,21 @@ describe('filter-condition-list', () => {
                 expect(ferExpressionBuilders[i].lhsMustBeWritable).toEqual(false);
             }
         });
+        it('should not display formula editor', () => {
+            expect(element.shadowRoot.querySelector(selectors.resourcedTextArea)).toBeNull();
+        });
     });
-
+    /**
+     * Condition Event handlers
+     */
     describe('Add conditions', () => {
         it('fires addConditionEvent', async () => {
             const element = createComponentUnderTest({ sobjectOrApexReference: sobjectType });
-            await ticks(1);
             const eventCallback = jest.fn();
             element.addEventListener(AddConditionEvent.EVENT_NAME, eventCallback);
             const conditionList = element.shadowRoot.querySelector(selectors.conditionList);
             conditionList.dispatchEvent(new AddConditionEvent('fakeguid'));
+            await ticks(1);
             expect(eventCallback).toHaveBeenCalled();
         });
     });
@@ -307,11 +325,11 @@ describe('filter-condition-list', () => {
             };
             // create a test element with some conditions in it
             const element = createComponentUnderTest({ sobjectOrApexReference: sobjectType });
-            await ticks(1);
             const eventCallback = jest.fn();
             element.addEventListener(UpdateConditionEvent.EVENT_NAME, eventCallback);
             const conditionList = element.shadowRoot.querySelector(selectors.conditionList);
             conditionList.dispatchEvent(new UpdateConditionEvent('guid', 0, mockCondition));
+            await ticks(1);
             expect(eventCallback).toHaveBeenCalled();
         });
     });
@@ -322,27 +340,107 @@ describe('filter-condition-list', () => {
                 sobjectOrApexReference: sobjectType,
                 conditions: mockSObjectConditions
             });
-            await ticks(1);
             const eventCallback = jest.fn();
             element.addEventListener(DeleteConditionEvent.EVENT_NAME, eventCallback);
             const conditionList = element.shadowRoot.querySelector(selectors.conditionList);
             conditionList.dispatchEvent(new DeleteConditionEvent('guid', 1));
+            await ticks(1);
             expect(eventCallback).toHaveBeenCalled();
         });
     });
 
-    describe('Property changed', () => {
-        it('fires propertyChangedEvent', async () => {
-            const element = createComponentUnderTest({
+    describe('Condition logic changed', () => {
+        let element;
+        beforeAll(() => {
+            element = createComponentUnderTest({
                 sobjectOrApexReference: sobjectType,
                 conditions: mockSObjectConditions
             });
+        });
+        it('fires propertyChangedEvent for conditionLogic', async () => {
             await ticks(1);
             const eventCallback = jest.fn();
             element.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
             const conditionList = element.shadowRoot.querySelector(selectors.conditionList);
             conditionList.dispatchEvent(new PropertyChangedEvent('conditionLogic', CONDITION_LOGIC.OR));
+            await ticks(1);
             expect(eventCallback).toHaveBeenCalled();
+        });
+        it('fires propertyChangedEvent when switching to condition logic formula', async () => {
+            const eventCallback = jest.fn();
+            element.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
+            const logicComboBox = getConditionLogicCombobox(element);
+            logicComboBox.dispatchEvent(new PropertyChangedEvent('conditionLogic', CONDITION_LOGIC.FORMULA));
+            await ticks(1);
+            expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                detail: {
+                    guid: element.parentGuid,
+                    propertyName: 'conditionLogic',
+                    value: CONDITION_LOGIC.FORMULA,
+                    error: null
+                }
+            });
+        });
+        it('should show resourced text area when switching to condition logic formula', async () => {
+            const logicComboBox = getConditionLogicCombobox(element);
+            logicComboBox.dispatchEvent(new PropertyChangedEvent('conditionLogic', CONDITION_LOGIC.FORMULA));
+            await ticks(1);
+            expect(element.shadowRoot.querySelector(selectors.resourcedTextArea)).not.toBeNull();
+        });
+        it('fires propertyChangedEvent when formula expression value changed', async () => {
+            const formulaCondition = createComponentUnderTest({
+                sobjectOrApexReference: sobjectType,
+                conditionLogic: { value: CONDITION_LOGIC.FORMULA },
+                formulaExpression: { value: '10 > 0' }
+            });
+            const eventCallback = jest.fn();
+            formulaCondition.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
+            const textArea = formulaCondition.shadowRoot.querySelector(selectors.resourcedTextArea);
+            textArea.dispatchEvent(
+                new CustomEvent('change', {
+                    detail: { value: '1 > 0' }
+                })
+            );
+            await ticks(1);
+            expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                detail: {
+                    guid: element.parentGuid,
+                    propertyName: 'formulaExpression',
+                    value: '1 > 0',
+                    error: null
+                }
+            });
+        });
+    });
+
+    /**
+     * Formula expression editor
+     */
+    describe('Formula expression editor', () => {
+        let element;
+        beforeAll(() => {
+            element = createComponentUnderTest({
+                conditionLogic: { value: CONDITION_LOGIC.FORMULA },
+                sobjectOrApexReference: sobjectType,
+                formulaExpression: { value: '10 > 11' }
+            });
+        });
+        it('should have formula logic selected in the combobox', () => {
+            expect(getConditionLogicCombobox(element).value).toBe(CONDITION_LOGIC.FORMULA);
+        });
+        it('should display label "formula evaluates to true" in the combobox', () => {
+            expect(getConditionLogicCombobox(element).label).toBe('FlowBuilderFilterEditor.filterConditionsHeader');
+        });
+        it('should display resourced text area', () => {
+            const textArea = element.shadowRoot.querySelector(selectors.resourcedTextArea);
+            expect(textArea).not.toBeNull();
+            expect(textArea.value.value).toBe('10 > 11');
+        });
+        it('should not display any expression builder', () => {
+            expect(element.shadowRoot.querySelector(selectors.ferExpressionBuilder)).toBeNull();
+            expect(element.shadowRoot.querySelector(selectors.fieldExpressionBuilder)).toBeNull();
         });
     });
 });

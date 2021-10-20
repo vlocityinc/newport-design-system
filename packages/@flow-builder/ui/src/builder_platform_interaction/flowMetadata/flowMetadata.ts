@@ -199,13 +199,14 @@ export const UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE = {
  * on the frontend (combobox values).  CUSTOM_LOGIC is used only by the frontend as a
  * combobox value
  *
- * @type {{AND: string, OR: string, ALWAYS: string, CUSTOM_LOGIC: string}}
+ * @type {{AND: string, OR: string, ALWAYS: string, CUSTOM_LOGIC: string, FORMULA: string}}
  */
 export const CONDITION_LOGIC = {
     AND: 'and',
     OR: 'or',
     CUSTOM_LOGIC: 'custom_logic',
-    NO_CONDITIONS: 'no_conditions'
+    NO_CONDITIONS: 'no_conditions',
+    FORMULA: 'formula_evaluates_to_true'
 };
 
 // Property names in wait event
