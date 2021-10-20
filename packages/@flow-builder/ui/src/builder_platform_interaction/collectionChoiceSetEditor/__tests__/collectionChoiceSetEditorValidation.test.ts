@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import CollectionChoiceSetEditor from '../collectionChoiceSetEditor';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -15,7 +16,6 @@ jest.mock('builder_platform_interaction/processTypeLib', () => {
         getProcessTypeAutomaticOutPutHandlingSupport: (processType) => {
             return processType === 'Flow' ? 'Supported' : 'Unsupported';
         },
-
         isLookupTraversalSupported: jest.fn().mockImplementation(() => true)
     };
 });
@@ -136,7 +136,9 @@ describe('Collection Choice Set Validation', () => {
 
     describe('validateAll', () => {
         const validate = (node) => {
-            return getErrorsFromHydratedElement(collectionChoiceSetValidation.validateAll(node, getRules(node, true)));
+            return getErrorsFromHydratedElement(
+                (collectionChoiceSetValidation as any)().validateAll(node, getRules(node, true))
+            );
         };
         const collectionChoice = setupComponentUnderTest(collectionChoiceObjectWithoutCollection);
         const node = collectionChoice.node;

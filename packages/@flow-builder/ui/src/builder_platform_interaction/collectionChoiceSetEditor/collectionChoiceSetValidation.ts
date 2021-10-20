@@ -1,17 +1,31 @@
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
 import { Validation } from 'builder_platform_interaction/validation';
-const additionalRules: RuleSet = {
-    collectionReference: [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank]
+
+/**
+ * Rules used in addition to defaultRules in Validation
+ *
+ * @returns rules to merge with default rules in Validation constructor
+ */
+const additionalRules = (): RuleSet => {
+    return {
+        collectionReference: [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined]
+    };
 };
 
-/*
-    major TODO
-    Values need to be VALID not just included!  "silly" currently passes in Ferov Resoucre Picker
- */
+export const collectionChoiceSetValidation = () => {
+    return new Validation(additionalRules());
+};
 
-export const collectionChoiceSetValidation = new Validation(additionalRules as RuleSet);
+export const validate = (state, showSecondSection) => {
+    return collectionChoiceSetValidation().validateAll(state, getRules(state, showSecondSection));
+};
+
 export const getRules = (collectionChoice, showSecondSection) => {
-    const overrideRules = Object.assign({}, collectionChoiceSetValidation.finalizedRules);
+    const overrideRules = Object.assign({}, collectionChoiceSetValidation().finalizedRules);
+
+    overrideRules.collectionReference.push(
+        ValidationRules.validateResourcePicker(collectionChoice.collectionReference)
+    );
 
     // Validating the following fields only after the second section is made visible
     if (showSecondSection) {

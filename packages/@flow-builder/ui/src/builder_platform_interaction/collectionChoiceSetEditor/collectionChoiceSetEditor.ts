@@ -49,11 +49,11 @@ export default class CollectionChoiceSetEditor extends LightningElement {
     showSecondSection = false;
 
     @api validate() {
-        const event = {
+        const action = {
             type: VALIDATE_ALL,
             showSecondSection: this.showSecondSection
         };
-        this.collectionChoiceSet = collectionChoiceSetReducer(this.collectionChoiceSet, event);
+        this.collectionChoiceSet = collectionChoiceSetReducer(this.collectionChoiceSet, action);
 
         return getErrorsFromHydratedElement(this.collectionChoiceSet);
     }
@@ -132,6 +132,14 @@ export default class CollectionChoiceSetEditor extends LightningElement {
         return !this.dataType;
     }
 
+    get collectionReferenceValue() {
+        return this.collectionChoiceSet?.collectionReference?.value;
+    }
+
+    get collectionReferenceError() {
+        return this.collectionChoiceSet?.collectionReference?.error;
+    }
+
     /**
      * Extract out value from the event or item if payload is from combobox
      * Ex: If a select happened it will have an item as payload
@@ -196,14 +204,15 @@ export default class CollectionChoiceSetEditor extends LightningElement {
      */
     updateResource(event: CustomEvent, error: string | null) {
         event.stopPropagation();
+        const collectionReferenceValue = event.detail?.item?.value;
 
-        this._objectType = event.detail?.item?.subtype;
-        const value = event.detail?.item?.value;
+        this.updateProperty(COLLECTION_CHOICE_SET_FIELDS.COLLECTION_REFERENCE, collectionReferenceValue, error);
+        const subtype = event.detail?.item?.subtype;
 
-        if (this._objectType) {
+        if (subtype && this._objectType !== subtype) {
+            this._objectType = subtype;
             this.menuDataFields = {};
             this.filteredMenuDataFields = {};
-            this.updateProperty(COLLECTION_CHOICE_SET_FIELDS.COLLECTION_REFERENCE, value, error);
 
             if (!error) {
                 this.getEntityFields();
@@ -331,7 +340,7 @@ export default class CollectionChoiceSetEditor extends LightningElement {
             false, // literalsAllowed
             true, // required
             false, // disabled
-            FLOW_DATA_TYPE.SOBJECT.value,
+            '', // type
             true, // enableFieldDrilldown
             true // allowSObjectFields
         );
