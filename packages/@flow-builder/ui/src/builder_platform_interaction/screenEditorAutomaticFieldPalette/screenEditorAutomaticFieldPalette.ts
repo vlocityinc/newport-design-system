@@ -6,7 +6,7 @@ import { fetchFieldsForEntity, getEntity } from 'builder_platform_interaction/so
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { LABELS } from './screenEditorAutomaticFieldPaletteLabels';
 import { containsMatcher } from 'builder_platform_interaction/filterLib';
-import { ExtraTypeInfo, FieldDataType, getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
+import { FieldDataType, getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
 import { createAddAutomaticScreenFieldEvent, SObjectReferenceChangedEvent } from 'builder_platform_interaction/events';
 import {
     getFieldByGuid,
@@ -212,7 +212,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     /**
      * Resets palette data and adds given sections if not empty
      *
-     * @param {ScreenPaletteSection[]}  paletteSections to add to palette data
+     * @param paletteSections to add to palette data
      */
     buildPaletteDataWithSections(paletteSections: ScreenPaletteSection[]) {
         this._paletteData = [];
