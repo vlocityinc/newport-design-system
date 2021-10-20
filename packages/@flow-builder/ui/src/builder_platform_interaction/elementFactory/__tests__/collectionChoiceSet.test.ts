@@ -7,6 +7,14 @@ import {
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseElementsArrayToMap } from '../base/baseElement';
 
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    return {
+        getElementByGuid: jest.fn().mockReturnValue({
+            subtype: 'Account'
+        })
+    };
+});
+
 jest.mock('../base/dynamicChoiceSet', () => {
     return {
         createDynamicChoiceSet: jest
@@ -42,7 +50,8 @@ const mockDefaultValuesForCollectionChoiceSet = {
     collectionReference: null
 };
 const paramElementForCollectionChoiceSet = {
-    collectionReference: 'mockCollectionReference'
+    collectionReference: 'mockCollectionReference',
+    object: 'Account'
 };
 const mockCollectionChoiceSetResult = {
     elementType: ELEMENT_TYPE.COLLECTION_CHOICE_SET,
@@ -70,7 +79,7 @@ describe('createCollectionChoiceSetMetadataObject', () => {
     describe('when a valid element is passed as param', () => {
         const result = createCollectionChoiceSetMetadataObject(paramElementForCollectionChoiceSet);
         it('result object matches the paramElementForCollectionChoiceSet object', () => {
-            expect(result).toMatchObject({}); // replace {} with paramElementForCollectionChoiceSet when mdapi work is in W-9806905
+            expect(result).toEqual(paramElementForCollectionChoiceSet);
         });
     });
 });

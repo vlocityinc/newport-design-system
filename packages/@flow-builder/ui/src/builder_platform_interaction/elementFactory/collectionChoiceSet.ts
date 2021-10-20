@@ -2,7 +2,7 @@ import { createDynamicChoiceSet, createDynamicChoiceSetMetadataObject } from './
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseElementsArrayToMap } from './base/baseElement';
-
+import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 /**
  * Collection choice set factory function
  *
@@ -50,10 +50,11 @@ export const createCollectionChoiceSetMetadataObject = (
         throw new Error('Element is required to create dynamic choice set meta data object');
     }
     const baseDynamicChoiceMetadataObject = createDynamicChoiceSetMetadataObject(element);
-    // const { collectionReference, collectionReferenceIndex } = element;  //Uncomment when metadata work is done
+    const { collectionReference } = element;
+    const object = getElementByGuid(collectionReference as string)?.subtype;
 
     return Object.assign(baseDynamicChoiceMetadataObject, {
-        // collectionReference, TODO: uncomment when metadata work is done. Work ID: W-9806905
-        // collectionReferenceIndex
+        collectionReference,
+        object
     });
 };
