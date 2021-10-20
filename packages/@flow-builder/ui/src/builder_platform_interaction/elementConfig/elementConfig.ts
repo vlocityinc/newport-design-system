@@ -1177,6 +1177,18 @@ export const elementTypeToConfigMap: {
             plural: LABELS.sortPluralLabel
         }
     },
+    [COLLECTION_PROCESSOR_SUB_TYPE.FILTER]: {
+        nodeConfig: {
+            iconName: 'standard:filter',
+            utilityIconName: 'utility:filter',
+            iconBackgroundColor: 'background-orange'
+        },
+        canvasElement: true,
+        labels: {
+            singular: LABELS.filterSingularLabel,
+            plural: LABELS.filterPluralLabel
+        }
+    },
     [COLLECTION_PROCESSOR_SUB_TYPE.MAP]: {
         nodeConfig: {
             iconName: 'standard:data_mapping',

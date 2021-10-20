@@ -33,6 +33,7 @@ export const ICONS_LARGE = {
     [ELEMENT_TYPE.SCREEN]: '/flow/icons/large/screen.png',
     [ELEMENT_TYPE.SUBFLOW]: '/flow/icons/large/subflow.png',
     [ELEMENT_TYPE.WAIT]: '/flow/icons/large/wait.png',
+    [COLLECTION_PROCESSOR_SUB_TYPE.FILTER]: '/flow/icons/large/filter.png',
     [COLLECTION_PROCESSOR_SUB_TYPE.SORT]: '/flow/icons/large/sort.png',
     [COLLECTION_PROCESSOR_SUB_TYPE.MAP]: '/flow/icons/large/data_mapping.png',
     [ELEMENT_TYPE.ROLLBACK]: '/flow/icons/large/rollback.png'

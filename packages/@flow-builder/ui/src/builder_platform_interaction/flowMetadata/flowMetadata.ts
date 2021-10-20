@@ -416,7 +416,8 @@ export const START_ELEMENT_FIELDS = {
 
 export enum COLLECTION_PROCESSOR_SUB_TYPE {
     SORT = 'SortCollectionProcessor',
-    MAP = 'RecommendationMapCollectionProcessor'
+    MAP = 'RecommendationMapCollectionProcessor',
+    FILTER = 'FilterCollectionProcessor'
 }
 
 export const SCHEDULED_PATH_TYPE = {

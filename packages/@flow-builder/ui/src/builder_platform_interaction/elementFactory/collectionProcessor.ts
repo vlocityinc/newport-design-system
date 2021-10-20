@@ -1,8 +1,16 @@
-import { baseCanvasElement, duplicateCanvasElement, baseCanvasElementsArrayToMap } from './base/baseElement';
-
-import { baseCanvasElementMetadataObject } from './base/baseMetadata';
+import {
+    baseCanvasElement,
+    createCondition,
+    duplicateCanvasElement,
+    baseCanvasElementsArrayToMap
+} from './base/baseElement';
+import { baseCanvasElementMetadataObject, createConditionMetadataObject } from './base/baseMetadata';
 import { createConnectorObjects } from './connector';
-import { COLLECTION_PROCESSOR_SUB_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    COLLECTION_PROCESSOR_SUB_TYPE,
+    CONDITION_LOGIC,
+    ELEMENT_TYPE
+} from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { createSortOption, createSortOptionMetadataObject } from './sortOption';
 import { createMapItem, createMapItemMetadataObject } from './mapItem';
@@ -40,9 +48,11 @@ function createCollectionProcessorItem(collectionProcessor) {
     const {
         collectionReference = null,
         assignNextValueToReference = null,
+        filterText = CONDITION_LOGIC.AND,
+        formulaExpression = null,
         outputSObjectType = null
     } = collectionProcessor;
-    let { sortOptions = null, mapItems = null } = collectionProcessor;
+    let { filterConditions = [], sortOptions = null, mapItems = null } = collectionProcessor;
     const cpItem = {
         collectionReference,
         collectionProcessorType,
@@ -74,6 +84,20 @@ function createCollectionProcessorItem(collectionProcessor) {
                 dataType: FLOW_DATA_TYPE.SOBJECT.value,
                 isCollection: true,
                 subtype: outputSObjectType
+            });
+        }
+        case COLLECTION_PROCESSOR_SUB_TYPE.FILTER: {
+            if (filterConditions && filterConditions.length) {
+                filterConditions = filterConditions.map((condition) => createCondition(condition));
+            } else if (!formulaExpression) {
+                const initFilterCondition = createCondition();
+                filterConditions = [initFilterCondition];
+            }
+
+            return Object.assign(cpItem, {
+                filterConditions,
+                filterText,
+                formulaExpression
             });
         }
         default:
@@ -122,11 +146,13 @@ function createCollectionProcessorItemMetadataObject(collectionProcessor) {
         collectionReference = null,
         collectionProcessorType,
         limit = null,
+        filterText = null,
+        formulaExpression = null,
         assignNextValueToReference = null,
         outputSObjectType = null
     } = collectionProcessor;
     const cpItemMd = { collectionReference, collectionProcessorType, limit };
-    let { sortOptions = null, mapItems = null } = collectionProcessor;
+    let { filterConditions = [], sortOptions = null, mapItems = null } = collectionProcessor;
     switch (collectionProcessorType) {
         case COLLECTION_PROCESSOR_SUB_TYPE.SORT: {
             if (sortOptions && sortOptions.length > 0) {
@@ -147,6 +173,16 @@ function createCollectionProcessorItemMetadataObject(collectionProcessor) {
                 mapItems,
                 assignNextValueToReference,
                 outputSObjectType
+            });
+        }
+        case COLLECTION_PROCESSOR_SUB_TYPE.FILTER: {
+            if (filterConditions && filterConditions.length) {
+                filterConditions = filterConditions.map((condition) => createConditionMetadataObject(condition));
+            }
+            return Object.assign(cpItemMd, {
+                filterConditions,
+                filterText,
+                formulaExpression
             });
         }
         default:

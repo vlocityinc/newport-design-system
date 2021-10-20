@@ -89,6 +89,9 @@ export default class CollectionProcessorEditor extends LightningElement {
             outputSObjectType,
             elementType,
             elementSubtype,
+            filterConditions,
+            filterText,
+            formulaExpression,
             sortOptions,
             mapItems
         } = this.collectionProcessorElement;
@@ -99,6 +102,9 @@ export default class CollectionProcessorEditor extends LightningElement {
                 collectionReference,
                 elementType,
                 elementSubtype,
+                filterConditions,
+                filterText,
+                formulaExpression,
                 sortOptions,
                 mapItems,
                 assignNextValueToReference,
