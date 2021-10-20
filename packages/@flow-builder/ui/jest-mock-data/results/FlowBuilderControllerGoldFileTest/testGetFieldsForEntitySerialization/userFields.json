@@ -33,7 +33,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "AccountId":{
       "activePicklistValues":[
@@ -68,7 +69,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "Address":{
       "activePicklistValues":[
@@ -103,7 +105,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "Alias":{
       "activePicklistValues":[
@@ -138,7 +141,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "BadgeText":{
       "activePicklistValues":[
@@ -173,7 +177,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "BannerPhotoId":{
       "activePicklistValues":[
@@ -208,7 +213,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "BannerPhotoUrl":{
       "activePicklistValues":[
@@ -243,7 +249,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "CallCenterId":{
       "activePicklistValues":[
@@ -278,7 +285,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "ChatterAdoptionStage":{
       "activePicklistValues":[
@@ -328,7 +336,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "ChatterAdoptionStageModifiedDate":{
       "activePicklistValues":[
@@ -363,7 +372,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "City":{
       "activePicklistValues":[
@@ -398,7 +408,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "CommunityNickname":{
       "activePicklistValues":[
@@ -433,7 +444,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "CompanyName":{
       "activePicklistValues":[
@@ -468,7 +480,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "ContactId":{
       "activePicklistValues":[
@@ -503,7 +516,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "Country":{
       "activePicklistValues":[
@@ -538,7 +552,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "CreatedById":{
       "activePicklistValues":[
@@ -573,7 +588,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "CreatedDate":{
       "activePicklistValues":[
@@ -608,7 +624,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "CurrencyIsoCode":{
       "activePicklistValues":[
@@ -654,7 +671,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "DefaultCurrencyIsoCode":{
       "activePicklistValues":[
@@ -700,7 +718,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "DefaultDivision":{
       "activePicklistValues":[
@@ -738,7 +757,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "DefaultGroupNotificationFrequency":{
       "activePicklistValues":[
@@ -788,7 +808,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "DelegatedApproverId":{
       "activePicklistValues":[
@@ -824,7 +845,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "Department":{
       "activePicklistValues":[
@@ -859,7 +881,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "DigestFrequency":{
       "activePicklistValues":[
@@ -905,7 +928,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "Division":{
       "activePicklistValues":[
@@ -940,7 +964,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "Email":{
       "activePicklistValues":[
@@ -975,7 +1000,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "EmailEncodingKey":{
       "activePicklistValues":[
@@ -1049,7 +1075,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "EmailPreferencesAutoBcc":{
       "activePicklistValues":[
@@ -1084,7 +1111,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "EmailPreferencesAutoBccStayInTouch":{
       "activePicklistValues":[
@@ -1119,7 +1147,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "EmailPreferencesStayInTouchReminder":{
       "activePicklistValues":[
@@ -1154,7 +1183,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "EmployeeNumber":{
       "activePicklistValues":[
@@ -1189,7 +1219,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "Extension":{
       "activePicklistValues":[
@@ -1224,7 +1255,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "Fax":{
       "activePicklistValues":[
@@ -1259,7 +1291,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "FederationIdentifier":{
       "activePicklistValues":[
@@ -1294,7 +1327,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "FirstName":{
       "activePicklistValues":[
@@ -1329,7 +1363,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "ForecastEnabled":{
       "activePicklistValues":[
@@ -1364,7 +1399,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "FullPhotoUrl":{
       "activePicklistValues":[
@@ -1399,7 +1435,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "GeocodeAccuracy":{
       "activePicklistValues":[
@@ -1477,7 +1514,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "Id":{
       "activePicklistValues":[
@@ -1512,7 +1550,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "IndividualId":{
       "activePicklistValues":[
@@ -1547,7 +1586,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "IsActive":{
       "activePicklistValues":[
@@ -1582,7 +1622,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "IsExtIndicatorVisible":{
       "activePicklistValues":[
@@ -1617,7 +1658,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "IsProfilePhotoActive":{
       "activePicklistValues":[
@@ -1652,7 +1694,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "IsSystemControlled":{
       "activePicklistValues":[
@@ -1687,7 +1730,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "LanguageLocaleKey":{
       "activePicklistValues":[
@@ -1793,7 +1837,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "LastDashboardId":{
       "activePicklistValues":[
@@ -1828,7 +1873,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "LastLoginDate":{
       "activePicklistValues":[
@@ -1863,7 +1909,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "LastLoginMessageDate":{
       "activePicklistValues":[
@@ -1898,7 +1945,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "LastModifiedById":{
       "activePicklistValues":[
@@ -1933,7 +1981,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "LastModifiedDate":{
       "activePicklistValues":[
@@ -1968,7 +2017,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "LastName":{
       "activePicklistValues":[
@@ -2003,7 +2053,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "LastPasswordChangeDate":{
       "activePicklistValues":[
@@ -2038,7 +2089,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "LastPricebookId":{
       "activePicklistValues":[
@@ -2073,7 +2125,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "LastReferencedDate":{
       "activePicklistValues":[
@@ -2108,7 +2161,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "LastTabSetId":{
       "activePicklistValues":[
@@ -2143,7 +2197,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "LastViewedDate":{
       "activePicklistValues":[
@@ -2178,7 +2233,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "Latitude":{
       "activePicklistValues":[
@@ -2213,7 +2269,8 @@
       "scale":15,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "LocaleSidKey":{
       "activePicklistValues":[
@@ -3227,7 +3284,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "Longitude":{
       "activePicklistValues":[
@@ -3262,7 +3320,8 @@
       "scale":15,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "ManagerId":{
       "activePicklistValues":[
@@ -3297,7 +3356,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "MediumBannerPhotoUrl":{
       "activePicklistValues":[
@@ -3332,7 +3392,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "MediumPhotoUrl":{
       "activePicklistValues":[
@@ -3367,7 +3428,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "MiddleName":{
       "activePicklistValues":[
@@ -3402,7 +3464,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "MobilePhone":{
       "activePicklistValues":[
@@ -3437,7 +3500,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "Name":{
       "activePicklistValues":[
@@ -3472,7 +3536,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "NumberOfFailedLogins":{
       "activePicklistValues":[
@@ -3507,7 +3572,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "OfflinePdaTrialExpirationDate":{
       "activePicklistValues":[
@@ -3542,7 +3608,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "OfflineTrialExpirationDate":{
       "activePicklistValues":[
@@ -3577,7 +3644,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "OutOfOfficeMessage":{
       "activePicklistValues":[
@@ -3612,7 +3680,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "PersonId":{
       "activePicklistValues":[
@@ -3648,7 +3717,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "Phone":{
       "activePicklistValues":[
@@ -3683,7 +3753,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "PostalCode":{
       "activePicklistValues":[
@@ -3718,7 +3789,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "ProfileId":{
       "activePicklistValues":[
@@ -3753,7 +3825,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "ProfilePhotoId":{
       "activePicklistValues":[
@@ -3788,7 +3861,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "RawCurrentStatus":{
       "activePicklistValues":[
@@ -3823,7 +3897,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "ReceivesAdminInfoEmails":{
       "activePicklistValues":[
@@ -3858,7 +3933,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "ReceivesInfoEmails":{
       "activePicklistValues":[
@@ -3893,7 +3969,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "SenderEmail":{
       "activePicklistValues":[
@@ -3928,7 +4005,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "SenderName":{
       "activePicklistValues":[
@@ -3963,7 +4041,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "SharingType":{
       "activePicklistValues":[
@@ -3998,7 +4077,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "Signature":{
       "activePicklistValues":[
@@ -4033,7 +4113,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "SmallBannerPhotoUrl":{
       "activePicklistValues":[
@@ -4068,7 +4149,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "SmallPhotoUrl":{
       "activePicklistValues":[
@@ -4103,7 +4185,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "State":{
       "activePicklistValues":[
@@ -4138,7 +4221,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "StayInTouchNote":{
       "activePicklistValues":[
@@ -4173,7 +4257,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "StayInTouchSignature":{
       "activePicklistValues":[
@@ -4208,7 +4293,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "StayInTouchSubject":{
       "activePicklistValues":[
@@ -4243,7 +4329,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "Street":{
       "activePicklistValues":[
@@ -4278,7 +4365,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "Suffix":{
       "activePicklistValues":[
@@ -4313,7 +4401,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "SystemModstamp":{
       "activePicklistValues":[
@@ -4348,7 +4437,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "TimeZoneSidKey":{
       "activePicklistValues":[],
@@ -4381,7 +4471,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "Title":{
       "activePicklistValues":[
@@ -4416,7 +4507,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "Username":{
       "activePicklistValues":[
@@ -4451,7 +4543,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPermissionsAvantgoUser":{
       "activePicklistValues":[
@@ -4486,7 +4579,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPermissionsCallCenterAutoLogin":{
       "activePicklistValues":[
@@ -4521,7 +4615,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPermissionsChatterAnswersUser":{
       "activePicklistValues":[
@@ -4556,7 +4651,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPermissionsInteractionUser":{
       "activePicklistValues":[
@@ -4591,7 +4687,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPermissionsLiveAgentUser":{
       "activePicklistValues":[
@@ -4626,7 +4723,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPermissionsMarketingUser":{
       "activePicklistValues":[
@@ -4661,7 +4759,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPermissionsOfflineUser":{
       "activePicklistValues":[
@@ -4696,7 +4795,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPermissionsSFContentUser":{
       "activePicklistValues":[
@@ -4731,7 +4831,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPermissionsSupportUser":{
       "activePicklistValues":[
@@ -4766,7 +4867,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPermissionsWirelessUser":{
       "activePicklistValues":[
@@ -4801,7 +4903,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPermissionsWorkDotComUserFeature":{
       "activePicklistValues":[
@@ -4836,7 +4939,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesAccessibleMode":{
       "activePicklistValues":[
@@ -4871,7 +4975,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesActivityRemindersPopup":{
       "activePicklistValues":[
@@ -4906,7 +5011,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesApexPagesDeveloperMode":{
       "activePicklistValues":[
@@ -4941,7 +5047,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesCacheDiagnostics":{
       "activePicklistValues":[
@@ -4976,7 +5083,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesChartsColorblindPalette":{
       "activePicklistValues":[
@@ -5011,7 +5119,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesCompleteCSNAddAGroupDescTask":{
       "activePicklistValues":[
@@ -5046,7 +5155,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesCompleteCSNAddAGroupPhotoTask":{
       "activePicklistValues":[
@@ -5081,7 +5191,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesCompleteCSNAddAPhotoTask":{
       "activePicklistValues":[
@@ -5116,7 +5227,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesCompleteCSNAddGroupMembersTask":{
       "activePicklistValues":[
@@ -5151,7 +5263,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesCompleteCSNAddHashTagTask":{
       "activePicklistValues":[
@@ -5186,7 +5299,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesCompleteCSNChangeGroupEmailSettingsTask":{
       "activePicklistValues":[
@@ -5221,7 +5335,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesCompleteCSNDesktopTask":{
       "activePicklistValues":[
@@ -5256,7 +5371,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesCompleteCSNDownloadOfflineTask":{
       "activePicklistValues":[
@@ -5291,7 +5407,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesCompleteCSNEnterContactInfoTask":{
       "activePicklistValues":[
@@ -5326,7 +5443,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesCompleteCSNFollowGroupsTask":{
       "activePicklistValues":[
@@ -5361,7 +5479,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesCompleteCSNFollowPeopleTask":{
       "activePicklistValues":[
@@ -5396,7 +5515,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesCompleteCSNFollowRecordsTask":{
       "activePicklistValues":[
@@ -5431,7 +5551,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesCompleteCSNGetChatterMobileTask":{
       "activePicklistValues":[
@@ -5466,7 +5587,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesCompleteCSNGroupTasks":{
       "activePicklistValues":[
@@ -5501,7 +5623,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesCompleteCSNInvitePeopleTask":{
       "activePicklistValues":[
@@ -5536,7 +5659,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesCompleteCSNPeopleTasks":{
       "activePicklistValues":[
@@ -5571,7 +5695,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesCompleteCSNProfileTasks":{
       "activePicklistValues":[
@@ -5606,7 +5731,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesCompleteCSNShareAFileTask":{
       "activePicklistValues":[
@@ -5641,7 +5767,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesCompleteCSNShareWhatYouAreWorkingOnTask":{
       "activePicklistValues":[
@@ -5676,7 +5803,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesCompleteCSNStartAGroupTask":{
       "activePicklistValues":[
@@ -5711,7 +5839,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesCompleteCSNWatchAVideoTask":{
       "activePicklistValues":[
@@ -5746,7 +5875,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesCompleteCSNWriteABioTask":{
       "activePicklistValues":[
@@ -5781,7 +5911,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesCompleteCSNWtdnBox":{
       "activePicklistValues":[
@@ -5816,7 +5947,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesContentEmailAsAndWhen":{
       "activePicklistValues":[
@@ -5851,7 +5983,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesContentMultiUpload":{
       "activePicklistValues":[
@@ -5886,7 +6019,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesContentNoEmail":{
       "activePicklistValues":[
@@ -5921,7 +6055,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesCreateLEXAppsWTShown":{
       "activePicklistValues":[
@@ -5956,7 +6091,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesDedupeStorageMigrationComplete":{
       "activePicklistValues":[
@@ -5991,7 +6127,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesDisableAllFeedsEmail":{
       "activePicklistValues":[
@@ -6026,7 +6163,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesDisableBookmarkEmail":{
       "activePicklistValues":[
@@ -6061,7 +6199,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesDisableChangeCommentEmail":{
       "activePicklistValues":[
@@ -6096,7 +6235,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesDisableEndorsementEmail":{
       "activePicklistValues":[
@@ -6131,7 +6271,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesDisableEQWalkthrough":{
       "activePicklistValues":[
@@ -6166,42 +6307,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
-    },
-    "UserPreferencesDisableFeedbackEmail":{
-      "activePicklistValues":[
-
-      ],
-      "apiName":"UserPreferencesDisableFeedbackEmail",
-      "compoundFieldName":null,
-      "creatable":true,
-      "dataType":"Boolean",
-      "editable":true,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN",
-      "filterable":true,
-      "inlineHelpText":null,
-      "isAvailableForFormulas":false,
-      "isAvailableForMerge":false,
-      "isCalculated":false,
-      "isCollection":false,
-      "isCompound":false,
-      "isCustom":false,
-      "isPolymorphic":false,
-      "isSpanningAllowed":false,
-      "isWorkflowFilterable":false,
-      "label":"DisableFeedbackEmail",
-      "length":0,
-      "precision":0,
-      "referenceToNames":[
-
-      ],
-      "relationshipName":null,
-      "required":true,
-      "scale":0,
-      "sobjectName":"User",
-      "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesDisableFileShareNotificationsForApi":{
       "activePicklistValues":[
@@ -6236,7 +6343,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesDisableFollowersEmail":{
       "activePicklistValues":[
@@ -6271,7 +6379,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesDisableGroupCommentEmail":{
       "activePicklistValues":[
@@ -6306,7 +6415,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesDisableGroupPostEmail":{
       "activePicklistValues":[
@@ -6341,7 +6451,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesDisableLaterCommentEmail":{
       "activePicklistValues":[
@@ -6376,7 +6487,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesDisableLikeEmail":{
       "activePicklistValues":[
@@ -6411,7 +6523,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesDisableMentionsPostEmail":{
       "activePicklistValues":[
@@ -6446,7 +6559,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesDisableMessageEmail":{
       "activePicklistValues":[
@@ -6481,7 +6595,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesDisablePendingReviewEmail":{
       "activePicklistValues":[
@@ -6516,7 +6631,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesDisableProfilePostEmail":{
       "activePicklistValues":[
@@ -6551,7 +6667,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesDisableRewardEmail":{
       "activePicklistValues":[
@@ -6586,7 +6703,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesDisableSccEmail":{
       "activePicklistValues":[
@@ -6621,7 +6739,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesDisableSharePostEmail":{
       "activePicklistValues":[
@@ -6656,7 +6775,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesDisableSocialProfiles":{
       "activePicklistValues":[
@@ -6691,7 +6811,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesDisableSocialProfilesFB":{
       "activePicklistValues":[
@@ -6726,7 +6847,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesDisableSocialProfilesLI":{
       "activePicklistValues":[
@@ -6761,7 +6883,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesDisableSocialProfilesTW":{
       "activePicklistValues":[
@@ -6796,7 +6919,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesDisableSocialProfilesYT":{
       "activePicklistValues":[
@@ -6831,7 +6955,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesDisableWorkEmail":{
       "activePicklistValues":[
@@ -6866,7 +6991,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesDisCommentAfterLikeEmail":{
       "activePicklistValues":[
@@ -6901,7 +7027,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesDisMentionsCommentEmail":{
       "activePicklistValues":[
@@ -6936,7 +7063,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesDisProfPostCommentEmail":{
       "activePicklistValues":[
@@ -6971,7 +7099,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesEnableAutoSubForFeeds":{
       "activePicklistValues":[
@@ -7006,7 +7135,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesEventRemindersCheckboxDefault":{
       "activePicklistValues":[
@@ -7041,7 +7171,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesExcludeMailAppAttachments":{
       "activePicklistValues":[
@@ -7076,7 +7207,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesFavoritesShowTopFavorites":{
       "activePicklistValues":[
@@ -7111,7 +7243,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesFavoritesWTShown":{
       "activePicklistValues":[
@@ -7146,7 +7279,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesFirstTimeInLightning":{
       "activePicklistValues":[
@@ -7181,7 +7315,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesGlobalNavBarWTShown":{
       "activePicklistValues":[
@@ -7216,7 +7351,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesGlobalNavGridMenuWTShown":{
       "activePicklistValues":[
@@ -7251,7 +7387,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesGoogleTalkCollapsed":{
       "activePicklistValues":[
@@ -7286,7 +7423,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHasCelebrationBadge":{
       "activePicklistValues":[
@@ -7321,7 +7459,44 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
+    },
+    "UserPreferencesHasSentWarningEmail":{
+      "activePicklistValues":[
+
+      ],
+      "apiName":"UserPreferencesHasSentWarningEmail",
+      "compoundFieldName":null,
+      "creatable":true,
+      "dataType":"Boolean",
+      "editable":true,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN",
+      "filterable":true,
+      "inlineHelpText":null,
+      "isAvailableForFormulas":false,
+      "isAvailableForMerge":false,
+      "isCalculated":false,
+      "isCollection":false,
+      "isCompound":false,
+      "isCustom":false,
+      "isPolymorphic":false,
+      "isSpanningAllowed":false,
+      "isWorkflowFilterable":false,
+      "label":"HasSentWarningEmail",
+      "length":0,
+      "precision":0,
+      "referenceToNames":[
+
+      ],
+      "relationshipName":null,
+      "required":true,
+      "scale":0,
+      "sobjectName":"User",
+      "sortable":false,
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHasShownEACForEveryonePopup":{
       "activePicklistValues":[
@@ -7356,7 +7531,44 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
+    },
+    "UserPreferencesHeavyPagePromptEnabled":{
+      "activePicklistValues":[
+
+      ],
+      "apiName":"UserPreferencesHeavyPagePromptEnabled",
+      "compoundFieldName":null,
+      "creatable":true,
+      "dataType":"Boolean",
+      "editable":true,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN",
+      "filterable":true,
+      "inlineHelpText":null,
+      "isAvailableForFormulas":false,
+      "isAvailableForMerge":false,
+      "isCalculated":false,
+      "isCollection":false,
+      "isCompound":false,
+      "isCustom":false,
+      "isPolymorphic":false,
+      "isSpanningAllowed":false,
+      "isWorkflowFilterable":false,
+      "label":"HeavyPagePromptEnabled",
+      "length":0,
+      "precision":0,
+      "referenceToNames":[
+
+      ],
+      "relationshipName":null,
+      "required":true,
+      "scale":0,
+      "sobjectName":"User",
+      "sortable":false,
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideAtMentionsHelpBubble":{
       "activePicklistValues":[
@@ -7391,7 +7603,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideBiggerPhotoCallout":{
       "activePicklistValues":[
@@ -7426,7 +7639,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideBrowseProductRedirectConfirmation":{
       "activePicklistValues":[
@@ -7461,7 +7675,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideChatterOnboardingSplash":{
       "activePicklistValues":[
@@ -7496,7 +7711,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideCSNAddAGroupDescTask":{
       "activePicklistValues":[
@@ -7531,7 +7747,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideCSNAddAGroupPhotoTask":{
       "activePicklistValues":[
@@ -7566,7 +7783,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideCSNAddAPhotoTask":{
       "activePicklistValues":[
@@ -7601,7 +7819,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideCSNAddGroupMembersTask":{
       "activePicklistValues":[
@@ -7636,7 +7855,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideCSNAddHashTagTask":{
       "activePicklistValues":[
@@ -7671,7 +7891,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideCSNChangeGroupEmailSettingsTask":{
       "activePicklistValues":[
@@ -7706,7 +7927,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideCSNDesktopTask":{
       "activePicklistValues":[
@@ -7741,7 +7963,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideCSNDownloadOfflineTask":{
       "activePicklistValues":[
@@ -7776,7 +7999,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideCSNEnterContactInfoTask":{
       "activePicklistValues":[
@@ -7811,7 +8035,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideCSNFollowGroupsTask":{
       "activePicklistValues":[
@@ -7846,7 +8071,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideCSNFollowPeopleTask":{
       "activePicklistValues":[
@@ -7881,7 +8107,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideCSNFollowRecordsTask":{
       "activePicklistValues":[
@@ -7916,7 +8143,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideCSNGetChatterMobileTask":{
       "activePicklistValues":[
@@ -7951,7 +8179,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideCSNGroupTasks":{
       "activePicklistValues":[
@@ -7986,7 +8215,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideCSNInvitePeopleTask":{
       "activePicklistValues":[
@@ -8021,7 +8251,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideCSNPeopleTasks":{
       "activePicklistValues":[
@@ -8056,7 +8287,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideCSNProfileTasks":{
       "activePicklistValues":[
@@ -8091,7 +8323,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideCSNShareAFileTask":{
       "activePicklistValues":[
@@ -8126,7 +8359,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideCSNShareWhatYouAreWorkingOnTask":{
       "activePicklistValues":[
@@ -8161,7 +8395,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideCSNStartAGroupTask":{
       "activePicklistValues":[
@@ -8196,7 +8431,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideCSNWatchAVideoTask":{
       "activePicklistValues":[
@@ -8231,7 +8467,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideCSNWriteABioTask":{
       "activePicklistValues":[
@@ -8266,7 +8503,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideCSNWtdnBox":{
       "activePicklistValues":[
@@ -8301,7 +8539,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideDataCategorySplash":{
       "activePicklistValues":[
@@ -8336,7 +8575,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideDedupeMatchResultCallout":{
       "activePicklistValues":[
@@ -8371,7 +8611,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideEndUserOnboardingAssistantModal":{
       "activePicklistValues":[
@@ -8406,7 +8647,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideEntitlementManagementSplash":{
       "activePicklistValues":[
@@ -8441,7 +8683,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideEventCalendar":{
       "activePicklistValues":[
@@ -8476,7 +8719,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideFeedToggleGuidedTour":{
       "activePicklistValues":[
@@ -8511,7 +8755,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideFilePageGuidedTour":{
       "activePicklistValues":[
@@ -8546,7 +8791,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideGoogleSplash":{
       "activePicklistValues":[
@@ -8581,7 +8827,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideGroupAllowsGuestsMsg":{
       "activePicklistValues":[
@@ -8616,7 +8863,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideGroupAllowsGuestsMsgOnMemberWidget":{
       "activePicklistValues":[
@@ -8651,7 +8899,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideLearningPathModal":{
       "activePicklistValues":[
@@ -8686,7 +8935,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideLegacyRetirementModal":{
       "activePicklistValues":[
@@ -8721,7 +8971,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideLightningMigrationModal":{
       "activePicklistValues":[
@@ -8756,7 +9007,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideMailAppEAPUserGuidance":{
       "activePicklistValues":[
@@ -8791,7 +9043,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideMailAppWelcomeMat":{
       "activePicklistValues":[
@@ -8826,7 +9079,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideNowAllowGuestsMsg":{
       "activePicklistValues":[
@@ -8861,7 +9115,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideOnlineSalesAppWelcomeMat":{
       "activePicklistValues":[
@@ -8896,7 +9151,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideOtherInfluenceGetStarted":{
       "activePicklistValues":[
@@ -8931,7 +9187,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideQTEBanner":{
       "activePicklistValues":[
@@ -8966,7 +9223,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideS1BrowserUI":{
       "activePicklistValues":[
@@ -9001,7 +9259,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideSecondChatterOnboardingSplash":{
       "activePicklistValues":[
@@ -9036,7 +9295,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideSelfInfluenceGetStarted":{
       "activePicklistValues":[
@@ -9071,7 +9331,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideSfxWelcomeMat":{
       "activePicklistValues":[
@@ -9106,7 +9367,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideSocialAccountsAndContactsGuidedTour":{
       "activePicklistValues":[
@@ -9141,7 +9403,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideTaskListViewsPopover":{
       "activePicklistValues":[
@@ -9176,7 +9439,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideTrialsCelebration":{
       "activePicklistValues":[
@@ -9211,7 +9475,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideTrialsWelcomeMat":{
       "activePicklistValues":[
@@ -9246,7 +9511,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesHideWhatAreGuestsMsg":{
       "activePicklistValues":[
@@ -9281,7 +9547,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesLightningExperiencePreferred":{
       "activePicklistValues":[
@@ -9316,7 +9583,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesLteAutoPopup1Seen":{
       "activePicklistValues":[
@@ -9351,7 +9619,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesLteAutoPopup2Seen":{
       "activePicklistValues":[
@@ -9386,7 +9655,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesLteAutoPopup3Seen":{
       "activePicklistValues":[
@@ -9421,7 +9691,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesLteAutoPopup4Seen":{
       "activePicklistValues":[
@@ -9456,7 +9727,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesLteAutoPopup5Seen":{
       "activePicklistValues":[
@@ -9491,7 +9763,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesLteLexWelcomeMatPopupSeen":{
       "activePicklistValues":[
@@ -9526,7 +9799,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesLteTransitionCompleted":{
       "activePicklistValues":[
@@ -9561,7 +9835,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesLtngPromoReserved10UserPref":{
       "activePicklistValues":[
@@ -9596,7 +9871,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesLtngPromoReserved16UserPref":{
       "activePicklistValues":[
@@ -9631,7 +9907,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesLtngPromoReserved19UserPref":{
       "activePicklistValues":[
@@ -9666,7 +9943,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesNativeEmailClient":{
       "activePicklistValues":[
@@ -9701,7 +9979,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesNewLightningReportRunPageEnabled":{
       "activePicklistValues":[
@@ -9736,7 +10015,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesPathAssistantCollapsed":{
       "activePicklistValues":[
@@ -9771,7 +10051,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesPreviewCustomTheme":{
       "activePicklistValues":[
@@ -9806,7 +10087,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesPreviewLightning":{
       "activePicklistValues":[
@@ -9841,7 +10123,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesReadReceiptLastToggleValue":{
       "activePicklistValues":[
@@ -9876,7 +10159,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesReceiveNoNotificationsAsApprover":{
       "activePicklistValues":[
@@ -9911,7 +10195,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesReceiveNotificationsAsDelegatedApprover":{
       "activePicklistValues":[
@@ -9946,7 +10231,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesRecordHomeReservedWTShown":{
       "activePicklistValues":[
@@ -9981,7 +10267,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesRecordHomeSectionCollapseWTShown":{
       "activePicklistValues":[
@@ -10016,7 +10303,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesRedirectToLightning":{
       "activePicklistValues":[
@@ -10051,7 +10339,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesReminderSortByDueDate":{
       "activePicklistValues":[
@@ -10086,7 +10375,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesReminderSoundOff":{
       "activePicklistValues":[
@@ -10121,7 +10411,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesReverseOpenActivitiesView":{
       "activePicklistValues":[
@@ -10156,7 +10447,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesSalesEssentialsSetupAssistantCompleted":{
       "activePicklistValues":[
@@ -10191,7 +10483,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesSendEmailUsingExternalService":{
       "activePicklistValues":[
@@ -10226,7 +10519,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesSetupAssistantUserPref1":{
       "activePicklistValues":[
@@ -10261,7 +10555,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesShowCityToExternalUsers":{
       "activePicklistValues":[
@@ -10296,7 +10591,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesShowCityToGuestUsers":{
       "activePicklistValues":[
@@ -10331,7 +10627,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesShowCountryToExternalUsers":{
       "activePicklistValues":[
@@ -10366,7 +10663,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesShowCountryToGuestUsers":{
       "activePicklistValues":[
@@ -10401,7 +10699,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesShowEmailToExternalUsers":{
       "activePicklistValues":[
@@ -10436,7 +10735,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesShowEmailToGuestUsers":{
       "activePicklistValues":[
@@ -10471,7 +10771,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesShowFaxToExternalUsers":{
       "activePicklistValues":[
@@ -10506,7 +10807,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesShowFaxToGuestUsers":{
       "activePicklistValues":[
@@ -10541,7 +10843,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesShowManagerToExternalUsers":{
       "activePicklistValues":[
@@ -10576,7 +10879,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesShowManagerToGuestUsers":{
       "activePicklistValues":[
@@ -10611,7 +10915,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesShowMobilePhoneToExternalUsers":{
       "activePicklistValues":[
@@ -10646,7 +10951,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesShowMobilePhoneToGuestUsers":{
       "activePicklistValues":[
@@ -10681,7 +10987,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesShowPostalCodeToExternalUsers":{
       "activePicklistValues":[
@@ -10716,7 +11023,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesShowPostalCodeToGuestUsers":{
       "activePicklistValues":[
@@ -10751,7 +11059,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesShowProfilePicToGuestUsers":{
       "activePicklistValues":[
@@ -10786,7 +11095,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesShowStateToExternalUsers":{
       "activePicklistValues":[
@@ -10821,7 +11131,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesShowStateToGuestUsers":{
       "activePicklistValues":[
@@ -10856,7 +11167,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesShowStreetAddressToExternalUsers":{
       "activePicklistValues":[
@@ -10891,7 +11203,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesShowStreetAddressToGuestUsers":{
       "activePicklistValues":[
@@ -10926,7 +11239,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesShowTerritoryTimeZoneShifts":{
       "activePicklistValues":[
@@ -10961,7 +11275,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesShowTitleToExternalUsers":{
       "activePicklistValues":[
@@ -10996,7 +11311,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesShowTitleToGuestUsers":{
       "activePicklistValues":[
@@ -11031,7 +11347,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesShowViewstate":{
       "activePicklistValues":[
@@ -11066,7 +11383,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesShowWorkPhoneToExternalUsers":{
       "activePicklistValues":[
@@ -11101,7 +11419,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesShowWorkPhoneToGuestUsers":{
       "activePicklistValues":[
@@ -11136,7 +11455,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesSortFeedByComment":{
       "activePicklistValues":[
@@ -11171,7 +11491,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesSRHOverrideActivities":{
       "activePicklistValues":[
@@ -11206,7 +11527,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesSuppressEventSFXReminders":{
       "activePicklistValues":[
@@ -11241,7 +11563,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesSuppressTaskSFXReminders":{
       "activePicklistValues":[
@@ -11276,7 +11599,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesTaskRemindersCheckboxDefault":{
       "activePicklistValues":[
@@ -11311,7 +11635,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesTodayGettingStarted":{
       "activePicklistValues":[
@@ -11346,7 +11671,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesTrailheadBadgeCreated":{
       "activePicklistValues":[
@@ -11381,7 +11707,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserPreferencesUserDebugModePref":{
       "activePicklistValues":[
@@ -11416,7 +11743,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "UserRoleId":{
       "activePicklistValues":[
@@ -11451,7 +11779,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "UserSubtype":{
       "activePicklistValues":[
@@ -11486,7 +11815,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "UserType":{
       "activePicklistValues":[
@@ -11552,7 +11882,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "WirelessEmail":{
       "activePicklistValues":[
@@ -11587,7 +11918,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "WorkspaceId":{
       "activePicklistValues":[
@@ -11622,7 +11954,8 @@
       "scale":0,
       "sobjectName":"User",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     }
   }
 }

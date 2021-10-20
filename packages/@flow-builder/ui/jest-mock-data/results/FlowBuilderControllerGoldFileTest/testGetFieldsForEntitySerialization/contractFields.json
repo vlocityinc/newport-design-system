@@ -33,7 +33,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "ActivatedById":{
       "activePicklistValues":[
@@ -68,7 +69,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "ActivatedDate":{
       "activePicklistValues":[
@@ -103,7 +105,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "AutoRenewCode":{
       "activePicklistValues":[
@@ -145,7 +148,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "BalanceDue":{
       "activePicklistValues":[
@@ -180,7 +184,8 @@
       "scale":2,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "BankAccountName":{
       "activePicklistValues":[
@@ -215,7 +220,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "BankAccountType":{
       "activePicklistValues":[
@@ -261,7 +267,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "BankAddress":{
       "activePicklistValues":[
@@ -296,7 +303,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "BankBranchCode":{
       "activePicklistValues":[
@@ -331,7 +339,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "BankCity":{
       "activePicklistValues":[
@@ -366,7 +375,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "BankCode":{
       "activePicklistValues":[
@@ -401,7 +411,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "BankCountry":{
       "activePicklistValues":[
@@ -436,7 +447,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "BankGeocodeAccuracy":{
       "activePicklistValues":[
@@ -514,7 +526,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "BankLatitude":{
       "activePicklistValues":[
@@ -549,7 +562,8 @@
       "scale":15,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "BankLongitude":{
       "activePicklistValues":[
@@ -584,7 +598,8 @@
       "scale":15,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "BankName":{
       "activePicklistValues":[
@@ -619,7 +634,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "BankPostalCode":{
       "activePicklistValues":[
@@ -654,7 +670,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "BankReferenceNumber":{
       "activePicklistValues":[
@@ -689,7 +706,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "BankState":{
       "activePicklistValues":[
@@ -724,7 +742,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "BankStreet":{
       "activePicklistValues":[
@@ -759,7 +778,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "BillingAddress":{
       "activePicklistValues":[
@@ -794,7 +814,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "BillingCity":{
       "activePicklistValues":[
@@ -829,7 +850,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "BillingCompany":{
       "activePicklistValues":[
@@ -864,7 +886,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "BillingCountry":{
       "activePicklistValues":[
@@ -899,7 +922,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "BillingEmail":{
       "activePicklistValues":[
@@ -934,7 +958,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "BillingFax":{
       "activePicklistValues":[
@@ -969,7 +994,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "BillingFirstName":{
       "activePicklistValues":[
@@ -1004,7 +1030,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "BillingGeocodeAccuracy":{
       "activePicklistValues":[
@@ -1082,7 +1109,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "BillingLanguage":{
       "activePicklistValues":[
@@ -1188,7 +1216,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "BillingLastName":{
       "activePicklistValues":[
@@ -1223,7 +1252,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "BillingLatitude":{
       "activePicklistValues":[
@@ -1258,7 +1288,8 @@
       "scale":15,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "BillingLongitude":{
       "activePicklistValues":[
@@ -1293,7 +1324,8 @@
       "scale":15,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "BillingName":{
       "activePicklistValues":[
@@ -1328,7 +1360,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "BillingPhone":{
       "activePicklistValues":[
@@ -1363,7 +1396,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "BillingPostalCode":{
       "activePicklistValues":[
@@ -1398,7 +1432,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "BillingSalutation":{
       "activePicklistValues":[
@@ -1452,7 +1487,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "BillingState":{
       "activePicklistValues":[
@@ -1487,7 +1523,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "BillingStreet":{
       "activePicklistValues":[
@@ -1522,7 +1559,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "CloneSourceId":{
       "activePicklistValues":[
@@ -1557,7 +1595,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "CompanySignedDate":{
       "activePicklistValues":[
@@ -1592,7 +1631,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "CompanySignedId":{
       "activePicklistValues":[
@@ -1627,7 +1667,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "ContractNumber":{
       "activePicklistValues":[
@@ -1662,7 +1703,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "ContractTerm":{
       "activePicklistValues":[
@@ -1697,7 +1739,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "CreatedById":{
       "activePicklistValues":[
@@ -1732,7 +1775,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "CreatedDate":{
       "activePicklistValues":[
@@ -1767,7 +1811,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "CreditCardExpirationDate":{
       "activePicklistValues":[
@@ -1802,7 +1847,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "CreditCardType":{
       "activePicklistValues":[
@@ -1852,7 +1898,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "CurrencyIsoCode":{
       "activePicklistValues":[
@@ -1898,7 +1945,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "CustomerExpirationNotice":{
       "activePicklistValues":[
@@ -1948,7 +1996,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "CustomerSignedDate":{
       "activePicklistValues":[
@@ -1983,7 +2032,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "CustomerSignedId":{
       "activePicklistValues":[
@@ -2018,7 +2068,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "CustomerSignedTitle":{
       "activePicklistValues":[
@@ -2053,7 +2104,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "Description":{
       "activePicklistValues":[
@@ -2088,7 +2140,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "Division":{
       "activePicklistValues":[
@@ -2126,7 +2179,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "EndDate":{
       "activePicklistValues":[
@@ -2161,7 +2215,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "HasPurchaseRule":{
       "activePicklistValues":[
@@ -2196,7 +2251,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "Id":{
       "activePicklistValues":[
@@ -2231,7 +2287,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "InvoiceDispatchMethod":{
       "activePicklistValues":[
@@ -2281,7 +2338,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "IsDeleted":{
       "activePicklistValues":[
@@ -2316,7 +2374,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "IsDunningSuppressed":{
       "activePicklistValues":[
@@ -2351,7 +2410,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "IsLocked":{
       "activePicklistValues":[
@@ -2386,7 +2446,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "LastActivityDate":{
       "activePicklistValues":[
@@ -2421,7 +2482,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "LastApprovedDate":{
       "activePicklistValues":[
@@ -2456,7 +2518,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "LastModifiedById":{
       "activePicklistValues":[
@@ -2491,7 +2554,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "LastModifiedDate":{
       "activePicklistValues":[
@@ -2526,7 +2590,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "LastReferencedDate":{
       "activePicklistValues":[
@@ -2561,7 +2626,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "LastViewedDate":{
       "activePicklistValues":[
@@ -2596,7 +2662,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "LifetimeValue":{
       "activePicklistValues":[
@@ -2631,7 +2698,8 @@
       "scale":2,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "MayEdit":{
       "activePicklistValues":[
@@ -2666,7 +2734,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "Name":{
       "activePicklistValues":[
@@ -2701,7 +2770,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "NameOnCreditCard":{
       "activePicklistValues":[
@@ -2736,7 +2806,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "OfferExpirationDate":{
       "activePicklistValues":[
@@ -2771,7 +2842,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "OrderPrebillDays":{
       "activePicklistValues":[
@@ -2806,7 +2878,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "OwnerExpirationNotice":{
       "activePicklistValues":[
@@ -2864,7 +2937,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "OwnerId":{
       "activePicklistValues":[
@@ -2899,7 +2973,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "PaymentTerm":{
       "activePicklistValues":[
@@ -2961,7 +3036,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "PaymentType":{
       "activePicklistValues":[
@@ -3011,7 +3087,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "Pricebook2Id":{
       "activePicklistValues":[
@@ -3046,7 +3123,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "RenewalDays":{
       "activePicklistValues":[
@@ -3081,7 +3159,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "RenewalTerm":{
       "activePicklistValues":[
@@ -3116,7 +3195,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "Salesrep1Id":{
       "activePicklistValues":[
@@ -3151,7 +3231,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "Salesrep1Percent":{
       "activePicklistValues":[
@@ -3186,7 +3267,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "Salesrep2Id":{
       "activePicklistValues":[
@@ -3221,7 +3303,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "Salesrep2Percent":{
       "activePicklistValues":[
@@ -3256,7 +3339,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "Salesrep3Id":{
       "activePicklistValues":[
@@ -3291,7 +3375,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "Salesrep3Percent":{
       "activePicklistValues":[
@@ -3326,7 +3411,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "ShippingAddress":{
       "activePicklistValues":[
@@ -3361,7 +3447,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":false,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "ShippingCity":{
       "activePicklistValues":[
@@ -3396,7 +3483,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "ShippingCountry":{
       "activePicklistValues":[
@@ -3431,7 +3519,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "ShippingGeocodeAccuracy":{
       "activePicklistValues":[
@@ -3509,7 +3598,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "ShippingLatitude":{
       "activePicklistValues":[
@@ -3544,7 +3634,8 @@
       "scale":15,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "ShippingLongitude":{
       "activePicklistValues":[
@@ -3579,7 +3670,8 @@
       "scale":15,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "ShippingPostalCode":{
       "activePicklistValues":[
@@ -3614,7 +3706,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "ShippingState":{
       "activePicklistValues":[
@@ -3649,7 +3742,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "ShippingStreet":{
       "activePicklistValues":[
@@ -3684,7 +3778,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "SpecialTerms":{
       "activePicklistValues":[
@@ -3719,7 +3814,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "StartDate":{
       "activePicklistValues":[
@@ -3754,7 +3850,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "Status":{
       "activePicklistValues":[
@@ -3800,7 +3897,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "StatusCode":{
       "activePicklistValues":[
@@ -3854,7 +3952,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "SystemModstamp":{
       "activePicklistValues":[
@@ -3889,7 +3988,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "TaxExemptionCode":{
       "activePicklistValues":[
@@ -3924,7 +4024,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":true
     },
     "TotalBilled":{
       "activePicklistValues":[
@@ -3959,7 +4060,8 @@
       "scale":2,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "TotalCredit":{
       "activePicklistValues":[
@@ -3994,7 +4096,8 @@
       "scale":2,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "TotalPaid":{
       "activePicklistValues":[
@@ -4029,7 +4132,8 @@
       "scale":0,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     },
     "TotalWriteoff":{
       "activePicklistValues":[
@@ -4064,7 +4168,8 @@
       "scale":2,
       "sobjectName":"Contract",
       "sortable":true,
-      "subtype":null
+      "subtype":null,
+      "supportedByAutomaticField":false
     }
   }
 }

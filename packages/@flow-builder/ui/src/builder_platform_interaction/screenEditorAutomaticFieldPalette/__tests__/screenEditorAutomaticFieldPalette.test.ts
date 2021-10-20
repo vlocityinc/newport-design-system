@@ -24,6 +24,7 @@ import {
 } from 'builder_platform_interaction/builderTestUtils';
 import { automaticFieldBetaUrls as mockAutomaticFieldBetaUrls } from 'serverData/GetAutomaticFieldBetaUrls/automaticFieldBetaUrls.json';
 import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
+import { FieldDataType } from 'builder_platform_interaction/dataTypeLib';
 
 let mockAccountFields = accountFields;
 
@@ -104,9 +105,20 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     };
 });
 
-const TOTAL_SUPPORTED_FIELDS_IN_ACCOUNT = 36;
-const TOTAL_SUPPORTED_FIELDS_IN_OBJECT_WIH_ALL_POSSIBLE_FIELDS = 10;
-const NB_REQUIRED_FIELDS_IN_OBJECT_WIH_ALL_POSSIBLE_FIELDS = 1;
+const TOTAL_SUPPORTED_FIELDS_IN_ACCOUNT = Object.values(mockAccountFields).filter(
+    (field: any) => field.supportedByAutomaticField
+).length;
+
+const TOTAL_SUPPORTED_FIELDS_IN_OBJECT_WITH_ALL_POSSIBLE_FIELDS = Object.values(
+    mockObjectWithAllPossibleFieldsVariableFields
+).filter((field: any) => field.supportedByAutomaticField).length;
+
+// Excluding boolean as they are always marked as required by the API
+const NB_REQUIRED_FIELDS_IN_OBJECT_WITH_ALL_POSSIBLE_FIELDS = Object.values(
+    mockObjectWithAllPossibleFieldsVariableFields
+).filter(
+    (field: any) => field.supportedByAutomaticField && field.required && field.fieldDataType !== FieldDataType.Boolean
+).length;
 
 const STRING_FIELD_NAME = 'SicDesc';
 const NUMBER_FIELD_NAME = 'OutstandingShares__c';
@@ -114,12 +126,6 @@ const BOOLEAN_FIELD_NAME = 'IsExcludedFromRealign';
 const DATE_FIELD_NAME = 'PersonBirthdate';
 const DATE_TIME_FIELD_NAME = 'CustomDateTime__c';
 const LONG_TEXT_AREA_FIELD_NAME = 'Description';
-const CURRENCY_FIELD_NAME = 'AnnualRevenue';
-const PHONE_FIELD_NAME = 'Fax';
-const EMAIL_FIELD_NAME = 'PersonEmail';
-const URL_FIELD_NAME = 'Website';
-const FIELD_OF_COMPOUND_FIELD_NAME = 'BillingLongitude';
-const ACCOUNT_NAME_FIELD_NAME = 'Name'; // this one is a String but also a compound subfield that we accept
 
 const SELECTORS = {
     searchInput: '.palette-search-input',
@@ -336,14 +342,16 @@ describe('Screen editor automatic field palette', () => {
         test('SObjectReferenceChangedEvent should generate proper items for palette required section', async () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
             await ticks(1);
-            expect(element.paletteData[0]._children).toHaveLength(NB_REQUIRED_FIELDS_IN_OBJECT_WIH_ALL_POSSIBLE_FIELDS);
+            expect(element.paletteData[0]._children).toHaveLength(
+                NB_REQUIRED_FIELDS_IN_OBJECT_WITH_ALL_POSSIBLE_FIELDS
+            );
         });
         test('SObjectReferenceChangedEvent should generate proper items for palette non required section', async () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
             await ticks(1);
             expect(element.paletteData[1]._children).toHaveLength(
-                TOTAL_SUPPORTED_FIELDS_IN_OBJECT_WIH_ALL_POSSIBLE_FIELDS -
-                    NB_REQUIRED_FIELDS_IN_OBJECT_WIH_ALL_POSSIBLE_FIELDS
+                TOTAL_SUPPORTED_FIELDS_IN_OBJECT_WITH_ALL_POSSIBLE_FIELDS -
+                    NB_REQUIRED_FIELDS_IN_OBJECT_WITH_ALL_POSSIBLE_FIELDS
             );
         });
     });
@@ -398,31 +406,20 @@ describe('Screen editor automatic field palette', () => {
             );
         });
         describe('Palette fields filtering', () => {
-            test.each`
-                fieldName                       | shouldShowUpInThePalette
-                ${STRING_FIELD_NAME}            | ${true}
-                ${BOOLEAN_FIELD_NAME}           | ${true}
-                ${NUMBER_FIELD_NAME}            | ${true}
-                ${DATE_FIELD_NAME}              | ${true}
-                ${DATE_TIME_FIELD_NAME}         | ${true}
-                ${LONG_TEXT_AREA_FIELD_NAME}    | ${true}
-                ${ACCOUNT_NAME_FIELD_NAME}      | ${true}
-                ${CURRENCY_FIELD_NAME}          | ${false}
-                ${PHONE_FIELD_NAME}             | ${true}
-                ${EMAIL_FIELD_NAME}             | ${true}
-                ${URL_FIELD_NAME}               | ${false}
-                ${FIELD_OF_COMPOUND_FIELD_NAME} | ${false}
-            `(
-                '$fieldName should be present in the palette: $shouldShowUpInThePalette',
-                ({ fieldName, shouldShowUpInThePalette }) => {
-                    const paletteItem = getPaletteItemByFieldApiName(fieldName)!;
-                    if (shouldShowUpInThePalette) {
-                        expect(paletteItem).toBeTruthy();
-                    } else {
-                        expect(paletteItem).toBeUndefined();
-                    }
-                }
-            );
+            test('when "supportedByAutomaticField" flag is true, the field is in the palette', () => {
+                const fieldEntry = Object.entries(mockAccountFields!).find(
+                    (entry: [string, any]) => entry[1].supportedByAutomaticField
+                )!;
+                const paletteItem = getPaletteItemByFieldApiName(fieldEntry[0])!;
+                expect(paletteItem).toBeTruthy();
+            });
+            test('when "supportedByAutomaticField" flag is false, the field is not in the palette', () => {
+                const fieldEntry = Object.entries(mockAccountFields!).find(
+                    (entry: [string, any]) => !entry[1].supportedByAutomaticField
+                )!;
+                const paletteItem = getPaletteItemByFieldApiName(fieldEntry[0])!;
+                expect(paletteItem).toBeUndefined();
+            });
         });
         describe('Palette click event handling', () => {
             const expectEventCallbackCalledWithTypeNameAndObjectFieldReference = (

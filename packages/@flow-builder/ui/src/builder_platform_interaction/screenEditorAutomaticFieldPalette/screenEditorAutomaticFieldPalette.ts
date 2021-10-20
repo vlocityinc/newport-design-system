@@ -22,34 +22,6 @@ import { CrudFilter } from 'builder_platform_interaction/selectors';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 const { format } = commonUtils;
 
-const SUPPORTED_FIELD_DATA_TYPES = [
-    FieldDataType.String,
-    FieldDataType.Int,
-    FieldDataType.Double,
-    FieldDataType.DateTime,
-    FieldDataType.Date,
-    FieldDataType.Boolean,
-    FieldDataType.Phone,
-    FieldDataType.Email
-];
-
-const createEditFilter = (field: FieldDefinition): boolean => field.creatable || field.editable;
-const dataTypeRelatedFilter = (field: FieldDefinition): boolean =>
-    SUPPORTED_FIELD_DATA_TYPES.includes(field.fieldDataType as FieldDataType) ||
-    field.extraTypeInfo === ExtraTypeInfo.PlainTextarea;
-const noRelationshipFilter = (field: FieldDefinition): boolean => field.relationshipName === null;
-// check on extraTypeInfo because in some cases (e.g. Account Name), field.compoundFieldName is set to e.g. Name and those are field that we can and want to support
-const noCompoundFieldFilter = (field: FieldDefinition): boolean =>
-    field.compoundFieldName === null ||
-    (field.extraTypeInfo === ExtraTypeInfo.SwitchablePersonName &&
-        field.compoundFieldName === 'Name' &&
-        field.apiName === 'Name');
-const supportedAutomaticFieldFilter = (field: FieldDefinition): boolean =>
-    createEditFilter(field) &&
-    dataTypeRelatedFilter(field) &&
-    noRelationshipFilter(field) &&
-    noCompoundFieldFilter(field);
-
 export default class ScreenEditorAutomaticFieldPalette extends LightningElement {
     static SELECTOR = 'builder_platform_interaction-screen-editor-automatic-field-palette';
     sobjectCollectionCriterion = SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT;
@@ -191,9 +163,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     }
 
     filterSupportedFields(entityFields) {
-        return (Object.values(entityFields) as FieldDefinition[]).filter((field) =>
-            supportedAutomaticFieldFilter(field)
-        );
+        return (Object.values(entityFields) as FieldDefinition[]).filter((field) => field.supportedByAutomaticField);
     }
 
     /**

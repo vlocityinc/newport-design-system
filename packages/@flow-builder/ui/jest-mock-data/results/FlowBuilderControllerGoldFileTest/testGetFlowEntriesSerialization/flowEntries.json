@@ -76,14 +76,14 @@
     {
       "icon":"utility:orchestrator",
       "description":"Launches when invoked by Apex, processes, REST API, and more.",
-      "label":"Autolaunched Orchestration (Beta)",
+      "label":"Autolaunched Orchestration (No Trigger)",
       "processType":"Orchestrator"
     },
     {
       "icon":"utility:record_update",
       "description":"Launches when a record is created or updated.",
       "defaultTriggerType":"RecordAfterSave",
-      "label":"Record-Triggered Orchestration (Beta)",
+      "label":"Record-Triggered Orchestration",
       "processType":"Orchestrator",
       "triggerTypes":[
         "RecordAfterSave"

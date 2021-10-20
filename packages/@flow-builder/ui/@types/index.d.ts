@@ -68,6 +68,7 @@ type FieldDefinition = {
     precision: number;
     scale: number;
     length: number;
+    supportedByAutomaticField: boolean;
 };
 
 interface ScreenPaletteItem {

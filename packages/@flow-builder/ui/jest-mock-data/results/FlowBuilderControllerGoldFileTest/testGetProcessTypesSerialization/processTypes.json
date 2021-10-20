@@ -33,7 +33,7 @@
     {
       "iconName":"utility:orchestrator",
       "name":"Orchestrator",
-      "label":"Flow Orchestrator (Beta)",
+      "label":"Flow Orchestrator",
       "isListViewManaged":true
     },
     {
