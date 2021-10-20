@@ -9,6 +9,7 @@
         "outDir": "./build",
         "baseUrl": ".",
          "paths": {
+            "lightning/accordionSection": ["../../../node_modules/lwc-components-lightning/src/lightning/accordionSection/accordionSection.js"],
             "lightning/utils": ["../../../node_modules/lwc-components-lightning/src/lightning/utils/utils.js"],
             "builder_platform_interaction/autoLayoutCanvas": ["../auto-layout-canvas/dist/types/index.d.js"],
             "builder_platform_interaction/sharedUtils": ["../shared-utils/dist/types/index.d.js"],
@@ -16,6 +17,7 @@
             "builder_platform_interaction/popover": ["../auto-layout-canvas-ui/src/builder_platform_interaction/popover/popover.ts"],
             "builder_platform_interaction/menu": ["../auto-layout-canvas-ui/src/builder_platform_interaction/menu/menu.ts"],
             "builder_platform_interaction/alcComponentsUtils": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcComponentsUtils/alcComponentsUtils.ts"],
+            "builder_platform_interaction/accordionSectionWithIcon": ["./src/builder_platform_interaction/accordionSectionWithIcon/accordionSectionWithIcon.ts"],
             "builder_platform_interaction/actionSelector": ["./src/builder_platform_interaction/actionSelector/actionSelector.ts"],
             "builder_platform_interaction/actions": ["./src/builder_platform_interaction/actions/actions.ts"],
             "builder_platform_interaction/alcCanvasContainer": ["./src/builder_platform_interaction/alcCanvasContainer/alcCanvasContainer.ts"],

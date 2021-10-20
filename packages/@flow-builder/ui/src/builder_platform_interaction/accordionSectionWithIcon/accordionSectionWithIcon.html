@@ -1,0 +1,50 @@
+<template>
+    <section class={computedSectionClasses}>
+        <div class="slds-accordion__summary">
+            <h3 onkeydown={handleKeyDown} class="slds-accordion__summary-heading">
+                <button
+                    class="section-control slds-button slds-button_reset slds-accordion__summary-action slds-grid"
+                    type="button"
+                    aria-expanded={computedAriaExpanded}
+                    aria-controls="lgt-accordion-section"
+                    onclick={handleSelectSection}
+                >
+                    <!-- chevron -->
+                    <div class="slds-col slds-grow-none">
+                        <lightning-icon
+                            icon-name="utility:switch"
+                            size="x-small"
+                            class="slds-accordion__summary-action-icon slds-m-right_x-small"
+                        >
+                        </lightning-icon>
+                    </div>
+
+                    <!-- element icon -->
+                    <builder_platform_interaction-element-icon
+                        if:true={iconName}
+                        icon-name={iconName}
+                        icon-size={iconSize}
+                        alternative-text={alternativeText}
+                        background-color={backgroundColor}
+                        class="slds-col slds-grow-none"
+                    >
+                    </builder_platform_interaction-element-icon>
+
+                    <!-- section title -->
+                    <span class="slds-accordion__summary-content slds-col slds-p-left_xxx-small" title={label}
+                        >{label}</span
+                    >
+                </button>
+            </h3>
+            <slot name="actions"></slot>
+        </div>
+        <div
+            id="lgt-accordion-section"
+            hidden={computedHidden}
+            aria-hidden={computedAriaHidden}
+            class="slds-accordion__content"
+        >
+            <slot></slot>
+        </div>
+    </section>
+</template>

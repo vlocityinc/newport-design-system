@@ -31,14 +31,16 @@ export const completedInterview = {
             elementType: 'DELETE RECORDS',
             elementApiName: 'Delete_All_Accounts_Api',
             elementLabel: 'Delete_All_Accounts_Label',
-            entryType: 'DefaultDebugInfoEntry'
+            entryType: 'DefaultDebugInfoEntry',
+            elementIconType: 'RecordDelete'
         },
         {
             lines: [
                 'Because the flow ran in rollback mode, any changes to add, delete, or modify records were rolled back.'
             ],
             elementType: 'ROLLBACK',
-            entryType: 'TransactionInfoEntry'
+            entryType: 'TransactionInfoEntry',
+            elementIconType: 'RecordRollback'
         }
     ],
     startInterviewTime: new Date('June 17, 2020 03:24:00'),

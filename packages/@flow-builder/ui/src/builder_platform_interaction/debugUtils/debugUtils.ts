@@ -3,6 +3,7 @@ import { LABELS } from './debugUtilsLabels';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 const { format } = commonUtils;
+import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 
 /**
  * @constant STATUS The Interview Status
@@ -39,9 +40,16 @@ export function copyAndUpdateDebugTraceObject(debugData) {
         const trace = debugData.debugTrace[i]?.lines?.filter((e) => {
             return !!e;
         });
+        const elementType = debugData.debugTrace[i].elementIconType;
+        const config = elementTypeToConfigMap[elementType]?.nodeConfig;
         debugTraces.push({
             titleWithApiName: makeElementTitle(debugData.debugTrace[i], true),
             titleWithLabel: makeElementTitle(debugData.debugTrace[i], false),
+            elementIcon: {
+                iconName: config?.iconName,
+                iconSize: 'small',
+                backgroundColor: config?.iconBackgroundColor
+            },
             lines: trace,
             entryType: debugData.debugTrace[i].entryType,
             error: debugData.debugTrace[i].error,

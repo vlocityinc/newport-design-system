@@ -10,6 +10,7 @@ import { completedTestInterview } from 'mock/debugResponse/mock-completed-test-i
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { BUILDER_MODE } from 'builder_platform_interaction/systemLib';
+import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
@@ -37,7 +38,7 @@ const createComponentUnderTest = (
 const selectors = {
     errorMessage: '.errorMsg',
     govLimText: '.govLim',
-    accordionSection: 'lightning-accordion-section',
+    accordionSection: 'builder_platform_interaction-accordion-section-with-icon',
     debugPanelBodyComponent: 'builder_platform_interaction-debug-panel-body',
     testPanelBodyComponent: 'builder_platform_interaction-test-panel-body',
     debugPanelFilterComponent: 'builder_platform_interaction-debug-panel-filter',
@@ -491,5 +492,25 @@ describe('test assertion outcomes', () => {
         debugPanel = createComponentUnderTest(completedTestInterview, undefined, false, BUILDER_MODE.EDIT_MODE);
         const testPanelBody = debugPanel.shadowRoot.querySelector(selectors.testPanelBodyComponent);
         expect(testPanelBody).toBeNull();
+    });
+});
+
+describe('element icon behavior', () => {
+    let debugPanel;
+    const sectionNumber = 1;
+    beforeEach(() => {
+        debugPanel = createComponentUnderTest(completedInterview);
+    });
+
+    it('should display correct icon if elementIcon is defined', () => {
+        expect(
+            debugPanel.shadowRoot.querySelectorAll(selectors.accordionSection)[sectionNumber].elementIcon.iconName
+        ).toBe(
+            elementTypeToConfigMap[completedInterview.debugTrace[sectionNumber].elementIconType].nodeConfig.iconName
+        );
+    });
+
+    it('should display no icon if elementIcon is undefined', () => {
+        expect(debugPanel.shadowRoot.querySelectorAll(selectors.accordionSection)[0].elementIcon).toBe(undefined);
     });
 });
