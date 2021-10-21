@@ -14,7 +14,7 @@ import {
 } from './base/baseMetadata';
 import { getElementByGuid, getElementsForElementType } from 'builder_platform_interaction/storeUtils';
 import { createConnectorObjects } from './connector';
-import { isReference, sanitizeDevName } from 'builder_platform_interaction/commonUtils';
+import { sanitizeDevName } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './elementFactoryLabels';
 import { getParametersForInvocableAction, InvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
@@ -204,8 +204,8 @@ export function createDuplicateOrchestratedStage(
 }
 
 /**
- * @param originalItems
- * @param parentStageGuid
+ * @param originalItems The StageSteps to be processed
+ * @param parentStageGuid guide of the stage
  * @returns Object with array of StageSteps and childReferences
  */
 function createStageStepsWithReferences(
@@ -232,7 +232,8 @@ function createStageStepsWithReferences(
 }
 
 /**
- * @param stage
+ * @param stage to be processed
+ * @returns Stage with child references
  */
 export function createOrchestratedStageWithItemReferences(stage: OrchestratedStage) {
     const newStage = baseCanvasElement(stage);
@@ -264,7 +265,8 @@ export function createOrchestratedStageWithItemReferences(stage: OrchestratedSta
 /**
  * OrchestratedStage from the property editor on close goes to the store
  *
- * @param orchestratedStage
+ * @param orchestratedStage to be processed
+ * @returns The stage with child references
  */
 export function createOrchestratedStageWithItemReferencesWhenUpdatingFromPropertyEditor(
     orchestratedStage: OrchestratedStage
@@ -306,7 +308,8 @@ export function createOrchestratedStageWithItemReferencesWhenUpdatingFromPropert
  * Selector callback used for the orchestratedStageNode to provide data needed
  * for dynamic rendering on the canvas
  *
- * @param guid
+ * @param guid of the stage
+ * @returns The stage with type label
  */
 export function getSteps(guid: UI.Guid): StageStep[] {
     const orchestratedStage = getElementByGuid<OrchestratedStage>(guid)!;
@@ -327,8 +330,8 @@ export function getSteps(guid: UI.Guid): StageStep[] {
  * If no action type is present, i.e. user had not set flow details
  * on the step, choose no action type is set, return the default step type - interactive step.
  *
- * @param actionType
- * @returns
+ * @param actionType of the step
+ * @returns The label to be used based on the step type
  */
 const resolveStepTypeLabel = (actionType: string) => {
     if (actionType === ACTION_TYPE.STEP_BACKGROUND) {
@@ -565,7 +568,7 @@ export function createStageStep(step: StageStep): StageStep {
                   }
                 : null;
         });
-    } else if (assignees) {
+    } else if (assignees?.length > 0) {
         // coming from UI
         newStep.assignees = assignees.map((assigneeWithType) => {
             return assigneeWithType?.assignee

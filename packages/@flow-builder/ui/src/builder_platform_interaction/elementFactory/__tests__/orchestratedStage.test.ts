@@ -635,17 +635,35 @@ describe('OrchestratedStage', () => {
                     {
                         name: 'step1',
                         guid: 'step1',
-                        assignees: []
+                        assignees: [
+                            {
+                                assignee: null,
+                                assigneeType: 'User',
+                                isReference: false
+                            }
+                        ]
                     },
                     {
                         name: 'step2',
                         guid: 'step2',
-                        assignees: []
+                        assignees: [
+                            {
+                                assignee: null,
+                                assigneeType: 'User',
+                                isReference: false
+                            }
+                        ]
                     },
                     {
                         name: 'step3',
                         guid: 'step3',
-                        assignees: []
+                        assignees: [
+                            {
+                                assignee: null,
+                                assigneeType: 'User',
+                                isReference: false
+                            }
+                        ]
                     }
                 ]
             };

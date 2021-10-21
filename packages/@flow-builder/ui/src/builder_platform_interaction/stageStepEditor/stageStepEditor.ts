@@ -1,4 +1,4 @@
-import { api, LightningElement } from 'lwc';
+import { api, track, LightningElement } from 'lwc';
 import {
     getErrorsFromHydratedElement,
     getValueFromHydratedItem,
@@ -69,10 +69,6 @@ export enum EXIT_CRITERIA {
 // Standard inputs that should not show up as inputs associated with the selected action
 const STANDARD_INPUT_PREFIX = 'ActionInput__';
 
-const SELECTORS = {
-    ASSIGNEE_INPUT_FIELD: '.assigneePicker lightning-input'
-};
-
 export default class StageStepEditor extends LightningElement {
     labels = LABELS;
 
@@ -105,8 +101,12 @@ export default class StageStepEditor extends LightningElement {
     exitInvocableActionParametersDescriptor?: InvocableAction;
 
     displayActionSpinner = false;
+    displayAssigneeSpinner = false;
 
     actorPickerId = generateGuid();
+
+    @track
+    assigneeRecordIds: { id: string }[] | undefined = undefined;
 
     rules = [];
 
@@ -131,6 +131,24 @@ export default class StageStepEditor extends LightningElement {
             value: ASSIGNEE_RESOURCE_TYPE.UserResource
         }
     ];
+
+    @track
+    userRecordPickerAttributes: {
+        label: string;
+        entities: object[];
+        placeholder: string;
+    } = {
+        label: LABELS.actorSelectorUserLabel,
+        entities: [
+            {
+                name: 'User',
+                label: 'Users',
+                labelPlural: 'People'
+            }
+        ],
+
+        placeholder: this.labels.actorSelectorUserReferencePlaceholder
+    };
 
     // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
     @api
@@ -277,6 +295,31 @@ export default class StageStepEditor extends LightningElement {
         this.setActionParameters(this.selectedExitAction, ORCHESTRATED_ACTION_CATEGORY.EXIT);
 
         this.requiresAsyncProcessing = this.element.requiresAsyncProcessing;
+
+        // populate assigneeRecordIds for all literals
+        this.assigneeRecordIds = [];
+        if (this.element?.assignees?.length > 0) {
+            this.displayAssigneeSpinner = true;
+
+            Promise.all(
+                this.element.assignees.map(async (assignee) => {
+                    return assignee && assignee.assignee.value && !assignee.isReference
+                        ? fetchOnce(SERVER_ACTION_TYPE.GET_RECORD_ID_BY_DEV_NAME, {
+                              devName: assignee.assignee.value,
+                              entity: ASSIGNEE_TYPE.User
+                          })
+                        : null;
+                })
+            ).then((recordIds: string[]) => {
+                const retrievedIds: string[] = recordIds.filter((recordId) => recordId !== null);
+                this.assigneeRecordIds = retrievedIds.map((recordId) => {
+                    return {
+                        id: recordId
+                    };
+                });
+                this.displayAssigneeSpinner = false;
+            });
+        }
 
         // Reopening existing elements should always validate
         // This has to be done manually in every property editor
@@ -501,7 +544,7 @@ export default class StageStepEditor extends LightningElement {
     }
 
     /**
-     * Returns the information about the action element in which the configurationEditor is defined
+     * @returns the information about the action element in which the configurationEditor is defined
      */
     get exitActionElementInfo() {
         const actionInfo = { apiName: '', type: 'Action' };
@@ -690,22 +733,15 @@ export default class StageStepEditor extends LightningElement {
 
     setActorError(error: string | null) {
         this.actorErrorMessage = error ? error : '';
-        const assigneeInput = this.template.querySelector(SELECTORS.ASSIGNEE_INPUT_FIELD);
-        this.setInputErrorMessage(assigneeInput, this.actorErrorMessage);
-    }
-
-    setInputErrorMessage(element, error = '') {
-        if (element) {
-            element.setCustomValidity(error);
-            element.showHelpMessageIfInvalid();
-        }
     }
 
     /**
      * Filters out input parameters that are for engine use only.
      * For later releases, we'll investigate excluding them on the server side
      *
-     * @param inputParameters
+     * @param inputParameters All input parameters for the action
+     *
+     * @returns The filter input parameters
      */
     filterActionInputParameters(inputParameters: ParameterListRowItem[] = []): ParameterListRowItem[] {
         return inputParameters.filter((inputParameter: ParameterListRowItem) => {
@@ -909,6 +945,10 @@ export default class StageStepEditor extends LightningElement {
         }
     }
 
+    /**
+     *
+     * @param event Fired when the assignee type is changed
+     */
     handleAssigneeTypeChanged = (event) => {
         event.stopPropagation();
 
@@ -929,19 +969,9 @@ export default class StageStepEditor extends LightningElement {
     };
 
     /**
-     * Used for lightning-input (user)
-     *
-     * @param event
-     */
-    handleAssigneeFocusOut = (event) => {
-        event.stopPropagation();
-        this.updateAssignee(event.target.value, '');
-    };
-
-    /**
      * Used for combobox (reference)
      *
-     * @param event
+     * @param event Fired when the ferov resource picker value changes
      */
     handleActorChanged = (event) => {
         event.stopPropagation();
@@ -951,6 +981,28 @@ export default class StageStepEditor extends LightningElement {
         );
     };
 
+    /**
+     *
+     * @param recordId recordId of the assignee entity
+     */
+    handleAssigneeEntitySelected = async (recordId: string) => {
+        if (recordId) {
+            const devName = await fetchOnce(SERVER_ACTION_TYPE.GET_RECORD_DEV_NAME_BY_ID, {
+                recordId,
+                entity: ASSIGNEE_TYPE.User
+            });
+            this.updateAssignee(<string>devName, '');
+        } else {
+            this.updateAssignee(null, '');
+        }
+    };
+
+    /**
+     * Processes assignee change, whether literal or resource
+     *
+     * @param assignee the new assignee
+     * @param error any error if present
+     */
     updateAssignee(assignee: string | null, error: string) {
         if (assignee === '') {
             assignee = null;

@@ -36,7 +36,8 @@
                         "**/builder_platform_interaction/alcCanvas/alcCanvas.ts",
                         "**/builder_platform_interaction/alcCanvasContainer/alcCanvasContainer.ts",
                         "**/builder_platform_interaction/preloadLib/loader.ts",
-                        "**/builder_platform_interaction/screenExtensionField/auraInterop.ts"
+                        "**/builder_platform_interaction/screenExtensionField/auraInterop.ts",
+                        "**/builder_platform_interaction/recordPicker/auraInterop.ts"
                     ],
                     "@lwc/lwc/no-document-query": ["**/builder_platform_interaction/drawingLib/drawingLib.ts"],
                     "@lwc/lwc/no-inner-html": [
@@ -72,11 +73,13 @@
                     ],
                     "lwc-core/no-aura": [
                         "**/builder_platform_interaction/builderUtils/builderUtils.ts",
-                        "**/builder_platform_interaction/screenExtensionField/auraInterop.ts"
+                        "**/builder_platform_interaction/screenExtensionField/auraInterop.ts",
+                        "**/builder_platform_interaction/recordPicker/auraInterop.ts"
                     ],
                     "lwc-core/no-interop-create": [
                         "**/builder_platform_interaction/builderUtils/builderUtils.ts",
-                        "**/builder_platform_interaction/screenExtensionField/auraInterop.ts"
+                        "**/builder_platform_interaction/screenExtensionField/auraInterop.ts",
+                        "**/builder_platform_interaction/recordPicker/auraInterop.ts"
                     ],
                     "lwc-core/no-interop-dispatch": [
                         "**/builder_platform_interaction/builderUtils/builderUtils.ts",
@@ -85,6 +88,7 @@
                     "lwc-core/no-interop-render": [
                         "**/builder_platform_interaction/builderUtils/builderUtils.ts",
                         "**/builder_platform_interaction/screenExtensionField/auraInterop.ts",
+                        "**/builder_platform_interaction/recordPicker/auraInterop.ts",
                         "**/jestSetup.ts"
                     ],
                     "lwc-core/no-dynamic-import": [

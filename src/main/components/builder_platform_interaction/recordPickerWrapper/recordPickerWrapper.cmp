@@ -1,0 +1,30 @@
+<aura:component>
+    <!--
+        This is a wrapper for forceSearch:inputLookupDesktop.  It takes the output of the aura "selected" event and
+        calls the recordSelectedCallback with the content
+    -->
+
+    <aura:attribute name="recordSelectedCallback" type="Object" description="Method called when a record is selected"/>
+
+    <aura:attribute name="label" type="String" default="" description="The text displayed on top of the input."/>
+    <aura:attribute name="placeholder" type="String" default="" description="The inital text displayed in the input."/>
+    <aura:attribute name="entities" type="List" required="true" default="[]" description="entity types being searched against" />
+    <aura:attribute name="values" type="List" default="[]" required="false" description="The values associated with the input"/>
+    <aura:attribute name="priv_convertedValues" type="List" default="[]" required="false" description="The values associated with the input converted in to an aura friendly form"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+    <aura:handler name="valueAdded" event="ui:change" action="{!c.handleSelected}"/>
+    <aura:handler name="valueRemoved" event="ui:change" action="{!c.handleSelected}"/>
+
+    <forceSearch:inputLookupDesktop
+        label="{!v.label}"
+        entities="{!v.entities}"
+        values="{!v.priv_convertedValues}"
+        enableCreateNew="false"
+        enableAdvancedSearch="false"
+        placeholder="{!v.placeholder}"
+        required="true"
+        requiredIndicatorClass="slds-required slds-float_left"
+        labelClass="slds-form-element__label"
+    ></forceSearch:inputLookupDesktop>
+</aura:component>

@@ -12,7 +12,6 @@ import {
     UpdateConditionEvent,
     UpdateParameterItemEvent,
     ValueChangedEvent,
-    OrchestrationAssigneeChangedEvent,
     UpdateNodeEvent,
     RequiresAsyncProcessingChangedEvent
 } from 'builder_platform_interaction/events';
@@ -47,14 +46,22 @@ jest.mock('../stageStepReducer', () => {
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
+const mockUserRecordIdPromise = Promise.resolve('aUserRecordId');
+const mockUserRecordDevNamePromise = Promise.resolve('aUserDevName');
 const mockActionsPromise = Promise.resolve(invocableActionsForOrchestrator);
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/serverDataLib');
     return {
         SERVER_ACTION_TYPE: actual.SERVER_ACTION_TYPE,
-        fetchOnce: jest.fn(() => {
-            return mockActionsPromise;
+        fetchOnce: jest.fn(async (actionType) => {
+            if (actionType === actual.SERVER_ACTION_TYPE.GET_RECORD_ID_BY_DEV_NAME) {
+                return mockUserRecordIdPromise;
+            } else if (actionType === actual.SERVER_ACTION_TYPE.GET_RECORD_DEV_NAME_BY_ID) {
+                return mockUserRecordDevNamePromise;
+            } else {
+                return mockActionsPromise;
+            }
         })
     };
 });
@@ -124,6 +131,7 @@ const selectors = {
     PARAMETER_LIST: 'builder_platform_interaction-parameter-list',
     RELATED_RECORD_SELECTOR: 'builder_platform_interaction-ferov-resource-picker.recordPicker',
     ASSIGNEE_TYPE_SELECTOR: 'lightning-combobox.assigneeType',
+    ASSIGNEE_LITERAL_RECORD_PICKER_SELECTOR: 'builder_platform_interaction-record-picker',
     USER_SELECTOR: '.assigneePicker lightning-input',
     USER_REFERENCE_SELECTOR: '.assigneePicker builder_platform_interaction-ferov-resource-picker',
     ACTOR_SELECTOR: 'builder_platform_interaction-ferov-resource-picker.actorPicker',
@@ -175,7 +183,8 @@ describe('StageStepEditor', () => {
         assignees: [
             {
                 assignee: { value: 'orchestrator@salesforce.com' },
-                assigneeType: 'User'
+                assigneeType: 'User',
+                isReference: false
             }
         ],
         inputParameters: mockInputParameters,
@@ -414,6 +423,25 @@ describe('StageStepEditor', () => {
             ticks(1);
 
             expect(eventCaught).toBeTruthy();
+        });
+
+        describe('assignees', () => {
+            it('retrieves recordIds for user literals and passes them to record picker', async () => {
+                expect.assertions(3);
+
+                expect(fetchOnce).toHaveBeenCalledWith(SERVER_ACTION_TYPE.GET_RECORD_ID_BY_DEV_NAME, {
+                    devName: nodeParams.assignees[0].assignee.value,
+                    entity: 'User'
+                });
+
+                ticks(1);
+
+                const values = editor.shadowRoot.querySelector(
+                    selectors.ASSIGNEE_LITERAL_RECORD_PICKER_SELECTOR
+                ).values;
+                expect(values.length).toEqual(1);
+                expect(values[0].id).toEqual(await mockUserRecordIdPromise);
+            });
         });
 
         describe('validation', () => {
@@ -860,6 +888,41 @@ describe('StageStepEditor', () => {
                         value: null,
                         error: null,
                         isReference: true
+                    });
+                });
+            });
+
+            describe('user literal', () => {
+                it('resolves recordId to devName and sets assignee', async () => {
+                    const id = 'someId';
+                    const userRecordPicker = editor.shadowRoot.querySelector(
+                        selectors.ASSIGNEE_LITERAL_RECORD_PICKER_SELECTOR
+                    );
+                    await userRecordPicker.recordSelectedCallback(id);
+
+                    ticks(10);
+
+                    // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
+                    // Until then use the more brittle `.mocks`
+                    expect(stageStepReducer.mock.calls[7][1].detail).toEqual({
+                        value: { stringValue: await mockUserRecordDevNamePromise },
+                        error: '',
+                        isReference: false
+                    });
+                });
+
+                it('with empty value clears assignee', () => {
+                    const userRecordPicker = editor.shadowRoot.querySelector(
+                        selectors.ASSIGNEE_LITERAL_RECORD_PICKER_SELECTOR
+                    );
+                    userRecordPicker.recordSelectedCallback(null);
+
+                    // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
+                    // Until then use the more brittle `.mocks`
+                    expect(stageStepReducer.mock.calls[7][1].detail).toEqual({
+                        value: null,
+                        error: '',
+                        isReference: false
                     });
                 });
             });

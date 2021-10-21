@@ -158,6 +158,7 @@
             "builder_platform_interaction/recordLookupEditor": ["./src/builder_platform_interaction/recordLookupEditor/recordLookupEditor.ts"],
             "builder_platform_interaction/recordLookupVariableAndFieldMapping": ["./src/builder_platform_interaction/recordLookupVariableAndFieldMapping/recordLookupVariableAndFieldMapping.ts"],
             "builder_platform_interaction/recordNumberRecordToStore": ["./src/builder_platform_interaction/recordNumberRecordToStore/recordNumberRecordToStore.ts"],
+            "builder_platform_interaction/recordPicker": ["./src/builder_platform_interaction/recordPicker/recordPicker.ts"],
             "builder_platform_interaction/recordQueryFields": ["./src/builder_platform_interaction/recordQueryFields/recordQueryFields.ts"],
             "builder_platform_interaction/recordSobjectAndQueryFields": ["./src/builder_platform_interaction/recordSobjectAndQueryFields/recordSobjectAndQueryFields.ts"],
             "builder_platform_interaction/recordSort": ["./src/builder_platform_interaction/recordSort/recordSort.ts"],

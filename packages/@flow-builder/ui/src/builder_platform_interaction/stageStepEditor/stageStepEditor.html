@@ -165,6 +165,13 @@
 
         <div class="slds-border_top slds-p-top_medium slds-p-left_small slds-p-bottom_small slds-p-right_small">
             <span class="slds-text-heading_small">{labels.actorSelectionSectionLabel}</span>
+            <lightning-spinner
+                if:true={displayAssigneeSpinner}
+                size="medium"
+                variant="brand"
+                class="spinner"
+            ></lightning-spinner>
+
             <div class="slds-p-top_x-small">
                 <lightning-combobox
                     name="assigneeType"
@@ -177,16 +184,13 @@
                     aria-controls="assigneePicker"
                     class="slds-combobox-addon_start assigneeType"
                 ></lightning-combobox>
-                <div id="assigneePicker" class="assigneePicker">
-                    <lightning-input
+                <div id="assigneePicker" class="assigneePicker slds-p-top_x-small">
+                    <builder_platform_interaction-record-picker
                         if:false={isAssigneeReference}
-                        label={labels.actorSelectorUserLabel}
-                        type="text"
-                        onfocusout={handleAssigneeFocusOut}
-                        field-level-help={labels.actorSelectorUserTooltip}
-                        value={actorValue}
-                        required
-                    ></lightning-input>
+                        attributes={userRecordPickerAttributes}
+                        values={assigneeRecordIds}
+                        record-selected-callback={handleAssigneeEntitySelected}
+                    ></builder_platform_interaction-record-picker>
                     <builder_platform_interaction-ferov-resource-picker
                         if:true={isAssigneeReference}
                         combobox-config={userReferenceComboBoxConfig}
