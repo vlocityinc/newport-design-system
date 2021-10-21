@@ -46,6 +46,8 @@ const SCHEDULED_FILTER_Y_OFFSET = 204;
 const PLATFORM_Y_OFFSET = 122;
 const DEFAULT_Y_OFFSET = 86;
 
+const DEFAULT_ORCHESTRATION_OBJECT = 'Account';
+
 /**
  * Helper function to determine how big the start element is in the Y direction.
  *
@@ -115,7 +117,6 @@ export function createStartElement(startElement: UI.Start | Metadata.Start) {
     const {
         locationX = START_ELEMENT_LOCATION.x,
         locationY = START_ELEMENT_LOCATION.y,
-        object = '',
         filters = [],
         scheduledPaths
     } = startElement;
@@ -132,6 +133,11 @@ export function createStartElement(startElement: UI.Start | Metadata.Start) {
     const { startDate, startTime } = (startElement as Metadata.Start).schedule || startElement;
     let { recordTriggerType, frequency } = (startElement as Metadata.Start).schedule || startElement;
     let { filterLogic = getDefaultFilterLogic(triggerType) } = startElement;
+
+    let { object = '' } = startElement;
+
+    object = getDefaultObjectForOrchestration(object, triggerType, newStartElement);
+
     // For the existing element if no filters has been set we need to assign No Conditions to the filterLogic.
     if (object !== '' && filters.length === 0 && filterLogic === CONDITION_LOGIC.AND) {
         filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
@@ -657,4 +663,23 @@ function getDefaultFilterLogic(triggerType) {
         return CONDITION_LOGIC.NO_CONDITIONS;
     }
     return CONDITION_LOGIC.AND;
+}
+
+/**
+ * @param object - The start element object
+ * @param triggerType - The triggerType
+ * @param newStartElement - The start element
+ */
+function getDefaultObjectForOrchestration(object: string, triggerType: string, newStartElement: UI.Start) {
+    // Only default object to account for a record-triggered orchestration
+    // Make sure object is not already set, and confirm that it is new
+    if (
+        isOrchestrator(getProcessType()) &&
+        isRecordChangeTriggerType(triggerType) &&
+        !object &&
+        newStartElement.isNew !== false
+    ) {
+        object = DEFAULT_ORCHESTRATION_OBJECT;
+    }
+    return object;
 }

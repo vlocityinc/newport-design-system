@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import { getElementByGuid, getProcessType } from 'builder_platform_interaction/storeUtils';
 import {
     shouldSupportScheduledPaths,
     createStartElementForPropertyEditor,
@@ -320,6 +320,65 @@ describe('Start element', () => {
             } finally {
                 delete startMetadata.scheduledPaths;
             }
+        });
+
+        describe('object attribute', () => {
+            describe('with Orchestrator processType and recordChange triggerType', () => {
+                beforeEach(() => {
+                    getProcessType.mockReturnValueOnce('Orchestrator');
+                });
+
+                it('should default to Account if not specified', () => {
+                    getProcessType.mockReturnValueOnce('Orchestrator');
+                    startMetadata.triggerType = FLOW_TRIGGER_TYPE.AFTER_SAVE;
+
+                    const result = createStartElement(startMetadata);
+
+                    expect(result.object).toMatch('Account');
+                });
+                it('should not change if specified', () => {
+                    getProcessType.mockReturnValueOnce('Orchestrator');
+                    startMetadata.triggerType = FLOW_TRIGGER_TYPE.AFTER_SAVE;
+                    startMetadata.object = 'Case';
+
+                    const result = createStartElement(startMetadata);
+
+                    expect(result.object).toMatch('Case');
+                });
+                it('should not change if start element is not new', () => {
+                    getProcessType.mockReturnValueOnce('Orchestrator');
+                    startMetadata.triggerType = FLOW_TRIGGER_TYPE.AFTER_SAVE;
+                    startMetadata.isNew = false;
+
+                    const result = createStartElement(startMetadata);
+
+                    expect(result.object).toMatch('');
+                });
+            });
+
+            describe('with AutoLaunchedFlow processType and recordChange triggerType', () => {
+                it('should be blank if not specified', () => {
+                    startMetadata.triggerType = FLOW_TRIGGER_TYPE.AFTER_SAVE;
+
+                    const result = createStartElement(startMetadata);
+
+                    expect(result.object).toMatch('');
+                });
+            });
+
+            describe('with Orchestrator processType and undefined triggerType', () => {
+                beforeEach(() => {
+                    getProcessType.mockReturnValueOnce('Orchestrator');
+                });
+
+                it('should be blank if not specified', () => {
+                    getProcessType.mockReturnValueOnce('Orchestrator');
+
+                    const result = createStartElement(startMetadata);
+
+                    expect(result.object).toMatch('');
+                });
+            });
         });
 
         describe('create start element haveSystemVariableFields', () => {
