@@ -17,6 +17,7 @@ type Access = {
     orgHasFlowScreenSections: boolean;
     orgHasComponentPreview: boolean;
     orgHasFlowBuilderGuardrails: boolean;
+    orgHasFlowTestingEnabled: boolean;
 };
 type BuilderConfig = {
     builderType: string;
@@ -125,6 +126,13 @@ export function getOrgId() {
  */
 export function orgHasFlowBuilderDebug() {
     return context.access && context.access.orgHasFlowBuilderDebug;
+}
+
+/**
+ * returns true if Flow Testing perm is enabled, will be removed sometime post 236
+ */
+export function orgHasFlowTestingEnabled() {
+    return context.access && context.access.orgHasFlowTestingEnabled;
 }
 
 /**

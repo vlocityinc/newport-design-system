@@ -157,6 +157,15 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     };
 });
 
+let mockOrgHasFlowTestingEnabled = true;
+jest.mock('builder_platform_interaction/contextLib', () => {
+    return Object.assign({}, jest.requireActual('builder_platform_interaction/contextLib'), {
+        orgHasFlowTestingEnabled: jest.fn().mockImplementation(() => {
+            return mockOrgHasFlowTestingEnabled;
+        })
+    });
+});
+
 jest.mock('builder_platform_interaction/actions', () => {
     return {
         addElement: jest.fn((el) => {
@@ -326,6 +335,7 @@ const selectors = {
     addnewresource: '.test-left-panel-add-resource',
     canvasCombobox: '.canvas-mode-combobox',
     debug: '.test-toolbar-debug',
+    test: '.test-toolbar-addToTest',
     run: '.test-toolbar-run'
 };
 
@@ -1864,6 +1874,44 @@ describe('in debug mode', () => {
         const nodeUpdate = invokePropertyEditor.mock.calls[0][1].nodeUpdate;
         nodeUpdate(elementToAdd);
         expect(debugToast).not.toHaveBeenCalled();
+    });
+    it('showAddToTestButton is not present when testing perm is off', async () => {
+        mockOrgHasFlowTestingEnabled = false;
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderMode: 'debugMode',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                componentConfigs: {
+                    [BUILDER_MODE.DEBUG_MODE]: { toolbarConfig: { showAddToTestButton: true } }
+                }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.DEBUG_MODE);
+        await ticks(1);
+        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+        const lbg = toolbar.shadowRoot.querySelector('lightning-button-group');
+        const testButton = lbg.querySelector(selectors.test);
+        expect(testButton).toBeNull();
+    });
+    it('showAddToTestButton is present when testing perm is on', async () => {
+        mockOrgHasFlowTestingEnabled = true;
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderMode: 'debugMode',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                componentConfigs: {
+                    [BUILDER_MODE.DEBUG_MODE]: { toolbarConfig: { showAddToTestButton: true } }
+                }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.DEBUG_MODE);
+        await ticks(1);
+        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+        const lbg = toolbar.shadowRoot.querySelector('lightning-button-group');
+        const testButton = lbg.querySelector(selectors.test);
+        expect(testButton).toBeTruthy();
     });
     describe('save during debug', () => {
         let editorComponent;

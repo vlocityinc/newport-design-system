@@ -143,7 +143,8 @@ import {
 import {
     CLASSIC_EXPERIENCE,
     getPreferredExperience,
-    isAutoLayoutCanvasEnabled
+    isAutoLayoutCanvasEnabled,
+    orgHasFlowTestingEnabled
 } from 'builder_platform_interaction/contextLib';
 import { loadReferencesIn } from 'builder_platform_interaction/mergeFieldLib';
 import { FlowGuardrailsExecutor, GuardrailsResultEvent } from 'builder_platform_interaction/guardrails';
@@ -676,11 +677,11 @@ export default class Editor extends LightningElement {
     }
 
     get showAddToTestButton() {
-        return !!this.toolbarConfig.showAddToTestButton && !this.fromEmailDebugging;
+        return !!this.toolbarConfig.showAddToTestButton && !this.fromEmailDebugging && orgHasFlowTestingEnabled();
     }
 
     get showRunTestButton() {
-        return !!this.toolbarConfig.showRunTestButton && !this.fromEmailDebugging;
+        return !!this.toolbarConfig.showRunTestButton && !this.fromEmailDebugging && orgHasFlowTestingEnabled();
     }
 
     get showRunButton() {
