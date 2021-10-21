@@ -151,6 +151,7 @@ export interface LayoutConfig {
     branch: {
         defaultWidth: number;
         emptyWidth: number;
+        extraWidthForAfterLast: number;
     };
 }
 

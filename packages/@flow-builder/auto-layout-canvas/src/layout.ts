@@ -675,8 +675,16 @@ function calculateBranchLayout(
         leftWidth = rightWidth = layoutConfig.branch.emptyWidth / 2;
     }
 
+    let widthWithGoToOnBranchHead = layoutConfig.node.w;
+    if (parentNodeModel.nodeType === NodeType.LOOP && parentNodeModel.children[0] != null) {
+        // Adding extra width to push out the After Last connector when there's a GoTo another element present
+        // in the For-Each branch. This is needed to avoid long labels from overlapping with the After Last connector
+        widthWithGoToOnBranchHead += layoutConfig.branch.extraWidthForAfterLast;
+        rightWidth += layoutConfig.branch.extraWidthForAfterLast;
+    }
+
     return hasGoToOnBranchHead(flowModel, parentNodeModel.guid, childIndex)
-        ? Object.assign(branchLayout, { w: layoutConfig.node.w, h: height, offsetX: layoutConfig.node.offsetX })
+        ? Object.assign(branchLayout, { w: widthWithGoToOnBranchHead, h: height, offsetX: layoutConfig.node.offsetX })
         : Object.assign(branchLayout, { w: leftWidth + rightWidth, h: height, offsetX: leftWidth });
 }
 

@@ -1174,7 +1174,8 @@ function getTargetGuidsForReconnection(
             // the firstMergeable element
             firstMergeableNonNullNext = branchParent.guid;
         } else if (branchParent.next !== prev || isPrevSelectable(resolveParent(elements, prev!))) {
-            // nonSelectableTailElementsGuids check added for W-9967242
+            // In case branchParent has a GoTo to a guid present in the nonSelectableTailElementsGuids,
+            // ensuring that it is not marked as the firstMergeableNonNullNext
             firstMergeableNonNullNext =
                 branchParent.next && !nonSelectableTailElementsGuids.includes(branchParent.next)
                     ? branchParent.next

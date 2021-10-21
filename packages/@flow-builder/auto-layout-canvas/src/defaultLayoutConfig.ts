@@ -136,7 +136,8 @@ export function getDefaultLayoutConfig(): LayoutConfig {
         },
         branch: {
             defaultWidth: gridWidth * 2,
-            emptyWidth: (gridWidth * 4) / 3
+            emptyWidth: (gridWidth * 4) / 3,
+            extraWidthForAfterLast: 40
         }
     };
 }
