@@ -2,11 +2,7 @@
 import { LABELS } from '../newFlowModalBodyLabels';
 import { createElement } from 'lwc';
 import NewFlowModalBody from 'builder_platform_interaction/newFlowModalBody';
-import {
-    LegalNoticeDismissedEvent,
-    ProcessTypeSelectedEvent,
-    TemplateChangedEvent
-} from 'builder_platform_interaction/events';
+import { ProcessTypeSelectedEvent, TemplateChangedEvent } from 'builder_platform_interaction/events';
 import { ALL_PROCESS_TYPE, resetCacheTemplates } from 'builder_platform_interaction/processTypeLib';
 import { FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { MOCK_ALL_FLOW_ENTRIES } from 'mock/flowEntryData';
@@ -41,10 +37,6 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     };
 });
 
-jest.mock('builder_platform_interaction/legalPopover', () =>
-    require('builder_platform_interaction_mocks/legalPopover')
-);
-
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-new-flow-modal-body', { is: NewFlowModalBody });
     Object.assign(el, {
@@ -65,8 +57,6 @@ const getProcessTypesNavigation = (modalBody) =>
 
 const getProcessTypesTemplates = (modalBody) =>
     modalBody.shadowRoot.querySelector('builder_platform_interaction-process-types-templates');
-
-const getLegalPopover = (modalBody) => modalBody.shadowRoot.querySelector('builder_platform_interaction-legal-popover');
 
 const getRecommended = (modalBody) =>
     modalBody.shadowRoot
@@ -220,80 +210,6 @@ describe('new-flow-modal-body', () => {
                     templateId: '1'
                 }
             ]);
-        });
-    });
-
-    describe('beta legal popover', () => {
-        let newFlowModalBody;
-        beforeEach(async () => {
-            newFlowModalBody = createComponentForTest();
-            await ticks();
-            // Switch to the templates tab
-            const templatesTab = getTemplatesTab(newFlowModalBody);
-            templatesTab.dispatchEvent(new CustomEvent('active'));
-            await ticks();
-        });
-        afterAll(() => {
-            resetProcessTypesCache();
-        });
-        it('should not show up if the selected process type is not orchestrator', () => {
-            const legalPopover = getLegalPopover(newFlowModalBody);
-            expect(legalPopover).toBeNull();
-        });
-        it('should show up if the selected process type is "all" and template type is orchestrator', async () => {
-            const templates = getProcessTypesTemplates(newFlowModalBody);
-            templates.dispatchEvent(
-                new TemplateChangedEvent({
-                    processType: FLOW_PROCESS_TYPE.ORCHESTRATOR
-                })
-            );
-            await ticks();
-            const legalPopover = getLegalPopover(newFlowModalBody);
-            expect(legalPopover).not.toBeNull();
-        });
-        it('should show up if the selected process type is "orchestrator"', async () => {
-            const processTypesNavigation = getProcessTypesNavigation(newFlowModalBody);
-            processTypesNavigation.dispatchEvent(new ProcessTypeSelectedEvent(FLOW_PROCESS_TYPE.ORCHESTRATOR));
-            await Promise.resolve();
-            const templates = getProcessTypesTemplates(newFlowModalBody);
-            templates.dispatchEvent(
-                new TemplateChangedEvent({
-                    processType: FLOW_PROCESS_TYPE.ORCHESTRATOR
-                })
-            );
-            await ticks();
-            const legalPopover = getLegalPopover(newFlowModalBody);
-            expect(legalPopover).not.toBeNull();
-        });
-        it('should not show up if the selected tab is "recommended"', async () => {
-            const templates = getProcessTypesTemplates(newFlowModalBody);
-            templates.dispatchEvent(
-                new TemplateChangedEvent({
-                    processType: FLOW_PROCESS_TYPE.ORCHESTRATOR
-                })
-            );
-            await ticks();
-            let legalPopover = getLegalPopover(newFlowModalBody);
-            expect(legalPopover).not.toBeNull();
-            const recommendedTab = getRecommendedTab(newFlowModalBody);
-            recommendedTab.dispatchEvent(new CustomEvent('active'));
-            await ticks();
-            legalPopover = getLegalPopover(newFlowModalBody);
-            expect(legalPopover).toBeNull();
-        });
-        it('should not show the popup if it is dismissed', async () => {
-            const templates = getProcessTypesTemplates(newFlowModalBody);
-            templates.dispatchEvent(
-                new TemplateChangedEvent({
-                    processType: FLOW_PROCESS_TYPE.ORCHESTRATOR
-                })
-            );
-            await ticks();
-            let legalPopover = getLegalPopover(newFlowModalBody);
-            legalPopover.dispatchEvent(new LegalNoticeDismissedEvent());
-            await ticks();
-            legalPopover = getLegalPopover(newFlowModalBody);
-            expect(legalPopover).toBeNull();
         });
     });
 
