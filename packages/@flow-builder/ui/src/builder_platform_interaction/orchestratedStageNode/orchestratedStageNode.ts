@@ -7,7 +7,7 @@ import { NodeRenderInfo } from 'builder_platform_interaction/autoLayoutCanvas';
 import { LABELS } from './orchestratedStageNodeLabels';
 import { commands, commonUtils, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 
-const { KeyboardInteractions, createShortcut, Keys } = keyboardInteractionUtils;
+const { BaseKeyboardInteraction, withKeyboardInteractions, createShortcut, Keys } = keyboardInteractionUtils;
 const { EnterCommand, SpaceCommand, ArrowDown, ArrowUp } = commands;
 
 const { format } = commonUtils;
@@ -20,7 +20,7 @@ const selectors = {
     lightningPopup: 'lightning-popup'
 };
 
-export default class OrchestratedStageNode extends LightningElement {
+export default class OrchestratedStageNode extends withKeyboardInteractions(LightningElement) {
     labels = LABELS;
 
     private _node?: NodeRenderInfo;
@@ -62,9 +62,6 @@ export default class OrchestratedStageNode extends LightningElement {
 
     @api
     isDefaultMode?: boolean;
-
-    @api
-    keyboardInteractions = new KeyboardInteractions();
 
     @api
     disableDeleteElements;
@@ -347,7 +344,7 @@ export default class OrchestratedStageNode extends LightningElement {
         if (stepItems.includes(currentItemInFocus)) {
             const currentFocusIndex = stepItems.indexOf(currentItemInFocus);
 
-            let nextFocusIndex = key === ArrowDown.COMMAND_NAME ? currentFocusIndex + 1 : currentFocusIndex - 1;
+            let nextFocusIndex = key === Keys.ArrowDown ? currentFocusIndex + 1 : currentFocusIndex - 1;
 
             if (nextFocusIndex >= stepItems.length) {
                 // when the bottom of the step list is reached, focus the top step
@@ -362,16 +359,14 @@ export default class OrchestratedStageNode extends LightningElement {
         }
     }
 
-    connectedCallback() {
-        this.keyboardInteractions.registerShortcuts([
-            createShortcut(Keys.Enter, new EnterCommand(() => this.handleEnterOrSpaceKey())),
-            createShortcut(Keys.Space, new SpaceCommand(() => this.handleEnterOrSpaceKey())),
-            createShortcut(Keys.ArrowUp, new ArrowUp(() => this.handleArrowKeys(ArrowUp.COMMAND_NAME))),
-            createShortcut(Keys.ArrowDown, new ArrowDown(() => this.handleArrowKeys(ArrowDown.COMMAND_NAME)))
-        ]);
-    }
-
-    disconnectedCallback() {
-        this.keyboardInteractions.removeKeyDownEventListener(this.template);
+    getKeyboardInteractions() {
+        return [
+            new BaseKeyboardInteraction([
+                createShortcut(Keys.Enter, new EnterCommand(() => this.handleEnterOrSpaceKey())),
+                createShortcut(Keys.Space, new SpaceCommand(() => this.handleEnterOrSpaceKey())),
+                createShortcut(Keys.ArrowUp, new ArrowUp(() => this.handleArrowKeys(Keys.ArrowUp))),
+                createShortcut(Keys.ArrowDown, new ArrowDown(() => this.handleArrowKeys(Keys.ArrowDown)))
+            ])
+        ];
     }
 }
