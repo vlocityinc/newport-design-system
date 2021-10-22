@@ -7,10 +7,10 @@
     "GreaterThanOrEqualTo":"Greater Than or Equal",
     "LessThan":"Less Than",
     "GreaterThan":"Greater Than",
-    "WasSet":"Was Set",
     "RemoveUncommon":"Remove Uncommon",
-    "LessThanOrEqualTo":"Less Than or Equal",
+    "WasSet":"Was Set",
     "RemovePosition":"Remove Position",
+    "LessThanOrEqualTo":"Less Than or Equal",
     "AssignCount":"Equals Count",
     "RemoveBeforeFirst":"Remove Before First",
     "RemoveFirst":"Remove First",
@@ -21,8 +21,8 @@
     "Contains":"Contains",
     "Subtract":"Subtract",
     "RemoveAfterFirst":"Remove After First",
-    "IsNull":"Is Null",
     "Assign":"Equals",
+    "IsNull":"Is Null",
     "RemoveAll":"Remove All",
     "EndsWith":"Ends With"
   }

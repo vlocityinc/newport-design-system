@@ -162,6 +162,7 @@
   "steps" : [ ],
   "subflows" : [ ],
   "textTemplates" : [ ],
+  "triggerOrder" : 0,
   "variables" : [ {
     "dataType" : "SObject",
     "isCollection" : false,

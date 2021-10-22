@@ -8,6 +8,7 @@
       "orgHasFlowAutomaticFieldsUseRecordPageComponents":true,
       "orgHasFlowScreenSections":true,
       "orgHasComponentPreview":true,
+      "orgHasFlowTestingEnabled":false,
       "orgHasFlowBuilderGuardrails":true
     },
     "devMode":false,
@@ -53,11 +54,11 @@
           "canvasConfig":{
             "disableAddConnectors":false,
             "disableDeleteConnectors":false,
+            "disableEditElements":false,
             "disableDeleteElements":false,
             "disableDragElements":false,
             "disableAddElements":false,
             "disableSelectConnectors":false,
-            "disablePropertyEditors":false,
             "disableMultiSelectElements":false
           }
         },
@@ -91,11 +92,11 @@
           "canvasConfig":{
             "disableAddConnectors":true,
             "disableDeleteConnectors":true,
+            "disableEditElements":false,
             "disableDeleteElements":true,
             "disableDragElements":true,
             "disableAddElements":true,
             "disableSelectConnectors":true,
-            "disablePropertyEditors":false,
             "disableMultiSelectElements":true
           }
         },
@@ -129,11 +130,11 @@
           "canvasConfig":{
             "disableAddConnectors":true,
             "disableDeleteConnectors":true,
+            "disableEditElements":false,
             "disableDeleteElements":true,
             "disableDragElements":true,
             "disableAddElements":true,
             "disableSelectConnectors":true,
-            "disablePropertyEditors":false,
             "disableMultiSelectElements":true
           }
         }
@@ -144,6 +145,7 @@
         "ActionPlan",
         "Appointments",
         "AutoLaunchedFlow",
+        "CMSOrchestrator",
         "CartAsyncFlow",
         "CheckoutFlow",
         "ContactRequestFlow",

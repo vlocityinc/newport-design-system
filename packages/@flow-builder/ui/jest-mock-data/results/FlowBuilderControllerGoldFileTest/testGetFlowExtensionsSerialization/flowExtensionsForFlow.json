@@ -153,7 +153,7 @@
   "extensionType" : "lwc",
   "fieldsToNull" : [ ],
   "label" : "Identity Verification",
-  "qualifiedApiName" : "industries_common:searchContainer",
+  "qualifiedApiName" : "industries_common:identitySearchPanel",
   "source" : "Standard"
 },
     {
