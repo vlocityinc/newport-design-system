@@ -1,0 +1,263 @@
+{
+    "createdById": "005xx000001XAgTAAW",
+    "createdDate": "2021-10-20T09:37:18.000+0000",
+    "definitionId": "300xx000000brO5AAI",
+    "fieldsToNull": [],
+    "fullName": "recommendationFlow",
+    "id": "301xx000003GbQRAA0",
+    "lastModifiedBy": {
+        "fieldsToNull": [],
+        "name": "User User"
+    },
+    "lastModifiedById": "005xx000001XAgTAAW",
+    "lastModifiedDate": "2021-10-20T09:37:24.000+0000",
+    "manageableState": "unmanaged",
+    "masterLabel": "recommendationFlow",
+    "metadata": {
+        "actionCalls": [],
+        "apexPluginCalls": [],
+        "apiVersion": 54,
+        "assignments": [
+            {
+                "assignmentItems": [
+                    {
+                        "assignToReference": "outputRecommendations",
+                        "operator": "Assign",
+                        "processMetadataValues": [],
+                        "value": {
+                            "elementReference": "Modify_recommendations"
+                        }
+                    }
+                ],
+                "label": "Assign to outputRecommendations",
+                "locationX": 176,
+                "locationY": 518,
+                "name": "Assign_to_outputRecommendations",
+                "processMetadataValues": []
+            }
+        ],
+        "choices": [],
+        "collectionProcessors": [
+            {
+                "assignNextValueToReference": "currentItem_Accounts_to_Recommendations",
+                "collectionProcessorType": "RecommendationMapCollectionProcessor",
+                "collectionReference": "Get_Accounts",
+                "connector": {
+                    "isGoTo": false,
+                    "processMetadataValues": [],
+                    "targetReference": "Modify_recommendations"
+                },
+                "elementSubtype": "RecommendationMapCollectionProcessor",
+                "filterConditions": [],
+                "label": "Accounts to Recommendations",
+                "locationX": 176,
+                "locationY": 278,
+                "mapItems": [
+                    {
+                        "assignToFieldReference": "AcceptanceLabel",
+                        "operator": "Assign",
+                        "processMetadataValues": [],
+                        "value": {
+                            "stringValue": "Accept"
+                        }
+                    },
+                    {
+                        "assignToFieldReference": "ActionReference",
+                        "operator": "Assign",
+                        "processMetadataValues": [],
+                        "value": {
+                            "stringValue": "action"
+                        }
+                    },
+                    {
+                        "assignToFieldReference": "Description",
+                        "operator": "Assign",
+                        "processMetadataValues": [],
+                        "value": {
+                            "elementReference": "currentItem_Accounts_to_Recommendations.Description"
+                        }
+                    },
+                    {
+                        "assignToFieldReference": "Name",
+                        "operator": "Assign",
+                        "processMetadataValues": [],
+                        "value": {
+                            "elementReference": "currentItem_Accounts_to_Recommendations.Name"
+                        }
+                    },
+                    {
+                        "assignToFieldReference": "RejectionLabel",
+                        "operator": "Assign",
+                        "processMetadataValues": [],
+                        "value": {
+                            "stringValue": "Reject"
+                        }
+                    }
+                ],
+                "name": "Accounts_to_Recommendations",
+                "outputSObjectType": "Recommendation",
+                "processMetadataValues": [],
+                "sortOptions": []
+            },
+            {
+                "assignNextValueToReference": "currentItem_Modify_recommendations",
+                "collectionProcessorType": "RecommendationMapCollectionProcessor",
+                "collectionReference": "Accounts_to_Recommendations",
+                "connector": {
+                    "isGoTo": false,
+                    "processMetadataValues": [],
+                    "targetReference": "Assign_to_outputRecommendations"
+                },
+                "elementSubtype": "RecommendationMapCollectionProcessor",
+                "filterConditions": [],
+                "label": "Modify recommendations",
+                "locationX": 176,
+                "locationY": 398,
+                "mapItems": [
+                    {
+                        "assignToFieldReference": "AcceptanceLabel",
+                        "operator": "Assign",
+                        "processMetadataValues": [],
+                        "value": {
+                            "stringValue": "Yes, thanks"
+                        }
+                    },
+                    {
+                        "assignToFieldReference": "RejectionLabel",
+                        "operator": "Assign",
+                        "processMetadataValues": [],
+                        "value": {
+                            "stringValue": "No, thanks"
+                        }
+                    }
+                ],
+                "name": "Modify_recommendations",
+                "outputSObjectType": "Recommendation",
+                "processMetadataValues": [],
+                "sortOptions": []
+            }
+        ],
+        "constants": [],
+        "decisions": [],
+        "dynamicChoiceSets": [],
+        "formulas": [],
+        "interviewLabel": "recommendationFlow {!$Flow.CurrentDateTime}",
+        "isAdditionalPermissionRequiredToRun": false,
+        "isOverridable": false,
+        "isTemplate": false,
+        "label": "recommendationFlow",
+        "loops": [],
+        "orchestratedStages": [],
+        "processMetadataValues": [
+            {
+                "name": "BuilderType",
+                "value": {
+                    "stringValue": "LightningFlowBuilder"
+                }
+            },
+            {
+                "name": "CanvasMode",
+                "value": {
+                    "stringValue": "AUTO_LAYOUT_CANVAS"
+                }
+            },
+            {
+                "name": "OriginBuilderType",
+                "value": {
+                    "stringValue": "LightningFlowBuilder"
+                }
+            }
+        ],
+        "processType": "RecommendationStrategy",
+        "recordCreates": [],
+        "recordDeletes": [],
+        "recordLookups": [
+            {
+                "assignNullValuesIfNoRecordsFound": false,
+                "connector": {
+                    "isGoTo": false,
+                    "processMetadataValues": [],
+                    "targetReference": "Accounts_to_Recommendations"
+                },
+                "filters": [],
+                "getFirstRecordOnly": false,
+                "label": "Get Accounts",
+                "locationX": 176,
+                "locationY": 158,
+                "name": "Get_Accounts",
+                "object": "Account",
+                "outputAssignments": [],
+                "processMetadataValues": [],
+                "queriedFields": [],
+                "storeOutputAutomatically": true
+            }
+        ],
+        "recordRollbacks": [],
+        "recordUpdates": [],
+        "screens": [],
+        "stages": [],
+        "start": {
+            "connector": {
+                "isGoTo": false,
+                "processMetadataValues": [],
+                "targetReference": "Get_Accounts"
+            },
+            "doesRequireRecordChangedToMeetCriteria": false,
+            "filters": [],
+            "locationX": 50,
+            "locationY": 0,
+            "processMetadataValues": [],
+            "scheduledPaths": []
+        },
+        "status": "Active",
+        "steps": [],
+        "subflows": [],
+        "textTemplates": [],
+        "triggerOrder": 0,
+        "variables": [
+            {
+                "dataType": "SObject",
+                "isCollection": false,
+                "isInput": true,
+                "isOutput": false,
+                "name": "currentItem_Accounts_to_Recommendations",
+                "objectType": "Account",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "dataType": "SObject",
+                "isCollection": false,
+                "isInput": true,
+                "isOutput": false,
+                "name": "currentItem_Modify_recommendations",
+                "objectType": "Recommendation",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "dataType": "SObject",
+                "isCollection": true,
+                "isInput": false,
+                "isOutput": true,
+                "name": "outputRecommendations",
+                "objectType": "Recommendation",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "dataType": "String",
+                "isCollection": false,
+                "isInput": true,
+                "isOutput": false,
+                "name": "recordId",
+                "processMetadataValues": [],
+                "scale": 0
+            }
+        ],
+        "waits": []
+    },
+    "processType": "RecommendationStrategy",
+    "status": "Active",
+    "versionNumber": 1
+}

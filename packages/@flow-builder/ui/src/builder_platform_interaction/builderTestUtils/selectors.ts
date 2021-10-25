@@ -65,6 +65,7 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     LEGAL_POPOVER: 'builder_platform_interaction-legal-popover',
     LIST: 'builder_platform_interaction-list',
     MANUALLY_ASSIGN_VARIABLES_CHECKBOX: 'builder_platform_interaction-manually-assign-variables-checkbox',
+    MAP_EDITOR: 'builder_platform_interaction-map-editor',
     MAP_ITEMS: 'builder_platform_interaction-map-items',
     OUTCOME: 'builder_platform_interaction-outcome',
     OUTPUT_RESOURCE_PICKER: 'builder_platform_interaction-output-resource-picker',

@@ -5,6 +5,7 @@ import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json'
 import { userFields } from 'serverData/GetFieldsForEntity/userFields.json';
 import { feedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
 import { contractFields } from 'serverData/GetFieldsForEntity/contractFields.json';
+import { recommendationFields } from 'serverData/GetFieldsForEntity/recommendationFields.json';
 import { objectWithAllPossibleFieldsFields } from 'serverData/GetFieldsForEntity/objectWithAllPossibleFieldsFields.json';
 import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 import { systemVariablesForAutoLaunchedFlow } from 'serverData/GetSystemVariables/systemVariablesForAutoLaunchedFlow.json';
@@ -51,6 +52,7 @@ import { paletteForFlow } from 'serverData/GetPalette/paletteForFlow.json';
 import { paletteForAutoLaunchedFlow } from 'serverData/GetPalette/paletteForAutoLaunchedFlow.json';
 import { supportedElementsForFlow } from 'serverData/GetSupportedElements/supportedElementsForFlow.json';
 import { supportedElementsForAutoLaunchedFlow } from 'serverData/GetSupportedElements/supportedElementsForAutoLaunchedFlow.json';
+import { supportedElementsForRecommendationFlow } from 'serverData/GetSupportedElements/supportedElementsForRecommendationFlow.json';
 import { localActionSampleActionDetails } from 'serverData/GetInvocableActionDetails/localActionSampleActionDetails.json';
 import { lightningWithApexNoSObjectActionDetails } from 'serverData/GetInvocableActionDetails/lightningWithApexNoSObjectActionDetails.json';
 import { lightningWithApexContainsSObjectActionDetails } from 'serverData/GetInvocableActionDetails/lightningWithApexContainsSObjectActionDetails.json';
@@ -194,7 +196,8 @@ const allAuraActions = {
         User: userFields,
         FeedItem: feedItemFields,
         Contract: contractFields,
-        Object_with_all_possible_fields__c: objectWithAllPossibleFieldsFields
+        Object_with_all_possible_fields__c: objectWithAllPossibleFieldsFields,
+        Recommendation: recommendationFields
     }),
     'c.getAllInvocableActionsForType': getAllInvocableActionsForType({
         [FLOW_PROCESS_TYPE.FLOW]: invocableActionsForFlow,
@@ -250,7 +253,8 @@ const allAuraActions = {
     }),
     'c.getSupportedElements': createGetterByProcessType({
         [FLOW_PROCESS_TYPE.FLOW]: supportedElementsForFlow,
-        [FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW]: supportedElementsForAutoLaunchedFlow
+        [FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW]: supportedElementsForAutoLaunchedFlow,
+        [FLOW_PROCESS_TYPE.RECOMMENDATION_STRATEGY]: supportedElementsForRecommendationFlow
     }),
     'c.getTriggerTypeInfo': createGetter([]),
     'c.getObjectManagerUrls': createGetter(objectManagerUrls),
