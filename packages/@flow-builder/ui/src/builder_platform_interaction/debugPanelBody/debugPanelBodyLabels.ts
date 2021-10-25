@@ -19,6 +19,8 @@ import failedRecordUpdate from '@salesforce/label/DebugLogEmail.RecordUpdateFail
 import failedRecordDeletes from '@salesforce/label/DebugLogEmail.FastDeleteFailed';
 import failedRecordDelete from '@salesforce/label/DebugLogEmail.RecordDeleteFailed';
 
+import exitDetermination from '@salesforce/label/FlowStageStepActionType.ExitDetermination';
+
 export const LABELS = {
     resultLabel,
     faultMess,
@@ -29,7 +31,8 @@ export const LABELS = {
     alarmEventHelpTextHeader,
     waitEventSelectionLabel,
     waitEventSelectionHelpText,
-    waitEventSubmitLabel
+    waitEventSubmitLabel,
+    exitDetermination
 };
 
 export const failedToCRUDRecordAbsoluteMatches = [

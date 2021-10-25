@@ -119,7 +119,14 @@ export default class debugPanelBody extends LightningElement {
             curr = curr.trim();
 
             if (curr !== '' && !curr.includes('$$:') && curr !== this.title) {
-                const temp = { value: curr, isSubTitle: false, isWarn: false, isError: false, id: generateGuid() };
+                const temp = {
+                    value: curr,
+                    isSubTitle: false,
+                    isWarn: false,
+                    isError: false,
+                    class: '',
+                    id: generateGuid()
+                };
 
                 if (curr === LABELS.resultLabel || curr === LABELS.inputLabel) {
                     temp.isSubTitle = true;
@@ -128,6 +135,8 @@ export default class debugPanelBody extends LightningElement {
                     temp.isSubTitle = true;
                 } else if (this.needsWarningIcon(curr)) {
                     temp.isWarn = true;
+                } else if (this.needsTopPadding(curr)) {
+                    temp.class = 'top-padding-selection slds-p-top_small ';
                 }
 
                 /* if there's wait event selection card, then append the resume time selected if there's */
@@ -177,6 +186,7 @@ export default class debugPanelBody extends LightningElement {
             isSubTitle: false,
             isWarn: false,
             isError: true,
+            class: '',
             id: generateGuid()
         };
     }
@@ -188,5 +198,9 @@ export default class debugPanelBody extends LightningElement {
         return (
             failedToCRUDRecordRelativeMatches.map((e) => currString.startsWith(e)).filter((e) => e === true).length > 0
         );
+    }
+
+    needsTopPadding(currString) {
+        return currString.startsWith(LABELS.exitDetermination.concat(' Flow ('));
     }
 }

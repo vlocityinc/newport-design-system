@@ -18,7 +18,8 @@ const SELECTORS = {
     WARNING: '.warning',
     ERROR: '.error',
     COMBOBOX: '.wait-event-selection',
-    SUBMITBUTTON: '.wait-event-selection-button'
+    SUBMITBUTTON: '.wait-event-selection-button',
+    TOPPADDING: '.top-padding-selection'
 };
 const TITLE = 'Test Title';
 const NORMALINPUT = {
@@ -156,6 +157,12 @@ const waitEventsWithResumeBlock = {
         ['PC2', 'Jan 2 2022, 8:40:00 AM']
     ]),
     ifblockresume: true
+};
+const topPadding = {
+    exitDetermination: {
+        lines: [LABELS.exitDetermination.concat(' Flow (')],
+        title: TITLE
+    }
 };
 
 describe('GovernorLimits cases check:', () => {
@@ -306,6 +313,20 @@ describe('debug-panel-body', () => {
 
             const text = temp.textContent;
             expect(text).toContain(stringEndsWithColon.expected);
+        });
+    });
+
+    describe('Top padding is added for Exit Determination flow', () => {
+        it('has top padding before Exit Determination Flow', () => {
+            debugPanelBody = createComponentUnderTest(topPadding.exitDetermination);
+            const temp = debugPanelBody.shadowRoot.querySelector(SELECTORS.TOPPADDING);
+            expect(temp).not.toBeNull();
+            expect(temp.classList).toContain('slds-p-top_small');
+        });
+        it('No top padding if the debug text does not start with Exit Determination Flows', () => {
+            debugPanelBody = createComponentUnderTest(NORMALINPUT);
+            const temp = debugPanelBody.shadowRoot.querySelector(SELECTORS.TOPPADDING);
+            expect(temp).toBeNull();
         });
     });
 });
