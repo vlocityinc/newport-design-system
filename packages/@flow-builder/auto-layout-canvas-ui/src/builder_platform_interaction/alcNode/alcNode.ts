@@ -39,6 +39,9 @@ export default class AlcNode extends LightningElement {
 
     private expanded = false;
 
+    @api
+    nodeAriaInfo;
+
     /**
      * The active element refers to the element currently being edited using the property editor panel
      */

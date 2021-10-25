@@ -8,6 +8,17 @@ import {
     getMenuStyle,
     getAlcNodeData
 } from '../alcComponentsUtils';
+import {
+    flowModelData,
+    recordTriggeredFlowModelData,
+    recordTriggerFlowModel2,
+    scheduleTriggerFlowModel,
+    flowModelWithOneDecision,
+    flowModelWithGoToInLoop,
+    flowModelWithGoToOnFault
+} from './mockData';
+
+jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
 const ELEMENT_TYPE_ASSIGNMENT = 'Assignment';
 const ELEMENT_TYPE_DECISION = 'Decision';
@@ -898,7 +909,7 @@ describe('ALC Canvas Utils test', () => {
                 metadata: {}
             };
 
-            const { dynamicNodeComponent } = getAlcNodeData(nodeRenderInfo);
+            const { dynamicNodeComponent } = getAlcNodeData(flowModelData, nodeRenderInfo);
             expect(dynamicNodeComponent).not.toBeDefined();
         });
 
@@ -909,8 +920,280 @@ describe('ALC Canvas Utils test', () => {
                 }
             };
 
-            const { dynamicNodeComponent } = getAlcNodeData(nodeRenderInfo);
+            const { dynamicNodeComponent } = getAlcNodeData(flowModelData, nodeRenderInfo);
             expect(dynamicNodeComponent).toEqual(nodeRenderInfo.metadata.dynamicNodeComponent);
+        });
+
+        describe('nodeDescription', () => {
+            it('sets nodeDescription properly for the start node', () => {
+                const nodeRenderInfo = {
+                    guid: 'c2238db9-67bc-466b-9a5e-d66d48dcc1a6',
+                    metadata: {}
+                };
+                const expectedAriaDescribedBy = 'AlcNode.ariaRegularFollowedByLabel(d4)';
+                const { nodeDescription } = getAlcNodeData(flowModelData, nodeRenderInfo);
+                expect(nodeDescription).toEqual(expectedAriaDescribedBy);
+            });
+
+            it('sets nodeDescription properly for a decision element (d4) has two outcomes and its next is null and has goto on its branching connector', () => {
+                const nodeRenderInfo = {
+                    guid: 'fda8f30e-7772-4665-a9ff-a7cb12d5646a',
+                    metadata: {}
+                };
+                const expectedAriaDescribedBy =
+                    'AlcNode.ariaDecisionPathInfo(o1,loop1), AlcNode.ariaDecisionPathGoToInfo(Default Outcome,s1)';
+                const { nodeDescription } = getAlcNodeData(flowModelData, nodeRenderInfo);
+                expect(nodeDescription).toEqual(expectedAriaDescribedBy);
+            });
+
+            it('sets nodeDescription properly for a loop element (loop1) on branch head', () => {
+                const nodeRenderInfo = {
+                    guid: '60b466f1-6589-4352-8603-51e225b70b36',
+                    metadata: {}
+                };
+                const expectedAriaDescribedBy =
+                    'AlcNode.ariaOutcomeLabel(o1), AlcNode.ariaForEachPathLabel(s1), AlcNode.ariaAfterLastPathLabel(d1)';
+                const { nodeDescription } = getAlcNodeData(flowModelData, nodeRenderInfo);
+                expect(nodeDescription).toEqual(expectedAriaDescribedBy);
+            });
+
+            it('sets nodeDescription properly for an element (s1) on the branch head of loop', () => {
+                const nodeRenderInfo = {
+                    guid: 'd8323004-4915-4580-a056-08b7b1f32d18',
+                    metadata: {}
+                };
+                const expectedAriaDescribedBy =
+                    'AlcNode.ariaOnForEachPathLabel, AlcNode.ariaLoopFollowedByLabel(loop1), AlcNode.ariaMultiGoToConnectorLabel(3)';
+                const { nodeDescription } = getAlcNodeData(flowModelData, nodeRenderInfo);
+                expect(nodeDescription).toEqual(expectedAriaDescribedBy);
+            });
+
+            it('sets nodeDescription properly for a decision element (d1) on After Last path and has more than three children', () => {
+                const nodeRenderInfo = {
+                    guid: 'e1cdea64-32aa-4197-8c91-e30afd1d3b0f',
+                    metadata: {}
+                };
+                const expectedAriaDescribedBy =
+                    'AlcNode.ariaOnPathAfterLastLabel, AlcNode.ariaOutcomeCountLabel(4), AlcNode.ariaGoToPostMergeFollowedByLabel(s1)';
+                const { nodeDescription } = getAlcNodeData(flowModelData, nodeRenderInfo);
+                expect(nodeDescription).toEqual(expectedAriaDescribedBy);
+            });
+
+            it('sets nodeDescription properly for a loop element (loop2) on the branch head of a branching connector of a decision', () => {
+                const nodeRenderInfo = {
+                    guid: '051e3653-5a6e-43b5-9438-33bb3ebae28b',
+                    metadata: {}
+                };
+                const expectedAriaDescribedBy =
+                    'AlcNode.ariaOutcomeLabel(o1), AlcNode.ariaForEachPathLabel(d3), AlcNode.ariaAfterLastPathLabel(End)';
+                const { nodeDescription } = getAlcNodeData(flowModelData, nodeRenderInfo);
+                expect(nodeDescription).toEqual(expectedAriaDescribedBy);
+            });
+
+            it('sets nodeDescription properly for a decision element (d3) on the branch head of a loop and also is the last node on the for each path', () => {
+                const nodeRenderInfo = {
+                    guid: '1f94a9ce-8029-4a02-9633-05abd127c43f',
+                    metadata: {}
+                };
+                const expectedAriaDescribedBy =
+                    'AlcNode.ariaOnForEachPathLabel, AlcNode.ariaDecisionPathInfo(o1,AlcNode.ariaEmptyBranchLabel), AlcNode.ariaDecisionPathInfo(Default Outcome,AlcNode.ariaEmptyBranchLabel), AlcNode.ariaLoopPostMergeFollowedByLabel(loop2)';
+                const { nodeDescription } = getAlcNodeData(flowModelData, nodeRenderInfo);
+                expect(nodeDescription).toEqual(expectedAriaDescribedBy);
+            });
+
+            it('sets nodeDescription properly for a decision element (d2) on the branch head and has three outcomes and two of them merge into one branch', () => {
+                const nodeRenderInfo = {
+                    guid: '272558a5-9d21-457d-8209-7bb42f6498e2',
+                    metadata: {}
+                };
+                const expectedAriaDescribedBy =
+                    'AlcNode.ariaOutcomeLabel(o2), AlcNode.ariaDecisionPathInfo(o1,loop3), AlcNode.ariaDecisionPathInfo(o2,s3), AlcNode.ariaDecisionPathInfo(Default Outcome,AlcNode.ariaEmptyBranchLabel), AlcNode.ariaRegularPostMergeFollowedByLabel(End)';
+                const { nodeDescription } = getAlcNodeData(flowModelData, nodeRenderInfo);
+                expect(nodeDescription).toEqual(expectedAriaDescribedBy);
+            });
+
+            it('sets nodeDescription properly for a empty loop element (loop3) on the branch head', () => {
+                const nodeRenderInfo = {
+                    guid: '29bc4524-3140-4f41-8312-040733d7bb7d',
+                    metadata: {}
+                };
+                const expectedAriaDescribedBy =
+                    'AlcNode.ariaOutcomeLabel(o1), AlcNode.ariaForEachPathLabel(AlcNode.ariaEmptyBranchLabel), AlcNode.ariaAfterLastPathLabel(updateRecord)';
+                const { nodeDescription } = getAlcNodeData(flowModelData, nodeRenderInfo);
+                expect(nodeDescription).toEqual(expectedAriaDescribedBy);
+            });
+
+            it('sets nodeDescription properly for a update records element (updateRecord) with a fault path', () => {
+                const nodeRenderInfo = {
+                    guid: 'c5c84fb8-e0f1-41bf-a7fd-385e4dea54a8',
+                    metadata: {}
+                };
+                const expectedAriaDescribedBy =
+                    'AlcNode.ariaOnPathAfterLastLabel, AlcNode.ariaRegularFollowedByLabel(End), AlcNode.ariaFaultPathLabel(s2)';
+                const { nodeDescription } = getAlcNodeData(flowModelData, nodeRenderInfo);
+                expect(nodeDescription).toEqual(expectedAriaDescribedBy);
+            });
+
+            it('sets nodeDescription properly for a screen element (s2) on a fault path and has a outgoing goto', () => {
+                const nodeRenderInfo = {
+                    guid: 'dfde7274-19e2-4257-86cf-c7377f88ba7a',
+                    metadata: {}
+                };
+                const expectedAriaDescribedBy = 'AlcNode.ariaOnFaultPathLabel, AlcNode.ariaGoToFollowedByLabel(s1)';
+                const { nodeDescription } = getAlcNodeData(flowModelData, nodeRenderInfo);
+                expect(nodeDescription).toEqual(expectedAriaDescribedBy);
+            });
+
+            it('sets nodeDescription properly for a screen element (s3) on the branch head of a decision', () => {
+                const nodeRenderInfo = {
+                    guid: '82481b50-0114-43ca-bf17-c70a1bb19260',
+                    metadata: {}
+                };
+                const expectedAriaDescribedBy = 'AlcNode.ariaOutcomeLabel(o2), AlcNode.ariaRegularFollowedByLabel(End)';
+                const { nodeDescription } = getAlcNodeData(flowModelData, nodeRenderInfo);
+                expect(nodeDescription).toEqual(expectedAriaDescribedBy);
+            });
+
+            it('sets nodeDescription properly for an assinment element (a1) following the start node which supports scheduled path and has no path with it', () => {
+                const nodeRenderInfo = {
+                    guid: '1f32d18d8323004-4915-4580-a056-08b7b',
+                    metadata: {}
+                };
+                const expectedAriaDescribedBy =
+                    'AlcNode.ariaOnPathImmediateLabel, AlcNode.ariaRegularFollowedByLabel(End)';
+                const { nodeDescription } = getAlcNodeData(recordTriggeredFlowModelData, nodeRenderInfo);
+                expect(nodeDescription).toEqual(expectedAriaDescribedBy);
+            });
+
+            it('sets nodeDescription properly for the start element of a record triggered flow that supports scheduled path', () => {
+                const nodeRenderInfo = {
+                    guid: '08e1f541-0000-4ab3-83e1-3fb4faea9e02',
+                    metadata: {}
+                };
+                const expectedAriaDescribedBy =
+                    'AlcNode.ariaScheduledPathInfo(Run Immediately,l1), AlcNode.ariaScheduledPathInfo(p1,l2), AlcNode.ariaScheduledPathInfo(p2,End), AlcNode.ariaRegularPostMergeFollowedByLabel(a3)';
+                const { nodeDescription } = getAlcNodeData(recordTriggerFlowModel2, nodeRenderInfo);
+                expect(nodeDescription).toEqual(expectedAriaDescribedBy);
+            });
+
+            it('sets nodeDescription properly for a nested decision element (d2) on the For Each path of a loop', () => {
+                const nodeRenderInfo = {
+                    guid: 'b2267797-7475-4922-a325-c2879c6ba7c3',
+                    metadata: {}
+                };
+                const expectedAriaDescribedBy =
+                    'AlcNode.ariaOutcomeLabel(o1), AlcNode.ariaDecisionPathInfo(o2,AlcNode.ariaEmptyBranchLabel), AlcNode.ariaDecisionPathInfo(Default Outcome,AlcNode.ariaEmptyBranchLabel), AlcNode.ariaLoopPostMergeFollowedByLabel(l1)';
+                const { nodeDescription } = getAlcNodeData(recordTriggerFlowModel2, nodeRenderInfo);
+                expect(nodeDescription).toEqual(expectedAriaDescribedBy);
+            });
+
+            it('sets nodeDescription properly for a loop element (l2) with a nested loop on its For Each path and has one incoming goto', () => {
+                const nodeRenderInfo = {
+                    guid: '735111d7-add2-4e2b-9303-3eeb344ac8ab',
+                    metadata: {}
+                };
+                const expectedAriaDescribedBy =
+                    'AlcNode.ariaOnScheduledPathLabel(p1), AlcNode.ariaForEachPathLabel(l3), AlcNode.ariaAfterLastPathLabel(a3), AlcNode.airaOneGoToConnectorLabel';
+                const { nodeDescription } = getAlcNodeData(recordTriggerFlowModel2, nodeRenderInfo);
+                expect(nodeDescription).toEqual(expectedAriaDescribedBy);
+            });
+
+            it('sets nodeDescription properly for a nested loop element (l3)', () => {
+                const nodeRenderInfo = {
+                    guid: '20233c57-8b4e-40cb-801a-3209e2ccfb15',
+                    metadata: {}
+                };
+                const expectedAriaDescribedBy =
+                    'AlcNode.ariaOnForEachPathLabel, AlcNode.ariaForEachPathLabel(a1), AlcNode.ariaAfterLastPathLoopLabel(l2)';
+                const { nodeDescription } = getAlcNodeData(recordTriggerFlowModel2, nodeRenderInfo);
+                expect(nodeDescription).toEqual(expectedAriaDescribedBy);
+            });
+
+            it('sets nodeDescription properly for the last element (a4) on the For Each path of a loop', () => {
+                const nodeRenderInfo = {
+                    guid: 'd715a7a8-1ff9-4b54-bc33-96d6cb95aeaf',
+                    metadata: {}
+                };
+                const expectedAriaDescribedBy = 'AlcNode.ariaLoopFollowedByLabel(l3)';
+                const { nodeDescription } = getAlcNodeData(recordTriggerFlowModel2, nodeRenderInfo);
+                expect(nodeDescription).toEqual(expectedAriaDescribedBy);
+            });
+
+            it('sets nodeDescription properly for element (a3) at the merging point and with outgoing goto', () => {
+                const nodeRenderInfo = {
+                    guid: '0e00c865-9dc5-4b0e-ad67-2b90c3634f23',
+                    metadata: {}
+                };
+                const expectedAriaDescribedBy = 'AlcNode.ariaGoToFollowedByLabel(l2)';
+                const { nodeDescription } = getAlcNodeData(recordTriggerFlowModel2, nodeRenderInfo);
+                expect(nodeDescription).toEqual(expectedAriaDescribedBy);
+            });
+
+            it('sets nodeDescription properly for a pause element (pause1) with three wait events', () => {
+                const nodeRenderInfo = {
+                    guid: 'e03f0a0a-f5cc-4db3-be81-f922967fae89',
+                    metadata: {}
+                };
+                const expectedAriaDescribedBy =
+                    'AlcNode.ariaPausePathInfo(p1,a1), AlcNode.ariaPausePathInfo(p5,AlcNode.ariaEmptyBranchLabel), AlcNode.ariaPausePathInfo(Default Path,pause2), AlcNode.ariaRegularPostMergeFollowedByLabel(End)';
+                const { nodeDescription } = getAlcNodeData(scheduleTriggerFlowModel, nodeRenderInfo);
+                expect(nodeDescription).toEqual(expectedAriaDescribedBy);
+            });
+
+            it('sets nodeDescription properly for a pause element (pause2) with four wait events', () => {
+                const nodeRenderInfo = {
+                    guid: '038bbd41-06b8-4c21-a728-0491f1d4040d',
+                    metadata: {}
+                };
+                const expectedAriaDescribedBy =
+                    'AlcNode.ariaPauseConfigurationLabel(Default Path), AlcNode.ariaPauseConfigurationCountLabel(4), AlcNode.ariaRegularPostMergeFollowedByLabel(End)';
+                const { nodeDescription } = getAlcNodeData(scheduleTriggerFlowModel, nodeRenderInfo);
+                expect(nodeDescription).toEqual(expectedAriaDescribedBy);
+            });
+
+            it('sets nodeDescription properly for a element (a1) on the branch head of a pause', () => {
+                const nodeRenderInfo = {
+                    guid: '2db7f1ac-47c2-481e-9995-9212baabb475',
+                    metadata: {}
+                };
+                const expectedAriaDescribedBy =
+                    'AlcNode.ariaPauseConfigurationLabel(p1), AlcNode.ariaRegularFollowedByLabel(End)';
+                const { nodeDescription } = getAlcNodeData(scheduleTriggerFlowModel, nodeRenderInfo);
+                expect(nodeDescription).toEqual(expectedAriaDescribedBy);
+            });
+
+            it('sets nodeDescription properly for a decision element (d1) with all terminating branches', () => {
+                const nodeRenderInfo = {
+                    guid: 'fe1ac336-dfab-4978-a60e-ca9f9e5ffa5c',
+                    metadata: {}
+                };
+                const expectedAriaDescribedBy =
+                    'AlcNode.ariaDecisionPathInfo(o1,End), AlcNode.ariaDecisionPathInfo(Default Outcome,End)';
+                const { nodeDescription } = getAlcNodeData(flowModelWithOneDecision, nodeRenderInfo);
+                expect(nodeDescription).toEqual(expectedAriaDescribedBy);
+            });
+
+            it('sets nodeDescription properly for a loop element (loop) with goto in it', () => {
+                const nodeRenderInfo = {
+                    guid: 'd2b55833-ce47-4fb5-bf33-17816885c486',
+                    metadata: {}
+                };
+                const expectedAriaDescribedBy =
+                    'AlcNode.ariaForEachPathGoToLabel(s1), AlcNode.ariaAfterLastPathGoToLabel(s1)';
+                const { nodeDescription } = getAlcNodeData(flowModelWithGoToInLoop, nodeRenderInfo);
+                expect(nodeDescription).toEqual(expectedAriaDescribedBy);
+            });
+
+            it('sets nodeDescription properly for a element (loop) that has goto on its fault path', () => {
+                const nodeRenderInfo = {
+                    guid: 'b58b6184-7f6e-4f7d-89bc-2e0e6e03912d',
+                    metadata: {}
+                };
+                const expectedAriaDescribedBy =
+                    'AlcNode.ariaRegularFollowedByLabel(End), AlcNode.ariaFaultPathGoToLabel(s1)';
+                const { nodeDescription } = getAlcNodeData(flowModelWithGoToOnFault, nodeRenderInfo);
+                expect(nodeDescription).toEqual(expectedAriaDescribedBy);
+            });
         });
     });
 });

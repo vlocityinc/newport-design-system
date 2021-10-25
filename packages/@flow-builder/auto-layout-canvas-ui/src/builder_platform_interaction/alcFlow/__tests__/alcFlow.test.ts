@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import AlcFlow from 'builder_platform_interaction/alcFlow';
-import { flowWithFault } from './mockData';
+import { flowWithFault, flowModelWithFault } from './mockData';
 import { FAULT_INDEX } from 'builder_platform_interaction/autoLayoutCanvas';
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
@@ -13,6 +13,7 @@ const createComponentUnderTest = (flow, flowModel) => {
 
     el.flowModel = flowModel;
     el.flow = flow;
+    el.flowModel = flowModelWithFault;
     el.canvasMode = 'default';
     el.isCanvasReady = true;
     el.disableAddElements = false;

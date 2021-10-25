@@ -320,4 +320,106 @@ const flowWithFault = {
     ]
 };
 
-export { flowWithFault };
+const flowModelWithFault = {
+    start: {
+        guid: 'start',
+        description: 'Screen Flow',
+        connectorCount: 0,
+        config: { isSelected: false, isHighlighted: false, canSelect: true },
+        elementType: 'START_ELEMENT',
+        childReferences: [],
+        nodeType: 'start',
+        next: 'decision',
+        parent: 'root',
+        childIndex: 0,
+        prev: null,
+        isTerminal: true
+    },
+    decision: {
+        guid: 'decision',
+        name: 'decision',
+        label: 'decision',
+        connectorCount: 0,
+        childReferences: [{ childReference: 'ed3e7c01-fb00-4f40-a7d3-89a3887fa20c' }],
+        config: { isSelected: false, isHighlighted: false, canSelect: true },
+        defaultConnectorLabel: 'Default Outcome',
+        elementType: 'Decision',
+        nodeType: 'branch',
+        prev: 'start',
+        incomingGoTo: [],
+        next: 'createRecords',
+        children: [null, null]
+    },
+    'ed3e7c01-fb00-4f40-a7d3-89a3887fa20c': {
+        guid: 'ed3e7c01-fb00-4f40-a7d3-89a3887fa20c',
+        name: 'ed3e7c01-fb00-4f40-a7d3-89a3887fa20c',
+        label: 'o1',
+        elementType: 'OUTCOME'
+    },
+    createRecords: {
+        guid: 'createRecords',
+        name: 'createRecords',
+        label: 'createRecords',
+        connectorCount: 0,
+        config: { isSelected: false, isHighlighted: false, canSelect: true },
+        availableConnections: [],
+        elementType: 'RecordCreate',
+        nodeType: 'default',
+        prev: 'decision',
+        incomingGoTo: [],
+        next: 'end',
+        fault: 'screen'
+    },
+    screen: {
+        guid: 'screen',
+        name: 'screen',
+        label: 'screen',
+        connectorCount: 0,
+        config: { isSelected: false, isHighlighted: false, canSelect: true },
+        childReferences: [],
+        elementType: 'Screen',
+        nodeType: 'default',
+        childIndex: -1,
+        parent: 'createRecords',
+        prev: null,
+        incomingGoTo: [],
+        next: 'faultEnd'
+    },
+    faultEnd: {
+        guid: 'faultEnd',
+        name: 'END_ELEMENT',
+        label: 'End',
+        connectorCount: 0,
+        config: { isSelected: false, isHighlighted: false, canSelect: true },
+        elementType: 'END_ELEMENT',
+        value: 'END_ELEMENT',
+        text: 'END_ELEMENT',
+        nodeType: 'end',
+        prev: 'screen'
+    },
+    end: {
+        guid: 'end',
+        name: 'END_ELEMENT',
+        label: 'End',
+        connectorCount: 0,
+        config: { isSelected: false, isHighlighted: false, canSelect: true },
+        elementType: 'END_ELEMENT',
+        value: 'END_ELEMENT',
+        text: 'END_ELEMENT',
+        nodeType: 'end',
+        prev: 'createRecords'
+    },
+    root: {
+        elementType: 'root',
+        nodeType: 'root',
+        guid: 'root',
+        name: 'root',
+        label: 'root',
+        text: 'root',
+        value: 'root',
+        prev: null,
+        children: ['start']
+    }
+};
+
+export { flowWithFault, flowModelWithFault };

@@ -7,6 +7,7 @@
         "^aura$": "<rootDir>/../shared-utils/jest-modules/aura",
         "builder_framework/command": "<rootDir>/../shared-utils/jest-modules/builder_framework/command/command",
         "^instrumentation/service$": "<rootDir>/../shared-utils/jest-modules/instrumentation/service",
+        "^o11y/client$": "<rootDir>/../shared-utils/jest-modules/o11y/client",
         "^builder_platform_interaction_mocks/sharedUtils/keyboardInteractionUtils$": "<rootDir>/../shared-utils/jest-modules/builder_platform_interaction/sharedUtils/keyboardInteractionUtils/keyboardInteractionUtils",
         "^builder_platform_interaction_mocks/sharedUtils/sharedUtils": "<rootDir>/../shared-utils/jest-modules/builder_platform_interaction/sharedUtils/sharedUtils",
         "^builder_platform_interaction_mocks/(.+)$": "<rootDir>/jest-modules/builder_platform_interaction/$1/$1",

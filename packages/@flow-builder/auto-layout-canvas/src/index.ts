@@ -86,7 +86,10 @@ export {
     createGoToSourceRef,
     inlineFromParent,
     getConnectionSource,
-    getValuesFromConnectionSource
+    getValuesFromConnectionSource,
+    getFirstNonNullNext,
+    isGoingBackToAncestorLoop,
+    shouldSupportScheduledPaths
 } from './modelUtils';
 
 export { assertAutoLayoutState } from './assertUtils';

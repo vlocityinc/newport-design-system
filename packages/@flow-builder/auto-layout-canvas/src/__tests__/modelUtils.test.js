@@ -12,6 +12,7 @@ import {
     START_ELEMENT_GUID,
     END_ELEMENT_GUID,
     END_ELEMENT,
+    LOOP_ELEMENT,
     getFlowWhenGoingToPreviousElement,
     getFlowWhenGoingFromParentFirstBranchToPreviousElement,
     getFlowWhenGoingFromParentFaultBranchToPreviousElement,
@@ -61,7 +62,9 @@ import {
     prepareFlowModel,
     createConnection,
     isEndedBranchMergeable,
-    getConnectionTarget
+    getConnectionTarget,
+    isGoingBackToAncestorLoop,
+    getFirstNonNullNext
 } from '../modelUtils';
 
 import { GOTO_CONNECTION_SUFFIX, FAULT_INDEX, START_IMMEDIATE_INDEX, FOR_EACH_INDEX } from '../model';
@@ -5663,7 +5666,7 @@ describe('modelUtils', () => {
 
                 const updatedState = inlineFromParent(originalStoreState, originalStoreState.newDecision);
 
-                it('moves the goto to the second child of the decision ', () => {
+                it('moves the goto to the second child of the decision', () => {
                     expect(updatedState.newDecision.children).toEqual(['end1', 'screen1']);
                     expect(updatedState.screen1.incomingGoTo).toEqual(['newDecision:default']);
                 });
@@ -5705,7 +5708,7 @@ describe('modelUtils', () => {
 
                 const updatedState = inlineFromParent(originalStoreState, originalStoreState.newDecision);
 
-                it('moves the goto to the second child of the decision ', () => {
+                it('moves the goto to the second child of the decision', () => {
                     expect(updatedState.screen2.next).toEqual('screen1');
                     expect(updatedState.screen1.incomingGoTo).toEqual(['screen2']);
                 });
@@ -8287,6 +8290,87 @@ describe('modelUtils', () => {
                     undefined
                 )
             ).toEqual(expectedElements);
+        });
+    });
+
+    describe('isGoingBackToAncestorLoop', () => {
+        it('returns false for a simple screen element', () => {
+            const flowModel = createFlow([SCREEN_ELEMENT_GUID]);
+            expect(isGoingBackToAncestorLoop(flowModel, END_ELEMENT_GUID, flowModel[SCREEN_ELEMENT_GUID])).toBeFalsy();
+        });
+        it('returns true for an empty loop', () => {
+            const flowModel = createFlow([LOOP_ELEMENT_GUID]);
+            expect(isGoingBackToAncestorLoop(flowModel, LOOP_ELEMENT_GUID, flowModel[LOOP_ELEMENT_GUID])).toBeTruthy();
+        });
+
+        it('returns true for a nested loop', () => {
+            let flowModel = createFlow([LOOP_ELEMENT_GUID]);
+            const nestedLoop = {
+                ...LOOP_ELEMENT,
+                guid: 'nestedLoop',
+                childIndex: 0,
+                parent: LOOP_ELEMENT_GUID
+            };
+            flowModel = { ...flowModel, nestedLoop };
+            flowModel[LOOP_ELEMENT_GUID].children = [nestedLoop.guid];
+            expect(isGoingBackToAncestorLoop(flowModel, LOOP_ELEMENT_GUID, nestedLoop)).toBeTruthy();
+        });
+
+        it('returns true for a element on one of the branches of a decision element inside a loop', () => {
+            const flowModel = createFlow([LOOP_ELEMENT_GUID, BRANCH_ELEMENT_GUID, SCREEN_ELEMENT_GUID]);
+            flowModel[LOOP_ELEMENT_GUID] = {
+                ...flowModel[LOOP_ELEMENT_GUID],
+                children: [BRANCH_ELEMENT_GUID],
+                next: END_ELEMENT_GUID
+            };
+            flowModel[BRANCH_ELEMENT_GUID] = {
+                ...flowModel[BRANCH_ELEMENT_GUID],
+                children: [SCREEN_ELEMENT_GUID],
+                next: LOOP_ELEMENT_GUID,
+                prev: null,
+                parent: LOOP_ELEMENT_GUID
+            };
+            flowModel[SCREEN_ELEMENT_GUID] = {
+                ...flowModel[SCREEN_ELEMENT_GUID],
+                next: null,
+                parent: BRANCH_ELEMENT_GUID,
+                childIndex: 0
+            };
+            expect(
+                isGoingBackToAncestorLoop(flowModel, LOOP_ELEMENT_GUID, flowModel[SCREEN_ELEMENT_GUID])
+            ).toBeTruthy();
+        });
+    });
+
+    describe('getFirstNonNullNext', () => {
+        let flowModel = createFlow([BRANCH_ELEMENT_GUID]);
+        const nestedDecision = {
+            ...BRANCH_ELEMENT,
+            guid: 'nestedDecision',
+            childIndex: 0,
+            parent: BRANCH_ELEMENT_GUID
+        };
+        flowModel[BRANCH_ELEMENT_GUID].children = [nestedDecision.guid];
+        const screen1 = { ...SCREEN_ELEMENT, guid: 'screen1', prev: nestedDecision.guid };
+        const screen2 = { ...SCREEN_ELEMENT, guid: 'screen2', childIndex: 1, parent: BRANCH_ELEMENT_GUID };
+        flowModel = { ...flowModel, nestedDecision, screen1, screen2 };
+
+        it('gets the correct next for the nested decision', () => {
+            expect(getFirstNonNullNext(flowModel, nestedDecision)).toBe(END_ELEMENT_GUID);
+        });
+
+        it('gets the correct next for the element right before merging point', () => {
+            expect(getFirstNonNullNext(flowModel, screen1)).toBe(END_ELEMENT_GUID);
+        });
+
+        it('gets the correct next for element with goto', () => {
+            delete flowModel[END_ELEMENT_GUID];
+            flowModel[BRANCH_ELEMENT_GUID].next = BRANCH_ELEMENT_GUID;
+            flowModel[BRANCH_ELEMENT_GUID].incomingGoTo = [BRANCH_ELEMENT_GUID];
+            expect.assertions(3);
+            expect(getFirstNonNullNext(flowModel, nestedDecision)).toBe(BRANCH_ELEMENT_GUID);
+            expect(getFirstNonNullNext(flowModel, screen1)).toBe(BRANCH_ELEMENT_GUID);
+            expect(getFirstNonNullNext(flowModel, screen2)).toBe(BRANCH_ELEMENT_GUID);
         });
     });
 });

@@ -39,7 +39,7 @@ export default class AlcCompoundNode extends LightningElement {
     activeElementGuid;
 
     get simpleNode() {
-        return getAlcNodeData(this.node);
+        return getAlcNodeData(this.flowModel, this.node);
     }
 
     get branches() {

@@ -372,6 +372,50 @@ function getConnectionTarget(flowModel: FlowModel, source: ConnectionSource): Gu
 }
 
 /**
+ * Checks if target element is on a self loop.
+ *
+ * @param flowModel - The flow model
+ * @param targetGuid - The target element guid
+ * @param sourceElement - The connection source
+ * @returns true if target element is on a self loop, false if not
+ */
+function isGoingBackToAncestorLoop(flowModel: FlowModel, targetGuid: Guid, sourceElement: NodeModel): boolean {
+    if (flowModel[targetGuid].nodeType !== NodeType.LOOP) {
+        return false;
+    } else {
+        let currentParent = sourceElement;
+
+        while (!isRoot(currentParent.guid) && currentParent.guid !== targetGuid) {
+            currentParent = findParentElement(currentParent, flowModel);
+        }
+
+        return currentParent.guid === targetGuid;
+    }
+}
+
+/**
+ * Find the first branching ancestor with a non-null next for a given source and return its next.
+ *
+ * @param flowModel - The flow model
+ * @param sourceElement - The connection source
+ * @returns the next guid of the first branching ancestor with non-null next
+ */
+function getFirstNonNullNext(flowModel: FlowModel, sourceElement: NodeModel): Guid {
+    let currentParent = sourceElement;
+
+    while (currentParent.next == null && !isRoot(currentParent.guid) && currentParent.nodeType !== NodeType.LOOP) {
+        currentParent = findParentElement(currentParent, flowModel);
+    }
+
+    // This exception should never be thrown since it should never reach root.
+    if (isRoot(currentParent.guid)) {
+        throw new Error(`Bug found: ${currentParent} is a root node when it should not be.`);
+    }
+
+    return currentParent.nodeType === NodeType.LOOP ? (currentParent.guid as Guid) : (currentParent.next as Guid);
+}
+
+/**
  * Checks if a branch at a given childIndex is terminal or not.
  * A branch is terminal if it has a GoTo connection at the branch head
  * or if the branchHead element's isTerminal property is set to true
@@ -2573,5 +2617,7 @@ export {
     isEndOrAllTerminalBranchingElement,
     getConnectionTarget,
     setChild,
-    prepareFlowModel
+    prepareFlowModel,
+    getFirstNonNullNext,
+    isGoingBackToAncestorLoop
 };
