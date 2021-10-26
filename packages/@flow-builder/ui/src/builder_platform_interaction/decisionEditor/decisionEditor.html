@@ -1,5 +1,5 @@
 <template>
-    <div if:true={decisionElement}>
+    <div if:true={decisionElement} class="decisionElement">
         <div class={styleForLabelDescription}>
             <builder_platform_interaction-label-description
                 label={decisionElement.label}
@@ -35,7 +35,7 @@
                 {outcomesSectionDescription}
             </div>
         </h3>
-        <div class="slds-vertical-tabs slds-is-relative slds-grow">
+        <div class="slds-vertical-tabs slds-is-relative slds-grow decisionElementVertical">
             <!-- Note: If the labels.outcomeListHeader string is long the + button goes to next line -->
             <builder_platform_interaction-reorderable-vertical-navigation
                 class="slds-theme_shade slds-size_1-of-6"

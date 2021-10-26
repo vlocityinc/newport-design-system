@@ -5,3 +5,11 @@
 .outcomeListHeader {
     margin: auto;
 }
+
+.decisionElement {
+    height: 100%;
+}
+
+.decisionElementVertical {
+    min-height: 100%;
+}
