@@ -150,7 +150,7 @@ class Loader {
         }
         loadApexPlugins();
         loadSubflows(flowProcessType, flowDefinitionId);
-        const loadPalettePromise = loadPalette(flowProcessType);
+        const loadPalettePromise = loadPalette(flowProcessType, flowTriggerType);
         const loadPeripheralMetadataPromise = this.loadPeripheralMetadata(
             flowProcessType,
             flowTriggerType,
@@ -178,9 +178,11 @@ class Loader {
             flowTriggerType,
             recordTriggerType
         );
+        const loadPalettePromise = loadPalette(flowProcessType, flowTriggerType);
         return {
             loadActionsPromise,
-            loadPeripheralMetadataPromise
+            loadPeripheralMetadataPromise,
+            loadPalettePromise
         };
     }
 
@@ -355,6 +357,7 @@ export const loadOnProcessTypeChange = (
  * Triggers loading of
  * - peripheral metadata
  * - invocable actions
+ * - palette
  *
  * @param flowProcessType The flow processType
  * @param flowTriggerType The flow Trigger type

@@ -226,7 +226,7 @@ const KEY_PROVIDER = {
     [SERVER_ACTION_TYPE.GET_WORKFLOW_ENABLED_ENTITIES]: () => SERVER_ACTION_TYPE.GET_WORKFLOW_ENABLED_ENTITIES,
     [SERVER_ACTION_TYPE.GET_FLOW_ENTRIES]: (params) => `${params.builderType}`,
     [SERVER_ACTION_TYPE.GET_TRIGGER_TYPE_INFO]: (params) => `${params.triggerType}`,
-    [SERVER_ACTION_TYPE.GET_PALETTE]: (params) => params.flowProcessType,
+    [SERVER_ACTION_TYPE.GET_PALETTE]: (params) => `${params.flowProcessType}-${params.flowTriggerType}`,
     [SERVER_ACTION_TYPE.GET_VERSIONING_INFO]: (params) => params.builderType,
     [SERVER_ACTION_TYPE.GET_AUTOMATIC_FIELD_OBJECT_MANAGER_URLS]: () =>
         SERVER_ACTION_TYPE.GET_AUTOMATIC_FIELD_OBJECT_MANAGER_URLS,

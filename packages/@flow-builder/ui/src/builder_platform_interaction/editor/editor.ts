@@ -829,12 +829,15 @@ export default class Editor extends LightningElement {
                     this.propertyEditorBlockerCalls.push(loadEventTypesManagedSetup);
                 }
                 if (!flowProcessTypeChanged) {
-                    const { loadPeripheralMetadataPromise } = loadOnTriggerTypeChange(
+                    const { loadPeripheralMetadataPromise, loadPalettePromise } = loadOnTriggerTypeChange(
                         flowProcessType,
                         flowTriggerType,
                         flowRecordTriggerType
                     );
                     this.propertyEditorBlockerCalls.push(loadPeripheralMetadataPromise);
+                    palettePromise = loadPalettePromise.then((data) => {
+                        this.palette = data;
+                    });
                 }
             }
 

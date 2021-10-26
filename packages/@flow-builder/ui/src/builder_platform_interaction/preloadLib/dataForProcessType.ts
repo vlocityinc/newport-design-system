@@ -120,9 +120,10 @@ export const loadProcessTypeFeatures = (flowProcessType) =>
         setProcessTypeFeature(flowProcessType, data);
     });
 
-export const loadPalette = (flowProcessType) =>
+export const loadPalette = (flowProcessType, flowTriggerType) =>
     fetchOnce(SERVER_ACTION_TYPE.GET_PALETTE, {
-        flowProcessType
+        flowProcessType,
+        flowTriggerType
     });
 
 export const loadVersioningData = () =>

@@ -3,6 +3,7 @@ import {
     initializeLoader,
     loadOnStart,
     loadOnProcessTypeChange,
+    loadOnTriggerTypeChange,
     loadOperatorsAndRulesOnTriggerTypeChange,
     clearLoader,
     loadApexClasses,
@@ -18,6 +19,7 @@ import {
     loadOperators,
     loadEventTypes,
     loadEntities,
+    loadPalette,
     loadResourceTypes,
     loadProcessTypeFeatures,
     loadGlobalVariables,
@@ -301,6 +303,51 @@ describe('Loader', () => {
                 expect(loadRules).toBeCalledWith(processType, triggerType, recordTriggerType);
                 expect(loadOperators).toBeCalledTimes(1);
                 expect(loadOperators).toBeCalledWith(processType, triggerType, recordTriggerType);
+            });
+        });
+
+        describe('loadOnTriggerTypeChange', () => {
+            const processType = 'process_type_1';
+            const triggerType = 'record_after_save';
+            const recordTriggerType = 'update';
+            it('initiates loading of invocable actions and palette', () => {
+                const processType = 'process_type_1';
+                const triggerType = 'record_after_save';
+                const recordTriggerType = 'create';
+                loadOnTriggerTypeChange(processType, triggerType, recordTriggerType);
+                expect(loadActions).toBeCalledTimes(1);
+                expect(loadActions).toBeCalledWith(processType, triggerType);
+                expect(loadPalette).toBeCalledTimes(1);
+                expect(loadPalette).toBeCalledWith(processType, triggerType);
+            });
+
+            it('initiates loading of peripheral metadata', async () => {
+                loadOnStart();
+                const promise = loadOnProcessTypeChange(
+                    processType,
+                    triggerType,
+                    recordTriggerType
+                ).loadPeripheralMetadataPromise;
+                expect(promise).not.toBeNull();
+                await promise;
+                expect(promise).resolves.toEqual();
+                expect(logPerfTransactionStart).toBeCalledWith(
+                    SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR
+                );
+                expect(loadRules).toBeCalledTimes(1);
+                expect(loadRules).toBeCalledWith(processType, triggerType, recordTriggerType);
+                expect(loadOperators).toBeCalledTimes(1);
+                expect(loadOperators).toBeCalledWith(processType, triggerType, recordTriggerType);
+                expect(loadApexPlugins).toBeCalledTimes(1);
+                expect(loadEventTypes).toBeCalledTimes(1);
+                expect(loadEntities).toBeCalledWith('ALL');
+                expect(loadResourceTypes).toBeCalledWith(processType);
+                expect(loadProcessTypeFeatures).toBeCalledWith(processType);
+                expect(loadGlobalVariables).toBeCalledWith(processType);
+                expect(loadSystemVariables).toBeCalledWith(processType);
+                expect(logPerfTransactionEnd).toBeCalledWith(
+                    SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR
+                );
             });
         });
     });
