@@ -9,6 +9,14 @@
   "source" : "Standard"
 },
     {
+  "category" : "Input",
+  "description" : "Container to hold verification criteria questions and correct answers",
+  "extensionType" : "lwc",
+  "fieldsToNull" : [ ],
+  "qualifiedApiName" : "industries_common:identityVerification",
+  "source" : "Standard"
+},
+    {
   "extensionType" : "aura",
   "fieldsToNull" : [ ],
   "qualifiedApiName" : "interactiontest:LcInFieldServiceMobileFlowOnly",

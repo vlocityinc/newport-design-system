@@ -18001,6 +18001,26 @@
       "updateable":true
     },
     {
+      "apiName":"OmniSupervisorConfigQueue",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Omni Supervisor Configuration Queue",
+      "entityLabelPlural":"Omni Supervisor Configuration Queues",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"OmniSupervisorConfigSkill",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Omni Supervisor Configuration Skill",
+      "entityLabelPlural":"Omni Supervisor Configuration Skills",
+      "queryable":true,
+      "updateable":true
+    },
+    {
       "apiName":"OmniSupervisorConfigProfile",
       "createable":true,
       "custom":false,
@@ -18017,26 +18037,6 @@
       "deletable":true,
       "entityLabel":"Omni Supervisor Configuration for Public Group",
       "entityLabelPlural":"Omni Supervisor Configuration for Public Groups",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"OmniSupervisorConfigQueue",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Omni Supervisor Configuration for Queue",
-      "entityLabelPlural":"Omni Supervisor Configuration for Queues",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"OmniSupervisorConfigSkill",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Omni Supervisor Configuration for Skill",
-      "entityLabelPlural":"Omni Supervisor Configuration for Skills",
       "queryable":true,
       "updateable":true
     },
