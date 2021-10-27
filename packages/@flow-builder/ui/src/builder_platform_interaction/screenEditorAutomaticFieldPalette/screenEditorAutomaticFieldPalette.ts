@@ -111,7 +111,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     /**
      * Handler for "SObjectReference" element property changes
      *
-     * @param {object} event
+     * @param event SObjectReferenceChangedEvent custom event
      */
     handleSObjectReferenceChangedEvent(event: SObjectReferenceChangedEvent) {
         event.stopPropagation();
@@ -143,7 +143,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     /**
      * Get the fields of the selected entity and set the state accordingly
      *
-     * @param entityName
+     * @param entityName entity name (eg: Account)
      */
     private updateFields(entityName: string) {
         this.showSpinner = true;
@@ -169,7 +169,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     /**
      * Populate section/items data for inner palette component
      *
-     * @param fieldNamePattern
+     * @param fieldNamePattern filtered term entered
      */
     buildModel(fieldNamePattern?: String | null) {
         const requiredSection: ScreenPaletteSection = {
@@ -226,7 +226,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     /**
      * Rebuild palette data when a new search term is given as input
      *
-     * @param event
+     * @param event custom event dispatched on new search
      */
     handleSearch(event) {
         const filterValue = event.target.value;
@@ -237,7 +237,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     /**
      * Show no item illustration when SObject picker is cleared with pill (X) click
      *
-     * @param event
+     * @param event custom event dispatched on the pill removal of the entered sObject variable
      */
     handlePillRemoved(event) {
         event.stopPropagation();

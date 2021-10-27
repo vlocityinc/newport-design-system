@@ -58,38 +58,23 @@ jest.mock(
         virtual: true
     }
 );
-jest.mock('builder_platform_interaction/sobjectLib', () => {
-    const mockedSobjectLib = require('builder_platform_interaction_mocks/sobjectLib');
-    mockedSobjectLib.fetchFieldsForEntity = jest.fn(mockFetchFieldsForEntity);
-    return mockedSobjectLib;
-});
-
+jest.mock('builder_platform_interaction/sobjectLib', () =>
+    Object.assign({}, jest.requireActual('builder_platform_interaction_mocks/sobjectLib'), {
+        fetchFieldsForEntity: jest.fn(mockFetchFieldsForEntity)
+    })
+);
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
-    require('builder_platform_interaction_mocks/ferovResourcePicker')
+    jest.requireActual('builder_platform_interaction_mocks/ferovResourcePicker')
 );
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
-    require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
+    jest.requireActual('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
 );
-jest.mock('builder_platform_interaction/screenEditorUtils', () => {
-    const {
-        ScreenFieldName,
-        SCREEN_EDITOR_GUIDS,
-        LIGHTNING_INPUT_VARIANTS,
-        InputsOnNextNavToAssocScrnOption,
-        getFieldByGuid,
-        getScreenFieldName
-    } = jest.requireActual('builder_platform_interaction/screenEditorUtils');
-    return {
-        setDragFieldValue: jest.fn(),
-        ScreenFieldName,
-        SCREEN_EDITOR_GUIDS,
-        LIGHTNING_INPUT_VARIANTS,
-        InputsOnNextNavToAssocScrnOption,
-        getFieldByGuid,
-        getScreenFieldName
-    };
-});
+jest.mock('builder_platform_interaction/screenEditorUtils', () =>
+    Object.assign({}, jest.requireActual('builder_platform_interaction/screenEditorUtils'), {
+        setDragFieldValue: jest.fn()
+    })
+);
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const { SERVER_ACTION_TYPE } = jest.requireActual('builder_platform_interaction/serverDataLib');
     return {
@@ -104,28 +89,19 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
         }
     };
 });
-
-const TOTAL_SUPPORTED_FIELDS_IN_ACCOUNT = Object.values(mockAccountFields).filter(
-    (field: any) => field.supportedByAutomaticField
-).length;
-
-const TOTAL_SUPPORTED_FIELDS_IN_OBJECT_WITH_ALL_POSSIBLE_FIELDS = Object.values(
+const SUPPORTED_FIELDS_IN_ACCOUNT = Object.values<FieldDefinition>(mockAccountFields).filter(
+    (field) => field.supportedByAutomaticField
+);
+const TOTAL_SUPPORTED_FIELDS_IN_OBJECT_WITH_ALL_POSSIBLE_FIELDS = Object.values<FieldDefinition>(
     mockObjectWithAllPossibleFieldsVariableFields
-).filter((field: any) => field.supportedByAutomaticField).length;
+).filter((field) => field.supportedByAutomaticField).length;
 
 // Excluding boolean as they are always marked as required by the API
-const NB_REQUIRED_FIELDS_IN_OBJECT_WITH_ALL_POSSIBLE_FIELDS = Object.values(
+const TOTAL_REQUIRED_FIELDS_IN_OBJECT_WITH_ALL_POSSIBLE_FIELDS = Object.values<FieldDefinition>(
     mockObjectWithAllPossibleFieldsVariableFields
 ).filter(
-    (field: any) => field.supportedByAutomaticField && field.required && field.fieldDataType !== FieldDataType.Boolean
+    (field) => field.supportedByAutomaticField && field.required && field.fieldDataType !== FieldDataType.Boolean
 ).length;
-
-const STRING_FIELD_NAME = 'SicDesc';
-const NUMBER_FIELD_NAME = 'OutstandingShares__c';
-const BOOLEAN_FIELD_NAME = 'IsExcludedFromRealign';
-const DATE_FIELD_NAME = 'PersonBirthdate';
-const DATE_TIME_FIELD_NAME = 'CustomDateTime__c';
-const LONG_TEXT_AREA_FIELD_NAME = 'Description';
 
 const SELECTORS = {
     searchInput: '.palette-search-input',
@@ -228,7 +204,7 @@ describe('Screen editor automatic field palette', () => {
         test('SObjectReferenceChangedEvent should generate proper items for palette not required section', async () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
             await ticks(1);
-            expect(element.paletteData[0]._children).toHaveLength(TOTAL_SUPPORTED_FIELDS_IN_ACCOUNT);
+            expect(element.paletteData[0]._children).toHaveLength(SUPPORTED_FIELDS_IN_ACCOUNT.length);
         });
         test('SObjectReferenceChangedEvent should hide no items to show illustration', async () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
@@ -296,7 +272,7 @@ describe('Screen editor automatic field palette', () => {
             await ticks(1);
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
             await ticks(1);
-            expect(element.paletteData[0]._children).toHaveLength(TOTAL_SUPPORTED_FIELDS_IN_ACCOUNT);
+            expect(element.paletteData[0]._children).toHaveLength(SUPPORTED_FIELDS_IN_ACCOUNT.length);
         });
         test('SObjectReferenceChangedEvent with same value keeps the search pattern as is', async () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
@@ -343,7 +319,7 @@ describe('Screen editor automatic field palette', () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
             await ticks(1);
             expect(element.paletteData[0]._children).toHaveLength(
-                NB_REQUIRED_FIELDS_IN_OBJECT_WITH_ALL_POSSIBLE_FIELDS
+                TOTAL_REQUIRED_FIELDS_IN_OBJECT_WITH_ALL_POSSIBLE_FIELDS
             );
         });
         test('SObjectReferenceChangedEvent should generate proper items for palette non required section', async () => {
@@ -351,7 +327,7 @@ describe('Screen editor automatic field palette', () => {
             await ticks(1);
             expect(element.paletteData[1]._children).toHaveLength(
                 TOTAL_SUPPORTED_FIELDS_IN_OBJECT_WITH_ALL_POSSIBLE_FIELDS -
-                    NB_REQUIRED_FIELDS_IN_OBJECT_WITH_ALL_POSSIBLE_FIELDS
+                    TOTAL_REQUIRED_FIELDS_IN_OBJECT_WITH_ALL_POSSIBLE_FIELDS
             );
         });
     });
@@ -396,6 +372,7 @@ describe('Screen editor automatic field palette', () => {
             (allItemsFromPaletteData as Array<ScreenAutomaticFieldPaletteItem>).find(
                 (paletteItem) => paletteItem.apiName === fieldApiName
             );
+
         beforeEach(async () => {
             const sObjectReferenceChangedEvent = new SObjectReferenceChangedEvent(accountSObjectVariable.guid);
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
@@ -406,88 +383,91 @@ describe('Screen editor automatic field palette', () => {
             );
         });
         describe('Palette fields filtering', () => {
-            test('when "supportedByAutomaticField" flag is true, the field is in the palette', () => {
-                const fieldEntry = Object.entries(mockAccountFields!).find(
-                    (entry: [string, any]) => entry[1].supportedByAutomaticField
-                )!;
-                const paletteItem = getPaletteItemByFieldApiName(fieldEntry[0])!;
-                expect(paletteItem).toBeTruthy();
-            });
-            test('when "supportedByAutomaticField" flag is false, the field is not in the palette', () => {
-                const fieldEntry = Object.entries(mockAccountFields!).find(
-                    (entry: [string, any]) => !entry[1].supportedByAutomaticField
-                )!;
-                const paletteItem = getPaletteItemByFieldApiName(fieldEntry[0])!;
-                expect(paletteItem).toBeUndefined();
-            });
-        });
-        describe('Palette click event handling', () => {
-            const expectEventCallbackCalledWithTypeNameAndObjectFieldReference = (
-                typeName: string,
-                objectFieldReference: string
-            ) => {
-                expect(eventCallback).toHaveBeenCalled();
-                expect(eventCallback.mock.calls[0][0].detail.typeName).toEqual(typeName);
-                expect(eventCallback.mock.calls[0][0].detail.objectFieldReference).toEqual(objectFieldReference);
-            };
-
-            beforeEach(async () => {
-                eventCallback = jest.fn();
-                element.addEventListener(ScreenEditorEventName.AutomaticScreenFieldAdded, eventCallback);
-            });
-            afterEach(() => {
-                element.removeEventListener(ScreenEditorEventName.AutomaticScreenFieldAdded, eventCallback);
-            });
-            test.each`
-                fieldName                    | expectedEventFieldTypeName       | expectedObjectFieldReference
-                ${STRING_FIELD_NAME}         | ${ScreenFieldName.TextBox}       | ${accountSObjectVariable.guid + '.' + STRING_FIELD_NAME}
-                ${BOOLEAN_FIELD_NAME}        | ${ScreenFieldName.Checkbox}      | ${accountSObjectVariable.guid + '.' + BOOLEAN_FIELD_NAME}
-                ${NUMBER_FIELD_NAME}         | ${ScreenFieldName.Number}        | ${accountSObjectVariable.guid + '.' + NUMBER_FIELD_NAME}
-                ${DATE_FIELD_NAME}           | ${ScreenFieldName.Date}          | ${accountSObjectVariable.guid + '.' + DATE_FIELD_NAME}
-                ${DATE_TIME_FIELD_NAME}      | ${ScreenFieldName.DateTime}      | ${accountSObjectVariable.guid + '.' + DATE_TIME_FIELD_NAME}
-                ${LONG_TEXT_AREA_FIELD_NAME} | ${ScreenFieldName.LargeTextArea} | ${accountSObjectVariable.guid + '.' + LONG_TEXT_AREA_FIELD_NAME}
-            `(
-                'PaletteItemClickedEvent on $fieldName should dispatch AddAutomaticScreenField event with fieldTypeName: $expectedEventFieldTypeName and objectFieldReference: $expectedObjectFieldReference',
-                async ({ fieldName, expectedEventFieldTypeName, expectedObjectFieldReference }) => {
-                    const paletteItem = getPaletteItemByFieldApiName(fieldName)!;
-                    const event = new PaletteItemClickedEvent(null, paletteItem.guid);
-                    palette.dispatchEvent(event);
-                    await ticks();
-                    expectEventCallbackCalledWithTypeNameAndObjectFieldReference(
-                        expectedEventFieldTypeName,
-                        expectedObjectFieldReference
+            // first argument: supportedByAutomaticField flag value, second argument: for test label purpose only
+            test.each([
+                [true, ''],
+                [false, ' NOT']
+            ])(
+                'when "supportedByAutomaticField" flag is %s, the field is%s in the palette',
+                (isSupportedField: boolean) => {
+                    const { apiName: fieldApiName } = Object.values<FieldDefinition>(mockAccountFields!).find(
+                        (field) => field.supportedByAutomaticField === isSupportedField
+                    )!;
+                    expect(getPaletteItemByFieldApiName(fieldApiName)).toEqual(
+                        isSupportedField ? expect.any(Object) : undefined
                     );
                 }
             );
         });
-        describe('Drag start event handling', () => {
-            test.each`
-                fieldName                    | expectedEventFieldTypeName       | expectedObjectFieldReference
-                ${STRING_FIELD_NAME}         | ${ScreenFieldName.TextBox}       | ${accountSObjectVariable.guid + '.' + STRING_FIELD_NAME}
-                ${BOOLEAN_FIELD_NAME}        | ${ScreenFieldName.Checkbox}      | ${accountSObjectVariable.guid + '.' + BOOLEAN_FIELD_NAME}
-                ${NUMBER_FIELD_NAME}         | ${ScreenFieldName.Number}        | ${accountSObjectVariable.guid + '.' + NUMBER_FIELD_NAME}
-                ${DATE_FIELD_NAME}           | ${ScreenFieldName.Date}          | ${accountSObjectVariable.guid + '.' + DATE_FIELD_NAME}
-                ${DATE_TIME_FIELD_NAME}      | ${ScreenFieldName.DateTime}      | ${accountSObjectVariable.guid + '.' + DATE_TIME_FIELD_NAME}
-                ${LONG_TEXT_AREA_FIELD_NAME} | ${ScreenFieldName.LargeTextArea} | ${accountSObjectVariable.guid + '.' + LONG_TEXT_AREA_FIELD_NAME}
-            `(
-                'DragStart event on $fieldName should transfer fieldTypeName: $expectedEventFieldTypeName and objectFieldReference: $expectedObjectFieldReference as data',
-                async ({ fieldName, expectedEventFieldTypeName, expectedObjectFieldReference }) => {
-                    const paletteItem = getPaletteItemByFieldApiName(fieldName)!;
-                    const dragStart = dragStartEvent(JSON.stringify({ key: paletteItem.guid }));
-                    palette.dispatchEvent(dragStart);
-                    await ticks();
 
-                    // @ts-ignore
-                    const dragStartDatatransfer = dragStart.dataTransfer;
-                    expect(dragStartDatatransfer.getData('text')).toBe(
-                        JSON.stringify({
-                            fieldTypeName: expectedEventFieldTypeName,
-                            objectFieldReference: expectedObjectFieldReference
-                        })
-                    );
-                    expect(dragStartDatatransfer.effectAllowed).toBe('copy');
-                }
-            );
+        describe('By field types', () => {
+            // first argument: field's fieldDataType, second argument: expected 'internal' field type sent to the event
+            const FIELD_DATA_TYPES_CASES = [
+                ['BOOLEAN', ScreenFieldName.Checkbox],
+                ['DOUBLE', ScreenFieldName.Number],
+                ['DATE', ScreenFieldName.Date],
+                ['DATETIME', ScreenFieldName.DateTime],
+                ['EMAIL', ScreenFieldName.TextBox],
+                ['INT', ScreenFieldName.Number],
+                ['PHONE', ScreenFieldName.TextBox],
+                ['STRING', ScreenFieldName.TextBox],
+                ['TEXTAREA', ScreenFieldName.LargeTextArea]
+            ];
+            const getFieldNameFromFieldDataType = (fieldDataType: string) =>
+                SUPPORTED_FIELDS_IN_ACCOUNT.find((field) => field.fieldDataType === fieldDataType)!.apiName;
+
+            describe('Palette click event handling', () => {
+                const expectEventCallbackCalledWithTypeNameAndObjectFieldReference = (
+                    typeName: string,
+                    objectFieldReference: string
+                ) => {
+                    expect(eventCallback).toHaveBeenCalled();
+                    expect(eventCallback.mock.calls[0][0].detail.typeName).toEqual(typeName);
+                    expect(eventCallback.mock.calls[0][0].detail.objectFieldReference).toEqual(objectFieldReference);
+                };
+
+                beforeEach(() => {
+                    eventCallback = jest.fn();
+                    element.addEventListener(ScreenEditorEventName.AutomaticScreenFieldAdded, eventCallback);
+                });
+                afterEach(() => {
+                    element.removeEventListener(ScreenEditorEventName.AutomaticScreenFieldAdded, eventCallback);
+                });
+
+                test.each(FIELD_DATA_TYPES_CASES)(
+                    "Palette click event on field of fieldDataType: '%s' should be dispatched with fieldTypeName '%s' and correct objectFieldReference",
+                    (fieldDataType: string, expectedEventFieldTypeName: string) => {
+                        const fieldName = getFieldNameFromFieldDataType(fieldDataType);
+                        const { guid: paletteItemGuid } = getPaletteItemByFieldApiName(fieldName)!;
+                        palette.dispatchEvent(new PaletteItemClickedEvent(null, paletteItemGuid));
+                        expectEventCallbackCalledWithTypeNameAndObjectFieldReference(
+                            expectedEventFieldTypeName,
+                            `${accountSObjectVariable.guid}.${fieldName}`
+                        );
+                    }
+                );
+            });
+            describe('Drag start event handling', () => {
+                test.each(FIELD_DATA_TYPES_CASES)(
+                    "Drag start event on field of fieldDataType '%s' should transfer with fieldTypeName '%s' and correct objectFieldReference",
+                    (fieldDataType: string, expectedEventFieldTypeName: string) => {
+                        const fieldName = getFieldNameFromFieldDataType(fieldDataType);
+                        const { guid: paletteItemGuid } = getPaletteItemByFieldApiName(fieldName)!;
+                        const dragStart = dragStartEvent(JSON.stringify({ key: paletteItemGuid }));
+                        palette.dispatchEvent(dragStart);
+
+                        // @ts-ignore
+                        const dragStartDataTransfer = dragStart.dataTransfer;
+                        expect(dragStartDataTransfer.getData('text')).toBe(
+                            JSON.stringify({
+                                fieldTypeName: expectedEventFieldTypeName,
+                                objectFieldReference: `${accountSObjectVariable.guid}.${fieldName}`
+                            })
+                        );
+                        expect(dragStartDataTransfer.effectAllowed).toBe('copy');
+                    }
+                );
+            });
         });
         describe('Search input place holder', () => {
             const sObjectReferenceChangedEvent = new SObjectReferenceChangedEvent(
