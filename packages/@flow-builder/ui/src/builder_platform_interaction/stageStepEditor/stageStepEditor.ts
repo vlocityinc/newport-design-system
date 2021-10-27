@@ -714,7 +714,6 @@ export default class StageStepEditor extends LightningElement {
      * For later releases, we'll investigate excluding them on the server side
      *
      * @param inputParameters All input parameters for the action
-     *
      * @returns The filter input parameters
      */
     filterActionInputParameters(inputParameters: ParameterListRowItem[] = []): ParameterListRowItem[] {

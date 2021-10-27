@@ -397,19 +397,24 @@ function isGoingBackToAncestorLoop(flowModel: FlowModel, targetGuid: Guid, sourc
  * Find the first branching ancestor with a non-null next for a given source and return its next.
  *
  * @param flowModel - The flow model
- * @param sourceElement - The connection source
+ * @param sourceElement - The connection source or the parent node
+ * @param isConnector - is function used for connector
  * @returns the next guid of the first branching ancestor with non-null next
  */
-function getFirstNonNullNext(flowModel: FlowModel, sourceElement: NodeModel): Guid {
+function getFirstNonNullNext(flowModel: FlowModel, sourceElement: NodeModel, isConnector: boolean): Guid | null {
     let currentParent = sourceElement;
 
     while (currentParent.next == null && !isRoot(currentParent.guid) && currentParent.nodeType !== NodeType.LOOP) {
         currentParent = findParentElement(currentParent, flowModel);
     }
 
-    // This exception should never be thrown since it should never reach root.
     if (isRoot(currentParent.guid)) {
-        throw new Error(`Bug found: ${currentParent} is a root node when it should not be.`);
+        if (isConnector) {
+            // Throwing this exception for connectors since it should never reach root for those
+            throw new Error(`Bug found: ${currentParent} is a root node when it should not be.`);
+        } else {
+            return null;
+        }
     }
 
     return currentParent.nodeType === NodeType.LOOP ? (currentParent.guid as Guid) : (currentParent.next as Guid);

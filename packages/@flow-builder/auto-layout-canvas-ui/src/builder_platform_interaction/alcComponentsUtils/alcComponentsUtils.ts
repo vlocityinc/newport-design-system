@@ -698,7 +698,7 @@ const ELEMENT_TYPE_DECISION = 'Decision';
  * @param node - nodeModel of a node
  * @returns NodeModel of the following element
  */
-function getFollowingElement(flowModel: FlowModel, node: NodeModel): NodeModel {
+function getFollowingElement(flowModel: FlowModel, node: NodeModel): NodeModel | null {
     let followingElement;
     if (node.next) {
         followingElement = flowModel[node.next];
@@ -707,8 +707,8 @@ function getFollowingElement(flowModel: FlowModel, node: NodeModel): NodeModel {
         if (parentNode.nodeType === NodeType.ROOT) {
             return followingElement;
         }
-        const targetGuid = getFirstNonNullNext(flowModel, parentNode);
-        followingElement = flowModel[targetGuid];
+        const targetGuid = getFirstNonNullNext(flowModel, parentNode, false);
+        followingElement = targetGuid ? flowModel[targetGuid] : followingElement;
     }
     return followingElement;
 }
@@ -757,7 +757,7 @@ function getAriaInfoForBranchingElement(
     flowModel: FlowModel,
     node: ParentNodeModel,
     children: NodeRef[],
-    followingElement: NodeModel
+    followingElement: NodeModel | null
 ): string {
     let ariaDescribedBy = '';
 
@@ -855,7 +855,7 @@ function getAriaInfoForBranchingElement(
 function getAriaInfoForBranchHeadElement(
     flowModel: FlowModel,
     node: NodeModel,
-    followingElement: NodeModel,
+    followingElement: NodeModel | null,
     childIndex: number,
     children: NodeRef[]
 ) {
@@ -898,7 +898,7 @@ function getAriaInfoForBranchHeadElement(
             DELIMITER + getAriaInfoForBranchingElement(flowModel, node as ParentNodeModel, children, followingElement);
     } else {
         // branch head is a regular element
-        ariaDescribedBy += getAriaInfoForFollowingElement(flowModel, node, followingElement, true, false);
+        ariaDescribedBy += getAriaInfoForFollowingElement(flowModel, node, followingElement!, true, false);
     }
 
     return ariaDescribedBy;
@@ -959,7 +959,7 @@ function getNodeAriaInfo(flowModel: FlowModel, nodeInfo: NodeRenderInfo): string
                 ariaDescribedBy += getAriaInfoForFollowingElement(
                     flowModel,
                     node,
-                    followingElement,
+                    followingElement!,
                     ariaDescribedBy !== '',
                     false
                 );

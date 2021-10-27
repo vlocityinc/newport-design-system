@@ -8359,11 +8359,11 @@ describe('modelUtils', () => {
         flowModel = { ...flowModel, nestedDecision, screen1, screen2 };
 
         it('gets the correct next for the nested decision', () => {
-            expect(getFirstNonNullNext(flowModel, nestedDecision)).toBe(END_ELEMENT_GUID);
+            expect(getFirstNonNullNext(flowModel, nestedDecision, false)).toBe(END_ELEMENT_GUID);
         });
 
         it('gets the correct next for the element right before merging point', () => {
-            expect(getFirstNonNullNext(flowModel, screen1)).toBe(END_ELEMENT_GUID);
+            expect(getFirstNonNullNext(flowModel, screen1, false)).toBe(END_ELEMENT_GUID);
         });
 
         it('gets the correct next for element with goto', () => {
@@ -8371,9 +8371,9 @@ describe('modelUtils', () => {
             flowModel[BRANCH_ELEMENT_GUID].next = BRANCH_ELEMENT_GUID;
             flowModel[BRANCH_ELEMENT_GUID].incomingGoTo = [BRANCH_ELEMENT_GUID];
             expect.assertions(3);
-            expect(getFirstNonNullNext(flowModel, nestedDecision)).toBe(BRANCH_ELEMENT_GUID);
-            expect(getFirstNonNullNext(flowModel, screen1)).toBe(BRANCH_ELEMENT_GUID);
-            expect(getFirstNonNullNext(flowModel, screen2)).toBe(BRANCH_ELEMENT_GUID);
+            expect(getFirstNonNullNext(flowModel, nestedDecision, false)).toBe(BRANCH_ELEMENT_GUID);
+            expect(getFirstNonNullNext(flowModel, screen1, false)).toBe(BRANCH_ELEMENT_GUID);
+            expect(getFirstNonNullNext(flowModel, screen2, false)).toBe(BRANCH_ELEMENT_GUID);
         });
     });
 });
