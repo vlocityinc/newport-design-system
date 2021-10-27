@@ -1,3 +1,4 @@
+import { SORTABLE_FILTER } from 'builder_platform_interaction/collectionProcessorLib';
 import { LightningElement, api, track } from 'lwc';
 import { LABELS } from './filterEditorLabels';
 
@@ -37,6 +38,11 @@ export default class FilterEditor extends LightningElement {
 
     get labels() {
         return LABELS;
+    }
+
+    // input collection filter is the same as in sort editor: sObject, primitive, and apex type
+    get collectionProcessorFilter() {
+        return SORTABLE_FILTER;
     }
 
     handleCollectionVariablePropertyChanged(event: CustomEvent) {

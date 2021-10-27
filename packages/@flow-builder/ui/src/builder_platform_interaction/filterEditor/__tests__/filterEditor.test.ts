@@ -32,7 +32,9 @@ const initFilterElementInfo = {
 };
 
 const GROUP_LABELS = {
-    RECORD_COLLECTION_VARIABLES: 'FLOWBUILDERELEMENTCONFIG.SOBJECTCOLLECTIONPLURALLABEL'
+    RECORD_COLLECTION_VARIABLES: 'FLOWBUILDERELEMENTCONFIG.SOBJECTCOLLECTIONPLURALLABEL',
+    APEX_COLLECTION_VARIABLES: 'FLOWBUILDERELEMENTCONFIG.APEXCOLLECTIONVARIABLEPLURALLABEL',
+    COLLECTION_VARIABLES: 'FLOWBUILDERELEMENTCONFIG.COLLECTIONVARIABLEPLURALLABEL'
 };
 
 const createComponentUnderTest = ({ elementInfo = initFilterElementInfo } = {}) => {
@@ -99,6 +101,26 @@ describe('filter-editor', () => {
                     GROUP_LABELS.RECORD_COLLECTION_VARIABLES,
                     'displayText',
                     addCurlyBraces(store.accountSObjectCollectionVariable.name)
+                )
+            ).not.toBeNull();
+        });
+        it('should contain apex call collection from flowWithAllElementsUIModel', () => {
+            const groupedCombobox = getCombobox(filterInputCollection).getGroupedCombobox();
+            expect(
+                groupedCombobox.getItemInGroup(
+                    GROUP_LABELS.RECORD_COLLECTION_VARIABLES,
+                    'displayText',
+                    addCurlyBraces(store.apexCallAutomaticAnonymousAccountsOutput.name)
+                )
+            ).not.toBeNull();
+        });
+        it('should contain primitive collection variables from flowWithAllElementsUIModel', () => {
+            const groupedCombobox = getCombobox(filterInputCollection).getGroupedCombobox();
+            expect(
+                groupedCombobox.getItemInGroup(
+                    GROUP_LABELS.COLLECTION_VARIABLES,
+                    'displayText',
+                    addCurlyBraces(store.stringCollectionVariable1.name)
                 )
             ).not.toBeNull();
         });
