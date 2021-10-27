@@ -2,7 +2,6 @@ import { api, track, LightningElement } from 'lwc';
 import {
     getErrorsFromHydratedElement,
     getValueFromHydratedItem,
-    mergeErrorsFromHydratedElement,
     ValueWithError
 } from 'builder_platform_interaction/dataMutationLib';
 import {
@@ -54,6 +53,7 @@ import {
     getResourceByUniqueIdentifier
 } from 'builder_platform_interaction/expressionUtils';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { updateAndValidateElementInPropertyEditor } from 'builder_platform_interaction/validation';
 
 export enum ENTRY_CRITERIA {
     ON_STAGE_START = 'on_stage_start',
@@ -228,15 +228,12 @@ export default class StageStepEditor extends LightningElement {
     }
 
     set node(newValue) {
-        const oldHasError = this.element?.config?.hasError;
-        this.element = mergeErrorsFromHydratedElement(newValue, this.element);
+        const oldElement = this.element;
+        this.element = newValue;
+        this.element = updateAndValidateElementInPropertyEditor(oldElement, newValue, this);
 
         if (!this.element) {
             return;
-        }
-
-        if (this.element?.config?.hasError !== oldHasError) {
-            this.dispatchEvent(new UpdateNodeEvent(this.element));
         }
 
         // infer selected Entry Criteria on-load
@@ -323,30 +320,7 @@ export default class StageStepEditor extends LightningElement {
 
         // Reopening existing elements should always validate
         // This has to be done manually in every property editor
-        if (!newValue?.isNew) {
-            this.validate();
-
-            // If an error was explicitly set by the action selector, then use that
-            // rather than the error from validation.  This is needed because validation
-            // cannot know if an invalid action name has been entered.  It only checks
-            // for null or ''
-            if (!this.entryActionErrorMessage) {
-                this.entryActionErrorMessage =
-                    this.element.entryAction?.actionName.error ||
-                    (this.element.entryActionError as ValueWithError)?.value ||
-                    '';
-            }
-            if (!this.actionErrorMessage) {
-                this.actionErrorMessage =
-                    this.element.action.actionName?.error || (this.element.actionError as ValueWithError)?.value || '';
-            }
-            if (!this.exitActionErrorMessage) {
-                this.exitActionErrorMessage =
-                    this.element.exitAction?.actionName.error ||
-                    (this.element.exitActionError as ValueWithError)?.value ||
-                    '';
-            }
-
+        if (!this.element.isNew) {
             this.recordErrorMessage =
                 (!isParameterListRowItem(this.element.relatedRecordItem) && this.element.relatedRecordItem?.error) ||
                 '';
@@ -889,10 +863,12 @@ export default class StageStepEditor extends LightningElement {
     }
 
     async handleEntryActionSelected(e: ValueChangedEvent<InvocableAction>) {
+        e.detail.value.actionType = ACTION_TYPE.EVALUATION_FLOW;
         this.actionSelected(ORCHESTRATED_ACTION_CATEGORY.ENTRY, e);
     }
 
     async handleExitActionSelected(e: ValueChangedEvent<InvocableAction>) {
+        e.detail.value.actionType = ACTION_TYPE.EVALUATION_FLOW;
         this.actionSelected(ORCHESTRATED_ACTION_CATEGORY.EXIT, e);
     }
 

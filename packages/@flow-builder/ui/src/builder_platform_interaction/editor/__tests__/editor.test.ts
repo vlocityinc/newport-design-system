@@ -1445,7 +1445,7 @@ describe('property editor', () => {
             const duplicateEvent = new DuplicateEvent();
             toolbar.dispatchEvent(duplicateEvent);
 
-            await ticks(1);
+            await ticks();
             rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);
             const propertyEditorPanel = rightPanel.querySelector('builder_platform_interaction-property-editor-panel');
             expect(propertyEditorPanel.element.guid).toEqual('5');
@@ -1527,6 +1527,28 @@ describe('property editor', () => {
             const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
             const saveButton = toolbar.shadowRoot.querySelector(selectors.save);
             saveButton.click();
+
+            await ticks(1);
+
+            expect(propertyEditorPanel.element.isNew).toBeFalsy();
+        });
+
+        it('element.isNew set to false on property editor close', async () => {
+            expect.assertions(3);
+            expect(rightPanel).not.toBeNull();
+
+            await ticks(1);
+
+            // Manually set to new so we can see the change
+            mockStoreState.elements['1'].isNew = true;
+
+            const propertyEditorPanel = editorComponent.shadowRoot.querySelector(selectors.PROPERTY_EDITOR_PANEL);
+
+            expect(propertyEditorPanel.element.isNew).toBeTruthy();
+
+            const closePropertyEditorEvent = new ClosePropertyEditorEvent();
+            const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+            toolbar.dispatchEvent(closePropertyEditorEvent);
 
             await ticks(1);
 

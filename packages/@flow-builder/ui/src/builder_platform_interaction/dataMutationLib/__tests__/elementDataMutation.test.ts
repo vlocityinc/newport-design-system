@@ -5,7 +5,7 @@ import {
     getErrorsFromHydratedElement,
     getValueFromHydratedItem,
     getErrorFromHydratedItem,
-    mergeErrorsFromHydratedElement
+    removeErrorsForUnchangedSourceWithNoError
 } from '../elementDataMutation';
 import { deepCopy, isPlainObject } from 'builder_platform_interaction/storeLib';
 
@@ -233,61 +233,73 @@ describe('getErrorFromHydratedItem function', () => {
     });
 });
 
-describe('mergeErrorsFromHydratedElement', () => {
-    it('with null errorSourceElement returns a copy of the element', () => {
+describe('dehydrateElementFromSourceElement', () => {
+    it('with null sourceElement returns a copy of the element', () => {
         const e = { a: 1 };
-        const mergedE = mergeErrorsFromHydratedElement(e, null);
-        expect(mergedE).toEqual(e);
+        const dehydratedE = removeErrorsForUnchangedSourceWithNoError(e, null);
+        expect(dehydratedE).toEqual(e);
     });
-    it('merges values from the element and errors from errorSourceElement', () => {
-        const e = { a: { value: 1, error: null }, config: { hasError: false } };
-        const errorSource = { a: { value: 5, error: 'someError' }, config: { hasError: false } };
+    it('remove error if sourceElement does not contain error and field on sourceElement is untouched', () => {
+        const e = { a: { value: 1, error: 'someError' }, config: { hasError: true } };
+        const sourceElement = { a: { value: '', error: null } };
 
-        const mergedE = mergeErrorsFromHydratedElement(e, errorSource);
-        expect(mergedE.a.value).toEqual(e.a.value);
-        expect(mergedE.a.error).toEqual(errorSource.a.error);
-        expect(mergedE.config.hasError).toBe(true);
+        const dehydratedE = removeErrorsForUnchangedSourceWithNoError(e, sourceElement);
+        expect(dehydratedE.a.value).toEqual(e.a.value);
+        expect(dehydratedE.a.error).toBe(null);
+        expect(dehydratedE.config.hasError).toBe(false);
     });
-    it('keeps errors from the element if no error in errorSourceElement', () => {
-        const e = { a: { value: 1, error: 'test' }, config: { hasError: false } };
-        const errorSource = { a: { value: 5, error: null }, config: { hasError: false } };
+    it('keep error if sourceElement does not contain error but field on sourceElement is touched', () => {
+        const e = { a: { value: 1, error: 'someError' }, config: { hasError: true } };
+        const sourceElement = { a: { value: 2, error: null } };
 
-        const mergedE = mergeErrorsFromHydratedElement(e, errorSource);
-        expect(mergedE.a.value).toEqual(e.a.value);
-        expect(mergedE.a.error).toEqual(e.a.error);
-        expect(mergedE.config.hasError).toBe(true);
+        const dehydratedE = removeErrorsForUnchangedSourceWithNoError(e, sourceElement);
+        expect(dehydratedE.a.value).toEqual(e.a.value);
+        expect(dehydratedE.a.error).toEqual(e.a.error);
+        expect(dehydratedE.config.hasError).toBe(true);
     });
-    it('merges values from objects in the element and errors from errorSourceElement', () => {
-        const e = { a: { b: { value: 1, error: null } }, config: { hasError: false } };
-        const errorSource = { a: { b: { value: 5, error: 'someError' } }, config: { hasError: false } };
+    it('keep error if sourceElement also contains error', () => {
+        const e = { a: { value: 1, error: 'someError' }, config: { hasError: true } };
+        const sourceElement = { a: { value: '', error: 'someError2' } };
 
-        const mergedE = mergeErrorsFromHydratedElement(e, errorSource);
-        expect(mergedE.a.b.value).toEqual(e.a.b.value);
-        expect(mergedE.a.b.error).toEqual(errorSource.a.b.error);
-        expect(mergedE.config.hasError).toBe(true);
+        const dehydratedE = removeErrorsForUnchangedSourceWithNoError(e, sourceElement);
+        expect(dehydratedE.a.value).toEqual(e.a.value);
+        expect(dehydratedE.a.error).toEqual(e.a.error);
+        expect(dehydratedE.config.hasError).toBe(true);
     });
-    it('merges values from arrays in the element and errors from errorSourceElement', () => {
-        const e = { a: [{ value: 1, error: null }], config: { hasError: false } };
-        const errorSource = { a: [{ value: 5, error: 'someError' }], config: { hasError: false } };
-
-        const mergedE = mergeErrorsFromHydratedElement(e, errorSource);
-        expect(mergedE.a[0].value).toEqual(e.a[0].value);
-        expect(mergedE.a[0].error).toEqual(errorSource.a[0].error);
-        expect(mergedE.config.hasError).toBe(true);
-    });
-    it('resets hasError to false if there are no errors', () => {
+    it('reset hasError to false if there is no error', () => {
         const e = { a: { value: 1, error: null }, config: { hasError: true } };
-        const errorSource = { a: { value: 5, error: null }, config: { hasError: true } };
+        const sourceElement = {};
 
-        const mergedE = mergeErrorsFromHydratedElement(e, errorSource);
-        expect(mergedE.config.hasError).toBe(false);
+        const dehydratedE = removeErrorsForUnchangedSourceWithNoError(e, sourceElement);
+        expect(dehydratedE.a.value).toEqual(e.a.value);
+        expect(dehydratedE.a.error).toEqual(e.a.error);
+        expect(dehydratedE.config.hasError).toBe(false);
     });
-    it('sets hasError to true if there is error from arrays in the element but no error from errorSourceElement', () => {
-        const e = { a: [{ value: 1, error: 'someError' }], config: { hasError: false } };
-        const errorSource = { config: { hasError: false } };
-        const mergedE = mergeErrorsFromHydratedElement(e, errorSource);
-        expect(mergedE.a[0].value).toEqual(e.a[0].value);
-        expect(mergedE.a[0].error).toEqual(e.a[0].error);
-        expect(mergedE.config.hasError).toBe(true);
+    it('remove error from objects in the element if sourceElement does not contain error and field on sourceElement is untouched', () => {
+        const e = { a: { b: { value: 1, error: 'someError' } }, config: { hasError: true } };
+        const sourceElement = { a: { b: { value: null, error: null } } };
+
+        const dehydratedE = removeErrorsForUnchangedSourceWithNoError(e, sourceElement);
+        expect(dehydratedE.a.b.value).toEqual(e.a.b.value);
+        expect(dehydratedE.a.b.error).toBe(null);
+        expect(dehydratedE.config.hasError).toBe(false);
+    });
+    it('remove error from arrays in the element if sourceElement does not contain error and field on sourceElement is untouched', () => {
+        const e = { a: [{ value: 1, error: 'someError' }], config: { hasError: true } };
+        const sourceElement = { a: [{ value: null, error: null }] };
+
+        const dehydratedE = removeErrorsForUnchangedSourceWithNoError(e, sourceElement);
+        expect(dehydratedE.a[0].value).toEqual(e.a[0].value);
+        expect(dehydratedE.a[0].error).toBe(null);
+        expect(dehydratedE.config.hasError).toBe(false);
+    });
+    it('skip check on blacklist fields', () => {
+        const e = { a: [{ value: 1, error: 'someError' }], config: { hasError: true } };
+        const sourceElement = { a: [{ value: 1, error: 'someError' }] };
+
+        const dehydratedE = removeErrorsForUnchangedSourceWithNoError(e, sourceElement, ['a']);
+        expect(dehydratedE.a[0].value).toEqual(e.a[0].value);
+        expect(dehydratedE.a[0].error).toEqual(e.a[0].error);
+        expect(dehydratedE.config.hasError).toBe(false);
     });
 });

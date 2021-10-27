@@ -2,15 +2,13 @@
 import { LightningElement, api, track } from 'lwc';
 import { decisionReducer, resetDeletedGuids } from './decisionReducer';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import {
-    getErrorsFromHydratedElement,
-    mergeErrorsFromHydratedElement
-} from 'builder_platform_interaction/dataMutationLib';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { PropertyChangedEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
 import { LABELS } from './decisionEditorLabels';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
 import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
+import { updateAndValidateElementInPropertyEditor } from 'builder_platform_interaction/validation';
 
 const SELECTORS = {
     OUTCOME: 'builder_platform_interaction-outcome',
@@ -87,21 +85,12 @@ export default class DecisionEditor extends LightningElement {
     }
 
     set node(newValue) {
-        const oldHasError = this.decisionElement?.config?.hasError;
-        this.decisionElement = mergeErrorsFromHydratedElement(newValue, this.decisionElement);
+        const oldElement = this.decisionElement;
+        this.decisionElement = newValue;
+        this.decisionElement = updateAndValidateElementInPropertyEditor(oldElement, newValue, this);
 
         if (!this.activeOutcomeId) {
             this.activeOutcomeId = this.decisionElement.outcomes[0].guid;
-        }
-
-        if (this.decisionElement?.config?.hasError !== oldHasError) {
-            this.dispatchEvent(new UpdateNodeEvent(this.decisionElement));
-        }
-
-        // Reopening existing elements should always validate
-        // This has to be done manually in every property editor
-        if (!newValue.isNew) {
-            this.validate();
         }
     }
 

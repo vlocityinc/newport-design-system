@@ -1,9 +1,18 @@
 // @ts-nocheck
-import { Validation } from 'builder_platform_interaction/validation';
+import { Validation, updateAndValidateElementInPropertyEditor } from 'builder_platform_interaction/validation';
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
+import { removeErrorsForUnchangedSourceWithNoError } from 'builder_platform_interaction/dataMutationLib';
 const TRAILING_UNDERSCORE_ERROR = ValidationRules.LABELS.shouldNotBeginOrEndWithUnderscores;
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
+jest.mock('builder_platform_interaction/dataMutationLib', () => {
+    const actual = jest.requireActual('builder_platform_interaction/dataMutationLib');
+
+    return Object.assign('', actual, {
+        removeErrorsForUnchangedSourceWithNoError: jest.fn((e) => e)
+    });
+});
 
 describe('Default Validations', () => {
     const validation = new Validation();
@@ -302,5 +311,66 @@ describe('validateAll method', () => {
         };
         const validationClassWithAdditionalRules = new Validation(additionalRules);
         expect(validationClassWithAdditionalRules.validateAll(testObj)).toEqual(expectedObjectAfterValidateAll);
+    });
+});
+
+describe('updateAndValidateElementInPropertyEditor', () => {
+    const propertyEditorComponent = {
+        validate: jest.fn(),
+        getNode: jest.fn(),
+        dispatchEvent: jest.fn()
+    };
+    it('returns new value when oldElement is undefined and newValue is new', () => {
+        const oldElement = undefined;
+        const newValue = { isNew: true, a: 1 };
+
+        const validatedElement = updateAndValidateElementInPropertyEditor(
+            oldElement,
+            newValue,
+            propertyEditorComponent
+        );
+
+        expect(validatedElement).toEqual(newValue);
+    });
+
+    it('when isNew is already false, do not set it back to true', () => {
+        const oldElement = { isNew: false, a: 1 };
+        const newValue = { isNew: true, a: 1 };
+
+        propertyEditorComponent.validate.mockReturnValueOnce([]);
+        propertyEditorComponent.getNode.mockReturnValueOnce(newValue);
+
+        const validatedElement = updateAndValidateElementInPropertyEditor(
+            oldElement,
+            newValue,
+            propertyEditorComponent
+        );
+        expect(validatedElement.isNew).toEqual(false);
+    });
+
+    it('dehydrateElementFromSourceElement is called when element is new', () => {
+        const oldElement = { isNew: true, a: 1 };
+        const newValue = { isNew: true, a: 1, config: { hasError: false } };
+
+        propertyEditorComponent.validate.mockReturnValueOnce([]);
+        propertyEditorComponent.getNode.mockReturnValueOnce(newValue);
+
+        updateAndValidateElementInPropertyEditor(oldElement, newValue, propertyEditorComponent);
+        expect(removeErrorsForUnchangedSourceWithNoError).toHaveBeenCalledWith(newValue, oldElement, []);
+    });
+
+    it('update hasError when hasError value changes', () => {
+        const oldElement = { isNew: false, a: { value: 1, error: 'someError' } };
+        const newValue = { isNew: false, a: { value: 1, error: null }, config: { hasError: false } };
+
+        propertyEditorComponent.validate.mockReturnValueOnce([{ a: 'someError' }]);
+        propertyEditorComponent.getNode.mockReturnValueOnce(newValue);
+
+        const validatedElement = updateAndValidateElementInPropertyEditor(
+            oldElement,
+            newValue,
+            propertyEditorComponent
+        );
+        expect(validatedElement.config.hasError).toBe(true);
     });
 });

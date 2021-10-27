@@ -4,7 +4,6 @@ import { recordChangeTriggerReducer } from './recordChangeTriggerReducer';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { LABELS, requireRecordChangeOptions } from './recordChangeTriggerLabels';
-import { mergeErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import {
     ELEMENT_TYPE,
     FLOW_TRIGGER_TYPE,
@@ -12,8 +11,7 @@ import {
     START_ELEMENT_FIELDS,
     SCHEDULED_PATH_TYPE,
     EXECUTE_OUTCOME_WHEN_OPTION_VALUES,
-    CONDITION_LOGIC,
-    FLOW_PROCESS_TYPE
+    CONDITION_LOGIC
 } from 'builder_platform_interaction/flowMetadata';
 import { loadOperatorsAndRulesOnTriggerTypeChange } from 'builder_platform_interaction/preloadLib';
 import { PropertyChangedEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
@@ -29,6 +27,7 @@ import {
 import { FlowComparisonOperator } from 'builder_platform_interaction/flowMetadata';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
 import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
+import { updateAndValidateElementInPropertyEditor } from 'builder_platform_interaction/validation';
 
 const { BEFORE_SAVE, BEFORE_DELETE, AFTER_SAVE, SCHEDULED, SCHEDULED_JOURNEY } = FLOW_TRIGGER_TYPE;
 const { CREATE, UPDATE, CREATE_AND_UPDATE, DELETE } = FLOW_TRIGGER_SAVE_TYPE;
@@ -93,12 +92,8 @@ export default class RecordChangeTriggerEditor extends LightningElement {
     }
 
     set node(newValue) {
-        const oldHasError = this.startElement?.config?.hasError;
-        this.startElement = mergeErrorsFromHydratedElement(newValue, this.startElement);
-
-        if (this.startElement?.config?.hasError !== oldHasError) {
-            this.dispatchEvent(new UpdateNodeEvent(this.startElement));
-        }
+        const oldElement = this.startElement;
+        this.startElement = newValue;
 
         // The problem with this is that recordchangetrigger is NEVER new, it's always
         // an update when opening from the start menu.
@@ -109,8 +104,8 @@ export default class RecordChangeTriggerEditor extends LightningElement {
         //
         // Hardcoded to Orchestrator.  We'll need a holistic solution in the future
         // TODO: W-9552528
-        if (!newValue.isNew && isOrchestrator(getProcessType())) {
-            this.validate();
+        if (isOrchestrator(getProcessType())) {
+            this.startElement = updateAndValidateElementInPropertyEditor(oldElement, newValue, this);
         }
     }
 

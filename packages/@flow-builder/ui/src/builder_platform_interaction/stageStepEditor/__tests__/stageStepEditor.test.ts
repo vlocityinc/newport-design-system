@@ -12,7 +12,6 @@ import {
     UpdateConditionEvent,
     UpdateParameterItemEvent,
     ValueChangedEvent,
-    UpdateNodeEvent,
     RequiresAsyncProcessingChangedEvent
 } from 'builder_platform_interaction/events';
 import { invocableActionsForOrchestrator } from 'serverData/GetAllInvocableActionsForType/invocableActionsForOrchestrator.json';
@@ -30,11 +29,9 @@ import { ACTION_TYPE, ELEMENT_TYPE, ICONS } from 'builder_platform_interaction/f
 import { MERGE_WITH_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { LABELS } from '../stageStepEditorLabels';
-import {
-    getErrorsFromHydratedElement,
-    mergeErrorsFromHydratedElement
-} from 'builder_platform_interaction/dataMutationLib';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { updateAndValidateElementInPropertyEditor } from 'builder_platform_interaction/validation';
 
 jest.mock('../stageStepReducer', () => {
     return {
@@ -59,9 +56,8 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
                 return mockUserRecordIdPromise;
             } else if (actionType === actual.SERVER_ACTION_TYPE.GET_RECORD_DEV_NAME_BY_ID) {
                 return mockUserRecordDevNamePromise;
-            } else {
-                return mockActionsPromise;
             }
+            return mockActionsPromise;
         })
     };
 });
@@ -70,8 +66,15 @@ jest.mock('builder_platform_interaction/dataMutationLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/dataMutationLib');
 
     return Object.assign('', actual, {
-        getErrorsFromHydratedElement: jest.fn(),
-        mergeErrorsFromHydratedElement: jest.fn((e) => e)
+        getErrorsFromHydratedElement: jest.fn()
+    });
+});
+
+jest.mock('builder_platform_interaction/validation', () => {
+    const actual = jest.requireActual('builder_platform_interaction/validation');
+
+    return Object.assign('', actual, {
+        updateAndValidateElementInPropertyEditor: jest.fn((_, e) => e)
     });
 });
 
@@ -299,9 +302,10 @@ describe('StageStepEditor', () => {
     });
 
     describe('node', () => {
-        describe('mergeErrorsFromHydratedElement', () => {
+        describe('updateAndValidateElementInPropertyEditor', () => {
             it('is called for new node', () => {
-                expect(mergeErrorsFromHydratedElement).toHaveBeenCalledWith(nodeParams, undefined);
+                expect(updateAndValidateElementInPropertyEditor.mock.calls[0][0]).toStrictEqual(undefined);
+                expect(updateAndValidateElementInPropertyEditor.mock.calls[0][1]).toStrictEqual(nodeParams);
             });
         });
 
@@ -404,27 +408,6 @@ describe('StageStepEditor', () => {
             expect(typeof dropdown).toBe('object');
         });
 
-        it('dispatches UpdateNodeEvent if hasError does not match oldHasError', async () => {
-            expect.assertions(1);
-
-            let eventCaught = false;
-            const updateNodeEventCallback = () => {
-                eventCaught = true;
-            };
-            editor.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeEventCallback);
-
-            const newNode = {
-                ...nodeParams,
-                config: { hasError: true }
-            };
-
-            editor.node = newNode;
-
-            ticks(1);
-
-            expect(eventCaught).toBeTruthy();
-        });
-
         describe('assignees', () => {
             it('retrieves recordIds for user literals and passes them to record picker', async () => {
                 expect.assertions(3);
@@ -441,29 +424,6 @@ describe('StageStepEditor', () => {
                 ).values;
                 expect(values.length).toEqual(1);
                 expect(values[0].id).toEqual(await mockUserRecordIdPromise);
-            });
-        });
-
-        describe('validation', () => {
-            it('is not called if isNew', () => {
-                editor = createComponentUnderTest({
-                    ...autolaunchedNodeParams,
-                    isNew: true
-                });
-
-                // This is brittle, but there's not a better way without
-                // converting VALIDATE_ALL to an actual event class
-                expect(stageStepReducer).toHaveBeenCalledTimes(9);
-            });
-            it('is called if !isNew', () => {
-                const node = {
-                    ...autolaunchedNodeParams,
-                    isNew: false
-                };
-                editor = createComponentUnderTest(node);
-
-                expect(stageStepReducer.mock.calls[7][0]).toEqual(node);
-                expect(stageStepReducer.mock.calls[7][1]).toEqual(new CustomEvent(VALIDATE_ALL));
             });
         });
     });
@@ -688,7 +648,7 @@ describe('StageStepEditor', () => {
 
                 // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                 // Until then use the more brittle `.mocks`
-                expect(stageStepReducer.mock.calls[8][1].detail).toEqual({ actionCategory: 2, parameters: [] });
+                expect(stageStepReducer.mock.calls[7][1].detail).toEqual({ actionCategory: 2, parameters: [] });
             });
         });
 
@@ -867,7 +827,7 @@ describe('StageStepEditor', () => {
 
                     // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                     // Until then use the more brittle `.mocks`
-                    expect(stageStepReducer.mock.calls[7][1].detail).toEqual({
+                    expect(stageStepReducer.mock.calls[6][1].detail).toEqual({
                         value: null,
                         error: null,
                         isReference: false
@@ -884,7 +844,7 @@ describe('StageStepEditor', () => {
 
                     // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                     // Until then use the more brittle `.mocks`
-                    expect(stageStepReducer.mock.calls[7][1].detail).toEqual({
+                    expect(stageStepReducer.mock.calls[6][1].detail).toEqual({
                         value: null,
                         error: null,
                         isReference: true
@@ -904,7 +864,7 @@ describe('StageStepEditor', () => {
 
                     // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                     // Until then use the more brittle `.mocks`
-                    expect(stageStepReducer.mock.calls[7][1].detail).toEqual({
+                    expect(stageStepReducer.mock.calls[6][1].detail).toEqual({
                         value: { stringValue: await mockUserRecordDevNamePromise },
                         error: '',
                         isReference: false
@@ -919,7 +879,7 @@ describe('StageStepEditor', () => {
 
                     // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                     // Until then use the more brittle `.mocks`
-                    expect(stageStepReducer.mock.calls[7][1].detail).toEqual({
+                    expect(stageStepReducer.mock.calls[6][1].detail).toEqual({
                         value: null,
                         error: '',
                         isReference: false
@@ -976,7 +936,7 @@ describe('StageStepEditor', () => {
                     // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                     // Until then use the more brittle `.mocks`
                     // Note that the action category says this is a change on the STEP - this is what we really test.
-                    expect(stageStepReducer.mock.calls[11][1].detail).toEqual({
+                    expect(stageStepReducer.mock.calls[9][1].detail).toEqual({
                         value: {
                             stringValue: comboboxEvent.detail.displayText
                         },
@@ -997,7 +957,7 @@ describe('StageStepEditor', () => {
 
                     // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                     // Until then use the more brittle `.mocks`
-                    expect(stageStepReducer.mock.calls[11][1].detail).toEqual({
+                    expect(stageStepReducer.mock.calls[9][1].detail).toEqual({
                         value: {
                             stringValue: itemSelectedEvent.detail.item.value
                         },
@@ -1039,7 +999,7 @@ describe('StageStepEditor', () => {
 
                 // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                 // Until then use the more brittle `.mocks`
-                expect(stageStepReducer.mock.calls[5][1].detail).toEqual({ actionCategory: 0, parameters: [] });
+                expect(stageStepReducer.mock.calls[4][1].detail).toEqual({ actionCategory: 0, parameters: [] });
                 expect(stageStepReducer).toHaveBeenCalledWith(nodeParams, new PropertyChangedEvent());
             });
 
@@ -1054,7 +1014,7 @@ describe('StageStepEditor', () => {
 
                 // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                 // Until then use the more brittle `.mocks`
-                expect(stageStepReducer.mock.calls[5][1].detail).toEqual({ actionCategory: 0, parameters: [] });
+                expect(stageStepReducer.mock.calls[4][1].detail).toEqual({ actionCategory: 0, parameters: [] });
                 expect(stageStepReducer).toHaveBeenCalledWith(nodeParams, new PropertyChangedEvent());
             });
 

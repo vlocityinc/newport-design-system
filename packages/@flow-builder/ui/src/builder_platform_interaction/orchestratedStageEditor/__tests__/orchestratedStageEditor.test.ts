@@ -15,17 +15,14 @@ import { orchestratedStageReducer } from '../orchestratedStageReducer';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import {
     DeleteOrchestrationActionEvent,
-    UpdateNodeEvent,
     PropertyChangedEvent,
     UpdateParameterItemEvent
 } from 'builder_platform_interaction/events';
 import { ORCHESTRATED_ACTION_CATEGORY } from 'builder_platform_interaction/events';
-import {
-    getErrorsFromHydratedElement,
-    mergeErrorsFromHydratedElement
-} from 'builder_platform_interaction/dataMutationLib';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { invocableActionsForOrchestrator } from 'serverData/GetAllInvocableActionsForType/invocableActionsForOrchestrator.json';
+import { updateAndValidateElementInPropertyEditor } from 'builder_platform_interaction/validation';
 
 jest.mock('../orchestratedStageReducer', () => {
     return {
@@ -47,8 +44,15 @@ jest.mock('builder_platform_interaction/dataMutationLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/dataMutationLib');
 
     return Object.assign('', actual, {
-        getErrorsFromHydratedElement: jest.fn(),
-        mergeErrorsFromHydratedElement: jest.fn((e) => e)
+        getErrorsFromHydratedElement: jest.fn()
+    });
+});
+
+jest.mock('builder_platform_interaction/validation', () => {
+    const actual = jest.requireActual('builder_platform_interaction/validation');
+
+    return Object.assign('', actual, {
+        updateAndValidateElementInPropertyEditor: jest.fn((_, e) => e)
     });
 });
 
@@ -133,9 +137,11 @@ describe('OrchestratedStageEditor', () => {
     });
 
     describe('node', () => {
-        describe('mergeErrorsFromHydratedElement', () => {
+        describe('updateAndValidateElementInPropertyEditor', () => {
             it('is called for new node', () => {
-                expect(mergeErrorsFromHydratedElement).toHaveBeenCalledWith(nodeParams, undefined);
+                expect(updateAndValidateElementInPropertyEditor.mock.calls[0][0]).toStrictEqual(undefined);
+                expect(updateAndValidateElementInPropertyEditor.mock.calls[0][1]).toStrictEqual(nodeParams);
+                expect(updateAndValidateElementInPropertyEditor.mock.calls[0][3]).toStrictEqual(['stageSteps']);
             });
 
             it('is called for existing node', async () => {
@@ -158,58 +164,9 @@ describe('OrchestratedStageEditor', () => {
                 };
                 editor.node = newNode;
 
-                expect(mergeErrorsFromHydratedElement).toHaveBeenCalledWith(newNode, nodeParams);
-            });
-        });
-
-        describe('hasError state changes', () => {
-            it('sets hasError from undefined to true, then from true to false', async () => {
-                await ticks(1);
-
-                expect.assertions(2);
-                const eventCallback = jest.fn();
-                editor.addEventListener(UpdateNodeEvent.EVENT_NAME, eventCallback);
-
-                let newNode = {
-                    guid: 'someOtherGuid',
-                    name: 'someOtherName',
-                    label: 'someLabel',
-                    description: 'someDescription',
-                    exitAction: {
-                        actionName: {
-                            value: 'someActionName'
-                        },
-                        actionType: {
-                            value: 'someActionType'
-                        }
-                    },
-                    config: {
-                        hasError: true
-                    }
-                };
-
-                editor.node = newNode;
-                expect(eventCallback.mock.calls[0][0].detail.node).toEqual(newNode);
-
-                newNode = {
-                    guid: 'someOtherGuid',
-                    name: 'someOtherName',
-                    label: 'someLabel',
-                    description: 'someDescription',
-                    exitAction: {
-                        actionName: {
-                            value: 'someActionName'
-                        },
-                        actionType: {
-                            value: 'someActionType'
-                        }
-                    },
-                    config: {
-                        hasError: false
-                    }
-                };
-                editor.node = newNode;
-                expect(eventCallback.mock.calls[1][0].detail.node).toEqual(newNode);
+                expect(updateAndValidateElementInPropertyEditor.mock.calls[1][0]).toStrictEqual(nodeParams);
+                expect(updateAndValidateElementInPropertyEditor.mock.calls[1][1]).toStrictEqual(newNode);
+                expect(updateAndValidateElementInPropertyEditor.mock.calls[1][3]).toStrictEqual(['stageSteps']);
             });
         });
 
@@ -247,52 +204,6 @@ describe('OrchestratedStageEditor', () => {
             expect(labelDescription.label).toBe(nodeParams.label);
             expect(labelDescription.devName).toBe(nodeParams.name);
             expect(labelDescription.description).toBe(nodeParams.description);
-        });
-
-        describe('validation', () => {
-            it('is not called if isNew', () => {
-                const newNode = {
-                    guid: 'someOtherGuid',
-                    name: 'someOtherName',
-                    label: 'someLabel',
-                    description: 'someDescription',
-                    exitAction: {
-                        actionName: {
-                            value: 'someActionName'
-                        },
-                        actionType: {
-                            value: 'someActionType'
-                        }
-                    },
-                    exitActionInputParameters: mockInputParameters,
-                    isNew: true
-                };
-                editor.node = newNode;
-
-                // This is brittle, but there's not a better way without
-                // converting VALIDATE_ALL to an actual event class
-                expect(orchestratedStageReducer).toHaveBeenCalledTimes(3);
-            });
-            it('is called if !isNew', () => {
-                const newNode = {
-                    guid: 'someOtherGuid',
-                    name: 'someOtherName',
-                    label: 'someLabel',
-                    description: 'someDescription',
-                    exitAction: {
-                        actionName: {
-                            value: 'someActionName'
-                        },
-                        actionType: {
-                            value: 'someActionType'
-                        }
-                    },
-                    exitActionInputParameters: mockInputParameters
-                };
-                editor.node = newNode;
-                expect(orchestratedStageReducer.mock.calls[3][0]).toEqual(newNode);
-                expect(orchestratedStageReducer.mock.calls[3][1]).toEqual(new CustomEvent(VALIDATE_ALL));
-            });
         });
     });
 

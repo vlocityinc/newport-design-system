@@ -1,7 +1,13 @@
 // @ts-nocheck
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
-import { updateProperties, set, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import {
+    updateProperties,
+    set,
+    getValueFromHydratedItem,
+    removeErrorsForUnchangedSourceWithNoError
+} from 'builder_platform_interaction/dataMutationLib';
 import { getDuplicateDevNameElements } from 'builder_platform_interaction/storeUtils';
+import { UpdateNodeEvent } from 'builder_platform_interaction/events';
 
 /**
  * @constant defaultRules - map of propertyName to validation rules
@@ -141,3 +147,53 @@ export class Validation {
         return nodeElement;
     }
 }
+
+/**
+ * Update and validate the element in the property editor
+ *
+ * @param oldElement - the previous element in the property edtior
+ * @param newValue - an element containing new values from the store
+ * @param propertEditorComponent - the property editor component
+ * @param elementBlackListFields List of keys in the element not to be checked
+ * @returns an updated and validated element
+ */
+export const updateAndValidateElementInPropertyEditor = (
+    oldElement,
+    newValue,
+    propertEditorComponent,
+    elementBlackListFields: string[] = []
+) => {
+    if (!oldElement && newValue.isNew) {
+        // first time opens property editor, no validation
+        return newValue;
+    }
+
+    let newHasError = propertEditorComponent.validate().length > 0;
+    let validatedElement = propertEditorComponent.getNode();
+
+    // when isNew is false, we don't want to set it back to true when undo/redo
+    if (oldElement?.isNew === false) {
+        validatedElement = { ...validatedElement, isNew: false };
+    }
+
+    // when element is new, we need to remove validation on fields that user did not touch
+    if (validatedElement.isNew) {
+        validatedElement = removeErrorsForUnchangedSourceWithNoError(
+            validatedElement,
+            oldElement,
+            elementBlackListFields
+        );
+        newHasError = validatedElement.config.hasError;
+    }
+
+    // when hasError value changed, we need to update the node in the store
+    if (newHasError !== newValue.config?.hasError) {
+        validatedElement = {
+            ...validatedElement,
+            config: { ...validatedElement.config, hasError: newHasError }
+        };
+        propertEditorComponent.dispatchEvent(new UpdateNodeEvent(validatedElement));
+    }
+
+    return validatedElement;
+};

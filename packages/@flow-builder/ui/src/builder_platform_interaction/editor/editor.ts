@@ -2049,7 +2049,8 @@ export default class Editor extends LightningElement {
      *
      * @param clearActiveElement - indicates whether or not to clear the canvas element being actively edited
      */
-    handleClosePropertyEditor(clearActiveElement = true) {
+    async handleClosePropertyEditor(clearActiveElement = true) {
+        await this.setElementBeingEditedInPanelAsNotNew();
         this.showPropertyEditorRightPanel = false;
         this.propertyEditorParams = null;
         this.elementBeingEditedInPanel = null;

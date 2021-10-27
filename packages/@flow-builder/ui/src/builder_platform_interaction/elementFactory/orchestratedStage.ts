@@ -59,6 +59,7 @@ export interface StageStep extends UI.ChildElement {
     entryAction: InvocableAction;
     // Used by the UI to keep track of errors on the action between displays
     // of the property editor
+    // Need a better way to handle error from child component: W-10088192
     entryActionError?: string | ValueWithError;
 
     entryActionName: string;
@@ -68,6 +69,7 @@ export interface StageStep extends UI.ChildElement {
     action: InvocableAction;
     // Used by the UI to keep track of errors on the action between displays
     // of the property editor
+    // Need a better way to handle error from child component: W-10088192
     actionError?: string | ValueWithError;
 
     // Present when coming from the metadata, but not in the ui StageStep
@@ -80,6 +82,7 @@ export interface StageStep extends UI.ChildElement {
     exitAction: InvocableAction;
     // Used by the UI to keep track of errors on the action between displays
     // of the property editor
+    // Need a better way to handle error from child component: W-10088192
     exitActionError?: string | ValueWithError;
 
     exitActionName: string;
@@ -100,6 +103,11 @@ export interface OrchestratedStage extends UI.CanvasElement {
     childReferences: UI.ChildReference[];
 
     exitAction: InvocableAction;
+    // Used by the UI to keep track of errors on the action between displays
+    // of the property editor
+    // Need a better way to handle error from child component: W-10088192
+    exitActionError?: string | ValueWithError;
+
     exitActionName: string;
     exitActionType: string;
     exitActionInputParameters: ParameterListRowItem[];
@@ -140,6 +148,7 @@ export function createOrchestratedStageWithItems(existingStage: OrchestratedStag
     newStage.elementType = elementType;
     newStage.dataType = FLOW_DATA_TYPE.ORCHESTRATED_STAGE.value;
     newStage.canHaveCanvasEmbeddedElement = true;
+    newStage.exitActionError = existingStage.exitActionError;
 
     return newStage;
 }
@@ -272,7 +281,8 @@ export function createOrchestratedStageWithItemReferencesWhenUpdatingFromPropert
     orchestratedStage: OrchestratedStage
 ) {
     const newOrchestratedStage = baseCanvasElement(orchestratedStage);
-    const { stageSteps, exitActionInputParameters, exitAction, exitActionName, exitActionType } = orchestratedStage;
+    const { stageSteps, exitActionInputParameters, exitAction, exitActionError, exitActionName, exitActionType } =
+        orchestratedStage;
 
     const exitActionCall = createActionCallHelper(exitAction, exitActionName, exitActionType);
 
@@ -291,6 +301,7 @@ export function createOrchestratedStageWithItemReferencesWhenUpdatingFromPropert
         maxConnections: 1,
         exitActionInputParameters,
         exitAction: exitActionCall ? exitActionCall : null,
+        exitActionError,
         exitActionName: exitActionCall.actionName,
         exitActionType: exitActionCall.actionType,
         canHaveCanvasEmbeddedElement: true

@@ -35,7 +35,9 @@ import {
     removeAllUnsetParameters,
     removeUnsetParameters,
     updateParameterItem,
-    deleteParameterItem
+    deleteParameterItem,
+    mergeActionErrorToActionName,
+    validateProperty
 } from 'builder_platform_interaction/orchestratedStageAndStepReducerUtils';
 import { Validation } from 'builder_platform_interaction/validation';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
@@ -44,15 +46,9 @@ const { format } = commonUtils;
 
 const validation = new Validation();
 
-const validateProperty = (state, event) => {
-    event.detail.error =
-        event.detail.error === null
-            ? validation.validateProperty(event.detail.propertyName, event.detail.value, null)
-            : event.detail.error;
-};
 const itemPropertyChanged = (state: StageStep, event: CustomEvent): StageStep => {
     event.detail.guid = state.guid;
-    validateProperty(state, event);
+    validateProperty(event, validation);
     return updateProperties(state, {
         [event.detail.propertyName]: {
             error: event.detail.error,
@@ -280,6 +276,7 @@ const deleteDeterminationAction = (state: StageStep, event: DeleteOrchestrationA
     if (src === ORCHESTRATED_ACTION_CATEGORY.ENTRY) {
         return updateProperties(state, {
             entryAction: null,
+            entryActionError: null,
             entryActionName: null,
             entryActionType: null,
             entryActionInputParameters: []
@@ -287,6 +284,7 @@ const deleteDeterminationAction = (state: StageStep, event: DeleteOrchestrationA
     } else if (src === ORCHESTRATED_ACTION_CATEGORY.EXIT) {
         return updateProperties(state, {
             exitAction: null,
+            exitActionEror: null,
             exitActionName: null,
             exitActionType: null,
             exitActionInputParameters: []
@@ -356,6 +354,13 @@ export const stageStepReducer = (state: StageStep, event: CustomEvent): StageSte
             newState = updateRequiresAsyncProcessingField(state, event);
             break;
         case VALIDATE_ALL:
+            state = updateProperties(state, { action: mergeActionErrorToActionName(state.action, state.actionError) });
+            state = updateProperties(state, {
+                entryAction: mergeActionErrorToActionName(state.entryAction, state.entryActionError)
+            });
+            state = updateProperties(state, {
+                exitAction: mergeActionErrorToActionName(state.exitAction, state.exitActionError)
+            });
             return validation.validateAll(state, getRules());
         case MERGE_WITH_PARAMETERS:
             return mergeParameters(state, event.detail.parameters, event.detail.actionCategory);

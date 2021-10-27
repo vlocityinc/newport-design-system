@@ -27,7 +27,7 @@ jest.mock('builder_platform_interaction/orchestratedStageAndStepReducerUtils', (
 });
 
 jest.mock('builder_platform_interaction/validation', () => {
-    const mockValidateAll = jest.fn();
+    const mockValidateAll = jest.fn((e) => e);
     const mockValidateProperty = jest.fn(() => {
         return null;
     });
@@ -107,7 +107,7 @@ describe('OrchestratedStageReducer', () => {
     });
 
     describe('actionChanged', () => {
-        it('updates the action', () => {
+        it('updates the exit evaluation flow action', () => {
             const event = {
                 type: OrchestrationActionValueChangedEvent.EVENT_NAME,
                 detail: {
@@ -116,7 +116,7 @@ describe('OrchestratedStageReducer', () => {
                         actionType: ACTION_TYPE.EVALUATION_FLOW
                     },
                     error: null,
-                    actionCategory: ORCHESTRATED_ACTION_CATEGORY.STEP
+                    actionCategory: ORCHESTRATED_ACTION_CATEGORY.EXIT
                 }
             };
 
@@ -125,10 +125,10 @@ describe('OrchestratedStageReducer', () => {
             expect(updateProperties).toHaveBeenCalledWith(originalState, {
                 exitAction: {
                     elementType: ELEMENT_TYPE.ACTION_CALL,
-                    actionType: ACTION_TYPE.EVALUATION_FLOW,
+                    actionType: event.detail.value.actionType,
                     actionName: event.detail.value.actionName
                 },
-                exitActionName: event.detail.value.actionName,
+                exitActionError: event.detail.error,
                 exitActionInputParameters: [],
                 exitActionOutputParameters: []
             });
@@ -291,15 +291,36 @@ describe('OrchestratedStageReducer', () => {
         });
     });
 
-    it('VALIDATE_ALL calls validateAll', () => {
-        const event = new CustomEvent(VALIDATE_ALL, {});
-        orchestratedStageReducer(originalStateWithExitAction, event);
+    describe('VALIDATE_ALL', () => {
+        it('VALIDATE_ALL calls validateAll', () => {
+            const event = new CustomEvent(VALIDATE_ALL, {});
+            orchestratedStageReducer(originalStateWithExitAction, event);
 
-        const validation = new Validation();
-        expect(validation.validateAll).toHaveBeenCalledWith(
-            originalStateWithExitAction,
-            new Validation().finalizedRules
-        );
+            const validation = new Validation();
+            expect(validation.validateAll).toHaveBeenCalledWith(
+                originalStateWithExitAction,
+                new Validation().finalizedRules
+            );
+        });
+
+        it('merge exitActionError to the actionName of exitAction', () => {
+            const state = {
+                exitAction: {
+                    actionName: {
+                        value: 'a',
+                        error: null
+                    }
+                },
+                exitActionError: {
+                    value: 'someError',
+                    erorr: null
+                }
+            };
+            const event = new CustomEvent(VALIDATE_ALL, {});
+            const newState = orchestratedStageReducer(state, event);
+
+            expect(newState.exitAction.actionName.error).toEqual('someError');
+        });
     });
 
     describe('updateParameterItem', () => {

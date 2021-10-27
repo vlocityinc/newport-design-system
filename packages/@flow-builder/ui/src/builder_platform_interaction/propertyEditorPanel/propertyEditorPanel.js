@@ -2,7 +2,6 @@
 import { LightningElement, track, api } from 'lwc';
 
 import { ClosePropertyEditorEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
-import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { LABELS } from './propertyEditorPanelLabels';
 import { PROPERTY_EDITOR_PANEL_SIZE } from 'builder_platform_interaction/elementConfig';
 import { classSet } from 'lightning/utils';
@@ -83,11 +82,6 @@ export default class PropertyEditorPanel extends LightningElement {
     }
 
     handleClose() {
-        // dummy updateProperties to trigger set node
-        this.element = updateProperties(this.element, {
-            config: this.element?.config
-        });
-
         /* Return focus on the canvas element */
         const returnFocusOnElement = new CustomEvent('returnfocus', { detail: { elementGuid: this.element?.guid } });
         this.dispatchEvent(returnFocusOnElement);

@@ -10,9 +10,9 @@ import {
     ListItemInteractionEvent
 } from 'builder_platform_interaction/events';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
-import { mergeErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { updateAndValidateElementInPropertyEditor } from 'builder_platform_interaction/validation';
 
 let mockNewState;
 
@@ -34,9 +34,16 @@ jest.mock('builder_platform_interaction/dataMutationLib', () => {
         getErrorsFromHydratedElement: jest.fn(() => {
             return ['some error'];
         }),
-        mergeErrorsFromHydratedElement: jest.fn((e) => e),
         updateProperties: actual.updateProperties
     };
+});
+
+jest.mock('builder_platform_interaction/validation', () => {
+    const actual = jest.requireActual('builder_platform_interaction/validation');
+
+    return Object.assign('', actual, {
+        updateAndValidateElementInPropertyEditor: jest.fn((_, e) => e)
+    });
 });
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
@@ -145,10 +152,11 @@ const createComponentForTest = (
 };
 
 describe('Decision Editor', () => {
-    describe('mergeErrorsFromHydratedElement', () => {
+    describe('updateAndValidateElementInPropertyEditor', () => {
         it('is called for new node', () => {
             createComponentForTest(decisionWithTwoOutcomes);
-            expect(mergeErrorsFromHydratedElement).toHaveBeenCalledWith(decisionWithTwoOutcomes, undefined);
+            expect(updateAndValidateElementInPropertyEditor.mock.calls[0][0]).toStrictEqual(undefined);
+            expect(updateAndValidateElementInPropertyEditor.mock.calls[0][1]).toStrictEqual(decisionWithTwoOutcomes);
         });
 
         it('is called for existing node', async () => {
@@ -157,35 +165,8 @@ describe('Decision Editor', () => {
 
             decisionEditor.node = decisionWithOneOutcome;
 
-            expect(mergeErrorsFromHydratedElement).toHaveBeenCalledWith(
-                decisionWithOneOutcome,
-                decisionWithTwoOutcomes
-            );
-        });
-    });
-
-    describe('hasError state changes', () => {
-        it('sets hashError from undefined to true, then from true to false', async () => {
-            const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
-            await ticks(1);
-
-            expect.assertions(2);
-            const eventCallback = jest.fn();
-            decisionEditor.addEventListener(UpdateNodeEvent.EVENT_NAME, eventCallback);
-
-            let newNode = {
-                config: { hasError: true },
-                outcomes: [{ guid: 'outcome1' }]
-            };
-            decisionEditor.node = newNode;
-            expect(eventCallback.mock.calls[0][0].detail.node).toEqual(newNode);
-
-            newNode = {
-                config: { hasError: false },
-                outcomes: [{ guid: 'outcome1' }]
-            };
-            decisionEditor.node = newNode;
-            expect(eventCallback.mock.calls[1][0].detail.node).toEqual(newNode);
+            expect(updateAndValidateElementInPropertyEditor.mock.calls[1][0]).toStrictEqual(decisionWithTwoOutcomes);
+            expect(updateAndValidateElementInPropertyEditor.mock.calls[1][1]).toStrictEqual(decisionWithOneOutcome);
         });
     });
 

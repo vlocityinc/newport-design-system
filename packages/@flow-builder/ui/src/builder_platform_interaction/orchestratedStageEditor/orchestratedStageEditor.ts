@@ -2,7 +2,6 @@ import { LightningElement, api } from 'lwc';
 import {
     getErrorsFromHydratedElement,
     getValueFromHydratedItem,
-    mergeErrorsFromHydratedElement,
     ValueWithError
 } from 'builder_platform_interaction/dataMutationLib';
 import {
@@ -28,6 +27,7 @@ import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serv
 import { removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { FLOW_AUTOMATIC_OUTPUT_HANDLING } from 'builder_platform_interaction/processTypeLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { updateAndValidateElementInPropertyEditor } from 'builder_platform_interaction/validation';
 
 enum EXIT_CRITERIA {
     ON_STEP_COMPLETE = 'on_step_complete',
@@ -113,16 +113,9 @@ export default class OrchestratedStageEditor extends LightningElement {
     }
 
     set node(newValue) {
-        const oldHasError = this.element?.config?.hasError;
-        this.element = mergeErrorsFromHydratedElement(newValue, this.element);
-
-        if (!this.element) {
-            return;
-        }
-
-        if (this.element?.config?.hasError !== oldHasError) {
-            this.dispatchEvent(new UpdateNodeEvent(this.element));
-        }
+        const oldElement = this.element;
+        this.element = newValue;
+        this.element = updateAndValidateElementInPropertyEditor(oldElement, newValue, this, ['stageSteps']);
 
         // infer selected Exit Criteria on-load
         if (!this.selectedExitCriteria) {
@@ -135,18 +128,6 @@ export default class OrchestratedStageEditor extends LightningElement {
 
         if (this.selectedExitAction?.actionName) {
             this.setActionParameters(this.selectedExitAction);
-        }
-
-        // Reopening existing elements should always validate
-        // This has to be done manually in every property editor
-        if (!newValue?.isNew) {
-            this.validate();
-            // rather than the error from validation.  This is needed because validation
-            // cannot know if an invalid action name has been entered.  It only checks
-            // for null or ''
-            if (!this.exitActionErrorMessage) {
-                this.exitActionErrorMessage = this.element.exitAction.actionName.error || '';
-            }
         }
     }
 
@@ -177,7 +158,9 @@ export default class OrchestratedStageEditor extends LightningElement {
     }
 
     get showExitParameterList(): boolean {
-        return this.selectedExitAction?.actionName && this.exitActionParameterListConfig;
+        return (
+            this.selectedExitAction?.actionName && !this.exitActionErrorMessage && !!this.exitActionParameterListConfig
+        );
     }
 
     /**
@@ -196,12 +179,11 @@ export default class OrchestratedStageEditor extends LightningElement {
     }
 
     get selectedExitAction(): InvocableAction | null {
-        if (
-            this.element &&
-            this.element.exitAction &&
-            this.element.exitAction.actionName &&
-            this.element.exitAction.actionType
-        ) {
+        if (this.element?.exitAction?.actionName.error) {
+            this.exitActionErrorMessage = this.element?.exitAction.actionName.error;
+        }
+
+        if (this.element && this.element.exitAction && this.element.exitAction.actionName.value !== '') {
             return {
                 elementType: ELEMENT_TYPE.ACTION_CALL,
                 actionType: this.element.exitAction.actionType.value,
@@ -324,6 +306,7 @@ export default class OrchestratedStageEditor extends LightningElement {
     }
 
     async handleExitActionSelected(e: ValueChangedEvent<InvocableAction>) {
+        e.detail.value.actionType = ACTION_TYPE.EVALUATION_FLOW;
         const orchEvt = new OrchestrationActionValueChangedEvent(
             ORCHESTRATED_ACTION_CATEGORY.EXIT,
             e.detail.value,

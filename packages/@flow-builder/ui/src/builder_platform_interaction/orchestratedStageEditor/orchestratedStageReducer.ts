@@ -14,13 +14,15 @@ import {
     validateParameter
 } from 'builder_platform_interaction/calloutEditorLib';
 import { InvocableAction } from 'builder_platform_interaction/invocableActionLib';
-import { ACTION_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     mergeParameters,
     updateParameterItem,
     deleteParameterItem,
     removeUnsetParameters,
-    removeAllUnsetParameters
+    removeAllUnsetParameters,
+    mergeActionErrorToActionName,
+    validateProperty
 } from 'builder_platform_interaction/orchestratedStageAndStepReducerUtils';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { Validation } from 'builder_platform_interaction/validation';
@@ -35,19 +37,6 @@ const validationRules = {
 const validation = new Validation(validationRules);
 
 /**
- * Call validateProperty for the given property
- *
- * @param state Element state
- * @param event specifies the property to validate
- */
-const validateProperty = (state, event) => {
-    event.detail.error =
-        event.detail.error === null
-            ? validation.validateProperty(event.detail.propertyName, event.detail.value, null)
-            : event.detail.error;
-};
-
-/**
  * Update a property (zpi name/label)
  *
  * @param state Element state
@@ -57,7 +46,7 @@ const validateProperty = (state, event) => {
 const orchestratedStagePropertyChanged = (state: OrchestratedStage, event: CustomEvent): OrchestratedStage => {
     event.detail.guid = state.guid;
 
-    validateProperty(state, event);
+    validateProperty(event, validation);
 
     return updateProperties(state, {
         [event.detail.propertyName]: {
@@ -82,6 +71,7 @@ const deleteDeterminationAction = (
     if (src === ORCHESTRATED_ACTION_CATEGORY.EXIT) {
         return updateProperties(state, {
             exitAction: null,
+            exitActionError: null,
             exitActionName: null,
             exitActionType: null,
             exitActionInputParameters: []
@@ -104,15 +94,25 @@ const actionChanged = (
     if (event.detail.value) {
         const actionName: string = (<InvocableAction>event.detail.value).actionName;
 
-        const action = hydrateWithErrors({
+        let action = hydrateWithErrors({
             elementType: ELEMENT_TYPE.ACTION_CALL,
             actionType: event.detail.value?.actionType,
             actionName
         });
 
+        if (event.detail.error) {
+            action = {
+                ...action,
+                actionName: {
+                    value: event.detail.value?.displayText,
+                    error: event.detail.error
+                }
+            };
+        }
+
         return updateProperties(state, {
             exitAction: action,
-            exitActionName: actionName,
+            exitActionError: event.detail.error,
             // Clear all parameters when changing action
             exitActionInputParameters: [],
             exitActionOutputParameters: []
@@ -152,6 +152,9 @@ export const orchestratedStageReducer = (state: OrchestratedStage, event: Custom
             newState = deleteParameterItem(state, event.detail);
             break;
         case VALIDATE_ALL:
+            state = updateProperties(state, {
+                exitAction: mergeActionErrorToActionName(state.exitAction, state.exitActionError)
+            });
             return validation.validateAll(state, validation.finalizedRules);
         case MERGE_WITH_PARAMETERS:
             return mergeParameters(state, event.detail.parameters, ORCHESTRATED_ACTION_CATEGORY.EXIT);

@@ -7,7 +7,9 @@ import {
     updateParameterItemByProperty,
     deleteParameterItemByProperty
 } from 'builder_platform_interaction/calloutEditorLib';
-import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
+import { updateProperties, ValueWithError } from 'builder_platform_interaction/dataMutationLib';
+import { Validation } from 'builder_platform_interaction/validation';
+import { InvocableAction } from 'builder_platform_interaction/invocableActionLib';
 
 export enum PARAMETER_PROPERTY {
     INPUT = 'inputParameters',
@@ -123,4 +125,41 @@ export const removeAllUnsetParameters = <T extends OrchestratedStage | StageStep
         newState = removeUnsetParameters(newState, inputParam.rowIndex);
     });
     return newState;
+};
+
+/**
+ * Validation cannot know if an invalid action name has been entered. Need to merge the action error to action name.
+ *
+ * @param action The invocable action
+ * @param actionError The action error needs to be merged
+ * @returns New action with action error merged to action name
+ */
+export const mergeActionErrorToActionName = (
+    action: InvocableAction,
+    actionError: string | ValueWithError | undefined
+): InvocableAction => {
+    return action
+        ? {
+              ...action,
+              actionName: action.actionName
+                  ? {
+                        value: action.actionName.value,
+                        error: action.actionName.error || (actionError as ValueWithError)?.value || null
+                    }
+                  : action.actionName
+          }
+        : action;
+};
+
+/**
+ * Call validateProperty for the given property
+ *
+ * @param event specifies the property to validate
+ * @param validation validation object
+ */
+export const validateProperty = (event: CustomEvent, validation: Validation) => {
+    event.detail.error =
+        event.detail.error === null
+            ? validation.validateProperty(event.detail.propertyName, event.detail.value, null)
+            : event.detail.error;
 };

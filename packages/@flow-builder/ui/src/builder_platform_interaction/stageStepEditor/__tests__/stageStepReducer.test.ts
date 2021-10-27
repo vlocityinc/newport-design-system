@@ -101,7 +101,7 @@ jest.mock('builder_platform_interaction/orchestratedStageAndStepReducerUtils', (
 });
 
 jest.mock('builder_platform_interaction/validation', () => {
-    const mockValidateAll = jest.fn();
+    const mockValidateAll = jest.fn((e) => e);
     const mockValidateProperty = jest.fn(() => {
         return null;
     });
@@ -308,7 +308,7 @@ describe('StageStep Reducer', () => {
     });
 
     describe('OrchestrationActionValueChangedEvent', () => {
-        it('updates the action', () => {
+        it('updates the interactive step action', () => {
             const event = {
                 type: OrchestrationActionValueChangedEvent.EVENT_NAME,
                 detail: {
@@ -326,7 +326,7 @@ describe('StageStep Reducer', () => {
             expect(updateProperties).toHaveBeenCalledWith(originalState, {
                 action: {
                     elementType: ELEMENT_TYPE.ACTION_CALL,
-                    actionType: ACTION_TYPE.STEP_INTERACTIVE,
+                    actionType: event.detail.value.actionType,
                     actionName: event.detail.value.actionName
                 },
                 actionError: null,
@@ -335,13 +335,13 @@ describe('StageStep Reducer', () => {
             });
         });
 
-        it('updates the autolaunched step action', () => {
+        it('updates the background step action', () => {
             const event = {
                 type: OrchestrationActionValueChangedEvent.EVENT_NAME,
                 detail: {
                     value: {
                         actionName: 'someAction',
-                        actionType: ACTION_TYPE.ORCHESTRATOR_AUTOLAUNCHED_FLOW
+                        actionType: ACTION_TYPE.STEP_BACKGROUND
                     },
                     error: null,
                     actionCategory: ORCHESTRATED_ACTION_CATEGORY.STEP
@@ -353,12 +353,66 @@ describe('StageStep Reducer', () => {
             expect(updateProperties).toHaveBeenCalledWith(originalState, {
                 action: {
                     elementType: ELEMENT_TYPE.ACTION_CALL,
-                    actionType: ACTION_TYPE.ORCHESTRATOR_AUTOLAUNCHED_FLOW,
+                    actionType: event.detail.value.actionType,
                     actionName: event.detail.value.actionName
                 },
                 actionError: null,
                 inputParameters: [],
                 outputParameters: []
+            });
+        });
+
+        it('updates the entry evaluation flow action', () => {
+            const event = {
+                type: OrchestrationActionValueChangedEvent.EVENT_NAME,
+                detail: {
+                    value: {
+                        actionName: 'someAction',
+                        actionType: ACTION_TYPE.EVALUATION_FLOW
+                    },
+                    error: null,
+                    actionCategory: ORCHESTRATED_ACTION_CATEGORY.ENTRY
+                }
+            };
+
+            stageStepReducer(originalState, event);
+
+            expect(updateProperties).toHaveBeenCalledWith(originalState, {
+                entryAction: {
+                    elementType: ELEMENT_TYPE.ACTION_CALL,
+                    actionType: event.detail.value.actionType,
+                    actionName: event.detail.value.actionName
+                },
+                entryActionError: null,
+                entryActionInputParameters: [],
+                outputParameters: undefined
+            });
+        });
+
+        it('updates the exit evaluation flow action', () => {
+            const event = {
+                type: OrchestrationActionValueChangedEvent.EVENT_NAME,
+                detail: {
+                    value: {
+                        actionName: 'someAction',
+                        actionType: ACTION_TYPE.EVALUATION_FLOW
+                    },
+                    error: null,
+                    actionCategory: ORCHESTRATED_ACTION_CATEGORY.EXIT
+                }
+            };
+
+            stageStepReducer(originalState, event);
+
+            expect(updateProperties).toHaveBeenCalledWith(originalState, {
+                exitAction: {
+                    elementType: ELEMENT_TYPE.ACTION_CALL,
+                    actionType: event.detail.value.actionType,
+                    actionName: event.detail.value.actionName
+                },
+                exitActionError: null,
+                exitActionInputParameters: [],
+                outputParameters: undefined
             });
         });
 
@@ -880,12 +934,73 @@ describe('StageStep Reducer', () => {
         });
     });
 
-    it('VALIDATE_ALL calls validateAll', () => {
-        const event = new CustomEvent(VALIDATE_ALL, {});
-        stageStepReducer(originalStateWithEntryExitActions, event);
+    describe('VALIDATE_ALL', () => {
+        it('VALIDATE_ALL calls validateAll', () => {
+            const event = new CustomEvent(VALIDATE_ALL, {});
+            stageStepReducer(originalStateWithEntryExitActions, event);
 
-        const validation = new Validation();
-        expect(validation.validateAll).toHaveBeenCalledWith(originalStateWithEntryExitActions, {});
+            const validation = new Validation();
+            expect(validation.validateAll).toHaveBeenCalledWith(originalStateWithEntryExitActions, {});
+        });
+
+        describe('merge action error to action name', () => {
+            it('merge entryActionError to the actionName of entryAction', () => {
+                const state = {
+                    entryAction: {
+                        actionName: {
+                            value: 'a',
+                            error: null
+                        }
+                    },
+                    entryActionError: {
+                        value: 'someError',
+                        erorr: null
+                    }
+                };
+                const event = new CustomEvent(VALIDATE_ALL, {});
+                const newState = stageStepReducer(state, event);
+
+                expect(newState.entryAction.actionName.error).toEqual('someError');
+            });
+
+            it('merge actionError to the actionName of action', () => {
+                const state = {
+                    action: {
+                        actionName: {
+                            value: 'a',
+                            error: null
+                        }
+                    },
+                    actionError: {
+                        value: 'someError',
+                        erorr: null
+                    }
+                };
+                const event = new CustomEvent(VALIDATE_ALL, {});
+                const newState = stageStepReducer(state, event);
+
+                expect(newState.action.actionName.error).toEqual('someError');
+            });
+
+            it('merge exitActionError to the actionName of exitAction', () => {
+                const state = {
+                    exitAction: {
+                        actionName: {
+                            value: 'a',
+                            error: null
+                        }
+                    },
+                    exitActionError: {
+                        value: 'someError',
+                        erorr: null
+                    }
+                };
+                const event = new CustomEvent(VALIDATE_ALL, {});
+                const newState = stageStepReducer(state, event);
+
+                expect(newState.exitAction.actionName.error).toEqual('someError');
+            });
+        });
     });
 
     describe('deleteParameterItem', () => {

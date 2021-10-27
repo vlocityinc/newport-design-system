@@ -9,9 +9,8 @@ import {
 import { query, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import RecordChangeTriggerEditor from '../recordChangeTriggerEditor';
 import { UpdateNodeEvent } from 'builder_platform_interaction/events';
-import { mergeErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
-import { Validation } from 'builder_platform_interaction/validation';
+import { updateAndValidateElementInPropertyEditor } from 'builder_platform_interaction/validation';
 
 const { AFTER_SAVE, BEFORE_DELETE, BEFORE_SAVE } = FLOW_TRIGGER_TYPE;
 const { CREATE, UPDATE, DELETE } = FLOW_TRIGGER_SAVE_TYPE;
@@ -51,12 +50,12 @@ jest.mock('builder_platform_interaction/dataMutationLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/dataMutationLib');
 
     return Object.assign({}, actual, {
-        mergeErrorsFromHydratedElement: jest.fn((e) => e),
         getErrorsFromHydratedElement: jest.fn()
     });
 });
 
 jest.mock('builder_platform_interaction/validation', () => {
+    const actual = jest.requireActual('builder_platform_interaction/validation');
     const mockValidateAll = jest.fn((state) => state);
     const mockValidateProperty = jest.fn(() => {
         return null;
@@ -69,9 +68,10 @@ jest.mock('builder_platform_interaction/validation', () => {
         };
     };
 
-    return {
-        Validation
-    };
+    return Object.assign('', actual, {
+        Validation,
+        updateAndValidateElementInPropertyEditor: jest.fn((_, e) => e)
+    });
 });
 
 function createComponentForTest(node) {
@@ -121,63 +121,34 @@ describe('record-change-trigger-editor', () => {
         getProcessType.mockReturnValue(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
     });
 
-    describe('mergeErrorsFromHydratedElement', () => {
+    describe('updateAndValidateElementInPropertyEditor', () => {
         const startElement = recordChangeTriggerElement(BEFORE_SAVE, CREATE);
 
-        it('is called for new node', () => {
+        it('is called for new node if ProcessType is Orchestrator', () => {
+            getProcessType.mockReturnValueOnce(FLOW_PROCESS_TYPE.ORCHESTRATOR);
             createComponentForTest(startElement);
-            expect(mergeErrorsFromHydratedElement).toHaveBeenCalledWith(startElement, undefined);
+            expect(updateAndValidateElementInPropertyEditor.mock.calls[0][0]).toStrictEqual(undefined);
+            expect(updateAndValidateElementInPropertyEditor.mock.calls[0][1]).toStrictEqual(startElement);
         });
 
-        it('is called for existing node', async () => {
+        it('is called for existing node if ProcessType is Orchestrator', async () => {
+            getProcessType.mockReturnValueOnce(FLOW_PROCESS_TYPE.ORCHESTRATOR);
             const startElementEditor = createComponentForTest(startElement);
             await ticks(1);
 
             const newNode = recordChangeTriggerElement(AFTER_SAVE, CREATE);
-            startElementEditor.node = newNode;
-
-            expect(mergeErrorsFromHydratedElement).toHaveBeenCalledWith(newNode, startElement);
-        });
-    });
-
-    describe('validation', () => {
-        it('is called for new node if ProcessType is Orchestrator', () => {
             getProcessType.mockReturnValueOnce(FLOW_PROCESS_TYPE.ORCHESTRATOR);
+            startElementEditor.node = newNode;
 
+            expect(updateAndValidateElementInPropertyEditor.mock.calls[1][0]).toStrictEqual(startElement);
+            expect(updateAndValidateElementInPropertyEditor.mock.calls[1][1]).toStrictEqual(newNode);
+        });
+
+        it('is not called for other process types', () => {
             const startElement = recordChangeTriggerElement(BEFORE_SAVE, CREATE);
             createComponentForTest(startElement);
 
-            const validator = new Validation();
-            expect(validator.validateAll).toHaveBeenCalled();
-        });
-        it('is not called for new node for other process types', () => {
-            const startElement = recordChangeTriggerElement(BEFORE_SAVE, CREATE);
-            createComponentForTest(startElement);
-
-            const validator = new Validation();
-            expect(validator.validateAll).not.toHaveBeenCalled();
-        });
-    });
-
-    describe('hasError state changes', () => {
-        it('sets hashError from undefined to true, then from true to false', async () => {
-            const startElement = recordChangeTriggerElement(BEFORE_SAVE, CREATE);
-            const startElementEditor = createComponentForTest(startElement);
-            await ticks(1);
-
-            expect.assertions(2);
-            const eventCallback = jest.fn();
-            startElementEditor.addEventListener(UpdateNodeEvent.EVENT_NAME, eventCallback);
-
-            let newNode = recordChangeTriggerElement(AFTER_SAVE, CREATE);
-            newNode.config = { hasError: true };
-            startElementEditor.node = newNode;
-            expect(eventCallback.mock.calls[0][0].detail.node).toEqual(newNode);
-
-            newNode = recordChangeTriggerElement(AFTER_SAVE, CREATE);
-            newNode.config = { hasError: false };
-            startElementEditor.node = newNode;
-            expect(eventCallback.mock.calls[1][0].detail.node).toEqual(newNode);
+            expect(updateAndValidateElementInPropertyEditor).not.toHaveBeenCalled();
         });
     });
 

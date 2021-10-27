@@ -132,69 +132,75 @@ export const getErrorsFromHydratedElement = (element, errorsList: ElementValidat
 };
 
 /**
- * Walks all attributes of the element recursively and merge errors from the source
- * element where present
+ * Walks all attributes of the element recursively and remove errors not presented in the source element
  *
- * @param  element - source for values
- * @param errorSourceElement - hydrated element checked for errors
- * @param errorState - optional parameter for internal use during recursion, to store whether element and/or element's children has an error or not
- * @returns The existing object if no error source to merge.  Otherwise a new object including
- * all errors from the error source element
+ * @param element - source for values
+ * @param sourceElement - source element that is not validated
+ * @param elementBlackListFields optional List of keys in the element not to be checked
+ * @param errorState - internal parameter used during recursion, to store whether element
+ * and/or element's children has an error or not
+ * @returns The existing object if sourceElement is undefined. Otherwise a new object removing errors
+ * not presented in the sourceElement
  */
-export const mergeErrorsFromHydratedElement = (element, errorSourceElement, errorState = { hasError: false }) => {
-    if (!errorSourceElement) {
+export const removeErrorsForUnchangedSourceWithNoError = (
+    element,
+    sourceElement,
+    elementBlackListFields = [],
+    errorState = { hasError: false }
+) => {
+    if (!sourceElement) {
         return element;
     }
 
-    const mergedElement = Object.assign({}, element);
-
-    Object.entries(element).forEach(([key, value]) => {
-        if (value && typeof value === 'object') {
-            if (Array.isArray(value)) {
-                if (errorSourceElement[key]) {
-                    value.forEach((item, index) => {
-                        mergedElement[key] = replaceItem(
-                            mergedElement[key],
-                            // Wrap the key value pair in an "item" so it can be processed by mergeErrorsFromHydratedElement
-                            mergeErrorsFromHydratedElement(
-                                { item },
-                                { item: errorSourceElement[key][index] },
-                                errorState
-                            ).item,
-                            index
-                        );
-                    });
-                } else if (!errorState.hasError) {
-                    value.forEach((item) => {
-                        if (getErrorsFromHydratedElement({ item }).length > 0) {
+    const dehydratedElement = Object.assign({}, element);
+    Object.entries(element)
+        .filter(([key]) => !elementBlackListFields.includes(key))
+        .forEach(([key, value]) => {
+            if (value && typeof value === 'object') {
+                if (Array.isArray(value)) {
+                    if (sourceElement[key]) {
+                        value.forEach((item, index) => {
+                            dehydratedElement[key] = replaceItem(
+                                dehydratedElement[key],
+                                // Wrap the key value pair in an "item" so it can be processed by dehydrateElementFromSourceElement
+                                removeErrorsForUnchangedSourceWithNoError(
+                                    { item },
+                                    { item: sourceElement[key][index] },
+                                    elementBlackListFields,
+                                    errorState
+                                ).item,
+                                index
+                            );
+                        });
+                    }
+                } else if (isItemHydratedWithErrors(value)) {
+                    if (value.error != null) {
+                        if (
+                            sourceElement[key].error === null &&
+                            (!sourceElement[key].value || sourceElement[key].value === '')
+                        ) {
+                            // user did not touch the field, revert the error message
+                            dehydratedElement[key] = updateProperties(dehydratedElement[key], { error: null });
+                        } else {
                             errorState.hasError = true;
                         }
-                    });
-                }
-            } else if (isItemHydratedWithErrors(errorSourceElement[key])) {
-                const errorString = errorSourceElement[key].error;
-                if (errorString !== null) {
-                    mergedElement[key] = updateProperties(mergedElement[key], { error: errorString });
-                }
-            } else if (errorSourceElement[key]) {
-                mergedElement[key] = mergeErrorsFromHydratedElement(value, errorSourceElement[key], errorState);
-            } else if (!errorState.hasError) {
-                if (getErrorsFromHydratedElement(value).length > 0) {
-                    errorState.hasError = true;
+                    }
+                } else if (sourceElement[key]) {
+                    dehydratedElement[key] = removeErrorsForUnchangedSourceWithNoError(
+                        value,
+                        sourceElement[key],
+                        elementBlackListFields,
+                        errorState
+                    );
                 }
             }
+        });
 
-            if (isItemHydratedWithErrors(mergedElement[key]) && mergedElement[key].error != null) {
-                errorState.hasError = true;
-            }
-        }
-    });
-
-    if (mergedElement.config) {
-        mergedElement.config = updateProperties(mergedElement.config, { hasError: errorState.hasError });
+    if (dehydratedElement.config) {
+        dehydratedElement.config = updateProperties(dehydratedElement.config, { hasError: errorState.hasError });
     }
 
-    return mergedElement;
+    return dehydratedElement;
 };
 
 /**
