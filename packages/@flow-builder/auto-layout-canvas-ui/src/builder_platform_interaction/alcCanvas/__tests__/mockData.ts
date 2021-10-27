@@ -407,7 +407,8 @@ const flowModel = {
         pausedText: '',
         prev: null,
         showFooter: true,
-        showHeader: true
+        showHeader: true,
+        parent: 'root'
     },
     decision: {
         availableConnections: [],

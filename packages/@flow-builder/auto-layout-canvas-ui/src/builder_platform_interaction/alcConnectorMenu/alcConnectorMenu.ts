@@ -40,7 +40,7 @@ export default class AlcConnectorMenu extends Menu {
 
     /* whether the end element should be shown in the menu */
     @api
-    hasEndElement!: boolean;
+    canAddEndElement!: boolean;
 
     @api
     canAddGoto!: boolean;
@@ -51,7 +51,7 @@ export default class AlcConnectorMenu extends Menu {
     get menuConfiguration() {
         return configureMenu(
             this.elementsMetadata,
-            this.hasEndElement,
+            this.canAddEndElement,
             this.isPasteAvailable,
             this.canAddGoto,
             this.isGoToConnector

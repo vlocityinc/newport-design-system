@@ -120,7 +120,8 @@ jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
         isBranchTerminal,
         shouldDeleteGoToOnNext,
         getConnectionTarget,
-        getConnectionSource
+        getConnectionSource,
+        getTargetGuidsForReconnection
     } = autoLayoutCanvas;
     const { flowRenderInfo } = jest.requireActual('./mockData');
 
@@ -149,7 +150,8 @@ jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
         resolveParent,
         isBranchTerminal,
         shouldDeleteGoToOnNext,
-        getConnectionSource
+        getConnectionSource,
+        getTargetGuidsForReconnection
     };
 });
 

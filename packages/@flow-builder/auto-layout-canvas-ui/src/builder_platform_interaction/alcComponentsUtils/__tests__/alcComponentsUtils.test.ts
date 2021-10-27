@@ -25,7 +25,7 @@ const ELEMENT_TYPE_DECISION = 'Decision';
 const ELEMENT_TYPE_SCREEN = 'Screen';
 const ELEMENT_TYPE_START_ELEMENT = 'START_ELEMENT';
 const ELEMENT_TYPE_WAIT = 'wait';
-const ELEMENT_TYPE_END_ELEMENT = 'end';
+const ELEMENT_TYPE_END_ELEMENT = 'END_ELEMENT';
 const ELEMENT_TYPE_LOOP = 'Loop';
 const ELEMENT_TYPE_ROOT = 'root';
 
@@ -56,81 +56,89 @@ const checkSelectionDeselectionResultEquality = (
     }
 };
 
-function testGetAlcMenuData(toggleMenuDetail, expectedHasEndElement, expectedIsGoToConnector, expectedCanAddGoto) {
-    const flowModel = {
-        root: {
-            guid: 'root',
-            elementType: 'root',
-            children: ['guid1']
-        },
-        guid1: {
-            parent: 'root',
-            childIndex: 0,
-            guid: 'guid1',
-            elementType: ELEMENT_TYPE_SCREEN,
-            config: {
-                isSelected: false
-            },
-            prev: null,
-            next: 'branch-guid',
-            incomingGoTo: ['branch-guid:o2', 'guid5']
-        },
-        'branch-guid': {
-            guid: 'branch-guid',
-            elementType: ELEMENT_TYPE_DECISION,
-            config: {
-                isSelected: false
-            },
-            childReferences: [
-                {
-                    childReference: 'o1'
-                },
-                {
-                    childReference: 'o2'
-                },
-                {
-                    childReference: 'o3'
-                }
-            ],
-            prev: 'guid1',
-            next: 'guid3',
-            children: ['guid4', 'guid1', 'guid5', null],
-            nodeType: 'branch'
-        },
-        guid3: {
-            guid: 'guid3',
-            elementType: ELEMENT_TYPE_SCREEN,
-            config: {
-                isSelected: false
-            },
-            prev: 'branch-guid',
-            next: null
-        },
-        guid4: {
-            guid: 'guid4',
-            elementType: ELEMENT_TYPE_END_ELEMENT,
-            config: {
-                isSelected: false
-            },
-            parent: 'branch-guid',
-            prev: null,
-            next: null,
-            childIndex: 0,
-            isTerminal: true
-        },
-        guid5: {
-            guid: 'guid5',
-            elementType: ELEMENT_TYPE_SCREEN,
-            config: {
-                isSelected: false
-            },
-            parent: 'branch-guid',
-            prev: null,
-            next: 'guid1',
-            childIndex: 2,
-            isTerminal: true
-        }
-    };
+function testGetAlcMenuData(
+    toggleMenuDetail,
+    expectedcanAddEndElement,
+    expectedIsGoToConnector,
+    expectedCanAddGoto,
+    providedFlowModel
+) {
+    const flowModel = providedFlowModel
+        ? providedFlowModel
+        : {
+              root: {
+                  guid: 'root',
+                  elementType: 'root',
+                  children: ['guid1']
+              },
+              guid1: {
+                  parent: 'root',
+                  childIndex: 0,
+                  guid: 'guid1',
+                  elementType: ELEMENT_TYPE_SCREEN,
+                  config: {
+                      isSelected: false
+                  },
+                  prev: null,
+                  next: 'branch-guid',
+                  incomingGoTo: ['branch-guid:o2', 'guid5']
+              },
+              'branch-guid': {
+                  guid: 'branch-guid',
+                  elementType: ELEMENT_TYPE_DECISION,
+                  config: {
+                      isSelected: false
+                  },
+                  childReferences: [
+                      {
+                          childReference: 'o1'
+                      },
+                      {
+                          childReference: 'o2'
+                      },
+                      {
+                          childReference: 'o3'
+                      }
+                  ],
+                  prev: 'guid1',
+                  next: 'guid3',
+                  children: ['guid4', 'guid1', 'guid5', null],
+                  nodeType: 'branch'
+              },
+              guid3: {
+                  guid: 'guid3',
+                  elementType: ELEMENT_TYPE_SCREEN,
+                  config: {
+                      isSelected: false
+                  },
+                  prev: 'branch-guid',
+                  next: null
+              },
+              guid4: {
+                  guid: 'guid4',
+                  elementType: ELEMENT_TYPE_END_ELEMENT,
+                  config: {
+                      isSelected: false
+                  },
+                  parent: 'branch-guid',
+                  prev: null,
+                  next: null,
+                  childIndex: 0,
+                  isTerminal: true
+              },
+              guid5: {
+                  guid: 'guid5',
+                  elementType: ELEMENT_TYPE_SCREEN,
+                  config: {
+                      isSelected: false
+                  },
+                  parent: 'branch-guid',
+                  prev: null,
+                  next: 'guid1',
+                  childIndex: 2,
+                  isTerminal: true
+              }
+          };
 
     const menuButtonHalfWidth = 12;
     const containerElementGeometry = {
@@ -145,7 +153,7 @@ function testGetAlcMenuData(toggleMenuDetail, expectedHasEndElement, expectedIsG
         elementsMetadata
     });
 
-    expect(menuData.hasEndElement).toEqual(expectedHasEndElement);
+    expect(menuData.canAddEndElement).toEqual(expectedcanAddEndElement);
     expect(menuData.isGoToConnector).toEqual(expectedIsGoToConnector);
     expect(menuData.canAddGoto).toEqual(expectedCanAddGoto);
 }
@@ -173,7 +181,7 @@ describe('ALC Canvas Utils test', () => {
     });
 
     describe('getAlcMenuData', () => {
-        it('hasEndElement is true and isGoToConnector is false on branch when next element is not end node', () => {
+        it('canAddEndElement is true and isGoToConnector is false on branch when next element is not end node', () => {
             testGetAlcMenuData(
                 {
                     top: 0,
@@ -187,7 +195,7 @@ describe('ALC Canvas Utils test', () => {
             );
         });
 
-        it('hasEndElement is false and isGoToConnector is false on branch when next element is end node', () => {
+        it('canAddEndElement is false and isGoToConnector is false on branch when next element is end node', () => {
             testGetAlcMenuData(
                 {
                     top: 0,
@@ -201,7 +209,7 @@ describe('ALC Canvas Utils test', () => {
             );
         });
 
-        it('hasEndElement is false and isGoToConnector is true on branch that has a GoTo connection at branch head', () => {
+        it('canAddEndElement is false and isGoToConnector is true on branch that has a GoTo connection at branch head', () => {
             testGetAlcMenuData(
                 {
                     top: 0,
@@ -215,7 +223,7 @@ describe('ALC Canvas Utils test', () => {
             );
         });
 
-        it('hasEndElement is false and isGoToConnector is true when there is a GoTo connection to the next element', () => {
+        it('canAddEndElement is false and isGoToConnector is true when there is a GoTo connection to the next element', () => {
             testGetAlcMenuData(
                 {
                     guid: 'guid5',
@@ -227,6 +235,253 @@ describe('ALC Canvas Utils test', () => {
                 false,
                 true,
                 false
+            );
+        });
+
+        it('canAddEndElement, isGoToConnector, canAddGoto is false when there are no elements to connect to', () => {
+            const providedFlowModel = {
+                root: {
+                    elementType: 'root',
+                    guid: 'root',
+                    label: 'root',
+                    value: 'root',
+                    text: 'root',
+                    name: 'root',
+                    prev: null,
+                    next: null,
+                    children: ['start-guid']
+                },
+                'start-guid': {
+                    guid: 'start-guid',
+                    description: '',
+                    next: 'decision',
+                    prev: null,
+                    locationX: 50,
+                    locationY: 50,
+                    isCanvasElement: true,
+                    connectorCount: 0,
+                    config: { isSelected: false, isHighlighted: false, canSelect: true },
+                    elementType: 'START_ELEMENT',
+                    maxConnections: 1,
+                    triggerType: 'None',
+                    filterType: 'all',
+                    object: '',
+                    parent: 'root',
+                    childIndex: 0,
+                    isTerminal: true,
+                    nodeType: 'start'
+                },
+                decision: {
+                    availableConnections: [],
+                    childReferences: [{ childReference: 'o1' }],
+                    children: [null, 'screen'],
+                    config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
+                    connectorCount: 2,
+                    defaultConnectorLabel: 'Default Outcome',
+                    description: '',
+                    elementType: 'Decision',
+                    guid: 'decision',
+                    incomingGoTo: [],
+                    isCanvasElement: true,
+                    label: 'decision',
+                    locationX: 0,
+                    locationY: 0,
+                    maxConnections: 2,
+                    name: 'decision',
+                    next: 'end-guid',
+                    prev: 'start-guid',
+                    nodeType: 'branch'
+                },
+                screen: {
+                    allowBack: true,
+                    allowFinish: true,
+                    allowPause: true,
+                    childReferences: [],
+                    config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
+                    description: '',
+                    elementType: 'Screen',
+                    guid: 'screen',
+                    helpText: '',
+                    incomingGoTo: [],
+                    isCanvasElement: true,
+                    label: 'screen',
+                    locationX: 0,
+                    locationY: 0,
+                    name: 'screen',
+                    next: null,
+                    nodeType: 'default',
+                    pausedText: '',
+                    prev: null,
+                    parent: 'decision',
+                    childIndex: 1,
+                    isTerminal: false,
+                    showFooter: true,
+                    showHeader: true
+                },
+                'end-guid': {
+                    config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
+                    connectorCount: 0,
+                    description: '',
+                    elementType: 'END_ELEMENT',
+                    guid: 'end-guid',
+                    isCanvasElement: true,
+                    label: 'End',
+                    locationX: 0,
+                    locationY: 0,
+                    name: 'END_ELEMENT',
+                    nodeType: 'end',
+                    prev: 'decision',
+                    text: 'END_ELEMENT',
+                    value: 'END_ELEMENT'
+                }
+            };
+            testGetAlcMenuData(
+                {
+                    guid: 'decision',
+                    top: 0,
+                    left: 0,
+                    source: { guid: 'decision' },
+                    type: MenuType.CONNECTOR
+                },
+                false,
+                false,
+                false,
+                providedFlowModel
+            );
+        });
+
+        it('canAddEndElement and isGoToConnector is false while canAddGoto is true for W-9967220', () => {
+            const providedFlowModel = {
+                root: {
+                    elementType: 'root',
+                    guid: 'root',
+                    label: 'root',
+                    value: 'root',
+                    text: 'root',
+                    name: 'root',
+                    prev: null,
+                    next: null,
+                    children: ['screen1']
+                },
+                'start-guid': {
+                    guid: 'start-guid',
+                    description: '',
+                    next: 'screen1',
+                    prev: null,
+                    locationX: 50,
+                    locationY: 50,
+                    isCanvasElement: true,
+                    connectorCount: 0,
+                    config: { isSelected: false, isHighlighted: false, canSelect: true },
+                    elementType: 'START_ELEMENT',
+                    maxConnections: 1,
+                    triggerType: 'None',
+                    filterType: 'all',
+                    object: '',
+                    parent: 'root',
+                    childIndex: 0,
+                    isTerminal: true,
+                    nodeType: 'start'
+                },
+                screen1: {
+                    allowBack: true,
+                    allowFinish: true,
+                    allowPause: true,
+                    childReferences: [],
+                    config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
+                    description: '',
+                    elementType: 'Screen',
+                    guid: 'screen1',
+                    helpText: '',
+                    incomingGoTo: ['decision1'],
+                    isCanvasElement: true,
+                    label: 'screen1',
+                    locationX: 0,
+                    locationY: 0,
+                    name: 'screen1',
+                    next: 'decision1',
+                    nodeType: 'default',
+                    pausedText: '',
+                    prev: 'start-guid'
+                },
+                decision1: {
+                    availableConnections: [],
+                    childReferences: [{ childReference: 'o1' }, { childReference: 'o2' }],
+                    children: ['end-guid', null, 'screen2'],
+                    config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
+                    connectorCount: 0,
+                    defaultConnectorLabel: 'Default Outcome',
+                    description: '',
+                    elementType: 'Decision',
+                    guid: 'decision1',
+                    incomingGoTo: [],
+                    isCanvasElement: true,
+                    label: 'decision1',
+                    locationX: 0,
+                    locationY: 0,
+                    maxConnections: 3,
+                    name: 'decision1',
+                    next: 'screen1',
+                    prev: 'screen1',
+                    nodeType: 'branch'
+                },
+                screen2: {
+                    allowBack: true,
+                    allowFinish: true,
+                    allowPause: true,
+                    childReferences: [],
+                    config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
+                    description: '',
+                    elementType: 'Screen',
+                    guid: 'screen2',
+                    helpText: '',
+                    incomingGoTo: [],
+                    isCanvasElement: true,
+                    label: 'screen2',
+                    locationX: 0,
+                    locationY: 0,
+                    name: 'screen2',
+                    next: null,
+                    nodeType: 'default',
+                    pausedText: '',
+                    prev: null,
+                    parent: 'decision1',
+                    childIndex: 2,
+                    isTerminal: false,
+                    showFooter: true,
+                    showHeader: true
+                },
+                'end-guid': {
+                    config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
+                    connectorCount: 0,
+                    description: '',
+                    elementType: 'END_ELEMENT',
+                    guid: 'end-guid',
+                    isCanvasElement: true,
+                    label: 'End',
+                    locationX: 0,
+                    locationY: 0,
+                    name: 'END_ELEMENT',
+                    nodeType: 'end',
+                    parent: 'decision1',
+                    text: 'END_ELEMENT',
+                    value: 'END_ELEMENT',
+                    isTerminal: true,
+                    childIndex: 0
+                }
+            };
+            testGetAlcMenuData(
+                {
+                    guid: 'decision1',
+                    top: 0,
+                    left: 0,
+                    source: { guid: 'decision1', childIndex: 0 },
+                    type: MenuType.CONNECTOR
+                },
+                false,
+                false,
+                true,
+                providedFlowModel
             );
         });
     });

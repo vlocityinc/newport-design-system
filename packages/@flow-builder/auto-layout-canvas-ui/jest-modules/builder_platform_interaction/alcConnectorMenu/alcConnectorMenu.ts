@@ -12,7 +12,7 @@ export default class AlcConnectorMenu extends LightningElement {
     isPasteAvailable;
 
     @api
-    hasEndElement;
+    canAddEndElement;
 
     @api
     canAddGoto!: boolean;

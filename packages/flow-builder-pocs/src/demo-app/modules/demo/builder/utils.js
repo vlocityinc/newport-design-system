@@ -432,8 +432,8 @@ function getAlcMenuData(elements, prev, childIndex, parent) {
         }
     }
 
-    const hasEndElement = targetGuid == null;
-    const canAddGoTo = isTargetEnd || hasEndElement;
+    const canAddEndElement = targetGuid == null;
+    const canAddGoTo = isTargetEnd || canAddEndElement;
     return { canAddGoTo, next };
 }
 

@@ -23,6 +23,7 @@ import {
     isGoingBackToAncestorLoop,
     ConnectionSource,
     getConnectionTarget,
+    getTargetGuidsForReconnection,
     FOR_EACH_INDEX,
     START_IMMEDIATE_INDEX,
     findParentElement
@@ -642,7 +643,6 @@ function getAlcMenuData(
 
     const elementHasFault = guid ? flowModel[guid].fault : false;
     const targetGuid = detail.source ? getConnectionTarget(flowModel, detail.source) : null;
-
     const targetElement = targetGuid != null ? flowModel[targetGuid] : null;
     const isGoToConnector = hasGoTo(flowModel, detail.source);
     const isTargetEnd =
@@ -650,11 +650,22 @@ function getAlcMenuData(
         getElementMetadata(elementsMetadata, targetElement.elementSubtype || targetElement.elementType).type ===
             NodeType.END;
 
-    const hasEndElement = targetGuid == null;
-    const canAddGoto = isTargetEnd || hasEndElement;
+    const canAddEndElement = targetGuid == null;
+    let canAddGoto = false;
+    if (isTargetEnd || canAddEndElement) {
+        // Checking if there is anything to connect to
+        const { mergeableGuids, goToableGuids, firstMergeableNonNullNext } = getTargetGuidsForReconnection(
+            flowModel,
+            detail.source,
+            targetGuid!
+        );
+
+        canAddGoto = firstMergeableNonNullNext != null || mergeableGuids.length > 0 || goToableGuids.length > 0;
+    }
+
     return {
         canAddGoto,
-        hasEndElement,
+        canAddEndElement,
         canHaveFaultConnector,
         elementHasFault,
         ...detail,
