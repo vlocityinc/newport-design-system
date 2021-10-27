@@ -21,6 +21,8 @@ export default class DebugPanel extends LightningElement {
 
     @api builderMode;
 
+    @api showTransactionBoundaries;
+
     labels = LABELS;
 
     TRANSACTION_ENTRY = 'TransactionInfoEntry';
@@ -81,10 +83,18 @@ export default class DebugPanel extends LightningElement {
     }
 
     get options() {
+        let availableOptions = [];
         if (this.fromEmailDebugging) {
-            return this.filterOptions.filter((e) => e.label !== LABELS.govLimFilter);
+            availableOptions = this.filterOptions.filter((e) => e.label !== LABELS.govLimFilter);
+        } else {
+            availableOptions = this.filterOptions;
         }
-        return this.filterOptions;
+
+        if (!this.showTransactionBoundaries) {
+            availableOptions = availableOptions.filter((o) => o.label !== LABELS.transactionFilter);
+        }
+
+        return availableOptions;
     }
 
     handleDropdown() {

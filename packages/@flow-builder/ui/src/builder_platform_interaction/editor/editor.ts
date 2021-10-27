@@ -670,6 +670,10 @@ export default class Editor extends LightningElement {
         return !!this.rightPanelConfig.showDebugPanel;
     }
 
+    get showTransactionBoundaries() {
+        return this.rightPanelConfig.showTransactionBoundaries;
+    }
+
     get showDebugButton() {
         // Hardcoded to hide debug button in orchestrator
         // TODO:  W-8146747

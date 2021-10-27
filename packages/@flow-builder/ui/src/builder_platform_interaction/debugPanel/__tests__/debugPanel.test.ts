@@ -18,7 +18,8 @@ const createComponentUnderTest = (
     debugData,
     newData = undefined,
     fromEmailDebugging = false,
-    builderMode = BUILDER_MODE.DEBUG_MODE
+    builderMode = BUILDER_MODE.DEBUG_MODE,
+    showTransactionBoundaries = true
 ) => {
     const el = createElement('builder_platform_interaction-debug-panel', {
         is: DebugPanel
@@ -26,6 +27,7 @@ const createComponentUnderTest = (
     el.debugData = debugData;
     el.fromEmailDebugging = fromEmailDebugging;
     el.builderMode = builderMode;
+    el.showTransactionBoundaries = showTransactionBoundaries;
     setDocumentBodyChildren(el);
 
     if (newData !== undefined) {
@@ -512,5 +514,53 @@ describe('element icon behavior', () => {
 
     it('should display no icon if elementIcon is undefined', () => {
         expect(debugPanel.shadowRoot.querySelectorAll(selectors.accordionSection)[0].elementIcon).toBe(undefined);
+    });
+});
+
+describe('test debug panel filter options', () => {
+    let debugPanel;
+    it('should display transaction boundaries filter option when showTransactionBoundaries is true and fromEmailDebugging is true', async () => {
+        debugPanel = createComponentUnderTest(fakePausedInterview, undefined, true, BUILDER_MODE.DEBUG_MODE, true);
+        const debugPanelFilter = debugPanel.shadowRoot.querySelector(selectors.debugPanelFilterComponent);
+        debugPanelFilter.shadowRoot.querySelector(selectors.filterButton).click();
+        await ticks(1);
+
+        const checkboxGroup = debugPanel.shadowRoot.querySelector(selectors.checkboxesGroup);
+        expect(checkboxGroup.options).toHaveLength(2);
+        expect(checkboxGroup.options[0].value).toEqual(LABELS.showApiNamesFilter);
+        expect(checkboxGroup.options[1].value).toEqual(LABELS.transactionFilter);
+    });
+    it('should not display transaction boundaries filter option when showTransactionBoundaries is false and fromEmailDebugging is true', async () => {
+        debugPanel = createComponentUnderTest(fakePausedInterview, undefined, true, BUILDER_MODE.DEBUG_MODE, false);
+        const debugPanelFilter = debugPanel.shadowRoot.querySelector(selectors.debugPanelFilterComponent);
+        debugPanelFilter.shadowRoot.querySelector(selectors.filterButton).click();
+        await ticks(1);
+
+        const checkboxGroup = debugPanel.shadowRoot.querySelector(selectors.checkboxesGroup);
+        expect(checkboxGroup.options).toHaveLength(1);
+        expect(checkboxGroup.options[0].value).toEqual(LABELS.showApiNamesFilter);
+    });
+    it('should display transaction boundaries filter option when showTransactionBoundaries is true and fromEmailDebugging is false', async () => {
+        debugPanel = createComponentUnderTest(fakePausedInterview, undefined, false, BUILDER_MODE.DEBUG_MODE, true);
+        const debugPanelFilter = debugPanel.shadowRoot.querySelector(selectors.debugPanelFilterComponent);
+        debugPanelFilter.shadowRoot.querySelector(selectors.filterButton).click();
+        await ticks(1);
+
+        const checkboxGroup = debugPanel.shadowRoot.querySelector(selectors.checkboxesGroup);
+        expect(checkboxGroup.options).toHaveLength(3);
+        expect(checkboxGroup.options[0].value).toEqual(LABELS.showApiNamesFilter);
+        expect(checkboxGroup.options[1].value).toEqual(LABELS.govLimFilter);
+        expect(checkboxGroup.options[2].value).toEqual(LABELS.transactionFilter);
+    });
+    it('should not display transaction boundaries filter option when showTransactionBoundaries is false and fromEmailDebugging is false', async () => {
+        debugPanel = createComponentUnderTest(fakePausedInterview, undefined, false, BUILDER_MODE.DEBUG_MODE, false);
+        const debugPanelFilter = debugPanel.shadowRoot.querySelector(selectors.debugPanelFilterComponent);
+        debugPanelFilter.shadowRoot.querySelector(selectors.filterButton).click();
+        await ticks(1);
+
+        const checkboxGroup = debugPanel.shadowRoot.querySelector(selectors.checkboxesGroup);
+        expect(checkboxGroup.options).toHaveLength(2);
+        expect(checkboxGroup.options[0].value).toEqual(LABELS.showApiNamesFilter);
+        expect(checkboxGroup.options[1].value).toEqual(LABELS.govLimFilter);
     });
 });
