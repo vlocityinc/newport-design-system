@@ -22,7 +22,9 @@ import {
     getFlowWhenGoingFromParentFaultBranchToPreviousElement,
     getFlowWithGoToOnTheNestedBranchElement,
     getFlowWhenGoingToLoopBranchHead,
-    getFlowWhenGoingFromForEachBranch
+    getFlowWhenGoingFromForEachBranch,
+    getFlowWithOnlyImmediateScheduledPathContext,
+    getFlowWithScheduledPathsContext
 } from './testUtils';
 
 function renderAndAssert(ctx) {
@@ -116,6 +118,14 @@ describe('flowRenderer', () => {
         });
         it('flow with a GoTo connection from the loop for-each branch to the previous element', () => {
             renderAndAssert(getFlowWhenGoingFromForEachBranch());
+        });
+
+        it('flow with a start element that supports scheduled paths but has no children', () => {
+            renderAndAssert(getFlowWithOnlyImmediateScheduledPathContext());
+        });
+
+        it('flow with a start element that supports scheduled paths and has children', () => {
+            renderAndAssert(getFlowWithScheduledPathsContext());
         });
 
         describe('with menu', () => {

@@ -2511,18 +2511,6 @@ export function clearCanvasDecoration(flowModel: FlowModel): FlowModel {
 }
 
 /**
- * Returns boolean to indicate if the passed start node can support scheduled paths
- *
- * @param node - The start node
- * @returns boolean indicating if the start node supports scheduled paths
- */
-export function shouldSupportScheduledPaths(node: StartNodeModel) {
-    // TODO: W-8882792 Duplicated the method in rendering layer form ui layer. Find a better way to do this.
-    const { triggerType, object } = node;
-    return triggerType === 'RecordAfterSave' && object && object !== '';
-}
-
-/**
  * Returns whether a node is branching
  *
  * @param node - The node

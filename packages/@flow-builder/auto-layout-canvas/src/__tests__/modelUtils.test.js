@@ -5450,6 +5450,8 @@ describe('modelUtils', () => {
                 { ...SCREEN_ELEMENT, guid: 'screen2-guid' }
             ]);
 
+            flow[START_ELEMENT_GUID].shouldSupportScheduledPaths = true;
+
             flow['child-reference-guid-1'] = {
                 elementType: 'ScheduledPath',
                 label: 't1',
@@ -5473,6 +5475,7 @@ describe('modelUtils', () => {
                 { ...SCREEN_ELEMENT, guid: 'screen1-guid' },
                 { ...SCREEN_ELEMENT, guid: 'screen2-guid' }
             ]);
+            flow[START_ELEMENT_GUID].shouldSupportScheduledPaths = true;
             const flowWithChildren = updateChildrenOnAddingOrUpdatingScheduledPaths(
                 elementService(flow),
                 flow,

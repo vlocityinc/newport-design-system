@@ -60,6 +60,7 @@ export const recordTriggeredFlowUIModel = {
                     type: 'IMMEDIATE'
                 }
             ],
+            shouldSupportScheduledPaths: true,
             defaultConnectorLabel: 'FlowBuilderConnectorLabels.immediateConnectorLabel'
         },
         'a4451815-988d-4f17-883d-64b6ad9fab7e': {

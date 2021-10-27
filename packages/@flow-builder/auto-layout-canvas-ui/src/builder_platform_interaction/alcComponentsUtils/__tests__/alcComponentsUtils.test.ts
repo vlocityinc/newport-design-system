@@ -1309,7 +1309,7 @@ describe('ALC Canvas Utils test', () => {
                 expect(nodeDescription).toEqual(expectedAriaDescribedBy);
             });
 
-            it('sets nodeDescription properly for an assinment element (a1) following the start node which supports scheduled path and has no path with it', () => {
+            it('sets nodeDescription properly for an assignment element (a1) following the start node which supports scheduled path and has no path with it', () => {
                 const nodeRenderInfo = {
                     guid: '1f32d18d8323004-4915-4580-a056-08b7b',
                     metadata: {}

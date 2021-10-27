@@ -37,7 +37,8 @@ export default {
             prev: null,
             next: 'assignment-imm-element-guid',
             parent: 'root',
-            isTerminal: true
+            isTerminal: true,
+            shouldSupportScheduledPaths: true
         },
         'assignment-imm-element-guid': {
             guid: 'assignment-imm-element-guid',

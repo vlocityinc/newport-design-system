@@ -8127,6 +8127,7 @@ Object {
       "object": "Account",
       "objectIndex": "12c23e8e-4104-40ba-86e0-feb73e787792",
       "recordTriggerType": "Create",
+      "shouldSupportScheduledPaths": true,
       "subtype": "Account",
       "triggerType": "RecordAfterSave",
     },

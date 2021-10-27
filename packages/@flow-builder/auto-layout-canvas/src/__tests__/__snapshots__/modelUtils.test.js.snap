@@ -3756,6 +3756,7 @@ Object {
     "next": "end-hook-guid",
     "nodeType": "start",
     "parent": "root",
+    "shouldSupportScheduledPaths": true,
   },
 }
 `;
@@ -3808,6 +3809,7 @@ Object {
     "next": "screen1-guid",
     "nodeType": "start",
     "parent": "root",
+    "shouldSupportScheduledPaths": true,
   },
 }
 `;
@@ -3853,6 +3855,7 @@ Object {
     "next": "screen1-guid",
     "nodeType": "start",
     "parent": "root",
+    "shouldSupportScheduledPaths": true,
   },
 }
 `;
@@ -3882,6 +3885,7 @@ Object {
     "next": "end-hook-guid_0",
     "nodeType": "start",
     "parent": "root",
+    "shouldSupportScheduledPaths": true,
   },
 }
 `;
@@ -3963,6 +3967,7 @@ Object {
     "next": null,
     "nodeType": "start",
     "parent": "root",
+    "shouldSupportScheduledPaths": true,
   },
 }
 `;
@@ -4017,6 +4022,7 @@ Object {
     "next": "screen1-guid",
     "nodeType": "start",
     "parent": "root",
+    "shouldSupportScheduledPaths": true,
   },
 }
 `;
@@ -4105,6 +4111,7 @@ Object {
     "label": "default",
     "next": "screen1-guid",
     "nodeType": "start",
+    "shouldSupportScheduledPaths": true,
   },
 }
 `;
@@ -4159,6 +4166,7 @@ Object {
     "next": "screen1-guid",
     "nodeType": "start",
     "parent": "root",
+    "shouldSupportScheduledPaths": true,
   },
 }
 `;
@@ -4190,6 +4198,7 @@ Object {
     "label": "default",
     "next": "screen1-guid",
     "nodeType": "start",
+    "shouldSupportScheduledPaths": true,
   },
 }
 `;

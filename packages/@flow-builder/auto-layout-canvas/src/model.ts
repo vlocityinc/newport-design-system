@@ -75,6 +75,7 @@ export interface StartNodeModel extends NodeModel {
     filterLogic?: string;
     children?: NodeRef[];
     doesRequireRecordChangedToMeetCriteria?: boolean;
+    shouldSupportScheduledPaths?: boolean;
 }
 
 export interface ParentNodeModel extends NodeModel {

@@ -465,6 +465,7 @@ function getFlowWithNonTerminalImmediateBranch() {
     ];
     flow[START_ELEMENT_GUID].children = ['screen1-guid', null];
     flow[START_ELEMENT_GUID].next = 'screen2-guid';
+    flow[START_ELEMENT_GUID].shouldSupportScheduledPaths = true;
     flow['screen2-guid'].prev = START_ELEMENT_GUID;
     flow['screen2-guid'].next = END_ELEMENT_GUID;
     flow[END_ELEMENT_GUID].prev = 'screen2-guid';
@@ -486,6 +487,7 @@ function getFlowWithOnlyImmediateBranch() {
         }
     ];
     flow[START_ELEMENT_GUID].next = 'screen1-guid';
+    flow[START_ELEMENT_GUID].shouldSupportScheduledPaths = true;
     flow['screen1-guid'].prev = START_ELEMENT_GUID;
     flow['screen1-guid'].next = END_ELEMENT_GUID;
     flow[END_ELEMENT_GUID].prev = 'screen1-guid';
@@ -505,6 +507,7 @@ function getFlowWithTerminalImmediateBranch() {
             childReference: 'scheduledPath2'
         }
     ];
+    start.shouldSupportScheduledPaths = true;
     let screen1 = createElementWithElementType('screen1-guid', 'SCREEN_ELEMENT', NodeType.DEFAULT);
     screen1.isTerminal = true;
     screen1 = linkBranchOrFault(start, screen1, 0);
@@ -547,7 +550,8 @@ function getFlowWithBranchNodeInImmediateBranch() {
             }
         ],
         children: ['screen1-guid', null, null],
-        next: 'screen2-guid'
+        next: 'screen2-guid',
+        shouldSupportScheduledPaths: true
     };
 
     screen1 = {
@@ -1198,7 +1202,8 @@ function getFlowWhenGoingFromImmediateToScheduledPathBranch() {
         children: ['screen1-guid', 'end1-guid', 'screen1-guid'],
         parent: 'root',
         childIndex: 0,
-        next: null
+        next: null,
+        shouldSupportScheduledPaths: true
     };
     screen1 = {
         ...screen1,
@@ -1250,7 +1255,8 @@ function getFlowWhenGoingFromScheduledPathToImmediateBranch() {
         children: ['screen1-guid', null, 'screen1-guid'],
         parent: 'root',
         childIndex: 0,
-        next: 'end1-guid'
+        next: 'end1-guid',
+        shouldSupportScheduledPaths: true
     };
     screen1 = {
         ...screen1,
@@ -1300,7 +1306,8 @@ function getFlowWithGoToOnImmediateBranchHead() {
         children: ['screen3-guid', null, 'screen1-guid'],
         parent: 'root',
         childIndex: 0,
-        next: 'screen2-guid'
+        next: 'screen2-guid',
+        shouldSupportScheduledPaths: true
     };
     screen1 = {
         ...screen1,

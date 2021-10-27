@@ -332,7 +332,8 @@ const recordTriggeredFlowModelData = {
         object: 'Account',
         recordTriggerType: 'Create',
         subtype: 'Account',
-        triggerType: 'RecordAfterSave'
+        triggerType: 'RecordAfterSave',
+        shouldSupportScheduledPaths: true
     },
     '1f32d18d8323004-4915-4580-a056-08b7b': {
         guid: '1f32d18d8323004-4915-4580-a056-08b7b',

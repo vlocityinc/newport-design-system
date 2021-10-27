@@ -6,15 +6,10 @@ import {
     Guid,
     getElementMetadata,
     FAULT_INDEX,
-    FlowModel
+    FlowModel,
+    StartNodeModel
 } from './model';
-import {
-    areAllBranchesTerminals,
-    shouldSupportScheduledPaths,
-    fulfillsBranchingCriteria,
-    hasGoToOnNext,
-    hasGoToOnBranchHead
-} from './modelUtils';
+import { areAllBranchesTerminals, fulfillsBranchingCriteria, hasGoToOnNext, hasGoToOnBranchHead } from './modelUtils';
 import {
     FlowRenderContext,
     LayoutConfig,
@@ -176,7 +171,7 @@ function getNextNodeConnectorVariant(nodeModel: NodeModel, elementType: NodeType
     let nextNodeConnectorVariant =
         fulfillsBranchingCriteria(nodeModel, elementType) || elementType === NodeType.LOOP
             ? ConnectorVariant.POST_MERGE
-            : !(nodeModel as ParentNodeModel).children && shouldSupportScheduledPaths(nodeModel)
+            : !(nodeModel as ParentNodeModel).children && (nodeModel as StartNodeModel).shouldSupportScheduledPaths
             ? ConnectorVariant.DEFAULT_LABEL
             : ConnectorVariant.DEFAULT;
 

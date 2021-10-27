@@ -11,15 +11,10 @@ import {
     getElementMetadata,
     Guid,
     FAULT_INDEX,
-    FOR_EACH_INDEX
+    FOR_EACH_INDEX,
+    StartNodeModel
 } from './model';
-import {
-    fulfillsBranchingCriteria,
-    shouldSupportScheduledPaths,
-    hasGoToOnNext,
-    hasGoToOnBranchHead,
-    isBranchTerminal
-} from './modelUtils';
+import { fulfillsBranchingCriteria, hasGoToOnNext, hasGoToOnBranchHead, isBranchTerminal } from './modelUtils';
 import { NO_OFFSET, getLayoutChildOrFault } from './layout';
 
 import {
@@ -344,7 +339,7 @@ function createNextConnector(
     let mainVariant =
         fulfillsBranchingCriteria(node, nodeType) || nodeType === NodeType.LOOP
             ? ConnectorVariant.POST_MERGE
-            : !(node as ParentNodeModel).children && shouldSupportScheduledPaths(node)
+            : !(node as ParentNodeModel).children && (node as StartNodeModel).shouldSupportScheduledPaths
             ? ConnectorVariant.DEFAULT_LABEL
             : ConnectorVariant.DEFAULT;
 
@@ -363,7 +358,7 @@ function createNextConnector(
     }
 
     const connectorLabelType =
-        !(node as ParentNodeModel).children && shouldSupportScheduledPaths(node)
+        !(node as ParentNodeModel).children && (node as StartNodeModel).shouldSupportScheduledPaths
             ? ConnectorLabelType.BRANCH
             : ConnectorLabelType.NONE;
 

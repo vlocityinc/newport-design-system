@@ -167,6 +167,7 @@ declare namespace UI {
         scheduledPaths?: ScheduledPath[];
         childReferences: ChildReference[];
         availableConnections: AvailableConnection[];
+        shouldSupportScheduledPaths: boolean;
     }
 
     interface Schedule {

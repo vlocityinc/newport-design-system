@@ -34,7 +34,8 @@ export const orchestratorFlowUIModel = {
             ],
             doesRequireRecordChangedToMeetCriteria: false,
             childReferences: [],
-            availableConnections: []
+            availableConnections: [],
+            shouldSupportScheduledPaths: false
         },
         'a4451815-988d-4f17-883d-64b6ad9fab7e': {
             guid: 'a4451815-988d-4f17-883d-64b6ad9fab7e',

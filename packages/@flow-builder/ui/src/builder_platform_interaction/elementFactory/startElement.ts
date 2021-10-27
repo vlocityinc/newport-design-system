@@ -86,14 +86,12 @@ export function findStartYOffset(startElement: UI.Start): number {
  *
  * @param startElement start element metadata structure
  * @param processType
+ * @returns Boolean value stating if the start element can support scheduled paths or not
  */
 export function shouldSupportScheduledPaths(
     startElement: UI.Start | Metadata.Start,
     processType?: string | null | undefined
-) {
-    // TODO: W-8882792 Duplicated the method in rendering layer form ui layer. Find a better way to do this.
-    // The need for the process type check is to ensure that scheduled paths are not rendered for process type
-    // othe rthan autolaunched.
+): boolean {
     // A cleaner way to perform this check is to update process type utils method
     // to use the feature-processType check.
     // Refer W-8931057 [Scheduled Paths] Scheduled Path errors are not linked on the builder
@@ -103,7 +101,11 @@ export function shouldSupportScheduledPaths(
         processType = getProcessType();
     }
     const schedulePathSupported = processType === null ? true : isScheduledPathSupported(processType);
-    return schedulePathSupported && startElement.triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE && startElement.object;
+    return !!(
+        schedulePathSupported &&
+        startElement.triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE &&
+        startElement.object
+    );
 }
 
 /**
@@ -169,7 +171,7 @@ export function createStartElement(startElement: UI.Start | Metadata.Start) {
     const requireChangedValues = startElement.doesRequireRecordChangedToMeetCriteria;
     const recordFilters = createRecordFilters(filters, object);
 
-    return Object.assign(newStartElement, {
+    Object.assign(newStartElement, {
         elementType,
         locationX,
         locationY,
@@ -197,6 +199,10 @@ export function createStartElement(startElement: UI.Start | Metadata.Start) {
         childReferences: (<UI.Start>startElement).childReferences || [],
         availableConnections: (<UI.Start>startElement).availableConnections || [{ type: CONNECTOR_TYPE.REGULAR }]
     });
+
+    newStartElement.shouldSupportScheduledPaths = shouldSupportScheduledPaths(newStartElement);
+
+    return newStartElement;
 }
 
 /**
@@ -250,7 +256,7 @@ export function createStartElementWithConnectors(
 
     let connectorCount, connectors;
     let availableConnections: UI.AvailableConnection[] = [];
-    if (!shouldSupportScheduledPaths(startElement, processType)) {
+    if (!shouldSupportScheduledPaths(newStartElement, processType)) {
         // Creates a REGULAR connector or pushes one into the availableConnections if needed
         connectors = startElementReference
             ? createStartElementConnector(newStartElement.guid, startElementReference)
@@ -535,7 +541,7 @@ export function createScheduledPath(scheduledPath: UI.ScheduledPath | Metadata.S
 export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
     let newStartElement = createStartElement(startElement);
 
-    if (!shouldSupportScheduledPaths(startElement)) {
+    if (!shouldSupportScheduledPaths(newStartElement)) {
         // When updating to a start element that doesn't support scheduled paths, replacing the Immediate available connector
         // with a Regular one
         const updatedAvailableConnections = newStartElement.availableConnections.map((availableConnection) => {
@@ -551,7 +557,7 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
         return {
             canvasElement: newStartElement,
             elementType: ELEMENT_TYPE.START_WITH_MODIFIED_AND_DELETED_SCHEDULED_PATHS,
-            shouldSupportScheduledPaths: shouldSupportScheduledPaths(newStartElement),
+            shouldSupportScheduledPaths: newStartElement.shouldSupportScheduledPaths,
             startElementGuid: newStartElement.guid
         };
     }
@@ -594,14 +600,11 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
 
     return {
         canvasElement: newStartElement,
-        /* This code will not be exercised till Scheduled Paths is supported for Auto-Layout (232)
-        W-8179230 - https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000008gWsnIAE/view
-        */
         deletedChildElementGuids: deletedScheduledPathGuids,
         childElements: newScheduledPaths,
         elementType: ELEMENT_TYPE.START_WITH_MODIFIED_AND_DELETED_SCHEDULED_PATHS,
         elementSubtype,
-        shouldSupportScheduledPaths: shouldSupportScheduledPaths(newStartElement as UI.Start),
+        shouldSupportScheduledPaths: newStartElement.shouldSupportScheduledPaths,
         startElementGuid: newStartElement.guid
     };
 }

@@ -35,6 +35,7 @@ export {
     NodeRef,
     NodeModel,
     ParentNodeModel,
+    StartNodeModel,
     BranchHeadNodeModel,
     ElementMetadata,
     ElementsMetadata,
@@ -88,8 +89,7 @@ export {
     getConnectionSource,
     getValuesFromConnectionSource,
     getFirstNonNullNext,
-    isGoingBackToAncestorLoop,
-    shouldSupportScheduledPaths
+    isGoingBackToAncestorLoop
 } from './modelUtils';
 
 export { assertAutoLayoutState } from './assertUtils';

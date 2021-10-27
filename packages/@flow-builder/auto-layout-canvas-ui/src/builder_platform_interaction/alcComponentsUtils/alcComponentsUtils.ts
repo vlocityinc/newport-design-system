@@ -4,6 +4,7 @@ import {
     getElementMetadata,
     FlowModel,
     ParentNodeModel,
+    StartNodeModel,
     NodeModel,
     NodeRef,
     Guid,
@@ -18,7 +19,6 @@ import {
     hasGoToOnBranchHead,
     hasGoTo,
     FAULT_INDEX,
-    shouldSupportScheduledPaths,
     getFirstNonNullNext,
     isGoingBackToAncestorLoop,
     ConnectionSource,
@@ -934,7 +934,7 @@ function getNodeAriaInfo(flowModel: FlowModel, nodeInfo: NodeRenderInfo): string
                 ariaDescribedBy = LABELS.ariaOnPathAfterLastLabel;
             } else if (
                 prevElement?.nodeType === NodeType.START &&
-                shouldSupportScheduledPaths(prevElement) &&
+                (prevElement as StartNodeModel).shouldSupportScheduledPaths &&
                 !(prevElement as ParentNodeModel).children
             ) {
                 // 2. previous element is start node that supports scheduled path and have no path on it
