@@ -32,10 +32,9 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''),  module)
   <div class="nds-form-element__control nds-form-element__control-animated-label">
     <textarea required="" id="textarea-id-01" class="nds-textarea nds-has-value"></textarea>
     <label class="nds-form-element__label" for="textarea-id-01">
-      <abbr class="nds-required" title="required">*</abbr>
-
 
       Textarea Label
+      <abbr class="nds-required" title="required">*</abbr>
 
     </label>
   </div>
@@ -46,10 +45,9 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''),  module)
   <div class="nds-form-element__control nds-form-element__control-animated-label">
     <textarea required="" aria-describedby="error-01" id="textarea-id-01" class="nds-textarea nds-has-value"></textarea>
     <label class="nds-form-element__label" for="textarea-id-01">
-      <abbr class="nds-required" title="required">*</abbr>
-
 
       Textarea Label
+      <abbr class="nds-required" title="required">*</abbr>
 
     </label>
   </div>
