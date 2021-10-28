@@ -236,6 +236,28 @@ describe('Auto Layout Canvas', () => {
         checkZoomToView();
     });
 
+    describe('canvas cursor style', () => {
+        it('Canvas should have the "grabbing-cursor" class on mouse down', () => {
+            const canvasCmp = cmp.shadowRoot.querySelector('.canvas');
+            canvasCmp.dispatchEvent(new CustomEvent('mousedown', {}));
+            expect(canvasCmp.classList[1]).toEqual('grabbing-cursor');
+        });
+
+        it('Canvas should not have the "grabbing-cursor" class after mouse down and mouse up', () => {
+            const canvasCmp = cmp.shadowRoot.querySelector('.canvas');
+            canvasCmp.dispatchEvent(new CustomEvent('mousedown', {}));
+            canvasCmp.dispatchEvent(new CustomEvent('mouseup', {}));
+            expect(canvasCmp.classList[1]).toBeUndefined();
+        });
+
+        it('Canvas should not have the "grabbing-cursor" class after mouse down and mouse leave', () => {
+            const canvasCmp = cmp.shadowRoot.querySelector('.canvas');
+            canvasCmp.dispatchEvent(new CustomEvent('mousedown', {}));
+            canvasCmp.dispatchEvent(new CustomEvent('mouseleave', {}));
+            expect(canvasCmp.classList[1]).toBeUndefined();
+        });
+    });
+
     describe('zoom', () => {
         beforeAll(() => {
             setup();

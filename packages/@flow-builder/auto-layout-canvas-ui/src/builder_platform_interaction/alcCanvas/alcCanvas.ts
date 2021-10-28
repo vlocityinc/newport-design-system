@@ -1192,9 +1192,35 @@ export default class AlcCanvas extends LightningElement {
     };
 
     /**
+     * Setting the cursor style to 'grabbing' in case the pan is still in progress
+     * i.e. the user left the canvas while panning and entered back without doing a mouse up outside
+     */
+    handleCanvasMouseEnter = () => {
+        if (this.isPanInProgress) {
+            this.template.querySelector(selectors.canvasClass).classList.add('grabbing-cursor');
+        }
+    };
+
+    /**
+     * Resetting the cursor style to 'grab' so that when the user enters the canvas
+     */
+    handleCanvasMouseLeave = () => {
+        // We need to reset the cursor style here to avoid it from being in the 'grabbing' state
+        // in case the user had left the canvas while panning and did a mouse up outside the canvas
+        this.template.querySelector(selectors.canvasClass).classList.remove('grabbing-cursor');
+    };
+
+    /**
+     * Setting the cursor style to 'grabbing' when panning begins on mouse down
+     */
+    handleCanvasMouseDown = () => {
+        this.template.querySelector(selectors.canvasClass).classList.add('grabbing-cursor');
+    };
+
+    /**
      * Handling mouse up event for canvas. If panning is not in progress and mouse up happens directly on canvas/innerCanvas
-     * then dispatch the canvas mouse up event to deselect all the selected canvas elements and connectors. Also reset
-     * the the panning variables.
+     * then dispatch the canvas mouse up event to deselect all the selected canvas elements. Also reset
+     * the cursor style and panning variable.
      *
      * @param {object} event - mouse up event
      */
@@ -1210,6 +1236,7 @@ export default class AlcCanvas extends LightningElement {
             const canvasMouseUpEvent = new CanvasMouseUpEvent();
             this.dispatchEvent(canvasMouseUpEvent);
         }
+        this.template.querySelector(selectors.canvasClass).classList.remove('grabbing-cursor');
         this.isPanInProgress = false;
     };
 

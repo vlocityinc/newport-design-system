@@ -65,6 +65,15 @@ builder_platform_interaction-zoom-panel {
     outline: none;
     position: relative;
     overflow: hidden; /* @see W-9498813: Panning offsets are not updated when bringing the element into the viewport */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+
+.canvas.grabbing-cursor {
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
 }
 
 .menu {
