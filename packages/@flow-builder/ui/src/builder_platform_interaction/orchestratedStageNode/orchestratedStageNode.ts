@@ -85,13 +85,10 @@ export default class OrchestratedStageNode extends withKeyboardInteractions(Ligh
 
     get stageStepsWithErrorClass() {
         const baseClasses = 'item slds-p-around_small slds-clearfix slds-listbox__option';
-        const readOnlyBaseClasses = 'item disabled slds-p-around_small slds-clearfix';
 
         return this.items.map((item) => ({
             ...item,
-            cssClass:
-                (this.disableEditElements ? readOnlyBaseClasses : baseClasses) +
-                (item.config.hasError ? ' stage-step-error' : '')
+            cssClass: baseClasses + (item.config.hasError ? ' stage-step-error' : '')
         }));
     }
 
@@ -210,7 +207,7 @@ export default class OrchestratedStageNode extends withKeyboardInteractions(Ligh
      */
     handleArrowKeys(key: string) {
         const currentItemInFocus = this.template.activeElement;
-        if (!this.disableEditElements && currentItemInFocus) {
+        if (currentItemInFocus) {
             const stepItems = Array.from(this.template.querySelectorAll(selectors.stepItem)) as any;
             if (stepItems.includes(currentItemInFocus)) {
                 this.moveFocusOnArrowKey(stepItems, currentItemInFocus, key);
@@ -327,7 +324,7 @@ export default class OrchestratedStageNode extends withKeyboardInteractions(Ligh
 
                 item.tabIndex = -1;
             });
-            indexedItem.tabIndex = this.disableEditElements ? -1 : 0;
+            indexedItem.tabIndex = 0;
         }
 
         return items;

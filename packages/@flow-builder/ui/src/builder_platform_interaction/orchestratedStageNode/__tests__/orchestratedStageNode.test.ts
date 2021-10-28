@@ -364,7 +364,7 @@ describe('Stepped-Stage-Node', () => {
 
             expect(cb).toHaveBeenCalled();
         });
-        it('does not exuecute an up keyboard handler when in debug mode', () => {
+        it('does execute an up keyboard handler when in debug mode', () => {
             orchestratedStageElement = createComponentUnderTest(mockNode, { disableEditElements: true });
             const cb = jest.fn();
 
@@ -380,9 +380,9 @@ describe('Stepped-Stage-Node', () => {
             // simulate a up arrow keypress on the container
             orchestratedStageElement.keyboardInteractions.execute(ArrowUp.COMMAND_NAME);
 
-            expect(cb).toHaveBeenCalledTimes(0);
+            expect(cb).toHaveBeenCalledTimes(1);
         });
-        it('does not exuecute a down keyboard handler when in debug mode', () => {
+        it('does execute a down keyboard handler when in debug mode', () => {
             orchestratedStageElement = createComponentUnderTest(mockNode, { disableEditElements: true });
             const cb = jest.fn();
 
@@ -398,7 +398,7 @@ describe('Stepped-Stage-Node', () => {
             // simulate a down arrow keypress on the container
             orchestratedStageElement.keyboardInteractions.execute(ArrowDown.COMMAND_NAME);
 
-            expect(cb).toHaveBeenCalledTimes(0);
+            expect(cb).toHaveBeenCalledTimes(1);
         });
     });
 
@@ -444,14 +444,14 @@ describe('Stepped-Stage-Node', () => {
 
             expect([stepItems[0].tabIndex, stepItems[1].tabIndex, stepItems[2].tabIndex]).toEqual([-1, -1, 0]);
         });
-        it('ensures that no step items have a tab index in debug mode', () => {
+        it('ensures step items have a tab index in debug mode', () => {
             orchestratedStageElement = createComponentUnderTest(mockNode, { disableEditElements: true });
 
             const stepItems = Array.from(
                 orchestratedStageElement.shadowRoot.querySelectorAll(selectors.STEP_ITEM)
             ) as any;
 
-            expect([stepItems[0].tabIndex, stepItems[1].tabIndex, stepItems[2].tabIndex]).toEqual([-1, -1, -1]);
+            expect([stepItems[0].tabIndex, stepItems[1].tabIndex, stepItems[2].tabIndex]).toEqual([0, -1, -1]);
         });
     });
 
@@ -479,10 +479,10 @@ describe('Stepped-Stage-Node', () => {
         });
     });
     describe('item styling', () => {
-        it('specifies a .disabled class in debug mode', () => {
+        it('does not have .disabled class in debug mode', () => {
             orchestratedStageElement = createComponentUnderTest(mockNode, { disableEditElements: true });
             const stepItems = orchestratedStageElement.shadowRoot.querySelectorAll(selectors.STEP_ITEM + '.disabled');
-            expect(stepItems.length).toBe(3);
+            expect(stepItems.length).toBe(0);
         });
     });
 });
