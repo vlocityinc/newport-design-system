@@ -28,10 +28,8 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''),  module)
   .add('Select Required (states)', () => {
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="select-01">
-    <abbr class="nds-required" title="required">*</abbr>
-
-
     Select Label
+    <abbr class="nds-required" title="required">*</abbr>
 
   </label>
   <div class="nds-form-element__control">
@@ -48,10 +46,9 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''),  module)
   .add('Select Error (states)', () => {
     return withExample(`<div class="nds-form-element nds-has-error">
   <label class="nds-form-element__label" for="select-01">
-    <abbr class="nds-required" title="required">*</abbr>
-
 
     Select Label
+    <abbr class="nds-required" title="required">*</abbr>
 
   </label>
   <div class="nds-form-element__control">
