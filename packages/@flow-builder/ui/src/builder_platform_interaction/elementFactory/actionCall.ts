@@ -46,7 +46,7 @@ const maxOccursToIsCollection = (maxOccurs) => {
  */
 export function createActionCall(actionCall = {}, elementType = ELEMENT_TYPE.ACTION_CALL) {
     const newActionCall = baseCanvasElementWithFault(actionCall);
-    const { actionType = '', actionName = '', flowTransactionModel } = actionCall;
+    const { actionType = '', actionName = '', flowTransactionModel, actionIsStandard } = actionCall;
     let {
         dataTypeMappings = [],
         inputParameters = [],
@@ -86,6 +86,7 @@ export function createActionCall(actionCall = {}, elementType = ELEMENT_TYPE.ACT
     const actionCallObject = Object.assign(newActionCall, {
         actionType,
         actionName,
+        actionIsStandard,
         dataTypeMappings,
         inputParameters,
         outputParameters,

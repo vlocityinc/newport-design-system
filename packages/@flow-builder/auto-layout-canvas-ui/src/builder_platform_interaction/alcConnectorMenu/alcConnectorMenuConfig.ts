@@ -119,6 +119,7 @@ export const configureMenu = (
                 elementSubtype,
                 actionType,
                 actionName,
+                actionIsStandard,
                 type,
                 isSupported
             }
@@ -166,6 +167,7 @@ export const configureMenu = (
                     elementType,
                     actionType,
                     actionName,
+                    actionIsStandard,
                     icon,
                     iconContainerClass,
                     iconClass,

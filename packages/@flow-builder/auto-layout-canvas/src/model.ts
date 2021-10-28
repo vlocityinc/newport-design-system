@@ -128,6 +128,7 @@ export interface ElementMetadata {
     elementSubtype?: string;
     actionType?: string;
     actionName?: string;
+    actionIsStandard?: boolean;
     isSupported: boolean;
     dynamicNodeComponent?: string;
     dynamicNodeComponentSelector?: Function;

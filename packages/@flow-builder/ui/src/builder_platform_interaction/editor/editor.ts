@@ -1770,6 +1770,7 @@ export default class Editor extends LightningElement {
                 locationY,
                 actionType,
                 actionName,
+                actionIsStandard,
                 parent,
                 designateFocus,
 
@@ -1810,6 +1811,7 @@ export default class Editor extends LightningElement {
                         elementSubtype,
                         actionType,
                         actionName,
+                        actionIsStandard,
                         parent,
                         isNew: true
                     });

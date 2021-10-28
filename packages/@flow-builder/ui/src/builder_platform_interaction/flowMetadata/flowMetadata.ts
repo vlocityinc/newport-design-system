@@ -548,3 +548,11 @@ function dummyStartElement(startElementReference: string): object {
         locationY: START_ELEMENT_LOCATION.y
     };
 }
+
+/**
+ * Map of action type to element type conversion.
+ */
+export const ACTION_TYPE_TO_ELEMENT_TYPE = {
+    [ACTION_TYPE.APEX]: ELEMENT_TYPE.APEX_CALL,
+    [ACTION_TYPE.EMAIL_ALERT]: ELEMENT_TYPE.EMAIL_ALERT
+};

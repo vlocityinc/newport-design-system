@@ -46,7 +46,8 @@ const metaData = [
         description: 'Create Decision',
         isSupported: true,
         actionType: 'testActionType',
-        actionName: 'testActionName'
+        actionName: 'testActionName',
+        actionIsStandard: true
     },
     {
         section: 'Logic',

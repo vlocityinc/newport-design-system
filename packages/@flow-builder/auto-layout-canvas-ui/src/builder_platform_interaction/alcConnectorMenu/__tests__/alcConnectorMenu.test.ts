@@ -47,6 +47,7 @@ const metaData = [
         elementType: 'Action',
         actionType: 'TestActionType',
         actionName: 'TestActionName',
+        actionIsStandard: true,
         description: 'Palette promoted action'
     },
     {
@@ -98,6 +99,7 @@ jest.mock('../alcConnectorMenuConfig', () => {
                                 elementType: 'Action',
                                 actionType: 'TestActionType',
                                 actionName: 'TestActionName',
+                                actionIsStandard: true,
                                 guid: 2,
                                 icon: 'standard:action',
                                 iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
@@ -223,7 +225,7 @@ describe('connector menu', () => {
         expect(callback.mock.calls[0][0].detail.designateFocus).toBe(true);
     });
 
-    it('should dispatch add element with actionType and actionName properties ', async () => {
+    it('should dispatch add element with actionType, actionName and actionIsStandard properties ', async () => {
         const cmp = createComponentUnderTest();
         await ticks(1);
         const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
@@ -234,6 +236,7 @@ describe('connector menu', () => {
         expect(callback).toHaveBeenCalled();
         expect(callback.mock.calls[0][0].detail.actionType).toBe('TestActionType');
         expect(callback.mock.calls[0][0].detail.actionName).toBe('TestActionName');
+        expect(callback.mock.calls[0][0].detail.actionIsStandard).toBe(true);
     });
 
     it('should dispatch PasteOnCanvasEvent event when paste is specified ', async () => {

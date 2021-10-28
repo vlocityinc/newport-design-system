@@ -102,6 +102,7 @@ export default class AlcConnectorMenu extends Menu {
                         elementSubtype: currentTarget.getAttribute('data-sub-type')!,
                         actionType: currentTarget.getAttribute('data-action-type')!,
                         actionName: currentTarget.getAttribute('data-action-name')!,
+                        actionIsStandard: currentTarget.getAttribute('data-action-is-standard') === 'true'!,
                         locationX: 0,
                         locationY: 0,
                         alcConnectionSource,

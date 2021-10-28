@@ -358,7 +358,12 @@ describe('callout-editor', () => {
     describe('palette promoted action', () => {
         beforeEach(() => {
             calloutEditor = setupComponentUnderTest({
-                node: { elementType: ELEMENT_TYPE.ACTION_CALL, actionType: 'testAction', actionName: 'testActionName' }
+                node: {
+                    elementType: ELEMENT_TYPE.ACTION_CALL,
+                    actionType: 'testAction',
+                    actionName: 'testActionName',
+                    actionIsStandard: true
+                }
             });
         });
         it('does not render the left panel', async () => {

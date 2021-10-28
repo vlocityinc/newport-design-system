@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { getConfigForElement } from 'builder_platform_interaction/elementConfig';
+import { getConfigForElement, getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { ELEMENT_TYPE, FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, ACTION_TYPE, ACTION_TYPE_TO_ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
 import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
@@ -26,23 +26,35 @@ const mutateElements = (elements, palette) =>
                 if (headerLabel && headerItems) {
                     headerItems.forEach((headerItem) => {
                         const filteredElements = elements.filter((el) => {
-                            if (headerItem.type === 'element') {
-                                return headerItem.name === el.elementType;
+                            if (
+                                headerItem.type === 'element' ||
+                                (headerItem.type === 'shortcut' && headerItem.shortcutEnumType === 'element')
+                            ) {
+                                return (
+                                    headerItem.name === el.elementType || headerItem.shortcutEnumName === el.elementType
+                                );
                             }
-                            if (headerItem.type === 'elementSubtype') {
-                                return headerItem.name === el.name;
+                            if (
+                                headerItem.type === 'elementSubtype' ||
+                                (headerItem.type === 'shortcut' && headerItem.shortcutEnumType === 'elementSubtype')
+                            ) {
+                                return headerItem.name === el.name || headerItem.shortcutEnumName === el.name;
                             }
 
                             return false;
                         });
 
-                        if (headerItem.type === 'action') {
+                        if (
+                            headerItem.type === 'action' ||
+                            (headerItem.type === 'shortcut' && headerItem.shortcutEnumType === 'action')
+                        ) {
                             const item = {
                                 elementType: ELEMENT_TYPE.ACTION_CALL,
-                                actionLabel: headerItem.actionLabel,
-                                actionType: headerItem.name,
-                                actionName: headerItem.name,
-                                description: headerItem.actionDescription
+                                actionLabel: headerItem.actionLabel ?? headerItem.shortcutLabel,
+                                actionType: headerItem.name ?? headerItem.shortcutEnumName,
+                                actionName: headerItem.name ?? headerItem.shortcutEnumName,
+                                actionIsStandard: headerItem.actionIsStandard,
+                                description: headerItem.actionDescription ?? headerItem.shortcutDescription
                             };
                             filteredElements.push(item);
                         }
@@ -51,10 +63,18 @@ const mutateElements = (elements, palette) =>
                             filteredElements.forEach((element) => {
                                 const elementType = element.elementType;
                                 const elementSubtype = element.isElementSubtype ? element.name : null;
-                                const { nodeConfig, labels, canHaveFaultConnector } = getConfigForElement(element);
-                                const label = element.actionLabel || (labels && labels.leftPanel);
+                                const getElementTypeByActionType =
+                                    ACTION_TYPE_TO_ELEMENT_TYPE[headerItem.shortcutEnumName];
+                                const configDetails =
+                                    element.actionType && !element.actionIsStandard && getElementTypeByActionType
+                                        ? getConfigForElementType(getElementTypeByActionType)
+                                        : getConfigForElement(element);
+                                const { nodeConfig, labels, canHaveFaultConnector } = configDetails;
+                                const label =
+                                    element.actionLabel || headerItem.shortcutLabel || (labels && labels.leftPanel);
                                 const actionType = element.actionType;
                                 const actionName = element.actionName;
+                                const actionIsStandard = element.actionIsStandard;
                                 const {
                                     iconName,
                                     dragImageSrc,
@@ -69,6 +89,7 @@ const mutateElements = (elements, palette) =>
                                 // fall back to the default description.
                                 const description =
                                     element.description ||
+                                    headerItem.shortcutDescription ||
                                     (isOrchestrator(getProcessType())
                                         ? nodeConfig.orchestratorDescription || nodeConfig.description
                                         : nodeConfig.description);
@@ -87,6 +108,7 @@ const mutateElements = (elements, palette) =>
                                     elementSubtype,
                                     actionType,
                                     actionName,
+                                    actionIsStandard,
                                     canHaveFaultConnector,
                                     iconShape,
                                     iconSize,

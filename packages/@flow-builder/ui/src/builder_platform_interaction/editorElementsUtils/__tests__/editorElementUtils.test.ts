@@ -49,68 +49,71 @@ describe('element-lib', () => {
                 { elementType: ELEMENT_TYPE.SCREEN },
                 { elementType: ELEMENT_TYPE.RECORD_LOOKUP },
                 { elementType: ELEMENT_TYPE.RECORD_CREATE },
-                { elementType: ELEMENT_TYPE.ACTION_CALL },
-                { type: 'marketingEmail', name: 'marketingEmail', label: 'testActionLabel' }
+                { elementType: ELEMENT_TYPE.RECORD_UPDATE },
+                { elementType: ELEMENT_TYPE.ACTION_CALL }
             ];
 
             const palette = {
                 headers: [
                     {
+                        headerLabel: 'FlowBuilderLeftPanelElements.quickLinksLabel',
+                        headerItems: [
+                            {
+                                type: 'shortcut',
+                                shortcutEnumName: 'RecordUpdate',
+                                shortcutEnumType: 'element',
+                                shortcutDescription: 'QuickLinksLabelAndDescription.recordUpdateDescription',
+                                shortcutLabel: 'QuickLinksLabelAndDescription.recordUpdateLabel'
+                            },
+                            {
+                                type: 'shortcut',
+                                shortcutEnumName: 'emailAlert',
+                                shortcutEnumType: 'action',
+                                actionIsStandard: false,
+                                shortcutDescription: 'QuickLinksLabelAndDescription.emailAlertDescription',
+                                shortcutLabel: 'QuickLinksLabelAndDescription.emailAlertLabel'
+                            }
+                        ],
+                        headerFreeformVisibility: false,
+                        headerAutolayoutVisibility: true
+                    },
+                    {
                         headerLabel: 'FlowBuilderLeftPanelElements.flowInteractionComponentsLabel',
                         headerItems: [
                             { type: 'element', name: ELEMENT_TYPE.SCREEN },
-                            { type: 'element', name: ELEMENT_TYPE.ACTION_CALL },
-                            { type: 'element', name: ELEMENT_TYPE.LOOP }
-                        ]
+                            { type: 'element', name: ELEMENT_TYPE.ACTION_CALL }
+                        ],
+                        headerFreeformVisibility: true,
+                        headerAutolayoutVisibility: true
                     },
                     {
                         headerLabel: 'FlowBuilderLeftPanelElements.flowControlLogicLabel',
                         headerItems: [
                             { type: 'element', name: ELEMENT_TYPE.ASSIGNMENT },
                             { type: 'element', name: ELEMENT_TYPE.WAIT },
-                            { type: 'action', name: 'marketingEmail' }
-                        ]
+                            {
+                                type: 'action',
+                                name: 'marketingEmail',
+                                actionIsStandard: true,
+                                actionLabel: 'Marketing E-Mail',
+                                actionDescription: 'Send an email where you specify the subject, body, and recipients'
+                            }
+                        ],
+                        headerFreeformVisibility: true,
+                        headerAutolayoutVisibility: true
                     },
                     {
                         headerLabel: 'FlowBuilderLeftPanelElements.flowControlDataOperationsLabel',
                         headerItems: [
                             { type: 'element', name: ELEMENT_TYPE.RECORD_CREATE },
+                            { type: 'element', name: ELEMENT_TYPE.RECORD_UPDATE },
                             { type: 'element', name: ELEMENT_TYPE.RECORD_LOOKUP }
                         ]
                     }
                 ]
             };
 
-            const expectedElementSections = [
-                {
-                    _children: [{ elementType: ELEMENT_TYPE.SCREEN }, { elementType: ELEMENT_TYPE.ACTION_CALL }],
-                    guid: 'testGUID',
-                    label: 'FlowBuilderLeftPanelElements.flowInteractionComponentsLabel'
-                },
-                {
-                    _children: [
-                        { elementType: ELEMENT_TYPE.ASSIGNMENT },
-                        { elementType: ELEMENT_TYPE.WAIT },
-                        {
-                            elementType: ELEMENT_TYPE.ACTION_CALL,
-                            actionType: 'marketingEmail',
-                            actionName: 'marketingEmail'
-                        }
-                    ],
-                    guid: 'testGUID',
-                    label: 'FlowBuilderLeftPanelElements.flowControlLogicLabel'
-                },
-                {
-                    _children: [
-                        { elementType: ELEMENT_TYPE.RECORD_CREATE },
-                        { elementType: ELEMENT_TYPE.RECORD_LOOKUP }
-                    ],
-                    guid: 'testGUID',
-                    label: 'FlowBuilderLeftPanelElements.flowControlDataOperationsLabel'
-                }
-            ];
-
-            expect(getElementSections(unsortedElements, palette)).toMatchObject(expectedElementSections);
+            expect(getElementSections(unsortedElements, palette)).toMatchSnapshot();
         });
     });
 

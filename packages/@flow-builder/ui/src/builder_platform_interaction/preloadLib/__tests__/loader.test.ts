@@ -311,9 +311,6 @@ describe('Loader', () => {
             const triggerType = 'record_after_save';
             const recordTriggerType = 'update';
             it('initiates loading of invocable actions and palette', () => {
-                const processType = 'process_type_1';
-                const triggerType = 'record_after_save';
-                const recordTriggerType = 'create';
                 loadOnTriggerTypeChange(processType, triggerType, recordTriggerType);
                 expect(loadActions).toBeCalledTimes(1);
                 expect(loadActions).toBeCalledWith(processType, triggerType);

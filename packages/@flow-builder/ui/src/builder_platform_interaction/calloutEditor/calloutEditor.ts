@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
-import { ELEMENT_TYPE, ACTION_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, ACTION_TYPE, ACTION_TYPE_TO_ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { shouldNotBeNullOrUndefined } from 'builder_platform_interaction/validationRules';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
@@ -44,7 +44,12 @@ export default class CalloutEditor extends LightningElement {
             .then((invocableActions) => {
                 this.invocableActionsFetched = true;
                 this.invocableActions = invocableActions;
-
+                const selectedTypeOption =
+                    ACTION_TYPE_TO_ELEMENT_TYPE[getValueFromHydratedItem(this.calloutNode.actionType)];
+                if (this.isCustomAction && selectedTypeOption) {
+                    this.selectedFilterBy = this.labels.filterByTypeOption;
+                    this.selectedCategory = selectedTypeOption;
+                }
                 // Set options
                 this.setCategoryOptions();
             })
@@ -66,6 +71,11 @@ export default class CalloutEditor extends LightningElement {
         ];
     }
 
+    get isCustomAction() {
+        // return true if and only if actionIsStandard is false
+        return !(this.calloutNode.actionIsStandard ?? true);
+    }
+
     @api
     get node() {
         return this.calloutNode;
@@ -75,12 +85,13 @@ export default class CalloutEditor extends LightningElement {
         this.calloutNode = newValue || {};
         this.location.locationX = this.calloutNode.locationX;
         this.location.locationY = this.calloutNode.locationY;
-        // Only show left panel if element is not a subflow and not a palette promoted action
+        // Only show left panel if element is not a subflow and not a palette promoted action or if it's a custom action
         this.showLeftPanel =
-            this.calloutNode.elementType !== ELEMENT_TYPE.SUBFLOW &&
-            !getValueFromHydratedItem(this.calloutNode.actionType);
-        // Only show action selector if element is not a palette promoted action
-        this.showActionSelector = !getValueFromHydratedItem(this.calloutNode.actionType);
+            (this.calloutNode.elementType !== ELEMENT_TYPE.SUBFLOW &&
+                !getValueFromHydratedItem(this.calloutNode.actionType)) ||
+            this.isCustomAction;
+        // Only show action selector if element is not a palette promoted action or if it's a custom action
+        this.showActionSelector = !getValueFromHydratedItem(this.calloutNode.actionType) || this.isCustomAction;
         this.updateSelectedAction();
     }
 
