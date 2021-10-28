@@ -1958,6 +1958,9 @@ export default class Editor extends LightningElement {
         if (!this.properties.isAutoLayoutCanvas) {
             // Attempt Free-Form to Auto-Layout Canvas conversion, no-gack if fails
             if (!this.canConvertToAutoLayoutCheck()) {
+                // Resetting the canvas mode combobox in toolbar to free-form
+                this.template.querySelector(PANELS.TOOLBAR).resetComboboxValueToFreeForm();
+
                 const unsupportedFeatureItems = [
                     { message: LABELS.errorMessageDisconnectedElements, key: 1 },
                     { message: LABELS.errorMessageTerminatedForEach, key: 2 },
@@ -1987,6 +1990,9 @@ export default class Editor extends LightningElement {
                     footerClass: 'slds-theme_default'
                 });
             } else if (this.hasUnsavedChangesAfterTogglingCanvas) {
+                // Resetting the canvas mode combobox in toolbar to free-form
+                this.template.querySelector(PANELS.TOOLBAR).resetComboboxValueToFreeForm();
+
                 // Show a warning modal if there are unsaved changes (besides the canvas mode change) on toggle
                 invokeModal({
                     headerData: {

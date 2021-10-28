@@ -176,6 +176,14 @@ export default class Toolbar extends LightningElement {
         }
     }
 
+    // Every time the user tries to toggle the canvas mode, the combobox by default updates it's value.
+    // In the cases where the conversion from free-form to auto-layout isn't possible, we need to manually
+    // reset the value
+    @api
+    resetComboboxValueToFreeForm() {
+        this.template.querySelector('lightning-combobox').value = CanvasMode.FreeForm;
+    }
+
     get showSelectionButton() {
         return this.isAutoLayoutCanvas && !this.hideSelectionButton;
     }
@@ -441,10 +449,6 @@ export default class Toolbar extends LightningElement {
 
     handleToggleCanvasMode(event) {
         event.stopPropagation();
-        // Checking if the unsaved positions modal will show up and forcing combobox to have freeform selected
-        if (!this.isUndoDisabled && !this.isAutoLayoutCanvas) {
-            event.target.value = CanvasMode.FreeForm;
-        }
         this.dispatchEvent(new ToggleCanvasModeEvent());
     }
 }

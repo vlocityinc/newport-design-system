@@ -731,5 +731,21 @@ describe('toolbar', () => {
             expect(eventCallback).toHaveBeenCalled();
             expect(canvasModeComboboxButton.value).toEqual(CanvasMode.FreeForm);
         });
+
+        it('resetComboboxValueToFreeForm should correctly reset the combobox value to Free-Form', () => {
+            const toolbarComponent = createComponentUnderTest({
+                isAutoLayoutCanvas: true,
+                showCanvasModeCombobox: true
+            });
+
+            const canvasModeCombobox = toolbarComponent.shadowRoot.querySelector(SELECTORS.canvasModeCombobox);
+            const canvasModeComboboxButton = canvasModeCombobox.querySelector(
+                LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_COMBOBOX
+            );
+            expect(canvasModeComboboxButton.value).toBe(CanvasMode.AutoLayout);
+
+            toolbarComponent.resetComboboxValueToFreeForm();
+            expect(canvasModeComboboxButton.value).toBe(CanvasMode.FreeForm);
+        });
     });
 });
