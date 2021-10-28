@@ -19,7 +19,11 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import {
+    setDocumentBodyChildren,
+    ticks,
+    INTERACTION_COMPONENTS_SELECTORS
+} from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
@@ -28,16 +32,10 @@ jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 const SELECTORS = {
-    LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
-    ENTITY_RESOURCE_PICKER: 'builder_platform_interaction-entity-resource-picker',
-    FIELD_PICKER: 'builder_platform_interaction-field-picker',
-    RECORD_FILTER: 'builder_platform_interaction-record-filter',
-    RECORD_SORT: 'builder_platform_interaction-record-sort',
+    ...INTERACTION_COMPONENTS_SELECTORS,
     CHOICE_LIMIT_INPUT: '.choice-limit',
     DISPLAY_FIELD: '.test-display-field',
-    DATA_TYPE: 'builder_platform_interaction-data-type-picker',
-    VALUE_FIELD: '.test-value-field',
-    OUTPUT_ASSIGNMENTS: 'builder_platform_interaction-record-input-output-assignments'
+    VALUE_FIELD: '.test-value-field'
 };
 
 const setupComponentUnderTest = (recordChoiceObject) => {
@@ -375,7 +373,7 @@ describe('record-choice-set-editor', () => {
             describe('dataType', () => {
                 describe('without object field filled', () => {
                     recordChoiceEditor = setupComponentUnderTest(recordChoiceObjectWithoutObjectField);
-                    dataTypePicker = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
+                    dataTypePicker = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE_PICKER);
 
                     it('Data type Picker is undefined', () => {
                         expect(dataTypePicker).toBeNull();
@@ -385,7 +383,7 @@ describe('record-choice-set-editor', () => {
                 describe('with object field filled', () => {
                     beforeEach(() => {
                         recordChoiceEditor = setupComponentUnderTest(recordChoiceObject);
-                        dataTypePicker = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
+                        dataTypePicker = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE_PICKER);
                     });
 
                     const dispatchValueChangedEvent = (payload) => {
@@ -458,7 +456,9 @@ describe('record-choice-set-editor', () => {
             describe('outputAssignments', () => {
                 describe('whithout object field filled', () => {
                     recordChoiceEditor = setupComponentUnderTest(recordChoiceObjectWithoutObjectField);
-                    outputAssignment = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.OUTPUT_ASSIGNMENTS);
+                    outputAssignment = recordChoiceEditor.shadowRoot.querySelector(
+                        SELECTORS.RECORD_INPUT_OUTPUT_ASSIGNMENTS
+                    );
                     it('Output Assignment is undefined', () => {
                         expect(outputAssignment).toBeNull();
                     });
@@ -467,7 +467,9 @@ describe('record-choice-set-editor', () => {
                 describe('with object field filled', () => {
                     beforeEach(() => {
                         recordChoiceEditor = setupComponentUnderTest(recordChoiceObject);
-                        outputAssignment = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.OUTPUT_ASSIGNMENTS);
+                        outputAssignment = recordChoiceEditor.shadowRoot.querySelector(
+                            SELECTORS.RECORD_INPUT_OUTPUT_ASSIGNMENTS
+                        );
                     });
 
                     it('Output Assignment should be defined', () => {
