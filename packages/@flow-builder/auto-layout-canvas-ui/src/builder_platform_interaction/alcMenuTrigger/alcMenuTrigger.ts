@@ -19,6 +19,9 @@ export default class AlcMenuTrigger extends LightningElement {
     target;
 
     @api
+    connectorAriaInfo;
+
+    @api
     guid;
 
     @api

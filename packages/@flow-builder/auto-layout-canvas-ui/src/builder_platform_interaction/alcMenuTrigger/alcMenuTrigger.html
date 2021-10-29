@@ -7,9 +7,11 @@
             type="button"
             onclick={handleButtonClick}
             onmousedown={handleButtonMouseDown}
+            aria-describedby="secondary"
         >
             <slot name="trigger"></slot>
         </button>
+        <div class="slds-assistive-text" id="secondary">{connectorAriaInfo}</div>
     </div>
 
     <slot name="selection-checkbox"></slot>

@@ -17,8 +17,11 @@ import {
     hasChildren,
     hasGoToOnNext,
     hasGoToOnBranchHead,
-    hasGoTo,
     FAULT_INDEX,
+    hasGoTo,
+    getNonTerminalBranchIndexes,
+    getChild,
+    ConnectorLabelType,
     getFirstNonNullNext,
     isGoingBackToAncestorLoop,
     ConnectionSource,
@@ -28,7 +31,6 @@ import {
     START_IMMEDIATE_INDEX,
     findParentElement
 } from 'builder_platform_interaction/autoLayoutCanvas';
-
 import { ToggleMenuEvent } from 'builder_platform_interaction/alcEvents';
 import { PrivateItemRegisterEvent } from 'builder_platform_interaction/alcEvents';
 import { LABELS } from './alcComponentsUtilsLabels';
@@ -497,15 +499,18 @@ function getStyleFromGeometry({ x, y, w, h }: { x?: number; y?: number; w?: numb
 /**
  * Get the data needed to render a alcConnector component
  *
+ * @param flowModel - Representation of the flow as presented in the Canvas
  * @param connectorInfo - Info about a connector
  * @returns The alcConnector component data
  */
-function getAlcConnectorData(connectorInfo: ConnectorRenderInfo) {
+function getAlcConnectorData(flowModel: FlowModel, connectorInfo: ConnectorRenderInfo) {
+    const connectorDescription = getConnectorAriaInfo(flowModel, connectorInfo.source);
     return {
         key: connectorKey(connectorInfo),
         connectorInfo,
         style: getStyleFromGeometry(connectorInfo.geometry),
-        className: ''
+        className: '',
+        connectorDescription
     };
 }
 
@@ -674,6 +679,310 @@ function getAlcMenuData(
         style,
         isGoToConnector
     };
+}
+
+/**
+ * @param flowModel - The Flow Model
+ * @param connectorLabelType - The connector label type
+ * @param sourceElement - The connector's source element
+ * @param sourceLabel - The connector's source label
+ * @param targetGuid - The connector's target guid
+ * @param targetLabel - The connector's target label
+ * @param sourceHasGoTo - True if the connector's source has a GoTo, False if not
+ * @returns connector aria label string
+ */
+function getDescriptionForLoopConnectors(
+    flowModel: FlowModel,
+    connectorLabelType: ConnectorLabelType,
+    sourceElement: ParentNodeModel,
+    sourceLabel: string,
+    targetGuid: string | null,
+    targetLabel: string,
+    sourceHasGoTo?: boolean
+) {
+    if (connectorLabelType === ConnectorLabelType.LOOP_FOR_EACH) {
+        if ((sourceElement as ParentNodeModel).children[FOR_EACH_INDEX] == null) {
+            // When a connector loops back to itself in the For Each path
+            return format(LABELS.emptyForEachDescribedBy, sourceLabel);
+        }
+        // A connector of a loop in the For Each path
+        return sourceHasGoTo
+            ? format(LABELS.branchHeadGoToConnectorDescribedBy, sourceLabel, targetLabel, LABELS.forEachBadgeLabel)
+            : format(LABELS.branchHeadConnectorDescribedBy, sourceLabel, targetLabel, LABELS.forEachBadgeLabel);
+    } else if (
+        !sourceHasGoTo &&
+        flowModel[targetGuid!].nodeType === NodeType.LOOP &&
+        isGoingBackToAncestorLoop(flowModel, targetGuid!, sourceElement)
+    ) {
+        // When a branch head connector within the After Last branch is going back to the ancestral loop element
+        return format(
+            LABELS.branchHeadLoopCloseConnectorDescribedBy,
+            sourceLabel,
+            targetLabel,
+            LABELS.afterLastBadgeLabel
+        );
+    }
+    // A connector of a loop in the After Last path
+    return sourceHasGoTo
+        ? format(LABELS.branchHeadGoToConnectorDescribedBy, sourceLabel, targetLabel, LABELS.afterLastBadgeLabel)
+        : format(LABELS.branchHeadConnectorDescribedBy, sourceLabel, targetLabel, LABELS.afterLastBadgeLabel);
+}
+
+/**
+ * @param flowModel - The Flow Model
+ * @param sourceElement - The connector's source element
+ * @param sourceLabel - The connector's source label
+ * @param targetLabel - The connector's target label
+ * @param childIndex - The connector's source child index value
+ * @param label - The connector's describedBy type
+ * @returns connector aria label string
+ */
+function getDescriptionForDecisionOrPauseBranchHeadConnector(
+    flowModel: FlowModel,
+    sourceElement: ParentNodeModel,
+    sourceLabel: string,
+    targetLabel: string,
+    childIndex: number,
+    label: string
+) {
+    const pathName =
+        childIndex === (sourceElement as ParentNodeModel).children.length - 1
+            ? sourceElement.defaultConnectorLabel
+            : flowModel[(sourceElement as ParentNodeModel).childReferences[childIndex].childReference].label;
+    return format(label, sourceLabel, targetLabel, pathName);
+}
+
+/**
+ * @param flowModel - The Flow Model
+ * @param sourceElement - The connector's source element
+ * @param sourceLabel - The connector's source label
+ * @param targetGuid - The connector's target guid
+ * @param targetLabel - The connector's target label
+ * @param childIndex - The connector's source child index value
+ * @param sourceHasGoTo - True if the connector's source has a GoTo, False if not
+ * @returns connector aria label string
+ */
+function getDescriptionForBranchHeadConnectors(
+    flowModel: FlowModel,
+    sourceElement: ParentNodeModel,
+    sourceLabel: string,
+    targetGuid: string | null,
+    targetLabel: string,
+    childIndex: number,
+    sourceHasGoTo?: boolean
+) {
+    if (sourceElement.nodeType === NodeType.LOOP) {
+        // Evaluating For Each connector
+        return getDescriptionForLoopConnectors(
+            flowModel,
+            ConnectorLabelType.LOOP_FOR_EACH,
+            sourceElement,
+            sourceLabel,
+            targetGuid,
+            targetLabel,
+            sourceHasGoTo
+        );
+    } else if (
+        !sourceHasGoTo &&
+        flowModel[targetGuid!].nodeType === NodeType.LOOP &&
+        isGoingBackToAncestorLoop(flowModel, targetGuid!, sourceElement)
+    ) {
+        // When a branch head connector within the For Each branch is going back to the ancestral loop element
+        return getDescriptionForDecisionOrPauseBranchHeadConnector(
+            flowModel,
+            sourceElement,
+            sourceLabel,
+            targetLabel,
+            childIndex,
+            LABELS.branchHeadLoopCloseConnectorDescribedBy
+        );
+    }
+    const describedByLabel = sourceHasGoTo
+        ? LABELS.branchHeadGoToConnectorDescribedBy
+        : LABELS.branchHeadConnectorDescribedBy;
+    if (childIndex === FAULT_INDEX) {
+        // Fault path scenario
+        return format(describedByLabel, sourceLabel, targetLabel, LABELS.faultConnectorBadgeLabel);
+    } else if (sourceElement.nodeType === NodeType.START) {
+        // A regular connector scenario with START element as the source
+        if (childIndex === START_IMMEDIATE_INDEX) {
+            return format(describedByLabel, sourceLabel, targetLabel, sourceElement.defaultConnectorLabel);
+        }
+        const pathName = flowModel[sourceElement.childReferences[childIndex - 1].childReference].label;
+        return format(describedByLabel, sourceLabel, targetLabel, pathName);
+    }
+    // Branch head connector scenario with Decision or Pause as the source
+    return getDescriptionForDecisionOrPauseBranchHeadConnector(
+        flowModel,
+        sourceElement,
+        sourceLabel,
+        targetLabel,
+        childIndex,
+        describedByLabel
+    );
+}
+
+/**
+ * @param flowModel - The Flow Model
+ * @param sourceElement - The connector's source element
+ * @param sourceLabel - The connector's source label
+ * @param targetGuid - The connector's target guid
+ * @param targetLabel - The connector's target label
+ * @param sourceHasGoTo - True if the connector's source has a GoTo, False if not
+ * @returns connector aria label string
+ */
+function getDescriptionForPostMergeConnector(
+    flowModel: FlowModel,
+    sourceElement: ParentNodeModel,
+    sourceLabel: string,
+    targetGuid: string | null,
+    targetLabel: string,
+    sourceHasGoTo?: boolean
+) {
+    const mergingBranchCount = getNonTerminalBranchIndexes(sourceElement, flowModel).length;
+    if (
+        !sourceHasGoTo &&
+        flowModel[targetGuid!].nodeType === NodeType.LOOP &&
+        isGoingBackToAncestorLoop(flowModel, targetGuid!, sourceElement)
+    ) {
+        // When going back from a branching element's merge point to the ancestral loop element
+        return format(LABELS.postMergeLoopCloseConnectorDescribedBy, sourceLabel, mergingBranchCount, targetLabel);
+    }
+    // A regular merge point connector with a number of incoming branches
+    return sourceHasGoTo
+        ? format(LABELS.postMergeGoToConnectorDescribedBy, sourceLabel, mergingBranchCount, targetLabel)
+        : format(LABELS.postMergeConnectorDescribedBy, sourceLabel, mergingBranchCount, targetLabel);
+}
+
+/**
+ * @param flowModel - The Flow Model
+ * @param sourceElement - The connector's source element
+ * @param sourceLabel - The connector's source label
+ * @param targetGuid - The connector's target guid
+ * @param targetLabel - The connector's target label
+ * @param sourceHasGoTo - True if the connector's source has a GoTo, False if not
+ * @returns connector aria label string
+ */
+function getDescriptionForImmediateAndScheduledPathConnectors(
+    flowModel: FlowModel,
+    sourceElement: ParentNodeModel,
+    sourceLabel: string,
+    targetGuid: string | null,
+    targetLabel: string,
+    sourceHasGoTo?: boolean
+) {
+    if (!(sourceElement as ParentNodeModel).children) {
+        // A connector from the START element with no scheduled paths in the Run Immediately path
+        return format(
+            LABELS.branchHeadConnectorDescribedBy,
+            sourceLabel,
+            targetLabel,
+            sourceElement.defaultConnectorLabel
+        );
+    }
+    // A merge point connector with a number of incoming branches from the START element
+    return getDescriptionForPostMergeConnector(
+        flowModel,
+        sourceElement,
+        sourceLabel,
+        targetGuid,
+        targetLabel,
+        sourceHasGoTo
+    );
+}
+
+/**
+ * @param flowModel - The Flow Model
+ * @param sourceElement - The connector's source element
+ * @param childIndex - The connector's source child index value
+ * @returns connector aria label string
+ */
+function getTargetGuid(
+    flowModel: FlowModel,
+    sourceElement: ParentNodeModel,
+    childIndex: number | null | undefined
+): Guid | null {
+    return childIndex != null
+        ? getChild(sourceElement, childIndex) || getFirstNonNullNext(flowModel, sourceElement, false)
+        : sourceElement.next || getFirstNonNullNext(flowModel, findParentElement(sourceElement, flowModel), false);
+}
+
+/**
+ * @param flowModel Flow Model
+ * @param source The connection source
+ * @returns connector aria label string
+ */
+function getConnectorAriaInfo(flowModel: FlowModel, source: ConnectionSource) {
+    const { guid, childIndex } = source;
+    const sourceElement = flowModel[guid];
+    let ariaDescribedBy = '';
+
+    if (sourceElement.nodeType === NodeType.ROOT) {
+        return ariaDescribedBy;
+    }
+
+    const sourceLabel = sourceElement.nodeType === NodeType.START ? sourceElement.elementType : sourceElement.label;
+    const targetGuid = getTargetGuid(flowModel, sourceElement as ParentNodeModel, childIndex);
+    const targetLabel = flowModel[targetGuid!].label;
+    const sourceHasGoTo = hasGoTo(flowModel, source);
+
+    if (childIndex != null) {
+        ariaDescribedBy = getDescriptionForBranchHeadConnectors(
+            flowModel,
+            sourceElement as ParentNodeModel,
+            sourceLabel,
+            targetGuid,
+            targetLabel,
+            childIndex,
+            sourceHasGoTo
+        );
+    } else if (sourceElement.nodeType === NodeType.LOOP) {
+        // Evaluating After Last connector
+        ariaDescribedBy = getDescriptionForLoopConnectors(
+            flowModel,
+            ConnectorLabelType.LOOP_AFTER_LAST,
+            sourceElement as ParentNodeModel,
+            sourceLabel,
+            targetGuid,
+            targetLabel,
+            sourceHasGoTo
+        );
+    } else if (sourceElement.nodeType === NodeType.BRANCH) {
+        // Merge Point scenario
+        ariaDescribedBy = getDescriptionForPostMergeConnector(
+            flowModel,
+            sourceElement as ParentNodeModel,
+            sourceLabel,
+            targetGuid,
+            targetLabel,
+            sourceHasGoTo
+        );
+    } else if (
+        sourceElement.nodeType === NodeType.START &&
+        (sourceElement as StartNodeModel).shouldSupportScheduledPaths
+    ) {
+        ariaDescribedBy = getDescriptionForImmediateAndScheduledPathConnectors(
+            flowModel,
+            sourceElement as ParentNodeModel,
+            sourceLabel,
+            targetGuid,
+            targetLabel,
+            sourceHasGoTo
+        );
+    } else if (
+        !sourceHasGoTo &&
+        flowModel[targetGuid!].nodeType === NodeType.LOOP &&
+        isGoingBackToAncestorLoop(flowModel, targetGuid!, sourceElement)
+    ) {
+        // When a regular connector in the For Each branch is going back to the ancestral loop element
+        ariaDescribedBy = format(LABELS.loopCloseConnectorDescribedBy, sourceLabel, targetLabel);
+    } else {
+        // A regular connector scenario between two nodes
+        const label = sourceHasGoTo ? LABELS.goToConnectorDescribedBy : LABELS.straightConnectorDescribedBy;
+        ariaDescribedBy = format(label, sourceLabel, targetLabel);
+    }
+
+    return ariaDescribedBy;
 }
 
 /**

@@ -2155,7 +2155,7 @@ function inlineBranches(state: FlowModel, parentElement: ParentNodeModel) {
  * @param state - The flow model
  * @returns An array indices for the terminated branches
  */
-function getNonTerminalBranchIndexes(parentElement: ParentNodeModel, state: FlowModel): number[] {
+export function getNonTerminalBranchIndexes(parentElement: ParentNodeModel, state: FlowModel): number[] {
     return parentElement.children
         .map((child: NodeRef, index: number) => {
             // A branch is not terminal if the child guid is null or

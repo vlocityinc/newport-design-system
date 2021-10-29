@@ -49,13 +49,13 @@ export default class AlcCompoundNode extends LightningElement {
     }
 
     get logicConnectors() {
-        return (this.node.logicConnectors || []).map(getAlcConnectorData);
+        return (this.node.logicConnectors || []).map((connector) => getAlcConnectorData(this.flowModel, connector));
     }
 
     get nextConnector() {
         const { nextConnector } = this.node;
 
-        return nextConnector && getAlcConnectorData(nextConnector);
+        return nextConnector && getAlcConnectorData(this.flowModel, nextConnector);
     }
 
     @api

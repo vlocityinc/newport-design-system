@@ -6,11 +6,13 @@ import {
     getFirstSelectableElementGuid,
     getAlcMenuData,
     getMenuStyle,
-    getAlcNodeData
+    getAlcNodeData,
+    getAlcConnectorData
 } from '../alcComponentsUtils';
 import {
     flowModelData,
     recordTriggeredFlowModelData,
+    recordTriggeredFlowModelWithScheduledPathsData,
     recordTriggerFlowModel2,
     scheduleTriggerFlowModel,
     flowModelWithOneDecision,
@@ -1449,6 +1451,446 @@ describe('ALC Canvas Utils test', () => {
                 const { nodeDescription } = getAlcNodeData(flowModelWithGoToOnFault, nodeRenderInfo);
                 expect(nodeDescription).toEqual(expectedAriaDescribedBy);
             });
+        });
+    });
+
+    describe('getAlcConnectorData', () => {
+        it('ariaDescribedBy for connector between start and d4', () => {
+            const connectorRenderInfo = {
+                source: {
+                    guid: 'c2238db9-67bc-466b-9a5e-d66d48dcc1a6'
+                },
+                geometry: {}
+            };
+            const expectedAriaDescribedBy = 'AlcConnector.straightConnectorDescribedBy(START_ELEMENT,d4)';
+
+            const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
+            expect(connectorDescription).toEqual(expectedAriaDescribedBy);
+        });
+
+        it('ariaDescribedBy for connector between d4 and loop1 (o1)', () => {
+            const connectorRenderInfo = {
+                source: {
+                    guid: 'fda8f30e-7772-4665-a9ff-a7cb12d5646a',
+                    childIndex: 0
+                },
+                geometry: {}
+            };
+            const expectedAriaDescribedBy = 'AlcConnector.branchHeadConnectorDescribedBy(d4,loop1,o1)';
+
+            const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
+            expect(connectorDescription).toEqual(expectedAriaDescribedBy);
+        });
+
+        it('ariaDescribedBy for connector going from d4 to s1 (Default Outcome)', () => {
+            const connectorRenderInfo = {
+                source: {
+                    guid: 'fda8f30e-7772-4665-a9ff-a7cb12d5646a',
+                    childIndex: 1
+                },
+                geometry: {}
+            };
+            const expectedAriaDescribedBy = 'AlcConnector.branchHeadGoToConnectorDescribedBy(d4,s1,Default Outcome)';
+
+            const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
+            expect(connectorDescription).toEqual(expectedAriaDescribedBy);
+        });
+
+        it('ariaDescribedBy for connector between loop1 and d1 (After Last)', () => {
+            const connectorRenderInfo = {
+                source: {
+                    guid: '60b466f1-6589-4352-8603-51e225b70b36'
+                },
+                geometry: {}
+            };
+            const expectedAriaDescribedBy =
+                'AlcConnector.branchHeadConnectorDescribedBy(loop1,d1,FlowBuilderConnectorLabels.afterLastBadgeLabel)';
+
+            const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
+            expect(connectorDescription).toEqual(expectedAriaDescribedBy);
+        });
+
+        it('ariaDescribedBy for connector between loop1 and s1 (For Each)', () => {
+            const connectorRenderInfo = {
+                source: {
+                    guid: '60b466f1-6589-4352-8603-51e225b70b36',
+                    childIndex: 0
+                },
+                geometry: {}
+            };
+            const expectedAriaDescribedBy =
+                'AlcConnector.branchHeadConnectorDescribedBy(loop1,s1,FlowBuilderConnectorLabels.forEachBadgeLabel)';
+
+            const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
+            expect(connectorDescription).toEqual(expectedAriaDescribedBy);
+        });
+
+        it('ariaDescribedBy for connector between s1 and loop1 at loop close', () => {
+            const connectorRenderInfo = {
+                source: {
+                    guid: 'd8323004-4915-4580-a056-08b7b1f32d18'
+                },
+                geometry: {}
+            };
+            const expectedAriaDescribedBy = 'AlcConnector.loopCloseConnectorDescribedBy(s1,loop1)';
+
+            const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
+            expect(connectorDescription).toEqual(expectedAriaDescribedBy);
+        });
+
+        it('ariaDescribedBy for connector between d1 and loop2 (o1)', () => {
+            const connectorRenderInfo = {
+                source: {
+                    guid: 'e1cdea64-32aa-4197-8c91-e30afd1d3b0f',
+                    childIndex: 0
+                },
+                geometry: {}
+            };
+            const expectedAriaDescribedBy = 'AlcConnector.branchHeadConnectorDescribedBy(d1,loop2,o1)';
+
+            const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
+            expect(connectorDescription).toEqual(expectedAriaDescribedBy);
+        });
+
+        it('ariaDescribedBy for connector between d1 and d2 (o2)', () => {
+            const connectorRenderInfo = {
+                source: {
+                    guid: 'e1cdea64-32aa-4197-8c91-e30afd1d3b0f',
+                    childIndex: 1
+                },
+                geometry: {}
+            };
+            const expectedAriaDescribedBy = 'AlcConnector.branchHeadConnectorDescribedBy(d1,d2,o2)';
+
+            const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
+            expect(connectorDescription).toEqual(expectedAriaDescribedBy);
+        });
+
+        it('ariaDescribedBy for connector between d1 and s1 (o3)', () => {
+            const connectorRenderInfo = {
+                source: {
+                    guid: 'e1cdea64-32aa-4197-8c91-e30afd1d3b0f',
+                    childIndex: 2
+                },
+                geometry: {}
+            };
+            const expectedAriaDescribedBy = 'AlcConnector.branchHeadConnectorDescribedBy(d1,s1,o3)';
+
+            const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
+            expect(connectorDescription).toEqual(expectedAriaDescribedBy);
+        });
+
+        it('ariaDescribedBy for connector between d1 and s1 (Default Outcome)', () => {
+            const connectorRenderInfo = {
+                source: {
+                    guid: 'e1cdea64-32aa-4197-8c91-e30afd1d3b0f',
+                    childIndex: 3
+                },
+                geometry: {}
+            };
+            const expectedAriaDescribedBy = 'AlcConnector.branchHeadConnectorDescribedBy(d1,s1,Default Outcome)';
+
+            const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
+            expect(connectorDescription).toEqual(expectedAriaDescribedBy);
+        });
+
+        it('ariaDescribedBy for connector going from d1 (2 branches) to s1', () => {
+            const connectorRenderInfo = {
+                source: {
+                    guid: 'e1cdea64-32aa-4197-8c91-e30afd1d3b0f'
+                },
+                geometry: {}
+            };
+            const expectedAriaDescribedBy = 'AlcConnector.postMergeGoToConnectorDescribedBy(d1,2,s1)';
+
+            const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
+            expect(connectorDescription).toEqual(expectedAriaDescribedBy);
+        });
+
+        it('ariaDescribedBy for connector between loop and End (After Last)', () => {
+            const connectorRenderInfo = {
+                source: {
+                    guid: '051e3653-5a6e-43b5-9438-33bb3ebae28b'
+                },
+                geometry: {}
+            };
+            const expectedAriaDescribedBy =
+                'AlcConnector.branchHeadConnectorDescribedBy(loop2,End,FlowBuilderConnectorLabels.afterLastBadgeLabel)';
+
+            const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
+            expect(connectorDescription).toEqual(expectedAriaDescribedBy);
+        });
+
+        it('ariaDescribedBy for connector between loop2 and d3 (For Each)', () => {
+            const connectorRenderInfo = {
+                source: {
+                    guid: '051e3653-5a6e-43b5-9438-33bb3ebae28b',
+                    childIndex: 0
+                },
+                geometry: {}
+            };
+            const expectedAriaDescribedBy =
+                'AlcConnector.branchHeadConnectorDescribedBy(loop2,d3,FlowBuilderConnectorLabels.forEachBadgeLabel)';
+
+            const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
+            expect(connectorDescription).toEqual(expectedAriaDescribedBy);
+        });
+
+        it('ariaDescribedBy for connector between d3 and loop2 (o1) at loop close', () => {
+            const connectorRenderInfo = {
+                source: {
+                    guid: '1f94a9ce-8029-4a02-9633-05abd127c43f',
+                    childIndex: 0
+                },
+                geometry: {}
+            };
+            const expectedAriaDescribedBy = 'AlcConnector.branchHeadLoopCloseConnectorDescribedBy(d3,loop2,o1)';
+
+            const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
+            expect(connectorDescription).toEqual(expectedAriaDescribedBy);
+        });
+
+        it('ariaDescribedBy for connector between d3 and loop2 (Default Outcome) at loop close', () => {
+            const connectorRenderInfo = {
+                source: {
+                    guid: '1f94a9ce-8029-4a02-9633-05abd127c43f',
+                    childIndex: 1
+                },
+                geometry: {}
+            };
+            const expectedAriaDescribedBy =
+                'AlcConnector.branchHeadLoopCloseConnectorDescribedBy(d3,loop2,Default Outcome)';
+
+            const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
+            expect(connectorDescription).toEqual(expectedAriaDescribedBy);
+        });
+
+        it('ariaDescribedBy for connector between d3 (2 branches) and loop2 at loop close', () => {
+            const connectorRenderInfo = {
+                source: {
+                    guid: '1f94a9ce-8029-4a02-9633-05abd127c43f'
+                },
+                geometry: {}
+            };
+            const expectedAriaDescribedBy = 'AlcConnector.postMergeLoopCloseConnectorDescribedBy(d3,2,loop2)';
+
+            const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
+            expect(connectorDescription).toEqual(expectedAriaDescribedBy);
+        });
+
+        it('ariaDescribedBy for connector between d2 and loop3 (o1)', () => {
+            const connectorRenderInfo = {
+                source: {
+                    guid: '272558a5-9d21-457d-8209-7bb42f6498e2',
+                    childIndex: 0
+                },
+                geometry: {}
+            };
+            const expectedAriaDescribedBy = 'AlcConnector.branchHeadConnectorDescribedBy(d2,loop3,o1)';
+
+            const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
+            expect(connectorDescription).toEqual(expectedAriaDescribedBy);
+        });
+
+        it('ariaDescribedBy for connector between d2 and s3 (o2)', () => {
+            const connectorRenderInfo = {
+                source: {
+                    guid: '272558a5-9d21-457d-8209-7bb42f6498e2',
+                    childIndex: 1
+                },
+                geometry: {}
+            };
+            const expectedAriaDescribedBy = 'AlcConnector.branchHeadConnectorDescribedBy(d2,s3,o2)';
+
+            const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
+            expect(connectorDescription).toEqual(expectedAriaDescribedBy);
+        });
+
+        it('ariaDescribedBy for connector between d2 and End (Default Outcome)', () => {
+            const connectorRenderInfo = {
+                source: {
+                    guid: '272558a5-9d21-457d-8209-7bb42f6498e2',
+                    childIndex: 2
+                },
+                geometry: {}
+            };
+            const expectedAriaDescribedBy = 'AlcConnector.branchHeadConnectorDescribedBy(d2,End,Default Outcome)';
+
+            const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
+            expect(connectorDescription).toEqual(expectedAriaDescribedBy);
+        });
+
+        it('ariaDescribedBy for connector between d2 (2 branches) and End', () => {
+            const connectorRenderInfo = {
+                source: {
+                    guid: '272558a5-9d21-457d-8209-7bb42f6498e2'
+                },
+                geometry: {}
+            };
+            const expectedAriaDescribedBy = 'AlcConnector.postMergeConnectorDescribedBy(d2,2,End)';
+
+            const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
+            expect(connectorDescription).toEqual(expectedAriaDescribedBy);
+        });
+
+        it('ariaDescribedBy for connector between loop3 and updateRecord (After Last)', () => {
+            const connectorRenderInfo = {
+                source: {
+                    guid: '29bc4524-3140-4f41-8312-040733d7bb7d'
+                },
+                geometry: {}
+            };
+            const expectedAriaDescribedBy =
+                'AlcConnector.branchHeadConnectorDescribedBy(loop3,updateRecord,FlowBuilderConnectorLabels.afterLastBadgeLabel)';
+
+            const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
+            expect(connectorDescription).toEqual(expectedAriaDescribedBy);
+        });
+
+        it('ariaDescribedBy for connector inside empty loop3 (For Each)', () => {
+            const connectorRenderInfo = {
+                source: {
+                    guid: '29bc4524-3140-4f41-8312-040733d7bb7d',
+                    childIndex: 0
+                },
+                geometry: {}
+            };
+            const expectedAriaDescribedBy = 'AlcConnector.emptyForEachDescribedBy(loop3)';
+
+            const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
+            expect(connectorDescription).toEqual(expectedAriaDescribedBy);
+        });
+
+        it('ariaDescribedBy for connector between updateRecord and s2 (Fault)', () => {
+            const connectorRenderInfo = {
+                source: {
+                    guid: 'c5c84fb8-e0f1-41bf-a7fd-385e4dea54a8',
+                    childIndex: -1
+                },
+                geometry: {}
+            };
+            const expectedAriaDescribedBy =
+                'AlcConnector.branchHeadConnectorDescribedBy(updateRecord,s2,AlcConnector.faultConnectorBadgeLabel)';
+
+            const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
+            expect(connectorDescription).toEqual(expectedAriaDescribedBy);
+        });
+
+        it('ariaDescribedBy for connector between updateRecord and End', () => {
+            const connectorRenderInfo = {
+                source: {
+                    guid: 'c5c84fb8-e0f1-41bf-a7fd-385e4dea54a8'
+                },
+                geometry: {}
+            };
+            const expectedAriaDescribedBy = 'AlcConnector.straightConnectorDescribedBy(updateRecord,End)';
+
+            const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
+            expect(connectorDescription).toEqual(expectedAriaDescribedBy);
+        });
+
+        it('ariaDescribedBy for connector going from s2 to s1', () => {
+            const connectorRenderInfo = {
+                source: {
+                    guid: 'dfde7274-19e2-4257-86cf-c7377f88ba7a'
+                },
+                geometry: {}
+            };
+            const expectedAriaDescribedBy = 'AlcConnector.goToConnectorDescribedBy(s2,s1)';
+
+            const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
+            expect(connectorDescription).toEqual(expectedAriaDescribedBy);
+        });
+
+        it('ariaDescribedBy for connector between s3 and End', () => {
+            const connectorRenderInfo = {
+                source: {
+                    guid: '82481b50-0114-43ca-bf17-c70a1bb19260'
+                },
+                geometry: {}
+            };
+            const expectedAriaDescribedBy = 'AlcConnector.straightConnectorDescribedBy(s3,End)';
+
+            const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
+            expect(connectorDescription).toEqual(expectedAriaDescribedBy);
+        });
+
+        it('ariaDescribedBy for connector going from loop to s1 (For Each)', () => {
+            const connectorRenderInfo = {
+                source: {
+                    guid: 'd2b55833-ce47-4fb5-bf33-17816885c486',
+                    childIndex: 0
+                },
+                geometry: {}
+            };
+            const expectedAriaDescribedBy =
+                'AlcConnector.branchHeadGoToConnectorDescribedBy(loop,s1,FlowBuilderConnectorLabels.forEachBadgeLabel)';
+
+            const { connectorDescription } = getAlcConnectorData(flowModelWithGoToInLoop, connectorRenderInfo);
+            expect(connectorDescription).toEqual(expectedAriaDescribedBy);
+        });
+
+        it('ariaDescribedBy for connector between l3 and l2 (After Last) at loop close', () => {
+            const connectorRenderInfo = {
+                source: {
+                    guid: '20233c57-8b4e-40cb-801a-3209e2ccfb15'
+                },
+                geometry: {}
+            };
+            const expectedAriaDescribedBy =
+                'AlcConnector.branchHeadLoopCloseConnectorDescribedBy(l3,l2,FlowBuilderConnectorLabels.afterLastBadgeLabel)';
+
+            const { connectorDescription } = getAlcConnectorData(recordTriggerFlowModel2, connectorRenderInfo);
+            expect(connectorDescription).toEqual(expectedAriaDescribedBy);
+        });
+
+        it('ariaDescribedBy for record-triggered flow connector between START_ELEMENT and End (Run Immediately)', () => {
+            const connectorRenderInfo = {
+                source: {
+                    guid: '80e0340e-67ba-4bb7-bf11-f2696aa8043f'
+                },
+                geometry: {}
+            };
+            const expectedAriaDescribedBy =
+                'AlcConnector.branchHeadConnectorDescribedBy(START_ELEMENT,End,Run Immediately)';
+
+            const { connectorDescription } = getAlcConnectorData(recordTriggeredFlowModelData, connectorRenderInfo);
+            expect(connectorDescription).toEqual(expectedAriaDescribedBy);
+        });
+
+        it('ariaDescribedBy for record-triggered flow with scheduled paths connector between START_ELEMENT and End (Run Immediately)', () => {
+            const connectorRenderInfo = {
+                source: {
+                    guid: '3e0c5f77-1e47-4926-8ae2-da954908eaa5',
+                    childIndex: 0
+                },
+                geometry: {}
+            };
+            const expectedAriaDescribedBy =
+                'AlcConnector.branchHeadConnectorDescribedBy(START_ELEMENT,End,Run Immediately)';
+
+            const { connectorDescription } = getAlcConnectorData(
+                recordTriggeredFlowModelWithScheduledPathsData,
+                connectorRenderInfo
+            );
+            expect(connectorDescription).toEqual(expectedAriaDescribedBy);
+        });
+
+        it('ariaDescribedBy for record-triggered flow with scheduled paths connector between START_ELEMENT and End (p1)', () => {
+            const connectorRenderInfo = {
+                source: {
+                    guid: '3e0c5f77-1e47-4926-8ae2-da954908eaa5',
+                    childIndex: 1
+                },
+                geometry: {}
+            };
+            const expectedAriaDescribedBy = 'AlcConnector.branchHeadConnectorDescribedBy(START_ELEMENT,End,p1)';
+
+            const { connectorDescription } = getAlcConnectorData(
+                recordTriggeredFlowModelWithScheduledPathsData,
+                connectorRenderInfo
+            );
+            expect(connectorDescription).toEqual(expectedAriaDescribedBy);
         });
     });
 });

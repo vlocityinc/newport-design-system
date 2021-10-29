@@ -29,6 +29,9 @@ export default class AlcConnector extends LightningElement {
     disableAddElements;
 
     @api
+    connectorAriaInfo;
+
+    @api
     flowModel;
 
     get labels() {

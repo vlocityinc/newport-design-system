@@ -33,7 +33,7 @@ export default class AlcFlow extends LightningElement {
 
     get preConnector() {
         const { preConnector } = this.flow;
-        return preConnector && getAlcConnectorData(preConnector);
+        return preConnector && getAlcConnectorData(this.flowModel, preConnector);
     }
 
     get nodes() {

@@ -374,6 +374,88 @@ const recordTriggeredFlowModelData = {
     }
 };
 
+const recordTriggeredFlowModelWithScheduledPathsData = {
+    '3e0c5f77-1e47-4926-8ae2-da954908eaa5': {
+        guid: '3e0c5f77-1e47-4926-8ae2-da954908eaa5',
+        name: '$Record',
+        connectorCount: 0,
+        elementType: 'START_ELEMENT',
+        maxConnections: 2,
+        triggerType: 'RecordAfterSave',
+        recordTriggerType: 'Create',
+        object: 'Account',
+        dataType: 'SObject',
+        subtype: 'Account',
+        childReferences: [
+            {
+                childReference: 'dc47cf4c-03df-4778-bb19-efe5a32ae72a'
+            }
+        ],
+        availableConnections: [
+            {
+                childReference: 'dc47cf4c-03df-4778-bb19-efe5a32ae72a',
+                type: 'REGULAR'
+            },
+            {
+                type: 'IMMEDIATE'
+            }
+        ],
+        nodeType: 'start',
+        prev: null,
+        parent: 'root',
+        childIndex: 0,
+        isTerminal: true,
+        next: null,
+        defaultConnectorLabel: 'Run Immediately',
+        children: ['3c87ad1d-6e52-409f-b1f7-1ae82413de31', '4014d37b-6395-40a9-98fc-5c08748f2be8']
+    },
+    '3c87ad1d-6e52-409f-b1f7-1ae82413de31': {
+        guid: '3c87ad1d-6e52-409f-b1f7-1ae82413de31',
+        name: 'END_ELEMENT',
+        label: 'End',
+        connectorCount: 0,
+        elementType: 'END_ELEMENT',
+        value: 'END_ELEMENT',
+        text: 'END_ELEMENT',
+        nodeType: 'end',
+        prev: null,
+        parent: '3e0c5f77-1e47-4926-8ae2-da954908eaa5',
+        isTerminal: true,
+        childIndex: 0
+    },
+    root: {
+        elementType: 'root',
+        nodeType: 'root',
+        guid: 'root',
+        name: 'root',
+        label: 'root',
+        text: 'root',
+        value: 'root',
+        prev: null,
+        next: null,
+        children: ['3e0c5f77-1e47-4926-8ae2-da954908eaa5']
+    },
+    'dc47cf4c-03df-4778-bb19-efe5a32ae72a': {
+        guid: 'dc47cf4c-03df-4778-bb19-efe5a32ae72a',
+        name: 'p1',
+        label: 'p1',
+        elementType: 'ScheduledPath'
+    },
+    '4014d37b-6395-40a9-98fc-5c08748f2be8': {
+        guid: '4014d37b-6395-40a9-98fc-5c08748f2be8',
+        name: 'END_ELEMENT',
+        label: 'End',
+        connectorCount: 0,
+        elementType: 'END_ELEMENT',
+        value: 'END_ELEMENT',
+        text: 'END_ELEMENT',
+        nodeType: 'end',
+        parent: '3e0c5f77-1e47-4926-8ae2-da954908eaa5',
+        childIndex: 1,
+        isTerminal: true
+    }
+};
+
 const recordTriggerFlowModel2 = {
     '08e1f541-0000-4ab3-83e1-3fb4faea9e02': {
         guid: '08e1f541-0000-4ab3-83e1-3fb4faea9e02',
@@ -1674,6 +1756,7 @@ const flowModelWithGoToOnFault = {
 export {
     flowModelData,
     recordTriggeredFlowModelData,
+    recordTriggeredFlowModelWithScheduledPathsData,
     recordTriggerFlowModel2,
     scheduleTriggerFlowModel,
     flowModelWithOneDecision,

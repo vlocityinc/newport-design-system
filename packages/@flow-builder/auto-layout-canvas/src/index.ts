@@ -86,6 +86,7 @@ export {
     setChild,
     createGoToSourceRef,
     inlineFromParent,
+    getNonTerminalBranchIndexes,
     getConnectionSource,
     getValuesFromConnectionSource,
     getFirstNonNullNext,

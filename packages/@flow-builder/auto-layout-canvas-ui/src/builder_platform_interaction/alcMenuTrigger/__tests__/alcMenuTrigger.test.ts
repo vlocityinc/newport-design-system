@@ -88,7 +88,8 @@ const selectors = {
     toBeDeletedButton: '.node-to-be-deleted',
     endElement: '.is-end-element',
     nodeInSelectionMode: '.node-in-selection-mode',
-    hasError: '.has-error'
+    hasError: '.has-error',
+    assistiveText: '.slds-assistive-text'
 };
 
 describe('the menu trigger', () => {
@@ -168,6 +169,11 @@ describe('the menu trigger', () => {
         cmp.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
         button.click();
         expect(callback).toHaveBeenCalled();
+    });
+
+    it('assistive ariaDescribedBy class is present', () => {
+        const assistiveText = createComponentUnderTest().shadowRoot.querySelector(selectors.assistiveText);
+        expect(assistiveText).not.toBeNull();
     });
 
     it('should not dispatch the toggleMenu event if disableEditElements is true', () => {

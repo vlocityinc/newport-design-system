@@ -1,3 +1,16 @@
+import faultConnectorBadgeLabel from '@salesforce/label/AlcConnector.faultConnectorBadgeLabel';
+import afterLastBadgeLabel from '@salesforce/label/FlowBuilderConnectorLabels.afterLastBadgeLabel';
+import forEachBadgeLabel from '@salesforce/label/FlowBuilderConnectorLabels.forEachBadgeLabel';
+import branchHeadConnectorDescribedBy from '@salesforce/label/AlcConnector.branchHeadConnectorDescribedBy';
+import straightConnectorDescribedBy from '@salesforce/label/AlcConnector.straightConnectorDescribedBy';
+import branchHeadGoToConnectorDescribedBy from '@salesforce/label/AlcConnector.branchHeadGoToConnectorDescribedBy';
+import goToConnectorDescribedBy from '@salesforce/label/AlcConnector.goToConnectorDescribedBy';
+import postMergeGoToConnectorDescribedBy from '@salesforce/label/AlcConnector.postMergeGoToConnectorDescribedBy';
+import postMergeConnectorDescribedBy from '@salesforce/label/AlcConnector.postMergeConnectorDescribedBy';
+import loopCloseConnectorDescribedBy from '@salesforce/label/AlcConnector.loopCloseConnectorDescribedBy';
+import branchHeadLoopCloseConnectorDescribedBy from '@salesforce/label/AlcConnector.branchHeadLoopCloseConnectorDescribedBy';
+import postMergeLoopCloseConnectorDescribedBy from '@salesforce/label/AlcConnector.postMergeLoopCloseConnectorDescribedBy';
+import emptyForEachDescribedBy from '@salesforce/label/AlcConnector.emptyForEachDescribedBy';
 import ariaOnScheduledPathLabel from '@salesforce/label/AlcNode.ariaOnScheduledPathLabel';
 import ariaOnPathImmediateLabel from '@salesforce/label/AlcNode.ariaOnPathImmediateLabel';
 import ariaOnPathAfterLastLabel from '@salesforce/label/AlcNode.ariaOnPathAfterLastLabel';
@@ -63,5 +76,18 @@ export const LABELS = {
     ariaDecisionPathGoToInfo,
     ariaPausePathGoToInfo,
     ariaOnFaultPathLabel,
-    ariaOnForEachPathLabel
+    ariaOnForEachPathLabel,
+    straightConnectorDescribedBy,
+    goToConnectorDescribedBy,
+    branchHeadConnectorDescribedBy,
+    branchHeadGoToConnectorDescribedBy,
+    postMergeConnectorDescribedBy,
+    postMergeGoToConnectorDescribedBy,
+    emptyForEachDescribedBy,
+    loopCloseConnectorDescribedBy,
+    branchHeadLoopCloseConnectorDescribedBy,
+    postMergeLoopCloseConnectorDescribedBy,
+    faultConnectorBadgeLabel,
+    afterLastBadgeLabel,
+    forEachBadgeLabel
 };
