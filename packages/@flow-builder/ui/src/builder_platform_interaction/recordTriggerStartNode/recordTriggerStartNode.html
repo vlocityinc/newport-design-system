@@ -1,13 +1,13 @@
 <template>
     <div class="slds-border_top">
-        <div tabindex="0" class="test-trigger-button context button" onclick={handleTriggerClick}>
+        <div tabindex="0" class={containerClasses} onclick={handleTriggerClick}>
             <div class={startButtonClasses}>
                 <div class="slds-grid slds-m-top_xx-small">
                     <span class="slds-col slds-size_10-of-12 slds-truncate" title={selectedObject}>
                         <span class="slds-m-right_xxx-small test-object-label"> {objectLabel} </span>
                         <span class="text-labels-bold test-selected-object">{selectedObject}</span>
                     </span>
-                    <span class="slds-col slds-size_2-of-12 slds-m-left_xxx-small">
+                    <span class="slds-col slds-size_2-of-12 slds-m-left_xxx-small" if:false={disableEditElements}>
                         <span class="edit slds-truncate test-edit-label" title={editLabel}>{editLabel}</span>
                     </span>
                 </div>

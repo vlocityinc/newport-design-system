@@ -1,4 +1,5 @@
 import { LightningElement, api } from 'lwc';
+import { classSet } from 'lightning/utils';
 import {
     FLOW_TRIGGER_TYPE,
     FLOW_PROCESS_TYPE,
@@ -28,12 +29,19 @@ export default class RecordTriggerStartNode extends withKeyboardInteractions(Lig
     node!: UI.Start;
 
     @api
+    disableEditElements;
+
+    @api
     focus() {
         this.dom.button.focus();
     }
 
     get startButtonClasses() {
-        return 'start-button-trigger-context slds-p-vertical_x-small slds-p-horizontal_medium';
+        return classSet({
+            'start-button-trigger-context': true,
+            'slds-p-vertical_x-small': true,
+            'slds-p-horizontal_medium': true
+        });
     }
 
     get editLabel() {
@@ -101,9 +109,21 @@ export default class RecordTriggerStartNode extends withKeyboardInteractions(Lig
         return getProcessType() !== FLOW_PROCESS_TYPE.ORCHESTRATOR;
     }
 
+    get containerClasses() {
+        return classSet({
+            'test-trigger-button': true,
+            context: true,
+            button: true
+        }).toString();
+    }
+
     handleTriggerClick = (event?: Event) => {
         if (event) {
             event.stopPropagation();
+        }
+
+        if (this.disableEditElements) {
+            return;
         }
 
         const canvasElementGUID = this.node.guid;

@@ -42,6 +42,9 @@ export default class AlcMenuTrigger extends LightningElement {
     @api
     conditionOptionsForNode;
 
+    @api
+    disableEditElements;
+
     /**
      * The active element refers to the element currently being edited using the property editor panel
      */
@@ -118,6 +121,10 @@ export default class AlcMenuTrigger extends LightningElement {
     }
 
     toggleMenuVisibility(isPositionUpdate = false, moveFocusToMenu = false) {
+        if (this.disableEditElements && this.elementMetadata.type !== NodeType.START) {
+            return;
+        }
+
         const { top, left, width, height } = this.target.getBoundingClientRect();
         const { clientWidth } = this.target;
 

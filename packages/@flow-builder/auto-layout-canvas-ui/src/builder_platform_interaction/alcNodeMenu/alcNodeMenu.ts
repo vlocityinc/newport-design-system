@@ -61,6 +61,9 @@ export default class AlcNodeMenu extends Menu {
     @api
     elementHasFault;
 
+    @api
+    disableEditElements;
+
     @track
     contextualMenuMode = NodeMenuMode.Default;
 

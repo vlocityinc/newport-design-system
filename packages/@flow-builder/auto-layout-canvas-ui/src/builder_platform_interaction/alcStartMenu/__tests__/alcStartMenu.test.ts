@@ -103,6 +103,23 @@ const scheduledTriggeredFlowStart = {
     value: 'START_ELEMENT'
 };
 
+const recordTriggeredOrchestrationStart = {
+    canHaveFaultConnector: false,
+    description: 'Record-Triggered Orchestration',
+    elementType: 'START_ELEMENT',
+    hasContext: true,
+    hasTrigger: true,
+    icon: 'utility:right',
+    iconBackgroundColor: 'background-green',
+    iconShape: 'circle',
+    iconSize: 'medium',
+    isSupported: true,
+    label: 'Start',
+    supportsMenu: true,
+    type: NodeType.START,
+    value: 'START_ELEMENT'
+};
+
 const menuStartData = {
     childIndex: 0,
     childReferences: [],
@@ -191,15 +208,51 @@ const scheduledTriggeredStartData = {
     triggerType: 'Scheduled'
 };
 
-const createComponentUnderTest = (metaData, startData, supportsScheduledPaths = false, moveFocusToMenu = false) => {
+const recordTriggeredOrchestrationStartData = {
+    availableConnections: [{ 0: { type: 'REGULAR' } }],
+    childIndex: 0,
+    childReferences: [],
+    config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
+    connectorCount: 0,
+    description: '',
+    elementType: 'START_ELEMENT',
+    filterLogic: 'and',
+    filters: [
+        {
+            leftHandSide: '',
+            operator: '',
+            rightHandSide: '',
+            rightHandSideDataType: '',
+            rowIndex: '9ac859a2-c6c8-4af3-80b3-7f55e812d2fa'
+        }
+    ],
+    guid: 'c98408d0-e567-4211-b102-0d7e3ecbc671',
+    isCanvasElement: true,
+    isTerminal: true,
+    locationX: 50,
+    locationY: 50,
+    maxConnections: 1,
+    next: '3ed26255-254c-4d1c-a87b-470335f6c53b',
+    object: '',
+    objectIndex: '4c87d839-ec1a-4abc-b1ba-56d1e13c7e3e',
+    parent: 'root',
+    prev: null,
+    recordTriggerType: 'Create',
+    triggerType: 'RecordAfterSave'
+};
+
+const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-alc-start-menu', {
         is: AlcStartMenu
     });
-    el.supportsScheduledPaths = supportsScheduledPaths;
-    el.elementMetadata = metaData;
-    el.startData = startData;
-    el.guid = metaData.guid;
-    el.moveFocusToMenu = moveFocusToMenu;
+    el.supportsScheduledPaths = false;
+    el.elementMetadata = props.elementMetadata;
+    el.startData = props.startData;
+    el.guid = props.elementMetadata.guid;
+    el.moveFocusToMenu = false;
+    if (props) {
+        Object.assign(el, props);
+    }
     setDocumentBodyChildren(el);
     return el;
 };
@@ -235,11 +288,15 @@ describe('Start Node Menu', () => {
     describe('Autolaunched Start Menu', () => {
         let menu;
         beforeEach(() => {
-            menu = createComponentUnderTest(autolaunchedFlowStart);
+            menu = createComponentUnderTest({ elementMetadata: autolaunchedFlowStart });
         });
 
         it('Should have focus on the first button', () => {
-            const menu = createComponentUnderTest(scheduledTriggeredFlowStart, scheduledTriggeredStartData, null, true);
+            const menu = createComponentUnderTest({
+                elementMetadata: scheduledTriggeredFlowStart,
+                startData: scheduledTriggeredStartData,
+                moveFocusToMenu: true
+            });
             assertFocusOnFirstButton(menu);
         });
 
@@ -265,7 +322,7 @@ describe('Start Node Menu', () => {
         });
 
         it('moveFocus should fire the CloseMenuEvent since body is empty', () => {
-            menu = createComponentUnderTest(autolaunchedFlowStart, {});
+            menu = createComponentUnderTest({ elementMetadata: autolaunchedFlowStart, startData: {} });
             const callback = jest.fn();
             menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
             menu.moveFocus();
@@ -273,7 +330,7 @@ describe('Start Node Menu', () => {
         });
 
         it('moveFocus should fire the MoveFocusToConnectorEvent since body is empty', () => {
-            menu = createComponentUnderTest(autolaunchedFlowStart, {});
+            menu = createComponentUnderTest({ elementMetadata: autolaunchedFlowStart, startData: {} });
             const callback = jest.fn();
             menu.addEventListener(MoveFocusToConnectorEvent.EVENT_NAME, callback);
             menu.moveFocus();
@@ -288,11 +345,15 @@ describe('Start Node Menu', () => {
     describe('Platform Event Start Menu', () => {
         let menu;
         beforeEach(() => {
-            menu = createComponentUnderTest(platformEventStart, menuStartData);
+            menu = createComponentUnderTest({ elementMetadata: platformEventStart, startData: menuStartData });
         });
 
         it('Should have focus on the first button', () => {
-            const menu = createComponentUnderTest(scheduledTriggeredFlowStart, scheduledTriggeredStartData, null, true);
+            const menu = createComponentUnderTest({
+                elementMetadata: scheduledTriggeredFlowStart,
+                startData: scheduledTriggeredStartData,
+                moveFocusToMenu: true
+            });
             assertFocusOnFirstButton(menu);
         });
 
@@ -344,11 +405,15 @@ describe('Start Node Menu', () => {
     describe('Screen Flow Start Menu', () => {
         let menu;
         beforeEach(() => {
-            menu = createComponentUnderTest(screenFlowStart);
+            menu = createComponentUnderTest({ elementMetadata: screenFlowStart });
         });
 
         it('Should have focus on the first button', () => {
-            const menu = createComponentUnderTest(scheduledTriggeredFlowStart, scheduledTriggeredStartData, null, true);
+            const menu = createComponentUnderTest({
+                elementMetadata: scheduledTriggeredFlowStart,
+                startData: scheduledTriggeredStartData,
+                moveFocusToMenu: true
+            });
             assertFocusOnFirstButton(menu);
         });
 
@@ -377,11 +442,18 @@ describe('Start Node Menu', () => {
     describe('Record-Triggered Flow Start Menu', () => {
         let menu;
         beforeEach(() => {
-            menu = createComponentUnderTest(recordTriggeredFlowStart, recordTriggeredStartData);
+            menu = createComponentUnderTest({
+                elementMetadata: recordTriggeredFlowStart,
+                startData: recordTriggeredStartData
+            });
         });
 
         it('Should have focus on the first button', () => {
-            const menu = createComponentUnderTest(scheduledTriggeredFlowStart, scheduledTriggeredStartData, null, true);
+            const menu = createComponentUnderTest({
+                elementMetadata: scheduledTriggeredFlowStart,
+                startData: scheduledTriggeredStartData,
+                moveFocusToMenu: true
+            });
             assertFocusOnFirstButton(menu);
         });
 
@@ -420,14 +492,22 @@ describe('Start Node Menu', () => {
         });
 
         it('Should render scheduled path button if supportsScheduledPaths is set to true', () => {
-            const startMenu = createComponentUnderTest(recordTriggeredFlowStart, recordTriggeredStartData, true);
+            const startMenu = createComponentUnderTest({
+                elementMetadata: recordTriggeredFlowStart,
+                startData: recordTriggeredStartData,
+                supportsScheduledPaths: true
+            });
             const body = startMenu.shadowRoot.querySelector(selectors.body);
             const button = body.querySelector(selectors.scheduledPathButton);
             expect(button).not.toBeNull();
         });
 
         it('Focus should move correctly to the add scheduled path button on arrow up from the trigger button', async () => {
-            const startMenu = createComponentUnderTest(recordTriggeredFlowStart, recordTriggeredStartData, true);
+            const startMenu = createComponentUnderTest({
+                elementMetadata: recordTriggeredFlowStart,
+                startData: recordTriggeredStartData,
+                supportsScheduledPaths: true
+            });
             const body = startMenu.shadowRoot.querySelector(selectors.body);
             const trigger = body.querySelector(selectors.triggerButton);
             const scheduledPath = body.querySelector(selectors.scheduledPathButton);
@@ -438,7 +518,11 @@ describe('Start Node Menu', () => {
         });
 
         it('Focus should move correctly to the add scheduled path button on arrow down from the context button', async () => {
-            const startMenu = createComponentUnderTest(recordTriggeredFlowStart, recordTriggeredStartData, true);
+            const startMenu = createComponentUnderTest({
+                elementMetadata: recordTriggeredFlowStart,
+                startData: recordTriggeredStartData,
+                supportsScheduledPaths: true
+            });
             const body = startMenu.shadowRoot.querySelector(selectors.body);
             const context = body.querySelector(selectors.contextButton);
             const scheduledPath = body.querySelector(selectors.scheduledPathButton);
@@ -449,7 +533,11 @@ describe('Start Node Menu', () => {
         });
 
         it('Focus should move correctly to the context button on arrow up from the scheduled path button', async () => {
-            const startMenu = createComponentUnderTest(recordTriggeredFlowStart, recordTriggeredStartData, true);
+            const startMenu = createComponentUnderTest({
+                elementMetadata: recordTriggeredFlowStart,
+                startData: recordTriggeredStartData,
+                supportsScheduledPaths: true
+            });
             const body = startMenu.shadowRoot.querySelector(selectors.body);
             const scheduledPath = body.querySelector(selectors.scheduledPathButton);
             const context = body.querySelector(selectors.contextButton);
@@ -460,7 +548,11 @@ describe('Start Node Menu', () => {
         });
 
         it('Focus should move correctly to the trigger button on arrow down from the scheduled path button', async () => {
-            const startMenu = createComponentUnderTest(recordTriggeredFlowStart, recordTriggeredStartData, true);
+            const startMenu = createComponentUnderTest({
+                elementMetadata: recordTriggeredFlowStart,
+                startData: recordTriggeredStartData,
+                supportsScheduledPaths: true
+            });
             const body = startMenu.shadowRoot.querySelector(selectors.body);
             const scheduledPath = body.querySelector(selectors.scheduledPathButton);
             const trigger = body.querySelector(selectors.triggerButton);
@@ -471,7 +563,11 @@ describe('Start Node Menu', () => {
         });
 
         it('Pressing escape while focus is on the scheduled path button should fire the CloseMenuEvent event', async () => {
-            const startMenu = createComponentUnderTest(recordTriggeredFlowStart, recordTriggeredStartData, true);
+            const startMenu = createComponentUnderTest({
+                elementMetadata: recordTriggeredFlowStart,
+                startData: recordTriggeredStartData,
+                supportsScheduledPaths: true
+            });
             const body = startMenu.shadowRoot.querySelector(selectors.body);
             const scheduledPath = body.querySelector(selectors.scheduledPathButton);
             const callback = jest.fn();
@@ -573,7 +669,10 @@ describe('Start Node Menu', () => {
     describe('Scheduled-Triggered Flow Start Menu', () => {
         let menu;
         beforeEach(() => {
-            menu = createComponentUnderTest(scheduledTriggeredFlowStart, scheduledTriggeredStartData);
+            menu = createComponentUnderTest({
+                elementMetadata: scheduledTriggeredFlowStart,
+                startData: scheduledTriggeredStartData
+            });
         });
 
         it('renders the start contextual menu', () => {
@@ -581,7 +680,11 @@ describe('Start Node Menu', () => {
         });
 
         it('Should have focus on the first button', () => {
-            const menu = createComponentUnderTest(scheduledTriggeredFlowStart, scheduledTriggeredStartData, null, true);
+            const menu = createComponentUnderTest({
+                elementMetadata: scheduledTriggeredFlowStart,
+                startData: scheduledTriggeredStartData,
+                moveFocusToMenu: true
+            });
             assertFocusOnFirstButton(menu);
         });
 
@@ -673,6 +776,52 @@ describe('Start Node Menu', () => {
             context.focus();
             menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
             expect(callback).toHaveBeenCalled();
+        });
+    });
+
+    describe('Orchestration Flow Start Menu', () => {
+        let menu;
+        beforeEach(() => {
+            // As of 236, being an orchestration flow currently implies some other configurations being set, like
+            // disableEditElements = true. Maybe this won't always be the case, but for now...
+            menu = createComponentUnderTest({
+                elementMetadata: recordTriggeredOrchestrationStart,
+                startData: recordTriggeredOrchestrationStartData,
+                disableEditElements: true,
+                moveFocusToMenu: true
+            });
+        });
+
+        it('renders the start contextual menu', () => {
+            expect(menu).toBeDefined();
+        });
+
+        it('Should have focus on load', () => {
+            assertFocusOnFirstButton(menu);
+        });
+
+        it('Should have a label in the header', () => {
+            const header = menu.shadowRoot.querySelector(selectors.header);
+            const label = header.querySelector(selectors.headerLabel);
+            expect(label.textContent).toEqual(recordTriggeredOrchestrationStart.label);
+        });
+
+        it('Should have a description in the header', () => {
+            const header = menu.shadowRoot.querySelector(selectors.header);
+            const description = header.querySelector(selectors.headerDescription);
+            expect(description.textContent).toEqual(recordTriggeredOrchestrationStart.description);
+        });
+
+        it('Should have a trigger button rendered', () => {
+            const body = menu.shadowRoot.querySelector(selectors.body);
+            const button = body.querySelector(selectors.triggerButton);
+            expect(button).toBeDefined();
+        });
+
+        it('Should have a context button rendered', () => {
+            const body = menu.shadowRoot.querySelector(selectors.body);
+            const button = body.querySelector(selectors.contextButton);
+            expect(button).toBeDefined();
         });
     });
 });

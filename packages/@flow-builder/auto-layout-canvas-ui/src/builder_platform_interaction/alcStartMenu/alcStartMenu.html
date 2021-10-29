@@ -24,6 +24,7 @@
                 </div>
                 <div if:true={isRecordTriggeredFlow}>
                     <builder_platform_interaction-record-trigger-start-node
+                        disable-edit-elements={disableEditElements}
                         node={startData}
                         onarrowkeydown={handleRecordTriggerButtonArrowKeyDown}
                         oneditelement={handleEditElement}

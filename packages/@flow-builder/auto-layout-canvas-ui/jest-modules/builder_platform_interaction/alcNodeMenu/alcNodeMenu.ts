@@ -22,4 +22,7 @@ export default class AlcNodeMenu extends LightningElement {
 
     @api
     disableDeleteElements;
+
+    @api
+    disableEditElements;
 }

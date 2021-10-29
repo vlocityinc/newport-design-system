@@ -44,12 +44,16 @@ const runQuerySelector = (context, selector) => {
     return context.shadowRoot.querySelector(selector);
 };
 
-const setupComponentUnderTest = (node) => {
+const setupComponentUnderTest = (props) => {
     const element = createElement('builder_platform_interaction-record-trigger-start-node', {
         is: RecordTriggerStartNode
     });
-    element.node = node;
 
+    element.node = recordTriggeredStartElement;
+
+    if (props) {
+        Object.assign(element, props);
+    }
     setDocumentBodyChildren(element);
     return element;
 };
@@ -64,7 +68,7 @@ describe('record-trigger-start-node', () => {
     describe('Focus Management', () => {
         let startElement;
         beforeEach(() => {
-            startElement = setupComponentUnderTest(recordTriggeredStartElement);
+            startElement = setupComponentUnderTest();
         });
 
         it('Should fire ArrowKeyDownEvent with the right key on pressing arrow down key', () => {
@@ -113,12 +117,55 @@ describe('record-trigger-start-node', () => {
         });
     });
 
+    describe('When disableEditElements is true', () => {
+        let startElement;
+        beforeEach(() => {
+            startElement = setupComponentUnderTest({ disableEditElements: true });
+        });
+
+        it('No EditElementEvent is dispatched when clicked', async () => {
+            const cb = jest.fn();
+            startElement.addEventListener(EditElementEvent.EVENT_NAME, cb);
+            startElement.shadowRoot.querySelector(selectors.context).click();
+            expect(cb).not.toHaveBeenCalled();
+        });
+
+        it('No EditElementEvent is dispatched when using the space command', async () => {
+            const cb = jest.fn();
+            startElement.addEventListener(EditElementEvent.EVENT_NAME, cb);
+            startElement.shadowRoot.querySelector(selectors.context).focus();
+            startElement.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
+            expect(cb).not.toHaveBeenCalled();
+        });
+
+        it('No EditElementEvent is dispatched when using the enter command', async () => {
+            const cb = jest.fn();
+            startElement.addEventListener(EditElementEvent.EVENT_NAME, cb);
+            startElement.shadowRoot.querySelector(selectors.context).focus();
+            startElement.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
+            expect(cb).not.toHaveBeenCalled();
+        });
+
+        it('ArrowKey events are still dispatched when using the arrow key commands', async () => {
+            const cb = jest.fn();
+            startElement.addEventListener(ArrowKeyDownEvent.EVENT_NAME, cb);
+            startElement.shadowRoot.querySelector(selectors.context).focus();
+            startElement.keyboardInteractions.execute(ArrowUp.COMMAND_NAME);
+            startElement.keyboardInteractions.execute(ArrowDown.COMMAND_NAME);
+            expect(cb).toHaveBeenCalledTimes(2);
+        });
+
+        it('Edit label should be absent', async () => {
+            expect(runQuerySelector(startElement, selectors.editLabel)).toBeNull();
+        });
+    });
+
     describe('When flow triggerType is AFTER_SAVE', () => {
         let startElement;
         beforeAll(() => {
             recordTriggeredStartElement.triggerType = AFTER_SAVE;
             recordTriggeredStartElement.recordTriggerType = UPDATE;
-            startElement = setupComponentUnderTest(recordTriggeredStartElement);
+            startElement = setupComponentUnderTest();
         });
 
         it('Checks static labels rendered correctly', () => {
@@ -155,7 +202,7 @@ describe('record-trigger-start-node', () => {
         beforeAll(() => {
             recordTriggeredStartElement.triggerType = BEFORE_SAVE;
             recordTriggeredStartElement.recordTriggerType = CREATE;
-            startElement = setupComponentUnderTest(recordTriggeredStartElement);
+            startElement = setupComponentUnderTest();
         });
 
         it('Checks if selectedTriggerLabel rendered correctly', () => {
@@ -176,7 +223,7 @@ describe('record-trigger-start-node', () => {
         beforeAll(() => {
             recordTriggeredStartElement.triggerType = BEFORE_DELETE;
             recordTriggeredStartElement.recordTriggerType = DELETE;
-            startElement = setupComponentUnderTest(recordTriggeredStartElement);
+            startElement = setupComponentUnderTest();
         });
 
         it('Checks if selectedTriggerLabel rendered correctly', () => {
@@ -194,13 +241,13 @@ describe('record-trigger-start-node', () => {
 
     describe('run flow', () => {
         it('is shown for other process types', async () => {
-            const startElement = setupComponentUnderTest(recordTriggeredStartElement);
+            const startElement = setupComponentUnderTest();
             expect(runQuerySelector(startElement, selectors.runFlow)).not.toBeNull();
         });
 
         it('is not shown for process type Orchestrator', async () => {
             getProcessType.mockReturnValue(FLOW_PROCESS_TYPE.ORCHESTRATOR);
-            const startElement = setupComponentUnderTest(recordTriggeredStartElement);
+            const startElement = setupComponentUnderTest();
             expect(runQuerySelector(startElement, selectors.runFlow)).toBeNull();
         });
     });
