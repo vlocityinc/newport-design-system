@@ -15,7 +15,3 @@ builder_platform_interaction-right-panel {
     bottom: 0;
     max-width: calc(100% - 20rem);
 }
-
-.editor-content {
-    position: relative;
-}

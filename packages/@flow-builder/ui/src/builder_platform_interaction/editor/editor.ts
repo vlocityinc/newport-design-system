@@ -524,6 +524,14 @@ export default class Editor extends LightningElement {
         return !this.properties.isAutoLayoutCanvas;
     }
 
+    get panelsAndCanvasContainerClasses() {
+        // We need the slds-is-relative class to avoid shifting of the canvas upon closing the right panel.
+        // But having this container relative breaks marquee selection. Currently both right panel and marquee selection
+        // can't be present on the canvas at the same time. This is a temporary fix to resolve both the issues.
+        const baseClasses = 'slds-col slds-grow slds-grid test-panels-and-canvas-container';
+        return this.showRightPanel ? `${baseClasses} slds-is-relative` : baseClasses;
+    }
+
     /** Indicates that the new flow modal is displayed */
     newFlowModalActive = false;
 

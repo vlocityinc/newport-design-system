@@ -336,7 +336,9 @@ const selectors = {
     canvasCombobox: '.canvas-mode-combobox',
     debug: '.test-toolbar-debug',
     test: '.test-toolbar-addToTest',
-    run: '.test-toolbar-run'
+    run: '.test-toolbar-run',
+    panelAndCanvasContainer: '.test-panels-and-canvas-container',
+    relativePanelAndCanvasContainer: '.test-panels-and-canvas-container.slds-is-relative'
 };
 
 const element = (guid, type) => {
@@ -1693,6 +1695,25 @@ describe('in edit mode', () => {
         const leftPanel = editorComponent.shadowRoot.querySelector(selectors.LEFT_PANEL);
         expect(leftPanel).not.toBeNull();
     });
+
+    it('Panels and Canvas container div should not have slds-is-relative class', async () => {
+        expect.assertions(2);
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                componentConfigs: { [BUILDER_MODE.EDIT_MODE]: { leftPanelConfig: { showLeftPanel: true } } }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.DEBUG_MODE);
+        await ticks(1);
+
+        let panelsAndCanvasContainer = editorComponent.shadowRoot.querySelector(selectors.panelAndCanvasContainer);
+        expect(panelsAndCanvasContainer).not.toBeNull();
+        panelsAndCanvasContainer = editorComponent.shadowRoot.querySelector(selectors.relativePanelAndCanvasContainer);
+        expect(panelsAndCanvasContainer).toBeNull();
+    });
+
     it('right panel is hidden', async () => {
         expect.assertions(1);
         const editorComponent = createComponentUnderTest({
@@ -1812,6 +1833,26 @@ describe('in debug mode', () => {
         const leftPanel = editorComponent.shadowRoot.querySelector(selectors.leftPanel);
         expect(leftPanel).toBeNull();
     });
+
+    it('Panels and Canvas container div should have the slds-is-relative-class', async () => {
+        expect.assertions(1);
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderMode: 'debugMode',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                componentConfigs: { [BUILDER_MODE.DEBUG_MODE]: { rightPanelConfig: { showDebugPanel: true } } }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.DEBUG_MODE);
+        await ticks(1);
+
+        const panelsAndCanvasContainer = editorComponent.shadowRoot.querySelector(
+            selectors.relativePanelAndCanvasContainer
+        );
+        expect(panelsAndCanvasContainer).not.toBeNull();
+    });
+
     it('right panel panel is displayed', async () => {
         expect.assertions(2);
         const editorComponent = createComponentUnderTest({
