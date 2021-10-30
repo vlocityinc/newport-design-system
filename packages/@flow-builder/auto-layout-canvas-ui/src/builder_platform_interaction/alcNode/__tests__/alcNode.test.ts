@@ -471,6 +471,99 @@ describe('AlcNode', () => {
         });
     });
 
+    describe('Dynamic Component Goto Label', () => {
+        const itemGuid = 'someStepGuid';
+        const flowModel = {
+            d1: {
+                config: {
+                    isSelected: false,
+                    isSelectable: true
+                },
+                incomingGoTo: ['d2']
+            },
+            d2: {
+                config: {
+                    isSelected: false,
+                    isSelectable: true
+                },
+                incomingGoTo: []
+            }
+        };
+
+        const dynamicDecisionNodeInfo = {
+            guid: 'd1',
+            metadata: {
+                icon: 'standard:decision',
+                iconShape: ICON_SHAPE.DIAMOND,
+                label: 'elementType',
+                type: NodeType.ORCHESTRATED_STAGE,
+                dynamicNodeComponent: 'builder_platform_interaction/orchestratedStageNode',
+                dynamicNodeComponentSelector: () => {
+                    return [
+                        {
+                            name: 'some_step',
+                            guid: itemGuid,
+                            config: {}
+                        },
+                        {
+                            name: 'some_step_2',
+                            guid: itemGuid + '_2',
+                            config: {}
+                        }
+                    ];
+                },
+                menuOpened: false
+            }
+        };
+
+        const noIncomingGotoNodeInfo = {
+            guid: 'd2',
+            metadata: {
+                icon: 'standard:decision',
+                iconShape: ICON_SHAPE.DIAMOND,
+                label: 'elementType',
+                type: NodeType.ORCHESTRATED_STAGE,
+                dynamicNodeComponent: 'builder_platform_interaction/orchestratedStageNode',
+                dynamicNodeComponentSelector: () => {
+                    return [
+                        {
+                            name: 'some_step',
+                            guid: itemGuid,
+                            config: {}
+                        },
+                        {
+                            name: 'some_step_2',
+                            guid: itemGuid + '_2',
+                            config: {}
+                        }
+                    ];
+                }
+            },
+            menuOpened: false
+        };
+
+        it('Should show incoming count for dynamic nodes on gotos target if goto exists', () => {
+            const alcNodeComponent = createComponentUnderTest({
+                flowModel,
+                nodeInfo: dynamicDecisionNodeInfo,
+                canvasMode: AutoLayoutCanvasMode.DEFAULT
+            });
+            const gotoCount = alcNodeComponent.shadowRoot.querySelector(selectors.textIncomingGoTo);
+            const expectText = `${LABELS.incomingGoToLabel}(${flowModel.d1.incomingGoTo.length})`;
+            expect(gotoCount.textContent).toEqual(expectText);
+        });
+
+        it('Should not show incoming count on dynamic nodes if goto does not exist', () => {
+            const alcNodeComponent = createComponentUnderTest({
+                flowModel,
+                nodeInfo: noIncomingGotoNodeInfo,
+                canvasMode: AutoLayoutCanvasMode.DEFAULT
+            });
+            const gotoCount = alcNodeComponent.shadowRoot.querySelector(selectors.textIncomingGoTo);
+            expect(gotoCount).toBeNull();
+        });
+    });
+
     describe('Double clicking', () => {
         let flowModel;
 
