@@ -160,7 +160,9 @@ import {
 import {
     createEndElement,
     createVariable,
-    shouldSupportScheduledPaths
+    shouldSupportScheduledPaths,
+    CANVAS_MODE,
+    AUTO_LAYOUT_CANVAS
 } from 'builder_platform_interaction/elementFactory';
 import { usedBy } from 'builder_platform_interaction/usedByLib';
 import { getConfigForElement } from 'builder_platform_interaction/elementConfig';
@@ -239,6 +241,7 @@ const ELEMENT_TYPES_TO_ALWAYS_EDIT_IN_MODAL = [
     ELEMENT_TYPE.VARIABLE,
     ELEMENT_TYPE.FLOW_PROPERTIES
 ];
+
 /**
  * Editor component for flow builder. This is the top-level smart component for
  * flow builder. It is responsible for maintaining the overall state of app and
@@ -2797,6 +2800,22 @@ export default class Editor extends LightningElement {
                 this.spinners.showFlowMetadataSpinner = false;
                 setErrorMessage(modal, error[0].data.contextMessage);
             } else {
+                // default the canvas mode to auto-layout
+                const defaultCanvasMode = {
+                    name: CANVAS_MODE,
+                    value: { stringValue: AUTO_LAYOUT_CANVAS }
+                };
+                if (data.processMetadataValues) {
+                    const index = data.processMetadataValues.findIndex((value) => value.name === CANVAS_MODE);
+                    if (index !== -1) {
+                        data.processMetadataValues[index] = defaultCanvasMode;
+                    } else {
+                        data.processMetadataValues.push(defaultCanvasMode);
+                    }
+                } else {
+                    data.processMetadataValues = [defaultCanvasMode];
+                }
+
                 this.getFlowCallback({ data, error });
                 modal.close();
                 this.newFlowModalActive = false;

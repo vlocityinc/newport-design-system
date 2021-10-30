@@ -9,10 +9,10 @@ const elementType = ELEMENT_TYPE.FLOW_PROPERTIES;
  */
 
 const BUILDER_TYPE = 'BuilderType';
-const CANVAS_MODE = 'CanvasMode';
+export const CANVAS_MODE = 'CanvasMode';
 const LIGHTNING_FLOW_BUILDER = 'LightningFlowBuilder';
 const ORIGIN_BUILDER_TYPE = 'OriginBuilderType';
-const AUTO_LAYOUT_CANVAS = 'AUTO_LAYOUT_CANVAS';
+export const AUTO_LAYOUT_CANVAS = 'AUTO_LAYOUT_CANVAS';
 const FREE_FORM_CANVAS = 'FREE_FORM_CANVAS';
 
 /**
