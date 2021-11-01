@@ -493,12 +493,12 @@ export default class Editor extends LightningElement {
     /**
      * Allows the right panel to size itself to fit its content without a max-width
      *
-     * @returns True if the process type is ORCHESTRATOR
+     * @returns True if the right panel is showing an Orchestrator Property Editor
      */
     get isRightPanelVariableWidth() {
         // Hardcoded for App Process PoC
         // TODO:  W-8146747 - remove in 234
-        return isOrchestrator(this.properties.processType);
+        return isOrchestrator(this.properties.processType) && this.showPropertyEditorRightPanel;
     }
 
     get useNewDebugExperience() {

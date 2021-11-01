@@ -117,10 +117,14 @@ jest.mock('builder_platform_interaction/propertyEditorFactory', () => {
 jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
 
 let mockIsAutolayoutCanvas = false;
+let mockIsOrchestration = false;
 jest.mock('builder_platform_interaction/processTypeLib', () => {
     return Object.assign({}, jest.requireActual('builder_platform_interaction/processTypeLib'), {
         isAutoLayoutCanvasOnly: jest.fn().mockImplementation(() => {
             return mockIsAutolayoutCanvas;
+        }),
+        isOrchestrator: jest.fn().mockImplementation(() => {
+            return mockIsOrchestration;
         })
     });
 });
@@ -936,6 +940,34 @@ describe('property editor', () => {
             mode: 'addnewresource',
             nodeUpdate: expect.anything()
         });
+    });
+
+    it('is variable width in Orchestrator', async () => {
+        mockStoreState.properties.processType = FLOW_PROCESS_TYPE.ORCHESTRATOR;
+        mockIsOrchestration = true;
+
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderMode: 'editMode',
+            builderConfig: {
+                supportedProcessTypes: [FLOW_PROCESS_TYPE.ORCHESTRATOR],
+                usePanelForPropertyEditor: true,
+                componentConfigs: { editMode: { rightPanelConfig: { showPropertyEditorRightPanel: true } } }
+            }
+        });
+
+        const editElementEvent = new EditElementEvent('1');
+        const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.CANVAS_CONTAINER);
+        canvasContainer.dispatchEvent(editElementEvent);
+        await ticks(1);
+
+        mockIsOrchestration = false;
+
+        const rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);
+        expect(rightPanel).not.toBeNull();
+        const div = rightPanel.shadowRoot.querySelector('div');
+        expect(div).not.toBeNull();
+        expect(div.classList).not.toContain('fixed-width');
     });
 
     describe('for edit resource is always opened in a modal', () => {
@@ -1975,6 +2007,26 @@ describe('in debug mode', () => {
         const lbg = toolbar.shadowRoot.querySelector('lightning-button-group');
         const testButton = lbg.querySelector(selectors.test);
         expect(testButton).toBeTruthy();
+    });
+    it('right panel is fixed width in Orchestrator', async () => {
+        mockStoreState.properties.processType = FLOW_PROCESS_TYPE.ORCHESTRATOR;
+
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderMode: 'debugMode',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                componentConfigs: { [BUILDER_MODE.DEBUG_MODE]: { rightPanelConfig: { showDebugPanel: true } } }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.DEBUG_MODE);
+        await ticks(1);
+
+        const rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);
+        expect(rightPanel).not.toBeNull();
+        const div = rightPanel.shadowRoot.querySelector('div');
+        expect(div).not.toBeNull();
+        expect(div.classList).toContain('fixed-width');
     });
     describe('save during debug', () => {
         let editorComponent;
