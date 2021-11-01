@@ -720,6 +720,24 @@ describe('OrchestratedStage', () => {
                 );
             });
         });
+
+        it('maps received exitActionInputParameters to UI inputParameters', () => {
+            const exitActionInputParameter = {
+                name: 'Param',
+                value: {
+                    stringValue: 'testValue'
+                }
+            };
+
+            const orchestratedStageFromFlowWithInputParams = {
+                ...orchestratedStageFromFlow,
+                exitActionInputParameters: [exitActionInputParameter]
+            };
+
+            createOrchestratedStageWithItemReferences(orchestratedStageFromFlowWithInputParams);
+
+            expect(createInputParameter).toHaveBeenCalledWith(exitActionInputParameter);
+        });
     });
     describe('createOrchestratedStageMetadataObject', () => {
         let orchestratedStageFromStore;

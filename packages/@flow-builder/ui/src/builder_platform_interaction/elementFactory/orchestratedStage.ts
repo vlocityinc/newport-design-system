@@ -203,7 +203,7 @@ export function createDuplicateOrchestratedStage(
         exitAction: orchestratedStage.exitAction,
         exitActionName: orchestratedStage.exitActionName,
         exitActionType: orchestratedStage.exitActionType,
-        exitActionInputParameters: [],
+        exitActionInputParameters: orchestratedStage.exitActionInputParameters,
         exitActionOutputParameters: []
     });
     return {
@@ -255,6 +255,8 @@ export function createOrchestratedStageWithItemReferences(stage: OrchestratedSta
 
     const { items, childReferences } = createStageStepsWithReferences(stageSteps, newStage.guid);
 
+    const exitActionInputParametersUiObject = exitActionInputParameters.map((p) => createInputParameter(p));
+
     Object.assign(newStage, {
         childReferences,
         connectorCount,
@@ -264,7 +266,7 @@ export function createOrchestratedStageWithItemReferences(stage: OrchestratedSta
         exitAction: exitActionCall,
         exitActionName,
         exitActionType,
-        exitActionInputParameters,
+        exitActionInputParameters: exitActionInputParametersUiObject,
         canHaveCanvasEmbeddedElement: true
     });
 
