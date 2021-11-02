@@ -1,6 +1,5 @@
 import { LightningElement, track, api } from 'lwc';
 import { collectionChoiceSetReducer } from './collectionChoiceSetReducer';
-import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { LABELS } from './collectionChoiceSetEditorLabels';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
@@ -9,7 +8,8 @@ import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker'
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
+import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
 
 const COLLECTION_CHOICE_SET_FIELDS = {
     COLLECTION_REFERENCE: 'collectionReference',
@@ -76,7 +76,9 @@ export default class CollectionChoiceSetEditor extends LightningElement {
 
     set node(newValue) {
         if (newValue?.collectionReference?.value !== this.collectionChoiceSet?.collectionReference.value) {
-            const collectionObj = getElementByGuid(newValue.collectionReference.value);
+            const collectionObj = newValue?.collectionReference?.value
+                ? getVariableOrField(newValue?.collectionReference?.value, Store.getStore().getCurrentState().elements)
+                : null;
             if (collectionObj) {
                 this._objectType = collectionObj?.subtype;
             }

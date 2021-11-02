@@ -44,6 +44,19 @@ jest.mock('builder_platform_interaction/storeLib', () => {
     return storeLib;
 });
 
+jest.mock('builder_platform_interaction/referenceToVariableUtil', () => {
+    return {
+        getVariableOrField: jest.fn().mockImplementation((collRef) => {
+            if (collRef) {
+                return {
+                    subtype: 'Account'
+                };
+            }
+            return {};
+        })
+    };
+});
+
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
@@ -159,7 +172,7 @@ describe('Collection Choice Set Validation', () => {
     });
 
     describe('getRules', () => {
-        describe('when second section is hidden/ object field is not filled', () => {
+        describe('when second section is hidden', () => {
             const collectionChoice = setupComponentUnderTest(collectionChoiceObjectWithoutCollection);
             const node = collectionChoice.node;
             const rules = getRules(node, false);
@@ -175,7 +188,7 @@ describe('Collection Choice Set Validation', () => {
             });
         });
 
-        describe('when second section is shown/when object is filled in collection choice object', () => {
+        describe('when second section is shown', () => {
             const collectionChoice = setupComponentUnderTest(collectionChoiceObject);
             const node = collectionChoice.node;
             const rules = getRules(node, true);

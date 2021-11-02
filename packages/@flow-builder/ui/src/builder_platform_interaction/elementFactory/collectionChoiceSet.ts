@@ -1,8 +1,8 @@
 import { createDynamicChoiceSet, createDynamicChoiceSetMetadataObject } from './base/dynamicChoiceSet';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseElementsArrayToMap } from './base/baseElement';
-import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
 /**
  * Collection choice set factory function
  *
@@ -51,7 +51,10 @@ export const createCollectionChoiceSetMetadataObject = (
     }
     const baseDynamicChoiceMetadataObject = createDynamicChoiceSetMetadataObject(element);
     const { collectionReference } = element;
-    const object = getElementByGuid(collectionReference as string)?.subtype;
+    const collectionObj = collectionReference
+        ? getVariableOrField(collectionReference, Store.getStore().getCurrentState().elements)
+        : null;
+    const object = collectionObj ? collectionObj?.subtype : null;
 
     return Object.assign(baseDynamicChoiceMetadataObject, {
         collectionReference,

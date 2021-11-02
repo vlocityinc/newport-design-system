@@ -15,7 +15,6 @@ import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import {
     setDocumentBodyChildren,
@@ -119,20 +118,16 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
     return mockSobjectLib;
 });
 
-jest.mock('builder_platform_interaction/storeUtils', () => {
-    const actual = jest.requireActual('builder_platform_interaction/storeUtils');
+jest.mock('builder_platform_interaction/referenceToVariableUtil', () => {
     return {
-        getElementByGuid: jest.fn().mockImplementation((collRef) => {
+        getVariableOrField: jest.fn().mockImplementation((collRef) => {
             if (collRef) {
                 return {
                     subtype: 'Account'
                 };
             }
             return {};
-        }),
-        isDevNameInStore: jest.fn(),
-        getTriggerType: jest.fn(),
-        getElementByDevName: actual.getElementByDevName
+        })
     };
 });
 

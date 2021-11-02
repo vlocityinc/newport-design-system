@@ -7,10 +7,32 @@ import {
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseElementsArrayToMap } from '../base/baseElement';
 
-jest.mock('builder_platform_interaction/storeUtils', () => {
+jest.mock('builder_platform_interaction/storeLib', () => {
     return {
-        getElementByGuid: jest.fn().mockReturnValue({
-            subtype: 'Account'
+        Store: {
+            getStore: () => {
+                return {
+                    getCurrentState: () => {
+                        return { elements: {} };
+                    }
+                };
+            }
+        },
+        generateGuid: jest.fn().mockImplementation(() => {
+            return 'MOCK_GUID';
+        })
+    };
+});
+
+jest.mock('builder_platform_interaction/referenceToVariableUtil', () => {
+    return {
+        getVariableOrField: jest.fn().mockImplementation((collRef) => {
+            if (collRef) {
+                return {
+                    subtype: 'Account'
+                };
+            }
+            return {};
         })
     };
 });
@@ -36,13 +58,6 @@ jest.mock('../base/baseElement', () => {
                 return {};
             })
             .mockName('baseElementsArrayToMap')
-    };
-});
-jest.mock('builder_platform_interaction/storeLib', () => {
-    return {
-        generateGuid: jest.fn().mockImplementation(() => {
-            return 'MOCK_GUID';
-        })
     };
 });
 const mockDefaultValuesForCollectionChoiceSet = {
