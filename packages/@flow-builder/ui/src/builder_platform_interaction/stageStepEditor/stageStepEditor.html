@@ -187,13 +187,14 @@
                 <div id="assigneePicker" class="assigneePicker slds-p-top_x-small">
                     <builder_platform_interaction-record-picker
                         if:false={isAssigneeReference}
-                        attributes={userRecordPickerAttributes}
+                        attributes={assigneeRecordPickerAttributes}
                         values={assigneeRecordIds}
+                        error={actorErrorMessage}
                         record-selected-callback={handleAssigneeEntitySelected}
                     ></builder_platform_interaction-record-picker>
                     <builder_platform_interaction-ferov-resource-picker
                         if:true={isAssigneeReference}
-                        combobox-config={userReferenceComboBoxConfig}
+                        combobox-config={assigneeReferenceComboBoxConfig}
                         property-editor-element-type={propertyEditorElementType}
                         element-param={actorElementParam}
                         rules={resourcePickerRules}

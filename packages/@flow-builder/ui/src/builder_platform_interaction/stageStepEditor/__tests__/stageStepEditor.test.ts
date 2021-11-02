@@ -402,7 +402,9 @@ describe('StageStepEditor', () => {
                 expect.assertions(3);
 
                 expect(fetchOnce).toHaveBeenCalledWith(SERVER_ACTION_TYPE.GET_RECORD_ID_BY_DEV_NAME, {
-                    devName: nodeParams.assignees[0].assignee.value,
+                    devName: {
+                        value: nodeParams.assignees[0].assignee.value
+                    },
                     entity: 'User'
                 });
 
@@ -825,6 +827,7 @@ describe('StageStepEditor', () => {
                     expect(stageStepReducer.mock.calls[6][1].detail).toEqual({
                         value: null,
                         error: null,
+                        type: 'User',
                         isReference: false
                     });
                 });
@@ -842,6 +845,7 @@ describe('StageStepEditor', () => {
                     expect(stageStepReducer.mock.calls[6][1].detail).toEqual({
                         value: null,
                         error: null,
+                        type: 'User',
                         isReference: true
                     });
                 });
@@ -862,6 +866,7 @@ describe('StageStepEditor', () => {
                     expect(stageStepReducer.mock.calls[6][1].detail).toEqual({
                         value: { stringValue: await mockUserRecordDevNamePromise },
                         error: '',
+                        type: 'User',
                         isReference: false
                     });
                 });
@@ -877,6 +882,7 @@ describe('StageStepEditor', () => {
                     expect(stageStepReducer.mock.calls[6][1].detail).toEqual({
                         value: null,
                         error: '',
+                        type: 'User',
                         isReference: false
                     });
                 });
@@ -935,6 +941,7 @@ describe('StageStepEditor', () => {
                         value: {
                             stringValue: comboboxEvent.detail.displayText
                         },
+                        type: 'User',
                         error: comboboxEvent.detail.error,
                         isReference: true
                     });
@@ -956,6 +963,7 @@ describe('StageStepEditor', () => {
                         value: {
                             stringValue: itemSelectedEvent.detail.item.value
                         },
+                        type: 'User',
                         error: itemSelectedEvent.detail.item.error,
                         isReference: true
                     });

@@ -36,14 +36,18 @@ const { format } = commonUtils;
 export const ASSIGNEE_PROPERTY_NAME = 'assignee';
 export const ASSIGNEE_DATA_TYPE_PROPERTY_NAME = getDataTypeKey(ASSIGNEE_PROPERTY_NAME);
 export enum ASSIGNEE_TYPE {
-    User = 'User'
+    User = 'User',
+    Group = 'Group',
+    Queue = 'Queue'
 }
 
 /**
  * These are used only on the frontend for distinguishing selection of hardcoded versus resource values for an assignee type
  */
 export enum ASSIGNEE_RESOURCE_TYPE {
-    UserResource = 'UserResource'
+    UserResource = 'UserResource',
+    GroupResource = 'GroupResource',
+    QueueResource = 'QueueResource'
 }
 
 // Used to extra related record for display in its own input
@@ -58,7 +62,7 @@ export interface StageStep extends UI.ChildElement {
 
     relatedRecordItem: ParameterListRowItem | UI.HydratedValue;
 
-    assignees: ({ assignee: any; assigneeType: ASSIGNEE_TYPE; isReference: boolean } | null)[];
+    assignees: ({ assignee: any; assigneeType: ASSIGNEE_TYPE | ValueWithError; isReference: boolean } | null)[];
 
     entryConditions?: UI.Condition[];
     entryConditionLogic?: string;

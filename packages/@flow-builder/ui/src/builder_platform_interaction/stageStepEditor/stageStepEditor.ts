@@ -1,4 +1,4 @@
-import { api, track, LightningElement } from 'lwc';
+import { api, LightningElement, track } from 'lwc';
 import {
     getErrorsFromHydratedElement,
     getValueFromHydratedItem,
@@ -13,10 +13,10 @@ import {
     OrchestrationActionValueChangedEvent,
     OrchestrationAssigneeChangedEvent,
     PropertyChangedEvent,
+    RequiresAsyncProcessingChangedEvent,
     UpdateConditionEvent,
     UpdateNodeEvent,
     ValueChangedEvent,
-    RequiresAsyncProcessingChangedEvent,
     UpdateEntryExitCriteriaEvent
 } from 'builder_platform_interaction/events';
 import { LABELS } from './stageStepEditorLabels';
@@ -107,7 +107,8 @@ export default class StageStepEditor extends LightningElement {
 
     rules = [];
 
-    actorErrorMessage;
+    @track
+    actorErrorMessage = '';
 
     entryActionErrorMessage;
     actionErrorMessage;
@@ -126,26 +127,69 @@ export default class StageStepEditor extends LightningElement {
         {
             label: LABELS.assigneeTypeUserReference,
             value: ASSIGNEE_RESOURCE_TYPE.UserResource
+        },
+        {
+            label: LABELS.assigneeTypeGroup,
+            value: ASSIGNEE_TYPE.Group
+        },
+        {
+            label: LABELS.assigneeTypeGroupReference,
+            value: ASSIGNEE_RESOURCE_TYPE.GroupResource
+        },
+        {
+            label: LABELS.assigneeTypeQueue,
+            value: ASSIGNEE_TYPE.Queue
+        },
+        {
+            label: LABELS.assigneeTypeQueueReference,
+            value: ASSIGNEE_RESOURCE_TYPE.QueueResource
         }
     ];
 
-    @track
-    userRecordPickerAttributes: {
-        label: string;
-        entities: object[];
-        placeholder: string;
-    } = {
+    userRecordPickerAttributes = {
         label: LABELS.actorSelectorUserLabel,
         entities: [
             {
                 name: 'User',
-                label: 'Users',
-                labelPlural: 'People'
+                label: 'Users'
             }
         ],
-
-        placeholder: this.labels.actorSelectorUserReferencePlaceholder
+        placeholder: this.labels.actorSelectorUserPlaceholder
     };
+
+    /**
+     * The contextId is consumed by GroupLookupServiceFilterPlugin.java to ensure that only Public Groups and not Queues
+     * are returned
+     */
+    groupRecordPickerAttributes = {
+        label: LABELS.actorSelectorGroupLabel,
+        contextId: 'orchestratorGroup',
+        entities: [
+            {
+                name: 'Group',
+                label: 'Group'
+            }
+        ],
+        placeholder: this.labels.actorSelectorGroupPlaceholder
+    };
+
+    /**
+     * The contextId is consumed by GroupLookupServiceFilterPlugin.java to ensure that only Queues and not Public Groups
+     * are returned
+     */
+    queueRecordPickerAttributes = {
+        label: LABELS.actorSelectorQueueLabel,
+        contextId: 'orchestratorQueue',
+        entities: [
+            {
+                name: 'Group',
+                label: 'Queue'
+            }
+        ],
+        placeholder: this.labels.actorSelectorQueuePlaceholder
+    };
+
+    assigneeRecordPickerAttributes = this.userRecordPickerAttributes;
 
     // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
     @api
@@ -269,17 +313,55 @@ export default class StageStepEditor extends LightningElement {
 
         this.requiresAsyncProcessing = this.element.requiresAsyncProcessing;
 
+        // Handle all assignee related set node changes
+        this.setNodeAssignee();
+
+        // Reopening existing elements should always validate
+        // This has to be done manually in every property editor
+        if (!this.element.isNew) {
+            this.recordErrorMessage =
+                (!isParameterListRowItem(this.element.relatedRecordItem) && this.element.relatedRecordItem?.error) ||
+                '';
+        }
+    }
+
+    /**
+     * Set correct record picker config and
+     * retrieve recordIds for assignees as needed
+     *
+     * @private
+     */
+    private setNodeAssignee() {
+        if (!this.element) {
+            return;
+        }
+
+        const assignee = this.element.assignees[0]!;
+        const assigneeType =
+            typeof assignee.assigneeType === 'string' ? assignee.assigneeType : assignee.assigneeType.value;
+
+        if (assigneeType === ASSIGNEE_TYPE.User) {
+            this.assigneeRecordPickerAttributes = this.userRecordPickerAttributes;
+            this.assigneeReferenceComboBoxConfig = this.userReferenceComboBoxConfig;
+        } else if (assigneeType === ASSIGNEE_TYPE.Group) {
+            this.assigneeRecordPickerAttributes = this.groupRecordPickerAttributes;
+            this.assigneeReferenceComboBoxConfig = this.groupReferenceComboBoxConfig;
+        } else if (assigneeType === ASSIGNEE_TYPE.Queue) {
+            this.assigneeRecordPickerAttributes = this.queueRecordPickerAttributes;
+            this.assigneeReferenceComboBoxConfig = this.queueReferenceComboBoxConfig;
+        }
+
         // populate assigneeRecordIds for all literals
         this.assigneeRecordIds = [];
-        if (this.element?.assignees?.length > 0) {
+        if (this.element.assignees?.length > 0) {
             this.displayAssigneeSpinner = true;
 
             Promise.all(
                 this.element.assignees.map(async (assignee) => {
                     return assignee && assignee.assignee.value && !assignee.isReference
                         ? fetchOnce(SERVER_ACTION_TYPE.GET_RECORD_ID_BY_DEV_NAME, {
-                              devName: assignee.assignee.value,
-                              entity: ASSIGNEE_TYPE.User
+                              devName: getValueFromHydratedItem(assignee.assignee),
+                              entity: getValueFromHydratedItem(assignee.assigneeType)
                           })
                         : null;
                 })
@@ -292,14 +374,6 @@ export default class StageStepEditor extends LightningElement {
                 });
                 this.displayAssigneeSpinner = false;
             });
-        }
-
-        // Reopening existing elements should always validate
-        // This has to be done manually in every property editor
-        if (!this.element.isNew) {
-            this.recordErrorMessage =
-                (!isParameterListRowItem(this.element.relatedRecordItem) && this.element.relatedRecordItem?.error) ||
-                '';
         }
     }
 
@@ -558,6 +632,13 @@ export default class StageStepEditor extends LightningElement {
     }
 
     get selectedAssigneeType() {
+        const assigneeType = getValueFromHydratedItem(this.element?.assignees[0]!.assigneeType);
+
+        if (assigneeType === ASSIGNEE_TYPE.Group) {
+            return this.element?.assignees[0]?.isReference ? ASSIGNEE_RESOURCE_TYPE.GroupResource : ASSIGNEE_TYPE.Group;
+        } else if (assigneeType === ASSIGNEE_TYPE.Queue) {
+            return this.element?.assignees[0]?.isReference ? ASSIGNEE_RESOURCE_TYPE.QueueResource : ASSIGNEE_TYPE.Queue;
+        }
         return this.element?.assignees[0]?.isReference ? ASSIGNEE_RESOURCE_TYPE.UserResource : ASSIGNEE_TYPE.User;
     }
 
@@ -608,6 +689,40 @@ export default class StageStepEditor extends LightningElement {
             this.labels.actorSelectorUserReferenceTooltip // Field-level Help
         );
     }
+
+    get groupReferenceComboBoxConfig() {
+        return BaseResourcePicker.getComboboxConfig(
+            this.labels.actorSelectorGroupReferenceLabel, // Label
+            this.labels.actorSelectorGroupReferencePlaceholder, // Placeholder
+            this.error, // errorMessage
+            false, // literalsAllowed
+            true, // required
+            false, // disabled
+            FLOW_DATA_TYPE.STRING.value,
+            true, // enableFieldDrilldown,
+            true, // allowSObjectFields
+            LIGHTNING_INPUT_VARIANTS.STANDARD,
+            this.labels.actorSelectorGroupReferenceTooltip // Field-level Help
+        );
+    }
+
+    get queueReferenceComboBoxConfig() {
+        return BaseResourcePicker.getComboboxConfig(
+            this.labels.actorSelectorQueueReferenceLabel, // Label
+            this.labels.actorSelectorQueueReferencePlaceholder, // Placeholder
+            this.error, // errorMessage
+            false, // literalsAllowed
+            true, // required
+            false, // disabled
+            FLOW_DATA_TYPE.STRING.value,
+            true, // enableFieldDrilldown,
+            true, // allowSObjectFields
+            LIGHTNING_INPUT_VARIANTS.STANDARD,
+            this.labels.actorSelectorQueueReferenceTooltip // Field-level Help
+        );
+    }
+
+    assigneeReferenceComboBoxConfig = this.userReferenceComboBoxConfig;
 
     get actorElementParam() {
         return {
@@ -916,11 +1031,27 @@ export default class StageStepEditor extends LightningElement {
     }
 
     /**
+     * The assignee type received by this event from the ui can be either an
+     * ASSIGNEE_TYPE or an ASSIGNEE_RESOURCE_TYPE
      *
-     * @param event Fired when the assignee type is changed
+     * @param event Fired when the assignee type combobox is changed
      */
     handleAssigneeTypeChanged = (event) => {
         event.stopPropagation();
+
+        const value = event.detail.value;
+
+        let assigneeType = ASSIGNEE_TYPE.User;
+        if (value === ASSIGNEE_TYPE.Group || value === ASSIGNEE_RESOURCE_TYPE.GroupResource) {
+            assigneeType = ASSIGNEE_TYPE.Group;
+        } else if (value === ASSIGNEE_TYPE.Queue || value === ASSIGNEE_RESOURCE_TYPE.QueueResource) {
+            assigneeType = ASSIGNEE_TYPE.Queue;
+        }
+
+        const isReference =
+            value === ASSIGNEE_RESOURCE_TYPE.UserResource ||
+            value === ASSIGNEE_RESOURCE_TYPE.GroupResource ||
+            value === ASSIGNEE_RESOURCE_TYPE.QueueResource;
 
         const updateActor = new OrchestrationAssigneeChangedEvent(
             createFEROVMetadataObject(
@@ -931,7 +1062,8 @@ export default class StageStepEditor extends LightningElement {
                 ASSIGNEE_PROPERTY_NAME,
                 ASSIGNEE_DATA_TYPE_PROPERTY_NAME
             ),
-            event.detail.value === ASSIGNEE_RESOURCE_TYPE.UserResource
+            assigneeType,
+            isReference
         );
         this.element = stageStepReducer(this.element!, updateActor);
 
@@ -959,7 +1091,7 @@ export default class StageStepEditor extends LightningElement {
         if (recordId) {
             const devName = await fetchOnce(SERVER_ACTION_TYPE.GET_RECORD_DEV_NAME_BY_ID, {
                 recordId,
-                entity: ASSIGNEE_TYPE.User
+                entity: getValueFromHydratedItem(this.element?.assignees[0]?.assigneeType)
             });
             this.updateAssignee(<string>devName, '');
         } else {
@@ -992,6 +1124,7 @@ export default class StageStepEditor extends LightningElement {
                 ASSIGNEE_PROPERTY_NAME,
                 ASSIGNEE_DATA_TYPE_PROPERTY_NAME
             ),
+            this.element?.assignees[0]?.assigneeType,
             this.element?.assignees[0]?.isReference,
             error
         );

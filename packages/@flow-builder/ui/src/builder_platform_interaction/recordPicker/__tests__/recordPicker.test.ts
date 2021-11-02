@@ -35,6 +35,7 @@ describe('recordPicker', () => {
     it('loads the aura component once attributes and values are available', () => {
         const mergedAttributes = {
             ...attributes,
+            errors: [],
             recordSelectedCallback,
             values
         };

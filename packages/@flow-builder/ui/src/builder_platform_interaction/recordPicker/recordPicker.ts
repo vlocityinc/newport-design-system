@@ -32,6 +32,9 @@ export default class RecordPicker extends LightningElement {
     }
 
     @api
+    error;
+
+    @api
     get recordSelectedCallback() {
         return this._recordSelectedCallback;
     }
@@ -47,7 +50,13 @@ export default class RecordPicker extends LightningElement {
     }
 
     renderedCallback() {
-        if (!this.embededAuraComponent && this.attributes && this.values && this.recordSelectedCallback) {
+        if (
+            !this.embededAuraComponent &&
+            this.attributes &&
+            this.values &&
+            this.recordSelectedCallback &&
+            this.error !== undefined
+        ) {
             this.embededAuraComponent = this.prepareComponent();
         }
     }
@@ -66,7 +75,8 @@ export default class RecordPicker extends LightningElement {
         const attributes = {
             ...unwrap(this._attributes),
             recordSelectedCallback: this.recordSelectedCallback,
-            values: this.values ? this.values : []
+            values: this.values ? this.values : [],
+            errors: this.error ? [{ message: this.error }] : []
         };
 
         return new AuraComponent(container, descriptor, attributes, this.embededAuraComponent);

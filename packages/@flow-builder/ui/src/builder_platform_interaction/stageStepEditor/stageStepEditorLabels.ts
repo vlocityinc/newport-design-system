@@ -16,6 +16,10 @@ import actorSelectionSectionLabel from '@salesforce/label/FlowBuilderStageStepEd
 import assigneeTypeSelectionLabel from '@salesforce/label/FlowBuilderStageStepEditor.assigneeTypeSelectionLabel';
 import assigneeTypeUser from '@salesforce/label/FlowBuilderStageStepEditor.assigneeTypeUser';
 import assigneeTypeUserReference from '@salesforce/label/FlowBuilderStageStepEditor.assigneeTypeUserReference';
+import assigneeTypeGroup from '@salesforce/label/FlowBuilderStageStepEditor.assigneeTypeGroup';
+import assigneeTypeGroupReference from '@salesforce/label/FlowBuilderStageStepEditor.assigneeTypeGroupReference';
+import assigneeTypeQueue from '@salesforce/label/FlowBuilderStageStepEditor.assigneeTypeQueue';
+import assigneeTypeQueueReference from '@salesforce/label/FlowBuilderStageStepEditor.assigneeTypeQueueReference';
 
 import actorSelectorUserLabel from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorUserLabel';
 import actorSelectorUserReferenceLabel from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorUserReferenceLabel';
@@ -23,6 +27,20 @@ import actorSelectorUserPlaceholder from '@salesforce/label/FlowBuilderStageStep
 import actorSelectorUserReferencePlaceholder from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorUserReferencePlaceholder';
 import actorSelectorUserTooltip from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorUserTooltip';
 import actorSelectorUserReferenceTooltip from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorUserReferenceTooltip';
+
+import actorSelectorGroupLabel from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorGroupLabel';
+import actorSelectorGroupReferenceLabel from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorGroupReferenceLabel';
+import actorSelectorGroupPlaceholder from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorGroupPlaceholder';
+import actorSelectorGroupReferencePlaceholder from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorGroupReferencePlaceholder';
+import actorSelectorGroupTooltip from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorGroupTooltip';
+import actorSelectorGroupReferenceTooltip from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorGroupReferenceTooltip';
+
+import actorSelectorQueueLabel from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorQueueLabel';
+import actorSelectorQueueReferenceLabel from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorQueueReferenceLabel';
+import actorSelectorQueuePlaceholder from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorQueuePlaceholder';
+import actorSelectorQueueReferencePlaceholder from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorQueueReferencePlaceholder';
+import actorSelectorQueueTooltip from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorQueueTooltip';
+import actorSelectorQueueReferenceTooltip from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorQueueReferenceTooltip';
 
 import cannotBeBlank from '@salesforce/label/FlowBuilderValidation.cannotBeBlank';
 
@@ -48,7 +66,6 @@ import emptyInputsOutputsTitle from '@salesforce/label/FlowBuilderCalloutEditor.
 import thisActionHasNoInputBody from '@salesforce/label/FlowBuilderCalloutEditor.thisActionHasNoInputOutputBody';
 import thisActionHasNoInputOutputBody from '@salesforce/label/FlowBuilderCalloutEditor.thisActionHasNoInputOutputBody';
 
-// @ts-nocheck
 import changeActionAlertHeaderTitle from '@salesforce/label/FlowBuilderAlertModal.changeActionAlertHeaderTitle';
 import changeActionAlertBodyTextLabel from '@salesforce/label/FlowBuilderAlertModal.changeActionAlertBodyTextLabel';
 import changeActionAlertListSectionHeader from '@salesforce/label/FlowBuilderAlertModal.changeActionAlertListSectionHeader';
@@ -75,10 +92,16 @@ export const LABELS = {
     emptyInputsOutputsTitle,
     thisActionHasNoInputBody,
     thisActionHasNoInputOutputBody,
+
     actorSelectionSectionLabel,
     assigneeTypeSelectionLabel,
+
     assigneeTypeUser,
     assigneeTypeUserReference,
+    assigneeTypeGroup,
+    assigneeTypeGroupReference,
+    assigneeTypeQueue,
+    assigneeTypeQueueReference,
 
     actorSelectorUserLabel,
     actorSelectorUserReferenceLabel,
@@ -86,6 +109,20 @@ export const LABELS = {
     actorSelectorUserReferencePlaceholder,
     actorSelectorUserTooltip,
     actorSelectorUserReferenceTooltip,
+
+    actorSelectorGroupLabel,
+    actorSelectorGroupReferenceLabel,
+    actorSelectorGroupPlaceholder,
+    actorSelectorGroupReferencePlaceholder,
+    actorSelectorGroupTooltip,
+    actorSelectorGroupReferenceTooltip,
+
+    actorSelectorQueueLabel,
+    actorSelectorQueueReferenceLabel,
+    actorSelectorQueuePlaceholder,
+    actorSelectorQueueReferencePlaceholder,
+    actorSelectorQueueTooltip,
+    actorSelectorQueueReferenceTooltip,
 
     cannotBeBlank,
 
