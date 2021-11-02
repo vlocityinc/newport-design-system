@@ -337,6 +337,11 @@ export default class AlcCanvas extends LightningElement {
      */
     @api
     closeNodeOrConnectorMenu() {
+        // W-10101786: Clicking outside the canvas while the canvas is still loading throws a gack
+        if (!this._flowRenderContext) {
+            return;
+        }
+
         const interactionState = closeFlowMenu(this._flowRenderContext.interactionState);
         this._pendingInteractionState = null;
         this.menu = null;

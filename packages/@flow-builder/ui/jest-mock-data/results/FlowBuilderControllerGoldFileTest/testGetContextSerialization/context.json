@@ -26,6 +26,7 @@
       "componentConfigs":{
         "editMode":{
           "rightPanelConfig":{
+            "showTransactionBoundaries":false,
             "showDebugPanel":false
           },
           "toolbarConfig":{
@@ -64,6 +65,7 @@
         },
         "testMode":{
           "rightPanelConfig":{
+            "showTransactionBoundaries":true,
             "showDebugPanel":true
           },
           "toolbarConfig":{
@@ -102,6 +104,7 @@
         },
         "debugMode":{
           "rightPanelConfig":{
+            "showTransactionBoundaries":true,
             "showDebugPanel":true
           },
           "toolbarConfig":{
