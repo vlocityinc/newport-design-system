@@ -9,7 +9,7 @@ import {
 } from 'builder_platform_interaction/builderTestUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, StageExitCriteria } from 'builder_platform_interaction/flowMetadata';
 import { MERGE_WITH_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
 import { orchestratedStageReducer } from '../orchestratedStageReducer';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
@@ -120,7 +120,10 @@ describe('OrchestratedStageEditor', () => {
                 value: 'someActionType'
             }
         },
-        exitActionInputParameters: mockInputParameters
+        exitActionInputParameters: mockInputParameters,
+        exitCriteria: {
+            value: StageExitCriteria.ON_STEP_COMPLETE
+        }
     };
 
     let editor;
@@ -160,7 +163,10 @@ describe('OrchestratedStageEditor', () => {
                             value: 'someActionType'
                         }
                     },
-                    exitActionInputParameters: mockInputParameters
+                    exitActionInputParameters: mockInputParameters,
+                    exitCriteria: {
+                        value: StageExitCriteria.ON_DETERMINATION_COMPLETE
+                    }
                 };
                 editor.node = newNode;
 
@@ -170,30 +176,17 @@ describe('OrchestratedStageEditor', () => {
             });
         });
 
-        it('sets selectedExitCriteria by default', () => {
+        it('sets selectedExitCriteria to on_determination_complete if specified', () => {
             editor = createComponentUnderTest({
-                guid: 'someGuid',
-                name: 'someName',
-                label: 'someLabel',
-                description: 'someDescription',
-                exitAction: {
-                    actionName: {
-                        value: ''
-                    }
-                },
-                exitActionInputParameters: mockInputParameters
+                ...nodeParams,
+                exitCriteria: {
+                    value: StageExitCriteria.ON_DETERMINATION_COMPLETE
+                }
             });
             const exitCriteriaDropdown = editor.shadowRoot.querySelector(
                 LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_COMBOBOX
             );
-            expect(exitCriteriaDropdown.value).toEqual('on_step_complete');
-        });
-
-        it('sets selectedEntryCriteria to on_determination_complete when there is entry action in metadata', () => {
-            const exitCriteriaDropdown = editor.shadowRoot.querySelector(
-                LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_COMBOBOX
-            );
-            expect(exitCriteriaDropdown.value).toEqual('on_determination_complete');
+            expect(exitCriteriaDropdown.value).toEqual(StageExitCriteria.ON_DETERMINATION_COMPLETE);
         });
 
         it('Label Description Component', () => {
@@ -238,7 +231,7 @@ describe('OrchestratedStageEditor', () => {
 
     describe('actions', () => {
         it('fetched on connectedCallback', () => {
-            expect(fetchOnce).toHaveBeenCalledWith(SERVER_ACTION_TYPE.GET_SUBFLOWS, {
+            expect(fetchOnce).toHaveBeenCalledWith(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, {
                 flowProcessType: editor.processType
             });
         });
@@ -284,7 +277,10 @@ describe('OrchestratedStageEditor', () => {
                             value: ''
                         }
                     },
-                    exitActionInputParameters: mockInputParameters
+                    exitActionInputParameters: mockInputParameters,
+                    exitCriteria: {
+                        value: StageExitCriteria.ON_DETERMINATION_COMPLETE
+                    }
                 });
                 const exitCriteriaDropdown = editor.shadowRoot.querySelector(
                     LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_COMBOBOX
@@ -363,6 +359,14 @@ describe('OrchestratedStageEditor', () => {
     });
 
     describe('evaluation flow', () => {
+        beforeEach(() => {
+            editor = createComponentUnderTest({
+                ...nodeParams,
+                exitCriteria: {
+                    value: StageExitCriteria.ON_DETERMINATION_COMPLETE
+                }
+            });
+        });
         it('list set from available actions for evaluation flow', () => {
             const exitActionSelector = editor.shadowRoot.querySelector(selectors.ACTION_SELECTOR);
             expect(exitActionSelector.invocableActions).toEqual(invocableActionsForOrchestrator.slice(0, 1));

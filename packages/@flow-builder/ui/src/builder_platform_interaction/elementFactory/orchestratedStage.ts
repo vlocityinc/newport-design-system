@@ -1,4 +1,10 @@
-import { ELEMENT_TYPE, ACTION_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    ACTION_TYPE,
+    ELEMENT_TYPE,
+    EntryCriteria,
+    ExitCriteria,
+    StageExitCriteria
+} from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
@@ -65,6 +71,7 @@ export interface StageStep extends UI.ChildElement {
     entryActionName: string;
     entryActionType: string;
     entryActionInputParameters: ParameterListRowItem[];
+    entryCriteria: EntryCriteria | ValueWithError;
 
     action: InvocableAction;
     // Used by the UI to keep track of errors on the action between displays
@@ -88,6 +95,7 @@ export interface StageStep extends UI.ChildElement {
     exitActionName: string;
     exitActionType: string;
     exitActionInputParameters: ParameterListRowItem[];
+    exitCriteria: ExitCriteria | ValueWithError;
 
     // This has a canvas config for display of error state but this is not actually a base canvas element (i.e. it has no connectors)
     config: UI.CanvasElementConfig;
@@ -111,6 +119,7 @@ export interface OrchestratedStage extends UI.CanvasElement {
     exitActionName: string;
     exitActionType: string;
     exitActionInputParameters: ParameterListRowItem[];
+    exitCriteria: StageExitCriteria | ValueWithError;
 }
 
 const elementType = ELEMENT_TYPE.ORCHESTRATED_STAGE;
@@ -149,6 +158,7 @@ export function createOrchestratedStageWithItems(existingStage: OrchestratedStag
     newStage.dataType = FLOW_DATA_TYPE.ORCHESTRATED_STAGE.value;
     newStage.canHaveCanvasEmbeddedElement = true;
     newStage.exitActionError = existingStage.exitActionError;
+    newStage.exitCriteria = existingStage.exitCriteria || StageExitCriteria.ON_STEP_COMPLETE;
 
     return newStage;
 }
@@ -204,7 +214,8 @@ export function createDuplicateOrchestratedStage(
         exitActionName: orchestratedStage.exitActionName,
         exitActionType: orchestratedStage.exitActionType,
         exitActionInputParameters: orchestratedStage.exitActionInputParameters,
-        exitActionOutputParameters: []
+        exitActionOutputParameters: [],
+        exitCriteria: orchestratedStage.exitCriteria
     });
     return {
         duplicatedElement: updatedDuplicatedElement,
@@ -247,7 +258,14 @@ function createStageStepsWithReferences(
 export function createOrchestratedStageWithItemReferences(stage: OrchestratedStage) {
     const newStage = baseCanvasElement(stage);
 
-    const { stageSteps = [], exitActionInputParameters = [], exitAction, exitActionName, exitActionType } = stage;
+    const {
+        stageSteps = [],
+        exitActionInputParameters = [],
+        exitAction,
+        exitActionName,
+        exitActionType,
+        exitCriteria = StageExitCriteria.ON_STEP_COMPLETE
+    } = stage;
     const exitActionCall = createActionCallHelper(exitAction, exitActionName, exitActionType);
 
     const connectors = createConnectorObjects(stage, newStage.guid, null);
@@ -267,7 +285,8 @@ export function createOrchestratedStageWithItemReferences(stage: OrchestratedSta
         exitActionName,
         exitActionType,
         exitActionInputParameters: exitActionInputParametersUiObject,
-        canHaveCanvasEmbeddedElement: true
+        canHaveCanvasEmbeddedElement: true,
+        exitCriteria
     });
 
     return baseCanvasElementsArrayToMap([newStage, ...items], connectors);
@@ -283,8 +302,15 @@ export function createOrchestratedStageWithItemReferencesWhenUpdatingFromPropert
     orchestratedStage: OrchestratedStage
 ) {
     const newOrchestratedStage = baseCanvasElement(orchestratedStage);
-    const { stageSteps, exitActionInputParameters, exitAction, exitActionError, exitActionName, exitActionType } =
-        orchestratedStage;
+    const {
+        stageSteps,
+        exitActionInputParameters,
+        exitAction,
+        exitActionError,
+        exitActionName,
+        exitActionType,
+        exitCriteria
+    } = orchestratedStage;
 
     const exitActionCall = createActionCallHelper(exitAction, exitActionName, exitActionType);
 
@@ -306,7 +332,8 @@ export function createOrchestratedStageWithItemReferencesWhenUpdatingFromPropert
         exitActionError,
         exitActionName: exitActionCall.actionName,
         exitActionType: exitActionCall.actionType,
-        canHaveCanvasEmbeddedElement: true
+        canHaveCanvasEmbeddedElement: true,
+        exitCriteria
     });
 
     return {
@@ -516,7 +543,9 @@ export function createStageStep(step: StageStep): StageStep {
         exitAction,
         exitActionInputParameters = [],
         assignees,
-        relatedRecordItem
+        relatedRecordItem,
+        entryCriteria,
+        exitCriteria
     } = step;
 
     // set up Step Action
@@ -551,14 +580,16 @@ export function createStageStep(step: StageStep): StageStep {
         }
     }
 
+    // Only create and add an entry to the assignees array if it is an interactive step, which will save us from validation errors.
     // Default to no assignees
-    newStep.assignees = [
-        {
+    newStep.assignees = [];
+    if (step.actionType === ACTION_TYPE.STEP_INTERACTIVE) {
+        newStep.assignees.push({
             assignee: null,
             assigneeType: ASSIGNEE_TYPE.User,
             isReference: false
-        }
-    ];
+        });
+    }
 
     // Coming from metadata object - convert assignee
     if (
@@ -600,6 +631,9 @@ export function createStageStep(step: StageStep): StageStep {
         });
     }
 
+    // A new step's entry criteria defaults to ON_STAGE_START if not specified
+    newStep.entryCriteria = entryCriteria || EntryCriteria.ON_STAGE_START;
+
     // set up Step's Entry Criteria
     if (entryConditions) {
         newStep.entryConditions = entryConditions.map<UI.Condition>(
@@ -608,6 +642,9 @@ export function createStageStep(step: StageStep): StageStep {
     }
     newStep.entryAction = createActionCallHelper(entryAction, step.entryActionName, step.entryActionType);
     newStep.entryActionInputParameters = entryActionInputParameters.map((p) => createInputParameter(p));
+
+    // A new step's exit criteria defaults to ON_STEP_COMPLETE if not specified
+    newStep.exitCriteria = exitCriteria || ExitCriteria.ON_STEP_COMPLETE;
 
     // set up Step's Exit Criteria
     newStep.exitAction = createActionCallHelper(exitAction, step.exitActionName, step.exitActionType);
@@ -713,7 +750,8 @@ export function createOrchestratedStageMetadataObject(
             stageSteps,
             exitActionName: orchestratedStage.exitAction?.actionName,
             exitActionType: orchestratedStage.exitAction?.actionType,
-            exitActionInputParameters: stageExitActionInputParametersMetadata
+            exitActionInputParameters: stageExitActionInputParametersMetadata,
+            exitCriteria: orchestratedStage.exitCriteria
         }
     );
 

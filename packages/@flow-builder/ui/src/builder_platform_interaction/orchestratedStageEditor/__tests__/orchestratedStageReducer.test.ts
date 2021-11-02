@@ -4,12 +4,13 @@ import {
     OrchestrationActionValueChangedEvent,
     PropertyChangedEvent,
     UpdateParameterItemEvent,
-    DeleteParameterItemEvent
+    DeleteParameterItemEvent,
+    UpdateEntryExitCriteriaEvent
 } from 'builder_platform_interaction/events';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { orchestratedStageReducer } from '../orchestratedStageReducer';
 import { ORCHESTRATED_ACTION_CATEGORY } from 'builder_platform_interaction/events';
-import { ACTION_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ACTION_TYPE, ELEMENT_TYPE, StageExitCriteria } from 'builder_platform_interaction/flowMetadata';
 import { MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
 import { removeAllUnsetParameters } from 'builder_platform_interaction/orchestratedStageAndStepReducerUtils';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
@@ -405,6 +406,25 @@ describe('OrchestratedStageReducer', () => {
             const newState = orchestratedStageReducer(originalStateWithExitAction, event);
 
             expect(removeAllUnsetParameters).toHaveBeenCalledWith(newState);
+        });
+    });
+
+    describe('updateExitCriteria', () => {
+        it('should change exitCriteria to same value', () => {
+            const firstState = {
+                ...originalState,
+                exitCriteria: {
+                    value: StageExitCriteria.ON_STEP_COMPLETE
+                }
+            };
+            expect(firstState.exitCriteria.value).toStrictEqual(StageExitCriteria.ON_STEP_COMPLETE);
+
+            const event = new UpdateEntryExitCriteriaEvent(
+                ORCHESTRATED_ACTION_CATEGORY.EXIT,
+                StageExitCriteria.ON_DETERMINATION_COMPLETE
+            );
+            const newState = orchestratedStageReducer(firstState, event);
+            expect(newState.exitCriteria.value).toStrictEqual(StageExitCriteria.ON_DETERMINATION_COMPLETE);
         });
     });
 });

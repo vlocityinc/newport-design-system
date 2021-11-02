@@ -16,12 +16,20 @@ import {
     UpdateConditionEvent,
     UpdateNodeEvent,
     ValueChangedEvent,
-    RequiresAsyncProcessingChangedEvent
+    RequiresAsyncProcessingChangedEvent,
+    UpdateEntryExitCriteriaEvent
 } from 'builder_platform_interaction/events';
 import { LABELS } from './stageStepEditorLabels';
 import { stageStepReducer } from './stageStepReducer';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
-import { ACTION_TYPE, ELEMENT_TYPE, FLOW_TRANSACTION_MODEL, ICONS } from 'builder_platform_interaction/flowMetadata';
+import {
+    ACTION_TYPE,
+    ELEMENT_TYPE,
+    EntryCriteria,
+    ExitCriteria,
+    FLOW_TRANSACTION_MODEL,
+    ICONS
+} from 'builder_platform_interaction/flowMetadata';
 import {
     ASSIGNEE_DATA_TYPE_PROPERTY_NAME,
     ASSIGNEE_PROPERTY_NAME,
@@ -55,17 +63,6 @@ import {
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { updateAndValidateElementInPropertyEditor } from 'builder_platform_interaction/validation';
 
-export enum ENTRY_CRITERIA {
-    ON_STAGE_START = 'on_stage_start',
-    ON_STEP_COMPLETE = 'on_step_complete',
-    ON_DETERMINATION_COMPLETE = 'on_determination_complete'
-}
-
-export enum EXIT_CRITERIA {
-    ON_STEP_COMPLETE = 'on_step_complete',
-    ON_DETERMINATION_COMPLETE = 'on_determination_complete'
-}
-
 // Standard inputs that should not show up as inputs associated with the selected action
 const STANDARD_INPUT_PREFIX = 'ActionInput__';
 
@@ -74,8 +71,8 @@ export default class StageStepEditor extends LightningElement {
 
     element?: StageStep;
 
-    selectedEntryCriteria?: ENTRY_CRITERIA;
-    selectedExitCriteria?: EXIT_CRITERIA;
+    selectedEntryCriteria?: EntryCriteria;
+    selectedExitCriteria?: ExitCriteria;
 
     // For step based entry criteria
     entryConditionsAvailableStepItems: UI.ComboboxItem[] = [];
@@ -236,30 +233,9 @@ export default class StageStepEditor extends LightningElement {
             return;
         }
 
-        // infer selected Entry Criteria on-load
-        if (!this.selectedEntryCriteria) {
-            if (this.element.entryAction.actionName?.value) {
-                // entryAction exists and has populated data
-                this.selectedEntryCriteria = ENTRY_CRITERIA.ON_DETERMINATION_COMPLETE;
-            } else if (
-                this.element.entryConditions &&
-                this.element.entryConditions instanceof Array &&
-                this.element.entryConditions.length > 0
-            ) {
-                this.selectedEntryCriteria = ENTRY_CRITERIA.ON_STEP_COMPLETE;
-            } else {
-                this.selectedEntryCriteria = ENTRY_CRITERIA.ON_STAGE_START;
-            }
-        }
+        this.selectedEntryCriteria = (this.element.entryCriteria as ValueWithError).value as EntryCriteria;
 
-        // infer selected Exit Criteria on-load
-        if (!this.selectedExitCriteria) {
-            if (this.element.exitAction.actionName?.value) {
-                this.selectedExitCriteria = EXIT_CRITERIA.ON_DETERMINATION_COMPLETE;
-            } else {
-                this.selectedExitCriteria = EXIT_CRITERIA.ON_STEP_COMPLETE;
-            }
-        }
+        this.selectedExitCriteria = (this.element.exitCriteria as ValueWithError).value as ExitCriteria;
 
         const otherItems: StageStep[] = getOtherItemsInOrchestratedStage(this.element.guid);
 
@@ -342,17 +318,17 @@ export default class StageStepEditor extends LightningElement {
         return [
             {
                 label: LABELS.startOptionStageStart,
-                value: ENTRY_CRITERIA.ON_STAGE_START
+                value: EntryCriteria.ON_STAGE_START
             },
 
             {
                 label: LABELS.startOptionBasedOnOtherStep,
-                value: ENTRY_CRITERIA.ON_STEP_COMPLETE
+                value: EntryCriteria.ON_STEP_COMPLETE
             },
 
             {
                 label: LABELS.startOptionBasedOnCustomFlow,
-                value: ENTRY_CRITERIA.ON_DETERMINATION_COMPLETE
+                value: EntryCriteria.ON_DETERMINATION_COMPLETE
             }
         ];
     }
@@ -361,12 +337,12 @@ export default class StageStepEditor extends LightningElement {
         return [
             {
                 label: LABELS.whenStepIsComplete,
-                value: EXIT_CRITERIA.ON_STEP_COMPLETE
+                value: ExitCriteria.ON_STEP_COMPLETE
             },
 
             {
                 label: LABELS.completeOptionBasedOnCustomFlow,
-                value: EXIT_CRITERIA.ON_DETERMINATION_COMPLETE
+                value: ExitCriteria.ON_DETERMINATION_COMPLETE
             }
         ];
     }
@@ -390,15 +366,15 @@ export default class StageStepEditor extends LightningElement {
     }
 
     get isStartCriteriaBasedOnStep(): boolean {
-        return this.selectedEntryCriteria === ENTRY_CRITERIA.ON_STEP_COMPLETE;
+        return this.selectedEntryCriteria === EntryCriteria.ON_STEP_COMPLETE;
     }
 
     get isStartCriteriaBasedOnCustomAction(): boolean {
-        return this.selectedEntryCriteria === ENTRY_CRITERIA.ON_DETERMINATION_COMPLETE;
+        return this.selectedEntryCriteria === EntryCriteria.ON_DETERMINATION_COMPLETE;
     }
 
     get isExitCriteriaBasedOnCustomAction(): boolean {
-        return this.selectedExitCriteria === EXIT_CRITERIA.ON_DETERMINATION_COMPLETE;
+        return this.selectedExitCriteria === ExitCriteria.ON_DETERMINATION_COMPLETE;
     }
 
     get showParameterList(): boolean {
@@ -600,9 +576,9 @@ export default class StageStepEditor extends LightningElement {
     }
 
     get entryCriteriaHelpText() {
-        if (this.selectedEntryCriteria === ENTRY_CRITERIA.ON_DETERMINATION_COMPLETE) {
+        if (this.selectedEntryCriteria === EntryCriteria.ON_DETERMINATION_COMPLETE) {
             return this.labels.criteriaActionHelpText;
-        } else if (this.selectedEntryCriteria === ENTRY_CRITERIA.ON_STEP_COMPLETE) {
+        } else if (this.selectedEntryCriteria === EntryCriteria.ON_STEP_COMPLETE) {
             return this.labels.criteriaBasedOnStepHelpText;
         }
         // a value of null will not display any Tooltip Icon
@@ -610,7 +586,7 @@ export default class StageStepEditor extends LightningElement {
     }
 
     get exitCriteriaHelpText() {
-        if (this.selectedExitCriteria === EXIT_CRITERIA.ON_DETERMINATION_COMPLETE) {
+        if (this.selectedExitCriteria === ExitCriteria.ON_DETERMINATION_COMPLETE) {
             return this.labels.criteriaActionHelpText;
         }
         // a value of null will not display any Tooltip Icon
@@ -817,9 +793,16 @@ export default class StageStepEditor extends LightningElement {
     handleStepStartChanged(event: CustomEvent) {
         this.selectedEntryCriteria = event.detail.value;
 
+        // Update element entryCriteria
+        const updateEntryCriteriaEvent = new UpdateEntryExitCriteriaEvent(
+            ORCHESTRATED_ACTION_CATEGORY.ENTRY,
+            this.selectedEntryCriteria
+        );
+        this.element = stageStepReducer(this.element!, updateEntryCriteriaEvent);
+
         // delete any alternative Entry Criteria Metadata if necessary
 
-        if (this.selectedEntryCriteria === ENTRY_CRITERIA.ON_STAGE_START) {
+        if (this.selectedEntryCriteria === EntryCriteria.ON_STAGE_START) {
             const deleteEntryCriteriaEvent = new DeleteAllConditionsEvent(this.element!.guid);
             this.element = stageStepReducer(this.element!, deleteEntryCriteriaEvent);
 
@@ -830,7 +813,7 @@ export default class StageStepEditor extends LightningElement {
             this.element = stageStepReducer(this.element!, deleteEntryActionEvent);
 
             this.dispatchEvent(new UpdateNodeEvent(this.element));
-        } else if (this.selectedEntryCriteria === ENTRY_CRITERIA.ON_STEP_COMPLETE) {
+        } else if (this.selectedEntryCriteria === EntryCriteria.ON_STEP_COMPLETE) {
             const deleteEntryActionEvent = new DeleteOrchestrationActionEvent(
                 this.element!.guid,
                 ORCHESTRATED_ACTION_CATEGORY.ENTRY
@@ -838,22 +821,34 @@ export default class StageStepEditor extends LightningElement {
             this.element = stageStepReducer(this.element!, deleteEntryActionEvent);
             this.element = stageStepReducer(this.element!, new CreateEntryConditionsEvent(this.element!.guid));
             this.dispatchEvent(new UpdateNodeEvent(this.element));
+        } else if (this.selectedEntryCriteria === EntryCriteria.ON_DETERMINATION_COMPLETE) {
+            const deleteEntryCriteriaEvent = new DeleteAllConditionsEvent(this.element!.guid);
+            this.element = stageStepReducer(this.element!, deleteEntryCriteriaEvent);
+
+            this.dispatchEvent(new UpdateNodeEvent(this.element));
         }
     }
 
     handleStepCompletesChanged(event: CustomEvent) {
         this.selectedExitCriteria = event.detail.value;
 
+        // Update element exitCriteria
+        const updateExitCriteriaEvent = new UpdateEntryExitCriteriaEvent(
+            ORCHESTRATED_ACTION_CATEGORY.EXIT,
+            this.selectedExitCriteria
+        );
+        this.element = stageStepReducer(this.element!, updateExitCriteriaEvent);
+
         // delete any alternative Exit Criteria Metadata if necessary
-        if (this.selectedExitCriteria === EXIT_CRITERIA.ON_STEP_COMPLETE) {
+        if (this.selectedExitCriteria === ExitCriteria.ON_STEP_COMPLETE) {
             const deleteExitActionEvent = new DeleteOrchestrationActionEvent(
                 this.element!.guid,
                 ORCHESTRATED_ACTION_CATEGORY.EXIT
             );
             this.element = stageStepReducer(this.element!, deleteExitActionEvent);
             this.element = stageStepReducer(this.element!, new CreateEntryConditionsEvent(this.element!.guid));
-            this.dispatchEvent(new UpdateNodeEvent(this.element));
         }
+        this.dispatchEvent(new UpdateNodeEvent(this.element));
     }
 
     async handleActionSelected(e: ValueChangedEvent<InvocableAction>) {

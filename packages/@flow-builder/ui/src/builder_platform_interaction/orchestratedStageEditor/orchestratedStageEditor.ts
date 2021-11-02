@@ -8,13 +8,19 @@ import {
     DeleteOrchestrationActionEvent,
     OrchestrationActionValueChangedEvent,
     PropertyChangedEvent,
+    UpdateEntryExitCriteriaEvent,
     UpdateNodeEvent,
     ValueChangedEvent
 } from 'builder_platform_interaction/events';
 import { LABELS } from './orchestratedStageEditorLabels';
 import { orchestratedStageReducer } from './orchestratedStageReducer';
 import { fetchDetailsForInvocableAction, InvocableAction } from 'builder_platform_interaction/invocableActionLib';
-import { ACTION_TYPE, ELEMENT_TYPE, FLOW_TRANSACTION_MODEL } from 'builder_platform_interaction/flowMetadata';
+import {
+    ACTION_TYPE,
+    ELEMENT_TYPE,
+    FLOW_TRANSACTION_MODEL,
+    StageExitCriteria
+} from 'builder_platform_interaction/flowMetadata';
 import {
     getParameterListWarnings,
     MERGE_WITH_PARAMETERS,
@@ -28,11 +34,6 @@ import { removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { FLOW_AUTOMATIC_OUTPUT_HANDLING } from 'builder_platform_interaction/processTypeLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { updateAndValidateElementInPropertyEditor } from 'builder_platform_interaction/validation';
-
-enum EXIT_CRITERIA {
-    ON_STEP_COMPLETE = 'on_step_complete',
-    ON_DETERMINATION_COMPLETE = 'on_determination_complete'
-}
 
 const SELECTORS = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description'
@@ -52,6 +53,8 @@ export default class OrchestratedStageEditor extends LightningElement {
     exitInvocableActionParametersDescriptor?: InvocableAction;
 
     displayActionSpinner = false;
+
+    selectedExitCriteria?: StageExitCriteria;
 
     // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
     @api
@@ -117,14 +120,7 @@ export default class OrchestratedStageEditor extends LightningElement {
         this.element = newValue;
         this.element = updateAndValidateElementInPropertyEditor(oldElement, newValue, this, ['stageSteps']);
 
-        // infer selected Exit Criteria on-load
-        if (!this.selectedExitCriteria) {
-            if (this.element.exitAction && this.element.exitAction.actionName?.value) {
-                this.selectedExitCriteria = EXIT_CRITERIA.ON_DETERMINATION_COMPLETE;
-            } else {
-                this.selectedExitCriteria = EXIT_CRITERIA.ON_STEP_COMPLETE;
-            }
-        }
+        this.selectedExitCriteria = (this.element.exitCriteria as ValueWithError).value as StageExitCriteria;
 
         if (this.selectedExitAction?.actionName) {
             this.setActionParameters(this.selectedExitAction);
@@ -135,18 +131,18 @@ export default class OrchestratedStageEditor extends LightningElement {
         return [
             {
                 label: LABELS.exitOptionBasedOnAllStepsComplete,
-                value: EXIT_CRITERIA.ON_STEP_COMPLETE
+                value: StageExitCriteria.ON_STEP_COMPLETE
             },
 
             {
                 label: LABELS.completeOptionBasedOnCustomFlow,
-                value: EXIT_CRITERIA.ON_DETERMINATION_COMPLETE
+                value: StageExitCriteria.ON_DETERMINATION_COMPLETE
             }
         ];
     }
 
     get exitCriteriaHelpText() {
-        if (this.selectedExitCriteria === EXIT_CRITERIA.ON_DETERMINATION_COMPLETE) {
+        if (this.selectedExitCriteria === StageExitCriteria.ON_DETERMINATION_COMPLETE) {
             return this.labels.criteriaActionHelpText;
         }
         // a value of null will not display any Tooltip Icon
@@ -154,7 +150,7 @@ export default class OrchestratedStageEditor extends LightningElement {
     }
 
     get isExitCriteriaBasedOnCustomAction(): boolean {
-        return this.selectedExitCriteria === EXIT_CRITERIA.ON_DETERMINATION_COMPLETE;
+        return this.selectedExitCriteria === StageExitCriteria.ON_DETERMINATION_COMPLETE;
     }
 
     get showExitParameterList(): boolean {
@@ -294,8 +290,15 @@ export default class OrchestratedStageEditor extends LightningElement {
     handleStageCompletesChanged(event: CustomEvent) {
         this.selectedExitCriteria = event.detail.value;
 
+        // Update element exitCriteria
+        const updateExitCriteriaEvent = new UpdateEntryExitCriteriaEvent(
+            ORCHESTRATED_ACTION_CATEGORY.EXIT,
+            this.selectedExitCriteria
+        );
+        this.element = orchestratedStageReducer(this.element!, updateExitCriteriaEvent);
+
         // delete any alternative Exit Criteria Metadata if necessary
-        if (this.selectedExitCriteria === EXIT_CRITERIA.ON_STEP_COMPLETE) {
+        if (this.selectedExitCriteria === StageExitCriteria.ON_STEP_COMPLETE) {
             const deleteExitActionEvent = new DeleteOrchestrationActionEvent(
                 this.element!.guid,
                 ORCHESTRATED_ACTION_CATEGORY.EXIT

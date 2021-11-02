@@ -3,7 +3,8 @@ import {
     getValueFromHydratedItem,
     hydrateWithErrors,
     replaceItem,
-    updateProperties
+    updateProperties,
+    ValueWithError
 } from 'builder_platform_interaction/dataMutationLib';
 import {
     CreateEntryConditionsEvent,
@@ -17,7 +18,8 @@ import {
     DeleteOrchestrationActionEvent,
     OrchestrationAssigneeChangedEvent,
     ORCHESTRATED_ACTION_CATEGORY,
-    RequiresAsyncProcessingChangedEvent
+    RequiresAsyncProcessingChangedEvent,
+    UpdateEntryExitCriteriaEvent
 } from 'builder_platform_interaction/events';
 import { createCondition, StageStep } from 'builder_platform_interaction/elementFactory';
 import { MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
@@ -253,6 +255,32 @@ const createEntryConditions = (state: StageStep): StageStep => {
 };
 
 /**
+ * Update the entryCriteria or exitCriteria field on the flow model
+ *
+ * @param state The flow model
+ * @param event The event
+ * @returns new object with updated properties
+ */
+const updateEntryExitCriteria = (state: StageStep, event: UpdateEntryExitCriteriaEvent) => {
+    if (event.detail.actionCategory === ORCHESTRATED_ACTION_CATEGORY.ENTRY) {
+        return updateProperties(state, {
+            entryCriteria: {
+                value: event.detail.criteria,
+                error: null
+            }
+        });
+    } else if (event.detail.actionCategory === ORCHESTRATED_ACTION_CATEGORY.EXIT) {
+        return updateProperties(state, {
+            exitCriteria: {
+                value: event.detail.criteria,
+                error: null
+            }
+        });
+    }
+    return state;
+};
+
+/**
  * delete entry criteria
  *
  * @param state The flow model
@@ -353,6 +381,9 @@ export const stageStepReducer = (state: StageStep, event: CustomEvent): StageSte
         case RequiresAsyncProcessingChangedEvent.EVENT_NAME:
             newState = updateRequiresAsyncProcessingField(state, event);
             break;
+        case UpdateEntryExitCriteriaEvent.EVENT_NAME:
+            newState = updateEntryExitCriteria(state, event);
+            break;
         case VALIDATE_ALL:
             state = updateProperties(state, { action: mergeActionErrorToActionName(state.action, state.actionError) });
             state = updateProperties(state, {
@@ -361,7 +392,7 @@ export const stageStepReducer = (state: StageStep, event: CustomEvent): StageSte
             state = updateProperties(state, {
                 exitAction: mergeActionErrorToActionName(state.exitAction, state.exitActionError)
             });
-            return validation.validateAll(state, getRules());
+            return validation.validateAll(state, getRules(state));
         case MERGE_WITH_PARAMETERS:
             return mergeParameters(state, event.detail.parameters, event.detail.actionCategory);
         default:

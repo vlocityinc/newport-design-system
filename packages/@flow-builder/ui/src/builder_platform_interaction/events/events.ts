@@ -127,3 +127,4 @@ export { TextChangedEvent } from './textChangedEvent';
 export { PrepopulateMapItemsEvent } from './prepopulateMapItemsEvent';
 export { ListItemInteractionEvent } from './listItemInteractionEvent';
 export { RequiresAsyncProcessingChangedEvent } from './requiresAsyncProcessingChangedEvent';
+export { UpdateEntryExitCriteriaEvent } from './updateEntryExitCriteriaEvent';

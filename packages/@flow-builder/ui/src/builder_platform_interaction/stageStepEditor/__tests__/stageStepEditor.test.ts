@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
-import StageStepEditor, { ENTRY_CRITERIA, EXIT_CRITERIA } from '../stageStepEditor';
+import StageStepEditor from '../stageStepEditor';
 import { stageStepReducer } from '../stageStepReducer';
 import {
     ComboboxStateChangedEvent,
@@ -12,7 +12,8 @@ import {
     UpdateConditionEvent,
     UpdateParameterItemEvent,
     ValueChangedEvent,
-    RequiresAsyncProcessingChangedEvent
+    RequiresAsyncProcessingChangedEvent,
+    UpdateEntryExitCriteriaEvent
 } from 'builder_platform_interaction/events';
 import { invocableActionsForOrchestrator } from 'serverData/GetAllInvocableActionsForType/invocableActionsForOrchestrator.json';
 import { Store } from 'builder_platform_interaction/storeLib';
@@ -25,7 +26,13 @@ import {
 import { ORCHESTRATED_ACTION_CATEGORY } from 'builder_platform_interaction/events';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
-import { ACTION_TYPE, ELEMENT_TYPE, ICONS } from 'builder_platform_interaction/flowMetadata';
+import {
+    ACTION_TYPE,
+    ELEMENT_TYPE,
+    ICONS,
+    EntryCriteria,
+    ExitCriteria
+} from 'builder_platform_interaction/flowMetadata';
 import { MERGE_WITH_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { LABELS } from '../stageStepEditorLabels';
@@ -165,6 +172,9 @@ describe('StageStepEditor', () => {
                 value: null
             }
         },
+        entryCriteria: {
+            value: EntryCriteria.ON_STAGE_START
+        },
         action: {
             actionName: {
                 value: 'someActionName'
@@ -182,6 +192,9 @@ describe('StageStepEditor', () => {
                 name: null,
                 value: null
             }
+        },
+        exitCriteria: {
+            value: ExitCriteria.ON_STEP_COMPLETE
         },
         assignees: [
             {
@@ -215,6 +228,9 @@ describe('StageStepEditor', () => {
                 value: null
             }
         },
+        entryCriteria: {
+            value: EntryCriteria.ON_STAGE_START
+        },
         action: {
             actionName: {
                 value: 'autolaunchedFlow'
@@ -230,6 +246,9 @@ describe('StageStepEditor', () => {
             actionType: {
                 value: null
             }
+        },
+        exitCriteria: {
+            value: ExitCriteria.ON_STEP_COMPLETE
         },
         assignees: [
             {
@@ -276,6 +295,9 @@ describe('StageStepEditor', () => {
             }
         },
         entryActionInputParameters: mockInputParameters,
+        entryCriteria: {
+            value: EntryCriteria.ON_DETERMINATION_COMPLETE
+        },
 
         exitAction: {
             actionName: {
@@ -285,7 +307,10 @@ describe('StageStepEditor', () => {
                 value: 'someExitActionType'
             }
         },
-        exitActionInputParameters: mockInputParameters
+        exitActionInputParameters: mockInputParameters,
+        exitCriteria: {
+            value: ExitCriteria.ON_DETERMINATION_COMPLETE
+        }
     };
 
     let editor;
@@ -309,18 +334,6 @@ describe('StageStepEditor', () => {
             });
         });
 
-        it('sets selectedEntryCriteria by default', () => {
-            const entryCriteriaDropdown = editor.shadowRoot.querySelector(selectors.ENTRY_CRITERIA_DROPDOWN);
-            expect(entryCriteriaDropdown.value).toEqual(ENTRY_CRITERIA.ON_STAGE_START);
-        });
-
-        it('sets selectedEntryCriteria to on_determination_complete when there is entry action in metadata', () => {
-            editor = createComponentUnderTest(nodeParamsWithDeterminations);
-            const entryCriteriaDropdown = editor.shadowRoot.querySelector(selectors.ENTRY_CRITERIA_DROPDOWN);
-            expect(entryCriteriaDropdown.value).toEqual(ENTRY_CRITERIA.ON_DETERMINATION_COMPLETE);
-            expect(entryCriteriaDropdown.fieldLevelHelp).toEqual(LABELS.criteriaActionHelpText);
-        });
-
         it('Label Description Component', () => {
             const labelDescription = editor.shadowRoot.querySelector(selectors.LABEL_DESCRIPTION);
             expect(labelDescription).toBeDefined();
@@ -341,13 +354,8 @@ describe('StageStepEditor', () => {
             editor = createComponentUnderTest({
                 ...nodeParamsWithDeterminations,
                 ...{
-                    entryAction: {
-                        actionName: {
-                            value: null
-                        },
-                        actionType: {
-                            value: null
-                        }
+                    entryCriteria: {
+                        value: EntryCriteria.ON_STEP_COMPLETE
                     },
                     entryConditions: [{ leftHandSide: { value: 'nonexistentItem.Status' } }]
                 }
@@ -371,16 +379,8 @@ describe('StageStepEditor', () => {
             editor = createComponentUnderTest({
                 ...nodeParamsWithDeterminations,
                 ...{
-                    entryAction: {
-                        actionName: {
-                            value: null
-                        },
-                        actionType: {
-                            value: null
-                        }
-                    },
-                    entryActionName: {
-                        value: null
+                    entryCriteria: {
+                        value: EntryCriteria.ON_STEP_COMPLETE
                     },
                     entryConditions: [{ leftHandSide: { value: 'otherItemGuid.Status' } }]
                 }
@@ -389,17 +389,6 @@ describe('StageStepEditor', () => {
             const entryConditionsItem = editor.shadowRoot.querySelector(selectors.ENTRY_CRITERIA_ITEM);
 
             expect(entryConditionsItem.value).toEqual(entryConditionsItem.menuData[0]);
-        });
-
-        it('sets selectedExitCriteria by default', () => {
-            const dropdown = editor.shadowRoot.querySelector(selectors.EXIT_CRITERIA_DROPDOWN);
-            expect(dropdown.value).toEqual(EXIT_CRITERIA.ON_STEP_COMPLETE);
-        });
-
-        it('sets selectedExitCriteria to on_determination_complete when there is entry action in metadata', () => {
-            editor = createComponentUnderTest(nodeParamsWithDeterminations);
-            const dropdown = editor.shadowRoot.querySelector(selectors.EXIT_CRITERIA_DROPDOWN);
-            expect(dropdown.value).toEqual(EXIT_CRITERIA.ON_DETERMINATION_COMPLETE);
         });
 
         it('should not show exit criteria for autolaunched step', () => {
@@ -582,12 +571,16 @@ describe('StageStepEditor', () => {
 
                 const event = new CustomEvent('change', {
                     detail: {
-                        value: ENTRY_CRITERIA.ON_STAGE_START
+                        value: EntryCriteria.ON_STAGE_START
                     }
                 });
 
                 entryCriteriaDropdown.dispatchEvent(event);
 
+                expect(stageStepReducer).toHaveBeenCalledWith(
+                    nodeParams,
+                    new UpdateEntryExitCriteriaEvent(ORCHESTRATED_ACTION_CATEGORY.ENTRY, EntryCriteria.ON_STAGE_START)
+                );
                 expect(stageStepReducer).toHaveBeenCalledWith(
                     nodeParams,
                     new DeleteAllConditionsEvent(nodeParams.guid)
@@ -603,12 +596,16 @@ describe('StageStepEditor', () => {
 
                 const event = new CustomEvent('change', {
                     detail: {
-                        value: ENTRY_CRITERIA.ON_STEP_COMPLETE
+                        value: EntryCriteria.ON_STEP_COMPLETE
                     }
                 });
 
                 entryCriteriaDropdown.dispatchEvent(event);
 
+                expect(stageStepReducer).toHaveBeenCalledWith(
+                    nodeParams,
+                    new UpdateEntryExitCriteriaEvent(ORCHESTRATED_ACTION_CATEGORY.ENTRY, EntryCriteria.ON_STEP_COMPLETE)
+                );
                 expect(stageStepReducer).toHaveBeenCalledWith(
                     nodeParams,
                     new DeleteOrchestrationActionEvent(nodeParams.guid, ORCHESTRATED_ACTION_CATEGORY.ENTRY)
@@ -625,10 +622,15 @@ describe('StageStepEditor', () => {
                 const exitCriteriaDropdown = editor.shadowRoot.querySelector(selectors.EXIT_CRITERIA_DROPDOWN);
                 const event = new CustomEvent('change', {
                     detail: {
-                        value: EXIT_CRITERIA.ON_STEP_COMPLETE
+                        value: ExitCriteria.ON_STEP_COMPLETE
                     }
                 });
                 exitCriteriaDropdown.dispatchEvent(event);
+
+                expect(stageStepReducer).toHaveBeenCalledWith(
+                    nodeParams,
+                    new UpdateEntryExitCriteriaEvent(ORCHESTRATED_ACTION_CATEGORY.EXIT, ExitCriteria.ON_STEP_COMPLETE)
+                );
 
                 expect(stageStepReducer).toHaveBeenCalledWith(
                     nodeParams,
@@ -745,15 +747,8 @@ describe('StageStepEditor', () => {
             const element = {
                 ...nodeParamsWithDeterminations,
                 ...{
-                    entryAction: {
-                        actionName: {
-                            name: null,
-                            value: null
-                        },
-                        actionType: {
-                            name: null,
-                            value: null
-                        }
+                    entryCriteria: {
+                        value: EntryCriteria.ON_STEP_COMPLETE
                     },
                     entryConditions: [{ leftHandSide: { value: 'nonexistentItem.Status' } }]
                 }

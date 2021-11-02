@@ -112,5 +112,9 @@ lightning-popup {
 }
 
 .stage-step-error {
-    box-shadow: 0 0 0 2px #c23934;
+    box-shadow: inset 0 0 0 2px #c23934;
+}
+
+.stage-step-label-error {
+    color: var(--lwc-colorTextError);
 }

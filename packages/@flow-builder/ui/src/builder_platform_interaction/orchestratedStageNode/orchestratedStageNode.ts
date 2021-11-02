@@ -88,7 +88,8 @@ export default class OrchestratedStageNode extends withKeyboardInteractions(Ligh
 
         return this.items.map((item) => ({
             ...item,
-            cssClass: baseClasses + (item.config.hasError ? ' stage-step-error' : '')
+            cssClass: baseClasses + (item.config.hasError ? ' stage-step-error' : ''),
+            stepLabelCssClass: 'itemLabel' + (item.config.hasError ? ' stage-step-label-error' : '')
         }));
     }
 

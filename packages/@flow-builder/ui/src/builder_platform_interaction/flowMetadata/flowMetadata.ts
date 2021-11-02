@@ -469,6 +469,22 @@ export enum FlowComparisonOperator {
     IsChanged = 'IsChanged'
 }
 
+export enum EntryCriteria {
+    ON_STAGE_START = 'on_stage_start',
+    ON_STEP_COMPLETE = 'on_step_complete',
+    ON_DETERMINATION_COMPLETE = 'on_determination_complete'
+}
+
+export enum ExitCriteria {
+    ON_STEP_COMPLETE = 'on_step_complete',
+    ON_DETERMINATION_COMPLETE = 'on_determination_complete'
+}
+
+export enum StageExitCriteria {
+    ON_STEP_COMPLETE = 'on_step_complete',
+    ON_DETERMINATION_COMPLETE = 'on_determination_complete'
+}
+
 /**
  * @param elementType
  */

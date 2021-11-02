@@ -14,7 +14,12 @@ import {
     RELATED_RECORD_INPUT_PARAMETER_NAME,
     ASSIGNEE_TYPE
 } from '../orchestratedStage';
-import { ACTION_TYPE, CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    ACTION_TYPE,
+    CONNECTOR_TYPE,
+    ELEMENT_TYPE,
+    StageExitCriteria
+} from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
     baseChildElement,
@@ -357,6 +362,22 @@ describe('OrchestratedStage', () => {
                 expect(stage.stageSteps[2].guid).toEqual(childReferences[2].childReference);
             });
         });
+
+        describe('newStage exitCriteria', () => {
+            it('defaults to ON_STEP_COMPLETE if not specified by existingStage', () => {
+                const orchestratedStage = createOrchestratedStageWithItems({});
+
+                expect(orchestratedStage.exitCriteria).toEqual(StageExitCriteria.ON_STEP_COMPLETE);
+            });
+
+            it('is the same as existingStage exitCriteria if specified', () => {
+                const orchestratedStage = createOrchestratedStageWithItems({
+                    exitCriteria: StageExitCriteria.ON_DETERMINATION_COMPLETE
+                });
+
+                expect(orchestratedStage.exitCriteria).toEqual(StageExitCriteria.ON_DETERMINATION_COMPLETE);
+            });
+        });
     });
 
     describe('createStageStep', () => {
@@ -481,12 +502,25 @@ describe('OrchestratedStage', () => {
         });
 
         describe('assignees', () => {
-            it('contains a single assignee of type User and value null if not provided', () => {
-                const item = createStageStep({});
+            it('contains a single assignee of type User and value null if not provided and is interactive step', () => {
+                const mockItem = {
+                    actionType: ACTION_TYPE.STEP_INTERACTIVE
+                };
+
+                const item = createStageStep(mockItem);
 
                 expect(item.assignees).toHaveLength(1);
                 expect(item.assignees[0].assignee).toBeNull();
                 expect(item.assignees[0].assigneeType).toEqual(ASSIGNEE_TYPE.User);
+            });
+            it('contains no assignees if not provided and is background step', () => {
+                const mockItem = {
+                    actionType: ACTION_TYPE.STEP_BACKGROUND
+                };
+
+                const item = createStageStep(mockItem);
+
+                expect(item.assignees).toHaveLength(0);
             });
             describe('user', () => {
                 it('string values are set if provided', () => {

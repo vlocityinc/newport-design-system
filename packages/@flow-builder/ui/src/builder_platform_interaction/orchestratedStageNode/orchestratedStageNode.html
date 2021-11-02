@@ -46,7 +46,16 @@
                                     >
                                         {item.stepTypeLabel}
                                     </div>
-                                    <span class="itemLabel" title={item.label}>{item.label}</span>
+                                    <div class="slds-grid slds-grid_vertical-align-center">
+                                        <lightning-icon
+                                            if:true={item.config.hasError}
+                                            icon-name="utility:error"
+                                            variant="error"
+                                            size="xx-small"
+                                            class="slds-m-right_xx-small"
+                                        ></lightning-icon>
+                                        <span class={item.stepLabelCssClass} title={item.label}>{item.label}</span>
+                                    </div>
                                 </div>
                             </div>
                             <button

@@ -10,7 +10,8 @@ import {
     UpdateParameterItemEvent,
     UpdateConditionEvent,
     DeleteParameterItemEvent,
-    RequiresAsyncProcessingChangedEvent
+    RequiresAsyncProcessingChangedEvent,
+    UpdateEntryExitCriteriaEvent
 } from 'builder_platform_interaction/events';
 import { createCondition } from 'builder_platform_interaction/elementFactory';
 import { ORCHESTRATED_ACTION_CATEGORY } from 'builder_platform_interaction/events';
@@ -22,7 +23,7 @@ import {
 } from 'builder_platform_interaction/dataMutationLib';
 import { invokeModal } from 'builder_platform_interaction/sharedUtils';
 import { MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
-import { ACTION_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ACTION_TYPE, ELEMENT_TYPE, EntryCriteria, ExitCriteria } from 'builder_platform_interaction/flowMetadata';
 import { removeAllUnsetParameters } from 'builder_platform_interaction/orchestratedStageAndStepReducerUtils';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { Validation } from 'builder_platform_interaction/validation';
@@ -735,6 +736,38 @@ describe('StageStep Reducer', () => {
             event = new RequiresAsyncProcessingChangedEvent(false);
             newState = stageStepReducer(originalState, event);
             expect(newState.requiresAsyncProcessing).toStrictEqual(false);
+        });
+    });
+
+    describe('UpdateEntryExitCriteriaEvent', () => {
+        it('should change entryCriteria and exitCriteria to same value', () => {
+            const firstState = {
+                ...originalState,
+                entryCriteria: {
+                    value: EntryCriteria.ON_STAGE_START
+                },
+                exitCriteria: {
+                    value: ExitCriteria.ON_STEP_COMPLETE
+                }
+            };
+            expect(firstState.entryCriteria.value).toStrictEqual(EntryCriteria.ON_STAGE_START);
+            expect(firstState.exitCriteria.value).toStrictEqual(ExitCriteria.ON_STEP_COMPLETE);
+
+            let event = new UpdateEntryExitCriteriaEvent(
+                ORCHESTRATED_ACTION_CATEGORY.ENTRY,
+                EntryCriteria.ON_DETERMINATION_COMPLETE
+            );
+            let newState = stageStepReducer(firstState, event);
+            expect(newState.entryCriteria.value).toStrictEqual(EntryCriteria.ON_DETERMINATION_COMPLETE);
+            expect(newState.exitCriteria.value).toStrictEqual(ExitCriteria.ON_STEP_COMPLETE);
+
+            event = new UpdateEntryExitCriteriaEvent(
+                ORCHESTRATED_ACTION_CATEGORY.EXIT,
+                EntryCriteria.ON_DETERMINATION_COMPLETE
+            );
+            newState = stageStepReducer(newState, event);
+            expect(newState.entryCriteria.value).toStrictEqual(EntryCriteria.ON_DETERMINATION_COMPLETE);
+            expect(newState.exitCriteria.value).toStrictEqual(ExitCriteria.ON_DETERMINATION_COMPLETE);
         });
     });
 
