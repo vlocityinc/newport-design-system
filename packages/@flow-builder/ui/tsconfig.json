@@ -264,7 +264,6 @@
             "builder_platform_interaction/waitPlatformEvent": ["./src/builder_platform_interaction/waitPlatformEvent/waitPlatformEvent.ts"],
             "builder_platform_interaction/waitResumeConditions": ["./src/builder_platform_interaction/waitResumeConditions/waitResumeConditions.ts"],
             "builder_platform_interaction/waitTimeEvent": ["./src/builder_platform_interaction/waitTimeEvent/waitTimeEvent.ts"],
-            "builder_platform_interaction/welcomeMatBody": ["./src/builder_platform_interaction/welcomeMatBody/welcomeMatBody.ts"],
             "builder_platform_interaction/zoomPanel": ["./src/builder_platform_interaction/zoomPanel/zoomPanel.ts"]
          }
     },

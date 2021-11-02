@@ -1976,10 +1976,7 @@ export default class Editor extends LightningElement {
 
                 const unsupportedFeatureItems = [
                     { message: LABELS.errorMessageDisconnectedElements, key: 1 },
-                    { message: LABELS.errorMessageTerminatedForEach, key: 2 },
-                    { message: LABELS.errorMessageEndInLoopDecision, key: 3 },
-                    { message: LABELS.errorMessageEndInLoopPause, key: 4 },
-                    { message: LABELS.errorMessageStepElement, key: 5 }
+                    { message: LABELS.errorMessageStepElement, key: 2 }
                 ];
 
                 invokeModal({

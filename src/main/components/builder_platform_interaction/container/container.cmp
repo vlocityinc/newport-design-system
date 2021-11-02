@@ -65,7 +65,6 @@
     <aura:dependency resource="markup://builder_platform_interaction:modalFooter" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:statusIconSummary" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:newFlowModalBody" type="MODULE" />
-    <aura:dependency resource="markup://builder_platform_interaction:welcomeMatBody" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:recordChangeTriggerEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:contextRecordEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:scheduledPathEditor" type="MODULE" />
