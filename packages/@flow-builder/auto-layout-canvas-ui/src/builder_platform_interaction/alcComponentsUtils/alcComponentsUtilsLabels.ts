@@ -19,6 +19,7 @@ import ariaOnForEachPathLabel from '@salesforce/label/AlcNode.ariaOnForEachPathL
 import ariaEmptyBranchLabel from '@salesforce/label/AlcNode.ariaEmptyBranchLabel';
 import airaOneGoToConnectorLabel from '@salesforce/label/AlcNode.airaOneGoToConnectorLabel';
 import ariaMultiGoToConnectorLabel from '@salesforce/label/AlcNode.ariaMultiGoToConnectorLabel';
+import ariaFollowedByPathImmediateLabel from '@salesforce/label/AlcNode.ariaFollowedByPathImmediateLabel';
 import ariaRegularFollowedByLabel from '@salesforce/label/AlcNode.ariaRegularFollowedByLabel';
 import ariaLoopFollowedByLabel from '@salesforce/label/AlcNode.ariaLoopFollowedByLabel';
 import ariaGoToFollowedByLabel from '@salesforce/label/AlcNode.ariaGoToFollowedByLabel';
@@ -50,6 +51,7 @@ export const LABELS = {
     ariaEmptyBranchLabel,
     airaOneGoToConnectorLabel,
     ariaMultiGoToConnectorLabel,
+    ariaFollowedByPathImmediateLabel,
     ariaRegularFollowedByLabel,
     ariaLoopFollowedByLabel,
     ariaGoToFollowedByLabel,

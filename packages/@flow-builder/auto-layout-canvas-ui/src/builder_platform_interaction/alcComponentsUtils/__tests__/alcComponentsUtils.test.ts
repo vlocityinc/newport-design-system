@@ -1311,6 +1311,16 @@ describe('ALC Canvas Utils test', () => {
                 expect(nodeDescription).toEqual(expectedAriaDescribedBy);
             });
 
+            it('sets nodeDescription properly for the start node that supports scheduled path and has no path with it', () => {
+                const nodeRenderInfo = {
+                    guid: '80e0340e-67ba-4bb7-bf11-f2696aa8043f',
+                    metadata: {}
+                };
+                const expectedAriaDescribedBy = 'AlcNode.ariaFollowedByPathImmediateLabel(a1)';
+                const { nodeDescription } = getAlcNodeData(recordTriggeredFlowModelData, nodeRenderInfo);
+                expect(nodeDescription).toEqual(expectedAriaDescribedBy);
+            });
+
             it('sets nodeDescription properly for an assignment element (a1) following the start node which supports scheduled path and has no path with it', () => {
                 const nodeRenderInfo = {
                     guid: '1f32d18d8323004-4915-4580-a056-08b7b',
@@ -1852,7 +1862,7 @@ describe('ALC Canvas Utils test', () => {
                 geometry: {}
             };
             const expectedAriaDescribedBy =
-                'AlcConnector.branchHeadConnectorDescribedBy(START_ELEMENT,End,Run Immediately)';
+                'AlcConnector.branchHeadConnectorDescribedBy(START_ELEMENT,a1,Run Immediately)';
 
             const { connectorDescription } = getAlcConnectorData(recordTriggeredFlowModelData, connectorRenderInfo);
             expect(connectorDescription).toEqual(expectedAriaDescribedBy);

@@ -327,7 +327,7 @@ const recordTriggeredFlowModelData = {
         parent: 'root',
         childIndex: 0,
         isTerminal: true,
-        next: '280fcb7c-478d-485e-981a-0301412dbc75',
+        next: '1f32d18d8323004-4915-4580-a056-08b7b',
         defaultConnectorLabel: 'Run Immediately',
         object: 'Account',
         recordTriggerType: 'Create',

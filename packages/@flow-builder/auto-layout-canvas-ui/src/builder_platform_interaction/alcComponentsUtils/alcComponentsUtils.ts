@@ -709,11 +709,7 @@ function getDescriptionForLoopConnectors(
         return sourceHasGoTo
             ? format(LABELS.branchHeadGoToConnectorDescribedBy, sourceLabel, targetLabel, LABELS.forEachBadgeLabel)
             : format(LABELS.branchHeadConnectorDescribedBy, sourceLabel, targetLabel, LABELS.forEachBadgeLabel);
-    } else if (
-        !sourceHasGoTo &&
-        flowModel[targetGuid!].nodeType === NodeType.LOOP &&
-        isGoingBackToAncestorLoop(flowModel, targetGuid!, sourceElement)
-    ) {
+    } else if (!sourceHasGoTo && isGoingBackToAncestorLoop(flowModel, targetGuid!, sourceElement)) {
         // When a branch head connector within the After Last branch is going back to the ancestral loop element
         return format(
             LABELS.branchHeadLoopCloseConnectorDescribedBy,
@@ -782,11 +778,7 @@ function getDescriptionForBranchHeadConnectors(
             targetLabel,
             sourceHasGoTo
         );
-    } else if (
-        !sourceHasGoTo &&
-        flowModel[targetGuid!].nodeType === NodeType.LOOP &&
-        isGoingBackToAncestorLoop(flowModel, targetGuid!, sourceElement)
-    ) {
+    } else if (!sourceHasGoTo && isGoingBackToAncestorLoop(flowModel, targetGuid!, sourceElement)) {
         // When a branch head connector within the For Each branch is going back to the ancestral loop element
         return getDescriptionForDecisionOrPauseBranchHeadConnector(
             flowModel,
@@ -840,11 +832,7 @@ function getDescriptionForPostMergeConnector(
     sourceHasGoTo?: boolean
 ) {
     const mergingBranchCount = getNonTerminalBranchIndexes(sourceElement, flowModel).length;
-    if (
-        !sourceHasGoTo &&
-        flowModel[targetGuid!].nodeType === NodeType.LOOP &&
-        isGoingBackToAncestorLoop(flowModel, targetGuid!, sourceElement)
-    ) {
+    if (!sourceHasGoTo && isGoingBackToAncestorLoop(flowModel, targetGuid!, sourceElement)) {
         // When going back from a branching element's merge point to the ancestral loop element
         return format(LABELS.postMergeLoopCloseConnectorDescribedBy, sourceLabel, mergingBranchCount, targetLabel);
     }
@@ -969,11 +957,7 @@ function getConnectorAriaInfo(flowModel: FlowModel, source: ConnectionSource) {
             targetLabel,
             sourceHasGoTo
         );
-    } else if (
-        !sourceHasGoTo &&
-        flowModel[targetGuid!].nodeType === NodeType.LOOP &&
-        isGoingBackToAncestorLoop(flowModel, targetGuid!, sourceElement)
-    ) {
+    } else if (!sourceHasGoTo && isGoingBackToAncestorLoop(flowModel, targetGuid!, sourceElement)) {
         // When a regular connector in the For Each branch is going back to the ancestral loop element
         ariaDescribedBy = format(LABELS.loopCloseConnectorDescribedBy, sourceLabel, targetLabel);
     } else {
@@ -1042,11 +1026,15 @@ function getAriaInfoForFollowingElement(
     let label = '';
     if (hasGoToOnNext(flowModel, node.guid)) {
         label = needAfterMergingLabel ? LABELS.ariaGoToPostMergeFollowedByLabel : LABELS.ariaGoToFollowedByLabel;
-    } else if (
-        isGoingBackToAncestorLoop(flowModel, followingElement.guid, node) &&
-        followingElement.nodeType === NodeType.LOOP
-    ) {
+    } else if (isGoingBackToAncestorLoop(flowModel, followingElement.guid, node)) {
         label = needAfterMergingLabel ? LABELS.ariaLoopPostMergeFollowedByLabel : LABELS.ariaLoopFollowedByLabel;
+    } else if (
+        node.nodeType === NodeType.START &&
+        (node as StartNodeModel).shouldSupportScheduledPaths &&
+        !(node as ParentNodeModel).children
+    ) {
+        // should announce run immediately path for start element that supports scheduled path and has no paths on it
+        label = LABELS.ariaFollowedByPathImmediateLabel;
     } else {
         label = needAfterMergingLabel ? LABELS.ariaRegularPostMergeFollowedByLabel : LABELS.ariaRegularFollowedByLabel;
     }
