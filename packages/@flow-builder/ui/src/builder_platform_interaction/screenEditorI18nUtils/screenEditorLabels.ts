@@ -164,6 +164,7 @@ import automaticFieldPropertyEditorPanelTitle from '@salesforce/label/FlowBuilde
 import automaticFieldsLegalNoticeHeader from '@salesforce/label/FlowBuilderAutomaticFieldLegalPopover.headerText';
 import picklistChoiceSetChoiceLabel from '@salesforce/label/FlowBuilderScreenEditor.picklistChoiceSetChoiceLabel';
 import recordChoiceSetChoiceLabel from '@salesforce/label/FlowBuilderScreenEditor.recordChoiceSetChoiceLabel';
+import collectionChoiceSetChoiceLabel from '@salesforce/label/FlowBuilderScreenEditor.collectionChoiceSetChoiceLabel';
 import typedResourceLabel from '@salesforce/label/FlowBuilderScreenEditor.typedResourceLabel';
 import cannotBeBlank from '@salesforce/label/FlowBuilderValidation.cannotBeBlank';
 import leftPanelAriaLabel from '@salesforce/label/FlowBuilderScreenEditor.leftPanelAriaLabel';
@@ -346,6 +347,7 @@ export const LABELS = {
     automaticFieldsLegalNoticeHeader,
     picklistChoiceSetChoiceLabel,
     recordChoiceSetChoiceLabel,
+    collectionChoiceSetChoiceLabel,
     typedResourceLabel,
     cannotBeBlank,
     leftPanelAriaLabel,

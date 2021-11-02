@@ -311,7 +311,12 @@ export const isOrCanContainSelector = (retrieveOptions: RetrieveOptions) => {
 
 export const filteredElementsSelector = (filter) => createSelector([elementsSelector], getFilteredElements(filter));
 
-const choiceTypes = [ELEMENT_TYPE.CHOICE, ELEMENT_TYPE.RECORD_CHOICE_SET, ELEMENT_TYPE.PICKLIST_CHOICE_SET];
+const choiceTypes = [
+    ELEMENT_TYPE.CHOICE,
+    ELEMENT_TYPE.RECORD_CHOICE_SET,
+    ELEMENT_TYPE.PICKLIST_CHOICE_SET,
+    ELEMENT_TYPE.COLLECTION_CHOICE_SET
+];
 const textCompatibleTypes = [FLOW_DATA_TYPE.PICKLIST.value, FLOW_DATA_TYPE.MULTI_PICKLIST.value];
 
 export const choiceSelector = (dataType?: string, staticChoiceGuids?: UI.Guid[]) =>

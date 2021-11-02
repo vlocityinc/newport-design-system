@@ -48,6 +48,12 @@ export default class ScreenChoiceField extends LightningElement {
                             choiceElement.displayField,
                             choiceElement.object
                         );
+                    } else if (previewChoice.elementType === ELEMENT_TYPE.COLLECTION_CHOICE_SET) {
+                        label = format(
+                            LABELS.collectionChoiceSetChoiceLabel,
+                            choiceElement.displayField,
+                            getElementByGuid(choiceElement.collectionReference)?.name
+                        );
                     } else if (previewChoice.elementType === ELEMENT_TYPE.CHOICE) {
                         label = previewChoice.choiceText.value;
                     } else {
