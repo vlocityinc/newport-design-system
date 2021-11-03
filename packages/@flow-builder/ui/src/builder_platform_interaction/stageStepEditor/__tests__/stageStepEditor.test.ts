@@ -250,13 +250,7 @@ describe('StageStepEditor', () => {
         exitCriteria: {
             value: ExitCriteria.ON_STEP_COMPLETE
         },
-        assignees: [
-            {
-                assignee: { value: 'orchestrator@salesforce.com' },
-                assigneeType: 'User',
-                isReference: false
-            }
-        ]
+        assignees: []
     };
 
     const nodeParamsWithDeterminations = {

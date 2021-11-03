@@ -332,11 +332,12 @@ export default class StageStepEditor extends LightningElement {
      * @private
      */
     private setNodeAssignee() {
-        if (!this.element) {
+        const assignee = this.element?.assignees[0];
+
+        if (!this.element || !assignee) {
             return;
         }
 
-        const assignee = this.element.assignees[0]!;
         const assigneeType =
             typeof assignee.assigneeType === 'string' ? assignee.assigneeType : assignee.assigneeType.value;
 
