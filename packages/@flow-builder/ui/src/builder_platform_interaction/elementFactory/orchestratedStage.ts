@@ -162,7 +162,11 @@ export function createOrchestratedStageWithItems(existingStage: OrchestratedStag
     newStage.dataType = FLOW_DATA_TYPE.ORCHESTRATED_STAGE.value;
     newStage.canHaveCanvasEmbeddedElement = true;
     newStage.exitActionError = existingStage.exitActionError;
-    newStage.exitCriteria = existingStage.exitCriteria || StageExitCriteria.ON_STEP_COMPLETE;
+    newStage.exitCriteria =
+        existingStage.exitCriteria ||
+        (newStage.exitAction?.actionName
+            ? StageExitCriteria.ON_DETERMINATION_COMPLETE
+            : StageExitCriteria.ON_STEP_COMPLETE);
 
     return newStage;
 }
@@ -268,7 +272,7 @@ export function createOrchestratedStageWithItemReferences(stage: OrchestratedSta
         exitAction,
         exitActionName,
         exitActionType,
-        exitCriteria = StageExitCriteria.ON_STEP_COMPLETE
+        exitCriteria
     } = stage;
     const exitActionCall = createActionCallHelper(exitAction, exitActionName, exitActionType);
 
@@ -635,9 +639,6 @@ export function createStageStep(step: StageStep): StageStep {
         });
     }
 
-    // A new step's entry criteria defaults to ON_STAGE_START if not specified
-    newStep.entryCriteria = entryCriteria || EntryCriteria.ON_STAGE_START;
-
     // set up Step's Entry Criteria
     if (entryConditions) {
         newStep.entryConditions = entryConditions.map<UI.Condition>(
@@ -647,12 +648,26 @@ export function createStageStep(step: StageStep): StageStep {
     newStep.entryAction = createActionCallHelper(entryAction, step.entryActionName, step.entryActionType);
     newStep.entryActionInputParameters = entryActionInputParameters.map((p) => createInputParameter(p));
 
-    // A new step's exit criteria defaults to ON_STEP_COMPLETE if not specified
-    newStep.exitCriteria = exitCriteria || ExitCriteria.ON_STEP_COMPLETE;
+    // infer entryCriteria if not present
+    if (entryCriteria) {
+        newStep.entryCriteria = entryCriteria;
+    } else if (newStep.entryAction.actionName) {
+        // entryAction exists and has populated data
+        newStep.entryCriteria = EntryCriteria.ON_DETERMINATION_COMPLETE;
+    } else if (newStep.entryConditions && newStep.entryConditions.length > 0) {
+        newStep.entryCriteria = EntryCriteria.ON_STEP_COMPLETE;
+    } else {
+        newStep.entryCriteria = EntryCriteria.ON_STAGE_START;
+    }
 
     // set up Step's Exit Criteria
     newStep.exitAction = createActionCallHelper(exitAction, step.exitActionName, step.exitActionType);
     newStep.exitActionInputParameters = exitActionInputParameters.map((p) => createInputParameter(p));
+
+    // infer exitCriteria if not present
+    newStep.exitCriteria =
+        exitCriteria ||
+        (newStep.exitAction.actionName ? ExitCriteria.ON_DETERMINATION_COMPLETE : ExitCriteria.ON_STEP_COMPLETE);
 
     // check if there's an existing config
     if (!step.config) {
@@ -754,8 +769,7 @@ export function createOrchestratedStageMetadataObject(
             stageSteps,
             exitActionName: orchestratedStage.exitAction?.actionName,
             exitActionType: orchestratedStage.exitAction?.actionType,
-            exitActionInputParameters: stageExitActionInputParametersMetadata,
-            exitCriteria: orchestratedStage.exitCriteria
+            exitActionInputParameters: stageExitActionInputParametersMetadata
         }
     );
 
