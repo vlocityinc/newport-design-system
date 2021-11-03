@@ -60,3 +60,11 @@ $grid-columns: (1, 2, 3, 4, 5, 6, 7, 8, 12) !default;
 ///
 /// @type String
 $reset-wrapping-class: '.via-nds' !default;
+
+
+/// Enable animated inputs
+/// This toggles the labels on inputs to animate
+/// or live outside above the inputs always
+///
+/// @type list
+$enable-animated-inputs: true !default;

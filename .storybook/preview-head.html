@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="node_modules/highlight.js/styles/github.css"/>
+<link id="nds-styles" rel="stylesheet" href="/assets/styles/index.css"></link>
 <style>
   #root {
     margin: 1rem;
@@ -24,3 +25,21 @@
     /* THE ABOVE OVERRIDE IS PURELY FOR THE EXAMPLES IN STORYBOOK */
   }
 </style>
+<script>
+  (function() {
+    const storybookEventSource = new EventSource(`${location.protocol}//${location.host}/__webpack_hmr`);
+    const newportStorybookStyles = document.getElementById('nds-styles');
+    storybookEventSource.onmessage = (event) => {
+      if (event.data) {
+        try {
+          const data = JSON.parse(event.data);
+          if (data.action === 'built') {
+            newportStorybookStyles.href = `/assets/styles/index.css?${Date.now()}`;
+          }
+        } catch (e) {
+          // ignore
+        }
+      }
+    };
+  })();
+</script>

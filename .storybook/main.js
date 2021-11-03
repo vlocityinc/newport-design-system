@@ -1,13 +1,9 @@
 require("@babel/register");
 const path = require("path");
 const gulp = require("gulp");
-const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
 const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
 const NewportSassWatcherPlugin = require("./sass-watcher-plugin");
 require("../scripts/gulp/styles");
-
-const smp = new SpeedMeasurePlugin();
-// const createCompiler = require("@storybook/addon-docs/mdx-compiler-plugin");
 
 module.exports = {
   stories: [
@@ -29,13 +25,6 @@ module.exports = {
       include: path.resolve(__dirname, "../"),
     });
 
-    // serverConfig.module.rules.push({
-    //   test: /\.(stories|story)\.js?$/,
-    //   loader: require.resolve("@storybook/source-loader"),
-    //   exclude: [/node_modules/],
-    //   enforce: "pre",
-    // });
-
     serverConfig.plugins = serverConfig.plugins.filter(plugin => {
       return !(plugin instanceof CaseSensitivePathsPlugin);
     })
@@ -48,7 +37,6 @@ module.exports = {
       fs: "empty",
     };
 
-    //return smp.wrap(serverConfig);
     return serverConfig;
-  },
+  }
 };

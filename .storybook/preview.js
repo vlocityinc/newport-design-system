@@ -1,16 +1,12 @@
-import { addParameters, addDecorator } from "@storybook/html";
-import { withDesignTokens } from "../scripts/storybook/design-tokens";
-// import { DocsPage, DocsContainer } from "@storybook/addon-docs/blocks";
-
-// import { setCustomElements } from "@storybook/web-components";
-// import customElements from "../custom-elements.json";
-
-// setCustomElements(customElements);
-
-import "../assets/styles/index.css";
+import {
+  addParameters,
+  addDecorator
+} from "@storybook/html";
+import {
+  withDesignTokens
+} from "../scripts/storybook/design-tokens";
 
 addDecorator(withDesignTokens);
-//addDecorator(withA11y);
 
 addParameters({
   options: {
@@ -19,8 +15,4 @@ addParameters({
     showPanel: true,
     hierarchySeparator: /\//
   },
-  // docs: {
-  //   container: DocsContainer,
-  //   page: DocsPage,
-  // },
 });
