@@ -1,0 +1,173 @@
+{
+    "elements": {
+        "a88b738c-18c0-43e4-9445-558c4827e029": {
+            "guid": "a88b738c-18c0-43e4-9445-558c4827e029",
+            "description": "",
+            "locationX": 362,
+            "locationY": 48,
+            "isCanvasElement": true,
+            "connectorCount": 1,
+            "config": {
+                "isSelected": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "hasError": false
+            },
+            "canHaveFaultConnector": false,
+            "elementType": "START_ELEMENT",
+            "maxConnections": 1,
+            "triggerType": "None",
+            "filterLogic": "and",
+            "object": "",
+            "objectIndex": "25ec47f2-73bf-444d-b577-b27faec9f050",
+            "filters": [
+                {
+                    "rowIndex": "6390271d-1ad3-4472-91f3-ae8e1664c80d",
+                    "leftHandSide": "",
+                    "leftHandSideDataType": "String",
+                    "rightHandSide": "",
+                    "rightHandSideDataType": "",
+                    "operator": ""
+                }
+            ],
+            "childReferences": [],
+            "availableConnections": [],
+            "shouldSupportScheduledPaths": false
+        },
+        "a8c09d95-c0cc-4a00-a4ea-bdc72fe56d3b": {
+            "guid": "a8c09d95-c0cc-4a00-a4ea-bdc72fe56d3b",
+            "name": "",
+            "description": "",
+            "label": "a8c09d95-c0cc-4a00-a4ea-bdc72fe56d3b",
+            "locationX": 488,
+            "locationY": 206,
+            "isCanvasElement": true,
+            "connectorCount": 2,
+            "config": {
+                "isSelected": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "hasError": false
+            },
+            "canHaveFaultConnector": false,
+            "isNew": true,
+            "assignNextValueToReference": null,
+            "assignNextValueToReferenceIndex": "7be408c6-4d83-4c27-a77d-84bfc7c68049",
+            "collectionReference": null,
+            "collectionReferenceIndex": "3218797a-7311-4dbb-803a-9981a5713bc2",
+            "iterationOrder": "Asc",
+            "maxConnections": 2,
+            "availableConnections": [],
+            "elementType": "Loop",
+            "storeOutputAutomatically": true,
+            "alcConnectionSource": {
+                "guid": "a88b738c-18c0-43e4-9445-558c4827e029"
+            }
+        },
+        "a3cb04e7-e326-44ee-8c09-cb31d7bb7cb8": {
+            "guid": "a3cb04e7-e326-44ee-8c09-cb31d7bb7cb8",
+            "name": "",
+            "description": "",
+            "label": "a3cb04e7-e326-44ee-8c09-cb31d7bb7cb8",
+            "locationX": 576,
+            "locationY": 326,
+            "isCanvasElement": true,
+            "connectorCount": 1,
+            "config": {
+                "isSelected": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "hasError": false
+            },
+            "canHaveFaultConnector": false,
+            "isNew": true,
+            "allowHelp": false,
+            "pauseMessageType": "standard",
+            "helpText": "",
+            "pausedText": "",
+            "showFooter": true,
+            "showHeader": true,
+            "nextOrFinishLabel": null,
+            "nextOrFinishLabelType": "standard",
+            "backLabel": null,
+            "backLabelType": "standard",
+            "pauseLabel": null,
+            "pauseLabelType": "standard",
+            "childReferences": [],
+            "elementType": "Screen",
+            "maxConnections": 1
+        }
+    },
+    "properties": {
+        "canOnlySaveAsNewDefinition": false,
+        "description": "",
+        "elementType": "FLOW_PROPERTIES",
+        "hasUnsavedChanges": true,
+        "interviewLabel": "",
+        "isCreatedOutsideLfb": false,
+        "isLightningFlowBuilder": true,
+        "isTemplate": false,
+        "label": "",
+        "lastModifiedBy": null,
+        "lastModifiedDate": null,
+        "lastInlineResourceGuid": null,
+        "lastInlineResourcePosition": null,
+        "lastInlineResourceRowIndex": null,
+        "name": "",
+        "processType": null,
+        "runInMode": null,
+        "versionNumber": null,
+        "isAutoLayoutCanvas": true,
+        "isOverridable": false,
+        "overriddenFlow": null,
+        "sourceTemplate": null
+    },
+    "canvasElements": [
+        "a88b738c-18c0-43e4-9445-558c4827e029",
+        "a8c09d95-c0cc-4a00-a4ea-bdc72fe56d3b",
+        "a3cb04e7-e326-44ee-8c09-cb31d7bb7cb8"
+    ],
+    "connectors": [
+        {
+            "guid": "a88b738c-18c0-43e4-9445-558c4827e029 -> a8c09d95-c0cc-4a00-a4ea-bdc72fe56d3b",
+            "source": "a88b738c-18c0-43e4-9445-558c4827e029",
+            "target": "a8c09d95-c0cc-4a00-a4ea-bdc72fe56d3b",
+            "label": null,
+            "type": "REGULAR",
+            "config": {
+                "isSelected": false
+            }
+        },
+        {
+            "guid": "a8c09d95-c0cc-4a00-a4ea-bdc72fe56d3b -> a3cb04e7-e326-44ee-8c09-cb31d7bb7cb8",
+            "source": "a8c09d95-c0cc-4a00-a4ea-bdc72fe56d3b",
+            "target": "a3cb04e7-e326-44ee-8c09-cb31d7bb7cb8",
+            "label": "LOOP_NEXT",
+            "type": "LOOP_NEXT",
+            "config": {
+                "isSelected": false
+            }
+        },
+        {
+            "guid": "a3cb04e7-e326-44ee-8c09-cb31d7bb7cb8 -> a8c09d95-c0cc-4a00-a4ea-bdc72fe56d3b",
+            "source": "a3cb04e7-e326-44ee-8c09-cb31d7bb7cb8",
+            "target": "a8c09d95-c0cc-4a00-a4ea-bdc72fe56d3b",
+            "label": null,
+            "type": "REGULAR",
+            "config": {
+                "isSelected": false
+            }
+        },
+        {
+            "guid": "a8c09d95-c0cc-4a00-a4ea-bdc72fe56d3b -> a3cb04e7-e326-44ee-8c09-cb31d7bb7cb8",
+            "source": "a8c09d95-c0cc-4a00-a4ea-bdc72fe56d3b",
+            "target": "a3cb04e7-e326-44ee-8c09-cb31d7bb7cb8",
+            "label": "LOOP_END",
+            "type": "LOOP_END",
+            "config": {
+                "isSelected": false
+            }
+        }
+    ],
+    "peripheralData": {}
+}
