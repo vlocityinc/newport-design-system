@@ -50,6 +50,7 @@ export { AddNonCanvasElementEvent } from './elementEvents/addNonCanvasElementEve
 export { EditElementEvent } from './elementEvents/editElementEvent';
 export { EditListItemEvent } from './editListItemEvent';
 export { DeleteElementEvent } from './elementEvents/deleteElementEvent';
+export { OpenSubflowEvent } from './openSubflowEvent';
 export { DeleteElementEventDetail } from './elementEvents/deleteElementEvent';
 export { PaletteItemClickedEvent } from './paletteEvents/paletteItemClickedEvent';
 export { PropertyEditorWarningEvent } from './propertyEditorWarningEvent';

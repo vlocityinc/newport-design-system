@@ -149,7 +149,7 @@ class Loader {
             loadActions(flowProcessType, flowTriggerType);
         }
         loadApexPlugins();
-        loadSubflows(flowProcessType, flowDefinitionId);
+        const loadSubflowsPromise = loadSubflows(flowProcessType, flowDefinitionId);
         const loadPalettePromise = loadPalette(flowProcessType, flowTriggerType);
         const loadPeripheralMetadataPromise = this.loadPeripheralMetadata(
             flowProcessType,
@@ -159,7 +159,8 @@ class Loader {
         this.loadExtensions(flowProcessType);
         return {
             loadPeripheralMetadataPromise,
-            loadPalettePromise
+            loadPalettePromise,
+            loadSubflowsPromise
         };
     }
 

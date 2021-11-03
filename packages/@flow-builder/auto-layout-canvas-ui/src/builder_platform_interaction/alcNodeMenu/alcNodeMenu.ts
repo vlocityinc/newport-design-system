@@ -1,5 +1,10 @@
 import { api, track } from 'lwc';
-import { CopySingleElementEvent, DeleteElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
+import {
+    CopySingleElementEvent,
+    DeleteElementEvent,
+    EditElementEvent,
+    OpenSubflowEvent
+} from 'builder_platform_interaction/events';
 import {
     HighlightPathsToDeleteEvent,
     DeleteElementFaultEvent,
@@ -194,6 +199,9 @@ export default class AlcNodeMenu extends Menu {
                 break;
             case ELEMENT_ACTION_CONFIG.DELETE_FAULT_ACTION.value:
                 this.dispatchEvent(new DeleteElementFaultEvent(this.guid));
+                break;
+            case ELEMENT_ACTION_CONFIG.OPEN_SUBFLOW_ACTION.value:
+                this.dispatchEvent(new OpenSubflowEvent(this.guid));
                 break;
             default:
         }

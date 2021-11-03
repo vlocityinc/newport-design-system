@@ -1,5 +1,7 @@
 import { LABELS } from './alcNodeMenuLabels';
 
+const SUBFLOW = 'Subflow';
+
 export enum NodeMenuMode {
     Default,
     Delete
@@ -41,6 +43,11 @@ export const ELEMENT_ACTION_CONFIG = {
         buttonTextTitle: LABELS.deleteFooterActionTitle,
         buttonVariant: 'destructive',
         value: 'DELETE_BRANCH_ELEMENT_ACTION'
+    },
+    OPEN_SUBFLOW_ACTION: {
+        icon: 'utility:new_window',
+        label: LABELS.openReferenceFlowTitle,
+        value: 'OPEN_SUBFLOW_ACTION'
     }
 };
 
@@ -51,7 +58,7 @@ const getFooterData = (nodeMenuMode: NodeMenuMode) => {
 };
 
 export const getMenuConfiguration = (
-    { label, description },
+    { label, description, elementType },
     contextualMenuMode,
     canHaveFaultConnector,
     elementHasFault,
@@ -60,6 +67,10 @@ export const getMenuConfiguration = (
     const nodeActions = disableDeleteElements
         ? [ELEMENT_ACTION_CONFIG.COPY_ACTION]
         : [ELEMENT_ACTION_CONFIG.COPY_ACTION, ELEMENT_ACTION_CONFIG.DELETE_ACTION];
+
+    if (elementType === SUBFLOW) {
+        nodeActions.push(ELEMENT_ACTION_CONFIG.OPEN_SUBFLOW_ACTION);
+    }
 
     if (canHaveFaultConnector && !elementHasFault) {
         nodeActions.push(ELEMENT_ACTION_CONFIG.ADD_FAULT_ACTION);

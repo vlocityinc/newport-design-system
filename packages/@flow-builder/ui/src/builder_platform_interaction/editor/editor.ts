@@ -19,7 +19,8 @@ import {
     invokeModal,
     keyboardInteractionUtils,
     loggingUtils,
-    storeUtils
+    storeUtils,
+    commonUtils
 } from 'builder_platform_interaction/sharedUtils';
 import { deepCopy, Store } from 'builder_platform_interaction/storeLib';
 import { getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
@@ -184,7 +185,9 @@ import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutat
 import { ConnectionSource } from 'builder_platform_interaction/autoLayoutCanvas';
 import { TEXT_AREA_MAX_LENGTH } from 'builder_platform_interaction/screenEditorUtils';
 import { time } from 'instrumentation/service';
+import { getSubflows } from 'builder_platform_interaction/subflowsLib';
 
+const { format } = commonUtils;
 const { generateGuid } = storeUtils;
 const {
     logInteraction,
@@ -325,6 +328,7 @@ export default class Editor extends LightningElement {
     _isResourceQuickCreated = false;
     _isInlineEditingResource = false;
     ifBlockResume = false;
+    toastErrorMessage = null;
 
     originalFlowLabel;
     originalFlowDescription;
@@ -403,6 +407,8 @@ export default class Editor extends LightningElement {
     elementBeingEditedInPanel = null;
 
     propertyEditorBlockerCalls = [];
+
+    openSubflowBlockerPromise = null;
 
     debugEditorBlockerCalls = [];
 
@@ -533,6 +539,10 @@ export default class Editor extends LightningElement {
         // can't be present on the canvas at the same time. This is a temporary fix to resolve both the issues.
         const baseClasses = 'slds-col slds-grow slds-grid test-panels-and-canvas-container';
         return this.showRightPanel ? `${baseClasses} slds-is-relative` : baseClasses;
+    }
+
+    get canvasContainerClasses() {
+        return this.properties.isAutoLayoutCanvas ? 'slds-col slds-is-relative' : 'slds-col';
     }
 
     /** Indicates that the new flow modal is displayed */
@@ -811,13 +821,10 @@ export default class Editor extends LightningElement {
             });
             let palettePromise;
             if (flowProcessTypeChanged) {
-                const { loadPeripheralMetadataPromise, loadPalettePromise } = loadOnProcessTypeChange(
-                    flowProcessType,
-                    flowTriggerType,
-                    flowRecordTriggerType,
-                    definitionId
-                );
+                const { loadPeripheralMetadataPromise, loadPalettePromise, loadSubflowsPromise } =
+                    loadOnProcessTypeChange(flowProcessType, flowTriggerType, flowRecordTriggerType, definitionId);
                 this.propertyEditorBlockerCalls.push(loadPeripheralMetadataPromise);
+                this.openSubflowBlockerPromise = loadSubflowsPromise;
 
                 palettePromise = loadPalettePromise.then((data) => {
                     this.palette = data;
@@ -1890,6 +1897,7 @@ export default class Editor extends LightningElement {
         let hasError = false;
         logPerfTransactionStart(TOGGLE_CANVAS_MODE);
         this.spinners.showAutoLayoutSpinner = true;
+        this.resetErrorMessage();
         try {
             // updatedHasUnsavedChangesProperty should be set to true only when toggling canvas modes.
             // It should be false when loading an existing flow. New Flow creation doesn't follow this code path.
@@ -2354,6 +2362,48 @@ export default class Editor extends LightningElement {
         event.stopPropagation();
         this.moveFocusToNode(event.detail.elementGuid);
     };
+
+    handleCloseErrorMessage() {
+        this.resetErrorMessage();
+    }
+
+    resetErrorMessage() {
+        this.toastErrorMessage = null;
+    }
+
+    /**
+     * Handles the open reference flow from a subflow element in ALC.
+     * Builds a url that opens a new tab to the subflow.
+     *
+     * @param event - event from alcNodeMenu that contains the element guid
+     */
+    async handleOpenSubflow(event: OpenSubflowEvent) {
+        event.stopPropagation();
+        this.spinners.showAutoLayoutSpinner = true;
+        const baseUrl = '/builder_platform_interaction/flowBuilder.app?';
+        try {
+            const currentState = storeInstance.getCurrentState();
+            const subflowElement = currentState.elements[event.detail.guid];
+            // Wait for subflow data to be ready
+            await Promise.resolve(this.openSubflowBlockerPromise);
+            // Match the subflow element selected with backend information about it
+            // Construct a url based on lightning/aloha and activeVersionId/latestVersionId
+            const subflowData = getSubflows().find((subflow) => subflow.fullName === subflowElement.flowName);
+            if (subflowData && subflowData.isViewable) {
+                const subflowVersionId = subflowData.activeVersionId || subflowData.latestVersionId;
+                const url =
+                    getPreferredExperience() === CLASSIC_EXPERIENCE
+                        ? baseUrl + 'isFromAloha=true&flowId=' + subflowVersionId
+                        : baseUrl + 'flowId=' + subflowVersionId;
+                window.open(url);
+            } else {
+                const subflowName = subflowData ? subflowData.masterLabel : subflowElement.flowName;
+                this.toastErrorMessage = format(this.labels.cantOpenSubflowUrl, subflowName);
+            }
+        } finally {
+            this.spinners.showAutoLayoutSpinner = false;
+        }
+    }
     /**
      * the callback function to move focus correctly when closing property editor
      *

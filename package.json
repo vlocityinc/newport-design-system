@@ -151,7 +151,7 @@
         "!(scripts|src)/**/*.ts": [
             "eslint --fix"
         ],
-        "!(scripts|__tests__|jest-modules)/**/*.ts": [
+        "!**/(scripts|__tests__|jest-modules)/**/*.ts": [
             "./scripts/check-ts.sh"
         ]
     }

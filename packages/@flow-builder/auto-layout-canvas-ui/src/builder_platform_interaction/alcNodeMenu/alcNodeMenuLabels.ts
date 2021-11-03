@@ -9,6 +9,7 @@ import editDetailsFooterActionLabel from '@salesforce/label/AlcNodeContextualMen
 import editDetailsFooterActionTitle from '@salesforce/label/AlcNodeContextualMenu.editDetailsFooterActionTitle';
 import deleteFooterActionLabel from '@salesforce/label/AlcNodeContextualMenu.deleteFooterActionLabel';
 import deleteFooterActionTitle from '@salesforce/label/AlcNodeContextualMenu.deleteFooterActionTitle';
+import openReferenceFlowTitle from '@salesforce/label/AlcNodeContextualMenu.openReferenceFlowTitle';
 
 export const LABELS: Labels = {
     copyActionLabel,
@@ -21,5 +22,6 @@ export const LABELS: Labels = {
     editDetailsFooterActionLabel,
     editDetailsFooterActionTitle,
     deleteFooterActionLabel,
-    deleteFooterActionTitle
+    deleteFooterActionTitle,
+    openReferenceFlowTitle
 };
