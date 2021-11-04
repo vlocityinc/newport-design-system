@@ -18,6 +18,8 @@ import {
     ACTION_TYPE,
     CONNECTOR_TYPE,
     ELEMENT_TYPE,
+    EntryCriteria,
+    ExitCriteria,
     StageExitCriteria
 } from 'builder_platform_interaction/flowMetadata';
 import {
@@ -364,10 +366,20 @@ describe('OrchestratedStage', () => {
         });
 
         describe('newStage exitCriteria', () => {
-            it('defaults to ON_STEP_COMPLETE if not specified by existingStage', () => {
+            it('defaults to ON_STEP_COMPLETE if not specified by existingStage and no exitAction present', () => {
                 const orchestratedStage = createOrchestratedStageWithItems({});
 
                 expect(orchestratedStage.exitCriteria).toEqual(StageExitCriteria.ON_STEP_COMPLETE);
+            });
+
+            it('is ON_DETERMINATION_COMPLETE if not specified by existingStage and exitAction is present', () => {
+                const orchestratedStage = createOrchestratedStageWithItems({
+                    exitAction: {
+                        actionName: 'testAction'
+                    }
+                });
+
+                expect(orchestratedStage.exitCriteria).toEqual(StageExitCriteria.ON_DETERMINATION_COMPLETE);
             });
 
             it('is the same as existingStage exitCriteria if specified', () => {
@@ -605,6 +617,67 @@ describe('OrchestratedStage', () => {
 
                     expect(item.relatedRecordItem).toEqual({});
                 });
+            });
+        });
+
+        describe('entryCriteria', () => {
+            it('defaults to ON_STAGE_START if not specified by existing step and no entryAction present', () => {
+                const newStep = createStageStep({});
+
+                expect(newStep.entryCriteria).toEqual(EntryCriteria.ON_STAGE_START);
+            });
+
+            it('is ON_DETERMINATION_COMPLETE if not specified by existing step and entryAction is present', () => {
+                const newStep = createStageStep({
+                    entryAction: {
+                        actionName: 'testAction'
+                    },
+                    entryConditions: [{ leftHandSide: { value: 'nonexistentItem.Status' } }]
+                });
+
+                expect(newStep.entryCriteria).toEqual(EntryCriteria.ON_DETERMINATION_COMPLETE);
+            });
+
+            it('is ON_STEP_COMPLETE if not specified by existing step, entryAction is not present, and entryConditions are present', () => {
+                const newStep = createStageStep({
+                    entryConditions: [{ leftHandSide: { value: 'nonexistentItem.Status' } }]
+                });
+
+                expect(newStep.entryCriteria).toEqual(EntryCriteria.ON_STEP_COMPLETE);
+            });
+
+            it('is the same as existing step entryCriteria if specified', () => {
+                const newStep = createStageStep({
+                    entryCriteria: EntryCriteria.ON_STEP_COMPLETE
+                });
+
+                expect(newStep.entryCriteria).toEqual(EntryCriteria.ON_STEP_COMPLETE);
+            });
+        });
+
+        describe('exitCriteria', () => {
+            it('defaults to ON_STEP_COMPLETE if not specified by existing step and no exitAction present', () => {
+                const newStep = createStageStep({});
+
+                expect(newStep.exitCriteria).toEqual(ExitCriteria.ON_STEP_COMPLETE);
+            });
+
+            it('is ON_DETERMINATION_COMPLETE if not specified by existing step and exitAction is present', () => {
+                const newStep = createStageStep({
+                    exitAction: {
+                        actionName: 'testAction'
+                    }
+                });
+
+                expect(newStep.exitCriteria).toEqual(ExitCriteria.ON_DETERMINATION_COMPLETE);
+            });
+
+            it('is the same as existing step exitCriteria if specified', () => {
+                const newStep = createStageStep({
+                    exitCriteria: ExitCriteria.ON_DETERMINATION_COMPLETE
+                });
+
+                expect(newStep.exitCriteria).toEqual(ExitCriteria.ON_DETERMINATION_COMPLETE);
             });
         });
     });

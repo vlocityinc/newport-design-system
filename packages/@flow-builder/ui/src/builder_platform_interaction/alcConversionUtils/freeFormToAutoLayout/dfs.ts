@@ -228,6 +228,28 @@ function getStableKey(conversionInfos, conn) {
 }
 
 /**
+ * Sort function to compare 2 connectors. Always sort Loop End and branch Default connectors last.
+ *
+ * @param connector1 First connector
+ * @param connector2 Second connector
+ * @param conversionInfos Conversion infos of all elements
+ * @returns Comparison result
+ */
+function sortConnectors(
+    connector1: UI.Connector,
+    connector2: UI.Connector,
+    conversionInfos: Readonly<ConversionInfos>
+) {
+    if (connector1.type === CONNECTOR_TYPE.LOOP_END || connector1.type === CONNECTOR_TYPE.DEFAULT) {
+        return 1;
+    } else if (connector2.type === CONNECTOR_TYPE.LOOP_END || connector2.type === CONNECTOR_TYPE.DEFAULT) {
+        return -1;
+    }
+
+    return getStableKey(conversionInfos, connector1) > getStableKey(conversionInfos, connector2) ? 1 : -1;
+}
+
+/**
  * Processes the outgoing connectors of an element
  *
  * @param ctx - The dfs context
@@ -237,7 +259,7 @@ function processConnectors(ctx: DfsContext, elementInfo: ConversionInfo) {
     const { outs, fault } = elementInfo;
 
     elementInfo.edgeTypes = outs
-        .sort((a, b) => (getStableKey(ctx.conversionInfos, a) > getStableKey(ctx.conversionInfos, b) ? 1 : -1))
+        .sort((a, b) => sortConnectors(a, b, ctx.conversionInfos))
         .map((out) => processConnector(ctx, elementInfo, out));
 
     if (fault) {
@@ -329,7 +351,7 @@ function setIncomingCrossForwardConnectorsAsGoTos(conversionInfos: ConversionInf
     for (const source of sources) {
         const { outs, edgeTypes } = conversionInfos[source];
         for (let i = 0; i < outs.length; i++) {
-            if (outs[i].target === elementGuid) {
+            if (outs[i].target === elementGuid && !outs[i].isGoTo) {
                 outs[i].isGoTo = ['forward', 'cross'].includes(edgeTypes![i]);
             }
         }
@@ -379,9 +401,9 @@ function checkIntervals(ctx: DfsContext) {
         }
 
         // when entering a loop, create an interval that encloses all the loop elements
-        const isFirstLoopElement = ins.length === 1 && ins[0].type === CONNECTOR_TYPE.LOOP_NEXT;
-        if (isFirstLoopElement) {
-            const loopElement = conversionInfos[ins[0].source];
+        const loopNextConnector = ins.find((connector) => connector.type === CONNECTOR_TYPE.LOOP_NEXT);
+        if (loopNextConnector) {
+            const loopElement = conversionInfos[loopNextConnector.source];
 
             // get all the topo orders of the loop elements that loop back to the loop header
             const topoOrders = loopElement.ins.map((conn) => {
@@ -463,7 +485,7 @@ function checkIntervals(ctx: DfsContext) {
 
                     // the loop interval is always present, so must be > 1
                     if (intervalsCount > 1) {
-                        throw new Error('loop back while in branching interval');
+                        out.isGoTo = true;
                     }
                 }
 

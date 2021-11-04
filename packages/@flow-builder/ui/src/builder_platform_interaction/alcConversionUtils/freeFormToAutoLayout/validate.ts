@@ -38,8 +38,11 @@ function checkOutgoingEdgeForGoTo(conversionInfos: ConversionInfos, out: UI.Conn
             // a cross boundary edge is a goto
             out.isGoTo = true;
         }
-        if (sourceNode.executionContext === targetNode.executionContext && type === CONNECTOR_TYPE.FAULT) {
-            // A cross/forward fault connector between 2 nodes in the same context is a goto
+        if (
+            sourceNode.executionContext === targetNode.executionContext &&
+            (type === CONNECTOR_TYPE.FAULT || type === CONNECTOR_TYPE.LOOP_NEXT)
+        ) {
+            // A cross/forward fault or loop next connector between 2 nodes in the same context is a goto
             out.isGoTo = true;
         }
     } else if (edgeType === 'back') {

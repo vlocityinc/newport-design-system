@@ -893,7 +893,7 @@ describe('AlcNode', () => {
             };
         });
 
-        it('Focus event on menu trigger should be fired when focusOnSelectionBox is false', () => {
+        it('Focus event on menu trigger should be fired when in default mode', () => {
             const alcNodeComponent = createComponentUnderTest({
                 flowModel,
                 nodeInfo,
@@ -905,7 +905,7 @@ describe('AlcNode', () => {
             expect(menuTrigger.focus).toHaveBeenCalled();
         });
 
-        it('Focus event on selection checkbox should be fired when focusOnSelectionBox is true', () => {
+        it('Focus event on selection checkbox should be fired when in selection mode', () => {
             const alcNodeComponent = createComponentUnderTest({
                 flowModel,
                 nodeInfo,
@@ -913,7 +913,7 @@ describe('AlcNode', () => {
             });
             const selectionCheckbox = alcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
             selectionCheckbox.focus = jest.fn();
-            alcNodeComponent.focus(true);
+            alcNodeComponent.focus();
             expect(selectionCheckbox.focus).toHaveBeenCalled();
         });
     });

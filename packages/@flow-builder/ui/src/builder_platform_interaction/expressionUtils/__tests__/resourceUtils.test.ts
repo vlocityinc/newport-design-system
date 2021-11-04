@@ -200,6 +200,23 @@ describe('ResourceUtils', () => {
                 }
             });
         });
+        it('should normalize resources addressed by dev name', () => {
+            const normalizedFEROV = normalizeFEROV('apexCarVariable.model', { lookupByDevName: true });
+            expect(normalizedFEROV).toMatchObject({
+                itemOrDisplayText: {
+                    dataType: 'String',
+                    displayText: '{!apexCarVariable.model}',
+                    parent: {
+                        dataType: 'Apex',
+                        displayText: '{!apexCarVariable}'
+                    }
+                },
+                fields: {
+                    model: {},
+                    wheel: {}
+                }
+            });
+        });
     });
 
     describe('populate LHS state for field', () => {
@@ -258,6 +275,11 @@ describe('ResourceUtils', () => {
                 guid: '$Record__Prior',
                 name: '$Record__Prior'
             });
+        });
+        it('getResourceByUniqueIdentifier should return element by dev name', () => {
+            const retrievedResource = getResourceByUniqueIdentifier('actionCall1', { lookupByDevName: true });
+            expect(retrievedResource).toBeDefined();
+            expect(retrievedResource).toEqual(store.actionCallElement);
         });
     });
 

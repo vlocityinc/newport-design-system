@@ -86,8 +86,10 @@ import ffcLoopWithGoToOnBranchHead from './ffcUiModels/loop-with-goto-on-branch-
 import ffcLoopWithCrossAsGotoEdge from './ffcUiModels/loop-with-cross-as-goto-edge.json';
 import ffcLoopWithFowardAsGotoEdge from './ffcUiModels/loop-with-forward-as-goto-edge.json';
 import ffcLoopWithNextAndEndSameGoto from './ffcUiModels/loop-with-next-and-end-the-same-goto.json';
-import ffcNextAndFaultSameElement from './ffcUiModels/element-with-next-and-fault-pointing-to-same-element.json';
-import ffcLoopForEachAndEndSameElement from './ffcUiModels/loop-foreach-and-end-same-element.json';
+import ffcLoopForEachAndEndSameElement from './ffcUiModels/loop-with-next-and-end-to-same-element.json';
+import ffcLoopNextEndSameAsBranch from './ffcUiModels/loop-with-goto-on-next-and-end.json';
+import ffcLoopWithGoToOnNext from './ffcUiModels/loop-with-goto-on-next.json';
+import ffcLoopWithNestedBranchThatLoopsBack from './ffcUiModels/loop-with-nested-branch-that-loops-back2.json';
 import ffcDecisionWithGoToOnHead from './ffcUiModels/decision-with-goto-on-head.json';
 import ffcDecisionWithGoToOnDefaultHead from './ffcUiModels/decision-with-goto-on-default-head.json';
 import ffcDecisionWithGoToOnBranchNext from './ffcUiModels/decision-with-goto-on-branch-next.json';
@@ -942,14 +944,6 @@ describe('alc conversion utils', () => {
     });
 
     describe('cant convert Free Form Flow with', () => {
-        it('next and fault same element', () => {
-            assertCanConvertToAutoLayoutCanvas(ffcNextAndFaultSameElement, false);
-        });
-
-        it('loop for each and end same element', () => {
-            assertCanConvertToAutoLayoutCanvas(ffcLoopForEachAndEndSameElement, false);
-        });
-
         it('loop with nested loop back', () => {
             assertCanConvertToAutoLayoutCanvas(ffcLoopWithNestedLoopBack, false);
         });
@@ -1105,6 +1099,18 @@ describe('alc conversion utils', () => {
             });
             describe('Loop with go to on after last connector', () => {
                 assertRoundTripFromFreeFormCanvas(ffcOgLoopWithGoToAfterLast, undefined, false);
+            });
+            describe('loop with next and end to the same element', () => {
+                assertRoundTripFromFreeFormCanvas(ffcLoopForEachAndEndSameElement, undefined, false);
+            });
+            describe('loop with goto on next and end to same element as branch', () => {
+                assertRoundTripFromFreeFormCanvas(ffcLoopNextEndSameAsBranch, undefined, false);
+            });
+            describe('loop with goto on next', () => {
+                assertRoundTripFromFreeFormCanvas(ffcLoopWithGoToOnNext, undefined, false);
+            });
+            describe('loop with nested branch that loops back', () => {
+                assertRoundTripFromFreeFormCanvas(ffcLoopWithNestedBranchThatLoopsBack, undefined, false);
             });
         });
         describe('round trip from Free Form', () => {

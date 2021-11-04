@@ -85,6 +85,8 @@ export default class AlcNode extends LightningElement {
     @api
     flowModel!: Readonly<FlowModel>;
 
+    _isStartNodeFocusedPostLoad = false;
+
     get labels() {
         return LABELS;
     }
@@ -290,7 +292,7 @@ export default class AlcNode extends LightningElement {
     @api
     focus() {
         const selector = !this.isDefaultMode ? '.selection-checkbox' : 'builder_platform_interaction-alc-menu-trigger';
-        this.template.querySelector(selector).focus();
+        this.template.querySelector(selector)?.focus();
     }
 
     @api
@@ -358,5 +360,14 @@ export default class AlcNode extends LightningElement {
      */
     handlePopoverToggled(event) {
         this.expanded = event.detail.opened;
+    }
+
+    renderedCallback() {
+        // Moving focus to the Start Node when Flow Builder is loaded for the first time
+        const { type } = this.nodeInfo.metadata;
+        if (type === NodeType.START && !this._isStartNodeFocusedPostLoad) {
+            this.focus();
+            this._isStartNodeFocusedPostLoad = true;
+        }
     }
 }

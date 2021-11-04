@@ -238,6 +238,6 @@ export default class DebugPanel extends LightningElement {
 
     @api
     focus() {
-        // ToDo: Assign focus to the first focusable item in the Debug Panel
+        this.template.querySelector('.test-expand-button').focus();
     }
 }
