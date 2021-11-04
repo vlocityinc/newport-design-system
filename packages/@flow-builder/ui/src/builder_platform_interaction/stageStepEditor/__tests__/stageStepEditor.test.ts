@@ -35,7 +35,6 @@ import {
 } from 'builder_platform_interaction/flowMetadata';
 import { MERGE_WITH_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
-import { LABELS } from '../stageStepEditorLabels';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { updateAndValidateElementInPropertyEditor } from 'builder_platform_interaction/validation';
@@ -50,8 +49,8 @@ jest.mock('../stageStepReducer', () => {
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
-const mockUserRecordIdPromise = Promise.resolve('aUserRecordId');
-const mockUserRecordDevNamePromise = Promise.resolve('aUserDevName');
+const mockRecordIdPromise = Promise.resolve('aUserRecordId');
+const mockRecordDevNamePromise = Promise.resolve('aUserDevName');
 const mockActionsPromise = Promise.resolve(invocableActionsForOrchestrator);
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
@@ -60,9 +59,9 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
         SERVER_ACTION_TYPE: actual.SERVER_ACTION_TYPE,
         fetchOnce: jest.fn(async (actionType) => {
             if (actionType === actual.SERVER_ACTION_TYPE.GET_RECORD_ID_BY_DEV_NAME) {
-                return mockUserRecordIdPromise;
+                return mockRecordIdPromise;
             } else if (actionType === actual.SERVER_ACTION_TYPE.GET_RECORD_DEV_NAME_BY_ID) {
-                return mockUserRecordDevNamePromise;
+                return mockRecordDevNamePromise;
             }
             return mockActionsPromise;
         })
@@ -392,23 +391,55 @@ describe('StageStepEditor', () => {
         });
 
         describe('assignees', () => {
-            it('retrieves recordIds for user literals and passes them to record picker', async () => {
-                expect.assertions(3);
+            describe('retrieves recordIds for user literals and passes them to record picker', () => {
+                it('for a user', async () => {
+                    expect.assertions(3);
 
-                expect(fetchOnce).toHaveBeenCalledWith(SERVER_ACTION_TYPE.GET_RECORD_ID_BY_DEV_NAME, {
-                    devName: {
-                        value: nodeParams.assignees[0].assignee.value
-                    },
-                    entity: 'User'
+                    expect(fetchOnce).toHaveBeenCalledWith(SERVER_ACTION_TYPE.GET_RECORD_ID_BY_DEV_NAME, {
+                        devName: {
+                            value: nodeParams.assignees[0].assignee.value
+                        },
+                        entity: ASSIGNEE_TYPE.User
+                    });
+
+                    await ticks(1);
+
+                    const values = editor.shadowRoot.querySelector(
+                        selectors.ASSIGNEE_LITERAL_RECORD_PICKER_SELECTOR
+                    ).values;
+                    expect(values.length).toEqual(1);
+                    expect(values[0].id).toEqual(await mockRecordIdPromise);
                 });
+                it('for a group', async () => {
+                    expect.assertions(3);
 
-                ticks(1);
+                    const stepWithGroupAssignee = {
+                        ...nodeParams,
+                        assignees: [
+                            {
+                                assignee: { value: 'someGroup' },
+                                assigneeType: ASSIGNEE_TYPE.Group,
+                                isReference: false
+                            }
+                        ]
+                    };
+                    editor = createComponentUnderTest(stepWithGroupAssignee);
 
-                const values = editor.shadowRoot.querySelector(
-                    selectors.ASSIGNEE_LITERAL_RECORD_PICKER_SELECTOR
-                ).values;
-                expect(values.length).toEqual(1);
-                expect(values[0].id).toEqual(await mockUserRecordIdPromise);
+                    expect(fetchOnce).toHaveBeenCalledWith(SERVER_ACTION_TYPE.GET_RECORD_ID_BY_DEV_NAME, {
+                        devName: {
+                            value: stepWithGroupAssignee.assignees[0].assignee.value
+                        },
+                        entity: ASSIGNEE_TYPE.Group
+                    });
+
+                    await ticks(1);
+
+                    const values = editor.shadowRoot.querySelector(
+                        selectors.ASSIGNEE_LITERAL_RECORD_PICKER_SELECTOR
+                    ).values;
+                    expect(values.length).toEqual(1);
+                    expect(values[0].id).toEqual(await mockRecordIdPromise);
+                });
             });
         });
     });
@@ -821,10 +852,30 @@ describe('StageStepEditor', () => {
                     expect(stageStepReducer.mock.calls[6][1].detail).toEqual({
                         value: null,
                         error: null,
-                        type: 'User',
+                        type: ASSIGNEE_TYPE.User,
                         isReference: false
                     });
                 });
+                it('user literal displays user record picker', async () => {
+                    const assigneeType = editor.shadowRoot.querySelector(selectors.ASSIGNEE_TYPE_SELECTOR);
+                    const changeEvent = new CustomEvent('change', {
+                        detail: {
+                            value: ASSIGNEE_TYPE.User
+                        }
+                    });
+                    assigneeType.dispatchEvent(changeEvent);
+
+                    await ticks(1);
+
+                    const recordPicker = editor.shadowRoot.querySelector(
+                        selectors.ASSIGNEE_LITERAL_RECORD_PICKER_SELECTOR
+                    );
+
+                    expect(recordPicker.attributes.entities).toHaveLength(1);
+                    expect(recordPicker.attributes.entities[0].name).toEqual(ASSIGNEE_TYPE.User);
+                    expect(recordPicker.attributes.entities[0].label).toEqual('Users');
+                });
+
                 it('user reference displays user reference combobox', async () => {
                     const assigneeType = editor.shadowRoot.querySelector(selectors.ASSIGNEE_TYPE_SELECTOR);
                     const changeEvent = new CustomEvent('change', {
@@ -839,13 +890,134 @@ describe('StageStepEditor', () => {
                     expect(stageStepReducer.mock.calls[6][1].detail).toEqual({
                         value: null,
                         error: null,
-                        type: 'User',
+                        type: ASSIGNEE_TYPE.User,
+                        isReference: true
+                    });
+                });
+                it('group updates reducer', () => {
+                    const assigneeType = editor.shadowRoot.querySelector(selectors.ASSIGNEE_TYPE_SELECTOR);
+                    const changeEvent = new CustomEvent('change', {
+                        detail: {
+                            value: ASSIGNEE_TYPE.Group
+                        }
+                    });
+                    assigneeType.dispatchEvent(changeEvent);
+
+                    // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
+                    // Until then use the more brittle `.mocks`
+                    expect(stageStepReducer.mock.calls[6][1].detail).toEqual({
+                        value: null,
+                        error: null,
+                        type: ASSIGNEE_TYPE.Group,
+                        isReference: false
+                    });
+                });
+
+                it('group literal displays group record picker', async () => {
+                    const stepWithGroupAssignee = {
+                        ...nodeParams,
+                        assignees: [
+                            {
+                                assignee: { value: 'someGroup' },
+                                assigneeType: ASSIGNEE_TYPE.Group,
+                                isReference: false
+                            }
+                        ]
+                    };
+                    editor = createComponentUnderTest(stepWithGroupAssignee);
+
+                    await ticks(1);
+
+                    const recordPicker = editor.shadowRoot.querySelector(
+                        selectors.ASSIGNEE_LITERAL_RECORD_PICKER_SELECTOR
+                    );
+
+                    expect(recordPicker.attributes.entities).toHaveLength(1);
+                    expect(recordPicker.attributes.entities[0].name).toEqual('Group');
+                    expect(recordPicker.attributes.entities[0].label).toEqual('Group');
+                });
+
+                it('group reference displays user reference combobox', async () => {
+                    const assigneeType = editor.shadowRoot.querySelector(selectors.ASSIGNEE_TYPE_SELECTOR);
+                    const changeEvent = new CustomEvent('change', {
+                        detail: {
+                            value: ASSIGNEE_RESOURCE_TYPE.GroupResource
+                        }
+                    });
+                    assigneeType.dispatchEvent(changeEvent);
+
+                    // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
+                    // Until then use the more brittle `.mocks`
+                    expect(stageStepReducer.mock.calls[6][1].detail).toEqual({
+                        value: null,
+                        error: null,
+                        type: ASSIGNEE_TYPE.Group,
+                        isReference: true
+                    });
+                });
+                it('queue updates reducer', () => {
+                    const assigneeType = editor.shadowRoot.querySelector(selectors.ASSIGNEE_TYPE_SELECTOR);
+                    const changeEvent = new CustomEvent('change', {
+                        detail: {
+                            value: ASSIGNEE_TYPE.Queue
+                        }
+                    });
+                    assigneeType.dispatchEvent(changeEvent);
+
+                    // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
+                    // Until then use the more brittle `.mocks`
+                    expect(stageStepReducer.mock.calls[6][1].detail).toEqual({
+                        value: null,
+                        error: null,
+                        type: ASSIGNEE_TYPE.Queue,
+                        isReference: false
+                    });
+                });
+
+                it('queue literal displays queue record picker', async () => {
+                    const stepWithQueueAssignee = {
+                        ...nodeParams,
+                        assignees: [
+                            {
+                                assignee: { value: 'someQueue' },
+                                assigneeType: ASSIGNEE_TYPE.Queue,
+                                isReference: false
+                            }
+                        ]
+                    };
+                    editor = createComponentUnderTest(stepWithQueueAssignee);
+
+                    await ticks(1);
+
+                    const recordPicker = editor.shadowRoot.querySelector(
+                        selectors.ASSIGNEE_LITERAL_RECORD_PICKER_SELECTOR
+                    );
+
+                    expect(recordPicker.attributes.entities).toHaveLength(1);
+                    expect(recordPicker.attributes.entities[0].name).toEqual(ASSIGNEE_TYPE.Group);
+                    expect(recordPicker.attributes.entities[0].label).toEqual('Queue');
+                });
+                it('queue reference displays user reference combobox', async () => {
+                    const assigneeType = editor.shadowRoot.querySelector(selectors.ASSIGNEE_TYPE_SELECTOR);
+                    const changeEvent = new CustomEvent('change', {
+                        detail: {
+                            value: ASSIGNEE_RESOURCE_TYPE.QueueResource
+                        }
+                    });
+                    assigneeType.dispatchEvent(changeEvent);
+
+                    // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
+                    // Until then use the more brittle `.mocks`
+                    expect(stageStepReducer.mock.calls[6][1].detail).toEqual({
+                        value: null,
+                        error: null,
+                        type: ASSIGNEE_TYPE.Queue,
                         isReference: true
                     });
                 });
             });
 
-            describe('user literal', () => {
+            describe('literal', () => {
                 it('resolves recordId to devName and sets assignee', async () => {
                     const id = 'someId';
                     const userRecordPicker = editor.shadowRoot.querySelector(
@@ -858,9 +1030,9 @@ describe('StageStepEditor', () => {
                     // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                     // Until then use the more brittle `.mocks`
                     expect(stageStepReducer.mock.calls[6][1].detail).toEqual({
-                        value: { stringValue: await mockUserRecordDevNamePromise },
+                        value: { stringValue: await mockRecordDevNamePromise },
                         error: '',
-                        type: 'User',
+                        type: ASSIGNEE_TYPE.User,
                         isReference: false
                     });
                 });
@@ -876,20 +1048,43 @@ describe('StageStepEditor', () => {
                     expect(stageStepReducer.mock.calls[6][1].detail).toEqual({
                         value: null,
                         error: '',
-                        type: 'User',
+                        type: ASSIGNEE_TYPE.User,
                         isReference: false
                     });
                 });
+
+                it('passes error to record picker', async () => {
+                    const error = 'some error msg';
+                    const stepWithGroupAssignee = {
+                        ...nodeParams,
+                        assignees: [
+                            {
+                                assignee: { value: 'someGroup', error },
+                                assigneeType: ASSIGNEE_TYPE.Group,
+                                isReference: false
+                            }
+                        ]
+                    };
+                    editor = createComponentUnderTest(stepWithGroupAssignee);
+
+                    await ticks(1);
+
+                    const passedError = editor.shadowRoot.querySelector(
+                        selectors.ASSIGNEE_LITERAL_RECORD_PICKER_SELECTOR
+                    ).error;
+
+                    expect(passedError).toEqual(error);
+                });
             });
 
-            describe('user reference', () => {
+            describe('reference', () => {
                 beforeEach(async () => {
                     editor.node = {
                         ...editor.node,
                         assignees: [
                             {
                                 assignee: nodeParams.assignees[0].assignee,
-                                assigneeType: 'User',
+                                assigneeType: ASSIGNEE_TYPE.User,
                                 isReference: true
                             }
                         ]
