@@ -436,7 +436,8 @@ describe('ferov-resource-picker', () => {
         ferovResourcePicker.value = props.value;
         await ticks(1);
         expect(normalizeFEROV).toHaveBeenCalledWith('foobar', {
-            allowSObjectFieldsTraversal: true
+            allowSObjectFieldsTraversal: true,
+            lookupByDevName: false
         });
     });
 
@@ -450,7 +451,8 @@ describe('ferov-resource-picker', () => {
         ferovResourcePicker.value = props.value;
         await ticks(1);
         expect(normalizeFEROV).toHaveBeenCalledWith('foobar', {
-            allowSObjectFieldsTraversal: true
+            allowSObjectFieldsTraversal: true,
+            lookupByDevName: false
         });
     });
     describe('event handling', () => {

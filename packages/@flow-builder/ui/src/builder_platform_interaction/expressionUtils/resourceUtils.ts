@@ -73,13 +73,24 @@ export const getItemOrDisplayText = (event) => {
     return event.detail.item || event.detail.displayText;
 };
 
+type getResourceByUniqueIdentifierOptions = {
+    /**
+     * @summary Set to true to perform resource lookup using element dev names.
+     */
+    lookupByDevName?: boolean;
+};
+
 /**
  * Retrieves element or global constant
  *
  * @param {string} identifier    unique identifier that can be used to retrieve the flow resource
+ * @param {getResourceByUniqueIdentifierOptions|undefined} options use to fine-tune resource lookup
  * @returns {Object|undefined}    element or resource if the identifier is valid, otherwise undefined
  */
-export const getResourceByUniqueIdentifier = (identifier: string): any => {
+export const getResourceByUniqueIdentifier = (
+    identifier: string,
+    { lookupByDevName = false }: getResourceByUniqueIdentifierOptions = {}
+): any => {
     if (identifier) {
         const complexGuid = sanitizeGuid(identifier);
         return (
@@ -90,7 +101,8 @@ export const getResourceByUniqueIdentifier = (identifier: string): any => {
             (isRecordSystemVariableIdentifier(complexGuid.guidOrLiteral) &&
                 getElementByDevName(complexGuid.guidOrLiteral)) ||
             (isRecordPriorSystemVariableIdentifier(complexGuid.guidOrLiteral) &&
-                getGlobalConstantOrSystemVariable(complexGuid.guidOrLiteral))
+                getGlobalConstantOrSystemVariable(complexGuid.guidOrLiteral)) ||
+            (lookupByDevName && getElementByDevName(complexGuid.guidOrLiteral))
         );
     }
     return null;
@@ -197,18 +209,31 @@ const isReservedIdentifier = (identifier: string) => {
     return identifier === SYSTEM_VARIABLE_RECORD_PRIOR_PREFIX;
 };
 
+type NormalizeOptions = {
+    /**
+     * @summary Set to true to traverse sobject fields that are spannable.
+     */
+    allowSObjectFieldsTraversal?: boolean;
+    /**
+     * @summary Set to true to perform resource lookup using element dev names.
+     */
+    lookupByDevName?: boolean;
+};
+
 /**
  * Returns the combobox display value based on the unique identifier passed
  * to the RHS.
  *
  * @param {string} identifier    used to identify value, could be GUID or literal
- * @param root0
- * @param root0.allowSObjectFieldsTraversal
+ * @param {NormalizeOptions} options use to fine-tune normalization
  * @returns {Item}               value in format displayable by combobox
  */
-export const normalizeFEROV = (identifier: string, { allowSObjectFieldsTraversal = true } = {}) => {
+export const normalizeFEROV = (
+    identifier: string,
+    { allowSObjectFieldsTraversal = true, lookupByDevName = false }: NormalizeOptions = {}
+) => {
     let result: { itemOrDisplayText: UI.ComboboxItem | string; fields?: any } = { itemOrDisplayText: identifier };
-    const elementOrResource = getResourceByUniqueIdentifier(identifier);
+    const elementOrResource = getResourceByUniqueIdentifier(identifier, { lookupByDevName });
     const { guidOrLiteral, fieldNames } = sanitizeGuid(identifier);
     if (!elementOrResource) {
         if (isReservedIdentifier(guidOrLiteral)) {

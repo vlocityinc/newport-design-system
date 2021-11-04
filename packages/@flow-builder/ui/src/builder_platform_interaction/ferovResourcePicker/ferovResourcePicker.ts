@@ -191,6 +191,9 @@ export default class FerovResourcePicker extends LightningElement {
     @api
     hideGlobalVariables = false;
 
+    @api
+    lookupByDevName = false;
+
     /**
      * Set it to true if this resource picker is used in the context of a formula editor,
      * in which case the menu data will be populated differently
@@ -366,7 +369,8 @@ export default class FerovResourcePicker extends LightningElement {
             const identifier = isObject(this.value) ? this.value.value : this.value;
             this.initializeResourcePicker(
                 normalizeFEROV(identifier, {
-                    allowSObjectFieldsTraversal: this.isLookupTraversalSupported()
+                    allowSObjectFieldsTraversal: this.isLookupTraversalSupported(),
+                    lookupByDevName: this.lookupByDevName
                 })
             );
         }
