@@ -2028,6 +2028,30 @@ describe('in debug mode', () => {
         expect(div).not.toBeNull();
         expect(div.classList).toContain('fixed-width');
     });
+
+    it('property editors are not opened for orchestrations', async () => {
+        mockStoreState.properties.processType = FLOW_PROCESS_TYPE.ORCHESTRATOR;
+
+        // disableEditElements = true is currently implied for debugging orchestrations
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderMode: 'debugMode',
+            builderConfig: {
+                supportedProcessTypes: ['Orchestrator'],
+                componentConfigs: { [BUILDER_MODE.DEBUG_MODE]: { canvasConfig: { disableEditElements: true } } }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.DEBUG_MODE);
+        await ticks(1);
+
+        const editElementEvent = new EditElementEvent('1');
+        const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.CANVAS_CONTAINER);
+        canvasContainer.dispatchEvent(editElementEvent);
+        await ticks(1);
+
+        expect(invokePropertyEditor).not.toHaveBeenCalled();
+    });
+
     describe('save during debug', () => {
         let editorComponent;
 

@@ -1864,7 +1864,7 @@ export default class Editor extends LightningElement {
      * @param {object} event - edit element event from clicked/keyed node in which to edit
      */
     handleEditElement = (event: EditElementEvent) => {
-        if (event && event.detail && event.type) {
+        if (event && event.detail && event.type && !this.canvasConfig.disableEditElements) {
             const { mode, canvasElementGUID: guid, designateFocus, elementType } = event.detail;
 
             const forceModal = elementType && ELEMENT_TYPES_TO_ALWAYS_EDIT_IN_MODAL.includes(elementType);

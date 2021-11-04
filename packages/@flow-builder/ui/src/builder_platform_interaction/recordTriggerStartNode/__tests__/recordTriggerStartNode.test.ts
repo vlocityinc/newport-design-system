@@ -123,29 +123,6 @@ describe('record-trigger-start-node', () => {
             startElement = setupComponentUnderTest({ disableEditElements: true });
         });
 
-        it('No EditElementEvent is dispatched when clicked', async () => {
-            const cb = jest.fn();
-            startElement.addEventListener(EditElementEvent.EVENT_NAME, cb);
-            startElement.shadowRoot.querySelector(selectors.context).click();
-            expect(cb).not.toHaveBeenCalled();
-        });
-
-        it('No EditElementEvent is dispatched when using the space command', async () => {
-            const cb = jest.fn();
-            startElement.addEventListener(EditElementEvent.EVENT_NAME, cb);
-            startElement.shadowRoot.querySelector(selectors.context).focus();
-            startElement.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
-            expect(cb).not.toHaveBeenCalled();
-        });
-
-        it('No EditElementEvent is dispatched when using the enter command', async () => {
-            const cb = jest.fn();
-            startElement.addEventListener(EditElementEvent.EVENT_NAME, cb);
-            startElement.shadowRoot.querySelector(selectors.context).focus();
-            startElement.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
-            expect(cb).not.toHaveBeenCalled();
-        });
-
         it('ArrowKey events are still dispatched when using the arrow key commands', async () => {
             const cb = jest.fn();
             startElement.addEventListener(ArrowKeyDownEvent.EVENT_NAME, cb);

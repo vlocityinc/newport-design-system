@@ -36,14 +36,6 @@ export default class RecordTriggerStartNode extends withKeyboardInteractions(Lig
         this.dom.button.focus();
     }
 
-    get startButtonClasses() {
-        return classSet({
-            'start-button-trigger-context': true,
-            'slds-p-vertical_x-small': true,
-            'slds-p-horizontal_medium': true
-        });
-    }
-
     get editLabel() {
         return LABELS.startElementEdit;
     }
@@ -109,21 +101,9 @@ export default class RecordTriggerStartNode extends withKeyboardInteractions(Lig
         return getProcessType() !== FLOW_PROCESS_TYPE.ORCHESTRATOR;
     }
 
-    get containerClasses() {
-        return classSet({
-            'test-trigger-button': true,
-            context: true,
-            button: true
-        }).toString();
-    }
-
     handleTriggerClick = (event?: Event) => {
         if (event) {
             event.stopPropagation();
-        }
-
-        if (this.disableEditElements) {
-            return;
         }
 
         const canvasElementGUID = this.node.guid;

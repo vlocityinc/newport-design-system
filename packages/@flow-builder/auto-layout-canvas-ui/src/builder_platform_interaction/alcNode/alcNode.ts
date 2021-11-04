@@ -330,10 +330,6 @@ export default class AlcNode extends LightningElement {
      */
     handleOnDblClick(event: Event) {
         event.stopPropagation();
-        if (this.disableEditElements) {
-            return;
-        }
-
         const { type } = this.nodeInfo.metadata;
         if (type !== NodeType.START && type !== NodeType.END && this.canvasMode === AutoLayoutCanvasMode.DEFAULT) {
             this.dispatchEvent(new EditElementEvent(this.nodeInfo.guid));
