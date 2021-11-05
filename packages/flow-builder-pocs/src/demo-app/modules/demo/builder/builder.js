@@ -43,6 +43,232 @@ import {
     getCopiedData
 } from './utils';
 
+const palette = {
+    headers: [
+        {
+            headerLabel: 'Interaction',
+            headerAutolayoutVisibility: true,
+            headerItems: [
+                { name: 'Screen', type: 'element' },
+                { name: 'ActionCall', type: 'element' },
+                { name: 'Subflow', type: 'element' }
+            ],
+            headerFreeformVisibility: true
+        },
+        {
+            headerLabel: 'Logic',
+            headerAutolayoutVisibility: true,
+            headerItems: [
+                { name: 'Assignment', type: 'element' },
+                { name: 'Decision', type: 'element' },
+                { name: 'Loop', type: 'element' },
+                { name: 'SortCollectionProcessor', type: 'elementSubtype' }
+            ],
+            headerFreeformVisibility: true
+        },
+        {
+            headerLabel: 'Data',
+            headerAutolayoutVisibility: true,
+            headerItems: [
+                { name: 'RecordCreate', type: 'element' },
+                { name: 'RecordUpdate', type: 'element' },
+                { name: 'RecordQuery', type: 'element' },
+                { name: 'RecordDelete', type: 'element' },
+                { name: 'RecordRollback', type: 'element' }
+            ],
+            headerFreeformVisibility: true
+        }
+    ]
+};
+
+const toolboxElements = [
+    {
+        isElementSubtype: false,
+        name: 'Assignment',
+        attributes: null,
+        classification: 'Node',
+        elementType: 'Assignment'
+    },
+    {
+        isElementSubtype: false,
+        name: 'Decision',
+        attributes: null,
+        classification: 'Node',
+        elementType: 'Decision'
+    },
+    { isElementSubtype: false, name: 'Loop', attributes: null, classification: 'Node', elementType: 'Loop' },
+    {
+        isElementSubtype: false,
+        name: 'RecordCreate',
+        attributes: [
+            {
+                name: 'isCollection',
+                source: 'Inferred',
+                type: 'Boolean',
+                value: { values: [false], constraint: 'thisValue' }
+            },
+            {
+                name: 'dataType',
+                source: 'Inferred',
+                type: 'FlowDataType',
+                value: { values: ['Boolean'], constraint: 'thisValue' }
+            }
+        ],
+        classification: 'Node',
+        elementType: 'RecordCreate'
+    },
+    {
+        isElementSubtype: false,
+        name: 'RecordLookup',
+        attributes: [
+            {
+                name: 'isCollection',
+                source: 'UserDefined',
+                type: 'Boolean',
+                value: { values: [true, false], constraint: 'oneOf' }
+            },
+            {
+                name: 'dataType',
+                source: 'UserDefined',
+                type: 'FlowDataType',
+                value: { values: ['Boolean', 'SObject'], constraint: 'oneOf' }
+            }
+        ],
+        classification: 'Node',
+        elementType: 'RecordQuery'
+    },
+    {
+        isElementSubtype: false,
+        name: 'RecordUpdate',
+        attributes: [
+            {
+                name: 'isCollection',
+                source: 'Inferred',
+                type: 'Boolean',
+                value: { values: [false], constraint: 'thisValue' }
+            },
+            {
+                name: 'dataType',
+                source: 'Inferred',
+                type: 'FlowDataType',
+                value: { values: ['Boolean'], constraint: 'thisValue' }
+            }
+        ],
+        classification: 'Node',
+        elementType: 'RecordUpdate'
+    },
+    {
+        isElementSubtype: false,
+        name: 'RecordDelete',
+        attributes: [
+            {
+                name: 'isCollection',
+                source: 'Inferred',
+                type: 'Boolean',
+                value: { values: [false], constraint: 'thisValue' }
+            },
+            {
+                name: 'dataType',
+                source: 'Inferred',
+                type: 'FlowDataType',
+                value: { values: ['Boolean'], constraint: 'thisValue' }
+            }
+        ],
+        classification: 'Node',
+        elementType: 'RecordDelete'
+    },
+    {
+        isElementSubtype: false,
+        name: 'ApexPlugin',
+        attributes: [
+            {
+                name: 'isCollection',
+                source: 'Inferred',
+                type: 'Boolean',
+                value: { values: [false], constraint: 'thisValue' }
+            },
+            {
+                name: 'dataType',
+                source: 'Inferred',
+                type: 'FlowDataType',
+                value: { values: ['Boolean'], constraint: 'thisValue' }
+            }
+        ],
+        classification: 'Node',
+        elementType: 'ApexPlugin'
+    },
+    {
+        isElementSubtype: false,
+        name: 'ActionCall',
+        attributes: [
+            {
+                name: 'isCollection',
+                source: 'Inferred',
+                type: 'Boolean',
+                value: { values: [false], constraint: 'thisValue' }
+            },
+            {
+                name: 'dataType',
+                source: 'Inferred',
+                type: 'FlowDataType',
+                value: { values: ['Boolean'], constraint: 'thisValue' }
+            }
+        ],
+        classification: 'Node',
+        elementType: 'ActionCall'
+    },
+    {
+        isElementSubtype: false,
+        name: 'SubFlow',
+        attributes: null,
+        classification: 'Node',
+        elementType: 'Subflow'
+    },
+    {
+        isElementSubtype: false,
+        name: 'Screen',
+        attributes: null,
+        classification: 'Node',
+        elementType: 'Screen'
+    },
+    { isElementSubtype: false, name: 'Step', attributes: null, classification: 'Node', elementType: 'Step' },
+    {
+        isElementSubtype: false,
+        name: 'Start',
+        attributes: null,
+        classification: 'Node',
+        elementType: 'Start'
+    },
+    {
+        isElementSubtype: false,
+        name: 'CollectionProcessor',
+        attributes: null,
+        classification: 'Node',
+        elementType: 'CollectionProcessor'
+    },
+    {
+        isElementSubtype: false,
+        name: 'RecordRollback',
+        attributes: null,
+        classification: 'Node',
+        elementType: 'RecordRollback'
+    },
+    {
+        labelEdit: 'Edit Collection Sort',
+        isElementSubtype: true,
+        color: 'background-orange',
+        name: 'SortCollectionProcessor',
+        icon: 'standard:sort',
+        description: 'Sort items in a collection.',
+        label: 'Collection Sort',
+        labelNew: 'New Collection Sort',
+        classification: 'Node',
+        elementType: 'CollectionProcessor',
+        labelPlural: 'Collection Sorts',
+        configComponent: 'builder_platform_interaction:sortEditor'
+    }
+];
+
 let storeInstance;
 
 /**
@@ -223,6 +449,14 @@ export default class Builder extends LightningElement {
 
     get testMonkeyClasses() {
         return classSet('test-monkey').add({ spin: this.testMonkeyHandle });
+    }
+
+    get toolboxElements() {
+        return toolboxElements;
+    }
+
+    get palette() {
+        return palette;
     }
 
     isPasteAvailable = false;

@@ -10,7 +10,7 @@ export class KeyboardInteractions {
         this.commands[command.id] = command;
     }
 
-    registerShortcuts(shortcuts: any[]) {
+    registerShortcuts(shortcuts) {
         for (const shortcut of shortcuts) {
             const { command } = shortcut;
             this.setupCommandAndShortcut(command);
@@ -24,33 +24,35 @@ export class KeyboardInteractions {
     }
 }
 /**
- * @param Base
+ * Keyboard interaction decorator. Adds support for keyboard interactions to a classs.
+ *
+ * @param Base - The base class
+ * @returns The base class with keyboard interactions
  */
-// @ts-nocheck
-export function withKeyboardInteractions(Base: any) {
+export function withKeyboardInteractions(Base) {
     return class extends Base {
         // Used for testing purposes
-        // @ts-ignore
         @api
-        keyboardInteractions;
-
-        constructor(...args: any[]) {
-            super();
-            const keyboardInteractions = new KeyboardInteractions();
-
-            this.getKeyboardInteractions().forEach((interaction: KeyboardInteraction) =>
-                keyboardInteractions.registerShortcuts(interaction.getBindings())
-            );
-
-            this.keyboardInteractions = keyboardInteractions;
-        }
+        keyboardInteractions = new KeyboardInteractions();
 
         connectedCallback() {
             if (super.connectedCallback !== undefined) {
                 super.connectedCallback();
             }
 
+            this.getKeyboardInteractions().forEach((interaction: KeyboardInteraction) =>
+                this.keyboardInteractions.registerShortcuts(interaction.getBindings())
+            );
+
             this.keyboardInteractions.addKeyDownEventListener(this.template);
+        }
+
+        renderedCallback() {
+            if (super.renderedCallback !== undefined) {
+                super.renderedCallback();
+            }
+
+            this.getKeyboardInteractions().forEach((interaction: KeyboardInteraction) => interaction.onRendered());
         }
 
         disconnectedCallback() {

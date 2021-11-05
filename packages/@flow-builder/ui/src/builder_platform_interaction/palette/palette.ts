@@ -1,35 +1,22 @@
-// @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
-import { LocatorIconClickedEvent, PaletteItemChevronClickedEvent } from 'builder_platform_interaction/events';
-import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
-import { flatten } from './paletteLib';
-import { LABELS } from './paletteLabels';
 
-const { logInteraction } = loggingUtils;
+import { LABELS } from './paletteLabels';
 
 /**
  * NOTE: Please do not use this without contacting Process UI DesignTime first!
- *
- * An interim component to give us lightning-tree-grid functionality. This will
- * be removed in the future once lightning-tree-grid satisfies our requirements.
  */
 export default class Palette extends LightningElement {
     @api iconSize;
     @api showLocatorIcon;
 
     @api
-    findChevronElement(elementGuid) {
-        return this.template.querySelector('[data-key="' + elementGuid + '"]');
-    }
-
-    @api
     // eslint-disable-next-line @lwc/lwc/valid-api
     get data() {
-        return this.rows;
+        return this.original;
     }
 
-    set data(value) {
-        this.original = value;
+    set data(items) {
+        this.original = items;
         this.init();
     }
 
@@ -39,7 +26,7 @@ export default class Palette extends LightningElement {
     }
 
     set itemsDraggable(value) {
-        this.draggableItems = value === 'true';
+        this.draggableItems = `${value}` === 'true';
     }
 
     @api
@@ -48,136 +35,61 @@ export default class Palette extends LightningElement {
     }
 
     set detailsButton(value) {
-        this.showResourceDetails = value === 'true';
-    }
-
-    @api
-    get showSectionItemCount() {
-        return this.showItemCount;
-    }
-
-    set showSectionItemCount(value) {
-        this.showItemCount = value === 'true';
-        this.init();
+        this.showResourceDetails = `${value}` === 'true';
     }
 
     get enableLocator() {
         return this.showLocatorIcon && this.showResourceDetails;
     }
 
-    @track rows = [];
     @track draggableItems = false;
-    @track showItemCount = false;
     @track showResourceDetails = false;
+    @track original = [];
+    @track sections: any[] = [];
+    @track activeSections: string[] = [];
 
     labels = LABELS;
-    original = [];
-    collapsedSections = {};
-    itemMap = {};
 
-    /**
-     * Sets up the internal state used to render the tree.
-     */
     init() {
-        // TODO: If lightning-tree-grid doesn't satisfy our requirements and we
-        // end up getting stuck with using palette, we should consider making
-        // resources-lib give us data in a format that works without needing to
-        // flatten it here.
-        const options = {
-            collapsedSections: this.collapsedSections,
-            showSectionItemCount: this.showItemCount
+        this.activeSections = [...this.activeSections];
+        this.sections = this.original.map((section) => this.augmentSection(section));
+    }
+
+    /**
+     * Augments the section information
+     *
+     * @param section - A section
+     * @returns the augmented section
+     */
+    augmentSection(section) {
+        const visibleItems = section._children.length;
+
+        const augmentedSection = {
+            ...section,
+            // TODO: fix using label as guid by changing resourceLib.getElementSectionsFromElementMap so that it returns a stable
+            // guid for a section. Right now it changes on each render.
+            guid: section.label,
+            // TODO: Might not be good for i18n.
+            label: section.label + ' (' + visibleItems + ')'
         };
-        const rows = flatten(this.original, options);
-        this.rows = rows;
-        this.itemMap = this.createItemMap(rows);
-    }
 
-    /**
-     * This maps unique identifiers back to the row data. This is helpful when
-     * handling events and all we have is the dom element.
-     *
-     * @param {Array} rows The flattened row data
-     * @returns {Object} A mapping of tree node identifier to its row data
-     */
-    createItemMap(rows) {
-        const itemMap = {};
-        rows.forEach((row) => {
-            itemMap[row.key] = row;
-        });
-        return itemMap;
-    }
+        // initially display sections in the open state
+        const isNewSection = !this.sections.find((existingSection) => existingSection.guid === augmentedSection.guid);
 
-    /**
-     * When toggling a section, we need to flatten the original data again using
-     * the updated collapsed sections state.
-     *
-     * @param {Event} event A section toggle event
-     */
-    handleToggleSection(event) {
-        const sectionId = event.currentTarget.dataset.id;
-        this.collapsedSections[sectionId] = !this.collapsedSections[sectionId];
-        this.init();
-    }
-
-    /**
-     * Dispatches the LocatorIconClickedEvent that highlights the element on canvas
-     *
-     * @param {object} event onclick event
-     */
-    handleLocatorClick(event) {
-        const guid = event && event.currentTarget && event.currentTarget.dataset && event.currentTarget.dataset.guid;
-        const locatorIconEvent = new LocatorIconClickedEvent(guid);
-        this.dispatchEvent(locatorIconEvent);
-    }
-
-    /**
-     * Dispatches an event which opens the resource details panel.
-     *
-     * @param {Event} event A resource details button click event
-     */
-    handleResourceDetailsClick(event) {
-        const guid = event.currentTarget.dataset.guid;
-        const iconName = event.currentTarget.dataset.iconName;
-        const paletteItemChevronClickedEvent = new PaletteItemChevronClickedEvent(guid, iconName);
-        this.dispatchEvent(paletteItemChevronClickedEvent);
-        logInteraction('element-details', 'manager-tab', null, 'click');
-    }
-
-    /**
-     * Handler for when an element is dragged.
-     *
-     * @param {Object} event drag start event
-     */
-    handleDragStart(event) {
-        if (event) {
-            const referenceElement = event.currentTarget;
-            const item = this.itemMap[referenceElement.dataset.key];
-
-            // Only items in the map should be considered draggable.
-            if (!item) {
-                event.dataTransfer.effectAllowed = 'none';
-                return;
-            }
-
-            const paletteItem = referenceElement.querySelector('builder_platform_interaction-palette-item');
-            let dragElement = paletteItem.dragImage;
-            if (!dragElement) {
-                const elementIcon = paletteItem.elementIcon;
-                dragElement = elementIcon && elementIcon.iconElement;
-            }
-
-            const eventDetail = {
-                elementType: item.elementType,
-                elementSubtype: item.elementSubtype,
-                actionType: item.actionType,
-                actionName: item.actionName,
-                key: item.key
-            };
-            event.dataTransfer.setData('text', JSON.stringify(eventDetail));
-            if (event.dataTransfer.setDragImage && dragElement) {
-                event.dataTransfer.setDragImage(dragElement, 0, 0);
-            }
-            event.dataTransfer.effectAllowed = 'copy';
+        if (isNewSection) {
+            this.activeSections.push(augmentedSection.guid);
         }
+
+        return augmentedSection;
+    }
+
+    /**
+     * Handler for the sectiontoggle event
+     *
+     * @param event - The accordion sectiontoggle event
+     */
+    handleSectionToggle(event: CustomEvent) {
+        const openSections = event.detail.openSections;
+        this.activeSections = [...openSections];
     }
 }

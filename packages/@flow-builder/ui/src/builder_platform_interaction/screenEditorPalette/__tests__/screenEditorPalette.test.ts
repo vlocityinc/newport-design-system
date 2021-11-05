@@ -13,11 +13,12 @@ import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 const mockedContextLib = require('builder_platform_interaction_mocks/contextLib');
 jest.mock('builder_platform_interaction/contextLib', () => require('builder_platform_interaction_mocks/contextLib'));
 
-function createComponentForTest(props) {
+async function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-screen-editor-palette', { is: ScreenPalette });
     // Using the setter for screenFieldTypes triggers buildModel which populates the palette.
     Object.assign(el, props);
     setDocumentBodyChildren(el);
+    await ticks(1);
     return el;
 }
 
@@ -83,22 +84,27 @@ describe('Screen Editor Palette', () => {
     let basePalette;
     let eventCallback;
     let guid;
+
     beforeEach(async () => {
-        element = createComponentForTest({ screenFieldTypes, extensionTypes });
+        element = await createComponentForTest({ screenFieldTypes, extensionTypes });
         eventCallback = jest.fn();
-        await ticks(1);
         basePalette = element.shadowRoot.querySelector('builder_platform_interaction-palette');
-        guid = basePalette.data[3].key;
+        guid = basePalette.data[0]._children[2].guid;
     });
     it('should list all the screen fields and extensions, sorted within category', () => {
-        expect(basePalette.data).toHaveLength(7);
-        expect(basePalette.data[0].label).toBe('Input (4)');
-        expect(basePalette.data[1].label).toBe('File Upload');
-        expect(basePalette.data[2].label).toBe('Number');
-        expect(basePalette.data[3].label).toBe('Text Area');
-        expect(basePalette.data[4].label).toBe('Text Input');
-        expect(basePalette.data[5].label).toBe('Custom (1)');
-        expect(basePalette.data[6].label).toBe('Custom Comp');
+        expect(basePalette.data).toHaveLength(2);
+        const [inputSection, customSection] = basePalette.data;
+
+        expect(inputSection.label).toBe('Input');
+        expect(customSection.label).toBe('Custom');
+
+        expect(inputSection._children.map((item) => item.label)).toEqual([
+            'File Upload',
+            'Number',
+            'Text Area',
+            'Text Input'
+        ]);
+        expect(customSection._children.map((item) => item.label)).toEqual(['Custom Comp']);
     });
     it('should fire an event when clicking a field type', async () => {
         element.addEventListener(ScreenEditorEventName.ScreenFieldAdded, eventCallback);
@@ -135,28 +141,28 @@ describe('Screen Editor Palette', () => {
 
 describe('Screen Editor Palette when there are no extension types', () => {
     it('should list all the screen fields and extensions, sorted within category', async () => {
-        expect.assertions(5);
-        const element = createComponentForTest({ screenFieldTypes, undefined });
-        await ticks(1);
+        const element = await createComponentForTest({ screenFieldTypes, undefined });
         const basePalette = element.shadowRoot.querySelector('builder_platform_interaction-palette');
-        expect(basePalette.data).toHaveLength(4);
-        expect(basePalette.data[0].label).toBe('Input (3)');
-        expect(basePalette.data[1].label).toBe('Number');
-        expect(basePalette.data[2].label).toBe('Text Area');
-        expect(basePalette.data[3].label).toBe('Text Input');
+        expect(basePalette.data).toHaveLength(1);
+        const inputSection = basePalette.data[0];
+
+        expect(inputSection.label).toBe('Input');
+        expect(inputSection._children[0].label).toBe('Number');
+        expect(inputSection._children[1].label).toBe('Text Area');
+        expect(inputSection._children[2].label).toBe('Text Input');
     });
 });
 
 describe('Screen Editor Palette when there are no screen field types', () => {
     it('should list all the screen fields and extensions, sorted within category', async () => {
-        expect.assertions(5);
-        const element = createComponentForTest({ undefined, extensionTypes });
-        await ticks(1);
+        const element = await createComponentForTest({ undefined, extensionTypes });
         const basePalette = element.shadowRoot.querySelector('builder_platform_interaction-palette');
-        expect(basePalette.data).toHaveLength(4);
-        expect(basePalette.data[0].label).toBe('Input (1)');
-        expect(basePalette.data[1].label).toBe('File Upload');
-        expect(basePalette.data[2].label).toBe('Custom (1)');
-        expect(basePalette.data[3].label).toBe('Custom Comp');
+        expect(basePalette.data).toHaveLength(2);
+        const [inputSection, customSection] = basePalette.data;
+
+        expect(inputSection.label).toBe('Input');
+        expect(inputSection._children[0].label).toBe('File Upload');
+        expect(customSection.label).toBe('Custom');
+        expect(customSection._children[0].label).toBe('Custom Comp');
     });
 });

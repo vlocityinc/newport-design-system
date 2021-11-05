@@ -1,6 +1,4 @@
-// @ts-nocheck
 import { LightningElement, api } from 'lwc';
-import { PaletteItemClickedEvent } from 'builder_platform_interaction/events';
 import { isChildElement } from 'builder_platform_interaction/elementConfig';
 import { isTestMode } from 'builder_platform_interaction/contextLib';
 
@@ -59,29 +57,5 @@ export default class PaletteItem extends LightningElement {
      */
     get computedTestClass() {
         return `test-paletteitem-${(this.elementType || '').toLowerCase()}`;
-    }
-
-    handleLinkClick() {
-        const elementType = this.elementType;
-        const guid = this.guid;
-        const elementSubtype = this.elementSubtype || null; // for collection processor elements
-        const paletteItemClickedEvent = new PaletteItemClickedEvent(elementType, guid, elementSubtype);
-        this.dispatchEvent(paletteItemClickedEvent);
-    }
-
-    handleKeyPress(event) {
-        switch (event.key) {
-            case ' ':
-                // The space bar sometimes scrolls the parent container so we
-                // need to prevent the default.
-                event.preventDefault();
-            // fall through
-            case 'Enter':
-                this.handleLinkClick(event);
-                break;
-            default:
-                // No special handling for any other keys.
-                break;
-        }
     }
 }

@@ -1,3 +1,4 @@
+// @ts-ignore
 import { createElement } from 'lwc';
 import ScreenEditor, { ScreenEditorTab } from 'builder_platform_interaction/screenEditor';
 import {
@@ -207,10 +208,22 @@ export class ScreenEditorAutomaticFieldsPaletteTestComponent extends TestCompone
         if (!paletteElement) {
             return [];
         }
-        const paletteItems = Array.from(
-            paletteElement.shadowRoot!.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.PALETTE_ITEM)
+
+        let allItems: Element[] = [];
+
+        const paletteSections = Array.from(
+            paletteElement.shadowRoot!.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.PALETTE_SECTION)
         );
-        return paletteItems.map((paletteItem) => paletteItem.shadowRoot!.querySelector('a')!);
+
+        paletteSections.forEach((section) => {
+            const items = Array.from(
+                section.shadowRoot!.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.PALETTE_ITEM)
+            );
+
+            allItems = [...allItems, ...items];
+        });
+
+        return allItems.map((paletteItem: Element) => paletteItem.shadowRoot!.querySelector('a')!);
     }
 
     public getFieldsLabels() {

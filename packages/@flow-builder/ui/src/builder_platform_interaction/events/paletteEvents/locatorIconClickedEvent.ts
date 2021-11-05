@@ -1,12 +1,14 @@
-// @ts-nocheck
 /**
  * Used to report a click on the locator icon in the left panel.
  */
 const eventName = 'locatoriconclicked';
 
-export class LocatorIconClickedEvent {
+interface LocatorIconClickedEventDetail {
+    elementGuid: UI.Guid;
+}
+export class LocatorIconClickedEvent extends CustomEvent<LocatorIconClickedEventDetail> {
     constructor(elementGuid) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             bubbles: true,
             composed: true,
             cancelable: true,

@@ -24,9 +24,23 @@ export const getPalette = (leftPanel, paletteIndex = PALETTE_RESOURCES_INDEX) =>
     return panelResources.shadowRoot.querySelectorAll(LEFT_PANEL_SELECTORS.LEFT_PANEL_PALETTE)[paletteIndex];
 };
 
-export const getChevronElement = (leftPanel, resourceGuid, paletteIndex = PALETTE_RESOURCES_INDEX) => {
+export const getChevronElement = (leftPanel, resourceGuid, paletteIndex = PALETTE_RESOURCES_INDEX, sectionIndex) => {
     const palette = getPalette(leftPanel, paletteIndex);
-    return palette.shadowRoot.querySelector('[data-key="' + resourceGuid + '"]');
+
+    const sections = palette.shadowRoot.querySelectorAll('builder_platform_interaction-palette-section');
+
+    if (sectionIndex != null) {
+        return sections[sectionIndex].shadowRoot.querySelector('tr[data-guid="' + resourceGuid + '"]');
+    }
+
+    for (let i = 0; i < sections.length; i++) {
+        const item = sections[i].shadowRoot.querySelector('tr[data-guid="' + resourceGuid + '"]');
+        if (item != null) {
+            return item;
+        }
+    }
+
+    return null;
 };
 
 export const clickOnViewDetailButton = (chevronElement) => {

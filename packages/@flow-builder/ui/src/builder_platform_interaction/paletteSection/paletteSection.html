@@ -1,0 +1,53 @@
+<template>
+    <table class="slds-table slds-table_fixed-layout slds-tree slds-table_tree" aria-label={section.label} role="grid">
+        <tbody>
+            <template for:each={section._children} for:item="child">
+                <tr
+                    key={child.guid}
+                    draggable={itemsDraggable}
+                    data-guid={child.guid}
+                    class="slds-hint-parent palette-item"
+                    ondragstart={handleDragStart}
+                >
+                    <td oncellaction={handleLinkClick}>
+                        <builder_platform_interaction-palette-item
+                            description={child.description}
+                            drag-image-src={child.dragImageSrc}
+                            element-type={child.elementType}
+                            element-subtype={child.elementSubtype}
+                            guid={child.guid}
+                            icon-background-color={child.iconBackgroundColor}
+                            icon-name={child.iconName}
+                            icon-size={iconSize}
+                            label={child.label}
+                        >
+                        </builder_platform_interaction-palette-item>
+                    </td>
+                    <td if:true={enableLocator} oncellaction={handleLocatorClick}>
+                        <lightning-button-icon
+                            data-guid={child.guid}
+                            icon-name="utility:search"
+                            variant="bare"
+                            title={labels.locatorIconText}
+                            alternative-text={labels.locatorIconText}
+                            class="test-locator-icon"
+                            tabindex="-1"
+                        >
+                        </lightning-button-icon>
+                    </td>
+                    <td if:true={showResourceDetails} oncellaction={handleResourceDetailsClick}>
+                        <lightning-button-icon
+                            data-guid={child.guid}
+                            icon-name="utility:chevronright"
+                            variant="bare"
+                            alternative-text={labels.detailsText}
+                            class="test-details-chevron-icon"
+                            tabindex="-1"
+                        >
+                        </lightning-button-icon>
+                    </td>
+                </tr>
+            </template>
+        </tbody>
+    </table>
+</template>

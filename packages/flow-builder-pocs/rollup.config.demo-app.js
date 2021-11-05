@@ -16,6 +16,7 @@ const moduleNameMapper = {
     '^(demo)-(.+)$': './src/demo-app/modules/$1/$2/$2.js',
     '^@label/(.+)$': './src/demo-app/labels/$1.js',
     '^(aura)$': './src/demo-app/stubs/$1.js',
+    '^(o11y/client)$': './src/demo-app/stubs/o11y.js',
     'analyzer_framework/api': '../../ui/jest-modules/analyzer_framework/api/api.ts',
     '^(instrumentation/service)$': './src/demo-app/stubs/metricsService.js',
     '^siteforce:quarterbackLibrary$': './src/demo-app/stubs/siteforceQuarterbackLibrary.js',

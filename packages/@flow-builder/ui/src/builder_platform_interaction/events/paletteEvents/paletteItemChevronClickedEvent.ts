@@ -1,12 +1,15 @@
-// @ts-nocheck
 /**
  * Used to report a click action on a chevron palette item.
  */
 const eventName = 'paletteitemchevronclicked';
 
-export class PaletteItemChevronClickedEvent {
+interface PaletteItemChevronClickedEventDetail {
+    elementGUID: UI.Guid;
+    iconName: string;
+}
+export class PaletteItemChevronClickedEvent extends CustomEvent<PaletteItemChevronClickedEventDetail> {
     constructor(elementGUID, iconName) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             bubbles: true,
             composed: true,
             cancelable: true,

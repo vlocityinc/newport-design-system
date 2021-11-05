@@ -1,5 +1,5 @@
 <template>
-    <div class="slds-grid slds-grid_vertical left-panel-resources-scroll">
+    <div class="slds-grid slds-grid_vertical left-panel-resources-scroll" onactivecell={handleActiveCell}>
         <div class="slds-col slds-grow">
             <h3 if:true={showNonCanvasElementsLabel} class="slds-text-title_caps slds-p-bottom_small slds-p-left_small">
                 {labels.nonCanvasElementsText}
@@ -8,9 +8,9 @@
                 data={nonCanvasElements}
                 icon-size="x-small"
                 items-draggable="false"
-                show-section-item-count="true"
                 details-button="true"
                 onpaletteitemchevronclicked={handleNonCanvasElementChevronClicked}
+                aria-label={labels.nonCanvasElementsText}
             >
             </builder_platform_interaction-palette>
             <h3 if:true={showCanvasElementsLabel} class={computedCanvasElementsSectionTitleClass}>
@@ -20,10 +20,10 @@
                 data={canvasElements}
                 icon-size="x-small"
                 items-draggable="false"
-                show-section-item-count="true"
                 details-button="true"
                 onpaletteitemchevronclicked={handleCanvasElementChevronClicked}
                 show-locator-icon
+                aria-label={labels.canvasElementsText}
             >
             </builder_platform_interaction-palette>
         </div>

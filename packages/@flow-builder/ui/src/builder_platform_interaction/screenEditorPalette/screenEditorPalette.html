@@ -28,12 +28,12 @@
         </div>
         <div class="slds-scrollable_y slds-grid slds-grid_vertical slds-grow">
             <builder_platform_interaction-palette
+                aria-labelledby={labels.paletteTitle}
                 data={types}
                 items-draggable="true"
                 icon-size="x-small"
                 onpaletteitemclicked={handlePaletteItemClickedEvent}
                 ondragstart={handleDragStart}
-                show-section-item-count="true"
             >
             </builder_platform_interaction-palette>
         </div>

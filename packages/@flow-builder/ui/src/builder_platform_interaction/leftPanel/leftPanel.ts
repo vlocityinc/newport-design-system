@@ -1,5 +1,5 @@
-// @ts-nocheck
 import { LightningElement, track, api } from 'lwc';
+import { classSet } from 'lightning/utils';
 import {
     AddElementEvent,
     EditElementEvent,
@@ -34,7 +34,7 @@ const selectors = {
 
 export default class LeftPanel extends LightningElement {
     private dom = lwcUtils.createDomProxy(this, selectors);
-    private elementToFocus: HTMLElement;
+    private elementToFocus: keyof typeof selectors | undefined;
 
     @track
     showResourceDetailsPanel = false;
@@ -43,10 +43,10 @@ export default class LeftPanel extends LightningElement {
     resourceDetails;
 
     @track
-    canvasElements = [];
+    canvasElements: UI.Element[] = [];
 
     @track
-    nonCanvasElements = [];
+    nonCanvasElements: UI.Element[] = [];
 
     labels = LABELS;
     searchString;
@@ -60,16 +60,14 @@ export default class LeftPanel extends LightningElement {
     @api
     showElementsTab;
 
+    // TODO: probably not used anymore, should remove
     @api focus() {
-        this.elementToFocus = this.dom.tabset;
-        // need to force render because the change to 'elementToFocus' above won't trigger a render since 'elementToFocus' is not used in the template
-        this.forceRender();
+        this.dom.tabset?.focus();
     }
 
-    constructor() {
-        super();
-        storeInstance = Store.getStore();
-        unsubscribeStore = storeInstance.subscribe(this.mapAppStateToStore);
+    // TODO: get rid of this
+    forceRender() {
+        this.canvasElements = [...this.canvasElements];
     }
 
     mapAppStateToStore = () => {
@@ -103,11 +101,12 @@ export default class LeftPanel extends LightningElement {
     }
 
     get flowResourceListClass() {
-        let classes = 'flow-resource-list';
-        if (this.showResourceDetailsPanel) {
-            classes = `${classes} + slds-hidden`;
-        }
-        return classes;
+        return classSet('flow-resource-list')
+            .add({
+                'slds-hidden': this.showResourceDetailsPanel,
+                hidden: this.showResourceDetailsPanel
+            })
+            .toString();
     }
 
     handleElementClicked(event) {
@@ -148,7 +147,8 @@ export default class LeftPanel extends LightningElement {
         const currentElementState = storeInstance.getCurrentState().elements[event.detail.elementGUID];
         this.retrieveResourceDetailsFromStore(currentElementState, !event.detail.canvasElement);
         this.showResourceDetailsPanel = true;
-        this.elementToFocus = this.dom.backButton;
+        this.elementToFocus = 'backButton';
+        this.forceRender();
     }
 
     handleAddNewResourceButtonClick = () => {
@@ -159,32 +159,20 @@ export default class LeftPanel extends LightningElement {
 
     handleResourceDetailsBackLinkClicked() {
         this.showResourceDetailsPanel = false;
-        const panelResources = this.dom.leftPanelResources;
-        panelResources.focus(this.resourceDetails.elementGuid);
+        this.elementToFocus = 'leftPanelResources';
+        this.forceRender();
     }
 
     handleDeleteButtonClicked() {
-        const childIndexToKeep = this.resourceDetails.elementType === ELEMENT_TYPE.LOOP ? FOR_EACH_INDEX : undefined;
+        const { elementGuid, elementType } = this.resourceDetails;
+        const childIndexToKeep = elementType === ELEMENT_TYPE.LOOP ? FOR_EACH_INDEX : undefined;
         const deleteEvent = hasChildren(this.resourceDetails)
-            ? new DeleteElementEvent(
-                  [this.resourceDetails.elementGuid],
-                  this.resourceDetails.elementType,
-                  childIndexToKeep
-              )
-            : new DeleteElementEvent([this.resourceDetails.elementGuid], this.resourceDetails.elementType);
+            ? new DeleteElementEvent([elementGuid], elementType, childIndexToKeep)
+            : new DeleteElementEvent([elementGuid], elementType);
         this.dispatchEvent(deleteEvent);
 
-        this.focus();
-    }
-
-    /**
-     * Force renders the components
-     */
-    forceRender() {
-        const nonCanvasElements = this.nonCanvasElements || [];
-
-        // clone the array to force a render cycle
-        this.nonCanvasElements = [...nonCanvasElements];
+        this.elementToFocus = 'tabset';
+        this.forceRender();
     }
 
     handleResourceSearch(event) {
@@ -240,17 +228,20 @@ export default class LeftPanel extends LightningElement {
         }
     }
 
+    handleEditElement() {
+        this.dom.backButton.focus();
+    }
+
     renderedCallback() {
         if (this.elementToFocus != null) {
-            this.elementToFocus.focus();
-            this.elementToFocus = null;
-        }
-        if (this.showResourceDetailsPanel) {
-            this.dom.backButton.focus();
+            this.dom[this.elementToFocus].focus();
+            this.elementToFocus = undefined;
         }
     }
 
     connectedCallback() {
+        storeInstance = Store.getStore();
+        unsubscribeStore = storeInstance.subscribe(this.mapAppStateToStore);
         const { elements = {} } = storeInstance.getCurrentState();
         this.canvasElements = getElementSections(elements, this.searchString);
         this.nonCanvasElements = getResourceSections(elements, this.searchString);

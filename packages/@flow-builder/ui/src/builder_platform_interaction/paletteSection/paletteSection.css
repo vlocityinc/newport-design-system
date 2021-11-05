@@ -1,0 +1,11 @@
+td:first-child {
+    padding-left: 1rem;
+}
+
+td:not(:first-child) {
+    width: 30px;
+}
+
+td:focus {
+    box-shadow: var(--lwc-brandAccessible, rgb(1, 118, 211)) 0 0 0 1px inset;
+}

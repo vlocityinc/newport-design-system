@@ -1,11 +1,19 @@
-tbody tr th {
-    padding-left: 0.75rem;
+.accordion-section {
+    border: none;
 }
 
-tr.palette-item td:first-of-type {
-    padding-left: 1.5rem;
+.accordion {
+    font-size: inherit;
 }
 
-td:not(:first-child) {
-    width: 30px;
+lightning-accordion-section {
+    --sds-c-accordion-section-spacing-block-start: 1px;
+    --sds-c-accordion-section-spacing-block-end: 2px;
+    --sds-c-accordion-heading-font-size: 13px;
+    --sds-c-accordion-section-spacing-inline-end: 0;
+
+    --lwc-tableCellSpacing: 0.3rem;
+
+    border: none;
+    color: rgb(24, 24, 24);
 }

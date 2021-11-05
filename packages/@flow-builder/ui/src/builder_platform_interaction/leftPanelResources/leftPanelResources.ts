@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { classSet } from 'lightning/utils';
 import { LABELS } from './leftPanelResourcesLabels';
@@ -7,7 +6,7 @@ import { ShowResourceDetailsEvent } from 'builder_platform_interaction/events';
 
 const { logPerfTransactionStart, logPerfTransactionEnd, LEFT_PANEL_RESOURCES } = loggingUtils;
 export default class LeftPanelResources extends LightningElement {
-    private elementToFocus: HTMLElement;
+    private elementToFocus: HTMLElement | undefined;
 
     @api
     canvasElements = [];
@@ -23,20 +22,18 @@ export default class LeftPanelResources extends LightningElement {
         this._nonCanvasElements = newVal;
     }
 
-    @api focus(elementGuid) {
-        const palettes = this.template.querySelectorAll('builder_platform_interaction-palette');
-        for (const palette of palettes) {
-            const chevronElement = palette.findChevronElement(elementGuid);
-            if (chevronElement) {
-                this.elementToFocus = chevronElement.querySelector('.test-details-chevron-icon');
-                this.forceRender();
-                break;
-            }
-        }
+    @api focus() {
+        this.elementToFocus?.focus();
+    }
+
+    handleActiveCell(event) {
+        this.elementToFocus = event.detail.cell;
     }
 
     constructor() {
         super();
+
+        // @ts-ignore
         logPerfTransactionStart(LEFT_PANEL_RESOURCES);
     }
     get labels() {
@@ -72,14 +69,11 @@ export default class LeftPanelResources extends LightningElement {
     }
 
     renderedCallback() {
+        // @ts-ignore
         logPerfTransactionEnd(LEFT_PANEL_RESOURCES, {
             canvasElementsCount: this.canvasElements.length,
             nonCanvasElementsCount: this.nonCanvasElements.length
         });
-        if (this.elementToFocus != null) {
-            this.elementToFocus.focus();
-            this.elementToFocus = null;
-        }
     }
 
     handleNonCanvasElementChevronClicked(event) {

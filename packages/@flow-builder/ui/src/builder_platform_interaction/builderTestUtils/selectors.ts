@@ -71,6 +71,7 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     OUTPUT_RESOURCE_PICKER: 'builder_platform_interaction-output-resource-picker',
     PALETTE: 'builder_platform_interaction-palette',
     PALETTE_ITEM: 'builder_platform_interaction-palette-item',
+    PALETTE_SECTION: 'builder_platform_interaction-palette-section',
     PARAMETER_ITEM: 'builder_platform_interaction-parameter-item',
     PARAMETER_LIST: 'builder_platform_interaction-parameter-list',
     PROCESS_TYPES_NAVIGATION: 'builder_platform_interaction-process-types-vertical-navigation',

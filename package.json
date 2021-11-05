@@ -16,7 +16,7 @@
         "check:push": "yarn check:pom && yarn test:nba-components && yarn check:goldFiles -l",
         "check:stm-version": "./scripts/check-stm-version.sh",
         "check:core-version": "./scripts/check-core-version.sh",
-        "check:copy-paste": "yarn jscpd -s -t 1.92 -i '**/__tests__/**,**/dist/**,**/jest-mock-data/**' -p packages/@flow-builder/**/*.ts",
+        "check:copy-paste": "yarn jscpd -s -t 1.87 -i '**/__tests__/**,**/dist/**,**/jest-mock-data/**' -p packages/@flow-builder/**/*.ts",
         "clean:build": "yarn clean && yarn build",
         "clean:test": "yarn clean:build && yarn test:unit",
         "clean:start": "yarn clean:build && yarn start",

@@ -1,147 +1,118 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
-import { PaletteItemChevronClickedEvent, LocatorIconClickedEvent } from 'builder_platform_interaction/events';
+
 import Palette from 'builder_platform_interaction/palette';
-import { LABELS } from '../paletteLabels';
+
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
-import { MOCK_RESOURCE_PALETTE_ITEM } from 'mock/paletteData';
+import { MOCK_RESOURCE_PALETTE_ITEM, MOCK_ELEMENT_PALETTE_ITEM } from 'mock/paletteData';
 
-jest.mock('builder_platform_interaction/sharedUtils');
+jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
-const createComponentUnderTest = (data, detailsButton?, showLocatorIcon = false) => {
+const DEFAULT_OPTIONS = {
+    data: [MOCK_ELEMENT_PALETTE_ITEM, MOCK_RESOURCE_PALETTE_ITEM],
+    detailsButton: false,
+    showLocatorIcon: false,
+    itemsDraggable: true
+};
+const createComponentUnderTest = async (options = DEFAULT_OPTIONS) => {
     const el = createElement('builder_platform_interaction-palette', {
         is: Palette
     });
-    el.data = data;
-    el.detailsButton = detailsButton;
-    el.showLocatorIcon = showLocatorIcon;
+
+    Object.assign(el, options);
     setDocumentBodyChildren(el);
+    await ticks(1);
     return el;
 };
 
 const selectors = {
-    sectionChevron: '.test-section-chevron-icon',
-    detailsChevron: '.test-details-chevron-icon',
-    locatorIcon: '.test-locator-icon',
-    row: 'tr',
-    text: 'div.slds-truncate'
+    paletteSection: 'builder_platform_interaction-palette-section',
+    accordion: 'lightning-accordion',
+    accordionSection: 'lightning-accordion-section'
 };
 
-// TODO: Later on we may expose an attribute that lets us specify which
-// sections are initially collapsed. When we have that we should be able to
-// separate collapse and expand tests.
-const verifyToggle = async (palette, selector) => {
-    const toggle = palette.shadowRoot.querySelector(selector);
+function verifySection(accordionSection, expected) {
+    expect(accordionSection.label).toEqual(expected.label);
 
-    // Collapses the first section.
-    toggle.click();
-    await ticks(2);
-    let rows = palette.shadowRoot.querySelectorAll('tr');
-    expect(rows).toHaveLength(1);
+    const paletteSection = accordionSection.querySelector(selectors.paletteSection);
+    expect(paletteSection).not.toBeNull();
 
-    // Expands the first section.
-    toggle.click();
-    await ticks(1);
-    rows = palette.shadowRoot.querySelectorAll('tr');
-    expect(rows).toHaveLength(3);
-};
+    expect(paletteSection.section).toEqual(expected);
+}
+
+function getActiveSections(palette) {
+    return palette.shadowRoot.querySelector(selectors.accordion).activeSectionName;
+}
 
 describe('Palette', () => {
-    describe('section toggle', () => {
-        const ELEMENT_DATA = [MOCK_RESOURCE_PALETTE_ITEM];
+    let palette;
 
-        // TODO: Temporary assertion count until we can initialize sections as
-        // collapsed.
-        beforeEach(() => {
-            expect.assertions(2);
+    beforeEach(async () => {
+        palette = await createComponentUnderTest();
+    });
+
+    it('all sections are opened initially', () => {
+        expect(getActiveSections(palette)).toHaveLength(2);
+    });
+
+    it('has correct sections', () => {
+        const accordionSections = palette.shadowRoot.querySelectorAll(selectors.accordionSection);
+        expect(accordionSections).toHaveLength(2);
+
+        verifySection(accordionSections[0], {
+            ...MOCK_ELEMENT_PALETTE_ITEM,
+            guid: 'FlowBuilderElementConfig.screenPluralLabel',
+            label: 'FlowBuilderElementConfig.screenPluralLabel (1)'
         });
 
-        it('collapses an expands a palette section using the chevron', async () => {
-            const palette = createComponentUnderTest(ELEMENT_DATA);
-            await verifyToggle(palette, selectors.sectionChevron);
-        });
-
-        it('collapses and expands a palette section by clicking the section text', async () => {
-            const palette = createComponentUnderTest(ELEMENT_DATA);
-            await verifyToggle(palette, selectors.text);
-        });
-
-        it('collapses and expands a palette section by clicking on the row', async () => {
-            const palette = createComponentUnderTest(ELEMENT_DATA);
-            await verifyToggle(palette, selectors.row);
+        verifySection(accordionSections[1], {
+            ...MOCK_RESOURCE_PALETTE_ITEM,
+            guid: 'FlowBuilderElementConfig.sObjectPluralLabel',
+            label: 'FlowBuilderElementConfig.sObjectPluralLabel (2)'
         });
     });
 
-    describe('Manager Tab', () => {
-        const ELEMENT_DATA = [
-            {
-                elementType: 'Variable',
-                guid: 'myGuid1',
-                label: 'myLabel',
-                iconName: 'myIconName'
-            }
-        ];
+    it('options are applied correctly', async () => {
+        const options = {
+            ...DEFAULT_OPTIONS,
 
-        it('checks that there is no chevron button when detailsButton is false', async () => {
-            const palette = createComponentUnderTest(ELEMENT_DATA);
-            await ticks(1);
-            const chevron = palette.shadowRoot.querySelector(selectors.detailsChevron);
-            expect(chevron).toBeNull();
+            iconSize: 'small',
+            detailsButton: true,
+            showLocatorIcon: true,
+            itemsDraggable: true
+        };
+        palette = await createComponentUnderTest(options);
+
+        palette.shadowRoot.querySelectorAll(selectors.paletteSection).forEach((section) => {
+            expect(section.iconSize).toEqual(options.iconSize);
+            expect(section.itemsDraggable).toEqual(options.itemsDraggable);
+            expect(section.detailsButton).toEqual(options.showResourceDetails);
+            expect(section.showLocatorIcon).toEqual(options.enableLocator);
         });
+    });
 
-        it('checks that there is a chevron button when detailsButton is true', async () => {
-            const palette = createComponentUnderTest(ELEMENT_DATA, 'true');
-            await ticks(1);
-            const chevron = palette.shadowRoot.querySelector(selectors.detailsChevron);
-            expect(chevron).not.toBeNull();
-            expect(chevron.iconName).toEqual('utility:chevronright');
-            expect(chevron.alternativeText).toEqual(LABELS.detailsText);
-        });
-
-        it('clicks the chevron to dispatch a PaletteItemChevronClickedEvent with the guid and iconName', async () => {
-            const palette = createComponentUnderTest(ELEMENT_DATA, 'true');
-            await ticks(1);
-            const eventCallback = jest.fn();
-            palette.addEventListener(PaletteItemChevronClickedEvent.EVENT_NAME, eventCallback);
-            const chevron = palette.shadowRoot.querySelector(selectors.detailsChevron);
-            chevron.click();
-
-            expect(eventCallback).toHaveBeenCalled();
-            expect(eventCallback.mock.calls[0][0]).toMatchObject({
+    it('section toggling', async () => {
+        const accordion = palette.shadowRoot.querySelector(selectors.accordion);
+        accordion.dispatchEvent(
+            new CustomEvent('sectiontoggle', {
                 detail: {
-                    elementGUID: ELEMENT_DATA[0].guid,
-                    iconName: ELEMENT_DATA[0].iconName
+                    openSections: []
                 }
-            });
-        });
+            })
+        );
 
-        it('checks that there is no locator icon when showLocatorIcon is false', async () => {
-            const palette = createComponentUnderTest(ELEMENT_DATA, 'true', false);
-            await ticks(1);
-            const locatorIcon = palette.shadowRoot.querySelector(selectors.locatorIcon);
-            expect(locatorIcon).toBeNull();
-        });
+        await ticks(1);
+        expect(getActiveSections(palette)).toEqual([]);
 
-        it('checks that there is a locator icon when showLocatorIcon is true', async () => {
-            const palette = createComponentUnderTest(ELEMENT_DATA, 'true', true);
-            await ticks(1);
-            const locatorIcon = palette.shadowRoot.querySelector(selectors.locatorIcon);
-            expect(locatorIcon).not.toBeNull();
-            expect(locatorIcon.iconName).toEqual('utility:search');
-            expect(locatorIcon.alternativeText).toEqual(LABELS.locatorIconText);
-        });
+        accordion.dispatchEvent(
+            new CustomEvent('sectiontoggle', {
+                detail: {
+                    openSections: ['FlowBuilderElementConfig.sObjectPluralLabel']
+                }
+            })
+        );
 
-        it('clicks the locator icon to dispatch a LocatorIconClickedEvent with the guid', async () => {
-            const palette = createComponentUnderTest(ELEMENT_DATA, 'true', true);
-            await ticks(1);
-            const eventCallback = jest.fn();
-            palette.addEventListener(LocatorIconClickedEvent.EVENT_NAME, eventCallback);
-            const locatorIcon = palette.shadowRoot.querySelector(selectors.locatorIcon);
-            locatorIcon.click();
-
-            expect(eventCallback).toHaveBeenCalled();
-            expect(eventCallback.mock.calls[0][0].detail).toMatchObject({
-                elementGuid: ELEMENT_DATA[0].guid
-            });
-        });
+        await ticks(1);
+        expect(getActiveSections(palette)).toEqual(['FlowBuilderElementConfig.sObjectPluralLabel']);
     });
 });

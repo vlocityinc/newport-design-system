@@ -76,10 +76,10 @@ describe('Resource tab - resource', () => {
     });
     it('Click on the chevron should display the resource details', async () => {
         const stringConstant = getElementByDevName('stringConstant');
-        const chevron = getChevronElement(leftPanel, stringConstant.guid);
+        const chevron = getChevronElement(leftPanel, stringConstant.guid, PALETTE_RESOURCES_INDEX);
         expect(chevron).toBeDefined();
         clickOnViewDetailButton(chevron);
-        await ticks(100);
+        await ticks(1);
         const resourceDetails = getResourceDetail(leftPanel);
         expect(resourceDetails).not.toBeNull();
         const apiNameSpan = getElementByTitle(resourceDetails, stringConstant.name);
@@ -174,9 +174,9 @@ describe('Resource tab - resource', () => {
                 'screenWithAutomaticFieldsInSection',
                 'accountSObjectVariable.Name'
             );
-            let chevron = getChevronElement(leftPanel, automaticFieldElement.guid, PALETTE_RESOURCES_INDEX);
+            let chevron = getChevronElement(leftPanel, automaticFieldElement.guid, PALETTE_RESOURCES_INDEX, 1);
             expect(chevron).toBeNull();
-            chevron = getChevronElement(leftPanel, automaticFieldElement.guid, PALETTE_ELEMENTS_INDEX);
+            chevron = getChevronElement(leftPanel, automaticFieldElement.guid, PALETTE_ELEMENTS_INDEX, 1);
             expect(chevron).toBeNull();
         });
         it('should appear in the resource detail of a variable if the automatic fields references a variable field', async () => {
@@ -227,7 +227,7 @@ describe('Record Triggered Flow resource tab', () => {
     it('should not have scheduled path element', async () => {
         const startElement = getElementByDevName('$Record');
         const scheduledPathsNode = getElementForPropertyEditor(startElement);
-        const chevron = getChevronElement(leftPanel, scheduledPathsNode.scheduledPaths[0].guid);
+        const chevron = getChevronElement(leftPanel, scheduledPathsNode.scheduledPaths[0].guid, 0, 0);
         expect(chevron).toBeNull();
     });
 });

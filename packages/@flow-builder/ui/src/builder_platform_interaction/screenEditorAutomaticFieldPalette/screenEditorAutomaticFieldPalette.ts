@@ -27,7 +27,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     sobjectCollectionCriterion = SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT;
     showNoItemsIllustration = true;
     sobjectPickerErrorMessage?: string | null;
-    entityLabel?: string;
+
     showErrorMessageRelatedToFieldFetching = false;
     showNoFieldIllustration = false;
     showSpinner = false;
@@ -45,6 +45,8 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     set searchPattern(newVal) {
         this._searchPattern = newVal;
     }
+
+    @track entityLabel?: string;
 
     @track
     state: { recordVariable: string; supportedEntityFields: FieldDefinition[] } = {
