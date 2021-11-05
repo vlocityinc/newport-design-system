@@ -12,7 +12,8 @@ import {
     modalBodyVariant,
     modalFooterVariant,
     PROPERTY_EDITOR,
-    CanvasMode
+    CanvasMode,
+    isPopoverOpen
 } from 'builder_platform_interaction/builderUtils';
 import {
     commands,
@@ -1611,8 +1612,8 @@ export default class Editor extends LightningElement {
      * @param {object} event when save or save as buttons are clicked
      */
     handleSaveFlow = (event) => {
+        this.hidePopoverIfOpened();
         this.setElementBeingEditedInPanelAsNotNew();
-
         if (event && event.detail && event.detail.type) {
             const eventType = event.detail.type;
             let flowProperties = storeInstance.getCurrentState().properties;
@@ -3011,6 +3012,15 @@ export default class Editor extends LightningElement {
                 ...this.elementBeingEditedInPanel,
                 isNew: false
             };
+        }
+    }
+
+    /**
+     * Used to hide the warning/error popover if it is already opened.
+     */
+    hidePopoverIfOpened() {
+        if (this.usePanelForPropertyEditor && isPopoverOpen()) {
+            hidePopover();
         }
     }
 }
