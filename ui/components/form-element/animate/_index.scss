@@ -121,10 +121,8 @@ input[placeholder]::placeholder {
 
       ~.nds-form-element__label,
       +.nds-form-element__label {
-        transform: translate3d(0, -1.2rem, 0);
-        transition-duration: 300ms;
         z-index: 1;
-        top: .4rem;
+        top: -1rem;
         #{$left}: 0;
 
         .nds-button_icon {
