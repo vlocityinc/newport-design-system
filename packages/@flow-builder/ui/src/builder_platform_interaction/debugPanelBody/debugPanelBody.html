@@ -34,7 +34,7 @@
                 ></lightning-combobox>
             </div>
             <!-- Regular debug text -->
-            <div if:false={curLine.isWarn} key={curLine.id} class={curLine.class}>
+            <div if:false={curLine.isWarn} key={curLine.id}>
                 <lightning-formatted-rich-text
                     if:false={curLine.isError}
                     class="normal"
