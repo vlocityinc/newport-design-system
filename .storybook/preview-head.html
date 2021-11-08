@@ -34,7 +34,9 @@
         try {
           const data = JSON.parse(event.data);
           if (data.action === 'built') {
-            newportStorybookStyles.href = `/assets/styles/index.css?${Date.now()}`;
+            setTimeout(() => {
+              newportStorybookStyles.href = `/assets/styles/index.css?${Date.now()}`;
+            }, 250);
           }
         } catch (e) {
           // ignore
