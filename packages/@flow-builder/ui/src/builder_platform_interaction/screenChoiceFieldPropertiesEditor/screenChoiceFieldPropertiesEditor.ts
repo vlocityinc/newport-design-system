@@ -376,7 +376,8 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
                 newResourceInfo.resourceTypes = [
                     ELEMENT_TYPE.CHOICE,
                     ELEMENT_TYPE.PICKLIST_CHOICE_SET,
-                    ELEMENT_TYPE.RECORD_CHOICE_SET
+                    ELEMENT_TYPE.RECORD_CHOICE_SET,
+                    ELEMENT_TYPE.COLLECTION_CHOICE_SET
                 ];
             }
             event.detail.newResourceInfo = newResourceInfo;

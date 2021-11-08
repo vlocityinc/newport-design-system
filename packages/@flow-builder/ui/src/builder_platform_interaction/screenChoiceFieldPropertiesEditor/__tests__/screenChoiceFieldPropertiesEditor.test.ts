@@ -393,7 +393,7 @@ describe('screen-choice-field-properties-editor choice selectors', () => {
             'FlowBuilderScreenEditor.typedResourceLabel'
         );
         expect(addNewResourceEvent.detail.newResourceInfo.resourceTypes).toBeDefined();
-        expect(addNewResourceEvent.detail.newResourceInfo.resourceTypes).toHaveLength(3);
+        expect(addNewResourceEvent.detail.newResourceInfo.resourceTypes).toHaveLength(4);
     });
     it('Decorates the add new resource event correctly when dispatched by the choice selector and text has been entered', async () => {
         const addNewResourceEvent = new CustomEvent('addnewresource', {
