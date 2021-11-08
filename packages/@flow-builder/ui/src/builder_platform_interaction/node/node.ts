@@ -118,7 +118,7 @@ export default class Node extends LightningElement {
 
     get buttonClass() {
         return this.getIconShape() === ICON_SHAPE.CIRCLE
-            ? `icon slds-icon__container_circle`
+            ? `icon slds-icon_container slds-icon__container_circle`
             : `icon slds-icon_container`;
     }
 

@@ -51,10 +51,10 @@ export default class StatusIcon extends LightningElement {
     }
 
     /**
-     * @returns {string} iconClassFromType: css class for icon (eg: slds-icon-text-error)
+     * @returns {string} iconClassFromType: css class for icon (eg: slds-button_icon-error)
      */
     get iconClassFromType() {
-        return 'slds-icon-text-' + this.type;
+        return 'slds-button_icon-' + this.type;
     }
 
     /**

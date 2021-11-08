@@ -92,7 +92,7 @@ describe('status icon', () => {
             };
             await ticks(1);
             const buttonIcon = getButtonIcon(statusIcon);
-            expect(buttonIcon.iconClass).toEqual('slds-icon-text-warning');
+            expect(buttonIcon.iconClass).toEqual('slds-button_icon-warning');
         });
     });
     describe('iconTitle', () => {
