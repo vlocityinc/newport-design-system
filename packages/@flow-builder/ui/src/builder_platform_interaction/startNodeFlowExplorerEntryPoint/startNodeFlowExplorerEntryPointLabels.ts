@@ -1,5 +1,7 @@
-import startNodeFlowExplorerEntryPointLabel from '@salesforce/label/FlowBuilderCanvasElement.startNodeFlowExplorerEntryPointLabel';
+import startNodeExplorerWithoutObjectLabel from '@salesforce/label/FlowBuilderCanvasElement.startNodeExplorerWithoutObjectLabel';
+import startNodeExplorerWithObjectLabel from '@salesforce/label/FlowBuilderCanvasElement.startNodeExplorerWithObjectLabel';
 
 export const LABELS = {
-    startNodeFlowExplorerEntryPointLabel
+    startNodeExplorerWithoutObjectLabel,
+    startNodeExplorerWithObjectLabel
 };

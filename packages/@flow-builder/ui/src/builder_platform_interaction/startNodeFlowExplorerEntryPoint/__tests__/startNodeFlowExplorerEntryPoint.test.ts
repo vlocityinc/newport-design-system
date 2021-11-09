@@ -31,9 +31,11 @@ const setupComponentUnderTest = (node) => {
     return element;
 };
 
-const startElement = setupComponentUnderTest(recordTriggeredStartElement);
-
 describe('Flow Explorer Entry Point', () => {
+    let startElement;
+    beforeAll(() => {
+        startElement = setupComponentUnderTest(recordTriggeredStartElement);
+    });
     it('Should fire ArrowKeyDownEvent with the right key on pressing arrow down key', () => {
         const callback = jest.fn();
         startElement.addEventListener(ArrowKeyDownEvent.EVENT_NAME, callback);
@@ -77,6 +79,21 @@ describe('Flow Explorer Entry Point', () => {
     });
 
     it('Check if the entryPointLabel contains the sObject api name', () => {
-        expect(runQuerySelector(startElement, selectors.entryPointLabel).textContent).toContain('Account');
+        expect(runQuerySelector(startElement, selectors.entryPointLabel).textContent).toBe(
+            'FlowBuilderCanvasElement.startNodeExplorerWithObjectLabel(Account)'
+        );
+    });
+});
+
+describe('Flow Explorer without object set', () => {
+    let startElement;
+    beforeAll(() => {
+        startElement = setupComponentUnderTest({});
+    });
+
+    it('Check if the entryPointLabel contains the sObject api name', () => {
+        expect(runQuerySelector(startElement, selectors.entryPointLabel).textContent).toBe(
+            'FlowBuilderCanvasElement.startNodeExplorerWithoutObjectLabel'
+        );
     });
 });

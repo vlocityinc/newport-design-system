@@ -12,13 +12,16 @@ const { BaseKeyboardInteraction, Keys, createShortcut, withKeyboardInteractions 
 const selectors = {
     button: '.button'
 };
-const explorerUrl = '/interaction_explorer/flowExplorer.app?object={0}&recordTriggerType={1}';
+const explorerUrlWithObj = '/interaction_explorer/flowExplorer.app?object={0}&trigger={1}';
+const explorerUrlWithoutObj = '/interaction_explorer/flowExplorer.app?trigger={1}';
 
 export default class StartNodeFlowExplorerEntryPoint extends withKeyboardInteractions(LightningElement) {
     dom = lwcUtils.createDomProxy(this, selectors);
 
     @api
     node!: UI.Start;
+
+    _explorerUrl: string = explorerUrlWithoutObj;
 
     @api
     focus() {
@@ -32,9 +35,13 @@ export default class StartNodeFlowExplorerEntryPoint extends withKeyboardInterac
     }
 
     get entryPointLabel() {
-        const item = getEntitiesMenuData().find((menuItem) => menuItem.value === this.node.object);
-        const sObject = item ? item.displayText : this.node.object;
-        return format(LABELS.startNodeFlowExplorerEntryPointLabel, sObject);
+        if (this.node.object) {
+            const item = getEntitiesMenuData().find((menuItem) => menuItem.value === this.node.object);
+            const sObject = item ? item.displayText : this.node.object;
+            this._explorerUrl = explorerUrlWithObj;
+            return format(LABELS.startNodeExplorerWithObjectLabel, sObject);
+        }
+        return LABELS.startNodeExplorerWithoutObjectLabel;
     }
 
     handleClick = (event?: Event) => {
@@ -42,7 +49,7 @@ export default class StartNodeFlowExplorerEntryPoint extends withKeyboardInterac
             event.stopPropagation();
         }
 
-        window.open(format(explorerUrl, this.getDurableId(), this.node.recordTriggerType), '_blank');
+        window.open(format(this._explorerUrl, this.getDurableId(), this.node.recordTriggerType), '_blank');
     };
 
     /**
