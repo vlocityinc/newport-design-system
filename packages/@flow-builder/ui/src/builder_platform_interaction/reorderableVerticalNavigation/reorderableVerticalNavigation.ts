@@ -1,16 +1,26 @@
-// @ts-nocheck
-import { LightningElement, api } from 'lwc';
-import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+import { LightningElement, api, track } from 'lwc';
+import { commands, keyboardInteractionUtils, lwcUtils, Keys } from 'builder_platform_interaction/sharedUtils';
 import { ReorderListEvent, ListItemInteractionEvent } from 'builder_platform_interaction/events';
+import ReorderableVerticalNavigationItem from 'builder_platform_interaction/reorderableVerticalNavigationItem';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { Guid } from 'builder_platform_interaction/autoLayoutCanvas';
 import { LABELS } from './reorderableVerticalNavigationLabels';
+
+const { format } = commonUtils;
 const { ArrowDown, ArrowUp, SpaceCommand, EnterCommand } = commands;
-const { KeyboardInteractions, createShortcut, Keys } = keyboardInteractionUtils;
+const { BaseKeyboardInteraction, withKeyboardInteractions, createShortcut } = keyboardInteractionUtils;
 
 const selectors = {
     listSection: '.navigation-content',
-    listItem: 'builder_platform_interaction-reorderable-vertical-navigation-item'
+    listItems: 'builder_platform_interaction-reorderable-vertical-navigation-item'
 };
+
+interface MenuItem {
+    element: UI.CanvasElement;
+    label: string;
+    isDraggable: boolean;
+    hasErrors: boolean;
+}
 
 /**
  * Component that provides a vertical list of elements, styled as vertical tabs,
@@ -22,40 +32,10 @@ const selectors = {
  *      label: "LabelString"
  * }
  */
-export default class ReorderableVerticalNavigation extends LightningElement {
+export default class ReorderableVerticalNavigation extends withKeyboardInteractions(LightningElement) {
     @api defaultLabel = '';
     @api hideFooter = false;
-
-    _keyboardInteraction;
-
-    @api
-    get keyboardInteractions() {
-        return this._keyboardInteraction;
-    }
-
-    set keyboardInteractions(newVal) {
-        this._keyboardInteraction = newVal;
-    }
-
-    /**
-     * @typedef MenuItem
-     * @type {Object}
-     * @property {Object} element
-     * @property {boolean} isDraggable
-     * @property {boolean} hasErrors
-     */
-
-    /**
-     * @type {MenuItem[]}
-     */
-    @api menuItems = [];
-
-    labels = LABELS;
-
-    constructor() {
-        super();
-        this._keyboardInteraction = new KeyboardInteractions();
-    }
+    @api menuItems: MenuItem[] = [];
 
     set activeItemId(selectedItem) {
         this._activeItemId = selectedItem;
@@ -65,11 +45,17 @@ export default class ReorderableVerticalNavigation extends LightningElement {
         return this._activeItemId;
     }
 
+    @track
+    ariaLiveText;
+
+    labels = LABELS;
+    dom = lwcUtils.createDomProxy(this, selectors);
+
     _hasRenderedOnce = false;
     _activeItemId;
     _focusedItemId;
     _grabbedItemId;
-    _indexToFocusPostReorder = null;
+    _indexToFocusPostReorder: number | null = null;
 
     get decoratedMenuItems() {
         return this.menuItems.map((menuItem) => {
@@ -81,6 +67,18 @@ export default class ReorderableVerticalNavigation extends LightningElement {
                 hasErrors
             };
         });
+    }
+
+    getKeyboardInteractions() {
+        // TODO: refactor to use ListInteraction for arrow keys
+        return [
+            new BaseKeyboardInteraction([
+                createShortcut(Keys.ArrowUp, new ArrowUp(() => this.handleArrowKeyDown(Keys.ArrowUp))),
+                createShortcut(Keys.ArrowDown, new ArrowDown(() => this.handleArrowKeyDown(Keys.ArrowDown))),
+                createShortcut(Keys.Enter, new EnterCommand(() => this.handleEnter())),
+                createShortcut(Keys.Space, new SpaceCommand(() => this.handleSpace()))
+            ])
+        ];
     }
 
     /**
@@ -123,7 +121,11 @@ export default class ReorderableVerticalNavigation extends LightningElement {
      * @param currentItemInFocus - Item that is currently in focus and being reordered
      * @param key - Arrow Down or Arrow Up key pressed
      */
-    reorderItems(items: HTMLElement[], currentItemInFocus: HTMLElement, key: Keys.ArrowDown | Keys.ArrowUp) {
+    reorderItems(
+        items: ReorderableVerticalNavigationItem[],
+        currentItemInFocus: ReorderableVerticalNavigationItem,
+        key: Keys.ArrowDown | Keys.ArrowUp
+    ) {
         const currentFocusIndex = items.indexOf(currentItemInFocus);
         const nextFocusIndex = key === Keys.ArrowDown ? currentFocusIndex + 1 : currentFocusIndex - 1;
         // Ensuring that we don't reorder the default outcome/pause event option
@@ -133,7 +135,36 @@ export default class ReorderableVerticalNavigation extends LightningElement {
             const reorderListEvent = new ReorderListEvent(sourceId, targetId);
             this.dispatchEvent(reorderListEvent);
             this._indexToFocusPostReorder = nextFocusIndex;
+
+            const itemLabel = this.menuItems[currentFocusIndex].label;
+            this.ariaLiveText = this.getAriaReorderText(
+                this.labels.ariaLiveItemReorder,
+                items,
+                nextFocusIndex,
+                itemLabel
+            );
         }
+    }
+
+    /**
+     * Returns the info needed for the aria live message
+     *
+     * @param label - The label
+     * @param items - The items
+     * @param itemIndex - The current index of an item
+     * @param itemLabel - The label of an item
+     * @returns The aria reorder text
+     */
+    getAriaReorderText(
+        label: string,
+        items: ReorderableVerticalNavigationItem[],
+        itemIndex: number,
+        itemLabel: string
+    ) {
+        const itemsCount = items.length;
+        const itemPosition = itemIndex + 1;
+
+        return format(label, itemsCount, itemPosition, itemLabel);
     }
 
     /**
@@ -144,8 +175,8 @@ export default class ReorderableVerticalNavigation extends LightningElement {
      * @param key - Arrow Down or Arrow Up key pressed
      */
     moveFocusInListOnArrowKeyDown(
-        items: HTMLElement[],
-        currentItemInFocus: HTMLElement,
+        items: ReorderableVerticalNavigationItem[],
+        currentItemInFocus: ReorderableVerticalNavigationItem,
         key: Keys.ArrowDown | Keys.ArrowUp
     ) {
         const currentFocusIndex = items.indexOf(currentItemInFocus);
@@ -170,7 +201,8 @@ export default class ReorderableVerticalNavigation extends LightningElement {
      */
     handleArrowKeyDown(key: Keys.ArrowDown | Keys.ArrowUp) {
         const currentItemInFocus = this.template.activeElement;
-        const items = Array.from(this.template.querySelectorAll(selectors.listItem)) as HTMLElement[];
+        const items = this.getItems();
+
         // Reordering items if any row has been grabbed else moving focus up/down the list
         if (this._grabbedItemId) {
             this.reorderItems(items, currentItemInFocus, key);
@@ -196,14 +228,26 @@ export default class ReorderableVerticalNavigation extends LightningElement {
         this._focusedItemId = currentItemInFocus.navItemId;
         currentItemInFocus.focus();
 
-        const items = Array.from(this.template.querySelectorAll(selectors.listItem)) as HTMLElement[];
+        const items = this.getItems();
         const currentFocusIndex = items.indexOf(currentItemInFocus);
+
+        const itemLabel = this.menuItems[currentFocusIndex].label;
+        let ariaLiveLabel;
+
         if (this._grabbedItemId) {
             this._grabbedItemId = null;
+            ariaLiveLabel = this.labels.ariaLiveItemUnGrabbed;
         } else if (currentFocusIndex !== items.length - 1 && this.hasAnyDraggableItem()) {
             // Only grabbing the item if it can be reordered
             this._grabbedItemId = this._focusedItemId;
+            ariaLiveLabel = this.labels.ariaLiveItemGrabbed;
         }
+
+        this.ariaLiveText = this.getAriaReorderText(ariaLiveLabel, items, currentFocusIndex, itemLabel);
+    }
+
+    getItems() {
+        return this.dom.as<ReorderableVerticalNavigationItem>().all.listItems;
     }
 
     /**
@@ -214,35 +258,12 @@ export default class ReorderableVerticalNavigation extends LightningElement {
         this.selectItem(currentItemInFocus.navItemId);
     }
 
-    setupCommandsAndShortcuts() {
-        this.keyboardInteractions.registerShortcuts([
-            createShortcut(Keys.ArrowDown, new ArrowDown(() => this.handleArrowKeyDown(Keys.ArrowDown))),
-            createShortcut(Keys.ArrowUp, new ArrowUp(() => this.handleArrowKeyDown(Keys.ArrowUp))),
-            createShortcut(Keys.Space, new SpaceCommand(() => this.handleSpace())),
-            createShortcut(Keys.Enter, new EnterCommand(() => this.handleEnter()))
-        ]);
-    }
-
-    connectedCallback() {
-        this.setupCommandsAndShortcuts();
-    }
-
     renderedCallback() {
-        if (!this._hasRenderedOnce) {
-            // Attaches the keydown listener to just the list section area
-            this.keyboardInteractions.addKeyDownEventListener(this.template.querySelector(selectors.listSection));
-            this._hasRenderedOnce = true;
-        }
-
         // Moving focus to the right item (the one being reordered) after reordering is done
         if (this._indexToFocusPostReorder != null) {
-            const items = Array.from(this.template.querySelectorAll(selectors.listItem)) as HTMLElement[];
+            const items = this.getItems();
             items[this._indexToFocusPostReorder].focus();
             this._indexToFocusPostReorder = null;
         }
-    }
-
-    disconnectedCallback() {
-        this.keyboardInteractions.removeKeyDownEventListener(this.template.querySelector(selectors.listSection));
     }
 }

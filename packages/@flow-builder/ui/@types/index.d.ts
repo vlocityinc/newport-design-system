@@ -91,3 +91,5 @@ type ScreenPaletteSection = {
 };
 
 type RuleSet = Record<string, any>;
+
+type Labels<T> = Record<keyof T, string>;

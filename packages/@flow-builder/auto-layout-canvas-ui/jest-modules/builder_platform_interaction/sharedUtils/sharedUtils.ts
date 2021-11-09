@@ -11,4 +11,6 @@ keyboardInteractionUtils = { ...keyboardInteractionUtils, ...mockKeyboardInterac
 
 const { loggingUtils, storeUtils, commonUtils } = sharedUtils;
 
-export { loggingUtils, keyboardInteractionUtils, commands, storeUtils, commonUtils, lwcUtils, auraUtils };
+const Keys = keyboardInteractionUtils.Keys;
+
+export { loggingUtils, keyboardInteractionUtils, commands, storeUtils, commonUtils, lwcUtils, auraUtils, Keys };
