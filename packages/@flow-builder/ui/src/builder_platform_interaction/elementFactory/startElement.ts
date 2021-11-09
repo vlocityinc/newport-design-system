@@ -90,7 +90,7 @@ export function findStartYOffset(startElement: UI.Start): number {
  */
 export function shouldSupportScheduledPaths(
     startElement: UI.Start | Metadata.Start,
-    processType?: string | null | undefined
+    processType?: string | null
 ): boolean {
     // A cleaner way to perform this check is to update process type utils method
     // to use the feature-processType check.
@@ -112,9 +112,10 @@ export function shouldSupportScheduledPaths(
  * Creates a start element object
  *
  * @param {Object} startElement start element object used to construct the new object
+ * @param processType
  * @returns {Object} startElement the new start element object
  */
-export function createStartElement(startElement: UI.Start | Metadata.Start) {
+export function createStartElement(startElement: UI.Start | Metadata.Start, processType?: string | null) {
     const newStartElement: UI.Start = <UI.Start>baseCanvasElement(startElement);
     const {
         locationX = START_ELEMENT_LOCATION.x,
@@ -200,7 +201,7 @@ export function createStartElement(startElement: UI.Start | Metadata.Start) {
         availableConnections: (<UI.Start>startElement).availableConnections || [{ type: CONNECTOR_TYPE.REGULAR }]
     });
 
-    newStartElement.shouldSupportScheduledPaths = shouldSupportScheduledPaths(newStartElement);
+    newStartElement.shouldSupportScheduledPaths = shouldSupportScheduledPaths(newStartElement, processType);
 
     return newStartElement;
 }
@@ -252,11 +253,11 @@ export function createStartElementWithConnectors(
     startElementReference,
     processType: string | null | undefined
 ) {
-    const newStartElement = createStartElement(startElement);
+    const newStartElement = createStartElement(startElement, processType);
 
     let connectorCount, connectors;
     let availableConnections: UI.AvailableConnection[] = [];
-    if (!shouldSupportScheduledPaths(newStartElement, processType)) {
+    if (!newStartElement.shouldSupportScheduledPaths) {
         // Creates a REGULAR connector or pushes one into the availableConnections if needed
         connectors = startElementReference
             ? createStartElementConnector(newStartElement.guid, startElementReference)

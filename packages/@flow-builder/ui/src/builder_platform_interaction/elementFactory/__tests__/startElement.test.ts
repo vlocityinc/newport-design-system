@@ -20,7 +20,8 @@ import {
     TIME_OPTION,
     SCHEDULED_PATH_TIME_SOURCE_TYPE,
     SCHEDULED_PATH_OFFSET_UNIT,
-    SCHEDULED_PATH_TYPE
+    SCHEDULED_PATH_TYPE,
+    FLOW_PROCESS_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseChildElement, baseCanvasElement } from '../base/baseElement';
@@ -248,6 +249,24 @@ describe('Start element', () => {
             expectedResult.recordTriggerType = 'Create';
             expectedResult.filterLogic = 'no_conditions';
             expect(actualResult).toMatchObject(expectedResult);
+        });
+
+        it('with triggerType RecordBeforeSave and processType Orchestration', () => {
+            const orchestratorStartMetadata = {
+                elementType: 'START_ELEMENT',
+                object: 'Account',
+                triggerType: FLOW_TRIGGER_TYPE.AFTER_SAVE
+            };
+            getProcessType.mockReturnValueOnce(null);
+            expect.assertions(1);
+            const actualResult = createStartElement(orchestratorStartMetadata, FLOW_PROCESS_TYPE.ORCHESTRATOR);
+            expectedResult.triggerType = FLOW_TRIGGER_TYPE.AFTER_SAVE;
+            expectedResult.recordTriggerType = 'Create';
+            expectedResult.filterLogic = 'no_conditions';
+            expectedResult.object = 'Account';
+            expectedResult.shouldSupportScheduledPaths = false;
+            expect(actualResult).toMatchObject(expectedResult);
+            delete expectedResult.object;
         });
 
         it('with triggerType RecordBeforeDelete', () => {
