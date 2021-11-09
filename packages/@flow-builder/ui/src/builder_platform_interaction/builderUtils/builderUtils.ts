@@ -707,7 +707,7 @@ export const invokeNewFlowModal = (
         panelBody.set('v.footer', modalFooter);
     };
 
-    invokeModalWithComponents(
+    return invokeModalWithComponents(
         {
             bodyClass: 'slds-p-around_none slds-is-relative slds-scrollable_none',
             flavor: MODAL_SIZE.LARGE,

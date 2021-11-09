@@ -65,6 +65,7 @@ import {
     modalBodyVariant
 } from 'builder_platform_interaction/sharedUtils';
 import { LABELS } from './alcCanvasLabels';
+import { time } from 'instrumentation/service';
 
 // alloted time between click events in ms, where two clicks are interpreted as a double click
 const DOUBLE_CLICK_THRESHOLD = 250;
@@ -102,7 +103,14 @@ const { ZoomInCommand, ZoomOutCommand, ZoomToFitCommand, ZoomToViewCommand } = c
 
 const { KeyboardInteractions } = keyboardInteractionUtils;
 
-const { logPerfTransactionEnd, logPerfTransactionStart, logInteraction, AUTOLAYOUT_CANVAS } = loggingUtils;
+const {
+    logPerfTransactionEnd,
+    logPerfTransactionStart,
+    logInteraction,
+    initMetricsTracker,
+    writeMetrics,
+    AUTOLAYOUT_CANVAS
+} = loggingUtils;
 
 const AUTOLAYOUT_CANVAS_SELECTION = 'AUTOLAYOUT_CANVAS_SELECTION';
 
@@ -205,10 +213,15 @@ export default class AlcCanvas extends LightningElement {
     @track
     initialStartMenuDisplayed = false;
 
+    isFirstTimeCalled = true;
+    loadAlcCanvasStartTime;
+
     constructor() {
         super();
         this._keyboardInteraction = new KeyboardInteractions();
         logPerfTransactionStart(AUTOLAYOUT_CANVAS, null, null);
+        this.loadAlcCanvasStartTime = time();
+        initMetricsTracker();
     }
 
     // stash the last clicked element guid until the DOUBLE_CLICK_THRESHOLD is exceeded
@@ -463,70 +476,81 @@ export default class AlcCanvas extends LightningElement {
         );
     }
 
+    // TODO: W-10146473 [Trust] use decorator to reduce duplicate code for logging
     renderedCallback() {
-        this.menuOpacityClass = this.menu != null ? FULL_OPACITY_CLASS : '';
+        let hasLoadAlcCanvasError = false;
+        try {
+            this.menuOpacityClass = this.menu != null ? FULL_OPACITY_CLASS : '';
 
-        if (this._canvasElement == null) {
-            this._canvasElement = this.template.querySelector(selectors.canvasClass);
-            this.updateFlowRenderContext();
-        }
+            if (this._canvasElement == null) {
+                this._canvasElement = this.template.querySelector(selectors.canvasClass);
+                this.updateFlowRenderContext();
+            }
 
-        if (!this._flowContainerElement) {
-            const flowContainerElement = this.template.querySelector(selectors.flowContainerClass);
-            if (flowContainerElement != null) {
-                this._flowContainerElement = flowContainerElement;
-                this.initializePanzoom();
+            if (!this._flowContainerElement) {
+                const flowContainerElement = this.template.querySelector(selectors.flowContainerClass);
+                if (flowContainerElement != null) {
+                    this._flowContainerElement = flowContainerElement;
+                    this.initializePanzoom();
 
-                // open the start element menu on load
-                const startElementGuid = this.getStartElementGuid();
-                const startElement = this.flowModel[startElementGuid];
-                const containerGeometry = this.getDomElementGeometry(this._flowContainerElement);
+                    // open the start element menu on load
+                    const startElementGuid = this.getStartElementGuid();
+                    const startElement = this.flowModel[startElementGuid];
+                    const containerGeometry = this.getDomElementGeometry(this._flowContainerElement);
 
-                const interactionState = {
-                    ...this._flowRenderContext.interactionState,
-                    menuInfo: { key: startElementGuid, type: MenuType.NODE, needToPosition: false },
-                    deletionPathInfo: null
-                };
+                    const interactionState = {
+                        ...this._flowRenderContext.interactionState,
+                        menuInfo: { key: startElementGuid, type: MenuType.NODE, needToPosition: false },
+                        deletionPathInfo: null
+                    };
 
-                // TODO: W-9613981 [Trust] Remove hardcoded alccanvas offsets
-                const event = new ToggleMenuEvent({
-                    top: containerGeometry.y + MENU_ICON_SIZE,
-                    left: containerGeometry.x - MENU_ICON_SIZE / 2,
-                    offsetX: 0,
-                    height: 0,
-                    type: MenuType.NODE,
-                    source: { guid: startElementGuid },
-                    elementMetadata: this._flowRenderContext.elementsMetadata[startElement.elementType],
-                    moveFocusToMenu: true
-                });
+                    // TODO: W-9613981 [Trust] Remove hardcoded alccanvas offsets
+                    const event = new ToggleMenuEvent({
+                        top: containerGeometry.y + MENU_ICON_SIZE,
+                        left: containerGeometry.x - MENU_ICON_SIZE / 2,
+                        offsetX: 0,
+                        height: 0,
+                        type: MenuType.NODE,
+                        source: { guid: startElementGuid },
+                        elementMetadata: this._flowRenderContext.elementsMetadata[startElement.elementType],
+                        moveFocusToMenu: true
+                    });
 
-                this.openMenu(event, interactionState);
+                    this.openMenu(event, interactionState);
+                }
+            }
+
+            const menuElement = this.getOpenedMenu();
+
+            if (menuElement != null) {
+                const { w, h } = this.getDomElementGeometry(menuElement);
+
+                const interactionState = this._pendingInteractionState || this._flowRenderContext.interactionState;
+                const menuInfo = interactionState.menuInfo!;
+                const { geometry } = menuInfo;
+
+                this._pendingInteractionState = null;
+
+                if (geometry == null || geometry.h !== h) {
+                    this.updateFlowRenderContext({
+                        interactionState: {
+                            ...interactionState,
+                            menuInfo: { ...menuInfo, geometry: { w, h, x: 0, y: 0 } }
+                        }
+                    });
+                }
+            }
+        } catch (e) {
+            hasLoadAlcCanvasError = true;
+            throw e;
+        } finally {
+            if (this.isFirstTimeCalled) {
+                const numberOfElements = this.flowModel && Object.keys(this.flowModel).length;
+                logPerfTransactionEnd(AUTOLAYOUT_CANVAS, { numberOfElements }, null);
+                writeMetrics(AUTOLAYOUT_CANVAS, time() - this.loadAlcCanvasStartTime, hasLoadAlcCanvasError, {});
+                this.isFirstTimeCalled = false;
             }
         }
-
-        const menuElement = this.getOpenedMenu();
-
-        if (menuElement != null) {
-            const { w, h } = this.getDomElementGeometry(menuElement);
-
-            const interactionState = this._pendingInteractionState || this._flowRenderContext.interactionState;
-            const menuInfo = interactionState.menuInfo!;
-            const { geometry } = menuInfo;
-
-            this._pendingInteractionState = null;
-
-            if (geometry == null || geometry.h !== h) {
-                this.updateFlowRenderContext({
-                    interactionState: {
-                        ...interactionState,
-                        menuInfo: { ...menuInfo, geometry: { w, h, x: 0, y: 0 } }
-                    }
-                });
-            }
-        }
-
-        const numberOfElements = this.flowModel && Object.keys(this.flowModel).length;
-        logPerfTransactionEnd(AUTOLAYOUT_CANVAS, { numberOfElements }, null);
     }
 
     /**

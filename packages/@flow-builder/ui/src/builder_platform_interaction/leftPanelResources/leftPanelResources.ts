@@ -3,9 +3,13 @@ import { classSet } from 'lightning/utils';
 import { LABELS } from './leftPanelResourcesLabels';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { ShowResourceDetailsEvent } from 'builder_platform_interaction/events';
+import { time } from 'instrumentation/service';
 
-const { logPerfTransactionStart, logPerfTransactionEnd, LEFT_PANEL_RESOURCES } = loggingUtils;
+const { logPerfTransactionStart, logPerfTransactionEnd, initMetricsTracker, writeMetrics, LEFT_PANEL_RESOURCES } =
+    loggingUtils;
 export default class LeftPanelResources extends LightningElement {
+    loadLeftPanelStartTime;
+    isFirstTimeCalled = true;
     private elementToFocus: HTMLElement | undefined;
 
     @api
@@ -35,6 +39,8 @@ export default class LeftPanelResources extends LightningElement {
 
         // @ts-ignore
         logPerfTransactionStart(LEFT_PANEL_RESOURCES);
+        initMetricsTracker();
+        this.loadLeftPanelStartTime = time();
     }
     get labels() {
         return LABELS;
@@ -68,12 +74,17 @@ export default class LeftPanelResources extends LightningElement {
         this._nonCanvasElements = [...nonCanvasElements];
     }
 
+    // TODO: W-10146473 [Trust] use decorator to reduce duplicate code for logging
     renderedCallback() {
-        // @ts-ignore
-        logPerfTransactionEnd(LEFT_PANEL_RESOURCES, {
-            canvasElementsCount: this.canvasElements.length,
-            nonCanvasElementsCount: this.nonCanvasElements.length
-        });
+        if (this.isFirstTimeCalled) {
+            // @ts-ignore
+            logPerfTransactionEnd(LEFT_PANEL_RESOURCES, {
+                canvasElementsCount: this.canvasElements.length,
+                nonCanvasElementsCount: this.nonCanvasElements.length
+            });
+            writeMetrics(LEFT_PANEL_RESOURCES, time() - this.loadLeftPanelStartTime, false, {});
+            this.isFirstTimeCalled = false;
+        }
     }
 
     handleNonCanvasElementChevronClicked(event) {

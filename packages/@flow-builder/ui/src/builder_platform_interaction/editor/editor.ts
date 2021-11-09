@@ -337,6 +337,8 @@ export default class Editor extends LightningElement {
     recordTriggerType;
     guardrailsEngine;
 
+    loadFlowBuilderStartTime;
+
     /**
      * The active element refers to the element currently being edited using the property editor panel
      */
@@ -553,6 +555,7 @@ export default class Editor extends LightningElement {
         // Setting the app name to differentiate between FLOW_BUILDER or STRATEGY_BUILDER
         setAppName(APP_NAME);
         logPerfTransactionStart(EDITOR);
+        this.loadFlowBuilderStartTime = time();
         const blacklistedActionsForUndoRedoLib = [
             INIT,
             UPDATE_APEX_CLASSES,
@@ -570,26 +573,30 @@ export default class Editor extends LightningElement {
             DESELECT_ON_CANVAS, // is dispatched when user clicks on the blank space in canvas.
             MARQUEE_SELECT_ON_CANVAS // is dispatched when the user is marquee selecting on the canvas.
         ];
+        try {
+            this.guardrailsEngine = new FlowGuardrailsExecutor();
 
-        this.guardrailsEngine = new FlowGuardrailsExecutor();
+            // generate a guid as flow definitionId so that the definitionId of a newly created and
+            // unsaved flow won't be undefined and can be logged using loglines
+            this.flowInitDefinitionId = generateGuid();
 
-        // generate a guid as flow definitionId so that the definitionId of a newly created and
-        // unsaved flow won't be undefined and can be logged using loglines
-        this.flowInitDefinitionId = generateGuid();
-
-        // Initializing store
-        storeInstance = Store.getStore(
-            undoRedo(reducer, {
-                blacklistedActions: blacklistedActionsForUndoRedoLib,
-                groupedActions
-            })
-        );
-        unsubscribeStore = storeInstance.subscribe(this.mapAppStateToStore);
-        fetchOnce(SERVER_ACTION_TYPE.GET_HEADER_URLS).then((data) => this.getHeaderUrlsCallBack(data));
-        this.keyboardInteractions = new KeyboardInteractions();
-        initializeLoader(storeInstance);
-        // W-7708069. Need to load references in Flow once we get all apex types.
-        loadOnStart().then(() => this.loadReferencesInFlow());
+            // Initializing store
+            storeInstance = Store.getStore(
+                undoRedo(reducer, {
+                    blacklistedActions: blacklistedActionsForUndoRedoLib,
+                    groupedActions
+                })
+            );
+            unsubscribeStore = storeInstance.subscribe(this.mapAppStateToStore);
+            fetchOnce(SERVER_ACTION_TYPE.GET_HEADER_URLS).then((data) => this.getHeaderUrlsCallBack(data));
+            this.keyboardInteractions = new KeyboardInteractions();
+            initializeLoader(storeInstance);
+            // W-7708069. Need to load references in Flow once we get all apex types.
+            loadOnStart().then(() => this.loadReferencesInFlow());
+        } catch (e) {
+            writeMetrics(EDITOR, time() - this.loadFlowBuilderStartTime, true, { logLocation: 'constructor' });
+            throw e;
+        }
     }
 
     @api
@@ -948,33 +955,37 @@ export default class Editor extends LightningElement {
             this.spinners.showFlowMetadataSpinner = false;
             this.isFlowServerCallInProgress = false;
             this.flowRetrieveError = error;
+            writeMetrics(EDITOR, time() - this.loadFlowBuilderStartTime, true, { logLocation: 'getFlowCallback' });
         } else {
-            this.flowRetrieveError = null;
-            // We need to load the parameters first, so as having some information needed at the factory level (e.g. for Action with anonymous output we need parameter related information see actionCall#createActionCall)
-            // Also needed to load entity/eventType for the start element on canvas.
-            this.preloadRequiredDatafromFlowMetadata(data).then(() => {
-                storeInstance.dispatch(updateFlow(translateFlowToUIModel(data)));
+            try {
+                this.flowRetrieveError = null;
+                // We need to load the parameters first, so as having some information needed at the factory level (e.g. for Action with anonymous output we need parameter related information see actionCall#createActionCall)
+                // Also needed to load entity/eventType for the start element on canvas.
+                this.preloadRequiredDatafromFlowMetadata(data).then(() => {
+                    storeInstance.dispatch(updateFlow(translateFlowToUIModel(data)));
 
-                if (this.properties.isAutoLayoutCanvas) {
-                    if (this.canConvertToAutoLayoutCheck(true)) {
-                        this.updateCanvasMode(this.properties.isAutoLayoutCanvas);
-                    } else {
-                        // @W-8249637: fallback to free form if we can't convert to auto-layout
-                        storeInstance.dispatch(updateIsAutoLayoutCanvasProperty(false));
+                    if (this.properties.isAutoLayoutCanvas) {
+                        if (this.canConvertToAutoLayoutCheck(true)) {
+                            this.updateCanvasMode(this.properties.isAutoLayoutCanvas);
+                        } else {
+                            // @W-8249637: fallback to free form if we can't convert to auto-layout
+                            storeInstance.dispatch(updateIsAutoLayoutCanvasProperty(false));
+                        }
                     }
-                }
-
-                if (!data.metadata) {
-                    // service does not return the api name but the api name lower cased
-
-                    this._resetFlowPropertiesWhenCreatedFromTemplate();
-                }
-                this.setOriginalFlowValues();
-                this.cacheSObjectsInComboboxShape();
-                this.loadFieldsForComplexTypesInFlow();
-                this.loadReferencesInFlow();
-                this.isFlowServerCallInProgress = false;
-            });
+                    if (!data.metadata) {
+                        // service does not return the api name but the api name lower cased
+                        this._resetFlowPropertiesWhenCreatedFromTemplate();
+                    }
+                    this.setOriginalFlowValues();
+                    this.cacheSObjectsInComboboxShape();
+                    this.loadFieldsForComplexTypesInFlow();
+                    this.loadReferencesInFlow();
+                    this.isFlowServerCallInProgress = false;
+                });
+            } catch (e) {
+                writeMetrics(EDITOR, time() - this.loadFlowBuilderStartTime, true, { logLocation: 'getFlowCallback' });
+                throw e;
+            }
         }
         if (data && data.metadata) {
             this.canRunDebugWithVAD = canRunDebugWith(data.metadata.runInMode, data.metadata.status);
@@ -2709,18 +2720,29 @@ export default class Editor extends LightningElement {
         );
     };
 
+    // TODO: W-10146473 [Trust] use decorator to reduce duplicate code for logging
     renderedCallback() {
         // Show New Flow modal.
         // Hiding (!this.showNewFlowDialog && this.newFlowModalActive) is done in
         // the modal callbacks since the editor does not hold a reference to the modal.
         if (this.showNewFlowDialog && !this.newFlowModalActive) {
             this.newFlowModalActive = true;
+            let hasError = false;
             invokeNewFlowModal(
                 this.builderType,
                 (this.builderConfig && this.builderConfig.newFlowConfig) || undefined,
                 this.closeFlowModalCallback,
                 this.createFlowFromTemplateCallback
-            );
+            )
+                .catch((e) => {
+                    hasError = true;
+                    throw e;
+                })
+                .finally(() => {
+                    writeMetrics(EDITOR, time() - this.loadFlowBuilderStartTime, hasError, {
+                        logLocation: 'newFlowRenderedCallback'
+                    });
+                });
         }
 
         // Create a default flow.
@@ -2740,7 +2762,9 @@ export default class Editor extends LightningElement {
                 numOfNodes: currentState.canvasElements.length,
                 numOfConnectors: currentState.connectors.length
             });
-
+            writeMetrics(EDITOR, time() - this.loadFlowBuilderStartTime, false, {
+                logLocation: 'existingFlowRenderedCallback'
+            });
             if (this.flowId) {
                 this.saveAndPendingOperationStatus = FLOW_STATUS.SAVED;
                 this.hasNotBeenSaved = false;

@@ -2,6 +2,7 @@ import { createElement } from 'lwc';
 import LeftPanelResources from '../leftPanelResources';
 import { MOCK_ELEMENT_PALETTE_ITEM, MOCK_RESOURCE_PALETTE_ITEM } from 'mock/paletteData';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 
 const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-left-panel-resources', {
@@ -11,6 +12,20 @@ const createComponentUnderTest = (props) => {
     setDocumentBodyChildren(el);
     return el;
 };
+const { writeMetrics, LEFT_PANEL_RESOURCES } = loggingUtils;
+
+jest.mock('builder_platform_interaction/sharedUtils', () => {
+    const mockSharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
+    return Object.assign({}, mockSharedUtils, {
+        loggingUtils: {
+            writeMetrics: jest.fn(),
+            logPerfTransactionStart: jest.fn(),
+            logPerfTransactionEnd: jest.fn(),
+            initMetricsTracker: jest.fn()
+        }
+    });
+});
+
 const SELECTORS = {
     HEADER: 'h3'
 };
@@ -38,6 +53,14 @@ describe('left-panel-resources', () => {
             expect(resourceHeader.classList).toContain('slds-p-bottom_small');
             expect(elementsHeader).not.toBeNull();
             expect(elementsHeader.classList).toContain('slds-p-vertical_small');
+        });
+    });
+
+    describe('SLI logging', () => {
+        it('sends SLI logging with error equals to false when there is no error', () => {
+            const leftPanelResourcesComponent = createComponentUnderTest({});
+
+            expect(writeMetrics).toBeCalledWith(LEFT_PANEL_RESOURCES, 0, false, {});
         });
     });
 });

@@ -31,7 +31,7 @@ jest.mock('builder_platform_interaction/sharedUtils', () => {
     const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
 
     return Object.assign({}, sharedUtils, {
-        invokeModalWithComponents: jest.fn(),
+        invokeModalWithComponents: jest.fn(() => Promise.resolve({ data: {} })),
         invokeModal: jest.fn()
     });
 });

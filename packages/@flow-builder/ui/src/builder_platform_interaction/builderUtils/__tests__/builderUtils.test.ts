@@ -401,7 +401,7 @@ describe('builderUtils', () => {
 
     describe('invokeNewFlowModal', () => {
         it('calls createComponent and dispatchGlobalEvent w/ expected parameters when given standard parameters', async () => {
-            invokeNewFlowModal(
+            await invokeNewFlowModal(
                 ELEMENT_TYPE.SCREEN_FIELD,
                 {
                     showRecommended: true,
