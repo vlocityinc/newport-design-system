@@ -18,4 +18,5 @@ builder_platform_interaction-right-panel {
     top: 0;
     bottom: 0;
     max-width: calc(100% - 20rem);
+    z-index: 501;
 }
