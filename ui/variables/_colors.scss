@@ -1,3 +1,13 @@
+//Mundial main colors
+$mundial-blue-main: #0A99D6;
+$mundial-white-main: #FFFFFF;
+
+//Mundial secondary colors
+$mundial-blue-secondary: #153A4F;
+$mundial-yellow-secondary: #EFB718;
+
+
+
 $aluminium-blue: hsl(210, 25%, 48%);
 $athens-blue: hsl(210, 42.36%, 96.53%);
 $athens-gray: #fafafb;
@@ -97,9 +107,16 @@ $newport-background-primary-blue-corn: #6195ed;
 $newport-background-primary-blue: #1564bf;
 $newport-background-wildsand: #f5f5f5;
 $newport-black-primary: #000;
-$newport-blue-font-color: #006ed5;
-$newport-blue-text-primary: #0070d2;
-$newport-blue-text-secondary: #16325c;
+
+// Modified to add mundial p¡rimary blue
+// $newport-blue-font-color: #006ed5;
+// $newport-blue-text-primary: #0070d2;
+$newport-blue-font-color: #0A99D6;
+$newport-blue-text-primary: #0A99D6;
+
+//$newport-blue-text-secondary: #16325c;
+$newport-blue-text-secondary: #153A4F;
+
 $newport-border-botticelli: #cfd7e6;
 $newport-border-gray: #dddbda;
 $newport-card-background-light-blue: #f8fbfe;
@@ -129,6 +146,7 @@ $newport-input-icon-blue-hue: #54698d;
 $newport-palette-cool-gray-5: #d9dbdd;
 $newport-text-highlight: #061c3f;
 $newport-border-box-shadow: rgba(221, 219, 218, 0.7);
+
 $nobel: #9a9a9a;
 $oxford-blue: #333e4f;
 $pale-royal-blue: #f0f1f2;
@@ -236,9 +254,10 @@ $white-transparent-75: rgba(255, 255, 255, 0.75);
 $white-transparent-80: rgba(255, 255, 255, 0.80);
 $white-transparent-90: rgba(255, 255, 255, 0.90);
 $white-transparent-97: rgba(255, 255, 255, 0.97);
-$white: #fff;
+$white: #FFFFFF;
 $white-smoke: #F6F6F6;
 $zodiac-blue: hsl(210, 53.85%, 19.5%);
 $disable-gray: #a7a7a7;
 $neon-carrot: #F89940;
 $dodger-blue: #006AFF;
+

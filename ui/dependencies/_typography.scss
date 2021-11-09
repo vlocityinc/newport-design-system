@@ -12,7 +12,8 @@
   $font-path: '#{$static-font-path}/Lato-#{$font-face-setting}';
 
   @font-face {
-    font-family: 'Lato';
+    //font-family: 'Lato'; replaced by mundial main Font
+    font-family: 'Ubuntu';
 
     src: url('#{$font-path}.woff2') format('woff2'),
       url('#{$font-path}.woff') format('woff');
