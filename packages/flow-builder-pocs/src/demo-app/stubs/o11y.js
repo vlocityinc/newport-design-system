@@ -1,10 +1,12 @@
-export const getInstrumentation = {
-    metricsForLoad: {
-        trackValue: () => {},
-        incrementCounter: () => {}
-    },
-    metricsForCanvas: {
-        trackValue: () => {},
-        incrementCounter: () => {}
-    }
+export const getInstrumentation = (name) => {
+    return {
+        metricsForLoad: {
+            trackValue: () => {},
+            incrementCounter: () => {}
+        },
+        metricsForCanvas: {
+            trackValue: () => {},
+            incrementCounter: () => {}
+        }
+    };
 };

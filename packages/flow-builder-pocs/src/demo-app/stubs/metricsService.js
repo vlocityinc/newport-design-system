@@ -12,4 +12,6 @@ function mark() {}
 
 function interaction() {}
 
-export { error, perfStart, perfEnd, markStart, markEnd, mark, interaction };
+function time() {}
+
+export { error, perfStart, perfEnd, markStart, markEnd, mark, interaction, time };

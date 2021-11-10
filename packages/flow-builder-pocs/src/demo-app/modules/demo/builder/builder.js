@@ -388,13 +388,10 @@ function translateEventToAction(event) {
                 }
             }
 
-            if (element.screen) {
-                element.screen.label = element.screen.guid;
-            } else if (element.canvasElement) {
-                element.canvasElement.label = element.canvasElement.guid;
-            } else {
-                element.label = element.guid;
-            }
+            const node = element.screen || element.canvasElement || element;
+            node.label = node.guid;
+            node.name = node.label;
+
             return element;
         case DeleteElementEvent.EVENT_NAME:
             return {
