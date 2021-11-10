@@ -6,11 +6,60 @@ This article explains the main steps taken to rebrand Newport into the "Salesfor
 
 ## What are we aiming for?
 
-Our first goal is to change the background to sky imagery, our floating, animated version of Astro and then modify the fonts and text to match the below screenshot.
+Here's a short video of what we want to achieve. As you can see there's animated Astro's and hot air balloons, lots of imagery, different styled buttons, a form that has customized inputs, each step has a different background too.
 
-![](./docs/preview-os-zen-garden.png)
+![Animated overview of our Zen Garden goal](./docs/zen-garden-goal.gif)
 
-So let's get started!
+In addition it needs to be responsive too:
+
+![Animated demo of the responsive Zen Garden](./docs/zen-garden-responsive.gif)
+
+There's a sample OmniScript in the Zen Garden project branch for you to import which we'll walk through in a minute but here's a short video of our starting point:
+
+![The unstyles OmniScript we'll use](./docs/raw-zen-garden.gif)
+
+As you can see we're starting with a very blank canvas so let's get started!
+
+## Checking out the code
+
+The code for the zen garden is available in a branch called `#css-zengarden-1`. Let's check it out of git first:
+
+```
+git checkout css-zengarden-1
+```
+
+Now you'll have all the files used to create this theme. In the root of this project you'll find what we call a DataPack in a file called `OSZenGarden.json`. This contains the definition for the OmniScript we saw above that we'll be theming. Let's import it into your Salesforce org.
+
+Go to the OmniStudio application in Lightning and choose "OmniScripts". On the home page click "Import" and either drag/drop the `OSZenGarden.json` file on to the screen or click the "Browse" button and select it from file chooser. Click the "Next" button until you get all the way to end of the flow. After the modal closes and the table reloads, find the OmniScript with the type "Newport", sub type "ZenGarden" and language "English". Expand the row and click the "OSZenGarden" name underneath to open it in the designer.
+
+![Finding the import button in OS Home page](./docs/os-import.png)
+
+Now you can explore the OmniScript structure. We will do most of our theming work in the "Preview" tab. Click that in the header, then change the Theme to be "Newport Storybook" (you'll need to be on the Winter '21 release to see this feature.).
+
+Now switch back to Newport project in your terminal and run the standard `npm start` command. This will kick off the compile and our OmniStudio Preview will update with the whole theme!
+
+Let's talk through the changes that were made to achieve this.
+## Hiding the step chart
+
+We recommend creating a new `scss` file to help manage the structure of the code, so we created a new file in `ui/components/omniscript/base` called `_header.scss` and added the following line into the top of `ui/components/omniscript/base/_index.scss`:
+
+```css
+@import "header";
+```
+
+In our designs we want to completely hide the step chart. This can be done on a per OmniScript basis inside the OmniStudio designer, but in our case we never want to be shown so let's hide it in our css:
+
+```css
+[data-omni-key="omniscriptStepChart"] {
+  display: none;
+}
+```
+
+The `data-omni-key` attribute we'll be using a lot more of shortly. This looks for the step chart element and set's it to be completely hidden in the DOM.
+
+## Starting with fonts and colors
+
+Next we customized
 
 ## Changing the background of the OmniScript
 
@@ -20,11 +69,7 @@ In a lot of situations the challenge is finding the right hooks and css selctors
 .via-nds .omniscript-article
 ```
 
-I'm going to suggest we create some new `scss` files to help manage the structure of the code, so create a new file in `ui/components/omniscript/base` called `_header.scss` and add the following line into the top of `ui/components/omniscript/base/_index.scss`:
 
-```css
-@import "header";
-```
 
 Let's first provide a linear gradient that will go from blue sky to green ground and finally to white:
 
@@ -124,17 +169,7 @@ In addition we need to define the `float` animation which we'll add below in thi
 
 ### Hiding the step chart
 
-In our designs we want to completely hide the step chart. This can be done on a per OmniScript basis inside the OmniStudio designer, but in our case we never want to be shown so let's hide it in our css:
 
-```css
-[data-omni-key="omniscriptStepChart"] {
-  display: none;
-}
-```
-
-The `data-omni-key` attribute we'll be using a lot more of shortly. This looks for the step chart element and set's it to be completely hidden in the DOM.
-
-And with that we've completed our background imagery! Take a look at the completed file in `ui/components/omniscript/base/_header.scss`
 
 ## Changing the font's and text
 
