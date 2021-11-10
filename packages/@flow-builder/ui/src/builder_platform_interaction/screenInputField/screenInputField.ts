@@ -49,6 +49,8 @@ export default class ScreenInputField extends LightningElement {
             this.type = LIGHTNING_INPUT_TYPES.CHECKBOX;
         } else if (newValue === ScreenFieldName.Password) {
             this.type = LIGHTNING_INPUT_TYPES.PASSWORD;
+        } else if (newValue === ScreenFieldName.DropdownBox) {
+            this.type = LIGHTNING_INPUT_TYPES.DROPDOWNBOX;
         } else {
             throw new Error('Unknown typeName: ' + newValue);
         }

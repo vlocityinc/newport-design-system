@@ -63,6 +63,15 @@
                 tabindex="-1"
             >
             </builder_platform_interaction-screen-choice-field>
+            <!-- No preview for 236 for automatic field of pickList type -->
+            <builder_platform_interaction-screen-field-card
+                if:true={isAutomaticFieldPicklist}
+                icon={screenfield.type.icon}
+                title={displayName}
+                text={labels.fieldExtensionPreviewDescription}
+                tabindex="-1"
+            >
+            </builder_platform_interaction-screen-field-card>
         </div>
     </div>
 </template>

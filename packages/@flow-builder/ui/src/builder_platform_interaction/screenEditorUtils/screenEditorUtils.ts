@@ -12,7 +12,8 @@ export const LIGHTNING_INPUT_TYPES = {
     DATE: 'date',
     DATE_TIME: 'datetime-local',
     NUMBER: 'number',
-    PASSWORD: 'password'
+    PASSWORD: 'password',
+    DROPDOWNBOX: 'dropdownbox'
 };
 
 export const LIGHTNING_INPUT_VARIANTS = {

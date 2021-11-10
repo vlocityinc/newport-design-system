@@ -27,7 +27,7 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
     };
 
     objectManagerLink = '';
-    visibilityLogicComboboxLabel = automaticFieldLogicComboboxLabel;
+    visibilityLogicComboboxLabel: string = automaticFieldLogicComboboxLabel;
 
     set field(value) {
         this._field = value;
@@ -47,15 +47,15 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
         }).then((data) => this.setObjectManagerUrl(data));
     }
 
-    get helptext() {
+    get helptext(): string {
         return getValueFromHydratedItem(this.field.helpText);
     }
 
-    get entityFieldDataType() {
+    get entityFieldDataType(): string {
         return getValueFromHydratedItem(this.field.entityFieldDataType);
     }
 
-    get displayedFields() {
+    get displayedFields(): Array<{ key: string; label: string; value: string }> {
         return [
             {
                 key: 'autofield-object',
@@ -95,17 +95,17 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
         ];
     }
 
-    private get fieldName() {
+    private get fieldName(): string {
         const fieldNames = sanitizeGuid(this.field.objectFieldReference).fieldNames;
-        return fieldNames === undefined ? '' : fieldNames.pop();
+        return fieldNames === undefined ? '' : <string>fieldNames.pop();
     }
 
-    private get fieldLabel() {
+    private get fieldLabel(): string {
         return this.field.type.label;
     }
 
     private get dataType() {
-        let dataType: String;
+        let dataType: string;
         switch (this.getFieldTypeName()) {
             case ScreenFieldName.DateTime: {
                 dataType = this.labels.automaticFieldDataTypeDateTime;
@@ -135,7 +135,7 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
                 break;
             }
             case ScreenFieldName.Number: {
-                const precision = this.field.precision!;
+                const { precision } = this.field!;
                 if (precision === 0) {
                     // Specific case where the number is an INTEGER
                     // This type is available only on OOTB object/field
@@ -146,9 +146,8 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
                         ScreenAutomaticFieldPropertiesEditor.INTEGER_NUMBER_VALUES.scale
                     );
                 } else {
-                    const scale = this.field.scale;
-                    const integer = precision - scale;
-                    dataType = format(this.labels.automaticFieldDataTypeNumber, integer, scale);
+                    const { scale } = this.field;
+                    dataType = format(this.labels.automaticFieldDataTypeNumber, precision - scale, scale);
                 }
                 break;
             }
@@ -156,21 +155,24 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
                 dataType = this.labels.automaticFieldDataTypeCheckbox;
                 break;
             }
+            case ScreenFieldName.DropdownBox: {
+                dataType = this.labels.fieldTypeLabelPicklist;
+                break;
+            }
             default: {
                 // Happens when user doesn't have access to referenced entity/field
                 dataType = '';
-                break;
             }
         }
         return dataType;
     }
 
-    private get object() {
+    private get object(): string {
         const element = getElementByGuid(sanitizeGuid(this.field.objectFieldReference).guidOrLiteral);
-        return element === undefined ? '' : element.subtype;
+        return element === undefined ? '' : <string>element.subtype;
     }
 
-    private get isRequired() {
+    private get isRequired(): string {
         const required = this.field!.isRequired;
         if (required === undefined) {
             // Happens when user doesn't have access to referenced entity/field
@@ -181,7 +183,7 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
             : this.labels.automaticFieldIsRequiredFalse;
     }
 
-    private get isCreateable() {
+    private get isCreateable(): string {
         const createable = this.field.isCreateable;
         if (createable === undefined) {
             // Happens when user doesn't have access to referenced entity/field
@@ -190,7 +192,7 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
         return createable ? this.labels.automaticFieldIsCreateableTrue : this.labels.automaticFieldIsCreateableFalse;
     }
 
-    private get isUpdateable() {
+    private get isUpdateable(): string {
         const updateable = this.field.isUpdateable;
         if (updateable === undefined) {
             // Happens when user doesn't have access to referenced entity/field

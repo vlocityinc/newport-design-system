@@ -113,7 +113,7 @@
       "sobjectName":"Account",
       "sortable":true,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "AnnualRevenue":{
       "activePicklistValues":[
@@ -743,7 +743,7 @@
       "sobjectName":"Account",
       "sortable":true,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "CustomDateTime__c":{
       "activePicklistValues":[
@@ -890,7 +890,7 @@
       "sobjectName":"Account",
       "sortable":true,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "DunsNumber":{
       "activePicklistValues":[
@@ -1305,7 +1305,7 @@
       "sobjectName":"Account",
       "sortable":true,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "IsDeleted":{
       "activePicklistValues":[
@@ -2220,7 +2220,7 @@
       "sobjectName":"Account",
       "sortable":true,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "ParentId":{
       "activePicklistValues":[
@@ -2947,7 +2947,7 @@
       "sobjectName":"Account",
       "sortable":true,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "PersonMailingAddress":{
       "activePicklistValues":[
@@ -3908,7 +3908,7 @@
       "sobjectName":"Account",
       "sortable":true,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "RecordTypeId":{
       "activePicklistValues":[
@@ -4729,7 +4729,7 @@
       "sobjectName":"Account",
       "sortable":true,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "UserLookup__c":{
       "activePicklistValues":[

@@ -234,6 +234,17 @@ describe('DateTime screen input field', () => {
     });
 });
 
+describe('"DropdownBox" screen input field', () => {
+    it('Lightning input type should be "DropdownBox"', () => {
+        const inputWrapperCmp = createComponentForTest({
+            typeName: 'DropdownBox',
+            helpText: { value: null, error: null }
+        });
+        const input = inputWrapperCmp.shadowRoot.querySelector(SELECTORS.INPUT);
+        expect(input.type).toEqual(LIGHTNING_INPUT_TYPES.DROPDOWNBOX);
+    });
+});
+
 describe('DateTime screen input field with default value set to a reference', () => {
     let inputWrapperCmp;
     beforeEach(() => {

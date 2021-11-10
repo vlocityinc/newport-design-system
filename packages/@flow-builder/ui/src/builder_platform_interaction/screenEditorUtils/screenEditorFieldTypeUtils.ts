@@ -36,7 +36,8 @@ const DATA_TYPE_TO_FIELD_NAME = {
     [FLOW_DATA_TYPE.NUMBER.value]: ScreenFieldName.Number,
     [FLOW_DATA_TYPE.DATE_TIME.value]: ScreenFieldName.DateTime,
     [FLOW_DATA_TYPE.DATE.value]: ScreenFieldName.Date,
-    [FLOW_DATA_TYPE.BOOLEAN.value]: ScreenFieldName.Checkbox
+    [FLOW_DATA_TYPE.BOOLEAN.value]: ScreenFieldName.Checkbox,
+    [FLOW_DATA_TYPE.PICKLIST.value]: ScreenFieldName.DropdownBox
 };
 
 export enum ChoiceDisplayOptions {

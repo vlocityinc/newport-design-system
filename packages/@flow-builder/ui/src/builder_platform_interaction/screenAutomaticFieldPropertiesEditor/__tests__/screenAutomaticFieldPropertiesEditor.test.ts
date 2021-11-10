@@ -95,6 +95,9 @@ jest.mock('@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypePhone', () 
 jest.mock('@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeEmail', () => ({ default: 'Email' }), {
     virtual: true
 });
+jest.mock('@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelPicklist', () => ({ default: 'Picklist' }), {
+    virtual: true
+});
 const SELECTORS = {
     DESCRIPTION_VALUE_SELECTOR_FORMAT: `tr.{0} > td > ${LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_FORMATTED_TEXT}.autofield-description-value`,
     DATATYPE: 'autofield-datatype',
@@ -135,10 +138,11 @@ describe('Data types formatting with tokens', () => {
         [ScreenFieldName.Number, null, 15, 3, null, 'Number(12, 3)'],
         [ScreenFieldName.Number, null, 0, null, null, 'Number(8, 0)'],
         [ScreenFieldName.LargeTextArea, 255, null, null, null, 'Text Area(255)'],
-        [ScreenFieldName.LargeTextArea, 256, null, null, null, 'Long Text Area(256)']
+        [ScreenFieldName.LargeTextArea, 256, null, null, null, 'Long Text Area(256)'],
+        [ScreenFieldName.DropdownBox, null, null, null, null, 'Picklist']
     ];
     test.each(cases)(
-        'Given type name %p, length %p, precision %p, scale %p, entityFieldDataType %p, returns formated data type %p',
+        'Given type name %p, length %p, precision %p, scale %p, entityFieldDataType %p, returns formatted data type %p',
         (screenFieldName, fieldLength, fieldPrecision, fieldScale, fieldDataType, expectedResult) => {
             const component = createComponentForTest({
                 type: {

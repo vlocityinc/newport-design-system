@@ -74,6 +74,12 @@
       "processType":"ContactRequestFlow"
     },
     {
+      "icon":"utility:strategy",
+      "description":"Create a new flow for use in Recommendation Strategy.",
+      "label":"Recommendation Strategy",
+      "processType":"RecommendationStrategy"
+    },
+    {
       "icon":"utility:orchestrator",
       "description":"Launches when invoked by Apex, processes, REST API, and more.",
       "label":"Autolaunched Orchestration (No Trigger)",

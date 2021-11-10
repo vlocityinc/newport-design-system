@@ -2,88 +2,139 @@
   "subflowsForFlow":[
     {
       "masterLabel":"Create a Case",
+      "activeVersionId":"setup_service_experience__Create_Case-1",
       "fullName":"setup_service_experience__Create_Case",
-      "description":null
+      "description":null,
+      "latestVersionId":"setup_service_experience__Create_Case-1",
+      "isViewable":true
     },
     {
       "masterLabel":"Debug Options",
+      "activeVersionId":"FtestSfdcOnly__TestFileBasedTranslated-1",
       "fullName":"FtestSfdcOnly__TestFileBasedTranslated",
-      "description":"Enter values for the flow's input variables. For each value left blank, the flow starts with the variable's default value. You can't enter values for collection variables or Apex-defined variables."
+      "description":"Enter values for the flow's input variables. For each value left blank, the flow starts with the variable's default value. You can't enter values for collection variables or Apex-defined variables.",
+      "latestVersionId":"FtestSfdcOnly__TestFileBasedTranslated-1",
+      "isViewable":true
     },
     {
       "masterLabel":"FTest-TestFileBased",
+      "activeVersionId":"FtestSfdcOnly__TestFileBased-1",
       "fullName":"FtestSfdcOnly__TestFileBased",
-      "description":"FTEST - File Based Flow Basic"
+      "description":"FTEST - File Based Flow Basic",
+      "latestVersionId":"FtestSfdcOnly__TestFileBased-1",
+      "isViewable":false
     },
     {
       "masterLabel":"FTest-TestFileBasedCrud",
+      "activeVersionId":"FtestSfdcOnly__TestFileBasedCrud-1",
       "fullName":"FtestSfdcOnly__TestFileBasedCrud",
-      "description":"FTEST - File Based Flow CRUD"
+      "description":"FTEST - File Based Flow CRUD",
+      "latestVersionId":"FtestSfdcOnly__TestFileBasedCrud-1",
+      "isViewable":false
     },
     {
       "masterLabel":"FTest-TestFileBasedInactive",
+      "activeVersionId":null,
       "fullName":"FtestSfdcOnly__TestFileBasedInactiveA",
-      "description":"FTEST - File Based Flow Basic"
+      "description":"FTEST - File Based Flow Basic",
+      "latestVersionId":"FtestSfdcOnly__TestFileBasedInactiveA-1",
+      "isViewable":false
     },
     {
       "masterLabel":"FTest-TestFileBasedInactive",
+      "activeVersionId":null,
       "fullName":"FtestSfdcOnly__TestFileBasedInactive",
-      "description":"FTEST - File Based Flow Basic"
+      "description":"FTEST - File Based Flow Basic",
+      "latestVersionId":"FtestSfdcOnly__TestFileBasedInactive-1",
+      "isViewable":false
     },
     {
       "masterLabel":"FTest-TestFileBasedOverridableScreen",
+      "activeVersionId":"FtestSfdcOnly__TestFileBasedOverScreen-1",
       "fullName":"FtestSfdcOnly__TestFileBasedOverScreen",
-      "description":"FTEST - File Based Flow Screen Flow"
+      "description":"FTEST - File Based Flow Screen Flow",
+      "latestVersionId":"FtestSfdcOnly__TestFileBasedOverScreen-1",
+      "isViewable":false
     },
     {
       "masterLabel":"FTest-TestFileBasedPause",
+      "activeVersionId":"FtestSfdcOnly__TestFileBasedPause-1",
       "fullName":"FtestSfdcOnly__TestFileBasedPause",
-      "description":null
+      "description":null,
+      "latestVersionId":"FtestSfdcOnly__TestFileBasedPause-1",
+      "isViewable":false
     },
     {
       "masterLabel":"FTest-TestFileBasedScreen",
+      "activeVersionId":"FtestSfdcOnly__TestFileBasedScreen-1",
       "fullName":"FtestSfdcOnly__TestFileBasedScreen",
-      "description":"FTEST - File Based Flow Screen Flow"
+      "description":"FTEST - File Based Flow Screen Flow",
+      "latestVersionId":"FtestSfdcOnly__TestFileBasedScreen-1",
+      "isViewable":true
     },
     {
       "masterLabel":"FTest-TestFileBasedSubflow",
+      "activeVersionId":"FtestSfdcOnly__TestFileBasedSubflow-1",
       "fullName":"FtestSfdcOnly__TestFileBasedSubflow",
-      "description":"FTEST - File Based Flow Subflow Flow"
+      "description":"FTEST - File Based Flow Subflow Flow",
+      "latestVersionId":"FtestSfdcOnly__TestFileBasedSubflow-1",
+      "isViewable":false
     },
     {
       "masterLabel":"FTEST-TestFileBasedT",
+      "activeVersionId":"FtestSfdcOnly__TestFileBasedT-1",
       "fullName":"FtestSfdcOnly__TestFileBasedT",
-      "description":"FTEST - File Based Flow Template Basic"
+      "description":"FTEST - File Based Flow Template Basic",
+      "latestVersionId":"FtestSfdcOnly__TestFileBasedT-1",
+      "isViewable":true
     },
     {
       "masterLabel":"Reset Password",
+      "activeVersionId":"setup_service_experience__Reset_Pwd-1",
       "fullName":"setup_service_experience__Reset_Pwd",
-      "description":null
+      "description":null,
+      "latestVersionId":"setup_service_experience__Reset_Pwd-1",
+      "isViewable":true
     },
     {
       "masterLabel":"SomeFlow",
+      "activeVersionId":null,
       "fullName":"autoLaunchedFlow",
-      "description":"I didn't know description is required field?!"
+      "description":"I didn't know description is required field?!",
+      "latestVersionId":"301xx0000000000000",
+      "isViewable":true
     },
     {
       "masterLabel":"SomeFlow",
+      "activeVersionId":"301xx0000000000000",
       "fullName":"flowWithActiveAndLatest",
-      "description":"I didn't know description is required field?!"
+      "description":"I didn't know description is required field?!",
+      "latestVersionId":"301xx0000000000000",
+      "isViewable":true
     },
     {
       "masterLabel":"SomeFlow",
+      "activeVersionId":null,
       "fullName":"flowWithNoActiveVersion",
-      "description":"I didn't know description is required field?!"
+      "description":"I didn't know description is required field?!",
+      "latestVersionId":"301xx0000000000000",
+      "isViewable":true
     },
     {
       "masterLabel":"TestFileBase",
+      "activeVersionId":"BusOp__TestFileBasedInaccessible-1",
       "fullName":"BusOp__TestFileBasedInaccessible",
-      "description":null
+      "description":null,
+      "latestVersionId":"BusOp__TestFileBasedInaccessible-1",
+      "isViewable":false
     },
     {
       "masterLabel":"Verify Identity",
+      "activeVersionId":"setup_service_experience__Verify_Cust-1",
       "fullName":"setup_service_experience__Verify_Cust",
-      "description":"Removed custom field references"
+      "description":"Removed custom field references",
+      "latestVersionId":"setup_service_experience__Verify_Cust-1",
+      "isViewable":true
     }
   ]
 }

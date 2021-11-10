@@ -24,6 +24,7 @@ import {
 } from 'builder_platform_interaction/builderTestUtils';
 import { automaticFieldBetaUrls as mockAutomaticFieldBetaUrls } from 'serverData/GetAutomaticFieldBetaUrls/automaticFieldBetaUrls.json';
 import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
+import { isAutomaticFieldRequired } from '../screenEditorAutomaticFieldPaletteUtils';
 import { FieldDataType } from 'builder_platform_interaction/dataTypeLib';
 
 let mockAccountFields = accountFields;
@@ -92,6 +93,9 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
 const SUPPORTED_FIELDS_IN_ACCOUNT = Object.values<FieldDefinition>(mockAccountFields).filter(
     (field) => field.supportedByAutomaticField
 );
+const TOTAL_SUPPORTED_FIELDS_IN_ACCOUNT = SUPPORTED_FIELDS_IN_ACCOUNT.length;
+const TOTAL_REQUIRED_SUPPORTED_FIELDS_IN_ACCOUNT = SUPPORTED_FIELDS_IN_ACCOUNT.filter(isAutomaticFieldRequired).length;
+
 const TOTAL_SUPPORTED_FIELDS_IN_OBJECT_WITH_ALL_POSSIBLE_FIELDS = Object.values<FieldDefinition>(
     mockObjectWithAllPossibleFieldsVariableFields
 ).filter((field) => field.supportedByAutomaticField).length;
@@ -99,9 +103,7 @@ const TOTAL_SUPPORTED_FIELDS_IN_OBJECT_WITH_ALL_POSSIBLE_FIELDS = Object.values<
 // Excluding boolean as they are always marked as required by the API
 const TOTAL_REQUIRED_FIELDS_IN_OBJECT_WITH_ALL_POSSIBLE_FIELDS = Object.values<FieldDefinition>(
     mockObjectWithAllPossibleFieldsVariableFields
-).filter(
-    (field) => field.supportedByAutomaticField && field.required && field.fieldDataType !== FieldDataType.Boolean
-).length;
+).filter((field) => field.supportedByAutomaticField && isAutomaticFieldRequired(field)).length;
 
 const SELECTORS = {
     searchInput: '.palette-search-input',
@@ -129,13 +131,16 @@ const getSearchInput = (screenEditorAutomaticFieldPalette) =>
 const getSpinner = (screenEditorAutomaticFieldPalette) =>
     screenEditorAutomaticFieldPalette.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_SPINNER);
 
-function createComponentForTest() {
+const getRequiredSectionItems = (element) => element.paletteData[0]._children;
+const getOptionalSectionItems = (element) => element.paletteData[1]._children;
+
+const createComponentForTest = () => {
     const el = createElement('builder_platform_interaction-screen-editor-automatic-field-palette', {
         is: ScreenEditorAutomaticFieldPalette
     });
     setDocumentBodyChildren(el);
     return el;
-}
+};
 
 describe('Screen editor automatic field palette', () => {
     let element: ScreenEditorAutomaticFieldPalette;
@@ -196,15 +201,22 @@ describe('Screen editor automatic field palette', () => {
             await ticks(1);
             expect(sobjectLib.fetchFieldsForEntity).toHaveBeenCalledWith('Account');
         });
-        test('SObjectReferenceChangedEvent should generate proper data with 1 sections for inner palette (no required field)', async () => {
+        test('SObjectReferenceChangedEvent should generate proper number of sections for palette (required and optional fields)', async () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
             await ticks(1);
-            expect(element.paletteData).toHaveLength(1);
+            expect(element.paletteData).toHaveLength(2);
         });
-        test('SObjectReferenceChangedEvent should generate proper items for palette not required section', async () => {
+        test('SObjectReferenceChangedEvent should generate proper items for palette required section', async () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
             await ticks(1);
-            expect(element.paletteData[0]._children).toHaveLength(SUPPORTED_FIELDS_IN_ACCOUNT.length);
+            expect(getRequiredSectionItems(element)).toHaveLength(TOTAL_REQUIRED_SUPPORTED_FIELDS_IN_ACCOUNT);
+        });
+        test('SObjectReferenceChangedEvent should generate proper items for palette NOT required section', async () => {
+            getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
+            await ticks(1);
+            expect(getOptionalSectionItems(element)).toHaveLength(
+                TOTAL_SUPPORTED_FIELDS_IN_ACCOUNT - TOTAL_REQUIRED_SUPPORTED_FIELDS_IN_ACCOUNT
+            );
         });
         test('SObjectReferenceChangedEvent should hide no items to show illustration', async () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
@@ -272,7 +284,7 @@ describe('Screen editor automatic field palette', () => {
             await ticks(1);
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
             await ticks(1);
-            expect(element.paletteData[0]._children).toHaveLength(SUPPORTED_FIELDS_IN_ACCOUNT.length);
+            expect(getRequiredSectionItems(element)).toHaveLength(TOTAL_REQUIRED_SUPPORTED_FIELDS_IN_ACCOUNT);
         });
         test('SObjectReferenceChangedEvent with same value keeps the search pattern as is', async () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
@@ -318,14 +330,14 @@ describe('Screen editor automatic field palette', () => {
         test('SObjectReferenceChangedEvent should generate proper items for palette required section', async () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
             await ticks(1);
-            expect(element.paletteData[0]._children).toHaveLength(
+            expect(getRequiredSectionItems(element)).toHaveLength(
                 TOTAL_REQUIRED_FIELDS_IN_OBJECT_WITH_ALL_POSSIBLE_FIELDS
             );
         });
         test('SObjectReferenceChangedEvent should generate proper items for palette non required section', async () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
             await ticks(1);
-            expect(element.paletteData[1]._children).toHaveLength(
+            expect(getOptionalSectionItems(element)).toHaveLength(
                 TOTAL_SUPPORTED_FIELDS_IN_OBJECT_WITH_ALL_POSSIBLE_FIELDS -
                     TOTAL_REQUIRED_FIELDS_IN_OBJECT_WITH_ALL_POSSIBLE_FIELDS
             );
@@ -400,18 +412,19 @@ describe('Screen editor automatic field palette', () => {
             );
         });
 
-        describe('By field types', () => {
+        describe('By field data types', () => {
             // first argument: field's fieldDataType, second argument: expected 'internal' field type sent to the event
             const FIELD_DATA_TYPES_CASES = [
-                ['BOOLEAN', ScreenFieldName.Checkbox],
-                ['DOUBLE', ScreenFieldName.Number],
-                ['DATE', ScreenFieldName.Date],
-                ['DATETIME', ScreenFieldName.DateTime],
-                ['EMAIL', ScreenFieldName.TextBox],
-                ['INT', ScreenFieldName.Number],
-                ['PHONE', ScreenFieldName.TextBox],
-                ['STRING', ScreenFieldName.TextBox],
-                ['TEXTAREA', ScreenFieldName.LargeTextArea]
+                [FieldDataType.Boolean, ScreenFieldName.Checkbox],
+                [FieldDataType.Double, ScreenFieldName.Number],
+                [FieldDataType.Date, ScreenFieldName.Date],
+                [FieldDataType.DateTime, ScreenFieldName.DateTime],
+                [FieldDataType.Email, ScreenFieldName.TextBox],
+                [FieldDataType.Int, ScreenFieldName.Number],
+                [FieldDataType.Phone, ScreenFieldName.TextBox],
+                [FieldDataType.Picklist, ScreenFieldName.DropdownBox],
+                [FieldDataType.String, ScreenFieldName.TextBox],
+                [FieldDataType.TextArea, ScreenFieldName.LargeTextArea]
             ];
             const getFieldNameFromFieldDataType = (fieldDataType: string) =>
                 SUPPORTED_FIELDS_IN_ACCOUNT.find((field) => field.fieldDataType === fieldDataType)!.apiName;

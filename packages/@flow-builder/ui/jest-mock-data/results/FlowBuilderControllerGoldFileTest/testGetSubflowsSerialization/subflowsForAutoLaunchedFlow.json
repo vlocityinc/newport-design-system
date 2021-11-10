@@ -2,48 +2,75 @@
   "subflowsForAutoLaunchedFlow":[
     {
       "masterLabel":"Chats Routed to Agents and Queues",
+      "activeVersionId":"omnichannel_chat__QueuesChat-1",
       "fullName":"omnichannel_chat__QueuesChat",
-      "description":"Routes each chat to an agent or queue based on conditions that you define."
+      "description":"Routes each chat to an agent or queue based on conditions that you define.",
+      "latestVersionId":"omnichannel_chat__QueuesChat-1",
+      "isViewable":true
     },
     {
       "masterLabel":"Chats Routed to Agents with the Right Skills",
+      "activeVersionId":"omnichannel_chat__SkillsChat-1",
       "fullName":"omnichannel_chat__SkillsChat",
-      "description":"Routes each chat to an agent with the required skills based on conditions that you define."
+      "description":"Routes each chat to an agent with the required skills based on conditions that you define.",
+      "latestVersionId":"omnichannel_chat__SkillsChat-1",
+      "isViewable":true
     },
     {
       "masterLabel":"FTest-TestFileBased",
+      "activeVersionId":"FtestSfdcOnly__TestFileBased-1",
       "fullName":"FtestSfdcOnly__TestFileBased",
-      "description":"FTEST - File Based Flow Basic"
+      "description":"FTEST - File Based Flow Basic",
+      "latestVersionId":"FtestSfdcOnly__TestFileBased-1",
+      "isViewable":false
     },
     {
       "masterLabel":"FTest-TestFileBasedInactive",
+      "activeVersionId":null,
       "fullName":"FtestSfdcOnly__TestFileBasedInactiveA",
-      "description":"FTEST - File Based Flow Basic"
+      "description":"FTEST - File Based Flow Basic",
+      "latestVersionId":"FtestSfdcOnly__TestFileBasedInactiveA-1",
+      "isViewable":false
     },
     {
       "masterLabel":"FTest-TestFileBasedPause",
+      "activeVersionId":"FtestSfdcOnly__TestFileBasedPause-1",
       "fullName":"FtestSfdcOnly__TestFileBasedPause",
-      "description":null
+      "description":null,
+      "latestVersionId":"FtestSfdcOnly__TestFileBasedPause-1",
+      "isViewable":false
     },
     {
       "masterLabel":"FTEST-TestFileBasedT",
+      "activeVersionId":"FtestSfdcOnly__TestFileBasedT-1",
       "fullName":"FtestSfdcOnly__TestFileBasedT",
-      "description":"FTEST - File Based Flow Template Basic"
+      "description":"FTEST - File Based Flow Template Basic",
+      "latestVersionId":"FtestSfdcOnly__TestFileBasedT-1",
+      "isViewable":true
     },
     {
       "masterLabel":"Messages Routed to Agents and Queues",
+      "activeVersionId":"omnichannel_messaging__MsgRouting-1",
       "fullName":"omnichannel_messaging__MsgRouting",
-      "description":"Routes each message to an agent or queue based on conditions that you define."
+      "description":"Routes each message to an agent or queue based on conditions that you define.",
+      "latestVersionId":"omnichannel_messaging__MsgRouting-1",
+      "isViewable":true
     },
     {
       "masterLabel":"SomeFlow",
+      "activeVersionId":null,
       "fullName":"autoLaunchedFlow",
-      "description":"I didn't know description is required field?!"
+      "description":"I didn't know description is required field?!",
+      "latestVersionId":"301xx0000000000000",
+      "isViewable":true
     },
     {
       "masterLabel":"Voice Calls Routed to Agents and Queues",
+      "activeVersionId":"omnichannel_voice__VoiceRouting-1",
       "fullName":"omnichannel_voice__VoiceRouting",
-      "description":"Routes each call to an agent or queue based on conditions that you define."
+      "description":"Routes each call to an agent or queue based on conditions that you define.",
+      "latestVersionId":"omnichannel_voice__VoiceRouting-1",
+      "isViewable":true
     }
   ]
 }

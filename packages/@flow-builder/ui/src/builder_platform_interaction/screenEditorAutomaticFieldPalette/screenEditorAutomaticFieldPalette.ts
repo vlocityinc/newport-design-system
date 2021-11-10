@@ -6,7 +6,7 @@ import { fetchFieldsForEntity, getEntity } from 'builder_platform_interaction/so
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { LABELS } from './screenEditorAutomaticFieldPaletteLabels';
 import { containsMatcher } from 'builder_platform_interaction/filterLib';
-import { FieldDataType, getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
+import { getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
 import { createAddAutomaticScreenFieldEvent, SObjectReferenceChangedEvent } from 'builder_platform_interaction/events';
 import {
     getFieldByGuid,
@@ -21,6 +21,7 @@ import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker'
 import { CrudFilter } from 'builder_platform_interaction/selectors';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 const { format } = commonUtils;
+import { isAutomaticFieldRequired } from './screenEditorAutomaticFieldPaletteUtils';
 
 export default class ScreenEditorAutomaticFieldPalette extends LightningElement {
     static SELECTOR = 'builder_platform_interaction-screen-editor-automatic-field-palette';
@@ -76,11 +77,6 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     @api
     get showNoItemIllustrationContainer() {
         return this.showNoItemsIllustration;
-    }
-
-    @api
-    get showNoFieldIllustrationContainer() {
-        return this.showNoFieldIllustration;
     }
 
     get showLoadingFieldsSpinner() {
@@ -202,7 +198,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
                 fieldTypeName: getScreenFieldName(field)!,
                 objectFieldReference: `${currentRecordVariable}.${field.apiName}`
             };
-            if (field.required && field.fieldDataType !== FieldDataType.Boolean) {
+            if (isAutomaticFieldRequired(field)) {
                 requiredSection._children.push(item);
             } else {
                 optionalSection._children.push(item);

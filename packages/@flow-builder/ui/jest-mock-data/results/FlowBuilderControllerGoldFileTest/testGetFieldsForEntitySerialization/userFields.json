@@ -672,7 +672,7 @@
       "sobjectName":"User",
       "sortable":true,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "DefaultCurrencyIsoCode":{
       "activePicklistValues":[
@@ -719,7 +719,7 @@
       "sobjectName":"User",
       "sortable":true,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "DefaultDivision":{
       "activePicklistValues":[
@@ -758,7 +758,7 @@
       "sobjectName":"User",
       "sortable":true,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "DefaultGroupNotificationFrequency":{
       "activePicklistValues":[
@@ -809,7 +809,7 @@
       "sobjectName":"User",
       "sortable":true,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "DelegatedApproverId":{
       "activePicklistValues":[
@@ -929,7 +929,7 @@
       "sobjectName":"User",
       "sortable":true,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "Division":{
       "activePicklistValues":[
@@ -1076,7 +1076,7 @@
       "sobjectName":"User",
       "sortable":true,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "EmailPreferencesAutoBcc":{
       "activePicklistValues":[
@@ -1838,7 +1838,7 @@
       "sobjectName":"User",
       "sortable":true,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "LastDashboardId":{
       "activePicklistValues":[
@@ -3285,7 +3285,7 @@
       "sobjectName":"User",
       "sortable":true,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "Longitude":{
       "activePicklistValues":[
@@ -4472,7 +4472,7 @@
       "sobjectName":"User",
       "sortable":true,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "Title":{
       "activePicklistValues":[
@@ -6310,42 +6310,6 @@
       "subtype":null,
       "supportedByAutomaticField":true
     },
-    "UserPreferencesDisableFeedbackEmail":{
-      "activePicklistValues":[
-
-      ],
-      "apiName":"UserPreferencesDisableFeedbackEmail",
-      "compoundFieldName":null,
-      "creatable":true,
-      "dataType":"Boolean",
-      "editable":true,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN",
-      "filterable":true,
-      "inlineHelpText":null,
-      "isAvailableForFormulas":false,
-      "isAvailableForMerge":false,
-      "isCalculated":false,
-      "isCollection":false,
-      "isCompound":false,
-      "isCustom":false,
-      "isPolymorphic":false,
-      "isSpanningAllowed":false,
-      "isWorkflowFilterable":false,
-      "label":"DisableFeedbackEmail",
-      "length":0,
-      "precision":0,
-      "referenceToNames":[
-
-      ],
-      "relationshipName":null,
-      "required":true,
-      "scale":0,
-      "sobjectName":"User",
-      "sortable":false,
-      "subtype":null,
-      "supportedByAutomaticField":true
-    },
     "UserPreferencesDisableFileShareNotificationsForApi":{
       "activePicklistValues":[
 
@@ -6706,42 +6670,6 @@
       "subtype":null,
       "supportedByAutomaticField":true
     },
-    "UserPreferencesDisableRewardEmail":{
-      "activePicklistValues":[
-
-      ],
-      "apiName":"UserPreferencesDisableRewardEmail",
-      "compoundFieldName":null,
-      "creatable":true,
-      "dataType":"Boolean",
-      "editable":true,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN",
-      "filterable":true,
-      "inlineHelpText":null,
-      "isAvailableForFormulas":false,
-      "isAvailableForMerge":false,
-      "isCalculated":false,
-      "isCollection":false,
-      "isCompound":false,
-      "isCustom":false,
-      "isPolymorphic":false,
-      "isSpanningAllowed":false,
-      "isWorkflowFilterable":false,
-      "label":"DisableRewardEmail",
-      "length":0,
-      "precision":0,
-      "referenceToNames":[
-
-      ],
-      "relationshipName":null,
-      "required":true,
-      "scale":0,
-      "sobjectName":"User",
-      "sortable":false,
-      "subtype":null,
-      "supportedByAutomaticField":true
-    },
     "UserPreferencesDisableSccEmail":{
       "activePicklistValues":[
 
@@ -6981,42 +6909,6 @@
       "isSpanningAllowed":false,
       "isWorkflowFilterable":false,
       "label":"DisableSocialProfilesYT",
-      "length":0,
-      "precision":0,
-      "referenceToNames":[
-
-      ],
-      "relationshipName":null,
-      "required":true,
-      "scale":0,
-      "sobjectName":"User",
-      "sortable":false,
-      "subtype":null,
-      "supportedByAutomaticField":true
-    },
-    "UserPreferencesDisableWorkEmail":{
-      "activePicklistValues":[
-
-      ],
-      "apiName":"UserPreferencesDisableWorkEmail",
-      "compoundFieldName":null,
-      "creatable":true,
-      "dataType":"Boolean",
-      "editable":true,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN",
-      "filterable":true,
-      "inlineHelpText":null,
-      "isAvailableForFormulas":false,
-      "isAvailableForMerge":false,
-      "isCalculated":false,
-      "isCollection":false,
-      "isCompound":false,
-      "isCustom":false,
-      "isPolymorphic":false,
-      "isSpanningAllowed":false,
-      "isWorkflowFilterable":false,
-      "label":"DisableWorkEmail",
       "length":0,
       "precision":0,
       "referenceToNames":[
@@ -10882,6 +10774,42 @@
       "subtype":null,
       "supportedByAutomaticField":true
     },
+    "UserPreferencesShowForecastingChangeSignals":{
+      "activePicklistValues":[
+
+      ],
+      "apiName":"UserPreferencesShowForecastingChangeSignals",
+      "compoundFieldName":null,
+      "creatable":true,
+      "dataType":"Boolean",
+      "editable":true,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN",
+      "filterable":true,
+      "inlineHelpText":null,
+      "isAvailableForFormulas":false,
+      "isAvailableForMerge":false,
+      "isCalculated":false,
+      "isCollection":false,
+      "isCompound":false,
+      "isCustom":false,
+      "isPolymorphic":false,
+      "isSpanningAllowed":false,
+      "isWorkflowFilterable":false,
+      "label":"ShowForecastingChangeSignals",
+      "length":0,
+      "precision":0,
+      "referenceToNames":[
+
+      ],
+      "relationshipName":null,
+      "required":true,
+      "scale":0,
+      "sobjectName":"User",
+      "sortable":false,
+      "subtype":null,
+      "supportedByAutomaticField":true
+    },
     "UserPreferencesShowManagerToExternalUsers":{
       "activePicklistValues":[
 
@@ -11852,7 +11780,7 @@
       "sobjectName":"User",
       "sortable":true,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "UserType":{
       "activePicklistValues":[

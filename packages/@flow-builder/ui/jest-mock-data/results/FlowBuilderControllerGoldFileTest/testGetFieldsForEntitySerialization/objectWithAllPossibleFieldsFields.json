@@ -333,7 +333,7 @@
       "sobjectName":"Object_with_all_possible_fields__c",
       "sortable":true,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "Date_Field__c":{
       "activePicklistValues":[
@@ -1115,7 +1115,7 @@
       "sobjectName":"Object_with_all_possible_fields__c",
       "sortable":true,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "Picklist_Multi_Select_Field__c":{
       "activePicklistValues":[

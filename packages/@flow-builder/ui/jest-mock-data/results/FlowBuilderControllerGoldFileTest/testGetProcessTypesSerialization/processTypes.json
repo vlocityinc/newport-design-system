@@ -43,6 +43,12 @@
       "isListViewManaged":true
     },
     {
+      "iconName":"utility:strategy",
+      "name":"RecommendationStrategy",
+      "label":"Recommendation Strategy",
+      "isListViewManaged":true
+    },
+    {
       "iconName":"utility:desktop",
       "name":"Flow",
       "label":"Screen Flow",

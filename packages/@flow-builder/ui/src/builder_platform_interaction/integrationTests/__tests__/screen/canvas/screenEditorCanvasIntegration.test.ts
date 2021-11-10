@@ -164,12 +164,6 @@ describe('ScreenEditor canvas', () => {
                         await ticks(1);
                         comp = screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName(text2.name);
                         comp!.pressKey(Keys.ArrowDown);
-                        await ticks(1);
-                    });
-                    afterEach(async () => {
-                        comp = screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName(text2.name);
-                        comp!.pressKey(Keys.Space);
-                        await ticks(1);
                     });
                     it('screen node is updated and aria text is set correctly', async () => {
                         // slider value is used for the component visibility for Accounts component
@@ -196,7 +190,6 @@ describe('ScreenEditor canvas', () => {
                         await ticks(1);
                         comp = screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName(number2.name);
                         comp!.pressKey(Keys.Escape);
-                        await ticks(1);
                     });
                     it('screen node is updated and aria text is set correctly', () => {
                         // slider value is used for the component visibility for Accounts component
@@ -220,7 +213,6 @@ describe('ScreenEditor canvas', () => {
                         await ticks(1);
                         comp = screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName(text2.name);
                         comp!.pressKey(Keys.Escape);
-                        await ticks(1);
                     });
                     it('screen node is updated and aria text is set correctly', async () => {
                         // slider value is used for the component visibility for Accounts component

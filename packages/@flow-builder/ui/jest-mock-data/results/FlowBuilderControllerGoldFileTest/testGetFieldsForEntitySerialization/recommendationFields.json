@@ -262,7 +262,7 @@
       "sobjectName":"Recommendation",
       "sortable":true,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "Description":{
       "activePicklistValues":[

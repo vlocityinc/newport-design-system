@@ -39,6 +39,10 @@
           {
             "name":"SortCollectionProcessor",
             "type":"elementSubtype"
+          },
+          {
+            "name":"FilterCollectionProcessor",
+            "type":"elementSubtype"
           }
         ],
         "headerFreeformVisibility":true

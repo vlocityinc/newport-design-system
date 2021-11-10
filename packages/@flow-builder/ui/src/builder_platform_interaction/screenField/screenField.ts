@@ -36,12 +36,12 @@ export default class ScreenField extends LightningElement {
         return classString;
     }
 
-    get hasErrors() {
+    get hasErrors(): boolean {
         const errors = this.screenfield && getErrorsFromHydratedElement(this.screenfield);
         return this.screenfield.hasErrors === true || (errors && errors.length > 0 && !this.isSectionType);
     }
 
-    get isExtension() {
+    get isExtension(): boolean {
         return isExtensionField(this.screenfield.type);
     }
 
@@ -49,18 +49,11 @@ export default class ScreenField extends LightningElement {
         return (
             this.screenfield.type.fieldType === FlowScreenFieldType.InputField ||
             this.screenfield.type.fieldType === FlowScreenFieldType.PasswordField ||
-            (this.isObjectProvided() && !this.isTextAreaType)
+            (this.isObjectProvided() && !this.isTextAreaType && !this.isDropdownType()) // For 236, automatic field of picklist type has no preview
         );
     }
 
-    /**
-     * Whether or not the current field is an ObjectProvided one, aka "automatic field"
-     */
-    isObjectProvided() {
-        return this.screenfield.type.fieldType === FlowScreenFieldType.ObjectProvided;
-    }
-
-    get isChoiceField() {
+    get isChoiceField(): boolean {
         return isChoiceField(this.screenfield);
     }
 
@@ -76,16 +69,16 @@ export default class ScreenField extends LightningElement {
         return this.screenfield.type.name === ScreenFieldName.Section;
     }
 
-    get isRequired() {
+    get isRequired(): boolean {
         // There is no concept of required for a checkbox.
         return this.screenfield.type.name === ScreenFieldName.Checkbox ? false : this.screenfield.isRequired;
     }
 
-    get name() {
+    get name(): string {
         return this.screenfield && this.screenfield.name ? this.screenfield.name.value : '';
     }
 
-    get displayName() {
+    get displayName(): string {
         return this.screenfield.type.label !== null ? this.screenfield.type.label : this.screenfield.type.name;
     }
 
@@ -120,5 +113,33 @@ export default class ScreenField extends LightningElement {
         }
 
         return defaultValue;
+    }
+
+    /**
+     * Whether or not the current field type is an ObjectProvided one, aka "automatic field"
+     * of picklist type
+     *
+     * @returns true if the current field type is an ObjectProvided one, aka "automatic field" of
+     * picklist type, otherwise false
+     */
+    get isAutomaticFieldPicklist() {
+        return this.isObjectProvided() && this.isDropdownType();
+    }
+    /**
+     * Whether or not the current field is an ObjectProvided one, aka "automatic field"
+     *
+     * @returns true if the current field is an ObjectProvided one, otherwise false
+     */
+    private isObjectProvided() {
+        return this.screenfield.type.fieldType === FlowScreenFieldType.ObjectProvided;
+    }
+
+    /**
+     * Whether or not the current field type is of dropdown type
+     *
+     * @returns true if the current field type is dropdown type, otherwise false
+     */
+    private isDropdownType() {
+        return this.screenfield?.type?.name === FlowScreenFieldType.DropdownBox;
     }
 }
