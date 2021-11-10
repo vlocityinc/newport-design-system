@@ -790,6 +790,10 @@ export default class Editor extends LightningElement {
         );
     }
 
+    get flowDefIdForInstrumentation() {
+        return this.properties.definitionId || this.flowInitDefinitionId;
+    }
+
     /**
      * Method to return the config based on the passed component(leftPanel, canvas etc.) config value.
      *
@@ -1674,10 +1678,14 @@ export default class Editor extends LightningElement {
      * @param has.error -
      */
     toggleFlowStatusCallBack = ({ data, error }) => {
+        let errorForInstrumentation,
+            statusForInstrumentation = this.properties.status;
         if (error) {
             // Handle error case here if something is needed beyond our automatic generic error modal popup
+            errorForInstrumentation = error;
         } else if (!data.isSuccess) {
             this.flowErrorsAndWarnings = setFlowErrorsAndWarnings(data);
+            errorForInstrumentation = this.flowErrorsAndWarnings.errors;
         } else {
             storeInstance.dispatch(
                 updatePropertiesAfterActivateButtonPress({
@@ -1686,10 +1694,22 @@ export default class Editor extends LightningElement {
                     lastModifiedBy: data.lastModifiedBy
                 })
             );
+            statusForInstrumentation = data.status;
             this.clearUndoRedoStack();
         }
         this.saveAndPendingOperationStatus = FLOW_STATUS.SAVED;
         this.hasNotBeenSaved = false;
+        logInteraction(
+            'toggle-flow-status-result',
+            'editor',
+            {
+                flowDefId: this.flowDefIdForInstrumentation,
+                flowStatus: statusForInstrumentation,
+                isSuccess: !errorForInstrumentation,
+                error: errorForInstrumentation
+            },
+            ''
+        );
     };
 
     async showPropertyEditor(params, forceModal = false) {
@@ -1981,7 +2001,7 @@ export default class Editor extends LightningElement {
             'toggle-canvas-button',
             'toolbar',
             {
-                flowDefId: this.properties.definitionId ? this.properties.definitionId : this.flowInitDefinitionId,
+                flowDefId: this.flowDefIdForInstrumentation,
                 newMode: this.properties.isAutoLayoutCanvas ? 'free-form' : 'auto-layout'
             },
             'click'
@@ -2520,7 +2540,7 @@ export default class Editor extends LightningElement {
             `saveas-menu-done-button`,
             'modal',
             {
-                flowDefId: this.properties.definitionId ? this.properties.definitionId : this.flowInitDefinitionId,
+                flowDefId: this.flowDefIdForInstrumentation,
                 saveType,
                 canvasMode: this.properties.isAutoLayoutCanvas ? CanvasMode.AutoLayout : CanvasMode.FreeForm
             },
@@ -2587,7 +2607,12 @@ export default class Editor extends LightningElement {
             storeInstance.dispatch(updateElement(nodeForStore));
         }
         this._isInlineEditingResource = false;
-        logInteraction(`update-node-of-type-${node.elementType}`, 'modal', null, 'click');
+        logInteraction(
+            `update-node-of-type-${node.elementType}`,
+            'modal',
+            { flowDefId: this.flowDefIdForInstrumentation },
+            'click'
+        );
         if (node.elementType === ELEMENT_TYPE.RECORD_LOOKUP) {
             this.updateRecordLookupDependenciesIfNeeded(currentNode, nodeForStore);
         }
@@ -2638,7 +2663,7 @@ export default class Editor extends LightningElement {
      */
     dispatchAddElement(element: UI.Element | NodeWithParent) {
         storeInstance.dispatch(addElement(element));
-        logElementCreation(element, this._isResourceQuickCreated);
+        logElementCreation(element, this._isResourceQuickCreated, this.flowDefIdForInstrumentation);
     }
 
     /**
@@ -2826,6 +2851,13 @@ export default class Editor extends LightningElement {
                     this.processTypeLoading = false;
                 });
         }
+
+        logInteraction(
+            APP_NAME + '_OPEN',
+            EDITOR,
+            { builderType: this.builderType, mode: this.flowId ? 'edit' : 'new' },
+            ''
+        );
     }
 
     disconnectedCallback() {
@@ -2934,7 +2966,7 @@ export default class Editor extends LightningElement {
             'canvas-mode-checkbox',
             'canvas-selection-modal',
             {
-                flowDefId: this.properties.definitionId ? this.properties.definitionId : this.flowInitDefinitionId,
+                flowDefId: this.flowDefIdForInstrumentation,
                 selectedMode: setupInAutoLayoutCanvas ? 'auto-layout' : 'free-form'
             },
             'click'

@@ -28,8 +28,7 @@ import {
 } from 'builder_platform_interaction/flowMetadata';
 import {
     getConfigForElementType,
-    updateElementConfigMapWithSubtypes,
-    elementTypeToConfigMap
+    updateElementConfigMapWithSubtypes
 } from 'builder_platform_interaction/elementConfig';
 import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
 import {
@@ -1133,20 +1132,21 @@ export const shiftFocusFromCanvas = (
  *
  * @param element pass in created element to be logged
  * @param isQuickCreate option for choice elements, true if quick created from screen editor
+ * @param flowDefId flow definition Id to track instrumentation
  */
 
-export const logElementCreation = (element, isResourceQuickCreated) => {
+export const logElementCreation = (element, isResourceQuickCreated, flowDefId) => {
     const elementType = element.elementType;
-    let data;
+    const data = { flowDefId };
     if (
         elementType === ELEMENT_TYPE.CHOICE ||
         elementType === ELEMENT_TYPE.RECORD_CHOICE_SET ||
         elementType === ELEMENT_TYPE.PICKLIST_CHOICE_SET
     ) {
         if (element.isAddingResourceViaLeftPanel) {
-            data = { isAddingResourceViaLeftPanel: true };
+            Object.assign(data, { isAddingResourceViaLeftPanel: true });
         } else if (isResourceQuickCreated) {
-            data = { isResourceQuickCreated: true };
+            Object.assign(data, { isResourceQuickCreated: true });
         }
     }
     logInteraction(`add-node-of-type-${element.elementType}`, 'modal', data, 'click');
