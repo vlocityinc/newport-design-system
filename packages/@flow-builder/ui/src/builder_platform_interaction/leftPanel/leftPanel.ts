@@ -36,6 +36,12 @@ export default class LeftPanel extends LightningElement {
     private dom = lwcUtils.createDomProxy(this, selectors);
     private elementToFocus: keyof typeof selectors | undefined;
 
+    tabItemElements = 'left-panel-tabitem-elements';
+
+    _showElementsTab = false;
+
+    postRenderCallback;
+
     @track
     showResourceDetailsPanel = false;
 
@@ -58,7 +64,18 @@ export default class LeftPanel extends LightningElement {
     palette;
 
     @api
-    showElementsTab;
+    get showElementsTab() {
+        return this._showElementsTab;
+    }
+
+    set showElementsTab(value) {
+        this._showElementsTab = value;
+        if (this._showElementsTab) {
+            this.postRenderCallback = () => {
+                (this.dom.tabset as LightningElement).activeTabValue = this.tabItemElements;
+            };
+        }
+    }
 
     // TODO: probably not used anymore, should remove
     @api focus() {
@@ -236,6 +253,11 @@ export default class LeftPanel extends LightningElement {
         if (this.elementToFocus != null) {
             this.dom[this.elementToFocus].focus();
             this.elementToFocus = undefined;
+        }
+
+        if (this.postRenderCallback) {
+            this.postRenderCallback();
+            this.postRenderCallback = null;
         }
     }
 
