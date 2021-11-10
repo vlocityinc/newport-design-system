@@ -9,7 +9,7 @@
 ///
 /// @require $static-font-path - See _config.scss where this setting is defined
 @mixin font-face($font-face-setting: Regular, $font-style-setting: null, $font-weight-setting: null) {
-  $font-path: '#{$static-font-path}/Lato-#{$font-face-setting}';
+  $font-path: '#{$static-font-path}/Ubuntu-#{$font-face-setting}';
 
   @font-face {
     //font-family: 'Lato'; replaced by mundial main Font
