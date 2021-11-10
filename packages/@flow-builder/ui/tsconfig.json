@@ -89,7 +89,6 @@
             "builder_platform_interaction/fieldToFerovExpressionBuilder": ["./src/builder_platform_interaction/fieldToFerovExpressionBuilder/fieldToFerovExpressionBuilder.ts"],
             "builder_platform_interaction/filterConditionList": ["./src/builder_platform_interaction/filterConditionList/filterConditionList.ts"],
             "builder_platform_interaction/filterEditor": ["./src/builder_platform_interaction/filterEditor/filterEditor.ts"],
-            "builder_platform_interaction/filterEditorLib": ["./src/builder_platform_interaction/filterEditorLib/filterEditorLib.ts"],
             "builder_platform_interaction/filterLib": ["./src/builder_platform_interaction/filterLib/filterLib.ts"],
             "builder_platform_interaction/filterTypeLib": ["./src/builder_platform_interaction/filterTypeLib/filterTypeLib.ts"],
             "builder_platform_interaction/flowExtensionLib": ["./src/builder_platform_interaction/flowExtensionLib/flowExtensionLib.ts"],

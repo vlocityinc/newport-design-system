@@ -4,7 +4,7 @@ import {
     duplicateCanvasElement,
     baseCanvasElementsArrayToMap
 } from './base/baseElement';
-import { baseCanvasElementMetadataObject, createConditionMetadataObject } from './base/baseMetadata';
+import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createConnectorObjects } from './connector';
 import {
     COLLECTION_PROCESSOR_SUB_TYPE,
@@ -14,6 +14,7 @@ import {
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { createSortOption, createSortOptionMetadataObject } from './sortOption';
 import { createMapItem, createMapItemMetadataObject } from './mapItem';
+import { createFilterConditionItem, createFilterConditionMetadataObject } from './filterConditionItem';
 
 const elementType = ELEMENT_TYPE.COLLECTION_PROCESSOR;
 const maxConnections = 1;
@@ -48,11 +49,11 @@ function createCollectionProcessorItem(collectionProcessor) {
     const {
         collectionReference = null,
         assignNextValueToReference = null,
-        filterText = CONDITION_LOGIC.AND,
-        formulaExpression = null,
+        conditionLogic = CONDITION_LOGIC.AND,
+        formula = null,
         outputSObjectType = null
     } = collectionProcessor;
-    let { filterConditions = [], sortOptions = null, mapItems = null } = collectionProcessor;
+    let { conditions = [], sortOptions = null, mapItems = null } = collectionProcessor;
     const cpItem = {
         collectionReference,
         collectionProcessorType,
@@ -87,17 +88,20 @@ function createCollectionProcessorItem(collectionProcessor) {
             });
         }
         case COLLECTION_PROCESSOR_SUB_TYPE.FILTER: {
-            if (filterConditions && filterConditions.length) {
-                filterConditions = filterConditions.map((condition) => createCondition(condition));
-            } else if (!formulaExpression) {
+            if (conditions && conditions.length) {
+                conditions = conditions.map((condition) =>
+                    createFilterConditionItem(assignNextValueToReference, condition)
+                );
+            } else if (!formula) {
                 const initFilterCondition = createCondition();
-                filterConditions = [initFilterCondition];
+                conditions = [initFilterCondition];
             }
 
             return Object.assign(cpItem, {
-                filterConditions,
-                filterText,
-                formulaExpression
+                assignNextValueToReference,
+                conditions,
+                conditionLogic,
+                formula
             });
         }
         default:
@@ -146,13 +150,13 @@ function createCollectionProcessorItemMetadataObject(collectionProcessor) {
         collectionReference = null,
         collectionProcessorType,
         limit = null,
-        filterText = null,
-        formulaExpression = null,
+        conditionLogic = null,
+        formula = null,
         assignNextValueToReference = null,
         outputSObjectType = null
     } = collectionProcessor;
     const cpItemMd = { collectionReference, collectionProcessorType, limit };
-    let { filterConditions = [], sortOptions = null, mapItems = null } = collectionProcessor;
+    let { conditions = [], sortOptions = null, mapItems = null } = collectionProcessor;
     switch (collectionProcessorType) {
         case COLLECTION_PROCESSOR_SUB_TYPE.SORT: {
             if (sortOptions && sortOptions.length > 0) {
@@ -176,13 +180,17 @@ function createCollectionProcessorItemMetadataObject(collectionProcessor) {
             });
         }
         case COLLECTION_PROCESSOR_SUB_TYPE.FILTER: {
-            if (filterConditions && filterConditions.length) {
-                filterConditions = filterConditions.map((condition) => createConditionMetadataObject(condition));
+            if (conditions && conditions.length) {
+                conditions = conditions.map((condition) =>
+                    createFilterConditionMetadataObject(assignNextValueToReference, condition)
+                );
             }
+
             return Object.assign(cpItemMd, {
-                filterConditions,
-                filterText,
-                formulaExpression
+                assignNextValueToReference,
+                conditions,
+                conditionLogic,
+                formula
             });
         }
         default:

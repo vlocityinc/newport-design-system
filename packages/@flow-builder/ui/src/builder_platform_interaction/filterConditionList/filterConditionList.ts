@@ -117,8 +117,16 @@ export default class FilterConditionList extends LightningElement {
         return this.conditions && showDeleteCondition(this.conditions);
     }
 
-    @track recordFields;
+    @api
+    get recordFields() {
+        return this._filterableRecordFields;
+    }
 
+    set recordFields(fields: Object) {
+        this.populateRecordFields(fields);
+    }
+
+    _filterableRecordFields = {};
     /**
      * Populate filterable fields or apex properties in lhs of condition builder
      *
@@ -129,7 +137,7 @@ export default class FilterConditionList extends LightningElement {
             return;
         }
         let filterableFields;
-        this.recordFields = {};
+        this._filterableRecordFields = {};
         if (this._sObjectOrApexReference.isSObject) {
             filterableFields = Object.values(fields).filter((field) => field.filterable);
         } else if (this._sObjectOrApexReference.isApexClass) {
@@ -139,7 +147,7 @@ export default class FilterConditionList extends LightningElement {
             );
         }
         filterableFields.forEach((filterableField) => {
-            this.recordFields[filterableField.apiName] = filterableField;
+            this._filterableRecordFields[filterableField.apiName] = filterableField;
         });
     }
 

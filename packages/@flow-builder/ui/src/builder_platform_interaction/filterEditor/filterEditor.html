@@ -11,8 +11,26 @@
                 placeholder={labels.inputCollectionPlaceholder}
                 collection-reference={filterElement.collectionReference}
                 collection-processor-filter={collectionProcessorFilter}
-                oncollectionreferencechanged={handleCollectionVariablePropertyChanged}
+                oncollectionreferencechanged={handleCollectionVariablePropertyChange}
             ></builder_platform_interaction-input-collection-picker>
+        </div>
+
+        <div if:true={inputCollectionType}>
+            <builder_platform_interaction-filter-condition-list
+                element-guid={filterElement.guid}
+                conditions={filterElement.conditions}
+                condition-logic={filterElement.conditionLogic}
+                formula-expression={filterElement.formula}
+                record-fields={recordFields}
+                show-prefix
+                sobject-or-apex-reference={sObjectOrApexReference}
+                collection-reference-display-text={inputCollectionType.subtype}
+                onaddcondition={handleFilterConditionChange}
+                onupdatecondition={handleFilterConditionChange}
+                ondeletecondition={handleFilterConditionChange}
+                onpropertychanged={handleFilterConditionChange}
+            >
+            </builder_platform_interaction-filter-condition-list>
         </div>
     </div>
 </template>

@@ -7,7 +7,7 @@
         logic-combobox-label={labels.filterConditionsHeader}
         onpropertychanged={handleConditionLogicChanged}
     >
-        <div slot="conditions">
+        <div slot="conditions" if:false={showFormulaEditor}>
             <!-- List of condition expressions -->
             <template for:each={conditionsWithPrefixes} for:item="conditionWithPrefix" for:index="conditionIndex">
                 <div class="slds-list__item slds-is-relative" key={conditionWithPrefix.condition.rowIndex}>
@@ -21,7 +21,7 @@
                         <div slot="rowBody">
                             <builder_platform_interaction-field-to-ferov-expression-builder
                                 if:true={isSObjectOrApex}
-                                object-type={sobjectOrApexReference}
+                                object-type={sobjectOrApexReference.value}
                                 container-element={elementType}
                                 lhs-fields={recordFields}
                                 rules={rulesForExpressionBuilder}

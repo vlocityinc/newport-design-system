@@ -1,11 +1,14 @@
 import { createElement } from 'lwc';
 import { ComboboxTestComponent } from '../../integrationTests/__tests__/comboboxTestUtils';
+import { CollectionReferenceChangedEvent } from 'builder_platform_interaction/events';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import FilterEditor from 'builder_platform_interaction/filterEditor';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
+import { PropertyChangedEvent, AddConditionEvent, DeleteConditionEvent } from 'builder_platform_interaction/events';
 import * as store from 'mock/storeData';
 
 /**
@@ -17,18 +20,42 @@ import * as store from 'mock/storeData';
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 const initFilterElementInfo = {
-    collectionReference: { value: null, error: null },
+    collectionReference: { value: '', error: null },
+    assignNextValueToReference: { value: '', error: null },
     conditions: [
         {
-            rowIndex: '9afbaf94-5c0b-48ca-9ed9-e75b74bec527',
-            leftHandSide: '',
-            rightHandSide: '',
-            rightHandSideDataType: '',
-            operator: ''
+            leftHandSide: { value: '', error: null },
+            rightHandSide: { value: '', error: null },
+            rightHandSideDataType: { value: '', error: null },
+            operator: { value: '', error: null },
+            rowIndex: '9afbaf94-5c0b-48ca-9ed9-e75b74bec527'
         }
     ],
-    filterText: null,
-    formulaExpression: null
+    conditionLogic: { value: CONDITION_LOGIC.AND, error: null },
+    formula: null
+};
+
+const testSObjectTypeCollection = {
+    collectionReference: {
+        value: store.accountSObjectCollectionVariable.guid,
+        error: null
+    },
+    assignNextValueToReference: {
+        value: store.accountSObjectCollectionVariable.guid,
+        error: null
+    },
+    conditions: [
+        {
+            leftHandSide: { value: 'Account.Name', error: null },
+            rightHandSide: { value: 'This is my name', error: null },
+            rightHandSideDataType: { value: 'String', error: null },
+            operator: { value: 'Contains', error: null },
+            rowIndex: '9afbaf94-5c0b-48ca-9ed9-e75b74bec527'
+        }
+    ],
+    conditionLogic: { value: 'and', error: null },
+    formula: null,
+    guid: '12345'
 };
 
 const GROUP_LABELS = {
@@ -60,6 +87,16 @@ const getCombobox = (inputCollection) => {
     return new ComboboxTestComponent(
         baseResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX)
     );
+};
+
+const getFilterConditionList = (filterEditor) => {
+    const filterConditionList = filterEditor.shadowRoot.querySelector(
+        INTERACTION_COMPONENTS_SELECTORS.FILTER_CONDITION_LIST
+    );
+    if (filterConditionList) {
+        return filterConditionList.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.CONDITION_LIST);
+    }
+    return null;
 };
 
 describe('filter-editor', () => {
@@ -123,6 +160,52 @@ describe('filter-editor', () => {
                     addCurlyBraces(store.stringCollectionVariable1.name)
                 )
             ).not.toBeNull();
+        });
+    });
+
+    describe('handle events', () => {
+        describe('on input collection change', () => {
+            let filterEditor;
+            let filterConditionList;
+            let inputCollection;
+
+            beforeEach(() => {
+                filterEditor = createComponentUnderTest({ elementInfo: testSObjectTypeCollection });
+                filterConditionList = getFilterConditionList(filterEditor);
+                inputCollection = getFilterInputCollection(filterEditor);
+            });
+
+            it('should update input collection reference', async () => {
+                const valueChangedEvent = new CollectionReferenceChangedEvent(
+                    store.caseSObjectCollectionVariable.guid,
+                    null
+                );
+                inputCollection.dispatchEvent(valueChangedEvent);
+                await ticks(1);
+                const ferovResourcePicker = getFerovResourcePicker(inputCollection);
+                expect(ferovResourcePicker.value.value).toEqual(store.caseSObjectCollectionVariable.guid);
+            });
+
+            it('should add a new filter condition', async () => {
+                const addConditionEvent = new AddConditionEvent(filterEditor.elementInfo.guid);
+                filterConditionList.dispatchEvent(addConditionEvent);
+                await ticks(1);
+                expect(filterEditor.elementInfo.conditions).toHaveLength(2);
+            });
+
+            it('should remove filter condition', async () => {
+                const deleteConditionEvent = new DeleteConditionEvent(filterEditor.elementInfo.guid, 0);
+                filterConditionList.dispatchEvent(deleteConditionEvent);
+                await ticks(1);
+                expect(filterEditor.elementInfo.conditions).toHaveLength(0);
+            });
+
+            it('should handle filter logic change', async () => {
+                const propertyChangeEvent = new PropertyChangedEvent('conditionLogic', CONDITION_LOGIC.OR);
+                filterConditionList.dispatchEvent(propertyChangeEvent);
+                await ticks(1);
+                expect(filterEditor.elementInfo.conditionLogic.value).toBe(CONDITION_LOGIC.OR);
+            });
         });
     });
 });
