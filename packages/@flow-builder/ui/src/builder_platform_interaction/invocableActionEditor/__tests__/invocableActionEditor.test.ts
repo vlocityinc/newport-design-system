@@ -72,6 +72,10 @@ jest.mock('../invocableActionReducer', () => {
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
+jest.mock('builder_platform_interaction/editor', () => {
+    return Object.assign({}, { launchSubflow: jest.fn() });
+});
+
 const defaultNode = {
     actionName: { value: 'chatterPost', error: null },
     actionType: { value: 'chatterPost', error: null },

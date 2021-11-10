@@ -78,7 +78,12 @@ import { INIT, isRedoAvailable, isUndoAvailable, undoRedo } from 'builder_platfo
 import { fetchFieldsForEntity, getEntity, MANAGED_SETUP, setEventTypes } from 'builder_platform_interaction/sobjectLib';
 import { LABELS } from './editorLabels';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { EditElementEvent, LocatorIconClickedEvent, NewResourceEvent } from 'builder_platform_interaction/events';
+import {
+    EditElementEvent,
+    LocatorIconClickedEvent,
+    NewResourceEvent,
+    OpenSubflowEvent
+} from 'builder_platform_interaction/events';
 import { SaveType } from 'builder_platform_interaction/saveType';
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
 import { mutateFlowResourceToComboboxShape } from 'builder_platform_interaction/expressionUtils';
@@ -110,7 +115,8 @@ import {
     updateStoreAfterSaveAsNewFlowIsFailed,
     updateStoreAfterSaveAsNewVersionIsFailed,
     updateStoreAfterSaveFlowIsSuccessful,
-    updateUrl
+    updateUrl,
+    launchSubflow
 } from './editorUtils';
 import { cachePropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import {
@@ -2410,24 +2416,16 @@ export default class Editor extends LightningElement {
     async handleOpenSubflow(event: OpenSubflowEvent) {
         event.stopPropagation();
         this.spinners.showAutoLayoutSpinner = true;
-        const baseUrl = '/builder_platform_interaction/flowBuilder.app?';
         try {
-            const currentState = storeInstance.getCurrentState();
-            const subflowElement = currentState.elements[event.detail.guid];
             // Wait for subflow data to be ready
             await Promise.resolve(this.openSubflowBlockerPromise);
             // Match the subflow element selected with backend information about it
             // Construct a url based on lightning/aloha and activeVersionId/latestVersionId
-            const subflowData = getSubflows().find((subflow) => subflow.fullName === subflowElement.flowName);
+            const subflowData = getSubflows().find((subflow) => subflow.fullName === event.detail.flowName);
             if (subflowData && subflowData.isViewable) {
-                const subflowVersionId = subflowData.activeVersionId || subflowData.latestVersionId;
-                const url =
-                    getPreferredExperience() === CLASSIC_EXPERIENCE
-                        ? baseUrl + 'isFromAloha=true&flowId=' + subflowVersionId
-                        : baseUrl + 'flowId=' + subflowVersionId;
-                window.open(url);
+                launchSubflow(subflowData.activeVersionId || subflowData.latestVersionId);
             } else {
-                const subflowName = subflowData ? subflowData.masterLabel : subflowElement.flowName;
+                const subflowName = subflowData ? subflowData.masterLabel : event.detail.flowName;
                 this.toastErrorMessage = format(this.labels.cantOpenSubflowUrl, subflowName);
             }
         } finally {
@@ -3081,4 +3079,4 @@ export default class Editor extends LightningElement {
     }
 }
 
-export { createStartElement, getElementsToBeDeleted };
+export { createStartElement, getElementsToBeDeleted, launchSubflow };

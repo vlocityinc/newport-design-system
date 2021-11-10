@@ -87,6 +87,10 @@ jest.mock('builder_platform_interaction/storeLib', () => {
     });
 });
 
+jest.mock('builder_platform_interaction/editor', () => {
+    return Object.assign({}, { launchSubflow: jest.fn() });
+});
+
 const subflowNode = {
     guid: '024b2345-97d2-4e67-952b-6cd326a54570',
     name: {

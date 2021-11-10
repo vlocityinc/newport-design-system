@@ -37,6 +37,10 @@ import {
     getElementGuid
 } from '../baseCalloutEditorTestUtils';
 
+jest.mock('builder_platform_interaction/editor', () => {
+    return Object.assign({}, { launchSubflow: jest.fn() });
+});
+
 const createComponentForTest = (node, { isNewMode = false } = {}) => {
     const el = createElement('builder_platform_interaction-invocable-action-editor', { is: InvocableActionEditor });
     Object.assign(el, { node, isNewMode });

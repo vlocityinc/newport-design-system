@@ -5,6 +5,7 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { ComboboxStateChangedEvent, DynamicTypeMappingChangeEvent } from 'builder_platform_interaction/events';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { LABELS } from '../baseCalloutEditorLabels';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -15,6 +16,9 @@ jest.mock('builder_platform_interaction/outputResourcePicker', () =>
 jest.mock('builder_platform_interaction/entityResourcePicker', () =>
     require('builder_platform_interaction_mocks/entityResourcePicker')
 );
+jest.mock('builder_platform_interaction/editor', () => {
+    return Object.assign({}, { launchSubflow: jest.fn() });
+});
 
 const defaultTitle = 'Configure Post to Chatter';
 
@@ -100,13 +104,22 @@ const defaultBaseCalloutElement = {
     subtitle: defaultTitle,
     labelDescriptionConfig: defaultLabelDescriptionConfig,
     typeMappings: defaultTypeMappings,
-    parameterListConfig: defaultParameterListConfig
+    parameterListConfig: defaultParameterListConfig,
+    viewableSubflowInfo: {
+        masterLabel: 'Subflow Label',
+        activeVersionId: 'av1',
+        latestVersionId: 'av1'
+    }
 };
 
 const selectors = {
     labelDescription: 'builder_platform_interaction-label-description',
     parameterList: 'builder_platform_interaction-parameter-list',
-    typeMapping: 'builder_platform_interaction-entity-resource-picker'
+    typeMapping: 'builder_platform_interaction-entity-resource-picker',
+    referencedFlowSection: '.test-referenced-flow',
+    referencedFlowSectionHeader: '.test-referenced-flow .slds-text-heading_small',
+    referencedFlowSectionCard: '.test-referenced-flow lightning-card',
+    referencedFlowSectionCardButton: '.test-referenced-flow lightning-card lightning-button'
 };
 
 const getLabelDescription = (baseCalloutEditor) => {
@@ -126,7 +139,8 @@ function createComponentForTest({
     subtitle = '',
     elementType = ELEMENT_TYPE.ACTION_CALL,
     typeMappings = [],
-    parameterListConfig = {}
+    parameterListConfig = {},
+    viewableSubflowInfo = null
 } = {}) {
     const el = createElement('builder_platform_interaction-base-callout-editor', { is: BaseCalloutEditor });
     Object.assign(el, {
@@ -134,7 +148,8 @@ function createComponentForTest({
         subtitle,
         labelDescriptionConfig,
         typeMappings,
-        parameterListConfig
+        parameterListConfig,
+        viewableSubflowInfo
     });
     setDocumentBodyChildren(el);
     return el;
@@ -236,6 +251,63 @@ describe('base-callout-editor', () => {
             typeValue: 'lead',
             error: null,
             rowIndex: 'index1'
+        });
+    });
+
+    describe('Referenced Flow Card', () => {
+        it('Should not display the referenced flow section when viewableSubflowInfo is null', () => {
+            const baseCalloutEditor = createComponentForTest();
+            const referencedFlowSection = baseCalloutEditor.shadowRoot.querySelector(selectors.referencedFlowSection);
+            expect(referencedFlowSection).toBeNull();
+        });
+
+        it('Should display the referenced flow section when viewableSubflowInfo is not null', () => {
+            const baseCalloutEditor = createComponentForTest(defaultBaseCalloutElement);
+            const referencedFlowSection = baseCalloutEditor.shadowRoot.querySelector(selectors.referencedFlowSection);
+            expect(referencedFlowSection).not.toBeNull();
+        });
+
+        it('Referenced flow section should have a heading', () => {
+            const baseCalloutEditor = createComponentForTest(defaultBaseCalloutElement);
+            const referencedFlowSectionHeader = baseCalloutEditor.shadowRoot.querySelector(
+                selectors.referencedFlowSectionHeader
+            );
+            expect(referencedFlowSectionHeader.textContent).toBe(LABELS.referencedFlowHeading);
+        });
+
+        it('Referenced flow section should have a lightning-card', () => {
+            const baseCalloutEditor = createComponentForTest(defaultBaseCalloutElement);
+            const referencedFlowSectionCard = baseCalloutEditor.shadowRoot.querySelector(
+                selectors.referencedFlowSectionCard
+            );
+            expect(referencedFlowSectionCard).not.toBeNull();
+        });
+
+        it('lightning-card should have the right title', () => {
+            const baseCalloutEditor = createComponentForTest(defaultBaseCalloutElement);
+            const referencedFlowSectionCard = baseCalloutEditor.shadowRoot.querySelector(
+                selectors.referencedFlowSectionCard
+            );
+            expect(referencedFlowSectionCard.title).toBe(defaultBaseCalloutElement.viewableSubflowInfo.masterLabel);
+        });
+
+        it('lightning-card should have the right icon name', () => {
+            const baseCalloutEditor = createComponentForTest(defaultBaseCalloutElement);
+            const referencedFlowSectionCard = baseCalloutEditor.shadowRoot.querySelector(
+                selectors.referencedFlowSectionCard
+            );
+            expect(referencedFlowSectionCard.iconName).toBe('standard:flow');
+        });
+
+        it('lightning-card should have a button with right label, title, icon name and icon position', () => {
+            const baseCalloutEditor = createComponentForTest(defaultBaseCalloutElement);
+            const referencedFlowSectionCardButton = baseCalloutEditor.shadowRoot.querySelector(
+                selectors.referencedFlowSectionCardButton
+            );
+            expect(referencedFlowSectionCardButton.label).toBe(LABELS.openFlowButtonLabel);
+            expect(referencedFlowSectionCardButton.title).toBe(LABELS.openFlowButtonTitle);
+            expect(referencedFlowSectionCardButton.iconName).toBe('utility:new_window');
+            expect(referencedFlowSectionCardButton.iconPosition).toBe('right');
         });
     });
 });

@@ -20,6 +20,10 @@ import {
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { AddElementEvent } from 'builder_platform_interaction/events';
 
+jest.mock('builder_platform_interaction/editor', () => {
+    return Object.assign({}, { launchSubflow: jest.fn() });
+});
+
 const createComponentForTest = (node, processType, mode) => {
     const el = createElement('builder_platform_interaction-callout-editor', {
         is: CalloutEditor

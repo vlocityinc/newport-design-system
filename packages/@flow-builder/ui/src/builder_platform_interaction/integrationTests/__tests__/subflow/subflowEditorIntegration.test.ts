@@ -39,6 +39,10 @@ import {
 import { EditElementEvent, AddElementEvent } from 'builder_platform_interaction/events';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 
+jest.mock('builder_platform_interaction/editor', () => {
+    return Object.assign({}, { launchSubflow: jest.fn() });
+});
+
 const createComponentForTest = (node, mode) => {
     const el = createElement('builder_platform_interaction-subflow-editor', {
         is: SubflowEditor

@@ -13,6 +13,26 @@
             </builder_platform_interaction-label-description>
         </div>
         <lightning-spinner if:true={displaySpinner} size="medium" variant="brand" class="spinner"></lightning-spinner>
+
+        <div if:true={viewableSubflowInfo} class="test-referenced-flow">
+            <h1 class="slds-m-vertical_x-small slds-text-heading_small">{labels.referencedFlowHeading}</h1>
+            <lightning-card
+                class="custom-card-styling"
+                title={viewableSubflowInfo.masterLabel}
+                icon-name="standard:flow"
+            >
+                <lightning-button
+                    label={labels.openFlowButtonLabel}
+                    title={labels.openFlowButtonTitle}
+                    icon-name="utility:new_window"
+                    icon-position="right"
+                    slot="actions"
+                    onclick={handleOpenReferencedSubflow}
+                >
+                </lightning-button>
+            </lightning-card>
+        </div>
+
         <div if:true={isSystemMode}>
             <div class="custom-builder-baseCallOutEditor__mode-info slds-grid">
                 <lightning-icon

@@ -21,6 +21,9 @@ jest.mock('builder_platform_interaction/sharedUtils', () => {
         invokeModal: require('builder_platform_interaction/sharedUtils/auraUtils').invokeModal
     });
 });
+jest.mock('builder_platform_interaction/editor', () => {
+    return Object.assign({}, { launchSubflow: jest.fn() });
+});
 
 const createPropertyEditorComponent = async (
     elementForPropertyEditor,

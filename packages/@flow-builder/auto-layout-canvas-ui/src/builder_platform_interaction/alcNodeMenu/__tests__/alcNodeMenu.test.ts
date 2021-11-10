@@ -1,7 +1,12 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import AlcNodeMenu from 'builder_platform_interaction/alcNodeMenu';
-import { CopySingleElementEvent, DeleteElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
+import {
+    CopySingleElementEvent,
+    DeleteElementEvent,
+    EditElementEvent,
+    OpenSubflowEvent
+} from 'builder_platform_interaction/events';
 import {
     HighlightPathsToDeleteEvent,
     CloseMenuEvent,
@@ -79,6 +84,17 @@ const conditionOptions = [
         value: 'NO_PATH'
     }
 ];
+
+const dummySubflowElement = {
+    guid: 'subflowElementGuid',
+    section: 'Dummy_Section',
+    icon: 'standard:lightning_component',
+    description: 'Dummy Description',
+    label: 'Dummy_Label',
+    value: 'Dummy_Value',
+    elementType: 'Subflow',
+    type: NodeType.DEFAULT
+};
 
 const selectors = {
     header: '.node-menu-header',
@@ -974,6 +990,66 @@ describe('Node Menu', () => {
                 deleteButton.click();
                 expect(callback).toHaveBeenCalled();
             });
+        });
+    });
+
+    describe('Subflow Node Menu', () => {
+        let menu;
+        let openFlowRow;
+        beforeEach(() => {
+            menu = createComponentUnderTest(dummySubflowElement);
+            menu.flowModel = {
+                subflowElementGuid: {
+                    flowName: 'Dummy Subflow'
+                }
+            };
+            openFlowRow = menu.shadowRoot.querySelectorAll(selectors.menuActionRow)[2];
+        });
+
+        it('Should have the open subflow row item', () => {
+            expect(openFlowRow).toBeDefined();
+        });
+
+        it('Clicking on the Open Subflow row item should dispatch the OpenSubflowEvent', () => {
+            const callback = jest.fn();
+            menu.addEventListener(OpenSubflowEvent.EVENT_NAME, callback);
+            openFlowRow.click();
+            expect(callback).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    detail: {
+                        flowName: menu.flowModel.subflowElementGuid.flowName
+                    }
+                })
+            );
+        });
+
+        it('Clicking on the Open Subflow row dispatches the close menu event', () => {
+            const callback = jest.fn();
+            menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
+            openFlowRow.click();
+            expect(callback).toHaveBeenCalled();
+        });
+
+        it('Clicking on the Open Subflow dispatches MoveFocusToNodeEvent', () => {
+            const callback = jest.fn();
+            menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, callback);
+            openFlowRow.click();
+            expect(callback).toHaveBeenCalled();
+        });
+
+        it('The Open Subflow row icon should have the right icon-name', () => {
+            const openSubflowIcon = openFlowRow.querySelector(selectors.menuActionRowIcon);
+            expect(openSubflowIcon.iconName).toBe(ELEMENT_ACTION_CONFIG.OPEN_SUBFLOW_ACTION.icon);
+        });
+
+        it('The Open Subflow row icon should have the right variant', () => {
+            const openSubflowIcon = openFlowRow.querySelector(selectors.menuActionRowIcon);
+            expect(openSubflowIcon.variant).toBe(ELEMENT_ACTION_CONFIG.OPEN_SUBFLOW_ACTION.iconVariant);
+        });
+
+        it('The Open Subflow row should have the right label', () => {
+            const openSubflowLabel = openFlowRow.querySelector(selectors.menuActionRowLabel);
+            expect(openSubflowLabel.textContent).toBe(ELEMENT_ACTION_CONFIG.OPEN_SUBFLOW_ACTION.label);
         });
     });
 });

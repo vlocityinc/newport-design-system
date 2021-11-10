@@ -4,6 +4,7 @@ import { LABELS } from './baseCalloutEditorLabels';
 import { DynamicTypeMappingChangeEvent } from 'builder_platform_interaction/events';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { launchSubflow } from 'builder_platform_interaction/editor';
 const { format } = commonUtils;
 
 export default class BaseCalloutEditor extends LightningElement {
@@ -122,6 +123,9 @@ export default class BaseCalloutEditor extends LightningElement {
     @api
     configurationEditor;
 
+    @api
+    viewableSubflowInfo;
+
     get isSystemMode() {
         return this.runinmode
             ? this.runinmode.name === 'SystemModeWithSharing' || this.runinmode.name === 'SystemModeWithoutSharing'
@@ -173,6 +177,11 @@ export default class BaseCalloutEditor extends LightningElement {
         return this.state.typeMappings && this.state.typeMappings.length > 0 && !this.hasConfigurationEditor;
     }
 
+    handleOpenReferencedSubflow(event) {
+        event.stopPropagation();
+        launchSubflow(this.viewableSubflowInfo.activeVersionId || this.viewableSubflowInfo.latestVersionId);
+    }
+
     handleDataTypeMappingChange(event) {
         const dataTypeMapping = this.state.typeMappings.find(({ rowIndex }) => rowIndex === event.target.rowIndex);
         this.dispatchEvent(
@@ -187,5 +196,17 @@ export default class BaseCalloutEditor extends LightningElement {
 
     get emptyInputs() {
         return this.state.parameterListConfig.inputs?.length === 0;
+    }
+
+    renderedCallback() {
+        // Updating the flow icon's background color since slds icon doesn't
+        // have the background color used for the flow icon in Flow Builder.
+        const referencedFlowCard = this.template.querySelector('lightning-card');
+        if (referencedFlowCard) {
+            const subflowIcon = referencedFlowCard.shadowRoot.querySelector('.slds-icon-standard-flow');
+            if (subflowIcon) {
+                subflowIcon.style.backgroundColor = '#54698d';
+            }
+        }
     }
 }

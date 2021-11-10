@@ -14,6 +14,10 @@ import { actionPostToChatter } from 'mock/storeDataRecordTriggered';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
 
+jest.mock('builder_platform_interaction/editor', () => {
+    return Object.assign({}, { launchSubflow: jest.fn() });
+});
+
 const createComponentForTest = (node) => {
     const el = createElement('builder_platform_interaction-invocable-action-editor', { is: InvocableActionEditor });
     Object.assign(el, {

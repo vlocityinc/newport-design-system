@@ -9,6 +9,10 @@ jest.mock('builder_platform_interaction/translatorLib', () => ({
     translateUIModelToFlow: jest.fn()
 }));
 
+jest.mock('builder_platform_interaction/editor', () => {
+    return Object.assign({}, { launchSubflow: jest.fn() });
+});
+
 jest.mock('builder_platform_interaction/storeLib', () => {
     const getCurrentState = function () {
         return {

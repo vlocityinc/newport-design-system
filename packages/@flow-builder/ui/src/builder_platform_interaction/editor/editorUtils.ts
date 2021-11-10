@@ -38,7 +38,12 @@ import {
     shouldSupportScheduledPaths
 } from 'builder_platform_interaction/elementFactory';
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
-import { canUserVAD, orgHasFlowBuilderGuardrails } from 'builder_platform_interaction/contextLib';
+import {
+    canUserVAD,
+    orgHasFlowBuilderGuardrails,
+    CLASSIC_EXPERIENCE,
+    getPreferredExperience
+} from 'builder_platform_interaction/contextLib';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { getElementSections } from 'builder_platform_interaction/editorElementsUtils';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
@@ -303,6 +308,15 @@ export const updateUrl = (flowId) => {
         urlParams += '?flowId=' + flowId;
     }
     window.history.pushState(null, 'Flow Builder', window.location.href.split('?')[0] + urlParams);
+};
+
+export const launchSubflow = (subflowVersionId) => {
+    const baseUrl = '/builder_platform_interaction/flowBuilder.app?';
+    const url =
+        getPreferredExperience() === CLASSIC_EXPERIENCE
+            ? baseUrl + 'isFromAloha=true&flowId=' + subflowVersionId
+            : baseUrl + 'flowId=' + subflowVersionId;
+    window.open(url);
 };
 
 export const setFlowErrorsAndWarnings = (data) => {

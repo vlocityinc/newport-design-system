@@ -69,6 +69,9 @@ export default class AlcNodeMenu extends Menu {
     @api
     disableEditElements;
 
+    @api
+    flowModel;
+
     @track
     contextualMenuMode = NodeMenuMode.Default;
 
@@ -201,7 +204,7 @@ export default class AlcNodeMenu extends Menu {
                 this.dispatchEvent(new DeleteElementFaultEvent(this.guid));
                 break;
             case ELEMENT_ACTION_CONFIG.OPEN_SUBFLOW_ACTION.value:
-                this.dispatchEvent(new OpenSubflowEvent(this.guid));
+                this.dispatchEvent(new OpenSubflowEvent(this.flowModel[this.guid].flowName));
                 break;
             default:
         }

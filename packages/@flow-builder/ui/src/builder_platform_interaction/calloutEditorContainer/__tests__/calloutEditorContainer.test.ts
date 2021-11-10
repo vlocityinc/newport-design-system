@@ -30,6 +30,10 @@ jest.mock('builder_platform_interaction/storeLib', () => {
     return storeLib;
 });
 
+jest.mock('builder_platform_interaction/editor', () => {
+    return Object.assign({}, { launchSubflow: jest.fn() });
+});
+
 const setupComponentUnderTest = (props) => {
     const element = createElement('builder_platform_interaction-callout-editor-container', {
         is: CalloutEditorContainer

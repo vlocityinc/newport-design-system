@@ -29,6 +29,8 @@ export default class SubflowEditor extends LightningElement {
 
     @track subflowRunInMode;
 
+    @track viewableSubflowInfo = null;
+
     labels = LABELS;
     processTypeValue = FLOW_PROCESS_TYPE.FLOW;
     connected = false;
@@ -130,6 +132,7 @@ export default class SubflowEditor extends LightningElement {
     }
 
     fetchSubflowDescriptor() {
+        this.displaySpinner = true;
         this.subflowDescriptor = undefined;
         const flowName = getValueFromHydratedItem(this.subflowNode.flowName);
         const options = { disableErrorModal: true };
@@ -147,10 +150,14 @@ export default class SubflowEditor extends LightningElement {
                 if (this.connected) {
                     this.subflowDescriptor = subflows.find((f) => f.fullName === flowName);
                     this.updatePropertyEditorTitle();
+                    this.updateViewableSubflowInfo();
                 }
             })
             .catch(() => {
                 // ignore the error : we won't use the subflowDescriptor in this case
+            })
+            .finally(() => {
+                this.displaySpinner = false;
             });
     }
 
@@ -165,6 +172,19 @@ export default class SubflowEditor extends LightningElement {
         const title = format(this.labels.editPropertyEditorTitle, flowName);
         const setPropertyEditorTitleEvent = new SetPropertyEditorTitleEvent(title);
         this.dispatchEvent(setPropertyEditorTitleEvent);
+    }
+
+    updateViewableSubflowInfo() {
+        const { isViewable, masterLabel, activeVersionId, latestVersionId } = this.subflowDescriptor;
+        if (isViewable) {
+            this.viewableSubflowInfo = {
+                masterLabel,
+                activeVersionId,
+                latestVersionId
+            };
+        } else {
+            this.viewableSubflowInfo = null;
+        }
     }
 
     updateNodeForFieldLevelCommit() {
