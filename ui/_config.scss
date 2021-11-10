@@ -66,7 +66,7 @@ $reset-wrapping-class: '.via-nds' !default;
 /// This toggles the labels on inputs to animate
 /// or live outside above the inputs always
 ///
-/// @type list
+/// @type Boolean
 $enable-animated-inputs: true !default;
 
 /// Enable simple underlined inputs
@@ -75,5 +75,5 @@ $enable-animated-inputs: true !default;
 ///
 /// IMPORTANT: To use this you must also disable $enable-animated-inputs
 ///
-/// @type list
+/// @type Boolean
 $enable-simple-underlined-inputs: $enable-animated-inputs or true !default;
