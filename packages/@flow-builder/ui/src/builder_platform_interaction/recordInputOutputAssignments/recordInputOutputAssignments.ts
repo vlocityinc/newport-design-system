@@ -63,6 +63,9 @@ export default class RecordInputOutputAssignments extends LightningElement {
     @api
     operatorLabel;
 
+    @api
+    operatorPlaceholder = '';
+
     /**
      * @param {string} entityName - the selected record object
      */

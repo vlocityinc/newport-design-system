@@ -78,6 +78,7 @@ const mockDefaultMapAssignmentItems = {
     rhsLabel: 'Value',
     lhsLabel: 'Output Field',
     operatorLabel: 'Operator',
+    operatorPlaceholder: 'Select',
     lhsPlaceholder: 'Select Field'
 };
 
@@ -211,6 +212,11 @@ describe('record-input-output-assignment', () => {
             });
             it('should not have operator icon', () => {
                 verifyProperty(expressionBuilders, 'operatorIconName', [null]);
+            });
+            it('should have operator placeholder', () => {
+                verifyProperty(expressionBuilders, 'operatorPlaceholder', [
+                    mockDefaultMapAssignmentItems.operatorPlaceholder
+                ]);
             });
             it('should display value in lhs', () => {
                 verifyProperty(
