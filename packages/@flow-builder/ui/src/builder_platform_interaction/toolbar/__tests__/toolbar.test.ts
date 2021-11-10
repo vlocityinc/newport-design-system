@@ -21,6 +21,7 @@ import { LABELS } from '../toolbarLabels';
 import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
 import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
 import {
+    ACCESSIBILITY_TEST_TIMEOUT_IN_MS,
     changeEvent,
     INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS,
@@ -85,12 +86,16 @@ describe('toolbar', () => {
         setup();
     });
 
-    it('accessibility', async () => {
-        const toolbarComponent = createComponentUnderTest({
-            saveAndPendingOperationStatus: FLOW_STATUS.SAVING
-        });
-        await expect(toolbarComponent).toBeAccessible();
-    });
+    it(
+        'accessibility',
+        async () => {
+            const toolbarComponent = createComponentUnderTest({
+                saveAndPendingOperationStatus: FLOW_STATUS.SAVING
+            });
+            await expect(toolbarComponent).toBeAccessible();
+        },
+        ACCESSIBILITY_TEST_TIMEOUT_IN_MS
+    );
 
     it('fires editflowproperties event when edit flow properties button is clicked', () => {
         const toolbarComponent = createComponentUnderTest();
