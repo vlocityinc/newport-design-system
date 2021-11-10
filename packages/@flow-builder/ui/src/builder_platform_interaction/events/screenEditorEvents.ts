@@ -139,10 +139,15 @@ export function createScreenElementDeselectedEvent(screenElement) {
  *
  * @param {object} screenElement - The screen element, either a screen or a screen field
  * @param {string} property - Applies only for when screenElement is a SCREEN, and it marks the property to toggle (showHeader or showFooter)
+ * @param fromKeyboard - Denotes if the screen element was selected using the enter key
  * @returns {event} The event
  */
-export function createScreenElementSelectedEvent(screenElement, property) {
-    return createScreenEditorEvent(ScreenEditorEventName.ScreenElementSelected, { screenElement, property });
+export function createScreenElementSelectedEvent(screenElement, property, fromKeyboard) {
+    return createScreenEditorEvent(ScreenEditorEventName.ScreenElementSelected, {
+        screenElement,
+        property,
+        fromKeyboard
+    });
 }
 
 /**

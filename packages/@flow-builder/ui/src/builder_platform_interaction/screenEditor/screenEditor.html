@@ -92,6 +92,9 @@
             <builder_platform_interaction-screen-properties-editor-container
                 node={selectedNode}
                 mode={mode}
+                focus-expand={focusExpand}
+                onfocusscreenelement={handleFocusScreenElement}
+                onexpandfocusout={handleExpandFocusOut}
                 onaddscreenfield={handleAddScreenFieldToContainerFieldWithParentFocus}
                 onaddautomaticscreenfield={handleAddScreenFieldToContainerFieldWithParentFocus}
                 onscreennodeselected={handleDeselectScreenElement}

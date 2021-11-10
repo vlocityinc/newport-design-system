@@ -115,6 +115,11 @@ export default class ScreenField extends LightningElement {
         return defaultValue;
     }
 
+    @api focusChildElement(index) {
+        const section = this.template.querySelector('builder_platform_interaction-screen-section-field');
+        section.focusChildElement(index);
+    }
+
     /**
      * Whether or not the current field type is an ObjectProvided one, aka "automatic field"
      * of picklist type

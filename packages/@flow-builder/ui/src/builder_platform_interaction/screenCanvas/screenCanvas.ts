@@ -14,6 +14,7 @@ import {
 } from 'builder_platform_interaction/events';
 import { isRegionContainerField } from 'builder_platform_interaction/screenEditorUtils';
 import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 
 const DRAGGING_REGION_SELECTOR = '.screen-canvas-dragging-region';
 const INSERTION_LINE_SELECTOR = '.screen-canvas-insertion-line';
@@ -54,6 +55,17 @@ export default class ScreenCanvas extends LightningElement {
 
     get emptyPlaceHolderText() {
         return this.element && this.element.type ? getPlaceHolderLabel(this.element.type.name) : null;
+    }
+
+    @api focusElement(indexArray) {
+        if (indexArray.length === 1) {
+            const highlights = this.template.querySelectorAll(HIGHLIGHT_SELECTOR);
+            highlights[indexArray[0]].focusIfSelected();
+        } else {
+            const elements = this.template.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.SCREEN_FIELD);
+            const section = elements[indexArray[2]];
+            section.focusChildElement(indexArray);
+        }
     }
 
     handleDrop(event) {

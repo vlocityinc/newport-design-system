@@ -32,6 +32,7 @@ import {
 } from 'builder_platform_interaction/events';
 import { modalBodyVariant } from 'builder_platform_interaction/builderUtils';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 const { format } = commonUtils;
 export enum ScreenEditorTab {
     Components = 'componentsTab',
@@ -55,6 +56,10 @@ export default class ScreenEditor extends LightningElement {
     activeTab = ScreenEditorTab.Components;
     automaticFieldRecordVariableGuid: UI.Guid = '';
     processTypeValue = '';
+
+    focusExpand = false;
+
+    shift = false;
 
     @track legalNotices: UI.LegalNotice[] = [
         { header: LEGAL_NOTICE_HEADERS.AUTOMATIC_FIELDS, shown: false, dismissed: false }
@@ -456,12 +461,22 @@ export default class ScreenEditor extends LightningElement {
      */
     handleSelectScreenElement = (event) => {
         this.hidePopover();
+        this.focusExpand = event.detail.fromKeyboard;
         const elem = event.screenElement;
         if (elem && elem.guid !== this.screen.guid) {
             this.setSelectedNode(this.screen.getFieldByGUID(elem.guid));
         } else {
             this.setSelectedNode(this.screen, event.property);
         }
+    };
+
+    handleExpandFocusOut() {
+        this.focusExpand = false;
+    }
+
+    handleFocusScreenElement = () => {
+        const element = this.template.querySelector(INTERACTION_COMPONENTS_SELECTORS.SCREEN_EDITOR_CANVAS);
+        element.focusHighlight();
     };
 
     /**

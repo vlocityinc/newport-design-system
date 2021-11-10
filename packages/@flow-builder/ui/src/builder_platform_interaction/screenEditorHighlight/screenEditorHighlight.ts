@@ -53,6 +53,18 @@ export default class ScreenEditorHighlight extends LightningElement {
         }
     }
 
+    @api focusIfSelected() {
+        if (this.selected) {
+            const element = this.template.querySelector(HIGHLIGHT_SELECTOR);
+            element?.focus();
+        }
+    }
+
+    @api focusHighlight() {
+        const element = this.template.querySelector(HIGHLIGHT_SELECTOR);
+        element.focus();
+    }
+
     get classList() {
         return `highlight slds-is-relative ${booleanAttributeValue(this, 'selected') ? SELECTED_CLASS : ''} ${
             booleanAttributeValue(this, 'hovering') ? HOVERING_CLASS : ''
@@ -108,10 +120,12 @@ export default class ScreenEditorHighlight extends LightningElement {
 
     /**
      * Fires screen element selected event if component not selected
+     *
+     * @param fromKeyboard
      */
-    fireComponentSelectedEvent() {
+    fireComponentSelectedEvent(fromKeyboard) {
         if (!this.selected) {
-            this.dispatchEvent(createScreenElementSelectedEvent(this.screenElement, this.property));
+            this.dispatchEvent(createScreenElementSelectedEvent(this.screenElement, this.property, fromKeyboard));
         }
     }
 
@@ -132,7 +146,7 @@ export default class ScreenEditorHighlight extends LightningElement {
 
     handleSelected = (event) => {
         event.stopPropagation();
-        this.fireComponentSelectedEvent();
+        this.fireComponentSelectedEvent(false);
     };
 
     handleDelete = (event) => {
@@ -168,7 +182,7 @@ export default class ScreenEditorHighlight extends LightningElement {
         if (!this.isInKeyboardReorderableMode) {
             switch (event.key) {
                 case Keys.Enter:
-                    this.fireComponentSelectedEvent();
+                    this.fireComponentSelectedEvent(true);
                     break;
                 case Keys.Space:
                     event.preventDefault();

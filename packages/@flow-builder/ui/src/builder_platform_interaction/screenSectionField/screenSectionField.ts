@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 
 /**
  * Wrapper used to represent visual preview of section fields.
@@ -25,5 +26,9 @@ export default class ScreenSectionField extends LightningElement {
                 calculatedClass
             };
         });
+    }
+    @api focusChildElement(index) {
+        const columns = this.template.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.SCREEN_CANVAS);
+        columns[index[1]].focusElement([index[0]]);
     }
 }

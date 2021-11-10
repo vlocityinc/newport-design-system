@@ -5,11 +5,19 @@ import { createScreenNodeSelectedEvent } from 'builder_platform_interaction/even
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+const { BaseKeyboardInteraction, withKeyboardInteractions, createShortcut, createShortcutKey, Keys } =
+    keyboardInteractionUtils;
+const { ShiftF6 } = commands;
+const SELECTORS = {
+    BACK_BUTTON: 'lightning-button-icon.back-button',
+    EXPAND_BUTTON: 'lightning-button-icon.expand-button'
+};
 
 /*
  * Right hand side component, used to toggle between screen and field property editors.
  */
-export default class ScreenEditorPropertiesEditorContainer extends LightningElement {
+export default class ScreenEditorPropertiesEditorContainer extends withKeyboardInteractions(LightningElement) {
     @track
     _node;
 
@@ -28,10 +36,27 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
     labels = LABELS;
     processTypeValue = '';
 
+    blockEvent = false;
+
+    @api focusExpand = false;
+
     private getScreenFieldPropertiesEditorPanelTitle() {
         return this.node.fieldType === FlowScreenFieldType.ObjectProvided
             ? LABELS.automaticFieldPropertyEditorPanelTitle
             : this.node.type.label;
+    }
+
+    /* TODO: Right now we set focusExpand to true and focus on every render,
+    because this component renders twice, and the first time the button to focus is not there.
+    We should find a better way to deal with this.*/
+    renderedCallback() {
+        if (this.focusExpand) {
+            this.blockEvent = true;
+            const button =
+                this.template.querySelector(SELECTORS.BACK_BUTTON) ||
+                this.template.querySelector(SELECTORS.EXPAND_BUTTON);
+            button?.focus();
+        }
     }
 
     set node(value) {
@@ -120,6 +145,10 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
         this.processTypeValue = newValue;
     }
 
+    handleExpandFocusOut() {
+        this.dispatchEvent(new CustomEvent('expandfocusout'));
+    }
+
     @api
     extensionTypes;
 
@@ -139,18 +168,36 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
         return [];
     }
 
-    handleToggleExpand = (/* event */) => {
-        const container = this.template.querySelector('.properties-container');
+    handleToggleExpand = () => {
+        if (!this.blockEvent) {
+            const container = this.template.querySelector('.properties-container');
 
-        container.classList.toggle('slds-size_medium');
-        const expanded = container.classList.toggle('slds-size_x-large');
+            container.classList.toggle('slds-size_medium');
+            const expanded = container.classList.toggle('slds-size_x-large');
 
-        this.toggleIconName = expanded ? 'utility:contract_alt' : 'utility:expand_alt';
+            this.toggleIconName = expanded ? 'utility:contract_alt' : 'utility:expand_alt';
+        }
+        this.blockEvent = false;
     };
 
-    handleScreenSelection = (/* event */) => {
-        this.dispatchEvent(createScreenNodeSelectedEvent(this.node));
+    handleScreenSelection = () => {
+        if (!this.blockEvent) {
+            this.dispatchEvent(createScreenNodeSelectedEvent(this.node));
+        }
+        this.blockEvent = false;
     };
+
+    getKeyboardInteractions() {
+        return [
+            new BaseKeyboardInteraction([
+                createShortcut(createShortcutKey(Keys.F6, true), new ShiftF6(() => this.handleShiftF6()))
+            ])
+        ];
+    }
+
+    handleShiftF6() {
+        this.dispatchEvent(new CustomEvent('focusscreenelement'));
+    }
 
     fetchDescription() {
         this.displaySpinner = true;

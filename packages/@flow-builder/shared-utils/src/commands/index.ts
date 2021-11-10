@@ -17,3 +17,4 @@ export { ArrowLeft } from './arrowLeft';
 export { ArrowRight } from './arrowRight';
 export { TabCommand } from './tabCommand';
 export { BaseCommand } from './baseCommand';
+export { ShiftF6 } from './shiftF6';

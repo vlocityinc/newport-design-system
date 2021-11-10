@@ -41,9 +41,11 @@
             <lightning-button-icon
                 icon-name={toggleIconName}
                 size="small"
+                class="expand-button"
                 variant="container"
                 title={labels.togglePropertiesPanelTitle}
                 onclick={handleToggleExpand}
+                onfocusout={handleExpandFocusOut}
             >
             </lightning-button-icon>
         </div>

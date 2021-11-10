@@ -17,7 +17,8 @@ export enum Keys {
     ArrowRight = 'ArrowRight',
     Delete = 'Delete',
     Backspace = 'Backspace',
-    Tab = 'Tab'
+    Tab = 'Tab',
+    F6 = 'F6'
 }
 
 /**

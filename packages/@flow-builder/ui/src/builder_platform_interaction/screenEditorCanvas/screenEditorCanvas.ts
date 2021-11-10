@@ -9,6 +9,7 @@ import { createScreenElementDeselectedEvent, createScreenElementMovedEvent } fro
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { FOOTER_LABEL_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 const { format } = commonUtils;
 
 type ScreenComponentInfo = {
@@ -54,6 +55,19 @@ export default class ScreenEditorCanvas extends LightningElement {
         if (this.setAriaTextOnMove) {
             this.setAriaLiveInstruction(false);
             this.setAriaTextOnMove = false;
+        }
+    }
+
+    @api focusHighlight() {
+        const indexArray = this.screen.getFieldIndexesByGUID(this.selectedItemGuid);
+        if (indexArray === -1) {
+            const highlights = this.template.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.SCREEN_EDITOR_HIGHLIGHT);
+            for (let x = 0; x < highlights.length; x++) {
+                highlights[x].focusIfSelected();
+            }
+        } else {
+            const canvas = this.template.querySelector(INTERACTION_COMPONENTS_SELECTORS.SCREEN_CANVAS);
+            canvas?.focusElement(indexArray);
         }
     }
 
