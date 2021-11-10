@@ -51,7 +51,7 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
   <div vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
   class="via-nds">
   <article vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
-  class="nds-card nds-grid nds-theme_default nds-grid_vertical ${fixedFooterValue ? 'nds-omniscript_mobile-fixed-footer' : ''}">
+  class="omniscript-article nds-card nds-grid nds-theme_default nds-grid_vertical ${fixedFooterValue ? 'nds-omniscript_mobile-fixed-footer' : ''}">
   <div vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
   class="nds-card__body nds-card__body_inner nds-m-top_medium">
   <c-omniscript-step-chart vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
@@ -2984,7 +2984,7 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
   <slot>
   <div class="nds-form-element nds-form-container nds-text-block">
   <lightning-formatted-rich-text class="nds-rich-text-editor__output"><span>
-  <p><strong>This is a text block</strong></p>
+  <p>This is a <strong>text block</strong></p>
   </span></lightning-formatted-rich-text>
   </div>
   </slot>

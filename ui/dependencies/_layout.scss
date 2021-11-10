@@ -64,13 +64,13 @@
 
 // HUGE - 1224px - 76.5rem
 @mixin mq-huge-min {
-  @media (min-width: pem(1224)) {
+  @media (min-width: pem($mq-x-large)) {
     @content;
   }
 }
 
 @mixin mq-huge-max {
-  @media (max-width: pem(1224)) {
+  @media (max-width: pem($mq-x-large)) {
     @content;
   }
 }

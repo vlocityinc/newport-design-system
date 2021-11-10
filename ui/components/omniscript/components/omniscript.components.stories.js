@@ -5379,7 +5379,21 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
     return withExample(`
       <div class="nds-form-element nds-form-container nds-text-block">
       <lightning-formatted-rich-text class="nds-rich-text-editor__output"><span>
-      <p><strong>This is a text block</strong></p>
+      <h1>H1</h1>
+      <h2>H2</h2>
+      <h3>H3</h3>
+      <h4>H4</h4>
+      <h5>H5</h5>
+      <h6>H6</h6>
+      <p>This is a <strong>text block</strong></p>
+      <ol>
+      <li>item 1</li>
+      <li>item 2</li>
+      </ol>
+      <ul>
+      <li>item 1</li>
+      <li>item 2</li>
+      </ul>
       </span></lightning-formatted-rich-text>
       </div>`);
   })

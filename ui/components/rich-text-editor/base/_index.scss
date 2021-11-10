@@ -119,26 +119,60 @@
 .slds-rich-text-editor__output,
 .nds-rich-text-editor__textarea,
 .nds-rich-text-editor__output {
-  line-height: $line-height-text;
   overflow-wrap: break-word;
   word-wrap: break-word;
   hyphens: manual;
+
+  p {
+    color: #444444;
+    line-height: 32px;
+    position: relative;
+    text-align: center;
+    z-index: 60;
+    font-size: 1rem;
+  }
 
   a {
     word-break: break-all;
   }
 
   h1 {
-    font-size: $font-size-heading-large;
+    font-size: 4em;
+    line-height: 1.2em;
+    color: #fff;
+    font-weight: bold;
+    font-family: sans-serif;
+    position: relative;
+    text-shadow: 0 1px 0 #ccc,
+                  0 2px 0 #c9c9c9,
+                  0 3px 0 #bbb,
+                  0 4px 0 #b9b9b9,
+                  0 5px 0 #aaa,
+                  0 6px 1px rgba(0,0,0,.1),
+                  0 0 5px rgba(0,0,0,.1),
+                  0 1px 3px rgba(0,0,0,.3),
+                  0 3px 5px rgba(0,0,0,.2);
+    z-index: 60;
+    text-align: center;
   }
 
   h2 {
-    font-size: $font-size-heading-medium;
-    font-weight: $font-weight-bold;
+    color: #fff;
+    font-family: "Salesforce Sans", sans-serif;
+    font-size: 1.5em;
+    margin-bottom: 0;
+    margin-top: 20px;
+    text-align: center;
   }
 
   h3 {
-    font-size: $font-size-heading-medium;
+    color: #2C73BF;
+    font-family: "Salesforce Sans", sans-serif;
+    font-weight: 300;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    margin-top: 100px;
+    text-align: center;
   }
 
   h4 {

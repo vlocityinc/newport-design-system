@@ -1,15 +1,19 @@
 const gulp = require('gulp');
-const { watchPaths } = require('../scripts/watch');
+const {
+  watchPaths
+} = require('../scripts/watch');
 require('../scripts/gulp/styles');
 
 class NewportSassWatcherPlugin {
   apply(compiler) {
+    let sassWatcher = null;
     compiler.hooks.watchRun.tap('Newport Sass Compiler', () => {
-      const sassWatcher = gulp.watch(watchPaths.sass, gulp.series('styles:sass'));
-
-      sassWatcher.on('change', function(obj, stats) {
-        console.log(`File ${obj} was changed`);
-      });
+      if (!sassWatcher) {
+        sassWatcher = gulp.watch(watchPaths.sass, gulp.series('styles:sass'));
+        sassWatcher.on('change', function (obj, stats) {
+          console.log(`File ${obj} was changed`);
+        });
+      }
     });
   }
 }

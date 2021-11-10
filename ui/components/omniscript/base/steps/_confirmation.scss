@@ -1,0 +1,45 @@
+[data-omni-key="confirmation"]:not(:empty) {
+  display: flex;
+  background-image: url($static-image-path + "/hillside-background.png");
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: cover;
+  min-height: 100vh;
+
+  // reset paddings
+  .nds-block .nds-block_container>label~.nds-block_body  {
+    padding: 0;
+  }
+  .nds-p-around_small {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  h2 {
+    color: #00396b;
+    font-size: 3rem;
+  }
+
+  [data-omni-key="Finish"] {
+
+    .nds-radio_button__label {
+      background: transparent;
+    }
+    .nds-radio_button-group {
+      background: linear-gradient(180deg, #7c9e81 0%, #4e6359 100%);
+      border-color: #49693D;
+      border-radius: .25rem;
+      height: 2rem;
+      width: 12rem;
+      margin: 0 auto;
+    }
+    .nds-radio_button [type=radio]:checked+.nds-radio_button__label {
+      background: transparent;
+    }
+    .nds-radio_faux {
+      color: #fff;
+      font-weight: 700;
+      line-height: 1rem;
+    }
+  }
+}

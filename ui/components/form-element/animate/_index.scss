@@ -21,8 +21,7 @@
 }
 
 .nds-input {
-  font-size: .875rem;
-  letter-spacing: 1px;
+  font-size: .75rem;
   font-weight: 400;
 }
 
@@ -205,7 +204,7 @@ input[placeholder]::placeholder {
   font-size: .75rem;
   font-weight: 400;
   text-transform: capitalize;
-  margin-top: .625rem;
+  margin-top: .125rem;
 
   &.nds-form-element__help_text-transform__none {
     text-transform: none;
@@ -241,7 +240,7 @@ input[placeholder]::placeholder {
 }
 
 .nds-form-container {
-  margin-bottom: .5rem;
+  margin: .5rem 0;
   padding: .75rem;
 }
 
@@ -271,7 +270,6 @@ textarea:focus::placeholder {
 }
 
 .nds-combobox_container .nds-combobox__form-element.nds-form-element__control.nds-form-element__control-animated-label input[readonly] {
-  padding-left: 0;
 
   @if $enable-animated-inputs {
     &:focus {

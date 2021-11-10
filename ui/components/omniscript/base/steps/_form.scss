@@ -1,0 +1,181 @@
+[data-omni-key="form"]:not(:empty) {
+  display: grid;
+  grid-template-rows: auto;
+  background-image: url($static-image-path + "/hillside-background.png");
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-size: cover;
+  width: 99vw;
+  min-height: 100vh;
+  padding-bottom: 5rem;
+
+  &::after {
+    content: '';
+    display: block;
+    background-image: url($static-image-path + "/einstein-hotair-balloon.png");
+    background-size: contain;
+    position: absolute;
+    z-index: 50;
+    transform: translatey(0px);
+    animation: float 6s ease-in-out infinite;
+    height: 149px;
+    width: 119px;
+    left: 80%;
+
+    @include mq-huge-min() {
+      height: 303px;
+      left: 264px;
+      top: 40px;
+      width: 242px;
+    }
+  }
+
+  @include mq-medium-min() {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "contact-us"
+      "form-container"
+    ;
+  }
+  @include mq-huge-min() {
+    grid-template-columns: 460px 1fr;
+    grid-template-areas:
+      "contact-us form-container"
+    ;
+  }
+
+  .nds-page-header__title {
+    grid-area: contact-us;
+    color: #fff;
+    font-weight: bold;
+    text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3), 0 3px 5px rgba(0, 0, 0, 0.2);
+    z-index: 60;
+    font-size: 5.5rem;
+
+    @include mq-medium-max() {
+      display: none;
+    }
+
+    @include mq-medium-min() {
+      width: 100%;
+      text-align: left;
+      display: block;
+    }
+
+    @include mq-huge-min() {
+      margin: 2rem 5rem;
+      max-width: 100%;
+    }
+  }
+
+  // reset paddings
+  .nds-block .nds-block_container>label~.nds-block_body  {
+    padding: 0;
+  }
+  .nds-p-around_small {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  @include mq-huge-min() {
+    .nds-p-around_small {
+      padding: 0;
+    }
+  }
+  .nds-form-container {
+    padding-top: 0.25em;
+    padding-bottom: 0;
+  }
+
+  >div.nds-medium-size_8-of-12 {
+    grid-area: form-container;
+    width: 95%;
+    max-width: 95%;
+  }
+  [data-omni-key="form-container"] {
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 10px;
+    position: relative;
+    margin: 0 auto;
+    max-width: 90%;
+
+    .nds-clearfix::after {
+      display: none;
+    }
+
+    .nds-grid_pull-padded {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+
+    h3 {
+      margin: 0;
+      font-size: 1.125rem;
+      text-align: left;
+      font-weight: 400;
+      margin: 0.75rem 0.75rem 0;
+    }
+
+    @include mq-huge-min() {
+      margin-top: 40px;
+      padding: 40px;
+      max-width: 694px;
+
+      .nds-grid_pull-padded {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+      }
+
+      [data-omni-key="form-title"] .nds-form-container {
+        padding-left: 0;
+      }
+
+    }
+  }
+  [data-omni-key="SetFormData"] {
+    .nds-button_brand {
+      background: transparent;
+      border: 0;
+      color: #00396b;
+      @include mq-small-min() {
+        line-height: 1;
+        margin: 1.8rem 0 0;
+        text-align: right;
+      }
+      &:focus {
+        box-shadow: none;
+      }
+    }
+    .nds-p-around_x-small {
+      padding: 0;
+      margin: 0;
+    }
+    @include mq-small-max() {
+      margin: 0 .75rem;
+      width: auto;
+      max-width: calc(100% - 1.5rem);
+    }
+  }
+
+  [data-omni-key="Submit"] {
+
+    .nds-radio_button__label {
+      background: transparent;
+    }
+    .nds-radio_button-group {
+      background: linear-gradient(180deg, #7c9e81 0%, #4e6359 100%);
+      border-color: #49693D;
+      border-radius: .25rem;
+      height: 2rem;
+      width: 12rem;
+      margin: 0 auto;
+    }
+    .nds-radio_button [type=radio]:checked+.nds-radio_button__label {
+      background: transparent;
+    }
+    .nds-radio_faux {
+      color: #fff;
+      font-weight: 700;
+      line-height: 1rem;
+    }
+  }
+}

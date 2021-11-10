@@ -1,0 +1,22 @@
+.via-nds .omniscript-article {
+
+  .nds-card__body_inner {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+  }
+}
+
+[data-omni-key="omniscriptStepChart"] {
+  display: none;
+}
+
+@keyframes float {
+  0% {
+    transform: translatey(0px); }
+  50% {
+    transform: translatey(-40px); }
+  100% {
+    transform: translatey(0px); }
+}

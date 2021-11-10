@@ -30,6 +30,11 @@ p[vlc-bind-html],
   word-break: normal;
   font-family: $font-family; // workaround for LWC overriding styles
 
+  max-width: 750px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+
   p,
   span {
     font-size: 0.9rem;
@@ -394,9 +399,7 @@ span[vlc-slds-pop-over] {
 }
 
 .nds-step_label {
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: $color-background-brand-primary;
+  display: none;
 }
 
 /* =============== */

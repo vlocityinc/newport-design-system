@@ -67,7 +67,7 @@ $reset-wrapping-class: '.via-nds' !default;
 /// or live outside above the inputs always
 ///
 /// @type list
-$enable-animated-inputs: true !default;
+$enable-animated-inputs: false !default;
 
 /// Enable simple underlined inputs
 /// This changes inputs from having a single underline
@@ -76,4 +76,4 @@ $enable-animated-inputs: true !default;
 /// IMPORTANT: To use this you must also disable $enable-animated-inputs
 ///
 /// @type list
-$enable-simple-underlined-inputs: $enable-animated-inputs or true !default;
+$enable-simple-underlined-inputs: $enable-animated-inputs or false !default;
