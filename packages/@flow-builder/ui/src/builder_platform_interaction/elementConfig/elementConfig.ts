@@ -122,8 +122,7 @@ import {
     createRollback,
     createDuplicateRollback,
     createRollbackMetadataObject,
-    createRollbackWithConnectors,
-    createCollectionChoiceSetForStore
+    createRollbackWithConnectors
 } from 'builder_platform_interaction/elementFactory';
 
 export const EDIT_START_SCHEDULE_CONTEXT = 'editStartScheduleContext';

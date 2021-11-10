@@ -3,8 +3,7 @@ import {
     getValueFromHydratedItem,
     hydrateWithErrors,
     replaceItem,
-    updateProperties,
-    ValueWithError
+    updateProperties
 } from 'builder_platform_interaction/dataMutationLib';
 import {
     CreateEntryConditionsEvent,

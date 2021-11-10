@@ -13,7 +13,7 @@ import { isSystemElement } from 'builder_platform_interaction/flowMetadata';
  */
 export const getDataType = (object, fieldName) => {
     const dataType = object ? object[getDataTypeKey(fieldName)] : null;
-    // TODO: ataType can still be hydrated at this point. W-5679314
+    // TODO: dataType can still be hydrated at this point. W-5679314
     if (dataType && dataType.value) {
         return dataType.value;
     }
