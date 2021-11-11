@@ -90,6 +90,9 @@ import ffcLoopForEachAndEndSameElement from './ffcUiModels/loop-with-next-and-en
 import ffcLoopNextEndSameAsBranch from './ffcUiModels/loop-with-goto-on-next-and-end.json';
 import ffcLoopWithGoToOnNext from './ffcUiModels/loop-with-goto-on-next.json';
 import ffcLoopWithNestedBranchThatLoopsBack from './ffcUiModels/loop-with-nested-branch-that-loops-back2.json';
+import ffcLoopWithMultipleLoopBacks from './ffcUiModels/loop-with-multiple-loop-backs.json';
+import ffcLoopWithNestedEndLoopBack from './ffcUiModels/loop-with-nested-loop-end-loop-back.json';
+import ffcLoopWithNestedLoopNextAndEndLoopBack from './ffcUiModels/loop-with-nested-loop-next-and-end-loop-back.json';
 import ffcDecisionWithGoToOnHead from './ffcUiModels/decision-with-goto-on-head.json';
 import ffcDecisionWithGoToOnDefaultHead from './ffcUiModels/decision-with-goto-on-default-head.json';
 import ffcDecisionWithGoToOnBranchNext from './ffcUiModels/decision-with-goto-on-branch-next.json';
@@ -944,20 +947,6 @@ describe('alc conversion utils', () => {
     });
 
     describe('cant convert Free Form Flow with', () => {
-        it('loop with nested loop back', () => {
-            assertCanConvertToAutoLayoutCanvas(ffcLoopWithNestedLoopBack, false);
-        });
-
-        it('with start node that has set childReferences', () => {
-            const storeState = storeStateFromConnectors([]);
-            storeState.elements.start.childReferences = [
-                {
-                    childReference: 't1'
-                }
-            ];
-            assertCanConvertToAutoLayoutCanvas(storeState, false);
-        });
-
         it('with orphan node', () => {
             const storeState = storeStateFromConnectors([]);
             storeState.elements.orphan = { guid: 'orphan', isCanvasElement: true };
@@ -969,82 +958,6 @@ describe('alc conversion utils', () => {
             const storeState = storeStateFromConnectors(connectors);
             storeState.elements.e1.elementType = ELEMENT_TYPE.STEP;
             assertCanConvertToAutoLayoutCanvas(storeState, false);
-        });
-
-        describe('loop', () => {
-            it('with end element', () => {
-                const connectors = [
-                    { source: 'start', target: 'loop' },
-                    { source: 'loop', target: 'e1', type: 'LOOP_NEXT' },
-                    { source: 'loop', target: 'n2', type: 'LOOP_END' }
-                ];
-
-                const storeState = storeStateFromConnectors(connectors);
-                storeState.elements.loop.elementType = ELEMENT_TYPE.LOOP;
-                storeState.elements.e1.elementType = ELEMENT_TYPE.END_ELEMENT;
-                assertCanConvertToAutoLayoutCanvas(storeState, false);
-            });
-
-            it('with decision with no default', () => {
-                const connectors = [
-                    { source: 'start', target: 'loop' },
-                    { source: 'loop', target: 'd1', type: 'LOOP_NEXT' },
-                    { source: 'd1', target: 'loop', type: 'REGULAR' },
-                    { source: 'd1', target: 'end', type: 'DEFAULT' },
-                    { source: 'loop', target: 'n2', type: 'LOOP_END' }
-                ];
-
-                const storeState = storeStateFromConnectors(connectors);
-                storeState.elements.loop.elementType = ELEMENT_TYPE.LOOP;
-                storeState.elements.end.elementType = ELEMENT_TYPE.END_ELEMENT;
-                storeState.elements.d1.elementType = ELEMENT_TYPE.DECISION;
-
-                assertCanConvertToAutoLayoutCanvas(storeState, false);
-            });
-            it('with ended branch', () => {
-                const connectors = [
-                    { source: 'start', target: 'loop' },
-                    { source: 'loop', target: 's1', type: 'LOOP_NEXT' },
-                    { source: 'loop', target: 'n2', type: 'LOOP_END' }
-                ];
-                const storeState = storeStateFromConnectors(connectors);
-                storeState.elements.loop.elementType = ELEMENT_TYPE.LOOP;
-                storeState.elements.s1.connectorCount = 0;
-
-                assertCanConvertToAutoLayoutCanvas(storeState, false);
-            });
-
-            it('loop with nested loop with element jumping to top loop', () => {
-                const connectors = [
-                    { source: 'start', target: 'loop' },
-                    { source: 'loop', target: 'nestedLoop', type: 'LOOP_NEXT' },
-                    { source: 'nestedLoop', target: 's1', type: 'LOOP_END' },
-                    { source: 'nestedLoop', target: 's2', type: 'LOOP_NEXT' },
-                    { source: 's1', target: 'loop' },
-                    { source: 's2', target: 'loop' }
-                ];
-                const storeState = storeStateFromConnectors(connectors);
-                storeState.elements.loop.elementType = ELEMENT_TYPE.LOOP;
-                storeState.elements.nestedLoop.elementType = ELEMENT_TYPE.LOOP;
-                assertCanConvertToAutoLayoutCanvas(storeState, false);
-            });
-
-            it('with nested decision jumping after loop', () => {
-                const connectors = [
-                    { source: 'start', target: 'd1' },
-                    { source: 'd1', target: 'loop' },
-                    { source: 'loop', target: 'd2', type: 'LOOP_NEXT' },
-                    { source: 'loop', target: 'n2', type: 'LOOP_END' },
-                    { source: 'd2', target: 's1' },
-                    { source: 's1', target: 'loop' },
-                    { source: 'd2', target: 'n2' }
-                ];
-                const storeState = storeStateFromConnectors(connectors);
-                storeState.elements.loop.elementType = ELEMENT_TYPE.LOOP;
-                storeState.elements.d2.elementType = ELEMENT_TYPE.DECISION;
-                storeState.elements.d1.elementType = ELEMENT_TYPE.DECISION;
-                assertCanConvertToAutoLayoutCanvas(storeState, false);
-            });
         });
     });
 
@@ -1111,6 +1024,18 @@ describe('alc conversion utils', () => {
             });
             describe('loop with nested branch that loops back', () => {
                 assertRoundTripFromFreeFormCanvas(ffcLoopWithNestedBranchThatLoopsBack, undefined, false);
+            });
+            describe('loop with nested branch that loops back 2', () => {
+                assertRoundTripFromFreeFormCanvas(ffcLoopWithNestedLoopBack, undefined, false);
+            });
+            describe('loop with multiple loop backs', () => {
+                assertRoundTripFromFreeFormCanvas(ffcLoopWithMultipleLoopBacks, undefined, false);
+            });
+            describe('loop with nested loop whose end loops back', () => {
+                assertRoundTripFromFreeFormCanvas(ffcLoopWithNestedEndLoopBack, undefined, false);
+            });
+            describe('loop with nested loop whose next and end loops back', () => {
+                assertRoundTripFromFreeFormCanvas(ffcLoopWithNestedLoopNextAndEndLoopBack, undefined, false);
             });
         });
         describe('round trip from Free Form', () => {

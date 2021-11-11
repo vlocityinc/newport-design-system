@@ -468,27 +468,6 @@ function checkIntervals(ctx: DfsContext) {
                 const edgeType = conversionInfos[out.source].edgeTypes![j];
                 const targetTopoSortIndex = conversionInfos[out.target].topologicalSortIndex!;
 
-                // if we loop back, check that we are not inside a branching interval
-                if (targetTopoSortIndex < i) {
-                    let intervalsCount = 0;
-
-                    for (let j = intervalStack.length - 1; j >= 0; j--) {
-                        const [start] = intervalStack[j];
-
-                        // check we are inside the loop
-                        if (start > targetTopoSortIndex) {
-                            intervalsCount++;
-                        } else {
-                            break;
-                        }
-                    }
-
-                    // the loop interval is always present, so must be > 1
-                    if (intervalsCount > 1) {
-                        out.isGoTo = true;
-                    }
-                }
-
                 if (targetTopoSortIndex > innermostInterval[1] && edgeType !== 'tree') {
                     out.isGoTo = true;
                 }

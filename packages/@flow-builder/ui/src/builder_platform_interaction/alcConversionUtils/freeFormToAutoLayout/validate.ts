@@ -51,7 +51,11 @@ function checkOutgoingEdgeForGoTo(conversionInfos: ConversionInfos, out: UI.Conn
             sourceNode.isLoop && targetNode.isLoop && sourceNode.elementGuid === targetNode.elementGuid;
 
         // the edge is a goto if it does not come from inside a loop and point back to the loop header
-        if (executionContext.type !== 'loop' || target !== executionContext.id) {
+        if (
+            executionContext.type !== 'loop' ||
+            target !== executionContext.id ||
+            out.type === CONNECTOR_TYPE.LOOP_NEXT
+        ) {
             if (!isDegenerateLoop) {
                 out.isGoTo = true;
             }
@@ -129,4 +133,53 @@ export function validateConversionInfos(elements: UI.Elements, conversionInfos: 
             }
         }
     }
+
+    // Check all loops that have multiple loop back connectors and make sure go tos are set correctly
+    flowElements
+        .filter((element) => element.elementType === ELEMENT_TYPE.LOOP)
+        .forEach((loopElement) => {
+            const { elementGuid, ins, outs, dfsEnd } = conversionInfos[loopElement.guid];
+            const nonGoToLoopBackConnectors = ins?.filter(
+                (inConnector) => !inConnector.isGoTo && conversionInfos[inConnector.source].dfsEnd! < dfsEnd!
+            );
+            if (nonGoToLoopBackConnectors?.length > 1) {
+                let loopBackElement, currentElement, nextElementGuid;
+                const loopNextConnector = outs.find((outConnector) => outConnector.type === CONNECTOR_TYPE.LOOP_NEXT);
+                let nextElement = conversionInfos[loopNextConnector!.target];
+                // Traverse through the loop interval and determine if we have a linear enclosed loop
+                while (nextElement && !nextElement.isEnd) {
+                    if (nextElement.isBranching && !nextElement.isLoop && !nextElement.mergeGuid) {
+                        break;
+                    }
+
+                    if (nextElement.mergeGuid) {
+                        nextElementGuid = nextElement.mergeGuid;
+                    } else if (nextElement.isLoop) {
+                        if (nextElement.elementGuid === elementGuid) {
+                            loopBackElement = currentElement;
+                            break;
+                        } else {
+                            const loopEndConnector = nextElement.outs.find(
+                                (outConnector) => outConnector.type === CONNECTOR_TYPE.LOOP_END
+                            );
+                            nextElementGuid = loopEndConnector!.target;
+                        }
+                    } else {
+                        nextElementGuid = nextElement.outs[0].target;
+                    }
+
+                    currentElement = nextElement;
+                    nextElement = conversionInfos[nextElementGuid];
+                }
+
+                // If we have a linear enclosed loop, then mark all incoming loop backs besides that of the final loop element as go tos
+                if (loopBackElement) {
+                    nonGoToLoopBackConnectors.forEach((connector) => {
+                        if (connector.source !== loopBackElement.elementGuid) {
+                            connector.isGoTo = true;
+                        }
+                    });
+                }
+            }
+        });
 }
