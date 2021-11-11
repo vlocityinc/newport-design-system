@@ -4,7 +4,7 @@ import { commands, lwcUtils, keyboardInteractionUtils } from 'builder_platform_i
 import {
     MoveFocusToNodeEvent,
     CloseMenuEvent,
-    MoveFocusToConnectorEvent
+    MoveFocusFromEmptyStartNodeEvent
 } from 'builder_platform_interaction/alcEvents';
 
 const { TabCommand } = commands;
@@ -60,15 +60,8 @@ export default class AlcStartMenu extends AlcNodeMenu {
         if (!triggerButton && !contextButton && !scheduledPathButton && !recordTriggerButton) {
             // close the menu when there's no rows in the menu
             this.dispatchEvent(new CloseMenuEvent());
-            // Move focus to the left most branch if one exists, else move focus to the next connector.
-            // There's no use case where the start element can have branches but no buttons in the menu.
-            // Hence branchIndexToFocus should always be undefined.
-            const branchIndexToFocus = this.startData.children ? 0 : undefined;
-            const source = {
-                guid: this.guid,
-                childIndex: branchIndexToFocus
-            };
-            this.dispatchEvent(new MoveFocusToConnectorEvent(source));
+            // Moving focus to the next valid connector/element/zoom panel as needed
+            this.dispatchEvent(new MoveFocusFromEmptyStartNodeEvent(this.guid));
         } else {
             // move focus to the first row item
             this.tabFocusRingIndex = TabFocusRingItems.Icon;

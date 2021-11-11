@@ -65,7 +65,7 @@ const flowModel = {
     'eb01a710-d341-4ba0-81d2-f7ef03300db5': {
         guid: 'eb01a710-d341-4ba0-81d2-f7ef03300db5',
         description: '',
-        next: '837e0692-6f17-4d5c-ba5d-854851d31fcb',
+        next: '837e0692-6f17-4d5c-ba5d-854851d31f99',
         prev: null,
         locationX: 50,
         locationY: 50,

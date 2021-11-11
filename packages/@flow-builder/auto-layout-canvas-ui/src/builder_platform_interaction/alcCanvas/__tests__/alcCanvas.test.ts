@@ -6,17 +6,22 @@ import {
     ToggleMenuEvent,
     DeleteBranchElementEvent,
     HighlightPathsToDeleteEvent,
-    MenuPositionUpdateEvent
+    MenuPositionUpdateEvent,
+    MoveFocusFromEmptyStartNodeEvent
 } from 'builder_platform_interaction/alcEvents';
 import { MenuType, updateDeletionPathInfo } from 'builder_platform_interaction/autoLayoutCanvas';
-import { ClickToZoomEvent, DeleteElementEvent, ZOOM_ACTION } from 'builder_platform_interaction/events';
+import {
+    ClickToZoomEvent,
+    DeleteElementEvent,
+    ZOOM_ACTION,
+    EditElementEvent
+} from 'builder_platform_interaction/events';
 import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 import {
     setDocumentBodyChildren,
     removeDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
 import { commands, invokeModal } from 'builder_platform_interaction/sharedUtils';
-import { EditElementEvent } from 'builder_platform_interaction/events';
 import { setup } from '@sa11y/jest';
 
 const { ZoomInCommand, ZoomOutCommand, ZoomToFitCommand, ZoomToViewCommand } = commands;
@@ -195,6 +200,7 @@ describe('Auto Layout Canvas', () => {
     beforeEach(() => {
         cmp = createComponentForTest();
         cmp.focusOnConnector = jest.fn();
+        cmp.focusOnNode = jest.fn();
     });
 
     afterEach(() => {
@@ -701,6 +707,28 @@ describe('Auto Layout Canvas', () => {
             const deleteElementEvent = new DeleteElementEvent(['screen-two'], 'Screen', null);
             await dispatchEvent(nodeMenu, deleteElementEvent);
             expect(cmp.focusOnConnector).toHaveBeenCalledWith({ guid: 'decision', childIndex: 1 });
+        });
+
+        it('focusOnConnector should be called when handling MoveFocusFromEmptyStartNodeEvent and disableAddElements is false', async () => {
+            const startNodeMenu = getStartNodeMenu();
+            const moveFocusFromEmptyStartNodeEvent = new MoveFocusFromEmptyStartNodeEvent(
+                'eb01a710-d341-4ba0-81d2-f7ef03300db5'
+            );
+            await dispatchEvent(startNodeMenu, moveFocusFromEmptyStartNodeEvent);
+            expect(cmp.focusOnConnector).toHaveBeenCalledWith({
+                guid: 'eb01a710-d341-4ba0-81d2-f7ef03300db5',
+                childIndex: undefined
+            });
+        });
+
+        it('focusOnNode should be called when handling MoveFocusFromEmptyStartNodeEvent, disableAddElements is true and next element is not End', async () => {
+            cmp.disableAddElements = true;
+            const startNodeMenu = getStartNodeMenu();
+            const moveFocusFromEmptyStartNodeEvent = new MoveFocusFromEmptyStartNodeEvent(
+                'eb01a710-d341-4ba0-81d2-f7ef03300db5'
+            );
+            await dispatchEvent(startNodeMenu, moveFocusFromEmptyStartNodeEvent);
+            expect(cmp.focusOnNode).toHaveBeenCalledWith('837e0692-6f17-4d5c-ba5d-854851d31f99');
         });
     });
 

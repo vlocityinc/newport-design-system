@@ -40,6 +40,7 @@ import {
     ToggleMenuEvent,
     NodeResizeEvent,
     MoveFocusToNodeEvent,
+    MoveFocusFromEmptyStartNodeEvent,
     MoveFocusToConnectorEvent,
     CreateGoToConnectionEvent,
     DeleteBranchElementEvent,
@@ -946,6 +947,26 @@ export default class AlcCanvas extends LightningElement {
     handleMoveFocusToNode = (event: MoveFocusToNodeEvent) => {
         event.stopPropagation();
         this.focusOnNode(event.detail.focusGuid);
+    };
+
+    handleMoveFocusFromEmptyStartNode = (event: MoveFocusFromEmptyStartNodeEvent) => {
+        event.stopPropagation();
+        if (this.disableAddElements) {
+            // Moving focus to the next valid element or the zoom panel when next connector "+" is not present
+            const startNode = this.flowModel[event.detail.guid];
+            const nextNode = this.flowModel[startNode.next];
+            if (nextNode.nodeType === NodeType.END) {
+                // Since End element can't get focus, moving focus to the zoom panel
+                this.focusOnZoomPanel();
+            } else {
+                this.focusOnNode(startNode.next);
+            }
+        } else {
+            // Currently it's not possible for a start menu to be empty and also have branches.
+            // Hence we don't need to account for branching connectors
+            // and can move focus directly to the next connector
+            this.focusOnConnector({ guid: event.detail.guid, childIndex: undefined });
+        }
     };
 
     handleTabOnMenuTrigger = (event: TabOnMenuTriggerEvent) => {

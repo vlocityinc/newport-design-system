@@ -12,6 +12,7 @@ export { NodeResizeEvent } from './nodeResizeEvent';
 export { ClearHighlightedPathEvent } from './clearHighlightedPathEvent';
 export { MoveFocusToNodeEvent } from './moveFocusToNodeEvent';
 export { MoveFocusToConnectorEvent } from './moveFocusToConnectorEvent';
+export { MoveFocusFromEmptyStartNodeEvent } from './moveFocusFromEmptyStartNodeEvent';
 export { GoToPathEvent } from './goToPathEvent';
 export { CreateGoToConnectionEvent } from './createGoToConnectionEvent';
 export { DeleteGoToConnectionEvent } from './deleteGoToConnectionEvent';

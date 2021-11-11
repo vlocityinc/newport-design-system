@@ -5,7 +5,7 @@ import { ArrowKeyDownEvent } from 'builder_platform_interaction/events';
 import {
     CloseMenuEvent,
     MoveFocusToNodeEvent,
-    MoveFocusToConnectorEvent
+    MoveFocusFromEmptyStartNodeEvent
 } from 'builder_platform_interaction/alcEvents';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
@@ -329,14 +329,14 @@ describe('Start Node Menu', () => {
             expect(callback).toHaveBeenCalled();
         });
 
-        it('moveFocus should fire the MoveFocusToConnectorEvent since body is empty', () => {
+        it('moveFocus should fire the MoveFocusFromEmptyStartNodeEvent since body is empty', () => {
             menu = createComponentUnderTest({ elementMetadata: autolaunchedFlowStart, startData: {} });
             const callback = jest.fn();
-            menu.addEventListener(MoveFocusToConnectorEvent.EVENT_NAME, callback);
+            menu.addEventListener(MoveFocusFromEmptyStartNodeEvent.EVENT_NAME, callback);
             menu.moveFocus();
             expect(callback).toHaveBeenCalledWith(
                 expect.objectContaining({
-                    detail: { source: { guid: 'startGuid', childIndex: undefined } }
+                    detail: { guid: 'startGuid' }
                 })
             );
         });
