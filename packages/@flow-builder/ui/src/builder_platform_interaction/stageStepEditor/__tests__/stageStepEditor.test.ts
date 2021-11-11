@@ -1232,6 +1232,103 @@ describe('StageStepEditor', () => {
             editor.validate();
             expect(getErrorsFromHydratedElement).toHaveBeenCalledWith(editor.node);
         });
+
+        it('assignee literal updates error', async () => {
+            editor.node = {
+                ...editor.node,
+                assignees: [
+                    {
+                        assignee: {
+                            value: 'someUser',
+                            error: 'someError'
+                        },
+                        assigneeType: ASSIGNEE_TYPE.User,
+                        isReference: false
+                    }
+                ]
+            };
+
+            await ticks(1);
+
+            editor.validate();
+
+            await ticks(1);
+
+            const userRecordPicker = editor.shadowRoot.querySelector(selectors.ASSIGNEE_LITERAL_RECORD_PICKER_SELECTOR);
+
+            expect(userRecordPicker.error).toEqual(editor.node.assignees[0].assignee.error);
+        });
+
+        describe('assignee reference picker', () => {
+            it('updates error if present', async () => {
+                editor.node = {
+                    ...editor.node,
+                    assignees: [
+                        {
+                            assignee: {
+                                value: 'someUser',
+                                error: 'someError'
+                            },
+                            assigneeType: ASSIGNEE_TYPE.User,
+                            isReference: true
+                        }
+                    ]
+                };
+
+                await ticks(1);
+
+                editor.validate();
+
+                await ticks(1);
+
+                const userRecordPicker = editor.shadowRoot.querySelector(selectors.USER_REFERENCE_SELECTOR);
+
+                expect(userRecordPicker.errorMessage).toEqual(editor.node.assignees[0].assignee.error);
+            });
+
+            it('does not update error if not present', async () => {
+                const error = 'someError';
+                editor.node = {
+                    ...editor.node,
+                    assignees: [
+                        {
+                            assignee: {
+                                value: 'someUser',
+                                error
+                            },
+                            assigneeType: ASSIGNEE_TYPE.User,
+                            isReference: true
+                        }
+                    ]
+                };
+
+                await ticks(1);
+
+                editor.validate();
+
+                await ticks(1);
+
+                editor.node = {
+                    ...editor.node,
+                    assignees: [
+                        {
+                            assignee: {
+                                value: 'someUser',
+                                error: null
+                            },
+                            assigneeType: ASSIGNEE_TYPE.User,
+                            isReference: true
+                        }
+                    ]
+                };
+
+                await ticks(1);
+
+                const userRecordPicker = editor.shadowRoot.querySelector(selectors.USER_REFERENCE_SELECTOR);
+
+                expect(userRecordPicker.errorMessage).toEqual(error);
+            });
+        });
     });
 
     describe('ui', () => {

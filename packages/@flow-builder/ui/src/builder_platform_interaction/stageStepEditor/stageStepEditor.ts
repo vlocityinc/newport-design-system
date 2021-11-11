@@ -107,7 +107,6 @@ export default class StageStepEditor extends LightningElement {
 
     rules = [];
 
-    @track
     actorErrorMessage = '';
 
     entryActionErrorMessage;
@@ -250,7 +249,12 @@ export default class StageStepEditor extends LightningElement {
         const event = new CustomEvent(VALIDATE_ALL);
         this.element = stageStepReducer(this.element!, event);
 
-        this.setActorError(this.element.assignees[0]?.assignee?.error);
+        // Only update the error for assignee ferov resource picker if one is present.
+        // Otherwise depend on the component to manage its own error state
+        // Always update for literal record picker
+        if (!this.element.assignees[0]?.isReference || this.element.assignees[0]?.assignee?.error) {
+            this.setActorError(this.element.assignees[0]?.assignee?.error);
+        }
 
         return getErrorsFromHydratedElement(this.element);
     }
@@ -316,8 +320,7 @@ export default class StageStepEditor extends LightningElement {
         // Handle all assignee related set node changes
         this.setNodeAssignee();
 
-        // Reopening existing elements should always validate
-        // This has to be done manually in every property editor
+        // Reopening existing elements should display any errors present
         if (!this.element.isNew) {
             this.recordErrorMessage =
                 (!isParameterListRowItem(this.element.relatedRecordItem) && this.element.relatedRecordItem?.error) ||
@@ -794,7 +797,12 @@ export default class StageStepEditor extends LightningElement {
      * except initial rendering
      */
     renderedCallback() {
-        this.setActorError(this.element?.assignees[0]?.assignee?.error);
+        // Only update the error for assignee ferov resource picker if one is present.
+        // Otherwise depend on the component to manage its own error state
+        // Always update for literal record picker
+        if (!this.element?.assignees[0]?.isReference || this.element.assignees[0]?.assignee?.error) {
+            this.setActorError(this.element?.assignees[0]?.assignee?.error);
+        }
     }
 
     setActorError(error: string | null) {
