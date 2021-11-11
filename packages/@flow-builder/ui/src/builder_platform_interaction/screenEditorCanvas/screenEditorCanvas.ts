@@ -2,6 +2,7 @@ import { LightningElement, api } from 'lwc';
 import {
     CANVAS_SCREEN_GUIDS,
     isRegionContainerField,
+    getSectionFieldType,
     ScreenCanvasKeyboardInteractions
 } from 'builder_platform_interaction/screenEditorUtils';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
@@ -194,6 +195,13 @@ export default class ScreenEditorCanvas extends LightningElement {
         return info;
     }
 
+    isLabelNeeded(elementType: string, elementLabel: string) {
+        if (!elementLabel || elementType === getSectionFieldType().name) {
+            return false;
+        }
+        return true;
+    }
+
     /**
      * Construct the content of the aria-live region
      *
@@ -220,17 +228,27 @@ export default class ScreenEditorCanvas extends LightningElement {
         afterMoving: boolean
     ): string {
         let newText;
+        const isLabelNeeded = this.isLabelNeeded(elementType, elementLabel);
         if (afterMoving || afterStarting) {
-            newText = afterStarting
+            const formattedComponentGrabbedMessage = isLabelNeeded
                 ? format(this.labels.componentGrabbedMessage, elementType, elementLabel)
-                : format(this.labels.componentAriaLabel, elementType, elementLabel);
+                : format(this.labels.componentGrabbedMessageTypeOnly, elementType);
+
+            const formattedComponentAriaLabel = isLabelNeeded
+                ? format(this.labels.componentAriaLabel, elementType, elementLabel)
+                : format(this.labels.componentAriaLabelTypeOnly, elementType);
+
+            newText = afterStarting ? formattedComponentGrabbedMessage : formattedComponentAriaLabel;
             if ((columnIndex || columnIndex === 0) && (numColumns || numColumns === 0)) {
                 newText += format(this.labels.columnPosition, columnIndex + 1, numColumns);
             }
             newText += format(this.labels.componentCurrentPosition, itemIndex + 1, numItems);
             newText = afterStarting ? newText + this.labels.componentStartMovingInstruction : newText;
         } else if (afterStopping) {
-            newText = format(this.labels.componentDroppedMessage, elementType, elementLabel);
+            newText = isLabelNeeded
+                ? format(this.labels.componentDroppedMessage, elementType, elementLabel)
+                : format(this.labels.componentDroppedMessageTypeOnly, elementType);
+
             if ((columnIndex || columnIndex === 0) && (numColumns || numColumns === 0)) {
                 newText += format(this.labels.columnPosition, columnIndex + 1, numColumns);
             }

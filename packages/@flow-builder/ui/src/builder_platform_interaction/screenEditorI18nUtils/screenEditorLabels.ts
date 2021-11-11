@@ -176,9 +176,12 @@ import componentCurrentPosition from '@salesforce/label/FlowBuilderScreenEditor.
 import componentKeyboardInstruction from '@salesforce/label/FlowBuilderScreenEditor.componentKeyboardInstruction';
 import componentStartMovingInstruction from '@salesforce/label/FlowBuilderScreenEditor.componentStartMovingInstruction';
 import componentGrabbedMessage from '@salesforce/label/FlowBuilderScreenEditor.componentGrabbedMessage';
+import componentGrabbedMessageTypeOnly from '@salesforce/label/FlowBuilderScreenEditor.componentGrabbedMessageTypeOnly';
 import componentDroppedMessage from '@salesforce/label/FlowBuilderScreenEditor.componentDroppedMessage';
+import componentDroppedMessageTypeOnly from '@salesforce/label/FlowBuilderScreenEditor.componentDroppedMessageTypeOnly';
 import componentFinalPosition from '@salesforce/label/FlowBuilderScreenEditor.componentFinalPosition';
 import componentAriaLabel from '@salesforce/label/FlowBuilderScreenEditor.componentAriaLabel';
+import componentAriaLabelTypeOnly from '@salesforce/label/FlowBuilderScreenEditor.componentAriaLabelTypeOnly';
 
 export const LABELS = {
     errorRequired,
@@ -359,7 +362,10 @@ export const LABELS = {
     componentKeyboardInstruction,
     componentStartMovingInstruction,
     componentGrabbedMessage,
+    componentGrabbedMessageTypeOnly,
     componentDroppedMessage,
+    componentDroppedMessageTypeOnly,
     componentFinalPosition,
+    componentAriaLabelTypeOnly,
     componentAriaLabel
 };
