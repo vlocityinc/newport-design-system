@@ -405,7 +405,8 @@ export const getPropertyEditorConfig = (mode, attributes) => {
                 node,
                 processType,
                 triggerType,
-                mode
+                mode,
+                editorParams: { isAutoLayoutCanvas }
             }
         }
     };

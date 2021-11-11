@@ -77,7 +77,7 @@ export default class OrchestratedStageEditor extends LightningElement {
     }
 
     get isLabelCollapsibleToHeader() {
-        return this.editorParams && this.editorParams.panelConfig.isLabelCollapsibleToHeader;
+        return this.editorParams?.panelConfig?.isLabelCollapsibleToHeader;
     }
 
     get styleForLabelDescription() {

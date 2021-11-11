@@ -177,6 +177,10 @@ export default class BaseCalloutEditor extends LightningElement {
         return this.state.typeMappings && this.state.typeMappings.length > 0 && !this.hasConfigurationEditor;
     }
 
+    get showSubflowInfoCard() {
+        return !!(this.editorParams?.isAutoLayoutCanvas && this.viewableSubflowInfo);
+    }
+
     handleOpenReferencedSubflow(event) {
         event.stopPropagation();
         launchSubflow(this.viewableSubflowInfo.activeVersionId || this.viewableSubflowInfo.latestVersionId);

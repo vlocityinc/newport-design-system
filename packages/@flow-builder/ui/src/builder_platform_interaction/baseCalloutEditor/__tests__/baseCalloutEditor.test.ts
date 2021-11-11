@@ -109,7 +109,8 @@ const defaultBaseCalloutElement = {
         masterLabel: 'Subflow Label',
         activeVersionId: 'av1',
         latestVersionId: 'av1'
-    }
+    },
+    editorParams: { isAutoLayoutCanvas: true }
 };
 
 const selectors = {
@@ -140,7 +141,8 @@ function createComponentForTest({
     elementType = ELEMENT_TYPE.ACTION_CALL,
     typeMappings = [],
     parameterListConfig = {},
-    viewableSubflowInfo = null
+    viewableSubflowInfo = null,
+    editorParams = { isAutoLayoutCanvas: true }
 } = {}) {
     const el = createElement('builder_platform_interaction-base-callout-editor', { is: BaseCalloutEditor });
     Object.assign(el, {
@@ -149,7 +151,8 @@ function createComponentForTest({
         labelDescriptionConfig,
         typeMappings,
         parameterListConfig,
-        viewableSubflowInfo
+        viewableSubflowInfo,
+        editorParams
     });
     setDocumentBodyChildren(el);
     return el;
@@ -261,7 +264,15 @@ describe('base-callout-editor', () => {
             expect(referencedFlowSection).toBeNull();
         });
 
-        it('Should display the referenced flow section when viewableSubflowInfo is not null', () => {
+        it('Should not display the referenced flow section when isAutolayoutCanvas is false', () => {
+            const baseCalloutEditor = createComponentForTest(
+                Object.assign({}, defaultBaseCalloutElement, { editorParams: { isAutolayoutCanvas: false } })
+            );
+            const referencedFlowSection = baseCalloutEditor.shadowRoot.querySelector(selectors.referencedFlowSection);
+            expect(referencedFlowSection).toBeNull();
+        });
+
+        it('Should display the referenced flow section when viewableSubflowInfo is not null and isAutolayoutCanvas is true', () => {
             const baseCalloutEditor = createComponentForTest(defaultBaseCalloutElement);
             const referencedFlowSection = baseCalloutEditor.shadowRoot.querySelector(selectors.referencedFlowSection);
             expect(referencedFlowSection).not.toBeNull();

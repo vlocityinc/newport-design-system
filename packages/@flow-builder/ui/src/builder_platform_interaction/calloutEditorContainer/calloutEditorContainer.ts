@@ -136,7 +136,7 @@ export default class CalloutEditorContainer extends LightningElement {
             node.description = editorNode.description;
             editorNode = Object.assign({}, editorNode, this._selectedAction);
         }
-        if (this.editorParams && this.editorParams.panelConfig.isFieldLevelCommitEnabled && editorNode) {
+        if (this.editorParams?.panelConfig?.isFieldLevelCommitEnabled && editorNode) {
             node = Object.assign({}, node, editorNode);
         }
         // set this to our member variable so that we can pass to the selected property editor template

@@ -64,7 +64,7 @@ export default class LabelDescription extends LightningElement {
     editorParams;
 
     get isLabelCollapsibleToHeader() {
-        return this.editorParams && this.editorParams.panelConfig.isLabelCollapsibleToHeader;
+        return this.editorParams?.panelConfig?.isLabelCollapsibleToHeader;
     }
 
     get showNewElementPanelHeader() {
@@ -210,14 +210,14 @@ export default class LabelDescription extends LightningElement {
     }
 
     get title() {
-        if (this.editorParams) {
+        if (this.editorParams?.panelConfig) {
             return this.editorParams.panelConfig.titleForModal;
         }
         return '';
     }
 
     get iconName() {
-        if (this.editorParams && this.editorParams.panelConfig) {
+        if (this.editorParams?.panelConfig) {
             if (this.editorParams.panelConfig.customIcon) {
                 return this.editorParams.panelConfig.customIcon;
             }
@@ -227,7 +227,7 @@ export default class LabelDescription extends LightningElement {
     }
 
     get iconBackgroundColor() {
-        if (this.editorParams) {
+        if (this.editorParams?.panelConfig) {
             const color = getConfigForElementType(this.editorParams.panelConfig.elementType).nodeConfig
                 .iconBackgroundColor;
             if (color) {

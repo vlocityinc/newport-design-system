@@ -55,7 +55,7 @@ export default class AssignmentEditor extends LightningElement {
     editorParams;
 
     get isLabelCollapsibleToHeader() {
-        return this.editorParams && this.editorParams.panelConfig.isLabelCollapsibleToHeader;
+        return this.editorParams?.panelConfig?.isLabelCollapsibleToHeader;
     }
 
     get styleForLabelDescription() {

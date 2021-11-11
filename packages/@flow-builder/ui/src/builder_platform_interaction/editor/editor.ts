@@ -1726,6 +1726,7 @@ export default class Editor extends LightningElement {
             this.propertyEditorParams = getPropertyEditorConfig(params.mode, params);
             this.propertyEditorParams.panelConfig.isLabelCollapsibleToHeader = true;
             this.propertyEditorParams.panelConfig.isFieldLevelCommitEnabled = true;
+            this.propertyEditorParams.isAutoLayoutCanvas = this.properties.isAutoLayoutCanvas;
             this.elementBeingEditedInPanel = params.node;
         } else {
             invokePropertyEditor(PROPERTY_EDITOR, params);
