@@ -14,6 +14,7 @@ import unmuteGuardrailsText from '@salesforce/label/FlowBuilderHeader.unmuteGuar
 import debugBadgeCompleted from '@salesforce/label/FlowBuilderHeader.debugBadgeCompleted';
 import debugBadgePaused from '@salesforce/label/FlowBuilderHeader.debugBadgePaused';
 import debugBadgeError from '@salesforce/label/FlowBuilderHeader.debugBadgeError';
+import debugBadgeNotTriggered from '@salesforce/label/FlowBuilderHeader.debugBadgeNotTriggered';
 import interviewLabelTitle from '@salesforce/label/FlowBuilderHeader.interviewLabelTitle';
 import overrideBadge from '@salesforce/label/FlowBuilderHeader.overrideBadge';
 
@@ -33,6 +34,7 @@ export const LABELS = {
     debugBadgeCompleted,
     debugBadgePaused,
     debugBadgeError,
+    debugBadgeNotTriggered,
     interviewLabelTitle,
     overrideBadge
 };

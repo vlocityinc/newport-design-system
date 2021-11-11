@@ -9,7 +9,8 @@ const { logInteraction } = loggingUtils;
 const DEBUG_STATUS = {
     FINISHED: 'FINISHED',
     PAUSED: 'WAITING',
-    ERROR: 'ERROR'
+    ERROR: 'ERROR',
+    STARTED: 'STARTED'
 };
 
 const BACK_TOOLTIP_CONST = 'slds-popover  slds-nubbin_top slds-popover_tooltip custom-tooltip';
@@ -139,19 +140,22 @@ export default class Header extends LightningElement {
             return LABELS.debugBadgeCompleted;
         } else if (interviewStatus === DEBUG_STATUS.PAUSED) {
             return LABELS.debugBadgePaused;
+        } else if (interviewStatus === DEBUG_STATUS.ERROR) {
+            return LABELS.debugBadgeError;
         }
-        return LABELS.debugBadgeError;
+
+        return LABELS.debugBadgeNotTriggered;
     }
 
     get debugBadgeClass() {
-        let badgeClass = 'slds-align-middle slds-m-left_xx-small test-debug-badge';
+        const badgeClass = 'slds-align-middle slds-m-left_xx-small test-debug-badge';
         const interviewStatus = this.debugInterviewStatus;
         if (interviewStatus === DEBUG_STATUS.FINISHED) {
-            badgeClass += ' slds-theme_success';
+            return `${badgeClass} slds-theme_success`;
+        } else if (interviewStatus === DEBUG_STATUS.PAUSED || interviewStatus === DEBUG_STATUS.STARTED) {
+            return `${badgeClass} slds-theme_warning`;
         } else if (interviewStatus === DEBUG_STATUS.ERROR) {
-            badgeClass += ' slds-theme_error';
-        } else if (interviewStatus === DEBUG_STATUS.PAUSED) {
-            badgeClass += ' slds-theme_warning';
+            return `${badgeClass} slds-theme_error`;
         }
         return badgeClass;
     }

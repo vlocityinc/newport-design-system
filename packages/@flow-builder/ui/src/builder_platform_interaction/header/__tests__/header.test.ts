@@ -208,6 +208,7 @@ describe('header', () => {
             ${'FINISHED'}        | ${'slds-theme_success'}
             ${'WAITING'}         | ${'slds-theme_warning'}
             ${'ERROR'}           | ${'slds-theme_error'}
+            ${'STARTED'}         | ${'slds-theme_warning'}
         `(
             'Debug status badge should be displayed with css class: "$expectedCssClass" for debug interview status: "$debugInterviewStatus"',
             ({ debugInterviewStatus, expectedExtraCssClass }) => {
@@ -218,6 +219,25 @@ describe('header', () => {
                 const debugStatusBadge = getDebugStatusBadge(headerComponent);
                 expect(debugStatusBadge).not.toBeNull();
                 expect(debugStatusBadge.className).toMatch(expectedExtraCssClass);
+            }
+        );
+
+        test.each`
+            debugInterviewStatus | expectedBadgeLabel
+            ${'FINISHED'}        | ${LABELS.debugBadgeCompleted}
+            ${'WAITING'}         | ${LABELS.debugBadgePaused}
+            ${'ERROR'}           | ${LABELS.debugBadgeError}
+            ${'STARTED'}         | ${LABELS.debugBadgeNotTriggered}
+        `(
+            'Debug status badge should be displayed with label: "$expectedBadgeLabel" for debug interview status: "$debugInterviewStatus"',
+            ({ debugInterviewStatus, expectedBadgeLabel }) => {
+                const headerComponent = createComponentForTest({
+                    showDebugStatus: true,
+                    debugInterviewStatus
+                });
+                const debugStatusBadge = getDebugStatusBadge(headerComponent);
+                expect(debugStatusBadge).not.toBeNull();
+                expect(debugStatusBadge.label).toMatch(expectedBadgeLabel);
             }
         );
     });
