@@ -1,6 +1,7 @@
-import faultConnectorBadgeLabel from '@salesforce/label/AlcConnector.faultConnectorBadgeLabel';
-import afterLastBadgeLabel from '@salesforce/label/FlowBuilderConnectorLabels.afterLastBadgeLabel';
-import forEachBadgeLabel from '@salesforce/label/FlowBuilderConnectorLabels.forEachBadgeLabel';
+import ariaFaultLabel from '@salesforce/label/AlcConnector.ariaFaultLabel';
+import ariaAfterLastLabel from '@salesforce/label/AlcConnector.ariaAfterLastLabel';
+import ariaForEachLabel from '@salesforce/label/AlcConnector.ariaForEachLabel';
+import ariaRunImmediatelyLabel from '@salesforce/label/AlcConnector.ariaRunImmediatelyLabel';
 import branchHeadConnectorDescribedBy from '@salesforce/label/AlcConnector.branchHeadConnectorDescribedBy';
 import straightConnectorDescribedBy from '@salesforce/label/AlcConnector.straightConnectorDescribedBy';
 import branchHeadGoToConnectorDescribedBy from '@salesforce/label/AlcConnector.branchHeadGoToConnectorDescribedBy';
@@ -17,7 +18,7 @@ import ariaOnPathAfterLastLabel from '@salesforce/label/AlcNode.ariaOnPathAfterL
 import ariaOnFaultPathLabel from '@salesforce/label/AlcNode.ariaOnFaultPathLabel';
 import ariaOnForEachPathLabel from '@salesforce/label/AlcNode.ariaOnForEachPathLabel';
 import ariaEmptyBranchLabel from '@salesforce/label/AlcNode.ariaEmptyBranchLabel';
-import airaOneGoToConnectorLabel from '@salesforce/label/AlcNode.airaOneGoToConnectorLabel';
+import ariaOneGoToConnectorLabel from '@salesforce/label/AlcNode.ariaOneGoToConnectorLabel';
 import ariaMultiGoToConnectorLabel from '@salesforce/label/AlcNode.ariaMultiGoToConnectorLabel';
 import ariaFollowedByPathImmediateLabel from '@salesforce/label/AlcNode.ariaFollowedByPathImmediateLabel';
 import ariaRegularFollowedByLabel from '@salesforce/label/AlcNode.ariaRegularFollowedByLabel';
@@ -49,7 +50,7 @@ export const LABELS = {
     ariaOnPathImmediateLabel,
     ariaOnPathAfterLastLabel,
     ariaEmptyBranchLabel,
-    airaOneGoToConnectorLabel,
+    ariaOneGoToConnectorLabel,
     ariaMultiGoToConnectorLabel,
     ariaFollowedByPathImmediateLabel,
     ariaRegularFollowedByLabel,
@@ -89,7 +90,8 @@ export const LABELS = {
     loopCloseConnectorDescribedBy,
     branchHeadLoopCloseConnectorDescribedBy,
     postMergeLoopCloseConnectorDescribedBy,
-    faultConnectorBadgeLabel,
-    afterLastBadgeLabel,
-    forEachBadgeLabel
+    ariaFaultLabel,
+    ariaAfterLastLabel,
+    ariaForEachLabel,
+    ariaRunImmediatelyLabel
 };

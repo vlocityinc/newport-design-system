@@ -136,35 +136,8 @@ export default class ReorderableVerticalNavigation extends withKeyboardInteracti
             this.dispatchEvent(reorderListEvent);
             this._indexToFocusPostReorder = nextFocusIndex;
 
-            const itemLabel = this.menuItems[currentFocusIndex].label;
-            this.ariaLiveText = this.getAriaReorderText(
-                this.labels.ariaLiveItemReorder,
-                items,
-                nextFocusIndex,
-                itemLabel
-            );
+            this.ariaLiveText = format(this.labels.ariaLiveItemReorder, nextFocusIndex + 1, items.length);
         }
-    }
-
-    /**
-     * Returns the info needed for the aria live message
-     *
-     * @param label - The label
-     * @param items - The items
-     * @param itemIndex - The current index of an item
-     * @param itemLabel - The label of an item
-     * @returns The aria reorder text
-     */
-    getAriaReorderText(
-        label: string,
-        items: ReorderableVerticalNavigationItem[],
-        itemIndex: number,
-        itemLabel: string
-    ) {
-        const itemsCount = items.length;
-        const itemPosition = itemIndex + 1;
-
-        return format(label, itemsCount, itemPosition, itemLabel);
     }
 
     /**
@@ -232,18 +205,15 @@ export default class ReorderableVerticalNavigation extends withKeyboardInteracti
         const currentFocusIndex = items.indexOf(currentItemInFocus);
 
         const itemLabel = this.menuItems[currentFocusIndex].label;
-        let ariaLiveLabel;
 
         if (this._grabbedItemId) {
             this._grabbedItemId = null;
-            ariaLiveLabel = this.labels.ariaLiveItemUnGrabbed;
+            this.ariaLiveText = format(this.labels.ariaLiveItemUnGrabbed, itemLabel);
         } else if (currentFocusIndex !== items.length - 1 && this.hasAnyDraggableItem()) {
             // Only grabbing the item if it can be reordered
             this._grabbedItemId = this._focusedItemId;
-            ariaLiveLabel = this.labels.ariaLiveItemGrabbed;
+            this.ariaLiveText = format(this.labels.ariaLiveItemGrabbed, itemLabel);
         }
-
-        this.ariaLiveText = this.getAriaReorderText(ariaLiveLabel, items, currentFocusIndex, itemLabel);
     }
 
     getItems() {

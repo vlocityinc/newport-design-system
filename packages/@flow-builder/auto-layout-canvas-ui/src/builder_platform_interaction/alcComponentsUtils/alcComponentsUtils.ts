@@ -707,21 +707,21 @@ function getDescriptionForLoopConnectors(
         }
         // A connector of a loop in the For Each path
         return sourceHasGoTo
-            ? format(LABELS.branchHeadGoToConnectorDescribedBy, sourceLabel, targetLabel, LABELS.forEachBadgeLabel)
-            : format(LABELS.branchHeadConnectorDescribedBy, sourceLabel, targetLabel, LABELS.forEachBadgeLabel);
+            ? format(LABELS.branchHeadGoToConnectorDescribedBy, sourceLabel, targetLabel, LABELS.ariaForEachLabel)
+            : format(LABELS.branchHeadConnectorDescribedBy, sourceLabel, targetLabel, LABELS.ariaForEachLabel);
     } else if (!sourceHasGoTo && isGoingBackToAncestorLoop(flowModel, targetGuid!, sourceElement)) {
         // When a branch head connector within the After Last branch is going back to the ancestral loop element
         return format(
             LABELS.branchHeadLoopCloseConnectorDescribedBy,
             sourceLabel,
             targetLabel,
-            LABELS.afterLastBadgeLabel
+            LABELS.ariaAfterLastLabel
         );
     }
     // A connector of a loop in the After Last path
     return sourceHasGoTo
-        ? format(LABELS.branchHeadGoToConnectorDescribedBy, sourceLabel, targetLabel, LABELS.afterLastBadgeLabel)
-        : format(LABELS.branchHeadConnectorDescribedBy, sourceLabel, targetLabel, LABELS.afterLastBadgeLabel);
+        ? format(LABELS.branchHeadGoToConnectorDescribedBy, sourceLabel, targetLabel, LABELS.ariaAfterLastLabel)
+        : format(LABELS.branchHeadConnectorDescribedBy, sourceLabel, targetLabel, LABELS.ariaAfterLastLabel);
 }
 
 /**
@@ -794,11 +794,11 @@ function getDescriptionForBranchHeadConnectors(
         : LABELS.branchHeadConnectorDescribedBy;
     if (childIndex === FAULT_INDEX) {
         // Fault path scenario
-        return format(describedByLabel, sourceLabel, targetLabel, LABELS.faultConnectorBadgeLabel);
+        return format(describedByLabel, sourceLabel, targetLabel, LABELS.ariaFaultLabel);
     } else if (sourceElement.nodeType === NodeType.START) {
         // A regular connector scenario with START element as the source
         if (childIndex === START_IMMEDIATE_INDEX) {
-            return format(describedByLabel, sourceLabel, targetLabel, sourceElement.defaultConnectorLabel);
+            return format(describedByLabel, sourceLabel, targetLabel, LABELS.ariaRunImmediatelyLabel);
         }
         const pathName = flowModel[sourceElement.childReferences[childIndex - 1].childReference].label;
         return format(describedByLabel, sourceLabel, targetLabel, pathName);
@@ -861,12 +861,7 @@ function getDescriptionForImmediateAndScheduledPathConnectors(
 ) {
     if (!(sourceElement as ParentNodeModel).children) {
         // A connector from the START element with no scheduled paths in the Run Immediately path
-        return format(
-            LABELS.branchHeadConnectorDescribedBy,
-            sourceLabel,
-            targetLabel,
-            sourceElement.defaultConnectorLabel
-        );
+        return format(LABELS.branchHeadConnectorDescribedBy, sourceLabel, targetLabel, LABELS.ariaRunImmediatelyLabel);
     }
     // A merge point connector with a number of incoming branches from the START element
     return getDescriptionForPostMergeConnector(
@@ -1280,7 +1275,7 @@ function getNodeAriaInfo(flowModel: FlowModel, nodeInfo: NodeRenderInfo): string
             const incomingGoToLabel =
                 node.incomingGoTo.length > 1
                     ? format(LABELS.ariaMultiGoToConnectorLabel, node.incomingGoTo.length)
-                    : LABELS.airaOneGoToConnectorLabel;
+                    : LABELS.ariaOneGoToConnectorLabel;
             ariaDescribedBy += DELIMITER + incomingGoToLabel;
         }
     }

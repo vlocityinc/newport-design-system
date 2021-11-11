@@ -1360,7 +1360,7 @@ describe('ALC Canvas Utils test', () => {
                     metadata: {}
                 };
                 const expectedAriaDescribedBy =
-                    'AlcNode.ariaOnScheduledPathLabel(p1), AlcNode.ariaForEachPathLabel(l3), AlcNode.ariaAfterLastPathLabel(a3), AlcNode.airaOneGoToConnectorLabel';
+                    'AlcNode.ariaOnScheduledPathLabel(p1), AlcNode.ariaForEachPathLabel(l3), AlcNode.ariaAfterLastPathLabel(a3), AlcNode.ariaOneGoToConnectorLabel';
                 const { nodeDescription } = getAlcNodeData(recordTriggerFlowModel2, nodeRenderInfo);
                 expect(nodeDescription).toEqual(expectedAriaDescribedBy);
             });
@@ -1506,7 +1506,7 @@ describe('ALC Canvas Utils test', () => {
             expect(connectorDescription).toEqual(expectedAriaDescribedBy);
         });
 
-        it('ariaDescribedBy for connector between loop1 and d1 (After Last)', () => {
+        it('ariaDescribedBy for connector between loop1 and d1 (after last)', () => {
             const connectorRenderInfo = {
                 source: {
                     guid: '60b466f1-6589-4352-8603-51e225b70b36'
@@ -1514,13 +1514,13 @@ describe('ALC Canvas Utils test', () => {
                 geometry: {}
             };
             const expectedAriaDescribedBy =
-                'AlcConnector.branchHeadConnectorDescribedBy(loop1,d1,FlowBuilderConnectorLabels.afterLastBadgeLabel)';
+                'AlcConnector.branchHeadConnectorDescribedBy(loop1,d1,AlcConnector.ariaAfterLastLabel)';
 
             const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
             expect(connectorDescription).toEqual(expectedAriaDescribedBy);
         });
 
-        it('ariaDescribedBy for connector between loop1 and s1 (For Each)', () => {
+        it('ariaDescribedBy for connector between loop1 and s1 (for each)', () => {
             const connectorRenderInfo = {
                 source: {
                     guid: '60b466f1-6589-4352-8603-51e225b70b36',
@@ -1529,7 +1529,7 @@ describe('ALC Canvas Utils test', () => {
                 geometry: {}
             };
             const expectedAriaDescribedBy =
-                'AlcConnector.branchHeadConnectorDescribedBy(loop1,s1,FlowBuilderConnectorLabels.forEachBadgeLabel)';
+                'AlcConnector.branchHeadConnectorDescribedBy(loop1,s1,AlcConnector.ariaForEachLabel)';
 
             const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
             expect(connectorDescription).toEqual(expectedAriaDescribedBy);
@@ -1617,7 +1617,7 @@ describe('ALC Canvas Utils test', () => {
             expect(connectorDescription).toEqual(expectedAriaDescribedBy);
         });
 
-        it('ariaDescribedBy for connector between loop and End (After Last)', () => {
+        it('ariaDescribedBy for connector between loop and End (after last)', () => {
             const connectorRenderInfo = {
                 source: {
                     guid: '051e3653-5a6e-43b5-9438-33bb3ebae28b'
@@ -1625,13 +1625,13 @@ describe('ALC Canvas Utils test', () => {
                 geometry: {}
             };
             const expectedAriaDescribedBy =
-                'AlcConnector.branchHeadConnectorDescribedBy(loop2,End,FlowBuilderConnectorLabels.afterLastBadgeLabel)';
+                'AlcConnector.branchHeadConnectorDescribedBy(loop2,End,AlcConnector.ariaAfterLastLabel)';
 
             const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
             expect(connectorDescription).toEqual(expectedAriaDescribedBy);
         });
 
-        it('ariaDescribedBy for connector between loop2 and d3 (For Each)', () => {
+        it('ariaDescribedBy for connector between loop2 and d3 (for each)', () => {
             const connectorRenderInfo = {
                 source: {
                     guid: '051e3653-5a6e-43b5-9438-33bb3ebae28b',
@@ -1640,7 +1640,7 @@ describe('ALC Canvas Utils test', () => {
                 geometry: {}
             };
             const expectedAriaDescribedBy =
-                'AlcConnector.branchHeadConnectorDescribedBy(loop2,d3,FlowBuilderConnectorLabels.forEachBadgeLabel)';
+                'AlcConnector.branchHeadConnectorDescribedBy(loop2,d3,AlcConnector.ariaForEachLabel)';
 
             const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
             expect(connectorDescription).toEqual(expectedAriaDescribedBy);
@@ -1743,7 +1743,7 @@ describe('ALC Canvas Utils test', () => {
             expect(connectorDescription).toEqual(expectedAriaDescribedBy);
         });
 
-        it('ariaDescribedBy for connector between loop3 and updateRecord (After Last)', () => {
+        it('ariaDescribedBy for connector between loop3 and updateRecord (after last)', () => {
             const connectorRenderInfo = {
                 source: {
                     guid: '29bc4524-3140-4f41-8312-040733d7bb7d'
@@ -1751,13 +1751,13 @@ describe('ALC Canvas Utils test', () => {
                 geometry: {}
             };
             const expectedAriaDescribedBy =
-                'AlcConnector.branchHeadConnectorDescribedBy(loop3,updateRecord,FlowBuilderConnectorLabels.afterLastBadgeLabel)';
+                'AlcConnector.branchHeadConnectorDescribedBy(loop3,updateRecord,AlcConnector.ariaAfterLastLabel)';
 
             const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
             expect(connectorDescription).toEqual(expectedAriaDescribedBy);
         });
 
-        it('ariaDescribedBy for connector inside empty loop3 (For Each)', () => {
+        it('ariaDescribedBy for connector inside empty loop3 (for each)', () => {
             const connectorRenderInfo = {
                 source: {
                     guid: '29bc4524-3140-4f41-8312-040733d7bb7d',
@@ -1771,7 +1771,7 @@ describe('ALC Canvas Utils test', () => {
             expect(connectorDescription).toEqual(expectedAriaDescribedBy);
         });
 
-        it('ariaDescribedBy for connector between updateRecord and s2 (Fault)', () => {
+        it('ariaDescribedBy for connector between updateRecord and s2 (fault)', () => {
             const connectorRenderInfo = {
                 source: {
                     guid: 'c5c84fb8-e0f1-41bf-a7fd-385e4dea54a8',
@@ -1780,7 +1780,7 @@ describe('ALC Canvas Utils test', () => {
                 geometry: {}
             };
             const expectedAriaDescribedBy =
-                'AlcConnector.branchHeadConnectorDescribedBy(updateRecord,s2,AlcConnector.faultConnectorBadgeLabel)';
+                'AlcConnector.branchHeadConnectorDescribedBy(updateRecord,s2,AlcConnector.ariaFaultLabel)';
 
             const { connectorDescription } = getAlcConnectorData(flowModelData, connectorRenderInfo);
             expect(connectorDescription).toEqual(expectedAriaDescribedBy);
@@ -1825,7 +1825,7 @@ describe('ALC Canvas Utils test', () => {
             expect(connectorDescription).toEqual(expectedAriaDescribedBy);
         });
 
-        it('ariaDescribedBy for connector going from loop to s1 (For Each)', () => {
+        it('ariaDescribedBy for connector going from loop to s1 (for each)', () => {
             const connectorRenderInfo = {
                 source: {
                     guid: 'd2b55833-ce47-4fb5-bf33-17816885c486',
@@ -1834,13 +1834,13 @@ describe('ALC Canvas Utils test', () => {
                 geometry: {}
             };
             const expectedAriaDescribedBy =
-                'AlcConnector.branchHeadGoToConnectorDescribedBy(loop,s1,FlowBuilderConnectorLabels.forEachBadgeLabel)';
+                'AlcConnector.branchHeadGoToConnectorDescribedBy(loop,s1,AlcConnector.ariaForEachLabel)';
 
             const { connectorDescription } = getAlcConnectorData(flowModelWithGoToInLoop, connectorRenderInfo);
             expect(connectorDescription).toEqual(expectedAriaDescribedBy);
         });
 
-        it('ariaDescribedBy for connector between l3 and l2 (After Last) at loop close', () => {
+        it('ariaDescribedBy for connector between l3 and l2 (after last) at loop close', () => {
             const connectorRenderInfo = {
                 source: {
                     guid: '20233c57-8b4e-40cb-801a-3209e2ccfb15'
@@ -1848,13 +1848,13 @@ describe('ALC Canvas Utils test', () => {
                 geometry: {}
             };
             const expectedAriaDescribedBy =
-                'AlcConnector.branchHeadLoopCloseConnectorDescribedBy(l3,l2,FlowBuilderConnectorLabels.afterLastBadgeLabel)';
+                'AlcConnector.branchHeadLoopCloseConnectorDescribedBy(l3,l2,AlcConnector.ariaAfterLastLabel)';
 
             const { connectorDescription } = getAlcConnectorData(recordTriggerFlowModel2, connectorRenderInfo);
             expect(connectorDescription).toEqual(expectedAriaDescribedBy);
         });
 
-        it('ariaDescribedBy for record-triggered flow connector between START_ELEMENT and End (Run Immediately)', () => {
+        it('ariaDescribedBy for record-triggered flow connector between START_ELEMENT and End (run immediately)', () => {
             const connectorRenderInfo = {
                 source: {
                     guid: '80e0340e-67ba-4bb7-bf11-f2696aa8043f'
@@ -1862,13 +1862,13 @@ describe('ALC Canvas Utils test', () => {
                 geometry: {}
             };
             const expectedAriaDescribedBy =
-                'AlcConnector.branchHeadConnectorDescribedBy(START_ELEMENT,a1,Run Immediately)';
+                'AlcConnector.branchHeadConnectorDescribedBy(START_ELEMENT,a1,AlcConnector.ariaRunImmediatelyLabel)';
 
             const { connectorDescription } = getAlcConnectorData(recordTriggeredFlowModelData, connectorRenderInfo);
             expect(connectorDescription).toEqual(expectedAriaDescribedBy);
         });
 
-        it('ariaDescribedBy for record-triggered flow with scheduled paths connector between START_ELEMENT and End (Run Immediately)', () => {
+        it('ariaDescribedBy for record-triggered flow with scheduled paths connector between START_ELEMENT and End (run immediately)', () => {
             const connectorRenderInfo = {
                 source: {
                     guid: '3e0c5f77-1e47-4926-8ae2-da954908eaa5',
@@ -1877,7 +1877,7 @@ describe('ALC Canvas Utils test', () => {
                 geometry: {}
             };
             const expectedAriaDescribedBy =
-                'AlcConnector.branchHeadConnectorDescribedBy(START_ELEMENT,End,Run Immediately)';
+                'AlcConnector.branchHeadConnectorDescribedBy(START_ELEMENT,End,AlcConnector.ariaRunImmediatelyLabel)';
 
             const { connectorDescription } = getAlcConnectorData(
                 recordTriggeredFlowModelWithScheduledPathsData,
