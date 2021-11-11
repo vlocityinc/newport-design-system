@@ -415,7 +415,7 @@ export default class Builder extends LightningElement {
     updateStack = true;
 
     @track
-    runAssertions = false;
+    runAssertions = true;
 
     @track
     flowsGenerated = 0;

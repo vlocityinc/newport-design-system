@@ -9,7 +9,14 @@
 // TODO: reintroduce with OrchestratedStage PR
 import OrchestratedStageNode from 'builder_platform_interaction/orchestratedStageNode';
 
-const moduleMap = new Map([['builder_platform_interaction/orchestratedStageNode', OrchestratedStageNode]]);
+import iconSvgTemplatesUtility from 'lightning/iconSvgTemplatesUtility';
+import iconSvgTemplatesStandard from 'lightning/iconSvgTemplatesStandard';
+
+const moduleMap = new Map([
+    ['builder_platform_interaction/orchestratedStageNode', OrchestratedStageNode],
+    ['lightning/iconSvgTemplatesUtility', iconSvgTemplatesUtility],
+    ['lightning/iconSvgTemplatesStandard', iconSvgTemplatesStandard]
+]);
 
 export function load(moduleName) {
     return { default: moduleMap.get(moduleName) };
