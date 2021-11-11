@@ -69,6 +69,10 @@
  */
 .nds-listbox {
   font-size: $font-size-medium;
+  &.nds-dropdown-container {
+    max-height: 300px;
+    overflow-y: auto;
+  }
 }
 
 /**
