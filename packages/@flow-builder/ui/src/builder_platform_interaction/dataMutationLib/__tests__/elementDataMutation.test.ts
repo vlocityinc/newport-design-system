@@ -234,23 +234,27 @@ describe('getErrorFromHydratedItem function', () => {
 });
 
 describe('dehydrateElementFromSourceElement', () => {
+    const errorValues = [null, undefined];
     it('with null sourceElement returns a copy of the element', () => {
         const e = { a: 1 };
         const dehydratedE = removeErrorsForUnchangedSourceWithNoError(e, null);
         expect(dehydratedE).toEqual(e);
     });
-    it('remove error if sourceElement does not contain error and field on sourceElement is untouched', () => {
-        const e = { a: { value: 1, error: 'someError' }, config: { hasError: true } };
-        const sourceElement = { a: { value: '', error: null } };
+    it.each(errorValues)(
+        'remove error if sourceElement has %s error and field on sourceElement is untouched',
+        (error) => {
+            const e = { a: { value: 1, error: 'someError' }, config: { hasError: true } };
+            const sourceElement = { a: { value: '', error } };
 
-        const dehydratedE = removeErrorsForUnchangedSourceWithNoError(e, sourceElement);
-        expect(dehydratedE.a.value).toEqual(e.a.value);
-        expect(dehydratedE.a.error).toBe(null);
-        expect(dehydratedE.config.hasError).toBe(false);
-    });
-    it('keep error if sourceElement does not contain error but field on sourceElement is touched', () => {
+            const dehydratedE = removeErrorsForUnchangedSourceWithNoError(e, sourceElement);
+            expect(dehydratedE.a.value).toEqual(e.a.value);
+            expect(dehydratedE.a.error).toBe(null);
+            expect(dehydratedE.config.hasError).toBe(false);
+        }
+    );
+    it.each(errorValues)('keep error if sourceElement has %s error but field on sourceElement is touched', (error) => {
         const e = { a: { value: 1, error: 'someError' }, config: { hasError: true } };
-        const sourceElement = { a: { value: 2, error: null } };
+        const sourceElement = { a: { value: 2, error } };
 
         const dehydratedE = removeErrorsForUnchangedSourceWithNoError(e, sourceElement);
         expect(dehydratedE.a.value).toEqual(e.a.value);
@@ -275,24 +279,30 @@ describe('dehydrateElementFromSourceElement', () => {
         expect(dehydratedE.a.error).toEqual(e.a.error);
         expect(dehydratedE.config.hasError).toBe(false);
     });
-    it('remove error from objects in the element if sourceElement does not contain error and field on sourceElement is untouched', () => {
-        const e = { a: { b: { value: 1, error: 'someError' } }, config: { hasError: true } };
-        const sourceElement = { a: { b: { value: null, error: null } } };
+    it.each(errorValues)(
+        'remove error from objects in the element if sourceElement has %s error and field on sourceElement is untouched',
+        (error) => {
+            const e = { a: { b: { value: 1, error: 'someError' } }, config: { hasError: true } };
+            const sourceElement = { a: { b: { value: null, error } } };
 
-        const dehydratedE = removeErrorsForUnchangedSourceWithNoError(e, sourceElement);
-        expect(dehydratedE.a.b.value).toEqual(e.a.b.value);
-        expect(dehydratedE.a.b.error).toBe(null);
-        expect(dehydratedE.config.hasError).toBe(false);
-    });
-    it('remove error from arrays in the element if sourceElement does not contain error and field on sourceElement is untouched', () => {
-        const e = { a: [{ value: 1, error: 'someError' }], config: { hasError: true } };
-        const sourceElement = { a: [{ value: null, error: null }] };
+            const dehydratedE = removeErrorsForUnchangedSourceWithNoError(e, sourceElement);
+            expect(dehydratedE.a.b.value).toEqual(e.a.b.value);
+            expect(dehydratedE.a.b.error).toBe(null);
+            expect(dehydratedE.config.hasError).toBe(false);
+        }
+    );
+    it.each(errorValues)(
+        'remove error from arrays in the element if sourceElement has %s error and field on sourceElement is untouched',
+        (error) => {
+            const e = { a: [{ value: 1, error: 'someError' }], config: { hasError: true } };
+            const sourceElement = { a: [{ value: null, error }] };
 
-        const dehydratedE = removeErrorsForUnchangedSourceWithNoError(e, sourceElement);
-        expect(dehydratedE.a[0].value).toEqual(e.a[0].value);
-        expect(dehydratedE.a[0].error).toBe(null);
-        expect(dehydratedE.config.hasError).toBe(false);
-    });
+            const dehydratedE = removeErrorsForUnchangedSourceWithNoError(e, sourceElement);
+            expect(dehydratedE.a[0].value).toEqual(e.a[0].value);
+            expect(dehydratedE.a[0].error).toBe(null);
+            expect(dehydratedE.config.hasError).toBe(false);
+        }
+    );
     it('skip check on blacklist fields', () => {
         const e = { a: [{ value: 1, error: 'someError' }], config: { hasError: true } };
         const sourceElement = { a: [{ value: 1, error: 'someError' }] };

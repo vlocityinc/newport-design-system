@@ -176,7 +176,7 @@ export const removeErrorsForUnchangedSourceWithNoError = (
                 } else if (isItemHydratedWithErrors(value)) {
                     if (value.error != null) {
                         if (
-                            sourceElement[key].error === null &&
+                            isUndefinedOrNull(sourceElement[key].error) &&
                             (!sourceElement[key].value || sourceElement[key].value === '')
                         ) {
                             // user did not touch the field, revert the error message
