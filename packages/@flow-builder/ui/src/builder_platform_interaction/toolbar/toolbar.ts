@@ -16,7 +16,8 @@ import {
     NewDebugFlowEvent,
     RestartDebugFlowEvent,
     ToggleCanvasModeEvent,
-    AddToFlowTestEvent
+    AddToFlowTestEvent,
+    ToolbarFocusOutEvent
 } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
@@ -163,7 +164,7 @@ export default class Toolbar extends LightningElement {
         }
     };
 
-    @api focus() {
+    @api focus(shiftBackward?: boolean) {
         const toolbarFocusableElements = this.template.querySelectorAll(
             'lightning-button, lightning-button-icon, button'
         );
@@ -173,6 +174,8 @@ export default class Toolbar extends LightningElement {
                 ++index;
             }
             toolbarFocusableElements[index].focus();
+        } else {
+            this.dispatchEvent(new ToolbarFocusOutEvent(shiftBackward));
         }
     }
 

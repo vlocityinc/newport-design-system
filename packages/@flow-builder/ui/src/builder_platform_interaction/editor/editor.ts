@@ -112,6 +112,7 @@ import {
     setErrorMessage,
     setFlowErrorsAndWarnings,
     shiftFocusFromCanvas,
+    shiftFocusFromToolbar,
     updateStoreAfterSaveAsNewFlowIsFailed,
     updateStoreAfterSaveAsNewVersionIsFailed,
     updateStoreAfterSaveFlowIsSuccessful,
@@ -2246,6 +2247,10 @@ export default class Editor extends LightningElement {
         );
     };
 
+    handleToolbarFocusOut = (event) => {
+        shiftFocusFromToolbar(this._getHeaderComponent(), this._getCanvasComponent(), event.detail.shiftBackward);
+    };
+
     handleShiftFocus = (shiftBackward) => {
         const currentlyFocusedElement =
             this.template.activeElement && this.template.activeElement.tagName.toLowerCase();
@@ -2260,7 +2265,7 @@ export default class Editor extends LightningElement {
                         this._getCanvasComponent().focus();
                     }
                 } else {
-                    this._getToolbarComponent().focus();
+                    this._getToolbarComponent().focus(shiftBackward);
                 }
                 break;
 
@@ -2277,7 +2282,7 @@ export default class Editor extends LightningElement {
 
             case PANELS.TOOLBOX:
                 if (shiftBackward) {
-                    this._getToolbarComponent().focus();
+                    this._getToolbarComponent().focus(shiftBackward);
                 } else {
                     this._getCanvasComponent().focus();
                 }

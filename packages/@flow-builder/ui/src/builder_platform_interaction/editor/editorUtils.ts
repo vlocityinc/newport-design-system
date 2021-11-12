@@ -1132,12 +1132,27 @@ export const shiftFocusFromCanvas = (
         if (leftPanelComponent) {
             leftPanelComponent.focus();
         } else {
-            toolbarComponent.focus();
+            toolbarComponent.focus(shiftBackward);
         }
     } else if (rightPanelComponent) {
         rightPanelComponent.focus();
     } else {
         headerComponent.focus();
+    }
+};
+
+/**
+ * Helper function to handle shifting focous away from the toolbar to the next component depending on direction
+ *
+ * @param headerComponent the header component that we'll shift focus to if we're shifting backward
+ * @param canvasComponent the canvas compnent which we'll be shifting focus to if we're shifting forward
+ * @param shiftBackward  true to shift backward, false to shift forward
+ */
+export const shiftFocusFromToolbar = (headerComponent: Object, canvasComponent: Object, shiftBackward: boolean) => {
+    if (shiftBackward) {
+        headerComponent.focus();
+    } else {
+        canvasComponent.focus();
     }
 };
 

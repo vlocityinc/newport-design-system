@@ -20,6 +20,7 @@ import {
     screenFieldsReferencedByLoops,
     debugInterviewResponseCallback,
     shiftFocusFromCanvas,
+    shiftFocusFromToolbar,
     logElementCreation
 } from '../editorUtils';
 import {
@@ -1661,6 +1662,29 @@ describe('Editor Utils Test', () => {
             expect(mockFocusFunction).toHaveBeenCalled();
         });
     });
+
+    describe('shiftFocusFromToolbar function', () => {
+        it('focuses on header when shifting backward', () => {
+            const mockFocusFunction = jest.fn();
+            const mockHeaderComponent = {
+                focus: mockFocusFunction
+            };
+
+            shiftFocusFromToolbar(mockHeaderComponent, null, true);
+            expect(mockFocusFunction).toHaveBeenCalled();
+        });
+
+        it('focuses on the canvas when shifting forward', () => {
+            const mockFocusFunction = jest.fn();
+            const mockCanvasComponent = {
+                focus: mockFocusFunction
+            };
+
+            shiftFocusFromToolbar(null, mockCanvasComponent, false);
+            expect(mockFocusFunction).toHaveBeenCalled();
+        });
+    });
+
     describe('logElementCreation', () => {
         beforeEach(() => {
             logInteraction.mockClear();

@@ -13,7 +13,8 @@ import {
     NewDebugFlowEvent,
     AddToFlowTestEvent,
     RestartDebugFlowEvent,
-    DebugFlowEvent
+    DebugFlowEvent,
+    ToolbarFocusOutEvent
 } from 'builder_platform_interaction/events';
 import Toolbar from 'builder_platform_interaction/toolbar';
 import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
@@ -751,6 +752,83 @@ describe('toolbar', () => {
 
             toolbarComponent.resetComboboxValueToFreeForm();
             expect(canvasModeComboboxButton.value).toBe(CanvasMode.FreeForm);
+        });
+    });
+    describe('Toolbar Focus Shift', () => {
+        it('does not dispatch a toolbarFocusOut event if the toolbar is focusable', () => {
+            const toolbarComponent = createComponentUnderTest({
+                showCopyPasteButton: false,
+                showEditFlowPropertiesButton: false,
+                showCanvasModeCombobox: false,
+                showFlowStatus: false,
+                showRunButton: false,
+                showDebugButton: false,
+                showAddToTestButton: false,
+                showActivateButton: false,
+                showSaveButton: false,
+                showSaveAsButton: false,
+                showUndoRedoButton: false,
+                showEditFlowButton: false,
+                showRunTestButton: false,
+                showRestartRunButton: false,
+                hideSelectionButton: false,
+                isAutoLayoutCanvas: true
+            });
+
+            const cb = jest.fn();
+            toolbarComponent.addEventListener(ToolbarFocusOutEvent.EVENT_NAME, cb);
+            toolbarComponent.focus(true);
+            expect(cb).toHaveBeenCalledTimes(0);
+        });
+        it('dispatches an event if the toolbar is not focusable', () => {
+            const toolbarComponent = createComponentUnderTest({
+                showCopyPasteButton: false,
+                showEditFlowPropertiesButton: false,
+                showCanvasModeCombobox: false,
+                showFlowStatus: false,
+                showRunButton: false,
+                showDebugButton: false,
+                showAddToTestButton: false,
+                showActivateButton: false,
+                showSaveButton: false,
+                showSaveAsButton: false,
+                showUndoRedoButton: false,
+                showEditFlowButton: false,
+                showRunTestButton: false,
+                showRestartRunButton: false,
+                hideSelectionButton: true,
+                isAutoLayoutCanvas: true
+            });
+            // just adding a listener here so we can verify that the event was dispatched
+            const cb = jest.fn();
+            toolbarComponent.addEventListener(ToolbarFocusOutEvent.EVENT_NAME, cb);
+            toolbarComponent.focus(true);
+            expect(cb).toHaveBeenCalled();
+        });
+        it('dispatches an event if the toolbar is not focusable and no param is provided to the focus call', () => {
+            const toolbarComponent = createComponentUnderTest({
+                showCopyPasteButton: false,
+                showEditFlowPropertiesButton: false,
+                showCanvasModeCombobox: false,
+                showFlowStatus: false,
+                showRunButton: false,
+                showDebugButton: false,
+                showAddToTestButton: false,
+                showActivateButton: false,
+                showSaveButton: false,
+                showSaveAsButton: false,
+                showUndoRedoButton: false,
+                showEditFlowButton: false,
+                showRunTestButton: false,
+                showRestartRunButton: false,
+                hideSelectionButton: true,
+                isAutoLayoutCanvas: true
+            });
+            // just adding a listener here so we can verify that the event was dispatched
+            const cb = jest.fn();
+            toolbarComponent.addEventListener(ToolbarFocusOutEvent.EVENT_NAME, cb);
+            toolbarComponent.focus();
+            expect(cb).toHaveBeenCalled();
         });
     });
 });

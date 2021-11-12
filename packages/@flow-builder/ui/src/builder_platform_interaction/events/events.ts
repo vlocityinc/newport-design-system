@@ -45,6 +45,7 @@ export { RestartDebugFlowEvent } from './toolbarEvents/restartDebugFlowEvent';
 export { AddToFlowTestEvent } from './toolbarEvents/addToFlowTestEvent';
 export { SaveFlowEvent } from './toolbarEvents/saveFlowEvent';
 export { ToggleCanvasModeEvent } from './toolbarEvents/toggleCanvasModeEvent';
+export { ToolbarFocusOutEvent } from './toolbarEvents/toolbarFocusOutEvent';
 export { AddElementEvent } from './elementEvents/addElementEvent';
 export { AddNonCanvasElementEvent } from './elementEvents/addNonCanvasElementEvent';
 export { EditElementEvent } from './elementEvents/editElementEvent';
