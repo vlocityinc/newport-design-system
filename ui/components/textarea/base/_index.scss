@@ -13,10 +13,17 @@
 .nds-textarea {
   @include form-states;
   resize: vertical;
-  border: 0;
-  border-bottom: 1px solid $color-border-input;
-  padding: $spacing-x-small 0;
-  border-radius: 0;
+  @if ($enable-simple-underlined-inputs) {
+    border: 0;
+    border-bottom: 1px solid $color-border-input;
+    padding: $spacing-x-small 0;
+    border-radius: 0;
+  } @else {
+    border: $border-width-thin solid $color-border-input;
+    border-radius: $border-radius-medium;
+    background-color: $color-background-input;
+    transition: border $duration-quickly linear, background-color $duration-quickly linear;
+  }
 
   &:active,
   &:focus {

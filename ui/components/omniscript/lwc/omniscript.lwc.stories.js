@@ -20,26 +20,32 @@ const options = {
 };
 const groupId = 'GROUP-ID1';
 
+function addChangeListener() {
+  const bpView = document.getElementById(`VlocityBPView`);
+  if (!bpView) {
+    requestAnimationFrame(addChangeListener);
+    return;
+  }
+  bpView.addEventListener('change', event => {
+    if (event.target.value) {
+      event.target.classList.add('nds-has-value');
+    } else {
+      event.target.classList.remove('nds-has-value');
+    }
+  });
+};
+
 storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
   .addDecorator(withKnobs)
   .addDecorator(withDocs(notes))
   .addDecorator(commentToHTML(scss))
   .add('LWC Omniscript', () => {
-    requestAnimationFrame(() => {
-      const bpView = document.getElementById(`VlocityBPView`);
-      bpView.addEventListener('change', event => {
-        if (event.target.value) {
-          event.target.classList.add('nds-has-value');
-        } else {
-          event.target.classList.remove('nds-has-value');
-        }
-      });
-    });
+    requestAnimationFrame(addChangeListener);
     const width = number(label, defaultValue, options, groupId);
 
     let fixedFooterValue = boolean('Fixed Footer On Mobile', false, groupId);
 
-    return withExample(`<vloc_mg-omniscript-preview id="a0Z1J00000FGWtHUAX">
+    return withExample(`<vloc_mg-omniscript-preview id="VlocityBPView">
     <div class="via-nds">
         <article
             class="nds-card nds-grid nds-theme_default nds-grid_vertical ${fixedFooterValue ? 'nds-omniscript_mobile-fixed-footer' : ''}">

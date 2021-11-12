@@ -3,17 +3,21 @@
 
 @mixin form-input-container {
   background-color: $color-background-input;
-  border: 0;
-  border-bottom: $border-width-thin solid $color-border-input;
-  border-radius: 0;
   width: 100%;
+  @if ($enable-simple-underlined-inputs) {
+border: 0;
+  border-bottom: $border-width-thin solid $color-border-input;
+  } @else {
+    border-radius: 0;
+    border: $border-width-thin solid $color-border-input;
+  }
 }
 
 @mixin form-input-focus {
   outline: 0;
   border-color: $color-border-input-active;
   background-color: $color-background-input-active;
-  box-shadow: none;
+  box-shadow: if ($enable-simple-underlined-inputs, none, $shadow-button-focus);
 }
 
 @mixin form-input-disabled {
@@ -56,7 +60,15 @@
       background-color: $color-background-input;
       border-color: $color-border-error;
       background-clip: padding-box;
-      box-shadow: none;
+      @if ($enable-simple-underlined-inputs) {
+        box-shadow: none;
+      } @else {
+        box-shadow: $color-border-error 0 0 0 $border-width-thin inset;
+        &:focus,
+        &:active {
+          box-shadow: $color-border-error 0 0 0 $border-width-thin inset, $shadow-button-focus;
+        }
+      }
     }
   }
 }
@@ -64,6 +76,12 @@
 @mixin form-states {
   @include form-input-container;
   transition: border $duration-quickly linear, background-color $duration-quickly linear;
+
+  @if ($enable-simple-underlined-inputs == false) {
+    &:required {
+      box-shadow: none;
+    }
+  }
 
   &:focus,
   &:active {

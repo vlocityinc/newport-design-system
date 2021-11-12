@@ -12,11 +12,24 @@
  */
 .nds-input {
   @include form-states;
-  box-shadow: none;
-  display: inline-block;
-  padding: 0;
-  line-height: $height-input;
   min-height: calc(#{$height-input} + (#{$border-width-thin} * 2)); // For IE
+  line-height: $height-input;
+  @if ($enable-simple-underlined-inputs) {
+    box-shadow: none;
+    display: inline-block;
+    padding: 0;
+  } @else {
+    padding-top: 0;
+    padding-right: $spacing-medium;
+    padding-bottom: 0;
+    padding-left: $spacing-small;
+    width: 100%;
+    border: $border-width-thin solid $color-border-input;
+    border-radius: $border-radius-medium;
+    background-color: $color-background-input;
+    transition: border $duration-quickly linear, background-color $duration-quickly linear;
+  }
+
   /**
    * @selector [readonly]
    * @restrict .nds-input
@@ -163,7 +176,7 @@
   &--right {
 
     .nds-input__icon {
-      #{$right}: 0;
+      #{$right}: if($enable-simple-underlined-inputs,  0, 0.75rem);
     }
 
     .nds-input,
