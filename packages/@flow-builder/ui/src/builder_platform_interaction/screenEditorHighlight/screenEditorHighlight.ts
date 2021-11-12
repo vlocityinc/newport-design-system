@@ -183,6 +183,7 @@ export default class ScreenEditorHighlight extends LightningElement {
             switch (event.key) {
                 case Keys.Enter:
                     this.fireComponentSelectedEvent(true);
+                    event.preventDefault();
                     break;
                 case Keys.Space:
                     event.preventDefault();

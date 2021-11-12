@@ -36,9 +36,12 @@ export default class ScreenEditorPropertiesEditorContainer extends withKeyboardI
     labels = LABELS;
     processTypeValue = '';
 
-    blockEvent = false;
+    focusExpandOnRender = false;
 
-    @api focusExpand = false;
+    @api
+    focus() {
+        this.focusExpandOnRender = true;
+    }
 
     private getScreenFieldPropertiesEditorPanelTitle() {
         return this.node.fieldType === FlowScreenFieldType.ObjectProvided
@@ -46,16 +49,15 @@ export default class ScreenEditorPropertiesEditorContainer extends withKeyboardI
             : this.node.type.label;
     }
 
-    /* TODO: Right now we set focusExpand to true and focus on every render,
-    because this component renders twice, and the first time the button to focus is not there.
-    We should find a better way to deal with this.*/
     renderedCallback() {
-        if (this.focusExpand) {
-            this.blockEvent = true;
+        if (this.focusExpandOnRender) {
             const button =
                 this.template.querySelector(SELECTORS.BACK_BUTTON) ||
                 this.template.querySelector(SELECTORS.EXPAND_BUTTON);
-            button?.focus();
+            if (button) {
+                button.focus();
+                this.focusExpandOnRender = false;
+            }
         }
     }
 
@@ -145,10 +147,6 @@ export default class ScreenEditorPropertiesEditorContainer extends withKeyboardI
         this.processTypeValue = newValue;
     }
 
-    handleExpandFocusOut() {
-        this.dispatchEvent(new CustomEvent('expandfocusout'));
-    }
-
     @api
     extensionTypes;
 
@@ -169,22 +167,16 @@ export default class ScreenEditorPropertiesEditorContainer extends withKeyboardI
     }
 
     handleToggleExpand = () => {
-        if (!this.blockEvent) {
-            const container = this.template.querySelector('.properties-container');
+        const container = this.template.querySelector('.properties-container');
 
-            container.classList.toggle('slds-size_medium');
-            const expanded = container.classList.toggle('slds-size_x-large');
+        container.classList.toggle('slds-size_medium');
+        const expanded = container.classList.toggle('slds-size_x-large');
 
-            this.toggleIconName = expanded ? 'utility:contract_alt' : 'utility:expand_alt';
-        }
-        this.blockEvent = false;
+        this.toggleIconName = expanded ? 'utility:contract_alt' : 'utility:expand_alt';
     };
 
     handleScreenSelection = () => {
-        if (!this.blockEvent) {
-            this.dispatchEvent(createScreenNodeSelectedEvent(this.node));
-        }
-        this.blockEvent = false;
+        this.dispatchEvent(createScreenNodeSelectedEvent(this.node));
     };
 
     getKeyboardInteractions() {

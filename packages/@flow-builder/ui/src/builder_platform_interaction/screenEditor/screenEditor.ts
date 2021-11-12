@@ -57,8 +57,6 @@ export default class ScreenEditor extends LightningElement {
     automaticFieldRecordVariableGuid: UI.Guid = '';
     processTypeValue = '';
 
-    focusExpand = false;
-
     shift = false;
 
     @track legalNotices: UI.LegalNotice[] = [
@@ -461,7 +459,14 @@ export default class ScreenEditor extends LightningElement {
      */
     handleSelectScreenElement = (event) => {
         this.hidePopover();
-        this.focusExpand = event.detail.fromKeyboard;
+        if (event.detail.fromKeyboard) {
+            const screenPropertiesEditorContainer = this.template.querySelector(
+                INTERACTION_COMPONENTS_SELECTORS.SCREEN_PROPERTIES_EDITOR_CONTAINER
+            );
+            if (screenPropertiesEditorContainer) {
+                screenPropertiesEditorContainer.focus();
+            }
+        }
         const elem = event.screenElement;
         if (elem && elem.guid !== this.screen.guid) {
             this.setSelectedNode(this.screen.getFieldByGUID(elem.guid));
@@ -469,10 +474,6 @@ export default class ScreenEditor extends LightningElement {
             this.setSelectedNode(this.screen, event.property);
         }
     };
-
-    handleExpandFocusOut() {
-        this.focusExpand = false;
-    }
 
     handleFocusScreenElement = () => {
         const element = this.template.querySelector(INTERACTION_COMPONENTS_SELECTORS.SCREEN_EDITOR_CANVAS);
