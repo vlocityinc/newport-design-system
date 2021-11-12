@@ -208,6 +208,7 @@ export const orchestratorFlowUIModel = {
         isAutoLayoutCanvas: true,
         isOverridable: false,
         overriddenFlow: null,
-        sourceTemplate: null
+        sourceTemplate: null,
+        migratedFromWorkflowRuleName: null
     }
 };

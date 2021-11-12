@@ -531,6 +531,7 @@ export const fieldServiceMobileFlowUIModel = {
         isAutoLayoutCanvas: false,
         isOverridable: false,
         overriddenFlow: null,
-        sourceTemplate: null
+        sourceTemplate: null,
+        migratedFromWorkflowRuleName: null
     }
 };
