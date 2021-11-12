@@ -405,15 +405,18 @@ export default class LabelDescription extends LightningElement {
             // only required if the user makes a whitespace only change such as 'a' to 'a '
             inputElement.value = newLabel;
         }
-        const error = inputElement.value === '' && this.labelRequired ? this.showErrorMessageIfBlank : null;
-        this.updateStateAndDispatch(newLabel, 'label', error);
 
-        // Update devName if it is present, enabled, and blank
-        if (newLabel !== '' && !this.hideDevName && !this.disableDevName && !this.state.devName.value) {
-            if (newLabel.match(/^\W+$/)) {
-                newLabel = 'UniqueName';
+        if (this.state.label.value !== newLabel) {
+            const error = inputElement.value === '' && this.labelRequired ? this.showErrorMessageIfBlank : null;
+            this.updateStateAndDispatch(newLabel, 'label', error);
+
+            // Update devName if it is present, enabled, and blank
+            if (newLabel !== '' && !this.hideDevName && !this.disableDevName && !this.state.devName.value) {
+                if (newLabel.match(/^\W+$/)) {
+                    newLabel = 'UniqueName';
+                }
+                this.updateDevName(sanitizeDevName(newLabel));
             }
-            this.updateDevName(sanitizeDevName(newLabel));
         }
     }
 
@@ -428,7 +431,9 @@ export default class LabelDescription extends LightningElement {
             // only required if the user makes a whitespace only change such as 'a' to 'a '
             inputElement.value = newDevName;
         }
-        this.updateDevName(newDevName);
+        if (this.state.devName.value !== newDevName) {
+            this.updateDevName(newDevName);
+        }
     }
 
     handleEditButtonPress() {
@@ -436,7 +441,9 @@ export default class LabelDescription extends LightningElement {
     }
 
     handleDescriptionFocusOut(e) {
-        this.updateStateAndDispatch(e.target.value, 'description');
+        if (this.state.description.value !== e.target.value) {
+            this.updateStateAndDispatch(e.target.value, 'description');
+        }
     }
 
     clickDescription() {

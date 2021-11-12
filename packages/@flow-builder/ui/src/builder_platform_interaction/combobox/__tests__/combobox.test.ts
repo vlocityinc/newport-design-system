@@ -859,10 +859,10 @@ describe('Combobox', () => {
                 expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(1);
                 expect(comboboxStateChangedHandler.mock.calls[0][0].detail.item).toEqual(null);
             });
-            it('ComboboxStateChanged is fired even when value has not changed', () => {
+            it('ComboboxStateChanged is not fired even when value has not changed', () => {
                 groupedCombobox.dispatchEvent(blurEvent);
                 groupedCombobox.dispatchEvent(blurEvent);
-                expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(2);
+                expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(1);
             });
             it('NewResource event is fired when New Resource is selected.', () => {
                 groupedCombobox.dispatchEvent(selectEvent('%%NewResource%%'));
@@ -1174,8 +1174,9 @@ describe('Combobox', () => {
                 await ticks(1);
                 expect(combobox.errorMessage).toBeTruthy();
 
-                // gets fired once when literalsAllowed changes, even if no error has been set, and again when disabled = false
-                expect(comboboxStateChangedHandler).toBeCalledTimes(2);
+                // tries to gets fired once when literalsAllowed changes, but won't because no error has been set and
+                // state is unchanged, but will fire when disabled = false
+                expect(comboboxStateChangedHandler).toBeCalledTimes(1);
             });
             it('should validate when enabled if type is changed while disabled is true', async () => {
                 combobox.disabled = true;
@@ -1187,8 +1188,9 @@ describe('Combobox', () => {
                 await ticks(1);
                 expect(combobox.errorMessage).toBeTruthy();
 
-                // gets fired once when type changes, even if no error has been set, and again when disabled = false
-                expect(comboboxStateChangedHandler).toBeCalledTimes(2);
+                // tries to gets fired once when type changes, but won't because no error has been set and
+                // state is unchanged, but will fire when disabled = false
+                expect(comboboxStateChangedHandler).toBeCalledTimes(1);
             });
             it('should not fire state changed event when enabled if nothing changes while disabled is false', async () => {
                 combobox.disabled = true;
@@ -2088,10 +2090,10 @@ describe('Combobox', () => {
                 expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(1);
                 expect(comboboxStateChangedHandler.mock.calls[0][0].detail.item).toEqual(null);
             });
-            it('ComboboxStateChanged is fired even when value has not changed', () => {
+            it('ComboboxStateChanged is not fired even when value has not changed', () => {
                 groupedCombobox.dispatchEvent(blurEvent);
                 groupedCombobox.dispatchEvent(blurEvent);
-                expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(2);
+                expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(1);
             });
             it('NewResource event is fired when New Resource is selected.', () => {
                 groupedCombobox.dispatchEvent(selectEvent('%%NewResource%%'));
@@ -2428,8 +2430,9 @@ describe('Combobox', () => {
                 await ticks(1);
                 expect(combobox.errorMessage).toBeTruthy();
 
-                // gets fired once when literalsAllowed changes, even if no error has been set, and again when disabled = false
-                expect(comboboxStateChangedHandler).toBeCalledTimes(2);
+                // tries to gets fired once when literalsAllowed changes, but won't because no error has been set and
+                // state is unchanged, but will fire when disabled = false
+                expect(comboboxStateChangedHandler).toBeCalledTimes(1);
             });
             it('should validate when enabled if type is changed while disabled is true', async () => {
                 combobox.disabled = true;
@@ -2441,8 +2444,9 @@ describe('Combobox', () => {
                 await ticks(1);
                 expect(combobox.errorMessage).toBeTruthy();
 
-                // gets fired once when type changes, even if no error has been set, and again when disabled = false
-                expect(comboboxStateChangedHandler).toBeCalledTimes(2);
+                // tries to gets fired once when type changes, but won't because no error has been set and
+                // state is unchanged, but will fire when disabled = false
+                expect(comboboxStateChangedHandler).toBeCalledTimes(1);
             });
             it('should not fire state changed event when enabled if nothing changes while disabled is false', async () => {
                 combobox.disabled = true;

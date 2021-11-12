@@ -185,6 +185,18 @@ export default class Combobox extends LightningElement {
         return this._item;
     }
 
+    set displayText(newValue) {
+        this.oldDisplayText = this.state.displayText;
+        this.state.displayText = newValue;
+    }
+
+    set item(newValue) {
+        // Item may be undefined and newValue is null, but we want
+        // the === comparison to still return true, so coalesce to null
+        this.oldItem = this._item ?? null;
+        this._item = newValue;
+    }
+
     /**
      * Label for combobox.
      * If empty no label.
@@ -263,7 +275,7 @@ export default class Combobox extends LightningElement {
         if (this._isValidationEnabled && previousIsLiteralAllowed !== this._isLiteralAllowed) {
             this._needsValidationOnEnable = true;
             this.doValidation();
-            this.fireComboboxStateChangedEvent();
+            this.updateComboboxStateIfChanged();
         }
     }
 
@@ -336,6 +348,9 @@ export default class Combobox extends LightningElement {
         this.setMergeFieldState();
 
         this._isUserBlurred = false;
+
+        // We don't want the value being changed here to allow for a state change on blur
+        this.updateOldValues();
     }
 
     getMergeFieldLevel(itemOrDisplayText) {
@@ -371,12 +386,12 @@ export default class Combobox extends LightningElement {
             }
             this._dataType = dataType;
 
-            this.state.displayText = this.normalizeIfMetadataDateTime(this.state.displayText);
+            this.displayText = this.normalizeIfMetadataDateTime(this.state.displayText);
 
             if (this._isValidationEnabled) {
                 this._needsValidationOnEnable = true;
                 this.doValidation();
-                this.fireComboboxStateChangedEvent();
+                this.updateComboboxStateIfChanged();
             } else {
                 this._isValidationEnabled = true;
             }
@@ -440,7 +455,7 @@ export default class Combobox extends LightningElement {
             if (this._needsValidationOnEnable) {
                 this.doValidation();
                 this._createPill();
-                this.fireComboboxStateChangedEvent();
+                this.updateComboboxStateIfChanged();
             } else {
                 this._createPill();
             }
@@ -759,6 +774,11 @@ export default class Combobox extends LightningElement {
      */
     private _isPillRemoved = false;
 
+    private oldErrorMessage = this._errorMessage;
+    private oldIsMergeField = this._isMergeField;
+    private oldDisplayText = this.state.displayText;
+    private oldItem;
+
     /* ********************** */
     /*     Event handlers     */
     /* ********************** */
@@ -867,7 +887,7 @@ export default class Combobox extends LightningElement {
 
         // Remove the last dot from the expression & get the updated menuData
         if (this._isMergeField && this.state.displayText.charAt(this.state.displayText.length - 2) === this.separator) {
-            this.state.displayText = `${this.state.displayText.substring(0, this.state.displayText.length - 2)}}`;
+            this.displayText = `${this.state.displayText.substring(0, this.state.displayText.length - 2)}}`;
             // TODO check _mergeFieldLevel before setting to null if/when we have fields that have hasNext = true
             this._base = null;
             this.fireFetchMenuDataEvent(this.item ? this.item.parent : null);
@@ -876,8 +896,8 @@ export default class Combobox extends LightningElement {
         // If value is null, check if there is one item associated with displayText
         const item = this.matchTextWithItem();
         if (item && this.state.displayText !== item.displayText) {
-            this.state.displayText = item.displayText;
-            this._item = item;
+            this.displayText = item.displayText;
+            this.item = item;
         }
 
         this.doValidation();
@@ -886,7 +906,7 @@ export default class Combobox extends LightningElement {
 
         // Do not show the menu data dropdown after blur
         this._waitingForMenuDataDropDown = false;
-        this.fireComboboxStateChangedEvent();
+        this.updateComboboxStateIfChanged();
     }
 
     /**
@@ -967,6 +987,11 @@ export default class Combobox extends LightningElement {
         return valueToConvert;
     }
 
+    set isMergeField(newValue) {
+        this.oldIsMergeField = this._isMergeField;
+        this._isMergeField = newValue;
+    }
+
     /**
      * Set the resource state if the value start with '{!' and ends with '}'
      *
@@ -974,7 +999,7 @@ export default class Combobox extends LightningElement {
      * @param {boolean} isStrictMode whether or not merge fields should be strictly evaluated (should be true for validation)
      */
     setMergeFieldState(value = this.state.displayText, isStrictMode = false) {
-        this._isMergeField = isReference(value) && (!isStrictMode || !this.isExpressionIdentifierLiteral(value, true));
+        this.isMergeField = isReference(value) && (!isStrictMode || !this.isExpressionIdentifierLiteral(value, true));
     }
 
     /**
@@ -1254,6 +1279,7 @@ export default class Combobox extends LightningElement {
 
             this._isInitialErrorMessageSet = true;
         }
+        this.oldErrorMessage = this._errorMessage;
         this._errorMessage = customErrorMessage;
     }
 
@@ -1349,6 +1375,38 @@ export default class Combobox extends LightningElement {
         this.getGroupedCombobox().focus();
     }
 
+    /**
+     * Updates the trackers of item, displayText, errorMessage, and isMergeField so that if updateComboboxStateIfChanged
+     * is called again without a state change, it won't erroneously fire a ComboboxStateChangedEvent.
+     *
+     * @private
+     */
+    private updateOldValues() {
+        this.oldItem = this._item;
+        this.oldDisplayText = this.state.displayText;
+        this.oldErrorMessage = this._errorMessage;
+        this.oldIsMergeField = this._isMergeField;
+    }
+
+    /**
+     * Checks whether one of item, displayText, errorMessage, or isMergeField has changed before firing the
+     * ComboboxStateChangedEvent. Prevents duplicate states from being entered into history.
+     *
+     * @private
+     */
+    private updateComboboxStateIfChanged() {
+        const shouldFireEvent =
+            this.oldItem !== this._item ||
+            this.oldDisplayText !== this.state.displayText ||
+            this.oldErrorMessage !== this._errorMessage ||
+            this.oldIsMergeField !== this._isMergeField;
+
+        if (shouldFireEvent) {
+            this.updateOldValues();
+            this.fireComboboxStateChangedEvent();
+        }
+    }
+
     /** */
     /*    Validation Helper methods     */
     /** */
@@ -1361,6 +1419,7 @@ export default class Combobox extends LightningElement {
             return;
         }
 
+        this.oldErrorMessage = this._errorMessage;
         this.clearErrorMessage();
 
         // When combobox is disabled as per design the error message is cleared but the selected value is preserved
@@ -1477,7 +1536,7 @@ export default class Combobox extends LightningElement {
 
     validateDateOrDateTime() {
         if (isValidFormattedDateTime(this.state.displayText, this.isDateTime)) {
-            this.state.displayText = formatDateTime(this.state.displayText, this.isDateTime);
+            this.displayText = formatDateTime(this.state.displayText, this.isDateTime);
         } else {
             this._errorMessage = ERROR_MESSAGE[this._dataType];
         }

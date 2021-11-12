@@ -133,7 +133,7 @@ describe('label-description', () => {
                 });
             });
 
-            it('fire propertyChanged event if unchanged', async () => {
+            it('does not fire propertyChanged event if unchanged', async () => {
                 const labelDescription = createComponentUnderTest();
 
                 await ticks(1);
@@ -144,7 +144,7 @@ describe('label-description', () => {
 
                 labelLightningInput.dispatchEvent(focusoutEvent);
 
-                expect(eventCallback).toHaveBeenLastCalledWith(eventCallback.mock.calls[0][0]);
+                expect(eventCallback).not.toHaveBeenCalled();
             });
 
             it('strips whitespace', async () => {
@@ -377,7 +377,7 @@ describe('label-description', () => {
                 });
             });
 
-            it('fires propertyChanged event if unchanged', async () => {
+            it('does not fire propertyChanged event if unchanged', async () => {
                 const labelDescription = createComponentUnderTest();
 
                 await ticks(1);
@@ -388,7 +388,7 @@ describe('label-description', () => {
 
                 devNameLightningInput.dispatchEvent(focusoutEvent);
 
-                expect(eventCallback).toHaveBeenLastCalledWith(eventCallback.mock.calls[0][0]);
+                expect(eventCallback).not.toHaveBeenCalled();
             });
 
             it('strips whitespace', async () => {
@@ -483,7 +483,7 @@ describe('label-description', () => {
                 });
             });
 
-            it('occurs when devName does not exist and label has not changed', async () => {
+            it('does not occur when devName does not exist and label has not changed', async () => {
                 const newValue = 'newValue';
 
                 const labelDescription = createComponentUnderTest();
@@ -498,13 +498,11 @@ describe('label-description', () => {
                 labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
 
                 labelLightningInput.dispatchEvent(focusoutEvent);
-                const call = eventCallback.mock.calls[0][0];
 
-                expect(call.detail.propertyName).toEqual('label');
-                expect(call.detail.value).toEqual(newValue);
+                expect(eventCallback).not.toHaveBeenCalled();
             });
 
-            it('does occur when label was blank and remains blank after focusout', async () => {
+            it('does not occur when label was blank and remains blank after focusout', async () => {
                 const labelDescription = createComponentUnderTest();
                 labelDescription.label = {
                     value: ''
@@ -518,7 +516,7 @@ describe('label-description', () => {
 
                 labelLightningInput.dispatchEvent(focusoutEvent);
 
-                expect(eventCallback).toHaveBeenCalled();
+                expect(eventCallback).not.toHaveBeenCalled();
             });
 
             it('does not occur when devName exists', async () => {
@@ -736,7 +734,7 @@ describe('label-description', () => {
                 });
             });
 
-            it('does fire propertyChanged event if unchanged', async () => {
+            it('does not fire propertyChanged event if unchanged', async () => {
                 const labelDescription = createComponentUnderTest();
 
                 await ticks(1);
@@ -747,7 +745,7 @@ describe('label-description', () => {
 
                 descriptionLightningInput.dispatchEvent(focusoutEvent);
 
-                expect(eventCallback).toHaveBeenCalled();
+                expect(eventCallback).not.toHaveBeenCalled();
             });
         });
 
