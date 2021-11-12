@@ -14,7 +14,7 @@ module.exports = {
     "../ui/*/*.stories.js",
     "../ui/*/*/*.stories.js",
     "../ui/*/*/*/*.stories.js",
-    "../docs/*/*.stories.js",
+    "../docs/*.stories.js",
   ],
   addons: [
     "@storybook/addon-knobs",
