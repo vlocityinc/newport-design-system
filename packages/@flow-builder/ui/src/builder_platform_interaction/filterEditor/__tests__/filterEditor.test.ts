@@ -32,7 +32,7 @@ const initFilterElementInfo = {
         }
     ],
     conditionLogic: { value: CONDITION_LOGIC.AND, error: null },
-    formula: null
+    formula: { value: null, error: null }
 };
 
 const testSObjectTypeCollection = {
@@ -54,7 +54,7 @@ const testSObjectTypeCollection = {
         }
     ],
     conditionLogic: { value: 'and', error: null },
-    formula: null,
+    formula: { value: null, error: null },
     guid: '12345'
 };
 

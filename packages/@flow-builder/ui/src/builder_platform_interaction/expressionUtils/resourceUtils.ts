@@ -230,7 +230,7 @@ type NormalizeOptions = {
  */
 export const normalizeFEROV = (
     identifier: string,
-    { allowSObjectFieldsTraversal = true, lookupByDevName = false }: NormalizeOptions = {}
+    { allowSObjectFieldsTraversal = true, lookupByDevName = false, formattedDisplayText = null }: NormalizeOptions = {}
 ) => {
     let result: { itemOrDisplayText: UI.ComboboxItem | string; fields?: any } = { itemOrDisplayText: identifier };
     const elementOrResource = getResourceByUniqueIdentifier(identifier, { lookupByDevName });
@@ -255,6 +255,9 @@ export const normalizeFEROV = (
         }
     } else {
         result.itemOrDisplayText = elementOrResourceMenuItem;
+    }
+    if (formattedDisplayText && result.itemOrDisplayText) {
+        result.itemOrDisplayText.displayText = formattedDisplayText;
     }
     return result;
 };

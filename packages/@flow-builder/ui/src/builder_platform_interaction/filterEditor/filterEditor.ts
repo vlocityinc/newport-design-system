@@ -1,27 +1,28 @@
-import { SORTABLE_FILTER } from 'builder_platform_interaction/collectionProcessorLib';
 import { LightningElement, api, track } from 'lwc';
-import { addElement, deleteElements, updateElement } from 'builder_platform_interaction/actions';
-import { createVariable } from 'builder_platform_interaction/elementFactory';
-import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import { UpdateCollectionProcessorEvent, PropertyChangedEvent } from 'builder_platform_interaction/events';
-import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { filterReducer } from './filterReducer';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { getElementByDevName, getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import { getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
+import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import {
-    getUniqueElementName,
-    DEFAULT_CURRENT_ITEM_VARIABLE,
-    DEFAULT_CURRENT_ITEM_VARIABLE_PREFIX
-} from 'builder_platform_interaction/mapEditorLib';
+
 import { LABELS } from './filterEditorLabels';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { SObjectOrApexReference } from 'builder_platform_interaction/sortEditorLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import {
+    SORTABLE_FILTER,
+    DEFAULT_CURRENT_ITEM_VARIABLE_PREFIX,
+    ASSIGN_NEXT_VALUE_TO_REFERENCE,
+    generateVariable,
+    getVariable,
+    getNodeName,
+    deleteOrRestoreVariable,
+    updateVariable
+} from 'builder_platform_interaction/collectionProcessorLib';
+import { getUniqueDuplicateElementName } from 'builder_platform_interaction/storeUtils';
 
-const ASSIGN_NEXT_VALUE_TO_REFERENCE = 'assignNextValueToReference';
 const SUBTYPE = 'subtype';
 const DATA_TYPE = 'dataType';
 
@@ -45,16 +46,19 @@ export default class FilterEditor extends LightningElement {
     };
 
     @track
-    recordFields = {};
+    showFilter = false;
 
     @track
     currentItemVariable;
 
     @track
+    collectionReferenceDisplayText = '';
+
+    @track
     shouldRestoreVariable = true;
 
     @track
-    shouldCreateVariable = false;
+    shouldDeleteVariable = false;
 
     @api
     get elementInfo() {
@@ -65,18 +69,18 @@ export default class FilterEditor extends LightningElement {
         if (element) {
             this.filterElement = element;
         }
-
         if (this.filterElement.collectionReference.value) {
             this.collectionVariable = getVariableOrField(
                 this.filterElement.collectionReference.value,
                 Store.getStore().getCurrentState().elements
             );
+            this.showFilter = this.collectionVariable !== null;
             this.setInputCollectionType();
-            this.setCollectionReference();
+            this.setSObjectOrApexReference(this.collectionVariable);
         }
 
         if (this.filterElement.assignNextValueToReference.value) {
-            this.getCurrentItemVariable();
+            this.currentItemVariable = getVariable(this.filterElement.assignNextValueToReference.value);
         }
     }
 
@@ -106,12 +110,12 @@ export default class FilterEditor extends LightningElement {
         const error = getErrorsFromHydratedElement(this.filterElement);
         this.shouldRestoreVariable = !!error.length;
         if (!error.length) {
-            const nodeName = this.getNodeName();
+            const nodeName = getNodeName(this.inputVariables);
 
             if (nodeName) {
                 const varName = DEFAULT_CURRENT_ITEM_VARIABLE_PREFIX + nodeName;
                 if (this.currentItemVariable !== varName) {
-                    this.updateCurrentItemVariable('name', getUniqueElementName(varName));
+                    this.updateCurrentItemVariable('name', getUniqueDuplicateElementName(varName));
                 }
             }
         }
@@ -128,99 +132,33 @@ export default class FilterEditor extends LightningElement {
     }
 
     connectedCallback() {
-        this.createCurrentItemVariable();
-        this.fetchRecordFields();
+        this.createCurrentItemVariableAndUpdateFilterElemement();
     }
 
     disconnectedCallback() {
-        // on cancel editing
         // if the curent item variable was created when open the editor -> delete it
         // if curent item variable was updated -> restore to its original value
-        if (this.shouldRestoreVariable) {
-            if (this.shouldCreateVariable) {
-                // delete variable
-                Store.getStore().dispatch(
-                    deleteElements({
-                        elementType: ELEMENT_TYPE.VARIABLE,
-                        selectedElements: [getElementByDevName(this.currentItemVariable)]
-                    })
-                );
-            } else {
-                // restore to original variable
-                const element = getElementByDevName(this.currentItemVariable);
-                let elementInStore = getElementForStore(element);
-                elementInStore = { ...elementInStore, ...this.originalVariable };
-                Store.getStore().dispatch(updateElement(elementInStore));
-            }
-        }
+        deleteOrRestoreVariable(
+            this.currentItemVariable,
+            this.originalVariable,
+            this.shouldRestoreVariable,
+            this.shouldDeleteVariable
+        );
     }
 
     /**
      * Create the current item variable
      *
      */
-    createCurrentItemVariable() {
+    createCurrentItemVariableAndUpdateFilterElemement() {
         if (!this.currentItemVariable) {
-            this.currentItemVariable = getUniqueElementName(DEFAULT_CURRENT_ITEM_VARIABLE);
-            let varElement: any = {};
-            varElement = createVariable({
-                name: this.currentItemVariable,
-                dataType: FLOW_DATA_TYPE.SOBJECT.value,
-                subtype: this.inputCollectionType ? this.inputCollectionType.subtype : '',
-                isCollection: false,
-                isInput: true,
-                isOutput: false
-            });
-
-            Store.getStore().dispatch(addElement(varElement));
+            this.currentItemVariable = generateVariable(FLOW_DATA_TYPE.SOBJECT.value, this.inputCollectionType.subtype);
             const event = new PropertyChangedEvent(ASSIGN_NEXT_VALUE_TO_REFERENCE, this.currentItemVariable, null);
-
             this.updateFilterElement(event);
-            this.shouldCreateVariable = true;
+            this.shouldDeleteVariable = true;
         } else if (!this.originalVariable) {
             this.originalVariable = getElementByDevName(this.currentItemVariable);
         }
-    }
-
-    fetchRecordFields() {
-        this.recordFields = {};
-        if (
-            this.collectionVariable &&
-            this.collectionVariable.subtype &&
-            this.collectionVariable.dataType === FLOW_DATA_TYPE.SOBJECT.value
-        ) {
-            fetchFieldsForEntity(this.collectionVariable.subtype)
-                .then((fields) => {
-                    this.recordFields = fields;
-                })
-                .catch(() => {
-                    // fetchFieldsForEntity displays an error message
-                });
-        }
-    }
-
-    getCurrentItemVariable() {
-        const currentVar = getElementByGuid(this.filterElement.assignNextValueToReference.value);
-        if (currentVar) {
-            this.currentItemVariable = currentVar.name;
-        }
-    }
-
-    /**
-     * Get the filter node name
-     *
-     * @returns {string} filter node name
-     */
-    getNodeName() {
-        if (
-            this.inputVariables &&
-            this.inputVariables[0] &&
-            this.inputVariables[0].value &&
-            this.inputVariables[0].name === 'nodeName'
-        ) {
-            return this.inputVariables[0].value;
-        }
-        return null;
     }
 
     setInputCollectionType() {
@@ -229,14 +167,16 @@ export default class FilterEditor extends LightningElement {
         }
     }
 
-    setCollectionReference() {
-        if (!this.collectionVariable) {
+    setSObjectOrApexReference(collectionVariable) {
+        if (!collectionVariable) {
             return;
         }
-        const isSObject = this.collectionVariable.dataType === FLOW_DATA_TYPE.SOBJECT.value;
-        const isApexClass = this.collectionVariable.dataType === FLOW_DATA_TYPE.APEX.value;
-        const value = this.collectionVariable.subtype;
-        this.sObjectOrApexReference = { value, isSObject, isApexClass };
+        const isSObject = collectionVariable.dataType === FLOW_DATA_TYPE.SOBJECT.value;
+        const isApexClass = collectionVariable.dataType === FLOW_DATA_TYPE.APEX.value;
+        this.sObjectOrApexReference = { value: collectionVariable.subtype, isSObject, isApexClass };
+        if (!isSObject && !isApexClass) {
+            this.collectionReferenceDisplayText = collectionVariable.name || collectionVariable.apiName;
+        }
     }
 
     /**
@@ -252,18 +192,19 @@ export default class FilterEditor extends LightningElement {
             );
 
             if (this.collectionVariable) {
-                // primitive doesn't have suubtype
+                // primitive doesn't have subtype
                 const newInputSubtype = this.collectionVariable.subtype;
                 const newInputDataType = this.collectionVariable.dataType;
 
-                if (this.inputCollectionType.subtype !== newInputSubtype) {
-                    this.updateCurrentItemVariable(SUBTYPE, this.inputCollectionType.subtype);
+                if (this.inputCollectionType.dataType !== newInputDataType) {
+                    this.updateCurrentItemVariable(DATA_TYPE, newInputDataType);
                 }
 
-                if (this.inputCollectionType.dataType !== newInputDataType) {
-                    this.updateCurrentItemVariable(DATA_TYPE, this.inputCollectionType.dataType);
+                if (this.inputCollectionType.subtype !== newInputSubtype) {
+                    this.updateCurrentItemVariable(SUBTYPE, newInputSubtype);
                 }
             }
+            this.setSObjectOrApexReference(this.collectionVariable);
         } else {
             this.inputCollectionType = { subtype: null, dataType: null };
         }
@@ -287,18 +228,11 @@ export default class FilterEditor extends LightningElement {
      * @param value new value
      */
     updateCurrentItemVariable(property, value) {
-        if (this.currentItemVariable && value) {
-            const element = getElementByDevName(this.currentItemVariable);
-            const elementInStore = getElementForStore(element);
-
-            elementInStore[property] = value;
-            Store.getStore().dispatch(updateElement(elementInStore));
-
-            if (property === 'name') {
-                this.currentItemVariable = value;
-                const event = new PropertyChangedEvent(ASSIGN_NEXT_VALUE_TO_REFERENCE, this.currentItemVariable, null);
-                this.updateFilterElement(event);
-            }
+        const updated = updateVariable(this.currentItemVariable, property, value);
+        if (updated && property === 'name') {
+            this.currentItemVariable = value;
+            const event = new PropertyChangedEvent(ASSIGN_NEXT_VALUE_TO_REFERENCE, this.currentItemVariable, null);
+            this.updateFilterElement(event);
         }
     }
 
@@ -307,9 +241,8 @@ export default class FilterEditor extends LightningElement {
     handleCollectionVariablePropertyChange(event: CustomEvent) {
         event.stopPropagation();
         this.filterElement = filterReducer(this.filterElement, event);
+        this.showFilter = this.filterElement.collectionReference.value !== null;
         this.updateInputCollectionType(this.filterElement.collectionReference.value);
-        this.setCollectionReference();
-        this.fetchRecordFields();
         this.dispatchEvent(new UpdateCollectionProcessorEvent(this.filterElement));
     }
 

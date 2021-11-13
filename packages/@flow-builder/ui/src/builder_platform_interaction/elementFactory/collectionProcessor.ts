@@ -180,7 +180,9 @@ function createCollectionProcessorItemMetadataObject(collectionProcessor) {
             });
         }
         case COLLECTION_PROCESSOR_SUB_TYPE.FILTER: {
-            if (conditions && conditions.length) {
+            if (formula) {
+                conditions = null;
+            } else if (conditions && conditions.length) {
                 conditions = conditions.map((condition) =>
                     createFilterConditionMetadataObject(assignNextValueToReference, condition)
                 );

@@ -35,7 +35,7 @@ import {
     UPDATE_CANVAS_ELEMENT_ERROR_STATE,
     UPDATE_RESOURCE_ERROR_STATE
 } from 'builder_platform_interaction/actions';
-import { isDevNameInStore } from 'builder_platform_interaction/storeUtils';
+import { getUniqueDuplicateElementName } from 'builder_platform_interaction/storeUtils';
 import { updateProperties, omit, addItem } from 'builder_platform_interaction/dataMutationLib';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { getSubElementGuids } from './reducersUtils';
@@ -184,7 +184,7 @@ function _duplicateElement(
 
         // Figure out a unique name for the element to be duplicated
         const duplicateElementGuid = canvasElementGuidMap[selectedElement.guid];
-        const duplicateElementName = _getUniqueDuplicateElementName(selectedElement.name, blacklistNames);
+        const duplicateElementName = getUniqueDuplicateElementName(selectedElement.name, blacklistNames);
         blacklistNames.push(duplicateElementName);
 
         const elementConfig = getConfigForElementType(selectedElement.elementType);
@@ -668,21 +668,6 @@ function _addOrUpdateScreenWithScreenFields(state, screen, deletedFields, fields
 }
 
 /**
- * Helper function to get unique dev name that is not in the store or in the passed in blacklist
- *
- * @param {string} name - existing dev name to make unique
- * @param {string[]} blacklistNames - blacklisted list of names to check against in addition to store
- * @returns {string} new unique dev name
- */
-function _getUniqueDuplicateElementName(name, blacklistNames = []) {
-    if (isDevNameInStore(name) || blacklistNames.includes(name)) {
-        return _getUniqueDuplicateElementName(name + '_0', blacklistNames);
-    }
-
-    return name;
-}
-
-/**
  * Helper function to get unique dev names for child elements
  *
  * @param {Object} state - store state
@@ -694,7 +679,7 @@ function _getDuplicateChildElementNameMap(state, childElementGuidsToDuplicate, b
     const childElementNameMap = {};
     for (let i = 0; i < childElementGuidsToDuplicate.length; i++) {
         const childElement = state[childElementGuidsToDuplicate[i]];
-        const duplicateChildElementName = _getUniqueDuplicateElementName(childElement.name, blacklistNames);
+        const duplicateChildElementName = getUniqueDuplicateElementName(childElement.name, blacklistNames);
         childElementNameMap[childElement.name] = duplicateChildElementName;
         blacklistNames.push(duplicateChildElementName);
     }

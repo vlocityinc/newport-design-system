@@ -10,14 +10,26 @@ import {
 import * as store from 'mock/storeData';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { Store } from 'builder_platform_interaction/storeLib';
 
 /**
  * Executing jest test
  * cd into /packages/@flow-builder/ui
  * yarn jest src/builder_platform_interaction/filterEditor/__tests__/filterReducer.test.ts
  */
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 describe('filter reducer test', () => {
+    beforeAll(() => {
+        // @ts-ignore
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+
+    afterAll(() => {
+        // @ts-ignore
+        Store.resetStore();
+    });
     let originalState;
     beforeEach(() => {
         originalState = {

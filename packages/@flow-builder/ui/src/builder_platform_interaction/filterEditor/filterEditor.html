@@ -15,16 +15,15 @@
             ></builder_platform_interaction-input-collection-picker>
         </div>
 
-        <div if:true={inputCollectionType}>
+        <div if:true={showFilter}>
             <builder_platform_interaction-filter-condition-list
                 element-guid={filterElement.guid}
                 conditions={filterElement.conditions}
                 condition-logic={filterElement.conditionLogic}
-                formula-expression={filterElement.formula}
-                record-fields={recordFields}
+                formula={filterElement.formula}
                 show-prefix
                 sobject-or-apex-reference={sObjectOrApexReference}
-                collection-reference-display-text={inputCollectionType.subtype}
+                collection-reference-display-text={collectionReferenceDisplayText}
                 onaddcondition={handleFilterConditionChange}
                 onupdatecondition={handleFilterConditionChange}
                 ondeletecondition={handleFilterConditionChange}

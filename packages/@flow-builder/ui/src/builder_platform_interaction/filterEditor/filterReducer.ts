@@ -7,10 +7,13 @@ import {
 } from 'builder_platform_interaction/events';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import { deleteItem, set, updateProperties } from 'builder_platform_interaction/dataMutationLib';
-import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
+import { EXPRESSION_PROPERTY_TYPE, getResourceByUniqueIdentifier } from 'builder_platform_interaction/expressionUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { filterValidation, getRules } from './filterValidation';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 const OPERATOR = EXPRESSION_PROPERTY_TYPE.OPERATOR;
@@ -20,13 +23,34 @@ const PROPERTIES = {
     COLLECTION_REFERENCE: 'collectionReference',
     CONDITION_LOGIC: 'conditionLogic',
     CONDITIONS: 'conditions',
-    FORMULA: 'formula'
+    FORMULA: 'formula',
+    ASSIGN_NEXT_VALUE_TO_REFERENCE: 'assignNextValueToReference'
 };
 
-const initFilterCondition = () => {
+const initLHS = (state) => {
+    const assignNextValueToReferenceGuidOrDevName = state[PROPERTIES.ASSIGN_NEXT_VALUE_TO_REFERENCE].value;
+    const currentItem = getResourceByUniqueIdentifier(assignNextValueToReferenceGuidOrDevName, {
+        lookupByDevName: true
+    });
+    const collectionVariable = getVariableOrField(
+        state[PROPERTIES.COLLECTION_REFERENCE].value,
+        Store.getStore().getCurrentState().elements
+    );
+    if (
+        collectionVariable &&
+        currentItem &&
+        collectionVariable.dataType !== FLOW_DATA_TYPE.SOBJECT.value &&
+        collectionVariable.dataType !== FLOW_DATA_TYPE.APEX.value
+    ) {
+        return currentItem.guid;
+    }
+    return '';
+};
+
+const initFilterCondition = (state) => {
     return {
         rowIndex: generateGuid(),
-        [LHS]: { value: '', error: null },
+        [LHS]: { value: initLHS(state), error: null },
         [OPERATOR]: { value: '', error: null },
         [RHS]: { value: '', error: null },
         [RHS_DATA_TYPE]: { value: '', error: null }
@@ -35,7 +59,7 @@ const initFilterCondition = () => {
 
 const addFilterConditionItem = (state) => {
     const path = [PROPERTIES.CONDITIONS, state[PROPERTIES.CONDITIONS].length];
-    return set(state, path, initFilterCondition());
+    return set(state, path, initFilterCondition(state));
 };
 
 const deleteFilterConditionItem = (state, event) => {
@@ -58,18 +82,25 @@ const updateProperty = (state, event) => {
         state = updateProperties(state, {
             [propertyName]: { value, error }
         });
+        if (propertyName === PROPERTIES.FORMULA) {
+            state = set(state, PROPERTIES.CONDITIONS, [initFilterCondition(state)]);
+        }
     }
     return state;
 };
 
 const updateCollectionReference = (state, event) => {
     const currentStateReferenceValue = state[PROPERTIES.COLLECTION_REFERENCE].value;
-    const { value = null, error = null } = event.detail;
+    const newValue = event.detail.value;
+    const error =
+        event.detail.error === null
+            ? filterValidation.validateProperty(PROPERTIES.COLLECTION_REFERENCE, newValue, getRules(state))
+            : event.detail.error;
     state = updateProperties(state, {
-        [PROPERTIES.COLLECTION_REFERENCE]: { value, error }
+        [PROPERTIES.COLLECTION_REFERENCE]: { value: event.detail.value, error }
     });
-    // reset filter if input collection reference changed
-    if (value !== currentStateReferenceValue) {
+    // reset filter if input collection reference changed and no error
+    if (newValue !== currentStateReferenceValue && !error) {
         state = resetFilter(state);
     }
     return state;
@@ -78,7 +109,7 @@ const updateCollectionReference = (state, event) => {
 const resetFilter = (state) => {
     state = resetFilterLogic(state);
     state = resetFormula(state);
-    return set(state, PROPERTIES.CONDITIONS, [initFilterCondition()]);
+    return set(state, PROPERTIES.CONDITIONS, [initFilterCondition(state)]);
 };
 
 const resetFilterLogic = (state) => {

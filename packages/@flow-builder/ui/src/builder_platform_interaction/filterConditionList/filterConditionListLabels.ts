@@ -7,9 +7,10 @@ import filterConditionsHeader from '@salesforce/label/FlowBuilderFilterEditor.fi
 import formulaFieldLabel from '@salesforce/label/FlowBuilderFilterEditor.formulaFieldLabel';
 import formulaHelpText from '@salesforce/label/FlowBuilderFilterEditor.formulaHelpText';
 import lhsLabel from '@salesforce/label/FlowBuilderFilterEditor.lhsLabel';
-import primtiveLhsPlaceholder from '@salesforce/label/FlowBuilderFilterEditor.primitiveLhsLabel';
+import primtiveLhsPlaceholder from '@salesforce/label/FlowBuilderFilterEditor.primtiveLhsPlaceholder';
 import lhsPlaceholder from '@salesforce/label/FlowBuilderFilterEditor.lhsPlaceholder';
 import operatorLabel from '@salesforce/label/FlowBuilderFilterEditor.operatorLabel';
+import operatorPlaceholder from '@salesforce/label/FlowBuilderFilterEditor.operatorPlaceholder';
 import rhsLabel from '@salesforce/label/FlowBuilderFilterEditor.rhsLabel';
 import formulaValidationSpinnerAlternativeText from '@salesforce/label/FlowBuilderFormulaTextarea.formulaValidationSpinnerAlternativeText';
 
@@ -27,5 +28,6 @@ export const LABELS = {
     lhsPlaceholder,
     primtiveLhsPlaceholder,
     operatorLabel,
+    operatorPlaceholder,
     rhsLabel
 };

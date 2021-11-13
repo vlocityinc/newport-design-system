@@ -12,6 +12,12 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
     lhsMustBeWritable;
 
     @api
+    lhsDisabled;
+
+    @api
+    lhsFormattedDisplayText;
+
+    @api
     operatorLabel;
 
     @api

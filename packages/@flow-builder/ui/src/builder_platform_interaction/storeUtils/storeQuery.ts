@@ -282,8 +282,9 @@ export const isGuidConnected = (object, id): boolean => {
 /**
  * fetches the child element info by id and returns it
  *
- * @param object
- * @param id
+ * @param object parent object
+ * @param id child object id
+ * @returns child element info
  */
 export const getChildElementInfo = (object, id): any => {
     let child = null;
@@ -293,4 +294,19 @@ export const getChildElementInfo = (object, id): any => {
         }
     });
     return child;
+};
+
+/**
+ * Helper function to get unique dev name that is not in the store or in the passed in blacklist
+ *
+ * @param {string} name - existing dev name to make unique
+ * @param {string[]} blacklistNames - blacklisted list of names to check against in addition to store
+ * @returns {string} new unique dev name
+ */
+export const getUniqueDuplicateElementName = (name: string, blacklistNames: string[] = []) => {
+    if (isDevNameInStore(name) || blacklistNames.includes(name)) {
+        return getUniqueDuplicateElementName(name + '_0', blacklistNames);
+    }
+
+    return name;
 };

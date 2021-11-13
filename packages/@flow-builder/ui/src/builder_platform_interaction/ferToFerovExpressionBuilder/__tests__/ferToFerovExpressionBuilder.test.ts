@@ -189,6 +189,19 @@ describe('fer-to-ferov-expression-builder', () => {
             expect(baseExpressionBuilder.hideGlobalVariables).toBe(false);
         });
     });
+    describe('lhsDisabled', () => {
+        it('should disable lhs', () => {
+            const defaultOperator = 'someDefaultOperator';
+            const expressionBuilder = createComponentForTest({
+                defaultOperator,
+                containerElement: ELEMENT_TYPE.ASSIGNMENT,
+                expression: createMockPopulatedExpression(),
+                lhsDisabled: true
+            });
+            const baseExpressionBuilder = getBaseExpressionBuilder(expressionBuilder);
+            expect(baseExpressionBuilder.lhsDisabled).toBeTruthy();
+        });
+    });
     describe('parsing LHS', () => {
         it('should handle FER on LHS', () => {
             const expressionBuilder = createComponentForTest({

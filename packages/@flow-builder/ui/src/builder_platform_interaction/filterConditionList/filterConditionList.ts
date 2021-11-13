@@ -1,4 +1,3 @@
-/* eslint-disable lwc-core/no-inline-disable */
 import { LightningElement, api, track } from 'lwc';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from './filterConditionListLabels';
@@ -48,7 +47,7 @@ export default class FilterConditionList extends LightningElement {
     conditions = [];
 
     @api
-    formulaExpression = '';
+    formula = '';
 
     @api
     collectionReferenceDisplayText = '';
@@ -79,6 +78,7 @@ export default class FilterConditionList extends LightningElement {
      */
     set sobjectOrApexReference(ref: SObjectOrApexReference) {
         this._sObjectOrApexReference = ref;
+        this.updateRecordFields();
     }
 
     @api
@@ -117,16 +117,8 @@ export default class FilterConditionList extends LightningElement {
         return this.conditions && showDeleteCondition(this.conditions);
     }
 
-    @api
-    get recordFields() {
-        return this._filterableRecordFields;
-    }
+    @track recordFields;
 
-    set recordFields(fields: Object) {
-        this.populateRecordFields(fields);
-    }
-
-    _filterableRecordFields = {};
     /**
      * Populate filterable fields or apex properties in lhs of condition builder
      *
@@ -137,7 +129,7 @@ export default class FilterConditionList extends LightningElement {
             return;
         }
         let filterableFields;
-        this._filterableRecordFields = {};
+        this.recordFields = {};
         if (this._sObjectOrApexReference.isSObject) {
             filterableFields = Object.values(fields).filter((field) => field.filterable);
         } else if (this._sObjectOrApexReference.isApexClass) {
@@ -147,7 +139,7 @@ export default class FilterConditionList extends LightningElement {
             );
         }
         filterableFields.forEach((filterableField) => {
-            this._filterableRecordFields[filterableField.apiName] = filterableField;
+            this.recordFields[filterableField.apiName] = filterableField;
         });
     }
 
@@ -161,11 +153,19 @@ export default class FilterConditionList extends LightningElement {
      * @returns array of all conditions decorated with prefix
      */
     get conditionsWithPrefixes() {
-        return this.conditions ? getConditionsWithPrefixes(this.conditionLogic, this.conditions) : [];
+        const _conditionsWithPrefixes = this.conditions
+            ? getConditionsWithPrefixes(this.conditionLogic, this.conditions)
+            : [];
+        _conditionsWithPrefixes.forEach((element) => {
+            element.lhsFormattedDisplayText = this.lhsFormattedDisplayText();
+        });
+        return _conditionsWithPrefixes;
     }
 
-    get lhsPlaceholderText() {
-        return !isSObjectOrApexClass ?? format(this.labels.primtiveLhsPlaceholder, this.collectionReferenceDisplayText);
+    lhsFormattedDisplayText() {
+        return !isSObjectOrApexClass(this._sObjectOrApexReference)
+            ? format(this.labels.primtiveLhsPlaceholder, this.collectionReferenceDisplayText)
+            : null;
     }
 
     /**
@@ -186,19 +186,14 @@ export default class FilterConditionList extends LightningElement {
      *
      * @param event resourced text area value change event
      */
-    handleFormulaExpressionChanged(event) {
+    handleFormulaChanged(event) {
         event.stopPropagation();
-        const newFormulaExpression = event.detail.value;
-        const updateFormulaEvent = new PropertyChangedEvent(
-            'formulaExpression',
-            newFormulaExpression,
-            null,
-            this.parentGuid
-        );
+        const newFormula = event.detail.value;
+        const updateFormulaEvent = new PropertyChangedEvent('formula', newFormula, null, this.parentGuid);
         this.dispatchEvent(updateFormulaEvent);
     }
 
-    connectedCallback() {
+    updateRecordFields() {
         if (this._sObjectOrApexReference && this._sObjectOrApexReference.value) {
             if (this._sObjectOrApexReference.isSObject) {
                 // load sobject's fields

@@ -1,19 +1,11 @@
 import { LightningElement, api, track } from 'lwc';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
-import {
-    MapElement,
-    getUniqueElementName,
-    DEFAULT_CURRENT_ITEM_VARIABLE,
-    DEFAULT_OUTPUT_TYPE,
-    DEFAULT_CURRENT_ITEM_VARIABLE_PREFIX,
-    devNameToGuid
-} from 'builder_platform_interaction/mapEditorLib';
+import { MapElement, DEFAULT_OUTPUT_TYPE } from 'builder_platform_interaction/mapEditorLib';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { mapReducer } from './mapReducer';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from './mapEditorLabels';
 import {
     UpdateCollectionProcessorEvent,
@@ -21,11 +13,19 @@ import {
     PropertyChangedEvent
 } from 'builder_platform_interaction/events';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { addElement, deleteElements, updateElement } from 'builder_platform_interaction/actions';
-import { createVariable } from 'builder_platform_interaction/elementFactory';
-import { getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
 import { getElementByDevName, getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import {
+    DEFAULT_CURRENT_ITEM_VARIABLE_PREFIX,
+    ASSIGN_NEXT_VALUE_TO_REFERENCE,
+    generateVariable,
+    getNodeName,
+    devNameToGuid,
+    deleteOrRestoreVariable,
+    updateVariable
+} from 'builder_platform_interaction/collectionProcessorLib';
+import { getUniqueDuplicateElementName } from 'builder_platform_interaction/storeUtils';
+
 const { format } = commonUtils;
 
 export default class MapEditor extends LightningElement {
@@ -59,7 +59,7 @@ export default class MapEditor extends LightningElement {
     shouldRestoreVariable = true;
 
     @track
-    shouldCreateVariable = false;
+    shouldDeleteVariable = false;
 
     @api
     get elementInfo() {
@@ -117,7 +117,7 @@ export default class MapEditor extends LightningElement {
 
     connectedCallback() {
         // create the variable if it is not exist
-        this.createCurrentItemVariable();
+        this.createCurrentItemVariableAndUpdateMapElement();
         // fetch output fields
         this.fetchOutputFields();
     }
@@ -126,67 +126,28 @@ export default class MapEditor extends LightningElement {
         // when user click on cancel:
         // - the curent item variable was created when open the editor -> delete it
         // - the curent item variable was updated -> restore to the original variable
-        if (this.shouldRestoreVariable) {
-            if (this.shouldCreateVariable) {
-                // delete variable
-                Store.getStore().dispatch(
-                    deleteElements({
-                        elementType: ELEMENT_TYPE.VARIABLE,
-                        selectedElements: [getElementByDevName(this.currentItemVariable)]
-                    })
-                );
-            } else {
-                // restore to original variable
-                const elementUi = getElementByDevName(this.currentItemVariable);
-                let elementInStore = getElementForStore(elementUi);
-                elementInStore = { ...elementInStore, ...this.originalVariable };
-                Store.getStore().dispatch(updateElement(elementInStore));
-            }
-        }
+        deleteOrRestoreVariable(
+            this.currentItemVariable,
+            this.originalVariable,
+            this.shouldRestoreVariable,
+            this.shouldDeleteVariable
+        );
     }
 
     /**
      * Create the current item variable
      *
      */
-    createCurrentItemVariable() {
+    createCurrentItemVariableAndUpdateMapElement() {
         if (!this.currentItemVariable) {
-            // create the variable
-            this.currentItemVariable = getUniqueElementName(DEFAULT_CURRENT_ITEM_VARIABLE);
-            let varElement: any = {};
-            varElement = createVariable({
-                name: this.currentItemVariable,
-                dataType: FLOW_DATA_TYPE.SOBJECT.value,
-                subtype: this.inputObjectType ? this.inputObjectType : '',
-                isCollection: false,
-                isInput: true,
-                isOutput: false
-            });
-            Store.getStore().dispatch(addElement(varElement));
+            this.currentItemVariable = generateVariable(FLOW_DATA_TYPE.SOBJECT.value, this.inputObjectType);
             // update assignNextValueToReference in map element
-            const event = new PropertyChangedEvent('assignNextValueToReference', this.currentItemVariable, null);
+            const event = new PropertyChangedEvent(ASSIGN_NEXT_VALUE_TO_REFERENCE, this.currentItemVariable, null);
             this.updateMapElement(event);
-            this.shouldCreateVariable = true;
+            this.shouldDeleteVariable = true;
         } else if (!this.originalVariable) {
             this.originalVariable = getElementByDevName(this.currentItemVariable);
         }
-    }
-
-    /**
-     * Get the map node name
-     *
-     * @returns {string} map node name
-     */
-    getNodeName() {
-        if (
-            this.inputVariables &&
-            this.inputVariables[0] &&
-            this.inputVariables[0].name === 'nodeName' &&
-            this.inputVariables[0].value
-        ) {
-            return this.inputVariables[0].value;
-        }
-        return null;
     }
 
     /**
@@ -203,11 +164,11 @@ export default class MapEditor extends LightningElement {
         const errors = getErrorsFromHydratedElement(this.mapElement);
         this.shouldRestoreVariable = errors.length !== 0;
         if (errors.length === 0) {
-            const nodeName = this.getNodeName();
+            const nodeName = getNodeName(this.inputVariables);
             if (nodeName) {
                 const varName = DEFAULT_CURRENT_ITEM_VARIABLE_PREFIX + nodeName;
                 if (this.currentItemVariable !== varName) {
-                    this.updateCurrentItemVariable('name', getUniqueElementName(varName));
+                    this.updateCurrentItemVariable('name', getUniqueDuplicateElementName(varName));
                 }
             }
         }
@@ -282,18 +243,11 @@ export default class MapEditor extends LightningElement {
      * @param value new value
      */
     updateCurrentItemVariable(property, value) {
-        // update current var subtype
-        if (this.currentItemVariable && value) {
-            const elementUi = getElementByDevName(this.currentItemVariable);
-            const currentItemInStore = getElementForStore(elementUi);
-            currentItemInStore[property] = value;
-            Store.getStore().dispatch(updateElement(currentItemInStore));
-            if (property === 'name') {
-                this.currentItemVariable = value;
-                // update assignNextValueToReference in map element
-                const event = new PropertyChangedEvent('assignNextValueToReference', this.currentItemVariable, null);
-                this.updateMapElement(event);
-            }
+        const updated = updateVariable(this.currentItemVariable, property, value);
+        if (updated && property === 'name') {
+            this.currentItemVariable = value;
+            const event = new PropertyChangedEvent(ASSIGN_NEXT_VALUE_TO_REFERENCE, this.currentItemVariable, null);
+            this.updateMapElement(event);
         }
     }
 

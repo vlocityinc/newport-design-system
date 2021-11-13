@@ -54,6 +54,12 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
     lhsMustBeWritable = false;
 
     @api
+    lhsDisabled = false;
+
+    @api
+    lhsFormattedDisplayText;
+
+    @api
     operatorLabel;
 
     @api
@@ -115,6 +121,7 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
 
         this.state.lhsDescribe = {
             value: lhs.value,
+            formattedDisplayText: this.lhsFormattedDisplayText,
             error: lhs.error,
             param: null,
             activePicklistValues: null,
@@ -129,7 +136,8 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
                     this.state.lhsDisplayOption = LHS_DISPLAY_OPTION.FIELD_ON_VARIABLE;
                 }
                 const normalizedFer = normalizeFEROV(lhs.value, {
-                    allowSObjectFieldsTraversal: this.isLookupTraversalSupported()
+                    allowSObjectFieldsTraversal: this.isLookupTraversalSupported(),
+                    formattedDisplayText: this.state.lhsDescribe.formattedDisplayText
                 });
                 if (isObject(normalizedFer)) {
                     if (normalizedFer.fields) {

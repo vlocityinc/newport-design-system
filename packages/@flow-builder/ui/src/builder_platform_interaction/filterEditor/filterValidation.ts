@@ -9,7 +9,7 @@ import { Store } from 'builder_platform_interaction/storeLib';
  * @param elements all elements in store
  * @returns list of function
  */
-const validateCollectionReference = (elements) => {
+export const validateCollectionReference = (elements) => {
     return [
         ValidationRules.shouldNotBeBlank,
         ValidationRules.shouldNotBeNullOrUndefined,
@@ -45,8 +45,8 @@ export const getRules = (state) => {
             ValidationRules.shouldNotBeBlank,
             ValidationRules.isValidFormulaExpression
         ];
+    } else {
+        overriddenRules.conditions = validateFilterItems();
     }
-
-    overriddenRules.conditions = validateFilterItems();
     return overriddenRules;
 };

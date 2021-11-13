@@ -29,6 +29,7 @@
                                 lhs-label={labels.lhsLabel}
                                 lhs-placeholder={labels.lhsPlaceholder}
                                 operator-label={labels.operatorLabel}
+                                operator-placeholder={labels.operatorPlaceholder}
                                 rhs-label={labels.rhsLabel}
                                 rhs-placeholder={labels.rhsPlaceholder}
                             >
@@ -37,11 +38,12 @@
                                 if:false={isSObjectOrApex}
                                 container-element={elementType}
                                 rules={rulesForExpressionBuilder}
+                                lhs-formatted-display-text={conditionWithPrefix.lhsFormattedDisplayText}
                                 expression={conditionWithPrefix.condition}
                                 lhs-label={labels.lhsLabel}
-                                lhs-placeholder={lhsPlaceholderText}
-                                lhs-must-be-writable={lhsWritable}
+                                lhs-disabled
                                 operator-label={labels.operatorLabel}
+                                operator-placeholder={labels.operatorPlaceholder}
                                 rhs-label={labels.rhsLabel}
                                 rhs-placeholder={labels.rhsPlaceholder}
                             >
@@ -57,11 +59,12 @@
         if:true={showFormulaEditor}
         label={labels.formulaFieldLabel}
         name={labels.formulaFieldLabel}
-        required="true"
+        required
         for-formula
         row-index
-        value={formulaExpression}
-        onchange={handleFormulaExpressionChanged}
+        value={formula}
+        onblur={handleFormulaChanged}
+        onchange={handleFormulaChanged}
     >
     </builder_platform_interaction-resourced-textarea>
 </template>

@@ -128,7 +128,7 @@ const createComponentUnderTest = (inputs) => {
         conditionLogic = { value: CONDITION_LOGIC.AND },
         conditions = [],
         sobjectOrApexReference = null,
-        formulaExpression = null
+        formula = null
     } = inputs;
     const el = createElement('builder_platform_interaction-filter-condition-list', {
         is: FilterConditionList
@@ -138,7 +138,7 @@ const createComponentUnderTest = (inputs) => {
         elementGuid: { value: '12345', error: null },
         conditionLogic,
         conditions,
-        formulaExpression
+        formula
     });
     setDocumentBodyChildren(el);
     return el;
@@ -288,7 +288,7 @@ describe('filter-condition-list', () => {
         });
         it('should disable input in lhs of expression builder', () => {
             for (let i = 0; i < ferExpressionBuilders.length; i++) {
-                expect(ferExpressionBuilders[i].lhsMustBeWritable).toEqual(false);
+                expect(ferExpressionBuilders[i].lhsDisabled).toEqual(true);
             }
         });
         it('should not display formula editor', () => {
@@ -392,7 +392,7 @@ describe('filter-condition-list', () => {
             const formulaCondition = createComponentUnderTest({
                 sobjectOrApexReference: sobjectType,
                 conditionLogic: { value: CONDITION_LOGIC.FORMULA },
-                formulaExpression: { value: '10 > 0' }
+                formula: { value: '10 > 0' }
             });
             const eventCallback = jest.fn();
             formulaCondition.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
@@ -407,7 +407,7 @@ describe('filter-condition-list', () => {
             expect(eventCallback.mock.calls[0][0]).toMatchObject({
                 detail: {
                     guid: element.parentGuid,
-                    propertyName: 'formulaExpression',
+                    propertyName: 'formula',
                     value: '1 > 0',
                     error: null
                 }
@@ -424,7 +424,7 @@ describe('filter-condition-list', () => {
             element = createComponentUnderTest({
                 conditionLogic: { value: CONDITION_LOGIC.FORMULA },
                 sobjectOrApexReference: sobjectType,
-                formulaExpression: { value: '10 > 11' }
+                formula: { value: '10 > 11' }
             });
         });
         it('should have formula logic selected in the combobox', () => {
