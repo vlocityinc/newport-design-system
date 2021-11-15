@@ -66,6 +66,7 @@ describe('filter reducer test', () => {
             };
             const newState = filterReducer(originalState, event);
             expect(newState.collectionReference.value).toEqual(event.detail.value);
+            expect(newState.collectionReference.error).toEqual(event.detail.error);
         });
 
         it('should update filter condition logic', () => {

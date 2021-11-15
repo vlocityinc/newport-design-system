@@ -92,10 +92,9 @@ const updateProperty = (state, event) => {
 const updateCollectionReference = (state, event) => {
     const currentStateReferenceValue = state[PROPERTIES.COLLECTION_REFERENCE].value;
     const newValue = event.detail.value;
-    const error =
-        event.detail.error === null
-            ? filterValidation.validateProperty(PROPERTIES.COLLECTION_REFERENCE, newValue, getRules(state))
-            : event.detail.error;
+    const error = event.detail.error
+        ? event.detail.error
+        : filterValidation.validateProperty(PROPERTIES.COLLECTION_REFERENCE, newValue, getRules(state));
     state = updateProperties(state, {
         [PROPERTIES.COLLECTION_REFERENCE]: { value: event.detail.value, error }
     });
