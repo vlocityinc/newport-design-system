@@ -17,7 +17,7 @@ import { getElementByDevName, getElementByGuid } from 'builder_platform_interact
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import {
     DEFAULT_CURRENT_ITEM_VARIABLE_PREFIX,
-    ASSIGN_NEXT_VALUE_TO_REFERENCE,
+    COLLECTION_PROCESSOR_PROPERTIES,
     generateVariable,
     getNodeName,
     devNameToGuid,
@@ -142,7 +142,11 @@ export default class MapEditor extends LightningElement {
         if (!this.currentItemVariable) {
             this.currentItemVariable = generateVariable(FLOW_DATA_TYPE.SOBJECT.value, this.inputObjectType);
             // update assignNextValueToReference in map element
-            const event = new PropertyChangedEvent(ASSIGN_NEXT_VALUE_TO_REFERENCE, this.currentItemVariable, null);
+            const event = new PropertyChangedEvent(
+                COLLECTION_PROCESSOR_PROPERTIES.ASSIGN_NEXT_VALUE_TO_REFERENCE,
+                this.currentItemVariable,
+                null
+            );
             this.updateMapElement(event);
             this.shouldDeleteVariable = true;
         } else if (!this.originalVariable) {
@@ -166,9 +170,9 @@ export default class MapEditor extends LightningElement {
         if (errors.length === 0) {
             const nodeName = getNodeName(this.inputVariables);
             if (nodeName) {
-                const varName = DEFAULT_CURRENT_ITEM_VARIABLE_PREFIX + nodeName;
+                const varName = getUniqueDuplicateElementName(DEFAULT_CURRENT_ITEM_VARIABLE_PREFIX + nodeName);
                 if (this.currentItemVariable !== varName) {
-                    this.updateCurrentItemVariable('name', getUniqueDuplicateElementName(varName));
+                    this.updateCurrentItemVariable('name', varName);
                 }
             }
         }
@@ -246,7 +250,11 @@ export default class MapEditor extends LightningElement {
         const updated = updateVariable(this.currentItemVariable, property, value);
         if (updated && property === 'name') {
             this.currentItemVariable = value;
-            const event = new PropertyChangedEvent(ASSIGN_NEXT_VALUE_TO_REFERENCE, this.currentItemVariable, null);
+            const event = new PropertyChangedEvent(
+                COLLECTION_PROCESSOR_PROPERTIES.ASSIGN_NEXT_VALUE_TO_REFERENCE,
+                this.currentItemVariable,
+                null
+            );
             this.updateMapElement(event);
         }
     }

@@ -12,17 +12,15 @@ import { mapValidation, getRules } from './mapValidation';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
+import { COLLECTION_PROCESSOR_PROPERTIES } from 'builder_platform_interaction/collectionProcessorLib';
 
-export const MAP_PROPERTIES = {
-    COLLECTION_REFERENCE: 'collectionReference',
-    MAP_ITEMS: 'mapItems'
-};
+const MAP_ITEMS = COLLECTION_PROCESSOR_PROPERTIES.MAP_ITEMS;
 
 const updateCollectionReference = (state, event) => {
     const newCollectionValue = event.detail.value ? event.detail.value : null;
     const newCollectionError = event.detail.error ? event.detail.error : null;
     state = updateProperties(state, {
-        [MAP_PROPERTIES.COLLECTION_REFERENCE]: {
+        [COLLECTION_PROCESSOR_PROPERTIES.COLLECTION_REFERENCE]: {
             value: newCollectionValue,
             error: newCollectionError ? newCollectionError : null
         }
@@ -57,23 +55,23 @@ const newMapItem = (lhsValue: string, operator: string, rhsValue: string, rhsDat
 
 const resetMapItems = (state) => {
     // reset assignment items
-    state = set(state, MAP_PROPERTIES.MAP_ITEMS, []);
+    state = set(state, MAP_ITEMS, []);
     return state;
 };
 
 const addMapItem = (state, item: any) => {
-    const path = [MAP_PROPERTIES.MAP_ITEMS, state[MAP_PROPERTIES.MAP_ITEMS].length];
+    const path = [MAP_ITEMS, state[MAP_ITEMS].length];
     return set(state, path, item ? item : newMapItem('', '', '', ''));
 };
 
 const deleteMapItem = (state, event) => {
-    const updatedItems = deleteItem(state[MAP_PROPERTIES.MAP_ITEMS], event.detail.index);
-    return set(state, MAP_PROPERTIES.MAP_ITEMS, updatedItems);
+    const updatedItems = deleteItem(state[MAP_ITEMS], event.detail.index);
+    return set(state, MAP_ITEMS, updatedItems);
 };
 
 const updateMapItem = (state, event) => {
-    const path = [MAP_PROPERTIES.MAP_ITEMS, event.detail.index];
-    const item = updateProperties(state[MAP_PROPERTIES.MAP_ITEMS][event.detail.index], event.detail.value);
+    const path = [MAP_ITEMS, event.detail.index];
+    const item = updateProperties(state[MAP_ITEMS][event.detail.index], event.detail.value);
     return set(state, path, item);
 };
 
@@ -112,7 +110,7 @@ const prepopulateMapItems = (state, event) => {
     } else {
         _mapItems.push(newMapItem('', '', '', ''));
     }
-    return set(state, MAP_PROPERTIES.MAP_ITEMS, _mapItems);
+    return set(state, COLLECTION_PROCESSOR_PROPERTIES.MAP_ITEMS, _mapItems);
 };
 /**
  * filter reducer function runs validation rules and returns back the updated element filter

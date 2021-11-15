@@ -5,7 +5,11 @@ import { filterReducer } from './filterReducer';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import {
+    getErrorsFromHydratedElement,
+    mutateTextWithMergeFields,
+    demutateTextWithMergeFields
+} from 'builder_platform_interaction/dataMutationLib';
 
 import { LABELS } from './filterEditorLabels';
 import { Store } from 'builder_platform_interaction/storeLib';
@@ -14,7 +18,7 @@ import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import {
     SORTABLE_FILTER,
     DEFAULT_CURRENT_ITEM_VARIABLE_PREFIX,
-    ASSIGN_NEXT_VALUE_TO_REFERENCE,
+    COLLECTION_PROCESSOR_PROPERTIES,
     generateVariable,
     getVariable,
     getNodeName,
@@ -111,11 +115,21 @@ export default class FilterEditor extends LightningElement {
         this.shouldRestoreVariable = !!error.length;
         if (!error.length) {
             const nodeName = getNodeName(this.inputVariables);
-
             if (nodeName) {
-                const varName = DEFAULT_CURRENT_ITEM_VARIABLE_PREFIX + nodeName;
+                const varName = getUniqueDuplicateElementName(DEFAULT_CURRENT_ITEM_VARIABLE_PREFIX + nodeName);
                 if (this.currentItemVariable !== varName) {
-                    this.updateCurrentItemVariable('name', getUniqueDuplicateElementName(varName));
+                    // first, demutate formula
+                    const formula = demutateTextWithMergeFields(this.filterElement.formula.value);
+                    this.updateCurrentItemVariable('name', varName);
+                    if (formula) {
+                        // update formula
+                        const event = new PropertyChangedEvent(
+                            COLLECTION_PROCESSOR_PROPERTIES.FORMULA,
+                            mutateTextWithMergeFields(formula),
+                            null
+                        );
+                        this.updateFilterElement(event);
+                    }
                 }
             }
         }
@@ -153,7 +167,11 @@ export default class FilterEditor extends LightningElement {
     createCurrentItemVariableAndUpdateFilterElemement() {
         if (!this.currentItemVariable) {
             this.currentItemVariable = generateVariable(FLOW_DATA_TYPE.SOBJECT.value, this.inputCollectionType.subtype);
-            const event = new PropertyChangedEvent(ASSIGN_NEXT_VALUE_TO_REFERENCE, this.currentItemVariable, null);
+            const event = new PropertyChangedEvent(
+                COLLECTION_PROCESSOR_PROPERTIES.ASSIGN_NEXT_VALUE_TO_REFERENCE,
+                this.currentItemVariable,
+                null
+            );
             this.updateFilterElement(event);
             this.shouldDeleteVariable = true;
         } else if (!this.originalVariable) {
@@ -231,7 +249,11 @@ export default class FilterEditor extends LightningElement {
         const updated = updateVariable(this.currentItemVariable, property, value);
         if (updated && property === 'name') {
             this.currentItemVariable = value;
-            const event = new PropertyChangedEvent(ASSIGN_NEXT_VALUE_TO_REFERENCE, this.currentItemVariable, null);
+            const event = new PropertyChangedEvent(
+                COLLECTION_PROCESSOR_PROPERTIES.ASSIGN_NEXT_VALUE_TO_REFERENCE,
+                this.currentItemVariable,
+                null
+            );
             this.updateFilterElement(event);
         }
     }

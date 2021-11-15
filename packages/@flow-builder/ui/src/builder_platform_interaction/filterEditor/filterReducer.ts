@@ -14,26 +14,21 @@ import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { COLLECTION_PROCESSOR_PROPERTIES } from 'builder_platform_interaction/collectionProcessorLib';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 const OPERATOR = EXPRESSION_PROPERTY_TYPE.OPERATOR;
 const RHS = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE;
 const RHS_DATA_TYPE = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE;
-const PROPERTIES = {
-    COLLECTION_REFERENCE: 'collectionReference',
-    CONDITION_LOGIC: 'conditionLogic',
-    CONDITIONS: 'conditions',
-    FORMULA: 'formula',
-    ASSIGN_NEXT_VALUE_TO_REFERENCE: 'assignNextValueToReference'
-};
 
 const initLHS = (state) => {
-    const assignNextValueToReferenceGuidOrDevName = state[PROPERTIES.ASSIGN_NEXT_VALUE_TO_REFERENCE].value;
+    const assignNextValueToReferenceGuidOrDevName =
+        state[COLLECTION_PROCESSOR_PROPERTIES.ASSIGN_NEXT_VALUE_TO_REFERENCE].value;
     const currentItem = getResourceByUniqueIdentifier(assignNextValueToReferenceGuidOrDevName, {
         lookupByDevName: true
     });
     const collectionVariable = getVariableOrField(
-        state[PROPERTIES.COLLECTION_REFERENCE].value,
+        state[COLLECTION_PROCESSOR_PROPERTIES.COLLECTION_REFERENCE].value,
         Store.getStore().getCurrentState().elements
     );
     if (
@@ -58,20 +53,20 @@ const initFilterCondition = (state) => {
 };
 
 const addFilterConditionItem = (state) => {
-    const path = [PROPERTIES.CONDITIONS, state[PROPERTIES.CONDITIONS].length];
+    const path = [COLLECTION_PROCESSOR_PROPERTIES.CONDITIONS, state[COLLECTION_PROCESSOR_PROPERTIES.CONDITIONS].length];
     return set(state, path, initFilterCondition(state));
 };
 
 const deleteFilterConditionItem = (state, event) => {
     const index = event.detail.index;
-    const item = deleteItem(state[PROPERTIES.CONDITIONS], index);
-    return set(state, PROPERTIES.CONDITIONS, item);
+    const item = deleteItem(state[COLLECTION_PROCESSOR_PROPERTIES.CONDITIONS], index);
+    return set(state, COLLECTION_PROCESSOR_PROPERTIES.CONDITIONS, item);
 };
 
 const updateFilterConditionItem = (state, event) => {
     const { index, value } = event.detail;
-    const path = [PROPERTIES.CONDITIONS, index];
-    const item = updateProperties(state[PROPERTIES.CONDITIONS][index], value);
+    const path = [COLLECTION_PROCESSOR_PROPERTIES.CONDITIONS, index];
+    const item = updateProperties(state[COLLECTION_PROCESSOR_PROPERTIES.CONDITIONS][index], value);
     return set(state, path, item);
 };
 
@@ -79,24 +74,33 @@ const updateProperty = (state, event) => {
     const propertyName = event.detail.propertyName;
     if (propertyName) {
         const { value, error } = event.detail;
+        const oldValue = state[propertyName];
         state = updateProperties(state, {
             [propertyName]: { value, error }
         });
-        if (propertyName === PROPERTIES.FORMULA) {
-            state = set(state, PROPERTIES.CONDITIONS, [initFilterCondition(state)]);
+        if (propertyName === COLLECTION_PROCESSOR_PROPERTIES.CONDITION_LOGIC) {
+            // change logic from formula to any condition logic or vice verso will reset conditions and formula
+            if (oldValue.value === CONDITION_LOGIC.FORMULA || value === CONDITION_LOGIC.FORMULA) {
+                state = resetFormula(state);
+                state = set(state, COLLECTION_PROCESSOR_PROPERTIES.CONDITIONS, [initFilterCondition(state)]);
+            }
         }
     }
     return state;
 };
 
 const updateCollectionReference = (state, event) => {
-    const currentStateReferenceValue = state[PROPERTIES.COLLECTION_REFERENCE].value;
+    const currentStateReferenceValue = state[COLLECTION_PROCESSOR_PROPERTIES.COLLECTION_REFERENCE].value;
     const newValue = event.detail.value;
     const error = event.detail.error
         ? event.detail.error
-        : filterValidation.validateProperty(PROPERTIES.COLLECTION_REFERENCE, newValue, getRules(state));
+        : filterValidation.validateProperty(
+              COLLECTION_PROCESSOR_PROPERTIES.COLLECTION_REFERENCE,
+              newValue,
+              getRules(state)
+          );
     state = updateProperties(state, {
-        [PROPERTIES.COLLECTION_REFERENCE]: { value: event.detail.value, error }
+        [COLLECTION_PROCESSOR_PROPERTIES.COLLECTION_REFERENCE]: { value: event.detail.value, error }
     });
     // reset filter if input collection reference changed and no error
     if (newValue !== currentStateReferenceValue && !error) {
@@ -108,17 +112,17 @@ const updateCollectionReference = (state, event) => {
 const resetFilter = (state) => {
     state = resetFilterLogic(state);
     state = resetFormula(state);
-    return set(state, PROPERTIES.CONDITIONS, [initFilterCondition(state)]);
+    return set(state, COLLECTION_PROCESSOR_PROPERTIES.CONDITIONS, [initFilterCondition(state)]);
 };
 
 const resetFilterLogic = (state) => {
     const conditionLogic = { value: CONDITION_LOGIC.AND, error: null };
-    return set(state, PROPERTIES.CONDITION_LOGIC, conditionLogic);
+    return set(state, COLLECTION_PROCESSOR_PROPERTIES.CONDITION_LOGIC, conditionLogic);
 };
 
 const resetFormula = (state) => {
     const formula = { value: '', error: null };
-    return set(state, PROPERTIES.FORMULA, formula);
+    return set(state, COLLECTION_PROCESSOR_PROPERTIES.FORMULA, formula);
 };
 /**
  *

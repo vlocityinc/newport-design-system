@@ -349,7 +349,8 @@ export const TEMPLATE_FIELDS = new Set([
     'errorMessage', // errorMessage field in validationRule Object for choice editor and screenField
     'formulaExpression', // used in validation Rule Object for choice editor and screenField
     'choiceText', // used in Choice Editor
-    'promptText' // used in Choice Editor
+    'promptText', // used in Choice Editor
+    'formula' // represents body of a formula in collection processor filter node
 ]);
 
 export const EXPRESSION_RE = /\{!([^}]+)\}/g;

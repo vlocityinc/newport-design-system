@@ -22,8 +22,16 @@ const isDataTypeSupported = (dataType, supportedDataType, isCollection) => {
 
 export const DEFAULT_CURRENT_ITEM_VARIABLE = 'currentItemFromCollection';
 export const DEFAULT_CURRENT_ITEM_VARIABLE_PREFIX = 'currentItem_';
-export const ASSIGN_NEXT_VALUE_TO_REFERENCE = 'assignNextValueToReference';
 export const NODE_NAME = 'nodeName';
+
+export const COLLECTION_PROCESSOR_PROPERTIES = {
+    COLLECTION_REFERENCE: 'collectionReference',
+    MAP_ITEMS: 'mapItems',
+    CONDITION_LOGIC: 'conditionLogic',
+    CONDITIONS: 'conditions',
+    FORMULA: 'formula',
+    ASSIGN_NEXT_VALUE_TO_REFERENCE: 'assignNextValueToReference'
+};
 
 /**
  * Filter the elements that can be supported in collection processor:

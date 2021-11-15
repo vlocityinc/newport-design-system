@@ -4,7 +4,7 @@ import { CollectionReferenceChangedEvent } from 'builder_platform_interaction/ev
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import FilterEditor from 'builder_platform_interaction/filterEditor';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import { deepQuerySelector, INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
@@ -32,7 +32,7 @@ const initFilterElementInfo = {
         }
     ],
     conditionLogic: { value: CONDITION_LOGIC.AND, error: null },
-    formula: { value: null, error: null }
+    formula: { value: '', error: null }
 };
 
 const testSObjectTypeCollection = {
@@ -41,7 +41,7 @@ const testSObjectTypeCollection = {
         error: null
     },
     assignNextValueToReference: {
-        value: store.accountSObjectCollectionVariable.guid,
+        value: store.accountSObjectVariable.guid,
         error: null
     },
     conditions: [
@@ -53,8 +53,23 @@ const testSObjectTypeCollection = {
             rowIndex: '9afbaf94-5c0b-48ca-9ed9-e75b74bec527'
         }
     ],
-    conditionLogic: { value: 'and', error: null },
-    formula: { value: null, error: null },
+    conditionLogic: { value: CONDITION_LOGIC.AND, error: null },
+    formula: { value: '', error: null },
+    guid: '12345'
+};
+
+const testFilterByFormula = {
+    collectionReference: {
+        value: store.accountSObjectCollectionVariable.guid,
+        error: null
+    },
+    assignNextValueToReference: {
+        value: store.accountSObjectVariable.guid,
+        error: null
+    },
+    conditions: [],
+    conditionLogic: { value: CONDITION_LOGIC.FORMULA, error: null },
+    formula: { value: 'BEGINS({!' + store.accountSObjectVariable.name + '.Name},test)', error: null },
     guid: '12345'
 };
 
@@ -89,15 +104,24 @@ const getCombobox = (inputCollection) => {
     );
 };
 
-const getFilterConditionList = (filterEditor) => {
-    const filterConditionList = filterEditor.shadowRoot.querySelector(
-        INTERACTION_COMPONENTS_SELECTORS.FILTER_CONDITION_LIST
-    );
-    if (filterConditionList) {
-        return filterConditionList.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.CONDITION_LIST);
-    }
-    return null;
-};
+const getFilterConditionList = (filterEditor) =>
+    deepQuerySelector(filterEditor, [
+        INTERACTION_COMPONENTS_SELECTORS.FILTER_CONDITION_LIST,
+        INTERACTION_COMPONENTS_SELECTORS.CONDITION_LIST
+    ]);
+
+const getConditions = (filterEditor) =>
+    deepQuerySelector(filterEditor, [
+        INTERACTION_COMPONENTS_SELECTORS.FILTER_CONDITION_LIST,
+        INTERACTION_COMPONENTS_SELECTORS.CONDITION_LIST,
+        INTERACTION_COMPONENTS_SELECTORS.LIST
+    ]);
+
+const getFormulaEditor = (filterEditor) =>
+    deepQuerySelector(filterEditor, [
+        INTERACTION_COMPONENTS_SELECTORS.FILTER_CONDITION_LIST,
+        INTERACTION_COMPONENTS_SELECTORS.RESOURCED_TEXTAREA
+    ]);
 
 describe('filter-editor', () => {
     beforeAll(() => {
@@ -160,6 +184,42 @@ describe('filter-editor', () => {
                     addCurlyBraces(store.stringCollectionVariable1.name)
                 )
             ).not.toBeNull();
+        });
+    });
+    describe('Filter by conditions', () => {
+        let filterEditor;
+        beforeEach(() => {
+            filterEditor = createComponentUnderTest({ elementInfo: testSObjectTypeCollection });
+        });
+        it('should have input collection', () => {
+            const inputCollection = getFilterInputCollection(filterEditor);
+            const ferovResourcePicker = getFerovResourcePicker(inputCollection);
+            expect(ferovResourcePicker.value.value).toEqual(testSObjectTypeCollection.collectionReference.value);
+        });
+        it('should display conditions', () => {
+            expect(getConditions(filterEditor)).not.toBeNull();
+        });
+        it('should not display formula editor', () => {
+            expect(getFormulaEditor(filterEditor)).toBeNull();
+        });
+    });
+    describe('Filter by formula', () => {
+        let filterEditor;
+        beforeEach(() => {
+            filterEditor = createComponentUnderTest({ elementInfo: testFilterByFormula });
+        });
+        it('should have input collection', () => {
+            const inputCollection = getFilterInputCollection(filterEditor);
+            const ferovResourcePicker = getFerovResourcePicker(inputCollection);
+            expect(ferovResourcePicker.value.value).toEqual(testFilterByFormula.collectionReference.value);
+        });
+        it('should not display conditions', () => {
+            expect(getConditions(filterEditor)).toBeNull();
+        });
+        it('should display formula editor', () => {
+            const formulaCmp = getFormulaEditor(filterEditor);
+            expect(formulaCmp).not.toBeNull();
+            expect(formulaCmp.value.value).toEqual(testFilterByFormula.formula.value);
         });
     });
 
