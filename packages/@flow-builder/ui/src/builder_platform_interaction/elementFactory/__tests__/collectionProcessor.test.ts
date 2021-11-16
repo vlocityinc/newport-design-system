@@ -5,13 +5,18 @@ import {
     createCollectionProcessorMetadataObject
 } from '../collectionProcessor';
 import { COLLECTION_PROCESSOR_SUB_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
+import * as store from 'mock/storeData';
+
+const mockGuid = 'mockGuid';
 
 const defaultCollectionProcessorElement = {
     elementType: ELEMENT_TYPE.COLLECTION_PROCESSOR,
     description: '',
     name: '',
-    guid: 'testGUID',
     label: '',
+    guid: mockGuid,
     maxConnections: 1,
     locationX: 0,
     locationY: 0,
@@ -25,10 +30,10 @@ const defaultCollectionProcessorElement = {
 const testSortCollectionProcessorElement = {
     elementType: ELEMENT_TYPE.COLLECTION_PROCESSOR,
     collectionProcessorType: COLLECTION_PROCESSOR_SUB_TYPE.SORT,
-    description: 'testElementDesc',
-    name: 'collectionProcessor1',
-    guid: 'testGUID',
-    label: 'collectionProcessor1label',
+    description: 'create sort collection processor',
+    name: 'sortCollectionProcessor',
+    guid: mockGuid,
+    label: 'sortCollectionProcessorLabel',
     maxConnections: 1,
     locationX: 10,
     locationY: 10,
@@ -37,30 +42,30 @@ const testSortCollectionProcessorElement = {
         isSelected: false
     },
     connectorCount: 0,
-    sortOptions: [{ sortField: 'sortField', sortOrder: 'Asc', doesPutEmptyStringAndNullFirst: false }],
+    sortOptions: [{ sortField: 'Name', sortOrder: 'Asc', doesPutEmptyStringAndNullFirst: false }],
     limit: null,
-    collectionReference: 'collectionRef'
+    collectionReference: store.accountSObjectCollectionVariable.guid
 };
 
 const testSortCollectionProcessorMetadataElement = {
-    description: 'testElementDesc',
-    name: 'collectionProcessor1',
-    label: 'collectionProcessor1label',
+    description: 'create sort collection processor',
+    name: 'sortCollectionProcessor',
+    label: 'sortCollectionProcessorLabel',
     locationX: 10,
     locationY: 10,
-    sortOptions: [{ sortField: 'sortField', sortOrder: 'Asc', doesPutEmptyStringAndNullFirst: false }],
+    sortOptions: [{ sortField: 'Name', sortOrder: 'Asc', doesPutEmptyStringAndNullFirst: false }],
     limit: null,
-    collectionReference: 'collectionRef',
+    collectionReference: store.accountSObjectCollectionVariable.guid,
     collectionProcessorType: COLLECTION_PROCESSOR_SUB_TYPE.SORT
 };
 
 const testMapCollectionProcessorElement = {
     elementType: ELEMENT_TYPE.COLLECTION_PROCESSOR,
     collectionProcessorType: COLLECTION_PROCESSOR_SUB_TYPE.MAP,
-    description: 'testElementDesc',
-    name: 'collectionProcessor1',
-    guid: 'testGUID',
-    label: 'collectionProcessor1label',
+    description: 'create map collection processor',
+    name: 'mapCollectionProcessor',
+    guid: mockGuid,
+    label: 'mapCollectionProcessorLabel',
     maxConnections: 1,
     locationX: 10,
     locationY: 10,
@@ -71,66 +76,157 @@ const testMapCollectionProcessorElement = {
     connectorCount: 0,
     mapItems: [
         {
-            leftHandSide: 'Recommendation.foo',
-            operator: 'Equals',
-            rightHandSide: 'bar',
+            leftHandSide: 'Contract.Description',
+            operator: 'Assign',
+            rightHandSide: 'This is my desc',
             rightHandSideDataType: 'String',
-            rowIndex: 'testGUID'
+            rowIndex: mockGuid
         }
     ],
-    collectionReference: 'collectionRef',
-    assignNextValueToReference: 'vVariable',
-    outputSObjectType: 'Recommendation'
+    collectionReference: store.accountSObjectCollectionVariable.guid,
+    assignNextValueToReference: store.accountSObjectVariable.guid,
+    outputSObjectType: 'Contract'
 };
 
 const testMapCollectionProcessorMetadataElement = {
-    description: 'testElementDesc',
-    name: 'collectionProcessor1',
-    label: 'collectionProcessor1label',
+    description: 'create map collection processor',
+    name: 'mapCollectionProcessor',
+    label: 'mapCollectionProcessorLabel',
     locationX: 10,
     locationY: 10,
     mapItems: [
         {
-            assignToFieldReference: 'foo',
-            operator: 'Equals',
+            assignToFieldReference: 'Description',
+            operator: 'Assign',
             value: {
-                stringValue: 'bar'
+                stringValue: 'This is my desc'
             }
         }
     ],
-    collectionReference: 'collectionRef',
+    collectionReference: store.accountSObjectCollectionVariable.guid,
     collectionProcessorType: COLLECTION_PROCESSOR_SUB_TYPE.MAP,
-    assignNextValueToReference: 'vVariable',
-    outputSObjectType: 'Recommendation'
+    assignNextValueToReference: store.accountSObjectVariable.guid,
+    outputSObjectType: 'Contract'
 };
 
-jest.mock('builder_platform_interaction/storeLib', () => {
-    return {
-        generateGuid: jest.fn().mockImplementation(() => {
-            return 'testGUID';
-        })
-    };
-});
+const testFilterCollectionProcessorElement = {
+    elementType: ELEMENT_TYPE.COLLECTION_PROCESSOR,
+    collectionProcessorType: COLLECTION_PROCESSOR_SUB_TYPE.FILTER,
+    description: 'create filter collection processor',
+    name: 'filterCollectionProcessor',
+    guid: mockGuid,
+    label: 'filterCollectionProcessorLabel',
+    maxConnections: 1,
+    locationX: 10,
+    locationY: 10,
+    isCanvasElement: true,
+    config: {
+        isSelected: false
+    },
+    connectorCount: 0,
+    collectionReference: store.accountSObjectCollectionVariable.guid,
+    assignNextValueToReference: store.accountSObjectVariable.guid,
+    conditions: [
+        {
+            leftHandSide: store.accountSObjectVariable.guid + '.Name',
+            operator: 'EqualsTo',
+            rightHandSide: 'bar',
+            rightHandSideDataType: 'String',
+            rowIndex: mockGuid
+        }
+    ],
+    conditionLogic: 'and',
+    formula: null
+};
+
+const testFilterCollectionProcessorElementMetadataElement = {
+    guid: mockGuid,
+    name: 'filterCollectionProcessor',
+    description: 'create filter collection processor',
+    label: 'filterCollectionProcessorLabel',
+    locationX: 10,
+    locationY: 10,
+    isCanvasElement: true,
+    connectorCount: 0,
+    config: {
+        isSelected: false,
+        isHighlighted: undefined,
+        isSelectable: undefined,
+        hasError: undefined
+    },
+    elementSubtype: undefined,
+    canHaveFaultConnector: false,
+    isNew: undefined,
+    collectionReference: store.accountSObjectCollectionVariable.guid,
+    collectionProcessorType: 'FilterCollectionProcessor',
+    elementType: 'CollectionProcessor',
+    maxConnections: 1,
+    limit: null,
+    assignNextValueToReference: store.accountSObjectVariable.guid,
+    conditions: [
+        {
+            rowIndex: mockGuid,
+            leftHandSide: store.accountSObjectVariable.guid + '.Name',
+            leftHandSideDataType: undefined,
+            rightHandSide: 'bar',
+            rightHandSideDataType: 'String',
+            operator: 'EqualsTo'
+        }
+    ],
+    conditionLogic: 'and',
+    dataType: 'SObject',
+    subtype: 'Account',
+    isCollection: true,
+    formula: null
+};
+
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 describe('CollectionProcessor Element Factory', () => {
+    const storeLib = require('builder_platform_interaction/storeLib');
+    storeLib.generateGuid = jest.fn().mockReturnValue(mockGuid);
     describe('createCollectionProcessor Function', () => {
+        beforeAll(() => {
+            // @ts-ignore
+            Store.setMockState(flowWithAllElementsUIModel);
+        });
+        afterAll(() => {
+            // @ts-ignore
+            Store.resetStore();
+        });
         it('returns a new Collection Processor element object with default values when no arguments are passed', () => {
             const result = createCollectionProcessor();
             expect(result).toMatchObject(defaultCollectionProcessorElement);
         });
-        it('returns a sort collectionProcessor element object', () => {
-            const result = createCollectionProcessor(testSortCollectionProcessorElement);
-            expect(result).toMatchObject(testSortCollectionProcessorElement);
+        describe('sort collection processor', () => {
+            it('returns a sort collectionProcessor element object', () => {
+                const result = createCollectionProcessor(testSortCollectionProcessorElement);
+                expect(result).toMatchObject(testSortCollectionProcessorElement);
+            });
         });
-        it('returns a map collectionProcessor element object', () => {
-            const result = createCollectionProcessor(testMapCollectionProcessorElement);
-            expect(result).toMatchObject(testMapCollectionProcessorElement);
+        describe('map collection processor', () => {
+            it('returns a map collectionProcessor element object', () => {
+                const result = createCollectionProcessor(testMapCollectionProcessorElement);
+                expect(result).toMatchObject(testMapCollectionProcessorElement);
+            });
+            it('returns a map collectionProcessor element object that has isCollection, dataType and subtype properties', () => {
+                const result = createCollectionProcessor(testMapCollectionProcessorElement);
+                expect(result.isCollection).toBeTruthy();
+                expect(result.dataType).toEqual('SObject');
+                expect(result.subtype).toEqual(testMapCollectionProcessorElement.outputSObjectType);
+            });
         });
-        it('returns a map collectionProcessor element object that has isCollection, dataType and subtype properties', () => {
-            const result = createCollectionProcessor(testMapCollectionProcessorElement);
-            expect(result.isCollection).toBeTruthy();
-            expect(result.dataType).toEqual('SObject');
-            expect(result.subtype).toEqual(testMapCollectionProcessorElement.outputSObjectType);
+        describe('filter collection processor', () => {
+            it('returns a filter collectionProcessor element object', () => {
+                const result = createCollectionProcessor(testFilterCollectionProcessorElement);
+                expect(result).toMatchObject(testFilterCollectionProcessorElementMetadataElement);
+            });
+            it('returns a filter collectionProcessor element object that has isCollection, dataType and subtype properties', () => {
+                const result = createCollectionProcessor(testFilterCollectionProcessorElement);
+                expect(result.isCollection).toBeTruthy();
+                expect(result.dataType).toEqual('SObject');
+                expect(result.subtype).toEqual('Account');
+            });
         });
     });
 });

@@ -15,6 +15,8 @@ import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { createSortOption, createSortOptionMetadataObject } from './sortOption';
 import { createMapItem, createMapItemMetadataObject } from './mapItem';
 import { createFilterConditionItem, createFilterConditionMetadataObject } from './filterConditionItem';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
 
 const elementType = ELEMENT_TYPE.COLLECTION_PROCESSOR;
 const maxConnections = 1;
@@ -96,11 +98,23 @@ function createCollectionProcessorItem(collectionProcessor) {
                 const initFilterCondition = createCondition();
                 conditions = [initFilterCondition];
             }
-
+            let dataType, subtype;
+            if (collectionReference) {
+                const collectionVariable = getVariableOrField(
+                    collectionReference,
+                    Store.getStore().getCurrentState().elements
+                );
+                if (collectionVariable) {
+                    ({ dataType, subtype } = collectionVariable);
+                }
+            }
             return Object.assign(cpItem, {
                 assignNextValueToReference,
                 conditions,
                 conditionLogic,
+                dataType,
+                subtype,
+                isCollection: true,
                 formula
             });
         }

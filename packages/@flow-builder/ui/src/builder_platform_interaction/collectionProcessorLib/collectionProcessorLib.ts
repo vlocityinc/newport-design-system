@@ -128,7 +128,7 @@ export const generateVariable = (dataType = FLOW_DATA_TYPE.SOBJECT.value, subtyp
         dataType,
         subtype: subtype ? subtype : '',
         isCollection: false,
-        isInput: true,
+        isInput: false,
         isOutput: false
     });
     Store.getStore().dispatch(addElement(varElement));
