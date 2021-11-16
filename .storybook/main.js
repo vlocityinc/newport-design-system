@@ -27,8 +27,7 @@ module.exports = {
       // 2a. Load `.stories.mdx` / `.story.mdx` files as CSF and generate
       //     the docs page from the markdown
       test: /\.(stories|story)\.mdx$/,
-      use: [
-        {
+      use: [{
           loader: "babel-loader",
           // may or may not need this line depending on your app's setup
           options: {
@@ -44,12 +43,12 @@ module.exports = {
       ],
     });
 
-    serverConfig.module.rules.push({
-      test: /\.(stories|story)\.[tj]sx?$/,
-      loader: require.resolve("@storybook/source-loader"),
-      exclude: [/node_modules/],
-      enforce: "pre",
-    });
+    // serverConfig.module.rules.push({
+    //   test: /\.(stories|story)\.[tj]sx?$/,
+    //   loader: require.resolve("@storybook/source-loader"),
+    //   exclude: [/node_modules/],
+    //   enforce: "pre",
+    // });
 
     serverConfig.plugins.push(new NewportSassWatcherPlugin());
     // Sass
