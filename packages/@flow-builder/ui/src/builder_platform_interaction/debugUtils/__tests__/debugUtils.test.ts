@@ -10,8 +10,14 @@ import { completedInterview } from 'mock/debugResponse/mock-completed-interview'
 import { errorWithTraceInterview, errorWithTraceInterviewWithRollback } from 'mock/debugResponse/mock-error-interview';
 import { fakePausedInterview } from 'mock/debugResponse/mock-fake-paused-interview';
 import { fakePausedInterviewWithoutAlarmEvent } from 'mock/debugResponse/mock-fake-paused-interview';
+import { getProcessType } from 'builder_platform_interaction/storeUtils';
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
+
+jest.mock('builder_platform_interaction/storeUtils', () => ({
+    getProcessType: jest.fn()
+}));
 
 describe('debug utils', () => {
     describe('fake paused interview', () => {
@@ -97,9 +103,10 @@ describe('debug utils', () => {
         });
     });
 
-    describe('paused interview', () => {
+    describe('paused non-orchestration interview', () => {
         let updatedDebugTraceObject;
         beforeEach(() => {
+            getProcessType.mockReturnValueOnce(FLOW_PROCESS_TYPE.FLOW);
             updatedDebugTraceObject = copyAndUpdateDebugTraceObject(pausedInterview).debugTraces;
         });
 
@@ -108,6 +115,21 @@ describe('debug utils', () => {
             expect(len).toBe(pausedInterview.debugTrace.length + 1);
             expect(updatedDebugTraceObject[len - 1].titleWithLabel).toMatch(LABELS.interviewPausedHeader);
             expect(updatedDebugTraceObject[len - 1].lines[0]).toMatch(LABELS.interviewPaused);
+        });
+    });
+
+    describe('paused orchestration interview', () => {
+        let updatedDebugTraceObject;
+        beforeEach(() => {
+            getProcessType.mockReturnValueOnce(FLOW_PROCESS_TYPE.ORCHESTRATOR);
+            updatedDebugTraceObject = copyAndUpdateDebugTraceObject(pausedInterview).debugTraces;
+        });
+
+        it('should not display the paused message generated from UI side', () => {
+            const len = updatedDebugTraceObject.length;
+            expect(len).toBe(pausedInterview.debugTrace.length);
+            expect(updatedDebugTraceObject[len - 1].titleWithLabel).not.toMatch(LABELS.interviewPausedHeader);
+            expect(updatedDebugTraceObject[len - 1].lines[0]).not.toMatch(LABELS.interviewPaused);
         });
     });
 

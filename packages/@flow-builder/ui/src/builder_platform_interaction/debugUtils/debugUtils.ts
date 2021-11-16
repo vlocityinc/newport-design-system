@@ -4,6 +4,8 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 const { format } = commonUtils;
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
+import { getProcessType } from 'builder_platform_interaction/storeUtils';
+import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
 
 /**
  * @constant STATUS The Interview Status
@@ -182,12 +184,15 @@ function getEndInterviewInfo(debugData) {
             };
             break;
         case STATUS.WAITING:
-            end = {
-                titleWithApiName: LABELS.interviewPausedHeader,
-                titleWithLabel: LABELS.interviewPausedHeader,
-                lines: [LABELS.interviewPaused],
-                id: generateGuid()
-            };
+            // For orchestrator interviews, Paused card is generated from the backend side in BaseInterviewHtmlWriter.
+            if (!isOrchestrator(getProcessType())) {
+                end = {
+                    titleWithApiName: LABELS.interviewPausedHeader,
+                    titleWithLabel: LABELS.interviewPausedHeader,
+                    lines: [LABELS.interviewPaused],
+                    id: generateGuid()
+                };
+            }
             break;
         default:
             break;
