@@ -553,6 +553,17 @@ export default class ScreenEditorCanvas extends LightningElement {
     }
 
     /**
+     * Sets aria text message to be read when component is selected which moves focus to properties editor
+     *
+     * @param event
+     */
+    handleScreenElementSelected(event) {
+        if (event.detail.fromKeyboard) {
+            this.ariaDescription = this.labels.rightPanelInstructions;
+        }
+    }
+
+    /**
      *  Fires event to swap a screen component with adjacent component
      *
      * @param sourceIndex - The current position of the component in its parent whether column or canvas

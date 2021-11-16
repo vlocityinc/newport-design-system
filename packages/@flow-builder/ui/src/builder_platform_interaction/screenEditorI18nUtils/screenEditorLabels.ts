@@ -182,6 +182,7 @@ import componentDroppedMessageTypeOnly from '@salesforce/label/FlowBuilderScreen
 import componentFinalPosition from '@salesforce/label/FlowBuilderScreenEditor.componentFinalPosition';
 import componentAriaLabel from '@salesforce/label/FlowBuilderScreenEditor.componentAriaLabel';
 import componentAriaLabelTypeOnly from '@salesforce/label/FlowBuilderScreenEditor.componentAriaLabelTypeOnly';
+import rightPanelInstructions from '@salesforce/label/FlowBuilderScreenEditor.rightPanelInstructions';
 
 export const LABELS = {
     errorRequired,
@@ -367,5 +368,6 @@ export const LABELS = {
     componentDroppedMessageTypeOnly,
     componentFinalPosition,
     componentAriaLabelTypeOnly,
-    componentAriaLabel
+    componentAriaLabel,
+    rightPanelInstructions
 };

@@ -684,5 +684,26 @@ describe('screen editor canvas', () => {
                 expect(ariaLiveSpan.textContent).toEqual(expectedString);
             });
         });
+        describe('Press enter to select component', () => {
+            it('should construct the correct aria text when the component is not within a section', async () => {
+                const eventCallback = jest.fn().mockImplementation();
+                const canvasContainer = screenEditorCanvasElement.shadowRoot.querySelector(selectors.canvasContainer);
+                const event = createScreenElementSelectedEvent('screenElement', null, true);
+                screenEditorCanvasElement.addEventListener(ScreenEditorEventName.ScreenElementSelected, eventCallback);
+                await canvasContainer.dispatchEvent(event);
+                const expectedString = LABELS.rightPanelInstructions;
+                const ariaLiveSpan = screenEditorCanvasElement.shadowRoot.querySelectorAll(selectors.ariaLiveRegion)[1];
+                expect(ariaLiveSpan.textContent).toEqual(expectedString);
+                expect(eventCallback).toHaveBeenCalledWith(
+                    expect.objectContaining({
+                        detail: {
+                            screenElement: 'screenElement',
+                            property: null,
+                            fromKeyboard: true
+                        }
+                    })
+                );
+            });
+        });
     });
 });
