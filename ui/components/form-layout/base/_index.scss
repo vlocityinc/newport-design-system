@@ -55,7 +55,7 @@
         width: 33%;
         vertical-align: top;
         position: relative;
-        top: (($line-height-button / 2) - ($line-height-text / 2));
+        top: (($line-height-button * 0.5) - ($line-height-text * 0.5));
         margin-#{$right}: 0;
         margin-bottom: 0;
       }

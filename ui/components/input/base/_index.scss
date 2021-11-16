@@ -141,7 +141,7 @@
     @include square($square-icon-medium-content);
     position: absolute;
     top: 50%;
-    margin-top: (($square-icon-medium-content / 2) * -1);
+    margin-top: (($square-icon-medium-content * 0.5) * -1);
     line-height: 1;
 
     /* @Todo - we need to be sure this is deprecated since the color sems to be the correct gray I see in specs */
@@ -233,7 +233,7 @@
 .nds-input__icon-group {
   position: absolute;
   height: $square-icon-medium-content;
-  margin-top: (($square-icon-medium-content / 2) * -1);
+  margin-top: (($square-icon-medium-content * 0.5) * -1);
 }
 
 /**
