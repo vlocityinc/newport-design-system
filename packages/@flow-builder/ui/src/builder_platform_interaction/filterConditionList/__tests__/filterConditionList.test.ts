@@ -22,6 +22,8 @@ import {
 } from 'builder_platform_interaction/apexTypeLib';
 import { APEX_SORT_COMPATIBLE_TYPES } from 'builder_platform_interaction/sortEditorLib';
 import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { format } = commonUtils;
 
 jest.mock('builder_platform_interaction/ferToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/ferToFerovExpressionBuilder')
@@ -259,7 +261,8 @@ describe('filter-condition-list', () => {
         beforeAll(() => {
             element = createComponentUnderTest({
                 conditionLogic: { value: testCustomLogic },
-                sobjectOrApexReference: { value: 'string', error: null },
+                sobjectOrApexReference: { value: 'string', isSObject: false, isApex: false, error: null },
+                collectionReferenceDisplayText: 'primitiveCollection',
                 conditions: mockPrimitiveConditions
             });
             conditionLogicCombobox = getConditionLogicCombobox(element);
@@ -289,6 +292,16 @@ describe('filter-condition-list', () => {
         it('should disable input in lhs of expression builder', () => {
             for (let i = 0; i < ferExpressionBuilders.length; i++) {
                 expect(ferExpressionBuilders[i].lhsDisabled).toEqual(true);
+            }
+        });
+        it('should display formatted text in lhs', () => {
+            for (let i = 0; i < ferExpressionBuilders.length; i++) {
+                expect(ferExpressionBuilders[i].expression.leftHandSide.value).toBe(
+                    mockPrimitiveConditions[i].leftHandSide.value
+                );
+                expect(ferExpressionBuilders[i].lhsFormattedDisplayText).toEqual(
+                    format('FlowBuilderFilterEditor.primtiveLhsPlaceholder', 'primitiveCollection')
+                );
             }
         });
         it('should not display formula editor', () => {

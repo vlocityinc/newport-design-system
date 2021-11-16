@@ -143,10 +143,6 @@ export default class FilterConditionList extends LightningElement {
         });
     }
 
-    get lhsWritable() {
-        return isSObjectOrApexClass(this._sObjectOrApexReference);
-    }
-
     /**
      * Return the conditions to be rendered decorated with the correct prefixes
      *

@@ -19,6 +19,8 @@ import * as store from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
+const currentItemReference = 'currentItemFromCollection';
+
 const initFilterElementInfo = {
     collectionReference: { value: '', error: null },
     assignNextValueToReference: { value: '', error: null },
@@ -184,6 +186,15 @@ describe('filter-editor', () => {
                     addCurlyBraces(store.stringCollectionVariable1.name)
                 )
             ).not.toBeNull();
+        });
+        it('shoud not load condition list', () => {
+            expect(getFilterConditionList(filterEditor)).toBeNull();
+        });
+        it('shoud not load formula editor', () => {
+            expect(getFormulaEditor(filterEditor)).toBeNull();
+        });
+        it('should create loop variable currentItemOfCollection', () => {
+            expect(filterEditor.elementInfo.assignNextValueToReference.value).toEqual(currentItemReference);
         });
     });
     describe('Filter by conditions', () => {
