@@ -11,7 +11,7 @@ const gulpinsert = require('gulp-insert');
 const gulprename = require('gulp-rename');
 const postcss = require('gulp-postcss');
 const rimraf = require('rimraf');
-const sass = require('gulp-sass')(require('sass'));
+const sass = require('gulp-sass');
 const cleanCSS = require('gulp-clean-css');
 
 const zip = require('gulp-zip');
