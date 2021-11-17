@@ -2,7 +2,8 @@ import {
     baseCanvasElement,
     createCondition,
     duplicateCanvasElement,
-    baseCanvasElementsArrayToMap
+    baseCanvasElementsArrayToMap,
+    INCOMPLETE_ELEMENT
 } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createConnectorObjects } from './connector';
@@ -25,12 +26,14 @@ const maxConnections = 1;
  * Create the collection processor object
  *
  * @param collectionProcessor - collection processor md
+ * @param root0 store
+ * @param root0.elements store elements
  * @returns collection processor object
  */
-export function createCollectionProcessor(collectionProcessor?) {
+export function createCollectionProcessor(collectionProcessor = {}, { elements } = Store.getStore().getCurrentState()) {
     const newCollectionProcessor = baseCanvasElement(collectionProcessor);
     if (collectionProcessor) {
-        return Object.assign(newCollectionProcessor, createCollectionProcessorItem(collectionProcessor));
+        return Object.assign(newCollectionProcessor, createCollectionProcessorItem(collectionProcessor, elements));
     }
     return Object.assign(newCollectionProcessor, {
         elementType,
@@ -42,9 +45,10 @@ export function createCollectionProcessor(collectionProcessor?) {
  * Create the collection processor object
  *
  * @param collectionProcessor - collection processor md
+ * @param elements store elements
  * @returns collection processor object
  */
-function createCollectionProcessorItem(collectionProcessor) {
+function createCollectionProcessorItem(collectionProcessor, elements) {
     const collectionProcessorType = collectionProcessor.collectionProcessorType
         ? collectionProcessor.collectionProcessorType
         : collectionProcessor.elementSubtype;
@@ -99,24 +103,33 @@ function createCollectionProcessorItem(collectionProcessor) {
                 conditions = [initFilterCondition];
             }
             let dataType, subtype;
+            let complete = true;
+            // When the flow is loaded, this factory is called twice. In the first phase, elements is empty. In the second phase, elements contain variables and
+            // we can calculate dataType and subtype
             if (collectionReference) {
-                const collectionVariable = getVariableOrField(
-                    collectionReference,
-                    Store.getStore().getCurrentState().elements
-                );
+                const collectionVariable = getVariableOrField(collectionReference, elements);
+                if (collectionVariable) {
+                    ({ dataType, subtype } = collectionVariable);
+                } else {
+                    complete = false;
+                }
                 if (collectionVariable) {
                     ({ dataType, subtype } = collectionVariable);
                 }
             }
-            return Object.assign(cpItem, {
-                assignNextValueToReference,
-                conditions,
-                conditionLogic,
-                dataType,
-                subtype,
-                isCollection: true,
-                formula
-            });
+            return Object.assign(
+                cpItem,
+                {
+                    assignNextValueToReference,
+                    conditions,
+                    conditionLogic,
+                    dataType,
+                    subtype,
+                    isCollection: true,
+                    formula
+                },
+                complete ? {} : { [INCOMPLETE_ELEMENT]: true }
+            );
         }
         default:
             return cpItem;
@@ -218,10 +231,16 @@ function createCollectionProcessorItemMetadataObject(collectionProcessor) {
  * Create collection processor with the connectors
  *
  * @param collectionProcessor collection processor object
+ * @param root0 store
+ * @param root0.elements store elements
  * @returns the map of connector's guid and collection processor node
  */
-export function createCollectionProcessorWithConnectors(collectionProcessor) {
-    const newCollectionProcessor = createCollectionProcessor(collectionProcessor);
+export function createCollectionProcessorWithConnectors(
+    collectionProcessor = {},
+    { elements } = Store.getStore().getCurrentState()
+) {
+    // @ts-ignore
+    const newCollectionProcessor = createCollectionProcessor(collectionProcessor, { elements });
     const connectors = createConnectorObjects(collectionProcessor, newCollectionProcessor.guid, null);
     const connectorCount = connectors ? connectors.length : 0;
 

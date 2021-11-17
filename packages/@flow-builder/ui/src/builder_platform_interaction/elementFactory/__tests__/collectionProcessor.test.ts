@@ -8,6 +8,7 @@ import { COLLECTION_PROCESSOR_SUB_TYPE, ELEMENT_TYPE } from 'builder_platform_in
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import * as store from 'mock/storeData';
+import { INCOMPLETE_ELEMENT } from 'builder_platform_interaction/elementFactory';
 
 const mockGuid = 'mockGuid';
 
@@ -139,47 +140,6 @@ const testFilterCollectionProcessorElement = {
     formula: null
 };
 
-const testFilterCollectionProcessorElementMetadataElement = {
-    guid: mockGuid,
-    name: 'filterCollectionProcessor',
-    description: 'create filter collection processor',
-    label: 'filterCollectionProcessorLabel',
-    locationX: 10,
-    locationY: 10,
-    isCanvasElement: true,
-    connectorCount: 0,
-    config: {
-        isSelected: false,
-        isHighlighted: undefined,
-        isSelectable: undefined,
-        hasError: undefined
-    },
-    elementSubtype: undefined,
-    canHaveFaultConnector: false,
-    isNew: undefined,
-    collectionReference: store.accountSObjectCollectionVariable.guid,
-    collectionProcessorType: 'FilterCollectionProcessor',
-    elementType: 'CollectionProcessor',
-    maxConnections: 1,
-    limit: null,
-    assignNextValueToReference: store.accountSObjectVariable.guid,
-    conditions: [
-        {
-            rowIndex: mockGuid,
-            leftHandSide: store.accountSObjectVariable.guid + '.Name',
-            leftHandSideDataType: undefined,
-            rightHandSide: 'bar',
-            rightHandSideDataType: 'String',
-            operator: 'EqualsTo'
-        }
-    ],
-    conditionLogic: 'and',
-    dataType: 'SObject',
-    subtype: 'Account',
-    isCollection: true,
-    formula: null
-};
-
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 describe('CollectionProcessor Element Factory', () => {
@@ -219,13 +179,21 @@ describe('CollectionProcessor Element Factory', () => {
         describe('filter collection processor', () => {
             it('returns a filter collectionProcessor element object', () => {
                 const result = createCollectionProcessor(testFilterCollectionProcessorElement);
-                expect(result).toMatchObject(testFilterCollectionProcessorElementMetadataElement);
+                expect(result).toMatchObject(testFilterCollectionProcessorElement);
             });
             it('returns a filter collectionProcessor element object that has isCollection, dataType and subtype properties', () => {
                 const result = createCollectionProcessor(testFilterCollectionProcessorElement);
                 expect(result.isCollection).toBeTruthy();
                 expect(result.dataType).toEqual('SObject');
                 expect(result.subtype).toEqual('Account');
+            });
+            it('returns a filter collectionProcessor element object without dataType and subtype properties', () => {
+                // @ts-ignore
+                const result = createCollectionProcessor(testFilterCollectionProcessorElement, { elements: {} });
+                expect(result.isCollection).toBeTruthy();
+                expect(result.dataType).toBeUndefined();
+                expect(result.subtype).toBeUndefined();
+                expect(result[INCOMPLETE_ELEMENT]).toBeTruthy();
             });
         });
     });

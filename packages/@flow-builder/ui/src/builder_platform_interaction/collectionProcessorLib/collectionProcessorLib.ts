@@ -49,7 +49,8 @@ const collectionProcessorFilter = (element, supportedDataTypes) => {
         (!element.elementType ||
             element.elementType === ELEMENT_TYPE.VARIABLE ||
             element.elementType === ELEMENT_TYPE.RECORD_LOOKUP ||
-            element.elementType === ELEMENT_TYPE.APEX_CALL) &&
+            element.elementType === ELEMENT_TYPE.APEX_CALL ||
+            element.elementType === ELEMENT_TYPE.COLLECTION_PROCESSOR) &&
         element.dataType &&
         isDataTypeSupported(element.dataType, supportedDataTypes, element.isCollection)
     );
