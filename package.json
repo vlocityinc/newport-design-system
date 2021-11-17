@@ -41,7 +41,7 @@
     "gulp-plumber": "1.1.0",
     "gulp-postcss": "6.4.0",
     "gulp-rename": "1.2.2",
-    "gulp-sass": "^5.0.0",
+    "gulp-sass": "4.0.2",
     "gulp-sourcemaps": "2.4.1",
     "gulp-stylelint": "^10.0.0",
     "gulp-zip": "^4.0.0",
@@ -57,7 +57,6 @@
     "react": "16.8.3",
     "react-dom": "^16.14.0",
     "rimraf": "2.6.1",
-    "sass": "^1.43.4",
     "speed-measure-webpack-plugin": "^1.5.0",
     "strip-ansi": "3.0.1",
     "strip-indent": "2.0.0",
@@ -103,6 +102,7 @@
     "comment-parser": "^0.5.4",
     "gulp-clean-css": "^4.2.0",
     "highlight.js": "^10.4.1",
+    "node-sass": "^4.14.1",
     "snyk": "^1.526.0"
   }
 }
