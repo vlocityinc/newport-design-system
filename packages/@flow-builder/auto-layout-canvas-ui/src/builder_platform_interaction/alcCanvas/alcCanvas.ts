@@ -94,7 +94,7 @@ const LEFT_PANE_WIDTH = 320;
 const defaultConfig = getDefaultLayoutConfig();
 
 const CONNECTOR_ICON_SIZE = defaultConfig.connector.icon.w;
-const MENU_ICON_SIZE = defaultConfig.node.icon.w;
+const NODE_ICON_SIZE = defaultConfig.node.icon.w;
 
 const SYNTHETIC_ZOOM_TO_VIEW_EVENT = { detail: { action: ZOOM_ACTION.ZOOM_TO_VIEW } };
 
@@ -507,8 +507,8 @@ export default class AlcCanvas extends LightningElement {
 
                     // TODO: W-9613981 [Trust] Remove hardcoded alccanvas offsets
                     const event = new ToggleMenuEvent({
-                        top: containerGeometry.y + MENU_ICON_SIZE,
-                        left: containerGeometry.x - MENU_ICON_SIZE / 2,
+                        top: containerGeometry.y + NODE_ICON_SIZE,
+                        left: containerGeometry.x - NODE_ICON_SIZE / 2,
                         offsetX: 0,
                         height: 0,
                         type: MenuType.NODE,
@@ -708,7 +708,7 @@ export default class AlcCanvas extends LightningElement {
                 const interactionState = { ...this._flowRenderContext.interactionState, menuInfo };
 
                 const menuButtonHalfWidth =
-                    menuInfo.type === MenuType.CONNECTOR ? CONNECTOR_ICON_SIZE / 2 : MENU_ICON_SIZE / 2;
+                    menuInfo.type === MenuType.CONNECTOR ? CONNECTOR_ICON_SIZE / 2 : NODE_ICON_SIZE / 2;
                 const containerGeometry = this.getDomElementGeometry(this._flowContainerElement);
 
                 this.menu = Object.assign(
@@ -755,7 +755,7 @@ export default class AlcCanvas extends LightningElement {
             } else {
                 const connectorMenu = event.detail.type;
                 const menuButtonHalfWidth =
-                    connectorMenu === MenuType.CONNECTOR ? CONNECTOR_ICON_SIZE / 2 : MENU_ICON_SIZE / 2;
+                    connectorMenu === MenuType.CONNECTOR ? CONNECTOR_ICON_SIZE / 2 : NODE_ICON_SIZE / 2;
                 this.zoomForMenuDisplay(event.detail, menuButtonHalfWidth);
                 this._interactionStateAfterZoom = toggleFlowMenu(detail, this._flowRenderContext.interactionState);
                 this._eventOpenMenuAfterZoom = event;
@@ -791,7 +791,7 @@ export default class AlcCanvas extends LightningElement {
 
         const connectorMenu = event.detail.type;
 
-        const menuButtonHalfWidth = connectorMenu === MenuType.CONNECTOR ? CONNECTOR_ICON_SIZE / 2 : MENU_ICON_SIZE / 2;
+        const menuButtonHalfWidth = connectorMenu === MenuType.CONNECTOR ? CONNECTOR_ICON_SIZE / 2 : NODE_ICON_SIZE / 2;
         const containerGeometry = this.getDomElementGeometry(this._flowContainerElement);
 
         this.menu = Object.assign(
@@ -1157,7 +1157,10 @@ export default class AlcCanvas extends LightningElement {
                 ({ left } = this.getCanvasCenter());
                 this.panzoomMoveToCenterTop();
 
-                scale = Math.min(this.getDomElementGeometry(this._canvasElement).h / this.getFlowHeight(), MAX_ZOOM);
+                scale = Math.min(
+                    this.getDomElementGeometry(this._canvasElement).h / (this.getFlowHeight() + NODE_ICON_SIZE),
+                    MAX_ZOOM
+                );
                 break;
             default:
         }
