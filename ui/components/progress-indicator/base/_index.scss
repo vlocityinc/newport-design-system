@@ -249,3 +249,13 @@
   max-width: 30rem;
   white-space: nowrap;
 }
+
+@media screen and (max-width: 768px) {
+  .nds-progress__step-label {
+    #{$left}: calc(-50% + 8px);
+    max-width: 5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+} 
