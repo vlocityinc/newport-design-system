@@ -276,11 +276,15 @@ $b2b-table-border: $palette-gray-5;
 		&.nds-b2b-table_cell-right{
 			padding-right: 1.6rem;
 		}
+<<<<<<< HEAD
   }
 
   td.nds-b2b-summary-cell{
     max-width: 350px;
   }
+=======
+	}
+>>>>>>> 9dc9f1eaaa0223257790741467c5ac910f566b1f
 }
 
 .nds-b2b-detail-row {
@@ -338,6 +342,7 @@ $b2b-table-border: $palette-gray-5;
 .nds-item-desc-item_detail {
 	font-weight: bold;
 }
+
 
 .nds-b2b-summary-cell {
   .nds-datepicker {

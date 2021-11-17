@@ -29,3 +29,12 @@
 .nds-b2b-asset-tbl{
   border-collapse:collapse;
 }
+.nds-b2b-asset-recordlink{
+  cursor:pointer;
+  text-decoration: none;
+  color:#0070d2;
+  &:hover {
+    text-decoration: underline;
+    color: #005fb2;
+  }
+}
