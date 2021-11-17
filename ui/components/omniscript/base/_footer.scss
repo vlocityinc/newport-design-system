@@ -1,5 +1,5 @@
 @include mq-small-max {
-  .nds-omniscript_mobile-fixed-footer> :last-child {
+  &.nds-omniscript_mobile-fixed-footer> :last-child {
     position: sticky;
     bottom: 0;
     left: 0;
