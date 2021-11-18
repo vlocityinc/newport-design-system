@@ -148,23 +148,6 @@
   "source" : "Standard"
 },
     {
-  "category" : "Input",
-  "description" : "Identity Verification Flow Component.",
-  "extensionType" : "lwc",
-  "fieldsToNull" : [ ],
-  "label" : "Identity Verification",
-  "qualifiedApiName" : "industries_common:identitySearchPanel",
-  "source" : "Standard"
-},
-    {
-  "category" : "Input",
-  "description" : "Container to hold verification criteria questions and correct answers",
-  "extensionType" : "lwc",
-  "fieldsToNull" : [ ],
-  "qualifiedApiName" : "industries_common:identityVerification",
-  "source" : "Standard"
-},
-    {
   "extensionType" : "aura",
   "fieldsToNull" : [ ],
   "qualifiedApiName" : "interactiontest:flowMarkerIntfTestComponent",

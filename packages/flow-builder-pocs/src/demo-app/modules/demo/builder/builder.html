@@ -63,6 +63,7 @@
         <div class="container">
             <div class="left-pane" if:false={isSelectionMode}>
                 <builder_platform_interaction-left-panel
+                    onlocatoriconclicked={handleHighlightOnCanvas}
                     elements={toolboxElements}
                     palette={palette}
                 ></builder_platform_interaction-left-panel>

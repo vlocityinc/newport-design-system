@@ -15,13 +15,12 @@ import {
     deleteGoToConnection,
     pasteOnFixedCanvas
 } from 'builder_platform_interaction/actions';
+import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { getElementForStore, getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 import { createStartElementForPropertyEditor, createEndElement } from 'builder_platform_interaction/elementFactory';
-
-import { assertAutoLayoutState } from 'builder_platform_interaction/autoLayoutCanvas';
 
 import elementsMetadataForScreenFlow from './metadata/elementsMetadataForScreenFlow';
 
@@ -42,6 +41,10 @@ import {
     getCopiedChildElements,
     getCopiedData
 } from './utils';
+
+const selectors = {
+    canvasContainer: 'builder_platform_interaction-alc-canvas-container'
+};
 
 const palette = {
     headers: [
@@ -408,6 +411,8 @@ function translateEventToAction(event) {
 }
 
 export default class Builder extends LightningElement {
+    dom = lwcUtils.createDomProxy(this, selectors);
+
     elementsMetadata = elementsMetadataForScreenFlow;
 
     undoRedoStack = [];
@@ -517,6 +522,13 @@ export default class Builder extends LightningElement {
         saveToLocalStorage(storeInstance.getCurrentState());
     }
 
+    handleHighlightOnCanvas = (event) => {
+        if (event && event.detail && event.detail.elementGuid) {
+            const elementGuid = event.detail.elementGuid;
+            this.dom.canvasContainer.focusOnNode(elementGuid);
+        }
+    };
+
     handleSelectMenuItem(event) {
         const { value } = event.detail;
         switch (value) {
@@ -592,9 +604,7 @@ export default class Builder extends LightningElement {
                 try {
                     const event = randomEvent(storeInstance);
                     if (event) {
-                        this.template
-                            .querySelector('builder_platform_interaction-alc-canvas-container')
-                            .dispatchEvent(event);
+                        this.dom.canvasContainer.dispatchEvent(event);
                         this.flowsGenerated++;
                     }
                 } catch (e) {

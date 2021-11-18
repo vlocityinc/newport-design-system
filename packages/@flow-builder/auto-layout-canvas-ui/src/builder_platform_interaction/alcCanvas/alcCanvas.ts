@@ -63,10 +63,14 @@ import {
     keyboardInteractionUtils,
     loggingUtils,
     invokeModal,
-    modalBodyVariant
+    modalBodyVariant,
+    lwcUtils
 } from 'builder_platform_interaction/sharedUtils';
 import { LABELS } from './alcCanvasLabels';
 import { time } from 'instrumentation/service';
+import AlcFlow from 'builder_platform_interaction/alcFlow';
+import AlcNodeMenu from 'builder_platform_interaction/alcNodeMenu';
+import AlcConnectorMenu from 'builder_platform_interaction/alcConnectorMenu';
 
 // alloted time between click events in ms, where two clicks are interpreted as a double click
 const DOUBLE_CLICK_THRESHOLD = 250;
@@ -85,7 +89,9 @@ const selectors = {
     startMenu: 'builder_platform_interaction-alc-start-menu',
     connectorMenu: 'builder_platform_interaction-alc-connector-menu',
     canvasClass: '.canvas',
-    flowContainerClass: '.flow-container'
+    flowContainerClass: '.flow-container',
+    alcFlow: 'builder_platform_interaction-alc-flow',
+    zoomPanel: 'builder_platform_interaction-zoom-panel'
 };
 
 // TODO: W-9613981 [Trust] Remove hardcoded alccanvas offsets
@@ -115,9 +121,6 @@ const {
 
 const AUTOLAYOUT_CANVAS_SELECTION = 'AUTOLAYOUT_CANVAS_SELECTION';
 
-// needed to compensate for floating point arithmetic imprecisions
-const FUDGE = 0.02;
-
 /**
  * debounce function
  *
@@ -141,6 +144,8 @@ function debounce(fct, wait) {
 }
 
 export default class AlcCanvas extends LightningElement {
+    dom = lwcUtils.createDomProxy(this, selectors);
+
     _panzoom;
     _animatePromise: Promise<void> = Promise.resolve() as Promise<void>;
 
@@ -334,16 +339,21 @@ export default class AlcCanvas extends LightningElement {
     @api
     focusOnNode = (elementGuid: Guid) => {
         const pathToFocusNode = getFocusPath(this.flowModel, [{ guid: elementGuid }]);
-        const alcFlow = this.template.querySelector('builder_platform_interaction-alc-flow');
-        alcFlow.findNode(pathToFocusNode).focus();
+        const alcFlow = this.dom.as<AlcFlow>().alcFlow;
+        const node = alcFlow.findNode(pathToFocusNode);
+
+        // need to focus first as it can change the node's geometry
+        node.focus();
+
+        this.panIntoView(node);
     };
 
     @api
     focusOnConnector = (source: ConnectionSource) => {
         const { guid, childIndex } = source;
         const pathToFocusNode = getFocusPath(this.flowModel, [{ guid }]);
-        const alcFlow = this.template.querySelector('builder_platform_interaction-alc-flow');
-        alcFlow.findConnector(pathToFocusNode, childIndex).focus();
+        const alcFlow = this.dom.as<AlcFlow>().alcFlow;
+        alcFlow.findConnector(pathToFocusNode, childIndex!).focus();
     };
 
     /**
@@ -363,7 +373,7 @@ export default class AlcCanvas extends LightningElement {
     }
 
     focusOnZoomPanel() {
-        this.template.querySelector('builder_platform_interaction-zoom-panel').focus();
+        this.dom.zoomPanel.focus();
     }
 
     /**
@@ -445,8 +455,8 @@ export default class AlcCanvas extends LightningElement {
 
     set scale(scale) {
         this._scale = scale;
-        this.isZoomInDisabled = scale >= MAX_ZOOM - FUDGE;
-        this.isZoomOutDisabled = scale <= MIN_ZOOM + FUDGE;
+        this.isZoomInDisabled = scale >= MAX_ZOOM;
+        this.isZoomOutDisabled = scale <= MIN_ZOOM;
     }
 
     /**
@@ -471,10 +481,37 @@ export default class AlcCanvas extends LightningElement {
 
     getOpenedMenu() {
         return (
-            this.template.querySelector(selectors.nodeMenu) ||
-            this.template.querySelector(selectors.startMenu) ||
-            this.template.querySelector(selectors.connectorMenu)
+            this.dom.as<AlcNodeMenu>().nodeMenu ||
+            this.dom.as<AlcNodeMenu>().startMenu ||
+            this.dom.as<AlcConnectorMenu>().connectorMenu
         );
+    }
+
+    /**
+     * Pans an element to the center of the canvas viewport.
+     * The element is only panned if it is not already in the viewport
+     *
+     * @param element - The element to pan into the viewport
+     */
+    panIntoView(element: HTMLElement) {
+        const canvasGeo = this.getDomElementGeometry(this._canvasElement);
+        const nodeGeo = this.getDomElementGeometry(element);
+        const offsetX = nodeGeo.x - canvasGeo.x;
+        const offsetY = nodeGeo.y - canvasGeo.y;
+
+        // only pan if the element is not visible in the canvas viewport
+        const halfIconSize = NODE_ICON_SIZE / 2;
+        if (
+            offsetX + halfIconSize > canvasGeo.w ||
+            offsetX - halfIconSize < 0 ||
+            offsetY + halfIconSize > canvasGeo.h ||
+            offsetY - halfIconSize < 0
+        ) {
+            // pan the element to the center of the canvas viewport
+            const moveX = -offsetX + canvasGeo.w / 2;
+            const moveY = -offsetY + canvasGeo.h / 2;
+            this._panzoom.moveBy(moveX, moveY);
+        }
     }
 
     // TODO: W-10146473 [Trust] use decorator to reduce duplicate code for logging
@@ -484,12 +521,12 @@ export default class AlcCanvas extends LightningElement {
             this.menuOpacityClass = this.menu != null ? FULL_OPACITY_CLASS : '';
 
             if (this._canvasElement == null) {
-                this._canvasElement = this.template.querySelector(selectors.canvasClass);
+                this._canvasElement = this.dom.canvasClass;
                 this.updateFlowRenderContext();
             }
 
             if (!this._flowContainerElement) {
-                const flowContainerElement = this.template.querySelector(selectors.flowContainerClass);
+                const flowContainerElement = this.dom.flowContainerClass;
                 if (flowContainerElement != null) {
                     this._flowContainerElement = flowContainerElement;
                     this.initializePanzoom();
@@ -1001,8 +1038,7 @@ export default class AlcCanvas extends LightningElement {
             // first render, no animation
             this.renderFlow(1);
 
-            this.initialStartMenuDisplayed =
-                this.initialStartMenuDisplayed || this.template.querySelector(selectors.startMenu) != null;
+            this.initialStartMenuDisplayed = this.initialStartMenuDisplayed || this.dom.startMenu != null;
 
             // reset the nodeLayoutMap to prevent animations until the start menu has been displayed
             if (!this.initialStartMenuDisplayed) {
@@ -1143,7 +1179,7 @@ export default class AlcCanvas extends LightningElement {
                 scale = Math.min(scale, MAX_ZOOM);
                 break;
             case ZOOM_ACTION.ZOOM_TO_VIEW:
-                if (scale + FUDGE < MAX_ZOOM) {
+                if (scale < MAX_ZOOM) {
                     scale = MAX_ZOOM / scale;
                 } else {
                     return;
@@ -1250,7 +1286,7 @@ export default class AlcCanvas extends LightningElement {
      */
     handleCanvasMouseEnter = () => {
         if (this.isPanInProgress) {
-            this.template.querySelector(selectors.canvasClass).classList.add('grabbing-cursor');
+            this.dom.canvasClass.classList.add('grabbing-cursor');
         }
     };
 
@@ -1260,14 +1296,14 @@ export default class AlcCanvas extends LightningElement {
     handleCanvasMouseLeave = () => {
         // We need to reset the cursor style here to avoid it from being in the 'grabbing' state
         // in case the user had left the canvas while panning and did a mouse up outside the canvas
-        this.template.querySelector(selectors.canvasClass).classList.remove('grabbing-cursor');
+        this.dom.canvasClass.classList.remove('grabbing-cursor');
     };
 
     /**
      * Setting the cursor style to 'grabbing' when panning begins on mouse down
      */
     handleCanvasMouseDown = () => {
-        this.template.querySelector(selectors.canvasClass).classList.add('grabbing-cursor');
+        this.dom.canvasClass.classList.add('grabbing-cursor');
     };
 
     /**
@@ -1289,7 +1325,7 @@ export default class AlcCanvas extends LightningElement {
             const canvasMouseUpEvent = new CanvasMouseUpEvent();
             this.dispatchEvent(canvasMouseUpEvent);
         }
-        this.template.querySelector(selectors.canvasClass).classList.remove('grabbing-cursor');
+        this.dom.canvasClass.classList.remove('grabbing-cursor');
         this.isPanInProgress = false;
     };
 
