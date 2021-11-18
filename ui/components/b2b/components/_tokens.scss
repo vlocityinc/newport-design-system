@@ -13,6 +13,8 @@ $b2b-text-center: center;
 $b2b-config-promo-wrapper-blue: #a5ccef;
 $b2b-config-promo-details-blue: #1586e8;
 $b2b-checkbox-focus: $offset-none $offset-none ($offset-small)+px ($offset-x-small)+px $azure !default;
+$b2b-checkbox-blue: #C0E5FF;
+$b2b-checkbox-red: #FFC2C2;
 
 @mixin multiLineEllipsis($lineHeight: 1.2em, $lineCount: 1, $bgColor: white) {
   overflow: hidden;
@@ -58,5 +60,27 @@ $b2b-checkbox-focus: $offset-none $offset-none ($offset-small)+px ($offset-x-sma
 @mixin b2b-desktop-view {
   @media (min-width: #{(map-get($breakpoints, large))}) {
       @content;
+  }
+}
+
+@mixin b2b-typeahead-checkbox($checkboxColor){
+  .nds-checkbox {
+    .nds-checkbox_faux {
+      background-color: $checkboxColor;
+    }
+    & [type=checkbox]:focus:checked ~ .nds-checkbox_faux,
+    & [type=checkbox]:checked ~ .nds-checkbox_faux {
+      background-color: $checkboxColor;
+      border-color: $black-primary;
+      opacity: 1;
+    }
+
+    & [type=checkbox]:indeterminate ~ .nds-checkbox_faux {
+      background-color: $checkboxColor;
+
+      &:after {
+        background-color: $checkboxColor;
+      }
+    }
   }
 }
