@@ -90,7 +90,8 @@ function createCollectionProcessorItem(collectionProcessor, elements) {
                 outputSObjectType,
                 dataType: FLOW_DATA_TYPE.SOBJECT.value,
                 isCollection: true,
-                subtype: outputSObjectType
+                subtype: outputSObjectType,
+                storeOutputAutomatically: true
             });
         }
         case COLLECTION_PROCESSOR_SUB_TYPE.FILTER: {
@@ -126,7 +127,8 @@ function createCollectionProcessorItem(collectionProcessor, elements) {
                     dataType,
                     subtype,
                     isCollection: true,
-                    formula
+                    formula,
+                    storeOutputAutomatically: true
                 },
                 complete ? {} : { [INCOMPLETE_ELEMENT]: true }
             );

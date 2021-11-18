@@ -175,6 +175,11 @@ describe('CollectionProcessor Element Factory', () => {
                 expect(result.dataType).toEqual('SObject');
                 expect(result.subtype).toEqual(testMapCollectionProcessorElement.outputSObjectType);
             });
+            it('storeOutputAutomatically is true', () => {
+                const result = createCollectionProcessor(testMapCollectionProcessorElement);
+                // @ts-ignore
+                expect(result.storeOutputAutomatically).toBeTruthy();
+            });
         });
         describe('filter collection processor', () => {
             it('returns a filter collectionProcessor element object', () => {
@@ -194,6 +199,11 @@ describe('CollectionProcessor Element Factory', () => {
                 expect(result.dataType).toBeUndefined();
                 expect(result.subtype).toBeUndefined();
                 expect(result[INCOMPLETE_ELEMENT]).toBeTruthy();
+            });
+            it('storeOutputAutomatically is true', () => {
+                const result = createCollectionProcessor(testFilterCollectionProcessorElement);
+                // @ts-ignore
+                expect(result.storeOutputAutomatically).toBeTruthy();
             });
         });
     });

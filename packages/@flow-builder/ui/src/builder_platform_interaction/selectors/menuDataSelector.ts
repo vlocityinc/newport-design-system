@@ -341,6 +341,7 @@ export const writableElementsSelector = filteredElementsSelector(
         dataType === FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value ||
         (elementType === ELEMENT_TYPE.RECORD_CREATE && dataType === FLOW_DATA_TYPE.STRING.value) ||
         (elementType === ELEMENT_TYPE.LOOP && storeOutputAutomatically) ||
+        (elementType === ELEMENT_TYPE.COLLECTION_PROCESSOR && storeOutputAutomatically) ||
         isSystemGeneratedOutput === true
 );
 
