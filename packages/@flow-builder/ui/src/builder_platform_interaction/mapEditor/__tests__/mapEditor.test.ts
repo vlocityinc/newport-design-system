@@ -186,15 +186,6 @@ describe('map-editor', () => {
                 const ferovRP = getFerovResourcePicker(inputCollection);
                 expect(ferovRP.value.value).toEqual(testElementInfoWithSObjectCollection.collectionReference.value);
             });
-            it('should have helpText', () => {
-                const helpText = getHelpText(mapEditor);
-                expect(helpText).not.toBeNull();
-                expect(helpText.textContent).toBe(
-                    'FlowBuilderMapEditor.newCollection(' +
-                        testElementInfoWithSObjectCollection.outputSObjectType.value +
-                        ')'
-                );
-            });
             it('should have mapItems', () => {
                 const mapItems = getMapItems(mapEditor);
                 expect(mapItems).toHaveLength(testElementInfoWithSObjectCollection.mapItems.length);

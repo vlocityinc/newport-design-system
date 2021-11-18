@@ -19,7 +19,7 @@ import * as store from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
-const currentItemReference = 'currentItemFromCollection';
+const currentItemReference = 'currentItemFromSourceCollection';
 
 const initFilterElementInfo = {
     collectionReference: { value: '', error: null },

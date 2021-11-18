@@ -20,7 +20,7 @@ const isDataTypeSupported = (dataType, supportedDataType, isCollection) => {
     return isCollection ? supportedDataType.includes(dataType) : dataType === FLOW_DATA_TYPE.APEX.value;
 };
 
-export const DEFAULT_CURRENT_ITEM_VARIABLE = 'currentItemFromCollection';
+export const DEFAULT_CURRENT_ITEM_VARIABLE = 'currentItemFromSourceCollection';
 export const DEFAULT_CURRENT_ITEM_VARIABLE_PREFIX = 'currentItem_';
 export const NODE_NAME = 'nodeName';
 

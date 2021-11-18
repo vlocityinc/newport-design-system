@@ -14,7 +14,7 @@ import {
 } from 'builder_platform_interaction/events';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { getElementByDevName, getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+
 import {
     DEFAULT_CURRENT_ITEM_VARIABLE_PREFIX,
     COLLECTION_PROCESSOR_PROPERTIES,
@@ -25,8 +25,6 @@ import {
     updateVariable
 } from 'builder_platform_interaction/collectionProcessorLib';
 import { getUniqueDuplicateElementName } from 'builder_platform_interaction/storeUtils';
-
-const { format } = commonUtils;
 
 export default class MapEditor extends LightningElement {
     labels = LABELS;
@@ -42,9 +40,6 @@ export default class MapEditor extends LightningElement {
 
     @track
     outputObjectType;
-
-    @track
-    helpText;
 
     @track
     outputHelpText = this.labels.selectCollection;
@@ -229,15 +224,8 @@ export default class MapEditor extends LightningElement {
      *
      */
     updateHelpText() {
-        if (this.inputObjectType) {
-            this.helpText = format(this.labels.newCollection, this.outputObjectType);
-            this.outputHelpText =
-                this.inputObjectType === this.outputObjectType ? this.labels.addFields : this.labels.selectCollection;
-        } else {
-            // reset help text
-            this.helpText = null;
-            this.outputHelpText = this.labels.selectCollection;
-        }
+        this.outputHelpText =
+            this.inputObjectType === this.outputObjectType ? this.labels.addFields : this.labels.selectCollection;
     }
 
     /**
