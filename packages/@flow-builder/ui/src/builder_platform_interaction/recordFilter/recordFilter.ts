@@ -104,7 +104,9 @@ export default class RecordFilter extends LightningElement {
     set recordFields(fields) {
         if (fields) {
             this.entityFields = {};
-            const filterableFields = Object.values(fields).filter((field) => field.filterable);
+            const filterableFields = Object.values(fields).filter((field) =>
+                this.elementType === ELEMENT_TYPE.START_ON_DML ? field.isWorkflowFilterable : field.filterable
+            );
             filterableFields.forEach((filterableField) => {
                 this.entityFields[filterableField.apiName] = filterableField;
             });
