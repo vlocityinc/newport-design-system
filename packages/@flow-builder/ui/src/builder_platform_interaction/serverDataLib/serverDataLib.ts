@@ -200,7 +200,7 @@ const KEY_PROVIDER = {
         `${params.flowProcessType}-${params.flowTriggerType}-${params.recordTriggerType}`,
     [SERVER_ACTION_TYPE.GET_ENTITIES]: () => SERVER_ACTION_TYPE.GET_ENTITIES,
     [SERVER_ACTION_TYPE.GET_ENTITY]: () => (params) => `${params.entityApiName}`,
-    [SERVER_ACTION_TYPE.GET_RESOURCE_TYPES]: () => SERVER_ACTION_TYPE.GET_RESOURCE_TYPES,
+    [SERVER_ACTION_TYPE.GET_RESOURCE_TYPES]: (params) => params.flowProcessType,
     [SERVER_ACTION_TYPE.GET_EVENT_TYPES]: () => (params) => params.eventType,
     [SERVER_ACTION_TYPE.GET_EVENT_TYPE]: (params) => params.eventTypeApiName,
     [SERVER_ACTION_TYPE.GET_ALL_GLOBAL_VARIABLES]: () => SERVER_ACTION_TYPE.GET_ALL_GLOBAL_VARIABLES,
