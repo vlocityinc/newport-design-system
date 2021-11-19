@@ -350,6 +350,20 @@ export default class CollectionChoiceSetEditor extends LightningElement {
 
     get resourceElementConfig() {
         return {
+            /**
+             * Added the choices flag to fix W-10170963
+             *
+             * Have a look at the getStoreElements function in storeElementsFilter.ts and the
+             * addUncommittedElementsFromLocalStorage function that we are calling from there. That code does not
+             * take into account that when we are inline creating a resource from the screen editor,
+             * getScreenElement returns a screen (because it was set by the primary property editor -
+             * the screen editor - and was never cleared, because we haven't closed the screen editor).
+             *
+             * This choices flag is being checked in getStoreElements and when it is true, we by pass all of the
+             * addUncommittedElementsFromLocalStorage business, so I am using that flag here to ensure that no
+             * umcommitted screen components show up in the collection reference ferov resource picker.
+             */
+            choices: true,
             allowsApexCollAnonymousAutoOutput: false,
             selectorConfig: {
                 dataType: 'SObject',
