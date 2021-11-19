@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>sfdc.ui</groupId>
     <artifactId>ui-interaction-builder-components</artifactId>
-    <version>236-SNAPSHOT</version>
+    <version>238-SNAPSHOT</version>
     <packaging>jar</packaging>
     <properties>
         <aura.version>1.3670</aura.version>
