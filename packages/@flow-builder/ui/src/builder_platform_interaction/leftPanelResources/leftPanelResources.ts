@@ -74,7 +74,7 @@ export default class LeftPanelResources extends LightningElement {
         this._nonCanvasElements = [...nonCanvasElements];
     }
 
-    // TODO: W-10146473 [Trust] use decorator to reduce duplicate code for logging
+    // TODO: W-10146473  [Trust] use decorator to reduce duplicate code for logging
     renderedCallback() {
         if (this.isFirstTimeCalled) {
             // @ts-ignore
