@@ -3,7 +3,6 @@
   max-width: 21.5rem;
   min-width: 21.5rem;
   min-height: $b2b-product-item-min-height;
-  max-height: $b2b-product-item-min-height;
   border-radius: 0.35rem;
   border: 1px solid $palette-warm-gray-4;
   padding: 0.5rem;
@@ -41,7 +40,6 @@
     height: 100%;
     padding: 0.8rem;
     min-height: 9rem;
-    max-height: 9rem;
     cursor: pointer;
 
     .nds-b2b-product-name {
@@ -54,6 +52,14 @@
       font-size: $font-size-2;
       margin-bottom: 1.25rem;
       color: #666666;
+      @include multiLineEllipsis(1rem, 2);
+    }
+
+    .nds-b2b-product-error-message {
+      font-weight: $font-weight-light;
+      margin-top: 0.5rem;
+      font-size: $font-size-2;
+      color: #fc9696;
       @include multiLineEllipsis(1rem, 2);
     }
 
@@ -106,6 +112,12 @@
       }
     }
   }
+
+  .nds-b2b-product-item-not-allowed_container {
+    opacity: 0.6;
+    cursor:not-allowed;
+  }
+  
   @media screen and (min-width: 48rem) {
     margin-right: 0.7rem;
     min-width: 17rem;
