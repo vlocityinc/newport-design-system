@@ -1,6 +1,6 @@
 // Layout
 .nds-b2b-card {
-  margin: 1.5rem 0;
+  margin: 1.5rem 0 0;
   background: $white;
   &.nds-b2b-promo-spacing{
     margin: 0 0 1.5rem 0;
@@ -10,6 +10,19 @@
     opacity: 0;
     z-index: -1;
   }
+
+  .nds-b2b-fixmember-container{
+    .nds-b2b-fixmember-error-message{
+      background-color: #FEF1EE;
+      padding: 0.5rem;
+  
+      .nds-b2b-fixnow-link{
+        color: #C23934;
+        font-weight: bolder;
+      }
+    }
+  }
+  
   .nds-b2b-card_container {
     flex: 1;
     .nds-b2b-card_tabs {
