@@ -6,11 +6,15 @@ import {
     recordChoiceSet,
     getAccountSeparateFieldsWithFilters
 } from 'mock/storeData';
+import { step1OfStage1 } from 'mock/storeDataOrchestrator';
 
 const elementUidMap = { before: { name: 'after' }, pre: { name: 'post' } };
 const guidMapping = { before: 'after', pre: 'post' };
 
 const nameToUidMapping = { before: 'AFTER', secondswap: 'secondSwapAfter' };
+const guidRegex = new RegExp(
+    '^({{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}}{0,1})$'
+);
 
 describe('UID Swapper', () => {
     describe('Swaps single expressions', () => {
@@ -127,6 +131,12 @@ describe('UID Swapper', () => {
             expect(recordChoiceSet.filters[0].leftHandSide).toBe('Account.BillingCity');
             expect(recordChoiceSet.outputAssignments[0].leftHandSide).toBe('Account.Id');
             expect(getAccountSeparateFieldsWithFilters.outputAssignments[0].leftHandSide).toBe('Account.BillingCity');
+        });
+
+        it('swaps devname to guid for orchestrator stage step assignee', () => {
+            const stageStepAssigneeParts = step1OfStage1.assignees[0].assignee.split('.');
+            expect(guidRegex.test(stageStepAssigneeParts[0])).toBe(true);
+            expect(stageStepAssigneeParts[1]).toBe('Status');
         });
     });
 });

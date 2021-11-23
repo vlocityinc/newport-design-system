@@ -27,7 +27,7 @@
                 "description": "This is the first Decision",
                 "label": "Decision1",
                 "locationX": 248,
-                "locationY": 158,
+                "locationY": 278,
                 "name": "Decision1",
                 "processMetadataValues": [],
                 "rules": [
@@ -38,16 +38,10 @@
                                 "leftValueReference": "vText",
                                 "operator": "EqualTo",
                                 "processMetadataValues": [],
-                                "rightValue": {
-                                    "stringValue": ""
-                                }
+                                "rightValue": { "stringValue": "" }
                             }
                         ],
-                        "connector": {
-                            "isGoTo": false,
-                            "processMetadataValues": [],
-                            "targetReference": "Decision2"
-                        },
+                        "connector": { "isGoTo": false, "processMetadataValues": [], "targetReference": "Decision2" },
                         "doesRequireRecordChangedToMeetCriteria": false,
                         "label": "outcome1",
                         "name": "outcome1",
@@ -59,7 +53,7 @@
                 "defaultConnectorLabel": "Default Outcome",
                 "label": "Decision2",
                 "locationX": 50,
-                "locationY": 278,
+                "locationY": 398,
                 "name": "Decision2",
                 "processMetadataValues": [],
                 "rules": [
@@ -70,9 +64,7 @@
                                 "leftValueReference": "vText",
                                 "operator": "EqualTo",
                                 "processMetadataValues": [],
-                                "rightValue": {
-                                    "stringValue": ""
-                                }
+                                "rightValue": { "stringValue": "" }
                             }
                         ],
                         "doesRequireRecordChangedToMeetCriteria": false,
@@ -91,26 +83,55 @@
         "isTemplate": false,
         "label": "orchestratorFlow",
         "loops": [],
-        "orchestratedStages": [],
-        "processMetadataValues": [
+        "orchestratedStages": [
             {
-                "name": "BuilderType",
-                "value": {
-                    "stringValue": "LightningFlowBuilder"
-                }
-            },
-            {
-                "name": "CanvasMode",
-                "value": {
-                    "stringValue": "AUTO_LAYOUT_CANVAS"
-                }
-            },
-            {
-                "name": "OriginBuilderType",
-                "value": {
-                    "stringValue": "LightningFlowBuilder"
-                }
+                "connector": { "isGoTo": false, "processMetadataValues": [], "targetReference": "Decision1" },
+                "exitActionInputParameters": [],
+                "exitActionOutputParameters": [],
+                "exitConditionLogic": "and",
+                "exitConditions": [],
+                "label": "Stage 1",
+                "locationX": 248,
+                "locationY": 158,
+                "name": "Stage_1",
+                "processMetadataValues": [],
+                "stageSteps": [
+                    {
+                        "actionName": "flowWithActiveAndLatest",
+                        "actionType": "stepInteractive",
+                        "assignees": [
+                            {
+                                "assignee": { "elementReference": "Stage_1.Status" },
+                                "assigneeType": "User",
+                                "processMetadataValues": []
+                            }
+                        ],
+                        "entryActionInputParameters": [],
+                        "entryActionOutputParameters": [],
+                        "entryConditionLogic": "and",
+                        "entryConditions": [],
+                        "exitActionInputParameters": [],
+                        "exitActionOutputParameters": [],
+                        "inputParameters": [
+                            {
+                                "name": "ActionInput__RecordId",
+                                "processMetadataValues": [],
+                                "value": { "elementReference": "vText" }
+                            }
+                        ],
+                        "label": "Step 1 of Stage 1",
+                        "name": "Step_1_of_Stage_1",
+                        "outputParameters": [],
+                        "processMetadataValues": [],
+                        "requiresAsyncProcessing": false
+                    }
+                ]
             }
+        ],
+        "processMetadataValues": [
+            { "name": "BuilderType", "value": { "stringValue": "LightningFlowBuilder" } },
+            { "name": "CanvasMode", "value": { "stringValue": "AUTO_LAYOUT_CANVAS" } },
+            { "name": "OriginBuilderType", "value": { "stringValue": "LightningFlowBuilder" } }
         ],
         "processType": "Orchestrator",
         "recordCreates": [],
@@ -121,11 +142,7 @@
         "screens": [],
         "stages": [],
         "start": {
-            "connector": {
-                "isGoTo": false,
-                "processMetadataValues": [],
-                "targetReference": "Decision1"
-            },
+            "connector": { "isGoTo": false, "processMetadataValues": [], "targetReference": "Stage_1" },
             "doesRequireRecordChangedToMeetCriteria": false,
             "filters": [],
             "locationX": 122,

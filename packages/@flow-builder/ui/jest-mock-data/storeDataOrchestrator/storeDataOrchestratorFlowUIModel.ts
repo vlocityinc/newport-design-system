@@ -1,4 +1,3 @@
-// @ts-nocheck
 // To update orchestratorFlowUIModel from orchestratorFlow.json, run flowTranslator.test.js and follow instructions
 export const orchestratorFlowUIModel = {
     elements: {
@@ -43,7 +42,7 @@ export const orchestratorFlowUIModel = {
             description: 'This is the first Decision',
             label: 'Decision1',
             locationX: 248,
-            locationY: 158,
+            locationY: 278,
             isCanvasElement: true,
             connectorCount: 1,
             config: {
@@ -91,7 +90,7 @@ export const orchestratorFlowUIModel = {
             description: '',
             label: 'Decision2',
             locationX: 50,
-            locationY: 278,
+            locationY: 398,
             isCanvasElement: true,
             connectorCount: 0,
             config: {
@@ -152,6 +151,221 @@ export const orchestratorFlowUIModel = {
             defaultValue: null,
             defaultValueDataType: null,
             defaultValueIndex: 'cc0381a7-0c64-4935-bc0c-25ecc2e958f1'
+        },
+        '4968239c-5e3d-45ee-9339-f575c917e223': {
+            guid: '4968239c-5e3d-45ee-9339-f575c917e223',
+            name: 'Stage_1',
+            description: '',
+            label: 'Stage 1',
+            locationX: 248,
+            locationY: 158,
+            isCanvasElement: true,
+            connectorCount: 1,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true,
+                hasError: false
+            },
+            canHaveFaultConnector: false,
+            childReferences: [
+                {
+                    childReference: '7f4ddba5-e41b-456b-b686-94b257cc9914'
+                }
+            ],
+            maxConnections: 1,
+            elementType: 'OrchestratedStage',
+            dataType: 'ORCHESTRATED_STAGE',
+            exitAction: {
+                guid: 'ed85c895-feb5-45cb-b486-49cfd9da8e20',
+                name: '',
+                description: '',
+                label: '',
+                locationX: 0,
+                locationY: 0,
+                isCanvasElement: true,
+                connectorCount: 0,
+                config: {
+                    isSelected: false,
+                    isHighlighted: false,
+                    isSelectable: true,
+                    hasError: false
+                },
+                canHaveFaultConnector: true,
+                actionType: null,
+                actionName: '',
+                dataTypeMappings: [],
+                inputParameters: [],
+                outputParameters: [],
+                availableConnections: [
+                    {
+                        type: 'REGULAR'
+                    },
+                    {
+                        type: 'FAULT'
+                    }
+                ],
+                maxConnections: 2,
+                elementType: 'ActionCall',
+                dataType: 'ActionOutput',
+                storeOutputAutomatically: true
+            },
+            exitActionInputParameters: [],
+            canHaveCanvasEmbeddedElement: true
+        },
+        '7f4ddba5-e41b-456b-b686-94b257cc9914': {
+            actionName: 'flowWithActiveAndLatest',
+            actionType: 'stepInteractive',
+            assignees: [
+                {
+                    assignee: '4968239c-5e3d-45ee-9339-f575c917e223.Status',
+                    assigneeType: 'User',
+                    isReference: true
+                }
+            ],
+            entryActionInputParameters: [],
+            entryActionOutputParameters: [],
+            entryConditionLogic: 'and',
+            entryConditions: [],
+            exitActionInputParameters: [],
+            exitActionOutputParameters: [],
+            inputParameters: [
+                {
+                    rowIndex: '04e1c283-fc0b-4928-a495-89d956368769',
+                    name: 'ActionInput__RecordId',
+                    value: 'fe30ada4-6781-4ffd-84d1-9efbadaa29ab',
+                    valueDataType: 'reference',
+                    subtype: '',
+                    isCollection: false
+                }
+            ],
+            label: 'Step 1 of Stage 1',
+            name: 'Step_1_of_Stage_1',
+            outputParameters: [],
+            processMetadataValues: [],
+            requiresAsyncProcessing: false,
+            guid: '7f4ddba5-e41b-456b-b686-94b257cc9914',
+            elementType: 'STAGE_STEP',
+            dataType: 'STAGE_STEP',
+            action: {
+                guid: '7bc6bd8f-26da-45cb-81de-6b8dcc0ad7be',
+                name: '',
+                description: '',
+                label: '',
+                locationX: 0,
+                locationY: 0,
+                isCanvasElement: true,
+                connectorCount: 0,
+                config: {
+                    isSelected: false,
+                    isHighlighted: false,
+                    isSelectable: true,
+                    hasError: false
+                },
+                canHaveFaultConnector: true,
+                actionType: 'stepInteractive',
+                actionName: 'flowWithActiveAndLatest',
+                dataTypeMappings: [],
+                inputParameters: [],
+                outputParameters: [],
+                availableConnections: [
+                    {
+                        type: 'REGULAR'
+                    },
+                    {
+                        type: 'FAULT'
+                    }
+                ],
+                maxConnections: 2,
+                elementType: 'ActionCall',
+                dataType: 'ActionOutput',
+                storeOutputAutomatically: true
+            },
+            relatedRecordItem: {
+                rowIndex: '04e1c283-fc0b-4928-a495-89d956368769',
+                name: 'ActionInput__RecordId',
+                value: 'fe30ada4-6781-4ffd-84d1-9efbadaa29ab',
+                valueDataType: 'reference',
+                subtype: '',
+                isCollection: false
+            },
+            entryAction: {
+                guid: 'a193d56e-2ee7-422d-a3ff-664fc82a0fd8',
+                name: '',
+                description: '',
+                label: '',
+                locationX: 0,
+                locationY: 0,
+                isCanvasElement: true,
+                connectorCount: 0,
+                config: {
+                    isSelected: false,
+                    isHighlighted: false,
+                    isSelectable: true,
+                    hasError: false
+                },
+                canHaveFaultConnector: true,
+                actionType: null,
+                actionName: '',
+                dataTypeMappings: [],
+                inputParameters: [],
+                outputParameters: [],
+                availableConnections: [
+                    {
+                        type: 'REGULAR'
+                    },
+                    {
+                        type: 'FAULT'
+                    }
+                ],
+                maxConnections: 2,
+                elementType: 'ActionCall',
+                dataType: 'ActionOutput',
+                storeOutputAutomatically: true
+            },
+            entryCriteria: 'on_stage_start',
+            exitAction: {
+                guid: '41c6da8a-c6e0-418b-8b23-9906b4adab11',
+                name: '',
+                description: '',
+                label: '',
+                locationX: 0,
+                locationY: 0,
+                isCanvasElement: true,
+                connectorCount: 0,
+                config: {
+                    isSelected: false,
+                    isHighlighted: false,
+                    isSelectable: true,
+                    hasError: false
+                },
+                canHaveFaultConnector: true,
+                actionType: null,
+                actionName: '',
+                dataTypeMappings: [],
+                inputParameters: [],
+                outputParameters: [],
+                availableConnections: [
+                    {
+                        type: 'REGULAR'
+                    },
+                    {
+                        type: 'FAULT'
+                    }
+                ],
+                maxConnections: 2,
+                elementType: 'ActionCall',
+                dataType: 'ActionOutput',
+                storeOutputAutomatically: true
+            },
+            exitCriteria: 'on_step_complete',
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true,
+                hasError: false
+            },
+            parent: '4968239c-5e3d-45ee-9339-f575c917e223'
         }
     },
     connectors: [
@@ -159,7 +373,7 @@ export const orchestratorFlowUIModel = {
             guid: '3f91c315-f597-4dc0-bd4e-1f27a8fa59e3',
             source: '07fd2a44-4192-4709-888d-8ccc18cb4580',
             childSource: null,
-            target: 'a4451815-988d-4f17-883d-64b6ad9fab7e',
+            target: '4968239c-5e3d-45ee-9339-f575c917e223',
             label: null,
             type: 'REGULAR',
             config: {
@@ -176,12 +390,24 @@ export const orchestratorFlowUIModel = {
             config: {
                 isSelected: false
             }
+        },
+        {
+            guid: '0ecd3000-0adc-4d34-bdc1-acd331740de0',
+            source: '4968239c-5e3d-45ee-9339-f575c917e223',
+            childSource: null,
+            target: 'a4451815-988d-4f17-883d-64b6ad9fab7e',
+            label: null,
+            type: 'REGULAR',
+            config: {
+                isSelected: false
+            }
         }
     ],
     canvasElements: [
         '07fd2a44-4192-4709-888d-8ccc18cb4580',
         'a4451815-988d-4f17-883d-64b6ad9fab7e',
-        'e682f03e-925a-4d84-adc3-f1c5ceea0201'
+        'e682f03e-925a-4d84-adc3-f1c5ceea0201',
+        '4968239c-5e3d-45ee-9339-f575c917e223'
     ],
     properties: {
         canOnlySaveAsNewDefinition: false,

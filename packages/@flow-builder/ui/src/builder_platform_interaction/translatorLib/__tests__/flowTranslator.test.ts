@@ -298,49 +298,51 @@ describe('Flow Translator', () => {
             expect(JSON.stringify(uiFlow2)).toEqual(JSON.stringify(uiFlow));
         });
     });
-    it('returns expected ui model for an autolaunched flow', () => {
-        uiFlow = translateFlowToUIModel(scheduleTriggeredFlow);
-        store.dispatch(updateFlow(uiFlow));
+    describe('UI models goldfiles', () => {
+        it('returns expected ui model for an autolaunched flow', () => {
+            uiFlow = translateFlowToUIModel(scheduleTriggeredFlow);
+            store.dispatch(updateFlow(uiFlow));
 
-        expect(uiFlow).toEqualGoldObject(
-            scheduleTriggeredFlowUIModel,
-            'scheduleTriggeredFlowUIModel in mock_store_data_scheduleTriggered/scheduleTriggeredFlowUIModel'
-        );
-    });
-    it('returns expected ui model for a contact request flow', () => {
-        uiFlow = translateFlowToUIModel(contactRequestFlow);
-        store.dispatch(updateFlow(uiFlow));
+            expect(uiFlow).toEqualGoldObject(
+                scheduleTriggeredFlowUIModel,
+                'scheduleTriggeredFlowUIModel in mock_store_data_scheduleTriggered/scheduleTriggeredFlowUIModel'
+            );
+        });
+        it('returns expected ui model for a contact request flow', () => {
+            uiFlow = translateFlowToUIModel(contactRequestFlow);
+            store.dispatch(updateFlow(uiFlow));
 
-        expect(uiFlow).toEqualGoldObject(
-            contactRequestFlowUIModel,
-            'contactRequestFlowUIModel in mock_store_data_contactrequest/contactRequestFlowUIModel'
-        );
-    });
-    it('returns expected ui model for a field service mobile flow', () => {
-        uiFlow = translateFlowToUIModel(fieldServiceMobileFlow);
-        store.dispatch(updateFlow(uiFlow));
+            expect(uiFlow).toEqualGoldObject(
+                contactRequestFlowUIModel,
+                'contactRequestFlowUIModel in mock_store_data_contactrequest/contactRequestFlowUIModel'
+            );
+        });
+        it('returns expected ui model for a field service mobile flow', () => {
+            uiFlow = translateFlowToUIModel(fieldServiceMobileFlow);
+            store.dispatch(updateFlow(uiFlow));
 
-        expect(uiFlow).toEqualGoldObject(
-            fieldServiceMobileFlowUIModel,
-            'fieldServiceMobileFlowUIModel in mock_store_data_contactrequest/fieldServiceMobileFlowUIModel'
-        );
-    });
-    it('returns expected ui model for a record triggered flow', () => {
-        uiFlow = translateFlowToUIModel(recordTriggeredFlow);
-        store.dispatch(updateFlow(uiFlow));
+            expect(uiFlow).toEqualGoldObject(
+                fieldServiceMobileFlowUIModel,
+                'fieldServiceMobileFlowUIModel in mock_store_data_contactrequest/fieldServiceMobileFlowUIModel'
+            );
+        });
+        it('returns expected ui model for a record triggered flow', () => {
+            uiFlow = translateFlowToUIModel(recordTriggeredFlow);
+            store.dispatch(updateFlow(uiFlow));
 
-        expect(uiFlow).toEqualGoldObject(
-            recordTriggeredFlowUIModel,
-            'recordTriggeredFlowUIModel in mock_store_data_recordTriggered/recordTriggeredFlowUIModel'
-        );
-    });
-    it('returns expected ui model for an orchestrator flow', () => {
-        uiFlow = translateFlowToUIModel(orchestratorFlow);
-        store.dispatch(updateFlow(uiFlow));
+            expect(uiFlow).toEqualGoldObject(
+                recordTriggeredFlowUIModel,
+                'recordTriggeredFlowUIModel in mock_store_data_recordTriggered/recordTriggeredFlowUIModel'
+            );
+        });
+        it('returns expected ui model for an orchestrator flow', () => {
+            uiFlow = translateFlowToUIModel(orchestratorFlow);
+            store.dispatch(updateFlow(uiFlow));
 
-        expect(uiFlow).toEqualGoldObject(
-            orchestratorFlowUIModel,
-            'orchestratorFlowUIModel in mock_store_data_recordTriggered/orchestratorFlowUIModel'
-        );
+            expect(uiFlow).toEqualGoldObject(
+                orchestratorFlowUIModel,
+                'orchestratorFlowUIModel in mock_store_data_orchestrator/storeDataOrchestratorFlowUIModel'
+            );
+        });
     });
 });
