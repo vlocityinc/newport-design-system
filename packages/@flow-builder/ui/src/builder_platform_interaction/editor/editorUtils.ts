@@ -1162,11 +1162,21 @@ export const shiftFocusFromToolbar = (headerComponent: Object, canvasComponent: 
  * @param element pass in created element to be logged
  * @param isQuickCreate option for choice elements, true if quick created from screen editor
  * @param flowDefId flow definition Id to track instrumentation
+ * @param processType process type to track instrumentation
+ * @param triggerType trigger type to track instrumentation
+ * @param startObject record triggered start object to track instrumentation
  */
 
-export const logElementCreation = (element, isResourceQuickCreated, flowDefId) => {
+export const logElementCreation = (
+    element,
+    isResourceQuickCreated,
+    flowDefId,
+    processType,
+    triggerType,
+    startObject
+) => {
     const elementType = element.elementType;
-    const data = { flowDefId };
+    const data = { flowDefId, processType, triggerType, startObject };
     if (
         elementType === ELEMENT_TYPE.CHOICE ||
         elementType === ELEMENT_TYPE.RECORD_CHOICE_SET ||

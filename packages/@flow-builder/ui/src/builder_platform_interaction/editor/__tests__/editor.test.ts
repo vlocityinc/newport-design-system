@@ -244,7 +244,8 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
         getStartElement: actual.getStartElement,
         getStartElementFromState: actual.getStartElementFromState,
         getTriggerType: actual.getTriggerType,
-        getRecordTriggerType: actual.getRecordTriggerType
+        getRecordTriggerType: actual.getRecordTriggerType,
+        getStartObject: actual.getStartObject
     };
 });
 

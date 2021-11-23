@@ -2614,7 +2614,12 @@ export default class Editor extends LightningElement {
         logInteraction(
             `update-node-of-type-${node.elementType}`,
             'modal',
-            { flowDefId: this.flowDefIdForInstrumentation },
+            {
+                flowDefId: this.flowDefIdForInstrumentation,
+                processType: this.properties.processType,
+                triggerType: getTriggerType(),
+                startObject: getStartObject()
+            },
             'click'
         );
         if (node.elementType === ELEMENT_TYPE.RECORD_LOOKUP) {
@@ -2667,7 +2672,14 @@ export default class Editor extends LightningElement {
      */
     dispatchAddElement(element: UI.Element | NodeWithParent) {
         storeInstance.dispatch(addElement(element));
-        logElementCreation(element, this._isResourceQuickCreated, this.flowDefIdForInstrumentation);
+        logElementCreation(
+            element,
+            this._isResourceQuickCreated,
+            this.flowDefIdForInstrumentation,
+            this.properties.processType,
+            getTriggerType(),
+            getStartObject()
+        );
     }
 
     /**
