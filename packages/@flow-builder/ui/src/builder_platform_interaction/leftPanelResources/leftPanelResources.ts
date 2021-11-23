@@ -65,16 +65,7 @@ export default class LeftPanelResources extends LightningElement {
         });
     }
 
-    /**
-     * Force renders the components
-     */
-    forceRender() {
-        const nonCanvasElements = this.nonCanvasElements || [];
-        // clone the array to force a render cycle
-        this._nonCanvasElements = [...nonCanvasElements];
-    }
-
-    // TODO: W-10146473  [Trust] use decorator to reduce duplicate code for logging
+    // TODO: W-10146473 [Trust] use decorator to reduce duplicate code for logging
     renderedCallback() {
         if (this.isFirstTimeCalled) {
             // @ts-ignore

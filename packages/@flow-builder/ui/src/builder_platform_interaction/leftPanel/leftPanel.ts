@@ -165,7 +165,6 @@ export default class LeftPanel extends LightningElement {
         this.retrieveResourceDetailsFromStore(currentElementState, !event.detail.canvasElement);
         this.showResourceDetailsPanel = true;
         this.elementToFocus = 'backButton';
-        this.forceRender();
     }
 
     handleAddNewResourceButtonClick = () => {
@@ -177,7 +176,6 @@ export default class LeftPanel extends LightningElement {
     handleResourceDetailsBackLinkClicked() {
         this.showResourceDetailsPanel = false;
         this.elementToFocus = 'leftPanelResources';
-        this.forceRender();
     }
 
     handleDeleteButtonClicked() {
@@ -188,8 +186,8 @@ export default class LeftPanel extends LightningElement {
             : new DeleteElementEvent([elementGuid], elementType);
         this.dispatchEvent(deleteEvent);
 
+        this.showResourceDetailsPanel = false;
         this.elementToFocus = 'tabset';
-        this.forceRender();
     }
 
     handleResourceSearch(event) {
