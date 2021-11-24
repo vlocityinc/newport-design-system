@@ -62,7 +62,7 @@
         "genTsConfig": "node ./scripts/genTsConfig.js",
         "mvn:precompiled-lwc-components:package": "PRECOMPILE_LWC_COMPONENTS=true mvn package",
         "prepare": "is-ci || husky install",
-        "pre-commit": "yarn check:pom && yarn genTsConfig && git add **/tsconfig.json && lint-staged",
+        "pre-commit": "yarn update:pom && yarn genTsConfig && git add **/tsconfig.json pom.xml && lint-staged",
         "pre-push": "yarn check:copy-paste && yarn test:nba-components && yarn check:goldFiles -l"
     },
     "repository": {
