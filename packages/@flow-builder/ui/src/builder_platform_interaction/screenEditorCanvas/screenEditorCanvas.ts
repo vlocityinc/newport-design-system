@@ -8,7 +8,7 @@ import {
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { createScreenElementDeselectedEvent, createScreenElementMovedEvent } from 'builder_platform_interaction/events';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
-import { FOOTER_LABEL_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { FOOTER_LABEL_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 const { format } = commonUtils;
@@ -23,8 +23,8 @@ type ScreenComponentInfo = {
 type AriaInfo = {
     numColumns?: number;
     numItems: number;
-    type: string;
     label: string;
+    screenField: UI.ScreenFieldType;
 };
 
 /*
@@ -176,8 +176,12 @@ export default class ScreenEditorCanvas extends LightningElement {
     getAriaLiveInfo(sourceIndex: number, columnIndex: number | undefined, sectionIndex: number | undefined): AriaInfo {
         const info: AriaInfo = {
             numItems: 0,
-            type: '',
-            label: ''
+            label: '',
+            screenField: {
+                fieldType: '',
+                label: '',
+                name: ''
+            }
         };
         if ((columnIndex || columnIndex === 0) && (sectionIndex || sectionIndex === 0)) {
             // since columnIndex and sectionIndex is defined, this component must be in a section with columns
@@ -185,21 +189,18 @@ export default class ScreenEditorCanvas extends LightningElement {
             info.numColumns = allColumns?.length;
             const allItems = allColumns[columnIndex]?.fields;
             info.numItems = allItems?.length;
-            info.type = allItems[sourceIndex]?.type?.label;
             info.label = allItems[sourceIndex]?.name?.value;
+            info.screenField = allItems[sourceIndex]?.type;
         } else {
             info.numItems = this.screen?.fields?.length;
-            info.type = this.screen?.fields[sourceIndex]?.type?.label;
             info.label = this.screen?.fields[sourceIndex]?.name?.value;
+            info.screenField = this.screen?.fields[sourceIndex]?.type;
         }
         return info;
     }
 
-    isLabelNeeded(elementType: string, elementLabel: string) {
-        if (!elementLabel || elementType === getSectionFieldType().name) {
-            return false;
-        }
-        return true;
+    isLabelNeeded(fieldType: string, elementLabel: string) {
+        return !!elementLabel && fieldType !== FlowScreenFieldType.RegionContainer;
     }
 
     /**
@@ -209,7 +210,7 @@ export default class ScreenEditorCanvas extends LightningElement {
      * @param numItems - number of items
      * @param columnIndex - The position of the source column within its parent section, if applicable
      * @param numColumns - number of columns
-     * @param elementType - element type
+     * @param screenField - object from this.screen?.fields[ind]?.type that should include [ name, fieldType, label, icon, category ]
      * @param elementLabel - element label
      * @param afterStarting - whether this function is called after the user hits Space to activate the move mode of a component
      * @param afterStopping - whether this function is called after the user hits Space to deactivate the move mode of a component
@@ -221,14 +222,16 @@ export default class ScreenEditorCanvas extends LightningElement {
         numItems: number,
         columnIndex: number | undefined,
         numColumns: number | undefined,
-        elementType: string,
+        screenField: UI.ScreenFieldType,
         elementLabel: string,
         afterStarting: boolean,
         afterStopping: boolean,
         afterMoving: boolean
     ): string {
+        const { label: elementType, fieldType } = screenField;
         let newText;
-        const isLabelNeeded = this.isLabelNeeded(elementType, elementLabel);
+        const isLabelNeeded = this.isLabelNeeded(fieldType, elementLabel);
+
         if (afterMoving || afterStarting) {
             const formattedComponentGrabbedMessage = isLabelNeeded
                 ? format(this.labels.componentGrabbedMessage, elementType, elementLabel)
@@ -309,7 +312,7 @@ export default class ScreenEditorCanvas extends LightningElement {
             info.numItems,
             this.destinationColumnIndexForAriaText,
             info.numColumns,
-            info.type,
+            info.screenField,
             info.label,
             false,
             this.setAriaTextOnCancel,
@@ -346,7 +349,7 @@ export default class ScreenEditorCanvas extends LightningElement {
             info.numItems,
             columnIndex,
             info.numColumns,
-            info.type,
+            info.screenField,
             info.label,
             start,
             !start,

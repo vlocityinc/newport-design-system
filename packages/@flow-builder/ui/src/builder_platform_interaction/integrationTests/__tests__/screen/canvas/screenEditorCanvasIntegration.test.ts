@@ -6,7 +6,7 @@ import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { createComponentUnderTest, ScreenEditorTestComponent } from '../../screenEditorTestUtils';
 import { invokeModal, commonUtils, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
-import { text2, number2, section1 } from 'mock/storeData';
+import { text2, number2, section1, section2 } from 'mock/storeData';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const { Keys } = keyboardInteractionUtils;
@@ -147,7 +147,7 @@ describe('ScreenEditor canvas', () => {
                         const updatedScreen = screenEditor.getScreenNode();
                         const compGuid = getElementByDevName(section1.name)!.guid;
                         const screenEditorCanvas = screenEditor.getScreenEditorCanvas();
-                        let expectedString = format(LABELS.componentAriaLabel, section1.type.label, section1.name);
+                        let expectedString = format(LABELS.componentAriaLabelTypeOnly, section1.type.label);
                         expectedString += format(LABELS.componentCurrentPosition, 3, 4);
                         expect(updatedScreen.getFieldIndexesByGUID(compGuid)).toEqual([2]);
                         expect(screenEditorCanvas.getAriaLiveText()).toEqual(expectedString);
@@ -250,6 +250,46 @@ describe('ScreenEditor canvas', () => {
                 expect(badge!.label).toEqual('FlowBuilderScreenEditor.automaticFieldHighlightHeaderFieldLabel');
                 expect(badge!.className).toEqual('slds-m-left_xx-small automatic-field-badge');
             });
+        });
+    });
+
+    describe('Screen with section', () => {
+        let comp;
+        beforeAll(async () => {
+            const element = getElementByDevName('ScreenWithSection');
+            const screenNode = getElementForPropertyEditor(element);
+            screenEditor = new ScreenEditorTestComponent(
+                createComponentUnderTest({
+                    node: screenNode,
+                    processType: FLOW_PROCESS_TYPE.FLOW
+                })
+            );
+        });
+        /*
+            After grabbing (highlight) a section component, we activae the move action with a space and then move it up one position
+            Then we re grab the section component and release it with an escape key so that it is dropped.
+         */
+        beforeEach(async () => {
+            comp = screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName(section2.name);
+            expect(comp).toBeTruthy();
+            comp!.pressKey(Keys.Space);
+            await ticks(1);
+            comp!.pressKey(Keys.ArrowUp);
+            await ticks(1);
+            comp = screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName(section2.name);
+            comp!.pressKey(Keys.Escape);
+        });
+
+        it('screen node is updated and aria text is set correctly', () => {
+            const updatedScreen = screenEditor.getScreenNode();
+            const compGuid = getElementByDevName(number2.name)!.guid;
+            const screenEditorCanvas = screenEditor.getScreenEditorCanvas();
+
+            let expectedString = format(LABELS.componentDroppedMessageTypeOnly, section2.type.label);
+            expectedString += format(LABELS.componentFinalPosition, 3, 4);
+
+            expect(updatedScreen.getFieldIndexesByGUID(compGuid)).toEqual([1]);
+            expect(screenEditorCanvas.getAriaLiveText()).toEqual(expectedString);
         });
     });
 });
