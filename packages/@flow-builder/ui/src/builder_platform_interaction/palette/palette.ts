@@ -1,12 +1,12 @@
 import { LightningElement, api, track } from 'lwc';
 
 import { LABELS } from './paletteLabels';
+import LightningAccordion from 'lightning/accordion';
 
-import AccordionSection from 'lightning/accordionSection';
 import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
 
 const selectors = {
-    accordionSection: 'lightning-accordion-section'
+    accordion: 'lightning-accordion'
 };
 export default class Palette extends LightningElement {
     dom = lwcUtils.createDomProxy(this, selectors);
@@ -55,8 +55,6 @@ export default class Palette extends LightningElement {
 
     labels = LABELS;
 
-    newSections: string[] = [];
-
     init() {
         this.activeSections = [...this.activeSections];
         this.sections = this.original.map((section) => this.augmentSection(section));
@@ -85,28 +83,9 @@ export default class Palette extends LightningElement {
 
         if (isNewSection) {
             this.activeSections.push(augmentedSection.guid);
-            this.newSections.push(augmentedSection.guid);
         }
 
         return augmentedSection;
-    }
-
-    /**
-     * Opens sections that have been added since the last render
-     */
-    openNewSections() {
-        // @W-10154226: Ugly shadowRoot workaround to open sections added dynamically.
-        // The lightning-accordion component doesn't currently support that via its api.
-        // (lightning-accordion-section.test.ts tests this dependency)
-        this.dom.all.accordionSection
-            .filter((section: AccordionSection) => this.newSections.find((name) => name === section.name))
-            .forEach((section: AccordionSection) => section.shadowRoot.querySelector('button.section-control').click());
-
-        this.newSections = [];
-    }
-
-    renderedCallback() {
-        this.openNewSections();
     }
 
     /**
@@ -117,5 +96,14 @@ export default class Palette extends LightningElement {
     handleSectionToggle(event: CustomEvent) {
         const openSections = event.detail.openSections;
         this.activeSections = [...openSections];
+    }
+
+    renderedCallback() {
+        // @W-10154226: when adding a new section, need to manually set the activeSectionName because
+        // the new section child component doesn't exist yet when the the accordion's activeSectionName setter is invoked
+        const accordion = this.dom.as<LightningAccordion>().accordion;
+        if (accordion.activeSectionName?.length !== this.activeSections.length) {
+            accordion.activeSectionName = this.activeSections;
+        }
     }
 }

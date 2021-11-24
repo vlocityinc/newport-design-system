@@ -20,7 +20,7 @@
  *
  *          // typesafe equivalent of this.template.querySelector(selectors.button1)
  *          // button1 is now typed as HTMLButton
- *          let button1 = this.dom.as(HTMLButton).button1;
+ *          let button1 = this.dom.as<HTMLButton>().button1;
  *      }
  *
  *     getAllButtons() {
@@ -30,7 +30,7 @@
  *
  *          // typesafe equivalent of this.template.querySelectorAll(selectors.buttons)
  *          // buttons is typed as HTMLButton[]
- *          let buttons = this.dom.as(HTMLButton[]).all.buttons;
+ *          let buttons = this.dom.as<HTMLButton[]>().all.buttons;
  *      }
  *
  *

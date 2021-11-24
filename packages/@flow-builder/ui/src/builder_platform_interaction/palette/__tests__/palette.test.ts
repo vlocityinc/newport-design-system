@@ -3,7 +3,6 @@ import { ticks, createComponent } from 'builder_platform_interaction/builderTest
 import { MOCK_RESOURCE_PALETTE_ITEM, MOCK_ELEMENT_PALETTE_ITEM, MOCK_ELEMENT_PALETTE_ITEM_2 } from 'mock/paletteData';
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
-jest.mock('lightning/accordionSection', () => require('lightning_mocks/accordionSection'));
 
 const DEFAULT_OPTIONS = {
     data: [MOCK_ELEMENT_PALETTE_ITEM, MOCK_RESOURCE_PALETTE_ITEM],
@@ -46,12 +45,13 @@ describe('Palette', () => {
     });
 
     it('new sections are opened by default', async () => {
-        const newSectionClick = jest.fn();
-
-        palette.addEventListener('click', newSectionClick);
         palette.data = [MOCK_ELEMENT_PALETTE_ITEM, MOCK_RESOURCE_PALETTE_ITEM, MOCK_ELEMENT_PALETTE_ITEM_2];
         await ticks(1);
-        expect(newSectionClick).toHaveBeenCalled();
+        expect(palette.shadowRoot.querySelector(selectors.accordion).activeSectionName).toEqual([
+            'FlowBuilderElementConfig.screenPluralLabel',
+            'FlowBuilderElementConfig.sObjectPluralLabel',
+            'FlowBuilderElementConfig.decisionPluralLabel'
+        ]);
     });
 
     it('has correct sections', () => {
