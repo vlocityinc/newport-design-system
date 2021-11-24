@@ -1,6 +1,11 @@
 import { LightningElement, api } from 'lwc';
 import { isChildElement } from 'builder_platform_interaction/elementConfig';
 import { isTestMode } from 'builder_platform_interaction/contextLib';
+import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
+
+const selectors = {
+    elementIcon: 'builder_platform_interaction-element-icon'
+};
 
 /**
  * NOTE: Please do not use this without contacting Process UI DesignTime first!
@@ -10,6 +15,8 @@ import { isTestMode } from 'builder_platform_interaction/contextLib';
  */
 
 export default class PaletteItem extends LightningElement {
+    dom = lwcUtils.createDomProxy(this, selectors);
+
     @api description;
     @api elementType;
     @api elementSubtype;
@@ -22,7 +29,7 @@ export default class PaletteItem extends LightningElement {
 
     @api
     get elementIcon() {
-        return this.template.querySelector('builder_platform_interaction-element-icon');
+        return this.dom.elementIcon;
     }
 
     @api

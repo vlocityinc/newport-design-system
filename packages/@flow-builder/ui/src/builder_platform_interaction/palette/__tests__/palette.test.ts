@@ -1,12 +1,9 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-
-import Palette from 'builder_platform_interaction/palette';
-
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
-import { MOCK_RESOURCE_PALETTE_ITEM, MOCK_ELEMENT_PALETTE_ITEM } from 'mock/paletteData';
+import { ticks, createComponent } from 'builder_platform_interaction/builderTestUtils';
+import { MOCK_RESOURCE_PALETTE_ITEM, MOCK_ELEMENT_PALETTE_ITEM, MOCK_ELEMENT_PALETTE_ITEM_2 } from 'mock/paletteData';
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
+jest.mock('lightning/accordionSection', () => require('lightning_mocks/accordionSection'));
 
 const DEFAULT_OPTIONS = {
     data: [MOCK_ELEMENT_PALETTE_ITEM, MOCK_RESOURCE_PALETTE_ITEM],
@@ -14,16 +11,9 @@ const DEFAULT_OPTIONS = {
     showLocatorIcon: false,
     itemsDraggable: true
 };
-const createComponentUnderTest = async (options = DEFAULT_OPTIONS) => {
-    const el = createElement('builder_platform_interaction-palette', {
-        is: Palette
-    });
 
-    Object.assign(el, options);
-    setDocumentBodyChildren(el);
-    await ticks(1);
-    return el;
-};
+const createComponentUnderTest = async (overrideOptions) =>
+    createComponent('builder_platform_interaction-palette', DEFAULT_OPTIONS, overrideOptions);
 
 const selectors = {
     paletteSection: 'builder_platform_interaction-palette-section',
@@ -53,6 +43,15 @@ describe('Palette', () => {
 
     it('all sections are opened initially', () => {
         expect(getActiveSections(palette)).toHaveLength(2);
+    });
+
+    it('new sections are opened by default', async () => {
+        const newSectionClick = jest.fn();
+
+        palette.addEventListener('click', newSectionClick);
+        palette.data = [MOCK_ELEMENT_PALETTE_ITEM, MOCK_RESOURCE_PALETTE_ITEM, MOCK_ELEMENT_PALETTE_ITEM_2];
+        await ticks(1);
+        expect(newSectionClick).toHaveBeenCalled();
     });
 
     it('has correct sections', () => {
@@ -93,6 +92,7 @@ describe('Palette', () => {
 
     it('section toggling', async () => {
         const accordion = palette.shadowRoot.querySelector(selectors.accordion);
+
         accordion.dispatchEvent(
             new CustomEvent('sectiontoggle', {
                 detail: {

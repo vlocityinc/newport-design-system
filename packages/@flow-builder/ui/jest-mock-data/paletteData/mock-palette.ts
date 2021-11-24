@@ -11,6 +11,19 @@ export const MOCK_ELEMENT_PALETTE_ITEM = {
     ]
 };
 
+export const MOCK_ELEMENT_PALETTE_ITEM_2 = {
+    guid: '6baa3912-0e1f-4e3b-945b-d5a4080bfe93',
+    label: 'FlowBuilderElementConfig.decisionPluralLabel',
+    _children: [
+        {
+            elementType: 'Decision',
+            guid: 'da79895d-9af9-45c9-b626-fe0fc43f4953',
+            label: 'decision1',
+            description: 'decision1'
+        }
+    ]
+};
+
 export const MOCK_RESOURCE_PALETTE_ITEM = {
     guid: '1eecb30c-c67a-4959-b6cc-f7c4ae810ade',
     label: 'FlowBuilderElementConfig.sObjectPluralLabel',

@@ -4,7 +4,7 @@ import {
     PaletteItemChevronClickedEvent,
     LocatorIconClickedEvent
 } from 'builder_platform_interaction/events';
-import PaletteSection from 'builder_platform_interaction/paletteSection';
+
 import { createComponent } from 'builder_platform_interaction/builderTestUtils';
 import { MOCK_RESOURCE_PALETTE_ITEM } from 'mock/paletteData';
 
@@ -18,10 +18,8 @@ const DEFAULT_OPTIONS = {
     itemsDraggable: true
 };
 
-const createComponentUnderTest = async (options) => {
-    options = { ...DEFAULT_OPTIONS, ...(options || {}) };
-    return createComponent('builder_platform_interaction-palette-section', PaletteSection, options);
-};
+const createComponentUnderTest = async (overrideOptions) =>
+    createComponent('builder_platform_interaction-palette-section', DEFAULT_OPTIONS, overrideOptions);
 
 const selectors = {
     elementIcon: 'builder_platform_interaction-element-icon',

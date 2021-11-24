@@ -1,7 +1,8 @@
 // @ts-nocheck
-import PaletteItem from 'builder_platform_interaction/paletteItem';
 import { createComponent } from 'builder_platform_interaction/builderTestUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+
+jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
 const GUID = 'myGuid';
 const LABEL = 'myLabel';
@@ -14,10 +15,8 @@ const DEFAULT_OPTIONS = {
     elementType: ELEMENT_TYPE.SCREEN
 };
 
-const createComponentUnderTest = async (options) => {
-    options = { ...DEFAULT_OPTIONS, ...(options || {}) };
-    return createComponent('builder_platform_interaction-palette-item', PaletteItem, options);
-};
+const createComponentUnderTest = async (overrideOptions) =>
+    createComponent('builder_platform_interaction-palette-item', DEFAULT_OPTIONS, overrideOptions);
 
 const selectors = {
     elementIcon: 'builder_platform_interaction-element-icon',

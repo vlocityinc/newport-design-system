@@ -13,9 +13,23 @@ export * from './selectors';
 export * from './events';
 export * from './combobox';
 
-export const createComponent = async (tagName, component, options) => {
+/**
+ * @param s
+ */
+function camelCase(s) {
+    return s.replace(/-[a-zA-Z]/gi, (match) => {
+        return match.charAt(1).toUpperCase();
+    });
+}
+
+export const createComponent = async (tagName, options = {}, optionsOverride = {}) => {
+    options = { ...options, ...optionsOverride };
+
+    const namespace = tagName.substring(0, tagName.indexOf('-'));
+    const moduleName = camelCase(tagName.replace(`${namespace}-`, ''));
+
     const el = createElement(tagName, {
-        is: component
+        is: require(`${namespace}/${moduleName}`).default
     });
 
     if (options) {

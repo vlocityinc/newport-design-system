@@ -8,10 +8,13 @@ window.processEnv = { NODE_ENV: 'development' };
  * This file runs before each test after the test framework has been installed in the environment
  */
 
+jest.mock('lightning/accordionSection', () => require('lightning_mocks/accordionSection'));
+
 let consoleError;
 
 beforeEach(() => {
     consoleError = undefined;
+
     jest.spyOn(global.console, 'error').mockImplementation((...args) => {
         const formattedMessage = format(...args);
         // Currently the error for no URL is supressed because of problems with editor tests

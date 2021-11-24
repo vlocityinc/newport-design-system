@@ -1,9 +1,9 @@
 <template>
     <lightning-accordion
         allow-multiple-sections-open
-        onsectiontoggle={handleSectionToggle}
         active-section-name={activeSections}
         class="lightning-accordion"
+        onsectiontoggle={handleSectionToggle}
     >
         <template if:true={sections} for:each={sections} for:item="section" for:index="rowIndex">
             <lightning-accordion-section
