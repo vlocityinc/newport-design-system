@@ -4,9 +4,10 @@ import gettingStarted from './getting-started.md';
 import introToNewport from './introduction-to-newport.md';
 import buildDeploy from './build-deploy.md';
 import customizeAButton from './customizing-a-button.md';
+import salesforceImagery from './salesforce-imagery.md';
 import { renderAsMarkdown } from '..././../../scripts/storybook';
 
-storiesOf(`${base}`, module)
+storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''),  module)
   .addDecorator(renderAsMarkdown)
   .add('Introduction to Newport', () => {
     return introToNewport;
@@ -19,4 +20,7 @@ storiesOf(`${base}`, module)
   })
   .add('How to customize a button', () => {
     return customizeAButton;
+  })
+  .add('CSS Zen Garden - Creating the Salesforce Imagery customizations', () => {
+    return salesforceImagery;
   });

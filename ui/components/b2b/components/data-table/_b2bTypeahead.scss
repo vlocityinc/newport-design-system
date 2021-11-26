@@ -1,0 +1,28 @@
+.nds-b2b-typeahead-container {
+  [data-progress-bar] {
+    position: absolute;
+    bottom: 0;
+    left: 0.75rem;
+    right: 0.75rem;
+    width: auto;
+    z-index: 100;
+  }
+
+  .nds-b2b-typeahead-input {
+    &:focus{
+      background: #EEF4FF;
+    }
+  }
+
+  .nds-b2b-options-wrapper {
+    min-width: 100%;
+
+    .nds-b2b-accounts-options {
+      @include b2b-typeahead-checkbox($b2b-checkbox-blue)
+    }
+
+    .nds-b2b-locations-options {
+      @include b2b-typeahead-checkbox($b2b-checkbox-red)
+    }
+  }
+}

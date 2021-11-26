@@ -29,7 +29,9 @@
 input[placeholder]::placeholder {
   /* stylelint-disable declaration-no-important */
   font-size: $form-placeholder-font-size;
-  color: transparent !important;
+  @if $enable-animated-inputs {
+    color: transparent !important;
+  }
   font-weight: $form-placeholder-weight;
   /* stylelint-enable declaration-no-important */
 }
@@ -66,47 +68,76 @@ input[placeholder]::placeholder {
     padding: 0 .5rem 0 0;
   }
 
-  .nds-faux-animate,
-  input:focus,
-  input.nds-has-value:not(:focus):valid,
-  input[cloned='dirty'],
-  input.nds-input[cloned='dirty'],
-  input.nds-is-dirty.nds-not-empty,
-  select:focus,
-  select.nds-has-value:not(:focus):valid,
-  select[cloned='dirty'],
-  select.nds-select[cloned='dirty'],
-  textarea:focus,
-  textarea.nds-has-value:not(:focus):valid,
-  textarea.nds-not-empty.nds-is-dirty,
-  textarea[cloned="dirty"],
-  input.ng-dirty.ng-not-empty,
-  input.nds-input.ng-dirty.ng-not-empty.ng-touched[vlc-nds-lookup-control],
-  input.ng-touched.ng-not-empty.td-input,
-  select.ng-dirty.ng-not-empty,
-  select.nds-select.ng-dirty.ng-not-empty.ng-touched[vlc-nds-lookup-control],
-  textarea.ng-not-empty.ng-dirty {
+  @if $enable-animated-inputs {
+    .nds-faux-animate,
+    input:focus,
+    input.nds-has-value:not(:focus):valid,
+    input[cloned='dirty'],
+    input.nds-input[cloned='dirty'],
+    input.nds-is-dirty.nds-not-empty,
+    select:focus,
+    select.nds-has-value:not(:focus):valid,
+    select[cloned='dirty'],
+    select.nds-select[cloned='dirty'],
+    textarea:focus,
+    textarea.nds-has-value:not(:focus):valid,
+    textarea.nds-not-empty.nds-is-dirty,
+    textarea[cloned="dirty"],
+    input.ng-dirty.ng-not-empty,
+    input.nds-input.ng-dirty.ng-not-empty.ng-touched[vlc-nds-lookup-control],
+    input.ng-touched.ng-not-empty.td-input,
+    select.ng-dirty.ng-not-empty,
+    select.nds-select.ng-dirty.ng-not-empty.ng-touched[vlc-nds-lookup-control],
+    textarea.ng-not-empty.ng-dirty {
 
-    ~.nds-form-element__label,
-    +.nds-form-element__label {
-      transform: translate3d(0, -1.2rem, 0);
-      transition-duration: 300ms;
-      z-index: 1;
-      top: .4rem;
-      #{$left}: 0;
+      ~.nds-form-element__label,
+      +.nds-form-element__label {
+        transform: translate3d(0, -1.2rem, 0);
+        transition-duration: 300ms;
+        z-index: 1;
+        top: .4rem;
+        #{$left}: 0;
 
-      .nds-button_icon {
-        top: -0.05rem;
+        .nds-button_icon {
+          top: -0.05rem;
+        }
+      }
+
+      ~.nds-form-element__label label,
+      ~label.nds-form-element__label,
+      +.nds-form-element__label label,
+      +label.nds-form-element__label {
+        font-size: $form-label-font-size;
+        font-weight: $form-label-font-weight;
+        padding: 0 .5rem 0 0;
       }
     }
 
-    ~.nds-form-element__label label,
-    ~label.nds-form-element__label,
-    +.nds-form-element__label label,
-    +label.nds-form-element__label {
-      font-size: $form-label-font-size;
-      font-weight: $form-label-font-weight;
-      padding: 0 .5rem 0 0;
+  } @else {
+    .nds-faux-animate,
+    input,
+    select,
+    textarea {
+
+      ~.nds-form-element__label,
+      +.nds-form-element__label {
+        z-index: 1;
+        top: -1rem;
+        #{$left}: 0;
+
+        .nds-button_icon {
+          top: -0.05rem;
+        }
+      }
+
+      ~.nds-form-element__label label,
+      ~label.nds-form-element__label,
+      +.nds-form-element__label label,
+      +label.nds-form-element__label {
+        font-size: $form-label-font-size;
+        font-weight: $form-label-font-weight;
+        padding: 0 .5rem 0 0;
+      }
     }
   }
 
@@ -124,17 +155,23 @@ input[placeholder]::placeholder {
   fill: $color-input-icon-blue-hue;
 }
 
+@if $enable-animated-inputs {
+  .nds-form-element__control.nds-input-has-icon.nds-input-has-icon_left.nds-form-element__control-animated-label .nds-form-element__label,
+  .nds-form-element__control.nds-input-has-icon.nds-input-has-icon_left-right.nds-form-element__control-animated-label .nds-form-element__label {
+    #{$left}: 1.25rem;
+  }
 
-.nds-form-element__control.nds-input-has-icon.nds-input-has-icon_left.nds-form-element__control-animated-label .nds-form-element__label,
-.nds-form-element__control.nds-input-has-icon.nds-input-has-icon_left-right.nds-form-element__control-animated-label .nds-form-element__label {
-  #{$left}: 1.25rem;
-}
-
-
-.nds-form-element__control.nds-input-has-icon.nds-input-has-icon_left.nds-form-element__control-animated-label input:focus~label,
-.nds-form-element__control.nds-input-has-icon.nds-input-has-icon_left-right.nds-form-element__control-animated-label input:focus~label,
-.nds-form-element__control.nds-input-has-icon.nds-input-has-icon_left.nds-form-element__control-animated-label input:not(:focus):valid~label {
-  #{$left}: 0;
+  .nds-form-element__control.nds-input-has-icon.nds-input-has-icon_left.nds-form-element__control-animated-label input:focus~label,
+  .nds-form-element__control.nds-input-has-icon.nds-input-has-icon_left-right.nds-form-element__control-animated-label input:focus~label,
+  .nds-form-element__control.nds-input-has-icon.nds-input-has-icon_left.nds-form-element__control-animated-label input:not(:focus):valid~label {
+    #{$left}: 0;
+  }
+} @else {
+  .nds-form-element__control.nds-input-has-icon.nds-input-has-icon_left.nds-form-element__control-animated-label input~label,
+  .nds-form-element__control.nds-input-has-icon.nds-input-has-icon_left-right.nds-form-element__control-animated-label input~label,
+  .nds-form-element__control.nds-input-has-icon.nds-input-has-icon_left.nds-form-element__control-animated-label input:valid~label {
+    #{$left}: 0;
+  }
 }
 
 .nds-form-element__control.nds-form-element__control-animated-label input[readonly]~label {
@@ -227,27 +264,37 @@ textarea:focus::placeholder {
   color: inherit;
 }
 
-.nds-form-element__control.nds-form-element__control-animated-label .nds-animated-label__ease-out {
-  transition: transform 200ms ease-out, font-size 200ms ease-out;
+@if $enable-animated-inputs {
+  .nds-form-element__control.nds-form-element__control-animated-label .nds-animated-label__ease-out {
+    transition: transform 200ms ease-out, font-size 200ms ease-out;
+  }
 }
 
 .nds-combobox_container .nds-combobox__form-element.nds-form-element__control.nds-form-element__control-animated-label input[readonly] {
   padding-left: 0;
 
-  &:focus {
+  @if $enable-animated-inputs {
+    &:focus {
+      box-shadow: none;
+
+      ~ label {
+        transform: translate3d(0, -1.2rem, 0);
+      }
+    }
+
+    ~ label {
+      transform: none;
+    }
+
+    &.nds-input.nds-not-empty.nds-is-dirty ~ label {
+      transform: translate3d(0, -1.2rem, 0);
+    }
+  } @else {
     box-shadow: none;
 
     ~ label {
       transform: translate3d(0, -1.2rem, 0);
     }
-  }
-
-  ~ label {
-    transform: none;
-  }
-
-  &.nds-input.nds-not-empty.nds-is-dirty ~ label {
-    transform: translate3d(0, -1.2rem, 0);
   }
 }
 
@@ -257,7 +304,7 @@ textarea:focus::placeholder {
 }
 
 .nds-form-container .nds-combobox__form-element.nds-form-element__control-animated-label.nds-input-has-icon_right .nds-form-element__label label{
-  max-width: calc(100% - 0.6em);  
+  max-width: calc(100% - 0.6em);
 }
 
 .nds-container_fluid.nds-input-has-icon_right .nds-form-element__label label,

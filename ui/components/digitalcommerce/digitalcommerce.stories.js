@@ -6,7 +6,7 @@ import {
   withDocs,
   commentToHTML
 } from "../../../scripts/storybook";
-storiesOf(`${base}`, module)
+storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''),  module)
   .addDecorator(withDocs(notes))
   .add("dcCatalog", () => {
     return withExample(`
@@ -312,7 +312,7 @@ storiesOf(`${base}`, module)
       <slot name="dc-filter-wrapper">
         <div class="via-nds nds-dc-filter">
           <button class="
-              nds-button 
+              nds-button
               nds-dc-filter_button
               nds-button_brand">
             <span class="nds-button__icon nds-button__icon_left">
@@ -3388,14 +3388,14 @@ storiesOf(`${base}`, module)
         <slot name="dc-title">
           <div class="nds-step_label nds-dc-step_label">
             Billing &amp; Shipping
-            
+
           </div>
         </slot>
         <slot name="dc-billing-address">
           <fieldset class="nds-form nds-form_compound">
             <div class="nds-form-element__label nds-dc-form_label">
               Billing Address
-              
+
             </div>
             <div class="nds-form-element__control nds-form-element__control-animated-label nds-dc-form-element">
               <input type="text" required="" id="billing-address" data-label="address" class="nds-input nds-has-value"
@@ -3432,7 +3432,7 @@ storiesOf(`${base}`, module)
           <fieldset class="nds-form nds-form_compound">
             <div class="nds-form-element__label nds-dc-form_label">
               Shipping Address
-              
+
             </div>
             <div class="nds-form-element__control">
               <label class="nds-checkbox nds-dc-checkbox">

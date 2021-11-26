@@ -359,6 +359,14 @@ async.series(
     },
     done => {
       if (process.env.SF_USERNAME && process.env.SF_PASSWORD) {
+        params = {
+          username: process.env.SF_USERNAME,
+          password: process.env.SF_PASSWORD
+        }
+        if(process.env.SF_LOGINURL){
+          console.log('Setting loginUrl to ' + process.env.SF_LOGINURL);
+          params.loginUrl = process.env.SF_LOGINURL
+        }
         gulp
           .src('./scripts/sfdc/**', {
             base: './scripts',
@@ -366,10 +374,7 @@ async.series(
           })
           .pipe(zip('pkg.zip'))
           .pipe(
-            forceDeploy({
-              username: process.env.SF_USERNAME,
-              password: process.env.SF_PASSWORD
-            })
+            forceDeploy(params)
           );
       } else {
         done();

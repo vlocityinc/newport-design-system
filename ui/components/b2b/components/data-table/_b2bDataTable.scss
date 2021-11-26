@@ -8,6 +8,10 @@ $b2b-table-border: $palette-gray-5;
     width: 100%;
 }
 
+.nds-b2b-summary-table-wrapper {
+  table-layout: auto;
+}
+
 .nds-b2b-table_row {
 	border-bottom: 1px solid $b2b-table-border;
 
@@ -58,7 +62,6 @@ $b2b-table-border: $palette-gray-5;
 		margin-bottom: 0;
 	}
 	.nds-input {
-		min-height: initial;
 		line-height: 1;
 		padding: 0;
 		border: none;
@@ -272,6 +275,10 @@ $b2b-table-border: $palette-gray-5;
 		&.nds-b2b-table_cell-right{
 			padding-right: 1.6rem;
 		}
+    }
+
+	td.nds-b2b-summary-cell{
+		max-width: 350px;
 	}
 }
 
@@ -298,6 +305,10 @@ $b2b-table-border: $palette-gray-5;
 		top: -$b2b-popover-arrow-size / 2;
 		transform: rotate(-45deg);
 	}
+}
+
+.nds-b2b-addressvalidation-modal .nds-modal__content{
+  height: 30vh !important;
 }
 
 .nds-b2b-row_spacer {
@@ -331,6 +342,35 @@ $b2b-table-border: $palette-gray-5;
 	font-weight: bold;
 }
 
-.nds-b2b-data-row{
-  background-color: #EEF4FF;
+.nds-b2b-summary-cell {
+  .nds-datepicker {
+    td {
+      &.nds-is-selected:not(.nds-is-today) > .nds-day {
+        background: $azure;
+      }
+    }
+  }
+
+  .nds-checkbox {
+    [type="checkbox"] {
+      &:checked+.nds-checkbox__label .nds-checkbox_faux {
+        background: $azure;
+      }
+      &:focus {
+        +.nds-checkbox__label .nds-checkbox_faux {
+          border-color: $azure;
+          box-shadow: $b2b-checkbox-focus;
+        }
+      }
+    }
+  }
+}
+.nds-b2b-validation_success{
+  background-color: rgba(60, 179, 113,0.3);
+}
+.nds-b2b-validation_fail{
+  background-color:rgba(255, 99, 71, 0.3);
+}
+.nds-b2b-validation_partial{
+  background-color: rgba(255, 165, 0,0.3);
 }

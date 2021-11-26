@@ -1,5 +1,16 @@
 import MarkdownIt from 'markdown-it';
-const md = new MarkdownIt();
+import hljs from 'highlight.js';
+const md = new MarkdownIt({
+  highlight: function (str, lang) {
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return hljs.highlight(str, { language: lang }).value;
+      } catch (__) {}
+    }
+
+    return '';
+  }
+});
 
 export function renderMarkdown(markdown) {
   return md

@@ -18,7 +18,7 @@ Three: 'Three'
 };
 const defaultValue = '';
 
-storiesOf(`${base}`, module)
+storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''),  module)
 .addDecorator(withKnobs)
 .addDecorator(commentToHTML(scss))
 .addDecorator(withDocs(notes))
@@ -501,7 +501,7 @@ return withExample(`
                         <div class="nds-communities-title-container nds-grid">
                             <h2 class="nds-communities-title nds-communities-bold">Collision Deductible Waiver</h2>
                         </div>
-                        <div><span class="nds-communities-separator-container nds-communities-title">Collision Deductible Waiver: 
+                        <div><span class="nds-communities-separator-container nds-communities-title">Collision Deductible Waiver:
                             <span class="nds-communities-separator nds-p-horizontal_xx-small">|</span></span>
                         </div>
                         <div class="nds-size_1-of-1 nds-m-top_small"><span

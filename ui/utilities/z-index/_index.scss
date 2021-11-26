@@ -1,0 +1,32 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+ * @summary z-index utility class for z-index value of 1
+ *
+ * @selector .nds-z-1
+ * @modifier
+ */
+.nds-z_1 {
+  z-index: 1;
+}
+
+/**
+ * @summary z-index utility class for z-index value of 0
+ *
+ * @selector .nds-z-0
+ * @modifier
+ */
+.nds-z_0 {
+  z-index: 0;
+}
+
+/**
+ * @summary z-index utility class for z-index value of -1
+ *
+ * @selector .nds-z_-1
+ * @modifier
+ */
+.nds-z_-1 {
+  z-index: -1;
+}

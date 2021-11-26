@@ -8,7 +8,7 @@ import {
   commentToHTML
 } from '../../../scripts/storybook';
 
-storiesOf(`${base}`, module)
+storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''),  module)
   .addDecorator(withDocs(notes))
   .addDecorator(commentToHTML(scss))
   .add('Default (default)', () => {
@@ -30,10 +30,8 @@ storiesOf(`${base}`, module)
   .add('Required (states)', () => {
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="textarea-id-01">
-    <abbr class="nds-required" title="required">*</abbr>
-
-
     Textarea Label
+    <abbr class="nds-required" title="required">*</abbr>
 
   </label>
   <div class="nds-form-element__control">
@@ -44,10 +42,10 @@ storiesOf(`${base}`, module)
   .add('Error (states)', () => {
     return withExample(`<div class="nds-form-element nds-has-error">
   <label class="nds-form-element__label" for="textarea-id-01">
-    <abbr class="nds-required" title="required">*</abbr>
-
 
     Textarea Label
+    <abbr class="nds-required" title="required">*</abbr>
+
 
   </label>
   <div class="nds-form-element__control">

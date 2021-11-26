@@ -8,7 +8,7 @@ import {
   commentToHTML
 } from '../../../scripts/storybook';
 
-storiesOf(`${base}`, module)
+storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''),  module)
   .addDecorator(withDocs(notes))
   .addDecorator(commentToHTML(scss))
   .add('Default (default)', () => {
@@ -60,9 +60,8 @@ storiesOf(`${base}`, module)
   .add('Required (states)', () => {
     return withExample(`<fieldset class="nds-form-element">
   <legend class="nds-form-element__legend nds-form-element__label">
-    <abbr class="nds-required" title="required">*</abbr>
     Radio Group Label
-
+    <abbr class="nds-required" title="required">*</abbr>
   </legend>
   <div class="nds-form-element__control">
     <div class="nds-radio_button-group">
@@ -87,8 +86,8 @@ storiesOf(`${base}`, module)
   .add('Error (states)', () => {
     return withExample(`<fieldset class="nds-form-element nds-has-error">
   <legend class="nds-form-element__legend nds-form-element__label">
-    <abbr class="nds-required" title="required">*</abbr>
     Radio Group Label
+    <abbr class="nds-required" title="required">*</abbr>
 
   </legend>
   <div class="nds-form-element__control">

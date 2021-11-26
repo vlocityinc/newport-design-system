@@ -8,7 +8,7 @@ import {
   commentToHTML
 } from '../../../scripts/storybook';
 
-storiesOf(`${base}`, module)
+storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''),  module)
   .addDecorator(withDocs(notes))
   .addDecorator(commentToHTML(scss))
   .add('Default', () => {
@@ -41,12 +41,12 @@ storiesOf(`${base}`, module)
     return withExample(`<div class="nds-form-element">
   <div class="nds-form-element__control">
     <label class="nds-checkbox">
-      <abbr class="nds-required" title="required">*</abbr>
       <input type="checkbox" name="options" id="checkbox-5" value="on">
       <span class="nds-checkbox_faux"></span>
       <label class="nds-checkbox__label">
         <span class="nds-form-element__label">Checkbox Label</span>
       </label>
+      <abbr class="nds-required" title="required">*</abbr>
     </label>
   </div>
 </div>`);
@@ -55,12 +55,12 @@ storiesOf(`${base}`, module)
     return withExample(`<div class="nds-form-element nds-has-error">
   <div class="nds-form-element__control">
     <label class="nds-checkbox">
-      <abbr class="nds-required" title="required">*</abbr>
       <input type="checkbox" name="options" id="checkbox-6" aria-describedby="error_01" value="on">
       <span class="nds-checkbox_faux"></span>
       <label class="nds-checkbox__label">
         <span class="nds-form-element__label">Checkbox Label</span>
       </label>
+      <abbr class="nds-required" title="required">*</abbr>
     </label>
   </div>
   <div id="error_01" class="nds-form-element__help">This field is required</div>
@@ -103,8 +103,8 @@ storiesOf(`${base}`, module)
   .add('Group Required', () => {
     return withExample(`<fieldset class="nds-form-element">
   <legend class="nds-form-element__legend nds-form-element__label">
-    <abbr class="nds-required" title="required">*</abbr>
     Checkbox Group Label
+    <abbr class="nds-required" title="required">*</abbr>
   </legend>
   <div class="nds-form-element__control">
     <label class="nds-checkbox">
@@ -127,8 +127,8 @@ storiesOf(`${base}`, module)
   .add('Group Error', () => {
     return withExample(`<fieldset class="nds-form-element nds-has-error">
   <legend class="nds-form-element__legend nds-form-element__label">
-    <abbr class="nds-required" title="required">*</abbr>
     Checkbox Group Label
+    <abbr class="nds-required" title="required">*</abbr>
   </legend>
   <div class="nds-form-element__control">
     <label class="nds-checkbox">

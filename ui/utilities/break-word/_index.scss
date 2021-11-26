@@ -1,0 +1,12 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+ * @summary If there are no other points in the line that can be broken (such as spaces or hyphens), this will break a long word to avoid overflow.
+ *
+ * @selector .nds-break-word
+ * @modifier
+ */
+.nds-break-word {
+  @include break-word;
+}

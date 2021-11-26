@@ -8,7 +8,7 @@ import {
   commentToHTML
 } from '../../../scripts/storybook';
 
-storiesOf(`${base}`, module)
+storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''),  module)
   .addDecorator(withDocs(notes))
   .addDecorator(commentToHTML(scss))
   .add('Default (default)', () => {
@@ -22,11 +22,11 @@ storiesOf(`${base}`, module)
   .add('Input Required (states)', () => {
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="text-input-id-1">
-    <abbr class="nds-required" title="required">*</abbr>
     <!-- react-text: 5 -->
     <!-- /react-text -->
     <!-- react-text: 6 -->Input Label
     <!-- /react-text -->
+    <abbr class="nds-required" title="required">*</abbr>
   </label>
   <div class="nds-form-element__control">
     <input type="text" required="" id="text-input-id-1" class="nds-input" placeholder="Placeholder Text">
@@ -44,11 +44,11 @@ storiesOf(`${base}`, module)
   .add('Input Error (states)', () => {
     return withExample(`<div class="nds-form-element nds-has-error">
   <label class="nds-form-element__label" for="text-input-id-1">
-    <abbr class="nds-required" title="required">*</abbr>
     <!-- react-text: 5 -->
     <!-- /react-text -->
     <!-- react-text: 6 -->Input Label
     <!-- /react-text -->
+    <abbr class="nds-required" title="required">*</abbr>
   </label>
   <div class="nds-form-element__control">
     <input type="text" required="" aria-describedby="error-message" id="text-input-id-1" class="nds-input" placeholder="Placeholder Text">
@@ -59,11 +59,11 @@ storiesOf(`${base}`, module)
   .add('Input Error Icon (states)', () => {
     return withExample(`<div class="nds-form-element nds-has-error">
   <label class="nds-form-element__label" for="text-input-id-1">
-    <abbr class="nds-required" title="required">*</abbr>
     <!-- react-text: 5 -->
     <!-- /react-text -->
     <!-- react-text: 6 -->Input Label
     <!-- /react-text -->
+    <abbr class="nds-required" title="required">*</abbr>
   </label>
   <div class="nds-form-element__control nds-input-has-icon nds-input-has-icon_left">
     <svg class="nds-input__icon" aria-hidden="true">

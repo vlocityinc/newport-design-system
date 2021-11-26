@@ -18,7 +18,7 @@ Three: 'Three'
 };
 const defaultValue = '';
 
-storiesOf(`${base}`, module)
+storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''),  module)
 .addDecorator(withKnobs)
 .addDecorator(commentToHTML(scss))
 .addDecorator(withDocs(notes))
@@ -353,7 +353,7 @@ return withExample(`
                     </span>
                 </div>
             </div>
-        
+
             <div class="nds-media nds-media_center nds-p-vertical_xx-large">
                 <div class="nds-media__figure nds-large-size_1-of-2 nds-size_1-of-1">
                     <span class="nds-size_1-of-1">
@@ -368,7 +368,7 @@ return withExample(`
                     <button class="nds-button nds-button_brand">Auto Insurance</button>
                 </div>
             </div>
-        
+
             <div class="nds-media nds-media_center nds-p-vertical_xx-large">
                 <div class="nds-media__body nds-large-size_1-of-2 nds-size_1-of-1 nds-p-around_xx-large">
                     <div class="nds-text-heading_large nds-m-bottom_large"><b>Protect what matters most.</b></div>
@@ -383,7 +383,7 @@ return withExample(`
                     </span>
                 </div>
             </div>
-        
+
         </div>
 
         <div
