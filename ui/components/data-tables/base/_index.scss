@@ -72,6 +72,15 @@
     }
   }
 
+  .nds-data-table-group-button {
+    border: none;
+    background-color: inherit;
+  }
+  
+  .nds-data-table-group-button:focus {
+    background-color: inherit;
+  }
+
   /**
    * By default, nowrap is applied
    *

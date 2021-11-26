@@ -18,13 +18,13 @@ Three: 'Three'
 };
 const defaultValue = '';
 
-storiesOf(`${base}`, module)
+storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''),  module)
 .addDecorator(withKnobs)
 .addDecorator(commentToHTML(scss))
 .addDecorator(withDocs(notes))
 .add('Default', () => {
 const value = radios(label, options, defaultValue);
-return withExample(` 
+return withExample(`
 <div class="nds-communities-page-content nds-communities-page-content__list nds-m-bottom_xx-large">
     <div class="nds-media nds-media_center nds-p-vertical_xx-large">
         <div class="nds-media__body nds-large-size_1-of-2 nds-size_1-of-1 nds-p-around_xx-large">

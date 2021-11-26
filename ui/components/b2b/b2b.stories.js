@@ -6,7 +6,7 @@ import {
   withDocs,
   commentToHTML,
 } from "../../../scripts/storybook";
-storiesOf(`${base}`, module)
+storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''),  module)
   .addDecorator(withDocs(notes))
   .add("b2bCategoriesList", () => {
     return withExample(`
@@ -219,7 +219,7 @@ storiesOf(`${base}`, module)
               <div class="nds-size_4-of-4 nds-large-size_3-of-4 nds-text-color_weak nds-p-bottom_x-small">
                 <div class="nds-grid nds-b2b-dropdown_trigger" tabindex="-1" onclick={toggleList}>
                   <span class="nds-truncate nds-p-right_xx-small" style="max-width: 260px;">Bread & Butter | 2019</span>
-                  <c-icon theme="nds" icon-name="utility:chevrondown" size="xx-small"> 
+                  <c-icon theme="nds" icon-name="utility:chevrondown" size="xx-small">
                     <svg xmlns="http://www.w3.org/2000/svg" class="nds-icon nds-icon-text-default nds-icon_xx-small" viewBox="0 0 24 24">
                       <path d="M22 8.2l-9.5 9.6c-.3.2-.7.2-1 0L2 8.2c-.2-.3-.2-.7 0-1l1-1c.3-.3.8-.3 1.1 0l7.4 7.5c.3.3.7.3 1 0l7.4-7.5c.3-.2.8-.2 1.1 0l1 1c.2.3.2.7 0 1z"></path>
                     </svg>
@@ -250,7 +250,7 @@ storiesOf(`${base}`, module)
                             </span>
                             <span class="nds-show_large">Preview</span>
                           </button>
-                        </c-b2b-button> 
+                        </c-b2b-button>
                       </div>
                         <div class="nds-m-left_medium">
                           <c-b2b-button theme="nds" variant="brand" icon-name="utility:page" icon-size="x-small" label="Preview" icon-fill="#fff" hide-label="below:large" hide-icon="above:large">
@@ -377,12 +377,12 @@ storiesOf(`${base}`, module)
                   <div class="nds-b2b-config-radio_container radio-toolbar">
                     <input type="radio" id="radio12" name="radioMonths" value="12" checked>
                     <label for="radio12">12 Months</label>
-                
+
                     <input type="radio" id="radio24" name="radioMonths" value="24">
                     <label for="radio24">24 Months</label>
-                
+
                     <input type="radio" id="radio36" name="radioMonths" value="36">
-                    <label for="radio36">36 Months</label> 
+                    <label for="radio36">36 Months</label>
                   </div>
                 </div>
               </c-b2b-attribute-configure-offer>
@@ -500,7 +500,7 @@ storiesOf(`${base}`, module)
                 </div>
               </label>
               <div class="nds-b2b-card_tab-content nds-b2b-extra-padding">
-                <div class="nds-b2b-child_radio-container"> 
+                <div class="nds-b2b-child_radio-container">
                   <div class="nds-grid nds-b2b-label-container">
                     <span class="nds-b2b-card_title">
                       <span class="nds-radio nds-b2b-attribute-radio">
@@ -529,11 +529,11 @@ storiesOf(`${base}`, module)
                           <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$1350.00</p>
                         </div>
                       </div>
-                    </div>  
+                    </div>
                   </div>
                 </div>
 
-                <div class="nds-b2b-child_radio-container"> 
+                <div class="nds-b2b-child_radio-container">
                   <div class="nds-grid nds-b2b-label-container">
                     <span class="nds-b2b-card_title">
                       <span class="nds-radio nds-b2b-attribute-radio">
@@ -562,11 +562,11 @@ storiesOf(`${base}`, module)
                           <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$1350.00</p>
                         </div>
                       </div>
-                    </div>  
+                    </div>
                   </div>
                 </div>
 
-                <div class="nds-b2b-child_radio-container"> 
+                <div class="nds-b2b-child_radio-container">
                   <div class="nds-grid nds-b2b-label-container">
                     <span class="nds-b2b-card_title">
                       <span class="nds-radio nds-b2b-attribute-radio">
@@ -595,7 +595,7 @@ storiesOf(`${base}`, module)
                           <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$1350.00</p>
                         </div>
                       </div>
-                    </div>  
+                    </div>
                   </div>
                 </div>
               </div>
@@ -639,8 +639,8 @@ storiesOf(`${base}`, module)
             <div class="nds-m-top_medium nds-grid nds-grid_align-end">
                 <div class="nds-file-selector nds-file-selector_files nds-m-right_medium">
                     <label class="nds-file-selector__body slds-file-selector__body">
-                        <input 
-                            class="nds-file-selector__input nds-assistive-text nds-b2b-file-selector" 
+                        <input
+                            class="nds-file-selector__input nds-assistive-text nds-b2b-file-selector"
                             type="file"
                             accept=".csv, .xlsx, .xls"
                             onchange={readHandler}
@@ -658,8 +658,8 @@ storiesOf(`${base}`, module)
     <div class="nds-m-vertical_medium">
       <div class="nds-grid nds-color__background_gray-1 nds-wrap nds-grid_vertical-align-center nds-p-top_small">
           <div class="nds-col nds-size_6-of-12 nds-large-size_3-of-12 nds-p-horizontal_medium nds-p-bottom_small">
-              <div class="nds-grid nds-grid_vertical-align-center">  
-                  <label class="nds-size_3-of-12 nds-m-right_medium nds-b2b-table_transition-hide">Group by</label> 
+              <div class="nds-grid nds-grid_vertical-align-center">
+                  <label class="nds-size_3-of-12 nds-m-right_medium nds-b2b-table_transition-hide">Group by</label>
                   <div class="nds-b2b-input">
                       <div class="nds-form-element nds-form-container">
                           <div aria-expanded="false" aria-haspopup="listbox" role="combobox" class="nds-combobox nds-dropdown-trigger nds-dropdown-trigger_click">
@@ -712,8 +712,8 @@ storiesOf(`${base}`, module)
           </div>
 
           <div class="nds-col nds-size_6-of-12 nds-large-size_3-of-12 nds-p-horizontal_medium nds-p-bottom_small">
-              <div class="nds-grid nds-grid_vertical-align-center">  
-                  <label class="nds-size_3-of-12 nds-m-right_medium nds-b2b-table_transition-hide">Displaying</label> 
+              <div class="nds-grid nds-grid_vertical-align-center">
+                  <label class="nds-size_3-of-12 nds-m-right_medium nds-b2b-table_transition-hide">Displaying</label>
                   <div class="nds-b2b-input">
                       <div class="nds-form-element nds-form-container">
                           <div aria-expanded="false" aria-haspopup="listbox" role="combobox" class="nds-combobox nds-dropdown-trigger nds-dropdown-trigger_click">
@@ -771,17 +771,17 @@ storiesOf(`${base}`, module)
               <span>Total : 12</span>
               <span class="nds-m-left_medium">Showing : 4</span>
           </div>
-         
+
           <div class="nds-size_6-of-12 nds-large-size_3-of-12 nds-b2b-input nds-p-horizontal_medium nds-p-bottom_small">
-              <div class="nds-grid nds-grid_vertical-align-center">  
-                <label class=" nds-size_3-of-12 nds-m-right_medium nds-b2b-table_transition-hide">Search</label> 
+              <div class="nds-grid nds-grid_vertical-align-center">
+                <label class=" nds-size_3-of-12 nds-m-right_medium nds-b2b-table_transition-hide">Search</label>
                 <div class="nds-form-element__control nds-input-has-icon nds-input-has-icon_left">
                     <svg class="nds-icon nds-input__icon nds-input__icon_left nds-icon-text-default nds-icon_xx-small" aria-hidden="true">
                         <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
                     </svg>
                     <input type="text" class="nds-input" placeholder="search" onkeyup={searchKeyChangeHandler} value="search">
                 </div>
-              </div>  
+              </div>
           </div>
       </div>
       <div class="nds-is-relative">
@@ -855,7 +855,7 @@ storiesOf(`${base}`, module)
                   </tr>
               </thead>
               <tbody class="nds-b2b-table_body">
-                  <tr class="nds-b2b-table_row">    
+                  <tr class="nds-b2b-table_row">
                       <td class="nds-b2b-table_cell nds-b2b-icon_cell">
                           <div class="nds-b2b-table_cell-box nds-form-element">
                               <div class="nds-form-element__control nds-b2b-table_checkbox">
@@ -879,8 +879,8 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
-                        </div>  
-                      </td>      
+                        </div>
+                      </td>
                       <td class="nds-b2b-table_cell">
                         <div class="nds-b2b-table_cell-box">
                           <label class="nds-b2b-table_cell-label">Last Name</label>
@@ -894,7 +894,7 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
-                        </div>  
+                        </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                         <div class="nds-b2b-table_cell-box">
@@ -909,7 +909,7 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
-                        </div>  
+                        </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                         <div class="nds-b2b-table_cell-box">
@@ -924,10 +924,10 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
-                        </div>  
+                        </div>
                       </td>
                   </tr>
-                  <tr class="nds-b2b-table_row">    
+                  <tr class="nds-b2b-table_row">
                       <td class="nds-b2b-table_cell nds-b2b-icon_cell">
                           <div class="nds-b2b-table_cell-box nds-form-element">
                               <div class="nds-form-element__control nds-b2b-table_checkbox">
@@ -951,7 +951,7 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
-                        </div>  
+                        </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                         <div class="nds-b2b-table_cell-box">
@@ -966,7 +966,7 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
-                        </div>  
+                        </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                         <div class="nds-b2b-table_cell-box">
@@ -981,7 +981,7 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
-                        </div>  
+                        </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                         <div class="nds-b2b-table_cell-box">
@@ -996,10 +996,10 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
-                        </div>  
+                        </div>
                       </td>
                   </tr>
-                  <tr class="nds-b2b-table_row">    
+                  <tr class="nds-b2b-table_row">
                       <td class="nds-b2b-table_cell nds-b2b-icon_cell">
                           <div class="nds-b2b-table_cell-box nds-form-element">
                               <div class="nds-form-element__control nds-b2b-table_checkbox">
@@ -1023,7 +1023,7 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
-                        </div>  
+                        </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                         <div class="nds-b2b-table_cell-box">
@@ -1038,7 +1038,7 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
-                        </div>  
+                        </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                         <div class="nds-b2b-table_cell-box">
@@ -1053,7 +1053,7 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
-                        </div>  
+                        </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                         <div class="nds-b2b-table_cell-box">
@@ -1068,11 +1068,11 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
-                        </div>  
+                        </div>
                       </td>
                   </tr>
               </tbody>
-          </table>  
+          </table>
       </div>
       <div class="nds-grid nds-m-around_x-small nds-grid_align-end">
           <button type="button" class="nds-button">
@@ -1088,7 +1088,7 @@ storiesOf(`${base}`, module)
             </svg>
           </button>
       </div>
-    </div>  
+    </div>
     `);
   })
   .add("b2bDataTableGroups", () => {
@@ -1096,8 +1096,8 @@ storiesOf(`${base}`, module)
     <div class="nds-m-vertical_medium">
       <div class="nds-grid nds-color__background_gray-1 nds-wrap nds-grid_vertical-align-center nds-p-top_small">
           <div class="nds-col nds-size_6-of-12 nds-large-size_3-of-12 nds-p-horizontal_medium nds-p-bottom_small">
-              <div class="nds-grid nds-grid_vertical-align-center">  
-                  <label class="nds-size_3-of-12 nds-m-right_medium nds-b2b-table_transition-hide">Group by</label> 
+              <div class="nds-grid nds-grid_vertical-align-center">
+                  <label class="nds-size_3-of-12 nds-m-right_medium nds-b2b-table_transition-hide">Group by</label>
                   <div class="nds-b2b-input">
                       <div class="nds-form-element nds-form-container">
                           <div aria-expanded="false" aria-haspopup="listbox" role="combobox" class="nds-combobox nds-dropdown-trigger nds-dropdown-trigger_click">
@@ -1150,8 +1150,8 @@ storiesOf(`${base}`, module)
           </div>
 
           <div class="nds-col nds-size_6-of-12 nds-large-size_3-of-12 nds-p-horizontal_medium nds-p-bottom_small">
-              <div class="nds-grid nds-grid_vertical-align-center">  
-                  <label class="nds-size_3-of-12 nds-m-right_medium nds-b2b-table_transition-hide">Displaying</label> 
+              <div class="nds-grid nds-grid_vertical-align-center">
+                  <label class="nds-size_3-of-12 nds-m-right_medium nds-b2b-table_transition-hide">Displaying</label>
                   <div class="nds-b2b-input">
                       <div class="nds-form-element nds-form-container">
                           <div aria-expanded="false" aria-haspopup="listbox" role="combobox" class="nds-combobox nds-dropdown-trigger nds-dropdown-trigger_click">
@@ -1207,17 +1207,17 @@ storiesOf(`${base}`, module)
               <span>Total : 12</span>
               <span class="nds-m-left_medium">Showing : 4</span>
           </div>
-         
+
           <div class="nds-size_6-of-12 nds-large-size_3-of-12 nds-b2b-input nds-p-horizontal_medium nds-p-bottom_small">
-              <div class="nds-grid nds-grid_vertical-align-center">  
-                <label class=" nds-size_3-of-12 nds-m-right_medium nds-b2b-table_transition-hide">Search</label> 
+              <div class="nds-grid nds-grid_vertical-align-center">
+                <label class=" nds-size_3-of-12 nds-m-right_medium nds-b2b-table_transition-hide">Search</label>
                 <div class="nds-form-element__control nds-input-has-icon nds-input-has-icon_left">
                     <svg class="nds-icon nds-input__icon nds-input__icon_left nds-icon-text-default nds-icon_xx-small" aria-hidden="true">
                         <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
                     </svg>
                     <input type="text" class="nds-input" placeholder="search" onkeyup={searchKeyChangeHandler} value="search">
                 </div>
-              </div>  
+              </div>
           </div>
       </div>
       <div class="nds-is-relative">
@@ -1249,7 +1249,7 @@ storiesOf(`${base}`, module)
                                 </div>
                               </div>
                           </a>
-                        </div>  
+                        </div>
                       </th>
                       <th class="nds-b2b-table_cell" >
                         <div class="nds-b2b-table_cell-box">
@@ -1297,12 +1297,12 @@ storiesOf(`${base}`, module)
                                 </div>
                               </div>
                           </a>
-                         </div> 
+                         </div>
                       </th>
                   </tr>
               </thead>
               <tbody class="nds-b2b-table_body">
-                  <tr class="nds-b2b-table_row">    
+                  <tr class="nds-b2b-table_row">
                       <td class="nds-b2b-table_cell nds-b2b-table_transition-hide"></td>
                       <td class="nds-b2b-table_cell nds-b2b-table_cell-readonly" colspan="5">
                           Walter
@@ -1335,7 +1335,7 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
-                        </div>  
+                        </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                         <div class="nds-b2b-table_cell-box">
@@ -1350,7 +1350,7 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
-                        </div>  
+                        </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                         <div class="nds-b2b-table_cell-box">
@@ -1365,7 +1365,7 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
-                        </div>  
+                        </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                         <div class="nds-b2b-table_cell-box">
@@ -1383,7 +1383,7 @@ storiesOf(`${base}`, module)
                         </div>
                       </td>
                   </tr>
-                  <tr class="nds-b2b-table_row">    
+                  <tr class="nds-b2b-table_row">
                     <td class="nds-b2b-table_cell nds-b2b-table_cell-readonly nds-b2b-table_transition-hide">
                         <div class="nds-b2b-table_cell-box"></div>
                     </td>
@@ -1391,7 +1391,7 @@ storiesOf(`${base}`, module)
                         <div class="nds-b2b-table_cell-box">Doe</div>
                     </td>
                   </tr>
-                  <tr class="nds-b2b-table_row">    
+                  <tr class="nds-b2b-table_row">
                       <td class="nds-b2b-table_cell nds-b2b-icon_cell">
                           <div class="nds-b2b-table_cell-box nds-form-element">
                               <div class="nds-form-element__control nds-b2b-table_checkbox">
@@ -1418,7 +1418,7 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
-                        </div>  
+                        </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                         <div class="nds-b2b-table_cell-box">
@@ -1448,7 +1448,7 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
-                        </div>  
+                        </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                         <div class="nds-b2b-table_cell-box">
@@ -1463,10 +1463,10 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
-                        </div>  
+                        </div>
                       </td>
                   </tr>
-                  <tr class="nds-b2b-table_row"> 
+                  <tr class="nds-b2b-table_row">
                       <td class="nds-b2b-table_cell nds-b2b-icon_cell">
                           <div class="nds-b2b-table_cell-box nds-form-element">
                               <div class="nds-form-element__control nds-b2b-table_checkbox">
@@ -1493,7 +1493,7 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
-                        </div>  
+                        </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                         <div class="nds-b2b-table_cell-box">
@@ -1508,7 +1508,7 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
-                        </div>  
+                        </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                         <div class="nds-b2b-table_cell-box">
@@ -1523,7 +1523,7 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
-                        </div>  
+                        </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                         <div class="nds-b2b-table_cell-box">
@@ -1538,11 +1538,11 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
-                        </div>  
+                        </div>
                       </td>
                   </tr>
               </tbody>
-          </table>  
+          </table>
       </div>
       <div class="nds-grid nds-m-around_x-small nds-grid_align-end">
           <button type="button" class="nds-button">
@@ -1558,7 +1558,7 @@ storiesOf(`${base}`, module)
             </svg>
           </button>
       </div>
-    </div>  
+    </div>
     `);
   })
   .add("b2bOverridePriceOffer", () => {
@@ -1569,7 +1569,7 @@ storiesOf(`${base}`, module)
         <div class="nds-b2b-config-radio_container radio-toolbar">
           <input type="radio" id="oneTime" name="prices" value="oneTime">
           <label for="oneTime">One Time</label>
-      
+
           <input type="radio" id="monthly" name="prices" value="monthly" checked>
           <label for="monthly">Monthly</label>
         </div>
@@ -1660,4 +1660,3 @@ storiesOf(`${base}`, module)
     `);
   })
 ;
-

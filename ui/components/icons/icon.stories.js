@@ -31,7 +31,7 @@ const colorOptions = {
 };
 const colorDefaultValue = ' nds-icon-text-default';
 
-storiesOf(`${base}`, module)
+storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''),  module)
   .addDecorator(withKnobs)
   .addDecorator(withDocs(notes))
   .addDecorator(

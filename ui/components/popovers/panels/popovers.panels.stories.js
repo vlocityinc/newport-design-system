@@ -9,7 +9,7 @@ import {
   commentToHTML
 } from '../../../../scripts/storybook';
 
-storiesOf(`${base}`, module)
+storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''),  module)
   .addDecorator(withDocs(panelNotes + notes))
   .addDecorator(commentToHTML(scss))
   .add('Default (default)', () => {
