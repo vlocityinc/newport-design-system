@@ -418,6 +418,22 @@
     },
     {
       "iconId":null,
+      "isStandard":true,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "name":"invocableApplyLeadAssignmentRules",
+      "description":"Apply Lead Assignment Rules",
+      "configurationEditor":null,
+      "label":"Apply Lead Assignment Rules",
+      "type":"invocableApplyLeadAssignmentRules",
+      "category":"Sales leads",
+      "genericTypes":[
+
+      ],
+      "durableId":"invocableApplyLeadAssignmentRules-invocableApplyLeadAssignmentRules"
+    },
+    {
+      "iconId":null,
       "isStandard":false,
       "allowsTransactionControl":false,
       "iconName":null,

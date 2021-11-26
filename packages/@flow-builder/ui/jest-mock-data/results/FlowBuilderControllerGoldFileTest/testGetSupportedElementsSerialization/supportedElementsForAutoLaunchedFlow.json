@@ -110,7 +110,7 @@
       "color":"background-orange",
       "name":"FilterCollectionProcessor",
       "icon":"standard:filter",
-      "description":"Filter items in a collection.",
+      "description":"Select items from a collection based on conditions.",
       "label":"Collection Filter",
       "labelNew":"New Collection Filter",
       "classification":"Node",

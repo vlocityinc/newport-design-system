@@ -31,15 +31,15 @@
       "isListViewManaged":true
     },
     {
-      "iconName":"utility:orchestrator",
-      "name":"Orchestrator",
-      "label":"Flow Orchestrator",
-      "isListViewManaged":true
-    },
-    {
       "iconName":"utility:omni_channel",
       "name":"RoutingFlow",
       "label":"Omni-Channel Flow",
+      "isListViewManaged":true
+    },
+    {
+      "iconName":"utility:orchestrator",
+      "name":"Orchestrator",
+      "label":"Orchestrator",
       "isListViewManaged":true
     },
     {
