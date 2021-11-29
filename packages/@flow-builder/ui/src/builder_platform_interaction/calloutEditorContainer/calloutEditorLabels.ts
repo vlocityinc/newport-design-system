@@ -1,8 +1,6 @@
 // @ts-nocheck
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
-import filterByCategoryOption from '@salesforce/label/FlowBuilderActionSelector.filterByCategoryOption';
-
 import selectActionHeadingMedium from '@salesforce/label/FlowBuilderCalloutEditor.selectActionHeadingMedium';
 import selectActionHeadingMediumFlow from '@salesforce/label/FlowBuilderCalloutEditor.selectActionHeadingMediumFlow';
 import selectActionBodyRegularFlow from '@salesforce/label/FlowBuilderCalloutEditor.selectActionBodyRegularFlow';
@@ -31,7 +29,6 @@ export const LABELS = {
     actionsLoading,
     selectActionBodyRegular,
     selectActionHeadingMedium,
-    filterByCategoryOption,
     [ELEMENT_TYPE.SUBFLOW]: {
         HEAD: {
             true: selectActionHeadingMediumFlow,

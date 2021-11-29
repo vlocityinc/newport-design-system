@@ -13,6 +13,11 @@ import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
 const { format } = commonUtils;
 
+export enum FilterBy {
+    Category = 'Category',
+    Type = 'Type'
+}
+
 type ElementActionType = {
     elementType: string;
     actionType: string;
@@ -81,7 +86,7 @@ export default class ActionSelector extends LightningElement {
     _invocableActions = [];
     _invocableActionsFetched = false;
     _selectedCategory = LABELS.allInvocableActions;
-    _selectedFilterBy = LABELS.filterByCategoryOption;
+    _selectedFilterBy = FilterBy.Category;
 
     fullActionMenuData = [];
 
@@ -284,7 +289,7 @@ export default class ActionSelector extends LightningElement {
 
     set selectedCategory(value) {
         this._selectedCategory = value;
-        if (!this._selectedFilterBy || this._selectedFilterBy === this.labels.filterByCategoryOption) {
+        if (!this._selectedFilterBy || this._selectedFilterBy === FilterBy.Category) {
             this.updateActionCombo();
         }
     }
@@ -296,7 +301,7 @@ export default class ActionSelector extends LightningElement {
 
     set selectedFilterBy(value) {
         this._selectedFilterBy = value;
-        if (this.state.selectedElementType !== ELEMENT_TYPE.SUBFLOW && value === this.labels.filterByTypeOption) {
+        if (this.state.selectedElementType !== ELEMENT_TYPE.SUBFLOW && value === FilterBy.Type) {
             this.state.selectedElementType = ELEMENT_TYPE.ACTION_CALL;
             this._selectedCategory = ELEMENT_TYPE.ACTION_CALL;
         } else {
@@ -397,10 +402,7 @@ export default class ActionSelector extends LightningElement {
 
         let items;
         // If selected element type is flows, we return flows actions
-        if (
-            selectedElementType === ELEMENT_TYPE.SUBFLOW ||
-            this._selectedFilterBy !== this.labels.filterByCategoryOption
-        ) {
+        if (selectedElementType === ELEMENT_TYPE.SUBFLOW || this._selectedFilterBy !== FilterBy.Category) {
             items = this.getActionElementsByType(selectedElementType);
         } else {
             items = this.getActionElementsByCategory(selectedCategory);
@@ -412,7 +414,7 @@ export default class ActionSelector extends LightningElement {
             : this.fullActionMenuData;
         // dispatch event up so that other cmps know to render 'no available actions of this type'
         const newSelectedAction = this.getSelectedActionFrom(
-            this._selectedFilterBy === this.labels.filterByCategoryOption ? selectedCategory : selectedElementType,
+            this._selectedFilterBy === FilterBy.Category ? selectedCategory : selectedElementType,
             null
         );
         const valueChangedEvent = new ActionsLoadedEvent(newSelectedAction, this.fullActionMenuData.length);

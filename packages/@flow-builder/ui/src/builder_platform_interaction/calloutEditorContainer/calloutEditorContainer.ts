@@ -9,6 +9,7 @@ import { getElementForPropertyEditor } from 'builder_platform_interaction/proper
 import { LABELS } from './calloutEditorLabels';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { FilterBy } from 'builder_platform_interaction/actionSelector';
 
 const EDITOR_SELECTOR = '.editor_template';
 
@@ -234,7 +235,7 @@ export default class CalloutEditorContainer extends LightningElement {
         }
 
         if (this._invocableActionsFetched) {
-            if (this._filterBy === this.labels.filterByCategoryOption) {
+            if (this._filterBy === FilterBy.Category) {
                 this.state.noActionHeadingMedium = this.labels.selectActionHeadingMedium;
                 this.state.noActionBodyRegular = this.labels.selectActionBodyRegular;
             } else {

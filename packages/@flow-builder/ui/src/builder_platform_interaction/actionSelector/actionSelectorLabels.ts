@@ -17,8 +17,6 @@ import subflowComboboxPlaceholder from '@salesforce/label/FlowBuilderActionSelec
 import globalQuickActionSubTextPrefix from '@salesforce/label/FlowBuilderActionSelector.globalQuickActionSubTextPrefix';
 import allInvocableActions from '@salesforce/label/FlowBuilderActionSelector.allInvocableActions';
 import unCategorizedInvocableActions from '@salesforce/label/FlowBuilderActionSelector.unCategorizedInvocableActions';
-import filterByCategoryOption from '@salesforce/label/FlowBuilderActionSelector.filterByCategoryOption';
-import filterByTypeOption from '@salesforce/label/FlowBuilderActionSelector.filterByTypeOption';
 import externalServiceTypeOption from '@salesforce/label/FlowBuilderActionSelector.externalServiceTypeOption';
 import externalServiceComboboxPlaceholder from '@salesforce/label/FlowBuilderActionSelector.externalServiceComboboxPlaceholder';
 import loading from '@salesforce/label/FlowBuilderActionSelector.loading';
@@ -32,8 +30,6 @@ export const LABELS = {
     globalQuickActionSubTextPrefix,
     allInvocableActions,
     unCategorizedInvocableActions,
-    filterByCategoryOption,
-    filterByTypeOption,
     categoryComboboxPlaceholder,
     flowSearchInputLabel,
     actionSearchInputLabel,

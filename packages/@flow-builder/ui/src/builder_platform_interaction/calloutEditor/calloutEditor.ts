@@ -6,6 +6,7 @@ import { shouldNotBeNullOrUndefined } from 'builder_platform_interaction/validat
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
 import { LABELS } from './calloutEditorLabels';
+import { FilterBy } from 'builder_platform_interaction/actionSelector';
 
 const CONTAINER_SELECTOR = 'builder_platform_interaction-callout-editor-container';
 
@@ -23,7 +24,7 @@ export default class CalloutEditor extends LightningElement {
 
     @track hasActions = {};
 
-    @track selectedFilterBy = LABELS.filterByCategoryOption;
+    @track selectedFilterBy = FilterBy.Category;
     @track showLeftPanel = true;
     @track showActionSelector = true;
     @track categoryOptions = [];
@@ -47,7 +48,7 @@ export default class CalloutEditor extends LightningElement {
                 const selectedTypeOption =
                     ACTION_TYPE_TO_ELEMENT_TYPE[getValueFromHydratedItem(this.calloutNode.actionType)];
                 if (this.isCustomAction && selectedTypeOption) {
-                    this.selectedFilterBy = this.labels.filterByTypeOption;
+                    this.selectedFilterBy = FilterBy.Type;
                     this.selectedCategory = selectedTypeOption;
                 }
                 // Set options
@@ -62,11 +63,11 @@ export default class CalloutEditor extends LightningElement {
         return [
             {
                 label: LABELS.filterByCategoryOption,
-                value: LABELS.filterByCategoryOption
+                value: FilterBy.Category
             },
             {
                 label: LABELS.filterByTypeOption,
-                value: LABELS.filterByTypeOption
+                value: FilterBy.Type
             }
         ];
     }
@@ -162,7 +163,7 @@ export default class CalloutEditor extends LightningElement {
                 });
             }
         } else if (this.node.elementType === ELEMENT_TYPE.SUBFLOW) {
-            this.selectedFilterBy = this.labels.filterByTypeOption;
+            this.selectedFilterBy = FilterBy.Type;
             const flowName = getValueFromHydratedItem(this.node.flowName);
             if (flowName) {
                 newSelectedAction = Object.assign(newSelectedAction, {
@@ -197,7 +198,7 @@ export default class CalloutEditor extends LightningElement {
     }
 
     setCategoryOptions() {
-        if (this.selectedFilterBy === LABELS.filterByTypeOption) {
+        if (this.selectedFilterBy === FilterBy.Type) {
             const getTypeOption = (elementType) => {
                 return {
                     label: this.labels[elementType].TYPE_OPTION_LABEL,
@@ -270,7 +271,7 @@ export default class CalloutEditor extends LightningElement {
     handleCategorySelect(event) {
         this.selectedCategory = event.detail.name;
 
-        if (this.selectedFilterBy === LABELS.filterByTypeOption) {
+        if (this.selectedFilterBy === FilterBy.Type) {
             this.selectedAction = {
                 elementType: this.selectedCategory,
                 guid: this.node.guid

@@ -5,8 +5,8 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { CannotRetrieveCalloutParametersEvent, ActionsLoadedEvent } from 'builder_platform_interaction/events';
 import { untilNoFailure, ticks, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import { mockActions } from 'mock/calloutData';
-import { LABELS } from '../calloutEditorLabels';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { FilterBy } from 'builder_platform_interaction/actionSelector';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -118,7 +118,7 @@ describe('callout-editor', () => {
     });
     beforeEach(() => {
         calloutEditor = setupComponentUnderTest();
-        calloutEditor.filterBy = LABELS.filterByCategoryOption;
+        calloutEditor.filterBy = FilterBy.Category;
     });
     describe('filter by combo', () => {
         it('displays all filter options', () => {
@@ -128,7 +128,7 @@ describe('callout-editor', () => {
             ]);
         });
         it('displays Category option by default', () => {
-            expect(filterByCombobox(calloutEditor).value).toBe('FlowBuilderActionSelector.filterByCategoryOption');
+            expect(filterByCombobox(calloutEditor).value).toBe(FilterBy.Category);
         });
 
         it('fires change event with Type when filterBy type is selected', async () => {
@@ -202,7 +202,7 @@ describe('callout-editor', () => {
         });
         it('category select event on filtered by type sets guid to selected action when node guid is set', async () => {
             calloutEditor = setupComponentUnderTest();
-            calloutEditor.filterBy = LABELS.filterByTypeOption;
+            calloutEditor.filterBy = FilterBy.Type;
             calloutEditor.node = { guid: '5' };
             await ticks(1);
             const changeEvent = getSelectEvent('test name');
@@ -212,7 +212,7 @@ describe('callout-editor', () => {
         });
         it('category select event on filtered by type sets guid undefined to selected action when node guid is undefined', async () => {
             calloutEditor = setupComponentUnderTest();
-            calloutEditor.filterBy = LABELS.filterByTypeOption;
+            calloutEditor.filterBy = FilterBy.Type;
             await ticks(1);
             const changeEvent = getSelectEvent('test name');
             actionCategories(calloutEditor).dispatchEvent(changeEvent);
