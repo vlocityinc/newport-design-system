@@ -14,236 +14,61 @@
     "manageableState": "unmanaged",
     "masterLabel": "fieldServiceMobileFlowWithElements",
     "metadata": {
-        "start": {
-            "locationX": 31,
-            "locationY": 49,
-            "doesRequireRecordChangedToMeetCriteria": false,
-            "filters": []
-        },
+        "actionCalls": [],
+        "apexPluginCalls": [],
+        "assignments": [],
+        "choices": [],
+        "collectionProcessors": [],
+        "constants": [],
         "decisions": [
             {
-                "name": "decision",
-                "description": "",
+                "defaultConnectorLabel": "Default Outcome",
                 "label": "decision",
                 "locationX": 503,
                 "locationY": 71,
+                "name": "decision",
+                "processMetadataValues": [],
                 "rules": [
                     {
-                        "name": "outcome",
-                        "label": "outcome",
+                        "conditionLogic": "and",
                         "conditions": [
                             {
                                 "leftValueReference": "vMyTestAccount.CloneSourceId",
-                                "operator": "EqualTo"
+                                "operator": "EqualTo",
+                                "processMetadataValues": []
                             }
                         ],
-                        "conditionLogic": "and",
-                        "doesRequireRecordChangedToMeetCriteria": false
+                        "doesRequireRecordChangedToMeetCriteria": false,
+                        "label": "outcome",
+                        "name": "outcome",
+                        "processMetadataValues": []
                     }
-                ],
-                "defaultConnectorLabel": "Default Outcome"
+                ]
             }
         ],
-        "variables": [
-            {
-                "name": "accountID",
-                "description": "",
-                "dataType": "String",
-                "isCollection": false,
-                "isInput": false,
-                "isOutput": false,
-                "scale": 0
-            },
-            {
-                "name": "vAccountBillingAddress",
-                "description": "",
-                "dataType": "String",
-                "isCollection": false,
-                "isInput": false,
-                "isOutput": false,
-                "scale": 0
-            },
-            {
-                "name": "vAccounts",
-                "description": "",
-                "objectType": "Account",
-                "dataType": "SObject",
-                "isCollection": true,
-                "isInput": false,
-                "isOutput": false,
-                "scale": 0
-            },
-            {
-                "name": "vMyTestAccount",
-                "description": "",
-                "objectType": "Account",
-                "dataType": "SObject",
-                "isCollection": false,
-                "isInput": false,
-                "isOutput": false,
-                "scale": 0
-            }
-        ],
-        "recordCreates": [
-            {
-                "name": "create_account_from_variable",
-                "description": "",
-                "label": "create account from variable",
-                "locationX": 154,
-                "locationY": 185,
-                "elementSubtype": null,
-                "inputReference": "vMyTestAccount"
-            }
-        ],
-        "recordLookups": [
-            {
-                "name": "get_Account_with_sObject",
-                "description": "",
-                "label": "get_Account_with_sObject",
-                "locationX": 339,
-                "locationY": 333,
-                "object": "Account",
-                "outputReference": "vMyTestAccount",
-                "assignNullValuesIfNoRecordsFound": false,
-                "filterLogic": "and",
-                "filters": [
-                    {
-                        "field": "Name",
-                        "operator": "EqualTo",
-                        "value": {
-                            "stringValue": "myTestAccount"
-                        }
-                    }
-                ],
-                "queriedFields": ["Id", "BillingAddress"]
-            },
-            {
-                "name": "get_Accounts",
-                "description": "",
-                "label": "get_Accounts",
-                "locationX": 543,
-                "locationY": 344,
-                "object": "Account",
-                "outputReference": "vMyTestAccount",
-                "assignNullValuesIfNoRecordsFound": false,
-                "filterLogic": "and",
-                "filters": [
-                    {
-                        "field": "Name",
-                        "operator": "StartsWith",
-                        "value": {
-                            "stringValue": "myT"
-                        }
-                    }
-                ],
-                "queriedFields": ["Id", "BillingAddress"]
-            },
-            {
-                "name": "getAccountWithFields",
-                "description": "Get account with fields and sort",
-                "label": "Get Account With Fields and filters",
-                "locationX": 161,
-                "locationY": 332,
-                "object": "Account",
-                "outputAssignments": [
-                    {
-                        "field": "BillingAddress",
-                        "assignToReference": "vAccountBillingAddress"
-                    },
-                    {
-                        "field": "Id",
-                        "assignToReference": "accountID"
-                    }
-                ],
-                "assignNullValuesIfNoRecordsFound": false,
-                "filterLogic": "and",
-                "filters": [
-                    {
-                        "field": "Name",
-                        "operator": "EqualTo",
-                        "value": {
-                            "stringValue": "MyTestAccount"
-                        }
-                    }
-                ],
-                "queriedFields": [],
-                "sortOrder": "Asc",
-                "sortField": "Id"
-            }
-        ],
+        "dynamicChoiceSets": [],
+        "formulas": [],
+        "interviewLabel": "fieldServiceMobileFlowWithElements {!$Flow.CurrentDateTime}",
+        "isAdditionalPermissionRequiredToRun": false,
+        "isOverridable": false,
+        "isTemplate": false,
+        "label": "fieldServiceMobileFlowWithElements",
         "loops": [
             {
-                "name": "myLoopOnAccount",
-                "description": "",
+                "assignNextValueToReference": "vMyTestAccount",
+                "collectionReference": "vAccounts",
+                "iterationOrder": "Asc",
                 "label": "myLoopOnAccount",
                 "locationX": 665,
                 "locationY": 80,
-                "assignNextValueToReference": "vMyTestAccount",
-                "collectionReference": "vAccounts",
-                "iterationOrder": "Asc"
+                "name": "myLoopOnAccount",
+                "processMetadataValues": []
             }
         ],
-        "screens": [
-            {
-                "name": "screenWithFileUpload",
-                "description": "",
-                "label": "screenWithFileUpload",
-                "locationX": 722,
-                "locationY": 338,
-                "pausedText": "",
-                "fields": [
-                    {
-                        "choiceReferences": [],
-                        "fieldText": "",
-                        "fieldType": "ComponentInstance",
-                        "helpText": "",
-                        "inputParameters": [
-                            {
-                                "name": "label",
-                                "value": {
-                                    "elementReference": "vMyTestAccount.AccountSource"
-                                }
-                            },
-                            {
-                                "name": "recordId",
-                                "value": {
-                                    "elementReference": "accountID"
-                                }
-                            }
-                        ],
-                        "isRequired": true,
-                        "name": "FileUpload",
-                        "outputParameters": [],
-                        "scale": 0,
-                        "fields": [],
-                        "inputsOnNextNavToAssocScrn": "UseStoredValues",
-                        "extensionName": "forceContent:fileUpload"
-                    }
-                ],
-                "allowBack": true,
-                "allowFinish": true,
-                "allowPause": true,
-                "helpText": "",
-                "showFooter": true,
-                "showHeader": true,
-                "nextOrFinishButtonLabel": null,
-                "pauseButtonLabel": null,
-                "backButtonLabel": null
-            }
-        ],
-        "description": "",
-        "interviewLabel": "fieldServiceMobileFlowWithElements {!$Flow.CurrentDateTime}",
-        "isTemplate": false,
-        "label": "fieldServiceMobileFlowWithElements",
+        "orchestratedStages": [],
         "processMetadataValues": [
             {
                 "name": "BuilderType",
-                "value": {
-                    "stringValue": "LightningFlowBuilder"
-                }
-            },
-            {
-                "name": "OriginBuilderType",
                 "value": {
                     "stringValue": "LightningFlowBuilder"
                 }
@@ -253,14 +78,221 @@
                 "value": {
                     "stringValue": "FREE_FORM_CANVAS"
                 }
+            },
+            {
+                "name": "OriginBuilderType",
+                "value": {
+                    "stringValue": "LightningFlowBuilder"
+                }
             }
         ],
         "processType": "FieldServiceMobile",
-        "runInMode": null,
+        "recordCreates": [
+            {
+                "inputAssignments": [],
+                "inputReference": "vMyTestAccount",
+                "label": "create account from variable",
+                "locationX": 154,
+                "locationY": 185,
+                "name": "create_account_from_variable",
+                "processMetadataValues": [],
+                "storeOutputAutomatically": false
+            }
+        ],
+        "recordDeletes": [],
+        "recordLookups": [
+            {
+                "assignNullValuesIfNoRecordsFound": false,
+                "filterLogic": "and",
+                "filters": [
+                    {
+                        "field": "Name",
+                        "operator": "EqualTo",
+                        "processMetadataValues": [],
+                        "value": {
+                            "stringValue": "myTestAccount"
+                        }
+                    }
+                ],
+                "getFirstRecordOnly": false,
+                "label": "get_Account_with_sObject",
+                "locationX": 339,
+                "locationY": 333,
+                "name": "get_Account_with_sObject",
+                "object": "Account",
+                "outputAssignments": [],
+                "outputReference": "vMyTestAccount",
+                "processMetadataValues": [],
+                "queriedFields": ["Id", "BillingAddress"],
+                "storeOutputAutomatically": false
+            },
+            {
+                "assignNullValuesIfNoRecordsFound": false,
+                "filterLogic": "and",
+                "filters": [
+                    {
+                        "field": "Name",
+                        "operator": "StartsWith",
+                        "processMetadataValues": [],
+                        "value": {
+                            "stringValue": "myT"
+                        }
+                    }
+                ],
+                "getFirstRecordOnly": false,
+                "label": "get_Accounts",
+                "locationX": 543,
+                "locationY": 344,
+                "name": "get_Accounts",
+                "object": "Account",
+                "outputAssignments": [],
+                "outputReference": "vMyTestAccount",
+                "processMetadataValues": [],
+                "queriedFields": ["Id", "BillingAddress"],
+                "storeOutputAutomatically": false
+            },
+            {
+                "assignNullValuesIfNoRecordsFound": false,
+                "description": "Get account with fields and sort",
+                "filterLogic": "and",
+                "filters": [
+                    {
+                        "field": "Name",
+                        "operator": "EqualTo",
+                        "processMetadataValues": [],
+                        "value": {
+                            "stringValue": "MyTestAccount"
+                        }
+                    }
+                ],
+                "getFirstRecordOnly": false,
+                "label": "Get Account With Fields and filters",
+                "locationX": 161,
+                "locationY": 332,
+                "name": "getAccountWithFields",
+                "object": "Account",
+                "outputAssignments": [
+                    {
+                        "assignToReference": "vAccountBillingAddress",
+                        "field": "BillingAddress",
+                        "processMetadataValues": []
+                    },
+                    {
+                        "assignToReference": "accountID",
+                        "field": "Id",
+                        "processMetadataValues": []
+                    }
+                ],
+                "processMetadataValues": [],
+                "queriedFields": [],
+                "sortField": "Id",
+                "sortOrder": "Asc",
+                "storeOutputAutomatically": false
+            }
+        ],
+        "recordRollbacks": [],
+        "recordUpdates": [],
+        "screens": [
+            {
+                "allowBack": true,
+                "allowFinish": true,
+                "allowPause": true,
+                "fields": [
+                    {
+                        "choiceReferences": [],
+                        "dataTypeMappings": [],
+                        "extensionName": "forceContent:fileUpload",
+                        "fieldType": "ComponentInstance",
+                        "fields": [],
+                        "inputParameters": [
+                            {
+                                "name": "label",
+                                "processMetadataValues": [],
+                                "value": {
+                                    "elementReference": "vMyTestAccount.AccountSource"
+                                }
+                            },
+                            {
+                                "name": "recordId",
+                                "processMetadataValues": [],
+                                "value": {
+                                    "elementReference": "accountID"
+                                }
+                            }
+                        ],
+                        "inputsOnNextNavToAssocScrn": "UseStoredValues",
+                        "isRequired": true,
+                        "name": "FileUpload",
+                        "outputParameters": [],
+                        "processMetadataValues": [],
+                        "scale": 0,
+                        "storeOutputAutomatically": false
+                    }
+                ],
+                "label": "screenWithFileUpload",
+                "locationX": 722,
+                "locationY": 338,
+                "name": "screenWithFileUpload",
+                "processMetadataValues": [],
+                "rules": [],
+                "showFooter": true,
+                "showHeader": true
+            }
+        ],
+        "stages": [],
+        "start": {
+            "doesRequireRecordChangedToMeetCriteria": false,
+            "filters": [],
+            "locationX": 39,
+            "locationY": 47,
+            "processMetadataValues": [],
+            "scheduledPaths": []
+        },
         "status": "InvalidDraft",
-        "isOverridable": false,
-        "overriddenFlow": null,
-        "sourceTemplate": null
+        "steps": [],
+        "subflows": [],
+        "textTemplates": [],
+        "variables": [
+            {
+                "dataType": "String",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "accountID",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "dataType": "String",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "vAccountBillingAddress",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "dataType": "SObject",
+                "isCollection": true,
+                "isInput": false,
+                "isOutput": false,
+                "name": "vAccounts",
+                "objectType": "Account",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "dataType": "SObject",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "vMyTestAccount",
+                "objectType": "Account",
+                "processMetadataValues": [],
+                "scale": 0
+            }
+        ],
+        "waits": []
     },
     "processType": "FieldServiceMobile",
     "status": "InvalidDraft",

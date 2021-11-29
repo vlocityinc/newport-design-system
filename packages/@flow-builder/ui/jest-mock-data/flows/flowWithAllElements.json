@@ -2086,7 +2086,7 @@
         "start": {
             "doesRequireRecordChangedToMeetCriteria": false,
             "filters": [],
-            "locationX": 59,
+            "locationX": 58,
             "locationY": 51,
             "processMetadataValues": [],
             "scheduledPaths": []

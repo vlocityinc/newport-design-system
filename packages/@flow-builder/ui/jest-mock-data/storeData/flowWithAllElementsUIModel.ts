@@ -4,7 +4,7 @@ export const flowWithAllElementsUIModel = {
         '07fd2a44-4192-4709-888d-8ccc18cb4580': {
             guid: '07fd2a44-4192-4709-888d-8ccc18cb4580',
             description: '',
-            locationX: 59,
+            locationX: 58,
             locationY: 51,
             isCanvasElement: true,
             connectorCount: 0,

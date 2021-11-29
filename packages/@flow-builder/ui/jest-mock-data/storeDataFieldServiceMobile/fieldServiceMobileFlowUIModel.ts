@@ -5,8 +5,8 @@ export const fieldServiceMobileFlowUIModel = {
         '07fd2a44-4192-4709-888d-8ccc18cb4580': {
             guid: '07fd2a44-4192-4709-888d-8ccc18cb4580',
             description: '',
-            locationX: 31,
-            locationY: 49,
+            locationX: 39,
+            locationY: 47,
             isCanvasElement: true,
             connectorCount: 0,
             config: {
@@ -172,7 +172,6 @@ export const fieldServiceMobileFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
-            elementSubtype: null,
             canHaveFaultConnector: true,
             object: '',
             objectIndex: '34ff5f58-8d99-470d-a755-a2aa0dc69f59',
@@ -428,11 +427,8 @@ export const fieldServiceMobileFlowUIModel = {
             pausedText: '',
             showFooter: true,
             showHeader: true,
-            nextOrFinishLabel: null,
             nextOrFinishLabelType: 'standard',
-            backLabel: null,
             backLabelType: 'standard',
-            pauseLabel: null,
             pauseLabelType: 'standard',
             childReferences: [
                 {
@@ -492,6 +488,7 @@ export const fieldServiceMobileFlowUIModel = {
             },
             fields: [],
             inputsOnNextNavToAssocScrn: 'UseStoredValues',
+            dynamicTypeMappings: [],
             storeOutputAutomatically: false,
             childReferences: []
         }

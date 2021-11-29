@@ -38,10 +38,16 @@
                                 "leftValueReference": "vText",
                                 "operator": "EqualTo",
                                 "processMetadataValues": [],
-                                "rightValue": { "stringValue": "" }
+                                "rightValue": {
+                                    "stringValue": ""
+                                }
                             }
                         ],
-                        "connector": { "isGoTo": false, "processMetadataValues": [], "targetReference": "Decision2" },
+                        "connector": {
+                            "isGoTo": false,
+                            "processMetadataValues": [],
+                            "targetReference": "Decision2"
+                        },
                         "doesRequireRecordChangedToMeetCriteria": false,
                         "label": "outcome1",
                         "name": "outcome1",
@@ -64,7 +70,9 @@
                                 "leftValueReference": "vText",
                                 "operator": "EqualTo",
                                 "processMetadataValues": [],
-                                "rightValue": { "stringValue": "" }
+                                "rightValue": {
+                                    "stringValue": ""
+                                }
                             }
                         ],
                         "doesRequireRecordChangedToMeetCriteria": false,
@@ -85,7 +93,11 @@
         "loops": [],
         "orchestratedStages": [
             {
-                "connector": { "isGoTo": false, "processMetadataValues": [], "targetReference": "Decision1" },
+                "connector": {
+                    "isGoTo": false,
+                    "processMetadataValues": [],
+                    "targetReference": "Decision1"
+                },
                 "exitActionInputParameters": [],
                 "exitActionOutputParameters": [],
                 "exitConditionLogic": "and",
@@ -101,7 +113,9 @@
                         "actionType": "stepInteractive",
                         "assignees": [
                             {
-                                "assignee": { "elementReference": "Stage_1.Status" },
+                                "assignee": {
+                                    "elementReference": "Stage_1.Status"
+                                },
                                 "assigneeType": "User",
                                 "processMetadataValues": []
                             }
@@ -116,7 +130,9 @@
                             {
                                 "name": "ActionInput__RecordId",
                                 "processMetadataValues": [],
-                                "value": { "elementReference": "vText" }
+                                "value": {
+                                    "elementReference": "vText"
+                                }
                             }
                         ],
                         "label": "Step 1 of Stage 1",
@@ -129,9 +145,24 @@
             }
         ],
         "processMetadataValues": [
-            { "name": "BuilderType", "value": { "stringValue": "LightningFlowBuilder" } },
-            { "name": "CanvasMode", "value": { "stringValue": "AUTO_LAYOUT_CANVAS" } },
-            { "name": "OriginBuilderType", "value": { "stringValue": "LightningFlowBuilder" } }
+            {
+                "name": "BuilderType",
+                "value": {
+                    "stringValue": "LightningFlowBuilder"
+                }
+            },
+            {
+                "name": "CanvasMode",
+                "value": {
+                    "stringValue": "AUTO_LAYOUT_CANVAS"
+                }
+            },
+            {
+                "name": "OriginBuilderType",
+                "value": {
+                    "stringValue": "LightningFlowBuilder"
+                }
+            }
         ],
         "processType": "Orchestrator",
         "recordCreates": [],
@@ -142,7 +173,11 @@
         "screens": [],
         "stages": [],
         "start": {
-            "connector": { "isGoTo": false, "processMetadataValues": [], "targetReference": "Stage_1" },
+            "connector": {
+                "isGoTo": false,
+                "processMetadataValues": [],
+                "targetReference": "Stage_1"
+            },
             "doesRequireRecordChangedToMeetCriteria": false,
             "filters": [],
             "locationX": 122,

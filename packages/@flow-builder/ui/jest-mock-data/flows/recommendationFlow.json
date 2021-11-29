@@ -42,13 +42,13 @@
                 "assignNextValueToReference": "currentItem_Accounts_to_Recommendations",
                 "collectionProcessorType": "RecommendationMapCollectionProcessor",
                 "collectionReference": "Get_Accounts",
+                "conditions": [],
                 "connector": {
                     "isGoTo": false,
                     "processMetadataValues": [],
                     "targetReference": "Modify_recommendations"
                 },
                 "elementSubtype": "RecommendationMapCollectionProcessor",
-                "filterConditions": [],
                 "label": "Accounts to Recommendations",
                 "locationX": 176,
                 "locationY": 278,
@@ -103,13 +103,13 @@
                 "assignNextValueToReference": "currentItem_Modify_recommendations",
                 "collectionProcessorType": "RecommendationMapCollectionProcessor",
                 "collectionReference": "Accounts_to_Recommendations",
+                "conditions": [],
                 "connector": {
                     "isGoTo": false,
                     "processMetadataValues": [],
                     "targetReference": "Assign_to_outputRecommendations"
                 },
                 "elementSubtype": "RecommendationMapCollectionProcessor",
-                "filterConditions": [],
                 "label": "Modify recommendations",
                 "locationX": 176,
                 "locationY": 398,
@@ -213,7 +213,6 @@
         "steps": [],
         "subflows": [],
         "textTemplates": [],
-        "triggerOrder": 0,
         "variables": [
             {
                 "dataType": "SObject",
