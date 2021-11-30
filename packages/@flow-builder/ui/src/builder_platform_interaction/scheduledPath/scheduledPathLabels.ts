@@ -21,6 +21,7 @@ import deleteScheduledPathLabel from '@salesforce/label/FlowBuilderScheduledPath
 import batchSizeFieldLabel from '@salesforce/label/FlowBuilderScheduledPath.batchSizeFieldLabel';
 import batchSizeTextPlaceholder from '@salesforce/label/FlowBuilderScheduledPath.batchSizeTextPlaceholder';
 import batchSizeInfobubble from '@salesforce/label/FlowBuilderScheduledPath.batchSizeInfobubble';
+import advancedAccordionLabel from '@salesforce/label/FlowBuilderRecordEditor.advancedAccordionLabel';
 
 export const LABELS = {
     pathLabel,
@@ -44,5 +45,6 @@ export const LABELS = {
     deleteScheduledPathLabel,
     batchSizeFieldLabel,
     batchSizeTextPlaceholder,
-    batchSizeInfobubble
+    batchSizeInfobubble,
+    advancedAccordionLabel
 };
