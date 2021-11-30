@@ -21,6 +21,74 @@
             {
                 "assignmentItems": [
                     {
+                        "assignToReference": "apexVar.myString",
+                        "operator": "Assign",
+                        "processMetadataValues": [],
+                        "value": {
+                            "stringValue": "Test"
+                        }
+                    },
+                    {
+                        "assignToReference": "apexCollection",
+                        "operator": "Add",
+                        "processMetadataValues": [],
+                        "value": {
+                            "elementReference": "apexVar"
+                        }
+                    }
+                ],
+                "connector": {
+                    "isGoTo": false,
+                    "processMetadataValues": [],
+                    "targetReference": "Filter_Apex_collection"
+                },
+                "label": "Assign apex collection",
+                "locationX": 176,
+                "locationY": 1118,
+                "name": "Assign_apex_collection",
+                "processMetadataValues": []
+            },
+            {
+                "assignmentItems": [
+                    {
+                        "assignToReference": "vTextCollection",
+                        "operator": "Add",
+                        "processMetadataValues": [],
+                        "value": {
+                            "stringValue": "foo"
+                        }
+                    },
+                    {
+                        "assignToReference": "vTextCollection",
+                        "operator": "Add",
+                        "processMetadataValues": [],
+                        "value": {
+                            "stringValue": "bar"
+                        }
+                    },
+                    {
+                        "assignToReference": "vTextCollection",
+                        "operator": "Add",
+                        "processMetadataValues": [],
+                        "value": {
+                            "stringValue": "woo"
+                        }
+                    }
+                ],
+                "connector": {
+                    "isGoTo": false,
+                    "processMetadataValues": [],
+                    "targetReference": "Filter_text_collection"
+                },
+                "label": "Assign Text Collection",
+                "locationX": 176,
+                "locationY": 878,
+                "name": "Assign_Text_Collection",
+                "processMetadataValues": []
+            },
+            {
+                "assignmentItems": [
+                    {
                         "assignToReference": "outputRecommendations",
                         "operator": "Assign",
                         "processMetadataValues": [],
@@ -29,6 +97,11 @@
                         }
                     }
                 ],
+                "connector": {
+                    "isGoTo": false,
+                    "processMetadataValues": [],
+                    "targetReference": "Filter_Get_Accounts_By_Conditions"
+                },
                 "label": "Assign to outputRecommendations",
                 "locationX": 176,
                 "locationY": 518,
@@ -96,6 +169,117 @@
                 ],
                 "name": "Accounts_to_Recommendations",
                 "outputSObjectType": "Recommendation",
+                "processMetadataValues": [],
+                "sortOptions": []
+            },
+            {
+                "assignNextValueToReference": "currentItem_Filter_Apex_collection",
+                "collectionProcessorType": "FilterCollectionProcessor",
+                "collectionReference": "apexCollection",
+                "conditionLogic": "and",
+                "conditions": [
+                    {
+                        "leftValueReference": "currentItem_Filter_Apex_collection.myString",
+                        "operator": "EqualTo",
+                        "processMetadataValues": [],
+                        "rightValue": {
+                            "stringValue": "Test"
+                        }
+                    }
+                ],
+                "elementSubtype": "FilterCollectionProcessor",
+                "label": "Filter Apex collection",
+                "locationX": 176,
+                "locationY": 1238,
+                "mapItems": [],
+                "name": "Filter_Apex_collection",
+                "processMetadataValues": [],
+                "sortOptions": []
+            },
+            {
+                "assignNextValueToReference": "currentItem_Filter_Get_Accounts_By_Conditions",
+                "collectionProcessorType": "FilterCollectionProcessor",
+                "collectionReference": "Get_Accounts",
+                "conditionLogic": "and",
+                "conditions": [
+                    {
+                        "leftValueReference": "currentItem_Filter_Get_Accounts_By_Conditions.Name",
+                        "operator": "EqualTo",
+                        "processMetadataValues": [],
+                        "rightValue": {
+                            "stringValue": "Test"
+                        }
+                    },
+                    {
+                        "leftValueReference": "currentItem_Filter_Get_Accounts_By_Conditions.BillingAddress",
+                        "operator": "NotEqualTo",
+                        "processMetadataValues": [],
+                        "rightValue": {
+                            "stringValue": "My address"
+                        }
+                    }
+                ],
+                "connector": {
+                    "isGoTo": false,
+                    "processMetadataValues": [],
+                    "targetReference": "Filter_Get_Accounts_By_Formula"
+                },
+                "elementSubtype": "FilterCollectionProcessor",
+                "label": "Filter Get Accounts by conditions",
+                "locationX": 176,
+                "locationY": 638,
+                "mapItems": [],
+                "name": "Filter_Get_Accounts_By_Conditions",
+                "processMetadataValues": [],
+                "sortOptions": []
+            },
+            {
+                "assignNextValueToReference": "currentItem_Filter_Get_Accounts_By_Formula",
+                "collectionProcessorType": "FilterCollectionProcessor",
+                "collectionReference": "Get_Accounts",
+                "conditionLogic": "formula_evaluates_to_true",
+                "conditions": [],
+                "connector": {
+                    "isGoTo": false,
+                    "processMetadataValues": [],
+                    "targetReference": "Assign_Text_Collection"
+                },
+                "elementSubtype": "FilterCollectionProcessor",
+                "formula": "BEGINS({!currentItem_Filter_Get_Accounts_By_Formula.Name}, 'Test')",
+                "label": "Filter Get Accounts By Formula",
+                "locationX": 176,
+                "locationY": 758,
+                "mapItems": [],
+                "name": "Filter_Get_Accounts_By_Formula",
+                "processMetadataValues": [],
+                "sortOptions": []
+            },
+            {
+                "assignNextValueToReference": "currentItem_Filter_text_collection",
+                "collectionProcessorType": "FilterCollectionProcessor",
+                "collectionReference": "vTextCollection",
+                "conditionLogic": "and",
+                "conditions": [
+                    {
+                        "leftValueReference": "currentItem_Filter_text_collection",
+                        "operator": "Contains",
+                        "processMetadataValues": [],
+                        "rightValue": {
+                            "stringValue": "oo"
+                        }
+                    }
+                ],
+                "connector": {
+                    "isGoTo": false,
+                    "processMetadataValues": [],
+                    "targetReference": "Assign_apex_collection"
+                },
+                "elementSubtype": "FilterCollectionProcessor",
+                "label": "Filter text collection",
+                "locationX": 176,
+                "locationY": 998,
+                "mapItems": [],
+                "name": "Filter_text_collection",
                 "processMetadataValues": [],
                 "sortOptions": []
             },
@@ -215,12 +399,71 @@
         "textTemplates": [],
         "variables": [
             {
+                "apexClass": "MyApexClass",
+                "dataType": "Apex",
+                "isCollection": true,
+                "isInput": false,
+                "isOutput": false,
+                "name": "apexCollection",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "apexClass": "MyApexClass",
+                "dataType": "Apex",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "apexVar",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
                 "dataType": "SObject",
                 "isCollection": false,
                 "isInput": true,
                 "isOutput": false,
                 "name": "currentItem_Accounts_to_Recommendations",
                 "objectType": "Account",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "apexClass": "MyApexClass",
+                "dataType": "Apex",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "currentItem_Filter_Apex_collection",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "dataType": "SObject",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "currentItem_Filter_Get_Accounts_By_Conditions",
+                "objectType": "Account",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "dataType": "SObject",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "currentItem_Filter_Get_Accounts_By_Formula",
+                "objectType": "Account",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "dataType": "String",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "currentItem_Filter_text_collection",
                 "processMetadataValues": [],
                 "scale": 0
             },
@@ -250,6 +493,15 @@
                 "isInput": true,
                 "isOutput": false,
                 "name": "recordId",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "dataType": "String",
+                "isCollection": true,
+                "isInput": false,
+                "isOutput": false,
+                "name": "vTextCollection",
                 "processMetadataValues": [],
                 "scale": 0
             }
