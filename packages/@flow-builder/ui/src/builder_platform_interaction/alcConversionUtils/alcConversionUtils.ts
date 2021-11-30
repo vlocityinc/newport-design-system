@@ -179,7 +179,7 @@ function updateConnectorGuids(state: UI.StoreState) {
  * @param isAutoLayout - True : Autolayout canvas is used
  * @returns true if the normalized state is the same
  */
-const compareState = (prevState: UI.StoreState, nextState: UI.StoreState, isAutoLayout = false) => {
+export const compareState = (prevState: UI.StoreState, nextState: UI.StoreState, isAutoLayout = false) => {
     return deepEquals(
         updateConnectorGuids(normalizeState(prevState, isAutoLayout)),
         updateConnectorGuids(normalizeState(nextState, isAutoLayout))

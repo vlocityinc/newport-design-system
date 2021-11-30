@@ -385,8 +385,10 @@ function translateEventToAction(event) {
                 if (elementType === ELEMENT_TYPE.WAIT) {
                     const { canvasElement } = element;
                     element.alcConnectionSource = alcConnectionSource;
+                    element.canvasElement.label = element.canvasElement.name = element.canvasElement.guid;
                     storeInstance.dispatch(addElement(element));
                     addOutcome(canvasElement.guid);
+
                     return null;
                 }
             }

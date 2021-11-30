@@ -12,19 +12,24 @@ import {
     convertToAutoLayoutCanvas,
     convertToFreeFormCanvas,
     removeEndElementsAndConnectorsTransform,
-    addEndElementsAndConnectorsTransform
+    addEndElementsAndConnectorsTransform,
+    compareState
 } from 'builder_platform_interaction/alcConversionUtils';
 import {
     findParentElement,
     hasGoToOnNext,
     getChild,
     getTargetGuidsForReconnection,
-    hasGoTo
+    hasGoTo,
+    findFirstElement,
+    resolveParent,
+    areAllBranchesTerminals,
+    AlcList
 } from 'builder_platform_interaction/autoLayoutCanvas';
 
 import { updateFlow } from 'builder_platform_interaction/actions';
 
-import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { generateGuid, deepCopy } from 'builder_platform_interaction/storeLib';
 
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 
@@ -212,7 +217,7 @@ function pick(ele) {
     return res;
 }
 
-export const compareState = (prevState, nextState) => {
+export const compareElementsState = (prevState, nextState) => {
     prevState = normalizeElements(prevState.elements);
     nextState = normalizeElements(nextState.elements);
 
@@ -312,17 +317,33 @@ export const convertRoundTrip = (storeInstance) => {
         const prevState = { elements: removeEmptyFaults(elements) };
         const endConnectors = [];
 
+        const hasGotos = Object.values(prevState.elements).reduce((acc, curr) => {
+            return curr.incomingGoTo?.length > 0 || acc;
+        }, false);
+
         const ffcState = removeEndElementsAndConnectorsTransform(
             convertToFreeFormCanvas(prevState, [0, 0]),
             endConnectors
         );
 
+        const ffcState1 = deepCopy(ffcState);
         const nextState = convertToAutoLayoutCanvas(addEndElementsAndConnectorsTransform(ffcState, endConnectors), {
             shouldConsolidateEndConnectors: false,
             noEmptyFaults: true
         });
 
-        compareState(prevState, nextState);
+        if (hasGotos) {
+            // if we have gotos, the nextState might not be isomorphic to the prevState, we need to convert to ffc a second time and
+            // make sure the two ffc states are the same
+            const ffcState2 = removeEndElementsAndConnectorsTransform(convertToFreeFormCanvas(nextState, [0, 0]), []);
+
+            if (!compareState(ffcState1, ffcState2)) {
+                throw 'ffc compare fail';
+            }
+        } else {
+            compareElementsState(prevState, nextState);
+        }
+
         return nextState;
     } catch (e) {
         showError('convert round trip failed', e);
