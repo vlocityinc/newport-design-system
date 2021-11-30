@@ -29,6 +29,9 @@
             fieldNewValue = null;
         }
 
+        // adjust line-endings to match new record screen
+        fieldNewValue = fieldNewValue.replace(/(\r\n|\n|\r)/gm, '\r\n');
+
         if (fieldOldValue != fieldNewValue) {
             fieldUpdates[fieldName] = fieldNewValue;
         } else {
