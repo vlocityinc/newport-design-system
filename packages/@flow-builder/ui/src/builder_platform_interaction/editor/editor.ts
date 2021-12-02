@@ -2650,6 +2650,15 @@ export default class Editor extends LightningElement {
         this._isAddingResourceViaLeftPanel = false;
         this._isResourceQuickCreated = false;
 
+        logElementCreation(
+            payload,
+            this._isResourceQuickCreated,
+            this.flowDefIdForInstrumentation,
+            this.properties.processType,
+            getTriggerType(),
+            getStartObject()
+        );
+
         logPerfTransactionEnd(ADD_ELEMENT, { elementType: nodeForStore.elementType });
     };
 
@@ -2660,14 +2669,6 @@ export default class Editor extends LightningElement {
      */
     dispatchAddElement(element: UI.Element | NodeWithParent) {
         storeInstance.dispatch(addElement(element));
-        logElementCreation(
-            element,
-            this._isResourceQuickCreated,
-            this.flowDefIdForInstrumentation,
-            this.properties.processType,
-            getTriggerType(),
-            getStartObject()
-        );
     }
 
     /**
