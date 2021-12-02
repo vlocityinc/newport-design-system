@@ -208,6 +208,7 @@ describe('Record Lookup Validation', () => {
         };
         it('should return 1 error only if object is blank', () => {
             const recordLookupEditor = createRecordLookupEditor('', LABELS.cannotBeBlank);
+            recordLookupEditorNode.filters[0].leftHandSide.value = '';
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('object');

@@ -88,28 +88,31 @@ export const getRules = ({
 }) => {
     const overriddenRules = { ...recordLookupValidation.finalizedRules };
     overriddenRules.object.push(ValidationRules.validateResourcePicker(objectIndex));
-    // validate filters if filter logic is different from : 'No Conditions'
-    if (filterLogic.value !== CONDITION_LOGIC.NO_CONDITIONS) {
-        overriddenRules.filters = validateFilter();
-    }
+
     // validate sortField when sortOrder !== NOT_SORTED
     if (sortOrder !== SORT_ORDER.NOT_SORTED) {
         overriddenRules.sortField = [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank];
     }
 
-    if (object && object.value && !object.error && !storeOutputAutomatically) {
-        if (
-            wayToStoreFields === WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES &&
-            getFirstRecordOnly &&
-            outputAssignments.length > 1
-        ) {
-            overriddenRules.outputAssignments = validateAssignments();
-        } else if (outputAssignments && outputAssignments.length === 1 && outputAssignments[0].leftHandSide.value) {
-            overriddenRules.outputAssignments = validateAssignments();
-        } else if (wayToStoreFields === WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE) {
-            overriddenRules.outputReference = validateOutputReference(outputReferenceIndex);
-            if (outputReference && outputReference.value && queriedFields.length > 2) {
-                overriddenRules.queriedFields = validateQueriedField();
+    if (object && object.value) {
+        // validate filters if filter logic is different from : 'No Conditions'
+        if (filterLogic.value !== CONDITION_LOGIC.NO_CONDITIONS) {
+            overriddenRules.filters = validateFilter();
+        }
+        if (!object.error && !storeOutputAutomatically) {
+            if (
+                wayToStoreFields === WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES &&
+                getFirstRecordOnly &&
+                outputAssignments.length > 1
+            ) {
+                overriddenRules.outputAssignments = validateAssignments();
+            } else if (outputAssignments && outputAssignments.length === 1 && outputAssignments[0].leftHandSide.value) {
+                overriddenRules.outputAssignments = validateAssignments();
+            } else if (wayToStoreFields === WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE) {
+                overriddenRules.outputReference = validateOutputReference(outputReferenceIndex);
+                if (outputReference && outputReference.value && queriedFields.length > 2) {
+                    overriddenRules.queriedFields = validateQueriedField();
+                }
             }
         }
     }
