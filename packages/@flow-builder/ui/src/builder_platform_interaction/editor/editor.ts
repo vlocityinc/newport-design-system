@@ -1723,8 +1723,8 @@ export default class Editor extends LightningElement {
         if (this.usePanelForPropertyEditor && !forceModal) {
             await this.handleClosePropertyEditor(false);
 
-            this.showPropertyEditorRightPanel = true;
             this.propertyEditorParams = getPropertyEditorConfig(params.mode, params);
+            this.showPropertyEditorRightPanel = true;
             this.propertyEditorParams.panelConfig.isLabelCollapsibleToHeader = true;
             this.propertyEditorParams.panelConfig.isFieldLevelCommitEnabled = true;
             this.propertyEditorParams.isAutoLayoutCanvas = this.properties.isAutoLayoutCanvas;

@@ -915,6 +915,57 @@ describe('property editor', () => {
         expect(rightPanel).not.toBeNull();
     });
 
+    describe('panel', () => {
+        let editorComponent;
+        let leftPanel;
+
+        beforeEach(() => {
+            editorComponent = createComponentUnderTest({
+                builderType: 'new',
+                builderMode: 'editMode',
+                builderConfig: {
+                    usePanelForPropertyEditor: true,
+                    componentConfigs: {
+                        editMode: {
+                            leftPanelConfig: {
+                                showLeftPanel: true
+                            },
+                            rightPanelConfig: {
+                                showPropertyEditorRightPanel: false
+                            }
+                        }
+                    }
+                }
+            });
+            leftPanel = editorComponent.shadowRoot.querySelector(selectors.LEFT_PANEL);
+        });
+
+        // tests elements with and without component classes (determined by the presence or absence of a descriptor
+        // key in their entry in the elementTypeToConfigMap)
+        it('opens if the type of the element to be edited has an associated component class', async () => {
+            expect(editorComponent.shadowRoot.querySelector(selectors.PROPERTY_EDITOR_PANEL)).toBeNull();
+
+            const editElementEvent = new EditElementEvent('1', 'editelement', ELEMENT_TYPE.ASSIGNMENT);
+            leftPanel.dispatchEvent(editElementEvent);
+
+            await ticks(2);
+            expect(editorComponent.shadowRoot.querySelector(selectors.PROPERTY_EDITOR_PANEL)).not.toBeNull();
+        });
+
+        it('does not open if the type of the element to be edited does not have an associated component class', async () => {
+            expect(editorComponent.shadowRoot.querySelector(selectors.PROPERTY_EDITOR_PANEL)).toBeNull();
+
+            const editElementEvent = new EditElementEvent('4', 'editelement', ELEMENT_TYPE.OUTCOME);
+            leftPanel.dispatchEvent(editElementEvent);
+
+            await ticks(2);
+            expect(
+                editorComponent.builderConfig.componentConfigs.editMode.rightPanelConfig.showPropertyEditorRightPanel
+            ).toBeFalsy();
+            expect(editorComponent.shadowRoot.querySelector(selectors.PROPERTY_EDITOR_PANEL)).toBeNull();
+        });
+    });
+
     it('for new resource is always opened in a modal', async () => {
         expect.assertions(1);
 
