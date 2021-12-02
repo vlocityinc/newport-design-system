@@ -483,6 +483,7 @@ export default class Canvas extends LightningElement {
      * Helper method to get the location of the mouse pointer on the canvas.
      *
      * @param {Object} event - event coming from handleCanvasMouseMove, handleOverlayMouseMove, _initPanStart and _initMarqueeBox
+     * @returns {number[]} Returns an array containing the mouse point coordinates
      * @private
      */
     _getMousePoint = (event) => {
@@ -817,7 +818,10 @@ export default class Canvas extends LightningElement {
             this.canvasArea = this.template.querySelector(SELECTORS.CANVAS);
             this.innerCanvasArea = this.template.querySelector(SELECTORS.INNER_CANVAS);
             getDrawingLibInstance().setContainer(this.innerCanvasArea);
-            this.canvasAreaOffsets = [this.canvasArea.offsetLeft, this.canvasArea.offsetTop];
+            this.canvasAreaOffsets = [
+                this.canvasArea.getBoundingClientRect().left,
+                this.canvasArea.getBoundingClientRect().top
+            ];
 
             // Only suspend drawing before performing the bulk operation like loading data on page load
             getDrawingLibInstance().setSuspendDrawing(true);

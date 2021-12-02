@@ -81,7 +81,7 @@
                 is-auto-layout-canvas={properties.isAutoLayoutCanvas}
             ></builder_platform_interaction-toolbar>
         </div>
-        <div class={panelsAndCanvasContainerClasses}>
+        <div class="slds-col slds-grow slds-grid slds-is-relative">
             <builder_platform_interaction-left-panel
                 aria-label={labels.ariaLabelLeftPanel}
                 if:true={showLeftPanel}
@@ -96,7 +96,7 @@
                 show-elements-tab={showLeftPanelElementsTab}
                 role="complementary"
             ></builder_platform_interaction-left-panel>
-            <div if:true={hasCanvasElements} class={canvasContainerClasses}>
+            <div if:true={hasCanvasElements} class="slds-col slds-is-relative">
                 <div if:true={toastErrorMessage} class="slds-notify_container slds-is-absolute toast-container">
                     <div class="slds-notify slds-notify_toast slds-theme_error" role="status">
                         <lightning-icon
