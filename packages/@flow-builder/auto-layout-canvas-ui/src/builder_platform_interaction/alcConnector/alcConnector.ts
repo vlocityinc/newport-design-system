@@ -13,6 +13,7 @@ import {
     getStyleFromGeometry,
     AutoLayoutCanvasMode
 } from 'builder_platform_interaction/alcComponentsUtils';
+import { OutgoingGoToStubClickEvent } from 'builder_platform_interaction/alcEvents';
 import { LABELS } from './alcConnectorLabels';
 
 /**
@@ -171,6 +172,18 @@ export default class AlcConnector extends LightningElement {
     get connectorLabelStyle() {
         return getStyleFromGeometry({ y: this.connectorInfo.labelOffsetY, x: this.connectorInfo.labelOffsetX });
     }
+
+    /**
+     * Handles the click on the outgoing goTo stub and dispatches an event to handle the same
+     *
+     * @param event - click event fired when clicking on the outgoing goTo stub
+     */
+    handleOutgoingStubClick = (event: Event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const outgoingStubClickEvent = new OutgoingGoToStubClickEvent(this.connectorInfo.source);
+        this.dispatchEvent(outgoingStubClickEvent);
+    };
 
     @api
     focus() {

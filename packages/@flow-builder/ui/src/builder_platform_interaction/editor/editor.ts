@@ -180,7 +180,8 @@ import { pubSub, PubSubEvent } from 'builder_platform_interaction/pubSub';
 import {
     CreateGoToConnectionEvent,
     DeleteGoToConnectionEvent,
-    PasteOnCanvasEvent
+    PasteOnCanvasEvent,
+    OutgoingGoToStubClickEvent
 } from 'builder_platform_interaction/alcEvents';
 import {
     addEndElementsAndConnectorsTransform,
@@ -190,7 +191,7 @@ import {
     removeEndElementsAndConnectorsTransform
 } from 'builder_platform_interaction/alcConversionUtils';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
-import { ConnectionSource } from 'builder_platform_interaction/autoLayoutCanvas';
+import { ConnectionSource, getConnectionTarget } from 'builder_platform_interaction/autoLayoutCanvas';
 import { TEXT_AREA_MAX_LENGTH } from 'builder_platform_interaction/screenEditorUtils';
 import { time } from 'instrumentation/service';
 import { getSubflows } from 'builder_platform_interaction/subflowsLib';
@@ -2329,6 +2330,16 @@ export default class Editor extends LightningElement {
      */
     handleGoToDeletion = (event: DeleteGoToConnectionEvent) => {
         storeInstance.dispatch(deleteGoToConnection(event.detail));
+    };
+
+    /**
+     * Handles the OutgoingGoToStubClickEvent coming from alcConnector and highlights the associated target element on the canvas
+     *
+     * @param event OutgoingGoToStubClickEvent coming from alcConnector
+     */
+    handleOutgoingGoToStubClick = (event: OutgoingGoToStubClickEvent) => {
+        const targetGuid = getConnectionTarget(storeInstance.getCurrentState().elements, event.detail.source);
+        this.highlightOnCanvas(targetGuid);
     };
 
     @api

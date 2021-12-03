@@ -16,6 +16,7 @@ export { MoveFocusFromEmptyStartNodeEvent } from './moveFocusFromEmptyStartNodeE
 export { GoToPathEvent } from './goToPathEvent';
 export { CreateGoToConnectionEvent } from './createGoToConnectionEvent';
 export { DeleteGoToConnectionEvent } from './deleteGoToConnectionEvent';
+export { OutgoingGoToStubClickEvent } from './outgoingGoToStubClickEvent';
 export { DeleteBranchElementEvent } from './deleteBranchElementEvent';
 export { TabOnMenuTriggerEvent } from './tabOnMenuTriggerEvent';
 export { FocusOutEvent } from './focusOutEvent';

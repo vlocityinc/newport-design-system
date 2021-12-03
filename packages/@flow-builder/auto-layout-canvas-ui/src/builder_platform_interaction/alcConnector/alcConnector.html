@@ -36,15 +36,18 @@
         </builder_platform_interaction-alc-menu-trigger>
     </template>
 
-    <div
+    <!-- GoTo Target Label -->
+    <a
         if:true={isGoToConnector}
+        href="#"
         class="slds-is-absolute go-to-info"
         style={goToTargetLabelStyle}
         title={goToTargetLabel}
+        onclick={handleOutgoingStubClick}
     >
         <div class="slds-m-right_xx-small slds-truncate go-to-target-label">
             <span>{goToTargetLabel}</span>
         </div>
         <span>&#x2192;</span>
-    </div>
+    </a>
 </template>

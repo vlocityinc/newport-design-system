@@ -488,6 +488,19 @@ export default class AlcCanvas extends LightningElement {
     }
 
     /**
+     * Helper function to pan the canvas given the panning amount in x and y direction
+     *
+     * @param moveX - Amount to move in x direction
+     * @param moveY - Amount to move in y direction
+     */
+    panAndResetPanningVariable(moveX: number, moveY: number) {
+        // Calling moveBy triggers pan event, but doesn't trigger the panend event.
+        // Hence need to manually set isPanInProgress to false
+        this._panzoom.moveBy(moveX, moveY);
+        this.isPanInProgress = false;
+    }
+
+    /**
      * Pans an element to the center of the canvas viewport.
      * The element is only panned if it is not already in the viewport
      *
@@ -510,7 +523,7 @@ export default class AlcCanvas extends LightningElement {
             // pan the element to the center of the canvas viewport
             const moveX = -offsetX + canvasGeo.w / 2;
             const moveY = -offsetY + canvasGeo.h / 2;
-            this._panzoom.moveBy(moveX, moveY);
+            this.panAndResetPanningVariable(moveX, moveY);
         }
     }
 
@@ -654,7 +667,7 @@ export default class AlcCanvas extends LightningElement {
 
         if (this._panzoom) {
             const offsetX = this.isSelectionMode ? LEFT_PANE_WIDTH : -LEFT_PANE_WIDTH;
-            this._panzoom.moveBy(offsetX, 0);
+            this.panAndResetPanningVariable(offsetX, 0);
         }
     }
 

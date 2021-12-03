@@ -3,6 +3,7 @@ import { createElement } from 'lwc';
 import AlcConnector from 'builder_platform_interaction/alcConnector';
 import { ConnectorLabelType, NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { AutoLayoutCanvasMode } from 'builder_platform_interaction/alcComponentsUtils';
+import { OutgoingGoToStubClickEvent } from 'builder_platform_interaction/alcEvents';
 import { LABELS } from '../alcConnectorLabels';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
 
@@ -370,7 +371,7 @@ describe('Auto-Layout connector tests', () => {
         expect(addElementButton).toBeNull();
     });
 
-    it('Should have the label property on a GoTo connector', () => {
+    it('Should have the title property on a GoTo connector', () => {
         const goToConnectorInfo = getGoToConnectorInfo();
         const goToConnector = createComponentUnderTest(
             goToConnectorInfo,
@@ -428,6 +429,40 @@ describe('Auto-Layout connector tests', () => {
         );
         const goToTargetArrow = goToConnector.shadowRoot.querySelectorAll(selectors.goToTargetArrow)[1];
         expect(goToTargetArrow.textContent).toBe('→');
+    });
+
+    it('Clicking on the goTo info should dispatch OutgoingGoToStubClickEvent', () => {
+        const goToConnectorInfo = getGoToConnectorInfo();
+        const goToConnector = createComponentUnderTest(
+            goToConnectorInfo,
+            AutoLayoutCanvasMode.DEFAULT,
+            false,
+            goToFlowModel
+        );
+        const callback = jest.fn();
+        goToConnector.addEventListener(OutgoingGoToStubClickEvent.EVENT_NAME, callback);
+        goToConnector.shadowRoot.querySelector(selectors.goToInfo).click();
+        expect(callback).toHaveBeenCalled();
+    });
+
+    it('Clicking on the goTo info should dispatch OutgoingGoToStubClickEvent with the right details', () => {
+        const goToConnectorInfo = getGoToConnectorInfo();
+        const goToConnector = createComponentUnderTest(
+            goToConnectorInfo,
+            AutoLayoutCanvasMode.DEFAULT,
+            false,
+            goToFlowModel
+        );
+        const callback = jest.fn();
+        goToConnector.addEventListener(OutgoingGoToStubClickEvent.EVENT_NAME, callback);
+        goToConnector.shadowRoot.querySelector(selectors.goToInfo).click();
+        expect(callback).toHaveBeenCalledWith(
+            expect.objectContaining({
+                detail: {
+                    source: goToConnectorInfo.source
+                }
+            })
+        );
     });
 
     it('Should have aria attributes set properly for add button', () => {

@@ -51,9 +51,14 @@
                     {nodeInfo.metadata.label}
                 </div>
             </div>
-            <div if:true={hasIncomingGoto} class="slds-text-body_regular slds-truncate text-incoming-goto">
+            <a
+                if:true={hasIncomingGoto}
+                href="#"
+                class="slds-text-body_regular slds-truncate text-incoming-goto"
+                onclick={handleIncomingStubClick}
+            >
                 {incomingGoToLabel}
-            </div>
+            </a>
         </div>
 
         <!--Error icon-->

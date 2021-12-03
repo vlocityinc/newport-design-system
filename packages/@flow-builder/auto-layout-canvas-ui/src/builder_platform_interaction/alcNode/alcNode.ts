@@ -350,6 +350,16 @@ export default class AlcNode extends LightningElement {
     };
 
     /**
+     * Handles the click on the incoming goTo stub
+     *
+     * @param event - click event fired when clicking on the incoming goTo stub
+     */
+    handleIncomingStubClick = (event: Event) => {
+        event.preventDefault();
+        event.stopPropagation();
+    };
+
+    /**
      * Handles the toggling of the popover menu component.
      *
      * @param event - the event fired when popover toggled
