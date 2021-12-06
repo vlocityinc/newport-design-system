@@ -2,22 +2,14 @@
     <div class="slds-m-around_medium">
         <h3 class="slds-text-heading_small slds-p-bottom_small">{labels.sortSettings}</h3>
         <div class="slds-size_medium">
-            <builder_platform_interaction-ferov-resource-picker
+            <builder_platform_interaction-input-collection-picker
                 class="test-flow-collection"
-                value={collectionVariable}
-                error-message={sortElement.collectionReference.error}
-                combobox-config={collectionVariableComboboxConfig}
-                property-editor-element-type={sortElement.elementType}
-                element-config={collectionVariableElementConfig}
-                oncomboboxstatechanged={handleCollectionVariablePropertyChanged}
-                onitemselected={handleCollectionVariablePropertyChanged}
-                hide-global-constants
-                hide-system-variables
-                hide-global-variables
-                hide-new-resource
-                is-pill-supported
-            >
-            </builder_platform_interaction-ferov-resource-picker>
+                label={labels.flowCollection}
+                placeholder={labels.flowCollectionPlaceholder}
+                collection-reference={sortElement.collectionReference}
+                collection-processor-filter={collectionProcessorFilter}
+                oncollectionreferencechanged={handleCollectionVariablePropertyChanged}
+            ></builder_platform_interaction-input-collection-picker>
         </div>
         <builder_platform_interaction-sort-option-list
             if:true={showOptions}

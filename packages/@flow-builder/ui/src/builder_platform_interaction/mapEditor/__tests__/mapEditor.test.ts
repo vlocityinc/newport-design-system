@@ -101,8 +101,6 @@ const getCombobox = (inputCollection) => {
     );
 };
 
-const getHelpText = (mapEditor) => mapEditor.shadowRoot.querySelector('.helpText');
-
 const getMapItems = (mapEditor) => {
     const mapItemsCmp = mapEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.MAP_ITEMS);
     if (mapItemsCmp) {

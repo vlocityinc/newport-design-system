@@ -23,7 +23,8 @@ import {
     getVariable,
     getNodeName,
     deleteOrRestoreVariable,
-    updateVariable
+    updateVariable,
+    getSObjectOrApexReference
 } from 'builder_platform_interaction/collectionProcessorLib';
 import { getUniqueDuplicateElementName } from 'builder_platform_interaction/storeUtils';
 
@@ -186,13 +187,9 @@ export default class FilterEditor extends LightningElement {
     }
 
     setSObjectOrApexReference(collectionVariable) {
-        if (!collectionVariable) {
-            return;
-        }
-        const isSObject = collectionVariable.dataType === FLOW_DATA_TYPE.SOBJECT.value;
-        const isApexClass = collectionVariable.dataType === FLOW_DATA_TYPE.APEX.value;
-        this.sObjectOrApexReference = { value: collectionVariable.subtype, isSObject, isApexClass };
-        if (!isSObject && !isApexClass) {
+        this.sObjectOrApexReference = getSObjectOrApexReference(collectionVariable);
+        // primitive type
+        if (!this.sObjectOrApexReference.value) {
             this.collectionReferenceDisplayText = collectionVariable.name || collectionVariable.apiName;
         }
     }

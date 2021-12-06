@@ -1,11 +1,9 @@
 import { LightningElement, api, track } from 'lwc';
 import { sortReducer } from './sortReducer';
 import { LABELS } from './sortEditorLabels';
-import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getValueFromHydratedItem, getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import { addCurlyBraces, removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
-import { CollectionReferenceChangedEvent, UpdateCollectionProcessorEvent } from 'builder_platform_interaction/events';
+import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
+import { UpdateCollectionProcessorEvent } from 'builder_platform_interaction/events';
 import { SORT_OUTPUT_OPTION } from 'builder_platform_interaction/sortEditorLib';
 import {
     SortElement,
@@ -14,20 +12,12 @@ import {
     SObjectOrApexReference,
     isSObjectOrApexClass
 } from 'builder_platform_interaction/sortEditorLib';
+import { getSObjectOrApexReference, SORTABLE_FILTER } from 'builder_platform_interaction/collectionProcessorLib';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getElementByGuidFromState } from 'builder_platform_interaction/storeUtils';
 import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-
-const FLOW_COLLECTION_VAR_ELEMENT_CONFIG = {
-    // whether or not apex collection from anonymous automatic outputs are allowed
-    allowsApexCollAnonymousAutoOutput: false,
-    selectorConfig: {
-        isCollection: true,
-        sortable: true
-    }
-};
 
 export default class SortEditor extends LightningElement {
     @track sortElement: SortElement = {
@@ -77,22 +67,8 @@ export default class SortEditor extends LightningElement {
         return LABELS;
     }
 
-    get isSObjectOrApexClass() {
-        return isSObjectOrApexClass(this.sObjectOrApexReference);
-    }
-
     updateSortOptions() {
-        if (
-            this._collectionVariable &&
-            (this._collectionVariable.dataType === FLOW_DATA_TYPE.SOBJECT.value ||
-                this._collectionVariable.dataType === FLOW_DATA_TYPE.APEX.value)
-        ) {
-            this.sObjectOrApexReference.value = this._collectionVariable.subtype;
-            this.sObjectOrApexReference.isSObject = this._collectionVariable.dataType === FLOW_DATA_TYPE.SOBJECT.value;
-            this.sObjectOrApexReference.isApexClass = this._collectionVariable.dataType === FLOW_DATA_TYPE.APEX.value;
-        } else {
-            this.sObjectOrApexReference = { value: null };
-        }
+        this.sObjectOrApexReference = getSObjectOrApexReference(this._collectionVariable);
         this._sortOptions = this.sortElement.sortOptions;
     }
 
@@ -102,7 +78,7 @@ export default class SortEditor extends LightningElement {
     }
 
     updateQueriedFields() {
-        if (this.isSObjectOrApexClass && this._collectionVariable) {
+        if (isSObjectOrApexClass(this.sObjectOrApexReference) && this._collectionVariable) {
             const element = getElementByGuidFromState(
                 Store.getStore().getCurrentState(),
                 this._collectionVariable.guid
@@ -115,22 +91,9 @@ export default class SortEditor extends LightningElement {
         }
     }
 
-    get collectionVariableElementConfig() {
-        return FLOW_COLLECTION_VAR_ELEMENT_CONFIG;
-    }
-
-    get collectionVariableComboboxConfig() {
-        return BaseResourcePicker.getComboboxConfig(
-            this.labels.flowCollection,
-            this.labels.flowCollectionPlaceholder,
-            this.elementInfo.collectionReference.error,
-            false,
-            true,
-            false,
-            '',
-            true,
-            true
-        );
+    // input collection filter: sObject, primitive, and apex type
+    get collectionProcessorFilter() {
+        return SORTABLE_FILTER;
     }
 
     get sortOptions() {
@@ -159,6 +122,8 @@ export default class SortEditor extends LightningElement {
 
     /**
      * Validate the sort editor. This method will be called in the upper editor.
+     *
+     * @returns errors
      */
     @api
     validate() {
@@ -166,7 +131,7 @@ export default class SortEditor extends LightningElement {
             type: VALIDATE_ALL,
             collectionReference: this.sortElement.collectionReference.value,
             selectedOutput: this._sortOutput.selectedOutput.value,
-            isSObjectOrApexClass: this.isSObjectOrApexClass
+            isSObjectOrApexClass: isSObjectOrApexClass(this.sObjectOrApexReference)
         };
         this.sortElement = sortReducer(this.sortElement, event);
         return getErrorsFromHydratedElement(this.sortElement);
@@ -174,31 +139,14 @@ export default class SortEditor extends LightningElement {
 
     handleCollectionVariablePropertyChanged(event: CustomEvent) {
         event.stopPropagation();
-        this._collectionVariable = event.detail.item ? this.mutateComboboxItem(event.detail.item) : null;
-        this.showOptions = this._collectionVariable !== null;
-        // update collectionVariable
-        const collectionValue = event.detail.item ? event.detail.item.value : null;
-        const sortCollectionChangedEvent = new CollectionReferenceChangedEvent(collectionValue, event.detail.error);
-        this.sortElement = sortReducer(this.sortElement, sortCollectionChangedEvent);
-        // dispatch event to the parent editor
+        this._collectionVariable = event.detail.value
+            ? getVariableOrField(event.detail.value, Store.getStore().getCurrentState().elements)
+            : null;
+        this.sortElement = sortReducer(this.sortElement, event);
+        this.showOptions = this.sortElement.collectionReference.value !== null;
         this.dispatchEvent(new UpdateCollectionProcessorEvent(this.sortElement));
         this.updateSortOptions();
         this.updateQueriedFields();
-    }
-
-    /**
-     * Mutate the combobox menu item to shape needed for loop variable/collection variable.
-     *
-     * @param item combobox menu item
-     * @returns the object needed to populate loop variable/collection variable.
-     */
-    mutateComboboxItem(item) {
-        return {
-            name: removeCurlyBraces(item.displayText),
-            guid: item.value,
-            dataType: item.dataType,
-            subtype: item.subtype ? item.subtype : null
-        };
     }
 
     handleSortOptionChanged(event: CustomEvent) {

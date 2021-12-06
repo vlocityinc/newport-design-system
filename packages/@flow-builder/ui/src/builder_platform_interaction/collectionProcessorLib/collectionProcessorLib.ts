@@ -205,3 +205,18 @@ export const updateVariable = (currentItemVariable, property, value) => {
     }
     return false;
 };
+
+/**
+ * Get sObjectOrApexReference object
+ *
+ * @param  collectionVariable collection variable
+ * @returns sObjectOrApexReference
+ */
+export const getSObjectOrApexReference = (collectionVariable) => {
+    if (!collectionVariable) {
+        return { value: null, isSObject: false, isApexClass: false };
+    }
+    const isSObject = collectionVariable.dataType === FLOW_DATA_TYPE.SOBJECT.value;
+    const isApexClass = collectionVariable.dataType === FLOW_DATA_TYPE.APEX.value;
+    return { value: collectionVariable.subtype, isSObject, isApexClass };
+};
