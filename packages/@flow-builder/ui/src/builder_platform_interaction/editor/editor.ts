@@ -2911,20 +2911,22 @@ export default class Editor extends LightningElement {
                 this.spinners.showFlowMetadataSpinner = false;
                 setErrorMessage(modal, error[0].data.contextMessage);
             } else {
-                // default the canvas mode to auto-layout
-                const defaultCanvasMode = {
-                    name: CANVAS_MODE,
-                    value: { stringValue: AUTO_LAYOUT_CANVAS }
-                };
-                if (data.processMetadataValues) {
-                    const index = data.processMetadataValues.findIndex((value) => value.name === CANVAS_MODE);
-                    if (index !== -1) {
-                        data.processMetadataValues[index] = defaultCanvasMode;
+                if (isAutoLayoutCanvasEnabled()) {
+                    // default the canvas mode to auto-layout
+                    const defaultCanvasMode = {
+                        name: CANVAS_MODE,
+                        value: { stringValue: AUTO_LAYOUT_CANVAS }
+                    };
+                    if (data.processMetadataValues) {
+                        const index = data.processMetadataValues.findIndex((value) => value.name === CANVAS_MODE);
+                        if (index !== -1) {
+                            data.processMetadataValues[index] = defaultCanvasMode;
+                        } else {
+                            data.processMetadataValues.push(defaultCanvasMode);
+                        }
                     } else {
-                        data.processMetadataValues.push(defaultCanvasMode);
+                        data.processMetadataValues = [defaultCanvasMode];
                     }
-                } else {
-                    data.processMetadataValues = [defaultCanvasMode];
                 }
 
                 this.getFlowCallback({ data, error });
