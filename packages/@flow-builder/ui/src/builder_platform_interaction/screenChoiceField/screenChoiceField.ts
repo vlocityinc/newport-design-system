@@ -13,6 +13,8 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
+import { Store } from 'builder_platform_interaction/storeLib';
 const { format } = commonUtils;
 
 /**
@@ -49,10 +51,16 @@ export default class ScreenChoiceField extends LightningElement {
                             choiceElement.object
                         );
                     } else if (previewChoice.elementType === ELEMENT_TYPE.COLLECTION_CHOICE_SET) {
+                        const collectionObj = choiceElement.collectionReference
+                            ? getVariableOrField(
+                                  choiceElement.collectionReference,
+                                  Store.getStore().getCurrentState().elements
+                              )
+                            : null;
                         label = format(
                             LABELS.collectionChoiceSetChoiceLabel,
                             choiceElement.displayField,
-                            getElementByGuid(choiceElement.collectionReference)?.name
+                            collectionObj?.name
                         );
                     } else if (previewChoice.elementType === ELEMENT_TYPE.CHOICE) {
                         label = previewChoice.choiceText.value;
