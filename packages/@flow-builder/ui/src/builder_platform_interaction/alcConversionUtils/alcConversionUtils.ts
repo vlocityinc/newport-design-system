@@ -350,7 +350,7 @@ export function canConvertToAutoLayoutCanvas(
         const freeFormState = convertToFreeFormCanvas(autoLayoutState, [0, 0]);
 
         canConvert = compareState(storeState, freeFormState);
-    } catch (e) {
+    } catch (e: any) {
         // handled by the code below
         errorType = e.message;
     }
@@ -397,7 +397,7 @@ export function canConvertToFreeFormCanvas(storeState: UI.StoreState, flowDefId:
         );
 
         canConvert = compareState(storeState, autoLayoutState, true);
-    } catch (e) {
+    } catch (e: any) {
         // handled by the code below
         errorType = e.message;
     }

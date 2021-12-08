@@ -66,6 +66,8 @@
         "^(builder_platform_interaction)/collectionProcessorLib$": "<rootDir>/../ui/src/builder_platform_interaction/collectionProcessorLib/collectionProcessorLib",
         "^(builder_platform_interaction)/mapEditorLib$": "<rootDir>/../ui/src/builder_platform_interaction/mapEditorLib/mapEditorLib",
         "^(builder_platform_interaction)/events$": "<rootDir>/../ui/src/builder_platform_interaction/events/events",
+        "^(builder_platform_interaction)/orchestratedStageNode$": "<rootDir>/../ui/src/builder_platform_interaction/orchestratedStageNode/orchestratedStageNode",
+        "^(builder_platform_interaction)/stageStepMenu$": "<rootDir>/../ui/src/builder_platform_interaction/stageStepMenu/stageStepMenu",
         "^(builder_platform_interaction)/(.+)$": "<rootDir>/src/$1/$2/$2",
         "^lightning/(.+)$": "<rootDir>/../../../node_modules/lightning-components-stubs/modules/lightning-stubs/core/$1/$1"
     },

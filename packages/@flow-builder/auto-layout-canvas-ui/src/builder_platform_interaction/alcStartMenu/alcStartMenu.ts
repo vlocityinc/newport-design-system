@@ -7,8 +7,8 @@ import {
     MoveFocusFromEmptyStartNodeEvent
 } from 'builder_platform_interaction/alcEvents';
 
-const { TabCommand } = commands;
-const { Keys, createShortcutKey, createShortcut } = keyboardInteractionUtils;
+const { EnterCommand, SpaceCommand, EscapeCommand, TabCommand } = commands;
+const { Keys, createShortcutKey, createShortcut, BaseKeyboardInteraction } = keyboardInteractionUtils;
 
 const selectors = {
     triggerButton: 'builder_platform_interaction-start-node-trigger-button',
@@ -52,6 +52,16 @@ export default class AlcStartMenu extends AlcNodeMenu {
         return this.hasTrigger || this.hasContext
             ? 'node-menu-header slds-border_bottom slds-dropdown__header'
             : 'node-menu-header slds-dropdown__header';
+    }
+
+    getKeyboardInteractions() {
+        return [
+            new BaseKeyboardInteraction([
+                createShortcut(Keys.Enter, new EnterCommand(() => this.handleSpaceOrEnter())),
+                createShortcut(Keys.Space, new SpaceCommand(() => this.handleSpaceOrEnter())),
+                createShortcut(Keys.Escape, new EscapeCommand(() => this.handleEscape()))
+            ])
+        ];
     }
 
     @api

@@ -4,7 +4,7 @@
 
 1. Install prerequisites
 
-- Node.js (version 14.15.4)
+- Node.js (version 14.17.0)
 - yarn (version >=1.3.2)
 - git (version >= 2.13.0 : this is necessary for [husky](https://github.com/typicode/husky/tree/master))
 
@@ -20,7 +20,7 @@ yarn --version && node --version && git --version
 
 To update your node version and use it by default, do:
 ```sh
-nvm install 14.15.4 && nvm alias default 14.15.4
+nvm install 14.17.0 && nvm alias default 14.17.0
 ```
 
 To update your yarn version do (1.22.4 here):

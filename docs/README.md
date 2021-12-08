@@ -5,8 +5,8 @@
     <img src="https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg">
   </a>
 
-  <a href="https://github.com/nodejs/node/blob/master/doc/changelogs/CHANGELOG_V14.md#14.15.4">
-    <img src="https://img.shields.io/badge/node-%3E%3D14.15.4%20%3C15.0.0-blue">
+  <a href="https://github.com/nodejs/node/blob/master/doc/changelogs/CHANGELOG_V14.md#14.17.0">
+    <img src="https://img.shields.io/badge/node-%3E%3D14.17.0%20%3C15.0.0-blue">
   </a>
 
   <a href="https://github.com/yarnpkg/yarn">

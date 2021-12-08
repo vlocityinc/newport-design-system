@@ -35,6 +35,6 @@
             "builder_platform_interaction/popover": ["./builder_platform_interaction/popover/popover.ts"]
          }
     },
-
+  
     "include": ["src/**/*", "@types", "@types/lwc.d.ts","../ui/@types/uiModel.d.ts","../ui/@types/metadataModel.d.ts", "../shared-utils/@types/index.d.ts"]
 }

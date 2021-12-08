@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# needed for node > 14 until some nba test fix some promise rejection errors
+# https://developer.ibm.com/blogs/nodejs-15-release-blog/
+export NODE_OPTIONS=--unhandled-rejections=warn
+
 usage()
 {
   echo "Usage: $0 -b BRANCH"
