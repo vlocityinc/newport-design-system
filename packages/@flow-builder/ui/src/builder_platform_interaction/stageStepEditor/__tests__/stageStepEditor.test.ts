@@ -1191,6 +1191,23 @@ describe('StageStepEditor', () => {
 
                 // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                 // Until then use the more brittle `.mocks`
+
+                // inputParameters should not be updated here
+                expect(
+                    stageStepReducer.mock.calls
+                        .map((call) => call[1].detail)
+                        .filter((item) => {
+                            return (
+                                item.isInput === true &&
+                                item.rowIndex === mockInputParameters[3].rowIndex &&
+                                item.name === mockInputParameters[3].name.value &&
+                                item.value === '{!$Record}' &&
+                                item.valueDataType === 'String' &&
+                                item.error === 'Some error'
+                            );
+                        }).length > 0
+                ).toBeFalsy();
+
                 expect(stageStepReducer.mock.calls[4][1].detail).toEqual({ actionCategory: 0, parameters: [] });
                 expect(stageStepReducer).toHaveBeenCalledWith(nodeParams, new PropertyChangedEvent());
             });
@@ -1206,8 +1223,73 @@ describe('StageStepEditor', () => {
 
                 // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                 // Until then use the more brittle `.mocks`
+
+                // inputParameters should not be updated here
+                expect(
+                    stageStepReducer.mock.calls
+                        .map((call) => call[1].detail)
+                        .filter((item) => {
+                            return (
+                                item.isInput === true &&
+                                item.rowIndex === mockInputParameters[3].rowIndex &&
+                                item.name === mockInputParameters[3].name.value &&
+                                item.value === 'some value' &&
+                                item.valueDataType === 'String' &&
+                                item.error === 'itemError'
+                            );
+                        }).length > 0
+                ).toBeFalsy();
+
                 expect(stageStepReducer.mock.calls[4][1].detail).toEqual({ actionCategory: 0, parameters: [] });
                 expect(stageStepReducer).toHaveBeenCalledWith(nodeParams, new PropertyChangedEvent());
+            });
+
+            it('causes the related record input parameter to be updated when selection is empty', () => {
+                const recordSelector = editor.shadowRoot.querySelector(selectors.RELATED_RECORD_SELECTOR);
+                const itemSelectedEvent = new ItemSelectedEvent({
+                    value: '',
+                    error: 'A value is required'
+                });
+                recordSelector.dispatchEvent(itemSelectedEvent);
+
+                // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
+                // Until then use the more brittle `.mocks`
+
+                // inputParameters should be updated here
+                expect(stageStepReducer.mock.calls[6][1].detail).toEqual({
+                    isInput: true,
+                    rowIndex: mockInputParameters[3].rowIndex,
+                    name: mockInputParameters[3].name.value,
+                    value: null,
+                    valueDataType: 'String',
+                    error: 'A value is required'
+                });
+            });
+
+            it('causes the related record input parameter to be updated when the old value in the input parameter is null', () => {
+                const editor = createComponentUnderTest({
+                    ...nodeParams,
+                    inputParameters: [
+                        ...mockInputParameters.slice(0, mockInputParameters.length - 1),
+                        { name: { value: 'ActionInput__RecordId' }, rowIndex: 'ActionInput__RecordIdGuid', value: null }
+                    ]
+                });
+                const recordSelector = editor.shadowRoot.querySelector(selectors.RELATED_RECORD_SELECTOR);
+                const comboboxEvent = new ComboboxStateChangedEvent(null, '{!$Record}', 'Some error', false);
+                recordSelector.dispatchEvent(comboboxEvent);
+
+                // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
+                // Until then use the more brittle `.mocks`
+
+                // inputParameters should be updated here
+                expect(stageStepReducer.mock.calls[8][1].detail).toEqual({
+                    isInput: true,
+                    rowIndex: mockInputParameters[3].rowIndex,
+                    name: mockInputParameters[3].name.value,
+                    value: '{!$Record}',
+                    valueDataType: 'String',
+                    error: 'Some error'
+                });
             });
 
             it('should not be visible for autolaunched step', () => {

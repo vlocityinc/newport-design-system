@@ -17,7 +17,8 @@ import {
     UpdateConditionEvent,
     UpdateNodeEvent,
     ValueChangedEvent,
-    UpdateEntryExitCriteriaEvent
+    UpdateEntryExitCriteriaEvent,
+    UpdateParameterItemEvent
 } from 'builder_platform_interaction/events';
 import { LABELS } from './stageStepEditorLabels';
 import { stageStepReducer } from './stageStepReducer';
@@ -51,7 +52,7 @@ import {
     REMOVE_UNSET_PARAMETERS
 } from 'builder_platform_interaction/calloutEditorLib';
 import { FLOW_AUTOMATIC_OUTPUT_HANDLING } from 'builder_platform_interaction/processTypeLib';
-import { removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
+import { isUndefinedOrNull, removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
@@ -1168,9 +1169,28 @@ export default class StageStepEditor extends LightningElement {
         // Only update the element if an actual change in value has occurred
         const sanitizedValue = removeCurlyBraces(recordIdValue);
         if (!inputParam || !inputParam.value || (<ValueWithError>inputParam.value).value !== sanitizedValue) {
-            let valueToSet: ParameterListRowItem | null = null;
+            // Need to update the inputParam manually if the current or new recordId is null/undefined. Need to if
+            // the current is null because the call to stageStepReducer with PropertyChangedEvent below will call
+            // removeAllUnsetParameters, which will erase the recordId param from inputParameters. We need to set it to
+            // it's new value before that happens. If the new value is null, then we need to do this because dehydration
+            // and rehydration of relatedRecordItem with a null value will cause it to lose it's properties that identify
+            // it as a ParameterListRowItem, so the mapping in orchestratedStage.createOrchestratedStageMetadataObject will fail
+            if (
+                !!inputParam &&
+                (recordIdValue === null || isUndefinedOrNull(getValueFromHydratedItem(inputParam.value)))
+            ) {
+                const paramUpdateEvent = new UpdateParameterItemEvent(
+                    true,
+                    inputParam.rowIndex,
+                    RELATED_RECORD_INPUT_PARAMETER_NAME,
+                    recordIdValue,
+                    valueDataType,
+                    error
+                );
+                this.element = stageStepReducer(this.element!, paramUpdateEvent);
+            }
 
-            valueToSet = {
+            const valueToSet: ParameterListRowItem | null = {
                 // Empty string only if no action has been selected yet
                 rowIndex: inputParam ? inputParam.rowIndex : '',
                 name: RELATED_RECORD_INPUT_PARAMETER_NAME,
