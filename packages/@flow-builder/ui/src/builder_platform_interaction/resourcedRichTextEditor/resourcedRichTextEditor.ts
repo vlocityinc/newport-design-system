@@ -30,7 +30,8 @@ const RTE_FORMATS = [
     'direction',
     'code-block',
     'clean',
-    'image'
+    'image',
+    'alt'
 ];
 
 const SELECTORS = {
