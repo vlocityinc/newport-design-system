@@ -11,7 +11,7 @@ const gulpinsert = require('gulp-insert');
 const gulprename = require('gulp-rename');
 const postcss = require('gulp-postcss');
 const rimraf = require('rimraf');
-const sass = require('gulp-sass');
+const sass = require('gulp-sass')(require('sass'));
 const cleanCSS = require('gulp-clean-css');
 
 const zip = require('gulp-zip');
@@ -359,14 +359,6 @@ async.series(
     },
     done => {
       if (process.env.SF_USERNAME && process.env.SF_PASSWORD) {
-        params = {
-          username: process.env.SF_USERNAME,
-          password: process.env.SF_PASSWORD
-        }
-        if(process.env.SF_LOGINURL){
-          console.log('Setting loginUrl to ' + process.env.SF_LOGINURL);
-          params.loginUrl = process.env.SF_LOGINURL
-        }
         gulp
           .src('./scripts/sfdc/**', {
             base: './scripts',
@@ -374,7 +366,10 @@ async.series(
           })
           .pipe(zip('pkg.zip'))
           .pipe(
-            forceDeploy(params)
+            forceDeploy({
+              username: process.env.SF_USERNAME,
+              password: process.env.SF_PASSWORD
+            })
           );
       } else {
         done();

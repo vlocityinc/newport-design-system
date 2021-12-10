@@ -12,7 +12,7 @@
 
     .nds-b2b-button_icon {
         @include square($square-icon-x-small-content);
-        margin: 0 $square-icon-x-small-content / 2 $square-icon-x-small-content / 4;
+        margin: 0 $square-icon-x-small-content * 0.5 $square-icon-x-small-content * 0.25;
     }
 }
 

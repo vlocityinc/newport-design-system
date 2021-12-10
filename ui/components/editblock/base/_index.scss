@@ -11,6 +11,8 @@
  * @variant
  */
 
+@use "sass:math";
+
 .nds-edit-block {
   position: relative;
   padding: 0;
@@ -441,7 +443,7 @@
     max-width: 40%;
   }
 
-  @media(max-width: (480 / 16) + em) {
+  @media(max-width: math.div(480, 16) + em) {
 
     .nds-edit-block_longcards-controls-container div {
       max-width: 30%;
