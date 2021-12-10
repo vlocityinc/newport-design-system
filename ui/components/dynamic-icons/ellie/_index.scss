@@ -5,9 +5,11 @@
 // scss-lint:disable SpaceBetweenParens SingleLinePerProperty
 
 // Setup
+@use "sass:math";
+
 $_ellie-frames: 20;
 $_ellie-icon-width: 14;
-$_ellie-sprite-width: $_ellie-frames * $_ellie-icon-width / 16 * 1rem;
+$_ellie-sprite-width: math.div($_ellie-frames * $_ellie-icon-width, 16) * 1rem;
 
 // Widths of circles, allows full control over easing
 $_ellie-frameset: (

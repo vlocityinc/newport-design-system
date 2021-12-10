@@ -61,7 +61,7 @@
   .nds-progress-bar {
     position: absolute;
     top: 50%;
-    margin-top: (($progress-bar-height / 2) * -1);
+    margin-top: (($progress-bar-height * 0.5) * -1);
     width: 100%;
     #{$left}: 0.05rem;
   }
