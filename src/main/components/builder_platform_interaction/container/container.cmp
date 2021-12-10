@@ -82,16 +82,15 @@
     <div class="flow-builder-container">
         <force:toastManager global="true" />
         <aura:if isTrue="{!v.complianceBannerEnabled}">
-            <one:systemMessage aura:id="oneSystemMessage" openUrlsInNewWindow="true" />            
+            <one:systemMessage aura:id="oneSystemMessage" openUrlsInNewWindow="true" />
         </aura:if>
-        <builder_platform_interaction:editor 
-            flowId="{!v.flowId}" 
+        <builder_platform_interaction:editor
+            flowId="{!v.flowId}"
             flowDefId="{!v.flowDefId}"
             interviewGuid="{!v.interviewGuid}"
-            builderType="{!v.builderType}" 
-            builderConfig="{!v.builderConfig}" 
+            builderType="{!v.builderType}"
+            builderConfig="{!v.builderConfig}"
             guardrailsParams="{!v.guardrailsParams}"
-            onguardrailresult="{!c.handleGuardrailResult}" 
-            ondebugtoastevent="{!c.handleDebugToast}" />
+            onguardrailresult="{!c.handleGuardrailResult}"/>
     </div>
 </aura:component>

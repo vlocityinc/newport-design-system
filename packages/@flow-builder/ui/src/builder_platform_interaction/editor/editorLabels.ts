@@ -23,6 +23,8 @@ import ariaLabelRightPanel from '@salesforce/label/FlowBuilderRightPanel.ariaLab
 import ariaLabelCanvasContainer from '@salesforce/label/FlowBuilderCanvas.ariaLabelCanvasContainer';
 import runAsyncScheduledPathLabel from '@salesforce/label/FlowBuilderStartEditor.runAsyncScheduledPathLabel';
 import cantOpenSubflowUrl from '@salesforce/label/FlowBuilderToastLabels.cantOpenSubflowUrl';
+import debugToastMessage from '@salesforce/label/FlowBuilderDebugEditor.debugToastMessage';
+import debugToastMessageNoElementLabel from '@salesforce/label/FlowBuilderDebugEditor.debugToastMessageNoElementLabel';
 
 export const LABELS = {
     spinnerAlternativeText,
@@ -48,5 +50,7 @@ export const LABELS = {
     ariaLabelRightPanel,
     ariaLabelCanvasContainer,
     runAsyncScheduledPathLabel,
-    cantOpenSubflowUrl
+    cantOpenSubflowUrl,
+    debugToastMessage,
+    debugToastMessageNoElementLabel
 };

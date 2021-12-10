@@ -38,6 +38,7 @@ import {
     LIGHTNING_COMPONENTS_SELECTORS,
     INTERACTION_COMPONENTS_SELECTORS
 } from 'builder_platform_interaction/builderTestUtils';
+import { ShowToastEventName } from 'lightning/platformShowToastEvent';
 jest.mock('builder_platform_interaction/alcCanvas', () => require('builder_platform_interaction_mocks/alcCanvas'));
 
 let mockSubscribers = [];
@@ -1916,17 +1917,18 @@ describe('in debug mode', () => {
         const debugPanel = editorComponent.shadowRoot.querySelector(selectors.DEBUG_PANEL);
         expect(debugPanel).not.toBeNull();
     });
-    it('debug toast event is fired on clicking done in property editor', async () => {
-        expect.assertions(1);
-        const debugToast = jest.fn();
+    it('fires a show toast event when clicking done in property editor', async () => {
         const editorComponent = createComponentUnderTest();
         editorComponent.setBuilderMode(BUILDER_MODE.DEBUG_MODE);
-        await ticks(1);
         const editElementEvent = new EditElementEvent('1');
         const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.CANVAS_CONTAINER);
         canvasContainer.dispatchEvent(editElementEvent);
-        editorComponent.addEventListener('debugtoastevent', debugToast);
         await ticks(1);
+
+        // Mock handler for toast event
+        const handler = jest.fn();
+        // Add event listener to catch toast event
+        editorComponent.addEventListener(ShowToastEventName, handler);
 
         const elementToAdd = {
             a: 1,
@@ -1938,19 +1940,23 @@ describe('in debug mode', () => {
 
         const nodeUpdate = invokePropertyEditor.mock.calls[0][1].nodeUpdate;
         nodeUpdate(elementToAdd);
-        expect(debugToast).toHaveBeenCalledTimes(1);
+
+        // Check if toast event has been fired
+        expect(handler).toHaveBeenCalledTimes(1);
+        expect(handler.mock.calls[0][0].detail.variant).toBe('warning');
     });
-    it('debug toast event is fired correctly on clicking done in property editor for elements with no label like Start', async () => {
-        expect.assertions(1);
-        const debugToast = jest.fn();
+    it('fires a toast event when clicking done in property editor for elements with no label like Start', async () => {
         const editorComponent = createComponentUnderTest();
         editorComponent.setBuilderMode(BUILDER_MODE.DEBUG_MODE);
-        await ticks(1);
         const editElementEvent = new EditElementEvent('1');
         const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.CANVAS_CONTAINER);
         canvasContainer.dispatchEvent(editElementEvent);
-        editorComponent.addEventListener('debugtoastevent', debugToast);
         await ticks(1);
+
+        // Mock handler for toast event
+        const handler = jest.fn();
+        // Add event listener to catch toast event
+        editorComponent.addEventListener(ShowToastEventName, handler);
 
         const elementToAdd = {
             a: 1,
@@ -1959,17 +1965,23 @@ describe('in debug mode', () => {
 
         const nodeUpdate = invokePropertyEditor.mock.calls[0][1].nodeUpdate;
         nodeUpdate(elementToAdd);
-        expect(debugToast).toHaveBeenCalledTimes(1);
+
+        // Check if toast event has been fired
+        expect(handler).toHaveBeenCalledTimes(1);
+        expect(handler.mock.calls[0][0].detail.variant).toBe('warning');
     });
-    it('no debug toast event is fired on clicking done in property editor in edit mode', async () => {
+    it('does not fire a toast event when clicking done in property editor in edit mode', async () => {
         expect.assertions(1);
-        const debugToast = jest.fn();
         const editorComponent = createComponentUnderTest();
         const editElementEvent = new EditElementEvent('1');
         const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.CANVAS_CONTAINER);
         canvasContainer.dispatchEvent(editElementEvent);
-        editorComponent.addEventListener('debugtoastevent', debugToast);
         await ticks(1);
+
+        // Mock handler for toast event
+        const handler = jest.fn();
+        // Add event listener to catch toast event
+        editorComponent.addEventListener(ShowToastEventName, handler);
 
         const elementToAdd = {
             a: 1,
@@ -1981,7 +1993,7 @@ describe('in debug mode', () => {
 
         const nodeUpdate = invokePropertyEditor.mock.calls[0][1].nodeUpdate;
         nodeUpdate(elementToAdd);
-        expect(debugToast).not.toHaveBeenCalled();
+        expect(handler).not.toHaveBeenCalled();
     });
     it('showAddToTestButton is not present when testing perm is off', async () => {
         mockOrgHasFlowTestingEnabled = false;

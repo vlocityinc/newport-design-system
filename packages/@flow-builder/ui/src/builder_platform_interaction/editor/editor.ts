@@ -195,6 +195,7 @@ import { ConnectionSource, getConnectionTarget } from 'builder_platform_interact
 import { TEXT_AREA_MAX_LENGTH } from 'builder_platform_interaction/screenEditorUtils';
 import { time } from 'instrumentation/service';
 import { getSubflows } from 'builder_platform_interaction/subflowsLib';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 const { format } = commonUtils;
 const { generateGuid } = storeUtils;
@@ -335,7 +336,6 @@ export default class Editor extends LightningElement {
     _isResourceQuickCreated = false;
     _isInlineEditingResource = false;
     ifBlockResume = false;
-    toastErrorMessage = null;
 
     originalFlowLabel;
     originalFlowDescription;
@@ -1924,7 +1924,6 @@ export default class Editor extends LightningElement {
         let hasError = false;
         logPerfTransactionStart(TOGGLE_CANVAS_MODE);
         this.spinners.showAutoLayoutSpinner = true;
-        this.resetErrorMessage();
         try {
             // updatedHasUnsavedChangesProperty should be set to true only when toggling canvas modes.
             // It should be false when loading an existing flow. New Flow creation doesn't follow this code path.
@@ -2404,14 +2403,6 @@ export default class Editor extends LightningElement {
         this.moveFocusToNode(event.detail.elementGuid);
     };
 
-    handleCloseErrorMessage() {
-        this.resetErrorMessage();
-    }
-
-    resetErrorMessage() {
-        this.toastErrorMessage = null;
-    }
-
     /**
      * Handles the open reference flow from a subflow element in ALC.
      * Builds a url that opens a new tab to the subflow.
@@ -2431,7 +2422,8 @@ export default class Editor extends LightningElement {
                 launchSubflow(subflowData.activeVersionId || subflowData.latestVersionId);
             } else {
                 const subflowName = subflowData ? subflowData.masterLabel : event.detail.flowName;
-                this.toastErrorMessage = format(this.labels.cantOpenSubflowUrl, subflowName);
+                const toastMessage = format(this.labels.cantOpenSubflowUrl, subflowName);
+                this.showToast(toastMessage, 'error');
             }
         } finally {
             this.spinners.showAutoLayoutSpinner = false;
@@ -2581,6 +2573,20 @@ export default class Editor extends LightningElement {
     }
 
     /**
+     * Helper function to display toast
+     *
+     * @param message the toast message to display
+     * @param variant the toast variant
+     */
+    showToast(message: string, variant: string) {
+        const toastEvent = new ShowToastEvent({
+            variant,
+            message
+        });
+        this.dispatchEvent(toastEvent);
+    }
+
+    /**
      * Method for talking to validation library and store for updating the node collection/flow data.
      *
      * @param {object} node - node object for the particular property editor update
@@ -2589,14 +2595,10 @@ export default class Editor extends LightningElement {
         if (this.builderMode === BUILDER_MODE.DEBUG_MODE) {
             const elementTypeLabel = getConfigForElement(node).labels.singular;
             const elementLabel = getValueFromHydratedItem(node.label);
-            const debugToastEvent = new CustomEvent('debugtoastevent', {
-                detail: {
-                    elementTypeLabel,
-                    elementLabel
-                }
-            });
-            // Fire the custom event
-            this.dispatchEvent(debugToastEvent);
+            const toastMessage = elementTypeLabel
+                ? format(this.labels.debugToastMessage, elementTypeLabel, elementLabel)
+                : format(this.labels.debugToastMessageNoElementLabel, elementLabel);
+            this.showToast(toastMessage, 'warning');
         }
 
         // This deepCopy is needed as a temporary workaround because the unwrap() function that the property editor

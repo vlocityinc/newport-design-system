@@ -94,16 +94,3 @@
     z-index: 402;
     cursor: default;
 }
-
-.THIS .forceToastManager--default .forceVisualMessageQueue {
-    margin-top: 100px;
-    z-index: 1;
-}
-
-.THIS .toastContainer {
-    padding-right: 25rem;
-}
-
-.THIS .forceToastMessage {
-    width: 100%;
-}

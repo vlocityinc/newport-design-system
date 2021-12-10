@@ -10,6 +10,7 @@ import { MOCK_ALL_TEMPLATES, MOCK_AUTO_TEMPLATE } from 'mock/templates';
 import { setProcessTypes } from 'builder_platform_interaction/systemLib';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { processTypes } from 'serverData/GetProcessTypes/processTypes.json';
+import { ShowToastEventName } from 'lightning/platformShowToastEvent';
 
 let mockProcessTypesPromise = Promise.resolve(processTypes);
 let mockTemplatesPromise = Promise.resolve(MOCK_ALL_TEMPLATES);
@@ -49,9 +50,6 @@ function createComponentForTest(props) {
     return el;
 }
 
-const getTemplatesTab = (modalBody) => modalBody.shadowRoot.querySelector('lightning-tab.templates');
-const getRecommendedTab = (modalBody) => modalBody.shadowRoot.querySelector('lightning-tab.recommended');
-
 const getProcessTypesNavigation = (modalBody) =>
     modalBody.shadowRoot.querySelector('builder_platform_interaction-process-types-vertical-navigation');
 
@@ -65,10 +63,6 @@ const getRecommended = (modalBody) =>
 
 const getTemplates = (processTypeTemplates) =>
     processTypeTemplates.shadowRoot.querySelector('builder_platform_interaction-visual-picker-list');
-
-const getErrorMessage = (modalBody) => modalBody.shadowRoot.querySelector('.errorMessage .slds-notify__content');
-
-const getErrorClosingButton = (modalBody) => modalBody.shadowRoot.querySelector('lightning-button-icon');
 
 const getProcessType = (processTypeName) => processTypes.find((processType) => processType.name === processTypeName);
 
@@ -349,125 +343,93 @@ describe('new-flow-modal-body', () => {
             ]);
         });
     });
-
-    describe('error cases', () => {
-        let newFlowModalBody, errorMessage;
-        const ERROR_MESSAGE = 'This is my error message';
-        beforeEach(() => {
-            newFlowModalBody = createComponentForTest();
-        });
-        afterAll(() => {
-            resetProcessTypesCache();
-        });
-        it('should show error message', async () => {
-            newFlowModalBody.errorMessage = ERROR_MESSAGE;
-            await Promise.resolve();
-            errorMessage = getErrorMessage(newFlowModalBody);
-            expect(errorMessage).not.toBeNull();
-            expect(errorMessage.textContent).toEqual(ERROR_MESSAGE);
-        });
-        it('should reset error message when changing the process type', async () => {
-            const templatesTab = getTemplatesTab(newFlowModalBody);
-            templatesTab.dispatchEvent(new CustomEvent('active'));
-            newFlowModalBody.errorMessage = ERROR_MESSAGE;
-            await Promise.resolve();
-            const processTypesNavigation = getProcessTypesNavigation(newFlowModalBody);
-            processTypesNavigation.dispatchEvent(new ProcessTypeSelectedEvent(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW));
-            await Promise.resolve();
-            errorMessage = getErrorMessage(newFlowModalBody);
-            expect(errorMessage).toBeNull();
-        });
-        it('should reset error message when changing the template', async () => {
-            const templatesTab = getTemplatesTab(newFlowModalBody);
-            templatesTab.dispatchEvent(new CustomEvent('active'));
-            newFlowModalBody.errorMessage = ERROR_MESSAGE;
-            await Promise.resolve();
-            const processTypesTemplates = getProcessTypesTemplates(newFlowModalBody);
-            processTypesTemplates.dispatchEvent(new TemplateChangedEvent(MOCK_AUTO_TEMPLATE.EnumOrId, false));
-            await Promise.resolve();
-            expect(newFlowModalBody.selectedItem).toBe(MOCK_AUTO_TEMPLATE.EnumOrId);
-            errorMessage = getErrorMessage(newFlowModalBody);
-            expect(errorMessage).toBeNull();
-        });
-    });
 });
 
 describe('fetch server data error cases', () => {
     let newFlowModalBody;
     describe('process types', () => {
+        // Mock handler for toast event
+        const handler = jest.fn();
         beforeAll(() => {
             resetProcessTypesCache();
             mockProcessTypesPromise = Promise.reject();
         });
-        beforeEach(async () => {
+        beforeEach(() => {
             newFlowModalBody = createComponentForTest({
                 footer: {
                     disableButtons() {}
                 }
             });
-            await ticks(10);
+            // Add event listener to catch toast event
+            newFlowModalBody.addEventListener(ShowToastEventName, handler);
         });
         afterAll(() => {
             mockProcessTypesPromise = Promise.resolve(processTypes);
         });
         it('should show process types error message', async () => {
-            const errorMessage = newFlowModalBody.errorMessage;
-            expect(errorMessage).toEqual(LABELS.errorLoadingProcessTypes);
+            expect(handler).toHaveBeenCalledTimes(1);
+            expect(handler.mock.calls[0][0].detail.variant).toBe('error');
+            expect(handler.mock.calls[0][0].detail.message).toEqual(LABELS.errorLoadingProcessTypes);
         });
-        it('should show process types error close button that when clicked reset errors', async () => {
-            const errorClosingButton = getErrorClosingButton(newFlowModalBody);
-            expect(errorClosingButton).toBeTruthy();
-            errorClosingButton.dispatchEvent(new CustomEvent('click'));
-            expect(newFlowModalBody.errorMessage).toHaveLength(0);
+        it('show toast event when fetching process types fail', async () => {
+            // Check if toast event has been fired
+            expect(handler).toHaveBeenCalledTimes(1);
+            expect(handler.mock.calls[0][0].detail.variant).toBe('error');
         });
     });
     describe('flow entries', () => {
+        // Mock handler for toast event
+        const handler = jest.fn();
         beforeAll(() => {
             mockFlowEntriesPromise = Promise.reject();
         });
-        beforeEach(async () => {
+        beforeEach(() => {
             newFlowModalBody = createComponentForTest({
                 footer: {
                     disableButtons() {}
                 }
             });
-            await ticks(10);
+            // Add event listener to catch toast event
+            newFlowModalBody.addEventListener(ShowToastEventName, handler);
         });
         afterAll(() => {
             mockFlowEntriesPromise = Promise.resolve(MOCK_ALL_FLOW_ENTRIES);
         });
         it('should show flow entries error message', async () => {
-            const errorMessage = newFlowModalBody.errorMessage;
-            expect(errorMessage).toEqual(LABELS.errorLoadingFlowEntries);
+            expect(handler).toHaveBeenCalledTimes(1);
+            expect(handler.mock.calls[0][0].detail.variant).toBe('error');
+            expect(handler.mock.calls[0][0].detail.message).toEqual(LABELS.errorLoadingFlowEntries);
         });
-        it('should show flow entries error close button that when clicked reset errors', async () => {
-            const errorClosingButton = getErrorClosingButton(newFlowModalBody);
-            expect(errorClosingButton).toBeTruthy();
-            errorClosingButton.dispatchEvent(new CustomEvent('click'));
-            expect(newFlowModalBody.errorMessage).toHaveLength(0);
+        it('show toast event when showing flow entries fail', async () => {
+            // Check if toast event has been fired
+            expect(handler).toHaveBeenCalledTimes(1);
+            expect(handler.mock.calls[0][0].detail.variant).toBe('error');
         });
     });
     describe('templates', () => {
+        // Mock handler for toast event
+        const handler = jest.fn();
         beforeAll(() => {
             resetCacheTemplates();
             mockTemplatesPromise = Promise.reject();
         });
-        beforeEach(async () => {
+        beforeEach(() => {
             newFlowModalBody = createComponentForTest();
-            await ticks(10);
+            // Add event listener to catch toast event
+            newFlowModalBody.addEventListener(ShowToastEventName, handler);
         });
         afterAll(() => {
             mockTemplatesPromise = Promise.resolve(MOCK_ALL_TEMPLATES);
         });
         it('should show templates error message', async () => {
-            const errorMessage = newFlowModalBody.errorMessage;
-            expect(errorMessage).toEqual(LABELS.errorLoadingTemplates);
+            expect(handler).toHaveBeenCalledTimes(1);
+            expect(handler.mock.calls[0][0].detail.variant).toBe('error');
+            expect(handler.mock.calls[0][0].detail.message).toEqual(LABELS.errorLoadingTemplates);
         });
-        it('should show templates error close button that when clicked reset errors', async () => {
-            const errorClosingButton = getErrorClosingButton(newFlowModalBody);
-            expect(errorClosingButton).toBeTruthy();
-            errorClosingButton.dispatchEvent(new CustomEvent('click'));
-            expect(newFlowModalBody.errorMessage).toHaveLength(0);
+        it('show toast event when showing templates fail', async () => {
+            // Check if toast event has been fired
+            expect(handler).toHaveBeenCalledTimes(1);
+            expect(handler.mock.calls[0][0].detail.variant).toBe('error');
         });
     });
 });

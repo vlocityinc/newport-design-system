@@ -6,6 +6,7 @@ import { loadAllSupportedFeatures } from 'builder_platform_interaction/preloadLi
 import { LABELS } from './newFlowModalBodyLabels';
 import { setProcessTypes } from 'builder_platform_interaction/systemLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 const TAB_RECOMMENDED = 'recommended';
 const TAB_TEMPLATES = 'templates';
@@ -38,7 +39,6 @@ export default class NewFlowModalBody extends LightningElement {
     state = {
         // the selected process type in process type navigation tree
         selectedProcessType: ALL_PROCESS_TYPE.name,
-        errorMessage: null,
         processTypes: [],
         processTypesLoading: false,
         items: null,
@@ -87,20 +87,6 @@ export default class NewFlowModalBody extends LightningElement {
         }
     }
 
-    /**
-     * set the error message
-     *
-     * @param {string} value the error message
-     */
-    @api
-    get errorMessage() {
-        return this.state.errorMessage;
-    }
-
-    set errorMessage(value) {
-        this.state.errorMessage = value || '';
-    }
-
     get showAllTab() {
         return this.showAll || !this.showRecommended; // Always show the All/Templates tab if all other tabs are hidden
     }
@@ -109,12 +95,22 @@ export default class NewFlowModalBody extends LightningElement {
         return this.state.processTypesLoading || this.state.itemsLoading;
     }
 
-    get showErrorMessage() {
-        return !this.showSpinner && !!this.errorMessage;
-    }
-
     connectedCallback() {
         this.fetchProcessTypes();
+    }
+
+    /**
+     * Helper function to display toast
+     *
+     * @param message the toast message to display
+     * @param variant the toast variant
+     */
+    showToast(message: string, variant: string) {
+        const toastEvent = new ShowToastEvent({
+            variant,
+            message
+        });
+        this.dispatchEvent(toastEvent);
     }
 
     /**
@@ -125,10 +121,6 @@ export default class NewFlowModalBody extends LightningElement {
     handleSelectProcessType(event) {
         event.stopPropagation();
         this.state.selectedProcessType = event.detail.name;
-
-        if (this.isResetErrorMessageNeeded() && this.state.activeTab === TAB_TEMPLATES) {
-            this.resetErrorMessage();
-        }
     }
 
     /**
@@ -139,9 +131,6 @@ export default class NewFlowModalBody extends LightningElement {
     handleSelectTemplatesItem(event) {
         event.stopPropagation();
         this.state.selectedTemplatesItem = event.detail;
-        if (this.isResetErrorMessageNeeded() && this.state.activeTab === TAB_TEMPLATES) {
-            this.resetErrorMessage();
-        }
     }
 
     /**
@@ -166,9 +155,6 @@ export default class NewFlowModalBody extends LightningElement {
             this.setRecommendedItemIsSelected(selectedItem.id, true);
         }
         this.state.selectedRecommendedItem = selectedRecommendedItem;
-        if (this.isResetErrorMessageNeeded() && this.state.activeTab === TAB_RECOMMENDED) {
-            this.resetErrorMessage();
-        }
     }
 
     setRecommendedItemIsSelected(itemId, isSelected) {
@@ -180,28 +166,13 @@ export default class NewFlowModalBody extends LightningElement {
     }
 
     /**
-     * close the notification error popup
-     */
-    handleCloseErrorMessage() {
-        this.resetErrorMessage();
-    }
-
-    /**
      * Handle the error when fetching templates
      *
      * @param event
      */
     handleCannotRetrieveTemplates(event) {
-        this.state.errorMessage = LABELS.errorLoadingTemplates;
         event.stopPropagation();
-    }
-
-    isResetErrorMessageNeeded() {
-        return !!this.selectedItem;
-    }
-
-    resetErrorMessage() {
-        this.state.errorMessage = '';
+        this.showToast(this.labels.errorLoadingTemplates, 'error');
     }
 
     handleTabActive(event) {
@@ -219,8 +190,8 @@ export default class NewFlowModalBody extends LightningElement {
             })
             .catch(() => {
                 this.state.processTypesLoading = false;
-                this.state.errorMessage = LABELS.errorLoadingProcessTypes;
                 this.footer.disableButtons();
+                this.showToast(this.labels.errorLoadingProcessTypes, 'error');
             });
     }
 
@@ -252,8 +223,8 @@ export default class NewFlowModalBody extends LightningElement {
             })
             .catch(() => {
                 this.state.itemsLoading = false;
-                this.state.errorMessage = LABELS.errorLoadingFlowEntries;
                 this.footer.disableButtons();
+                this.showToast(this.labels.errorLoadingFlowEntries, 'error');
             });
     }
 }

@@ -97,28 +97,6 @@
                 role="complementary"
             ></builder_platform_interaction-left-panel>
             <div if:true={hasCanvasElements} class="slds-col slds-is-relative">
-                <div if:true={toastErrorMessage} class="slds-notify_container slds-is-absolute toast-container">
-                    <div class="slds-notify slds-notify_toast slds-theme_error" role="status">
-                        <lightning-icon
-                            icon-name="utility:error"
-                            class="slds-m-right_small slds-no-flex slds-align-top"
-                            variant="inverse"
-                            size="x-small"
-                        >
-                        </lightning-icon>
-                        <div class="slds-notify__content">
-                            <span>{toastErrorMessage}</span>
-                        </div>
-                        <div class="slds-notify__close">
-                            <lightning-button-icon
-                                icon-name="utility:close"
-                                variant="bare-inverse"
-                                class="slds-m-left_xx-small"
-                                onclick={handleCloseErrorMessage}
-                            ></lightning-button-icon>
-                        </div>
-                    </div>
-                </div>
                 <!--
                     W-7866257: Make sure the fixed canvas comes first as both canvas can be in the DOM at the same time
                     for brief moment when toggling (LWC bug?), and the fixed canvas use the offsets of its container

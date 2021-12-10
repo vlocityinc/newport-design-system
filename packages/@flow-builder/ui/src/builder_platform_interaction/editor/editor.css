@@ -8,10 +8,6 @@ builder_platform_interaction-alc-canvas-container {
     z-index: 500;
 }
 
-.toast-container {
-    z-index: 499;
-}
-
 builder_platform_interaction-right-panel {
     position: absolute;
     right: 0;
