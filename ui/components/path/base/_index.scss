@@ -309,7 +309,7 @@
     display: block;
     position: absolute;
     top: $border-width-thick;
-    #{$left}: (($height-sales-path / 2) * -1);
+    #{$left}: (($height-sales-path * 0.5) * -1);
     width: calc(#{$height-sales-path} - (#{$border-width-thick} * 2));
     height: calc(#{$height-sales-path} - (#{$border-width-thick} * 2));
     border: $border-width-thick solid $color-border-path-divider;
@@ -366,7 +366,7 @@
 .nds-path__stage {
   position: absolute;
   top: 50%;
-  #{$left}: ($square-icon-medium-content / 2);
+  #{$left}: ($square-icon-medium-content * 0.5);
   width: 100%;
   transform: translateY(-50%) rotateX(-180deg);
 }
