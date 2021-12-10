@@ -3,6 +3,8 @@
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
 // TINY - 320px - 20rem
+@use "sass:math";
+
 @mixin mq-x-small-min {
   @media (min-width: pem($mq-x-small)) {
     @content;
@@ -109,9 +111,9 @@
           display: none;
         }
         @else {
-          width: ($i / $denominator) * 100%;
-          flex: 0 0 ($i / $denominator) * 100%;
-          max-width: ($i / $denominator) * 100%; // IE fix
+          width: math.div($i, $denominator) * 100%;
+          flex: 0 0 math.div($i, $denominator) * 100%;
+          max-width: math.div($i, $denominator) * 100%; // IE fix
         }
       }
     }
@@ -128,7 +130,7 @@
   }
 
   @else {
-    $pct: percentage($span / $spread);
+    $pct: percentage(math.div($span, $spread));
     flex: 0 0 $pct;
     max-width: $pct;
   }

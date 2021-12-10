@@ -96,7 +96,7 @@ $sliding-distance: 100; // this is in pixels
   }
 
   to {
-    transform: translate3d(0, ($sliding-distance / 2) + px, 0);
+    transform: translate3d(0, ($sliding-distance * 0.5) + px, 0);
     opacity: 0.4;
   }
 }

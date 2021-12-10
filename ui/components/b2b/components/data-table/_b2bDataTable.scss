@@ -303,7 +303,7 @@ $b2b-table-border: $palette-gray-5;
 		content: '';
 		position: absolute;
 		left: 4rem;
-		top: -$b2b-popover-arrow-size / 2;
+		top: -$b2b-popover-arrow-size * 0.5;
 		transform: rotate(-45deg);
 	}
 }

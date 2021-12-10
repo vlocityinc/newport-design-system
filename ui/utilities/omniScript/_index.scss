@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .nds-omni-typeahead {
 
   // stylelint-disable-next-line selector-class-pattern
@@ -56,9 +58,9 @@
 @mixin reset-size($size, $columns: 12) {
   @for $i from 1 through $columns {
       .nds-#{$size}-size_#{$i}-of-#{$columns} {
-          width: percentage($i/$columns);
-          flex: 0 0 percentage($i/$columns);
-          max-width: percentage($i/$columns);
+          width: percentage(math.div($i, $columns));
+          flex: 0 0 percentage(math.div($i, $columns));
+          max-width: percentage(math.div($i, $columns));
       }
   }
 }
