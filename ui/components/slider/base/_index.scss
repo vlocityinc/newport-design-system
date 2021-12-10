@@ -47,7 +47,7 @@
 .nds-slider__range {
   appearance: none;
   width: 100%;
-  margin: ($slider-handle-size / 2) 0;
+  margin: ($slider-handle-size * 0.5) 0;
   background: transparent;
   border-radius: $border-radius-small;
 
@@ -253,7 +253,7 @@
     width: $size-x-small;
     height: $slider-handle-size;
     transform: rotate(-90deg);
-    transform-origin: ($size-x-small / 2) ($size-x-small / 2);
+    transform-origin: ($size-x-small * 0.5) ($size-x-small * 0.5);
   }
 
   .nds-slider__value {
