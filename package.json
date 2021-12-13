@@ -41,7 +41,7 @@
     "gulp-plumber": "1.1.0",
     "gulp-postcss": "6.4.0",
     "gulp-rename": "1.2.2",
-    "gulp-sass": "4.0.2",
+    "gulp-sass": "^5.0.0",
     "gulp-sourcemaps": "2.4.1",
     "gulp-stylelint": "^10.0.0",
     "gulp-zip": "^4.0.0",
@@ -98,6 +98,7 @@
     "babel-eslint": "^10.0.1",
     "comment-parser": "^0.5.4",
     "gulp-clean-css": "^4.2.0",
-    "highlight.js": "^9.15.6"
+    "highlight.js": "^9.15.6",
+    "sass": "^1.45.0"
   }
 }
