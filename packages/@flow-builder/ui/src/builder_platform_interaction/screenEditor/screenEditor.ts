@@ -464,7 +464,14 @@ export default class ScreenEditor extends LightningElement {
                 INTERACTION_COMPONENTS_SELECTORS.SCREEN_PROPERTIES_EDITOR_CONTAINER
             );
             if (screenPropertiesEditorContainer) {
-                screenPropertiesEditorContainer.focus();
+                if (
+                    event.detail.screenElement.elementType === ELEMENT_TYPE.SCREEN &&
+                    this.selectedNode.elementType === ELEMENT_TYPE.SCREEN
+                ) {
+                    screenPropertiesEditorContainer.focusExpandButton();
+                } else {
+                    screenPropertiesEditorContainer.focus();
+                }
             }
         }
         const elem = event.screenElement;

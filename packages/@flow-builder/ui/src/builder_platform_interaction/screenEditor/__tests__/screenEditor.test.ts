@@ -346,6 +346,26 @@ describe('Event handling on editor', () => {
         expect(screenEditorElement.getSelectedNode().guid).toBe(screenEditorElement.node.guid);
     });
 
+    it('Selecting screen element with keyboard runs correct focus function in screenPropertiesEditorContainer', async () => {
+        const canvas = getScreenEditorCanvas(screenEditorElement);
+        const editor = getScreenPropertyEditorContainer(screenEditorElement);
+        editor.focus = jest.fn();
+        const field = screenEditorElement.node.fields[3];
+        canvas.dispatchEvent(createScreenElementSelectedEvent(field, null, true));
+        await ticks(1);
+        expect(editor.focus).toHaveBeenCalled();
+    });
+
+    it('Selecting screen element with keyboard runs correct focus function when selecting footer and no component is selected', async () => {
+        const canvas = getScreenEditorCanvas(screenEditorElement);
+        const editor = getScreenPropertyEditorContainer(screenEditorElement);
+        editor.focusExpandButton = jest.fn();
+        const field = screenEditorElement.node.fields[3];
+        canvas.dispatchEvent(createScreenElementSelectedEvent(screenEditorElement.node, null, true));
+        await ticks(1);
+        expect(editor.focusExpandButton).toHaveBeenCalled();
+    });
+
     it('rearranges fields', async () => {
         // handleReorder (onreorderlist)
         const canvas = getScreenEditorCanvas(screenEditorElement);

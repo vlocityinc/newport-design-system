@@ -43,6 +43,12 @@ export default class ScreenEditorPropertiesEditorContainer extends withKeyboardI
         this.focusExpandOnRender = true;
     }
 
+    @api
+    focusExpandButton() {
+        const button = this.template.querySelector(SELECTORS.EXPAND_BUTTON);
+        button?.focus();
+    }
+
     private getScreenFieldPropertiesEditorPanelTitle() {
         return this.node.fieldType === FlowScreenFieldType.ObjectProvided
             ? LABELS.automaticFieldPropertyEditorPanelTitle
