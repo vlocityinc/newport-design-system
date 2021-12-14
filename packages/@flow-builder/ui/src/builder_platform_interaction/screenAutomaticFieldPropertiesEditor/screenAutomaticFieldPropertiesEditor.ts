@@ -13,7 +13,7 @@ import { CLASSIC_EXPERIENCE, getPreferredExperience } from 'builder_platform_int
 import { getEntity } from 'builder_platform_interaction/sobjectLib';
 import automaticFieldLogicComboboxLabel from '@salesforce/label/FlowBuilderComponentVisibility.automaticFieldLogicComboboxLabel';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
-import { FieldDataType } from 'builder_platform_interaction/dataTypeLib';
+import { ExtraTypeInfo, FieldDataType } from 'builder_platform_interaction/dataTypeLib';
 const { format } = commonUtils;
 
 export default class ScreenAutomaticFieldPropertiesEditor extends LightningElement {
@@ -53,6 +53,10 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
 
     get entityFieldDataType(): string {
         return getValueFromHydratedItem(this.field.entityFieldDataType);
+    }
+
+    get entityFieldExtraTypeInfo(): string {
+        return getValueFromHydratedItem(this.field.entityFieldExtraTypeInfo);
     }
 
     get displayedFields(): Array<{ key: string; label: string; value: string }> {
@@ -178,7 +182,8 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
             // Happens when user doesn't have access to referenced entity/field
             return '';
         }
-        return required && this.getFieldTypeName() !== ScreenFieldName.Checkbox
+        return (required && this.getFieldTypeName() !== ScreenFieldName.Checkbox) ||
+            this.entityFieldExtraTypeInfo === ExtraTypeInfo.SwitchablePersonName
             ? this.labels.automaticFieldIsRequiredTrue
             : this.labels.automaticFieldIsRequiredFalse;
     }

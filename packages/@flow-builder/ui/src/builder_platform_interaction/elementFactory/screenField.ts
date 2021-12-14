@@ -427,6 +427,7 @@ const createAutomaticFieldFromEntityField = (
         scale: entityField ? entityField.scale : undefined,
         length: entityField ? entityField.length : undefined,
         entityFieldDataType: entityField ? entityField.fieldDataType : undefined,
+        entityFieldExtraTypeInfo: entityField ? entityField.extraTypeInfo : undefined,
         inputParameters: [],
         outputParameters: [],
         validationRule,
