@@ -152,7 +152,7 @@ describe('ScreenEditor', () => {
                 .getChoiceFieldPropertiesEditorElement();
             expect(choicePropertiesEditor).not.toEqual(null);
             const propertyFields = choicePropertiesEditor!.getScreenPropertyFields();
-            expect(propertyFields).toHaveLength(6);
+            expect(propertyFields).toHaveLength(7);
             const groupedCombobox = deepQuerySelector(propertyFields[2], [
                 SELECTORS.FEROV_RESOURCE_PICKER,
                 SELECTORS.BASE_RESOURCE_PICKER,
@@ -161,6 +161,24 @@ describe('ScreenEditor', () => {
             ]);
             expect(groupedCombobox.value).toEqual('{!recordChoiceSet}');
         });
+        it('Select the Picklist screen field in the second Column in the fourth Section and verify the choice properties editor', async () => {
+            const picklist = screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('accounts');
+            expect(picklist).toBeTruthy();
+            await picklist!.click();
+            const choicePropertiesEditor = screenEditor
+                .getPropertiesEditorContainer()
+                .getChoiceFieldPropertiesEditorElement();
+            expect(choicePropertiesEditor).not.toEqual(null);
+            const propertyFields = choicePropertiesEditor!.getScreenPropertyFields();
+            expect(propertyFields).toHaveLength(7);
+            const groupedCombobox = deepQuerySelector(propertyFields[4], [
+                SELECTORS.FEROV_RESOURCE_PICKER,
+                SELECTORS.BASE_RESOURCE_PICKER,
+                SELECTORS.COMBOBOX,
+                SELECTORS.LIGHTNING_GROUPED_COMBOBOX
+            ]);
+            expect(groupedCombobox.value).toEqual('{!ccs_getAccAutowFieldsNfilters}');
+        });
         it('Select the Picklist screen field, change its default value and verify the change on the canvas', async () => {
             const picklist = screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('accounts');
             await picklist!.click();
@@ -168,7 +186,7 @@ describe('ScreenEditor', () => {
                 .getPropertiesEditorContainer()
                 .getChoiceFieldPropertiesEditorElement()!;
             const propertyFields = choicePropertiesEditor!.getScreenPropertyFields();
-            const ferovResourcePicker = propertyFields[4].shadowRoot!.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
+            const ferovResourcePicker = propertyFields[5].shadowRoot!.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
             expect((ferovResourcePicker as any).value).toEqual('');
             const otherChoice = getElementByDevName('other');
             const itemPayload = { value: otherChoice!.guid, displayText: '{!other}' };

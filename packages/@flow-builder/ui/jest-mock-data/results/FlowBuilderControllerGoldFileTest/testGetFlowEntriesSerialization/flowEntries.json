@@ -75,7 +75,7 @@
     },
     {
       "icon":"utility:strategy",
-      "description":"Create a new flow for use in Recommendation Strategy.",
+      "description":"Build a personalized list of recommendations for users. When a recommendation is accepted, it launches its assigned flow.",
       "label":"Recommendation Strategy",
       "processType":"RecommendationStrategy"
     },

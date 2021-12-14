@@ -620,6 +620,17 @@
         ],
         "dynamicChoiceSets": [
             {
+                "collectionReference": "getAccountsAutomaticWithFieldsAndFilters",
+                "dataType": "String",
+                "displayField": "Name",
+                "filters": [],
+                "name": "ccs_getAccAutowFieldsNfilters",
+                "object": "Account",
+                "outputAssignments": [],
+                "processMetadataValues": [],
+                "valueField": "Id"
+            },
+            {
                 "dataType": "String",
                 "displayField": "Name",
                 "filterLogic": "or",
@@ -1876,7 +1887,11 @@
                                         "storeOutputAutomatically": true
                                     },
                                     {
-                                        "choiceReferences": ["recordChoiceSet", "other"],
+                                        "choiceReferences": [
+                                            "recordChoiceSet",
+                                            "other",
+                                            "ccs_getAccAutowFieldsNfilters"
+                                        ],
                                         "dataType": "String",
                                         "dataTypeMappings": [],
                                         "fieldText": "Accounts",

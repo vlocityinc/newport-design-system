@@ -528,9 +528,10 @@ describe('choiceSelector', () => {
     it('returns string type choice elements if data type is String and no static choices are provided', () => {
         const result = choiceSelector('String')(flowWithAllElementsUIModel);
 
-        expect(result).toHaveLength(2);
+        expect(result).toHaveLength(3);
         expect(result[0].name).toEqual('other');
-        expect(result[1].name).toEqual('recordChoiceSet');
+        expect(result[1].name).toEqual('ccs_getAccAutowFieldsNfilters');
+        expect(result[2].name).toEqual('recordChoiceSet');
     });
     it('returns number type choice elements if data type is Number and no static choices are provided', () => {
         const result = choiceSelector('Number')(flowWithAllElementsUIModel);
@@ -850,6 +851,7 @@ describe('isOrCanContainSelector', () => {
                 'apexCarVariable',
                 'apexComplexTypeTwoVariable',
                 'apexComplexTypeVariable',
+                'ccs_getAccAutowFieldsNfilters',
                 'createAccountFromLiteralValues',
                 'createAccountWithAutomaticOutput',
                 'doNotUseThisVar',

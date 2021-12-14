@@ -20,6 +20,7 @@ import {
     ticks,
     INTERACTION_COMPONENTS_SELECTORS
 } from 'builder_platform_interaction/builderTestUtils';
+import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 
 const SELECTORS = {
     ...INTERACTION_COMPONENTS_SELECTORS,
@@ -153,21 +154,6 @@ const setupComponentUnderTest = (collectionChoiceObject) => {
     return element;
 };
 
-// TODO: per W-10089060 let's move to the offical mockData in the near future
-const collectionChoiceObjectAsIfFromStore = {
-    guid: '8828cb76-9deb-4765-bba0-b3291b1303e6',
-    name: 'collectionChoiceSet',
-    description: '',
-    limit: '',
-    displayField: 'Name',
-    valueField: 'Id',
-    dataType: 'String',
-    sortOrder: 'NotSorted',
-    elementType: 'CollectionChoiceSet',
-    collectionReferenceIndex: '8da17fa9-310c-41d0-af09-f9bd81fc0c17',
-    collectionReference: '9b2579d0-01d3-45b0-b6b2-bb016b085511'
-};
-
 describe('collection-choice-set-editor', () => {
     let collectionChoiceObject, collectionChoiceEditor;
 
@@ -179,7 +165,8 @@ describe('collection-choice-set-editor', () => {
     });
 
     beforeEach(() => {
-        collectionChoiceObject = getElementForPropertyEditor(collectionChoiceObjectAsIfFromStore);
+        const collectionChoiceSetElement = getElementByDevName('ccs_getAccAutowFieldsNfilters');
+        collectionChoiceObject = getElementForPropertyEditor(collectionChoiceSetElement);
         collectionChoiceEditor = setupComponentUnderTest(collectionChoiceObject);
     });
 
@@ -308,7 +295,6 @@ describe('collection-choice-set-editor', () => {
         describe('displayField', () => {
             describe('without object field filled', () => {
                 it('display field is undefined', () => {
-                    collectionChoiceObject = getElementForPropertyEditor(collectionChoiceObjectAsIfFromStore);
                     collectionChoiceObject.collectionReference.value = null;
                     collectionChoiceEditor = setupComponentUnderTest(collectionChoiceObject);
                     displayField = collectionChoiceEditor.shadowRoot.querySelector(SELECTORS.DISPLAY_FIELD);
@@ -324,7 +310,6 @@ describe('collection-choice-set-editor', () => {
                 it('display field should be defined', () => {
                     expect(displayField).not.toBeNull();
                 });
-
                 it('changing value in displayField field-picker should update display field value', () => {
                     displayField.dispatchEvent(getComboboxStateChangedEvent());
                     expect(createAction.mock.calls[0][1]).toEqual({
@@ -340,7 +325,6 @@ describe('collection-choice-set-editor', () => {
         describe('dataType', () => {
             describe('without object field filled', () => {
                 it('datatype picker is undefined', () => {
-                    collectionChoiceObject = getElementForPropertyEditor(collectionChoiceObjectAsIfFromStore);
                     collectionChoiceObject.collectionReference.value = null;
                     collectionChoiceEditor = setupComponentUnderTest(collectionChoiceObject);
                     dataTypePicker = collectionChoiceEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE_PICKER);
@@ -391,7 +375,6 @@ describe('collection-choice-set-editor', () => {
         describe('valueField', () => {
             describe('whithout object field filled', () => {
                 it('value field is undefined', () => {
-                    collectionChoiceObject = getElementForPropertyEditor(collectionChoiceObjectAsIfFromStore);
                     collectionChoiceObject.collectionReference.value = null;
                     collectionChoiceEditor = setupComponentUnderTest(collectionChoiceObject);
                     valueField = collectionChoiceEditor.shadowRoot.querySelector(SELECTORS.VALUE_FIELD);
@@ -423,7 +406,6 @@ describe('collection-choice-set-editor', () => {
 
     describe('validation', () => {
         it('calls reducer with validate all event', () => {
-            collectionChoiceObject = getElementForPropertyEditor(collectionChoiceObjectAsIfFromStore);
             const hydratedCollectionChoiceObject = hydrateWithErrors(collectionChoiceObject, ['guid', 'elementType']);
             collectionChoiceEditor = setupComponentUnderTest(hydratedCollectionChoiceObject);
             collectionChoiceEditor.validate();

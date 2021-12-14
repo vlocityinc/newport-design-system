@@ -1533,13 +1533,19 @@ export const elementsForPropertyEditors = {
                                 choiceReferences: [
                                     {
                                         choiceReference: {
-                                            value: '8828cb76-9deb-4765-bba0-b3291b1303e6',
+                                            value: '039af026-5477-46fa-87ab-09bf0f1e57a3',
                                             error: null
                                         }
                                     },
                                     {
                                         choiceReference: {
                                             value: '3660398c-f1e3-4895-89be-f3cb2ec4e840',
+                                            error: null
+                                        }
+                                    },
+                                    {
+                                        choiceReference: {
+                                            value: '8828cb76-9deb-4765-bba0-b3291b1303e6',
                                             error: null
                                         }
                                     }

@@ -8,6 +8,13 @@
   "qualifiedApiName" : "BatchApexErrorEvent"
 },
     {
+  "description" : "DataObjectDataChgEvent",
+  "eventType" : "StandardPlatformEvent",
+  "fieldsToNull" : [ ],
+  "label" : "Data Object Data Change Event",
+  "qualifiedApiName" : "DataObjectDataChgEvent"
+},
+    {
   "description" : "FlowExecutionErrorEvent",
   "eventType" : "StandardPlatformEvent",
   "fieldsToNull" : [ ],

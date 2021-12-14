@@ -1,4 +1,4 @@
-To update flowWithAllElements.json, autoLaunchedFlowScheduled.json, orchestratorFlow.json, recordTriggeredFlow.json, recommendationFlow.json, 
+To update flowWithAllElements.json, autoLaunchedFlowScheduled.json, orchestratorFlow.json, recordTriggeredFlow.json, recommendationFlow.json,
 contactRequest.json (to be opened in the Setup from "Customer Contact Requests" using Lightning) :
 
 1) create a scratch org using https://git.soma.salesforce.com/automation-platform/test-environments/tree/master/flowbuilder-eng
@@ -8,8 +8,8 @@ contactRequest.json (to be opened in the Setup from "Customer Contact Requests" 
 5) add a breakpoint in TranslatorLib.translateFlowToUIModel
 6) refresh the page (F5)
 7) in the console, type "flow.metadata", right-click on the result and choose "Copy Object"
-10) update metadata (only !) in flowWithAllElements.json 
-11) update https://git.soma.salesforce.com/automation-platform/test-environments/tree/master/flowbuilder-eng with the new flow and anything needed by the newly added elements (e.g. apex classes)
+10) update metadata (only !) in flowWithAllElements.json
+11) update existing test data that lives here https://git.soma.salesforce.com/automation-platform/test-environments/tree/master/flowbuilder-eng with the new flow and anything needed by the newly added elements (e.g. apex classes) by following the instructions mentioned here https://git.soma.salesforce.com/automation-platform/test-environments#updating-existing-test-data.  Take note when it mentions "go to the data set directly."
 12) run the tests suite
 
 To update fieldServiceMobileFlow.json :
@@ -26,6 +26,6 @@ flow = [paste from the contents of fieldServiceMobileFlow.json]
 const flow = translatorLib.translateUIModelToFlow(storeInstance.getCurrentState());
 8) save the flow
 9) in the console, type "flow.metadata", right-click on the result and choose "Copy Object"
-10) update metadata (only !) in fieldServiceMobileFlow.json 
+10) update metadata (only !) in fieldServiceMobileFlow.json
 10) the save will fail but that's expected (apex class, local action missing)
 11) run the tests suite
