@@ -15,7 +15,8 @@
   }
 
   .nds-b2b-options-wrapper {
-    min-width: 100%;
+    min-width: 100%;    
+    position: relative;
 
     .nds-b2b-accounts-options {
       @include b2b-typeahead-checkbox($b2b-checkbox-blue)
