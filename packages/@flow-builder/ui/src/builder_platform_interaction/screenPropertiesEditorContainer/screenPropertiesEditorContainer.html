@@ -1,15 +1,6 @@
 <template>
     <div
-        class="
-            properties-container
-            full-height
-            slds-panel slds-no-flex
-            slds-panel_drawer slds-panel_docked-right
-            slds-border_left
-            slds-grid slds-grid_vertical
-            slds-size_medium
-            toggle-animated
-        "
+        class="properties-container full-height slds-panel slds-no-flex slds-panel_drawer slds-panel_docked-right slds-border_left slds-grid slds-grid_vertical slds-size_medium toggle-animated"
         aria-hidden="false"
     >
         <div if:true={node} class="slds-panel__header slds-truncate_container">
@@ -59,14 +50,7 @@
 
         <div
             if:false={displaySpinner}
-            class="
-                slds-panel__body
-                slds-scrollable_y
-                slds-p-around_none
-                slds-grid slds-grid_vertical
-                slds-grow
-                full-height
-            "
+            class="slds-panel__body slds-scrollable_y slds-p-around_none slds-grid slds-grid_vertical slds-grow full-height"
         >
             <builder_platform_interaction-screen-properties-editor
                 if:true={isScreen}
