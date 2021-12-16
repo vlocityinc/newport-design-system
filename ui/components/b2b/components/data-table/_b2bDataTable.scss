@@ -278,6 +278,7 @@ $b2b-table-border: $palette-gray-5;
     }
 
 	td.nds-b2b-summary-cell{
+		min-width: 11rem;
 		max-width: 350px;
 	}
 }
