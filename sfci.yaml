@@ -16,5 +16,6 @@ core:
     version_property_name: 'ui-interaction-builder-components.version'
 build_resource_size: huge
 
-# targeting the "communities/centos-sfci-nodejs-jdk11" Docker image with Git 2.29.1, Node 14.17.0, Yarn 1.22.10
-build_image: ops0-artifactrepo1-0-prd.data.sfdc.net/communities/centos-sfci-nodejs-jdk11:58d9263
+# targeting the "communities/centos-sfci-nodejs-jdk11" Docker image with Git 2.29.1, Node 14.15.4, Yarn 1.22.10
+# via falcon
+build_image: '331455399823.dkr.ecr.us-east-2.amazonaws.com/sfci/sfci/centos-sfci-nodejs:c0dedc1'

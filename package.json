@@ -50,7 +50,7 @@
         "test:unit:clean": "yarn test:unit:coverage:clean && yarn test:unit:jestreport:clean",
         "test:update-snapshots": "lerna run test:update-snapshots --stream",
         "generate:sfdc-components-package": "node ./scripts/generateNpmPackage.js",
-        "release:sfdc-components-package": "cd dist/builder-platform-interaction-components && npm publish --verbose --registry=https://nexus-proxy-prd.soma.salesforce.com/nexus/content/repositories/npmjs-internal/",
+        "release:sfdc-components-package": "cd dist/builder-platform-interaction-components && npm publish --verbose --registry=https://sfciteam.sfci.buildndeliver-s.aws-esvc1-useast2.aws.sfdc.is/nexus/content/repositories/npmjs-internal/",
         "update:auraPomVersion": "mvn versions:update-property -Dproperty=aura.version -DnewVersion=[$npm_package_config_auraVersion] -DallowDowngrade=true -DgenerateBackupPoms=false",
         "update:goldFiles": "./scripts/updateGoldFiles.sh -b $npm_package_config_branch",
         "update:labels": "node ./scripts/labels/update-labels.js --labelFile ~/blt/app/$npm_package_config_branch/core/shared-labels/java/resources/sfdc/i18n/shared_core_ui_labels/ui-interaction-builder-components.xml --targetDir ./packages/flow-builder-pocs/src/demo-app/labels/ --jsonDir ./labels/ && node ./scripts/labels/update-labels.js --labelFile ~/blt/app/main/core/shared-labels/java/resources/sfdc/i18n/shared_core_ui_labels/lightning-global-components.xml --targetDir ./packages/flow-builder-pocs/src/demo-app/labels/ --jsonDir ./labels/",
