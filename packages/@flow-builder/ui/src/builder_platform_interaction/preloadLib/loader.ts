@@ -1,7 +1,6 @@
 // @ts-nocheck
 import { fetchOnce, SERVER_ACTION_TYPE, getAuraCallback } from 'builder_platform_interaction/serverDataLib';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
-import { getExtensionFieldTypes } from 'builder_platform_interaction/flowExtensionLib';
 import { updateApexClasses } from 'builder_platform_interaction/actions';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import {
@@ -17,7 +16,8 @@ import {
     loadSystemVariables,
     loadGlobalVariables,
     loadProcessTypeFeatures,
-    loadPalette
+    loadPalette,
+    loadFlowExtensions
 } from './dataForProcessType';
 
 import { invokeModal } from 'builder_platform_interaction/sharedUtils';
@@ -92,6 +92,10 @@ class Loader {
     private entitiesLoaded: { promise?: Promise<void>; resolve?: Function; reject?: Function } = {};
 
     private apexClassesLoaded: { promise?: Promise<void>; promiseWithTimeout?: Promise<void> } = {};
+
+    private flowExtensionsLoaded: Promise;
+
+    private flowProcessTypeCache: string;
 
     constructor(store) {
         this.store = store;
@@ -192,16 +196,12 @@ class Loader {
      *
      * @param flowProcessType - Flow Process Type
      */
-    private loadExtensions(flowProcessType): void {
-        // It's a short term fix. Eventually we will have getFlowExtensions use FetchOnce in dataForProcessType.ts.
-        // After refactoring, the screen property editor will be using the same mechanism to cache as other places in the flow builder.
-        // Work item: https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000006Qf9JIAS/view
-        getExtensionFieldTypes(flowProcessType)
-            .then()
-            .catch((error) => {
-                // TODO: Address error handling as part of #W-9494646: https://gus.my.salesforce.com/a07AH000000P9RiYAK
-                throw error;
-            });
+    public loadExtensions(flowProcessType: string): Promise {
+        if (!this.flowExtensionsLoaded || flowProcessType !== this.flowProcessTypeCache) {
+            this.flowExtensionsLoaded = loadFlowExtensions(flowProcessType);
+            this.flowProcessTypeCache = flowProcessType;
+        }
+        return this.flowExtensionsLoaded;
     }
 
     /**
@@ -404,3 +404,13 @@ export const loadApexClasses = () => loader.loadApexClassesWithTimeout();
  */
 export const loadAllSupportedFeatures = (processTypes) =>
     processTypes.forEach((processType) => loadProcessTypeFeatures(processType.name));
+
+/**
+ * Triggers loading of  flow extensions
+ *
+ * @param flowProcessType The flow processType
+ * @returns Object with promises
+ */
+export const loadFlowExtensionsOnProcessTypeChange = (flowProcessType) => {
+    return loader.loadExtensions(flowProcessType);
+};

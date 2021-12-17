@@ -4,7 +4,6 @@ import {
     clearExtensionsCache,
     applyDynamicTypeMappings,
     getCachedExtension,
-    listExtensions,
     isExtensionAttributeLiteral
 } from '../flowExtension';
 import { flowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
@@ -20,7 +19,10 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
             callback({
                 data: mockServerResponse(serverActionType, params)
             })
-        )
+        ),
+        fetchOnce: (serverActionType, params) => {
+            return Promise.resolve(mockServerResponse(serverActionType, params));
+        }
     };
 });
 
@@ -99,26 +101,23 @@ describe('flowExtension', () => {
     });
 
     describe('getCachedExtension', () => {
-        it('applies dynamic type mappings, when supplied', (done) => {
-            listExtensions('', false, async () => {
-                await describeExtensions(['c:lookup']);
-                const dynamicTypeMappings = [
-                    {
-                        typeName: 'T',
-                        typeValue: 'Asset'
-                    }
-                ];
-                const extension = getCachedExtension('c:lookup', dynamicTypeMappings);
-                const selectedRecordParameter = extension.outputParameters.find(
-                    (param) => param.apiName === 'selectedRecord'
-                );
-                expect(selectedRecordParameter).toBeDefined();
-                expect(selectedRecordParameter).toHaveProperty('dataType');
-                expect(selectedRecordParameter.dataType).toEqual('sobject');
-                expect(selectedRecordParameter).toHaveProperty('subtype');
-                expect(selectedRecordParameter.subtype).toEqual('Asset');
-                done();
-            });
+        it('applies dynamic type mappings, when supplied', async () => {
+            await describeExtensions(['c:lookup']);
+            const dynamicTypeMappings = [
+                {
+                    typeName: 'T',
+                    typeValue: 'Asset'
+                }
+            ];
+            const extension = getCachedExtension('c:lookup', dynamicTypeMappings);
+            const selectedRecordParameter = extension.outputParameters.find(
+                (param) => param.apiName === 'selectedRecord'
+            );
+            expect(selectedRecordParameter).toBeDefined();
+            expect(selectedRecordParameter).toHaveProperty('dataType');
+            expect(selectedRecordParameter.dataType).toEqual('sobject');
+            expect(selectedRecordParameter).toHaveProperty('subtype');
+            expect(selectedRecordParameter.subtype).toEqual('Asset');
         });
     });
 

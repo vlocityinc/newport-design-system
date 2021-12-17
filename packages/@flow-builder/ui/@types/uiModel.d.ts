@@ -386,4 +386,36 @@ declare namespace UI {
         collectionReference?: string;
         collectionReferenceIndex?: string;
     }
+
+    interface FlowScreenExtension {
+        name: string;
+        extensionType: string;
+        fieldType: string;
+        label: string;
+        icon: string;
+        category: string;
+        marker: string;
+        source: string;
+        description: string;
+    }
+
+    interface FlowExtensionParameter {
+        apiName: string;
+        dataType: string;
+        subtype: string;
+        availableValues: any[];
+        description: string;
+        hasDefaultValue: boolean;
+        isRequired: boolean;
+        label: string;
+        isInput: boolean;
+        isOutput: boolean;
+        maxOccurs: number;
+        defaultValue?: any;
+    }
+    interface ScreenFieldInputParameter {
+        name: HydratedValue;
+        value: HydratedValue;
+        valueDataType: string;
+    }
 }

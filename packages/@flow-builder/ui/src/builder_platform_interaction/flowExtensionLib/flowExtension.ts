@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { readonly } from 'lwc';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
@@ -6,12 +5,9 @@ import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import { FLOW_DATA_TYPE, FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
-import { orgHasFlowBuilderDebug } from 'builder_platform_interaction/contextLib';
 
-let extensionCache = [];
+let extensionCache: UI.FlowScreenExtension[] = [];
 let extensionDescriptionCache = {};
-let flowProcessTypeCache;
-let _retriever; // Retrieves extensions list and notifies all callbacks that registered while the operation was taking place
 
 export const EXTENSION_TYPE_SOURCE = { LOCAL: 'local', SERVER: 'server' };
 const screenFieldLabelToIconMapping = {
@@ -27,123 +23,29 @@ const screenFieldLabelToIconMapping = {
 };
 
 /**
- * Returns a list of all the available lightning components implementing a flow marker interface with the following shape.
- * If there is already a request in process this function makes sure that the original request is used.
+ * set the list of all the available lightning components implementing a flow marker interface with the following shape.
  *
- * {description, label, marker (the marker interface), qualifiedApiName, source (Managed | Unmanaged | Standard)}
- *
- * @param flowProcessType
- * @param {boolean} refreshCache - Refresh the cached list, if any. (data will be retrieved form the server)
- * @param {Function} callback - The callback to execute to notify, fn(data, error)
+ * @param data The data returned by the service
  */
-export function listExtensions(flowProcessType, refreshCache, callback) {
-    if (!refreshCache && extensionCache.length) {
-        callback(extensionCache.slice(0), null);
-    } else {
-        const retriever = getListExtensionsRetriever(flowProcessType);
-        if (callback) {
-            retriever.callbacks.push(callback);
-        }
-        retriever.retrieve();
+export function setFlowExtensions(data) {
+    extensionCache = [];
+    const defaultIcon = 'standard:lightning_component';
+    for (const extension of data) {
+        extensionCache.push(
+            readonly({
+                extensionType: extension.extensionType,
+                name: extension.qualifiedApiName,
+                fieldType: FlowScreenFieldType.ComponentInstance,
+                genericTypes: extension.genericTypes ? extension.genericTypes.records : undefined,
+                label: extension.label ? extension.label : extension.qualifiedApiName,
+                icon: screenFieldLabelToIconMapping[extension.label] || defaultIcon,
+                category: extension.source === 'Standard' ? LABELS.fieldCategoryInput : LABELS.fieldCategoryCustom,
+                description: extension.description,
+                marker: extension.marker,
+                source: EXTENSION_TYPE_SOURCE.SERVER // The extension description was retrieved from the server
+            })
+        );
     }
-}
-
-/*
- * Returns an object that will retrieve the extensions list and have an array of callbacks to be notified when the call returns from the server
- */
-/**
- * @param flowProcessType
- */
-function getListExtensionsRetriever(flowProcessType) {
-    if (!_retriever) {
-        let started = false;
-        _retriever = {
-            callbacks: [],
-            retrieve() {
-                if (!started) {
-                    started = true;
-                    const cbs = this.callbacks;
-                    extensionCache = [];
-                    fetch(
-                        SERVER_ACTION_TYPE.GET_FLOW_EXTENSIONS,
-                        ({ data, error }) => {
-                            _retriever.callbacks = [];
-                            _retriever = null;
-
-                            if (error) {
-                                for (const callback of cbs) {
-                                    callback(null, error);
-                                }
-                            } else {
-                                flowProcessTypeCache = flowProcessType;
-                                const defaultIcon = 'standard:lightning_component';
-                                for (const extension of data) {
-                                    extensionCache.push(
-                                        readonly({
-                                            extensionType: extension.extensionType,
-                                            name: extension.qualifiedApiName,
-                                            fieldType: FlowScreenFieldType.ComponentInstance,
-                                            genericTypes: extension.genericTypes
-                                                ? extension.genericTypes.records
-                                                : undefined,
-                                            label: extension.label ? extension.label : extension.qualifiedApiName,
-                                            icon: screenFieldLabelToIconMapping[extension.label] || defaultIcon,
-                                            category:
-                                                extension.source === 'Standard'
-                                                    ? LABELS.fieldCategoryInput
-                                                    : LABELS.fieldCategoryCustom,
-                                            description: extension.description,
-                                            marker: extension.marker,
-                                            source: EXTENSION_TYPE_SOURCE.SERVER // The extension description was retrieved from the server
-                                        })
-                                    );
-                                }
-
-                                for (const callback of cbs) {
-                                    callback(extensionCache.slice(0), null); // clone the array
-                                }
-                            }
-                        },
-                        {
-                            flowProcessType
-                        },
-                        {
-                            background: true
-                        }
-                    );
-                }
-            }
-        };
-    }
-
-    return _retriever;
-}
-
-/**
- * Returns a Promise that will be resolved once the extension field types have been retrieved.
- *
- * @param flowProcessType - Flow Process Type
- * @returns {Promise} - The promise
- */
-export function getExtensionFieldTypes(flowProcessType) {
-    const cachedFields = getAllCachedExtensionTypes();
-    // It's a short term fix to enable process type filtering. FetchOnce should be used to cache the data.
-    // After refactoring, the screen property editor will be using the same mechanism to cache as other places in the flow builder.
-    // Work item: https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000006Qf9JIAS/view
-    const cachedFlowProcessType = getCachedFlowProcessType();
-    if (cachedFields && cachedFields.length && cachedFlowProcessType && cachedFlowProcessType === flowProcessType) {
-        return Promise.resolve(cachedFields);
-    }
-
-    return new Promise((resolve, reject) => {
-        listExtensions(flowProcessType, true, (data, error) => {
-            if (error) {
-                reject(error);
-            } else {
-                resolve(data);
-            }
-        });
-    });
 }
 
 /**
@@ -154,7 +56,7 @@ export function getExtensionFieldTypes(flowProcessType) {
  *      {apiName, dataType, description, hasDefaultValue, isRequired, label, maxOccurs}
  *
  * @param {string} name - The FQN of the component
- * @param root0
+ * @param root0 - object
  * @param root0.background
  * @param root0.disableErrorModal
  * @param root0.messageForErrorModal
@@ -178,7 +80,7 @@ export function describeExtension(
  * @returns {ExtensionDescriptor[]} - The description of the extensions
  */
 export function getCachedExtensions(names) {
-    const descriptions = [];
+    const descriptions: Object[] = [];
     for (const name of names) {
         const description = extensionDescriptionCache[name];
         if (description) {
@@ -198,7 +100,7 @@ export function getCachedExtensions(names) {
  * @param {[{typeName, typeValue}]} [dynamicTypeMappings] - A list of generic type bindings, which can be optionally applied to the description
  * @returns {ExtensionDescriptor} - The description of the extension or undefined if not found
  */
-export function getCachedExtension(name, dynamicTypeMappings = null) {
+export function getCachedExtension(name: string, dynamicTypeMappings: null | object[] = null) {
     let extension = extensionDescriptionCache[name];
     if (extension && dynamicTypeMappings && dynamicTypeMappings.length > 0) {
         extension = {
@@ -233,7 +135,12 @@ function transformDefaultValue(value) {
  */
 export function createExtensionDescription(name, data) {
     const { parameters, configurationEditor } = data;
-    const desc = {
+    const desc: {
+        name: string;
+        inputParameters: UI.FlowExtensionParameter[];
+        outputParameters: UI.FlowExtensionParameter[];
+        configurationEditor: any;
+    } = {
         name,
         inputParameters: [],
         outputParameters: [],
@@ -244,7 +151,7 @@ export function createExtensionDescription(name, data) {
     // data = data.filter(param => !param.availableValues);
 
     for (const param of parameters) {
-        const newParam = {
+        const newParam: UI.FlowExtensionParameter = {
             apiName: param.apiName,
             dataType: param.dataType || FLOW_DATA_TYPE.APEX.value, // LC parameters that accept apex classes have no data type set
             subtype: param.objectType || param.apexClass,
@@ -288,7 +195,7 @@ export function createExtensionDescription(name, data) {
  */
 export function describeExtensions(
     names: string[] = [],
-    { background = false, disableErrorModal = false, messageForErrorModal } = {}
+    { background = false, disableErrorModal = false, messageForErrorModal = undefined } = {}
 ) {
     const extensionNamesToFetch = names.filter((name) => !extensionDescriptionCache[name]);
     let promise;
@@ -345,20 +252,13 @@ export function clearExtensionsCache() {
 /**
  * This does not go back to the server
  *
- * @returns {Array} A list of extension types from the cache
+ * @returns UI.FlowScreenExtension[] A list of extension types from the cache
  */
-export function getAllCachedExtensionTypes() {
+export function getAllCachedExtensionTypes(): UI.FlowScreenExtension[] {
     return extensionCache;
 }
 
 export const getCachedExtensionType = (name) => extensionCache.find((extension) => extension.name === name);
-
-/**
- *
- */
-export function getCachedFlowProcessType() {
-    return flowProcessTypeCache;
-}
 
 /**
  * Updates a data type and sets a subtype in generically-typed extension parameters
@@ -394,7 +294,7 @@ export function applyDynamicTypeMappings(parameters, dynamicTypeMappings) {
 /**
  * @param attribute
  */
-export function isExtensionAttributeLiteral(attribute: object) {
+export function isExtensionAttributeLiteral(attribute: UI.ScreenFieldInputParameter) {
     if (attribute && attribute.value) {
         switch (attribute.valueDataType) {
             case FEROV_DATA_TYPE.NUMBER:
@@ -418,30 +318,13 @@ export function isExtensionAttributeLiteral(attribute: object) {
 /**
  * @param input
  */
-export function isExtensionAttributeGlobalConstant(input: object) {
+export function isExtensionAttributeGlobalConstant(input: UI.ScreenFieldInputParameter) {
     return (
         input &&
         input.value &&
         (input.value.value === GLOBAL_CONSTANTS.BOOLEAN_TRUE ||
             input.value.value === GLOBAL_CONSTANTS.BOOLEAN_FALSE ||
             input.value.value === GLOBAL_CONSTANTS.EMPTY_STRING)
-    );
-}
-
-/**
- * @param input
- * @param inputType
- */
-export function isExtensionRefDisplayable(input: object, inputType: string | null) {
-    // This is a temporary check that will go away before 232 releases.
-    // This is here to allow testing of string refs being passed into the
-    // component during preview.
-    return (
-        inputType &&
-        input &&
-        orgHasFlowBuilderDebug() &&
-        input.valueDataType === FEROV_DATA_TYPE.REFERENCE &&
-        inputType.toLowerCase() === FEROV_DATA_TYPE.STRING.toLowerCase()
     );
 }
 

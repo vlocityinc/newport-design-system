@@ -26,6 +26,7 @@ import { setInvocableActions } from 'builder_platform_interaction/invocableActio
 import { setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
 import { setSubflows } from 'builder_platform_interaction/subflowsLib';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
+import { setFlowExtensions, getAllCachedExtensionTypes } from 'builder_platform_interaction/flowExtensionLib';
 
 export const loadActions = (flowProcessType, flowTriggerType) =>
     fetchOnce(
@@ -138,3 +139,9 @@ export const loadVersioningData = () =>
         .catch(() => {
             setVersioningDataInitialized(true);
         });
+
+export const loadFlowExtensions = (flowProcessType) =>
+    fetchOnce(SERVER_ACTION_TYPE.GET_FLOW_EXTENSIONS, { flowProcessType }, { background: true }).then((data) => {
+        setFlowExtensions(data);
+        return getAllCachedExtensionTypes();
+    });

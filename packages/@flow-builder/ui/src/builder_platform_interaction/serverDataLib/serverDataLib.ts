@@ -233,7 +233,8 @@ const KEY_PROVIDER = {
     [SERVER_ACTION_TYPE.GET_AUTOMATIC_FIELD_BETA_URLS]: () => SERVER_ACTION_TYPE.GET_AUTOMATIC_FIELD_BETA_URLS,
     [SERVER_ACTION_TYPE.GET_AUTO_GENERATED_REQUIRED_VARIABLES]: (params) => params.flowProcessType,
     [SERVER_ACTION_TYPE.GET_OVERRIDABLE_FLOWS]: (params) =>
-        `${params.flowProcessType}-${params.flowProcessType}-${params.isTemplate}`
+        `${params.flowProcessType}-${params.flowProcessType}-${params.isTemplate}`,
+    [SERVER_ACTION_TYPE.GET_FLOW_EXTENSIONS]: (params) => params.flowProcessType
 };
 
 const fetchOnceCache = {};

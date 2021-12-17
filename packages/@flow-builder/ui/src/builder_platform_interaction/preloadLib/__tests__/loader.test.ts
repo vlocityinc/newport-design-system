@@ -11,7 +11,6 @@ import {
 } from '../loader';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
-import { getExtensionFieldTypes } from 'builder_platform_interaction/flowExtensionLib';
 import {
     loadActions,
     loadApexPlugins,
@@ -24,7 +23,8 @@ import {
     loadProcessTypeFeatures,
     loadGlobalVariables,
     loadSystemVariables,
-    loadWorkflowEnabledEntities
+    loadWorkflowEnabledEntities,
+    loadFlowExtensions
 } from '../dataForProcessType';
 import { loggingUtils, invokeModal } from 'builder_platform_interaction/sharedUtils';
 import { ticks, makeQuerablePromise } from 'builder_platform_interaction/builderTestUtils';
@@ -58,13 +58,8 @@ jest.mock('../dataForProcessType', () => {
         loadSystemVariables: jest.fn().mockResolvedValue('systemvariables'),
         loadSubflows: jest.fn().mockResolvedValue('subflows'),
         loadPalette: jest.fn().mockResolvedValue('palette'),
-        loadWorkflowEnabledEntities: jest.fn()
-    };
-});
-
-jest.mock('builder_platform_interaction/flowExtensionLib', () => {
-    return {
-        getExtensionFieldTypes: jest.fn().mockResolvedValue('extensions')
+        loadWorkflowEnabledEntities: jest.fn(),
+        loadFlowExtensions: jest.fn().mockResolvedValue('extensions')
     };
 });
 
@@ -278,8 +273,8 @@ describe('Loader', () => {
                 const processType = 'process_type_1';
                 loadOnStart();
                 loadOnProcessTypeChange(processType);
-                expect(getExtensionFieldTypes).toBeCalledTimes(1);
-                expect(getExtensionFieldTypes).toBeCalledWith(processType);
+                expect(loadFlowExtensions).toBeCalledTimes(1);
+                expect(loadFlowExtensions).toBeCalledWith(processType);
             });
             it('brings up an alert when either of the calls fails', async () => {
                 loadResourceTypes.mockRejectedValue('something went wrong');

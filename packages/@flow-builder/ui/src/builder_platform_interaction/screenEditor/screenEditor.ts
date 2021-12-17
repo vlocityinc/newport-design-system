@@ -11,7 +11,7 @@ import {
     ScreenFieldName,
     getAllScreenFields
 } from 'builder_platform_interaction/screenEditorUtils';
-import { getExtensionFieldTypes } from 'builder_platform_interaction/flowExtensionLib';
+import { loadFlowExtensionsOnProcessTypeChange } from 'builder_platform_interaction/preloadLib';
 import { screenReducer } from './screenReducer';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { invokeModal } from 'builder_platform_interaction/sharedUtils';
@@ -216,7 +216,7 @@ export default class ScreenEditor extends LightningElement {
                 );
             }
         });
-        getExtensionFieldTypes(this.processType)
+        loadFlowExtensionsOnProcessTypeChange(this.processType)
             .then((data) => {
                 this.extensionTypes = data;
                 this.screen = processScreenExtensionTypes(this.screen);
