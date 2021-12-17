@@ -1,10 +1,23 @@
 # Run Prettier Through JS and HTML files in codebase
+
 2db577bc531f7408c153baf416b818d7a74d6b68
+
 # Prettier upgrade from 1.19.1 to 2.0.5
+
 591e801dc95cee2cee07f201b6d43c54816e72e2
+
 # Manual run of prettier on the scripts
+
 521307f6696a397c9a573e64c7db36738d2157c3
+
 # Prettier upgrade from 2.0.5 to 2.2.1
+
 7e1d62497e91196454e711b1f8e06ec5a3bc074d
+
 # Prettier upgrade from 2.2.1 to 2.3.2
+
 f6aea58a6958cd5b0f0ddbb5ab7b60b84faff803
+
+# Prettier upgrade from 2.3.2 to 2.5.1
+
+1f82bc37d868cf3497a8b8d718ba45d32148849d
