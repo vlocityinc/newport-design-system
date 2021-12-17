@@ -41,9 +41,6 @@ describe('Stepped-Stage-Node', () => {
 
     beforeEach(() => {
         mockNode = {
-            name: 'myOrchestratedStageName',
-            label: 'myOrchestratedStageLabel',
-            description: 'myDescription',
             elementType: ELEMENT_TYPE.ORCHESTRATED_STAGE,
             guid: ssGuid,
             metadata: {
@@ -69,7 +66,12 @@ describe('Stepped-Stage-Node', () => {
                     ];
                 }
             },
-            isCanvasElement: true
+            isCanvasElement: true,
+            node: {
+                label: 'myOrchestratedStageLabel',
+                name: 'myOrchestratedStageName',
+                description: 'myDescription'
+            }
         };
     });
 
@@ -483,6 +485,14 @@ describe('Stepped-Stage-Node', () => {
             orchestratedStageElement = createComponentUnderTest(mockNode, { disableEditElements: true });
             const stepItems = orchestratedStageElement.shadowRoot.querySelectorAll(selectors.STEP_ITEM + '.disabled');
             expect(stepItems.length).toBe(0);
+        });
+    });
+
+    describe('node display', () => {
+        it('displays the stage label properly', () => {
+            orchestratedStageElement = createComponentUnderTest(mockNode);
+            const header = orchestratedStageElement.shadowRoot.querySelector('h3');
+            expect(header.textContent).toEqual(mockNode.node.label);
         });
     });
 });

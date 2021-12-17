@@ -52,6 +52,11 @@ export default class OrchestratedStageNode extends withKeyboardInteractions(Ligh
         return this.isStepMenuOpened ? LABELS.cancelButton : LABELS.addNewStageStep;
     }
 
+    get nodeLabel() {
+        // @ts-ignore
+        return this.node?.node?.label;
+    }
+
     set items(steps) {
         this._items = steps;
     }
@@ -93,7 +98,7 @@ export default class OrchestratedStageNode extends withKeyboardInteractions(Ligh
         }));
     }
 
-    set node(node) {
+    set node(node: NodeRenderInfo | undefined) {
         this._node = node;
 
         // Refresh StageStep if needed
