@@ -4,7 +4,7 @@ import { UpdateNodeEvent } from 'builder_platform_interaction/events';
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 import { collectionProcessorReducer } from './collectionProcessorReducer';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { ElementValidationError, getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { ElementOrComponentError, getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 
 const SELECTORS = {
     CUSTOM_PROPERTY_EDITOR: 'builder_platform_interaction-custom-property-editor'
@@ -66,7 +66,7 @@ export default class CollectionProcessorEditor extends LightningElement {
     }
 
     @api validate() {
-        let errors: ElementValidationError[] = [];
+        let errors: ElementOrComponentError[] = [];
         // validate the inner editor
         const editor = this.template.querySelector(SELECTORS.CUSTOM_PROPERTY_EDITOR);
         if (editor) {

@@ -7,6 +7,7 @@ import { getParametersForInvocableAction } from 'builder_platform_interaction/in
 import { getFlowDataTypeByName } from 'builder_platform_interaction/screenEditorUtils';
 import { getFlowDataType } from 'builder_platform_interaction/dataTypeLib';
 import { getActiveOrLatestFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
+import { ParameterListRowItem } from 'builder_platform_interaction/elementFactory';
 
 /**
  * Get the extension parameter description as a complex type field description
@@ -44,7 +45,7 @@ export function getInvocableActionParamDescriptionAsComplexTypeFieldDescription(
  * @param {Object} flowResource a flow resource
  * @returns {Array} raw parameters, some information might be missing (if apiName, dataType, isCollection or subtype are needed you might want to call getInvocableActionParamDescriptionAsComplexTypeFieldDescription on the returned parameters)
  */
-export function getAutomaticOutputParameters(flowResource) {
+export function getAutomaticOutputParameters(flowResource): ParameterListRowItem[] {
     let automaticOutputParameters;
     if (flowResource.storeOutputAutomatically) {
         if (flowResource.dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value) {

@@ -1,8 +1,13 @@
-// @ts-nocheck
 import { api, LightningElement, unwrap, track } from 'lwc';
-import { createConfigurationEditor } from 'builder_platform_interaction/builderUtils';
 import { LABELS } from './customPropertyEditorLabels';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { ElementOrComponentError } from 'builder_platform_interaction/dataMutationLib';
+import {
+    BuilderContext,
+    ElementInfo,
+    ConfigurationEditorParameters,
+    createConfigurationEditor
+} from 'builder_platform_interaction/customPropertyEditorLib';
 
 const { logPerfTransactionStart, logPerfTransactionEnd } = loggingUtils;
 const CONFIGURATION_EDITOR_SELECTOR = '.configuration-editor';
@@ -13,13 +18,28 @@ export default class CustomPropertyEditor extends LightningElement {
 
     /** Private variables */
     _isComponentCreated = false;
-    _elementInfo = {};
-    _builderContext = {};
+    _elementInfo: ElementInfo = {};
+    _builderContext: BuilderContext = {
+        variables: [],
+        constants: [],
+        textTemplates: [],
+        stages: [],
+        screens: [],
+        recordUpdates: [],
+        recordLookups: [],
+        recordDeletes: [],
+        recordCreates: [],
+        formulas: [],
+        apexPluginCalls: [],
+        actionCalls: [],
+        loops: [],
+        start: undefined
+    };
     _inputVariables = [];
     _automaticOutputVariables = {};
     _genericTypeMappings = [];
     _unrenderFn;
-    _createComponentErrors = [];
+    _createComponentErrors: ElementOrComponentError[] = [];
 
     /** Private properties */
     @track
@@ -43,7 +63,7 @@ export default class CustomPropertyEditor extends LightningElement {
         }
     }
 
-    get elementInfo() {
+    get elementInfo(): ElementInfo {
         return this._elementInfo;
     }
 
@@ -58,7 +78,7 @@ export default class CustomPropertyEditor extends LightningElement {
         }
     }
 
-    get builderContext() {
+    get builderContext(): BuilderContext {
         return this._builderContext;
     }
 
@@ -187,7 +207,7 @@ export default class CustomPropertyEditor extends LightningElement {
      * @memberof CustomPropertyEditor
      */
     createComponent = () => {
-        logPerfTransactionStart(`${CUSTOM_PROPERTY_EDITOR}-${this.configurationEditor.name}`);
+        logPerfTransactionStart(`${CUSTOM_PROPERTY_EDITOR}-${this.configurationEditor.name}`, null, null);
         const container = this.template.querySelector(CONFIGURATION_EDITOR_SELECTOR);
         this.configurationEditorLoading = true;
 
@@ -195,16 +215,24 @@ export default class CustomPropertyEditor extends LightningElement {
             this._isComponentCreated = true;
             this.configurationEditorLoading = false;
             // End the instrumentation
-            logPerfTransactionEnd(`${CUSTOM_PROPERTY_EDITOR}-${this.configurationEditor.name}`, {
-                isSuccess: true
-            });
+            logPerfTransactionEnd(
+                `${CUSTOM_PROPERTY_EDITOR}-${this.configurationEditor.name}`,
+                {
+                    isSuccess: true
+                },
+                null
+            );
         };
 
-        const errorCallback = (err) => {
+        const errorCallback = (err: string) => {
             this.configurationEditorLoading = false;
-            logPerfTransactionEnd(`${CUSTOM_PROPERTY_EDITOR}-${this.configurationEditor.name}`, {
-                isSuccess: false
-            });
+            logPerfTransactionEnd(
+                `${CUSTOM_PROPERTY_EDITOR}-${this.configurationEditor.name}`,
+                {
+                    isSuccess: false
+                },
+                null
+            );
 
             this._createComponentErrors = [
                 {
@@ -216,7 +244,7 @@ export default class CustomPropertyEditor extends LightningElement {
 
         const cmpName = this.configurationEditor.name;
 
-        const params = {
+        const params: ConfigurationEditorParameters = {
             cmpName,
             container,
             successCallback,
@@ -234,8 +262,7 @@ export default class CustomPropertyEditor extends LightningElement {
     };
 
     /**
-     * Return the template of configuration editor
-     *
+     * @returns the template of configuration editor
      * @memberof CustomPropertyEditor
      */
     getConfigurationEditorTemplate = () => {

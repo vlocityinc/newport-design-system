@@ -1,6 +1,6 @@
 // @ts-nocheck
 // eslint-disable-next-line lwc-core/no-interop-create, lwc-core/no-interop-dispatch, lwc-core/no-interop-render
-import { createComponent, dispatchGlobalEvent, renderComponent } from 'aura';
+import { createComponent, dispatchGlobalEvent } from 'aura';
 import {
     getConfigForElement,
     getConfigForElementType,
@@ -90,7 +90,7 @@ const RESOURCE_EDITOR = 'builder_platform_interaction:resourceEditor';
  * @param {object} attr attributes for the component
  * @returns {Promise} which resolves with a successful component creation or rejects with an errorMessage
  */
-const createComponentPromise = (cmpName, attr) => {
+export const createComponentPromise = (cmpName, attr) => {
     return new Promise((resolve, reject) => {
         createComponent(cmpName, attr, (newCmp, status, errorMessage) => {
             if (status === STATE.SUCCESS) {
@@ -897,50 +897,6 @@ export function showPopover(cmpName, cmpAttributes = {}, popoverProps) {
         .catch((errorMessage) => {
             throw new Error('Status Icon Panel creation failed : ' + errorMessage);
         });
-}
-
-/**
- * Create LWC component dynamically for custom property editor
- * PLEASE DON'T USE THIS UTIL EXCEPT FOR CUSTOM PROPERTY EDITOR
- *
- * @param root0 Object
- * @param root0.cmpName Component Name
- * @param root0.container Container
- * @param root0.attr Attributes
- * @param root0.errorCallback Error callback function
- * @param root0.successCallback Success callback function
- * @returns Editor configuration
- */
-export function createConfigurationEditor({
-    cmpName,
-    container,
-    attr = {},
-    errorCallback = () => {},
-    successCallback = () => {}
-}) {
-    if (!cmpName) {
-        throw new Error('Component name is not defined');
-    }
-    if (!container) {
-        throw new Error('Container component is not defined');
-    }
-    let newCmp;
-    createComponentPromise(cmpName, attr)
-        .then((cmp) => {
-            renderComponent(cmp, container);
-            newCmp = cmp;
-            successCallback(newCmp);
-        })
-        .catch(errorCallback);
-
-    const unrender = () => {
-        if (newCmp) {
-            // eslint-disable-next-line lwc-core/no-aura
-            window.$A.unrender(newCmp);
-            newCmp.destroy();
-        }
-    };
-    return unrender;
 }
 
 /**

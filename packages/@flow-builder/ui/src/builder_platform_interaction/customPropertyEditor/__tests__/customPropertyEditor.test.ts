@@ -1,7 +1,7 @@
 // @ts-nocheck
 import CustomPropertyEditor from '../customPropertyEditor';
 import { createElement } from 'lwc';
-import { createConfigurationEditor } from 'builder_platform_interaction/builderUtils';
+import { createConfigurationEditor } from 'builder_platform_interaction/customPropertyEditorLib';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
@@ -10,7 +10,7 @@ jest.mock('builder_platform_interaction/translatorLib', () => ({
     translateUIModelToFlow: jest.fn()
 }));
 
-jest.mock('builder_platform_interaction/builderUtils', () => ({
+jest.mock('builder_platform_interaction/customPropertyEditorLib', () => ({
     createConfigurationEditor: jest.fn()
 }));
 

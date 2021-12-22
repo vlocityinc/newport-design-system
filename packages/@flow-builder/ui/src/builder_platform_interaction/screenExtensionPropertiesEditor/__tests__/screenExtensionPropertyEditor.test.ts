@@ -48,9 +48,17 @@ jest.mock('builder_platform_interaction/translatorLib', () => ({
     swapUidsForDevNames: jest.fn()
 }));
 
-jest.mock('builder_platform_interaction/builderUtils', () => ({
-    createConfigurationEditor: jest.fn()
-}));
+jest.mock('builder_platform_interaction/customPropertyEditorLib', () => {
+    const actual = jest.requireActual('builder_platform_interaction/customPropertyEditorLib');
+    return {
+        createConfigurationEditor: jest.fn(),
+        getElementInfo: actual.getElementInfo,
+        getInputVariables: actual.getInputVariables,
+        getScreenFieldTypeMappings: actual.getScreenFieldTypeMappings,
+        getBuilderContext: actual.getBuilderContext,
+        getAutomaticOutputVariables: actual.getAutomaticOutputVariables
+    };
+});
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/ruleLib');

@@ -2,11 +2,7 @@
 import { LightningElement, api, track } from 'lwc';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { LABELS, ACTION_TYPE_LABEL } from './invocableActionEditorLabels';
-import {
-    dehydrate,
-    getValueFromHydratedItem,
-    getErrorsFromHydratedElement
-} from 'builder_platform_interaction/dataMutationLib';
+import { getValueFromHydratedItem, getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 
 import { getParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { invocableActionReducer, MERGE_WITH_DATA_TYPE_MAPPINGS } from './invocableActionReducer';
@@ -30,13 +26,19 @@ import {
     applyDynamicTypeMappings
 } from 'builder_platform_interaction/invocableActionLib';
 
-import { translateUIModelToFlow, swapUidsForDevNames } from 'builder_platform_interaction/translatorLib';
-import { createInputParameter } from 'builder_platform_interaction/elementFactory';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { UpdateNodeEvent } from 'builder_platform_interaction/events';
-import { getAutomaticOutputParameters } from 'builder_platform_interaction/complexTypeLib';
 import { getProcessTypeTransactionControlledActionsSupport } from 'builder_platform_interaction/processTypeLib';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import {
+    useConfigurationEditor,
+    getBuilderContext,
+    getAutomaticOutputVariables,
+    getInputVariables,
+    getActionCallTypeMappings,
+    getElementInfo
+} from 'builder_platform_interaction/customPropertyEditorLib';
+
 const { format } = commonUtils;
 
 const { logInteraction } = loggingUtils;
@@ -361,6 +363,8 @@ export default class InvocableActionEditor extends LightningElement {
     /**
      * This helper method will help to determine if we need to display output paramters from parameterList component
      * in case of invocable action editor.
+     *
+     * @returns whether or not output parameters should be displayed
      */
     get displayOutputParams() {
         const outputs = this.actionCallNode ? this.actionCallNode.outputParameters : [];
@@ -368,8 +372,7 @@ export default class InvocableActionEditor extends LightningElement {
     }
 
     /**
-     * Returns the configuration editor associated with action if there is one
-     *
+     * @returns the configuration editor associated with action if there is one
      * @readonly
      * @memberof InvocableActionEditor
      */
@@ -378,115 +381,45 @@ export default class InvocableActionEditor extends LightningElement {
     }
 
     _shouldCreateConfigurationEditor() {
-        return (
-            this.configurationEditor && this.configurationEditor.name && this.configurationEditor.errors.length === 0
-        );
+        return useConfigurationEditor(this.configurationEditor);
     }
 
     /**
-     * Returns list of dynamic type mappings for configuration editor
+     * @returns list of dynamic type mappings for configuration editor
      */
     get configurationEditorTypeMappings() {
-        if (this._shouldCreateConfigurationEditor() && this.actionCallNode && this.actionCallNode.dataTypeMappings) {
-            const typeMappings = this.actionCallNode.dataTypeMappings.filter(({ typeValue }) => !!typeValue);
-            return typeMappings.map(({ typeName, typeValue }) => ({
-                typeName: getValueFromHydratedItem(typeName),
-                typeValue: getValueFromHydratedItem(typeValue)
-            }));
-        }
-        return [];
+        return getActionCallTypeMappings(this.configurationEditor, this.node);
     }
 
     /**
-     * Returns the current flow state. Shape is same as flow metadata.
+     * @returns the current flow state. Shape is same as flow metadata.
      */
     get builderContext() {
-        if (this._shouldCreateConfigurationEditor()) {
-            const flow = translateUIModelToFlow(Store.getStore().getCurrentState());
-            const {
-                variables = [],
-                constants = [],
-                textTemplates = [],
-                stages = [],
-                screens = [],
-                recordUpdates = [],
-                recordLookups = [],
-                recordDeletes = [],
-                recordCreates = [],
-                formulas = [],
-                apexPluginCalls = [],
-                actionCalls = []
-            } = flow.metadata;
-
-            return {
-                variables,
-                constants,
-                textTemplates,
-                stages,
-                screens,
-                recordUpdates,
-                recordLookups,
-                recordDeletes,
-                recordCreates,
-                formulas,
-                apexPluginCalls,
-                actionCalls
-            };
-        }
-        return {};
+        return getBuilderContext(this.configurationEditor, Store.getStore().getCurrentState());
     }
 
     /**
-     * Returns the automatic output variables in the flow.
+     * @returns the automatic output variables in the flow.
      */
     get automaticOutputVariables() {
-        if (this._shouldCreateConfigurationEditor()) {
-            const flowElements = Store.getStore().getCurrentState().elements;
-            const outputVariables = Object.values(flowElements)
-                .filter(({ storeOutputAutomatically }) => !!storeOutputAutomatically)
-                .map((element) => ({
-                    [element.name]: getAutomaticOutputParameters(element) || []
-                }));
-            return Object.assign({}, ...outputVariables);
-        }
-        return {};
+        return getAutomaticOutputVariables(this.configurationEditor, Store.getStore().getCurrentState());
     }
 
     /**
-     * Returns the information about the action element in which the configurationEditor is defined
+     * @returns the information about the action element in which the configurationEditor is defined
      */
     get elementInfo() {
-        const actionInfo = { apiName: '', type: 'Action' };
-        if (this.actionCallNode) {
-            actionInfo.apiName = this.actionCallNode.name && this.actionCallNode.name.value;
-        }
-        return actionInfo;
+        return getElementInfo(this.actionCallNode?.name, 'Action');
     }
 
     /**
-     * Returns the input variables for configuration editor
+     * @returns the input variables for configuration editor
      * filter the input parameters with value from actioncall node and create a new copy
      * Dehydrate the new copy of input parameter and swap the guids with dev names
      * then convert it into desired shape
      */
     get configurationEditorInputVariables() {
-        if (
-            this.invocableActionParametersDescriptor &&
-            this.actionCallNode &&
-            this._shouldCreateConfigurationEditor()
-        ) {
-            const inputParameters = this.actionCallNode.inputParameters
-                .filter(({ value }) => !!value)
-                .map((inputParameter) => createInputParameter(inputParameter));
-            dehydrate(inputParameters);
-            swapUidsForDevNames(Store.getStore().getCurrentState().elements, inputParameters);
-            return inputParameters.map(({ name, value, valueDataType }) => ({
-                name,
-                value,
-                valueDataType
-            }));
-        }
-        return [];
+        return getInputVariables(this.configurationEditor, this.actionCallNode, Store.getStore().getCurrentState());
     }
 
     /**

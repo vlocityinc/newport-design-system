@@ -10,26 +10,26 @@ import {
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
 import { Store } from 'builder_platform_interaction/storeLib';
-import {
-    translateUIModelToFlow,
-    swapDevNamesToGuids,
-    swapUidsForDevNames
-} from 'builder_platform_interaction/translatorLib';
-import { createInputParameter } from 'builder_platform_interaction/elementFactory';
+import { swapDevNamesToGuids } from 'builder_platform_interaction/translatorLib';
 import {
     DynamicTypeMappingChangeEvent,
     PropertyChangedEvent,
     InputsOnNextNavToAssocScrnChangeEvent
 } from 'builder_platform_interaction/events';
-import { dehydrate, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { getFerovTypeFromTypeName, EXTENSION_PARAM_PREFIX } from 'builder_platform_interaction/screenEditorUtils';
-import { getAutomaticOutputParameters } from 'builder_platform_interaction/complexTypeLib';
 import {
     InputsOnNextNavToAssocScrnOption,
     hasScreenFieldVisibilityCondition,
     SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME
 } from 'builder_platform_interaction/screenEditorUtils';
-
+import {
+    getBuilderContext,
+    getAutomaticOutputVariables,
+    getInputVariables,
+    getScreenFieldTypeMappings,
+    getElementInfo
+} from 'builder_platform_interaction/customPropertyEditorLib';
 /*
  * Dynamic property editor for screen extensions.
  */
@@ -192,110 +192,48 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
      * configuration editor associated with a component. It is null if it is not defined
      *
      * @memberof ScreenExtensionPropertiesEditor
+     * @returns whether or not a configuration editor is set
      */
     get hasConfigurationEditor() {
         return !!this.configurationEditor;
     }
 
     /**
-     * Returns the information about the screen LWC in which the configurationEditor is defined
+     * @returns the information about the screen LWC in which the configurationEditor is defined
      */
     get elementInfo() {
-        const screenInfo = { apiName: '', type: 'Screen' };
-        if (this._field) {
-            screenInfo.apiName = this._field.name && this._field.name.value;
-        }
-        return screenInfo;
+        return getElementInfo(this._field?.name, 'Screen');
     }
 
     /**
-     * Returns list of input variables for configuration editor
+     * @returns list of input variables for configuration editor
      * filter the input parameters with value from flow extension and create a new copy
      * Dehydrate the new copy of input parameter and swap the guids with dev names
      * then convert it into desired shape
      */
     get configurationEditorInputVariables() {
-        if (this._field && this._field.inputParameters && this._shouldCreateConfigurationEditor()) {
-            const inputParameters = this._field.inputParameters
-                .filter(({ value }) => !!value)
-                .map((inputParameter) => createInputParameter(inputParameter));
-            dehydrate(inputParameters);
-            swapUidsForDevNames(Store.getStore().getCurrentState().elements, inputParameters);
-            return inputParameters.map(({ name, value, valueDataType }) => ({
-                name,
-                value,
-                valueDataType
-            }));
-        }
-        return [];
+        return getInputVariables(this.configurationEditor, this._field, Store.getStore().getCurrentState());
     }
 
     /**
-     * Returns list of dynamic type mappings for configuration editor
+     * @returns list of dynamic type mappings for configuration editor
      */
     get configurationEditorTypeMappings() {
-        if (this._shouldCreateConfigurationEditor() && this._field && this._field.dynamicTypeMappings) {
-            const typeMappings = this._field.dynamicTypeMappings.filter(({ typeValue }) => !!typeValue);
-            return typeMappings.map(({ typeName, typeValue }) => ({
-                typeName: getValueFromHydratedItem(typeName),
-                typeValue: getValueFromHydratedItem(typeValue)
-            }));
-        }
-        return [];
+        return getScreenFieldTypeMappings(this.configurationEditor, this._field);
     }
 
     /**
-     * Returns the current flow state. Shape is same as flow metadata.
+     * @returns the current flow state. Shape is same as flow metadata.
      */
     get builderContext() {
-        if (this._shouldCreateConfigurationEditor()) {
-            const flow = translateUIModelToFlow(Store.getStore().getCurrentState());
-            const {
-                variables = [],
-                constants = [],
-                textTemplates = [],
-                stages = [],
-                screens = [],
-                recordUpdates = [],
-                recordLookups = [],
-                recordDeletes = [],
-                recordCreates = [],
-                formulas = [],
-                apexPluginCalls = [],
-                actionCalls = []
-            } = flow.metadata;
-            return {
-                variables,
-                constants,
-                textTemplates,
-                stages,
-                screens,
-                recordUpdates,
-                recordLookups,
-                recordDeletes,
-                recordCreates,
-                formulas,
-                apexPluginCalls,
-                actionCalls
-            };
-        }
-        return {};
+        return getBuilderContext(this.configurationEditor, Store.getStore().getCurrentState());
     }
 
     /**
-     * Returns the automatic output variables in the flow.
+     * @returns the automatic output variables in the flow.
      */
     get automaticOutputVariables() {
-        if (this._shouldCreateConfigurationEditor()) {
-            const flowElements = Store.getStore().getCurrentState().elements;
-            const outputVariables = Object.values(flowElements)
-                .filter(({ storeOutputAutomatically }) => !!storeOutputAutomatically)
-                .map((element) => ({
-                    [element.name]: getAutomaticOutputParameters(element) || []
-                }));
-            return Object.assign({}, ...outputVariables);
-        }
-        return {};
+        return getAutomaticOutputVariables(this.configurationEditor, Store.getStore().getCurrentState());
     }
 
     /**
@@ -375,14 +313,6 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
     handleInputsOnNextNavToAssocScrnChange(event: CustomEvent) {
         event.stopPropagation();
         this.dispatchEvent(new InputsOnNextNavToAssocScrnChangeEvent(event.detail.value));
-    }
-
-    _shouldCreateConfigurationEditor() {
-        return (
-            this.configurationEditor &&
-            this.configurationEditor.name &&
-            (!this.configurationEditor.errors || this.configurationEditor.errors.length === 0)
-        );
     }
 
     _updateInputParameter(inputParamObj) {

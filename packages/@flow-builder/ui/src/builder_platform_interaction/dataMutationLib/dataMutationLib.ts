@@ -1,4 +1,3 @@
-// @ts-nocheck
 export * from './arrayMutation';
 export * from './objectMutation';
 export * from './elementDataMutation';

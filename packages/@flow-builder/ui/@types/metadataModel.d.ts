@@ -27,7 +27,7 @@ declare namespace Metadata {
         value?: ElementReferenceOrValue;
     }
 
-    interface Element {
+    interface Element extends BaseElement {
         name?: string;
         description?: string;
         isNew?: boolean;
@@ -94,5 +94,160 @@ declare namespace Metadata {
         displayField?: string;
         valueField?: string;
         collectionReference?: string;
+    }
+
+    interface Variable extends Element {
+        apexClass: string;
+        dataType: string;
+        isCollection: boolean;
+        isInput: boolean;
+        isOutput: boolean;
+        objectType: string;
+        scale: number;
+        value: ElementReferenceOrValue;
+    }
+
+    interface Constant extends Element {
+        dataType: string;
+        value: ElementReferenceOrValue;
+    }
+
+    interface TextTemplate extends Element {
+        isViewedAsPlainText: boolean;
+        text: string;
+    }
+
+    interface Stage extends Element {
+        isActive: boolean;
+        label: string;
+        stageOrder: number;
+    }
+
+    interface InputFieldAssignment extends BaseElement {
+        field: string;
+        value: ElementReferenceOrValue;
+    }
+
+    interface OutputFieldAssignment extends BaseElement {
+        assignToReference: string;
+        field: string;
+    }
+
+    interface RecordUpdate extends Node {
+        connector: Connector;
+        faultConnector: Connector;
+        filters: RecordFilter[];
+        inputAssignments: InputFieldAssignment[];
+        object: string;
+        inputReference: string;
+    }
+
+    interface RecordLookup extends Node {
+        assignNullValuesIfNoRecordFound: boolean;
+        connector: Connector;
+        faultConnector: Connector;
+        filters: RecordFilter[];
+        getFirstRecordOnly: boolean;
+        limit: number;
+        object: string;
+        outputAssignments: OutputFieldAssignment[];
+        outputReference: string;
+        queriedFields: string[];
+        sortField: string;
+        sortOrder: 'Asc' | 'Desc';
+        storeOutputAutomatically: boolean;
+    }
+
+    interface RecordDelete extends Node {
+        connector: Connector;
+        faultConnector: Connector;
+        filters: RecordFilter[];
+        object: string;
+        inputReference: string;
+    }
+
+    interface RecordCreate extends Node {
+        assignRecordIdToReference: string;
+        connector: Connector;
+        faultConnector: Connector;
+        inputAssignments: InputFieldAssignment[];
+        inputReference: string;
+        object: string;
+        storeOutputAutomatically: boolean;
+    }
+
+    interface Formula extends Element {
+        dataType: string;
+        expression: string;
+        scale: number;
+    }
+
+    interface ApexPluginCallInputParameter extends BaseElement {
+        name: string;
+        value: ElementReferenceOrValue;
+    }
+
+    interface ApexPluginCallOutputParameter extends BaseElement {
+        assignToReference: string;
+        name: string;
+    }
+
+    interface ApexPluginCall extends Node {
+        apexClass: string;
+        connector: Connector;
+        faultConnector: Connector;
+        inputParameters: ApexPluginCallInputParameter[];
+        outputParameters: ApexPluginCallOutputParameter[];
+    }
+
+    interface DataTypeMapping extends BaseElement {
+        typeName: string;
+        typeValue: string;
+    }
+
+    interface ActionCallInputParameter extends BaseElement {
+        name: string;
+        value: ElementReferenceOrValue;
+    }
+
+    interface ActionCallOutputParameter extends BaseElement {
+        assignToReference: string;
+        name: string;
+    }
+
+    interface ActionCall extends Node {
+        actionName: string;
+        actionType: string;
+        connector: Connector;
+        dataTypeMappings: DataTypeMapping[];
+        faultConnector: Connector;
+        inputParameters: ActionCallInputParameter[];
+        outputParameters: ActionCallOutputParameter[];
+        storeOutputAutomatically: boolean;
+    }
+
+    interface Loop extends Node {
+        nextValueConnector: Connector;
+        noMoreValuesConnector: Connector;
+        collectionReference: string;
+        assignNextValueToReference: string;
+        iterationOrder: 'Asc' | 'Desc';
+    }
+
+    interface Metadata {
+        actionCalls: ActionCall[];
+        apexPluginCalls: ApexPluginCall[];
+        constants: Constant[];
+        formulas: Formula[];
+        loops: Loop[];
+        recordCreates: RecordCreate[];
+        recordDeletes: RecordDelete[];
+        recordLookups: RecordLookup[];
+        recordUpdates: RecordUpdate[];
+        screens: Screen[];
+        stages: Stage[];
+        start: Start;
+        textTemplates: TextTemplate[];
+        variables: Variable[];
     }
 }

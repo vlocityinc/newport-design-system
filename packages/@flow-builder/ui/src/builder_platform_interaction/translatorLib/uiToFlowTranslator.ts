@@ -8,6 +8,10 @@ import {
     removeEndElementsAndConnectorsTransform
 } from 'builder_platform_interaction/alcConversionUtils';
 
+export type Flow = {
+    metadata: Metadata.Metadata;
+};
+
 const getXYTranslate = (canvasElements) => {
     const EXTRA_SPACING = 50;
 
@@ -35,7 +39,7 @@ const getXYTranslate = (canvasElements) => {
  * @param {Object} uiModel UI data model representation of the Flow
  * @returns {Object} Flow object that can be deserialized into the Flow tooling object
  */
-export function translateUIModelToFlow(uiModel) {
+export function translateUIModelToFlow(uiModel): Flow {
     const isAutoLayoutCanvas = uiModel.properties.isAutoLayoutCanvas;
     uiModel = isAutoLayoutCanvas
         ? removeEndElementsAndConnectorsTransform(convertToFreeFormCanvas(uiModel, [0, 0]))

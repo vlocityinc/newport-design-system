@@ -8,7 +8,7 @@ export type ValueWithError = {
     error: string;
 };
 
-export type ElementValidationError = {
+export type ElementOrComponentError = {
     key: string;
     errorString: string;
 };
@@ -109,7 +109,7 @@ export const dehydrate = (element) => {
  * @param {Object[]} errorsList list of errors, empty list by default
  * @returns {Object[]} List of errors
  */
-export const getErrorsFromHydratedElement = (element, errorsList: ElementValidationError[] = []) => {
+export const getErrorsFromHydratedElement = (element, errorsList: ElementOrComponentError[] = []) => {
     const listOfErrors = errorsList;
     Object.entries(element).forEach(([key, value]) => {
         if (value && typeof value === 'object') {

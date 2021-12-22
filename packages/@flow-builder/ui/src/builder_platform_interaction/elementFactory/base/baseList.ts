@@ -2,7 +2,6 @@
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getDataTypeKey } from '../ferov';
 import { ValueWithError } from 'builder_platform_interaction/dataMutationLib';
-import { InvocableAction } from 'builder_platform_interaction/invocableActionLib';
 
 // @ts-nocheck
 /**

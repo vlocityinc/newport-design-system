@@ -62,6 +62,7 @@
             "builder_platform_interaction/contextLib": ["./src/builder_platform_interaction/contextLib/contextLib.ts"],
             "builder_platform_interaction/contextRecordEditor": ["./src/builder_platform_interaction/contextRecordEditor/contextRecordEditor.ts"],
             "builder_platform_interaction/customPropertyEditor": ["./src/builder_platform_interaction/customPropertyEditor/customPropertyEditor.ts"],
+            "builder_platform_interaction/customPropertyEditorLib": ["./src/builder_platform_interaction/customPropertyEditorLib/customPropertyEditorLib.ts"],
             "builder_platform_interaction/dataMutationLib": ["./src/builder_platform_interaction/dataMutationLib/dataMutationLib.ts"],
             "builder_platform_interaction/dataTypeLib": ["./src/builder_platform_interaction/dataTypeLib/dataTypeLib.ts"],
             "builder_platform_interaction/dataTypePicker": ["./src/builder_platform_interaction/dataTypePicker/dataTypePicker.ts"],

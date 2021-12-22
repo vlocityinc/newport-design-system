@@ -45,6 +45,7 @@ declare namespace UI {
         picklistObject?: string;
         picklistField?: string;
         isNew?: boolean;
+        storeOutputAutomatically?: boolean;
     }
 
     interface HydratedValue {
@@ -114,7 +115,6 @@ declare namespace UI {
     };
 
     interface ScreenField extends Element {
-        storeOutputAutomatically?: boolean;
         extensionName?: string;
         inputsOnNextNavToAssocScrn?: 'UseStoredValues' | 'ResetValues';
         fieldText?: string;
@@ -123,7 +123,7 @@ declare namespace UI {
         defaultValue?: Ferov;
         defaultValueDataType?: Datatype;
         defaultValueIndex: Guid;
-        dataTypeMappings?: [];
+        dataTypeMappings?: DataTypeMapping[];
         objectFieldReference?: string;
         type: ScreenFieldType;
         precision?: number;
@@ -138,8 +138,18 @@ declare namespace UI {
         outputParameters: [];
         choiceReferences: [];
         visibilityRule: VisibilityRule;
-        dynamicTypeMappings: [];
+        dynamicTypeMappings: DataTypeMapping[];
         fields: ScreenField[];
+    }
+
+    interface DataTypeMapping {
+        typeName: HydratedValue;
+        typeValue: HydratedValue;
+    }
+
+    interface ActionCall extends Element {
+        dataTypeMappings?: DataTypeMapping[];
+        inputParameters: [];
     }
 
     interface BaseCanvasElementWithFilter extends BaseCanvasElement {

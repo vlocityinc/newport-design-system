@@ -3,7 +3,6 @@ import {
     getPropertyEditorConfig,
     showPopover,
     isPopoverOpen,
-    createConfigurationEditor,
     showHover,
     hidePopover,
     invokePropertyEditor,
@@ -188,41 +187,6 @@ describe('builderUtils', () => {
         });
     });
 
-    describe('createConfigurationEditor', () => {
-        const sampleAttributes = {
-            flowDevName: 'flowDevNameStr',
-            flowId: 'flowIdStr',
-            processType: 'processType',
-            triggerType: 'triggerType',
-            rerun: 'rerun',
-            isCreateOrUpdate: 'isCreateOrUpdate',
-            dollarRecordName: 'dollarRecordName',
-            scheduledPathsList: 'scheduledPathsList',
-            showScheduledPathComboBox: 'showScheduledPathComboBox'
-        };
-        it('throws error if cmp name is not passed', () => {
-            expect(() => {
-                createConfigurationEditor();
-            }).toThrow();
-        });
-        it('throws error if container is not passed', () => {
-            expect(() => {
-                createConfigurationEditor({
-                    cmpName: 'abc'
-                });
-            }).toThrow();
-        });
-        it('calls createComponent w/ expected parameters when given standard parameters', async () => {
-            createConfigurationEditor({
-                cmpName: 'cmpName',
-                container: {},
-                sampleAttributes
-            });
-            await ticks(1);
-            expect(createComponent).toHaveBeenCalledWith('cmpName', {}, expect.anything());
-        });
-    });
-
     describe('invokePropertyEditor', () => {
         const sampleAttributes = getAttributes(SaveFlowEvent.Type.SAVE);
         it('throws error if attributes is not passed to the function', () => {
@@ -258,29 +222,6 @@ describe('builderUtils', () => {
             }).not.toThrow();
         });
     });
-
-    const createComponentData = {
-        modalClass: 'modalClass',
-        bodyClass: 'bodyClass',
-        footerClass: 'footerClass',
-        flavor: 'flavor',
-        headerData: {
-            headerTitle: 'headerTitleStr',
-            headerVariant: 'headerVariantStr'
-        },
-        bodyData: {
-            bodyTextOne: 'bodyTextOneStr',
-            bodyTextTwo: 'bodyTextTwoStr',
-            listSectionHeader: 'listSectionHeaderStr',
-            listSectionItems: 'listSectionItemsStr',
-            listWarningItems: 'listWarningItemsStr',
-            bodyVariant: 'bodyVariantStr',
-            showBodyTwoVariant: 'showBodyTwoVariantStr'
-        },
-        footerData: {
-            footerVariant: 'footerVariantStr'
-        }
-    };
 
     describe('invokeDebugEditor', () => {
         const sampleDebugEditorAttributes = {
