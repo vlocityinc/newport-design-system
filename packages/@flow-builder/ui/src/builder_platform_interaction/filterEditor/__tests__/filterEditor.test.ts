@@ -187,12 +187,20 @@ describe('filter-editor', () => {
                 )
             ).not.toBeNull();
         });
+
+        it('should display filter heading label', () => {
+            const filterCollectionHeading = filterEditor.shadowRoot.querySelector('h3');
+            expect(filterCollectionHeading.textContent).toEqual('FlowBuilderFilterEditor.filterCollectionHeading');
+        });
+
         it('shoud not load condition list', () => {
             expect(getFilterConditionList(filterEditor)).toBeNull();
         });
+
         it('shoud not load formula editor', () => {
             expect(getFormulaEditor(filterEditor)).toBeNull();
         });
+
         it('should create loop variable currentItemOfCollection', () => {
             expect(filterEditor.elementInfo.assignNextValueToReference.value).toEqual(currentItemReference);
         });
@@ -209,6 +217,10 @@ describe('filter-editor', () => {
         });
         it('should display conditions', () => {
             expect(getConditions(filterEditor)).not.toBeNull();
+        });
+        it('should display conditionListTitle label', () => {
+            const conditionListTitle = filterEditor.shadowRoot.querySelector('.slds-p-vertical_small');
+            expect(conditionListTitle.textContent).toEqual('FlowBuilderFilterEditor.title');
         });
         it('should not display formula editor', () => {
             expect(getFormulaEditor(filterEditor)).toBeNull();
