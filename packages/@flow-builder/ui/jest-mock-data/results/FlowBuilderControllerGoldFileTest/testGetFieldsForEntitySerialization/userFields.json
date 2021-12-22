@@ -3537,7 +3537,7 @@
       "sobjectName":"User",
       "sortable":true,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "NumberOfFailedLogins":{
       "activePicklistValues":[

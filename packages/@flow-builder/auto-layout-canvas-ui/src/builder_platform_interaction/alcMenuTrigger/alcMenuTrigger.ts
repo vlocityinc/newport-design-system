@@ -120,7 +120,7 @@ export default class AlcMenuTrigger extends LightningElement {
     /** ***************************** Helper Functions */
 
     focusOnButton() {
-        this.template.querySelector('button').focus();
+        this.template.querySelector('button').focus({ preventScroll: true });
     }
 
     toggleMenuVisibility(isPositionUpdate = false, moveFocusToMenu = false) {
