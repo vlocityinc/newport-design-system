@@ -74,8 +74,7 @@ describe('element-lib', () => {
                                 shortcutLabel: 'QuickLinksLabelAndDescription.emailAlertLabel'
                             }
                         ],
-                        headerFreeformVisibility: false,
-                        headerAutolayoutVisibility: true
+                        headerFreeformVisibility: false
                     },
                     {
                         headerLabel: 'FlowBuilderLeftPanelElements.flowInteractionComponentsLabel',
@@ -83,8 +82,7 @@ describe('element-lib', () => {
                             { type: 'element', name: ELEMENT_TYPE.SCREEN },
                             { type: 'element', name: ELEMENT_TYPE.ACTION_CALL }
                         ],
-                        headerFreeformVisibility: true,
-                        headerAutolayoutVisibility: true
+                        headerFreeformVisibility: true
                     },
                     {
                         headerLabel: 'FlowBuilderLeftPanelElements.flowControlLogicLabel',
@@ -99,8 +97,7 @@ describe('element-lib', () => {
                                 actionDescription: 'Send an email where you specify the subject, body, and recipients'
                             }
                         ],
-                        headerFreeformVisibility: true,
-                        headerAutolayoutVisibility: true
+                        headerFreeformVisibility: true
                     },
                     {
                         headerLabel: 'FlowBuilderLeftPanelElements.flowControlDataOperationsLabel',

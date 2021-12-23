@@ -1,7 +1,9 @@
-// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 
 export default class AlcCanvas extends LightningElement {
+    @api
+    connectorMenuMetadata;
+
     @api
     elementsMetadata;
 
@@ -25,9 +27,6 @@ export default class AlcCanvas extends LightningElement {
 
     @api
     disableEditElements;
-
-    @api
-    supportsScheduledPaths;
 
     @api
     disableAnimation;

@@ -4,10 +4,12 @@ import connectorButtonLabel from '@salesforce/label/AlcConnector.connectorButton
 import forEachBadgeLabel from '@salesforce/label/FlowBuilderConnectorLabels.forEachBadgeLabel';
 import afterLastBadgeLabel from '@salesforce/label/FlowBuilderConnectorLabels.afterLastBadgeLabel';
 
-export const LABELS: Labels = {
+export const labelsMap = {
     addElementIconAltText,
     faultConnectorBadgeLabel,
     connectorButtonLabel,
     forEachBadgeLabel,
     afterLastBadgeLabel
 };
+
+export const LABELS: Labels<typeof labelsMap> = labelsMap;

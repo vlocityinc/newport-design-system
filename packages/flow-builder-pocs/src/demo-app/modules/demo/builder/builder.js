@@ -50,7 +50,6 @@ const palette = {
     headers: [
         {
             headerLabel: 'Interaction',
-            headerAutolayoutVisibility: true,
             headerItems: [
                 { name: 'Screen', type: 'element' },
                 { name: 'ActionCall', type: 'element' },
@@ -60,7 +59,6 @@ const palette = {
         },
         {
             headerLabel: 'Logic',
-            headerAutolayoutVisibility: true,
             headerItems: [
                 { name: 'Assignment', type: 'element' },
                 { name: 'Decision', type: 'element' },
@@ -71,7 +69,6 @@ const palette = {
         },
         {
             headerLabel: 'Data',
-            headerAutolayoutVisibility: true,
             headerItems: [
                 { name: 'RecordCreate', type: 'element' },
                 { name: 'RecordUpdate', type: 'element' },

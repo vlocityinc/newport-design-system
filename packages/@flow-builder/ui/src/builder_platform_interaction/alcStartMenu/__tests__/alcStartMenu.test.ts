@@ -1,19 +1,19 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import AlcStartMenu from 'builder_platform_interaction/alcStartMenu';
 import { ArrowKeyDownEvent } from 'builder_platform_interaction/events';
-import {
-    CloseMenuEvent,
-    MoveFocusToNodeEvent,
-    MoveFocusFromEmptyStartNodeEvent
-} from 'builder_platform_interaction/alcEvents';
+import { CloseMenuEvent, MoveFocusToNodeEvent } from 'builder_platform_interaction/alcEvents';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
-import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
-import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
+import { ticks, createComponent } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 
-const { EscapeCommand, ArrowDown, ArrowUp, TabCommand } = commands;
+const { EscapeCommand, ArrowUp, TabCommand } = commands;
 const { Keys } = keyboardInteractionUtils;
+
+let mockSupportsScheduledPaths = false;
+jest.mock('builder_platform_interaction/elementFactory', () => {
+    return {
+        shouldSupportScheduledPaths: () => mockSupportsScheduledPaths
+    };
+});
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
@@ -27,9 +27,8 @@ const autolaunchedFlowStart = {
     iconBackgroundColor: 'background-green',
     iconShape: 'circle',
     iconSize: 'medium',
-    isSupported: true,
+
     label: 'Start',
-    supportsMenu: true,
     type: NodeType.START,
     value: 'START_ELEMENT',
     guid: 'startGuid'
@@ -45,9 +44,8 @@ const platformEventStart = {
     iconBackgroundColor: 'background-green',
     iconShape: 'circle',
     iconSize: 'medium',
-    isSupported: true,
+
     label: 'Start',
-    supportsMenu: true,
     type: NodeType.START,
     value: 'START_ELEMENT'
 };
@@ -62,9 +60,8 @@ const screenFlowStart = {
     iconBackgroundColor: 'background-green',
     iconShape: 'circle',
     iconSize: 'medium',
-    isSupported: true,
+
     label: 'Start',
-    supportsMenu: true,
     type: NodeType.START,
     value: 'START_ELEMENT'
 };
@@ -79,9 +76,8 @@ const recordTriggeredFlowStart = {
     iconBackgroundColor: 'background-green',
     iconShape: 'circle',
     iconSize: 'medium',
-    isSupported: true,
+
     label: 'Start',
-    supportsMenu: true,
     type: NodeType.START,
     value: 'START_ELEMENT'
 };
@@ -96,9 +92,8 @@ const scheduledTriggeredFlowStart = {
     iconBackgroundColor: 'background-green',
     iconShape: 'circle',
     iconSize: 'medium',
-    isSupported: true,
+
     label: 'Start',
-    supportsMenu: true,
     type: NodeType.START,
     value: 'START_ELEMENT'
 };
@@ -113,9 +108,8 @@ const recordTriggeredOrchestrationStart = {
     iconBackgroundColor: 'background-green',
     iconShape: 'circle',
     iconSize: 'medium',
-    isSupported: true,
+
     label: 'Start',
-    supportsMenu: true,
     type: NodeType.START,
     value: 'START_ELEMENT'
 };
@@ -241,20 +235,15 @@ const recordTriggeredOrchestrationStartData = {
     triggerType: 'RecordAfterSave'
 };
 
-const createComponentUnderTest = (props) => {
-    const el = createElement('builder_platform_interaction-alc-start-menu', {
-        is: AlcStartMenu
-    });
-    el.supportsScheduledPaths = false;
-    el.elementMetadata = props.elementMetadata;
-    el.startData = props.startData;
-    el.guid = props.elementMetadata.guid;
-    el.moveFocusToMenu = false;
-    if (props) {
-        Object.assign(el, props);
-    }
-    setDocumentBodyChildren(el);
-    return el;
+const createComponentUnderTest = async (props) => {
+    const overrideOptions = {
+        elementMetadata: props.elementMetadata,
+        flowModel: props.startData ? { [props.startData.guid]: props.startData } : {},
+        guid: props.startData ? props.startData.guid : props.guid || props.elementMetadata.guid,
+        ...props
+    };
+
+    return createComponent('builder_platform_interaction-alc-start-menu', {}, overrideOptions);
 };
 
 const selectors = {
@@ -287,12 +276,13 @@ function assertFocusOnFirstButton(menu) {
 describe('Start Node Menu', () => {
     describe('Autolaunched Start Menu', () => {
         let menu;
-        beforeEach(() => {
-            menu = createComponentUnderTest({ elementMetadata: autolaunchedFlowStart });
+        beforeEach(async () => {
+            mockSupportsScheduledPaths = false;
+            menu = await createComponentUnderTest({ elementMetadata: autolaunchedFlowStart });
         });
 
-        it('Should have focus on the first button', () => {
-            const menu = createComponentUnderTest({
+        it('Should have focus on the first button', async () => {
+            const menu = await createComponentUnderTest({
                 elementMetadata: scheduledTriggeredFlowStart,
                 startData: scheduledTriggeredStartData,
                 moveFocusToMenu: true
@@ -320,36 +310,20 @@ describe('Start Node Menu', () => {
             const body = menu.shadowRoot.querySelector(selectors.body);
             expect(body).toBeNull();
         });
-
-        it('moveFocus should fire the CloseMenuEvent since body is empty', () => {
-            menu = createComponentUnderTest({ elementMetadata: autolaunchedFlowStart, startData: {} });
-            const callback = jest.fn();
-            menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
-            menu.moveFocus();
-            expect(callback).toHaveBeenCalled();
-        });
-
-        it('moveFocus should fire the MoveFocusFromEmptyStartNodeEvent since body is empty', () => {
-            menu = createComponentUnderTest({ elementMetadata: autolaunchedFlowStart, startData: {} });
-            const callback = jest.fn();
-            menu.addEventListener(MoveFocusFromEmptyStartNodeEvent.EVENT_NAME, callback);
-            menu.moveFocus();
-            expect(callback).toHaveBeenCalledWith(
-                expect.objectContaining({
-                    detail: { guid: 'startGuid' }
-                })
-            );
-        });
     });
 
     describe('Platform Event Start Menu', () => {
         let menu;
-        beforeEach(() => {
-            menu = createComponentUnderTest({ elementMetadata: platformEventStart, startData: menuStartData });
+        beforeEach(async () => {
+            mockSupportsScheduledPaths = false;
+            menu = await createComponentUnderTest({
+                elementMetadata: platformEventStart,
+                startData: menuStartData
+            });
         });
 
-        it('Should have focus on the first button', () => {
-            const menu = createComponentUnderTest({
+        it('Should have focus on the first button', async () => {
+            const menu = await createComponentUnderTest({
                 elementMetadata: scheduledTriggeredFlowStart,
                 startData: scheduledTriggeredStartData,
                 moveFocusToMenu: true
@@ -404,12 +378,13 @@ describe('Start Node Menu', () => {
 
     describe('Screen Flow Start Menu', () => {
         let menu;
-        beforeEach(() => {
-            menu = createComponentUnderTest({ elementMetadata: screenFlowStart });
+        beforeEach(async () => {
+            mockSupportsScheduledPaths = false;
+            menu = await createComponentUnderTest({ elementMetadata: screenFlowStart });
         });
 
-        it('Should have focus on the first button', () => {
-            const menu = createComponentUnderTest({
+        it('Should have focus on the first button', async () => {
+            const menu = await createComponentUnderTest({
                 elementMetadata: scheduledTriggeredFlowStart,
                 startData: scheduledTriggeredStartData,
                 moveFocusToMenu: true
@@ -441,15 +416,17 @@ describe('Start Node Menu', () => {
 
     describe('Record-Triggered Flow Start Menu', () => {
         let menu;
-        beforeEach(() => {
-            menu = createComponentUnderTest({
+
+        beforeEach(async () => {
+            mockSupportsScheduledPaths = false;
+            menu = await createComponentUnderTest({
                 elementMetadata: recordTriggeredFlowStart,
                 startData: recordTriggeredStartData
             });
         });
 
-        it('Should have focus on the first button', () => {
-            const menu = createComponentUnderTest({
+        it('Should have focus on the first button', async () => {
+            const menu = await createComponentUnderTest({
                 elementMetadata: scheduledTriggeredFlowStart,
                 startData: scheduledTriggeredStartData,
                 moveFocusToMenu: true
@@ -491,11 +468,12 @@ describe('Start Node Menu', () => {
             expect(button).toBeNull();
         });
 
-        it('Should render scheduled path button if supportsScheduledPaths is set to true', () => {
-            const startMenu = createComponentUnderTest({
+        it('Should render scheduled path button if supportsScheduledPaths is set to true', async () => {
+            mockSupportsScheduledPaths = true;
+
+            const startMenu = await createComponentUnderTest({
                 elementMetadata: recordTriggeredFlowStart,
-                startData: recordTriggeredStartData,
-                supportsScheduledPaths: true
+                startData: recordTriggeredStartData
             });
             const body = startMenu.shadowRoot.querySelector(selectors.body);
             const button = body.querySelector(selectors.scheduledPathButton);
@@ -503,10 +481,11 @@ describe('Start Node Menu', () => {
         });
 
         it('Focus should move correctly to the add scheduled path button on arrow up from the trigger button', async () => {
-            const startMenu = createComponentUnderTest({
+            mockSupportsScheduledPaths = true;
+            const startMenu = await createComponentUnderTest({
                 elementMetadata: recordTriggeredFlowStart,
                 startData: recordTriggeredStartData,
-                supportsScheduledPaths: true
+                mockSupportsScheduledPaths: true
             });
             const body = startMenu.shadowRoot.querySelector(selectors.body);
             const trigger = body.querySelector(selectors.triggerButton);
@@ -518,10 +497,11 @@ describe('Start Node Menu', () => {
         });
 
         it('Focus should move correctly to the add scheduled path button on arrow down from the context button', async () => {
-            const startMenu = createComponentUnderTest({
+            mockSupportsScheduledPaths = true;
+            const startMenu = await createComponentUnderTest({
                 elementMetadata: recordTriggeredFlowStart,
                 startData: recordTriggeredStartData,
-                supportsScheduledPaths: true
+                mockSupportsScheduledPaths: true
             });
             const body = startMenu.shadowRoot.querySelector(selectors.body);
             const context = body.querySelector(selectors.contextButton);
@@ -533,10 +513,11 @@ describe('Start Node Menu', () => {
         });
 
         it('Focus should move correctly to the context button on arrow up from the scheduled path button', async () => {
-            const startMenu = createComponentUnderTest({
+            mockSupportsScheduledPaths = true;
+            const startMenu = await createComponentUnderTest({
                 elementMetadata: recordTriggeredFlowStart,
                 startData: recordTriggeredStartData,
-                supportsScheduledPaths: true
+                mockSupportsScheduledPaths: true
             });
             const body = startMenu.shadowRoot.querySelector(selectors.body);
             const scheduledPath = body.querySelector(selectors.scheduledPathButton);
@@ -548,10 +529,11 @@ describe('Start Node Menu', () => {
         });
 
         it('Focus should move correctly to the trigger button on arrow down from the scheduled path button', async () => {
-            const startMenu = createComponentUnderTest({
+            mockSupportsScheduledPaths = true;
+            const startMenu = await createComponentUnderTest({
                 elementMetadata: recordTriggeredFlowStart,
                 startData: recordTriggeredStartData,
-                supportsScheduledPaths: true
+                mockSupportsScheduledPaths: true
             });
             const body = startMenu.shadowRoot.querySelector(selectors.body);
             const scheduledPath = body.querySelector(selectors.scheduledPathButton);
@@ -563,10 +545,11 @@ describe('Start Node Menu', () => {
         });
 
         it('Pressing escape while focus is on the scheduled path button should fire the CloseMenuEvent event', async () => {
-            const startMenu = createComponentUnderTest({
+            mockSupportsScheduledPaths = true;
+            const startMenu = await createComponentUnderTest({
                 elementMetadata: recordTriggeredFlowStart,
                 startData: recordTriggeredStartData,
-                supportsScheduledPaths: true
+                mockSupportsScheduledPaths: true
             });
             const body = startMenu.shadowRoot.querySelector(selectors.body);
             const scheduledPath = body.querySelector(selectors.scheduledPathButton);
@@ -668,8 +651,9 @@ describe('Start Node Menu', () => {
 
     describe('Scheduled-Triggered Flow Start Menu', () => {
         let menu;
-        beforeEach(() => {
-            menu = createComponentUnderTest({
+        beforeEach(async () => {
+            mockSupportsScheduledPaths = false;
+            menu = await createComponentUnderTest({
                 elementMetadata: scheduledTriggeredFlowStart,
                 startData: scheduledTriggeredStartData
             });
@@ -679,8 +663,8 @@ describe('Start Node Menu', () => {
             expect(menu).toBeDefined();
         });
 
-        it('Should have focus on the first button', () => {
-            const menu = createComponentUnderTest({
+        it('Should have focus on the first button', async () => {
+            const menu = await createComponentUnderTest({
                 elementMetadata: scheduledTriggeredFlowStart,
                 startData: scheduledTriggeredStartData,
                 moveFocusToMenu: true
@@ -781,10 +765,11 @@ describe('Start Node Menu', () => {
 
     describe('Orchestration Flow Start Menu', () => {
         let menu;
-        beforeEach(() => {
+        beforeEach(async () => {
+            mockSupportsScheduledPaths = false;
             // As of 236, being an orchestration flow currently implies some other configurations being set, like
             // disableEditElements = true. Maybe this won't always be the case, but for now...
-            menu = createComponentUnderTest({
+            menu = await createComponentUnderTest({
                 elementMetadata: recordTriggeredOrchestrationStart,
                 startData: recordTriggeredOrchestrationStartData,
                 disableEditElements: true,

@@ -38,13 +38,16 @@ ${pathPropertyIndent()}"builder_platform_interaction/autoLayoutCanvas": ["../aut
 ${pathPropertyIndent()}"builder_platform_interaction/sharedUtils": ["../shared-utils/dist/types/index.d.js"],
 ${pathPropertyIndent()}"builder_platform_interaction/alcEvents": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcEvents/alcEvents.ts"],
 ${pathPropertyIndent()}"builder_platform_interaction/popover": ["../auto-layout-canvas-ui/src/builder_platform_interaction/popover/popover.ts"],
-${pathPropertyIndent()}"builder_platform_interaction/menu": ["../auto-layout-canvas-ui/src/builder_platform_interaction/menu/menu.ts"],
+${pathPropertyIndent()}"builder_platform_interaction/alcMenu": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcMenu/alcMenu.ts"],
+${pathPropertyIndent()}"builder_platform_interaction/alcNodeMenu": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcNodeMenu/alcNodeMenu.ts"],
+${pathPropertyIndent()}"builder_platform_interaction/alcConnectorMenu": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcConnectorMenu/alcConnectorMenu.ts"],
 ${pathPropertyIndent()}"builder_platform_interaction/alcComponentsUtils": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcComponentsUtils/alcComponentsUtils.ts"],
+${pathPropertyIndent()}"builder_platform_interaction/alcCanvas": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcCanvas/alcCanvas.ts"],
 ${paths}
          }
     },
 
-    "include": ["src/builder_platform_interaction/**/*", "jest-modules/**/*", "jest-mock-data/**/*", "@types", "../shared-utils/@types/index.d.ts"]
+    "include": ["src/builder_platform_interaction/**/*", "jest-modules/**/*", "jest-mock-data/**/*", "@types", "../shared-utils/@types/index.d.ts", "../auto-layout-canvas-ui/@types/index.d.ts"]
 }`
     );
 })(

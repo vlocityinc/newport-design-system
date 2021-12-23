@@ -11,7 +11,7 @@ import deleteFooterActionLabel from '@salesforce/label/AlcNodeContextualMenu.del
 import deleteFooterActionTitle from '@salesforce/label/AlcNodeContextualMenu.deleteFooterActionTitle';
 import openReferenceFlowTitle from '@salesforce/label/AlcNodeContextualMenu.openReferenceFlowTitle';
 
-export const LABELS: Labels = {
+export const labelsMap = {
     copyActionLabel,
     deleteActionLabel,
     backButtonAlternativeText,
@@ -25,3 +25,5 @@ export const LABELS: Labels = {
     deleteFooterActionTitle,
     openReferenceFlowTitle
 };
+
+export const LABELS: Labels<typeof labelsMap> = labelsMap;

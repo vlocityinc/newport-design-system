@@ -11,7 +11,12 @@ import {
 import { EditElementEvent, SelectNodeEvent } from 'builder_platform_interaction/events';
 import { AlcSelectDeselectNodeEvent } from 'builder_platform_interaction/alcEvents';
 import { classSet } from 'lightning/utils';
-import { ICON_SHAPE, AutoLayoutCanvasMode, SELECTORS } from 'builder_platform_interaction/alcComponentsUtils';
+import {
+    ICON_SHAPE,
+    AutoLayoutCanvasMode,
+    SELECTORS,
+    importComponent
+} from 'builder_platform_interaction/alcComponentsUtils';
 import { LABELS } from './alcNodeLabels';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 const { format } = commonUtils;
@@ -279,10 +284,7 @@ export default class AlcNode extends LightningElement {
         // TODD: include node attributeInfo
 
         if (comp) {
-            // eslint-disable-next-line lwc-core/no-dynamic-import, lwc-core/no-dynamic-import-identifier
-            const module = await import(comp);
-
-            this.dynamicNodeConstructor = module.default;
+            this.dynamicNodeConstructor = await importComponent(comp);
             this.dynamicNodeComp = comp;
         }
     }

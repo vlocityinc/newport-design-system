@@ -7,7 +7,7 @@ import checkboxLabel from '@salesforce/label/AlcNode.checkboxLabel';
 import incomingGoToLabel from '@salesforce/label/AlcNode.incomingGoToLabel';
 import ariaLabelNode from '@salesforce/label/AlcNode.ariaLabelNode';
 
-export const LABELS: Labels = {
+export const labelsMap = {
     nodeIconAltText,
     selectionCheckboxAltText,
     deleteAllPathsComboboxLabel,
@@ -17,3 +17,5 @@ export const LABELS: Labels = {
     incomingGoToLabel,
     ariaLabelNode
 };
+
+export const LABELS: Labels<typeof labelsMap> = labelsMap;

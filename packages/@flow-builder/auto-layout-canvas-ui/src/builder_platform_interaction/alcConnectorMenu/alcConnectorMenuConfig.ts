@@ -72,13 +72,16 @@ const deleteGoToActionItem = {
 /**
  * Create ALC menu configuration from the elements metadata
  *
- * @param elementsMetadata
+ * @param metadata - The menu's metadata
+ * @param elementsMetadata - The elements metadata
  * @param showEndElement - Whether to show the end element item
  * @param isPasteAvailable - If paste is available
  * @param canAddGoto - Is the next element END
  * @param isGoToConnector - Is this a Goto connection
+ * @returns the connector menu configuration
  */
 export const configureMenu = (
+    metadata: ConnectorMenuMetadata,
     elementsMetadata: ElementMetadata[],
     showEndElement: boolean,
     isPasteAvailable: boolean,
@@ -120,8 +123,7 @@ export const configureMenu = (
                 actionType,
                 actionName,
                 actionIsStandard,
-                type,
-                isSupported
+                type
             }
         ) => {
             if (section == null || (type === NodeType.END && !showEndElement)) {
@@ -158,7 +160,8 @@ export const configureMenu = (
                 iconClass = `${iconClass} rotate-icon-svg`;
             }
 
-            // Using the new isSupported property to determine what is shown in the connector menu
+            const isSupported = metadata.elementTypes.has(elementType);
+
             if (isSupported) {
                 const item = {
                     guid: generateGuid(),
@@ -177,7 +180,6 @@ export const configureMenu = (
                     elementSubtype,
                     tooltip: description ? label + ': ' + description : label
                 };
-
                 sectionDefinition.items.push(item);
             }
 

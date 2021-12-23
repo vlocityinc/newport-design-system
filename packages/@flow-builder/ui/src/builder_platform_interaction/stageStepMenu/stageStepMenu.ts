@@ -2,14 +2,14 @@ import { api } from 'lwc';
 import { AddElementEvent } from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { ACTION_TYPE } from 'builder_platform_interaction/flowMetadata';
-import Menu from 'builder_platform_interaction/menu';
+import AlcMenu from 'builder_platform_interaction/alcMenu';
 import { LABELS } from './stageStepMenuLabels';
 import { FocusOutEvent } from 'builder_platform_interaction/alcEvents';
 
 /**
  * The add step menu overlay. It is displayed when clicking on the Add Step button.
  */
-export default class StageStepMenu extends Menu {
+export default class StageStepMenu extends AlcMenu {
     labels = LABELS;
 
     @api

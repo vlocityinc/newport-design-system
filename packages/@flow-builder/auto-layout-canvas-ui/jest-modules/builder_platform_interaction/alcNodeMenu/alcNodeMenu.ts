@@ -2,6 +2,8 @@
 import { LightningElement, api } from 'lwc';
 
 export default class AlcNodeMenu extends LightningElement {
+    static className = 'node-menu';
+
     @api
     conditionOptions;
 

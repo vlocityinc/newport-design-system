@@ -8,7 +8,7 @@ import {
     GoToPathEvent,
     DeleteGoToConnectionEvent
 } from 'builder_platform_interaction/alcEvents';
-import Menu from 'builder_platform_interaction/menu';
+import AlcMenu from 'builder_platform_interaction/alcMenu';
 import {
     configureMenu,
     PASTE_ACTION,
@@ -28,7 +28,12 @@ enum TabFocusRingItems {
 /**
  * The connector menu overlay. It is displayed when clicking on a connector.
  */
-export default class AlcConnectorMenu extends Menu {
+export default class AlcConnectorMenu extends AlcMenu {
+    static className = 'connector-menu';
+
+    @api
+    metadata!: ConnectorMenuMetadata;
+
     @api
     source!: ConnectionSource;
 
@@ -50,6 +55,7 @@ export default class AlcConnectorMenu extends Menu {
 
     get menuConfiguration() {
         return configureMenu(
+            this.metadata,
             this.elementsMetadata,
             this.canAddEndElement,
             this.isPasteAvailable,
@@ -58,7 +64,7 @@ export default class AlcConnectorMenu extends Menu {
         );
     }
 
-    get labels(): Labels {
+    get labels() {
         return LABELS;
     }
 

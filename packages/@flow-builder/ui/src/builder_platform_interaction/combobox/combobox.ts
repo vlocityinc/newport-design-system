@@ -951,7 +951,7 @@ export default class Combobox extends LightningElement {
     /* **************************** */
 
     /**
-     * Returns the the string value of numbers and booleans
+     * Returns the string value of numbers and booleans
      *
      * @param {*} valueToConvert The value to convert to string
      * @returns {string} The string value

@@ -2,6 +2,11 @@
 import { LightningElement, api } from 'lwc';
 
 export default class AlcConnectorMenu extends LightningElement {
+    static className = 'connector-menu';
+
+    @api
+    metadata;
+
     @api
     source;
 

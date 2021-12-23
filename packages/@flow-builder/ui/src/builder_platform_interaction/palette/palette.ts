@@ -100,7 +100,7 @@ export default class Palette extends LightningElement {
 
     renderedCallback() {
         // @W-10154226: when adding a new section, need to manually set the activeSectionName because
-        // the new section child component doesn't exist yet when the the accordion's activeSectionName setter is invoked
+        // the new section child component doesn't exist yet when the accordion's activeSectionName setter is invoked
         const accordion = this.dom.as<LightningAccordion>().accordion;
         if (accordion.activeSectionName?.length !== this.activeSections.length) {
             accordion.activeSectionName = this.activeSections;

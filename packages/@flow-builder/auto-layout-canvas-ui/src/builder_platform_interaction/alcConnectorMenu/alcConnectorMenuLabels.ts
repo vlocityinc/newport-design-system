@@ -5,7 +5,7 @@ import goToPathItemLabel from '@salesforce/label/AlcConnectorContextualMenu.goTo
 import reRouteGoToPathItemLabel from '@salesforce/label/AlcConnectorContextualMenu.reRouteGoToPathItemLabel';
 import deleteGoToPathItemLabel from '@salesforce/label/AlcConnectorContextualMenu.deleteGoToPathItemLabel';
 
-export const LABELS: Labels = {
+export const labelsMap = {
     menuHeader,
     actionSectionLabel,
     pasteItemLabel,
@@ -13,3 +13,5 @@ export const LABELS: Labels = {
     reRouteGoToPathItemLabel,
     deleteGoToPathItemLabel
 };
+
+export const LABELS: Labels<typeof labelsMap> = labelsMap;

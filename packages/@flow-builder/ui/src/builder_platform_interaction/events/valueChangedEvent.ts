@@ -5,9 +5,12 @@
  */
 const eventName = 'valuechanged';
 
-type ValueChangedEventDetail = {
-    value?: T;
+type ValueChangedEventDetail<T> = {
+    value: T;
     error?: string;
+    item?: {
+        error?: string;
+    };
 };
 
 export class ValueChangedEvent<T> extends CustomEvent<ValueChangedEventDetail<T>> {

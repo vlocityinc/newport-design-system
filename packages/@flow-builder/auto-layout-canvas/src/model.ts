@@ -129,9 +129,11 @@ export interface ElementMetadata {
     actionType?: string;
     actionName?: string;
     actionIsStandard?: boolean;
-    isSupported: boolean;
     dynamicNodeComponent?: string;
     dynamicNodeComponentSelector?: Function;
+
+    /* name of the element's menu component */
+    menuComponent?: string;
 }
 
 export const FAULT_INDEX = -1;

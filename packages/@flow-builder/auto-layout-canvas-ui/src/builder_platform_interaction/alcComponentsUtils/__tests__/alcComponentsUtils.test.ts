@@ -150,10 +150,22 @@ function testGetAlcMenuData(
         h: 500
     };
 
-    const menuData = getAlcMenuData({ detail: toggleMenuDetail }, menuButtonHalfWidth, containerElementGeometry, 1, {
-        flowModel,
-        elementsMetadata
-    });
+    const mockMenuConstructor = class MockConstuctor {
+        static className: 'mock-menu';
+    };
+
+    const menuData = getAlcMenuData(
+        { detail: toggleMenuDetail },
+        menuButtonHalfWidth,
+        containerElementGeometry,
+        1,
+        {
+            flowModel,
+            elementsMetadata
+        },
+        false,
+        mockMenuConstructor
+    );
 
     expect(menuData.canAddEndElement).toEqual(expectedcanAddEndElement);
     expect(menuData.isGoToConnector).toEqual(expectedIsGoToConnector);

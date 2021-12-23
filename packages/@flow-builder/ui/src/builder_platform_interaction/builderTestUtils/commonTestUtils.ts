@@ -1,3 +1,6 @@
+import { createElement } from 'lwc';
+import { setDocumentBodyChildren } from './domTestUtils';
+
 const DEFAULT_MAX_TICKS = 10;
 
 /**
@@ -82,4 +85,43 @@ export const makeQuerablePromise = (promise) => {
     result.isPending = () => isPending;
     result.isRejected = () => isRejected;
     return result;
+};
+
+/**
+ * Formats a string to camelcase
+ *
+ * @param s - the string to format
+ * @returns the formatted string
+ */
+function camelCase(s) {
+    return s.replace(/-[a-zA-Z]/gi, (match) => {
+        return match.charAt(1).toUpperCase();
+    });
+}
+
+/**
+ * Creates a component for for use in jest tests
+ *
+ * @param tagName - The component name
+ * @param options - The component properties
+ * @param optionsOverride - The overridden component properties
+ * @returns the html element for the component
+ */
+export const createComponent = async (tagName, options = {}, optionsOverride = {}) => {
+    options = { ...options, ...optionsOverride };
+
+    const namespace = tagName.substring(0, tagName.indexOf('-'));
+    const moduleName = camelCase(tagName.replace(`${namespace}-`, ''));
+
+    const el = createElement(tagName, {
+        is: require(`${namespace}/${moduleName}`).default
+    });
+
+    if (options) {
+        Object.assign(el, options);
+    }
+
+    setDocumentBodyChildren(el);
+    await ticks(1);
+    return el;
 };

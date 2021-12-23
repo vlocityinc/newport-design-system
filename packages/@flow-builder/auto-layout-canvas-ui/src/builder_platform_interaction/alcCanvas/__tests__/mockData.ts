@@ -470,7 +470,8 @@ const elementsMetadata = [
         value: 'Screen',
         elementType: 'Screen',
         description: 'Collect information from users who run the flow or show them some information.',
-        canHaveFaultConnector: false
+        canHaveFaultConnector: false,
+        menuComponent: 'builder_platform_interaction/alcNodeMenu'
     },
     {
         section: 'Interaction',
@@ -481,7 +482,8 @@ const elementsMetadata = [
         elementType: 'ActionCall',
         description:
             'Perform an action outside of the flow. Choose from your org’s custom create and update actions or an out-of-the-box action, like Post to Chatter or Submit for Approval.',
-        canHaveFaultConnector: true
+        canHaveFaultConnector: true,
+        menuComponent: 'builder_platform_interaction/alcNodeMenu'
     },
     {
         section: 'Flow Control',
@@ -491,7 +493,8 @@ const elementsMetadata = [
         value: 'Decision',
         elementType: 'Decision',
         description: 'Create paths for the flow to take based on conditions you set.',
-        canHaveFaultConnector: false
+        canHaveFaultConnector: false,
+        menuComponent: 'builder_platform_interaction/alcNodeMenu'
     },
     {
         section: 'Flow Control',
@@ -502,7 +505,8 @@ const elementsMetadata = [
         elementType: 'Wait',
         description:
             'Pause the flow. Resume the flow when the org receives a platform event message or a specified day, date, or time occurs.',
-        canHaveFaultConnector: true
+        canHaveFaultConnector: true,
+        menuComponent: 'builder_platform_interaction/alcNodeMenu'
     },
     {
         section: 'Data Operation',
@@ -512,7 +516,8 @@ const elementsMetadata = [
         value: 'RecordCreate',
         elementType: 'RecordCreate',
         description: 'Create Salesforce records using values from the flow.',
-        canHaveFaultConnector: true
+        canHaveFaultConnector: true,
+        menuComponent: 'builder_platform_interaction/alcNodeMenu'
     },
     {
         section: 'Data Operation',
@@ -522,7 +527,8 @@ const elementsMetadata = [
         value: 'RecordUpdate',
         elementType: 'RecordUpdate',
         description: 'Find Salesforce records, and store their field values to use later in the flow.',
-        canHaveFaultConnector: true
+        canHaveFaultConnector: true,
+        menuComponent: 'builder_platform_interaction/alcNodeMenu'
     },
     {
         section: 'Data Operation',
@@ -532,7 +538,8 @@ const elementsMetadata = [
         value: 'RecordQuery',
         elementType: 'RecordQuery',
         description: 'Update Salesforce records using values from the flow.',
-        canHaveFaultConnector: true
+        canHaveFaultConnector: true,
+        menuComponent: 'builder_platform_interaction/alcNodeMenu'
     },
     {
         section: 'Data Operation',
@@ -542,7 +549,8 @@ const elementsMetadata = [
         value: 'RecordDelete',
         elementType: 'RecordDelete',
         description: 'Delete Salesforce records.',
-        canHaveFaultConnector: true
+        canHaveFaultConnector: true,
+        menuComponent: 'builder_platform_interaction/alcNodeMenu'
     },
     {
         section: null,
@@ -551,7 +559,8 @@ const elementsMetadata = [
         value: 'START_ELEMENT',
         elementType: 'START_ELEMENT',
         type: 'start',
-        canHaveFaultConnector: false
+        canHaveFaultConnector: false,
+        menuComponent: 'builder_platform_interaction/alcStartMenu'
     },
     {
         section: null,
@@ -560,7 +569,8 @@ const elementsMetadata = [
         elementType: 'root',
         value: 'root',
         type: 'root',
-        canHaveFaultConnector: false
+        canHaveFaultConnector: false,
+        menuComponent: 'builder_platform_interaction/alcNodeMenu'
     },
     {
         section: 'Logic',
@@ -570,7 +580,8 @@ const elementsMetadata = [
         value: 'END_ELEMENT',
         elementType: 'END_ELEMENT',
         type: 'end',
-        canHaveFaultConnector: false
+        canHaveFaultConnector: false,
+        menuComponent: 'builder_platform_interaction/alcNodeMenu'
     },
     {
         section: 'Interaction',
@@ -581,9 +592,9 @@ const elementsMetadata = [
         elementType: 'orchestratedstage',
         description: 'stepped stage desc',
         canHaveFaultConnector: false,
-        supportsMenu: true,
-        isSupported: true,
-        dynamicNodeComponent: 'builder_platform_interaction/orchestratedStageNode'
+
+        dynamicNodeComponent: 'builder_platform_interaction/orchestratedStageNode',
+        menuComponent: 'builder_platform_interaction/alcNodeMenu'
     }
 ];
 

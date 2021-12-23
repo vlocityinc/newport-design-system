@@ -1,7 +1,5 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import AlcConnectorMenu from 'builder_platform_interaction/alcConnectorMenu';
-import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
+import { createComponent } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 import { AddElementEvent } from 'builder_platform_interaction/events';
 import {
     CloseMenuEvent,
@@ -17,61 +15,13 @@ import {
     GOTO_DELETE_ACTION,
     GOTO_REROUTE_ACTION
 } from '../alcConnectorMenuConfig';
-import { ICON_SHAPE } from 'builder_platform_interaction/alcComponentsUtils';
+
 import { commands } from 'builder_platform_interaction/sharedUtils';
-import {
-    setDocumentBodyChildren,
-    removeDocumentBodyChildren
-} from 'builder_platform_interaction/builderTestUtils/domTestUtils';
+import { removeDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
 
 const { EnterCommand, SpaceCommand, ArrowDown, ArrowUp, EscapeCommand, TabCommand } = commands;
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
-
-const metaData = [
-    {
-        section: 'Interaction',
-        type: 'default',
-        icon: 'standard:screen',
-        label: 'Screen',
-        value: 'Screen',
-        elementType: 'Screen',
-        description: 'Collect information from'
-    },
-    {
-        section: 'Interaction',
-        type: 'default',
-        icon: 'standard:action',
-        label: 'Action',
-        value: 'Action',
-        elementType: 'Action',
-        actionType: 'TestActionType',
-        actionName: 'TestActionName',
-        actionIsStandard: true,
-        description: 'Palette promoted action'
-    },
-    {
-        section: 'Logic',
-        type: 'branch',
-        icon: 'standard:decision',
-        iconShape: ICON_SHAPE.DIAMOND,
-        label: 'Decision',
-        value: 'Decision',
-        elementType: 'Decision',
-        description: 'Create Decision'
-    },
-    {
-        section: 'Logic',
-        type: 'end',
-        icon: 'utility:stop',
-        iconBackgroundColor: 'background-red',
-        iconShape: ICON_SHAPE.CIRCLE,
-        label: 'End',
-        value: 'End',
-        elementType: 'End',
-        description: 'Create End'
-    }
-];
 
 jest.mock('../alcConnectorMenuConfig', () => {
     return {
@@ -163,28 +113,25 @@ const selectors = {
     endIcon: '.background-red.end-element-svg'
 };
 
-const createComponentUnderTest = () => {
-    const el = createElement('builder_platform_interaction-alc-connector-menu', {
-        is: AlcConnectorMenu
-    });
-    el.elementsMetadata = metaData;
-    el.source = {};
-    setDocumentBodyChildren(el);
-    return el;
+const defaultOptions = {
+    source: {}
+};
+
+const createComponentUnderTest = async (overrideOptions) => {
+    return createComponent('builder_platform_interaction-alc-connector-menu', defaultOptions, overrideOptions);
 };
 
 describe('connector menu', () => {
     afterEach(() => {
         removeDocumentBodyChildren();
     });
-    it('should render the component', () => {
-        const menu = createComponentUnderTest();
+    it('should render the component', async () => {
+        const menu = await createComponentUnderTest();
         expect(menu).toBeDefined();
     });
 
     it('should dispatch close menu event on selecting a menu item ', async () => {
-        const cmp = createComponentUnderTest();
-        await ticks(1);
+        const cmp = await createComponentUnderTest();
         const callback = jest.fn();
         cmp.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
         cmp.shadowRoot.querySelector(selectors.listboxItem).click();
@@ -192,8 +139,7 @@ describe('connector menu', () => {
     });
 
     it('should dispatch add element when paste is not specified ', async () => {
-        const cmp = createComponentUnderTest();
-        await ticks(1);
+        const cmp = await createComponentUnderTest();
         const callback = jest.fn();
         cmp.addEventListener(AddElementEvent.EVENT_NAME, callback);
         cmp.shadowRoot.querySelector(selectors.listboxItem).click();
@@ -202,8 +148,7 @@ describe('connector menu', () => {
     });
 
     it('should dispatch add element when paste is not specified using enter command ', async () => {
-        const cmp = createComponentUnderTest();
-        await ticks(1);
+        const cmp = await createComponentUnderTest();
         const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
         listItems[0].focus();
         const callback = jest.fn();
@@ -214,8 +159,7 @@ describe('connector menu', () => {
     });
 
     it('should dispatch add element when paste is not specified using space command ', async () => {
-        const cmp = createComponentUnderTest();
-        await ticks(1);
+        const cmp = await createComponentUnderTest();
         const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
         listItems[0].focus();
         const callback = jest.fn();
@@ -226,8 +170,7 @@ describe('connector menu', () => {
     });
 
     it('should dispatch add element with actionType, actionName and actionIsStandard properties ', async () => {
-        const cmp = createComponentUnderTest();
-        await ticks(1);
+        const cmp = await createComponentUnderTest();
         const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
         listItems[1].focus();
         const callback = jest.fn();
@@ -258,8 +201,7 @@ describe('connector menu', () => {
                 }
             ]
         });
-        const cmp = createComponentUnderTest();
-        await ticks(1);
+        const cmp = await createComponentUnderTest();
         const callback = jest.fn();
         cmp.addEventListener(PasteOnCanvasEvent.EVENT_NAME, callback);
         cmp.shadowRoot.querySelector(selectors.listboxItem).click();
@@ -285,8 +227,7 @@ describe('connector menu', () => {
                 }
             ]
         });
-        const cmp = createComponentUnderTest();
-        await ticks(1);
+        const cmp = await createComponentUnderTest();
         const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
         const callback = jest.fn();
         cmp.addEventListener(MoveFocusToConnectorEvent.EVENT_NAME, callback);
@@ -314,8 +255,7 @@ describe('connector menu', () => {
                 }
             ]
         });
-        const cmp = createComponentUnderTest();
-        await ticks(1);
+        const cmp = await createComponentUnderTest();
         const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
         const callback = jest.fn();
         cmp.addEventListener(GoToPathEvent.EVENT_NAME, callback);
@@ -343,8 +283,7 @@ describe('connector menu', () => {
                 }
             ]
         });
-        const cmp = createComponentUnderTest();
-        await ticks(1);
+        const cmp = await createComponentUnderTest();
         const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
         const callback = jest.fn();
         cmp.addEventListener(GoToPathEvent.EVENT_NAME, callback);
@@ -372,8 +311,7 @@ describe('connector menu', () => {
                 }
             ]
         });
-        const cmp = createComponentUnderTest();
-        await ticks(1);
+        const cmp = await createComponentUnderTest();
         const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
         const callback = jest.fn();
         cmp.addEventListener(MoveFocusToConnectorEvent.EVENT_NAME, callback);
@@ -401,8 +339,7 @@ describe('connector menu', () => {
                 }
             ]
         });
-        const cmp = createComponentUnderTest();
-        await ticks(1);
+        const cmp = await createComponentUnderTest();
         const callback = jest.fn();
         cmp.addEventListener(MoveFocusToConnectorEvent.EVENT_NAME, callback);
         cmp.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
@@ -429,8 +366,7 @@ describe('connector menu', () => {
                 }
             ]
         });
-        const cmp = createComponentUnderTest();
-        await ticks(1);
+        const cmp = await createComponentUnderTest();
         const callback = jest.fn();
         cmp.addEventListener(MoveFocusToConnectorEvent.EVENT_NAME, callback);
         cmp.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
@@ -471,8 +407,7 @@ describe('connector menu', () => {
                 }
             ]
         });
-        const cmp = createComponentUnderTest();
-        await ticks(1);
+        const cmp = await createComponentUnderTest();
         const callback = jest.fn();
         cmp.addEventListener(MoveFocusToConnectorEvent.EVENT_NAME, callback);
         cmp.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
@@ -500,8 +435,7 @@ describe('connector menu', () => {
                 }
             ]
         });
-        const cmp = createComponentUnderTest();
-        await ticks(1);
+        const cmp = await createComponentUnderTest();
         const callback = jest.fn();
         cmp.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
         cmp.keyboardInteractions.execute(ArrowDown.COMMAND_NAME);
@@ -529,8 +463,7 @@ describe('connector menu', () => {
                 }
             ]
         });
-        const cmp = createComponentUnderTest();
-        await ticks(1);
+        const cmp = await createComponentUnderTest();
         const callback = jest.fn();
         cmp.addEventListener(GoToPathEvent.EVENT_NAME, callback);
         cmp.shadowRoot.querySelector(selectors.listboxItem).click();
@@ -556,8 +489,7 @@ describe('connector menu', () => {
                 }
             ]
         });
-        const cmp = createComponentUnderTest();
-        await ticks(1);
+        const cmp = await createComponentUnderTest();
         const callback = jest.fn();
         cmp.addEventListener(DeleteGoToConnectionEvent.EVENT_NAME, callback);
 
@@ -584,8 +516,7 @@ describe('connector menu', () => {
                 }
             ]
         });
-        const cmp = createComponentUnderTest();
-        await ticks(1);
+        const cmp = await createComponentUnderTest();
         const callback = jest.fn();
         cmp.addEventListener(GoToPathEvent.EVENT_NAME, callback);
         cmp.shadowRoot.querySelector(selectors.listboxItem).click();
@@ -596,38 +527,38 @@ describe('connector menu', () => {
         });
     });
 
-    it('Decision element row span should be present', () => {
-        const cmp = createComponentUnderTest();
+    it('Decision element row span should be present', async () => {
+        const cmp = await createComponentUnderTest();
         const decisionElementSpan = cmp.shadowRoot.querySelector(selectors.decisionIconSpan);
         expect(decisionElementSpan).not.toBeNull();
     });
 
-    it('Decision element icon should be present', () => {
-        const cmp = createComponentUnderTest();
+    it('Decision element icon should be present', async () => {
+        const cmp = await createComponentUnderTest();
         const decisionElementIcon = cmp.shadowRoot.querySelector(selectors.decisionIcon);
         expect(decisionElementIcon).not.toBeNull();
     });
 
-    it('End element icon should be present', () => {
-        const cmp = createComponentUnderTest();
+    it('End element icon should be present', async () => {
+        const cmp = await createComponentUnderTest();
         const endElementIcon = cmp.shadowRoot.querySelector(selectors.endIcon);
         expect(endElementIcon).not.toBeNull();
     });
 
-    it('End element icon should have the right size', () => {
-        const cmp = createComponentUnderTest();
+    it('End element icon should have the right size', async () => {
+        const cmp = await createComponentUnderTest();
         const endElementIcon = cmp.shadowRoot.querySelector(selectors.endIcon);
         expect(endElementIcon.size).toBe('xx-small');
     });
 
-    it('End element icon should have the right variant', () => {
-        const cmp = createComponentUnderTest();
+    it('End element icon should have the right variant', async () => {
+        const cmp = await createComponentUnderTest();
         const endElementIcon = cmp.shadowRoot.querySelector(selectors.endIcon);
         expect(endElementIcon.variant).toBe('inverse');
     });
 
-    it('Focus should move correctly to the next row on arrow down', () => {
-        const cmp = createComponentUnderTest();
+    it('Focus should move correctly to the next row on arrow down', async () => {
+        const cmp = await createComponentUnderTest();
         const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
         listItems[0].focus();
         const callback = jest.fn();
@@ -636,8 +567,8 @@ describe('connector menu', () => {
         expect(callback).toHaveBeenCalled();
     });
 
-    it('Focus should move correctly to the previous row on arrow up', () => {
-        const cmp = createComponentUnderTest();
+    it('Focus should move correctly to the previous row on arrow up', async () => {
+        const cmp = await createComponentUnderTest();
         const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
         listItems[1].focus();
         const callback = jest.fn();
@@ -646,8 +577,8 @@ describe('connector menu', () => {
         expect(callback).toHaveBeenCalled();
     });
 
-    it('Focus should move correctly to the first row on arrow down on the last row', () => {
-        const cmp = createComponentUnderTest();
+    it('Focus should move correctly to the first row on arrow down on the last row', async () => {
+        const cmp = await createComponentUnderTest();
         const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
         listItems[listItems.length - 1].focus();
         const callback = jest.fn();
@@ -656,8 +587,8 @@ describe('connector menu', () => {
         expect(callback).toHaveBeenCalled();
     });
 
-    it('Focus should move correctly to the last row on arrow up on the first row', () => {
-        const cmp = createComponentUnderTest();
+    it('Focus should move correctly to the last row on arrow up on the first row', async () => {
+        const cmp = await createComponentUnderTest();
         const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
         listItems[0].focus();
         const callback = jest.fn();
@@ -666,8 +597,8 @@ describe('connector menu', () => {
         expect(callback).toHaveBeenCalled();
     });
 
-    it('Pressing escape while focus is on a row item should fire the CloseMenuEvent', () => {
-        const cmp = createComponentUnderTest();
+    it('Pressing escape while focus is on a row item should fire the CloseMenuEvent', async () => {
+        const cmp = await createComponentUnderTest();
         const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
         const callback = jest.fn();
         cmp.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
@@ -676,8 +607,8 @@ describe('connector menu', () => {
         expect(callback).toHaveBeenCalled();
     });
 
-    it('Pressing escape while focus is on a row item should fire the MoveFocusToConnectorEvent', () => {
-        const cmp = createComponentUnderTest();
+    it('Pressing escape while focus is on a row item should fire the MoveFocusToConnectorEvent', async () => {
+        const cmp = await createComponentUnderTest();
         const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
         const callback = jest.fn();
         cmp.addEventListener(MoveFocusToConnectorEvent.EVENT_NAME, callback);

@@ -37,7 +37,7 @@ const createPropertyEditorComponent = async (
         nodeUpdate: () => {}
     });
     // this test file is a js file because tsc cannot compile files with await import given our compilerOptions.target
-    // eslint-disable-next-line lwc-core/no-dynamic-import
+
     const module = await import(propertyEditorParams.attr.bodyComponent.className);
     const propertyEditorElement = createElement('x-lazy', {
         is: module.default

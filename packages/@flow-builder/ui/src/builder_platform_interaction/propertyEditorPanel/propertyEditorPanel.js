@@ -1,11 +1,9 @@
-// @ts-nocheck
 import { LightningElement, track, api } from 'lwc';
 
-import { ClosePropertyEditorEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
+import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
 import { LABELS } from './propertyEditorPanelLabels';
 import { PROPERTY_EDITOR_PANEL_SIZE } from 'builder_platform_interaction/elementConfig';
 import { classSet } from 'lightning/utils';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 /**
  * LWC version of the property editor, for use in lwc (as opposed to aura modal version)
@@ -66,9 +64,7 @@ export default class PropertyEditorPanel extends LightningElement {
      * @param params
      * @return {Promise<void>}
      */
-    // eslint-disable-next-line @lwc/lwc/no-async-await
     async processParams(params) {
-        // eslint-disable-next-line lwc-core/no-dynamic-import
         const module = await import(params.attr.bodyComponent.className);
 
         this.ctor = module.default;

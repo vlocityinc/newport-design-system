@@ -16,14 +16,18 @@
             "builder_platform_interaction/sharedUtils": ["../shared-utils/dist/types/index.d.js"],
             "builder_platform_interaction/alcEvents": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcEvents/alcEvents.ts"],
             "builder_platform_interaction/popover": ["../auto-layout-canvas-ui/src/builder_platform_interaction/popover/popover.ts"],
-            "builder_platform_interaction/menu": ["../auto-layout-canvas-ui/src/builder_platform_interaction/menu/menu.ts"],
+            "builder_platform_interaction/alcMenu": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcMenu/alcMenu.ts"],
+            "builder_platform_interaction/alcNodeMenu": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcNodeMenu/alcNodeMenu.ts"],
+            "builder_platform_interaction/alcConnectorMenu": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcConnectorMenu/alcConnectorMenu.ts"],
             "builder_platform_interaction/alcComponentsUtils": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcComponentsUtils/alcComponentsUtils.ts"],
+            "builder_platform_interaction/alcCanvas": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcCanvas/alcCanvas.ts"],
             "builder_platform_interaction/accordionSectionWithIcon": ["./src/builder_platform_interaction/accordionSectionWithIcon/accordionSectionWithIcon.ts"],
             "builder_platform_interaction/actionSelector": ["./src/builder_platform_interaction/actionSelector/actionSelector.ts"],
             "builder_platform_interaction/actions": ["./src/builder_platform_interaction/actions/actions.ts"],
             "builder_platform_interaction/alcCanvasContainer": ["./src/builder_platform_interaction/alcCanvasContainer/alcCanvasContainer.ts"],
             "builder_platform_interaction/alcCanvasUtils": ["./src/builder_platform_interaction/alcCanvasUtils/alcCanvasUtils.ts"],
             "builder_platform_interaction/alcConversionUtils": ["./src/builder_platform_interaction/alcConversionUtils/alcConversionUtils.ts"],
+            "builder_platform_interaction/alcStartMenu": ["./src/builder_platform_interaction/alcStartMenu/alcStartMenu.ts"],
             "builder_platform_interaction/apexPluginEditor": ["./src/builder_platform_interaction/apexPluginEditor/apexPluginEditor.ts"],
             "builder_platform_interaction/apexTypeLib": ["./src/builder_platform_interaction/apexTypeLib/apexTypeLib.ts"],
             "builder_platform_interaction/assignmentEditor": ["./src/builder_platform_interaction/assignmentEditor/assignmentEditor.ts"],
@@ -270,5 +274,5 @@
          }
     },
 
-    "include": ["src/builder_platform_interaction/**/*", "jest-modules/**/*", "jest-mock-data/**/*", "@types", "../shared-utils/@types/index.d.ts"]
+    "include": ["src/builder_platform_interaction/**/*", "jest-modules/**/*", "jest-mock-data/**/*", "@types", "../shared-utils/@types/index.d.ts", "../auto-layout-canvas-ui/@types/index.d.ts"]
 }

@@ -12,7 +12,7 @@
     --node-icon-half-height-with-padding: calc(var(--node-icon-height-with-padding) / 2);
     overflow: hidden;
 
-    /* TODO: W-9582142: Group, clean up and rationalize the the z-index number assignments   */
+    /* TODO: W-9582142: Group, clean up and rationalize the z-index number assignments   */
     --z-index-alc-connector-svg: -1;
     --z-index-alc-node-dynamic-component: 1;
     --z-index-alc-node-icon-container: 2;

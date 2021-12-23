@@ -14,14 +14,11 @@ interface CreateGoToConnectionEventDetail {
 
 export class CreateGoToConnectionEvent extends CustomEvent<CreateGoToConnectionEventDetail> {
     /**
-     * @param sourceGuid - Guid of the source element
-     * @param sourceBranchIndex - Index of branch on which GoTo is being added
-     * @param targetGuid - Guid of the target element
-     * @param source
-     * @param target
+     * @param source - The connection source for the goto
+     * @param target - The goto's target guid
      * @param isReroute - Whether this is a reroute of an existing Goto connection
      */
-    constructor(source, target, isReroute) {
+    constructor(source: ConnectionSource, target: Guid, isReroute: boolean) {
         super(eventName, {
             bubbles: true,
             composed: true,

@@ -6,9 +6,6 @@
         "noImplicitAny": false,
         "outDir": "./build/builder_platform_interaction",
         "baseUrl": "./src",
-        "target": "esnext",
-        "module": "esnext",
-        "lib": ["DOM"],
          "paths": {
             "lightning/utils": ["../../../../node_modules/lwc-components-lightning/src/lightning/utils/utils.js"],
             "builder_platform_interaction/events": ["../../ui/src/builder_platform_interaction/events/events.ts"],
@@ -25,16 +22,13 @@
             "builder_platform_interaction/alcComponentsUtils": ["./builder_platform_interaction/alcComponentsUtils/alcComponentsUtils.ts"],
             "builder_platform_interaction/alcCompoundNode": ["./builder_platform_interaction/alcCompoundNode/alcCompoundNode.ts"],
             "builder_platform_interaction/alcConnector": ["./builder_platform_interaction/alcConnector/alcConnector.ts"],
-            "builder_platform_interaction/alcConnectorMenu": ["./builder_platform_interaction/alcConnectorMenu/alcConnectorMenu.ts"],
             "builder_platform_interaction/alcEvents": ["./builder_platform_interaction/alcEvents/alcEvents.ts"],
             "builder_platform_interaction/alcFlow": ["./builder_platform_interaction/alcFlow/alcFlow.ts"],
-            "builder_platform_interaction/alcMenu": ["./builder_platform_interaction/alcMenu/alcMenu.ts"],
             "builder_platform_interaction/alcNode": ["./builder_platform_interaction/alcNode/alcNode.ts"],
-            "builder_platform_interaction/alcNodeMenu": ["./builder_platform_interaction/alcNodeMenu/alcNodeMenu.ts"],
-            "builder_platform_interaction/menu": ["./builder_platform_interaction/menu/menu.ts"],
+            "builder_platform_interaction/alcMenu": ["./builder_platform_interaction/alcMenu/alcMenu.ts"],
             "builder_platform_interaction/popover": ["./builder_platform_interaction/popover/popover.ts"]
          }
     },
   
-    "include": ["src/**/*", "@types", "@types/lwc.d.ts","../ui/@types/uiModel.d.ts","../ui/@types/metadataModel.d.ts", "../shared-utils/@types/index.d.ts"]
+    "include": ["src/**/*", "@types/index.d.ts", "@types/lwc.d.ts","../ui/@types/uiModel.d.ts","../ui/@types/metadataModel.d.ts", "../shared-utils/@types/index.d.ts"]
 }

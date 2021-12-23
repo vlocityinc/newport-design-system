@@ -5,11 +5,9 @@ import { flowModel, elementsMetadata } from './mockData';
 import {
     ToggleMenuEvent,
     DeleteBranchElementEvent,
-    HighlightPathsToDeleteEvent,
-    MenuPositionUpdateEvent,
-    MoveFocusFromEmptyStartNodeEvent
+    MenuPositionUpdateEvent
 } from 'builder_platform_interaction/alcEvents';
-import { MenuType, updateDeletionPathInfo } from 'builder_platform_interaction/autoLayoutCanvas';
+import { MenuType } from 'builder_platform_interaction/autoLayoutCanvas';
 import {
     ClickToZoomEvent,
     DeleteElementEvent,
@@ -51,36 +49,28 @@ const DEFAULT_CLIENT_RECT = {
     right: 100
 };
 
+const nodeToggleMenuEventProps = {
+    source: { guid: 'screen-two' },
+    left: 702.0999755859375,
+    offsetX: 2.4000244140625,
+    top: 140,
+    type: MenuType.NODE,
+    elementMetadata: { menuComponent: 'builder_platform_interaction/alcNodeMenu' }
+};
+
+const nodeToggleMenuEventProps2 = { source: { guid: '837e0692-6f17-4d5c-ba5d-854851d31fcb', top: 140 } };
+
+function getNodeToggleMenuEvent(props = {}) {
+    return new ToggleMenuEvent({ ...nodeToggleMenuEventProps, ...props });
+}
+
 const getConnectorToggleMenuEvent = () => {
     return new ToggleMenuEvent({
         left: 716.5,
         offsetX: 2,
         source: { guid: '837e0692-6f17-4d5c-ba5d-854851d31fcb' },
         top: 84,
-        type: MenuType.CONNECTOR,
-        elementMetadata: { supportsMenu: true }
-    });
-};
-
-const getNodeToggleMenuEvent = () => {
-    return new ToggleMenuEvent({
-        source: { guid: 'eb01a710-d341-4ba0-81d2-f7ef03300db5' },
-        left: 702.0999755859375,
-        offsetX: 2.4000244140625,
-        top: -2.3999996185302734,
-        type: MenuType.NODE,
-        elementMetadata: { supportsMenu: true }
-    });
-};
-
-const getNodeToggleMenuEvent2 = () => {
-    return new ToggleMenuEvent({
-        source: { guid: '837e0692-6f17-4d5c-ba5d-854851d31fcb' },
-        left: 702.0999755859375,
-        offsetX: 2.4000244140625,
-        top: 140,
-        type: MenuType.NODE,
-        elementMetadata: { supportsMenu: true }
+        type: MenuType.CONNECTOR
     });
 };
 
@@ -100,6 +90,7 @@ jest.mock('builder_platform_interaction/zoomPanel', () =>
 jest.mock('builder_platform_interaction/alcFlow', () =>
     jest.requireActual('builder_platform_interaction_mocks/alcFlow')
 );
+
 jest.mock('builder_platform_interaction/alcConnectorMenu', () =>
     jest.requireActual('builder_platform_interaction_mocks/alcConnectorMenu')
 );
@@ -107,9 +98,13 @@ jest.mock('builder_platform_interaction/alcConnectorMenu', () =>
 jest.mock('builder_platform_interaction/alcNodeMenu', () =>
     jest.requireActual('builder_platform_interaction_mocks/alcNodeMenu')
 );
-jest.mock('builder_platform_interaction/alcStartMenu', () =>
-    jest.requireActual('builder_platform_interaction_mocks/alcStartMenu')
-);
+
+jest.mock('builder_platform_interaction/alcStartMenu', () => {
+    const AlcNodeMenu = jest.requireActual('builder_platform_interaction/alcNodeMenu').default;
+    return class extends AlcNodeMenu {
+        static className = 'start-menu';
+    };
+});
 
 jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
     const autoLayoutCanvas = jest.requireActual('builder_platform_interaction/autoLayoutCanvas');
@@ -180,6 +175,10 @@ const createComponentForTest = () => {
     el.disableAnimation = true;
     el.elementsMetadata = elementsMetadata;
     el.disableDebounce = true;
+    el.connectorMenuMetadata = {
+        menuComponent: 'builder_platform_interaction/alcConnectorMenu',
+        elementTypes: new Set()
+    };
     setDocumentBodyChildren(el);
     return el;
 };
@@ -210,9 +209,9 @@ describe('Auto Layout Canvas', () => {
     const getOverlay = () => cmp.shadowRoot.querySelector('.canvas-overlay');
     const getFlow = () => cmp.shadowRoot.querySelector('builder_platform_interaction-alc-flow');
     const getZoomPanel = () => cmp.shadowRoot.querySelector('builder_platform_interaction-zoom-panel');
-    const getNodeMenu = () => cmp.shadowRoot.querySelector('builder_platform_interaction-alc-node-menu');
-    const getStartNodeMenu = () => cmp.shadowRoot.querySelector('builder_platform_interaction-alc-start-menu');
-    const getConnectorMenu = () => cmp.shadowRoot.querySelector('builder_platform_interaction-alc-connector-menu');
+    const getNodeMenu = () => cmp.shadowRoot.querySelector('.node-menu');
+    const getStartNodeMenu = () => cmp.shadowRoot.querySelector('.start-menu');
+    const getConnectorMenu = () => cmp.shadowRoot.querySelector('.connector-menu');
     const getSpinner = () => cmp.shadowRoot.querySelector('div.slds-spinner_container');
 
     const checkMenusOpened = (isNodeMenuOpened, isConnectorMenuOpened, isStartMenuOpened = false) => {
@@ -341,6 +340,7 @@ describe('Auto Layout Canvas', () => {
 
     describe('menus', () => {
         it('opens the start menu on load', async () => {
+            await ticks(1);
             checkMenusOpened(!NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED, START_MENU_OPENED);
         });
 
@@ -378,15 +378,20 @@ describe('Auto Layout Canvas', () => {
             const flow = getFlow();
 
             // open the menu for a node
-            await dispatchEvent(flow, getNodeToggleMenuEvent2());
+            await dispatchEvent(
+                flow,
+                getNodeToggleMenuEvent({
+                    top: 140
+                })
+            );
             checkMenusOpened(NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED);
 
             // open the menu for another node
-            await dispatchEvent(flow, getNodeToggleMenuEvent());
+            await dispatchEvent(flow, getNodeToggleMenuEvent(nodeToggleMenuEventProps2));
             checkMenusOpened(NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED);
 
             // close the menu
-            await dispatchEvent(flow, getNodeToggleMenuEvent());
+            await dispatchEvent(flow, getNodeToggleMenuEvent(nodeToggleMenuEventProps2));
             checkMenusOpened(!NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED);
         });
 
@@ -396,6 +401,7 @@ describe('Auto Layout Canvas', () => {
             const flow = getFlow();
 
             await dispatchEvent(flow, getConnectorToggleMenuEvent());
+            await ticks(10);
             checkMenusOpened(!NODE_MENU_OPENED, CONNECTOR_MENU_OPENED);
 
             await dispatchEvent(flow, getCloseToggleMenuEvent());
@@ -450,11 +456,11 @@ describe('Auto Layout Canvas', () => {
             const flow = getFlow();
 
             // open the menu for a node
-            await dispatchEvent(flow, getNodeToggleMenuEvent2());
+            await dispatchEvent(flow, getNodeToggleMenuEvent());
             checkMenusOpened(NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED);
 
             // open the menu for another node
-            await dispatchEvent(flow, getNodeToggleMenuEvent());
+            await dispatchEvent(flow, getNodeToggleMenuEvent(nodeToggleMenuEventProps2));
             checkMenusOpened(NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED);
 
             // fire the a menu position update event (as done by alcMenuTrigger in this scenario)
@@ -530,13 +536,8 @@ describe('Auto Layout Canvas', () => {
     describe('modal', () => {
         it('calls the invokeModal function when deleting an element and the branch to persist is terminated and next element is not end element', async () => {
             const flow = getFlow();
-            const nodeToggleMenuEvent = new ToggleMenuEvent({
-                source: { guid: '1c397973-762d-443f-9780-2b9777b6d6a3' },
-                left: 702.0999755859375,
-                offsetX: 2.4000244140625,
-                top: 140,
-                type: MenuType.NODE,
-                elementMetadata: { supportsMenu: true }
+            const nodeToggleMenuEvent = getNodeToggleMenuEvent({
+                source: { guid: '1c397973-762d-443f-9780-2b9777b6d6a3' }
             });
             await dispatchEvent(flow, nodeToggleMenuEvent);
             const nodeMenu = getNodeMenu();
@@ -552,13 +553,8 @@ describe('Auto Layout Canvas', () => {
             const callback = jest.fn();
             cmp.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
             const flow = getFlow();
-            const nodeToggleMenuEvent = new ToggleMenuEvent({
-                source: { guid: '1c397973-762d-443f-9780-2b9777b6d6a3' },
-                left: 702.0999755859375,
-                offsetX: 2.4000244140625,
-                top: 140,
-                type: MenuType.NODE,
-                elementMetadata: { supportsMenu: true }
+            const nodeToggleMenuEvent = getNodeToggleMenuEvent({
+                source: { guid: '1c397973-762d-443f-9780-2b9777b6d6a3' }
             });
             await dispatchEvent(flow, nodeToggleMenuEvent);
             const nodeMenu = getNodeMenu();
@@ -574,14 +570,10 @@ describe('Auto Layout Canvas', () => {
             const callback = jest.fn();
             cmp.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
             const flow = getFlow();
-            const nodeToggleMenuEvent = new ToggleMenuEvent({
-                source: { guid: '1c397973-762d-443f-9780-2b9777b6d6a3' },
-                left: 702.0999755859375,
-                offsetX: 2.4000244140625,
-                top: 140,
-                type: MenuType.NODE,
-                elementMetadata: { supportsMenu: true }
+            const nodeToggleMenuEvent = getNodeToggleMenuEvent({
+                source: { guid: '1c397973-762d-443f-9780-2b9777b6d6a3' }
             });
+
             await dispatchEvent(flow, nodeToggleMenuEvent);
             const nodeMenu = getNodeMenu();
             const deleteBranchElementEvent = new DeleteBranchElementEvent(
@@ -596,13 +588,8 @@ describe('Auto Layout Canvas', () => {
             const callback = jest.fn();
             cmp.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
             const flow = getFlow();
-            const nodeToggleMenuEvent = new ToggleMenuEvent({
-                source: { guid: '9731c397-443f-9780-762d-d6a32b9777b6' },
-                left: 702.0999755859375,
-                offsetX: 2.4000244140625,
-                top: 140,
-                type: MenuType.NODE,
-                elementMetadata: { supportsMenu: true }
+            const nodeToggleMenuEvent = getNodeToggleMenuEvent({
+                source: { guid: '9731c397-443f-9780-762d-d6a32b9777b6' }
             });
             await dispatchEvent(flow, nodeToggleMenuEvent);
             const nodeMenu = getNodeMenu();
@@ -618,13 +605,10 @@ describe('Auto Layout Canvas', () => {
             const callback = jest.fn();
             cmp.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
             const flow = getFlow();
-            const nodeToggleMenuEvent = new ToggleMenuEvent({
+            const nodeToggleMenuEvent = getNodeToggleMenuEvent({
                 source: { guid: 'decision' },
                 left: 702.0999755859375,
-                offsetX: 2.4000244140625,
-                top: 140,
-                type: MenuType.NODE,
-                elementMetadata: { supportsMenu: true }
+                top: 140
             });
             await dispatchEvent(flow, nodeToggleMenuEvent);
             const nodeMenu = getNodeMenu();
@@ -636,13 +620,8 @@ describe('Auto Layout Canvas', () => {
             const callback = jest.fn();
             cmp.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
             const flow = getFlow();
-            const nodeToggleMenuEvent = new ToggleMenuEvent({
-                source: { guid: '1c397973-762d-443f-9780-2b9777b6d6a3' },
-                left: 702.0999755859375,
-                offsetX: 2.4000244140625,
-                top: 140,
-                type: MenuType.NODE,
-                elementMetadata: { supportsMenu: true }
+            const nodeToggleMenuEvent = getNodeToggleMenuEvent({
+                source: { guid: '1c397973-762d-443f-9780-2b9777b6d6a3' }
             });
             await dispatchEvent(flow, nodeToggleMenuEvent);
             const nodeMenu = getNodeMenu();
@@ -658,13 +637,8 @@ describe('Auto Layout Canvas', () => {
             const callback = jest.fn();
             cmp.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
             const flow = getFlow();
-            const nodeToggleMenuEvent = new ToggleMenuEvent({
-                source: { guid: '4b54cd8b-6bba-407b-a02b-c2129290162e' },
-                left: 702.0999755859375,
-                offsetX: 2.4000244140625,
-                top: 140,
-                type: MenuType.NODE,
-                elementMetadata: { supportsMenu: true }
+            const nodeToggleMenuEvent = getNodeToggleMenuEvent({
+                source: { guid: '4b54cd8b-6bba-407b-a02b-c2129290162e' }
             });
             await dispatchEvent(flow, nodeToggleMenuEvent);
             const nodeMenu = getNodeMenu();
@@ -681,13 +655,8 @@ describe('Auto Layout Canvas', () => {
     describe('focus', () => {
         it('focusOnConnector should be called when deleting an element with branches', async () => {
             const flow = getFlow();
-            const nodeToggleMenuEvent = new ToggleMenuEvent({
-                source: { guid: 'decision' },
-                left: 702.0999755859375,
-                offsetX: 2.4000244140625,
-                top: 140,
-                type: MenuType.NODE,
-                elementMetadata: { supportsMenu: true }
+            const nodeToggleMenuEvent = getNodeToggleMenuEvent({
+                source: { guid: 'decision' }
             });
             await dispatchEvent(flow, nodeToggleMenuEvent);
             const nodeMenu = getNodeMenu();
@@ -697,41 +666,14 @@ describe('Auto Layout Canvas', () => {
         });
         it('focusOnConnector should be called when deleting a branch element', async () => {
             const flow = getFlow();
-            const nodeToggleMenuEvent = new ToggleMenuEvent({
-                source: { guid: 'screen-two' },
-                left: 702.0999755859375,
-                offsetX: 2.4000244140625,
-                top: 140,
-                type: MenuType.NODE,
-                elementMetadata: { supportsMenu: true }
+            const nodeToggleMenuEvent = getNodeToggleMenuEvent({
+                source: { guid: 'screen-two' }
             });
             await dispatchEvent(flow, nodeToggleMenuEvent);
             const nodeMenu = getNodeMenu();
             const deleteElementEvent = new DeleteElementEvent(['screen-two'], 'Screen', null);
             await dispatchEvent(nodeMenu, deleteElementEvent);
             expect(cmp.focusOnConnector).toHaveBeenCalledWith({ guid: 'decision', childIndex: 1 });
-        });
-
-        it('focusOnConnector should be called when handling MoveFocusFromEmptyStartNodeEvent and disableAddElements is false', async () => {
-            const startNodeMenu = getStartNodeMenu();
-            const moveFocusFromEmptyStartNodeEvent = new MoveFocusFromEmptyStartNodeEvent(
-                'eb01a710-d341-4ba0-81d2-f7ef03300db5'
-            );
-            await dispatchEvent(startNodeMenu, moveFocusFromEmptyStartNodeEvent);
-            expect(cmp.focusOnConnector).toHaveBeenCalledWith({
-                guid: 'eb01a710-d341-4ba0-81d2-f7ef03300db5',
-                childIndex: undefined
-            });
-        });
-
-        it('focusOnNode should be called when handling MoveFocusFromEmptyStartNodeEvent, disableAddElements is true and next element is not End', async () => {
-            cmp.disableAddElements = true;
-            const startNodeMenu = getStartNodeMenu();
-            const moveFocusFromEmptyStartNodeEvent = new MoveFocusFromEmptyStartNodeEvent(
-                'eb01a710-d341-4ba0-81d2-f7ef03300db5'
-            );
-            await dispatchEvent(startNodeMenu, moveFocusFromEmptyStartNodeEvent);
-            expect(cmp.focusOnNode).toHaveBeenCalledWith('837e0692-6f17-4d5c-ba5d-854851d31f99');
         });
     });
 

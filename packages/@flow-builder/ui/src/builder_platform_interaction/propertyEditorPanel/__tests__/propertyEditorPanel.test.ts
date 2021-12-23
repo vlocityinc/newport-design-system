@@ -2,10 +2,16 @@
 import { createElement } from 'lwc';
 
 import PropertyEditorPanel from '../propertyEditorPanel';
-import { ClosePropertyEditorEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
+import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
-jest.mock('builder_platform_interaction/stageEditor', () => require('builder_platform_interaction_mocks/stageEditor'));
+jest.mock('builder_platform_interaction/sharedUtils', () =>
+    jest.requireActual('builder_platform_interaction_mocks/sharedUtils')
+);
+
+jest.mock('builder_platform_interaction/stageEditor', () =>
+    jest.requireActual('builder_platform_interaction_mocks/stageEditor')
+);
 
 const selectors = {
     CLOSE_BUTTON: 'lightning-button-icon.close-panel-button',
@@ -24,9 +30,10 @@ const createComponentUnderTest = (props) => {
 };
 
 describe('propertyEditorPanel', () => {
-    it('close button dispatches updateNodeEvent and closePropertyEditorEvent', () => {
+    it('close button dispatches updateNodeEvent and closePropertyEditorEvent', async () => {
         const eventCallback = jest.fn();
         const propertyEditorPanel = createComponentUnderTest();
+        await ticks(10);
         propertyEditorPanel.addEventListener(ClosePropertyEditorEvent.EVENT_NAME, eventCallback);
 
         const closeButton = propertyEditorPanel.shadowRoot.querySelector(selectors.CLOSE_BUTTON);
@@ -54,7 +61,7 @@ describe('propertyEditorPanel', () => {
         };
         const propertyEditorPanel = createComponentUnderTest(props);
 
-        await ticks(1);
+        await ticks(100);
 
         const dynamicContent = propertyEditorPanel.shadowRoot.querySelector(selectors.DYNAMIC_CONTENT);
         dynamicContent.focus = jest.fn();

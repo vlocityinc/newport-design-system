@@ -91,11 +91,7 @@
                         "**/builder_platform_interaction/recordPicker/auraInterop.ts",
                         "**/jestSetup.ts"
                     ],
-                    "lwc-core/no-dynamic-import": [
-                        "**/builder_platform_interaction/propertyEditorPanel/propertyEditorPanel.ts",
-                        "**/builder_platform_interaction/screenExtensionField/auraInterop.ts",
-                        "**/builder_platform_interaction/integrationTests/__tests__/propertyEditor/propertyEditorIntegration.test.js"
-                    ],
+
                     "lwc-core/no-process-env": ["**/jestSetup.js"],
 
                     "no-continue": [

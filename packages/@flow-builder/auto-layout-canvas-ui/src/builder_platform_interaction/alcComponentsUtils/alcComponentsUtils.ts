@@ -35,6 +35,8 @@ import { ToggleMenuEvent } from 'builder_platform_interaction/alcEvents';
 import { PrivateItemRegisterEvent } from 'builder_platform_interaction/alcEvents';
 import { LABELS } from './alcComponentsUtilsLabels';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import AlcMenu from 'builder_platform_interaction/alcMenu';
+
 const { format } = commonUtils;
 
 export interface AutoLayoutCanvasContext {
@@ -241,6 +243,57 @@ function _getSelectableCanvasElementGuids(topSelectedGuid: Guid, flowModel: Flow
     }
 
     return selectableCanvasElementGuids;
+}
+
+// cache for lwc component constructors
+const constructorCache: { [key: string]: LightningElement } = {};
+
+// map of components that are loading
+const componentPromises: { [key: string]: Promise<LightningElement> | undefined } = {};
+
+/**
+ * Dynamically loads and caches an lwc component by name
+ *
+ * @param componentName - The component name, eg: "builder_platform_interaction-alc-start-menu"
+ * @returns The component constructor
+ */
+export async function importComponent<T extends LightningElement>(componentName: string): Promise<T> {
+    const component = getComponent<T>(componentName);
+
+    if (component == null) {
+        let component;
+        if (componentPromises[componentName]) {
+            component = await componentPromises[componentName];
+        } else {
+            // eslint-disable-next-line lwc-core/no-dynamic-import, lwc-core/no-dynamic-import-identifier
+            const componentPromise = import(componentName);
+            componentPromises[componentName] = componentPromise;
+            component = await componentPromise;
+        }
+        const ctor = component.default;
+        constructorCache[componentName] = ctor;
+        return ctor;
+    }
+    return component;
+}
+
+/**
+ * Deletes a component from the cache
+ *
+ * @param componentName - The name of the component to delete
+ */
+export function deleteComponent(componentName: string): void {
+    delete constructorCache[componentName];
+}
+
+/**
+ * Retrieves a component from the cache
+ *
+ * @param componentName - The name of the component to retrieve
+ * @returns the component constructor, or undefined if not in the cached
+ */
+export function getComponent<T extends LightningElement>(componentName: string): T | undefined {
+    return constructorCache[componentName];
 }
 
 /**
@@ -628,6 +681,7 @@ export function dispatchPrivateItemRegister(component) {
  * @param scale - scale factor
  * @param context - The flow rendering context
  * @param needToPosition - True means element need to position
+ * @param ctor - The constructor for the menu
  * @returns object with menu properties
  */
 function getAlcMenuData(
@@ -636,8 +690,10 @@ function getAlcMenuData(
     containerElementGeometry: Geometry,
     scale: number,
     context: FlowRenderContext,
-    needToPosition = false
+    needToPosition = false,
+    ctor: MenuConstructor<AlcMenu>
 ) {
+    const className = `menu ${ctor.className} overlay slds-dropdown`;
     const detail = event.detail;
 
     const { guid } = detail.source;
@@ -677,7 +733,10 @@ function getAlcMenuData(
         connectorMenu: detail.type,
         next: targetGuid,
         style,
-        isGoToConnector
+        isGoToConnector,
+        ctor,
+        className,
+        elementsMetadata
     };
 }
 

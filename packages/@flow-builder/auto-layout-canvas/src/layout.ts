@@ -531,7 +531,7 @@ function calculateBranchingLayout(nodeModel: ParentNodeModel, context: FlowRende
  * Returns a node's child or fault
  *
  * @param nodeModel - The parent node
- * @param childIndex - The the index of the child or fault
+ * @param childIndex - the index of the child or fault
  * @returns The child or fault corresponding childIndex
  */
 function getLayoutChildOrFault(nodeModel: ParentNodeModel, childIndex: number) {

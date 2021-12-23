@@ -14,7 +14,8 @@ import {
     MoveFocusToNodeEvent,
     DeleteBranchElementEvent
 } from 'builder_platform_interaction/alcEvents';
-import Menu from 'builder_platform_interaction/menu';
+import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
+import AlcMenu from 'builder_platform_interaction/alcMenu';
 import { NodeMenuMode, ELEMENT_ACTION_CONFIG, getMenuConfiguration } from './alcNodeMenuConfig';
 import { ICON_SHAPE } from 'builder_platform_interaction/alcComponentsUtils';
 import { FOR_EACH_INDEX, NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
@@ -23,10 +24,11 @@ import { LABELS } from './alcNodeMenuLabels';
 const selectors = {
     menuItem: 'a[role="menuitem"]',
     backButton: '.back-button',
-    alcMenu: 'builder_platform_interaction-alc-menu',
     backButtonFocus: 'back-button',
     comboBoxFocus: 'slds-form-element',
-    footerFocus: 'footer'
+    footerFocus: 'footer',
+    footerButton: '.footer lightning-button',
+    comboBox: 'lightning-combobox'
 };
 
 enum TabFocusRingItems {
@@ -47,7 +49,11 @@ enum TabFocusRingItemsInDeleteMode {
 /**
  * The node menu overlay, displayed when clicking on a node.
  */
-export default class AlcNodeMenu extends Menu {
+export default class AlcNodeMenu extends AlcMenu {
+    static className = 'node-menu';
+
+    dom = lwcUtils.createDomProxy(this, selectors);
+
     @api
     conditionOptions;
 
@@ -74,6 +80,17 @@ export default class AlcNodeMenu extends Menu {
 
     @track
     contextualMenuMode = NodeMenuMode.Default;
+
+    /**
+     * Checks if the menu is empty or not
+     *
+     * @returns true if the menu is empty, false otherwise
+     */
+    @api
+    isEmpty() {
+        // always false here but needed so that it can be overriden in menu subclass
+        return false;
+    }
 
     @api
     moveFocus = (shift: boolean) => {
@@ -153,7 +170,7 @@ export default class AlcNodeMenu extends Menu {
      * Also, dispatches the ClearHighlightedPathEvent to remove the highlight from nodes and connectors
      * on the deletion path.
      *
-     * @param event
+     * @param event - The click event
      */
     handleBackButtonClick = (event: Event | undefined = undefined) => {
         if (event != null) {
@@ -168,7 +185,7 @@ export default class AlcNodeMenu extends Menu {
     /**
      * Handles the click on the action row item and dispatches the appropriate event
      *
-     * @param event
+     * @param event - The selection event
      */
     handleSelectNodeAction = (event) => {
         if (!event.fromKeyboard) {
@@ -223,7 +240,7 @@ export default class AlcNodeMenu extends Menu {
     /**
      * Handles onchange event coming from the combobox and updates the _selectedConditionValue accordingly
      *
-     * @param event
+     * @param event - The change event
      */
     handleComboboxChange = (event: CustomEvent) => {
         event.stopPropagation();
@@ -241,7 +258,7 @@ export default class AlcNodeMenu extends Menu {
     /**
      * Handles the click on the Footer button and dispatches the relevant event
      *
-     * @param event
+     * @param event - The click event
      */
     handleFooterButtonClick = (event: Event | undefined = undefined) => {
         if (event != null) {
@@ -282,23 +299,23 @@ export default class AlcNodeMenu extends Menu {
     }
 
     moveFocusToFooterButton() {
-        const footerButton = this.template.querySelector('.footer lightning-button');
+        const footerButton = this.dom.footerButton;
         footerButton.focus();
     }
 
     moveFocusToFirstRowItem() {
-        const listItems = Array.from(this.template.querySelectorAll(selectors.menuItem)) as HTMLElement[];
+        const listItems = this.dom.all.menuItem;
         const firstRowItem = listItems && listItems[0];
         firstRowItem.focus();
     }
 
     moveFocusToBackButton() {
-        const backButton = this.template.querySelector(selectors.backButton);
+        const backButton = this.dom.backButton;
         backButton.focus();
     }
 
     moveFocusToCombobox() {
-        const combobox = this.template.querySelector('lightning-combobox');
+        const combobox = this.dom.comboBox;
         combobox.focus();
     }
 
@@ -345,7 +362,7 @@ export default class AlcNodeMenu extends Menu {
         if (!this._isRendered) {
             if (this.menuConfiguration.footer) {
                 // Setting the slds-button_stretch class on the footer button the make it extend
-                const footerButton = this.template.querySelector('.footer lightning-button');
+                const footerButton = this.dom.as<LightningElement>().footerButton;
                 const baseButton = footerButton && footerButton.shadowRoot.querySelector('button');
                 if (baseButton) {
                     baseButton.classList.add('slds-button_stretch');
@@ -355,7 +372,7 @@ export default class AlcNodeMenu extends Menu {
         }
         if (this.isBaseActionMode && !this._hasBaseModeRendered) {
             // Setting focus on the delete branch row if entering base mode via the back button.
-            const items = Array.from(this.template.querySelectorAll(selectors.menuItem)) as HTMLElement[];
+            const items = this.dom.all.menuItem;
             items.forEach((item) => {
                 if (
                     this._moveFocusToDeleteBranchRow &&

@@ -20,10 +20,9 @@ const flowWithFault = {
                 iconBackgroundColor: 'background-green',
                 iconShape: 'circle',
                 iconSize: 'medium',
-                isSupported: true,
+
                 label: 'Start',
                 section: null,
-                supportsMenu: true,
                 type: 'start',
                 value: 'START_ELEMENT'
             },
@@ -113,10 +112,9 @@ const flowWithFault = {
                 iconBackgroundColor: undefined,
                 iconShape: 'diamond',
                 iconSize: undefined,
-                isSupported: true,
+
                 label: 'Decision',
                 section: 'Logic',
-                supportsMenu: true,
                 type: 'branch',
                 value: 'Decision'
             },
@@ -165,10 +163,10 @@ const flowWithFault = {
                             iconBackgroundColor: undefined,
                             iconShape: undefined,
                             iconSize: undefined,
-                            isSupported: true,
+
                             label: 'Screen',
                             section: 'Interaction',
-                            supportsMenu: true,
+
                             type: 'default',
                             value: 'Screen'
                         },
@@ -206,10 +204,9 @@ const flowWithFault = {
                             iconBackgroundColor: 'background-red',
                             iconShape: 'circle',
                             iconSize: 'medium',
-                            isSupported: true,
+
                             label: 'End',
                             section: 'Logic',
-                            supportsMenu: false,
                             type: 'end',
                             value: 'END_ELEMENT'
                         },
@@ -265,10 +262,9 @@ const flowWithFault = {
                 iconBackgroundColor: undefined,
                 iconShape: undefined,
                 iconSize: undefined,
-                isSupported: true,
+
                 label: 'Create Records',
                 section: 'Data',
-                supportsMenu: true,
                 type: 'default',
                 value: 'RecordCreate'
             },
@@ -308,10 +304,9 @@ const flowWithFault = {
                 iconBackgroundColor: 'background-red',
                 iconShape: 'circle',
                 iconSize: 'medium',
-                isSupported: true,
+
                 label: 'End',
                 section: 'Logic',
-                supportsMenu: false,
                 type: 'end',
                 value: 'END_ELEMENT'
             },

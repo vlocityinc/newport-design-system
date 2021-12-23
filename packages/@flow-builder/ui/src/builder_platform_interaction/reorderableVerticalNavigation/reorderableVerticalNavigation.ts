@@ -26,7 +26,7 @@ interface MenuItem {
  * Component that provides a vertical list of elements, styled as vertical tabs,
  * that can be selected and reordered.
  *
- * The the menu items must include the following properties:
+ * the menu items must include the following properties:
  * {
  *      guid: "GUIDString",
  *      label: "LabelString"

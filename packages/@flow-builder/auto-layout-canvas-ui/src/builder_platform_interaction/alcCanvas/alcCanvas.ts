@@ -24,7 +24,8 @@ import {
     ElementMetadata,
     getConnectionTarget,
     ConnectionSource,
-    getConnectionSource
+    getConnectionSource,
+    InteractionMenuInfo
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import {
     ZOOM_ACTION,
@@ -40,7 +41,6 @@ import {
     ToggleMenuEvent,
     NodeResizeEvent,
     MoveFocusToNodeEvent,
-    MoveFocusFromEmptyStartNodeEvent,
     MoveFocusToConnectorEvent,
     CreateGoToConnectionEvent,
     DeleteBranchElementEvent,
@@ -55,7 +55,10 @@ import {
     getCanvasElementDeselectionData,
     AutoLayoutCanvasMode,
     AutoLayoutCanvasContext,
-    getFirstSelectableElementGuid
+    getFirstSelectableElementGuid,
+    importComponent,
+    getComponent,
+    deleteComponent
 } from 'builder_platform_interaction/alcComponentsUtils';
 import { getFocusPath } from './alcCanvasUtils';
 import {
@@ -69,8 +72,7 @@ import {
 import { LABELS } from './alcCanvasLabels';
 import { time } from 'instrumentation/service';
 import AlcFlow from 'builder_platform_interaction/alcFlow';
-import AlcNodeMenu from 'builder_platform_interaction/alcNodeMenu';
-import AlcConnectorMenu from 'builder_platform_interaction/alcConnectorMenu';
+import AlcMenu from 'builder_platform_interaction/alcMenu';
 
 // alloted time between click events in ms, where two clicks are interpreted as a double click
 const DOUBLE_CLICK_THRESHOLD = 250;
@@ -81,13 +83,7 @@ const MIN_ZOOM = 0.1;
 const ZOOM_SCALE_STEP = 0.2;
 
 const selectors = {
-    triggerButton: 'builder_platform_interaction-start-node-trigger-button',
-    contextButton: 'builder_platform_interaction-start-node-context-button',
-    scheduledPathButton: 'builder_platform_interaction-start-node-scheduled-path-button',
-    nodeMenu: 'builder_platform_interaction-alc-node-menu',
-    alcMenu: 'builder_platform_interaction-alc-menu',
-    startMenu: 'builder_platform_interaction-alc-start-menu',
-    connectorMenu: 'builder_platform_interaction-alc-connector-menu',
+    menu: '.menu',
     canvasClass: '.canvas',
     flowContainerClass: '.flow-container',
     alcFlow: 'builder_platform_interaction-alc-flow',
@@ -145,6 +141,9 @@ function debounce(fct, wait) {
 
 export default class AlcCanvas extends LightningElement {
     dom = lwcUtils.createDomProxy(this, selectors);
+
+    /* the metadata for the connector menu */
+    _connectorMenuMetadata!: ConnectorMenuMetadata;
 
     _panzoom;
     _animatePromise: Promise<void> = Promise.resolve() as Promise<void>;
@@ -274,17 +273,29 @@ export default class AlcCanvas extends LightningElement {
         this._keyboardInteraction = newVal;
     }
 
-    @api
-    disableAddElements;
+    @api set connectorMenuMetadata(nextMenuMetadata: ConnectorMenuMetadata) {
+        const prevMenuComponent = this._connectorMenuMetadata?.menuComponent;
+
+        const { menuComponent } = nextMenuMetadata;
+        if (menuComponent) {
+            importComponent(menuComponent).then(() => {
+                this._connectorMenuMetadata = nextMenuMetadata;
+            });
+        } else if (prevMenuComponent) {
+            deleteComponent(prevMenuComponent);
+            this._connectorMenuMetadata = nextMenuMetadata;
+        }
+    }
+
+    get connectorMenuMetadata() {
+        return this._connectorMenuMetadata;
+    }
 
     @api
     disableDeleteElements;
 
     @api
     disableEditElements;
-
-    @api
-    supportsScheduledPaths;
 
     /**
      * The active element refers to the element currently being edited using the property editor panel
@@ -295,6 +306,15 @@ export default class AlcCanvas extends LightningElement {
     @api
     set elementsMetadata(elementsMetadata: ElementMetadata[]) {
         this._elementsMetadata = elementsMetadata;
+
+        elementsMetadata.forEach((elementMetadata) => {
+            const { menuComponent } = elementMetadata;
+
+            if (menuComponent != null) {
+                importComponent(menuComponent);
+            }
+        });
+
         // Used to make sure flow.info sent to alc-flow does not have stale elementsMetadata
         if (this._elementsMetadata) {
             this.updateFlowRenderContext({ elementsMetadata: this._convertToElementMetadataMap() });
@@ -376,6 +396,10 @@ export default class AlcCanvas extends LightningElement {
         this.dom.zoomPanel.focus();
     }
 
+    get disableAddElements() {
+        return this.getConnectorMenuConstructor() == null;
+    }
+
     /**
      * When focus is initiated on the canvas, set focus on the Start element
      */
@@ -408,6 +432,15 @@ export default class AlcCanvas extends LightningElement {
             this.focusOnZoomPanel();
         }
     }
+    /**
+     *  Get the connector menu component constructor
+     *
+     *  @returns the  connector menu constructor or undefined
+     */
+    getConnectorMenuConstructor(): MenuConstructor<AlcMenu> | undefined {
+        const menuComponent = this._connectorMenuMetadata?.menuComponent;
+        return menuComponent ? getComponent<MenuConstructor<AlcMenu>>(menuComponent) : undefined;
+    }
 
     get autoLayoutCanvasContext(): AutoLayoutCanvasContext {
         const mode =
@@ -433,20 +466,6 @@ export default class AlcCanvas extends LightningElement {
 
     get menuContainerClasses() {
         return 'menu-container ' + this.menuOpacityClass;
-    }
-
-    /**
-     * Used to return the data that drives the start node.
-     * This is different from what is in elementsMetadata
-     *
-     * @returns - The start element
-     */
-    get startMenuElement() {
-        if (this.menu.elementMetadata.type === NodeType.START) {
-            const startElementGuid = this.getStartElementGuid();
-            return this.flowModel[startElementGuid];
-        }
-        return null;
     }
 
     get scale() {
@@ -480,11 +499,7 @@ export default class AlcCanvas extends LightningElement {
     }
 
     getOpenedMenu() {
-        return (
-            this.dom.as<AlcNodeMenu>().nodeMenu ||
-            this.dom.as<AlcNodeMenu>().startMenu ||
-            this.dom.as<AlcConnectorMenu>().connectorMenu
-        );
+        return this.dom.as<AlcMenu>().menu;
     }
 
     /**
@@ -555,6 +570,7 @@ export default class AlcCanvas extends LightningElement {
                         deletionPathInfo: null
                     };
 
+                    const elementMetadata = this._flowRenderContext.elementsMetadata[startElement.elementType];
                     // TODO: W-9613981 [Trust] Remove hardcoded alccanvas offsets
                     const event = new ToggleMenuEvent({
                         top: containerGeometry.y + NODE_ICON_SIZE,
@@ -563,11 +579,17 @@ export default class AlcCanvas extends LightningElement {
                         height: 0,
                         type: MenuType.NODE,
                         source: { guid: startElementGuid },
-                        elementMetadata: this._flowRenderContext.elementsMetadata[startElement.elementType],
+                        elementMetadata,
                         moveFocusToMenu: true
                     });
 
-                    this.openMenu(event, interactionState);
+                    const { menuComponent } = elementMetadata;
+
+                    if (menuComponent) {
+                        importComponent(menuComponent).then(() => {
+                            this.openMenu(event, interactionState);
+                        });
+                    }
                 }
             }
 
@@ -740,7 +762,7 @@ export default class AlcCanvas extends LightningElement {
         this.lastClickedElementGuid = null;
     }
 
-    handleMenuPositionUpdate(event) {
+    handleMenuPositionUpdate(event: ToggleMenuEvent) {
         let menuInfo = this._flowRenderContext.interactionState.menuInfo!;
 
         if (menuInfo != null && menuInfo.needToPosition) {
@@ -754,25 +776,8 @@ export default class AlcCanvas extends LightningElement {
 
             this._animatePromise.then(() => {
                 menuInfo = { ...menuInfo, needToPosition: false };
-
                 const interactionState = { ...this._flowRenderContext.interactionState, menuInfo };
-
-                const menuButtonHalfWidth =
-                    menuInfo.type === MenuType.CONNECTOR ? CONNECTOR_ICON_SIZE / 2 : NODE_ICON_SIZE / 2;
-                const containerGeometry = this.getDomElementGeometry(this._flowContainerElement);
-
-                this.menu = Object.assign(
-                    getAlcMenuData(
-                        event,
-                        menuButtonHalfWidth,
-                        containerGeometry,
-                        this._scale,
-                        this._flowRenderContext,
-                        menuInfo.needToPosition
-                    ),
-                    { elementsMetadata: this._elementsMetadata }
-                );
-
+                this.updateMenu(event, menuInfo);
                 this.updateFlowRenderContext({ interactionState });
             });
         }
@@ -789,7 +794,7 @@ export default class AlcCanvas extends LightningElement {
         const isNodeMenu = type === MenuType.NODE;
 
         // return if a node doesn't support a menu
-        if (isNodeMenu && !elementMetadata.supportsMenu) {
+        if (isNodeMenu && !elementMetadata.menuComponent) {
             return;
         }
 
@@ -831,32 +836,56 @@ export default class AlcCanvas extends LightningElement {
     }
 
     /**
+     * Get the constructor for a node or connector menu
+     *
+     * @param menuType - the menu type
+     * @param elementMetadata - the element metadata
+     * @returns the constructor for the menu
+     */
+    getMenuConstructor(menuType: MenuType, elementMetadata: ElementMetadata): MenuConstructor<AlcMenu> | undefined {
+        const componentName =
+            menuType === MenuType.CONNECTOR
+                ? this._connectorMenuMetadata?.menuComponent
+                : elementMetadata.menuComponent;
+
+        return componentName ? getComponent(componentName) : undefined;
+    }
+
+    /**
+     * Updates the menu object and moves the focust to the menu
+     *
+     * @param event - The ToggleMenuEvent
+     * @param menuInfo - the menu info
+     */
+    updateMenu(event: ToggleMenuEvent, menuInfo: InteractionMenuInfo) {
+        const menuButtonHalfWidth = menuInfo.type === MenuType.CONNECTOR ? CONNECTOR_ICON_SIZE / 2 : NODE_ICON_SIZE / 2;
+        const containerGeometry = this.getDomElementGeometry(this._flowContainerElement);
+
+        const menuConstructor = this.getMenuConstructor(menuInfo.type, event.detail.elementMetadata);
+
+        if (menuConstructor) {
+            this.menu = getAlcMenuData(
+                event,
+                menuButtonHalfWidth,
+                containerGeometry,
+                this._scale,
+                this._flowRenderContext,
+                menuInfo.needToPosition,
+                menuConstructor
+            );
+
+            this.moveFocusToMenu = event.detail.moveFocusToMenu;
+        }
+    }
+
+    /**
      * Opens the connector or node menu
      *
      * @param event - The event
      * @param interactionState - The interaction state
      */
     openMenu(event: ToggleMenuEvent, interactionState: FlowInteractionState) {
-        this.menuOpacityClass = FULL_OPACITY_CLASS;
-
-        const connectorMenu = event.detail.type;
-
-        const menuButtonHalfWidth = connectorMenu === MenuType.CONNECTOR ? CONNECTOR_ICON_SIZE / 2 : NODE_ICON_SIZE / 2;
-        const containerGeometry = this.getDomElementGeometry(this._flowContainerElement);
-
-        this.menu = Object.assign(
-            getAlcMenuData(
-                event,
-                menuButtonHalfWidth,
-                containerGeometry,
-                this._scale,
-                this._flowRenderContext,
-                interactionState.menuInfo!.needToPosition
-            ),
-            { elementsMetadata: this._elementsMetadata }
-        );
-        this.moveFocusToMenu = event.detail.moveFocusToMenu;
-
+        this.updateMenu(event, interactionState.menuInfo!);
         this._pendingInteractionState = interactionState;
     }
 
@@ -999,11 +1028,10 @@ export default class AlcCanvas extends LightningElement {
         this.focusOnNode(event.detail.focusGuid);
     };
 
-    handleMoveFocusFromEmptyStartNode = (event: MoveFocusFromEmptyStartNodeEvent) => {
-        event.stopPropagation();
+    moveFocusFromEmptyStartNode = (startNodeGuid) => {
         if (this.disableAddElements) {
             // Moving focus to the next valid element or the zoom panel when next connector "+" is not present
-            const startNode = this.flowModel[event.detail.guid];
+            const startNode = this.flowModel[startNodeGuid];
             const nextNode = this.flowModel[startNode.next];
             if (nextNode.nodeType === NodeType.END) {
                 // Since End element can't get focus, moving focus to the zoom panel
@@ -1015,8 +1043,9 @@ export default class AlcCanvas extends LightningElement {
             // Currently it's not possible for a start menu to be empty and also have branches.
             // Hence we don't need to account for branching connectors
             // and can move focus directly to the next connector
-            this.focusOnConnector({ guid: event.detail.guid, childIndex: undefined });
+            this.focusOnConnector({ guid: startNodeGuid, childIndex: undefined });
         }
+        this.closeNodeOrConnectorMenu();
     };
 
     handleTabOnMenuTrigger = (event: TabOnMenuTriggerEvent) => {
@@ -1024,8 +1053,12 @@ export default class AlcCanvas extends LightningElement {
         this.moveFocusToMenu = true;
         const { shift } = event.detail;
         const openedMenu = this.getOpenedMenu();
-        if (openedMenu) {
+
+        if (openedMenu && !openedMenu.isEmpty()) {
             openedMenu.moveFocus(shift);
+        } else {
+            const { menuInfo } = this._flowRenderContext.interactionState;
+            this.moveFocusFromEmptyStartNode(menuInfo!.key);
         }
     };
 
@@ -1051,7 +1084,7 @@ export default class AlcCanvas extends LightningElement {
             // first render, no animation
             this.renderFlow(1);
 
-            this.initialStartMenuDisplayed = this.initialStartMenuDisplayed || this.dom.startMenu != null;
+            this.initialStartMenuDisplayed = this.initialStartMenuDisplayed || this.dom.menu != null;
 
             // reset the nodeLayoutMap to prevent animations until the start menu has been displayed
             if (!this.initialStartMenuDisplayed) {

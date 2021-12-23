@@ -15,6 +15,7 @@ import ConnectorType from './ConnectorTypeEnum';
 import ConnectorLabelType from './ConnectorLabelTypeEnum';
 
 import {
+    InteractionMenuInfo,
     ConnectorVariant,
     ConnectorRenderInfo,
     NodeRenderInfo,
@@ -111,6 +112,7 @@ export {
     ConnectorType,
     ConnectorLabelType,
     ConnectorVariant,
+    InteractionMenuInfo,
     panzoom,
     ConnectorRenderInfo,
     NodeRenderInfo,

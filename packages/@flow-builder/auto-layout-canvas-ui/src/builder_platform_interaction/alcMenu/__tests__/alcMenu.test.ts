@@ -1,14 +1,8 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import AlcMenu from 'builder_platform_interaction/alcMenu';
-import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
+import { createComponent } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 
-const createComponentUnderTest = () => {
-    const el = createElement('builder_platform_interaction-alc-menu', {
-        is: AlcMenu
-    });
-    setDocumentBodyChildren(el);
-    return el;
+const createComponentUnderTest = async () => {
+    return createComponent('builder_platform_interaction-alc-menu');
 };
 
 const selectors = {
@@ -19,8 +13,8 @@ const selectors = {
 
 describe('alcMenu', () => {
     describe('sections', () => {
-        it('should have a header body and footer', () => {
-            const alcMenu = createComponentUnderTest();
+        it('should have a header body and footer', async () => {
+            const alcMenu = await createComponentUnderTest();
             const header = alcMenu.shadowRoot.querySelector(selectors.header);
             const body = alcMenu.shadowRoot.querySelector(selectors.body);
             const footer = alcMenu.shadowRoot.querySelector(selectors.footer);

@@ -365,7 +365,7 @@ describe('FlowPropertiesEditor', () => {
                     await ticks(1);
                     expect(getLastModifiedDetails(flowPropertiesEditor).textContent).toEqual(mockFormattedLabel);
                 });
-                it('calls normalizeDateTime with the the last modified datetime', async () => {
+                it('calls normalizeDateTime with the last modified datetime', async () => {
                     getShowAdvancedButton(flowPropertiesEditor).click();
                     await ticks(1);
                     expect(normalizeDateTime.normalizeDateTime).toHaveBeenCalledWith(

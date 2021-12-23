@@ -35,8 +35,11 @@
 
                 <div class={menuContainerClasses}>
                     <template if:true={showConnectorMenu}>
-                        <builder_platform_interaction-alc-connector-menu
-                            class="menu overlay slds-dropdown"
+                        <x-lazy
+                            if:true={menu.ctor}
+                            lwc:dynamic={menu.ctor}
+                            class={menu.className}
+                            metadata={_connectorMenuMetadata}
                             can-add-goto={menu.canAddGoto}
                             source={menu.source}
                             elements-metadata={menu.elementsMetadata}
@@ -47,45 +50,29 @@
                             style={menu.style}
                             ongotopath={handleAddOrRerouteGoToItemSelection}
                             onmovefocustoconnector={handleMoveFocusToConnector}
-                        ></builder_platform_interaction-alc-connector-menu>
+                        ></x-lazy>
                     </template>
                     <template if:true={showNodeMenu}>
-                        <builder_platform_interaction-alc-node-menu
-                            if:false={startMenuElement}
-                            class="menu overlay slds-dropdown"
+                        <x-lazy
+                            if:true={menu.ctor}
+                            lwc:dynamic={menu.ctor}
+                            class={menu.className}
                             condition-options={menu.conditionOptionsForNode}
-                            disable-delete-elements={disableDeleteElements}
                             disable-edit-elements={disableEditElements}
                             element-has-fault={menu.elementHasFault}
                             element-metadata={menu.elementMetadata}
-                            can-have-fault-connector={menu.canHaveFaultConnector}
-                            flow-model={flow.flowModel}
                             guid={menu.source.guid}
                             move-focus-to-menu={moveFocusToMenu}
                             style={menu.style}
-                            onclearhighlightedpath={handleClearHighlightedPath}
+                            onhighlightpathstodelete={handleHighlightPathsToDelete}
+                            onmovefocustonode={handleMoveFocusToNode}
+                            flow-model={flow.flowModel}
                             ondeletebranchelement={handleBranchElementDeletion}
                             ondeleteelement={handleDeleteElement}
-                            onhighlightpathstodelete={handleHighlightPathsToDelete}
-                            onmovefocustonode={handleMoveFocusToNode}
-                        ></builder_platform_interaction-alc-node-menu>
-                        <builder_platform_interaction-alc-start-menu
-                            if:true={startMenuElement}
-                            class="menu overlay slds-dropdown"
-                            condition-options={menu.conditionOptionsForNode}
-                            disable-edit-elements={disableEditElements}
-                            element-has-fault={menu.elementHasFault}
-                            element-metadata={menu.elementMetadata}
-                            guid={menu.source.guid}
-                            move-focus-to-menu={moveFocusToMenu}
-                            start-data={startMenuElement}
-                            style={menu.style}
-                            supports-scheduled-paths={supportsScheduledPaths}
-                            onhighlightpathstodelete={handleHighlightPathsToDelete}
-                            onmovefocustoconnector={handleMoveFocusToConnector}
-                            onmovefocustonode={handleMoveFocusToNode}
-                            onmovefocusfromemptystartnode={handleMoveFocusFromEmptyStartNode}
-                        ></builder_platform_interaction-alc-start-menu>
+                            can-have-fault-connector={menu.canHaveFaultConnector}
+                            disable-delete-elements={disableDeleteElements}
+                            onclearhighlightedpath={handleClearHighlightedPath}
+                        ></x-lazy>
                     </template>
                 </div>
             </div>

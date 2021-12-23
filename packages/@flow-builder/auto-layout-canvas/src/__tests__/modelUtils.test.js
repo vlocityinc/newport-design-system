@@ -7483,7 +7483,7 @@ describe('modelUtils', () => {
             };
         });
 
-        it('removing GoTos from from a copied elements next to another copied element', () => {
+        it('removing GoTos from a copied elements next to another copied element', () => {
             const expectedPastedElement = {
                 guid: 'screen2',
                 name: 'screen2',

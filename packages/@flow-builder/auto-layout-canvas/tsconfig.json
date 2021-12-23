@@ -6,9 +6,9 @@
         "outDir": "build/esNext",
         "baseUrl": "./src",
         "paths": {
-          "builder_platform_interaction/sharedUtils": [
-            "../../shared-utils/dist/types/index.d.js"
-        ],
+            "builder_platform_interaction/sharedUtils": [
+                "../../shared-utils/dist/types/index.d.js"
+            ],
         }
     },
     "include": ["src/", "typings/", "../shared-utils/@types/index.d.ts"]

@@ -237,7 +237,7 @@ export default class Canvas extends LightningElement {
     /**
      * Handling mouse up event for canvas. If panning is not in progress and mouse up happens directly on canvas/innerCanvas
      * then dispatch the canvas mouse up event to deselect all the selected canvas elements and connectors. Also reset
-     * the the panning variables.
+     * the panning variables.
      *
      * @param {object} event - mouse up event
      */

@@ -382,7 +382,7 @@ const addAutomaticScreenField = (screen, event) => {
  */
 const addChoice = (screen, event, field) => {
     // New choices can only be added to the end of the list. The position number should never
-    // be anything other than the the next available index.
+    // be anything other than the next available index.
     if (event.detail.position !== field.choiceReferences.length) {
         throw new Error('Position for new choice is invalid: ' + event.detail.position);
     }
@@ -931,7 +931,7 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
             updatedNode = updateProperties(screen, { [property]: value });
 
             if (property === 'allowPause' && !value && screen.pausedText.error) {
-                // Clear the the pausedText if allowPause is false and the pausedText has an error, if it doesn't we
+                // Clear the pausedText if allowPause is false and the pausedText has an error, if it doesn't we
                 // keep it until the user saves the flow in case he changes his mind
                 updatedNode = updateProperties(updatedNode, {
                     pausedText: { value: null, error: null }

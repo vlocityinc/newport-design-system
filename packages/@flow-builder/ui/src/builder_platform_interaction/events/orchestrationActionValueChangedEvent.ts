@@ -7,14 +7,18 @@ const eventName = 'orchestrationactionvaluechanged';
 
 type OrchestrationActionValueChangedEventDetail<T> = {
     actionCategory: ORCHESTRATED_ACTION_CATEGORY;
-    value?: T | null;
+    value: T | null;
     error?: string | null;
 };
 
 export class OrchestrationActionValueChangedEvent<T> extends CustomEvent<
     OrchestrationActionValueChangedEventDetail<T>
 > {
-    constructor(actionCategory: ORCHESTRATED_ACTION_CATEGORY, value = null, error = null) {
+    constructor(
+        actionCategory: ORCHESTRATED_ACTION_CATEGORY,
+        value: T | null = null,
+        error: string | null | undefined = null
+    ) {
         super(eventName, {
             cancelable: false,
             composed: true,

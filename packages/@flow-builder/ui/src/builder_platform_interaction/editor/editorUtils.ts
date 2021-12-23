@@ -903,11 +903,12 @@ export function getToolboxElements(flowProcessType, flowTriggerType) {
 }
 
 /**
- *  Get the elements metadata for the alc editor
+ *  Get the elements metadata
  *
  * @param toolboxElements
  * @param palette
  * @param existingMetadata
+ * @returns the elements metadata
  */
 export function getElementsMetadata(toolboxElements, palette, existingMetadata = []) {
     const newElementsMetadata = [];
@@ -928,12 +929,11 @@ export function getElementsMetadata(toolboxElements, palette, existingMetadata =
                 iconSize,
                 dynamicNodeComponent,
                 dynamicNodeComponentSelector,
-                alcVisible
+                isCanvasElement
             }) => {
                 const newElementMetadata = {
                     section: section.label,
                     canHaveFaultConnector,
-                    supportsMenu: true,
                     description,
                     elementType,
                     actionType,
@@ -947,7 +947,7 @@ export function getElementsMetadata(toolboxElements, palette, existingMetadata =
                     dynamicNodeComponent,
                     dynamicNodeComponentSelector,
                     value: elementType, // TODO: ALC remove this property and just use elementType
-                    isSupported: alcVisible // make use of isSupported to filter out invisible item in auto-layout
+                    menuComponent: isCanvasElement ? 'builder_platform_interaction/alcNodeMenu' : undefined
                 };
                 if (elementSubtype) {
                     newElementMetadata.elementSubtype = elementSubtype;
@@ -959,19 +959,8 @@ export function getElementsMetadata(toolboxElements, palette, existingMetadata =
     if (existingMetadata.length === 0) {
         return newElementsMetadata;
     }
-    const updatedElementsMetadata = [...newElementsMetadata];
-    const newElementsMetadataMap = {};
-    newElementsMetadata.forEach((newMetadata) => {
-        newElementsMetadataMap[newMetadata.elementType] = newMetadata;
-    });
-    // Comparing the existing elementMetadata to the newElementsMetadata
-    // If an item of the old list is not found in the new one, push it the the updated list with its "isSupported" property to false
-    existingMetadata.forEach((oldMetadata) => {
-        if (!newElementsMetadataMap[oldMetadata.elementType]) {
-            updatedElementsMetadata.push({ ...oldMetadata, isSupported: false });
-        }
-    });
-    return updatedElementsMetadata;
+
+    return newElementsMetadata;
 }
 
 /**

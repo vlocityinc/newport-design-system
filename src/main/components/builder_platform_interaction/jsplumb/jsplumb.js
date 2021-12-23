@@ -13395,7 +13395,7 @@ function lib() {
          * Class: Overlays.Diamond
          *
          * A diamond. Like PlainArrow, this is a concrete case of the more generic case of the tail points converging on some point...it just
-         * happens that in this case, that point is greater than the length of the the arrow.
+         * happens that in this case, that point is greater than the length of the arrow.
          *
          *      this could probably do with some help with positioning...due to the way it reuses the Arrow paint code, what Arrow thinks is the
          *      center is actually 1/4 of the way along for this guy.  but we don't have any knowledge of pixels at this point, so we're kind of

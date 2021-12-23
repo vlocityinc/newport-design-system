@@ -130,8 +130,7 @@ const elementsMetadata = [
         elementType: 'orchestratedstage',
         description: 'stepped stage desc',
         canHaveFaultConnector: false,
-        supportsMenu: true,
-        isSupported: true,
+
         dynamicNodeComponent: 'builder_platform_interaction/orchestratedStageNode'
     }
 ];

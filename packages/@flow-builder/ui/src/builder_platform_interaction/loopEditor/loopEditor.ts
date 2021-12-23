@@ -330,7 +330,7 @@ export default class LoopEditor extends LightningElement {
     /* **************************** */
 
     /**
-     * Returns the the string value of loop variable dataType
+     * Returns the string value of loop variable dataType
      *
      * @returns {string} The string value
      */
@@ -339,7 +339,7 @@ export default class LoopEditor extends LightningElement {
     }
 
     /**
-     * Returns the the string value of collection variable dataType
+     * Returns the string value of collection variable dataType
      *
      * @returns {string} The string value
      */
@@ -348,7 +348,7 @@ export default class LoopEditor extends LightningElement {
     }
 
     /**
-     * Returns the the string value of loop variable subtype, if applicable
+     * Returns the string value of loop variable subtype, if applicable
      *
      * @returns {string} The string value
      */
@@ -357,7 +357,7 @@ export default class LoopEditor extends LightningElement {
     }
 
     /**
-     * Returns the the string value of loop variable subtype, if applicable
+     * Returns the string value of loop variable subtype, if applicable
      *
      * @returns {string} The string value
      */
