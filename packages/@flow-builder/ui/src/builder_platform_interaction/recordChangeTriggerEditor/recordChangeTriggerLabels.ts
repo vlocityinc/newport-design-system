@@ -35,6 +35,11 @@ import createOrUpdateInputLabelOrchestrator from '@salesforce/label/FlowBuilderS
 import recordChangeContextObjectDescriptionOrchestrator from '@salesforce/label/FlowBuilderStartEditor.recordChangeContextObjectDescriptionOrchestrator';
 import setConditionsDescriptionOrchestrator from '@salesforce/label/FlowBuilderStartEditor.setConditionsDescriptionOrchestrator';
 import requireRecordChangeOptionOrchestrator from '@salesforce/label/FlowBuilderRecordEditor.requireRecordChangeOptionOrchestrator';
+import formulaLabel from '@salesforce/label/FlowBuilderFormulaTextarea.formulaLabel';
+import formulaValidationSpinnerAlternativeText from '@salesforce/label/FlowBuilderFormulaTextarea.formulaValidationSpinnerAlternativeText';
+import newInfoBadgeLabel from '@salesforce/label/FlowBuilderStartEditor.newInfoBadgeLabel';
+import formulasForConditionsInfoLabel from '@salesforce/label/FlowBuilderStartEditor.formulasForConditionsInfoLabel';
+import formulasForConditionsHelpText from '@salesforce/label/FlowBuilderStartEditor.formulasForConditionsHelpText';
 
 export const LABELS = {
     createOrUpdateInputLabel,
@@ -69,7 +74,12 @@ export const LABELS = {
     createOrUpdateInputLabelOrchestrator,
     recordChangeContextObjectDescriptionOrchestrator,
     setConditionsDescriptionOrchestrator,
-    requireRecordChangeOptionOrchestrator
+    requireRecordChangeOptionOrchestrator,
+    formulaLabel,
+    formulaValidationSpinnerAlternativeText,
+    newInfoBadgeLabel,
+    formulasForConditionsInfoLabel,
+    formulasForConditionsHelpText
 };
 
 export const requireRecordChangeOptions = () => {

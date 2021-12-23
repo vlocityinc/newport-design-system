@@ -105,7 +105,9 @@ const getListAddButton = (filterCmp) =>
         LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BUTTON
     ]);
 const getFirstRow = (filterCmp) =>
-    deepQuerySelector(filterCmp, [INTERACTION_COMPONENTS_SELECTORS.CONDITION_LIST, 'slot'])
+    filterCmp.shadowRoot
+        .querySelector(INTERACTION_COMPONENTS_SELECTORS.CONDITION_LIST)
+        .shadowRoot.querySelectorAll('slot')[1]
         .assignedNodes()[0]
         .querySelector(INTERACTION_COMPONENTS_SELECTORS.ROW);
 const getFirstRowDeleteButton = (filterCmp) =>

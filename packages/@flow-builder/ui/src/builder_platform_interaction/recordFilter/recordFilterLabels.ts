@@ -25,6 +25,7 @@ import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flow
 import recordSingularLabel from '@salesforce/label/FlowBuilderRecordUpdateEditor.recordSingularLabel';
 import recordPluralLabel from '@salesforce/label/FlowBuilderRecordUpdateEditor.recordPluralLabel';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import formulaOptionLabel from '@salesforce/label/FlowBuilderFilterEditor.formulaOptionLabel';
 const { format } = commonUtils;
 
 export const LABELS = {
@@ -52,7 +53,8 @@ export const LABELS = {
     filterCriteriaHeaderDelete,
     filterCriteriaHeaderUpdate,
     recordSingularLabel,
-    recordPluralLabel
+    recordPluralLabel,
+    formulaOptionLabel
 };
 
 export const criteriaLabels = (elementType, isSingular) => {
@@ -175,6 +177,10 @@ export const filterLogicOptionsLabels = (elementType, recordPluralName, recordSi
                 {
                     value: CONDITION_LOGIC.CUSTOM_LOGIC,
                     label: LABELS.customConditionLogicLabel
+                },
+                {
+                    value: CONDITION_LOGIC.FORMULA,
+                    label: LABELS.formulaOptionLabel
                 }
             ];
         default:

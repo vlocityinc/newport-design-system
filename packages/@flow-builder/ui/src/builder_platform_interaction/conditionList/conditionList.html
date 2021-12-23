@@ -1,16 +1,18 @@
 <template>
-    <div class={conditionLogicContainerClasses}>
-        <lightning-combobox
-            class="slds-col slds-grow conditionLogic"
-            label={logicComboboxLabel}
-            value={state.conditionLogicComboBoxValue}
-            options={conditionLogicOptions}
-            dropdown-alignment="auto"
-            disabled={disableConditionLogicPicker}
-            onchange={handleConditionLogicChange}
-        ></lightning-combobox>
+    <div class="slds-grid">
+        <div class={conditionLogicContainerClasses}>
+            <lightning-combobox
+                class="slds-col slds-grow conditionLogic"
+                label={logicComboboxLabel}
+                value={state.conditionLogicComboBoxValue}
+                options={conditionLogicOptions}
+                dropdown-alignment="auto"
+                disabled={disableConditionLogicPicker}
+                onchange={handleConditionLogicChange}
+            ></lightning-combobox>
+        </div>
+        <slot class="slds-col" name="info"></slot>
     </div>
-
     <div class="slds-form-element slds-m-bottom_small">
         <lightning-input
             if:true={state.showCustomLogicInput}

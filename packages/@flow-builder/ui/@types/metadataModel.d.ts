@@ -61,6 +61,7 @@ declare namespace Metadata {
         scheduledPaths?: ScheduledPath[];
         doesRequireRecordChangedToMeetCriteria?: boolean;
         connector: Connector;
+        formulaExpression?: string;
     }
 
     interface ScheduledPath extends Element {

@@ -103,13 +103,21 @@ exports[`record-lookup-editor Process type supporting the automatic mode Adding 
               <builder_platform_interaction-condition-list>
                 #shadow-root(open)
                   <div
-                    class="slds-form-element slds-m-bottom_small slds-size_1-of-3"
+                    class="slds-grid"
                   >
-                    <lightning-combobox
-                      class="slds-col slds-grow conditionLogic"
+                    <div
+                      class="slds-form-element slds-m-bottom_small slds-col slds-size_1-of-3"
                     >
-                      #shadow-root(open)
-                    </lightning-combobox>
+                      <lightning-combobox
+                        class="slds-col slds-grow conditionLogic"
+                      >
+                        #shadow-root(open)
+                      </lightning-combobox>
+                    </div>
+                    <slot
+                      class="slds-col"
+                      name="info"
+                    />
                   </div>
                   <div
                     class="slds-form-element slds-m-bottom_small"
@@ -138,6 +146,13 @@ exports[`record-lookup-editor Process type supporting the automatic mode Adding 
                       />
                     </div>
                   </builder_platform_interaction-list>
+                <div
+                  slot="info"
+                >
+                  <slot
+                    name="info"
+                  />
+                </div>
                 <div
                   role="list"
                   slot="conditions"
@@ -387,17 +402,32 @@ exports[`record-lookup-editor Process type supporting the automatic mode Edit el
               <builder_platform_interaction-condition-list>
                 #shadow-root(open)
                   <div
-                    class="slds-form-element slds-m-bottom_small slds-size_1-of-3"
+                    class="slds-grid"
                   >
-                    <lightning-combobox
-                      class="slds-col slds-grow conditionLogic"
+                    <div
+                      class="slds-form-element slds-m-bottom_small slds-col slds-size_1-of-3"
                     >
-                      #shadow-root(open)
-                    </lightning-combobox>
+                      <lightning-combobox
+                        class="slds-col slds-grow conditionLogic"
+                      >
+                        #shadow-root(open)
+                      </lightning-combobox>
+                    </div>
+                    <slot
+                      class="slds-col"
+                      name="info"
+                    />
                   </div>
                   <div
                     class="slds-form-element slds-m-bottom_small"
                   />
+                <div
+                  slot="info"
+                >
+                  <slot
+                    name="info"
+                  />
+                </div>
               </builder_platform_interaction-condition-list>
             </div>
           </div>
@@ -613,13 +643,21 @@ exports[`record-lookup-editor Process type supporting the automatic mode Edit el
               <builder_platform_interaction-condition-list>
                 #shadow-root(open)
                   <div
-                    class="slds-form-element slds-m-bottom_small slds-size_1-of-3"
+                    class="slds-grid"
                   >
-                    <lightning-combobox
-                      class="slds-col slds-grow conditionLogic"
+                    <div
+                      class="slds-form-element slds-m-bottom_small slds-col slds-size_1-of-3"
                     >
-                      #shadow-root(open)
-                    </lightning-combobox>
+                      <lightning-combobox
+                        class="slds-col slds-grow conditionLogic"
+                      >
+                        #shadow-root(open)
+                      </lightning-combobox>
+                    </div>
+                    <slot
+                      class="slds-col"
+                      name="info"
+                    />
                   </div>
                   <div
                     class="slds-form-element slds-m-bottom_small"
@@ -648,6 +686,13 @@ exports[`record-lookup-editor Process type supporting the automatic mode Edit el
                       />
                     </div>
                   </builder_platform_interaction-list>
+                <div
+                  slot="info"
+                >
+                  <slot
+                    name="info"
+                  />
+                </div>
                 <div
                   role="list"
                   slot="conditions"

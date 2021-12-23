@@ -571,6 +571,10 @@ export default class RecordChangeTriggerEditor extends LightningElement {
         );
     }
 
+    get showFormulaEditor() {
+        return this.startElement.filterLogic.value === CONDITION_LOGIC.FORMULA;
+    }
+
     get requireRecordChangeOptions() {
         return requireRecordChangeOptions();
     }
@@ -599,6 +603,11 @@ export default class RecordChangeTriggerEditor extends LightningElement {
             });
         }
         return operators.includes(operator);
+    }
+
+    handleFormulaExpressionChanged(event) {
+        event.stopPropagation();
+        this._updateField(START_ELEMENT_FIELDS.FORMULA_EXPRESSION, event.detail.value);
     }
 
     togglerunAsyncScheduledPath(event) {

@@ -52,7 +52,12 @@ export const getRules = ({ filterLogic, object, triggerType }) => {
     }
 
     // validate filters if filter type is ALL and there is a valid Object
-    if (filterLogic.value !== CONDITION_LOGIC.NO_CONDITIONS && object.value !== '' && !object.error) {
+    if (
+        filterLogic.value !== CONDITION_LOGIC.NO_CONDITIONS &&
+        filterLogic.value !== CONDITION_LOGIC.FORMULA &&
+        object.value !== '' &&
+        !object.error
+    ) {
         overriddenRules.filters = validateFilter();
     }
     return overriddenRules;

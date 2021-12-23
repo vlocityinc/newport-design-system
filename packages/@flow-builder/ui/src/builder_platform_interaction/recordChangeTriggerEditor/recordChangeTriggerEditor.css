@@ -1,0 +1,4 @@
+.slds-badge {
+    background-color: var(--sds-c-badge-color-background, #0176d3);
+    color: var(--sds-c-badge-text-color, white);
+}

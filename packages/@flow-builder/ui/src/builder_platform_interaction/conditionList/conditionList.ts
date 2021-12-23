@@ -92,7 +92,7 @@ export default class ConditionList extends LightningElement {
     variant;
 
     get conditionLogicContainerClasses() {
-        const classes = ['slds-form-element', 'slds-m-bottom_small'];
+        const classes = ['slds-form-element', 'slds-m-bottom_small', 'slds-col'];
 
         if (this.variant !== 'narrow') {
             classes.push('slds-size_1-of-3');

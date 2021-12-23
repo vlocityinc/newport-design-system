@@ -34,6 +34,11 @@
                 onupdatecondition={handleUpdateFilter}
                 onpropertychanged={handlePropertyChanged}
             >
+                <!-- Markup may be provided for sot assignment which may provide information pertaining to new addition to the condition list
+                 For example, a new condition logic option may be added for which info text may be provided -->
+                <div slot="info">
+                    <slot name="info"></slot>
+                </div>
                 <div slot="conditions" role="list">
                     <template for:each={conditionsWithPrefixes} for:item="filterItem" for:index="filterIndex">
                         <div
