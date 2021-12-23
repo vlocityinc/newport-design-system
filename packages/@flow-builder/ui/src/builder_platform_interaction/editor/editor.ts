@@ -341,8 +341,11 @@ export default class Editor extends LightningElement {
     originalFlowDescription;
     originalFlowInterviewLabel;
     keyboardInteractions;
-    triggerType;
-    recordTriggerType;
+    currentProcessType;
+    currentTriggerType;
+    currentRecordTriggerType;
+    currentStartObject;
+    currentHasAsyncPath;
     guardrailsEngine;
 
     loadFlowBuilderStartTime;
@@ -637,6 +640,51 @@ export default class Editor extends LightningElement {
         this.currentFlowDefId = flowDefId;
     }
 
+    @api
+    get processType() {
+        return this.currentProcessType;
+    }
+
+    set processType(processType) {
+        this.currentProcessType = processType;
+    }
+
+    @api
+    get triggerType() {
+        return this.currentTriggerType;
+    }
+
+    set triggerType(triggerType) {
+        this.currentTriggerType = triggerType;
+    }
+
+    @api
+    get recordTriggerType() {
+        return this.currentRecordTriggerType;
+    }
+
+    set recordTriggerType(recordTriggerType) {
+        this.currentRecordTriggerType = recordTriggerType;
+    }
+
+    @api
+    get startObject() {
+        return this.currentStartObject;
+    }
+
+    set startObject(object) {
+        this.currentStartObject = object;
+    }
+
+    @api
+    get hasAsyncPath() {
+        return this.currentHasAsyncPath;
+    }
+
+    set hasAsyncPath(hasAsyncPath) {
+        this.currentHasAsyncPath = hasAsyncPath;
+    }
+
     get showSpinner() {
         return (
             this.spinners.showFlowMetadataSpinner ||
@@ -820,7 +868,7 @@ export default class Editor extends LightningElement {
         const flowProcessTypeChanged = flowProcessType && flowProcessType !== this.properties.processType;
         const recordTriggerTypeChanged = flowRecordTriggerType !== this.recordTriggerType;
         const triggerTypeChanged = flowTriggerType !== this.triggerType;
-        if (flowProcessTypeChanged || triggerTypeChanged) {
+        if (flowProcessTypeChanged || (triggerTypeChanged && flowTriggerType)) {
             this.spinners.showAutoLayoutSpinner = true;
             const toolboxPromise = getToolboxElements(flowProcessType, flowTriggerType).then((supportedElements) => {
                 this.supportedElements = supportedElements;
@@ -842,7 +890,7 @@ export default class Editor extends LightningElement {
             }
 
             if (triggerTypeChanged) {
-                this.triggerType = flowTriggerType;
+                this.currentTriggerType = flowTriggerType;
                 if (this.triggerType && this.triggerType !== FLOW_TRIGGER_TYPE.NONE) {
                     getTriggerTypeInfo(flowTriggerType);
                 }
@@ -882,8 +930,8 @@ export default class Editor extends LightningElement {
         }
         // load operators and operator rules when triggerType or recordTriggerType is changed
         if (triggerTypeChanged || recordTriggerTypeChanged) {
-            this.triggerType = flowTriggerType;
-            this.recordTriggerType = flowRecordTriggerType;
+            this.currentTriggerType = flowTriggerType;
+            this.currentRecordTriggerType = flowRecordTriggerType;
             this.propertyEditorBlockerCalls.push(
                 loadOperatorsAndRulesOnTriggerTypeChange(flowProcessType, flowTriggerType, flowRecordTriggerType)
             );
