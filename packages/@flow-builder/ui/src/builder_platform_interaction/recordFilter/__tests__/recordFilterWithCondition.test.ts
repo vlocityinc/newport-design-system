@@ -164,6 +164,10 @@ describe('record-filter', () => {
                     {
                         value: CONDITION_LOGIC.CUSTOM_LOGIC,
                         label: LABELS.customConditionLogicLabel
+                    },
+                    {
+                        value: CONDITION_LOGIC.FORMULA,
+                        label: LABELS.formulaOptionLabel
                     }
                 ];
                 element = createComponentUnderTest({ elementType: ELEMENT_TYPE.RECORD_UPDATE, options });
@@ -284,6 +288,7 @@ describe('record-filter', () => {
             expect(filterRecord.options[1].label).toBe('FlowBuilderConditionList.andConditionLogicLabel');
             expect(filterRecord.options[2].label).toBe('FlowBuilderConditionList.orConditionLogicLabel');
             expect(filterRecord.options[3].label).toBe('FlowBuilderConditionList.customConditionLogicLabel');
+            expect(filterRecord.options[4].label).toBe('FlowBuilderFilterEditor.formulaOptionLabel');
         });
     });
     describe('Warning labels for no_conditions', () => {

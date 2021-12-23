@@ -27,7 +27,8 @@ const SELECTORS = {
     CONTEXT_OBJECT_DESCRIPTION: '.test-context-object-description',
     SET_CONDITIONS_DESCRIPTION: '.test-set-conditions-description',
     REQUIRE_RECORD_CHANGE_OPTION_LABEL: '.test-require-record-change-option-label',
-    ENTITY_RESOURCE_PICKER: 'builder_platform_interaction-entity-resource-picker'
+    ENTITY_RESOURCE_PICKER: 'builder_platform_interaction-entity-resource-picker',
+    FORMULA_BUILDER: 'builder_platform_interaction-resourced-textarea'
 };
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
@@ -447,6 +448,39 @@ describe('record-change-trigger-editor', () => {
 
             editor.focus();
             expect(entityResourcePicker.focus).toHaveBeenCalled();
+        });
+    });
+
+    describe('condition logic formula evaluates to true', () => {
+        it('formula builder is displayed when the formula logic is selected', async () => {
+            const element = createComponentForTest(recordChangeTriggerElement(AFTER_SAVE, CREATE));
+            await ticks(1);
+
+            // show formula builder when "formula evaluates to true" option is selected
+            let event = new CustomEvent('propertychanged', {
+                detail: {
+                    propertyName: 'filterLogic',
+                    value: 'formula_evaluates_to_true'
+                }
+            });
+            let recordFilterCmp = element.shadowRoot.querySelector(SELECTORS.RECORD_ENTRY_CONDITIONS);
+            recordFilterCmp.dispatchEvent(event);
+            await ticks(1);
+            let formulaBuilder = element.shadowRoot.querySelector(SELECTORS.FORMULA_BUILDER);
+            expect(formulaBuilder).not.toBeNull();
+
+            // hide formula builder when "formula evaluates to true" option is not selected anymore
+            event = new CustomEvent('propertychanged', {
+                detail: {
+                    propertyName: 'filterLogic',
+                    value: 'and'
+                }
+            });
+            recordFilterCmp = element.shadowRoot.querySelector(SELECTORS.RECORD_ENTRY_CONDITIONS);
+            recordFilterCmp.dispatchEvent(event);
+            await ticks(1);
+            formulaBuilder = element.shadowRoot.querySelector(SELECTORS.FORMULA_BUILDER);
+            expect(formulaBuilder).toBeNull();
         });
     });
 });
