@@ -1,46 +1,44 @@
 <template>
-    <div class={menuWrapper}>
-        <builder_platform_interaction-alc-menu>
-            <div class={startNodeClass} role="separator" slot="header">
-                <div class="slds-m-top_large">
-                    <h3 class="slds-text-heading_small slds-truncate test-header-label">
-                        {menuConfiguration.header.label}
-                    </h3>
-                    <p class="slds-text-body_regular slds-truncate test-header-description">{descriptionHeader}</p>
-                </div>
+    <builder_platform_interaction-alc-menu-template>
+        <div class={startNodeClass} role="separator" slot="header">
+            <div class="slds-m-top_large">
+                <h3 class="slds-text-heading_small slds-truncate test-header-label">
+                    {menuConfiguration.header.label}
+                </h3>
+                <p class="slds-text-body_regular slds-truncate test-header-description">{descriptionHeader}</p>
             </div>
-            <div if:true={startData} slot="body" class="test-start-menu-body">
-                <div if:false={isRecordTriggeredFlow}>
-                    <builder_platform_interaction-start-node-trigger-button
-                        if:true={hasTrigger}
-                        node={startData}
-                        onarrowkeydown={handleTriggerButtonArrowKeyDown}
-                    ></builder_platform_interaction-start-node-trigger-button>
-                    <builder_platform_interaction-start-node-context-button
-                        if:true={hasContext}
-                        node={startData}
-                        onarrowkeydown={handleContextButtonArrowKeyDown}
-                    ></builder_platform_interaction-start-node-context-button>
-                </div>
-                <div if:true={isRecordTriggeredFlow}>
-                    <builder_platform_interaction-record-trigger-start-node
-                        disable-edit-elements={disableEditElements}
-                        node={startData}
-                        onarrowkeydown={handleRecordTriggerButtonArrowKeyDown}
-                        oneditelement={handleEditElement}
-                    ></builder_platform_interaction-record-trigger-start-node>
-                </div>
-                <builder_platform_interaction-start-node-scheduled-path-button
-                    if:true={supportsScheduledPaths}
+        </div>
+        <div if:true={startData} slot="body" class="test-start-menu-body">
+            <div if:false={isRecordTriggeredFlow}>
+                <builder_platform_interaction-start-node-trigger-button
+                    if:true={hasTrigger}
                     node={startData}
-                    onarrowkeydown={handleScheduledPathButtonArrowKeyDown}
-                ></builder_platform_interaction-start-node-scheduled-path-button>
-                <builder_platform_interaction-start-node-flow-explorer-entry-point
-                    if:true={isRecordTriggeredFlow}
+                    onarrowkeydown={handleTriggerButtonArrowKeyDown}
+                ></builder_platform_interaction-start-node-trigger-button>
+                <builder_platform_interaction-start-node-context-button
+                    if:true={hasContext}
                     node={startData}
-                    onarrowkeydown={handleFlowExplorerOpenButtonArrowKeyDown}
-                ></builder_platform_interaction-start-node-flow-explorer-entry-point>
+                    onarrowkeydown={handleContextButtonArrowKeyDown}
+                ></builder_platform_interaction-start-node-context-button>
             </div>
-        </builder_platform_interaction-alc-menu>
-    </div>
+            <div if:true={isRecordTriggeredFlow}>
+                <builder_platform_interaction-record-trigger-start-node
+                    disable-edit-elements={disableEditElements}
+                    node={startData}
+                    onarrowkeydown={handleRecordTriggerButtonArrowKeyDown}
+                    oneditelement={handleEditElement}
+                ></builder_platform_interaction-record-trigger-start-node>
+            </div>
+            <builder_platform_interaction-start-node-scheduled-path-button
+                if:true={supportsScheduledPaths}
+                node={startData}
+                onarrowkeydown={handleScheduledPathButtonArrowKeyDown}
+            ></builder_platform_interaction-start-node-scheduled-path-button>
+            <builder_platform_interaction-start-node-flow-explorer-entry-point
+                if:true={isRecordTriggeredFlow}
+                node={startData}
+                onarrowkeydown={handleFlowExplorerOpenButtonArrowKeyDown}
+            ></builder_platform_interaction-start-node-flow-explorer-entry-point>
+        </div>
+    </builder_platform_interaction-alc-menu-template>
 </template>

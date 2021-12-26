@@ -149,7 +149,7 @@ const createComponentForTest = (elementsMetadata = []) => {
     return el;
 };
 
-describe('alc builder container', () => {
+describe('alc canvas container', () => {
     let cmp;
 
     beforeAll(() => {
@@ -157,7 +157,10 @@ describe('alc builder container', () => {
             return {
                 getCurrentState: jest.fn(() => {
                     return {
-                        elements: { startGuid: { elementType: 'START_ELEMENT' } },
+                        elements: {
+                            startGuid: { elementType: 'START_ELEMENT' },
+                            root: { elementType: ELEMENT_TYPE.ROOT_ELEMENT }
+                        },
                         properties: { processType: 'autolaunched', isAutoLayoutCanvas: true }
                     };
                 }),

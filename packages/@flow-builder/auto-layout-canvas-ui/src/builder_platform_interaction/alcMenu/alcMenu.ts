@@ -36,6 +36,17 @@ export default class AlcMenu extends withKeyboardInteractions(LightningElement) 
         this.moveFocusToFirstListItem();
     };
 
+    /**
+     * Checks if the menu is empty or not
+     *
+     * @returns true if the menu is empty, false otherwise
+     */
+    @api
+    isEmpty() {
+        // always false here but needed so that it can be overriden in menu subclass
+        return false;
+    }
+
     tabFocusRingIndex = 0;
     tabFocusRingCmds: Function[] = [];
 

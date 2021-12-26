@@ -1,71 +1,69 @@
 <template>
-    <div class={menuWrapper}>
-        <builder_platform_interaction-alc-menu>
-            <div class="node-menu-header slds-border_bottom slds-dropdown__header" role="separator" slot="header">
-                <div class="slds-m-top_large">
-                    <div class="slds-grid">
-                        <div class="slds-col slds-size_1-of-6">
-                            <lightning-button-icon
-                                if:true={isDeleteBranchElementMode}
-                                alternative-text={labels.backButtonAlternativeText}
-                                class="slds-float_left back-button"
-                                icon-name="utility:back"
-                                title={labels.backButtonTitle}
-                                variant="bare"
-                                onclick={handleBackButtonClick}
-                            >
-                            </lightning-button-icon>
-                        </div>
-                        <div class="slds-col slds-size_4-of-6">
-                            <h3 class="slds-text-heading_small slds-truncate test-header-label">
-                                {menuConfiguration.header.label}
-                            </h3>
-                        </div>
-                    </div>
-                    <p class="slds-text-body_regular slds-truncate test-header-description">{descriptionHeader}</p>
-                </div>
-            </div>
-
-            <div if:true={menuConfiguration.body} slot="body">
-                <ul if:true={isBaseActionMode} class="body slds-dropdown__divst" role="menu">
-                    <template for:each={menuConfiguration.body.nodeActions} for:item="action">
-                        <li
-                            class="slds-dropdown__item"
-                            data-value={action.value}
-                            key={action.value}
-                            role="presentation"
-                            onclick={handleSelectNodeAction}
+    <builder_platform_interaction-alc-menu-template class={menuWrapper}>
+        <div class="node-menu-header slds-border_bottom slds-dropdown__header" role="separator" slot="header">
+            <div class="slds-m-top_large">
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-6">
+                        <lightning-button-icon
+                            if:true={isDeleteBranchElementMode}
+                            alternative-text={labels.backButtonAlternativeText}
+                            class="slds-float_left back-button"
+                            icon-name="utility:back"
+                            title={labels.backButtonTitle}
+                            variant="bare"
+                            onclick={handleBackButtonClick}
                         >
-                            <a role="menuitem" tabindex="0">
-                                <span class="slds-media__figure slds-m-right_x-small">
-                                    <lightning-icon icon-name={action.icon} size="x-small" variant={action.iconVariant}>
-                                    </lightning-icon>
-                                </span>
-                                <span class="slds-media__body">{action.label}</span>
-                            </a>
-                        </li>
-                    </template>
-                </ul>
-
-                <div if:true={isDeleteBranchElementMode} class="slds-p-around_x-small">
-                    <lightning-combobox
-                        label={labels.deleteBranchElementComboboxLabel}
-                        options={conditionOptions}
-                        value={selectedConditionValue}
-                        onchange={handleComboboxChange}
-                    ></lightning-combobox>
+                        </lightning-button-icon>
+                    </div>
+                    <div class="slds-col slds-size_4-of-6">
+                        <h3 class="slds-text-heading_small slds-truncate test-header-label">
+                            {menuConfiguration.header.label}
+                        </h3>
+                    </div>
                 </div>
+                <p class="slds-text-body_regular slds-truncate test-header-description">{descriptionHeader}</p>
             </div>
-            <div if:true={menuConfiguration.footer} class="slds-border_top slds-p-around_small footer" slot="footer">
-                <lightning-button
-                    label={menuConfiguration.footer.buttonTextLabel}
-                    icon-name={menuConfiguration.footer.buttonIcon}
-                    icon-position={menuConfiguration.footer.buttonIconPosition}
-                    title={menuConfiguration.footer.buttonTextTitle}
-                    variant={menuConfiguration.footer.buttonVariant}
-                    onclick={handleFooterButtonClick}
-                ></lightning-button>
+        </div>
+
+        <div if:true={menuConfiguration.body} slot="body">
+            <ul if:true={isBaseActionMode} class="body slds-dropdown__divst" role="menu">
+                <template for:each={menuConfiguration.body.nodeActions} for:item="action">
+                    <li
+                        class="slds-dropdown__item"
+                        data-value={action.value}
+                        key={action.value}
+                        role="presentation"
+                        onclick={handleSelectNodeAction}
+                    >
+                        <a role="menuitem" tabindex="0">
+                            <span class="slds-media__figure slds-m-right_x-small">
+                                <lightning-icon icon-name={action.icon} size="x-small" variant={action.iconVariant}>
+                                </lightning-icon>
+                            </span>
+                            <span class="slds-media__body">{action.label}</span>
+                        </a>
+                    </li>
+                </template>
+            </ul>
+
+            <div if:true={isDeleteBranchElementMode} class="slds-p-around_x-small">
+                <lightning-combobox
+                    label={labels.deleteBranchElementComboboxLabel}
+                    options={conditionOptions}
+                    value={selectedConditionValue}
+                    onchange={handleComboboxChange}
+                ></lightning-combobox>
             </div>
-        </builder_platform_interaction-alc-menu>
-    </div>
+        </div>
+        <div if:true={menuConfiguration.footer} class="slds-border_top slds-p-around_small footer" slot="footer">
+            <lightning-button
+                label={menuConfiguration.footer.buttonTextLabel}
+                icon-name={menuConfiguration.footer.buttonIcon}
+                icon-position={menuConfiguration.footer.buttonIconPosition}
+                title={menuConfiguration.footer.buttonTextTitle}
+                variant={menuConfiguration.footer.buttonVariant}
+                onclick={handleFooterButtonClick}
+            ></lightning-button>
+        </div>
+    </builder_platform_interaction-alc-menu-template>
 </template>

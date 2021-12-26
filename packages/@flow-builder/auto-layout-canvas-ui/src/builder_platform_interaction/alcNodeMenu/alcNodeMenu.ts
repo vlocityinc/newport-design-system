@@ -81,17 +81,6 @@ export default class AlcNodeMenu extends AlcMenu {
     @track
     contextualMenuMode = NodeMenuMode.Default;
 
-    /**
-     * Checks if the menu is empty or not
-     *
-     * @returns true if the menu is empty, false otherwise
-     */
-    @api
-    isEmpty() {
-        // always false here but needed so that it can be overriden in menu subclass
-        return false;
-    }
-
     @api
     moveFocus = (shift: boolean) => {
         if (this.isDeleteBranchElementMode) {

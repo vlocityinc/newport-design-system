@@ -58,7 +58,8 @@ import {
     getFirstSelectableElementGuid,
     importComponent,
     getComponent,
-    deleteComponent
+    deleteComponent,
+    MenuInfo
 } from 'builder_platform_interaction/alcComponentsUtils';
 import { getFocusPath } from './alcCanvasUtils';
 import {
@@ -242,7 +243,7 @@ export default class AlcCanvas extends LightningElement {
     flow;
 
     @track
-    menu;
+    menu: MenuInfo<AlcMenu> | null = null;
 
     @track
     moveFocusToMenu;
@@ -306,7 +307,6 @@ export default class AlcCanvas extends LightningElement {
     @api
     set elementsMetadata(elementsMetadata: ElementMetadata[]) {
         this._elementsMetadata = elementsMetadata;
-
         elementsMetadata.forEach((elementMetadata) => {
             const { menuComponent } = elementMetadata;
 
@@ -457,11 +457,11 @@ export default class AlcCanvas extends LightningElement {
     }
 
     get showConnectorMenu() {
-        return this.menu != null && this.menu.connectorMenu === MenuType.CONNECTOR;
+        return this.menu?.ctor && this.menu?.menuType === MenuType.CONNECTOR;
     }
 
     get showNodeMenu() {
-        return this.menu != null && this.menu.connectorMenu === MenuType.NODE;
+        return this.menu?.ctor && this.menu?.menuType === MenuType.NODE;
     }
 
     get menuContainerClasses() {
@@ -554,43 +554,7 @@ export default class AlcCanvas extends LightningElement {
             }
 
             if (!this._flowContainerElement) {
-                const flowContainerElement = this.dom.flowContainerClass;
-                if (flowContainerElement != null) {
-                    this._flowContainerElement = flowContainerElement;
-                    this.initializePanzoom();
-
-                    // open the start element menu on load
-                    const startElementGuid = this.getStartElementGuid();
-                    const startElement = this.flowModel[startElementGuid];
-                    const containerGeometry = this.getDomElementGeometry(this._flowContainerElement);
-
-                    const interactionState = {
-                        ...this._flowRenderContext.interactionState,
-                        menuInfo: { key: startElementGuid, type: MenuType.NODE, needToPosition: false },
-                        deletionPathInfo: null
-                    };
-
-                    const elementMetadata = this._flowRenderContext.elementsMetadata[startElement.elementType];
-                    // TODO: W-9613981 [Trust] Remove hardcoded alccanvas offsets
-                    const event = new ToggleMenuEvent({
-                        top: containerGeometry.y + NODE_ICON_SIZE,
-                        left: containerGeometry.x - NODE_ICON_SIZE / 2,
-                        offsetX: 0,
-                        height: 0,
-                        type: MenuType.NODE,
-                        source: { guid: startElementGuid },
-                        elementMetadata,
-                        moveFocusToMenu: true
-                    });
-
-                    const { menuComponent } = elementMetadata;
-
-                    if (menuComponent) {
-                        importComponent(menuComponent).then(() => {
-                            this.openMenu(event, interactionState);
-                        });
-                    }
-                }
+                this.postRenderInit();
             }
 
             const menuElement = this.getOpenedMenu();
@@ -622,6 +586,46 @@ export default class AlcCanvas extends LightningElement {
                 logPerfTransactionEnd(AUTOLAYOUT_CANVAS, { numberOfElements }, null);
                 writeMetrics(AUTOLAYOUT_CANVAS, time() - this.loadAlcCanvasStartTime, hasLoadAlcCanvasError, {});
                 this.isFirstTimeCalled = false;
+            }
+        }
+    }
+
+    postRenderInit() {
+        const flowContainerElement = this.dom.flowContainerClass;
+        if (flowContainerElement != null) {
+            this._flowContainerElement = flowContainerElement;
+            this.initializePanzoom();
+
+            // open the start element menu on load
+            const startElementGuid = this.getStartElementGuid();
+            const startElement = this.flowModel[startElementGuid];
+            const elementMetadata = this._flowRenderContext.elementsMetadata[startElement.elementType];
+            const { menuComponent } = elementMetadata;
+
+            if (menuComponent) {
+                importComponent(menuComponent).then(() => {
+                    const containerGeometry = this.getDomElementGeometry(this._flowContainerElement);
+
+                    const interactionState = {
+                        ...this._flowRenderContext.interactionState,
+                        menuInfo: { key: startElementGuid, type: MenuType.NODE, needToPosition: false },
+                        deletionPathInfo: null
+                    };
+
+                    // TODO: W-9613981 [Trust] Remove hardcoded alccanvas offsets
+                    const event = new ToggleMenuEvent({
+                        top: containerGeometry.y + NODE_ICON_SIZE,
+                        left: containerGeometry.x - NODE_ICON_SIZE / 2,
+                        offsetX: 0,
+                        height: 0,
+                        type: MenuType.NODE,
+                        source: { guid: startElementGuid },
+                        elementMetadata,
+                        moveFocusToMenu: true
+                    });
+
+                    this.openMenu(event, interactionState);
+                });
             }
         }
     }
@@ -864,14 +868,15 @@ export default class AlcCanvas extends LightningElement {
         const menuConstructor = this.getMenuConstructor(menuInfo.type, event.detail.elementMetadata);
 
         if (menuConstructor) {
-            this.menu = getAlcMenuData(
+            this.menu = getAlcMenuData<AlcMenu>(
                 event,
                 menuButtonHalfWidth,
                 containerGeometry,
                 this._scale,
                 this._flowRenderContext,
                 menuInfo.needToPosition,
-                menuConstructor
+                menuConstructor,
+                this.elementsMetadata
             );
 
             this.moveFocusToMenu = event.detail.moveFocusToMenu;

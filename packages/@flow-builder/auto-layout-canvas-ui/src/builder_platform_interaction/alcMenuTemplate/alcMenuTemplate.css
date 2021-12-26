@@ -1,0 +1,15 @@
+.header {
+    text-align: center;
+    background: #fafafb;
+}
+
+.body {
+    background-color: #fff;
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color: white;
+}

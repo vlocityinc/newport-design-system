@@ -29,16 +29,31 @@ import {
     getTargetGuidsForReconnection,
     FOR_EACH_INDEX,
     START_IMMEDIATE_INDEX,
-    findParentElement
+    findParentElement,
+    ElementMetadata,
+    MenuType
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ToggleMenuEvent } from 'builder_platform_interaction/alcEvents';
 import { PrivateItemRegisterEvent } from 'builder_platform_interaction/alcEvents';
 import { LABELS } from './alcComponentsUtilsLabels';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
-import AlcMenu from 'builder_platform_interaction/alcMenu';
 
 const { format } = commonUtils;
 
+export interface MenuInfo<T> {
+    ctor: MenuConstructor<T>;
+    elementMetadata: ElementMetadata;
+    canAddGoto: boolean;
+    canAddEndElement: boolean;
+    canHaveFaultConnector: boolean;
+    elementHasFault: boolean;
+    menuType: MenuType;
+    style: string;
+    isGoToConnector: boolean;
+    className: string;
+    elementsMetadata: ElementMetadata[];
+    source: ConnectionSource;
+}
 export interface AutoLayoutCanvasContext {
     isPasteAvailable: boolean;
     mode: AutoLayoutCanvasMode;
@@ -682,33 +697,35 @@ export function dispatchPrivateItemRegister(component) {
  * @param context - The flow rendering context
  * @param needToPosition - True means element need to position
  * @param ctor - The constructor for the menu
- * @returns object with menu properties
+ * @param elementsMetadata -The elements metadata
+ * @returns a menu info object
  */
-function getAlcMenuData(
+function getAlcMenuData<T>(
     event: ToggleMenuEvent,
     menuButtonHalfWidth: number,
     containerElementGeometry: Geometry,
     scale: number,
     context: FlowRenderContext,
     needToPosition = false,
-    ctor: MenuConstructor<AlcMenu>
-) {
+    ctor: MenuConstructor<T>,
+    elementsMetadata: ElementMetadata[]
+): MenuInfo<T> {
     const className = `menu ${ctor.className} overlay slds-dropdown`;
     const detail = event.detail;
 
     const { guid } = detail.source;
-    const { flowModel, elementsMetadata } = context;
+    const { flowModel } = context;
 
     const style = getMenuStyle(detail, containerElementGeometry, menuButtonHalfWidth, scale, needToPosition);
-    const canHaveFaultConnector = guid && flowModel[guid].canHaveFaultConnector;
+    const canHaveFaultConnector = guid != null && flowModel[guid].canHaveFaultConnector;
 
-    const elementHasFault = guid ? flowModel[guid].fault : false;
+    const elementHasFault = guid ? flowModel[guid].fault != null : false;
     const targetGuid = detail.source ? getConnectionTarget(flowModel, detail.source) : null;
     const targetElement = targetGuid != null ? flowModel[targetGuid] : null;
     const isGoToConnector = hasGoTo(flowModel, detail.source);
     const isTargetEnd =
         targetElement != null &&
-        getElementMetadata(elementsMetadata, targetElement.elementSubtype || targetElement.elementType).type ===
+        getElementMetadata(context.elementsMetadata, targetElement.elementSubtype || targetElement.elementType).type ===
             NodeType.END;
 
     const canAddEndElement = targetGuid == null;
@@ -729,9 +746,9 @@ function getAlcMenuData(
         canAddEndElement,
         canHaveFaultConnector,
         elementHasFault,
-        ...detail,
-        connectorMenu: detail.type,
-        next: targetGuid,
+        menuType: detail.type,
+        source: detail.source,
+        elementMetadata: detail.elementMetadata,
         style,
         isGoToConnector,
         ctor,

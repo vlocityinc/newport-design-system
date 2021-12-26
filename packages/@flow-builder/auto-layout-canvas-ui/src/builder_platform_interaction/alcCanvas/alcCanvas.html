@@ -36,7 +36,6 @@
                 <div class={menuContainerClasses}>
                     <template if:true={showConnectorMenu}>
                         <x-lazy
-                            if:true={menu.ctor}
                             lwc:dynamic={menu.ctor}
                             class={menu.className}
                             metadata={_connectorMenuMetadata}
@@ -54,7 +53,6 @@
                     </template>
                     <template if:true={showNodeMenu}>
                         <x-lazy
-                            if:true={menu.ctor}
                             lwc:dynamic={menu.ctor}
                             class={menu.className}
                             condition-options={menu.conditionOptionsForNode}

@@ -85,7 +85,12 @@ export default class AlcCanvasContainer extends LightningElement {
 
     rootElement;
 
-    isAutoLayoutCanvas = true;
+    isAutoLayoutCanvas = false;
+
+    get shouldRenderCanvas() {
+        // only render the canvas when all the data it needs is ready
+        return this.isAutoLayoutCanvas && this._elementsMetadata && this.flowModel;
+    }
 
     get canvasOffsets() {
         // TODO: W-9613981 [Trust] Remove hardcoded alccanvas offsets

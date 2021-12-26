@@ -928,8 +928,7 @@ export function getElementsMetadata(toolboxElements, palette, existingMetadata =
                 iconShape,
                 iconSize,
                 dynamicNodeComponent,
-                dynamicNodeComponentSelector,
-                isCanvasElement
+                dynamicNodeComponentSelector
             }) => {
                 const newElementMetadata = {
                     section: section.label,
@@ -947,7 +946,9 @@ export function getElementsMetadata(toolboxElements, palette, existingMetadata =
                     dynamicNodeComponent,
                     dynamicNodeComponentSelector,
                     value: elementType, // TODO: ALC remove this property and just use elementType
-                    menuComponent: isCanvasElement ? 'builder_platform_interaction/alcNodeMenu' : undefined
+                    menuComponent: getConfigForElementType(elementType).isCanvasElement
+                        ? 'builder_platform_interaction/alcNodeMenu'
+                        : undefined
                 };
                 if (elementSubtype) {
                     newElementMetadata.elementSubtype = elementSubtype;
