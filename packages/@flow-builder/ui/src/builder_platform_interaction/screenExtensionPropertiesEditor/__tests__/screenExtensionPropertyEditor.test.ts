@@ -1,31 +1,31 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import ScreenExtensionPropertiesEditor from 'builder_platform_interaction/screenExtensionPropertiesEditor';
 import {
-    query,
     createTestScreenField,
-    getManuallyAssignVariablesCheckboxInputElement,
     getManuallyAssignVariablesCheckbox,
-    ticks,
-    setDocumentBodyChildren
+    getManuallyAssignVariablesCheckboxInputElement,
+    query,
+    setDocumentBodyChildren,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
-import { screenExtensionPropertiesEventReducer } from '../screenExtensionPropertiesReducer';
 import {
-    ManuallyAssignVariablesChangedEvent,
-    ItemSelectedEvent,
+    ComboboxStateChangedEvent,
     ConfigurationEditorChangeEvent,
     ConfigurationEditorTypeMappingChangeEvent,
     DynamicTypeMappingChangeEvent,
-    PropertyChangedEvent,
-    ComboboxStateChangedEvent
+    ItemSelectedEvent,
+    ManuallyAssignVariablesChangedEvent,
+    PropertyChangedEvent
 } from 'builder_platform_interaction/events';
-import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
+import ScreenExtensionPropertiesEditor from 'builder_platform_interaction/screenExtensionPropertiesEditor';
+import { deepCopy } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
+import { screenExtensionPropertiesEventReducer } from '../screenExtensionPropertiesReducer';
+import { createFlowExtensionForCPE, createScreenFieldForCPE } from './screenExtensionCustomPropertyEditorMocks';
 import {
     createFlowExtensionWithDynamicTypes,
     createScreenFieldWithDynamicTypes
 } from './screenExtensionDynamicTypesMocks';
-import { createScreenFieldForCPE, createFlowExtensionForCPE } from './screenExtensionCustomPropertyEditorMocks';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

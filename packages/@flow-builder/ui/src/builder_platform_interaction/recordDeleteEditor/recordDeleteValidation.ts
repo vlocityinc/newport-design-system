@@ -1,6 +1,6 @@
 // @ts-nocheck
-import * as ValidationRules from 'builder_platform_interaction/validationRules';
 import { Validation } from 'builder_platform_interaction/validation';
+import * as ValidationRules from 'builder_platform_interaction/validationRules';
 
 /**
  * validates against possible blank, empty or undefined value

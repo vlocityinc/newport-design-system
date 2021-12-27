@@ -1,18 +1,18 @@
-import { getResourceByUniqueIdentifier } from 'builder_platform_interaction/expressionUtils';
-import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
-import { getPropertiesForClass, getApexPropertyWithName } from 'builder_platform_interaction/apexTypeLib';
-import { loadApexClasses } from 'builder_platform_interaction/preloadLib';
-import { describeExtension } from 'builder_platform_interaction/flowExtensionLib';
+import { getApexPropertyWithName, getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import {
     getExtensionParamDescriptionAsComplexTypeFieldDescription,
     getInvocableActionParamDescriptionAsComplexTypeFieldDescription
 } from 'builder_platform_interaction/complexTypeLib';
-import { isComplexType, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { fetchFieldsForEntity, getEntityFieldWithApiName } from 'builder_platform_interaction/sobjectLib';
-import { isLookupTraversalSupported as isLookupTraversalSupportedByProcessType } from 'builder_platform_interaction/processTypeLib';
-import { isLookupTraversalSupported as isLookupTraversalSupportedByTriggerType } from 'builder_platform_interaction/triggerTypeLib';
+import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
+import { FLOW_DATA_TYPE, isComplexType } from 'builder_platform_interaction/dataTypeLib';
+import { getResourceByUniqueIdentifier } from 'builder_platform_interaction/expressionUtils';
+import { describeExtension } from 'builder_platform_interaction/flowExtensionLib';
 import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import { loadApexClasses } from 'builder_platform_interaction/preloadLib';
+import { isLookupTraversalSupported as isLookupTraversalSupportedByProcessType } from 'builder_platform_interaction/processTypeLib';
+import { fetchFieldsForEntity, getEntityFieldWithApiName } from 'builder_platform_interaction/sobjectLib';
 import { fetchActiveOrLatestFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
+import { isLookupTraversalSupported as isLookupTraversalSupportedByTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 
 /**
  * Whether or not lookup traversal is supported in this flow

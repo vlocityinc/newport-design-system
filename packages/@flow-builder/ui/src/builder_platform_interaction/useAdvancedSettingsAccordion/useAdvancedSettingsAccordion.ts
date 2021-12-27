@@ -1,6 +1,6 @@
-import { LightningElement, api } from 'lwc';
 import advancedAccordionLabel from '@salesforce/label/FlowBuilderRecordEditor.advancedAccordionLabel';
 import { compareParamsByLabel } from 'builder_platform_interaction/calloutEditorLib';
+import { api, LightningElement } from 'lwc';
 
 export const LABELS = {
     advancedAccordionLabel

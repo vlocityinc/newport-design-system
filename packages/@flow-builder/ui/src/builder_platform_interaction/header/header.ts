@@ -1,8 +1,8 @@
+import { invokeKeyboardHelpDialog } from 'builder_platform_interaction/builderUtils';
 import { orgHasFlowBuilderGuardrails } from 'builder_platform_interaction/contextLib';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './headerLabels';
-import { invokeKeyboardHelpDialog } from 'builder_platform_interaction/builderUtils';
 
 const { logInteraction } = loggingUtils;
 

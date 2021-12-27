@@ -1,9 +1,9 @@
 // @ts-nocheck
+import { createTestScreen, createTestScreenField } from 'builder_platform_interaction/builderTestUtils';
 import {
     processRequiredParamsForExtensionsInScreen,
     processScreenExtensionTypes
 } from 'builder_platform_interaction/screenEditorUtils';
-import { createTestScreen, createTestScreenField } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {

@@ -1,8 +1,8 @@
 // @ts-nocheck
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 import { createElement } from 'lwc';
 import ResourcedTextarea from '../resourcedTextarea';
-import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')

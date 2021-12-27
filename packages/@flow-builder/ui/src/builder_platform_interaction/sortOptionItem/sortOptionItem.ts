@@ -1,14 +1,14 @@
-import { LightningElement, api, track } from 'lwc';
-import { LABELS } from './sortOptionItemLabels';
+import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
 import { UpdateSortOptionItemEvent } from 'builder_platform_interaction/events';
 import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
-import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
 import {
-    SORT_ORDER,
-    SObjectOrApexReference,
+    APEX_SORT_COMPATIBLE_TYPES,
     isSObjectOrApexClass,
-    APEX_SORT_COMPATIBLE_TYPES
+    SObjectOrApexReference,
+    SORT_ORDER
 } from 'builder_platform_interaction/sortEditorLib';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './sortOptionItemLabels';
 
 const SORT_ORDER_OPTIONS = [
     {

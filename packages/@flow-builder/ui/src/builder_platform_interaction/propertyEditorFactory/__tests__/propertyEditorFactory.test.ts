@@ -1,26 +1,26 @@
 // @ts-nocheck
-import { getElementForPropertyEditor, getElementForStore } from '../propertyEditorFactory';
+import { goldObjectMatchers } from 'builder_platform_interaction/builderTestUtils';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { Store } from 'builder_platform_interaction/storeLib';
 import {
-    stringVariable,
-    numberVariable,
-    dateVariable,
-    stringCollectionVariable1,
     accountSObjectVariable,
-    stringConstant,
-    textTemplate1,
-    textTemplate2,
+    dateVariable,
+    deleteAccount,
+    deleteAccountWithFilters,
     elementsForPropertyEditors,
     emailScreenField,
     emailScreenFieldAutomaticOutput,
-    deleteAccountWithFilters,
-    deleteAccount,
+    flowWithAllElementsUIModel,
+    numberVariable,
+    screenWithSection,
     staticChoiceOther,
-    screenWithSection
+    stringCollectionVariable1,
+    stringConstant,
+    stringVariable,
+    textTemplate1,
+    textTemplate2
 } from 'mock/storeData';
-import { goldObjectMatchers } from 'builder_platform_interaction/builderTestUtils';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getElementForPropertyEditor, getElementForStore } from '../propertyEditorFactory';
 
 expect.extend(goldObjectMatchers);
 

@@ -1,11 +1,11 @@
 // @ts-nocheck
+import { removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
+import { normalizeDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import {
     getResourceByUniqueIdentifier,
     mutateFlowResourceToComboboxShape
 } from 'builder_platform_interaction/expressionUtils';
-import { normalizeDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { transformOperatorsForCombobox } from 'builder_platform_interaction/ruleLib';
-import { removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
 
 /**
  * Returns the formatted LHS value as displayText and the dataType used for the RHS

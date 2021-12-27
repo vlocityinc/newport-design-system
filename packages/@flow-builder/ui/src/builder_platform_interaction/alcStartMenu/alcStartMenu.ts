@@ -1,9 +1,8 @@
-import AlcNodeMenu from 'builder_platform_interaction/alcNodeMenu';
-import { api } from 'lwc';
-import { commands, lwcUtils, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import { MoveFocusToNodeEvent } from 'builder_platform_interaction/alcEvents';
-
+import AlcNodeMenu from 'builder_platform_interaction/alcNodeMenu';
 import { shouldSupportScheduledPaths } from 'builder_platform_interaction/elementFactory';
+import { commands, keyboardInteractionUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
+import { api } from 'lwc';
 
 const { EnterCommand, SpaceCommand, EscapeCommand, TabCommand } = commands;
 const { Keys, createShortcutKey, createShortcut, BaseKeyboardInteraction } = keyboardInteractionUtils;

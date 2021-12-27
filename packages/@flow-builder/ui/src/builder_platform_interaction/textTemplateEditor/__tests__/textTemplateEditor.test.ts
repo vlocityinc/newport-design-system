@@ -1,19 +1,19 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import TextTemplateEditor from '../textTemplateEditor';
-import { textTemplateReducer } from '../textTemplateReducer';
-import * as mockStoreData from 'mock/storeData';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { PropertyChangedEvent } from 'builder_platform_interaction/events';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
-    ticks,
     INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS,
-    setDocumentBodyChildren
+    setDocumentBodyChildren,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { createElement } from 'lwc';
+import * as mockStoreData from 'mock/storeData';
+import TextTemplateEditor from '../textTemplateEditor';
+import { textTemplateReducer } from '../textTemplateReducer';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')

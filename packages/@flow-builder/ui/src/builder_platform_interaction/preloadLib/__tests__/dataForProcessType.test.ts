@@ -1,21 +1,21 @@
 // @ts-nocheck
+import { getGlobalVariableTypeComboboxItems } from 'builder_platform_interaction/expressionUtils';
+import { setInvocableActions } from 'builder_platform_interaction/invocableActionLib';
+import { setOperators, setRules } from 'builder_platform_interaction/ruleLib';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+import { setEntities, setEventTypes, setWorkflowEnabledEntities } from 'builder_platform_interaction/sobjectLib';
+import { setGlobalVariables, setProcessTypeFeature, setSystemVariables } from 'builder_platform_interaction/systemLib';
 import {
     loadActions,
-    loadEventTypes,
     loadEntities,
-    loadWorkflowEnabledEntities,
+    loadEventTypes,
     loadGlobalVariables,
-    loadSystemVariables,
-    loadProcessTypeFeatures,
     loadOperators,
-    loadRules
+    loadProcessTypeFeatures,
+    loadRules,
+    loadSystemVariables,
+    loadWorkflowEnabledEntities
 } from '../dataForProcessType';
-import { setInvocableActions } from 'builder_platform_interaction/invocableActionLib';
-import { setEventTypes, setEntities, setWorkflowEnabledEntities } from 'builder_platform_interaction/sobjectLib';
-import { setGlobalVariables, setSystemVariables, setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
-import { getGlobalVariableTypeComboboxItems } from 'builder_platform_interaction/expressionUtils';
-import { setRules, setOperators } from 'builder_platform_interaction/ruleLib';
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/serverDataLib');

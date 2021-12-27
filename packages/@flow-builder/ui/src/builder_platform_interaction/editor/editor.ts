@@ -1,34 +1,8 @@
 // @ts-nocheck
-import { api, LightningElement, track } from 'lwc';
-
 import {
-    focusOnDockingPanel,
-    getPropertyEditorConfig,
-    hidePopover,
-    invokeDebugEditor,
-    invokeKeyboardHelpDialog,
-    invokeNewFlowModal,
-    invokePropertyEditor,
-    modalBodyVariant,
-    modalFooterVariant,
-    PROPERTY_EDITOR,
-    CanvasMode,
-    isPopoverOpen
-} from 'builder_platform_interaction/builderUtils';
-import {
-    commands,
-    invokeModal,
-    keyboardInteractionUtils,
-    loggingUtils,
-    storeUtils,
-    commonUtils
-} from 'builder_platform_interaction/sharedUtils';
-import { deepCopy, Store } from 'builder_platform_interaction/storeLib';
-import { getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
-import {
-    ADD_START_ELEMENT,
     addElement,
     addElementFault,
+    ADD_START_ELEMENT,
     clearCanvasDecoration,
     clearUndoRedo,
     createGoToConnection,
@@ -41,27 +15,80 @@ import {
     redo,
     removeLastCreatedInlineResource,
     resetGoTos,
-    SELECTION_ON_FIXED_CANVAS,
     selectionOnFixedCanvas,
+    SELECTION_ON_FIXED_CANVAS,
     selectOnCanvas,
     TOGGLE_ON_CANVAS,
     undo,
-    UPDATE_APEX_CLASSES,
-    UPDATE_ENTITIES,
-    UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY,
-    UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE_AND_TRIGGER_TYPE,
-    UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE,
     updateElement,
+    updateElementErrorState,
     updateFlow,
     updateFlowOnCanvasModeToggle,
     updateIsAutoLayoutCanvasProperty,
     updatePropertiesAfterActivateButtonPress,
     updatePropertiesAfterCreatingFlowFromProcessTypeAndTriggerType,
     updatePropertiesAfterCreatingFlowFromTemplate,
+    UPDATE_APEX_CLASSES,
     UPDATE_CANVAS_ELEMENT_ERROR_STATE,
-    UPDATE_RESOURCE_ERROR_STATE,
-    updateElementErrorState
+    UPDATE_ENTITIES,
+    UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY,
+    UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE_AND_TRIGGER_TYPE,
+    UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE,
+    UPDATE_RESOURCE_ERROR_STATE
 } from 'builder_platform_interaction/actions';
+import {
+    addEndElementsAndConnectorsTransform,
+    canConvertToAutoLayoutCanvas,
+    convertToAutoLayoutCanvas,
+    convertToFreeFormCanvas,
+    removeEndElementsAndConnectorsTransform
+} from 'builder_platform_interaction/alcConversionUtils';
+import {
+    CreateGoToConnectionEvent,
+    DeleteGoToConnectionEvent,
+    OutgoingGoToStubClickEvent,
+    PasteOnCanvasEvent
+} from 'builder_platform_interaction/alcEvents';
+import { cachePropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
+import { ConnectionSource, getConnectionTarget } from 'builder_platform_interaction/autoLayoutCanvas';
+import {
+    CanvasMode,
+    focusOnDockingPanel,
+    getPropertyEditorConfig,
+    hidePopover,
+    invokeDebugEditor,
+    invokeKeyboardHelpDialog,
+    invokeNewFlowModal,
+    invokePropertyEditor,
+    isPopoverOpen,
+    modalBodyVariant,
+    modalFooterVariant,
+    PROPERTY_EDITOR
+} from 'builder_platform_interaction/builderUtils';
+import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
+import {
+    CLASSIC_EXPERIENCE,
+    getPreferredExperience,
+    isAutoLayoutCanvasEnabled,
+    orgHasFlowTestingEnabled
+} from 'builder_platform_interaction/contextLib';
+import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { getConfigForElement } from 'builder_platform_interaction/elementConfig';
+import {
+    AUTO_LAYOUT_CANVAS,
+    CANVAS_MODE,
+    createEndElement,
+    createVariable,
+    shouldSupportScheduledPaths
+} from 'builder_platform_interaction/elementFactory';
+import {
+    EditElementEvent,
+    LocatorIconClickedEvent,
+    NewResourceEvent,
+    OpenSubflowEvent
+} from 'builder_platform_interaction/events';
+import { mutateFlowResourceToComboboxShape } from 'builder_platform_interaction/expressionUtils';
 import {
     ELEMENT_TYPE,
     FLOW_PROCESS_TYPE,
@@ -71,23 +98,71 @@ import {
     isSystemElement,
     SCHEDULED_PATH_TYPE
 } from 'builder_platform_interaction/flowMetadata';
-import { fetch, fetchOnce, fetchPromise, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
-import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
-import { reducer } from 'builder_platform_interaction/reducers';
-import { INIT, isRedoAvailable, isUndoAvailable, undoRedo } from 'builder_platform_interaction/undoRedoLib';
-import { fetchFieldsForEntity, getEntity, MANAGED_SETUP, setEventTypes } from 'builder_platform_interaction/sobjectLib';
-import { LABELS } from './editorLabels';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { FlowGuardrailsExecutor, GuardrailsResultEvent } from 'builder_platform_interaction/guardrails';
+import { loadReferencesIn } from 'builder_platform_interaction/mergeFieldLib';
 import {
-    EditElementEvent,
-    LocatorIconClickedEvent,
-    NewResourceEvent,
-    OpenSubflowEvent
-} from 'builder_platform_interaction/events';
-import { SaveType } from 'builder_platform_interaction/saveType';
-import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
-import { mutateFlowResourceToComboboxShape } from 'builder_platform_interaction/expressionUtils';
+    initializeLoader,
+    loadAllSupportedFeatures,
+    loadEntity,
+    loadEventType,
+    loadFieldsForComplexTypesInFlow,
+    loadFieldsForExtensionsInFlowFromMetadata,
+    loadOnProcessTypeChange,
+    loadOnStart,
+    loadOnTriggerTypeChange,
+    loadOperatorsAndRulesOnTriggerTypeChange,
+    loadParametersForInvocableApexActionsInFlowFromMetadata,
+    loadVersioningData
+} from 'builder_platform_interaction/preloadLib';
+import {
+    isAutoLayoutCanvasOnly,
+    isConfigurableStartSupported,
+    isOrchestrator
+} from 'builder_platform_interaction/processTypeLib';
 import { getElementForPropertyEditor, getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
+import { pubSub, PubSubEvent } from 'builder_platform_interaction/pubSub';
+import { reducer } from 'builder_platform_interaction/reducers';
+import { SaveType } from 'builder_platform_interaction/saveType';
+import { TEXT_AREA_MAX_LENGTH } from 'builder_platform_interaction/screenEditorUtils';
+import { getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
+import { fetch, fetchOnce, fetchPromise, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+import {
+    commands,
+    commonUtils,
+    invokeModal,
+    keyboardInteractionUtils,
+    loggingUtils,
+    storeUtils
+} from 'builder_platform_interaction/sharedUtils';
+import { fetchFieldsForEntity, getEntity, MANAGED_SETUP, setEventTypes } from 'builder_platform_interaction/sobjectLib';
+import { deepCopy, Store } from 'builder_platform_interaction/storeLib';
+import {
+    getElementByGuid,
+    getRecordTriggerType,
+    getScheduledPathsList,
+    getStartElement,
+    getStartObject,
+    getTriggerType,
+    isDevNameInStore
+} from 'builder_platform_interaction/storeUtils';
+import { getSubflows } from 'builder_platform_interaction/subflowsLib';
+import {
+    BUILDER_MODE,
+    getProcessTypes,
+    getRunInModes,
+    isVersioningDataInitialized,
+    setBuilderType,
+    setProcessTypes,
+    setRunInModes
+} from 'builder_platform_interaction/systemLib';
+import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
+import { getTriggerTypeInfo, isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
+import { INIT, isRedoAvailable, isUndoAvailable, undoRedo } from 'builder_platform_interaction/undoRedoLib';
+import { usedBy } from 'builder_platform_interaction/usedByLib';
+import { time } from 'instrumentation/service';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './editorLabels';
 import {
     canRunDebugWith,
     closeModalAndNavigateTo,
@@ -106,6 +181,7 @@ import {
     getToolboxElements,
     highlightCanvasElement,
     isGuardrailsEnabled,
+    launchSubflow,
     logElementCreation,
     saveAsFlowCallback,
     screenFieldsReferencedByLoops,
@@ -116,86 +192,8 @@ import {
     updateStoreAfterSaveAsNewFlowIsFailed,
     updateStoreAfterSaveAsNewVersionIsFailed,
     updateStoreAfterSaveFlowIsSuccessful,
-    updateUrl,
-    launchSubflow
+    updateUrl
 } from './editorUtils';
-import { cachePropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
-import {
-    BUILDER_MODE,
-    getProcessTypes,
-    getRunInModes,
-    isVersioningDataInitialized,
-    setBuilderType,
-    setProcessTypes,
-    setRunInModes
-} from 'builder_platform_interaction/systemLib';
-import {
-    isAutoLayoutCanvasOnly,
-    isConfigurableStartSupported,
-    isOrchestrator
-} from 'builder_platform_interaction/processTypeLib';
-import { getTriggerTypeInfo, isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
-import {
-    initializeLoader,
-    loadAllSupportedFeatures,
-    loadEntity,
-    loadEventType,
-    loadFieldsForComplexTypesInFlow,
-    loadFieldsForExtensionsInFlowFromMetadata,
-    loadOnProcessTypeChange,
-    loadOnStart,
-    loadOnTriggerTypeChange,
-    loadOperatorsAndRulesOnTriggerTypeChange,
-    loadParametersForInvocableApexActionsInFlowFromMetadata,
-    loadVersioningData
-} from 'builder_platform_interaction/preloadLib';
-import {
-    CLASSIC_EXPERIENCE,
-    getPreferredExperience,
-    isAutoLayoutCanvasEnabled,
-    orgHasFlowTestingEnabled
-} from 'builder_platform_interaction/contextLib';
-import { loadReferencesIn } from 'builder_platform_interaction/mergeFieldLib';
-import { FlowGuardrailsExecutor, GuardrailsResultEvent } from 'builder_platform_interaction/guardrails';
-import {
-    getElementByGuid,
-    getRecordTriggerType,
-    getScheduledPathsList,
-    getStartElement,
-    getStartObject,
-    getTriggerType,
-    isDevNameInStore
-} from 'builder_platform_interaction/storeUtils';
-import {
-    createEndElement,
-    createVariable,
-    shouldSupportScheduledPaths,
-    CANVAS_MODE,
-    AUTO_LAYOUT_CANVAS
-} from 'builder_platform_interaction/elementFactory';
-import { usedBy } from 'builder_platform_interaction/usedByLib';
-import { getConfigForElement } from 'builder_platform_interaction/elementConfig';
-
-import { pubSub, PubSubEvent } from 'builder_platform_interaction/pubSub';
-import {
-    CreateGoToConnectionEvent,
-    DeleteGoToConnectionEvent,
-    PasteOnCanvasEvent,
-    OutgoingGoToStubClickEvent
-} from 'builder_platform_interaction/alcEvents';
-import {
-    addEndElementsAndConnectorsTransform,
-    canConvertToAutoLayoutCanvas,
-    convertToAutoLayoutCanvas,
-    convertToFreeFormCanvas,
-    removeEndElementsAndConnectorsTransform
-} from 'builder_platform_interaction/alcConversionUtils';
-import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
-import { ConnectionSource, getConnectionTarget } from 'builder_platform_interaction/autoLayoutCanvas';
-import { TEXT_AREA_MAX_LENGTH } from 'builder_platform_interaction/screenEditorUtils';
-import { time } from 'instrumentation/service';
-import { getSubflows } from 'builder_platform_interaction/subflowsLib';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 const { format } = commonUtils;
 const { generateGuid } = storeUtils;

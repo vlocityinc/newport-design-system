@@ -1,24 +1,24 @@
-import { createSelector } from 'builder_platform_interaction/storeLib';
-import { ELEMENT_TYPE, isSystemElement, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
-import { FLOW_DATA_TYPE, getFlowDataType } from 'builder_platform_interaction/dataTypeLib';
-import {
-    getQueryableEntities,
-    getCreateableEntities,
-    getDeletableEntities,
-    getUpdateableEntities
-} from 'builder_platform_interaction/sobjectLib';
 import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
 import { ApexTypeProperties } from 'builder_platform_interaction/apexTypeLib';
-import { retrieveResourceComplexTypeFields } from 'builder_platform_interaction/complexTypeLib';
 import {
-    SOBJECT_OR_SOBJECT_COLLECTION_FILTER,
-    sObjectOrSObjectCollectionFilterToIsCollection
-} from 'builder_platform_interaction/filterTypeLib';
-import {
-    sortableFilter,
+    CollectionProcessorFilter,
     mappableFilter,
-    CollectionProcessorFilter
+    sortableFilter
 } from 'builder_platform_interaction/collectionProcessorLib';
+import { retrieveResourceComplexTypeFields } from 'builder_platform_interaction/complexTypeLib';
+import { FLOW_DATA_TYPE, getFlowDataType } from 'builder_platform_interaction/dataTypeLib';
+import {
+    sObjectOrSObjectCollectionFilterToIsCollection,
+    SOBJECT_OR_SOBJECT_COLLECTION_FILTER
+} from 'builder_platform_interaction/filterTypeLib';
+import { ELEMENT_TYPE, FlowScreenFieldType, isSystemElement } from 'builder_platform_interaction/flowMetadata';
+import {
+    getCreateableEntities,
+    getDeletableEntities,
+    getQueryableEntities,
+    getUpdateableEntities
+} from 'builder_platform_interaction/sobjectLib';
+import { createSelector } from 'builder_platform_interaction/storeLib';
 
 const elementsSelector = (state) => state.elements;
 

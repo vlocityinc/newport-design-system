@@ -1,6 +1,6 @@
-import * as ValidationRules from 'builder_platform_interaction/validationRules';
-import { Validation } from 'builder_platform_interaction/validation';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { Validation } from 'builder_platform_interaction/validation';
+import * as ValidationRules from 'builder_platform_interaction/validationRules';
 
 /**
  * Validate the collectionReferenceIndex item.

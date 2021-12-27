@@ -1,13 +1,13 @@
+import { removeLastCreatedInlineResource, updateInlineResourceProperties } from 'builder_platform_interaction/actions';
+import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { getMenuData, getMenuItemForField, normalizeFEROV } from 'builder_platform_interaction/expressionUtils';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getRHSTypes, RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
+import { Store } from 'builder_platform_interaction/storeLib';
 import { createElement } from 'lwc';
 import OutputResourcePicker from '../outputResourcePicker';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { getMenuData, getMenuItemForField, normalizeFEROV } from 'builder_platform_interaction/expressionUtils';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { updateInlineResourceProperties, removeLastCreatedInlineResource } from 'builder_platform_interaction/actions';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
-import { getRHSTypes, RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
-import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/inlineResourceUtils', () => {

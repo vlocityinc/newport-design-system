@@ -1,34 +1,34 @@
-import { createElement } from 'lwc';
-import { Store } from 'builder_platform_interaction/storeLib';
-import ScreenEditorHighlight from 'builder_platform_interaction/screenEditorHighlight';
-import { ScreenEditorEventName } from 'builder_platform_interaction/events';
 import {
-    ticks,
-    mouseoverEvent,
-    mouseoutEvent,
     dragStartEvent,
+    LIGHTNING_COMPONENTS_SELECTORS,
+    mouseoutEvent,
+    mouseoverEvent,
     setDocumentBodyChildren,
-    LIGHTNING_COMPONENTS_SELECTORS
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
+import { createScreenFieldWithFields } from 'builder_platform_interaction/elementFactory';
+import { ScreenEditorEventName } from 'builder_platform_interaction/events';
+import ScreenEditorHighlight from 'builder_platform_interaction/screenEditorHighlight';
 import {
-    DRAGGING_CLASS,
-    HOVERING_CLASS,
-    CONTAINER_DIV_SELECTOR,
-    VISIBILITY_ICON,
-    VISIBILITY_ICON_CONTAINER,
-    HIGHLIGHT_DIV_HEADER,
     CANVAS_SCREEN_GUIDS,
-    ScreenCanvasKeyboardInteractions
+    CONTAINER_DIV_SELECTOR,
+    DRAGGING_CLASS,
+    HIGHLIGHT_DIV_HEADER,
+    HOVERING_CLASS,
+    ScreenCanvasKeyboardInteractions,
+    VISIBILITY_ICON,
+    VISIBILITY_ICON_CONTAINER
 } from 'builder_platform_interaction/screenEditorUtils';
+import { keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
 import {
+    accountVariableNameAutomaticField,
+    emailScreenField,
     flowWithAllElementsUIModel,
     screenFieldAccounts,
-    emailScreenField,
-    screenFieldTextBoxSomeText,
-    accountVariableNameAutomaticField
+    screenFieldTextBoxSomeText
 } from 'mock/storeData';
-import { createScreenFieldWithFields } from 'builder_platform_interaction/elementFactory';
-import { keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 
 const { Keys } = keyboardInteractionUtils;
 

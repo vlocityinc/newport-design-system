@@ -1,9 +1,9 @@
 // @ts-nocheck
+import { addCurlyBraces, isValidNumber, splitStringBySeparator } from 'builder_platform_interaction/commonUtils';
 import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { isValidMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
 // import { mutateTextWithMergeFields } from './mergeFieldsMutation';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import { addCurlyBraces, splitStringBySeparator, isValidNumber } from 'builder_platform_interaction/commonUtils';
-import { isValidMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 
 // keys are flow builder ferov data types, values are the types we find in our ferov objects

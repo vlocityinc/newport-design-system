@@ -1,14 +1,19 @@
-import { createElement } from 'lwc';
-import FormulaEditor from 'builder_platform_interaction/formulaEditor';
 import {
-    ticks,
+    blurEvent,
     INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS,
-    blurEvent,
-    setDocumentBodyChildren
+    setDocumentBodyChildren,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import FormulaEditor from 'builder_platform_interaction/formulaEditor';
+import { loadFieldsForComplexTypesInFlow } from 'builder_platform_interaction/preloadLib';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { resetFetchOnceCache } from 'builder_platform_interaction/serverDataLib';
+import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import { createElement } from 'lwc';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import { ComboboxTestComponent } from '../comboboxTestUtils';
 import {
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
     resetState,
@@ -16,11 +21,6 @@ import {
     translateFlowToUIAndDispatch
 } from '../integrationTestUtils';
 import { getLabelDescriptionElement, LabelDescriptionComponentTest } from '../labelDescriptionTestUtils';
-import { resetFetchOnceCache } from 'builder_platform_interaction/serverDataLib';
-import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import { loadFieldsForComplexTypesInFlow } from 'builder_platform_interaction/preloadLib';
-import { ComboboxTestComponent } from '../comboboxTestUtils';
 
 const createComponentForTest = (node, { isNewMode = false } = {}) => {
     const el = createElement('builder_platform_interaction-formula-editor', {

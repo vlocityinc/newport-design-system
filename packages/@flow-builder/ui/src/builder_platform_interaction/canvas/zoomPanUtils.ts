@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { ZOOM_ACTION } from 'builder_platform_interaction/events';
 import { getFlowBounds } from 'builder_platform_interaction/connectorUtils';
+import { ZOOM_ACTION } from 'builder_platform_interaction/events';
 
 export const SCALE_BOUNDS = {
     MIN_SCALE: 0.2,

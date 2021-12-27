@@ -1,10 +1,10 @@
 // @ts-nocheck
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { baseResource, baseElementsArrayToMap } from './base/baseElement';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { baseElementsArrayToMap, baseResource } from './base/baseElement';
 import { baseResourceMetadataObject } from './base/baseMetadata';
 import { createFEROV, createFEROVMetadataObject, getDataTypeKey } from './ferov';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 const elementType = ELEMENT_TYPE.VARIABLE;
 export const DEFAULT_VALUE_PROPERTY = 'defaultValue';

@@ -1,25 +1,25 @@
 // @ts-nocheck
+import immediateConnectorLabel from '@salesforce/label/FlowBuilderConnectorLabels.immediateConnectorLabel';
 import {
-    UPDATE_FLOW,
-    DO_DUPLICATE,
-    DELETE_ELEMENT,
     ADD_CONNECTOR,
-    SELECT_ON_CANVAS,
-    TOGGLE_ON_CANVAS,
+    CLEAR_CANVAS_DECORATION,
+    DECORATE_CANVAS,
+    DELETE_ELEMENT,
     DESELECT_ON_CANVAS,
+    DO_DUPLICATE,
     MARQUEE_SELECT_ON_CANVAS,
     MODIFY_DECISION_WITH_OUTCOMES,
-    MODIFY_WAIT_WITH_WAIT_EVENTS,
     MODIFY_START_WITH_SCHEDULED_PATHS,
-    DECORATE_CANVAS,
-    CLEAR_CANVAS_DECORATION,
-    UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE,
-    RESET_GOTOS
+    MODIFY_WAIT_WITH_WAIT_EVENTS,
+    RESET_GOTOS,
+    SELECT_ON_CANVAS,
+    TOGGLE_ON_CANVAS,
+    UPDATE_FLOW,
+    UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE
 } from 'builder_platform_interaction/actions';
-import { addItem, updateProperties, replaceItem } from 'builder_platform_interaction/dataMutationLib';
-import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { createConnectorObject } from 'builder_platform_interaction/connectorUtils';
-import immediateConnectorLabel from '@salesforce/label/FlowBuilderConnectorLabels.immediateConnectorLabel';
+import { addItem, replaceItem, updateProperties } from 'builder_platform_interaction/dataMutationLib';
+import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 /**
  * Reducer for connectors.

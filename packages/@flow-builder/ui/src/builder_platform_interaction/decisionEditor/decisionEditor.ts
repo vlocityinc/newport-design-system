@@ -1,14 +1,14 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
-import { decisionReducer, resetDeletedGuids } from './decisionReducer';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { PropertyChangedEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
-import { LABELS } from './decisionEditorLabels';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { getProcessType } from 'builder_platform_interaction/storeUtils';
 import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
+import { getProcessType } from 'builder_platform_interaction/storeUtils';
 import { updateAndValidateElementInPropertyEditor } from 'builder_platform_interaction/validation';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './decisionEditorLabels';
+import { decisionReducer, resetDeletedGuids } from './decisionReducer';
 
 const SELECTORS = {
     OUTCOME: 'builder_platform_interaction-outcome',

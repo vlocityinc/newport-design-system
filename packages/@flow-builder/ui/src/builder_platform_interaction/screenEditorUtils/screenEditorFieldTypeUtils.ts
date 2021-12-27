@@ -1,8 +1,8 @@
+import { ExtraTypeInfo, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { EXTENSION_TYPE_SOURCE, getAllCachedExtensionTypes } from 'builder_platform_interaction/flowExtensionLib';
+import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
-import { getAllCachedExtensionTypes, EXTENSION_TYPE_SOURCE } from 'builder_platform_interaction/flowExtensionLib';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import { FlowScreenFieldType, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { FLOW_DATA_TYPE, ExtraTypeInfo } from 'builder_platform_interaction/dataTypeLib';
 
 export const SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME = 'componentVisibility';
 

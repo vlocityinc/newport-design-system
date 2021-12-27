@@ -1,11 +1,10 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import ResourceDetailsParametersExtensionConfig from './resourceDetailsParametersExtension';
+import { api, LightningElement, track } from 'lwc';
 import ResourceDetailsParametersActionConfig from './resourceDetailsParametersAction';
-import ResourceDetailsParametersSubflowConfig from './resourceDetailsParametersSubflow';
-
+import ResourceDetailsParametersExtensionConfig from './resourceDetailsParametersExtension';
 import { LABELS } from './resourceDetailsParametersLabels';
+import ResourceDetailsParametersSubflowConfig from './resourceDetailsParametersSubflow';
 
 /**
  * @returns {Map} configuration for all element supporting automatic output parameters

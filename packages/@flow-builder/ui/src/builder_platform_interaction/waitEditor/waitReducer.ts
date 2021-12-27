@@ -1,45 +1,48 @@
 // @ts-nocheck
+import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
+import { conditionListReducer } from 'builder_platform_interaction/conditionListReducer';
 import {
     addItem,
     deleteItem,
-    replaceItem,
+    getErrorFromHydratedItem,
+    getValueFromHydratedItem,
     hydrateWithErrors,
     omit,
-    updateProperties,
-    getValueFromHydratedItem,
-    getErrorFromHydratedItem
+    replaceItem,
+    updateProperties
 } from 'builder_platform_interaction/dataMutationLib';
 import {
+    createCondition,
     createInputParameter,
     createOutputParameter,
     createWaitEvent,
-    createCondition,
     createWaitEventInputParameters,
     createWaitEventOutputParameters,
     getParametersPropertyName
 } from 'builder_platform_interaction/elementFactory';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { usedByStoreAndElementState, invokeUsedByAlertModal } from 'builder_platform_interaction/usedByLib';
 import {
-    PropertyChangedEvent,
     AddConditionEvent,
     DeleteConditionEvent,
-    UpdateConditionEvent,
     DeleteWaitEventEvent,
+    PropertyChangedEvent,
     ReorderListEvent,
-    WaitEventPropertyChangedEvent,
-    WaitEventParameterChangedEvent,
+    UpdateConditionEvent,
+    UpdateWaitEventEventTypeEvent,
     WaitEventAddParameterEvent,
     WaitEventDeleteParameterEvent,
-    UpdateWaitEventEventTypeEvent
+    WaitEventParameterChangedEvent,
+    WaitEventPropertyChangedEvent
 } from 'builder_platform_interaction/events';
-import { waitValidation, shouldBeHoursDaysOrBlank } from './waitValidation';
-import { CONDITION_LOGIC, WAIT_TIME_EVENT_PARAMETER_NAMES } from 'builder_platform_interaction/flowMetadata';
+import {
+    CONDITION_LOGIC,
+    ELEMENT_TYPE,
+    WAIT_TIME_EVENT_PARAMETER_NAMES
+} from 'builder_platform_interaction/flowMetadata';
+import { invokeUsedByAlertModal, usedByStoreAndElementState } from 'builder_platform_interaction/usedByLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { LABELS } from './waitEditorLabels';
-import { conditionListReducer } from 'builder_platform_interaction/conditionListReducer';
+import { shouldBeHoursDaysOrBlank, waitValidation } from './waitValidation';
 
 let lastValidWaitEventInputParameters = [];
 let lastValidWaitEventOutputParameters = [];

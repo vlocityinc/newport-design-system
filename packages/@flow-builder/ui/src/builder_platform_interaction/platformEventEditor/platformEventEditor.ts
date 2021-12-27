@@ -1,12 +1,12 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
-import { LABELS } from './platformEventEditorLabels';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import { PropertyChangedEvent } from 'builder_platform_interaction/events';
-import { platformEventReducer } from './platformEventEditorReducer';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import EntityResourcePicker from 'builder_platform_interaction/entityResourcePicker';
+import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './platformEventEditorLabels';
+import { platformEventReducer } from './platformEventEditorReducer';
 
 export default class platformEventEditor extends LightningElement {
     /**

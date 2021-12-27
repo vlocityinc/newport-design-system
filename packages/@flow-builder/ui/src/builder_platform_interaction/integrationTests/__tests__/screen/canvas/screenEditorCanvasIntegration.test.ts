@@ -1,13 +1,13 @@
-import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { resetState, setupStateForFlow } from '../../integrationTestUtils';
-import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { createComponentUnderTest, ScreenEditorTestComponent } from '../../screenEditorTestUtils';
-import { invokeModal, commonUtils, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
-import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
-import { text2, number2, section1, section2 } from 'mock/storeData';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
+import { commonUtils, invokeModal, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import { number2, section1, section2, text2 } from 'mock/storeData';
+import { resetState, setupStateForFlow } from '../../integrationTestUtils';
+import { createComponentUnderTest, ScreenEditorTestComponent } from '../../screenEditorTestUtils';
 
 const { Keys } = keyboardInteractionUtils;
 const { format } = commonUtils;

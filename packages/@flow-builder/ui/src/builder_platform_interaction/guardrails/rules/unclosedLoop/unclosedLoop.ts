@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Rule, Result } from 'analyzer_framework/api';
+import { Result, Rule } from 'analyzer_framework/api';
 
 export class UnclosedLoop extends Rule {
     invoke(context) {

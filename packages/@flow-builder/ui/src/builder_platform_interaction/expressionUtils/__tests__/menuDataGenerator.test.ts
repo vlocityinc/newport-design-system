@@ -1,34 +1,38 @@
 // @ts-nocheck
-import {
-    mutateFlowResourceToComboboxShape,
-    mutatePicklistValue,
-    getMenuItemForField,
-    getMenuItemsForField,
-    getSystemAndGlobalVariableMenuData
-} from '../menuDataGenerator';
-import { getDataTypeLabel, getDataTypeIcons, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import collectionDataType from '@salesforce/label/FlowBuilderDataTypes.collectionDataType';
+import { FLOW_DATA_TYPE, getDataTypeIcons, getDataTypeLabel } from 'builder_platform_interaction/dataTypeLib';
 import { getResourceCategory } from 'builder_platform_interaction/elementLabelLib';
-import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
-import { feedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
-import { SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_CLIENT_PREFIX } from 'builder_platform_interaction/systemLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { getStartElementFromState } from 'builder_platform_interaction/storeUtils';
 import {
-    apexCallAutomaticAnonymousStringOutput,
+    setGlobalVariables,
+    setProcessTypeFeature,
+    SYSTEM_VARIABLE_CLIENT_PREFIX,
+    SYSTEM_VARIABLE_PREFIX
+} from 'builder_platform_interaction/systemLib';
+import {
     apexCallAutomaticAnonymousAccountOutput,
+    apexCallAutomaticAnonymousStringOutput,
     createAccountWithAutomaticOutput
 } from 'mock/storeData';
+import { startElement as startElementRecordTriggered } from 'mock/storeDataRecordTriggered';
 import {
     loopAccountAutomaticOutput,
-    loopOnTextCollectionManualOutput,
+    loopOnApexTypeCollectionAutoOutput,
     loopOnTextCollectionAutomaticOutput,
-    loopOnApexTypeCollectionAutoOutput
+    loopOnTextCollectionManualOutput
 } from 'mock/storeDataScheduleTriggered';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import collectionDataType from '@salesforce/label/FlowBuilderDataTypes.collectionDataType';
 import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
-import { setGlobalVariables, setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
-import { startElement as startElementRecordTriggered } from 'mock/storeDataRecordTriggered';
-import { getStartElementFromState } from 'builder_platform_interaction/storeUtils';
-import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { feedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
+import {
+    getMenuItemForField,
+    getMenuItemsForField,
+    getSystemAndGlobalVariableMenuData,
+    mutateFlowResourceToComboboxShape,
+    mutatePicklistValue
+} from '../menuDataGenerator';
 const { format } = commonUtils;
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));

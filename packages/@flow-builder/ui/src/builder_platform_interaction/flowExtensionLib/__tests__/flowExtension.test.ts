@@ -1,15 +1,14 @@
 // @ts-nocheck
+import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+import { flowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
+import { flowExtensionsForFlow as mockFlowExtensions } from 'serverData/GetFlowExtensions/flowExtensionsForFlow.json';
 import {
-    describeExtensions,
-    clearExtensionsCache,
     applyDynamicTypeMappings,
+    clearExtensionsCache,
+    describeExtensions,
     getCachedExtension,
     isExtensionAttributeLiteral
 } from '../flowExtension';
-import { flowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
-import { flowExtensionsForFlow as mockFlowExtensions } from 'serverData/GetFlowExtensions/flowExtensionsForFlow.json';
-
-import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/serverDataLib');

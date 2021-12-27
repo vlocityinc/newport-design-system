@@ -1,24 +1,24 @@
-import { api, track } from 'lwc';
+import { ICON_SHAPE } from 'builder_platform_interaction/alcComponentsUtils';
+import {
+    AddElementFaultEvent,
+    ClearHighlightedPathEvent,
+    CloseMenuEvent,
+    DeleteBranchElementEvent,
+    DeleteElementFaultEvent,
+    HighlightPathsToDeleteEvent,
+    MoveFocusToNodeEvent
+} from 'builder_platform_interaction/alcEvents';
+import AlcMenu from 'builder_platform_interaction/alcMenu';
+import { FOR_EACH_INDEX, NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import {
     CopySingleElementEvent,
     DeleteElementEvent,
     EditElementEvent,
     OpenSubflowEvent
 } from 'builder_platform_interaction/events';
-import {
-    HighlightPathsToDeleteEvent,
-    DeleteElementFaultEvent,
-    AddElementFaultEvent,
-    CloseMenuEvent,
-    ClearHighlightedPathEvent,
-    MoveFocusToNodeEvent,
-    DeleteBranchElementEvent
-} from 'builder_platform_interaction/alcEvents';
 import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
-import AlcMenu from 'builder_platform_interaction/alcMenu';
-import { NodeMenuMode, ELEMENT_ACTION_CONFIG, getMenuConfiguration } from './alcNodeMenuConfig';
-import { ICON_SHAPE } from 'builder_platform_interaction/alcComponentsUtils';
-import { FOR_EACH_INDEX, NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { api, track } from 'lwc';
+import { ELEMENT_ACTION_CONFIG, getMenuConfiguration, NodeMenuMode } from './alcNodeMenuConfig';
 import { LABELS } from './alcNodeMenuLabels';
 
 const selectors = {

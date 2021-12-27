@@ -1,12 +1,12 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
 import {
-    PropertyChangedEvent,
     AddConditionEvent,
     DeleteConditionEvent,
+    PropertyChangedEvent,
     UpdateConditionEvent
 } from 'builder_platform_interaction/events';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './conditionListLabels';
 
 const SELECTORS = {

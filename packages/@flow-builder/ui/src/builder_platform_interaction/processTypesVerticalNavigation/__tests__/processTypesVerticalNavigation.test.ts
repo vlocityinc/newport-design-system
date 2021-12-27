@@ -1,10 +1,10 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import ProcessTypesVerticalNavigation from '../processTypesVerticalNavigation';
-import { ALL_PROCESS_TYPE } from 'builder_platform_interaction/processTypeLib';
-import { ProcessTypeSelectedEvent } from 'builder_platform_interaction/events';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { ProcessTypeSelectedEvent } from 'builder_platform_interaction/events';
+import { ALL_PROCESS_TYPE } from 'builder_platform_interaction/processTypeLib';
+import { createElement } from 'lwc';
 import { processTypes } from 'serverData/GetProcessTypes/processTypes.json';
+import ProcessTypesVerticalNavigation from '../processTypesVerticalNavigation';
 
 const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-process-types-vertical-navigation', {

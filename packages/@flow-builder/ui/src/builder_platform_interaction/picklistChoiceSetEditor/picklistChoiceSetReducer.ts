@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { picklistChoiceSetValidation, getRules } from './picklistChoiceSetValidation';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { getRules, picklistChoiceSetValidation } from './picklistChoiceSetValidation';
 
 export const picklistChoiceSetReducer = (picklistChoice, action) => {
     switch (action.type) {

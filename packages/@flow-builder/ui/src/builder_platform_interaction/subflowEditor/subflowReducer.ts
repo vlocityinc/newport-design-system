@@ -1,20 +1,20 @@
 // @ts-nocheck
-import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
-import { subflowValidation } from './subflowValidation';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import {
-    UpdateParameterItemEvent,
-    DeleteParameterItemEvent,
-    PropertyChangedEvent,
-    ManuallyAssignVariablesChangedEvent
-} from 'builder_platform_interaction/events';
-import {
-    updateParameterItem,
-    removeUnsetParameters,
     deleteParameterItem,
     mergeWithInputOutputVariables,
-    updateManuallyAssignVariables
+    removeUnsetParameters,
+    updateManuallyAssignVariables,
+    updateParameterItem
 } from 'builder_platform_interaction/calloutEditorLib';
+import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
+import {
+    DeleteParameterItemEvent,
+    ManuallyAssignVariablesChangedEvent,
+    PropertyChangedEvent,
+    UpdateParameterItemEvent
+} from 'builder_platform_interaction/events';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { subflowValidation } from './subflowValidation';
 
 export const MERGE_WITH_VARIABLES = 'MERGE_WITH_VARIABLES';
 export const REMOVE_UNSET_ASSIGNMENTS = 'REMOVE_UNSET_ASSIGNMENTS';

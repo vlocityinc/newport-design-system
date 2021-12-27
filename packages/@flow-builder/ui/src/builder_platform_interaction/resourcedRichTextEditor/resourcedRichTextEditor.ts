@@ -1,13 +1,12 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
-import { booleanAttributeValue } from 'builder_platform_interaction/screenEditorUtils';
+import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { getOrgId } from 'builder_platform_interaction/contextLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
+import { booleanAttributeValue, LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
+import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './resourcedRichTextEditorLabels';
 import { convertHTMLToQuillHTML } from './richTextConverter';
-import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
-import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { getOrgId } from 'builder_platform_interaction/contextLib';
 
 // all formats except 'strike' and 'video'
 const RTE_FORMATS = [

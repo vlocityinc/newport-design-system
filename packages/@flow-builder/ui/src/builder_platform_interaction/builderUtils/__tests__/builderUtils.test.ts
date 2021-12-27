@@ -1,23 +1,21 @@
 // @ts-nocheck
-import {
-    getPropertyEditorConfig,
-    showPopover,
-    isPopoverOpen,
-    showHover,
-    hidePopover,
-    invokePropertyEditor,
-    invokeNewFlowModal,
-    invokeKeyboardHelpDialog,
-    invokeDebugEditor
-} from '../builderUtils';
-import { invokeModalWithComponents } from 'builder_platform_interaction/sharedUtils';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
-
 // eslint-disable-next-line lwc-core/no-interop-dispatch
 import { createComponent, dispatchGlobalEvent } from 'aura';
-
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { SaveFlowEvent } from 'builder_platform_interaction/events';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { invokeModalWithComponents } from 'builder_platform_interaction/sharedUtils';
+import {
+    getPropertyEditorConfig,
+    hidePopover,
+    invokeDebugEditor,
+    invokeKeyboardHelpDialog,
+    invokeNewFlowModal,
+    invokePropertyEditor,
+    isPopoverOpen,
+    showHover,
+    showPopover
+} from '../builderUtils';
 import { LABELS } from '../builderUtilsLabels';
 
 const mockPackage = 'foo';

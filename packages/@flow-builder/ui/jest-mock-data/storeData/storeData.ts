@@ -1,7 +1,8 @@
-import { flowWithAllElementsUIModel } from './flowWithAllElementsUIModel';
 import { elementsForPropertyEditors } from './elementsForPropertyEditors';
-export * from './flowWithAllElementsUIModel';
+import { flowWithAllElementsUIModel } from './flowWithAllElementsUIModel';
 export * from './elementsForPropertyEditors';
+export * from './flowWithAllElementsUIModel';
+export { default as lookupScreenField } from './lookupScreenField';
 
 export const getElementByName = (name) => {
     const elements = flowWithAllElementsUIModel.elements;
@@ -77,7 +78,6 @@ export const getAccountsManualOutputIntoApexVariable = getElementByName('get_acc
 export const screenElement = getElementByName('screen1');
 export const emailScreenFieldAutomaticOutput = getElementByName('emailScreenFieldAutomaticOutput');
 export const emailScreenField = getElementByName('emailScreenField');
-export { default as lookupScreenField } from './lookupScreenField';
 export const actionCallElement = getElementByName('actionCall1');
 export const actionCallAutomaticOutput = getElementByName('actionCallAutomaticOutput');
 export const actionCallLocalActionAutomaticOutput = getElementByName('localAction');

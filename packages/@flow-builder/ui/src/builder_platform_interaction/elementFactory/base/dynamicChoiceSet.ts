@@ -1,11 +1,11 @@
 // @ts-nocheck
-import { baseResource } from './baseElement';
-import { baseResourceMetadataObject } from './baseMetadata';
-import { createPicklistChoiceSetForStore } from '../picklistChoiceSet';
-import { createRecordChoiceSetForStore } from '../recordChoiceSet';
-import { createCollectionChoiceSetForStore } from '../collectionChoiceSet';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
+import { createCollectionChoiceSetForStore } from '../collectionChoiceSet';
+import { createPicklistChoiceSetForStore } from '../picklistChoiceSet';
+import { createRecordChoiceSetForStore } from '../recordChoiceSet';
+import { baseResource } from './baseElement';
+import { baseResourceMetadataObject } from './baseMetadata';
 
 /**
  * Base dynamic choice element factory

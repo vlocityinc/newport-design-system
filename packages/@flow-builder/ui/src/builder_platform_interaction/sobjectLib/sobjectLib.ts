@@ -1,2 +1,2 @@
-export * from './sobject';
 export * from './eventType';
+export * from './sobject';

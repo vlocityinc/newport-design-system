@@ -1,10 +1,10 @@
 // @ts-nocheck
-import { setSystemVariables, getSystemVariables, resetSystemVariables } from '../systemVariables';
-import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
-import { systemVariablesForAutoLaunchedFlow } from 'serverData/GetSystemVariables/systemVariablesForAutoLaunchedFlow.json';
-import { startElement as recordTriggeredStartElement } from 'mock/storeDataRecordTriggered';
-import { startElement as screenFlowStartElement } from 'mock/storeData';
 import { getStartElementFromState } from 'builder_platform_interaction/storeUtils';
+import { startElement as screenFlowStartElement } from 'mock/storeData';
+import { startElement as recordTriggeredStartElement } from 'mock/storeDataRecordTriggered';
+import { systemVariablesForAutoLaunchedFlow } from 'serverData/GetSystemVariables/systemVariablesForAutoLaunchedFlow.json';
+import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
+import { getSystemVariables, resetSystemVariables, setSystemVariables } from '../systemVariables';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

@@ -1,15 +1,15 @@
 // @ts-nocheck
-import canvasElementsReducer from '../canvasElementsReducer';
 import {
-    UPDATE_FLOW,
-    DO_DUPLICATE,
-    DELETE_ELEMENT,
     ADD_CANVAS_ELEMENT,
     ADD_DECISION_WITH_OUTCOMES,
+    ADD_PARENT_WITH_CHILDREN,
     ADD_WAIT_WITH_WAIT_EVENTS,
-    UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE,
-    ADD_PARENT_WITH_CHILDREN
+    DELETE_ELEMENT,
+    DO_DUPLICATE,
+    UPDATE_FLOW,
+    UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE
 } from 'builder_platform_interaction/actions';
+import canvasElementsReducer from '../canvasElementsReducer';
 
 const elementToRemove = {
     guid: '84cc7b31-ab2a-4372-b525-6d1ea13d57b0',

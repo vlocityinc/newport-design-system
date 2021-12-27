@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-export * from './screenEditorFieldTypeUtils';
 export * from './screenEditorExtensionUtils';
+export * from './screenEditorFieldTypeUtils';
 
 export const TEXT_AREA_MAX_LENGTH = 255;
 

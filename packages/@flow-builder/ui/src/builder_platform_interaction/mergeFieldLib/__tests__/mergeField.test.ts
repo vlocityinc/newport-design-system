@@ -1,23 +1,23 @@
 // @ts-nocheck
-import { resolveReferenceFromIdentifier } from '../mergeField';
-import * as mockStoreData from 'mock/storeData';
-import { scheduleTriggeredFlowUIModel } from 'mock/storeDataScheduleTriggered';
+import { setApexClasses as mockSetApexClasses, setApexClasses } from 'builder_platform_interaction/apexTypeLib';
+import { expectFieldsAreComplexTypeFieldDescriptions } from 'builder_platform_interaction/builderTestUtils';
+import { clearExtensionsCache, setExtensionDescriptions } from 'builder_platform_interaction/flowExtensionLib';
+import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { GLOBAL_CONSTANT_OBJECTS, setSystemVariables } from 'builder_platform_interaction/systemLib';
-import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
-import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
-import { userFields as mockUserFields } from 'serverData/GetFieldsForEntity/userFields.json';
-import { feedItemFields as mockFeedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
-import { expectFieldsAreComplexTypeFieldDescriptions } from 'builder_platform_interaction/builderTestUtils';
-import { setApexClasses, setApexClasses as mockSetApexClasses } from 'builder_platform_interaction/apexTypeLib';
-import { setExtensionDescriptions, clearExtensionsCache } from 'builder_platform_interaction/flowExtensionLib';
-import { apexTypesForFlow as mockApexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
-import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
+import * as mockStoreData from 'mock/storeData';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
-import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
 import { recordTriggeredFlowUIModel } from 'mock/storeDataRecordTriggered';
+import { scheduleTriggeredFlowUIModel } from 'mock/storeDataScheduleTriggered';
+import { apexTypesForFlow as mockApexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
+import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { feedItemFields as mockFeedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
+import { userFields as mockUserFields } from 'serverData/GetFieldsForEntity/userFields.json';
 import { flowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
+import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
+import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
+import { resolveReferenceFromIdentifier } from '../mergeField';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

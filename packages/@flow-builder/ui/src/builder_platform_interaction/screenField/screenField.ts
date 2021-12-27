@@ -1,20 +1,20 @@
-import { LightningElement, api } from 'lwc';
-import { hydrateWithErrors, getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { isObject, isReference } from 'builder_platform_interaction/commonUtils';
+import { getErrorsFromHydratedElement, hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { normalizeFEROV } from 'builder_platform_interaction/expressionUtils';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import {
-    isExtensionField,
-    isNumberField,
+    getPlaceHolderLabel,
+    isChoiceField,
+    isCurrencyField,
     isDateField,
     isDateTimeField,
-    isCurrencyField,
-    isChoiceField,
-    getPlaceHolderLabel,
+    isExtensionField,
+    isNumberField,
     ScreenFieldName
 } from 'builder_platform_interaction/screenEditorUtils';
+import { api, LightningElement } from 'lwc';
 
 /*
  * The screen field element that will decide the actual component to use for preview based on the field type

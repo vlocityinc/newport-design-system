@@ -1,16 +1,17 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import SortEditor from 'builder_platform_interaction/sortEditor';
-import { Store } from 'builder_platform_interaction/storeLib';
-import * as store from 'mock/storeData';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
 import {
     INTERACTION_COMPONENTS_SELECTORS,
-    LIGHTNING_COMPONENTS_SELECTORS
+    LIGHTNING_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
-import { SORT_OUTPUT_OPTION } from 'builder_platform_interaction/sortEditorLib';
 import { CollectionReferenceChangedEvent } from 'builder_platform_interaction/events';
+import SortEditor from 'builder_platform_interaction/sortEditor';
+import { SORT_OUTPUT_OPTION } from 'builder_platform_interaction/sortEditorLib';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
+import * as store from 'mock/storeData';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { ComboboxTestComponent } from '../../integrationTests/__tests__/comboboxTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));

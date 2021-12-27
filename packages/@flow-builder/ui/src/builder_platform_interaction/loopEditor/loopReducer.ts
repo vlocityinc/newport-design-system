@@ -1,8 +1,8 @@
 // @ts-nocheck
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { PropertyChangedEvent, LoopCollectionChangedEvent } from 'builder_platform_interaction/events';
-import { validate, loopValidation } from './loopValidation';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
+import { LoopCollectionChangedEvent, PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { loopValidation, validate } from './loopValidation';
 
 const LOOP_PROPERTIES = {
     COLLECTION_VARIABLE: 'collectionReference',

@@ -1,28 +1,27 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
-import { fetchFieldsForEntity, ENTITY_TYPE } from 'builder_platform_interaction/sobjectLib';
-import { LABELS } from './contextRecordEditorLabels';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import {
-    ELEMENT_TYPE,
-    FLOW_TRIGGER_TYPE,
-    EXECUTE_OUTCOME_WHEN_OPTION_VALUES,
-    CONDITION_LOGIC
-} from 'builder_platform_interaction/flowMetadata';
-import { PropertyChangedEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
-import { contextReducer } from './contextRecordReducer';
-import {
-    isScheduledTriggerType,
-    getTriggerTypeInfo,
-    getTriggerHasCriteria,
-    isRecordChangeTriggerType
-} from 'builder_platform_interaction/triggerTypeLib';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { requireRecordChangeOptions } from './contextRecordEditorLabels';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { PropertyChangedEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
+import {
+    CONDITION_LOGIC,
+    ELEMENT_TYPE,
+    EXECUTE_OUTCOME_WHEN_OPTION_VALUES,
+    FlowComparisonOperator,
+    FLOW_TRIGGER_TYPE
+} from 'builder_platform_interaction/flowMetadata';
+import { ENTITY_TYPE, fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { isExecuteOnlyWhenChangeMatchesConditionsPossible } from 'builder_platform_interaction/storeUtils';
-import { FlowComparisonOperator } from 'builder_platform_interaction/flowMetadata';
+import {
+    getTriggerHasCriteria,
+    getTriggerTypeInfo,
+    isRecordChangeTriggerType,
+    isScheduledTriggerType
+} from 'builder_platform_interaction/triggerTypeLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS, requireRecordChangeOptions } from './contextRecordEditorLabels';
+import { contextReducer } from './contextRecordReducer';
 
 const { BEFORE_SAVE, BEFORE_DELETE, AFTER_SAVE, SCHEDULED, SCHEDULED_JOURNEY } = FLOW_TRIGGER_TYPE;
 

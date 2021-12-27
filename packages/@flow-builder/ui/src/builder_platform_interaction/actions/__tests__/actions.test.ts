@@ -1,22 +1,22 @@
 // @ts-nocheck
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     addElement,
+    ADD_CHILD,
+    ADD_DECISION_WITH_OUTCOMES,
+    ADD_PARENT_WITH_CHILDREN,
     deleteElements,
+    DELETE_CHILDREN,
+    MODIFY_DECISION_WITH_OUTCOMES,
+    MODIFY_PARENT_WITH_CHILDREN,
     removeLastCreatedInlineResource,
+    REMOVE_LAST_CREATED_INLINE_RESOURCE,
     updateElement,
     updateElementErrorState,
-    ADD_DECISION_WITH_OUTCOMES,
-    MODIFY_DECISION_WITH_OUTCOMES,
-    UPDATE_VARIABLE_CONSTANT,
-    REMOVE_LAST_CREATED_INLINE_RESOURCE,
-    MODIFY_PARENT_WITH_CHILDREN,
-    ADD_PARENT_WITH_CHILDREN,
-    ADD_CHILD,
-    DELETE_CHILDREN,
     UPDATE_CANVAS_ELEMENT_ERROR_STATE,
-    UPDATE_RESOURCE_ERROR_STATE
+    UPDATE_RESOURCE_ERROR_STATE,
+    UPDATE_VARIABLE_CONSTANT
 } from '../actions';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 describe('Actions', () => {
     describe('updateElement', () => {

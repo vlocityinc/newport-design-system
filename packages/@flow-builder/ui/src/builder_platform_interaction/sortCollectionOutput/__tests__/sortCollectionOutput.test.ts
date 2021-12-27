@@ -1,12 +1,16 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import SortCollectionOutput from 'builder_platform_interaction/sortCollectionOutput';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import {
+    changeEvent,
+    LIGHTNING_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
 import { UpdateSortCollectionOutputEvent } from 'builder_platform_interaction/events';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
+import SortCollectionOutput from 'builder_platform_interaction/sortCollectionOutput';
 import { LIMIT_RANGE, SORT_OUTPUT_OPTION } from 'builder_platform_interaction/sortEditorLib';
-import { LIGHTNING_COMPONENTS_SELECTORS, changeEvent } from 'builder_platform_interaction/builderTestUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 const createComponentUnderTest = ({
     limit = { value: null, error: null },

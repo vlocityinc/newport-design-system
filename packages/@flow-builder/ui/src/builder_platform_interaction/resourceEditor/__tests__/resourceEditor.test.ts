@@ -1,8 +1,8 @@
 // @ts-nocheck
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { shouldNotBeNullOrUndefined } from 'builder_platform_interaction/validationRules';
 import { createElement } from 'lwc';
 import ResourceEditor from '../resourceEditor';
-import { shouldNotBeNullOrUndefined } from 'builder_platform_interaction/validationRules';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const mockReturnValue = 'mockReturnValue';
 const mockResourceType1 = 'mockResource1';

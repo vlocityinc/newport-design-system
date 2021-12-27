@@ -1,10 +1,10 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
-import { LABELS } from './waitResumeConditionsLabels';
-import { WAIT_TIME_EVENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
-import { UpdateWaitEventEventTypeEvent } from 'builder_platform_interaction/events';
 import { isWaitTimeEventType } from 'builder_platform_interaction/elementFactory';
+import { UpdateWaitEventEventTypeEvent } from 'builder_platform_interaction/events';
+import { WAIT_TIME_EVENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './waitResumeConditionsLabels';
 
 const resumeEventType = {
     timeEventType: 'TIME_EVENT_TYPE',

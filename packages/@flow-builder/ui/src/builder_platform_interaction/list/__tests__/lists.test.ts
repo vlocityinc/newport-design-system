@@ -1,8 +1,8 @@
 // @ts-nocheck
+import { query, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { createElement } from 'lwc';
 import List from '../list';
-import { deepCopy } from 'builder_platform_interaction/storeLib';
-import { query, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const SELECTORS = {
     ADD_BUTTON: 'lightning-button'

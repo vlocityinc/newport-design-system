@@ -1,8 +1,8 @@
 // @ts-nocheck
+import { dehydrate, hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
 import { getConfigForElement } from 'builder_platform_interaction/elementConfig';
-import { Store, deepCopy } from 'builder_platform_interaction/storeLib';
-import { swapUidsForDevNames, swapDevNamesToGuids } from 'builder_platform_interaction/translatorLib';
-import { hydrateWithErrors, dehydrate } from 'builder_platform_interaction/dataMutationLib';
+import { deepCopy, Store } from 'builder_platform_interaction/storeLib';
+import { swapDevNamesToGuids, swapUidsForDevNames } from 'builder_platform_interaction/translatorLib';
 
 /**
  * This function create element using factory, does UID to devname swapping for template fields and hydrate the element

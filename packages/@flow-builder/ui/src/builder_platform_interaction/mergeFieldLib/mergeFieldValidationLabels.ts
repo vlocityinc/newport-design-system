@@ -1,12 +1,12 @@
-import notAValidMergeField from '@salesforce/label/FlowBuilderMergeFieldValidation.notAValidMergeField';
-import unknownResource from '@salesforce/label/FlowBuilderMergeFieldValidation.unknownResource';
-import resourceCannotBeUsedAsMergeField from '@salesforce/label/FlowBuilderMergeFieldValidation.resourceCannotBeUsedAsMergeField';
-import unknownRecordField from '@salesforce/label/FlowBuilderMergeFieldValidation.unknownRecordField';
+import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
 import globalConstantsNotAllowed from '@salesforce/label/FlowBuilderMergeFieldValidation.globalConstantsNotAllowed';
 import invalidDataType from '@salesforce/label/FlowBuilderMergeFieldValidation.invalidDataType';
-import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
 import invalidPolymorphicRecordField from '@salesforce/label/FlowBuilderMergeFieldValidation.invalidPolymorphicRecordField';
 import maximumNumberOfLevelsReached from '@salesforce/label/FlowBuilderMergeFieldValidation.maximumNumberOfLevelsReached';
+import notAValidMergeField from '@salesforce/label/FlowBuilderMergeFieldValidation.notAValidMergeField';
+import resourceCannotBeUsedAsMergeField from '@salesforce/label/FlowBuilderMergeFieldValidation.resourceCannotBeUsedAsMergeField';
+import unknownRecordField from '@salesforce/label/FlowBuilderMergeFieldValidation.unknownRecordField';
+import unknownResource from '@salesforce/label/FlowBuilderMergeFieldValidation.unknownResource';
 
 export const LABELS = {
     genericErrorMessage,

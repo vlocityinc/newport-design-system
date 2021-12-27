@@ -1,13 +1,9 @@
 // @ts-nocheck
 import {
-    isMatch,
-    getLHSTypes,
-    getOperators,
-    getRHSTypes,
-    transformOperatorsForCombobox,
-    setOperators,
-    isCollectionRequired
-} from '../operatorRuleUtil';
+    ELEMENT_TYPE,
+    FlowComparisonOperator,
+    UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE
+} from 'builder_platform_interaction/flowMetadata';
 import {
     dateCollectionParam,
     dateParam,
@@ -24,21 +20,25 @@ import {
     stringParam
 } from 'mock/ruleService';
 import {
-    stringVariableForPropertyEditor,
-    dateVariable,
+    accountSObjectVariable,
     dateCollectionVariable,
+    dateVariable,
     stageElement,
-    accountSObjectVariable
+    stringVariableForPropertyEditor
 } from 'mock/storeData';
 import { rules } from 'serverData/RetrieveAllRules/rules.json';
 import { rulesForRecordTriggerTypeCreate } from 'serverData/RetrieveAllRules/rulesForRecordTriggerTypeCreate.json';
 import { rulesForRecordTriggerTypeUpdate } from 'serverData/RetrieveAllRules/rulesForRecordTriggerTypeUpdate.json';
-import { PARAM_PROPERTY, setRules, getRulesForElementType } from '../rules';
 import {
-    ELEMENT_TYPE,
-    UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE,
-    FlowComparisonOperator
-} from 'builder_platform_interaction/flowMetadata';
+    getLHSTypes,
+    getOperators,
+    getRHSTypes,
+    isCollectionRequired,
+    isMatch,
+    setOperators,
+    transformOperatorsForCombobox
+} from '../operatorRuleUtil';
+import { getRulesForElementType, PARAM_PROPERTY, setRules } from '../rules';
 import { ASSIGNMENT, COMPARISON, setOfDistinctRhsParams } from './operatorAndRulesTestUtil';
 const ASSIGNMENT_OPERATOR = 'Assign';
 const EQUALS_OPERATOR = 'EqualTo';

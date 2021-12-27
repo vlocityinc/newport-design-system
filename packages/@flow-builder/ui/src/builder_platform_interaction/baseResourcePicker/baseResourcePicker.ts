@@ -1,11 +1,11 @@
-import { LightningElement, api, track } from 'lwc';
-import { filterMatches } from 'builder_platform_interaction/expressionUtils';
-import { isCollectionRequired } from 'builder_platform_interaction/ruleLib';
-import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
-import { saveResourcePicker } from 'builder_platform_interaction/expressionValidator';
+import Combobox from 'builder_platform_interaction/combobox';
 import { isUndefinedOrNull, sanitizeBoolean } from 'builder_platform_interaction/commonUtils';
 import { TextChangedEvent } from 'builder_platform_interaction/events';
-import Combobox from 'builder_platform_interaction/combobox';
+import { filterMatches } from 'builder_platform_interaction/expressionUtils';
+import { saveResourcePicker } from 'builder_platform_interaction/expressionValidator';
+import { isCollectionRequired } from 'builder_platform_interaction/ruleLib';
+import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
+import { api, LightningElement, track } from 'lwc';
 
 /**
  * The base resource picker that contains one flow combobox

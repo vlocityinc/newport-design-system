@@ -1,15 +1,15 @@
-import { updateProperties, set, deleteItem } from 'builder_platform_interaction/dataMutationLib';
+import { deleteItem, set, updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import {
-    CollectionReferenceChangedEvent,
     AddSortOptionItemEvent,
+    CollectionReferenceChangedEvent,
     DeleteSortOptionItemEvent,
-    UpdateSortOptionItemEvent,
-    UpdateSortCollectionOutputEvent
+    UpdateSortCollectionOutputEvent,
+    UpdateSortOptionItemEvent
 } from 'builder_platform_interaction/events';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { sortValidation, getRules } from './sortValidation';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { SORT_ORDER, SORT_OUTPUT_OPTION } from 'builder_platform_interaction/sortEditorLib';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { getRules, sortValidation } from './sortValidation';
 
 export const SORT_PROPERTIES = {
     COLLECTION_REFERENCE: 'collectionReference',

@@ -1,28 +1,28 @@
-import { createElement } from 'lwc';
+import {
+    blurEvent,
+    deepQuerySelector,
+    INTERACTION_COMPONENTS_SELECTORS,
+    LIGHTNING_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import LoopEditor from 'builder_platform_interaction/loopEditor';
-import * as scheduleTriggeredFlow from 'mock/flows/scheduleTriggeredFlow.json';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import { createElement } from 'lwc';
 import * as fieldServiceMobileFlow from 'mock/flows/fieldServiceMobileFlow.json';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import {
-    resetState,
-    setupStateForProcessType,
-    translateFlowToUIAndDispatch,
-    setupStateForFlow
-} from '../integrationTestUtils';
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import {
-    LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS,
-    deepQuerySelector,
-    ticks,
-    blurEvent,
-    setDocumentBodyChildren
-} from 'builder_platform_interaction/builderTestUtils';
-import { getLabelDescriptionElement, LabelDescriptionComponentTest } from '../labelDescriptionTestUtils';
+import * as scheduleTriggeredFlow from 'mock/flows/scheduleTriggeredFlow.json';
 import { ComboboxTestComponent } from '../comboboxTestUtils';
 import { GroupedComboboxTestComponent } from '../groupedComboboxTestUtils';
+import {
+    resetState,
+    setupStateForFlow,
+    setupStateForProcessType,
+    translateFlowToUIAndDispatch
+} from '../integrationTestUtils';
+import { getLabelDescriptionElement, LabelDescriptionComponentTest } from '../labelDescriptionTestUtils';
 
 jest.mock(
     '@salesforce/label/FlowBuilderElementLabels.recordLookupAsResourceText',

@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { createFormula, createFormulaForStore, createFormulaMetadataObject } from '../formula';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { createFormula, createFormulaForStore, createFormulaMetadataObject } from '../formula';
 
 const formulaMetadata = {
     dataType: 'String',

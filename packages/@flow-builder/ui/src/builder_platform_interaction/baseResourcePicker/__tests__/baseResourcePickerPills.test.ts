@@ -1,12 +1,12 @@
-import { createElement } from 'lwc';
-import BaseResourcePicker from '../baseResourcePicker';
 import {
-    ticks,
     INTERACTION_COMPONENTS_SELECTORS,
-    setDocumentBodyChildren
+    setDocumentBodyChildren,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
-import { ComboboxTestComponent } from '../../integrationTests/__tests__/comboboxTestUtils';
+import { createElement } from 'lwc';
 import { comboboxInitialConfig } from 'mock/comboboxData';
+import { ComboboxTestComponent } from '../../integrationTests/__tests__/comboboxTestUtils';
+import BaseResourcePicker from '../baseResourcePicker';
 
 const createComponentUnderTest = (props?: {}) => {
     const element = createElement('builder_platform_interaction-base-resource-picker', {

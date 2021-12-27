@@ -4,10 +4,10 @@ import {
     createTestScreenWithFields,
     SCREEN_NULL_DEF_VALUE
 } from 'builder_platform_interaction/builderTestUtils';
-import { screenReducer } from '../screenReducer';
-import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { createScreenField } from 'builder_platform_interaction/elementFactory';
+import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { EXTENSION_PARAM_PREFIX } from 'builder_platform_interaction/screenEditorUtils';
+import { screenReducer } from '../screenReducer';
 
 export const REFERENCE_VALUES = {
     STRING_1: {

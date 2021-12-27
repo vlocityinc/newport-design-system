@@ -1,6 +1,17 @@
-import { createElement } from 'lwc';
-import RecordUpdateEditor from 'builder_platform_interaction/recordUpdateEditor';
+import { changeEvent, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { AddElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
+import {
+    CONDITION_LOGIC,
+    ELEMENT_TYPE,
+    RECORD_UPDATE_WAY_TO_FIND_RECORDS
+} from 'builder_platform_interaction/flowMetadata';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import RecordUpdateEditor from 'builder_platform_interaction/recordUpdateEditor';
+import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import { createElement } from 'lwc';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
+import { ExpressionBuilderComponentTest } from '../expressionBuilderTestUtils';
 import {
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
     resetState,
@@ -8,28 +19,6 @@ import {
     translateFlowToUIAndDispatch
 } from '../integrationTestUtils';
 import { getLabelDescriptionElement, LabelDescriptionComponentTest } from '../labelDescriptionTestUtils';
-import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
-import {
-    CONDITION_LOGIC,
-    ELEMENT_TYPE,
-    RECORD_UPDATE_WAY_TO_FIND_RECORDS
-} from 'builder_platform_interaction/flowMetadata';
-
-import { changeEvent, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
-import {
-    getBaseResourcePickerCombobox,
-    getEntityResourcePicker,
-    getEntityResourcePickerChildGroupedComboboxComponent,
-    getRecordFilter,
-    getRecordInputOutputAssignments,
-    getLightningRadioGroup,
-    getRecordVariablePickerChildComboboxComponent,
-    getSObjectOrSObjectCollectionPicker
-} from './cludEditorTestUtils';
-import { ExpressionBuilderComponentTest } from '../expressionBuilderTestUtils';
 import {
     getFieldToFerovExpressionBuilders,
     getFilterConditionLogicCombobox,
@@ -37,6 +26,16 @@ import {
     newFilterItem
 } from '../recordFilterTestUtils';
 import { addRecordVariable, deleteVariableWithName } from '../resourceTestUtils';
+import {
+    getBaseResourcePickerCombobox,
+    getEntityResourcePicker,
+    getEntityResourcePickerChildGroupedComboboxComponent,
+    getLightningRadioGroup,
+    getRecordFilter,
+    getRecordInputOutputAssignments,
+    getRecordVariablePickerChildComboboxComponent,
+    getSObjectOrSObjectCollectionPicker
+} from './cludEditorTestUtils';
 
 const SELECTORS = { ABBR: 'abbr' };
 

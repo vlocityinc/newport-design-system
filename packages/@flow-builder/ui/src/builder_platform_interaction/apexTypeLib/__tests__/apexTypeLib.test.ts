@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { setApexClasses, cachePropertiesForClass, getPropertiesForClass } from '../apexTypeLib';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
+import { cachePropertiesForClass, getPropertiesForClass, setApexClasses } from '../apexTypeLib';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

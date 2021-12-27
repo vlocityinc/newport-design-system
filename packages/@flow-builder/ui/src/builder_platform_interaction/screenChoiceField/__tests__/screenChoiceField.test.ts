@@ -1,8 +1,8 @@
-import { createElement } from 'lwc';
-import ScreenChoiceField from 'builder_platform_interaction/screenChoiceField';
-import { setDocumentBodyChildren, createTestScreenField } from 'builder_platform_interaction/builderTestUtils';
-import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+import { createTestScreenField, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+import ScreenChoiceField from 'builder_platform_interaction/screenChoiceField';
+import { createElement } from 'lwc';
 
 const SELECTORS = {
     CHECKBOX_GROUP: 'lightning-checkbox-group',

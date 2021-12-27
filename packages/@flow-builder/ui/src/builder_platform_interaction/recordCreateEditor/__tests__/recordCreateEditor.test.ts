@@ -1,26 +1,26 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import RecordCreateEditor from '../recordCreateEditor';
-import * as expressionUtilsMock from 'builder_platform_interaction/expressionUtils';
-import * as store from 'mock/storeData';
-import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
-import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import {
-    RecordStoreOptionChangedEvent,
-    SObjectReferenceChangedEvent,
-    AddRecordFieldAssignmentEvent,
-    DeleteRecordFieldAssignmentEvent,
-    UpdateRecordFieldAssignmentEvent,
-    ComboboxStateChangedEvent
-} from 'builder_platform_interaction/events';
-import {
-    getManuallyAssignVariablesCheckboxInputElement,
     getManuallyAssignVariablesCheckbox,
+    getManuallyAssignVariablesCheckboxInputElement,
     setDocumentBodyChildren,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import {
+    AddRecordFieldAssignmentEvent,
+    ComboboxStateChangedEvent,
+    DeleteRecordFieldAssignmentEvent,
+    RecordStoreOptionChangedEvent,
+    SObjectReferenceChangedEvent,
+    UpdateRecordFieldAssignmentEvent
+} from 'builder_platform_interaction/events';
+import * as expressionUtilsMock from 'builder_platform_interaction/expressionUtils';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
+import { createElement } from 'lwc';
+import * as store from 'mock/storeData';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import RecordCreateEditor from '../recordCreateEditor';
 
 const MOCK_PROCESS_TYPE_SUPPORTING_AUTO = 'flow'; // MOCK is added to be able to use the variable in the jest.mock
 const MOCK_PROCESS_TYPE_NOT_SUPPORTING_AUTO = 'fieldServiceMobileFLow';

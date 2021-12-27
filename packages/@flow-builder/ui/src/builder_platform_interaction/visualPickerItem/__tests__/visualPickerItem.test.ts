@@ -1,8 +1,8 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import VisualPickerItem from 'builder_platform_interaction/visualPickerItem';
-import { VisualPickerItemChangedEvent } from 'builder_platform_interaction/events';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { VisualPickerItemChangedEvent } from 'builder_platform_interaction/events';
+import VisualPickerItem from 'builder_platform_interaction/visualPickerItem';
+import { createElement } from 'lwc';
 
 const TEMPLATE_ID = 'flowId';
 const TEMPLATE_LABEL = 'Flow Label';

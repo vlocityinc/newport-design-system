@@ -1,26 +1,26 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import CollectionChoiceSetEditor from '../collectionChoiceSetEditor';
-import {
-    PropertyChangedEvent,
-    ValueChangedEvent,
-    ComboboxStateChangedEvent
-} from 'builder_platform_interaction/events';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
-import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
-import { collectionChoiceSetReducer } from '../collectionChoiceSetReducer';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import {
+    INTERACTION_COMPONENTS_SELECTORS,
     setDocumentBodyChildren,
-    ticks,
-    INTERACTION_COMPONENTS_SELECTORS
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
+import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
+import {
+    ComboboxStateChangedEvent,
+    PropertyChangedEvent,
+    ValueChangedEvent
+} from 'builder_platform_interaction/events';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
+import { Store } from 'builder_platform_interaction/storeLib';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { createElement } from 'lwc';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import CollectionChoiceSetEditor from '../collectionChoiceSetEditor';
+import { collectionChoiceSetReducer } from '../collectionChoiceSetReducer';
 
 const SELECTORS = {
     ...INTERACTION_COMPONENTS_SELECTORS,

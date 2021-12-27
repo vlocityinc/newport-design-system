@@ -1,13 +1,13 @@
 // @ts-nocheck
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import {
-    SERVER_ACTION_TYPE,
-    setAuraFetch,
     fetch,
     fetchOnce,
+    isAlreadyFetched,
     resetFetchOnceCache,
-    isAlreadyFetched
+    SERVER_ACTION_TYPE,
+    setAuraFetch
 } from '../serverDataLib';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 describe('Fetch function', () => {
     beforeEach(() => {

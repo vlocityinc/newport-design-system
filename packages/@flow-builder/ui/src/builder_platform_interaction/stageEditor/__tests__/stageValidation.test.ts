@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { stageValidation } from '../stageValidation';
 import { LABELS } from 'builder_platform_interaction/validationRules';
+import { stageValidation } from '../stageValidation';
 
 describe('Default Validations', () => {
     describe('Stage Order property', () => {

@@ -1,27 +1,27 @@
 // @ts-nocheck
-import { createLoop, createDuplicateLoop, createLoopWithConnectors, createLoopMetadataObject } from '../loop';
-import {
-    flowWithAllElementsUIModel,
-    loopOnAccountAutoOutput,
-    loopOnTextCollectionManualOutput,
-    loopOnTextCollectionAutoOutput,
-    loopOnApexAutoOutput,
-    loopOnNestedApexTypeAutoOutput,
-    loopOnSobjectCollectionInApexTypeAutoOutput,
-    loopOnScreenCompSObjectCollAutoOutput,
-    loopOnLocalActionSobjectCollInApexAutoOutput
-} from 'mock/storeData';
+import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { Store } from 'builder_platform_interaction/storeLib';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { getMetadataFlowElementByName } from 'mock/flows/mock-flow';
 import {
-    INCOMPLETE_ELEMENT,
-    baseCanvasElement,
-    duplicateCanvasElement,
-    baseCanvasElementsArrayToMap
-} from '../base/baseElement';
-import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
+    flowWithAllElementsUIModel,
+    loopOnAccountAutoOutput,
+    loopOnApexAutoOutput,
+    loopOnLocalActionSobjectCollInApexAutoOutput,
+    loopOnNestedApexTypeAutoOutput,
+    loopOnScreenCompSObjectCollAutoOutput,
+    loopOnSobjectCollectionInApexTypeAutoOutput,
+    loopOnTextCollectionAutoOutput,
+    loopOnTextCollectionManualOutput
+} from 'mock/storeData';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
+import {
+    baseCanvasElement,
+    baseCanvasElementsArrayToMap,
+    duplicateCanvasElement,
+    INCOMPLETE_ELEMENT
+} from '../base/baseElement';
+import { createDuplicateLoop, createLoop, createLoopMetadataObject, createLoopWithConnectors } from '../loop';
 
 jest.mock('builder_platform_interaction/alcCanvasUtils');
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));

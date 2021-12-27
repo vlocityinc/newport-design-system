@@ -1,17 +1,16 @@
 import {
-    getConfigForElementType,
-    getChildElementTypesWithOverridenProperties
+    getAlcElementType,
+    hasContext,
+    hasTrigger,
+    isRecordTriggeredFlow,
+    startElementDescription
+} from 'builder_platform_interaction/alcCanvasUtils';
+import { ElementMetadata } from 'builder_platform_interaction/autoLayoutCanvas';
+import {
+    getChildElementTypesWithOverridenProperties,
+    getConfigForElementType
 } from 'builder_platform_interaction/elementConfig';
 import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
-import {
-    getAlcElementType,
-    startElementDescription,
-    hasTrigger,
-    hasContext,
-    isRecordTriggeredFlow
-} from 'builder_platform_interaction/alcCanvasUtils';
-
-import { ElementMetadata } from 'builder_platform_interaction/autoLayoutCanvas';
 
 /**
  * Checks if an element can have a fault connector

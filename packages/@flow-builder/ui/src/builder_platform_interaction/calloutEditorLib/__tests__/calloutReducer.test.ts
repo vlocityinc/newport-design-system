@@ -1,14 +1,14 @@
 // @ts-nocheck
+import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
+import { actionCallAutomaticOutput, emailAlertOnAccount, subflowAutomaticOutput } from 'mock/storeData';
+import { chatterPostActionDetails } from 'serverData/GetInvocableActionDetails/chatterPostActionDetails.json';
 import {
+    deleteParameterItemByProperty,
     mergeWithInputOutputParameters,
     mergeWithInputOutputVariables,
-    updateParameterItemByProperty,
-    deleteParameterItemByProperty,
-    removeUnsetParametersByProperty
+    removeUnsetParametersByProperty,
+    updateParameterItemByProperty
 } from '../calloutEditorLib';
-import { chatterPostActionDetails } from 'serverData/GetInvocableActionDetails/chatterPostActionDetails.json';
-import { actionCallAutomaticOutput, emailAlertOnAccount, subflowAutomaticOutput } from 'mock/storeData';
-import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 
 describe('mergeWithInputOutputParameters', () => {
     it('sets "storeOutputAutomatically" from true to false if no output parameters', () => {

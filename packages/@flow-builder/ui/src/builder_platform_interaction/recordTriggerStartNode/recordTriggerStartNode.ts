@@ -1,17 +1,15 @@
-import { LightningElement, api } from 'lwc';
-import { classSet } from 'lightning/utils';
+import { ArrowKeyDownEvent, EditElementEvent } from 'builder_platform_interaction/events';
+import { getEntitiesMenuData } from 'builder_platform_interaction/expressionUtils';
 import {
-    FLOW_TRIGGER_TYPE,
+    CONDITION_LOGIC,
     FLOW_PROCESS_TYPE,
     FLOW_TRIGGER_SAVE_TYPE,
-    CONDITION_LOGIC
+    FLOW_TRIGGER_TYPE
 } from 'builder_platform_interaction/flowMetadata';
-import { EditElementEvent, ArrowKeyDownEvent } from 'builder_platform_interaction/events';
-import { LABELS } from './recordTriggerStartNodeLabels';
-import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
-import { getEntitiesMenuData } from 'builder_platform_interaction/expressionUtils';
+import { commands, keyboardInteractionUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
-import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
+import { api, LightningElement } from 'lwc';
+import { LABELS } from './recordTriggerStartNodeLabels';
 
 const { BEFORE_SAVE, BEFORE_DELETE, AFTER_SAVE } = FLOW_TRIGGER_TYPE;
 const { CREATE, UPDATE, CREATE_AND_UPDATE, DELETE } = FLOW_TRIGGER_SAVE_TYPE;

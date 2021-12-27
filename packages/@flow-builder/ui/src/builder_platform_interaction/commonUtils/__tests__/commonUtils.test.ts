@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { memoize, escapeForRegExp, isValidNumber, sanitizeBoolean, isReference } from '../commonUtils';
+import { escapeForRegExp, isReference, isValidNumber, memoize, sanitizeBoolean } from '../commonUtils';
 
 describe('memoize', () => {
     it('throws an exception if parameter is not a function', () => {

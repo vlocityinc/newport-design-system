@@ -1,15 +1,15 @@
 // @ts-nocheck
 import {
-    UPDATE_FLOW,
-    DO_DUPLICATE,
     ADD_CANVAS_ELEMENT,
-    ADD_WAIT_WITH_WAIT_EVENTS,
-    DELETE_ELEMENT,
     ADD_DECISION_WITH_OUTCOMES,
+    ADD_PARENT_WITH_CHILDREN,
     ADD_SCREEN_WITH_FIELDS,
     ADD_START_ELEMENT,
-    UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE,
-    ADD_PARENT_WITH_CHILDREN
+    ADD_WAIT_WITH_WAIT_EVENTS,
+    DELETE_ELEMENT,
+    DO_DUPLICATE,
+    UPDATE_FLOW,
+    UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE
 } from 'builder_platform_interaction/actions';
 import { addItem } from 'builder_platform_interaction/dataMutationLib';
 

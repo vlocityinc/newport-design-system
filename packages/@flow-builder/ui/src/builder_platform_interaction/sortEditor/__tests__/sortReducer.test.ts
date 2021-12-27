@@ -1,13 +1,13 @@
 // @ts-nocheck
-import { sortReducer } from '../sortReducer';
 import {
-    CollectionReferenceChangedEvent,
     AddSortOptionItemEvent,
+    CollectionReferenceChangedEvent,
     DeleteSortOptionItemEvent,
-    UpdateSortOptionItemEvent,
-    UpdateSortCollectionOutputEvent
+    UpdateSortCollectionOutputEvent,
+    UpdateSortOptionItemEvent
 } from 'builder_platform_interaction/events';
 import { SORT_OUTPUT_OPTION } from 'builder_platform_interaction/sortEditorLib';
+import { sortReducer } from '../sortReducer';
 
 describe('sort-reducer', () => {
     let originalState;

@@ -1,8 +1,8 @@
-import { LightningElement, api, track } from 'lwc';
+import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { getResourceTypesMenuData } from 'builder_platform_interaction/expressionUtils';
 import { shouldNotBeNullOrUndefined } from 'builder_platform_interaction/validationRules';
+import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './resourceEditorLabels';
-import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 
 const CONTAINER_SELECTOR = 'builder_platform_interaction-resource-editor-container';
 const COMBOBOX_SELECTOR = 'lightning-combobox';

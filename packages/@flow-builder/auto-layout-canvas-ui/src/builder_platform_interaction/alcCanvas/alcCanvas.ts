@@ -1,79 +1,79 @@
-import { LightningElement, track, api } from 'lwc';
 import {
-    renderFlow,
-    toggleFlowMenu,
-    closeFlowMenu,
-    updateDeletionPathInfo,
-    clearDeletionPathInfo,
-    calculateFlowLayout,
-    getDefaultLayoutConfig,
-    animate,
-    MenuType,
-    panzoom,
-    NodeType,
-    getTargetGuidsForReconnection,
-    Guid,
-    FlowRenderContext,
-    FlowRenderInfo,
-    FlowInteractionState,
-    Dimension,
-    resolveParent,
-    isBranchTerminal,
-    hasGoToOnNext,
-    shouldDeleteGoToOnNext,
-    ElementMetadata,
-    getConnectionTarget,
-    ConnectionSource,
-    getConnectionSource,
-    InteractionMenuInfo
-} from 'builder_platform_interaction/autoLayoutCanvas';
-import {
-    ZOOM_ACTION,
-    ClosePropertyEditorEvent,
-    DeleteElementEvent,
-    ToggleSelectionModeEvent,
-    ClickToZoomEvent,
-    CanvasMouseUpEvent,
-    EditElementEvent
-} from 'builder_platform_interaction/events';
-import {
-    AlcSelectionEvent,
-    ToggleMenuEvent,
-    NodeResizeEvent,
-    MoveFocusToNodeEvent,
-    MoveFocusToConnectorEvent,
-    CreateGoToConnectionEvent,
-    DeleteBranchElementEvent,
-    TabOnMenuTriggerEvent,
-    FocusOutEvent,
-    GoToPathEvent
-} from 'builder_platform_interaction/alcEvents';
-import {
+    AutoLayoutCanvasContext,
+    AutoLayoutCanvasMode,
+    deleteComponent,
     getAlcFlowData,
     getAlcMenuData,
-    getCanvasElementSelectionData,
     getCanvasElementDeselectionData,
-    AutoLayoutCanvasMode,
-    AutoLayoutCanvasContext,
+    getCanvasElementSelectionData,
+    getComponent,
     getFirstSelectableElementGuid,
     importComponent,
-    getComponent,
-    deleteComponent,
     MenuInfo
 } from 'builder_platform_interaction/alcComponentsUtils';
-import { getFocusPath } from './alcCanvasUtils';
 import {
-    commands,
-    keyboardInteractionUtils,
-    loggingUtils,
-    invokeModal,
-    modalBodyVariant,
-    lwcUtils
-} from 'builder_platform_interaction/sharedUtils';
-import { LABELS } from './alcCanvasLabels';
-import { time } from 'instrumentation/service';
+    AlcSelectionEvent,
+    CreateGoToConnectionEvent,
+    DeleteBranchElementEvent,
+    FocusOutEvent,
+    GoToPathEvent,
+    MoveFocusToConnectorEvent,
+    MoveFocusToNodeEvent,
+    NodeResizeEvent,
+    TabOnMenuTriggerEvent,
+    ToggleMenuEvent
+} from 'builder_platform_interaction/alcEvents';
 import AlcFlow from 'builder_platform_interaction/alcFlow';
 import AlcMenu from 'builder_platform_interaction/alcMenu';
+import {
+    animate,
+    calculateFlowLayout,
+    clearDeletionPathInfo,
+    closeFlowMenu,
+    ConnectionSource,
+    Dimension,
+    ElementMetadata,
+    FlowInteractionState,
+    FlowRenderContext,
+    FlowRenderInfo,
+    getConnectionSource,
+    getConnectionTarget,
+    getDefaultLayoutConfig,
+    getTargetGuidsForReconnection,
+    Guid,
+    hasGoToOnNext,
+    InteractionMenuInfo,
+    isBranchTerminal,
+    MenuType,
+    NodeType,
+    panzoom,
+    renderFlow,
+    resolveParent,
+    shouldDeleteGoToOnNext,
+    toggleFlowMenu,
+    updateDeletionPathInfo
+} from 'builder_platform_interaction/autoLayoutCanvas';
+import {
+    CanvasMouseUpEvent,
+    ClickToZoomEvent,
+    ClosePropertyEditorEvent,
+    DeleteElementEvent,
+    EditElementEvent,
+    ToggleSelectionModeEvent,
+    ZOOM_ACTION
+} from 'builder_platform_interaction/events';
+import {
+    commands,
+    invokeModal,
+    keyboardInteractionUtils,
+    loggingUtils,
+    lwcUtils,
+    modalBodyVariant
+} from 'builder_platform_interaction/sharedUtils';
+import { time } from 'instrumentation/service';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './alcCanvasLabels';
+import { getFocusPath } from './alcCanvasUtils';
 
 // alloted time between click events in ms, where two clicks are interpreted as a double click
 const DOUBLE_CLICK_THRESHOLD = 250;

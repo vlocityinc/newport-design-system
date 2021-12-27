@@ -1,12 +1,12 @@
 // @ts-nocheck
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { swapUidsForDevNames } from './uidSwapping';
-import { getFlowBounds } from 'builder_platform_interaction/connectorUtils';
-import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import {
     convertToFreeFormCanvas,
     removeEndElementsAndConnectorsTransform
 } from 'builder_platform_interaction/alcConversionUtils';
+import { getFlowBounds } from 'builder_platform_interaction/connectorUtils';
+import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { swapUidsForDevNames } from './uidSwapping';
 
 export type Flow = {
     metadata: Metadata.Metadata;

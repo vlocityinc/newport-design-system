@@ -1,18 +1,18 @@
 // @ts-nocheck
-import {
-    flowWithAllElementsUIModel,
-    apexCallAutomaticAnonymousAccountsOutput,
-    apexCallAutomaticAnonymousAccountOutput,
-    loopOnAccountAutoOutput,
-    apexComplexTypeTwoVariable,
-    accountSObjectVariable
-} from 'mock/storeData';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
+import { clearExtensionsCache, setExtensionDescriptions } from 'builder_platform_interaction/flowExtensionLib';
+import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
+import { Store } from 'builder_platform_interaction/storeLib';
+import {
+    accountSObjectVariable,
+    apexCallAutomaticAnonymousAccountOutput,
+    apexCallAutomaticAnonymousAccountsOutput,
+    apexComplexTypeTwoVariable,
+    flowWithAllElementsUIModel,
+    loopOnAccountAutoOutput
+} from 'mock/storeData';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import { flowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
-import { setExtensionDescriptions, clearExtensionsCache } from 'builder_platform_interaction/flowExtensionLib';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/invocableActionLib', () =>

@@ -1,11 +1,11 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
-import { scheduleTriggerReducer } from './scheduleTriggerReducer';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import { LABELS } from './scheduleTriggerEditorLabels';
-import { ELEMENT_TYPE, START_ELEMENT_FIELDS, FLOW_TRIGGER_FREQUENCY } from 'builder_platform_interaction/flowMetadata';
 import { PropertyChangedEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
+import { ELEMENT_TYPE, FLOW_TRIGGER_FREQUENCY, START_ELEMENT_FIELDS } from 'builder_platform_interaction/flowMetadata';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './scheduleTriggerEditorLabels';
+import { scheduleTriggerReducer } from './scheduleTriggerReducer';
 
 const SELECTORS = {
     START_DATE: '.startDate',

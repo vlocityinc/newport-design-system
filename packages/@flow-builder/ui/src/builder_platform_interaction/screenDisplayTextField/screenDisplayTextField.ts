@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
 import { getPlaceHolderLabel } from 'builder_platform_interaction/screenEditorUtils';
+import { api, LightningElement, track } from 'lwc';
 
 /**
  * Wrapper used to represent visual preview of screen fields which are are display fields.

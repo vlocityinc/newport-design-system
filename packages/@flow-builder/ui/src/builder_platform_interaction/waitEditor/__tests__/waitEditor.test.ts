@@ -1,19 +1,19 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import WaitEditor from '../waitEditor';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import {
     AddConditionEvent,
     DeleteConditionEvent,
-    UpdateConditionEvent,
-    PropertyChangedEvent,
-    WaitEventPropertyChangedEvent,
-    WaitEventParameterChangedEvent,
     DeleteWaitEventEvent,
-    ListItemInteractionEvent
+    ListItemInteractionEvent,
+    PropertyChangedEvent,
+    UpdateConditionEvent,
+    WaitEventParameterChangedEvent,
+    WaitEventPropertyChangedEvent
 } from 'builder_platform_interaction/events';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { createElement } from 'lwc';
+import WaitEditor from '../waitEditor';
 import { waitReducer } from '../waitReducer';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')

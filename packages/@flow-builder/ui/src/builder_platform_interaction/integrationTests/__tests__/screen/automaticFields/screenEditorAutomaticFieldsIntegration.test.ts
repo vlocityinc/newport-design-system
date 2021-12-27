@@ -1,28 +1,28 @@
-import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { resetState, setupStateForFlow } from '../../integrationTestUtils';
+import { blurEvent, INTERACTION_COMPONENTS_SELECTORS, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setContext } from 'builder_platform_interaction/contextLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { createVariable } from 'builder_platform_interaction/elementFactory';
 import { FlowScreenFieldType, FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { ScreenFieldName } from 'builder_platform_interaction/screenEditorUtils';
+import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import { context } from 'serverData/GetContext/context.json';
+import { ComboboxTestComponent } from '../../comboboxTestUtils';
+import { resetState, setupStateForFlow } from '../../integrationTestUtils';
+import {
+    addNewResourceEventListener,
+    addRecordVariable,
+    deleteVariableWithName,
+    removeNewResourceEventListener,
+    setNextInlineResource
+} from '../../resourceTestUtils';
 import {
     createComponentUnderTest,
     ScreenCanvasTestComponent,
     ScreenEditorAutomaticFieldBetaDisclaimerTestComponent,
     ScreenEditorTestComponent
 } from '../../screenEditorTestUtils';
-import { ScreenFieldName } from 'builder_platform_interaction/screenEditorUtils';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { blurEvent, INTERACTION_COMPONENTS_SELECTORS, ticks } from 'builder_platform_interaction/builderTestUtils';
-import { ComboboxTestComponent } from '../../comboboxTestUtils';
-import {
-    addRecordVariable,
-    deleteVariableWithName,
-    setNextInlineResource,
-    addNewResourceEventListener,
-    removeNewResourceEventListener
-} from '../../resourceTestUtils';
-import { setContext } from 'builder_platform_interaction/contextLib';
-import { context } from 'serverData/GetContext/context.json';
-import { createVariable } from 'builder_platform_interaction/elementFactory';
 
 jest.mock('@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeNumber', () => ({ default: 'Number({0}, {1})' }), {
     virtual: true

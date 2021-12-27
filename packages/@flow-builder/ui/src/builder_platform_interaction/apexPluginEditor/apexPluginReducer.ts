@@ -1,20 +1,20 @@
 // @ts-nocheck
+import {
+    deleteParameterItem,
+    mergeWithInputOutputParameters,
+    MERGE_WITH_PARAMETERS,
+    removeUnsetParameters,
+    REMOVE_UNSET_PARAMETERS,
+    updateParameterItem
+} from 'builder_platform_interaction/calloutEditorLib';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
+import {
+    DeleteParameterItemEvent,
+    PropertyChangedEvent,
+    UpdateParameterItemEvent
+} from 'builder_platform_interaction/events';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { apexPluginValidation } from './apexPluginValidation';
-import {
-    UpdateParameterItemEvent,
-    PropertyChangedEvent,
-    DeleteParameterItemEvent
-} from 'builder_platform_interaction/events';
-import {
-    updateParameterItem,
-    mergeWithInputOutputParameters,
-    removeUnsetParameters,
-    deleteParameterItem,
-    MERGE_WITH_PARAMETERS,
-    REMOVE_UNSET_PARAMETERS
-} from 'builder_platform_interaction/calloutEditorLib';
 
 const apexPluginPropertyChanged = (state, event) => {
     const error =

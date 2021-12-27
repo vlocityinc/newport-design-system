@@ -1,7 +1,6 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { createElement } from 'lwc';
 import statusIconSummary from '../statusIconSummary';
 
 function createComponentForTest(props) {

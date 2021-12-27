@@ -1,19 +1,19 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import ClickableErrorMessage from '../clickableErrorMessage';
-import { EditElementEvent, LocatorIconClickedEvent } from 'builder_platform_interaction/events';
-import { pubSub } from 'builder_platform_interaction/pubSub';
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { Store } from 'builder_platform_interaction/storeLib';
-import {
-    flowWithAllElementsUIModel,
-    screenWithSection,
-    decision1 as mockDecision,
-    decision1Outcome1 as mockOutcome
-} from 'mock/storeData';
-import { recordTriggeredFlowUIModel, startElement } from 'mock/storeDataRecordTriggered';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import { childElementTypeToParentDescriptorKeyMap } from 'builder_platform_interaction/elementConfig';
+import { EditElementEvent, LocatorIconClickedEvent } from 'builder_platform_interaction/events';
+import { pubSub } from 'builder_platform_interaction/pubSub';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import { createElement } from 'lwc';
+import {
+    decision1 as mockDecision,
+    decision1Outcome1 as mockOutcome,
+    flowWithAllElementsUIModel,
+    screenWithSection
+} from 'mock/storeData';
+import { recordTriggeredFlowUIModel, startElement } from 'mock/storeDataRecordTriggered';
+import ClickableErrorMessage from '../clickableErrorMessage';
 
 const mockOrchestratorStage = {
     guid: '477eb276-8bde-4fae-a438-2f2d1978c35a',

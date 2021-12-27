@@ -1,39 +1,39 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
-import { RowContentsChangedEvent } from 'builder_platform_interaction/events';
+import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
+import { removeLastCreatedInlineResource, updateInlineResourceProperties } from 'builder_platform_interaction/actions';
+import { isObject, isUndefined } from 'builder_platform_interaction/commonUtils';
 import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
-import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { RowContentsChangedEvent } from 'builder_platform_interaction/events';
 import {
     EXPRESSION_PROPERTY_TYPE,
-    getStoreElements,
     filterAndMutateMenuData,
     filterFieldsForChosenElement,
-    getResourceByUniqueIdentifier,
-    getFerovDataTypeForValidId,
-    isElementAllowed,
     filterMatches,
-    LHS_DISPLAY_OPTION,
-    getChildrenItemsPromise
+    getChildrenItemsPromise,
+    getFerovDataTypeForValidId,
+    getResourceByUniqueIdentifier,
+    getStoreElements,
+    isElementAllowed,
+    LHS_DISPLAY_OPTION
 } from 'builder_platform_interaction/expressionUtils';
+import { saveExpression } from 'builder_platform_interaction/expressionValidator';
+import { getInlineResource } from 'builder_platform_interaction/inlineResourceUtils';
+import { isLookupTraversalSupported } from 'builder_platform_interaction/mergeFieldLib';
 import {
+    elementToParam,
     getLHSTypes,
     getOperators,
     getRHSTypes,
-    transformOperatorsForCombobox,
-    elementToParam,
     isCollectionRequired,
     PARAM_PROPERTY,
-    RULE_OPERATOR
+    RULE_OPERATOR,
+    transformOperatorsForCombobox
 } from 'builder_platform_interaction/ruleLib';
-import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { isObject, isUndefined } from 'builder_platform_interaction/commonUtils';
-import { saveExpression } from 'builder_platform_interaction/expressionValidator';
+import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
-import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
-import { removeLastCreatedInlineResource, updateInlineResourceProperties } from 'builder_platform_interaction/actions';
-import { getInlineResource } from 'builder_platform_interaction/inlineResourceUtils';
-import { isLookupTraversalSupported } from 'builder_platform_interaction/mergeFieldLib';
 import { getTriggerType } from 'builder_platform_interaction/storeUtils';
+import { api, LightningElement, track } from 'lwc';
 
 const { logInteraction } = loggingUtils;
 

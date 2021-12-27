@@ -1,17 +1,16 @@
-import { filterReducer } from '../filterReducer';
 import {
-    CollectionReferenceChangedEvent,
     AddConditionEvent,
+    CollectionReferenceChangedEvent,
     DeleteConditionEvent,
-    UpdateConditionEvent,
-    PropertyChangedEvent
+    PropertyChangedEvent,
+    UpdateConditionEvent
 } from 'builder_platform_interaction/events';
-
-import * as store from 'mock/storeData';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
+import * as store from 'mock/storeData';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { filterReducer } from '../filterReducer';
 
 /**
  * Executing jest test

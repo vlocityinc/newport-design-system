@@ -1,4 +1,5 @@
 // @ts-nocheck
+// tslint:disable:ordered-imports
 import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import {

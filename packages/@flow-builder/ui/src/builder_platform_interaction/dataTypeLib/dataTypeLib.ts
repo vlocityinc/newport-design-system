@@ -1,6 +1,6 @@
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS as SCREEN_LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { LABELS as DATA_TYPE_LABELS } from './dataTypeLibLabels';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 type ResourceType = {
     isElementSubtype: boolean;

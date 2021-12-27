@@ -1,12 +1,12 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import FieldPicker from '../fieldPicker';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { filterFieldsForChosenElement } from 'builder_platform_interaction/expressionUtils';
 import { isLookupTraversalSupported } from 'builder_platform_interaction/processTypeLib';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import FieldPicker from '../fieldPicker';
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {

@@ -1,37 +1,37 @@
 // @ts-nocheck
-import {
-    createScreenField,
-    createDuplicateNestedScreenFields,
-    createScreenFieldWithFieldReferences,
-    createScreenFieldMetadataObject,
-    createEmptyScreenFieldOfType,
-    createScreenFieldWithFields,
-    createAutomaticField
-} from '../screenField';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
+import * as contextLibMock from 'builder_platform_interaction/contextLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { CONDITION_LOGIC, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import { getProcessTypeAutomaticOutPutHandlingSupport } from 'builder_platform_interaction/processTypeLib';
 import {
     getColumnFieldType,
     InputsOnNextNavToAssocScrnOption,
     ScreenFieldName
 } from 'builder_platform_interaction/screenEditorUtils';
-import * as contextLibMock from 'builder_platform_interaction/contextLib';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import {
-    accountVariableNameAutomaticField,
-    objectWithAllPossibleFieldsVariableTextFieldAutomaticField,
-    accountSObjectVariable,
-    objectWithAllPossibleFieldsVariable,
-    slider1,
-    email2 as mockScreenFieldEmail,
-    flowWithAllElementsUIModel as mockFlowWithAllElementsUIModel
-} from 'mock/storeData';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { getMetadataAutomaticField } from 'mock/flows/mock-flow';
-import { CONDITION_LOGIC, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+import {
+    accountSObjectVariable,
+    accountVariableNameAutomaticField,
+    email2 as mockScreenFieldEmail,
+    flowWithAllElementsUIModel as mockFlowWithAllElementsUIModel,
+    objectWithAllPossibleFieldsVariable,
+    objectWithAllPossibleFieldsVariableTextFieldAutomaticField,
+    slider1
+} from 'mock/storeData';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { objectWithAllPossibleFieldsFields as mockObjectWithAllPossibleFieldsFields } from 'serverData/GetFieldsForEntity/objectWithAllPossibleFieldsFields.json';
+import {
+    createAutomaticField,
+    createDuplicateNestedScreenFields,
+    createEmptyScreenFieldOfType,
+    createScreenField,
+    createScreenFieldMetadataObject,
+    createScreenFieldWithFieldReferences,
+    createScreenFieldWithFields
+} from '../screenField';
 
 expect.extend(deepFindMatchers);
 

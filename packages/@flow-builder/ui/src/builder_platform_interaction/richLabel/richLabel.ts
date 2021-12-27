@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { api, LightningElement, track } from 'lwc';
 const { format } = commonUtils;
 
 /**

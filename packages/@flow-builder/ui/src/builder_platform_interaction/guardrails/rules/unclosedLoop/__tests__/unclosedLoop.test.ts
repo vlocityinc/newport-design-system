@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { UnclosedLoop } from '../unclosedLoop';
 import { Result } from 'analyzer_framework/api';
+import { UnclosedLoop } from '../unclosedLoop';
 
 const mockGetData = jest.fn();
 const mockReport = jest.fn();

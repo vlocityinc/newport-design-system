@@ -1,12 +1,12 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import StageEditor from '../stageEditor';
-import { createStage } from 'builder_platform_interaction/elementFactory';
-import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { stageReducer } from '../../stageEditor/stageReducer';
-import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
+import { createStage } from 'builder_platform_interaction/elementFactory';
+import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { createElement } from 'lwc';
+import { stageReducer } from '../../stageEditor/stageReducer';
+import StageEditor from '../stageEditor';
 
 jest.mock('builder_platform_interaction/actions', () => {
     return {

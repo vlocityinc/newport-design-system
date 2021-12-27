@@ -1,37 +1,33 @@
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { AddElementEvent, DeleteElementEvent } from 'builder_platform_interaction/events';
+import { updateFlow } from 'builder_platform_interaction/actions';
 import {
-    AddElementFaultEvent,
-    DeleteElementFaultEvent,
-    GoToPathEvent,
-    CreateGoToConnectionEvent,
-    DeleteGoToConnectionEvent
-} from 'builder_platform_interaction/alcEvents';
-
-import {
+    addEndElementsAndConnectorsTransform,
+    compareState,
     convertToAutoLayoutCanvas,
     convertToFreeFormCanvas,
-    removeEndElementsAndConnectorsTransform,
-    addEndElementsAndConnectorsTransform,
-    compareState
+    removeEndElementsAndConnectorsTransform
 } from 'builder_platform_interaction/alcConversionUtils';
 import {
+    AddElementFaultEvent,
+    CreateGoToConnectionEvent,
+    DeleteElementFaultEvent,
+    DeleteGoToConnectionEvent,
+    GoToPathEvent
+} from 'builder_platform_interaction/alcEvents';
+import {
+    AlcList,
+    areAllBranchesTerminals,
+    findFirstElement,
     findParentElement,
-    hasGoToOnNext,
     getChild,
     getTargetGuidsForReconnection,
     hasGoTo,
-    findFirstElement,
-    resolveParent,
-    areAllBranchesTerminals,
-    AlcList
+    hasGoToOnNext,
+    resolveParent
 } from 'builder_platform_interaction/autoLayoutCanvas';
-
-import { updateFlow } from 'builder_platform_interaction/actions';
-
-import { generateGuid, deepCopy } from 'builder_platform_interaction/storeLib';
-
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
+import { AddElementEvent, DeleteElementEvent } from 'builder_platform_interaction/events';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { deepCopy, generateGuid } from 'builder_platform_interaction/storeLib';
 
 const FAULT_INDEX = -1;
 

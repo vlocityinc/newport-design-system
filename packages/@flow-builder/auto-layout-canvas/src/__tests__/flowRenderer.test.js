@@ -1,30 +1,29 @@
 import { renderFlow } from '../flowRenderer';
 import { calculateFlowLayout } from '../layout';
 import MenuType from '../MenuType';
-
 import {
-    getEmptyFlowContext,
-    getFlowWithEmptyDecisionContext,
-    getFlowWithEmptyDeciisionWith3BranchesContext,
-    getFlowWithDecisionWithOneElementOnLeftBranchContext,
-    getFlowWithEmptyLoopContext,
-    getFlowWithTwoFaults,
-    getSimpleFlowContext,
-    getFlowWithDynamicNodeComponent,
-    getFlowWithHighlightedLoopBranches,
-    getFlowWithHighlightedFaultBranch,
-    getFlowWithHighlightedDecisionBranch,
-    getFlowWithHighlightedAndMergedDecisionBranch,
     getComplicatedFlow,
-    getFlowWhenGoingToPreviousElement,
-    getFlowWhenGoingFromParentFirstBranchToPreviousElement,
+    getEmptyFlowContext,
+    getFlowWhenGoingFromForEachBranch,
     getFlowWhenGoingFromParentDefaultBranchToPreviousElement,
     getFlowWhenGoingFromParentFaultBranchToPreviousElement,
-    getFlowWithGoToOnTheNestedBranchElement,
+    getFlowWhenGoingFromParentFirstBranchToPreviousElement,
     getFlowWhenGoingToLoopBranchHead,
-    getFlowWhenGoingFromForEachBranch,
+    getFlowWhenGoingToPreviousElement,
+    getFlowWithDecisionWithOneElementOnLeftBranchContext,
+    getFlowWithDynamicNodeComponent,
+    getFlowWithEmptyDeciisionWith3BranchesContext,
+    getFlowWithEmptyDecisionContext,
+    getFlowWithEmptyLoopContext,
+    getFlowWithGoToOnTheNestedBranchElement,
+    getFlowWithHighlightedAndMergedDecisionBranch,
+    getFlowWithHighlightedDecisionBranch,
+    getFlowWithHighlightedFaultBranch,
+    getFlowWithHighlightedLoopBranches,
     getFlowWithOnlyImmediateScheduledPathContext,
-    getFlowWithScheduledPathsContext
+    getFlowWithScheduledPathsContext,
+    getFlowWithTwoFaults,
+    getSimpleFlowContext
 } from './testUtils';
 
 function renderAndAssert(ctx) {

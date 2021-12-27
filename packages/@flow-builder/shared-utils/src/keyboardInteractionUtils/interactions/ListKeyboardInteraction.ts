@@ -1,5 +1,5 @@
 import { ArrowDown, ArrowUp } from '../../commands';
-import { Keys, createShortcut } from '../keyboardInteractions';
+import { createShortcut, Keys } from '../keyboardInteractions';
 import { BaseKeyboardInteraction } from './BaseKeyboardInteraction';
 
 /**
@@ -52,7 +52,7 @@ export class ListKeyboardInteraction extends BaseKeyboardInteraction {
      * @param key - the key pressed (arrowDown or arrowUp)
      */
     handleArrowKeyDown(key: Keys.ArrowDown | Keys.ArrowUp): void {
-        const currentItemInFocus = <HTMLElement>this.template.activeElement;
+        const currentItemInFocus = this.template.activeElement as HTMLElement;
         if (currentItemInFocus) {
             const items = Array.from<HTMLElement>(this.template.querySelectorAll(this.itemsSelector));
             moveFocusInMenuOnArrowKeyDown(items, currentItemInFocus, key);

@@ -1,7 +1,7 @@
 // @ts-nocheck
-import * as ValidationRules from 'builder_platform_interaction/validationRules';
-import { Validation } from 'builder_platform_interaction/validation';
 import { CONDITION_LOGIC, RECORD_UPDATE_WAY_TO_FIND_RECORDS } from 'builder_platform_interaction/flowMetadata';
+import { Validation } from 'builder_platform_interaction/validation';
+import * as ValidationRules from 'builder_platform_interaction/validationRules';
 
 /**
  * Validate the filter item.

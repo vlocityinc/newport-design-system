@@ -1,22 +1,14 @@
 // @ts-nocheck
+import { CONDITION_LOGIC, CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { Store } from 'builder_platform_interaction/storeLib';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import {
-    createDecisionWithOutcomes,
-    createDuplicateDecision,
-    createOutcome,
-    createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor,
-    createDecisionWithOutcomeReferences,
-    createDecisionMetadataObject
-} from '../decision';
-import { ELEMENT_TYPE, CONNECTOR_TYPE, CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
-import { LABELS } from '../elementFactoryLabels';
-import {
     baseCanvasElement,
-    duplicateCanvasElementWithChildElements,
-    baseChildElement,
     baseCanvasElementsArrayToMap,
-    updateChildReferences,
-    getDeletedCanvasElementChildren
+    baseChildElement,
+    duplicateCanvasElementWithChildElements,
+    getDeletedCanvasElementChildren,
+    updateChildReferences
 } from '../base/baseElement';
 import {
     baseCanvasElementMetadataObject,
@@ -24,10 +16,18 @@ import {
     createConditionMetadataObject
 } from '../base/baseMetadata';
 import {
-    getConnectionProperties,
-    addRegularConnectorToAvailableConnections
+    addRegularConnectorToAvailableConnections,
+    getConnectionProperties
 } from '../commonFactoryUtils/connectionPropertiesUtils';
-import { Store } from 'builder_platform_interaction/storeLib';
+import {
+    createDecisionMetadataObject,
+    createDecisionWithOutcomeReferences,
+    createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor,
+    createDecisionWithOutcomes,
+    createDuplicateDecision,
+    createOutcome
+} from '../decision';
+import { LABELS } from '../elementFactoryLabels';
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {

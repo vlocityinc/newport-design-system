@@ -1,6 +1,8 @@
-import { createElement } from 'lwc';
-import RecordLookupEditor from '../recordLookupEditor';
-import { SORT_ORDER, NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
+import {
+    INTERACTION_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
 import {
     AddElementEvent,
     AddRecordFieldAssignmentEvent,
@@ -15,19 +17,16 @@ import {
     UpdateRecordFieldAssignmentEvent,
     UpdateRecordFilterEvent
 } from 'builder_platform_interaction/events';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import {
-    INTERACTION_COMPONENTS_SELECTORS,
-    setDocumentBodyChildren,
-    ticks
-} from 'builder_platform_interaction/builderTestUtils';
+import { NUMBER_RECORDS_TO_STORE, SORT_ORDER, WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
 import {
     fieldServiceMobileFlowUIModel,
     getAccountWithFields,
     getAccountWithSObject
 } from 'mock/storeDataFieldServiceMobile';
-import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import {
     getEntityResourcePicker,
     getRecordFilter,
@@ -37,6 +36,7 @@ import {
     getRecordStoreOption,
     getSObjectOrSObjectCollectionPicker
 } from '../../integrationTests/__tests__/clud/cludEditorTestUtils';
+import RecordLookupEditor from '../recordLookupEditor';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')

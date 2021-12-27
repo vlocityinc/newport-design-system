@@ -1,4 +1,4 @@
-import { FlowModel, Guid, findFirstElement, isRoot } from 'builder_platform_interaction/autoLayoutCanvas';
+import { findFirstElement, FlowModel, Guid, isRoot } from 'builder_platform_interaction/autoLayoutCanvas';
 
 /**
  * Helper function to build a path to the node that needs to be focused. The path will consist of the

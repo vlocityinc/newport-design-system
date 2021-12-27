@@ -1,30 +1,29 @@
+import { findStartElement, getAlcElementType, supportsChildren } from 'builder_platform_interaction/alcCanvasUtils';
 import {
     areAllBranchesTerminals,
+    assertAutoLayoutState,
+    assertInDev,
+    BranchHeadNodeModel,
+    createGoToSourceRef,
+    createRootElement,
     FAULT_INDEX,
     findLastElement,
-    assertInDev,
-    assertAutoLayoutState,
-    ParentNodeModel,
     FlowModel,
-    NodeModel,
-    BranchHeadNodeModel,
-    resolveNode,
-    resolveBranchHead,
-    resolveParent,
-    NodeType,
-    createRootElement,
-    createGoToSourceRef,
-    setChild,
+    FOR_EACH_INDEX,
     inlineFromParent,
-    FOR_EACH_INDEX
+    NodeModel,
+    NodeType,
+    ParentNodeModel,
+    resolveBranchHead,
+    resolveNode,
+    resolveParent,
+    setChild
 } from 'builder_platform_interaction/autoLayoutCanvas';
-
-import { getChildReferencesKeys } from 'builder_platform_interaction/elementConfig';
-import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { findStartElement, getAlcElementType, supportsChildren } from 'builder_platform_interaction/alcCanvasUtils';
-import { createEndElement } from 'builder_platform_interaction/elementFactory';
 import { createNewConnector } from 'builder_platform_interaction/connectorUtils';
-import { dfs, ConversionInfo, ConversionInfos } from './freeFormToAutoLayout/dfs';
+import { getChildReferencesKeys } from 'builder_platform_interaction/elementConfig';
+import { createEndElement } from 'builder_platform_interaction/elementFactory';
+import { CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ConversionInfo, ConversionInfos, dfs } from './freeFormToAutoLayout/dfs';
 import { validateConversionInfos } from './freeFormToAutoLayout/validate';
 
 export type ConvertToAutoLayoutCanvasOptions = Readonly<{

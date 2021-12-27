@@ -1,21 +1,21 @@
 // @ts-nocheck
-import { waitReducer, resetDeletedGuids } from '../waitReducer';
+import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { createCondition } from 'builder_platform_interaction/elementFactory';
 import {
-    PropertyChangedEvent,
     AddConditionEvent,
     DeleteConditionEvent,
-    UpdateConditionEvent,
     DeleteWaitEventEvent,
-    WaitEventPropertyChangedEvent,
+    PropertyChangedEvent,
+    UpdateConditionEvent,
+    UpdateWaitEventEventTypeEvent,
     WaitEventParameterChangedEvent,
-    UpdateWaitEventEventTypeEvent
+    WaitEventPropertyChangedEvent
 } from 'builder_platform_interaction/events';
-import { createCondition } from 'builder_platform_interaction/elementFactory';
-import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
-import { FLOW_DATA_TYPE, FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { checkExpressionForDeletedElem } from 'builder_platform_interaction/expressionUtils';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { resetDeletedGuids, waitReducer } from '../waitReducer';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

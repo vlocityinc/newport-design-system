@@ -1,5 +1,5 @@
-import { ArrowDown, ArrowUp, ArrowLeft, ArrowRight, EnterCommand, SpaceCommand } from '../../commands';
-import { Keys, createShortcut } from '../keyboardInteractions';
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, EnterCommand, SpaceCommand } from '../../commands';
+import { createShortcut, Keys } from '../keyboardInteractions';
 import { BaseKeyboardInteraction } from './BaseKeyboardInteraction';
 
 interface GridSelectors {
@@ -263,7 +263,7 @@ export class GridKeyboardInteraction extends BaseKeyboardInteraction {
      */
     private getCellAt(gridIndex: GridIndex): HTMLElement {
         const attr = formatDataGridIndex(gridIndex);
-        return <HTMLElement>this.rootElement.querySelector(`[data-grid-index="${attr}"]`);
+        return this.rootElement.querySelector<HTMLElement>(`[data-grid-index="${attr}"]`)!;
     }
 
     /**

@@ -1,12 +1,12 @@
 /* eslint-disable @lwc/lwc/no-async-operation */
 // @ts-nocheck
-import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { resetState, setupStateForFlow } from '../../integrationTestUtils';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { flowExtensionsForFlow as mockFlowExtensions } from 'serverData/GetFlowExtensions/flowExtensionsForFlow.json';
+import { resetState, setupStateForFlow } from '../../integrationTestUtils';
 import { createComponentUnderTest, ScreenEditorTestComponent } from '../../screenEditorTestUtils';
 
 /* This jest mock was added to create the actual scenario in screenEditor when extensions are delayed.

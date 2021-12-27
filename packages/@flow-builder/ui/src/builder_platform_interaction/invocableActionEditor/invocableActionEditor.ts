@@ -1,43 +1,40 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
-import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
-import { LABELS, ACTION_TYPE_LABEL } from './invocableActionEditorLabels';
-import { getValueFromHydratedItem, getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-
-import { getParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
-import { invocableActionReducer, MERGE_WITH_DATA_TYPE_MAPPINGS } from './invocableActionReducer';
 import {
+    getParameterListWarnings,
     MERGE_WITH_PARAMETERS,
-    REMOVE_UNSET_PARAMETERS,
-    getParameterListWarnings
+    REMOVE_UNSET_PARAMETERS
 } from 'builder_platform_interaction/calloutEditorLib';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import {
-    ClosePropertyEditorEvent,
+    getActionCallTypeMappings,
+    getAutomaticOutputVariables,
+    getBuilderContext,
+    getElementInfo,
+    getInputVariables,
+    useConfigurationEditor
+} from 'builder_platform_interaction/customPropertyEditorLib';
+import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import {
     CannotRetrieveCalloutParametersEvent,
+    ClosePropertyEditorEvent,
+    PropertyChangedEvent,
     SetPropertyEditorTitleEvent,
-    PropertyChangedEvent
+    UpdateNodeEvent
 } from 'builder_platform_interaction/events';
-import { Store } from 'builder_platform_interaction/storeLib';
 import { FLOW_PROCESS_TYPE, FLOW_TRANSACTION_MODEL } from 'builder_platform_interaction/flowMetadata';
 import {
+    applyDynamicTypeMappings,
     fetchDetailsForInvocableAction,
-    isAutomaticOutputHandlingSupported,
-    applyDynamicTypeMappings
+    getParametersForInvocableAction,
+    isAutomaticOutputHandlingSupported
 } from 'builder_platform_interaction/invocableActionLib';
-
-import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
-import { UpdateNodeEvent } from 'builder_platform_interaction/events';
 import { getProcessTypeTransactionControlledActionsSupport } from 'builder_platform_interaction/processTypeLib';
-import { commonUtils } from 'builder_platform_interaction/sharedUtils';
-import {
-    useConfigurationEditor,
-    getBuilderContext,
-    getAutomaticOutputVariables,
-    getInputVariables,
-    getActionCallTypeMappings,
-    getElementInfo
-} from 'builder_platform_interaction/customPropertyEditorLib';
+import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+import { commonUtils, loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { api, LightningElement, track } from 'lwc';
+import { ACTION_TYPE_LABEL, LABELS } from './invocableActionEditorLabels';
+import { invocableActionReducer, MERGE_WITH_DATA_TYPE_MAPPINGS } from './invocableActionReducer';
 
 const { format } = commonUtils;
 

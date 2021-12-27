@@ -1,20 +1,20 @@
 // @ts-nocheck
-import { ELEMENT_TYPE, CONNECTOR_TYPE, ACTION_TYPE } from 'builder_platform_interaction/flowMetadata';
-import {
-    baseCanvasElementWithFault,
-    baseCanvasElementsArrayToMap,
-    createAvailableConnection,
-    duplicateCanvasElement,
-    automaticOutputHandlingSupport
-} from './base/baseElement';
-import { baseCanvasElementMetadataObject } from './base/baseMetadata';
-import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
-import { createOutputParameter, createOutputParameterMetadataObject } from './outputParameter';
-import { createDynamicTypeMappings, createDataTypeMappingsMetadataObject } from './dynamicTypeMapping';
-import { createConnectorObjects } from './connector';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
 import { FLOW_DATA_TYPE, getFlowDataType } from 'builder_platform_interaction/dataTypeLib';
+import { ACTION_TYPE, CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import {
+    automaticOutputHandlingSupport,
+    baseCanvasElementsArrayToMap,
+    baseCanvasElementWithFault,
+    createAvailableConnection,
+    duplicateCanvasElement
+} from './base/baseElement';
+import { baseCanvasElementMetadataObject } from './base/baseMetadata';
+import { createConnectorObjects } from './connector';
+import { createDataTypeMappingsMetadataObject, createDynamicTypeMappings } from './dynamicTypeMapping';
+import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
+import { createOutputParameter, createOutputParameterMetadataObject } from './outputParameter';
 
 const maxConnections = 2;
 export const getDefaultAvailableConnections = () => [

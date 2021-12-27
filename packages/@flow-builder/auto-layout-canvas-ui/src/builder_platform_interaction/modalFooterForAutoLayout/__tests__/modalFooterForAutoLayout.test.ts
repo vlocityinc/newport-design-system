@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import ModalFooterForAutoLayout from 'builder_platform_interaction/modalFooterForAutoLayout';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
+import ModalFooterForAutoLayout from 'builder_platform_interaction/modalFooterForAutoLayout';
+import { createElement } from 'lwc';
 
 const closeModalCallback = jest.fn();
 

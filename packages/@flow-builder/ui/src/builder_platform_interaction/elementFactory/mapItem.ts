@@ -1,4 +1,4 @@
-import { createListRowItem, RHS_PROPERTY, RHS_DATA_TYPE_PROPERTY } from './base/baseList';
+import { createListRowItem, RHS_DATA_TYPE_PROPERTY, RHS_PROPERTY } from './base/baseList';
 import { createFEROV, createFEROVMetadataObject } from './ferov';
 
 /**

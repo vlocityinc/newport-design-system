@@ -1,12 +1,12 @@
-import { createElement } from 'lwc';
-import ScheduledPath from 'builder_platform_interaction/scheduledPath';
-import { PropertyChangedEvent, DeleteScheduledPathEvent } from 'builder_platform_interaction/events';
-import { TIME_OPTION } from 'builder_platform_interaction/flowMetadata';
 import {
     INTERACTION_COMPONENTS_SELECTORS,
     setDocumentBodyChildren,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
+import { DeleteScheduledPathEvent, PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { TIME_OPTION } from 'builder_platform_interaction/flowMetadata';
+import ScheduledPath from 'builder_platform_interaction/scheduledPath';
+import { createElement } from 'lwc';
 
 const scheduledPathMock = {
     label: { value: 'My scheduled path element', error: null },

@@ -1,10 +1,10 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
-import { EditElementEvent, DeleteResourceEvent } from 'builder_platform_interaction/events';
-import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
-import { RESOURCES_TYPE_WITH_AUTOMATIC_OUTPUT_PARAMETERS_CONFIGURATION } from 'builder_platform_interaction/resourceDetailsParameters';
-import { LABELS } from './resourceDetailsLabels';
+import { DeleteResourceEvent, EditElementEvent } from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { RESOURCES_TYPE_WITH_AUTOMATIC_OUTPUT_PARAMETERS_CONFIGURATION } from 'builder_platform_interaction/resourceDetailsParameters';
+import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './resourceDetailsLabels';
 
 const { logInteraction } = loggingUtils;
 

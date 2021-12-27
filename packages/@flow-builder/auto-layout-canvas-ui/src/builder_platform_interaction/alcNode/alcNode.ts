@@ -1,24 +1,24 @@
-import { LightningElement, api } from 'lwc';
 import {
-    NodeType,
-    NodeRenderInfo,
-    NodeModel,
+    AutoLayoutCanvasMode,
+    ICON_SHAPE,
+    importComponent,
+    SELECTORS
+} from 'builder_platform_interaction/alcComponentsUtils';
+import { AlcSelectDeselectNodeEvent } from 'builder_platform_interaction/alcEvents';
+import {
     FlowModel,
     Guid,
-    ParentNodeModel,
-    Option
+    NodeModel,
+    NodeRenderInfo,
+    NodeType,
+    Option,
+    ParentNodeModel
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import { EditElementEvent, SelectNodeEvent } from 'builder_platform_interaction/events';
-import { AlcSelectDeselectNodeEvent } from 'builder_platform_interaction/alcEvents';
-import { classSet } from 'lightning/utils';
-import {
-    ICON_SHAPE,
-    AutoLayoutCanvasMode,
-    SELECTORS,
-    importComponent
-} from 'builder_platform_interaction/alcComponentsUtils';
-import { LABELS } from './alcNodeLabels';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { classSet } from 'lightning/utils';
+import { api, LightningElement } from 'lwc';
+import { LABELS } from './alcNodeLabels';
 const { format } = commonUtils;
 
 enum ConditionOptions {

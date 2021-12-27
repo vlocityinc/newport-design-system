@@ -1,30 +1,28 @@
 // @ts-nocheck
-import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import {
-    baseCanvasElementWithFault,
-    baseCanvasElementsArrayToMap,
-    duplicateCanvasElement,
-    createAvailableConnection,
-    automaticOutputHandlingSupport,
-    INCOMPLETE_ELEMENT
-} from './base/baseElement';
-
-import { baseCanvasElementMetadataObject } from './base/baseMetadata';
-import { createConnectorObjects } from './connector';
-import {
-    createRecordFilters,
-    createFilterMetadataObject,
-    createFlowOutputFieldAssignment,
-    getDefaultAvailableConnections,
-    createFlowOutputFieldAssignmentMetadataObject,
-    createEmptyAssignmentMetadata
-} from './base/baseRecordElement';
-import { SORT_ORDER, VARIABLE_AND_FIELD_MAPPING_VALUES } from 'builder_platform_interaction/recordEditorLib';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { Store } from 'builder_platform_interaction/storeLib';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { SORT_ORDER, VARIABLE_AND_FIELD_MAPPING_VALUES } from 'builder_platform_interaction/recordEditorLib';
 import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
+import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
+import {
+    automaticOutputHandlingSupport,
+    baseCanvasElementsArrayToMap,
+    baseCanvasElementWithFault,
+    createAvailableConnection,
+    duplicateCanvasElement,
+    INCOMPLETE_ELEMENT
+} from './base/baseElement';
+import { baseCanvasElementMetadataObject } from './base/baseMetadata';
+import {
+    createEmptyAssignmentMetadata,
+    createFilterMetadataObject,
+    createFlowOutputFieldAssignment,
+    createFlowOutputFieldAssignmentMetadataObject,
+    createRecordFilters,
+    getDefaultAvailableConnections
+} from './base/baseRecordElement';
+import { createConnectorObjects } from './connector';
 
 const elementType = ELEMENT_TYPE.RECORD_LOOKUP;
 const maxConnections = 2;

@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { LightningElement, api } from 'lwc';
 import { AddListItemEvent } from 'builder_platform_interaction/events';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { api, LightningElement } from 'lwc';
 const { format } = commonUtils;
 
 /**

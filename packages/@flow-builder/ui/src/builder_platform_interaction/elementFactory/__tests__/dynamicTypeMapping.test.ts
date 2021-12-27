@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { createDynamicTypeMappings, createDataTypeMappingsMetadataObject } from '../dynamicTypeMapping';
+import { createDataTypeMappingsMetadataObject, createDynamicTypeMappings } from '../dynamicTypeMapping';
 
 describe('Dynamic Type Mappings', () => {
     describe('cloneDynamicTypeMappings', () => {

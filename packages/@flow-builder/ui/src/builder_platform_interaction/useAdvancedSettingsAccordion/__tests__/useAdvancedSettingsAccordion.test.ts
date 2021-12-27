@@ -1,13 +1,13 @@
-import { ELEMENT_TYPE, FLOW_TRANSACTION_MODEL } from 'builder_platform_interaction/flowMetadata';
-import { createElement } from 'lwc';
-import UseAdvancedSettingsAccordion from '../useAdvancedSettingsAccordion';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import {
-    getManuallyAssignVariablesCheckboxInputElement,
     getManuallyAssignVariablesCheckbox,
+    getManuallyAssignVariablesCheckboxInputElement,
     setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
+import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { ELEMENT_TYPE, FLOW_TRANSACTION_MODEL } from 'builder_platform_interaction/flowMetadata';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
+import UseAdvancedSettingsAccordion from '../useAdvancedSettingsAccordion';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')

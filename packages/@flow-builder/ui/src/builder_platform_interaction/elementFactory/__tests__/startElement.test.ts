@@ -1,36 +1,36 @@
 // @ts-nocheck
-import { getElementByGuid, getProcessType } from 'builder_platform_interaction/storeUtils';
-import {
-    shouldSupportScheduledPaths,
-    createStartElementForPropertyEditor,
-    createStartElementWithConnectors,
-    createStartElementMetadataObject,
-    createScheduledPath,
-    createStartElement,
-    createRunAsyncScheduledPath,
-    createStartElementWhenUpdatingFromPropertyEditor
-} from '../startElement';
-import { baseCanvasElementMetadataObject, baseChildElementMetadataObject } from '../base/baseMetadata';
+import { generateInternalName } from 'builder_platform_interaction/commonUtils';
 import {
     CONDITION_LOGIC,
+    CONNECTOR_TYPE,
+    ELEMENT_TYPE,
+    FLOW_PROCESS_TYPE,
     FLOW_TRIGGER_SAVE_TYPE,
     FLOW_TRIGGER_TYPE,
-    START_ELEMENT_LOCATION,
-    CONNECTOR_TYPE,
-    TIME_OPTION,
-    SCHEDULED_PATH_TIME_SOURCE_TYPE,
     SCHEDULED_PATH_OFFSET_UNIT,
+    SCHEDULED_PATH_TIME_SOURCE_TYPE,
     SCHEDULED_PATH_TYPE,
-    FLOW_PROCESS_TYPE
+    START_ELEMENT_LOCATION,
+    TIME_OPTION
 } from 'builder_platform_interaction/flowMetadata';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { baseChildElement, baseCanvasElement } from '../base/baseElement';
+import { getElementByGuid, getProcessType } from 'builder_platform_interaction/storeUtils';
+import { baseCanvasElement, baseChildElement } from '../base/baseElement';
+import { baseCanvasElementMetadataObject, baseChildElementMetadataObject } from '../base/baseMetadata';
 import {
-    getConnectionProperties,
-    addRegularConnectorToAvailableConnections
+    addRegularConnectorToAvailableConnections,
+    getConnectionProperties
 } from '../commonFactoryUtils/connectionPropertiesUtils';
 import { LABELS } from '../elementFactoryLabels';
-import { generateInternalName } from 'builder_platform_interaction/commonUtils';
+import {
+    createRunAsyncScheduledPath,
+    createScheduledPath,
+    createStartElement,
+    createStartElementForPropertyEditor,
+    createStartElementMetadataObject,
+    createStartElementWhenUpdatingFromPropertyEditor,
+    createStartElementWithConnectors,
+    shouldSupportScheduledPaths
+} from '../startElement';
 
 const startElementReference = 'assignment1';
 

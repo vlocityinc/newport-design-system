@@ -1,62 +1,63 @@
 import {
-    ADD_START_ELEMENT,
     ADD_CANVAS_ELEMENT,
     ADD_DECISION_WITH_OUTCOMES,
-    ADD_SCREEN_WITH_FIELDS,
     ADD_END_ELEMENT,
-    SELECTION_ON_FIXED_CANVAS,
-    ADD_WAIT_WITH_WAIT_EVENTS,
-    MODIFY_WAIT_WITH_WAIT_EVENTS,
-    MODIFY_DECISION_WITH_OUTCOMES,
-    DELETE_ELEMENT,
-    PASTE_ON_FIXED_CANVAS,
     ADD_FAULT,
-    DELETE_FAULT,
-    CREATE_GOTO_CONNECTION,
     ADD_PARENT_WITH_CHILDREN,
-    DECORATE_CANVAS,
+    ADD_SCREEN_WITH_FIELDS,
+    ADD_START_ELEMENT,
+    ADD_WAIT_WITH_WAIT_EVENTS,
     CLEAR_CANVAS_DECORATION,
+    CREATE_GOTO_CONNECTION,
+    DECORATE_CANVAS,
+    DELETE_ELEMENT,
+    DELETE_FAULT,
+    DELETE_GOTO_CONNECTION,
+    MODIFY_DECISION_WITH_OUTCOMES,
     MODIFY_START_WITH_SCHEDULED_PATHS,
-    DELETE_GOTO_CONNECTION
+    MODIFY_WAIT_WITH_WAIT_EVENTS,
+    PASTE_ON_FIXED_CANVAS,
+    SELECTION_ON_FIXED_CANVAS
 } from 'builder_platform_interaction/actions';
-import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
-import { deepCopy } from 'builder_platform_interaction/storeLib';
-import { isDevNameInStore } from 'builder_platform_interaction/storeUtils';
-import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
-import elementsReducer from './elementsReducer';
-import { createEndElement } from 'builder_platform_interaction/elementFactory';
-import { getElementsMetadata, getAlcElementType, getChildCount } from 'builder_platform_interaction/alcCanvasUtils';
-import { createPastedCanvasElement } from 'builder_platform_interaction/alcCanvasUtils';
-
 import {
+    createPastedCanvasElement,
+    getAlcElementType,
+    getChildCount,
+    getElementsMetadata
+} from 'builder_platform_interaction/alcCanvasUtils';
+import {
+    actions,
+    assertAutoLayoutState,
+    assertInDev,
+    createGoToConnection,
     deleteBranchHeadProperties,
+    deleteGoToConnection,
     FAULT_INDEX,
-    FOR_EACH_INDEX,
-    START_IMMEDIATE_INDEX,
-    HighlightInfo,
+    findFirstElement,
     findLastElement,
     findParentElement,
-    assertInDev,
-    assertAutoLayoutState,
-    reducer,
-    actions,
-    Guid,
     FlowModel,
+    FOR_EACH_INDEX,
     fulfillsBranchingCriteria,
-    ParentNodeModel,
-    hasGoTo,
     getConnectionTarget,
-    deleteGoToConnection,
-    createGoToConnection,
-    removeGoTosFromElement,
-    findFirstElement,
+    getValuesFromConnectionSource,
+    Guid,
+    hasGoTo,
+    HighlightInfo,
     NodeType,
+    ParentNodeModel,
+    reducer,
+    removeGoTosFromElement,
     setChild,
-    getValuesFromConnectionSource
+    START_IMMEDIATE_INDEX
 } from 'builder_platform_interaction/autoLayoutCanvas';
-
+import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
+import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
+import { createEndElement } from 'builder_platform_interaction/elementFactory';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
-
+import { deepCopy } from 'builder_platform_interaction/storeLib';
+import { isDevNameInStore } from 'builder_platform_interaction/storeUtils';
+import elementsReducer from './elementsReducer';
 import { getSubElementGuids } from './reducersUtils';
 
 const getElementService = (flowModel: UI.Elements) => {

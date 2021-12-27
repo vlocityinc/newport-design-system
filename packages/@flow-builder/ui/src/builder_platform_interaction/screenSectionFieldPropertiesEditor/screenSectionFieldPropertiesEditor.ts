@@ -1,21 +1,21 @@
 // @ts-nocheck
-import { LightningElement, api } from 'lwc';
-import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
-
+import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import {
+    createAddScreenFieldEvent,
+    createColumnWidthChangedEvent,
+    createScreenElementDeletedEvent,
+    createScreenElementSelectedEvent
+} from 'builder_platform_interaction/events';
 import { addCurrentValueToEvent } from 'builder_platform_interaction/screenEditorCommonUtils';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import {
     getColumnFieldType,
     hasScreenFieldVisibilityCondition,
     SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME
 } from 'builder_platform_interaction/screenEditorUtils';
-import {
-    createAddScreenFieldEvent,
-    createScreenElementDeletedEvent,
-    createScreenElementSelectedEvent,
-    createColumnWidthChangedEvent
-} from 'builder_platform_interaction/events';
-import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { api, LightningElement } from 'lwc';
+
 const { format } = commonUtils;
 
 const MAX_COLUMNS = 4;

@@ -1,27 +1,25 @@
 // @ts-nocheck
 /* Labels */
-import outcomesSectionHeader from '@salesforce/label/FlowBuilderDecisionEditor.outcomesSectionHeader';
-import outcomesSectionDescription from '@salesforce/label/FlowBuilderDecisionEditor.outcomesSectionDescription';
-import outcomeListHeader from '@salesforce/label/FlowBuilderDecisionEditor.outcomeListHeader';
-import outcomeListHelptext from '@salesforce/label/FlowBuilderDecisionEditor.outcomeListHelptext';
+import emptyInputsTitle from '@salesforce/label/FlowBuilderCalloutEditor.emptyInputsTitle';
+import thisActionHasNoInputOutputBody from '@salesforce/label/FlowBuilderCalloutEditor.thisActionHasNoInputOutputBody';
 import addOutcomeButtonLabel from '@salesforce/label/FlowBuilderDecisionEditor.addOutcomeButtonLabel';
-import emptyOutcomeLabel from '@salesforce/label/FlowBuilderDecisionEditor.emptyOutcomeLabel';
-import emptyDefaultOutcomeLabel from '@salesforce/label/FlowBuilderDecisionEditor.emptyDefaultOutcomeLabel';
-import outcomeDetailsHeader from '@salesforce/label/FlowBuilderDecisionEditor.outcomeDetailsHeader';
 import defaultOutcomeDetailsDescription1 from '@salesforce/label/FlowBuilderDecisionEditor.defaultOutcomeDetailsDescription1';
 import defaultOutcomeDetailsDescription2 from '@salesforce/label/FlowBuilderDecisionEditor.defaultOutcomeDetailsDescription2';
+import emptyDefaultOutcomeLabel from '@salesforce/label/FlowBuilderDecisionEditor.emptyDefaultOutcomeLabel';
+import emptyOutcomeLabel from '@salesforce/label/FlowBuilderDecisionEditor.emptyOutcomeLabel';
+import outcomeDetailsHeader from '@salesforce/label/FlowBuilderDecisionEditor.outcomeDetailsHeader';
+import outcomeListHeader from '@salesforce/label/FlowBuilderDecisionEditor.outcomeListHeader';
+import outcomeListHelptext from '@salesforce/label/FlowBuilderDecisionEditor.outcomeListHelptext';
+import outcomesSectionDescription from '@salesforce/label/FlowBuilderDecisionEditor.outcomesSectionDescription';
+import outcomesSectionHeader from '@salesforce/label/FlowBuilderDecisionEditor.outcomesSectionHeader';
 import decisionSingularLabel from '@salesforce/label/FlowBuilderElementConfig.decisionSingularLabel';
 import inputHeader from '@salesforce/label/FlowBuilderInvocableActionEditor.inputHeader';
 import outputHeader from '@salesforce/label/FlowBuilderInvocableActionEditor.outputHeader';
-import emptyInputsTitle from '@salesforce/label/FlowBuilderCalloutEditor.emptyInputsTitle';
-import emptyInputsOutputsTitle from '@salesforce/label/FlowBuilderCalloutEditor.emptyInputsTitle';
-import thisActionHasNoInputBody from '@salesforce/label/FlowBuilderCalloutEditor.thisActionHasNoInputOutputBody';
-import thisActionHasNoInputOutputBody from '@salesforce/label/FlowBuilderCalloutEditor.thisActionHasNoInputOutputBody';
-import exitSectionLabel from '@salesforce/label/FlowBuilderOrchestratedStageEditor.exitSectionLabel';
-import exitActionSelectionLabel from '@salesforce/label/FlowBuilderOrchestratedStageEditor.exitActionSelectionLabel';
-import exitOptionBasedOnAllStepsComplete from '@salesforce/label/FlowBuilderOrchestratedStageEditor.exitOptionBasedOnAllStepsComplete';
 import completeOptionBasedOnCustomFlow from '@salesforce/label/FlowBuilderOrchestratedStageEditor.completeOptionBasedOnCustomFlow';
 import determinationFlowSelectorHeader from '@salesforce/label/FlowBuilderOrchestratedStageEditor.determinationFlowSelectorHeader';
+import exitActionSelectionLabel from '@salesforce/label/FlowBuilderOrchestratedStageEditor.exitActionSelectionLabel';
+import exitOptionBasedOnAllStepsComplete from '@salesforce/label/FlowBuilderOrchestratedStageEditor.exitOptionBasedOnAllStepsComplete';
+import exitSectionLabel from '@salesforce/label/FlowBuilderOrchestratedStageEditor.exitSectionLabel';
 import criteriaActionHelpText from '@salesforce/label/FlowBuilderStageStepEditor.criteriaActionHelpText';
 
 export const LABELS = {
@@ -39,8 +37,8 @@ export const LABELS = {
     inputHeader,
     outputHeader,
     emptyInputsTitle,
-    emptyInputsOutputsTitle,
-    thisActionHasNoInputBody,
+    emptyInputsOutputsTitle: emptyInputsTitle,
+    thisActionHasNoInputBody: thisActionHasNoInputOutputBody,
     thisActionHasNoInputOutputBody,
     exitSectionLabel,
     exitActionSelectionLabel,

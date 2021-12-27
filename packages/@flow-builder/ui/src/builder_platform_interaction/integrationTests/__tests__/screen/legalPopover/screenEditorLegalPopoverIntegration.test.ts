@@ -1,11 +1,11 @@
-import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
-import { createComponentUnderTest, ScreenEditorTestComponent } from '../../screenEditorTestUtils';
+import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { LegalPopoverTestComponent, resetState, setupStateForFlow } from '../../integrationTestUtils';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { createComponentUnderTest, ScreenEditorTestComponent } from '../../screenEditorTestUtils';
 
 describe('Screen Editor Legal Popover', () => {
     let screenEditor: ScreenEditorTestComponent;

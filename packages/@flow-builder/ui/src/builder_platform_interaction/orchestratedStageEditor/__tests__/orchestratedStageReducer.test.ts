@@ -1,20 +1,20 @@
 // @ts-nocheck
+import { MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
+import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import {
     DeleteOrchestrationActionEvent,
+    DeleteParameterItemEvent,
+    ORCHESTRATED_ACTION_CATEGORY,
     OrchestrationActionValueChangedEvent,
     PropertyChangedEvent,
-    UpdateParameterItemEvent,
-    DeleteParameterItemEvent,
-    UpdateEntryExitCriteriaEvent
+    UpdateEntryExitCriteriaEvent,
+    UpdateParameterItemEvent
 } from 'builder_platform_interaction/events';
-import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
-import { orchestratedStageReducer } from '../orchestratedStageReducer';
-import { ORCHESTRATED_ACTION_CATEGORY } from 'builder_platform_interaction/events';
 import { ACTION_TYPE, ELEMENT_TYPE, StageExitCriteria } from 'builder_platform_interaction/flowMetadata';
-import { MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
 import { removeAllUnsetParameters } from 'builder_platform_interaction/orchestratedStageAndStepReducerUtils';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { Validation } from 'builder_platform_interaction/validation';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { orchestratedStageReducer } from '../orchestratedStageReducer';
 
 const mockReferencedGuid = 'referencedItemGuid';
 

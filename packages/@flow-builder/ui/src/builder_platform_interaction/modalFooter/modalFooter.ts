@@ -1,7 +1,6 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
-
 import { modalFooterVariant } from 'builder_platform_interaction/builderUtils';
+import { api, LightningElement, track } from 'lwc';
 
 export default class ModalFooter extends LightningElement {
     @api buttons;

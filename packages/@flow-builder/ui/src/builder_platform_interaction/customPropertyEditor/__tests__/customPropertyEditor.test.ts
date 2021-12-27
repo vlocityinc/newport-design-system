@@ -1,8 +1,8 @@
 // @ts-nocheck
-import CustomPropertyEditor from '../customPropertyEditor';
-import { createElement } from 'lwc';
-import { createConfigurationEditor } from 'builder_platform_interaction/customPropertyEditorLib';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { createConfigurationEditor } from 'builder_platform_interaction/customPropertyEditorLib';
+import { createElement } from 'lwc';
+import CustomPropertyEditor from '../customPropertyEditor';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

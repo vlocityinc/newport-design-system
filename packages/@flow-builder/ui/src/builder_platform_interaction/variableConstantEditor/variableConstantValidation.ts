@@ -1,8 +1,8 @@
 // @ts-nocheck
-import * as ValidationRules from 'builder_platform_interaction/validationRules';
-import { Validation } from 'builder_platform_interaction/validation';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_DATA_TYPE, isComplexType } from 'builder_platform_interaction/dataTypeLib';
+import { Validation } from 'builder_platform_interaction/validation';
+import * as ValidationRules from 'builder_platform_interaction/validationRules';
 
 /**
  * @constant additionalRules - map of propertyName to validation rules

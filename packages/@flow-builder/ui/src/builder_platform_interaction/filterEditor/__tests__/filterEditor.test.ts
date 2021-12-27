@@ -1,15 +1,23 @@
-import { createElement } from 'lwc';
-import { ComboboxTestComponent } from '../../integrationTests/__tests__/comboboxTestUtils';
-import { CollectionReferenceChangedEvent } from 'builder_platform_interaction/events';
-import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
-import FilterEditor from 'builder_platform_interaction/filterEditor';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { deepQuerySelector, INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import {
+    deepQuerySelector,
+    INTERACTION_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
-import { PropertyChangedEvent, AddConditionEvent, DeleteConditionEvent } from 'builder_platform_interaction/events';
+import {
+    AddConditionEvent,
+    CollectionReferenceChangedEvent,
+    DeleteConditionEvent,
+    PropertyChangedEvent
+} from 'builder_platform_interaction/events';
+import FilterEditor from 'builder_platform_interaction/filterEditor';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
 import * as store from 'mock/storeData';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { ComboboxTestComponent } from '../../integrationTests/__tests__/comboboxTestUtils';
 
 /**
  * Executing jest test

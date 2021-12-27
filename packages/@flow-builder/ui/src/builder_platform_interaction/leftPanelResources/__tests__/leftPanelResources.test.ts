@@ -1,8 +1,8 @@
-import { createElement } from 'lwc';
-import LeftPanelResources from '../leftPanelResources';
-import { MOCK_ELEMENT_PALETTE_ITEM, MOCK_RESOURCE_PALETTE_ITEM } from 'mock/paletteData';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { createElement } from 'lwc';
+import { MOCK_ELEMENT_PALETTE_ITEM, MOCK_RESOURCE_PALETTE_ITEM } from 'mock/paletteData';
+import LeftPanelResources from '../leftPanelResources';
 
 const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-left-panel-resources', {

@@ -1,14 +1,14 @@
 // @ts-nocheck
-import { VARIABLE_AND_FIELD_MAPPING_VALUES } from 'builder_platform_interaction/recordEditorLib';
-/* Labels */
-import variableAndFieldMappingLabel from '@salesforce/label/FlowBuilderRecordEditor.variableAndFieldMappingLabel';
-import automatic from '@salesforce/label/FlowBuilderRecordEditor.automatic';
-import manuallySelectFields from '@salesforce/label/FlowBuilderRecordEditor.manuallySelectFields';
-import manual from '@salesforce/label/FlowBuilderRecordEditor.manual';
+import areYouSure from '@salesforce/label/FlowBuilderAlertModal.areYouSure';
 import clearVariableConfirmation from '@salesforce/label/FlowBuilderAlertModal.clearVariableConfirmation';
 import confirm from '@salesforce/label/FlowBuilderAlertModal.confirm';
-import areYouSure from '@salesforce/label/FlowBuilderAlertModal.areYouSure';
 import cancelButton from '@salesforce/label/FlowBuilderCommonPropertyEditor.cancelButton';
+import automatic from '@salesforce/label/FlowBuilderRecordEditor.automatic';
+import manual from '@salesforce/label/FlowBuilderRecordEditor.manual';
+import manuallySelectFields from '@salesforce/label/FlowBuilderRecordEditor.manuallySelectFields';
+/* Labels */
+import variableAndFieldMappingLabel from '@salesforce/label/FlowBuilderRecordEditor.variableAndFieldMappingLabel';
+import { VARIABLE_AND_FIELD_MAPPING_VALUES } from 'builder_platform_interaction/recordEditorLib';
 
 export const LABELS = {
     variableAndFieldMappingLabel,

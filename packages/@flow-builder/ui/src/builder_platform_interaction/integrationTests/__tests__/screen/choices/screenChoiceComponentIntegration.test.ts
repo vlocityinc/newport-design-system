@@ -1,26 +1,26 @@
-import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import { createChoice } from 'builder_platform_interaction/elementFactory';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import {
-    createComponentUnderTest,
-    ScreenCanvasTestComponent,
-    ScreenEditorTestComponent,
-    RowTestComponent,
-    ChoicePropertiesEditorTestComponent
-} from '../../screenEditorTestUtils';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { createChoice } from 'builder_platform_interaction/elementFactory';
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import { ComboboxTestComponent } from '../../comboboxTestUtils';
 import { resetState, setupStateForFlow } from '../../integrationTestUtils';
 import {
-    setNextInlineResource,
-    addNewResourceEventListener,
-    removeNewResourceEventListener,
     addEditResourceEventListener,
-    removeEditResourceEventListener
+    addNewResourceEventListener,
+    removeEditResourceEventListener,
+    removeNewResourceEventListener,
+    setNextInlineResource
 } from '../../resourceTestUtils';
-import { ComboboxTestComponent } from '../../comboboxTestUtils';
+import {
+    ChoicePropertiesEditorTestComponent,
+    createComponentUnderTest,
+    RowTestComponent,
+    ScreenCanvasTestComponent,
+    ScreenEditorTestComponent
+} from '../../screenEditorTestUtils';
 
 jest.mock('@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelChoice', () => ({ default: 'Choice' }), {
     virtual: true

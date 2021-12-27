@@ -1,8 +1,8 @@
 // @ts-nocheck
 import { getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
-import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { labelComparator } from 'builder_platform_interaction/sortLib';
+import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { ResourceDetailsParametersConfig } from './resourceDetailsParametersConfig';
 
 /**

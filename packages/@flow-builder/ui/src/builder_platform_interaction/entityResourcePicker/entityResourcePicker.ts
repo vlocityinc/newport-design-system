@@ -1,17 +1,16 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
-import { Store } from 'builder_platform_interaction/storeLib';
-import {
-    getEntitiesMenuData,
-    getEventTypesMenuDataRunTime,
-    getEventTypesMenuDataManagedSetup,
-    apexClassesMenuDataSelector
-} from 'builder_platform_interaction/expressionUtils';
-import { isObject, isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import { memoize } from 'builder_platform_interaction/commonUtils';
-import { LABELS } from './entityResourcePickerLabels';
+import { isObject, isUndefinedOrNull, memoize } from 'builder_platform_interaction/commonUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import {
+    apexClassesMenuDataSelector,
+    getEntitiesMenuData,
+    getEventTypesMenuDataManagedSetup,
+    getEventTypesMenuDataRunTime
+} from 'builder_platform_interaction/expressionUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './entityResourcePickerLabels';
 
 const ENTITY_MODE = {
     SOBJECT: 'sobject',

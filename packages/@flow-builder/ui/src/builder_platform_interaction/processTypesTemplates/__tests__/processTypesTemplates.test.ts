@@ -1,10 +1,10 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import ProcessTypesTemplates from 'builder_platform_interaction/processTypesTemplates';
-import { TemplateChangedEvent, CannotRetrieveTemplatesEvent } from 'builder_platform_interaction/events';
-import { ALL_PROCESS_TYPE, resetCacheTemplates } from 'builder_platform_interaction/processTypeLib';
-import { MOCK_ALL_TEMPLATES, MOCK_AUTO_TEMPLATE, MOCK_SCREEN_TEMPLATE_1, MOCK_SCREEN_TEMPLATE_2 } from 'mock/templates';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { CannotRetrieveTemplatesEvent, TemplateChangedEvent } from 'builder_platform_interaction/events';
+import { ALL_PROCESS_TYPE, resetCacheTemplates } from 'builder_platform_interaction/processTypeLib';
+import ProcessTypesTemplates from 'builder_platform_interaction/processTypesTemplates';
+import { createElement } from 'lwc';
+import { MOCK_ALL_TEMPLATES, MOCK_AUTO_TEMPLATE, MOCK_SCREEN_TEMPLATE_1, MOCK_SCREEN_TEMPLATE_2 } from 'mock/templates';
 import { processTypes } from 'serverData/GetProcessTypes/processTypes.json';
 
 let mockTemplatesPromise = Promise.resolve(MOCK_ALL_TEMPLATES);

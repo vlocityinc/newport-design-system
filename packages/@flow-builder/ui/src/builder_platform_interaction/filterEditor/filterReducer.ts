@@ -1,20 +1,19 @@
+import { COLLECTION_PROCESSOR_PROPERTIES } from 'builder_platform_interaction/collectionProcessorLib';
+import { deleteItem, set, updateProperties } from 'builder_platform_interaction/dataMutationLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
-    CollectionReferenceChangedEvent,
-    PropertyChangedEvent,
     AddConditionEvent,
+    CollectionReferenceChangedEvent,
     DeleteConditionEvent,
+    PropertyChangedEvent,
     UpdateConditionEvent
 } from 'builder_platform_interaction/events';
-import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
-import { deleteItem, set, updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { EXPRESSION_PROPERTY_TYPE, getResourceByUniqueIdentifier } from 'builder_platform_interaction/expressionUtils';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { filterValidation, getRules } from './filterValidation';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { COLLECTION_PROCESSOR_PROPERTIES } from 'builder_platform_interaction/collectionProcessorLib';
+import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { filterValidation, getRules } from './filterValidation';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 const OPERATOR = EXPRESSION_PROPERTY_TYPE.OPERATOR;

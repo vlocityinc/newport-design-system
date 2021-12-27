@@ -1,10 +1,10 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import BaseCalloutEditor from '../baseCalloutEditor';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { ComboboxStateChangedEvent, DynamicTypeMappingChangeEvent } from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { ComboboxStateChangedEvent, DynamicTypeMappingChangeEvent } from 'builder_platform_interaction/events';
-import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { createElement } from 'lwc';
+import BaseCalloutEditor from '../baseCalloutEditor';
 import { LABELS } from '../baseCalloutEditorLabels';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>

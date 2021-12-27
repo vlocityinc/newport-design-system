@@ -1,13 +1,13 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import SortEditor from '../sortEditor';
-import { sortValidation, getRules } from '../sortValidation';
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import { LABELS } from 'builder_platform_interaction/validationRules';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { SORT_OUTPUT_OPTION } from 'builder_platform_interaction/sortEditorLib';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { SORT_OUTPUT_OPTION } from 'builder_platform_interaction/sortEditorLib';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { LABELS } from 'builder_platform_interaction/validationRules';
+import { createElement } from 'lwc';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
+import SortEditor from '../sortEditor';
+import { getRules, sortValidation } from '../sortValidation';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')

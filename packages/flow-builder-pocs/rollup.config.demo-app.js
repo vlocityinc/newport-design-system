@@ -2,9 +2,9 @@ const path = require('path');
 const fs = require('fs');
 const lwcCompiler = require('@lwc/rollup-plugin');
 const syntheticShadow = require('./synthetic-shadow');
-import replace from '@rollup/plugin-replace';
-import resolve from '@rollup/plugin-node-resolve';
 import commonJS from '@rollup/plugin-commonjs';
+import resolve from '@rollup/plugin-node-resolve';
+import replace from '@rollup/plugin-replace';
 
 const plugins = [];
 

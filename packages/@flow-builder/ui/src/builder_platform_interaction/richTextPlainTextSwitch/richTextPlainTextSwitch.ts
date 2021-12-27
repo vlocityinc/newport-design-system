@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { LightningElement, api } from 'lwc';
-import { LABELS } from './richTextPlainTextSwitchLabels';
 import { RichTextPlainTextSwitchChangedEvent } from 'builder_platform_interaction/events';
+import { api, LightningElement } from 'lwc';
+import { LABELS } from './richTextPlainTextSwitchLabels';
 
 export const TEXT_MODES = { richText: 'richText', plainText: 'plainText' };
 

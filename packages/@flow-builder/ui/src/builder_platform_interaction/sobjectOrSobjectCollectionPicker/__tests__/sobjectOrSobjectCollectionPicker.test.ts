@@ -1,18 +1,18 @@
-import { createElement } from 'lwc';
-import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { ComboboxStateChangedEvent, SObjectReferenceChangedEvent } from 'builder_platform_interaction/events';
-import SObjectOrSObjectCollectionPicker from 'builder_platform_interaction/sobjectOrSobjectCollectionPicker';
-import * as store from 'mock/storeData';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
 import {
     INTERACTION_COMPONENTS_SELECTORS,
     setDocumentBodyChildren,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
+import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
+import { ComboboxStateChangedEvent, SObjectReferenceChangedEvent } from 'builder_platform_interaction/events';
 import FerovResourcePicker from 'builder_platform_interaction/ferovResourcePicker';
+import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import SObjectOrSObjectCollectionPicker from 'builder_platform_interaction/sobjectOrSobjectCollectionPicker';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
+import * as store from 'mock/storeData';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>

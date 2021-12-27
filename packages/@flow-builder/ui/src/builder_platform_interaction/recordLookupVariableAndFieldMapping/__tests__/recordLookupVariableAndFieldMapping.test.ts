@@ -1,10 +1,10 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { VARIABLE_AND_FIELD_MAPPING_VALUES } from 'builder_platform_interaction/recordEditorLib';
 import { invokeModal } from 'builder_platform_interaction/sharedUtils';
+import { createElement } from 'lwc';
 import RecordLookupVariableAndFieldMapping from '../recordLookupVariableAndFieldMapping';
 import { LABELS } from '../recordLookupVariableAndFieldMappingLabels';
-import { VARIABLE_AND_FIELD_MAPPING_VALUES } from 'builder_platform_interaction/recordEditorLib';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 function createComponentForTest(variableAndFieldMapping) {
     const el = createElement('builder_platform_interaction-record-lookup-variable-and-field-mapping', {

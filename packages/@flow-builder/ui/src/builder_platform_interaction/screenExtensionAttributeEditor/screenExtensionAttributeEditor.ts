@@ -1,10 +1,10 @@
 // @ts-nocheck
-import { LightningElement, api } from 'lwc';
 import {
-    getIconForParameter,
+    EXTENSION_PARAM_PREFIX,
     getFerovTypeFromTypeName,
-    EXTENSION_PARAM_PREFIX
+    getIconForParameter
 } from 'builder_platform_interaction/screenEditorUtils';
+import { api, LightningElement } from 'lwc';
 
 /*
  * Property editor for screen extensions attributes.

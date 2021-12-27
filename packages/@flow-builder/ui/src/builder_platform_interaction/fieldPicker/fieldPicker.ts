@@ -1,10 +1,10 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
-import { filterFieldsForChosenElement } from 'builder_platform_interaction/expressionUtils';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { filterFieldsForChosenElement } from 'builder_platform_interaction/expressionUtils';
 import { isLookupTraversalSupported } from 'builder_platform_interaction/mergeFieldLib';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getTriggerType } from 'builder_platform_interaction/storeUtils';
+import { api, LightningElement, track } from 'lwc';
 
 export default class FieldPicker extends LightningElement {
     @track

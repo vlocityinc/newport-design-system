@@ -1,10 +1,10 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import { EditElementEvent, DeleteElementEvent, SelectNodeEvent } from 'builder_platform_interaction/events';
-import Node from 'builder_platform_interaction/node';
-import { isTestMode } from 'builder_platform_interaction/contextLib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { isTestMode } from 'builder_platform_interaction/contextLib';
+import { DeleteElementEvent, EditElementEvent, SelectNodeEvent } from 'builder_platform_interaction/events';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import Node from 'builder_platform_interaction/node';
+import { createElement } from 'lwc';
 
 jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
 

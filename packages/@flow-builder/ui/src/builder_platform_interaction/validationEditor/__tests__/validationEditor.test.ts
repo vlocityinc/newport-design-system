@@ -1,12 +1,12 @@
 // @ts-nocheck
+import {
+    INTERACTION_COMPONENTS_SELECTORS,
+    query,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
 import { createElement } from 'lwc';
 import ValidationEditor from '../validationEditor';
-import {
-    query,
-    ticks,
-    INTERACTION_COMPONENTS_SELECTORS,
-    setDocumentBodyChildren
-} from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')

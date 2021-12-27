@@ -1,9 +1,9 @@
 import { CommandRegistry, KeyboardShortcutServiceImpl } from 'builder_framework/command';
-import { isMacPlatform } from '../platformUtils';
-import { BaseCommand } from '../commands';
-import { KeyboardInteraction } from './interactions/BaseKeyboardInteraction';
 // @ts-ignore
 import { api } from 'lwc';
+import { BaseCommand } from '../commands';
+import { isMacPlatform } from '../platformUtils';
+import { KeyboardInteraction } from './interactions/BaseKeyboardInteraction';
 
 // HTML keyboard strings
 // TODO: should rename to "Key", enums names should be singular

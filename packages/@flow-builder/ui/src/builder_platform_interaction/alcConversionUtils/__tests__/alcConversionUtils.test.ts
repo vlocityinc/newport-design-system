@@ -1,72 +1,118 @@
 // @ts-nocheck
-import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { createNewConnector } from 'builder_platform_interaction/connectorUtils';
-
-import sanity from './alcUiModels/sanity';
-import decisionWithGotoOnHead from './alcUiModels/decision-with-goto-on-head';
+import { shouldSupportScheduledPaths } from 'builder_platform_interaction/elementFactory';
+import {
+    CONNECTOR_TYPE,
+    ELEMENT_TYPE,
+    FLOW_TRIGGER_SAVE_TYPE,
+    FLOW_TRIGGER_TYPE
+} from 'builder_platform_interaction/flowMetadata';
+import { deepCopy } from 'builder_platform_interaction/storeLib';
+import {
+    addEndElementsAndConnectorsTransform,
+    canConvertToAutoLayoutCanvas,
+    consolidateEndConnectors,
+    convertToAutoLayoutCanvas,
+    convertToFreeFormCanvas,
+    deepEquals,
+    removeEndElementsAndConnectorsTransform
+} from '../alcConversionUtils';
+import emptyDecisionWithEndNext from './alcUiModels/decision-empty-with-end-next';
+import decisionOneChildOnEachBranchNextIsNotEnd from './alcUiModels/decision-one-child-on-each-branch-next-is-not-end';
+import decisionWithChildOnNonDefaultOutcome from './alcUiModels/decision-with-child-on-non-default-outcome';
+import decisionWithChildOnNonDefaultOutcomeNextIsEnd from './alcUiModels/decision-with-child-on-non-default-outcome-next-is-end';
+import decisionWithDecisionNext from './alcUiModels/decision-with-decision-next';
+import decisionWithEmptyNestedDecision from './alcUiModels/decision-with-empty-nested-decision';
+import decisionEmptyWithScreenNext from './alcUiModels/decision-with-empty-with-screen-next';
 import decisionWithGotoOnDefaultHead from './alcUiModels/decision-with-goto-on-default-head';
+import decisionWithGotoOnHead from './alcUiModels/decision-with-goto-on-head';
 import decisionWithGotoOnLeftBranchNext from './alcUiModels/decision-with-goto-on-left-branch-next';
 import decisionWithGotoOnNext from './alcUiModels/decision-with-goto-on-next';
 import decisionWithGotoOnNextAndNestedLeftDecision from './alcUiModels/decision-with-goto-on-next-and-nested-left-decision';
-import oneScreen from './alcUiModels/one-screen';
-import oneElementWithFault from './alcUiModels/one-element-with-fault';
-import elementWithGotoOnFault from './alcUiModels/element-with-goto-on-fault';
-import decisionOneChildOnEachBranchNextIsNotEnd from './alcUiModels/decision-one-child-on-each-branch-next-is-not-end';
-import decisionEmptyWithScreenNext from './alcUiModels/decision-with-empty-with-screen-next';
-import emptyDecisionWithEndNext from './alcUiModels/decision-empty-with-end-next';
-import decisionWithTwoEndedBranches from './alcUiModels/decision-with-two-ended-branches';
 import decisionWithNestedDecisionWithTwoEndedBranches from './alcUiModels/decision-with-nested-decision-with-two-ended-branches';
-import emptyLoopWithEndNext from './alcUiModels/loop-empty-with-end-next';
-import loopWithForEachScreenAndAfterLastScreen from './alcUiModels/loop-with-for-each-screen-and-after-last-screen';
-import loopWithForEachScreenAndAfterLastEnd from './alcUiModels/loop-with-for-each-screen-and-after-last-end';
-import loopWithNestedLoop from './alcUiModels/loop-with-nested-loop';
-import loopWithNestedEmptyDecision from './alcUiModels/loop-with-nested-empty-decision';
-import loopEmptyWithGotoAfterLast from './alcUiModels/loop-empty-with-goto-after-last';
-import decisionWithChildOnNonDefaultOutcome from './alcUiModels/decision-with-child-on-non-default-outcome';
-import decisionWithChildOnNonDefaultOutcomeNextIsEnd from './alcUiModels/decision-with-child-on-non-default-outcome-next-is-end';
 import decisionWithNestedLeftDecision from './alcUiModels/decision-with-nested-left-decision';
 import decisionWithNestedRightDecision from './alcUiModels/decision-with-nested-right-decision';
-import decisionWithEmptyNestedDecision from './alcUiModels/decision-with-empty-nested-decision';
-import decisionWithDecisionNext from './alcUiModels/decision-with-decision-next';
-import updatedElementConfig from './alcUiModels/updated-element-config';
-import testCaseW8010546 from './alcUiModels/test-case-W-8010546';
+import decisionWithTwoEndedBranches from './alcUiModels/decision-with-two-ended-branches';
+import elementWithGotoOnFault from './alcUiModels/element-with-goto-on-fault';
+import emptyLoopWithEndNext from './alcUiModels/loop-empty-with-end-next';
+import loopEmptyWithGotoAfterLast from './alcUiModels/loop-empty-with-goto-after-last';
+import loopWithForEachScreenAndAfterLastEnd from './alcUiModels/loop-with-for-each-screen-and-after-last-end';
+import loopWithForEachScreenAndAfterLastScreen from './alcUiModels/loop-with-for-each-screen-and-after-last-screen';
+import loopWithNestedEmptyDecision from './alcUiModels/loop-with-nested-empty-decision';
+import loopWithNestedLoop from './alcUiModels/loop-with-nested-loop';
 import oneAssignmentInScheduledPath from './alcUiModels/one-assignment-in-scheduled-path';
-
+import oneElementWithFault from './alcUiModels/one-element-with-fault';
+import oneScreen from './alcUiModels/one-screen';
+import sanity from './alcUiModels/sanity';
+import startWithGotoOnImmediatePath from './alcUiModels/start-with-goto-on-immediate-path';
+import startWithImmPlusScheduledPath from './alcUiModels/start-with-imm-plus-scheduled-path';
+import startWithMergingPaths from './alcUiModels/start-with-merging-paths';
+import startWithMultipleScheduledPaths from './alcUiModels/start-with-multiple-scheduled-paths';
 import startWithOnlyImmediate from './alcUiModels/start-with-only-immediate';
 import startWithOnlyScheduledPaths from './alcUiModels/start-with-only-scheduled-paths';
-import startWithImmPlusScheduledPath from './alcUiModels/start-with-imm-plus-scheduled-path';
-import startWithMultipleScheduledPaths from './alcUiModels/start-with-multiple-scheduled-paths';
-import startWithMergingPaths from './alcUiModels/start-with-merging-paths';
-import startWithGotoOnImmediatePath from './alcUiModels/start-with-goto-on-immediate-path';
-
-import ffcSanity from './ffcUiModels/sanity.json';
-import ffcElementWithFault from './ffcUiModels/element-with-fault.json';
-import ffcElementWithFaultWithDecisionHead from './ffcUiModels/element-with-fault-with-decision-head.json';
-import ffcStartWithOnlyImmediate from './ffcUiModels/start-with-only-scheduled-path.json';
-import ffcStartWithOnlyScheduledPath from './ffcUiModels/start-with-only-scheduled-path.json';
-import ffcStartWithSingleScheduledPath from './ffcUiModels/start-with-single-scheduled-path.json';
-import ffcStartWithMultipleScheduledPath from './ffcUiModels/start-with-multiple-scheduled-path.json';
-import ffcStartWithMergingPaths from './ffcUiModels/start-with-merging-path.json';
-import ffcDecisionEmpty from './ffcUiModels/decision-empty.json';
-import ffcDecisionWithNestedLeftDecision from './ffcUiModels/decision-with-nested-left-decision.json';
-import ffcDecisionWithScreenOnEachBranchAndScreenMerge from './ffcUiModels/decision-with-screen-on-each-branch-and-screen-merge.json';
-import ffcDecisionWithDecisionNext from './ffcUiModels/decision-with-decision-next.json';
-import ffcDecisionWithNestedEmptyDecision from './ffcUiModels/decision-with-nested-empty-decision.json';
-import ffcLoopWithForEachAndAfterLast from './ffcUiModels/loop-with-for-each-and-after-last.json';
-import ffcLoopEmptyWithAfterLast from './ffcUiModels/loop-empty-with-after-last.json';
-import ffcLoopWithEndPathWithin from './ffcUiModels/loop-with-end-path-within.json';
-import ffcLoopEmpty from './ffcUiModels/loop-empty.json';
-import ffcDecisionWithNestedDecisionAndJoinScreen from './ffcUiModels/decision-with-nested-decision-and-join-screen.json';
+import testCaseW8010546 from './alcUiModels/test-case-W-8010546';
+import updatedElementConfig from './alcUiModels/updated-element-config';
+import ffcComplexNestedDecisionsWithGoTos from './ffcUiModels/complex-decision-with-mutiple-nested-decisions-and-gotos.json';
 import ffcComplex1 from './ffcUiModels/complex1.json';
 import ffcComplex2 from './ffcUiModels/complex2.json';
 import ffcComplex3 from './ffcUiModels/complex3.json';
 import ffcComplex4 from './ffcUiModels/complex4.json';
 import ffcComplex5 from './ffcUiModels/complex5.json';
 import ffcComplex6 from './ffcUiModels/complex6.json';
+import ffcDecisionEmpty from './ffcUiModels/decision-empty.json';
+import ffcDecisionWithDecisionNext from './ffcUiModels/decision-with-decision-next.json';
+import ffcDecisionWithGoToInNestedBranch from './ffcUiModels/decision-with-goto-in-nested-branch.json';
+import ffcDecisionsWithGoToInNestedDecision from './ffcUiModels/decision-with-goto-in-nested-decision.json';
+import ffcDecisionWithGoToOnBranchNext from './ffcUiModels/decision-with-goto-on-branch-next.json';
+import ffcDecisionWithGoToOnDefaultHead from './ffcUiModels/decision-with-goto-on-default-head.json';
+import ffcDecisionWithGoToOnHead from './ffcUiModels/decision-with-goto-on-head.json';
 import ffcDecisionWithMultipleOutcomes from './ffcUiModels/decision-with-multiple-outcomes.json';
-import ffcWaitWithThreeOutcomesAndFault from './ffcUiModels/wait-with-three-outcomes-and-fault.json';
-import ffcUpdatedElementConfig from './ffcUiModels/updated-element-config.json';
-
+import ffcDecisionWithNestedDecisionAndJoinScreen from './ffcUiModels/decision-with-nested-decision-and-join-screen.json';
+import ffcDecisionWithNestedEmptyDecision from './ffcUiModels/decision-with-nested-empty-decision.json';
+import ffcDecisionWithNestedLeftDecision from './ffcUiModels/decision-with-nested-left-decision.json';
+import ffcDecisionWithScreenOnEachBranchAndScreenMerge from './ffcUiModels/decision-with-screen-on-each-branch-and-screen-merge.json';
+import ffcElementWithFaultWithDecisionHead from './ffcUiModels/element-with-fault-with-decision-head.json';
+import ffcElementWithFault from './ffcUiModels/element-with-fault.json';
+import ffcElementWithGoToOnFault from './ffcUiModels/element-with-goto-on-fault.json';
+import ffcGoToOnCrossEdgeFault from './ffcUiModels/goto-on-cross-edge-fault.json';
+import ffcLoopEmptyWithAfterLast from './ffcUiModels/loop-empty-with-after-last.json';
+import ffcLoopEmpty from './ffcUiModels/loop-empty.json';
+import ffcLoopWithBackEdge from './ffcUiModels/loop-with-back-edge.json';
+import ffcLoopWithCrossAsGotoEdge from './ffcUiModels/loop-with-cross-as-goto-edge.json';
+import ffcLoopWithEndPathWithin from './ffcUiModels/loop-with-end-path-within.json';
+import ffcLoopWithForEachAndAfterLast from './ffcUiModels/loop-with-for-each-and-after-last.json';
+import ffcLoopWithFowardAsGotoEdge from './ffcUiModels/loop-with-forward-as-goto-edge.json';
+import ffcLoopWithGoToAfterLast from './ffcUiModels/loop-with-goto-after-last.json';
+import ffcLoopWithGoToOnBranchHead from './ffcUiModels/loop-with-goto-on-branch-head.json';
+import ffcLoopNextEndSameAsBranch from './ffcUiModels/loop-with-goto-on-next-and-end.json';
+import ffcLoopWithGoToOnNext from './ffcUiModels/loop-with-goto-on-next.json';
+import ffcLoopWithMultipleLoopBacks from './ffcUiModels/loop-with-multiple-loop-backs.json';
+import ffcLoopWithNestedLoopBack from './ffcUiModels/loop-with-nested-branch-that-loops-back.json';
+import ffcLoopWithNestedBranchThatLoopsBack from './ffcUiModels/loop-with-nested-branch-that-loops-back2.json';
+import ffcLoopWithNestedEndLoopBack from './ffcUiModels/loop-with-nested-loop-end-loop-back.json';
+import ffcLoopWithNestedLoopNextAndEndLoopBack from './ffcUiModels/loop-with-nested-loop-next-and-end-loop-back.json';
+import ffcLoopWithNextAndEndSameGoto from './ffcUiModels/loop-with-next-and-end-the-same-goto.json';
+import ffcLoopForEachAndEndSameElement from './ffcUiModels/loop-with-next-and-end-to-same-element.json';
+import ffcMergeNodeWithIncomingBranchGoTo from './ffcUiModels/merge-node-with-incoming-branch-goto.json';
+import ffcOgComplexNestedDecisionsWithGoTos from './ffcUiModels/original-complex-decision-with-mutiple-nested-decisions-and-gotos.json';
+import ffcOgDecisionWithGoToInNestedBranch from './ffcUiModels/original-decision-with-goto-in-nested-branch.json';
+import ffcOgDecisionsWithGoToInNestedDecision from './ffcUiModels/original-decision-with-goto-in-nested-decision.json';
+import ffcOgDecisionWithGoToOnBranchNext from './ffcUiModels/original-decision-with-goto-on-branch-next.json';
+import ffcOgDecisionWithGoToOnDefaultHead from './ffcUiModels/original-decision-with-goto-on-default-head.json';
+import ffcOgDecisionWithGoToOnHead from './ffcUiModels/original-decision-with-goto-on-head.json';
+import ffcOgElementWithGoToOnFault from './ffcUiModels/original-element-with-goto-on-fault.json';
+import ffcOgGoToOnCrossEdgeFault from './ffcUiModels/original-goto-on-cross-edge-fault.json';
+import ffcOgLoopWithGoToAfterLast from './ffcUiModels/original-loop-with-goto-after-last.json';
+import ffcSanity from './ffcUiModels/sanity.json';
+import ffcStartWithGoToOnImmediateHead from './ffcUiModels/start-with-goto-on-immediate-head.json';
+import ffcStartWithGoToOnScheduledHead from './ffcUiModels/start-with-goto-on-scheduled-head.json';
+import ffcStartWithMergingPaths from './ffcUiModels/start-with-merging-path.json';
+import ffcStartWithMultipleScheduledPath from './ffcUiModels/start-with-multiple-scheduled-path.json';
+import {
+    default as ffcStartWithOnlyImmediate,
+    default as ffcStartWithOnlyScheduledPath
+} from './ffcUiModels/start-with-only-scheduled-path.json';
+import ffcStartWithSingleScheduledPath from './ffcUiModels/start-with-single-scheduled-path.json';
 import ffcTestCase01 from './ffcUiModels/testCase01.json';
 import ffcTestCase02 from './ffcUiModels/testCase02.json';
 import ffcTestCase03 from './ffcUiModels/testCase03.json';
@@ -79,58 +125,8 @@ import ffcTestCase09 from './ffcUiModels/testCase09.json';
 import ffcTestCase10 from './ffcUiModels/testCase10.json';
 import ffcTestCase11 from './ffcUiModels/testCase11.json';
 import ffcTestCase12 from './ffcUiModels/testCase12.json';
-
-import ffcLoopWithNestedLoopBack from './ffcUiModels/loop-with-nested-branch-that-loops-back.json';
-import ffcLoopWithBackEdge from './ffcUiModels/loop-with-back-edge.json';
-import ffcLoopWithGoToOnBranchHead from './ffcUiModels/loop-with-goto-on-branch-head.json';
-import ffcLoopWithCrossAsGotoEdge from './ffcUiModels/loop-with-cross-as-goto-edge.json';
-import ffcLoopWithFowardAsGotoEdge from './ffcUiModels/loop-with-forward-as-goto-edge.json';
-import ffcLoopWithNextAndEndSameGoto from './ffcUiModels/loop-with-next-and-end-the-same-goto.json';
-import ffcLoopForEachAndEndSameElement from './ffcUiModels/loop-with-next-and-end-to-same-element.json';
-import ffcLoopNextEndSameAsBranch from './ffcUiModels/loop-with-goto-on-next-and-end.json';
-import ffcLoopWithGoToOnNext from './ffcUiModels/loop-with-goto-on-next.json';
-import ffcLoopWithNestedBranchThatLoopsBack from './ffcUiModels/loop-with-nested-branch-that-loops-back2.json';
-import ffcLoopWithMultipleLoopBacks from './ffcUiModels/loop-with-multiple-loop-backs.json';
-import ffcLoopWithNestedEndLoopBack from './ffcUiModels/loop-with-nested-loop-end-loop-back.json';
-import ffcLoopWithNestedLoopNextAndEndLoopBack from './ffcUiModels/loop-with-nested-loop-next-and-end-loop-back.json';
-import ffcDecisionWithGoToOnHead from './ffcUiModels/decision-with-goto-on-head.json';
-import ffcDecisionWithGoToOnDefaultHead from './ffcUiModels/decision-with-goto-on-default-head.json';
-import ffcDecisionWithGoToOnBranchNext from './ffcUiModels/decision-with-goto-on-branch-next.json';
-import ffcDecisionWithGoToInNestedBranch from './ffcUiModels/decision-with-goto-in-nested-branch.json';
-import ffcElementWithGoToOnFault from './ffcUiModels/element-with-goto-on-fault.json';
-import ffcLoopWithGoToAfterLast from './ffcUiModels/loop-with-goto-after-last.json';
-import ffcStartWithGoToOnImmediateHead from './ffcUiModels/start-with-goto-on-immediate-head.json';
-import ffcStartWithGoToOnScheduledHead from './ffcUiModels/start-with-goto-on-scheduled-head.json';
-import ffcGoToOnCrossEdgeFault from './ffcUiModels/goto-on-cross-edge-fault.json';
-import ffcComplexNestedDecisionsWithGoTos from './ffcUiModels/complex-decision-with-mutiple-nested-decisions-and-gotos.json';
-import ffcDecisionsWithGoToInNestedDecision from './ffcUiModels/decision-with-goto-in-nested-decision.json';
-import ffcOgDecisionWithGoToOnHead from './ffcUiModels/original-decision-with-goto-on-head.json';
-import ffcOgDecisionWithGoToOnDefaultHead from './ffcUiModels/original-decision-with-goto-on-default-head.json';
-import ffcOgDecisionWithGoToOnBranchNext from './ffcUiModels/original-decision-with-goto-on-branch-next.json';
-import ffcOgDecisionWithGoToInNestedBranch from './ffcUiModels/original-decision-with-goto-in-nested-branch.json';
-import ffcOgElementWithGoToOnFault from './ffcUiModels/original-element-with-goto-on-fault.json';
-import ffcOgLoopWithGoToAfterLast from './ffcUiModels/original-loop-with-goto-after-last.json';
-import ffcOgGoToOnCrossEdgeFault from './ffcUiModels/original-goto-on-cross-edge-fault.json';
-import ffcOgComplexNestedDecisionsWithGoTos from './ffcUiModels/original-complex-decision-with-mutiple-nested-decisions-and-gotos.json';
-import ffcOgDecisionsWithGoToInNestedDecision from './ffcUiModels/original-decision-with-goto-in-nested-decision.json';
-import ffcMergeNodeWithIncomingBranchGoTo from './ffcUiModels/merge-node-with-incoming-branch-goto.json';
-
-import {
-    convertToFreeFormCanvas,
-    convertToAutoLayoutCanvas,
-    canConvertToAutoLayoutCanvas,
-    removeEndElementsAndConnectorsTransform,
-    addEndElementsAndConnectorsTransform,
-    consolidateEndConnectors,
-    deepEquals
-} from '../alcConversionUtils';
-import {
-    ELEMENT_TYPE,
-    CONNECTOR_TYPE,
-    FLOW_TRIGGER_TYPE,
-    FLOW_TRIGGER_SAVE_TYPE
-} from 'builder_platform_interaction/flowMetadata';
-import { shouldSupportScheduledPaths } from 'builder_platform_interaction/elementFactory';
+import ffcUpdatedElementConfig from './ffcUiModels/updated-element-config.json';
+import ffcWaitWithThreeOutcomesAndFault from './ffcUiModels/wait-with-three-outcomes-and-fault.json';
 
 const CANVAS_WIDTH = 1024;
 const startElementCoords = [CANVAS_WIDTH / 2 - 24, 48];

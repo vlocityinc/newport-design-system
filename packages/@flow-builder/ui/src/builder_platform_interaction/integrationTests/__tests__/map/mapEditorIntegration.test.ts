@@ -1,29 +1,29 @@
-import { createElement } from 'lwc';
+import {
+    deepQuerySelector,
+    INTERACTION_COMPONENTS_SELECTORS,
+    LIGHTNING_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
 import CollectionProcessorEditor from 'builder_platform_interaction/collectionProcessorEditor';
+import { AddElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
+import {
+    COLLECTION_PROCESSOR_SUB_TYPE,
+    ELEMENT_TYPE,
+    FLOW_PROCESS_TYPE
+} from 'builder_platform_interaction/flowMetadata';
 import MapEditor from 'builder_platform_interaction/mapEditor';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import {
-    ticks,
-    deepQuerySelector,
-    LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS,
-    setDocumentBodyChildren
-} from 'builder_platform_interaction/builderTestUtils';
-import { resetState, setupStateForProcessType, translateFlowToUIAndDispatch } from '../integrationTestUtils';
-import { getLabelDescriptionElement, LabelDescriptionComponentTest } from '../labelDescriptionTestUtils';
-import {
-    ELEMENT_TYPE,
-    FLOW_PROCESS_TYPE,
-    COLLECTION_PROCESSOR_SUB_TYPE
-} from 'builder_platform_interaction/flowMetadata';
-import { ComboboxTestComponent } from '../comboboxTestUtils';
-import { RecordInputOutputAssignmentsComponentTest } from '../recordInputOutputAssignmentsTestUtils';
-import * as recommendationFlow from 'mock/flows/recommendationFlow.json';
-import { AddElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
-import { getToolboxElements } from '../../../editor/editorUtils';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import { createElement } from 'lwc';
+import * as recommendationFlow from 'mock/flows/recommendationFlow.json';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { recommendationFields } from 'serverData/GetFieldsForEntity/recommendationFields.json';
+import { getToolboxElements } from '../../../editor/editorUtils';
+import { ComboboxTestComponent } from '../comboboxTestUtils';
+import { resetState, setupStateForProcessType, translateFlowToUIAndDispatch } from '../integrationTestUtils';
+import { getLabelDescriptionElement, LabelDescriptionComponentTest } from '../labelDescriptionTestUtils';
+import { RecordInputOutputAssignmentsComponentTest } from '../recordInputOutputAssignmentsTestUtils';
 
 const mockCreateComponentCallbackStatus = 'SUCCESS';
 

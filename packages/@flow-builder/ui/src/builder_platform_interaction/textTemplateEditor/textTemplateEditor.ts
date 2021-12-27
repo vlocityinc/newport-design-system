@@ -1,11 +1,11 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { textTemplateReducer } from './textTemplateReducer';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { LABELS } from './textTemplateEditorLabels';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './textTemplateEditorLabels';
+import { textTemplateReducer } from './textTemplateReducer';
 
 /**
  * Text template property editor for Flow Builder

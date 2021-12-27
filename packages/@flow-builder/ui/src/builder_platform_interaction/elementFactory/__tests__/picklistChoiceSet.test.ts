@@ -1,11 +1,11 @@
 // @ts-nocheck
-import {
-    createPicklistChoiceSet,
-    createPicklistChoiceSetMetadataObject,
-    createPicklistChoiceSetForStore
-} from '../picklistChoiceSet';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseElementsArrayToMap } from '../base/baseElement';
+import {
+    createPicklistChoiceSet,
+    createPicklistChoiceSetForStore,
+    createPicklistChoiceSetMetadataObject
+} from '../picklistChoiceSet';
 
 jest.mock('../base/dynamicChoiceSet', () => {
     return {

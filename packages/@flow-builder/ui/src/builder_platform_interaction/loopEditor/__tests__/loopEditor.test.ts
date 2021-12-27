@@ -1,18 +1,18 @@
-import { createElement } from 'lwc';
-import LoopEditor from '../loopEditor';
-import { PropertyChangedEvent, ComboboxStateChangedEvent } from 'builder_platform_interaction/events';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { getErrorFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { ComboboxStateChangedEvent, PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
 import {
-    stringCollectionVariable1,
     accountSObjectVariable,
-    caseSObjectVariable,
     caseSObjectCollectionVariable,
+    caseSObjectVariable,
+    flowWithAllElementsUIModel,
+    stringCollectionVariable1,
     stringVariable
 } from 'mock/storeData';
-import { getErrorFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
-import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import LoopEditor from '../loopEditor';
 
 jest.mock('builder_platform_interaction/processTypeLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/processTypeLib');

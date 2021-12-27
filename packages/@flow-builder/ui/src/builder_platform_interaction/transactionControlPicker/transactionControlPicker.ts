@@ -1,7 +1,7 @@
-import { LightningElement, api } from 'lwc';
-import { LABELS } from './transactionControlPickerLabels';
-import { FLOW_TRANSACTION_MODEL } from 'builder_platform_interaction/flowMetadata';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { FLOW_TRANSACTION_MODEL } from 'builder_platform_interaction/flowMetadata';
+import { api, LightningElement } from 'lwc';
+import { LABELS } from './transactionControlPickerLabels';
 
 const FLOW_TRANSACTION_MODEL_PROPERTY = 'flowTransactionModel';
 

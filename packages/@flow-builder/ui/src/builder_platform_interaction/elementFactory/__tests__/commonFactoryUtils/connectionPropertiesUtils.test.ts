@@ -1,9 +1,9 @@
 // @ts-nocheck
-import {
-    getConnectionProperties,
-    addRegularConnectorToAvailableConnections
-} from '../../commonFactoryUtils/connectionPropertiesUtils';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    addRegularConnectorToAvailableConnections,
+    getConnectionProperties
+} from '../../commonFactoryUtils/connectionPropertiesUtils';
 
 describe('New Decision Element', () => {
     const originalDecision = {

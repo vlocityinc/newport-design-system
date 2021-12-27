@@ -1,11 +1,11 @@
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import {
+    PropertyChangedEvent,
+    UpdateCollectionProcessorEvent,
+    UpdateNodeEvent
+} from 'builder_platform_interaction/events';
 import { createElement } from 'lwc';
 import CollectionProcessorEditor from '../collectionProcessorEditor';
-import {
-    UpdateCollectionProcessorEvent,
-    UpdateNodeEvent,
-    PropertyChangedEvent
-} from 'builder_platform_interaction/events';
-import { ticks, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 const MOCK_GUID = '93f65bd6-d0ab-4e75-91b1-a8599dee54ed';
 

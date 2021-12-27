@@ -1,12 +1,12 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import DecisionEditor from 'builder_platform_interaction/decisionEditor';
 import {
-    LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS,
     deepQuerySelector,
+    INTERACTION_COMPONENTS_SELECTORS,
+    LIGHTNING_COMPONENTS_SELECTORS,
     setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
+import DecisionEditor from 'builder_platform_interaction/decisionEditor';
+import { createElement } from 'lwc';
 import { ExpressionBuilderComponentTest } from '../expressionBuilderTestUtils';
 
 const SELECTORS = {

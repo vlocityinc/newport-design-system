@@ -1,5 +1,5 @@
-import { api } from 'lwc';
 import LightningAccordionSection from 'lightning/accordionSection';
+import { api } from 'lwc';
 
 /**
  * A single section that is nested in an accordion component.

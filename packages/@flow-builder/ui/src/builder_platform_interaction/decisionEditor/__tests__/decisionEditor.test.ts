@@ -1,18 +1,18 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import DecisionEditor from 'builder_platform_interaction/decisionEditor';
-import { decisionReducer } from '../decisionReducer';
 import {
     DeleteOutcomeEvent,
+    ListItemInteractionEvent,
     PropertyChangedEvent,
-    UpdateNodeEvent,
     ReorderListEvent,
-    ListItemInteractionEvent
+    UpdateNodeEvent
 } from 'builder_platform_interaction/events';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
-import { getProcessType } from 'builder_platform_interaction/storeUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getProcessType } from 'builder_platform_interaction/storeUtils';
 import { updateAndValidateElementInPropertyEditor } from 'builder_platform_interaction/validation';
+import { createElement } from 'lwc';
+import { decisionReducer } from '../decisionReducer';
 
 let mockNewState;
 

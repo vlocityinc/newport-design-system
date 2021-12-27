@@ -1,17 +1,15 @@
 // @ts-nocheck
+import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { deepCopy, Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { baseCanvasElement, duplicateCanvasElement, DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
 import {
-    createSubflow,
     createDuplicateSubflow,
+    createSubflow,
     createSubflowMetadataObject,
     createSubflowWithConnectors
 } from '../subflow';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { deepCopy } from 'builder_platform_interaction/storeLib';
-import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
-import { DUPLICATE_ELEMENT_XY_OFFSET, baseCanvasElement, duplicateCanvasElement } from '../base/baseElement';
-
-import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/alcCanvasUtils');

@@ -1,13 +1,13 @@
 import {
     cacheVersioningDataForAllProcessTypes,
-    initVersioningInfoForProcessType,
-    isVersioningDataInitialized,
-    isVersioningSupported,
-    setVersioningDataInitialized,
     getApiVersionsList,
     getDefaultApiVersion,
     getLatestApiVersion,
-    getMinApiVersion
+    getMinApiVersion,
+    initVersioningInfoForProcessType,
+    isVersioningDataInitialized,
+    isVersioningSupported,
+    setVersioningDataInitialized
 } from '../apiVersions';
 
 // Tests for the apiVersion

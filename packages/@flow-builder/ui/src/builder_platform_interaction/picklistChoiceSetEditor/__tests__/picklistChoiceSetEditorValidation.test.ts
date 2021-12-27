@@ -1,9 +1,9 @@
 // @ts-nocheck
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { createElement } from 'lwc';
 import PicklistChoiceSetEditor from '../picklistChoiceSetEditor';
 import { picklistChoiceSetValidation } from '../picklistChoiceSetValidation';
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

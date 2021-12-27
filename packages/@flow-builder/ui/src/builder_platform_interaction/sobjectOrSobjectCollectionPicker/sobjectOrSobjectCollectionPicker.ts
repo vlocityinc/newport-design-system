@@ -1,11 +1,11 @@
-import { LightningElement, api, track } from 'lwc';
-import { ElementFilterConfig, getResourceByUniqueIdentifier } from 'builder_platform_interaction/expressionUtils';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { SObjectReferenceChangedEvent } from 'builder_platform_interaction/events';
+import { ElementFilterConfig, getResourceByUniqueIdentifier } from 'builder_platform_interaction/expressionUtils';
 import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
 import { CrudFilter } from 'builder_platform_interaction/selectors';
+import { api, LightningElement, track } from 'lwc';
 
 /**
  * a combobox to retrieve a list of sobject and/or sobject collection variables of a specified entity or all if no entity

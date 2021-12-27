@@ -1,10 +1,10 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import Canvas from 'builder_platform_interaction/canvas';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { DeleteElementEvent } from 'builder_platform_interaction/events';
-import { commands } from 'builder_platform_interaction/sharedUtils';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import Canvas from 'builder_platform_interaction/canvas';
+import { DeleteElementEvent } from 'builder_platform_interaction/events';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { commands } from 'builder_platform_interaction/sharedUtils';
+import { createElement } from 'lwc';
 const { DeleteNodesCommand, ZoomInCommand, ZoomOutCommand } = commands;
 
 jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));

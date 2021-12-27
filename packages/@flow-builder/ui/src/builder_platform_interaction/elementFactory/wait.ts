@@ -1,37 +1,37 @@
 // @ts-nocheck
+import { isObject, isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import {
-    ELEMENT_TYPE,
     CONDITION_LOGIC,
     CONNECTOR_TYPE,
-    WAIT_TIME_EVENT_TYPE,
+    ELEMENT_TYPE,
+    WAIT_EVENT_FIELDS,
     WAIT_TIME_EVENT_FIELDS,
-    WAIT_EVENT_FIELDS
+    WAIT_TIME_EVENT_TYPE
 } from 'builder_platform_interaction/flowMetadata';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import {
-    baseCanvasElementWithFault,
-    duplicateCanvasElementWithChildElements,
     baseCanvasElementsArrayToMap,
+    baseCanvasElementWithFault,
     baseChildElement,
     createCondition,
-    updateChildReferences,
-    getDeletedCanvasElementChildren
+    duplicateCanvasElementWithChildElements,
+    getDeletedCanvasElementChildren,
+    updateChildReferences
 } from './base/baseElement';
-import {
-    getConnectionProperties,
-    addRegularConnectorToAvailableConnections
-} from './commonFactoryUtils/connectionPropertiesUtils';
-import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
-import { createOutputParameter, createOutputParameterMetadataObject } from './outputParameter';
-import { createConnectorObjects } from './connector';
-import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import {
     baseCanvasElementMetadataObject,
     baseChildElementMetadataObject,
     createConditionMetadataObject
 } from './base/baseMetadata';
-import { isObject, isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
+import {
+    addRegularConnectorToAvailableConnections,
+    getConnectionProperties
+} from './commonFactoryUtils/connectionPropertiesUtils';
+import { createConnectorObjects } from './connector';
 import { LABELS } from './elementFactoryLabels';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
+import { createOutputParameter, createOutputParameterMetadataObject } from './outputParameter';
 
 const elementType = ELEMENT_TYPE.WAIT;
 const MAX_CONNECTIONS_DEFAULT = 2;

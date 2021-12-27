@@ -1,28 +1,26 @@
 import {
-    resolveParent,
-    hasChildren,
-    findLastElement,
-    isEndOrAllTerminalBranchingElement,
-    hasGoToOnNext,
-    hasGoToOnBranchHead,
-    createGoToSourceRef,
-    parseGoToSourceRef,
-    getBranchIndexForGoToConnection,
-    resolveChild,
-    getChild,
-    resolveNode
-} from './modelUtils';
-
-import {
-    FAULT_INDEX,
-    NodeModel,
-    FlowModel,
-    ParentNodeModel,
     BranchHeadNodeModel,
     ConnectionSource,
-    GoToSourceRef
+    FAULT_INDEX,
+    FlowModel,
+    GoToSourceRef,
+    NodeModel,
+    ParentNodeModel
 } from './model';
-
+import {
+    createGoToSourceRef,
+    findLastElement,
+    getBranchIndexForGoToConnection,
+    getChild,
+    hasChildren,
+    hasGoToOnBranchHead,
+    hasGoToOnNext,
+    isEndOrAllTerminalBranchingElement,
+    parseGoToSourceRef,
+    resolveChild,
+    resolveNode,
+    resolveParent
+} from './modelUtils';
 import NodeType from './NodeType';
 
 /**

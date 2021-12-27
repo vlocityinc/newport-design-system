@@ -1,18 +1,18 @@
 // @ts-nocheck
-import { recordCreateValidation, getRules } from './recordCreateValidation';
-import { updateProperties, set, deleteItem } from 'builder_platform_interaction/dataMutationLib';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
+import { deleteItem, set, updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import {
-    PropertyChangedEvent,
     AddRecordFieldAssignmentEvent,
     DeleteRecordFieldAssignmentEvent,
-    UpdateRecordFieldAssignmentEvent,
+    ManuallyAssignVariablesChangedEvent,
+    PropertyChangedEvent,
     RecordStoreOptionChangedEvent,
-    ManuallyAssignVariablesChangedEvent
+    UpdateRecordFieldAssignmentEvent
 } from 'builder_platform_interaction/events';
+import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
+import { WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { getRules, recordCreateValidation } from './recordCreateValidation';
 
 const PROP_NAMES = {
     inputAssignments: 'inputAssignments',

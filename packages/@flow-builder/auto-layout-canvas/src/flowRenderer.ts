@@ -1,41 +1,38 @@
+import ConnectorLabelType from './ConnectorLabelTypeEnum';
 import * as connectorLib from './connectorLib';
-import { Geometry } from './svgUtils';
 import ConnectorType from './ConnectorTypeEnum';
-
+import { getDefaultLayoutConfig } from './defaultLayoutConfig';
 import {
-    NodeModel,
-    ParentNodeModel,
+    ConnectorRenderInfo,
+    ConnectorVariant,
+    FlowRenderContext,
+    FlowRenderInfo,
+    getBranchLayout,
+    getBranchLayoutKey,
+    getLayout,
+    getMergeOutcomeCount,
+    LayoutConfig,
+    LayoutInfo,
+    NodeRenderInfo
+} from './flowRendererUtils';
+import { isMenuOpened } from './interactionUtils';
+import { getLayoutChildOrFault, NO_OFFSET } from './layout';
+import MenuType from './MenuType';
+import {
     BranchHeadNodeModel,
-    resolveNode,
-    getRootNode,
-    getElementMetadata,
-    Guid,
     FAULT_INDEX,
     FOR_EACH_INDEX,
+    getElementMetadata,
+    getRootNode,
+    Guid,
+    NodeModel,
+    ParentNodeModel,
+    resolveNode,
     StartNodeModel
 } from './model';
-import { fulfillsBranchingCriteria, hasGoToOnNext, hasGoToOnBranchHead, isBranchTerminal } from './modelUtils';
-import { NO_OFFSET, getLayoutChildOrFault } from './layout';
-
-import {
-    ConnectorVariant,
-    ConnectorRenderInfo,
-    LayoutConfig,
-    FlowRenderInfo,
-    NodeRenderInfo,
-    getLayout,
-    getBranchLayout,
-    getMergeOutcomeCount,
-    FlowRenderContext,
-    LayoutInfo,
-    getBranchLayoutKey
-} from './flowRendererUtils';
-
+import { fulfillsBranchingCriteria, hasGoToOnBranchHead, hasGoToOnNext, isBranchTerminal } from './modelUtils';
 import NodeType from './NodeType';
-import MenuType from './MenuType';
-import { isMenuOpened } from './interactionUtils';
-import ConnectorLabelType from './ConnectorLabelTypeEnum';
-import { getDefaultLayoutConfig } from './defaultLayoutConfig';
+import { Geometry } from './svgUtils';
 
 const IS_BRANCH = true;
 

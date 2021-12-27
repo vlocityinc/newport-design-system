@@ -1,28 +1,28 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
+import newResourceButtonText from '@salesforce/label/FlowBuilderLeftPanel.newResourceButtonText';
+import backButtonAltText from '@salesforce/label/FlowBuilderResourceDetailsPanel.backButtonAltText';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import {
+    DeleteResourceEvent,
     EditElementEvent,
     PaletteItemClickedEvent,
-    ShowResourceDetailsEvent,
-    DeleteResourceEvent
+    ShowResourceDetailsEvent
 } from 'builder_platform_interaction/events';
 import LeftPanel from 'builder_platform_interaction/leftPanel';
-import backButtonAltText from '@salesforce/label/FlowBuilderResourceDetailsPanel.backButtonAltText';
-import newResourceButtonText from '@salesforce/label/FlowBuilderLeftPanel.newResourceButtonText';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
 import {
-    lookupRecordAutomaticOutput,
-    lookupRecordOutputReference,
-    lookupRecordCollectionAutomaticOutput,
     actionCallElementGuid,
+    assignmentElement,
+    flowWithAllElementsUIModel,
+    lookupRecordAutomaticOutput,
+    lookupRecordCollectionAutomaticOutput,
+    lookupRecordOutputReference,
+    loopOnAccountAutoOutput,
     numberVariable,
     stringConstant,
-    stringVariable,
-    assignmentElement,
-    loopOnAccountAutoOutput,
-    flowWithAllElementsUIModel
+    stringVariable
 } from 'mock/storeData';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

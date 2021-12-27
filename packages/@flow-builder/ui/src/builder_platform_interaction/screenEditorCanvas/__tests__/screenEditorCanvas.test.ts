@@ -1,33 +1,14 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import ScreenEditorCanvas from '../screenEditorCanvas';
 import { createTestScreen, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
-import {
-    createScreenElementKeyboardInteractionEvent,
-    createScreenElementSelectedEvent,
-    ScreenEditorEventName
-} from 'builder_platform_interaction/events';
-import { ScreenCanvasKeyboardInteractions } from 'builder_platform_interaction/screenEditorUtils';
-import { Store } from 'builder_platform_interaction/storeLib';
-import {
-    flowWithAllElementsUIModel,
-    screenWithSection,
-    slider1,
-    dateTimeInSection,
-    section2Column1,
-    text2,
-    address2,
-    section2Column2,
-    number2,
-    section1,
-    section2,
-    email2
-} from 'mock/storeData';
-import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { hydrateIfNecessary } from 'builder_platform_interaction/dataMutationLib';
+import { createScreenElementSelectedEvent, ScreenEditorEventName } from 'builder_platform_interaction/events';
 import { FOOTER_LABEL_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
+import ScreenEditorCanvas from '../screenEditorCanvas';
 const { format } = commonUtils;
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));

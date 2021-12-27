@@ -1,9 +1,9 @@
 // @ts-nocheck
 const mockSystemLib = require('builder_platform_interaction/systemLib');
-import globalConstantCategory from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantCategory';
 import emptyStringMetaLine from '@salesforce/label/FlowBuilderGlobalConstants.emptyStringMetaLine';
-import trueMetaLine from '@salesforce/label/FlowBuilderGlobalConstants.trueMetaLine';
 import falseMetaLine from '@salesforce/label/FlowBuilderGlobalConstants.falseMetaLine';
+import globalConstantCategory from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantCategory';
+import trueMetaLine from '@salesforce/label/FlowBuilderGlobalConstants.trueMetaLine';
 
 const removeCurlyBraces = (id) => {
     if (typeof id === 'string' && id.startsWith('{!') && id.endsWith('}')) {

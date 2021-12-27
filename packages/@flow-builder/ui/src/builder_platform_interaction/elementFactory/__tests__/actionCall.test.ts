@@ -1,19 +1,19 @@
 // @ts-nocheck
-import { createActionCall, createDuplicateActionCall, createActionCallMetadataObject } from '../actionCall';
-import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
-import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getProcessTypeAutomaticOutPutHandlingSupport } from 'builder_platform_interaction/processTypeLib';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import { getMetadataFlowElementByName } from 'mock/flows/mock-flow';
 import {
     apexCallAutomaticAnonymousAccountOutput,
-    apexCallAutomaticAnonymousStringOutput,
     apexCallAutomaticAnonymousAccountsOutput,
-    apexCallAutomaticAnonymousStringsOutput,
-    apexCallAutomaticAnonymousApexTypeCollectionOutput
+    apexCallAutomaticAnonymousApexTypeCollectionOutput,
+    apexCallAutomaticAnonymousStringOutput,
+    apexCallAutomaticAnonymousStringsOutput
 } from 'mock/storeData';
-import { getMetadataFlowElementByName } from 'mock/flows/mock-flow';
-import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import { createActionCall, createActionCallMetadataObject, createDuplicateActionCall } from '../actionCall';
+import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
 
 const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'flow';
 

@@ -1,17 +1,17 @@
 // @ts-nocheck
-import { LightningElement, api, track, unwrap } from 'lwc';
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { choiceReducer } from './choiceReducer';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { STORED_VALUE_DATA_TYPE_PROPERTY } from 'builder_platform_interaction/elementFactory';
 import { getFerovInfoAndErrorFromEvent } from 'builder_platform_interaction/expressionUtils';
-import { LABELS } from './choiceEditorLabels';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
-import { STORED_VALUE_DATA_TYPE_PROPERTY } from 'builder_platform_interaction/elementFactory';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { api, LightningElement, track, unwrap } from 'lwc';
+import { LABELS } from './choiceEditorLabels';
+import { choiceReducer } from './choiceReducer';
 
 const flowDataTypeChoiceMenuItems = [
     FLOW_DATA_TYPE.STRING,

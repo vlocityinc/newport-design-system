@@ -1,20 +1,19 @@
-import { ElementMetadata, ConnectionSource } from 'builder_platform_interaction/autoLayoutCanvas';
-
-import { api } from 'lwc';
-import { AddElementEvent } from 'builder_platform_interaction/events';
 import {
-    PasteOnCanvasEvent,
-    MoveFocusToConnectorEvent,
+    DeleteGoToConnectionEvent,
     GoToPathEvent,
-    DeleteGoToConnectionEvent
+    MoveFocusToConnectorEvent,
+    PasteOnCanvasEvent
 } from 'builder_platform_interaction/alcEvents';
 import AlcMenu from 'builder_platform_interaction/alcMenu';
+import { ConnectionSource, ElementMetadata } from 'builder_platform_interaction/autoLayoutCanvas';
+import { AddElementEvent } from 'builder_platform_interaction/events';
+import { api } from 'lwc';
 import {
     configureMenu,
-    PASTE_ACTION,
     GOTO_ACTION,
     GOTO_DELETE_ACTION,
-    GOTO_REROUTE_ACTION
+    GOTO_REROUTE_ACTION,
+    PASTE_ACTION
 } from './alcConnectorMenuConfig';
 import { LABELS } from './alcConnectorMenuLabels';
 

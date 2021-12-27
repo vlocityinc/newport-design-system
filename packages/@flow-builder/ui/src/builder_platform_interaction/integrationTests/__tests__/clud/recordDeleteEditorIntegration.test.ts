@@ -1,42 +1,42 @@
-import { createElement } from 'lwc';
-import RecordDeleteEditor from 'builder_platform_interaction/recordDeleteEditor';
-import {
-    FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
-    getChildComponent,
-    resetState,
-    translateFlowToUIAndDispatch,
-    setupStateForFlow
-} from '../integrationTestUtils';
-import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import { EditElementEvent } from 'builder_platform_interaction/events';
-import {
-    getEntityResourcePickerChildGroupedComboboxComponent,
-    getEntityResourcePicker,
-    getBaseResourcePickerCombobox,
-    removePillAndGetGroupedCombobox,
-    getResourceCombobox,
-    getRecordStoreOption,
-    getSObjectOrSObjectCollectionPicker,
-    getRecordFilter,
-    getRecordVariablePickerChildComboboxComponent
-} from './cludEditorTestUtils';
 import {
     changeEvent,
     INTERACTION_COMPONENTS_SELECTORS,
     setDocumentBodyChildren,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
-import { expectCanBeTraversed, expectCannotBeTraversed, expectCannotBeSelected } from '../groupedComboboxTestUtils';
+import { EditElementEvent } from 'builder_platform_interaction/events';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import RecordDeleteEditor from 'builder_platform_interaction/recordDeleteEditor';
+import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import { createElement } from 'lwc';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import { expectCanBeTraversed, expectCannotBeSelected, expectCannotBeTraversed } from '../groupedComboboxTestUtils';
 import {
+    FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
+    getChildComponent,
+    resetState,
+    setupStateForFlow,
+    translateFlowToUIAndDispatch
+} from '../integrationTestUtils';
+import {
+    getFieldToFerovExpressionBuilders,
     getFilterConditionLogicCombobox,
     getFilterCustomConditionLogicInput,
-    newFilterItem,
-    getFieldToFerovExpressionBuilders
+    newFilterItem
 } from '../recordFilterTestUtils';
 import { addRecordVariable, deleteVariableWithName } from '../resourceTestUtils';
+import {
+    getBaseResourcePickerCombobox,
+    getEntityResourcePicker,
+    getEntityResourcePickerChildGroupedComboboxComponent,
+    getRecordFilter,
+    getRecordStoreOption,
+    getRecordVariablePickerChildComboboxComponent,
+    getResourceCombobox,
+    getSObjectOrSObjectCollectionPicker,
+    removePillAndGetGroupedCombobox
+} from './cludEditorTestUtils';
 
 jest.mock('@salesforce/label/FlowBuilderElementLabels.subflowAsResourceText', () => ({ default: 'Outputs from {0}' }), {
     virtual: true

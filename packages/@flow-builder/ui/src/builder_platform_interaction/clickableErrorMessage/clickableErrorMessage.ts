@@ -1,15 +1,15 @@
 // @ts-nocheck
-import { LightningElement, api } from 'lwc';
-import { EditElementEvent, LocatorIconClickedEvent } from 'builder_platform_interaction/events';
-import { errorTypeMap, errorType } from 'builder_platform_interaction/errorUtils';
-import { pubSub } from 'builder_platform_interaction/pubSub';
-import { getElementByDevName, getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import { usedBy } from 'builder_platform_interaction/usedByLib';
-import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import {
     childElementTypeToParentDescriptorKeyMap,
     elementTypeToConfigMap
 } from 'builder_platform_interaction/elementConfig';
+import { errorType, errorTypeMap } from 'builder_platform_interaction/errorUtils';
+import { EditElementEvent, LocatorIconClickedEvent } from 'builder_platform_interaction/events';
+import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+import { pubSub } from 'builder_platform_interaction/pubSub';
+import { getElementByDevName, getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import { usedBy } from 'builder_platform_interaction/usedByLib';
+import { api, LightningElement } from 'lwc';
 
 export default class ClickableMessage extends LightningElement {
     @api info;

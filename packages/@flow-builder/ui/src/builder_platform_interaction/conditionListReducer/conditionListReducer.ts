@@ -1,16 +1,19 @@
 // @ts-nocheck
 import {
+    addItem,
+    deleteItem,
+    hydrateWithErrors,
+    replaceItem,
+    updateProperties
+} from 'builder_platform_interaction/dataMutationLib';
+import { createCondition } from 'builder_platform_interaction/elementFactory';
+import {
     AddConditionEvent,
     DeleteConditionEvent,
     UpdateConditionEvent,
     UpdateConditionLogicEvent
 } from 'builder_platform_interaction/events';
-
 import { checkExpressionForDeletedElem } from 'builder_platform_interaction/expressionUtils';
-
-import { updateProperties, addItem, deleteItem, replaceItem } from 'builder_platform_interaction/dataMutationLib';
-import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
-import { createCondition } from 'builder_platform_interaction/elementFactory';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 
 /**

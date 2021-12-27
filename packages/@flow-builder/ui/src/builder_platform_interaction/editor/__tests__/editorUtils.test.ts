@@ -1,38 +1,38 @@
 // @ts-nocheck
+import { SaveFlowEvent } from 'builder_platform_interaction/events';
 import {
-    getElementsToBeDeleted,
-    getSaveType,
-    updateStoreAfterSaveFlowIsSuccessful,
-    updateStoreAfterSaveAsNewFlowIsFailed,
-    updateStoreAfterSaveAsNewVersionIsFailed,
-    updateUrl,
-    setFlowErrorsAndWarnings,
-    flowPropertiesCallback,
-    saveAsFlowCallback,
-    getCopiedChildElements,
-    getCopiedData,
-    getPasteElementGuidMaps,
-    getDuplicateElementGuidMaps,
-    getConnectorToDuplicate,
-    highlightCanvasElement,
-    getConnectorsToHighlight,
-    getElementsWithError,
-    screenFieldsReferencedByLoops,
-    debugInterviewResponseCallback,
-    shiftFocusFromCanvas,
-    shiftFocusFromToolbar,
-    logElementCreation
-} from '../editorUtils';
-import {
-    ELEMENT_TYPE as mockElementType,
     CONNECTOR_TYPE,
+    ELEMENT_TYPE as mockElementType,
     FLOW_TRIGGER_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import { SaveType } from 'builder_platform_interaction/saveType';
-import { SaveFlowEvent } from 'builder_platform_interaction/events';
-import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { deepCopy } from 'builder_platform_interaction/storeLib';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import {
+    debugInterviewResponseCallback,
+    flowPropertiesCallback,
+    getConnectorsToHighlight,
+    getConnectorToDuplicate,
+    getCopiedChildElements,
+    getCopiedData,
+    getDuplicateElementGuidMaps,
+    getElementsToBeDeleted,
+    getElementsWithError,
+    getPasteElementGuidMaps,
+    getSaveType,
+    highlightCanvasElement,
+    logElementCreation,
+    saveAsFlowCallback,
+    screenFieldsReferencedByLoops,
+    setFlowErrorsAndWarnings,
+    shiftFocusFromCanvas,
+    shiftFocusFromToolbar,
+    updateStoreAfterSaveAsNewFlowIsFailed,
+    updateStoreAfterSaveAsNewVersionIsFailed,
+    updateStoreAfterSaveFlowIsSuccessful,
+    updateUrl
+} from '../editorUtils';
 
 const { logInteraction } = loggingUtils;
 

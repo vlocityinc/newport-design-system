@@ -1,8 +1,8 @@
 // @ts-nocheck
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { recordChoiceSetReducer } from '../recordChoiceSetReducer';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
+import { recordChoiceSetReducer } from '../recordChoiceSetReducer';
 
 describe('Record Choice Set Reducer', () => {
     const recordChoiceObject = {

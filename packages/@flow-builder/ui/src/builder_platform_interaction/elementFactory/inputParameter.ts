@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { createFEROV, createFEROVMetadataObject, getDataTypeKey } from './ferov';
-import { createParameterListRowItem, ParameterListRowItem } from './base/baseList';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { createParameterListRowItem, ParameterListRowItem } from './base/baseList';
+import { createFEROV, createFEROVMetadataObject, getDataTypeKey } from './ferov';
 
 export const VALUE_PROPERTY_NAME = 'value';
 export const VALUE_DATA_TYPE_PROPERTY_NAME = getDataTypeKey(VALUE_PROPERTY_NAME);

@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import andPrefixLabel from '@salesforce/label/FlowBuilderConditionList.andPrefixLabel';
 import orPrefixLabel from '@salesforce/label/FlowBuilderConditionList.orPrefixLabel';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 
 const PREFIX_TO_LABEL = {
     [CONDITION_LOGIC.AND]: andPrefixLabel,

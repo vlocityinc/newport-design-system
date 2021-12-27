@@ -1,8 +1,7 @@
-import { LightningElement, api } from 'lwc';
-import { getStyleFromGeometry, dispatchPrivateItemRegister } from 'builder_platform_interaction/alcComponentsUtils';
-
-import { SelectMenuItemEvent, CloseMenuEvent } from 'builder_platform_interaction/alcEvents';
+import { dispatchPrivateItemRegister, getStyleFromGeometry } from 'builder_platform_interaction/alcComponentsUtils';
+import { CloseMenuEvent, SelectMenuItemEvent } from 'builder_platform_interaction/alcEvents';
 import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+import { api, LightningElement } from 'lwc';
 
 const { EnterCommand, SpaceCommand, EscapeCommand, TabCommand } = commands;
 const {

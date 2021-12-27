@@ -1,25 +1,25 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
-import { loopReducer } from './loopReducer';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { addCurlyBraces, removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import {
-    getErrorsFromHydratedElement,
     getErrorFromHydratedItem,
+    getErrorsFromHydratedElement,
     getValueFromHydratedItem
 } from 'builder_platform_interaction/dataMutationLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { LoopCollectionChangedEvent, PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { getResourceByUniqueIdentifier } from 'builder_platform_interaction/expressionUtils';
-import { addCurlyBraces, removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { PropertyChangedEvent, LoopCollectionChangedEvent } from 'builder_platform_interaction/events';
-import { LABELS } from './loopEditorLabels';
 import {
     FLOW_AUTOMATIC_OUTPUT_HANDLING,
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './loopEditorLabels';
+import { loopReducer } from './loopReducer';
 
 const LOOP_PROPERTIES = {
     COLLECTION_VARIABLE: 'collectionReference',

@@ -1,9 +1,9 @@
 // @ts-nocheck
-import { LightningElement, api } from 'lwc';
-import { LABELS, failedToCRUDRecordAbsoluteMatches, failedToCRUDRecordRelativeMatches } from './debugPanelBodyLabels';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { ResumeDebugFlowEvent } from 'builder_platform_interaction/events';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { api, LightningElement } from 'lwc';
+import { failedToCRUDRecordAbsoluteMatches, failedToCRUDRecordRelativeMatches, LABELS } from './debugPanelBodyLabels';
 const { format } = commonUtils;
 
 /**

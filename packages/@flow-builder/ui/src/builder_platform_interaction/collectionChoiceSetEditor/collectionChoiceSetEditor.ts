@@ -1,15 +1,15 @@
-import { LightningElement, track, api } from 'lwc';
-import { collectionChoiceSetReducer } from './collectionChoiceSetReducer';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { LABELS } from './collectionChoiceSetEditorLabels';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
 import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
+import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
+import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './collectionChoiceSetEditorLabels';
+import { collectionChoiceSetReducer } from './collectionChoiceSetReducer';
 
 const COLLECTION_CHOICE_SET_FIELDS = {
     COLLECTION_REFERENCE: 'collectionReference',

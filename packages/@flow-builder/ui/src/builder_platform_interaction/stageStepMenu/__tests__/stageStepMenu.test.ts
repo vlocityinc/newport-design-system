@@ -1,11 +1,10 @@
-import { createElement } from 'lwc';
-import StageStepMenu from 'builder_platform_interaction/stageStepMenu';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { ACTION_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { AddElementEvent } from 'builder_platform_interaction/events';
 import { CloseMenuEvent, FocusOutEvent } from 'builder_platform_interaction/alcEvents';
-import { commands } from 'builder_platform_interaction/sharedUtils';
 import { removeDocumentBodyChildren, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { AddElementEvent } from 'builder_platform_interaction/events';
+import { ACTION_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { commands } from 'builder_platform_interaction/sharedUtils';
+import StageStepMenu from 'builder_platform_interaction/stageStepMenu';
+import { createElement } from 'lwc';
 
 const { EnterCommand, SpaceCommand, ArrowDown, ArrowUp, EscapeCommand, TabCommand } = commands;
 

@@ -1,9 +1,9 @@
 // @ts-nocheck
-import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { showDeleteCondition, getConditionsWithPrefixes } from '../conditionListUtils';
 import andPrefixLabel from '@salesforce/label/FlowBuilderConditionList.andPrefixLabel';
-import orPrefixLabel from '@salesforce/label/FlowBuilderConditionList.orPrefixLabel';
 import customConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.customConditionLogicLabel';
+import orPrefixLabel from '@salesforce/label/FlowBuilderConditionList.orPrefixLabel';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getConditionsWithPrefixes, showDeleteCondition } from '../conditionListUtils';
 
 const listWithOneConditional = {
     containerElementType: ELEMENT_TYPE.DECISION,

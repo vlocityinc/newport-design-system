@@ -1,29 +1,25 @@
 // @ts-nocheck
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-
-import selectActionHeadingMedium from '@salesforce/label/FlowBuilderCalloutEditor.selectActionHeadingMedium';
-import selectActionHeadingMediumFlow from '@salesforce/label/FlowBuilderCalloutEditor.selectActionHeadingMediumFlow';
-import selectActionBodyRegularFlow from '@salesforce/label/FlowBuilderCalloutEditor.selectActionBodyRegularFlow';
-import selectActionBodyRegularCore from '@salesforce/label/FlowBuilderCalloutEditor.selectActionBodyRegularCore';
+import actionsLoading from '@salesforce/label/FlowBuilderCalloutEditor.actionsLoading';
+import noActionBodyRegularApex from '@salesforce/label/FlowBuilderCalloutEditor.noActionBodyRegularApex';
+import noActionBodyRegularCore from '@salesforce/label/FlowBuilderCalloutEditor.noActionBodyRegularCore';
+import noActionBodyRegularEmail from '@salesforce/label/FlowBuilderCalloutEditor.noActionBodyRegularEmail';
+import noActionBodyRegularFlow from '@salesforce/label/FlowBuilderCalloutEditor.noActionBodyRegularFlow';
+import noActionBodyRegularLegacyApex from '@salesforce/label/FlowBuilderCalloutEditor.noActionBodyRegularLegacyApex';
+import noActionHeadingMediumApex from '@salesforce/label/FlowBuilderCalloutEditor.noActionHeadingMediumApex';
+import noActionHeadingMediumCore from '@salesforce/label/FlowBuilderCalloutEditor.noActionHeadingMediumCore';
+import noActionHeadingMediumEmail from '@salesforce/label/FlowBuilderCalloutEditor.noActionHeadingMediumEmail';
+import noActionHeadingMediumFlow from '@salesforce/label/FlowBuilderCalloutEditor.noActionHeadingMediumFlow';
+import noActionHeadingMediumLegacyApex from '@salesforce/label/FlowBuilderCalloutEditor.noActionHeadingMediumLegacyApex';
+import selectActionBodyRegular from '@salesforce/label/FlowBuilderCalloutEditor.selectActionBodyRegular';
 import selectActionBodyRegularApex from '@salesforce/label/FlowBuilderCalloutEditor.selectActionBodyRegularApex';
-import selectActionBodyRegularLegacyApex from '@salesforce/label/FlowBuilderCalloutEditor.selectActionBodyRegularLegacyApex';
+import selectActionBodyRegularCore from '@salesforce/label/FlowBuilderCalloutEditor.selectActionBodyRegularCore';
 import selectActionBodyRegularEmail from '@salesforce/label/FlowBuilderCalloutEditor.selectActionBodyRegularEmail';
 import selectActionBodyRegularExternalService from '@salesforce/label/FlowBuilderCalloutEditor.selectActionBodyRegularExternalService';
-import selectActionBodyRegular from '@salesforce/label/FlowBuilderCalloutEditor.selectActionBodyRegular';
-
-import noActionHeadingMediumFlow from '@salesforce/label/FlowBuilderCalloutEditor.noActionHeadingMediumFlow';
-import noActionHeadingMediumCore from '@salesforce/label/FlowBuilderCalloutEditor.noActionHeadingMediumCore';
-import noActionHeadingMediumApex from '@salesforce/label/FlowBuilderCalloutEditor.noActionHeadingMediumApex';
-import noActionHeadingMediumLegacyApex from '@salesforce/label/FlowBuilderCalloutEditor.noActionHeadingMediumLegacyApex';
-import noActionHeadingMediumEmail from '@salesforce/label/FlowBuilderCalloutEditor.noActionHeadingMediumEmail';
-
-import noActionBodyRegularFlow from '@salesforce/label/FlowBuilderCalloutEditor.noActionBodyRegularFlow';
-import noActionBodyRegularCore from '@salesforce/label/FlowBuilderCalloutEditor.noActionBodyRegularCore';
-import noActionBodyRegularApex from '@salesforce/label/FlowBuilderCalloutEditor.noActionBodyRegularApex';
-import noActionBodyRegularLegacyApex from '@salesforce/label/FlowBuilderCalloutEditor.noActionBodyRegularLegacyApex';
-import noActionBodyRegularEmail from '@salesforce/label/FlowBuilderCalloutEditor.noActionBodyRegularEmail';
-
-import actionsLoading from '@salesforce/label/FlowBuilderCalloutEditor.actionsLoading';
+import selectActionBodyRegularFlow from '@salesforce/label/FlowBuilderCalloutEditor.selectActionBodyRegularFlow';
+import selectActionBodyRegularLegacyApex from '@salesforce/label/FlowBuilderCalloutEditor.selectActionBodyRegularLegacyApex';
+import selectActionHeadingMedium from '@salesforce/label/FlowBuilderCalloutEditor.selectActionHeadingMedium';
+import selectActionHeadingMediumFlow from '@salesforce/label/FlowBuilderCalloutEditor.selectActionHeadingMediumFlow';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 export const LABELS = {
     actionsLoading,

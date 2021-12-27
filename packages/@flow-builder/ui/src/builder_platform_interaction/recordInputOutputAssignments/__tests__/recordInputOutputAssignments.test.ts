@@ -1,19 +1,19 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-
+import {
+    INTERACTION_COMPONENTS_SELECTORS,
+    LIGHTNING_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
 import {
     AddRecordFieldAssignmentEvent,
-    UpdateRecordFieldAssignmentEvent,
-    DeleteRecordFieldAssignmentEvent
+    DeleteRecordFieldAssignmentEvent,
+    UpdateRecordFieldAssignmentEvent
 } from 'builder_platform_interaction/events';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { createElement } from 'lwc';
+import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import RecordInputOutputAssignments from '../recordInputOutputAssignments';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
-import {
-    LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS
-} from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')

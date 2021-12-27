@@ -5,7 +5,7 @@
  * Company Confidential
  */
 
-import { LightningElement, api } from 'lwc';
+import { api, LightningElement } from 'lwc';
 
 export default class ModalBodyInternalData extends LightningElement {
     @api bodyTextOne;

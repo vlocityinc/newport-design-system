@@ -1,7 +1,7 @@
-import { Validation } from 'builder_platform_interaction/validation';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
-import * as ValidationRules from 'builder_platform_interaction/validationRules';
 import { SCHEDULED_PATH_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { Validation } from 'builder_platform_interaction/validation';
+import * as ValidationRules from 'builder_platform_interaction/validationRules';
 
 /**
  * @constant additionalRules - map of propertyName to validation rules

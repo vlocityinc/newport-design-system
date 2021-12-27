@@ -1,14 +1,14 @@
 // @ts-nocheck
-import { LightningElement, api } from 'lwc';
-import { PropertyChangedEvent } from 'builder_platform_interaction/events';
-import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { addCurrentValueToEvent } from 'builder_platform_interaction/screenEditorCommonUtils';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import {
-    LIGHTNING_INPUT_VARIANTS,
     hasScreenFieldVisibilityCondition,
+    LIGHTNING_INPUT_VARIANTS,
     SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME
 } from 'builder_platform_interaction/screenEditorUtils';
-import { addCurrentValueToEvent } from 'builder_platform_interaction/screenEditorCommonUtils';
+import { api, LightningElement } from 'lwc';
 
 /*
  * Screen element property editor for the text area field.

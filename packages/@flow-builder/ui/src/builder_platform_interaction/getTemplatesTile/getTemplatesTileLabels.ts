@@ -1,9 +1,9 @@
 // @ts-nocheck
 /* Labels */
-import title from '@salesforce/label/FlowBuilderGetTemplatesTile.title';
 import description from '@salesforce/label/FlowBuilderGetTemplatesTile.description';
 import getTemplates from '@salesforce/label/FlowBuilderGetTemplatesTile.getTemplates';
 import getTemplatesTooltip from '@salesforce/label/FlowBuilderGetTemplatesTile.getTemplatesTooltip';
+import title from '@salesforce/label/FlowBuilderGetTemplatesTile.title';
 
 export const LABELS = {
     title,

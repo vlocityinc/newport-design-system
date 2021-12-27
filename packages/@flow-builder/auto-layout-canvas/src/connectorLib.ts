@@ -1,16 +1,15 @@
-import { ConnectorRenderInfo, LayoutConfig, ConnectorVariant, getConnectorConfig } from './flowRendererUtils';
-
-import { ConnectionSource } from './model';
-import ConnectorType from './ConnectorTypeEnum';
 import ConnectorLabelType from './ConnectorLabelTypeEnum';
+import ConnectorType from './ConnectorTypeEnum';
+import { ConnectorRenderInfo, ConnectorVariant, getConnectorConfig, LayoutConfig } from './flowRendererUtils';
+import { ConnectionSource } from './model';
 import {
-    createSvgPath,
-    Offset,
     createOffsetLocation,
-    SvgPathParams,
-    SvgInfo,
     createSvgInfo,
-    Geometry
+    createSvgPath,
+    Geometry,
+    Offset,
+    SvgInfo,
+    SvgPathParams
 } from './svgUtils';
 
 /**

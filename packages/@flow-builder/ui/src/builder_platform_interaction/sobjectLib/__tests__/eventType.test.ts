@@ -1,17 +1,17 @@
 // @ts-nocheck
 import {
-    mockEventTypes,
+    getEventTypes,
+    getInputParametersForEventType,
+    getOutputParametersForEventType,
+    setEventTypes
+} from 'builder_platform_interaction/sobjectLib';
+import {
     mockEventTypeAllParameters,
+    mockEventTypes,
     platformEvent1ApiName,
     platformEvent1Label,
     platformEventInkLevelApiName
 } from 'mock/eventTypesData';
-import {
-    setEventTypes,
-    getEventTypes,
-    getInputParametersForEventType,
-    getOutputParametersForEventType
-} from 'builder_platform_interaction/sobjectLib';
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     return {

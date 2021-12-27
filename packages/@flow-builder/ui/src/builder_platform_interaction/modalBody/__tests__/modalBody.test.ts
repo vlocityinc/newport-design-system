@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
+import { LIGHTNING_COMPONENTS_SELECTORS, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import ModalBody from 'builder_platform_interaction/modalBody';
-import { setDocumentBodyChildren, LIGHTNING_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import { createElement } from 'lwc';
 
 const SELECTORS = {
     SPAN: 'p'

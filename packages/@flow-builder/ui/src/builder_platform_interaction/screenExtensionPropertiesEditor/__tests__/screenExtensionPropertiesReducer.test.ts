@@ -1,14 +1,14 @@
 // @ts-nocheck
+import { ManuallyAssignVariablesChangedEvent } from 'builder_platform_interaction/events';
+import { deepCopy } from 'builder_platform_interaction/storeLib';
 import {
     screenExtensionPropertiesEventReducer,
     screenExtensionPropertiesPropsToStateReducer
 } from '../screenExtensionPropertiesReducer';
-import { ManuallyAssignVariablesChangedEvent } from 'builder_platform_interaction/events';
 import {
-    createScreenFieldWithDynamicTypes,
-    createFlowExtensionWithDynamicTypes
+    createFlowExtensionWithDynamicTypes,
+    createScreenFieldWithDynamicTypes
 } from './screenExtensionDynamicTypesMocks';
-import { deepCopy } from 'builder_platform_interaction/storeLib';
 
 const selectAdvancedModeEvent = new ManuallyAssignVariablesChangedEvent(false);
 const selectManualModeEvent = new ManuallyAssignVariablesChangedEvent(true);

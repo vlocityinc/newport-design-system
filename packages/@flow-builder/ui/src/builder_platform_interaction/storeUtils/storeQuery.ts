@@ -1,12 +1,12 @@
-import { Store } from 'builder_platform_interaction/storeLib';
-import {
-    ELEMENT_TYPE,
-    FLOW_TRIGGER_TYPE,
-    FLOW_TRIGGER_SAVE_TYPE,
-    SCHEDULED_PATH_TYPE,
-    CONNECTOR_TYPE
-} from 'builder_platform_interaction/flowMetadata';
 import immediateScheduledPathLabel from '@salesforce/label/FlowBuilderStartEditor.immediateScheduledPathLabel';
+import {
+    CONNECTOR_TYPE,
+    ELEMENT_TYPE,
+    FLOW_TRIGGER_SAVE_TYPE,
+    FLOW_TRIGGER_TYPE,
+    SCHEDULED_PATH_TYPE
+} from 'builder_platform_interaction/flowMetadata';
+import { Store } from 'builder_platform_interaction/storeLib';
 
 export const getElementByGuidFromState = ({ elements }, guid: string) => elements[guid];
 

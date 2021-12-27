@@ -1,8 +1,8 @@
 // @ts-nocheck
-import { configureMenu } from '../alcConnectorMenuConfig';
 import { ICON_SHAPE } from 'builder_platform_interaction/alcComponentsUtils';
-import { LABELS } from '../alcConnectorMenuLabels';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { configureMenu } from '../alcConnectorMenuConfig';
+import { LABELS } from '../alcConnectorMenuLabels';
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {
     const mockSharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');

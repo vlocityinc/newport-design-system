@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { createExpressionListRowItemWithoutOperatorAndRHSDataType } from './baseList';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { createExpressionListRowItemWithoutOperatorAndRHSDataType } from './baseList';
 
 /**
  * Factory function for creating output assignment used in record lookup and recordChoiceSet

@@ -1,28 +1,26 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
-import { getConfigForElement, ICON_SHAPE } from 'builder_platform_interaction/elementConfig';
-import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
-import {
-    DragNodeEvent,
-    DragNodeStopEvent,
-    NodeMouseDownEvent,
-    SelectNodeEvent,
-    EditElementEvent,
-    DeleteElementEvent
-} from 'builder_platform_interaction/events';
-import { getDrawingLibInstance } from 'builder_platform_interaction/drawingLib';
-import { LABELS } from './nodeLabels';
+import { isRecordTriggeredFlow, startElementDescription } from 'builder_platform_interaction/alcCanvasUtils';
+import { clamp } from 'builder_platform_interaction/clampLib';
 import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
 import { isTestMode } from 'builder_platform_interaction/contextLib';
-import { clamp } from 'builder_platform_interaction/clampLib';
-import { commonUtils, loggingUtils } from 'builder_platform_interaction/sharedUtils';
-
-import { getProcessType } from 'builder_platform_interaction/storeUtils';
-
-import startNode from './startNode.html';
-import nodeElement from './node.html';
-import { startElementDescription, isRecordTriggeredFlow } from 'builder_platform_interaction/alcCanvasUtils';
+import { getDrawingLibInstance } from 'builder_platform_interaction/drawingLib';
+import { getConfigForElement, ICON_SHAPE } from 'builder_platform_interaction/elementConfig';
 import { shouldSupportScheduledPaths } from 'builder_platform_interaction/elementFactory';
+import {
+    DeleteElementEvent,
+    DragNodeEvent,
+    DragNodeStopEvent,
+    EditElementEvent,
+    NodeMouseDownEvent,
+    SelectNodeEvent
+} from 'builder_platform_interaction/events';
+import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { commonUtils, loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { getProcessType } from 'builder_platform_interaction/storeUtils';
+import { api, LightningElement, track } from 'lwc';
+import nodeElement from './node.html';
+import { LABELS } from './nodeLabels';
+import startNode from './startNode.html';
 
 const { format } = commonUtils;
 const { logInteraction } = loggingUtils;

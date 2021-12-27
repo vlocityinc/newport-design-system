@@ -1,20 +1,17 @@
 // @ts-nocheck
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-
-import { FLOW_TRIGGER_TYPE, FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { TRIGGER_TYPE_LABELS, PROCESS_TRIGGER_TYPE_LABELS } from 'builder_platform_interaction/processTypeLib';
+import { ELEMENT_TYPE, FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { PROCESS_TRIGGER_TYPE_LABELS, TRIGGER_TYPE_LABELS } from 'builder_platform_interaction/processTypeLib';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
 import { getProcessTypes } from 'builder_platform_interaction/systemLib';
-
 import {
     copyAlcExtraProps,
+    createPastedCanvasElement,
     findStartElement,
     getChildCount,
-    supportsChildren,
     getElementsMetadata,
     setElementsMetadata,
     startElementDescription,
-    createPastedCanvasElement
+    supportsChildren
 } from '../alcCanvasUtils';
 
 jest.mock('builder_platform_interaction/systemLib', () => {

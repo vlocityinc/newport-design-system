@@ -1,23 +1,23 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
-import { recordCreateReducer } from './recordCreateReducer';
-import { LABELS } from './recordCreateEditorLabels';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
-import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
-import { PARAM_PROPERTY } from 'builder_platform_interaction/ruleLib';
-import { ENTITY_TYPE, fetchFieldsForEntity, getCreateableEntities } from 'builder_platform_interaction/sobjectLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { getSObjectOrSObjectCollectionFilter } from 'builder_platform_interaction/filterTypeLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     FLOW_AUTOMATIC_OUTPUT_HANDLING,
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
-import { getSObjectOrSObjectCollectionFilter } from 'builder_platform_interaction/filterTypeLib';
+import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
+import { PARAM_PROPERTY } from 'builder_platform_interaction/ruleLib';
 import { CREATEABLE_FILTER } from 'builder_platform_interaction/selectors';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { ENTITY_TYPE, fetchFieldsForEntity, getCreateableEntities } from 'builder_platform_interaction/sobjectLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './recordCreateEditorLabels';
+import { recordCreateReducer } from './recordCreateReducer';
 const { format } = commonUtils;
 export default class RecordCreateEditor extends LightningElement {
     labels = LABELS;

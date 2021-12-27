@@ -1,8 +1,8 @@
 // @ts-nocheck
-import { createDynamicChoiceSet, createDynamicChoiceSetMetadataObject } from './base/dynamicChoiceSet';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { baseElementsArrayToMap } from './base/baseElement';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { baseElementsArrayToMap } from './base/baseElement';
+import { createDynamicChoiceSet, createDynamicChoiceSetMetadataObject } from './base/dynamicChoiceSet';
 
 /**
  * Picklist choice set factory function

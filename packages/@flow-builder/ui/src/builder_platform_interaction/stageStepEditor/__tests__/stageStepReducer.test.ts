@@ -1,32 +1,32 @@
 // @ts-nocheck
-import { stageStepReducer } from '../stageStepReducer';
+import { MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
+import {
+    deleteItem,
+    hydrateWithErrors,
+    replaceItem,
+    updateProperties
+} from 'builder_platform_interaction/dataMutationLib';
+import { createCondition } from 'builder_platform_interaction/elementFactory';
 import {
     CreateEntryConditionsEvent,
     DeleteAllConditionsEvent,
     DeleteConditionEvent,
     DeleteOrchestrationActionEvent,
+    DeleteParameterItemEvent,
+    ORCHESTRATED_ACTION_CATEGORY,
     OrchestrationActionValueChangedEvent,
     PropertyChangedEvent,
-    UpdateParameterItemEvent,
-    UpdateConditionEvent,
-    DeleteParameterItemEvent,
     RequiresAsyncProcessingChangedEvent,
-    UpdateEntryExitCriteriaEvent
+    UpdateConditionEvent,
+    UpdateEntryExitCriteriaEvent,
+    UpdateParameterItemEvent
 } from 'builder_platform_interaction/events';
-import { createCondition } from 'builder_platform_interaction/elementFactory';
-import { ORCHESTRATED_ACTION_CATEGORY } from 'builder_platform_interaction/events';
-import {
-    hydrateWithErrors,
-    replaceItem,
-    deleteItem,
-    updateProperties
-} from 'builder_platform_interaction/dataMutationLib';
-import { invokeModal } from 'builder_platform_interaction/sharedUtils';
-import { MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
 import { ACTION_TYPE, ELEMENT_TYPE, EntryCriteria, ExitCriteria } from 'builder_platform_interaction/flowMetadata';
 import { removeAllUnsetParameters } from 'builder_platform_interaction/orchestratedStageAndStepReducerUtils';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { invokeModal } from 'builder_platform_interaction/sharedUtils';
 import { Validation } from 'builder_platform_interaction/validation';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { stageStepReducer } from '../stageStepReducer';
 
 const mockCondition = {
     a: 1

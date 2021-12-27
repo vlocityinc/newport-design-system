@@ -1,10 +1,10 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import ConditionEditorPopover from 'builder_platform_interaction/conditionEditorPopover';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
+import { createElement } from 'lwc';
 import { numberVariable } from 'mock/storeData';
-import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/ferToFerovExpressionBuilder')

@@ -1,9 +1,9 @@
 // @ts-nocheck
-import { Meta, ContextInfo } from 'analyzer_framework/api';
-import * as Rule from './noDMLInLoop';
-import { FLOW_CONTEXT, TEAM_NAME } from '../constants';
-import ruleTitle from '@salesforce/label/FlowBuilderGuardrailRules.noDMLInLoopTitle';
 import ruleDesc from '@salesforce/label/FlowBuilderGuardrailRules.noDMLInLoopDescription';
+import ruleTitle from '@salesforce/label/FlowBuilderGuardrailRules.noDMLInLoopTitle';
+import { ContextInfo, Meta } from 'analyzer_framework/api';
+import { FLOW_CONTEXT, TEAM_NAME } from '../constants';
+import * as Rule from './noDMLInLoop';
 
 const contextInfo = new ContextInfo(FLOW_CONTEXT);
 

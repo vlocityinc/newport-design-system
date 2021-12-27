@@ -1,12 +1,20 @@
 // @ts-nocheck
+import { ELEMENT_TYPE, FOOTER_LABEL_TYPE, PAUSE_MESSAGE_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import {
-    createScreenWithFields,
+    baseCanvasElement,
+    baseCanvasElementsArrayToMap,
+    baseChildElement,
+    duplicateCanvasElementWithChildElements
+} from '../base/baseElement';
+import { baseCanvasElementMetadataObject, baseChildElementMetadataObject } from '../base/baseMetadata';
+import {
     createDuplicateScreen,
     createScreenElement,
-    createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor,
+    createScreenMetadataObject,
     createScreenWithFieldReferences,
-    createScreenMetadataObject
+    createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor,
+    createScreenWithFields
 } from '../screen';
 import {
     createScreenField,
@@ -14,14 +22,6 @@ import {
     createScreenFieldWithFieldReferences,
     createScreenFieldWithFields
 } from '../screenField';
-import { ELEMENT_TYPE, FOOTER_LABEL_TYPE, PAUSE_MESSAGE_TYPE } from 'builder_platform_interaction/flowMetadata';
-import {
-    baseCanvasElement,
-    duplicateCanvasElementWithChildElements,
-    baseChildElement,
-    baseCanvasElementsArrayToMap
-} from '../base/baseElement';
-import { baseCanvasElementMetadataObject, baseChildElementMetadataObject } from '../base/baseMetadata';
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {

@@ -1,5 +1,5 @@
-import { LABELS } from './mergeFieldValidationLabels';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { LABELS } from './mergeFieldValidationLabels';
 const { format } = commonUtils;
 
 const VALIDATION_ERROR_TYPE = {

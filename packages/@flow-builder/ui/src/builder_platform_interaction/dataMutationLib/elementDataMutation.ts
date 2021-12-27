@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
-import { updateProperties } from './objectMutation';
 import { replaceItem } from './arrayMutation';
+import { updateProperties } from './objectMutation';
 
 export type ValueWithError = {
     value: string;

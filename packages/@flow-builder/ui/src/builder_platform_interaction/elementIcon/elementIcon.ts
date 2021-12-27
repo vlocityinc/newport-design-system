@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { LightningElement, api } from 'lwc';
 import { ICON_SHAPE } from 'builder_platform_interaction/elementConfig';
+import { api, LightningElement } from 'lwc';
 
 export default class ElementIcon extends LightningElement {
     @api

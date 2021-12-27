@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { UNDO, REDO, INIT, CLEAR_UNDO_REDO } from '../undoRedoLib';
+import { CLEAR_UNDO_REDO, INIT, REDO, UNDO } from '../undoRedoLib';
 
 const initialStoreState = {
     elements: {},

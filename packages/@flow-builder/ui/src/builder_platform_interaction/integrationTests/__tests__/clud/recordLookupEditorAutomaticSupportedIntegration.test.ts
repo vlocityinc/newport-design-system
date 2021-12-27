@@ -1,24 +1,24 @@
-import { createElement } from 'lwc';
-import RecordLookupEditor from 'builder_platform_interaction/recordLookupEditor';
-import { resetState, setupStateForFlow } from '../integrationTestUtils';
-import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { EditElementEvent, AddElementEvent } from 'builder_platform_interaction/events';
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import {
+    changeEvent,
+    deepQuerySelector,
+    INTERACTION_COMPONENTS_SELECTORS,
+    LIGHTNING_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
+import { AddElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import {
     NUMBER_RECORDS_TO_STORE,
     SORT_ORDER,
     VARIABLE_AND_FIELD_MAPPING_VALUES
 } from 'builder_platform_interaction/recordEditorLib';
-import {
-    LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS,
-    deepQuerySelector,
-    changeEvent,
-    ticks,
-    setDocumentBodyChildren
-} from 'builder_platform_interaction/builderTestUtils';
+import RecordLookupEditor from 'builder_platform_interaction/recordLookupEditor';
+import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import { createElement } from 'lwc';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import { resetState, setupStateForFlow } from '../integrationTestUtils';
 import { getEntityResourcePicker, getRecordQueryFields, getRecordSort } from './cludEditorTestUtils';
 
 const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'Flow';

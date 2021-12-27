@@ -8,41 +8,40 @@
  *      handleDeselectScreenElement
  *      handleReorder
  */
-import ScreenEditor from '../screenEditor';
-import { createElement } from 'lwc';
 import {
     createTestScreen,
     createTestScreenField,
+    INTERACTION_COMPONENTS_SELECTORS,
+    SCREEN_NO_DEF_VALUE,
     setDocumentBodyChildren,
-    SCREEN_NO_DEF_VALUE
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
+import { createAutomaticField } from 'builder_platform_interaction/elementFactory';
 import {
-    PropertyChangedEvent,
-    createScreenElementMovedEvent,
+    createAddAutomaticScreenFieldEvent,
     createAddScreenFieldEvent,
+    createColumnWidthChangedEvent,
     createScreenElementDeletedEvent,
+    createScreenElementDeselectedEvent,
+    createScreenElementMovedEvent,
     createScreenElementSelectedEvent,
     createScreenNodeSelectedEvent,
-    createScreenElementDeselectedEvent,
+    createSingleOrMultiChoiceTypeChangedEvent,
     DynamicTypeMappingChangeEvent,
-    createColumnWidthChangedEvent,
-    createAddAutomaticScreenFieldEvent,
-    createSingleOrMultiChoiceTypeChangedEvent
+    ManuallyAssignVariablesChangedEvent,
+    PropertyChangedEvent
 } from 'builder_platform_interaction/events';
-import { invokeModal } from 'builder_platform_interaction/sharedUtils';
+import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { ManuallyAssignVariablesChangedEvent } from 'builder_platform_interaction/events';
+import { ChoiceDisplayOptions, ScreenFieldName } from 'builder_platform_interaction/screenEditorUtils';
+import { invokeModal } from 'builder_platform_interaction/sharedUtils';
 import { setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
-import { supportedFeaturesListForFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForFlow.json';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
-import { ScreenFieldName, ChoiceDisplayOptions } from 'builder_platform_interaction/screenEditorUtils';
-import { flowWithAllElementsUIModel as mockFlowWithAllElementsUIModel, accountSObjectVariable } from 'mock/storeData';
-import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
-import { createAutomaticField } from 'builder_platform_interaction/elementFactory';
-import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
-import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import * as usebyMock from 'builder_platform_interaction/usedByLib';
+import { createElement } from 'lwc';
+import { accountSObjectVariable, flowWithAllElementsUIModel as mockFlowWithAllElementsUIModel } from 'mock/storeData';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { supportedFeaturesListForFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForFlow.json';
+import ScreenEditor from '../screenEditor';
 
 jest.mock('builder_platform_interaction/contextLib', () => require('builder_platform_interaction_mocks/contextLib'));
 

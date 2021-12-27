@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import ModalHeaderForAutoLayout from 'builder_platform_interaction/modalHeaderForAutoLayout';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
+import ModalHeaderForAutoLayout from 'builder_platform_interaction/modalHeaderForAutoLayout';
+import { createElement } from 'lwc';
 
 const title = 'modal header';
 

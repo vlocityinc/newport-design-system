@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { labelFilter, resourceFilter, canvasElementFilter } from '../filterLib';
 import { isAutomaticOutputElementWithoutChildren } from 'builder_platform_interaction/complexTypeLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { canvasElementFilter, labelFilter, resourceFilter } from '../filterLib';
 
 jest.mock('builder_platform_interaction/complexTypeLib', () => {
     return {

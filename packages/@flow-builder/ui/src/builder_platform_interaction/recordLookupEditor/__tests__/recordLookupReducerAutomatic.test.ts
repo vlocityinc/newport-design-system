@@ -1,17 +1,17 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import RecordLookupEditor from '../recordLookupEditor';
-import { recordLookupReducer } from '../recordLookupReducer';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import {
     EditElementEvent,
     PropertyChangedEvent,
-    VariableAndFieldMappingChangedEvent,
-    UpdateRecordLookupFieldEvent
+    UpdateRecordLookupFieldEvent,
+    VariableAndFieldMappingChangedEvent
 } from 'builder_platform_interaction/events';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { lookupRecordAutomaticOutput } from 'mock/storeData';
 import { VARIABLE_AND_FIELD_MAPPING_VALUES } from 'builder_platform_interaction/recordEditorLib';
-import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { createElement } from 'lwc';
+import { lookupRecordAutomaticOutput } from 'mock/storeData';
+import RecordLookupEditor from '../recordLookupEditor';
+import { recordLookupReducer } from '../recordLookupReducer';
 
 const mockGuid = 'mockGuid';
 

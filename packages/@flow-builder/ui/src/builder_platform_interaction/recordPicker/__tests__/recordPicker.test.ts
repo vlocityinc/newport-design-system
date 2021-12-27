@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import recordPicker from 'builder_platform_interaction/recordPicker';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import recordPicker from 'builder_platform_interaction/recordPicker';
+import { createElement } from 'lwc';
 import { AuraComponent } from '../auraInterop';
 
 jest.mock('../auraInterop');

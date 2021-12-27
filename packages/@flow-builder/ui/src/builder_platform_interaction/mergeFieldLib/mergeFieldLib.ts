@@ -1,3 +1,3 @@
-export { validateMergeField, validateTextWithMergeFields, isTextWithMergeFields } from './mergeFieldValidation';
-export { resolveReferenceFromIdentifier, isLookupTraversalSupported } from './mergeField';
+export { isLookupTraversalSupported, resolveReferenceFromIdentifier } from './mergeField';
+export { isTextWithMergeFields, validateMergeField, validateTextWithMergeFields } from './mergeFieldValidation';
 export { loadReferencesIn } from './references';

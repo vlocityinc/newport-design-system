@@ -1,14 +1,14 @@
+import BaseExpressionBuilder from 'builder_platform_interaction/baseExpressionBuilder';
 import {
-    ticks,
-    INTERACTION_COMPONENTS_SELECTORS,
     changeEvent,
-    clickPill
+    clickPill,
+    INTERACTION_COMPONENTS_SELECTORS,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
-import { ComboboxTestComponent } from './comboboxTestUtils';
-import { TestComponent } from './testComponent';
 import FerToFerovExpressionBuilder from 'builder_platform_interaction/ferToFerovExpressionBuilder';
 import FieldToFerovExpressionBuilder from 'builder_platform_interaction/fieldToFerovExpressionBuilder';
-import BaseExpressionBuilder from 'builder_platform_interaction/baseExpressionBuilder';
+import { ComboboxTestComponent } from './comboboxTestUtils';
+import { TestComponent } from './testComponent';
 
 export const EXPRESSION_BUILDER_SELECTORS = {
     LHS_COMBOBOX: 'builder_platform_interaction-combobox.lhs',

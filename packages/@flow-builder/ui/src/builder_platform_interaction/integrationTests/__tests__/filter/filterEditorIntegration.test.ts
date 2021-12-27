@@ -1,6 +1,3 @@
-import { createElement } from 'lwc';
-import CollectionProcessorEditor from 'builder_platform_interaction/collectionProcessorEditor';
-import FilterEditor from 'builder_platform_interaction/filterEditor';
 import {
     deepQuerySelector,
     INTERACTION_COMPONENTS_SELECTORS,
@@ -8,6 +5,24 @@ import {
     setDocumentBodyChildren,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
+import CollectionProcessorEditor from 'builder_platform_interaction/collectionProcessorEditor';
+import { AddElementEvent, EditElementEvent, PropertyChangedEvent } from 'builder_platform_interaction/events';
+import FerToFerovExpressionBuilder from 'builder_platform_interaction/ferToFerovExpressionBuilder';
+import FieldToFerovExpressionBuilder from 'builder_platform_interaction/fieldToFerovExpressionBuilder';
+import FilterEditor from 'builder_platform_interaction/filterEditor';
+import {
+    COLLECTION_PROCESSOR_SUB_TYPE,
+    CONDITION_LOGIC,
+    ELEMENT_TYPE,
+    FLOW_PROCESS_TYPE
+} from 'builder_platform_interaction/flowMetadata';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import { createElement } from 'lwc';
+import * as recommendationFlow from 'mock/flows/recommendationFlow.json';
+import { getToolboxElements } from '../../../editor/editorUtils';
+import { ComboboxTestComponent } from '../comboboxTestUtils';
+import { ExpressionBuilderComponentTest } from '../expressionBuilderTestUtils';
 import {
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
     getChildComponent,
@@ -15,22 +30,7 @@ import {
     setupStateForProcessType,
     translateFlowToUIAndDispatch
 } from '../integrationTestUtils';
-import { getToolboxElements } from '../../../editor/editorUtils';
-import {
-    ELEMENT_TYPE,
-    FLOW_PROCESS_TYPE,
-    COLLECTION_PROCESSOR_SUB_TYPE,
-    CONDITION_LOGIC
-} from 'builder_platform_interaction/flowMetadata';
-import * as recommendationFlow from 'mock/flows/recommendationFlow.json';
-import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { AddElementEvent, EditElementEvent, PropertyChangedEvent } from 'builder_platform_interaction/events';
-import { LabelDescriptionComponentTest, getLabelDescriptionElement } from '../labelDescriptionTestUtils';
-import { ComboboxTestComponent } from '../comboboxTestUtils';
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { ExpressionBuilderComponentTest } from '../expressionBuilderTestUtils';
-import FieldToFerovExpressionBuilder from 'builder_platform_interaction/fieldToFerovExpressionBuilder';
-import FerToFerovExpressionBuilder from 'builder_platform_interaction/ferToFerovExpressionBuilder';
+import { getLabelDescriptionElement, LabelDescriptionComponentTest } from '../labelDescriptionTestUtils';
 
 const processType = FLOW_PROCESS_TYPE.RECOMMENDATION_STRATEGY;
 const newCondition = {

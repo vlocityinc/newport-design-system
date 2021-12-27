@@ -1,6 +1,6 @@
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { UNDO, REDO, CLEAR_UNDO_REDO } from 'builder_platform_interaction/undoRedoLib';
 import { ConnectionSource } from 'builder_platform_interaction/autoLayoutCanvas';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CLEAR_UNDO_REDO, REDO, UNDO } from 'builder_platform_interaction/undoRedoLib';
 
 export const UPDATE_ENTITIES = 'UPDATE_ENTITIES';
 export const UPDATE_FLOW = 'UPDATE_FLOW';

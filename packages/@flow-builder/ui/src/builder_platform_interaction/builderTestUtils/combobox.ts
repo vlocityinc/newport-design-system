@@ -1,5 +1,5 @@
-import { LIGHTNING_COMPONENTS_SELECTORS, ticks, clickEvent, removeEvent } from './builderTestUtils';
 import Combobox from 'builder_platform_interaction/combobox';
+import { clickEvent, LIGHTNING_COMPONENTS_SELECTORS, removeEvent, ticks } from './builderTestUtils';
 
 /**
  * Return the pill component corresponding to the given combobox

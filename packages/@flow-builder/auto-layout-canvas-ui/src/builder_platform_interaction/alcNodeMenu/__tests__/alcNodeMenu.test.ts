@@ -1,25 +1,25 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
+import {
+    ClearHighlightedPathEvent,
+    CloseMenuEvent,
+    DeleteBranchElementEvent,
+    HighlightPathsToDeleteEvent,
+    MoveFocusToNodeEvent
+} from 'builder_platform_interaction/alcEvents';
 import AlcNodeMenu from 'builder_platform_interaction/alcNodeMenu';
+import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
 import {
     CopySingleElementEvent,
     DeleteElementEvent,
     EditElementEvent,
     OpenSubflowEvent
 } from 'builder_platform_interaction/events';
-import {
-    HighlightPathsToDeleteEvent,
-    CloseMenuEvent,
-    ClearHighlightedPathEvent,
-    MoveFocusToNodeEvent,
-    DeleteBranchElementEvent
-} from 'builder_platform_interaction/alcEvents';
+import { commands } from 'builder_platform_interaction/sharedUtils';
+import { createElement } from 'lwc';
 import { ELEMENT_ACTION_CONFIG } from '../alcNodeMenuConfig';
 import { LABELS } from '../alcNodeMenuLabels';
-import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
-import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
-import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
-import { commands } from 'builder_platform_interaction/sharedUtils';
 
 const { ArrowDown, ArrowUp, EscapeCommand, EnterCommand, SpaceCommand, TabCommand } = commands;
 

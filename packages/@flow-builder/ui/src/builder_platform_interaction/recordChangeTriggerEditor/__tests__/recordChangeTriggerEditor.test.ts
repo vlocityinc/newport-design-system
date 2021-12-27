@@ -1,16 +1,16 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
+import { query, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { UpdateNodeEvent } from 'builder_platform_interaction/events';
 import {
     CONDITION_LOGIC,
-    FLOW_TRIGGER_TYPE,
+    FLOW_PROCESS_TYPE,
     FLOW_TRIGGER_SAVE_TYPE,
-    FLOW_PROCESS_TYPE
+    FLOW_TRIGGER_TYPE
 } from 'builder_platform_interaction/flowMetadata';
-import { query, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
-import RecordChangeTriggerEditor from '../recordChangeTriggerEditor';
-import { UpdateNodeEvent } from 'builder_platform_interaction/events';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
 import { updateAndValidateElementInPropertyEditor } from 'builder_platform_interaction/validation';
+import { createElement } from 'lwc';
+import RecordChangeTriggerEditor from '../recordChangeTriggerEditor';
 
 const { AFTER_SAVE, BEFORE_DELETE, BEFORE_SAVE } = FLOW_TRIGGER_TYPE;
 const { CREATE, UPDATE, DELETE } = FLOW_TRIGGER_SAVE_TYPE;

@@ -1,5 +1,5 @@
-import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { SORT_ORDER } from 'builder_platform_interaction/sortEditorLib';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 /**
  * @param sortOption

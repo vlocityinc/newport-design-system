@@ -1,9 +1,9 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import ScreenEditorPropertiesEditorContainer from '../screenPropertiesEditorContainer';
-import { getAllScreenFieldTypes } from 'builder_platform_interaction/screenEditorUtils';
 import { query, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+import { getAllScreenFieldTypes } from 'builder_platform_interaction/screenEditorUtils';
+import { createElement } from 'lwc';
+import ScreenEditorPropertiesEditorContainer from '../screenPropertiesEditorContainer';
 
 jest.mock('builder_platform_interaction/contextLib', () => require('builder_platform_interaction_mocks/contextLib'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>

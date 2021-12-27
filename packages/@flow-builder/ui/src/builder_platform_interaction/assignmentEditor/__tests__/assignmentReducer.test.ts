@@ -1,14 +1,14 @@
 // @ts-nocheck
-import { assignmentReducer } from '../assignmentReducer';
 import {
     AddListItemEvent,
     DeleteListItemEvent,
-    UpdateListItemEvent,
-    PropertyChangedEvent
+    PropertyChangedEvent,
+    UpdateListItemEvent
 } from 'builder_platform_interaction/events';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
-
 import { deepCopy } from 'builder_platform_interaction/storeLib';
+import { assignmentReducer } from '../assignmentReducer';
+
 const state = {
     assignmentItems: [
         {

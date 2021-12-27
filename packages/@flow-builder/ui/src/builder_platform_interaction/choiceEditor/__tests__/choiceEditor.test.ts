@@ -1,28 +1,28 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import ChoiceEditor from '../choiceEditor';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { choiceReducer } from '../choiceReducer';
 import {
-    PropertyChangedEvent,
-    ComboboxStateChangedEvent,
-    ValueChangedEvent
-} from 'builder_platform_interaction/events';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import {
-    getResourceByUniqueIdentifier,
-    getFerovInfoAndErrorFromEvent
-} from 'builder_platform_interaction/expressionUtils';
-import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
-import { LABELS } from '../choiceEditorLabels';
+    blurEvent,
+    focusoutEvent,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { STORED_VALUE_DATA_TYPE_PROPERTY } from 'builder_platform_interaction/elementFactory';
 import {
-    ticks,
-    focusoutEvent,
-    blurEvent,
-    setDocumentBodyChildren
-} from 'builder_platform_interaction/builderTestUtils';
+    ComboboxStateChangedEvent,
+    PropertyChangedEvent,
+    ValueChangedEvent
+} from 'builder_platform_interaction/events';
+import {
+    getFerovInfoAndErrorFromEvent,
+    getResourceByUniqueIdentifier
+} from 'builder_platform_interaction/expressionUtils';
+import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { createElement } from 'lwc';
+import ChoiceEditor from '../choiceEditor';
+import { LABELS } from '../choiceEditorLabels';
+import { choiceReducer } from '../choiceReducer';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')

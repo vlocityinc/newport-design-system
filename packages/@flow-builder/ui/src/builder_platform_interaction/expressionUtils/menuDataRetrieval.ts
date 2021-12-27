@@ -1,52 +1,52 @@
 // @ts-nocheck
-import { isMatch, PARAM_PROPERTY, SUBTYPE, getDataType } from 'builder_platform_interaction/ruleLib';
-import {
-    ELEMENT_TYPE,
-    UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE,
-    isSystemElement,
-    isSectionOrColumn,
-    isScheduledPath
-} from 'builder_platform_interaction/flowMetadata';
-import { Store } from 'builder_platform_interaction/storeLib';
-import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
-import { FLOW_DATA_TYPE, getResourceTypes, isComplexType } from 'builder_platform_interaction/dataTypeLib';
-import {
-    getMenuItemsForField,
-    mutateFlowResourceToComboboxShape,
-    mutateEntitiesToComboboxShape,
-    mutatePicklistValue,
-    mutateEventTypesToComboboxShape,
-    getSystemAndGlobalVariableMenuData,
-    COMBOBOX_ITEM_DISPLAY_TYPE
-} from './menuDataGenerator';
-import resourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.resourceLabel';
 import newResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.newResourceLabel';
 import newTypedResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.newTypedResourceLabel';
 import picklistValuesLabel from '@salesforce/label/FlowBuilderExpressionUtils.picklistValuesLabel';
+import resourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.resourceLabel';
 import systemGlobalVariableCategoryLabel from '@salesforce/label/FlowBuilderSystemGlobalVariables.systemGlobalVariableCategory';
-import {
-    GLOBAL_CONSTANT_OBJECTS,
-    getSystemVariables,
-    SYSTEM_VARIABLE_PREFIX,
-    SYSTEM_VARIABLE_CLIENT_PREFIX,
-    getProcessTypes,
-    getRunInModes,
-    getGlobalVariables,
-    isSystemVariableId,
-    getApiVersionsList
-} from 'builder_platform_interaction/systemLib';
 import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
+import {
+    isAutomaticOutputElementWithoutChildren,
+    retrieveResourceComplexTypeFields
+} from 'builder_platform_interaction/complexTypeLib';
+import { FLOW_DATA_TYPE, getResourceTypes, isComplexType } from 'builder_platform_interaction/dataTypeLib';
 import { elementTypeToConfigMap, getConfigForElementType } from 'builder_platform_interaction/elementConfig';
+import {
+    ELEMENT_TYPE,
+    isScheduledPath,
+    isSectionOrColumn,
+    isSystemElement,
+    UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE
+} from 'builder_platform_interaction/flowMetadata';
+import { getDataType, isMatch, PARAM_PROPERTY, SUBTYPE } from 'builder_platform_interaction/ruleLib';
+import { isAutomaticField } from 'builder_platform_interaction/screenEditorUtils';
+import { canElementContain, RetrieveOptions } from 'builder_platform_interaction/selectors';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
+import { Store } from 'builder_platform_interaction/storeLib';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import {
-    retrieveResourceComplexTypeFields,
-    isAutomaticOutputElementWithoutChildren
-} from 'builder_platform_interaction/complexTypeLib';
+    getApiVersionsList,
+    getGlobalVariables,
+    getProcessTypes,
+    getRunInModes,
+    getSystemVariables,
+    GLOBAL_CONSTANT_OBJECTS,
+    isSystemVariableId,
+    SYSTEM_VARIABLE_CLIENT_PREFIX,
+    SYSTEM_VARIABLE_PREFIX
+} from 'builder_platform_interaction/systemLib';
+import {
+    COMBOBOX_ITEM_DISPLAY_TYPE,
+    getMenuItemsForField,
+    getSystemAndGlobalVariableMenuData,
+    mutateEntitiesToComboboxShape,
+    mutateEventTypesToComboboxShape,
+    mutateFlowResourceToComboboxShape,
+    mutatePicklistValue
+} from './menuDataGenerator';
 import { getScreenElement } from './resourceUtils';
 import { getStoreElements } from './storeElementsFilter';
-import { canElementContain, RetrieveOptions } from 'builder_platform_interaction/selectors';
-import { isAutomaticField } from 'builder_platform_interaction/screenEditorUtils';
-import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 const { format } = commonUtils;
 
 const { SOBJECT_FIELD_REQUIREMENT, SYSTEM_VARIABLE_REQUIREMENT } = PARAM_PROPERTY;

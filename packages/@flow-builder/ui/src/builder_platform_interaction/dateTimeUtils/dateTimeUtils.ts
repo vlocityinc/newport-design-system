@@ -1,11 +1,9 @@
 // @ts-nocheck
-import { parseDateTimeUTC, syncUTCToWallTime, syncWallTimeToUTC } from 'lightning/internalLocalizationService';
-
-import shortDateTimeFormat from '@salesforce/i18n/dateTime.shortDateTimeFormat';
 import shortDateFormat from '@salesforce/i18n/dateTime.shortDateFormat';
+import shortDateTimeFormat from '@salesforce/i18n/dateTime.shortDateTimeFormat';
 import timeZone from '@salesforce/i18n/timeZone';
-
 import { getLocalizationService } from 'lightning/configProvider';
+import { parseDateTimeUTC, syncUTCToWallTime, syncWallTimeToUTC } from 'lightning/internalLocalizationService';
 
 /**
  * Returns the default date or datetime format for user's locale

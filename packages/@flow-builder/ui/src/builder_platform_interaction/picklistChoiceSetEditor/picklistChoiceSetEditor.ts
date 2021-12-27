@@ -1,15 +1,15 @@
 // @ts-nocheck
-import { LightningElement, api, track, unwrap } from 'lwc';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { picklistChoiceSetReducer } from './picklistChoiceSetReducer';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
-import { LABELS } from './picklistChoiceSetEditorLabels';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { api, LightningElement, track, unwrap } from 'lwc';
+import { LABELS } from './picklistChoiceSetEditorLabels';
+import { picklistChoiceSetReducer } from './picklistChoiceSetReducer';
 const { format } = commonUtils;
 
 const SORT_ORDER_OPTIONS = [

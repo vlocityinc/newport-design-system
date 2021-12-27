@@ -1,8 +1,8 @@
-import { createElement } from 'lwc';
-import TransactionControlPicker from '../transactionControlPicker';
-import { FLOW_TRANSACTION_MODEL } from 'builder_platform_interaction/flowMetadata';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { FLOW_TRANSACTION_MODEL } from 'builder_platform_interaction/flowMetadata';
+import { createElement } from 'lwc';
+import TransactionControlPicker from '../transactionControlPicker';
 
 const selectors = {
     transactionControlPicker: 'builder_platform_interaction-transaction-control-picker',

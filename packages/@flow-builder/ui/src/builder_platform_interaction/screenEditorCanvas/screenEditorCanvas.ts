@@ -1,16 +1,15 @@
-import { LightningElement, api } from 'lwc';
+import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { createScreenElementDeselectedEvent, createScreenElementMovedEvent } from 'builder_platform_interaction/events';
+import { FlowScreenFieldType, FOOTER_LABEL_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import {
     CANVAS_SCREEN_GUIDS,
     isRegionContainerField,
-    getSectionFieldType,
     ScreenCanvasKeyboardInteractions
 } from 'builder_platform_interaction/screenEditorUtils';
-import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
-import { createScreenElementDeselectedEvent, createScreenElementMovedEvent } from 'builder_platform_interaction/events';
-import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
-import { FOOTER_LABEL_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
-import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import { api, LightningElement } from 'lwc';
 const { format } = commonUtils;
 
 type ScreenComponentInfo = {

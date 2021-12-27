@@ -1,11 +1,11 @@
 // @ts-nocheck
+import { ZOOM_ACTION } from 'builder_platform_interaction/events';
 import {
-    getScaleAndOffsetValuesOnZoom,
-    getOffsetValuesOnPan,
     getDistanceBetweenViewportCenterAndElement,
+    getOffsetValuesOnPan,
+    getScaleAndOffsetValuesOnZoom,
     isElementInViewport
 } from '../zoomPanUtils';
-import { ZOOM_ACTION } from 'builder_platform_interaction/events';
 
 describe('Testing getScaleAndDeltaValues', () => {
     const viewportAndOffsetConfig = {

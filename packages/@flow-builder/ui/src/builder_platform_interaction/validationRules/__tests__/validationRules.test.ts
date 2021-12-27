@@ -1,15 +1,14 @@
 // @ts-nocheck
-import * as rules from 'builder_platform_interaction/validationRules';
-import { assignmentElement, stageElement } from 'mock/storeData';
-import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { getFormat, isValidMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
-import { LABELS } from '../validationRulesLabels';
-import { isValidMetadataDateTime, getFormat } from 'builder_platform_interaction/dateTimeUtils';
-import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 import { validatePicker } from 'builder_platform_interaction/expressionValidator';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
+import * as rules from 'builder_platform_interaction/validationRules';
+import { assignmentElement, flowWithAllElementsUIModel, stageElement } from 'mock/storeData';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { LABELS } from '../validationRulesLabels';
 const { format } = commonUtils;
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));

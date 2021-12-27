@@ -1,13 +1,13 @@
 // @ts-nocheck
+import {
+    createTestScreenField,
+    query,
+    SCREEN_NO_DEF_VALUE,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
 import { createElement } from 'lwc';
 import ScreenTextareaFieldPropertiesEditor from '../screenTextareaFieldPropertiesEditor';
-import {
-    query,
-    createTestScreenField,
-    SCREEN_NO_DEF_VALUE,
-    ticks,
-    setDocumentBodyChildren
-} from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')

@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
 import { VisualPickerListChangedEvent } from 'builder_platform_interaction/events';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { api, LightningElement, track } from 'lwc';
 
 const NUMBER_OF_COLUMNS_DEFAULT_VALUE = 2;
 

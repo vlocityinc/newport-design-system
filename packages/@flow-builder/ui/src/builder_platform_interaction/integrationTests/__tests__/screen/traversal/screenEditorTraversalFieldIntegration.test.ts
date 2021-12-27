@@ -1,21 +1,21 @@
-import { Store, StoreReducer } from 'builder_platform_interaction/storeLib';
-import { reducer } from 'builder_platform_interaction/reducers';
-import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import * as fieldServiceMobileFlow from 'mock/flows/fieldServiceMobileFlow.json';
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { resetState, translateFlowToUIAndDispatch } from '../../integrationTestUtils';
-import { initializeAuraFetch } from '../../serverDataTestUtils';
 import {
-    LIGHTNING_COMPONENTS_SELECTORS,
+    deepQuerySelector,
     INTERACTION_COMPONENTS_SELECTORS,
-    ticks,
-    deepQuerySelector
+    LIGHTNING_COMPONENTS_SELECTORS,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { initializeLoader, loadOnProcessTypeChange } from 'builder_platform_interaction/preloadLib';
-import { createComponentUnderTest, ScreenEditorTestComponent } from '../../screenEditorTestUtils';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { reducer } from 'builder_platform_interaction/reducers';
+import { Store, StoreReducer } from 'builder_platform_interaction/storeLib';
+import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import * as fieldServiceMobileFlow from 'mock/flows/fieldServiceMobileFlow.json';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { ComboboxTestComponent } from '../../comboboxTestUtils';
+import { resetState, translateFlowToUIAndDispatch } from '../../integrationTestUtils';
+import { createComponentUnderTest, ScreenEditorTestComponent } from '../../screenEditorTestUtils';
+import { initializeAuraFetch } from '../../serverDataTestUtils';
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,

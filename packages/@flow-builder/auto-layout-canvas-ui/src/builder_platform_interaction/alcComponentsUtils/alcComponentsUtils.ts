@@ -1,42 +1,41 @@
-import { classSet } from 'lightning/utils';
+import { PrivateItemRegisterEvent, ToggleMenuEvent } from 'builder_platform_interaction/alcEvents';
 import {
-    NodeType,
-    getElementMetadata,
+    BranchHeadNodeModel,
+    ConnectionSource,
+    ConnectorLabelType,
+    ConnectorRenderInfo,
+    ElementMetadata,
+    FAULT_INDEX,
+    findParentElement,
     FlowModel,
-    ParentNodeModel,
-    StartNodeModel,
+    FlowRenderContext,
+    FlowRenderInfo,
+    FOR_EACH_INDEX,
+    Geometry,
+    getChild,
+    getConnectionTarget,
+    getElementMetadata,
+    getFirstNonNullNext,
+    getNonTerminalBranchIndexes,
+    getTargetGuidsForReconnection,
+    Guid,
+    hasChildren,
+    hasGoTo,
+    hasGoToOnBranchHead,
+    hasGoToOnNext,
+    isGoingBackToAncestorLoop,
+    MenuType,
     NodeModel,
     NodeRef,
-    Guid,
-    BranchHeadNodeModel,
-    ConnectorRenderInfo,
     NodeRenderInfo,
-    FlowRenderInfo,
-    Geometry,
-    FlowRenderContext,
-    hasChildren,
-    hasGoToOnNext,
-    hasGoToOnBranchHead,
-    FAULT_INDEX,
-    hasGoTo,
-    getNonTerminalBranchIndexes,
-    getChild,
-    ConnectorLabelType,
-    getFirstNonNullNext,
-    isGoingBackToAncestorLoop,
-    ConnectionSource,
-    getConnectionTarget,
-    getTargetGuidsForReconnection,
-    FOR_EACH_INDEX,
-    START_IMMEDIATE_INDEX,
-    findParentElement,
-    ElementMetadata,
-    MenuType
+    NodeType,
+    ParentNodeModel,
+    StartNodeModel,
+    START_IMMEDIATE_INDEX
 } from 'builder_platform_interaction/autoLayoutCanvas';
-import { ToggleMenuEvent } from 'builder_platform_interaction/alcEvents';
-import { PrivateItemRegisterEvent } from 'builder_platform_interaction/alcEvents';
-import { LABELS } from './alcComponentsUtilsLabels';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { classSet } from 'lightning/utils';
+import { LABELS } from './alcComponentsUtilsLabels';
 
 const { format } = commonUtils;
 

@@ -1,32 +1,32 @@
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { FLOW_DATA_TYPE, isComplexType } from 'builder_platform_interaction/dataTypeLib';
-import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
 import {
-    GLOBAL_CONSTANT_PREFIX,
-    SYSTEM_VARIABLE_PREFIX,
-    SYSTEM_VARIABLE_CLIENT_PREFIX,
-    getGlobalConstantOrSystemVariable,
-    getGlobalVariable
-} from 'builder_platform_interaction/systemLib';
-import { splitStringBySeparator } from 'builder_platform_interaction/commonUtils';
-import { isElementAllowed, getScreenElement } from 'builder_platform_interaction/expressionUtils';
-import { elementToParam, getDataType } from 'builder_platform_interaction/ruleLib';
-import {
-    getPropertiesForClass,
     getApexClasses,
-    getApexPropertyWithName
+    getApexPropertyWithName,
+    getPropertiesForClass
 } from 'builder_platform_interaction/apexTypeLib';
-import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
+import { splitStringBySeparator } from 'builder_platform_interaction/commonUtils';
 import {
     getExtensionParamDescriptionAsComplexTypeFieldDescription,
     getInvocableActionParamDescriptionAsComplexTypeFieldDescription
 } from 'builder_platform_interaction/complexTypeLib';
+import { FLOW_DATA_TYPE, isComplexType } from 'builder_platform_interaction/dataTypeLib';
+import { getScreenElement, isElementAllowed } from 'builder_platform_interaction/expressionUtils';
+import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import { elementToParam, getDataType } from 'builder_platform_interaction/ruleLib';
+import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
+import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import { getActiveOrLatestFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
+import {
+    getGlobalConstantOrSystemVariable,
+    getGlobalVariable,
+    GLOBAL_CONSTANT_PREFIX,
+    SYSTEM_VARIABLE_CLIENT_PREFIX,
+    SYSTEM_VARIABLE_PREFIX
+} from 'builder_platform_interaction/systemLib';
+import { getEntityFieldWithRelationshipName, getPolymorphicRelationShipName, getReferenceToName } from './mergeField';
 import * as validationErrors from './mergeFieldValidationErrors';
 import { ValidationError } from './mergeFieldValidationErrors';
-import { getEntityFieldWithRelationshipName, getPolymorphicRelationShipName, getReferenceToName } from './mergeField';
-import { getParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
-import { getActiveOrLatestFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
 
 const MERGE_FIELD_START_CHARS = '{!';
 const MERGE_FIELD_END_CHARS = '}';

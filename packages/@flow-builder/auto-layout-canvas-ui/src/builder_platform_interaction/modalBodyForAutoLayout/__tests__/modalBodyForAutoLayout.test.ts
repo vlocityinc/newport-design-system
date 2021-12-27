@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import ModalBodyForAutoLayout from 'builder_platform_interaction/modalBodyForAutoLayout';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
+import ModalBodyForAutoLayout from 'builder_platform_interaction/modalBodyForAutoLayout';
+import { createElement } from 'lwc';
 
 const SELECTORS = {
     SPAN: 'p'

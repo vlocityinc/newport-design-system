@@ -1,28 +1,30 @@
-import { createElement } from 'lwc';
-import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
-import FilterConditionList from '../filterConditionList';
-import { LABELS } from '../filterConditionListLabels';
-import { deepQuerySelector, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
-import {
-    INTERACTION_COMPONENTS_SELECTORS,
-    LIGHTNING_COMPONENTS_SELECTORS
-} from 'builder_platform_interaction/builderTestUtils';
-import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
-import {
-    AddConditionEvent,
-    UpdateConditionEvent,
-    DeleteConditionEvent,
-    PropertyChangedEvent
-} from 'builder_platform_interaction/events';
-import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import {
     cachePropertiesForClass,
     getPropertiesForClass,
     setApexClasses
 } from 'builder_platform_interaction/apexTypeLib';
-import { APEX_SORT_COMPATIBLE_TYPES } from 'builder_platform_interaction/sortEditorLib';
-import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
+import {
+    deepQuerySelector,
+    INTERACTION_COMPONENTS_SELECTORS,
+    LIGHTNING_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
+import {
+    AddConditionEvent,
+    DeleteConditionEvent,
+    PropertyChangedEvent,
+    UpdateConditionEvent
+} from 'builder_platform_interaction/events';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { APEX_SORT_COMPATIBLE_TYPES } from 'builder_platform_interaction/sortEditorLib';
+import { createElement } from 'lwc';
+import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
+import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
+import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import FilterConditionList from '../filterConditionList';
+import { LABELS } from '../filterConditionListLabels';
 const { format } = commonUtils;
 
 jest.mock('builder_platform_interaction/ferToFerovExpressionBuilder', () =>

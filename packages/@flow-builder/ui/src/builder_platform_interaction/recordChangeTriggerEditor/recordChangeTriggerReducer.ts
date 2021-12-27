@@ -1,31 +1,31 @@
 // @ts-nocheck
-import { getRules, recordChangeTriggerValidation } from './recordChangeTriggerValidation';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import {
+    deleteItem,
+    hydrateWithErrors,
+    insertItem,
+    set,
+    updateProperties
+} from 'builder_platform_interaction/dataMutationLib';
+import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
+import { createRunAsyncScheduledPath } from 'builder_platform_interaction/elementFactory';
+import {
+    AddRecordFilterEvent,
+    ConfigurationEditorChangeEvent,
+    DeleteRecordFilterEvent,
+    PropertyChangedEvent,
+    UpdateRecordFilterEvent
+} from 'builder_platform_interaction/events';
+import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 import {
     CONDITION_LOGIC,
     ELEMENT_TYPE,
     SCHEDULED_PATH_TYPE,
     START_ELEMENT_FIELDS
 } from 'builder_platform_interaction/flowMetadata';
-import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
-import {
-    deleteItem,
-    set,
-    updateProperties,
-    hydrateWithErrors,
-    insertItem
-} from 'builder_platform_interaction/dataMutationLib';
-import { createRunAsyncScheduledPath } from 'builder_platform_interaction/elementFactory';
-import {
-    AddRecordFilterEvent,
-    DeleteRecordFilterEvent,
-    PropertyChangedEvent,
-    UpdateRecordFilterEvent,
-    ConfigurationEditorChangeEvent
-} from 'builder_platform_interaction/events';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 import { isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { getRules, recordChangeTriggerValidation } from './recordChangeTriggerValidation';
 
 const NON_HYDRATABLE_PROPS = new Set([...elementTypeToConfigMap[ELEMENT_TYPE.START_ELEMENT].nonHydratableProperties]);
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE,

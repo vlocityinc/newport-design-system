@@ -1,19 +1,19 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import WaitEvent from 'builder_platform_interaction/waitEvent';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { getConditionsWithPrefixes, showDeleteCondition } from 'builder_platform_interaction/conditionListUtils';
 import {
     DeleteWaitEventEvent,
     PropertyChangedEvent,
-    WaitEventPropertyChangedEvent,
+    UpdateParameterItemEvent,
     WaitEventParameterChangedEvent,
-    UpdateParameterItemEvent
+    WaitEventPropertyChangedEvent
 } from 'builder_platform_interaction/events';
-import { LABELS } from '../waitEventLabels';
-import { getConditionsWithPrefixes, showDeleteCondition } from 'builder_platform_interaction/conditionListUtils';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { getEventTypes } from 'builder_platform_interaction/sobjectLib';
+import WaitEvent from 'builder_platform_interaction/waitEvent';
+import { createElement } from 'lwc';
+import { LABELS } from '../waitEventLabels';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')

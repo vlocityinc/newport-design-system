@@ -1,5 +1,5 @@
-import { LightningElement, api } from 'lwc';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { api, LightningElement } from 'lwc';
 
 export default class TestPanelBody extends LightningElement {
     @api testAssertionTrace;

@@ -1,9 +1,9 @@
-import { LightningElement, api } from 'lwc';
-import { classSet } from 'lightning/utils';
-import { LABELS } from './leftPanelResourcesLabels';
-import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { ShowResourceDetailsEvent } from 'builder_platform_interaction/events';
+import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { time } from 'instrumentation/service';
+import { classSet } from 'lightning/utils';
+import { api, LightningElement } from 'lwc';
+import { LABELS } from './leftPanelResourcesLabels';
 
 const { logPerfTransactionStart, logPerfTransactionEnd, initMetricsTracker, writeMetrics, LEFT_PANEL_RESOURCES } =
     loggingUtils;

@@ -1,29 +1,32 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import Editor from 'builder_platform_interaction/editor';
-import { resetState, translateFlowToUIAndDispatch, loadFlow } from '../integrationTestUtils';
 import {
-    getChevronElement,
-    getResourceDetail,
-    getLeftPanel,
-    clickOnViewDetailButton,
-    clickDeleteButtonInResourceDetailsPanel,
-    getElementByTitle,
-    PALETTE_ELEMENTS_INDEX,
-    PALETTE_RESOURCES_INDEX,
-    getUsedByContentItem,
-    getUsedByContentItems
-} from '../leftPanelTestUtils';
-import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import { getElementByDevName, getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+    INTERACTION_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
+import Editor from 'builder_platform_interaction/editor';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { initializeAuraFetch } from '../serverDataTestUtils';
 import { loadOnProcessTypeChange } from 'builder_platform_interaction/preloadLib';
-import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { getElementByDevName, getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import { createElement } from 'lwc';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
+import { loadFlow, resetState, translateFlowToUIAndDispatch } from '../integrationTestUtils';
+import {
+    clickDeleteButtonInResourceDetailsPanel,
+    clickOnViewDetailButton,
+    getChevronElement,
+    getElementByTitle,
+    getLeftPanel,
+    getResourceDetail,
+    getUsedByContentItem,
+    getUsedByContentItems,
+    PALETTE_ELEMENTS_INDEX,
+    PALETTE_RESOURCES_INDEX
+} from '../leftPanelTestUtils';
+import { initializeAuraFetch } from '../serverDataTestUtils';
 jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
 jest.mock('builder_platform_interaction/alcCanvas', () => require('builder_platform_interaction_mocks/alcCanvas'));
 

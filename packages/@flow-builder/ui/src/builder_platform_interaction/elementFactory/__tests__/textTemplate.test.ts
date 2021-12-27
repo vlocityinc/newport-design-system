@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { createTextTemplate } from '../textTemplate';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { createTextTemplate } from '../textTemplate';
 
 describe('textTemplate', () => {
     let textTemplate;

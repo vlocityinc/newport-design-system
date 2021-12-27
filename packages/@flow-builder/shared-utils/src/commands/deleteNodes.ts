@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { BaseCommand } from './baseCommand';
 import deleteNodesCommandLabel from '@salesforce/label/FlowBuilderKeyboardInteractionLabels.deleteNodesCommandLabel';
+import { BaseCommand } from './baseCommand';
 const commandName = 'deletenodes';
 export class DeleteNodesCommand extends BaseCommand {
     /**

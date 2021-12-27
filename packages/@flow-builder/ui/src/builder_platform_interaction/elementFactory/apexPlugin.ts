@@ -1,17 +1,17 @@
 // @ts-nocheck
-import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
-    baseCanvasElementWithFault,
     baseCanvasElementsArrayToMap,
+    baseCanvasElementWithFault,
     createAvailableConnection,
     duplicateCanvasElement
 } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
+import { createConnectorObjects } from './connector';
 import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
 import { createOutputParameter, createOutputParameterMetadataObject } from './outputParameter';
-import { createConnectorObjects } from './connector';
-import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const elementType = ELEMENT_TYPE.APEX_PLUGIN_CALL;
 const maxConnections = 2;

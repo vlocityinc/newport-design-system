@@ -1,14 +1,13 @@
 // @ts-nocheck
-import { conditionListReducer } from '../conditionListReducer';
-
+import { createCondition } from 'builder_platform_interaction/elementFactory';
 import {
     AddConditionEvent,
     DeleteConditionEvent,
     UpdateConditionEvent,
     UpdateConditionLogicEvent
 } from 'builder_platform_interaction/events';
-import { createCondition } from 'builder_platform_interaction/elementFactory';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { conditionListReducer } from '../conditionListReducer';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

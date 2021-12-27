@@ -1,6 +1,6 @@
-import { api, unwrap, LightningElement } from 'lwc';
-import { AuraComponent } from './auraInterop';
 import { attributesHaveChanged } from 'builder_platform_interaction/screenEditorUtils';
+import { api, LightningElement, unwrap } from 'lwc';
+import { AuraComponent } from './auraInterop';
 
 export default class ScreenExtensionField extends LightningElement {
     @api

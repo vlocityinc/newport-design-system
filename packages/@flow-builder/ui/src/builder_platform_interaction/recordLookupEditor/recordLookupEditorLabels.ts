@@ -1,26 +1,26 @@
-import {
-    NUMBER_RECORDS_TO_STORE,
-    WAY_TO_STORE_FIELDS,
-    VARIABLE_AND_FIELD_MAPPING_VALUES
-} from 'builder_platform_interaction/recordEditorLib';
+import allRecordsLabel from '@salesforce/label/FlowBuilderRecordEditor.allRecords';
+import automatic from '@salesforce/label/FlowBuilderRecordEditor.automatic';
+import firstRecordLabel from '@salesforce/label/FlowBuilderRecordEditor.firstRecord';
 import getRecordsOfObjectType from '@salesforce/label/FlowBuilderRecordEditor.getRecordsOfObjectType';
+import lookupAssignmentTitleFormat from '@salesforce/label/FlowBuilderRecordEditor.lookupAssignmentTitleFormat';
+import manual from '@salesforce/label/FlowBuilderRecordEditor.manual';
+import manuallySelectFields from '@salesforce/label/FlowBuilderRecordEditor.manuallySelectFields';
 import object from '@salesforce/label/FlowBuilderRecordEditor.object';
 import objectPlaceholder from '@salesforce/label/FlowBuilderRecordEditor.objectPlaceholder';
 import recordLookupTitle from '@salesforce/label/FlowBuilderRecordEditor.recordLookupTitle';
-import filterRhsLabel from '@salesforce/label/FlowBuilderRecordEditor.variable';
-import lookupAssignmentTitleFormat from '@salesforce/label/FlowBuilderRecordEditor.lookupAssignmentTitleFormat';
-import firstRecordLabel from '@salesforce/label/FlowBuilderRecordEditor.firstRecord';
-import allRecordsLabel from '@salesforce/label/FlowBuilderRecordEditor.allRecords';
-import togetherInsObjectVariable from '@salesforce/label/FlowBuilderRecordEditor.togetherInsObjectVariable';
-import separateVariable from '@salesforce/label/FlowBuilderRecordEditor.separateVariable';
-import storeFieldsSelectionLabel from '@salesforce/label/FlowBuilderRecordEditor.storeFieldsSelectionLabel';
-import wayToStoreFieldsLabel from '@salesforce/label/FlowBuilderRecordEditor.selectionWhereToStoreRecordsLabel';
 import assignNullValuesIfNoRecordsFoundLabel from '@salesforce/label/FlowBuilderRecordEditor.selectionAssignNullIfNoRecordFoundLabel';
 import numberRecordsToStoreLabel from '@salesforce/label/FlowBuilderRecordEditor.selectionHowManyRecordsToStoreLabel';
+import wayToStoreFieldsLabel from '@salesforce/label/FlowBuilderRecordEditor.selectionWhereToStoreRecordsLabel';
+import separateVariable from '@salesforce/label/FlowBuilderRecordEditor.separateVariable';
+import storeFieldsSelectionLabel from '@salesforce/label/FlowBuilderRecordEditor.storeFieldsSelectionLabel';
+import togetherInsObjectVariable from '@salesforce/label/FlowBuilderRecordEditor.togetherInsObjectVariable';
+import filterRhsLabel from '@salesforce/label/FlowBuilderRecordEditor.variable';
 import variableAndFieldMappingLabel from '@salesforce/label/FlowBuilderRecordEditor.variableAndFieldMappingLabel';
-import automatic from '@salesforce/label/FlowBuilderRecordEditor.automatic';
-import manuallySelectFields from '@salesforce/label/FlowBuilderRecordEditor.manuallySelectFields';
-import manual from '@salesforce/label/FlowBuilderRecordEditor.manual';
+import {
+    NUMBER_RECORDS_TO_STORE,
+    VARIABLE_AND_FIELD_MAPPING_VALUES,
+    WAY_TO_STORE_FIELDS
+} from 'builder_platform_interaction/recordEditorLib';
 
 export const LABELS = {
     getRecordsOfObjectType,

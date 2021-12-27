@@ -1,9 +1,9 @@
 // @ts-nocheck
-import { flowWithAllTypesVariables as mockSubflowVariables } from 'serverData/GetFlowInputOutputVariables/flowWithAllTypesVariables.json';
-import { subflowReducer, MERGE_WITH_VARIABLES, REMOVE_UNSET_ASSIGNMENTS } from '../subflowReducer';
-import { UpdateParameterItemEvent, DeleteParameterItemEvent } from 'builder_platform_interaction/events';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { MERGE_WARNING_TYPE } from 'builder_platform_interaction/elementFactory';
+import { DeleteParameterItemEvent, UpdateParameterItemEvent } from 'builder_platform_interaction/events';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { flowWithAllTypesVariables as mockSubflowVariables } from 'serverData/GetFlowInputOutputVariables/flowWithAllTypesVariables.json';
+import { MERGE_WITH_VARIABLES, REMOVE_UNSET_ASSIGNMENTS, subflowReducer } from '../subflowReducer';
 
 const originalState = {
     guid: '0302b036-6534-4213-aab1-a22f7999a4d2',

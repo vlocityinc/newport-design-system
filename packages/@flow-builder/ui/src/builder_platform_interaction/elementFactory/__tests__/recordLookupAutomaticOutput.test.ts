@@ -1,13 +1,13 @@
 // @ts-nocheck
-import { createRecordLookup, createRecordLookupMetadataObject } from '../recordLookup';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import {
     FLOW_AUTOMATIC_OUTPUT_HANDLING,
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { createRecordLookup, createRecordLookupMetadataObject } from '../recordLookup';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

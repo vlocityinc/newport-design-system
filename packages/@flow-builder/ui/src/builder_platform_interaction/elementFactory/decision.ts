@@ -1,29 +1,29 @@
 // @ts-nocheck
-import { ELEMENT_TYPE, CONNECTOR_TYPE, CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
-import {
-    baseCanvasElement,
-    duplicateCanvasElementWithChildElements,
-    baseChildElement,
-    baseCanvasElementsArrayToMap,
-    createCondition,
-    getDeletedCanvasElementChildren,
-    updateChildReferences
-} from './base/baseElement';
-import {
-    getConnectionProperties,
-    addRegularConnectorToAvailableConnections
-} from './commonFactoryUtils/connectionPropertiesUtils';
+import { CONDITION_LOGIC, CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     getElementByGuid,
     isExecuteOnlyWhenChangeMatchesConditionsPossible
 } from 'builder_platform_interaction/storeUtils';
 import {
+    baseCanvasElement,
+    baseCanvasElementsArrayToMap,
+    baseChildElement,
+    createCondition,
+    duplicateCanvasElementWithChildElements,
+    getDeletedCanvasElementChildren,
+    updateChildReferences
+} from './base/baseElement';
+import {
     baseCanvasElementMetadataObject,
     baseChildElementMetadataObject,
     createConditionMetadataObject
 } from './base/baseMetadata';
-import { LABELS } from './elementFactoryLabels';
+import {
+    addRegularConnectorToAvailableConnections,
+    getConnectionProperties
+} from './commonFactoryUtils/connectionPropertiesUtils';
 import { createConnectorObjects } from './connector';
+import { LABELS } from './elementFactoryLabels';
 
 const elementType = ELEMENT_TYPE.DECISION;
 

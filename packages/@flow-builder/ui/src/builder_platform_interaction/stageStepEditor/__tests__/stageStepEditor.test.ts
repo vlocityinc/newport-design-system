@@ -1,43 +1,43 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import StageStepEditor from '../stageStepEditor';
-import { stageStepReducer } from '../stageStepReducer';
-import {
-    ComboboxStateChangedEvent,
-    CreateEntryConditionsEvent,
-    DeleteAllConditionsEvent,
-    DeleteOrchestrationActionEvent,
-    ItemSelectedEvent,
-    PropertyChangedEvent,
-    UpdateConditionEvent,
-    UpdateParameterItemEvent,
-    ValueChangedEvent,
-    RequiresAsyncProcessingChangedEvent,
-    UpdateEntryExitCriteriaEvent
-} from 'builder_platform_interaction/events';
-import { invocableActionsForOrchestrator } from 'serverData/GetAllInvocableActionsForType/invocableActionsForOrchestrator.json';
-import { Store } from 'builder_platform_interaction/storeLib';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { MERGE_WITH_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
     ASSIGNEE_RESOURCE_TYPE,
     ASSIGNEE_TYPE,
     getOtherItemsInOrchestratedStage
 } from 'builder_platform_interaction/elementFactory';
-import { ORCHESTRATED_ACTION_CATEGORY } from 'builder_platform_interaction/events';
-import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
-import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import {
+    ComboboxStateChangedEvent,
+    CreateEntryConditionsEvent,
+    DeleteAllConditionsEvent,
+    DeleteOrchestrationActionEvent,
+    ItemSelectedEvent,
+    ORCHESTRATED_ACTION_CATEGORY,
+    PropertyChangedEvent,
+    RequiresAsyncProcessingChangedEvent,
+    UpdateConditionEvent,
+    UpdateEntryExitCriteriaEvent,
+    UpdateParameterItemEvent,
+    ValueChangedEvent
+} from 'builder_platform_interaction/events';
 import {
     ACTION_TYPE,
     ELEMENT_TYPE,
-    ICONS,
     EntryCriteria,
-    ExitCriteria
+    ExitCriteria,
+    ICONS
 } from 'builder_platform_interaction/flowMetadata';
-import { MERGE_WITH_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+import { Store } from 'builder_platform_interaction/storeLib';
 import { updateAndValidateElementInPropertyEditor } from 'builder_platform_interaction/validation';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { createElement } from 'lwc';
+import { invocableActionsForOrchestrator } from 'serverData/GetAllInvocableActionsForType/invocableActionsForOrchestrator.json';
+import StageStepEditor from '../stageStepEditor';
+import { stageStepReducer } from '../stageStepReducer';
 
 jest.mock('../stageStepReducer', () => {
     return {

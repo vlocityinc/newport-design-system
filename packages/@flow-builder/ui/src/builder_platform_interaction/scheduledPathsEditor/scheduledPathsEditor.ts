@@ -1,13 +1,13 @@
-import { LightningElement, api, track } from 'lwc';
-import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
-import { LABELS } from './scheduledPathsEditorLabels';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { scheduledPathsReducer } from './scheduledPathsReducer';
+import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { UpdateNodeEvent } from 'builder_platform_interaction/events';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { RECORD_TRIGGER_TYPE_LABEL_LOOKUP } from 'builder_platform_interaction/triggerTypeLib';
 import { SCHEDULED_PATH_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { RECORD_TRIGGER_TYPE_LABEL_LOOKUP } from 'builder_platform_interaction/triggerTypeLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './scheduledPathsEditorLabels';
+import { scheduledPathsReducer } from './scheduledPathsReducer';
 const { format } = commonUtils;
 
 const EMPTY_SCHEDULED_PATH_LABEL = LABELS.emptyScheduledPathLabel;

@@ -1,21 +1,21 @@
 // @ts-nocheck
-import { flowWithAllElementsUIModel, actionCallAutomaticOutput } from 'mock/storeData';
-import { getMetadataFlowElementByName } from 'mock/flows/mock-flow';
-import * as mockFlowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import { createComponent } from 'aura';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import {
-    useConfigurationEditor,
-    getBuilderContext,
+    createConfigurationEditor,
+    getActionCallTypeMappings,
     getAutomaticOutputVariables,
+    getBuilderContext,
+    getElementInfo,
     getInputVariables,
     getScreenFieldTypeMappings,
-    getActionCallTypeMappings,
-    getElementInfo,
-    createConfigurationEditor
+    useConfigurationEditor
 } from 'builder_platform_interaction/customPropertyEditorLib';
-import { chatterPostActionDetails } from 'serverData/GetInvocableActionDetails/chatterPostActionDetails.json';
 import { createActionCall } from 'builder_platform_interaction/elementFactory';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
-import { createComponent } from 'aura';
+import * as mockFlowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import { getMetadataFlowElementByName } from 'mock/flows/mock-flow';
+import { actionCallAutomaticOutput, flowWithAllElementsUIModel } from 'mock/storeData';
+import { chatterPostActionDetails } from 'serverData/GetInvocableActionDetails/chatterPostActionDetails.json';
 
 jest.mock('builder_platform_interaction/invocableActionLib', () =>
     require('builder_platform_interaction_mocks/invocableActionLib')

@@ -1,44 +1,46 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE, FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { PROPERTY_EDITOR, invokePropertyEditor } from 'builder_platform_interaction/builderUtils';
-import Editor from '../editor';
-import { isGuardrailsEnabled } from '../editorUtils';
-import {
-    AddElementEvent,
-    NewResourceEvent,
-    ClosePropertyEditorEvent,
-    AddNodeEvent,
-    UpdateNodeEvent,
-    DeleteElementEvent,
-    EditElementEvent,
-    ToggleMarqueeOnEvent,
-    SelectNodeEvent,
-    DuplicateEvent,
-    CanvasMouseUpEvent,
-    ConnectorSelectedEvent,
-    DragNodeStopEvent,
-    AddConnectionEvent,
-    EditFlowPropertiesEvent
-} from 'builder_platform_interaction/events';
+import { mockEngineExecute } from 'analyzer_framework/engine';
 import {
     addElement,
     updateCanvasElementLocation,
     updateElement,
     updateElementErrorState
 } from 'builder_platform_interaction/actions';
-import { Store, generateGuid } from 'builder_platform_interaction/storeLib';
-import { translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
-import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
-import { getElementForPropertyEditor, getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
-import { deepQuerySelector, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
-import { mockEngineExecute } from 'analyzer_framework/engine';
-import { BUILDER_MODE } from 'builder_platform_interaction/systemLib';
 import {
+    deepQuerySelector,
+    INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS
+    setDocumentBodyChildren,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
+import { invokePropertyEditor, PROPERTY_EDITOR } from 'builder_platform_interaction/builderUtils';
+import {
+    AddConnectionEvent,
+    AddElementEvent,
+    AddNodeEvent,
+    CanvasMouseUpEvent,
+    ClosePropertyEditorEvent,
+    ConnectorSelectedEvent,
+    DeleteElementEvent,
+    DragNodeStopEvent,
+    DuplicateEvent,
+    EditElementEvent,
+    EditFlowPropertiesEvent,
+    NewResourceEvent,
+    SelectNodeEvent,
+    ToggleMarqueeOnEvent,
+    UpdateNodeEvent
+} from 'builder_platform_interaction/events';
+import { ELEMENT_TYPE, FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getElementForPropertyEditor, getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
+import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
+import { BUILDER_MODE } from 'builder_platform_interaction/systemLib';
+import { translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
 import { ShowToastEventName } from 'lightning/platformShowToastEvent';
+import { createElement } from 'lwc';
+import Editor from '../editor';
+import { isGuardrailsEnabled } from '../editorUtils';
 jest.mock('builder_platform_interaction/alcCanvas', () => require('builder_platform_interaction_mocks/alcCanvas'));
 
 let mockSubscribers = [];

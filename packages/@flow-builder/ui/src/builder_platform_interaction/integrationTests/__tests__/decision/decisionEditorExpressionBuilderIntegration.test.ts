@@ -1,10 +1,10 @@
-import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
 import { ExpressionBuilderComponentTest, getExpressionTester } from '../expressionBuilderTestUtils';
+import { FLOW_BUILDER_VALIDATION_ERROR_MESSAGES, resetState, setupStateForFlow } from '../integrationTestUtils';
 import { createComponentForTest, getFerToFerovExpressionBuilder } from './decisionEditorTestUtils';
-import { resetState, setupStateForFlow, FLOW_BUILDER_VALIDATION_ERROR_MESSAGES } from '../integrationTestUtils';
 
 jest.mock('@salesforce/label/FlowBuilderElementLabels.actionAsResourceText', () => ({ default: 'Outputs from {0}' }), {
     virtual: true

@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { LABELS } from './elementFactoryLabels';
 import { createConnectorObject } from 'builder_platform_interaction/connectorUtils';
+import { CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { LABELS } from './elementFactoryLabels';
 
 /**
  * Method to create connector objects for a given flow metadata element

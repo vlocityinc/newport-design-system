@@ -1,21 +1,21 @@
-import { getPillLabel, getPillMergeFieldLabel, getPillTooltip, getGlobalConstantOrGlobalVariableLabel } from '../pill';
 import {
-    mockGlobalConstantEmptyStringComboboxItem,
     mockAccountVar,
-    secondLevelMenuData,
-    thirdLevelMenuData,
+    mockApexCallApexClassOutputSecondLevelComboboxItem,
     mockApexDefinedVariable,
     mockApexFieldSecondLevelComboboxItem,
     mockApexFieldThirdLevelComboboxItem,
-    mockPolymorphicSObjectFieldThirdLevelComboboxItem,
-    mockPolymorphicSObjectEntitySecondLevelComboboxItem,
     mockApexSObjectEntitySecondLevelComboboxItem,
-    mockSObjectFieldFourthLevelComboboxItem,
-    mockPolymorphicSObjectFieldThirdLevelMultiSubTextComboboxItem,
     mockEmailScreenFieldAutoSecondLevelFieldComboboxItem,
-    mockApexCallApexClassOutputSecondLevelComboboxItem,
-    mockGlobalVariableFlowCurrentDateComboboxItem
+    mockGlobalConstantEmptyStringComboboxItem,
+    mockGlobalVariableFlowCurrentDateComboboxItem,
+    mockPolymorphicSObjectEntitySecondLevelComboboxItem,
+    mockPolymorphicSObjectFieldThirdLevelComboboxItem,
+    mockPolymorphicSObjectFieldThirdLevelMultiSubTextComboboxItem,
+    mockSObjectFieldFourthLevelComboboxItem,
+    secondLevelMenuData,
+    thirdLevelMenuData
 } from 'mock/comboboxData';
+import { getGlobalConstantOrGlobalVariableLabel, getPillLabel, getPillMergeFieldLabel, getPillTooltip } from '../pill';
 
 describe('getPillLabel', () => {
     const [mockSObjectFieldSecondLevelComboboxItem] = secondLevelMenuData;

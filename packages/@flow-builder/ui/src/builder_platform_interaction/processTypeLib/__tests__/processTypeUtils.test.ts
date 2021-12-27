@@ -1,10 +1,10 @@
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { processTypes } from 'serverData/GetProcessTypes/processTypes.json';
 import {
     getProcessTypesWithIcons,
     getProcessTypeTransactionControlledActionsSupport,
     isAutoLayoutCanvasOnly
 } from '../processTypeUtils';
-import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { processTypes } from 'serverData/GetProcessTypes/processTypes.json';
 
 describe('processTypesUtils', () => {
     test('No filtering: all process types returned', () => {

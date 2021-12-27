@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { PubSub, SimplePubSub, PubSubEvent, Unsubscribe } from 'builder_framework/pubSub';
 import { AlertErrorHandler } from 'builder_framework/errorHandler';
 import { InstrumentationServiceImpl } from 'builder_framework/instrumentation';
+import { PubSub, PubSubEvent, SimplePubSub, Unsubscribe } from 'builder_framework/pubSub';
 
 export class FlowPubSub {
     private static pubSub: PubSub;

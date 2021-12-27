@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
-import { waitValidation } from '../waitValidation';
 import { LABELS } from '../../validationRules/validationRulesLabels';
+import { waitValidation } from '../waitValidation';
 
 const CANNOT_BE_BLANK_ERROR = LABELS.cannotBeBlank;
 

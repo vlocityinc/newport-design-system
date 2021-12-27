@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { loadReferencesIn } from '../references';
-import { assignmentElement, stringVariable, numberVariable, textTemplate1 } from 'mock/storeData';
 import { resolveReferenceFromIdentifier } from 'builder_platform_interaction/mergeFieldLib';
+import { assignmentElement, numberVariable, stringVariable, textTemplate1 } from 'mock/storeData';
+import { loadReferencesIn } from '../references';
 
 jest.mock('builder_platform_interaction/mergeFieldLib', () => ({
     resolveReferenceFromIdentifier: jest.fn().mockImplementation(() => Promise.resolve())

@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { mutateTextWithMergeFields, demutateTextWithMergeFields, sanitizeGuid } from '../mergeFieldsMutation';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { demutateTextWithMergeFields, mutateTextWithMergeFields, sanitizeGuid } from '../mergeFieldsMutation';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

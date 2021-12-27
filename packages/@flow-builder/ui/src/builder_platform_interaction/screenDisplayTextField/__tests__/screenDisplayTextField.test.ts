@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import ScreenDisplayField from 'builder_platform_interaction/screenDisplayTextField';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import ScreenDisplayField from 'builder_platform_interaction/screenDisplayTextField';
+import { createElement } from 'lwc';
 
 const SELECTORS = {
     RICH: 'lightning-formatted-rich-text',

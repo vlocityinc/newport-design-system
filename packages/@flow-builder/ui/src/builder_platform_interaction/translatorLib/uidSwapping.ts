@@ -1,10 +1,14 @@
 // @ts-nocheck
-import { isPlainObject } from 'builder_platform_interaction/storeLib';
-import { TEMPLATE_FIELDS, REFERENCE_FIELDS, EXPRESSION_RE } from 'builder_platform_interaction/flowMetadata';
-import { splitStringBySeparator, isReference, removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
+import { isReference, removeCurlyBraces, splitStringBySeparator } from 'builder_platform_interaction/commonUtils';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getDataTypeKey } from 'builder_platform_interaction/elementFactory';
-import { isSystemElement } from 'builder_platform_interaction/flowMetadata';
+import {
+    EXPRESSION_RE,
+    isSystemElement,
+    REFERENCE_FIELDS,
+    TEMPLATE_FIELDS
+} from 'builder_platform_interaction/flowMetadata';
+import { isPlainObject } from 'builder_platform_interaction/storeLib';
 
 /**
  * @param {*} object complex object(eg: it can assignment, decision or outcome etc)

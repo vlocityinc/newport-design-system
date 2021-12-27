@@ -1,17 +1,17 @@
-import { LightningElement, api, track } from 'lwc';
-import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { LABELS } from './filterConditionListLabels';
+import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
 import { getConditionsWithPrefixes, showDeleteCondition } from 'builder_platform_interaction/conditionListUtils';
+import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import {
     APEX_SORT_COMPATIBLE_TYPES,
     isSObjectOrApexClass,
     SObjectOrApexReference
 } from 'builder_platform_interaction/sortEditorLib';
-import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
-import { commonUtils } from 'builder_platform_interaction/sharedUtils';
-import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
-import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './filterConditionListLabels';
 const { format } = commonUtils;
 
 /**

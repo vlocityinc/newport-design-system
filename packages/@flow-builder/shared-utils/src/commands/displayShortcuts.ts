@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { BaseCommand } from './baseCommand';
 import displayShortcutsCommandLabel from '@salesforce/label/FlowBuilderKeyboardInteractionLabels.displayShortcutsCommandLabel';
+import { BaseCommand } from './baseCommand';
 const commandName = 'displayshortcuts';
 export class DisplayShortcutsCommand extends BaseCommand {
     /**

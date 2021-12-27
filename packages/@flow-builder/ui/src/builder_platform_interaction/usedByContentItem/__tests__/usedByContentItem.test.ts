@@ -1,7 +1,7 @@
 // @ts-nocheck
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { createElement } from 'lwc';
 import UsedByContentItem from '../usedByContentItem';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 function createComponentForTest(listItem, showLocatorIcon) {
     const el = createElement('builder_platform_interaction-used-by-content-item', { is: UsedByContentItem });

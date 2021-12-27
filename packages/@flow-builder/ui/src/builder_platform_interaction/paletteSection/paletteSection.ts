@@ -1,10 +1,10 @@
-import { LightningElement, api } from 'lwc';
 import {
     LocatorIconClickedEvent,
     PaletteItemChevronClickedEvent,
     PaletteItemClickedEvent
 } from 'builder_platform_interaction/events';
-import { loggingUtils, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+import { keyboardInteractionUtils, loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { api, LightningElement } from 'lwc';
 import { LABELS } from './paletteSectionLabels';
 
 const { withKeyboardInteractions, GridKeyboardInteraction } = keyboardInteractionUtils;

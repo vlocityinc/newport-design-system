@@ -1,31 +1,31 @@
+import { alcExtraProps, findStartElement } from 'builder_platform_interaction/alcCanvasUtils';
 import {
-    calculateFlowLayout,
-    getDefaultLayoutConfig,
-    FlowRenderContext,
-    getBranchLayoutKey,
-    FAULT_INDEX,
     assertInDev,
-    hasGoToOnBranchHead,
-    hasGoToOnNext,
+    BranchHeadNodeModel,
+    calculateFlowLayout,
+    FAULT_INDEX,
+    FlowModel,
+    FlowRenderContext,
+    FOR_EACH_INDEX,
+    getBranchLayoutKey,
+    getDefaultLayoutConfig,
     getSuffixForGoToConnection,
     GOTO_CONNECTION_SUFFIX,
-    resolveChild,
-    FlowModel,
+    hasChildren,
+    hasGoToOnBranchHead,
+    hasGoToOnNext,
+    isBranchingElement,
     NodeModel,
     NodeType,
     ParentNodeModel,
     resolveBranchHead,
-    BranchHeadNodeModel,
-    isBranchingElement,
-    hasChildren,
-    resolveNode,
-    FOR_EACH_INDEX
+    resolveChild,
+    resolveNode
 } from 'builder_platform_interaction/autoLayoutCanvas';
-import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { createNewConnector } from 'builder_platform_interaction/connectorUtils';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { findStartYOffset, shouldSupportScheduledPaths } from 'builder_platform_interaction/elementFactory';
-import { alcExtraProps, findStartElement } from 'builder_platform_interaction/alcCanvasUtils';
-import { createNewConnector } from 'builder_platform_interaction/connectorUtils';
+import { CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 // TODO: get rid of ELEMENT_TYPE
 // TODO: get rid of this magic

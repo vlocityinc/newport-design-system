@@ -1,10 +1,10 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import RecordStoreOption from 'builder_platform_interaction/recordStoreOptions';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import { RecordStoreOptionChangedEvent } from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
-import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import RecordStoreOption from 'builder_platform_interaction/recordStoreOptions';
+import { createElement } from 'lwc';
 
 const createComponentUnderTest = (elementType, props) => {
     const el = createElement('builder_platform_interaction-record-store-options', {

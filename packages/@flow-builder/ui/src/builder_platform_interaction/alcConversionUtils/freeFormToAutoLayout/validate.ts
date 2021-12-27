@@ -1,5 +1,5 @@
-import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { ConversionInfo, ConversionInfos, EdgeType, setGoTosOnNonMergeElement, isMerge } from './dfs';
+import { CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ConversionInfo, ConversionInfos, EdgeType, isMerge, setGoTosOnNonMergeElement } from './dfs';
 
 type FlowCheckType =
     | 'orphan' /* if a node that is unreachable from the start node */

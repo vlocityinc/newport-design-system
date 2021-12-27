@@ -1,19 +1,18 @@
-import { FlowModel, Guid, HighlightInfo, ConnectionSource } from './model';
+import { ConnectionSource, FlowModel, Guid, HighlightInfo } from './model';
 import {
     addElement,
+    addFault,
+    clearCanvasDecoration,
+    createConnection,
+    decorateElements,
     deleteElement,
     deleteFault,
+    deleteGoToConnection,
     ElementService,
     initFlowModel,
-    addFault,
     updateChildren,
-    deleteGoToConnection,
-    decorateElements,
-    clearCanvasDecoration,
-    updateChildrenOnAddingOrUpdatingScheduledPaths,
-    createConnection
+    updateChildrenOnAddingOrUpdatingScheduledPaths
 } from './modelUtils';
-
 import NodeType from './NodeType';
 
 enum ActionType {

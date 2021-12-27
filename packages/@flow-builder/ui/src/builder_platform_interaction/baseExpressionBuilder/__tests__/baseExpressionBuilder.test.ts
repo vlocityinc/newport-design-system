@@ -1,39 +1,39 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import BaseExpressionBuilder from '../baseExpressionBuilder';
-import { RowContentsChangedEvent, ComboboxStateChangedEvent } from 'builder_platform_interaction/events';
-import {
-    getElementByGuid,
-    numberVariable,
-    stringVariable,
-    dateVariable,
-    currencyVariable,
-    assignmentElement,
-    accountSObjectVariable,
-    flowWithAllElementsUIModel
-} from 'mock/storeData';
-import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
-import { removeLastCreatedInlineResource, updateInlineResourceProperties } from 'builder_platform_interaction/actions';
-import { getInlineResource } from 'builder_platform_interaction/inlineResourceUtils';
-import * as rulesMock from 'builder_platform_interaction/ruleLib';
-import * as expressionUtilsMock from 'builder_platform_interaction/expressionUtils';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
-import { dateCollectionParam, dateParam } from 'mock/ruleService';
-import { FLOW_DATA_TYPE, FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { GLOBAL_CONSTANTS, setSystemVariables } from 'builder_platform_interaction/systemLib';
-import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
-import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
-import { Store } from 'builder_platform_interaction/storeLib';
+import { removeLastCreatedInlineResource, updateInlineResourceProperties } from 'builder_platform_interaction/actions';
 import {
-    ticks,
+    clickPill,
     INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS,
-    clickPill,
     removePill,
-    setDocumentBodyChildren
+    setDocumentBodyChildren,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
+import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
+import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { ComboboxStateChangedEvent, RowContentsChangedEvent } from 'builder_platform_interaction/events';
+import * as expressionUtilsMock from 'builder_platform_interaction/expressionUtils';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getInlineResource } from 'builder_platform_interaction/inlineResourceUtils';
+import * as rulesMock from 'builder_platform_interaction/ruleLib';
+import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { GLOBAL_CONSTANTS, setSystemVariables } from 'builder_platform_interaction/systemLib';
+import { createElement } from 'lwc';
+import { dateCollectionParam, dateParam } from 'mock/ruleService';
+import {
+    accountSObjectVariable,
+    assignmentElement,
+    currencyVariable,
+    dateVariable,
+    flowWithAllElementsUIModel,
+    getElementByGuid,
+    numberVariable,
+    stringVariable
+} from 'mock/storeData';
+import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
+import BaseExpressionBuilder from '../baseExpressionBuilder';
 
 const { logInteraction } = loggingUtils;
 

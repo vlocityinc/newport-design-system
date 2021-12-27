@@ -1,23 +1,23 @@
 // @ts-nocheck
-import { createRecordCreate, createDuplicateRecordCreate, createRecordCreateMetadataObject } from '../recordCreate';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { cachePropertiesForClass, setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
-import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
-import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     FLOW_AUTOMATIC_OUTPUT_HANDLING,
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import {
-    flowWithAllElementsUIModel,
+    apexComplexTypeVariable,
     createWithApexDefSingleSObjectVariable,
     createWithApexDefSObjectCollectionVariable,
-    apexComplexTypeVariable
+    flowWithAllElementsUIModel
 } from 'mock/storeData';
-import { setApexClasses, cachePropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
+import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
+import { createDuplicateRecordCreate, createRecordCreate, createRecordCreateMetadataObject } from '../recordCreate';
 
 jest.mock('builder_platform_interaction/processTypeLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/processTypeLib');

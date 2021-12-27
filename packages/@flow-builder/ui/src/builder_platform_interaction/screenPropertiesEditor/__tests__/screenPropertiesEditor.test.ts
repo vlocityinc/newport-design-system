@@ -5,14 +5,14 @@
  * Company Confidential
  */
 
-import { createElement } from 'lwc';
-import ScreenPropertiesEditor from '../screenPropertiesEditor';
-import { ScreenProperties } from 'builder_platform_interaction/screenEditorUtils';
 import { query, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
-import { createTestScreen } from '../../builderTestUtils/screenEditorTestUtils';
 import { createScreenWithFields } from 'builder_platform_interaction/elementFactory';
-import { FOOTER_LABEL_TYPE, PAUSE_MESSAGE_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { FOOTER_LABEL_TYPE, PAUSE_MESSAGE_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ScreenProperties } from 'builder_platform_interaction/screenEditorUtils';
+import { createElement } from 'lwc';
+import { createTestScreen } from '../../builderTestUtils/screenEditorTestUtils';
+import ScreenPropertiesEditor from '../screenPropertiesEditor';
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );

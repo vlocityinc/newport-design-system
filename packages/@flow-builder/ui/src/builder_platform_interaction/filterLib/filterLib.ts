@@ -1,12 +1,12 @@
 // @ts-nocheck
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { booleanMatcher, containsMatcher, notEqualsMatcher } from './matchers';
 import { isAutomaticOutputElementWithoutChildren } from 'builder_platform_interaction/complexTypeLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
+    isAutomaticField,
     isRegionContainerField,
-    isRegionField,
-    isAutomaticField
+    isRegionField
 } from 'builder_platform_interaction/screenEditorUtils';
+import { booleanMatcher, containsMatcher, notEqualsMatcher } from './matchers';
 
 export * from './matchers';
 

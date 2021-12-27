@@ -1,9 +1,9 @@
 // @ts-nocheck
-import * as ValidationRules from 'builder_platform_interaction/validationRules';
-import { Validation } from 'builder_platform_interaction/validation';
-import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
+import { Validation } from 'builder_platform_interaction/validation';
+import * as ValidationRules from 'builder_platform_interaction/validationRules';
 const additionalRules = {
     object: [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank],
     limit: [ValidationRules.shouldBeInRange(1, 200)],

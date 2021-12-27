@@ -1,16 +1,15 @@
 import {
-    NodeType,
+    BranchHeadNodeModel,
+    ConnectionSource,
     ElementMetadata,
     ElementsMetadata,
-    BranchHeadNodeModel,
     FlowModel,
-    ParentNodeModel,
-    ConnectionSource,
-    getValuesFromConnectionSource
+    getValuesFromConnectionSource,
+    NodeType,
+    ParentNodeModel
 } from 'builder_platform_interaction/autoLayoutCanvas';
-
-import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE, FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { TRIGGER_TYPE_LABELS, PROCESS_TRIGGER_TYPE_LABELS } from 'builder_platform_interaction/processTypeLib';
+import { ELEMENT_TYPE, FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { PROCESS_TRIGGER_TYPE_LABELS, TRIGGER_TYPE_LABELS } from 'builder_platform_interaction/processTypeLib';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
 import { getProcessTypes } from 'builder_platform_interaction/systemLib';
 import { isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';

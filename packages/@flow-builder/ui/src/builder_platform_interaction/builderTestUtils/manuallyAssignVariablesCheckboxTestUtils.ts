@@ -1,4 +1,4 @@
-import { LIGHTNING_COMPONENTS_SELECTORS, INTERACTION_COMPONENTS_SELECTORS } from './builderTestUtils';
+import { INTERACTION_COMPONENTS_SELECTORS, LIGHTNING_COMPONENTS_SELECTORS } from './builderTestUtils';
 
 export const getManuallyAssignVariablesCheckbox = (parentElement) => {
     return parentElement.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.MANUALLY_ASSIGN_VARIABLES_CHECKBOX);

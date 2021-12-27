@@ -1,10 +1,10 @@
 // @ts-nocheck
-import { Rule, Result } from 'analyzer_framework/api';
-import { ELEMENT_TYPE, METADATA_KEY } from 'builder_platform_interaction/flowMetadata';
 import recordCreate from '@salesforce/label/FlowBuilderLeftPanelElements.createDataOperationLabel';
-import recordUpdate from '@salesforce/label/FlowBuilderLeftPanelElements.updateDataOperationLabel';
 import recordDelete from '@salesforce/label/FlowBuilderLeftPanelElements.deleteDataOperationLabel';
 import recordLookup from '@salesforce/label/FlowBuilderLeftPanelElements.lookupDataOperationLabel';
+import recordUpdate from '@salesforce/label/FlowBuilderLeftPanelElements.updateDataOperationLabel';
+import { Result, Rule } from 'analyzer_framework/api';
+import { ELEMENT_TYPE, METADATA_KEY } from 'builder_platform_interaction/flowMetadata';
 
 const DML_TYPES = new Map([
     [ELEMENT_TYPE.RECORD_LOOKUP, recordLookup],

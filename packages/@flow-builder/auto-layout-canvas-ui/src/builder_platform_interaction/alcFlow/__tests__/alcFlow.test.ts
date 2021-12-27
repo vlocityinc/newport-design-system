@@ -1,8 +1,8 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
 import AlcFlow from 'builder_platform_interaction/alcFlow';
-import { flowWithFault, flowModelWithFault } from './mockData';
 import { FAULT_INDEX } from 'builder_platform_interaction/autoLayoutCanvas';
+import { createElement } from 'lwc';
+import { flowModelWithFault, flowWithFault } from './mockData';
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 

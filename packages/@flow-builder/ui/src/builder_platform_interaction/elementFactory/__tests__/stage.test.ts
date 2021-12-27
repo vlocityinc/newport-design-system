@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { createStage, createStageForStore, createStageMetadataObject } from '../stage';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { createStage, createStageForStore, createStageMetadataObject } from '../stage';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     return {

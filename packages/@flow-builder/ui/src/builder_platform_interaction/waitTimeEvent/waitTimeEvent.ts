@@ -1,16 +1,16 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import { FLOW_DATA_TYPE, FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import {
-    ELEMENT_TYPE,
-    WAIT_TIME_EVENT_TYPE,
-    WAIT_TIME_EVENT_PARAMETER_NAMES
-} from 'builder_platform_interaction/flowMetadata';
-import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
+import { getErrorFromHydratedItem, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { UpdateParameterItemEvent, UpdateWaitEventEventTypeEvent } from 'builder_platform_interaction/events';
 import { getFerovInfoAndErrorFromEvent } from 'builder_platform_interaction/expressionUtils';
-import { getValueFromHydratedItem, getErrorFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import {
+    ELEMENT_TYPE,
+    WAIT_TIME_EVENT_PARAMETER_NAMES,
+    WAIT_TIME_EVENT_TYPE
+} from 'builder_platform_interaction/flowMetadata';
+import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
+import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './waitTimeEventLabels';
 
 // rules used by the input pickers in the waitTimeEvent

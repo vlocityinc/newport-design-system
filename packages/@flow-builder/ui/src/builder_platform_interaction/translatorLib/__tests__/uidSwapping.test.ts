@@ -1,12 +1,12 @@
 // @ts-nocheck
-import { swapUidsForDevNames, swapDevNamesToUids, swapSingleExpression, getSwapValueFunction } from '../uidSwapping';
 import {
     createAccountFromLiteralValues,
+    getAccountSeparateFieldsWithFilters,
     lookupRecordAutomaticOutputWithFields,
-    recordChoiceSet,
-    getAccountSeparateFieldsWithFilters
+    recordChoiceSet
 } from 'mock/storeData';
 import { step1OfStage1 } from 'mock/storeDataOrchestrator';
+import { getSwapValueFunction, swapDevNamesToUids, swapSingleExpression, swapUidsForDevNames } from '../uidSwapping';
 
 const elementUidMap = { before: { name: 'after' }, pre: { name: 'post' } };
 const guidMapping = { before: 'after', pre: 'post' };

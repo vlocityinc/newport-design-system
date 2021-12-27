@@ -1,19 +1,19 @@
-import { LightningElement, api } from 'lwc';
-import { classSet } from 'lightning/utils';
 import {
-    ConnectorRenderInfo,
-    ConnectorLabelType,
-    hasGoTo,
-    NodeType,
-    START_IMMEDIATE_INDEX,
-    getConnectionTarget
-} from 'builder_platform_interaction/autoLayoutCanvas';
-import {
+    AutoLayoutCanvasMode,
     getCssStyle,
-    getStyleFromGeometry,
-    AutoLayoutCanvasMode
+    getStyleFromGeometry
 } from 'builder_platform_interaction/alcComponentsUtils';
 import { OutgoingGoToStubClickEvent } from 'builder_platform_interaction/alcEvents';
+import {
+    ConnectorLabelType,
+    ConnectorRenderInfo,
+    getConnectionTarget,
+    hasGoTo,
+    NodeType,
+    START_IMMEDIATE_INDEX
+} from 'builder_platform_interaction/autoLayoutCanvas';
+import { classSet } from 'lightning/utils';
+import { api, LightningElement } from 'lwc';
 import { LABELS } from './alcConnectorLabels';
 
 /**

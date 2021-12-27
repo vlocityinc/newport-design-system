@@ -1,16 +1,19 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import DebugPanel from '../debugPanel';
-import { LABELS } from '../debugPanelLabels';
-import { errorInterview } from 'mock/debugResponse/mock-error-interview';
-import { fakePausedInterview } from 'mock/debugResponse/mock-fake-paused-interview';
-import { fakeResumedInterviewWithError, fakeResumedInterview } from 'mock/debugResponse/mock-fake-paused-interview';
-import { completedInterview } from 'mock/debugResponse/mock-completed-interview';
-import { completedTestInterview } from 'mock/debugResponse/mock-completed-test-interview';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { BUILDER_MODE } from 'builder_platform_interaction/systemLib';
-import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
+import { createElement } from 'lwc';
+import { completedInterview } from 'mock/debugResponse/mock-completed-interview';
+import { completedTestInterview } from 'mock/debugResponse/mock-completed-test-interview';
+import { errorInterview } from 'mock/debugResponse/mock-error-interview';
+import {
+    fakePausedInterview,
+    fakeResumedInterview,
+    fakeResumedInterviewWithError
+} from 'mock/debugResponse/mock-fake-paused-interview';
+import DebugPanel from '../debugPanel';
+import { LABELS } from '../debugPanelLabels';
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 

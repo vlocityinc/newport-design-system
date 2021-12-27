@@ -1,9 +1,8 @@
 // @ts-nocheck
-import * as ValidationRules from 'builder_platform_interaction/validationRules';
-import { Validation } from 'builder_platform_interaction/validation';
-import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
-import { WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { SORT_ORDER, WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
+import { Validation } from 'builder_platform_interaction/validation';
+import * as ValidationRules from 'builder_platform_interaction/validationRules';
 
 /**
  * Validate the filter item. Here we can't use the ValidationRules.validateExpressionWith3Properties because this function allows empty RHS

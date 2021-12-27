@@ -1,7 +1,7 @@
 import {
-    LIGHTNING_COMPONENTS_SELECTORS,
+    deepQuerySelector,
     INTERACTION_COMPONENTS_SELECTORS,
-    deepQuerySelector
+    LIGHTNING_COMPONENTS_SELECTORS
 } from 'builder_platform_interaction/builderTestUtils';
 import EntityResourcePicker from 'builder_platform_interaction/entityResourcePicker';
 import { ComboboxTestComponent } from '../comboboxTestUtils';

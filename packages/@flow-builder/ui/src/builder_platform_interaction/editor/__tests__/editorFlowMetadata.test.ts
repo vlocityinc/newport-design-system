@@ -1,9 +1,9 @@
-import { createElement } from 'lwc';
-import Editor from '../editor';
-import { loadParametersForInvocableApexActionsInFlowFromMetadata } from 'builder_platform_interaction/preloadLib';
-import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { loadParametersForInvocableApexActionsInFlowFromMetadata } from 'builder_platform_interaction/preloadLib';
+import { createElement } from 'lwc';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { initializeAuraFetch } from '../../integrationTests/__tests__/serverDataTestUtils';
+import Editor from '../editor';
 
 jest.mock('builder_platform_interaction/alcCanvas', () => require('builder_platform_interaction_mocks/alcCanvas'));
 

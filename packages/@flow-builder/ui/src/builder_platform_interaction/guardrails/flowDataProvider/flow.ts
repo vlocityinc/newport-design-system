@@ -1,9 +1,9 @@
 // @ts-nocheck
 import { Data } from 'analyzer_framework/api';
+import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
+import { METADATA_KEY } from 'builder_platform_interaction/flowMetadata';
 import { Element } from './element';
 import { getMappings } from './utils';
-import { METADATA_KEY } from 'builder_platform_interaction/flowMetadata';
-import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 
 /**
  * @description The flow top level representation of data which is passed to the guardrails.

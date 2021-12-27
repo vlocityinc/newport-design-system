@@ -1,11 +1,11 @@
 // @ts-nocheck
+import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import {
-    getScreenFieldTypeByName,
     getAllScreenFieldTypes,
-    getFieldChoiceData
+    getFieldChoiceData,
+    getScreenFieldTypeByName
 } from 'builder_platform_interaction/screenEditorUtils';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/flowExtensionLib', () => {
     return {

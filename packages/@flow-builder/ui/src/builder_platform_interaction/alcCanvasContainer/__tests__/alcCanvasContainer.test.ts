@@ -1,10 +1,10 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
 import AlcCanvasContainer from 'builder_platform_interaction/alcCanvasContainer';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getChildElementTypesWithOverridenProperties } from 'builder_platform_interaction/elementConfig';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
 
 jest.mock('builder_platform_interaction/alcCanvas', () => require('builder_platform_interaction_mocks/alcCanvas'));
 

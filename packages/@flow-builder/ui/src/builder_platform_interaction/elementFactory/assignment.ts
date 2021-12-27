@@ -1,10 +1,10 @@
 // @ts-nocheck
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { baseCanvasElement, duplicateCanvasElement, baseCanvasElementsArrayToMap } from './base/baseElement';
-import { createListRowItem, RHS_PROPERTY, RHS_DATA_TYPE_PROPERTY } from './base/baseList';
+import { baseCanvasElement, baseCanvasElementsArrayToMap, duplicateCanvasElement } from './base/baseElement';
+import { createListRowItem, RHS_DATA_TYPE_PROPERTY, RHS_PROPERTY } from './base/baseList';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
-import { createFEROV, createFEROVMetadataObject } from './ferov';
 import { createConnectorObjects } from './connector';
+import { createFEROV, createFEROVMetadataObject } from './ferov';
 
 const elementType = ELEMENT_TYPE.ASSIGNMENT;
 const maxConnections = 1;

@@ -1,43 +1,43 @@
-import { createElement } from 'lwc';
-import SubflowEditor from 'builder_platform_interaction/subflowEditor';
-import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
-import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
-import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { changeComboboxValue, resetState, setupStateForFlow } from '../integrationTestUtils';
-import { getLabelDescriptionElement, LabelDescriptionComponentTest } from '../labelDescriptionTestUtils';
 import {
-    VALIDATION_ERROR_MESSAGES,
-    getBaseCalloutElement,
-    getInputParameterItems,
-    getOutputParameterItems,
-    getInputParameterComboboxElement,
-    getOutputParameterComboboxElement,
-    getLightningInputToggle,
-    getDeleteButton,
-    getParameterIcon,
-    getWarningIcon,
-    getWarningBadge,
-    toggleChangeEvent,
-    verifyOptionalInputParameterWithValue,
-    verifyOptionalInputParameterNoValue,
-    verifyOutputParameter,
-    getParameter,
-    findParameterElement,
-    filterParameterElements,
-    getElementGuid,
-    getManuallyAssignVariablesCheckboxInputElementFromActionEditor,
-    getManuallyAssignVariablesCheckboxFromActionEditor
-} from '../baseCalloutEditorTestUtils';
-import {
-    ticks,
-    textInputEvent,
     blurEvent,
     checkboxChangeEvent,
-    setDocumentBodyChildren
+    setDocumentBodyChildren,
+    textInputEvent,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
-import { EditElementEvent, AddElementEvent } from 'builder_platform_interaction/events';
+import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
+import { AddElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import SubflowEditor from 'builder_platform_interaction/subflowEditor';
+import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
+import { createElement } from 'lwc';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import {
+    filterParameterElements,
+    findParameterElement,
+    getBaseCalloutElement,
+    getDeleteButton,
+    getElementGuid,
+    getInputParameterComboboxElement,
+    getInputParameterItems,
+    getLightningInputToggle,
+    getManuallyAssignVariablesCheckboxFromActionEditor,
+    getManuallyAssignVariablesCheckboxInputElementFromActionEditor,
+    getOutputParameterComboboxElement,
+    getOutputParameterItems,
+    getParameter,
+    getParameterIcon,
+    getWarningBadge,
+    getWarningIcon,
+    toggleChangeEvent,
+    VALIDATION_ERROR_MESSAGES,
+    verifyOptionalInputParameterNoValue,
+    verifyOptionalInputParameterWithValue,
+    verifyOutputParameter
+} from '../baseCalloutEditorTestUtils';
+import { changeComboboxValue, resetState, setupStateForFlow } from '../integrationTestUtils';
+import { getLabelDescriptionElement, LabelDescriptionComponentTest } from '../labelDescriptionTestUtils';
 
 jest.mock('builder_platform_interaction/editor', () => {
     return Object.assign({}, { launchSubflow: jest.fn() });

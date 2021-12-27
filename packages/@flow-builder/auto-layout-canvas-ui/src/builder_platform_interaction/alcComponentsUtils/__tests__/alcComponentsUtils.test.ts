@@ -1,23 +1,23 @@
 // @ts-nocheck
-import { NodeType, MenuType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { MenuType, NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import {
-    getCanvasElementSelectionData,
-    getCanvasElementDeselectionData,
-    getFirstSelectableElementGuid,
+    getAlcConnectorData,
     getAlcMenuData,
-    getMenuStyle,
     getAlcNodeData,
-    getAlcConnectorData
+    getCanvasElementDeselectionData,
+    getCanvasElementSelectionData,
+    getFirstSelectableElementGuid,
+    getMenuStyle
 } from '../alcComponentsUtils';
 import {
     flowModelData,
+    flowModelWithGoToInLoop,
+    flowModelWithGoToOnFault,
+    flowModelWithOneDecision,
     recordTriggeredFlowModelData,
     recordTriggeredFlowModelWithScheduledPathsData,
     recordTriggerFlowModel2,
-    scheduleTriggerFlowModel,
-    flowModelWithOneDecision,
-    flowModelWithGoToInLoop,
-    flowModelWithGoToOnFault
+    scheduleTriggerFlowModel
 } from './mockData';
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));

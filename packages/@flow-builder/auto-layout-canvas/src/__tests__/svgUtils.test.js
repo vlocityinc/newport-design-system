@@ -1,4 +1,4 @@
-import { createSvgPath, createSvgInfo } from '../svgUtils';
+import { createSvgInfo, createSvgPath } from '../svgUtils';
 
 describe('svgUtils', () => {
     it('straight line', () => {

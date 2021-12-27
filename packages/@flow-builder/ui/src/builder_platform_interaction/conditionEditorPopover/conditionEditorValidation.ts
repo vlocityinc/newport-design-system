@@ -1,7 +1,7 @@
 // @ts-nocheck
-import * as ValidationRules from 'builder_platform_interaction/validationRules';
-import { Validation } from 'builder_platform_interaction/validation';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { Validation } from 'builder_platform_interaction/validation';
+import * as ValidationRules from 'builder_platform_interaction/validationRules';
 
 /**
  * @constant additionalRules - map of propertyName to validation rules

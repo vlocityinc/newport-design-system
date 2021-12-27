@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { BaseCommand } from './baseCommand';
 import dockingPanelFocusLabel from '@salesforce/label/FlowBuilderKeyboardInteractionLabels.dockingPanelFocusLabel';
+import { BaseCommand } from './baseCommand';
 const commandName = 'focusOnDockingPanel';
 export class FocusOnDockingPanelCommand extends BaseCommand {
     /**

@@ -1,9 +1,9 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import ReorderableVerticalNavigation from 'builder_platform_interaction/reorderableVerticalNavigation';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { ListItemInteractionEvent, ReorderListEvent } from 'builder_platform_interaction/events';
+import ReorderableVerticalNavigation from 'builder_platform_interaction/reorderableVerticalNavigation';
 import { commands } from 'builder_platform_interaction/sharedUtils';
+import { createElement } from 'lwc';
 const { ArrowDown, ArrowUp, SpaceCommand, EnterCommand } = commands;
 
 const SELECTORS = {

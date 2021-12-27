@@ -1,11 +1,11 @@
 // @ts-nocheck
 import {
+    createNewConnector,
     getFlowBounds,
-    sortConnectorPickerComboboxOptions,
     getLabelAndValueForConnectorPickerOptions,
-    createNewConnector
+    sortConnectorPickerComboboxOptions
 } from 'builder_platform_interaction/connectorUtils';
-import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from '../connectorUtilsLabels';
 
 jest.mock('builder_platform_interaction/storeLib', () => {

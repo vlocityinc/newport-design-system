@@ -1,5 +1,5 @@
-import { Store } from 'builder_platform_interaction/storeLib';
 import { RetrieveOptions } from 'builder_platform_interaction/selectors';
+import { Store } from 'builder_platform_interaction/storeLib';
 import { filterAndMutateMenuData, filterFieldsForChosenElement, getChildrenItemsPromise } from './menuDataRetrieval';
 import { ElementFilterConfig, getStoreElements } from './storeElementsFilter';
 

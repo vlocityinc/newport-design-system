@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { pick, omit, set, updateProperties, stringToPath } from '../objectMutation';
+import { omit, pick, set, stringToPath, updateProperties } from '../objectMutation';
 
 const obj = {
     name: 'ass1',

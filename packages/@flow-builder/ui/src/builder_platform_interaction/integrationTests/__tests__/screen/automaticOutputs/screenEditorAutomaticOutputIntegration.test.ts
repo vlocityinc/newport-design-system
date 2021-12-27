@@ -1,16 +1,16 @@
-import { Store, StoreReducer } from 'builder_platform_interaction/storeLib';
-import { reducer } from 'builder_platform_interaction/reducers';
-import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { clearExtensionsCache } from 'builder_platform_interaction/flowExtensionLib';
-import { initializeAuraFetch, createGetterByProcessType } from '../../serverDataTestUtils';
-import { flowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
-import { flowExtensionsForFlow as mockFlowExtensions } from 'serverData/GetFlowExtensions/flowExtensionsForFlow.json';
+import { clearExtensionsCache } from 'builder_platform_interaction/flowExtensionLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { reducer } from 'builder_platform_interaction/reducers';
+import { Store, StoreReducer } from 'builder_platform_interaction/storeLib';
+import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import { flowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
+import { flowExtensionsForFlow as mockFlowExtensions } from 'serverData/GetFlowExtensions/flowExtensionsForFlow.json';
 import { translateFlowToUIAndDispatch } from '../../integrationTestUtils';
 import { createComponentUnderTest, ScreenEditorTestComponent } from '../../screenEditorTestUtils';
+import { createGetterByProcessType, initializeAuraFetch } from '../../serverDataTestUtils';
 
 const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = FLOW_PROCESS_TYPE.FLOW;
 

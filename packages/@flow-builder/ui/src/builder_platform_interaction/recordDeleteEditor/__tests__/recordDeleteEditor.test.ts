@@ -1,5 +1,8 @@
-import { createElement } from 'lwc';
-import RecordDeleteEditor from '../recordDeleteEditor';
+import {
+    INTERACTION_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
 import {
     AddElementEvent,
     AddRecordFilterEvent,
@@ -10,15 +13,12 @@ import {
     SObjectReferenceChangedEvent,
     UpdateRecordFilterEvent
 } from 'builder_platform_interaction/events';
-import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { accountSObjectVariable, elementsForPropertyEditors, flowWithAllElementsUIModel } from 'mock/storeData';
-import {
-    INTERACTION_COMPONENTS_SELECTORS,
-    setDocumentBodyChildren,
-    ticks
-} from 'builder_platform_interaction/builderTestUtils';
 import { WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
+import { accountSObjectVariable, elementsForPropertyEditors, flowWithAllElementsUIModel } from 'mock/storeData';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import RecordDeleteEditor from '../recordDeleteEditor';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>

@@ -1,19 +1,18 @@
 // @ts-nocheck
 /* Labels */
-import subtitle from '@salesforce/label/FlowBuilderInvocableActionEditor.subtitle';
-import inputHeader from '@salesforce/label/FlowBuilderInvocableActionEditor.inputHeader';
-import outputHeader from '@salesforce/label/FlowBuilderInvocableActionEditor.outputHeader';
+import emptyInputsOutputsTitle from '@salesforce/label/FlowBuilderCalloutEditor.emptyInputsOutputsTitle';
 import emptyInputsTitle from '@salesforce/label/FlowBuilderCalloutEditor.emptyInputsTitle';
 import thisActionHasNoInputBody from '@salesforce/label/FlowBuilderCalloutEditor.thisActionHasNoInputBody';
-import badgeWillCauseErrors from '@salesforce/label/FlowBuilderInvocableActionEditor.badgeWillCauseErrors';
-import warningNotAvailable from '@salesforce/label/FlowBuilderInvocableActionEditor.warningNotAvailable';
-import coreActionTypeLabel from '@salesforce/label/FlowBuilderInvocableActionEditor.coreActionTypeLabel';
-import apexTypeLabel from '@salesforce/label/FlowBuilderInvocableActionEditor.apexTypeLabel';
-import emailAlertTypeLabel from '@salesforce/label/FlowBuilderInvocableActionEditor.emailAlertTypeLabel';
-import editPropertyEditorTitle from '@salesforce/label/FlowBuilderInvocableActionEditor.editPropertyEditorTitle';
 import thisActionHasNoInputOutputBody from '@salesforce/label/FlowBuilderCalloutEditor.thisActionHasNoInputOutputBody';
-import emptyInputsOutputsTitle from '@salesforce/label/FlowBuilderCalloutEditor.emptyInputsOutputsTitle';
-
+import apexTypeLabel from '@salesforce/label/FlowBuilderInvocableActionEditor.apexTypeLabel';
+import badgeWillCauseErrors from '@salesforce/label/FlowBuilderInvocableActionEditor.badgeWillCauseErrors';
+import coreActionTypeLabel from '@salesforce/label/FlowBuilderInvocableActionEditor.coreActionTypeLabel';
+import editPropertyEditorTitle from '@salesforce/label/FlowBuilderInvocableActionEditor.editPropertyEditorTitle';
+import emailAlertTypeLabel from '@salesforce/label/FlowBuilderInvocableActionEditor.emailAlertTypeLabel';
+import inputHeader from '@salesforce/label/FlowBuilderInvocableActionEditor.inputHeader';
+import outputHeader from '@salesforce/label/FlowBuilderInvocableActionEditor.outputHeader';
+import subtitle from '@salesforce/label/FlowBuilderInvocableActionEditor.subtitle';
+import warningNotAvailable from '@salesforce/label/FlowBuilderInvocableActionEditor.warningNotAvailable';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 export const LABELS = {

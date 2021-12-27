@@ -1,4 +1,4 @@
-import { ticks, selectEvent, blurEvent, textInputEvent } from 'builder_platform_interaction/builderTestUtils';
+import { blurEvent, selectEvent, textInputEvent, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { TestComponent } from './testComponent';
 
 export class GroupedComboboxTestComponent extends TestComponent<any> {

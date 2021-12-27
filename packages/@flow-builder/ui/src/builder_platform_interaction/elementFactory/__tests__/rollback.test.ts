@@ -1,11 +1,10 @@
-import {
-    createRollback,
-    createRollbackWithConnectors,
-    createDuplicateRollback,
-    createRollbackMetadataObject
-} from '../rollback';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
+import {
+    createDuplicateRollback,
+    createRollback,
+    createRollbackMetadataObject,
+    createRollbackWithConnectors
+} from '../rollback';
 
 const defaultRollbackElement = {
     elementType: ELEMENT_TYPE.ROLLBACK,

@@ -1,6 +1,6 @@
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { collectionChoiceSetValidation, validate } from './collectionChoiceSetValidation';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { collectionChoiceSetValidation, validate } from './collectionChoiceSetValidation';
 
 const manageUpdateProperty = (collectionChoice, action) => {
     if (!action.payload.doValidateProperty) {

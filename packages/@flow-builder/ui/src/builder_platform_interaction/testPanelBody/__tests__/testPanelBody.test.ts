@@ -1,5 +1,5 @@
-import { createElement } from 'lwc';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { createElement } from 'lwc';
 import TestPanelBody from '../testPanelBody';
 
 const createComponentUnderTest = (props = {}) => {

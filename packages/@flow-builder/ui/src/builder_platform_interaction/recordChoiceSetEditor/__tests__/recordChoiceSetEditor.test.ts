@@ -1,29 +1,29 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import RecordChoiceSetEditor from '../recordChoiceSetEditor';
-import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import {
-    PropertyChangedEvent,
-    ValueChangedEvent,
+    INTERACTION_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
+import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
+import {
     AddRecordFieldAssignmentEvent,
     DeleteRecordFieldAssignmentEvent,
-    UpdateRecordFieldAssignmentEvent
+    PropertyChangedEvent,
+    UpdateRecordFieldAssignmentEvent,
+    ValueChangedEvent
 } from 'builder_platform_interaction/events';
-import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
-import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
-import { recordChoiceSetReducer } from '../recordChoiceSetReducer';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import {
-    setDocumentBodyChildren,
-    ticks,
-    INTERACTION_COMPONENTS_SELECTORS
-} from 'builder_platform_interaction/builderTestUtils';
+import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { createElement } from 'lwc';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import RecordChoiceSetEditor from '../recordChoiceSetEditor';
+import { recordChoiceSetReducer } from '../recordChoiceSetReducer';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')

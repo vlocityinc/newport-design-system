@@ -1,36 +1,17 @@
-import { api, LightningElement, track } from 'lwc';
+import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import {
+    getParameterListWarnings,
+    MERGE_WITH_PARAMETERS,
+    ParameterListConfig,
+    REMOVE_UNSET_PARAMETERS
+} from 'builder_platform_interaction/calloutEditorLib';
+import { isUndefinedOrNull, removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import {
     getErrorsFromHydratedElement,
     getValueFromHydratedItem,
     ValueWithError
 } from 'builder_platform_interaction/dataMutationLib';
-import {
-    ComboboxStateChangedEvent,
-    CreateEntryConditionsEvent,
-    DeleteAllConditionsEvent,
-    DeleteOrchestrationActionEvent,
-    ORCHESTRATED_ACTION_CATEGORY,
-    OrchestrationActionValueChangedEvent,
-    OrchestrationAssigneeChangedEvent,
-    PropertyChangedEvent,
-    RequiresAsyncProcessingChangedEvent,
-    UpdateConditionEvent,
-    UpdateNodeEvent,
-    ValueChangedEvent,
-    UpdateEntryExitCriteriaEvent,
-    UpdateParameterItemEvent
-} from 'builder_platform_interaction/events';
-import { LABELS } from './stageStepEditorLabels';
-import { stageStepReducer } from './stageStepReducer';
-import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
-import {
-    ACTION_TYPE,
-    ELEMENT_TYPE,
-    EntryCriteria,
-    ExitCriteria,
-    FLOW_TRANSACTION_MODEL,
-    ICONS
-} from 'builder_platform_interaction/flowMetadata';
+import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
     ASSIGNEE_DATA_TYPE_PROPERTY_NAME,
     ASSIGNEE_PROPERTY_NAME,
@@ -43,26 +24,45 @@ import {
     RELATED_RECORD_INPUT_PARAMETER_NAME,
     StageStep
 } from 'builder_platform_interaction/elementFactory';
-import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { fetchDetailsForInvocableAction, InvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import {
-    getParameterListWarnings,
-    MERGE_WITH_PARAMETERS,
-    ParameterListConfig,
-    REMOVE_UNSET_PARAMETERS
-} from 'builder_platform_interaction/calloutEditorLib';
-import { FLOW_AUTOMATIC_OUTPUT_HANDLING } from 'builder_platform_interaction/processTypeLib';
-import { isUndefinedOrNull, removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
-import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
-import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
+    ComboboxStateChangedEvent,
+    CreateEntryConditionsEvent,
+    DeleteAllConditionsEvent,
+    DeleteOrchestrationActionEvent,
+    ORCHESTRATED_ACTION_CATEGORY,
+    OrchestrationActionValueChangedEvent,
+    OrchestrationAssigneeChangedEvent,
+    PropertyChangedEvent,
+    RequiresAsyncProcessingChangedEvent,
+    UpdateConditionEvent,
+    UpdateEntryExitCriteriaEvent,
+    UpdateNodeEvent,
+    UpdateParameterItemEvent,
+    ValueChangedEvent
+} from 'builder_platform_interaction/events';
 import {
     getFerovDataTypeForValidId,
     getResourceByUniqueIdentifier
 } from 'builder_platform_interaction/expressionUtils';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import {
+    ACTION_TYPE,
+    ELEMENT_TYPE,
+    EntryCriteria,
+    ExitCriteria,
+    FLOW_TRANSACTION_MODEL,
+    ICONS
+} from 'builder_platform_interaction/flowMetadata';
+import { fetchDetailsForInvocableAction, InvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import { FLOW_AUTOMATIC_OUTPUT_HANDLING } from 'builder_platform_interaction/processTypeLib';
+import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
+import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
+import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { updateAndValidateElementInPropertyEditor } from 'builder_platform_interaction/validation';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './stageStepEditorLabels';
+import { stageStepReducer } from './stageStepReducer';
 
 // Standard inputs that should not show up as inputs associated with the selected action
 const STANDARD_INPUT_PREFIX = 'ActionInput__';

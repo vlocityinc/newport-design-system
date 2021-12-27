@@ -1,38 +1,35 @@
 // @ts-nocheck
-import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import {
-    createWaitEvent,
-    createDuplicateWait,
-    createWaitWithWaitEvents,
-    createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor
-} from '../wait';
-import { createInputParameter, createInputParameterMetadataObject } from '../inputParameter';
-import { createOutputParameter, createOutputParameterMetadataObject } from '../outputParameter';
-import { baseCanvasElementWithFault, baseChildElement, createCondition } from '../base/baseElement';
-import {
-    ELEMENT_TYPE,
     CONDITION_LOGIC,
     CONNECTOR_TYPE,
+    ELEMENT_TYPE,
     WAIT_TIME_EVENT_PARAMETER_NAMES
 } from 'builder_platform_interaction/flowMetadata';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import { baseCanvasElementWithFault, baseChildElement, createCondition } from '../base/baseElement';
 import {
     baseCanvasElementMetadataObject,
     baseChildElementMetadataObject,
     createConditionMetadataObject
 } from '../base/baseMetadata';
-
-import { LABELS } from '../elementFactoryLabels';
 import {
+    addRegularConnectorToAvailableConnections,
+    getConnectionProperties
+} from '../commonFactoryUtils/connectionPropertiesUtils';
+import { LABELS } from '../elementFactoryLabels';
+import { createInputParameter, createInputParameterMetadataObject } from '../inputParameter';
+import { createOutputParameter, createOutputParameterMetadataObject } from '../outputParameter';
+import {
+    createDuplicateWait,
+    createWaitEvent,
     createWaitMetadataObject,
     createWaitWithWaitEventReferences,
-    isWaitTimeEventType,
-    getParametersPropertyName
+    createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor,
+    createWaitWithWaitEvents,
+    getParametersPropertyName,
+    isWaitTimeEventType
 } from '../wait';
-import {
-    getConnectionProperties,
-    addRegularConnectorToAvailableConnections
-} from '../commonFactoryUtils/connectionPropertiesUtils';
-import { Store } from 'builder_platform_interaction/storeLib';
 
 const newWaitGuid = 'newWait';
 const existingWaitGuid = 'existingWait';

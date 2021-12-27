@@ -1,15 +1,15 @@
 // @ts-nocheck
+import { escapeForRegExp } from 'builder_platform_interaction/commonUtils';
 import { getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
 import {
     getElementCategory,
-    getResourceLabel,
-    getResourceCategory
+    getResourceCategory,
+    getResourceLabel
 } from 'builder_platform_interaction/elementLabelLib';
+import { canvasElementFilter, resourceFilter } from 'builder_platform_interaction/filterLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { labelComparator } from 'builder_platform_interaction/sortLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { canvasElementFilter, resourceFilter } from 'builder_platform_interaction/filterLib';
-import { escapeForRegExp } from 'builder_platform_interaction/commonUtils';
 
 /**
  * Helper function to return the dataType associated with a screen field

@@ -1,12 +1,12 @@
-import {
-    writableElementsSelector,
-    readableElementsSelector,
-    choiceSelector,
-    isOrCanContainSelector
-} from 'builder_platform_interaction/selectors';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    choiceSelector,
+    isOrCanContainSelector,
+    readableElementsSelector,
+    RetrieveOptions,
+    writableElementsSelector
+} from 'builder_platform_interaction/selectors';
 import { getScreenElement } from './resourceUtils';
-import { RetrieveOptions } from 'builder_platform_interaction/selectors';
 
 export type ElementFilterConfig = {
     allowedParamTypes?: object;

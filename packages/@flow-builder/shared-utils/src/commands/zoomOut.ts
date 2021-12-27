@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { BaseCommand } from './baseCommand';
 import zoomOutCommandLabel from '@salesforce/label/FlowBuilderKeyboardInteractionLabels.zoomOutCommandLabel';
+import { BaseCommand } from './baseCommand';
 const commandName = 'zoomout';
 export class ZoomOutCommand extends BaseCommand {
     /**

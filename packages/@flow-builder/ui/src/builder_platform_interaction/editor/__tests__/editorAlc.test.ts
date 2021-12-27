@@ -1,19 +1,19 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import Editor from '../editor';
+import {
+    INTERACTION_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
 import {
     ClosePropertyEditorEvent,
+    EditElementEvent,
     SelectNodeEvent,
-    ToggleSelectionModeEvent,
-    EditElementEvent
+    ToggleSelectionModeEvent
 } from 'builder_platform_interaction/events';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
-import {
-    LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS
-} from 'builder_platform_interaction/builderTestUtils';
-import { orchestratorFlowUIModel, Decision1, Decision2 } from 'mock/storeDataOrchestrator';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
+import { Decision1, Decision2, orchestratorFlowUIModel } from 'mock/storeDataOrchestrator';
+import Editor from '../editor';
 
 jest.mock('builder_platform_interaction/alcCanvas', () => require('builder_platform_interaction_mocks/alcCanvas'));
 

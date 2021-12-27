@@ -1,30 +1,32 @@
-import { LightningElement, api, track } from 'lwc';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
-import { MapElement, DEFAULT_OUTPUT_TYPE } from 'builder_platform_interaction/mapEditorLib';
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
-import { mapReducer } from './mapReducer';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { LABELS } from './mapEditorLabels';
 import {
-    UpdateCollectionProcessorEvent,
-    PrepopulateMapItemsEvent,
-    PropertyChangedEvent
-} from 'builder_platform_interaction/events';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { getElementByDevName, getElementByGuid } from 'builder_platform_interaction/storeUtils';
-
-import {
-    DEFAULT_CURRENT_ITEM_VARIABLE_PREFIX,
     COLLECTION_PROCESSOR_PROPERTIES,
+    DEFAULT_CURRENT_ITEM_VARIABLE_PREFIX,
+    deleteOrRestoreVariable,
+    devNameToGuid,
     generateVariable,
     getNodeName,
-    devNameToGuid,
-    deleteOrRestoreVariable,
     updateVariable
 } from 'builder_platform_interaction/collectionProcessorLib';
-import { getUniqueDuplicateElementName } from 'builder_platform_interaction/storeUtils';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import {
+    PrepopulateMapItemsEvent,
+    PropertyChangedEvent,
+    UpdateCollectionProcessorEvent
+} from 'builder_platform_interaction/events';
+import { DEFAULT_OUTPUT_TYPE, MapElement } from 'builder_platform_interaction/mapEditorLib';
+import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
+import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
+import { Store } from 'builder_platform_interaction/storeLib';
+import {
+    getElementByDevName,
+    getElementByGuid,
+    getUniqueDuplicateElementName
+} from 'builder_platform_interaction/storeUtils';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './mapEditorLabels';
+import { mapReducer } from './mapReducer';
 
 export default class MapEditor extends LightningElement {
     labels = LABELS;

@@ -1,35 +1,35 @@
 // @ts-nocheck
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { deepCopy } from 'builder_platform_interaction/storeLib';
 import {
-    getResourceLabel,
-    getElementCategory,
-    getResourceCategory,
-    getResourceTypeLabel,
-    formatWithEntityLabel
-} from '../elementLabelLib';
-import { LABELS } from '../elementLabelLibLabels';
-import {
-    lookupRecordOutputReference,
-    lookupRecordAutomaticOutput,
-    lookupRecordCollectionAutomaticOutput,
-    emailScreenFieldAutomaticOutput,
     actionCallAutomaticOutput,
     apexCallAutomaticAnonymousAccountOutput,
-    apexCallAutomaticAnonymousStringOutput,
-    createAccountWithAutomaticOutput,
     apexCallAutomaticAnonymousAccountsOutput,
-    apexCallAutomaticAnonymousStringsOutput,
     apexCallAutomaticAnonymousApexTypeCollectionOutput,
+    apexCallAutomaticAnonymousStringOutput,
+    apexCallAutomaticAnonymousStringsOutput,
+    createAccountWithAutomaticOutput,
+    emailScreenFieldAutomaticOutput,
+    lookupRecordAutomaticOutput,
+    lookupRecordCollectionAutomaticOutput,
+    lookupRecordOutputReference,
     subflowAutomaticOutput
 } from 'mock/storeData';
 import {
     loopAccountAutomaticOutput,
-    loopOnTextCollectionManualOutput,
+    loopOnApexTypeCollectionAutoOutput,
     loopOnTextCollectionAutomaticOutput,
-    loopOnApexTypeCollectionAutoOutput
+    loopOnTextCollectionManualOutput
 } from 'mock/storeDataScheduleTriggered';
-import { deepCopy } from 'builder_platform_interaction/storeLib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import {
+    formatWithEntityLabel,
+    getElementCategory,
+    getResourceCategory,
+    getResourceLabel,
+    getResourceTypeLabel
+} from '../elementLabelLib';
+import { LABELS } from '../elementLabelLibLabels';
 
 jest.mock(
     '@salesforce/label/FlowBuilderElementLabels.recordLookupAsResourceText',

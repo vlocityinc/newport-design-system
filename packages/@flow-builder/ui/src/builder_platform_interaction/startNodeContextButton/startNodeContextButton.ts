@@ -1,14 +1,14 @@
-import { LightningElement, api } from 'lwc';
-import { CONDITION_LOGIC, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { LABELS } from './startNodeContextButtonLabels';
 import {
+    EDIT_START_JOURNEY_CONTEXT,
     EDIT_START_RECORD_CHANGE_CONTEXT,
-    EDIT_START_SCHEDULE_CONTEXT,
-    EDIT_START_JOURNEY_CONTEXT
+    EDIT_START_SCHEDULE_CONTEXT
 } from 'builder_platform_interaction/elementConfig';
-import { EditElementEvent, ArrowKeyDownEvent } from 'builder_platform_interaction/events';
+import { ArrowKeyDownEvent, EditElementEvent } from 'builder_platform_interaction/events';
 import { getEntitiesMenuData } from 'builder_platform_interaction/expressionUtils';
+import { CONDITION_LOGIC, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { commands, keyboardInteractionUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
+import { api, LightningElement } from 'lwc';
+import { LABELS } from './startNodeContextButtonLabels';
 
 const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
 const { BaseKeyboardInteraction, Keys, createShortcut, withKeyboardInteractions } = keyboardInteractionUtils;

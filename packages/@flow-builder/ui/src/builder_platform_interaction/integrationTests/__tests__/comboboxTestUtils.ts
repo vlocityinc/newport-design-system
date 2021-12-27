@@ -1,24 +1,24 @@
 import {
-    ticks,
-    LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS,
     blurEvent,
-    textInputEvent,
     clickPill,
-    removePill,
+    deepQuerySelector,
     getComboboxPill,
-    deepQuerySelector
+    INTERACTION_COMPONENTS_SELECTORS,
+    LIGHTNING_COMPONENTS_SELECTORS,
+    removePill,
+    textInputEvent,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
+import Combobox from 'builder_platform_interaction/combobox';
 import {
     addCurlyBraces,
+    isReference,
     removeCurlyBraces,
-    splitStringBySeparator,
-    isReference
+    splitStringBySeparator
 } from 'builder_platform_interaction/commonUtils';
-import { GroupedComboboxTestComponent } from './groupedComboboxTestUtils';
-import Combobox from 'builder_platform_interaction/combobox';
-import { TestComponent } from './testComponent';
 import SObjectOrSObjectCollectionPicker from 'builder_platform_interaction/sobjectOrSobjectCollectionPicker';
+import { GroupedComboboxTestComponent } from './groupedComboboxTestUtils';
+import { TestComponent } from './testComponent';
 
 /**
  * Do a deep query selector to get the combobox nested witin a SObjectOrSObjectCollectionPicker

@@ -1,29 +1,29 @@
-import { createElement } from 'lwc';
 import {
     LIGHTNING_COMPONENTS_SELECTORS,
     setDocumentBodyChildren,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
+import { CLASSIC_EXPERIENCE, getPreferredExperience } from 'builder_platform_interaction/contextLib';
+import { FieldDataType } from 'builder_platform_interaction/dataTypeLib';
+import { createAutomaticField, createScreenFieldWithFields } from 'builder_platform_interaction/elementFactory';
+import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import ScreenAutomaticFieldPropertiesEditor from 'builder_platform_interaction/screenAutomaticFieldPropertiesEditor';
 import {
-    SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME,
-    ScreenFieldName
+    ScreenFieldName,
+    SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME
 } from 'builder_platform_interaction/screenEditorUtils';
-import { objectWithAllPossibleFieldsFields as mockObjectWithAllPossibleFieldsFields } from 'serverData/GetFieldsForEntity/objectWithAllPossibleFieldsFields.json';
-import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { createElement } from 'lwc';
 import {
     accountVariableNameAutomaticField,
-    objectWithAllPossibleFieldsVariableTextFieldAutomaticField,
     flowWithAllElementsUIModel as mockFlowWithAllElementsUIModel,
-    objectWithAllPossibleFieldsVariable
+    objectWithAllPossibleFieldsVariable,
+    objectWithAllPossibleFieldsVariableTextFieldAutomaticField
 } from 'mock/storeData';
-import { createScreenFieldWithFields, createAutomaticField } from 'builder_platform_interaction/elementFactory';
 import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { objectWithAllPossibleFieldsFields as mockObjectWithAllPossibleFieldsFields } from 'serverData/GetFieldsForEntity/objectWithAllPossibleFieldsFields.json';
 import { objectManagerUrls as mockObjectManagerUrls } from 'serverData/GetObjectManagerUrls/objectManagerUrls.json';
-import { CLASSIC_EXPERIENCE, getPreferredExperience } from 'builder_platform_interaction/contextLib';
-import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
-import { commonUtils } from 'builder_platform_interaction/sharedUtils';
-import { FieldDataType } from 'builder_platform_interaction/dataTypeLib';
 const { format } = commonUtils;
 
 jest.mock('builder_platform_interaction/storeLib', () => {

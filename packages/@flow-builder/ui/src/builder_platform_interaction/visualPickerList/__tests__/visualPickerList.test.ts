@@ -1,8 +1,8 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import VisualPickerList from 'builder_platform_interaction/visualPickerList';
-import { VisualPickerListChangedEvent } from 'builder_platform_interaction/events';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { VisualPickerListChangedEvent } from 'builder_platform_interaction/events';
+import VisualPickerList from 'builder_platform_interaction/visualPickerList';
+import { createElement } from 'lwc';
 
 const ITEMS = [
     {

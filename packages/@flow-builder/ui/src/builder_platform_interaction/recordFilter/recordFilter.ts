@@ -1,17 +1,17 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
-import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { LABELS, criteriaLabels, WARNING_LABELS, filterLogicOptionsLabels } from './recordFilterLabels';
-import { getRulesForElementType, RULE_TYPES, RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
+import { getConditionsWithPrefixes } from 'builder_platform_interaction/conditionListUtils';
 import {
     AddRecordFilterEvent,
     DeleteRecordFilterEvent,
-    UpdateRecordFilterEvent,
-    PropertyChangedEvent
+    PropertyChangedEvent,
+    UpdateRecordFilterEvent
 } from 'builder_platform_interaction/events';
-import { getConditionsWithPrefixes } from 'builder_platform_interaction/conditionListUtils';
-import { getEntity } from 'builder_platform_interaction/sobjectLib';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getRulesForElementType, RULE_OPERATOR, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { getEntity } from 'builder_platform_interaction/sobjectLib';
+import { api, LightningElement, track } from 'lwc';
+import { criteriaLabels, filterLogicOptionsLabels, LABELS, WARNING_LABELS } from './recordFilterLabels';
 const { format } = commonUtils;
 
 const VARIANT_START = 'startElement';

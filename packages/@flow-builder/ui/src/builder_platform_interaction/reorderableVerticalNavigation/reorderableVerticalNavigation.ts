@@ -1,9 +1,14 @@
-import { LightningElement, api, track } from 'lwc';
-import { commands, keyboardInteractionUtils, lwcUtils, Keys } from 'builder_platform_interaction/sharedUtils';
-import { ReorderListEvent, ListItemInteractionEvent } from 'builder_platform_interaction/events';
-import ReorderableVerticalNavigationItem from 'builder_platform_interaction/reorderableVerticalNavigationItem';
-import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { Guid } from 'builder_platform_interaction/autoLayoutCanvas';
+import { ListItemInteractionEvent, ReorderListEvent } from 'builder_platform_interaction/events';
+import ReorderableVerticalNavigationItem from 'builder_platform_interaction/reorderableVerticalNavigationItem';
+import {
+    commands,
+    commonUtils,
+    keyboardInteractionUtils,
+    Keys,
+    lwcUtils
+} from 'builder_platform_interaction/sharedUtils';
+import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './reorderableVerticalNavigationLabels';
 
 const { format } = commonUtils;

@@ -1,23 +1,22 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import { WAIT_TIME_EVENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
+    INTERACTION_COMPONENTS_SELECTORS,
+    LIGHTNING_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import {
+    ComboboxStateChangedEvent,
     PropertyChangedEvent,
     UpdateParameterItemEvent,
-    ComboboxStateChangedEvent,
     UpdateWaitEventEventTypeEvent
 } from 'builder_platform_interaction/events';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getFerovInfoAndErrorFromEvent } from 'builder_platform_interaction/expressionUtils';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import WaitTimeEvent from '../waitTimeEvent';
+import { ELEMENT_TYPE, WAIT_TIME_EVENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
-import {
-    ticks,
-    LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS,
-    setDocumentBodyChildren
-} from 'builder_platform_interaction/builderTestUtils';
+import { createElement } from 'lwc';
+import WaitTimeEvent from '../waitTimeEvent';
 
 jest.mock('builder_platform_interaction/outputResourcePicker', () =>
     require('builder_platform_interaction_mocks/outputResourcePicker')

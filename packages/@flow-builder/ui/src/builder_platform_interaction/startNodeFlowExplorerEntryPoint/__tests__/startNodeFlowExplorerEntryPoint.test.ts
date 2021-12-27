@@ -1,10 +1,10 @@
 // @ts-nocheck
-import { startElement as recordTriggeredStartElement } from 'mock/storeDataRecordTriggered';
-import StartNodeFlowExplorerEntryPoint from 'builder_platform_interaction/startNodeFlowExplorerEntryPoint';
-import { createElement } from 'lwc';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import { ArrowKeyDownEvent } from 'builder_platform_interaction/events';
 import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
-import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import StartNodeFlowExplorerEntryPoint from 'builder_platform_interaction/startNodeFlowExplorerEntryPoint';
+import { createElement } from 'lwc';
+import { startElement as recordTriggeredStartElement } from 'mock/storeDataRecordTriggered';
 
 const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
 const { Keys } = keyboardInteractionUtils;

@@ -1,31 +1,32 @@
-import ScreenEditorAutomaticFieldPalette from '../screenEditorAutomaticFieldPalette';
-import { createElement } from 'lwc';
-import { Store } from 'builder_platform_interaction/storeLib';
 import {
-    flowWithAllElementsUIModel,
-    accountSObjectVariable,
-    objectWithAllPossibleFieldsVariable
-} from 'mock/storeData';
-import { ScreenFieldName } from 'builder_platform_interaction/screenEditorUtils';
+    dragStartEvent,
+    INTERACTION_COMPONENTS_SELECTORS,
+    LIGHTNING_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
+import { FieldDataType } from 'builder_platform_interaction/dataTypeLib';
 import {
-    SObjectReferenceChangedEvent,
-    RemoveMergeFieldPillEvent,
     EditMergeFieldPillEvent,
     PaletteItemClickedEvent,
-    ScreenEditorEventName
+    RemoveMergeFieldPillEvent,
+    ScreenEditorEventName,
+    SObjectReferenceChangedEvent
 } from 'builder_platform_interaction/events';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { ScreenFieldName } from 'builder_platform_interaction/screenEditorUtils';
+import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
+import {
+    accountSObjectVariable,
+    flowWithAllElementsUIModel,
+    objectWithAllPossibleFieldsVariable
+} from 'mock/storeData';
+import { automaticFieldBetaUrls as mockAutomaticFieldBetaUrls } from 'serverData/GetAutomaticFieldBetaUrls/automaticFieldBetaUrls.json';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { objectWithAllPossibleFieldsFields as mockObjectWithAllPossibleFieldsVariableFields } from 'serverData/GetFieldsForEntity/objectWithAllPossibleFieldsFields.json';
-import {
-    LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS,
-    dragStartEvent
-} from 'builder_platform_interaction/builderTestUtils';
-import { automaticFieldBetaUrls as mockAutomaticFieldBetaUrls } from 'serverData/GetAutomaticFieldBetaUrls/automaticFieldBetaUrls.json';
-import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
+import ScreenEditorAutomaticFieldPalette from '../screenEditorAutomaticFieldPalette';
 import { isAutomaticFieldRequired } from '../screenEditorAutomaticFieldPaletteUtils';
-import { FieldDataType } from 'builder_platform_interaction/dataTypeLib';
 
 let mockAccountFields = accountFields;
 

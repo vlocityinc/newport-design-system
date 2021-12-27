@@ -1,9 +1,9 @@
 // @ts-nocheck
-import { scheduledPathsReducer } from '../scheduledPathsReducer';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { PropertyChangedEvent, DeleteScheduledPathEvent } from 'builder_platform_interaction/events';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { DeleteScheduledPathEvent, PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { TIME_OPTION } from 'builder_platform_interaction/flowMetadata';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { scheduledPathsReducer } from '../scheduledPathsReducer';
 
 jest.mock('builder_platform_interaction/usedByLib', () => {
     return {

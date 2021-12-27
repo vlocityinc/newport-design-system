@@ -1,11 +1,10 @@
 /* eslint-disable lwc-core/no-inline-disable */
 import { renderComponent } from 'aura';
-import { translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
-import { getAutomaticOutputParameters } from 'builder_platform_interaction/complexTypeLib';
-import { swapUidsForDevNames } from 'builder_platform_interaction/translatorLib';
-import { createInputParameter, ParameterListRowItem } from 'builder_platform_interaction/elementFactory';
-import { dehydrate, getValueFromHydratedItem, ValueWithError } from 'builder_platform_interaction/dataMutationLib';
 import { createComponentPromise } from 'builder_platform_interaction/builderUtils';
+import { getAutomaticOutputParameters } from 'builder_platform_interaction/complexTypeLib';
+import { dehydrate, getValueFromHydratedItem, ValueWithError } from 'builder_platform_interaction/dataMutationLib';
+import { createInputParameter, ParameterListRowItem } from 'builder_platform_interaction/elementFactory';
+import { swapUidsForDevNames, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
 
 type ConfigurationEditorParametersAttributes = {
     elementInfo: ElementInfo;

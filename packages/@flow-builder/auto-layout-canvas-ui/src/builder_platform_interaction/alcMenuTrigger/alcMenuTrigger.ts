@@ -1,15 +1,14 @@
-import { api, LightningElement } from 'lwc';
-import { classSet } from 'lightning/utils';
-
+import { AutoLayoutCanvasMode, ICON_SHAPE } from 'builder_platform_interaction/alcComponentsUtils';
 import {
-    ToggleMenuEvent,
-    MenuPositionUpdateEvent,
     CloseMenuEvent,
-    TabOnMenuTriggerEvent
+    MenuPositionUpdateEvent,
+    TabOnMenuTriggerEvent,
+    ToggleMenuEvent
 } from 'builder_platform_interaction/alcEvents';
-import { ICON_SHAPE, AutoLayoutCanvasMode } from 'builder_platform_interaction/alcComponentsUtils';
 import { ConnectionSource, MenuType, NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { CanvasMouseUpEvent } from 'builder_platform_interaction/events';
+import { classSet } from 'lightning/utils';
+import { api, LightningElement } from 'lwc';
 
 /**
  * Fixed Layout Canvas Menu Button Component.

@@ -1,8 +1,11 @@
+import {
+    INTERACTION_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
+import { PropertyChangedEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
 import { createElement } from 'lwc';
 import RollbackEditor from '../rollbackEditor';
-import { PropertyChangedEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
-import { ticks, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
-import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

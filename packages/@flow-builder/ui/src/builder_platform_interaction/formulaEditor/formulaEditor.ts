@@ -1,12 +1,12 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
-import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { formulaReducer } from './formulaReducer';
-import { LABELS } from './formulaEditorLabels';
+import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './formulaEditorLabels';
+import { formulaReducer } from './formulaReducer';
 
 const dataTypes = [
     FLOW_DATA_TYPE.STRING,

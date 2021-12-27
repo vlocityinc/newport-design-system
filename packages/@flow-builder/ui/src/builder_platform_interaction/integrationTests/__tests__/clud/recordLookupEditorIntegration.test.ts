@@ -1,52 +1,52 @@
-import { createElement } from 'lwc';
-import RecordLookupEditor from 'builder_platform_interaction/recordLookupEditor';
 import {
+    changeEvent,
+    deepQuerySelector,
+    INTERACTION_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
+import { AddElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import RecordLookupEditor from 'builder_platform_interaction/recordLookupEditor';
+import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import { createElement } from 'lwc';
+import * as fieldServiceMobileFlow from 'mock/flows/fieldServiceMobileFlow.json';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import { ComboboxTestComponent } from '../comboboxTestUtils';
+import { ExpressionBuilderComponentTest } from '../expressionBuilderTestUtils';
+import {
+    expectCanBeTraversed,
+    expectCannotBeSelected,
+    expectCannotBeTraversed,
+    GroupedComboboxTestComponent
+} from '../groupedComboboxTestUtils';
+import {
+    changeLightningRadioGroupValue,
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
     getChildComponent,
     resetState,
-    setupStateForFlow,
-    changeLightningRadioGroupValue
+    setupStateForFlow
 } from '../integrationTestUtils';
 import { getLabelDescriptionElement, LabelDescriptionComponentTest } from '../labelDescriptionTestUtils';
-import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { EditElementEvent, AddElementEvent } from 'builder_platform_interaction/events';
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import {
-    INTERACTION_COMPONENTS_SELECTORS,
-    deepQuerySelector,
-    changeEvent,
-    ticks,
-    setDocumentBodyChildren
-} from 'builder_platform_interaction/builderTestUtils';
-import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import * as fieldServiceMobileFlow from 'mock/flows/fieldServiceMobileFlow.json';
-import {
-    getResourceCombobox,
-    getRadioGroups,
-    getEntityResourcePicker,
-    getRecordStoreOption,
-    removePillAndGetGroupedCombobox,
-    getRecordFilter,
-    getRecordSobjectAndQueryFields,
-    getRecordSort,
-    getRecordInputOutputAssignments,
-    getEntityResourcePickerComponent
-} from './cludEditorTestUtils';
-import {
-    expectCanBeTraversed,
-    expectCannotBeTraversed,
-    expectCannotBeSelected,
-    GroupedComboboxTestComponent
-} from '../groupedComboboxTestUtils';
-import { ExpressionBuilderComponentTest } from '../expressionBuilderTestUtils';
-import { ComboboxTestComponent } from '../comboboxTestUtils';
 import {
     getFieldToFerovExpressionBuilders,
     getFilterConditionLogicCombobox,
     getFilterCustomConditionLogicInput,
     newFilterItem
 } from '../recordFilterTestUtils';
+import {
+    getEntityResourcePicker,
+    getEntityResourcePickerComponent,
+    getRadioGroups,
+    getRecordFilter,
+    getRecordInputOutputAssignments,
+    getRecordSobjectAndQueryFields,
+    getRecordSort,
+    getRecordStoreOption,
+    getResourceCombobox,
+    removePillAndGetGroupedCombobox
+} from './cludEditorTestUtils';
 
 const getSObjectOrSObjectCollectionPicker = (recordLookupEditor) =>
     getRecordSobjectAndQueryFields(recordLookupEditor).shadowRoot.querySelector(

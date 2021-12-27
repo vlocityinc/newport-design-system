@@ -1,11 +1,11 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import AlcConnector from 'builder_platform_interaction/alcConnector';
-import { ConnectorLabelType, NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { AutoLayoutCanvasMode } from 'builder_platform_interaction/alcComponentsUtils';
+import AlcConnector from 'builder_platform_interaction/alcConnector';
 import { OutgoingGoToStubClickEvent } from 'builder_platform_interaction/alcEvents';
-import { LABELS } from '../alcConnectorLabels';
+import { ConnectorLabelType, NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
+import { createElement } from 'lwc';
+import { LABELS } from '../alcConnectorLabels';
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 

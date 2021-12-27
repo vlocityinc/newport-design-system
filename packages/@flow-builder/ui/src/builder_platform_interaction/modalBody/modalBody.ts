@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { LightningElement, api } from 'lwc';
 import { modalBodyVariant } from 'builder_platform_interaction/builderUtils';
+import { api, LightningElement } from 'lwc';
 import { LABELS } from './modalBodyLabels';
 
 export default class ModalBody extends LightningElement {

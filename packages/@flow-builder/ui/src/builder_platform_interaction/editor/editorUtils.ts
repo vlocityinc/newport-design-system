@@ -1,55 +1,54 @@
 // @ts-nocheck
-import { usedBy, invokeUsedByAlertModal } from 'builder_platform_interaction/usedByLib';
 import {
+    addElement,
+    clearCanvasDecoration,
+    decorateCanvas,
     deleteElements,
-    updatePropertiesAfterSaving,
+    highlightOnCanvas,
+    updateElement,
     updateProperties,
     updatePropertiesAfterSaveFailed,
-    highlightOnCanvas,
-    addElement,
-    updateElement,
-    decorateCanvas,
-    clearCanvasDecoration
+    updatePropertiesAfterSaving
 } from 'builder_platform_interaction/actions';
-import { createVariable } from 'builder_platform_interaction/elementFactory';
-import { canvasSelector } from 'builder_platform_interaction/selectors';
-import { SaveType } from 'builder_platform_interaction/saveType';
-import { DeleteElementEventDetail, SaveFlowEvent } from 'builder_platform_interaction/events';
-import { getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
-import { isConfigurableStartSupported } from 'builder_platform_interaction/processTypeLib';
-import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
+import { hasGoToOnNext } from 'builder_platform_interaction/autoLayoutCanvas';
+import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
 import {
-    ELEMENT_TYPE,
-    FLOW_TRIGGER_TYPE,
-    CONNECTOR_TYPE,
-    DECORATION_TYPE,
-    METADATA_KEY,
-    FlowScreenFieldType
-} from 'builder_platform_interaction/flowMetadata';
+    canUserVAD,
+    CLASSIC_EXPERIENCE,
+    getPreferredExperience,
+    orgHasFlowBuilderGuardrails
+} from 'builder_platform_interaction/contextLib';
+import { getValueFromHydratedItem, sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
+import { getElementSections } from 'builder_platform_interaction/editorElementsUtils';
 import {
     getConfigForElementType,
     updateElementConfigMapWithSubtypes
 } from 'builder_platform_interaction/elementConfig';
-import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
 import {
     baseCanvasElement,
     createStartElementWhenUpdatingFromPropertyEditor as createBasicStartElement,
+    createVariable,
     getConnectionProperties,
     shouldSupportScheduledPaths
 } from 'builder_platform_interaction/elementFactory';
-import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+import { DeleteElementEventDetail, SaveFlowEvent } from 'builder_platform_interaction/events';
 import {
-    canUserVAD,
-    orgHasFlowBuilderGuardrails,
-    CLASSIC_EXPERIENCE,
-    getPreferredExperience
-} from 'builder_platform_interaction/contextLib';
+    CONNECTOR_TYPE,
+    DECORATION_TYPE,
+    ELEMENT_TYPE,
+    FlowScreenFieldType,
+    FLOW_TRIGGER_TYPE,
+    METADATA_KEY
+} from 'builder_platform_interaction/flowMetadata';
+import { isConfigurableStartSupported } from 'builder_platform_interaction/processTypeLib';
+import { getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
+import { SaveType } from 'builder_platform_interaction/saveType';
+import { canvasSelector } from 'builder_platform_interaction/selectors';
+import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
-import { getElementSections } from 'builder_platform_interaction/editorElementsUtils';
-import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
 import { getElementByDevName, getStartElement } from 'builder_platform_interaction/storeUtils';
-import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
-import { hasGoToOnNext } from 'builder_platform_interaction/autoLayoutCanvas';
+import { invokeUsedByAlertModal, usedBy } from 'builder_platform_interaction/usedByLib';
 
 const LEFT_PANEL_ELEMENTS = 'LEFT_PANEL_ELEMENTS';
 const { logPerfTransactionStart, logPerfTransactionEnd, logInteraction } = loggingUtils;

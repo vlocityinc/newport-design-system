@@ -1,38 +1,38 @@
 // @ts-nocheck
 import {
-    updateProperties,
-    set,
     deleteItem,
     hydrateWithErrors,
-    replaceItem
+    replaceItem,
+    set,
+    updateProperties
 } from 'builder_platform_interaction/dataMutationLib';
+import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 import {
-    PropertyChangedEvent,
-    AddRecordFilterEvent,
-    UpdateRecordFilterEvent,
-    DeleteRecordFilterEvent,
-    AddRecordLookupFieldEvent,
-    UpdateRecordLookupFieldEvent,
-    DeleteRecordLookupFieldEvent,
     AddRecordFieldAssignmentEvent,
+    AddRecordFilterEvent,
+    AddRecordLookupFieldEvent,
     DeleteRecordFieldAssignmentEvent,
-    UpdateRecordFieldAssignmentEvent,
-    NumberRecordToStoreChangedEvent,
+    DeleteRecordFilterEvent,
+    DeleteRecordLookupFieldEvent,
     ManuallyAssignVariablesChangedEvent,
+    NumberRecordToStoreChangedEvent,
+    PropertyChangedEvent,
     RecordStoreOptionChangedEvent,
+    UpdateRecordFieldAssignmentEvent,
+    UpdateRecordFilterEvent,
+    UpdateRecordLookupFieldEvent,
     VariableAndFieldMappingChangedEvent
 } from 'builder_platform_interaction/events';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { recordLookupValidation, getRules } from './recordLookupValidation';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     SORT_ORDER,
-    WAY_TO_STORE_FIELDS,
-    VARIABLE_AND_FIELD_MAPPING_VALUES
+    VARIABLE_AND_FIELD_MAPPING_VALUES,
+    WAY_TO_STORE_FIELDS
 } from 'builder_platform_interaction/recordEditorLib';
-import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { getRules, recordLookupValidation } from './recordLookupValidation';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE,
     OPERATOR = EXPRESSION_PROPERTY_TYPE.OPERATOR,

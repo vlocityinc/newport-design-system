@@ -1,16 +1,16 @@
-import * as ValidationRules from 'builder_platform_interaction/validationRules';
-import { Validation, defaultRules } from 'builder_platform_interaction/validation';
-
-import { getCachedExtension, getCachedExtensionType } from 'builder_platform_interaction/flowExtensionLib';
-import {
-    isExtensionField,
-    isChoiceField,
-    isRegionField,
-    isRegionContainerField
-} from 'builder_platform_interaction/screenEditorUtils';
 import { isReference } from 'builder_platform_interaction/commonUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { getCachedExtension, getCachedExtensionType } from 'builder_platform_interaction/flowExtensionLib';
 import { FOOTER_LABEL_TYPE, PAUSE_MESSAGE_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    isChoiceField,
+    isExtensionField,
+    isRegionContainerField,
+    isRegionField
+} from 'builder_platform_interaction/screenEditorUtils';
+import { defaultRules, Validation } from 'builder_platform_interaction/validation';
+import * as ValidationRules from 'builder_platform_interaction/validationRules';
+
 const LONG_STRING_LEN = 65535;
 const MAX_SCALE_VALUE = 17;
 

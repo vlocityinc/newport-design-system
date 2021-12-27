@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { translateFlowToUIModel, getFlowStartElementReference } from '../flowToUiTranslator';
+import { getFlowStartElementReference, translateFlowToUIModel } from '../flowToUiTranslator';
 
 const flowWithDummyElement = {
     metadata: {

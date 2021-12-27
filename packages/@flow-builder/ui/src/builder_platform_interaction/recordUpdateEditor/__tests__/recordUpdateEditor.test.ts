@@ -1,8 +1,9 @@
-import { createElement } from 'lwc';
-import RecordUpdateEditor from '../recordUpdateEditor';
-import { accountSObjectVariable, flowWithAllElementsUIModel, updateAccountWithFilter } from 'mock/storeData';
-import { recordTriggeredFlowUIModel } from 'mock/storeDataRecordTriggered';
-
+import {
+    INTERACTION_COMPONENTS_SELECTORS,
+    LIGHTNING_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
 import {
     AddRecordFieldAssignmentEvent,
     AddRecordFilterEvent,
@@ -13,23 +14,20 @@ import {
     UpdateRecordFieldAssignmentEvent,
     UpdateRecordFilterEvent
 } from 'builder_platform_interaction/events';
-import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import {
     CONDITION_LOGIC,
-    RECORD_UPDATE_WAY_TO_FIND_RECORDS,
-    FLOW_TRIGGER_TYPE
+    FLOW_TRIGGER_TYPE,
+    RECORD_UPDATE_WAY_TO_FIND_RECORDS
 } from 'builder_platform_interaction/flowMetadata';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
-import {
-    INTERACTION_COMPONENTS_SELECTORS,
-    LIGHTNING_COMPONENTS_SELECTORS,
-    setDocumentBodyChildren,
-    ticks
-} from 'builder_platform_interaction/builderTestUtils';
-import { getElementByDevName, getTriggerType } from 'builder_platform_interaction/storeUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { getElementByName } from 'mock/storeDataRecordTriggered';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { getElementByDevName, getTriggerType } from 'builder_platform_interaction/storeUtils';
+import { createElement } from 'lwc';
+import { accountSObjectVariable, flowWithAllElementsUIModel, updateAccountWithFilter } from 'mock/storeData';
+import { getElementByName, recordTriggeredFlowUIModel } from 'mock/storeDataRecordTriggered';
+import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import RecordUpdateEditor from '../recordUpdateEditor';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')

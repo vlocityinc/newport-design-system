@@ -1,11 +1,10 @@
 // @ts-nocheck
-import {
-    PaletteItemClickedEvent,
-    PaletteItemChevronClickedEvent,
-    LocatorIconClickedEvent
-} from 'builder_platform_interaction/events';
-
 import { createComponent } from 'builder_platform_interaction/builderTestUtils';
+import {
+    LocatorIconClickedEvent,
+    PaletteItemChevronClickedEvent,
+    PaletteItemClickedEvent
+} from 'builder_platform_interaction/events';
 import { MOCK_RESOURCE_PALETTE_ITEM } from 'mock/paletteData';
 
 const ICON_SIZE = 'myIconSize';

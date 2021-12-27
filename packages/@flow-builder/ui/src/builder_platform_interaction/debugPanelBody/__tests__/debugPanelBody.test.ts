@@ -1,8 +1,8 @@
-import { createElement } from 'lwc';
-import { LABELS, failedToCRUDRecordAbsoluteMatches, failedToCRUDRecordRelativeMatches } from '../debugPanelBodyLabels';
-import DebugPanelBody from '../debugPanelBody';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { createElement } from 'lwc';
+import DebugPanelBody from '../debugPanelBody';
+import { failedToCRUDRecordAbsoluteMatches, failedToCRUDRecordRelativeMatches, LABELS } from '../debugPanelBodyLabels';
 const { format } = commonUtils;
 
 const createComponentUnderTest = (props = {}) => {

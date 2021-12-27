@@ -1,16 +1,16 @@
 // @ts-nocheck
-import { createRecordUpdate, createDuplicateRecordUpdate, createRecordUpdateMetadataObject } from '../recordUpdate';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
-import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
-    ELEMENT_TYPE,
-    CONNECTOR_TYPE,
     CONDITION_LOGIC,
-    RECORD_UPDATE_WAY_TO_FIND_RECORDS,
-    FLOW_TRIGGER_TYPE
+    CONNECTOR_TYPE,
+    ELEMENT_TYPE,
+    FLOW_TRIGGER_TYPE,
+    RECORD_UPDATE_WAY_TO_FIND_RECORDS
 } from 'builder_platform_interaction/flowMetadata';
+import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
+import { createDuplicateRecordUpdate, createRecordUpdate, createRecordUpdateMetadataObject } from '../recordUpdate';
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     const actual = jest.requireActual('builder_platform_interaction/storeUtils');

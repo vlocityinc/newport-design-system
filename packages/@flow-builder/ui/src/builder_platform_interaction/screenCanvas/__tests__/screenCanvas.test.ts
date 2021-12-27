@@ -1,16 +1,16 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import ScreenCanvas from '../screenCanvas';
 import {
-    createTestScreen,
     createDropEvent,
-    ticks,
-    setDocumentBodyChildren
+    createTestScreen,
+    setDocumentBodyChildren,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import { ScreenEditorEventName } from 'builder_platform_interaction/events';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
+import ScreenCanvas from '../screenCanvas';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/screenEditorUtils', () => {

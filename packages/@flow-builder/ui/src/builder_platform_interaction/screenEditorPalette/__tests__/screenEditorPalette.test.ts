@@ -1,14 +1,14 @@
 // @ts-nocheck
-import ScreenPalette from 'builder_platform_interaction/screenEditorPalette';
-import { createElement } from 'lwc';
-import { ScreenEditorEventName } from 'builder_platform_interaction/events';
 import {
     dragStartEvent,
-    setDocumentBodyChildren,
     INTERACTION_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
+import { ScreenEditorEventName } from 'builder_platform_interaction/events';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+import ScreenPalette from 'builder_platform_interaction/screenEditorPalette';
+import { createElement } from 'lwc';
 
 const mockedContextLib = require('builder_platform_interaction_mocks/contextLib');
 jest.mock('builder_platform_interaction/contextLib', () => require('builder_platform_interaction_mocks/contextLib'));

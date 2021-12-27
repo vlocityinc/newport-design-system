@@ -1,15 +1,16 @@
-import { api, LightningElement } from 'lwc';
-import { orgHasFlowBuilderDebug, orgHasComponentPreview } from 'builder_platform_interaction/contextLib';
-import { getCachedExtensionType, getCachedExtensions } from 'builder_platform_interaction/flowExtensionLib';
-import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
-import { attributesHaveChanged } from 'builder_platform_interaction/screenEditorUtils';
+import { orgHasComponentPreview, orgHasFlowBuilderDebug } from 'builder_platform_interaction/contextLib';
 import {
-    isExtensionAttributeLiteral,
-    isExtensionAttributeGlobalConstant,
+    describeExtensions,
+    getCachedExtensions,
+    getCachedExtensionType,
     getRequiredParametersForExtension,
-    describeExtensions
+    isExtensionAttributeGlobalConstant,
+    isExtensionAttributeLiteral
 } from 'builder_platform_interaction/flowExtensionLib';
+import { attributesHaveChanged } from 'builder_platform_interaction/screenEditorUtils';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
+import { api, LightningElement } from 'lwc';
 
 const { logInteraction } = loggingUtils;
 

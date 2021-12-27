@@ -1,15 +1,15 @@
-import { mapReducer } from '../mapReducer';
 import {
-    CollectionReferenceChangedEvent,
-    PrepopulateMapItemsEvent,
     AddRecordFieldAssignmentEvent,
+    CollectionReferenceChangedEvent,
     DeleteRecordFieldAssignmentEvent,
+    PrepopulateMapItemsEvent,
     UpdateRecordFieldAssignmentEvent
 } from 'builder_platform_interaction/events';
-import * as store from 'mock/storeData';
-import { contractFields } from 'serverData/GetFieldsForEntity/contractFields.json';
-import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
+import * as store from 'mock/storeData';
+import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { contractFields } from 'serverData/GetFieldsForEntity/contractFields.json';
+import { mapReducer } from '../mapReducer';
 import { getExpectedMapItems } from './mapEditorTestUtils';
 
 const updateMapItemEvent = (side, newValue = '', newError, index = 0) => ({

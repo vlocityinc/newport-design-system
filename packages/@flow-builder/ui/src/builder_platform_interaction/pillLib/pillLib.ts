@@ -1,1 +1,1 @@
-export { getPillMergeFieldLabel, getPillLabel, getPillTooltip, getGlobalConstantOrGlobalVariableLabel } from './pill';
+export { getGlobalConstantOrGlobalVariableLabel, getPillLabel, getPillMergeFieldLabel, getPillTooltip } from './pill';

@@ -1,12 +1,12 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
 import {
-    isPopoverOpen,
+    getPopoverReferenceElement,
     hidePopover,
-    showPopover,
-    getPopoverReferenceElement
+    isPopoverOpen,
+    showPopover
 } from 'builder_platform_interaction/builderUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './statusIconLabels';
 
 const dotPrefixForClass = '.';

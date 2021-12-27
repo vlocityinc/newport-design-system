@@ -1,45 +1,45 @@
 // @ts-nocheck
 import {
-    UPDATE_FLOW,
-    DO_DUPLICATE,
     ADD_CANVAS_ELEMENT,
-    UPDATE_CANVAS_ELEMENT,
-    DELETE_ELEMENT,
+    ADD_CHILD,
     ADD_CONNECTOR,
+    ADD_DECISION_WITH_OUTCOMES,
+    ADD_PARENT_WITH_CHILDREN,
     ADD_RESOURCE,
-    UPDATE_RESOURCE,
+    ADD_SCREEN_WITH_FIELDS,
+    ADD_START_ELEMENT,
+    ADD_WAIT_WITH_WAIT_EVENTS,
+    CLEAR_CANVAS_DECORATION,
+    DECORATE_CANVAS,
+    DELETE_CHILDREN,
+    DELETE_ELEMENT,
     DELETE_RESOURCE,
-    UPDATE_VARIABLE_CONSTANT,
+    DESELECT_ON_CANVAS,
+    DO_DUPLICATE,
+    HIGHLIGHT_ON_CANVAS,
+    MARQUEE_SELECT_ON_CANVAS,
+    MODIFY_DECISION_WITH_OUTCOMES,
+    MODIFY_PARENT_WITH_CHILDREN,
+    MODIFY_SCREEN_WITH_FIELDS,
+    MODIFY_START_WITH_SCHEDULED_PATHS,
+    MODIFY_WAIT_WITH_WAIT_EVENTS,
     SELECT_ON_CANVAS,
     TOGGLE_ON_CANVAS,
-    DESELECT_ON_CANVAS,
-    MARQUEE_SELECT_ON_CANVAS,
-    HIGHLIGHT_ON_CANVAS,
-    ADD_DECISION_WITH_OUTCOMES,
-    MODIFY_DECISION_WITH_OUTCOMES,
-    MODIFY_START_WITH_SCHEDULED_PATHS,
-    ADD_WAIT_WITH_WAIT_EVENTS,
-    MODIFY_WAIT_WITH_WAIT_EVENTS,
-    UPDATE_RECORD_LOOKUP,
-    ADD_SCREEN_WITH_FIELDS,
-    MODIFY_SCREEN_WITH_FIELDS,
-    ADD_START_ELEMENT,
-    UPDATE_CANVAS_ELEMENT_LOCATION,
-    UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE,
-    ADD_PARENT_WITH_CHILDREN,
-    MODIFY_PARENT_WITH_CHILDREN,
-    ADD_CHILD,
-    DELETE_CHILDREN,
-    DECORATE_CANVAS,
-    CLEAR_CANVAS_DECORATION,
+    UPDATE_CANVAS_ELEMENT,
     UPDATE_CANVAS_ELEMENT_ERROR_STATE,
-    UPDATE_RESOURCE_ERROR_STATE
+    UPDATE_CANVAS_ELEMENT_LOCATION,
+    UPDATE_FLOW,
+    UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE,
+    UPDATE_RECORD_LOOKUP,
+    UPDATE_RESOURCE,
+    UPDATE_RESOURCE_ERROR_STATE,
+    UPDATE_VARIABLE_CONSTANT
 } from 'builder_platform_interaction/actions';
-import { getUniqueDuplicateElementName } from 'builder_platform_interaction/storeUtils';
-import { updateProperties, omit, addItem } from 'builder_platform_interaction/dataMutationLib';
+import { addItem, omit, updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
-import { getSubElementGuids } from './reducersUtils';
 import { DECORATION_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getUniqueDuplicateElementName } from 'builder_platform_interaction/storeUtils';
+import { getSubElementGuids } from './reducersUtils';
 
 /**
  * Reducer for elements.

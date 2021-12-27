@@ -1,7 +1,7 @@
-import { createListRowItem, RHS_PROPERTY, RHS_DATA_TYPE_PROPERTY } from './base/baseList';
-import { createFEROV, createFEROVMetadataObject } from './ferov';
-import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import { createListRowItem, RHS_DATA_TYPE_PROPERTY, RHS_PROPERTY } from './base/baseList';
+import { createFEROV, createFEROVMetadataObject } from './ferov';
 
 /**
  * @param assignNextValueToReference

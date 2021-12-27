@@ -1,8 +1,8 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
-import { LABELS } from './recordFieldPickerRowLabels';
 import { UpdateRecordLookupFieldEvent } from 'builder_platform_interaction/events';
 import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './recordFieldPickerRowLabels';
 
 const ID_FIELD = 'Id';
 

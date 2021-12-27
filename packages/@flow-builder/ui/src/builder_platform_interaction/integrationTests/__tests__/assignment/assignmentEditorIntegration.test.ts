@@ -1,27 +1,26 @@
-import { createElement } from 'lwc';
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import { updateElement } from 'builder_platform_interaction/actions';
 import AssignmentEditor from 'builder_platform_interaction/assignmentEditor';
-import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { setupStateForFlow, resetState, FLOW_BUILDER_VALIDATION_ERROR_MESSAGES } from '../integrationTestUtils';
 import {
-    ticks,
     deepQuerySelector,
     INTERACTION_COMPONENTS_SELECTORS,
     removeEvent,
-    setDocumentBodyChildren
+    setDocumentBodyChildren,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
+import { createStartElementForPropertyEditor, createVariable } from 'builder_platform_interaction/elementFactory';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { getElementByDevName, getStartElement } from 'builder_platform_interaction/storeUtils';
+import { createElement } from 'lwc';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
-import { ExpressionBuilderComponentTest, getExpressionTester } from '../expressionBuilderTestUtils';
 import { ComboboxTestComponent } from '../comboboxTestUtils';
-import { createVariable, createStartElementForPropertyEditor } from 'builder_platform_interaction/elementFactory';
+import { ExpressionBuilderComponentTest, getExpressionTester } from '../expressionBuilderTestUtils';
+import { FLOW_BUILDER_VALIDATION_ERROR_MESSAGES, resetState, setupStateForFlow } from '../integrationTestUtils';
 import {
     addNewResourceEventListener,
     removeNewResourceEventListener,
     setNextInlineResource
 } from '../resourceTestUtils';
-import { getStartElement } from 'builder_platform_interaction/storeUtils';
-import { updateElement } from 'builder_platform_interaction/actions';
 
 jest.mock('@salesforce/label/FlowBuilderElementLabels.actionAsResourceText', () => ({ default: 'Outputs from {0}' }), {
     virtual: true

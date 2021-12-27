@@ -1,11 +1,11 @@
 // @ts-nocheck
-import { createApexPlugin, createDuplicateApexPlugin, createApexPluginMetadataObject } from '../apexPlugin';
-import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
-import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { createApexPlugin, createApexPluginMetadataObject, createDuplicateApexPlugin } from '../apexPlugin';
+import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

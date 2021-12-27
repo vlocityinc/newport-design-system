@@ -1,6 +1,6 @@
 import {
-    booleanAttributeValue,
     attributesHaveChanged,
+    booleanAttributeValue,
     getAllScreenFields
 } from 'builder_platform_interaction/screenEditorUtils';
 import { elementsForPropertyEditors, screenWithSection } from 'mock/storeData';

@@ -1,37 +1,38 @@
 // @ts-nocheck
-import {
-    normalizeFEROV,
-    populateLhsStateForField,
-    getResourceByUniqueIdentifier,
-    getUncommittedResource,
-    getFerovInfoAndErrorFromEvent,
-    checkExpressionForDeletedElem,
-    EXPRESSION_PROPERTY_TYPE,
-    setScreenElement
-} from '../resourceUtils';
-import * as store from 'mock/storeData';
+import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
+import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
-import { getMenuItemForField } from '../menuDataGenerator';
-import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
-import { setSystemVariables, resetSystemVariables } from 'builder_platform_interaction/systemLib';
+import { Store } from 'builder_platform_interaction/storeLib';
 import {
     GLOBAL_CONSTANTS,
     GLOBAL_CONSTANT_OBJECTS,
+    resetSystemVariables,
+    setSystemVariables,
     SYSTEM_VARIABLE_PREFIX
 } from 'builder_platform_interaction/systemLib';
-import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
-import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
-import { userFields as mockUserFields } from 'serverData/GetFieldsForEntity/userFields.json';
-import { feedItemFields as mockFeedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
 import { mockScreenElement } from 'mock/calloutData';
-import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
-import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
-import { Store } from 'builder_platform_interaction/storeLib';
+import * as store from 'mock/storeData';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { recordTriggeredFlowUIModel } from 'mock/storeDataRecordTriggered';
-import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { feedItemFields as mockFeedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
+import { userFields as mockUserFields } from 'serverData/GetFieldsForEntity/userFields.json';
+import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
+import { getMenuItemForField } from '../menuDataGenerator';
+import {
+    checkExpressionForDeletedElem,
+    EXPRESSION_PROPERTY_TYPE,
+    getFerovInfoAndErrorFromEvent,
+    getResourceByUniqueIdentifier,
+    getUncommittedResource,
+    normalizeFEROV,
+    populateLhsStateForField,
+    setScreenElement
+} from '../resourceUtils';
 const { format } = commonUtils;
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));

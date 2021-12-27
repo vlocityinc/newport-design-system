@@ -1,12 +1,12 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { assignmentReducer } from './assignmentReducer';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import { getRulesForElementType, RULE_TYPES, RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
-import { LABELS } from './assignmentEditorLabels';
 import { UpdateNodeEvent } from 'builder_platform_interaction/events';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getRulesForElementType, RULE_OPERATOR, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './assignmentEditorLabels';
+import { assignmentReducer } from './assignmentReducer';
 
 /**
  * @constant UPDATE_PROPERTY

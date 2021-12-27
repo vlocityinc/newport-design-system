@@ -1,13 +1,13 @@
 // @ts-nocheck
+import { deepCopy, isPlainObject } from 'builder_platform_interaction/storeLib';
 import {
-    hydrateWithErrors,
     dehydrate,
+    getErrorFromHydratedItem,
     getErrorsFromHydratedElement,
     getValueFromHydratedItem,
-    getErrorFromHydratedItem,
+    hydrateWithErrors,
     removeErrorsForUnchangedSourceWithNoError
 } from '../elementDataMutation';
-import { deepCopy, isPlainObject } from 'builder_platform_interaction/storeLib';
 
 /** Mock data objects - Start */
 const testObj = {

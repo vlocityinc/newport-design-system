@@ -1,11 +1,11 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import { variableConstantValidation } from '../variableConstantValidation';
-import { variableConstantReducer } from '../variableConstantReducer';
-import VariableConstantEditor from '../variableConstantEditor';
-import * as mockStoreData from 'mock/storeData';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { createElement } from 'lwc';
+import * as mockStoreData from 'mock/storeData';
+import VariableConstantEditor from '../variableConstantEditor';
+import { variableConstantReducer } from '../variableConstantReducer';
+import { variableConstantValidation } from '../variableConstantValidation';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')

@@ -1,12 +1,12 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import ScreenTextareaField from 'builder_platform_interaction/screenTextareaField';
-import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import {
-    ticks,
     LIGHTNING_COMPONENTS_SELECTORS,
-    setDocumentBodyChildren
+    setDocumentBodyChildren,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
+import ScreenTextareaField from 'builder_platform_interaction/screenTextareaField';
+import { createElement } from 'lwc';
 
 const standardLabelVariant = 'standard';
 

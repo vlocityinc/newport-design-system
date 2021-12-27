@@ -1,9 +1,9 @@
 // @ts-nocheck
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
+import { createFormula } from 'builder_platform_interaction/elementFactory';
 import { createElement } from 'lwc';
 import FormulaEditor from '../formulaEditor';
-import { createFormula } from 'builder_platform_interaction/elementFactory';
-import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
-import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')

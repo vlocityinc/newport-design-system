@@ -1,38 +1,35 @@
-import { LightningElement, api, track, unwrap } from 'lwc';
-import { getErrorsFromHydratedElement, sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
-import {
-    isScreen,
-    getAllScreenFieldTypes,
-    processScreenExtensionTypes,
-    processRequiredParamsForExtensionsInScreen,
-    isRegionContainerField,
-    isRegionField,
-    ChoiceDisplayOptions,
-    ScreenFieldName,
-    getAllScreenFields
-} from 'builder_platform_interaction/screenEditorUtils';
-import { loadFlowExtensionsOnProcessTypeChange } from 'builder_platform_interaction/preloadLib';
-import { screenReducer } from './screenReducer';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { invokeModal } from 'builder_platform_interaction/sharedUtils';
-import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
-import { usedByStoreAndElementState, invokeUsedByAlertModal } from 'builder_platform_interaction/usedByLib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { hidePopover } from 'builder_platform_interaction/builderUtils';
-import { setScreenElement } from 'builder_platform_interaction/expressionUtils';
-import { getSupportedScreenFieldTypes } from 'builder_platform_interaction/screenFieldTypeLib';
-import { getTriggerType } from 'builder_platform_interaction/storeUtils';
+import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import { hidePopover, modalBodyVariant } from 'builder_platform_interaction/builderUtils';
 import { orgHasFlowBuilderAutomaticFields } from 'builder_platform_interaction/contextLib';
-import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
-import ScreenEditorAutomaticFieldPalette from 'builder_platform_interaction/screenEditorAutomaticFieldPalette';
+import { getErrorsFromHydratedElement, sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
 import {
     createChoiceDisplayChangedEvent,
     createSingleOrMultiChoiceTypeChangedEvent
 } from 'builder_platform_interaction/events';
-import { modalBodyVariant } from 'builder_platform_interaction/builderUtils';
-import { commonUtils } from 'builder_platform_interaction/sharedUtils';
-import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import { setScreenElement } from 'builder_platform_interaction/expressionUtils';
+import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+import { loadFlowExtensionsOnProcessTypeChange } from 'builder_platform_interaction/preloadLib';
+import ScreenEditorAutomaticFieldPalette from 'builder_platform_interaction/screenEditorAutomaticFieldPalette';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
+import {
+    ChoiceDisplayOptions,
+    getAllScreenFields,
+    getAllScreenFieldTypes,
+    isRegionContainerField,
+    isRegionField,
+    isScreen,
+    processRequiredParamsForExtensionsInScreen,
+    processScreenExtensionTypes,
+    ScreenFieldName
+} from 'builder_platform_interaction/screenEditorUtils';
+import { getSupportedScreenFieldTypes } from 'builder_platform_interaction/screenFieldTypeLib';
+import { commonUtils, invokeModal } from 'builder_platform_interaction/sharedUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { getTriggerType } from 'builder_platform_interaction/storeUtils';
+import { invokeUsedByAlertModal, usedByStoreAndElementState } from 'builder_platform_interaction/usedByLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { api, LightningElement, track, unwrap } from 'lwc';
+import { screenReducer } from './screenReducer';
 const { format } = commonUtils;
 export enum ScreenEditorTab {
     Components = 'componentsTab',

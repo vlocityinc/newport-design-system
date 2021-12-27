@@ -1,12 +1,12 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
 import {
     LIGHTNING_COMPONENTS_SELECTORS,
     setDocumentBodyChildren,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
-import StatusIcon from '../statusIcon';
 import { showPopover } from 'builder_platform_interaction/builderUtils';
+import { createElement } from 'lwc';
+import StatusIcon from '../statusIcon';
 
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-status-icon', {

@@ -1,7 +1,7 @@
-import { LightningElement, api } from 'lwc';
-import { isChildElement } from 'builder_platform_interaction/elementConfig';
 import { isTestMode } from 'builder_platform_interaction/contextLib';
+import { isChildElement } from 'builder_platform_interaction/elementConfig';
 import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
+import { api, LightningElement } from 'lwc';
 
 const selectors = {
     elementIcon: 'builder_platform_interaction-element-icon'

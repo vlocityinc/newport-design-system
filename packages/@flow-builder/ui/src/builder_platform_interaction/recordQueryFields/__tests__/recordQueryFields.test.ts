@@ -1,23 +1,23 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
-    AddRecordLookupFieldEvent,
-    UpdateRecordLookupFieldEvent,
-    DeleteRecordLookupFieldEvent,
-    AddListItemEvent,
-    UpdateListItemEvent,
-    DeleteListItemEvent
-} from 'builder_platform_interaction/events';
-import RecordQueryFields from 'builder_platform_interaction/recordQueryFields';
-import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
-import * as store from 'mock/storeData';
-import { Store } from 'builder_platform_interaction/storeLib';
-import {
-    ticks,
     INTERACTION_COMPONENTS_SELECTORS,
-    setDocumentBodyChildren
+    setDocumentBodyChildren,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
+import {
+    AddListItemEvent,
+    AddRecordLookupFieldEvent,
+    DeleteListItemEvent,
+    DeleteRecordLookupFieldEvent,
+    UpdateListItemEvent,
+    UpdateRecordLookupFieldEvent
+} from 'builder_platform_interaction/events';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import RecordQueryFields from 'builder_platform_interaction/recordQueryFields';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
+import * as store from 'mock/storeData';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

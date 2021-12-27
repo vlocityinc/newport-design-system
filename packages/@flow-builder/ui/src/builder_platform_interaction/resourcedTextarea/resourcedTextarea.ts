@@ -1,11 +1,11 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
-import { LIGHTNING_INPUT_VARIANTS, booleanAttributeValue } from 'builder_platform_interaction/screenEditorUtils';
-import { LABELS } from './resourcedTextareaLabels';
 import { TEXT_MODES } from 'builder_platform_interaction/richTextPlainTextSwitch';
+import { booleanAttributeValue, LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './resourcedTextareaLabels';
 
 const SELECTORS = {
     TEXTAREA: 'textarea',

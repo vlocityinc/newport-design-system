@@ -1,19 +1,19 @@
 export { canvasSelector } from './canvasSelector';
 export {
-    filteredElementsSelector,
-    readableElementsSelector,
-    writableElementsSelector,
-    getSObjectOrSObjectCollectionByEntityElements,
-    choiceSelector,
     apexScalarVariablesSelector,
-    componentInstanceScreenFieldsSelector,
     byElementTypeElementsSelector,
     canElementContain,
-    isOrCanContainSelector,
+    choiceSelector,
+    componentInstanceScreenFieldsSelector,
     CREATEABLE_FILTER,
-    UPDATEABLE_FILTER,
+    DELETABLE_FILTER,
+    filteredElementsSelector,
+    getSObjectOrSObjectCollectionByEntityElements,
+    isOrCanContainSelector,
     QUERYABLE_FILTER,
-    DELETABLE_FILTER
+    readableElementsSelector,
+    UPDATEABLE_FILTER,
+    writableElementsSelector
 } from './menuDataSelector';
-export type { RetrieveOptions, CrudFilter } from './menuDataSelector';
+export type { CrudFilter, RetrieveOptions } from './menuDataSelector';
 export { apexClassesSelector } from './peripheralDataSelectors';

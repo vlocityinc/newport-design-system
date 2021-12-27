@@ -1,8 +1,8 @@
-import { LightningElement, api } from 'lwc';
-import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { isConditionalFieldVisibilitySupported } from 'builder_platform_interaction/processTypeLib';
-import { getProcessType } from 'builder_platform_interaction/storeUtils';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME } from 'builder_platform_interaction/screenEditorUtils';
+import { getProcessType } from 'builder_platform_interaction/storeUtils';
+import { api, LightningElement } from 'lwc';
 
 export default class ScreenComponentVisibilitySection extends LightningElement {
     @api

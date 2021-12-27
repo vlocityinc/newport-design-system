@@ -1,21 +1,20 @@
-import { LightningElement, api, track } from 'lwc';
-import { normalizeFEROV, getMenuData } from 'builder_platform_interaction/expressionUtils';
-import { getRHSTypes, RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
-import { isObject } from 'builder_platform_interaction/commonUtils';
-import { Store } from 'builder_platform_interaction/storeLib';
-import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-
-import { removeLastCreatedInlineResource, updateInlineResourceProperties } from 'builder_platform_interaction/actions';
-import { getInlineResource } from 'builder_platform_interaction/inlineResourceUtils';
-import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
-import { isLookupTraversalSupported } from 'builder_platform_interaction/mergeFieldLib';
-import { getTriggerType } from 'builder_platform_interaction/storeUtils';
-import resourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.resourceLabel';
 import newResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.newResourceLabel';
 import newTypedResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.newTypedResourceLabel';
 import quickCreateResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.quickCreateResourceLabel';
+import resourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.resourceLabel';
+import { removeLastCreatedInlineResource, updateInlineResourceProperties } from 'builder_platform_interaction/actions';
+import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { isObject } from 'builder_platform_interaction/commonUtils';
 import { NewResourceEvent } from 'builder_platform_interaction/events';
-import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { getMenuData, normalizeFEROV } from 'builder_platform_interaction/expressionUtils';
+import { getInlineResource } from 'builder_platform_interaction/inlineResourceUtils';
+import { isLookupTraversalSupported } from 'builder_platform_interaction/mergeFieldLib';
+import { getRHSTypes, RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
+import { commonUtils, loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { getTriggerType } from 'builder_platform_interaction/storeUtils';
+import { api, LightningElement, track } from 'lwc';
+
 const { format } = commonUtils;
 
 const { logInteraction } = loggingUtils;

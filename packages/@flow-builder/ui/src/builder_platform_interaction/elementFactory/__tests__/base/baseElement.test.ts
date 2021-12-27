@@ -1,22 +1,21 @@
 // @ts-nocheck
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { CONDITION_LOGIC, CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import {
-    baseResource,
     baseCanvasElement,
+    baseCanvasElementsArrayToMap,
+    baseChildElement,
+    baseResource,
+    createCondition,
     duplicateCanvasElement,
     duplicateCanvasElementWithChildElements,
-    baseChildElement,
-    baseCanvasElementsArrayToMap,
-    createCondition,
-    updateChildReferences,
+    DUPLICATE_ELEMENT_XY_OFFSET,
     getDeletedCanvasElementChildren,
-    DUPLICATE_ELEMENT_XY_OFFSET
+    updateChildReferences
 } from '../../base/baseElement';
-
-import { CONDITION_LOGIC, ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import * as baseList from '../../base/baseList';
-import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import { Store } from 'builder_platform_interaction/storeLib';
 
 const canvasElementWithAllTerminatedChildren = {
     guid: 'decisionWithAllTerminatedChildrenGuid',

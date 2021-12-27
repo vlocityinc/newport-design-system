@@ -1,16 +1,16 @@
 // @ts-nocheck
-import {
-    RULE_TYPES,
-    RULE_PROPERTY,
-    RULE_OPERATOR,
-    setRules,
-    getRules,
-    getOutputRules,
-    getRulesForElementType
-} from '../rules';
-import { rules } from 'serverData/RetrieveAllRules/rules.json';
 import { ELEMENT_TYPE, UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { hasArrayPopulated, setOfDistinctRhsParams, ASSIGNMENT, COMPARISON } from './operatorAndRulesTestUtil';
+import { rules } from 'serverData/RetrieveAllRules/rules.json';
+import {
+    getOutputRules,
+    getRules,
+    getRulesForElementType,
+    RULE_OPERATOR,
+    RULE_PROPERTY,
+    RULE_TYPES,
+    setRules
+} from '../rules';
+import { ASSIGNMENT, COMPARISON, hasArrayPopulated, setOfDistinctRhsParams } from './operatorAndRulesTestUtil';
 
 const { LEFT, RHS_PARAMS, EXCLUDE_ELEMS } = RULE_PROPERTY;
 

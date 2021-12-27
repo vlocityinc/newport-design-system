@@ -1,9 +1,9 @@
 // @ts-nocheck
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { DebugPanelFilterEvent } from 'builder_platform_interaction/events';
 import { createElement } from 'lwc';
 import DebugPanelFilter from '../debugPanelFilter';
 import { LABELS } from '../debugPanelFilterLabels';
-import { DebugPanelFilterEvent } from 'builder_platform_interaction/events';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const createComponentUnderTest = (selections = LABELS.basicFilter) => {
     const el = createElement('builder_platform_interaction-debug-panel-filter', {

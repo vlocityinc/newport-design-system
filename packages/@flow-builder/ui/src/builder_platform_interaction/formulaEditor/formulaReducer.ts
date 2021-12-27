@@ -1,9 +1,9 @@
 // @ts-nocheck
-import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { formulaValidation } from './formulaValidation';
+import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { SCALE_DEFAULT } from 'builder_platform_interaction/dataTypeLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { formulaValidation } from './formulaValidation';
 
 const formulaPropertyChanged = (state, action) => {
     action.payload.error =

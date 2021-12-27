@@ -1,11 +1,11 @@
 // @ts-nocheck
-import platformEventEditor from '../platformEventEditor';
-import { createElement } from 'lwc';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import * as expressionUtilsMock from 'builder_platform_interaction/expressionUtils';
 import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getEventTypes } from 'builder_platform_interaction/sobjectLib';
+import { createElement } from 'lwc';
 import * as store from 'mock/storeData';
-import * as expressionUtilsMock from 'builder_platform_interaction/expressionUtils';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import platformEventEditor from '../platformEventEditor';
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {

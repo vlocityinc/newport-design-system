@@ -1,10 +1,10 @@
 // @ts-nocheck
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { createElement } from 'lwc';
 import RecordChoiceSetEditor from '../recordChoiceSetEditor';
-import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { recordChoiceSetValidation, getRules } from '../recordChoiceSetValidation';
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { getRules, recordChoiceSetValidation } from '../recordChoiceSetValidation';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     function getCurrentState() {

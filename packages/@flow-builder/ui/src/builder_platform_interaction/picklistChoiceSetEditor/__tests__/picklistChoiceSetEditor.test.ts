@@ -1,15 +1,15 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import PicklistChoiceSetEditor from '../picklistChoiceSetEditor';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { picklistChoiceSetReducer } from '../picklistChoiceSetReducer';
-import { PropertyChangedEvent, ValueChangedEvent } from 'builder_platform_interaction/events';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
-import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { PropertyChangedEvent, ValueChangedEvent } from 'builder_platform_interaction/events';
+import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { createElement } from 'lwc';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import PicklistChoiceSetEditor from '../picklistChoiceSetEditor';
+import { picklistChoiceSetReducer } from '../picklistChoiceSetReducer';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

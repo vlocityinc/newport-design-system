@@ -1,7 +1,6 @@
-import { createElement } from 'lwc';
 import DemoBuilder from 'demo-builder';
-
 import configProviderService from 'lightning/configProvider';
+import { createElement } from 'lwc';
 
 window.processEnv = { NODE_ENV: 'development' };
 

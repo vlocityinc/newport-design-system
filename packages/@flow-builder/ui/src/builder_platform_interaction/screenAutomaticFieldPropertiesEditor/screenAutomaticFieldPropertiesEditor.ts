@@ -1,19 +1,19 @@
-import { api, LightningElement } from 'lwc';
-import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
-import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import automaticFieldLogicComboboxLabel from '@salesforce/label/FlowBuilderComponentVisibility.automaticFieldLogicComboboxLabel';
+import { CLASSIC_EXPERIENCE, getPreferredExperience } from 'builder_platform_interaction/contextLib';
 import { getValueFromHydratedItem, sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
+import { ExtraTypeInfo, FieldDataType } from 'builder_platform_interaction/dataTypeLib';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import {
     hasScreenFieldVisibilityCondition,
-    SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME,
     ScreenFieldName,
+    SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME,
     TEXT_AREA_MAX_LENGTH
 } from 'builder_platform_interaction/screenEditorUtils';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
-import { CLASSIC_EXPERIENCE, getPreferredExperience } from 'builder_platform_interaction/contextLib';
-import { getEntity } from 'builder_platform_interaction/sobjectLib';
-import automaticFieldLogicComboboxLabel from '@salesforce/label/FlowBuilderComponentVisibility.automaticFieldLogicComboboxLabel';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
-import { ExtraTypeInfo, FieldDataType } from 'builder_platform_interaction/dataTypeLib';
+import { getEntity } from 'builder_platform_interaction/sobjectLib';
+import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import { api, LightningElement } from 'lwc';
 const { format } = commonUtils;
 
 export default class ScreenAutomaticFieldPropertiesEditor extends LightningElement {

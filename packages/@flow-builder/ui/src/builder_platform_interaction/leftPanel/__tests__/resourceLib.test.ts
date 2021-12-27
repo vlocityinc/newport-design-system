@@ -1,15 +1,15 @@
 // @ts-nocheck
-import { getResourceSections, getElementSections, getResourceIconName } from '../resourceLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
+    apexSampleVariable,
+    createAccountWithAutomaticOutput,
     flowWithAllElementsUIModel,
-    startElement,
+    getElementByGuid,
     lookupRecordAutomaticOutput,
     lookupRecordCollectionAutomaticOutput,
-    apexSampleVariable,
-    getElementByGuid,
-    createAccountWithAutomaticOutput
+    startElement
 } from 'mock/storeData';
+import { getElementSections, getResourceIconName, getResourceSections } from '../resourceLib';
 
 jest.mock(
     '@salesforce/label/FlowBuilderElementLabels.recordLookupAsResourceText',

@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { addItem, insertItem, replaceItem, deleteItem, shallowCopyArray } from '../arrayMutation';
+import { addItem, deleteItem, insertItem, replaceItem, shallowCopyArray } from '../arrayMutation';
 
 const arr = [
     {

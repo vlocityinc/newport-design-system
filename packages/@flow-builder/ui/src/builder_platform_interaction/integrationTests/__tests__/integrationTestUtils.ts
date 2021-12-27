@@ -1,34 +1,34 @@
-import { setEntities, clearEntityFieldsCache } from 'builder_platform_interaction/sobjectLib';
-import { setAuraFetch, resetFetchOnceCache } from 'builder_platform_interaction/serverDataLib';
-import { setGlobalVariables, resetSystemVariables } from 'builder_platform_interaction/systemLib';
-import { setRules, setOperators } from 'builder_platform_interaction/ruleLib';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { reducer } from 'builder_platform_interaction/reducers';
-import { resetCacheTemplates } from 'builder_platform_interaction/processTypeLib';
-import {
-    focusoutEvent,
-    textInputEvent,
-    blurEvent,
-    lightningRadioGroupChangeEvent,
-    ticks,
-    LIGHTNING_COMPONENTS_SELECTORS
-} from 'builder_platform_interaction/builderTestUtils';
-import { clearExtensionsCache } from 'builder_platform_interaction/flowExtensionLib';
-import { setResourceTypes } from 'builder_platform_interaction/dataTypeLib';
-import { initializeAuraFetch, initializeContext } from './serverDataTestUtils';
-import {
-    initializeLoader,
-    loadOnStart,
-    loadOnProcessTypeChange,
-    clearLoader,
-    loadApexClasses,
-    loadFieldsForComplexTypesInFlow
-} from 'builder_platform_interaction/preloadLib';
-import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
-import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
 import { updateFlow } from 'builder_platform_interaction/actions';
+import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
+import {
+    blurEvent,
+    focusoutEvent,
+    lightningRadioGroupChangeEvent,
+    LIGHTNING_COMPONENTS_SELECTORS,
+    textInputEvent,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
+import { setResourceTypes } from 'builder_platform_interaction/dataTypeLib';
+import { clearExtensionsCache } from 'builder_platform_interaction/flowExtensionLib';
+import {
+    clearLoader,
+    initializeLoader,
+    loadApexClasses,
+    loadFieldsForComplexTypesInFlow,
+    loadOnProcessTypeChange,
+    loadOnStart
+} from 'builder_platform_interaction/preloadLib';
+import { resetCacheTemplates } from 'builder_platform_interaction/processTypeLib';
+import { reducer } from 'builder_platform_interaction/reducers';
+import { setOperators, setRules } from 'builder_platform_interaction/ruleLib';
+import { resetFetchOnceCache, setAuraFetch } from 'builder_platform_interaction/serverDataLib';
+import { clearEntityFieldsCache, setEntities } from 'builder_platform_interaction/sobjectLib';
 import type { StoreReducer } from 'builder_platform_interaction/storeLib';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { resetSystemVariables, setGlobalVariables } from 'builder_platform_interaction/systemLib';
+import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
 import LegalPopover from 'src/builder_platform_interaction/legalPopover/legalPopover';
+import { initializeAuraFetch, initializeContext } from './serverDataTestUtils';
 import { TestComponent } from './testComponent';
 
 export const FLOW_BUILDER_VALIDATION_ERROR_MESSAGES = {

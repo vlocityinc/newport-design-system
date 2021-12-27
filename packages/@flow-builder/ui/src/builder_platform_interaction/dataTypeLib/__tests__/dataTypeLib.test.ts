@@ -1,13 +1,13 @@
 // @ts-nocheck
-import {
-    getDataTypeLabel,
-    FLOW_DATA_TYPE,
-    getResourceTypes,
-    setResourceTypes,
-    getDataTypeIcons,
-    getFlowDataType
-} from '../dataTypeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    FLOW_DATA_TYPE,
+    getDataTypeIcons,
+    getDataTypeLabel,
+    getFlowDataType,
+    getResourceTypes,
+    setResourceTypes
+} from '../dataTypeLib';
 
 jest.mock('../dataTypeLib', () => {
     const dataTypeLib = Object.assign({}, jest.requireActual('../dataTypeLib'));

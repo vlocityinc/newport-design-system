@@ -1,17 +1,17 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
+import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { ComboboxStateChangedEvent, ItemSelectedEvent } from 'builder_platform_interaction/events';
 import {
     apexClassesMenuDataSelector,
     getEntitiesMenuData,
-    getEventTypesMenuDataRunTime,
-    getEventTypesMenuDataManagedSetup
+    getEventTypesMenuDataManagedSetup,
+    getEventTypesMenuDataRunTime
 } from 'builder_platform_interaction/expressionUtils';
-import { ComboboxStateChangedEvent, ItemSelectedEvent } from 'builder_platform_interaction/events';
-import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import EntityResourcePicker from '../entityResourcePicker';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import EntityResourcePicker from '../entityResourcePicker';
 
 jest.mock('builder_platform_interaction/baseResourcePicker', () =>
     require('builder_platform_interaction_mocks/baseResourcePicker')

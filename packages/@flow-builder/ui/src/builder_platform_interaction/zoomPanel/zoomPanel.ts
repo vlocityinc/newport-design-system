@@ -1,7 +1,6 @@
-import { LightningElement, api } from 'lwc';
-import { ToggleMarqueeOnEvent, ClickToZoomEvent, ZOOM_ACTION } from 'builder_platform_interaction/events';
+import { ClickToZoomEvent, ToggleMarqueeOnEvent, ZOOM_ACTION } from 'builder_platform_interaction/events';
 import { loggingUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
-
+import { api, LightningElement } from 'lwc';
 import { LABELS } from './zoomPanelLabels';
 
 const { logInteraction } = loggingUtils;

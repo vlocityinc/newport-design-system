@@ -1,12 +1,12 @@
 // @ts-nocheck
 import { combinedReducer } from 'builder_platform_interaction/storeLib';
-import flowPropertiesReducer from './flowPropertiesReducer';
-import ffcElementsReducer from './elementsReducer';
+import { shouldUseAutoLayoutCanvas } from 'builder_platform_interaction/storeUtils';
+import alcElementsReducer from './alcElementsReducer';
 import canvasElementsReducer from './canvasElementsReducer';
 import connectorsReducer from './connectorsReducer';
+import ffcElementsReducer from './elementsReducer';
+import flowPropertiesReducer from './flowPropertiesReducer';
 import { peripheralDataReducer } from './peripheralDataReducer';
-import alcElementsReducer from './alcElementsReducer';
-import { shouldUseAutoLayoutCanvas } from 'builder_platform_interaction/storeUtils';
 
 const alcCombinedReducer = combinedReducer({
     elements: alcElementsReducer,

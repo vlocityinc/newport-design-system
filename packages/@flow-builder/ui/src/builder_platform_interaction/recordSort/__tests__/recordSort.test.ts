@@ -1,13 +1,13 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
-import RecordSortResult from 'builder_platform_interaction/recordSort';
+import { setDocumentBodyChildren, ticks, until } from 'builder_platform_interaction/builderTestUtils';
 import { ComboboxStateChangedEvent } from 'builder_platform_interaction/events';
 import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
-import { until, ticks, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import RecordSortResult from 'builder_platform_interaction/recordSort';
 import { clearEntityFieldsCache } from 'builder_platform_interaction/sobjectLib';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 
 let mockEntityFieldsPromise = Promise.resolve(accountFields);
 

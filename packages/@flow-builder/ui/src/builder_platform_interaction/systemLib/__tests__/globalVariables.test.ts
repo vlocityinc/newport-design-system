@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { setGlobalVariables, getGlobalVariables, resetGlobalVariables, getGlobalVariable } from '../globalVariables';
 import { mockGlobalVariablesWithMultiPicklistField } from 'mock/globalVariableData';
+import { getGlobalVariable, getGlobalVariables, resetGlobalVariables, setGlobalVariables } from '../globalVariables';
 
 describe('global Variables', () => {
     describe('setGlobalVariables', () => {

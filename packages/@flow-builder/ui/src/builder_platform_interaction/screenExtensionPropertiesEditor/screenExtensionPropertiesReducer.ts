@@ -1,11 +1,14 @@
 // @ts-nocheck
-import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
-import { ManuallyAssignVariablesChangedEvent } from 'builder_platform_interaction/events';
 import { getComboboxConfig } from 'builder_platform_interaction/baseResourcePicker';
+import {
+    getErrorFromHydratedItem,
+    getValueFromHydratedItem,
+    updateProperties
+} from 'builder_platform_interaction/dataMutationLib';
 import { superTypeToFlowDataType } from 'builder_platform_interaction/dataTypeLib';
-import { getValueFromHydratedItem, getErrorFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
-import { applyDynamicTypeMappings } from 'builder_platform_interaction/flowExtensionLib';
 import EntityResourcePicker from 'builder_platform_interaction/entityResourcePicker';
+import { ManuallyAssignVariablesChangedEvent } from 'builder_platform_interaction/events';
+import { applyDynamicTypeMappings } from 'builder_platform_interaction/flowExtensionLib';
 
 const resetOuputParameters = (state, { extensionDescription }) =>
     updateProperties(state, {

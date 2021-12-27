@@ -1,6 +1,5 @@
-import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import { focusoutEvent, INTERACTION_COMPONENTS_SELECTORS, ticks } from 'builder_platform_interaction/builderTestUtils';
 import LabelDescription from 'builder_platform_interaction/labelDescription';
-import { ticks, focusoutEvent } from 'builder_platform_interaction/builderTestUtils';
 import { TestComponent } from './testComponent';
 
 const LABEL_DESCRIPTION_SELECTORS = {

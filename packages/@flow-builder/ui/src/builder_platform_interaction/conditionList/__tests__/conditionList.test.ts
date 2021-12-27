@@ -1,18 +1,18 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
+import { focusoutEvent, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import ConditionList from 'builder_platform_interaction/conditionList';
 import {
     AddConditionEvent,
     AddListItemEvent,
     DeleteConditionEvent,
     DeleteListItemEvent,
+    PropertyChangedEvent,
     UpdateConditionEvent,
-    UpdateListItemEvent,
-    PropertyChangedEvent
+    UpdateListItemEvent
 } from 'builder_platform_interaction/events';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { createElement } from 'lwc';
 import { LABELS } from '../conditionListLabels';
-import { focusoutEvent, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const listWithThreeConditionals = {
     containerElementType: ELEMENT_TYPE.DECISION,

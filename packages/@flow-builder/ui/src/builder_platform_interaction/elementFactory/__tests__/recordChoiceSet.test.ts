@@ -1,12 +1,12 @@
 // @ts-nocheck
-import {
-    createRecordChoiceSet,
-    createRecordChoiceSetMetadataObject,
-    createRecordChoiceSetForStore
-} from '../recordChoiceSet';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseElementsArrayToMap } from '../base/baseElement';
 import { createFilter } from '../base/baseRecordElement';
+import {
+    createRecordChoiceSet,
+    createRecordChoiceSetForStore,
+    createRecordChoiceSetMetadataObject
+} from '../recordChoiceSet';
 
 jest.mock('../base/dynamicChoiceSet', () => {
     return {

@@ -1,6 +1,6 @@
-export * from './resourceUtils';
-export * from './resourcePickerUtils';
+export { filterMatches } from './filterItems';
 export * from './menuDataGenerator';
 export * from './menuDataRetrieval';
-export { filterMatches } from './filterItems';
+export * from './resourcePickerUtils';
+export * from './resourceUtils';
 export * from './storeElementsFilter';

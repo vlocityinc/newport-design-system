@@ -1,13 +1,13 @@
-import { LightningElement, api, track } from 'lwc';
-import { getMenuData, normalizeFEROV } from 'builder_platform_interaction/expressionUtils';
-import { getOutputRules, getRHSTypes, RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
-import { isObject } from 'builder_platform_interaction/commonUtils';
-import { Store } from 'builder_platform_interaction/storeLib';
-import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import outputPlaceholder from '@salesforce/label/FlowBuilderCombobox.outputPlaceholder';
 import { removeLastCreatedInlineResource, updateInlineResourceProperties } from 'builder_platform_interaction/actions';
+import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { isObject } from 'builder_platform_interaction/commonUtils';
+import { getMenuData, normalizeFEROV } from 'builder_platform_interaction/expressionUtils';
 import { getInlineResource } from 'builder_platform_interaction/inlineResourceUtils';
+import { getOutputRules, getRHSTypes, RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { api, LightningElement, track } from 'lwc';
 
 const { logInteraction } = loggingUtils;
 

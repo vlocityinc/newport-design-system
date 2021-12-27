@@ -1,11 +1,11 @@
 // @ts-nocheck
-import { LABELS } from './debugUtilsLabels';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { commonUtils } from 'builder_platform_interaction/sharedUtils';
-const { format } = commonUtils;
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
-import { getProcessType } from 'builder_platform_interaction/storeUtils';
 import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { getProcessType } from 'builder_platform_interaction/storeUtils';
+import { LABELS } from './debugUtilsLabels';
+const { format } = commonUtils;
 
 /**
  * @constant STATUS The Interview Status

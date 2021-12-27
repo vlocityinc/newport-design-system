@@ -1,28 +1,28 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import OrchestratedStageEditor from 'builder_platform_interaction/orchestratedStageEditor';
 import {
     INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS,
     setDocumentBodyChildren,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
-import { ELEMENT_TYPE, StageExitCriteria } from 'builder_platform_interaction/flowMetadata';
 import { MERGE_WITH_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
-import { orchestratedStageReducer } from '../orchestratedStageReducer';
-import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import {
     DeleteOrchestrationActionEvent,
+    ORCHESTRATED_ACTION_CATEGORY,
     PropertyChangedEvent,
     UpdateParameterItemEvent
 } from 'builder_platform_interaction/events';
-import { ORCHESTRATED_ACTION_CATEGORY } from 'builder_platform_interaction/events';
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { invocableActionsForOrchestrator } from 'serverData/GetAllInvocableActionsForType/invocableActionsForOrchestrator.json';
+import { ELEMENT_TYPE, StageExitCriteria } from 'builder_platform_interaction/flowMetadata';
+import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import OrchestratedStageEditor from 'builder_platform_interaction/orchestratedStageEditor';
+import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+import { Store } from 'builder_platform_interaction/storeLib';
 import { updateAndValidateElementInPropertyEditor } from 'builder_platform_interaction/validation';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { createElement } from 'lwc';
+import { invocableActionsForOrchestrator } from 'serverData/GetAllInvocableActionsForType/invocableActionsForOrchestrator.json';
+import { orchestratedStageReducer } from '../orchestratedStageReducer';
 
 jest.mock('../orchestratedStageReducer', () => {
     return {

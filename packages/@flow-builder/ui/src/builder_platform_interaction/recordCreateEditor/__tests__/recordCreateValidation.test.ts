@@ -1,13 +1,13 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import { recordCreateValidation, getRules } from '../recordCreateValidation';
-import RecordCreateEditor from '../recordCreateEditor';
-import * as storeMockedData from 'mock/storeData';
-import { LABELS } from 'builder_platform_interaction/validationRules';
-import { WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
+import { LABELS } from 'builder_platform_interaction/validationRules';
+import { createElement } from 'lwc';
+import * as storeMockedData from 'mock/storeData';
+import RecordCreateEditor from '../recordCreateEditor';
+import { getRules, recordCreateValidation } from '../recordCreateValidation';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>

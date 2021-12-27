@@ -1,12 +1,11 @@
-import { LightningElement, api } from 'lwc';
-import { LABELS } from './scheduledPathLabels';
-import { getEntity, fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
-import { PropertyChangedEvent, DeleteScheduledPathEvent } from 'builder_platform_interaction/events';
-import { TIME_OPTION } from 'builder_platform_interaction/flowMetadata';
-import { FLOW_TRIGGER_SAVE_TYPE, RECORD_TIGGER_EVENT } from 'builder_platform_interaction/flowMetadata';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
-import { RECORD_TRIGGER_TYPE_LABEL_LOOKUP } from 'builder_platform_interaction/triggerTypeLib';
+import { DeleteScheduledPathEvent, PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { FLOW_TRIGGER_SAVE_TYPE, RECORD_TIGGER_EVENT, TIME_OPTION } from 'builder_platform_interaction/flowMetadata';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { fetchFieldsForEntity, getEntity } from 'builder_platform_interaction/sobjectLib';
+import { RECORD_TRIGGER_TYPE_LABEL_LOOKUP } from 'builder_platform_interaction/triggerTypeLib';
+import { api, LightningElement } from 'lwc';
+import { LABELS } from './scheduledPathLabels';
 const { format } = commonUtils;
 
 const SELECTORS = {

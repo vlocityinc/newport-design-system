@@ -1,20 +1,19 @@
 import {
-    Guid,
-    FAULT_INDEX,
-    NodeRef,
-    NodeModel,
-    FlowModel,
-    ParentNodeModel,
     BranchHeadNodeModel,
-    HighlightInfo,
-    StartNodeModel,
-    GOTO_CONNECTION_SUFFIX,
-    START_IMMEDIATE_INDEX,
+    ConnectionSource,
+    FAULT_INDEX,
+    FlowModel,
     FOR_EACH_INDEX,
     GoToSourceRef,
-    ConnectionSource
+    GOTO_CONNECTION_SUFFIX,
+    Guid,
+    HighlightInfo,
+    NodeModel,
+    NodeRef,
+    ParentNodeModel,
+    StartNodeModel,
+    START_IMMEDIATE_INDEX
 } from './model';
-
 import NodeType from './NodeType';
 
 /**

@@ -1,45 +1,41 @@
-import { LightningElement, track } from 'lwc';
-import { classSet } from 'lightning/utils';
-
-import { Store, generateGuid, deepCopy } from 'builder_platform_interaction/storeLib';
-import { AddElementEvent, DeleteElementEvent } from 'builder_platform_interaction/events';
 import {
     addElement,
     addElementFault,
+    createGoToConnection,
     deleteElementFault,
     deleteElements,
-    selectionOnFixedCanvas,
-    updateIsAutoLayoutCanvasProperty,
-    updateElement,
-    createGoToConnection,
     deleteGoToConnection,
-    pasteOnFixedCanvas
+    pasteOnFixedCanvas,
+    selectionOnFixedCanvas,
+    updateElement,
+    updateIsAutoLayoutCanvasProperty
 } from 'builder_platform_interaction/actions';
-import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
-import { reducer } from 'builder_platform_interaction/reducers';
-import { getElementForStore, getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { createEndElement, createStartElementForPropertyEditor } from 'builder_platform_interaction/elementFactory';
+import { AddElementEvent, DeleteElementEvent } from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-
-import { createStartElementForPropertyEditor, createEndElement } from 'builder_platform_interaction/elementFactory';
-
+import { getElementForPropertyEditor, getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
+import { reducer } from 'builder_platform_interaction/reducers';
+import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
+import { deepCopy, generateGuid, Store } from 'builder_platform_interaction/storeLib';
+import { classSet } from 'lightning/utils';
+import { LightningElement, track } from 'lwc';
 import elementsMetadataForScreenFlow from './metadata/elementsMetadataForScreenFlow';
-
 import {
     convertRoundTrip,
-    randomEvent,
-    loadFreeFormTestCase,
-    saveAsTestCase,
-    loadTestCases,
-    loadSaved,
-    loadFlow,
-    getTestCaseOptions,
-    saveToLocalStorage,
-    fetchFromLocalStorage,
     convertToFreeForm,
-    showError,
-    getPasteElementGuidMaps,
+    fetchFromLocalStorage,
     getCopiedChildElements,
-    getCopiedData
+    getCopiedData,
+    getPasteElementGuidMaps,
+    getTestCaseOptions,
+    loadFlow,
+    loadFreeFormTestCase,
+    loadSaved,
+    loadTestCases,
+    randomEvent,
+    saveAsTestCase,
+    saveToLocalStorage,
+    showError
 } from './utils';
 
 const selectors = {

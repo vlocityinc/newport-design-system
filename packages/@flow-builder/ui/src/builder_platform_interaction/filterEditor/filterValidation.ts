@@ -1,7 +1,7 @@
-import * as ValidationRules from 'builder_platform_interaction/validationRules';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
-import { Validation } from 'builder_platform_interaction/validation';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { Validation } from 'builder_platform_interaction/validation';
+import * as ValidationRules from 'builder_platform_interaction/validationRules';
 
 /**
  * Validate the collectionReferenceIndex item.

@@ -1,20 +1,19 @@
 // @ts-nocheck
-import { recordUpdateValidation, getRules } from './recordUpdateValidation';
-import { updateProperties, set, deleteItem } from 'builder_platform_interaction/dataMutationLib';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { deleteItem, set, updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import {
-    PropertyChangedEvent,
     AddRecordFieldAssignmentEvent,
-    DeleteRecordFieldAssignmentEvent,
-    UpdateRecordFieldAssignmentEvent,
     AddRecordFilterEvent,
-    UpdateRecordFilterEvent,
-    DeleteRecordFilterEvent
+    DeleteRecordFieldAssignmentEvent,
+    DeleteRecordFilterEvent,
+    PropertyChangedEvent,
+    UpdateRecordFieldAssignmentEvent,
+    UpdateRecordFilterEvent
 } from 'builder_platform_interaction/events';
-
+import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 import { CONDITION_LOGIC, RECORD_UPDATE_WAY_TO_FIND_RECORDS } from 'builder_platform_interaction/flowMetadata';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { getRules, recordUpdateValidation } from './recordUpdateValidation';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 

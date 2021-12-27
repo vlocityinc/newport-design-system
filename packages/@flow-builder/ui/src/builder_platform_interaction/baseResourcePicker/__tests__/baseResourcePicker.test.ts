@@ -1,14 +1,14 @@
-import { createElement } from 'lwc';
+import {
+    INTERACTION_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { FilterMatchesEvent, TextChangedEvent } from 'builder_platform_interaction/events';
 import { filterMatches } from 'builder_platform_interaction/expressionUtils';
 import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
+import { createElement } from 'lwc';
 import BaseResourcePicker from '../baseResourcePicker';
-import {
-    ticks,
-    INTERACTION_COMPONENTS_SELECTORS,
-    setDocumentBodyChildren
-} from 'builder_platform_interaction/builderTestUtils';
 
 const setupComponentUnderTest = (props?: {}) => {
     const element = createElement('builder_platform_interaction-base-resource-picker', {

@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { LightningElement, api } from 'lwc';
 import { formatLhs, formatOperator, formatRhs } from 'builder_platform_interaction/conditionListItemUtil';
 import { DeleteListItemEvent } from 'builder_platform_interaction/events';
+import { api, LightningElement } from 'lwc';
 import { LABELS } from './conditionListItemLabels';
 
 export default class ConditionListItem extends LightningElement {

@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { GridKeyboardInteraction } from '../GridKeyboardInteraction';
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, EnterCommand, SpaceCommand } from '../../../commands';
 import { Keys } from '../../keyboardInteractions';
-import { ArrowDown, ArrowUp, ArrowLeft, ArrowRight, EnterCommand, SpaceCommand } from '../../../commands';
+import { GridKeyboardInteraction } from '../GridKeyboardInteraction';
 
 const TOP_LEFT = [0, 0];
 const TOP_RIGHT = [0, 1];

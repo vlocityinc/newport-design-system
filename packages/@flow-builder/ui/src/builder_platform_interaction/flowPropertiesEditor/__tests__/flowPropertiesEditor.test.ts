@@ -1,14 +1,14 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import FlowPropertiesEditor from '../flowPropertiesEditor';
-import { SaveType } from 'builder_platform_interaction/saveType';
-import { FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { LABELS } from '../flowPropertiesEditorLabels';
-import normalizeDateTime from 'builder_platform_interaction/dateTimeUtils';
-import { PropertyChangedEvent, ComboboxStateChangedEvent } from 'builder_platform_interaction/events';
-import { MOCK_ALL_FLOW_ENTRIES, MOCK_OVERRIDABLE_FLOWS, MOCK_TEMPLATE_FLOWS } from 'mock/flowEntryData';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import normalizeDateTime from 'builder_platform_interaction/dateTimeUtils';
+import { ComboboxStateChangedEvent, PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { SaveType } from 'builder_platform_interaction/saveType';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { createElement } from 'lwc';
+import { MOCK_ALL_FLOW_ENTRIES, MOCK_OVERRIDABLE_FLOWS, MOCK_TEMPLATE_FLOWS } from 'mock/flowEntryData';
+import FlowPropertiesEditor from '../flowPropertiesEditor';
+import { LABELS } from '../flowPropertiesEditorLabels';
 const { format } = commonUtils;
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>

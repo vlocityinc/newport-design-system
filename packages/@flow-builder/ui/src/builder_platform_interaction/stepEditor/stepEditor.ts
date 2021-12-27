@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
-import { LABELS } from './stepEditorLabels';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './stepEditorLabels';
 
 export default class StepEditor extends LightningElement {
     labels = LABELS;

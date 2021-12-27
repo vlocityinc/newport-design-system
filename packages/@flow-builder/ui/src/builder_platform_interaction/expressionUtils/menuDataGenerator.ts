@@ -1,30 +1,33 @@
 // @ts-nocheck
-import { FLOW_DATA_TYPE, getDataTypeLabel, getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
-import {
-    isNonElementId,
-    SYSTEM_VARIABLE_PREFIX,
-    SYSTEM_VARIABLE_CLIENT_PREFIX,
-    SYSTEM_VARIABLE_RECORD_PREFIX,
-    SYSTEM_VARIABLE_RECORD_PRIOR_PREFIX,
-    getGlobalVariableTypes,
-    isSystemVariablesCategoryNotEmpty
-} from 'builder_platform_interaction/systemLib';
-import { getResourceCategory } from 'builder_platform_interaction/elementLabelLib';
-import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
-import { getDataType } from 'builder_platform_interaction/ruleLib';
-import { isComplexType } from 'builder_platform_interaction/dataTypeLib';
-import systemGlobalVariableCategoryLabel from '@salesforce/label/FlowBuilderSystemGlobalVariables.systemGlobalVariableCategory';
 import collectionDataType from '@salesforce/label/FlowBuilderDataTypes.collectionDataType';
-import { getResourceLabel } from 'builder_platform_interaction/elementLabelLib';
+import systemGlobalVariableCategoryLabel from '@salesforce/label/FlowBuilderSystemGlobalVariables.systemGlobalVariableCategory';
+import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
+import {
+    FLOW_DATA_TYPE,
+    getDataTypeIcons,
+    getDataTypeLabel,
+    isComplexType
+} from 'builder_platform_interaction/dataTypeLib';
+import { getResourceCategory, getResourceLabel } from 'builder_platform_interaction/elementLabelLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { isGlobalVariablesSupported } from 'builder_platform_interaction/processTypeLib';
+import { getDataType } from 'builder_platform_interaction/ruleLib';
+import { getIconNameFromDataType } from 'builder_platform_interaction/screenEditorUtils';
 import { apexClassesSelector } from 'builder_platform_interaction/selectors';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { createSelector } from 'builder_platform_interaction/storeLib';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
-import { isGlobalVariablesSupported } from 'builder_platform_interaction/processTypeLib';
-import { getIconNameFromDataType } from 'builder_platform_interaction/screenEditorUtils';
+import {
+    getGlobalVariableTypes,
+    getSystemVariables,
+    isNonElementId,
+    isSystemVariablesCategoryNotEmpty,
+    SYSTEM_VARIABLE_CLIENT_PREFIX,
+    SYSTEM_VARIABLE_PREFIX,
+    SYSTEM_VARIABLE_RECORD_PREFIX,
+    SYSTEM_VARIABLE_RECORD_PRIOR_PREFIX
+} from 'builder_platform_interaction/systemLib';
 import { LABELS } from './expressionUtilsLabels';
-import { getSystemVariables } from 'builder_platform_interaction/systemLib';
-import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 const { format } = commonUtils;
 
 export const MAXIMUM_NUMBER_OF_LEVELS = 10;

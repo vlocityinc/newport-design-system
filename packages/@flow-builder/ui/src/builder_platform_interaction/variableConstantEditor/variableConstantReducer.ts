@@ -1,8 +1,8 @@
 // @ts-nocheck
-import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
+import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { variableConstantValidation, getRules } from './variableConstantValidation';
+import { getRules, variableConstantValidation } from './variableConstantValidation';
 
 const dataTypeChanged = (state, action) => {
     const value = action.payload.value;

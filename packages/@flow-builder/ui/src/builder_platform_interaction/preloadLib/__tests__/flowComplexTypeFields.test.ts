@@ -1,40 +1,40 @@
 // @ts-nocheck
-import {
-    loadFieldsForSobjectsInFlow,
-    loadFieldsForExtensionsInFlow,
-    loadParametersForInvocableActionsInFlow,
-    loadParametersForInvocableApexActionsInFlowFromMetadata,
-    loadFieldsForApexClassesInFlow,
-    loadFieldsForSubflowsInFlow,
-    loadFieldsForExtensionsInFlowFromMetadata,
-    loadParametersForStageStepsInFlow
-} from '../flowComplexTypeFields';
+import { describeExtensions } from 'builder_platform_interaction/flowExtensionLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { loadApexClasses } from 'builder_platform_interaction/preloadLib';
+import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
+import { fetchActiveOrLatestFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import { getMetadataFlowElementByName } from 'mock/flows/mock-flow';
 import {
-    accountSObjectVariable,
     accountSObjectCollectionVariable,
+    accountSObjectVariable,
+    actionCallAutomaticOutput,
+    actionCallElement,
+    apexCallAutomaticAnonymousAccountOutput,
+    apexCallManualAccountOutput,
+    apexCarVariable,
+    apexComplexTypeCollectionVariable,
+    emailScreenField,
+    emailScreenFieldAutomaticOutput,
+    externalServiceAutomaticOutput,
     lookupRecordAutomaticOutput,
     lookupRecordCollectionAutomaticOutput,
     lookupRecordOutputReference,
     screenElement,
-    emailScreenFieldAutomaticOutput,
-    emailScreenField,
-    actionCallAutomaticOutput,
-    actionCallElement,
-    apexCallAutomaticAnonymousAccountOutput,
-    externalServiceAutomaticOutput,
-    apexCallManualAccountOutput,
-    apexCarVariable,
-    apexComplexTypeCollectionVariable,
     subflowAutomaticOutput
 } from 'mock/storeData';
-import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
-import { describeExtensions } from 'builder_platform_interaction/flowExtensionLib';
-import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
-import { getMetadataFlowElementByName } from 'mock/flows/mock-flow';
-import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import { fetchActiveOrLatestFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    loadFieldsForApexClassesInFlow,
+    loadFieldsForExtensionsInFlow,
+    loadFieldsForExtensionsInFlowFromMetadata,
+    loadFieldsForSobjectsInFlow,
+    loadFieldsForSubflowsInFlow,
+    loadParametersForInvocableActionsInFlow,
+    loadParametersForInvocableApexActionsInFlowFromMetadata,
+    loadParametersForStageStepsInFlow
+} from '../flowComplexTypeFields';
 
 jest.mock('builder_platform_interaction/sobjectLib', () => ({
     fetchFieldsForEntity: jest.fn().mockImplementation(() => Promise.resolve())

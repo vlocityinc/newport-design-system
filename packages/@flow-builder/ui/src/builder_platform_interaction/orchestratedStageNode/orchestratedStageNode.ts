@@ -1,11 +1,11 @@
-import { LightningElement, api } from 'lwc';
 import { NodeResizeEvent, PopoverToggledEvent } from 'builder_platform_interaction/alcEvents';
-import { DeleteElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
-import { StageStep } from 'builder_platform_interaction/elementFactory';
-import { ELEMENT_TYPE, ICONS } from 'builder_platform_interaction/flowMetadata';
 import { NodeRenderInfo } from 'builder_platform_interaction/autoLayoutCanvas';
-import { LABELS } from './orchestratedStageNodeLabels';
+import { StageStep } from 'builder_platform_interaction/elementFactory';
+import { DeleteElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
+import { ELEMENT_TYPE, ICONS } from 'builder_platform_interaction/flowMetadata';
 import { commands, commonUtils, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+import { api, LightningElement } from 'lwc';
+import { LABELS } from './orchestratedStageNodeLabels';
 
 const { BaseKeyboardInteraction, withKeyboardInteractions, createShortcut, Keys } = keyboardInteractionUtils;
 const { EnterCommand, SpaceCommand, ArrowDown, ArrowUp } = commands;

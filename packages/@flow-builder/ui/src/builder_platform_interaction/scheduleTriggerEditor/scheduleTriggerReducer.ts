@@ -1,10 +1,10 @@
 // @ts-nocheck
-import { scheduleTriggerValidation } from './scheduleTriggerValidation';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
-import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { scheduleTriggerValidation } from './scheduleTriggerValidation';
 
 const NON_HYDRATABLE_PROPS = new Set([...elementTypeToConfigMap[ELEMENT_TYPE.START_ELEMENT].nonHydratableProperties]);
 

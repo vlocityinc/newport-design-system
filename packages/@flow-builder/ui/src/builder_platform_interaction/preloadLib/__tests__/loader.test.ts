@@ -1,33 +1,33 @@
 // @ts-nocheck
-import {
-    initializeLoader,
-    loadOnStart,
-    loadOnProcessTypeChange,
-    loadOnTriggerTypeChange,
-    loadOperatorsAndRulesOnTriggerTypeChange,
-    clearLoader,
-    loadApexClasses,
-    GET_APEX_TYPES_TIMEOUT_MS
-} from '../loader';
-import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
+import { makeQuerablePromise, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+import { invokeModal, loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import {
     loadActions,
     loadApexPlugins,
-    loadRules,
-    loadOperators,
-    loadEventTypes,
     loadEntities,
-    loadPalette,
-    loadResourceTypes,
-    loadProcessTypeFeatures,
+    loadEventTypes,
+    loadFlowExtensions,
     loadGlobalVariables,
+    loadOperators,
+    loadPalette,
+    loadProcessTypeFeatures,
+    loadResourceTypes,
+    loadRules,
     loadSystemVariables,
-    loadWorkflowEnabledEntities,
-    loadFlowExtensions
+    loadWorkflowEnabledEntities
 } from '../dataForProcessType';
-import { loggingUtils, invokeModal } from 'builder_platform_interaction/sharedUtils';
-import { ticks, makeQuerablePromise } from 'builder_platform_interaction/builderTestUtils';
+import {
+    clearLoader,
+    GET_APEX_TYPES_TIMEOUT_MS,
+    initializeLoader,
+    loadApexClasses,
+    loadOnProcessTypeChange,
+    loadOnStart,
+    loadOnTriggerTypeChange,
+    loadOperatorsAndRulesOnTriggerTypeChange
+} from '../loader';
 
 const { logPerfTransactionStart, logPerfTransactionEnd } = loggingUtils;
 jest.useFakeTimers();

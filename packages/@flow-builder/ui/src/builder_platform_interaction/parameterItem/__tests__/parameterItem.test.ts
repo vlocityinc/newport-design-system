@@ -1,17 +1,17 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import ParameterItem from 'builder_platform_interaction/parameterItem';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
-    UpdateParameterItemEvent,
+    ComboboxStateChangedEvent,
     DeleteParameterItemEvent,
-    ComboboxStateChangedEvent
+    UpdateParameterItemEvent
 } from 'builder_platform_interaction/events';
-import { stringVariable } from 'mock/storeData';
-import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import ParameterItem from 'builder_platform_interaction/parameterItem';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { createElement } from 'lwc';
+import { stringVariable } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/outputResourcePicker', () =>
     require('builder_platform_interaction_mocks/outputResourcePicker')

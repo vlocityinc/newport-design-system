@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { LightningElement, api } from 'lwc';
 import { booleanAttributeValue } from 'builder_platform_interaction/screenEditorUtils';
+import { api, LightningElement } from 'lwc';
 /*
  * The screen field element that will decide the actual component to use for preview based on the field type
  */

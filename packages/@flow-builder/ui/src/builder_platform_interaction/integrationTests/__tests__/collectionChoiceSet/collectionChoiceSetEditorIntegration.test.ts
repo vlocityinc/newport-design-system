@@ -1,18 +1,18 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import CollectionChoiceSetEditor from 'builder_platform_interaction/collectionChoiceSetEditor';
-import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import {
-    setDocumentBodyChildren,
-    INTERACTION_COMPONENTS_SELECTORS,
     deepQuerySelector,
-    LIGHTNING_COMPONENTS_SELECTORS
+    INTERACTION_COMPONENTS_SELECTORS,
+    LIGHTNING_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
-import { resetState, setupStateForFlow } from '../integrationTestUtils';
+import CollectionChoiceSetEditor from 'builder_platform_interaction/collectionChoiceSetEditor';
 import { setScreenElement } from 'builder_platform_interaction/expressionUtils';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { createElement } from 'lwc';
 import { mockScreenElement } from 'mock/calloutData';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { getElementByDevName } from '../../../storeUtils/storeQuery';
+import { resetState, setupStateForFlow } from '../integrationTestUtils';
 
 const SELECTORS = {
     ...INTERACTION_COMPONENTS_SELECTORS,

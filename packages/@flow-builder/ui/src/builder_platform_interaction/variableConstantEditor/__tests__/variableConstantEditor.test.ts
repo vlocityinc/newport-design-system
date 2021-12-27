@@ -1,32 +1,31 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import VariableConstantEditor from '../variableConstantEditor';
-import * as mockStoreData from 'mock/storeData';
-import * as selectorsMock from 'builder_platform_interaction/selectors';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { variableConstantReducer } from '../variableConstantReducer';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
-    PropertyEditorWarningEvent,
-    PropertyChangedEvent,
     ComboboxStateChangedEvent,
+    PropertyChangedEvent,
+    PropertyEditorWarningEvent,
     ValueChangedEvent
 } from 'builder_platform_interaction/events';
-import { deepCopy } from 'builder_platform_interaction/storeLib';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import {
-    getResourceByUniqueIdentifier,
-    getFerovDataTypeForValidId
+    getFerovDataTypeForValidId,
+    getResourceByUniqueIdentifier
 } from 'builder_platform_interaction/expressionUtils';
-import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
-import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
-import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import FerovResourcePicker from 'builder_platform_interaction/ferovResourcePicker';
-import { Store } from 'builder_platform_interaction/storeLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
+import * as selectorsMock from 'builder_platform_interaction/selectors';
+import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
+import { deepCopy, Store } from 'builder_platform_interaction/storeLib';
+import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { createElement } from 'lwc';
+import * as mockStoreData from 'mock/storeData';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import VariableConstantEditor from '../variableConstantEditor';
+import { variableConstantReducer } from '../variableConstantReducer';
 
 jest.mock('builder_platform_interaction/selectors', () => ({
     readableElementsSelector: jest.fn((data) => Object.values(data.elements))

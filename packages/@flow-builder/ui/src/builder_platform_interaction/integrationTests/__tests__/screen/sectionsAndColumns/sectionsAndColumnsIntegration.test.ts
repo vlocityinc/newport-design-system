@@ -1,16 +1,15 @@
-import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { ItemSelectedEvent } from 'builder_platform_interaction/events';
-
 import {
-    ticks,
-    LIGHTNING_COMPONENTS_SELECTORS,
+    deepQuerySelector,
     INTERACTION_COMPONENTS_SELECTORS,
-    deepQuerySelector
+    LIGHTNING_COMPONENTS_SELECTORS,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
+import { ItemSelectedEvent } from 'builder_platform_interaction/events';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { setupState, resetState, loadFlow } from '../../integrationTestUtils';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import { loadFlow, resetState, setupState } from '../../integrationTestUtils';
 import {
     createComponentUnderTest,
     ScreenEditorTestComponent,

@@ -1,24 +1,24 @@
-import { createElement } from 'lwc';
-import CalloutEditor from 'builder_platform_interaction/calloutEditor';
-import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import {
-    ticks,
     deepQuerySelector,
-    LIGHTNING_COMPONENTS_SELECTORS,
     INTERACTION_COMPONENTS_SELECTORS,
+    LIGHTNING_COMPONENTS_SELECTORS,
     selectEvent,
-    setDocumentBodyChildren
+    setDocumentBodyChildren,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
-import { resetState, setupStateForProcessType, translateFlowToUIAndDispatch } from '../integrationTestUtils';
-import { getLabelDescriptionElement, LabelDescriptionComponentTest } from '../labelDescriptionTestUtils';
+import CalloutEditor from 'builder_platform_interaction/calloutEditor';
+import { AddElementEvent } from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE, FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { createElement } from 'lwc';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import {
     getBaseCalloutElement,
-    verifyOptionalInputParameterNoValue,
-    getInputParameterItems
+    getInputParameterItems,
+    verifyOptionalInputParameterNoValue
 } from '../baseCalloutEditorTestUtils';
-import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import { AddElementEvent } from 'builder_platform_interaction/events';
+import { resetState, setupStateForProcessType, translateFlowToUIAndDispatch } from '../integrationTestUtils';
+import { getLabelDescriptionElement, LabelDescriptionComponentTest } from '../labelDescriptionTestUtils';
 
 jest.mock('builder_platform_interaction/editor', () => {
     return Object.assign({}, { launchSubflow: jest.fn() });

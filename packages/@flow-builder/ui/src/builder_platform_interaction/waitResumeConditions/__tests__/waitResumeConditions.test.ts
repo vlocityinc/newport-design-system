@@ -1,14 +1,14 @@
 // @ts-nocheck
+import {
+    INTERACTION_COMPONENTS_SELECTORS,
+    LIGHTNING_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
+import { WAIT_TIME_EVENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getEventTypes } from 'builder_platform_interaction/sobjectLib';
 import { createElement } from 'lwc';
 import WaitResumeConditions from '../waitResumeConditions';
-import { WAIT_TIME_EVENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import {
-    ticks,
-    LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS,
-    setDocumentBodyChildren
-} from 'builder_platform_interaction/builderTestUtils';
-import { getEventTypes } from 'builder_platform_interaction/sobjectLib';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')

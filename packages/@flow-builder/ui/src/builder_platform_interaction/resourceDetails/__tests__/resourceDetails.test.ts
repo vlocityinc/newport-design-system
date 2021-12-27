@@ -1,28 +1,27 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import { EditElementEvent, DeleteResourceEvent } from 'builder_platform_interaction/events';
+import { clickEvent, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { DeleteResourceEvent, EditElementEvent } from 'builder_platform_interaction/events';
 import ResourceDetails from 'builder_platform_interaction/resourceDetails';
+import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { createElement } from 'lwc';
 import {
-    mockExtensionScreenfieldAutomaticOutputsModeResourceDetails,
-    mockGetRecordsAutomaticOutputModeResourceDetails,
-    mockExtensionScreenfieldNotInAutomaticOutputsModeResourceDetails,
+    mockAccountRecordVariable,
     mockActionSubmitForApprovalAutomaticOutputsModeResourceDetails,
     mockActionSubmitForApprovalNotInAutomaticOutputsModeResourceDetails,
+    mockApexActionInAutomaticOutputsModeAnonymousStringResourceDetails,
     mockApexActionInAutomaticOutputsModeResourceDetails,
     mockApexActionNotInAutomaticOutputsModeResourceDetails,
-    mockAccountRecordVariable,
     mockCreateRecordAutomaticOutputModeResourceDetails,
     mockCreateRecordNotInAutomaticOutputModeResourceDetails,
-    mockApexActionInAutomaticOutputsModeAnonymousStringResourceDetails,
-    mockSubflowInAutomaticOutputModeResourceDetails,
+    mockExtensionScreenfieldAutomaticOutputsModeResourceDetails,
+    mockExtensionScreenfieldNotInAutomaticOutputsModeResourceDetails,
+    mockGetRecordsAutomaticOutputModeResourceDetails,
+    mockLoopOnApexTypeInAutomaticOutputModeResourceDetails,
     mockLoopOnSObjectInAutomaticOutputModeResourceDetails,
     mockLoopOnTextInAutomaticOutputModeResourceDetails,
-    mockLoopOnApexTypeInAutomaticOutputModeResourceDetails
+    mockSubflowInAutomaticOutputModeResourceDetails
 } from 'mock/resourceDetailsData';
 import { LABELS } from '../resourceDetailsLabels';
-import { clickEvent, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
-
-import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 
 const { logInteraction } = loggingUtils;
 

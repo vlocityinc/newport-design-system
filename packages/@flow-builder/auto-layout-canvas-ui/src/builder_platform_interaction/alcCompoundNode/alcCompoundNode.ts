@@ -1,6 +1,3 @@
-import { LightningElement, api } from 'lwc';
-
-import { FlowModel, Guid, NodeRenderInfo } from 'builder_platform_interaction/autoLayoutCanvas';
 import {
     AutoLayoutCanvasMode,
     getAlcConnectorData,
@@ -8,6 +5,8 @@ import {
     getAlcNodeData,
     SELECTORS
 } from 'builder_platform_interaction/alcComponentsUtils';
+import { FlowModel, Guid, NodeRenderInfo } from 'builder_platform_interaction/autoLayoutCanvas';
+import { api, LightningElement } from 'lwc';
 
 /**
  *  Auto layout Canvas Compound Node

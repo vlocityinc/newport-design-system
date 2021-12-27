@@ -1,23 +1,24 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import SortOptionList from 'builder_platform_interaction/sortOptionList';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
-import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
-import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
-import { setApexClasses, cachePropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
-import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
+import { cachePropertiesForClass, setApexClasses } from 'builder_platform_interaction/apexTypeLib';
+import {
+    INTERACTION_COMPONENTS_SELECTORS,
+    LIGHTNING_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
 import {
     AddListItemEvent,
-    DeleteListItemEvent,
     AddSortOptionItemEvent,
+    DeleteListItemEvent,
     DeleteSortOptionItemEvent
 } from 'builder_platform_interaction/events';
+import SortOptionList from 'builder_platform_interaction/sortOptionList';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
-import {
-    LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS
-} from 'builder_platform_interaction/builderTestUtils';
+import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
+import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
+import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 
 const mockEmptySortOption = {
     sortField: { value: null, error: null },

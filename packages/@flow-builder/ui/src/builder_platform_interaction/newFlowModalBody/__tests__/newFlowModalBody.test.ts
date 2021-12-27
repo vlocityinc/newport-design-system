@@ -1,16 +1,16 @@
 // @ts-nocheck
-import { LABELS } from '../newFlowModalBodyLabels';
-import { createElement } from 'lwc';
-import NewFlowModalBody from 'builder_platform_interaction/newFlowModalBody';
-import { ProcessTypeSelectedEvent, TemplateChangedEvent } from 'builder_platform_interaction/events';
-import { ALL_PROCESS_TYPE, resetCacheTemplates } from 'builder_platform_interaction/processTypeLib';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { ProcessTypeSelectedEvent } from 'builder_platform_interaction/events';
 import { FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import NewFlowModalBody from 'builder_platform_interaction/newFlowModalBody';
+import { ALL_PROCESS_TYPE, resetCacheTemplates } from 'builder_platform_interaction/processTypeLib';
+import { setProcessTypes } from 'builder_platform_interaction/systemLib';
+import { ShowToastEventName } from 'lightning/platformShowToastEvent';
+import { createElement } from 'lwc';
 import { MOCK_ALL_FLOW_ENTRIES } from 'mock/flowEntryData';
 import { MOCK_ALL_TEMPLATES, MOCK_AUTO_TEMPLATE } from 'mock/templates';
-import { setProcessTypes } from 'builder_platform_interaction/systemLib';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { processTypes } from 'serverData/GetProcessTypes/processTypes.json';
-import { ShowToastEventName } from 'lightning/platformShowToastEvent';
+import { LABELS } from '../newFlowModalBodyLabels';
 
 let mockProcessTypesPromise = Promise.resolve(processTypes);
 let mockTemplatesPromise = Promise.resolve(MOCK_ALL_TEMPLATES);

@@ -1,8 +1,8 @@
 // @ts-nocheck
-import waitResumeConditionsSectionDescription from '@salesforce/label/FlowBuilderWaitEditor.waitResumeConditionsSectionDescription';
 import platformEventTypeLabel from '@salesforce/label/FlowBuilderWaitEditor.platformEventTypeLabel';
-import timeEventTypeLabel from '@salesforce/label/FlowBuilderWaitEditor.timeEventTypeLabel';
 import resumeEventTypeLabel from '@salesforce/label/FlowBuilderWaitEditor.resumeEventTypeLabel';
+import timeEventTypeLabel from '@salesforce/label/FlowBuilderWaitEditor.timeEventTypeLabel';
+import waitResumeConditionsSectionDescription from '@salesforce/label/FlowBuilderWaitEditor.waitResumeConditionsSectionDescription';
 
 export const LABELS = {
     waitResumeConditionsSectionDescription,

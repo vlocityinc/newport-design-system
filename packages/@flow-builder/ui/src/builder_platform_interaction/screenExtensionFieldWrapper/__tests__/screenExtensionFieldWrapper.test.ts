@@ -1,12 +1,12 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import ScreenField from 'builder_platform_interaction/screenField';
 import { createTestScreenField, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { getCachedExtensionType } from 'builder_platform_interaction_mocks/flowExtensionLib';
 import { orgHasComponentPreview } from 'builder_platform_interaction/contextLib';
+import ScreenField from 'builder_platform_interaction/screenField';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { getCachedExtensionType } from 'builder_platform_interaction_mocks/flowExtensionLib';
+import { createElement } from 'lwc';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 const { logInteraction } = loggingUtils;
 

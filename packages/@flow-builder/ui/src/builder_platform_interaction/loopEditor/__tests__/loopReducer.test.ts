@@ -1,6 +1,6 @@
 // @ts-nocheck
+import { LoopCollectionChangedEvent, PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { loopReducer } from '../loopReducer';
-import { PropertyChangedEvent, LoopCollectionChangedEvent } from 'builder_platform_interaction/events';
 
 const IAMERRORED = 'IAMERRORED';
 const CANNOTBEBLANKERROR = 'FlowBuilderValidation.cannotBeBlank';

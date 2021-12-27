@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { LightningElement, api } from 'lwc';
+import { api, LightningElement } from 'lwc';
 import { LABELS } from './toolbarStatusIconsLabels';
 
 export default class ToolbarStatusIcons extends LightningElement {

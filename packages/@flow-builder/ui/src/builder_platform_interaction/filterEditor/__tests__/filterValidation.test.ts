@@ -1,13 +1,13 @@
-import { createElement } from 'lwc';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { LABELS } from 'builder_platform_interaction/validationRules';
+import { createElement } from 'lwc';
+import * as store from 'mock/storeData';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 import FilterEditor from '../filterEditor';
 import { filterValidation, getRules } from '../filterValidation';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import { LABELS } from 'builder_platform_interaction/validationRules';
-import { Store } from 'builder_platform_interaction/storeLib';
-import * as store from 'mock/storeData';
-import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 /**
  * Executing jest test

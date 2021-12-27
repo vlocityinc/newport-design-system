@@ -1,10 +1,10 @@
 // @ts-nocheck
 import { formatLhs, formatOperator, formatRhs } from 'builder_platform_interaction/conditionListItemUtil';
+import { normalizeDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import {
     getResourceByUniqueIdentifier,
     mutateFlowResourceToComboboxShape
 } from 'builder_platform_interaction/expressionUtils';
-import { normalizeDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { transformOperatorsForCombobox } from 'builder_platform_interaction/ruleLib';
 
 jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));

@@ -1,15 +1,15 @@
 // @ts-nocheck
+import {
+    blurEvent,
+    changeEvent,
+    focusEvent,
+    focusoutEvent,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
+import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 import { createElement } from 'lwc';
 import ResourcedRichTextEditor from '../resourcedRichTextEditor';
-import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
-import {
-    ticks,
-    focusEvent,
-    changeEvent,
-    focusoutEvent,
-    blurEvent,
-    setDocumentBodyChildren
-} from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')

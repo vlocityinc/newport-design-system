@@ -1,9 +1,8 @@
-import { LightningElement, api } from 'lwc';
-import { LABELS } from './startNodeScheduledPathButtonLabels';
-import { EditElementEvent, ArrowKeyDownEvent } from 'builder_platform_interaction/events';
 import { EDIT_START_SCHEDULED_PATHS } from 'builder_platform_interaction/elementConfig';
-import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
-import { commonUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
+import { ArrowKeyDownEvent, EditElementEvent } from 'builder_platform_interaction/events';
+import { commands, commonUtils, keyboardInteractionUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
+import { api, LightningElement } from 'lwc';
+import { LABELS } from './startNodeScheduledPathButtonLabels';
 const { format } = commonUtils;
 
 const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;

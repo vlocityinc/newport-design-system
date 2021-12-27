@@ -1,8 +1,8 @@
 // @ts-nocheck
-import { Validation } from 'builder_platform_interaction/validation';
-import * as ValidationRules from 'builder_platform_interaction/validationRules';
 import { CONDITION_LOGIC, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
+import { Validation } from 'builder_platform_interaction/validation';
+import * as ValidationRules from 'builder_platform_interaction/validationRules';
 
 const defaultRules = {};
 

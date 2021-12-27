@@ -1,8 +1,8 @@
 // @ts-nocheck
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { MERGE_WARNING_TYPE } from 'builder_platform_interaction/elementFactory';
 import { FLOW_TRANSACTION_MODEL } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_AUTOMATIC_OUTPUT_HANDLING } from 'builder_platform_interaction/processTypeLib';
-import { MERGE_WARNING_TYPE } from 'builder_platform_interaction/elementFactory';
 
 export type ParameterListConfig = {
     inputHeader: string;

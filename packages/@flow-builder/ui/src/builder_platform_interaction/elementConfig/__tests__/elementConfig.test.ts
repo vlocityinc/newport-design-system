@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     elementTypeToConfigMap,
     getConfigForElementType,
@@ -6,7 +7,6 @@ import {
     isChildElement,
     updateElementConfigMapWithSubtypes
 } from '../elementConfig';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 function verifyConfig(elementType, config) {
     let expectedConfig = elementTypeToConfigMap[elementType];

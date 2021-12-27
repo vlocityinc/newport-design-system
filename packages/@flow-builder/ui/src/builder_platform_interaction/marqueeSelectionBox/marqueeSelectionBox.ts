@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { LightningElement, api } from 'lwc';
+import { api, LightningElement } from 'lwc';
 
 export default class MarqueeSelectionBox extends LightningElement {
     @api marqueeStartPoint = [0, 0];

@@ -1,36 +1,34 @@
 // @ts-nocheck
+import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { CONDITION_LOGIC, ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
 import {
-    isTextAreaField,
+    ChoiceDisplayOptions,
+    getColumnFieldType,
+    getLocalExtensionFieldType,
+    getScreenFieldName,
+    getScreenFieldType,
+    getScreenFieldTypeByName,
+    getSectionFieldType,
+    InputsOnNextNavToAssocScrnOption,
     isChoiceField,
     isExtensionField,
     isRegionContainerField,
     isRegionField,
-    getSectionFieldType,
-    getColumnFieldType,
-    getLocalExtensionFieldType,
-    getScreenFieldTypeByName,
-    getScreenFieldType,
-    InputsOnNextNavToAssocScrnOption,
-    getScreenFieldName,
-    ScreenFieldName,
-    ChoiceDisplayOptions
+    isTextAreaField,
+    ScreenFieldName
 } from 'builder_platform_interaction/screenEditorUtils';
+import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
+import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import { automaticOutputHandlingSupport, baseElement, createCondition } from './base/baseElement';
+import { createConditionMetadataObject } from './base/baseMetadata';
+import { createValidationRuleObject } from './base/baseValidationInput';
+import { createDataTypeMappingsMetadataObject, createDynamicTypeMappings } from './dynamicTypeMapping';
 import { createFEROV, createFEROVMetadataObject } from './ferov';
 import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
 import { createOutputParameter, createOutputParameterMetadataObject } from './outputParameter';
-import { baseElement, createCondition, automaticOutputHandlingSupport } from './base/baseElement';
-
-import { createConditionMetadataObject } from './base/baseMetadata';
-
-import { CONDITION_LOGIC, ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
-import { DEFAULT_VALUE_PROPERTY, DEFAULT_VALUE_DATA_TYPE_PROPERTY } from './variable';
-import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import { createValidationRuleObject } from './base/baseValidationInput';
-import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { createDataTypeMappingsMetadataObject, createDynamicTypeMappings } from './dynamicTypeMapping';
-import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
-import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
+import { DEFAULT_VALUE_DATA_TYPE_PROPERTY, DEFAULT_VALUE_PROPERTY } from './variable';
 
 const elementType = ELEMENT_TYPE.SCREEN_FIELD;
 

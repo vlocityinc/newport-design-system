@@ -1,16 +1,16 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import { recordUpdateValidation, getRules } from '../recordUpdateValidation';
-import RecordUpdateEditor from '../recordUpdateEditor';
-import * as storeMockedData from 'mock/storeData';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import {
     CONDITION_LOGIC,
     ELEMENT_TYPE,
     RECORD_UPDATE_WAY_TO_FIND_RECORDS
 } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from 'builder_platform_interaction/validationRules';
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { createElement } from 'lwc';
+import * as storeMockedData from 'mock/storeData';
+import RecordUpdateEditor from '../recordUpdateEditor';
+import { getRules, recordUpdateValidation } from '../recordUpdateValidation';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>

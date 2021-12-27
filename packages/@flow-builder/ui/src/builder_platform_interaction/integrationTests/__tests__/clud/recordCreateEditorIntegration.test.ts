@@ -1,25 +1,25 @@
-import { createElement } from 'lwc';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { ELEMENT_TYPE, FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getElementForPropertyEditor, getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
 import RecordCreateEditor from 'builder_platform_interaction/recordCreateEditor';
+import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import { createElement } from 'lwc';
+import * as autoLaunchedFlowScheduled from 'mock/flows/autoLaunchedFlowScheduled.json';
+import * as fieldServiceMobileFlow from 'mock/flows/fieldServiceMobileFlow.json';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
+import { feedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
+import { expectCanBeTraversed, expectCannotBeSelected, expectCannotBeTraversed } from '../groupedComboboxTestUtils';
 import {
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
-    setupStateForProcessType,
     resetState,
-    translateFlowToUIAndDispatch,
-    setupStateForFlow
+    setupStateForFlow,
+    setupStateForProcessType,
+    translateFlowToUIAndDispatch
 } from '../integrationTestUtils';
-import { getElementForPropertyEditor, getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import * as fieldServiceMobileFlow from 'mock/flows/fieldServiceMobileFlow.json';
-import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
-import * as autoLaunchedFlowScheduled from 'mock/flows/autoLaunchedFlowScheduled.json';
-import { ELEMENT_TYPE, FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { ticks, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
-import { expectCanBeTraversed, expectCannotBeTraversed, expectCannotBeSelected } from '../groupedComboboxTestUtils';
-import { feedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
-import { addRecordVariable, deleteVariableWithName } from '../resourceTestUtils';
 import { RecordCreateEditorComponentTest } from '../recordCreateEditorTestUtils';
 import { RecordInputOutputAssignmentsComponentTest } from '../recordInputOutputAssignmentsTestUtils';
+import { addRecordVariable, deleteVariableWithName } from '../resourceTestUtils';
 
 const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'Flow';
 

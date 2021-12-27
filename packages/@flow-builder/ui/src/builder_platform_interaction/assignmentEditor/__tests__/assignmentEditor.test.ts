@@ -1,18 +1,17 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import AssignmentEditor from '../assignmentEditor';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import {
-    PropertyChangedEvent,
     AddListItemEvent,
     DeleteListItemEvent,
+    PropertyChangedEvent,
     UpdateListItemEvent,
     UpdateNodeEvent
 } from 'builder_platform_interaction/events';
-import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
+import { deepCopy, Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { ticks, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import AssignmentEditor from '../assignmentEditor';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

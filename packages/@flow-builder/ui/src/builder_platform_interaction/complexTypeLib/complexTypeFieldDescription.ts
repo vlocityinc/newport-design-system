@@ -1,13 +1,12 @@
 // @ts-nocheck
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
 import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
+import { FLOW_DATA_TYPE, getFlowDataType } from 'builder_platform_interaction/dataTypeLib';
+import { ParameterListRowItem } from 'builder_platform_interaction/elementFactory';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
 import { getParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { getFlowDataTypeByName } from 'builder_platform_interaction/screenEditorUtils';
-import { getFlowDataType } from 'builder_platform_interaction/dataTypeLib';
+import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
 import { getActiveOrLatestFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
-import { ParameterListRowItem } from 'builder_platform_interaction/elementFactory';
 
 /**
  * Get the extension parameter description as a complex type field description

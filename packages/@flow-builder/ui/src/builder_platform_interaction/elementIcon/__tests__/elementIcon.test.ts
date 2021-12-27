@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import ElementIcon from 'builder_platform_interaction/elementIcon';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import ElementIcon from 'builder_platform_interaction/elementIcon';
+import { createElement } from 'lwc';
 
 const ICON_NAMES = {
     subflow: 'standard:flow',

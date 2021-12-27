@@ -1,9 +1,9 @@
 // @ts-nocheck
-import { LightningElement, api } from 'lwc';
-import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
+import { getValueFromHydratedItem, hydrateIfNecessary } from 'builder_platform_interaction/dataMutationLib';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
-import { hydrateIfNecessary, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { FOOTER_LABEL_TYPE, PAUSE_MESSAGE_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
+import { api, LightningElement } from 'lwc';
 const EXPANDED_SECTION_NAMES = [];
 
 /*

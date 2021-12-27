@@ -1,8 +1,6 @@
 // @ts-nocheck
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { recordChoiceSetValidation, getRules } from './recordChoiceSetValidation';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { set, deleteItem, hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
+import { deleteItem, hydrateWithErrors, set } from 'builder_platform_interaction/dataMutationLib';
 import { createFilter, createOutputAssignment } from 'builder_platform_interaction/elementFactory';
 import {
     AddRecordFieldAssignmentEvent,
@@ -11,6 +9,8 @@ import {
 } from 'builder_platform_interaction/events';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { getRules, recordChoiceSetValidation } from './recordChoiceSetValidation';
 
 const addRecordFilter = (recordChoice) => {
     const path = ['filters', recordChoice.filters.length];

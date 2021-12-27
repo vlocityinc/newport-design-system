@@ -1,8 +1,8 @@
 // @ts-nocheck
-import { LightningElement, api } from 'lwc';
-import { DeleteListItemEvent, UpdateListItemEvent, EditListItemEvent } from 'builder_platform_interaction/events';
 import deleteRowAlternativeText from '@salesforce/label/FlowBuilderRows.deleteRowAlternativeText';
 import editRowAlternativeText from '@salesforce/label/FlowBuilderRows.editRowAlternativeText';
+import { DeleteListItemEvent, EditListItemEvent, UpdateListItemEvent } from 'builder_platform_interaction/events';
+import { api, LightningElement } from 'lwc';
 
 /**
  * Assignment Item List Row component for flow builder.

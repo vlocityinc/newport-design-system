@@ -1,7 +1,7 @@
 import {
-    SOBJECT_OR_SOBJECT_COLLECTION_FILTER,
     getSObjectOrSObjectCollectionFilter,
-    sObjectOrSObjectCollectionFilterToIsCollection
+    sObjectOrSObjectCollectionFilterToIsCollection,
+    SOBJECT_OR_SOBJECT_COLLECTION_FILTER
 } from 'builder_platform_interaction/filterTypeLib';
 
 describe('filter type lib', () => {

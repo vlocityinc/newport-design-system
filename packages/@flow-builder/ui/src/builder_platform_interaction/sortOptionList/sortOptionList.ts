@@ -1,9 +1,9 @@
-import { LightningElement, api, track } from 'lwc';
-import { LABELS } from './sortOptionListLabels';
 import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
 import { AddSortOptionItemEvent, DeleteSortOptionItemEvent } from 'builder_platform_interaction/events';
-import { SortOption, SObjectOrApexReference, isSObjectOrApexClass } from 'builder_platform_interaction/sortEditorLib';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { isSObjectOrApexClass, SObjectOrApexReference, SortOption } from 'builder_platform_interaction/sortEditorLib';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './sortOptionListLabels';
 const { format } = commonUtils;
 
 export default class SortOptionList extends LightningElement {

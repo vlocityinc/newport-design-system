@@ -1,23 +1,23 @@
 // @ts-nocheck
-import contextRecordEditor from '../contextRecordEditor';
-import { createElement } from 'lwc';
-import { CONDITION_LOGIC, FLOW_TRIGGER_TYPE, FlowComparisonOperator } from 'builder_platform_interaction/flowMetadata';
 import {
-    AddRecordFilterEvent,
-    DeleteRecordFilterEvent,
-    UpdateRecordFilterEvent,
-    ConfigurationEditorChangeEvent,
-    UpdateNodeEvent,
-    PropertyChangedEvent
-} from 'builder_platform_interaction/events';
-import * as store from 'mock/storeData';
-import * as expressionUtilsMock from 'builder_platform_interaction/expressionUtils';
-import {
-    ticks,
     INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS,
-    setDocumentBodyChildren
+    setDocumentBodyChildren,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
+import {
+    AddRecordFilterEvent,
+    ConfigurationEditorChangeEvent,
+    DeleteRecordFilterEvent,
+    PropertyChangedEvent,
+    UpdateNodeEvent,
+    UpdateRecordFilterEvent
+} from 'builder_platform_interaction/events';
+import * as expressionUtilsMock from 'builder_platform_interaction/expressionUtils';
+import { CONDITION_LOGIC, FlowComparisonOperator, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { createElement } from 'lwc';
+import * as store from 'mock/storeData';
+import contextRecordEditor from '../contextRecordEditor';
 import { LABELS, requireRecordChangeOptions } from '../contextRecordEditorLabels';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>

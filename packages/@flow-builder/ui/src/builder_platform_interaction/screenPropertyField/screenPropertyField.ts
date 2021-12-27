@@ -1,20 +1,20 @@
 // @ts-nocheck
-import { LightningElement, api } from 'lwc';
+import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { hydrateIfNecessary } from 'builder_platform_interaction/dataMutationLib';
+import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { getFerovInfoAndErrorFromEvent } from 'builder_platform_interaction/expressionUtils';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import {
     booleanAttributeValue,
-    getFlowDataTypeByName,
     booleanValue,
-    compareValues
+    compareValues,
+    getFlowDataTypeByName
 } from 'builder_platform_interaction/screenEditorUtils';
-import { hydrateIfNecessary } from 'builder_platform_interaction/dataMutationLib';
-import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import { getFerovInfoAndErrorFromEvent } from 'builder_platform_interaction/expressionUtils';
-import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { api, LightningElement } from 'lwc';
 
 /*
  * A property editor

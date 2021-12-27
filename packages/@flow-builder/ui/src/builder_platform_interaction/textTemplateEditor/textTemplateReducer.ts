@@ -1,10 +1,10 @@
 // @ts-nocheck
-import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
+import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
+import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { textTemplateValidation } from './textTemplateValidation';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 
 const NON_HYDRATABLE_PROPS = new Set([...elementTypeToConfigMap[ELEMENT_TYPE.TEXT_TEMPLATE].nonHydratableProperties]);
 

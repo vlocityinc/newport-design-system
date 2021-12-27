@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import ScreenSectionField from 'builder_platform_interaction/screenSectionField';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import ScreenSectionField from 'builder_platform_interaction/screenSectionField';
+import { createElement } from 'lwc';
 const SELECTORS = {
     SCREEN_CANVAS: 'builder_platform_interaction-screen-canvas'
 };

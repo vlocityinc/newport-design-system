@@ -1,8 +1,8 @@
 // @ts-nocheck
-import { LightningElement } from 'lwc';
-import { LABELS } from './getTemplatesTileLabels';
 import { APP_EXCHANGE_LINK } from 'builder_platform_interaction/commonUtils';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { LightningElement } from 'lwc';
+import { LABELS } from './getTemplatesTileLabels';
 
 export default class GetTemplatesTile extends LightningElement {
     labels = LABELS;

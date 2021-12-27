@@ -1,49 +1,49 @@
-import {
-    getSObjectOrSObjectCollectionByEntityElements,
-    byElementTypeElementsSelector,
-    writableElementsSelector,
-    getCanContainSObjectElements,
-    isOrCanContainSelector,
-    choiceSelector,
-    QUERYABLE_FILTER,
-    CREATEABLE_FILTER,
-    UPDATEABLE_FILTER,
-    DELETABLE_FILTER,
-    RetrieveOptions
-} from '../menuDataSelector';
-import {
-    apexCallAutomaticAnonymousStringOutput,
-    createAccountWithAutomaticOutput,
-    accountSObjectVariable,
-    accountSObjectCollectionVariable,
-    caseSObjectVariable,
-    caseSObjectCollectionVariable,
-    contactSObjectVariable,
-    campaignSObjectVariable,
-    opportunitySObjectVariable,
-    opportunitySObjectCollectionVariable,
-    textTemplate1,
-    stringVariable,
-    actionCallElement,
-    apexComplexTypeVariable,
-    apexComplexTypeCollectionVariable,
-    apexCarVariable,
-    lightningCompAutomaticOutputNoSObjectExtension,
-    lightningCompAutomaticOutputContainsAccountExtension,
-    lightningCompAutomaticOutputSObjectCollectionExtension,
-    apexCallStringAutomaticOutput,
-    apexCallAccountAutomaticOutput,
-    localActionApexDoesNotContainSObjectAutomaticOutput,
-    localActionApexDoesContainsSObjectAutomaticOutput,
-    apexComplexTypeTwoVariable,
-    staticChoiceOther
-} from 'mock/storeData';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
-import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { Store } from 'builder_platform_interaction/storeLib';
+import {
+    accountSObjectCollectionVariable,
+    accountSObjectVariable,
+    actionCallElement,
+    apexCallAccountAutomaticOutput,
+    apexCallAutomaticAnonymousStringOutput,
+    apexCallStringAutomaticOutput,
+    apexCarVariable,
+    apexComplexTypeCollectionVariable,
+    apexComplexTypeTwoVariable,
+    apexComplexTypeVariable,
+    campaignSObjectVariable,
+    caseSObjectCollectionVariable,
+    caseSObjectVariable,
+    contactSObjectVariable,
+    createAccountWithAutomaticOutput,
+    flowWithAllElementsUIModel,
+    lightningCompAutomaticOutputContainsAccountExtension,
+    lightningCompAutomaticOutputNoSObjectExtension,
+    lightningCompAutomaticOutputSObjectCollectionExtension,
+    localActionApexDoesContainsSObjectAutomaticOutput,
+    localActionApexDoesNotContainSObjectAutomaticOutput,
+    opportunitySObjectCollectionVariable,
+    opportunitySObjectVariable,
+    staticChoiceOther,
+    stringVariable,
+    textTemplate1
+} from 'mock/storeData';
+import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
+import {
+    byElementTypeElementsSelector,
+    choiceSelector,
+    CREATEABLE_FILTER,
+    DELETABLE_FILTER,
+    getCanContainSObjectElements,
+    getSObjectOrSObjectCollectionByEntityElements,
+    isOrCanContainSelector,
+    QUERYABLE_FILTER,
+    RetrieveOptions,
+    UPDATEABLE_FILTER,
+    writableElementsSelector
+} from '../menuDataSelector';
 
 jest.mock('builder_platform_interaction/invocableActionLib', () =>
     require('builder_platform_interaction_mocks/invocableActionLib')

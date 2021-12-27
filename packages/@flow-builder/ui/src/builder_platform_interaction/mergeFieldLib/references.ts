@@ -1,5 +1,5 @@
+import { getSwapValueFunction, recursiveSwap } from 'builder_platform_interaction/translatorLib';
 import { resolveReferenceFromIdentifier } from './mergeFieldLib';
-import { recursiveSwap, getSwapValueFunction } from 'builder_platform_interaction/translatorLib';
 
 /**
  * Resolve all references present in given object (generally a ElementUi in UI model format)

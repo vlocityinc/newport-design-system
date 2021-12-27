@@ -1,8 +1,8 @@
 // @ts-nocheck
-import { ArrowKeyDownEvent } from 'builder_platform_interaction/events';
 import { CloseMenuEvent, MoveFocusToNodeEvent } from 'builder_platform_interaction/alcEvents';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
-import { ticks, createComponent } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
+import { createComponent, ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
+import { ArrowKeyDownEvent } from 'builder_platform_interaction/events';
 import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 
 const { EscapeCommand, ArrowUp, TabCommand } = commands;

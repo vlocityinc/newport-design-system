@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { stageReducer } from '../stageReducer';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
+import { stageReducer } from '../stageReducer';
 
 describe('Stage-Reducer', () => {
     let originalState;

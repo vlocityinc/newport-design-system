@@ -1,36 +1,36 @@
 // @ts-nocheck
+import { getComboboxConfig } from 'builder_platform_interaction/baseResourcePicker';
 import {
-    updateProperties,
-    getValueFromHydratedItem,
+    deleteParameterItem,
+    mergeWithInputOutputParameters,
+    MERGE_WITH_PARAMETERS,
+    removeUnsetParameters,
+    REMOVE_UNSET_PARAMETERS,
+    updateInputParameterItemConfigurationEditor,
+    updateManuallyAssignVariables,
+    updateParameterItem
+} from 'builder_platform_interaction/calloutEditorLib';
+import {
+    addItem,
     getErrorFromHydratedItem,
+    getValueFromHydratedItem,
     replaceItem,
-    addItem
+    updateProperties
 } from 'builder_platform_interaction/dataMutationLib';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { invocableActionValidation, getDynamicTypeMappingValidation } from './invocableActionValidation';
+import { FLOW_DATA_TYPE, getFlowType } from 'builder_platform_interaction/dataTypeLib';
 import {
-    UpdateParameterItemEvent,
-    PropertyChangedEvent,
-    DeleteParameterItemEvent,
-    ManuallyAssignVariablesChangedEvent,
     ConfigurationEditorChangeEvent,
     ConfigurationEditorPropertyDeleteEvent,
-    DynamicTypeMappingChangeEvent
+    DeleteParameterItemEvent,
+    DynamicTypeMappingChangeEvent,
+    ManuallyAssignVariablesChangedEvent,
+    PropertyChangedEvent,
+    UpdateParameterItemEvent
 } from 'builder_platform_interaction/events';
-import {
-    updateParameterItem,
-    mergeWithInputOutputParameters,
-    removeUnsetParameters,
-    deleteParameterItem,
-    MERGE_WITH_PARAMETERS,
-    REMOVE_UNSET_PARAMETERS,
-    updateManuallyAssignVariables,
-    updateInputParameterItemConfigurationEditor
-} from 'builder_platform_interaction/calloutEditorLib';
-import { getComboboxConfig } from 'builder_platform_interaction/baseResourcePicker';
-import { getFlowType, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { getDynamicTypeMappingValidation, invocableActionValidation } from './invocableActionValidation';
 
 export const MERGE_WITH_DATA_TYPE_MAPPINGS = 'MERGE_WITH_DATA_TYPE_MAPPINGS';
 

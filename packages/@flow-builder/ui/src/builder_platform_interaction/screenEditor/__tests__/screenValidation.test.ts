@@ -1,19 +1,19 @@
 // @ts-nocheck
-import { getRulesForField, screenValidation, getDynamicTypeMappingValidation, getRules } from '../screenValidation';
 import {
+    createTestScreen,
     createTestScreenField,
-    SCREEN_NO_DEF_VALUE,
-    createTestScreen
+    SCREEN_NO_DEF_VALUE
 } from 'builder_platform_interaction/builderTestUtils';
-import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
-import { LABELS } from 'builder_platform_interaction/validationRules';
 import { isValidMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
-import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
-import { flowWithAllElementsUIModel, screenWithSection } from 'mock/storeData';
-import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { flowExtensionDetails as mockFlowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
 import { setExtensionDescriptions } from 'builder_platform_interaction/flowExtensionLib';
 import { FOOTER_LABEL_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
+import { LABELS } from 'builder_platform_interaction/validationRules';
+import { flowWithAllElementsUIModel, screenWithSection } from 'mock/storeData';
+import { flowExtensionDetails as mockFlowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
+import { getDynamicTypeMappingValidation, getRules, getRulesForField, screenValidation } from '../screenValidation';
 
 jest.mock('builder_platform_interaction/dateTimeUtils', () => {
     return {

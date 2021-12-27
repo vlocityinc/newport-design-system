@@ -1,20 +1,20 @@
 // @ts-nocheck
-import { LightningElement, api } from 'lwc';
+import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import {
     getPlaceHolderLabel,
-    isRadioField,
     isMultiSelectCheckboxField,
+    isMultiSelectPicklistField,
     isPicklistField,
-    isMultiSelectPicklistField
+    isRadioField
 } from 'builder_platform_interaction/screenEditorUtils';
-import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
-import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
-import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
-import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import { api, LightningElement } from 'lwc';
 const { format } = commonUtils;
 
 /**

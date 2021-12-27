@@ -1,53 +1,55 @@
 // @ts-nocheck
-import {
-    getElementsForMenuData,
-    getEntitiesMenuData,
-    filterAndMutateMenuData,
-    getEventTypesMenuDataRunTime,
-    getChildrenItemsPromise,
-    getChildrenItems,
-    getResourceTypesMenuData,
-    filterFieldsForChosenElement
-} from '../menuDataRetrieval';
-import { numberParamCanBeAnything, stringParam, booleanParam, stageParam } from 'mock/ruleService';
-import * as store from 'mock/storeData';
+import variablePluralLabel from '@salesforce/label/FlowBuilderElementConfig.variablePluralLabel';
+import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
+import { expectFieldsAreComplexTypeFieldDescriptions } from 'builder_platform_interaction/builderTestUtils';
+import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
+import { createExtensionDescription } from 'builder_platform_interaction/flowExtensionLib';
 import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import * as selectorsMock from 'builder_platform_interaction/selectors';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { ENTITY_TYPE, getAllEntities } from 'builder_platform_interaction/sobjectLib';
 import {
+    ENTITY_TYPE,
+    fetchFieldsForEntity,
+    getAllEntities,
+    getEventTypes
+} from 'builder_platform_interaction/sobjectLib';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import {
+    getSystemVariables,
     GLOBAL_CONSTANTS as gcLabels,
     GLOBAL_CONSTANT_OBJECTS as gcObjects,
+    setGlobalVariables,
+    setProcessTypeFeature,
+    setSystemVariables,
     SYSTEM_VARIABLE_PREFIX
 } from 'builder_platform_interaction/systemLib';
-import { LABELS } from '../expressionUtilsLabels';
-import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
-import variablePluralLabel from '@salesforce/label/FlowBuilderElementConfig.variablePluralLabel';
+import { mockScreenElement } from 'mock/calloutData';
 import { platformEvent1ApiName, platformEvent1Label } from 'mock/eventTypesData';
-import { getEventTypes, fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
-import {
-    setSystemVariables,
-    setGlobalVariables,
-    getSystemVariables,
-    setProcessTypeFeature
-} from 'builder_platform_interaction/systemLib';
-import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
-import { createExtensionDescription } from 'builder_platform_interaction/flowExtensionLib';
-import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
+import { mockGlobalVariablesWithMultiPicklistField } from 'mock/globalVariableData';
+import { booleanParam, numberParamCanBeAnything, stageParam, stringParam } from 'mock/ruleService';
+import * as store from 'mock/storeData';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { startElement } from 'mock/storeDataRecordTriggered';
 import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
+import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { feedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
-import { mockScreenElement } from 'mock/calloutData';
-import { expectFieldsAreComplexTypeFieldDescriptions } from 'builder_platform_interaction/builderTestUtils';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
-import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
-import { mockGlobalVariablesWithMultiPicklistField } from 'mock/globalVariableData';
-import { startElement } from 'mock/storeDataRecordTriggered';
 import { flowExtensionDetails as mockFlowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
-import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
+import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
+import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
+import { LABELS } from '../expressionUtilsLabels';
+import {
+    filterAndMutateMenuData,
+    filterFieldsForChosenElement,
+    getChildrenItems,
+    getChildrenItemsPromise,
+    getElementsForMenuData,
+    getEntitiesMenuData,
+    getEventTypesMenuDataRunTime,
+    getResourceTypesMenuData
+} from '../menuDataRetrieval';
 
 jest.mock('builder_platform_interaction/elementConfig', () => {
     const actual = jest.requireActual('builder_platform_interaction/elementConfig');

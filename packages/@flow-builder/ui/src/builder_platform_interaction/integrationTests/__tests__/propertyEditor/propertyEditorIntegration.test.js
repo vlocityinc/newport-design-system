@@ -1,19 +1,18 @@
-import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { getPropertyEditorConfig } from 'builder_platform_interaction/builderUtils';
+import { EditElementEvent } from 'builder_platform_interaction/events';
+import { ELEMENT_TYPE, isSystemElement } from 'builder_platform_interaction/flowMetadata';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
 import * as autoLaunchedFlowScheduled from 'mock/flows/autoLaunchedFlowScheduled.json';
 import * as contactRequestFlow from 'mock/flows/contactRequestFlow.json';
 import * as fieldServiceMobileFlow from 'mock/flows/fieldServiceMobileFlow.json';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import * as orchestratorFlow from 'mock/flows/orchestratorFlow.json';
 import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
 import * as scheduleTriggeredFlow from 'mock/flows/scheduleTriggeredFlow.json';
-import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { setupStateForFlow, resetState } from '../integrationTestUtils';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { getPropertyEditorConfig } from 'builder_platform_interaction/builderUtils';
-import { createElement } from 'lwc';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
-import { isSystemElement } from 'builder_platform_interaction/flowMetadata';
-import { EditElementEvent } from 'builder_platform_interaction/events';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { resetState, setupStateForFlow } from '../integrationTestUtils';
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {
     const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');

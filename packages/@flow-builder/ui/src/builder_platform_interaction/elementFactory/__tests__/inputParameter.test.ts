@@ -1,11 +1,11 @@
 // @ts-nocheck
+import { createFEROV, createFEROVMetadataObject } from '../ferov';
 import {
     createInputParameter,
     createInputParameterMetadataObject,
-    VALUE_PROPERTY_NAME,
-    VALUE_DATA_TYPE_PROPERTY_NAME
+    VALUE_DATA_TYPE_PROPERTY_NAME,
+    VALUE_PROPERTY_NAME
 } from '../inputParameter';
-import { createFEROV, createFEROVMetadataObject } from '../ferov';
 
 jest.mock('../ferov', () => {
     return {

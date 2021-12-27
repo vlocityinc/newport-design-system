@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { LightningElement, api } from 'lwc';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { api, LightningElement } from 'lwc';
 const { format } = commonUtils;
 
 export default class ConnectorPicker extends LightningElement {

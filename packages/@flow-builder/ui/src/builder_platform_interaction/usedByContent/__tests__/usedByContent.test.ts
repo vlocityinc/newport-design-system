@@ -1,7 +1,7 @@
 // @ts-nocheck
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { createElement } from 'lwc';
 import UsedByContent from '../usedByContent';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 function createComponentForTest(
     listSectionHeader,

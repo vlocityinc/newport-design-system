@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { LightningElement, api } from 'lwc';
+import { api, LightningElement } from 'lwc';
 
 export default class TextTemplateEditor extends LightningElement {
     @api node;

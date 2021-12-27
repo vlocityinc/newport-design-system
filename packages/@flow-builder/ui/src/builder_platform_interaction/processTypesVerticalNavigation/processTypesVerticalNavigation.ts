@@ -1,11 +1,11 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
 import { ProcessTypeSelectedEvent } from 'builder_platform_interaction/events';
 import {
     ALL_PROCESS_TYPE,
     getProcessTypesWithIcons,
     sortProcessTypes
 } from 'builder_platform_interaction/processTypeLib';
+import { api, LightningElement } from 'lwc';
 
 export default class ProcessTypesVerticalNavigation extends LightningElement {
     _processTypes = [];

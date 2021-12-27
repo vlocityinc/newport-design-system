@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { createDynamicChoiceSet, createDynamicChoiceSetMetadataObject } from '../../base/dynamicChoiceSet';
 import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
+import { createDynamicChoiceSet, createDynamicChoiceSetMetadataObject } from '../../base/dynamicChoiceSet';
 jest.mock('../../base/baseElement', () => {
     return {
         baseResource: jest

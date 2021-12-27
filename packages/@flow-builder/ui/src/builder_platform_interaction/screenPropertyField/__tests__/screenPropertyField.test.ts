@@ -1,10 +1,10 @@
 // @ts-nocheck
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import FerovResourcePicker from 'builder_platform_interaction/ferovResourcePicker';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 import { createElement } from 'lwc';
 import ScreenPropertyField from '../screenPropertyField';
-import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import FerovResourcePicker from 'builder_platform_interaction/ferovResourcePicker';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/outputResourcePicker', () =>
     require('builder_platform_interaction_mocks/outputResourcePicker')

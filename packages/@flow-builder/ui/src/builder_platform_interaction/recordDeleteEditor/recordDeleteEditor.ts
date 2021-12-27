@@ -1,17 +1,17 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
-import { recordDeleteReducer } from './recordDeleteReducer';
-import { LABELS } from './recordDeleteEditorLabels';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { PropertyChangedEvent } from 'builder_platform_interaction/events';
-import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction/recordEditorLib';
-import { ENTITY_TYPE, fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction/recordEditorLib';
 import { DELETABLE_FILTER } from 'builder_platform_interaction/selectors';
+import { ENTITY_TYPE, fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './recordDeleteEditorLabels';
+import { recordDeleteReducer } from './recordDeleteReducer';
 
 /**
  * Record Delete Editor class

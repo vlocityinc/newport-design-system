@@ -1,7 +1,6 @@
 // @ts-nocheck
 import { getElementSections } from 'builder_platform_interaction/editorElementsUtils';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => {

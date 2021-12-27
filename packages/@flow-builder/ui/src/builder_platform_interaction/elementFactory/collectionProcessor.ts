@@ -1,23 +1,23 @@
-import {
-    baseCanvasElement,
-    createCondition,
-    duplicateCanvasElement,
-    baseCanvasElementsArrayToMap,
-    INCOMPLETE_ELEMENT
-} from './base/baseElement';
-import { baseCanvasElementMetadataObject } from './base/baseMetadata';
-import { createConnectorObjects } from './connector';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
     COLLECTION_PROCESSOR_SUB_TYPE,
     CONDITION_LOGIC,
     ELEMENT_TYPE
 } from 'builder_platform_interaction/flowMetadata';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { createSortOption, createSortOptionMetadataObject } from './sortOption';
-import { createMapItem, createMapItemMetadataObject } from './mapItem';
-import { createFilterConditionItem, createFilterConditionMetadataObject } from './filterConditionItem';
-import { Store } from 'builder_platform_interaction/storeLib';
 import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
+import { Store } from 'builder_platform_interaction/storeLib';
+import {
+    baseCanvasElement,
+    baseCanvasElementsArrayToMap,
+    createCondition,
+    duplicateCanvasElement,
+    INCOMPLETE_ELEMENT
+} from './base/baseElement';
+import { baseCanvasElementMetadataObject } from './base/baseMetadata';
+import { createConnectorObjects } from './connector';
+import { createFilterConditionItem, createFilterConditionMetadataObject } from './filterConditionItem';
+import { createMapItem, createMapItemMetadataObject } from './mapItem';
+import { createSortOption, createSortOptionMetadataObject } from './sortOption';
 
 const elementType = ELEMENT_TYPE.COLLECTION_PROCESSOR;
 const maxConnections = 1;

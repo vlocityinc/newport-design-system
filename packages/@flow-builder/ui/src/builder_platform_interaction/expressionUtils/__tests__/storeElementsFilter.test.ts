@@ -1,9 +1,9 @@
 // @ts-nocheck
-import { getStoreElements, flattenElements } from '../storeElementsFilter';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { mockScreenElement } from 'mock/calloutData';
 import * as store from 'mock/storeData';
 import { getScreenElement } from '../resourceUtils';
-import { mockScreenElement } from 'mock/calloutData';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { flattenElements, getStoreElements } from '../storeElementsFilter';
 
 jest.mock('../resourceUtils', () => {
     return {

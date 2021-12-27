@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { LightningElement, api } from 'lwc';
 import { ReorderListEvent } from 'builder_platform_interaction/events';
+import { api, LightningElement } from 'lwc';
 
 export default class Draggable extends LightningElement {
     @api index;

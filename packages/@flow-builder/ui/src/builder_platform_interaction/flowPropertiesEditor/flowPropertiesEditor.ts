@@ -1,42 +1,42 @@
 // @ts-nocheck
-import { LightningElement, api, track, unwrap } from 'lwc';
-import {
-    getValueFromHydratedItem,
-    getErrorFromHydratedItem,
-    getErrorsFromHydratedElement
-} from 'builder_platform_interaction/dataMutationLib';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { LABELS } from './flowPropertiesEditorLabels';
-import { flowPropertiesEditorReducer } from './flowPropertiesEditorReducer';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
-import { normalizeDateTime } from 'builder_platform_interaction/dateTimeUtils';
-import { SaveType } from 'builder_platform_interaction/saveType';
 import {
-    getRunInModesMenuData,
-    getApiVersionMenuData,
-    filterMatches
-} from 'builder_platform_interaction/expressionUtils';
+    getErrorFromHydratedItem,
+    getErrorsFromHydratedElement,
+    getValueFromHydratedItem
+} from 'builder_platform_interaction/dataMutationLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { normalizeDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import {
-    SYSTEM_VARIABLES,
-    getBuilderType,
-    initVersioningInfoForProcessType,
-    getDefaultApiVersion,
-    getLatestApiVersion,
-    getMinApiVersion,
-    isVersioningDataInitialized,
-    isVersioningSupported
-} from 'builder_platform_interaction/systemLib';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { isRunInModeSupported, isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
-import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+    filterMatches,
+    getApiVersionMenuData,
+    getRunInModesMenuData
+} from 'builder_platform_interaction/expressionUtils';
 import { FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { loadVersioningData } from 'builder_platform_interaction/preloadLib';
 import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
+import { SaveType } from 'builder_platform_interaction/saveType';
+import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
-const { format } = commonUtils;
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import {
+    getBuilderType,
+    getDefaultApiVersion,
+    getLatestApiVersion,
+    getMinApiVersion,
+    initVersioningInfoForProcessType,
+    isVersioningDataInitialized,
+    isVersioningSupported,
+    SYSTEM_VARIABLES
+} from 'builder_platform_interaction/systemLib';
+import { isRecordChangeTriggerType, isRunInModeSupported } from 'builder_platform_interaction/triggerTypeLib';
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { api, LightningElement, track, unwrap } from 'lwc';
+import { LABELS } from './flowPropertiesEditorLabels';
+import { flowPropertiesEditorReducer } from './flowPropertiesEditorReducer';
+const { format } = commonUtils;
 
 /**
  * Flow Properties property editor for Flow Builder

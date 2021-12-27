@@ -1,5 +1,5 @@
-import { LightningElement, api } from 'lwc';
 import { ListItemInteractionEvent } from 'builder_platform_interaction/events';
+import { api, LightningElement } from 'lwc';
 
 const LINK_ARIA_SELECTED_ACTIVE = 'true';
 const LINK_ARIA_SELECTED_INACTIVE = 'false';

@@ -1,8 +1,8 @@
 // @ts-nocheck
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { baseResource, baseElementsArrayToMap } from './base/baseElement';
-import { baseResourceMetadataObject } from './base/baseMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { baseElementsArrayToMap, baseResource } from './base/baseElement';
+import { baseResourceMetadataObject } from './base/baseMetadata';
 
 const elementType = ELEMENT_TYPE.TEXT_TEMPLATE;
 

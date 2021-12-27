@@ -1,12 +1,10 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
 import { getConditionsWithPrefixes, showDeleteCondition } from 'builder_platform_interaction/conditionListUtils';
-import { DeleteOutcomeEvent } from 'builder_platform_interaction/events';
-import { ExecuteWhenOptionChangedEvent } from 'builder_platform_interaction/events';
+import { DeleteOutcomeEvent, ExecuteWhenOptionChangedEvent } from 'builder_platform_interaction/events';
 import { CONDITION_LOGIC, ELEMENT_TYPE, FlowComparisonOperator } from 'builder_platform_interaction/flowMetadata';
-import { RULE_OPERATOR, RULE_TYPES, getRulesForElementType } from 'builder_platform_interaction/ruleLib';
-import { LABELS } from './outcomeLabels';
-import { EXECUTE_OUTCOME_WHEN_OPTION_VALUES, outcomeExecuteWhenOptions } from './outcomeLabels';
+import { getRulesForElementType, RULE_OPERATOR, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
+import { api, LightningElement, track } from 'lwc';
+import { EXECUTE_OUTCOME_WHEN_OPTION_VALUES, LABELS, outcomeExecuteWhenOptions } from './outcomeLabels';
 
 const SELECTORS = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',

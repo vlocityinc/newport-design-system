@@ -1,12 +1,11 @@
 // @ts-nocheck
+import { FocusOutEvent } from 'builder_platform_interaction/alcEvents';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { DeleteElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { commands } from 'builder_platform_interaction/sharedUtils';
 import { createElement } from 'lwc';
 import OrchestratedStageNode from '../orchestratedStageNode';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { DeleteElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
-import { commands } from 'builder_platform_interaction/sharedUtils';
-import { FocusOutEvent } from 'builder_platform_interaction/alcEvents';
-import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 const { EnterCommand, SpaceCommand, ArrowDown, ArrowUp } = commands;
 

@@ -1,23 +1,23 @@
-import { LightningElement, api } from 'lwc';
 import {
-    createScreenElementSelectedEvent,
     createScreenElementDeletedEvent,
-    createScreenElementKeyboardInteractionEvent
+    createScreenElementKeyboardInteractionEvent,
+    createScreenElementSelectedEvent
 } from 'builder_platform_interaction/events';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
-import {
-    MOVING_CLASS,
-    SELECTED_CLASS,
-    HOVERING_CLASS,
-    DRAGGING_CLASS,
-    CONTAINER_DIV_SELECTOR,
-    booleanAttributeValue,
-    setDragFieldValue,
-    CANVAS_SCREEN_GUIDS,
-    ScreenCanvasKeyboardInteractions
-} from 'builder_platform_interaction/screenEditorUtils';
 import * as screenEditorUtils from 'builder_platform_interaction/screenEditorUtils';
+import {
+    booleanAttributeValue,
+    CANVAS_SCREEN_GUIDS,
+    CONTAINER_DIV_SELECTOR,
+    DRAGGING_CLASS,
+    HOVERING_CLASS,
+    MOVING_CLASS,
+    ScreenCanvasKeyboardInteractions,
+    SELECTED_CLASS,
+    setDragFieldValue
+} from 'builder_platform_interaction/screenEditorUtils';
 import { keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+import { api, LightningElement } from 'lwc';
 const HIGHLIGHT_SELECTOR = '.highlight';
 
 const { Keys } = keyboardInteractionUtils;

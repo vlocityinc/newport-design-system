@@ -1,4 +1,4 @@
-import { sliceMenu, getMenuLength, setSelectableMenuItem } from '../utils';
+import { getMenuLength, setSelectableMenuItem, sliceMenu } from '../utils';
 
 const flatMenu = [
     {

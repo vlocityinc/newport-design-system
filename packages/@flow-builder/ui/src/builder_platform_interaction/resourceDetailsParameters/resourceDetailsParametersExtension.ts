@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { describeExtension } from 'builder_platform_interaction/flowExtensionLib';
+import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { ResourceDetailsParametersConfig } from './resourceDetailsParametersConfig';
 
 /**

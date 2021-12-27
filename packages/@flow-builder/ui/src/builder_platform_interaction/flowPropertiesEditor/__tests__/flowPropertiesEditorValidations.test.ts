@@ -1,8 +1,8 @@
 // @ts-nocheck
-import { flowPropertiesEditorValidation } from '../flowPropertiesEditorValidation';
-import { LABELS } from 'builder_platform_interaction/validationRules';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { LABELS } from 'builder_platform_interaction/validationRules';
+import { flowPropertiesEditorValidation } from '../flowPropertiesEditorValidation';
 const { format } = commonUtils;
 
 jest.mock('builder_platform_interaction/mergeFieldLib', () => {

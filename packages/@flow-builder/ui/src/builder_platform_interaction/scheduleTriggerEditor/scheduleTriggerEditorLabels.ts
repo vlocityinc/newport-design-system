@@ -1,14 +1,14 @@
 // @ts-nocheck
-import frequencyInputLabel from '@salesforce/label/FlowBuilderStartEditor.frequencyInputLabel';
 import frequencyInputHelp from '@salesforce/label/FlowBuilderStartEditor.frequencyInputHelp';
-import triggerFrequencyOnce from '@salesforce/label/FlowBuilderStartEditor.triggerFrequencyOnce';
-import triggerFrequencyDaily from '@salesforce/label/FlowBuilderStartEditor.triggerFrequencyDaily';
-import triggerFrequencyWeekly from '@salesforce/label/FlowBuilderStartEditor.triggerFrequencyWeekly';
+import frequencyInputLabel from '@salesforce/label/FlowBuilderStartEditor.frequencyInputLabel';
 import startDateInputLabel from '@salesforce/label/FlowBuilderStartEditor.startDateInputLabel';
 import startDateInputPlaceholder from '@salesforce/label/FlowBuilderStartEditor.startDateInputPlaceholder';
+import startTimeInputHelp from '@salesforce/label/FlowBuilderStartEditor.startTimeInputHelp';
 import startTimeInputLabel from '@salesforce/label/FlowBuilderStartEditor.startTimeInputLabel';
 import startTimeInputPlaceholder from '@salesforce/label/FlowBuilderStartEditor.startTimeInputPlaceholder';
-import startTimeInputHelp from '@salesforce/label/FlowBuilderStartEditor.startTimeInputHelp';
+import triggerFrequencyDaily from '@salesforce/label/FlowBuilderStartEditor.triggerFrequencyDaily';
+import triggerFrequencyOnce from '@salesforce/label/FlowBuilderStartEditor.triggerFrequencyOnce';
+import triggerFrequencyWeekly from '@salesforce/label/FlowBuilderStartEditor.triggerFrequencyWeekly';
 import cannotBeBlank from '@salesforce/label/FlowBuilderValidation.cannotBeBlank';
 
 export const LABELS = {

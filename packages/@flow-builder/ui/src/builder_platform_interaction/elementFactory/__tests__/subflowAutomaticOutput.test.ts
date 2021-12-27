@@ -1,14 +1,13 @@
 // @ts-nocheck
-import { createSubflow, createSubflowMetadataObject, createSubflowWithConnectors } from '../subflow';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     FLOW_AUTOMATIC_OUTPUT_HANDLING,
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
+import { deepCopy, Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { createSubflow, createSubflowMetadataObject, createSubflowWithConnectors } from '../subflow';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

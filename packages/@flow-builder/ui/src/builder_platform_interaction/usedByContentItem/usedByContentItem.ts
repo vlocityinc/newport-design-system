@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { LightningElement, api } from 'lwc';
 import { LocatorIconClickedEvent } from 'builder_platform_interaction/events';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { api, LightningElement } from 'lwc';
 import { LABELS } from './usedByContentItemLabels';
 
 const { logInteraction } = loggingUtils;

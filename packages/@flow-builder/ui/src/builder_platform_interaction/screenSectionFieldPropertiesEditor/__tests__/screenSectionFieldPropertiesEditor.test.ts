@@ -1,9 +1,9 @@
 // @ts-nocheck
+import { changeEvent, query, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { AddListItemEvent, DeleteListItemEvent, ScreenEditorEventName } from 'builder_platform_interaction/events';
+import { getColumnFieldType } from 'builder_platform_interaction/screenEditorUtils';
 import { createElement } from 'lwc';
 import ScreenSectionFieldPropertiesEditor from '../screenSectionFieldPropertiesEditor';
-import { query, changeEvent, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
-import { getColumnFieldType } from 'builder_platform_interaction/screenEditorUtils';
-import { AddListItemEvent, DeleteListItemEvent, ScreenEditorEventName } from 'builder_platform_interaction/events';
 
 jest.mock('builder_platform_interaction/screenComponentVisibilitySection', () =>
     require('builder_platform_interaction_mocks/screenComponentVisibilitySection')

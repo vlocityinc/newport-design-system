@@ -1,7 +1,7 @@
-import { LightningElement, api, track } from 'lwc';
-import { LABELS } from './sortCollectionOutputLabels';
-import { SORT_OUTPUT_OPTION, LIMIT_RANGE } from 'builder_platform_interaction/sortEditorLib';
 import { UpdateSortCollectionOutputEvent } from 'builder_platform_interaction/events';
+import { LIMIT_RANGE, SORT_OUTPUT_OPTION } from 'builder_platform_interaction/sortEditorLib';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './sortCollectionOutputLabels';
 
 export default class SortCollectionOutput extends LightningElement {
     labels = LABELS;

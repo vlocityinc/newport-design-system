@@ -1,8 +1,10 @@
-import { createElement } from 'lwc';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import InvocableActionEditor from 'builder_platform_interaction/invocableActionEditor';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
-import { setupStateForFlow, resetState, changeComboboxValue } from '../integrationTestUtils';
+import { createElement } from 'lwc';
+import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
+import { actionPostToChatter } from 'mock/storeDataRecordTriggered';
 import {
     getManuallyAssignVariablesCheckboxInputElementFromAcc,
     getOutputParameterComboboxElement,
@@ -10,9 +12,7 @@ import {
     VALIDATION_ERROR_MESSAGES,
     verifyOutputParameter
 } from '../baseCalloutEditorTestUtils';
-import { actionPostToChatter } from 'mock/storeDataRecordTriggered';
-import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
+import { changeComboboxValue, resetState, setupStateForFlow } from '../integrationTestUtils';
 
 jest.mock('builder_platform_interaction/editor', () => {
     return Object.assign({}, { launchSubflow: jest.fn() });

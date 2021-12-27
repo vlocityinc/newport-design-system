@@ -1,10 +1,6 @@
-import { LightningElement, api, track } from 'lwc';
-import { recordLookupReducer } from './recordLookupReducer';
-import { ENTITY_TYPE, fetchFieldsForEntity, getEntity } from 'builder_platform_interaction/sobjectLib';
-import { LABELS, NUMBER_RECORDS_OPTIONS, WAY_TO_STORE_FIELDS_OPTIONS } from './recordLookupEditorLabels';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
     AddElementEvent,
     NumberRecordToStoreChangedEvent,
@@ -12,18 +8,22 @@ import {
     UpdateRecordFieldAssignmentEvent,
     VariableAndFieldMappingChangedEvent
 } from 'builder_platform_interaction/events';
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import {
-    NUMBER_RECORDS_TO_STORE,
-    WAY_TO_STORE_FIELDS,
-    VARIABLE_AND_FIELD_MAPPING_VALUES
-} from 'builder_platform_interaction/recordEditorLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     FLOW_AUTOMATIC_OUTPUT_HANDLING,
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
+import {
+    NUMBER_RECORDS_TO_STORE,
+    VARIABLE_AND_FIELD_MAPPING_VALUES,
+    WAY_TO_STORE_FIELDS
+} from 'builder_platform_interaction/recordEditorLib';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { ENTITY_TYPE, fetchFieldsForEntity, getEntity } from 'builder_platform_interaction/sobjectLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS, NUMBER_RECORDS_OPTIONS, WAY_TO_STORE_FIELDS_OPTIONS } from './recordLookupEditorLabels';
+import { recordLookupReducer } from './recordLookupReducer';
 const { format } = commonUtils;
 
 export default class RecordLookupEditor extends LightningElement {

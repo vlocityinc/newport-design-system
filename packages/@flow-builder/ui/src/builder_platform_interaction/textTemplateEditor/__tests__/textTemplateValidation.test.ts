@@ -1,8 +1,8 @@
 // @ts-nocheck
-import { textTemplateValidation, MAX_TEXT_LENGTH } from '../textTemplateValidation';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
-import { LABELS } from '../../validationRules/validationRulesLabels';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { LABELS } from '../../validationRules/validationRulesLabels';
+import { MAX_TEXT_LENGTH, textTemplateValidation } from '../textTemplateValidation';
 const { format } = commonUtils;
 
 const CANNOT_BE_BLANK_ERROR = LABELS.cannotBeBlank;

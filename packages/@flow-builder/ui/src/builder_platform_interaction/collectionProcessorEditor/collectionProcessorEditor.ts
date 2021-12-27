@@ -1,10 +1,10 @@
-import { LightningElement, api, track } from 'lwc';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { UpdateNodeEvent } from 'builder_platform_interaction/events';
-import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
-import { collectionProcessorReducer } from './collectionProcessorReducer';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { ElementOrComponentError, getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
+import { UpdateNodeEvent } from 'builder_platform_interaction/events';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { api, LightningElement, track } from 'lwc';
+import { collectionProcessorReducer } from './collectionProcessorReducer';
 
 const SELECTORS = {
     CUSTOM_PROPERTY_EDITOR: 'builder_platform_interaction-custom-property-editor'

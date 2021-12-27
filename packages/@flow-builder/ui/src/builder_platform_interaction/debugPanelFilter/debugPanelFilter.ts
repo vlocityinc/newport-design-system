@@ -1,6 +1,6 @@
-import { LightningElement, api } from 'lwc';
-import { LABELS } from './debugPanelFilterLabels';
 import { DebugPanelFilterEvent } from 'builder_platform_interaction/events';
+import { api, LightningElement } from 'lwc';
+import { LABELS } from './debugPanelFilterLabels';
 
 export default class debugPanelFilter extends LightningElement {
     @api selections;

@@ -1,8 +1,8 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import ReorderableVerticalNavigationItem from 'builder_platform_interaction/reorderableVerticalNavigationItem';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { ListItemInteractionEvent } from 'builder_platform_interaction/events';
+import ReorderableVerticalNavigationItem from 'builder_platform_interaction/reorderableVerticalNavigationItem';
+import { createElement } from 'lwc';
 
 const SELECTORS = {
     DRAGGABLE: 'builder_platform_interaction-draggable',

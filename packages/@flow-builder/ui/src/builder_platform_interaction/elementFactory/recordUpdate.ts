@@ -1,34 +1,33 @@
 // @ts-nocheck
+import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
     CONDITION_LOGIC,
+    CONNECTOR_TYPE,
     ELEMENT_TYPE,
     FLOW_TRIGGER_TYPE,
-    RECORD_UPDATE_WAY_TO_FIND_RECORDS,
-    CONNECTOR_TYPE
+    RECORD_UPDATE_WAY_TO_FIND_RECORDS
 } from 'builder_platform_interaction/flowMetadata';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { getStartObject, getTriggerType } from 'builder_platform_interaction/storeUtils';
+import { SYSTEM_VARIABLE_RECORD_PREFIX } from 'builder_platform_interaction/systemLib';
+import { doesSupportTriggeringRecordUpdate } from 'builder_platform_interaction/triggerTypeLib';
 import {
-    baseCanvasElementWithFault,
     baseCanvasElementsArrayToMap,
-    duplicateCanvasElement,
-    createAvailableConnection
+    baseCanvasElementWithFault,
+    createAvailableConnection,
+    duplicateCanvasElement
 } from './base/baseElement';
-
+import { createExpressionListRowItemWithoutOperator } from './base/baseList';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
-import { createConnectorObjects } from './connector';
-import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
 import {
-    createRecordFilters,
     createFilterMetadataObject,
-    createFlowInputFieldAssignmentMetadataObject,
     createFlowInputFieldAssignment,
+    createFlowInputFieldAssignmentMetadataObject,
+    createRecordFilters,
     getDefaultAvailableConnections
 } from './base/baseRecordElement';
-import { createExpressionListRowItemWithoutOperator } from './base/baseList';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { getTriggerType, getStartObject } from 'builder_platform_interaction/storeUtils';
-import { doesSupportTriggeringRecordUpdate } from 'builder_platform_interaction/triggerTypeLib';
-import { SYSTEM_VARIABLE_RECORD_PREFIX } from 'builder_platform_interaction/systemLib';
+import { createConnectorObjects } from './connector';
 
 const elementType = ELEMENT_TYPE.RECORD_UPDATE;
 

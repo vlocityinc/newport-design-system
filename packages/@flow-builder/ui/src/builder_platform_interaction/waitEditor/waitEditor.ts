@@ -1,11 +1,11 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
-import { waitReducer, resetDeletedGuids } from './waitReducer';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
-import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './waitEditorLabels';
+import { resetDeletedGuids, waitReducer } from './waitReducer';
 
 const SELECTORS = {
     WAIT_EVENT: 'builder_platform_interaction-wait-event'

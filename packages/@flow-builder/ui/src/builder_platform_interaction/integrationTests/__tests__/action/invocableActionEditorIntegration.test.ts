@@ -1,41 +1,41 @@
-import { createElement } from 'lwc';
-import InvocableActionEditor from 'builder_platform_interaction/invocableActionEditor';
+import {
+    blurEvent,
+    setDocumentBodyChildren,
+    textInputEvent,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
-import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
+import InvocableActionEditor from 'builder_platform_interaction/invocableActionEditor';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import {
-    ticks,
-    textInputEvent,
-    blurEvent,
-    setDocumentBodyChildren
-} from 'builder_platform_interaction/builderTestUtils';
+import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
+import { createElement } from 'lwc';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import { resetState, setupStateForFlow } from '../integrationTestUtils';
-import { LabelDescriptionComponentTest, getLabelDescriptionElement } from '../labelDescriptionTestUtils';
 import {
-    VALIDATION_ERROR_MESSAGES,
-    getBaseCalloutElement,
-    getInputParameterItems,
-    getOutputParameterItemsFromAcc,
-    getInputParameterComboboxElement,
-    getOutputParameterComboboxElement,
-    getLightningInputToggle,
-    getDeleteButton,
-    getParameterIcon,
-    getWarningIcon,
-    getWarningBadge,
-    toggleChangeEvent,
-    verifyRequiredInputParameter,
-    verifyOptionalInputParameterWithValue,
-    verifyOptionalInputParameterNoValue,
-    verifyOutputParameter,
-    getParameter,
-    findParameterElement,
     filterParameterElements,
     findIndex,
-    getElementGuid
+    findParameterElement,
+    getBaseCalloutElement,
+    getDeleteButton,
+    getElementGuid,
+    getInputParameterComboboxElement,
+    getInputParameterItems,
+    getLightningInputToggle,
+    getOutputParameterComboboxElement,
+    getOutputParameterItemsFromAcc,
+    getParameter,
+    getParameterIcon,
+    getWarningBadge,
+    getWarningIcon,
+    toggleChangeEvent,
+    VALIDATION_ERROR_MESSAGES,
+    verifyOptionalInputParameterNoValue,
+    verifyOptionalInputParameterWithValue,
+    verifyOutputParameter,
+    verifyRequiredInputParameter
 } from '../baseCalloutEditorTestUtils';
+import { resetState, setupStateForFlow } from '../integrationTestUtils';
+import { getLabelDescriptionElement, LabelDescriptionComponentTest } from '../labelDescriptionTestUtils';
 
 jest.mock('builder_platform_interaction/editor', () => {
     return Object.assign({}, { launchSubflow: jest.fn() });

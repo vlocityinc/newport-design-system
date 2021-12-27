@@ -1,5 +1,4 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
 import { sanitizeGuid, updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import {
     EXPRESSION_PROPERTY_TYPE,
@@ -7,6 +6,7 @@ import {
     populateLhsStateForField,
     populateRhsState
 } from 'builder_platform_interaction/expressionUtils';
+import { api, LightningElement, track } from 'lwc';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 

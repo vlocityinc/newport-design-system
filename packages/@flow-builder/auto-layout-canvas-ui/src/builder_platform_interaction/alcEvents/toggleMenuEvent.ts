@@ -1,4 +1,4 @@
-import { ElementMetadata, MenuType, ConnectionSource } from 'builder_platform_interaction/autoLayoutCanvas';
+import { ConnectionSource, ElementMetadata, MenuType } from 'builder_platform_interaction/autoLayoutCanvas';
 
 const eventName = 'togglemenu';
 

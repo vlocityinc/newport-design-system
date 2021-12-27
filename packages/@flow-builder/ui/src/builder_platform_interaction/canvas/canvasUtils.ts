@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { getDrawingLibInstance, CONNECTOR_OVERLAY } from 'builder_platform_interaction/drawingLib';
-import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
+import { CONNECTOR_OVERLAY, getDrawingLibInstance } from 'builder_platform_interaction/drawingLib';
+import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 
 /**
  * Helper function to set the id on the canvas element container.

@@ -1,30 +1,30 @@
 // @ts-nocheck
-import { LightningElement, api } from 'lwc';
+import { CanvasMode } from 'builder_platform_interaction/builderUtils';
+import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import {
-    EditFlowPropertiesEvent,
-    EditFlowEvent,
-    RunFlowEvent,
-    DebugFlowEvent,
-    SaveFlowEvent,
-    UndoEvent,
-    RedoEvent,
+    AddToFlowTestEvent,
+    ClosePropertyEditorEvent,
     CopyOnCanvasEvent,
+    DebugFlowEvent,
     DuplicateEvent,
+    EditFlowEvent,
+    EditFlowPropertiesEvent,
+    NewDebugFlowEvent,
+    RedoEvent,
+    RestartDebugFlowEvent,
+    RunFlowEvent,
+    SaveFlowEvent,
+    ToggleCanvasModeEvent,
     ToggleFlowStatusEvent,
     ToggleSelectionModeEvent,
-    ClosePropertyEditorEvent,
-    NewDebugFlowEvent,
-    RestartDebugFlowEvent,
-    ToggleCanvasModeEvent,
-    AddToFlowTestEvent,
-    ToolbarFocusOutEvent
+    ToolbarFocusOutEvent,
+    UndoEvent
 } from 'builder_platform_interaction/events';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
-import { loggingUtils, commonUtils } from 'builder_platform_interaction/sharedUtils';
-import { LABELS } from './toolbarLabels';
 import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
-import { CanvasMode } from 'builder_platform_interaction/builderUtils';
+import { commonUtils, loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { api, LightningElement } from 'lwc';
+import { LABELS } from './toolbarLabels';
 
 const { format } = commonUtils;
 const { logInteraction } = loggingUtils;

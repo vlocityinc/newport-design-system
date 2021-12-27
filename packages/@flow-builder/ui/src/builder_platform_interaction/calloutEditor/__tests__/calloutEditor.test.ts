@@ -1,12 +1,12 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import CalloutEditor from '../calloutEditor';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { CannotRetrieveCalloutParametersEvent, ActionsLoadedEvent } from 'builder_platform_interaction/events';
-import { untilNoFailure, ticks, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
-import { mockActions } from 'mock/calloutData';
-import { Store } from 'builder_platform_interaction/storeLib';
 import { FilterBy } from 'builder_platform_interaction/actionSelector';
+import { setDocumentBodyChildren, ticks, untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
+import { ActionsLoadedEvent, CannotRetrieveCalloutParametersEvent } from 'builder_platform_interaction/events';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
+import { mockActions } from 'mock/calloutData';
+import CalloutEditor from '../calloutEditor';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

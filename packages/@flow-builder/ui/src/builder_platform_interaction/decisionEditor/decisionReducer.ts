@@ -1,25 +1,23 @@
 // @ts-nocheck
-import { decisionValidation } from './decisionValidation';
-import { updateProperties, addItem, hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
+import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
+import { conditionListReducer } from 'builder_platform_interaction/conditionListReducer';
+import { addItem, hydrateWithErrors, updateProperties } from 'builder_platform_interaction/dataMutationLib';
+import { createOutcome } from 'builder_platform_interaction/elementFactory';
 import {
-    PropertyChangedEvent,
-    DeleteOutcomeEvent,
-    ReorderListEvent,
     AddConditionEvent,
     DeleteConditionEvent,
-    UpdateConditionEvent,
-    ExecuteWhenOptionChangedEvent
+    DeleteOutcomeEvent,
+    ExecuteWhenOptionChangedEvent,
+    PropertyChangedEvent,
+    ReorderListEvent,
+    UpdateConditionEvent
 } from 'builder_platform_interaction/events';
-import { conditionListReducer } from 'builder_platform_interaction/conditionListReducer';
-import { createOutcome } from 'builder_platform_interaction/elementFactory';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { usedByStoreAndElementState, invokeUsedByAlertModal } from 'builder_platform_interaction/usedByLib';
-
-import { LABELS } from './decisionEditorLabels';
 import { isExecuteOnlyWhenChangeMatchesConditionsPossible } from 'builder_platform_interaction/storeUtils';
+import { invokeUsedByAlertModal, usedByStoreAndElementState } from 'builder_platform_interaction/usedByLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { LABELS } from './decisionEditorLabels';
+import { decisionValidation } from './decisionValidation';
 
 let deletedOutcomeGuids;
 

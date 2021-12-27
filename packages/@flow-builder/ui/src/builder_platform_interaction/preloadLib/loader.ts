@@ -1,33 +1,29 @@
 // @ts-nocheck
-import { fetchOnce, SERVER_ACTION_TYPE, getAuraCallback } from 'builder_platform_interaction/serverDataLib';
-import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
+import errorCode from '@salesforce/label/FlowBuilderAlertModal.errorCode';
+import errorMessage from '@salesforce/label/FlowBuilderAlertModal.errorMessage';
+import errorTitle from '@salesforce/label/FlowBuilderAlertModal.errorTitle';
+import okayButtonLabel from '@salesforce/label/FlowBuilderAlertModal.okayButtonLabel';
 import { updateApexClasses } from 'builder_platform_interaction/actions';
-import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
+import { fetchOnce, getAuraCallback, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+import { commonUtils, invokeModal, loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import {
-    loadApexPlugins,
     loadActions,
-    loadSubflows,
-    loadResourceTypes,
-    loadOperators,
-    loadRules,
-    loadEventTypes,
+    loadApexPlugins,
     loadEntities,
-    loadWorkflowEnabledEntities,
-    loadSystemVariables,
+    loadEventTypes,
+    loadFlowExtensions,
     loadGlobalVariables,
-    loadProcessTypeFeatures,
+    loadOperators,
     loadPalette,
-    loadFlowExtensions
+    loadProcessTypeFeatures,
+    loadResourceTypes,
+    loadRules,
+    loadSubflows,
+    loadSystemVariables,
+    loadWorkflowEnabledEntities
 } from './dataForProcessType';
 
-import { invokeModal } from 'builder_platform_interaction/sharedUtils';
-
-import errorTitle from '@salesforce/label/FlowBuilderAlertModal.errorTitle';
-import errorMessage from '@salesforce/label/FlowBuilderAlertModal.errorMessage';
-import errorCode from '@salesforce/label/FlowBuilderAlertModal.errorCode';
-import okayButtonLabel from '@salesforce/label/FlowBuilderAlertModal.okayButtonLabel';
-
-import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 const { format } = commonUtils;
 
 const { logPerfTransactionEnd, logPerfTransactionStart } = loggingUtils;

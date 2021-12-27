@@ -1,10 +1,10 @@
 // @ts-nocheck
-import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
-import { isUndefinedOrNull, isUndefined } from 'builder_platform_interaction/commonUtils';
-import { RULE_TYPES, RULE_PROPERTY, PARAM_PROPERTY, CONSTRAINT } from './rules';
-import { UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { isComplexType } from 'builder_platform_interaction/dataTypeLib';
 import systemVariableCategory from '@salesforce/label/FlowBuilderSystemVariables.systemVariableCategory';
+import { isUndefined, isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
+import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { isComplexType } from 'builder_platform_interaction/dataTypeLib';
+import { UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONSTRAINT, PARAM_PROPERTY, RULE_PROPERTY, RULE_TYPES } from './rules';
 
 const { ASSIGNMENT, COMPARISON } = RULE_TYPES;
 const { RULE_TYPE, LEFT, OPERATOR, RHS_PARAMS, EXCLUDE_ELEMS } = RULE_PROPERTY;

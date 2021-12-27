@@ -1,16 +1,16 @@
 // @ts-nocheck
-import { decisionReducer, resetDeletedGuids } from '../decisionReducer';
+import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import {
-    PropertyChangedEvent,
-    DeleteOutcomeEvent,
     AddConditionEvent,
     DeleteConditionEvent,
+    DeleteOutcomeEvent,
+    PropertyChangedEvent,
     UpdateConditionEvent
 } from 'builder_platform_interaction/events';
-import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { EXPRESSION_PROPERTY_TYPE, checkExpressionForDeletedElem } from 'builder_platform_interaction/expressionUtils';
+import { checkExpressionForDeletedElem, EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { decisionReducer, resetDeletedGuids } from '../decisionReducer';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

@@ -1,10 +1,9 @@
 // @ts-nocheck
-import ResourceDetailsParametersSubflowConfig from '../resourceDetailsParametersSubflow';
-import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
-import { subflowAutomaticOutput } from 'mock/storeData';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel, subflowAutomaticOutput } from 'mock/storeData';
+import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
+import ResourceDetailsParametersSubflowConfig from '../resourceDetailsParametersSubflow';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

@@ -1,17 +1,17 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import ApexPluginEditor from '../apexPluginEditor';
-import { mockApexPluginParameters, mockApexPlugins } from 'mock/calloutData';
+import { setDocumentBodyChildren, ticks, untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
 import {
-    ClosePropertyEditorEvent,
     CannotRetrieveCalloutParametersEvent,
+    ClosePropertyEditorEvent,
+    DeleteParameterItemEvent,
+    PropertyChangedEvent,
     SetPropertyEditorTitleEvent,
     UpdateNodeEvent,
-    PropertyChangedEvent,
-    UpdateParameterItemEvent,
-    DeleteParameterItemEvent
+    UpdateParameterItemEvent
 } from 'builder_platform_interaction/events';
-import { untilNoFailure, ticks, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { createElement } from 'lwc';
+import { mockApexPluginParameters, mockApexPlugins } from 'mock/calloutData';
+import ApexPluginEditor from '../apexPluginEditor';
 
 jest.mock('builder_platform_interaction/baseCalloutEditor', () =>
     require('builder_platform_interaction_mocks/baseCalloutEditor')

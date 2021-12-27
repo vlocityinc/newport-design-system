@@ -1,19 +1,19 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import ParameterList from '../parameterList';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import {
-    getManuallyAssignVariablesCheckboxInputElement,
     getManuallyAssignVariablesCheckbox,
+    getManuallyAssignVariablesCheckboxInputElement,
     setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
+import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import {
     ConfigurationEditorTypeMappingChangeEvent,
     DynamicTypeMappingChangeEvent
 } from 'builder_platform_interaction/events';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import ManuallyAssignVariablesCheckbox from 'builder_platform_interaction/manuallyAssignVariablesCheckbox';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
+import ParameterList from '../parameterList';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')

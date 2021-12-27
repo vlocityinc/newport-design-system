@@ -1,13 +1,13 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
-import { LABELS } from './recordInputOutputAssignmentsLabels';
+import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
 import {
     AddRecordFieldAssignmentEvent,
-    UpdateRecordFieldAssignmentEvent,
-    DeleteRecordFieldAssignmentEvent
+    DeleteRecordFieldAssignmentEvent,
+    UpdateRecordFieldAssignmentEvent
 } from 'builder_platform_interaction/events';
-import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
 import { getOutputRules, getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './recordInputOutputAssignmentsLabels';
 
 export default class RecordInputOutputAssignments extends LightningElement {
     labels = LABELS;

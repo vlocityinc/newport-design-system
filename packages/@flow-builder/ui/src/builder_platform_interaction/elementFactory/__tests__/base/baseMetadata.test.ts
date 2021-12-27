@@ -1,13 +1,13 @@
 // @ts-nocheck
-import {
-    baseResourceMetadataObject,
-    baseChildElementMetadataObject,
-    baseCanvasElementMetadataObject
-} from '../../base/baseMetadata';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
-import { createConditionMetadataObject } from '../../base/baseMetadata';
-import { createFEROVMetadataObject } from '../../ferov';
 import { RHS_DATA_TYPE_PROPERTY, RHS_PROPERTY } from '../../base/baseList';
+import {
+    baseCanvasElementMetadataObject,
+    baseChildElementMetadataObject,
+    baseResourceMetadataObject,
+    createConditionMetadataObject
+} from '../../base/baseMetadata';
+import { createFEROVMetadataObject } from '../../ferov';
 
 jest.mock('../../ferov', () => {
     return {

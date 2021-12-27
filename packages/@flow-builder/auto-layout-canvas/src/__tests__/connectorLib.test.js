@@ -1,14 +1,14 @@
+import ConnectorLabelType from '../ConnectorLabelTypeEnum';
 import {
     createBranchConnector,
-    createMergeConnector,
     createConnectorToNextNode,
+    createLoopAfterLastConnector,
     createLoopBackConnector,
-    createLoopAfterLastConnector
+    createMergeConnector
 } from '../connectorLib';
 import ConnectorType from '../ConnectorTypeEnum';
-import { ConnectorVariant } from '../flowRendererUtils';
 import { getDefaultLayoutConfig } from '../defaultLayoutConfig';
-import ConnectorLabelType from '../ConnectorLabelTypeEnum';
+import { ConnectorVariant } from '../flowRendererUtils';
 
 jest.mock('../svgUtils.ts', () => {
     return {

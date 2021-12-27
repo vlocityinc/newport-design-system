@@ -1,11 +1,11 @@
 // @ts-nocheck
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     createAssignment,
+    createAssignmentMetadataObject,
     createAssignmentWithConnectors,
-    createDuplicateAssignment,
-    createAssignmentMetadataObject
+    createDuplicateAssignment
 } from '../assignment';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const defaultAssignmentElement = {
     elementType: ELEMENT_TYPE.ASSIGNMENT,

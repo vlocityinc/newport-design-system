@@ -1,11 +1,11 @@
 // @ts-nocheck
-import { LightningElement, api } from 'lwc';
-import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { addCurrentValueToEvent } from 'builder_platform_interaction/screenEditorCommonUtils';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import {
     hasScreenFieldVisibilityCondition,
     SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME
 } from 'builder_platform_interaction/screenEditorUtils';
+import { api, LightningElement } from 'lwc';
 
 /*
  * Screen element property editor

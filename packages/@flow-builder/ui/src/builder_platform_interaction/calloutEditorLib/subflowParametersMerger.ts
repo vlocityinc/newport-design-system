@@ -1,8 +1,8 @@
 // @ts-nocheck
-import { getValueFromHydratedItem, getErrorFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { getErrorFromHydratedItem, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { MERGE_WARNING_TYPE } from 'builder_platform_interaction/elementFactory';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 /**
  * @typedef {Object} WithWarnings

@@ -1,9 +1,9 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import ZoomPanel from 'builder_platform_interaction/zoomPanel';
-import { keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
-import { ToggleMarqueeOnEvent, ClickToZoomEvent, ZOOM_ACTION } from 'builder_platform_interaction/events';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { ClickToZoomEvent, ToggleMarqueeOnEvent, ZOOM_ACTION } from 'builder_platform_interaction/events';
+import { keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+import ZoomPanel from 'builder_platform_interaction/zoomPanel';
+import { createElement } from 'lwc';
 
 const { KeyboardInteractions } = keyboardInteractionUtils;
 

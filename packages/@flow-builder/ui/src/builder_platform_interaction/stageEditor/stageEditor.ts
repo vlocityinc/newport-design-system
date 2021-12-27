@@ -1,11 +1,11 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { stageReducer } from './stageReducer';
-import { VALIDATE_ALL, isUniqueOrderNumberInStore } from 'builder_platform_interaction/validationRules';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import { LABELS } from './stageEditorLabels';
 import { STAGE_ORDER_RANGE } from 'builder_platform_interaction/dataTypeLib';
+import { isUniqueOrderNumberInStore, VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './stageEditorLabels';
+import { stageReducer } from './stageReducer';
 
 const SELECTORS = {
     INPUT_FIELD: 'lightning-input'

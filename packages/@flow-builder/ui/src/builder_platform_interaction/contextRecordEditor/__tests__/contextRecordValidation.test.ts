@@ -1,11 +1,11 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import { contextValidation, getRules } from '../contextRecordValidation';
-import contextRecordEditor from '../contextRecordEditor';
-import { LABELS } from 'builder_platform_interaction/validationRules';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { CONDITION_LOGIC, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { LABELS } from 'builder_platform_interaction/validationRules';
+import { createElement } from 'lwc';
+import contextRecordEditor from '../contextRecordEditor';
+import { contextValidation, getRules } from '../contextRecordValidation';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

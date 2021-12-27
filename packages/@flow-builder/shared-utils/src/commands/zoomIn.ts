@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { BaseCommand } from './baseCommand';
 import zoomInCommandLabel from '@salesforce/label/FlowBuilderKeyboardInteractionLabels.zoomInCommandLabel';
+import { BaseCommand } from './baseCommand';
 const commandName = 'zoomin';
 export class ZoomInCommand extends BaseCommand {
     /**

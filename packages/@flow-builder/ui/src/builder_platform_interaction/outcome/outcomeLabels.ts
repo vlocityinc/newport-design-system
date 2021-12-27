@@ -1,23 +1,23 @@
 // @ts-nocheck
 /* Labels */
-import outcomeDetailsHeader from '@salesforce/label/FlowBuilderOutcome.outcomeDetailsHeader';
-import deleteOutcomeLabel from '@salesforce/label/FlowBuilderOutcome.deleteOutcomeLabel';
-import deleteOutcomeTitle from '@salesforce/label/FlowBuilderOutcome.deleteOutcomeTitle';
-import outcomeApiName from '@salesforce/label/FlowBuilderOutcome.outcomeApiName';
-import outcomeConditionsHeader from '@salesforce/label/FlowBuilderOutcome.outcomeConditionsHeader';
 import andConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.andConditionLogicLabel';
-import orConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.orConditionLogicLabel';
 import customConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.customConditionLogicLabel';
 import lhsLabel from '@salesforce/label/FlowBuilderConditionList.lhsLabel';
 import lhsPlaceholder from '@salesforce/label/FlowBuilderConditionList.lhsPlaceholder';
 import operatorLabel from '@salesforce/label/FlowBuilderConditionList.operatorLabel';
 import operatorPlaceholder from '@salesforce/label/FlowBuilderConditionList.operatorPlaceholder';
+import orConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.orConditionLogicLabel';
 import rhsLabel from '@salesforce/label/FlowBuilderConditionList.rhsLabel';
-import executeOutcomeWhen from '@salesforce/label/FlowBuilderOutcome.executeOutcomeWhen';
-import everyTimeConditionsMet from '@salesforce/label/FlowBuilderOutcome.everyTimeConditionsMet';
-import onlyWhenChangesMeetConditions from '@salesforce/label/FlowBuilderOutcome.onlyWhenChangesMeetConditions';
-import outcomeExecuteWhenOptionsHelptext from '@salesforce/label/FlowBuilderOutcome.outcomeExecuteWhenOptionsHelptext';
+import deleteOutcomeLabel from '@salesforce/label/FlowBuilderOutcome.deleteOutcomeLabel';
+import deleteOutcomeTitle from '@salesforce/label/FlowBuilderOutcome.deleteOutcomeTitle';
 import disableRadioGroupDecisionText from '@salesforce/label/FlowBuilderOutcome.disableRadioGroupDecisionText';
+import everyTimeConditionsMet from '@salesforce/label/FlowBuilderOutcome.everyTimeConditionsMet';
+import executeOutcomeWhen from '@salesforce/label/FlowBuilderOutcome.executeOutcomeWhen';
+import onlyWhenChangesMeetConditions from '@salesforce/label/FlowBuilderOutcome.onlyWhenChangesMeetConditions';
+import outcomeApiName from '@salesforce/label/FlowBuilderOutcome.outcomeApiName';
+import outcomeConditionsHeader from '@salesforce/label/FlowBuilderOutcome.outcomeConditionsHeader';
+import outcomeDetailsHeader from '@salesforce/label/FlowBuilderOutcome.outcomeDetailsHeader';
+import outcomeExecuteWhenOptionsHelptext from '@salesforce/label/FlowBuilderOutcome.outcomeExecuteWhenOptionsHelptext';
 
 export const LABELS = {
     outcomeDetailsHeader,

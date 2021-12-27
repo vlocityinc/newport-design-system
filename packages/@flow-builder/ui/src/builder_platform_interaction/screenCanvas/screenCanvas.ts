@@ -1,20 +1,20 @@
 // @ts-nocheck
-import { LightningElement, api } from 'lwc';
-import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
-import {
-    SCREEN_EDITOR_GUIDS,
-    getPlaceHolderLabel,
-    getDragFieldValue,
-    ScreenFieldName
-} from 'builder_platform_interaction/screenEditorUtils';
+import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 import {
     createAddAutomaticScreenFieldEvent,
     createAddScreenFieldEvent,
     createScreenElementMovedEvent
 } from 'builder_platform_interaction/events';
-import { isRegionContainerField } from 'builder_platform_interaction/screenEditorUtils';
 import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
-import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
+import {
+    getDragFieldValue,
+    getPlaceHolderLabel,
+    isRegionContainerField,
+    ScreenFieldName,
+    SCREEN_EDITOR_GUIDS
+} from 'builder_platform_interaction/screenEditorUtils';
+import { api, LightningElement } from 'lwc';
 
 const DRAGGING_REGION_SELECTOR = '.screen-canvas-dragging-region';
 const INSERTION_LINE_SELECTOR = '.screen-canvas-insertion-line';

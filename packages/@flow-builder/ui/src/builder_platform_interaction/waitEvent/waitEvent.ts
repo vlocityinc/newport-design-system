@@ -1,15 +1,15 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
-import { LABELS } from './waitEventLabels';
-import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getConditionsWithPrefixes, showDeleteCondition } from 'builder_platform_interaction/conditionListUtils';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import { RULE_OPERATOR, RULE_TYPES, getRulesForElementType } from 'builder_platform_interaction/ruleLib';
 import {
     DeleteWaitEventEvent,
-    WaitEventPropertyChangedEvent,
-    WaitEventParameterChangedEvent
+    WaitEventParameterChangedEvent,
+    WaitEventPropertyChangedEvent
 } from 'builder_platform_interaction/events';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getRulesForElementType, RULE_OPERATOR, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './waitEventLabels';
 
 const SELECTORS = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description'

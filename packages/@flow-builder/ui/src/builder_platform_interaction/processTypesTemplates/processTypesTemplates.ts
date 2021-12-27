@@ -1,16 +1,14 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
+import spinnerAlternativeText from '@salesforce/label/FlowBuilderEditor.spinnerAlternativeText';
+import { CannotRetrieveTemplatesEvent, TemplateChangedEvent } from 'builder_platform_interaction/events';
 import {
     ALL_PROCESS_TYPE,
-    getTemplates,
     cacheTemplates,
-    createFlowEntryTilesForTemplates
+    createFlowEntryTilesForTemplates,
+    getTemplates
 } from 'builder_platform_interaction/processTypeLib';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
-
-import { TemplateChangedEvent, CannotRetrieveTemplatesEvent } from 'builder_platform_interaction/events';
-
-import spinnerAlternativeText from '@salesforce/label/FlowBuilderEditor.spinnerAlternativeText';
+import { api, LightningElement, track } from 'lwc';
 
 export default class ProcessTypesTemplates extends LightningElement {
     LABELS = {

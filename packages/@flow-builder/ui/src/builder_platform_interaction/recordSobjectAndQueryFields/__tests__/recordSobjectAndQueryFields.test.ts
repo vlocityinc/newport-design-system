@@ -1,12 +1,11 @@
-import { createElement } from 'lwc';
-import RecordSobjectAndQueryFields from 'builder_platform_interaction/recordSobjectAndQueryFields';
-
-import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel, accountSObjectVariable, accountSObjectCollectionVariable } from 'mock/storeData';
 import {
     INTERACTION_COMPONENTS_SELECTORS,
     setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
+import RecordSobjectAndQueryFields from 'builder_platform_interaction/recordSobjectAndQueryFields';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
+import { accountSObjectCollectionVariable, accountSObjectVariable, flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

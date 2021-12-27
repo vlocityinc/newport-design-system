@@ -1,27 +1,27 @@
-import { LightningElement, track, api } from 'lwc';
-import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
-import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
-import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import { fetchFieldsForEntity, getEntity } from 'builder_platform_interaction/sobjectLib';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { LABELS } from './screenEditorAutomaticFieldPaletteLabels';
-import { containsMatcher } from 'builder_platform_interaction/filterLib';
+import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import Combobox from 'builder_platform_interaction/combobox';
 import { getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
 import { createAddAutomaticScreenFieldEvent, SObjectReferenceChangedEvent } from 'builder_platform_interaction/events';
+import FerovResourcePicker from 'builder_platform_interaction/ferovResourcePicker';
+import { containsMatcher } from 'builder_platform_interaction/filterLib';
+import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
 import {
     getFieldByGuid,
     getScreenFieldName,
     SCREEN_EDITOR_GUIDS,
     setDragFieldValue
 } from 'builder_platform_interaction/screenEditorUtils';
-import Combobox from 'builder_platform_interaction/combobox';
-import FerovResourcePicker from 'builder_platform_interaction/ferovResourcePicker';
-import SObjectOrSObjectCollectionPicker from 'builder_platform_interaction/sobjectOrSobjectCollectionPicker';
-import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { CrudFilter } from 'builder_platform_interaction/selectors';
+import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
-const { format } = commonUtils;
+import { fetchFieldsForEntity, getEntity } from 'builder_platform_interaction/sobjectLib';
+import SObjectOrSObjectCollectionPicker from 'builder_platform_interaction/sobjectOrSobjectCollectionPicker';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './screenEditorAutomaticFieldPaletteLabels';
 import { isAutomaticFieldRequired } from './screenEditorAutomaticFieldPaletteUtils';
+const { format } = commonUtils;
 
 export default class ScreenEditorAutomaticFieldPalette extends LightningElement {
     static SELECTOR = 'builder_platform_interaction-screen-editor-automatic-field-palette';

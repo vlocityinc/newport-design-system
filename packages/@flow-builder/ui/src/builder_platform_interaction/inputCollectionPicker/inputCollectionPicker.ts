@@ -1,13 +1,13 @@
-import { LightningElement, api, track } from 'lwc';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
+import { CollectionProcessorFilter } from 'builder_platform_interaction/collectionProcessorLib';
 import { addCurlyBraces, removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { CollectionReferenceChangedEvent } from 'builder_platform_interaction/events';
-import { CollectionProcessorFilter } from 'builder_platform_interaction/collectionProcessorLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { api, LightningElement, track } from 'lwc';
 
 /**
  * A component to get the primitive/sobject collections, used in collection processor editors: sort, map, filter

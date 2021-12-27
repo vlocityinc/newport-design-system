@@ -1,24 +1,25 @@
-import { createElement } from 'lwc';
-import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
-import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
-import { LABELS } from '../recordFilterLabels';
 import {
+    changeEvent,
+    clickEvent,
     deepQuerySelector,
     INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS,
-    setDocumentBodyChildren
+    setDocumentBodyChildren,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
-
 import {
     AddRecordFilterEvent,
-    UpdateRecordFilterEvent,
     DeleteRecordFilterEvent,
+    PropertyChangedEvent,
     UpdateListItemEvent,
-    PropertyChangedEvent
+    UpdateRecordFilterEvent
 } from 'builder_platform_interaction/events';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import RecordLookupFilter from 'builder_platform_interaction/recordFilter';
-import { ticks, changeEvent, clickEvent } from 'builder_platform_interaction/builderTestUtils';
+import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
+import { createElement } from 'lwc';
+import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { LABELS } from '../recordFilterLabels';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')

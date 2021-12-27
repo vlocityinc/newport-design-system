@@ -1,7 +1,7 @@
-import { collectionProcessorValidation } from './collectionProcessorValidation';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { PropertyChangedEvent, UpdateCollectionProcessorEvent } from 'builder_platform_interaction/events';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { collectionProcessorValidation } from './collectionProcessorValidation';
 
 const collectionProcessorPropertyChanged = (state, event) => {
     event.detail.error =

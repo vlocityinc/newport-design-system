@@ -1,13 +1,13 @@
-import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import * as scheduleTriggeredFlow from 'mock/flows/scheduleTriggeredFlow.json';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import * as autoLaunchedFlowScheduled from 'mock/flows/autoLaunchedFlowScheduled.json';
 import * as fieldServiceMobileFlow from 'mock/flows/fieldServiceMobileFlow.json';
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { setupState, resetState, loadFlow } from '../integrationTestUtils';
-import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import * as scheduleTriggeredFlow from 'mock/flows/scheduleTriggeredFlow.json';
 import { ExpressionBuilderComponentTest } from '../expressionBuilderTestUtils';
-import { createComponentForTest, getFerToFerovExpressionBuilder } from './decisionEditorTestUtils';
 import { expectCanBeTraversed, expectCannotBeSelected, expectCannotBeTraversed } from '../groupedComboboxTestUtils';
+import { loadFlow, resetState, setupState } from '../integrationTestUtils';
+import { createComponentForTest, getFerToFerovExpressionBuilder } from './decisionEditorTestUtils';
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {
     const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');

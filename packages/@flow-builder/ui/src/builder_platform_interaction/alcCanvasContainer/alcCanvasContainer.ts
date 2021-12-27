@@ -1,11 +1,11 @@
-import { LightningElement, api, track } from 'lwc';
-import { Store } from 'builder_platform_interaction/storeLib';
+import { deselectOnCanvas } from 'builder_platform_interaction/actions';
+import { setElementsMetadata } from 'builder_platform_interaction/alcCanvasUtils';
+import { ConnectionSource } from 'builder_platform_interaction/autoLayoutCanvas';
+import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
-import { setElementsMetadata } from 'builder_platform_interaction/alcCanvasUtils';
-import { deselectOnCanvas } from 'builder_platform_interaction/actions';
-import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
-import { ConnectionSource } from 'builder_platform_interaction/autoLayoutCanvas';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { api, LightningElement, track } from 'lwc';
 import { augmentElementsMetadata } from './alcCanvasContainerUtils';
 
 // TODO: W-9613981 [Trust] Remove hardcoded alccanvas offsets

@@ -1,19 +1,18 @@
-import { EXPRESSION_RE, ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
-import { Store, isPlainObject } from 'builder_platform_interaction/storeLib';
-import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
+import { hasOwnProperty, splitStringBySeparator } from 'builder_platform_interaction/commonUtils';
 import {
     addItem,
-    getValueFromHydratedItem,
     dehydrate,
-    unionOfArrays,
-    omit
+    getValueFromHydratedItem,
+    omit,
+    unionOfArrays
 } from 'builder_platform_interaction/dataMutationLib';
-import { splitStringBySeparator, hasOwnProperty } from 'builder_platform_interaction/commonUtils';
-import { LABELS } from './usedByLibLabels';
-import { invokeModal } from 'builder_platform_interaction/sharedUtils';
-import { isTemplateField, isReferenceField, shouldCallSwapFunction } from 'builder_platform_interaction/translatorLib';
+import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
+import { ELEMENT_TYPE, EXPRESSION_RE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import { isRegionContainerField, isRegionField } from 'builder_platform_interaction/screenEditorUtils';
-import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { commonUtils, invokeModal } from 'builder_platform_interaction/sharedUtils';
+import { isPlainObject, Store } from 'builder_platform_interaction/storeLib';
+import { isReferenceField, isTemplateField, shouldCallSwapFunction } from 'builder_platform_interaction/translatorLib';
+import { LABELS } from './usedByLibLabels';
 const { format } = commonUtils;
 
 // elements may be hydrated

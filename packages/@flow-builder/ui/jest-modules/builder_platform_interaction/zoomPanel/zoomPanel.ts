@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { LightningElement, api } from 'lwc';
+import { api, LightningElement } from 'lwc';
 
 export default class ZoomPanel extends LightningElement {
     @api

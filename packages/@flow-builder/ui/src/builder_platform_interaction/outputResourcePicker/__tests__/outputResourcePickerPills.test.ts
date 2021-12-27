@@ -1,12 +1,12 @@
-import { createElement } from 'lwc';
-import OutputResourcePicker from '../outputResourcePicker';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { deepQuerySelector, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { deepQuerySelector, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import Combobox from 'builder_platform_interaction/combobox';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
+import { comboboxInitialConfig } from 'mock/comboboxData';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { ComboboxTestComponent } from '../../integrationTests/__tests__/comboboxTestUtils';
-import { comboboxInitialConfig } from 'mock/comboboxData';
+import OutputResourcePicker from '../outputResourcePicker';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

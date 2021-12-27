@@ -1,26 +1,26 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import WaitPlatformEvent from '../waitPlatformEvent';
-import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { getInputParametersForEventType, getEventTypes } from 'builder_platform_interaction/sobjectLib';
-import { LABELS } from '../waitPlatformEventLabels';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { WAIT_TIME_EVENT_TYPE } from '../../flowMetadata/flowMetadata';
 import {
-    UpdateWaitEventEventTypeEvent,
-    ComboboxStateChangedEvent,
+    INTERACTION_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import {
     AddConditionEvent,
+    ComboboxStateChangedEvent,
     DeleteConditionEvent,
     UpdateConditionEvent,
+    UpdateWaitEventEventTypeEvent,
     WaitEventAddParameterEvent,
     WaitEventDeleteParameterEvent,
     WaitEventParameterChangedEvent
 } from 'builder_platform_interaction/events';
-import {
-    ticks,
-    INTERACTION_COMPONENTS_SELECTORS,
-    setDocumentBodyChildren
-} from 'builder_platform_interaction/builderTestUtils';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getEventTypes, getInputParametersForEventType } from 'builder_platform_interaction/sobjectLib';
+import { createElement } from 'lwc';
+import { WAIT_TIME_EVENT_TYPE } from '../../flowMetadata/flowMetadata';
+import WaitPlatformEvent from '../waitPlatformEvent';
+import { LABELS } from '../waitPlatformEventLabels';
 
 jest.mock('builder_platform_interaction/outputResourcePicker', () =>
     require('builder_platform_interaction_mocks/outputResourcePicker')

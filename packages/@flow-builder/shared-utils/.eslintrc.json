@@ -1,4 +1,6 @@
 {
     "extends": ["../../../.eslintrc.json"],
-    "rules": {}
+    "rules": {
+        "@typescript-eslint/no-non-null-assertion": "off"
+    }
 }

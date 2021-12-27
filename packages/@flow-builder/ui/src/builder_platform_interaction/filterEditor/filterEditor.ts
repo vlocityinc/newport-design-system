@@ -1,32 +1,30 @@
-import { LightningElement, api, track } from 'lwc';
-import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
-import { UpdateCollectionProcessorEvent, PropertyChangedEvent } from 'builder_platform_interaction/events';
-import { filterReducer } from './filterReducer';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
 import {
-    getErrorsFromHydratedElement,
-    mutateTextWithMergeFields,
-    demutateTextWithMergeFields
-} from 'builder_platform_interaction/dataMutationLib';
-
-import { LABELS } from './filterEditorLabels';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { SObjectOrApexReference } from 'builder_platform_interaction/sortEditorLib';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import {
-    SORTABLE_FILTER,
-    DEFAULT_CURRENT_ITEM_VARIABLE_PREFIX,
     COLLECTION_PROCESSOR_PROPERTIES,
-    generateVariable,
-    getVariable,
-    getNodeName,
+    DEFAULT_CURRENT_ITEM_VARIABLE_PREFIX,
     deleteOrRestoreVariable,
-    updateVariable,
-    getSObjectOrApexReference
+    generateVariable,
+    getNodeName,
+    getSObjectOrApexReference,
+    getVariable,
+    SORTABLE_FILTER,
+    updateVariable
 } from 'builder_platform_interaction/collectionProcessorLib';
-import { getUniqueDuplicateElementName } from 'builder_platform_interaction/storeUtils';
+import {
+    demutateTextWithMergeFields,
+    getErrorsFromHydratedElement,
+    mutateTextWithMergeFields
+} from 'builder_platform_interaction/dataMutationLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { PropertyChangedEvent, UpdateCollectionProcessorEvent } from 'builder_platform_interaction/events';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
+import { SObjectOrApexReference } from 'builder_platform_interaction/sortEditorLib';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { getElementByDevName, getUniqueDuplicateElementName } from 'builder_platform_interaction/storeUtils';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './filterEditorLabels';
+import { filterReducer } from './filterReducer';
 
 const SUBTYPE = 'subtype';
 const DATA_TYPE = 'dataType';

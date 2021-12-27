@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import Draggable from 'builder_platform_interaction/draggable';
 import { dragStartEvent, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import Draggable from 'builder_platform_interaction/draggable';
+import { createElement } from 'lwc';
 
 const SELECTORS = {
     DRAGGABLE: 'div'

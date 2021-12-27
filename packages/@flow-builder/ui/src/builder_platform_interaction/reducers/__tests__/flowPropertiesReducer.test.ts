@@ -1,15 +1,15 @@
 // @ts-nocheck
-import reducer from '../flowPropertiesReducer';
 import {
+    ADD_RESOURCE,
+    HIGHLIGHT_ON_CANVAS,
+    UPDATE_APEX_CLASSES,
+    UPDATE_ENTITIES,
     UPDATE_FLOW,
     UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE,
     UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY,
-    UPDATE_PROPERTIES,
-    UPDATE_APEX_CLASSES,
-    UPDATE_ENTITIES,
-    ADD_RESOURCE,
-    HIGHLIGHT_ON_CANVAS
+    UPDATE_PROPERTIES
 } from 'builder_platform_interaction/actions';
+import reducer from '../flowPropertiesReducer';
 
 const defaultProperties = {
     elementType: 'FLOW_PROPERTIES',

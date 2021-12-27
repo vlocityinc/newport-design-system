@@ -1,9 +1,9 @@
-import { LightningElement, api } from 'lwc';
 import { ArrowKeyDownEvent } from 'builder_platform_interaction/events';
-import { LABELS } from './startNodeFlowExplorerEntryPointLabels';
-import { commands, commonUtils, lwcUtils, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import { getEntitiesMenuData } from 'builder_platform_interaction/expressionUtils';
+import { commands, commonUtils, keyboardInteractionUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
 import { getWorkflowEnabledEntities } from 'builder_platform_interaction/sobjectLib';
+import { api, LightningElement } from 'lwc';
+import { LABELS } from './startNodeFlowExplorerEntryPointLabels';
 
 const { format } = commonUtils;
 const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;

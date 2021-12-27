@@ -1,20 +1,20 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import SubflowEditor from '../subflowEditor';
-import { mockSubflows } from 'mock/calloutData';
-import { flowWithAllTypesVariables as mockSubflowVariables } from 'serverData/GetFlowInputOutputVariables/flowWithAllTypesVariables.json';
+import { setDocumentBodyChildren, ticks, untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
 import {
-    ClosePropertyEditorEvent,
     CannotRetrieveCalloutParametersEvent,
+    ClosePropertyEditorEvent,
+    DeleteParameterItemEvent,
+    ManuallyAssignVariablesChangedEvent,
+    PropertyChangedEvent,
     SetPropertyEditorTitleEvent,
     UpdateNodeEvent,
-    PropertyChangedEvent,
-    ManuallyAssignVariablesChangedEvent,
-    UpdateParameterItemEvent,
-    DeleteParameterItemEvent
+    UpdateParameterItemEvent
 } from 'builder_platform_interaction/events';
-import { untilNoFailure, ticks, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { createElement } from 'lwc';
+import { mockSubflows } from 'mock/calloutData';
+import { flowWithAllTypesVariables as mockSubflowVariables } from 'serverData/GetFlowInputOutputVariables/flowWithAllTypesVariables.json';
+import SubflowEditor from '../subflowEditor';
 
 jest.mock('builder_platform_interaction/outputResourcePicker', () =>
     require('builder_platform_interaction_mocks/outputResourcePicker')

@@ -1,15 +1,15 @@
 // @ts-nocheck
+import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
 import {
     describeExtensions,
-    getCachedExtensions,
     EXTENSION_TYPE_SOURCE,
+    getCachedExtensions,
     getCachedExtensionType
 } from 'builder_platform_interaction/flowExtensionLib';
-import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
-import { isExtensionField } from './screenEditorFieldTypeUtils';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { isExtensionField } from './screenEditorFieldTypeUtils';
 
 const DEFAULT_ATTRIBUTE_TYPE_ICON = 'utility:all';
 

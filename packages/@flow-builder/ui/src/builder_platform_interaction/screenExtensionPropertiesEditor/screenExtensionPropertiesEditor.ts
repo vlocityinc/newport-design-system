@@ -1,35 +1,36 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
 import {
-    screenExtensionPropertiesEventReducer,
-    screenExtensionPropertiesPropsToStateReducer
-} from './screenExtensionPropertiesReducer';
-import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
+    getAutomaticOutputVariables,
+    getBuilderContext,
+    getElementInfo,
+    getInputVariables,
+    getScreenFieldTypeMappings
+} from 'builder_platform_interaction/customPropertyEditorLib';
+import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import {
+    DynamicTypeMappingChangeEvent,
+    InputsOnNextNavToAssocScrnChangeEvent,
+    PropertyChangedEvent
+} from 'builder_platform_interaction/events';
 import {
     FLOW_AUTOMATIC_OUTPUT_HANDLING,
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { swapDevNamesToGuids } from 'builder_platform_interaction/translatorLib';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import {
-    DynamicTypeMappingChangeEvent,
-    PropertyChangedEvent,
-    InputsOnNextNavToAssocScrnChangeEvent
-} from 'builder_platform_interaction/events';
-import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
-import { getFerovTypeFromTypeName, EXTENSION_PARAM_PREFIX } from 'builder_platform_interaction/screenEditorUtils';
-import {
-    InputsOnNextNavToAssocScrnOption,
+    EXTENSION_PARAM_PREFIX,
+    getFerovTypeFromTypeName,
     hasScreenFieldVisibilityCondition,
+    InputsOnNextNavToAssocScrnOption,
     SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME
 } from 'builder_platform_interaction/screenEditorUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { swapDevNamesToGuids } from 'builder_platform_interaction/translatorLib';
+import { api, LightningElement, track } from 'lwc';
 import {
-    getBuilderContext,
-    getAutomaticOutputVariables,
-    getInputVariables,
-    getScreenFieldTypeMappings,
-    getElementInfo
-} from 'builder_platform_interaction/customPropertyEditorLib';
+    screenExtensionPropertiesEventReducer,
+    screenExtensionPropertiesPropsToStateReducer
+} from './screenExtensionPropertiesReducer';
 /*
  * Dynamic property editor for screen extensions.
  */

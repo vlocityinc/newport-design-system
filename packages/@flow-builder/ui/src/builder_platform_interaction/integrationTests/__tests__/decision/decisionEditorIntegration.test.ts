@@ -1,18 +1,20 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
+import {
+    deepQuerySelector,
+    INTERACTION_COMPONENTS_SELECTORS,
+    LIGHTNING_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
 import DecisionEditor from 'builder_platform_interaction/decisionEditor';
-import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import { setupState, resetState, loadFlow } from '../integrationTestUtils';
 import { ReorderListEvent } from 'builder_platform_interaction/events';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
-import { resolveRenderCycles } from '../resolveRenderCycles';
-import { deepQuerySelector, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import {
-    LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS
-} from 'builder_platform_interaction/builderTestUtils';
+import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import { createElement } from 'lwc';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import { loadFlow, resetState, setupState } from '../integrationTestUtils';
+import { resolveRenderCycles } from '../resolveRenderCycles';
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
     const ruleLib = jest.requireActual('builder_platform_interaction/ruleLib');

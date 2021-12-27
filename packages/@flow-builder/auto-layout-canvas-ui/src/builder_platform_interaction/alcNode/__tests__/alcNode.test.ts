@@ -1,12 +1,12 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import AlcNode from 'builder_platform_interaction/alcNode';
+import { AutoLayoutCanvasMode, ICON_SHAPE } from 'builder_platform_interaction/alcComponentsUtils';
 import { AlcSelectDeselectNodeEvent } from 'builder_platform_interaction/alcEvents';
-import { EditElementEvent } from 'builder_platform_interaction/events';
+import AlcNode from 'builder_platform_interaction/alcNode';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
-import { ICON_SHAPE, AutoLayoutCanvasMode } from 'builder_platform_interaction/alcComponentsUtils';
-import { LABELS } from '../alcNodeLabels';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
+import { EditElementEvent } from 'builder_platform_interaction/events';
+import { createElement } from 'lwc';
+import { LABELS } from '../alcNodeLabels';
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 

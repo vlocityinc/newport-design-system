@@ -1,6 +1,6 @@
 // @ts-nocheck
+import { EventType, PubSubEvent, SimplePubSub, Unsubscribe } from 'builder_framework/pubSub';
 import { pubSub } from '../pubSub';
-import { SimplePubSub, EventType, PubSubEvent, Unsubscribe } from 'builder_framework/pubSub';
 
 describe('pub sub', () => {
     const simplePubSub = new SimplePubSub();

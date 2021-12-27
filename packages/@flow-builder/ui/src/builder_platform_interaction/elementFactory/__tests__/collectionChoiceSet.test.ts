@@ -1,11 +1,11 @@
 // @ts-nocheck
-import {
-    createCollectionChoiceSet,
-    createCollectionChoiceSetMetadataObject,
-    createCollectionChoiceSetForStore
-} from '../collectionChoiceSet';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseElementsArrayToMap } from '../base/baseElement';
+import {
+    createCollectionChoiceSet,
+    createCollectionChoiceSetForStore,
+    createCollectionChoiceSetMetadataObject
+} from '../collectionChoiceSet';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     return {

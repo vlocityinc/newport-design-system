@@ -1,26 +1,26 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
+import { setup } from '@sa11y/jest';
 import AlcCanvas from 'builder_platform_interaction/alcCanvas';
-import { flowModel, elementsMetadata } from './mockData';
 import {
-    ToggleMenuEvent,
     DeleteBranchElementEvent,
-    MenuPositionUpdateEvent
+    MenuPositionUpdateEvent,
+    ToggleMenuEvent
 } from 'builder_platform_interaction/alcEvents';
 import { MenuType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
+import {
+    removeDocumentBodyChildren,
+    setDocumentBodyChildren
+} from 'builder_platform_interaction/builderTestUtils/domTestUtils';
 import {
     ClickToZoomEvent,
     DeleteElementEvent,
-    ZOOM_ACTION,
-    EditElementEvent
+    EditElementEvent,
+    ZOOM_ACTION
 } from 'builder_platform_interaction/events';
-import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
-import {
-    setDocumentBodyChildren,
-    removeDocumentBodyChildren
-} from 'builder_platform_interaction/builderTestUtils/domTestUtils';
 import { commands, invokeModal } from 'builder_platform_interaction/sharedUtils';
-import { setup } from '@sa11y/jest';
+import { createElement } from 'lwc';
+import { elementsMetadata, flowModel } from './mockData';
 
 const { ZoomInCommand, ZoomOutCommand, ZoomToFitCommand, ZoomToViewCommand } = commands;
 

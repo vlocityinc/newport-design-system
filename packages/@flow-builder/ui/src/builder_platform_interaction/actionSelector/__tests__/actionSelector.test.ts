@@ -1,15 +1,16 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import ActionSelector, { FilterBy } from '../actionSelector';
-import { ACTION_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { ValueChangedEvent, ComboboxStateChangedEvent, ActionsLoadedEvent } from 'builder_platform_interaction/events';
-import { mockActions, mockApexPlugins, mockSubflows } from 'mock/calloutData';
-import { ticks, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import {
+    INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS
+    setDocumentBodyChildren,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
+import { ActionsLoadedEvent, ComboboxStateChangedEvent, ValueChangedEvent } from 'builder_platform_interaction/events';
+import { ACTION_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
+import { mockActions, mockApexPlugins, mockSubflows } from 'mock/calloutData';
+import ActionSelector, { FilterBy } from '../actionSelector';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

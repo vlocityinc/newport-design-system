@@ -1,12 +1,15 @@
-import { createElement } from 'lwc';
-import MapItems from 'builder_platform_interaction/mapItems';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
-import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import {
+    INTERACTION_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
 import {
     AddRecordFieldAssignmentEvent,
-    UpdateRecordFieldAssignmentEvent,
-    DeleteRecordFieldAssignmentEvent
+    DeleteRecordFieldAssignmentEvent,
+    UpdateRecordFieldAssignmentEvent
 } from 'builder_platform_interaction/events';
+import MapItems from 'builder_platform_interaction/mapItems';
+import { createElement } from 'lwc';
 
 const commonUtils = jest.requireActual('builder_platform_interaction/sharedUtils');
 commonUtils.format = jest

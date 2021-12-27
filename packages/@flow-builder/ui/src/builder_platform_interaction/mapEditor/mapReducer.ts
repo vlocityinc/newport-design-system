@@ -1,18 +1,18 @@
-import { updateProperties, set, deleteItem } from 'builder_platform_interaction/dataMutationLib';
+import { COLLECTION_PROCESSOR_PROPERTIES } from 'builder_platform_interaction/collectionProcessorLib';
+import { deleteItem, set, updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import {
+    AddRecordFieldAssignmentEvent,
     CollectionReferenceChangedEvent,
+    DeleteRecordFieldAssignmentEvent,
     PrepopulateMapItemsEvent,
     PropertyChangedEvent,
-    AddRecordFieldAssignmentEvent,
-    UpdateRecordFieldAssignmentEvent,
-    DeleteRecordFieldAssignmentEvent
+    UpdateRecordFieldAssignmentEvent
 } from 'builder_platform_interaction/events';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { mapValidation, getRules } from './mapValidation';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
-import { COLLECTION_PROCESSOR_PROPERTIES } from 'builder_platform_interaction/collectionProcessorLib';
+import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { getRules, mapValidation } from './mapValidation';
 
 const MAP_ITEMS = COLLECTION_PROCESSOR_PROPERTIES.MAP_ITEMS;
 

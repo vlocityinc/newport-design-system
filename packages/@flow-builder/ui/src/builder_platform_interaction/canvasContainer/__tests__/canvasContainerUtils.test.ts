@@ -1,19 +1,19 @@
 // @ts-nocheck
-import {
-    isEmptyArray,
-    getNodesFromStore,
-    getConnectorsFromStore,
-    updateStoreOnSelection,
-    hasOneAvailableConnection,
-    shouldOpenConnectorSelectionModal,
-    addConnection,
-    getSourceAndTargetElement,
-    createConnectorWhenOneConnectionAvailable,
-    openConnectorSelectionModal,
-    calculateDeletedNodeIdsAndCleanUpDrawingLibInstance,
-    calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance
-} from '../canvasContainerUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    addConnection,
+    calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance,
+    calculateDeletedNodeIdsAndCleanUpDrawingLibInstance,
+    createConnectorWhenOneConnectionAvailable,
+    getConnectorsFromStore,
+    getNodesFromStore,
+    getSourceAndTargetElement,
+    hasOneAvailableConnection,
+    isEmptyArray,
+    openConnectorSelectionModal,
+    shouldOpenConnectorSelectionModal,
+    updateStoreOnSelection
+} from '../canvasContainerUtils';
 
 jest.mock('builder_platform_interaction/drawingLib', () => {
     return {

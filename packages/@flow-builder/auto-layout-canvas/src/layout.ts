@@ -1,33 +1,33 @@
+import ConnectorType from './ConnectorTypeEnum';
 import {
-    NodeModel,
-    resolveNode,
-    ParentNodeModel,
-    NodeRef,
-    Guid,
-    getElementMetadata,
-    FAULT_INDEX,
-    FlowModel,
-    StartNodeModel
-} from './model';
-import { areAllBranchesTerminals, fulfillsBranchingCriteria, hasGoToOnNext, hasGoToOnBranchHead } from './modelUtils';
-import {
-    FlowRenderContext,
-    LayoutConfig,
-    getConnectorConfig,
+    ConnectorTypeLayoutConfig,
     ConnectorVariant,
+    createDefaultLayout,
+    Dimension,
+    FlowRenderContext,
+    getBranchLayoutKey,
+    getConnectorConfig,
+    InteractionMenuInfo,
+    LayoutConfig,
     LayoutInfo,
     NodeLayout,
     NodeLayoutMap,
-    createDefaultLayout,
-    getBranchLayoutKey,
-    InteractionMenuInfo,
-    Dimension,
-    VerticalAlign,
-    ConnectorTypeLayoutConfig
+    VerticalAlign
 } from './flowRendererUtils';
 import MenuType from './MenuType';
+import {
+    FAULT_INDEX,
+    FlowModel,
+    getElementMetadata,
+    Guid,
+    NodeModel,
+    NodeRef,
+    ParentNodeModel,
+    resolveNode,
+    StartNodeModel
+} from './model';
+import { areAllBranchesTerminals, fulfillsBranchingCriteria, hasGoToOnBranchHead, hasGoToOnNext } from './modelUtils';
 import NodeType from './NodeType';
-import ConnectorType from './ConnectorTypeEnum';
 
 export const NO_OFFSET = 0;
 

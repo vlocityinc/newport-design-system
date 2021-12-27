@@ -1,8 +1,8 @@
 // @ts-nocheck
-import { flowPropertiesEditorValidation, getRules } from './flowPropertiesEditorValidation';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { flowPropertiesEditorValidation, getRules } from './flowPropertiesEditorValidation';
 
 const flowPropertiesPropertyChanged = (state, event) => {
     event.detail.error =

@@ -1,8 +1,8 @@
 // @ts-nocheck
-import { getActiveOrLatestInputOutputVariables } from '../subflowsLib';
 import { flowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
 import { flowWithNoActiveVersion } from 'serverData/GetFlowInputOutputVariables/flowWithNoActiveVersion.json';
 import { flowWithNoInputOutputVariables } from 'serverData/GetFlowInputOutputVariables/flowWithNoInputOutputVariables.json';
+import { getActiveOrLatestInputOutputVariables } from '../subflowsLib';
 
 describe('subflowsLib', () => {
     describe('getActiveOrLatestInputOutputVariables', () => {

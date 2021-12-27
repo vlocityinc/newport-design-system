@@ -1,19 +1,19 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import ScheduledPathsEditor from 'builder_platform_interaction/scheduledPathsEditor';
 import {
-    ticks,
     INTERACTION_COMPONENTS_SELECTORS,
-    setDocumentBodyChildren
+    setDocumentBodyChildren,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
-import { scheduledPathsReducer } from '../scheduledPathsReducer';
 import {
-    UpdateNodeEvent,
-    PropertyChangedEvent,
     DeleteScheduledPathEvent,
-    ListItemInteractionEvent
+    ListItemInteractionEvent,
+    PropertyChangedEvent,
+    UpdateNodeEvent
 } from 'builder_platform_interaction/events';
 import { TIME_OPTION } from 'builder_platform_interaction/flowMetadata';
+import ScheduledPathsEditor from 'builder_platform_interaction/scheduledPathsEditor';
+import { createElement } from 'lwc';
+import { scheduledPathsReducer } from '../scheduledPathsReducer';
 
 let mockNewState;
 

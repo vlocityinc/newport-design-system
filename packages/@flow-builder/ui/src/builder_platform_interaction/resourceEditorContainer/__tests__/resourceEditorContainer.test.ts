@@ -1,9 +1,9 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import ResourceEditorContainer from '../resourceEditorContainer';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { createElement } from 'lwc';
+import ResourceEditorContainer from '../resourceEditorContainer';
 
 jest.mock('builder_platform_interaction/variableConstantEditor', () =>
     require('builder_platform_interaction_mocks/variableConstantEditor')

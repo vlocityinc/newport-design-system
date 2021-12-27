@@ -1,13 +1,13 @@
 // @ts-nocheck
-import { LightningElement, track, api } from 'lwc';
-import { labelFilter } from 'builder_platform_interaction/filterLib';
-import { SCREEN_EDITOR_GUIDS, setDragFieldValue, getFieldByGuid } from 'builder_platform_interaction/screenEditorUtils';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
-import { createAddScreenFieldEvent } from 'builder_platform_interaction/events';
-import { labelComparator } from 'builder_platform_interaction/sortLib';
 import { APP_EXCHANGE_LINK } from 'builder_platform_interaction/commonUtils';
 import { orgHasFlowBuilderAutomaticFields } from 'builder_platform_interaction/contextLib';
+import { createAddScreenFieldEvent } from 'builder_platform_interaction/events';
+import { labelFilter } from 'builder_platform_interaction/filterLib';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
+import { getFieldByGuid, SCREEN_EDITOR_GUIDS, setDragFieldValue } from 'builder_platform_interaction/screenEditorUtils';
+import { labelComparator } from 'builder_platform_interaction/sortLib';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { api, LightningElement, track } from 'lwc';
 
 const SELECTORS = {
     FILTER_INPUT: '.palette-search-input'

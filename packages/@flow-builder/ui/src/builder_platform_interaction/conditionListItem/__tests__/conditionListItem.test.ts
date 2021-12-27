@@ -1,9 +1,9 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import { DeleteListItemEvent } from 'builder_platform_interaction/events';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import ConditionListItem from 'builder_platform_interaction/conditionListItem';
 import { formatLhs, formatOperator, formatRhs } from 'builder_platform_interaction/conditionListItemUtil';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { DeleteListItemEvent } from 'builder_platform_interaction/events';
+import { createElement } from 'lwc';
 
 const createComponentUnderTest = (lhs, op, rhs) => {
     const el = createElement('builder_platform_interaction-conditionListItem', {

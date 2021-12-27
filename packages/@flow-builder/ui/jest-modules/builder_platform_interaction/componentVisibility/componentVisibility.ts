@@ -1,4 +1,4 @@
-import { LightningElement, api } from 'lwc';
+import { api, LightningElement } from 'lwc';
 
 export default class ComponentVisiblity extends LightningElement {
     @api

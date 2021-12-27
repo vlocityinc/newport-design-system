@@ -1,23 +1,22 @@
 // @ts-nocheck
-import { createComponent } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
-import { AddElementEvent } from 'builder_platform_interaction/events';
 import {
     CloseMenuEvent,
-    MoveFocusToConnectorEvent,
+    DeleteGoToConnectionEvent,
     GoToPathEvent,
-    PasteOnCanvasEvent,
-    DeleteGoToConnectionEvent
+    MoveFocusToConnectorEvent,
+    PasteOnCanvasEvent
 } from 'builder_platform_interaction/alcEvents';
+import { createComponent } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
+import { removeDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
+import { AddElementEvent } from 'builder_platform_interaction/events';
+import { commands } from 'builder_platform_interaction/sharedUtils';
 import {
     configureMenu,
-    PASTE_ACTION,
     GOTO_ACTION,
     GOTO_DELETE_ACTION,
-    GOTO_REROUTE_ACTION
+    GOTO_REROUTE_ACTION,
+    PASTE_ACTION
 } from '../alcConnectorMenuConfig';
-
-import { commands } from 'builder_platform_interaction/sharedUtils';
-import { removeDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
 
 const { EnterCommand, SpaceCommand, ArrowDown, ArrowUp, EscapeCommand, TabCommand } = commands;
 

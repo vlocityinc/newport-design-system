@@ -1,6 +1,6 @@
 // @ts-nocheck
-import * as ValidationRules from 'builder_platform_interaction/validationRules';
 import { Validation } from 'builder_platform_interaction/validation';
+import * as ValidationRules from 'builder_platform_interaction/validationRules';
 
 export const MAX_TEXT_LENGTH = 65535;
 export const additionalRules = {

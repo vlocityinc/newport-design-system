@@ -1,21 +1,21 @@
-import { createElement } from 'lwc';
+import { checkboxChangeEvent, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import InvocableActionEditor from 'builder_platform_interaction/invocableActionEditor';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { ticks, checkboxChangeEvent, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
-import { setupStateForFlow, resetState } from '../integrationTestUtils';
-import { LabelDescriptionComponentTest, getLabelDescriptionElement } from '../labelDescriptionTestUtils';
+import { createElement } from 'lwc';
+import * as scheduleTriggeredFlow from 'mock/flows/scheduleTriggeredFlow.json';
+import { actionPostToChatter } from 'mock/storeDataScheduleTriggered';
 import {
-    VALIDATION_ERROR_MESSAGES,
-    getBaseCalloutElement,
-    getManuallyAssignVariablesCheckboxInputElementFromAcc,
-    getManuallyAssignVariablesCheckboxFromAcc,
-    getOutputParameterItemsFromAcc,
     getAdvancedAccordionOutputDiv,
+    getBaseCalloutElement,
+    getManuallyAssignVariablesCheckboxFromAcc,
+    getManuallyAssignVariablesCheckboxInputElementFromAcc,
+    getOutputParameterItemsFromAcc,
+    VALIDATION_ERROR_MESSAGES,
     verifyOutputParameter
 } from '../baseCalloutEditorTestUtils';
-import { actionPostToChatter } from 'mock/storeDataScheduleTriggered';
-import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import * as scheduleTriggeredFlow from 'mock/flows/scheduleTriggeredFlow.json';
+import { resetState, setupStateForFlow } from '../integrationTestUtils';
+import { getLabelDescriptionElement, LabelDescriptionComponentTest } from '../labelDescriptionTestUtils';
 
 jest.mock('builder_platform_interaction/editor', () => {
     return Object.assign({}, { launchSubflow: jest.fn() });

@@ -1,33 +1,31 @@
-import { LightningElement, api } from 'lwc';
+import { updateInlineResourceProperties } from 'builder_platform_interaction/actions';
+import { sanitizeDevName } from 'builder_platform_interaction/commonUtils';
+import { FLOW_DATA_TYPE, INPUT_FIELD_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
-    PropertyChangedEvent,
     createChoiceAddedEvent,
     createChoiceChangedEvent,
     createChoiceDeletedEvent,
     createChoiceDisplayChangedEvent,
     createSingleOrMultiChoiceTypeChangedEvent,
+    EditElementEvent,
     NewResourceEvent,
-    EditElementEvent
+    PropertyChangedEvent
 } from 'builder_platform_interaction/events';
-import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
-import { FLOW_DATA_TYPE, INPUT_FIELD_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import {
-    getFieldChoiceData,
-    isMultiSelectCheckboxField,
-    isMultiSelectPicklistField
-} from 'builder_platform_interaction/screenEditorUtils';
 import { addCurrentValueToEvent } from 'builder_platform_interaction/screenEditorCommonUtils';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import {
+    ChoiceDisplayOptions,
+    getFieldChoiceData,
     hasScreenFieldVisibilityCondition,
-    SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME,
-    ChoiceDisplayOptions
+    isMultiSelectCheckboxField,
+    isMultiSelectPicklistField,
+    SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME
 } from 'builder_platform_interaction/screenEditorUtils';
+import { commonUtils, loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { fetchFieldsForEntity, getEntityFieldWithApiName } from 'builder_platform_interaction/sobjectLib';
-import { sanitizeDevName } from 'builder_platform_interaction/commonUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { updateInlineResourceProperties } from 'builder_platform_interaction/actions';
-import { loggingUtils, commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { api, LightningElement } from 'lwc';
 const { format } = commonUtils;
 
 const { logInteraction } = loggingUtils;

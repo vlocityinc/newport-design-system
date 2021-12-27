@@ -1,8 +1,8 @@
 // @ts-nocheck
-import globalConstantCategory from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantCategory';
 import emptyStringMetaLine from '@salesforce/label/FlowBuilderGlobalConstants.emptyStringMetaLine';
-import trueMetaLine from '@salesforce/label/FlowBuilderGlobalConstants.trueMetaLine';
 import falseMetaLine from '@salesforce/label/FlowBuilderGlobalConstants.falseMetaLine';
+import globalConstantCategory from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantCategory';
+import trueMetaLine from '@salesforce/label/FlowBuilderGlobalConstants.trueMetaLine';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 export const GLOBAL_CONSTANT_PREFIX = '$GlobalConstant';

@@ -1,31 +1,30 @@
 // @ts-nocheck
 // eslint-disable-next-line lwc-core/no-interop-create, lwc-core/no-interop-dispatch, lwc-core/no-interop-render
 import { createComponent, dispatchGlobalEvent } from 'aura';
+import { isObject } from 'builder_platform_interaction/commonUtils';
+import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import {
+    EDIT_START_JOURNEY_CONTEXT,
+    EDIT_START_RECORD_CHANGE_CONTEXT,
+    EDIT_START_SCHEDULED_PATHS,
+    EDIT_START_SCHEDULE_CONTEXT,
     getConfigForElement,
     getConfigForElementType,
-    MODAL_SIZE,
-    EDIT_START_RECORD_CHANGE_CONTEXT,
-    EDIT_START_SCHEDULE_CONTEXT,
-    EDIT_START_JOURNEY_CONTEXT,
-    EDIT_START_SCHEDULED_PATHS
+    MODAL_SIZE
 } from 'builder_platform_interaction/elementConfig';
 import {
+    AddConnectionEvent,
     AddElementEvent,
     AddNonCanvasElementEvent,
     EditElementEvent,
     NewResourceEvent,
-    AddConnectionEvent,
     SaveFlowEvent
 } from 'builder_platform_interaction/events';
-import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { LABELS } from './builderUtilsLabels';
-import { isObject } from 'builder_platform_interaction/commonUtils';
 import { clearExpressions } from 'builder_platform_interaction/expressionValidator';
-import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
-import { invokeModalWithComponents } from 'builder_platform_interaction/sharedUtils';
+import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
-import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { commonUtils, invokeModalWithComponents } from 'builder_platform_interaction/sharedUtils';
+import { LABELS } from './builderUtilsLabels';
 const { format } = commonUtils;
 
 /**

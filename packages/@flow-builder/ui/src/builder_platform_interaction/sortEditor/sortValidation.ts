@@ -1,7 +1,7 @@
-import * as ValidationRules from 'builder_platform_interaction/validationRules';
-import { Validation } from 'builder_platform_interaction/validation';
+import { LIMIT_RANGE, SORT_OUTPUT_OPTION } from 'builder_platform_interaction/sortEditorLib';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { SORT_OUTPUT_OPTION, LIMIT_RANGE } from 'builder_platform_interaction/sortEditorLib';
+import { Validation } from 'builder_platform_interaction/validation';
+import * as ValidationRules from 'builder_platform_interaction/validationRules';
 
 /**
  * Validate the collectionReferenceIndex item.

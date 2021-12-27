@@ -1,13 +1,13 @@
-import { api, LightningElement, unwrap, track } from 'lwc';
-import { LABELS } from './customPropertyEditorLabels';
-import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
-import { ElementOrComponentError } from 'builder_platform_interaction/dataMutationLib';
 import {
     BuilderContext,
-    ElementInfo,
     ConfigurationEditorParameters,
-    createConfigurationEditor
+    createConfigurationEditor,
+    ElementInfo
 } from 'builder_platform_interaction/customPropertyEditorLib';
+import { ElementOrComponentError } from 'builder_platform_interaction/dataMutationLib';
+import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { api, LightningElement, track, unwrap } from 'lwc';
+import { LABELS } from './customPropertyEditorLabels';
 
 const { logPerfTransactionStart, logPerfTransactionEnd } = loggingUtils;
 const CONFIGURATION_EDITOR_SELECTOR = '.configuration-editor';

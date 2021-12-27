@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { isPlainObject } from './isPlainObject';
 import { isDevMode } from 'builder_platform_interaction/contextLib';
 import { readonly } from 'lwc';
+import { isPlainObject } from './isPlainObject';
 
 export type StoreReducer = (storeState: UI.StoreState, action: object) => UI.StoreState;
 

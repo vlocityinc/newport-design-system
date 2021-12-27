@@ -1,19 +1,19 @@
 // @ts-nocheck
-import { contextValidation, getRules } from './contextRecordValidation';
+import { deleteItem, set, updateProperties } from 'builder_platform_interaction/dataMutationLib';
+import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 import {
     AddRecordFilterEvent,
+    ConfigurationEditorChangeEvent,
     DeleteRecordFilterEvent,
     PropertyChangedEvent,
-    UpdateRecordFilterEvent,
-    ConfigurationEditorChangeEvent
+    UpdateRecordFilterEvent
 } from 'builder_platform_interaction/events';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
-import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
-import { deleteItem, set, updateProperties } from 'builder_platform_interaction/dataMutationLib';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { contextValidation, getRules } from './contextRecordValidation';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE,
     OPERATOR = EXPRESSION_PROPERTY_TYPE.OPERATOR,

@@ -1,12 +1,12 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
-import { LABELS } from './recordQueryFieldsLabels';
 import {
     AddRecordLookupFieldEvent,
     DeleteRecordLookupFieldEvent,
     UpdateRecordLookupFieldEvent
 } from 'builder_platform_interaction/events';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './recordQueryFieldsLabels';
 const { format } = commonUtils;
 
 export default class RecordQueryFields extends LightningElement {

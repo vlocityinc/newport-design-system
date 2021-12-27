@@ -1,9 +1,17 @@
 // @ts-nocheck
+import {
+    deselectOnCanvas,
+    marqueeSelectOnCanvas,
+    updateCanvasElementLocation
+} from 'builder_platform_interaction/actions';
+import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
+import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { Store } from 'builder_platform_interaction/storeLib';
 import { api, LightningElement, track } from 'lwc';
 import {
     addConnection,
-    calculateDeletedNodeIdsAndCleanUpDrawingLibInstance,
     calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance,
+    calculateDeletedNodeIdsAndCleanUpDrawingLibInstance,
     createConnectorWhenOneConnectionAvailable,
     getConnectorsFromStore,
     getNodesFromStore,
@@ -13,18 +21,10 @@ import {
     shouldOpenConnectorSelectionModal,
     updateStoreOnSelection
 } from './canvasContainerUtils';
-import {
-    deselectOnCanvas,
-    marqueeSelectOnCanvas,
-    updateCanvasElementLocation
-} from 'builder_platform_interaction/actions';
-import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
 
 export {
-    calculateDeletedNodeIdsAndCleanUpDrawingLibInstance,
-    calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance
+    calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance,
+    calculateDeletedNodeIdsAndCleanUpDrawingLibInstance
 } from './canvasContainerUtils';
 
 /** Private singleton variables */

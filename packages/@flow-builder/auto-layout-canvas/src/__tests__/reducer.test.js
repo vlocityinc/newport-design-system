@@ -1,26 +1,25 @@
-import reducer, * as actions from '../reducer';
 import {
-    START_ELEMENT_GUID,
-    END_ELEMENT_GUID,
-    SCREEN_ELEMENT_GUID,
-    BRANCH_ELEMENT_GUID,
-    ACTION_ELEMENT_GUID
-} from './testUtils';
-import {
-    initFlowModel,
     addElement,
+    addFault,
+    clearCanvasDecoration,
+    createConnection,
+    decorateElements,
     deleteElement,
     deleteFault,
-    addFault,
-    updateChildren,
-    createConnection,
     deleteGoToConnection,
-    decorateElements,
-    clearCanvasDecoration,
+    initFlowModel,
+    updateChildren,
     updateChildrenOnAddingOrUpdatingScheduledPaths
 } from '../modelUtils';
-
 import NodeType from '../NodeType';
+import reducer, * as actions from '../reducer';
+import {
+    ACTION_ELEMENT_GUID,
+    BRANCH_ELEMENT_GUID,
+    END_ELEMENT_GUID,
+    SCREEN_ELEMENT_GUID,
+    START_ELEMENT_GUID
+} from './testUtils';
 
 jest.mock('../modelUtils');
 

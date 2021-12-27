@@ -1,18 +1,18 @@
 // @ts-nocheck
-import {
-    retrieveResourceComplexTypeFields,
-    isAutomaticOutputElementWithoutChildren,
-    getAutomaticOutputParameters
-} from '../complexTypeLib';
-import * as store from 'mock/storeData';
-import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
-import { setNotLoadedAction } from 'builder_platform_interaction_mocks/invocableActionLib';
-import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
-import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import { expectFieldsAreComplexTypeFieldDescriptions } from 'builder_platform_interaction/builderTestUtils';
-import { getStringFromApexActionDetails } from 'serverData/GetInvocableActionDetails/getStringFromApexActionDetails.json';
+import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
+import { setNotLoadedAction } from 'builder_platform_interaction_mocks/invocableActionLib';
+import * as store from 'mock/storeData';
+import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
+import { getStringFromApexActionDetails } from 'serverData/GetInvocableActionDetails/getStringFromApexActionDetails.json';
+import {
+    getAutomaticOutputParameters,
+    isAutomaticOutputElementWithoutChildren,
+    retrieveResourceComplexTypeFields
+} from '../complexTypeLib';
 
 jest.mock('builder_platform_interaction/sobjectLib', () => ({
     getFieldsForEntity: jest.fn().mockImplementation(() => mockAccountFields)

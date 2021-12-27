@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
-import { NodeMenuMode, ELEMENT_ACTION_CONFIG, getMenuConfiguration } from '../alcNodeMenuConfig';
+import { ELEMENT_ACTION_CONFIG, getMenuConfiguration, NodeMenuMode } from '../alcNodeMenuConfig';
 import { LABELS } from '../alcNodeMenuLabels';
 
 const getElementMetadata = (type) => {

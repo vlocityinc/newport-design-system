@@ -1,10 +1,10 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
-import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
-import { compareParamsByRequired, compareParamsByLabel } from 'builder_platform_interaction/calloutEditorLib';
-import { multiComparator } from 'builder_platform_interaction/sortLib';
+import { compareParamsByLabel, compareParamsByRequired } from 'builder_platform_interaction/calloutEditorLib';
 import { DynamicTypeMappingChangeEvent } from 'builder_platform_interaction/events';
 import ManuallyAssignVariablesCheckbox from 'builder_platform_interaction/manuallyAssignVariablesCheckbox';
+import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
+import { multiComparator } from 'builder_platform_interaction/sortLib';
+import { api, LightningElement, track } from 'lwc';
 
 export default class ParameterList extends LightningElement {
     @track

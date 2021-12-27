@@ -1,19 +1,19 @@
 // @ts-nocheck
-import { LightningElement, api, track, unwrap } from 'lwc';
-import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { variableConstantReducer } from './variableConstantReducer';
-import { FLOW_DATA_TYPE, FEROV_DATA_TYPE, isComplexType } from 'builder_platform_interaction/dataTypeLib';
-import { PropertyEditorWarningEvent } from 'builder_platform_interaction/events';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import EntityResourcePicker from 'builder_platform_interaction/entityResourcePicker';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { LABELS } from './variableConstantEditorLabels';
-import { getItemOrDisplayText, getFerovInfoAndErrorFromEvent } from 'builder_platform_interaction/expressionUtils';
-import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
+import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { FEROV_DATA_TYPE, FLOW_DATA_TYPE, isComplexType } from 'builder_platform_interaction/dataTypeLib';
 import { DEFAULT_VALUE_DATA_TYPE_PROPERTY } from 'builder_platform_interaction/elementFactory';
+import EntityResourcePicker from 'builder_platform_interaction/entityResourcePicker';
+import { PropertyEditorWarningEvent } from 'builder_platform_interaction/events';
+import { getFerovInfoAndErrorFromEvent, getItemOrDisplayText } from 'builder_platform_interaction/expressionUtils';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { api, LightningElement, track, unwrap } from 'lwc';
+import { LABELS } from './variableConstantEditorLabels';
+import { variableConstantReducer } from './variableConstantReducer';
 
 // the property names in a variable element (after mutation), a subset of these are also constant properties
 const VARIABLE_CONSTANT_FIELDS = {

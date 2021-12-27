@@ -1,101 +1,94 @@
 import panzoom from 'panzoom';
-
-import { assertInDev } from './assertUtils';
-import reducer from './reducer';
 import { animate } from './animate';
-import { renderFlow } from './flowRenderer';
-import { toggleFlowMenu, closeFlowMenu, updateDeletionPathInfo, clearDeletionPathInfo } from './interactionUtils';
-import { calculateFlowLayout } from './layout';
-import { getDefaultLayoutConfig } from './defaultLayoutConfig';
-import { Geometry } from './svgUtils';
-
-import MenuType from './MenuType';
-import NodeType from './NodeType';
-import ConnectorType from './ConnectorTypeEnum';
+import { assertInDev } from './assertUtils';
 import ConnectorLabelType from './ConnectorLabelTypeEnum';
-
+import ConnectorType from './ConnectorTypeEnum';
+import { getDefaultLayoutConfig } from './defaultLayoutConfig';
+import { renderFlow } from './flowRenderer';
 import {
-    InteractionMenuInfo,
-    ConnectorVariant,
     ConnectorRenderInfo,
-    NodeRenderInfo,
-    FlowRenderInfo,
-    FlowRenderContext,
-    getBranchLayoutKey,
-    FlowInteractionState,
-    NodeDimensionMap,
+    ConnectorVariant,
     Dimension,
+    FlowInteractionState,
+    FlowRenderContext,
+    FlowRenderInfo,
+    getBranchLayoutKey,
+    InteractionMenuInfo,
+    NodeDimensionMap,
+    NodeRenderInfo,
     Option
 } from './flowRendererUtils';
-
-export * as actions from './reducer';
-
-export {
-    Guid,
-    FlowModel,
-    NodeRef,
-    NodeModel,
-    ParentNodeModel,
-    StartNodeModel,
-    BranchHeadNodeModel,
-    ElementMetadata,
-    ElementsMetadata,
-    MenuItem,
-    MenuSection,
-    HighlightInfo,
-    FAULT_INDEX,
-    FOR_EACH_INDEX,
-    START_IMMEDIATE_INDEX,
-    resolveNode,
-    getRootNode,
-    canHaveChildren,
-    getElementMetadata,
-    GOTO_CONNECTION_SUFFIX,
-    ConnectionSource
-} from './model';
-
-export {
-    linkElement,
-    deleteBranchHeadProperties,
-    linkBranchOrFault,
-    AlcList,
-    findLastElement,
-    findFirstElement,
-    findParentElement,
-    getChild,
-    deleteBranch,
-    areAllBranchesTerminals,
-    resolveChild,
-    resolveParent,
-    resolveBranchHead,
-    isRoot,
-    getTargetGuidsForReconnection,
-    createRootElement,
-    hasGoTo,
-    hasGoToOnNext,
-    hasGoToOnBranchHead,
-    isBranchingElement,
-    fulfillsBranchingCriteria,
-    isBranchTerminal,
-    deleteGoToConnection,
-    createGoToConnection,
-    removeGoTosFromElement,
-    shouldDeleteGoToOnNext,
-    getSuffixForGoToConnection,
-    hasChildren,
-    getConnectionTarget,
-    setChild,
-    createGoToSourceRef,
-    inlineFromParent,
-    getNonTerminalBranchIndexes,
-    getConnectionSource,
-    getValuesFromConnectionSource,
-    getFirstNonNullNext,
-    isGoingBackToAncestorLoop
-} from './modelUtils';
+import { clearDeletionPathInfo, closeFlowMenu, toggleFlowMenu, updateDeletionPathInfo } from './interactionUtils';
+import { calculateFlowLayout } from './layout';
+import MenuType from './MenuType';
+import NodeType from './NodeType';
+import reducer from './reducer';
+import { Geometry } from './svgUtils';
 
 export { assertAutoLayoutState } from './assertUtils';
-
+export {
+    BranchHeadNodeModel,
+    canHaveChildren,
+    ConnectionSource,
+    ElementMetadata,
+    ElementsMetadata,
+    FAULT_INDEX,
+    FlowModel,
+    FOR_EACH_INDEX,
+    getElementMetadata,
+    getRootNode,
+    GOTO_CONNECTION_SUFFIX,
+    Guid,
+    HighlightInfo,
+    MenuItem,
+    MenuSection,
+    NodeModel,
+    NodeRef,
+    ParentNodeModel,
+    resolveNode,
+    StartNodeModel,
+    START_IMMEDIATE_INDEX
+} from './model';
+export {
+    AlcList,
+    areAllBranchesTerminals,
+    createGoToConnection,
+    createGoToSourceRef,
+    createRootElement,
+    deleteBranch,
+    deleteBranchHeadProperties,
+    deleteGoToConnection,
+    findFirstElement,
+    findLastElement,
+    findParentElement,
+    fulfillsBranchingCriteria,
+    getChild,
+    getConnectionSource,
+    getConnectionTarget,
+    getFirstNonNullNext,
+    getNonTerminalBranchIndexes,
+    getSuffixForGoToConnection,
+    getTargetGuidsForReconnection,
+    getValuesFromConnectionSource,
+    hasChildren,
+    hasGoTo,
+    hasGoToOnBranchHead,
+    hasGoToOnNext,
+    inlineFromParent,
+    isBranchingElement,
+    isBranchTerminal,
+    isGoingBackToAncestorLoop,
+    isRoot,
+    linkBranchOrFault,
+    linkElement,
+    removeGoTosFromElement,
+    resolveBranchHead,
+    resolveChild,
+    resolveParent,
+    setChild,
+    shouldDeleteGoToOnNext
+} from './modelUtils';
+export * as actions from './reducer';
 export {
     animate,
     assertInDev,

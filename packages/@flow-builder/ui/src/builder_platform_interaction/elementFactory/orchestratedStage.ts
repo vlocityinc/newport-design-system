@@ -1,3 +1,6 @@
+import { sanitizeDevName } from 'builder_platform_interaction/commonUtils';
+import { ValueWithError } from 'builder_platform_interaction/dataMutationLib';
+import { FEROV_DATA_TYPE, FLOW_DATA_TYPE, getFlowType } from 'builder_platform_interaction/dataTypeLib';
 import {
     ACTION_TYPE,
     ELEMENT_TYPE,
@@ -5,6 +8,10 @@ import {
     ExitCriteria,
     StageExitCriteria
 } from 'builder_platform_interaction/flowMetadata';
+import { getParametersForInvocableAction, InvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { getElementByGuid, getElementsForElementType } from 'builder_platform_interaction/storeUtils';
+import { createActionCall } from './actionCall';
 import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
@@ -12,25 +19,18 @@ import {
     createCondition,
     duplicateCanvasElementWithChildElements
 } from './base/baseElement';
-
+import { isParameterListRowItem, ParameterListRowItem } from './base/baseList';
 import {
     baseCanvasElementMetadataObject,
     baseChildElementMetadataObject,
     createConditionMetadataObject
 } from './base/baseMetadata';
-import { getElementByGuid, getElementsForElementType } from 'builder_platform_interaction/storeUtils';
 import { createConnectorObjects } from './connector';
-import { sanitizeDevName } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './elementFactoryLabels';
-import { getParametersForInvocableAction, InvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import { createFEROV, createFEROVMetadataObject, getDataTypeKey } from './ferov';
 import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
 import { createOutputParameter } from './outputParameter';
-import { createActionCall } from './actionCall';
-import { isParameterListRowItem, ParameterListRowItem } from './base/baseList';
-import { FEROV_DATA_TYPE, FLOW_DATA_TYPE, getFlowType } from 'builder_platform_interaction/dataTypeLib';
-import { createFEROV, createFEROVMetadataObject, getDataTypeKey } from './ferov';
-import { ValueWithError } from 'builder_platform_interaction/dataMutationLib';
-import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+
 const { format } = commonUtils;
 
 export const ASSIGNEE_PROPERTY_NAME = 'assignee';

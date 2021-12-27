@@ -1,33 +1,30 @@
 // @ts-nocheck
 import {
     ADD_CANVAS_ELEMENT,
+    ADD_FAULT,
+    ADD_SCREEN_WITH_FIELDS,
     ADD_START_ELEMENT,
+    CLEAR_CANVAS_DECORATION,
+    DECORATE_CANVAS,
     DELETE_ELEMENT,
+    DELETE_GOTO_CONNECTION,
     MODIFY_DECISION_WITH_OUTCOMES,
     MODIFY_START_WITH_SCHEDULED_PATHS,
-    SELECTION_ON_FIXED_CANVAS,
-    ADD_FAULT,
     PASTE_ON_FIXED_CANVAS,
-    ADD_SCREEN_WITH_FIELDS,
-    DECORATE_CANVAS,
-    CLEAR_CANVAS_DECORATION,
-    DELETE_GOTO_CONNECTION
+    SELECTION_ON_FIXED_CANVAS
 } from 'builder_platform_interaction/actions';
-import { deepCopy } from 'builder_platform_interaction/storeLib';
 import {
-    reducer,
     actions,
-    HighlightInfo,
     FAULT_INDEX,
     FOR_EACH_INDEX,
+    HighlightInfo,
     NodeType,
+    reducer,
     START_IMMEDIATE_INDEX
 } from 'builder_platform_interaction/autoLayoutCanvas';
-
-import alcElementsReducer from '../alcElementsReducer';
-
 import { CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { Store } from 'builder_platform_interaction/storeLib';
+import { deepCopy, Store } from 'builder_platform_interaction/storeLib';
+import alcElementsReducer from '../alcElementsReducer';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

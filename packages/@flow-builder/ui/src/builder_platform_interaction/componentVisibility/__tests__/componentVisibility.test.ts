@@ -1,21 +1,21 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
+import {
+    removeDocumentBodyChildren,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
+import { hidePopover, showPopover } from 'builder_platform_interaction/builderUtils';
 import ComponentVisiblity from 'builder_platform_interaction/componentVisibility';
-import { showPopover, hidePopover } from 'builder_platform_interaction/builderUtils';
+import { conditionListReducer } from 'builder_platform_interaction/conditionListReducer';
 import {
     AddConditionEvent,
     DeleteConditionEvent,
-    UpdateConditionLogicEvent,
+    PropertyChangedEvent,
     UpdateConditionEvent,
-    PropertyChangedEvent
+    UpdateConditionLogicEvent
 } from 'builder_platform_interaction/events';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
-import { conditionListReducer } from 'builder_platform_interaction/conditionListReducer';
-import {
-    ticks,
-    setDocumentBodyChildren,
-    removeDocumentBodyChildren
-} from 'builder_platform_interaction/builderTestUtils';
+import { createElement } from 'lwc';
 
 jest.mock('builder_platform_interaction/builderUtils');
 jest.mock('builder_platform_interaction/conditionListItem', () =>

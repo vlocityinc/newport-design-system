@@ -1,20 +1,20 @@
 // @ts-nocheck
 import { ELEMENT_TYPE, FOOTER_LABEL_TYPE, PAUSE_MESSAGE_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { isRegionContainerField } from 'builder_platform_interaction/screenEditorUtils';
+import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import {
     baseCanvasElement,
-    duplicateCanvasElementWithChildElements,
-    baseCanvasElementsArrayToMap
+    baseCanvasElementsArrayToMap,
+    duplicateCanvasElementWithChildElements
 } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
+import { createConnectorObjects } from './connector';
 import {
     createDuplicateNestedScreenFields,
-    createScreenFieldWithFields,
+    createScreenFieldMetadataObject,
     createScreenFieldWithFieldReferences,
-    createScreenFieldMetadataObject
+    createScreenFieldWithFields
 } from './screenField';
-import { createConnectorObjects } from './connector';
-import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import { isRegionContainerField } from 'builder_platform_interaction/screenEditorUtils';
 
 const elementType = ELEMENT_TYPE.SCREEN;
 const maxConnections = 1;

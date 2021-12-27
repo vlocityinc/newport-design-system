@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { textTemplateReducer } from '../textTemplateReducer';
-import * as mockStoreData from 'mock/storeData';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
+import * as mockStoreData from 'mock/storeData';
+import { textTemplateReducer } from '../textTemplateReducer';
 
 describe('text-template-reducer', () => {
     let textTemplateResourceInRichText, textTemplateResourceInPlainText;

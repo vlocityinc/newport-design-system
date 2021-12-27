@@ -1,17 +1,17 @@
-import ConnectorType from './ConnectorTypeEnum';
 import ConnectorLabelType from './ConnectorLabelTypeEnum';
-import { SvgInfo, Geometry } from './svgUtils';
+import ConnectorType from './ConnectorTypeEnum';
+import MenuType from './MenuType';
 import {
-    FlowModel,
-    ElementsMetadata,
+    ConnectionSource,
     ElementMetadata,
-    NodeRef,
-    ParentNodeModel,
+    ElementsMetadata,
+    FlowModel,
     Guid,
-    ConnectionSource
+    NodeRef,
+    ParentNodeModel
 } from './model';
 import { isBranchTerminal } from './modelUtils';
-import MenuType from './MenuType';
+import { Geometry, SvgInfo } from './svgUtils';
 
 export interface LayoutInfo {
     x: number;

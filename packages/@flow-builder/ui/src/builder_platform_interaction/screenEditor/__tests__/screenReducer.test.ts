@@ -4,25 +4,24 @@ import {
     createTestScreenField,
     createTestScreenWithFields
 } from 'builder_platform_interaction/builderTestUtils';
-import { screenReducer } from '../screenReducer';
 import {
-    PropertyChangedEvent,
-    createScreenElementMovedEvent,
-    createScreenElementDeletedEvent,
+    createAddAutomaticScreenFieldEvent,
     createAddScreenFieldEvent,
-    ManuallyAssignVariablesChangedEvent,
-    DynamicTypeMappingChangeEvent,
     createColumnWidthChangedEvent,
-    createAddAutomaticScreenFieldEvent
+    createScreenElementDeletedEvent,
+    createScreenElementMovedEvent,
+    DynamicTypeMappingChangeEvent,
+    ManuallyAssignVariablesChangedEvent,
+    PropertyChangedEvent
 } from 'builder_platform_interaction/events';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel, accountSObjectVariable } from 'mock/storeData';
-import { ScreenFieldName } from 'builder_platform_interaction/screenEditorUtils';
-import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { FOOTER_LABEL_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ScreenFieldName, ScreenProperties } from 'builder_platform_interaction/screenEditorUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
 import { LABELS as validationRulesLabels } from 'builder_platform_interaction/validationRules';
-import { ScreenProperties } from 'builder_platform_interaction/screenEditorUtils';
+import { accountSObjectVariable, flowWithAllElementsUIModel } from 'mock/storeData';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { screenReducer } from '../screenReducer';
 
 const section1Guid = 'section1';
 const column1Guid = 'column1';

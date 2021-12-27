@@ -1,15 +1,15 @@
 // @ts-nocheck
-import { assignmentValidation } from './assignmentValidation';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { updateProperties, set, deleteItem } from 'builder_platform_interaction/dataMutationLib';
-import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { deleteItem, set, updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import {
     AddListItemEvent,
     DeleteListItemEvent,
-    UpdateListItemEvent,
-    PropertyChangedEvent
+    PropertyChangedEvent,
+    UpdateListItemEvent
 } from 'builder_platform_interaction/events';
+import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { assignmentValidation } from './assignmentValidation';
 
 const addAssignmentItem = (state) => {
     // TODO this should come from the assignment element factory W-5825956

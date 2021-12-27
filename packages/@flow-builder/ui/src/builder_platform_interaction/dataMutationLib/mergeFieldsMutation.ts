@@ -1,8 +1,8 @@
 // @ts-nocheck
-import { getElementByGuid, getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { splitStringBySeparator } from 'builder_platform_interaction/commonUtils';
-import { isNonRecordGlobalResourceId } from 'builder_platform_interaction/systemLib';
 import { EXPRESSION_RE } from 'builder_platform_interaction/flowMetadata';
+import { getElementByDevName, getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import { isNonRecordGlobalResourceId } from 'builder_platform_interaction/systemLib';
 
 /**
  * The 5 possible situations are:

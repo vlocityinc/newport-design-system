@@ -1,19 +1,6 @@
 // @ts-nocheck
-import { getElementByGuid, getElementsForElementType } from 'builder_platform_interaction/storeUtils';
-import {
-    createOrchestratedStageWithItems,
-    createStageStep,
-    createOrchestratedStageWithItemReferencesWhenUpdatingFromPropertyEditor,
-    createOrchestratedStageWithItemReferences,
-    createOrchestratedStageMetadataObject,
-    getSteps,
-    getOtherItemsInOrchestratedStage,
-    createDuplicateOrchestratedStage,
-    getOrchestratedStageChildren,
-    getStageStepChildren,
-    RELATED_RECORD_INPUT_PARAMETER_NAME,
-    ASSIGNEE_TYPE
-} from '../orchestratedStage';
+import { sanitizeDevName } from 'builder_platform_interaction/commonUtils';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
     ACTION_TYPE,
     CONNECTOR_TYPE,
@@ -22,22 +9,34 @@ import {
     ExitCriteria,
     StageExitCriteria
 } from 'builder_platform_interaction/flowMetadata';
+import { InvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { getElementByGuid, getElementsForElementType } from 'builder_platform_interaction/storeUtils';
+import { createActionCall } from '../actionCall';
 import {
     baseCanvasElement,
-    baseChildElement,
     baseCanvasElementsArrayToMap,
+    baseChildElement,
     duplicateCanvasElementWithChildElements
 } from '../base/baseElement';
-
 import { ParameterListRowItem } from '../base/baseList';
 import { baseCanvasElementMetadataObject, baseChildElementMetadataObject } from '../base/baseMetadata';
-import { sanitizeDevName } from 'builder_platform_interaction/commonUtils';
-import { InvocableAction } from 'builder_platform_interaction/invocableActionLib';
-import { createActionCall } from '../actionCall';
 import { createInputParameter, createInputParameterMetadataObject } from '../inputParameter';
+import {
+    ASSIGNEE_TYPE,
+    createDuplicateOrchestratedStage,
+    createOrchestratedStageMetadataObject,
+    createOrchestratedStageWithItemReferences,
+    createOrchestratedStageWithItemReferencesWhenUpdatingFromPropertyEditor,
+    createOrchestratedStageWithItems,
+    createStageStep,
+    getOrchestratedStageChildren,
+    getOtherItemsInOrchestratedStage,
+    getStageStepChildren,
+    getSteps,
+    RELATED_RECORD_INPUT_PARAMETER_NAME
+} from '../orchestratedStage';
 import { createOutputParameter, createOutputParameterMetadataObject } from '../outputParameter';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 
 jest.mock('builder_platform_interaction/alcCanvasUtils');
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));

@@ -1,9 +1,7 @@
-import { LightningElement, api, track } from 'lwc';
-
-import { LABELS } from './paletteLabels';
-import LightningAccordion from 'lightning/accordion';
-
 import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
+import LightningAccordion from 'lightning/accordion';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './paletteLabels';
 
 const selectors = {
     accordion: 'lightning-accordion'

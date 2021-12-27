@@ -1,6 +1,6 @@
-import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
-import { LightningElement, track, api } from 'lwc';
 import { LegalNoticeDismissedEvent } from 'builder_platform_interaction/events';
+import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './legalPopoverLabels';
 
 export enum HorizontalPosition {

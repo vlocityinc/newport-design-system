@@ -1,5 +1,4 @@
 // @ts-nocheck
-import { recordDeleteReducer } from '../recordDeleteReducer';
 import {
     AddRecordFilterEvent,
     DeleteRecordFilterEvent,
@@ -9,6 +8,7 @@ import {
 } from 'builder_platform_interaction/events';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { recordDeleteReducer } from '../recordDeleteReducer';
 
 const INPUT_REFERENCE_PROPERTY_NAME = 'inputReference',
     OBJECT_PROPERTY_NAME = 'object',

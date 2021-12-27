@@ -1,15 +1,15 @@
-import { OrchestratedStage, ParameterListRowItem, StageStep } from 'builder_platform_interaction/elementFactory';
-import { ORCHESTRATED_ACTION_CATEGORY } from 'builder_platform_interaction/events';
 import {
+    deleteParameterItemByProperty,
     mergeInputOutputParameters,
     mergeWithInputOutputParameters,
     removeUnsetParametersByProperty,
-    updateParameterItemByProperty,
-    deleteParameterItemByProperty
+    updateParameterItemByProperty
 } from 'builder_platform_interaction/calloutEditorLib';
 import { updateProperties, ValueWithError } from 'builder_platform_interaction/dataMutationLib';
-import { Validation } from 'builder_platform_interaction/validation';
+import { OrchestratedStage, ParameterListRowItem, StageStep } from 'builder_platform_interaction/elementFactory';
+import { ORCHESTRATED_ACTION_CATEGORY } from 'builder_platform_interaction/events';
 import { InvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import { Validation } from 'builder_platform_interaction/validation';
 
 export enum PARAMETER_PROPERTY {
     INPUT = 'inputParameters',

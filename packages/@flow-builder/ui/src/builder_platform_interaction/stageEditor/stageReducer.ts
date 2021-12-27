@@ -1,8 +1,8 @@
 // @ts-nocheck
-import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { stageValidation } from './stageValidation';
+import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { stageValidation } from './stageValidation';
 
 const stagePropertyChanged = (state, action) => {
     action.payload.error =

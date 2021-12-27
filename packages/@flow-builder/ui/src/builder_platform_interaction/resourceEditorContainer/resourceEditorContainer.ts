@@ -1,18 +1,17 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import variableEditorTemplate from './variableEditorTemplate.html';
-import constantEditorTemplate from './constantEditorTemplate.html';
-import formulaEditorTemplate from './formulaEditorTemplate.html';
-import textTemplateEditorTemplate from './textTemplateEditorTemplate.html';
-import stageEditorTemplate from './stageEditorTemplate.html';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { api, LightningElement, track } from 'lwc';
 import choiceEditorTemplate from './choiceEditorTemplate.html';
+import collectionChoiceSetEditorTemplate from './collectionChoiceSetEditorTemplate.html';
+import constantEditorTemplate from './constantEditorTemplate.html';
+import emptyTemplate from './emptyTemplate.html';
+import formulaEditorTemplate from './formulaEditorTemplate.html';
 import picklistChoiceSetEditorTemplate from './picklistChoiceSetEditorTemplate.html';
 import recordChoiceSetEditorTemplate from './recordChoiceSetEditorTemplate.html';
-import collectionChoiceSetEditorTemplate from './collectionChoiceSetEditorTemplate.html';
-
-import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import emptyTemplate from './emptyTemplate.html';
+import stageEditorTemplate from './stageEditorTemplate.html';
+import textTemplateEditorTemplate from './textTemplateEditorTemplate.html';
+import variableEditorTemplate from './variableEditorTemplate.html';
 
 const resourceTypeElementTypeMap = {
     variable: ELEMENT_TYPE.VARIABLE,

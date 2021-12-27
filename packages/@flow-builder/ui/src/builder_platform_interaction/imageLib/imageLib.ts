@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { ELEMENT_TYPE, COLLECTION_PROCESSOR_SUB_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { COLLECTION_PROCESSOR_SUB_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const preloadedResources = {};
 

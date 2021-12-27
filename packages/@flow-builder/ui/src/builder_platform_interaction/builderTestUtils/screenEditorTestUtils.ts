@@ -1,18 +1,18 @@
 // @ts-nocheck
-import { generateGuid } from 'builder_platform_interaction/storeLib';
-import {
-    getScreenFieldTypeByName,
-    getLocalExtensionFieldType,
-    ScreenFieldName
-} from 'builder_platform_interaction/screenEditorUtils';
 import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
-import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import {
-    createScreenWithFields,
+    createChoiceReference,
     createScreenField,
-    createChoiceReference
+    createScreenWithFields
 } from 'builder_platform_interaction/elementFactory';
+import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+import {
+    getLocalExtensionFieldType,
+    getScreenFieldTypeByName,
+    ScreenFieldName
+} from 'builder_platform_interaction/screenEditorUtils';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 const SELECTOR_REGEX = /(.*)\[([^$*^|~]*)(.*)?=["'](.*)["']\]/g;
 

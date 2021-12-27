@@ -1,22 +1,22 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import NewFlowModalBody from 'builder_platform_interaction/newFlowModalBody';
-import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { resolveRenderCycles } from '../resolveRenderCycles';
-import { resetState } from '../integrationTestUtils';
-import { getTemplates, initializeAuraFetch } from '../serverDataTestUtils';
-import { ALL_PROCESS_TYPE } from 'builder_platform_interaction/processTypeLib';
-import { processTypes } from 'serverData/GetProcessTypes/processTypes.json';
-import { flowEntries } from 'serverData/GetFlowEntries/flowEntries.json';
-import { templatesForFlowAndAutoLaunchedFlow } from 'serverData/GetTemplates/templatesForFlowAndAutoLaunchedFlow.json';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { reducer } from 'builder_platform_interaction/reducers';
 import {
+    deepQuerySelector,
     INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS,
-    deepQuerySelector,
     setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import NewFlowModalBody from 'builder_platform_interaction/newFlowModalBody';
+import { ALL_PROCESS_TYPE } from 'builder_platform_interaction/processTypeLib';
+import { reducer } from 'builder_platform_interaction/reducers';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
+import { flowEntries } from 'serverData/GetFlowEntries/flowEntries.json';
+import { processTypes } from 'serverData/GetProcessTypes/processTypes.json';
+import { templatesForFlowAndAutoLaunchedFlow } from 'serverData/GetTemplates/templatesForFlowAndAutoLaunchedFlow.json';
+import { resetState } from '../integrationTestUtils';
+import { resolveRenderCycles } from '../resolveRenderCycles';
+import { getTemplates, initializeAuraFetch } from '../serverDataTestUtils';
 
 const SELECTORS = {
     ERROR_MESSAGE: '.errorMessage .slds-notify__content',

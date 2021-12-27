@@ -1,10 +1,10 @@
 // @ts-nocheck
-import { baseElementsArrayToMap, baseResource } from './base/baseElement';
-import { createFEROV, createFEROVMetadataObject, getDataTypeKey } from './ferov';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { baseElementsArrayToMap, baseResource } from './base/baseElement';
 import { baseResourceMetadataObject } from './base/baseMetadata';
 import { createValidationRuleObject } from './base/baseValidationInput';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { createFEROV, createFEROVMetadataObject, getDataTypeKey } from './ferov';
 
 const elementType = ELEMENT_TYPE.CHOICE;
 const STORED_VALUE_PROPERTY = 'storedValue';

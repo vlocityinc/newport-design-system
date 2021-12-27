@@ -1,31 +1,31 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
 import { focusOnDockingPanel } from 'builder_platform_interaction/builderUtils';
-import { getDrawingLibInstance, clearDrawingLibInstance } from 'builder_platform_interaction/drawingLib';
-import { isMultiSelect, setupCanvasElements, setupConnectors } from './canvasUtils';
-import {
-    SCALE_BOUNDS,
-    getOffsetValuesOnPan,
-    canDelete,
-    canZoom,
-    getScaleAndOffsetValuesOnZoom,
-    getDistanceBetweenViewportCenterAndElement,
-    isElementInViewport
-} from './zoomPanUtils';
-import { checkMarqueeSelection } from './marqueeSelectionLib';
+import { clearDrawingLibInstance, getDrawingLibInstance } from 'builder_platform_interaction/drawingLib';
 import { isCanvasElement } from 'builder_platform_interaction/elementConfig';
 import {
-    AddElementEvent,
-    DeleteElementEvent,
-    CanvasMouseUpEvent,
     AddConnectionEvent,
-    ConnectorSelectedEvent,
-    MarqueeSelectEvent,
+    AddElementEvent,
+    CanvasMouseUpEvent,
     ClickToZoomEvent,
-    ZOOM_ACTION,
-    MARQUEE_ACTION
+    ConnectorSelectedEvent,
+    DeleteElementEvent,
+    MarqueeSelectEvent,
+    MARQUEE_ACTION,
+    ZOOM_ACTION
 } from 'builder_platform_interaction/events';
-import { loggingUtils, commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+import { commands, keyboardInteractionUtils, loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { api, LightningElement, track } from 'lwc';
+import { isMultiSelect, setupCanvasElements, setupConnectors } from './canvasUtils';
+import { checkMarqueeSelection } from './marqueeSelectionLib';
+import {
+    canDelete,
+    canZoom,
+    getDistanceBetweenViewportCenterAndElement,
+    getOffsetValuesOnPan,
+    getScaleAndOffsetValuesOnZoom,
+    isElementInViewport,
+    SCALE_BOUNDS
+} from './zoomPanUtils';
 
 const { logPerfMarkStart, logPerfMarkEnd, logInteraction } = loggingUtils;
 const {

@@ -1,9 +1,9 @@
 // @ts-nocheck
 import systemVariableCategory from '@salesforce/label/FlowBuilderSystemVariables.systemVariableCategory';
-import { readonly } from 'lwc';
-import { getStartElementFromState } from 'builder_platform_interaction/storeUtils';
 import { FLOW_TRIGGER_SAVE_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { getStartElementFromState } from 'builder_platform_interaction/storeUtils';
+import { readonly } from 'lwc';
 
 export const SYSTEM_VARIABLE_PREFIX = '$Flow';
 export const SYSTEM_VARIABLE_CLIENT_PREFIX = '$Client';

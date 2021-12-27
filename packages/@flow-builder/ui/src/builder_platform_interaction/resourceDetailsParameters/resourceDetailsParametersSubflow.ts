@@ -1,9 +1,9 @@
 // @ts-nocheck
+import { getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
+import { labelComparator } from 'builder_platform_interaction/sortLib';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { fetchActiveOrLatestFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
 import { ResourceDetailsParametersConfig } from './resourceDetailsParametersConfig';
-import { getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
-import { labelComparator } from 'builder_platform_interaction/sortLib';
 
 /**
  * Subflow output parameters fetching/mapping specifics

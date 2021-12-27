@@ -1,8 +1,8 @@
 // @ts-nocheck
-import { getRulesForField, screenValidation } from '../screenValidation';
-import { elementsForPropertyEditors, emailScreenFieldAutomaticOutput, emailScreenField } from 'mock/storeData';
-import { flowExtensionDetails as mockFlowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+import { elementsForPropertyEditors, emailScreenField, emailScreenFieldAutomaticOutput } from 'mock/storeData';
+import { flowExtensionDetails as mockFlowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
+import { getRulesForField, screenValidation } from '../screenValidation';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

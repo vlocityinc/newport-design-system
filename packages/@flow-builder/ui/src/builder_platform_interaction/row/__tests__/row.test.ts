@@ -1,8 +1,8 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import Row from 'builder_platform_interaction/row';
-import { DeleteListItemEvent, EditListItemEvent } from 'builder_platform_interaction/events';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { DeleteListItemEvent, EditListItemEvent } from 'builder_platform_interaction/events';
+import Row from 'builder_platform_interaction/row';
+import { createElement } from 'lwc';
 
 const prefix = 'myAwesomePrefix';
 const itemIndex = 3;

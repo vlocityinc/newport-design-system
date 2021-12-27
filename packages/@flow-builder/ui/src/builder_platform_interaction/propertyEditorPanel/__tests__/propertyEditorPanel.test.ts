@@ -1,9 +1,8 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-
-import PropertyEditorPanel from '../propertyEditorPanel';
-import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
+import { createElement } from 'lwc';
+import PropertyEditorPanel from '../propertyEditorPanel';
 
 jest.mock('builder_platform_interaction/sharedUtils', () =>
     jest.requireActual('builder_platform_interaction_mocks/sharedUtils')

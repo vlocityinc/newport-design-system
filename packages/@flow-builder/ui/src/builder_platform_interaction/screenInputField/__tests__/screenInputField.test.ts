@@ -1,13 +1,13 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import ScreenInputField from 'builder_platform_interaction/screenInputField';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import {
     CURRENCY_FORMAT,
     LIGHTNING_INPUT_TYPES,
     LIGHTNING_INPUT_VARIANTS
 } from 'builder_platform_interaction/screenEditorUtils';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import ScreenInputField from 'builder_platform_interaction/screenInputField';
+import { createElement } from 'lwc';
 
 const SELECTORS = {
     INPUT: 'lightning-input'

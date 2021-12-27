@@ -1,13 +1,13 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import StartNodeScheduledPathButton from '../startNodeScheduledPathButton';
-import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { EditElementEvent, ArrowKeyDownEvent } from 'builder_platform_interaction/events';
-import { startElementWithAccountAndNoCondition } from 'mock/storeDataScheduleTriggered';
-import { startElement } from 'mock/storeDataRecordTriggered';
-import { EDIT_START_SCHEDULED_PATHS } from 'builder_platform_interaction/elementConfig';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { EDIT_START_SCHEDULED_PATHS } from 'builder_platform_interaction/elementConfig';
+import { ArrowKeyDownEvent, EditElementEvent } from 'builder_platform_interaction/events';
+import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+import { createElement } from 'lwc';
+import { startElement } from 'mock/storeDataRecordTriggered';
+import { startElementWithAccountAndNoCondition } from 'mock/storeDataScheduleTriggered';
+import StartNodeScheduledPathButton from '../startNodeScheduledPathButton';
 
 const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
 const { Keys } = keyboardInteractionUtils;

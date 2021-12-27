@@ -1,49 +1,49 @@
-import { LightningElement, api, track, unwrap } from 'lwc';
-import {
-    FetchMenuDataEvent,
-    ComboboxStateChangedEvent,
-    FilterMatchesEvent,
-    NewResourceEvent,
-    ItemSelectedEvent,
-    RemoveMergeFieldPillEvent,
-    EditMergeFieldPillEvent
-} from 'builder_platform_interaction/events';
-import { FLOW_DATA_TYPE, isComplexType } from 'builder_platform_interaction/dataTypeLib';
-import { COMBOBOX_NEW_RESOURCE_VALUE } from 'builder_platform_interaction/expressionUtils';
-import {
-    isUndefinedOrNull,
-    isObject,
-    isValidNumber,
-    addCurlyBraces,
-    splitStringBySeparator,
-    isReference,
-    sanitizeBoolean
-} from 'builder_platform_interaction/commonUtils';
-import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
-import { LABELS } from './comboboxLabels';
-import {
-    validateTextWithMergeFields,
-    validateMergeField,
-    isTextWithMergeFields
-} from 'builder_platform_interaction/mergeFieldLib';
-import { getPillTooltip, getPillLabel } from 'builder_platform_interaction/pillLib';
 import { getElementFromParentElementCache } from 'builder_platform_interaction/comboboxCache';
 import {
-    isNonRecordGlobalResourceId,
-    isRecordSystemVariableIdentifier,
-    isRecordPriorSystemVariableIdentifier
-} from 'builder_platform_interaction/systemLib';
+    addCurlyBraces,
+    isObject,
+    isReference,
+    isUndefinedOrNull,
+    isValidNumber,
+    sanitizeBoolean,
+    splitStringBySeparator
+} from 'builder_platform_interaction/commonUtils';
+import { FLOW_DATA_TYPE, isComplexType } from 'builder_platform_interaction/dataTypeLib';
 import {
-    normalizeDateTime,
     createMetadataDateTime,
     formatDateTime,
+    getFormat,
     isValidFormattedDateTime,
     isValidMetadataDateTime,
-    getFormat
+    normalizeDateTime
 } from 'builder_platform_interaction/dateTimeUtils';
-
-import { sliceMenu, getMenuLength, setSelectableMenuItem } from './utils';
+import {
+    ComboboxStateChangedEvent,
+    EditMergeFieldPillEvent,
+    FetchMenuDataEvent,
+    FilterMatchesEvent,
+    ItemSelectedEvent,
+    NewResourceEvent,
+    RemoveMergeFieldPillEvent
+} from 'builder_platform_interaction/events';
+import { COMBOBOX_NEW_RESOURCE_VALUE } from 'builder_platform_interaction/expressionUtils';
+import {
+    isTextWithMergeFields,
+    validateMergeField,
+    validateTextWithMergeFields
+} from 'builder_platform_interaction/mergeFieldLib';
+import { getPillLabel, getPillTooltip } from 'builder_platform_interaction/pillLib';
+import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import {
+    isNonRecordGlobalResourceId,
+    isRecordPriorSystemVariableIdentifier,
+    isRecordSystemVariableIdentifier
+} from 'builder_platform_interaction/systemLib';
+import { api, LightningElement, track, unwrap } from 'lwc';
+import { LABELS } from './comboboxLabels';
+import { getMenuLength, setSelectableMenuItem, sliceMenu } from './utils';
+
 const { format } = commonUtils;
 
 const SELECTORS = {

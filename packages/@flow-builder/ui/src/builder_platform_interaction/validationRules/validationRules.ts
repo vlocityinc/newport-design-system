@@ -1,14 +1,14 @@
-import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
-import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
-import { isDevNameInStore, isOrderNumberInStore } from 'builder_platform_interaction/storeUtils';
-import { isValidMetadataDateTime, getFormat } from 'builder_platform_interaction/dateTimeUtils';
-import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
-import { LABELS as labels } from './validationRulesLabels';
-import { validateLHS, validateRHS, validatePicker } from 'builder_platform_interaction/expressionValidator';
-import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
 import { FlowModel } from 'builder_platform_interaction/autoLayoutCanvas';
+import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { getFormat, isValidMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
+import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
+import { validateLHS, validatePicker, validateRHS } from 'builder_platform_interaction/expressionValidator';
+import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
+import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { isDevNameInStore, isOrderNumberInStore } from 'builder_platform_interaction/storeUtils';
+import { LABELS as labels } from './validationRulesLabels';
 const { format } = commonUtils;
 
 /**

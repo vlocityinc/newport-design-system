@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { createStep, createStepWithConnectorsForStore, createStepMetadataObject } from '../step';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { createStep, createStepMetadataObject, createStepWithConnectorsForStore } from '../step';
 
 const defaultStepElement = {
     elementType: ELEMENT_TYPE.STEP,

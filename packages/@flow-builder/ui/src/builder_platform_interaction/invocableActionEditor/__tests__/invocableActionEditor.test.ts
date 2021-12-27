@@ -1,36 +1,35 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import InvocableActionEditor from '../invocableActionEditor';
-import { mockActions } from 'mock/calloutData';
-import { chatterPostActionDetails as mockActionDetails } from 'serverData/GetInvocableActionDetails/chatterPostActionDetails.json';
-import { logACallActionDetaild as mockActionDetailsNoOutputs } from 'serverData/GetInvocableActionDetails/logACallActionDetails.json';
-
 import {
-    ClosePropertyEditorEvent,
+    getManuallyAssignVariablesCheckbox,
+    getManuallyAssignVariablesCheckboxInputElement,
+    setDocumentBodyChildren,
+    ticks,
+    untilNoFailure
+} from 'builder_platform_interaction/builderTestUtils';
+import {
     CannotRetrieveCalloutParametersEvent,
-    SetPropertyEditorTitleEvent,
-    UpdateNodeEvent,
-    PropertyChangedEvent,
-    UpdateParameterItemEvent,
-    DeleteParameterItemEvent,
-    ManuallyAssignVariablesChangedEvent,
+    ClosePropertyEditorEvent,
     ConfigurationEditorChangeEvent,
     ConfigurationEditorPropertyDeleteEvent,
-    DynamicTypeMappingChangeEvent
+    DeleteParameterItemEvent,
+    DynamicTypeMappingChangeEvent,
+    ManuallyAssignVariablesChangedEvent,
+    PropertyChangedEvent,
+    SetPropertyEditorTitleEvent,
+    UpdateNodeEvent,
+    UpdateParameterItemEvent
 } from 'builder_platform_interaction/events';
-import {
-    untilNoFailure,
-    ticks,
-    getManuallyAssignVariablesCheckboxInputElement,
-    getManuallyAssignVariablesCheckbox,
-    setDocumentBodyChildren
-} from 'builder_platform_interaction/builderTestUtils';
 import { ELEMENT_TYPE, FLOW_TRANSACTION_MODEL } from 'builder_platform_interaction/flowMetadata';
 import { clearInvocableActionCachedParameters } from 'builder_platform_interaction/invocableActionLib';
 import {
     getProcessTypeAutomaticOutPutHandlingSupport,
     getProcessTypeTransactionControlledActionsSupport
 } from 'builder_platform_interaction/processTypeLib';
+import { createElement } from 'lwc';
+import { mockActions } from 'mock/calloutData';
+import { chatterPostActionDetails as mockActionDetails } from 'serverData/GetInvocableActionDetails/chatterPostActionDetails.json';
+import { logACallActionDetaild as mockActionDetailsNoOutputs } from 'serverData/GetInvocableActionDetails/logACallActionDetails.json';
+import InvocableActionEditor from '../invocableActionEditor';
 
 jest.mock('builder_platform_interaction/translatorLib', () => ({
     translateUIModelToFlow: jest.fn()

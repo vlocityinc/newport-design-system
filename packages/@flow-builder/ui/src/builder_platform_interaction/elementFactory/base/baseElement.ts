@@ -1,15 +1,14 @@
-import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { copyAlcExtraProps } from 'builder_platform_interaction/alcCanvasUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { createFEROV } from '../ferov';
-import { createListRowItem, RHS_DATA_TYPE_PROPERTY, RHS_PROPERTY } from './baseList';
-import { Store } from 'builder_platform_interaction/storeLib';
+import { CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     FLOW_AUTOMATIC_OUTPUT_HANDLING,
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
-import { copyAlcExtraProps } from 'builder_platform_interaction/alcCanvasUtils';
+import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
+import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import { createFEROV } from '../ferov';
+import { createListRowItem, RHS_DATA_TYPE_PROPERTY, RHS_PROPERTY } from './baseList';
 
 export const DUPLICATE_ELEMENT_XY_OFFSET = 75;
 

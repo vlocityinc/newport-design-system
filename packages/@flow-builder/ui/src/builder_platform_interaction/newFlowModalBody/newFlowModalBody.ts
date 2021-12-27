@@ -1,12 +1,11 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
-import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
-import { ALL_PROCESS_TYPE } from 'builder_platform_interaction/processTypeLib';
 import { loadAllSupportedFeatures } from 'builder_platform_interaction/preloadLib';
-import { LABELS } from './newFlowModalBodyLabels';
+import { ALL_PROCESS_TYPE } from 'builder_platform_interaction/processTypeLib';
+import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { setProcessTypes } from 'builder_platform_interaction/systemLib';
-import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './newFlowModalBodyLabels';
 
 const TAB_RECOMMENDED = 'recommended';
 const TAB_TEMPLATES = 'templates';

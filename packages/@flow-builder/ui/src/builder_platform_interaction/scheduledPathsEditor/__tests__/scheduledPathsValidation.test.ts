@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { scheduledPathsValidation } from '../scheduledPathsValidation';
-import { LABELS } from '../../validationRules/validationRulesLabels';
 import { TIME_OPTION } from 'builder_platform_interaction/flowMetadata';
+import { LABELS } from '../../validationRules/validationRulesLabels';
+import { scheduledPathsValidation } from '../scheduledPathsValidation';
 
 describe('Additional Scheduled Path Validations', () => {
     describe('when props set to offsetUnit', () => {

@@ -1,12 +1,12 @@
-import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { createEndElement } from 'builder_platform_interaction/elementFactory';
-import { createNewConnector } from 'builder_platform_interaction/connectorUtils';
-import { generateGuid, deepCopy } from 'builder_platform_interaction/storeLib';
-import { pick } from 'builder_platform_interaction/dataMutationLib';
-import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
-import { convertToAutoLayoutCanvas, ConvertToAutoLayoutCanvasOptions } from './freeFormToAutoLayout';
-import { convertToFreeFormCanvas } from './autoLayoutToFreeForm';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { createNewConnector } from 'builder_platform_interaction/connectorUtils';
+import { pick } from 'builder_platform_interaction/dataMutationLib';
+import { createEndElement } from 'builder_platform_interaction/elementFactory';
+import { CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { deepCopy, generateGuid } from 'builder_platform_interaction/storeLib';
+import { convertToFreeFormCanvas } from './autoLayoutToFreeForm';
+import { convertToAutoLayoutCanvas, ConvertToAutoLayoutCanvasOptions } from './freeFormToAutoLayout';
 
 const { logInteraction, logMetricsServiceErrorTransaction } = loggingUtils;
 

@@ -1,19 +1,19 @@
-import { createElement } from 'lwc';
-import ScreenField from '../screenField';
 import {
     createTestScreenField,
+    INTERACTION_COMPONENTS_SELECTORS,
     SCREEN_NO_DEF_VALUE,
     setDocumentBodyChildren,
-    ticks,
-    INTERACTION_COMPONENTS_SELECTORS
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
-import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { accountSObjectVariable, flowWithAllElementsUIModel } from 'mock/storeData';
 import { createAutomaticField } from 'builder_platform_interaction/elementFactory';
-import { ScreenFieldName } from 'builder_platform_interaction/screenEditorUtils';
-import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
+import { ScreenFieldName } from 'builder_platform_interaction/screenEditorUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
+import { accountSObjectVariable, flowWithAllElementsUIModel } from 'mock/storeData';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import ScreenField from '../screenField';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

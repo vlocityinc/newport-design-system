@@ -1,13 +1,13 @@
 // @ts-nocheck
-import * as ValidationRules from 'builder_platform_interaction/validationRules';
-import { Validation, defaultRules } from 'builder_platform_interaction/validation';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     CONDITION_LOGIC,
-    WAIT_TIME_EVENT_TYPE,
+    ELEMENT_TYPE,
+    WAIT_TIME_EVENT_OFFSET_UNIT,
     WAIT_TIME_EVENT_PARAMETER_NAMES,
-    WAIT_TIME_EVENT_OFFSET_UNIT
+    WAIT_TIME_EVENT_TYPE
 } from 'builder_platform_interaction/flowMetadata';
+import { defaultRules, Validation } from 'builder_platform_interaction/validation';
+import * as ValidationRules from 'builder_platform_interaction/validationRules';
 import { LABELS } from './waitEditorLabels';
 
 /**

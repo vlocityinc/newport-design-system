@@ -1,10 +1,10 @@
 // @ts-nocheck
-import { createDynamicChoiceSet, createDynamicChoiceSetMetadataObject } from './base/dynamicChoiceSet';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { baseElementsArrayToMap } from './base/baseElement';
-import { createOutputAssignment, createOutputAssignmentMetadataObject } from './base/outputAssignments';
-import { createFilterMetadataObject, createFilter } from './base/baseRecordElement';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { baseElementsArrayToMap } from './base/baseElement';
+import { createFilter, createFilterMetadataObject } from './base/baseRecordElement';
+import { createDynamicChoiceSet, createDynamicChoiceSetMetadataObject } from './base/dynamicChoiceSet';
+import { createOutputAssignment, createOutputAssignmentMetadataObject } from './base/outputAssignments';
 
 /**
  * Record choice set factory function

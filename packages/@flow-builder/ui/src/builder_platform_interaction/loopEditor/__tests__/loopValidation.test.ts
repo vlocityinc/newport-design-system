@@ -1,15 +1,15 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import LoopEditor from '../loopEditor';
-import { validate } from '../loopValidation';
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import { loopReducer } from '../loopReducer';
-import { ManuallyAssignVariablesChangedEvent } from 'builder_platform_interaction/events';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { scheduleTriggeredFlowUIModel } from 'mock/storeDataScheduleTriggered';
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { ManuallyAssignVariablesChangedEvent } from 'builder_platform_interaction/events';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import { createElement } from 'lwc';
+import { scheduleTriggeredFlowUIModel } from 'mock/storeDataScheduleTriggered';
+import LoopEditor from '../loopEditor';
+import { loopReducer } from '../loopReducer';
+import { validate } from '../loopValidation';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

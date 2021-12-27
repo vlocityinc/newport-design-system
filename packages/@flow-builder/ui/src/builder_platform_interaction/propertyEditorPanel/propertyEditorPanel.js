@@ -1,9 +1,8 @@
-import { LightningElement, track, api } from 'lwc';
-
-import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
-import { LABELS } from './propertyEditorPanelLabels';
 import { PROPERTY_EDITOR_PANEL_SIZE } from 'builder_platform_interaction/elementConfig';
+import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
 import { classSet } from 'lightning/utils';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './propertyEditorPanelLabels';
 
 /**
  * LWC version of the property editor, for use in lwc (as opposed to aura modal version)

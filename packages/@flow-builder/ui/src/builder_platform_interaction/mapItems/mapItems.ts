@@ -1,8 +1,8 @@
-import { LightningElement, api } from 'lwc';
-import { LABELS } from './mapItemsLabels';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { api, LightningElement } from 'lwc';
+import { LABELS } from './mapItemsLabels';
 const { format } = commonUtils;
 
 export default class MapItems extends LightningElement {

@@ -1,66 +1,65 @@
 // @ts-nocheck
-import {
-    screenValidation,
-    getExtensionParameterValidation,
-    getRulesForField,
-    getDynamicTypeMappingValidation,
-    getRules
-} from './screenValidation';
-import { VALIDATE_ALL, isUniqueDevNameInStore } from 'builder_platform_interaction/validationRules';
 import { conditionListReducer } from 'builder_platform_interaction/conditionListReducer';
 import {
-    updateProperties,
-    set,
     deleteItem,
-    insertItem,
-    replaceItem,
-    hydrateWithErrors,
-    isItemHydratedWithErrors,
+    getErrorFromHydratedItem,
     getValueFromHydratedItem,
-    getErrorFromHydratedItem
+    hydrateWithErrors,
+    insertItem,
+    isItemHydratedWithErrors,
+    replaceItem,
+    set,
+    updateProperties
 } from 'builder_platform_interaction/dataMutationLib';
-import {
-    PropertyChangedEvent,
-    ValidationRuleChangedEvent,
-    ScreenEditorEventName,
-    AddConditionEvent,
-    UpdateConditionLogicEvent,
-    DeleteConditionEvent,
-    UpdateConditionEvent,
-    ManuallyAssignVariablesChangedEvent,
-    DynamicTypeMappingChangeEvent,
-    InputsOnNextNavToAssocScrnChangeEvent
-} from 'builder_platform_interaction/events';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 import {
     createAutomaticField,
+    createChoiceReference,
     createEmptyScreenFieldOfType,
     createScreenField
 } from 'builder_platform_interaction/elementFactory';
-import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { createChoiceReference } from 'builder_platform_interaction/elementFactory';
 import {
-    isScreen,
-    isExtensionField,
-    isPicklistField,
-    isMultiSelectPicklistField,
-    isMultiSelectCheckboxField,
-    isRadioField,
+    AddConditionEvent,
+    DeleteConditionEvent,
+    DynamicTypeMappingChangeEvent,
+    InputsOnNextNavToAssocScrnChangeEvent,
+    ManuallyAssignVariablesChangedEvent,
+    PropertyChangedEvent,
+    ScreenEditorEventName,
+    UpdateConditionEvent,
+    UpdateConditionLogicEvent,
+    ValidationRuleChangedEvent
+} from 'builder_platform_interaction/events';
+import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
+import { ELEMENT_TYPE, FOOTER_LABEL_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
     compareValues,
-    EXTENSION_PARAM_PREFIX,
     extendFlowExtensionScreenField,
+    EXTENSION_PARAM_PREFIX,
+    getAllScreenFields,
     getColumnFieldType,
-    isRegionContainerField,
     getScreenFieldTypeByName,
-    ScreenProperties,
-    getAllScreenFields
+    InputsOnNextNavToAssocScrnOption,
+    isExtensionField,
+    isMultiSelectCheckboxField,
+    isMultiSelectPicklistField,
+    isPicklistField,
+    isRadioField,
+    isRegionContainerField,
+    isScreen,
+    ScreenProperties
 } from 'builder_platform_interaction/screenEditorUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
-import { InputsOnNextNavToAssocScrnOption } from 'builder_platform_interaction/screenEditorUtils';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { FOOTER_LABEL_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { usedBy } from 'builder_platform_interaction/usedByLib';
+import { isUniqueDevNameInStore, VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import {
+    getDynamicTypeMappingValidation,
+    getExtensionParameterValidation,
+    getRules,
+    getRulesForField,
+    screenValidation
+} from './screenValidation';
 
 /**
  * Replaces the field at the specified position with the updatedChild and then updates the fields

@@ -1,14 +1,14 @@
 // @ts-nocheck
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { createFEROV, createFEROVMetadataObject } from '../ferov';
 import {
-    createListRowItem,
     createExpressionListRowItemWithoutOperator,
     createExpressionListRowItemWithoutOperatorAndRHSDataType,
-    RHS_PROPERTY,
-    RHS_DATA_TYPE_PROPERTY
+    createListRowItem,
+    RHS_DATA_TYPE_PROPERTY,
+    RHS_PROPERTY
 } from './baseList';
-import { createFEROV, createFEROVMetadataObject } from '../ferov';
-import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const lhsMetadataPropertyName = 'value';
 const outputLhsMetadataPropertyName = 'assignToReference';

@@ -1,7 +1,7 @@
-import { areAllBranchesTerminals, isBranchingElement, hasGoToOnNext } from '../modelUtils';
-import NodeType from '../NodeType';
 import { getDefaultLayoutConfig } from '../defaultLayoutConfig';
 import { FAULT_INDEX, FOR_EACH_INDEX } from '../model';
+import { areAllBranchesTerminals, hasGoToOnNext, isBranchingElement } from '../modelUtils';
+import NodeType from '../NodeType';
 
 const layoutConfig = getDefaultLayoutConfig();
 

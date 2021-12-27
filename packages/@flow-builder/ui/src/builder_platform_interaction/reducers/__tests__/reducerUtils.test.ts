@@ -1,5 +1,5 @@
-import { getSubElementGuids } from '../reducersUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getSubElementGuids } from '../reducersUtils';
 
 describe('getSubElementGuids', () => {
     const elements = {

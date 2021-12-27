@@ -1,8 +1,8 @@
-import { createDynamicChoiceSet, createDynamicChoiceSetMetadataObject } from './base/dynamicChoiceSet';
-import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { baseElementsArrayToMap } from './base/baseElement';
 import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
+import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
+import { baseElementsArrayToMap } from './base/baseElement';
+import { createDynamicChoiceSet, createDynamicChoiceSetMetadataObject } from './base/dynamicChoiceSet';
 /**
  * Collection choice set factory function
  *

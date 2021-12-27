@@ -1,18 +1,18 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
-import { updateProperties, sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
+import { isObject } from 'builder_platform_interaction/commonUtils';
+import { sanitizeGuid, updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import {
     EXPRESSION_PROPERTY_TYPE,
     getResourceByUniqueIdentifier,
     LHS_DISPLAY_OPTION,
-    populateRhsState,
-    normalizeFEROV
+    normalizeFEROV,
+    populateRhsState
 } from 'builder_platform_interaction/expressionUtils';
-import { elementToParam } from 'builder_platform_interaction/ruleLib';
-import { isObject } from 'builder_platform_interaction/commonUtils';
 import { isLookupTraversalSupported } from 'builder_platform_interaction/mergeFieldLib';
+import { elementToParam } from 'builder_platform_interaction/ruleLib';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getTriggerType } from 'builder_platform_interaction/storeUtils';
+import { api, LightningElement, track } from 'lwc';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 

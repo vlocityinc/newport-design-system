@@ -1,10 +1,10 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import RecordNumberRecordToStore from 'builder_platform_interaction/recordNumberRecordToStore';
-import { NumberRecordToStoreChangedEvent } from 'builder_platform_interaction/events';
-import { NUMBER_RECORDS_OPTIONS } from '../../recordLookupEditor/recordLookupEditorLabels';
-import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction/recordEditorLib';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { NumberRecordToStoreChangedEvent } from 'builder_platform_interaction/events';
+import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction/recordEditorLib';
+import RecordNumberRecordToStore from 'builder_platform_interaction/recordNumberRecordToStore';
+import { createElement } from 'lwc';
+import { NUMBER_RECORDS_OPTIONS } from '../../recordLookupEditor/recordLookupEditorLabels';
 
 const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-record-number-record-to-store', {

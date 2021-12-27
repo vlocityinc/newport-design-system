@@ -1,12 +1,12 @@
+import {
+    LIGHTNING_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
+import { invokeModal } from 'builder_platform_interaction/sharedUtils';
 import { createElement } from 'lwc';
 import ManuallyAssignVariablesCheckbox from '../manuallyAssignVariablesCheckbox';
 import { LABELS } from '../manuallyAssignVariablesCheckboxLabels';
-import { invokeModal } from 'builder_platform_interaction/sharedUtils';
-import {
-    ticks,
-    LIGHTNING_COMPONENTS_SELECTORS,
-    setDocumentBodyChildren
-} from 'builder_platform_interaction/builderTestUtils';
 
 function createComponentForTest(isAdvancedMode) {
     const el = createElement('builder_platform_interaction-use-advanced-options-checkbox', {

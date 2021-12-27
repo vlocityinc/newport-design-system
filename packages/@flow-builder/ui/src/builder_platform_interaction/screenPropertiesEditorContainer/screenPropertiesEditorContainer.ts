@@ -1,11 +1,11 @@
-import { LightningElement, api, track, readonly } from 'lwc';
-import * as screenEditorUtils from 'builder_platform_interaction/screenEditorUtils';
-import { describeExtension } from 'builder_platform_interaction/flowExtensionLib';
-import { createScreenNodeSelectedEvent } from 'builder_platform_interaction/events';
-import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { createScreenNodeSelectedEvent } from 'builder_platform_interaction/events';
+import { describeExtension } from 'builder_platform_interaction/flowExtensionLib';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
+import * as screenEditorUtils from 'builder_platform_interaction/screenEditorUtils';
 import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+import { api, LightningElement, readonly, track } from 'lwc';
 const { BaseKeyboardInteraction, withKeyboardInteractions, createShortcut, createShortcutKey, Keys } =
     keyboardInteractionUtils;
 const { ShiftF6 } = commands;

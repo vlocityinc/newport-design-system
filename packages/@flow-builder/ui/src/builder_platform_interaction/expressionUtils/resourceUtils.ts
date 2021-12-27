@@ -1,22 +1,22 @@
 // @ts-nocheck
+import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
+import removedResource from '@salesforce/label/FlowBuilderValidation.removedResource';
+import { addCurlyBraces, isObject, removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
+import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
+import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { elementToParam } from 'builder_platform_interaction/ruleLib';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { getElementByDevName, getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import {
     getGlobalConstantOrSystemVariable,
     getGlobalVariable,
-    isRecordSystemVariableIdentifier,
     GLOBAL_CONSTANT_OBJECTS,
     isRecordPriorSystemVariableIdentifier,
+    isRecordSystemVariableIdentifier,
     SYSTEM_VARIABLE_RECORD_PRIOR_PREFIX
 } from 'builder_platform_interaction/systemLib';
-import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
 import { getMenuItemForField, mutateFlowResourceToComboboxShape } from './menuDataGenerator';
-import { getElementByGuid, getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { elementToParam } from 'builder_platform_interaction/ruleLib';
-import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { isObject, addCurlyBraces, removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
-import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
-import removedResource from '@salesforce/label/FlowBuilderValidation.removedResource';
-import { getChildrenItems, filterFieldsForChosenElement } from './menuDataRetrieval';
-import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { filterFieldsForChosenElement, getChildrenItems } from './menuDataRetrieval';
 const { format } = commonUtils;
 
 /* Global variable to hold the current state of the screen element.

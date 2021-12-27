@@ -1,13 +1,13 @@
-import { api, LightningElement } from 'lwc';
+import { hidePopover, showPopover } from 'builder_platform_interaction/builderUtils';
+import { getConditionsWithPrefixes, showDeleteCondition } from 'builder_platform_interaction/conditionListUtils';
 import {
     DeleteConditionEvent,
     UpdateConditionEvent,
     UpdateConditionLogicEvent
 } from 'builder_platform_interaction/events';
-import { getConditionsWithPrefixes, showDeleteCondition } from 'builder_platform_interaction/conditionListUtils';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
-import { hidePopover, showPopover } from 'builder_platform_interaction/builderUtils';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { api, LightningElement } from 'lwc';
 import { LABELS } from './componentVisibilityLabels';
 
 // maximum number of visibility conditions allowed

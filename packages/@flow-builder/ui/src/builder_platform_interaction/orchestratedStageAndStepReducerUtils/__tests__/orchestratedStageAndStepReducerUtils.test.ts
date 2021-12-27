@@ -1,14 +1,14 @@
 // @ts-nocheck
+import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
+import { ORCHESTRATED_ACTION_CATEGORY } from 'builder_platform_interaction/events';
 import {
+    deleteParameterItem,
     mergeParameters,
     PARAMETER_PROPERTY,
     removeAllUnsetParameters,
     removeUnsetParameters,
-    updateParameterItem,
-    deleteParameterItem
+    updateParameterItem
 } from 'builder_platform_interaction/orchestratedStageAndStepReducerUtils';
-import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
-import { ORCHESTRATED_ACTION_CATEGORY } from 'builder_platform_interaction/events';
 
 const mockMultiParamPropertiesObject = {
     [PARAMETER_PROPERTY.INPUT]: [

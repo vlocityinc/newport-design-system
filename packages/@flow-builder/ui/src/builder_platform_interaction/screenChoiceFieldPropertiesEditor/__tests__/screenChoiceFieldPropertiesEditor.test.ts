@@ -1,28 +1,28 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import ScreenChoiceFieldPropertiesEditor from '../screenChoiceFieldPropertiesEditor';
+import { updateInlineResourceProperties } from 'builder_platform_interaction/actions';
 import {
-    query,
     createTestScreenField,
+    INTERACTION_COMPONENTS_SELECTORS,
+    query,
     SCREEN_NO_DEF_VALUE,
-    ticks,
-    setDocumentBodyChildren
+    setDocumentBodyChildren,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
-    PropertyChangedEvent,
-    ScreenEditorEventName,
     EditElementEvent,
-    EditListItemEvent
+    EditListItemEvent,
+    PropertyChangedEvent,
+    ScreenEditorEventName
 } from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
-import { ChoiceDisplayOptions } from 'builder_platform_interaction/screenEditorUtils';
 import { addCurrentValueToEvent } from 'builder_platform_interaction/screenEditorCommonUtils';
-import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import * as usebyMock from 'builder_platform_interaction/usedByLib';
-import { updateInlineResourceProperties } from 'builder_platform_interaction/actions';
-import { Store } from 'builder_platform_interaction/storeLib';
+import { ChoiceDisplayOptions } from 'builder_platform_interaction/screenEditorUtils';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
+import * as usebyMock from 'builder_platform_interaction/usedByLib';
+import { createElement } from 'lwc';
+import ScreenChoiceFieldPropertiesEditor from '../screenChoiceFieldPropertiesEditor';
 
 const { logInteraction } = loggingUtils;
 

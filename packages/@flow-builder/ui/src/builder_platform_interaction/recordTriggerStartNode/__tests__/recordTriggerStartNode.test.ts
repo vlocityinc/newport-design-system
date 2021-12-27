@@ -1,16 +1,16 @@
 // @ts-nocheck
-import { startElement as recordTriggeredStartElement } from 'mock/storeDataRecordTriggered';
-import RecordTriggerStartNode from 'builder_platform_interaction/recordTriggerStartNode';
-import { createElement } from 'lwc';
-import {
-    FLOW_TRIGGER_TYPE,
-    FLOW_PROCESS_TYPE,
-    FLOW_TRIGGER_SAVE_TYPE
-} from 'builder_platform_interaction/flowMetadata';
-import { EditElementEvent, ArrowKeyDownEvent } from 'builder_platform_interaction/events';
-import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { ArrowKeyDownEvent, EditElementEvent } from 'builder_platform_interaction/events';
+import {
+    FLOW_PROCESS_TYPE,
+    FLOW_TRIGGER_SAVE_TYPE,
+    FLOW_TRIGGER_TYPE
+} from 'builder_platform_interaction/flowMetadata';
+import RecordTriggerStartNode from 'builder_platform_interaction/recordTriggerStartNode';
+import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
+import { createElement } from 'lwc';
+import { startElement as recordTriggeredStartElement } from 'mock/storeDataRecordTriggered';
 
 const { BEFORE_SAVE, BEFORE_DELETE, AFTER_SAVE } = FLOW_TRIGGER_TYPE;
 const { CREATE, UPDATE, DELETE } = FLOW_TRIGGER_SAVE_TYPE;

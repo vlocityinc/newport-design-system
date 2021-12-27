@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { LightningElement, api } from 'lwc';
-import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { api, LightningElement } from 'lwc';
 
 /**
  * Wrapper used to represent visual preview of section fields.

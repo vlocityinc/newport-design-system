@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { LABELS } from '../../apexPluginEditor/apexPluginEditorLabels';
 import { getParameterItemWarning } from 'builder_platform_interaction/calloutEditorLib';
 import { MERGE_WARNING_TYPE } from 'builder_platform_interaction/elementFactory';
+import { LABELS } from '../../apexPluginEditor/apexPluginEditorLabels';
 
 describe('apexPlugin ParameterList warnings', () => {
     describe('getParameterItemWarning', () => {

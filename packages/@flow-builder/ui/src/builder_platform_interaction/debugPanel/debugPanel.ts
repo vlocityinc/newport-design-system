@@ -1,9 +1,9 @@
 // @ts-nocheck
-import { LightningElement, api } from 'lwc';
-import { LABELS } from './debugPanelLabels';
 import { copyAndUpdateDebugTraceObject } from 'builder_platform_interaction/debugUtils';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { BUILDER_MODE } from 'builder_platform_interaction/systemLib';
+import { api, LightningElement } from 'lwc';
+import { LABELS } from './debugPanelLabels';
 const { format } = commonUtils;
 
 /**

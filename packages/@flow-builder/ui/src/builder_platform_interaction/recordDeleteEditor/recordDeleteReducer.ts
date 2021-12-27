@@ -1,17 +1,17 @@
 // @ts-nocheck
-import { recordDeleteValidation, getRules } from './recordDeleteValidation';
-import { updateProperties, set, deleteItem } from 'builder_platform_interaction/dataMutationLib';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
+import { deleteItem, set, updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import {
-    PropertyChangedEvent,
     AddRecordFilterEvent,
-    UpdateRecordFilterEvent,
     DeleteRecordFilterEvent,
-    RecordStoreOptionChangedEvent
+    PropertyChangedEvent,
+    RecordStoreOptionChangedEvent,
+    UpdateRecordFilterEvent
 } from 'builder_platform_interaction/events';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { getRules, recordDeleteValidation } from './recordDeleteValidation';
 
 /**
  * Property names

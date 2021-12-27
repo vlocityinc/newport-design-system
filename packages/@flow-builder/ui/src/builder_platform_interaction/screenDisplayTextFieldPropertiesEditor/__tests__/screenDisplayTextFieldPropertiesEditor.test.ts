@@ -1,13 +1,13 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import ScreenDisplayTextFieldPropertiesEditor from '../screenDisplayTextFieldPropertiesEditor';
 import {
-    query,
     createTestScreenField,
-    ticks,
-    setDocumentBodyChildren
+    query,
+    setDocumentBodyChildren,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { createElement } from 'lwc';
+import ScreenDisplayTextFieldPropertiesEditor from '../screenDisplayTextFieldPropertiesEditor';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')

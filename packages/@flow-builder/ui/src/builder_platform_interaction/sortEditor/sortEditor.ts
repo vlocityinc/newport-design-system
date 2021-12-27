@@ -1,23 +1,23 @@
-import { LightningElement, api, track } from 'lwc';
-import { sortReducer } from './sortReducer';
-import { LABELS } from './sortEditorLabels';
-import { getValueFromHydratedItem, getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { getSObjectOrApexReference, SORTABLE_FILTER } from 'builder_platform_interaction/collectionProcessorLib';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
+import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { UpdateCollectionProcessorEvent } from 'builder_platform_interaction/events';
-import { SORT_OUTPUT_OPTION } from 'builder_platform_interaction/sortEditorLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
 import {
+    isSObjectOrApexClass,
+    SObjectOrApexReference,
     SortElement,
     SortOption,
     SortOutput,
-    SObjectOrApexReference,
-    isSObjectOrApexClass
+    SORT_OUTPUT_OPTION
 } from 'builder_platform_interaction/sortEditorLib';
-import { getSObjectOrApexReference, SORTABLE_FILTER } from 'builder_platform_interaction/collectionProcessorLib';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getElementByGuidFromState } from 'builder_platform_interaction/storeUtils';
-import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './sortEditorLabels';
+import { sortReducer } from './sortReducer';
 
 export default class SortEditor extends LightningElement {
     @track sortElement: SortElement = {

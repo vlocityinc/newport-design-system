@@ -4,15 +4,13 @@ import {
     createTestScreenField,
     SCREEN_NO_DEF_VALUE
 } from 'builder_platform_interaction/builderTestUtils';
-import { screenReducer } from '../screenReducer';
-import { createChoice } from 'builder_platform_interaction/elementFactory';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { LABELS } from 'builder_platform_interaction/validationRules';
-import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
-
-import { ScreenEditorEventName } from 'builder_platform_interaction/events';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { createChoice } from 'builder_platform_interaction/elementFactory';
+import { ScreenEditorEventName } from 'builder_platform_interaction/events';
+import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import * as usebyMock from 'builder_platform_interaction/usedByLib';
+import { LABELS, VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { screenReducer } from '../screenReducer';
 
 const SCREEN_NAME = 'TestScreen1';
 const MOCK_PICKLIST_CHOICE_SET_PREFIX = 'picklistChoiceSet';

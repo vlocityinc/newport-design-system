@@ -1,16 +1,19 @@
-import { createElement } from 'lwc';
+import {
+    INTERACTION_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
+import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
+import { CollectionReferenceChangedEvent } from 'builder_platform_interaction/events';
 import MapEditor from 'builder_platform_interaction/mapEditor';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
 import * as store from 'mock/storeData';
-import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
-import { CollectionReferenceChangedEvent } from 'builder_platform_interaction/events';
-import { ComboboxTestComponent } from '../../integrationTests/__tests__/comboboxTestUtils';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
-import { feedItemFields as mockFeedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
 import { contractFields as mockContractFields } from 'serverData/GetFieldsForEntity/contractFields.json';
+import { feedItemFields as mockFeedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
+import { ComboboxTestComponent } from '../../integrationTests/__tests__/comboboxTestUtils';
 import { getExpectedMapItems } from './mapEditorTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));

@@ -1,11 +1,11 @@
 // @ts-nocheck
-import { getMenuData } from '../resourcePickerUtils';
-import { filterAndMutateMenuData, filterFieldsForChosenElement } from '../menuDataRetrieval';
-import { getStoreElements } from '../storeElementsFilter';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { setGlobalVariables } from 'builder_platform_interaction_mocks/systemLib';
 import { mockGlobalVariablesWithMultiPicklistField } from 'mock/globalVariableData';
+import { filterAndMutateMenuData, filterFieldsForChosenElement } from '../menuDataRetrieval';
+import { getMenuData } from '../resourcePickerUtils';
+import { getStoreElements } from '../storeElementsFilter';
 
 const paramTypes = ['paramType'];
 

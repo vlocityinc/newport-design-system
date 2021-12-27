@@ -1,13 +1,13 @@
-import { LightningElement, track, api } from 'lwc';
 import {
-    getVariant,
     booleanValue,
-    getPlaceHolderLabel,
     CURRENCY_FORMAT,
+    getPlaceHolderLabel,
+    getVariant,
     LIGHTNING_INPUT_TYPES,
     ScreenFieldName
 } from 'builder_platform_interaction/screenEditorUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
+import { api, LightningElement, track } from 'lwc';
 
 /**
  * Wrapper used to represent visual preview of screen fields which are are input fields.

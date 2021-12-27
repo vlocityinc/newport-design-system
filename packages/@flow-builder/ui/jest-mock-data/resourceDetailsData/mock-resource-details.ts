@@ -1,15 +1,15 @@
 // @ts-nocheck
 import {
-    emailScreenFieldAutomaticOutput,
-    screenElement,
     actionCallAutomaticOutput,
     actionCallLocalActionAutomaticOutput,
+    emailScreenFieldAutomaticOutput,
+    screenElement,
     subflowAutomaticOutput
 } from 'mock/storeData';
 import {
     loopAccountAutomaticOutput,
-    loopOnTextCollectionAutomaticOutput,
-    loopOnApexTypeCollectionAutoOutput
+    loopOnApexTypeCollectionAutoOutput,
+    loopOnTextCollectionAutomaticOutput
 } from 'mock/storeDataScheduleTriggered';
 
 /**

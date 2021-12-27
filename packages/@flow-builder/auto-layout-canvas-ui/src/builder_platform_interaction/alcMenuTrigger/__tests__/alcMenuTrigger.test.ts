@@ -1,11 +1,11 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
+import { AutoLayoutCanvasMode, ICON_SHAPE } from 'builder_platform_interaction/alcComponentsUtils';
+import { CloseMenuEvent, TabOnMenuTriggerEvent, ToggleMenuEvent } from 'builder_platform_interaction/alcEvents';
 import AlcMenuTrigger from 'builder_platform_interaction/alcMenuTrigger';
-import { ToggleMenuEvent, CloseMenuEvent, TabOnMenuTriggerEvent } from 'builder_platform_interaction/alcEvents';
-import { ICON_SHAPE, AutoLayoutCanvasMode } from 'builder_platform_interaction/alcComponentsUtils';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
 import { CanvasMouseUpEvent } from 'builder_platform_interaction/events';
+import { createElement } from 'lwc';
 
 const startMetadata = {
     canHaveFaultConnector: false,

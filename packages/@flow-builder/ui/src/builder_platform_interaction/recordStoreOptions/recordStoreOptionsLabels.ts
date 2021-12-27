@@ -1,26 +1,26 @@
 // @ts-nocheck
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
+import allRecordsLabel from '@salesforce/label/FlowBuilderRecordEditor.allRecords';
 /* Labels */
 import firstRecordLabel from '@salesforce/label/FlowBuilderRecordEditor.firstRecord';
-import allRecordsLabel from '@salesforce/label/FlowBuilderRecordEditor.allRecords';
-import togetherInsObjectVariable from '@salesforce/label/FlowBuilderRecordEditor.togetherInsObjectVariable';
-import separateVariable from '@salesforce/label/FlowBuilderRecordEditor.separateVariable';
-import storeFieldsSelectionLabel from '@salesforce/label/FlowBuilderRecordEditor.storeFieldsSelectionLabel';
+import howAreFieldValuesNewRecordStore from '@salesforce/label/FlowBuilderRecordEditor.howAreFieldValuesNewRecordStore';
+import howManyRecordsToCreateLabel from '@salesforce/label/FlowBuilderRecordEditor.howManyRecordsToCreateLabel';
+import howToFindRecordsToDeteLabel from '@salesforce/label/FlowBuilderRecordEditor.howToFindRecordsToDete';
+import idsStoredSObjectOrSObjectCollectionLabel from '@salesforce/label/FlowBuilderRecordEditor.idsStoredSObjectOrSObjectCollectionLabel';
+import multipleRecordsLabel from '@salesforce/label/FlowBuilderRecordEditor.multipleRecordsLabel';
+import oneRecordLabel from '@salesforce/label/FlowBuilderRecordEditor.oneRecordLabel';
+import assignNullValuesIfNoRecordsFoundLabel from '@salesforce/label/FlowBuilderRecordEditor.selectionAssignNullIfNoRecordFoundLabel';
 import numberRecordsToStoreLabel from '@salesforce/label/FlowBuilderRecordEditor.selectionHowManyRecordsToStoreLabel';
 import wayToStoreFieldsLabel from '@salesforce/label/FlowBuilderRecordEditor.selectionWhereToStoreRecordsLabel';
-import assignNullValuesIfNoRecordsFoundLabel from '@salesforce/label/FlowBuilderRecordEditor.selectionAssignNullIfNoRecordFoundLabel';
-import howManyRecordsToCreateLabel from '@salesforce/label/FlowBuilderRecordEditor.howManyRecordsToCreateLabel';
-import oneRecordLabel from '@salesforce/label/FlowBuilderRecordEditor.oneRecordLabel';
-import multipleRecordsLabel from '@salesforce/label/FlowBuilderRecordEditor.multipleRecordsLabel';
-import howAreFieldValuesNewRecordStore from '@salesforce/label/FlowBuilderRecordEditor.howAreFieldValuesNewRecordStore';
-import usingCriteriaLabel from '@salesforce/label/FlowBuilderRecordEditor.usingCriteriaLabel';
-import idsStoredSObjectOrSObjectCollectionLabel from '@salesforce/label/FlowBuilderRecordEditor.idsStoredSObjectOrSObjectCollectionLabel';
-import useAllValuesFromRecordVariableLabel from '@salesforce/label/FlowBuilderRecordEditor.useAllValuesFromRecordVariable';
-import useSeparateVariableLabel from '@salesforce/label/FlowBuilderRecordEditor.useSeparateVariable';
-import howToFindRecordsToDeteLabel from '@salesforce/label/FlowBuilderRecordEditor.howToFindRecordsToDete';
-import useIdsStoredToDeleteLabel from '@salesforce/label/FlowBuilderRecordEditor.useIdsStoredToDelete';
+import separateVariable from '@salesforce/label/FlowBuilderRecordEditor.separateVariable';
 import specifyConditionsToDeleteLabel from '@salesforce/label/FlowBuilderRecordEditor.specifyConditionsToDelete';
+import storeFieldsSelectionLabel from '@salesforce/label/FlowBuilderRecordEditor.storeFieldsSelectionLabel';
+import togetherInsObjectVariable from '@salesforce/label/FlowBuilderRecordEditor.togetherInsObjectVariable';
+import useAllValuesFromRecordVariableLabel from '@salesforce/label/FlowBuilderRecordEditor.useAllValuesFromRecordVariable';
+import useIdsStoredToDeleteLabel from '@salesforce/label/FlowBuilderRecordEditor.useIdsStoredToDelete';
+import useSeparateVariableLabel from '@salesforce/label/FlowBuilderRecordEditor.useSeparateVariable';
+import usingCriteriaLabel from '@salesforce/label/FlowBuilderRecordEditor.usingCriteriaLabel';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
 
 export const LABELS = {
     firstRecordLabel,

@@ -1,18 +1,18 @@
-import { usedBy, usedByStoreAndElementState, UsedByElement } from 'builder_platform_interaction/usedByLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { decision1Outcome1 } from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { usedBy, UsedByElement, usedByStoreAndElementState } from 'builder_platform_interaction/usedByLib';
 import {
-    flowWithAllElementsUIModel,
-    screenWithAutomaticFields,
     accountSObjectVariable,
+    address2,
+    decision1Outcome1,
+    displayTextUsingResources,
+    email2,
+    flowWithAllElementsUIModel,
+    screenFieldAccounts,
+    screenWithAutomaticFields,
     screenWithAutomaticFieldsInSection,
     screenWithSection,
-    address2,
-    email2,
-    screenFieldAccounts,
     slider1,
-    displayTextUsingResources,
     variableWithSameNameAsAccount
 } from 'mock/storeData';
 

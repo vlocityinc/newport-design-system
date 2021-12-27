@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { createEmailAlert, createDuplicateEmailAlert } from '../emailAlert';
 import { emailAlertOnAccount } from 'mock/storeData';
+import { createDuplicateEmailAlert, createEmailAlert } from '../emailAlert';
 
 describe('create email alert', () => {
     it('has store output automatically false on new email alert', () => {

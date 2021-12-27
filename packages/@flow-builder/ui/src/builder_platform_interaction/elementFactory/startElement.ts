@@ -1,17 +1,25 @@
+import { generateInternalName, isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { formatDateTimeUTC, getDayOfTheWeek } from 'builder_platform_interaction/dateTimeUtils';
 import {
-    ELEMENT_TYPE,
-    FLOW_TRIGGER_FREQUENCY,
-    FLOW_TRIGGER_TYPE,
-    FLOW_TRIGGER_SAVE_TYPE,
     CONDITION_LOGIC,
-    START_ELEMENT_LOCATION,
     CONNECTOR_TYPE,
-    TIME_OPTION,
+    ELEMENT_TYPE,
+    FLOW_PROCESS_TYPE,
+    FLOW_TRIGGER_FREQUENCY,
+    FLOW_TRIGGER_SAVE_TYPE,
+    FLOW_TRIGGER_TYPE,
     SCHEDULED_PATH_OFFSET_UNIT,
     SCHEDULED_PATH_TIME_SOURCE_TYPE,
     SCHEDULED_PATH_TYPE,
-    FLOW_PROCESS_TYPE
+    START_ELEMENT_LOCATION,
+    TIME_OPTION
 } from 'builder_platform_interaction/flowMetadata';
+import { isOrchestrator, isScheduledPathSupported } from 'builder_platform_interaction/processTypeLib';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { getElementByGuid, getProcessType } from 'builder_platform_interaction/storeUtils';
+import { SYSTEM_VARIABLE_RECORD_PREFIX } from 'builder_platform_interaction/systemLib';
+import { isRecordChangeTriggerType, isScheduledTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
@@ -19,21 +27,13 @@ import {
     getDeletedCanvasElementChildren,
     updateChildReferences
 } from './base/baseElement';
-import { createStartElementConnector, createConnectorObjects } from './connector';
 import { baseCanvasElementMetadataObject, baseChildElementMetadataObject } from './base/baseMetadata';
-import { createRecordFilters, createFilterMetadataObject } from './base/baseRecordElement';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { SYSTEM_VARIABLE_RECORD_PREFIX } from 'builder_platform_interaction/systemLib';
-import { isScheduledTriggerType, isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
-import { formatDateTimeUTC, getDayOfTheWeek } from 'builder_platform_interaction/dateTimeUtils';
-import { isUndefinedOrNull, generateInternalName } from 'builder_platform_interaction/commonUtils';
-import { isScheduledPathSupported, isOrchestrator } from 'builder_platform_interaction/processTypeLib';
-import { getElementByGuid, getProcessType } from 'builder_platform_interaction/storeUtils';
+import { createFilterMetadataObject, createRecordFilters } from './base/baseRecordElement';
 import {
-    getConnectionProperties,
-    addRegularConnectorToAvailableConnections
+    addRegularConnectorToAvailableConnections,
+    getConnectionProperties
 } from './commonFactoryUtils/connectionPropertiesUtils';
+import { createConnectorObjects, createStartElementConnector } from './connector';
 import { LABELS } from './elementFactoryLabels';
 
 const elementType = ELEMENT_TYPE.START_ELEMENT;

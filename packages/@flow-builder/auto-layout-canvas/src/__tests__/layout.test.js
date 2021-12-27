@@ -1,26 +1,25 @@
-import { getLayoutChildOrFault, calculateFlowLayout } from '../layout';
-import { FAULT_INDEX } from '../model';
 import { getBranchLayoutKey } from '../flowRendererUtils';
-
+import { calculateFlowLayout, getLayoutChildOrFault } from '../layout';
+import { FAULT_INDEX } from '../model';
 import {
-    getEmptyFlowContext,
-    getFlowWithEmptyDecisionContext,
-    getFlowWithEmptyDeciisionWith3BranchesContext,
-    getFlowWithDecisionWithOneElementOnLeftBranchContext,
-    getFlowWithEmptyLoopContext,
-    getFlowWithTwoFaults,
+    BRANCH_ELEMENT,
     createFlow,
     createFlowRenderContext,
-    getFlowWithDynamicNodeComponent,
-    BRANCH_ELEMENT,
-    LOOP_ELEMENT,
     END_ELEMENT,
-    getFlowWithScheduledPathsContext,
-    getFlowWithOnlyImmediateScheduledPathContext,
-    getFlowWhenGoingToPreviousElement,
-    getFlowWhenGoingFromParentFirstBranchToPreviousElement,
+    getEmptyFlowContext,
     getFlowWhenGoingFromParentDefaultBranchToPreviousElement,
-    getFlowWhenGoingFromParentFaultBranchToPreviousElement
+    getFlowWhenGoingFromParentFaultBranchToPreviousElement,
+    getFlowWhenGoingFromParentFirstBranchToPreviousElement,
+    getFlowWhenGoingToPreviousElement,
+    getFlowWithDecisionWithOneElementOnLeftBranchContext,
+    getFlowWithDynamicNodeComponent,
+    getFlowWithEmptyDeciisionWith3BranchesContext,
+    getFlowWithEmptyDecisionContext,
+    getFlowWithEmptyLoopContext,
+    getFlowWithOnlyImmediateScheduledPathContext,
+    getFlowWithScheduledPathsContext,
+    getFlowWithTwoFaults,
+    LOOP_ELEMENT
 } from './testUtils';
 
 function calculateLayoutAndAssert(ctx) {

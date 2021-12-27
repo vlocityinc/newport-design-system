@@ -1,18 +1,17 @@
 // @ts-nocheck
-import { recordCreateReducer } from '../recordCreateReducer';
-import { recordCreateValidation } from '../recordCreateValidation';
-
 import {
     AddRecordFieldAssignmentEvent,
     DeleteRecordFieldAssignmentEvent,
+    ManuallyAssignVariablesChangedEvent,
     PropertyChangedEvent,
     RecordStoreOptionChangedEvent,
-    UpdateRecordFieldAssignmentEvent,
-    ManuallyAssignVariablesChangedEvent
+    UpdateRecordFieldAssignmentEvent
 } from 'builder_platform_interaction/events';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
-import { WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
+import { recordCreateReducer } from '../recordCreateReducer';
+import { recordCreateValidation } from '../recordCreateValidation';
 
 const recordCreateUsingFieldsManualWithIdState = {
     assignRecordIdToReference: { value: '3454058d-0e62-4a85-bebe-2718a776c14e', error: null },

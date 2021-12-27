@@ -1,9 +1,9 @@
 // @ts-nocheck
-import { Meta, ContextInfo } from 'analyzer_framework/api';
-import * as Rule from './legacyElement';
-import { FLOW_CONTEXT, TEAM_NAME } from '../constants';
-import ruleTitle from '@salesforce/label/FlowBuilderGuardrailRules.legacyElementTitle';
 import ruleDesc from '@salesforce/label/FlowBuilderGuardrailRules.legacyElementDescription';
+import ruleTitle from '@salesforce/label/FlowBuilderGuardrailRules.legacyElementTitle';
+import { ContextInfo, Meta } from 'analyzer_framework/api';
+import { FLOW_CONTEXT, TEAM_NAME } from '../constants';
+import * as Rule from './legacyElement';
 
 const contextInfo = new ContextInfo(FLOW_CONTEXT);
 

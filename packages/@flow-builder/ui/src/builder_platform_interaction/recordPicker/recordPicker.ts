@@ -1,5 +1,5 @@
-import { AuraComponent } from './auraInterop';
 import { api, LightningElement, unwrap } from 'lwc';
+import { AuraComponent } from './auraInterop';
 
 export default class RecordPicker extends LightningElement {
     embededAuraComponent;

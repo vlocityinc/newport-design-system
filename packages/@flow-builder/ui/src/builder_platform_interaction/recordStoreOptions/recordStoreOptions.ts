@@ -1,15 +1,15 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
+import { RecordStoreOptionChangedEvent } from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
+import { api, LightningElement, track } from 'lwc';
 import {
     LABELS,
-    NUMBER_RECORDS_OPTIONS,
     NUMBER_RECORDS_LABELS,
+    NUMBER_RECORDS_OPTIONS,
     WAY_TO_STORE_FIELDS_LABELS,
     WAY_TO_STORE_FIELDS_OPTIONS
 } from './recordStoreOptionsLabels';
-import { RecordStoreOptionChangedEvent } from 'builder_platform_interaction/events';
-import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
 
 export default class RecordStoreFieldsSelection extends LightningElement {
     labels = LABELS;

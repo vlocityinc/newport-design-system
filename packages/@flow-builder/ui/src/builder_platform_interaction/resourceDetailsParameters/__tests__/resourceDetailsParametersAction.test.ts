@@ -1,10 +1,9 @@
 // @ts-nocheck
-import ResourceDetailsParametersActionConfig from '../resourceDetailsParametersAction';
-import { emailScreenFieldAutomaticOutput } from 'mock/storeData';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { emailScreenFieldAutomaticOutput, flowWithAllElementsUIModel } from 'mock/storeData';
 import { submitForApprovalActionDetails as mockSubmitForApprovalActionDetails } from 'serverData/GetInvocableActionDetails/submitForApprovalActionDetails.json';
+import ResourceDetailsParametersActionConfig from '../resourceDetailsParametersAction';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

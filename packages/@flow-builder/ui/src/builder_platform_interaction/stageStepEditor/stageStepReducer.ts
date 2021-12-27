@@ -1,3 +1,4 @@
+import { MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
 import {
     deleteItem,
     getValueFromHydratedItem,
@@ -5,43 +6,42 @@ import {
     replaceItem,
     updateProperties
 } from 'builder_platform_interaction/dataMutationLib';
+import { createCondition, StageStep } from 'builder_platform_interaction/elementFactory';
 import {
     CreateEntryConditionsEvent,
     DeleteAllConditionsEvent,
     DeleteConditionEvent,
-    DeleteParameterItemEvent,
-    PropertyChangedEvent,
-    UpdateConditionEvent,
-    UpdateParameterItemEvent,
-    OrchestrationActionValueChangedEvent,
     DeleteOrchestrationActionEvent,
-    OrchestrationAssigneeChangedEvent,
+    DeleteParameterItemEvent,
     ORCHESTRATED_ACTION_CATEGORY,
+    OrchestrationActionValueChangedEvent,
+    OrchestrationAssigneeChangedEvent,
+    PropertyChangedEvent,
     RequiresAsyncProcessingChangedEvent,
-    UpdateEntryExitCriteriaEvent
+    UpdateConditionEvent,
+    UpdateEntryExitCriteriaEvent,
+    UpdateParameterItemEvent
 } from 'builder_platform_interaction/events';
-import { createCondition, StageStep } from 'builder_platform_interaction/elementFactory';
-import { MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
-import { InvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { usedBy, UsedByElement } from 'builder_platform_interaction/usedByLib';
-import { isPlainObject } from 'builder_platform_interaction/storeLib';
-import { shouldCallSwapFunction } from 'builder_platform_interaction/translatorLib';
-import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import { invokeModal, commonUtils } from 'builder_platform_interaction/sharedUtils';
-import { LABELS } from './stageStepEditorLabels';
+import { InvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import {
+    deleteParameterItem,
+    mergeActionErrorToActionName,
     mergeParameters,
     PARAMETER_PROPERTY,
     removeAllUnsetParameters,
     removeUnsetParameters,
     updateParameterItem,
-    deleteParameterItem,
-    mergeActionErrorToActionName,
     validateProperty
 } from 'builder_platform_interaction/orchestratedStageAndStepReducerUtils';
+import { commonUtils, invokeModal } from 'builder_platform_interaction/sharedUtils';
+import { isPlainObject } from 'builder_platform_interaction/storeLib';
+import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import { shouldCallSwapFunction } from 'builder_platform_interaction/translatorLib';
+import { usedBy, UsedByElement } from 'builder_platform_interaction/usedByLib';
 import { Validation } from 'builder_platform_interaction/validation';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { LABELS } from './stageStepEditorLabels';
 import { getRules } from './stageStepValidation';
 const { format } = commonUtils;
 

@@ -1,12 +1,12 @@
 // @ts-nocheck
-import { LightningElement, track, api } from 'lwc';
-import { getDataTypeIcons, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { getFerovInfoAndErrorFromEvent } from 'builder_platform_interaction/expressionUtils';
+import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { isUndefinedOrNull, sanitizeBoolean } from 'builder_platform_interaction/commonUtils';
 import { getErrorFromHydratedItem, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { FLOW_DATA_TYPE, getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
+import { DeleteParameterItemEvent, UpdateParameterItemEvent } from 'builder_platform_interaction/events';
+import { getFerovInfoAndErrorFromEvent } from 'builder_platform_interaction/expressionUtils';
 import { PARAM_PROPERTY } from 'builder_platform_interaction/ruleLib';
-import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import { UpdateParameterItemEvent, DeleteParameterItemEvent } from 'builder_platform_interaction/events';
+import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './parameterItemLabels';
 
 export default class ParameterItem extends LightningElement {

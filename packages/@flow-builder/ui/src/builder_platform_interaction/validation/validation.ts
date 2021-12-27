@@ -1,13 +1,13 @@
 // @ts-nocheck
-import * as ValidationRules from 'builder_platform_interaction/validationRules';
 import {
-    updateProperties,
-    set,
     getValueFromHydratedItem,
-    removeErrorsForUnchangedSourceWithNoError
+    removeErrorsForUnchangedSourceWithNoError,
+    set,
+    updateProperties
 } from 'builder_platform_interaction/dataMutationLib';
-import { getDuplicateDevNameElements } from 'builder_platform_interaction/storeUtils';
 import { UpdateNodeEvent } from 'builder_platform_interaction/events';
+import { getDuplicateDevNameElements } from 'builder_platform_interaction/storeUtils';
+import * as ValidationRules from 'builder_platform_interaction/validationRules';
 
 /**
  * @constant defaultRules - map of propertyName to validation rules

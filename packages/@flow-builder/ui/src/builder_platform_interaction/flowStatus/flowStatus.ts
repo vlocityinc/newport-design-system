@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { LightningElement, api } from 'lwc';
-import { LABELS } from './flowStatusLabels';
 import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
+import { api, LightningElement } from 'lwc';
+import { LABELS } from './flowStatusLabels';
 
 /**
  * Flow status component (active, inactive, etc...)

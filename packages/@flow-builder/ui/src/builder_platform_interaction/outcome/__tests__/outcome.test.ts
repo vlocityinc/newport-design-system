@@ -1,12 +1,12 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import Outcome from 'builder_platform_interaction/outcome';
-import { DeleteOutcomeEvent, ExecuteWhenOptionChangedEvent } from 'builder_platform_interaction/events';
-import { LABELS, outcomeExecuteWhenOptions } from '../outcomeLabels';
-import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
-import { getConditionsWithPrefixes } from 'builder_platform_interaction/conditionListUtils';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { getConditionsWithPrefixes } from 'builder_platform_interaction/conditionListUtils';
+import { DeleteOutcomeEvent, ExecuteWhenOptionChangedEvent } from 'builder_platform_interaction/events';
 import { FlowComparisonOperator } from 'builder_platform_interaction/flowMetadata';
+import Outcome from 'builder_platform_interaction/outcome';
+import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
+import { createElement } from 'lwc';
+import { LABELS, outcomeExecuteWhenOptions } from '../outcomeLabels';
 
 jest.mock('builder_platform_interaction/ferToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/ferToFerovExpressionBuilder')

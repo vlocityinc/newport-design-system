@@ -1,10 +1,8 @@
-import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ICON_SHAPE } from 'builder_platform_interaction/alcComponentsUtils';
-import { LABELS } from './alcConnectorMenuLabels';
-
 import type { ElementMetadata, MenuSection } from 'builder_platform_interaction/autoLayoutCanvas';
-
+import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { storeUtils } from 'builder_platform_interaction/sharedUtils';
+import { LABELS } from './alcConnectorMenuLabels';
 
 const { generateGuid } = storeUtils;
 

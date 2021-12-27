@@ -1,18 +1,16 @@
 // @ts-nocheck
-import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
+import { CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
+import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
 import {
     baseCanvasElement,
-    duplicateCanvasElement,
     baseCanvasElementsArrayToMap,
+    duplicateCanvasElement,
     INCOMPLETE_ELEMENT
 } from './base/baseElement';
-
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createConnectorObjects } from './connector';
-import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
 
 const elementType = ELEMENT_TYPE.LOOP;
 const maxConnections = 2;

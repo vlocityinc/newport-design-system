@@ -1,16 +1,16 @@
 // @ts-nocheck
-import { recordUpdateReducer } from '../recordUpdateReducer';
 import {
-    AddRecordFilterEvent,
     AddRecordFieldAssignmentEvent,
-    DeleteRecordFilterEvent,
+    AddRecordFilterEvent,
     DeleteRecordFieldAssignmentEvent,
+    DeleteRecordFilterEvent,
     PropertyChangedEvent,
     UpdateRecordFieldAssignmentEvent,
     UpdateRecordFilterEvent
 } from 'builder_platform_interaction/events';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 import { CONDITION_LOGIC, RECORD_UPDATE_WAY_TO_FIND_RECORDS } from 'builder_platform_interaction/flowMetadata';
+import { recordUpdateReducer } from '../recordUpdateReducer';
 
 const recordUpdateUsingFieldsTemplate = () => {
     return {

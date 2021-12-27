@@ -1,28 +1,27 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import FieldToFerovExpressionBuilder from '../fieldToFerovExpressionBuilder';
-import { numberVariable, accountSObjectVariable } from 'mock/storeData';
-import { elementToParam, RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
-import {
-    mutateFlowResourceToComboboxShape,
-    getMenuItemForField,
-    EXPRESSION_PROPERTY_TYPE,
-    LHS_DISPLAY_OPTION
-} from 'builder_platform_interaction/expressionUtils';
-import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { setDocumentBodyChildren, untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
+import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
+    EXPRESSION_PROPERTY_TYPE,
+    getMenuItemForField,
+    LHS_DISPLAY_OPTION,
+    mutateFlowResourceToComboboxShape
+} from 'builder_platform_interaction/expressionUtils';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { elementToParam, RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
+import { Store } from 'builder_platform_interaction/storeLib';
+import {
+    getSystemVariables,
     GLOBAL_CONSTANTS,
     GLOBAL_CONSTANT_OBJECTS,
-    setSystemVariables,
-    getSystemVariables
+    setSystemVariables
 } from 'builder_platform_interaction/systemLib';
-import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
+import { createElement } from 'lwc';
+import { accountSObjectVariable, flowWithAllElementsUIModel, numberVariable } from 'mock/storeData';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
-import { setDocumentBodyChildren, untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
+import FieldToFerovExpressionBuilder from '../fieldToFerovExpressionBuilder';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

@@ -1,14 +1,3 @@
-import * as scheduleTriggeredFlow from 'mock/flows/scheduleTriggeredFlow.json';
-import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
-import { getChildComponent, resetState, setupStateForFlow } from '../integrationTestUtils';
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { createElement } from 'lwc';
-import contextRecordEditor from 'builder_platform_interaction/contextRecordEditor';
-import scheduledPathsEditor from 'builder_platform_interaction/scheduledPathsEditor';
-import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
-import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
-import { RECORD_TIGGER_EVENT } from 'builder_platform_interaction/flowMetadata';
 import {
     changeEvent,
     deepQuerySelector,
@@ -17,7 +6,22 @@ import {
     setDocumentBodyChildren,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
-import { CONDITION_LOGIC, ELEMENT_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import contextRecordEditor from 'builder_platform_interaction/contextRecordEditor';
+import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import {
+    CONDITION_LOGIC,
+    ELEMENT_TYPE,
+    FLOW_TRIGGER_TYPE,
+    RECORD_TIGGER_EVENT
+} from 'builder_platform_interaction/flowMetadata';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import scheduledPathsEditor from 'builder_platform_interaction/scheduledPathsEditor';
+import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import { createElement } from 'lwc';
+import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
+import * as scheduleTriggeredFlow from 'mock/flows/scheduleTriggeredFlow.json';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { getChildComponent, resetState, setupStateForFlow } from '../integrationTestUtils';
 import {
     emptyFilterItem,
     getFieldToFerovExpressionBuilders,

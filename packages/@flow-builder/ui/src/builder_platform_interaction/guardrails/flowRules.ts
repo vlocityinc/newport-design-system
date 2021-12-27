@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { RuleFactory, RuleFactoryItem } from 'analyzer_framework/api';
-import { NoDMLInLoop, UnclosedLoop, LegacyElement } from './rules/index';
+import { LegacyElement, NoDMLInLoop, UnclosedLoop } from './rules/index';
 
 /**
  * Register rules to be executed by Guardrails engine.

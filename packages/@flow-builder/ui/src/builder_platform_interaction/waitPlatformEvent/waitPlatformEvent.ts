@@ -1,26 +1,26 @@
 // @ts-nocheck
-import { LightningElement, track, api } from 'lwc';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
+import { getErrorFromHydratedItem, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { LABELS } from './waitPlatformEventLabels';
-import { RULE_TYPES, getRulesForElementType } from 'builder_platform_interaction/ruleLib';
-import { getInputParametersForEventType } from 'builder_platform_interaction/sobjectLib';
-import { getValueFromHydratedItem, getErrorFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { isWaitTimeEventType } from 'builder_platform_interaction/elementFactory';
+import EntityResourcePicker from 'builder_platform_interaction/entityResourcePicker';
 import {
     AddConditionEvent,
     DeleteConditionEvent,
     UpdateConditionEvent,
+    UpdateWaitEventEventTypeEvent,
     WaitEventAddParameterEvent,
     WaitEventDeleteParameterEvent,
     WaitEventParameterChangedEvent,
-    WaitEventPropertyChangedEvent,
-    UpdateWaitEventEventTypeEvent
+    WaitEventPropertyChangedEvent
 } from 'builder_platform_interaction/events';
 import { getItemOrDisplayText } from 'builder_platform_interaction/expressionUtils';
-import { isWaitTimeEventType } from 'builder_platform_interaction/elementFactory';
-import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
-import EntityResourcePicker from 'builder_platform_interaction/entityResourcePicker';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
+import { getInputParametersForEventType } from 'builder_platform_interaction/sobjectLib';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './waitPlatformEventLabels';
 
 const OUTPUT_PARAMETER_DEFINITION = {
     label: LABELS.platformEventOutputLabel,

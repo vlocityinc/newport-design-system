@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { LightningElement, api } from 'lwc';
-import { VisualPickerItemChangedEvent } from 'builder_platform_interaction/events';
 import { sanitizeBoolean } from 'builder_platform_interaction/commonUtils';
+import { VisualPickerItemChangedEvent } from 'builder_platform_interaction/events';
+import { api, LightningElement } from 'lwc';
 
 export default class VisualPickerItem extends LightningElement {
     _focusOnRerendering = false;

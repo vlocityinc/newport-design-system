@@ -1,17 +1,17 @@
-import { createElement } from 'lwc';
-import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
-import { ComboboxStateChangedEvent, CollectionReferenceChangedEvent } from 'builder_platform_interaction/events';
-import InputCollectionPicker from 'builder_platform_interaction/inputCollectionPicker';
-import * as store from 'mock/storeData';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
 import {
     INTERACTION_COMPONENTS_SELECTORS,
     setDocumentBodyChildren,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
+import { MAPPABLE_FILTER, SORTABLE_FILTER } from 'builder_platform_interaction/collectionProcessorLib';
+import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
+import { CollectionReferenceChangedEvent, ComboboxStateChangedEvent } from 'builder_platform_interaction/events';
+import InputCollectionPicker from 'builder_platform_interaction/inputCollectionPicker';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
+import * as store from 'mock/storeData';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { ComboboxTestComponent } from '../../integrationTests/__tests__/comboboxTestUtils';
-import { SORTABLE_FILTER, MAPPABLE_FILTER } from 'builder_platform_interaction/collectionProcessorLib';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

@@ -1,14 +1,14 @@
-import {
-    createCollectionProcessor,
-    createCollectionProcessorWithConnectors,
-    createDuplicateCollectionProcessor,
-    createCollectionProcessorMetadataObject
-} from '../collectionProcessor';
+import { INCOMPLETE_ELEMENT } from 'builder_platform_interaction/elementFactory';
 import { COLLECTION_PROCESSOR_SUB_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
 import * as store from 'mock/storeData';
-import { INCOMPLETE_ELEMENT } from 'builder_platform_interaction/elementFactory';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
+import {
+    createCollectionProcessor,
+    createCollectionProcessorMetadataObject,
+    createCollectionProcessorWithConnectors,
+    createDuplicateCollectionProcessor
+} from '../collectionProcessor';
 
 const mockGuid = 'mockGuid';
 

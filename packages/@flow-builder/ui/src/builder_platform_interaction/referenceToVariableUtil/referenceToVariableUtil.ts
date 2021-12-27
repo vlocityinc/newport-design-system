@@ -1,7 +1,7 @@
-import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
-import { getElementByGuidFromState, getElementByDevNameFromState } from 'builder_platform_interaction/storeUtils';
-import { getGlobalConstantOrSystemVariableFromState } from 'builder_platform_interaction/systemLib';
 import { retrieveResourceComplexTypeFields } from 'builder_platform_interaction/complexTypeLib';
+import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
+import { getElementByDevNameFromState, getElementByGuidFromState } from 'builder_platform_interaction/storeUtils';
+import { getGlobalConstantOrSystemVariableFromState } from 'builder_platform_interaction/systemLib';
 
 const referenceToVariable = (reference: string, elements: any) => {
     const complexGuid = sanitizeGuid(reference);

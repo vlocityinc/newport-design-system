@@ -1,9 +1,8 @@
 // @ts-nocheck
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { ELEMENT_TYPE, FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { createElement } from 'lwc';
 import CalloutEditorContainer from '../calloutEditorContainer';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { ticks, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/translatorLib', () => ({
     translateUIModelToFlow: jest.fn(),

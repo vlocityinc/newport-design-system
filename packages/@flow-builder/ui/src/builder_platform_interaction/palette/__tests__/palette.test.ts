@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { ticks, createComponent } from 'builder_platform_interaction/builderTestUtils';
-import { MOCK_RESOURCE_PALETTE_ITEM, MOCK_ELEMENT_PALETTE_ITEM, MOCK_ELEMENT_PALETTE_ITEM_2 } from 'mock/paletteData';
+import { createComponent, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { MOCK_ELEMENT_PALETTE_ITEM, MOCK_ELEMENT_PALETTE_ITEM_2, MOCK_RESOURCE_PALETTE_ITEM } from 'mock/paletteData';
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 

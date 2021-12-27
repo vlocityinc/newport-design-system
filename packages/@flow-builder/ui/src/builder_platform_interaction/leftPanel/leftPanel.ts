@@ -1,25 +1,25 @@
-import { LightningElement, track, api } from 'lwc';
-import { classSet } from 'lightning/utils';
-import {
-    AddElementEvent,
-    EditElementEvent,
-    DeleteElementEvent,
-    NewResourceEvent
-} from 'builder_platform_interaction/events';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { isChildElement } from 'builder_platform_interaction/elementConfig';
+import { FOR_EACH_INDEX, hasChildren } from 'builder_platform_interaction/autoLayoutCanvas';
 import { isTestMode } from 'builder_platform_interaction/contextLib';
-import { loggingUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
-import { LABELS } from './leftPanelLabels';
-import { getResourceSections, getElementSections, getResourceIconName } from './resourceLib';
-import { usedBy, createUsedByElement } from 'builder_platform_interaction/usedByLib';
+import { isChildElement } from 'builder_platform_interaction/elementConfig';
 import {
-    getResourceLabel,
     getElementTypeLabel,
+    getResourceLabel,
     getResourceTypeLabel
 } from 'builder_platform_interaction/elementLabelLib';
+import {
+    AddElementEvent,
+    DeleteElementEvent,
+    EditElementEvent,
+    NewResourceEvent
+} from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { FOR_EACH_INDEX, hasChildren } from 'builder_platform_interaction/autoLayoutCanvas';
+import { loggingUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { createUsedByElement, usedBy } from 'builder_platform_interaction/usedByLib';
+import { classSet } from 'lightning/utils';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './leftPanelLabels';
+import { getElementSections, getResourceIconName, getResourceSections } from './resourceLib';
 
 const { logInteraction } = loggingUtils;
 

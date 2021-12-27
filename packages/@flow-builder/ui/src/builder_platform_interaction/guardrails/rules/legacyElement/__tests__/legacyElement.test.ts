@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { LegacyElement } from '../legacyElement';
 import { Result } from 'analyzer_framework/api';
+import { LegacyElement } from '../legacyElement';
 
 const mockGetData = jest.fn();
 const mockReport = jest.fn();

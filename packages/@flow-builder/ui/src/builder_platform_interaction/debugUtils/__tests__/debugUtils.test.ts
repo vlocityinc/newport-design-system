@@ -1,17 +1,19 @@
 // @ts-nocheck
-import { copyAndUpdateDebugTraceObject, makeElementTitle, formatDateHelper } from '../debugUtils';
-import { LABELS } from '../debugUtilsLabels';
-import { pausedInterview } from 'mock/debugResponse/mock-paused-interview';
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getProcessType } from 'builder_platform_interaction/storeUtils';
+import { completedInterview } from 'mock/debugResponse/mock-completed-interview';
 import {
     completedInterviewWithErrors,
     resumedInterviewWithErrors
 } from 'mock/debugResponse/mock-completed-interview-errors';
-import { completedInterview } from 'mock/debugResponse/mock-completed-interview';
 import { errorWithTraceInterview, errorWithTraceInterviewWithRollback } from 'mock/debugResponse/mock-error-interview';
-import { fakePausedInterview } from 'mock/debugResponse/mock-fake-paused-interview';
-import { fakePausedInterviewWithoutAlarmEvent } from 'mock/debugResponse/mock-fake-paused-interview';
-import { getProcessType } from 'builder_platform_interaction/storeUtils';
-import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    fakePausedInterview,
+    fakePausedInterviewWithoutAlarmEvent
+} from 'mock/debugResponse/mock-fake-paused-interview';
+import { pausedInterview } from 'mock/debugResponse/mock-paused-interview';
+import { copyAndUpdateDebugTraceObject, formatDateHelper, makeElementTitle } from '../debugUtils';
+import { LABELS } from '../debugUtilsLabels';
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 

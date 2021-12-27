@@ -1,10 +1,9 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import LabelDescription from 'builder_platform_interaction/labelDescription';
-import { PropertyChangedEvent, AddElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { focusoutEvent, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { AddElementEvent, EditElementEvent, PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { focusoutEvent } from 'builder_platform_interaction/builderTestUtils';
+import LabelDescription from 'builder_platform_interaction/labelDescription';
+import { createElement } from 'lwc';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

@@ -1,11 +1,11 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { ComboboxStateChangedEvent, UpdateRecordLookupFieldEvent } from 'builder_platform_interaction/events';
 import RecordFieldPickerRow from 'builder_platform_interaction/recordFieldPickerRow';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     // this is needed for some reason even if createSelector isn't mocked

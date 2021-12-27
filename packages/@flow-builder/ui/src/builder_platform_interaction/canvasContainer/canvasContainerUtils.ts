@@ -1,14 +1,14 @@
 // @ts-nocheck
-import { canvasSelector } from 'builder_platform_interaction/selectors';
-import { selectOnCanvas, toggleOnCanvas, addConnector } from 'builder_platform_interaction/actions';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { addConnector, selectOnCanvas, toggleOnCanvas } from 'builder_platform_interaction/actions';
 import { invokePropertyEditor, PROPERTY_EDITOR } from 'builder_platform_interaction/builderUtils';
 import {
-    sortConnectorPickerComboboxOptions,
+    createNewConnector,
     getLabelAndValueForConnectorPickerOptions,
-    createNewConnector
+    sortConnectorPickerComboboxOptions
 } from 'builder_platform_interaction/connectorUtils';
 import { getDrawingLibInstance } from 'builder_platform_interaction/drawingLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { canvasSelector } from 'builder_platform_interaction/selectors';
 
 /** Private functions */
 

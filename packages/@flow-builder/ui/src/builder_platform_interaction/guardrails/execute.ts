@@ -5,12 +5,12 @@
  * Company Confidential
  */
 
-import { Registry, RuleFilterBasic, Engine } from 'analyzer_framework/engine';
 import { ContextInfo } from 'analyzer_framework/api';
-import { FLOW_CONTEXT } from './rules/constants';
+import { Engine, Registry, RuleFilterBasic } from 'analyzer_framework/engine';
 import { FlowDataProvider } from './flowDataProvider/flowDataProvider';
-import { FlowRuleFactory } from './flowRules';
 import { FlowMetricService } from './flowMetricsService';
+import { FlowRuleFactory } from './flowRules';
+import { FLOW_CONTEXT } from './rules/constants';
 
 /**
  * Flow impl to execute guardrails engine.

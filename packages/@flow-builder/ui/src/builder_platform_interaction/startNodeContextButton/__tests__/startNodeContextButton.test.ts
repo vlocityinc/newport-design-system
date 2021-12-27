@@ -1,12 +1,12 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import StartNodeContextButton from 'builder_platform_interaction/startNodeContextButton';
-import { CONDITION_LOGIC, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { EditElementEvent, ArrowKeyDownEvent } from 'builder_platform_interaction/events';
-import { EDIT_START_RECORD_CHANGE_CONTEXT } from 'builder_platform_interaction/elementConfig';
-import { startElementWithAccountAndNoCondition } from 'mock/storeDataScheduleTriggered';
-import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { EDIT_START_RECORD_CHANGE_CONTEXT } from 'builder_platform_interaction/elementConfig';
+import { ArrowKeyDownEvent, EditElementEvent } from 'builder_platform_interaction/events';
+import { CONDITION_LOGIC, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+import StartNodeContextButton from 'builder_platform_interaction/startNodeContextButton';
+import { createElement } from 'lwc';
+import { startElementWithAccountAndNoCondition } from 'mock/storeDataScheduleTriggered';
 
 const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
 const { Keys } = keyboardInteractionUtils;

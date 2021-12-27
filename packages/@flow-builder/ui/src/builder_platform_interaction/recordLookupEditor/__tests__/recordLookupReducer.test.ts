@@ -1,32 +1,32 @@
 // @ts-nocheck
-import { recordLookupReducer } from '../recordLookupReducer';
 import {
-    AddRecordFilterEvent,
-    UpdateRecordFilterEvent,
-    DeleteRecordFilterEvent,
-    AddRecordLookupFieldEvent,
-    UpdateRecordLookupFieldEvent,
-    DeleteRecordLookupFieldEvent,
     AddRecordFieldAssignmentEvent,
+    AddRecordFilterEvent,
+    AddRecordLookupFieldEvent,
     DeleteRecordFieldAssignmentEvent,
-    UpdateRecordFieldAssignmentEvent,
-    RecordStoreOptionChangedEvent,
+    DeleteRecordFilterEvent,
+    DeleteRecordLookupFieldEvent,
+    ManuallyAssignVariablesChangedEvent,
     PropertyChangedEvent,
-    ManuallyAssignVariablesChangedEvent
+    RecordStoreOptionChangedEvent,
+    UpdateRecordFieldAssignmentEvent,
+    UpdateRecordFilterEvent,
+    UpdateRecordLookupFieldEvent
 } from 'builder_platform_interaction/events';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
-import * as store from 'mock/storeData';
-import { SORT_ORDER, WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
-import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import {
-    lookupRecordAutomaticOutputWithFields,
-    lookupRecordOutputReference,
-    getAccountSeparateFieldsWithFilters,
-    getAccountsAutomaticWithFieldsAndFilters
-} from 'mock/storeData';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { SORT_ORDER, WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
+import { Store } from 'builder_platform_interaction/storeLib';
+import * as store from 'mock/storeData';
+import {
+    flowWithAllElementsUIModel,
+    getAccountsAutomaticWithFieldsAndFilters,
+    getAccountSeparateFieldsWithFilters,
+    lookupRecordAutomaticOutputWithFields,
+    lookupRecordOutputReference
+} from 'mock/storeData';
+import { recordLookupReducer } from '../recordLookupReducer';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

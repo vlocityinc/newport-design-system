@@ -1,25 +1,26 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import SortOptionItem from 'builder_platform_interaction/sortOptionItem';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
-import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
-import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
 import {
-    setApexClasses,
     cachePropertiesForClass,
-    getPropertiesForClass
+    getPropertiesForClass,
+    setApexClasses
 } from 'builder_platform_interaction/apexTypeLib';
-import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
-import { APEX_SORT_COMPATIBLE_TYPES } from 'builder_platform_interaction/sortEditorLib';
-import { ComboboxStateChangedEvent, UpdateSortOptionItemEvent } from 'builder_platform_interaction/events';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
 import {
-    LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS,
+    changeEvent,
     checkboxChangeEvent,
-    changeEvent
+    INTERACTION_COMPONENTS_SELECTORS,
+    LIGHTNING_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
+import { ComboboxStateChangedEvent, UpdateSortOptionItemEvent } from 'builder_platform_interaction/events';
+import { APEX_SORT_COMPATIBLE_TYPES } from 'builder_platform_interaction/sortEditorLib';
+import SortOptionItem from 'builder_platform_interaction/sortOptionItem';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
+import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
+import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     // this is needed for some reason even if createSelector isn't mocked

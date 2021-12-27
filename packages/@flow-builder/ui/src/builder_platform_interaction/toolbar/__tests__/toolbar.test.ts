@@ -1,26 +1,5 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import {
-    EditFlowPropertiesEvent,
-    SaveFlowEvent,
-    DuplicateEvent,
-    ToggleFlowStatusEvent,
-    ToggleSelectionModeEvent,
-    CopyOnCanvasEvent,
-    ClosePropertyEditorEvent,
-    EditFlowEvent,
-    ToggleCanvasModeEvent,
-    NewDebugFlowEvent,
-    AddToFlowTestEvent,
-    RestartDebugFlowEvent,
-    DebugFlowEvent,
-    ToolbarFocusOutEvent
-} from 'builder_platform_interaction/events';
-import Toolbar from 'builder_platform_interaction/toolbar';
-import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
-import { LABELS } from '../toolbarLabels';
-import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
-import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
+import { setup } from '@sa11y/jest';
 import {
     ACCESSIBILITY_TEST_TIMEOUT_IN_MS,
     changeEvent,
@@ -28,9 +7,30 @@ import {
     LIGHTNING_COMPONENTS_SELECTORS,
     setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
-import { Store } from 'builder_platform_interaction/storeLib';
 import { CanvasMode } from 'builder_platform_interaction/builderUtils';
-import { setup } from '@sa11y/jest';
+import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
+import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
+import {
+    AddToFlowTestEvent,
+    ClosePropertyEditorEvent,
+    CopyOnCanvasEvent,
+    DebugFlowEvent,
+    DuplicateEvent,
+    EditFlowEvent,
+    EditFlowPropertiesEvent,
+    NewDebugFlowEvent,
+    RestartDebugFlowEvent,
+    SaveFlowEvent,
+    ToggleCanvasModeEvent,
+    ToggleFlowStatusEvent,
+    ToggleSelectionModeEvent,
+    ToolbarFocusOutEvent
+} from 'builder_platform_interaction/events';
+import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
+import { Store } from 'builder_platform_interaction/storeLib';
+import Toolbar from 'builder_platform_interaction/toolbar';
+import { createElement } from 'lwc';
+import { LABELS } from '../toolbarLabels';
 
 jest.mock('builder_platform_interaction/storeLib');
 

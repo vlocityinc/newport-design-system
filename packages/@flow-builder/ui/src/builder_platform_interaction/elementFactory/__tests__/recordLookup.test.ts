@@ -1,14 +1,8 @@
 // @ts-nocheck
-import {
-    createRecordLookup,
-    createDuplicateRecordLookup,
-    createRecordLookupMetadataObject,
-    createQueriedField
-} from '../recordLookup';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
-import { ELEMENT_TYPE, CONNECTOR_TYPE, CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
-import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { CONDITION_LOGIC, CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     FLOW_AUTOMATIC_OUTPUT_HANDLING,
     getProcessTypeAutomaticOutPutHandlingSupport
@@ -16,13 +10,19 @@ import {
 import { Store } from 'builder_platform_interaction/storeLib';
 import {
     flowWithAllElementsUIModel,
-    lookupRecordCollectionManualOutput,
-    lookupRecordOutputReference,
     getAccountManualOutputIntoApexVariable,
-    getAccountsManualOutputIntoApexVariable
+    getAccountsManualOutputIntoApexVariable,
+    lookupRecordCollectionManualOutput,
+    lookupRecordOutputReference
 } from 'mock/storeData';
-import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
+import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
+import {
+    createDuplicateRecordLookup,
+    createQueriedField,
+    createRecordLookup,
+    createRecordLookupMetadataObject
+} from '../recordLookup';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

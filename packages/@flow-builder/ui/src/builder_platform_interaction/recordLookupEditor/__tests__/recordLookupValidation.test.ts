@@ -1,16 +1,16 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import RecordLookupEditor from '../recordLookupEditor';
-import { recordLookupValidation, getRules } from '../recordLookupValidation';
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import { SORT_ORDER, WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
-import { recordLookupReducer } from '../recordLookupReducer';
-import { LABELS } from 'builder_platform_interaction/validationRules';
-import { ManuallyAssignVariablesChangedEvent } from 'builder_platform_interaction/events';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { ManuallyAssignVariablesChangedEvent } from 'builder_platform_interaction/events';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { SORT_ORDER, WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { LABELS } from 'builder_platform_interaction/validationRules';
+import { createElement } from 'lwc';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
+import RecordLookupEditor from '../recordLookupEditor';
+import { recordLookupReducer } from '../recordLookupReducer';
+import { getRules, recordLookupValidation } from '../recordLookupValidation';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')

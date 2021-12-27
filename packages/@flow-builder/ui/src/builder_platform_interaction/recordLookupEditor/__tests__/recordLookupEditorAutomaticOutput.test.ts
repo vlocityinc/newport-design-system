@@ -1,25 +1,3 @@
-import { createElement } from 'lwc';
-import RecordLookupEditor from '../recordLookupEditor';
-import { getResourceByUniqueIdentifier } from 'builder_platform_interaction/expressionUtils';
-import {
-    SORT_ORDER,
-    NUMBER_RECORDS_TO_STORE,
-    WAY_TO_STORE_FIELDS,
-    VARIABLE_AND_FIELD_MAPPING_VALUES
-} from 'builder_platform_interaction/recordEditorLib';
-import {
-    AddElementEvent,
-    ComboboxStateChangedEvent,
-    EditElementEvent,
-    SObjectReferenceChangedEvent
-} from 'builder_platform_interaction/events';
-import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import {
-    flowWithAllElementsUIModel,
-    lookupRecordAutomaticOutput,
-    lookupRecordAutomaticOutputWithFields,
-    lookupRecordOutputReference as lookupRecordManual
-} from 'mock/storeData';
 import {
     changeEvent,
     checkboxChangeEvent,
@@ -28,8 +6,29 @@ import {
     setDocumentBodyChildren,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
-import { Store } from 'builder_platform_interaction/storeLib';
+import {
+    AddElementEvent,
+    ComboboxStateChangedEvent,
+    EditElementEvent,
+    SObjectReferenceChangedEvent
+} from 'builder_platform_interaction/events';
+import { getResourceByUniqueIdentifier } from 'builder_platform_interaction/expressionUtils';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import {
+    NUMBER_RECORDS_TO_STORE,
+    SORT_ORDER,
+    VARIABLE_AND_FIELD_MAPPING_VALUES,
+    WAY_TO_STORE_FIELDS
+} from 'builder_platform_interaction/recordEditorLib';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
+import {
+    flowWithAllElementsUIModel,
+    lookupRecordAutomaticOutput,
+    lookupRecordAutomaticOutputWithFields,
+    lookupRecordOutputReference as lookupRecordManual
+} from 'mock/storeData';
 import {
     getEntityResourcePicker,
     getRecordNumberRecordToStore,
@@ -38,6 +37,7 @@ import {
     getRecordStoreOption,
     getSObjectOrSObjectCollectionPicker
 } from '../../integrationTests/__tests__/clud/cludEditorTestUtils';
+import RecordLookupEditor from '../recordLookupEditor';
 
 const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'Flow';
 const MOCK_PROCESS_TYPE_NOT_SUPPORTING_AUTOMATIC_MODE = 'other';

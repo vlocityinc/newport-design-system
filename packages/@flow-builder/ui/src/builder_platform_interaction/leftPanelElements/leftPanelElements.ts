@@ -1,9 +1,8 @@
 // @ts-nocheck
-import { LightningElement, api } from 'lwc';
-
-import { LABELS } from './leftPanelElementsLabels';
 import { APP_EXCHANGE_LINK } from 'builder_platform_interaction/commonUtils';
 import { getElementSections } from 'builder_platform_interaction/editorElementsUtils';
+import { api, LightningElement } from 'lwc';
+import { LABELS } from './leftPanelElementsLabels';
 
 export default class LeftPanelElements extends LightningElement {
     appExchangeLink = APP_EXCHANGE_LINK;

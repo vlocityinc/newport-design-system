@@ -1,22 +1,22 @@
 // @ts-nocheck
-import reducer from '../connectorsReducer';
+import immediateConnectorLabel from '@salesforce/label/FlowBuilderConnectorLabels.immediateConnectorLabel';
 import {
     ADD_CONNECTOR,
-    SELECT_ON_CANVAS,
-    TOGGLE_ON_CANVAS,
-    DESELECT_ON_CANVAS,
-    MARQUEE_SELECT_ON_CANVAS,
-    DO_DUPLICATE,
-    DELETE_ELEMENT,
-    MODIFY_DECISION_WITH_OUTCOMES,
-    MODIFY_WAIT_WITH_WAIT_EVENTS,
-    MODIFY_START_WITH_SCHEDULED_PATHS,
-    DECORATE_CANVAS,
     CLEAR_CANVAS_DECORATION,
-    RESET_GOTOS
+    DECORATE_CANVAS,
+    DELETE_ELEMENT,
+    DESELECT_ON_CANVAS,
+    DO_DUPLICATE,
+    MARQUEE_SELECT_ON_CANVAS,
+    MODIFY_DECISION_WITH_OUTCOMES,
+    MODIFY_START_WITH_SCHEDULED_PATHS,
+    MODIFY_WAIT_WITH_WAIT_EVENTS,
+    RESET_GOTOS,
+    SELECT_ON_CANVAS,
+    TOGGLE_ON_CANVAS
 } from 'builder_platform_interaction/actions';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
-import immediateConnectorLabel from '@salesforce/label/FlowBuilderConnectorLabels.immediateConnectorLabel';
+import reducer from '../connectorsReducer';
 
 const connectorsState = [
     {

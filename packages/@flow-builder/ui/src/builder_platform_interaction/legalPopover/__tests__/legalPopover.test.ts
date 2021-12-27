@@ -1,5 +1,5 @@
-import { createElement } from 'lwc';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { createElement } from 'lwc';
 import LegalPopover from '../legalPopover';
 
 const createComponentUnderTest = (props) => {

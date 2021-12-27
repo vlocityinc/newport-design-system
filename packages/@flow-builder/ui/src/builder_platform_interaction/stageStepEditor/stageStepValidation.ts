@@ -1,9 +1,9 @@
-import * as ValidationRules from 'builder_platform_interaction/validationRules';
-import { Validation } from 'builder_platform_interaction/validation';
 import { validateParameter } from 'builder_platform_interaction/calloutEditorLib';
+import { ValueWithError } from 'builder_platform_interaction/dataMutationLib';
 import { StageStep } from 'builder_platform_interaction/elementFactory';
 import { ACTION_TYPE, EntryCriteria, ExitCriteria } from 'builder_platform_interaction/flowMetadata';
-import { ValueWithError } from 'builder_platform_interaction/dataMutationLib';
+import { Validation } from 'builder_platform_interaction/validation';
+import * as ValidationRules from 'builder_platform_interaction/validationRules';
 
 const validateActionName = () => {
     return {

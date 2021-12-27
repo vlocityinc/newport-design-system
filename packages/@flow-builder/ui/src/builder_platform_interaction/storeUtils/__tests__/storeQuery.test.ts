@@ -1,16 +1,15 @@
 // @ts-nocheck
-import {
-    getElementByDevName,
-    getDuplicateDevNameElements,
-    isExecuteOnlyWhenChangeMatchesConditionsPossible,
-    shouldUseAutoLayoutCanvas,
-    getElementsForElementType,
-    getScheduledPathsList
-} from '../storeQuery';
-import { assignmentElement } from 'mock/storeData';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { assignmentElement, flowWithAllElementsUIModel } from 'mock/storeData';
+import {
+    getDuplicateDevNameElements,
+    getElementByDevName,
+    getElementsForElementType,
+    getScheduledPathsList,
+    isExecuteOnlyWhenChangeMatchesConditionsPossible,
+    shouldUseAutoLayoutCanvas
+} from '../storeQuery';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

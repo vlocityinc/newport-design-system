@@ -1,8 +1,8 @@
 // @ts-nocheck
-import { createConstant, createConstantForStore, createConstantMetadataObject } from '../constant';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { createConstant, createConstantForStore, createConstantMetadataObject } from '../constant';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

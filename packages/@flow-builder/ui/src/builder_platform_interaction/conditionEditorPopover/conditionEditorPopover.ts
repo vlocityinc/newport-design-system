@@ -1,12 +1,11 @@
 // @ts-nocheck
-import { LightningElement, api } from 'lwc';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { getRulesForElementType, RULE_TYPES, RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
-
-import { conditionEditorValidation } from './conditionEditorValidation';
 import { isTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
+import { getRulesForElementType, RULE_OPERATOR, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
+import { api, LightningElement } from 'lwc';
 import { LABELS } from './conditionEditorPopoverLabels';
+import { conditionEditorValidation } from './conditionEditorValidation';
 
 export default class ConditionEditorPopover extends LightningElement {
     containerElement = ELEMENT_TYPE.SCREEN;

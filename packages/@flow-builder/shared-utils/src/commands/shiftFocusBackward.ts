@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { BaseCommand } from './baseCommand';
 import shiftFocusBackwardCommandLabel from '@salesforce/label/FlowBuilderKeyboardInteractionLabels.shiftFocusBackwardCommandLabel';
+import { BaseCommand } from './baseCommand';
 const commandName = 'shiftfocusbackward';
 export class ShiftFocusBackwardCommand extends BaseCommand {
     /**

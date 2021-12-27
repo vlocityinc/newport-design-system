@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { createConnectorObjects, createConnectorMetadataObjects, createStartElementConnector } from '../connector';
+import { createConnectorMetadataObjects, createConnectorObjects, createStartElementConnector } from '../connector';
 import { LABELS } from '../elementFactoryLabels';
 
 jest.mock('builder_platform_interaction/storeLib', () => {

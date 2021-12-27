@@ -1,15 +1,15 @@
-import { SORT_COMPATIBLE_TYPES } from 'builder_platform_interaction/sortEditorLib';
-import { MAP_COMPATIBLE_TYPES } from 'builder_platform_interaction/mapEditorLib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { addElement, deleteElements, updateElement } from 'builder_platform_interaction/actions';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { createVariable } from 'builder_platform_interaction/elementFactory';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { MAP_COMPATIBLE_TYPES } from 'builder_platform_interaction/mapEditorLib';
+import { SORT_COMPATIBLE_TYPES } from 'builder_platform_interaction/sortEditorLib';
 import { deepCopy, Store } from 'builder_platform_interaction/storeLib';
 import {
+    getElementByDevName,
     getElementByGuid,
-    getUniqueDuplicateElementName,
-    getElementByDevName
+    getUniqueDuplicateElementName
 } from 'builder_platform_interaction/storeUtils';
-import { createVariable } from 'builder_platform_interaction/elementFactory';
-import { addElement, deleteElements, updateElement } from 'builder_platform_interaction/actions';
 
 export type CollectionProcessorFilter = ({ sortable, mappable }: { sortable: boolean; mappable: boolean }) => boolean;
 

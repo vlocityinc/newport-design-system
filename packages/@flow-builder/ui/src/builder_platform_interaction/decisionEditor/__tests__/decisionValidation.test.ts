@@ -1,7 +1,7 @@
 // @ts-nocheck
+import { LABELS } from '../../validationRules/validationRulesLabels';
 import { decisionValidation } from '../decisionValidation';
 
-import { LABELS } from '../../validationRules/validationRulesLabels';
 const CANNOT_BE_BLANK_ERROR = LABELS.cannotBeBlank;
 
 jest.mock('builder_platform_interaction/expressionValidator', () =>

@@ -1,32 +1,32 @@
+import { getApexClasses, setApexClasses } from 'builder_platform_interaction/apexTypeLib';
+import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { validateTextWithMergeFields, validateMergeField, isTextWithMergeFields } from '../mergeFieldValidation';
-import { datetimeParamTypes, numberParamCanBeAnything, accountParam, apexParam } from 'mock/ruleService';
 import {
     GLOBAL_CONSTANTS,
-    setSystemVariables,
-    setGlobalVariables,
+    resetGlobalVariables,
     resetSystemVariables,
-    resetGlobalVariables
+    setGlobalVariables,
+    setSystemVariables
 } from 'builder_platform_interaction/systemLib';
-import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
-import { setApexClasses, getApexClasses } from 'builder_platform_interaction/apexTypeLib';
-import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
-import { userFields as mockUserFields } from 'serverData/GetFieldsForEntity/userFields.json';
-import { feedItemFields as mockFeedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
-import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
-import { apexTypesForAutoLaunchedFlow } from 'serverData/GetApexTypes/apexTypesForAutoLaunchedFlow.json';
-import { scheduleTriggeredFlowUIModel } from 'mock/storeDataScheduleTriggered';
-import { recordTriggeredFlowUIModel } from 'mock/storeDataRecordTriggered';
 import { mockScreenElement } from 'mock/calloutData';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { getMetadataFlowElementByName } from 'mock/flows/mock-flow';
-import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
-import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
-import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
-import { globalVariablesForAutoLaunchedFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForAutoLaunchedFlow.json';
-import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
-import { systemVariablesForAutoLaunchedFlow } from 'serverData/GetSystemVariables/systemVariablesForAutoLaunchedFlow.json';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import { getMetadataFlowElementByName } from 'mock/flows/mock-flow';
+import { accountParam, apexParam, datetimeParamTypes, numberParamCanBeAnything } from 'mock/ruleService';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { recordTriggeredFlowUIModel } from 'mock/storeDataRecordTriggered';
+import { scheduleTriggeredFlowUIModel } from 'mock/storeDataScheduleTriggered';
+import { globalVariablesForAutoLaunchedFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForAutoLaunchedFlow.json';
+import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
+import { apexTypesForAutoLaunchedFlow } from 'serverData/GetApexTypes/apexTypesForAutoLaunchedFlow.json';
+import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
+import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { feedItemFields as mockFeedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
+import { userFields as mockUserFields } from 'serverData/GetFieldsForEntity/userFields.json';
+import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
+import { systemVariablesForAutoLaunchedFlow } from 'serverData/GetSystemVariables/systemVariablesForAutoLaunchedFlow.json';
+import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
+import { isTextWithMergeFields, validateMergeField, validateTextWithMergeFields } from '../mergeFieldValidation';
 
 const mockUncommitedScreenFieldInScreenWithAutomaticFieldName = 'numberScreenField1';
 

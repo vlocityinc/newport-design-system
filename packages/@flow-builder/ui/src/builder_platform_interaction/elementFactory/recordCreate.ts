@@ -1,28 +1,25 @@
 // @ts-nocheck
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import {
-    baseCanvasElementWithFault,
-    baseCanvasElementsArrayToMap,
-    duplicateCanvasElement,
-    createAvailableConnection,
-    automaticOutputHandlingSupport,
-    INCOMPLETE_ELEMENT
-} from './base/baseElement';
-
-import { baseCanvasElementMetadataObject } from './base/baseMetadata';
-import { createConnectorObjects } from './connector';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-
-import {
-    createFlowInputFieldAssignmentMetadataObject,
-    createFlowInputFieldAssignment,
-    getDefaultAvailableConnections,
-    createEmptyAssignmentMetadata
-} from './base/baseRecordElement';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { Store } from 'builder_platform_interaction/storeLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
+import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
+import {
+    automaticOutputHandlingSupport,
+    baseCanvasElementsArrayToMap,
+    baseCanvasElementWithFault,
+    createAvailableConnection,
+    duplicateCanvasElement,
+    INCOMPLETE_ELEMENT
+} from './base/baseElement';
+import { baseCanvasElementMetadataObject } from './base/baseMetadata';
+import {
+    createEmptyAssignmentMetadata,
+    createFlowInputFieldAssignment,
+    createFlowInputFieldAssignmentMetadataObject,
+    getDefaultAvailableConnections
+} from './base/baseRecordElement';
+import { createConnectorObjects } from './connector';
 
 const elementType = ELEMENT_TYPE.RECORD_CREATE;
 const maxConnections = 2;

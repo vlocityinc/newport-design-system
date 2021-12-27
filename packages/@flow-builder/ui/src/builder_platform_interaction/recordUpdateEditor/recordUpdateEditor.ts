@@ -1,28 +1,28 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
-import { recordUpdateReducer } from './recordUpdateReducer';
-import { LABELS } from './recordUpdateEditorLabels';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { PropertyChangedEvent } from 'builder_platform_interaction/events';
-import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
-import {
-    ENTITY_TYPE,
-    fetchFieldsForEntity,
-    getUpdateableEntities,
-    getEntity
-} from 'builder_platform_interaction/sobjectLib';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
-import { getTriggerType, getStartObject } from 'builder_platform_interaction/storeUtils';
 import {
     CONDITION_LOGIC,
     FLOW_TRIGGER_TYPE,
     RECORD_UPDATE_WAY_TO_FIND_RECORDS
 } from 'builder_platform_interaction/flowMetadata';
-import { doesSupportTriggeringRecordUpdate } from 'builder_platform_interaction/triggerTypeLib';
 import { UPDATEABLE_FILTER } from 'builder_platform_interaction/selectors';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import {
+    ENTITY_TYPE,
+    fetchFieldsForEntity,
+    getEntity,
+    getUpdateableEntities
+} from 'builder_platform_interaction/sobjectLib';
+import { getStartObject, getTriggerType } from 'builder_platform_interaction/storeUtils';
+import { doesSupportTriggeringRecordUpdate } from 'builder_platform_interaction/triggerTypeLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './recordUpdateEditorLabels';
+import { recordUpdateReducer } from './recordUpdateReducer';
 const { format } = commonUtils;
 export default class RecordUpdateEditor extends LightningElement {
     labels = LABELS;

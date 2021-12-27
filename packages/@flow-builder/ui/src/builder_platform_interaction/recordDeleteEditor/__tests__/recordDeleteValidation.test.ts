@@ -1,8 +1,8 @@
 // @ts-nocheck
-import { recordDeleteValidation, getRules } from '../recordDeleteValidation';
-import * as storeMockedData from 'mock/storeData';
-import { LABELS } from 'builder_platform_interaction/validationRules';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { LABELS } from 'builder_platform_interaction/validationRules';
+import * as storeMockedData from 'mock/storeData';
+import { getRules, recordDeleteValidation } from '../recordDeleteValidation';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/expressionValidator', () =>

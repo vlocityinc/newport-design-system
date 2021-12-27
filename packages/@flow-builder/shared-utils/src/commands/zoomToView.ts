@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { BaseCommand } from './baseCommand';
 import zoomToViewCommandLabel from '@salesforce/label/FlowBuilderKeyboardInteractionLabels.zoomToViewCommandLabel';
+import { BaseCommand } from './baseCommand';
 const commandName = 'zoomtoview';
 export class ZoomToViewCommand extends BaseCommand {
     /**

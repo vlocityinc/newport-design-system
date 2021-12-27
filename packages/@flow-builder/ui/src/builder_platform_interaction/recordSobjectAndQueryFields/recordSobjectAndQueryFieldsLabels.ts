@@ -1,11 +1,11 @@
+import field from '@salesforce/label/FlowBuilderRecordEditor.field';
+import recordCollectionVariable from '@salesforce/label/FlowBuilderRecordEditor.recordCollectionVariable';
+import recordVariable from '@salesforce/label/FlowBuilderRecordEditor.recordVariable';
+import searchRecordCollections from '@salesforce/label/FlowBuilderRecordEditor.searchRecordCollections';
+import searchRecords from '@salesforce/label/FlowBuilderRecordEditor.searchRecords';
+import selectFields from '@salesforce/label/FlowBuilderRecordEditor.selectFields';
 import selectVariableToStore from '@salesforce/label/FlowBuilderRecordEditor.selectVariableToStore';
 import selectVariableToStoreRecords from '@salesforce/label/FlowBuilderRecordEditor.selectVariableToStoreRecords';
-import searchRecords from '@salesforce/label/FlowBuilderRecordEditor.searchRecords';
-import searchRecordCollections from '@salesforce/label/FlowBuilderRecordEditor.searchRecordCollections';
-import recordVariable from '@salesforce/label/FlowBuilderRecordEditor.recordVariable';
-import recordCollectionVariable from '@salesforce/label/FlowBuilderRecordEditor.recordCollectionVariable';
-import selectFields from '@salesforce/label/FlowBuilderRecordEditor.selectFields';
-import field from '@salesforce/label/FlowBuilderRecordEditor.field';
 export const LABELS = {
     selectVariableToStore,
     selectVariableToStoreRecords,

@@ -1,7 +1,7 @@
-import { rollbackValidation } from './rollbackValidation';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { rollbackValidation } from './rollbackValidation';
 
 const rollbackPropertyChanged = (state, { propertyName, value, error }) => {
     error = error === null ? rollbackValidation.validateProperty(propertyName, value, null) : error;

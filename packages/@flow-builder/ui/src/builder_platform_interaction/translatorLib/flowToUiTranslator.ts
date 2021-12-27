@@ -1,17 +1,17 @@
 // @ts-nocheck
-import { swapDevNamesToUids } from './uidSwapping';
-import {
-    METADATA_KEY,
-    isSystemElement,
-    forEachMetadataFlowElement,
-    getStartElementFromMetadata
-} from 'builder_platform_interaction/flowMetadata';
+import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 import {
     createFlowProperties,
-    INCOMPLETE_ELEMENT,
-    findStartYOffset
+    findStartYOffset,
+    INCOMPLETE_ELEMENT
 } from 'builder_platform_interaction/elementFactory';
-import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
+import {
+    forEachMetadataFlowElement,
+    getStartElementFromMetadata,
+    isSystemElement,
+    METADATA_KEY
+} from 'builder_platform_interaction/flowMetadata';
+import { swapDevNamesToUids } from './uidSwapping';
 
 const NODE_LENGTH = 48;
 const START_LENGTH = 300;

@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { createFEROVMetadataObject } from '../ferov';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { parseDateTimeUTC } from 'lightning/internalLocalizationService';
+import { createFEROVMetadataObject } from '../ferov';
 
 describe('create FEROV Metadata Object', () => {
     it('stores invalid primitives as string values', () => {

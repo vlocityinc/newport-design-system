@@ -1,6 +1,6 @@
-import { createElement } from 'lwc';
 import { LIGHTNING_COMPONENTS_SELECTORS, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import LearnMoreCard from 'builder_platform_interaction/learnMoreCard';
+import { createElement } from 'lwc';
 
 type LearnMoreCardProps = {
     popupTriggerLabel: string;

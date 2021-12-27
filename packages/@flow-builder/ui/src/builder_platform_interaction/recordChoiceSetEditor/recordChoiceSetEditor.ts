@@ -1,16 +1,16 @@
 // @ts-nocheck
-import { LightningElement, track, api, unwrap } from 'lwc';
-import { recordChoiceSetReducer } from './recordChoiceSetReducer';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { LABELS } from './recordChoiceSetEditorLabels';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
-import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { api, LightningElement, track, unwrap } from 'lwc';
+import { LABELS } from './recordChoiceSetEditorLabels';
+import { recordChoiceSetReducer } from './recordChoiceSetReducer';
 const { format } = commonUtils;
 
 const RECORD_CHOICE_SET_FIELDS = {

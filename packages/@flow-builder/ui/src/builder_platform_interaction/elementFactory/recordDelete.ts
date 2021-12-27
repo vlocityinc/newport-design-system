@@ -1,22 +1,21 @@
 // @ts-nocheck
-import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import {
-    baseCanvasElementWithFault,
-    baseCanvasElementsArrayToMap,
-    duplicateCanvasElement,
-    createAvailableConnection
-} from './base/baseElement';
-
-import { baseCanvasElementMetadataObject } from './base/baseMetadata';
-import { createConnectorObjects } from './connector';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import {
-    getDefaultAvailableConnections,
-    createRecordFilters,
-    createFilterMetadataObject
-} from './base/baseRecordElement';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+import {
+    baseCanvasElementsArrayToMap,
+    baseCanvasElementWithFault,
+    createAvailableConnection,
+    duplicateCanvasElement
+} from './base/baseElement';
+import { baseCanvasElementMetadataObject } from './base/baseMetadata';
+import {
+    createFilterMetadataObject,
+    createRecordFilters,
+    getDefaultAvailableConnections
+} from './base/baseRecordElement';
+import { createConnectorObjects } from './connector';
 
 const MAX_CONNECTIONS = 2;
 

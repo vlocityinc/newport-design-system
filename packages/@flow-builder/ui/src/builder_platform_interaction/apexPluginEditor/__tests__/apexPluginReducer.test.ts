@@ -1,9 +1,9 @@
 // @ts-nocheck
-import { apexPluginReducer } from '../apexPluginReducer';
 import { MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
-import { mockApexPluginParameters } from 'mock/calloutData';
-import { UpdateParameterItemEvent, DeleteParameterItemEvent } from 'builder_platform_interaction/events';
 import { MERGE_WARNING_TYPE } from 'builder_platform_interaction/elementFactory';
+import { DeleteParameterItemEvent, UpdateParameterItemEvent } from 'builder_platform_interaction/events';
+import { mockApexPluginParameters } from 'mock/calloutData';
+import { apexPluginReducer } from '../apexPluginReducer';
 
 const getParameterItemsWithName = (parameterItems, name) =>
     parameterItems.filter((parameterItem) => parameterItem.name === name);

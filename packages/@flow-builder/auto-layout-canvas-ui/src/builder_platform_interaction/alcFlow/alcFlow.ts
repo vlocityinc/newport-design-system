@@ -1,10 +1,10 @@
-import { LightningElement, api } from 'lwc';
 import {
-    getAlcConnectorData,
+    AutoLayoutCanvasMode,
     getAlcCompoundNodeData,
-    AutoLayoutCanvasMode
+    getAlcConnectorData
 } from 'builder_platform_interaction/alcComponentsUtils';
 import { FAULT_INDEX, FlowModel, FlowRenderInfo, Guid } from 'builder_platform_interaction/autoLayoutCanvas';
+import { api, LightningElement } from 'lwc';
 
 export default class AlcFlow extends LightningElement {
     @api

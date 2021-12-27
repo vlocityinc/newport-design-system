@@ -1,20 +1,19 @@
 // @ts-nocheck
+import shortDateFormat from '@salesforce/i18n/dateTime.shortDateFormat';
+import shortDateTimeFormat from '@salesforce/i18n/dateTime.shortDateTimeFormat';
+import timeZone from '@salesforce/i18n/timeZone';
+import { getLocalizationService } from 'lightning/configProvider';
+import { parseDateTimeUTC, syncUTCToWallTime, syncWallTimeToUTC } from 'lightning/internalLocalizationService';
 import {
-    formatDateTime,
     createMetadataDateTime,
-    normalizeDateTime,
+    formatDateTime,
     getFormat,
     isValidFormattedDateTime,
     isValidMetadataDateTime,
+    normalizeDateTime,
     parseFormattedDateTime,
     parseMetadataDateTime
 } from '../dateTimeUtils';
-import { parseDateTimeUTC, syncUTCToWallTime, syncWallTimeToUTC } from 'lightning/internalLocalizationService';
-import { getLocalizationService } from 'lightning/configProvider';
-
-import shortDateTimeFormat from '@salesforce/i18n/dateTime.shortDateTimeFormat';
-import shortDateFormat from '@salesforce/i18n/dateTime.shortDateFormat';
-import timeZone from '@salesforce/i18n/timeZone';
 
 describe('date-time-utils', () => {
     const localizationService = getLocalizationService();

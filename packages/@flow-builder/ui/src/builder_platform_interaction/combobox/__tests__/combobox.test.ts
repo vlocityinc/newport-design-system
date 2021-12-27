@@ -1,45 +1,45 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import Combobox, { MENU_DATA_PAGE_SIZE } from 'builder_platform_interaction/combobox';
-import { comboboxInitialConfig, secondLevelMenuData, thirdLevelMenuData } from 'mock/comboboxData';
-import {
-    FilterMatchesEvent,
-    FetchMenuDataEvent,
-    ComboboxStateChangedEvent,
-    NewResourceEvent,
-    ItemSelectedEvent
-} from 'builder_platform_interaction/events';
-import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import {
-    validateTextWithMergeFields,
-    validateMergeField,
-    isTextWithMergeFields
-} from 'builder_platform_interaction/mergeFieldLib';
-import { removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
-import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import unknownMergeField from '@salesforce/label/FlowBuilderMergeFieldValidation.unknownMergeField';
 import {
-    normalizeDateTime,
-    createMetadataDateTime,
-    formatDateTime,
-    isValidMetadataDateTime,
-    isValidFormattedDateTime,
-    getFormat
-} from 'builder_platform_interaction/dateTimeUtils';
-import {
-    ticks,
-    INTERACTION_COMPONENTS_SELECTORS,
-    LIGHTNING_COMPONENTS_SELECTORS,
-    textInputEvent,
-    selectEvent,
     blurEvent,
     clickEvent,
     getComboboxPill,
+    INTERACTION_COMPONENTS_SELECTORS,
+    LIGHTNING_COMPONENTS_SELECTORS,
     removeEvent,
-    setDocumentBodyChildren
+    selectEvent,
+    setDocumentBodyChildren,
+    textInputEvent,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
+import Combobox, { MENU_DATA_PAGE_SIZE } from 'builder_platform_interaction/combobox';
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
+import { removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import {
+    createMetadataDateTime,
+    formatDateTime,
+    getFormat,
+    isValidFormattedDateTime,
+    isValidMetadataDateTime,
+    normalizeDateTime
+} from 'builder_platform_interaction/dateTimeUtils';
+import {
+    ComboboxStateChangedEvent,
+    FetchMenuDataEvent,
+    FilterMatchesEvent,
+    ItemSelectedEvent,
+    NewResourceEvent
+} from 'builder_platform_interaction/events';
+import {
+    isTextWithMergeFields,
+    validateMergeField,
+    validateTextWithMergeFields
+} from 'builder_platform_interaction/mergeFieldLib';
+import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
+import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
+import { createElement } from 'lwc';
+import { comboboxInitialConfig, secondLevelMenuData, thirdLevelMenuData } from 'mock/comboboxData';
 import { LABELS } from '../comboboxLabels';
 
 /**

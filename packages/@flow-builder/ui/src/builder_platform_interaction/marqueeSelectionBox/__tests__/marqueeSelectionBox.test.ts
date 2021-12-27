@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import MarqueeSelectionBox from 'builder_platform_interaction/marqueeSelectionBox';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import MarqueeSelectionBox from 'builder_platform_interaction/marqueeSelectionBox';
+import { createElement } from 'lwc';
 
 const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-marquee-selection-box', {

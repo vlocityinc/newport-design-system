@@ -1,6 +1,6 @@
-import { isAutomaticFieldRequired } from '../screenEditorAutomaticFieldPaletteUtils';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { userFields } from 'serverData/GetFieldsForEntity/userFields.json';
+import { isAutomaticFieldRequired } from '../screenEditorAutomaticFieldPaletteUtils';
 
 describe('isAutomaticFieldRequired', () => {
     test('an automatic field is required if required attribute is true', () => {

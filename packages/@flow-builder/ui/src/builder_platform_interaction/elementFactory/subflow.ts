@@ -1,17 +1,16 @@
 // @ts-nocheck
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
+    automaticOutputHandlingSupport,
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
-    duplicateCanvasElement,
-    automaticOutputHandlingSupport
+    duplicateCanvasElement
 } from './base/baseElement';
-
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
+import { createConnectorObjects } from './connector';
 import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
 import { createOutputParameter, createOutputParameterMetadataObject } from './outputParameter';
-import { createConnectorObjects } from './connector';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const elementType = ELEMENT_TYPE.SUBFLOW;
 const maxConnections = 1;

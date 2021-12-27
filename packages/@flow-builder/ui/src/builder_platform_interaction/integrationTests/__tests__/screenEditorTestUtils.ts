@@ -1,46 +1,46 @@
 // @ts-ignore
-import { createElement } from 'lwc';
-import ScreenEditor, { ScreenEditorTab } from 'builder_platform_interaction/screenEditor';
 import {
-    LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS,
-    deepQuerySelector,
-    checkboxChangeEvent,
-    lightningRadioGroupChangeEvent,
     blurEvent,
-    ticks,
-    setDocumentBodyChildren
+    checkboxChangeEvent,
+    deepQuerySelector,
+    INTERACTION_COMPONENTS_SELECTORS,
+    lightningRadioGroupChangeEvent,
+    LIGHTNING_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import FerovResourcePicker from 'builder_platform_interaction/ferovResourcePicker';
+import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+import LearnMoreCard from 'builder_platform_interaction/learnMoreCard';
+import ManuallyAssignVariablesCheckbox from 'builder_platform_interaction/manuallyAssignVariablesCheckbox';
+import Palette from 'builder_platform_interaction/palette';
+import Row from 'builder_platform_interaction/row';
+import ScreenAutomaticFieldPropertiesEditor from 'builder_platform_interaction/screenAutomaticFieldPropertiesEditor';
 import ScreenCanvas from 'builder_platform_interaction/screenCanvas';
+import ScreenChoiceFieldPropertiesEditor from 'builder_platform_interaction/screenChoiceFieldPropertiesEditor';
+import ScreenEditor, { ScreenEditorTab } from 'builder_platform_interaction/screenEditor';
+import ScreenEditorAutomaticFieldPalette from 'builder_platform_interaction/screenEditorAutomaticFieldPalette';
 import ScreenEditorCanvas from 'builder_platform_interaction/screenEditorCanvas';
 import ScreenEditorHighlight from 'builder_platform_interaction/screenEditorHighlight';
 import ScreenEditorPalette from 'builder_platform_interaction/screenEditorPalette';
-import ScreenEditorAutomaticFieldPalette from 'builder_platform_interaction/screenEditorAutomaticFieldPalette';
-import ScreenEditorPropertiesEditorContainer from 'builder_platform_interaction/screenPropertiesEditorContainer';
-import ScreenExtensionPropertiesEditor from 'builder_platform_interaction/screenExtensionPropertiesEditor';
-import ScreenPropertiesEditor from 'builder_platform_interaction/screenPropertiesEditor';
-import ScreenField from 'builder_platform_interaction/screenField';
-import ManuallyAssignVariablesCheckbox from 'builder_platform_interaction/manuallyAssignVariablesCheckbox';
-import ScreenPropertyField from 'builder_platform_interaction/screenPropertyField';
 import { InputsOnNextNavToAssocScrnOption } from 'builder_platform_interaction/screenEditorUtils';
-import ScreenSectionFieldPropertiesEditor from 'builder_platform_interaction/screenSectionFieldPropertiesEditor';
-import ScreenChoiceFieldPropertiesEditor from 'builder_platform_interaction/screenChoiceFieldPropertiesEditor';
-import ScreenInputFieldPropertiesEditor from 'builder_platform_interaction/screenInputFieldPropertiesEditor';
-import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
-import ScreenAutomaticFieldPropertiesEditor from 'builder_platform_interaction/screenAutomaticFieldPropertiesEditor';
+import ScreenExtensionPropertiesEditor from 'builder_platform_interaction/screenExtensionPropertiesEditor';
+import ScreenField from 'builder_platform_interaction/screenField';
 import ScreenInputField from 'builder_platform_interaction/screenInputField';
-import SObjectOrSObjectCollectionPicker from 'builder_platform_interaction/sobjectOrSobjectCollectionPicker';
-import Palette from 'builder_platform_interaction/palette';
-import Row from 'builder_platform_interaction/row';
-
-import { TestComponent } from './testComponent';
-import { ComboboxTestComponent, getSObjectOrSObjectCollectionPickerCombobox } from './comboboxTestUtils';
+import ScreenInputFieldPropertiesEditor from 'builder_platform_interaction/screenInputFieldPropertiesEditor';
+import ScreenPropertiesEditor from 'builder_platform_interaction/screenPropertiesEditor';
+import ScreenEditorPropertiesEditorContainer from 'builder_platform_interaction/screenPropertiesEditorContainer';
+import ScreenPropertyField from 'builder_platform_interaction/screenPropertyField';
+import ScreenSectionFieldPropertiesEditor from 'builder_platform_interaction/screenSectionFieldPropertiesEditor';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import SObjectOrSObjectCollectionPicker from 'builder_platform_interaction/sobjectOrSobjectCollectionPicker';
+import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import { createElement } from 'lwc';
 import LegalPopover from 'src/builder_platform_interaction/legalPopover/legalPopover';
-import LearnMoreCard from 'builder_platform_interaction/learnMoreCard';
-import FerovResourcePicker from 'builder_platform_interaction/ferovResourcePicker';
+import { ComboboxTestComponent, getSObjectOrSObjectCollectionPickerCombobox } from './comboboxTestUtils';
 import { LegalPopoverTestComponent } from './integrationTestUtils';
+import { TestComponent } from './testComponent';
+
 const { format } = commonUtils;
 
 const SELECTORS = {

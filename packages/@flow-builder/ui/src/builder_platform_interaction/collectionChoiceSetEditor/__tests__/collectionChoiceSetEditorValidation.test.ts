@@ -1,13 +1,12 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import CollectionChoiceSetEditor from '../collectionChoiceSetEditor';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { collectionChoiceSetValidation, getRules } from '../collectionChoiceSetValidation';
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
-
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { createElement } from 'lwc';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import CollectionChoiceSetEditor from '../collectionChoiceSetEditor';
+import { collectionChoiceSetValidation, getRules } from '../collectionChoiceSetValidation';
 
 jest.mock('builder_platform_interaction/processTypeLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/processTypeLib');

@@ -1,12 +1,12 @@
-import { createElement } from 'lwc';
-import MapEditor from '../mapEditor';
-import { mapValidation, getRules } from '../mapValidation';
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import { LABELS } from 'builder_platform_interaction/validationRules';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
-import * as store from 'mock/storeData';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { LABELS } from 'builder_platform_interaction/validationRules';
+import { createElement } from 'lwc';
+import * as store from 'mock/storeData';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
+import MapEditor from '../mapEditor';
+import { getRules, mapValidation } from '../mapValidation';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
