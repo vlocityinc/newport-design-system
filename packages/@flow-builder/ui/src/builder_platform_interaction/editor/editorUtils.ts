@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
     addElement,
     clearCanvasDecoration,
@@ -10,7 +9,7 @@ import {
     updatePropertiesAfterSaveFailed,
     updatePropertiesAfterSaving
 } from 'builder_platform_interaction/actions';
-import { hasGoToOnNext } from 'builder_platform_interaction/autoLayoutCanvas';
+import { ElementMetadata, hasGoToOnNext } from 'builder_platform_interaction/autoLayoutCanvas';
 import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
 import {
     canUserVAD,
@@ -48,6 +47,7 @@ import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDa
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
 import { getElementByDevName, getStartElement } from 'builder_platform_interaction/storeUtils';
+import Toolbar from 'builder_platform_interaction/toolbar';
 import { invokeUsedByAlertModal, usedBy } from 'builder_platform_interaction/usedByLib';
 
 const LEFT_PANEL_ELEMENTS = 'LEFT_PANEL_ELEMENTS';
@@ -68,12 +68,16 @@ const isAssociatedConnector = (selectedElementGUIDs, connector) => {
 /**
  * This function returns list of connectors to be deleted
  *
- * @param {Array} selectedElementGUIDs Array of guids selected elements
- * @param {Array} connectors Array of connectors
- * @param {boolean} includeSelectedConnector config to include selected connectors or not
- * @returns {Array} Array of connectors to be deleted
+ * @param selectedElementGUIDs Array of guids selected elements
+ * @param connectors Array of connectors
+ * @param includeSelectedConnector config to include selected connectors or not
+ * @returns  connectors to be deleted
  */
-const connectorsToBeDeleted = (selectedElementGUIDs = [], connectors = [], includeSelectedConnector = false) => {
+const connectorsToBeDeleted = (
+    selectedElementGUIDs: UI.Guid[] = [],
+    connectors: UI.Connector[] = [],
+    includeSelectedConnector = false
+) => {
     return connectors.filter((connector) => {
         return (
             (includeSelectedConnector && connector.config.isSelected) ||
@@ -88,7 +92,7 @@ const connectorsToBeDeleted = (selectedElementGUIDs = [], connectors = [], inclu
  * @param {Array} canvasElements list of canvas element
  * @returns {Array} array of guids of selected elements
  */
-const selectedCanvasElementGuids = (canvasElements = []) => {
+const selectedCanvasElementGuids = (canvasElements: UI.CanvasElement[] = []) => {
     return canvasElements
         .filter((canvasElement) => {
             return canvasElement.config && canvasElement.config.isSelected;
@@ -101,10 +105,10 @@ const selectedCanvasElementGuids = (canvasElements = []) => {
 /**
  * This function returns an array of deletable canvas elements
  *
- * @param {Array} canvasElements list of canvas elements
- * @returns {Array} array of deletable canvas elements
+ * @param canvasElements list of canvas elements
+ * @returns deletable canvas elements
  */
-const deletableCanvasElements = (canvasElements = []) => {
+const deletableCanvasElements = (canvasElements: UI.CanvasElement[] = []) => {
     return canvasElements.filter((canvasElement) => {
         return getPropertyOrDefaultToTrue(getConfigForElementType(canvasElement.elementType), 'isDeletable');
     });
@@ -156,22 +160,23 @@ const doDeleteOrInvokeAlert = (
 };
 
 const resetStartElementIfNeeded = (storeInstance, processType, triggerType) => {
-    const startElement = Object.values(storeInstance.getCurrentState().elements).find(
+    const elements: UI.Elements = storeInstance.getCurrentState().elements;
+    const startElement = Object.values(elements).find(
         (element) => element.elementType === ELEMENT_TYPE.START_ELEMENT
-    );
+    ) as UI.Start;
     if (
         !isConfigurableStartSupported(processType) ||
         triggerType !== startElement.triggerType ||
         (triggerType && startElement.triggerType === FLOW_TRIGGER_TYPE.NONE)
     ) {
-        let deletedChildElementGuids = [];
+        let deletedChildElementGuids: UI.Guid[] = [];
         if (startElement.childReferences) {
             deletedChildElementGuids = startElement.childReferences.map((element) => {
                 return element.childReference;
             });
         }
         // Order is important here, since we are resetting the start element we need to remove all the scheduled paths/scheduled paths and reset the available connections and connector count so that we end up with a clean and saveable start element
-        const newBaseCanvasElement = baseCanvasElement(startElement);
+        const newBaseCanvasElement = baseCanvasElement(startElement) as UI.CanvasElement;
         const { connectorCount, availableConnections } = getConnectionProperties(
             startElement,
             [],
@@ -227,11 +232,12 @@ export const getElementsToBeDeleted = (
 /**
  * This method is used to figure save type which is used to figure out if a modal should be displayed or not while saving a flow
  *
- * @param {string} eventType There are 2 save event type: save and save as
- * @param {string} flowId It will be undefined if it is a brand new flow
- * @param {boolean} canOnlySaveAsNewDefinition It is needed to handle use case for flow template. They can only be saved as new flow
+ * @param eventType There are 2 save event type: save and save as
+ * @param flowId It will be undefined if it is a brand new flow
+ * @param canOnlySaveAsNewDefinition It is needed to handle use case for flow template. They can only be saved as new flow
+ * @returns the save type
  */
-export const getSaveType = (eventType, flowId, canOnlySaveAsNewDefinition) => {
+export const getSaveType = (eventType: SaveFlowEvent, flowId: string, canOnlySaveAsNewDefinition: boolean) => {
     if (!eventType) {
         throw new Error('Event type for saving a flow is not defined');
     }
@@ -329,9 +335,10 @@ export const setFlowErrorsAndWarnings = (data) => {
 /**
  * It return another function which will have closure on store instance. The returned function will be executed when user clicks okay on flow property editor.
  *
- * @param {Object} storeInstance Instance of client side store
+ * @param  storeInstance Instance of client side store
+ * @returns the callback
  */
-export const flowPropertiesCallback = (storeInstance) => (flowProperties) => {
+export const flowPropertiesCallback = (storeInstance: Store) => (flowProperties) => {
     if (!storeInstance) {
         throw new Error('Store instance is not defined');
     }
@@ -506,17 +513,17 @@ export const getCopiedChildElements = (elementsInStore, copiedElement) => {
 /**
  * Function to get all the copied data
  *
- * @param {Object} elementsInStore - State of the elements in store
- * @param {string} topCopiedGuid - Guid of the top copied element
+ * @param elementsInStore - State of the elements in store
+ * @param topCopiedGuid - Guid of the top copied element
  * @returns {Object} - Contains copiedCanvasElements, copiedChildElements and bottomCutOrCopiedGuid
  */
-export const getCopiedData = (elementsInStore, topCopiedGuid) => {
+export const getCopiedData = (elementsInStore: UI.Elements, topCopiedGuid: UI.Guid) => {
     const copiedCanvasElements = {};
     let copiedChildElements = {};
 
     // Calculating the copiedCanvasElements and copiedChildElements objects
     for (let i = 0; i < Object.values(elementsInStore).length; i++) {
-        const canvasElement = Object.values(elementsInStore)[i];
+        const canvasElement = Object.values(elementsInStore)[i] as UI.CanvasElement;
         if (canvasElement.config && canvasElement.config.isSelected) {
             copiedCanvasElements[canvasElement.guid] = canvasElement;
             copiedChildElements = {
@@ -536,9 +543,9 @@ export const getCopiedData = (elementsInStore, topCopiedGuid) => {
 /**
  * Function to create a guid -> new guid map
  *
- * @param {Object} elements - Object containing element objects for which the maps needs to be created
+ * @param elements - Object containing element objects for which the maps needs to be created
  */
-const createGuidMap = (elements) => {
+const createGuidMap = (elements: UI.Elements) => {
     return Object.keys(elements).reduce((acc, guid) => {
         acc[guid] = generateGuid();
         return acc;
@@ -638,15 +645,17 @@ export const getDuplicateElementGuidMaps = (canvasElementsInStore, elementsInSto
 
     const canvasElementGuidMap = {};
     let childElementGuidMap = {};
-    const unduplicatedCanvasElementsGuids = [];
+    const unduplicatedCanvasElementsGuids: UI.Guid[] = [];
 
     const nodesLength = canvasElementsInStore.length;
     for (let i = 0; i < nodesLength; i++) {
         const canvasElementGuid = canvasElementsInStore[i];
-        const canvasElement = elementsInStore[canvasElementGuid];
+        const canvasElement = elementsInStore[canvasElementGuid] as UI.CanvasElement;
         if (shouldDuplicateElement(canvasElement)) {
             canvasElementGuidMap[canvasElement.guid] = generateGuid();
 
+            // TODO: what's going on here? hasChildElements is a function ..
+            // @ts-ignore
             if (hasChildElements) {
                 childElementGuidMap = {
                     ...childElementGuidMap,
@@ -694,12 +703,12 @@ const isConnectorSelectedAndAssociated = (connector, canvasElementGuidMap) => {
  * Iterates over the connectors in store and pushes all selected connectors that are also associated with selected elements
  * that neeed to be duplicated into the connectorsToDuplicate array.
  *
- * @param {Object[]} connectorsInStore - Current state of connectors in store
+ * @param connectorsInStore - Current state of connectors in store
  * @param {Object} canvasElementGuidMap - Map of selected canvas elements guids to a newly generated guid that will be used as \
  * the guid for the duplicate element
- * @returns {Object[]} connectorsToDuplicate - Array containing connectors that need to be duplicated
+ * @returns connectors that need to be duplicated
  */
-export const getConnectorToDuplicate = (connectorsInStore, canvasElementGuidMap) => {
+export const getConnectorToDuplicate = (connectorsInStore: UI.Connector[], canvasElementGuidMap) => {
     if (!connectorsInStore) {
         throw new Error('connectorsInStore is not defined');
     }
@@ -708,7 +717,7 @@ export const getConnectorToDuplicate = (connectorsInStore, canvasElementGuidMap)
         throw new Error('canvasElementGuidMap is not defined');
     }
 
-    const connectorsToDuplicate = [];
+    const connectorsToDuplicate: UI.Connector[] = [];
 
     const connectorsLength = connectorsInStore.length;
     for (let i = 0; i < connectorsLength; i++) {
@@ -813,6 +822,7 @@ export const createVariableElement = (
  */
 export const closeModalAndNavigateTo = (navigateUrl) => {
     if (navigateUrl) {
+        // @ts-ignore
         window.top.location = navigateUrl;
         return false;
     }
@@ -886,7 +896,7 @@ export function getToolboxElements(flowProcessType, flowTriggerType) {
             flowTriggerType
         });
     })
-        .then(({ data, error }) => {
+        .then(({ data, error }: any) => {
             if (error) {
                 throw error;
             }
@@ -910,8 +920,8 @@ export function getToolboxElements(flowProcessType, flowTriggerType) {
  * @returns the elements metadata
  */
 export function getElementsMetadata(toolboxElements, palette, existingMetadata = []) {
-    const newElementsMetadata = [];
-    getElementSections(toolboxElements, palette).forEach((section) => {
+    const newElementsMetadata: ElementMetadata[] = [];
+    getElementSections(toolboxElements, palette).forEach((section: any) => {
         (section._children || []).forEach(
             ({
                 canHaveFaultConnector,
@@ -929,9 +939,10 @@ export function getElementsMetadata(toolboxElements, palette, existingMetadata =
                 dynamicNodeComponent,
                 dynamicNodeComponentSelector
             }) => {
-                const newElementMetadata = {
+                const newElementMetadata: ElementMetadata = {
                     section: section.label,
-                    canHaveFaultConnector,
+                    // @ts-ignore
+                    canHaveFaultConnector, // TODO: remove this, should not be needed
                     description,
                     elementType,
                     actionType,
@@ -945,7 +956,7 @@ export function getElementsMetadata(toolboxElements, palette, existingMetadata =
                     dynamicNodeComponent,
                     dynamicNodeComponentSelector,
                     value: elementType, // TODO: ALC remove this property and just use elementType
-                    menuComponent: getConfigForElementType(elementType).isCanvasElement
+                    menuComponent: getConfigForElementType(elementType).canvasElement
                         ? 'builder_platform_interaction/alcNodeMenu'
                         : undefined
                 };
@@ -968,8 +979,8 @@ export function getElementsMetadata(toolboxElements, palette, existingMetadata =
  *
  * @param canvasDecorator canvas decorator object returned from the server
  */
-export const getConnectorsToHighlight = (canvasDecorator: Object): Object[] => {
-    const connectorsToHighlight = [];
+export const getConnectorsToHighlight = (canvasDecorator: any): Object[] => {
+    const connectorsToHighlight: any[] = [];
     if (canvasDecorator.decoratedElements) {
         canvasDecorator.decoratedElements.forEach((element) => {
             let storeElement;
@@ -1012,8 +1023,8 @@ export const getConnectorsToHighlight = (canvasDecorator: Object): Object[] => {
  *
  * @param canvasDecorator canvas decorator object returned from the server
  */
-export const getElementsWithError = (canvasDecorator: object): Array<object> => {
-    let elementsToDecorate = [];
+export const getElementsWithError = (canvasDecorator: any): Array<object> => {
+    let elementsToDecorate: any[] = [];
     if (canvasDecorator && canvasDecorator.decoratedElements) {
         elementsToDecorate = canvasDecorator.decoratedElements
             .filter((decoratedElement) => decoratedElement.decorationType === DECORATION_TYPE.ERROR)
@@ -1031,8 +1042,8 @@ export const getElementsWithError = (canvasDecorator: object): Array<object> => 
 const screenFieldsInSections = (screenFields: Metadata.ScreenField[]): Metadata.ScreenField[] => {
     return screenFields
         .filter((field) => field.fieldType === FlowScreenFieldType.RegionContainer)
-        .reduce((acc, field) => [...acc, ...field.fields], [])
-        .reduce((acc, field) => [...acc, ...field.fields], []);
+        .reduce((acc: Metadata.ScreenField[], field) => [...acc, ...field.fields], [])
+        .reduce((acc: Metadata.ScreenField[], field) => [...acc, ...field.fields], []);
 };
 
 const allScreenFields = (screen: Metadata.Screen): Metadata.ScreenField[] => {
@@ -1061,7 +1072,7 @@ export const screenFieldsReferencedByLoops = (flowMetadata: any): Metadata.Scree
  * @param keepHighlightOnError
  */
 export const debugInterviewResponseCallback = (
-    data: Array,
+    data: any[],
     storeInstance: Store,
     hasUnsavedChanges: boolean,
     keepHighlightOnError: boolean
@@ -1111,10 +1122,10 @@ export const debugInterviewResponseCallback = (
  * @param shiftBackward Whether focus is shifted forwarded (F6) or backwards (shift + F6) from canvas
  */
 export const shiftFocusFromCanvas = (
-    leftPanelComponent: Object,
-    toolbarComponent: Object,
-    headerComponent: Object,
-    rightPanelComponent: Object,
+    leftPanelComponent: HTMLElement,
+    toolbarComponent: Toolbar,
+    headerComponent: HTMLElement,
+    rightPanelComponent: HTMLElement,
     shiftBackward: boolean
 ) => {
     if (shiftBackward) {
@@ -1137,7 +1148,11 @@ export const shiftFocusFromCanvas = (
  * @param canvasComponent the canvas compnent which we'll be shifting focus to if we're shifting forward
  * @param shiftBackward  true to shift backward, false to shift forward
  */
-export const shiftFocusFromToolbar = (headerComponent: Object, canvasComponent: Object, shiftBackward: boolean) => {
+export const shiftFocusFromToolbar = (
+    headerComponent: HTMLElement,
+    canvasComponent: HTMLElement,
+    shiftBackward: boolean
+) => {
     if (shiftBackward) {
         headerComponent.focus();
     } else {

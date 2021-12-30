@@ -66,7 +66,7 @@ export const logMetricsServiceErrorTransaction = (errorMessage: string, source: 
  * @param config - payload of the transaction.
  * @param source source of the message.
  */
-export const logPerfTransactionStart = (name: string, config: LoggingConfig, source: string | null): void => {
+export const logPerfTransactionStart = (name: string, config?: LoggingConfig, source?: string | null): void => {
     metricsService.perfStart(getAppName() + ':' + name, config, source);
 };
 
@@ -77,7 +77,7 @@ export const logPerfTransactionStart = (name: string, config: LoggingConfig, sou
  * @param config - payload of the transaction.
  * @param source source of the message.
  */
-export const logPerfTransactionEnd = (name: string, config: LoggingConfig, source: string | null): void => {
+export const logPerfTransactionEnd = (name: string, config?: LoggingConfig, source?: string | null): void => {
     metricsService.perfEnd(getAppName() + ':' + name, config, source);
 };
 

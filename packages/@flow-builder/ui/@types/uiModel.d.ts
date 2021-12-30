@@ -219,6 +219,7 @@ declare namespace UI {
         label: string | null;
         childSource?: Guid;
         isGoTo?: boolean;
+        config: ConnectorConfig;
     }
 
     type StringKeyedMap<T> = { [key: string]: T };
