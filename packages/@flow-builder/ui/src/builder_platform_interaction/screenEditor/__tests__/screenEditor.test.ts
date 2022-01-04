@@ -312,6 +312,27 @@ describe('Event handling on editor', () => {
         expect(screenEditorElement.getSelectedNode().guid).toBe(field.guid);
     });
 
+    it('select screen element with enter focuses screen editor container back button', async () => {
+        const canvas = getScreenEditorCanvas(screenEditorElement);
+        const field = screenEditorElement.node.fields[3];
+        const screenPropertiesEditor = getScreenPropertyEditorContainer(screenEditorElement);
+        screenPropertiesEditor.focus = jest.fn();
+        canvas.dispatchEvent(createScreenElementSelectedEvent(field, null, true));
+        await ticks(1);
+        expect(screenPropertiesEditor.focus).toHaveBeenCalled();
+    });
+    it('on shift+F6 it returns focus to the screen element from the properties editor', async () => {
+        const canvas = getScreenEditorCanvas(screenEditorElement);
+        const field = screenEditorElement.node.fields[3];
+        const screenPropertiesEditor = getScreenPropertyEditorContainer(screenEditorElement);
+        canvas.dispatchEvent(createScreenElementSelectedEvent(field));
+        await ticks(1);
+        canvas.focusHighlight = jest.fn();
+        screenPropertiesEditor.dispatchEvent(new CustomEvent('focusscreenelement'));
+        await ticks(1);
+        expect(canvas.focusHighlight).toHaveBeenCalled();
+    });
+
     it('deselect screen element sets the screen as the selected node', async () => {
         // handleDeselectScreenElement - Canvas (onscreenelementdeselected)
         const canvas = getScreenEditorCanvas(screenEditorElement);
