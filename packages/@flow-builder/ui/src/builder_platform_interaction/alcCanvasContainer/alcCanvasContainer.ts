@@ -195,25 +195,9 @@ export default class AlcCanvasContainer extends LightningElement {
      * @param nextElementsMetadata - The next elements metadata
      */
     updateConnectorMenuMetadata(nextElementsMetadata) {
-        nextElementsMetadata = [...nextElementsMetadata];
-        const nextElementsMetadataSet = new Set(nextElementsMetadata.map(({ elementType }) => elementType));
+        this._elementsMetadata = [...nextElementsMetadata];
 
-        // Comparing the existing elementMetadata to the newElementsMetadata
-        // If an item of the old list is not found in the new one, push it the updated list and don't
-        // include it in the connectorMenuElementTypes
-        this._elementsMetadata?.forEach((metadata) => {
-            if (!nextElementsMetadataSet.has(metadata.elementType)) {
-                nextElementsMetadata.push({ ...metadata });
-            }
-        });
-
-        this._elementsMetadata = nextElementsMetadata;
-
-        const connectorMenuElementTypes = this._elementsMetadata
-            .map(({ elementType }) => elementType)
-            .filter(
-                (elementType) => elementType !== ELEMENT_TYPE.ACTION_CALL || !nextElementsMetadataSet.has(elementType)
-            );
+        const connectorMenuElementTypes = this._elementsMetadata.map(({ elementType }) => elementType);
 
         this._connectorMenuMetadata = {
             ...this._connectorMenuMetadata,
