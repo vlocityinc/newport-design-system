@@ -854,6 +854,7 @@ export const elementsForPropertyEditors = {
                     value: '',
                     error: null
                 },
+                hasHeading: false,
                 helpText: {
                     value: '',
                     error: null
@@ -1137,6 +1138,7 @@ export const elementsForPropertyEditors = {
                     value: '',
                     error: null
                 },
+                hasHeading: false,
                 helpText: {
                     value: '',
                     error: null

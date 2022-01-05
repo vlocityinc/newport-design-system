@@ -188,6 +188,20 @@ const sectionScreenFieldMetadata = () => ({
     scale: undefined
 });
 
+const sectionScreenFieldWithHeaderMetadata = () => ({
+    choiceReferences: [],
+    dataType: undefined,
+    fieldText: 'This is a new section',
+    fieldType: 'RegionContainer',
+    fields: [componentScreenFieldEmailMetadata()],
+    helpText: undefined,
+    inputParameters: undefined,
+    isRequired: undefined,
+    name: 'This_is_a_new_section',
+    outputParameters: undefined,
+    scale: undefined
+});
+
 const componentScreenFieldEmailStore = () => ({
     guid: componentScreenFieldEmailStoreGuid,
     name: 'myEmail',
@@ -292,6 +306,26 @@ const sectionScreenFieldStore = () => ({
     fields: [],
     childReferences: [{ childReference: componentScreenFieldEmailStoreGuid }],
     fieldType: 'RegionContainer',
+    isNewField: false,
+    type: {
+        name: 'Section',
+        fieldType: 'RegionContainer'
+    },
+    elementType: 'SCREEN_FIELD',
+    visibilityRule: {
+        conditions: []
+    }
+});
+
+const sectionScreenFieldStoreWithHeader = () => ({
+    guid: 'section',
+    name: 'This_is_a_new_section',
+    choiceReferences: [],
+    fields: [],
+    childReferences: [{ childReference: componentScreenFieldEmailStoreGuid }],
+    fieldType: 'RegionContainer',
+    fieldText: 'This is a new section',
+    hasHeading: true,
     isNewField: false,
     type: {
         name: 'Section',
@@ -466,6 +500,17 @@ describe('screenField', () => {
                 expect(actualResult.isCollection).toBeFalsy();
                 expect(actualResult.subtype).toBeFalsy();
                 expect(actualResult.childReferences).toHaveLength(1);
+            });
+        });
+        describe('section field with header', () => {
+            let screenFieldMetadata;
+            beforeEach(() => {
+                screenFieldMetadata = sectionScreenFieldWithHeaderMetadata();
+            });
+            it('should have hasHeading set to true', () => {
+                const actualResult = createScreenFieldWithFieldReferences(screenFieldMetadata, [], 'myScreen');
+                expect(actualResult.hasHeading).toBe(true);
+                expect(actualResult.name).toBe('This_is_a_new_section');
             });
         });
         describe('automatic fields', () => {
@@ -736,6 +781,21 @@ describe('screenField', () => {
             it('convert to flow metadata', () => {
                 const actualResult = createScreenFieldMetadataObject(screenFieldStore);
                 expect(actualResult).toMatchObject(sectionScreenFieldMetadata());
+            });
+            describe('section field with header', () => {
+                describe('convert to flow metadata ', () => {
+                    it('Has hasHeading equals true, fieldText should not be null', () => {
+                        const actualResult = createScreenFieldMetadataObject(sectionScreenFieldStoreWithHeader());
+                        expect(actualResult).toMatchObject(sectionScreenFieldWithHeaderMetadata());
+                    });
+                    it('Has hasHeading equals false, fieldText should be null', () => {
+                        const sectionFieldWithHeader = sectionScreenFieldStoreWithHeader();
+                        sectionFieldWithHeader.hasHeading = false;
+                        sectionFieldWithHeader.name = 'section';
+                        const actualResult = createScreenFieldMetadataObject(sectionFieldWithHeader, [], 'myScreen');
+                        expect(actualResult).toMatchObject(sectionScreenFieldMetadata());
+                    });
+                });
             });
         });
         describe('"inputsOnNextNavToAssocScrn"', () => {

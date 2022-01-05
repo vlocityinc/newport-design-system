@@ -59,7 +59,8 @@ export function createScreenField(screenField: UI.ScreenField, isNewField = fals
         dynamicTypeMappings,
         fields,
         inputsOnNextNavToAssocScrn,
-        singleOrMultiSelect
+        singleOrMultiSelect,
+        hasHeading
     } = screenField;
     if (isExtensionField(screenField)) {
         // Assign local extension type (using a local version of the field type that will be replaced when the real one is retrieved from the server
@@ -95,6 +96,9 @@ export function createScreenField(screenField: UI.ScreenField, isNewField = fals
         if (isRegionField(screenField)) {
             inputParameters = inputParameters.map((inputParameter) => createInputParameter(inputParameter));
         } else {
+            if (isRegionContainerField(screenField)) {
+                hasHeading = !!fieldText;
+            }
             inputParameters = [];
         }
         outputParameters = [];
@@ -127,6 +131,7 @@ export function createScreenField(screenField: UI.ScreenField, isNewField = fals
             extensionName,
             fieldType,
             fieldText,
+            hasHeading,
             helpText,
             inputParameters,
             isVisible,
@@ -339,10 +344,12 @@ export function createScreenFieldWithFieldReferences(screenField = {}, screenFie
     // TODO: We should do this better. What happens when we have more than one region container field
     // type? What should the naming convention be? Where should the '_Section' portion of the
     // name come from, because having it hard coded here isn't right.
-    if (isRegionContainerField(newScreenField)) {
-        fieldName = parentName + '_Section' + index;
-    } else if (isRegionField(newScreenField)) {
-        fieldName = parentName + '_Column' + index;
+    if (!newScreenField.hasHeading) {
+        if (isRegionContainerField(newScreenField)) {
+            fieldName = parentName + '_Section' + index;
+        } else if (isRegionField(newScreenField)) {
+            fieldName = parentName + '_Column' + index;
+        }
     }
 
     const { fields = [] } = screenField;
@@ -559,25 +566,22 @@ export function createScreenFieldMetadataObject(screenField) {
 
     let dataTypeMappings;
     if (isExtensionField(screenField)) {
-        inputParameters = inputParameters.map((inputParameter) => createInputParameterMetadataObject(inputParameter));
-        if (storeOutputAutomatically && automaticOutputHandlingSupport()) {
-            outputParameters = [];
-            dataType = undefined;
-        } else if (storeOutputAutomatically && !automaticOutputHandlingSupport()) {
-            // if the user save the flow and change the process type which doesn't support the automatic output handling,
-            // then we need to set the property storeOutputAutomatically to undefined.
-            outputParameters = [];
-            storeOutputAutomatically = undefined;
-            dataType = undefined;
-        } else {
-            outputParameters = outputParameters
-                .filter((outputParameter) => outputParameter.value)
-                .map((outputParameter) => createOutputParameterMetadataObject(outputParameter));
-            storeOutputAutomatically = automaticOutputHandlingSupport() ? false : undefined;
-        }
-        dataTypeMappings = createDataTypeMappingsMetadataObject(dynamicTypeMappings);
+        ({ inputParameters, storeOutputAutomatically, outputParameters, dataType, dataTypeMappings } =
+            setExtentionFieldParametersAndDatas(
+                inputParameters,
+                storeOutputAutomatically,
+                outputParameters,
+                dataType,
+                dataTypeMappings,
+                dynamicTypeMappings
+            ));
     } else if (isRegionField(screenField)) {
         inputParameters = inputParameters.map((inputParameter) => createInputParameterMetadataObject(inputParameter));
+    } else if (isRegionContainerField(screenField)) {
+        // If the user did not add a custom header for the section then we should remove the section fieldText
+        if (!screenField.hasHeading) {
+            fieldText = undefined;
+        }
     } else if (fieldType === FlowScreenFieldType.ObjectProvided) {
         fieldText = undefined;
         name = undefined;
@@ -637,6 +641,43 @@ export function createScreenFieldMetadataObject(screenField) {
     }
 
     return mdScreenField;
+}
+
+/**
+ * @param inputParameters - screen field input parameters
+ * @param storeOutputAutomatically - Whether or not this field uses automatic output. Defaulted to false
+ * @param outputParameters - screen field output parameters
+ * @param dataType - screenfield DataType
+ * @param dataTypeMappings - A mapping of types
+ * @param dynamicTypeMappings - A mapping of generic types to concrete types
+ * @returns
+ */
+function setExtentionFieldParametersAndDatas(
+    inputParameters: UI.ScreenFieldInputParameter[],
+    storeOutputAutomatically: boolean,
+    outputParameters: UI.ParameterListRowItem[],
+    dataType: UI.DataType,
+    dataTypeMappings: UI.DataTypeMapping[],
+    dynamicTypeMappings: UI.DataTypeMapping[]
+) {
+    inputParameters = inputParameters.map((inputParameter) => createInputParameterMetadataObject(inputParameter));
+    if (storeOutputAutomatically && automaticOutputHandlingSupport()) {
+        outputParameters = [];
+        dataType = undefined;
+    } else if (storeOutputAutomatically && !automaticOutputHandlingSupport()) {
+        // if the user save the flow and change the process type which doesn't support the automatic output handling,
+        // then we need to set the property storeOutputAutomatically to undefined.
+        outputParameters = [];
+        storeOutputAutomatically = undefined;
+        dataType = undefined;
+    } else {
+        outputParameters = outputParameters
+            .filter((outputParameter) => outputParameter.value)
+            .map((outputParameter) => createOutputParameterMetadataObject(outputParameter));
+        storeOutputAutomatically = automaticOutputHandlingSupport() ? false : undefined;
+    }
+    dataTypeMappings = createDataTypeMappingsMetadataObject(dynamicTypeMappings);
+    return { inputParameters, storeOutputAutomatically, outputParameters, dataType, dataTypeMappings };
 }
 
 /**
