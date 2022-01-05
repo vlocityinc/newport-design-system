@@ -23,14 +23,19 @@
         var fieldOldValue = cmp.get('v.fields')[fieldName].value;
         // if null/undefined/emptystring we want to set null
         // else if empty object or array set to null
-        if (!fieldNewValue || (typeof fieldNewValue === 'string' && fieldNewValue.trim() === '')) {
+        if (
+            fieldNewValue === null ||
+            fieldNewValue === undefined ||
+            (typeof fieldNewValue === 'string' && fieldNewValue.trim() === '')
+        ) {
             fieldNewValue = null;
         } else if (typeof fieldNewValue === 'object' && Object.keys(fieldNewValue).length == 0) {
             fieldNewValue = null;
         }
 
         // adjust line-endings to match new record screen
-        fieldNewValue = fieldNewValue.replace(/(\r\n|\n|\r)/gm, '\r\n');
+        fieldNewValue =
+            typeof fieldNewValue === 'string' ? fieldNewValue.replace(/(\r\n|\n|\r)/gm, '\r\n') : fieldNewValue;
 
         if (fieldOldValue != fieldNewValue) {
             fieldUpdates[fieldName] = fieldNewValue;
