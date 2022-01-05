@@ -105,7 +105,6 @@ export default class ZoomPanel extends LightningElement {
     /**
      * Returns the next element to programatically move the focus to, if any.
      *
-     * @param lastAction - The last action performed
      * @returns The element to move the focus to, or null if none.
      */
     getNextFocusElement(): HTMLElement | null {

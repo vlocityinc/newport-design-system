@@ -12,6 +12,7 @@
             "lightning/accordion": ["../../../node_modules/lwc-components-lightning/src/lightning/accordion/accordion.js"],
             "lightning/accordionSection": ["../../../node_modules/lwc-components-lightning/src/lightning/accordionSection/accordionSection.js"],
             "lightning/utils": ["../../../node_modules/lwc-components-lightning/src/lightning/utils/utils.js"],
+            "lightning/platformShowToastEvent": ["../../../node_modules/lwc-components-lightning/src/lightning/platformShowToastEvent/platformShowToastEvent.js"],
             "builder_platform_interaction/autoLayoutCanvas": ["../auto-layout-canvas/dist/types/index.d.js"],
             "builder_platform_interaction/sharedUtils": ["../shared-utils/dist/types/index.d.js"],
             "builder_platform_interaction/alcEvents": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcEvents/alcEvents.ts"],
@@ -21,6 +22,8 @@
             "builder_platform_interaction/alcConnectorMenu": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcConnectorMenu/alcConnectorMenu.ts"],
             "builder_platform_interaction/alcComponentsUtils": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcComponentsUtils/alcComponentsUtils.ts"],
             "builder_platform_interaction/alcCanvas": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcCanvas/alcCanvas.ts"],
+            "builder_platform_interaction/zoomPanel": ["../auto-layout-canvas-ui/src/builder_platform_interaction/zoomPanel/zoomPanel.ts"],
+            "builder_platform_interaction/alcComponentsUtils": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcComponentsUtils/alcComponentsUtils.ts"],
             "builder_platform_interaction/accordionSectionWithIcon": ["./src/builder_platform_interaction/accordionSectionWithIcon/accordionSectionWithIcon.ts"],
             "builder_platform_interaction/actionSelector": ["./src/builder_platform_interaction/actionSelector/actionSelector.ts"],
             "builder_platform_interaction/actions": ["./src/builder_platform_interaction/actions/actions.ts"],
@@ -30,6 +33,7 @@
             "builder_platform_interaction/alcStartMenu": ["./src/builder_platform_interaction/alcStartMenu/alcStartMenu.ts"],
             "builder_platform_interaction/apexPluginEditor": ["./src/builder_platform_interaction/apexPluginEditor/apexPluginEditor.ts"],
             "builder_platform_interaction/apexTypeLib": ["./src/builder_platform_interaction/apexTypeLib/apexTypeLib.ts"],
+            "builder_platform_interaction/app": ["./src/builder_platform_interaction/app/app.ts"],
             "builder_platform_interaction/assignmentEditor": ["./src/builder_platform_interaction/assignmentEditor/assignmentEditor.ts"],
             "builder_platform_interaction/autoIntegrateQA": ["./src/builder_platform_interaction/autoIntegrateQA/autoIntegrateQA.ts"],
             "builder_platform_interaction/baseCalloutEditor": ["./src/builder_platform_interaction/baseCalloutEditor/baseCalloutEditor.ts"],
@@ -269,8 +273,7 @@
             "builder_platform_interaction/waitEvent": ["./src/builder_platform_interaction/waitEvent/waitEvent.ts"],
             "builder_platform_interaction/waitPlatformEvent": ["./src/builder_platform_interaction/waitPlatformEvent/waitPlatformEvent.ts"],
             "builder_platform_interaction/waitResumeConditions": ["./src/builder_platform_interaction/waitResumeConditions/waitResumeConditions.ts"],
-            "builder_platform_interaction/waitTimeEvent": ["./src/builder_platform_interaction/waitTimeEvent/waitTimeEvent.ts"],
-            "builder_platform_interaction/zoomPanel": ["./src/builder_platform_interaction/zoomPanel/zoomPanel.ts"]
+            "builder_platform_interaction/waitTimeEvent": ["./src/builder_platform_interaction/waitTimeEvent/waitTimeEvent.ts"]
          }
     },
 

@@ -33,9 +33,14 @@ import {
     StartNodeModel,
     START_IMMEDIATE_INDEX
 } from 'builder_platform_interaction/autoLayoutCanvas';
-import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { ClickToZoomEvent, ZOOM_ACTION } from 'builder_platform_interaction/events';
+import { commands, commonUtils, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import { classSet } from 'lightning/utils';
 import { LABELS } from './alcComponentsUtilsLabels';
+
+const { ZoomInCommand, ZoomOutCommand, ZoomToFitCommand, ZoomToViewCommand } = commands;
+
+const { BaseKeyboardInteraction, createShortcut } = keyboardInteractionUtils;
 
 const { format } = commonUtils;
 
@@ -1356,6 +1361,37 @@ function getNodeAriaInfo(flowModel: FlowModel, nodeInfo: NodeRenderInfo): string
     }
 
     return ariaDescribedBy;
+}
+
+/**
+ * Provides the keyboard interaction for the zoom panel
+ *
+ * @param shortcuts - The zoom shortcut keys
+ * @param handleZoomAction - A zoom action handler
+ * @returns The zoom keyboard interaction
+ */
+export function getZoomKeyboardInteraction(shortcuts, handleZoomAction: Function) {
+    const zoomInShortcut = createShortcut(
+        shortcuts.zoomIn,
+        new ZoomInCommand(() => handleZoomAction(new ClickToZoomEvent(ZOOM_ACTION.ZOOM_IN)))
+    );
+
+    const zoomOutShortcut = createShortcut(
+        shortcuts.zoomOut,
+        new ZoomOutCommand(() => handleZoomAction(new ClickToZoomEvent(ZOOM_ACTION.ZOOM_OUT)))
+    );
+
+    const zoomToFitShortcut = createShortcut(
+        shortcuts.zoomToFit,
+        new ZoomToFitCommand(() => handleZoomAction(new ClickToZoomEvent(ZOOM_ACTION.ZOOM_TO_FIT)))
+    );
+
+    const zoomToViewShortcut = createShortcut(
+        shortcuts.zoomToView,
+        new ZoomToViewCommand(() => handleZoomAction(new ClickToZoomEvent(ZOOM_ACTION.ZOOM_TO_VIEW)))
+    );
+
+    return new BaseKeyboardInteraction([zoomInShortcut, zoomOutShortcut, zoomToFitShortcut, zoomToViewShortcut]);
 }
 
 export {

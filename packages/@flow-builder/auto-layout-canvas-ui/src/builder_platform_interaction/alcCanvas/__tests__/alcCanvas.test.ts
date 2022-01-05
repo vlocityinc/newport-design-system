@@ -84,6 +84,7 @@ jest.mock('builder_platform_interaction/sharedUtils', () => {
     const auraUtils = jest.requireActual('builder_platform_interaction/sharedUtils/auraUtils');
     return Object.assign({}, sharedUtils, auraUtils, { commands: sharedcommands, invokeModal: jest.fn() });
 });
+
 jest.mock('builder_platform_interaction/zoomPanel', () =>
     jest.requireActual('builder_platform_interaction_mocks/zoomPanel')
 );
@@ -171,14 +172,22 @@ const createComponentForTest = () => {
         is: AlcCanvas
     });
 
-    el.flowModel = flowModel;
-    el.disableAnimation = true;
-    el.elementsMetadata = elementsMetadata;
-    el.disableDebounce = true;
-    el.connectorMenuMetadata = {
-        menuComponent: 'builder_platform_interaction/alcConnectorMenu',
-        elementTypes: new Set()
-    };
+    Object.assign(el, {
+        flowModel,
+        disableAnimation: true,
+        elementsMetadata,
+        disableDebounce: true,
+        connectorMenuMetadata: {
+            menuComponent: 'builder_platform_interaction/alcConnectorMenu',
+            elementTypes: new Set()
+        },
+        shortcuts: {
+            zoomIn: {},
+            zoomOut: {},
+            zoomToView: {},
+            zoomToFit: {}
+        }
+    });
     setDocumentBodyChildren(el);
     return el;
 };

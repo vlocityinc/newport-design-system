@@ -1,3 +1,4 @@
+import { shortcuts } from 'builder_platform_interaction/app';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { createScreenNodeSelectedEvent } from 'builder_platform_interaction/events';
 import { describeExtension } from 'builder_platform_interaction/flowExtensionLib';
@@ -6,8 +7,7 @@ import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import * as screenEditorUtils from 'builder_platform_interaction/screenEditorUtils';
 import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import { api, LightningElement, readonly, track } from 'lwc';
-const { BaseKeyboardInteraction, withKeyboardInteractions, createShortcut, createShortcutKey, Keys } =
-    keyboardInteractionUtils;
+const { BaseKeyboardInteraction, withKeyboardInteractions, createShortcut } = keyboardInteractionUtils;
 const { ShiftF6 } = commands;
 const SELECTORS = {
     BACK_BUTTON: 'lightning-button-icon.back-button',
@@ -188,12 +188,12 @@ export default class ScreenEditorPropertiesEditorContainer extends withKeyboardI
     getKeyboardInteractions() {
         return [
             new BaseKeyboardInteraction([
-                createShortcut(createShortcutKey(Keys.F6, true), new ShiftF6(() => this.handleShiftF6()))
+                createShortcut(shortcuts.shiftFocusBackward, new ShiftF6(() => this.handleShiftFocusBackward()))
             ])
         ];
     }
 
-    handleShiftF6() {
+    handleShiftFocusBackward() {
         this.dispatchEvent(new CustomEvent('focusscreenelement'));
     }
 

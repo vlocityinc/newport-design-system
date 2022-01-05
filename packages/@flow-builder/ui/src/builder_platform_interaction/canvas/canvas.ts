@@ -1,4 +1,5 @@
-// @ts-nocheck
+import { getZoomKeyboardInteraction } from 'builder_platform_interaction/alcComponentsUtils';
+import { shortcuts } from 'builder_platform_interaction/app';
 import { focusOnDockingPanel } from 'builder_platform_interaction/builderUtils';
 import { clearDrawingLibInstance, getDrawingLibInstance } from 'builder_platform_interaction/drawingLib';
 import { isCanvasElement } from 'builder_platform_interaction/elementConfig';
@@ -6,14 +7,12 @@ import {
     AddConnectionEvent,
     AddElementEvent,
     CanvasMouseUpEvent,
-    ClickToZoomEvent,
     ConnectorSelectedEvent,
     DeleteElementEvent,
     MarqueeSelectEvent,
-    MARQUEE_ACTION,
-    ZOOM_ACTION
+    MARQUEE_ACTION
 } from 'builder_platform_interaction/events';
-import { commands, keyboardInteractionUtils, loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { commands, keyboardInteractionUtils, loggingUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
 import { api, LightningElement, track } from 'lwc';
 import { isMultiSelect, setupCanvasElements, setupConnectors } from './canvasUtils';
 import { checkMarqueeSelection } from './marqueeSelectionLib';
@@ -27,16 +26,9 @@ import {
     SCALE_BOUNDS
 } from './zoomPanUtils';
 
+const { withKeyboardInteractions, BaseKeyboardInteraction, createShortcut, Keys } = keyboardInteractionUtils;
 const { logPerfMarkStart, logPerfMarkEnd, logInteraction } = loggingUtils;
-const {
-    ZoomInCommand,
-    ZoomOutCommand,
-    ZoomToFitCommand,
-    ZoomToViewCommand,
-    DeleteNodesCommand,
-    FocusOnDockingPanelCommand
-} = commands;
-const { KeyboardInteractions } = keyboardInteractionUtils;
+const { DeleteNodesCommand, FocusOnDockingPanelCommand } = commands;
 
 /**
  * Canvas component for flow builder.
@@ -47,18 +39,31 @@ const { KeyboardInteractions } = keyboardInteractionUtils;
 
 const canvas = 'canvas';
 
-const SELECTORS = {
-    CANVAS: '.canvas',
-    INNER_CANVAS: '.inner-canvas'
+const selectors = {
+    canvas: '.canvas',
+    innerCanvas: '.inner-canvas',
+    node: 'builder_platform_interaction-node'
 };
 
 const CURSOR_STYLE_GRAB = 'grab';
 const CURSOR_STYLE_GRABBING = 'grabbing';
 const CURSOR_STYLE_CROSSHAIR = 'crosshair';
 
-export default class Canvas extends LightningElement {
+const defaultCanvasConfig = {
+    disableAddConnectors: false,
+    disableDeleteConnectors: false,
+    disableDeleteElements: false,
+    disableDragElements: false,
+    disableAddElements: false,
+    disableSelectConnectors: false,
+    disableMultiSelectElements: false
+};
+
+export default class Canvas extends withKeyboardInteractions(LightningElement) {
+    dom = lwcUtils.createDomProxy(this, selectors);
+
     @api
-    nodes = [];
+    nodes: UI.CanvasElement[] = [];
 
     @api
     connectors = [];
@@ -66,19 +71,8 @@ export default class Canvas extends LightningElement {
     @api
     showMarqueeButton = false;
 
-    _keyboardInteraction;
-
     @api
-    get keyboardInteractions() {
-        return this._keyboardInteraction;
-    }
-
-    set keyboardInteractions(newVal) {
-        this._keyboardInteraction = newVal;
-    }
-
-    @api
-    canvasConfig = {};
+    canvasConfig: CanvasConfig = defaultCanvasConfig;
 
     @track
     isMarqueeModeOn = false;
@@ -141,9 +135,25 @@ export default class Canvas extends LightningElement {
         logPerfMarkStart(canvas);
         getDrawingLibInstance().setNewConnection(this.connectionAdded);
         getDrawingLibInstance().clickConnection(this.connectionClicked);
-        this._keyboardInteraction = new KeyboardInteractions();
     }
 
+    getKeyboardInteractions() {
+        // Delete Nodes Command
+        const deleteNodesCommand = new DeleteNodesCommand((event) => this.handleDeleteNodes());
+
+        // Move Focus To Docking Panel Command
+        const focusOnDockingPanelCommand = new FocusOnDockingPanelCommand(() => this.handleFocusOnDockingPanel());
+
+        const { zoomIn, zoomOut, zoomToFit, zoomToView } = shortcuts;
+        return [
+            new BaseKeyboardInteraction([
+                createShortcut(Keys.Delete, deleteNodesCommand),
+                createShortcut(Keys.Backspace, deleteNodesCommand),
+                createShortcut(shortcuts.focusOnDockingPanel, focusOnDockingPanelCommand)
+            ]),
+            getZoomKeyboardInteraction({ zoomIn, zoomOut, zoomToFit, zoomToView }, this.handleZoom)
+        ];
+    }
     /**
      * Method to set up any new connections made within the canvas.
      *
@@ -273,6 +283,8 @@ export default class Canvas extends LightningElement {
         if (canDelete(this.isCanvasMouseDown, this.isMarqueeModeOn, this.canvasConfig.disableDeleteElements)) {
             // Code block for deletion of selected canvas elements and connectors. This should not happen when mouse is
             // down on the canvas or the marquee mode is turned on
+
+            // @ts-ignore
             const deleteEvent = new DeleteElementEvent();
             this.dispatchEvent(deleteEvent);
         }
@@ -661,7 +673,7 @@ export default class Canvas extends LightningElement {
      * Helper method to set up the canvas elements and connectors
      */
     _setupCanvasElementsAndConnectors = () => {
-        const canvasElements = this.template.querySelectorAll('builder_platform_interaction-node');
+        const canvasElements = this.dom.all.node;
 
         this.canvasElementGuidToContainerMap = setupCanvasElements(
             canvasElements,
@@ -745,78 +757,20 @@ export default class Canvas extends LightningElement {
     };
 
     @api focus() {
-        const nodes = this.template.querySelectorAll('builder_platform_interaction-node');
+        const nodes = this.dom.all.node;
         if (nodes.length > 0) {
             nodes[0].focus();
         }
     }
 
-    setupCommandsAndShortcuts = () => {
-        // Delete Nodes Command
-        const deleteNodesCommand = new DeleteNodesCommand((event) => this.handleDeleteNodes(event));
-        this.keyboardInteractions.setupCommandAndShortcut(deleteNodesCommand, {
-            key: 'Delete'
-        });
-        this.keyboardInteractions.setupCommandAndShortcut(deleteNodesCommand, {
-            key: 'Backspace'
-        });
-
-        // Zoom In Command
-        const zoomInCommand = new ZoomInCommand(() => this.handleZoom(new ClickToZoomEvent(ZOOM_ACTION.ZOOM_IN)));
-        this.keyboardInteractions.setupCommandAndShortcut(zoomInCommand, {
-            ctrlOrCmd: true,
-            alt: true,
-            key: '»'
-        });
-
-        // Zoom Out Command
-        const zoomOutCommand = new ZoomOutCommand(() => this.handleZoom(new ClickToZoomEvent(ZOOM_ACTION.ZOOM_OUT)));
-        this.keyboardInteractions.setupCommandAndShortcut(zoomOutCommand, {
-            ctrlOrCmd: true,
-            alt: true,
-            key: '½'
-        });
-
-        // Zoom To Fit Command
-        const zoomToFitCommand = new ZoomToFitCommand(() =>
-            this.handleZoom(new ClickToZoomEvent(ZOOM_ACTION.ZOOM_TO_FIT))
-        );
-        this.keyboardInteractions.setupCommandAndShortcut(zoomToFitCommand, {
-            ctrlOrCmd: true,
-            alt: true,
-            key: '1'
-        });
-
-        // Zoom To View Command
-        const zoomToViewCommand = new ZoomToViewCommand(() =>
-            this.handleZoom(new ClickToZoomEvent(ZOOM_ACTION.ZOOM_TO_VIEW))
-        );
-        this.keyboardInteractions.setupCommandAndShortcut(zoomToViewCommand, {
-            ctrlOrCmd: true,
-            alt: true,
-            key: '0'
-        });
-
-        // Move Focus To Docking Panel Command
-        const focusOnDockingPanelCommand = new FocusOnDockingPanelCommand(() => this.handleFocusOnDockingPanel());
-        const focusOnDockingPanelShortcut = { key: 'g d' };
-        this.keyboardInteractions.setupCommandAndShortcut(focusOnDockingPanelCommand, focusOnDockingPanelShortcut);
-    };
-
-    connectedCallback() {
-        this.keyboardInteractions.addKeyDownEventListener(this.template);
-        this.setupCommandsAndShortcuts();
-    }
-
     disconnectedCallback() {
-        this.keyboardInteractions.removeKeyDownEventListener(this.template);
         clearDrawingLibInstance();
     }
 
     renderedCallback() {
         if (!getDrawingLibInstance().getContainer()) {
-            this.canvasArea = this.template.querySelector(SELECTORS.CANVAS);
-            this.innerCanvasArea = this.template.querySelector(SELECTORS.INNER_CANVAS);
+            this.canvasArea = this.dom.canvas;
+            this.innerCanvasArea = this.dom.innerCanvas;
             getDrawingLibInstance().setContainer(this.innerCanvasArea);
             this.canvasAreaOffsets = [
                 this.canvasArea.getBoundingClientRect().left,
@@ -824,7 +778,7 @@ export default class Canvas extends LightningElement {
             ];
 
             // Only suspend drawing before performing the bulk operation like loading data on page load
-            getDrawingLibInstance().setSuspendDrawing(true);
+            getDrawingLibInstance().setSuspendDrawing(true, undefined);
             this._setupCanvasElementsAndConnectors();
             getDrawingLibInstance().setSuspendDrawing(false, true);
         } else {

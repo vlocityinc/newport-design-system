@@ -1,5 +1,6 @@
 import { deselectOnCanvas } from 'builder_platform_interaction/actions';
 import { setElementsMetadata } from 'builder_platform_interaction/alcCanvasUtils';
+import { shortcuts } from 'builder_platform_interaction/app';
 import { ConnectionSource } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -86,6 +87,8 @@ export default class AlcCanvasContainer extends LightningElement {
     rootElement;
 
     isAutoLayoutCanvas = false;
+
+    shortcuts = shortcuts;
 
     get shouldRenderCanvas() {
         // only render the canvas when all the data it needs is ready

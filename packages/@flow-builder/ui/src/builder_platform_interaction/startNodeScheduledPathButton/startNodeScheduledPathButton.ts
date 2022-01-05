@@ -82,6 +82,7 @@ export default class StartNodeScheduledPathButton extends withKeyboardInteractio
         this.handleObjectClick();
     }
 
+    // TODO: keyboard handling is duplicated across all the StartNode* classes, should move into a superclass
     getKeyboardInteractions() {
         return [
             new BaseKeyboardInteraction([

@@ -1,55 +1,31 @@
-// @ts-nocheck
+import { shortcuts } from 'builder_platform_interaction/app';
+import { keyboardInteractionUtils, platformUtils } from 'builder_platform_interaction/sharedUtils';
 import { LightningElement } from 'lwc';
 import { LABELS } from './keyboardShortcutsListBodyLabels';
 
-const KEYS = {
-    CMD_KEY: 'Cmd',
-    CTRL_KEY: 'Ctrl',
-    F6_KEY: 'F6',
-    SHIFT_KEY: 'Shift',
-    OPTION_KEY: 'Option',
-    ALT_KEY: 'Alt'
-};
+const { formatShortcutKey } = keyboardInteractionUtils;
+
 export default class KeyboardShortcutsListBody extends LightningElement {
     labels = LABELS;
 
-    isMacPlatform = () => {
-        return navigator.userAgent.indexOf('Macintosh') !== -1;
-    };
-
     get keyboardHelpShortcut() {
-        if (this.isMacPlatform()) {
-            return KEYS.CMD_KEY + '+/';
-        }
-        return KEYS.CTRL_KEY + '+/';
+        return formatShortcutKey(shortcuts.displayShortcuts);
     }
 
     get zoomInShortcut() {
-        if (this.isMacPlatform()) {
-            return `${KEYS.CMD_KEY}+${KEYS.OPTION_KEY}+=`;
-        }
-        return `${KEYS.CTRL_KEY}+${KEYS.ALT_KEY}+=`;
+        return formatShortcutKey(shortcuts.zoomIn);
     }
 
     get zoomOutShortcut() {
-        if (this.isMacPlatform()) {
-            return `${KEYS.CMD_KEY}+${KEYS.OPTION_KEY}+-`;
-        }
-        return `${KEYS.CTRL_KEY}+${KEYS.ALT_KEY}+-`;
+        return formatShortcutKey(shortcuts.zoomOut);
     }
 
     get zoomToFitShortcut() {
-        if (this.isMacPlatform()) {
-            return `${KEYS.CMD_KEY}+${KEYS.OPTION_KEY}+1`;
-        }
-        return `${KEYS.CTRL_KEY}+${KEYS.ALT_KEY}+1`;
+        return formatShortcutKey(shortcuts.zoomToFit);
     }
 
     get zoomToViewShortcut() {
-        if (this.isMacPlatform()) {
-            return `${KEYS.CMD_KEY}+${KEYS.OPTION_KEY}+0`;
-        }
-        return `${KEYS.CTRL_KEY}+${KEYS.ALT_KEY}+0`;
+        return formatShortcutKey(shortcuts.zoomToView);
     }
 
     get dockingPanelFocusShortcut() {
@@ -57,14 +33,11 @@ export default class KeyboardShortcutsListBody extends LightningElement {
     }
 
     get switchPanelFocusShortcut() {
-        if (this.isMacPlatform()) {
-            return KEYS.F6_KEY;
-        }
-        return KEYS.CTRL_KEY + '+' + KEYS.F6_KEY;
+        return formatShortcutKey(shortcuts.switchPanel);
     }
 
     get deleteShortcut() {
-        if (this.isMacPlatform()) {
+        if (platformUtils.isMacPlatform()) {
             return this.labels.deleteKey;
         }
         return this.labels.backspaceKey;

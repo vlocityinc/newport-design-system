@@ -7,7 +7,9 @@ const mockKeyboardInteractionUtils = jest.requireActual(
 const auraUtils = jest.requireActual('builder_platform_interaction/sharedUtils/auraUtils');
 
 let keyboardInteractionUtils = jest.requireActual('builder_platform_interaction/sharedUtils/keyboardInteractionUtils');
-keyboardInteractionUtils = { ...keyboardInteractionUtils, ...mockKeyboardInteractionUtils };
+const { KeyboardInteractions, withKeyboardInteractions } = mockKeyboardInteractionUtils;
+
+keyboardInteractionUtils = { ...keyboardInteractionUtils, KeyboardInteractions, withKeyboardInteractions };
 
 const { loggingUtils, storeUtils, commonUtils } = sharedUtils;
 

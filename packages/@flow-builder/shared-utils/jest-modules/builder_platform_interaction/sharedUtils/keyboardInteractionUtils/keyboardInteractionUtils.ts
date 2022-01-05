@@ -64,3 +64,13 @@ export function withKeyboardInteractions(Base) {
         }
     };
 }
+
+export enum Keys {}
+
+export const createShortcut = jest.fn((key, command) => ({ key, command }));
+
+export class BaseKeyboardInteraction {
+    getBindings() {
+        return [];
+    }
+}

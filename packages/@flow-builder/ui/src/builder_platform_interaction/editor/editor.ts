@@ -50,6 +50,7 @@ import {
     PasteOnCanvasEvent
 } from 'builder_platform_interaction/alcEvents';
 import { cachePropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
+import { shortcuts } from 'builder_platform_interaction/app';
 import { ConnectionSource, getConnectionTarget } from 'builder_platform_interaction/autoLayoutCanvas';
 import {
     CanvasMode,
@@ -195,6 +196,7 @@ import {
     updateUrl
 } from './editorUtils';
 
+const { BaseKeyboardInteraction, withKeyboardInteractions, createShortcut } = keyboardInteractionUtils;
 const { format } = commonUtils;
 const { generateGuid } = storeUtils;
 const {
@@ -209,7 +211,7 @@ const {
 } = loggingUtils;
 const { ShiftFocusForwardCommand, ShiftFocusBackwardCommand, DisplayShortcutsCommand, FocusOnDockingPanelCommand } =
     commands;
-const { KeyboardInteractions } = keyboardInteractionUtils;
+
 let unsubscribeStore;
 let storeInstance: Store;
 
@@ -258,7 +260,7 @@ const ELEMENT_TYPES_TO_ALWAYS_EDIT_IN_MODAL = [
  * flow builder. It is responsible for maintaining the overall state of app and
  * handle event from various child components.
  */
-export default class Editor extends LightningElement {
+export default class Editor extends withKeyboardInteractions(LightningElement) {
     _builderType;
 
     @api
@@ -338,7 +340,7 @@ export default class Editor extends LightningElement {
     originalFlowLabel;
     originalFlowDescription;
     originalFlowInterviewLabel;
-    keyboardInteractions;
+
     currentProcessType;
     currentTriggerType;
     currentRecordTriggerType;
@@ -586,7 +588,7 @@ export default class Editor extends LightningElement {
             );
             unsubscribeStore = storeInstance.subscribe(this.mapAppStateToStore);
             fetchOnce(SERVER_ACTION_TYPE.GET_HEADER_URLS).then((data) => this.getHeaderUrlsCallBack(data));
-            this.keyboardInteractions = new KeyboardInteractions();
+
             initializeLoader(storeInstance);
             // W-7708069. Need to load references in Flow once we get all apex types.
             loadOnStart().then(() => this.loadReferencesInFlow());
@@ -2747,33 +2749,28 @@ export default class Editor extends LightningElement {
         }
     }
 
-    isMacPlatform = () => {
-        return navigator.userAgent.indexOf('Macintosh') !== -1;
-    };
-
-    setupCommandsAndShortcuts = () => {
+    getKeyboardInteractions() {
         // Shift Focus Forward Command
         const shiftFocusForwardCommand = new ShiftFocusForwardCommand(() => this.handleShiftFocus(false));
-        const shiftFocusForwardShortcut = this.isMacPlatform() ? { key: 'F6' } : { ctrlOrCmd: true, key: 'F6' };
-        this.keyboardInteractions.setupCommandAndShortcut(shiftFocusForwardCommand, shiftFocusForwardShortcut);
 
         // Shift Focus Backward Command
         const shiftFocusBackwardCommand = new ShiftFocusBackwardCommand(() => this.handleShiftFocus(true));
-        const shiftFocusBackwardShortcut = this.isMacPlatform()
-            ? { shift: true, key: 'F6' }
-            : { shift: true, ctrlOrCmd: true, key: 'F6' };
-        this.keyboardInteractions.setupCommandAndShortcut(shiftFocusBackwardCommand, shiftFocusBackwardShortcut);
 
         // Display shortcuts Command
         const displayShortcutsCommand = new DisplayShortcutsCommand(() => invokeKeyboardHelpDialog());
-        const displayShortcutKeyCombo = { ctrlOrCmd: true, key: '/' };
-        this.keyboardInteractions.setupCommandAndShortcut(displayShortcutsCommand, displayShortcutKeyCombo);
 
         // Move Focus To Docking Panel Command
         const focusOnDockingPanelCommand = new FocusOnDockingPanelCommand(() => this.handleFocusOnDockingPanel());
-        const focusOnDockingPanelShortcut = { key: 'g d' };
-        this.keyboardInteractions.setupCommandAndShortcut(focusOnDockingPanelCommand, focusOnDockingPanelShortcut);
-    };
+
+        return [
+            new BaseKeyboardInteraction([
+                createShortcut(shortcuts.shiftFocusForward, shiftFocusForwardCommand),
+                createShortcut(shortcuts.shiftFocusBackward, shiftFocusBackwardCommand),
+                createShortcut(shortcuts.displayShortcuts, displayShortcutsCommand),
+                createShortcut(shortcuts.focusOnDockingPanel, focusOnDockingPanelCommand)
+            ])
+        ];
+    }
 
     /**
      * Callback passed to various property editors which support inline creation
@@ -2897,8 +2894,7 @@ export default class Editor extends LightningElement {
     }
 
     connectedCallback() {
-        this.keyboardInteractions.addKeyDownEventListener(this.template);
-        this.setupCommandsAndShortcuts();
+        super.connectedCallback();
 
         pubSub.subscribe(LocatorIconClickedEvent.EVENT_NAME, this.handleHighlightOnCanvasSubscriber.bind(this));
         pubSub.subscribe(EditElementEvent.EVENT_NAME, this.handleEditElementSubscriber.bind(this));
@@ -2925,7 +2921,7 @@ export default class Editor extends LightningElement {
     }
 
     disconnectedCallback() {
-        this.keyboardInteractions.removeKeyDownEventListener(this.template);
+        super.disconnectedCallback();
         unsubscribeStore();
     }
 

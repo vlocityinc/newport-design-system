@@ -88,7 +88,7 @@ export const logPerfTransactionEnd = (name: string, config?: LoggingConfig, sour
  * @param context - payload of the mark.
  * Note: A mark will only appear in the log line if it falls inside the time range of an existing transaction
  */
-export const logPerfMarkStart = (name: string, context: LoggingContext): void => {
+export const logPerfMarkStart = (name: string, context?: LoggingContext): void => {
     metricsService.markStart(getAppName(), name, context);
 };
 

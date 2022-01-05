@@ -8,6 +8,7 @@ import {
     getCanvasElementSelectionData,
     getComponent,
     getFirstSelectableElementGuid,
+    getZoomKeyboardInteraction,
     importComponent,
     MenuInfo
 } from 'builder_platform_interaction/alcComponentsUtils';
@@ -55,7 +56,6 @@ import {
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import {
     CanvasMouseUpEvent,
-    ClickToZoomEvent,
     ClosePropertyEditorEvent,
     DeleteElementEvent,
     EditElementEvent,
@@ -63,12 +63,12 @@ import {
     ZOOM_ACTION
 } from 'builder_platform_interaction/events';
 import {
-    commands,
     invokeModal,
     keyboardInteractionUtils,
     loggingUtils,
     lwcUtils,
-    modalBodyVariant
+    modalBodyVariant,
+    ShortcutKey
 } from 'builder_platform_interaction/sharedUtils';
 import { time } from 'instrumentation/service';
 import { api, LightningElement, track } from 'lwc';
@@ -103,9 +103,7 @@ const SYNTHETIC_ZOOM_TO_VIEW_EVENT = { detail: { action: ZOOM_ACTION.ZOOM_TO_VIE
 
 const FULL_OPACITY_CLASS = 'full-opacity';
 
-const { ZoomInCommand, ZoomOutCommand, ZoomToFitCommand, ZoomToViewCommand } = commands;
-
-const { KeyboardInteractions } = keyboardInteractionUtils;
+const { withKeyboardInteractions } = keyboardInteractionUtils;
 
 const {
     logPerfTransactionEnd,
@@ -140,7 +138,7 @@ function debounce(fct, wait) {
     };
 }
 
-export default class AlcCanvas extends LightningElement {
+export default class AlcCanvas extends withKeyboardInteractions(LightningElement) {
     dom = lwcUtils.createDomProxy(this, selectors);
 
     /* the metadata for the connector menu */
@@ -224,7 +222,6 @@ export default class AlcCanvas extends LightningElement {
 
     constructor() {
         super();
-        this._keyboardInteraction = new KeyboardInteractions();
         logPerfTransactionStart(AUTOLAYOUT_CANVAS, null, null);
         this.loadAlcCanvasStartTime = time();
         initMetricsTracker();
@@ -263,16 +260,8 @@ export default class AlcCanvas extends LightningElement {
     @api
     offsets = [0, 0];
 
-    _keyboardInteraction;
-
     @api
-    get keyboardInteractions() {
-        return this._keyboardInteraction;
-    }
-
-    set keyboardInteractions(newVal) {
-        this._keyboardInteraction = newVal;
-    }
+    shortcuts: { [key: string]: ShortcutKey } = {};
 
     @api set connectorMenuMetadata(nextMenuMetadata: ConnectorMenuMetadata) {
         const prevMenuComponent = this._connectorMenuMetadata?.menuComponent;
@@ -432,6 +421,11 @@ export default class AlcCanvas extends LightningElement {
             this.focusOnZoomPanel();
         }
     }
+
+    getKeyboardInteractions() {
+        return [getZoomKeyboardInteraction(this.shortcuts, this.handleZoomAction)];
+    }
+
     /**
      *  Get the connector menu component constructor
      *
@@ -1271,57 +1265,6 @@ export default class AlcCanvas extends LightningElement {
         }
         this.scale = scale;
     };
-
-    setupCommandsAndShortcuts = () => {
-        // Zoom In Command
-        const zoomInCommand = new ZoomInCommand(() => this.handleZoomAction(new ClickToZoomEvent(ZOOM_ACTION.ZOOM_IN)));
-        this.keyboardInteractions.setupCommandAndShortcut(zoomInCommand, {
-            ctrlOrCmd: true,
-            alt: true,
-            key: '»'
-        });
-
-        // Zoom Out Command
-        const zoomOutCommand = new ZoomOutCommand(() =>
-            this.handleZoomAction(new ClickToZoomEvent(ZOOM_ACTION.ZOOM_OUT))
-        );
-        this.keyboardInteractions.setupCommandAndShortcut(zoomOutCommand, {
-            ctrlOrCmd: true,
-            alt: true,
-            key: '½'
-        });
-
-        // Zoom To Fit Command
-        const zoomToFitCommand = new ZoomToFitCommand(() =>
-            this.handleZoomAction(new ClickToZoomEvent(ZOOM_ACTION.ZOOM_TO_FIT))
-        );
-        this.keyboardInteractions.setupCommandAndShortcut(zoomToFitCommand, {
-            ctrlOrCmd: true,
-            alt: true,
-            key: '1'
-        });
-
-        // Zoom To View Command
-        const zoomToViewCommand = new ZoomToViewCommand(() =>
-            this.handleZoomAction(new ClickToZoomEvent(ZOOM_ACTION.ZOOM_TO_VIEW))
-        );
-
-        this.keyboardInteractions.setupCommandAndShortcut(zoomToViewCommand, {
-            ctrlOrCmd: true,
-            alt: true,
-            key: '0'
-        });
-    };
-
-    connectedCallback() {
-        this.keyboardInteractions.addKeyDownEventListener(this.template);
-        this.setupCommandsAndShortcuts();
-    }
-
-    disconnectedCallback() {
-        this._isDisconnected = true;
-        this.keyboardInteractions.removeKeyDownEventListener(this.template);
-    }
 
     handleCanvasClick = (event) => {
         event.stopPropagation();

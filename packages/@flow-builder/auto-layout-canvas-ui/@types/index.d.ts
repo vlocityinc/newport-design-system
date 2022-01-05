@@ -1,4 +1,5 @@
 type Labels<T> = Record<keyof T, string>;
+
 interface ConnectorMenuMetadata {
     menuComponent?: string;
     elementTypes: Set<string>;

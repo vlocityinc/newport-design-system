@@ -6,13 +6,13 @@
         var focusOnDockingPanelCommand = new this.sharedUtils.commands.FocusOnDockingPanelCommand(function () {
             that.handleFocusOnToolbox();
         });
-        var focusOnDockingPanelShortcut = { key: 'g d' };
+        var focusOnDockingPanelShortcut = this.app.shortcuts.focusOnDockingPanel;
         keyboardInteractions.setupCommandAndShortcut(focusOnDockingPanelCommand, focusOnDockingPanelShortcut);
         // Display shortcuts Command
         var displayShortcutsCommand = new this.sharedUtils.commands.DisplayShortcutsCommand(function () {
             that.builderUtils.invokeKeyboardHelpDialog();
         });
-        var displayShortcutKeyCombo = { key: '/' };
+        var displayShortcutKeyCombo = this.app.shortcuts.displayShortcuts;
         keyboardInteractions.setupCommandAndShortcut(displayShortcutsCommand, displayShortcutKeyCombo);
         cmp.set('v.keyboardInteractions', keyboardInteractions);
     },

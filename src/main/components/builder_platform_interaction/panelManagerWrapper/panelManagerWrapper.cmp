@@ -1,5 +1,6 @@
 <aura:component description="Wrapper component for panel manager in flowBuilder">
     <aura:import library="builder_platform_interaction:sharedUtils" property="sharedUtils" />
+    <aura:import library="builder_platform_interaction:app" property="app" />
     <aura:import library="builder_platform_interaction:builderUtils" property="builderUtils" />
     <aura:attribute name="keyboardInteractions" type="Object" description="instance of KeyboardInteractions of keyboardInteractionUtils"/>
     <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>

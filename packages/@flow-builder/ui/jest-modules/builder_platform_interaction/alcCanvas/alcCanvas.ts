@@ -38,4 +38,6 @@ export default class AlcCanvas extends LightningElement {
     activeElementGuid;
 
     @api closeNodeOrConnectorMenu = jest.fn();
+
+    @api shortcuts;
 }

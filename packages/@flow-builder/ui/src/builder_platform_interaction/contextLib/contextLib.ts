@@ -67,15 +67,6 @@ type HeaderConfig = {
 type LeftPanelConfig = {
     showLeftPanel: boolean;
 };
-type CanvasConfig = {
-    disableAddConnectors: boolean;
-    disableDeleteConnectors: boolean;
-    disableDeleteElements: boolean;
-    disableDragElements: boolean;
-    disableAddElements: boolean;
-    disableSelectConnectors: boolean;
-    disableMultiSelectElements: boolean;
-};
 
 let context: Context = {
     access: {}

@@ -91,3 +91,13 @@ type ScreenPaletteSection = {
 };
 
 type RuleSet = Record<string, any>;
+
+type CanvasConfig = {
+    disableAddConnectors: boolean;
+    disableDeleteConnectors: boolean;
+    disableDeleteElements: boolean;
+    disableDragElements: boolean;
+    disableAddElements: boolean;
+    disableSelectConnectors: boolean;
+    disableMultiSelectElements: boolean;
+};

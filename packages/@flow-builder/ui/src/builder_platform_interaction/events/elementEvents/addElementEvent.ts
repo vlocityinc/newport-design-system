@@ -7,8 +7,8 @@ const eventName = 'addelement';
 interface AddElementEventDetail {
     elementType: string;
     elementSubtype?: string;
-    locationX?: 0;
-    locationY?: 0;
+    locationX?: number;
+    locationY?: number;
     actionType?: string;
     actionName?: string;
     actionIsStandard?: boolean;

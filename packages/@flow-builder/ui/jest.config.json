@@ -17,12 +17,14 @@
         "^(builder_platform_interaction)/alcMenu$": "<rootDir>/../auto-layout-canvas-ui/src/builder_platform_interaction/alcMenu/alcMenu",
         "^(builder_platform_interaction)/alcConnectorMenu$": "<rootDir>/../auto-layout-canvas-ui/src/builder_platform_interaction/alcConnectorMenu/alcConnectorMenu",
         "^(builder_platform_interaction)/alcNodeMenu$": "<rootDir>/../auto-layout-canvas-ui/src/builder_platform_interaction/alcNodeMenu/alcNodeMenu",
-        "^(builder_platform_interaction)/alcStartMenu$": "<rootDir>/../ui/src/builder_platform_interaction/alcStartMenu/alcStartMenu",
+        "^(builder_platform_interaction)/zoomPanel$": "<rootDir>/../auto-layout-canvas-ui/src/builder_platform_interaction/zoomPanel/zoomPanel",
 
         "^builder_platform_interaction/sharedUtils/commands": "<rootDir>/../shared-utils/src/commands",
         "^builder_platform_interaction/sharedUtils/lwcUtils": "<rootDir>/../shared-utils/src/lwcUtils",
         "^builder_platform_interaction/sharedUtils/auraUtils": "<rootDir>/../shared-utils/src/auraUtils",
         "^builder_platform_interaction/sharedUtils/commonUtils": "<rootDir>/../shared-utils/src/commonUtils",
+
+        "^(builder_platform_interaction)/alcStartMenu$": "<rootDir>/../ui/src/builder_platform_interaction/alcStartMenu/alcStartMenu",
         "^(builder_platform_interaction)/builderTestUtils/commonTestUtils$": "<rootDir>/../ui/src/builder_platform_interaction/builderTestUtils/commonTestUtils",
         "^(builder_platform_interaction)/builderTestUtils/domTestUtils$": "<rootDir>/../ui/src/builder_platform_interaction/builderTestUtils/domTestUtils",
         "^builder_platform_interaction/sharedUtils/keyboardInteractionUtils": "<rootDir>/../shared-utils/src/keyboardInteractionUtils",

@@ -440,7 +440,7 @@ class DrawingLib {
 export { CONNECTOR_OVERLAY };
 
 /** Export of the singleton instance of library */
-export const getDrawingLibInstance = () => {
+export const getDrawingLibInstance = (): DrawingLib => {
     if (drawingLibInstance == null) {
         drawingLibInstance = new DrawingLib();
     }

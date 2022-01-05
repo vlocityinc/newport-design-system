@@ -18,18 +18,23 @@ export enum Keys {
     Delete = 'Delete',
     Backspace = 'Backspace',
     Tab = 'Tab',
-    F6 = 'F6'
+    F6 = 'F6',
+    One = '1',
+    Zero = '0',
+    Slash = '/'
 }
 
 /**
  * Type for a ShortcutKey.
  * A ShortcutKey consists of a Key and optional modifiers.
  */
-interface ShortcutKey {
+export type ShortcutKey = {
     key: Keys;
     shift?: boolean;
+    alt?: boolean;
     ctrlOrCmd?: boolean;
-}
+    label?: string;
+};
 
 /**
  * Type for a KeyboardShortcut.
@@ -39,6 +44,8 @@ export type KeyboardShortcut = {
     key: ShortcutKey;
     command: BaseCommand;
 };
+
+const FUNCTION_KEY_REGEX = /F\d/;
 
 /**
  * Utility function to create a ShortcutKey
@@ -61,7 +68,34 @@ export function createShortcutKey(key: Keys, shift?: boolean): ShortcutKey {
  */
 export function createShortcut(key: Keys | ShortcutKey, command: BaseCommand): KeyboardShortcut {
     const shortcutKey = typeof key === 'string' ? createShortcutKey(key) : key;
+
+    // for function keys, need the Ctrl modifier for non-macs
+    if (!isMacPlatform() && FUNCTION_KEY_REGEX.test(shortcutKey.key)) {
+        Object.assign(shortcutKey, { ctrlOrCmd: true });
+    }
+
     return { key: shortcutKey, command };
+}
+
+/**
+ * Formats a shortcut key for display to a user
+ *
+ * @param key - The shortcut key
+ * @returns  The formatted shortcut key
+ */
+export function formatShortcutKey(key: ShortcutKey) {
+    const parts = [];
+
+    if (key.ctrlOrCmd) {
+        parts.push(isMacPlatform() ? 'Cmd' : 'Ctrl');
+    }
+
+    if (key.alt) {
+        parts.push(isMacPlatform() ? 'Option' : 'Alt');
+    }
+
+    parts.push(key.label || key.key);
+    return parts.join('+');
 }
 
 /**
