@@ -612,14 +612,15 @@ export function getElementByDevName(elements = {}, devName) {
  */
 export const getResourceTypesMenuData = () => {
     const resourceTypes = getResourceTypes();
-    // TODO : include the description prop when TD-0051525 is completed and we can add subtext
     return resourceTypes.map(({ name }) => {
         const { nodeConfig, labels } = getConfigForElementType(name);
-        const { value } = nodeConfig;
+        const { value, description } = nodeConfig;
         const { menuData: label } = labels;
+
         return {
             value,
-            label
+            label,
+            description
         };
     });
 };

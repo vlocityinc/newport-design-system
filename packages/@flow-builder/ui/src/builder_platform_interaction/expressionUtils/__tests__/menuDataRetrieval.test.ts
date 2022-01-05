@@ -957,18 +957,21 @@ describe('Menu data retrieval', () => {
     });
 
     describe('getResourceTypesMenuData', () => {
-        it('Get list of menu data based on the allowed resource types', () => {
+        it('Get list of menu data based on the allowed resource types, including description', () => {
             const resourceTypesMenuData = getResourceTypesMenuData();
             const expectedResourceTypes = [
                 {
+                    description: 'FlowBuilderNewResource.variableDesc',
                     value: 'variable',
                     label: 'FlowBuilderNewResource.variableLabel'
                 },
                 {
+                    description: 'FlowBuilderNewResource.constantDesc',
                     value: 'constant',
                     label: 'FlowBuilderNewResource.constantLabel'
                 },
                 {
+                    description: 'FlowBuilderNewResource.formulaDesc',
                     value: 'formula',
                     label: 'FlowBuilderNewResource.formulaLabel'
                 }

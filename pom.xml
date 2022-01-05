@@ -11,7 +11,6 @@
         <lwc.version>2.7.0-238.0</lwc.version>
         <spring.version>5.3.8</spring.version>
         <google.closure-compiler.version>v20130411-sfdc-patch1</google.closure-compiler.version>
-
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <components.directory>${project.basedir}/src/main/components</components.directory>
         <components.package>ui-interaction-builder-components</components.package>
