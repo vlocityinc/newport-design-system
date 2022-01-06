@@ -66,7 +66,7 @@
         "mvn:precompiled-lwc-components:package": "PRECOMPILE_LWC_COMPONENTS=true mvn package",
         "prepare": "is-ci || husky install",
         "pre-commit": "yarn update:pom && yarn genTsConfig && git add **/tsconfig.json pom.xml && lint-staged",
-        "pre-push": "yarn check:copy-paste && yarn test:nba-components && yarn check:goldFiles -l"
+        "pre-push": "yarn check:copy-paste && yarn check:goldFiles -l"
     },
     "repository": {
         "type": "git",
