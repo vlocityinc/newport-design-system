@@ -72,9 +72,20 @@ const newRecordObjectOrField = {
     error: null
 };
 
+const blankRecordObjectOrField = {
+    displayText: '',
+    error: null
+};
+
 function getComboboxStateChangedEvent() {
     return new CustomEvent('comboboxstatechanged', {
         detail: newRecordObjectOrField
+    });
+}
+
+function getComboboxStateClearedEvent() {
+    return new CustomEvent('comboboxstatechanged', {
+        detail: blankRecordObjectOrField
     });
 }
 
@@ -218,6 +229,14 @@ describe('record-choice-set-editor', () => {
                 error: null,
                 doValidateProperty: false
             });
+        });
+
+        it('Update Object type to empty string closes second section', async () => {
+            entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent());
+            entityResourcePicker.dispatchEvent(getComboboxStateClearedEvent());
+            await ticks(1);
+            const recordFilter = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.RECORD_FILTER);
+            expect(recordFilter).toBeNull();
         });
     });
 

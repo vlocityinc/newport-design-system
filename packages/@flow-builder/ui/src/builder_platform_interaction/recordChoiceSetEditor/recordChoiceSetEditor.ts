@@ -238,8 +238,12 @@ export default class RecordChoiceSetEditor extends LightningElement {
         event.stopPropagation();
         const itemOrDisplayText = this.getItemOrDisplayText(event);
         const value = itemOrDisplayText.value || itemOrDisplayText;
-        // Updating the property only if newValue !== oldValue
-        if (value !== this.recordChoiceSetResource.object.value) {
+        // If value is empty, close second section
+        if (value === '') {
+            this.updateProperty(RECORD_CHOICE_SET_FIELDS.RECORD_OBJECT, value, error);
+            this.showSecondSection = false;
+            // Updating the property only if newValue !== oldValue
+        } else if (value !== this.recordChoiceSetResource.object.value) {
             this.menuDataFields = {};
             this.filteredMenuDataFields = {};
             this.updateProperty(RECORD_CHOICE_SET_FIELDS.RECORD_OBJECT, value, error);
