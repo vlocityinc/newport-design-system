@@ -16,6 +16,7 @@
 !/.stylestatsrc
 !/.travis.yml
 !/.storybook
+!/.npmrc
 
 # Add a .gitkeep file in an empty
 # directory to check it in the repository
