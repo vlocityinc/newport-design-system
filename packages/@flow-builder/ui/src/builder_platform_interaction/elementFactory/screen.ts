@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { ELEMENT_TYPE, FOOTER_LABEL_TYPE, PAUSE_MESSAGE_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { isRegionContainerField } from 'builder_platform_interaction/screenEditorUtils';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
@@ -22,11 +21,11 @@ const maxConnections = 1;
 /**
  * Called when opening a property editor or copying a screen element
  *
- * @param {screenInStore} screen
- * @returns {screenInPropertyEditor} Screen in the shape expected by a property editor
+ * @param screen - The screen elemnent
+ * @returns The screen element in the shape expected by a property editor
  */
-export function createScreenWithFields(screen = {}) {
-    const newScreen = createScreenElement(screen);
+export function createScreenWithFields(screen: UI.Screen = {} as UI.Screen): UI.Screen {
+    const newScreen: UI.Screen = createScreenElement(screen);
     const { childReferences = [] } = screen;
 
     let { fields = [] } = screen;
@@ -59,12 +58,12 @@ export function createScreenWithFields(screen = {}) {
  * @returns {Object} Returns an object containing the duplicated element and the duplicated childElements
  */
 export function createDuplicateScreen( // TODO: refactor the duplication code. The duplicate wait and other elements' code is very similar
-    screen,
-    newGuid,
-    newName,
-    childElementGuidMap,
-    childElementNameMap,
-    cutOrCopiedChildElements
+    screen: UI.Screen,
+    newGuid: UI.Guid,
+    newName: string,
+    childElementGuidMap: UI.Guid[],
+    childElementNameMap: string[],
+    cutOrCopiedChildElements: UI.Screen[]
 ) {
     const duplicateScreen = createScreenElement(screen);
     const { duplicatedElement, duplicatedChildElements, updatedChildReferences } =
@@ -92,22 +91,18 @@ export function createDuplicateScreen( // TODO: refactor the duplication code. T
  * Given a screen element in a property editor, create a screen element in the shape expected by the store
  *
  * @param {screen} screen - screen in the shape of the property editor
- * @returns {
- *   {
- *     screen: screen,
- *     deletedFields: screenField[] , fields: Array, elementType: string}
- * }
+ * @returns Object containing the screen Element and an array with the deleted screen fields
  */
-export function createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(screen) {
+export function createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(screen: UI.Screen) {
     const newScreen = createScreenElement(screen);
     const { fields } = screen;
 
-    let childReferences = [],
-        newFields = [],
+    let childReferences: UI.ChildReference[] = [],
+        newFields: UI.ScreenField[] = [],
         regionContainerCount = 0;
 
-    for (let i = 0; i < fields.length; i++) {
-        const field = fields[i];
+    for (let i = 0; i < fields!.length; i++) {
+        const field = fields![i];
         if (isRegionContainerField(field)) {
             regionContainerCount++;
         }
@@ -152,13 +147,14 @@ export function createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(sc
 }
 
 /**
- * Create a screen in the shape of the store (with field references).  This is used when taking a flow element and
- * converting it for use in the store
+ * This function is used in the FlowToUi convertion
+ * It create a screen in the shape of the store (with field references). This is used when taking a flow element and
+ * converting it for use in the store.
  *
- * @param {Object} screen - screen from metadata
- * @returns {screenInStore} screen in the shape used by the store
+ * @param screen - screen from metadata
+ * @returns screen in the shape used by the store
  */
-export function createScreenWithFieldReferences(screen = {}) {
+export function createScreenWithFieldReferences(screen: Metadata.Screen): UI.StoreState {
     const newScreen = createScreenElement(screen);
     const {
         fields = [],
@@ -189,15 +185,15 @@ export function createScreenWithFieldReferences(screen = {}) {
     const allowHelp = !!newScreen.helpText;
     const pauseMessageType = newScreen.pausedText ? PAUSE_MESSAGE_TYPE.CUSTOM : PAUSE_MESSAGE_TYPE.STANDARD;
 
-    const connectors = createConnectorObjects(screen, newScreen.guid);
+    const connectors = createConnectorObjects(screen, newScreen.guid, null, false);
     const connectorCount = connectors ? connectors.length : 0;
 
-    let screenFields = [],
-        childReferences = [],
+    let screenFields: UI.ScreenField[] = [],
+        childReferences: UI.ChildReference[] = [],
         regionContainerCount = 0;
 
     for (let i = 0; i < fields.length; i++) {
-        const field = fields[i];
+        const field: Metadata.ScreenField = fields[i];
         if (isRegionContainerField(field)) {
             regionContainerCount++;
         }
@@ -234,11 +230,11 @@ export function createScreenWithFieldReferences(screen = {}) {
 /**
  * Create a screen in the shape needed by the flow metadata
  *
- * @param {screenInStore} screen - screen from the store
- * @param {Object} config - configuration for converting screen
- * @returns {Object} screen in the shape for the metadata
+ * @param screen - screen from the store
+ * @param config - configuration for converting screen
+ * @returns screen in the shape for the metadata
  */
-export function createScreenMetadataObject(screen, config = {}) {
+export function createScreenMetadataObject(screen: UI.Screen, config = {}): Metadata.Screen {
     if (!screen) {
         throw new Error('screen is not defined');
     }
@@ -294,10 +290,11 @@ export function createScreenMetadataObject(screen, config = {}) {
 }
 
 /**
- * @param screen
+ * @param screen - The screen element
+ * @returns the screen element updated
  */
-export function createScreenElement(screen) {
-    const newScreen = baseCanvasElement(screen);
+export function createScreenElement(screen: UI.Screen | Metadata.Screen): UI.Screen {
+    const newScreen = baseCanvasElement(screen) as UI.Screen;
     const {
         allowHelp = false,
         pauseMessageType = PAUSE_MESSAGE_TYPE.STANDARD,
@@ -311,13 +308,20 @@ export function createScreenElement(screen) {
         backLabelType = FOOTER_LABEL_TYPE.STANDARD,
         pauseLabel = null,
         pauseLabelType = FOOTER_LABEL_TYPE.STANDARD
-    } = screen;
+    } = { ...screen };
 
-    const getFieldByGUID = function (guid) {
-        return this.findFieldByGUID(this.fields, guid);
+    const getFieldByGUID = function (this: UI.Screen, guid): UI.ScreenField | undefined {
+        if (this.findFieldByGUID) {
+            return this.findFieldByGUID(this.fields, guid);
+        }
+        return undefined;
     };
 
-    const findFieldByGUID = function (fields = [], guid) {
+    const findFieldByGUID = function (
+        this: UI.Screen,
+        fields: UI.ScreenField[] = [],
+        guid: UI.Guid
+    ): UI.ScreenField | undefined {
         let foundField = fields.find((field) => {
             return field.guid === guid;
         });
@@ -326,9 +330,11 @@ export function createScreenElement(screen) {
         }
         for (const field of fields) {
             if (field.fields) {
-                foundField = this.findFieldByGUID(field.fields, guid);
-                if (foundField) {
-                    return foundField;
+                if (this.findFieldByGUID) {
+                    foundField = this.findFieldByGUID(field.fields, guid);
+                    if (foundField) {
+                        return foundField;
+                    }
                 }
             }
         }
@@ -340,30 +346,40 @@ export function createScreenElement(screen) {
     // index indicating the position of the field with the provided guid within its parent's
     // fields array. The next item is the position of the parent in the grandparent's fields
     // array, etc. etc.
-    const getFieldIndexesByGUID = function (guid) {
-        const indexes = this.findFieldIndexByGUID(this.fields, guid);
-        return indexes || -1;
+    const getFieldIndexesByGUID = function (this: UI.Screen, guid: UI.Guid): number[] {
+        if (this.findFieldIndexByGUID) {
+            const indexes = this.findFieldIndexByGUID(this.fields, guid);
+            return indexes || -1;
+        }
+        return [];
     };
 
-    const findFieldIndexByGUID = function (fields = [], guid) {
-        let foundIndex = fields.findIndex((field) => {
+    const findFieldIndexByGUID = function (
+        this: UI.Screen,
+        fields: UI.ScreenField[] = [],
+        guid: UI.Guid
+    ): number[] | undefined {
+        const foundIndex = fields.findIndex((field) => {
             return field.guid === guid;
         });
         if (foundIndex >= 0) {
             return [foundIndex];
         }
+        let foundIndexes: number[];
         for (let i = 0; i < fields.length; i++) {
             if (fields[i].fields) {
-                foundIndex = this.findFieldIndexByGUID(fields[i].fields, guid);
-                if (foundIndex) {
-                    return foundIndex.concat(i);
+                if (this.findFieldIndexByGUID) {
+                    foundIndexes = this.findFieldIndexByGUID(fields[i].fields, guid);
+                    if (foundIndexes) {
+                        return foundIndexes.concat(i);
+                    }
                 }
             }
         }
         return undefined;
     };
 
-    const screenObject = Object.assign(newScreen, {
+    const screenObject: UI.Screen = Object.assign(newScreen, {
         allowHelp,
         pauseMessageType,
         helpText,
@@ -388,16 +404,17 @@ export function createScreenElement(screen) {
 /**
  * Helper function to get all the associated screen field references from the store
  *
- * @param {Object} parentElementFromStore - screen or screen field object in the store
+ * @param parentElementFromStore - screen or screen field object in the store
+ * @returns list of Guid of associated Screen Field References
  */
-function getAssociatedScreenFieldReferencesFromStore(parentElementFromStore) {
-    const screenFieldReferencesFromStore = [];
+function getAssociatedScreenFieldReferencesFromStore(parentElementFromStore: UI.Screen): UI.Guid[] {
+    const screenFieldReferencesFromStore: UI.Guid[] = [];
     if (parentElementFromStore.childReferences) {
         for (let i = 0; i < parentElementFromStore.childReferences.length; i++) {
             screenFieldReferencesFromStore.push(parentElementFromStore.childReferences[i].childReference);
             screenFieldReferencesFromStore.push(
                 ...getAssociatedScreenFieldReferencesFromStore(
-                    getElementByGuid(parentElementFromStore.childReferences[i].childReference)
+                    getElementByGuid(parentElementFromStore.childReferences[i].childReference) as UI.Screen
                 )
             );
         }
@@ -407,15 +424,16 @@ function getAssociatedScreenFieldReferencesFromStore(parentElementFromStore) {
 }
 
 /**
- * @param originalScreen
- * @param newFields
+ * @param originalScreen -
+ * @param newFields - New fields
+ * @returns List of deleted screenFields
  */
-function getDeletedScreenFieldsUsingStore(originalScreen, newFields = []) {
+function getDeletedScreenFieldsUsingStore(originalScreen, newFields: UI.ScreenField[] = []): UI.ScreenField[] {
     if (!originalScreen) {
         throw new Error('Either screen or newFields is not defined');
     }
     const { guid } = originalScreen;
-    const screenFromStore = getElementByGuid(guid);
+    const screenFromStore = getElementByGuid(guid) as UI.Screen;
     let screenFieldReferencesFromStore;
     if (screenFromStore) {
         screenFieldReferencesFromStore = getAssociatedScreenFieldReferencesFromStore(screenFromStore);
@@ -432,10 +450,14 @@ function getDeletedScreenFieldsUsingStore(originalScreen, newFields = []) {
 }
 
 /**
- * @param childReferences
- * @param field
+ * @param childReferences - Array of chield references
+ * @param field - Screen Field
+ * @returns Updated screen fields
  */
-function updateScreenFieldReferences(childReferences = [], field) {
+function updateScreenFieldReferences(
+    childReferences: UI.ChildReference[] = [],
+    field: UI.ScreenField
+): UI.ChildReference[] {
     if (!field || !field.guid) {
         throw new Error('Either field or field.guid is not defined');
     }

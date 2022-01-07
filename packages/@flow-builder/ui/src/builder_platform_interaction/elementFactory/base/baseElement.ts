@@ -332,7 +332,10 @@ export function baseChildElement(childElement: any = {}, elementType): UI.ChildE
  * @param elementList
  * @param connectors
  */
-export function baseCanvasElementsArrayToMap(elementList: UI.Element[] = [], connectors: UI.Connector[] = []) {
+export function baseCanvasElementsArrayToMap(
+    elementList: UI.Element[] = [],
+    connectors: UI.Connector[] = []
+): UI.StoreState {
     const elements = baseElementsArrayToMap(elementList);
     return Object.assign(elements, {
         connectors
@@ -342,7 +345,7 @@ export function baseCanvasElementsArrayToMap(elementList: UI.Element[] = [], con
 /**
  * @param elementList
  */
-export function baseElementsArrayToMap(elementList: UI.Element[] = []) {
+export function baseElementsArrayToMap(elementList: UI.Element[] = []): any {
     const elements = elementList.reduce((acc, element) => {
         return Object.assign(acc, { [element.guid]: element });
     }, {});

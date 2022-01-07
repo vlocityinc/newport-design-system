@@ -337,7 +337,12 @@ export function createScreenFieldWithFields(screenField = {}) {
  * @param {number} index - The next available index. Used for autogeneration of unique api names.
  * @returns {screenFieldInStore} screen field in the shape used by the store
  */
-export function createScreenFieldWithFieldReferences(screenField = {}, screenFields = [], parentName, index) {
+export function createScreenFieldWithFieldReferences(
+    screenField: Metadata.ScreenField = {},
+    screenFields: UI.ScreenField[] = [],
+    parentName: string | undefined,
+    index: number
+) {
     const newScreenField = createScreenField(screenField);
 
     let fieldName = newScreenField.name;

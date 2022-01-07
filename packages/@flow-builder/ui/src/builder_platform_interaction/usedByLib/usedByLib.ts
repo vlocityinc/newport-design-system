@@ -356,7 +356,7 @@ function isCanvasElementWithChildReferences(
 function isRegionContainerFieldWithChildReferences(
     element: UI.Element
 ): element is UI.Element & { childReferences: UI.ChildReference[] } {
-    return isRegionContainerField(element) && isElementWithChildReferences(element);
+    return isRegionContainerField(element as UI.ScreenField) && isElementWithChildReferences(element);
 }
 
 /**

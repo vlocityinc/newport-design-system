@@ -114,6 +114,26 @@ declare namespace UI {
         conditions: Array<Condition>;
     };
 
+    interface Screen extends CanvasElement {
+        allowHelp?: boolean;
+        backLabel?: string | null;
+        backLabelType?: string;
+        fields?: ScreenField[];
+        helpText?: string;
+        nextOrFinishLabel?: string | null;
+        nextOrFinishLabelType?: string;
+        pauseLabel?: string | null;
+        pauseLabelType?: string;
+        pauseMessageType?: string;
+        pausedText?: string;
+        showFooter: boolean;
+        showHeader: boolean;
+        getFieldByGUID?: Function;
+        findFieldByGUID?: Function;
+        getFieldIndexesByGUID?: Function;
+        findFieldIndexByGUID?: Function;
+    }
+
     interface ScreenField extends Element {
         extensionName?: string;
         inputsOnNextNavToAssocScrn?: 'UseStoredValues' | 'ResetValues';

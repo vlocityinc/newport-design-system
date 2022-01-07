@@ -379,7 +379,7 @@ export function isPicklistField(field) {
  * @param {object} field to test
  * @returns Indicates if specified field is a region container (section) field
  */
-export function isRegionContainerField(field) {
+export function isRegionContainerField(field: UI.ScreenField | Metadata.ScreenField): boolean {
     return field && field.fieldType === FlowScreenFieldType.RegionContainer;
 }
 

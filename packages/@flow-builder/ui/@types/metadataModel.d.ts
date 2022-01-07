@@ -40,7 +40,18 @@ declare namespace Metadata {
     }
 
     interface Screen extends Node {
+        allowBack: boolean;
+        allowFinish: boolean;
+        allowPause: boolean;
+        backButtonLabel: string;
+        connector: Connector;
         fields: ScreenField[];
+        helpText: string;
+        nextOrFinishButtonLabel: string;
+        pauseButtonLabel: string;
+        pausedText: string;
+        showFooter: boolean;
+        showHeader: boolean;
     }
 
     interface ScreenField extends Element {
