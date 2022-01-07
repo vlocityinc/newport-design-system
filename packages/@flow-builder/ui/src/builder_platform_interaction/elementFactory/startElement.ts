@@ -84,14 +84,11 @@ export function findStartYOffset(startElement: UI.Start): number {
  *          doesRequireRecordChangedToMeetCriteria is true and filters are defined
  * 2) Process type is autolaunched
  *
- * @param startElement start element metadata structure
- * @param processType
- * @returns Boolean value stating if the start element can support scheduled paths or not
+ * @param startElement - the start element
+ * @param processType - the process type
+ * @returns true iff the start element can support scheduled paths
  */
-export function shouldSupportScheduledPaths(
-    startElement: UI.Start | Metadata.Start,
-    processType?: string | null
-): boolean {
+export function shouldSupportScheduledPaths(startElement: UI.Start, processType?: string | null): boolean {
     // A cleaner way to perform this check is to update process type utils method
     // to use the feature-processType check.
     // Refer W-8931057 [Scheduled Paths] Scheduled Path errors are not linked on the builder

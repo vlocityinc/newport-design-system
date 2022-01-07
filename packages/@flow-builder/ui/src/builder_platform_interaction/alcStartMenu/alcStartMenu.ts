@@ -30,7 +30,7 @@ export default class AlcStartMenu extends AlcNodeMenu {
     }
 
     get supportsScheduledPaths() {
-        return shouldSupportScheduledPaths(this.elementMetadata);
+        return this.startData && shouldSupportScheduledPaths(this.startData);
     }
 
     get hasTrigger() {
