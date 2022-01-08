@@ -273,7 +273,14 @@
             "builder_platform_interaction/waitEvent": ["./src/builder_platform_interaction/waitEvent/waitEvent.ts"],
             "builder_platform_interaction/waitPlatformEvent": ["./src/builder_platform_interaction/waitPlatformEvent/waitPlatformEvent.ts"],
             "builder_platform_interaction/waitResumeConditions": ["./src/builder_platform_interaction/waitResumeConditions/waitResumeConditions.ts"],
-            "builder_platform_interaction/waitTimeEvent": ["./src/builder_platform_interaction/waitTimeEvent/waitTimeEvent.ts"]
+            "builder_platform_interaction/waitTimeEvent": ["./src/builder_platform_interaction/waitTimeEvent/waitTimeEvent.ts"],
+            "builder_platform_interaction/fieldInput": ["./src/builder_platform_interaction/fieldInput/fieldInput/fieldInput.ts"],
+            "builder_platform_interaction/fieldInputBox": ["./src/builder_platform_interaction/fieldInput/fieldInputBox/fieldInputBox.ts"],
+            "builder_platform_interaction/fieldInputBoxPill": ["./src/builder_platform_interaction/fieldInput/fieldInputBoxPill/fieldInputBoxPill.ts"],
+            "builder_platform_interaction/fieldInputMenu": ["./src/builder_platform_interaction/fieldInput/fieldInputMenu/fieldInputMenu.ts"],
+            "builder_platform_interaction/fieldInputMenuHeader": ["./src/builder_platform_interaction/fieldInput/fieldInputMenuHeader/fieldInputMenuHeader.ts"],
+            "builder_platform_interaction/fieldInputMenuSection": ["./src/builder_platform_interaction/fieldInput/fieldInputMenuSection/fieldInputMenuSection.ts"],
+            "builder_platform_interaction/richHelpTooltip": ["./src/builder_platform_interaction/fieldInput/richHelpTooltip/richHelpTooltip.ts"]
          }
     },
 

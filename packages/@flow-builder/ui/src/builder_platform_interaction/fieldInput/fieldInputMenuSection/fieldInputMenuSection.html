@@ -1,0 +1,28 @@
+<template>
+    <ul role="group" aria-label={section.label}>
+        <template if:true={section.label}>
+            <li role="presentation" class="slds-listbox__item">
+                <div
+                    class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                    role="presentation"
+                >
+                    <h3 role="presentation" title={section.label}>{section.label}</h3>
+                </div>
+            </li>
+        </template>
+        <template for:each={section.items} for:item="item">
+            <li role="presentation" class="slds-listbox__item" key={item.key}>
+                <lightning-base-combobox-item
+                    role="option"
+                    item={item}
+                    id={item.id}
+                    data-item-id={item.id}
+                    aria-checked={item.checked}
+                    data-value={item.value}
+                    class="slds-media slds-listbox__option slds-media_center"
+                >
+                </lightning-base-combobox-item>
+            </li>
+        </template>
+    </ul>
+</template>

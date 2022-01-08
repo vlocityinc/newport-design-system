@@ -2,6 +2,9 @@ const { readdirSync, writeFileSync } = require('fs');
 const { printInfo, printHeader } = require('./utils');
 const INDENT_SIZE = 12;
 const pathPropertyIndent = () => ' '.repeat(INDENT_SIZE);
+
+const nestedFolders = ['fieldInput'];
+
 const EXCLUDED_FOLDERS = ['jest-report'];
 const FLOW_BUILDER_UI_PACKAGE_DIR = 'packages/@flow-builder/ui';
 
@@ -9,14 +12,28 @@ const FLOW_BUILDER_UI_PACKAGE_DIR = 'packages/@flow-builder/ui';
     const lwcModuleDir = `${packageDir}/src/builder_platform_interaction`;
     printHeader(`Package modules folder: ${lwcModuleDir}`);
 
-    const paths = readdirSync(lwcModuleDir, { withFileTypes: true })
-        .filter((dirent) => dirent.isDirectory() && !EXCLUDED_FOLDERS.includes(dirent.name))
+    let paths = readdirSync(lwcModuleDir, { withFileTypes: true })
+        .filter(
+            (dirent) =>
+                dirent.isDirectory() && !EXCLUDED_FOLDERS.includes(dirent.name) && !nestedFolders.includes(dirent.name)
+        )
         .map(({ name }) => {
             const path = `${pathPropertyIndent()}"builder_platform_interaction/${name}": ["./src/builder_platform_interaction/${name}/${name}.ts"]`;
             printInfo(`Adding path: ${path.trim()} to ${packageDir}/tsconfig.json`);
             return path;
-        })
-        .join(',\n');
+        });
+
+    nestedFolders.forEach((nestedFolder) => {
+        paths = paths.concat(
+            readdirSync(`${lwcModuleDir}/${nestedFolder}`, { withFileTypes: true })
+                .filter((dirent) => dirent.isDirectory())
+                .map(({ name }) => {
+                    const path = `${pathPropertyIndent()}"builder_platform_interaction/${name}": ["./src/builder_platform_interaction/${nestedFolder}/${name}/${name}.ts"]`;
+                    printInfo(`Adding path: ${path.trim()} to ${packageDir}/tsconfig.json`);
+                    return path;
+                })
+        );
+    });
 
     writeFileSync(
         `${packageDir}/tsconfig.json`,
@@ -46,7 +63,7 @@ ${pathPropertyIndent()}"builder_platform_interaction/alcComponentsUtils": ["../a
 ${pathPropertyIndent()}"builder_platform_interaction/alcCanvas": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcCanvas/alcCanvas.ts"],
 ${pathPropertyIndent()}"builder_platform_interaction/zoomPanel": ["../auto-layout-canvas-ui/src/builder_platform_interaction/zoomPanel/zoomPanel.ts"],
 ${pathPropertyIndent()}"builder_platform_interaction/alcComponentsUtils": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcComponentsUtils/alcComponentsUtils.ts"],
-${paths}
+${paths.join(',\n')}
          }
     },
 

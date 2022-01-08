@@ -24,6 +24,9 @@
         "^builder_platform_interaction/sharedUtils/auraUtils": "<rootDir>/../shared-utils/src/auraUtils",
         "^builder_platform_interaction/sharedUtils/commonUtils": "<rootDir>/../shared-utils/src/commonUtils",
 
+        "^(builder_platform_interaction)/(fieldInput.*)$": "<rootDir>/../ui/src/builder_platform_interaction/fieldInput/$2/$2",
+        "^(builder_platform_interaction)/richHelpTooltip": "<rootDir>/../ui/src/builder_platform_interaction/fieldInput/richHelpTooltip/richHelpTooltip",
+
         "^(builder_platform_interaction)/alcStartMenu$": "<rootDir>/../ui/src/builder_platform_interaction/alcStartMenu/alcStartMenu",
         "^(builder_platform_interaction)/builderTestUtils/commonTestUtils$": "<rootDir>/../ui/src/builder_platform_interaction/builderTestUtils/commonTestUtils",
         "^(builder_platform_interaction)/builderTestUtils/domTestUtils$": "<rootDir>/../ui/src/builder_platform_interaction/builderTestUtils/domTestUtils",
@@ -39,7 +42,7 @@
         "^builder_platform_interaction/(alcCanvas|alcEvents|alcMenu|alcComponentsUtils|menu|popover|contextualMenuUtils)$": "<rootDir>/../auto-layout-canvas-ui/src/builder_platform_interaction/$1/$1",
         "^(builder_platform_interaction)/(.+)$": "<rootDir>/src/$1/$2/$2",
         "^(builder_framework)/(.+)$": "<rootDir>/../shared-utils/jest-modules/$1/$2/$2",
-        "^lightning/(configProvider|input|textarea|groupedCombobox|baseCombobox|inputRichText|popup|primitiveIcon|platformShowToastEvent)$": "<rootDir>/jest-modules/lightning/$1/$1",
+        "^lightning/(configProvider|input|textarea|groupedCombobox|baseCombobox|baseComboboxItem|inputRichText|popup|primitiveIcon|platformShowToastEvent)$": "<rootDir>/jest-modules/lightning/$1/$1",
         "lightning/(inputUtils|utilsPrivate)": "<rootDir>/../../../node_modules/lwc-components-lightning/src/lightning/$1/$1",
         "^lightning/(.+)$": "<rootDir>/../../../node_modules/lightning-components-stubs/modules/lightning-stubs/core/$1/$1",
         "^analyzer_framework/(.+)$": "<rootDir>/jest-modules/analyzer_framework/$1/$1"
