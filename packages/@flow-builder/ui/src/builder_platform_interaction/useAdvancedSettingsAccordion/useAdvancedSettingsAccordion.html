@@ -13,18 +13,19 @@
                         <div class="slds-p-horizontal_small outputs">
                             <ul>
                                 <template for:each={sortedOutputsWithWarnings} for:item="output" for:index="index">
-                                    <builder_platform_interaction-parameter-item
-                                        item={output.item}
-                                        key={output.item.rowIndex}
-                                        is-input="false"
-                                        item-index={index}
-                                        element-type={elementType}
-                                        warning-badge={output.warning.warningBadge}
-                                        warning-message={output.warning.warningMessage}
-                                        show-delete={output.warning.shouldBeDeleted}
-                                        hide-parameter-icon={output.warning.hideIcon}
-                                    >
-                                    </builder_platform_interaction-parameter-item>
+                                    <li key={output.item.rowIndex}>
+                                        <builder_platform_interaction-parameter-item
+                                            item={output.item}
+                                            is-input="false"
+                                            item-index={index}
+                                            element-type={elementType}
+                                            warning-badge={output.warning.warningBadge}
+                                            warning-message={output.warning.warningMessage}
+                                            show-delete={output.warning.shouldBeDeleted}
+                                            hide-parameter-icon={output.warning.hideIcon}
+                                        >
+                                        </builder_platform_interaction-parameter-item>
+                                    </li>
                                 </template>
                             </ul>
                         </div>
