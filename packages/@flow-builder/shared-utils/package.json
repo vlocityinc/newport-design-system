@@ -11,6 +11,9 @@
         "deployToCore": true,
         "namespace": "builder_platform_interaction"
     },
+    "files": [
+        "dist/"
+    ],
     "scripts": {
         "clean": "rm -rf dist/ build/",
         "build:ts": "tsc",
