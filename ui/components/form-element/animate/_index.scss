@@ -53,6 +53,10 @@ input[placeholder]::placeholder {
     }
   }
 
+  .nds-icon_container.nds-icon-utility-down {
+    pointer-events: none;
+  }
+
   .nds-form-element__icon  {
     vertical-align: text-bottom;
   }
