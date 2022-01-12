@@ -170,6 +170,7 @@ function testGetAlcMenuData(
     expect(menuData.canAddEndElement).toEqual(expectedcanAddEndElement);
     expect(menuData.isGoToConnector).toEqual(expectedIsGoToConnector);
     expect(menuData.canAddGoto).toEqual(expectedCanAddGoto);
+    expect(menuData.conditionOptionsForNode).toEqual(toggleMenuDetail.conditionOptionsForNode);
 }
 
 describe('ALC Canvas Utils test', () => {
@@ -195,6 +196,35 @@ describe('ALC Canvas Utils test', () => {
     });
 
     describe('getAlcMenuData', () => {
+        it('conditionOptionsForNode is defined for a branching element', () => {
+            testGetAlcMenuData(
+                {
+                    top: 0,
+                    left: 0,
+                    elementMetadata: { type: NodeType.BRANCH },
+                    source: { guid: 'branch-guid', childIndex: 0 },
+                    type: MenuType.NODE,
+                    conditionOptionsForNode: [
+                        {
+                            label: 'o1',
+                            value: 'o1'
+                        },
+                        {
+                            label: 'Default Outcome',
+                            value: 'DEFAULT_PATH'
+                        },
+                        {
+                            label: 'Delete All Paths',
+                            value: 'NO_PATH'
+                        }
+                    ]
+                },
+                false,
+                false,
+                true
+            );
+        });
+
         it('canAddEndElement is true and isGoToConnector is false on branch when next element is not end node', () => {
             testGetAlcMenuData(
                 {

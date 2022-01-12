@@ -29,6 +29,7 @@ import {
     NodeRef,
     NodeRenderInfo,
     NodeType,
+    Option,
     ParentNodeModel,
     StartNodeModel,
     START_IMMEDIATE_INDEX
@@ -57,6 +58,7 @@ export interface MenuInfo<T> {
     className: string;
     elementsMetadata: ElementMetadata[];
     source: ConnectionSource;
+    conditionOptionsForNode: Option[] | undefined;
 }
 export interface AutoLayoutCanvasContext {
     isPasteAvailable: boolean;
@@ -753,6 +755,7 @@ function getAlcMenuData<T>(
         menuType: detail.type,
         source: detail.source,
         elementMetadata: detail.elementMetadata,
+        conditionOptionsForNode: detail.conditionOptionsForNode,
         style,
         isGoToConnector,
         ctor,
