@@ -1,8 +1,8 @@
 pipeline:
     name: published-lwc
     github_source:
-        repo: automation-platform/sfci-pipelines
-        branch: ppominville/release
+        repo: communities/sfci-pipelines
+        branch: release
 release_branches: ['master', '232', '230', '228']
 precompile_lwc_components: true
 code_coverage_gus_team_name: 'Automation Builder Simplification'
