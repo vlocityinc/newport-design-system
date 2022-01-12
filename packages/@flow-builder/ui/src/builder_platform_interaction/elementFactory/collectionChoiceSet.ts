@@ -13,13 +13,19 @@ export const createCollectionChoiceSet = (
     element: UI.CollectionChoiceSetElement = { guid: generateGuid() }
 ): UI.CollectionChoiceSetElement => {
     const collectionChoiceSetElement = createDynamicChoiceSet(element);
-    const { collectionReference = null } = element;
+    const {
+        collectionReference = null,
+        displayFieldIndex = generateGuid(),
+        valueFieldIndex = generateGuid()
+    } = element;
     const collectionReferenceIndex = generateGuid();
 
     Object.assign(collectionChoiceSetElement, {
         elementType: ELEMENT_TYPE.COLLECTION_CHOICE_SET,
         collectionReferenceIndex,
-        collectionReference
+        collectionReference,
+        displayFieldIndex,
+        valueFieldIndex
     });
 
     return collectionChoiceSetElement;

@@ -115,6 +115,14 @@ describe('Collection Choice Set Validation', () => {
         valueField: {
             value: '',
             error: null
+        },
+        displayFieldIndex: {
+            value: 'index9000',
+            error: null
+        },
+        valueFieldIndex: {
+            value: 'index9001',
+            error: null
         }
     };
     const collectionChoiceObject = {
@@ -142,6 +150,14 @@ describe('Collection Choice Set Validation', () => {
         },
         valueField: {
             value: 'AccountSource',
+            error: null
+        },
+        displayFieldIndex: {
+            value: 'index9000',
+            error: null
+        },
+        valueFieldIndex: {
+            value: 'index9001',
             error: null
         }
     };

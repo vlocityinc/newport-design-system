@@ -1535,7 +1535,7 @@ export const elementsForPropertyEditors = {
                                 choiceReferences: [
                                     {
                                         choiceReference: {
-                                            value: '039af026-5477-46fa-87ab-09bf0f1e57a3',
+                                            value: '33155916-197a-4b4e-b108-bbdf3aef4e41',
                                             error: null
                                         }
                                     },

@@ -1,5 +1,6 @@
 // @ts-nocheck
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { isObject } from 'builder_platform_interaction/commonUtils';
 import { filterFieldsForChosenElement } from 'builder_platform_interaction/expressionUtils';
 import { isLookupTraversalSupported } from 'builder_platform_interaction/mergeFieldLib';
 import { Store } from 'builder_platform_interaction/storeLib';
@@ -10,7 +11,8 @@ export default class FieldPicker extends LightningElement {
     @track
     state = {
         fields: null,
-        value: ''
+        item: null,
+        displayText: null
     };
 
     @api
@@ -18,6 +20,9 @@ export default class FieldPicker extends LightningElement {
 
     @api
     disabled;
+
+    @api
+    rowIndex;
 
     @api
     label;
@@ -30,6 +35,8 @@ export default class FieldPicker extends LightningElement {
 
     @api
     showActivityIndicator = false;
+
+    _menuData;
 
     /**
      * The inner base resource picker component, used to set the full menu data
@@ -46,15 +53,23 @@ export default class FieldPicker extends LightningElement {
     _isInitialized = false;
 
     /**
-     * @param {string} newValue the selected queried field
+     * The combobox item that represents the value selected
+     *
+     * @Param {itemOrDisplayText} the new item object (ComboboxItem) or the value of the text to display
      */
-    set value(newValue) {
-        this.state.value = newValue;
+    set value(itemOrDisplayText: UI.ComboboxItem | string) {
+        if (isObject(itemOrDisplayText)) {
+            this.state.item = itemOrDisplayText;
+            this.state.displayText = null;
+        } else {
+            this.state.item = this._menuData ? this._menuData.find((item) => item.value === itemOrDisplayText) : null;
+            this.state.displayText = this.state.item ? null : itemOrDisplayText;
+        }
     }
 
     @api
     get value() {
-        return this.state.value;
+        return this.state.item || this.state.displayText;
     }
 
     /**
@@ -64,6 +79,9 @@ export default class FieldPicker extends LightningElement {
         if (newFields) {
             this.state.fields = newFields;
             this.populateFieldMenuData();
+            if (!this.state.item && this.state.displayText && this._menuData) {
+                this.state.item = this._menuData.find((item) => item.value === this.state.displayText);
+            }
         }
     }
 
@@ -111,13 +129,12 @@ export default class FieldPicker extends LightningElement {
      */
     populateFieldMenuData() {
         if (this._baseResourcePicker) {
-            this._baseResourcePicker.setMenuData(
-                filterFieldsForChosenElement(null, this.fields, {
-                    showAsFieldReference: false,
-                    showSubText: true,
-                    allowSObjectFieldsTraversal: this.isLookupTraversalSupported()
-                })
-            );
+            this._menuData = filterFieldsForChosenElement(null, this.fields, {
+                showAsFieldReference: false,
+                showSubText: true,
+                allowSObjectFieldsTraversal: this.isLookupTraversalSupported()
+            });
+            this._baseResourcePicker.setMenuData(this._menuData);
         }
     }
 }

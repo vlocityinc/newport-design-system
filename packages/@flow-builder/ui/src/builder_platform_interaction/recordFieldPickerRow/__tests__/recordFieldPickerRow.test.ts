@@ -117,7 +117,7 @@ describe('record-field-picker-row', () => {
 
         it('should not contain "Fax", "Name" and "Id"', () => {
             const fields = Object.keys(fieldPicker.fields);
-            expect(fieldPicker.value).toEqual('Description');
+            expect(fieldPicker.value.displayText).toEqual('Description');
             expect(fields).toHaveLength(Object.keys(accountFields).length - queriedFields.length);
             expect(fields.some((item) => ['Fax', 'Name', 'Id'].indexOf(item.text) >= 0)).toBe(false);
         });

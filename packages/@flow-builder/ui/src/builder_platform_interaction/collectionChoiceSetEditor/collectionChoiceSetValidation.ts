@@ -26,13 +26,19 @@ export const getRules = (collectionChoice, showSecondSection) => {
     overrideRules.collectionReference.push(
         ValidationRules.validateResourcePicker(collectionChoice.collectionReference)
     );
-
     // Validating the following fields only after the second section is made visible
     if (showSecondSection) {
-        overrideRules.displayField = [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank];
+        overrideRules.displayField = [
+            ValidationRules.shouldNotBeNullOrUndefined,
+            ValidationRules.shouldNotBeBlank,
+            ValidationRules.validateResourcePicker(collectionChoice.displayFieldIndex)
+        ];
         overrideRules.dataType = [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank];
-        overrideRules.valueField = [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank];
+        overrideRules.valueField = [
+            ValidationRules.shouldNotBeNullOrUndefined,
+            ValidationRules.shouldNotBeBlank,
+            ValidationRules.validateResourcePicker(collectionChoice.valueFieldIndex)
+        ];
     }
-
     return overrideRules;
 };

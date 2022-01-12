@@ -41,6 +41,7 @@
                 value={collectionChoiceSet.displayField.value}
                 required
                 fields={menuDataFields}
+                row-index={collectionChoiceSet.displayFieldIndex.value}
                 error-message={collectionChoiceSet.displayField.error}
                 oncomboboxstatechanged={handleDisplayFieldChanged}
             >
@@ -70,6 +71,7 @@
                 value={collectionChoiceSet.valueField.value}
                 disabled={disableValueFieldPicker}
                 fields={filteredMenuDataFields}
+                row-index={collectionChoiceSet.valueFieldIndex.value}
                 error-message={collectionChoiceSet.valueField.error}
                 oncomboboxstatechanged={handleValueFieldChanged}
             >

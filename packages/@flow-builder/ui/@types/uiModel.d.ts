@@ -414,7 +414,9 @@ declare namespace UI {
     };
     interface CollectionChoiceSetElement extends Element {
         displayField?: string;
+        displayFieldIndex?: string;
         valueField?: string;
+        valueFieldIndex?: string;
         collectionReference?: string;
         collectionReferenceIndex?: string;
     }

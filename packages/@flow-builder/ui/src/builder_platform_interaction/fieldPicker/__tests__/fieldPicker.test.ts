@@ -1,16 +1,21 @@
 // @ts-nocheck
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import { filterFieldsForChosenElement } from 'builder_platform_interaction/expressionUtils';
 import { isLookupTraversalSupported } from 'builder_platform_interaction/processTypeLib';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { createElement } from 'lwc';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import FieldPicker from '../fieldPicker';
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
+    const actualExpressionUtils = jest.requireActual('builder_platform_interaction/expressionUtils');
+
     return {
-        filterFieldsForChosenElement: jest.fn()
+        filterFieldsForChosenElement: jest.fn().mockImplementation((chosenElement, fields, filters) => {
+            return actualExpressionUtils.filterFieldsForChosenElement(chosenElement, fields, filters);
+        })
     };
 });
 
@@ -35,6 +40,16 @@ const setupComponentUnderTest = (props) => {
     return element;
 };
 
+const menuItems = filterFieldsForChosenElement(null, mockAccountFields, {
+    showAsFieldReference: false,
+    showSubText: true,
+    allowSObjectFieldsTraversal: true
+});
+
+const findMenuItem = (itemOrDisplayText, menuItems) => {
+    return menuItems.find((item) => item.value === itemOrDisplayText);
+};
+
 describe('field-picker', () => {
     beforeAll(() => {
         Store.setMockState(flowWithAllElementsUIModel);
@@ -42,76 +57,93 @@ describe('field-picker', () => {
     afterAll(() => {
         Store.resetStore();
     });
-    it('defaults requiredness to false', async () => {
+    it('defaults requiredness to false', () => {
         const fieldPicker = setupComponentUnderTest();
-        await ticks(1);
         const baseResourcePicker = fieldPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
         expect(baseResourcePicker.comboboxConfig.required).toBe(false);
     });
-    it('sets requiredness to true', async () => {
+    it('sets requiredness to true', () => {
         const fieldPicker = setupComponentUnderTest({
             required: true
         });
-        await ticks(1);
         const baseResourcePicker = fieldPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
         expect(baseResourcePicker.comboboxConfig.required).toBe(true);
     });
-    it('sets label', async () => {
+    it('sets label', () => {
         const label = 'label';
         const fieldPicker = setupComponentUnderTest({
             label
         });
-        await ticks(1);
         const baseResourcePicker = fieldPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
         expect(baseResourcePicker.comboboxConfig.label).toBe(label);
     });
-    it('sets placeholder', async () => {
+    it('sets placeholder', () => {
         const placeholder = 'placeholder';
         const fieldPicker = setupComponentUnderTest({
             placeholder
         });
-        await ticks(1);
         const baseResourcePicker = fieldPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
         expect(baseResourcePicker.comboboxConfig.placeholder).toBe(placeholder);
     });
-    it('sets error message', async () => {
+    it('sets error message', () => {
         const errorMessage = 'bah humbug';
         const fieldPicker = setupComponentUnderTest({
             errorMessage
         });
-        await ticks(1);
         const baseResourcePicker = fieldPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
         expect(baseResourcePicker.errorMessage).toBe(errorMessage);
     });
-    it('populates menuData with passed in fields', async () => {
+    it('populates menuData with passed in fields', () => {
         const fields = ['field'];
         isLookupTraversalSupported.mockImplementation(() => true);
         setupComponentUnderTest({
             fields
         });
-        await ticks(1);
         expect(filterFieldsForChosenElement).toHaveBeenCalledWith(null, fields, {
             showAsFieldReference: false,
             showSubText: true,
             allowSObjectFieldsTraversal: true
         });
     });
-    it('populates menuData with passed in fields no traversal support', async () => {
+    it('populates menuData with passed in fields no traversal support', () => {
         const fields = ['field'];
         isLookupTraversalSupported.mockImplementation(() => false);
         setupComponentUnderTest({
             fields
         });
-        await ticks(1);
         expect(filterFieldsForChosenElement).toHaveBeenCalledWith(null, fields, {
             showAsFieldReference: false,
             showSubText: true,
             allowSObjectFieldsTraversal: false
         });
     });
-    it('does not attempt to process menu data if no fields are passed', async () => {
+
+    it('populates menuData with columns from an Sobject and sets the value to a string that represents a menu option successfully', () => {
+        const fieldPicker = setupComponentUnderTest();
+        fieldPicker.fields = mockAccountFields;
+        fieldPicker.value = 'AccountNumber';
+
+        expect(fieldPicker.value).toStrictEqual(findMenuItem('AccountNumber', menuItems));
+    });
+
+    it('populates menuData with columns from an Sobject and sets the value to an account MenuItem successfully', () => {
+        const fieldPicker = setupComponentUnderTest();
+        fieldPicker.fields = mockAccountFields;
+        fieldPicker.value = mockAccountFields.BillingAddress;
+
+        expect(fieldPicker.value).toStrictEqual(mockAccountFields.BillingAddress);
+    });
+
+    it('populates menuData with columns from an Sobject and sets the value to a value not in the menu without erroring', () => {
+        const fieldPicker = setupComponentUnderTest();
+        fieldPicker.fields = mockAccountFields;
+        fieldPicker.value = 'random';
+
+        expect(fieldPicker.value).toStrictEqual('random');
+    });
+
+    it('does not attempt to process menu data if no fields are passed', () => {
         setupComponentUnderTest();
-        await ticks(1);
         expect(filterFieldsForChosenElement).not.toHaveBeenCalled();
     });
 });
