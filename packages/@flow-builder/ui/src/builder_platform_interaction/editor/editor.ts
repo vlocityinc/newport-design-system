@@ -181,6 +181,7 @@ import {
     getSelectedFlowEntry,
     getToolboxElements,
     highlightCanvasElement,
+    isFlowTestingSupported,
     isGuardrailsEnabled,
     launchSubflow,
     logElementCreation,
@@ -219,6 +220,8 @@ const RUN = 'run';
 const DEBUG = 'debug';
 const NEWDEBUG = 'new debug';
 const RESTARTDEBUG = 'restart debug';
+const CREATETEST = 'create test';
+const EDITTEST = 'edit test';
 
 const ADD_ELEMENT = 'ADD_ELEMENT';
 const APP_NAME = 'FLOW_BUILDER';
@@ -794,6 +797,20 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         return !!this.toolbarConfig.showUndoRedoButton;
     }
 
+    get showViewAllTestsButton() {
+        return (
+            !!this.toolbarConfig.showViewAllTestsButton &&
+            isFlowTestingSupported(this.properties.processType, this.triggerType)
+        );
+    }
+
+    get showEditTestButton() {
+        return (
+            !!this.toolbarConfig.showEditTestButton &&
+            isFlowTestingSupported(this.properties.processType, this.triggerType)
+        );
+    }
+
     @api
     get blockDebugResume() {
         return this.builderMode === BUILDER_MODE.DEBUG_MODE && this.ifBlockResume;
@@ -836,6 +853,10 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
 
     get flowDefIdForInstrumentation() {
         return this.properties.definitionId || this.flowInitDefinitionId;
+    }
+
+    get shouldViewAllTestsButtonBeDisabled() {
+        return !this.flowId;
     }
 
     /**
@@ -1574,6 +1595,24 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         if (!this.isRedoDisabled) {
             storeInstance.dispatch(redo);
         }
+    };
+
+    /**
+     * Handles the View All Tests event fired by toolbar.
+     */
+    handleViewAllTests = () => {
+        // To be implemented in W-10373100
+    };
+
+    /**
+     * Handles the Edit Test event fired by toolbar.
+     */
+    handleEditTest = () => {
+        this.invokeCreateOrEditTestModal(EDITTEST);
+    };
+
+    invokeCreateOrEditTestModal = (testOperation: string) => {
+        // To  be implemented in W-10373041
     };
 
     /**

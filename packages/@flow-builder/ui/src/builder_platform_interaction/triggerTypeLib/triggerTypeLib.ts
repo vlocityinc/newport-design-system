@@ -92,6 +92,16 @@ export const getTriggerTypeInfo = (triggerType) => {
     });
 };
 
+/**
+ * Whether or not this trigger type is supported in Flow Testing.
+ *
+ * @param triggerType
+ * @returns true if it is record change trigger, false otherwise
+ */
+export const isFlowTestingSupportedForTriggerType = (triggerType: string): boolean => {
+    return triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE || triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE;
+};
+
 export const RECORD_TRIGGER_TYPE_LABEL_LOOKUP = {
     [FLOW_TRIGGER_SAVE_TYPE.CREATE]: LABELS.recordCreatedTriggerType,
     [FLOW_TRIGGER_SAVE_TYPE.UPDATE]: LABELS.recordUpdatedTriggerType,

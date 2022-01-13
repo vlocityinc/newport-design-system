@@ -9,6 +9,7 @@ import {
     DuplicateEvent,
     EditFlowEvent,
     EditFlowPropertiesEvent,
+    EditTestEvent,
     NewDebugFlowEvent,
     RedoEvent,
     RestartDebugFlowEvent,
@@ -18,11 +19,13 @@ import {
     ToggleFlowStatusEvent,
     ToggleSelectionModeEvent,
     ToolbarFocusOutEvent,
-    UndoEvent
+    UndoEvent,
+    ViewAllTestsEvent
 } from 'builder_platform_interaction/events';
 import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
 import { commonUtils, loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { BUILDER_MODE } from 'builder_platform_interaction/systemLib';
 import { api, LightningElement } from 'lwc';
 import { LABELS } from './toolbarLabels';
 
@@ -56,6 +59,9 @@ export default class Toolbar extends LightningElement {
 
     @api
     isSaveAsDisabled;
+
+    @api
+    isViewAllTestsDisabled;
 
     @api
     lastModifiedDate;
@@ -137,6 +143,15 @@ export default class Toolbar extends LightningElement {
 
     @api
     showUndoRedoButton;
+
+    @api
+    showViewAllTestsButton;
+
+    @api
+    builderMode;
+
+    @api
+    showEditTestButton;
 
     labels = LABELS;
 
@@ -313,6 +328,19 @@ export default class Toolbar extends LightningElement {
     }
 
     /**
+     * Logic to change the label for the View All Test button based on Builder Mode.
+     * Label is changed to suit the context of the user.
+     */
+    get viewAllTestsButtonText() {
+        if (this.builderMode === BUILDER_MODE.EDIT_MODE) {
+            // return this.labels.editModeViewTestButtonTitle;
+            return LABELS.viewTestEditorModeTitle;
+        }
+        // return this.labels.testModeViewTestButtonTitle
+        return LABELS.viewTestTestingModeTitle;
+    }
+
+    /**
      * Check if the flow Id belongs to a Standard (File Based) Flow Definition (e.g sfdc_checkout__CartToOrder-1),
      * a normal flow Id always starts with 301.
      */
@@ -338,6 +366,20 @@ export default class Toolbar extends LightningElement {
         const redoEvent = new RedoEvent();
         this.dispatchEvent(redoEvent);
         logInteraction(`redo-button`, 'toolbar', null, 'click');
+    }
+
+    handleViewAllTests(event) {
+        event.preventDefault();
+        const viewAllTestsEvent = new ViewAllTestsEvent();
+        this.dispatchEvent(viewAllTestsEvent);
+        logInteraction(`view-all-tests-button`, 'toolbar', null, 'click');
+    }
+
+    handleEditTest(event) {
+        event.preventDefault();
+        const editTestEvent = new EditTestEvent();
+        this.dispatchEvent(editTestEvent);
+        logInteraction(`edit-test-button`, 'toolbar', null, 'click');
     }
 
     handleCopyButtonClick() {

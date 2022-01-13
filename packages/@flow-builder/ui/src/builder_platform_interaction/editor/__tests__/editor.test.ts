@@ -39,6 +39,7 @@ import { BUILDER_MODE } from 'builder_platform_interaction/systemLib';
 import { translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
 import { ShowToastEventName } from 'lightning/platformShowToastEvent';
 import { createElement } from 'lwc';
+import { LABELS } from '../../toolbar/toolbarLabels';
 import Editor from '../editor';
 import { isGuardrailsEnabled } from '../editorUtils';
 jest.mock('builder_platform_interaction/alcCanvas', () => require('builder_platform_interaction_mocks/alcCanvas'));
@@ -121,6 +122,7 @@ jest.mock('builder_platform_interaction/drawingLib', () => require('builder_plat
 
 let mockIsAutolayoutCanvas = false;
 let mockIsOrchestration = false;
+let mockIsFlowTestingSupportedForProcessType = true;
 jest.mock('builder_platform_interaction/processTypeLib', () => {
     return Object.assign({}, jest.requireActual('builder_platform_interaction/processTypeLib'), {
         isAutoLayoutCanvasOnly: jest.fn().mockImplementation(() => {
@@ -128,6 +130,18 @@ jest.mock('builder_platform_interaction/processTypeLib', () => {
         }),
         isOrchestrator: jest.fn().mockImplementation(() => {
             return mockIsOrchestration;
+        }),
+        isFlowTestingSupportedForProcessType: jest.fn().mockImplementation(() => {
+            return mockIsFlowTestingSupportedForProcessType;
+        })
+    });
+});
+
+let mockIsFlowTestingSupportedForTriggerType = true;
+jest.mock('builder_platform_interaction/triggerTypeLib', () => {
+    return Object.assign({}, jest.requireActual('builder_platform_interaction/triggerTypeLib'), {
+        isFlowTestingSupportedForTriggerType: jest.fn().mockImplementation(() => {
+            return mockIsFlowTestingSupportedForTriggerType;
         })
     });
 });
@@ -344,7 +358,9 @@ const selectors = {
     canvasCombobox: '.canvas-mode-combobox',
     debug: '.test-toolbar-debug',
     test: '.test-toolbar-addToTest',
-    run: '.test-toolbar-run'
+    run: '.test-toolbar-run',
+    viewAllTests: '.test-toolbar-viewalltests',
+    editTest: '.test-toolbar-edittest'
 };
 
 const element = (guid, type) => {
@@ -1765,6 +1781,10 @@ describe('editor guardrails', () => {
     });
 });
 describe('in edit mode', () => {
+    afterEach(() => {
+        mockIsFlowTestingSupportedForProcessType = true;
+        mockIsFlowTestingSupportedForTriggerType = true;
+    });
     it('left panel is displayed', async () => {
         expect.assertions(1);
         const editorComponent = createComponentUnderTest({
@@ -1883,8 +1903,124 @@ describe('in edit mode', () => {
         const runButton = editorComponent.shadowRoot.querySelector(selectors.run);
         expect(runButton).toBeDefined();
     });
+    it('view test button is displayed for trigger type and process type supported in flow testing', async () => {
+        mockStoreState.properties.processType = FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW;
+        mockStoreState.elements['6'].triggerType = FLOW_TRIGGER_TYPE.AFTER_SAVE;
+
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                componentConfigs: { [BUILDER_MODE.EDIT_MODE]: { toolbarConfig: { showViewAllTestsButton: true } } }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.EDIT_MODE);
+
+        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+        const viewAllTestsButton = toolbar.shadowRoot.querySelector(selectors.viewAllTests);
+        expect(viewAllTestsButton).not.toBeNull();
+    });
+    it('view test button is not displayed for trigger type not supported in flow testing', async () => {
+        mockStoreState.properties.processType = FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW;
+        mockStoreState.elements['6'].triggerType = FLOW_TRIGGER_TYPE.NONE;
+
+        mockIsFlowTestingSupportedForTriggerType = false;
+
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                // shouldn't be true from Java side as testing is only available for before/after save triggered flows,
+                // but testing the client-side guard works
+                componentConfigs: { [BUILDER_MODE.EDIT_MODE]: { toolbarConfig: { showViewAllTestsButton: true } } }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.EDIT_MODE);
+
+        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+        const viewAllTestsButton = toolbar.shadowRoot.querySelector(selectors.viewAllTests);
+        expect(viewAllTestsButton).toBeNull();
+    });
+    it('view test button is not displayed for process type not supported in flow testing', async () => {
+        mockStoreState.properties.processType = FLOW_PROCESS_TYPE.ORCHESTRATOR;
+        mockStoreState.elements['6'].triggerType = FLOW_TRIGGER_TYPE.AFTER_SAVE;
+
+        mockIsFlowTestingSupportedForProcessType = false;
+
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                // shouldn't be true from Java side since testing is not available for Orchestrations, but testing the client-side guard works
+                componentConfigs: { [BUILDER_MODE.EDIT_MODE]: { toolbarConfig: { showViewAllTestsButton: true } } }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.EDIT_MODE);
+
+        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+        const viewAllTestsButton = toolbar.shadowRoot.querySelector(selectors.viewAllTests);
+        expect(viewAllTestsButton).toBeNull();
+    });
+    it('view test button should be enabled if editing a saved flow', async () => {
+        mockStoreState.properties.processType = FLOW_PROCESS_TYPE.ORCHESTRATOR;
+        mockStoreState.elements['6'].triggerType = FLOW_TRIGGER_TYPE.AFTER_SAVE;
+
+        const editorComponent = createComponentUnderTest({
+            flowId: '301RM0000000E4N',
+            builderType: 'new',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                componentConfigs: { [BUILDER_MODE.EDIT_MODE]: { toolbarConfig: { showViewAllTestsButton: true } } }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.EDIT_MODE);
+
+        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+        const viewAllTestsButton = toolbar.shadowRoot.querySelector(selectors.viewAllTests);
+        expect(viewAllTestsButton).not.toBeNull();
+        expect(viewAllTestsButton.disabled).toBeFalsy();
+    });
+    it('view test button should be disabled if editing a flow that has not been saved', async () => {
+        mockStoreState.properties.processType = FLOW_PROCESS_TYPE.ORCHESTRATOR;
+        mockStoreState.elements['6'].triggerType = FLOW_TRIGGER_TYPE.AFTER_SAVE;
+
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                componentConfigs: { [BUILDER_MODE.EDIT_MODE]: { toolbarConfig: { showViewAllTestsButton: true } } }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.EDIT_MODE);
+
+        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+        const viewAllTestsButton = toolbar.shadowRoot.querySelector(selectors.viewAllTests);
+        expect(viewAllTestsButton).not.toBeNull();
+        expect(viewAllTestsButton.disabled).toBeTruthy();
+    });
+    it('edit test button should not be visible', async () => {
+        mockStoreState.properties.processType = FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW;
+        mockStoreState.elements['6'].triggerType = FLOW_TRIGGER_TYPE.AFTER_SAVE;
+
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                componentConfigs: { [BUILDER_MODE.EDIT_MODE]: { toolbarConfig: { showEditTestButton: false } } }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.EDIT_MODE);
+
+        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+        const editTestButton = toolbar.shadowRoot.querySelector(selectors.editTest);
+        expect(editTestButton).toBeNull();
+    });
 });
 describe('in debug mode', () => {
+    afterEach(() => {
+        mockIsFlowTestingSupportedForProcessType = true;
+        mockIsFlowTestingSupportedForTriggerType = true;
+    });
     it('left panel is hidden', async () => {
         expect.assertions(1);
         const editorComponent = createComponentUnderTest({
@@ -2142,8 +2278,48 @@ describe('in debug mode', () => {
             expect(editorComponent.blockDebugResume).toBeFalsy();
         });
     });
+    it('view test button is not displayed for supported process type and trigger type', async () => {
+        mockStoreState.properties.processType = FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW;
+        mockStoreState.elements['6'].triggerType = FLOW_TRIGGER_TYPE.AFTER_SAVE;
+
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderMode: 'debugMode',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                componentConfigs: { [BUILDER_MODE.DEBUG_MODE]: { toolbarConfig: { showViewAllTestsButton: false } } }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.DEBUG_MODE);
+
+        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+        const viewAllTestsButton = toolbar.shadowRoot.querySelector(selectors.viewAllTests);
+        expect(viewAllTestsButton).toBeNull();
+    });
+    it('edit test button should not be visible', async () => {
+        mockStoreState.properties.processType = FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW;
+        mockStoreState.elements['6'].triggerType = FLOW_TRIGGER_TYPE.AFTER_SAVE;
+
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderMode: 'debugMode',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                componentConfigs: { [BUILDER_MODE.DEBUG_MODE]: { toolbarConfig: { showEditTestButton: false } } }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.DEBUG_MODE);
+
+        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+        const editTestButton = toolbar.shadowRoot.querySelector(selectors.editTest);
+        expect(editTestButton).toBeNull();
+    });
 });
 describe('in test mode', () => {
+    afterEach(() => {
+        mockIsFlowTestingSupportedForProcessType = true;
+        mockIsFlowTestingSupportedForTriggerType = true;
+    });
     it('left panel is hidden', async () => {
         expect.assertions(1);
         const editorComponent = createComponentUnderTest({
@@ -2175,5 +2351,43 @@ describe('in test mode', () => {
         expect(rightPanel).not.toBeNull();
         const debugPanel = editorComponent.shadowRoot.querySelector(selectors.DEBUG_PANEL);
         expect(debugPanel).not.toBeNull();
+    });
+    it('view test button is displayed for support process and trigger type flow with the correct label', async () => {
+        mockStoreState.properties.processType = FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW;
+        mockStoreState.elements['6'].triggerType = FLOW_TRIGGER_TYPE.AFTER_SAVE;
+
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderMode: 'testMode',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                componentConfigs: { [BUILDER_MODE.TEST_MODE]: { toolbarConfig: { showViewAllTestsButton: true } } }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.TEST_MODE);
+        await 1;
+
+        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+        const viewAllTestsButton = toolbar.shadowRoot.querySelector(selectors.viewAllTests);
+        expect(viewAllTestsButton).not.toBeNull();
+        expect(viewAllTestsButton.label).toBe(LABELS.viewTestTestingModeTitle);
+    });
+    it('edit test button is displayed for supported process and trigger type', async () => {
+        mockStoreState.properties.processType = FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW;
+        mockStoreState.elements['6'].triggerType = FLOW_TRIGGER_TYPE.AFTER_SAVE;
+
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderMode: 'testMode',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                componentConfigs: { [BUILDER_MODE.TEST_MODE]: { toolbarConfig: { showEditTestButton: true } } }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.TEST_MODE);
+        await 1;
+        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+        const editTestButton = toolbar.shadowRoot.querySelector(selectors.editTest);
+        expect(editTestButton).not.toBeNull();
     });
 });

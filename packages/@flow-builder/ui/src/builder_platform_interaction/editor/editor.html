@@ -41,6 +41,8 @@
                 onsave={handleSaveFlow}
                 onundo={handleUndo}
                 onredo={handleRedo}
+                onviewalltests={handleViewAllTests}
+                onedittest={handleEditTest}
                 ontoggleflowstatus={handleToggleFlowStatus}
                 onclosepropertyeditor={handleClosePropertyEditor}
                 ontoolbarfocusout={handleToolbarFocusOut}
@@ -58,6 +60,8 @@
                 show-save-as-button={showSaveAsButton}
                 show-activate-button={showActivateButton}
                 show-undo-redo-button={showUndoRedoButton}
+                show-view-all-tests-button={showViewAllTestsButton}
+                show-edit-test-button={showEditTestButton}
                 flow-errors-and-warnings={flowErrorsAndWarnings}
                 save-and-pending-operation-status={saveAndPendingOperationStatus}
                 last-modified-date={properties.lastModifiedDate}
@@ -72,6 +76,7 @@
                 is-cut-copy-disabled={isCutCopyDisabled}
                 is-undo-disabled={isUndoDisabled}
                 is-redo-disabled={isRedoDisabled}
+                is-view-all-tests-disabled={shouldViewAllTestsButtonBeDisabled}
                 is-new-debug-supported={useNewDebugExperience}
                 is-lightning-flow-builder={properties.isLightningFlowBuilder}
                 can-only-save-as-new-definition={properties.canOnlySaveAsNewDefinition}
@@ -79,6 +84,7 @@
                 hide-selection-button={canvasConfig.disableMultiSelectElements}
                 ontogglecanvasmode={handleToggleCanvasMode}
                 is-auto-layout-canvas={properties.isAutoLayoutCanvas}
+                builder-mode={builderMode}
             ></builder_platform_interaction-toolbar>
         </div>
         <div class="slds-col slds-grow slds-grid slds-is-relative">

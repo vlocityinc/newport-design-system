@@ -161,6 +161,15 @@ export const isScheduledPathSupported = (processType) => {
     return processType === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW;
 };
 
+/**
+ * Flow Testing is supported exclusively for Triggered Auto Launched Flows (Not Before-Delete). Returns true iff process type is auto launched.
+ *
+ * @param processType
+ */
+export const isFlowTestingSupportedForProcessType = (processType: string) => {
+    return processType === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW;
+};
+
 const COLLATION = [FLOW_PROCESS_TYPE.FLOW, FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW];
 
 const compareProcessTypes = (left, right) => {

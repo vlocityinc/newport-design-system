@@ -59,6 +59,8 @@ type ToolbarConfig = {
     showSaveButton: boolean;
     showActivateButton: boolean;
     showUndoRedoButton: boolean;
+    showViewAllTestsButton: boolean;
+    showEditTestButton: boolean;
 };
 type HeaderConfig = {
     showDebugStatus: boolean;

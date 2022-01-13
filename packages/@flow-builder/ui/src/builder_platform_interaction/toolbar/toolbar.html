@@ -188,6 +188,25 @@
             </lightning-button-group>
 
             <lightning-button
+                if:true={showEditTestButton}
+                label={labels.editTestTitle}
+                title={labels.editTestTitle}
+                onclick={handleEditTest}
+                class="test-toolbar-edittest slds-m-left_xx-small"
+            >
+            </lightning-button>
+
+            <lightning-button
+                if:true={showViewAllTestsButton}
+                disabled={isViewAllTestsDisabled}
+                label={viewAllTestsButtonText}
+                title={viewAllTestsButtonText}
+                onclick={handleViewAllTests}
+                class="test-toolbar-viewalltests slds-m-left_xx-small"
+            >
+            </lightning-button>
+
+            <lightning-button
                 if:true={showRestartRunButton}
                 label={labels.restartRunTitle}
                 title={labels.restartRunTitle}

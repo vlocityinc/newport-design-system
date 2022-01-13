@@ -15,6 +15,7 @@ import deactivating from '@salesforce/label/FlowBuilderToolbar.deactivating';
 import debugTitle from '@salesforce/label/FlowBuilderToolbar.debugTitle';
 import duplicateTitle from '@salesforce/label/FlowBuilderToolbar.duplicateTitle';
 import editFlowTitle from '@salesforce/label/FlowBuilderToolbar.editFlowTitle';
+import editTestTitle from '@salesforce/label/FlowBuilderToolbar.editTestTitle';
 import flowPropertiesTitle from '@salesforce/label/FlowBuilderToolbar.flowPropertiesTitle';
 import newdebugTitle from '@salesforce/label/FlowBuilderToolbar.newdebugTitle';
 import redoTitle from '@salesforce/label/FlowBuilderToolbar.redoTitle';
@@ -27,6 +28,8 @@ import savingStatus from '@salesforce/label/FlowBuilderToolbar.savingStatus';
 import toolbarStatus from '@salesforce/label/FlowBuilderToolbar.toolbarStatus';
 import toolbarStatusTitle from '@salesforce/label/FlowBuilderToolbar.toolbarStatusTitle';
 import undoTitle from '@salesforce/label/FlowBuilderToolbar.undoTitle';
+import viewTestEditorModeTitle from '@salesforce/label/FlowBuilderToolbar.viewTestEditorModeTitle';
+import viewTestTestingModeTitle from '@salesforce/label/FlowBuilderToolbar.viewTestTestingModeTitle';
 import errorPopOverHeader from '@salesforce/label/FlowBuilderValidation.errorPopOverHeader';
 import warningPopOverHeader from '@salesforce/label/FlowBuilderValidation.warningPopOverHeader';
 import activeLabel from '@salesforce/label/FlowStatus.activeLabel';
@@ -66,5 +69,8 @@ export const LABELS = {
     cutAltText,
     cutTitle,
     copyAltText,
-    copyTitle
+    copyTitle,
+    viewTestEditorModeTitle,
+    viewTestTestingModeTitle,
+    editTestTitle
 };

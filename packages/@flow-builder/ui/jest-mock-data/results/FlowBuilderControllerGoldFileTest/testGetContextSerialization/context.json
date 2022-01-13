@@ -31,6 +31,7 @@
           },
           "toolbarConfig":{
             "showCopyPasteButton":true,
+            "showViewAllTestsButton":true,
             "showDebugButton":true,
             "showRunTestButton":false,
             "showSaveAsButton":true,
@@ -43,6 +44,7 @@
             "showAddToTestButton":false,
             "showRunButton":true,
             "showFlowStatus":true,
+            "showEditTestButton":false,
             "showActivateButton":true
           },
           "headerConfig":{
@@ -70,6 +72,7 @@
           },
           "toolbarConfig":{
             "showCopyPasteButton":false,
+            "showViewAllTestsButton":true,
             "showDebugButton":false,
             "showRunTestButton":true,
             "showSaveAsButton":true,
@@ -82,6 +85,7 @@
             "showAddToTestButton":false,
             "showRunButton":false,
             "showFlowStatus":false,
+            "showEditTestButton":true,
             "showActivateButton":true
           },
           "headerConfig":{
@@ -109,6 +113,7 @@
           },
           "toolbarConfig":{
             "showCopyPasteButton":false,
+            "showViewAllTestsButton":false,
             "showDebugButton":false,
             "showRunTestButton":true,
             "showSaveAsButton":true,
@@ -121,6 +126,7 @@
             "showAddToTestButton":true,
             "showRunButton":false,
             "showFlowStatus":false,
+            "showEditTestButton":false,
             "showActivateButton":true
           },
           "headerConfig":{

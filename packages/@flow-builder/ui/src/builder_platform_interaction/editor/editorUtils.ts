@@ -39,7 +39,10 @@ import {
     FLOW_TRIGGER_TYPE,
     METADATA_KEY
 } from 'builder_platform_interaction/flowMetadata';
-import { isConfigurableStartSupported } from 'builder_platform_interaction/processTypeLib';
+import {
+    isConfigurableStartSupported,
+    isFlowTestingSupportedForProcessType
+} from 'builder_platform_interaction/processTypeLib';
 import { getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
 import { SaveType } from 'builder_platform_interaction/saveType';
 import { canvasSelector } from 'builder_platform_interaction/selectors';
@@ -48,6 +51,7 @@ import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
 import { getElementByDevName, getStartElement } from 'builder_platform_interaction/storeUtils';
 import Toolbar from 'builder_platform_interaction/toolbar';
+import { isFlowTestingSupportedForTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 import { invokeUsedByAlertModal, usedBy } from 'builder_platform_interaction/usedByLib';
 
 const LEFT_PANEL_ELEMENTS = 'LEFT_PANEL_ELEMENTS';
@@ -1193,4 +1197,16 @@ export const logElementCreation = (
         }
     }
     logInteraction(`add-node-of-type-${element.elementType}`, 'modal', data, 'click');
+};
+
+/**
+ * Checks whether the given process type and trigger type combination are supported in Flow Testing.
+ * As of 238, only Before/After-Save triggered Autolaunched Flows are supported.
+ *
+ * @param processType
+ * @param triggerType
+ * @returns
+ */
+export const isFlowTestingSupported = (processType: string, triggerType: string) => {
+    return isFlowTestingSupportedForProcessType(processType) && isFlowTestingSupportedForTriggerType(triggerType);
 };
