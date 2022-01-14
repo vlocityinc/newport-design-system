@@ -332,7 +332,7 @@ function _deleteChildElements(
  */
 function _addOrUpdateElement(state, guid, element) {
     const newState = updateProperties(state);
-    newState[guid] = updateProperties(newState[guid], element);
+    newState[guid] = updateProperties({}, element);
     return newState;
 }
 

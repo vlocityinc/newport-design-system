@@ -372,12 +372,12 @@ describe('elements-reducer', () => {
         });
     });
 
-    describe('Update Canavas Element', () => {
+    describe('Update Canvas Element', () => {
         it('with state set to undefined & action type set to empty should return an empty object', () => {
             expect(elementReducer(undefined, {})).toEqual({});
         });
 
-        const oldElements = { guid1: getElement('guid1', 'ass1') };
+        const oldElements = { guid1: { ...getElement('guid1', 'ass1'), extraProp: true } };
         const updatedElements = { guid1: getElement('guid1', 'ass2') };
         const payload = getElement('guid1', 'ass2');
 
