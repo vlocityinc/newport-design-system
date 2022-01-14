@@ -52,7 +52,7 @@ const getFerovMenuData = (
     allowGlobalConstants,
     enableFieldDrilldown,
     activePicklistValues,
-    storeInstance,
+    currentState: UI.StoreState,
     includeNewResource,
     newResourceTypeLabel,
     showSystemVariables,
@@ -61,7 +61,7 @@ const getFerovMenuData = (
     forFormula
 ) => {
     const menuDataElements = getStoreElements(
-        storeInstance.getCurrentState(),
+        currentState,
         elementConfig || { elementType: propertyEditorElementType }
     );
     return filterAndMutateMenuData(menuDataElements, populateParamTypesFn(), {
@@ -141,7 +141,7 @@ export const getMenuData = (
             allowGlobalConstants,
             enableFieldDrilldown,
             activePicklistValues,
-            storeInstance,
+            storeInstance.getCurrentState(),
             includeNewResource,
             newResourceTypeLabel,
             showSystemVariables,

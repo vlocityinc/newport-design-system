@@ -158,7 +158,6 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
     const actual = jest.requireActual('builder_platform_interaction/expressionUtils');
     return {
         getStoreElements: actual.getStoreElements,
-        getElementsForMenuData: jest.fn().mockReturnValue([]),
         filterAndMutateMenuData: jest.fn().mockReturnValue([]),
         EXPRESSION_PROPERTY_TYPE: actual.EXPRESSION_PROPERTY_TYPE,
         getResourceByUniqueIdentifier: actual.getResourceByUniqueIdentifier,
@@ -782,22 +781,7 @@ describe('base expression builder', () => {
     describe('building expression for picklist values', () => {
         const accountVariable = expressionUtilsMock.mutateFlowResourceToComboboxShape(accountSObjectVariable);
         const accountField = accountFields.AccountSource;
-        const picklistLabel = 'Picklist Values';
-        const picklistApiValue = 'AccountSource'; // for testing picklist menu data we will mock picklist menu items
 
-        expressionUtilsMock.getElementsForMenuData.mockReturnValue([
-            {
-                label: picklistLabel,
-                items: [
-                    {
-                        value: picklistApiValue
-                    }
-                ]
-            }
-        ]);
-        afterAll(() => {
-            expressionUtilsMock.getElementsForMenuData.mockClear();
-        });
         it('should throw RowContentsChangedEvent with matching picklist item when selecting picklist menu item', async () => {
             const expressionBuilder = createComponentForTest({
                 lhsValue: expressionUtilsMock.getMenuItemForField(accountField, accountVariable, {

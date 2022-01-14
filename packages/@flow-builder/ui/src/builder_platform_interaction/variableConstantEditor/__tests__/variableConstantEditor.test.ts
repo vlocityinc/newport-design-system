@@ -112,7 +112,6 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
         filterMatches: jest.fn(),
         getResourceByUniqueIdentifier: jest.fn(),
         getFerovDataTypeForValidId: jest.fn(),
-        getElementsForMenuData: jest.fn(),
         getEntitiesMenuData: jest.fn().mockReturnValue(['full menu data']),
         mutateFlowResourceToComboboxShape: actual.mutateFlowResourceToComboboxShape,
         getItemOrDisplayText: actual.getItemOrDisplayText,

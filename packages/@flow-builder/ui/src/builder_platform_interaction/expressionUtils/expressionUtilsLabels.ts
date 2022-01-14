@@ -1,4 +1,3 @@
-// @ts-nocheck
 import lightningComponentScreenFieldIconAltText from '@salesforce/label/FlowBuilderComboboxIconAltText.lightningComponentScreenFieldIconAltText';
 import systemGlobalVariableCategoryIconAltText from '@salesforce/label/FlowBuilderComboboxIconAltText.systemGlobalVariableCategoryIconAltText';
 import collectionVariablePluralLabel from '@salesforce/label/FlowBuilderElementConfig.collectionVariablePluralLabel';

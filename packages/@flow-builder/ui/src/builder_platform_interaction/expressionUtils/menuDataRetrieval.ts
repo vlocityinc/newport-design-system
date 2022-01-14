@@ -23,7 +23,6 @@ import { isAutomaticField } from 'builder_platform_interaction/screenEditorUtils
 import { canElementContain, RetrieveOptions } from 'builder_platform_interaction/selectors';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
-import { Store } from 'builder_platform_interaction/storeLib';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import {
     getApiVersionsList,
@@ -46,7 +45,6 @@ import {
     mutatePicklistValue
 } from './menuDataGenerator';
 import { getScreenElement } from './resourceUtils';
-import { getStoreElements } from './storeElementsFilter';
 const { format } = commonUtils;
 
 const { SOBJECT_FIELD_REQUIREMENT, SYSTEM_VARIABLE_REQUIREMENT } = PARAM_PROPERTY;
@@ -229,40 +227,6 @@ export const getPicklistMenuData = (picklist: any[]) => {
     return picklistGroup;
 };
 
-/**
- * Gets list of elements to display in combobox, in shape combobox expects.
- * Used for one-time menu data retrieval when not subscribed to the store.
- * When processing menu data based on store subscription, use filterAndMutateMenuData.
- *
- * @param {Object} elementConfig        {element, shouldBeWritable} element is the element type this expression builder is inside, shouldBeWritable is so property editors can specify the data they need
- * @param {operator-rule-util/allowedParamMap} allowedParamTypes    if present, is used to determine if each element is valid for this menuData
- * @param {boolean} includeNewResource  if true, include new resource as first menu item
- * @param {boolean} allowGlobalConstants             true if global constants should be allowed
- * @param {boolean} disableHasNext if true, then all menu items will have hasNext set to false regardless of the real value
- * @param {Array}   activePicklistValues the picklist values that will be appended to the menu data if picklist values are allowed
- * @returns {Array}                     array of alphabetized objects sorted by category, in shape combobox expects
- */
-export function getElementsForMenuData(
-    elementConfig,
-    allowedParamTypes?,
-    includeNewResource = false,
-    allowGlobalConstants = false,
-    disableHasNext = false,
-    activePicklistValues = []
-) {
-    const state = Store.getStore().getCurrentState();
-
-    // TODO: once multiple params are allowed on RHS, we may need to deal with that here
-    const menuDataElements = getStoreElements(state, elementConfig);
-
-    return filterAndMutateMenuData(menuDataElements, allowedParamTypes, {
-        includeNewResource,
-        allowGlobalConstants,
-        disableHasNext,
-        activePicklistValues
-    });
-}
-
 const disableHasNextOnMenuItem = (menuItem) => {
     menuItem.hasNext = false;
     menuItem.rightIconName = '';
@@ -286,7 +250,6 @@ const shouldDisableHasNext = (
 
 /**
  * Filter the list of elements, append global constants and mutate elements to shape the combobox expects.
- * Used when subscribed to store. If subscribing to store is not needed use getElementsForMenuData.
  *
  * @param {List} menuDataElements        List of elements from the store that needs to filtered and converted to shape the combobox expects.
  * @param {operator-rule-util/allowedParamMap} allowedParamTypes    if present, is used to determine if each element is valid for this menuData
