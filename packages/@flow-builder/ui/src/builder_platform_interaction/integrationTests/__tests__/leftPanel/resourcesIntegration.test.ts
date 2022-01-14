@@ -12,6 +12,7 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import { getElementByDevName, getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { createElement } from 'lwc';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import * as recommendationFlow from 'mock/flows/recommendationFlow.json';
 import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
 import { loadFlow, resetState, translateFlowToUIAndDispatch } from '../integrationTestUtils';
 import {
@@ -19,6 +20,7 @@ import {
     clickOnViewDetailButton,
     getChevronElement,
     getElementByTitle,
+    getElementInSection,
     getLeftPanel,
     getResourceDetail,
     getUsedByContentItem,
@@ -66,7 +68,7 @@ const createEditorForTest = () => {
 describe('Resource tab - resource', () => {
     let editor, store;
     let leftPanel;
-    beforeEach(async () => {
+    beforeAll(async () => {
         editor = createEditorForTest();
         store = Store.getStore();
         initializeAuraFetch();
@@ -74,7 +76,7 @@ describe('Resource tab - resource', () => {
         translateFlowToUIAndDispatch(flowWithAllElements, store);
         leftPanel = getLeftPanel(editor);
     });
-    afterEach(() => {
+    afterAll(() => {
         resetState();
     });
     it('Click on the chevron should display the resource details', async () => {
@@ -217,14 +219,14 @@ describe('Resource tab - resource', () => {
 describe('Record Triggered Flow resource tab', () => {
     let editor;
     let leftPanel;
-    beforeEach(async () => {
+    beforeAll(async () => {
         editor = createEditorForTest();
         const store = Store.getStore();
         initializeAuraFetch();
         await loadFlow(recordTriggeredFlow, store);
         leftPanel = getLeftPanel(editor);
     });
-    afterEach(() => {
+    afterAll(() => {
         resetState();
     });
     it('should not have scheduled path element', async () => {
@@ -232,5 +234,49 @@ describe('Record Triggered Flow resource tab', () => {
         const scheduledPathsNode = getElementForPropertyEditor(startElement);
         const chevron = getChevronElement(leftPanel, scheduledPathsNode.scheduledPaths[0].guid, 0, 0);
         expect(chevron).toBeNull();
+    });
+});
+describe('Recommendation strategy resource tab', () => {
+    let editor, store;
+    let leftPanel;
+    beforeAll(async () => {
+        editor = createEditorForTest();
+        store = Store.getStore();
+        initializeAuraFetch();
+        await loadOnProcessTypeChange(FLOW_PROCESS_TYPE.RECOMMENDATION_STRATEGY).loadPeripheralMetadataPromise;
+        translateFlowToUIAndDispatch(recommendationFlow, store);
+        leftPanel = getLeftPanel(editor);
+    });
+    afterAll(() => {
+        resetState();
+    });
+    it('should have map outputs in Record collection variables', () => {
+        const accountToRec = getElementByDevName('Accounts_to_Recommendations');
+        const chevron = getChevronElement(leftPanel, accountToRec.guid);
+        expect(chevron).not.toBeNull();
+    });
+    it('should have filter outputs in Record collection variables', () => {
+        const filterAcc = getElementByDevName('Filter_Get_Accounts_By_Conditions');
+        const chevron = getChevronElement(leftPanel, filterAcc.guid);
+        expect(chevron).not.toBeNull();
+    });
+    it('should have filter outputs in Collection variables', () => {
+        const filterText = getElementByDevName('Filter_text_collection');
+        const chevron = getChevronElement(leftPanel, filterText.guid);
+        expect(chevron).not.toBeNull();
+    });
+    it('should have Current Item for loop element in Record (Single) variables', () => {
+        const currentItem = getElementByDevName('Loop_on_filter_accounts');
+        const chevron = getElementInSection(leftPanel, currentItem.guid, 'FlowBuilderElementConfig.sObjectPluralLabel');
+        expect(chevron).not.toBeNull();
+    });
+    it('should have Current Item for loop element in Variables', () => {
+        const currentItem = getElementByDevName('Loop_filter_text_collection');
+        const chevron = getElementInSection(
+            leftPanel,
+            currentItem.guid,
+            'FlowBuilderElementConfig.variablePluralLabel'
+        );
+        expect(chevron).not.toBeNull();
     });
 });

@@ -109,13 +109,11 @@ function createCollectionProcessorItem(collectionProcessor, elements) {
             // we can calculate dataType and subtype
             if (collectionReference) {
                 const collectionVariable = getVariableOrField(collectionReference, elements);
-                if (collectionVariable) {
+                // W-10384755: wait until the collectionVariable has dataType. For example, filter on another filter node
+                if (collectionVariable?.dataType) {
                     ({ dataType, subtype } = collectionVariable);
                 } else {
                     complete = false;
-                }
-                if (collectionVariable) {
-                    ({ dataType, subtype } = collectionVariable);
                 }
             }
             return Object.assign(

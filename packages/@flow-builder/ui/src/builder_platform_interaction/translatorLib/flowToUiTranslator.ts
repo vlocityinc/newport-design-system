@@ -271,13 +271,18 @@ function createElementsUsingFlowMetadata(metadata: object, startElementReference
     }
     const areElementsIncomplete = (elements) =>
         Object.values(elements).some((element) => !!element[INCOMPLETE_ELEMENT]);
-    // We need 2 passes because some element factory (ex : Loop) need to access another element
+    // We need at least 2 passes because some element factory (ex : Loop) need to access another element
+    // We need to wait until all nested elements finish the translation. (for example: loop on filter node, filter on filter node ....)
     const map = new Map();
-    for (let pass = 0; pass < 2; pass++) {
+    let incompleteElementsCount = 0,
+        prevIncompleteElementsCount;
+    do {
+        prevIncompleteElementsCount = incompleteElementsCount;
         const previousPhaseElements = storeElements;
         const previousPhaseConnectors = storeConnectors;
         storeElements = {};
         storeConnectors = [];
+        incompleteElementsCount = 0;
         // eslint-disable-next-line no-loop-func
         forEachMetadataFlowElement(metadata, startElementReference, (metadataElement, metadataKey) => {
             let elementsAndConnectors = map.get(metadataElement);
@@ -339,11 +344,14 @@ function createElementsUsingFlowMetadata(metadata: object, startElementReference
             const { elements, connectors } = elementsAndConnectors;
             if (elements) {
                 storeElements = updateStoreElements(storeElements, elements);
+                // check if elements still incomplete
+                if (areElementsIncomplete(elements)) {
+                    incompleteElementsCount++;
+                }
             }
             storeConnectors = updateStoreConnectors(storeConnectors, connectors);
         });
-    }
-
+    } while (incompleteElementsCount > 0 && incompleteElementsCount !== prevIncompleteElementsCount);
     // If no overlap and there is a node connected to the start element
     if (translateX === 0 && targetReferenceLocation && startFirstPoint && lastModifiedDate < RELEASE_226_DATE) {
         translateX = bottomLeftOfStartXTranslate(targetReferenceLocation, startFirstPoint, startEndPoint);

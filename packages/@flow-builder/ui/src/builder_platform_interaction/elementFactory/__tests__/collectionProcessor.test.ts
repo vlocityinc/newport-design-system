@@ -205,6 +205,19 @@ describe('CollectionProcessor Element Factory', () => {
                 // @ts-ignore
                 expect(result.storeOutputAutomatically).toBeTruthy();
             });
+            // W-10384755: set INCOMPLETE_ELEMENT status if collectionReference's dataType is not set
+            it('should have INCOMPLETE_ELEMENT property set to true and type should not be set', () => {
+                const elements = flowWithAllElementsUIModel.elements;
+                // set the collectionReference's dataType to null to test the INCOMLETE_ELEMENT status
+                const oldDataType = elements[testFilterCollectionProcessorElement.collectionReference].dataType;
+                elements[testFilterCollectionProcessorElement.collectionReference].dataType = null;
+                const result = createCollectionProcessor(testFilterCollectionProcessorElement);
+                expect(result.isCollection).toBeTruthy();
+                expect(result.dataType).toBeUndefined();
+                expect(result.subtype).toBeUndefined();
+                expect(result[INCOMPLETE_ELEMENT]).toBeTruthy();
+                elements[testFilterCollectionProcessorElement.collectionReference].dataType = oldDataType;
+            });
         });
     });
 });

@@ -262,6 +262,33 @@ describe('loop factory', () => {
                         expect(loopElement[INCOMPLETE_ELEMENT]).toBeUndefined();
                     }
                 );
+                // W-10384755: set INCOMPLETE_ELEMENT status if collectionReference's dataType is not set
+                it.each`
+                    element
+                    ${getMetadataFlowElementByName(flowWithAllElements, 'loopOnAccountAutoOutput')}
+                    ${getMetadataFlowElementByName(flowWithAllElements, 'loopOnTextCollectionAutoOutput')}
+                    ${getMetadataFlowElementByName(flowWithAllElements, 'loopOnApexAutoOutput')}
+                `(
+                    '$element.name should have INCOMPLETE_ELEMENT property set to true and type should not be set',
+                    ({ element }) => {
+                        const elements = flowWithAllElementsUIModel.elements;
+                        // set the collectionReference's dataType to null to test the INCOMLETE_ELEMENT status
+                        const collectionReference = Object.values(elements).find(
+                            (ele) => ele.name === element.collectionReference
+                        );
+                        const oldDataType = collectionReference.dataType;
+                        collectionReference.dataType = null;
+                        const result = createLoopWithConnectors(element, {
+                            elements
+                        });
+                        const loopElement = Object.values(result.elements)[0];
+                        expect(loopElement.storeOutputAutomatically).toBe(true);
+                        expect(loopElement[INCOMPLETE_ELEMENT]).toBe(true);
+                        expect(loopElement.dataType).toBeUndefined();
+                        expect(loopElement.subtype).toBeUndefined();
+                        collectionReference.dataType = oldDataType;
+                    }
+                );
             });
         });
 

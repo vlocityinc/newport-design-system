@@ -24,10 +24,24 @@ export const getPalette = (leftPanel, paletteIndex = PALETTE_RESOURCES_INDEX) =>
     return panelResources.shadowRoot.querySelectorAll(LEFT_PANEL_SELECTORS.LEFT_PANEL_PALETTE)[paletteIndex];
 };
 
+export const getElementInSection = (leftPanel, resourceGuid, sectionName, paletteIndex = PALETTE_RESOURCES_INDEX) => {
+    const palette = getPalette(leftPanel, paletteIndex);
+    const sections = palette.shadowRoot.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.PALETTE_SECTION);
+    for (let i = 0; i < sections.length; i++) {
+        if (sections[i].section.guid === sectionName) {
+            const item = sections[i].shadowRoot.querySelector('tr[data-guid="' + resourceGuid + '"]');
+            if (item != null) {
+                return item;
+            }
+        }
+    }
+    return null;
+};
+
 export const getChevronElement = (leftPanel, resourceGuid, paletteIndex = PALETTE_RESOURCES_INDEX, sectionIndex) => {
     const palette = getPalette(leftPanel, paletteIndex);
 
-    const sections = palette.shadowRoot.querySelectorAll('builder_platform_interaction-palette-section');
+    const sections = palette.shadowRoot.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.PALETTE_SECTION);
 
     if (sectionIndex != null) {
         return sections[sectionIndex].shadowRoot.querySelector('tr[data-guid="' + resourceGuid + '"]');

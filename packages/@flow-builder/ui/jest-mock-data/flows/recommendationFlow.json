@@ -51,6 +51,28 @@
             {
                 "assignmentItems": [
                     {
+                        "assignToReference": "textVar",
+                        "operator": "Assign",
+                        "processMetadataValues": [],
+                        "value": {
+                            "elementReference": "Loop_filter_text_collection"
+                        }
+                    }
+                ],
+                "connector": {
+                    "isGoTo": false,
+                    "processMetadataValues": [],
+                    "targetReference": "Loop_filter_text_collection"
+                },
+                "label": "Assign text",
+                "locationX": 264,
+                "locationY": 1478,
+                "name": "Assign_text",
+                "processMetadataValues": []
+            },
+            {
+                "assignmentItems": [
+                    {
                         "assignToReference": "vTextCollection",
                         "operator": "Add",
                         "processMetadataValues": [],
@@ -84,6 +106,28 @@
                 "locationX": 176,
                 "locationY": 878,
                 "name": "Assign_Text_Collection",
+                "processMetadataValues": []
+            },
+            {
+                "assignmentItems": [
+                    {
+                        "assignToReference": "textVar",
+                        "operator": "Assign",
+                        "processMetadataValues": [],
+                        "value": {
+                            "elementReference": "Loop_on_filter_accounts.BillingCity"
+                        }
+                    }
+                ],
+                "connector": {
+                    "isGoTo": false,
+                    "processMetadataValues": [],
+                    "targetReference": "Loop_on_filter_accounts"
+                },
+                "label": "Assign text from account billing city",
+                "locationX": 264,
+                "locationY": 1814,
+                "name": "Assign_text_from_account_billing_city",
                 "processMetadataValues": []
             },
             {
@@ -187,6 +231,11 @@
                         }
                     }
                 ],
+                "connector": {
+                    "isGoTo": false,
+                    "processMetadataValues": [],
+                    "targetReference": "Loop_filter_text_collection"
+                },
                 "elementSubtype": "FilterCollectionProcessor",
                 "label": "Filter Apex collection",
                 "locationX": 176,
@@ -330,7 +379,41 @@
         "isOverridable": false,
         "isTemplate": false,
         "label": "recommendationFlow",
-        "loops": [],
+        "loops": [
+            {
+                "collectionReference": "Filter_text_collection",
+                "iterationOrder": "Asc",
+                "label": "Loop filter text collection",
+                "locationX": 176,
+                "locationY": 1358,
+                "name": "Loop_filter_text_collection",
+                "nextValueConnector": {
+                    "isGoTo": false,
+                    "processMetadataValues": [],
+                    "targetReference": "Assign_text"
+                },
+                "noMoreValuesConnector": {
+                    "isGoTo": false,
+                    "processMetadataValues": [],
+                    "targetReference": "Loop_on_filter_accounts"
+                },
+                "processMetadataValues": []
+            },
+            {
+                "collectionReference": "Filter_Get_Accounts_By_Conditions",
+                "iterationOrder": "Asc",
+                "label": "Loop on filter accounts",
+                "locationX": 176,
+                "locationY": 1694,
+                "name": "Loop_on_filter_accounts",
+                "nextValueConnector": {
+                    "isGoTo": false,
+                    "processMetadataValues": [],
+                    "targetReference": "Assign_text_from_account_billing_city"
+                },
+                "processMetadataValues": []
+            }
+        ],
         "orchestratedStages": [],
         "processMetadataValues": [
             {
@@ -493,6 +576,15 @@
                 "isInput": true,
                 "isOutput": false,
                 "name": "recordId",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "dataType": "String",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "textVar",
                 "processMetadataValues": [],
                 "scale": 0
             },

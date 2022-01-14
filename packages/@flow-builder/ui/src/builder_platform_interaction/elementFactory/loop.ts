@@ -48,7 +48,8 @@ export function createLoop(loop = {}, { elements } = Store.getStore().getCurrent
         // When the flow is loaded, this factory is called twice. In the first phase, elements is empty. In the second phase, elements is set and
         // we can calculate dataType and subtype
         const loopedCollection = getVariableOrField(collectionReference, elements);
-        if (loopedCollection) {
+        // W-10384755: wait until the loopedCollection has dataType. For example, loop on filter node, need to wait until the filter's output is complete to find the datatType and subtype
+        if (loopedCollection?.dataType) {
             ({ dataType, subtype } = loopedCollection);
         } else {
             complete = false;
