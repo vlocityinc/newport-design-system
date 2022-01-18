@@ -1,5 +1,8 @@
 .THIS {
     z-index: t(zIndexPopup);
+    height: 100%;
+    left: 100%;
+    right: 100%;
 }
 
 .THIS .uiPanelManager2 .restrictWidthToSldsMedium .panel .modal-container {
