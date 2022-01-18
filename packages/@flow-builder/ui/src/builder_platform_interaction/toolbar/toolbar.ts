@@ -308,6 +308,10 @@ export default class Toolbar extends LightningElement {
         );
     }
 
+    get viewAllTestsDisabled() {
+        return this.isDoingOperation || this.isViewAllTestsDisabled;
+    }
+
     get activateButtonText() {
         if (this.flowStatus === FLOW_STATUS.ACTIVE) {
             return this.labels.deactivateTitle;
