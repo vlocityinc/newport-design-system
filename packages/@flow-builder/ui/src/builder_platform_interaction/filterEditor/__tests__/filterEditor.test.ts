@@ -227,7 +227,7 @@ describe('filter-editor', () => {
             expect(getConditions(filterEditor)).not.toBeNull();
         });
         it('should display conditionListTitle label', () => {
-            const conditionListTitle = filterEditor.shadowRoot.querySelector('.slds-p-vertical_small');
+            const conditionListTitle = filterEditor.shadowRoot.querySelectorAll('.slds-p-bottom_small')[1];
             expect(conditionListTitle.textContent).toEqual('FlowBuilderFilterEditor.title');
         });
         it('should not display formula editor', () => {
