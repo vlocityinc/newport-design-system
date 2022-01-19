@@ -92,7 +92,7 @@
     top: 190%;
     left: 33%;
     transform: translate(-50%, -110px);
-    box-shadow: 0 0 0 2px #ff9a3c;
+    box-shadow: 0 0 0 2px var(--lwc-colorBorderCustomer);
     background: rgba(255, 154, 60, 0.15);
     border-radius: var(--lwc-borderRadiusMedium);
     border-spacing: var(--lwc-spacingXxSmall);

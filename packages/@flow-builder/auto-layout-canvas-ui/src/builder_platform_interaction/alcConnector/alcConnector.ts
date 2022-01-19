@@ -1,5 +1,6 @@
 import {
     AutoLayoutCanvasMode,
+    CanvasContext,
     getCssStyle,
     getStyleFromGeometry
 } from 'builder_platform_interaction/alcComponentsUtils';
@@ -24,9 +25,6 @@ export default class AlcConnector extends LightningElement {
     connectorInfo!: ConnectorRenderInfo;
 
     @api
-    canvasMode!: AutoLayoutCanvasMode;
-
-    @api
     disableAddElements;
 
     @api
@@ -34,6 +32,9 @@ export default class AlcConnector extends LightningElement {
 
     @api
     flowModel;
+
+    @api
+    canvasContext!: CanvasContext;
 
     get labels() {
         return LABELS;
@@ -46,7 +47,9 @@ export default class AlcConnector extends LightningElement {
      */
     get showAddElementButton() {
         return (
-            this.connectorInfo.addInfo && this.canvasMode === AutoLayoutCanvasMode.DEFAULT && !this.disableAddElements
+            this.connectorInfo.addInfo &&
+            this.canvasContext.mode === AutoLayoutCanvasMode.DEFAULT &&
+            !this.disableAddElements
         );
     }
 
@@ -120,6 +123,13 @@ export default class AlcConnector extends LightningElement {
         return classSet('connector-badge slds-align_absolute-center slds-badge').add({
             'fault-badge': labelType === ConnectorLabelType.FAULT,
             'connector-highlighted': this.connectorInfo.isHighlighted
+        });
+    }
+
+    get goToTargetClass() {
+        const target = getConnectionTarget(this.flowModel, this.connectorInfo.source);
+        return classSet('slds-is-absolute go-to-info').add({
+            'highlighted-container': target === this.canvasContext.incomingStubGuid
         });
     }
 

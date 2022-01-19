@@ -10,6 +10,7 @@ export { DeleteGoToConnectionEvent } from './deleteGoToConnectionEvent';
 export { FocusOutEvent } from './focusOutEvent';
 export { GoToPathEvent } from './goToPathEvent';
 export { HighlightPathsToDeleteEvent } from './highlightPathsToDeleteEvent';
+export { IncomingGoToStubClickEvent } from './incomingGoToStubClickEvent';
 export { MenuPositionUpdateEvent } from './menuPositionUpdateEvent';
 export { MoveFocusToConnectorEvent } from './moveFocusToConnectorEvent';
 export { MoveFocusToNodeEvent } from './moveFocusToNodeEvent';

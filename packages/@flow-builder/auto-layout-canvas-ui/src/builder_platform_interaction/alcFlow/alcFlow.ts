@@ -1,5 +1,5 @@
 import {
-    AutoLayoutCanvasMode,
+    CanvasContext,
     getAlcCompoundNodeData,
     getAlcConnectorData
 } from 'builder_platform_interaction/alcComponentsUtils';
@@ -14,9 +14,6 @@ export default class AlcFlow extends LightningElement {
     flow!: FlowRenderInfo;
 
     @api
-    canvasMode!: AutoLayoutCanvasMode;
-
-    @api
     disableAddElements;
 
     @api
@@ -24,6 +21,9 @@ export default class AlcFlow extends LightningElement {
 
     @api
     disableEditElements;
+
+    @api
+    canvasContext!: CanvasContext;
 
     /**
      * The active element refers to the element currently being edited using the property editor panel

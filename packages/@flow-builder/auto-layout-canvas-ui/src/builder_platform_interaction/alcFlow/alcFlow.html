@@ -4,10 +4,10 @@
             style={preConnector.style}
             class={preConnector.class}
             connector-info={preConnector.connectorInfo}
-            canvas-mode={canvasMode}
             disable-add-elements={disableAddElements}
             connector-aria-info={preConnector.connectorDescription}
             flow-model={flowModel}
+            canvas-context={canvasContext}
         ></builder_platform_interaction-alc-connector>
     </template>
     <template for:each={nodes} for:item="node">
@@ -17,12 +17,12 @@
             style={node.style}
             class={node.className}
             node={node.nodeInfo}
-            canvas-mode={canvasMode}
             disable-add-elements={disableAddElements}
             disable-delete-elements={disableDeleteElements}
             disable-edit-elements={disableEditElements}
             active-element-guid={activeElementGuid}
             flow-model={flowModel}
+            canvas-context={canvasContext}
         >
         </builder_platform_interaction-alc-compound-node>
     </template>
@@ -32,10 +32,10 @@
             data-key={faultFlow.key}
             style={faultFlow.style}
             flow={faultFlow.flowInfo}
-            canvas-mode={canvasMode}
             disable-add-elements={disableAddElements}
             disable-edit-elements={disableEditElements}
             flow-model={flowModel}
+            canvas-context={canvasContext}
         ></builder_platform_interaction-alc-flow>
     </template>
 </template>

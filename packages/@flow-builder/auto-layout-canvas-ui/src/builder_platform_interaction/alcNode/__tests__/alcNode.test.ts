@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { AutoLayoutCanvasMode, ICON_SHAPE } from 'builder_platform_interaction/alcComponentsUtils';
-import { AlcSelectDeselectNodeEvent } from 'builder_platform_interaction/alcEvents';
+import { AlcSelectDeselectNodeEvent, IncomingGoToStubClickEvent } from 'builder_platform_interaction/alcEvents';
 import AlcNode from 'builder_platform_interaction/alcNode';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
@@ -468,6 +468,20 @@ describe('AlcNode', () => {
             });
             const gotoCount = alcNodeComponent.shadowRoot.querySelector(selectors.textIncomingGoTo);
             expect(gotoCount).toBeNull();
+        });
+
+        it('Should fire IncomingGoToStubClickEvent when clicked', () => {
+            const alcNodeComponent = createComponentUnderTest({
+                flowModel,
+                nodeInfo: decisionNodeInfo,
+                canvasMode: AutoLayoutCanvasMode.DEFAULT
+            });
+            const gotoCount = alcNodeComponent.shadowRoot.querySelector(selectors.textIncomingGoTo);
+
+            const eventCallback = jest.fn();
+            alcNodeComponent.addEventListener(IncomingGoToStubClickEvent.EVENT_NAME, eventCallback);
+            gotoCount.click();
+            expect(eventCallback).toHaveBeenCalled();
         });
     });
 

@@ -18,7 +18,7 @@
         <template if:true={flow}>
             <div class="flow-container">
                 <builder_platform_interaction-alc-flow
-                    canvas-mode={autoLayoutCanvasContext.mode}
+                    canvas-context={canvasContext}
                     class={flow.class}
                     disable-add-elements={disableAddElements}
                     disable-delete-elements={disableDeleteElements}
@@ -30,6 +30,7 @@
                     ontabonmenutrigger={handleTabOnMenuTrigger}
                     active-element-guid={activeElementGuid}
                     flow-model={flow.flowModel}
+                    onincominggotostubclick={handleHighlightAllOutgoingStubs}
                 >
                 </builder_platform_interaction-alc-flow>
 
@@ -44,7 +45,7 @@
                             elements-metadata={menu.elementsMetadata}
                             can-add-end-element={menu.canAddEndElement}
                             is-go-to-connector={menu.isGoToConnector}
-                            is-paste-available={autoLayoutCanvasContext.isPasteAvailable}
+                            is-paste-available={canvasContext.isPasteAvailable}
                             move-focus-to-menu={moveFocusToMenu}
                             style={menu.style}
                             ongotopath={handleAddOrRerouteGoToItemSelection}

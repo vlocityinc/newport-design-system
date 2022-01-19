@@ -87,3 +87,11 @@ builder_platform_interaction-alc-menu-trigger.slds-is-open .circle-text {
 .go-to-target-label {
     max-width: 160px;
 }
+
+.highlighted-container {
+    transition: opacity 0.1s ease;
+    box-shadow: 0 0 0 2px var(--lwc-colorBorderCustomer);
+    background: rgba(255, 154, 60, 0.15);
+    border-radius: var(--lwc-borderRadiusMedium);
+    border-spacing: var(--lwc-spacingXxSmall);
+}

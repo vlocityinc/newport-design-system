@@ -6,9 +6,6 @@ export default class AlcFlow extends LightningElement {
     flow;
 
     @api
-    canvasMode;
-
-    @api
     disableAddElements;
 
     @api
@@ -22,4 +19,7 @@ export default class AlcFlow extends LightningElement {
 
     @api
     flowModel;
+
+    @api
+    canvasContext;
 }

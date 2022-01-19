@@ -60,9 +60,10 @@ export interface MenuInfo<T> {
     source: ConnectionSource;
     conditionOptionsForNode: Option[] | undefined;
 }
-export interface AutoLayoutCanvasContext {
+export interface CanvasContext {
     isPasteAvailable: boolean;
     mode: AutoLayoutCanvasMode;
+    incomingStubGuid: Guid | null;
 }
 interface CanvasElementSelectionData {
     canvasElementGuidsToSelect: Guid[];

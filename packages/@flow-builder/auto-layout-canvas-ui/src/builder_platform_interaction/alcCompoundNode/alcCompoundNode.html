@@ -2,7 +2,7 @@
     <builder_platform_interaction-alc-node
         style={simpleNode.style}
         class={simpleNode.className}
-        canvas-mode={canvasMode}
+        canvas-mode={canvasContext.mode}
         node-info={simpleNode.nodeInfo}
         active-element-guid={activeElementGuid}
         flow-model={flowModel}
@@ -18,7 +18,7 @@
             data-key={logicConnector.key}
             class="logic-connector"
             style={logicConnector.style}
-            canvas-mode={canvasMode}
+            canvas-context={canvasContext}
             connector-info={logicConnector.connectorInfo}
             connector-aria-info={logicConnector.connectorDescription}
         ></builder_platform_interaction-alc-connector>
@@ -28,13 +28,13 @@
         <builder_platform_interaction-alc-flow
             key={branch.key}
             style={branch.style}
-            canvas-mode={canvasMode}
             flow={branch.flowInfo}
             disable-add-elements={disableAddElements}
             disable-delete-elements={disableDeleteElements}
             disable-edit-elements={disableEditElements}
             active-element-guid={activeElementGuid}
             flow-model={flowModel}
+            canvas-context={canvasContext}
         ></builder_platform_interaction-alc-flow>
     </template>
 
@@ -42,11 +42,11 @@
         <builder_platform_interaction-alc-connector
             data-key={nextConnector.key}
             style={nextConnector.style}
-            canvas-mode={canvasMode}
             connector-info={nextConnector.connectorInfo}
             disable-add-elements={disableAddElements}
             connector-aria-info={nextConnector.connectorDescription}
             flow-model={flowModel}
+            canvas-context={canvasContext}
         ></builder_platform_interaction-alc-connector>
     </template>
 </template>

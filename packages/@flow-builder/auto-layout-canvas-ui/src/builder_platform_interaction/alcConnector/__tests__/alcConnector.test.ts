@@ -231,14 +231,15 @@ const createComponentUnderTest = (
     connectorInfo,
     canvasMode = AutoLayoutCanvasMode.DEFAULT,
     disableAddElements = false,
-    flowModel
+    flowModel,
+    incomingStubGuid = null
 ) => {
     const el = createElement('builder_platform_interaction-alc-connector', {
         is: AlcConnector
     });
 
     el.connectorInfo = connectorInfo;
-    el.canvasMode = canvasMode;
+    el.canvasContext = { mode: canvasMode, incomingStubGuid };
     el.disableAddElements = disableAddElements;
     el.flowModel = flowModel;
     setDocumentBodyChildren(el);
@@ -475,5 +476,28 @@ describe('Auto-Layout connector tests', () => {
         const connectorButtonLabel = regularConnector.shadowRoot.querySelector(selectors.alcMenuTrigger);
         expect(connectorButtonLabel.getAttribute('aria-label')).toEqual(LABELS.connectorButtonLabel);
         expect(connectorButtonLabel.getAttribute('aria-haspopup')).toEqual('dialog');
+    });
+
+    it('Should have class highlighted-container when goTo stub is clicked', () => {
+        const regularConnector = createComponentUnderTest(
+            getGoToConnectorInfo(),
+            AutoLayoutCanvasMode.DEFAULT,
+            false,
+            goToFlowModel,
+            'targetChild'
+        );
+        const goToConnector = regularConnector.shadowRoot.querySelector(selectors.goToInfo);
+        expect(goToConnector.classList).toContain('highlighted-container');
+    });
+
+    it('Should not have class highlighted-container when goTo stub is clicked', () => {
+        const regularConnector = createComponentUnderTest(
+            getGoToConnectorInfo(),
+            AutoLayoutCanvasMode.DEFAULT,
+            false,
+            goToFlowModel
+        );
+        const goToConnector = regularConnector.shadowRoot.querySelector(selectors.goToInfo);
+        expect(goToConnector.classList).not.toContain('highlighted-container');
     });
 });

@@ -4,7 +4,7 @@ import {
     importComponent,
     SELECTORS
 } from 'builder_platform_interaction/alcComponentsUtils';
-import { AlcSelectDeselectNodeEvent } from 'builder_platform_interaction/alcEvents';
+import { AlcSelectDeselectNodeEvent, IncomingGoToStubClickEvent } from 'builder_platform_interaction/alcEvents';
 import {
     FlowModel,
     Guid,
@@ -358,7 +358,8 @@ export default class AlcNode extends LightningElement {
      */
     handleIncomingStubClick = (event: Event) => {
         event.preventDefault();
-        event.stopPropagation();
+        const incomingStubClickEvent = new IncomingGoToStubClickEvent(this.nodeInfo.guid);
+        this.dispatchEvent(incomingStubClickEvent);
     };
 
     /**

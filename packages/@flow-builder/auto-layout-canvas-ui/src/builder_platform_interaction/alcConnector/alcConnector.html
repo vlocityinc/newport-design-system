@@ -17,7 +17,7 @@
             icon-size="small"
             source={connectorInfo.source}
             menu-opened={connectorInfo.addInfo.menuOpened}
-            canvas-mode={canvasMode}
+            canvas-mode={canvasContext.mode}
             style={menuTriggerStyle}
             variant="connector"
             aria-haspopup="dialog"
@@ -40,7 +40,7 @@
     <a
         if:true={isGoToConnector}
         href="#"
-        class="slds-is-absolute go-to-info"
+        class={goToTargetClass}
         style={goToTargetLabelStyle}
         title={goToTargetLabel}
         onclick={handleOutgoingStubClick}

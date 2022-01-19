@@ -1,6 +1,6 @@
 import {
-    AutoLayoutCanvasContext,
     AutoLayoutCanvasMode,
+    CanvasContext,
     deleteComponent,
     getAlcFlowData,
     getAlcMenuData,
@@ -213,6 +213,9 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     // Variable to keep a track of when panning is in progress
     isPanInProgress = false;
 
+    // Clicked incoming goTo stub guid
+    _incomingStubGuid = null;
+
     /* tracks whether the start menu as been display when first opening a flow */
     @track
     initialStartMenuDisplayed = false;
@@ -365,6 +368,11 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         alcFlow.findConnector(pathToFocusNode, childIndex!).focus();
     };
 
+    @api
+    clearIncomingStubGuid() {
+        this._incomingStubGuid = null;
+    }
+
     /**
      * Closes any opened node or connector menu
      */
@@ -436,7 +444,7 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         return menuComponent ? getComponent<MenuConstructor<AlcMenu>>(menuComponent) : undefined;
     }
 
-    get autoLayoutCanvasContext(): AutoLayoutCanvasContext {
+    get canvasContext(): CanvasContext {
         const mode =
             this._goToSource != null
                 ? AutoLayoutCanvasMode.RECONNECTION
@@ -446,7 +454,8 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         const isPasteAvailable = this.isPasteAvailable;
         return {
             isPasteAvailable,
-            mode
+            mode,
+            incomingStubGuid: this._incomingStubGuid
         };
     }
 
@@ -664,7 +673,7 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     handleSelectionModeChange() {
         if (this.isSelectionMode) {
             this.closeNodeOrConnectorMenu();
-            if (this.autoLayoutCanvasContext.mode === AutoLayoutCanvasMode.RECONNECTION) {
+            if (this.canvasContext.mode === AutoLayoutCanvasMode.RECONNECTION) {
                 const firstSelectableElementGuid = getFirstSelectableElementGuid(this.flowModel, 'root');
                 if (firstSelectableElementGuid) {
                     // Setting _elementGuidToFocus to firstSelectableElementGuid so that
@@ -1007,6 +1016,10 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         this.updateFlowRenderContext({ interactionState });
     };
 
+    handleHighlightAllOutgoingStubs = (event) => {
+        this._incomingStubGuid = event.detail.guid;
+    };
+
     /**
      * Handles moving focus to the connector from the Connector Menu
      *
@@ -1318,6 +1331,8 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         ) {
             const canvasMouseUpEvent = new CanvasMouseUpEvent();
             this.dispatchEvent(canvasMouseUpEvent);
+
+            this.clearIncomingStubGuid();
         }
         this.dom.canvasClass.classList.remove('grabbing-cursor');
         this.isPanInProgress = false;

@@ -181,6 +181,14 @@ export default class AlcCanvasContainer extends LightningElement {
     };
 
     @api
+    clearIncomingStubGuid() {
+        const alcCanvas = this.getAlcCanvas();
+        if (alcCanvas) {
+            alcCanvas.clearIncomingStubGuid();
+        }
+    }
+
+    @api
     shiftFocus = (shiftBackward: boolean) => {
         this.getAlcCanvas().shiftFocus(shiftBackward);
     };
