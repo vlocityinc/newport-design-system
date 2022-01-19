@@ -1877,7 +1877,6 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                 this.flowTestEditorBlockerCalls = [];
                 invokeFlowTestEditor(paramsProvider());
             })
-            .catch(() => {})
             .finally(() => {
                 this.spinners.showPropertyEditorSpinner = false;
             });
