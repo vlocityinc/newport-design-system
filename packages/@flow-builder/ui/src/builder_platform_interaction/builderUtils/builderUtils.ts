@@ -668,6 +668,85 @@ function showDebugEditorPopover(
 }
 
 /**
+ * Invoke flowTest modal
+ *
+ * @param attributes
+ */
+export function invokeFlowTestEditor(attributes) {
+    showTestFlowEditorPopover(
+        'builder_platform_interaction:modalHeader',
+        'builder_platform_interaction:flowTestEditor',
+        'builder_platform_interaction:modalFooter',
+        {
+            flavor: 'large restrictWidthToSldsMedium'
+        },
+        attributes.createNewTest
+    );
+}
+
+/**
+ * Open Flow Test modal
+ *
+ * @param cmpHeader - Name of the header component to be created.
+ * @param cmpBody - Name of the body component to be created.
+ * @param cmpFooter - Name of the footer component to be created.
+ * @param popoverProps - Contains popover properties
+ * @param createNewTest - Callback after Create New Test button is clicked
+ */
+function showTestFlowEditorPopover(cmpHeader, cmpBody, cmpFooter, popoverProps, createNewTest) {
+    popoverState = {
+        panelInstance: null,
+        referenceElement: popoverProps.referenceElement,
+        onClose: popoverProps.onClose
+    };
+
+    const headerPromise = createComponentPromise(cmpHeader, {
+        headerTitle: LABELS.flowTestHeader
+    });
+    const footerPromise = createComponentPromise(cmpFooter, {
+        buttons: {
+            buttonOneClass: '.flow-test-modal-footer-run-button',
+            buttonTwoClass: '.flow-test-modal-footer-cancel-button',
+            buttonOne: {
+                buttonLabel: LABELS.flowTestRunTest,
+                buttonVariant: 'brand'
+            },
+            buttonTwo: {
+                buttonLabel: LABELS.flowTestCancel,
+                buttonVariant: 'neutral',
+                buttonCallback: hidePopover,
+                closeCallback: false
+            }
+        }
+    });
+    const bodyPromise = createComponentPromise(cmpBody, {
+        buttonCallback: createNewTest,
+        hideModal: hidePopover
+    });
+
+    const invokeModalWithComponentsOnCreateOverride = (modal, data) => {
+        onCreatePopover(modal);
+        const modalFooter = invokeModalWithComponentsOnCreate(modal, data);
+        // Disable "Run Test" button on modal footer
+        modalFooter.disableButtonOne();
+        // May need to pass the modalFooter to the modal body for enabling the "Run Test" button if record is selected in list view
+        // const panelBody = modal.get('v.body')[0];
+        // panelBody.set('v.footer', modalFooter);
+    };
+
+    invokeModalWithComponents(
+        {
+            flavor: popoverProps.flavor,
+            closeCallback: hidePopover
+        },
+        headerPromise,
+        bodyPromise,
+        footerPromise,
+        invokeModalWithComponentsOnCreateOverride
+    );
+}
+
+/**
  * Invokes the new flow modal.
  *
  * @param builderType Builder Type

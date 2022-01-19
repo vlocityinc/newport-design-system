@@ -58,6 +58,7 @@ import {
     getPropertyEditorConfig,
     hidePopover,
     invokeDebugEditor,
+    invokeFlowTestEditor,
     invokeKeyboardHelpDialog,
     invokeNewFlowModal,
     invokePropertyEditor,
@@ -448,6 +449,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     flowInitDefinitionId;
 
     labels = LABELS;
+
+    flowTestEditorBlockerCalls = [];
 
     /**
      * @returns true Whether canvas elements are available. Don't render the canvas until then.
@@ -1601,7 +1604,19 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      * Handles the View All Tests event fired by toolbar.
      */
     handleViewAllTests = () => {
-        // To be implemented in W-10373100
+        // Showing list view in FlowTest to be implemented in W-10373100
+
+        // Open FlowTest modal
+        this.queueFlowTestEditor(() => {
+            return { createNewTest: this.handleCreateNewTest };
+        });
+    };
+
+    /**
+     * Handles the Create New Test event
+     */
+    handleCreateNewTest = () => {
+        this.invokeCreateOrEditTestModal(CREATETEST);
     };
 
     /**
@@ -1845,6 +1860,25 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                 invokeDebugEditor(paramsProvider());
             })
             .catch(() => {
+                this.spinners.showPropertyEditorSpinner = false;
+            });
+    };
+
+    /**
+     * Queuing up the call out for display FlowTest editor's pop-over modal.
+     *
+     * @param paramsProvider - The invoke FlowTest editor parameters
+     */
+    queueFlowTestEditor = (paramsProvider) => {
+        // borrow editor's spinner, UX approved.
+        this.spinners.showPropertyEditorSpinner = true;
+        Promise.all(this.flowTestEditorBlockerCalls)
+            .then(() => {
+                this.flowTestEditorBlockerCalls = [];
+                invokeFlowTestEditor(paramsProvider());
+            })
+            .catch(() => {})
+            .finally(() => {
                 this.spinners.showPropertyEditorSpinner = false;
             });
     };

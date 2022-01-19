@@ -63,4 +63,8 @@ export default class ModalFooter extends LightningElement {
         this.state.buttonOneDisabled = true;
         this.state.buttonTwoDisabled = true;
     }
+
+    @api disableButtonOne() {
+        this.state.buttonOneDisabled = true;
+    }
 }

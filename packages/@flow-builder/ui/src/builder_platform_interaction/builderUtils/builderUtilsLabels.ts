@@ -15,6 +15,9 @@ import headerTitle from '@salesforce/label/FlowBuilderNewFlowModal.headerTitle';
 import nextButtonLabel from '@salesforce/label/FlowBuilderNewFlowModal.nextButtonLabel';
 import newResourceEditorTitle from '@salesforce/label/FlowBuilderResourceEditor.newResourceEditorTitle';
 import resourceLabel from '@salesforce/label/FlowBuilderResourceEditor.resourceLabel';
+import flowTestCancel from '@salesforce/label/FlowBuilderTestEditor.flowTestCancel';
+import flowTestHeader from '@salesforce/label/FlowBuilderTestEditor.flowTestHeader';
+import flowTestRunTest from '@salesforce/label/FlowBuilderTestEditor.flowTestRunTest';
 import runTitle from '@salesforce/label/FlowBuilderToolbar.runTitle';
 
 export const LABELS = {
@@ -34,5 +37,8 @@ export const LABELS = {
     keyboardShortcutListTitle,
     cancelButton,
     runTitle,
-    resourceLabel
+    resourceLabel,
+    flowTestHeader,
+    flowTestCancel,
+    flowTestRunTest
 };

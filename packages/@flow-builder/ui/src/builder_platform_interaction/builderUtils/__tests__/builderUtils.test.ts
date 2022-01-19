@@ -9,6 +9,7 @@ import {
     getPropertyEditorConfig,
     hidePopover,
     invokeDebugEditor,
+    invokeFlowTestEditor,
     invokeKeyboardHelpDialog,
     invokeNewFlowModal,
     invokePropertyEditor,
@@ -437,6 +438,42 @@ describe('builderUtils', () => {
             showHover('cmpName', sampleAttributes, 'hoverId', samplePanelConfig);
             expect(dispatchGlobalEvent).not.toHaveBeenCalled();
             mockCreateComponentCallbackStatus = 'SUCCESS';
+        });
+    });
+
+    describe('invokeFlowTestEditor', () => {
+        it('calls createComponent and dispatchGlobalEvent w/ expected parameters when given standard parameters', async () => {
+            invokeFlowTestEditor(jest.fn());
+
+            await ticks(1);
+            expect(createComponent).toHaveBeenCalledWith(
+                'builder_platform_interaction:modalHeader',
+                {
+                    headerTitle: 'FlowBuilderTestEditor.flowTestHeader'
+                },
+                expect.anything()
+            );
+            expect(createComponent).toHaveBeenCalledWith(
+                'builder_platform_interaction:modalFooter',
+                {
+                    buttons: {
+                        buttonOneClass: '.flow-test-modal-footer-run-button',
+                        buttonTwoClass: '.flow-test-modal-footer-cancel-button',
+                        buttonOne: {
+                            buttonLabel: 'FlowBuilderTestEditor.flowTestRunTest',
+                            buttonVariant: 'brand'
+                        },
+                        buttonTwo: {
+                            buttonLabel: 'FlowBuilderTestEditor.flowTestCancel',
+                            buttonVariant: 'neutral',
+                            buttonCallback: hidePopover,
+                            closeCallback: false
+                        }
+                    }
+                },
+                expect.anything()
+            );
+            expect(invokeModalWithComponents).toHaveBeenCalled();
         });
     });
 });
