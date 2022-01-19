@@ -4,6 +4,7 @@ import {
     createTestScreenField,
     createTestScreenWithFields
 } from 'builder_platform_interaction/builderTestUtils';
+import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import {
     createAddAutomaticScreenFieldEvent,
     createAddScreenFieldEvent,
@@ -371,15 +372,17 @@ describe('screen reducer', () => {
     });
 
     describe('container field', () => {
-        let screen, field1, field2;
+        let screen, field1, field2, section;
         beforeEach(() => {
             screen = createTestScreen(SCREEN_NAME, null);
             field1 = screen.fields.pop();
             field2 = screen.fields.pop();
 
-            const section = {
+            section = {
                 guid: section1Guid,
                 name: section1Guid,
+                fieldText: null,
+                fieldType: 'RegionContainer',
                 fields: [
                     {
                         guid: column1Guid,
@@ -498,6 +501,63 @@ describe('screen reducer', () => {
                 const childFields = newScreen.fields[1].fields[1].fields;
                 expect(childFields).toHaveLength(3);
                 expect(childFields[0].type.name).toBe(ScreenFieldName.TextBox);
+            });
+        });
+
+        describe('section header / label', () => {
+            const sectionHeading = 'SectionHeading';
+            describe('check section header checkbox', () => {
+                const uniqueName = 'uniqueName';
+                const event = {
+                    type: PropertyChangedEvent.EVENT_NAME,
+                    detail: {
+                        propertyName: 'hasHeading',
+                        value: true,
+                        error: null
+                    }
+                };
+                it('if there is no fieldTextBackup, fieldText and name are cleared', () => {
+                    const newScreen = screenReducer(screen, event, section);
+                    const sectionField = newScreen.fields[1];
+                    expect(sectionField.hasHeading).toEqual(true);
+                    expect(getValueFromHydratedItem(sectionField.name)).toEqual(null);
+                    expect(getValueFromHydratedItem(sectionField.fieldText)).toEqual(null);
+                });
+                it('if there is fieldTextBackup and name backup, load label and api name from backup', () => {
+                    section.fieldTextBackup = sectionHeading;
+                    section.nameBackup = uniqueName;
+                    const newScreen = screenReducer(screen, event, section);
+                    const sectionField = newScreen.fields[1];
+                    expect(sectionField.hasHeading).toEqual(true);
+                    expect(getValueFromHydratedItem(sectionField.name)).toEqual(uniqueName);
+                    expect(getValueFromHydratedItem(sectionField.fieldText)).toEqual(sectionHeading);
+                });
+            });
+            describe('uncheck section header checkbox', () => {
+                const event = {
+                    type: PropertyChangedEvent.EVENT_NAME,
+                    detail: {
+                        propertyName: 'hasHeading',
+                        value: false,
+                        error: null
+                    }
+                };
+                it('field text is cleared and name is randomly set', () => {
+                    section.fieldText = sectionHeading;
+                    const newScreen = screenReducer(screen, event, section);
+                    const sectionField = newScreen.fields[1];
+                    expect(sectionField.hasHeading).toEqual(false);
+                    expect(getValueFromHydratedItem(sectionField.name)).toContain('Section_');
+                    expect(getValueFromHydratedItem(sectionField.fieldText)).toEqual(null);
+                });
+                it('field text and api name is backed up', () => {
+                    section.fieldText = sectionHeading;
+                    const newScreen = screenReducer(screen, event, section);
+                    const sectionField = newScreen.fields[1];
+                    expect(sectionField.hasHeading).toEqual(false);
+                    expect(getValueFromHydratedItem(sectionField.nameBackup)).toEqual(section.name);
+                    expect(getValueFromHydratedItem(sectionField.fieldTextBackup)).toEqual(sectionHeading);
+                });
             });
         });
     });

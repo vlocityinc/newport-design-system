@@ -171,6 +171,8 @@ import fieldScale from '@salesforce/label/FlowBuilderScreenEditor.scale';
 import screen from '@salesforce/label/FlowBuilderScreenEditor.screen';
 import screenProperties from '@salesforce/label/FlowBuilderScreenEditor.screenProperties';
 import screenTitlePlaceHolder from '@salesforce/label/FlowBuilderScreenEditor.screenTitlePlaceHolder';
+import sectionHeaderCheckboxLabel from '@salesforce/label/FlowBuilderScreenEditor.sectionHeaderCheckboxLabel';
+import sectionHeaderCheckboxTooltipText from '@salesforce/label/FlowBuilderScreenEditor.sectionHeaderCheckboxTooltipText';
 import selectResource from '@salesforce/label/FlowBuilderScreenEditor.selectResource';
 import sevenOfTwelveWidth from '@salesforce/label/FlowBuilderScreenEditor.sevenOfTwelveWidth';
 import showFooter from '@salesforce/label/FlowBuilderScreenEditor.showFooter';
@@ -288,6 +290,8 @@ export const LABELS = {
     appExchangeButtonLabel,
     componentVisibilitySectionTitle,
     columnsSectionTitle,
+    sectionHeaderCheckboxLabel,
+    sectionHeaderCheckboxTooltipText,
     maxColumns,
     addColumn,
     columnsWidthTitle,

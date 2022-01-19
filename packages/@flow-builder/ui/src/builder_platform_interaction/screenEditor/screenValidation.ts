@@ -332,6 +332,14 @@ export const getRulesForField = (field, newValueIsReference = false) => {
     const rules: Rules = {};
 
     addCommonRules(rules);
+
+    if (field.hasHeading) {
+        addRules('fieldText', rules, [
+            ValidationRules.shouldNotBeBlank,
+            ValidationRules.shouldNotBeNullOrUndefined,
+            ValidationRules.maximumCharactersLimit(255)
+        ]);
+    }
     addCommonFieldRules(rules, field);
 
     if (isExtensionField(field)) {

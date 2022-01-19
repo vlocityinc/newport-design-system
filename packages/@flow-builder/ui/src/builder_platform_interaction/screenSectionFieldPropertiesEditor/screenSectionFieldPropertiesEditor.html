@@ -1,10 +1,38 @@
 <template>
+    <div class="slds-p-horizontal_small slds-p-top_x-small">
+        <div class="section-header">
+            <builder_platform_interaction-screen-property-field
+                name="hasHeading"
+                label={labels.sectionHeaderCheckboxLabel}
+                type="boolean"
+                value={field.hasHeading}
+            >
+            </builder_platform_interaction-screen-property-field>
+            <lightning-helptext
+                class="slds-list_inline slds-m-left_small"
+                content={labels.sectionHeaderCheckboxTooltipText}
+            ></lightning-helptext>
+        </div>
+
+        <!--  field label and unique name -->
+        <builder_platform_interaction-label-description
+            if:true={field.hasHeading}
+            layout-mode="vertical"
+            label={field.fieldText}
+            dev-name={field.name}
+            hide-description
+            guid={field.guid}
+            onpropertychanged={handlePropertyChanged}
+        >
+        </builder_platform_interaction-label-description>
+    </div>
+    <div class="slds-p-horizontal_small slds-p-top_x-small"></div>
     <lightning-accordion
         active-section-name={expandedSectionNames}
         allow-multiple-sections-open
-        class="slds-p-top_none"
+        class="slds-p-top_none slds-border_top"
     >
-        <lightning-accordion-section name="columns" label={labels.columnsSectionTitle}>
+        <lightning-accordion-section name="columns" label={labels.columnsSectionTitle} class="slds-border_bottom">
             <div slot="actions">
                 <lightning-helptext
                     class="slds-list_inline slds-m-left_small"

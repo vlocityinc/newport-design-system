@@ -604,6 +604,25 @@ describe('When field type is Section', () => {
     });
 });
 
+describe('Section Header Validation', () => {
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+        setExtensionDescriptions(mockFlowExtensionDetails);
+    });
+    it('when section has heading, fieldText is validated', () => {
+        const screenNode = getElementForPropertyEditor(screenWithSection);
+        screenNode.fields[0].hasHeading = true;
+        const screen = screenValidation.validateAll(screenNode);
+        expect(screen.fields[0].fieldText.error).toBe('FlowBuilderValidation.cannotBeBlank');
+    });
+    it("when section doesn't have heading, fieldText is not validated", () => {
+        const screenNode = getElementForPropertyEditor(screenWithSection);
+        screenNode.fields[0].hasHeading = false;
+        const screen = screenValidation.validateAll(screenNode);
+        expect(screen.fields[0].fieldText.error).toBe(null);
+    });
+});
+
 describe('When Section have child fields', () => {
     it('should not set an error if default value is a reference', () => {
         Store.setMockState(flowWithAllElementsUIModel);

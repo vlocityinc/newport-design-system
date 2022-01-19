@@ -344,7 +344,6 @@ export function createScreenFieldWithFieldReferences(
     index: number
 ) {
     const newScreenField = createScreenField(screenField);
-
     let fieldName = newScreenField.name;
     // TODO: We should do this better. What happens when we have more than one region container field
     // type? What should the naming convention be? Where should the '_Section' portion of the
@@ -804,7 +803,7 @@ function updateScreenFieldReferences(childReferences = [], field) {
 /**
  *
  */
-function generateRandomSuffix() {
+export function generateRandomSuffix() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
     let randomStr = '';
     for (let i = 0; i < 3; i++) {

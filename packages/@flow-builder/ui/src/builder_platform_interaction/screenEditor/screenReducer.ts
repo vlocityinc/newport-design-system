@@ -4,6 +4,7 @@ import {
     deleteItem,
     getErrorFromHydratedItem,
     getValueFromHydratedItem,
+    hydrateIfNecessary,
     hydrateWithErrors,
     insertItem,
     isItemHydratedWithErrors,
@@ -17,7 +18,8 @@ import {
     createAutomaticField,
     createChoiceReference,
     createEmptyScreenFieldOfType,
-    createScreenField
+    createScreenField,
+    generateRandomSuffix
 } from 'builder_platform_interaction/elementFactory';
 import {
     AddConditionEvent,
@@ -48,6 +50,7 @@ import {
     isRadioField,
     isRegionContainerField,
     isScreen,
+    ScreenFieldName,
     ScreenProperties
 } from 'builder_platform_interaction/screenEditorUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
@@ -937,21 +940,22 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
                 });
             }
         } else {
+            updatedNode = setSectionLabelAndName(screen, selectedNode, value, property);
             // Screen field
             const data = {
-                field: selectedNode,
+                field: updatedNode,
                 property,
                 currentValue,
                 newValue: value,
                 hydrated,
                 error,
                 newValueGuid: event.detail.guid,
-                dataType: selectedNode.dataType || event.detail.valueDataType || event.detail.defaultValueDataType,
+                dataType: updatedNode.dataType || event.detail.valueDataType || event.detail.defaultValueDataType,
                 ferovDataType: event.detail.dataType,
                 required: event.detail.required
             };
 
-            updatedNode = handleScreenFieldPropertyChange(data, screen, event, selectedNode);
+            updatedNode = handleScreenFieldPropertyChange(data, screen, event, updatedNode);
         }
     } else {
         // If nothing changed, return the screen, unchanged.
@@ -971,6 +975,48 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
     );
 
     return updatedNode;
+};
+
+const setSectionLabelAndName = (screen, screenNode, value, property) => {
+    if (property === 'hasHeading') {
+        // When section heading is enabled
+        if (value) {
+            // If we have don't have fieldText backup, show label and api name as blank fields
+            if (!getValueFromHydratedItem(screenNode.fieldTextBackup)) {
+                screenNode = updateProperties(screenNode, {
+                    fieldText: { value: null, error: null },
+                    name: { value: null, error: null }
+                });
+            } else {
+                // If we have fieldText backup, load label and api name from backup
+                screenNode = updateProperties(screenNode, {
+                    name: {
+                        value: getValueFromHydratedItem(screenNode.nameBackup),
+                        // Validate backup name still satisfies field name uniqueness
+                        error: screenValidation.validateFieldNameUniquenessLocally(
+                            screen,
+                            getValueFromHydratedItem(screenNode.nameBackup),
+                            screen.guid
+                        )
+                    },
+                    fieldText: { value: screenNode.fieldTextBackup, error: null }
+                });
+            }
+        } else {
+            /* When section heading is disabled:
+                1. replace name with random section name (which gets set properly in factory)
+                2. replace fieldText with null
+                3. take backup of fieldText and name and discard their errors (else property error done will be blocked)
+            */
+            screenNode = updateProperties(screenNode, {
+                name: hydrateIfNecessary(ScreenFieldName.Section + '_' + generateRandomSuffix()),
+                nameBackup: getValueFromHydratedItem(screenNode.name),
+                fieldText: { value: null, error: null },
+                fieldTextBackup: getValueFromHydratedItem(screenNode.fieldText)
+            });
+        }
+    }
+    return screenNode;
 };
 
 const clearTextAreaErrorToNullIfNecessary = (screenNode, value, property) => {
