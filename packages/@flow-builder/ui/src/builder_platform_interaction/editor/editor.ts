@@ -109,6 +109,7 @@ import {
     loadEventType,
     loadFieldsForComplexTypesInFlow,
     loadFieldsForExtensionsInFlowFromMetadata,
+    loadFieldsForSubflowsInFlowFromMetadata,
     loadOnProcessTypeChange,
     loadOnStart,
     loadOnTriggerTypeChange,
@@ -1079,6 +1080,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         }
         promises.push(loadParametersForInvocableApexActionsInFlowFromMetadata(flowMetadata.actionCalls));
         promises.push(loadFieldsForExtensionsInFlowFromMetadata(screenFieldsReferencedByLoops(flowMetadata)));
+        promises.push(loadFieldsForSubflowsInFlowFromMetadata(flowMetadata.subflows));
         return Promise.all(promises);
     }
 

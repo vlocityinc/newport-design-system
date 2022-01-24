@@ -23,7 +23,8 @@ import {
     lookupRecordCollectionAutomaticOutput,
     lookupRecordOutputReference,
     screenElement,
-    subflowAutomaticOutput
+    subflowAutomaticOutput,
+    subflowWithAllVariableTypes
 } from 'mock/storeData';
 import {
     loadFieldsForApexClassesInFlow,
@@ -31,6 +32,7 @@ import {
     loadFieldsForExtensionsInFlowFromMetadata,
     loadFieldsForSobjectsInFlow,
     loadFieldsForSubflowsInFlow,
+    loadFieldsForSubflowsInFlowFromMetadata,
     loadParametersForInvocableActionsInFlow,
     loadParametersForInvocableApexActionsInFlowFromMetadata,
     loadParametersForStageStepsInFlow
@@ -202,6 +204,22 @@ describe('flowComplexTypeFields', () => {
                 getMetadataFlowElementByName(flowWithAllElements, actionCallElement.name)
             ]);
             expect(fetchDetailsForInvocableAction.mock.calls).toHaveLength(0);
+        });
+    });
+    describe('loadFieldsForSubflowsInFlowFromMetadata', () => {
+        it('Loads fields for subflows in metadata only if set to store output automatically', async () => {
+            await loadFieldsForSubflowsInFlowFromMetadata([
+                getMetadataFlowElementByName(flowWithAllElements, subflowAutomaticOutput.name),
+                getMetadataFlowElementByName(flowWithAllElements, subflowWithAllVariableTypes.name)
+            ]);
+            expect(fetchActiveOrLatestFlowOutputVariables.mock.calls).toHaveLength(1);
+            expect(fetchActiveOrLatestFlowOutputVariables.mock.calls[0][0]).toEqual(subflowAutomaticOutput.flowName);
+        });
+        it('Does not load fields for subflows that do not store output automatically', async () => {
+            await loadFieldsForSubflowsInFlowFromMetadata([
+                getMetadataFlowElementByName(flowWithAllElements, subflowWithAllVariableTypes.name)
+            ]);
+            expect(fetchActiveOrLatestFlowOutputVariables.mock.calls).toHaveLength(0);
         });
     });
     describe('loadParametersForStageStepsInFlow', () => {

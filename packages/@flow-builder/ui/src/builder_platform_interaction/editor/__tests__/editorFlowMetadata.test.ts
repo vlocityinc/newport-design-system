@@ -1,5 +1,8 @@
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
-import { loadParametersForInvocableApexActionsInFlowFromMetadata } from 'builder_platform_interaction/preloadLib';
+import {
+    loadFieldsForSubflowsInFlowFromMetadata,
+    loadParametersForInvocableApexActionsInFlowFromMetadata
+} from 'builder_platform_interaction/preloadLib';
 import { createElement } from 'lwc';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { initializeAuraFetch } from '../../integrationTests/__tests__/serverDataTestUtils';
@@ -22,6 +25,7 @@ jest.mock('builder_platform_interaction/preloadLib', () => {
     return {
         loadParametersForInvocableApexActionsInFlowFromMetadata: jest.fn().mockResolvedValue({}),
         loadFieldsForExtensionsInFlowFromMetadata: jest.fn().mockResolvedValue({}),
+        loadFieldsForSubflowsInFlowFromMetadata: jest.fn().mockResolvedValue({}),
         loadFieldsForComplexTypesInFlow: jest.fn(),
         initializeLoader: jest.fn(),
         loadOnStart: jest.fn().mockResolvedValue({}),
@@ -82,5 +86,24 @@ describe('editorMetadata', () => {
                 );
             }
         );
+
+        test.each`
+            source        | mockData
+            ${'flow'}     | ${flowWithAllElements}
+            ${'template'} | ${flowWithAllElements.metadata}
+        `('calls "loadFieldsForSubflowsInFlowFromMetadata" with subflows from $source', async ({ mockData }) => {
+            initializeAuraFetch({
+                'c.retrieveFlow': () => ({
+                    data: mockData
+                })
+            });
+            createComponentUnderTest({
+                flowId: '301RM0000000E4N'
+            });
+            await ticks(20);
+            expect(loadFieldsForSubflowsInFlowFromMetadata).toHaveBeenCalledWith(
+                (mockData.metadata || mockData).subflows
+            );
+        });
     });
 });

@@ -246,6 +246,23 @@ declare namespace Metadata {
         iterationOrder: 'Asc' | 'Desc';
     }
 
+    interface SubflowInputAssignment extends BaseElement {
+        name: string;
+        value: ElementReferenceOrValue;
+    }
+
+    interface SubflowOutputAssignment extends BaseElement {
+        assignToReference: string;
+        name: string;
+    }
+
+    interface Subflow extends Node {
+        flowName: string;
+        inputAssignments: SubflowInputAssignment[];
+        outputAssignments: SubflowOutputAssignment[];
+        storeOutputAutomatically: boolean;
+    }
+
     interface Metadata {
         actionCalls: ActionCall[];
         apexPluginCalls: ApexPluginCall[];
@@ -259,6 +276,7 @@ declare namespace Metadata {
         screens: Screen[];
         stages: Stage[];
         start: Start;
+        subflows: Subflow[];
         textTemplates: TextTemplate[];
         variables: Variable[];
     }

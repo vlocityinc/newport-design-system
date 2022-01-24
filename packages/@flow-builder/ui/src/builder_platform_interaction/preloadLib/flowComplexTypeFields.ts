@@ -187,3 +187,22 @@ export function loadParametersForInvocableActions(actionCallNamesAndTypes) {
     );
     return Promise.all(promises);
 }
+
+/**
+ * Load automatic output fields for all metadata subflows provided
+ *
+ * @param subflows list of metadata subflow objects
+ * @returns Promise that is resolved when all subflow fields are fetched
+ */
+export function loadFieldsForSubflowsInFlowFromMetadata(subflows: Metadata.Subflow[]): Promise<any> {
+    return Promise.all(
+        subflows
+            .filter((subflow) => subflow.storeOutputAutomatically === true)
+            .map((subflow) =>
+                fetchActiveOrLatestFlowOutputVariables(subflow.flowName, {
+                    disableErrorModal: true,
+                    background: true
+                }).catch(() => {})
+            )
+    );
+}

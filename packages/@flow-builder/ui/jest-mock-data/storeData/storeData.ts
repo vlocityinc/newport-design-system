@@ -136,6 +136,7 @@ export const campaignSObjectVariable = getElementByName('campaignSObjectVariable
 export const contractSObjectVariable = getElementByName('contractSObjectVariable');
 export const opportunitySObjectVariable = getElementByName('opportunitySObjectVariable');
 export const opportunitySObjectCollectionVariable = getElementByName('opportunitySObjectCollectionVariable');
+export const subflowWithAllVariableTypes = getElementByName('subflow_with_all_type_variables');
 export const subflowAutomaticOutput = getElementByName('subflowAutomaticOutput');
 export const screenWithAddress = getElementByName('screenWithAddress');
 export const screenWithAddressAddress = getElementByName('Address');
