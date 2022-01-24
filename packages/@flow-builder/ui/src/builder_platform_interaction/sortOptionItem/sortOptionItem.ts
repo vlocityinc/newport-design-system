@@ -34,6 +34,9 @@ export default class SortOptionItem extends LightningElement {
     sortField = '';
 
     @api
+    sortFieldIndex = 0;
+
+    @api
     doesPutEmptyStringAndNullFirst = false;
 
     @api

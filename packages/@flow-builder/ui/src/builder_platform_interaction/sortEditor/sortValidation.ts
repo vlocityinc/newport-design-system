@@ -24,10 +24,14 @@ const validateCollectionReference = (collectionReference, elements) => {
  * @returns {Function} the function to be called with each queried field to return the array of rules.
  */
 const validateSortOptions = (isSObjectOrApexClass) => {
-    return () => {
+    return (sortOption: { rowIndex: any }) => {
         if (isSObjectOrApexClass) {
             return {
-                sortField: [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined],
+                sortField: [
+                    ValidationRules.shouldNotBeBlank,
+                    ValidationRules.shouldNotBeNullOrUndefined,
+                    ValidationRules.validateResourcePicker(sortOption.rowIndex)
+                ],
                 sortOrder: [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined]
             };
         }

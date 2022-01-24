@@ -110,6 +110,7 @@ const getAddButton = (sortOptionList) =>
 const verifySortOption = (sortOptionItemCmp, sortOption) => {
     const fieldPicker = getFieldPicker(sortOptionItemCmp);
     expect(fieldPicker.value).toEqual(sortOption.sortField.value);
+    expect(fieldPicker.rowIndex).toEqual(sortOption.rowIndex);
     expect(getCombobox(sortOptionItemCmp).value).toEqual(sortOption.sortOrder.value);
     expect(getCheckbox(sortOptionItemCmp).checked).toEqual(sortOption.doesPutEmptyStringAndNullFirst);
 };

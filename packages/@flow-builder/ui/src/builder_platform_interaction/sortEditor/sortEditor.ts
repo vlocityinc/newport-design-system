@@ -103,6 +103,7 @@ export default class SortEditor extends LightningElement {
     get sortOutput() {
         return this._sortOutput;
     }
+
     /**
      * Gets the developer name of the collection variable
      * The name is in the {!name} format

@@ -75,6 +75,7 @@ const createComponentUnderTest = ({
     sobjectOrApexReference = { value: 'Account', isSObject: true },
     doesPutEmptyStringAndNullFirst = false,
     sortField = '',
+    sortFieldIndex = '0',
     sortOrder = '',
     selectedFields = ['Name', 'BillingCity']
 } = {}) => {
@@ -86,6 +87,7 @@ const createComponentUnderTest = ({
         sobjectOrApexReference,
         doesPutEmptyStringAndNullFirst,
         sortField,
+        sortFieldIndex,
         sortOrder,
         selectedFields
     });
@@ -155,6 +157,12 @@ describe('sort-option-item', () => {
             it('should set field picker value', () => {
                 const fieldPicker = getFieldPicker(createComponentUnderTest({ sortField: 'BillingCity' }));
                 expect(fieldPicker.value).toEqual('BillingCity');
+            });
+            it('should set row index for sort field', () => {
+                const fieldPicker = getFieldPicker(
+                    createComponentUnderTest({ sortField: 'BillingCity', sortFieldIndex: 'idx' })
+                );
+                expect(fieldPicker.rowIndex).toEqual('idx');
             });
             it('should set sort order', () => {
                 const sortOrderCombobox = getSortOrderCombobox(

@@ -75,8 +75,8 @@ describe('Sort Validation', () => {
             expect(errors).toHaveLength(0);
         });
     });
-    describe('no flow collection', () => {
-        it('should return an error', () => {
+    describe('no collection reference', () => {
+        it('should return an error if collection reference is blank', () => {
             sortEditorNode.collectionReference.value = '';
             const sortEditor = createComponentForTest(sortEditorNode);
             const errors = validate(sortEditor.elementInfo, {
@@ -87,6 +87,18 @@ describe('Sort Validation', () => {
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('collectionReference');
             expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
+        });
+        it('should return an error if not a collection variable', () => {
+            sortEditorNode.collectionReference.value = 'getAccountAutoWithFields';
+            const sortEditor = createComponentForTest(sortEditorNode);
+            const errors = validate(sortEditor.elementInfo, {
+                collectionReference: sortEditor.elementInfo.collectionReference.value,
+                selectedOutput: SORT_OUTPUT_OPTION.ALL,
+                isSObjectOrApexClass: true
+            });
+            expect(errors).toHaveLength(1);
+            expect(errors[0].key).toBe('collectionReference');
+            expect(errors[0].errorString).toBe(LABELS.enterValidValue);
         });
     });
     describe('no sort field', () => {
