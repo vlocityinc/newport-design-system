@@ -8,6 +8,7 @@ import { invokeModalWithComponents } from 'builder_platform_interaction/sharedUt
 import {
     getPropertyEditorConfig,
     hidePopover,
+    invokeCreateEditFlowTestModal,
     invokeDebugEditor,
     invokeFlowTestEditor,
     invokeKeyboardHelpDialog,
@@ -335,6 +336,81 @@ describe('builderUtils', () => {
                 expect.anything()
             );
 
+            expect(invokeModalWithComponents).toHaveBeenCalled();
+        });
+    });
+
+    describe('invokeCreateEditFlowTestModal', () => {
+        it('calls createComponent and dispatchGlobalEvent w/ expected parameters when given standard parameters for Create Test with Create Trigger', async () => {
+            const sampleFlowTestAttributes = {
+                createOrEdit: 'create test',
+                triggerSaveType: 'Create'
+            };
+            invokeCreateEditFlowTestModal(sampleFlowTestAttributes);
+            await ticks(1);
+            expect(createComponent).toHaveBeenCalledWith(
+                'builder_platform_interaction:modalHeader',
+                {
+                    headerTitle: 'FlowBuilderCreateTestEditor.flowTestCreateHeader'
+                },
+                expect.anything()
+            );
+            expect(createComponent).toHaveBeenCalledWith(
+                'builder_platform_interaction:modalFooter',
+                expect.objectContaining({
+                    buttons: {
+                        buttonOneClass: '.create-flow-test-modal-footer-run-button',
+                        buttonTwoClass: '.create-flow-test-modal-footer-cancel-button',
+                        buttonOne: {
+                            buttonLabel: 'FlowBuilderCreateTestEditor.flowTestCreateButton',
+                            buttonVariant: 'brand'
+                        },
+                        buttonTwo: {
+                            buttonLabel: 'FlowBuilderCommonPropertyEditor.cancelButton',
+                            buttonVariant: 'neutral',
+                            buttonCallback: expect.anything(),
+                            closeCallback: false
+                        }
+                    }
+                }),
+                expect.anything()
+            );
+            expect(invokeModalWithComponents).toHaveBeenCalled();
+        });
+        it('calls createComponent and dispatchGlobalEvent w/ expected parameters when given standard parameters for Edit Test with Create Trigger', async () => {
+            const sampleFlowTestAttributes = {
+                createOrEdit: 'edit test',
+                triggerSaveType: 'Create'
+            };
+            invokeCreateEditFlowTestModal(sampleFlowTestAttributes);
+            await ticks(1);
+            expect(createComponent).toHaveBeenCalledWith(
+                'builder_platform_interaction:modalHeader',
+                {
+                    headerTitle: 'FlowBuilderCreateTestEditor.flowTestEditHeader'
+                },
+                expect.anything()
+            );
+            expect(createComponent).toHaveBeenCalledWith(
+                'builder_platform_interaction:modalFooter',
+                expect.objectContaining({
+                    buttons: {
+                        buttonOneClass: '.create-flow-test-modal-footer-run-button',
+                        buttonTwoClass: '.create-flow-test-modal-footer-cancel-button',
+                        buttonOne: {
+                            buttonLabel: 'FlowBuilderCreateTestEditor.flowTestSaveButton',
+                            buttonVariant: 'brand'
+                        },
+                        buttonTwo: {
+                            buttonLabel: 'FlowBuilderCommonPropertyEditor.cancelButton',
+                            buttonVariant: 'neutral',
+                            buttonCallback: expect.anything(),
+                            closeCallback: false
+                        }
+                    }
+                }),
+                expect.anything()
+            );
             expect(invokeModalWithComponents).toHaveBeenCalled();
         });
     });

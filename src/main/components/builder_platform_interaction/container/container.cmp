@@ -80,6 +80,8 @@
     <aura:dependency resource="markup://builder_platform_interaction:modalHeaderForAutoLayout" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:modalBodyForAutoLayout" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:modalFooterForAutoLayout" type="MODULE" />
+    <aura:dependency resource="markup://builder_platform_interaction:flowTestEditor" type="MODULE" />
+    <aura:dependency resource="markup://builder_platform_interaction:flowTestModal" type="MODULE" />
 
     <!-- Events -->
     <aura:registerEvent name="ui:createPanel" type="markup://ui:createPanel" />

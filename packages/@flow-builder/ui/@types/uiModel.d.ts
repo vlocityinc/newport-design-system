@@ -452,4 +452,9 @@ declare namespace UI {
         value: HydratedValue;
         valueDataType: string;
     }
+    interface MenuItem {
+        element: { guid: string };
+        label: string;
+        isDraggable: boolean;
+    }
 }

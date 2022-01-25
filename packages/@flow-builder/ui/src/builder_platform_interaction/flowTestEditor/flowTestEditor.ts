@@ -1,3 +1,4 @@
+import { FlowTestMode } from 'builder_platform_interaction/builderUtils';
 import { api, LightningElement } from 'lwc';
 import { LABELS } from './flowTestEditorLabels';
 
@@ -9,7 +10,6 @@ export default class FlowTestEditor extends LightningElement {
 
     handleCreateNewTest() {
         this.hideModal();
-        // TODO: Call the create new test function
-        // this.buttonCallback('create test');
+        this.buttonCallback(FlowTestMode.CREATE);
     }
 }

@@ -56,6 +56,11 @@ export enum modalFooterVariant {
     PROMPT
 }
 
+export enum FlowTestMode {
+    CREATE = 'create test',
+    EDIT = 'edit test'
+}
+
 /**
  * @constant Panel type used for popovers.
  * @type {string}
@@ -659,6 +664,99 @@ function showDebugEditorPopover(
             flavor: popoverProps.flavor,
             closeCallback: hidePopover,
             closeModalCallback: runDebugInterviewCallback
+        },
+        headerPromise,
+        bodyPromise,
+        footerPromise,
+        invokeModalWithComponentsOnCreateOverride
+    );
+}
+
+/**
+ * Invokes the create, edit flow test modal
+ *
+ * @param attributes - contains callback and actual data
+ */
+export function invokeCreateEditFlowTestModal(attributes) {
+    const mode = attributes.createOrEdit;
+    const triggerSaveType = attributes.triggerSaveType;
+    showFlowTestPopover(
+        'builder_platform_interaction:modalHeader',
+        'builder_platform_interaction:flowTestModal',
+        'builder_platform_interaction:modalFooter',
+        {
+            mode,
+            triggerSaveType
+        },
+        {
+            flavor: 'large restrictWidthToSldsMedium'
+        },
+        attributes.saveTestCallback
+    );
+}
+
+/**
+ * Open Flow Test popover.
+ *
+ * @param cmpHeader - Name of the header component to be created.
+ * @param cmpBody - Name of the body component to be created.
+ * @param cmpFooter - Name of the footer component to be created.
+ * @param cmpAttributes - Contains component's attributes.
+ * @param popoverProps - Contains popover properties
+ * @param saveTestCallback - callback after Save Test/Save Changes button is clicked
+ */
+function showFlowTestPopover(cmpHeader, cmpBody, cmpFooter, cmpAttributes = {}, popoverProps, saveTestCallback) {
+    let headerLabel = null;
+    let footerButtonLabel = null;
+
+    if (cmpAttributes.mode === FlowTestMode.CREATE) {
+        headerLabel = LABELS.flowTestModalCreateLabel;
+        footerButtonLabel = LABELS.flowTestModalCreateButton;
+    } else if (cmpAttributes.mode === FlowTestMode.EDIT) {
+        headerLabel = LABELS.flowTestModalEditLabel;
+        footerButtonLabel = LABELS.flowTestModalSaveButton;
+    }
+    popoverState = {
+        panelInstance: null,
+        referenceElement: popoverProps.referenceElement,
+        onClose: popoverProps.onClose
+    };
+
+    const headerPromise = createComponentPromise(cmpHeader, {
+        headerTitle: headerLabel
+    });
+    const footerPromise = createComponentPromise(cmpFooter, {
+        buttons: {
+            buttonOneClass: '.create-flow-test-modal-footer-run-button',
+            buttonTwoClass: '.create-flow-test-modal-footer-cancel-button',
+            buttonOne: {
+                buttonLabel: footerButtonLabel,
+                buttonVariant: 'brand'
+            },
+            buttonTwo: {
+                buttonLabel: LABELS.cancelButton,
+                buttonVariant: 'neutral',
+                buttonCallback: hidePopover,
+                closeCallback: false
+            }
+        }
+    });
+    const bodyPromise = createComponentPromise(cmpBody, {
+        triggerSaveType: cmpAttributes.triggerSaveType,
+        buttonCallback: saveTestCallback
+    });
+    const invokeModalWithComponentsOnCreateOverride = (modal, data) => {
+        onCreatePopover(modal);
+        const modalFooter = invokeModalWithComponentsOnCreate(modal, data);
+        // Disable "Create Test" and "Save Changes" button on modal footer.
+        // TODO: Enable once modal is ready to send data to backend
+        modalFooter.disableButtonOne();
+    };
+
+    invokeModalWithComponents(
+        {
+            flavor: popoverProps.flavor,
+            closeCallback: hidePopover
         },
         headerPromise,
         bodyPromise,

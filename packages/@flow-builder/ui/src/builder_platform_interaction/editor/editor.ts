@@ -54,9 +54,11 @@ import { shortcuts } from 'builder_platform_interaction/app';
 import { ConnectionSource, getConnectionTarget } from 'builder_platform_interaction/autoLayoutCanvas';
 import {
     CanvasMode,
+    FlowTestMode,
     focusOnDockingPanel,
     getPropertyEditorConfig,
     hidePopover,
+    invokeCreateEditFlowTestModal,
     invokeDebugEditor,
     invokeFlowTestEditor,
     invokeKeyboardHelpDialog,
@@ -222,8 +224,6 @@ const RUN = 'run';
 const DEBUG = 'debug';
 const NEWDEBUG = 'new debug';
 const RESTARTDEBUG = 'restart debug';
-const CREATETEST = 'create test';
-const EDITTEST = 'edit test';
 
 const ADD_ELEMENT = 'ADD_ELEMENT';
 const APP_NAME = 'FLOW_BUILDER';
@@ -452,6 +452,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     labels = LABELS;
 
     flowTestEditorBlockerCalls = [];
+
+    flowTestModalBlockerCalls = [];
 
     /**
      * @returns true Whether canvas elements are available. Don't render the canvas until then.
@@ -1618,18 +1620,14 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      * Handles the Create New Test event
      */
     handleCreateNewTest = () => {
-        this.invokeCreateOrEditTestModal(CREATETEST);
+        this.createOrEditFlowTest(FlowTestMode.CREATE);
     };
 
     /**
      * Handles the Edit Test event fired by toolbar.
      */
     handleEditTest = () => {
-        this.invokeCreateOrEditTestModal(EDITTEST);
-    };
-
-    invokeCreateOrEditTestModal = (testOperation: string) => {
-        // To  be implemented in W-10373041
+        this.createOrEditFlowTest(FlowTestMode.EDIT);
     };
 
     /**
@@ -1882,6 +1880,53 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             .finally(() => {
                 this.spinners.showPropertyEditorSpinner = false;
             });
+    };
+
+    /**
+     * Opens the modal to create a new test or edit an existing test
+     *
+     * @param createOrEdit Takes the mode, Create or Edit
+     */
+    createOrEditFlowTest = (createOrEdit) => {
+        const triggerSaveType = getRecordTriggerType();
+        if (createOrEdit === FlowTestMode.CREATE) {
+            this.queueOpenCreateFlowTest(() => {
+                return {
+                    createOrEdit,
+                    triggerSaveType,
+                    saveTest: this.saveTestCallback
+                };
+            });
+        }
+        // Edit mode will also accept a flow Test Id to get the test to edit.
+        if (createOrEdit === FlowTestMode.EDIT) {
+            this.queueOpenCreateFlowTest(() => {
+                return {
+                    createOrEdit,
+                    triggerSaveType,
+                    saveTest: this.saveTestCallback
+                };
+            });
+        }
+    };
+
+    queueOpenCreateFlowTest = (paramsProvider) => {
+        invokeCreateEditFlowTestModal(paramsProvider());
+    };
+
+    /**
+     * Callback function after save test initiated in the CreateTest modal
+     */
+    saveTestCallback = async () => {
+        try {
+            // Call UiTier API with flowtest object to save. Pre requisite: the modal is populated and shape of FlowTest object in builder is determined
+            // const flowTest = translateUIModalToFlowTest(testElement.getNode());
+            // const saveTestResult = await fetchPromise(SERVER_ACTION_TYPE.STORE_TEST, flowTest);
+            // Get back the save result, if SUCCESS call Flow Test List View
+            // On FAILURE, error modal pops up (part of Validation work)
+        } finally {
+            hidePopover(); // close the test modal
+        }
     };
 
     /**
