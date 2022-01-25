@@ -92,10 +92,26 @@
                     <div>
                         <span class="slds-badge slds-m-right_xx-small">{labels.newInfoBadgeLabel}</span>
                         {labels.formulasForConditionsInfoLabel}
-                        <lightning-helptext content={labels.formulasForConditionsHelpText}></lightning-helptext>
+                        <lightning-helptext
+                            class="slds-m-left_xx-small"
+                            content={labels.formulasForConditionsHelpText}
+                        ></lightning-helptext>
                     </div>
                 </div>
             </builder_platform_interaction-record-filter>
+        </div>
+        <div class="slds-border_top" if:true={showFormulaEditor}>
+            <builder_platform_interaction-resourced-textarea
+                hide-new-resource
+                for-formula
+                label={labels.formulaLabel}
+                name={labels.formulaLabel}
+                required
+                spinner-alternative-text={labels.formulaValidationSpinnerAlternativeText}
+                value={startElement.formulaExpression}
+                onchange={handleFormulaExpressionChanged}
+            >
+            </builder_platform_interaction-resourced-textarea>
         </div>
         <div class="slds-border_top" if:true={showRequireRecordChangeOptions}>
             <div
@@ -127,19 +143,6 @@
                 </div>
                 <div class="slds-media__body">{labels.disableRadioGroupStartText}</div>
             </div>
-        </div>
-        <div class="slds-border_top" if:true={showFormulaEditor}>
-            <builder_platform_interaction-resourced-textarea
-                hide-new-resource
-                for-formula
-                label={labels.formulaLabel}
-                name={labels.formulaLabel}
-                required
-                spinner-alternative-text={labels.formulaValidationSpinnerAlternativeText}
-                value={startElement.formulaExpression}
-                onchange={handleFormulaExpressionChanged}
-            >
-            </builder_platform_interaction-resourced-textarea>
         </div>
     </div>
     <!-- choose trigger type (before vs. after save) -->
