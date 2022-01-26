@@ -11,17 +11,12 @@ import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { ScreenFieldName } from 'builder_platform_interaction/screenEditorUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { createElement } from 'lwc';
-import { accountSObjectVariable, flowWithAllElementsUIModel } from 'mock/storeData';
-import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { accountSObjectVariable, contactSObjectVariable, flowWithAllElementsUIModel } from 'mock/storeData';
 import ScreenField from '../screenField';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
-
 jest.mock('builder_platform_interaction/contextLib', () => require('builder_platform_interaction_mocks/contextLib'));
-
-jest.mock('builder_platform_interaction/sobjectLib', () => ({
-    getFieldsForEntity: jest.fn().mockImplementation(() => mockAccountFields)
-}));
+jest.mock('builder_platform_interaction/sobjectLib', () => require('builder_platform_interaction_mocks/sobjectLib'));
 
 const emptyFieldName = '';
 const fieldName = 'foo';
@@ -307,6 +302,25 @@ describe('automatic fields', () => {
         );
         expect(screenInputField).toBeNull();
     });
+    it('shows "Name compound" field as a simple screen field card (in preview not available mode) with correct text, title, icon, without adding any input field', () => {
+        const automaticNameField = createAutomaticField(ScreenFieldName.TextBox, `${contactSObjectVariable.name}.Name`);
+        const testScreenField = createComponentUnderTest({
+            screenfield: automaticNameField
+        });
+        const screenFieldCard = testScreenField.shadowRoot.querySelector(
+            INTERACTION_COMPONENTS_SELECTORS.SCREEN_FIELD_CARD
+        );
+        expect(screenFieldCard).toMatchObject({
+            text: 'FlowBuilderScreenEditor.fieldExtensionPreviewDescription',
+            title: 'Full Name',
+            icon: 'standard:textbox'
+        });
+        const screenInputField = testScreenField.shadowRoot.querySelector(
+            INTERACTION_COMPONENTS_SELECTORS.SCREEN_INPUT_FIELD
+        );
+        expect(screenInputField).toBeNull();
+    });
+
     it('shows an error when automatic field has errors', () => {
         const objectFieldReference = `${accountSObjectVariable.name}.iDoNotExist`;
         const automaticField = {

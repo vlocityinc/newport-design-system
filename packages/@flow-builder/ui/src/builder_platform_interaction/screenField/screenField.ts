@@ -1,6 +1,10 @@
 import { isObject, isReference } from 'builder_platform_interaction/commonUtils';
-import { getErrorsFromHydratedElement, hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
-import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import {
+    getErrorsFromHydratedElement,
+    getValueFromHydratedItem,
+    hydrateWithErrors
+} from 'builder_platform_interaction/dataMutationLib';
+import { ExtraTypeInfo, FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { normalizeFEROV } from 'builder_platform_interaction/expressionUtils';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
@@ -49,7 +53,10 @@ export default class ScreenField extends LightningElement {
         return (
             this.screenfield.type.fieldType === FlowScreenFieldType.InputField ||
             this.screenfield.type.fieldType === FlowScreenFieldType.PasswordField ||
-            (this.isObjectProvided() && !this.isTextAreaType && !this.isDropdownType()) // For 236, automatic field of picklist type has no preview
+            (this.isObjectProvided() &&
+                !this.isTextAreaType &&
+                !this.isDropdownType() && // For 236, automatic field of picklist type has no preview
+                !this.isAutomaticFieldCompoundName) // For 238, automatic field of coumpound name type has no preview
         );
     }
 
@@ -130,6 +137,32 @@ export default class ScreenField extends LightningElement {
     get isAutomaticFieldPicklist() {
         return this.isObjectProvided() && this.isDropdownType();
     }
+
+    /**
+     * Whether or not the current field type is an ObjectProvided one, aka "automatic field"
+     * of compound name type
+     *
+     * @returns true if the current field type is an ObjectProvided one, aka "automatic field" of
+     * compound name type, otherwise false
+     */
+    get isAutomaticFieldCompoundName() {
+        return (
+            this.isObjectProvided() &&
+            getValueFromHydratedItem(this.screenfield.entityFieldExtraTypeInfo) === ExtraTypeInfo.PersonName
+        );
+    }
+
+    /**
+     * Whether or not the current field type is an ObjectProvided one, aka "automatic field"
+     * and does not support preview
+     *
+     * @returns true if the current field type is an ObjectProvided one, aka "automatic field" of
+     * compound name type and has no preview available, otherwise false
+     */
+    get isAutomaticFieldWithNoPreview() {
+        return this.isAutomaticFieldCompoundName || this.isAutomaticFieldPicklist;
+    }
+
     /**
      * Whether or not the current field is an ObjectProvided one, aka "automatic field"
      *

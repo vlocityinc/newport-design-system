@@ -1076,8 +1076,6 @@
         "Contract",
         "ContractChild__c",
         "ContractLineItem",
-        "CreditMemo",
-        "CreditMemoLine",
         "CustomAcctChildLookup__c",
         "CustomChildOther__c",
         "CustomChild__c",
