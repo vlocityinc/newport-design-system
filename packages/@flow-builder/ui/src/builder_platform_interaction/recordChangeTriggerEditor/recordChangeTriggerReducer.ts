@@ -37,7 +37,8 @@ const PROPS = {
     filters: 'filters',
     filterLogic: 'filterLogic',
     recordTriggerType: 'recordTriggerType',
-    doesRequireRecordChangedToMeetCriteria: 'doesRequireRecordChangedToMeetCriteria'
+    doesRequireRecordChangedToMeetCriteria: 'doesRequireRecordChangedToMeetCriteria',
+    formulaFilter: 'formulaFilter'
 };
 const emptyFilterItem = () => {
     return {
@@ -121,6 +122,10 @@ const resetSubSections = (state) => {
     return resetFilters(state);
 };
 
+const resetFormulaFilter = (state) => {
+    return set(state, PROPS.formulaFilter, null);
+};
+
 const addRecordFilter = (state) => {
     const path = [PROPS.filters, state.filters.length];
     return set(state, path, emptyFilterItem());
@@ -169,9 +174,12 @@ const propertyChanged = (state, event) => {
             state = resetSubSections(state);
         }
     } else if (event.detail.propertyName === PROPS.filterLogic) {
-        if (event.detail.value === CONDITION_LOGIC.NO_CONDITIONS) {
+        if (event.detail.value === CONDITION_LOGIC.NO_CONDITIONS || event.detail.value === CONDITION_LOGIC.FORMULA) {
             // reset errors in filters if any, and preserve values
             state = resetFilters(state);
+        }
+        if (event.detail.value !== CONDITION_LOGIC.FORMULA) {
+            state = resetFormulaFilter(state);
         }
     }
 

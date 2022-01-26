@@ -144,6 +144,19 @@
                 <div class="slds-media__body">{labels.disableRadioGroupStartText}</div>
             </div>
         </div>
+        <div class="slds-border_top" if:true={showFormulaEditor}>
+            <builder_platform_interaction-resourced-textarea
+                hide-new-resource
+                for-formula
+                label={labels.formulaLabel}
+                name={labels.formulaLabel}
+                required
+                spinner-alternative-text={labels.formulaValidationSpinnerAlternativeText}
+                value={startElement.formulaFilter}
+                onchange={handleFormulaFilterChanged}
+            >
+            </builder_platform_interaction-resourced-textarea>
+        </div>
     </div>
     <!-- choose trigger type (before vs. after save) -->
     <div class="slds-border_top slds-p-horizontal_medium" if:true={showChooseTriggerType}>

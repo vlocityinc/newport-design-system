@@ -119,7 +119,7 @@ export function createStartElement(startElement: UI.Start | Metadata.Start, proc
         locationY = START_ELEMENT_LOCATION.y,
         filters = [],
         scheduledPaths,
-        formulaExpression
+        formulaFilter
     } = startElement;
     const runAsyncPath =
         scheduledPaths &&
@@ -139,15 +139,19 @@ export function createStartElement(startElement: UI.Start | Metadata.Start, proc
 
     object = getDefaultObjectForOrchestration(object, triggerType, newStartElement);
 
-    // For the existing element if no filters has been set we need to assign No Conditions to the filterLogic.
-    if (object !== '' && filters.length === 0 && filterLogic === CONDITION_LOGIC.AND) {
-        filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
+    // TODO: W-10476015 to move the logic to recordChangeTriggerReducer
+    if (object && filters.length === 0) {
+        if (filterLogic === CONDITION_LOGIC.AND) {
+            // For the existing element if no filters has been set we need to assign No Conditions to the filterLogic.
+            filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
+        }
+        // If FormulaFilter is set, set the filterLogic to Formula Evaluates to True
+        if (formulaFilter) {
+            filterLogic = CONDITION_LOGIC.FORMULA;
+        }
     }
 
-    const isoStartTime =
-        startTime && !isUndefinedOrNull(startTime.timeInMillis)
-            ? getISOTimeFromMillis(startTime.timeInMillis)
-            : startTime;
+    const isoStartTime = getIsoStartTime(startTime);
 
     let label;
     if (isScheduledTriggerType(triggerType)) {
@@ -185,7 +189,7 @@ export function createStartElement(startElement: UI.Start | Metadata.Start, proc
         objectIndex,
         filters: recordFilters,
         label,
-        formulaExpression,
+        formulaFilter,
         objectContainer,
         // If the start element is linked to an sobject, then make the element look like a data element.
         name: object ? SYSTEM_VARIABLE_RECORD_PREFIX : undefined,
@@ -203,6 +207,16 @@ export function createStartElement(startElement: UI.Start | Metadata.Start, proc
     newStartElement.shouldSupportScheduledPaths = shouldSupportScheduledPaths(newStartElement, processType);
 
     return newStartElement;
+}
+
+/**
+ * @param startTime startTime
+ * @returns ISOStartTime instance of Metadata.StartTime
+ */
+export function getIsoStartTime(startTime: Metadata.StartTime) {
+    return startTime && !isUndefinedOrNull(startTime.timeInMillis)
+        ? getISOTimeFromMillis(startTime.timeInMillis)
+        : startTime;
 }
 
 /**
@@ -338,7 +352,7 @@ export function createStartElementMetadataObject(startElement: UI.Start, config 
         frequency,
         filters = [],
         childReferences,
-        formulaExpression
+        formulaFilter
     } = startElement;
     let { doesRequireRecordChangedToMeetCriteria, filterLogic } = startElement;
     let recordFilters;
@@ -424,7 +438,7 @@ export function createStartElementMetadataObject(startElement: UI.Start, config 
         filterLogic,
         filters: recordFilters,
         scheduledPaths,
-        formulaExpression
+        formulaFilter
     });
 }
 

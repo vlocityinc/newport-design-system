@@ -15,6 +15,8 @@ import RecordChangeTriggerEditor from '../recordChangeTriggerEditor';
 const { AFTER_SAVE, BEFORE_DELETE, BEFORE_SAVE } = FLOW_TRIGGER_TYPE;
 const { CREATE, UPDATE, DELETE } = FLOW_TRIGGER_SAVE_TYPE;
 
+const MOCK_GUID = 'mockGuid';
+
 const SELECTORS = {
     SAVE_TYPE_SECTION: 'lightning-radio-group.recordCreateOrUpdate',
     TRIGGER_TYPE_SELECTION: 'builder_platform_interaction-visual-picker-list',
@@ -37,7 +39,8 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
         getElementByGuid: jest.fn(),
         isExecuteOnlyWhenChangeMatchesConditionsPossible: jest.fn().mockReturnValue(true),
-        getProcessType: jest.fn()
+        getProcessType: jest.fn(),
+        getStartElementFromState: jest.fn()
     };
 });
 
@@ -75,6 +78,13 @@ jest.mock('builder_platform_interaction/validation', () => {
     });
 });
 
+jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
+    require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
+);
+jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
+    require('builder_platform_interaction_mocks/ferovResourcePicker')
+);
+
 function createComponentForTest(node) {
     const el = createElement('builder_platform_interaction-record-change-trigger-editor', {
         is: RecordChangeTriggerEditor
@@ -95,7 +105,7 @@ function createRecordTriggerCustomEvent(recordTriggerType) {
     return event;
 }
 
-function recordChangeTriggerElement(flowTriggerType, recordTriggerType) {
+function recordChangeTriggerElement(flowTriggerType, recordTriggerType, filters) {
     const triggerStartElement = {
         elementType: 'START_ELEMENT',
         guid: '326e1b1a-7235-487f-9b44-38db56af4a45',
@@ -109,7 +119,8 @@ function recordChangeTriggerElement(flowTriggerType, recordTriggerType) {
         object: { value: 'Account', error: null },
         objectIndex: { value: 'guid', error: null },
         filterLogic: { value: CONDITION_LOGIC.AND, error: null },
-        filters: []
+        filters: filters || [],
+        formulaFilter: ''
     };
 
     return triggerStartElement;
@@ -481,6 +492,69 @@ describe('record-change-trigger-editor', () => {
             await ticks(1);
             formulaBuilder = element.shadowRoot.querySelector(SELECTORS.FORMULA_BUILDER);
             expect(formulaBuilder).toBeNull();
+        });
+
+        it('call resetFilters when condition logic is formula', async () => {
+            const filters = [
+                {
+                    rowIndex: MOCK_GUID,
+                    leftHandSide: {
+                        value: 'Account.BillingCountry',
+                        error: null
+                    },
+                    leftHandSideDataType: {
+                        value: 'String',
+                        error: null
+                    },
+                    rightHandSide: {
+                        value: '2',
+                        error: null
+                    },
+                    rightHandSideDataType: {
+                        value: 'String',
+                        error: null
+                    },
+                    operator: {
+                        value: 'EqualTo',
+                        error: null
+                    }
+                }
+            ];
+            const triggerElement = recordChangeTriggerElement(AFTER_SAVE, CREATE, filters);
+            const element = createComponentForTest(triggerElement);
+
+            const event = new CustomEvent('propertychanged', {
+                detail: {
+                    propertyName: 'filterLogic',
+                    value: 'formula_evaluates_to_true'
+                }
+            });
+            const recordFilterCmp = element.shadowRoot.querySelector(SELECTORS.RECORD_ENTRY_CONDITIONS);
+            recordFilterCmp.dispatchEvent(event);
+            await ticks(1);
+
+            expect(element.node.filters[0].leftHandSide.value).toBe('');
+            expect(element.node.filters[0].rightHandSide.value).toBe('');
+            expect(element.node.filters[0].operator.value).toBe('');
+            expect(element.node.filters[0].rightHandSideDataType.value).toBe('');
+        });
+
+        it('call resetFormulaFilter when formulaFilter exists for condition logic other than FORMULA', async () => {
+            const triggerElement = recordChangeTriggerElement(AFTER_SAVE, CREATE);
+            triggerElement.formulaFilter = '{$Record.Address}';
+            const element = createComponentForTest(triggerElement);
+
+            const event = new CustomEvent('propertychanged', {
+                detail: {
+                    propertyName: 'filterLogic',
+                    value: 'and'
+                }
+            });
+            const recordFilterCmp = element.shadowRoot.querySelector(SELECTORS.RECORD_ENTRY_CONDITIONS);
+            recordFilterCmp.dispatchEvent(event);
+            await ticks(1);
+
+            expect(element.node.formulaFilter).toBe(null);
         });
     });
 });
