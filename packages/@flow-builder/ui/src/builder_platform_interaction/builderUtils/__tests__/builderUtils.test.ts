@@ -8,9 +8,9 @@ import { invokeModalWithComponents } from 'builder_platform_interaction/sharedUt
 import {
     getPropertyEditorConfig,
     hidePopover,
-    invokeCreateEditFlowTestModal,
+    invokeCreateEditFlowTestEditor,
     invokeDebugEditor,
-    invokeFlowTestEditor,
+    invokeFlowTestManager,
     invokeKeyboardHelpDialog,
     invokeNewFlowModal,
     invokePropertyEditor,
@@ -340,13 +340,13 @@ describe('builderUtils', () => {
         });
     });
 
-    describe('invokeCreateEditFlowTestModal', () => {
+    describe('invokeCreateEditFlowTestEditor', () => {
         it('calls createComponent and dispatchGlobalEvent w/ expected parameters when given standard parameters for Create Test with Create Trigger', async () => {
             const sampleFlowTestAttributes = {
                 createOrEdit: 'create test',
                 triggerSaveType: 'Create'
             };
-            invokeCreateEditFlowTestModal(sampleFlowTestAttributes);
+            invokeCreateEditFlowTestEditor(sampleFlowTestAttributes);
             await ticks(1);
             expect(createComponent).toHaveBeenCalledWith(
                 'builder_platform_interaction:modalHeader',
@@ -382,7 +382,7 @@ describe('builderUtils', () => {
                 createOrEdit: 'edit test',
                 triggerSaveType: 'Create'
             };
-            invokeCreateEditFlowTestModal(sampleFlowTestAttributes);
+            invokeCreateEditFlowTestEditor(sampleFlowTestAttributes);
             await ticks(1);
             expect(createComponent).toHaveBeenCalledWith(
                 'builder_platform_interaction:modalHeader',
@@ -517,9 +517,9 @@ describe('builderUtils', () => {
         });
     });
 
-    describe('invokeFlowTestEditor', () => {
+    describe('invokeFlowTestManager', () => {
         it('calls createComponent and dispatchGlobalEvent w/ expected parameters when given standard parameters', async () => {
-            invokeFlowTestEditor(jest.fn());
+            invokeFlowTestManager(jest.fn());
 
             await ticks(1);
             expect(createComponent).toHaveBeenCalledWith(

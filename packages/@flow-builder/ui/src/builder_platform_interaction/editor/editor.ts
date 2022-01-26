@@ -58,9 +58,9 @@ import {
     focusOnDockingPanel,
     getPropertyEditorConfig,
     hidePopover,
-    invokeCreateEditFlowTestModal,
+    invokeCreateEditFlowTestEditor,
     invokeDebugEditor,
-    invokeFlowTestEditor,
+    invokeFlowTestManager,
     invokeKeyboardHelpDialog,
     invokeNewFlowModal,
     invokePropertyEditor,
@@ -451,9 +451,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
 
     labels = LABELS;
 
-    flowTestEditorBlockerCalls = [];
-
-    flowTestModalBlockerCalls = [];
+    flowTestManagerBlockerCalls = [];
 
     /**
      * @returns true Whether canvas elements are available. Don't render the canvas until then.
@@ -1610,8 +1608,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     handleViewAllTests = () => {
         // Showing list view in FlowTest to be implemented in W-10373100
 
-        // Open FlowTest modal
-        this.queueFlowTestEditor(() => {
+        // Open FlowTest list view
+        this.queueFlowTestManager(() => {
             return { createNewTest: this.handleCreateNewTest };
         });
     };
@@ -1865,17 +1863,17 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     };
 
     /**
-     * Queuing up the call out for display FlowTest editor's pop-over modal.
+     * Queuing up the call out for display FlowTest manager's pop-over modal.
      *
-     * @param paramsProvider - The invoke FlowTest editor parameters
+     * @param paramsProvider - The invoke FlowTest manager parameters
      */
-    queueFlowTestEditor = (paramsProvider) => {
+    queueFlowTestManager = (paramsProvider) => {
         // borrow editor's spinner, UX approved.
         this.spinners.showPropertyEditorSpinner = true;
-        Promise.all(this.flowTestEditorBlockerCalls)
+        Promise.all(this.flowTestManagerBlockerCalls)
             .then(() => {
-                this.flowTestEditorBlockerCalls = [];
-                invokeFlowTestEditor(paramsProvider());
+                this.flowTestManagerBlockerCalls = [];
+                invokeFlowTestManager(paramsProvider());
             })
             .finally(() => {
                 this.spinners.showPropertyEditorSpinner = false;
@@ -1911,7 +1909,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     };
 
     queueOpenCreateFlowTest = (paramsProvider) => {
-        invokeCreateEditFlowTestModal(paramsProvider());
+        invokeCreateEditFlowTestEditor(paramsProvider());
     };
 
     /**

@@ -673,16 +673,16 @@ function showDebugEditorPopover(
 }
 
 /**
- * Invokes the create, edit flow test modal
+ * Invokes the create, edit flow test editor
  *
  * @param attributes - contains callback and actual data
  */
-export function invokeCreateEditFlowTestModal(attributes) {
+export function invokeCreateEditFlowTestEditor(attributes) {
     const mode = attributes.createOrEdit;
     const triggerSaveType = attributes.triggerSaveType;
     showFlowTestPopover(
         'builder_platform_interaction:modalHeader',
-        'builder_platform_interaction:flowTestModal',
+        'builder_platform_interaction:flowTestEditor',
         'builder_platform_interaction:modalFooter',
         {
             mode,
@@ -766,14 +766,14 @@ function showFlowTestPopover(cmpHeader, cmpBody, cmpFooter, cmpAttributes = {}, 
 }
 
 /**
- * Invoke flowTest modal
+ * Invoke flow test list view
  *
  * @param attributes
  */
-export function invokeFlowTestEditor(attributes) {
-    showTestFlowEditorPopover(
+export function invokeFlowTestManager(attributes) {
+    showTestFlowManagerPopover(
         'builder_platform_interaction:modalHeader',
-        'builder_platform_interaction:flowTestEditor',
+        'builder_platform_interaction:flowTestManager',
         'builder_platform_interaction:modalFooter',
         {
             flavor: 'large restrictWidthToSldsMedium'
@@ -783,7 +783,7 @@ export function invokeFlowTestEditor(attributes) {
 }
 
 /**
- * Open Flow Test modal
+ * Open Flow Test listview
  *
  * @param cmpHeader - Name of the header component to be created.
  * @param cmpBody - Name of the body component to be created.
@@ -791,7 +791,7 @@ export function invokeFlowTestEditor(attributes) {
  * @param popoverProps - Contains popover properties
  * @param createNewTest - Callback after Create New Test button is clicked
  */
-function showTestFlowEditorPopover(cmpHeader, cmpBody, cmpFooter, popoverProps, createNewTest) {
+function showTestFlowManagerPopover(cmpHeader, cmpBody, cmpFooter, popoverProps, createNewTest) {
     popoverState = {
         panelInstance: null,
         referenceElement: popoverProps.referenceElement,

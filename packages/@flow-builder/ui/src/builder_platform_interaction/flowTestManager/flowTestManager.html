@@ -1,0 +1,20 @@
+<template>
+    <div class="slds-p-vertical_x-large slds-p-horizontal_large">
+        <builder_platform_interaction-illustration
+            illustration="lakeMountain"
+            title={labels.flowTestBodyHeader}
+            body={labels.flowTestBodyDescription}
+        >
+        </builder_platform_interaction-illustration>
+        <lightning-button-group class="slds-align_absolute-center">
+            <lightning-button
+                title={labels.createNewTest}
+                label={labels.createNewTest}
+                variant="brand"
+                class="slds-button slds-align-bottom slds-align_absolute-center"
+                onclick={handleCreateNewTest}
+            >
+            </lightning-button>
+        </lightning-button-group>
+    </div>
+</template>

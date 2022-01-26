@@ -1,20 +1,23 @@
 <template>
-    <div class="slds-p-vertical_x-large slds-p-horizontal_large">
-        <builder_platform_interaction-illustration
-            illustration="lakeMountain"
-            title={labels.flowTestBodyHeader}
-            body={labels.flowTestBodyDescription}
+    <div class="slds-vertical-tabs slds-is-relative slds-grow">
+        <builder_platform_interaction-reorderable-vertical-navigation
+            class="slds-theme_shade slds-size_1-of-6"
+            menu-items={getMenuItems}
+            onlistiteminteraction={handleItemSelected}
+            hide-footer="true"
         >
-        </builder_platform_interaction-illustration>
-        <lightning-button-group class="slds-align_absolute-center">
-            <lightning-button
-                title={labels.createNewTest}
-                label={labels.createNewTest}
-                variant="brand"
-                class="slds-button slds-align-bottom slds-align_absolute-center"
-                onclick={handleCreateNewTest}
-            >
-            </lightning-button>
-        </lightning-button-group>
+            <div slot="header" class="slds-grid">
+                <span class="outcomeListHeader"></span>
+            </div>
+        </builder_platform_interaction-reorderable-vertical-navigation>
+        <div class="slds-vertical-tabs__content slds-show slds-scrollable_y" role="tabpanel">
+            <div>
+                <builder_platform_interaction-illustration
+                    illustration="lakeMountain"
+                    title="Placeholder"
+                    body="Update once new components are created for the tabs"
+                ></builder_platform_interaction-illustration>
+            </div>
+        </div>
     </div>
 </template>
