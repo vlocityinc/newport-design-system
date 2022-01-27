@@ -52,11 +52,11 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
     }
 
     get entityFieldDataType(): string {
-        return getValueFromHydratedItem(this.field.entityFieldDataType);
+        return this.field.entityFieldDataType;
     }
 
     get entityFieldExtraTypeInfo(): string {
-        return getValueFromHydratedItem(this.field.entityFieldExtraTypeInfo);
+        return this.field.entityFieldExtraTypeInfo;
     }
 
     get displayedFields(): Array<{ key: string; label: string; value: string }> {

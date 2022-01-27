@@ -518,7 +518,9 @@ export const elementTypeToConfigMap: {
             'valueGuid',
             'inputsOnNextNavToAssocScrn',
             'objectFieldReference',
-            'singleOrMultiSelect'
+            'singleOrMultiSelect',
+            'entityFieldExtraTypeInfo',
+            'entityFieldDataType'
         ],
         bodyCssClass: 'slds-scrollable_none',
         factory: {
@@ -1034,7 +1036,7 @@ export const elementTypeToConfigMap: {
         factory: {
             propertyEditor: createScreenField
         },
-        nonHydratableProperties: ['inputsOnNextNavToAssocScrn'],
+        nonHydratableProperties: ['inputsOnNextNavToAssocScrn', 'entityFieldExtraTypeInfo', 'entityFieldDataType'],
         hasOwnPropertyEditor: false
     },
     [ELEMENT_TYPE.END_ELEMENT]: {

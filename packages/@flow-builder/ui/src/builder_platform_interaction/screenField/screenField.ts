@@ -1,9 +1,5 @@
 import { isObject, isReference } from 'builder_platform_interaction/commonUtils';
-import {
-    getErrorsFromHydratedElement,
-    getValueFromHydratedItem,
-    hydrateWithErrors
-} from 'builder_platform_interaction/dataMutationLib';
+import { getErrorsFromHydratedElement, hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
 import { ExtraTypeInfo, FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { normalizeFEROV } from 'builder_platform_interaction/expressionUtils';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
@@ -146,10 +142,7 @@ export default class ScreenField extends LightningElement {
      * compound name type, otherwise false
      */
     get isAutomaticFieldCompoundName() {
-        return (
-            this.isObjectProvided() &&
-            getValueFromHydratedItem(this.screenfield.entityFieldExtraTypeInfo) === ExtraTypeInfo.PersonName
-        );
+        return this.isObjectProvided() && this.screenfield.entityFieldExtraTypeInfo === ExtraTypeInfo.PersonName;
     }
 
     /**
