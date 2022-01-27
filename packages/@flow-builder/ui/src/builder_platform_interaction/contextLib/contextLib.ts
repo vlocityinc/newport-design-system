@@ -103,13 +103,6 @@ export function isTestMode() {
 /**
  *
  */
-export function getUserPreferences() {
-    return context.userPrefs;
-}
-
-/**
- *
- */
 export function getOrgId() {
     return context.orgId;
 }

@@ -24,7 +24,6 @@ export const SERVER_ACTION_TYPE = {
     GET_FLOW_EXTENSIONS: 'getFlowExtensions',
     GET_FLOW_EXTENSION_PARAMS: 'getFlowExtensionParams',
     GET_FLOW_EXTENSION_LIST_PARAMS: 'getFlowExtensionListParams',
-    SET_USER_PREFERENCES: 'setUserPreferences',
     GET_CONTEXT: 'getContext',
     GET_OPERATORS: 'getOperators',
     GET_FLOW_INPUT_OUTPUT_VARIABLES: 'getFlowInputOutputVariables',
