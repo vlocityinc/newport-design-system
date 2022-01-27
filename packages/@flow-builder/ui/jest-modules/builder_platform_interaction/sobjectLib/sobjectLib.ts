@@ -20,7 +20,7 @@ export const getFieldsForEntity = jest.fn().mockImplementation((entityName) => {
         return mockContractFields;
     } else if (entityName === 'FeedItem') {
         return mockfeedItemFields;
-    } else if (entityName === 'ObjectWithAllPossibleFields') {
+    } else if (entityName === 'Object_with_all_possible_fields__c') {
         return mockObjectWithAllPossibleFieldsFields;
     } else if (entityName === 'Recommendation') {
         return mockRecommendationFields;

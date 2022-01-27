@@ -1570,6 +1570,19 @@
                         "processMetadataValues": [],
                         "scale": 0,
                         "storeOutputAutomatically": false
+                    },
+                    {
+                        "choiceReferences": [],
+                        "dataTypeMappings": [],
+                        "fieldType": "ObjectProvided",
+                        "fields": [],
+                        "inputParameters": [],
+                        "isRequired": false,
+                        "objectFieldReference": "contactSObjectVariable.Name",
+                        "outputParameters": [],
+                        "processMetadataValues": [],
+                        "scale": 0,
+                        "storeOutputAutomatically": false
                     }
                 ],
                 "label": "screenWithAutomaticFields",

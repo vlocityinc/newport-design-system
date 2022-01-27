@@ -60,7 +60,7 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
     }
 
     get displayedFields(): Array<{ key: string; label: string; value: string }> {
-        return [
+        const displayedFieldsResult = [
             {
                 key: 'autofield-object',
                 label: this.labels.automaticFieldObject,
@@ -85,18 +85,24 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
                 key: 'autofield-required',
                 label: this.labels.automaticFieldIsRequired,
                 value: this.isRequired
-            },
-            {
-                key: 'autofield-updateable',
-                label: this.labels.automaticFieldIsUpdateable,
-                value: this.isUpdateable
-            },
-            {
-                key: 'autofield-createable',
-                label: this.labels.automaticFieldIsCreateable,
-                value: this.isCreateable
             }
         ];
+        // Hide updateable/create info for compound name fields
+        if (!this.isFieldCompoundName) {
+            displayedFieldsResult.push(
+                {
+                    key: 'autofield-updateable',
+                    label: this.labels.automaticFieldIsUpdateable,
+                    value: this.isUpdateable
+                },
+                {
+                    key: 'autofield-createable',
+                    label: this.labels.automaticFieldIsCreateable,
+                    value: this.isCreateable
+                }
+            );
+        }
+        return displayedFieldsResult;
     }
 
     private get fieldName(): string {
@@ -169,6 +175,15 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
             }
         }
         return dataType;
+    }
+
+    /**
+     * Whether or not the current field type is of compound name type
+     *
+     * @returns true if the current field type is of compound name type, otherwise false
+     */
+    get isFieldCompoundName() {
+        return this.entityFieldExtraTypeInfo === ExtraTypeInfo.PersonName;
     }
 
     private get object(): string {

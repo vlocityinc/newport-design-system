@@ -16,13 +16,11 @@ import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { createElement } from 'lwc';
 import {
     accountVariableNameAutomaticField,
+    contactVariableNameAutomaticField,
     flowWithAllElementsUIModel as mockFlowWithAllElementsUIModel,
     objectWithAllPossibleFieldsVariable,
     objectWithAllPossibleFieldsVariableTextFieldAutomaticField
 } from 'mock/storeData';
-import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
-import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
-import { objectWithAllPossibleFieldsFields as mockObjectWithAllPossibleFieldsFields } from 'serverData/GetFieldsForEntity/objectWithAllPossibleFieldsFields.json';
 import { objectManagerUrls as mockObjectManagerUrls } from 'serverData/GetObjectManagerUrls/objectManagerUrls.json';
 const { format } = commonUtils;
 
@@ -41,23 +39,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
 jest.mock('builder_platform_interaction/screenComponentVisibilitySection', () =>
     require('builder_platform_interaction_mocks/screenComponentVisibilitySection')
 );
-jest.mock('builder_platform_interaction/sobjectLib', () => ({
-    getFieldsForEntity: jest.fn().mockImplementation((entityName) => {
-        switch (entityName) {
-            case 'Account':
-                return mockAccountFields;
-            case 'Object_with_all_possible_fields__c':
-                return mockObjectWithAllPossibleFieldsFields;
-            default:
-                return undefined;
-        }
-    }),
-    getEntity: jest
-        .fn()
-        .mockImplementation((entityName) =>
-            mockEntities.find((entity) => entity.apiName.toLowerCase() === entityName.toLowerCase())
-        )
-}));
+jest.mock('builder_platform_interaction/sobjectLib', () => require('builder_platform_interaction_mocks/sobjectLib'));
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const { SERVER_ACTION_TYPE } = jest.requireActual('builder_platform_interaction/serverDataLib');
     return {
@@ -100,6 +82,7 @@ jest.mock('@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelPicklist', ()
 });
 const SELECTORS = {
     DESCRIPTION_VALUE_SELECTOR_FORMAT: `tr.{0} > td > ${LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_FORMATTED_TEXT}.autofield-description-value`,
+    DESCRIPTION_ROW_SELECTOR_FORMAT: 'tr.{0}',
     DATATYPE: 'autofield-datatype',
     IS_REQUIRED: 'autofield-required',
     CREATEABLE: 'autofield-createable',
@@ -108,11 +91,15 @@ const SELECTORS = {
 
 const getAutomaticFieldPropertyValue = (comp, fieldCssClassName) =>
     comp.shadowRoot.querySelector(format(SELECTORS.DESCRIPTION_VALUE_SELECTOR_FORMAT, fieldCssClassName)).value;
+const getAutomaticFieldPropertyRow = (comp, fieldCssClassName) =>
+    comp.shadowRoot.querySelector(format(SELECTORS.DESCRIPTION_ROW_SELECTOR_FORMAT, fieldCssClassName));
 
 const getDataTypeValue = (comp) => getAutomaticFieldPropertyValue(comp, SELECTORS.DATATYPE);
 const getIsRequiredValue = (comp) => getAutomaticFieldPropertyValue(comp, SELECTORS.IS_REQUIRED);
 const getIsCreateableValue = (comp) => getAutomaticFieldPropertyValue(comp, SELECTORS.CREATEABLE);
 const getIsUpdateableValue = (comp) => getAutomaticFieldPropertyValue(comp, SELECTORS.UPDATEABLE);
+const getCreatableRow = (comp) => getAutomaticFieldPropertyRow(comp, SELECTORS.CREATEABLE);
+const getUpdateableRow = (comp) => getAutomaticFieldPropertyRow(comp, SELECTORS.UPDATEABLE);
 
 const getObjectManagerLinkUrl = (comp) =>
     comp.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_FORMATTED_URL).value;
@@ -226,7 +213,11 @@ describe('isCreateable', () => {
     it('is defined when user has access to the referenced field', () => {
         const field = createScreenFieldWithFields(accountVariableNameAutomaticField);
         const component = createComponentForTest(field);
-        expect(getIsCreateableValue(component)).toBeTruthy();
+    });
+    it('is not showing creatable part for name compound field', () => {
+        const field = createScreenFieldWithFields(contactVariableNameAutomaticField);
+        const component = createComponentForTest(field);
+        expect(getCreatableRow(component)).toBeNull();
     });
 });
 
@@ -244,6 +235,11 @@ describe('isUpdateable', () => {
         const field = createScreenFieldWithFields(accountVariableNameAutomaticField);
         const component = createComponentForTest(field);
         expect(getIsUpdateableValue(component)).toBeTruthy();
+    });
+    it('is not showing updateable part for name compound field', () => {
+        const field = createScreenFieldWithFields(contactVariableNameAutomaticField);
+        const component = createComponentForTest(field);
+        expect(getUpdateableRow(component)).toBeNull();
     });
 });
 describe('Field visibility', () => {
