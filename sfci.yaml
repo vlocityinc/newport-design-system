@@ -2,7 +2,7 @@ pipeline:
     name: published-lwc
     github_source:
         repo: automation-platform/sfci-pipelines
-        branch: ppominville/release-2
+        branch: release-2
 release_branches: ['master', '232', '230', '228']
 precompile_lwc_components: true
 code_coverage_gus_team_name: 'Automation Builder Simplification'
@@ -11,11 +11,13 @@ validations:
       command: 'yarn build'
     - name: 'Code Lint Prettify'
       command: 'yarn ci:lint:prettify'
+    - name: 'Unit Tests with coverage'
+      command: 'yarn ci:test:coverage'
+
 core:
     module_name: 'ui-interaction-builder-components'
     version_property_name: 'ui-interaction-builder-components.version'
 build_resource_size: huge
 
-# targeting the "communities/centos-sfci-nodejs-jdk11" Docker image with Git 2.29.1, Node 14.15.4, Yarn 1.22.10
-# via falcon
-build_image: '331455399823.dkr.ecr.us-east-2.amazonaws.com/sfci/sfci/centos-sfci-nodejs:c0dedc1'
+# targeting the "communities/centos-sfci-nodejs-jdk11" Docker image (Git 1.8.3.1, Node 14.17.0, Npm 7.19.0, Yarn 1.22.10) on Falcon
+buildImage: '331455399823.dkr.ecr.us-east-2.amazonaws.com/sfci/communities/centos-sfci-nodejs-jdk11:9f277d6'
