@@ -212,7 +212,7 @@ export default class AlcCanvasContainer extends LightningElement {
 
         this._connectorMenuMetadata = {
             ...this._connectorMenuMetadata,
-            elementTypes: new Set(connectorMenuElementTypes)
+            elementTypes: new Set(connectorMenuElementTypes) // TODO: do we still need this? Can we just use elementsMetadata in alc canvas?
         };
     }
 

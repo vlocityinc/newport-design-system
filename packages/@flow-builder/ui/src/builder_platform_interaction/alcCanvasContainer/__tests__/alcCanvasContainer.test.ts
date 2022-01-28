@@ -1,10 +1,8 @@
 // @ts-nocheck
-import AlcCanvasContainer from 'builder_platform_interaction/alcCanvasContainer';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { createComponent, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { getChildElementTypesWithOverridenProperties } from 'builder_platform_interaction/elementConfig';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { createElement } from 'lwc';
 
 jest.mock('builder_platform_interaction/alcCanvas', () => require('builder_platform_interaction_mocks/alcCanvas'));
 
@@ -135,18 +133,16 @@ const elementsMetadata = [
     }
 ];
 
-const createComponentForTest = (elementsMetadata = []) => {
-    const el = createElement('builder_platform_interaction-alc-canvas-container', {
-        is: AlcCanvasContainer
-    });
-
-    el.isSelectionMode = false;
-    el.isPasteAvailable = false;
-    el.elementsMetadata = elementsMetadata;
-
-    setDocumentBodyChildren(el);
-
-    return el;
+const createComponentForTest = async (optionsOverrides = {}) => {
+    return createComponent(
+        'builder_platform_interaction-alc-canvas-container',
+        {
+            elementsMetadata,
+            isSelectionMode: false,
+            isPasteAvailable: false
+        },
+        optionsOverrides
+    );
 };
 
 describe('alc canvas container', () => {
@@ -170,8 +166,8 @@ describe('alc canvas container', () => {
         });
     });
 
-    beforeEach(() => {
-        cmp = createComponentForTest(elementsMetadata);
+    beforeEach(async () => {
+        cmp = await createComponentForTest();
     });
 
     const getBuilderContainerElement = () =>
@@ -179,13 +175,11 @@ describe('alc canvas container', () => {
 
     const getAlcCanvas = () => cmp.shadowRoot.querySelector('builder_platform_interaction-alc-canvas');
 
-    it('renders the component', async () => {
-        await ticks(1);
+    it('renders the component', () => {
         expect(getBuilderContainerElement).not.toBeNull();
     });
 
     it('offsets when in selection mode', async () => {
-        await ticks(1);
         expect(getAlcCanvas().offsets).toEqual([0, 58]);
 
         cmp.isSelectionMode = true;
@@ -193,8 +187,7 @@ describe('alc canvas container', () => {
         expect(getAlcCanvas().offsets).toEqual([320, 58]);
     });
 
-    it('intializes augmented metadata types correctly', async () => {
-        await ticks(1);
+    it('intializes augmented metadata types correctly', () => {
         const elementTypes = cmp.elementsMetadata.map((element) => {
             return element.elementType;
         });
@@ -207,13 +200,38 @@ describe('alc canvas container', () => {
         expect(elementTypes).toEqual(expect.arrayContaining(expectedElementTypeArray));
     });
 
-    it('can have a fault connector for record update', async () => {
-        await ticks(1);
+    it('can have a fault connector for record update', () => {
         const elementsMetadata = cmp.elementsMetadata.filter(
             (element) => element.elementType === ELEMENT_TYPE.RECORD_UPDATE
         );
         expect(elementsMetadata.length).toBe(1);
         expect(elementsMetadata[0].canHaveFaultConnector).toBe(true);
+    });
+
+    it('generates the correct connector menu metadata ', () => {
+        const expectedElementTypes = new Set([
+            'Screen',
+            'ActionCall',
+            'Decision',
+            'Wait',
+            'RecordCreate',
+            'RecordUpdate',
+            'RecordQuery',
+            'RecordDelete',
+            'START_ELEMENT',
+            'root',
+            'END_ELEMENT',
+            'orchestratedstage',
+            'EMAIL_ALERT',
+            'APEX_CALL',
+            'ApexPlugin',
+            'EXTERNAL_SERVICE'
+        ]);
+
+        const { menuComponent, elementTypes } = getAlcCanvas().connectorMenuMetadata;
+
+        expect(menuComponent).toEqual('builder_platform_interaction/alcConnectorMenu');
+        expect(elementTypes).toEqual(expectedElementTypes);
     });
 });
 
@@ -235,12 +253,11 @@ describe('before save flow', () => {
         });
     });
 
-    beforeEach(() => {
-        cmp = createComponentForTest(elementsMetadata);
+    beforeEach(async () => {
+        cmp = await createComponentForTest();
     });
 
     it('cannot have a fault connector for record update', async () => {
-        await ticks(1);
         const elementsMetadata = cmp.elementsMetadata.filter(
             (element) => element.elementType === ELEMENT_TYPE.RECORD_UPDATE
         );
