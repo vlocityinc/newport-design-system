@@ -179,7 +179,7 @@ const sectionScreenFieldMetadata = () => ({
     dataType: undefined,
     fieldText: undefined,
     fieldType: 'RegionContainer',
-    fields: [componentScreenFieldEmailMetadata()],
+    fields: [columnScreenFieldMetadata()],
     helpText: undefined,
     inputParameters: undefined,
     isRequired: undefined,
@@ -193,11 +193,32 @@ const sectionScreenFieldWithHeaderMetadata = () => ({
     dataType: undefined,
     fieldText: 'This is a new section',
     fieldType: 'RegionContainer',
-    fields: [componentScreenFieldEmailMetadata()],
+    fields: [columnScreenFieldMetadata()],
     helpText: undefined,
     inputParameters: undefined,
     isRequired: undefined,
     name: 'This_is_a_new_section',
+    outputParameters: undefined,
+    scale: undefined
+});
+
+const columnScreenFieldMetadata = () => ({
+    choiceReferences: [],
+    dataType: undefined,
+    fieldText: undefined,
+    fieldType: 'Region',
+    fields: [componentScreenFieldEmailMetadata()],
+    helpText: undefined,
+    inputParameters: [
+        {
+            name: 'width',
+            value: {
+                stringValue: '7'
+            }
+        }
+    ],
+    isRequired: undefined,
+    name: 'column',
     outputParameters: undefined,
     scale: undefined
 });
@@ -304,7 +325,7 @@ const sectionScreenFieldStore = () => ({
     name: 'section',
     choiceReferences: [],
     fields: [],
-    childReferences: [{ childReference: componentScreenFieldEmailStoreGuid }],
+    childReferences: [{ childReference: 'column' }],
     fieldType: 'RegionContainer',
     isNewField: false,
     type: {
@@ -322,7 +343,7 @@ const sectionScreenFieldStoreWithHeader = () => ({
     name: 'This_is_a_new_section',
     choiceReferences: [],
     fields: [],
-    childReferences: [{ childReference: componentScreenFieldEmailStoreGuid }],
+    childReferences: [{ childReference: 'column' }],
     fieldType: 'RegionContainer',
     fieldText: 'This is a new section',
     hasHeading: true,
@@ -337,11 +358,40 @@ const sectionScreenFieldStoreWithHeader = () => ({
     }
 });
 
+const columnScreenFieldStore = () => ({
+    guid: 'column',
+    name: 'column',
+    choiceReferences: [],
+    fields: [],
+    childReferences: [{ childReference: componentScreenFieldEmailStoreGuid }],
+    fieldType: 'Region',
+    hasHeading: false,
+    inputParameters: [
+        {
+            name: 'width',
+            value: '7',
+            valueDataType: 'String'
+        }
+    ],
+    isNewField: false,
+    type: {
+        name: 'Column',
+        fieldType: 'Region'
+    },
+    elementType: 'SCREEN_FIELD',
+    visibilityRule: {
+        conditions: []
+    }
+});
+
 const foundElementGuidPrefix = 'found';
 
 getElementByGuid.mockImplementation((guid) => {
     if (guid === componentScreenFieldEmailStoreGuid) {
         return componentScreenFieldEmailStore();
+    }
+    if (guid === 'column') {
+        return columnScreenFieldStore();
     }
     if (guid === 'sectionField1' || guid === 'columnField') {
         return {
@@ -495,10 +545,28 @@ describe('screenField', () => {
                 screenFieldMetadata = sectionScreenFieldMetadata();
             });
             it('should have a datatype undefined', () => {
-                const actualResult = createScreenFieldWithFieldReferences(screenFieldMetadata);
+                const actualResult = createScreenFieldWithFieldReferences(screenFieldMetadata, [], 'myScreen', 1);
+                expect(actualResult.hasHeading).toBe(false);
+                expect(actualResult.name).toBe('myScreen_Section1');
                 expect(actualResult.dataType).toBeUndefined();
                 expect(actualResult.isCollection).toBeFalsy();
                 expect(actualResult.subtype).toBeFalsy();
+                expect(actualResult.childReferences).toHaveLength(1);
+            });
+        });
+        describe('column field', () => {
+            let columnFieldMetadata;
+            beforeEach(() => {
+                columnFieldMetadata = columnScreenFieldMetadata();
+            });
+            it('should have a datatype undefined', () => {
+                const actualResult = createScreenFieldWithFieldReferences(
+                    columnFieldMetadata,
+                    [],
+                    'myScreen_Section1',
+                    1
+                );
+                expect(actualResult.name).toBe('myScreen_Section1_Column1');
                 expect(actualResult.childReferences).toHaveLength(1);
             });
         });
@@ -600,7 +668,7 @@ describe('screenField', () => {
             it('has child fields', () => {
                 const result = createScreenFieldWithFields(sectionScreenFieldStore());
                 expect(result.fields).toHaveLength(1);
-                expect(result.fields[0].name).toEqual('myEmail');
+                expect(result.fields[0].name).toEqual('column');
             });
         });
         describe('automatic field', () => {
