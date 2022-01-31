@@ -8,6 +8,7 @@ import automaticFieldDataTypeDateTime from '@salesforce/label/FlowBuilderAutomat
 import automaticFieldDataTypeEmail from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeEmail';
 import automaticFieldDataTypeLongTextArea from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeLongTextArea';
 import automaticFieldDataTypeNumber from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeNumber';
+import automaticFieldDataTypePersonName from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypePersonName';
 import automaticFieldDataTypePhone from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypePhone';
 import automaticFieldDataTypeText from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeText';
 import automaticFieldDataTypeTextArea from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeTextArea';
@@ -345,6 +346,7 @@ export const LABELS = {
     automaticFieldDataTypeLongTextArea,
     automaticFieldDataTypePhone,
     automaticFieldDataTypeEmail,
+    automaticFieldDataTypePersonName,
     automaticFieldHighlightHeaderFieldLabel,
     altTextVisibilityCondition,
     nonePicklistPlaceholder,

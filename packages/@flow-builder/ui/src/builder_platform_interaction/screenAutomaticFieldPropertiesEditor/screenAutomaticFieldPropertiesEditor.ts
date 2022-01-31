@@ -130,6 +130,8 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
                     dataType = this.labels.automaticFieldDataTypePhone;
                 } else if (this.entityFieldDataType === FieldDataType.Email) {
                     dataType = this.labels.automaticFieldDataTypeEmail;
+                } else if (this.isFieldCompoundName) {
+                    dataType = this.labels.automaticFieldDataTypePersonName;
                 } else {
                     dataType = format(this.labels.automaticFieldDataTypeText, this.field.length);
                 }

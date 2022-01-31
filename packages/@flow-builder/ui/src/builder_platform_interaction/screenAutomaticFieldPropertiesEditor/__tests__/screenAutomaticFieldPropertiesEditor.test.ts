@@ -4,7 +4,7 @@ import {
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import { CLASSIC_EXPERIENCE, getPreferredExperience } from 'builder_platform_interaction/contextLib';
-import { FieldDataType } from 'builder_platform_interaction/dataTypeLib';
+import { ExtraTypeInfo, FieldDataType } from 'builder_platform_interaction/dataTypeLib';
 import { createAutomaticField, createScreenFieldWithFields } from 'builder_platform_interaction/elementFactory';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import ScreenAutomaticFieldPropertiesEditor from 'builder_platform_interaction/screenAutomaticFieldPropertiesEditor';
@@ -77,9 +77,13 @@ jest.mock('@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypePhone', () 
 jest.mock('@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeEmail', () => ({ default: 'Email' }), {
     virtual: true
 });
+jest.mock('@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypePersonName', () => ({ default: 'Name' }), {
+    virtual: true
+});
 jest.mock('@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelPicklist', () => ({ default: 'Picklist' }), {
     virtual: true
 });
+
 const SELECTORS = {
     DESCRIPTION_VALUE_SELECTOR_FORMAT: `tr.{0} > td > ${LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_FORMATTED_TEXT}.autofield-description-value`,
     DESCRIPTION_ROW_SELECTOR_FORMAT: 'tr.{0}',
@@ -119,18 +123,27 @@ const getScreenComponentFieldVisibilitySection = (comp) =>
 
 describe('Data types formatting with tokens', () => {
     const cases = [
-        [ScreenFieldName.TextBox, 60, null, null, null, 'Text(60)'],
-        [ScreenFieldName.TextBox, null, null, null, FieldDataType.Phone, 'Phone'],
-        [ScreenFieldName.TextBox, null, null, null, FieldDataType.Email, 'Email'],
-        [ScreenFieldName.Number, null, 15, 3, null, 'Number(12, 3)'],
-        [ScreenFieldName.Number, null, 0, null, null, 'Number(8, 0)'],
-        [ScreenFieldName.LargeTextArea, 255, null, null, null, 'Text Area(255)'],
-        [ScreenFieldName.LargeTextArea, 256, null, null, null, 'Long Text Area(256)'],
-        [ScreenFieldName.DropdownBox, null, null, null, null, 'Picklist']
+        [ScreenFieldName.TextBox, 60, null, null, null, null, 'Text(60)'],
+        [ScreenFieldName.TextBox, null, null, null, FieldDataType.Phone, null, 'Phone'],
+        [ScreenFieldName.TextBox, null, null, null, FieldDataType.Email, null, 'Email'],
+        [ScreenFieldName.TextBox, 121, null, null, null, ExtraTypeInfo.PersonName, 'Name'],
+        [ScreenFieldName.Number, null, 15, 3, null, null, 'Number(12, 3)'],
+        [ScreenFieldName.Number, null, 0, null, null, null, 'Number(8, 0)'],
+        [ScreenFieldName.LargeTextArea, 255, null, null, null, null, 'Text Area(255)'],
+        [ScreenFieldName.LargeTextArea, 256, null, null, null, null, 'Long Text Area(256)'],
+        [ScreenFieldName.DropdownBox, null, null, null, null, null, 'Picklist']
     ];
     test.each(cases)(
-        'Given type name %p, length %p, precision %p, scale %p, entityFieldDataType %p, returns formatted data type %p',
-        (screenFieldName, fieldLength, fieldPrecision, fieldScale, fieldDataType, expectedResult) => {
+        'Given type name %p, length %p, precision %p, scale %p, entityFieldDataType %p, entityFieldExtraTypeInfo %p returns formatted data type %p',
+        (
+            screenFieldName,
+            fieldLength,
+            fieldPrecision,
+            fieldScale,
+            fieldDataType,
+            fieldExtraTypeInfo,
+            expectedResult
+        ) => {
             const component = createComponentForTest({
                 type: {
                     name: screenFieldName
@@ -138,7 +151,8 @@ describe('Data types formatting with tokens', () => {
                 length: fieldLength,
                 precision: fieldPrecision,
                 scale: fieldScale,
-                entityFieldDataType: fieldDataType
+                entityFieldDataType: fieldDataType,
+                entityFieldExtraTypeInfo: fieldExtraTypeInfo
             });
             expect(getDataTypeValue(component)).toEqual(expectedResult);
         }
