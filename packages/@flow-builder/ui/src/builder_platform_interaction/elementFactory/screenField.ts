@@ -707,13 +707,17 @@ function shouldSetDefaultSelectedChoiceReference(screenField, choiceReferenceObj
  */
 export function createChoiceReference(choiceReference) {
     let newChoiceReference;
+    let newRowIndex;
     if (!choiceReference) {
         newChoiceReference = '';
+        newRowIndex = generateGuid();
     } else {
         newChoiceReference = choiceReference.choiceReference || choiceReference;
+        newRowIndex = choiceReference.rowIndex || generateGuid();
     }
     return {
-        choiceReference: newChoiceReference
+        choiceReference: newChoiceReference,
+        rowIndex: newRowIndex
     };
 }
 

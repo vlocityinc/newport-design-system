@@ -719,7 +719,7 @@ export const elementsForPropertyEditors = {
         useSobject: true
     },
     other: {
-        guid: '8828cb76-9deb-4765-bba0-b3291b1303e6',
+        guid: 'c0b8d69f-4607-479a-b09c-55b8be96503f',
         name: {
             value: 'other',
             error: null
@@ -746,7 +746,7 @@ export const elementsForPropertyEditors = {
             error: null
         },
         storedValueIndex: {
-            value: '8da17fa9-310c-41d0-af09-f9bd81fc0c17',
+            value: '33155916-197a-4b4e-b108-bbdf3aef4e41',
             error: null
         },
         isShowInputSelected: true,
@@ -1535,21 +1535,24 @@ export const elementsForPropertyEditors = {
                                 choiceReferences: [
                                     {
                                         choiceReference: {
-                                            value: 'a4aa233d-13fb-431d-afb2-7f2388ca6010',
+                                            value: '2f787ad6-32ec-4d66-a34e-a2131ffbee92',
                                             error: null
-                                        }
+                                        },
+                                        rowIndex: '875f212c-ce7a-482e-900a-5a11b9e83a62'
                                     },
                                     {
                                         choiceReference: {
-                                            value: '8828cb76-9deb-4765-bba0-b3291b1303e6',
+                                            value: 'c0b8d69f-4607-479a-b09c-55b8be96503f',
                                             error: null
-                                        }
+                                        },
+                                        rowIndex: 'a4523c0d-9291-4c0a-b5ba-1168e4d17d99'
                                     },
                                     {
                                         choiceReference: {
-                                            value: '039af026-5477-46fa-87ab-09bf0f1e57a3',
+                                            value: '1c1e6a2c-d292-49f3-ab11-1c6cf365e135',
                                             error: null
-                                        }
+                                        },
+                                        rowIndex: 'c9c2a575-1e1a-4bb4-a78d-0f8c2f56610f'
                                     }
                                 ],
                                 dataType: 'String',
@@ -1600,7 +1603,7 @@ export const elementsForPropertyEditors = {
                                 visibilityRule: {
                                     conditions: [
                                         {
-                                            rowIndex: '875f212c-ce7a-482e-900a-5a11b9e83a62',
+                                            rowIndex: '6fe68205-b480-4ba1-abfd-ce650b968aa8',
                                             leftHandSide: {
                                                 value: 'b1ccd7d0-6210-4c95-a3c8-1e01ef242a3f.value',
                                                 error: null
@@ -1632,7 +1635,7 @@ export const elementsForPropertyEditors = {
                 ]
             },
             {
-                guid: 'a4523c0d-9291-4c0a-b5ba-1168e4d17d99',
+                guid: '291464ff-dda0-4384-a6b0-1cee49e14879',
                 name: {
                     value: 'address_2',
                     error: null
@@ -1644,7 +1647,7 @@ export const elementsForPropertyEditors = {
                     error: null
                 },
                 defaultValueIndex: {
-                    value: 'c9c2a575-1e1a-4bb4-a78d-0f8c2f56610f',
+                    value: '05c643f6-c379-43eb-80e9-ed2b9ea5dac8',
                     error: null
                 },
                 validationRule: {

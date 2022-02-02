@@ -3,7 +3,6 @@ import { EXTENSION_TYPE_SOURCE, getAllCachedExtensionTypes } from 'builder_platf
 import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
-
 export const SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME = 'componentVisibility';
 
 const FEROV_TYPES = {
@@ -548,6 +547,7 @@ export function getFieldChoiceData(field) {
                 const choiceFieldData: any = {
                     value: choiceElement.guid,
                     guid: choiceElement.guid,
+                    rowIndex: choice.rowIndex,
                     label: {
                         value: '{!' + choiceElement.name + '}',
                         error: getErrorFromChoice(choice)
@@ -567,7 +567,8 @@ export function getFieldChoiceData(field) {
                 value: '',
                 guid: '',
                 label: { value: null, error: getErrorFromChoice(choice) },
-                name: ''
+                name: '',
+                rowIndex: choice.rowIndex
             };
         });
     }

@@ -433,13 +433,16 @@ describe('Default value for choice based field', () => {
             createChoices: true
         });
         testField.choiceReferences[0] = {
-            choiceReference: { value: 'choice-RCS', error: null }
+            choiceReference: { value: 'choice-RCS', error: null },
+            rowIndex: 'rowIndex-rcs'
         };
         testField.choiceReferences[1] = {
-            choiceReference: { value: 'choice1', error: null }
+            choiceReference: { value: 'choice1', error: null },
+            rowIndex: 'rowIndex1'
         };
         testField.choiceReferences[2] = {
-            choiceReference: { value: 'choice-PICKLIST', error: null }
+            choiceReference: { value: 'choice-PICKLIST', error: null },
+            rowIndex: 'rowIndex-picklist'
         };
         testField.defaultValue = 123;
         screenChoiceFieldPropEditor = createComponentUnderTest({
@@ -653,10 +656,12 @@ describe('screen-choice-field-properties-editor expanded picklist values', () =>
     beforeEach(() => {
         const testField = createTestScreenField(fieldName, FlowScreenFieldType.DropdownBox, SCREEN_NO_DEF_VALUE, {});
         testField.choiceReferences[0] = {
-            choiceReference: { value: 'choice-PICKLIST', error: null }
+            choiceReference: { value: 'choice-PICKLIST', error: null },
+            rowIndex: 'rowIndex-picklist'
         };
         testField.choiceReferences[1] = {
-            choiceReference: { value: 'choice-altPCS', error: null }
+            choiceReference: { value: 'choice-altPCS', error: null },
+            rowIndex: 'rowIndex-altpcs'
         };
         screenChoiceFieldPropEditor = createComponentUnderTest({
             field: testField
@@ -672,7 +677,8 @@ describe('screen-choice-field-properties-editor missing picklist choice field', 
     beforeEach(() => {
         const testField = createTestScreenField(fieldName, FlowScreenFieldType.DropdownBox, SCREEN_NO_DEF_VALUE, {});
         testField.choiceReferences[0] = {
-            choiceReference: { value: 'choice-altPCS', error: null }
+            choiceReference: { value: 'choice-altPCS', error: null },
+            rowIndex: 'rowIndex-altpcs'
         };
         screenChoiceFieldPropEditor = createComponentUnderTest({
             field: testField
@@ -690,10 +696,12 @@ describe('screen-choice-field-properties-editor for single select, type Number',
             dataType: FLOW_DATA_TYPE.NUMBER.value
         });
         testField.choiceReferences[0] = {
-            choiceReference: { value: 'choice-1', error: null }
+            choiceReference: { value: 'choice-1', error: null },
+            rowIndex: 'rowIndex1'
         };
         testField.choiceReferences[1] = {
-            choiceReference: { value: 'choice-2', error: null }
+            choiceReference: { value: 'choice-2', error: null },
+            rowIndex: 'rowIndex2'
         };
         screenChoiceFieldPropEditor = createComponentUnderTest({
             field: testField

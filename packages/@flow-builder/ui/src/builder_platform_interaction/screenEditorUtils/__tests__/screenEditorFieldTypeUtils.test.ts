@@ -40,6 +40,11 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
 const choice1Guid = 'choice1';
 const choice2Guid = 'choice2';
 const choice3Guid = 'choice3';
+
+const choice1RowIndex = 'choice1Index';
+const choice2RowIndex = 'choice2Index';
+const choice3RowIndex = 'choice3Index';
+
 getElementByGuid.mockImplementation((guid) => {
     const element = {
         guid,
@@ -101,13 +106,16 @@ describe('getFieldChoiceData function', () => {
         const mockField = {
             choiceReferences: [
                 {
-                    choiceReference: { value: choice1Guid, error: null }
+                    choiceReference: { value: choice1Guid, error: null },
+                    rowIndex: choice1RowIndex
                 },
                 {
-                    choiceReference: { value: choice2Guid, error: 'error2' }
+                    choiceReference: { value: choice2Guid, error: 'error2' },
+                    rowIndex: choice2RowIndex
                 },
                 {
-                    choiceReference: { value: choice3Guid, error: null }
+                    choiceReference: { value: choice3Guid, error: null },
+                    rowIndex: choice3RowIndex
                 },
                 {
                     choiceReference: { error: 'error4' }
@@ -127,7 +135,8 @@ describe('getFieldChoiceData function', () => {
                 picklistField: 'Industry',
                 picklistObject: 'Account',
                 value: choice1Guid,
-                guid: choice1Guid
+                guid: choice1Guid,
+                rowIndex: choice1RowIndex
             },
             {
                 label: {
@@ -136,7 +145,8 @@ describe('getFieldChoiceData function', () => {
                 },
                 name: '',
                 value: '',
-                guid: ''
+                guid: '',
+                rowIndex: choice2RowIndex
             },
             {
                 elementType: 'Choice',
@@ -146,7 +156,8 @@ describe('getFieldChoiceData function', () => {
                 },
                 name: 'choiceName',
                 value: choice3Guid,
-                guid: choice3Guid
+                guid: choice3Guid,
+                rowIndex: choice3RowIndex
             },
             {
                 label: {
@@ -155,7 +166,8 @@ describe('getFieldChoiceData function', () => {
                 },
                 name: '',
                 value: '',
-                guid: ''
+                guid: '',
+                rowIndex: undefined
             },
             {
                 label: {
@@ -164,7 +176,8 @@ describe('getFieldChoiceData function', () => {
                 },
                 name: '',
                 value: '',
-                guid: ''
+                guid: '',
+                rowIndex: undefined
             }
         ];
         const data = getFieldChoiceData(mockField);

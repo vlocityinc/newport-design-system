@@ -412,6 +412,7 @@ const changeChoice = (screen, event, field) => {
 
     const hydratedChoice = hydrateWithErrors(createChoiceReference(event.detail.newValue.value));
     hydratedChoice.choiceReference.error = event.detail.newValue.error;
+    hydratedChoice.rowIndex = event.detail.newValue.rowIndex;
     const updatedChoices = replaceItem(field.choiceReferences, hydratedChoice, event.detail.position);
     const updatedField = set(field, 'choiceReferences', updatedChoices);
     clearDefaultValueIfNecessary(updatedField);

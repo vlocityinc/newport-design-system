@@ -211,6 +211,7 @@ it('add choice to radio screen field', () => {
     expect(newScreen).toBeDefined();
     expect(newScreen.fields[0].choiceReferences).toHaveLength(originalNumChoices + 1);
     expect(newScreen.fields[0].choiceReferences[originalNumChoices].choiceReference.value).toBe('');
+    expect(newScreen.fields[0].choiceReferences[originalNumChoices].rowIndex).toBeDefined();
 });
 
 it('Attempt to add choice to invalid position results in an error', () => {
@@ -386,10 +387,12 @@ describe('Choice Visual Display Type Switching', () => {
             });
             field.choiceReferences = [];
             const choiceReference1 = {
-                choiceReference: { value: MOCK_STATIC_CHOICE_NUMBER, error: null }
+                choiceReference: { value: MOCK_STATIC_CHOICE_NUMBER, error: null },
+                rowIndex: 'rowIndex1'
             };
             const choiceReference2 = {
-                choiceReference: { value: MOCK_PICKLIST_CHOICE_SET_PREFIX + '1', error: null }
+                choiceReference: { value: MOCK_PICKLIST_CHOICE_SET_PREFIX + '1', error: null },
+                rowIndex: 'rowIndex2'
             };
             field.choiceReferences.push(choiceReference1);
             field.choiceReferences.push(choiceReference2);
@@ -457,10 +460,12 @@ describe('Choice Visual Display Type Switching', () => {
             );
             field.choiceReferences = [];
             const choiceReference1 = {
-                choiceReference: { value: 'choice1', error: null }
+                choiceReference: { value: 'choice1', error: null },
+                rowIndex: 'rowIndex1'
             };
             const choiceReference2 = {
-                choiceReference: { value: MOCK_PICKLIST_CHOICE_SET_PREFIX + '1', error: null }
+                choiceReference: { value: MOCK_PICKLIST_CHOICE_SET_PREFIX + '1', error: null },
+                rowIndex: 'rowIndex2'
             };
             field.choiceReferences.push(choiceReference1);
             field.choiceReferences.push(choiceReference2);
@@ -539,7 +544,8 @@ describe('Choice Visual Display Type Switching', () => {
                 });
                 field.choiceReferences = [];
                 const choiceReference1 = {
-                    choiceReference: { value: MOCK_STATIC_CHOICE_NUMBER, error: null }
+                    choiceReference: { value: MOCK_STATIC_CHOICE_NUMBER, error: null },
+                    rowIndex: 'rowIndex1'
                 };
                 field.choiceReferences.push(choiceReference1);
                 field.defaultValue = { value: MOCK_STATIC_CHOICE_NUMBER, error: null };
@@ -557,9 +563,7 @@ describe('Choice Visual Display Type Switching', () => {
                 expect(newScreen).toBeDefined();
                 expect(newScreen.fields[0].defaultValue).toEqual('');
                 expect(newScreen.fields[0].choiceReferences.length).toEqual(1);
-                expect(newScreen.fields[0].choiceReferences[0]).toEqual({
-                    choiceReference: { value: '', error: null }
-                });
+                expect(newScreen.fields[0].choiceReferences[0].choiceReference).toEqual({ value: '', error: null });
             });
             it("isRequired doesn't change", () => {
                 const screen = createTestScreen(SCREEN_NAME, []);
@@ -597,10 +601,12 @@ describe('Choice Visual Display Type Switching', () => {
                 });
                 field.choiceReferences = [];
                 const choiceReference1 = {
-                    choiceReference: { value: 'choice1', error: null }
+                    choiceReference: { value: 'choice1', error: null },
+                    rowIndex: 'rowIndex1'
                 };
                 const choiceReference2 = {
-                    choiceReference: { value: MOCK_PICKLIST_CHOICE_SET_PREFIX + '1', error: null }
+                    choiceReference: { value: MOCK_PICKLIST_CHOICE_SET_PREFIX + '1', error: null },
+                    rowIndex: 'rowIndex2'
                 };
                 field.choiceReferences.push(choiceReference1);
                 field.choiceReferences.push(choiceReference2);
@@ -670,10 +676,12 @@ describe('Choice Visual Display Type Switching', () => {
             );
             field.choiceReferences = [];
             const choiceReference1 = {
-                choiceReference: { value: 'choice1', error: null }
+                choiceReference: { value: 'choice1', error: null },
+                rowIndex: 'rowIndex1'
             };
             const choiceReference2 = {
-                choiceReference: { value: MOCK_PICKLIST_CHOICE_SET_PREFIX + '1', error: null }
+                choiceReference: { value: MOCK_PICKLIST_CHOICE_SET_PREFIX + '1', error: null },
+                rowIndex: 'rowIndex2'
             };
             field.choiceReferences.push(choiceReference1);
             field.choiceReferences.push(choiceReference2);
