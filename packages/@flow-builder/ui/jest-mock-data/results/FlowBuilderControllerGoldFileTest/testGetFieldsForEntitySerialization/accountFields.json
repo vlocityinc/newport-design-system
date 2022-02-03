@@ -185,7 +185,7 @@
       "sobjectName":"Account",
       "sortable":false,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "BillingCity":{
       "activePicklistValues":[
@@ -2983,7 +2983,7 @@
       "sobjectName":"Account",
       "sortable":false,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "PersonMailingCity":{
       "activePicklistValues":[
@@ -3386,7 +3386,7 @@
       "sobjectName":"Account",
       "sortable":false,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "PersonOtherCity":{
       "activePicklistValues":[
@@ -4071,7 +4071,7 @@
       "sobjectName":"Account",
       "sortable":false,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "ShippingCity":{
       "activePicklistValues":[

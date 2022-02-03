@@ -304,7 +304,7 @@
       "sobjectName":"Contract",
       "sortable":false,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "BankBranchCode":{
       "activePicklistValues":[
@@ -815,7 +815,7 @@
       "sobjectName":"Contract",
       "sortable":false,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "BillingCity":{
       "activePicklistValues":[
@@ -3448,7 +3448,7 @@
       "sobjectName":"Contract",
       "sortable":false,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "ShippingCity":{
       "activePicklistValues":[

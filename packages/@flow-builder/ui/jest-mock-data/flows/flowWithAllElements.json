@@ -1719,6 +1719,7 @@
                         "name": "screenWithAutomaticFieldsInSection_Section1",
                         "outputParameters": [],
                         "processMetadataValues": [],
+                        "regionContainerType": "SectionWithoutHeader",
                         "scale": 0,
                         "storeOutputAutomatically": false
                     }
@@ -1793,6 +1794,7 @@
                         "name": "ScreenWithSection_Section1",
                         "outputParameters": [],
                         "processMetadataValues": [],
+                        "regionContainerType": "SectionWithoutHeader",
                         "scale": 0,
                         "storeOutputAutomatically": false
                     },
@@ -1955,6 +1957,7 @@
                         "name": "ScreenWithSection_Section2",
                         "outputParameters": [],
                         "processMetadataValues": [],
+                        "regionContainerType": "SectionWithoutHeader",
                         "scale": 0,
                         "storeOutputAutomatically": false
                     },
@@ -2088,6 +2091,7 @@
                         "name": "screenWithSectionAndLightningComp_Section1",
                         "outputParameters": [],
                         "processMetadataValues": [],
+                        "regionContainerType": "SectionWithoutHeader",
                         "scale": 0,
                         "storeOutputAutomatically": false
                     }
@@ -2096,6 +2100,147 @@
                 "locationX": 954,
                 "locationY": 633,
                 "name": "screenWithSectionAndLightningComp",
+                "processMetadataValues": [],
+                "rules": [],
+                "showFooter": true,
+                "showHeader": true
+            },
+            {
+                "allowBack": true,
+                "allowFinish": true,
+                "allowPause": true,
+                "fields": [
+                    {
+                        "choiceReferences": [],
+                        "dataTypeMappings": [],
+                        "fieldText": "SectionWithHeader",
+                        "fieldType": "RegionContainer",
+                        "fields": [
+                            {
+                                "choiceReferences": [],
+                                "dataTypeMappings": [],
+                                "fieldType": "Region",
+                                "fields": [
+                                    {
+                                        "choiceReferences": [],
+                                        "dataType": "String",
+                                        "dataTypeMappings": [],
+                                        "fieldText": "textInSectionWithHeader",
+                                        "fieldType": "InputField",
+                                        "fields": [],
+                                        "inputParameters": [],
+                                        "isRequired": false,
+                                        "name": "textInSectionWithHeader",
+                                        "outputParameters": [],
+                                        "processMetadataValues": [],
+                                        "scale": 0,
+                                        "storeOutputAutomatically": false
+                                    },
+                                    {
+                                        "choiceReferences": [],
+                                        "dataType": "DateTime",
+                                        "dataTypeMappings": [],
+                                        "defaultValue": {
+                                            "elementReference": "$System.OriginDateTime"
+                                        },
+                                        "fieldText": "dateTimeInSectionWithHeader",
+                                        "fieldType": "InputField",
+                                        "fields": [],
+                                        "inputParameters": [],
+                                        "isRequired": false,
+                                        "name": "dateTimeInSectionWithHeader",
+                                        "outputParameters": [],
+                                        "processMetadataValues": [],
+                                        "scale": 0,
+                                        "storeOutputAutomatically": false
+                                    }
+                                ],
+                                "inputParameters": [
+                                    {
+                                        "name": "width",
+                                        "processMetadataValues": [],
+                                        "value": {
+                                            "stringValue": "6"
+                                        }
+                                    }
+                                ],
+                                "isRequired": false,
+                                "name": "SectionWithHeader_Column1",
+                                "outputParameters": [],
+                                "processMetadataValues": [],
+                                "scale": 0,
+                                "storeOutputAutomatically": false
+                            },
+                            {
+                                "choiceReferences": [],
+                                "dataTypeMappings": [],
+                                "fieldType": "Region",
+                                "fields": [
+                                    {
+                                        "choiceReferences": [
+                                            "recordChoiceSet",
+                                            "other",
+                                            "ccs_getAccAutowFieldsNfilters"
+                                        ],
+                                        "dataType": "String",
+                                        "dataTypeMappings": [],
+                                        "fieldText": "accountsInSectionWithHeader",
+                                        "fieldType": "DropdownBox",
+                                        "fields": [],
+                                        "inputParameters": [],
+                                        "isRequired": true,
+                                        "name": "accountsInSectionWithHeader",
+                                        "outputParameters": [],
+                                        "processMetadataValues": [],
+                                        "scale": 0,
+                                        "storeOutputAutomatically": false,
+                                        "visibilityRule": {
+                                            "conditionLogic": "and",
+                                            "conditions": [
+                                                {
+                                                    "leftValueReference": "slider_1.value",
+                                                    "operator": "GreaterThanOrEqualTo",
+                                                    "processMetadataValues": [],
+                                                    "rightValue": {
+                                                        "numberValue": 50
+                                                    }
+                                                }
+                                            ],
+                                            "processMetadataValues": []
+                                        }
+                                    }
+                                ],
+                                "inputParameters": [
+                                    {
+                                        "name": "width",
+                                        "processMetadataValues": [],
+                                        "value": {
+                                            "stringValue": "6"
+                                        }
+                                    }
+                                ],
+                                "isRequired": false,
+                                "name": "SectionWithHeader_Column2",
+                                "outputParameters": [],
+                                "processMetadataValues": [],
+                                "scale": 0,
+                                "storeOutputAutomatically": false
+                            }
+                        ],
+                        "inputParameters": [],
+                        "isRequired": false,
+                        "name": "SectionWithHeader",
+                        "outputParameters": [],
+                        "processMetadataValues": [],
+                        "regionContainerType": "SectionWithHeader",
+                        "scale": 0,
+                        "storeOutputAutomatically": false
+                    }
+                ],
+                "label": "ScreenWithSectionWithHeader",
+                "locationX": 59,
+                "locationY": 756,
+                "name": "ScreenWithSectionWithHeader",
                 "processMetadataValues": [],
                 "rules": [],
                 "showFooter": true,

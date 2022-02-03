@@ -307,6 +307,7 @@ export const elementsForPropertyEditors = {
             value: '',
             error: null
         },
+        hasHeading: false,
         helpText: {
             value: '',
             error: null
@@ -436,6 +437,7 @@ export const elementsForPropertyEditors = {
             value: '',
             error: null
         },
+        hasHeading: false,
         helpText: {
             value: '',
             error: null
@@ -719,7 +721,7 @@ export const elementsForPropertyEditors = {
         useSobject: true
     },
     other: {
-        guid: 'c0b8d69f-4607-479a-b09c-55b8be96503f',
+        guid: '99dc6278-41a6-44c2-b316-c76f639232c4',
         name: {
             value: 'other',
             error: null
@@ -746,7 +748,7 @@ export const elementsForPropertyEditors = {
             error: null
         },
         storedValueIndex: {
-            value: '33155916-197a-4b4e-b108-bbdf3aef4e41',
+            value: '9cd671ee-af98-49b1-b58f-5e022bc554a4',
             error: null
         },
         isShowInputSelected: true,
@@ -914,6 +916,7 @@ export const elementsForPropertyEditors = {
                             value: '',
                             error: null
                         },
+                        hasHeading: false,
                         helpText: {
                             value: '',
                             error: null
@@ -992,6 +995,7 @@ export const elementsForPropertyEditors = {
                                     value: '',
                                     error: null
                                 },
+                                hasHeading: false,
                                 helpText: {
                                     value: '',
                                     error: null
@@ -1077,6 +1081,7 @@ export const elementsForPropertyEditors = {
                     value: 'number_2',
                     error: null
                 },
+                hasHeading: false,
                 helpText: {
                     value: '',
                     error: null
@@ -1198,6 +1203,7 @@ export const elementsForPropertyEditors = {
                             value: '',
                             error: null
                         },
+                        hasHeading: false,
                         helpText: {
                             value: '',
                             error: null
@@ -1272,6 +1278,7 @@ export const elementsForPropertyEditors = {
                                     value: 'text_2',
                                     error: null
                                 },
+                                hasHeading: false,
                                 helpText: {
                                     value: '',
                                     error: null
@@ -1335,6 +1342,7 @@ export const elementsForPropertyEditors = {
                                     value: 'dateTimeInSection',
                                     error: null
                                 },
+                                hasHeading: false,
                                 helpText: {
                                     value: '',
                                     error: null
@@ -1398,6 +1406,7 @@ export const elementsForPropertyEditors = {
                             value: '',
                             error: null
                         },
+                        hasHeading: false,
                         helpText: {
                             value: '',
                             error: null
@@ -1476,6 +1485,7 @@ export const elementsForPropertyEditors = {
                                     value: '',
                                     error: null
                                 },
+                                hasHeading: false,
                                 helpText: {
                                     value: '',
                                     error: null
@@ -1535,21 +1545,21 @@ export const elementsForPropertyEditors = {
                                 choiceReferences: [
                                     {
                                         choiceReference: {
-                                            value: '2f787ad6-32ec-4d66-a34e-a2131ffbee92',
+                                            value: '2f16ad0b-a4ea-4062-833a-bc2250adc79e',
                                             error: null
                                         },
                                         rowIndex: '875f212c-ce7a-482e-900a-5a11b9e83a62'
                                     },
                                     {
                                         choiceReference: {
-                                            value: 'c0b8d69f-4607-479a-b09c-55b8be96503f',
+                                            value: '99dc6278-41a6-44c2-b316-c76f639232c4',
                                             error: null
                                         },
                                         rowIndex: 'a4523c0d-9291-4c0a-b5ba-1168e4d17d99'
                                     },
                                     {
                                         choiceReference: {
-                                            value: '1c1e6a2c-d292-49f3-ab11-1c6cf365e135',
+                                            value: 'b5a9adff-b0ce-403c-9016-dc59e7047f6a',
                                             error: null
                                         },
                                         rowIndex: 'c9c2a575-1e1a-4bb4-a78d-0f8c2f56610f'
@@ -1579,6 +1589,7 @@ export const elementsForPropertyEditors = {
                                     value: 'Accounts',
                                     error: null
                                 },
+                                hasHeading: false,
                                 helpText: {
                                     value: '',
                                     error: null
@@ -1669,6 +1680,7 @@ export const elementsForPropertyEditors = {
                     value: '',
                     error: null
                 },
+                hasHeading: false,
                 helpText: {
                     value: '',
                     error: null

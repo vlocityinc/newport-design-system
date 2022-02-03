@@ -185,7 +185,8 @@ const sectionScreenFieldMetadata = () => ({
     isRequired: undefined,
     name: 'section',
     outputParameters: undefined,
-    scale: undefined
+    scale: undefined,
+    regionContainerType: 'SectionWithoutHeader'
 });
 
 const sectionScreenFieldWithHeaderMetadata = () => ({
@@ -199,7 +200,8 @@ const sectionScreenFieldWithHeaderMetadata = () => ({
     isRequired: undefined,
     name: 'This_is_a_new_section',
     outputParameters: undefined,
-    scale: undefined
+    scale: undefined,
+    regionContainerType: 'SectionWithHeader'
 });
 
 const columnScreenFieldMetadata = () => ({
@@ -570,15 +572,18 @@ describe('screenField', () => {
                 expect(actualResult.childReferences).toHaveLength(1);
             });
         });
-        describe('section field with header', () => {
+        describe('section field with / without header', () => {
             let screenFieldMetadata;
-            beforeEach(() => {
+            it('should have hasHeading set to true if section with header', () => {
                 screenFieldMetadata = sectionScreenFieldWithHeaderMetadata();
-            });
-            it('should have hasHeading set to true', () => {
                 const actualResult = createScreenFieldWithFieldReferences(screenFieldMetadata, [], 'myScreen');
                 expect(actualResult.hasHeading).toBe(true);
                 expect(actualResult.name).toBe('This_is_a_new_section');
+            });
+            it('should have hasHeading set to false if section without header', () => {
+                screenFieldMetadata = sectionScreenFieldMetadata();
+                const actualResult = createScreenFieldWithFieldReferences(screenFieldMetadata, [], 'myScreen');
+                expect(actualResult.hasHeading).toBe(false);
             });
         });
         describe('automatic fields', () => {

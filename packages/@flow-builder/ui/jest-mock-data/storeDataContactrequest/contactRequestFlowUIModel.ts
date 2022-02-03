@@ -384,6 +384,7 @@ export const contactRequestFlowUIModel = {
             extensionName: 'flowruntime:address',
             fieldType: 'ComponentInstance',
             fieldText: '',
+            hasHeading: false,
             helpText: '',
             inputParameters: [],
             isNewField: false,

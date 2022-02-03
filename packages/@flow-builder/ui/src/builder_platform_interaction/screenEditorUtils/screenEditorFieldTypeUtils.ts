@@ -44,6 +44,11 @@ export enum ChoiceDisplayOptions {
     MULTI_SELECT = 'MultiSelect'
 }
 
+export enum RegionContainerType {
+    SECTION_WITH_HEADER = 'SectionWithHeader',
+    SECTION_WITHOUT_HEADER = 'SectionWithoutHeader'
+}
+
 /**
  * All screen field types
  * Property type represents the actual data type of the field (used as part of ferov handling)

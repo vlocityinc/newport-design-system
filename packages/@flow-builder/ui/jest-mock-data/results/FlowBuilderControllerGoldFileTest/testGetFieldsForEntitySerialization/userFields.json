@@ -106,7 +106,7 @@
       "sobjectName":"User",
       "sortable":false,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "Alias":{
       "activePicklistValues":[

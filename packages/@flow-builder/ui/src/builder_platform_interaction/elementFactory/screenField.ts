@@ -17,6 +17,7 @@ import {
     isRegionContainerField,
     isRegionField,
     isTextAreaField,
+    RegionContainerType,
     ScreenFieldName
 } from 'builder_platform_interaction/screenEditorUtils';
 import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
@@ -47,7 +48,8 @@ export function createScreenField(screenField: UI.ScreenField, isNewField = fals
         helpText = '',
         defaultValueIndex = generateGuid(),
         dataTypeMappings,
-        objectFieldReference
+        objectFieldReference,
+        regionContainerType
     } = screenField;
     let {
         type,
@@ -60,7 +62,7 @@ export function createScreenField(screenField: UI.ScreenField, isNewField = fals
         fields,
         inputsOnNextNavToAssocScrn,
         singleOrMultiSelect,
-        hasHeading
+        hasHeading = false
     } = screenField;
     if (isExtensionField(screenField)) {
         // Assign local extension type (using a local version of the field type that will be replaced when the real one is retrieved from the server
@@ -96,8 +98,11 @@ export function createScreenField(screenField: UI.ScreenField, isNewField = fals
         if (isRegionField(screenField)) {
             inputParameters = inputParameters.map((inputParameter) => createInputParameter(inputParameter));
         } else {
-            if (isRegionContainerField(screenField)) {
-                hasHeading = !!fieldText;
+            if (
+                isRegionContainerField(screenField) &&
+                regionContainerType === RegionContainerType.SECTION_WITH_HEADER
+            ) {
+                hasHeading = true;
             }
             inputParameters = [];
         }
@@ -533,7 +538,8 @@ export function createScreenFieldMetadataObject(screenField) {
         dynamicTypeMappings,
         childReferences,
         inputsOnNextNavToAssocScrn,
-        objectFieldReference
+        objectFieldReference,
+        hasHeading
     } = screenField;
     let {
         fieldText,
@@ -546,7 +552,8 @@ export function createScreenFieldMetadataObject(screenField) {
         choiceReferences,
         fields,
         storeOutputAutomatically,
-        isRequired
+        isRequired,
+        regionContainerType
     } = screenField;
 
     // Convert scale back to number. MD expects this to be a number, but within FlowBuilder, we want it to be a string.
@@ -586,6 +593,10 @@ export function createScreenFieldMetadataObject(screenField) {
         if (!screenField.hasHeading) {
             fieldText = undefined;
         }
+        // Only populate regionContainerType when screenField is a section field
+        regionContainerType = hasHeading
+            ? RegionContainerType.SECTION_WITH_HEADER
+            : RegionContainerType.SECTION_WITHOUT_HEADER;
     } else if (fieldType === FlowScreenFieldType.ObjectProvided) {
         fieldText = undefined;
         name = undefined;
@@ -621,7 +632,8 @@ export function createScreenFieldMetadataObject(screenField) {
             scale,
             fields,
             inputsOnNextNavToAssocScrn,
-            objectFieldReference
+            objectFieldReference,
+            regionContainerType
         },
         dataTypeMappings,
         storeOutputAutomatically !== undefined ? { storeOutputAutomatically } : {},

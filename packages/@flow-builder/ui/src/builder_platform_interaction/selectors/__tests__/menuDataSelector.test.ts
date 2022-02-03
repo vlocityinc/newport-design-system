@@ -841,6 +841,7 @@ describe('isOrCanContainSelector', () => {
             expect(toSortedNames(result)).toEqual([
                 'Address',
                 'accounts',
+                'accountsInSectionWithHeader',
                 'actionCallAutomaticOutput',
                 'actionCallLC_apex_no_sobject_auto',
                 'actionCallLC_apex_with_sobject_auto',
@@ -870,6 +871,7 @@ describe('isOrCanContainSelector', () => {
                 'stringVariable',
                 'subflowAutomaticOutput',
                 'textFormula',
+                'textInSectionWithHeader',
                 'textTemplate1',
                 'textTemplate2',
                 'text_2',

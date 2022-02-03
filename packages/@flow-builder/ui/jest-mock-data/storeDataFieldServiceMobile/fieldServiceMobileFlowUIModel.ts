@@ -451,6 +451,7 @@ export const fieldServiceMobileFlowUIModel = {
             extensionName: 'forceContent:fileUpload',
             fieldType: 'ComponentInstance',
             fieldText: '',
+            hasHeading: false,
             helpText: '',
             inputParameters: [
                 {
