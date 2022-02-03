@@ -321,7 +321,7 @@ export class GridKeyboardInteraction extends BaseKeyboardInteraction {
     private handleArrowKeysUpDown(key: Keys.ArrowDown | Keys.ArrowUp): void {
         const [rowIdx, cellIdx] = this.getActiveCellIndices()!;
 
-        let nextRowIdx = null;
+        let nextRowIdx: number | null = null;
         if (key === Keys.ArrowUp && rowIdx > 0) {
             nextRowIdx = rowIdx - 1;
         } else if (key === Keys.ArrowDown && rowIdx < this.numRows - 1) {
@@ -343,7 +343,7 @@ export class GridKeyboardInteraction extends BaseKeyboardInteraction {
     private handleArrowKeysLeftRight(key: Keys.ArrowLeft | Keys.ArrowRight): void {
         const [rowIdx, cellIdx] = this.getActiveCellIndices()!;
 
-        let nextCellIdx = null;
+        let nextCellIdx: number | null = null;
         if (key === Keys.ArrowLeft && cellIdx > 0) {
             nextCellIdx = cellIdx - 1;
         } else if (key === Keys.ArrowRight && cellIdx < this.numCols - 1) {

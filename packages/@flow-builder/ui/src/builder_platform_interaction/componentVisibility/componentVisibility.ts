@@ -1,3 +1,4 @@
+import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 import { hidePopover, showPopover } from 'builder_platform_interaction/builderUtils';
 import { getConditionsWithPrefixes, showDeleteCondition } from 'builder_platform_interaction/conditionListUtils';
 import {
@@ -7,6 +8,7 @@ import {
 } from 'builder_platform_interaction/events';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { focusUtils } from 'builder_platform_interaction/sharedUtils';
 import { api, LightningElement } from 'lwc';
 import { LABELS } from './componentVisibilityLabels';
 
@@ -55,6 +57,9 @@ export default class ComponentVisibility extends LightningElement {
     private _addConditionClicked = false;
 
     private _logicComboboxLabel: string | null = null;
+
+    // The saved active element, to restore focus, to when closing the condition editor popup
+    private savedActiveElement: HTMLElement | undefined;
 
     get logicComboboxLabel() {
         return this._logicComboboxLabel || LABELS.logicComboboxLabel;
@@ -167,9 +172,19 @@ export default class ComponentVisibility extends LightningElement {
     };
 
     /**
+     * Get a condition list item at a given index
+     *
+     * @param index - The index for the item
+     * @returns The condition list item at the specified index
+     */
+    getConditionListItem(index: number): LightningElement {
+        return this.template.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.CONDITION_LIST_ITEM)[index];
+    }
+
+    /**
      * Displays the popover for the condition that was clicked on.
      *
-     * @param {Event} event the onclick event
+     * @param event the onclick event
      * @fires DeleteConditionEvent when a "New Condition" was displayed
      */
     handleClickCondition = (event) => {
@@ -177,10 +192,12 @@ export default class ComponentVisibility extends LightningElement {
 
         // only do something when we clicked on a different condition
         const index = parseInt(event.currentTarget.dataset.index, 10);
+
+        this.savedActiveElement = this.getConditionListItem(index);
+
         if (index !== this._popoverIndex) {
             this._popoverIndex = index;
             this.displayPopover(this._popoverIndex);
-
             // delete any new condition that was present
             this.deleteNewCondition();
         }
@@ -190,13 +207,18 @@ export default class ComponentVisibility extends LightningElement {
      * Handles when the user clicks "Done" in the ConditionEditorPopover.
      * The popover guarantees this is only invoked if the condition doesn't have any errors.
      *
-     * @param {number} index the index of the edited condition
-     * @param {Object} condition the condition that was edited
+     * @param index - The index of the edited condition
+     * @param condition -The condition that was edited
      * @fires UpdateConditionEvent
      */
-    handleDone = (index, condition) => {
+    handleDone = (index: number, condition: UI.Condition) => {
         this.dispatchEvent(new UpdateConditionEvent(this.guid, index, condition));
         this._popoverIndex = -1;
+
+        // set the savedActiveElement to the new list item
+        this.savedActiveElement = this.getConditionListItem(index);
+
+        this.returnFocus();
         hidePopover();
     };
 
@@ -208,11 +230,25 @@ export default class ComponentVisibility extends LightningElement {
      * @fires DeleteConditionEvent
      */
     handleClosePopover = (panel) => {
-        if (panel.closedBy === 'closeOnClickOut') {
+        if (panel.closedBy === 'closeOnTabOut' || panel.closedBy === 'closeOnClickOut') {
             this.deleteNewCondition();
             this._popoverIndex = -1;
         }
+
+        this.returnFocus();
     };
+
+    /**
+     * Returns the focus to any saved active element
+     */
+    returnFocus() {
+        // Using setTimeout to work around the double aura popover issue
+        // eslint-disable-next-line @lwc/lwc/no-async-operation
+        setTimeout(() => {
+            this.savedActiveElement?.focus();
+            this.savedActiveElement = undefined;
+        }, 500);
+    }
 
     /**
      * Checks if the last condition is new
@@ -265,6 +301,11 @@ export default class ComponentVisibility extends LightningElement {
     displayPopover(index) {
         // hide the popover if it is already opened
         hidePopover();
+
+        // if we haven't set a savedActiveElement, then use the element that currently has the focus
+        if (this.savedActiveElement == null) {
+            this.savedActiveElement = focusUtils.getElementWithFocus();
+        }
 
         const nth = index + 1;
         const referenceElement = this.template.querySelector(

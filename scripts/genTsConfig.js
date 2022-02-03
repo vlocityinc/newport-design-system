@@ -59,7 +59,6 @@ ${pathPropertyIndent()}"builder_platform_interaction/popover": ["../auto-layout-
 ${pathPropertyIndent()}"builder_platform_interaction/alcMenu": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcMenu/alcMenu.ts"],
 ${pathPropertyIndent()}"builder_platform_interaction/alcNodeMenu": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcNodeMenu/alcNodeMenu.ts"],
 ${pathPropertyIndent()}"builder_platform_interaction/alcConnectorMenu": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcConnectorMenu/alcConnectorMenu.ts"],
-${pathPropertyIndent()}"builder_platform_interaction/alcComponentsUtils": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcComponentsUtils/alcComponentsUtils.ts"],
 ${pathPropertyIndent()}"builder_platform_interaction/alcCanvas": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcCanvas/alcCanvas.ts"],
 ${pathPropertyIndent()}"builder_platform_interaction/zoomPanel": ["../auto-layout-canvas-ui/src/builder_platform_interaction/zoomPanel/zoomPanel.ts"],
 ${pathPropertyIndent()}"builder_platform_interaction/alcComponentsUtils": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcComponentsUtils/alcComponentsUtils.ts"],

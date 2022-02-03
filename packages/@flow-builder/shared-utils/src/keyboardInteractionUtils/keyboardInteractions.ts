@@ -83,8 +83,8 @@ export function createShortcut(key: Keys | ShortcutKey, command: BaseCommand): K
  * @param key - The shortcut key
  * @returns  The formatted shortcut key
  */
-export function formatShortcutKey(key: ShortcutKey) {
-    const parts = [];
+export function formatShortcutKey(key: ShortcutKey): string {
+    const parts: string[] = [];
 
     if (key.ctrlOrCmd) {
         parts.push(isMacPlatform() ? 'Cmd' : 'Ctrl');
