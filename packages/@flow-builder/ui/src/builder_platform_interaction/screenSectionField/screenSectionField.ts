@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { api, LightningElement } from 'lwc';

@@ -6,3 +6,7 @@
 .screen-section-field-column:first-child {
     border-left: none;
 }
+
+.section-arrow {
+    vertical-align: top;
+}
