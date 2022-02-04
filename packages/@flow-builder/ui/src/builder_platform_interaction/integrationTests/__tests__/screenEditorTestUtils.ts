@@ -29,7 +29,7 @@ import ScreenField from 'builder_platform_interaction/screenField';
 import ScreenInputField from 'builder_platform_interaction/screenInputField';
 import ScreenInputFieldPropertiesEditor from 'builder_platform_interaction/screenInputFieldPropertiesEditor';
 import ScreenPropertiesEditor from 'builder_platform_interaction/screenPropertiesEditor';
-import ScreenEditorPropertiesEditorContainer from 'builder_platform_interaction/screenPropertiesEditorContainer';
+import ScreenPropertiesEditorContainer from 'builder_platform_interaction/screenPropertiesEditorContainer';
 import ScreenPropertyField from 'builder_platform_interaction/screenPropertyField';
 import ScreenSectionFieldPropertiesEditor from 'builder_platform_interaction/screenSectionFieldPropertiesEditor';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
@@ -152,7 +152,7 @@ export class ScreenEditorTestComponent extends TestComponent<ScreenEditor> {
     public getPropertiesEditorContainer() {
         const element = this.element.shadowRoot!.querySelector(
             SELECTORS.SCREEN_PROPERTIES_EDITOR_CONTAINER
-        ) as ScreenEditorPropertiesEditorContainer & HTMLElement;
+        ) as ScreenPropertiesEditorContainer & HTMLElement;
         return new PropertiesEditorContainerTestComponent(element);
     }
 }
@@ -393,7 +393,7 @@ export class SectionScreenEditorHighlightTestComponent extends ScreenEditorHighl
     }
 }
 
-export class PropertiesEditorContainerTestComponent extends TestComponent<ScreenEditorPropertiesEditorContainer> {
+export class PropertiesEditorContainerTestComponent extends TestComponent<ScreenPropertiesEditorContainer> {
     public getScreenPropertiesEditor(): ScreenPropertiesEditorTestComponent | undefined {
         const screenPropertiesEditorElement = this.element.shadowRoot!.querySelector<
             ScreenPropertiesEditor & HTMLElement

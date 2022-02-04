@@ -1256,6 +1256,19 @@ describe('property editor', () => {
             newResourceCallback({ newResourceInfo: { dataType: 'string', newResource: null } });
             expect(invokePropertyEditor).toHaveBeenCalledTimes(2);
         });
+        test('when the details in an AddElementEvent include an elementType of Screen, invokePropertyEditor will be called w/ autoFocus in the params', async () => {
+            const editorComponent = createComponentUnderTest();
+            const addElementEvent = new AddElementEvent({ elementType: 'Screen' });
+            editorComponent.shadowRoot
+                .querySelector('builder_platform_interaction-left-panel')
+                .dispatchEvent(addElementEvent);
+
+            await ticks();
+            expect(invokePropertyEditor).toHaveBeenCalledWith(
+                PROPERTY_EDITOR,
+                expect.objectContaining({ autoFocus: false })
+            );
+        });
         it('the newResourceCallback does not call invokePropertyEditor when a new resource is passed in', async () => {
             const editorComponent = createComponentUnderTest();
             const addElementEvent = new AddElementEvent('SCREEN');

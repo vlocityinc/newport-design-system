@@ -1,4 +1,3 @@
-import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 import { hidePopover, modalBodyVariant } from 'builder_platform_interaction/builderUtils';
 import { orgHasFlowBuilderAutomaticFields } from 'builder_platform_interaction/contextLib';
 import { getErrorsFromHydratedElement, sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
@@ -40,6 +39,11 @@ const LEGAL_NOTICE_HEADERS = {
     AUTOMATIC_FIELDS: LABELS.automaticFieldsLegalNoticeHeader
 };
 
+const SELECTORS = {
+    SCREEN_PROPERTIES_EDITOR_CONTAINER: 'builder_platform_interaction-screen-properties-editor-container',
+    SCREEN_EDITOR_CANVAS: 'builder_platform_interaction-screen-editor-canvas'
+};
+
 /**
  * Screen editor container and template (3-col layout) for palette, canvas and property editor
  */
@@ -55,6 +59,8 @@ export default class ScreenEditor extends LightningElement {
     processTypeValue = '';
 
     shift = false;
+    // this determines that the initial focus is only set once, when we have the screen object
+    initialFocusSet = false;
 
     @track legalNotices: UI.LegalNotice[] = [
         { header: LEGAL_NOTICE_HEADERS.AUTOMATIC_FIELDS, shown: false, dismissed: false }
@@ -140,6 +146,10 @@ export default class ScreenEditor extends LightningElement {
             this.objectFieldReferenceChanged = false;
         }
         setScreenElement(this.screen);
+        if (this.screen && !this.initialFocusSet) {
+            this.focus();
+            this.initialFocusSet = true;
+        }
     }
 
     getAutomaticFieldPalette() {
@@ -449,6 +459,13 @@ export default class ScreenEditor extends LightningElement {
         }
     };
 
+    focus() {
+        const screenPropertiesEditorContainer = this.template.querySelector(
+            SELECTORS.SCREEN_PROPERTIES_EDITOR_CONTAINER
+        );
+        return screenPropertiesEditorContainer?.focusLabelDescription();
+    }
+
     /**
      * Handler for the select screen element event
      *
@@ -458,7 +475,7 @@ export default class ScreenEditor extends LightningElement {
         this.hidePopover();
         if (event.detail.fromKeyboard) {
             const screenPropertiesEditorContainer = this.template.querySelector(
-                INTERACTION_COMPONENTS_SELECTORS.SCREEN_PROPERTIES_EDITOR_CONTAINER
+                SELECTORS.SCREEN_PROPERTIES_EDITOR_CONTAINER
             );
             if (screenPropertiesEditorContainer) {
                 if (
@@ -480,7 +497,7 @@ export default class ScreenEditor extends LightningElement {
     };
 
     handleFocusScreenElement = () => {
-        const element = this.template.querySelector(INTERACTION_COMPONENTS_SELECTORS.SCREEN_EDITOR_CANVAS);
+        const element = this.template.querySelector(SELECTORS.SCREEN_EDITOR_CANVAS);
         element.focusHighlight();
     };
 

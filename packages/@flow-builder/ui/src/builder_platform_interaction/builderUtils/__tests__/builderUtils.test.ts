@@ -169,6 +169,12 @@ describe('builderUtils', () => {
                 const actualResult = getPropertyEditorConfig(ADD_MODE, params);
                 expect(actualResult.attr.bodyComponent.className).toEqual(`${mockPackage}/${mockComponent}`);
             });
+            test('if autoFocus is included in the attr object, it will be included in the panelConfig that results', () => {
+                const attr = getAttributes(ADD_MODE);
+                attr.autoFocus = false;
+                const { panelConfig } = getPropertyEditorConfig(ADD_MODE, attr);
+                expect(panelConfig).toHaveProperty('autoFocus', false);
+            });
         });
     });
 

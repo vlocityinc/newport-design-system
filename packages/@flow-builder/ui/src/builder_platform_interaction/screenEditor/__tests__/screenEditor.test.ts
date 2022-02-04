@@ -48,6 +48,11 @@ jest.mock('builder_platform_interaction/contextLib', () => require('builder_plat
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
+
+jest.mock('builder_platform_interaction/screenPropertiesEditorContainer', () =>
+    require('builder_platform_interaction_mocks/screenPropertiesEditorContainer')
+);
+
 jest.mock('builder_platform_interaction/storeLib', () => {
     function getCurrentState() {
         return {
@@ -184,6 +189,13 @@ describe('Event handling on editor', () => {
         screenEditorElement = createComponentUnderTest({ node: screen });
 
         expect(screen.fields).toHaveLength(NB_SCREEN_FIELDS);
+    });
+
+    describe('upon initial loading', () => {
+        test('child component ScreenPropertyEditorContainer had focusLabelDescription triggered', async () => {
+            const editor = getScreenPropertyEditorContainer(screenEditorElement);
+            expect(editor.focusLabelDescription).toHaveBeenCalled();
+        });
     });
 
     describe('add screen field', () => {
@@ -380,7 +392,6 @@ describe('Event handling on editor', () => {
         const canvas = getScreenEditorCanvas(screenEditorElement);
         const editor = getScreenPropertyEditorContainer(screenEditorElement);
         editor.focusExpandButton = jest.fn();
-        const field = screenEditorElement.node.fields[3];
         canvas.dispatchEvent(createScreenElementSelectedEvent(screenEditorElement.node, null, true));
         await ticks(1);
         expect(editor.focusExpandButton).toHaveBeenCalled();

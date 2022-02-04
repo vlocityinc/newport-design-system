@@ -390,6 +390,7 @@ export const getPropertyEditorConfig = (mode, attributes) => {
         desc = getPropertyEditorDescriptor(mode, elementConfig),
         className = getPropertyEditorClassName(desc),
         processType = attributes.processType,
+        autoFocus = attributes.autoFocus,
         triggerType = attributes.triggerType;
     if (!desc) {
         throw new Error('descriptor is not defined in the element config for the element type: ' + elementType);
@@ -423,7 +424,8 @@ export const getPropertyEditorConfig = (mode, attributes) => {
         isLabelCollapsibleToHeader: false,
         isFieldLevelCommitEnabled: false,
         elementType,
-        propertyEditorPanelSize: elementConfig.propertyEditorPanelSize
+        propertyEditorPanelSize: elementConfig.propertyEditorPanelSize,
+        autoFocus
     };
 
     return {
@@ -478,6 +480,7 @@ const doInvoke = (cmpName, attr, panelConfig) => {
                     body: newComponents[0],
                     flavor: panelConfig.flavor,
                     bodyClass: panelConfig.bodyClass,
+                    autoFocus: panelConfig.autoFocus,
                     header: newComponents[1],
                     footer: newComponents[2],
                     closeAction: (panel) => {

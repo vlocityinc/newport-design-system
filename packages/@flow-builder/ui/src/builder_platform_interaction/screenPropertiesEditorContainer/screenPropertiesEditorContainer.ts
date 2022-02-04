@@ -11,13 +11,14 @@ const { BaseKeyboardInteraction, withKeyboardInteractions, createShortcut } = ke
 const { ShiftF6 } = commands;
 const SELECTORS = {
     BACK_BUTTON: 'lightning-button-icon.back-button',
-    EXPAND_BUTTON: 'lightning-button-icon.expand-button'
+    EXPAND_BUTTON: 'lightning-button-icon.expand-button',
+    SCREEN_PROPERTIES_EDITOR: 'builder_platform_interaction-screen-properties-editor'
 };
 
 /*
  * Right hand side component, used to toggle between screen and field property editors.
  */
-export default class ScreenEditorPropertiesEditorContainer extends withKeyboardInteractions(LightningElement) {
+export default class ScreenPropertiesEditorContainer extends withKeyboardInteractions(LightningElement) {
     @track
     _node;
 
@@ -47,6 +48,12 @@ export default class ScreenEditorPropertiesEditorContainer extends withKeyboardI
     focusExpandButton() {
         const button = this.template.querySelector(SELECTORS.EXPAND_BUTTON);
         button?.focus();
+    }
+
+    @api
+    focusLabelDescription() {
+        const screenPropertiesEditor = this.template.querySelector(SELECTORS.SCREEN_PROPERTIES_EDITOR);
+        screenPropertiesEditor?.focus();
     }
 
     private getScreenFieldPropertiesEditorPanelTitle() {

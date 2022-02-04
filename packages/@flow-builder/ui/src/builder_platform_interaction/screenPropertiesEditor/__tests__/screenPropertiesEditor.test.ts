@@ -5,7 +5,11 @@
  * Company Confidential
  */
 
-import { query, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import {
+    INTERACTION_COMPONENTS_SELECTORS,
+    query,
+    setDocumentBodyChildren
+} from 'builder_platform_interaction/builderTestUtils';
 import { createScreenWithFields } from 'builder_platform_interaction/elementFactory';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { FOOTER_LABEL_TYPE, PAUSE_MESSAGE_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -23,7 +27,6 @@ jest.mock('builder_platform_interaction/selectors', () => {
 });
 
 const SELECTORS = {
-    NAME_AND_LABEL_FIELD: 'builder_platform_interaction-label-description',
     SHOW_HEADER: 'builder_platform_interaction-screen-property-field[name="showHeader"]',
     SHOW_FOOTER: 'builder_platform_interaction-screen-property-field[name="showFooter"]',
     ALLOW_HELP: 'builder_platform_interaction-screen-property-field[name="allowHelp"]',
@@ -35,7 +38,8 @@ const SELECTORS = {
     PAUSE_MESSAGE_TYPE: 'lightning-radio-group[name="pauseMessageType"]',
     NEXT_LABEL: 'builder_platform_interaction-screen-property-field[name="nextOrFinishLabel"]',
     BACK_LABEL: 'builder_platform_interaction-screen-property-field[name="backLabel"]',
-    PAUSE_LABEL: 'builder_platform_interaction-screen-property-field[name="pauseLabel"]'
+    PAUSE_LABEL: 'builder_platform_interaction-screen-property-field[name="pauseLabel"]',
+    ...INTERACTION_COMPONENTS_SELECTORS
 };
 
 const createComponentUnderTest = (props) => {
@@ -58,15 +62,15 @@ describe('screen-properties-editor for new screen', () => {
         });
     });
     it('API Name should be empty by default', () => {
-        const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+        const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(SELECTORS.LABEL_DESCRIPTION);
         expect(nameAndLabelField.devName.value).toBe('');
     });
     it('Label should be empty by default', () => {
-        const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+        const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(SELECTORS.LABEL_DESCRIPTION);
         expect(nameAndLabelField.label.value).toBe('');
     });
     it('Description should be empty by default', () => {
-        const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+        const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(SELECTORS.LABEL_DESCRIPTION);
         expect(nameAndLabelField.description.value).toBe('');
     });
 
@@ -114,6 +118,13 @@ describe('screen-properties-editor for new screen', () => {
         const pausedText = query(screenPropEditor, SELECTORS.PAUSED_TEXT);
         expect(pausedText).toBeNull();
     });
+    it('will call focus on screenPropertiesEditorElement when focusLabelDescription is called', async () => {
+        const labelDescription = query(screenPropEditor, SELECTORS.LABEL_DESCRIPTION);
+        labelDescription.focus = jest.fn();
+
+        screenPropEditor.focus();
+        expect(labelDescription.focus).toHaveBeenCalled();
+    });
 });
 
 describe('screen-properties-editor for existing screen', () => {
@@ -127,7 +138,7 @@ describe('screen-properties-editor for existing screen', () => {
         });
     });
     it('API Name is populated', () => {
-        const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+        const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(SELECTORS.LABEL_DESCRIPTION);
         expect(nameAndLabelField.devName.value).toBe('screen1');
     });
     it('Show header has expected value', () => {
@@ -139,6 +150,13 @@ describe('screen-properties-editor for existing screen', () => {
         const footer = query(screenPropEditor, SELECTORS.SHOW_FOOTER);
         expect(footer).not.toBeNull();
         expect(footer.value).toBe(testScreen.showFooter);
+    });
+    it('will call focus on screenPropertiesEditorElement when focusLabelDescription is called', async () => {
+        const labelDescription = query(screenPropEditor, SELECTORS.LABEL_DESCRIPTION);
+        labelDescription.focus = jest.fn();
+
+        screenPropEditor.focus();
+        expect(labelDescription.focus).toHaveBeenCalled();
     });
 });
 

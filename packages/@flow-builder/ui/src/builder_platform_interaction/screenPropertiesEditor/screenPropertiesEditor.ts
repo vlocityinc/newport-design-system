@@ -5,6 +5,9 @@ import { FOOTER_LABEL_TYPE, PAUSE_MESSAGE_TYPE } from 'builder_platform_interact
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { api, LightningElement } from 'lwc';
 const EXPANDED_SECTION_NAMES = [];
+const SELECTORS = {
+    LABEL_DESCRIPTION: 'builder_platform_interaction-label-description'
+};
 
 /*
  * Screen element property editor
@@ -131,6 +134,12 @@ export default class ScreenPropertiesEditor extends LightningElement {
 
     get showPauseConfirmationMessageEditor() {
         return this.isPauseButtonAllowed && this.pauseMessageType === PAUSE_MESSAGE_TYPE.CUSTOM;
+    }
+
+    @api
+    focus() {
+        const labelDescription = this.template.querySelector(SELECTORS.LABEL_DESCRIPTION);
+        labelDescription?.focus();
     }
 
     // This function handles changes from label-description component by re-firing the event including the old value and handles the radio groups for config custom footer labels, not the rest of the properties

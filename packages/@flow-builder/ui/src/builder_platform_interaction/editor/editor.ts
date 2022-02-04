@@ -2032,7 +2032,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                         this.activeElementGuid = node.guid;
                     }
 
-                    return {
+                    let paramsProvider = {
                         mode,
                         node,
                         nodeUpdate,
@@ -2044,6 +2044,14 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                         insertInfo: alcConnectionSource,
                         isAutoLayoutCanvas: this.properties.isAutoLayoutCanvas
                     };
+
+                    if (elementType === ELEMENT_TYPE.SCREEN) {
+                        paramsProvider = {
+                            ...paramsProvider,
+                            autoFocus: false
+                        };
+                    }
+                    return paramsProvider;
                 },
                 false,
                 designateFocus
