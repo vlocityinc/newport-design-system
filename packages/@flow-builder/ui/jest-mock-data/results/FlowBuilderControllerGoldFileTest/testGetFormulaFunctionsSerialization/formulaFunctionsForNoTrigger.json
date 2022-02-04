@@ -1,0 +1,567 @@
+{
+  "formulaFunctionsForNoTrigger":{
+    "formulaFunctionCategories":[
+      {
+        "id":"LOGICAL",
+        "label":"Logical"
+      },
+      {
+        "id":"TEXT",
+        "label":"Text"
+      },
+      {
+        "id":"MATH",
+        "label":"Math"
+      },
+      {
+        "id":"DATE_TIME",
+        "label":"Date & Time"
+      },
+      {
+        "id":"ADVANCED",
+        "label":"Advanced"
+      }
+    ],
+    "formulaFunctions":[
+      {
+        "exampleString":"ABS(number)",
+        "name":"ABS",
+        "description":"Returns the absolute value of a number, a number without its sign",
+        "label":"ABS",
+        "categoryId":"MATH"
+      },
+      {
+        "exampleString":"ADDMONTHS(date,num)",
+        "name":"ADDMONTHS",
+        "description":"Add the num months to the date, using the last date of the month if date is the last day of the month or adding num months has fewer days.",
+        "label":"ADDMONTHS",
+        "categoryId":"DATE_TIME"
+      },
+      {
+        "exampleString":"AND(logical1,logical2,...)",
+        "name":"AND",
+        "description":"Checks whether all arguments are true and returns TRUE if all arguments are true",
+        "label":"AND",
+        "categoryId":"LOGICAL"
+      },
+      {
+        "exampleString":"CHR(text)",
+        "name":"ASCII",
+        "description":"Return the first character's code point from the given string as a number.",
+        "label":"ASCII",
+        "categoryId":"TEXT"
+      },
+      {
+        "exampleString":"ASIN(number)",
+        "name":"ASIN",
+        "description":"Returns the arc sine of the number in radians, if the given number is between -1 and 1.  Otherwise NULL.",
+        "label":"ASIN",
+        "categoryId":"MATH"
+      },
+      {
+        "exampleString":"ATAN(number)",
+        "name":"ATAN",
+        "description":"Returns the arc tangent of the number in radians.",
+        "label":"ATAN",
+        "categoryId":"MATH"
+      },
+      {
+        "exampleString":"ATAN2(y, x)",
+        "name":"ATAN2",
+        "description":"Returns the arc tangent of the quotient of y and x in radians.",
+        "label":"ATAN2",
+        "categoryId":"MATH"
+      },
+      {
+        "exampleString":"BEGINS(text, compare_text)",
+        "name":"BEGINS",
+        "description":"Checks if text begins with specified characters and returns TRUE if it does. Otherwise returns FALSE",
+        "label":"BEGINS",
+        "categoryId":"TEXT"
+      },
+      {
+        "exampleString":"BLANKVALUE(expression, substitute_expression)",
+        "name":"BLANKVALUE",
+        "description":"Checks whether expression is blank and returns substitute_expression if it is blank. If expression is not blank, returns the original expression value.",
+        "label":"BLANKVALUE",
+        "categoryId":"LOGICAL"
+      },
+      {
+        "exampleString":"BR()",
+        "name":"BR",
+        "description":"Inserts an HTML break tag in string formulas",
+        "label":"BR",
+        "categoryId":"TEXT"
+      },
+      {
+        "exampleString":"CASE(expression, value1, result1, value2, result2,...,else_result)",
+        "name":"CASE",
+        "description":"Checks an expression against a series of values.  If the expression compares equal to any value, the corresponding result is returned. If it is not equal to any of the values, the else-result is returned",
+        "label":"CASE",
+        "categoryId":"LOGICAL"
+      },
+      {
+        "exampleString":"CASESAFEID(id)",
+        "name":"CASESAFEID",
+        "description":"Converts a 15-character ID into a case insensitive 18-character ID",
+        "label":"CASESAFEID",
+        "categoryId":"TEXT"
+      },
+      {
+        "exampleString":"CEILING(number)",
+        "name":"CEILING",
+        "description":"Rounds a number up to the nearest integer, away from zero if negative",
+        "label":"CEILING",
+        "categoryId":"MATH"
+      },
+      {
+        "exampleString":"CHR(number)",
+        "name":"CHR",
+        "description":"Return a string with the first character's code point as the given number.",
+        "label":"CHR",
+        "categoryId":"TEXT"
+      },
+      {
+        "exampleString":"CONTAINS(text, compare_text)",
+        "name":"CONTAINS",
+        "description":"Checks if text contains specified characters, and returns TRUE if it does.  Otherwise, returns FALSE",
+        "label":"CONTAINS",
+        "categoryId":"TEXT"
+      },
+      {
+        "exampleString":"COS(number)",
+        "name":"COS",
+        "description":"Returns the cosine of the number, where the number given in radians",
+        "label":"COS",
+        "categoryId":"MATH"
+      },
+      {
+        "exampleString":"CURRENCYRATE(IsoCode)",
+        "name":"CURRENCYRATE",
+        "description":"Return the conversion rate to the corporate currency for the given CurrencyIsoCode, or 1.0 if the currency is invalid.",
+        "label":"CURRENCYRATE",
+        "categoryId":"ADVANCED"
+      },
+      {
+        "exampleString":"DATE(year,month,day)",
+        "name":"DATE",
+        "description":"Creates a date from a year, month and day",
+        "label":"DATE",
+        "categoryId":"DATE_TIME"
+      },
+      {
+        "exampleString":"DATETIMEVALUE(expression)",
+        "name":"DATETIMEVALUE",
+        "description":"Returns a year, month, day and GMT time value",
+        "label":"DATETIMEVALUE",
+        "categoryId":"DATE_TIME"
+      },
+      {
+        "exampleString":"DATEVALUE(expression)",
+        "name":"DATEVALUE",
+        "description":"Creates a date from its datetime or text representation",
+        "label":"DATEVALUE",
+        "categoryId":"DATE_TIME"
+      },
+      {
+        "exampleString":"DAY(date)",
+        "name":"DAY",
+        "description":"Returns the day of the month, a number between 1 and 31",
+        "label":"DAY",
+        "categoryId":"DATE_TIME"
+      },
+      {
+        "exampleString":"DAYOFYEAR(date)",
+        "name":"DAYOFYEAR",
+        "description":"Return the day of the calendar year (from 1-366).",
+        "label":"DAYOFYEAR",
+        "categoryId":"DATE_TIME"
+      },
+      {
+        "exampleString":"DISTANCE(location, location, unit)",
+        "name":"DISTANCE",
+        "description":"Returns the distance between two locations using the provided unit.",
+        "label":"DISTANCE",
+        "categoryId":"MATH"
+      },
+      {
+        "exampleString":"EXP(number)",
+        "name":"EXP",
+        "description":"Returns e raised to the power of a given number",
+        "label":"EXP",
+        "categoryId":"MATH"
+      },
+      {
+        "exampleString":"FIND(search_text, text [, start_num])",
+        "name":"FIND",
+        "description":"Returns the position of the search_text string in text",
+        "label":"FIND",
+        "categoryId":"TEXT"
+      },
+      {
+        "exampleString":"FLOOR(number)",
+        "name":"FLOOR",
+        "description":"Rounds a number down, towards zero to the nearest integer",
+        "label":"FLOOR",
+        "categoryId":"MATH"
+      },
+      {
+        "exampleString":"FORMATDURATION(numSeconds[, includeDays] | dateTime/time, dateTime/time)",
+        "name":"FORMATDURATION",
+        "description":"Format the number of seconds with optional days, or the difference between times or dateTimes as HH:MI:SS.",
+        "label":"FORMATDURATION",
+        "categoryId":"DATE_TIME"
+      },
+      {
+        "exampleString":"FROMUNIXTIME(number)",
+        "name":"FROMUNIXTIME",
+        "description":"Return the datetime that represents the given number as the seconds elapsed since 1 Jan 1970.",
+        "label":"FROMUNIXTIME",
+        "categoryId":"DATE_TIME"
+      },
+      {
+        "exampleString":"GEOLOCATION(latitude, longitude)",
+        "name":"GEOLOCATION",
+        "description":"Returns a location based on the provided latitude and longitude.",
+        "label":"GEOLOCATION",
+        "categoryId":"MATH"
+      },
+      {
+        "exampleString":"GETSESSIONID()",
+        "name":"GETSESSIONID",
+        "description":"Returns the current session ID. This may be useful in hyperlinks to other applications that use salesforce.com credentials for authentication",
+        "label":"GETSESSIONID",
+        "categoryId":"TEXT"
+      },
+      {
+        "exampleString":"HTMLENCODE(text)",
+        "name":"HTMLENCODE",
+        "description":"Encodes text and merge field values for use in HTML",
+        "label":"HTMLENCODE",
+        "categoryId":"TEXT"
+      },
+      {
+        "exampleString":"HYPERLINK(url, friendly_name [, target])",
+        "name":"HYPERLINK",
+        "description":"Creates a hyperlink",
+        "label":"HYPERLINK",
+        "categoryId":"TEXT"
+      },
+      {
+        "exampleString":"IF(logical_test, value_if_true, value_if_false)",
+        "name":"IF",
+        "description":"Checks whether a condition is true, and returns one value if TRUE and another value if FALSE.",
+        "label":"IF",
+        "categoryId":"LOGICAL"
+      },
+      {
+        "exampleString":"INCLUDES(multiselect_picklist_field, text_literal)",
+        "name":"INCLUDES",
+        "description":"Determines if any value selected in a multi-select picklist field equals a text literal you specify.",
+        "label":"INCLUDES",
+        "categoryId":"TEXT"
+      },
+      {
+        "exampleString":"INITCAP(text)",
+        "name":"INITCAP",
+        "description":"Return the text as lowercase with first character of each word made uppercase.",
+        "label":"INITCAP",
+        "categoryId":"TEXT"
+      },
+      {
+        "exampleString":"ISBLANK(expression)",
+        "name":"ISBLANK",
+        "description":"Checks whether an expression is blank and returns TRUE or FALSE",
+        "label":"ISBLANK",
+        "categoryId":"LOGICAL"
+      },
+      {
+        "exampleString":"ISNULL(expression)",
+        "name":"ISNULL",
+        "description":"Checks whether an expression is null and returns TRUE or FALSE",
+        "label":"ISNULL",
+        "categoryId":"LOGICAL"
+      },
+      {
+        "exampleString":"ISNUMBER(Text)",
+        "name":"ISNUMBER",
+        "description":"Returns TRUE if the text value is a number. Otherwise, it returns FALSE.",
+        "label":"ISNUMBER",
+        "categoryId":"LOGICAL"
+      },
+      {
+        "exampleString":"ISOWEEK(date)",
+        "name":"ISOWEEK",
+        "description":"Return the ISO 8601 week number for the given date (from 1-53) so that the first week starts on monday.",
+        "label":"ISOWEEK",
+        "categoryId":"DATE_TIME"
+      },
+      {
+        "exampleString":"ISOYEAR(date)",
+        "name":"ISOYEAR",
+        "description":"Return the ISO 8601 week-numbering 4-digit year for the given date so that the first day is a monday.",
+        "label":"ISOYEAR",
+        "categoryId":"DATE_TIME"
+      },
+      {
+        "exampleString":"ISPICKVAL(picklist_field, text_literal)",
+        "name":"ISPICKVAL",
+        "description":"Checks whether the value of a picklist field is equal to a string literal",
+        "label":"ISPICKVAL",
+        "categoryId":"TEXT"
+      },
+      {
+        "exampleString":"JSENCODE(text)",
+        "name":"JSENCODE",
+        "description":"Encodes text and merge field values for use in JavaScript",
+        "label":"JSENCODE",
+        "categoryId":"TEXT"
+      },
+      {
+        "exampleString":"JSINHTMLENCODE(text)",
+        "name":"JSINHTMLENCODE",
+        "description":"Encodes text and merge field values for use in JavaScript within HTML tags",
+        "label":"JSINHTMLENCODE",
+        "categoryId":"TEXT"
+      },
+      {
+        "exampleString":"LEFT(text, num_chars)",
+        "name":"LEFT",
+        "description":"Returns the specified number of characters from the start of a text string",
+        "label":"LEFT",
+        "categoryId":"TEXT"
+      },
+      {
+        "exampleString":"LEN(text)",
+        "name":"LEN",
+        "description":"Returns the number of characters in a text string",
+        "label":"LEN",
+        "categoryId":"TEXT"
+      },
+      {
+        "exampleString":"LINKTO(label, target, id, [inputs], [no override])",
+        "name":"LINKTO",
+        "description":"Returns the HTML link element for the selected target with optional inputs expressed as query parameters",
+        "label":"LINKTO",
+        "categoryId":"ADVANCED"
+      },
+      {
+        "exampleString":"LN(number)",
+        "name":"LN",
+        "description":"Returns the natural logarithm of a number",
+        "label":"LN",
+        "categoryId":"MATH"
+      },
+      {
+        "exampleString":"LOG(number)",
+        "name":"LOG",
+        "description":"Returns the base 10 logarithm of n",
+        "label":"LOG",
+        "categoryId":"MATH"
+      },
+      {
+        "exampleString":"LOWER(text)",
+        "name":"LOWER",
+        "description":"Converts all letters in the value to lowercase",
+        "label":"LOWER",
+        "categoryId":"TEXT"
+      },
+      {
+        "exampleString":"LPAD(text, padded_length [, pad_string])",
+        "name":"LPAD",
+        "description":"Pad the left side of the value with spaces or the optional pad string so that the length is padded_length",
+        "label":"LPAD",
+        "categoryId":"TEXT"
+      },
+      {
+        "exampleString":"MAX(number,number,...)",
+        "name":"MAX",
+        "description":"Returns the greatest of all the arguments",
+        "label":"MAX",
+        "categoryId":"MATH"
+      },
+      {
+        "exampleString":"MCEILING(number)",
+        "name":"MCEILING",
+        "description":"Rounds a number up to the nearest integer, towards zero if negative",
+        "label":"MCEILING",
+        "categoryId":"MATH"
+      },
+      {
+        "exampleString":"MFLOOR(number)",
+        "name":"MFLOOR",
+        "description":"Rounds a number down to the nearest integer, away from zero if negative",
+        "label":"MFLOOR",
+        "categoryId":"MATH"
+      },
+      {
+        "exampleString":"MID(text, start_num, num_chars)",
+        "name":"MID",
+        "description":"Returns character from the middle of a text string, given a starting position and length",
+        "label":"MID",
+        "categoryId":"TEXT"
+      },
+      {
+        "exampleString":"MIN(number,number,...)",
+        "name":"MIN",
+        "description":"Returns the least of all the arguments",
+        "label":"MIN",
+        "categoryId":"MATH"
+      },
+      {
+        "exampleString":"MOD(number,divisor)",
+        "name":"MOD",
+        "description":"Returns the remainder after a number is divided by a divisor",
+        "label":"MOD",
+        "categoryId":"MATH"
+      },
+      {
+        "exampleString":"MONTH(date)",
+        "name":"MONTH",
+        "description":"Returns the month, a number between 1 (January) and 12 (December)",
+        "label":"MONTH",
+        "categoryId":"DATE_TIME"
+      },
+      {
+        "exampleString":"NOT(logical)",
+        "name":"NOT",
+        "description":"Changes FALSE to TRUE or TRUE to FALSE",
+        "label":"NOT",
+        "categoryId":"LOGICAL"
+      },
+      {
+        "exampleString":"NOW()",
+        "name":"NOW",
+        "description":"Returns a datetime representing the current moment",
+        "label":"NOW",
+        "categoryId":"DATE_TIME"
+      },
+      {
+        "exampleString":"NULLVALUE(expression, substitute_expression)",
+        "name":"NULLVALUE",
+        "description":"Checks whether expression is null and returns substitute_expression if it is null. If expression is not null, returns the original expression value.",
+        "label":"NULLVALUE",
+        "categoryId":"LOGICAL"
+      },
+      {
+        "exampleString":"OR(logical1,logical2,...)",
+        "name":"OR",
+        "description":"Checks whether any of the arguments are true and returns TRUE or FALSE.  Returns FALSE only if all arguments are false",
+        "label":"OR",
+        "categoryId":"LOGICAL"
+      },
+      {
+        "exampleString":"PI()",
+        "name":"PI",
+        "description":"Returns pi",
+        "label":"PI",
+        "categoryId":"MATH"
+      },
+      {
+        "exampleString":"REGEX(Text, RegEx_Text)",
+        "name":"REGEX",
+        "description":"Returns TRUE if Text matches the regular expression RegEx_Text. Otherwise, it returns FALSE.",
+        "label":"REGEX",
+        "categoryId":"ADVANCED"
+      },
+      {
+        "exampleString":"RIGHT(text, num_chars)",
+        "name":"RIGHT",
+        "description":"Returns the specified number of characters from the end of a text string",
+        "label":"RIGHT",
+        "categoryId":"TEXT"
+      },
+      {
+        "exampleString":"ROUND(number,num_digits)",
+        "name":"ROUND",
+        "description":"Rounds a number to a specified number of digits",
+        "label":"ROUND",
+        "categoryId":"MATH"
+      },
+      {
+        "exampleString":"RPAD(text, padded_length [, pad_string])",
+        "name":"RPAD",
+        "description":"Pad the right side of the value with spaces or the optional pad string so that the length is padded_length",
+        "label":"RPAD",
+        "categoryId":"TEXT"
+      },
+      {
+        "exampleString":"SIN(number)",
+        "name":"SIN",
+        "description":"Returns the sine of the number, where the number given in radians",
+        "label":"SIN",
+        "categoryId":"MATH"
+      },
+      {
+        "exampleString":"SQRT(number)",
+        "name":"SQRT",
+        "description":"Returns the positive square root of a number",
+        "label":"SQRT",
+        "categoryId":"MATH"
+      },
+      {
+        "exampleString":"SUBSTITUTE(text, old_text, new_text)",
+        "name":"SUBSTITUTE",
+        "description":"Substitutes new_text for old_text in a text string. Use SUBSTITUTE when you want to replace specific text in a text string",
+        "label":"SUBSTITUTE",
+        "categoryId":"TEXT"
+      },
+      {
+        "exampleString":"TAN(number)",
+        "name":"TAN",
+        "description":"Returns the tangent of the number, where the number given in radians",
+        "label":"TAN",
+        "categoryId":"MATH"
+      },
+      {
+        "exampleString":"TEXT(value)",
+        "name":"TEXT",
+        "description":"Converts a value to text using standard display format",
+        "label":"TEXT",
+        "categoryId":"TEXT"
+      },
+      {
+        "exampleString":"TODAY()",
+        "name":"TODAY",
+        "description":"Returns the current date",
+        "label":"TODAY",
+        "categoryId":"DATE_TIME"
+      },
+      {
+        "exampleString":"TRIM(text)",
+        "name":"TRIM",
+        "description":"Removes all spaces from a text string except for single spaces between words",
+        "label":"TRIM",
+        "categoryId":"TEXT"
+      },
+      {
+        "exampleString":"TRUNC(number,num_digits)",
+        "name":"TRUNC",
+        "description":"Truncates a number to a specified number of digits",
+        "label":"TRUNC",
+        "categoryId":"MATH"
+      },
+      {
+        "exampleString":"UNIXTIMESTAMP(date/time)",
+        "name":"UNIXTIMESTAMP",
+        "description":"Return the number of seconds since 1 Jan 1970 for the given date, or number of seconds in the day for a time.",
+        "label":"UNIXTIMESTAMP",
+        "categoryId":"DATE_TIME"
+      },
+      {
+        "exampleString":"UPPER(text)",
+        "name":"UPPER",
+        "description":"Converts all letters in the value to uppercase",
+        "label":"UPPER",
+        "categoryId":"TEXT"
+      },
+      {
+        "exampleString":"URLENCODE(text)",
+        "name":"URLENCODE",
+        "description":"Encodes text and merge field values for use in URLs",
+        "label":"URLENCODE",
+        "categoryId":"TEXT"
+      }
+    ]
+  }
+}

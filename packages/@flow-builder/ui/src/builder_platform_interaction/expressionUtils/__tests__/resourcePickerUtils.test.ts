@@ -221,7 +221,8 @@ describe('resourcePickerUtils', () => {
                 allowsApexCollAnonymousAutoOutput: true,
                 forFormula: false,
                 newResourceTypeLabel: null,
-                shouldBeWritable: false
+                shouldBeWritable: false,
+                hideFlowSystemVariable: false
             });
         });
 
@@ -251,7 +252,8 @@ describe('resourcePickerUtils', () => {
                 showGlobalVariables: true,
                 allowSObjectField: true,
                 allowsApexCollAnonymousAutoOutput: undefined,
-                forFormula: false
+                forFormula: false,
+                hideFlowSystemVariable: false
             });
         });
 
@@ -281,7 +283,8 @@ describe('resourcePickerUtils', () => {
                 showGlobalVariables: true,
                 allowSObjectField: true,
                 allowsApexCollAnonymousAutoOutput: undefined,
-                forFormula: true
+                forFormula: true,
+                hideFlowSystemVariable: false
             });
         });
 
@@ -311,7 +314,8 @@ describe('resourcePickerUtils', () => {
                 showGlobalVariables: false,
                 allowSObjectField: true,
                 allowsApexCollAnonymousAutoOutput: undefined,
-                forFormula: false
+                forFormula: false,
+                hideFlowSystemVariable: false
             });
         });
     });

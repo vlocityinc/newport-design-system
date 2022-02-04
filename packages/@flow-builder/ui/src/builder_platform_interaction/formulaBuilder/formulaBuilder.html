@@ -1,0 +1,75 @@
+<template>
+    <div class="formulaBuilder slds-form-element">
+        <label if:true={label} for={name} class="slds-form-element__label">
+            <abbr if:true={required} title={labels.required} class="slds-required">*</abbr>
+            {label}
+        </label>
+        <lightning-helptext if:true={helpText} class="slds-form-element" content={helpText}></lightning-helptext>
+        <div class={classList}>
+            <div class="slds-p-around_x-small slds-button-group-list">
+                <div class="slds-rich-text-editor__col slds-rich-text-editor__col_grow">
+                    <div class="slds-form-element">
+                        <!--Use ferov resource picker-->
+                        <builder_platform_interaction-ferov-resource-picker
+                            class="resource-picker"
+                            combobox-config={comboboxConfig}
+                            element-config={elementConfig}
+                            hide-global-constants={filterOptions.hideGlobalConstants}
+                            hide-system-variables={filterOptions.hideSystemVariables}
+                            hide-global-variables={filterOptions.hideGlobalVariables}
+                            property-editor-element-type={propertyEditorElementType}
+                            rules={resourcePickerConfig.rules}
+                            hide-new-resource={filterOptions.hideNewResource}
+                            new-resource-type-label={filterOptions.newResourceTypeLabel}
+                            row-index={rowIndex}
+                            for-formula={filterOptions.forFormula}
+                            is-pill-supported={filterOptions.isPillSupported}
+                            active-picklist-values={filterOptions.activePicklistValues}
+                            include-quick-create-resource-option={filterOptions.includeQuickCreateResourceOption}
+                            hide-flow-system-variable={filterOptions.hideFlowSystemVariable}
+                            oncomboboxstatechanged={handleResourceChanged}
+                            onitemselected={handleResourceChanged}
+                        >
+                        </builder_platform_interaction-ferov-resource-picker>
+                    </div>
+                </div>
+                <!--Use function picker-->
+                <div class="slds-rich-text-editor__col slds-rich-text-editor__col_grow slds-size_1-of-3">
+                    <div class="slds-form-element">
+                        <formula-function-picker
+                            class="function-picker"
+                            onfunctionselected={handleFunctionChanged}
+                            function-data={functionData}
+                        ></formula-function-picker>
+                    </div>
+                </div>
+                <!--Use operator picker-->
+                <div class="slds-rich-text-editor__col slds-rich-text-editor__col_grow">
+                    <div class="slds-form-element">
+                        <formula-operator-picker
+                            class="operator-picker"
+                            onoperatorselected={handleOperatorChanged}
+                            operator-data={operatorData}
+                        ></formula-operator-picker>
+                    </div>
+                </div>
+            </div>
+            <textarea
+                class="slds-textarea slds-input textarea-input"
+                name={name}
+                id={name}
+                onblur={handleFormulaChanged}
+                onchange={handleFormulaChanged}
+            >
+{_value}
+            </textarea>
+        </div>
+        <div if:true={error} class="slds-has-error">
+            <div role="alert" class="slds-form-element__help">{error}</div>
+        </div>
+        <div class="slds-p-top_xx-small">
+            <formula-syntax-validation onchecksyntax={handleCheckSyntax} validation-result={validationResult}>
+            </formula-syntax-validation>
+        </div>
+    </div>
+</template>

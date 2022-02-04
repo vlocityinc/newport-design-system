@@ -58,7 +58,8 @@ const getFerovMenuData = (
     showSystemVariables,
     showGlobalVariables,
     allowSObjectFields,
-    forFormula
+    forFormula,
+    hideFlowSystemVariable
 ) => {
     const menuDataElements = getStoreElements(
         currentState,
@@ -75,7 +76,8 @@ const getFerovMenuData = (
         allowSObjectField: allowSObjectFields,
         allowsApexCollAnonymousAutoOutput: elementConfig ? elementConfig.allowsApexCollAnonymousAutoOutput : true,
         forFormula,
-        shouldBeWritable: elementConfig ? elementConfig.shouldBeWritable : false
+        shouldBeWritable: elementConfig ? elementConfig.shouldBeWritable : false,
+        hideFlowSystemVariable
     });
 };
 
@@ -100,6 +102,7 @@ const getFerovMenuData = (
  * @param options.forFormula
  * @param options.allowSObjectFieldsTraversal
  * @param options.allowElementFields
+ * @param {boolean} [options.hideFlowSystemVariable]    whether to hide the $Flow system variable
  * @returns {Item[]} Array of resources
  */
 export const getMenuData = (
@@ -120,7 +123,8 @@ export const getMenuData = (
         forFormula = false,
         allowSObjectFieldsTraversal = true,
         allowSObjectFields = true,
-        allowElementFields = true
+        allowElementFields = true,
+        hideFlowSystemVariable = false
     } = {}
 ) => {
     if (parentItem) {
@@ -147,7 +151,8 @@ export const getMenuData = (
             showSystemVariables,
             showGlobalVariables,
             allowSObjectFields,
-            forFormula
+            forFormula,
+            hideFlowSystemVariable
         )
     );
 };

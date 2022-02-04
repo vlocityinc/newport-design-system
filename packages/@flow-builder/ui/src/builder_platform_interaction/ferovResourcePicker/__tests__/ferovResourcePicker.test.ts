@@ -200,7 +200,8 @@ describe('ferov-resource-picker', () => {
                 showSystemVariables: true,
                 showGlobalVariables: true,
                 forFormula: false,
-                allowSObjectFieldsTraversal: true
+                allowSObjectFieldsTraversal: true,
+                hideFlowSystemVariable: false
             }
         );
     });
@@ -231,7 +232,8 @@ describe('ferov-resource-picker', () => {
                 showSystemVariables: true,
                 showGlobalVariables: true,
                 forFormula: false,
-                allowSObjectFieldsTraversal: true
+                allowSObjectFieldsTraversal: true,
+                hideFlowSystemVariable: false
             }
         );
     });
@@ -262,7 +264,8 @@ describe('ferov-resource-picker', () => {
                 showSystemVariables: true,
                 showGlobalVariables: true,
                 forFormula: false,
-                allowSObjectFieldsTraversal: true
+                allowSObjectFieldsTraversal: true,
+                hideFlowSystemVariable: false
             }
         );
     });
@@ -290,7 +293,8 @@ describe('ferov-resource-picker', () => {
                 showSystemVariables: true,
                 showGlobalVariables: true,
                 forFormula: false,
-                allowSObjectFieldsTraversal: true
+                allowSObjectFieldsTraversal: true,
+                hideFlowSystemVariable: false
             }
         );
     });
@@ -351,7 +355,8 @@ describe('ferov-resource-picker', () => {
                 showSystemVariables: true,
                 showGlobalVariables: true,
                 forFormula: false,
-                allowSObjectFieldsTraversal: true
+                allowSObjectFieldsTraversal: true,
+                hideFlowSystemVariable: false
             }
         );
     });
@@ -559,7 +564,8 @@ describe('ferov-resource-picker', () => {
                     showSystemVariables: true,
                     showGlobalVariables: true,
                     forFormula: false,
-                    allowSObjectFieldsTraversal: true
+                    allowSObjectFieldsTraversal: true,
+                    hideFlowSystemVariable: false
                 }
             );
         });
@@ -580,7 +586,8 @@ describe('ferov-resource-picker', () => {
                     showSystemVariables: true,
                     showGlobalVariables: true,
                     forFormula: false,
-                    allowSObjectFieldsTraversal: true
+                    allowSObjectFieldsTraversal: true,
+                    hideFlowSystemVariable: false
                 }
             );
         });
@@ -602,7 +609,8 @@ describe('ferov-resource-picker', () => {
                     showSystemVariables: false,
                     showGlobalVariables: true,
                     forFormula: false,
-                    allowSObjectFieldsTraversal: true
+                    allowSObjectFieldsTraversal: true,
+                    hideFlowSystemVariable: false
                 }
             );
         });
@@ -624,7 +632,8 @@ describe('ferov-resource-picker', () => {
                     showSystemVariables: true,
                     showGlobalVariables: false,
                     forFormula: false,
-                    allowSObjectFieldsTraversal: true
+                    allowSObjectFieldsTraversal: true,
+                    hideFlowSystemVariable: false
                 }
             );
         });
@@ -646,7 +655,8 @@ describe('ferov-resource-picker', () => {
                     showSystemVariables: true,
                     showGlobalVariables: true,
                     forFormula: true,
-                    allowSObjectFieldsTraversal: true
+                    allowSObjectFieldsTraversal: true,
+                    hideFlowSystemVariable: false
                 }
             );
         });

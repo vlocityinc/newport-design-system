@@ -106,6 +106,7 @@
             "builder_platform_interaction/flowStatus": ["./src/builder_platform_interaction/flowStatus/flowStatus.ts"],
             "builder_platform_interaction/flowTestEditor": ["./src/builder_platform_interaction/flowTestEditor/flowTestEditor.ts"],
             "builder_platform_interaction/flowTestManager": ["./src/builder_platform_interaction/flowTestManager/flowTestManager.ts"],
+            "builder_platform_interaction/formulaBuilder": ["./src/builder_platform_interaction/formulaBuilder/formulaBuilder.ts"],
             "builder_platform_interaction/formulaEditor": ["./src/builder_platform_interaction/formulaEditor/formulaEditor.ts"],
             "builder_platform_interaction/getTemplatesTile": ["./src/builder_platform_interaction/getTemplatesTile/getTemplatesTile.ts"],
             "builder_platform_interaction/guardrails": ["./src/builder_platform_interaction/guardrails/guardrails.ts"],

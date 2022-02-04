@@ -60,4 +60,7 @@ export default class FerovResourcePicker extends LightningElement {
 
     @api
     activePicklistValues;
+
+    @api
+    hideFlowSystemVariable;
 }

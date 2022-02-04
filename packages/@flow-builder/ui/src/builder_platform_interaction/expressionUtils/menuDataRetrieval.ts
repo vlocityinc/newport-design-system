@@ -262,6 +262,7 @@ const shouldDisableHasNext = (
  * @param {boolean} allowSObjectField whether or not to set hasNext on SObject
  * @param {boolean} allowsApexCollAnonymousAutoOutput whether or not apex collection from anonymous automatic outputs are allowed. Default true
  * @param {boolean} forFormula   is this request coming from a formula editor
+ * @param {boolean} hideFlowSystemVariable   is $Flow system variables hidden in this context
  * @returns {Array}                     array of alphabetized objects sorted by category, in shape combobox expects
  */
 export function filterAndMutateMenuData(
@@ -278,7 +279,8 @@ export function filterAndMutateMenuData(
         allowSObjectField = true,
         allowsApexCollAnonymousAutoOutput = true,
         forFormula = false,
-        shouldBeWritable = false
+        shouldBeWritable = false,
+        hideFlowSystemVariable = false
     } = {}
 ) {
     if (allowGlobalConstants) {
@@ -317,7 +319,8 @@ export function filterAndMutateMenuData(
             systemVariablesAllowed,
             showGlobalVariables,
             forFormula,
-            shouldBeWritable
+            shouldBeWritable,
+            hideFlowSystemVariable
         );
         if (Array.isArray(systemAndGlobalVariableMenuData) && systemAndGlobalVariableMenuData.length) {
             systemAndGlobalVariableMenuItem = {

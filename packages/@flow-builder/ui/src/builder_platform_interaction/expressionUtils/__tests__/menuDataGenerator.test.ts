@@ -233,6 +233,13 @@ describe('menuDataGenerator', () => {
             it('should return global variables if showGlobalVariables is true', () => {
                 const menuData = getSystemAndGlobalVariableMenuData(true, true);
                 expect(menuData.length).toEqual(NUM_GLOBAL_VARIABLE_TYPES + NUM_SYSTEM_VARIABLES);
+                expect(menuData).toEqual(
+                    expect.arrayContaining([
+                        expect.objectContaining({
+                            value: '$Flow'
+                        })
+                    ])
+                );
             });
             it('should return global variables if not supported for process type but for formula', () => {
                 setProcessTypeFeature('flow', []);
@@ -243,6 +250,17 @@ describe('menuDataGenerator', () => {
                 setProcessTypeFeature('flow', []);
                 const menuData = getSystemAndGlobalVariableMenuData(true, true);
                 expect(menuData.length).toEqual(1);
+            });
+            it('should not return $Flow system variable if hideFlowSystemVariable is true', () => {
+                const menuData = getSystemAndGlobalVariableMenuData(true, true, false, false, true);
+                expect(menuData.length).toEqual(NUM_GLOBAL_VARIABLE_TYPES);
+                expect(menuData).not.toEqual(
+                    expect.arrayContaining([
+                        expect.objectContaining({
+                            value: '$Flow'
+                        })
+                    ])
+                );
             });
         });
         describe('System variables', () => {

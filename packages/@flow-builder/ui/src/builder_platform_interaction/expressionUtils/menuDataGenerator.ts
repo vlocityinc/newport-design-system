@@ -735,17 +735,21 @@ const getFlowSystemClientVariableComboboxItem = () =>
  * @param {boolean} showGlobalVariables   should include the global variable categories
  * @param {boolean} forFormula   if we are retrieving menu data for formula editor
  * @param shouldBeWritable
+ * @param {boolean} hideFlowSystemVariable   should hide the $Flow system variable
  * @returns {MenuData} menu data showing system variables and/or global variables
  */
 export const getSystemAndGlobalVariableMenuData = (
     showSystemVariables: boolean,
     showGlobalVariables: boolean,
     forFormula = false,
-    shouldBeWritable = false
+    shouldBeWritable = false,
+    hideFlowSystemVariable = false
 ) => {
     const categories = [];
     if (showSystemVariables) {
-        categories.push(getFlowSystemVariableComboboxItem());
+        if (!hideFlowSystemVariable) {
+            categories.push(getFlowSystemVariableComboboxItem());
+        }
         if (isSystemVariablesCategoryNotEmpty(SYSTEM_VARIABLE_CLIENT_PREFIX)) {
             categories.push(getFlowSystemClientVariableComboboxItem());
         }

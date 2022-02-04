@@ -1,0 +1,100 @@
+{
+  "formulaOperators":[
+    {
+      "name":"PLUS",
+      "id":"PLUS",
+      "label":"Add",
+      "value":"+"
+    },
+    {
+      "name":"MINUS",
+      "id":"MINUS",
+      "label":"Subtract",
+      "value":"-"
+    },
+    {
+      "name":"STAR",
+      "id":"STAR",
+      "label":"Multiply",
+      "value":"*"
+    },
+    {
+      "name":"DIVIDE",
+      "id":"DIVIDE",
+      "label":"Divide",
+      "value":"/"
+    },
+    {
+      "name":"CARET",
+      "id":"CARET",
+      "label":"Exponentiation",
+      "value":"^"
+    },
+    {
+      "name":"LPAREN",
+      "id":"LPAREN",
+      "label":"Open Parenthesis",
+      "value":"("
+    },
+    {
+      "name":"RPAREN",
+      "id":"RPAREN",
+      "label":"Close Parenthesis",
+      "value":")"
+    },
+    {
+      "name":"AMPERSAND",
+      "id":"AMPERSAND",
+      "label":"Concatenate",
+      "value":"&"
+    },
+    {
+      "name":"EQUAL",
+      "id":"EQUAL",
+      "label":"Equal",
+      "value":"="
+    },
+    {
+      "name":"NE",
+      "id":"NE",
+      "label":"Not Equal",
+      "value":"<>"
+    },
+    {
+      "name":"LT",
+      "id":"LT",
+      "label":"Less Than",
+      "value":"<"
+    },
+    {
+      "name":"GT",
+      "id":"GT",
+      "label":"Greater Than",
+      "value":">"
+    },
+    {
+      "name":"LE",
+      "id":"LE",
+      "label":"Less Than or Equal",
+      "value":"<="
+    },
+    {
+      "name":"GE",
+      "id":"GE",
+      "label":"Greater Than or Equal",
+      "value":">="
+    },
+    {
+      "name":"AND",
+      "id":"AND",
+      "label":"And",
+      "value":"&&"
+    },
+    {
+      "name":"OR",
+      "id":"OR",
+      "label":"Or",
+      "value":"||"
+    }
+  ]
+}

@@ -205,6 +205,11 @@ export default class FerovResourcePicker extends LightningElement {
      */
     @api
     isPillSupported = false;
+    /**
+     * Set it to true to hide $Flow system variable in the Global Variables category
+     */
+    @api
+    hideFlowSystemVariable = false;
 
     get parentItem() {
         return this.value && this.value.parent;
@@ -420,7 +425,8 @@ export default class FerovResourcePicker extends LightningElement {
                     activePicklistValues: this.activePicklistValues,
                     forFormula: this.forFormula,
                     allowSObjectFields: this.comboboxConfig.allowSObjectFields,
-                    allowSObjectFieldsTraversal: this.isLookupTraversalSupported()
+                    allowSObjectFieldsTraversal: this.isLookupTraversalSupported(),
+                    hideFlowSystemVariable: this.hideFlowSystemVariable
                 }
             ).then((menuData) => {
                 this._menuData = menuData;
