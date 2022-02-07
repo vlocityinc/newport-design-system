@@ -681,6 +681,7 @@ function showDebugEditorPopover(
  * @param attributes - contains callback and actual data
  */
 export function invokeCreateEditFlowTestEditor(attributes) {
+    const data = attributes.flowTestObject;
     const mode = attributes.createOrEdit;
     const triggerSaveType = attributes.triggerSaveType;
     showFlowTestPopover(
@@ -688,6 +689,7 @@ export function invokeCreateEditFlowTestEditor(attributes) {
         'builder_platform_interaction:flowTestEditor',
         'builder_platform_interaction:modalFooter',
         {
+            data,
             mode,
             triggerSaveType
         },
@@ -713,11 +715,11 @@ function showFlowTestPopover(cmpHeader, cmpBody, cmpFooter, cmpAttributes = {}, 
     let footerButtonLabel = null;
 
     if (cmpAttributes.mode === FlowTestMode.CREATE) {
-        headerLabel = LABELS.flowTestModalCreateLabel;
-        footerButtonLabel = LABELS.flowTestModalCreateButton;
+        headerLabel = LABELS.flowTestEditorCreateLabel;
+        footerButtonLabel = LABELS.flowTestEditorCreateButton;
     } else if (cmpAttributes.mode === FlowTestMode.EDIT) {
-        headerLabel = LABELS.flowTestModalEditLabel;
-        footerButtonLabel = LABELS.flowTestModalSaveButton;
+        headerLabel = LABELS.flowTestEditorEditLabel;
+        footerButtonLabel = LABELS.flowTestEditorSaveButton;
     }
     popoverState = {
         panelInstance: null,
@@ -745,6 +747,7 @@ function showFlowTestPopover(cmpHeader, cmpBody, cmpFooter, cmpAttributes = {}, 
         }
     });
     const bodyPromise = createComponentPromise(cmpBody, {
+        flowTestObject: cmpAttributes.data,
         triggerSaveType: cmpAttributes.triggerSaveType,
         buttonCallback: saveTestCallback
     });

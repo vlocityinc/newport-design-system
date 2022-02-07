@@ -19,6 +19,7 @@ export * from './emailAlert';
 export * from './endElement';
 export * from './ferov';
 export * from './flowProperties';
+export * from './flowTestData';
 export * from './formula';
 export * from './inputParameter';
 export * from './loop';

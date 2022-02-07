@@ -2,10 +2,10 @@
 import okayButtonLabel from '@salesforce/label/FlowBuilderAlertModal.okayButtonLabel';
 import cancelButton from '@salesforce/label/FlowBuilderCommonPropertyEditor.cancelButton';
 import newElementHeaderPrefix from '@salesforce/label/FlowBuilderCommonPropertyEditor.newElementHeaderPrefix';
-import flowTestModalCreateButton from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestCreateButton';
-import flowTestModalCreateLabel from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestCreateHeader';
-import flowTestModalEditLabel from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestEditHeader';
-import flowTestModalSaveButton from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestSaveButton';
+import flowTestEditorCreateButton from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestCreateButton';
+import flowTestEditorCreateLabel from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestCreateHeader';
+import flowTestEditorEditLabel from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestEditHeader';
+import flowTestEditorSaveButton from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestSaveButton';
 import newDebugEditorTitle from '@salesforce/label/FlowBuilderDebugEditor.headerTitle';
 import createFlowTitle from '@salesforce/label/FlowBuilderFlowPropertiesEditor.createFlowTitle';
 import orchestrationCreateFlowTitle from '@salesforce/label/FlowBuilderFlowPropertiesEditor.orchestrationCreateFlowTitle';
@@ -45,8 +45,8 @@ export const LABELS = {
     flowTestHeader,
     flowTestCancel,
     flowTestRunTest,
-    flowTestModalCreateLabel,
-    flowTestModalCreateButton,
-    flowTestModalSaveButton,
-    flowTestModalEditLabel
+    flowTestEditorCreateLabel,
+    flowTestEditorCreateButton,
+    flowTestEditorSaveButton,
+    flowTestEditorEditLabel
 };

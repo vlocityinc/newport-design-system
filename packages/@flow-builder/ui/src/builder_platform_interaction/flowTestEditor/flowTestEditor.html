@@ -3,6 +3,7 @@
         <builder_platform_interaction-reorderable-vertical-navigation
             class="slds-theme_shade slds-size_1-of-6"
             menu-items={getMenuItems}
+            active-item-id={activeMenuItemId}
             onlistiteminteraction={handleItemSelected}
             hide-footer="true"
         >
@@ -10,13 +11,18 @@
                 <span class="outcomeListHeader"></span>
             </div>
         </builder_platform_interaction-reorderable-vertical-navigation>
-        <div class="slds-vertical-tabs__content slds-show slds-scrollable_y" role="tabpanel">
-            <div>
-                <builder_platform_interaction-illustration
-                    illustration="lakeMountain"
-                    title="Placeholder"
-                    body="Update once new components are created for the tabs"
-                ></builder_platform_interaction-illustration>
+        <div class="slds-vertical-tabs__content slds-show slds-scrollable_y slds-size_5-of-6" role="tabpanel">
+            <div if:true={isFlowTestDetailsActive}>
+                <builder_platform_interaction-flow-test-details
+                    label={flowTestObject.label}
+                    dev-name={flowTestObject.name}
+                    description={flowTestObject.description}
+                    test-trigger-type={flowTestObject.testTriggerType.value}
+                    trigger-save-type={triggerSaveType}
+                    run-path-value={flowTestObject.runPathValue.value}
+                    onpropertychanged={handlePropertyChangedEvent}
+                >
+                </builder_platform_interaction-flow-test-details>
             </div>
         </div>
     </div>

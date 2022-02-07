@@ -83,6 +83,7 @@ import {
     AUTO_LAYOUT_CANVAS,
     CANVAS_MODE,
     createEndElement,
+    createFlowTestData,
     createVariable,
     shouldSupportScheduledPaths
 } from 'builder_platform_interaction/elementFactory';
@@ -1887,9 +1888,19 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      */
     createOrEditFlowTest = (createOrEdit) => {
         const triggerSaveType = getRecordTriggerType();
+        // depending on the flow record trigger type, set trigger type for the test
+        const testTriggerType =
+            triggerSaveType === FLOW_TRIGGER_SAVE_TYPE.CREATE_AND_UPDATE
+                ? FLOW_TRIGGER_SAVE_TYPE.CREATE
+                : getRecordTriggerType();
         if (createOrEdit === FlowTestMode.CREATE) {
             this.queueOpenCreateFlowTest(() => {
+                let flowTestObject = createFlowTestData(); // initalize an empty flow test object
+                flowTestObject.testTriggerType = testTriggerType;
+                flowTestObject.runPathValue = SCHEDULED_PATH_TYPE.IMMEDIATE_SCHEDULED_PATH;
+                flowTestObject = getElementForPropertyEditor(flowTestObject);
                 return {
+                    flowTestObject,
                     createOrEdit,
                     triggerSaveType,
                     saveTest: this.saveTestCallback

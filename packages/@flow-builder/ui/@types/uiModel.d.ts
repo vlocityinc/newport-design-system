@@ -457,4 +457,12 @@ declare namespace UI {
         label: string;
         isDraggable: boolean;
     }
+
+    interface FlowTestData {
+        label: string;
+        name: string;
+        description?: string;
+        runPathValue: string;
+        testTriggerType: string;
+    }
 }

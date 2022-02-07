@@ -46,6 +46,7 @@ import {
     createFlowProperties,
     createFlowPropertiesForEditor,
     createFlowPropertiesMetadataObject,
+    createFlowTestData,
     createFormula,
     createFormulaForStore,
     createFormulaMetadataObject,
@@ -181,6 +182,13 @@ export const elementTypeToConfigMap: {
             propertyEditor: createFlowPropertiesForEditor,
             uiToFlow: createFlowPropertiesMetadataObject,
             flowToUi: createFlowProperties
+        }
+    },
+    [ELEMENT_TYPE.FLOW_TEST_EDITOR]: {
+        descriptor: 'builder_platform_interaction:flowTestEditor',
+        canvasElement: false,
+        factory: {
+            propertyEditor: createFlowTestData
         }
     },
     [ELEMENT_TYPE.START_ELEMENT]: {

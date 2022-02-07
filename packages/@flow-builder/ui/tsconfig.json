@@ -104,6 +104,7 @@
             "builder_platform_interaction/flowMetadata": ["./src/builder_platform_interaction/flowMetadata/flowMetadata.ts"],
             "builder_platform_interaction/flowPropertiesEditor": ["./src/builder_platform_interaction/flowPropertiesEditor/flowPropertiesEditor.ts"],
             "builder_platform_interaction/flowStatus": ["./src/builder_platform_interaction/flowStatus/flowStatus.ts"],
+            "builder_platform_interaction/flowTestDetails": ["./src/builder_platform_interaction/flowTestDetails/flowTestDetails.ts"],
             "builder_platform_interaction/flowTestEditor": ["./src/builder_platform_interaction/flowTestEditor/flowTestEditor.ts"],
             "builder_platform_interaction/flowTestManager": ["./src/builder_platform_interaction/flowTestManager/flowTestManager.ts"],
             "builder_platform_interaction/formulaBuilder": ["./src/builder_platform_interaction/formulaBuilder/formulaBuilder.ts"],

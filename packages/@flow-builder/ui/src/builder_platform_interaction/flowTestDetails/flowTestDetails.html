@@ -1,0 +1,36 @@
+<template>
+    <div class="slds-grid slds-m-bottom_x-small">
+        <div class="slds-text-heading_small">{labels.flowTestDetailsMenuItem}</div>
+    </div>
+    <builder_platform_interaction-label-description
+        label={label}
+        dev-name={devName}
+        description={description}
+        guid={guid}
+    >
+    </builder_platform_interaction-label-description>
+    <div class="slds-grid slds-m-bottom_x-small">
+        <div class="slds-text-heading_small">{labels.flowTestSettingsLabel}</div>
+    </div>
+    <div class="slds-p-horizontal_small slds-p-top_small">{labels.flowTestSettingsDescription}</div>
+    <div>
+        <lightning-radio-group
+            label={labels.flowTestTriggerOptionsLabel}
+            name="createOrUpdate"
+            options={saveTriggerOptions}
+            value={testTriggerType}
+            onchange={handleTrigTypeChangeWithEvent}
+            class="slds-m-top_x-small test-trigger-type"
+            disabled={isCreateUpdateTriggerValue}
+        >
+        </lightning-radio-group>
+    </div>
+    <lightning-combobox
+        class="slds-col slds-grow slds-size_3-of-6 run-path"
+        label={labels.flowTestRunOptionsLabel}
+        options={runPathOptions}
+        value={runPathValue}
+        dropdown-alignment="left"
+    >
+    </lightning-combobox>
+</template>
