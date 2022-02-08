@@ -1,10 +1,12 @@
 import {
+    blurEvent,
     INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS,
     setDocumentBodyChildren,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import { ELEMENT_TYPE, FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 import { createElement } from 'lwc';
 import { formulaFunctionsForNoTrigger as mockFormulaFunctions } from 'serverData/GetFormulaFunctions/formulaFunctionsForNoTrigger.json';
 import { formulaFunctionsForRecordBeforeSave as mockFormulaFunctionsRecordBeforeSave } from 'serverData/GetFormulaFunctions/formulaFunctionsForRecordBeforeSave.json';
@@ -45,6 +47,12 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/mergeFieldLib', () => {
+    return {
+        validateTextWithMergeFields: jest.fn().mockReturnValue([])
+    };
+});
+
 const selectors = {
     label: 'label',
     abbr: 'abbr',
@@ -53,7 +61,8 @@ const selectors = {
     operatorPicker: 'formula-operator-picker',
     syntaxValidation: 'formula-syntax-validation',
     ferovResourcePicker: INTERACTION_COMPONENTS_SELECTORS.FEROV_RESOURCE_PICKER,
-    groupedCombobox: LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX
+    groupedCombobox: LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX,
+    errorMessage: '.slds-has-error'
 };
 
 const getResourcePicker = (formulaBuilder) =>
@@ -62,6 +71,7 @@ const getFunctionPicker = (formulaBuilder) => formulaBuilder.shadowRoot.querySel
 const getOperatorPicker = (formulaBuilder) => formulaBuilder.shadowRoot.querySelector(selectors.operatorPicker);
 const getSyntaxValidation = (formulaBuilder) => formulaBuilder.shadowRoot.querySelector(selectors.syntaxValidation);
 const getTextArea = (formulaBuilder) => formulaBuilder.shadowRoot.querySelector(selectors.textarea);
+const getErrorMessage = (formulaBuilder) => formulaBuilder.shadowRoot.querySelector(selectors.errorMessage);
 
 const flowProcessType = FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW;
 
@@ -460,6 +470,103 @@ describe('Formula builder', () => {
                 finalText,
                 finalText.length
             );
+        });
+    });
+    describe('Validation', () => {
+        let eventCallback;
+        const expectValueChangedEventWithValue = (value, error) => {
+            expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                detail: { value, error }
+            });
+        };
+        const validationError = {
+            errorType: 'errorType',
+            message: 'errorMessage',
+            startIndex: 0,
+            endIndex: 0
+        };
+        beforeEach(() => {
+            eventCallback = jest.fn();
+            validateTextWithMergeFields.mockReturnValue([validationError]);
+        });
+        it('Should validate global variables by default', () => {
+            const formulaBuilder = createComponentUnderTest({
+                flowProcessType,
+                required: true,
+                value: { value: '{!unknownMergeField}', error: null }
+            });
+            formulaBuilder.addEventListener('change', eventCallback);
+            const textarea = getTextArea(formulaBuilder);
+            textarea.dispatchEvent(new CustomEvent('blur'));
+            expect(validateTextWithMergeFields).toHaveBeenCalledWith('{!unknownMergeField}', {
+                allowCollectionVariables: true,
+                allowGlobalConstants: true,
+                ignoreGlobalVariables: false
+            });
+        });
+        it('Should not validate global variables in the formula editor', () => {
+            const formulaBuilder = createComponentUnderTest({
+                flowProcessType,
+                required: true,
+                resourcePickerConfig: {
+                    filterOptions: {
+                        forFormula: true
+                    }
+                },
+                value: { value: '{!unknownMergeField}', error: null }
+            });
+            formulaBuilder.addEventListener('change', eventCallback);
+            const textarea = getTextArea(formulaBuilder);
+            textarea.dispatchEvent(new CustomEvent('blur'));
+            expect(validateTextWithMergeFields).toHaveBeenCalledWith('{!unknownMergeField}', {
+                allowCollectionVariables: true,
+                allowGlobalConstants: true,
+                ignoreGlobalVariables: true
+            });
+        });
+        it('Should fire change event on blur text area with validation errors', async () => {
+            const formulaBuilder = createComponentUnderTest({
+                flowProcessType,
+                required: true,
+                value: { value: '{!unknownMergeField}', error: null }
+            });
+            formulaBuilder.addEventListener('change', eventCallback);
+            const textArea = getTextArea(formulaBuilder);
+            textArea.dispatchEvent(blurEvent);
+            await ticks(1);
+            expectValueChangedEventWithValue('{!unknownMergeField}', validationError.message);
+            const errorMsg = getErrorMessage(formulaBuilder);
+            expect(errorMsg.textContent).toEqual(validationError.message);
+        });
+        it('Should fire change event on click syntax validation button with validation errors', async () => {
+            const formulaBuilder = createComponentUnderTest({
+                flowProcessType,
+                required: true,
+                value: { value: '{!unknownMergeField}', error: null }
+            });
+            formulaBuilder.addEventListener('change', eventCallback);
+            const syntaxBtn = getSyntaxValidation(formulaBuilder);
+            syntaxBtn.dispatchEvent(new CustomEvent('checksyntax'));
+            await ticks(1);
+            expectValueChangedEventWithValue('{!unknownMergeField}', validationError.message);
+            expect(syntaxBtn.validationResult.isValidSyntax).toBeFalsy();
+            expect(getErrorMessage(formulaBuilder).textContent).toEqual(validationError.message);
+        });
+        it('Should fire change event on click syntax validation button without errors', async () => {
+            const formulaBuilder = createComponentUnderTest({
+                flowProcessType,
+                required: true,
+                value: { value: 'valid formula', error: null }
+            });
+            validateTextWithMergeFields.mockReturnValue([]);
+            formulaBuilder.addEventListener('change', eventCallback);
+            const syntaxBtn = getSyntaxValidation(formulaBuilder);
+            syntaxBtn.dispatchEvent(new CustomEvent('checksyntax'));
+            await ticks(1);
+            expectValueChangedEventWithValue('valid formula', null);
+            expect(syntaxBtn.validationResult.isValidSyntax).toBeTruthy();
+            expect(getErrorMessage(formulaBuilder)).toBeNull();
         });
     });
 });

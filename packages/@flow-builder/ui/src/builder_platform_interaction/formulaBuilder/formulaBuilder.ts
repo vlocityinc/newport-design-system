@@ -2,6 +2,7 @@ import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker'
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { ElementFilterConfig } from 'builder_platform_interaction/expressionUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
@@ -31,7 +32,8 @@ const selectors = {
     textArea: 'textarea',
     resourcePicker: 'builder_platform_interaction-ferov-resource-picker',
     functionPicker: 'formula-function-picker',
-    operatorPicker: 'formula-operator-picker'
+    operatorPicker: 'formula-operator-picker',
+    syntaxValidation: 'formula-syntax-validation'
 };
 
 export default class FormulaBuilder extends LightningElement {
@@ -60,6 +62,9 @@ export default class FormulaBuilder extends LightningElement {
     // text area name
     @api
     name = 'default';
+    // the formula type to specify the sub resource validation path
+    @api
+    formulaType;
 
     @track operatorData;
     @track functionData;
@@ -203,9 +208,7 @@ export default class FormulaBuilder extends LightningElement {
      */
     handleFormulaChanged(event) {
         event.stopPropagation();
-        const val = event.target.value;
-        this._value = val;
-        this.fireEvent(this, 'change', { value: this._value, error: null });
+        this.checkFormulaExpressionWithMergeFields();
     }
     /**
      * handle check syntax click event.
@@ -214,8 +217,44 @@ export default class FormulaBuilder extends LightningElement {
      */
     handleCheckSyntax(event) {
         event.stopPropagation();
-        // TODO: validate formula at client side when clicking on check syntax button
+        this.checkSyntax();
     }
+
+    /**
+     * for now, the validation at client side is just checking the merge fields.
+     *
+     * @returns error if any
+     */
+    checkFormulaExpressionWithMergeFields() {
+        const hideGlobalConstants = !!this.filterOptions.hideGlobalConstants;
+        const options = {
+            allowGlobalConstants: !hideGlobalConstants,
+            allowCollectionVariables: true,
+            ignoreGlobalVariables: !!this.filterOptions.forFormula
+        };
+        const textarea = this.dom.as<HTMLTextAreaElement>().textArea;
+        this._value = textarea.value;
+        const errors = validateTextWithMergeFields(this._value, options);
+        const error = errors.length > 0 ? errors[0].message : null;
+        this.setCustomValidity(error);
+        this.fireEvent(this, 'change', { value: this._value, error });
+        return error;
+    }
+
+    checkSyntax() {
+        // validate formula when clicking on check syntax button
+        const syntaxValidationCmp = this.dom.as<any>().syntaxValidation;
+        // check merge field at client side
+        const expError = this.checkFormulaExpressionWithMergeFields();
+        if (expError) {
+            this.validationResult = { isValidSyntax: false, validationMessage: '' };
+        } else {
+            this.validationResult = { isValidSyntax: true, validationMessage: '' };
+            // TODO: validate at server side, pass this.formulaType to the controller to call the sub validation resource
+        }
+        syntaxValidationCmp.enableCheckSyntaxButton();
+    }
+
     /**
      * handle function selected event.
      *
