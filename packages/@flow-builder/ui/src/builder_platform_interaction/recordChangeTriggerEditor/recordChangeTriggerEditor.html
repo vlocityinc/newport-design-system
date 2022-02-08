@@ -101,17 +101,17 @@
             </builder_platform_interaction-record-filter>
         </div>
         <div class="slds-border_top" if:true={showFormulaEditor}>
-            <builder_platform_interaction-resourced-textarea
-                hide-new-resource
-                for-formula
+            <builder_platform_interaction-formula-builder
                 label={labels.formulaLabel}
                 name={labels.formulaLabel}
-                required
-                spinner-alternative-text={labels.formulaValidationSpinnerAlternativeText}
                 value={startElement.formulaFilter}
+                flow-process-type={processType}
+                flow-trigger-type={triggerType}
+                record-trigger-type={startElement.recordTriggerType.value}
+                resource-picker-config={resourcePickerConfig}
+                required
                 onchange={handleFormulaFilterChanged}
-            >
-            </builder_platform_interaction-resourced-textarea>
+            ></builder_platform_interaction-formula-builder>
         </div>
         <div class="slds-border_top" if:true={showRequireRecordChangeOptions}>
             <div

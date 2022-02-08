@@ -10,6 +10,9 @@ import onlyWhenChangesMeetConditions from '@salesforce/label/FlowBuilderRecordEd
 import requireChangeOptionsHelptext from '@salesforce/label/FlowBuilderRecordEditor.requireChangeOptionsHelptext';
 import requireRecordChangeOption from '@salesforce/label/FlowBuilderRecordEditor.requireRecordChangeOption';
 import requireRecordChangeOptionOrchestrator from '@salesforce/label/FlowBuilderRecordEditor.requireRecordChangeOptionOrchestrator';
+import required from '@salesforce/label/FlowBuilderResourcedTextArea.inputRequiredTitle';
+import resourcePickerPlaceholder from '@salesforce/label/FlowBuilderResourcedTextArea.resourcePickerPlaceholder';
+import resourcePickerTitle from '@salesforce/label/FlowBuilderResourcedTextArea.resourcePickerTitle';
 import chooseObjectAndRecord from '@salesforce/label/FlowBuilderStartEditor.chooseObjectAndRecord';
 import contextObjectDeleteDescription from '@salesforce/label/FlowBuilderStartEditor.contextObjectDeleteDescription';
 import contextObjectHeader from '@salesforce/label/FlowBuilderStartEditor.contextObjectHeader';
@@ -79,7 +82,10 @@ export const LABELS = {
     formulaValidationSpinnerAlternativeText,
     newInfoBadgeLabel,
     formulasForConditionsInfoLabel,
-    formulasForConditionsHelpText
+    formulasForConditionsHelpText,
+    resourcePickerTitle,
+    resourcePickerPlaceholder,
+    required
 };
 
 export const requireRecordChangeOptions = () => {

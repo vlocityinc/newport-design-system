@@ -15,6 +15,7 @@ import {
 } from 'builder_platform_interaction/flowMetadata';
 import { loadOperatorsAndRulesOnTriggerTypeChange } from 'builder_platform_interaction/preloadLib';
 import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
+import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
 import { ENTITY_TYPE, fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
 import {
@@ -66,6 +67,21 @@ export default class RecordChangeTriggerEditor extends LightningElement {
     // Stores the flow trigger type value which needs to be set to if the user
     // decides to switch back from DELETE to CREATE, UPDATE or CREATEUPDATE
     oldFlowTriggerType = '';
+
+    get resourceComboBoxConfig() {
+        return BaseResourcePicker.getComboboxConfig(
+            LABELS.resourcePickerTitle, // Label
+            LABELS.resourcePickerPlaceholder, // Placeholder
+            null, // errorMessage
+            false, // literalsAllowed
+            false, // required
+            false, // disabled
+            'String', // type
+            true, // enableFieldDrilldown
+            undefined, // allowSObjectFields
+            LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN // variant
+        );
+    }
 
     get beforeAfterSaveItems() {
         return [
@@ -130,6 +146,26 @@ export default class RecordChangeTriggerEditor extends LightningElement {
 
         const labelDescription = this.template.querySelector(element);
         labelDescription.focus?.();
+    }
+
+    get resourcePickerConfig() {
+        return {
+            elementConfig: {
+                elementType: this.startElement.elementType
+            },
+            comboboxConfig: this.resourceComboBoxConfig,
+            filterOptions: {
+                hideGlobalConstants: true,
+                hideSystemVariables: false,
+                hideGlobalVariables: false,
+                hideNewResource: true,
+                hideFlowSystemVariable: true,
+                includeQuickCreateResourceOption: false,
+                activePicklistValues: null,
+                isPillSupported: true,
+                forFormula: true
+            }
+        };
     }
 
     get disableConditionLogicPicker() {

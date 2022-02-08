@@ -30,7 +30,7 @@ const SELECTORS = {
     SET_CONDITIONS_DESCRIPTION: '.test-set-conditions-description',
     REQUIRE_RECORD_CHANGE_OPTION_LABEL: '.test-require-record-change-option-label',
     ENTITY_RESOURCE_PICKER: 'builder_platform_interaction-entity-resource-picker',
-    FORMULA_BUILDER: 'builder_platform_interaction-resourced-textarea'
+    FORMULA_BUILDER: 'builder_platform_interaction-formula-builder'
 };
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
