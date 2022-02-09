@@ -41,6 +41,8 @@ Go to Settings in your org and query for Custom Settings. Look for "UISetting", 
 - `Key` - `NULL`
 - `Value` - You will need to go to the staticresource you uploaded in step 2. Right click on `view file` in your browser and from the context menu choose `Copy Link Address`:
 
+***NOTE:*** If you're in an OmniStudio package instead of doing this in "UISetting" instead you'll need to do it in "Omni Interaction Config" in the "Settings" of your org.
+
 ![Preview tool](./docs/copy_link_address_of_static_resource.png)
 
 Now paste this value into `Value` field and you will need to edit it to be in the format: `/resource/{sobjectid}/{ns_}ResourceName`.
@@ -51,7 +53,7 @@ Save this and load your omniscript with the Newport theme option. You should now
 
 ### 3.3 Other deployment options
 
-With 105+ release you can change the value in `newportZipUrl` to point to any hosted version of newport. This means you can deploy Newport to a CDN you might have and provide the address to it hosted there in the `value` field. The important thing to maintain is the directory structure of the zip `newport-design-system.zip` file. The Vlocity package will simply try to append the known directories to the value in `newportZipUrl`. So if you provide a CDN url like: `https://www.acme.com/cdn/newport`, then Vlocity will try to load the stylesheets from `https://www.acme.com/cdn/newport/assets/styles/vlocity-newport-design-system.min.css`.
+You can change the value in `newportZipUrl` to point to any hosted version of newport. This means you can deploy Newport to a CDN you might have and provide the address to it hosted there in the `value` field. The important thing to maintain is the directory structure of the zip `newport-design-system.zip` file. The Vlocity package will simply try to append the known directories to the value in `newportZipUrl`. So if you provide a CDN url like: `https://www.acme.com/cdn/newport`, then Vlocity will try to load the stylesheets from `https://www.acme.com/cdn/newport/assets/styles/vlocity-newport-design-system.min.css`.
 
 To re-iterate **do not change the folder structure and file names in the generated zip file**.
 
