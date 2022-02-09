@@ -21,12 +21,21 @@ Now log into your org, go to _Setup_ and search for _Static Resources_. Open the
 - `Cache Control` - Choose `Public`
 
 Hit _Save_ and it will create your static resource.
+## 3.Setting the default Newport for your org
+### 3.1 By Static Resource name
 
-## 3. (105+ release) Setting the default Newport for your org
+New from 236 - you can now set just the static resource name in Custom Settings.
 
-From release 105 upwards we've simplified how Newport can be overridden in an entire org using a single Custom Setting. For pre-105 orgs please see alternative steps using custom VF pages below.
+Go to Settings in your org and query for Custom Settings. Look for "UISetting", click "Manage" and add a new entry with the following values:
+- `Name` - `newportStaticResource`
+- `Key` - `NULL`
+- `Value` - The name of your staticresource.
 
-In a 105 org go to Settings in your org and query for Custom Settings. Look for "UISetting", click "Manage" and add a new entry with the following values:
+***NOTE:*** If you're in an OmniStudio package instead of doing this in "UISetting" instead you'll need to do it in "Omni Interaction Config" in the "Settings" of your org.
+
+### 3.2 By Static Resource URL
+
+Go to Settings in your org and query for Custom Settings. Look for "UISetting", click "Manage" and add a new entry with the following values:
 
 - `Name` - `newportZipUrl`
 - `Key` - `NULL`
@@ -40,67 +49,18 @@ So for example in my org my clipboard gave me: `https://vloc-ouidesigner-dev-ed-
 
 Save this and load your omniscript with the Newport theme option. You should now see it with your custom version loaded. This will work the same for Cards using the URL parameter `vlocitytheme=newport` or in Vlocity Lightning components that set the `theme` to `Newport`.
 
-### (105+ release) Other deployment options
+### 3.3 Other deployment options
 
 With 105+ release you can change the value in `newportZipUrl` to point to any hosted version of newport. This means you can deploy Newport to a CDN you might have and provide the address to it hosted there in the `value` field. The important thing to maintain is the directory structure of the zip `newport-design-system.zip` file. The Vlocity package will simply try to append the known directories to the value in `newportZipUrl`. So if you provide a CDN url like: `https://www.acme.com/cdn/newport`, then Vlocity will try to load the stylesheets from `https://www.acme.com/cdn/newport/assets/styles/vlocity-newport-design-system.min.css`.
 
 To re-iterate **do not change the folder structure and file names in the generated zip file**.
 
-## Pre 105 release
+### 3.4 Enforce use of scoped styles
 
-In older releases there are several manual steps that need to be followed in order to switch to your custom version of Newport:
+If you want to always use Newport's scoped styles then you can set:
 
-### Adding to a custom OmniScript Page
+- `Name` - `newportUseScopedStyles`
+- `Key` - `NULL`
+- `Value` - `true`
 
-Now go to _Setup_ and search _Visualforce Pages_ and click _New_.
-
-- `Label` - choose an appropriate name, for example `OmniScriptNDS`
-- `Name` - Make a note of this you will need it for Step 4. I recommend leaving it as the default Salesforce generates for you.
-- `Description` - Optional
-- `Available for Lightning Experience, Lightning Communities, and the mobile app` - Check this
-- `Require CSRF protection on GET requests` - Optional
-
-For the contents enter:
-
-```
-<apex:page standardStylesheets="false"
-           showHeader="false"
-           sidebar="false"
-           docType="html-5.0"
-           lightningStylesheets="true"
-           controller="vlocity_ins.VFPageControllerBase"
-           applyHtmlTag="false"
-           applyBodyTag="false"
-           language="{!$CurrentPage.parameters.LanguageCode}">
-    <html xmlns:xlink="http://www.w3.org/1999/xlink">
-        <head>
-            <meta name="viewport"
-                  content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0" />
-            <link rel="stylesheet" href="{!URLFOR($Resource.newportdesignsystem, '/assets/styles/vlocity-newport-design-system.css')}" />
-        </head>
-
-        <body >
-            <div ng-app="OmniScriptUniversal" class="vlocity via-nds">
-                <vlc-slds-lightning-banner title="OmniScriptTitle"></vlc-slds-lightning-banner>
-                <vlocity_ins:BusinessProcessComponent strOmniScriptId="{!$CurrentPage.parameters.designerPreviewId}"
-                                                     previewMode="{!$CurrentPage.parameters.previewEmbedded}"
-                                                     scriptLayout="newport"
-                                                     strCSSFileList="[]" />
-                <script type="text/javascript">
-                    var modules = ['vlocity-business-process'];
-                    var myModule = angular.module('OmniScriptUniversal', modules);
-                </script>
-            </div>
-            <vlocity_ins:VFActionFunction />
-        </body>
-   </html>
-</apex:page>
-```
-
-NOTE: If you're using our CMT package then change `vlocity_ins` to be `vlocity_cmt`. If you're using our PS package then change `vlocity_ins` to be `vlocity_ps`.
-
-Hit _Save_.
-
-Now head over to the _Vlocity Omniscript Designer_ and open your OmniScript. In the _Script Configuration_ find the _Visualforce Pages Available In Preview_ property and click _Add New Visualforce Page For Preview_. In the first column enter the `Name` of your Visualforce page from step 3. In the second column enter `c__{NAME OF YOUR VF PAGE}`. The `c__` is important for the designer to be able to load the Visualforce page.
-
-With the changes done, click the _Preview_ tab and on the top right change the drop down to be your Visualforce page name. You should now be looking at your OmniScript rendered with the newport css you generated!
+This will ensure that the scoped css file is loaded. All rules in the scoped css file are prefixed with `.via-nds` class selector which means you also need that class in your DOM tree in a parent element to have the styles enforce. This is useful to ensure your newport styles to don't leak out and affect other parts of the page you're not expecting them to.
