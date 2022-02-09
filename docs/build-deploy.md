@@ -24,8 +24,6 @@ Hit _Save_ and it will create your static resource.
 ## 3.Setting the default Newport for your org
 ### 3.1 By Static Resource name
 
-New from 236 - you can now set just the static resource name in Custom Settings.
-
 Go to Settings in your org and query for Custom Settings. Look for "UISetting", click "Manage" and add a new entry with the following values:
 - `Name` - `newportStaticResource`
 - `Key` - `NULL`
