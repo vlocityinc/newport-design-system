@@ -72,22 +72,13 @@
 }
 
 // Support for flexipage regions.
-.nds-flexipage-container {
-  &_small {
-
-    [class*=nds-medium-size],
-    [class*=nds-large-size] {
-      width: 100%; // override width
-      flex: 0 0 100%;
-      max-width: 100%;
-    }
-
-    @include reset-order();
+.slds-flexipage-container_small {
+  .omniscript-article {
+    @include reset-size(small);
+    @include reset-order(small);
 
     .nds-modal__container {
-      @include reset-size(medium);
       @include reset-size(large);
-      @include reset-order(medium);
       @include reset-order(large);
     }
 
@@ -97,12 +88,11 @@
       justify-content: center;
     }
   }
+}
 
-  &_medium {
-    [class*=nds-large-size] {
-      width: 100%;
-    }
-
+.slds-flexipage-container_medium {
+  .omniscript-article {
+    @include reset-size(medium);
     @include reset-order(medium);
 
     .slds-modal__container {
@@ -110,5 +100,5 @@
       @include reset-order(large);
     }
   }
-
 }
+
