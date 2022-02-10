@@ -1097,7 +1097,6 @@ describe('Start element', () => {
         });
 
         it('creates start element metadata object', () => {
-            expect.assertions(1);
             const startElement = {
                 filterLogic: CONDITION_LOGIC.NO_CONDITIONS,
                 filters: [],
@@ -1156,6 +1155,38 @@ describe('Start element', () => {
                 recordTriggerType: FLOW_TRIGGER_SAVE_TYPE.DELETE,
                 schedule: undefined,
                 doesRequireRecordChangedToMeetCriteria: false
+            };
+            const actualResult = createStartElementMetadataObject(startElement);
+
+            expect(actualResult).toMatchObject(expectedResult);
+        });
+
+        it('retains doesRequireRecordChangedToMeetCriteria value and does not set it to false when filter logic is formula', () => {
+            const startElement = {
+                filterLogic: CONDITION_LOGIC.FORMULA,
+                filters: [],
+                object: 'Account',
+                objectContainer: undefined,
+                triggerType: FLOW_TRIGGER_TYPE.BEFORE_DELETE,
+                frequency: undefined,
+                startDate: undefined,
+                startTime: undefined,
+                recordTriggerType: FLOW_TRIGGER_SAVE_TYPE.DELETE,
+                doesRequireRecordChangedToMeetCriteria: true
+            };
+
+            const expectedResult = {
+                name: undefined,
+                description: undefined,
+                label: undefined,
+                filters: [],
+                filterLogic: undefined,
+                object: 'Account',
+                objectContainer: undefined,
+                triggerType: FLOW_TRIGGER_TYPE.BEFORE_DELETE,
+                recordTriggerType: FLOW_TRIGGER_SAVE_TYPE.DELETE,
+                schedule: undefined,
+                doesRequireRecordChangedToMeetCriteria: true
             };
             const actualResult = createStartElementMetadataObject(startElement);
 

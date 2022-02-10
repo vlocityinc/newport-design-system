@@ -362,9 +362,10 @@ export function createStartElementMetadataObject(startElement: UI.Start, config 
     if (recordFilters.length > 0 && filterLogic !== CONDITION_LOGIC.NO_CONDITIONS) {
         recordFilters = recordFilters.map((filter) => createFilterMetadataObject(filter));
     } else {
+        doesRequireRecordChangedToMeetCriteria =
+            filterLogic === CONDITION_LOGIC.NO_CONDITIONS ? false : doesRequireRecordChangedToMeetCriteria;
         recordFilters = [];
         filterLogic = undefined;
-        doesRequireRecordChangedToMeetCriteria = false;
     }
 
     let scheduledPaths;
