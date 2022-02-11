@@ -2,7 +2,7 @@ pipeline:
     name: published-lwc
     github_source:
         repo: automation-platform/sfci-pipelines
-        branch: release-2
+        branch: release-3
 release_branches: ['master', '232', '230', '228', '236']
 precompile_lwc_components: true
 code_coverage_gus_team_name: 'Automation Builder Simplification'
