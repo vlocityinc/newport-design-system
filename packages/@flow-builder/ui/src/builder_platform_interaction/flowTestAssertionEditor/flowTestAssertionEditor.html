@@ -1,0 +1,20 @@
+<template>
+    <div class="flow-test-editor-assertion-list slds-m-top_small">
+        <builder_platform_interaction-list
+            items={assertionsList}
+            add-label={labels.flowTestAssertionAddAssertionButtonLabel}
+        >
+            <div slot="listBody" class="slds-border_bottom">
+                <template for:each={assertionsList} for:item="assertion" for:index="assertionIndex">
+                    <div class="slds-list__item slds-is-relative" key={assertion.expression.rowIndex}>
+                        <builder_platform_interaction-flow-test-assertion-row
+                            assertion={assertion}
+                            index={assertionIndex}
+                            show-delete-assertion={showDeleteAssertion}
+                        ></builder_platform_interaction-flow-test-assertion-row>
+                    </div>
+                </template>
+            </div>
+        </builder_platform_interaction-list>
+    </div>
+</template>

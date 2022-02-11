@@ -1,0 +1,55 @@
+<template>
+    <div class="flow-test-editor-assertion-row slds-m-bottom_medium">
+        <div>
+            <p class="slds-p-bottom_xx-small">
+                <b>{labelForAssertionRow}</b>
+            </p>
+        </div>
+        <builder_platform_interaction-row
+            item-index={index}
+            show-delete={showDeleteAssertion}
+            key={assertion.expression.rowIndex}
+        >
+            <div slot="rowBody">
+                <div class="container" onrowcontentschanged={handleUpdatedExpression}>
+                    <builder_platform_interaction-fer-to-ferov-expression-builder
+                        container-element={elementTypeForExpressionBuilder}
+                        rules={rulesForExpressionBuilder}
+                        expression={assertion.expression}
+                        lhs-label={labels.flowTestAssertionLHSLabel}
+                        operator-label={labels.flowTestAssertionOperatorLabel}
+                        rhs-label={labels.flowTestAssertionRHSLabel}
+                        lhs-placeholder={labels.flowTestAssertionLHSPlaceholder}
+                        operator-placeholder={labels.flowTestAssertionOperatorPlaceholder}
+                        rhs-placeholder={labels.flowTestAssertionRHSPlaceholder}
+                        default-operator={defaultOperator}
+                    >
+                    </builder_platform_interaction-fer-to-ferov-expression-builder>
+                    <div if:true={showCustomFieldMessageButton} class="slds-m-top_x-small">
+                        <lightning-button
+                            label={labels.flowTestAssertionCustomAssertionMessageButtonLabel}
+                            title={labels.flowTestAssertionCustomAssertionMessageButtonLabel}
+                            class="test-editor-add-assertion-message"
+                            onclick={handleAddCustomMessage}
+                        ></lightning-button>
+                    </div>
+                    <div if:false={showCustomFieldMessageButton} class="slds-grid">
+                        <lightning-input
+                            class="slds-size_12-of-12 test-editor-assertion-message-input"
+                            label={labels.flowTestAssertionCustomAssertionMessageLabel}
+                            placeholder={labels.flowTestAssertionCustomAssertionMessagePlaceholder}
+                            value={assertion.message.value}
+                            max-length="256"
+                            onchange={handleUpdateCustomErrorMessage}
+                        ></lightning-input>
+                        <lightning-button-icon
+                            class="slds-button slds-button_icon slds-button_icon-border-filled slds-align-bottom slds-m-left_x-small test-editor-assertion-message-remove"
+                            icon-name="utility:delete"
+                            onclick={handleRemoveCustomErrorMessage}
+                        ></lightning-button-icon>
+                    </div>
+                </div>
+            </div>
+        </builder_platform_interaction-row>
+    </div>
+</template>

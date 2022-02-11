@@ -3,9 +3,17 @@ import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './flowTestEditorLabels';
 import { flowTestEditorReducer } from './flowTestEditorReducer';
 
+export enum FlowTestMenuItems {
+    Details,
+    InitialRecord,
+    UpdatedRecord,
+    Assertions
+}
+
 export default class FlowTestEditor extends LightningElement {
     @api triggerSaveType;
-    @track activeMenuItemId = 'details';
+    @track activeMenuItemId = FlowTestMenuItems.Details;
+    items: UI.MenuItem[] = [];
 
     /**
      * Internal state of flow test editor
@@ -21,15 +29,28 @@ export default class FlowTestEditor extends LightningElement {
         return this._flowTestObject;
     }
 
+    labels = LABELS;
+    tabHeaders = {
+        [FlowTestMenuItems.Details]: this.labels.flowTestDetailsMenuItem,
+        [FlowTestMenuItems.InitialRecord]: '',
+        [FlowTestMenuItems.UpdatedRecord]: '',
+        [FlowTestMenuItems.Assertions]: this.labels.flowTestAssertionPanelHeader
+    };
+
+    tabDescriptions = {
+        [FlowTestMenuItems.InitialRecord]: '',
+        [FlowTestMenuItems.UpdatedRecord]: '',
+        [FlowTestMenuItems.Assertions]: this.labels.flowTestAssertionPanelDescription
+    };
     // Function to get the list of tabs for the vertical navigation depending on the trigger save type
     get getMenuItems() {
         const items: UI.MenuItem[] = [];
-        this.createMenuTab(items, 'details', LABELS.flowTestDetailsMenuItem);
-        this.createMenuTab(items, 'initialRecord', LABELS.flowTestInitialRecordMenuItem);
+        this.createMenuTab(items, FlowTestMenuItems.Details, LABELS.flowTestDetailsMenuItem);
+        this.createMenuTab(items, FlowTestMenuItems.InitialRecord, LABELS.flowTestInitialRecordMenuItem);
         if (this._flowTestObject.testTriggerType.value === FLOW_TRIGGER_SAVE_TYPE.UPDATE) {
-            this.createMenuTab(items, 'updateRecord', LABELS.flowTestUpdateRecordMenuItem);
+            this.createMenuTab(items, FlowTestMenuItems.UpdatedRecord, LABELS.flowTestUpdateRecordMenuItem);
         }
-        this.createMenuTab(items, 'assertions', LABELS.flowTestAssertionsMenuItem);
+        this.createMenuTab(items, FlowTestMenuItems.Assertions, LABELS.flowTestAssertionsMenuItem);
         return items;
     }
 
@@ -43,8 +64,32 @@ export default class FlowTestEditor extends LightningElement {
         });
     }
 
+    get tabHeader() {
+        return this.tabHeaders[this.activeMenuItemId];
+    }
+
+    get tabDescription() {
+        return this.tabDescriptions[this.activeMenuItemId];
+    }
+
     get isFlowTestDetailsActive() {
-        return this.activeMenuItemId === 'details';
+        return this.activeMenuItemId === FlowTestMenuItems.Details;
+    }
+
+    get isFlowTestAssertionActive() {
+        return this.activeMenuItemId === FlowTestMenuItems.Assertions;
+    }
+
+    get isInitialRecordActive() {
+        return this.activeMenuItemId === FlowTestMenuItems.InitialRecord;
+    }
+
+    get isUpdateRecordActive() {
+        return this.activeMenuItemId === FlowTestMenuItems.UpdatedRecord;
+    }
+
+    get assertions(): UI.FlowTestAssertion[] {
+        return this._flowTestObject.testAssertions;
     }
 
     /* ********************** */
@@ -57,7 +102,8 @@ export default class FlowTestEditor extends LightningElement {
         this.activeMenuItemId = event.detail.itemId;
     }
 
-    handlePropertyChangedEvent(event) {
+    handlePropertyChanged(event) {
+        event.stopPropagation();
         this._flowTestObject = flowTestEditorReducer(this._flowTestObject, event);
     }
 }

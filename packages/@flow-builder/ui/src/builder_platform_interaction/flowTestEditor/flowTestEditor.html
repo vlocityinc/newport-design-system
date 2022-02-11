@@ -11,7 +11,12 @@
                 <span class="outcomeListHeader"></span>
             </div>
         </builder_platform_interaction-reorderable-vertical-navigation>
-        <div class="slds-vertical-tabs__content slds-show slds-scrollable_y slds-size_5-of-6" role="tabpanel">
+        <div
+            class="slds-vertical-tabs__content slds-show slds-scrollable_y slds-size_5-of-6 slds-p-around_large"
+            role="tabpanel"
+        >
+            <div class="slds-text-heading_small">{tabHeader}</div>
+            <div class="slds-text-color_weak">{tabDescription}</div>
             <div if:true={isFlowTestDetailsActive}>
                 <builder_platform_interaction-flow-test-details
                     label={flowTestObject.label}
@@ -20,9 +25,17 @@
                     test-trigger-type={flowTestObject.testTriggerType.value}
                     trigger-save-type={triggerSaveType}
                     run-path-value={flowTestObject.runPathValue.value}
-                    onpropertychanged={handlePropertyChangedEvent}
+                    onpropertychanged={handlePropertyChanged}
                 >
                 </builder_platform_interaction-flow-test-details>
+            </div>
+            <div if:true={isFlowTestAssertionActive}>
+                <builder_platform_interaction-flow-test-assertion-editor
+                    onaddlistitem={handlePropertyChanged}
+                    ondeletelistitem={handlePropertyChanged}
+                    onupdatetestassertion={handlePropertyChanged}
+                    assertions-list={assertions}
+                ></builder_platform_interaction-flow-test-assertion-editor>
             </div>
         </div>
     </div>

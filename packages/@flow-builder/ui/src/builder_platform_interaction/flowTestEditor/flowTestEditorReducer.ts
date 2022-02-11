@@ -1,8 +1,13 @@
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
-import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { createEmptyTestAssertion } from 'builder_platform_interaction/elementFactory';
+import {
+    AddListItemEvent,
+    DeleteListItemEvent,
+    PropertyChangedEvent,
+    UpdateTestAssertionEvent
+} from 'builder_platform_interaction/events';
 
 const flowTestEditorPropertyChanged = (state, event) => {
-    event.stopPropagation();
     return updateProperties(state, {
         [event.detail.propertyName]: {
             error: event.detail.error,
@@ -11,6 +16,47 @@ const flowTestEditorPropertyChanged = (state, event) => {
     });
 };
 
+const flowTestEditorAssertionAdded = (state) => {
+    const emptyAssertion = createEmptyTestAssertion();
+    const assertions = [...state.testAssertions, emptyAssertion];
+    return updateTestAssertions(state, assertions);
+};
+
+const flowTestEditorAssertionDeleted = (state, event) => {
+    const listIndex = event.detail.index;
+    let assertions = [...state.testAssertions];
+    assertions = assertions.filter((assertion, index) => {
+        return index !== listIndex;
+    });
+    return updateTestAssertions(state, assertions);
+};
+
+const flowTestEditorAssertionUpdated = (state, event) => {
+    const listIndex = event.detail.index;
+    const assertions = [...state.testAssertions];
+    if (event.detail.isMessageChanged) {
+        const message = event.detail.message;
+        let newMessage;
+        if (message !== undefined) {
+            newMessage = {
+                value: message,
+                error: null
+            };
+        }
+        assertions[listIndex] = { ...assertions[listIndex], message: newMessage };
+    }
+    if (event.detail.isExpressionChanged) {
+        const newExpression = event.detail.expression;
+        assertions[listIndex] = { ...assertions[listIndex], expression: newExpression };
+    }
+    return updateTestAssertions(state, assertions);
+};
+
+const updateTestAssertions = (state, assertions) => {
+    return updateProperties(state, {
+        testAssertions: assertions
+    });
+};
 /**
  * Flow Test editor reducer function runs validation rules and returns back the updated element
  *
@@ -22,6 +68,12 @@ export const flowTestEditorReducer = (state, event) => {
     switch (event.type) {
         case PropertyChangedEvent.EVENT_NAME:
             return flowTestEditorPropertyChanged(state, event);
+        case AddListItemEvent.EVENT_NAME:
+            return flowTestEditorAssertionAdded(state);
+        case DeleteListItemEvent.EVENT_NAME:
+            return flowTestEditorAssertionDeleted(state, event);
+        case UpdateTestAssertionEvent.EVENT_NAME:
+            return flowTestEditorAssertionUpdated(state, event);
         default:
             return state;
     }

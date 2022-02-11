@@ -185,6 +185,10 @@ declare namespace UI {
         operator: string;
     }
 
+    interface ExpressionFilter extends Filter {
+        leftHandSideDataType: string;
+    }
+
     interface Start extends BaseCanvasElementWithFilter, Schedule {
         doesRequireRecordChangedToMeetCriteria: boolean;
         triggerType?: string;
@@ -464,5 +468,11 @@ declare namespace UI {
         description?: string;
         runPathValue: string;
         testTriggerType: string;
+        testAssertions: UI.FlowTestAssertion[];
+    }
+
+    interface FlowTestAssertion {
+        expression: UI.ExpressionFilter;
+        message?: HydratedValue;
     }
 }

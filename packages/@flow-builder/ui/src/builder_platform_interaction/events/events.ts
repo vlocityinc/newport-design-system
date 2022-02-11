@@ -90,6 +90,7 @@ export { SetPropertyEditorTitleEvent } from './setPropertyEditorTitleEvent';
 export { ShowResourceDetailsEvent } from './showResourceDetailsEvent';
 export { SObjectReferenceChangedEvent } from './sObjectReferenceChangedEvent';
 export { TemplateChangedEvent } from './templateChangedEvent';
+export { UpdateTestAssertionEvent } from './testEditorEvents/UpdateTestAssertionEvent';
 export { TextChangedEvent } from './textChangedEvent';
 export { AddToFlowTestEvent } from './toolbarEvents/addToFlowTestEvent';
 export { CopyOnCanvasEvent } from './toolbarEvents/copyOnCanvasEvent';
