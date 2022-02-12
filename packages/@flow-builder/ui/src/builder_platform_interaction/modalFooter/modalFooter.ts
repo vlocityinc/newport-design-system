@@ -1,6 +1,8 @@
 // @ts-nocheck
 import { modalFooterVariant } from 'builder_platform_interaction/builderUtils';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { api, LightningElement, track } from 'lwc';
+const { checkCloseCallback } = commonUtils;
 
 export default class ModalFooter extends LightningElement {
     @api buttons;
@@ -38,7 +40,7 @@ export default class ModalFooter extends LightningElement {
     }
 
     closeModal = (closeCallback = true) => {
-        if (typeof this.closeModalCallback === 'function' && closeCallback === true) {
+        if (checkCloseCallback(this.closeModalCallback, closeCallback)) {
             this.closeModalCallback();
         }
     };

@@ -1,0 +1,18 @@
+<template>
+    <lightning-button
+        disabled={state.flowTestButtonOneDisabled}
+        variant={flowTestButtons.flowTestButtonOne.buttonVariant}
+        label={flowTestButtons.flowTestButtonOne.buttonLabel}
+        title={flowTestButtons.flowTestButtonOne.buttonLabel}
+        onclick={handleFlowTestButtonOneClick}
+        class="slds-m-left_x-small slds-float_right"
+    ></lightning-button>
+    <lightning-button
+        disabled={state.flowTestButtonTwoDisabled}
+        variant={flowTestButtons.flowTestButtonTwo.buttonVariant}
+        label={flowTestButtons.flowTestButtonTwo.buttonLabel}
+        title={flowTestButtons.flowTestButtonTwo.buttonLabel}
+        onclick={handleFlowTestButtonTwoClick}
+        class="slds-m-left_x-small slds-float_right"
+    ></lightning-button>
+</template>

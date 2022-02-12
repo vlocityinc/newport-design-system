@@ -15,6 +15,10 @@ export default class FlowTestEditor extends LightningElement {
     @track activeMenuItemId = FlowTestMenuItems.Details;
     items: UI.MenuItem[] = [];
 
+    @api validate() {
+        // ToDo: implement validations
+    }
+
     /**
      * Internal state of flow test editor
      */

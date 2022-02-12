@@ -108,6 +108,7 @@
             "builder_platform_interaction/flowTestAssertionRow": ["./src/builder_platform_interaction/flowTestAssertionRow/flowTestAssertionRow.ts"],
             "builder_platform_interaction/flowTestDetails": ["./src/builder_platform_interaction/flowTestDetails/flowTestDetails.ts"],
             "builder_platform_interaction/flowTestEditor": ["./src/builder_platform_interaction/flowTestEditor/flowTestEditor.ts"],
+            "builder_platform_interaction/flowTestFooter": ["./src/builder_platform_interaction/flowTestFooter/flowTestFooter.ts"],
             "builder_platform_interaction/flowTestManager": ["./src/builder_platform_interaction/flowTestManager/flowTestManager.ts"],
             "builder_platform_interaction/formulaBuilder": ["./src/builder_platform_interaction/formulaBuilder/formulaBuilder.ts"],
             "builder_platform_interaction/formulaEditor": ["./src/builder_platform_interaction/formulaEditor/formulaEditor.ts"],

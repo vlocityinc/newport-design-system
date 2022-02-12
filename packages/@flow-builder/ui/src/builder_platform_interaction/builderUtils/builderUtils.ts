@@ -687,7 +687,7 @@ export function invokeCreateEditFlowTestEditor(attributes) {
     showFlowTestPopover(
         'builder_platform_interaction:modalHeader',
         'builder_platform_interaction:flowTestEditor',
-        'builder_platform_interaction:modalFooter',
+        'builder_platform_interaction:flowTestFooter',
         {
             data,
             mode,
@@ -731,14 +731,13 @@ function showFlowTestPopover(cmpHeader, cmpBody, cmpFooter, cmpAttributes = {}, 
         headerTitle: headerLabel
     });
     const footerPromise = createComponentPromise(cmpFooter, {
-        buttons: {
-            buttonOneClass: '.create-flow-test-modal-footer-run-button',
-            buttonTwoClass: '.create-flow-test-modal-footer-cancel-button',
-            buttonOne: {
+        flowTestButtons: {
+            flowTestButtonOne: {
                 buttonLabel: footerButtonLabel,
-                buttonVariant: 'brand'
+                buttonVariant: 'brand',
+                buttonCallback: () => saveTestCallback
             },
-            buttonTwo: {
+            flowTestButtonTwo: {
                 buttonLabel: LABELS.cancelButton,
                 buttonVariant: 'neutral',
                 buttonCallback: hidePopover,
@@ -748,15 +747,15 @@ function showFlowTestPopover(cmpHeader, cmpBody, cmpFooter, cmpAttributes = {}, 
     });
     const bodyPromise = createComponentPromise(cmpBody, {
         flowTestObject: cmpAttributes.data,
-        triggerSaveType: cmpAttributes.triggerSaveType,
-        buttonCallback: saveTestCallback
+        triggerSaveType: cmpAttributes.triggerSaveType
     });
     const invokeModalWithComponentsOnCreateOverride = (modal, data) => {
         onCreatePopover(modal);
         const modalFooter = invokeModalWithComponentsOnCreate(modal, data);
         // Disable "Create Test" and "Save Changes" button on modal footer.
         // TODO: Enable once modal is ready to send data to backend
-        modalFooter.disableButtonOne();
+        modalFooter.disableFlowTestButtonOne();
+        modalFooter.panelInstance(modal);
     };
 
     invokeModalWithComponents(

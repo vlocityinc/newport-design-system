@@ -362,16 +362,15 @@ describe('builderUtils', () => {
                 expect.anything()
             );
             expect(createComponent).toHaveBeenCalledWith(
-                'builder_platform_interaction:modalFooter',
+                'builder_platform_interaction:flowTestFooter',
                 expect.objectContaining({
-                    buttons: {
-                        buttonOneClass: '.create-flow-test-modal-footer-run-button',
-                        buttonTwoClass: '.create-flow-test-modal-footer-cancel-button',
-                        buttonOne: {
+                    flowTestButtons: {
+                        flowTestButtonOne: {
                             buttonLabel: 'FlowBuilderCreateTestEditor.flowTestCreateButton',
-                            buttonVariant: 'brand'
+                            buttonVariant: 'brand',
+                            buttonCallback: expect.anything()
                         },
-                        buttonTwo: {
+                        flowTestButtonTwo: {
                             buttonLabel: 'FlowBuilderCommonPropertyEditor.cancelButton',
                             buttonVariant: 'neutral',
                             buttonCallback: expect.anything(),
@@ -398,16 +397,15 @@ describe('builderUtils', () => {
                 expect.anything()
             );
             expect(createComponent).toHaveBeenCalledWith(
-                'builder_platform_interaction:modalFooter',
+                'builder_platform_interaction:flowTestFooter',
                 expect.objectContaining({
-                    buttons: {
-                        buttonOneClass: '.create-flow-test-modal-footer-run-button',
-                        buttonTwoClass: '.create-flow-test-modal-footer-cancel-button',
-                        buttonOne: {
+                    flowTestButtons: {
+                        flowTestButtonOne: {
                             buttonLabel: 'FlowBuilderCreateTestEditor.flowTestSaveButton',
-                            buttonVariant: 'brand'
+                            buttonVariant: 'brand',
+                            buttonCallback: expect.anything()
                         },
-                        buttonTwo: {
+                        flowTestButtonTwo: {
                             buttonLabel: 'FlowBuilderCommonPropertyEditor.cancelButton',
                             buttonVariant: 'neutral',
                             buttonCallback: expect.anything(),

@@ -55,6 +55,7 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     FLOW_TEST_ASSERTION_ROW: 'builder_platform_interaction-flow-test-assertion-row',
     FLOW_TEST_DETAILS: 'builder_platform_interaction-flow-test-details',
     FLOW_TEST_EDITOR: 'builder_platform_interaction-flow-test-editor',
+    FLOW_TEST_FOOTER: 'builder_platform_interaction-flow-test-footer',
     ALC_BUILDER: 'builder_platform_interaction-alc-canvas',
     ALC_BUILDER_CONTAINER: 'builder_platform_interaction-alc-canvas-container',
     GET_TEMPLATES_TILE: 'builder_platform_interaction-get-templates-tile',

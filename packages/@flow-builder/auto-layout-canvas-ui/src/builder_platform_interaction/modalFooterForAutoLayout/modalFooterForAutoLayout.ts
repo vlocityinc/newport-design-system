@@ -1,4 +1,6 @@
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { api, LightningElement } from 'lwc';
+const { checkCloseCallback } = commonUtils;
 
 export default class ModalFooterForAutoLayout extends LightningElement {
     @api buttons;
@@ -30,7 +32,7 @@ export default class ModalFooterForAutoLayout extends LightningElement {
     }
 
     closeModal = (closeCallback = true) => {
-        if (typeof this.closeModalCallback === 'function' && closeCallback === true) {
+        if (checkCloseCallback(this.closeModalCallback, closeCallback)) {
             this.closeModalCallback();
         }
     };
