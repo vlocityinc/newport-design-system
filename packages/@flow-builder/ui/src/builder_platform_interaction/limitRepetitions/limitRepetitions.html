@@ -1,0 +1,14 @@
+<template>
+    <div class="slds-m-around_medium">
+        <builder_platform_interaction-input-collection-picker
+            label={labels.inputCollection}
+            placeholder={labels.inputCollectionPlaceholder}
+            collection-reference={inputVariables.inputOffers}
+            collection-processor-filter={collectionProcessorFilter}
+            oncollectionreferencechanged={handleInputResourceChange}
+            entity-constraint={supportedObjectType}
+            sobject-only
+        >
+        </builder_platform_interaction-input-collection-picker>
+    </div>
+</template>

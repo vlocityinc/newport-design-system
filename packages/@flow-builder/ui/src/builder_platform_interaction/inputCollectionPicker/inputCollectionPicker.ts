@@ -20,6 +20,8 @@ export default class InputCollectionPicker extends LightningElement {
     @api
     sobjectOnly = false;
     @api
+    entityConstraint = null;
+    @api
     collectionProcessorFilter?: CollectionProcessorFilter;
     @track
     _collectionReference;
@@ -62,6 +64,7 @@ export default class InputCollectionPicker extends LightningElement {
             allowsApexCollAnonymousAutoOutput: false,
             selectorConfig: {
                 dataType: '',
+                entityName: '',
                 isCollection: true,
                 collectionProcessorFilter: this.collectionProcessorFilter
             }
@@ -82,7 +85,11 @@ export default class InputCollectionPicker extends LightningElement {
                 }
             });
             elementConfig.selectorConfig.dataType = FLOW_DATA_TYPE.SOBJECT.value;
+            if (this.entityConstraint) {
+                elementConfig.selectorConfig.entityName = this.entityConstraint;
+            }
         }
+
         return elementConfig;
     }
 
