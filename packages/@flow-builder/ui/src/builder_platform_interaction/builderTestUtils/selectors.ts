@@ -138,5 +138,6 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     VISUAL_PICKER_ITEM: 'builder_platform_interaction-visual-picker-item',
     VISUAL_PICKER_LIST: 'builder_platform_interaction-visual-picker-list',
     WAIT_PLATFORM_EVENT: 'builder_platform_interaction-wait-platform-event',
-    WAIT_TIME_EVENT: 'builder_platform_interaction-wait-time-event'
+    WAIT_TIME_EVENT: 'builder_platform_interaction-wait-time-event',
+    FORMULA_BUILDER: 'builder_platform_interaction-formula-builder'
 };

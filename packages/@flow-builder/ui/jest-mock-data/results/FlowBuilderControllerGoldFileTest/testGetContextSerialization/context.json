@@ -3,6 +3,7 @@
     "access":{
       "orgHasFlowBuilderDebug":false,
       "orgHasComplianceBannerEnabled":false,
+      "orgHasFlowFormulaBuilder":false,
       "orgHasBeforeSaveEnabled":true,
       "orgHasFlowBuilderAutomaticFields":true,
       "orgHasFlowAutomaticFieldsUseRecordPageComponents":true,

@@ -1,5 +1,6 @@
 import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
 import { getConditionsWithPrefixes, showDeleteCondition } from 'builder_platform_interaction/conditionListUtils';
+import { orgHasFlowFormulaBuilder } from 'builder_platform_interaction/contextLib';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
@@ -10,6 +11,7 @@ import {
     isSObjectOrApexClass,
     SObjectOrApexReference
 } from 'builder_platform_interaction/sortEditorLib';
+import { getProcessType, getRecordTriggerType, getTriggerType } from 'builder_platform_interaction/storeUtils';
 import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './filterConditionListLabels';
 const { format } = commonUtils;
@@ -57,6 +59,8 @@ export default class FilterConditionList extends LightningElement {
 
     @track
     showFormulaEditor = false;
+
+    orgHasFlowFormulaBuilder = orgHasFlowFormulaBuilder();
 
     set conditionLogic(value: Object) {
         this._conditionLogic = value;
@@ -162,6 +166,35 @@ export default class FilterConditionList extends LightningElement {
         return !isSObjectOrApexClass(this._sObjectOrApexReference)
             ? format(this.labels.primtiveLhsPlaceholder, this.collectionReferenceDisplayText)
             : null;
+    }
+
+    get processType() {
+        return getProcessType();
+    }
+
+    get triggerType() {
+        return getTriggerType();
+    }
+
+    get recordTriggerType() {
+        return getRecordTriggerType();
+    }
+
+    get resourcePickerConfig() {
+        return {
+            filterOptions: {
+                forFormula: true,
+                hideGlobalConstants: true
+            }
+        };
+    }
+
+    get useFormulaBuilder() {
+        return this.showFormulaEditor && this.orgHasFlowFormulaBuilder;
+    }
+
+    get useResourcedTextarea() {
+        return this.showFormulaEditor && !this.orgHasFlowFormulaBuilder;
     }
 
     /**

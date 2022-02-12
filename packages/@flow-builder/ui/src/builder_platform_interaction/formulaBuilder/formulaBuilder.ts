@@ -208,7 +208,11 @@ export default class FormulaBuilder extends LightningElement {
      */
     handleFormulaChanged(event) {
         event.stopPropagation();
-        this.checkFormulaExpressionWithMergeFields();
+        const error = this.checkFormulaExpressionWithMergeFields();
+        // set syntax validation message
+        if (error) {
+            this.validationResult = { isValidSyntax: false, validationMessage: '' };
+        }
     }
     /**
      * handle check syntax click event.

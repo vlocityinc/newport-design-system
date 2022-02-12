@@ -18,6 +18,7 @@ type Access = {
     orgHasComponentPreview: boolean;
     orgHasFlowBuilderGuardrails: boolean;
     orgHasFlowTestingEnabled: boolean;
+    orgHasFlowFormulaBuilder: boolean;
 };
 type BuilderConfig = {
     builderType: string;
@@ -111,21 +112,21 @@ export function getOrgId() {
  *
  */
 export function orgHasFlowBuilderDebug() {
-    return context.access && context.access.orgHasFlowBuilderDebug;
+    return context.access?.orgHasFlowBuilderDebug;
 }
 
 /**
  * returns true if Flow Testing perm is enabled, will be removed sometime post 236
  */
 export function orgHasFlowTestingEnabled() {
-    return context.access && context.access.orgHasFlowTestingEnabled;
+    return context.access?.orgHasFlowTestingEnabled;
 }
 
 /**
  *
  */
 export function orgHasComponentPreview() {
-    return context.access && context.access.orgHasComponentPreview;
+    return context.access?.orgHasComponentPreview;
 }
 
 /*
@@ -142,7 +143,7 @@ export function isAutoLayoutCanvasEnabled() {
  *
  */
 export function orgHasFlowScreenSections() {
-    return context.access && context.access.orgHasFlowScreenSections;
+    return context.access?.orgHasFlowScreenSections;
 }
 
 /**
@@ -155,14 +156,14 @@ export function canUserVAD() {
  *
  */
 export function orgHasBeforeSaveEnabled() {
-    return context.access.orgHasBeforeSaveEnabled;
+    return context.access?.orgHasBeforeSaveEnabled;
 }
 
 /**
  *
  */
 export function orgHasFlowBuilderGuardrails() {
-    return context.access && context.access.orgHasFlowBuilderGuardrails;
+    return context.access?.orgHasFlowBuilderGuardrails;
 }
 
 /*
@@ -172,7 +173,14 @@ export function orgHasFlowBuilderGuardrails() {
  *
  */
 export function orgHasFlowBuilderAutomaticFields() {
-    return context.access && context.access.orgHasFlowBuilderAutomaticFields;
+    return context.access?.orgHasFlowBuilderAutomaticFields;
+}
+
+/**
+ * @returns true if the flow formular builder is enabled
+ */
+export function orgHasFlowFormulaBuilder() {
+    return context.access?.orgHasFlowFormulaBuilder;
 }
 
 export const CLASSIC_EXPERIENCE = 'CLASSIC';

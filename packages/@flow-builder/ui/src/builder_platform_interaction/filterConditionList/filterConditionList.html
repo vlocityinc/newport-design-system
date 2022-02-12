@@ -54,9 +54,8 @@
             </template>
         </div>
     </builder_platform_interaction-condition-list>
-    <!-- Use resourced text area for formula v1 -->
     <builder_platform_interaction-resourced-textarea
-        if:true={showFormulaEditor}
+        if:true={useResourcedTextarea}
         label={labels.formulaFieldLabel}
         name={labels.formulaFieldLabel}
         required
@@ -67,4 +66,18 @@
         onchange={handleFormulaChanged}
     >
     </builder_platform_interaction-resourced-textarea>
+    <builder_platform_interaction-formula-builder
+        if:true={useFormulaBuilder}
+        label={labels.formulaFieldLabel}
+        name={labels.formulaFieldLabel}
+        required
+        flow-process-type={processType}
+        flow-trigger-type={triggerType}
+        record-trigger-type={recordTriggerType}
+        property-editor-element-type={elementType}
+        resource-picker-config={resourcePickerConfig}
+        value={formula}
+        onchange={handleFormulaChanged}
+    >
+    </builder_platform_interaction-formula-builder>
 </template>

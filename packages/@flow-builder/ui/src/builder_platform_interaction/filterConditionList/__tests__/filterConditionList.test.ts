@@ -46,6 +46,17 @@ jest.mock('builder_platform_interaction/sobjectLib', () => ({
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
+// mock orgHasFlowFormulaBuilder
+const mockedContextLib = require('builder_platform_interaction_mocks/contextLib');
+jest.mock('builder_platform_interaction/contextLib', () => require('builder_platform_interaction_mocks/contextLib'));
+// mock getProcessType, getTriggerType, getRecordTriggerType
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    return {
+        getProcessType: jest.fn(),
+        getTriggerType: jest.fn(),
+        getRecordTriggerType: jest.fn()
+    };
+});
 
 const selectors = {
     conditionList: INTERACTION_COMPONENTS_SELECTORS.CONDITION_LIST,
@@ -54,7 +65,8 @@ const selectors = {
     fieldExpressionBuilder: INTERACTION_COMPONENTS_SELECTORS.FIELD_TO_FEROV_EXPRESSION_BUILDER,
     ferExpressionBuilder: INTERACTION_COMPONENTS_SELECTORS.FER_TO_FEROV_EXPRESSION_BUILDER,
     resourcedTextArea: INTERACTION_COMPONENTS_SELECTORS.RESOURCED_TEXTAREA,
-    fieldPicker: INTERACTION_COMPONENTS_SELECTORS.FIELD_PICKER
+    fieldPicker: INTERACTION_COMPONENTS_SELECTORS.FIELD_PICKER,
+    formulaBuilder: INTERACTION_COMPONENTS_SELECTORS.FORMULA_BUILDER
 };
 
 const conditionLogicOptions = [
@@ -127,6 +139,15 @@ const testCustomLogic = '(1 or 2) and 3';
 const getConditionLogicCombobox = (filterCmp) =>
     deepQuerySelector(filterCmp, [selectors.conditionList, selectors.conditionCombobox]);
 
+const getFieldExpressionBuilders = (filterCmp) =>
+    filterCmp.shadowRoot.querySelectorAll(selectors.fieldExpressionBuilder);
+
+const getFerExpressionBuilders = (filterCmp) => filterCmp.shadowRoot.querySelectorAll(selectors.ferExpressionBuilder);
+
+const getResourcedTextArea = (filterCmp) => filterCmp.shadowRoot.querySelector(selectors.resourcedTextArea);
+
+const getFormulaBuilder = (filterCmp) => filterCmp.shadowRoot.querySelector(selectors.formulaBuilder);
+
 const createComponentUnderTest = (inputs) => {
     const {
         conditionLogic = { value: CONDITION_LOGIC.AND },
@@ -167,7 +188,7 @@ describe('filter-condition-list', () => {
                 conditions: mockSObjectConditions
             });
             conditionLogicCombobox = getConditionLogicCombobox(element);
-            fldExpressionBuilders = element.shadowRoot.querySelectorAll(selectors.fieldExpressionBuilder);
+            fldExpressionBuilders = getFieldExpressionBuilders(element);
         });
         beforeEach(() => {
             mockAccountFieldsPromise = Promise.resolve(accountFields);
@@ -195,9 +216,8 @@ describe('filter-condition-list', () => {
             expect(element.shadowRoot.querySelector(selectors.conditionList)).not.toBeNull();
         });
         it('should contain field expression builders only', () => {
-            expect(fldExpressionBuilders).not.toBeNull();
             expect(fldExpressionBuilders).toHaveLength(mockSObjectConditions.length);
-            const ferExpressionBuilders = element.shadowRoot.querySelectorAll(selectors.ferExpressionBuilder);
+            const ferExpressionBuilders = getFerExpressionBuilders(element);
             expect(ferExpressionBuilders).toHaveLength(0);
         });
         it('should have lhs label', () => {
@@ -239,11 +259,11 @@ describe('filter-condition-list', () => {
             setApexClasses(null);
         });
         it('should display field expression builder', () => {
-            expect(element.shadowRoot.querySelectorAll(selectors.fieldExpressionBuilder)).toHaveLength(1);
-            expect(element.shadowRoot.querySelector(selectors.ferExpressionBuilder)).toBeNull();
+            expect(getFieldExpressionBuilders(element)).toHaveLength(1);
+            expect(getFerExpressionBuilders(element)).toHaveLength(0);
         });
         it('should not display formula editor', () => {
-            expect(element.shadowRoot.querySelector(selectors.resourcedTextArea)).toBeNull();
+            expect(getResourcedTextArea(element)).toBeNull();
         });
         it('populates filterable fields for lhs on initial load', () => {
             let actual: Object = {},
@@ -268,7 +288,7 @@ describe('filter-condition-list', () => {
                 conditions: mockPrimitiveConditions
             });
             conditionLogicCombobox = getConditionLogicCombobox(element);
-            ferExpressionBuilders = element.shadowRoot.querySelectorAll(selectors.ferExpressionBuilder);
+            ferExpressionBuilders = getFerExpressionBuilders(element);
         });
         it('should contain correct conditon logic options', () => {
             expect(conditionLogicCombobox.options).toEqual(conditionLogicOptions);
@@ -286,10 +306,8 @@ describe('filter-condition-list', () => {
             expect(element.shadowRoot.querySelector(selectors.conditionList)).not.toBeNull();
         });
         it('should contain ferov expression builders only', () => {
-            expect(ferExpressionBuilders).not.toBeNull();
             expect(ferExpressionBuilders).toHaveLength(mockPrimitiveConditions.length);
-            const fldExpressionBuilders = element.shadowRoot.querySelectorAll(selectors.fieldExpressionBuilder);
-            expect(fldExpressionBuilders).toHaveLength(0);
+            expect(getFieldExpressionBuilders(element)).toHaveLength(0);
         });
         it('should disable input in lhs of expression builder', () => {
             for (let i = 0; i < ferExpressionBuilders.length; i++) {
@@ -307,7 +325,7 @@ describe('filter-condition-list', () => {
             }
         });
         it('should not display formula editor', () => {
-            expect(element.shadowRoot.querySelector(selectors.resourcedTextArea)).toBeNull();
+            expect(getResourcedTextArea(element)).toBeNull();
         });
     });
     /**
@@ -365,67 +383,114 @@ describe('filter-condition-list', () => {
     });
 
     describe('Condition logic changed', () => {
-        let element;
-        beforeAll(() => {
-            element = createComponentUnderTest({
-                sobjectOrApexReference: sobjectType,
-                conditions: mockSObjectConditions
+        describe('when orgHasFlowFormulaBuilder is false', () => {
+            let element;
+            beforeAll(() => {
+                element = createComponentUnderTest({
+                    sobjectOrApexReference: sobjectType,
+                    conditions: mockSObjectConditions
+                });
+            });
+            it('fires propertyChangedEvent for conditionLogic', async () => {
+                await ticks(1);
+                const eventCallback = jest.fn();
+                element.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
+                const conditionList = element.shadowRoot.querySelector(selectors.conditionList);
+                conditionList.dispatchEvent(new PropertyChangedEvent('conditionLogic', CONDITION_LOGIC.OR));
+                await ticks(1);
+                expect(eventCallback).toHaveBeenCalled();
+            });
+            it('fires propertyChangedEvent when switching to condition logic formula', async () => {
+                const eventCallback = jest.fn();
+                element.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
+                const logicComboBox = getConditionLogicCombobox(element);
+                logicComboBox.dispatchEvent(new PropertyChangedEvent('conditionLogic', CONDITION_LOGIC.FORMULA));
+                await ticks(1);
+                expect(eventCallback).toHaveBeenCalled();
+                expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                    detail: {
+                        guid: element.parentGuid,
+                        propertyName: 'conditionLogic',
+                        value: CONDITION_LOGIC.FORMULA,
+                        error: null
+                    }
+                });
+            });
+            it('should show resourced text area when switching to condition logic formula', async () => {
+                const logicComboBox = getConditionLogicCombobox(element);
+                logicComboBox.dispatchEvent(new PropertyChangedEvent('conditionLogic', CONDITION_LOGIC.FORMULA));
+                await ticks(1);
+                expect(getResourcedTextArea(element)).not.toBeNull();
+                expect(getFormulaBuilder(element)).toBeNull();
+            });
+            it('fires propertyChangedEvent when formula expression value changed in resourced textarea', async () => {
+                const formulaCondition = createComponentUnderTest({
+                    sobjectOrApexReference: sobjectType,
+                    conditionLogic: { value: CONDITION_LOGIC.FORMULA },
+                    formula: { value: '10 > 0', error: null }
+                });
+                const eventCallback = jest.fn();
+                formulaCondition.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
+                const textArea = getResourcedTextArea(formulaCondition);
+                textArea.dispatchEvent(
+                    new CustomEvent('change', {
+                        detail: { value: '1 > 0' }
+                    })
+                );
+                await ticks(1);
+                expect(eventCallback).toHaveBeenCalled();
+                expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                    detail: {
+                        guid: formulaCondition.parentGuid,
+                        propertyName: 'formula',
+                        value: '1 > 0',
+                        error: null
+                    }
+                });
             });
         });
-        it('fires propertyChangedEvent for conditionLogic', async () => {
-            await ticks(1);
-            const eventCallback = jest.fn();
-            element.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
-            const conditionList = element.shadowRoot.querySelector(selectors.conditionList);
-            conditionList.dispatchEvent(new PropertyChangedEvent('conditionLogic', CONDITION_LOGIC.OR));
-            await ticks(1);
-            expect(eventCallback).toHaveBeenCalled();
-        });
-        it('fires propertyChangedEvent when switching to condition logic formula', async () => {
-            const eventCallback = jest.fn();
-            element.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
-            const logicComboBox = getConditionLogicCombobox(element);
-            logicComboBox.dispatchEvent(new PropertyChangedEvent('conditionLogic', CONDITION_LOGIC.FORMULA));
-            await ticks(1);
-            expect(eventCallback).toHaveBeenCalled();
-            expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                detail: {
-                    guid: element.parentGuid,
-                    propertyName: 'conditionLogic',
-                    value: CONDITION_LOGIC.FORMULA,
-                    error: null
-                }
+        describe('when orgHasFlowFormulaBuilder is true', () => {
+            beforeAll(() => {
+                mockedContextLib.orgHasFlowFormulaBuilder = jest.fn().mockReturnValue(true);
             });
-        });
-        it('should show resourced text area when switching to condition logic formula', async () => {
-            const logicComboBox = getConditionLogicCombobox(element);
-            logicComboBox.dispatchEvent(new PropertyChangedEvent('conditionLogic', CONDITION_LOGIC.FORMULA));
-            await ticks(1);
-            expect(element.shadowRoot.querySelector(selectors.resourcedTextArea)).not.toBeNull();
-        });
-        it('fires propertyChangedEvent when formula expression value changed', async () => {
-            const formulaCondition = createComponentUnderTest({
-                sobjectOrApexReference: sobjectType,
-                conditionLogic: { value: CONDITION_LOGIC.FORMULA },
-                formula: { value: '10 > 0' }
+            afterAll(() => {
+                mockedContextLib.orgHasFlowFormulaBuilder = jest.fn().mockReturnValue(false);
             });
-            const eventCallback = jest.fn();
-            formulaCondition.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
-            const textArea = formulaCondition.shadowRoot.querySelector(selectors.resourcedTextArea);
-            textArea.dispatchEvent(
-                new CustomEvent('change', {
-                    detail: { value: '1 > 0' }
-                })
-            );
-            await ticks(1);
-            expect(eventCallback).toHaveBeenCalled();
-            expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                detail: {
-                    guid: element.parentGuid,
-                    propertyName: 'formula',
-                    value: '1 > 0',
-                    error: null
-                }
+            it('should show formula builder when switching to condition logic formula', async () => {
+                const element = createComponentUnderTest({
+                    sobjectOrApexReference: sobjectType,
+                    conditions: mockSObjectConditions
+                });
+                const logicComboBox = getConditionLogicCombobox(element);
+                logicComboBox.dispatchEvent(new PropertyChangedEvent('conditionLogic', CONDITION_LOGIC.FORMULA));
+                await ticks(1);
+                expect(getFormulaBuilder(element)).not.toBeNull();
+                expect(getResourcedTextArea(element)).toBeNull();
+            });
+            it('fires propertyChangedEvent when formula expression value changed in formula builder', async () => {
+                const formulaCondition = createComponentUnderTest({
+                    sobjectOrApexReference: sobjectType,
+                    conditionLogic: { value: CONDITION_LOGIC.FORMULA },
+                    formula: { value: '10 > 0', error: null }
+                });
+                const eventCallback = jest.fn();
+                formulaCondition.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
+                const formulaBuilder = getFormulaBuilder(formulaCondition);
+                formulaBuilder.dispatchEvent(
+                    new CustomEvent('change', {
+                        detail: { value: '1 > 0' }
+                    })
+                );
+                await ticks(1);
+                expect(eventCallback).toHaveBeenCalled();
+                expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                    detail: {
+                        guid: formulaCondition.parentGuid,
+                        propertyName: 'formula',
+                        value: '1 > 0',
+                        error: null
+                    }
+                });
             });
         });
     });
@@ -434,28 +499,49 @@ describe('filter-condition-list', () => {
      * Formula expression editor
      */
     describe('Formula expression editor', () => {
-        let element;
-        beforeAll(() => {
-            element = createComponentUnderTest({
-                conditionLogic: { value: CONDITION_LOGIC.FORMULA },
-                sobjectOrApexReference: sobjectType,
-                formula: { value: '10 > 11' }
+        describe('when orgHasFlowFormulaBuilder is false', () => {
+            let element;
+            beforeAll(() => {
+                element = createComponentUnderTest({
+                    conditionLogic: { value: CONDITION_LOGIC.FORMULA },
+                    sobjectOrApexReference: sobjectType,
+                    formula: { value: '10 > 11', error: null }
+                });
+            });
+            it('should have formula logic selected in the combobox', () => {
+                expect(getConditionLogicCombobox(element).value).toBe(CONDITION_LOGIC.FORMULA);
+            });
+            it('should display label "formula evaluates to true" in the combobox', () => {
+                expect(getConditionLogicCombobox(element).label).toBe('FlowBuilderFilterEditor.filterConditionsHeader');
+            });
+            it('should display resourced text area', () => {
+                const textArea = getResourcedTextArea(element);
+                expect(textArea).not.toBeNull();
+                expect(textArea.value.value).toBe('10 > 11');
+                expect(getFormulaBuilder(element)).toBeNull();
+            });
+            it('should not display any expression builder', () => {
+                expect(getFerExpressionBuilders(element)).toHaveLength(0);
+                expect(getFieldExpressionBuilders(element)).toHaveLength(0);
             });
         });
-        it('should have formula logic selected in the combobox', () => {
-            expect(getConditionLogicCombobox(element).value).toBe(CONDITION_LOGIC.FORMULA);
-        });
-        it('should display label "formula evaluates to true" in the combobox', () => {
-            expect(getConditionLogicCombobox(element).label).toBe('FlowBuilderFilterEditor.filterConditionsHeader');
-        });
-        it('should display resourced text area', () => {
-            const textArea = element.shadowRoot.querySelector(selectors.resourcedTextArea);
-            expect(textArea).not.toBeNull();
-            expect(textArea.value.value).toBe('10 > 11');
-        });
-        it('should not display any expression builder', () => {
-            expect(element.shadowRoot.querySelector(selectors.ferExpressionBuilder)).toBeNull();
-            expect(element.shadowRoot.querySelector(selectors.fieldExpressionBuilder)).toBeNull();
+        describe('when orgHasFlowFormulaBuilder is true', () => {
+            beforeAll(() => {
+                mockedContextLib.orgHasFlowFormulaBuilder = jest.fn().mockReturnValue(true);
+            });
+            afterAll(() => {
+                mockedContextLib.orgHasFlowFormulaBuilder = jest.fn().mockReturnValue(false);
+            });
+            it('should display formula builder when orgHasFlowFormulaBuilder is true', () => {
+                const element = createComponentUnderTest({
+                    conditionLogic: { value: CONDITION_LOGIC.FORMULA },
+                    sobjectOrApexReference: sobjectType,
+                    formula: { value: '10 > 11', error: null }
+                });
+                const formulaBuilder = getFormulaBuilder(element);
+                expect(formulaBuilder.value.value).toBe('10 > 11');
+                expect(getResourcedTextArea(element)).toBeNull();
+            });
         });
     });
 });

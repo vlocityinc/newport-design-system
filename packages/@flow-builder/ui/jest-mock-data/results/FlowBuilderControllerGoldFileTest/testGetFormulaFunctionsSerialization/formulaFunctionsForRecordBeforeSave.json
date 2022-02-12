@@ -563,6 +563,34 @@
         "categoryId":"TEXT"
       },
       {
+        "exampleString":"URLFOR(target, id, [inputs], [no override])",
+        "name":"URLFOR",
+        "description":"Returns the url for the selected target with optional inputs expressed as query parameters",
+        "label":"URLFOR",
+        "categoryId":"ADVANCED"
+      },
+      {
+        "exampleString":"VALUE(text)",
+        "name":"VALUE",
+        "description":"Converts a text string that represents a number to a number",
+        "label":"VALUE",
+        "categoryId":"TEXT"
+      },
+      {
+        "exampleString":"WEEKDAY(date)",
+        "name":"WEEKDAY",
+        "description":"Return the day of the week for the given date, using 1 for Sunday, 2 for Monday, through 7 for Saturday.",
+        "label":"WEEKDAY",
+        "categoryId":"DATE_TIME"
+      },
+      {
+        "exampleString":"YEAR(date)",
+        "name":"YEAR",
+        "description":"Returns the year of a date, a number between 1900 and 9999",
+        "label":"YEAR",
+        "categoryId":"DATE_TIME"
+      },
+      {
         "exampleString":"ISCHANGED(field)",
         "name":"ISCHANGED",
         "description":"Checks if the field's value is different from its prior value, and returns TRUE if the values differ.  Otherwise, returns FALSE",
