@@ -1,0 +1,11 @@
+Archived: 'no'
+ManagedPackage: yes (through via_resources)
+OpenSource: 'Yes'
+POC:
+- MattGoldspink<mgoldspink@salesforce.com>
+POCdelegate:
+- AkshayPatravali<apatravali@salesforce.com>
+PrimaryLanguage: css
+ProcessCustomerData: prod
+ProductTag: OmniStudio
+Repo: newport-design-system
