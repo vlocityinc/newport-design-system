@@ -77,6 +77,8 @@ export {
     setVersioningDataInitialized
 } from './apiVersions';
 export { BUILDER_MODE, getBuilderType, setBuilderType } from './builderConfigs';
+export { getFlowTests, setFlowTests, updateFlowTestResults } from './flowTestData';
+export type { FlowTestAndResultDescriptor, FlowTestResultStatusType } from './flowTestData';
 export { GLOBAL_CONSTANTS, GLOBAL_CONSTANT_OBJECTS, GLOBAL_CONSTANT_PREFIX } from './globalConstants';
 export {
     getGlobalVariable,

@@ -9,6 +9,7 @@ export default class ModalFooter extends LightningElement {
     @api closeModalCallback;
     @api keyMap;
     @api footerVariant;
+    @api modalBody;
     _buttonOneClass;
     _buttonTwoClass;
 
@@ -47,7 +48,7 @@ export default class ModalFooter extends LightningElement {
 
     handleButtonOneClick() {
         if (typeof this.buttons.buttonOne.buttonCallback === 'function') {
-            this.buttons.buttonOne.buttonCallback();
+            this.buttons.buttonOne.buttonCallback(this);
         }
 
         this.closeModal(this.buttons.buttonOne.closeCallback);
@@ -66,7 +67,7 @@ export default class ModalFooter extends LightningElement {
         this.state.buttonTwoDisabled = true;
     }
 
-    @api disableButtonOne() {
-        this.state.buttonOneDisabled = true;
+    @api enableButtonOne(enable: boolean) {
+        this.state.buttonOneDisabled = !enable;
     }
 }

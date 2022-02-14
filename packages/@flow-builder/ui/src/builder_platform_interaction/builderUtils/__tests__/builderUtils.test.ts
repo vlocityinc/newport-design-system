@@ -541,7 +541,9 @@ describe('builderUtils', () => {
                         buttonTwoClass: '.flow-test-modal-footer-cancel-button',
                         buttonOne: {
                             buttonLabel: 'FlowBuilderTestEditor.flowTestRunTest',
-                            buttonVariant: 'brand'
+                            buttonVariant: 'brand',
+                            buttonCallback: expect.any(Function),
+                            closeCallback: false
                         },
                         buttonTwo: {
                             buttonLabel: 'FlowBuilderTestEditor.flowTestCancel',

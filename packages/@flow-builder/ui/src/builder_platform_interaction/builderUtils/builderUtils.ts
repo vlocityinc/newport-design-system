@@ -24,6 +24,7 @@ import { clearExpressions } from 'builder_platform_interaction/expressionValidat
 import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
 import { commonUtils, invokeModalWithComponents } from 'builder_platform_interaction/sharedUtils';
+import { updateFlowTestResults } from 'builder_platform_interaction/systemLib';
 import { LABELS } from './builderUtilsLabels';
 const { format } = commonUtils;
 
@@ -754,7 +755,7 @@ function showFlowTestPopover(cmpHeader, cmpBody, cmpFooter, cmpAttributes = {}, 
         const modalFooter = invokeModalWithComponentsOnCreate(modal, data);
         // Disable "Create Test" and "Save Changes" button on modal footer.
         // TODO: Enable once modal is ready to send data to backend
-        modalFooter.disableFlowTestButtonOne();
+        modalFooter.enableButtonOne(false);
         modalFooter.panelInstance(modal);
     };
 
@@ -803,6 +804,17 @@ function showTestFlowManagerPopover(cmpHeader, cmpBody, cmpFooter, popoverProps,
         onClose: popoverProps.onClose
     };
 
+    const runSelectedTests = function (cmp) {
+        // TODO: Implement server call that actually runs the tests that are selected and updates the store with results
+        // This is just to demonstrate that the communication between components is working
+        const selectedTests = cmp.modalBody.getSelectedTests();
+        const dummyTestResultData = selectedTests.map((testData) => {
+            return { ...testData, lastRunDate: new Date(), lastRunStatus: 'Pass' };
+        });
+        updateFlowTestResults(dummyTestResultData);
+        cmp.modalBody.copyDataFromTestStore();
+    };
+
     const headerPromise = createComponentPromise(cmpHeader, {
         headerTitle: LABELS.flowTestHeader
     });
@@ -812,7 +824,9 @@ function showTestFlowManagerPopover(cmpHeader, cmpBody, cmpFooter, popoverProps,
             buttonTwoClass: '.flow-test-modal-footer-cancel-button',
             buttonOne: {
                 buttonLabel: LABELS.flowTestRunTest,
-                buttonVariant: 'brand'
+                buttonVariant: 'brand',
+                buttonCallback: runSelectedTests,
+                closeCallback: false
             },
             buttonTwo: {
                 buttonLabel: LABELS.flowTestCancel,
@@ -823,7 +837,7 @@ function showTestFlowManagerPopover(cmpHeader, cmpBody, cmpFooter, popoverProps,
         }
     });
     const bodyPromise = createComponentPromise(cmpBody, {
-        buttonCallback: createNewTest,
+        createNewTestCallback: createNewTest,
         hideModal: hidePopover
     });
 
@@ -831,10 +845,14 @@ function showTestFlowManagerPopover(cmpHeader, cmpBody, cmpFooter, popoverProps,
         onCreatePopover(modal);
         const modalFooter = invokeModalWithComponentsOnCreate(modal, data);
         // Disable "Run Test" button on modal footer
-        modalFooter.disableButtonOne();
-        // May need to pass the modalFooter to the modal body for enabling the "Run Test" button if record is selected in list view
-        // const panelBody = modal.get('v.body')[0];
-        // panelBody.set('v.footer', modalFooter);
+        modalFooter.enableButtonOne(false);
+
+        // The body and footer need to be able to reference each other:
+        // 1. The body references the footer to let it know when tests are selected and it can enable the Run Tests button
+        // 2. The footer references the body to let it know to check the test store after tests are ran via the Run Tests button
+        const panelBody = modal.get('v.body')[0];
+        panelBody.set('v.footer', modalFooter);
+        modalFooter.set('v.modalBody', panelBody);
     };
 
     invokeModalWithComponents(

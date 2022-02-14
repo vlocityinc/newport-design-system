@@ -62,7 +62,8 @@ jest.mock('builder_platform_interaction/preloadLib', () => {
         }),
         loadOperatorsAndRulesOnTriggerTypeChange: jest.fn(),
         initializeLoader: jest.fn(),
-        loadVersioningData: jest.fn()
+        loadVersioningData: jest.fn(),
+        loadFlowTests: jest.fn().mockResolvedValue({})
     };
 });
 

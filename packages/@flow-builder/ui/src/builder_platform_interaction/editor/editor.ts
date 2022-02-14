@@ -113,6 +113,7 @@ import {
     loadFieldsForComplexTypesInFlow,
     loadFieldsForExtensionsInFlowFromMetadata,
     loadFieldsForSubflowsInFlowFromMetadata,
+    loadFlowTests,
     loadOnProcessTypeChange,
     loadOnStart,
     loadOnTriggerTypeChange,
@@ -154,6 +155,7 @@ import {
 import { getSubflows } from 'builder_platform_interaction/subflowsLib';
 import {
     BUILDER_MODE,
+    getFlowTests,
     getProcessTypes,
     getRunInModes,
     isVersioningDataInitialized,
@@ -388,7 +390,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         showPropertyEditorSpinner: false,
         showDebugSpinner: false,
         showAutoLayoutSpinner: false,
-        showRetrieveInterviewHistorySpinner: false
+        showRetrieveInterviewHistorySpinner: false,
+        showFlowTestRetrieveSpinner: false
     };
 
     @track
@@ -701,6 +704,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             this.processTypeLoading ||
             this.spinners.showAutoLayoutSpinner ||
             this.spinners.showRetrieveInterviewHistorySpinner ||
+            this.spinners.showFlowTestRetrieveSpinner ||
             this.requiredVariablesLoading
         );
     }
@@ -1606,10 +1610,16 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     /**
      * Handles the View All Tests event fired by toolbar.
      */
-    handleViewAllTests = () => {
-        // Showing list view in FlowTest to be implemented in W-10373100
-
-        // Open FlowTest list view
+    handleViewAllTests = async () => {
+        if (getFlowTests().length === 0) {
+            this.spinners.showFlowTestRetrieveSpinner = true;
+            try {
+                // TODO: Add a limit to this initial load, since we'll have infinite scrolling on the list
+                await loadFlowTests(this.properties.definitionId, this.currentFlowId, 0, 20);
+            } finally {
+                this.spinners.showFlowTestRetrieveSpinner = false;
+            }
+        }
         this.queueFlowTestManager(() => {
             return { createNewTest: this.handleCreateNewTest };
         });
