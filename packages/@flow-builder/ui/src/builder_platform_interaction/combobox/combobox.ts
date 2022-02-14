@@ -1238,6 +1238,7 @@ export default class Combobox extends LightningElement {
      * Clears an error message if any previously set on the combobox.
      */
     clearErrorMessage() {
+        this._isInitialErrorMessageSet = true;
         this._errorMessage = null;
     }
 
