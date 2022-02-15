@@ -336,7 +336,7 @@
     background: $color-border-tab-active;
 
     svg.nds-editblock_close {
-      fill: $color-border-input;
+      fill: $color-background-brand-primary;
       top: 0;
       #{$right}: 0;
       position: absolute;
@@ -390,7 +390,7 @@
     }
 
     .nds-editblock_delete {
-      fill: $color-border-input;
+      fill: $color-background-brand-primary;
       display: inline-block;
     }
 
@@ -475,4 +475,35 @@
 
 .nds-inline_edit-top {
   margin-top: -5.15rem;
+}
+
+.nds-edit-block_shortcards[aria-invalid="true"],
+.nds-edit-block_longcards[aria-invalid="true"] {
+  border-color: $color-border-error;
+}
+
+.nds-edit-block-fs-row[aria-invalid="true"] .nds-grid[role="button"] {
+  border: 1px solid $color-border-error;
+}
+
+.nds-edit-block-fs-row {
+  margin-bottom: 0.25rem;
+}
+
+.nds-editblock_inline .nds-edit-block_longcards form[aria-invalid="true"] {
+  border-color: $color-border-error;
+}
+
+.nds-editblock-table-row {
+  cursor: pointer;
+}
+
+.nds-editblock-table-row[data-is-selected=true],
+.nds-editblock-table-row:hover {
+  background-color: $link-water;
+  border-color: $palette-gray-5;
+}
+
+.nds-editblock-table-row[aria-invalid="true"] {
+  border-color: $color-border-error;
 }

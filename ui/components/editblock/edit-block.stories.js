@@ -8,12 +8,12 @@ import {
   commentToHTML
 } from '../../../scripts/storybook';
 
-storiesOf(`${base}`, module)
+storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''),  module)
   .addDecorator(withDocs(notes))
   .addDecorator(commentToHTML(scss))
   .add('Cards', () => {
     return withExample(`<div
-    class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative omni-edit-block nds-size_12-of-12">
+    class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative nds-size_12-of-12">
     <div class="nds-size_1-of-1 nds-m-vertical_small">
         <div class="nds-element_text-font">
             <label aria-label="Contacts" aria-live="polite" class="nds-m-horizontal_small nds-text-heading_small nds-text">Contacts</label>
@@ -24,7 +24,7 @@ storiesOf(`${base}`, module)
             <div class="nds-grid nds-wrap nds-element_text-font">
             <div class="nds-size_1-of-1 nds-show">
             <div role="button" tabindex="0"
-                class="nds-box nds-box_x-small nds-grid nds-grid_vertical nds-grid_vertical-align-center nds-is-relative nds-size_12-of-12 nds-m-right_medium nds-m-bottom_medium omni-edit-block-card nds-edit-block_shortcards">
+                class="nds-box nds-box_x-small nds-grid nds-grid_vertical nds-grid_vertical-align-center nds-is-relative nds-size_12-of-12 nds-m-right_medium nds-m-bottom_medium  nds-edit-block_shortcards">
                 <div class="nds-dropdown-trigger nds-dropdown-trigger_click nds-is-open nds-col_bump-left">
                     <button type="button" aria-haspopup="true" title="Show More"
                         class="nds-button nds-button_icon-border-filled nds-editblock_action-button nds-element_text-font">
@@ -108,7 +108,7 @@ storiesOf(`${base}`, module)
 </div>`);
   })
   .add('Long Cards', () => {
-    return withExample(`<div class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative omni-edit-block nds-size_12-of-12">
+    return withExample(`<div class="nds-grid nds-wrap nds-size_1-of-1 nds-is-relative nds-size_12-of-12">
     <div class="nds-size_1-of-1 nds-m-vertical_small">
         <div class="nds-element_text-font">
             <label aria-label="Contacts" aria-live="polite"

@@ -99,6 +99,26 @@
 
 .nds-spinner_brand,
 .nds-spinner--brand {
+  text-align: center;
+  width: 5.5rem;
+
+  & > div {
+    width: 18px;
+    height: 18px;
+    margin-right: 0.5rem;
+    background-color: $color-brand;
+    border-radius: 100%;
+    display: inline-block;
+    animation: nds-bounce 1.4s infinite ease-in-out both;
+  }
+
+  .nds-dot-leading {
+    animation-delay: -0.32s;
+  }
+
+  .nds-dot-middle {
+    animation-delay: -0.16s;
+  }
 
   svg circle {
     fill: $color-brand;
@@ -208,3 +228,22 @@
   transform: translate(-50%, calc(-50% + 2.75rem));
 }
 /* stylelint-enable selector-class-pattern */
+
+@keyframes nds-bounce {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  50% {
+    transform: translateY(100%);
+  }
+
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+.nds-editblock_inline__spinner > .nds-spinner_container{
+  background-color: unset;
+  z-index: $z-index-modal + 1;
+}

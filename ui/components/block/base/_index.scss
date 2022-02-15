@@ -120,6 +120,10 @@
     pointer-events: none;
     opacity: 0.5;
   }
+
+  &:not(.nds-is-open)>.nds-block_container>.nds-block_body>.nds-grid {
+    display: none;
+  }
 }
 
 .nds-block__action-icon {

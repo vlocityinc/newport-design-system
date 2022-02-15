@@ -180,10 +180,15 @@
   white-space: nowrap;
 }
 
-// Hyphenate
-@mixin hyphenate {
+// Break word
+@mixin break-word {
   overflow-wrap: break-word;
   word-wrap: break-word;
+}
+
+// Hyphenate
+@mixin hyphenate {
+  @include break-word;
   hyphens: auto;
 }
 

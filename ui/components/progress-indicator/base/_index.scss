@@ -126,7 +126,6 @@
   &.nds-is-completed .nds-progress__marker--icon {
     border-color: $progress-color-background;
     color: $progress-bar-color-background-fill;
-    box-shadow: unset;
   }
 
   &.nds-is-completed .nds-progress__marker,
@@ -167,7 +166,7 @@
     }
 
     &:focus {
-      box-shadow: $progress-color-background 0 0 0 4px, 0 0 3px 4px $color-border-brand-dark;
+      box-shadow: $progress-shadow-inner, $progress-shadow-outer;
     }
   }
 

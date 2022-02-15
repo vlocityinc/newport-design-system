@@ -7,7 +7,7 @@ import customizeAButton from './customizing-a-button.md';
 import otherPublishedVersions from './other-published-versions.md';
 import { renderAsMarkdown } from '..././../../scripts/storybook';
 
-storiesOf(`${base}`, module)
+storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''),  module)
   .addDecorator(renderAsMarkdown)
   .add('Introduction to Newport', () => {
     return introToNewport;

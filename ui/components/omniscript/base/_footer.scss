@@ -1,0 +1,15 @@
+@include mq-small-max {
+  .nds-omniscript_mobile-fixed-footer> :last-child {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: $color-background;
+    border-top: 1px solid $color-border;
+    padding: 0.75rem;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    z-index: $z-index-docked;
+  }
+}
