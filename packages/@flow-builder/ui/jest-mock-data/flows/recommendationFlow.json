@@ -209,6 +209,14 @@
                         "value": {
                             "stringValue": "Reject"
                         }
+                    },
+                    {
+                        "assignToFieldReference": "ExternalId",
+                        "operator": "Assign",
+                        "processMetadataValues": [],
+                        "value": {
+                            "elementReference": "currentItem_Accounts_to_Recommendations.AccountSource"
+                        }
                     }
                 ],
                 "name": "Accounts_to_Recommendations",
@@ -368,6 +376,88 @@
                 "outputSObjectType": "Recommendation",
                 "processMetadataValues": [],
                 "sortOptions": []
+            },
+            {
+                "collectionProcessorType": "SortCollectionProcessor",
+                "collectionReference": "apexCollection",
+                "conditions": [],
+                "elementSubtype": "SortCollectionProcessor",
+                "label": "Sort Apex Collection",
+                "locationX": 176,
+                "locationY": 2270,
+                "mapItems": [],
+                "name": "Sort_Apex_Collection",
+                "processMetadataValues": [],
+                "sortOptions": [
+                    {
+                        "doesPutEmptyStringAndNullFirst": false,
+                        "processMetadataValues": [],
+                        "sortField": "myString",
+                        "sortOrder": "Asc"
+                    }
+                ]
+            },
+            {
+                "collectionProcessorType": "SortCollectionProcessor",
+                "collectionReference": "Get_Accounts",
+                "conditions": [],
+                "connector": {
+                    "isGoTo": false,
+                    "processMetadataValues": [],
+                    "targetReference": "Sort_Text_Collection"
+                },
+                "elementSubtype": "SortCollectionProcessor",
+                "label": "Sort Get Accounts",
+                "limit": 10,
+                "locationX": 176,
+                "locationY": 2030,
+                "mapItems": [],
+                "name": "Sort_Get_Accounts",
+                "processMetadataValues": [],
+                "sortOptions": [
+                    {
+                        "doesPutEmptyStringAndNullFirst": false,
+                        "processMetadataValues": [],
+                        "sortField": "AnnualRevenue",
+                        "sortOrder": "Asc"
+                    },
+                    {
+                        "doesPutEmptyStringAndNullFirst": true,
+                        "processMetadataValues": [],
+                        "sortField": "BillingCity",
+                        "sortOrder": "Asc"
+                    },
+                    {
+                        "doesPutEmptyStringAndNullFirst": false,
+                        "processMetadataValues": [],
+                        "sortField": "Name",
+                        "sortOrder": "Asc"
+                    }
+                ]
+            },
+            {
+                "collectionProcessorType": "SortCollectionProcessor",
+                "collectionReference": "vTextCollection",
+                "conditions": [],
+                "connector": {
+                    "isGoTo": false,
+                    "processMetadataValues": [],
+                    "targetReference": "Sort_Apex_Collection"
+                },
+                "elementSubtype": "SortCollectionProcessor",
+                "label": "Sort Text Collection",
+                "locationX": 176,
+                "locationY": 2150,
+                "mapItems": [],
+                "name": "Sort_Text_Collection",
+                "processMetadataValues": [],
+                "sortOptions": [
+                    {
+                        "doesPutEmptyStringAndNullFirst": false,
+                        "processMetadataValues": [],
+                        "sortOrder": "Asc"
+                    }
+                ]
             }
         ],
         "constants": [],
@@ -410,6 +500,11 @@
                     "isGoTo": false,
                     "processMetadataValues": [],
                     "targetReference": "Assign_text_from_account_billing_city"
+                },
+                "noMoreValuesConnector": {
+                    "isGoTo": false,
+                    "processMetadataValues": [],
+                    "targetReference": "Sort_Get_Accounts"
                 },
                 "processMetadataValues": []
             }

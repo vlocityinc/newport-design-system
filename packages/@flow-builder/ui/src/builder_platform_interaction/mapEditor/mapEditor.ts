@@ -93,6 +93,10 @@ export default class MapEditor extends LightningElement {
             const currentVar = getElementByGuid(this.mapElement.assignNextValueToReference.value);
             if (currentVar) {
                 this.currentItemVariable = currentVar.name;
+                // check and update subtype - data type of the input collection reference could have changed
+                if (currentVar.subtype !== this.inputObjectType) {
+                    this.updateCurrentItemVariable('subtype', this.inputObjectType);
+                }
             }
         }
     }

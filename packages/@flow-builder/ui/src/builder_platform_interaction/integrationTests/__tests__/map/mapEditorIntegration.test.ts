@@ -1,3 +1,4 @@
+import { updateElement } from 'builder_platform_interaction/actions';
 import {
     deepQuerySelector,
     INTERACTION_COMPONENTS_SELECTORS,
@@ -6,6 +7,8 @@ import {
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import CollectionProcessorEditor from 'builder_platform_interaction/collectionProcessorEditor';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { createRecordLookup } from 'builder_platform_interaction/elementFactory';
 import { AddElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
 import {
     COLLECTION_PROCESSOR_SUB_TYPE,
@@ -356,6 +359,32 @@ describe('Map Editor', () => {
                         expect(item.expression.rightHandSide.value).toBe('');
                     }
                 });
+            });
+        });
+        describe('Validate on Done', () => {
+            const updateGetRecordsObjectType = (getRecordsDevName, objectType) => {
+                let getRecordsElement = getElementByDevName(getRecordsDevName);
+                getRecordsElement = createRecordLookup(Object.assign(getRecordsElement, { object: objectType }));
+                store.dispatch(updateElement(getRecordsElement));
+            };
+            beforeEach(async () => {
+                updateGetRecordsObjectType('Get_Accounts', 'Case');
+                collectionProcessorEditor = getCollectionProcessorEditor('Accounts_to_Recommendations');
+                await ticks(1);
+                mapEditor = getMapEditor(collectionProcessorEditor);
+                mapEditor.validate();
+            });
+            it('updates subtype for current item variable', () => {
+                const currentItem = getElementByDevName('currentItem_Accounts_to_Recommendations');
+                expect(currentItem.dataType).toEqual(FLOW_DATA_TYPE.SOBJECT.value);
+                expect(currentItem.subtype).toEqual('Case');
+            });
+            it('reports error on rhs', () => {
+                const mapItems = getMapItems(mapEditor);
+                // RHS of the last entry of map items references Account.AccountSource, it should error out
+                expect(mapItems[mapItems.length - 1].expression.rightHandSide.error).toBe(
+                    'FlowBuilderCombobox.genericErrorMessage'
+                );
             });
         });
     });
