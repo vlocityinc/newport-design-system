@@ -42,8 +42,6 @@ export default class FormulaBuilder extends LightningElement {
     @api flowProcessType;
     // flow trigger type
     @api flowTriggerType;
-    // record trigger type
-    @api recordTriggerType;
 
     // resource guid
     @api resourceId;
@@ -69,6 +67,7 @@ export default class FormulaBuilder extends LightningElement {
     @track operatorData;
     @track functionData;
     @track validationResult;
+    _recordTriggerType;
 
     @track
     error;
@@ -92,6 +91,16 @@ export default class FormulaBuilder extends LightningElement {
     @api
     get value() {
         return { value: this._value, error: this.error };
+    }
+
+    @api
+    get recordTriggerType() {
+        return this._recordTriggerType;
+    }
+
+    set recordTriggerType(recordTriggerTypeValue) {
+        this._recordTriggerType = recordTriggerTypeValue;
+        this.fetchFunctionPickerData();
     }
 
     @api
