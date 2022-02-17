@@ -281,6 +281,19 @@ $b2b-table-border: $palette-gray-5;
 		min-width: 11rem;
 		max-width: 350px;
 	}
+
+  td.nds-b2b-group-cell {
+    min-width: 13rem;
+    max-width: 18rem;
+    .nds-b2b-count-wrapper {
+      .nds-b2b-expected-count {
+        color: $blue-text-primary;
+      }
+    }
+    .nds-b2b-group-cell-edit {
+      min-width: 15rem;
+    }
+  }
 }
 
 .nds-b2b-detail-row {
