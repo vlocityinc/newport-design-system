@@ -224,7 +224,7 @@ export const getElementsForElementType = (elementType: UI.ElementType): UI.Eleme
 /**
  *  Returns the list of paths displayed on the canvas
  */
-export const getScheduledPathsList = (): object => {
+export const getScheduledPathsList = (): any[] => {
     const scheduledPathsList: any[] = [];
 
     if (shouldUseAutoLayoutCanvas()) {

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
     addElement,
     addElementFault,
@@ -88,6 +87,7 @@ import {
     shouldSupportScheduledPaths
 } from 'builder_platform_interaction/elementFactory';
 import {
+    AddElementEvent,
     EditElementEvent,
     LocatorIconClickedEvent,
     NewResourceEvent,
@@ -364,7 +364,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     activeElementGuid = null;
 
     @track
-    properties = {};
+    properties: any = {};
 
     @track
     flowErrorsAndWarnings = {
@@ -422,14 +422,14 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     showPropertyEditorRightPanel = false;
 
     @track
-    propertyEditorParams = null;
+    propertyEditorParams;
 
     @track
-    elementBeingEditedInPanel = null;
+    elementBeingEditedInPanel;
 
-    propertyEditorBlockerCalls = [];
+    propertyEditorBlockerCalls: Promise<any>[] = [];
 
-    openSubflowBlockerPromise = null;
+    openSubflowBlockerPromise;
 
     debugEditorBlockerCalls = [];
 
@@ -566,7 +566,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         setAppName(APP_NAME);
         logPerfTransactionStart(EDITOR);
         this.loadFlowBuilderStartTime = time();
-        const blacklistedActionsForUndoRedoLib = [
+        const blacklistedActionsForUndoRedoLib: any = [
             INIT,
             UPDATE_APEX_CLASSES,
             ADD_START_ELEMENT,
@@ -578,13 +578,13 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             UPDATE_CANVAS_ELEMENT_ERROR_STATE,
             UPDATE_RESOURCE_ERROR_STATE
         ];
-        const groupedActions = [
+        const groupedActions: any = [
             TOGGLE_ON_CANVAS, // Used for shift-select elements on canvas.
             DESELECT_ON_CANVAS, // is dispatched when user clicks on the blank space in canvas.
             MARQUEE_SELECT_ON_CANVAS // is dispatched when the user is marquee selecting on the canvas.
         ];
         try {
-            this.guardrailsEngine = new FlowGuardrailsExecutor();
+            this.guardrailsEngine = new FlowGuardrailsExecutor({});
 
             // generate a guid as flow definitionId so that the definitionId of a newly created and
             // unsaved flow won't be undefined and can be logged using loglines
@@ -906,7 +906,12 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             let palettePromise;
             if (flowProcessTypeChanged) {
                 const { loadPeripheralMetadataPromise, loadPalettePromise, loadSubflowsPromise } =
-                    loadOnProcessTypeChange(flowProcessType, flowTriggerType, flowRecordTriggerType, definitionId);
+                    loadOnProcessTypeChange(
+                        flowProcessType,
+                        flowTriggerType,
+                        flowRecordTriggerType,
+                        definitionId as string
+                    );
                 this.propertyEditorBlockerCalls.push(loadPeripheralMetadataPromise);
                 this.openSubflowBlockerPromise = loadSubflowsPromise;
 
@@ -1027,7 +1032,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      * @param has.data -
      * @param has.error -
      */
-    getFlowCallback = ({ data, error }) => {
+    getFlowCallback = ({ data, error }: { data: any; error?: any }) => {
         if (error) {
             // Handle error case here if something is needed beyond our automatic generic error modal popup
             this.spinners.showFlowMetadataSpinner = false;
@@ -1071,7 +1076,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     };
 
     preloadRequiredDatafromFlowMetadata(data) {
-        const promises = [];
+        const promises: Promise<any>[] = [];
         const flowMetadata = data.metadata || data;
         if (flowMetadata.start) {
             const { object, triggerType } = flowMetadata.start;
@@ -1239,7 +1244,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         this.hideDebugAgainButton = false;
         const endInterviewTime = new Date();
         const response = debugInterviewResponseCallback(
-            runInterviewResult,
+            runInterviewResult as any,
             storeInstance,
             this.properties.hasUnsavedChanges,
             isPausedDebugging
@@ -1280,7 +1285,10 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             pathType
         };
         try {
-            const runInterviewResult = await fetchPromise(SERVER_ACTION_TYPE.RUN_DEBUG, debugRunParams);
+            const runInterviewResult = (await fetchPromise(
+                SERVER_ACTION_TYPE.RUN_DEBUG,
+                debugRunParams
+            )) as Promise<any>;
             this.ifBlockResume = false;
             this.setupDebugger(runInterviewResult, {
                 startInterviewTime,
@@ -1300,24 +1308,24 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             // Keep the original start time
             const startInterviewTime = this.debugData.startInterviewTime;
             // Record enableRollbackMode for next resume
-            const enableRollback = !!this.debugData.enableRollbackMode;
+            const enableRollbackMode = !!this.debugData.enableRollbackMode;
             const resumeDebugParams = {
                 showGovernorlimit: true,
                 enabledTrace: true,
-                enableRollbackMode: enableRollback,
+                enableRollbackMode,
                 useLatestSubflow: true,
                 serializedInterview: this.debugData.serializedInterview,
                 waitEvent: event.detail.waitEventName
             };
 
             try {
-                const runInterviewResult = await fetchPromise(
+                const runInterviewResult = (await fetchPromise(
                     SERVER_ACTION_TYPE.RESUME_DEBUG_INTERVIEW,
                     resumeDebugParams
-                );
+                )) as Promise<any>;
                 this.setupDebugger(runInterviewResult, {
                     startInterviewTime,
-                    enableRollback,
+                    enableRollbackMode,
                     isPausedDebugging: true
                 });
             } finally {
@@ -1339,11 +1347,11 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             const flowDevName = currentState.properties.name;
             url = `${this.runDebugUrl}${flowDevName}/${this.flowId}`;
             if ((runOrDebug === NEWDEBUG || runOrDebug === RESTARTDEBUG) && this.useNewDebugExperience) {
-                let triggerSaveType = null;
-                let startObject = null;
+                let triggerSaveType;
+                let startObject;
                 let createOrUpdate = false;
                 let showScheduledPathComboBox = false;
-                let startElement = null;
+                let startElement;
                 const scheduledPathsList = getScheduledPathsList();
                 const defaultPath = scheduledPathsList?.length > 0 ? scheduledPathsList[0].value : null;
                 if (isRecordChangeTriggerType(this.triggerType)) {
@@ -1355,7 +1363,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                         shouldSupportScheduledPaths(startElement) && scheduledPathsList?.length > 0;
                     if (startObject) {
                         // This should never be empty in a record change trigger where the debug button is clickable, but might as well check.
-                        startObject = getEntity(startObject).entityLabel;
+                        startObject = getEntity(startObject)!.entityLabel;
                     }
                 }
                 this.queueOpenFlowDebugEditor(() => {
@@ -1497,7 +1505,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         this.topCutOrCopiedGuid = this.topSelectedGuid;
         const { copiedCanvasElements, copiedChildElements, bottomCutOrCopiedGuid } = getCopiedData(
             elements,
-            this.topCutOrCopiedGuid
+            this.topCutOrCopiedGuid!
         );
         this.cutOrCopiedCanvasElements = copiedCanvasElements;
         this.cutOrCopiedChildElements = copiedChildElements;
@@ -1740,7 +1748,11 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             const eventType = event.detail.type;
             let flowProperties = storeInstance.getCurrentState().properties;
             const triggerType = getTriggerType();
-            const saveType = getSaveType(eventType, this.currentFlowId, flowProperties.canOnlySaveAsNewDefinition);
+            const saveType = getSaveType(
+                eventType,
+                this.currentFlowId,
+                flowProperties.canOnlySaveAsNewDefinition as any
+            );
             if (saveType === SaveType.UPDATE) {
                 this.saveFlow(SaveType.UPDATE);
             } else {
@@ -1905,7 +1917,10 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                 : getRecordTriggerType();
         if (createOrEdit === FlowTestMode.CREATE) {
             this.queueOpenCreateFlowTest(() => {
+                // TODO: why are we passing {} ?
+                // @ts-ignore
                 let flowTestObject = createFlowTestData(); // initalize an empty flow test object
+                // @ts-ignore
                 flowTestObject.testTriggerType = testTriggerType;
                 flowTestObject.runPathValue = SCHEDULED_PATH_TYPE.IMMEDIATE_SCHEDULED_PATH;
                 flowTestObject = getElementForPropertyEditor(flowTestObject);
@@ -2016,7 +2031,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             const nodeUpdate = this.usePanelForPropertyEditor
                 ? this.deMutateAndUpdateNodeCollection
                 : // creating a closure here to pass thru alcConnectionSource to deMutateAndAddNodeCollection when it is called
-                  (node, parentGuid) => this.deMutateAndAddNodeCollection(node, parentGuid, alcConnectionSource);
+                  (node, parentGuid) => this.deMutateAndAddNodeCollection(node, parentGuid, alcConnectionSource!);
             const moveFocusOnCloseCallback = this.moveFocusToConnector;
             const newResourceCallback = this.newResourceCallback;
             const editResourceCallback = this.editResourceCallback;
@@ -2027,7 +2042,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             if (elementType === ELEMENT_TYPE.END_ELEMENT) {
                 const endElement = createEndElement();
 
-                this.dispatchAddElement({ ...endElement, alcConnectionSource });
+                this.dispatchAddElement({ ...endElement, alcConnectionSource } as any);
                 return;
             }
 
@@ -2069,6 +2084,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                     if (elementType === ELEMENT_TYPE.SCREEN) {
                         paramsProvider = {
                             ...paramsProvider,
+                            // @ts-ignore
                             autoFocus: false
                         };
                     }
@@ -2086,7 +2102,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      *
      * @param {object} event - edit element event from clicked/keyed node in which to edit
      */
-    handleEditElement = (event: EditElementEvent) => {
+    handleEditElement = (event) => {
         if (event && event.detail && event.type && !this.canvasConfig.disableEditElements) {
             const { mode, canvasElementGUID: guid, designateFocus, elementType } = event.detail;
 
@@ -2145,7 +2161,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             const offsetX = autoLayoutCanvasContainer ? autoLayoutCanvasContainer.clientWidth / 2 - 24 : 0;
             const options = { resetExistingGoTos: this.shouldResetExistingGoTos };
             const { elements, canvasElements, connectors } = setupInAutoLayoutCanvas
-                ? convertToAutoLayoutCanvas(addEndElementsAndConnectorsTransform(deepCopy(flowState)), options)
+                ? // @ts-ignore
+                  convertToAutoLayoutCanvas(addEndElementsAndConnectorsTransform(deepCopy(flowState)), options)
                 : removeEndElementsAndConnectorsTransform(convertToFreeFormCanvas(flowState, [offsetX, 48]));
 
             const payload = {
@@ -2220,7 +2237,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                         buttonOne: {
                             buttonLabel: LABELS.okayButtonLabel
                         },
-                        footerVariant: modalFooterVariant.PROMPT
+                        footerVariant: `${modalFooterVariant.PROMPT}`
                     },
                     modalClass: 'slds-modal_prompt',
                     headerClass: 'slds-theme_alert-texture slds-theme_warning',
@@ -2531,8 +2548,9 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      * @param event OutgoingGoToStubClickEvent coming from alcConnector
      */
     handleOutgoingGoToStubClick = (event: OutgoingGoToStubClickEvent) => {
+        // @ts-ignore
         const targetGuid = getConnectionTarget(storeInstance.getCurrentState().elements, event.detail.source);
-        this.highlightOnCanvas(targetGuid);
+        this.highlightOnCanvas(targetGuid!);
     };
 
     @api
@@ -2612,7 +2630,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             await Promise.resolve(this.openSubflowBlockerPromise);
             // Match the subflow element selected with backend information about it
             // Construct a url based on lightning/aloha and activeVersionId/latestVersionId
-            const subflowData = getSubflows().find((subflow) => subflow.fullName === event.detail.flowName);
+            const subflowData: any = getSubflows().find((subflow: any) => subflow.fullName === event.detail.flowName);
             if (subflowData && subflowData.isViewable) {
                 launchSubflow(subflowData.activeVersionId || subflowData.latestVersionId);
             } else {
@@ -2629,7 +2647,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      *
      * @param focusGuid - the guid of the element that the focus should go to
      */
-    moveFocusToNode = (focusGuid: Guid) => {
+    moveFocusToNode = (focusGuid: UI.Guid) => {
         const alcCanvasContainer = this.template.querySelector('builder_platform_interaction-alc-canvas-container');
         alcCanvasContainer.focusOnNode(focusGuid);
     };
@@ -2684,7 +2702,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                     })
                 );
             } else if (this.properties.isAutoLayoutCanvas && this.usePanelForPropertyEditor) {
-                this.activeElementGuid = guid;
+                this.activeElementGuid = guid as any;
             }
         }
     }
@@ -2788,7 +2806,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      */
     deMutateAndUpdateNodeCollection = (node) => {
         if (this.builderMode === BUILDER_MODE.DEBUG_MODE) {
-            const elementTypeLabel = getConfigForElement(node).labels.singular;
+            const elementTypeLabel = getConfigForElement(node).labels!.singular;
             const elementLabel = getValueFromHydratedItem(node.label);
             const toastMessage = elementTypeLabel
                 ? format(this.labels.debugToastMessage, elementTypeLabel, elementLabel)
@@ -2801,6 +2819,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         const nodeForStore = getElementForStore(node);
         const currentNode = getElementByGuid(nodeForStore.guid);
         nodeForStore.isInlineEditingResource = this._isInlineEditingResource;
+        // @ts-ignore
         if (storeInstance.getCurrentState().elements[node.guid]?.config?.hasError !== node.config?.hasError) {
             storeInstance.dispatch(updateElementErrorState(nodeForStore));
         } else {
@@ -2831,7 +2850,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      * directly from the canvas so we know where to add it
      * @param alcConnectionSource - The alc connection source
      */
-    deMutateAndAddNodeCollection = (node: UI.Element, parentGuid: UI.Guid, alcConnectionSource: ConnectionSource) => {
+    deMutateAndAddNodeCollection = (node: UI.Element, parentGuid?: UI.Guid, alcConnectionSource?: ConnectionSource) => {
         // TODO: This looks almost exactly like deMutateAndUpdateNodeCollection. Maybe we should
         // pass the node collection modification mode (CREATE, UPDATE, etc) and switch the store
         // action based on that.
@@ -2841,8 +2860,10 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         this.cacheNewComplexObjectFields(nodeForStore);
 
         let payload: UI.Element | NodeWithParent = nodeForStore;
+        // @ts-ignore
         payload.isAddingResourceViaLeftPanel = this._isAddingResourceViaLeftPanel;
         // This is a non-canvas child element being added directly on the canvas
+        // @ts-ignore
         if (!nodeForStore.canvasElement && parentGuid) {
             payload = {
                 elementType: nodeForStore.elementType,
@@ -2852,6 +2873,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         }
 
         if (alcConnectionSource) {
+            // @ts-ignore
             payload.alcConnectionSource = alcConnectionSource;
         }
         this.dispatchAddElement(payload);
@@ -2936,6 +2958,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                 !isDevNameInStore(newResource.name) &&
                 newResourceInfo.userProvidedText?.length <= TEXT_AREA_MAX_LENGTH
             ) {
+                // TOD0: lookin into missing arguments
+                // @ts-ignore
                 this.deMutateAndAddNodeCollection(newResource);
                 return;
             }
@@ -3024,7 +3048,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                             this.builderMode = BUILDER_MODE.DEBUG_MODE;
                             this.hideDebugAgainButton = true;
                             this.fromEmailDebugging = true;
-                            this.debugData = debugInterviewResponseCallback(data, storeInstance, null);
+                            this.debugData = debugInterviewResponseCallback(data, storeInstance);
                             this.clearUndoRedoStack();
                         }
                         this.spinners.showRetrieveInterviewHistorySpinner = false;
@@ -3043,7 +3067,9 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     connectedCallback() {
         super.connectedCallback();
 
+        // @ts-ignore
         pubSub.subscribe(LocatorIconClickedEvent.EVENT_NAME, this.handleHighlightOnCanvasSubscriber.bind(this));
+        // @ts-ignore
         pubSub.subscribe(EditElementEvent.EVENT_NAME, this.handleEditElementSubscriber.bind(this));
 
         // Get list of supported process types for the current builder type

@@ -311,7 +311,7 @@ export const updateStoreAfterSaveAsNewVersionIsFailed = (storeInstance, label, d
     );
 };
 
-export const updateUrl = (flowId) => {
+export const updateUrl = (flowId?: string) => {
     let urlParams = '';
     if (flowId) {
         urlParams += '?flowId=' + flowId;
@@ -1078,8 +1078,8 @@ export const screenFieldsReferencedByLoops = (flowMetadata: any): Metadata.Scree
 export const debugInterviewResponseCallback = (
     data: any[],
     storeInstance: Store,
-    hasUnsavedChanges: boolean,
-    keepHighlightOnError: boolean
+    hasUnsavedChanges = false,
+    keepHighlightOnError = false
 ): Object => {
     // Setup the debug data object for the debug panel
     const interviewData = (data && data[0]) || {};

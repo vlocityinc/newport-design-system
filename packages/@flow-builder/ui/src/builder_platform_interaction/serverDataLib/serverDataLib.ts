@@ -164,7 +164,7 @@ export function fetch(
     serverActionType,
     callback,
     params,
-    { background = false, storable = false, disableErrorModal = false, messageForErrorModal } = {}
+    { background = false, storable = false, disableErrorModal = false, messageForErrorModal = undefined } = {}
 ) {
     let executeCallback = true;
 
@@ -268,7 +268,7 @@ const fetchOnceCache = {};
 export function fetchOnce(
     serverActionType,
     params = {},
-    { background = false, disableErrorModal = false, messageForErrorModal } = {}
+    { background = false, disableErrorModal = false, messageForErrorModal = undefined } = {}
 ) {
     const keyProvider = KEY_PROVIDER[serverActionType];
     if (!keyProvider) {

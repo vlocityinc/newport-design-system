@@ -3,6 +3,7 @@ import { AlertErrorHandler } from 'builder_framework/errorHandler';
 import { InstrumentationServiceImpl } from 'builder_framework/instrumentation';
 import { PubSub, PubSubEvent, SimplePubSub, Unsubscribe } from 'builder_framework/pubSub';
 
+export { PubSub, PubSubEvent };
 export class FlowPubSub {
     private static pubSub: PubSub;
 
