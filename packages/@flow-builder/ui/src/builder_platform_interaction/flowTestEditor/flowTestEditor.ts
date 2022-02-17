@@ -1,4 +1,6 @@
+import { getErrorsFromHydratedElement, pick } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './flowTestEditorLabels';
 import { flowTestEditorReducer } from './flowTestEditorReducer';
@@ -10,13 +12,22 @@ export enum FlowTestMenuItems {
     Assertions
 }
 
+const PROPERTIES_BY_TAB = {
+    [FlowTestMenuItems.Details]: ['name', 'label', 'description', 'testTriggerType', 'runPathValue'],
+    [FlowTestMenuItems.InitialRecord]: [],
+    [FlowTestMenuItems.UpdatedRecord]: [],
+    [FlowTestMenuItems.Assertions]: ['testAssertions']
+};
+
 export default class FlowTestEditor extends LightningElement {
     @api triggerSaveType;
     @track activeMenuItemId = FlowTestMenuItems.Details;
     items: UI.MenuItem[] = [];
 
     @api validate() {
-        // ToDo: implement validations
+        const event = { type: VALIDATE_ALL };
+        this._flowTestObject = flowTestEditorReducer(this._flowTestObject, event);
+        return getErrorsFromHydratedElement(this._flowTestObject);
     }
 
     /**
@@ -59,12 +70,15 @@ export default class FlowTestEditor extends LightningElement {
     }
 
     createMenuTab(items, guid, label) {
+        const propertyNames = PROPERTIES_BY_TAB[guid];
+        const flowTestObjectSubset = pick(this._flowTestObject, propertyNames);
         items.push({
             element: {
                 guid
             },
             label,
-            isDraggable: false
+            isDraggable: false,
+            hasErrors: getErrorsFromHydratedElement(flowTestObjectSubset).length > 0
         });
     }
 

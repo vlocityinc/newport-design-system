@@ -753,9 +753,6 @@ function showFlowTestPopover(cmpHeader, cmpBody, cmpFooter, cmpAttributes = {}, 
     const invokeModalWithComponentsOnCreateOverride = (modal, data) => {
         onCreatePopover(modal);
         const modalFooter = invokeModalWithComponentsOnCreate(modal, data);
-        // Disable "Create Test" and "Save Changes" button on modal footer.
-        // TODO: Enable once modal is ready to send data to backend
-        modalFooter.enableButtonOne(false);
         modalFooter.panelInstance(modal);
     };
 

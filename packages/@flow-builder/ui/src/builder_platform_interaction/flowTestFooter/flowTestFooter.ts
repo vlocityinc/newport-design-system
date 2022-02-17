@@ -6,10 +6,6 @@ export default class FlowTestFooter extends LightningElement {
     @api flowTestButtons;
     @api closeModalCallback;
     @track _panelInstance;
-    @track state = {
-        flowTestButtonOneDisabled: false,
-        flowTestButtonTwoDisabled: false
-    };
 
     closeModal = (closeCallback = true) => {
         if (checkCloseCallback(this.closeModalCallback, closeCallback)) {
@@ -25,11 +21,9 @@ export default class FlowTestFooter extends LightningElement {
             // If no validation errors then save the flow test
             if (!validationErrors || validationErrors.length === 0) {
                 this.flowTestButtons.flowTestButtonOne.buttonCallback();
-            } else {
-                // ToDo: separate task to show validation errors on vertical nav
+                this.closeModal(this.flowTestButtons.flowTestButtonOne.closeCallback);
             }
         }
-        this.closeModal(this.flowTestButtons.flowTestButtonOne.closeCallback);
     }
 
     handleFlowTestButtonTwoClick() {
@@ -38,15 +32,6 @@ export default class FlowTestFooter extends LightningElement {
         }
 
         this.closeModal(this.flowTestButtons.flowTestButtonTwo.closeCallback);
-    }
-
-    @api disableButtons() {
-        this.state.flowTestButtonOneDisabled = true;
-        this.state.flowTestButtonTwoDisabled = true;
-    }
-
-    @api disableFlowTestButtonOne() {
-        this.state.flowTestButtonOneDisabled = true;
     }
 
     @api panelInstance(modal) {

@@ -2,9 +2,9 @@
 import {
     createComponent,
     INTERACTION_COMPONENTS_SELECTORS,
-    LIGHTNING_COMPONENTS_SELECTORS,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
+import { hydrateWithErrors, isItemHydratedWithErrors } from 'builder_platform_interaction/dataMutationLib';
 import { createListRowItem } from 'builder_platform_interaction/elementFactory';
 import {
     AddListItemEvent,
@@ -17,34 +17,38 @@ import { FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadat
 import { FlowTestMenuItems } from '../flowTestEditor';
 
 const SELECTORS = {
-    ...INTERACTION_COMPONENTS_SELECTORS,
-    LIGHTNING_COMPONENTS_SELECTORS
+    ...INTERACTION_COMPONENTS_SELECTORS
 };
 
 const DEFAULT_PROPS = {
     flowTestObject: {
-        label: '',
-        name: '',
-        description: '',
-        runPathValue: '',
-        testTriggerType: '',
+        label: { value: '', error: null },
+        name: { value: '', error: null },
+        description: { value: '', error: null },
+        runPathValue: { value: '', error: null },
+        testTriggerType: { value: '', error: null },
         testAssertions: [
             {
-                expression: createListRowItem()
+                expression: hydrateWithErrors(createListRowItem())
             }
         ]
     },
-    triggerSaveType: ''
+    triggerSaveType: { value: '', error: null }
 };
 
 const createComponentUnderTest = async (overrideProps) => {
     return createComponent(SELECTORS.FLOW_TEST_EDITOR, DEFAULT_PROPS, overrideProps);
 };
 
+const getNavigator = (parent) => {
+    return parent.shadowRoot.querySelector(SELECTORS.REORDERABLE_VERTICAL_NAVIGATION);
+};
+
 const navigateToTab = async (parent, menuItem: FlowTestMenuItems) => {
-    const vertNavigator = parent.shadowRoot.querySelector(SELECTORS.REORDERABLE_VERTICAL_NAVIGATION);
+    const vertNavigator = getNavigator(parent);
     vertNavigator.dispatchEvent(new ListItemInteractionEvent(menuItem, ListItemInteractionEvent.Type.Click));
 };
+
 describe('FlowTestEditor', () => {
     it('changes the displayed tab when menu item is clicked', async () => {
         const flowTestEditorComponent = await createComponentUnderTest();
@@ -55,12 +59,19 @@ describe('FlowTestEditor', () => {
         );
         expect(flowTestAssertionEditor).toBeTruthy();
     });
+    it('creates error icon when there are errors', async () => {
+        const overriddenProps = { ...DEFAULT_PROPS };
+        overriddenProps.flowTestObject.label = { value: '', error: 'error message' };
+        const flowTestEditorComponent = await createComponentUnderTest(overriddenProps);
+        const vertNav = getNavigator(flowTestEditorComponent);
+        const menuItems = vertNav.shadowRoot.querySelectorAll(SELECTORS.REORDERABLE_VERTICAL_NAVIGATION_ITEM);
+        expect(menuItems[0].firstChild).toBeTruthy();
+        expect(menuItems[1].firstChild).toBeNull();
+        expect(menuItems[2].firstChild).toBeNull();
+    });
     describe('FlowTestDetails', () => {
-        let flowTestEditorComponent;
-        beforeEach(async () => {
-            flowTestEditorComponent = await createComponentUnderTest();
-        });
         it('creates a new menu item when Trigger type is changed to Updated', async () => {
+            const flowTestEditorComponent = await createComponentUnderTest();
             const vertNavigator = flowTestEditorComponent.shadowRoot.querySelector(
                 SELECTORS.REORDERABLE_VERTICAL_NAVIGATION
             );
@@ -77,6 +88,7 @@ describe('FlowTestEditor', () => {
             expect(menuItems.length).toEqual(4);
         });
         it('updates property when PropertyChangedEvent is received', async () => {
+            const flowTestEditorComponent = await createComponentUnderTest();
             const flowTestDetailsComponent = flowTestEditorComponent.shadowRoot.querySelector(
                 SELECTORS.FLOW_TEST_DETAILS
             );
@@ -98,26 +110,19 @@ describe('FlowTestEditor', () => {
             flowTestAssertionEditor.dispatchEvent(new AddListItemEvent());
             await ticks(1);
             expect(flowTestEditorComponent.flowTestObject.testAssertions.length).toEqual(2);
+            expect(
+                isItemHydratedWithErrors(
+                    flowTestEditorComponent.flowTestObject.testAssertions[0].expression.leftHandSide
+                )
+            ).toEqual(true);
         });
         it('deletes assertion row when DeleteListItemEvent is received', async () => {
-            const flowTestEditorComponent = await createComponentUnderTest({
-                flowTestObject: {
-                    label: '',
-                    name: '',
-                    description: '',
-                    runPathValue: '',
-                    testTriggerType: '',
-                    testAssertions: [
-                        {
-                            expression: createListRowItem()
-                        },
-                        {
-                            expression: createListRowItem()
-                        }
-                    ]
-                },
-                triggerSaveType: ''
-            });
+            const overriddenProps = { ...DEFAULT_PROPS };
+            overriddenProps.flowTestObject.testAssertions = [
+                { expression: createListRowItem() },
+                { expression: createListRowItem() }
+            ];
+            const flowTestEditorComponent = await createComponentUnderTest(overriddenProps);
             navigateToTab(flowTestEditorComponent, FlowTestMenuItems.Assertions);
             await ticks(1);
             const flowTestAssertionEditor = flowTestEditorComponent.shadowRoot.querySelector(
@@ -145,25 +150,14 @@ describe('FlowTestEditor', () => {
             expect(flowTestEditorComponent.flowTestObject.testAssertions[0].expression).toEqual(expectedExpression);
         });
         it('only hides custom message input when UpdateTestAssertionEvent is received and message is undefined', async () => {
-            const flowTestEditorComponent = await createComponentUnderTest({
-                flowTestObject: {
-                    label: '',
-                    name: '',
-                    description: '',
-                    runPathValue: '',
-                    testTriggerType: '',
-                    testAssertions: [
-                        {
-                            expression: createListRowItem(),
-                            message: {
-                                value: '',
-                                error: null
-                            }
-                        }
-                    ]
-                },
-                triggerSaveType: ''
-            });
+            const overriddenProps = { ...DEFAULT_PROPS };
+            overriddenProps.flowTestObject.testAssertions = [
+                {
+                    expression: createListRowItem(),
+                    message: { value: '', error: null }
+                }
+            ];
+            const flowTestEditorComponent = await createComponentUnderTest(overriddenProps);
             navigateToTab(flowTestEditorComponent, FlowTestMenuItems.Assertions);
             await ticks(1);
             const flowTestAssertionEditor = flowTestEditorComponent.shadowRoot.querySelector(
@@ -176,7 +170,14 @@ describe('FlowTestEditor', () => {
             expect(messageInput).toBeNull();
         });
         it('only updates expression when UpdateTestAssertionEvent is received and ', async () => {
-            const flowTestEditorComponent = await createComponentUnderTest();
+            const overriddenProps = { ...DEFAULT_PROPS };
+            overriddenProps.flowTestObject.testAssertions = [
+                {
+                    expression: createListRowItem(),
+                    message: undefined
+                }
+            ];
+            const flowTestEditorComponent = await createComponentUnderTest(overriddenProps);
             navigateToTab(flowTestEditorComponent, FlowTestMenuItems.Assertions);
             await ticks(1);
             const flowTestAssertionEditor = flowTestEditorComponent.shadowRoot.querySelector(

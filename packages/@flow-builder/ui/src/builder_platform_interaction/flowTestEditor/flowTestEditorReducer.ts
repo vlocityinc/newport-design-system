@@ -1,4 +1,4 @@
-import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
+import { hydrateWithErrors, updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { createEmptyTestAssertion } from 'builder_platform_interaction/elementFactory';
 import {
     AddListItemEvent,
@@ -6,6 +6,8 @@ import {
     PropertyChangedEvent,
     UpdateTestAssertionEvent
 } from 'builder_platform_interaction/events';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { flowTestValidation } from './flowTestValidation';
 
 const flowTestEditorPropertyChanged = (state, event) => {
     return updateProperties(state, {
@@ -18,7 +20,7 @@ const flowTestEditorPropertyChanged = (state, event) => {
 
 const flowTestEditorAssertionAdded = (state) => {
     const emptyAssertion = createEmptyTestAssertion();
-    const assertions = [...state.testAssertions, emptyAssertion];
+    const assertions = [...state.testAssertions, hydrateWithErrors(emptyAssertion)];
     return updateTestAssertions(state, assertions);
 };
 
@@ -74,6 +76,8 @@ export const flowTestEditorReducer = (state, event) => {
             return flowTestEditorAssertionDeleted(state, event);
         case UpdateTestAssertionEvent.EVENT_NAME:
             return flowTestEditorAssertionUpdated(state, event);
+        case VALIDATE_ALL:
+            return flowTestValidation.validateAll(state);
         default:
             return state;
     }
