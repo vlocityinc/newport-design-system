@@ -34,7 +34,8 @@ jest.mock('builder_platform_interaction/processTypeLib', () => {
         // isScheduledPathSupported shall return true iff process type is Autolaunched
         isScheduledPathSupported: jest.fn(() => {
             return false;
-        })
+        }),
+        isRecordTriggeredFlow: jest.fn()
     };
 });
 

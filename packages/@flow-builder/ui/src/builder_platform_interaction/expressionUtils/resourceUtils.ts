@@ -17,6 +17,7 @@ import {
 } from 'builder_platform_interaction/systemLib';
 import { getMenuItemForField, mutateFlowResourceToComboboxShape } from './menuDataGenerator';
 import { filterFieldsForChosenElement, getChildrenItems } from './menuDataRetrieval';
+
 const { format } = commonUtils;
 
 /* Global variable to hold the current state of the screen element.

@@ -15,9 +15,10 @@ import {
 } from 'builder_platform_interaction/flowMetadata';
 import { loadOperatorsAndRulesOnTriggerTypeChange } from 'builder_platform_interaction/preloadLib';
 import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
+import { getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
 import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
 import { ENTITY_TYPE, fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
-import { getProcessType } from 'builder_platform_interaction/storeUtils';
+import { getProcessType, setStartElementInLocalStorage } from 'builder_platform_interaction/storeUtils';
 import {
     getTriggerHasCriteria,
     getTriggerTypeInfo,
@@ -474,20 +475,6 @@ export default class RecordChangeTriggerEditor extends LightningElement {
     }
 
     /**
-     * Updates a field by creating a PropertyChangedEvent and passing it to the reducer
-     *
-     * @param prop - the name of the field to update
-     * @param value - the value for the field
-     */
-    _updateField(prop: string, value: string) {
-        const event = new PropertyChangedEvent(prop, value);
-        this.startElement = recordChangeTriggerReducer(this.startElement, event);
-
-        // For property editor in a panel
-        this.dispatchEvent(new UpdateNodeEvent(this.startElement));
-    }
-
-    /**
      * Handles Record Trigger Type and Flow Trigger Type radio button selection in Configure Trigger Modal
      *
      * @param event Change event with the new save type value
@@ -495,7 +482,7 @@ export default class RecordChangeTriggerEditor extends LightningElement {
     handleTriggerSaveTypeChange = async (event) => {
         const newTriggerTypeVal = event.detail.value;
         this._triggerSaveType = newTriggerTypeVal;
-        this._updateField(START_ELEMENT_FIELDS.TRIGGER_SAVE_TYPE, newTriggerTypeVal);
+        this.updateProperty(START_ELEMENT_FIELDS.TRIGGER_SAVE_TYPE, newTriggerTypeVal);
         // If the user selects Delete as the record trigger type, store the existing FlowTriggerType value in a variable which
         // will be defaulted to if the user switches back from Delete to Create, Update, Create Or Update
         if (newTriggerTypeVal === DELETE) {
@@ -525,15 +512,15 @@ export default class RecordChangeTriggerEditor extends LightningElement {
     };
 
     handleTypeBeforeSave() {
-        this._updateField(START_ELEMENT_FIELDS.TRIGGER_TYPE, BEFORE_SAVE);
+        this.updateProperty(START_ELEMENT_FIELDS.TRIGGER_TYPE, BEFORE_SAVE);
     }
 
     handleTypeBeforeDelete() {
-        this._updateField(START_ELEMENT_FIELDS.TRIGGER_TYPE, BEFORE_DELETE);
+        this.updateProperty(START_ELEMENT_FIELDS.TRIGGER_TYPE, BEFORE_DELETE);
     }
 
     handleTypeAfterSave() {
-        this._updateField(START_ELEMENT_FIELDS.TRIGGER_TYPE, AFTER_SAVE);
+        this.updateProperty(START_ELEMENT_FIELDS.TRIGGER_TYPE, AFTER_SAVE);
     }
 
     /**
@@ -590,6 +577,7 @@ export default class RecordChangeTriggerEditor extends LightningElement {
         const propChangedEvent = new PropertyChangedEvent(propertyName, newValue, error, null, oldValue);
         propChangedEvent.detail.ignoreValidate = ignoreValidate;
         this.startElement = recordChangeTriggerReducer(this.startElement, propChangedEvent);
+        setStartElementInLocalStorage(getElementForStore(this.startElement).canvasElement);
         this.dispatchEvent(new UpdateNodeEvent(this.startElement));
     }
 
@@ -643,12 +631,12 @@ export default class RecordChangeTriggerEditor extends LightningElement {
 
     handleFormulaFilterChanged(event) {
         event.stopPropagation();
-        this._updateField(START_ELEMENT_FIELDS.FORMULA_FILTER, event.detail.value);
+        this.updateProperty(START_ELEMENT_FIELDS.FORMULA_FILTER, event.detail.value);
     }
 
     togglerunAsyncScheduledPath(event) {
         event.stopPropagation();
-        this._updateField(START_ELEMENT_FIELDS.IS_RUN_ASYNC_PATH_ENABLED, event.detail.checked);
+        this.updateProperty(START_ELEMENT_FIELDS.IS_RUN_ASYNC_PATH_ENABLED, event.detail.checked);
     }
 
     connectedCallback() {
@@ -661,5 +649,9 @@ export default class RecordChangeTriggerEditor extends LightningElement {
 
     isOrchestrator(): boolean {
         return isOrchestrator(getProcessType());
+    }
+
+    disconnectedCallback() {
+        setStartElementInLocalStorage(null);
     }
 }

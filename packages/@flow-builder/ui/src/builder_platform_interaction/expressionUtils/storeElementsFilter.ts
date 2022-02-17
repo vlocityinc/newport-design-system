@@ -1,4 +1,5 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { isRecordTriggeredFlow } from 'builder_platform_interaction/processTypeLib';
 import {
     choiceSelector,
     isOrCanContainSelector,
@@ -6,6 +7,7 @@ import {
     RetrieveOptions,
     writableElementsSelector
 } from 'builder_platform_interaction/selectors';
+import { getStartElement, getTriggerType } from 'builder_platform_interaction/storeUtils';
 import { getScreenElement } from './resourceUtils';
 
 export type ElementFilterConfig = {
@@ -113,6 +115,23 @@ function addUncommittedElementsFromLocalStorage(elements) {
     }
 
     elements = removeUncommittedDeletedElementsFromLocalStorage(elements, currentScreen);
+
+    if (isRecordTriggeredFlow(getTriggerType())) {
+        const startElementIndex = elements.findIndex((el) => el.elementType === ELEMENT_TYPE.START_ELEMENT);
+        const startElement: UI.Start | undefined = getStartElement();
+        if (startElementIndex < 0) {
+            // new flow: add the start element from current session to the array
+            if (startElement) {
+                elements.unshift(startElement);
+            }
+        } else {
+            // reopened  property editor: update the context object with value from current session
+            elements[startElementIndex] = Object.assign({}, elements[startElementIndex], {
+                object: startElement?.object,
+                subtype: startElement?.object
+            });
+        }
+    }
 
     return elements;
 }

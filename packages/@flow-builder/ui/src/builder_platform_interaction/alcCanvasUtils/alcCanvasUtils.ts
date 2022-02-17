@@ -8,7 +8,7 @@ import {
     NodeType,
     ParentNodeModel
 } from 'builder_platform_interaction/autoLayoutCanvas';
-import { ELEMENT_TYPE, FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { PROCESS_TRIGGER_TYPE_LABELS, TRIGGER_TYPE_LABELS } from 'builder_platform_interaction/processTypeLib';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
 import { getProcessTypes } from 'builder_platform_interaction/systemLib';
@@ -167,15 +167,6 @@ export const hasContext = (triggerType) => {
         default:
             return true;
     }
-};
-
-// TODO: W-9299993 Remove reliance on hardcoded processType and triggerType for launching merged recordChangeTriggerEditor
-export const isRecordTriggeredFlow = (triggerType) => {
-    return (
-        (getProcessType() === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW ||
-            getProcessType() === FLOW_PROCESS_TYPE.ORCHESTRATOR) &&
-        isRecordChangeTriggerType(triggerType)
-    );
 };
 
 /**

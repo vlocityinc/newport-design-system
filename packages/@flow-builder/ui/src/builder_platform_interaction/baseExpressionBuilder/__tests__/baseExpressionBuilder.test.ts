@@ -48,7 +48,8 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
         getDuplicateDevNameElements: actual.getDuplicateDevNameElements,
         getStartElement: actual.getStartElement,
         getStartElementFromState: actual.getStartElementFromState,
-        getTriggerType: jest.fn()
+        getTriggerType: jest.fn(),
+        getProcessType: jest.fn()
     };
 });
 jest.mock('builder_platform_interaction/inlineResourceUtils', () => {

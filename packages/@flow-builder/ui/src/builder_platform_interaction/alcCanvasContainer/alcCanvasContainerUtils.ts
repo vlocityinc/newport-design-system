@@ -2,7 +2,6 @@ import {
     getAlcElementType,
     hasContext,
     hasTrigger,
-    isRecordTriggeredFlow,
     startElementDescription
 } from 'builder_platform_interaction/alcCanvasUtils';
 import { ElementMetadata } from 'builder_platform_interaction/autoLayoutCanvas';
@@ -11,6 +10,7 @@ import {
     getConfigForElementType
 } from 'builder_platform_interaction/elementConfig';
 import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { isRecordTriggeredFlow } from 'builder_platform_interaction/processTypeLib';
 
 /**
  * Checks if an element can have a fault connector

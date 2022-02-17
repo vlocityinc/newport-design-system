@@ -45,6 +45,7 @@ jest.mock('builder_platform_interaction/systemLib', () => {
 });
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
+    const actual = jest.requireActual('builder_platform_interaction/expressionUtils');
     return {
         getRunInModesMenuData() {
             return [

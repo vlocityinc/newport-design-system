@@ -2,7 +2,7 @@
 import systemVariableCategory from '@salesforce/label/FlowBuilderSystemVariables.systemVariableCategory';
 import { FLOW_TRIGGER_SAVE_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { getStartElementFromState } from 'builder_platform_interaction/storeUtils';
+import { getStartElement } from 'builder_platform_interaction/storeUtils';
 import { readonly } from 'lwc';
 
 export const SYSTEM_VARIABLE_PREFIX = '$Flow';
@@ -70,11 +70,11 @@ export const setSystemVariables = (data) => {
  * get the $Record__Prior system variable if available.
  * $Record__Prior is only available for Record Change trigger and the trigger fires on an Update or a Create/Update
  *
- * @param root0
- * @param root0.elements
+ * @param elements Elements in the flow
+ * @returns $Record__Prior system variable
  */
 const getRecordPriorSystemVariable = ({ elements }) => {
-    const startElement = getStartElementFromState({ elements });
+    const startElement = getStartElement({ elements });
     if (!startElement) {
         return undefined;
     }

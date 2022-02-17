@@ -55,16 +55,34 @@ export const getElementByDevName = <T extends UI.Element>(devName: string, caseS
     getElementByDevNameFromState(Store.getStore().getCurrentState(), devName, caseSensitive);
 
 export const getStartElementFromState = ({ elements }: { elements: UI.Elements }): UI.Start | undefined => {
-    const startElement = Object.values(elements).find((element) => {
-        return element.elementType === ELEMENT_TYPE.START_ELEMENT;
-    });
+    const startElement =
+        elements &&
+        Object.values(elements).find((element) => {
+            return element.elementType === ELEMENT_TYPE.START_ELEMENT;
+        });
     return startElement as UI.Start | undefined;
 };
 
 /**
- * Fetches the Start element from the store
+ * Fetches the Start element from the local variable or the store (in case one is not present in local variable)
+ *
+ * @param elements.elements
+ * @param elements All elements in the flow
+ * @returns start element
  */
-export const getStartElement = (): UI.Start | undefined => getStartElementFromState(Store.getStore().getCurrentState());
+export const getStartElement = ({ elements } = Store.getStore().getCurrentState()): UI.Start | undefined =>
+    startElement || getStartElementFromState({ elements });
+
+/* Global variable to hold the current state of the context object in record change trigger editor.
+ *  This is being populated by the recordChangeTriggerEditor component and
+ *   used for accessing context object added in the current session (which have not yet been committed to the store)
+ *   in resource pickers inside the editor.
+ * */
+let startElement: any = null;
+
+export const setStartElementInLocalStorage = (element) => {
+    startElement = element;
+};
 
 /**
  * Common function to return duplicate dev name elements

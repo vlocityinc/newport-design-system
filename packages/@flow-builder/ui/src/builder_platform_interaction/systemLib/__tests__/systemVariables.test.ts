@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { getStartElementFromState } from 'builder_platform_interaction/storeUtils';
+import { getStartElement } from 'builder_platform_interaction/storeUtils';
 import { startElement as screenFlowStartElement } from 'mock/storeData';
 import { startElement as recordTriggeredStartElement } from 'mock/storeDataRecordTriggered';
 import { systemVariablesForAutoLaunchedFlow } from 'serverData/GetSystemVariables/systemVariablesForAutoLaunchedFlow.json';
@@ -10,7 +10,7 @@ jest.mock('builder_platform_interaction/storeLib', () => require('builder_platfo
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
-        getStartElementFromState: jest.fn().mockImplementation(() => {})
+        getStartElement: jest.fn().mockImplementation(() => {})
     };
 });
 
@@ -83,12 +83,12 @@ describe('system Variables', () => {
             resetSystemVariables();
         });
         it('does not return $Record__Prior if flow is not a Record-Triggered Flow', () => {
-            getStartElementFromState.mockImplementationOnce(() => screenFlowStartElement);
+            getStartElement.mockImplementationOnce(() => screenFlowStartElement);
             const recordPriorVariable = getSystemVariables('$Record__Prior').$Record__Prior;
             expect(recordPriorVariable).toBeUndefined();
         });
         it('returns $Record__Prior for Record-Triggered Flow and the trigger fires on an Update', () => {
-            getStartElementFromState.mockImplementationOnce(() => ({
+            getStartElement.mockImplementationOnce(() => ({
                 ...recordTriggeredStartElement,
                 recordTriggerType: 'Update'
             }));
@@ -100,7 +100,7 @@ describe('system Variables', () => {
             });
         });
         it('returns $Record__Prior for Record-Triggered Flow and the trigger fires on an Create/Update', () => {
-            getStartElementFromState.mockImplementationOnce(() => ({
+            getStartElement.mockImplementationOnce(() => ({
                 ...recordTriggeredStartElement,
                 recordTriggerType: 'CreateAndUpdate'
             }));
@@ -112,7 +112,7 @@ describe('system Variables', () => {
             });
         });
         it('does not return $Record__Prior for Record-Triggered Flow if trigger fires on Create', () => {
-            getStartElementFromState.mockImplementationOnce(() => ({
+            getStartElement.mockImplementationOnce(() => ({
                 ...recordTriggeredStartElement,
                 recordTriggerType: 'Create'
             }));

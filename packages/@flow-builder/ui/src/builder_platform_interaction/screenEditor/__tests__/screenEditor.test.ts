@@ -125,6 +125,7 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
         getProcessType: jest.fn(),
         getTriggerType: jest.fn(),
         getStartElementFromState: jest.fn(),
+        getStartElement: jest.fn(),
         getElementByGuidFromState: storeUtils.getElementByGuidFromState,
         getElementByDevNameFromState: storeUtils.getElementByDevNameFromState
     };

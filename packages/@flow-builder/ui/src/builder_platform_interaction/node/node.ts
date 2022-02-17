@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { isRecordTriggeredFlow, startElementDescription } from 'builder_platform_interaction/alcCanvasUtils';
+import { startElementDescription } from 'builder_platform_interaction/alcCanvasUtils';
 import { clamp } from 'builder_platform_interaction/clampLib';
 import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
 import { isTestMode } from 'builder_platform_interaction/contextLib';
@@ -15,6 +15,7 @@ import {
     SelectNodeEvent
 } from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { isRecordTriggeredFlow } from 'builder_platform_interaction/processTypeLib';
 import { commonUtils, loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
 import { api, LightningElement, track } from 'lwc';

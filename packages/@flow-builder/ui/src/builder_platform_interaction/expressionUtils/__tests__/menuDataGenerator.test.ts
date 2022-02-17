@@ -4,7 +4,7 @@ import { FLOW_DATA_TYPE, getDataTypeIcons, getDataTypeLabel } from 'builder_plat
 import { getResourceCategory } from 'builder_platform_interaction/elementLabelLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
-import { getStartElementFromState } from 'builder_platform_interaction/storeUtils';
+import { getStartElement, getStartElementFromState } from 'builder_platform_interaction/storeUtils';
 import {
     setGlobalVariables,
     setProcessTypeFeature,
@@ -65,7 +65,8 @@ jest.mock(
 
 jest.mock('builder_platform_interaction/storeUtils', () => ({
     getProcessType: jest.fn().mockImplementation(() => 'flow'),
-    getStartElementFromState: jest.fn().mockImplementation(() => undefined)
+    getStartElementFromState: jest.fn().mockImplementation(() => undefined),
+    getStartElement: jest.fn().mockImplementation(() => undefined)
 }));
 
 let mockGetResourceCategory = true;
@@ -268,7 +269,7 @@ describe('menuDataGenerator', () => {
                 getStartElementFromState.mockImplementation(() => undefined);
             });
             it('should return $Record__Prior if supported', () => {
-                getStartElementFromState.mockImplementation(() => startElementRecordTriggered);
+                getStartElement.mockImplementation(() => startElementRecordTriggered);
                 const menuData = getSystemAndGlobalVariableMenuData(true, false);
                 expect(menuData).toEqual(
                     expect.arrayContaining([

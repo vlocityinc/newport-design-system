@@ -36,11 +36,20 @@ const SELECTORS = {
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
+    const actual = jest.requireActual('builder_platform_interaction/storeUtils');
     return {
         getElementByGuid: jest.fn(),
         isExecuteOnlyWhenChangeMatchesConditionsPossible: jest.fn().mockReturnValue(true),
         getProcessType: jest.fn(),
-        getStartElementFromState: jest.fn()
+        getStartElementFromState: jest.fn(),
+        getStartElement: jest.fn(),
+        setStartElementInLocalStorage: actual.setStartElementInLocalStorage
+    };
+});
+
+jest.mock('builder_platform_interaction/propertyEditorFactory', () => {
+    return {
+        getElementForStore: jest.fn().mockReturnValue({ canvasElement: {} })
     };
 });
 
@@ -52,7 +61,6 @@ jest.mock('builder_platform_interaction/preloadLib', () => {
 
 jest.mock('builder_platform_interaction/dataMutationLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/dataMutationLib');
-
     return Object.assign({}, actual, {
         getErrorsFromHydratedElement: jest.fn()
     });

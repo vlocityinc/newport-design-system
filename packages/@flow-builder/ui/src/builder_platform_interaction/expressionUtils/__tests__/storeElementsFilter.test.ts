@@ -10,6 +10,17 @@ jest.mock('../resourceUtils', () => {
         getScreenElement: jest.fn().mockImplementation(() => mockScreenElement)
     };
 });
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    return {
+        getTriggerType: jest.fn(),
+        getStartElement: jest.fn()
+    };
+});
+jest.mock('builder_platform_interaction/processTypeLib', () => {
+    return {
+        isRecordTriggeredFlow: jest.fn()
+    };
+});
 
 let mockReadableSelectorValue;
 

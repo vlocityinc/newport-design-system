@@ -1,7 +1,9 @@
 // @ts-nocheck
 import all from '@salesforce/label/FlowBuilderProcessTypesVerticalNavigation.all';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getProcessType } from 'builder_platform_interaction/storeUtils';
 import { getProcessFeatures, getProcessTypes } from 'builder_platform_interaction/systemLib';
+import { isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 
 export const ALL_PROCESS_TYPE = { name: 'all', label: all, iconName: 'utility:flow' };
 
@@ -196,4 +198,19 @@ export const sortProcessTypes = (processTypes) => {
     if (processTypes) {
         processTypes.sort(compareProcessTypes);
     }
+};
+
+// TODO: W-9299993 Remove reliance on hardcoded processType and triggerType for launching merged recordChangeTriggerEditor
+/**
+ * Scheduled Paths are supported exclusively for Auto Launched Flows. Returns true iff process type is auto launched.
+ *
+ * @param triggerType
+ * @param boolean indicating if the flow is record triggered type
+ */
+export const isRecordTriggeredFlow = (triggerType) => {
+    return (
+        (getProcessType() === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW ||
+            getProcessType() === FLOW_PROCESS_TYPE.ORCHESTRATOR) &&
+        isRecordChangeTriggerType(triggerType)
+    );
 };

@@ -186,6 +186,5 @@ const propertyChanged = (state, event) => {
     if (event.detail.propertyName === START_ELEMENT_FIELDS.IS_RUN_ASYNC_PATH_ENABLED) {
         return togglerunAsync(state, event.detail.value);
     }
-
     return state;
 };

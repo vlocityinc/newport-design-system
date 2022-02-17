@@ -38,7 +38,9 @@ import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import {
     isNonRecordGlobalResourceId,
     isRecordPriorSystemVariableIdentifier,
-    isRecordSystemVariableIdentifier
+    isRecordSystemVariableIdentifier,
+    SYSTEM_VARIABLE_RECORD_PREFIX,
+    SYSTEM_VARIABLE_RECORD_PRIOR_PREFIX
 } from 'builder_platform_interaction/systemLib';
 import { api, LightningElement, track, unwrap } from 'lwc';
 import { LABELS } from './comboboxLabels';
@@ -1133,7 +1135,11 @@ export default class Combobox extends LightningElement {
             groupCount = this.state.menuData.length;
         }
         // check if the item has already been cached to avoid running through the nested arrays
-        if (this._itemCache[value]) {
+        if (
+            value !== SYSTEM_VARIABLE_RECORD_PREFIX &&
+            value !== SYSTEM_VARIABLE_RECORD_PRIOR_PREFIX &&
+            this._itemCache[value]
+        ) {
             return this._itemCache[value];
         }
         for (let i = 0; i < groupCount; i++) {

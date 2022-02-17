@@ -74,6 +74,7 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
         getElementByGuid: jest.fn(),
         getStartElementFromState: jest.fn(),
+        getStartElement: jest.fn(),
         getElementByGuidFromState,
         getElementByDevNameFromState
     };

@@ -63,6 +63,10 @@ jest.mock('builder_platform_interaction/storeUtils', () => ({
     getProcessType: jest.fn()
 }));
 
+jest.mock('builder_platform_interaction/processTypeLib', () => ({
+    isRecordTriggeredFlow: jest.fn()
+}));
+
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
 const dblClick = (component) => {
