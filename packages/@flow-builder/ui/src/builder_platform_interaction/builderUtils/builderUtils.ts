@@ -58,8 +58,8 @@ export enum modalFooterVariant {
 }
 
 export enum FlowTestMode {
-    CREATE = 'create test',
-    EDIT = 'edit test'
+    Create = 'createNewFlowTest',
+    Edit = 'updateExistingFlowTest'
 }
 
 /**
@@ -715,10 +715,10 @@ function showFlowTestPopover(cmpHeader, cmpBody, cmpFooter, cmpAttributes = {}, 
     let headerLabel = null;
     let footerButtonLabel = null;
 
-    if (cmpAttributes.mode === FlowTestMode.CREATE) {
+    if (cmpAttributes.mode === FlowTestMode.Create) {
         headerLabel = LABELS.flowTestEditorCreateLabel;
         footerButtonLabel = LABELS.flowTestEditorCreateButton;
-    } else if (cmpAttributes.mode === FlowTestMode.EDIT) {
+    } else if (cmpAttributes.mode === FlowTestMode.Edit) {
         headerLabel = LABELS.flowTestEditorEditLabel;
         footerButtonLabel = LABELS.flowTestEditorSaveButton;
     }
@@ -753,7 +753,8 @@ function showFlowTestPopover(cmpHeader, cmpBody, cmpFooter, cmpAttributes = {}, 
     const invokeModalWithComponentsOnCreateOverride = (modal, data) => {
         onCreatePopover(modal);
         const modalFooter = invokeModalWithComponentsOnCreate(modal, data);
-        modalFooter.panelInstance(modal);
+        modalFooter.set('v.panelInstance', modal);
+        modalFooter.set('v.testMode', cmpAttributes.mode);
     };
 
     invokeModalWithComponents(

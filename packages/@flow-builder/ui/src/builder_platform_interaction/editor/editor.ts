@@ -1637,14 +1637,14 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      * Handles the Create New Test event
      */
     handleCreateNewTest = () => {
-        this.createOrEditFlowTest(FlowTestMode.CREATE);
+        this.createOrEditFlowTest(FlowTestMode.Create);
     };
 
     /**
      * Handles the Edit Test event fired by toolbar.
      */
     handleEditTest = () => {
-        this.createOrEditFlowTest(FlowTestMode.EDIT);
+        this.createOrEditFlowTest(FlowTestMode.Edit);
     };
 
     /**
@@ -1915,7 +1915,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             triggerSaveType === FLOW_TRIGGER_SAVE_TYPE.CREATE_AND_UPDATE
                 ? FLOW_TRIGGER_SAVE_TYPE.CREATE
                 : getRecordTriggerType();
-        if (createOrEdit === FlowTestMode.CREATE) {
+        if (createOrEdit === FlowTestMode.Create) {
             this.queueOpenCreateFlowTest(() => {
                 // TODO: why are we passing {} ?
                 // @ts-ignore
@@ -1933,7 +1933,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             });
         }
         // Edit mode will also accept a flow Test Id to get the test to edit.
-        if (createOrEdit === FlowTestMode.EDIT) {
+        if (createOrEdit === FlowTestMode.Edit) {
             this.queueOpenCreateFlowTest(() => {
                 return {
                     createOrEdit,

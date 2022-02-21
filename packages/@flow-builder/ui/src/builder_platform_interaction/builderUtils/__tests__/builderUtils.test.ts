@@ -3,9 +3,10 @@
 import { createComponent, dispatchGlobalEvent } from 'aura';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { SaveFlowEvent } from 'builder_platform_interaction/events';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { invokeModalWithComponents } from 'builder_platform_interaction/sharedUtils';
 import {
+    FlowTestMode,
     getPropertyEditorConfig,
     hidePopover,
     invokeCreateEditFlowTestEditor,
@@ -349,8 +350,8 @@ describe('builderUtils', () => {
     describe('invokeCreateEditFlowTestEditor', () => {
         it('calls createComponent and dispatchGlobalEvent w/ expected parameters when given standard parameters for Create Test with Create Trigger', async () => {
             const sampleFlowTestAttributes = {
-                createOrEdit: 'create test',
-                triggerSaveType: 'Create'
+                createOrEdit: FlowTestMode.Create,
+                triggerSaveType: FLOW_TRIGGER_SAVE_TYPE.CREATE
             };
             invokeCreateEditFlowTestEditor(sampleFlowTestAttributes);
             await ticks(1);
@@ -384,8 +385,8 @@ describe('builderUtils', () => {
         });
         it('calls createComponent and dispatchGlobalEvent w/ expected parameters when given standard parameters for Edit Test with Create Trigger', async () => {
             const sampleFlowTestAttributes = {
-                createOrEdit: 'edit test',
-                triggerSaveType: 'Create'
+                createOrEdit: FlowTestMode.Edit,
+                triggerSaveType: FLOW_TRIGGER_SAVE_TYPE.CREATE
             };
             invokeCreateEditFlowTestEditor(sampleFlowTestAttributes);
             await ticks(1);

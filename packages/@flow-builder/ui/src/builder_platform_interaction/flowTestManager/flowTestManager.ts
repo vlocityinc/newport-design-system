@@ -67,7 +67,7 @@ export default class FlowTestManager extends LightningElement {
 
     handleCreateNewTest() {
         this.hideModal();
-        this.createNewTestCallback(FlowTestMode.CREATE);
+        this.createNewTestCallback(FlowTestMode.Create);
     }
 
     get flowHasTests() {

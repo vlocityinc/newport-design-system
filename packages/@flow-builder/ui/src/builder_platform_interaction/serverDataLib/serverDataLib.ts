@@ -56,7 +56,8 @@ export const SERVER_ACTION_TYPE = {
     GET_OVERRIDABLE_FLOWS: 'getOverridableFlows',
     GET_FLOW_TESTS_AND_RESULTS: 'getFlowTestsAndResults',
     GET_FORMULA_FUNCTIONS: 'getFormulaFunctions',
-    GET_FORMULA_OPERATORS: 'getFormulaOperators'
+    GET_FORMULA_OPERATORS: 'getFormulaOperators',
+    SAVE_FLOW_TEST: 'storeFlowTest'
 };
 
 const actionConfig = {
@@ -114,7 +115,8 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.GET_OVERRIDABLE_FLOWS]: 'c.getOverridableFlows',
     [SERVER_ACTION_TYPE.GET_FLOW_TESTS_AND_RESULTS]: 'c.getFlowTestsAndResults',
     [SERVER_ACTION_TYPE.GET_FORMULA_FUNCTIONS]: 'c.getFormulaFunctions',
-    [SERVER_ACTION_TYPE.GET_FORMULA_OPERATORS]: 'c.getFormulaOperators'
+    [SERVER_ACTION_TYPE.GET_FORMULA_OPERATORS]: 'c.getFormulaOperators',
+    [SERVER_ACTION_TYPE.SAVE_FLOW_TEST]: 'c.storeFlowTest'
 };
 
 let auraFetch;

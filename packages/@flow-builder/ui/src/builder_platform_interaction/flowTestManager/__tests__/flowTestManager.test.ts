@@ -108,7 +108,7 @@ describe('flowTestManager', () => {
             const button = getCreateButton(cmp);
             button.click();
             expect(createNewTestMock).toHaveBeenCalledTimes(1);
-            expect(createNewTestMock).toHaveBeenCalledWith(FlowTestMode.CREATE);
+            expect(createNewTestMock).toHaveBeenCalledWith(FlowTestMode.Create);
         });
     });
 

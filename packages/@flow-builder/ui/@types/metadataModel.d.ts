@@ -280,4 +280,39 @@ declare namespace Metadata {
         textTemplates: TextTemplate[];
         variables: Variable[];
     }
+
+    interface FlowTestReferenceOrValue extends ElementReferenceOrValue {
+        apexValue: string;
+        sObjectValue: string;
+    }
+
+    interface FlowTestParameter {
+        leftValueReference: string;
+        type: string;
+        value: FlowTestReferenceOrValue;
+    }
+
+    interface FlowTestCondition {
+        leftValueReference: string;
+        operator: string;
+        rightValue: FlowTestReferenceOrValue;
+    }
+
+    interface FlowTestAssertion {
+        conditions: FlowTestCondition[];
+        errorMessage?: string;
+    }
+
+    interface FlowTestPoint {
+        assertions: FlowTestAssertion[];
+        elementApiName: string;
+        parameters: FlowTestParameter[];
+    }
+
+    interface FlowTestMetadata {
+        description?: string;
+        flowApiName: string | number | boolean;
+        label: string;
+        testPoints: FlowTestPoint[];
+    }
 }

@@ -473,6 +473,6 @@ declare namespace UI {
 
     interface FlowTestAssertion {
         expression: UI.ExpressionFilter;
-        message?: HydratedValue;
+        message?: string;
     }
 }
