@@ -60,6 +60,7 @@ export { ToggleElementEvent } from './elementEvents/toggleElementEvent';
 export { ExecuteWhenOptionChangedEvent } from './executeWhenOptionChangedEvent';
 export { FetchMenuDataEvent } from './fetchMenuDataEvent';
 export { FilterMatchesEvent } from './filterMatchesEvent';
+export { FormulaChangedEvent } from './formulaChangedEvent';
 export { InputsOnNextNavToAssocScrnChangeEvent } from './inputsOnNextNavToAssocScrnChangeEvent';
 export { ItemSelectedEvent } from './itemSelectedEvent';
 export { LegalNoticeDismissedEvent } from './legalNoticeDismissedEvent';

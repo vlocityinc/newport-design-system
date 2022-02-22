@@ -92,7 +92,7 @@ async function verifyInsertion(
     const textarea = element.shadowRoot.querySelector(selectors.textarea);
     textarea.setSelectionRange(selectionStart, selectionEnd);
     const changeEventCallback = jest.fn();
-    element.addEventListener('change', changeEventCallback);
+    element.addEventListener('formulachanged', changeEventCallback);
     const fromCmp = element.shadowRoot.querySelector(cmpName);
     fromCmp.dispatchEvent(itemSelectedEvent);
     await ticks(1);
@@ -525,13 +525,13 @@ describe('Formula builder', () => {
                 ignoreGlobalVariables: true
             });
         });
-        it('Should fire change event on blur text area with validation errors', async () => {
+        it('Should fire formulachanged event on blur text area with validation errors', async () => {
             const formulaBuilder = createComponentUnderTest({
                 flowProcessType,
                 required: true,
                 value: { value: '{!unknownMergeField}', error: null }
             });
-            formulaBuilder.addEventListener('change', eventCallback);
+            formulaBuilder.addEventListener('formulachanged', eventCallback);
             const textArea = getTextArea(formulaBuilder);
             textArea.dispatchEvent(blurEvent);
             await ticks(1);
@@ -539,13 +539,13 @@ describe('Formula builder', () => {
             const errorMsg = getErrorMessage(formulaBuilder);
             expect(errorMsg.textContent).toEqual(validationError.message);
         });
-        it('Should fire change event on click syntax validation button with validation errors', async () => {
+        it('Should fire formulachanged event on click syntax validation button with validation errors', async () => {
             const formulaBuilder = createComponentUnderTest({
                 flowProcessType,
                 required: true,
                 value: { value: '{!unknownMergeField}', error: null }
             });
-            formulaBuilder.addEventListener('change', eventCallback);
+            formulaBuilder.addEventListener('formulachanged', eventCallback);
             const syntaxBtn = getSyntaxValidation(formulaBuilder);
             syntaxBtn.dispatchEvent(new CustomEvent('checksyntax'));
             await ticks(1);
@@ -553,14 +553,14 @@ describe('Formula builder', () => {
             expect(syntaxBtn.validationResult.isValidSyntax).toBeFalsy();
             expect(getErrorMessage(formulaBuilder).textContent).toEqual(validationError.message);
         });
-        it('Should fire change event on click syntax validation button without errors', async () => {
+        it('Should fire formulachanged event on click syntax validation button without errors', async () => {
             const formulaBuilder = createComponentUnderTest({
                 flowProcessType,
                 required: true,
                 value: { value: 'valid formula', error: null }
             });
             validateTextWithMergeFields.mockReturnValue([]);
-            formulaBuilder.addEventListener('change', eventCallback);
+            formulaBuilder.addEventListener('formulachanged', eventCallback);
             const syntaxBtn = getSyntaxValidation(formulaBuilder);
             syntaxBtn.dispatchEvent(new CustomEvent('checksyntax'));
             await ticks(1);

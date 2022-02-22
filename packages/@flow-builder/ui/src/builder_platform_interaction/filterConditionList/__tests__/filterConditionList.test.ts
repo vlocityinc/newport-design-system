@@ -477,7 +477,7 @@ describe('filter-condition-list', () => {
                 formulaCondition.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
                 const formulaBuilder = getFormulaBuilder(formulaCondition);
                 formulaBuilder.dispatchEvent(
-                    new CustomEvent('change', {
+                    new CustomEvent('formulachanged', {
                         detail: { value: '1 > 0' }
                     })
                 );

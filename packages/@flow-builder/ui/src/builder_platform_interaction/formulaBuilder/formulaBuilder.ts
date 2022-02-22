@@ -1,5 +1,6 @@
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { FormulaChangedEvent } from 'builder_platform_interaction/events';
 import { ElementFilterConfig } from 'builder_platform_interaction/expressionUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
@@ -250,7 +251,7 @@ export default class FormulaBuilder extends LightningElement {
         const errors = validateTextWithMergeFields(this._value, options);
         const error = errors.length > 0 ? errors[0].message : null;
         this.setCustomValidity(error);
-        this.fireEvent(this, 'change', { value: this._value, error });
+        this.dispatchEvent(new FormulaChangedEvent(this._value, error));
         return error;
     }
 
@@ -308,7 +309,7 @@ export default class FormulaBuilder extends LightningElement {
         const post = val.substring(end, val.length);
         textarea.value = pre + value + post;
         textarea.setSelectionRange(start + value.length, start + value.length);
-        this.fireEvent(this, 'change', { value: textarea.value, error: null });
+        this.dispatchEvent(new FormulaChangedEvent(textarea.value, null));
         // reset the cmp to the initial state
         Promise.resolve().then(() => {
             const selectedCmp = this.template.querySelector(selector);
@@ -319,15 +320,5 @@ export default class FormulaBuilder extends LightningElement {
                 selectedCmp.value = null;
             }
         });
-    }
-
-    fireEvent(cmp, eventName, detail) {
-        const event = new CustomEvent(eventName, {
-            detail,
-            cancelable: true,
-            composed: true,
-            bubbles: true
-        });
-        cmp.dispatchEvent(event);
     }
 }
