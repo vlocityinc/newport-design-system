@@ -732,6 +732,42 @@
       "subtype":null,
       "supportedByAutomaticField":true
     },
+    "RecommendationKey":{
+      "activePicklistValues":[
+
+      ],
+      "apiName":"RecommendationKey",
+      "compoundFieldName":null,
+      "creatable":true,
+      "dataType":"String",
+      "editable":true,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING",
+      "filterable":true,
+      "inlineHelpText":null,
+      "isAvailableForFormulas":true,
+      "isAvailableForMerge":true,
+      "isCalculated":false,
+      "isCollection":false,
+      "isCompound":false,
+      "isCustom":false,
+      "isPolymorphic":false,
+      "isSpanningAllowed":false,
+      "isWorkflowFilterable":true,
+      "label":"RecommendationResponse Identifier",
+      "length":255,
+      "precision":0,
+      "referenceToNames":[
+
+      ],
+      "relationshipName":null,
+      "required":false,
+      "scale":0,
+      "sobjectName":"Recommendation",
+      "sortable":true,
+      "subtype":null,
+      "supportedByAutomaticField":true
+    },
     "RejectionLabel":{
       "activePicklistValues":[
 

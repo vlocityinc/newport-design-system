@@ -9,6 +9,7 @@ import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressio
 import * as store from 'mock/storeData';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { contractFields } from 'serverData/GetFieldsForEntity/contractFields.json';
+import { recommendationFields } from 'serverData/GetFieldsForEntity/recommendationFields.json';
 import { mapReducer } from '../mapReducer';
 import { getExpectedMapItems } from './mapEditorTestUtils';
 
@@ -138,6 +139,41 @@ describe('map-reducer', () => {
             const event = updateMapItemEvent(EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE, 'Test', 'Invalid value');
             const newState = mapReducer(originalState, event);
             expect(newState.mapItems[0].rightHandSide.error).toEqual('Invalid value');
+        });
+        it('should prepolulate RecommendationKey items', () => {
+            const event = {
+                type: PrepopulateMapItemsEvent.EVENT_NAME,
+                detail: {
+                    outputObjectType: 'Recommendation',
+                    outputFields: recommendationFields,
+                    inputObjectType: 'Contract',
+                    inputFields: contractFields,
+                    currentItemGuid: 'currentItem_guid'
+                }
+            };
+            const newState = mapReducer(originalState, event);
+            expect(newState.mapItems).toEqual(
+                expect.arrayContaining([
+                    expect.objectContaining({
+                        leftHandSide: {
+                            value: 'Recommendation.RecommendationKey',
+                            error: null
+                        },
+                        operator: {
+                            value: 'Assign',
+                            error: null
+                        },
+                        rightHandSide: {
+                            value: 'currentItem_guid.Id',
+                            error: null
+                        },
+                        rightHandSideDataType: {
+                            value: 'reference',
+                            error: null
+                        }
+                    })
+                ])
+            );
         });
     });
 });

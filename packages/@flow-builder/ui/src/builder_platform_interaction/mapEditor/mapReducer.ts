@@ -9,6 +9,7 @@ import {
     UpdateRecordFieldAssignmentEvent
 } from 'builder_platform_interaction/events';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
+import { DEFAULT_OUTPUT_TYPE, RECOMMENDATION_ASSIGNMENT } from 'builder_platform_interaction/mapEditorLib';
 import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
@@ -105,6 +106,16 @@ const prepopulateMapItems = (state, event) => {
                 if (!prepopulate) {
                     _mapItems.push(newMapItem(outputObjectType + '.' + key, RULE_OPERATOR.ASSIGN, '', ''));
                 }
+            }
+            if (key === RECOMMENDATION_ASSIGNMENT.RECOMMENDATION_KEY && outputObjectType === DEFAULT_OUTPUT_TYPE) {
+                _mapItems.push(
+                    newMapItem(
+                        outputObjectType + '.' + RECOMMENDATION_ASSIGNMENT.RECOMMENDATION_KEY,
+                        RULE_OPERATOR.ASSIGN,
+                        currentItemGuid ? currentItemGuid + '.' + RECOMMENDATION_ASSIGNMENT.ID : '',
+                        'reference'
+                    )
+                );
             }
         });
     } else {

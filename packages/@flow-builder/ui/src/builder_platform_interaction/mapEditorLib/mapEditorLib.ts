@@ -10,3 +10,11 @@ export interface MapElement {
 }
 
 export const DEFAULT_OUTPUT_TYPE = 'Recommendation';
+
+/**
+ * used in MapReducer.ts to autoset RecommednationKey to the input sObjectID
+ */
+export const RECOMMENDATION_ASSIGNMENT = {
+    RECOMMENDATION_KEY: 'RecommendationKey',
+    ID: 'Id'
+};

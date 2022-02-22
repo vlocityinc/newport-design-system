@@ -16,6 +16,7 @@ import {
     FLOW_PROCESS_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import MapEditor from 'builder_platform_interaction/mapEditor';
+import { RECOMMENDATION_ASSIGNMENT } from 'builder_platform_interaction/mapEditorLib';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { createElement } from 'lwc';
@@ -343,7 +344,9 @@ describe('Map Editor', () => {
                 // map items should contain the prepopulated required fields
                 const mapItems = getMapItems(mapEditor);
                 const recommendationRequiredFields = Object.keys(recommendationFields).filter(
-                    (field) => recommendationFields[field].creatable && recommendationFields[field].required
+                    (field) =>
+                        (recommendationFields[field].creatable && recommendationFields[field].required) ||
+                        field === RECOMMENDATION_ASSIGNMENT.RECOMMENDATION_KEY
                 );
                 expect(mapItems).toHaveLength(recommendationRequiredFields.length);
                 const currentItem = getElementByDevName('currentItem_Modify_recommendations');
@@ -355,6 +358,10 @@ describe('Map Editor', () => {
                     expect(item.expression.operator.value).toBe('Assign');
                     if (accountFields[fieldName]) {
                         expect(item.expression.rightHandSide.value).toBe(currentItem?.guid + '.' + fieldName);
+                    } else if (fieldName === RECOMMENDATION_ASSIGNMENT.RECOMMENDATION_KEY) {
+                        expect(item.expression.rightHandSide.value).toBe(
+                            currentItem?.guid + '.' + RECOMMENDATION_ASSIGNMENT.ID
+                        );
                     } else {
                         expect(item.expression.rightHandSide.value).toBe('');
                     }
