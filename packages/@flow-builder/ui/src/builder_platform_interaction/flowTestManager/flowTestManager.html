@@ -1,15 +1,33 @@
 <template>
-    <div class="slds-p-vertical_x-large">
-        <lightning-datatable
-            if:true={flowHasTests}
-            key-field="flowTestId"
-            data={flowTestData}
-            columns={columns}
-            onrowaction={handleRowAction}
-            onrowselection={handleRowSelection}
-            enable-infinite-loading
-        >
-        </lightning-datatable>
+    <div class="slds-p-vertical_small">
+        <div if:true={flowHasTests}>
+            <div class="slds-grid slds-grid_align-end">
+                <lightning-button-group class="slds-p-bottom_small slds-p-right_small slds-col">
+                    <lightning-button
+                        title={labels.createNewTest}
+                        label={labels.createNewTest}
+                        class="slds-button"
+                        onclick={handleCreateNewTest}
+                        data-id="create-button-w-table"
+                    >
+                    </lightning-button>
+                </lightning-button-group>
+            </div>
+            <div class="flow-test-table">
+                <lightning-datatable
+                    key-field="flowTestId"
+                    data={flowTestData}
+                    columns={columns}
+                    onrowaction={handleRowAction}
+                    onrowselection={handleRowSelection}
+                    onloadmore={loadMoreHandler}
+                    is-loading={isLoading}
+                    load-more-offset="5"
+                    enable-infinite-loading
+                >
+                </lightning-datatable>
+            </div>
+        </div>
         <template if:false={flowHasTests}>
             <builder_platform_interaction-illustration
                 illustration="lakeMountain"

@@ -74,3 +74,5 @@ export const setProcessTypeFeature = mockSystemLib.setProcessTypeFeature;
 
 export const getSystemVariables = mockSystemLib.getSystemVariables;
 export const setSystemVariables = mockSystemLib.setSystemVariables;
+
+export const addFlowTests = mockSystemLib.addFlowTests;

@@ -155,6 +155,7 @@ import {
 import { getSubflows } from 'builder_platform_interaction/subflowsLib';
 import {
     BUILDER_MODE,
+    FlowTestListState,
     getFlowTests,
     getProcessTypes,
     getRunInModes,
@@ -1614,6 +1615,15 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         }
     };
 
+    handleLoadMoreTests = async (offset) => {
+        await loadFlowTests(
+            this.properties.definitionId,
+            this.currentFlowId,
+            offset,
+            FlowTestListState.LOAD_CHUNK_SIZE
+        );
+    };
+
     /**
      * Handles the View All Tests event fired by toolbar.
      */
@@ -1621,14 +1631,16 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         if (getFlowTests().length === 0) {
             this.spinners.showFlowTestRetrieveSpinner = true;
             try {
-                // TODO: Add a limit to this initial load, since we'll have infinite scrolling on the list
-                await loadFlowTests(this.properties.definitionId, this.currentFlowId, 0, 20);
+                await this.handleLoadMoreTests(0);
             } finally {
                 this.spinners.showFlowTestRetrieveSpinner = false;
             }
         }
         this.queueFlowTestManager(() => {
-            return { createNewTest: this.handleCreateNewTest };
+            return {
+                createNewTest: this.handleCreateNewTest,
+                handleLoadMoreTests: this.handleLoadMoreTests
+            };
         });
     };
 

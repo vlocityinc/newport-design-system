@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { FlowTestMode } from 'builder_platform_interaction/builderUtils';
 import type { FlowTestAndResultDescriptor } from 'builder_platform_interaction/systemLib';
-import { getFlowTests } from 'builder_platform_interaction/systemLib';
+import { FlowTestResultStatusType, getFlowTestListState, getFlowTests } from 'builder_platform_interaction/systemLib';
 import { api, LightningElement } from 'lwc';
 import { LABELS } from './flowTestManagerLabels';
 
@@ -12,9 +12,9 @@ enum FlowTestListRowAction {
 }
 
 const ACTIONS = [
-    { label: LABELS.flowTestListDeleteAction, name: FlowTestListRowAction.DELETE },
+    { label: LABELS.flowTestListViewDetailAction, name: FlowTestListRowAction.DETAIL },
     { label: LABELS.flowTestListEditAction, name: FlowTestListRowAction.EDIT },
-    { label: LABELS.flowTestListViewDetailAction, name: FlowTestListRowAction.DETAIL }
+    { label: LABELS.flowTestListDeleteAction, name: FlowTestListRowAction.DELETE }
 ];
 
 const COLUMNS = [
@@ -45,17 +45,35 @@ const COLUMNS = [
             minute: '2-digit'
         }
     },
-    { label: LABELS.flowTestListRunStatusColumnHeader, fieldName: 'lastRunStatus', type: 'text' },
+    {
+        label: LABELS.flowTestListRunStatusColumnHeader,
+        type: 'text',
+        cellAttributes: {
+            iconName: { fieldName: 'lastRunStatusIcon' },
+            iconLabel: { fieldName: 'lastRunStatus' },
+            iconPosition: 'left',
+            iconAlternativeText: 'Test Result'
+        }
+    },
     { type: 'action', typeAttributes: { rowActions: ACTIONS } }
 ];
 
+const RESULT_STATUS_TO_ICON_MAP = {
+    [FlowTestResultStatusType.PASS]: 'utility:check',
+    [FlowTestResultStatusType.FAIL]: 'utility:close',
+    [FlowTestResultStatusType.ERROR]: 'utility:close'
+};
+
 export default class FlowTestManager extends LightningElement {
     @api createNewTestCallback;
+    // Facilitates infinite scrolling, calling this should query for another page of tests and add it to the flow test store
+    @api handleLoadMoreTests;
     @api hideModal;
     @api footer;
 
     labels = LABELS;
     columns = COLUMNS;
+    isLoading = false;
 
     privateFlowTestData: FlowTestAndResultDescriptor[] = [];
     selectedTests: FlowTestAndResultDescriptor[] = [];
@@ -103,9 +121,25 @@ export default class FlowTestManager extends LightningElement {
         this.footer.enableButtonOne(areAnySelected);
     }
 
+    async loadMoreHandler(event) {
+        if (this.isLoading || getFlowTestListState().hasHitEndOfList()) {
+            return;
+        }
+        this.isLoading = true;
+        try {
+            await this.handleLoadMoreTests(getFlowTestListState().getCurrentOffset());
+            this.copyDataFromTestStore();
+        } finally {
+            this.isLoading = false;
+        }
+    }
+
     @api copyDataFromTestStore() {
         this.privateFlowTestData = getFlowTests().map((datum) => {
-            return { ...datum };
+            return {
+                ...datum,
+                lastRunStatusIcon: RESULT_STATUS_TO_ICON_MAP[datum.lastRunStatus]
+            };
         });
     }
 
