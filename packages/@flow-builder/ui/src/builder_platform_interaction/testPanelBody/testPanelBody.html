@@ -1,14 +1,61 @@
 <template>
-    <template for:each={textObj} for:item="line">
-        <div key={line.id}>
-            <!-- Outcome subtitle -->
-            <p class="sub-title slds-text-color_weak slds-p-vertical_xx-small">{line.subtitle}</p>
-            <!-- Regular text -->
+    <!-- failure message saying assertion failed -->
+    <div class="test-fail" if:true={isFailure}>
+        <lightning-formatted-rich-text
+            class="normal"
+            value={testLabels.failureMessage}
+            disable-linkify="true"
+        ></lightning-formatted-rich-text>
+    </div>
+    <!-- condn subtitle -->
+    <p class="sub-title slds-text-color_weak slds-p-vertical_xx-small">{testLabels.conditionSubtitle}</p>
+    <!-- Regular text -->
+    <lightning-formatted-rich-text
+        class="normal"
+        value={condition}
+        disable-linkify="true"
+    ></lightning-formatted-rich-text>
+
+    <!-- failure message from customer -->
+    <div if:true={isFailure}>
+        <p class="sub-title slds-text-color_weak slds-p-vertical_xx-small">{testLabels.failureSubtitle}</p>
+        <!-- Regular text -->
+        <lightning-formatted-rich-text
+            class="normal"
+            value={failureMessage}
+            disable-linkify="true"
+        ></lightning-formatted-rich-text>
+    </div>
+
+    <!-- outcome condition -->
+    <div if:true={showOutcomeCondition}>
+        <p class="sub-title slds-text-color_weak slds-p-vertical_xx-small">{testLabels.outcomeConditionSubtitle}</p>
+        <!-- Regular text -->
+        <lightning-formatted-rich-text
+            class="normal"
+            value={outcomeCond}
+            disable-linkify="true"
+        ></lightning-formatted-rich-text>
+    </div>
+
+    <!-- error box -->
+    <div if:true={isError} class="slds-box">
+        <div>
+            <div class="custom-builder-baseCallOutEditor__mode-info slds-grid">
+                <lightning-icon
+                    class="error"
+                    icon-name="utility:error"
+                    alternative-text="Info"
+                    variant="error"
+                    size="xx-small"
+                ></lightning-icon>
+                <p class="slds-text-color_weak withIcon sub-title">{testLabels.errorTitle}</p>
+            </div>
             <lightning-formatted-rich-text
-                class="normal"
-                value={line.value}
+                class="box"
+                value={errorMessage}
                 disable-linkify="true"
             ></lightning-formatted-rich-text>
         </div>
-    </template>
+    </div>
 </template>

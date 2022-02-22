@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { copyAndUpdateDebugTraceObject } from 'builder_platform_interaction/debugUtils';
+import { copyAndUpdateDebugTraceObject, updateFlowTestObject } from 'builder_platform_interaction/debugUtils';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { BUILDER_MODE } from 'builder_platform_interaction/systemLib';
 import { api, LightningElement } from 'lwc';
@@ -74,7 +74,7 @@ export default class DebugPanel extends LightningElement {
             this.builderMode === BUILDER_MODE.TEST_MODE &&
             !this.fromEmailDebugging &&
             !!this.testAssertionTrace &&
-            Object.keys(this.testAssertionTrace).length > 0
+            !!this.testAssertionTrace.length > 0
         );
     }
 
@@ -208,7 +208,7 @@ export default class DebugPanel extends LightningElement {
             const traces = copyAndUpdateDebugTraceObject(data);
             this.debugTracesFull = traces.debugTraces;
             this.debugTraceCopy = traces.copyTraces;
-            this.testAssertionTrace = data.testAssertionTrace;
+            this.testAssertionTrace = updateFlowTestObject(data.testAssertionTrace);
         } else if (this.hasErrors) {
             this.debugTracesFull = this.debugTraceCopy;
             this.errorMessage = data.error;
@@ -221,6 +221,14 @@ export default class DebugPanel extends LightningElement {
             this.debugTraces = this.debugTracesFull;
         }
         this.debugTraces = this.debugTracesFull.filter((e) => !this.blockedEntries.includes(e.entryType));
+        this.debugTraces = this.updateTitleForTraceData(this.debugTraces);
+    }
+
+    updateTitleForTraceData(data) {
+        return data.map((trace) => ({
+            ...trace,
+            title: this.showApiNames ? trace.titleWithApiName : trace.titleWithLabel
+        }));
     }
 
     renderedCallback() {

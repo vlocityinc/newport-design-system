@@ -43,11 +43,24 @@ export const completedTestInterview = {
             elementIconType: 'RecordRollback'
         }
     ],
-    testAssertionTrace: {
-        devNameOneAsc: {
-            lines: ['Outcome 1', 'Condition: {Var 1} equals 2. Expected = 4. Result: Failed']
+    testAssertionTrace: [
+        {
+            failureMessage: 'custom fail message that customer input',
+            errorMessage: '',
+            condition: '{Var 1} equals 2',
+            status: 'FAIL',
+            outcomeCond:
+                '{Var 1}(4) does not equal 2.\n Logic: All conditions must be true(AND)\n Default outcome executed'
+        },
+        {
+            failureMessage: 'custom fail message that customer input',
+            errorMessage: 'some handled error message',
+            condition: '{Var 2} equals 5',
+            status: 'ERROR',
+            outcomeCond:
+                '{Var 2}(4) does not equal 5.\n Logic: All conditions must be true(AND)\n Default outcome executed'
         }
-    },
+    ],
     startInterviewTime: new Date('June 17, 2020 03:24:00'),
     endInterviewTime: new Date('June 17, 2020 03:25:00')
 };

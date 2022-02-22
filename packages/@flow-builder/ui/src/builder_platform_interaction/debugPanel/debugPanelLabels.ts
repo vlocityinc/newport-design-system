@@ -7,7 +7,11 @@ import expandAllTitle from '@salesforce/label/FlowBuilderDebugPanel.expandAllTit
 import filterClosePopoverAltText from '@salesforce/label/FlowBuilderDebugPanel.filterClosePopoverAltText';
 import filterPopoverAltText from '@salesforce/label/FlowBuilderDebugPanel.filterPopoverAltText';
 import filterTitleText from '@salesforce/label/FlowBuilderDebugPanel.filterTitleText';
+import testInspector from '@salesforce/label/FlowBuilderDebugPanel.flowTestInspector';
+import flowTestLogLabel from '@salesforce/label/FlowBuilderDebugPanel.flowTestLogLabel';
+import flowTestLogTabLabel from '@salesforce/label/FlowBuilderDebugPanel.flowTestLogTabLabel';
 import flowTestOutcomesLabel from '@salesforce/label/FlowBuilderDebugPanel.flowTestOutcomesLabel';
+import flowTestOutcomeTabLabel from '@salesforce/label/FlowBuilderDebugPanel.flowTestOutcomeTabLabel';
 import govLimFilter from '@salesforce/label/FlowBuilderDebugPanel.governorLimitsFilterOption';
 import numFiltersText from '@salesforce/label/FlowBuilderDebugPanel.numFiltersText';
 import resumeLabel from '@salesforce/label/FlowBuilderDebugPanel.resumeLabel';
@@ -18,6 +22,9 @@ import waitEventSelectionHeader from '@salesforce/label/FlowBuilderDebugPanel.wa
 
 export const LABELS = {
     debugInspector,
+    testInspector,
+    flowTestOutcomeTabLabel,
+    flowTestLogLabel,
     govLimFilter,
     transactionFilter,
     basicFilter,
@@ -33,5 +40,6 @@ export const LABELS = {
     collapseAllTitle,
     waitEventSelectionHeader,
     resumeLabel,
-    flowTestOutcomesLabel
+    flowTestOutcomesLabel,
+    flowTestLogTabLabel
 };

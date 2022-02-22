@@ -12,6 +12,7 @@ import {
     fakeResumedInterview,
     fakeResumedInterviewWithError
 } from 'mock/debugResponse/mock-fake-paused-interview';
+import { TEST_BODY_LABELS } from '../../testPanelBody/testPanelBodyLabels';
 import DebugPanel from '../debugPanel';
 import { LABELS } from '../debugPanelLabels';
 
@@ -52,7 +53,8 @@ const selectors = {
     filterDescription: 'lightning-formatted-text.selected-options',
     popover: 'section.slds-popover',
     closePopover: 'lightning-button-icon.slds-popover__close',
-    header: 'div.slds-panel__header'
+    header: 'div.slds-panel__header',
+    tabset: 'lightning-tabset'
 };
 
 describe('Debug Panel', () => {
@@ -565,5 +567,77 @@ describe('test debug panel filter options', () => {
         expect(checkboxGroup.options).toHaveLength(2);
         expect(checkboxGroup.options[0].value).toEqual(LABELS.showApiNamesFilter);
         expect(checkboxGroup.options[1].value).toEqual(LABELS.govLimFilter);
+    });
+});
+describe('test debug test panel', () => {
+    let debugTestPanel;
+    it('should have tabsets present when in test mode and the testAssertionTrace is present', () => {
+        debugTestPanel = createComponentUnderTest(
+            completedTestInterview,
+            undefined,
+            false,
+            BUILDER_MODE.TEST_MODE,
+            false
+        );
+        const tabset = debugTestPanel.shadowRoot.querySelector(selectors.tabset);
+        expect(tabset).not.toBeNull();
+    });
+    it('should have no filter present in the test panel', () => {
+        debugTestPanel = createComponentUnderTest(
+            completedTestInterview,
+            undefined,
+            false,
+            BUILDER_MODE.TEST_MODE,
+            false
+        );
+        const filterButton = debugTestPanel.shadowRoot.querySelector(selectors.filterButton);
+        expect(filterButton).toBeNull();
+    });
+    it('should have header with test inspector label', () => {
+        debugTestPanel = createComponentUnderTest(
+            completedTestInterview,
+            undefined,
+            false,
+            BUILDER_MODE.TEST_MODE,
+            false
+        );
+        const header = debugTestPanel.shadowRoot.querySelector('h2');
+        expect(header).not.toBeNull();
+        // eslint-disable-next-line
+        expect(header.innerHTML).toBe(LABELS.testInspector);
+    });
+    it('should have correct tabs in test panel', () => {
+        debugTestPanel = createComponentUnderTest(
+            completedTestInterview,
+            undefined,
+            false,
+            BUILDER_MODE.TEST_MODE,
+            false
+        );
+        const tabs = debugTestPanel.shadowRoot.querySelectorAll('lightning-tab');
+        expect(tabs[0].label).toBe(LABELS.flowTestOutcomeTabLabel);
+        expect(tabs[1].label).toBe(LABELS.flowTestLogTabLabel);
+    });
+
+    it('should not have tabsets present if in test mode but no testAssertionTrace is present', () => {
+        debugTestPanel = createComponentUnderTest(completedInterview, undefined, false, BUILDER_MODE.TEST_MODE, false);
+        const tabset = debugTestPanel.shadowRoot.querySelector(selectors.tabset);
+        expect(tabset).toBeNull();
+    });
+    it('displays two test outcome logs for a flow test with two assertions', () => {
+        debugTestPanel = createComponentUnderTest(
+            completedTestInterview,
+            undefined,
+            false,
+            BUILDER_MODE.TEST_MODE,
+            false
+        );
+        const testPanelBody = debugTestPanel.shadowRoot.querySelectorAll(selectors.testPanelBodyComponent);
+        const vals = testPanelBody[0].shadowRoot.querySelectorAll('lightning-formatted-rich-text');
+        expect(vals[0].value).toEqual(TEST_BODY_LABELS.failureMessage);
+        expect(vals[1].value).toEqual('{Var 1} equals 2');
+        expect(vals[2].value).toEqual('custom fail message that customer input');
+        // 2 test assertions in test outcome and 2 in test log
+        expect(testPanelBody.length).toEqual(2 * 2);
     });
 });

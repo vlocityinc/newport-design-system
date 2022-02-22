@@ -1,6 +1,7 @@
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import { createElement } from 'lwc';
 import TestPanelBody from '../testPanelBody';
+import { TEST_BODY_LABELS } from '../testPanelBodyLabels';
 
 const createComponentUnderTest = (props = {}) => {
     const element = createElement('builder_platform_interaction-test-panel-body', { is: TestPanelBody });
@@ -14,27 +15,18 @@ const SELECTORS = {
     SUBTITLE: '.sub-title'
 };
 
-const subTitleOne = 'Outcome 1';
-const subTitleTwo = 'Outcome 2';
-const testLogOne = 'Condition {Var 1} equals 2. Expected = 4. Result: Failed';
-const testLogTwo = 'Condition {Var 2} equals 4. Expected = 4. Result: Passed';
-const assertionEntryOne = { lines: [subTitleOne, testLogOne] };
-const assertionEntryTwo = { lines: [subTitleTwo, testLogTwo] };
-const traceWithTwoOutcomes = {
-    devNameOneAsc: assertionEntryOne,
-    devNameOneDesc: assertionEntryTwo
-};
+const statusVal = 'PASS';
+const testData = { status: statusVal };
 
 describe('test-panel-body', () => {
     let testPanelBody;
-    it('displays test outcome logs for a flow test with two assertions', () => {
-        testPanelBody = createComponentUnderTest({ testAssertionTrace: traceWithTwoOutcomes });
+    // more than one assertion test is done in the debug panel since we only pass one assertion the the test body
+    it('displays test outcome logs for a flow test with one assertion that passes', () => {
+        testPanelBody = createComponentUnderTest({ testAssertionTrace: testData });
         const subtitles = testPanelBody.shadowRoot.querySelectorAll(SELECTORS.SUBTITLE);
-        expect(subtitles[0].textContent).toEqual(subTitleOne);
-        expect(subtitles[1].textContent).toEqual(subTitleTwo);
-
-        const testLogs = testPanelBody.shadowRoot.querySelectorAll(SELECTORS.NORMALTEXT);
-        expect(testLogs[0].value).toEqual(testLogOne);
-        expect(testLogs[1].value).toEqual(testLogTwo);
+        // eslint-disable-next-line
+        expect(subtitles[0].innerHTML).toEqual(TEST_BODY_LABELS.conditionSubtitle);
+        // eslint-disable-next-line
+        expect(subtitles[1].innerHTML).toEqual(TEST_BODY_LABELS.outcomeConditionSubtitle);
     });
 });

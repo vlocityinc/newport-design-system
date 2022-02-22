@@ -1251,7 +1251,6 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         );
         this.debugData = { ...response, startInterviewTime, endInterviewTime, enableRollbackMode };
     };
-
     /**
      * Callback after run debug interivew initiated by the debug modal
      *

@@ -117,6 +117,20 @@ export function copyAndUpdateDebugTraceObject(debugData) {
 }
 
 /**
+ * @param testData
+ */
+export function updateFlowTestObject(testData) {
+    if (testData && testData.length > 0) {
+        return testData.map((value, i) => ({
+            ...value,
+            id: generateGuid(),
+            assertionLabel: `Assertion ${i + 1}`
+        }));
+    }
+    return [];
+}
+
+/**
  * @param utcTime
  * @returns dateString in the utc format
  */

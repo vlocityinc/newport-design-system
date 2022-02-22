@@ -1,9 +1,14 @@
 <template>
     <div class="slds-panel__header" tabindex="-1">
-        <h2 class="slds-panel__header-title slds-text-heading_small slds-truncate">{labels.debugInspector}</h2>
+        <h2 if:false={showTestAssertions} class="slds-panel__header-title slds-text-heading_small slds-truncate">
+            {labels.debugInspector}
+        </h2>
+        <h2 if:true={showTestAssertions} class="slds-panel__header-title slds-text-heading_small slds-truncate">
+            {labels.testInspector}
+        </h2>
     </div>
     <!-- filter gear icon and selected filters text-->
-    <div class="slds-grid slds-border_bottom">
+    <div class="slds-grid slds-border_bottom" if:false={showTestAssertions}>
         <div class="slds-m-left_small slds-m-vertical_x-small">
             <lightning-button
                 variant="Neutral"
@@ -55,71 +60,99 @@
     </div>
 
     <div class="slds-panel__body slds-scrollable--y">
-        <!-- if there's an error, there will be no debugData.debugTraces-->
+        <!--TODO move into seprate testPanel component-->
+        <lightning-tabset if:true={showTestAssertions}>
+            <lightning-tab label={labels.flowTestOutcomeTabLabel}>
+                <lightning-accordion
+                    allow-multiple-sections-open
+                    class="slds-has-divider--bottom slds-p-around_none slds-m-around_none"
+                >
+                    <template for:each={testAssertionTrace} for:item="trace">
+                        <lightning-accordion-section
+                            key={trace.id}
+                            label={trace.assertionLabel}
+                            name={trace.assertionLabel}
+                        >
+                            <builder_platform_interaction-test-panel-body
+                                test-assertion-trace={trace}
+                            ></builder_platform_interaction-test-panel-body>
+                        </lightning-accordion-section>
+                    </template>
+                </lightning-accordion>
+            </lightning-tab>
+            <lightning-tab label={labels.flowTestLogTabLabel}>
+                <!-- if there's an error, there will be no debugData.debugTraces-->
+                <lightning-accordion
+                    allow-multiple-sections-open
+                    class="slds-has-divider--bottom slds-p-around_none slds-m-around_none"
+                    active-section-name={activeSections}
+                    onsectiontoggle={handleSectionToggle}
+                >
+                    <template for:each={debugTraces} for:item="trace">
+                        <builder_platform_interaction-accordion-section-with-icon
+                            data-name={trace.title}
+                            key={trace.id}
+                            label={trace.title}
+                            name={trace.title}
+                            element-icon={trace.elementIcon}
+                        >
+                            <builder_platform_interaction-debug-panel-body
+                                lines={trace.lines}
+                                error={trace.error}
+                                title={trace.title}
+                            ></builder_platform_interaction-debug-panel-body>
+                        </builder_platform_interaction-accordion-section-with-icon>
+                    </template>
+                    <template if:true={showTestAssertions}>
+                        <template for:each={testAssertionTrace} for:item="trace">
+                            <lightning-accordion-section
+                                key={trace.id}
+                                label={trace.assertionLabel}
+                                name={trace.assertionLabel}
+                            >
+                                <builder_platform_interaction-test-panel-body
+                                    test-assertion-trace={trace}
+                                ></builder_platform_interaction-test-panel-body>
+                            </lightning-accordion-section>
+                        </template>
+                    </template>
+                </lightning-accordion>
+            </lightning-tab>
+        </lightning-tabset>
+
+        <!--------------------------debug panel values --------------->
+        <!--TODO duplication of code, move into seprate debugPanelAccordions component-->
+        <!--debug panel values -->
         <lightning-accordion
+            if:false={showTestAssertions}
             allow-multiple-sections-open
             class="slds-has-divider--bottom slds-p-around_none slds-m-around_none"
             active-section-name={activeSections}
             onsectiontoggle={handleSectionToggle}
         >
             <template for:each={debugTraces} for:item="trace">
-                <template key={trace.id} if:true={showApiNames}>
-                    <builder_platform_interaction-accordion-section-with-icon
-                        data-name={trace.titleWithApiName}
-                        key={trace.id}
-                        label={trace.titleWithApiName}
-                        name={trace.titleWithApiName}
-                        element-icon={trace.elementIcon}
-                    >
-                        <builder_platform_interaction-debug-panel-body
-                            lines={trace.lines}
-                            error={trace.error}
-                            title={trace.titleWithApiName}
-                            waitevents={trace.waitevents}
-                            resumetime={trace.resumetime}
-                            limits={trace.limits}
-                            ifblockresume={ifBlockResume}
-                            show-gov-lim={showGovLim}
-                        ></builder_platform_interaction-debug-panel-body>
-                    </builder_platform_interaction-accordion-section-with-icon>
-                </template>
-
-                <template key={trace.id} if:false={showApiNames}>
-                    <builder_platform_interaction-accordion-section-with-icon
-                        data-name={trace.titleWithLabel}
-                        key={trace.id}
-                        label={trace.titleWithLabel}
-                        name={trace.titleWithLabel}
-                        element-icon={trace.elementIcon}
-                    >
-                        <builder_platform_interaction-debug-panel-body
-                            lines={trace.lines}
-                            error={trace.error}
-                            title={trace.titleWithLabel}
-                            waitevents={trace.waitevents}
-                            resumetime={trace.resumetime}
-                            limits={trace.limits}
-                            ifblockresume={ifBlockResume}
-                            show-gov-lim={showGovLim}
-                        ></builder_platform_interaction-debug-panel-body>
-                    </builder_platform_interaction-accordion-section-with-icon>
-                </template>
-            </template>
-            <template if:true={showTestAssertions}>
-                <lightning-accordion-section label={labels.flowTestOutcomesLabel} name={labels.flowTestOutcomesLabel}>
-                    <builder_platform_interaction-test-panel-body
-                        test-assertion-trace={testAssertionTrace}
-                    ></builder_platform_interaction-test-panel-body>
-                </lightning-accordion-section>
+                <builder_platform_interaction-accordion-section-with-icon
+                    data-name={trace.title}
+                    key={trace.id}
+                    label={trace.title}
+                    name={trace.title}
+                    element-icon={trace.elementIcon}
+                >
+                    <builder_platform_interaction-debug-panel-body
+                        lines={trace.lines}
+                        error={trace.error}
+                        title={trace.title}
+                        waitevents={trace.waitevents}
+                        resumetime={trace.resumetime}
+                        limits={trace.limits}
+                        ifblockresume={ifBlockResume}
+                        show-gov-lim={showGovLim}
+                    ></builder_platform_interaction-debug-panel-body>
+                </builder_platform_interaction-accordion-section-with-icon>
             </template>
         </lightning-accordion>
-
         <div if:true={hasErrors} class="error">
-            <lightning-formatted-rich-text
-                value={errorMessage}
-                disable-linkify="true"
-                class="errorMsg"
-            ></lightning-formatted-rich-text>
+            <lightning-formatted-rich-text value={errorMessage} class="errorMsg"></lightning-formatted-rich-text>
         </div>
     </div>
 </template>
