@@ -202,15 +202,32 @@ export const sortProcessTypes = (processTypes) => {
 
 // TODO: W-9299993 Remove reliance on hardcoded processType and triggerType for launching merged recordChangeTriggerEditor
 /**
- * Scheduled Paths are supported exclusively for Auto Launched Flows. Returns true iff process type is auto launched.
+ * Scheduled Paths are supported exclusively for Record-Triggered Flows, including record-triggered AutolaunchedFlow and record-triggered Orchestrator
  *
  * @param triggerType
- * @param boolean indicating if the flow is record triggered type
+ * @returns {boolean} indicating if the flow is record triggered type
  */
-export const isRecordTriggeredFlow = (triggerType) => {
+export const isRecordTriggeredFlow = (triggerType): boolean => {
     return (
         (getProcessType() === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW ||
             getProcessType() === FLOW_PROCESS_TYPE.ORCHESTRATOR) &&
         isRecordChangeTriggerType(triggerType)
     );
+};
+
+/**
+ * Helper function to determine if current flow is a record-triggered flow only
+ *
+ * @param triggerType
+ * @param processType optional
+ * @returns {boolean} indicating if the flow is record triggered flow
+ */
+export const isNonOrchestratorRecordTriggeredFlow = (
+    triggerType: string | undefined,
+    processType?: string | undefined | null
+): boolean => {
+    if (!processType) {
+        processType = getProcessType();
+    }
+    return processType === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW && isRecordChangeTriggerType(triggerType);
 };

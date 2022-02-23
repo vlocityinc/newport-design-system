@@ -8,7 +8,12 @@
         }
         serverDataLib.fetch(serverActionType, this.getContextCallback, {
             builderType: cmp.get('v.builderType'),
-            flowId: cmp.get('v.flowId')
+            flowId: cmp.get('v.flowId'),
+            processType: cmp.get('v.processType'),
+            triggerType: cmp.get('v.triggerType'),
+            recordTriggerType: cmp.get('v.recordTriggerType'),
+            startObject: cmp.get('v.startObject'),
+            hasAsyncPath: cmp.get('v.hasAsyncPath')
         });
 
         var imageLib = cmp.find('imageLib');

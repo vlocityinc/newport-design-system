@@ -1,10 +1,18 @@
-import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getProcessType } from 'builder_platform_interaction/storeUtils';
 import { processTypes } from 'serverData/GetProcessTypes/processTypes.json';
 import {
     getProcessTypesWithIcons,
     getProcessTypeTransactionControlledActionsSupport,
-    isAutoLayoutCanvasOnly
+    isAutoLayoutCanvasOnly,
+    isNonOrchestratorRecordTriggeredFlow
 } from '../processTypeUtils';
+
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    return {
+        getProcessType: jest.fn()
+    };
+});
 
 describe('processTypesUtils', () => {
     test('No filtering: all process types returned', () => {
@@ -69,5 +77,40 @@ describe('isAutoLayoutCanvasOnly', () => {
     test('returns false for other process types', () => {
         const isSupported = isAutoLayoutCanvasOnly(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
         expect(isSupported).toBe(false);
+    });
+});
+
+describe('isRecordTriggeredFlowOnly function', () => {
+    it('return true if processType is AutoLaunchedFlow and triggerType is AfterSave', () => {
+        expect(
+            isNonOrchestratorRecordTriggeredFlow(FLOW_TRIGGER_TYPE.AFTER_SAVE, FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW)
+        ).toBeTruthy();
+    });
+
+    it('return false if processType is AutoLaunchedFlow and triggerType is None', () => {
+        expect(
+            isNonOrchestratorRecordTriggeredFlow(FLOW_TRIGGER_TYPE.NONE, FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW)
+        ).toBeFalsy();
+    });
+
+    it('return false if processType is not AutoLaunchedFlow', () => {
+        expect(
+            isNonOrchestratorRecordTriggeredFlow(FLOW_TRIGGER_TYPE.AFTER_SAVE, FLOW_PROCESS_TYPE.ORCHESTRATOR)
+        ).toBeFalsy();
+    });
+
+    describe('if processType is not provided, call getProcessType', () => {
+        it('return true if return value of getProcessType is AutoLaunchedFlow', () => {
+            getProcessType.mockReturnValue(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
+            expect(isNonOrchestratorRecordTriggeredFlow(FLOW_TRIGGER_TYPE.AFTER_SAVE)).toBeTruthy();
+        });
+        it('return false if return value of getProcessType is not AutoLaunchedFlow', () => {
+            getProcessType.mockReturnValue(FLOW_PROCESS_TYPE.ORCHESTRATOR);
+            expect(isNonOrchestratorRecordTriggeredFlow(FLOW_TRIGGER_TYPE.AFTER_SAVE)).toBeFalsy();
+        });
+        it('return false if value of getProcessType is null', () => {
+            getProcessType.mockReturnValue(null);
+            expect(isNonOrchestratorRecordTriggeredFlow(FLOW_TRIGGER_TYPE.AFTER_SAVE)).toBeFalsy();
+        });
     });
 });

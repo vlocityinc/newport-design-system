@@ -39,7 +39,8 @@ const MOCK_GUID = 'mockGuid';
 const MOCK_NAMES = {
     name1: 'abc',
     name2: 'cdf',
-    name3: 'def'
+    name3: 'def',
+    name4: 'async'
 };
 
 const newStartElementGuid = 'newStart';
@@ -190,7 +191,7 @@ describe('Start element', () => {
 
             describe('and processType is not autolaunched', () => {
                 it('scheduled paths should not be supported', () => {
-                    storeLib.getProcessType = jest.fn().mockName('getProcessType').mockReturnValue('Orchestrator');
+                    getProcessType.mockReturnValue('Orchestrator');
                     expect(shouldSupportScheduledPaths(startElement)).toBeFalsy();
                 });
             });
@@ -232,6 +233,7 @@ describe('Start element', () => {
             availableConnections: [{ type: 'REGULAR' }]
         };
         it('with triggerType RecordAfterSave', () => {
+            getProcessType.mockReturnValue(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
             expect.assertions(1);
             startMetadata.triggerType = FLOW_TRIGGER_TYPE.AFTER_SAVE;
             const actualResult = createStartElement(startMetadata);
@@ -242,9 +244,10 @@ describe('Start element', () => {
         });
 
         it('with triggerType RecordBeforeSave', () => {
+            getProcessType.mockReturnValue(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
             expect.assertions(1);
             startMetadata.triggerType = FLOW_TRIGGER_TYPE.BEFORE_SAVE;
-            const actualResult = createStartElement(startMetadata);
+            const actualResult = createStartElement(startMetadata, FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
             expectedResult.triggerType = FLOW_TRIGGER_TYPE.BEFORE_SAVE;
             expectedResult.recordTriggerType = 'Create';
             expectedResult.filterLogic = 'no_conditions';
@@ -272,7 +275,7 @@ describe('Start element', () => {
         it('with triggerType RecordBeforeDelete', () => {
             expect.assertions(1);
             startMetadata.triggerType = FLOW_TRIGGER_TYPE.BEFORE_DELETE;
-            const actualResult = createStartElement(startMetadata);
+            const actualResult = createStartElement(startMetadata, FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
             expectedResult.triggerType = FLOW_TRIGGER_TYPE.BEFORE_DELETE;
             expectedResult.recordTriggerType = 'Delete';
             expectedResult.filterLogic = 'no_conditions';
@@ -319,26 +322,6 @@ describe('Start element', () => {
             expectedResult.frequency = undefined;
             expectedResult.filterLogic = 'and';
             expect(actualResult).toMatchObject(expectedResult);
-        });
-
-        it('label and name should be added to the runAsync scheduled path', () => {
-            expect.assertions(2);
-            startMetadata.scheduledPaths = [
-                {
-                    pathType: 'AsyncAfterCommit'
-                }
-            ];
-            try {
-                const actualResult = createStartElement(startMetadata);
-                expect(actualResult.scheduledPaths[0].label).toEqual(
-                    'FlowBuilderStartEditor.runAsyncScheduledPathLabel'
-                );
-                expect(actualResult.scheduledPaths[0].name).toEqual(
-                    generateInternalName(SCHEDULED_PATH_TYPE.RUN_ASYNC)
-                );
-            } finally {
-                delete startMetadata.scheduledPaths;
-            }
         });
 
         it('filterLogic is set to FORMULA when formulaFilter is not empty', () => {
@@ -720,6 +703,13 @@ describe('Start element', () => {
                         timeSource: SCHEDULED_PATH_TIME_SOURCE_TYPE.RECORD_FIELD,
                         offsetNumber: 20,
                         recordField: 'ABC'
+                    },
+                    {
+                        name: MOCK_NAMES.name4,
+                        guid: MOCK_NAMES.name4,
+                        maxBatchSize: 0,
+                        offsetNumber: 0,
+                        pathType: 'AsyncAfterCommit'
                     }
                 ]
             };
@@ -768,6 +758,7 @@ describe('Start element', () => {
         });
 
         describe('scheduled paths', () => {
+            getProcessType.mockReturnValue(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
             it('childReferences should be an empty array for non record triggered flow', () => {
                 expect.assertions(1);
                 startElementFromFlow.triggerType = 'Scheduled';
@@ -794,13 +785,13 @@ describe('Start element', () => {
             });
 
             it('start element includes child references for all scheduled paths present for Record Trigger Flows', () => {
-                expect.assertions(4);
+                expect.assertions(5);
                 startElementFromFlow.triggerType = 'RecordAfterSave';
                 startElementFromFlow.recordTriggerType = 'Create';
                 startElementFromFlow.object = 'Account';
                 const result = createStartElementWithConnectors(startElementFromFlow);
                 const startElement = result.elements[existingStartElementGuid];
-                expect(startElement.childReferences).toHaveLength(3);
+                expect(startElement.childReferences).toHaveLength(4);
                 expect(startElement.childReferences[0].childReference).toEqual(
                     startElementFromFlow.scheduledPaths[0].guid
                 );
@@ -809,6 +800,9 @@ describe('Start element', () => {
                 );
                 expect(startElement.childReferences[2].childReference).toEqual(
                     startElementFromFlow.scheduledPaths[2].guid
+                );
+                expect(startElement.childReferences[3].childReference).toEqual(
+                    startElementFromFlow.scheduledPaths[3].guid
                 );
             });
 
@@ -819,9 +813,20 @@ describe('Start element', () => {
                 startElementFromFlow.object = 'Account';
                 const result = createStartElementWithConnectors(startElementFromFlow);
                 const startElement = result.elements[existingStartElementGuid];
-                expect(startElement.availableConnections).toHaveLength(4);
-                expect(startElement.availableConnections[3].type).toEqual('IMMEDIATE');
+                expect(startElement.availableConnections).toHaveLength(5);
+                expect(startElement.availableConnections[4].type).toEqual('IMMEDIATE');
                 expect(startElement.defaultConnectorLabel).toBe(LABELS.immediateConnectorLabel);
+            });
+
+            it('start element with async path will be added name and label', () => {
+                expect.assertions(2);
+                startElementFromFlow.triggerType = 'RecordAfterSave';
+                startElementFromFlow.recordTriggerType = 'Create';
+                startElementFromFlow.object = 'Account';
+                const result = createStartElementWithConnectors(startElementFromFlow);
+                const asyncPathElement = result.elements[MOCK_NAMES.name4];
+                expect(asyncPathElement.label).toEqual('FlowBuilderStartEditor.runAsyncScheduledPathLabel');
+                expect(asyncPathElement.name).toEqual('_AsyncAfterCommit');
             });
 
             it('are included in element map for all scheduled paths present', () => {

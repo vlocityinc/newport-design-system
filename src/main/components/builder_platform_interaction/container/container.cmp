@@ -22,12 +22,7 @@
     <aura:attribute name="builderConfig" type="Object" description="Configuration for the current builder type" />
     <aura:attribute name="guardrailsParams" type="Map" default="{}" description="Params to execute guardrails" />
     <aura:attribute name="complianceBannerEnabled" type="Boolean" description="Is Compliance Banner org perm enabled" />
-    <!-- Attributes for new flow creation -->
-    <aura:attribute name="processType" type="String" description="processType for new flow" />
-    <aura:attribute name="triggerType" type="String" description="triggerType for new flow" />
-    <aura:attribute name="recordTriggerType" type="String" description="recordTriggerType for new record-triggered flow" />
-    <aura:attribute name="startObject" type="String" description="object name for new record-triggered flow start node" />
-    <aura:attribute name="hasAsyncPath" type="Boolean" description="if Run Asynchronously path exists for new flow" />
+    <aura:attribute name="urlAction" type="String" description="action from url param, actions supported: new-flow" />
 
     <!--Private Attributes-->
     <aura:attribute name="storeInstance" type="Object" description="This is instance of global store." />
@@ -99,11 +94,7 @@
             interviewGuid="{!v.interviewGuid}"
             builderType="{!v.builderType}"
             builderConfig="{!v.builderConfig}"
-            processType="{!v.processType}"
-            triggerType="{!v.triggerType}"
-            recordTriggerType="{!v.recordTriggerType}"
-            startObject="{!v.startObject}"
-            hasAsyncPath="{!v.hasAsyncPath}"
+            urlAction="{!v.urlAction}"
             guardrailsParams="{!v.guardrailsParams}"
             onguardrailresult="{!c.handleGuardrailResult}"/>
     </div>

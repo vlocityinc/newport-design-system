@@ -112,32 +112,24 @@ export function shouldSupportScheduledPaths(startElement: UI.Start, processType?
  * @param processType
  * @returns {Object} startElement the new start element object
  */
-export function createStartElement(startElement: UI.Start | Metadata.Start, processType?: string | null) {
+export function createStartElement(startElement: UI.Start | Metadata.Start, processType?: string | null | undefined) {
     const newStartElement: UI.Start = <UI.Start>baseCanvasElement(startElement);
     const {
         locationX = START_ELEMENT_LOCATION.x,
         locationY = START_ELEMENT_LOCATION.y,
         filters = [],
-        scheduledPaths,
         formulaFilter
     } = startElement;
-    const runAsyncPath =
-        scheduledPaths &&
-        (scheduledPaths as Metadata.ScheduledPath[])!.find((el) => el.pathType === SCHEDULED_PATH_TYPE.RUN_ASYNC);
-    if (runAsyncPath) {
-        const label = LABELS.runAsyncScheduledPathLabel;
-        Object.assign(runAsyncPath, { label, name: generateInternalName(SCHEDULED_PATH_TYPE.RUN_ASYNC) });
-    }
     const { objectIndex = generateGuid(), objectContainer } = <UI.Start>startElement;
     const maxConnections = calculateMaxConnections(startElement);
     const triggerType = startElement.triggerType || FLOW_TRIGGER_TYPE.NONE;
     const { startDate, startTime } = (startElement as Metadata.Start).schedule || startElement;
     let { recordTriggerType, frequency } = (startElement as Metadata.Start).schedule || startElement;
-    let { filterLogic = getDefaultFilterLogic(triggerType) } = startElement;
+    let { filterLogic = getDefaultFilterLogic(triggerType, processType) } = startElement;
 
     let { object = '' } = startElement;
 
-    object = getDefaultObjectForOrchestration(object, triggerType, newStartElement);
+    object = getDefaultObjectForOrchestration(object, triggerType, newStartElement, processType);
 
     // TODO: W-10476015 to move the logic to recordChangeTriggerReducer
     if (object && filters.length === 0) {
@@ -288,7 +280,14 @@ export function createStartElementWithConnectors(
         const { scheduledPaths = [] } = startElement;
 
         for (let i = 0; i < scheduledPaths.length; i++) {
-            const currentScheduledPath = scheduledPaths[i];
+            let currentScheduledPath = scheduledPaths[i];
+            if (currentScheduledPath.pathType === SCHEDULED_PATH_TYPE.RUN_ASYNC) {
+                currentScheduledPath = {
+                    ...currentScheduledPath,
+                    label: LABELS.runAsyncScheduledPathLabel,
+                    name: generateInternalName(SCHEDULED_PATH_TYPE.RUN_ASYNC)
+                };
+            }
             const scheduledPath = createScheduledPath(currentScheduledPath);
             const connector = createConnectorObjects(currentScheduledPath, scheduledPath.guid, newStartElement.guid);
             updatedScheduledPaths = [...updatedScheduledPaths, scheduledPath];
@@ -636,7 +635,7 @@ function calculateMaxConnections(startElement) {
     let length = 1;
     if (startElement.scheduledPaths) {
         for (let i = 0; i < startElement.scheduledPaths.length; i++) {
-            if (startElement.scheduledPaths[i].name) {
+            if (startElement.scheduledPaths[i].name || startElement.scheduledPaths[i].pathType) {
                 length++;
             }
         }
@@ -673,9 +672,12 @@ function addStartElementConnectorToAvailableConnections(
 
 /**
  * @param triggerType
+ * @param processType
  */
-function getDefaultFilterLogic(triggerType) {
-    const processType = getProcessType();
+function getDefaultFilterLogic(triggerType, processType) {
+    if (!processType) {
+        processType = getProcessType();
+    }
     if (
         (processType === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW || isOrchestrator(processType)) &&
         isRecordChangeTriggerType(triggerType)
@@ -689,12 +691,21 @@ function getDefaultFilterLogic(triggerType) {
  * @param object - The start element object
  * @param triggerType - The triggerType
  * @param newStartElement - The start element
+ * @param processType
  */
-function getDefaultObjectForOrchestration(object: string, triggerType: string, newStartElement: UI.Start) {
+function getDefaultObjectForOrchestration(
+    object: string,
+    triggerType: string,
+    newStartElement: UI.Start,
+    processType: string | null | undefined
+) {
+    if (!processType) {
+        processType = getProcessType();
+    }
     // Only default object to account for a record-triggered orchestration
     // Make sure object is not already set, and confirm that it is new
     if (
-        isOrchestrator(getProcessType()) &&
+        isOrchestrator(processType) &&
         isRecordChangeTriggerType(triggerType) &&
         !object &&
         newStartElement.isNew !== false

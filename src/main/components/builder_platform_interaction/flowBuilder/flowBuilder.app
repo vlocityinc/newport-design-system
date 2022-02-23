@@ -21,11 +21,12 @@
     <aura:attribute name="builderConfig" type="Object" description="Configuration for the current builder type" />
     <aura:attribute name="complianceBannerEnabled" type="Boolean" description="Is Compliance Banner org perm enabled" />
     <!-- Attributes for new flow creation -->
-    <aura:attribute name="processType" type="String" description="processType for new flow" />
-    <aura:attribute name="triggerType" type="String" description="triggerType for new flow" />
-    <aura:attribute name="recordTriggerType" type="String" description="recordTriggerType for new record-triggered flow" />
-    <aura:attribute name="startObject" type="String" description="object name for new record-triggered flow start node" />
-    <aura:attribute name="hasAsyncPath" type="Boolean" description="if Run Asynchronously path exists for new flow" />
+    <aura:attribute name="urlAction" type="String" default="" description="action from url param, actions supported: new-flow" />
+    <aura:attribute name="processType" type="String" default="" description="processType for new flow config" />
+    <aura:attribute name="triggerType" type="String" default="" description="triggerType for new flow config" />
+    <aura:attribute name="recordTriggerType" type="String" default="" description="start element configuration" />
+    <aura:attribute name="startObject" type="String" default="" description="start element configuration" />
+    <aura:attribute name="hasAsyncPath" type="Boolean" default="false" description="start element configuration" />
 
     <aura:attribute name="ready" type="Boolean" access="private" description="Flag used to render the editor." />
 
@@ -52,11 +53,7 @@
                 interviewGuid="{!v.guid}"
                 builderType="{!v.builderType}"
                 builderConfig="{!v.builderConfig}"
-                processType="{!v.processType}"
-                triggerType="{!v.triggerType}"
-                recordTriggerType="{!v.recordTriggerType}"
-                startObject="{!v.startObject}"
-                hasAsyncPath="{!v.hasAsyncPath}"
+                urlAction="{!v.urlAction}"
                 complianceBannerEnabled="{!v.complianceBannerEnabled}"
             ></builder_platform_interaction:container>
         </builder_platform_interaction:guardrailsManager>

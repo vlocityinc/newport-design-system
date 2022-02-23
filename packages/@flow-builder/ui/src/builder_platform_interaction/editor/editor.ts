@@ -119,11 +119,13 @@ import {
     loadOnTriggerTypeChange,
     loadOperatorsAndRulesOnTriggerTypeChange,
     loadParametersForInvocableApexActionsInFlowFromMetadata,
+    loadProcessTypeFeatures,
     loadVersioningData
 } from 'builder_platform_interaction/preloadLib';
 import {
     isAutoLayoutCanvasOnly,
     isConfigurableStartSupported,
+    isNonOrchestratorRecordTriggeredFlow,
     isOrchestrator
 } from 'builder_platform_interaction/processTypeLib';
 import { getElementForPropertyEditor, getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
@@ -228,6 +230,7 @@ const RUN = 'run';
 const DEBUG = 'debug';
 const NEWDEBUG = 'new debug';
 const RESTARTDEBUG = 'restart debug';
+const NEW_FLOW_ACTION = 'new-flow';
 
 const ADD_ELEMENT = 'ADD_ELEMENT';
 const APP_NAME = 'FLOW_BUILDER';
@@ -288,6 +291,9 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     builderMode = BUILDER_MODE.EDIT_MODE;
 
     @api
+    urlAction;
+
+    @api
     setBuilderMode(mode) {
         this.builderMode = mode;
     }
@@ -346,15 +352,12 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     _isInlineEditingResource = false;
     ifBlockResume = false;
 
+    triggerType;
+    recordTriggerType;
     originalFlowLabel;
     originalFlowDescription;
     originalFlowInterviewLabel;
 
-    currentProcessType;
-    currentTriggerType;
-    currentRecordTriggerType;
-    currentStartObject;
-    currentHasAsyncPath;
     guardrailsEngine;
 
     loadFlowBuilderStartTime;
@@ -486,9 +489,18 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      * @returns Default flow as supplied in the builder config
      */
     get defaultFlow() {
-        return (
-            this.builderConfig && this.builderConfig.newFlowConfig && this.builderConfig.newFlowConfig.defaultNewFlow
-        );
+        return this.builderConfig?.newFlowConfig?.defaultNewFlow;
+    }
+
+    /**
+     * @returns True if urlAction is new-flow and default new flow metadata provided
+     */
+    get newFlowFromUrl() {
+        return this.urlAction === NEW_FLOW_ACTION && !!this.defaultFlow;
+    }
+
+    get newRecordTriggeredFlowFromUrl() {
+        return this.newFlowFromUrl && isNonOrchestratorRecordTriggeredFlow(getTriggerType());
     }
 
     /**
@@ -650,51 +662,6 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
 
     set flowDefId(flowDefId) {
         this.currentFlowDefId = flowDefId;
-    }
-
-    @api
-    get processType() {
-        return this.currentProcessType;
-    }
-
-    set processType(processType) {
-        this.currentProcessType = processType;
-    }
-
-    @api
-    get triggerType() {
-        return this.currentTriggerType;
-    }
-
-    set triggerType(triggerType) {
-        this.currentTriggerType = triggerType;
-    }
-
-    @api
-    get recordTriggerType() {
-        return this.currentRecordTriggerType;
-    }
-
-    set recordTriggerType(recordTriggerType) {
-        this.currentRecordTriggerType = recordTriggerType;
-    }
-
-    @api
-    get startObject() {
-        return this.currentStartObject;
-    }
-
-    set startObject(object) {
-        this.currentStartObject = object;
-    }
-
-    @api
-    get hasAsyncPath() {
-        return this.currentHasAsyncPath;
-    }
-
-    set hasAsyncPath(hasAsyncPath) {
-        this.currentHasAsyncPath = hasAsyncPath;
     }
 
     get showSpinner() {
@@ -899,7 +866,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         const flowProcessTypeChanged = flowProcessType && flowProcessType !== this.properties.processType;
         const recordTriggerTypeChanged = flowRecordTriggerType !== this.recordTriggerType;
         const triggerTypeChanged = flowTriggerType !== this.triggerType;
-        if (flowProcessTypeChanged || (triggerTypeChanged && flowTriggerType)) {
+        if (flowProcessTypeChanged || triggerTypeChanged) {
             this.spinners.showAutoLayoutSpinner = true;
             const toolboxPromise = getToolboxElements(flowProcessType, flowTriggerType).then((supportedElements) => {
                 this.supportedElements = supportedElements;
@@ -926,7 +893,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             }
 
             if (triggerTypeChanged) {
-                this.currentTriggerType = flowTriggerType;
+                this.triggerType = flowTriggerType;
                 if (this.triggerType && this.triggerType !== FLOW_TRIGGER_TYPE.NONE) {
                     getTriggerTypeInfo(flowTriggerType);
                 }
@@ -966,8 +933,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         }
         // load operators and operator rules when triggerType or recordTriggerType is changed
         if (triggerTypeChanged || recordTriggerTypeChanged) {
-            this.currentTriggerType = flowTriggerType;
-            this.currentRecordTriggerType = flowRecordTriggerType;
+            this.triggerType = flowTriggerType;
+            this.recordTriggerType = flowRecordTriggerType;
             this.propertyEditorBlockerCalls.push(
                 loadOperatorsAndRulesOnTriggerTypeChange(flowProcessType, flowTriggerType, flowRecordTriggerType)
             );
@@ -1048,9 +1015,9 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                 this.preloadRequiredDatafromFlowMetadata(data).then(() => {
                     storeInstance.dispatch(updateFlow(translateFlowToUIModel(data)));
 
-                    if (this.properties.isAutoLayoutCanvas) {
+                    if (this.properties.isAutoLayoutCanvas || this.newFlowFromUrl) {
                         if (this.canConvertToAutoLayoutCheck(true)) {
-                            this.updateCanvasMode(this.properties.isAutoLayoutCanvas);
+                            this.updateCanvasMode(true);
                         } else {
                             // @W-8249637: fallback to free form if we can't convert to auto-layout
                             storeInstance.dispatch(updateIsAutoLayoutCanvasProperty(false));
@@ -1064,6 +1031,12 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                     this.cacheSObjectsInComboboxShape();
                     this.loadFieldsForComplexTypesInFlow();
                     this.loadReferencesInFlow();
+                    if (this.newFlowFromUrl) {
+                        updateUrl();
+                        if (this.newRecordTriggeredFlowFromUrl) {
+                            this.handleRecordTriggerStartPropertyEditor();
+                        }
+                    }
                     this.isFlowServerCallInProgress = false;
                 });
             } catch (e) {
@@ -2127,10 +2100,17 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      * Launches the merged recordChangeTriggerEditor (merged with contextRecordEditor)
      * for Record change trigger setup
      */
-    handleEditStartElement = () => {
+    handleRecordTriggerStartPropertyEditor = () => {
         const startElement = getStartElement();
         if (startElement) {
-            this.editElement(startElement.triggerType, startElement.guid, false);
+            this.spinners.showPropertyEditorSpinner = true;
+            loadProcessTypeFeatures(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW)
+                .then(() => {
+                    this.editElement(startElement.triggerType, startElement.guid);
+                })
+                .finally(() => {
+                    this.spinners.showPropertyEditorSpinner = false;
+                });
         }
     };
 
@@ -3229,8 +3209,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         this.createFlowFromProcessTypeAndTriggerType(processType, triggerType);
         this.spinners.showFlowMetadataSpinner = false;
         // To Do: W-9299993: update this to not rely on hardcoded checks for process type and trigger type
-        if (processType === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW && triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE) {
-            this.handleEditStartElement();
+        if (isNonOrchestratorRecordTriggeredFlow(triggerType)) {
+            this.handleRecordTriggerStartPropertyEditor();
         }
     };
 

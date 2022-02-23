@@ -55,6 +55,7 @@ import { isFlowTestingSupportedForTriggerType } from 'builder_platform_interacti
 import { invokeUsedByAlertModal, usedBy } from 'builder_platform_interaction/usedByLib';
 
 const LEFT_PANEL_ELEMENTS = 'LEFT_PANEL_ELEMENTS';
+const BASE_URL = '/builder_platform_interaction/flowBuilder.app?';
 const { logPerfTransactionStart, logPerfTransactionEnd, logInteraction } = loggingUtils;
 /**
  * Helper method to determine if the connector is an associated connector or not
@@ -312,19 +313,18 @@ export const updateStoreAfterSaveAsNewVersionIsFailed = (storeInstance, label, d
 };
 
 export const updateUrl = (flowId?: string) => {
-    let urlParams = '';
+    let url = BASE_URL;
     if (flowId) {
-        urlParams += '?flowId=' + flowId;
+        url += 'flowId=' + flowId;
     }
-    window.history.pushState(null, 'Flow Builder', window.location.href.split('?')[0] + urlParams);
+    window.history.pushState(null, 'Flow Builder', url);
 };
 
 export const launchSubflow = (subflowVersionId) => {
-    const baseUrl = '/builder_platform_interaction/flowBuilder.app?';
     const url =
         getPreferredExperience() === CLASSIC_EXPERIENCE
-            ? baseUrl + 'isFromAloha=true&flowId=' + subflowVersionId
-            : baseUrl + 'flowId=' + subflowVersionId;
+            ? `${BASE_URL}isFromAloha=true&flowId=${subflowVersionId}`
+            : `${BASE_URL}flowId=${subflowVersionId}`;
     window.open(url);
 };
 
