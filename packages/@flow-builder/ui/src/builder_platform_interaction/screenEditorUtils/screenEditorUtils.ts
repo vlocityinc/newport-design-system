@@ -2,6 +2,7 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 export * from './screenEditorExtensionUtils';
 export * from './screenEditorFieldTypeUtils';
+export * from './screenFieldUtils';
 
 export const TEXT_AREA_MAX_LENGTH = 255;
 

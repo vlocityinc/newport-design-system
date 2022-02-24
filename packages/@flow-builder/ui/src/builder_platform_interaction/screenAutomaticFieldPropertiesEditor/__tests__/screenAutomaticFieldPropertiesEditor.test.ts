@@ -16,6 +16,7 @@ import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { createElement } from 'lwc';
 import {
     accountVariableNameAutomaticField,
+    contactVariableAddressAutomaticField,
     contactVariableNameAutomaticField,
     flowWithAllElementsUIModel as mockFlowWithAllElementsUIModel,
     objectWithAllPossibleFieldsVariable,
@@ -80,6 +81,9 @@ jest.mock('@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeEmail', () 
 jest.mock('@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypePersonName', () => ({ default: 'Name' }), {
     virtual: true
 });
+jest.mock('@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeAddress', () => ({ default: 'Address' }), {
+    virtual: true
+});
 jest.mock('@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelPicklist', () => ({ default: 'Picklist' }), {
     virtual: true
 });
@@ -127,6 +131,7 @@ describe('Data types formatting with tokens', () => {
         [ScreenFieldName.TextBox, null, null, null, FieldDataType.Phone, null, 'Phone'],
         [ScreenFieldName.TextBox, null, null, null, FieldDataType.Email, null, 'Email'],
         [ScreenFieldName.TextBox, 121, null, null, null, ExtraTypeInfo.PersonName, 'Name'],
+        [ScreenFieldName.TextBox, 121, null, null, FieldDataType.Address, null, 'Address'],
         [ScreenFieldName.Number, null, 15, 3, null, null, 'Number(12, 3)'],
         [ScreenFieldName.Number, null, 0, null, null, null, 'Number(8, 0)'],
         [ScreenFieldName.LargeTextArea, 255, null, null, null, null, 'Text Area(255)'],
@@ -233,6 +238,11 @@ describe('isCreateable', () => {
         const component = createComponentForTest(field);
         expect(getCreatableRow(component)).toBeNull();
     });
+    it('is not showing creatable part for address compound field', () => {
+        const field = createScreenFieldWithFields(contactVariableAddressAutomaticField);
+        const component = createComponentForTest(field);
+        expect(getCreatableRow(component)).toBeNull();
+    });
 });
 
 describe('isUpdateable', () => {
@@ -252,6 +262,11 @@ describe('isUpdateable', () => {
     });
     it('is not showing updateable part for name compound field', () => {
         const field = createScreenFieldWithFields(contactVariableNameAutomaticField);
+        const component = createComponentForTest(field);
+        expect(getUpdateableRow(component)).toBeNull();
+    });
+    it('is not showing updateable part for address compound field', () => {
+        const field = createScreenFieldWithFields(contactVariableAddressAutomaticField);
         const component = createComponentForTest(field);
         expect(getUpdateableRow(component)).toBeNull();
     });

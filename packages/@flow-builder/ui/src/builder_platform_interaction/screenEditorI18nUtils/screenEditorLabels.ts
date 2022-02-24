@@ -2,6 +2,7 @@ import errorScreenMissingExtension from '@salesforce/label/FlowBuilderAlertModal
 import errorTitle from '@salesforce/label/FlowBuilderAlertModal.errorTitle';
 import okayButtonLabel from '@salesforce/label/FlowBuilderAlertModal.okayButtonLabel';
 import automaticFieldDataType from '@salesforce/label/FlowBuilderAutomaticFieldEditor.dataType';
+import automaticFieldDataTypeAddress from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeAddress';
 import automaticFieldDataTypeCheckbox from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeCheckbox';
 import automaticFieldDataTypeDate from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeDate';
 import automaticFieldDataTypeDateTime from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeDateTime';
@@ -347,6 +348,7 @@ export const LABELS = {
     automaticFieldDataTypePhone,
     automaticFieldDataTypeEmail,
     automaticFieldDataTypePersonName,
+    automaticFieldDataTypeAddress,
     automaticFieldHighlightHeaderFieldLabel,
     altTextVisibilityCondition,
     nonePicklistPlaceholder,

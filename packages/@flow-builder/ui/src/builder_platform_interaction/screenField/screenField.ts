@@ -1,6 +1,6 @@
 import { isObject, isReference } from 'builder_platform_interaction/commonUtils';
 import { getErrorsFromHydratedElement, hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
-import { ExtraTypeInfo, FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { normalizeFEROV } from 'builder_platform_interaction/expressionUtils';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
@@ -11,6 +11,8 @@ import {
     isDateField,
     isDateTimeField,
     isExtensionField,
+    isFieldCompoundAddress,
+    isFieldCompoundName,
     isNumberField,
     ScreenFieldName
 } from 'builder_platform_interaction/screenEditorUtils';
@@ -52,7 +54,7 @@ export default class ScreenField extends LightningElement {
             (this.isObjectProvided() &&
                 !this.isTextAreaType &&
                 !this.isDropdownType() && // For 236, automatic field of picklist type has no preview
-                !this.isAutomaticFieldCompoundName) // For 238, automatic field of coumpound name type has no preview
+                !this.isAutomaticFieldCompound) // For 238, automatic field of coumpound type has no preview
         );
     }
 
@@ -141,8 +143,18 @@ export default class ScreenField extends LightningElement {
      * @returns true if the current field type is an ObjectProvided one, aka "automatic field" of
      * compound name type, otherwise false
      */
-    get isAutomaticFieldCompoundName() {
-        return this.isObjectProvided() && this.screenfield.entityFieldExtraTypeInfo === ExtraTypeInfo.PersonName;
+    get isAutomaticFieldCompoundName(): boolean {
+        return this.isObjectProvided() && isFieldCompoundName(this.screenfield);
+    }
+
+    /**
+     * Determines whether the current field type is an ObjectProvided one, aka "automatic field"
+     * of compound address type
+     *
+     * @returns true if the current field type is an automatic field of compound address type
+     */
+    get isAutomaticFieldCompoundAddress(): boolean {
+        return this.isObjectProvided() && isFieldCompoundAddress(this.screenfield);
     }
 
     /**
@@ -152,8 +164,18 @@ export default class ScreenField extends LightningElement {
      * @returns true if the current field type is an ObjectProvided one, aka "automatic field" of
      * compound name type and has no preview available, otherwise false
      */
-    get isAutomaticFieldWithNoPreview() {
-        return this.isAutomaticFieldCompoundName || this.isAutomaticFieldPicklist;
+    get isAutomaticFieldWithNoPreview(): boolean {
+        return this.isAutomaticFieldCompound || this.isAutomaticFieldPicklist;
+    }
+
+    /**
+     * Determines whether the current field type is an ObjectProvided one, aka "automatic field"
+     * of compound type (Name or Address)
+     *
+     * @returns true if the current field type is an automatic compound field
+     */
+    get isAutomaticFieldCompound(): boolean {
+        return this.isAutomaticFieldCompoundName || this.isAutomaticFieldCompoundAddress;
     }
 
     /**

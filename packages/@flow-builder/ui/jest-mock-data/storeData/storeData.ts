@@ -169,6 +169,10 @@ export const contactVariableNameAutomaticField = getAutomaticFieldElement(
     'screenWithAutomaticFields',
     'contactSObjectVariable.Name'
 );
+export const contactVariableAddressAutomaticField = getAutomaticFieldElement(
+    'screenWithAutomaticFields',
+    'contactSObjectVariable.MailingAddress'
+);
 export const objectWithAllPossibleFieldsVariableTextFieldAutomaticField = getAutomaticFieldElement(
     'screenWithAutomaticFields',
     'objectWithAllPossiblFieldsVariable.Text_Field__c'

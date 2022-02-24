@@ -1583,6 +1583,19 @@
                         "processMetadataValues": [],
                         "scale": 0,
                         "storeOutputAutomatically": false
+                    },
+                    {
+                        "choiceReferences": [],
+                        "dataTypeMappings": [],
+                        "fieldType": "ObjectProvided",
+                        "fields": [],
+                        "inputParameters": [],
+                        "isRequired": false,
+                        "objectFieldReference": "contactSObjectVariable.MailingAddress",
+                        "outputParameters": [],
+                        "processMetadataValues": [],
+                        "scale": 0,
+                        "storeOutputAutomatically": false
                     }
                 ],
                 "label": "screenWithAutomaticFields",

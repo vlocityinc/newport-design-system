@@ -320,6 +320,27 @@ describe('automatic fields', () => {
         );
         expect(screenInputField).toBeNull();
     });
+    it('shows "Address compound" field as a simple screen field card (in preview not available mode) with correct text, title, icon, without adding any input field', () => {
+        const automaticAddressField = createAutomaticField(
+            ScreenFieldName.TextBox,
+            `${contactSObjectVariable.name}.MailingAddress`
+        );
+        const testScreenField = createComponentUnderTest({
+            screenfield: automaticAddressField
+        });
+        const screenFieldCard = testScreenField.shadowRoot.querySelector(
+            INTERACTION_COMPONENTS_SELECTORS.SCREEN_FIELD_CARD
+        );
+        expect(screenFieldCard).toMatchObject({
+            text: 'FlowBuilderScreenEditor.fieldExtensionPreviewDescription',
+            title: 'Mailing Address',
+            icon: 'standard:textbox'
+        });
+        const screenInputField = testScreenField.shadowRoot.querySelector(
+            INTERACTION_COMPONENTS_SELECTORS.SCREEN_INPUT_FIELD
+        );
+        expect(screenInputField).toBeNull();
+    });
 
     it('shows an error when automatic field has errors', () => {
         const objectFieldReference = `${accountSObjectVariable.name}.iDoNotExist`;

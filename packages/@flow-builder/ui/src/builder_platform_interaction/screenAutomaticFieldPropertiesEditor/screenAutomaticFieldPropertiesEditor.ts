@@ -5,6 +5,9 @@ import { ExtraTypeInfo, FieldDataType } from 'builder_platform_interaction/dataT
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import {
     hasScreenFieldVisibilityCondition,
+    isFieldCompound,
+    isFieldCompoundAddress,
+    isFieldCompoundName,
     ScreenFieldName,
     SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME,
     TEXT_AREA_MAX_LENGTH
@@ -87,8 +90,8 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
                 value: this.isRequired
             }
         ];
-        // Hide updateable/create info for compound name fields
-        if (!this.isFieldCompoundName) {
+        // Hide updateable/create info for compound fields
+        if (!isFieldCompound(this.field)) {
             displayedFieldsResult.push(
                 {
                     key: 'autofield-updateable',
@@ -130,8 +133,10 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
                     dataType = this.labels.automaticFieldDataTypePhone;
                 } else if (this.entityFieldDataType === FieldDataType.Email) {
                     dataType = this.labels.automaticFieldDataTypeEmail;
-                } else if (this.isFieldCompoundName) {
+                } else if (isFieldCompoundName(this.field)) {
                     dataType = this.labels.automaticFieldDataTypePersonName;
+                } else if (isFieldCompoundAddress(this.field)) {
+                    dataType = this.labels.automaticFieldDataTypeAddress;
                 } else {
                     dataType = format(this.labels.automaticFieldDataTypeText, this.field.length);
                 }
@@ -177,15 +182,6 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
             }
         }
         return dataType;
-    }
-
-    /**
-     * Whether or not the current field type is of compound name type
-     *
-     * @returns true if the current field type is of compound name type, otherwise false
-     */
-    get isFieldCompoundName() {
-        return this.entityFieldExtraTypeInfo === ExtraTypeInfo.PersonName;
     }
 
     private get object(): string {

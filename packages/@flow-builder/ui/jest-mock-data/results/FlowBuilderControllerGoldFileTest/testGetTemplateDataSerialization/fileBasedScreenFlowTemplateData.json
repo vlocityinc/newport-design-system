@@ -56,6 +56,7 @@
     "processMetadataValues" : [ ],
     "valueField" : "Value"
   } ],
+  "environments" : [ ],
   "formulas" : [ ],
   "interviewLabel" : "TestFileBasedScreen {!$Flow.CurrentDateTime}",
   "isAdditionalPermissionRequiredToRun" : false,

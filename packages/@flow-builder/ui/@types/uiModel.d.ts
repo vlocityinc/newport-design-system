@@ -160,6 +160,8 @@ declare namespace UI {
         visibilityRule: VisibilityRule;
         dynamicTypeMappings: DataTypeMapping[];
         fields: ScreenField[];
+        entityFieldDataType?: string;
+        entityFieldExtraTypeInfo?: string;
     }
 
     interface DataTypeMapping {

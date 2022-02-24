@@ -721,7 +721,7 @@ export const elementsForPropertyEditors = {
         useSobject: true
     },
     other: {
-        guid: '99dc6278-41a6-44c2-b316-c76f639232c4',
+        guid: 'b5a9adff-b0ce-403c-9016-dc59e7047f6a',
         name: {
             value: 'other',
             error: null
@@ -748,7 +748,7 @@ export const elementsForPropertyEditors = {
             error: null
         },
         storedValueIndex: {
-            value: '9cd671ee-af98-49b1-b58f-5e022bc554a4',
+            value: '15fef33a-a826-43bb-9095-7266eebb74b0',
             error: null
         },
         isShowInputSelected: true,
@@ -762,7 +762,7 @@ export const elementsForPropertyEditors = {
         }
     },
     ScreenWithSection: {
-        guid: '23a963ec-f168-4151-804b-9541689dc879',
+        guid: '2329aa7a-2605-400b-b066-a773bd8633f6',
         name: {
             value: 'ScreenWithSection',
             error: null
@@ -827,7 +827,7 @@ export const elementsForPropertyEditors = {
         },
         fields: [
             {
-                guid: '131babab-443d-4e7f-99dc-3b2ecd50baa5',
+                guid: 'd08b12f4-ac7b-4cb4-a3ff-621131fc450f',
                 name: {
                     value: 'ScreenWithSection_Section1',
                     error: null
@@ -838,7 +838,7 @@ export const elementsForPropertyEditors = {
                     error: null
                 },
                 defaultValueIndex: {
-                    value: '2329aa7a-2605-400b-b066-a773bd8633f6',
+                    value: '83d39edd-dc5c-43e8-b58b-999c0c6efcbc',
                     error: null
                 },
                 validationRule: {
@@ -887,7 +887,7 @@ export const elementsForPropertyEditors = {
                 },
                 fields: [
                     {
-                        guid: 'd08b12f4-ac7b-4cb4-a3ff-621131fc450f',
+                        guid: '1ac79856-9d88-4a1f-b51b-099537bd458c',
                         name: {
                             value: 'ScreenWithSection_Section1_Column1',
                             error: null
@@ -898,7 +898,7 @@ export const elementsForPropertyEditors = {
                             error: null
                         },
                         defaultValueIndex: {
-                            value: '83d39edd-dc5c-43e8-b58b-999c0c6efcbc',
+                            value: '497e601c-a901-4061-86c7-0852b1c9dd33',
                             error: null
                         },
                         validationRule: {
@@ -923,7 +923,7 @@ export const elementsForPropertyEditors = {
                         },
                         inputParameters: [
                             {
-                                rowIndex: '497e601c-a901-4061-86c7-0852b1c9dd33',
+                                rowIndex: '8eff1e35-f996-490c-b2f1-f981186f4092',
                                 name: {
                                     value: 'width',
                                     error: null
@@ -961,7 +961,7 @@ export const elementsForPropertyEditors = {
                         },
                         fields: [
                             {
-                                guid: 'b1ccd7d0-6210-4c95-a3c8-1e01ef242a3f',
+                                guid: 'e2a97477-cbab-4d4f-9f9f-f5c57cc6500f',
                                 name: {
                                     value: 'slider_1',
                                     error: null
@@ -973,7 +973,7 @@ export const elementsForPropertyEditors = {
                                     error: null
                                 },
                                 defaultValueIndex: {
-                                    value: '8eff1e35-f996-490c-b2f1-f981186f4092',
+                                    value: '44c3a9ec-e8ee-43ce-9f4e-71048c744dfb',
                                     error: null
                                 },
                                 validationRule: {
@@ -1002,7 +1002,7 @@ export const elementsForPropertyEditors = {
                                 },
                                 inputParameters: [
                                     {
-                                        rowIndex: '44c3a9ec-e8ee-43ce-9f4e-71048c744dfb',
+                                        rowIndex: 'd4fae3cf-4fd2-443f-89d2-9c4f7e72deb4',
                                         name: {
                                             value: 'label',
                                             error: null
@@ -1051,7 +1051,7 @@ export const elementsForPropertyEditors = {
                 ]
             },
             {
-                guid: '1562fcaa-21e3-4ab7-9950-bd34c7c5c444',
+                guid: '51dd4b43-d68c-4aee-a601-12c30e7c926f',
                 name: {
                     value: 'number_2',
                     error: null
@@ -1063,7 +1063,7 @@ export const elementsForPropertyEditors = {
                     error: null
                 },
                 defaultValueIndex: {
-                    value: 'd4fae3cf-4fd2-443f-89d2-9c4f7e72deb4',
+                    value: '8712ca46-d9c0-49ba-9641-bd15e2d1dcbe',
                     error: null
                 },
                 validationRule: {
@@ -1114,7 +1114,7 @@ export const elementsForPropertyEditors = {
                 fields: []
             },
             {
-                guid: '51dd4b43-d68c-4aee-a601-12c30e7c926f',
+                guid: '5bea7404-f581-4e0a-8ff3-701b3bfa7e5c',
                 name: {
                     value: 'ScreenWithSection_Section2',
                     error: null
@@ -1125,7 +1125,7 @@ export const elementsForPropertyEditors = {
                     error: null
                 },
                 defaultValueIndex: {
-                    value: '8712ca46-d9c0-49ba-9641-bd15e2d1dcbe',
+                    value: '1181502b-7460-4f6a-b7ef-6e4851d39430',
                     error: null
                 },
                 validationRule: {
@@ -1174,7 +1174,7 @@ export const elementsForPropertyEditors = {
                 },
                 fields: [
                     {
-                        guid: '5bea7404-f581-4e0a-8ff3-701b3bfa7e5c',
+                        guid: 'bb8b3e41-169b-442e-83e3-240cd49b7032',
                         name: {
                             value: 'ScreenWithSection_Section2_Column1',
                             error: null
@@ -1185,7 +1185,7 @@ export const elementsForPropertyEditors = {
                             error: null
                         },
                         defaultValueIndex: {
-                            value: '1181502b-7460-4f6a-b7ef-6e4851d39430',
+                            value: '7b60da07-b6e5-4fb4-a895-3328fbd7983f',
                             error: null
                         },
                         validationRule: {
@@ -1210,7 +1210,7 @@ export const elementsForPropertyEditors = {
                         },
                         inputParameters: [
                             {
-                                rowIndex: '7b60da07-b6e5-4fb4-a895-3328fbd7983f',
+                                rowIndex: '4297d5ea-aed3-421e-a33b-e988e84d10ac',
                                 name: {
                                     value: 'width',
                                     error: null
@@ -1248,7 +1248,7 @@ export const elementsForPropertyEditors = {
                         },
                         fields: [
                             {
-                                guid: '073edaa5-eb09-4bc8-9f20-43c320d56d18',
+                                guid: '4bd9ced3-d8dc-454b-9c6a-07e747528517',
                                 name: {
                                     value: 'text_2',
                                     error: null
@@ -1260,7 +1260,7 @@ export const elementsForPropertyEditors = {
                                     error: null
                                 },
                                 defaultValueIndex: {
-                                    value: '4297d5ea-aed3-421e-a33b-e988e84d10ac',
+                                    value: '4b0617d9-3abe-42ab-8ed4-ab1e5944d884',
                                     error: null
                                 },
                                 validationRule: {
@@ -1311,7 +1311,7 @@ export const elementsForPropertyEditors = {
                                 fields: []
                             },
                             {
-                                guid: '4bd9ced3-d8dc-454b-9c6a-07e747528517',
+                                guid: '852e1dd4-eb4e-48a7-8319-977137281a8d',
                                 name: {
                                     value: 'dateTimeInSection',
                                     error: null
@@ -1324,7 +1324,7 @@ export const elementsForPropertyEditors = {
                                 },
                                 defaultValueDataType: 'reference',
                                 defaultValueIndex: {
-                                    value: '4b0617d9-3abe-42ab-8ed4-ab1e5944d884',
+                                    value: '329f0584-f250-4be0-a094-4060ca2ca6f3',
                                     error: null
                                 },
                                 validationRule: {
@@ -1377,7 +1377,7 @@ export const elementsForPropertyEditors = {
                         ]
                     },
                     {
-                        guid: '852e1dd4-eb4e-48a7-8319-977137281a8d',
+                        guid: 'babb725d-f89c-45e7-bf59-453c06cbfff1',
                         name: {
                             value: 'ScreenWithSection_Section2_Column2',
                             error: null
@@ -1388,7 +1388,7 @@ export const elementsForPropertyEditors = {
                             error: null
                         },
                         defaultValueIndex: {
-                            value: '329f0584-f250-4be0-a094-4060ca2ca6f3',
+                            value: '35467ed7-75b9-4c62-b04a-6a0df25679a5',
                             error: null
                         },
                         validationRule: {
@@ -1413,7 +1413,7 @@ export const elementsForPropertyEditors = {
                         },
                         inputParameters: [
                             {
-                                rowIndex: '35467ed7-75b9-4c62-b04a-6a0df25679a5',
+                                rowIndex: '5e35bc6f-e544-486e-b90b-81e885e849c8',
                                 name: {
                                     value: 'width',
                                     error: null
@@ -1451,7 +1451,7 @@ export const elementsForPropertyEditors = {
                         },
                         fields: [
                             {
-                                guid: '452ba7ae-00a1-46ea-a315-a63aa41d1b32',
+                                guid: 'c9474ff0-3abd-469e-8923-91825f843f9f',
                                 name: {
                                     value: 'email_2',
                                     error: null
@@ -1463,7 +1463,7 @@ export const elementsForPropertyEditors = {
                                     error: null
                                 },
                                 defaultValueIndex: {
-                                    value: '5e35bc6f-e544-486e-b90b-81e885e849c8',
+                                    value: '4bdae41a-fbb6-487f-9507-275c854fbc3c',
                                     error: null
                                 },
                                 validationRule: {
@@ -1492,7 +1492,7 @@ export const elementsForPropertyEditors = {
                                 },
                                 inputParameters: [
                                     {
-                                        rowIndex: '4bdae41a-fbb6-487f-9507-275c854fbc3c',
+                                        rowIndex: 'ded1ecdb-e998-4c3b-a729-344d44e9c3d4',
                                         name: {
                                             value: 'label',
                                             error: null
@@ -1537,7 +1537,7 @@ export const elementsForPropertyEditors = {
                                 storeOutputAutomatically: true
                             },
                             {
-                                guid: '926b62ad-1eae-4dea-972c-40fa752c46e4',
+                                guid: '875f212c-ce7a-482e-900a-5a11b9e83a62',
                                 name: {
                                     value: 'accounts',
                                     error: null
@@ -1545,24 +1545,24 @@ export const elementsForPropertyEditors = {
                                 choiceReferences: [
                                     {
                                         choiceReference: {
-                                            value: '2f16ad0b-a4ea-4062-833a-bc2250adc79e',
+                                            value: '9d2938f4-6dda-4492-b06f-5009cc1e6f3f',
                                             error: null
                                         },
-                                        rowIndex: '875f212c-ce7a-482e-900a-5a11b9e83a62'
-                                    },
-                                    {
-                                        choiceReference: {
-                                            value: '99dc6278-41a6-44c2-b316-c76f639232c4',
-                                            error: null
-                                        },
-                                        rowIndex: 'a4523c0d-9291-4c0a-b5ba-1168e4d17d99'
+                                        rowIndex: 'c9c2a575-1e1a-4bb4-a78d-0f8c2f56610f'
                                     },
                                     {
                                         choiceReference: {
                                             value: 'b5a9adff-b0ce-403c-9016-dc59e7047f6a',
                                             error: null
                                         },
-                                        rowIndex: 'c9c2a575-1e1a-4bb4-a78d-0f8c2f56610f'
+                                        rowIndex: '6fe68205-b480-4ba1-abfd-ce650b968aa8'
+                                    },
+                                    {
+                                        choiceReference: {
+                                            value: 'c7bb47cd-f402-49d5-963b-681d7987ff13',
+                                            error: null
+                                        },
+                                        rowIndex: '291464ff-dda0-4384-a6b0-1cee49e14879'
                                     }
                                 ],
                                 dataType: 'String',
@@ -1571,7 +1571,7 @@ export const elementsForPropertyEditors = {
                                     error: null
                                 },
                                 defaultValueIndex: {
-                                    value: 'ded1ecdb-e998-4c3b-a729-344d44e9c3d4',
+                                    value: 'a4523c0d-9291-4c0a-b5ba-1168e4d17d99',
                                     error: null
                                 },
                                 validationRule: {
@@ -1614,9 +1614,9 @@ export const elementsForPropertyEditors = {
                                 visibilityRule: {
                                     conditions: [
                                         {
-                                            rowIndex: '6fe68205-b480-4ba1-abfd-ce650b968aa8',
+                                            rowIndex: '05c643f6-c379-43eb-80e9-ed2b9ea5dac8',
                                             leftHandSide: {
-                                                value: 'b1ccd7d0-6210-4c95-a3c8-1e01ef242a3f.value',
+                                                value: 'e2a97477-cbab-4d4f-9f9f-f5c57cc6500f.value',
                                                 error: null
                                             },
                                             rightHandSide: {
@@ -1646,7 +1646,7 @@ export const elementsForPropertyEditors = {
                 ]
             },
             {
-                guid: '291464ff-dda0-4384-a6b0-1cee49e14879',
+                guid: '12fb3b06-c2c3-46a8-99e6-0fd31f08d028',
                 name: {
                     value: 'address_2',
                     error: null
@@ -1658,7 +1658,7 @@ export const elementsForPropertyEditors = {
                     error: null
                 },
                 defaultValueIndex: {
-                    value: '05c643f6-c379-43eb-80e9-ed2b9ea5dac8',
+                    value: '88b31e32-25ee-4d52-83f0-4b9c4b23af08',
                     error: null
                 },
                 validationRule: {
