@@ -10,3 +10,8 @@ export const loadFlowTests = (flowDefinitionId, flowVersionId, offset, limit) =>
     }).then((data: any) => {
         addFlowTests(data);
     });
+
+export const deleteFlowTest = (testIds) =>
+    fetchPromise(SERVER_ACTION_TYPE.DELETE_FLOW_TEST, {
+        testIds
+    });

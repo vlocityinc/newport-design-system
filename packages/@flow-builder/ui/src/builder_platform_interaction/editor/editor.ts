@@ -1610,10 +1610,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             }
         }
         this.queueFlowTestManager(() => {
-            return {
-                createNewTest: this.handleCreateNewTest,
-                handleLoadMoreTests: this.handleLoadMoreTests
-            };
+            return { createOrEditFlowTest: this.createOrEditFlowTest, handleLoadMoreTests: this.handleLoadMoreTests };
         });
     };
 

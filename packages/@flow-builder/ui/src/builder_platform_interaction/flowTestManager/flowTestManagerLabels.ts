@@ -1,3 +1,4 @@
+import spinnerAlternativeText from '@salesforce/label/FlowBuilderEditor.spinnerAlternativeText';
 import flowTestBodyDescription from '@salesforce/label/FlowBuilderTestEditor.flowTestBodyDescription';
 import flowTestBodyHeader from '@salesforce/label/FlowBuilderTestEditor.flowTestBodyHeader';
 import createNewTest from '@salesforce/label/FlowBuilderTestEditor.flowTestCreateNewTest';
@@ -25,5 +26,6 @@ export const LABELS = {
     flowTestListEditAction,
     flowTestListRunAction,
     flowTestListDeleteAction,
-    flowTestListViewDetailAction
+    flowTestListViewDetailAction,
+    spinnerAlternativeText
 };

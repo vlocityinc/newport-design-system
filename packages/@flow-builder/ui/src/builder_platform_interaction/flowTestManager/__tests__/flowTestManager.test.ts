@@ -1,9 +1,10 @@
 /* eslint-disable @lwc/lwc/no-async-operation */
 // @ts-nocheck
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { rowActionEvent, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { createComponent } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 import { FlowTestMode } from 'builder_platform_interaction/builderUtils';
-import { addFlowTests, resetFlowTestStore } from 'builder_platform_interaction/systemLib';
+import { FlowTestListRowAction } from 'builder_platform_interaction/flowTestManager';
+import { addFlowTests, deleteFlowTestFromCache, resetFlowTestStore } from 'builder_platform_interaction/systemLib';
 
 const createComponentUnderTest = async (props) => {
     return createComponent('builder_platform_interaction-flowTestManager', props);
@@ -34,7 +35,8 @@ const MOCK_TESTS = [
         createdBy: 'joe mama',
         lastModifiedDate: new Date(),
         lastRunDate: new Date(),
-        lastRunStatus: 'Pass'
+        lastRunStatus: 'Pass',
+        flowTestId: '320xx0000006Pfi'
     },
     {
         flowTestName: 'testname2',
@@ -42,7 +44,8 @@ const MOCK_TESTS = [
         createdBy: 'joe mama',
         lastModifiedDate: new Date(),
         lastRunDate: new Date(),
-        lastRunStatus: 'Fail'
+        lastRunStatus: 'Fail',
+        flowTestId: '320xx0000006Pfk'
     },
     {
         flowTestName: 'testname3',
@@ -50,7 +53,8 @@ const MOCK_TESTS = [
         createdBy: 'joe mama',
         lastModifiedDate: new Date(),
         lastRunDate: new Date(),
-        lastRunStatus: 'Error'
+        lastRunStatus: 'Error',
+        flowTestId: '320xx0000006Pfl'
     }
 ];
 
@@ -66,7 +70,7 @@ describe('flowTestManager', () => {
                     enableButtonOne: enableButtonOneMock
                 },
                 hideModal: jest.fn(),
-                createNewTestCallback: jest.fn(),
+                createOrEditFlowTestCallback: jest.fn(),
                 handleLoadMoreTests: jest.fn()
             });
         });
@@ -93,14 +97,14 @@ describe('flowTestManager', () => {
     });
 
     describe('solo create button', () => {
-        let cmp, createNewTestMock, props;
+        let cmp, createNewOrEditTestMock, props;
 
         beforeEach(() => {
-            createNewTestMock = jest.fn();
+            createNewOrEditTestMock = jest.fn();
             props = {
                 footer: {},
                 hideModal: jest.fn(),
-                createNewTestCallback: createNewTestMock,
+                createOrEditFlowTestCallback: createNewOrEditTestMock,
                 handleLoadMoreTests: jest.fn()
             };
         });
@@ -126,26 +130,26 @@ describe('flowTestManager', () => {
             expect(button).toBeNull();
         });
 
-        it('calls the createNewTestCallback when clicked', async () => {
+        it('calls the createOrEditFlowTestCallback when clicked', async () => {
             addFlowTests([]);
             cmp = await createComponentUnderTest(props);
             await ticks(1);
             const button = getCreateButton(cmp);
             button.click();
-            expect(createNewTestMock).toHaveBeenCalledTimes(1);
-            expect(createNewTestMock).toHaveBeenCalledWith(FlowTestMode.Create);
+            expect(createNewOrEditTestMock).toHaveBeenCalledTimes(1);
+            expect(createNewOrEditTestMock).toHaveBeenCalledWith(FlowTestMode.Create);
         });
     });
 
     describe('table create button', () => {
-        let cmp, createNewTestMock, props;
+        let cmp, createNewOrEditTestMock, props;
 
         beforeEach(() => {
-            createNewTestMock = jest.fn();
+            createNewOrEditTestMock = jest.fn();
             props = {
                 footer: {},
                 hideModal: jest.fn(),
-                createNewTestCallback: createNewTestMock,
+                createOrEditFlowTestCallback: createNewOrEditTestMock,
                 handleLoadMoreTests: jest.fn()
             };
         });
@@ -171,25 +175,26 @@ describe('flowTestManager', () => {
             expect(button).toBeDefined();
         });
 
-        it('calls the createNewTestCallback when clicked', async () => {
+        it('calls the createNewOrEditTestMock when clicked', async () => {
             addFlowTests(MOCK_TESTS);
             cmp = await createComponentUnderTest(props);
             await ticks(1);
             const button = getCreateButtonOnTable(cmp);
             button.click();
-            expect(createNewTestMock).toHaveBeenCalledTimes(1);
-            expect(createNewTestMock).toHaveBeenCalledWith(FlowTestMode.Create);
+            expect(createNewOrEditTestMock).toHaveBeenCalledTimes(1);
+            expect(createNewOrEditTestMock).toHaveBeenCalledWith(FlowTestMode.Create);
         });
     });
 
     describe('table data', () => {
-        let cmp, props;
+        let cmp, props, createNewOrEditTestMock;
 
         beforeEach(() => {
+            createNewOrEditTestMock = jest.fn();
             props = {
                 footer: {},
                 hideModal: jest.fn(),
-                createNewTestCallback: jest.fn(),
+                createOrEditFlowTestCallback: createNewOrEditTestMock,
                 handleLoadMoreTests: jest.fn()
             };
         });
@@ -220,6 +225,51 @@ describe('flowTestManager', () => {
                 expect(data[i].flowTestId).toEqual(MOCK_TESTS[i].flowTestId);
             }
         });
+
+        it('Calls handleFlowTestDelete when delete action is clicked', async () => {
+            cmp = await createComponentUnderTest(props);
+            addFlowTests(MOCK_TESTS);
+            cmp.copyDataFromTestStore();
+            await ticks(1);
+            const handleDeleteFlowTest = jest.fn();
+            cmp.addEventListener(FlowTestListRowAction.Delete, handleDeleteFlowTest);
+            const dataTable = getDatatable(cmp);
+            dataTable.dispatchEvent(rowActionEvent({ name: 'delete' }, MOCK_TESTS[0]));
+            Promise.resolve().then(() => {
+                expect(handleDeleteFlowTest).toHaveBeenCalled();
+            });
+        });
+
+        it('calls the createOrEditFlowTestCallback when Edit action is clicked', async () => {
+            cmp = await createComponentUnderTest(props);
+            addFlowTests(MOCK_TESTS);
+            cmp.copyDataFromTestStore();
+            await ticks(1);
+            cmp.addEventListener(FlowTestListRowAction.Edit, createNewOrEditTestMock);
+            const dataTable = getDatatable(cmp);
+            dataTable.dispatchEvent(rowActionEvent({ name: 'edit' }, MOCK_TESTS[0]));
+            await ticks(1);
+            expect(createNewOrEditTestMock).toHaveBeenCalledWith(FlowTestMode.Edit);
+        });
+
+        it('flow test is deleted from the store', async () => {
+            cmp = await createComponentUnderTest(props);
+            addFlowTests(MOCK_TESTS);
+            cmp.copyDataFromTestStore();
+            await ticks(1);
+            let data = getDatatable(cmp).data;
+            expect(data.length).toBe(MOCK_TESTS.length);
+
+            deleteFlowTestFromCache(MOCK_TESTS[0].flowTestId);
+            cmp.copyDataFromTestStore();
+            await ticks(1);
+            data = getDatatable(cmp).data;
+            expect(data.length).toBe(MOCK_TESTS.length - 1);
+            for (let i = 0; i < data.length; i++) {
+                expect(data[i].flowTestId).toEqual(MOCK_TESTS[i + 1].flowTestId);
+            }
+        });
+
         it('is written with the appropriate run status icon', async () => {
             cmp = await createComponentUnderTest(props);
             addFlowTests(MOCK_TESTS);

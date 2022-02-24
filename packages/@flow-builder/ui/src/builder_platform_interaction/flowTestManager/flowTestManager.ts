@@ -1,20 +1,25 @@
-// @ts-nocheck
 import { FlowTestMode } from 'builder_platform_interaction/builderUtils';
+import { deleteFlowTest } from 'builder_platform_interaction/preloadLib';
 import type { FlowTestAndResultDescriptor } from 'builder_platform_interaction/systemLib';
-import { FlowTestResultStatusType, getFlowTestListState, getFlowTests } from 'builder_platform_interaction/systemLib';
+import {
+    deleteFlowTestFromCache,
+    FlowTestResultStatusType,
+    getFlowTestListState,
+    getFlowTests
+} from 'builder_platform_interaction/systemLib';
 import { api, LightningElement } from 'lwc';
 import { LABELS } from './flowTestManagerLabels';
 
-enum FlowTestListRowAction {
-    DELETE = 'delete',
-    EDIT = 'edit',
-    DETAIL = 'detail'
+export enum FlowTestListRowAction {
+    Delete = 'delete',
+    Edit = 'edit',
+    Detail = 'detail'
 }
 
 const ACTIONS = [
-    { label: LABELS.flowTestListViewDetailAction, name: FlowTestListRowAction.DETAIL },
-    { label: LABELS.flowTestListEditAction, name: FlowTestListRowAction.EDIT },
-    { label: LABELS.flowTestListDeleteAction, name: FlowTestListRowAction.DELETE }
+    { label: LABELS.flowTestListViewDetailAction, name: FlowTestListRowAction.Detail },
+    { label: LABELS.flowTestListEditAction, name: FlowTestListRowAction.Edit },
+    { label: LABELS.flowTestListDeleteAction, name: FlowTestListRowAction.Delete }
 ];
 
 const COLUMNS = [
@@ -65,7 +70,7 @@ const RESULT_STATUS_TO_ICON_MAP = {
 };
 
 export default class FlowTestManager extends LightningElement {
-    @api createNewTestCallback;
+    @api createOrEditFlowTestCallback;
     // Facilitates infinite scrolling, calling this should query for another page of tests and add it to the flow test store
     @api handleLoadMoreTests;
     @api hideModal;
@@ -78,14 +83,15 @@ export default class FlowTestManager extends LightningElement {
     privateFlowTestData: FlowTestAndResultDescriptor[] = [];
     selectedTests: FlowTestAndResultDescriptor[] = [];
 
+    showLoadingSpinner = false;
+
     constructor() {
         super();
         this.copyDataFromTestStore();
     }
 
     handleCreateNewTest() {
-        this.hideModal();
-        this.createNewTestCallback(FlowTestMode.Create);
+        this.handleCreateOrEdit(FlowTestMode.Create);
     }
 
     get flowHasTests() {
@@ -101,13 +107,13 @@ export default class FlowTestManager extends LightningElement {
         const row: FlowTestAndResultDescriptor = event.detail.row;
 
         switch (action) {
-            case FlowTestListRowAction.DELETE:
-                // TODO: implement delete action
+            case FlowTestListRowAction.Delete:
+                this.handleDeleteFlowTest(row.flowTestId);
                 break;
-            case FlowTestListRowAction.EDIT:
-                // TODO: implement edit action
+            case FlowTestListRowAction.Edit:
+                this.handleCreateOrEdit(FlowTestMode.Edit);
                 break;
-            case FlowTestListRowAction.DETAIL:
+            case FlowTestListRowAction.Detail:
                 // TODO: implement run and view detail action
                 break;
             default:
@@ -145,5 +151,43 @@ export default class FlowTestManager extends LightningElement {
 
     @api getSelectedTests(): FlowTestAndResultDescriptor[] {
         return this.selectedTests;
+    }
+
+    handleCreateOrEdit(mode: FlowTestMode) {
+        this.hideModal();
+        this.createOrEditFlowTestCallback(mode);
+    }
+
+    /**
+     * Calling DeleteFlowTest api to delete record and updating the flowTest cache
+     *
+     * @param flowTestId Flow test Id to delete
+     */
+    handleDeleteFlowTest = async (flowTestId) => {
+        this.showLoadingSpinner = true;
+        try {
+            const results = await deleteFlowTest([flowTestId]);
+            this._deleteFlowTestResults(results);
+        } finally {
+            this.showLoadingSpinner = false;
+        }
+    };
+
+    _deleteFlowTestResults(results) {
+        let isFlowTestDeleted = false;
+        for (const result of results) {
+            // check if deletion is successful
+            if (result.isSuccess) {
+                // delete the record from the FlowTest cache
+                deleteFlowTestFromCache(result.id);
+                isFlowTestDeleted = true;
+            } else {
+                // Delete operation was unsuccessful. No change in FlowTest data.
+                // TODO: Waiting on UX designs how this error should show up on the Flow test manager
+            }
+        }
+        if (isFlowTestDeleted) {
+            this.copyDataFromTestStore();
+        }
     }
 }

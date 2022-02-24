@@ -782,7 +782,7 @@ export function invokeFlowTestManager(attributes) {
         {
             flavor: 'large restrictWidthToSldsMedium'
         },
-        attributes.createNewTest,
+        attributes.createOrEditFlowTest,
         attributes.handleLoadMoreTests
     );
 }
@@ -794,10 +794,18 @@ export function invokeFlowTestManager(attributes) {
  * @param cmpBody - Name of the body component to be created.
  * @param cmpFooter - Name of the footer component to be created.
  * @param popoverProps - Contains popover properties
- * @param createNewTest - Callback after Create New Test button is clicked
+ * @param createOrEditFlowTest- Callback after "Create New Test" or "Edit test" action is clicked
+ * @param createOrEditFlowTest
  * @param handleLoadMoreTests - Callback that asks server for another page of tests. Used for infinite scroll
  */
-function showTestFlowManagerPopover(cmpHeader, cmpBody, cmpFooter, popoverProps, createNewTest, handleLoadMoreTests) {
+function showTestFlowManagerPopover(
+    cmpHeader,
+    cmpBody,
+    cmpFooter,
+    popoverProps,
+    createOrEditFlowTest,
+    handleLoadMoreTests
+) {
     popoverState = {
         panelInstance: null,
         referenceElement: popoverProps.referenceElement,
@@ -837,7 +845,7 @@ function showTestFlowManagerPopover(cmpHeader, cmpBody, cmpFooter, popoverProps,
         }
     });
     const bodyPromise = createComponentPromise(cmpBody, {
-        createNewTestCallback: createNewTest,
+        createOrEditFlowTestCallback: createOrEditFlowTest,
         handleLoadMoreTests,
         hideModal: hidePopover
     });

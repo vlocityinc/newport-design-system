@@ -109,3 +109,15 @@ export const dragStartEvent = (textValue?) => {
     }
     return dragStartEvent;
 };
+
+export const rowActionEvent = (action, row) => {
+    return new CustomEvent('rowaction', {
+        detail: {
+            action,
+            row
+        },
+        composed: true,
+        bubbles: true,
+        cancelable: true
+    });
+};

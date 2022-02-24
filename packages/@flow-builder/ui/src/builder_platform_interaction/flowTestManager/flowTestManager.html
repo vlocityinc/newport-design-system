@@ -1,5 +1,9 @@
 <template>
-    <div class="slds-p-vertical_small">
+    <div class="slds-is-relative slds-p-vertical_small">
+        <div if:true={showLoadingSpinner}>
+            <lightning-spinner variant="brand" alternative-text={labels.spinnerAlternativeText}></lightning-spinner>
+        </div>
+
         <div if:true={flowHasTests}>
             <div class="slds-grid slds-grid_align-end">
                 <lightning-button-group class="slds-p-bottom_small slds-p-right_small slds-col">

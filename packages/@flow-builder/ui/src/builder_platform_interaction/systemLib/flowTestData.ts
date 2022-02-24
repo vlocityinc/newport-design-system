@@ -122,3 +122,12 @@ export function resetFlowTestStore(): void {
     listState.reset();
     flowTests = [];
 }
+
+/**
+ * Delete Flow test record from FlowTest cache
+ *
+ * @param flowTestId flowTestId to delete
+ */
+export function deleteFlowTestFromCache(flowTestId: string): void {
+    flowTests = flowTests.filter((item) => item.flowTestId !== flowTestId);
+}
