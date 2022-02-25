@@ -4,9 +4,11 @@ import { isRecordChangeTriggerType } from 'builder_platform_interaction/triggerT
 import { Validation } from 'builder_platform_interaction/validation';
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
 
-const addtionalRules = {
+const additionalRules = {
     triggerType: [ValidationRules.shouldNotBeBlank],
-    recordTriggerType: [ValidationRules.shouldNotBeBlank]
+    recordTriggerType: [ValidationRules.shouldNotBeBlank],
+    formulaFilter: [ValidationRules.shouldNotBeBlank],
+    object: [ValidationRules.shouldNotBeBlank]
 };
 
 const defaultRules = {};
@@ -20,10 +22,6 @@ const validateFilter = () => ValidationRules.validateExpressionWith3PropertiesWi
 
 const validateFilterLogic = {
     filterLogic: [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined]
-};
-
-const additionalRules = {
-    object: [ValidationRules.shouldNotBeBlank]
 };
 
 export const contextValidation = new Validation(defaultRules);
@@ -63,4 +61,4 @@ export const getRules = ({ filterLogic, object, triggerType }) => {
     return overriddenRules;
 };
 
-export const recordChangeTriggerValidation = new Validation(addtionalRules, true);
+export const recordChangeTriggerValidation = new Validation(additionalRules, true);
