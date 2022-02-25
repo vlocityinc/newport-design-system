@@ -1,0 +1,173 @@
+.nds-b2b-product-relationship-rule {
+  .nds-b2b-rule {
+    background: rgba(221, 219, 218, 0.13);
+    border: 1px solid #DDDDDD;
+    box-sizing: border-box;
+    border-radius: 2px;
+  }
+
+  .nds-b2b-container {
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    width: 70%;
+    height: 74px;
+    position: relative;
+    .nds-b2b-checkbox {
+      background: #FFFFFF;
+      border: 1px solid #AEAEAE;
+      box-sizing: border-box;
+      border-radius: 2px;
+      width: 16px;
+      height: 16px;
+      margin-left: 21px;
+      margin-right: 10px;
+    }
+    .nds-b2b-rule-name {
+      font-family: Salesforce Sans;
+      font-size: 12px;
+      line-height: 14px;
+      color: #000000;
+      .nds-b2b-link-icon {
+        margin-right: 5px;
+      }
+      .nds-b2b-rule-text {
+        margin-top: 20px;
+        font-family: Salesforce Sans;
+        font-size: 14px;
+        line-height: 16px;
+        color: #000000;
+      }
+    }
+    .nds-b2b-relate-prod {
+      position: absolute;
+      right: 20px;
+      top: 4px;
+      width: 251px;
+      .nds-b2b-input-name {
+        font-family: Salesforce Sans;
+        font-size: 10px;
+        line-height: 20px;
+        margin: 0;
+      }
+      .nds-b2b-show-rel-prod {
+        height: 32px;
+        background: #FFFFFF;
+        border: 1px solid #DDDBDA;
+        box-sizing: border-box;
+        border-radius: 2px;
+        display: flex;
+        align-items: center;
+        padding: 8px;
+        justify-content: space-between  ;
+        .nds-b2b-rel-prod-text {
+            font-family: Salesforce Sans;
+            font-size: 12px;
+            line-height: 14px;
+            color: #020C14;
+        }
+        .nds-b2b-icon-edit {
+            float: right;
+            cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .nds-b2b-rule-section {
+    width: 271px;
+    background: #FFFFFF;
+    border: 1px solid #F2F1F1;
+    box-sizing: border-box;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
+    .nds-b2b-rule-sec-header {
+      height: 46px;
+      background: #F3F2F2;
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 0 15px;
+      .nds-b2b-link-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        margin-right: 9px;
+        background-color:#7A9AE6;
+      }
+      .nds-b2b-rule-header-text {
+        font-family: Salesforce Sans;
+        font-size: 16px;
+        line-height: 19px;
+        color: #000000;
+      }
+    }
+    .nds-b2b-prod-section {
+      background: #FFFFFF;
+      border: 1px solid #F2F1F1;
+      box-sizing: border-box;
+      box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
+      .nds-b2b-product-details {
+        padding: 10px 15px;
+        .nds-b2b-prod-name {
+          font-family: Salesforce Sans;
+          font-size: 11px;
+          line-height: 13px;
+          color: #000000;
+        }
+      }
+      .nds-b2b-rules {
+        border-top: 1px solid #DDDBDA;
+        padding: 0px 15px;
+        .nds-b2b-prod-rule-sec {
+          margin: 10px 0px;
+          .nds-b2b-rule-header {
+            display: flex;
+            align-items: center;
+            .nds-b2b-link-icon {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              width: 20px;
+              height: 20px;
+              margin-right: 9px;
+              background-color:#7A9AE6;
+            }
+            .nds-b2b-rel-text {
+              font-family: Salesforce Sans;
+              font-size: 11px;
+              line-height: 13px;
+              color: #000000;
+            }
+          }
+          .nds-b2b-rule-name {
+            padding: 10px 0px 3px;
+            border-bottom: 1px solid #DDDBDA;
+            font-family: Salesforce Sans;
+            font-size: 11px;
+            line-height: 13px;
+            color: #706E6B;
+          }
+        }
+        .nds-b2b-rel-prod-section {
+          nds-b2b-rel-prod {
+            font-family: Salesforce Sans;
+            font-size: 11px;
+            line-height: 13px;
+            color: #000000;
+          }
+          .nds-b2b-de-link {
+            font-family: Salesforce Sans;
+            font-size: 11px;
+            line-height: 13px;
+            color: #006DCC;
+            direction: rtl;
+            cursor: pointer;
+            margin: 10px 0px 10px;
+          }
+        }
+      }
+    }
+  }
+}
