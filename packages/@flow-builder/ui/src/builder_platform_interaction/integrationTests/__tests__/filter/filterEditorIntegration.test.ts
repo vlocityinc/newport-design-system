@@ -6,6 +6,7 @@ import {
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import CollectionProcessorEditor from 'builder_platform_interaction/collectionProcessorEditor';
+import { setContext } from 'builder_platform_interaction/contextLib';
 import { AddElementEvent, EditElementEvent, PropertyChangedEvent } from 'builder_platform_interaction/events';
 import FerToFerovExpressionBuilder from 'builder_platform_interaction/ferToFerovExpressionBuilder';
 import FieldToFerovExpressionBuilder from 'builder_platform_interaction/fieldToFerovExpressionBuilder';
@@ -20,6 +21,7 @@ import { getElementForPropertyEditor } from 'builder_platform_interaction/proper
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { createElement } from 'lwc';
 import * as recommendationFlow from 'mock/flows/recommendationFlow.json';
+import { context } from 'serverData/GetContext/context.json';
 import { getToolboxElements } from '../../../editor/editorUtils';
 import { ComboboxTestComponent } from '../comboboxTestUtils';
 import { ExpressionBuilderComponentTest } from '../expressionBuilderTestUtils';
@@ -140,6 +142,35 @@ const getFormulaEditor = (filterEditor) => {
     return deepQuerySelector(filterEditor, [SELECTORS.FILTER_CONDITION_LIST, SELECTORS.RESOURCED_TEXTAREA]);
 };
 
+const getFormulaBuilder = (filterEditor) => {
+    return deepQuerySelector(filterEditor, [SELECTORS.FILTER_CONDITION_LIST, SELECTORS.FORMULA_BUILDER]);
+};
+
+const getFormulaResourcePicker = (formulaBuilder) => {
+    return formulaBuilder.shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
+};
+
+const getFormulaResourceCombobox = (formulaBuilder) => {
+    const resourceCombo = deepQuerySelector(formulaBuilder, [
+        SELECTORS.FEROV_RESOURCE_PICKER,
+        SELECTORS.BASE_RESOURCE_PICKER,
+        SELECTORS.COMBOBOX
+    ]);
+    return new ComboboxTestComponent(resourceCombo);
+};
+
+const getFunctionPicker = (formulaBuilder) => {
+    return formulaBuilder.shadowRoot.querySelector('formula-function-picker');
+};
+
+const getOperatorPicker = (formulaBuilder) => {
+    return formulaBuilder.shadowRoot.querySelector('formula-operator-picker');
+};
+
+const getSyntaxValidation = (formulaBuilder) => {
+    return formulaBuilder.shadowRoot.querySelector('formula-syntax-validation');
+};
+
 // Assert two sets of conditions match
 const assertConditionsMatch = (actualConditions, expectedConditions) => {
     expect(actualConditions).toHaveLength(expectedConditions.length);
@@ -152,6 +183,19 @@ const assertConditionsMatch = (actualConditions, expectedConditions) => {
             expectedConditions[index].rightHandSideDataType
         );
     }
+};
+
+const newFilterElement = {
+    locationX: 50,
+    locationY: 100,
+    elementType: ELEMENT_TYPE.COLLECTION_PROCESSOR,
+    elementSubtype: COLLECTION_PROCESSOR_SUB_TYPE.FILTER,
+    isNew: true
+};
+
+const setOrgHasFlowFormulaBuilder = (orgPermStatus) => {
+    Object.assign(context, { access: { orgHasFlowFormulaBuilder: orgPermStatus } });
+    setContext(context);
 };
 
 describe('Filter Editor', () => {
@@ -169,13 +213,6 @@ describe('Filter Editor', () => {
         let filterEditor;
         let labelDescription: LabelDescriptionComponentTest;
         beforeEach(async () => {
-            const newFilterElement = {
-                locationX: 50,
-                locationY: 100,
-                elementType: ELEMENT_TYPE.COLLECTION_PROCESSOR,
-                elementSubtype: COLLECTION_PROCESSOR_SUB_TYPE.FILTER,
-                isNew: true
-            };
             collectionProcessorEditor = createCollectionProcessorEditorForTest(
                 getElementForPropertyEditor(newFilterElement),
                 processType,
@@ -235,6 +272,63 @@ describe('Filter Editor', () => {
             expect(getCollectionVariableCombobox(filterEditor)!.element.errorMessage).toBe(
                 FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
             );
+        });
+        it('renders formula editor if orgHasFlowFormulaBuilder is off', async () => {
+            const collectionVariableCombobox = getCollectionVariableCombobox(filterEditor).getGroupedCombobox();
+            await collectionVariableCombobox.type('{!outputRecommendations}');
+            const conditionList = getConditionList(filterEditor);
+            await getConditionLogicCombobox(conditionList).dispatchEvent(
+                new PropertyChangedEvent('conditionLogic', CONDITION_LOGIC.FORMULA)
+            );
+            expect(getFormulaEditor(filterEditor)).not.toBeNull();
+            expect(getFormulaBuilder(filterEditor)).toBeNull();
+        });
+        describe('Formula builder when orgHasFlowFormulaBuilder is on', () => {
+            let collectionProcessorEditor, filterEditor;
+            beforeAll(async () => {
+                setOrgHasFlowFormulaBuilder(true);
+                collectionProcessorEditor = createCollectionProcessorEditorForTest(
+                    getElementForPropertyEditor(newFilterElement),
+                    processType,
+                    AddElementEvent.EVENT_NAME
+                );
+                labelDescription = new LabelDescriptionComponentTest(
+                    getLabelDescriptionElement(collectionProcessorEditor)
+                );
+                await ticks(1);
+                filterEditor = getFilterEditor(collectionProcessorEditor);
+                const collectionVariableCombobox = getCollectionVariableCombobox(filterEditor).getGroupedCombobox();
+                await collectionVariableCombobox.type('{!outputRecommendations}');
+                const conditionList = getConditionList(filterEditor);
+                await getConditionLogicCombobox(conditionList).dispatchEvent(
+                    new PropertyChangedEvent('conditionLogic', CONDITION_LOGIC.FORMULA)
+                );
+            });
+            afterAll(() => {
+                setOrgHasFlowFormulaBuilder(false);
+            });
+            it('renders formula builder', () => {
+                expect(getFormulaEditor(filterEditor)).toBeNull();
+                expect(getFormulaBuilder(filterEditor)).not.toBeNull();
+            });
+            it('renders pickers for resource, function and operator in formula builder', () => {
+                const formulaBuilder = getFormulaBuilder(filterEditor);
+                expect(getFormulaResourcePicker(formulaBuilder)).not.toBeNull();
+                expect(getFunctionPicker(formulaBuilder)).not.toBeNull();
+                expect(getOperatorPicker(formulaBuilder)).not.toBeNull();
+                expect(getSyntaxValidation(formulaBuilder)).not.toBeNull();
+            });
+            it('contains "Record Variables" in resource picker', () => {
+                const formulaBuilder = getFormulaBuilder(filterEditor);
+                const groupedCombo = getFormulaResourceCombobox(formulaBuilder).getGroupedCombobox();
+                expect(
+                    groupedCombo.getItemInGroup(
+                        'FLOWBUILDERELEMENTCONFIG.SOBJECTPLURALLABEL',
+                        'text',
+                        'currentItem_Filter_Get_Accounts_By_Conditions'
+                    )
+                );
+            });
         });
     });
     describe('Existing Filter Element', () => {
@@ -337,6 +431,7 @@ describe('Filter Editor', () => {
             });
         });
         describe('Filter SObject collection by formula', () => {
+            const expectedFormula = "BEGINS({!currentItem_Filter_Get_Accounts_By_Formula.Name}, 'Test')";
             let elementFromFlow, collectionProcessorEditor;
             let filterEditor;
             beforeEach(async () => {
@@ -358,10 +453,9 @@ describe('Filter Editor', () => {
                 );
             });
             it('loads formula editor and the formula expression', () => {
-                expect(getFormulaEditor(filterEditor)).not.toBeNull();
-                expect(getFormulaEditor(filterEditor).value.value).toBe(
-                    "BEGINS({!currentItem_Filter_Get_Accounts_By_Formula.Name}, 'Test')"
-                );
+                const formulaEditor = getFormulaEditor(filterEditor);
+                expect(formulaEditor).not.toBeNull();
+                expect(formulaEditor.value.value).toBe(expectedFormula);
             });
             it('changes formula', async () => {
                 const newFormula = "CONTAINS({!currentItem_Filter_Get_Accounts_By_Formula.Name}, 'Test')";
@@ -375,13 +469,32 @@ describe('Filter Editor', () => {
                 await getConditionLogicCombobox(conditionList).dispatchEvent(
                     new PropertyChangedEvent('conditionLogic', CONDITION_LOGIC.OR)
                 );
-                expect(getFilterConditions(filterEditor)).toHaveLength(1);
-                expect(getFilterConditions(filterEditor)).toMatchObject([newCondition]);
+                const conditions = getFilterConditions(filterEditor);
+                expect(conditions).toHaveLength(1);
+                expect(conditions).toMatchObject([newCondition]);
                 expect(getFormulaEditor(filterEditor)).toBeNull();
             });
             it('does not render conditions', () => {
                 expect(getFieldExpressionBuilders(filterEditor)).toHaveLength(0);
                 expect(getFerExpressionBuilders(filterEditor)).toHaveLength(0);
+            });
+            describe('Formula builder when orgHasFlowFormulaBuilder is on', () => {
+                beforeAll(() => {
+                    setOrgHasFlowFormulaBuilder(true);
+                });
+                afterAll(() => {
+                    setOrgHasFlowFormulaBuilder(false);
+                });
+                it('renders formula builder with correct value', () => {
+                    expect(getFormulaEditor(filterEditor)).toBeNull();
+                    expect(getFormulaBuilder(filterEditor).value.value).toEqual(expectedFormula);
+                });
+                it('changes formula', async () => {
+                    const newFormula = "CONTAINS({!currentItem_Filter_Get_Accounts_By_Formula.Name}, 'Test')";
+                    const filterConditionList = getChildComponent(filterEditor, SELECTORS.FILTER_CONDITION_LIST);
+                    await filterConditionList.dispatchEvent(new PropertyChangedEvent('formula', newFormula));
+                    expect(getFormulaBuilder(filterEditor).value.value).toBe(newFormula);
+                });
             });
         });
         describe('Filter Apex type input collection by conditions', () => {
