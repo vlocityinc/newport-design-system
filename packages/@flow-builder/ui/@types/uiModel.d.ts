@@ -478,4 +478,26 @@ declare namespace UI {
         expression: UI.ExpressionFilter;
         message?: string;
     }
+
+    type DebugDataEntry = {
+        elementApiName: string;
+        elementLabel: string;
+        elementType: string;
+        elementIconType: string;
+        lines: string[];
+        error: string;
+        originSubflow: string;
+        startDateTime: Date;
+        endDateTime: Date;
+        entryType: string;
+        limits: string[];
+    };
+
+    type TestAssertionEntry = {
+        status: string;
+        condition: string;
+        failMessage: string;
+        errorMessage: string;
+        conditionOutcome: string;
+    };
 }

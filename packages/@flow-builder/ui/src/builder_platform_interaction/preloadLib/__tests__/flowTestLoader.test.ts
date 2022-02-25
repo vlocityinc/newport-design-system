@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { fetchPromise, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
-import { addFlowTests } from 'builder_platform_interaction/systemLib';
-import { loadFlowTests } from '../flowTestLoader';
+import { addFlowTests, updateFlowTestResults } from 'builder_platform_interaction/systemLib';
+import { loadFlowTests, runFlowTests } from '../flowTestLoader';
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/serverDataLib');
@@ -37,5 +37,31 @@ describe('load flow tests', () => {
             loadFlowTests(params.flowDefinitionId, params.flowVersionId, params.offset, params.limit)
         ).rejects.toEqual(errorResponse);
         expect(addFlowTests).not.toHaveBeenCalled();
+    });
+});
+
+describe('run flow tests', () => {
+    const params = {
+        flowVersionId: 'abcdef',
+        testIds: ['12345', '13579'],
+        showTrace: false
+    };
+    it('invokes call out and call back', async () => {
+        const testData = [{ foo: 'bar ' }];
+        fetchPromise.mockResolvedValue(testData);
+
+        await runFlowTests(params.flowVersionId, params.testIds, params.showTrace);
+        expect(fetchPromise).toBeCalledWith(SERVER_ACTION_TYPE.RUN_FLOW_TESTS, params);
+        expect(updateFlowTestResults).toBeCalledTimes(1);
+        expect(updateFlowTestResults).toHaveBeenCalledWith(testData);
+    });
+
+    it('does not invoke call back on error', async () => {
+        const errorResponse = 'error';
+        fetchPromise.mockRejectedValue(errorResponse);
+        await expect(
+            runFlowTests(params.flowDefinitionId, params.flowVersionId, params.offset, params.limit)
+        ).rejects.toEqual(errorResponse);
+        expect(updateFlowTestResults).not.toHaveBeenCalled();
     });
 });

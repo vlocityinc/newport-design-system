@@ -8,6 +8,19 @@ export type FlowTestAndResultDescriptor = {
     flowTestId: string;
 };
 
+// matches DescribeRunFlowTestResult.java on core
+export type DescribeRunFlowTestResult = {
+    testName: string;
+    testId: string;
+    testStatus: FlowTestResultStatusType;
+    interviewStatus: string;
+    interviewErrors: string[];
+    trace: UI.DebugDataEntry;
+    assertions: UI.TestAssertionEntry;
+    startInterviewTime: Date;
+    endInterviewTime: Date;
+};
+
 export const enum FlowTestResultStatusType {
     PASS = 'Pass',
     FAIL = 'Fail',
@@ -66,8 +79,6 @@ export class FlowTestListState {
 const listState: FlowTestListState = new FlowTestListState();
 let flowTests: FlowTestAndResultDescriptor[] = [];
 
-// TODO: The exact API this store will expose is still a work in progress. To be finalized and tested in W-10522425
-
 /**
  * Adds tests to the local flow test store
  *
@@ -86,19 +97,20 @@ export function addFlowTests(data: FlowTestAndResultDescriptor[]): void {
 
 /**
  * takes incoming test result data, matches them by id to tests in the store, and updates the store accordingly
- * WIP, this should be based on the shape of that incoming result data after a run, whatever that is
- *
+
  * @param incomingData incoming result data from a test run
  */
-export function updateFlowTestResults(incomingData: FlowTestAndResultDescriptor[]): void {
-    flowTests = flowTests.map((testData) => {
-        const testId = testData.flowTestId;
-        const matchingTest = incomingData.find((t) => t.flowTestId === testId);
-        if (matchingTest) {
-            return { ...testData, lastRunDate: matchingTest.lastRunDate, lastRunStatus: matchingTest.lastRunStatus };
+export function updateFlowTestResults(incomingData: { [flowTestId: string]: DescribeRunFlowTestResult }): void {
+    for (const testId in incomingData) {
+        if (incomingData.hasOwnProperty(testId)) {
+            const resultData = incomingData[testId];
+            const matchingTestInStore = flowTests.find((t) => t.flowTestId === resultData.testId);
+            if (matchingTestInStore) {
+                matchingTestInStore.lastRunDate = resultData.endInterviewTime;
+                matchingTestInStore.lastRunStatus = resultData.testStatus;
+            }
         }
-        return { ...testData };
-    });
+    }
 }
 
 /**

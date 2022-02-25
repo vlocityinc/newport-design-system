@@ -120,7 +120,8 @@ import {
     loadOperatorsAndRulesOnTriggerTypeChange,
     loadParametersForInvocableApexActionsInFlowFromMetadata,
     loadProcessTypeFeatures,
-    loadVersioningData
+    loadVersioningData,
+    runFlowTests
 } from 'builder_platform_interaction/preloadLib';
 import {
     isAutoLayoutCanvasOnly,
@@ -1597,6 +1598,10 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         );
     };
 
+    handleRunTests = async (flowTestIds: string[], showTrace: boolean) => {
+        await runFlowTests(this.currentFlowId, flowTestIds, showTrace);
+    };
+
     /**
      * Handles the View All Tests event fired by toolbar.
      */
@@ -1610,7 +1615,11 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             }
         }
         this.queueFlowTestManager(() => {
-            return { createOrEditFlowTest: this.createOrEditFlowTest, handleLoadMoreTests: this.handleLoadMoreTests };
+            return {
+                createOrEditFlowTest: this.createOrEditFlowTest,
+                handleLoadMoreTests: this.handleLoadMoreTests,
+                handleRunTests: this.handleRunTests
+            };
         });
     };
 

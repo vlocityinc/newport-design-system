@@ -1,5 +1,5 @@
 import { fetchPromise, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
-import { addFlowTests } from 'builder_platform_interaction/systemLib';
+import { addFlowTests, updateFlowTestResults } from 'builder_platform_interaction/systemLib';
 
 export const loadFlowTests = (flowDefinitionId, flowVersionId, offset, limit) =>
     fetchPromise(SERVER_ACTION_TYPE.GET_FLOW_TESTS_AND_RESULTS, {
@@ -9,6 +9,15 @@ export const loadFlowTests = (flowDefinitionId, flowVersionId, offset, limit) =>
         limit
     }).then((data: any) => {
         addFlowTests(data);
+    });
+
+export const runFlowTests = (flowVersionId, testIds, showTrace) =>
+    fetchPromise(SERVER_ACTION_TYPE.RUN_FLOW_TESTS, {
+        flowVersionId,
+        testIds,
+        showTrace
+    }).then((data: any) => {
+        updateFlowTestResults(data);
     });
 
 export const deleteFlowTest = (testIds) =>

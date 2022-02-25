@@ -24,7 +24,6 @@ import { clearExpressions } from 'builder_platform_interaction/expressionValidat
 import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
 import { commonUtils, invokeModalWithComponents } from 'builder_platform_interaction/sharedUtils';
-import { updateFlowTestResults } from 'builder_platform_interaction/systemLib';
 import { LABELS } from './builderUtilsLabels';
 const { format } = commonUtils;
 
@@ -786,7 +785,8 @@ export function invokeFlowTestManager(attributes) {
             flavor: 'large restrictWidthToSldsMedium'
         },
         attributes.createOrEditFlowTest,
-        attributes.handleLoadMoreTests
+        attributes.handleLoadMoreTests,
+        attributes.handleRunTests
     );
 }
 
@@ -800,6 +800,7 @@ export function invokeFlowTestManager(attributes) {
  * @param createOrEditFlowTest- Callback after "Create New Test" or "Edit test" action is clicked
  * @param createOrEditFlowTest
  * @param handleLoadMoreTests - Callback that asks server for another page of tests. Used for infinite scroll
+ * @param handleRunTests - Callback that executes selected tests
  */
 function showTestFlowManagerPopover(
     cmpHeader,
@@ -807,7 +808,8 @@ function showTestFlowManagerPopover(
     cmpFooter,
     popoverProps,
     createOrEditFlowTest,
-    handleLoadMoreTests
+    handleLoadMoreTests,
+    handleRunTests
 ) {
     popoverState = {
         panelInstance: null,
@@ -815,15 +817,8 @@ function showTestFlowManagerPopover(
         onClose: popoverProps.onClose
     };
 
-    const runSelectedTests = function (cmp) {
-        // TODO: Implement server call that actually runs the tests that are selected and updates the store with results
-        // This is just to demonstrate that the communication between components is working
-        const selectedTests = cmp.modalBody.getSelectedTests();
-        const dummyTestResultData = selectedTests.map((testData) => {
-            return { ...testData, lastRunDate: new Date(), lastRunStatus: 'Pass' };
-        });
-        updateFlowTestResults(dummyTestResultData);
-        cmp.modalBody.copyDataFromTestStore();
+    const runSelectedTests = async (cmp) => {
+        await cmp.modalBody.runSelectedTests();
     };
 
     const headerPromise = createComponentPromise(cmpHeader, {
@@ -850,6 +845,7 @@ function showTestFlowManagerPopover(
     const bodyPromise = createComponentPromise(cmpBody, {
         createOrEditFlowTestCallback: createOrEditFlowTest,
         handleLoadMoreTests,
+        handleRunTests,
         hideModal: hidePopover
     });
 
@@ -861,7 +857,7 @@ function showTestFlowManagerPopover(
 
         // The body and footer need to be able to reference each other:
         // 1. The body references the footer to let it know when tests are selected and it can enable the Run Tests button
-        // 2. The footer references the body to let it know to check the test store after tests are ran via the Run Tests button
+        // 2. The footer references the body to let it know to run tests when the Run Tests button is pressed
         const panelBody = modal.get('v.body')[0];
         panelBody.set('v.footer', modalFooter);
         modalFooter.set('v.modalBody', panelBody);

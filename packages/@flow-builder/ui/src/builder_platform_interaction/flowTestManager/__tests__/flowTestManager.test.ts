@@ -13,7 +13,8 @@ const createComponentUnderTest = async (props) => {
 const SELECTORS = {
     CREATE_BUTTON: '[data-id="create-button"]',
     CREATE_BUTTON_ON_TABLE: '[data-id="create-button-w-table"]',
-    DATATABLE: 'lightning-datatable'
+    DATATABLE: 'lightning-datatable',
+    SPINNER: 'lightning-spinner'
 };
 
 const getCreateButton = (cmp) => {
@@ -26,6 +27,10 @@ const getCreateButtonOnTable = (cmp) => {
 
 const getDatatable = (cmp) => {
     return cmp.shadowRoot.querySelector(SELECTORS.DATATABLE);
+};
+
+const getSpinner = (cmp) => {
+    return cmp.shadowRoot.querySelector(SELECTORS.SPINNER);
 };
 
 const MOCK_TESTS = [
@@ -355,6 +360,74 @@ describe('flowTestManager', () => {
             await ticks(1);
             datatable.dispatchEvent(ev);
             expect(handleLoadMoreTestsFn).toBeCalledTimes(1);
+        });
+    });
+
+    describe('runSelectedTests api', () => {
+        const RUN_TEST_LENGTH = 10;
+        let cmp, handleRunTestsFn, props;
+        beforeEach(async () => {
+            handleRunTestsFn = jest.fn().mockImplementation(async () => {
+                await ticks(RUN_TEST_LENGTH);
+            });
+            props = {
+                footer: {
+                    enableButtonOne: jest.fn()
+                },
+                hideModal: jest.fn(),
+                createNewTestCallback: jest.fn(),
+                handleLoadMoreTests: jest.fn(),
+                handleRunTests: handleRunTestsFn
+            };
+            cmp = await createComponentUnderTest(props);
+            // not the actual tests we're selecting, we just do this so the table will appear
+            addFlowTests([MOCK_TESTS[0]]);
+            cmp.copyDataFromTestStore();
+            await ticks(1);
+        });
+
+        afterEach(() => {
+            resetFlowTestStore();
+        });
+
+        it('batches selected tests into groups of 50, and calls run test handler on each', async () => {
+            const testIds = [];
+            for (let i = 0; i < 150; i++) {
+                testIds.push({ flowTestId: 'testid' + i });
+            }
+            const datatable = getDatatable(cmp);
+            const ev = new CustomEvent('rowselection', { detail: { selectedRows: testIds } });
+            datatable.dispatchEvent(ev);
+
+            await cmp.runSelectedTests();
+
+            expect(handleRunTestsFn).toHaveBeenCalledTimes(3);
+            expect(handleRunTestsFn).toHaveBeenNthCalledWith(1, testIds.map((t) => t.flowTestId).slice(0, 50), false);
+            expect(handleRunTestsFn).toHaveBeenNthCalledWith(2, testIds.map((t) => t.flowTestId).slice(50, 100), false);
+            expect(handleRunTestsFn).toHaveBeenNthCalledWith(
+                3,
+                testIds.map((t) => t.flowTestId).slice(100, 150),
+                false
+            );
+        });
+
+        it('handles modalBody spinner state before and after call', async () => {
+            const datatable = getDatatable(cmp);
+            const ev = new CustomEvent('rowselection', { detail: { selectedRows: [{ flowTestId: 'testid' }] } });
+            datatable.dispatchEvent(ev);
+
+            expect(getSpinner(cmp)).toBeNull();
+
+            cmp.runSelectedTests();
+
+            await ticks(RUN_TEST_LENGTH - 1);
+
+            expect(getSpinner(cmp)).not.toBeNull();
+            expect(getSpinner(cmp)).toBeDefined();
+
+            await ticks(RUN_TEST_LENGTH);
+
+            expect(getSpinner(cmp)).toBeNull();
         });
     });
 });

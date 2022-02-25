@@ -69,16 +69,20 @@ const RESULT_STATUS_TO_ICON_MAP = {
     [FlowTestResultStatusType.ERROR]: 'utility:close'
 };
 
+/* Max number of tests to be sent in a single run request */
+const TEST_RUN_BATCH_SIZE = 50;
+
 export default class FlowTestManager extends LightningElement {
     @api createOrEditFlowTestCallback;
     // Facilitates infinite scrolling, calling this should query for another page of tests and add it to the flow test store
     @api handleLoadMoreTests;
+    @api handleRunTests;
     @api hideModal;
     @api footer;
 
     labels = LABELS;
     columns = COLUMNS;
-    isLoading = false;
+    listIsLoadingMoreTests = false;
 
     privateFlowTestData: FlowTestAndResultDescriptor[] = [];
     selectedTests: FlowTestAndResultDescriptor[] = [];
@@ -128,15 +132,15 @@ export default class FlowTestManager extends LightningElement {
     }
 
     async loadMoreHandler(event) {
-        if (this.isLoading || getFlowTestListState().hasHitEndOfList()) {
+        if (this.listIsLoadingMoreTests || getFlowTestListState().hasHitEndOfList()) {
             return;
         }
-        this.isLoading = true;
+        this.listIsLoadingMoreTests = true;
         try {
             await this.handleLoadMoreTests(getFlowTestListState().getCurrentOffset());
             this.copyDataFromTestStore();
         } finally {
-            this.isLoading = false;
+            this.listIsLoadingMoreTests = false;
         }
     }
 
@@ -149,8 +153,19 @@ export default class FlowTestManager extends LightningElement {
         });
     }
 
-    @api getSelectedTests(): FlowTestAndResultDescriptor[] {
-        return this.selectedTests;
+    @api async runSelectedTests(): Promise<void> {
+        this.showLoadingSpinner = true;
+        const selectedTestIds = this.selectedTests.map((testData) => testData.flowTestId);
+        const testRunPromises: Promise<void>[] = [];
+        for (let i = 0; i < selectedTestIds.length; i += TEST_RUN_BATCH_SIZE) {
+            testRunPromises.push(this.handleRunTests(selectedTestIds.slice(i, i + TEST_RUN_BATCH_SIZE), false));
+        }
+        try {
+            await Promise.all(testRunPromises);
+        } finally {
+            this.copyDataFromTestStore();
+            this.showLoadingSpinner = false;
+        }
     }
 
     handleCreateOrEdit(mode: FlowTestMode) {
