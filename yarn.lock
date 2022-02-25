@@ -2436,6 +2436,11 @@
   resolved "https://nexus-proxy-prd.soma.salesforce.com/nexus/content/groups/npm-all/@salesforce/eslint-plugin-lightning/-/eslint-plugin-lightning-1.0.0.tgz#9ecf80527d83394960ef3c358c790cdfde44f578"
   integrity sha512-zk0PKXAcHKHepAG2EOSWlkOTxQM0Aw1CT6+MUxJcM42fCDwH/yPPpGkG3CWtRfmVViODGOwU9ywU2wlkAYcvUQ==
 
+"@salesforce/wire-service-jest-util@^4.0.0":
+  version "4.0.0"
+  resolved "https://nexus-proxy-prd.soma.salesforce.com/nexus/content/groups/npm-all/@salesforce/wire-service-jest-util/-/wire-service-jest-util-4.0.0.tgz#2ee121b8834399a21fdc982e372f9f408e00dedc"
+  integrity sha512-YJO/bMq5l6IYIZG6bAqYzzbmZMPCzB2GE2TKGLA1U7B9HpmNHZS7DdDcy154P03dfLSgF+tgVYeklh2HRYGk9g==
+
 "@sindresorhus/is@^4.0.0":
   version "4.2.0"
   resolved "https://nexus-proxy-prd.soma.salesforce.com/nexus/content/groups/npm-all/@sindresorhus/is/-/is-4.2.0.tgz#667bfc6186ae7c9e0b45a08960c551437176e1ca"

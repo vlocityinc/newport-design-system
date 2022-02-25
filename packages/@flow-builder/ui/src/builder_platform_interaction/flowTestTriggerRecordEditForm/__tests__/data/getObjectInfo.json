@@ -1,0 +1,12 @@
+{
+    "fields": {
+        "Name": {
+            "value": "Test",
+            "updateable": true
+        },
+        "Description": {
+            "value": "Hello",
+            "updateable": true
+        }
+    }
+}

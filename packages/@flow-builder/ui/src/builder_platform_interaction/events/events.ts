@@ -92,6 +92,7 @@ export { ShowResourceDetailsEvent } from './showResourceDetailsEvent';
 export { SObjectReferenceChangedEvent } from './sObjectReferenceChangedEvent';
 export { TemplateChangedEvent } from './templateChangedEvent';
 export { UpdateTestAssertionEvent } from './testEditorEvents/UpdateTestAssertionEvent';
+export { UpdateTestRecordDataEvent } from './testEditorEvents/UpdateTestRecordDataEvent';
 export { TextChangedEvent } from './textChangedEvent';
 export { AddToFlowTestEvent } from './toolbarEvents/addToFlowTestEvent';
 export { CopyOnCanvasEvent } from './toolbarEvents/copyOnCanvasEvent';

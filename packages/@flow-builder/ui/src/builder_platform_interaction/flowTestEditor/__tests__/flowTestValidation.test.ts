@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { LABELS } from '../../validationRules/validationRulesLabels';
+import { RECORD_DATA_ERROR } from '../flowTestEditor';
 import { flowTestValidation } from '../flowTestValidation';
-
 const CANNOT_BE_BLANK_ERROR = LABELS.cannotBeBlank;
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
@@ -66,5 +66,12 @@ describe('Flow Test Validation', () => {
         };
         const validatedFlowTest = flowTestValidation.validateAll(flowTestWithCorrectCondition);
         expect(validatedFlowTest.name.error).toEqual(CANNOT_BE_BLANK_ERROR);
+    });
+    it('should have an error when initial record data is in error', () => {
+        const flowTestWithCorrectCondition = {
+            initialTestRecordData: { value: {}, error: RECORD_DATA_ERROR }
+        };
+        const validatedFlowTest = flowTestValidation.validateAll(flowTestWithCorrectCondition);
+        expect(validatedFlowTest.initialTestRecordData.error).toEqual(RECORD_DATA_ERROR);
     });
 });

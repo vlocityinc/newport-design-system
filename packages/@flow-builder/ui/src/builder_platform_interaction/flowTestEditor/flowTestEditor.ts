@@ -14,7 +14,7 @@ export enum FlowTestMenuItems {
 
 const PROPERTIES_BY_TAB = {
     [FlowTestMenuItems.Details]: ['name', 'label', 'description', 'testTriggerType', 'runPathValue'],
-    [FlowTestMenuItems.InitialRecord]: [],
+    [FlowTestMenuItems.InitialRecord]: ['testInitialRecordData'],
     [FlowTestMenuItems.UpdatedRecord]: [],
     [FlowTestMenuItems.Assertions]: ['testAssertions']
 };
@@ -23,6 +23,7 @@ export default class FlowTestEditor extends LightningElement {
     @api triggerSaveType;
     @track activeMenuItemId = FlowTestMenuItems.Details;
     items: UI.MenuItem[] = [];
+    @api objectApiName;
 
     @api validate() {
         const event = { type: VALIDATE_ALL };
@@ -47,13 +48,13 @@ export default class FlowTestEditor extends LightningElement {
     labels = LABELS;
     tabHeaders = {
         [FlowTestMenuItems.Details]: this.labels.flowTestDetailsMenuItem,
-        [FlowTestMenuItems.InitialRecord]: '',
+        [FlowTestMenuItems.InitialRecord]: this.labels.flowTestInitialRecordPanelHeader,
         [FlowTestMenuItems.UpdatedRecord]: '',
         [FlowTestMenuItems.Assertions]: this.labels.flowTestAssertionPanelHeader
     };
 
     tabDescriptions = {
-        [FlowTestMenuItems.InitialRecord]: '',
+        [FlowTestMenuItems.InitialRecord]: this.labels.flowTestInitialRecordPanelDescription,
         [FlowTestMenuItems.UpdatedRecord]: '',
         [FlowTestMenuItems.Assertions]: this.labels.flowTestAssertionPanelDescription
     };
@@ -108,6 +109,10 @@ export default class FlowTestEditor extends LightningElement {
 
     get assertions(): UI.FlowTestAssertion[] {
         return this._flowTestObject.testAssertions;
+    }
+
+    get initialRecordData(): object {
+        return this._flowTestObject.testInitialRecordData;
     }
 
     /* ********************** */

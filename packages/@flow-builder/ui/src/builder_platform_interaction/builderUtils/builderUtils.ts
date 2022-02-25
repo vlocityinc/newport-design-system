@@ -685,6 +685,7 @@ export function invokeCreateEditFlowTestEditor(attributes) {
     const data = attributes.flowTestObject;
     const mode = attributes.createOrEdit;
     const triggerSaveType = attributes.triggerSaveType;
+    const triggerObjectType = attributes.triggerObjectType;
     showFlowTestPopover(
         'builder_platform_interaction:modalHeader',
         'builder_platform_interaction:flowTestEditor',
@@ -692,7 +693,8 @@ export function invokeCreateEditFlowTestEditor(attributes) {
         {
             data,
             mode,
-            triggerSaveType
+            triggerSaveType,
+            triggerObjectType
         },
         {
             flavor: 'large restrictWidthToSldsMedium'
@@ -748,7 +750,8 @@ function showFlowTestPopover(cmpHeader, cmpBody, cmpFooter, cmpAttributes = {}, 
     });
     const bodyPromise = createComponentPromise(cmpBody, {
         flowTestObject: cmpAttributes.data,
-        triggerSaveType: cmpAttributes.triggerSaveType
+        triggerSaveType: cmpAttributes.triggerSaveType,
+        objectApiName: cmpAttributes.triggerObjectType
     });
     const invokeModalWithComponentsOnCreateOverride = (modal, data) => {
         onCreatePopover(modal);

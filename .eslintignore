@@ -6,4 +6,3 @@ rollup/*.js
 coverage/
 jest-report/
 node_modules/
-

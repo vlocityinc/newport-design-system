@@ -11,7 +11,8 @@ import {
     DeleteListItemEvent,
     ListItemInteractionEvent,
     PropertyChangedEvent,
-    UpdateTestAssertionEvent
+    UpdateTestAssertionEvent,
+    UpdateTestRecordDataEvent
 } from 'builder_platform_interaction/events';
 import { FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FlowTestMenuItems } from '../flowTestEditor';
@@ -27,13 +28,15 @@ const DEFAULT_PROPS = {
         description: { value: '', error: null },
         runPathValue: { value: '', error: null },
         testTriggerType: { value: '', error: null },
+        testInitialRecordData: { value: {}, error: null },
         testAssertions: [
             {
                 expression: hydrateWithErrors(createListRowItem())
             }
         ]
     },
-    triggerSaveType: { value: '', error: null }
+    triggerSaveType: { value: '', error: null },
+    objectApiName: 'Account'
 };
 
 const createComponentUnderTest = async (overrideProps) => {
@@ -191,6 +194,41 @@ describe('FlowTestEditor', () => {
             await ticks(1);
             expect(flowTestEditorComponent.flowTestObject.testAssertions[0].message).toEqual(undefined);
             expect(flowTestEditorComponent.flowTestObject.testAssertions[0].expression).toEqual(expectedExpression);
+        });
+    });
+    describe('FlowTestInitialRecord', () => {
+        it('updates test record data correctly', async () => {
+            const flowTestEditorComponent = await createComponentUnderTest();
+            navigateToTab(flowTestEditorComponent, FlowTestMenuItems.InitialRecord);
+            await ticks(1);
+            const flowTestInitialRecordComponent = flowTestEditorComponent.shadowRoot.querySelector(
+                SELECTORS.FLOW_TEST_TRIGGER_EDIT_FORM
+            );
+            const expectedValue = {
+                field1: 'value1',
+                field2: 'value2'
+            };
+            flowTestInitialRecordComponent.dispatchEvent(new UpdateTestRecordDataEvent(expectedValue, false));
+            await ticks(1);
+            const flowTestRecordObject = flowTestEditorComponent.flowTestObject.testInitialRecordData;
+            expect(flowTestRecordObject.value).toEqual(expectedValue);
+        });
+        it('updates test record data correctly even with error', async () => {
+            const flowTestEditorComponent = await createComponentUnderTest();
+            navigateToTab(flowTestEditorComponent, FlowTestMenuItems.InitialRecord);
+            await ticks(1);
+            const flowTestInitialRecordComponent = flowTestEditorComponent.shadowRoot.querySelector(
+                SELECTORS.FLOW_TEST_TRIGGER_EDIT_FORM
+            );
+            const expectedValue = {
+                field1: 'value1',
+                field2: 'value2'
+            };
+            flowTestInitialRecordComponent.dispatchEvent(new UpdateTestRecordDataEvent(expectedValue, true));
+            await ticks(1);
+            const flowTestRecordObject = flowTestEditorComponent.flowTestObject.testInitialRecordData;
+            expect(flowTestRecordObject.value).toEqual(expectedValue);
+            expect(flowTestRecordObject.error).not.toBeNull();
         });
     });
 });

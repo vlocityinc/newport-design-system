@@ -4,10 +4,14 @@ import {
     AddListItemEvent,
     DeleteListItemEvent,
     PropertyChangedEvent,
-    UpdateTestAssertionEvent
+    UpdateTestAssertionEvent,
+    UpdateTestRecordDataEvent
 } from 'builder_platform_interaction/events';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { flowTestValidation } from './flowTestValidation';
+
+// This is a hard coded string because it's never actually visualized to customers
+export const RECORD_DATA_ERROR = 'Test record data has error(s)';
 
 const flowTestEditorPropertyChanged = (state, event) => {
     return updateProperties(state, {
@@ -54,6 +58,14 @@ const flowTestEditorAssertionUpdated = (state, event) => {
     return updateTestAssertions(state, assertions);
 };
 
+const flowTestEditorTriggerRecordUpdated = (state, event) => {
+    const recordData = {
+        value: event.detail.recordData,
+        error: event.detail.hasError ? RECORD_DATA_ERROR : null
+    };
+    return updateProperties(state, { testInitialRecordData: recordData });
+};
+
 const updateTestAssertions = (state, assertions) => {
     return updateProperties(state, {
         testAssertions: assertions
@@ -76,6 +88,8 @@ export const flowTestEditorReducer = (state, event) => {
             return flowTestEditorAssertionDeleted(state, event);
         case UpdateTestAssertionEvent.EVENT_NAME:
             return flowTestEditorAssertionUpdated(state, event);
+        case UpdateTestRecordDataEvent.EVENT_NAME:
+            return flowTestEditorTriggerRecordUpdated(state, event);
         case VALIDATE_ALL:
             return flowTestValidation.validateAll(state);
         default:

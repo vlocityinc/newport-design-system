@@ -37,6 +37,13 @@
                     assertions-list={assertions}
                 ></builder_platform_interaction-flow-test-assertion-editor>
             </div>
+            <div if:true={isInitialRecordActive}>
+                <builder_platform_interaction-flow-test-trigger-record-edit-form
+                    record-data={initialRecordData}
+                    object-api-name={objectApiName}
+                    onupdatetestrecorddata={handlePropertyChanged}
+                ></builder_platform_interaction-flow-test-trigger-record-edit-form>
+            </div>
         </div>
     </div>
 </template>

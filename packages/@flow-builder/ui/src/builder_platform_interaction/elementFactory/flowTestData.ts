@@ -27,7 +27,8 @@ export function createFlowTestData(flowTestData: UI.FlowTestData) {
         description = '',
         runPathValue = '',
         testTriggerType = '',
-        testAssertions = []
+        testAssertions = [],
+        testInitialRecordData = {}
     } = flowTestData || {};
     if (testAssertions.length < 1) {
         testAssertions.push(createEmptyTestAssertion());
@@ -40,7 +41,8 @@ export function createFlowTestData(flowTestData: UI.FlowTestData) {
         description,
         runPathValue,
         testTriggerType,
-        testAssertions
+        testAssertions,
+        testInitialRecordData
     };
 
     return flowTestObject;
