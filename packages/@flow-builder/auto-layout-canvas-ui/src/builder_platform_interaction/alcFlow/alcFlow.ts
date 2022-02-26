@@ -3,7 +3,7 @@ import {
     getAlcCompoundNodeData,
     getAlcConnectorData
 } from 'builder_platform_interaction/alcComponentsUtils';
-import { FAULT_INDEX, FlowModel, FlowRenderInfo, Guid } from 'builder_platform_interaction/autoLayoutCanvas';
+import { FAULT_INDEX, FlowModel, FlowRenderInfo, Geometry, Guid } from 'builder_platform_interaction/autoLayoutCanvas';
 import { api, LightningElement } from 'lwc';
 
 export default class AlcFlow extends LightningElement {
@@ -33,7 +33,11 @@ export default class AlcFlow extends LightningElement {
 
     get preConnector() {
         const { preConnector } = this.flow;
-        return preConnector && getAlcConnectorData(this.flowModel, preConnector);
+
+        // TODO: should make 'w' optional in Geometry type
+        // @ts-ignore
+        const geometry = { ...preConnector?.geometry, w: undefined } as Geometry;
+        return preConnector && getAlcConnectorData(this.flowModel, { ...preConnector, geometry });
     }
 
     get nodes() {

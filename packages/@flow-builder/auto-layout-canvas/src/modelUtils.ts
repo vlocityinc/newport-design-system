@@ -1470,6 +1470,20 @@ function replaceWithEndElement(elementService: ElementService, flowModel: FlowMo
 }
 
 /**
+ * Getting the connectionSource from an element's incomingGoTo reference
+ *
+ * @param goToSourceRef - incoming goTo reference
+ * @param flowModel - The state of elements in the store
+ * @returns a connectionSource
+ */
+function getConnectionSourceFromGoToSourceRef(goToSourceRef: string, flowModel: FlowModel): ConnectionSource {
+    const { sourceGuid, suffix } = parseGoToSourceRef(goToSourceRef);
+    const childIndex = suffix ? getBranchIndexForGoToConnection(flowModel, sourceGuid, suffix) : null;
+
+    return { guid: sourceGuid, childIndex };
+}
+
+/**
  * Deleting the GoTo connection associated with a given source reference present in the incomingGoTo array
  *
  * @param elementService - The element service
@@ -1482,10 +1496,7 @@ function cleanupIncomingGoto(
     flowModel: FlowModel,
     goToSourceRef: GoToSourceRef
 ): FlowModel {
-    const { sourceGuid, suffix } = parseGoToSourceRef(goToSourceRef);
-    const childIndex = suffix ? getBranchIndexForGoToConnection(flowModel, sourceGuid, suffix) : null;
-
-    const source = { guid: sourceGuid, childIndex };
+    const source = getConnectionSourceFromGoToSourceRef(goToSourceRef, flowModel);
     return deleteGoToConnection(elementService, flowModel, source);
 }
 
@@ -2583,6 +2594,19 @@ export function getValuesFromConnectionSource(source: ConnectionSource) {
     return { prev, parent, childIndex };
 }
 
+/**
+ * Converts a guid's incoming goTos into an array of connectionSources
+ *
+ * @param flowModel - The flow model
+ * @param guid - the clicked incoming stub guid
+ * @returns an array of connectionSources
+ */
+function getConnectionSourcesFromIncomingGoTo(flowModel: FlowModel, guid: Guid): ConnectionSource[] {
+    return flowModel[guid].incomingGoTo!.map((incomingGoToReference) =>
+        getConnectionSourceFromGoToSourceRef(incomingGoToReference, flowModel)
+    );
+}
+
 export {
     connectToElement,
     linkElement,
@@ -2611,5 +2635,6 @@ export {
     setChild,
     prepareFlowModel,
     getFirstNonNullNext,
-    isGoingBackToAncestorLoop
+    isGoingBackToAncestorLoop,
+    getConnectionSourcesFromIncomingGoTo
 };

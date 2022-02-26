@@ -102,7 +102,7 @@ export default class AlcConnector extends LightningElement {
     get goToTargetLabelStyle() {
         const { svgInfo } = this.connectorInfo;
         return getCssStyle({
-            left: svgInfo.endLocation.x + 5,
+            'margin-left': svgInfo.endLocation.x + 5,
             top: svgInfo.endLocation.y - 10
         });
     }
@@ -128,7 +128,7 @@ export default class AlcConnector extends LightningElement {
 
     get goToTargetClass() {
         const target = getConnectionTarget(this.flowModel, this.connectorInfo.source);
-        return classSet('slds-is-absolute go-to-info').add({
+        return classSet('go-to-info slds-is-relative').add({
             'highlighted-container': target === this.canvasContext.incomingStubGuid
         });
     }

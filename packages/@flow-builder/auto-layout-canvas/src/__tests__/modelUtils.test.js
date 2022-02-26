@@ -16,6 +16,7 @@ import {
     findFirstElement,
     findLastElement,
     getBranchIndexForGoToConnection,
+    getConnectionSourcesFromIncomingGoTo,
     getConnectionTarget,
     getFirstNonNullNext,
     getSuffixForGoToConnection,
@@ -8371,6 +8372,73 @@ describe('modelUtils', () => {
             expect(getFirstNonNullNext(flowModel, nestedDecision, false)).toBe(BRANCH_ELEMENT_GUID);
             expect(getFirstNonNullNext(flowModel, screen1, false)).toBe(BRANCH_ELEMENT_GUID);
             expect(getFirstNonNullNext(flowModel, screen2, false)).toBe(BRANCH_ELEMENT_GUID);
+        });
+    });
+
+    describe('getConnectionSourcesFromIncomingGoTo', () => {
+        const flowModel = {
+            root: {
+                children: ['start-guid'],
+                elementType: 'root',
+                guid: 'root',
+                nodeType: 'root'
+            },
+            'start-guid': {
+                guid: 'start-guid',
+                next: 'screen1',
+                nodeType: NodeType.START,
+                config: {},
+                elementType: 'start',
+                isCanvasElement: true,
+                label: 'start-guid',
+                parent: 'root'
+            },
+            'screen-guid': {
+                config: {},
+                elementType: 'Screen',
+                guid: 'screen-guid',
+                incomingGoTo: ['branch-guid:o1', 'branch-guid:default'],
+                isCanvasElement: true,
+                label: 'screen-guid',
+                next: 'screen-guid2',
+                nodeType: 'default',
+                prev: 'start-guid'
+            },
+            'screen-guid2': {
+                config: {},
+                elementType: 'Screen',
+                guid: 'screen-guid2',
+                incomingGoTo: ['branch-guid:o2'],
+                isCanvasElement: true,
+                label: 'screen-guid2',
+                next: 'branch-guid',
+                nodeType: 'default',
+                prev: 'screen-guid'
+            },
+            'branch-guid': {
+                childReferences: [{ childReference: 'o1' }, { childReference: 'o2' }],
+                children: ['screen-guid', 'screen-guid2', 'screen-guid'],
+                config: {},
+                defaultConnectorLabel: 'Default Connector Label',
+                elementType: 'branch',
+                guid: 'branch-guid',
+                isCanvasElement: true,
+                label: 'branch-guid',
+                next: null,
+                nodeType: 'branch',
+                prev: 'screen-guid'
+            }
+        };
+        it('with a single incoming GoTo', () => {
+            expect(getConnectionSourcesFromIncomingGoTo(flowModel, 'screen-guid2')).toEqual([
+                { childIndex: 1, guid: 'branch-guid' }
+            ]);
+        });
+        it('with multiple incoming GoTos', () => {
+            expect(getConnectionSourcesFromIncomingGoTo(flowModel, 'screen-guid')).toEqual([
+                { childIndex: 0, guid: 'branch-guid' },
+                { childIndex: 2, guid: 'branch-guid' }
+            ]);
         });
     });
 });

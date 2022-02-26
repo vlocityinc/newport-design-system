@@ -1,5 +1,7 @@
+import AlcNode from 'builder_platform_interaction/alcNode';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
-import { getFocusPath } from '../alcCanvasUtils';
+import { createElement } from 'lwc';
+import { getBoundingBoxForElements, getFocusPath, getSanitizedNodeGeo } from '../alcCanvasUtils';
 
 const flowModel = {
     startGuid: {
@@ -210,6 +212,15 @@ const orchestratorModel = {
     }
 };
 
+Element.prototype.getBoundingClientRect = jest.fn(() => {
+    return {
+        top: 10,
+        left: 10,
+        bottom: 10,
+        right: 10
+    } as DOMRect;
+});
+
 describe('ALC Builder Utils tests', () => {
     describe('getFocusPath tests', () => {
         it('When focusing on Start Element', () => {
@@ -250,6 +261,61 @@ describe('ALC Builder Utils tests', () => {
                     guid: 'screen1'
                 }
             ]);
+        });
+    });
+    describe('stubInteraction util function', () => {
+        describe('getBoundingBoxForElements', () => {
+            it('with complex geometry', () => {
+                const elementsGeometry = [
+                    { x: 119, y: 1491, w: 53, h: 132 },
+                    { x: 1439, y: 771, w: 53, h: 132 },
+                    { x: 1703, y: 1011, w: 53, h: 108 },
+                    { x: 1416, y: 243, w: 48, h: 48 }
+                ];
+                expect(getBoundingBoxForElements(elementsGeometry)).toEqual({ h: 1380, w: 1637, x: 119, y: 243 });
+            });
+            it('with negative positions', () => {
+                const elementsGeometry = [
+                    { x: 119, y: 1491, w: 53, h: 132 },
+                    { x: 1439, y: 771, w: 53, h: 132 },
+                    { x: 1703, y: 1011, w: 53, h: 108 },
+                    { x: -1416, y: -243, w: 48, h: 48 }
+                ];
+                expect(getBoundingBoxForElements(elementsGeometry)).toEqual({ h: 1866, w: 3172, x: -1416, y: -243 });
+            });
+            it('with simple geometry', () => {
+                const elementsGeometry = [
+                    { x: 0, y: 0, w: 50, h: 50 },
+                    { x: 50, y: 50, w: 50, h: 50 },
+                    { x: -50, y: -50, w: 50, h: 50 }
+                ];
+                expect(getBoundingBoxForElements(elementsGeometry)).toEqual({ h: 150, w: 150, x: -50, y: -50 });
+            });
+        });
+        describe('getSanitizedNodeGeo', () => {
+            it('at zoomed in scale of 1', () => {
+                const alcNodeHTML = createElement('builder_platform_interaction-alc-node', {
+                    is: AlcNode
+                });
+                expect(getSanitizedNodeGeo(alcNodeHTML, 1)).toEqual({ h: 48, w: 48, x: -14, y: -14 });
+            });
+            it('with scale of 0.5', () => {
+                const alcNodeHTML = createElement('builder_platform_interaction-alc-node', {
+                    is: AlcNode
+                });
+                expect(getSanitizedNodeGeo(alcNodeHTML, 0.5)).toEqual({ h: 24, w: 24, x: -2, y: -2 });
+            });
+            it('at zoomed out scale of 0.1', () => {
+                const alcNodeHTML = createElement('builder_platform_interaction-alc-node', {
+                    is: AlcNode
+                });
+                expect(getSanitizedNodeGeo(alcNodeHTML, 0.1)).toEqual({
+                    h: 4.800000000000001,
+                    w: 4.800000000000001,
+                    x: 7.6,
+                    y: 7.6
+                });
+            });
         });
     });
 });

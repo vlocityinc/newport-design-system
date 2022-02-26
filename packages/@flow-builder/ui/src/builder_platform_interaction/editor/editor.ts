@@ -2621,7 +2621,6 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         const alcCanvasContainer = this.template.querySelector(PANELS.AUTOLAYOUT_CANVAS);
         if (alcCanvasContainer) {
             alcCanvasContainer.focusOnNode(elementGuid);
-            alcCanvasContainer.clearIncomingStubGuid();
         }
 
         // Highlighting the canvas element

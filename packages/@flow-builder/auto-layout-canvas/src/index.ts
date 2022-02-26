@@ -64,6 +64,7 @@ export {
     fulfillsBranchingCriteria,
     getChild,
     getConnectionSource,
+    getConnectionSourcesFromIncomingGoTo,
     getConnectionTarget,
     getFirstNonNullNext,
     getNonTerminalBranchIndexes,

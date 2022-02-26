@@ -191,7 +191,7 @@ describe('ALC Canvas Utils test', () => {
         const needToPosition = false;
 
         expect(getMenuStyle(detail, containerElementGeometry, menuButtonHalfWidth, scale, needToPosition)).toEqual(
-            'left: 48px;top: 144px;width: undefinedpx;height: undefinedpx'
+            'left: 48px;top: 144px'
         );
     });
 

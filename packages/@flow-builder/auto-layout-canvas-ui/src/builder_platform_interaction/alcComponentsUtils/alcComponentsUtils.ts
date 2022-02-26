@@ -548,6 +548,7 @@ const DYNAMIC_NODE_COMPONENT = 'dynamic-node-component';
  */
 function getCssStyle(cssEntries): string {
     return Object.entries(cssEntries)
+        .filter((entry) => entry[1] != null)
         .map((entry) => `${entry[0]}: ${entry[1]}px`)
         .join(';');
 }

@@ -37,6 +37,7 @@ import {
     FlowInteractionState,
     FlowRenderContext,
     FlowRenderInfo,
+    Geometry,
     getConnectionSource,
     getConnectionTarget,
     getDefaultLayoutConfig,
@@ -73,10 +74,20 @@ import {
 import { time } from 'instrumentation/service';
 import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './alcCanvasLabels';
-import { getFocusPath } from './alcCanvasUtils';
+import {
+    findConnector,
+    findNode,
+    getBoundingBoxForElements,
+    getDomElementGeometry,
+    getGoToElementsGeometry,
+    getNodeAndGoToGeometry,
+    getSanitizedNodeGeo
+} from './alcCanvasUtils';
 
 // alloted time between click events in ms, where two clicks are interpreted as a double click
 const DOUBLE_CLICK_THRESHOLD = 250;
+// Margin added for zoomToFit
+const VIEWPORT_SPACING = 100;
 
 const MAX_ZOOM = 1;
 const MIN_ZOOM = 0.1;
@@ -92,7 +103,7 @@ const selectors = {
 };
 
 // TODO: W-9613981 [Trust] Remove hardcoded alccanvas offsets
-const LEFT_PANE_WIDTH = 320;
+const LEFT_PANEL_WIDTH = 320;
 
 const defaultConfig = getDefaultLayoutConfig();
 
@@ -350,28 +361,24 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
 
     @api
     focusOnNode = (elementGuid: Guid) => {
-        const pathToFocusNode = getFocusPath(this.flowModel, [{ guid: elementGuid }]);
-        const alcFlow = this.dom.as<AlcFlow>().alcFlow;
-        const node = alcFlow.findNode(pathToFocusNode);
+        this._focusOnNode(elementGuid);
+        this.clearIncomingStubGuid();
+    };
 
+    _focusOnNode = (elementGuid: Guid) => {
+        const alcFlow = this.dom.as<AlcFlow>().alcFlow;
+        const node = findNode(elementGuid, this.flowModel, alcFlow);
         // need to focus first as it can change the node's geometry
         node.focus();
 
-        this.panIntoView(node);
+        this.panIntoView(getSanitizedNodeGeo(node, this.scale));
     };
 
     @api
     focusOnConnector = (source: ConnectionSource) => {
-        const { guid, childIndex } = source;
-        const pathToFocusNode = getFocusPath(this.flowModel, [{ guid }]);
         const alcFlow = this.dom.as<AlcFlow>().alcFlow;
-        alcFlow.findConnector(pathToFocusNode, childIndex!).focus();
+        findConnector(source, this.flowModel, alcFlow).focus();
     };
-
-    @api
-    clearIncomingStubGuid() {
-        this._incomingStubGuid = null;
-    }
 
     /**
      * Closes any opened node or connector menu
@@ -387,6 +394,10 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         this._pendingInteractionState = null;
         this.menu = null;
         this.updateFlowRenderContext({ interactionState });
+    }
+
+    clearIncomingStubGuid() {
+        this._incomingStubGuid = null;
     }
 
     focusOnZoomPanel() {
@@ -522,27 +533,30 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
      * Pans an element to the center of the canvas viewport.
      * The element is only panned if it is not already in the viewport
      *
-     * @param element - The element to pan into the viewport
+     * @param nodeGeo - The element to pan into the viewport
+     * @param alwaysPan - Pan even if in viewport
+     * @returns true if had to pan into view port
      */
-    panIntoView(element: HTMLElement) {
-        const canvasGeo = this.getDomElementGeometry(this._canvasElement);
-        const nodeGeo = this.getDomElementGeometry(element);
+    panIntoView(nodeGeo: Geometry, alwaysPan = false): boolean {
+        const canvasGeo = getDomElementGeometry(this._canvasElement);
         const offsetX = nodeGeo.x - canvasGeo.x;
         const offsetY = nodeGeo.y - canvasGeo.y;
 
         // only pan if the element is not visible in the canvas viewport
-        const halfIconSize = NODE_ICON_SIZE / 2;
         if (
-            offsetX + halfIconSize > canvasGeo.w ||
-            offsetX - halfIconSize < 0 ||
-            offsetY + halfIconSize > canvasGeo.h ||
-            offsetY - halfIconSize < 0
+            offsetX + nodeGeo.w > canvasGeo.w ||
+            offsetX < 0 ||
+            offsetY + nodeGeo.h > canvasGeo.h ||
+            offsetY < 0 ||
+            alwaysPan
         ) {
             // pan the element to the center of the canvas viewport
-            const moveX = -offsetX + canvasGeo.w / 2;
-            const moveY = -offsetY + canvasGeo.h / 2;
+            const moveX = -(offsetX + nodeGeo.w / 2) + canvasGeo.w / 2;
+            const moveY = -(offsetY + nodeGeo.h / 2) + canvasGeo.h / 2;
             this.panAndResetPanningVariable(moveX, moveY);
+            return true;
         }
+        return false;
     }
 
     // TODO: W-10146473 [Trust] use decorator to reduce duplicate code for logging
@@ -563,7 +577,7 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
             const menuElement = this.getOpenedMenu();
 
             if (menuElement != null) {
-                const { w, h } = this.getDomElementGeometry(menuElement);
+                const { w, h } = getDomElementGeometry(menuElement);
 
                 const interactionState = this._pendingInteractionState || this._flowRenderContext.interactionState;
                 const menuInfo = interactionState.menuInfo!;
@@ -607,7 +621,7 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
 
             if (menuComponent) {
                 importComponent(menuComponent).then(() => {
-                    const containerGeometry = this.getDomElementGeometry(this._flowContainerElement);
+                    const containerGeometry = getDomElementGeometry(this._flowContainerElement);
 
                     const interactionState = {
                         ...this._flowRenderContext.interactionState,
@@ -695,7 +709,7 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         }
 
         if (this._panzoom) {
-            const offsetX = this.isSelectionMode ? LEFT_PANE_WIDTH : -LEFT_PANE_WIDTH;
+            const offsetX = this.isSelectionMode ? LEFT_PANEL_WIDTH : -LEFT_PANEL_WIDTH;
             this.panAndResetPanningVariable(offsetX, 0);
         }
     }
@@ -745,7 +759,7 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
      * @param {number} menuButtonHalfWidth - The half width of the menu button
      */
     zoomForMenuDisplay({ top, left }, menuButtonHalfWidth) {
-        const { x, y } = this.getDomElementGeometry(this._canvasElement);
+        const { x, y } = getDomElementGeometry(this._canvasElement);
 
         const buttonOffset = menuButtonHalfWidth * this.scale;
         top = top - y + buttonOffset;
@@ -866,7 +880,7 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
      */
     updateMenu(event: ToggleMenuEvent, menuInfo: InteractionMenuInfo) {
         const menuButtonHalfWidth = menuInfo.type === MenuType.CONNECTOR ? CONNECTOR_ICON_SIZE / 2 : NODE_ICON_SIZE / 2;
-        const containerGeometry = this.getDomElementGeometry(this._flowContainerElement);
+        const containerGeometry = getDomElementGeometry(this._flowContainerElement);
 
         const menuConstructor = this.getMenuConstructor(menuInfo.type, event.detail.elementMetadata);
 
@@ -1016,9 +1030,59 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         this.updateFlowRenderContext({ interactionState });
     };
 
+    /**
+     * Highlights all incoming GoTo stubs and zoom to fit them if outside of viewport
+     *
+     * @param event - The OutgoingGoToStubClickEvent event
+     */
     handleHighlightAllOutgoingStubs = (event) => {
+        // Highlights goTo stubs
         this._incomingStubGuid = event.detail.guid;
+
+        this.stubInteractionZoomToFit(event.detail.guid);
     };
+
+    /**
+     * Handles the zoom to fit stub interaction
+     *
+     * @param incomingStubGuid - Guid of incoming stub that was clicked
+     */
+    stubInteractionZoomToFit(incomingStubGuid: Guid) {
+        const alcFlow = this.dom.as<AlcFlow>().alcFlow;
+        const goToStubElementsGeometry = getGoToElementsGeometry(incomingStubGuid, this.flowModel, alcFlow);
+        const canvasElementsGeometry = goToStubElementsGeometry.concat(
+            getSanitizedNodeGeo(findNode(incomingStubGuid, this.flowModel, alcFlow), this.scale)
+        );
+        const elementBounds = getBoundingBoxForElements(canvasElementsGeometry);
+        this.stubInteractionPanAndZoom(elementBounds);
+    }
+
+    /**
+     * Pan and sets scale of provided geometry
+     *
+     * @param elementBounds - provided element geometry
+     */
+    stubInteractionPanAndZoom(elementBounds: Geometry) {
+        if (this.panIntoView(elementBounds)) {
+            const newScale = Math.min(MAX_ZOOM, this.calculateZoomToFitScale(elementBounds));
+            const { left, top } = this.getCanvasCenter();
+            this._panzoom.smoothZoomAbs(left, top, newScale);
+            this.scale = newScale;
+        }
+    }
+
+    /**
+     * Calculates zoom to fit scale  based on given geometry
+     *
+     * @param elementBounds - provided element geometry
+     * @returns - new scale to achieve zoom to fit
+     */
+    calculateZoomToFitScale(elementBounds: Geometry) {
+        const { w, h } = getDomElementGeometry(this._canvasElement);
+        let newScale = Math.min((w - VIEWPORT_SPACING) / elementBounds.w, (h - VIEWPORT_SPACING) / elementBounds.h);
+        newScale *= this.scale;
+        return newScale;
+    }
 
     /**
      * Handles moving focus to the connector from the Connector Menu
@@ -1131,6 +1195,8 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     initializePanzoom() {
         this._panzoom = panzoom(this._flowContainerElement, {
             smoothScroll: false,
+            // disable double click zoom
+            zoomDoubleClickSpeed: 1,
             minZoom: MIN_ZOOM,
             maxZoom: MAX_ZOOM,
             // disable wheel zoom
@@ -1138,9 +1204,6 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
 
             // disable touch zoom
             onTouch: () => true,
-
-            // disable double click zoom
-            onDoubleClick: () => true,
 
             // disable pinch zoom
             pinchSpeed: 1,
@@ -1165,7 +1228,7 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
      * Centers the flow
      */
     panzoomMoveToCenterTop() {
-        this._panzoom.moveTo(this.getDomElementGeometry(this._canvasElement).w / 2, 0);
+        this._panzoom.moveTo(getDomElementGeometry(this._canvasElement).w / 2, 0);
     }
 
     /**
@@ -1190,23 +1253,12 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     }
 
     /**
-     * Returns a Geometry object for a DOM element
-     *
-     * @param {Object} domElement - a DOM element
-     * @returns The Geometry for the DOM element
-     */
-    getDomElementGeometry(domElement) {
-        const { left, right, top, bottom } = domElement.getBoundingClientRect();
-        return { x: left, y: top, w: right - left, h: bottom - top };
-    }
-
-    /**
      * Returns the coordinates of the center of the canvas
      *
      * @returns - The canvas center
      */
     getCanvasCenter() {
-        const { w, h } = this.getDomElementGeometry(this._canvasElement);
+        const { w, h } = getDomElementGeometry(this._canvasElement);
 
         return {
             left: w / 2,
@@ -1226,7 +1278,7 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
 
         let closeMenu = this.menu != null;
         let scale = this.scale;
-
+        let flowBounds;
         switch (zoomAction) {
             case ZOOM_ACTION.ZOOM_OUT:
                 scale -= ZOOM_SCALE_STEP;
@@ -1245,16 +1297,15 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
                 closeMenu = false;
                 break;
             case ZOOM_ACTION.ZOOM_TO_FIT:
-                // center top
-                top = 0;
                 this._panzoomOffsets = { x: 0, y: 0 };
-                ({ left } = this.getCanvasCenter());
-                this.panzoomMoveToCenterTop();
 
-                scale = Math.min(
-                    this.getDomElementGeometry(this._canvasElement).h / (this.getFlowHeight() + NODE_ICON_SIZE),
-                    MAX_ZOOM
+                // TODO find better way to get the correct flow geometry
+                flowBounds = getBoundingBoxForElements(
+                    getNodeAndGoToGeometry(this.flowModel, this.dom.as<AlcFlow>().alcFlow, this.scale)
                 );
+                ({ left, top } = this.getCanvasCenter());
+                this.panIntoView(flowBounds, true);
+                scale = Math.min(MAX_ZOOM, this.calculateZoomToFitScale(flowBounds));
                 break;
             default:
         }

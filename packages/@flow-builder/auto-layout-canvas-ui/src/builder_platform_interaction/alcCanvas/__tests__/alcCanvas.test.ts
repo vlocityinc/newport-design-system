@@ -85,6 +85,15 @@ jest.mock('builder_platform_interaction/sharedUtils', () => {
     return Object.assign({}, sharedUtils, auraUtils, { commands: sharedcommands, invokeModal: jest.fn() });
 });
 
+jest.mock('../alcCanvasUtils', () => {
+    const temp = jest.requireActual('../alcCanvasUtils');
+    return Object.assign({}, temp, {
+        getNodeAndGoToGeometry: jest.fn((tempFlowModel) => {
+            return tempFlowModel.testGeo;
+        })
+    });
+});
+
 jest.mock('builder_platform_interaction/zoomPanel', () =>
     jest.requireActual('builder_platform_interaction_mocks/zoomPanel')
 );
@@ -304,7 +313,13 @@ describe('Auto Layout Canvas', () => {
 
         it('zoom-in/zoom-to-fit actions', async () => {
             const zoomPanel = getZoomPanel();
-
+            cmp.flowModel = {
+                ...cmp.flowModel,
+                testGeo: [
+                    { x: 1416, y: 123, w: 48, h: 48 },
+                    { x: 1416, y: 243, w: 48, h: 48 }
+                ]
+            };
             await dispatchEvent(zoomPanel, new ClickToZoomEvent(ZOOM_ACTION.ZOOM_OUT));
             expect(zoomPanel.isZoomInDisabled).toEqual(false);
             expect(zoomPanel.isZoomOutDisabled).toEqual(false);
@@ -337,7 +352,13 @@ describe('Auto Layout Canvas', () => {
 
         it('zoom-in/zoom-to-fit actions with keyboard', async () => {
             const zoomPanel = getZoomPanel();
-
+            cmp.flowModel = {
+                ...cmp.flowModel,
+                testGeo: [
+                    { x: 1416, y: 123, w: 48, h: 48 },
+                    { x: 1416, y: 243, w: 48, h: 48 }
+                ]
+            };
             await dispatchKeyboardCommand(cmp, ZoomOutCommand.COMMAND_NAME);
             expect(zoomPanel.isZoomInDisabled).toEqual(false);
             expect(zoomPanel.isZoomOutDisabled).toEqual(false);

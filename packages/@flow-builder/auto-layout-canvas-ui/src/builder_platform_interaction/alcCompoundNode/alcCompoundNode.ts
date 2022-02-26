@@ -5,7 +5,7 @@ import {
     getAlcNodeData,
     SELECTORS
 } from 'builder_platform_interaction/alcComponentsUtils';
-import { FlowModel, Guid, NodeRenderInfo } from 'builder_platform_interaction/autoLayoutCanvas';
+import { FlowModel, Geometry, Guid, NodeRenderInfo } from 'builder_platform_interaction/autoLayoutCanvas';
 import { api, LightningElement } from 'lwc';
 
 /**
@@ -54,7 +54,10 @@ export default class AlcCompoundNode extends LightningElement {
     get nextConnector() {
         const { nextConnector } = this.node;
 
-        return nextConnector && getAlcConnectorData(this.flowModel, nextConnector);
+        // TODO: should make 'w' optional in Geometry type
+        // @ts-ignore
+        const geometry = { ...nextConnector?.geometry, w: undefined } as Geometry;
+        return nextConnector && getAlcConnectorData(this.flowModel, { ...nextConnector, geometry });
     }
 
     @api
