@@ -21,6 +21,7 @@ const PROPERTIES_BY_TAB = {
 
 export default class FlowTestEditor extends LightningElement {
     @api triggerSaveType;
+    @api mode;
     @track activeMenuItemId = FlowTestMenuItems.Details;
     items: UI.MenuItem[] = [];
     @api objectApiName;

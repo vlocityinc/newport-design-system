@@ -750,7 +750,8 @@ function showFlowTestPopover(cmpHeader, cmpBody, cmpFooter, cmpAttributes = {}, 
     const bodyPromise = createComponentPromise(cmpBody, {
         flowTestObject: cmpAttributes.data,
         triggerSaveType: cmpAttributes.triggerSaveType,
-        objectApiName: cmpAttributes.triggerObjectType
+        objectApiName: cmpAttributes.triggerObjectType,
+        mode: cmpAttributes.mode
     });
     const invokeModalWithComponentsOnCreateOverride = (modal, data) => {
         onCreatePopover(modal);

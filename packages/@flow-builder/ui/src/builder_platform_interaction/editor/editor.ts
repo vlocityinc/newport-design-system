@@ -167,7 +167,11 @@ import {
     setProcessTypes,
     setRunInModes
 } from 'builder_platform_interaction/systemLib';
-import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
+import {
+    translateFlowTestToUIModel,
+    translateFlowToUIModel,
+    translateUIModelToFlow
+} from 'builder_platform_interaction/translatorLib';
 import { getTriggerTypeInfo, isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 import { INIT, isRedoAvailable, isUndoAvailable, undoRedo } from 'builder_platform_interaction/undoRedoLib';
 import { usedBy } from 'builder_platform_interaction/usedByLib';
@@ -1897,16 +1901,17 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      * Opens the modal to create a new test or edit an existing test
      *
      * @param createOrEdit Takes the mode, Create or Edit
+     * @param flowTestId
      */
-    createOrEditFlowTest = (createOrEdit) => {
+    createOrEditFlowTest = (createOrEdit: FlowTestMode, flowTestId?: string) => {
         const triggerSaveType = getRecordTriggerType();
         const triggerObjectType = getStartObject();
-        // depending on the flow record trigger type, set trigger type for the test
-        const testTriggerType =
-            triggerSaveType === FLOW_TRIGGER_SAVE_TYPE.CREATE_AND_UPDATE
-                ? FLOW_TRIGGER_SAVE_TYPE.CREATE
-                : getRecordTriggerType();
         if (createOrEdit === FlowTestMode.Create) {
+            // depending on the flow record trigger type, set trigger type for the test
+            const testTriggerType =
+                triggerSaveType === FLOW_TRIGGER_SAVE_TYPE.CREATE_AND_UPDATE
+                    ? FLOW_TRIGGER_SAVE_TYPE.CREATE
+                    : getRecordTriggerType();
             this.queueOpenCreateFlowTest(() => {
                 // TODO: why are we passing {} ?
                 // @ts-ignore
@@ -1923,18 +1928,31 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                     saveTest: this.saveTestCallback
                 };
             });
-        }
-        // Edit mode will also accept a flow Test Id to get the test to edit.
-        if (createOrEdit === FlowTestMode.Edit) {
-            this.queueOpenCreateFlowTest(() => {
-                return {
-                    createOrEdit,
-                    triggerSaveType,
-                    saveTest: this.saveTestCallback
-                };
-            });
+        } else if (createOrEdit === FlowTestMode.Edit) {
+            this.spinners.showPropertyEditorSpinner = true;
+            try {
+                fetchPromise(SERVER_ACTION_TYPE.GET_FLOW_TEST, {
+                    id: flowTestId
+                }).then((data: any) => {
+                    this.editTestCallback(data, createOrEdit, triggerSaveType);
+                });
+            } finally {
+                this.spinners.showPropertyEditorSpinner = false;
+            }
         }
     };
+
+    editTestCallback(data, createOrEdit, triggerSaveType) {
+        let flowTestObject = createFlowTestData(translateFlowTestToUIModel(data));
+        flowTestObject = getElementForPropertyEditor(flowTestObject);
+        this.queueOpenCreateFlowTest(() => {
+            return {
+                flowTestObject,
+                createOrEdit,
+                triggerSaveType
+            };
+        });
+    }
 
     queueOpenCreateFlowTest = (paramsProvider) => {
         invokeCreateEditFlowTestEditor(paramsProvider());

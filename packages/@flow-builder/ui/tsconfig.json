@@ -173,7 +173,6 @@
             "builder_platform_interaction/recordEditorLib": ["./src/builder_platform_interaction/recordEditorLib/recordEditorLib.ts"],
             "builder_platform_interaction/recordFieldPickerRow": ["./src/builder_platform_interaction/recordFieldPickerRow/recordFieldPickerRow.ts"],
             "builder_platform_interaction/recordFilter": ["./src/builder_platform_interaction/recordFilter/recordFilter.ts"],
-            "builder_platform_interaction/recordInputFieldWrapper": ["./src/builder_platform_interaction/recordInputFieldWrapper/recordInputFieldWrapper.ts"],
             "builder_platform_interaction/recordInputOutputAssignments": ["./src/builder_platform_interaction/recordInputOutputAssignments/recordInputOutputAssignments.ts"],
             "builder_platform_interaction/recordLookupEditor": ["./src/builder_platform_interaction/recordLookupEditor/recordLookupEditor.ts"],
             "builder_platform_interaction/recordLookupVariableAndFieldMapping": ["./src/builder_platform_interaction/recordLookupVariableAndFieldMapping/recordLookupVariableAndFieldMapping.ts"],

@@ -59,7 +59,8 @@ export const SERVER_ACTION_TYPE = {
     GET_FORMULA_OPERATORS: 'getFormulaOperators',
     DELETE_FLOW_TEST: 'deleteFlowTest',
     SAVE_FLOW_TEST: 'storeFlowTest',
-    RUN_FLOW_TESTS: 'runFlowTests'
+    RUN_FLOW_TESTS: 'runFlowTests',
+    GET_FLOW_TEST: 'retrieveFlowTest'
 };
 
 const actionConfig = {
@@ -120,7 +121,8 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.GET_FORMULA_OPERATORS]: 'c.getFormulaOperators',
     [SERVER_ACTION_TYPE.DELETE_FLOW_TEST]: 'c.deleteFlowTest',
     [SERVER_ACTION_TYPE.SAVE_FLOW_TEST]: 'c.storeFlowTest',
-    [SERVER_ACTION_TYPE.RUN_FLOW_TESTS]: 'c.runFlowTests'
+    [SERVER_ACTION_TYPE.RUN_FLOW_TESTS]: 'c.runFlowTests',
+    [SERVER_ACTION_TYPE.GET_FLOW_TEST]: 'c.retrieveFlowTest'
 };
 
 let auraFetch;

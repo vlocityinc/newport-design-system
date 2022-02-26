@@ -142,7 +142,7 @@ describe('flowTestManager', () => {
             const button = getCreateButton(cmp);
             button.click();
             expect(createNewOrEditTestMock).toHaveBeenCalledTimes(1);
-            expect(createNewOrEditTestMock).toHaveBeenCalledWith(FlowTestMode.Create);
+            expect(createNewOrEditTestMock).toHaveBeenCalledWith(FlowTestMode.Create, null);
         });
     });
 
@@ -187,7 +187,7 @@ describe('flowTestManager', () => {
             const button = getCreateButtonOnTable(cmp);
             button.click();
             expect(createNewOrEditTestMock).toHaveBeenCalledTimes(1);
-            expect(createNewOrEditTestMock).toHaveBeenCalledWith(FlowTestMode.Create);
+            expect(createNewOrEditTestMock).toHaveBeenCalledWith(FlowTestMode.Create, null);
         });
     });
 
@@ -254,7 +254,7 @@ describe('flowTestManager', () => {
             const dataTable = getDatatable(cmp);
             dataTable.dispatchEvent(rowActionEvent({ name: 'edit' }, MOCK_TESTS[0]));
             await ticks(1);
-            expect(createNewOrEditTestMock).toHaveBeenCalledWith(FlowTestMode.Edit);
+            expect(createNewOrEditTestMock).toHaveBeenCalledWith(FlowTestMode.Edit, MOCK_TESTS[0].flowTestId);
         });
 
         it('flow test is deleted from the store', async () => {

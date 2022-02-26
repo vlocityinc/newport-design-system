@@ -2,7 +2,7 @@ import { createListRowItem } from 'builder_platform_interaction/elementFactory';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseResource } from './base/baseElement';
 import { RHS_DATA_TYPE_PROPERTY, RHS_PROPERTY } from './base/baseList';
-import { createFEROVMetadataObject } from './ferov';
+import { createFEROV, createFEROVMetadataObject } from './ferov';
 
 export enum FlowTestParameterType {
     Input = 'INPUT',
@@ -17,7 +17,10 @@ export enum FlowTestPointValidator {
 const elementType = ELEMENT_TYPE.FLOW_TEST_EDITOR;
 
 /**
- * @param flowTestData
+ * Create object for flow test data
+ *
+ * @param flowTestData UI model for the flow test data
+ * @returns flow test object
  */
 export function createFlowTestData(flowTestData: UI.FlowTestData) {
     const newFlowTestData = baseResource(flowTestData);
@@ -51,6 +54,8 @@ export function createFlowTestData(flowTestData: UI.FlowTestData) {
 /**
  * Helper function to create a new FlowTestAssertion object with an empty expression
  * and no message
+ *
+ * @returns UI.ExpressionFilter
  */
 export function createEmptyTestAssertion(): UI.FlowTestAssertion {
     return { expression: createListRowItem() };
@@ -79,4 +84,28 @@ export function createFlowTestAssertionsMetadataObject(uiModel: UI.FlowTestData)
         });
     });
     return testAssertions;
+}
+
+/**
+ * Create flow test assertions UI model from metadata object
+ *
+ * @param flowTestMetadata test data from metadata object
+ * @returns UI model for assertions
+ */
+export function createFlowTestAssertionsUIModel(flowTestMetadata: Metadata.FlowTestMetadata): UI.FlowTestAssertion[] {
+    const testAssertionUIModel: UI.FlowTestAssertion[] = [];
+    const assertArr: Metadata.FlowTestAssertion[] = flowTestMetadata.testPoints.find(
+        (n) => n.elementApiName === FlowTestPointValidator.Finish
+    )!.assertions;
+    assertArr?.forEach((assert) => {
+        assert.conditions.forEach((condition) => {
+            const leftHandSide = condition.leftValueReference;
+            const operator = condition.operator;
+            const rhsFerovObject = createFEROV(condition.rightValue, RHS_PROPERTY, RHS_DATA_TYPE_PROPERTY);
+            const uiExp = createListRowItem({ ...{ leftHandSide, operator }, ...rhsFerovObject });
+            const testAssert: UI.FlowTestAssertion = { expression: uiExp, message: assert.errorMessage };
+            testAssertionUIModel.push(testAssert);
+        });
+    });
+    return testAssertionUIModel;
 }

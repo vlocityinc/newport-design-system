@@ -1,3 +1,4 @@
+import { FlowTestMode } from 'builder_platform_interaction/builderUtils';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { FLOW_TRIGGER_SAVE_TYPE, SCHEDULED_PATH_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { api, LightningElement } from 'lwc';
@@ -12,6 +13,7 @@ export default class FlowTestDetails extends LightningElement {
     @api guid;
     @api runPathValue;
     @api testTriggerType;
+    @api mode;
 
     // Allowed dropdown options for test run (will be expanded to scheduled paths later)
     get runPathOptions() {
@@ -27,6 +29,12 @@ export default class FlowTestDetails extends LightningElement {
     }
 
     get isCreateUpdateTriggerValue() {
+        if (this.mode === FlowTestMode.Edit) {
+            return (
+                this.testTriggerType === FLOW_TRIGGER_SAVE_TYPE.CREATE ||
+                this.testTriggerType === FLOW_TRIGGER_SAVE_TYPE.UPDATE
+            );
+        }
         return (
             this.triggerSaveType === FLOW_TRIGGER_SAVE_TYPE.CREATE ||
             this.triggerSaveType === FLOW_TRIGGER_SAVE_TYPE.UPDATE

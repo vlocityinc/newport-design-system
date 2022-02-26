@@ -95,7 +95,7 @@ export default class FlowTestManager extends LightningElement {
     }
 
     handleCreateNewTest() {
-        this.handleCreateOrEdit(FlowTestMode.Create);
+        this.handleCreateOrEdit(FlowTestMode.Create, null);
     }
 
     get flowHasTests() {
@@ -115,7 +115,7 @@ export default class FlowTestManager extends LightningElement {
                 this.handleDeleteFlowTest(row.flowTestId);
                 break;
             case FlowTestListRowAction.Edit:
-                this.handleCreateOrEdit(FlowTestMode.Edit);
+                this.handleCreateOrEdit(FlowTestMode.Edit, row.flowTestId);
                 break;
             case FlowTestListRowAction.Detail:
                 // TODO: implement run and view detail action
@@ -168,9 +168,9 @@ export default class FlowTestManager extends LightningElement {
         }
     }
 
-    handleCreateOrEdit(mode: FlowTestMode) {
+    handleCreateOrEdit(mode: FlowTestMode, flowTestId) {
         this.hideModal();
-        this.createOrEditFlowTestCallback(mode);
+        this.createOrEditFlowTestCallback(mode, flowTestId);
     }
 
     /**
