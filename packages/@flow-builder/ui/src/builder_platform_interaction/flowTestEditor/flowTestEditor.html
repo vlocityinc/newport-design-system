@@ -45,6 +45,14 @@
                     onupdatetestrecorddata={handlePropertyChanged}
                 ></builder_platform_interaction-flow-test-trigger-record-edit-form>
             </div>
+            <div if:true={isUpdatedRecordActive}>
+                <builder_platform_interaction-flow-test-trigger-record-edit-form
+                    record-data={updatedRecordData}
+                    object-api-name={objectApiName}
+                    is-updated-record
+                    onupdatetestrecorddata={handlePropertyChanged}
+                ></builder_platform_interaction-flow-test-trigger-record-edit-form>
+            </div>
         </div>
     </div>
 </template>

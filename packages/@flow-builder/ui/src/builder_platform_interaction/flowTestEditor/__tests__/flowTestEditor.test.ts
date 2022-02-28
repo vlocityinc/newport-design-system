@@ -197,7 +197,7 @@ describe('FlowTestEditor', () => {
         });
     });
     describe('FlowTestInitialRecord', () => {
-        it('updates test record data correctly', async () => {
+        it('updates test initial record data correctly', async () => {
             const flowTestEditorComponent = await createComponentUnderTest();
             navigateToTab(flowTestEditorComponent, FlowTestMenuItems.InitialRecord);
             await ticks(1);
@@ -208,12 +208,12 @@ describe('FlowTestEditor', () => {
                 field1: 'value1',
                 field2: 'value2'
             };
-            flowTestInitialRecordComponent.dispatchEvent(new UpdateTestRecordDataEvent(expectedValue, false));
+            flowTestInitialRecordComponent.dispatchEvent(new UpdateTestRecordDataEvent(expectedValue, false, false));
             await ticks(1);
             const flowTestRecordObject = flowTestEditorComponent.flowTestObject.testInitialRecordData;
             expect(flowTestRecordObject.value).toEqual(expectedValue);
         });
-        it('updates test record data correctly even with error', async () => {
+        it('updates test initial record data correctly even with error', async () => {
             const flowTestEditorComponent = await createComponentUnderTest();
             navigateToTab(flowTestEditorComponent, FlowTestMenuItems.InitialRecord);
             await ticks(1);
@@ -224,9 +224,44 @@ describe('FlowTestEditor', () => {
                 field1: 'value1',
                 field2: 'value2'
             };
-            flowTestInitialRecordComponent.dispatchEvent(new UpdateTestRecordDataEvent(expectedValue, true));
+            flowTestInitialRecordComponent.dispatchEvent(new UpdateTestRecordDataEvent(expectedValue, true, false));
             await ticks(1);
             const flowTestRecordObject = flowTestEditorComponent.flowTestObject.testInitialRecordData;
+            expect(flowTestRecordObject.value).toEqual(expectedValue);
+            expect(flowTestRecordObject.error).not.toBeNull();
+        });
+    });
+    describe('FlowTestUpdatedRecord', () => {
+        it('updates test updated record data correctly', async () => {
+            const flowTestEditorComponent = await createComponentUnderTest();
+            navigateToTab(flowTestEditorComponent, FlowTestMenuItems.InitialRecord);
+            await ticks(1);
+            const flowTestInitialRecordComponent = flowTestEditorComponent.shadowRoot.querySelector(
+                SELECTORS.FLOW_TEST_TRIGGER_EDIT_FORM
+            );
+            const expectedValue = {
+                field1: 'value1',
+                field2: 'value2'
+            };
+            flowTestInitialRecordComponent.dispatchEvent(new UpdateTestRecordDataEvent(expectedValue, false, true));
+            await ticks(1);
+            const flowTestRecordObject = flowTestEditorComponent.flowTestObject.testUpdatedRecordData;
+            expect(flowTestRecordObject.value).toEqual(expectedValue);
+        });
+        it('updates test updated record data correctly even with error', async () => {
+            const flowTestEditorComponent = await createComponentUnderTest();
+            navigateToTab(flowTestEditorComponent, FlowTestMenuItems.InitialRecord);
+            await ticks(1);
+            const flowTestInitialRecordComponent = flowTestEditorComponent.shadowRoot.querySelector(
+                SELECTORS.FLOW_TEST_TRIGGER_EDIT_FORM
+            );
+            const expectedValue = {
+                field1: 'value1',
+                field2: 'value2'
+            };
+            flowTestInitialRecordComponent.dispatchEvent(new UpdateTestRecordDataEvent(expectedValue, true, true));
+            await ticks(1);
+            const flowTestRecordObject = flowTestEditorComponent.flowTestObject.testUpdatedRecordData;
             expect(flowTestRecordObject.value).toEqual(expectedValue);
             expect(flowTestRecordObject.error).not.toBeNull();
         });

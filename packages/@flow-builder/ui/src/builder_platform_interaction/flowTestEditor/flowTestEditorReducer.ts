@@ -63,6 +63,9 @@ const flowTestEditorTriggerRecordUpdated = (state, event) => {
         value: event.detail.recordData,
         error: event.detail.hasError ? RECORD_DATA_ERROR : null
     };
+    if (event.detail.isUpdatedRecord) {
+        return updateProperties(state, { testUpdatedRecordData: recordData });
+    }
     return updateProperties(state, { testInitialRecordData: recordData });
 };
 

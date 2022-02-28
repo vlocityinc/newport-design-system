@@ -67,11 +67,13 @@ describe('Flow Test Validation', () => {
         const validatedFlowTest = flowTestValidation.validateAll(flowTestWithCorrectCondition);
         expect(validatedFlowTest.name.error).toEqual(CANNOT_BE_BLANK_ERROR);
     });
-    it('should have an error when initial record data is in error', () => {
+    it('should have an error when record data is in error', () => {
         const flowTestWithCorrectCondition = {
-            initialTestRecordData: { value: {}, error: RECORD_DATA_ERROR }
+            initialTestRecordData: { value: {}, error: RECORD_DATA_ERROR },
+            updatedTestRecordData: { value: {}, error: RECORD_DATA_ERROR }
         };
         const validatedFlowTest = flowTestValidation.validateAll(flowTestWithCorrectCondition);
         expect(validatedFlowTest.initialTestRecordData.error).toEqual(RECORD_DATA_ERROR);
+        expect(validatedFlowTest.updatedTestRecordData.error).toEqual(RECORD_DATA_ERROR);
     });
 });

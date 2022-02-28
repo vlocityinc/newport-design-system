@@ -13,7 +13,8 @@ const getObjectInfoAdapter = registerLdsTestWireAdapter(getObjectInfo);
 
 const DEFAULT_PROPS = {
     objectApiName: 'Account',
-    recordData: {}
+    recordData: {},
+    isUpdatedRecord: false
 };
 
 const createComponentUnderTest = async (overriddenProps) => {

@@ -15,7 +15,7 @@ export enum FlowTestMenuItems {
 const PROPERTIES_BY_TAB = {
     [FlowTestMenuItems.Details]: ['name', 'label', 'description', 'testTriggerType', 'runPathValue'],
     [FlowTestMenuItems.InitialRecord]: ['testInitialRecordData'],
-    [FlowTestMenuItems.UpdatedRecord]: [],
+    [FlowTestMenuItems.UpdatedRecord]: ['testUpdatedRecordData'],
     [FlowTestMenuItems.Assertions]: ['testAssertions']
 };
 
@@ -50,13 +50,13 @@ export default class FlowTestEditor extends LightningElement {
     tabHeaders = {
         [FlowTestMenuItems.Details]: this.labels.flowTestDetailsMenuItem,
         [FlowTestMenuItems.InitialRecord]: this.labels.flowTestInitialRecordPanelHeader,
-        [FlowTestMenuItems.UpdatedRecord]: '',
+        [FlowTestMenuItems.UpdatedRecord]: this.labels.flowTestUpdatedRecordPanelHeader,
         [FlowTestMenuItems.Assertions]: this.labels.flowTestAssertionPanelHeader
     };
 
     tabDescriptions = {
         [FlowTestMenuItems.InitialRecord]: this.labels.flowTestInitialRecordPanelDescription,
-        [FlowTestMenuItems.UpdatedRecord]: '',
+        [FlowTestMenuItems.UpdatedRecord]: this.labels.flowTestUpdatedRecordPanelDescription,
         [FlowTestMenuItems.Assertions]: this.labels.flowTestAssertionPanelDescription
     };
     // Function to get the list of tabs for the vertical navigation depending on the trigger save type
@@ -104,7 +104,7 @@ export default class FlowTestEditor extends LightningElement {
         return this.activeMenuItemId === FlowTestMenuItems.InitialRecord;
     }
 
-    get isUpdateRecordActive() {
+    get isUpdatedRecordActive() {
         return this.activeMenuItemId === FlowTestMenuItems.UpdatedRecord;
     }
 
@@ -114,6 +114,10 @@ export default class FlowTestEditor extends LightningElement {
 
     get initialRecordData(): object {
         return this._flowTestObject.testInitialRecordData;
+    }
+
+    get updatedRecordData(): object {
+        return this._flowTestObject.testUpdatedRecordData;
     }
 
     /* ********************** */

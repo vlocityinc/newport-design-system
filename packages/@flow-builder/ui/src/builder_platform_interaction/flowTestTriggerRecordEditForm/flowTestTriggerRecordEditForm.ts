@@ -13,6 +13,9 @@ export default class FlowTestTriggerRecordEditForm extends LightningElement {
     @track
     objectFieldAndValues: object[] = [];
 
+    @api
+    isUpdatedRecord = false;
+
     @wire(getObjectInfo, { objectApiName: '$objectApiName' })
     objectInfo({ data, error }) {
         if (data) {
@@ -48,7 +51,11 @@ export default class FlowTestTriggerRecordEditForm extends LightningElement {
             }
             objectFieldValues[fieldComponent.fieldName] = fieldComponent.value;
         });
-        const updateTestRecordDataEvent = new UpdateTestRecordDataEvent(objectFieldValues, hasError);
+        const updateTestRecordDataEvent = new UpdateTestRecordDataEvent(
+            objectFieldValues,
+            hasError,
+            this.isUpdatedRecord
+        );
         this.dispatchEvent(updateTestRecordDataEvent);
     }
 }

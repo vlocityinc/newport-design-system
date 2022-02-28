@@ -6,6 +6,8 @@ import flowTestInitialRecordMenuItem from '@salesforce/label/FlowBuilderCreateTe
 import flowTestInitialRecordPanelDescription from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestInitialRecordPanelDescription';
 import flowTestInitialRecordPanelHeader from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestInitialRecordPanelHeader';
 import flowTestUpdateRecordMenuItem from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestUpdateRecordMenuItem';
+import flowTestUpdatedRecordPanelDescription from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestUpdateRecordPanelDescription';
+import flowTestUpdatedRecordPanelHeader from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestUpdateRecordPanelHeader';
 
 export const LABELS = {
     flowTestDetailsMenuItem,
@@ -15,5 +17,7 @@ export const LABELS = {
     flowTestAssertionPanelHeader,
     flowTestAssertionPanelDescription,
     flowTestInitialRecordPanelHeader,
-    flowTestInitialRecordPanelDescription
+    flowTestInitialRecordPanelDescription,
+    flowTestUpdatedRecordPanelHeader,
+    flowTestUpdatedRecordPanelDescription
 };

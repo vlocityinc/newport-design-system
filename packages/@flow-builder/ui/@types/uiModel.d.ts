@@ -472,6 +472,7 @@ declare namespace UI {
         testTriggerType: string;
         testAssertions: UI.FlowTestAssertion[];
         testInitialRecordData: object;
+        testUpdatedRecordData: object;
     }
 
     interface FlowTestAssertion {

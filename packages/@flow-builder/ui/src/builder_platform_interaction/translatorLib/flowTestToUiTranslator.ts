@@ -29,6 +29,7 @@ export function translateFlowTestToUIModel(flowTest): UI.FlowTestData {
         runPathValue: SCHEDULED_PATH_TYPE.IMMEDIATE_SCHEDULED_PATH,
         testTriggerType,
         testInitialRecordData: {},
+        testUpdatedRecordData: {},
         testAssertions: assertionArr
     };
 }
