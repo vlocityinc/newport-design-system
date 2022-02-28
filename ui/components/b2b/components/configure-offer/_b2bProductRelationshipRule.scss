@@ -28,7 +28,7 @@
     }
     .nds-b2b-rule-name {
       .nds-b2b-link-icon {
-        margin-right: 0.5rem;
+        margin-right: 0.6rem;
       }
       .nds-b2b-rule-text {
         font-size: .8rem;
@@ -86,7 +86,7 @@
       }
     }
     .nds-b2b-prod-section {
-      height: 21rem;
+      max-height: 21rem;
       overflow: auto;
       .nds-b2b-product-details {
         padding: 0.625em 0.9375rem;
