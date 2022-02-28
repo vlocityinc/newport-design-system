@@ -447,9 +447,11 @@ const updateChoiceFieldsThatReferenceASpecificChoice = (hydratedChoice: any, scr
         const index = choiceField.choiceReferences.findIndex(
             (choiceReference) => choiceReference.choiceReference.value === hydratedChoice.choiceReference.value
         );
-        const updatedChoiceReferences = replaceItem(choiceField.choiceReferences, hydratedChoice, index);
-        const updatedChoiceField = set(choiceField, 'choiceReferences', updatedChoiceReferences);
-        screen = updateAncestors(screen, choiceFieldPosition, updatedChoiceField);
+        if (index > -1) {
+            const updatedChoiceReferences = replaceItem(choiceField.choiceReferences, hydratedChoice, index);
+            const updatedChoiceField = set(choiceField, 'choiceReferences', updatedChoiceReferences);
+            screen = updateAncestors(screen, choiceFieldPosition, updatedChoiceField);
+        }
     });
     return screen;
 };
