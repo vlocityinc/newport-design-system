@@ -1,0 +1,144 @@
+.nds-b2b-product-relationship-rule {
+  .nds-b2b-rule {
+    background: rgba(221, 219, 218, 0.13);
+    border: 1px solid $newport-border-gray;
+    box-sizing: border-box;
+    border-radius: 0.125rem;
+  }
+  .nds-b2b-rule-main-header-text {
+    font-size: 0.875rem;
+    line-height: 1rem;
+    color: $black-primary;
+  }
+
+  .nds-b2b-container {
+    margin-top: 0.375rem;
+    width: 70%;
+    height: 4.625rem;
+    position: relative;
+    .nds-b2b-checkbox {
+      background: $white;
+      border: 1px solid $newport-border-gray;
+      box-sizing: border-box;
+      border-radius: 0.125rem;
+      width: 1rem;
+      height: 1rem;
+      margin-left: 1.3125rem;
+      margin-right: 0.625rem;
+    }
+    .nds-b2b-rule-name {
+      .nds-b2b-link-icon {
+        margin-right: 0.6rem;
+      }
+      .nds-b2b-rule-text {
+        font-size: .8rem;
+        line-height: 1rem;
+      }
+    }
+    .nds-b2b-relate-prod {
+      position: absolute;
+      right: 1.25rem;
+      top: 0.25rem;
+      width: 17rem;
+      .nds-b2b-input-name {
+        font-size: 0.625rem;
+        line-height: 1.25rem;
+        margin-bottom: 0;
+      }
+      .nds-b2b-show-rel-prod {
+        height: 2rem;
+        background: $white;
+        border: 1px solid $newport-border-gray;
+        box-sizing: border-box;
+        border-radius: 0.125rem;
+        padding: 0 0.5rem;
+        .nds-b2b-rel-prod-text {
+            font-size: 0.75rem;
+            line-height: 0.875rem;
+            color: $black-primary;
+        }
+        .nds-b2b-icon-edit {
+            float: right;
+            cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .nds-b2b-rule-section {
+    width: 18rem;
+    .nds-b2b-rule-sec-header {
+      height: 2.875rem;
+      background: $palette-gray-3;
+      position: relative;
+      padding: 0 0.9375rem;
+      .nds-b2b-link-icon {
+        width: 1.25rem;
+        height: 1.25rem;
+        margin-right: 0.5625rem;
+        padding-bottom: 0.2rem;
+        background-color: $ocean-blue;
+      }
+      .nds-b2b-rule-header-text {
+        font-size: 1rem;
+        line-height: 1.1875rem;
+        color: $black-primary;
+      }
+    }
+    .nds-b2b-prod-section {
+      max-height: 21rem;
+      overflow: auto;
+      .nds-b2b-product-details {
+        padding: 0.625em 0.9375rem;
+        .nds-b2b-prod-name {
+          font-size: 0.6875rem;
+          line-height: 0.8125rem;
+          color: $black-primary;
+        }
+      }
+      .nds-b2b-rules {
+        border-top: 1px solid $newport-border-gray;
+        padding: 0em 0.9375rem;
+        .nds-b2b-prod-rule-sec {
+          margin: 0.625em 0rem;
+          .nds-b2b-rule-header {
+            .nds-b2b-link-icon {
+              width: 1.25rem;
+              height: 1.25rem;
+              margin-right: 0.5625rem;
+              padding-bottom: 0.2rem;
+              background-color: $ocean-blue;
+            }
+            .nds-b2b-rel-text {
+              font-size: 0.8rem;
+              line-height: 0.8rem;
+              color: $black-primary;
+            }
+          }
+          .nds-b2b-rule-name {
+            padding: 0.625em 0em 0.1875rem;
+            border-bottom: 1px solid $newport-border-gray;
+            font-size: 0.7rem;
+            line-height: 0.7rem;
+            color: $palette-gray-9;
+          }
+        }
+        .nds-b2b-rel-prod-section {
+          .nds-b2b-rel-prod {
+            font-size: 0.7rem;
+            line-height: 0.7rem;
+            color: $black-primary;
+          }
+          .nds-b2b-de-link {
+            font-size: 0.7rem;
+            line-height: 0.7rem;
+            color: $dodger-blue;
+            direction: rtl;
+            cursor: pointer;
+            margin: 0.625rem 0rem 0.625rem;
+          }
+        }
+      }
+    }
+  }
+}
