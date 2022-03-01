@@ -366,6 +366,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     guardrailsEngine;
 
     loadFlowBuilderStartTime;
+    currentFlowTestId;
 
     /**
      * The active element refers to the element currently being edited using the property editor panel
@@ -1644,6 +1645,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             const results = await runFlowTests(this.currentFlowId, [flowTestId], showTrace);
             const result = results[flowTestId];
             if (result) {
+                this.currentFlowTestId = flowTestId;
                 // Setup debug data object and switch to test mode
                 hideFlowTestManager = true;
                 this.ifBlockResume = false;
@@ -1968,6 +1970,12 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             });
         } else if (createOrEdit === FlowTestMode.Edit) {
             this.spinners.showPropertyEditorSpinner = true;
+            // When Edit test is clicked from Test mode toolbar, the flowTestId passed to this method would be undefined.
+            // Only way to reach test mode would be by clicking the "Run and View Test detail" action. Setting this.currentFlowTestId in handleRunAndViewTestDetail
+            // and getting the value from this.currentFlowTestId if flowTestId is undefined or null
+            if (!flowTestId) {
+                flowTestId = this.currentFlowTestId;
+            }
             try {
                 fetchPromise(SERVER_ACTION_TYPE.GET_FLOW_TEST, {
                     id: flowTestId
