@@ -100,14 +100,14 @@ export function addFlowTests(data: FlowTestAndResultDescriptor[]): void {
 
  * @param incomingData incoming result data from a test run
  */
-export function updateFlowTestResults(incomingData: { [flowTestId: string]: DescribeRunFlowTestResult }): void {
+export function updateFlowTestResults(incomingData): void {
     for (const testId in incomingData) {
         if (incomingData.hasOwnProperty(testId)) {
-            const resultData = incomingData[testId];
-            const matchingTestInStore = flowTests.find((t) => t.flowTestId === resultData.testId);
+            const describeRunFlowTestResultData = incomingData[testId][0];
+            const matchingTestInStore = flowTests.find((t) => t.flowTestId === describeRunFlowTestResultData.testId);
             if (matchingTestInStore) {
-                matchingTestInStore.lastRunDate = resultData.endInterviewTime;
-                matchingTestInStore.lastRunStatus = resultData.testStatus;
+                matchingTestInStore.lastRunDate = describeRunFlowTestResultData.endInterviewTime;
+                matchingTestInStore.lastRunStatus = describeRunFlowTestResultData.testStatus;
             }
         }
     }

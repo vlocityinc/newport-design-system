@@ -787,7 +787,8 @@ export function invokeFlowTestManager(attributes) {
         },
         attributes.createOrEditFlowTest,
         attributes.handleLoadMoreTests,
-        attributes.handleRunTests
+        attributes.handleRunTests,
+        attributes.handleRunAndViewTestDetail
     );
 }
 
@@ -802,6 +803,7 @@ export function invokeFlowTestManager(attributes) {
  * @param createOrEditFlowTest
  * @param handleLoadMoreTests - Callback that asks server for another page of tests. Used for infinite scroll
  * @param handleRunTests - Callback that executes selected tests
+ * @param handleRunAndViewTestDetail - Callback that executes when "Run Test and View Test Detail" action is clicked
  */
 function showTestFlowManagerPopover(
     cmpHeader,
@@ -810,7 +812,8 @@ function showTestFlowManagerPopover(
     popoverProps,
     createOrEditFlowTest,
     handleLoadMoreTests,
-    handleRunTests
+    handleRunTests,
+    handleRunAndViewTestDetail
 ) {
     popoverState = {
         panelInstance: null,
@@ -847,6 +850,7 @@ function showTestFlowManagerPopover(
         createOrEditFlowTestCallback: createOrEditFlowTest,
         handleLoadMoreTests,
         handleRunTests,
+        handleRunAndViewTestDetail,
         hideModal: hidePopover
     });
 

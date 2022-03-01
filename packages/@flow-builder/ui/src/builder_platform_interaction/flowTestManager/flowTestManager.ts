@@ -77,6 +77,7 @@ export default class FlowTestManager extends LightningElement {
     // Facilitates infinite scrolling, calling this should query for another page of tests and add it to the flow test store
     @api handleLoadMoreTests;
     @api handleRunTests;
+    @api handleRunAndViewTestDetail;
     @api hideModal;
     @api footer;
 
@@ -118,7 +119,7 @@ export default class FlowTestManager extends LightningElement {
                 this.handleCreateOrEdit(FlowTestMode.Edit, row.flowTestId);
                 break;
             case FlowTestListRowAction.Detail:
-                // TODO: implement run and view detail action
+                this.handleRunAndViewTestDetailAction(row.flowTestId);
                 break;
             default:
             // noop
@@ -205,4 +206,13 @@ export default class FlowTestManager extends LightningElement {
             this.copyDataFromTestStore();
         }
     }
+
+    handleRunAndViewTestDetailAction = async (flowTestId) => {
+        this.showLoadingSpinner = true;
+        try {
+            await this.handleRunAndViewTestDetail(flowTestId, true);
+        } finally {
+            this.showLoadingSpinner = false;
+        }
+    };
 }

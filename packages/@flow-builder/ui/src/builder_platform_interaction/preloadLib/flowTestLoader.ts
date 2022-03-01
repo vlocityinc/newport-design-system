@@ -18,6 +18,7 @@ export const runFlowTests = (flowVersionId, testIds, showTrace) =>
         showTrace
     }).then((data: any) => {
         updateFlowTestResults(data);
+        return data;
     });
 
 export const deleteFlowTest = (testIds) =>

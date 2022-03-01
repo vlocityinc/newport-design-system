@@ -1619,6 +1619,32 @@ describe('Editor Utils Test', () => {
                 type: 'clearCanvasDecoration'
             });
         });
+
+        it('constructs the debug data object for test mode correctly', () => {
+            const startTime = new Date();
+            const endTime = new Date();
+            const data = [
+                {
+                    interviewStatus: 'finished',
+                    debugTrace: 'testTrace',
+                    testAssertionTrace: 'assertions',
+                    errors: 'testErrors',
+                    startInterviewTime: startTime,
+                    endInterviewTime: endTime
+                },
+                {}
+            ];
+
+            const debugData = debugInterviewResponseCallback(data, storeInstance, false);
+            expect(debugData).toMatchObject({
+                interviewStatus: 'finished',
+                debugTrace: 'testTrace',
+                testAssertionTrace: 'assertions',
+                error: 'testErrors',
+                startInterviewTime: startTime,
+                endInterviewTime: endTime
+            });
+        });
     });
 
     describe('shiftFocusFromCanvas function', () => {

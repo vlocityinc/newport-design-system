@@ -1083,7 +1083,7 @@ export const debugInterviewResponseCallback = (
 ): Object => {
     // Setup the debug data object for the debug panel
     const interviewData = (data && data[0]) || {};
-    const { interviewStatus, debugTrace, errors } = interviewData;
+    const { interviewStatus, debugTrace, errors, testAssertionTrace } = interviewData;
 
     interviewData.startInterviewTime = new Date(interviewData.startInterviewTime);
     interviewData.endInterviewTime = new Date(interviewData.endInterviewTime);
@@ -1108,6 +1108,7 @@ export const debugInterviewResponseCallback = (
     return {
         interviewStatus,
         debugTrace,
+        testAssertionTrace,
         error: errors,
         startInterviewTime,
         endInterviewTime,

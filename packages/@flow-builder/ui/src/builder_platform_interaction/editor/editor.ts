@@ -1622,9 +1622,47 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             return {
                 createOrEditFlowTest: this.createOrEditFlowTest,
                 handleLoadMoreTests: this.handleLoadMoreTests,
-                handleRunTests: this.handleRunTests
+                handleRunTests: this.handleRunTests,
+                handleRunAndViewTestDetail: this.handleRunAndViewTestDetail
             };
         });
+    };
+
+    /**
+     * Handles the "Run Test and View Test detail" action
+     *
+     * @param flowTestId
+     * @param showTrace
+     */
+    handleRunAndViewTestDetail = async (flowTestId: string, showTrace: boolean) => {
+        let hideFlowTestManager = false;
+        const startInterviewTime = new Date();
+        const enableRollbackMode = false;
+        const isPausedDebugging = false;
+        try {
+            // Run flow test
+            const results = await runFlowTests(this.currentFlowId, [flowTestId], showTrace);
+            const result = results[flowTestId];
+            if (result) {
+                // Setup debug data object and switch to test mode
+                hideFlowTestManager = true;
+                this.ifBlockResume = false;
+                this.builderMode = BUILDER_MODE.TEST_MODE;
+                const endInterviewTime = new Date();
+                const response = debugInterviewResponseCallback(
+                    result as any,
+                    storeInstance,
+                    this.properties.hasUnsavedChanges,
+                    isPausedDebugging
+                );
+                this.debugData = { ...response, startInterviewTime, endInterviewTime, enableRollbackMode };
+                this.clearUndoRedoStack();
+            }
+        } finally {
+            if (hideFlowTestManager) {
+                hidePopover();
+            }
+        }
     };
 
     /**

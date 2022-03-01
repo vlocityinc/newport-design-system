@@ -57,39 +57,54 @@ const MOCK_DESCRIPTORS: FlowTestAndResultDescriptor[] = [
 ];
 
 const MOCK_RESULTS = {
-    id1: {
-        testName: 'name1',
-        testId: 'id1',
-        testStatus: FlowTestResultStatusType.FAIL,
-        interviewStatus: '',
-        interviewErrors: [],
-        trace: null,
-        assertions: null,
-        startInterviewTime: new Date(),
-        endInterviewTime: new Date()
-    },
-    id3: {
-        testName: 'name3',
-        testId: 'id3',
-        testStatus: FlowTestResultStatusType.PASS,
-        interviewStatus: '',
-        interviewErrors: [],
-        trace: null,
-        assertions: null,
-        startInterviewTime: new Date(),
-        endInterviewTime: new Date()
-    },
-    id5: {
-        testName: 'name5',
-        testId: 'id5',
-        testStatus: FlowTestResultStatusType.ERROR,
-        interviewStatus: '',
-        interviewErrors: [],
-        trace: null,
-        assertions: null,
-        startInterviewTime: new Date(),
-        endInterviewTime: new Date()
-    }
+    id1: [
+        {
+            testName: 'name1',
+            testId: 'id1',
+            testStatus: FlowTestResultStatusType.FAIL,
+            interviewStatus: '',
+            interviewErrors: [],
+            trace: null,
+            assertions: null,
+            startInterviewTime: new Date(),
+            endInterviewTime: new Date()
+        },
+        {
+            decoratedElements: null
+        }
+    ],
+    id3: [
+        {
+            testName: 'name3',
+            testId: 'id3',
+            testStatus: FlowTestResultStatusType.PASS,
+            interviewStatus: '',
+            interviewErrors: [],
+            trace: null,
+            assertions: null,
+            startInterviewTime: new Date(),
+            endInterviewTime: new Date()
+        },
+        {
+            decoratedElements: null
+        }
+    ],
+    id5: [
+        {
+            testName: 'name5',
+            testId: 'id5',
+            testStatus: FlowTestResultStatusType.ERROR,
+            interviewStatus: '',
+            interviewErrors: [],
+            trace: null,
+            assertions: null,
+            startInterviewTime: new Date(),
+            endInterviewTime: new Date()
+        },
+        {
+            decoratedElements: null
+        }
+    ]
 };
 
 describe('flowTestData', () => {
@@ -145,18 +160,18 @@ describe('flowTestData', () => {
             updateFlowTestResults(MOCK_RESULTS);
             expect(getFlowTests()).not.toEqual(MOCK_DESCRIPTORS);
 
-            expect(getFlowTests()[0].lastRunStatus).toEqual(MOCK_RESULTS.id1.testStatus);
-            expect(getFlowTests()[0].lastRunDate).toEqual(MOCK_RESULTS.id1.endInterviewTime);
+            expect(getFlowTests()[0].lastRunStatus).toEqual(MOCK_RESULTS.id1[0].testStatus);
+            expect(getFlowTests()[0].lastRunDate).toEqual(MOCK_RESULTS.id1[0].endInterviewTime);
 
             expect(getFlowTests()[1]).toEqual(MOCK_DESCRIPTORS[1]);
 
-            expect(getFlowTests()[2].lastRunStatus).toEqual(MOCK_RESULTS.id3.testStatus);
-            expect(getFlowTests()[2].lastRunDate).toEqual(MOCK_RESULTS.id3.endInterviewTime);
+            expect(getFlowTests()[2].lastRunStatus).toEqual(MOCK_RESULTS.id3[0].testStatus);
+            expect(getFlowTests()[2].lastRunDate).toEqual(MOCK_RESULTS.id3[0].endInterviewTime);
 
             expect(getFlowTests()[3]).toEqual(MOCK_DESCRIPTORS[3]);
 
-            expect(getFlowTests()[4].lastRunStatus).toEqual(MOCK_RESULTS.id5.testStatus);
-            expect(getFlowTests()[4].lastRunDate).toEqual(MOCK_RESULTS.id5.endInterviewTime);
+            expect(getFlowTests()[4].lastRunStatus).toEqual(MOCK_RESULTS.id5[0].testStatus);
+            expect(getFlowTests()[4].lastRunDate).toEqual(MOCK_RESULTS.id5[0].endInterviewTime);
         });
     });
 });

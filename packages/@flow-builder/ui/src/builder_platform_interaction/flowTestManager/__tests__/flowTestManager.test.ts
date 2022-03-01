@@ -192,10 +192,11 @@ describe('flowTestManager', () => {
     });
 
     describe('table data', () => {
-        let cmp, props, createNewOrEditTestMock;
+        let cmp, props, createNewOrEditTestMock, handleRunAndViewTestDetailAction;
 
         beforeEach(() => {
             createNewOrEditTestMock = jest.fn();
+            handleRunAndViewTestDetailAction = jest.fn();
             props = {
                 footer: {},
                 hideModal: jest.fn(),
@@ -273,6 +274,20 @@ describe('flowTestManager', () => {
             for (let i = 0; i < data.length; i++) {
                 expect(data[i].flowTestId).toEqual(MOCK_TESTS[i + 1].flowTestId);
             }
+        });
+
+        it('calls the handleRunAndViewTestDetailAction when Run Test and View detail action is clicked', async () => {
+            cmp = await createComponentUnderTest(props);
+            addFlowTests(MOCK_TESTS);
+            cmp.copyDataFromTestStore();
+            await ticks(1);
+            cmp.addEventListener(FlowTestListRowAction.Detail, handleRunAndViewTestDetailAction);
+            const dataTable = getDatatable(cmp);
+            dataTable.dispatchEvent(rowActionEvent({ name: 'detail' }, MOCK_TESTS[0]));
+            await ticks(1);
+            Promise.resolve().then(() => {
+                expect(handleRunAndViewTestDetailAction).toHaveBeenCalled();
+            });
         });
 
         it('is written with the appropriate run status icon', async () => {
