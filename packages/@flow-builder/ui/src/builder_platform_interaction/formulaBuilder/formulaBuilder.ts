@@ -8,6 +8,7 @@ import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEdi
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { shouldNotBeBlank } from 'builder_platform_interaction/validationRules';
 import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './formulaBuilderLabels';
 
@@ -248,8 +249,12 @@ export default class FormulaBuilder extends LightningElement {
         };
         const textarea = this.dom.as<HTMLTextAreaElement>().textArea;
         this._value = textarea.value;
-        const errors = validateTextWithMergeFields(this._value, options);
-        const error = errors.length > 0 ? errors[0].message : null;
+        // formula can't be empty
+        let error = shouldNotBeBlank(this._value);
+        if (!error) {
+            const errors = validateTextWithMergeFields(this._value, options);
+            error = errors.length > 0 ? errors[0].message : null;
+        }
         this.setCustomValidity(error);
         this.dispatchEvent(new FormulaChangedEvent(this._value, error));
         return error;

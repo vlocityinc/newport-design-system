@@ -568,5 +568,24 @@ describe('Formula builder', () => {
             expect(syntaxBtn.validationResult.isValidSyntax).toBeTruthy();
             expect(getErrorMessage(formulaBuilder)).toBeNull();
         });
+        it('Should check requiredness on text area blur', async () => {
+            const formulaBuilder = createComponentUnderTest({
+                flowProcessType
+            });
+            const textarea = getTextArea(formulaBuilder);
+            textarea.dispatchEvent(blurEvent);
+            await ticks(1);
+            expect(getErrorMessage(formulaBuilder).textContent).toEqual('FlowBuilderValidation.cannotBeBlank');
+        });
+        it('Should check requiredness when check syntax button is clicked', async () => {
+            const formulaBuilder = createComponentUnderTest({
+                flowProcessType
+            });
+            const syntaxBtn = getSyntaxValidation(formulaBuilder);
+            syntaxBtn.dispatchEvent(new CustomEvent('checksyntax'));
+            await ticks(1);
+            expect(syntaxBtn.validationResult.isValidSyntax).toBeFalsy();
+            expect(getErrorMessage(formulaBuilder).textContent).toEqual('FlowBuilderValidation.cannotBeBlank');
+        });
     });
 });
