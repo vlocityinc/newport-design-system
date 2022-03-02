@@ -1,0 +1,202 @@
+{
+  "journeyBuilderContextWithConfigInput":{
+    "access":{
+      "orgHasFlowBuilderDebug":false,
+      "orgHasComplianceBannerEnabled":false,
+      "orgHasFlowFormulaBuilder":false,
+      "orgHasBeforeSaveEnabled":true,
+      "orgHasFlowBuilderAutomaticFields":true,
+      "orgHasFlowAutomaticFieldsUseRecordPageComponents":true,
+      "orgHasFlowScreenSections":true,
+      "orgHasComponentPreview":true,
+      "orgHasFlowTestingEnabled":true,
+      "orgHasFlowBuilderGuardrails":true
+    },
+    "devMode":false,
+    "testMode":true,
+    "orgId":"00Dxx0000000000",
+    "canVAD":true,
+    "builderConfig":{
+      "builderType":"JourneyBuilder",
+      "newFlowConfig":{
+        "showRecommended":true,
+        "showAll":true,
+        "defaultNewFlow":{
+  "fieldsToNull" : [ ],
+  "metadata" : {
+    "actionCalls" : [ ],
+    "apexPluginCalls" : [ ],
+    "assignments" : [ ],
+    "choices" : [ ],
+    "collectionProcessors" : [ ],
+    "constants" : [ ],
+    "decisions" : [ ],
+    "dynamicChoiceSets" : [ ],
+    "environments" : [ ],
+    "formulas" : [ ],
+    "isAdditionalPermissionRequiredToRun" : false,
+    "isOverridable" : false,
+    "isTemplate" : false,
+    "loops" : [ ],
+    "orchestratedStages" : [ ],
+    "processType" : "Journey",
+    "recordCreates" : [ ],
+    "recordDeletes" : [ ],
+    "recordLookups" : [ ],
+    "recordRollbacks" : [ ],
+    "recordUpdates" : [ ],
+    "screens" : [ ],
+    "stages" : [ ],
+    "start" : {
+      "doesRequireRecordChangedToMeetCriteria" : false,
+      "filters" : [ ],
+      "locationX" : 50,
+      "locationY" : 50,
+      "object" : "MarketAudienceMember",
+      "processMetadataValues" : [ ],
+      "scheduledPaths" : [ ],
+      "triggerType" : "ScheduledJourney"
+    },
+    "steps" : [ ],
+    "subflows" : [ ],
+    "textTemplates" : [ ],
+    "variables" : [ ],
+    "waits" : [ ]
+  }
+}
+      },
+      "name":"Journey Builder",
+      "icon":"utility:checkin",
+      "componentConfigs":{
+        "editMode":{
+          "rightPanelConfig":{
+            "showTransactionBoundaries":false,
+            "showDebugPanel":false
+          },
+          "toolbarConfig":{
+            "showCopyPasteButton":true,
+            "showViewAllTestsButton":true,
+            "showDebugButton":true,
+            "showRunTestButton":false,
+            "showSaveAsButton":true,
+            "showUndoRedoButton":true,
+            "showCanvasModeToggle":true,
+            "showRestartRunButton":false,
+            "showEditFlowPropertiesButton":true,
+            "showEditFlowButton":false,
+            "showSaveButton":true,
+            "showAddToTestButton":false,
+            "showRunButton":true,
+            "showFlowStatus":true,
+            "showEditTestButton":false,
+            "showActivateButton":true
+          },
+          "headerConfig":{
+            "showDebugStatus":false,
+            "showInterviewLabel":false
+          },
+          "leftPanelConfig":{
+            "showLeftPanel":true
+          },
+          "canvasConfig":{
+            "disableAddConnectors":false,
+            "disableDeleteConnectors":false,
+            "disableEditElements":false,
+            "disableDeleteElements":false,
+            "disableDragElements":false,
+            "disableAddElements":false,
+            "disableSelectConnectors":false,
+            "disableMultiSelectElements":false
+          }
+        },
+        "testMode":{
+          "rightPanelConfig":{
+            "showTransactionBoundaries":true,
+            "showDebugPanel":true
+          },
+          "toolbarConfig":{
+            "showCopyPasteButton":false,
+            "showViewAllTestsButton":true,
+            "showDebugButton":false,
+            "showRunTestButton":true,
+            "showSaveAsButton":true,
+            "showUndoRedoButton":true,
+            "showCanvasModeToggle":false,
+            "showRestartRunButton":false,
+            "showEditFlowPropertiesButton":false,
+            "showEditFlowButton":true,
+            "showSaveButton":true,
+            "showAddToTestButton":false,
+            "showRunButton":false,
+            "showFlowStatus":false,
+            "showEditTestButton":true,
+            "showActivateButton":true
+          },
+          "headerConfig":{
+            "showDebugStatus":false,
+            "showInterviewLabel":true
+          },
+          "leftPanelConfig":{
+            "showLeftPanel":false
+          },
+          "canvasConfig":{
+            "disableAddConnectors":true,
+            "disableDeleteConnectors":true,
+            "disableEditElements":false,
+            "disableDeleteElements":true,
+            "disableDragElements":true,
+            "disableAddElements":true,
+            "disableSelectConnectors":true,
+            "disableMultiSelectElements":true
+          }
+        },
+        "debugMode":{
+          "rightPanelConfig":{
+            "showTransactionBoundaries":true,
+            "showDebugPanel":true
+          },
+          "toolbarConfig":{
+            "showCopyPasteButton":false,
+            "showViewAllTestsButton":false,
+            "showDebugButton":false,
+            "showRunTestButton":true,
+            "showSaveAsButton":true,
+            "showUndoRedoButton":true,
+            "showCanvasModeToggle":false,
+            "showRestartRunButton":true,
+            "showEditFlowPropertiesButton":false,
+            "showEditFlowButton":true,
+            "showSaveButton":true,
+            "showAddToTestButton":true,
+            "showRunButton":false,
+            "showFlowStatus":false,
+            "showEditTestButton":false,
+            "showActivateButton":true
+          },
+          "headerConfig":{
+            "showDebugStatus":true,
+            "showInterviewLabel":true
+          },
+          "leftPanelConfig":{
+            "showLeftPanel":false
+          },
+          "canvasConfig":{
+            "disableAddConnectors":true,
+            "disableDeleteConnectors":true,
+            "disableEditElements":false,
+            "disableDeleteElements":true,
+            "disableDragElements":true,
+            "disableAddElements":true,
+            "disableSelectConnectors":true,
+            "disableMultiSelectElements":true
+          }
+        }
+      },
+      "usePanelForPropertyEditor":true,
+      "supportedProcessTypes":[
+        "Journey"
+      ]
+    },
+    "preferredExperience":"CLASSIC"
+  }
+}

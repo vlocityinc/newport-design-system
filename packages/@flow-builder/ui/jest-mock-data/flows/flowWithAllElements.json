@@ -676,6 +676,7 @@
                 "valueField": "Name"
             }
         ],
+        "environments": [],
         "formulas": [
             {
                 "dataType": "String",
