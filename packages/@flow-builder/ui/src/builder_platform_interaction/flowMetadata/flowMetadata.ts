@@ -418,6 +418,11 @@ export const START_ELEMENT_FIELDS = {
     REQUIRE_RECORD_CHANGE: 'doesRequireRecordChangedToMeetCriteria'
 };
 
+export const FLOW_ENVIRONMENT = {
+    SLACK: 'Slack',
+    UNSPECIFIED: 'Unspecified'
+};
+
 export enum COLLECTION_PROCESSOR_SUB_TYPE {
     SORT = 'SortCollectionProcessor',
     MAP = 'RecommendationMapCollectionProcessor',

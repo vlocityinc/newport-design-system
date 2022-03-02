@@ -90,6 +90,16 @@
                 </builder_platform_interaction-combobox>
             </div>
             <lightning-input
+                if:true={isScreenFlow}
+                label={labels.slackLabel}
+                type="checkbox"
+                checked={slackEnabled}
+                onchange={handleSlackCheckBox}
+                class="slack_check slds-col slds-grow slds-p-top_small"
+                field-level-help={labels.slackCheckHelpText}
+            >
+            </lightning-input>
+            <lightning-input
                 label={labels.templateLabel}
                 type="checkbox"
                 checked={isTemplate}

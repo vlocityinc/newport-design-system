@@ -123,7 +123,8 @@ export const flowWithAssignments = {
         processType: 'AutoLaunchedFlow',
         runInMode: null,
         status: 'InvalidDraft',
-        apiVersion: 49
+        apiVersion: 49,
+        environments: ['Unspecified']
     },
     processType: 'AutoLaunchedFlow',
     status: 'InvalidDraft',

@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FLOW_ENVIRONMENT } from 'builder_platform_interaction/flowMetadata';
 
 const elementType = ELEMENT_TYPE.FLOW_PROPERTIES;
 
@@ -38,6 +38,7 @@ export function createFlowProperties(flowProperties = {}) {
     const name = flowProperties.fullName || flowProperties.name || '';
     const { lastModifiedDate = null, manageableState = null, versionNumber = null } = flowProperties;
     const lastModifiedBy = getLastModifiedBy(flowProperties.lastModifiedBy);
+    let { environments } = flowProperties.metadata || flowProperties;
     const {
         description = '',
         hasUnsavedChanges = false,
@@ -59,18 +60,15 @@ export function createFlowProperties(flowProperties = {}) {
         sourceTemplate = null,
         migratedFromWorkflowRuleName = null
     } = flowProperties.metadata || flowProperties;
-
     let {
         isLightningFlowBuilder = true,
         isCreatedOutsideLfb = false,
         canOnlySaveAsNewDefinition = false,
         isAutoLayoutCanvas = false
     } = flowProperties;
-
     const { definitionId } = flowProperties;
-
+    environments = environments && environments.length > 0 ? [...environments] : [FLOW_ENVIRONMENT.UNSPECIFIED];
     canOnlySaveAsNewDefinition = canOnlySaveAsNewDefinition || manageableState === 'installed';
-
     if (processMetadataValues) {
         // isCreatedOutsideLFB can be true in 2 cases
         // 1) when an existing flow is never saved in LFB => In this case processMetadataValues will be an empty array
@@ -108,7 +106,8 @@ export function createFlowProperties(flowProperties = {}) {
         isOverridable,
         overriddenFlow,
         sourceTemplate,
-        migratedFromWorkflowRuleName
+        migratedFromWorkflowRuleName,
+        environments
     };
 }
 
@@ -137,7 +136,8 @@ export function createFlowPropertiesMetadataObject(flowProperties) {
         isOverridable,
         overriddenFlow,
         sourceTemplate,
-        migratedFromWorkflowRuleName
+        migratedFromWorkflowRuleName,
+        environments
     } = flowProperties;
 
     // Adding a bit to make sure that flow is a saved/created in flow builder. And storing the Canvas Mode.
@@ -157,7 +157,8 @@ export function createFlowPropertiesMetadataObject(flowProperties) {
         isOverridable,
         overriddenFlow,
         sourceTemplate,
-        migratedFromWorkflowRuleName
+        migratedFromWorkflowRuleName,
+        environments
     };
 }
 

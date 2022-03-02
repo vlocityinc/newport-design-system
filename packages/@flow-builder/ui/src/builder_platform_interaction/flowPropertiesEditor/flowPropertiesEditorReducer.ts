@@ -5,6 +5,11 @@ import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { flowPropertiesEditorValidation, getRules } from './flowPropertiesEditorValidation';
 
 const flowPropertiesPropertyChanged = (state, event) => {
+    if (event.detail.propertyName === 'environments') {
+        return updateProperties(state, {
+            [event.detail.propertyName]: event.detail.value
+        });
+    }
     event.detail.error =
         event.detail.error === null
             ? flowPropertiesEditorValidation.validateProperty(event.detail.propertyName, event.detail.value)

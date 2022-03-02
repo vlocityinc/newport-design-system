@@ -154,6 +154,7 @@ const SELECTORS = {
     RESOURCE_TEXT_AREA: 'builder_platform_interaction-resourced-textarea',
     RICH_TEXT_PLAIN_TEXT_SWITCH: 'builder_platform_interaction-rich-text-plain-text-switch',
     API_VERSION: 'lightning-combobox.api-version',
+    SLACK_CHECK: 'lightning-input.slack_check',
     TEMPLATE_CHECK: 'lightning-input.template_check',
     SOURCE_TEMPLATE_COMBOBOX: 'builder_platform_interaction-combobox.source-template',
     OVERRIDABLE_CHECK: 'lightning-input.overridable_check',

@@ -1055,7 +1055,8 @@ export const flowCollectionServicesDemo = {
         processType: 'Flow',
         runInMode: null,
         status: 'Draft',
-        apiVersion: 50
+        apiVersion: 50,
+        environments: ['Unspecified']
     },
     processType: 'Flow',
     status: 'Draft',

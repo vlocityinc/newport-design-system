@@ -27,6 +27,8 @@ import runInSystemModeLabel from '@salesforce/label/FlowBuilderFlowPropertiesEdi
 import saveAsNewFlowTypeLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.saveAsNewFlowTypeLabel';
 import saveAsNewVersionTypeLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.saveAsNewVersionTypeLabel';
 import showAdvanced from '@salesforce/label/FlowBuilderFlowPropertiesEditor.showAdvanced';
+import slackCheckHelpText from '@salesforce/label/FlowBuilderFlowPropertiesEditor.slackCheckHelpText';
+import slackLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.slackLabel';
 import sourceTemplateHelpText from '@salesforce/label/FlowBuilderFlowPropertiesEditor.sourceTemplateHelpText';
 import sourceTemplateLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.sourceTemplateLabel';
 import sourceTemplatePlaceholderLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.sourceTemplatePlaceholderLabel';
@@ -64,6 +66,8 @@ export const LABELS = {
     currentVersionHelpText,
     apiVersionLabel,
     templateLabel,
+    slackLabel,
+    slackCheckHelpText,
     triggerOrderLabel,
     triggerOrderHelpText,
     overridableLabel,

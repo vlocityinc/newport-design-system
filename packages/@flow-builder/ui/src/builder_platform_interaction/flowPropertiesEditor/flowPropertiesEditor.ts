@@ -13,7 +13,7 @@ import {
     getApiVersionMenuData,
     getRunInModesMenuData
 } from 'builder_platform_interaction/expressionUtils';
-import { FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { FLOW_ENVIRONMENT, FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { loadVersioningData } from 'builder_platform_interaction/preloadLib';
 import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
 import { SaveType } from 'builder_platform_interaction/saveType';
@@ -228,6 +228,14 @@ export default class FlowPropertiesEditor extends LightningElement {
             : LABELS;
     }
 
+    get slackEnabled() {
+        return this.environments.includes(FLOW_ENVIRONMENT.SLACK);
+    }
+
+    get isScreenFlow() {
+        return this.flowProperties.processType.value === FLOW_PROCESS_TYPE.FLOW;
+    }
+
     /**
      * Finds a closest process type entry matching by process type and trigger type.
      */
@@ -318,6 +326,14 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     get isTemplate() {
         return getValueFromHydratedItem(this.flowProperties.isTemplate);
+    }
+
+    set environments(value) {
+        this.updateProperty('environments', value);
+    }
+
+    get environments() {
+        return this.flowProperties.environments;
     }
 
     set overriddenFlow(value) {
@@ -767,6 +783,10 @@ export default class FlowPropertiesEditor extends LightningElement {
     handleTemplateCheckBox(event) {
         event.stopPropagation();
         this.isTemplate = event.detail.checked;
+    }
+
+    handleSlackCheckBox(event) {
+        this.environments = event.detail.checked ? [FLOW_ENVIRONMENT.SLACK] : [FLOW_ENVIRONMENT.UNSPECIFIED];
     }
 
     handleOverridableCheckBox(event) {

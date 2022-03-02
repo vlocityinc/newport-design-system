@@ -178,6 +178,7 @@ export const elementTypeToConfigMap: {
             editModal: LABELS.editFlowProperties
         },
         canvasElement: false,
+        nonHydratableProperties: ['environments'],
         factory: {
             propertyEditor: createFlowPropertiesForEditor,
             uiToFlow: createFlowPropertiesMetadataObject,
