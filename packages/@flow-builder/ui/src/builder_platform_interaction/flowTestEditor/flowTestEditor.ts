@@ -1,5 +1,7 @@
+import { FlowTestMode } from 'builder_platform_interaction/builderUtils';
 import { getErrorsFromHydratedElement, pick } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './flowTestEditorLabels';
@@ -30,8 +32,16 @@ export default class FlowTestEditor extends LightningElement {
     @api validate() {
         const event = { type: VALIDATE_ALL };
         this._flowTestObject = flowTestEditorReducer(this._flowTestObject, event);
-        return getErrorsFromHydratedElement(this._flowTestObject);
+        const validatedFlowTest = { ...this._flowTestObject };
+        if (validatedFlowTest.testTriggerType.value !== FLOW_TRIGGER_SAVE_TYPE.UPDATE) {
+            delete validatedFlowTest.testUpdatedRecordData;
+        }
+        return getErrorsFromHydratedElement(validatedFlowTest);
     }
+
+    sampleRecordId;
+    // Keep track that we only ever want to copy initial record data to updated record data once.
+    hasCopiedInitialRecord = false;
 
     /**
      * Internal state of flow test editor
@@ -129,10 +139,46 @@ export default class FlowTestEditor extends LightningElement {
     handleItemSelected(event) {
         event.stopPropagation();
         this.activeMenuItemId = event.detail.itemId;
+        if (this.activeMenuItemId === FlowTestMenuItems.UpdatedRecord) {
+            this.copyInitialRecord();
+        }
+    }
+
+    /**
+     * Helper function to copy over initial record data to updated recorded data IFF:
+     * - In Create Mode
+     * - We have not copied over data before
+     * - Initial Data is not empty and Updated data is empty
+     */
+    copyInitialRecord() {
+        if (
+            !this.hasCopiedInitialRecord &&
+            this.mode === FlowTestMode.Create &&
+            this.isTestDataModified(this._flowTestObject.testInitialRecordData) &&
+            !this.isTestDataModified(this._flowTestObject.testUpdatedRecordData)
+        ) {
+            this._flowTestObject.testUpdatedRecordData = deepCopy(this._flowTestObject.testInitialRecordData);
+            this.hasCopiedInitialRecord = true;
+        }
+    }
+
+    /**
+     * Checks passed in record data to see if it has been modified
+     *
+     * @param flowTestRecordData
+     * @returns
+     */
+    isTestDataModified(flowTestRecordData): boolean {
+        return flowTestRecordData.hasOwnProperty('value') && Object.keys(flowTestRecordData.value).length > 0;
     }
 
     handlePropertyChanged(event) {
         event.stopPropagation();
         this._flowTestObject = flowTestEditorReducer(this._flowTestObject, event);
+    }
+
+    handleTestRecordSelected(event) {
+        event.stopPropagation();
+        this.sampleRecordId = event.detail.id;
     }
 }

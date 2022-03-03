@@ -29,9 +29,10 @@ describe('recordPicker', () => {
     const values = [{ id: 2 }];
     const errors = [];
     const recordSelectedCallback = jest.fn();
+    let component;
 
     beforeEach(() => {
-        createComponentUnderTest(attributes, values, recordSelectedCallback);
+        component = createComponentUnderTest(attributes, values, recordSelectedCallback);
     });
 
     it('loads the aura component once attributes, values, recordSelectedCallback, and errors are available', () => {
@@ -41,8 +42,9 @@ describe('recordPicker', () => {
             values,
             errors
         };
-        expect(AuraComponent).toHaveBeenCalledWith(
-            null,
+        const entityPicker = component.shadowRoot.querySelector('.entityPicker');
+        expect(AuraComponent).toHaveBeenLastCalledWith(
+            entityPicker,
             'builder_platform_interaction:recordPickerWrapper',
             mergedAttributes,
             expect.anything()

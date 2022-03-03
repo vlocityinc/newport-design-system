@@ -91,6 +91,7 @@ export { SetPropertyEditorTitleEvent } from './setPropertyEditorTitleEvent';
 export { ShowResourceDetailsEvent } from './showResourceDetailsEvent';
 export { SObjectReferenceChangedEvent } from './sObjectReferenceChangedEvent';
 export { TemplateChangedEvent } from './templateChangedEvent';
+export { FlowTestRecordSelectedEvent } from './testEditorEvents/flowTestRecordSelectedEvent';
 export { UpdateTestAssertionEvent } from './testEditorEvents/UpdateTestAssertionEvent';
 export { UpdateTestRecordDataEvent } from './testEditorEvents/UpdateTestRecordDataEvent';
 export { TextChangedEvent } from './textChangedEvent';

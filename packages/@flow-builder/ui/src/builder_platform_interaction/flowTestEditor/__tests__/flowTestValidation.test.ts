@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from '../../validationRules/validationRulesLabels';
 import { RECORD_DATA_ERROR } from '../flowTestEditor';
 import { flowTestValidation } from '../flowTestValidation';
@@ -73,6 +74,16 @@ describe('Flow Test Validation', () => {
             updatedTestRecordData: { value: {}, error: RECORD_DATA_ERROR }
         };
         const validatedFlowTest = flowTestValidation.validateAll(flowTestWithCorrectCondition);
+        expect(validatedFlowTest.initialTestRecordData.error).toEqual(RECORD_DATA_ERROR);
+        expect(validatedFlowTest.updatedTestRecordData.error).toEqual(RECORD_DATA_ERROR);
+    });
+    it('should have an error when record data is empty', () => {
+        const flowTestWithEmptyRecordData = {
+            initialTestRecordData: {},
+            updatedTestRecordData: {},
+            testTriggerType: FLOW_TRIGGER_SAVE_TYPE.UPDATE
+        };
+        const validatedFlowTest = flowTestValidation.validateAll(flowTestWithEmptyRecordData);
         expect(validatedFlowTest.initialTestRecordData.error).toEqual(RECORD_DATA_ERROR);
         expect(validatedFlowTest.updatedTestRecordData.error).toEqual(RECORD_DATA_ERROR);
     });

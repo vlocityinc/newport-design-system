@@ -27,7 +27,9 @@ export default class RecordPicker extends LightningElement {
         this._values = values;
 
         if (values && values !== oldValues) {
-            this.reloadComponent();
+            Promise.resolve().then(() => {
+                this.reloadComponent();
+            });
         }
     }
 
@@ -45,7 +47,9 @@ export default class RecordPicker extends LightningElement {
         this._recordSelectedCallback = recordSelectedCallback;
 
         if (recordSelectedCallback && recordSelectedCallback !== oldCallback) {
-            this.reloadComponent();
+            Promise.resolve().then(() => {
+                this.reloadComponent();
+            });
         }
     }
 

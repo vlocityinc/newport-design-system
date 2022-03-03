@@ -46,6 +46,8 @@
                     record-data={initialRecordData}
                     object-api-name={objectApiName}
                     onupdatetestrecorddata={handlePropertyChanged}
+                    selected-sample-record-id={sampleRecordId}
+                    onflowtestrecordselected={handleTestRecordSelected}
                 ></builder_platform_interaction-flow-test-trigger-record-edit-form>
             </div>
             <div if:true={isUpdatedRecordActive}>

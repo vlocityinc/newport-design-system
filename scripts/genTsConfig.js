@@ -53,6 +53,7 @@ ${pathPropertyIndent()}"lightning/accordionSection": ["../../../node_modules/lwc
 ${pathPropertyIndent()}"lightning/utils": ["../../../node_modules/lwc-components-lightning/src/lightning/utils/utils.js"],
 ${pathPropertyIndent()}"lightning/platformShowToastEvent": ["../../../node_modules/lwc-components-lightning/src/lightning/platformShowToastEvent/platformShowToastEvent.js"],
 ${pathPropertyIndent()}"lightning/uiObjectInfoApi": ["../../../node_modules/lwc-components-lightning/src/lightning/uiObjectInfoApi/uiObjectInfoApi.js"],
+${pathPropertyIndent()}"lightning/uiRecordApi": ["../../../node_modules/lwc-components-lightning/src/lightning/uiRecordApi/uiRecordApi.js"],
 ${pathPropertyIndent()}"builder_platform_interaction/autoLayoutCanvas": ["../auto-layout-canvas/dist/types/index.d.js"],
 ${pathPropertyIndent()}"builder_platform_interaction/sharedUtils": ["../shared-utils/dist/types/index.d.js"],
 ${pathPropertyIndent()}"builder_platform_interaction/alcEvents": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcEvents/alcEvents.ts"],

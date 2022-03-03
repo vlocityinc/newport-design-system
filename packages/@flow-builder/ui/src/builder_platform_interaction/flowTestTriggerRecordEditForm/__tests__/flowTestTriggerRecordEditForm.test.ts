@@ -5,21 +5,28 @@ import {
     LIGHTNING_COMPONENTS_SELECTORS
 } from 'builder_platform_interaction/builderTestUtils';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
+import { getRecord } from 'lightning/uiRecordApi';
 import { registerLdsTestWireAdapter } from 'wire-service-jest-util';
 
+/* eslint-disable */
 const mockGetObjectInfo = require('./data/getObjectInfo.json');
-// eslint-disable-next-line
 const getObjectInfoAdapter = registerLdsTestWireAdapter(getObjectInfo);
+
+const mockGetRecord = require('./data/getRecord.json');
+const getRecordAdapter = registerLdsTestWireAdapter(getRecord);
+/* eslint-enable */
 
 const DEFAULT_PROPS = {
     objectApiName: 'Account',
     recordData: {},
-    isUpdatedRecord: false
+    isUpdatedRecord: false,
+    selectedSampleRecordId: 'sampleRecord'
 };
 
-const createComponentUnderTest = async (overriddenProps) => {
-    const component = createComponent(selectors.FLOW_TEST_TRIGGER_EDIT_FORM, DEFAULT_PROPS, overriddenProps);
+const createComponentUnderTest = async (overriddenProps?) => {
+    const component = await createComponent(selectors.FLOW_TEST_TRIGGER_EDIT_FORM, DEFAULT_PROPS, overriddenProps);
     getObjectInfoAdapter.emit(mockGetObjectInfo);
+    getRecordAdapter.emit(mockGetRecord);
     return component;
 };
 const selectors = {
