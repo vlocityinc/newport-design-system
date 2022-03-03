@@ -101,3 +101,43 @@ type CanvasConfig = {
     disableSelectConnectors: boolean;
     disableMultiSelectElements: boolean;
 };
+
+type MenuTraversalConfig = {
+    // if false, then all menu items will have hasNext set to false regardless of the real value
+    isEnabled?: boolean;
+    allowSObjectFieldsTraversal?: boolean;
+    // whether or not to set hasNext on SObject
+    allowSObjectField?: boolean;
+    // whether or not to set hasNext on Elements
+    allowElementFields?: boolean;
+};
+
+/**
+ * Set of filters that can be used to filter out what does show up in menus (e.g. combobox)
+ */
+type MenuFilter = {
+    // whether or not to include new resource
+    includeNewResource?: boolean;
+    // whether or not to include global constants (true/false/...)
+    allowGlobalConstants?: boolean;
+    // whether or not to include system variables
+    showSystemVariables?: boolean;
+    // whether or not to include global variables
+    showGlobalVariables?: boolean;
+    // whether or not apex collection from anonymous automatic outputs are allowed
+    allowsApexCollAnonymousAutoOutput?: boolean;
+    // whether or not this request is coming from a formula editor
+    forFormula?: boolean;
+    // whether or not included values should be writable
+    shouldBeWritable?: boolean;
+    // whether or not the flow system variable ($Flow) should be filtered out
+    showFlowSystemVariable?: boolean;
+};
+
+type MenuConfig = {
+    newResourceTypeLabel?: string | null;
+    traversalConfig?: MenuTraversalConfig;
+    // the picklist values that will be appended to the menu data if picklist values are allowed
+    activePicklistValues?: string[];
+    filter: MenuFilter;
+};

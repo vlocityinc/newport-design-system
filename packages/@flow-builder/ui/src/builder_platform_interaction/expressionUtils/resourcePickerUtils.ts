@@ -49,35 +49,20 @@ const getFerovMenuData = (
     elementConfig: ElementFilterConfig | undefined,
     propertyEditorElementType,
     populateParamTypesFn,
-    allowGlobalConstants,
-    enableFieldDrilldown,
-    activePicklistValues,
     currentState: UI.StoreState,
-    includeNewResource,
-    newResourceTypeLabel,
-    showSystemVariables,
-    showGlobalVariables,
-    allowSObjectFields,
-    forFormula,
-    hideFlowSystemVariable
+    config: MenuConfig
 ) => {
     const menuDataElements = getStoreElements(
         currentState,
         elementConfig || { elementType: propertyEditorElementType }
     );
     return filterAndMutateMenuData(menuDataElements, populateParamTypesFn(), {
-        includeNewResource,
-        newResourceTypeLabel,
-        allowGlobalConstants,
-        disableHasNext: !enableFieldDrilldown,
-        showSystemVariables,
-        showGlobalVariables,
-        activePicklistValues,
-        allowSObjectField: allowSObjectFields,
-        allowsApexCollAnonymousAutoOutput: elementConfig ? elementConfig.allowsApexCollAnonymousAutoOutput : true,
-        forFormula,
-        shouldBeWritable: elementConfig ? elementConfig.shouldBeWritable : false,
-        hideFlowSystemVariable
+        ...config,
+        filter: {
+            ...config.filter,
+            allowsApexCollAnonymousAutoOutput: elementConfig ? elementConfig.allowsApexCollAnonymousAutoOutput : true,
+            shouldBeWritable: elementConfig ? elementConfig.shouldBeWritable : false
+        }
     });
 };
 
@@ -90,19 +75,7 @@ const getFerovMenuData = (
  * @param {Object} storeInstance    instance of the store
  * @param {Object|undefined} parentItem    parent item
  * @param {Array} fields fields to be populated if parentItem is defined
- * @param {Object} [options]
- * @param {boolean} [options.allowGlobalConstants]    whether to show sobjects in menudata to allow users to select fields
- * @param {boolean} [options.enableFieldDrilldown]    whether to set hasNext to false for all menu items
- * @param {boolean} [options.includeNewResource]    whether to show the "New Resource" option
- * @param {boolean} [options.showSystemVariables]    whether to show system variables
- * @param {boolean} [options.showGlobalVariables]    whether to show global variables
- * @param {boolean} [options.allowSObjectFields]    whether or not drill down into SObject is allowed
- * @param options.newResourceTypeLabel
- * @param options.activePicklistValues
- * @param options.forFormula
- * @param options.allowSObjectFieldsTraversal
- * @param options.allowElementFields
- * @param {boolean} [options.hideFlowSystemVariable]    whether to hide the $Flow system variable
+ * @param config menu configuration (what we want to filter out, etc...)
  * @returns {Item[]} Array of resources
  */
 export const getMenuData = (
@@ -112,29 +85,33 @@ export const getMenuData = (
     storeInstance: Store,
     parentItem,
     fields,
-    {
-        enableFieldDrilldown = true,
-        allowGlobalConstants = true,
-        includeNewResource = true,
-        newResourceTypeLabel = null,
-        showSystemVariables = true,
-        showGlobalVariables = true,
-        activePicklistValues = [],
-        forFormula = false,
-        allowSObjectFieldsTraversal = true,
-        allowSObjectFields = true,
-        allowElementFields = true,
-        hideFlowSystemVariable = false
-    } = {}
+    config: MenuConfig = {
+        newResourceTypeLabel: null,
+        activePicklistValues: [],
+        traversalConfig: {
+            isEnabled: true,
+            allowSObjectFieldsTraversal: true,
+            allowSObjectField: true,
+            allowElementFields: true
+        },
+        filter: {
+            allowGlobalConstants: true,
+            includeNewResource: true,
+            showSystemVariables: true,
+            showGlobalVariables: true,
+            forFormula: false,
+            showFlowSystemVariable: true
+        }
+    }
 ) => {
     if (parentItem) {
         return getFieldMenuData(populateParamTypesFn, parentItem, fields, {
-            allowSObjectFields,
-            allowSObjectFieldsTraversal,
-            allowElementFields,
-            shouldBeWritable: !!(elementConfig && elementConfig.shouldBeWritable),
-            selectorConfig: elementConfig && elementConfig.selectorConfig,
-            showMultiPicklistGlobalVariables: forFormula
+            allowSObjectFields: config.traversalConfig?.allowSObjectField,
+            allowSObjectFieldsTraversal: config.traversalConfig?.allowSObjectFieldsTraversal,
+            allowElementFields: config.traversalConfig?.allowElementFields,
+            shouldBeWritable: !!elementConfig?.shouldBeWritable,
+            selectorConfig: elementConfig?.selectorConfig,
+            showMultiPicklistGlobalVariables: config.filter?.forFormula
         });
     }
     return Promise.resolve(
@@ -142,17 +119,8 @@ export const getMenuData = (
             elementConfig,
             propertyEditorElementType,
             populateParamTypesFn,
-            allowGlobalConstants,
-            enableFieldDrilldown,
-            activePicklistValues,
             storeInstance.getCurrentState(),
-            includeNewResource,
-            newResourceTypeLabel,
-            showSystemVariables,
-            showGlobalVariables,
-            allowSObjectFields,
-            forFormula,
-            hideFlowSystemVariable
+            config
         )
     );
 };

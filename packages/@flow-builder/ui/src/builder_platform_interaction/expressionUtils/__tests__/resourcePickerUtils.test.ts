@@ -66,19 +66,27 @@ describe('resourcePickerUtils', () => {
             filterFieldsForChosenElement.mockReturnValueOnce(mockFieldMenuData);
 
             const result = await getMenuData(null, null, resourcePicker.populateParamTypes, null, parentItem, null, {
-                allowGlobalConstants: false,
-                enableFieldDrilldown: false,
-                includeNewResource: true
+                traversalConfig: {
+                    isEnabled: false
+                },
+                filter: {
+                    allowGlobalConstants: false,
+                    includeNewResource: true
+                }
             });
             expect(result).toEqual(['field2']);
         });
 
         it('Should filter the fields when the fields already have been loaded', async () => {
             await getMenuData(null, null, resourcePicker.populateParamTypes, null, parentItem, fields, {
-                allowGlobalConstants: false,
-                enableFieldDrilldown: false,
-                includeNewResource: true,
-                allowSObjectFieldsTraversal: true
+                traversalConfig: {
+                    isEnabled: false
+                },
+                filter: {
+                    allowGlobalConstants: false,
+                    includeNewResource: true,
+                    allowSObjectFieldsTraversal: true
+                }
             });
             expect(filterFieldsForChosenElement).toHaveBeenCalledWith(parentItem, fields, {
                 allowSObjectFields: true,
@@ -87,17 +95,13 @@ describe('resourcePickerUtils', () => {
                 allowElementFields: true,
                 showAsFieldReference: true,
                 showSubText: true,
-                selectorConfig: null,
+                selectorConfig: undefined,
                 shouldBeWritable: false
             });
         });
 
         it('Should filter the fields after waiting for the fields to load', async () => {
-            await getMenuData(null, null, resourcePicker.populateParamTypes, null, parentItem, null, {
-                allowedParamTypes: paramTypes,
-                showAsFieldReference: true,
-                showSubText: true
-            });
+            await getMenuData(null, null, resourcePicker.populateParamTypes, null, parentItem, null);
             expect(fetchFieldsForEntity).toHaveBeenCalledWith(objectName, {
                 disableErrorModal: true
             });
@@ -108,7 +112,7 @@ describe('resourcePickerUtils', () => {
                 showAsFieldReference: true,
                 showSubText: true,
                 allowSObjectFieldsTraversal: true,
-                selectorConfig: null,
+                selectorConfig: undefined,
                 shouldBeWritable: false
             });
         });
@@ -127,9 +131,13 @@ describe('resourcePickerUtils', () => {
                 parentGlobalItem,
                 null,
                 {
-                    allowGlobalConstants: false,
-                    enableFieldDrilldown: false,
-                    includeNewResource: true
+                    traversalConfig: {
+                        isEnabled: false
+                    },
+                    filter: {
+                        allowGlobalConstants: false,
+                        includeNewResource: true
+                    }
                 }
             );
             expect(result['$Organization.Country']).toBeDefined();
@@ -149,10 +157,14 @@ describe('resourcePickerUtils', () => {
                 parentGlobalItem,
                 null,
                 {
-                    allowGlobalConstants: false,
-                    enableFieldDrilldown: false,
-                    includeNewResource: true,
-                    forFormula: true
+                    traversalConfig: {
+                        isEnabled: false
+                    },
+                    filter: {
+                        allowGlobalConstants: false,
+                        includeNewResource: true,
+                        forFormula: true
+                    }
                 }
             );
             expect(result['$Organization.Country']).toBeDefined();
@@ -184,9 +196,13 @@ describe('resourcePickerUtils', () => {
                 null,
                 null,
                 {
-                    allowGlobalConstants: resourcePicker.allowGlobalConstants,
-                    enableFieldDrilldown: resourcePicker.enableFieldDrilldown,
-                    includeNewResource: false
+                    traversalConfig: {
+                        isEnabled: resourcePicker.enableFieldDrilldown
+                    },
+                    filter: {
+                        allowGlobalConstants: resourcePicker.allowGlobalConstants,
+                        includeNewResource: true
+                    }
                 }
             );
             expect(result).toEqual(mockMenuData);
@@ -201,9 +217,13 @@ describe('resourcePickerUtils', () => {
                 null,
                 null,
                 {
-                    allowGlobalConstants: resourcePicker.allowGlobalConstants,
-                    enableFieldDrilldown: resourcePicker.enableFieldDrilldown,
-                    includeNewResource: true
+                    traversalConfig: {
+                        isEnabled: resourcePicker.enableFieldDrilldown
+                    },
+                    filter: {
+                        allowGlobalConstants: resourcePicker.allowGlobalConstants,
+                        includeNewResource: true
+                    }
                 }
             );
             expect(getStoreElements).toHaveBeenCalledWith(elements, {
@@ -211,18 +231,15 @@ describe('resourcePickerUtils', () => {
             });
             expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
             expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, paramTypes, {
-                includeNewResource: true,
-                activePicklistValues: [],
-                allowGlobalConstants: true,
-                disableHasNext: true,
-                showSystemVariables: true,
-                showGlobalVariables: true,
-                allowSObjectField: true,
-                allowsApexCollAnonymousAutoOutput: true,
-                forFormula: false,
-                newResourceTypeLabel: null,
-                shouldBeWritable: false,
-                hideFlowSystemVariable: false
+                traversalConfig: {
+                    isEnabled: false
+                },
+                filter: {
+                    includeNewResource: true,
+                    allowGlobalConstants: true,
+                    allowsApexCollAnonymousAutoOutput: true,
+                    shouldBeWritable: false
+                }
             });
         });
 
@@ -235,25 +252,27 @@ describe('resourcePickerUtils', () => {
                 null,
                 null,
                 {
-                    allowGlobalConstants: resourcePicker.allowGlobalConstants,
-                    enableFieldDrilldown: resourcePicker.enableFieldDrilldown,
-                    includeNewResource: false
+                    traversalConfig: {
+                        isEnabled: resourcePicker.enableFieldDrilldown
+                    },
+                    filter: {
+                        allowGlobalConstants: resourcePicker.allowGlobalConstants,
+                        includeNewResource: false
+                    }
                 }
             );
             expect(getStoreElements).toHaveBeenCalledWith(elements, 'elementConfig');
             expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
             expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, paramTypes, {
-                includeNewResource: false,
-                newResourceTypeLabel: null,
-                activePicklistValues: [],
-                allowGlobalConstants: true,
-                disableHasNext: true,
-                showSystemVariables: true,
-                showGlobalVariables: true,
-                allowSObjectField: true,
-                allowsApexCollAnonymousAutoOutput: undefined,
-                forFormula: false,
-                hideFlowSystemVariable: false
+                traversalConfig: {
+                    isEnabled: false
+                },
+                filter: {
+                    includeNewResource: false,
+                    allowGlobalConstants: true,
+                    shouldBeWritable: undefined,
+                    allowsApexCollAnonymousAutoOutput: undefined
+                }
             });
         });
 
@@ -266,25 +285,28 @@ describe('resourcePickerUtils', () => {
                 null,
                 null,
                 {
-                    allowGlobalConstants: resourcePicker.allowGlobalConstants,
-                    enableFieldDrilldown: resourcePicker.enableFieldDrilldown,
-                    includeNewResource: false,
-                    forFormula: true
+                    traversalConfig: {
+                        isEnabled: resourcePicker.enableFieldDrilldown
+                    },
+                    filter: {
+                        allowGlobalConstants: resourcePicker.allowGlobalConstants,
+                        includeNewResource: false,
+                        forFormula: true
+                    }
                 }
             );
             expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
             expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, paramTypes, {
-                includeNewResource: false,
-                newResourceTypeLabel: null,
-                activePicklistValues: [],
-                allowGlobalConstants: true,
-                disableHasNext: true,
-                showSystemVariables: true,
-                showGlobalVariables: true,
-                allowSObjectField: true,
-                allowsApexCollAnonymousAutoOutput: undefined,
-                forFormula: true,
-                hideFlowSystemVariable: false
+                traversalConfig: {
+                    isEnabled: false
+                },
+                filter: {
+                    includeNewResource: false,
+                    allowGlobalConstants: true,
+                    allowsApexCollAnonymousAutoOutput: undefined,
+                    forFormula: true,
+                    shouldBeWritable: undefined
+                }
             });
         });
 
@@ -297,25 +319,28 @@ describe('resourcePickerUtils', () => {
                 null,
                 null,
                 {
-                    allowGlobalConstants: resourcePicker.allowGlobalConstants,
-                    enableFieldDrilldown: resourcePicker.enableFieldDrilldown,
-                    includeNewResource: false,
-                    showGlobalVariables: false
+                    traversalConfig: {
+                        isEnabled: resourcePicker.enableFieldDrilldown
+                    },
+                    filter: {
+                        allowGlobalConstants: resourcePicker.allowGlobalConstants,
+                        includeNewResource: false,
+                        showGlobalVariables: false
+                    }
                 }
             );
             expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
             expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, paramTypes, {
-                includeNewResource: false,
-                newResourceTypeLabel: null,
-                activePicklistValues: [],
-                allowGlobalConstants: true,
-                disableHasNext: true,
-                showSystemVariables: true,
-                showGlobalVariables: false,
-                allowSObjectField: true,
-                allowsApexCollAnonymousAutoOutput: undefined,
-                forFormula: false,
-                hideFlowSystemVariable: false
+                traversalConfig: {
+                    isEnabled: false
+                },
+                filter: {
+                    includeNewResource: false,
+                    allowGlobalConstants: true,
+                    allowsApexCollAnonymousAutoOutput: undefined,
+                    shouldBeWritable: undefined,
+                    showGlobalVariables: false
+                }
             });
         });
     });

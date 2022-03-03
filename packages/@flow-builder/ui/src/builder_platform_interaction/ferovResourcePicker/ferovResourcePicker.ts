@@ -416,17 +416,21 @@ export default class FerovResourcePicker extends LightningElement {
                 parentItem,
                 fields,
                 {
-                    enableFieldDrilldown: this.enableFieldDrilldown,
-                    allowGlobalConstants: !this.hideGlobalConstants,
-                    includeNewResource: !this.hideNewResource,
                     newResourceTypeLabel: this.newResourceTypeLabel,
-                    showSystemVariables: !this.hideSystemVariables,
-                    showGlobalVariables: !this.hideGlobalVariables,
                     activePicklistValues: this.activePicklistValues,
-                    forFormula: this.forFormula,
-                    allowSObjectFields: this.comboboxConfig.allowSObjectFields,
-                    allowSObjectFieldsTraversal: this.isLookupTraversalSupported(),
-                    hideFlowSystemVariable: this.hideFlowSystemVariable
+                    traversalConfig: {
+                        isEnabled: this.enableFieldDrilldown,
+                        allowSObjectFieldsTraversal: this.isLookupTraversalSupported(),
+                        allowSObjectField: this.comboboxConfig.allowSObjectFields
+                    },
+                    filter: {
+                        allowGlobalConstants: !this.hideGlobalConstants,
+                        includeNewResource: !this.hideNewResource,
+                        showSystemVariables: !this.hideSystemVariables,
+                        showGlobalVariables: !this.hideGlobalVariables,
+                        forFormula: this.forFormula,
+                        showFlowSystemVariable: !this.hideFlowSystemVariable
+                    }
                 }
             ).then((menuData) => {
                 this._menuData = menuData;

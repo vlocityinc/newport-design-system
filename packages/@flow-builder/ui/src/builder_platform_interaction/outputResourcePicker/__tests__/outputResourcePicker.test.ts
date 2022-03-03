@@ -163,11 +163,15 @@ describe('output-resource-picker', () => {
             undefined,
             undefined,
             {
-                allowGlobalConstants: false,
-                showGlobalVariables: false,
-                enableFieldDrilldown: false,
-                includeNewResource: true,
-                allowSObjectFieldsTraversal: false
+                traversalConfig: {
+                    isEnabled: false,
+                    allowSObjectFieldsTraversal: false
+                },
+                filter: {
+                    allowGlobalConstants: false,
+                    showGlobalVariables: false,
+                    includeNewResource: true
+                }
             }
         );
     });
@@ -204,11 +208,15 @@ describe('output-resource-picker', () => {
             parentRecordVar,
             undefined,
             {
-                allowGlobalConstants: false,
-                showGlobalVariables: false,
-                enableFieldDrilldown: false,
-                includeNewResource: true,
-                allowSObjectFieldsTraversal: false
+                traversalConfig: {
+                    isEnabled: false,
+                    allowSObjectFieldsTraversal: false
+                },
+                filter: {
+                    allowGlobalConstants: false,
+                    showGlobalVariables: false,
+                    includeNewResource: true
+                }
             }
         );
     });
@@ -233,11 +241,15 @@ describe('output-resource-picker', () => {
             undefined,
             undefined,
             {
-                allowGlobalConstants: false,
-                showGlobalVariables: false,
-                enableFieldDrilldown,
-                includeNewResource: true,
-                allowSObjectFieldsTraversal: false
+                traversalConfig: {
+                    isEnabled: enableFieldDrilldown,
+                    allowSObjectFieldsTraversal: false
+                },
+                filter: {
+                    allowGlobalConstants: false,
+                    showGlobalVariables: false,
+                    includeNewResource: true
+                }
             }
         );
     });
@@ -261,11 +273,15 @@ describe('output-resource-picker', () => {
             undefined,
             undefined,
             {
-                allowGlobalConstants: false,
-                showGlobalVariables: false,
-                enableFieldDrilldown: false,
-                includeNewResource: true,
-                allowSObjectFieldsTraversal: false
+                traversalConfig: {
+                    isEnabled: false,
+                    allowSObjectFieldsTraversal: false
+                },
+                filter: {
+                    allowGlobalConstants: false,
+                    showGlobalVariables: false,
+                    includeNewResource: true
+                }
             }
         );
     });

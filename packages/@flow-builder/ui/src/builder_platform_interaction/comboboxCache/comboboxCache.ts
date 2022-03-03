@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { mutateFlowResourceToComboboxShape } from 'builder_platform_interaction/expressionUtils';
 import { apexScalarVariablesSelector } from 'builder_platform_interaction/selectors';
 import { Store } from 'builder_platform_interaction/storeLib';

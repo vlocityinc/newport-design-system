@@ -1,6 +1,5 @@
 // @ts-nocheck
 import collectionDataType from '@salesforce/label/FlowBuilderDataTypes.collectionDataType';
-import systemGlobalVariableCategoryLabel from '@salesforce/label/FlowBuilderSystemGlobalVariables.systemGlobalVariableCategory';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import {
     FLOW_DATA_TYPE,
@@ -23,6 +22,7 @@ import {
     isNonElementId,
     isSystemVariablesCategoryNotEmpty,
     SYSTEM_VARIABLE_CLIENT_PREFIX,
+    SYSTEM_VARIABLE_ICON_NAME,
     SYSTEM_VARIABLE_PREFIX,
     SYSTEM_VARIABLE_RECORD_PREFIX,
     SYSTEM_VARIABLE_RECORD_PRIOR_PREFIX
@@ -38,6 +38,7 @@ const STRING_TYPE = FLOW_DATA_TYPE.STRING.value;
 const ICON_TYPE = 'utility';
 const RIGHT_ICON_NAME = 'utility:chevronright';
 const ICON_SIZE = 'xx-small';
+const SYSTEM_VARIABLE_ICON = `${ICON_TYPE}:${SYSTEM_VARIABLE_ICON_NAME}`;
 
 export const COMBOBOX_ITEM_DISPLAY_TYPE = {
     OPTION_CARD: 'option-card',
@@ -526,13 +527,19 @@ export function getMenuItemsForField(
     ];
 }
 
+const shouldDisableHasNext = (
+    dataType: string,
+    { isEnabled = true, allowSObjectField = true }: MenuTraversalConfig = {}
+) => !isEnabled || (!allowSObjectField && dataType === FLOW_DATA_TYPE.SOBJECT.value);
+
 /**
  * Makes copy of a Flow Element with fields as needed by combobox
  *
  * @param {Object} resource element from flow
+ * @param traversalConfig some additional settings for figuring out wether we need to set hasNext on items.
  * @returns {Object} representation of flow element in shape combobox needs
  */
-export function mutateFlowResourceToComboboxShape(resource) {
+export function mutateFlowResourceToComboboxShape(resource, traversalConfig?: MenuTraversalConfig) {
     const newElement: UI.ComboboxItem = {
         iconSize: ICON_SIZE
     };
@@ -542,8 +549,7 @@ export function mutateFlowResourceToComboboxShape(resource) {
     let elementCategory, isNonElement, resourceIcon;
 
     if (resource.elementType === ELEMENT_TYPE.START_ELEMENT) {
-        resourceIcon = ICON_TYPE + ':system_and_global_variable';
-        elementCategory = systemGlobalVariableCategoryLabel;
+        resourceIcon = SYSTEM_VARIABLE_ICON;
         newElement.text = SYSTEM_VARIABLE_RECORD_PREFIX;
         newElement.value = SYSTEM_VARIABLE_RECORD_PREFIX;
         newElement.haveSystemVariableFields = resource.haveSystemVariableFields;
@@ -566,14 +572,17 @@ export function mutateFlowResourceToComboboxShape(resource) {
     newElement.displayText = addCurlyBraces(resource.isNewField ? resource.name.value : resource.name);
     newElement.subText = isNonElement ? resource.description : getSubText(resourceDataType, resourceLabel, resource);
 
-    newElement.hasNext = isComplexType(resourceDataType) && !resource.isCollection;
-    newElement.category = resource.category || (elementCategory && elementCategory.toUpperCase());
+    newElement.hasNext =
+        !shouldDisableHasNext(resourceDataType, traversalConfig) &&
+        isComplexType(resourceDataType) &&
+        !resource.isCollection;
+    newElement.rightIconName = newElement.hasNext ? RIGHT_ICON_NAME : '';
+    newElement.category = resource.category || elementCategory?.toUpperCase();
     newElement.iconName = resourceIcon || getDataTypeIcons(resourceDataType, ICON_TYPE);
     newElement.type = COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD;
     newElement.dataType = resourceDataType;
     newElement.subtype = resource.subtype || null;
     if (newElement.hasNext) {
-        newElement.rightIconName = RIGHT_ICON_NAME;
         newElement.rightIconSize = ICON_SIZE;
     }
 
@@ -673,7 +682,7 @@ const mutateSystemAndGlobalVariablesToComboboxShape = ({ value, dataType, subtyp
         displayText: addCurlyBraces(value),
         type: COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
         hasNext: true,
-        iconName: ICON_TYPE + ':system_and_global_variable',
+        iconName: SYSTEM_VARIABLE_ICON,
         iconSize: ICON_SIZE,
         rightIconName: RIGHT_ICON_NAME,
         rightIconSize: ICON_SIZE,
@@ -735,19 +744,19 @@ const getFlowSystemClientVariableComboboxItem = () =>
  * @param {boolean} showGlobalVariables   should include the global variable categories
  * @param {boolean} forFormula   if we are retrieving menu data for formula editor
  * @param shouldBeWritable
- * @param {boolean} hideFlowSystemVariable   should hide the $Flow system variable
+ * @param {boolean} showFlowSystemVariable   should include the $Flow system variable
  * @returns {MenuData} menu data showing system variables and/or global variables
  */
-export const getSystemAndGlobalVariableMenuData = (
-    showSystemVariables: boolean,
-    showGlobalVariables: boolean,
+export const getSystemAndGlobalVariableMenuData = ({
+    showSystemVariables,
+    showGlobalVariables,
     forFormula = false,
     shouldBeWritable = false,
-    hideFlowSystemVariable = false
-) => {
+    showFlowSystemVariable = true
+}: MenuFilter = {}) => {
     const categories = [];
     if (showSystemVariables) {
-        if (!hideFlowSystemVariable) {
+        if (showFlowSystemVariable) {
             categories.push(getFlowSystemVariableComboboxItem());
         }
         if (isSystemVariablesCategoryNotEmpty(SYSTEM_VARIABLE_CLIENT_PREFIX)) {

@@ -31,6 +31,13 @@
         "categoryId":"MATH"
       },
       {
+        "exampleString":"ACOS(number)",
+        "name":"ACOS",
+        "description":"Returns the arc cosine of the number in radians, if the given number is between -1 and 1.  Otherwise NULL.",
+        "label":"ACOS",
+        "categoryId":"MATH"
+      },
+      {
         "exampleString":"ADDMONTHS(date,num)",
         "name":"ADDMONTHS",
         "description":"Add the num months to the date, using the last date of the month if date is the last day of the month or adding num months has fewer days.",

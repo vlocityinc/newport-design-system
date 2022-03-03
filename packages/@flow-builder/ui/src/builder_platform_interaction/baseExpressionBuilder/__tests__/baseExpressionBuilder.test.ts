@@ -909,13 +909,17 @@ describe('base expression builder', () => {
                 lhsMustBeWritable: false
             });
             expect(expressionUtilsMock.filterAndMutateMenuData).toHaveBeenCalledWith(expect.anything(), undefined, {
-                includeNewResource: true,
-                allowGlobalConstants: false,
-                disableHasNext: false,
+                traversalConfig: {
+                    isEnabled: true
+                },
                 activePicklistValues: [],
-                showSystemVariables: true,
-                showGlobalVariables: true,
-                shouldBeWritable: false
+                filter: {
+                    includeNewResource: true,
+                    allowGlobalConstants: false,
+                    showSystemVariables: true,
+                    showGlobalVariables: true,
+                    shouldBeWritable: false
+                }
             });
         });
         it('should not return global variables in LHS menu data if LHS is writable', () => {
@@ -928,13 +932,17 @@ describe('base expression builder', () => {
                 lhsMustBeWritable: true
             });
             expect(expressionUtilsMock.filterAndMutateMenuData).toHaveBeenCalledWith(expect.anything(), undefined, {
-                includeNewResource: true,
-                allowGlobalConstants: false,
-                disableHasNext: false,
+                traversalConfig: {
+                    isEnabled: true
+                },
                 activePicklistValues: [],
-                showSystemVariables: true,
-                showGlobalVariables: false,
-                shouldBeWritable: true
+                filter: {
+                    includeNewResource: true,
+                    allowGlobalConstants: false,
+                    showSystemVariables: true,
+                    showGlobalVariables: false,
+                    shouldBeWritable: true
+                }
             });
         });
         it('should not return global variables in LHS menu data if hideGlobalVariables is true', async () => {
@@ -949,13 +957,17 @@ describe('base expression builder', () => {
             });
             await ticks(1);
             expect(expressionUtilsMock.filterAndMutateMenuData).toHaveBeenCalledWith(expect.anything(), undefined, {
-                includeNewResource: true,
-                allowGlobalConstants: false,
-                disableHasNext: false,
+                traversalConfig: {
+                    isEnabled: true
+                },
                 activePicklistValues: [],
-                showSystemVariables: true,
-                showGlobalVariables: false,
-                shouldBeWritable: false
+                filter: {
+                    includeNewResource: true,
+                    allowGlobalConstants: false,
+                    showSystemVariables: true,
+                    showGlobalVariables: false,
+                    shouldBeWritable: false
+                }
             });
         });
     });

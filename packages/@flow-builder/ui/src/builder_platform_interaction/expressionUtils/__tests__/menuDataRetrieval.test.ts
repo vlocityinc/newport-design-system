@@ -223,16 +223,21 @@ describe('Menu data retrieval', () => {
         Store.resetStore();
     });
     describe('RHS menuData', () => {
-        it('should have active picklist values in menu data when LHS is picklist field', () => {
+        it('should have active picklist values in menu data to show up first when LHS is picklist field', () => {
             const menuData = filterAndMutateMenuData([store.accountSObjectVariable], null, {
-                includeNewResource: false,
-                allowGlobalConstants: false,
-                disableHasNext: false,
-                activePicklistValues: ['pick1', 'pick2']
+                traversalConfig: {
+                    isEnabled: true
+                },
+                activePicklistValues: [{ value: 'pick1' }, { value: 'pick2' }],
+                filter: {
+                    includeNewResource: false,
+                    allowGlobalConstants: false
+                }
             });
-            const picklistLabel = 'FlowBuilderExpressionUtils.picklistValuesLabel(2)';
-            expect(menuData).toContainEqual(expect.objectContaining({ label: picklistLabel }));
-            expect(menuData).toContainEqual(expect.objectContaining({ items: expect.any(Array) }));
+            expect(menuData[0]).toMatchObject({
+                label: 'FlowBuilderExpressionUtils.picklistValuesLabel(2)',
+                items: [{ text: 'pick1' }, { text: 'pick2' }]
+            });
         });
     });
     describe('global constants', () => {
@@ -349,7 +354,9 @@ describe('Menu data retrieval', () => {
         });
         it('should have New Resource as first element', () => {
             const allowedVariables = filterAndMutateMenuData([store.numberVariable], sampleNumberParamTypes, {
-                includeNewResource: true
+                filter: {
+                    includeNewResource: true
+                }
             });
             expect(allowedVariables).toHaveLength(2);
             expect(allowedVariables[0].text).toBe(
@@ -372,9 +379,13 @@ describe('Menu data retrieval', () => {
                 ],
                 sampleNumberParamTypes,
                 {
-                    includeNewResource: false,
-                    allowGlobalConstants: true,
-                    disableHasNext: false
+                    traversalConfig: {
+                        isEnabled: true
+                    },
+                    filter: {
+                        includeNewResource: false,
+                        allowGlobalConstants: true
+                    }
                 }
             );
             expect(primitivesWithObjects).toEqual([
@@ -428,9 +439,13 @@ describe('Menu data retrieval', () => {
                 ],
                 sampleNumberParamTypes,
                 {
-                    includeNewResource: false,
-                    allowGlobalConstants: true,
-                    disableHasNext: true
+                    traversalConfig: {
+                        isEnabled: false
+                    },
+                    filter: {
+                        includeNewResource: false,
+                        allowGlobalConstants: true
+                    }
                 }
             );
             expect(primitivesNoObjects).toHaveLength(0);
@@ -472,7 +487,9 @@ describe('Menu data retrieval', () => {
         });
         it('sets hasNext true and rightIconName when hasNext enabled', () => {
             const menuData = filterAndMutateMenuData([store.apexCallAccountAutomaticOutput], undefined, {
-                disableHasNext: false
+                traversalConfig: {
+                    isEnabled: true
+                }
             });
 
             const element = menuData[0].items[0];
@@ -482,7 +499,9 @@ describe('Menu data retrieval', () => {
         });
         it('sets hasNext false and empty right icon when hasNext disabled', () => {
             const menuData = filterAndMutateMenuData([store.apexCallAccountAutomaticOutput], undefined, {
-                disableHasNext: true
+                traversalConfig: {
+                    isEnabled: false
+                }
             });
 
             const element = menuData[0].items[0];
@@ -490,24 +509,27 @@ describe('Menu data retrieval', () => {
             expect(element.rightIconName).toBeDefined();
             expect(element.rightIconName).toEqual('');
         });
-        it('ignores allowSObjectFields if hasNext false', () => {
+        it('ignores allowSObjectField if traversal is disabled', () => {
             const menuData = filterAndMutateMenuData([store.apexCallAccountAutomaticOutput], undefined, {
-                disableHasNext: true,
-                allowSObjectField: true
+                traversalConfig: {
+                    isEnabled: false,
+                    allowSObjectField: true
+                }
             });
 
             const element = menuData[0].items[0];
             expect(element.hasNext).toBe(false);
-            expect(element.rightIconName).toBeDefined();
             expect(element.rightIconName).toEqual('');
         });
-        it('sets hasNext and right icon name when hasNext enabled only on not SObject when allowSObjectFields is false', () => {
+        it('sets hasNext and right icon name when traversal is enabled only on not SObject when allowSObjectField is false', () => {
             const menuData = filterAndMutateMenuData(
                 [store.apexCallAccountAutomaticOutput, store.apexCallAutomaticAnonymousAccountOutput],
                 undefined,
                 {
-                    disableHasNext: false,
-                    allowSObjectField: false
+                    traversalConfig: {
+                        isEnabled: true,
+                        allowSObjectField: false
+                    }
                 }
             );
 
@@ -530,7 +552,7 @@ describe('Menu data retrieval', () => {
                 },
                 elements: {}
             });
-            const menuData = filterAndMutateMenuData([], undefined, { showSystemVariables: false });
+            const menuData = filterAndMutateMenuData([], undefined, { filter: { showSystemVariables: false } });
             const element = menuData[0].items[0];
             expect(element.value).toBe('$Api');
             Store.setMockState(flowWithAllElementsUIModel);
@@ -545,7 +567,9 @@ describe('Menu data retrieval', () => {
                 fieldType: 'Region'
             };
             const menuData = filterAndMutateMenuData([dummySection, dummyColumn], undefined, {
-                showSystemVariables: false
+                filter: {
+                    showSystemVariables: false
+                }
             });
             expect(menuData).toHaveLength(0);
         });
@@ -554,7 +578,9 @@ describe('Menu data retrieval', () => {
                 elementType: 'ScheduledPath'
             };
             const menuData = filterAndMutateMenuData([dummyScheduledPath], undefined, {
-                showSystemVariables: false
+                filter: {
+                    showSystemVariables: false
+                }
             });
             expect(menuData).toHaveLength(0);
         });
@@ -564,7 +590,9 @@ describe('Menu data retrieval', () => {
                 fieldType: FlowScreenFieldType.ObjectProvided
             };
             const menuData = filterAndMutateMenuData([dummyAutomaticField], undefined, {
-                showSystemVariables: false
+                filter: {
+                    showSystemVariables: false
+                }
             });
             expect(menuData).toHaveLength(0);
         });
@@ -584,12 +612,16 @@ describe('Menu data retrieval', () => {
                 '$UserRole'
             ]);
         });
-        it('sets hasNext false on $Record when allowSObjectFields is false and disableHasNext is false', () => {
+        it('sets hasNext false on $Record when allowSObjectField is false and traversal is enabled', () => {
             const menuData = filterAndMutateMenuData([startElement], undefined, {
-                disableHasNext: false,
-                allowSObjectField: false,
-                showSystemVariables: false,
-                showGlobalVariables: false
+                traversalConfig: {
+                    isEnabled: true,
+                    allowSObjectField: false
+                },
+                filter: {
+                    showSystemVariables: false,
+                    showGlobalVariables: false
+                }
             });
 
             const element = menuData[0].items[0];
@@ -599,8 +631,10 @@ describe('Menu data retrieval', () => {
         });
         it('should have New Resource as first element and the label should reflect the newResourceTypeLabel provided', () => {
             const menuData = filterAndMutateMenuData([], undefined, {
-                includeNewResource: true,
-                newResourceTypeLabel: 'test resource type'
+                newResourceTypeLabel: 'test resource type',
+                filter: {
+                    includeNewResource: true
+                }
             });
             expect(menuData).toHaveLength(2);
             expect(menuData[0].text).toBe('FlowBuilderExpressionUtils.newTypedResourceLabel(test resource type)');

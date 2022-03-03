@@ -194,14 +194,21 @@ describe('ferov-resource-picker', () => {
             undefined,
             undefined,
             {
-                allowGlobalConstants: true,
-                enableFieldDrilldown: false,
-                includeNewResource: true,
-                showSystemVariables: true,
-                showGlobalVariables: true,
-                forFormula: false,
-                allowSObjectFieldsTraversal: true,
-                hideFlowSystemVariable: false
+                activePicklistValues: undefined,
+                newResourceTypeLabel: undefined,
+                traversalConfig: {
+                    isEnabled: false,
+                    allowSObjectFieldsTraversal: true,
+                    allowSObjectField: undefined
+                },
+                filter: {
+                    allowGlobalConstants: true,
+                    includeNewResource: true,
+                    showSystemVariables: true,
+                    showGlobalVariables: true,
+                    forFormula: false,
+                    showFlowSystemVariable: true
+                }
             }
         );
     });
@@ -226,14 +233,21 @@ describe('ferov-resource-picker', () => {
             parentItem,
             ['mockField'],
             {
-                allowGlobalConstants: true,
-                enableFieldDrilldown: false,
-                includeNewResource: true,
-                showSystemVariables: true,
-                showGlobalVariables: true,
-                forFormula: false,
-                allowSObjectFieldsTraversal: true,
-                hideFlowSystemVariable: false
+                traversalConfig: {
+                    isEnabled: false,
+                    allowSObjectFieldsTraversal: true,
+                    allowSObjectField: undefined
+                },
+                activePicklistValues: undefined,
+                newResourceTypeLabel: undefined,
+                filter: {
+                    allowGlobalConstants: true,
+                    includeNewResource: true,
+                    showSystemVariables: true,
+                    showGlobalVariables: true,
+                    forFormula: false,
+                    showFlowSystemVariable: true
+                }
             }
         );
     });
@@ -258,14 +272,21 @@ describe('ferov-resource-picker', () => {
             parentItem,
             undefined,
             {
-                allowGlobalConstants: true,
-                enableFieldDrilldown: false,
-                includeNewResource: true,
-                showSystemVariables: true,
-                showGlobalVariables: true,
-                forFormula: false,
-                allowSObjectFieldsTraversal: true,
-                hideFlowSystemVariable: false
+                traversalConfig: {
+                    isEnabled: false,
+                    allowSObjectFieldsTraversal: true,
+                    allowSObjectField: undefined
+                },
+                activePicklistValues: undefined,
+                newResourceTypeLabel: undefined,
+                filter: {
+                    allowGlobalConstants: true,
+                    includeNewResource: true,
+                    showSystemVariables: true,
+                    showGlobalVariables: true,
+                    forFormula: false,
+                    showFlowSystemVariable: true
+                }
             }
         );
     });
@@ -287,14 +308,21 @@ describe('ferov-resource-picker', () => {
             undefined,
             undefined,
             {
-                allowGlobalConstants: true,
-                enableFieldDrilldown: false,
-                includeNewResource: true,
-                showSystemVariables: true,
-                showGlobalVariables: true,
-                forFormula: false,
-                allowSObjectFieldsTraversal: true,
-                hideFlowSystemVariable: false
+                traversalConfig: {
+                    isEnabled: false,
+                    allowSObjectFieldsTraversal: true,
+                    allowSObjectField: undefined
+                },
+                activePicklistValues: undefined,
+                newResourceTypeLabel: undefined,
+                filter: {
+                    allowGlobalConstants: true,
+                    includeNewResource: true,
+                    showSystemVariables: true,
+                    showGlobalVariables: true,
+                    forFormula: false,
+                    showFlowSystemVariable: true
+                }
             }
         );
     });
@@ -349,14 +377,21 @@ describe('ferov-resource-picker', () => {
             undefined,
             undefined,
             {
-                allowGlobalConstants: true,
-                enableFieldDrilldown: false,
-                includeNewResource: true,
-                showSystemVariables: true,
-                showGlobalVariables: true,
-                forFormula: false,
-                allowSObjectFieldsTraversal: true,
-                hideFlowSystemVariable: false
+                traversalConfig: {
+                    isEnabled: false,
+                    allowSObjectFieldsTraversal: true,
+                    allowSObjectField: undefined
+                },
+                activePicklistValues: undefined,
+                newResourceTypeLabel: undefined,
+                filter: {
+                    allowGlobalConstants: true,
+                    includeNewResource: true,
+                    showSystemVariables: true,
+                    showGlobalVariables: true,
+                    forFormula: false,
+                    showFlowSystemVariable: true
+                }
             }
         );
     });
@@ -558,14 +593,21 @@ describe('ferov-resource-picker', () => {
                 undefined,
                 undefined,
                 {
-                    allowGlobalConstants: true,
-                    enableFieldDrilldown: false,
-                    includeNewResource: true,
-                    showSystemVariables: true,
-                    showGlobalVariables: true,
-                    forFormula: false,
-                    allowSObjectFieldsTraversal: true,
-                    hideFlowSystemVariable: false
+                    traversalConfig: {
+                        isEnabled: false,
+                        allowSObjectFieldsTraversal: true,
+                        allowSObjectField: undefined
+                    },
+                    activePicklistValues: undefined,
+                    newResourceTypeLabel: undefined,
+                    filter: {
+                        allowGlobalConstants: true,
+                        includeNewResource: true,
+                        showSystemVariables: true,
+                        showGlobalVariables: true,
+                        forFormula: false,
+                        showFlowSystemVariable: true
+                    }
                 }
             );
         });
@@ -580,14 +622,21 @@ describe('ferov-resource-picker', () => {
                 undefined,
                 undefined,
                 {
-                    allowGlobalConstants: true,
-                    enableFieldDrilldown: false,
-                    includeNewResource: true,
-                    showSystemVariables: true,
-                    showGlobalVariables: true,
-                    forFormula: false,
-                    allowSObjectFieldsTraversal: true,
-                    hideFlowSystemVariable: false
+                    traversalConfig: {
+                        isEnabled: false,
+                        allowSObjectFieldsTraversal: true,
+                        allowSObjectField: undefined
+                    },
+                    activePicklistValues: undefined,
+                    newResourceTypeLabel: undefined,
+                    filter: {
+                        allowGlobalConstants: true,
+                        includeNewResource: true,
+                        showSystemVariables: true,
+                        showGlobalVariables: true,
+                        forFormula: false,
+                        showFlowSystemVariable: true
+                    }
                 }
             );
         });
@@ -603,14 +652,21 @@ describe('ferov-resource-picker', () => {
                 undefined,
                 undefined,
                 {
-                    allowGlobalConstants: true,
-                    enableFieldDrilldown: false,
-                    includeNewResource: true,
-                    showSystemVariables: false,
-                    showGlobalVariables: true,
-                    forFormula: false,
-                    allowSObjectFieldsTraversal: true,
-                    hideFlowSystemVariable: false
+                    traversalConfig: {
+                        isEnabled: false,
+                        allowSObjectFieldsTraversal: true,
+                        allowSObjectField: undefined
+                    },
+                    activePicklistValues: undefined,
+                    newResourceTypeLabel: undefined,
+                    filter: {
+                        allowGlobalConstants: true,
+                        includeNewResource: true,
+                        showSystemVariables: false,
+                        showGlobalVariables: true,
+                        forFormula: false,
+                        showFlowSystemVariable: true
+                    }
                 }
             );
         });
@@ -626,14 +682,21 @@ describe('ferov-resource-picker', () => {
                 undefined,
                 undefined,
                 {
-                    allowGlobalConstants: true,
-                    enableFieldDrilldown: false,
-                    includeNewResource: true,
-                    showSystemVariables: true,
-                    showGlobalVariables: false,
-                    forFormula: false,
-                    allowSObjectFieldsTraversal: true,
-                    hideFlowSystemVariable: false
+                    traversalConfig: {
+                        isEnabled: false,
+                        allowSObjectFieldsTraversal: true,
+                        allowSObjectField: undefined
+                    },
+                    activePicklistValues: undefined,
+                    newResourceTypeLabel: undefined,
+                    filter: {
+                        allowGlobalConstants: true,
+                        includeNewResource: true,
+                        showSystemVariables: true,
+                        showGlobalVariables: false,
+                        forFormula: false,
+                        showFlowSystemVariable: true
+                    }
                 }
             );
         });
@@ -649,14 +712,21 @@ describe('ferov-resource-picker', () => {
                 undefined,
                 undefined,
                 {
-                    allowGlobalConstants: true,
-                    enableFieldDrilldown: false,
-                    includeNewResource: true,
-                    showSystemVariables: true,
-                    showGlobalVariables: true,
-                    forFormula: true,
-                    allowSObjectFieldsTraversal: true,
-                    hideFlowSystemVariable: false
+                    traversalConfig: {
+                        isEnabled: false,
+                        allowSObjectFieldsTraversal: true,
+                        allowSObjectField: undefined
+                    },
+                    activePicklistValues: undefined,
+                    newResourceTypeLabel: undefined,
+                    filter: {
+                        allowGlobalConstants: true,
+                        includeNewResource: true,
+                        showSystemVariables: true,
+                        showGlobalVariables: true,
+                        forFormula: true,
+                        showFlowSystemVariable: true
+                    }
                 }
             );
         });

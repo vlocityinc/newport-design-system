@@ -228,11 +228,17 @@ describe('menuDataGenerator', () => {
                 setProcessTypeFeature('flow', ['GlobalVariables']);
             });
             it('should not return global variables if showGlobalVariables is false', () => {
-                const menuData = getSystemAndGlobalVariableMenuData(true, false);
-                expect(menuData.length).toEqual(1);
+                const menuData = getSystemAndGlobalVariableMenuData({
+                    showSystemVariables: true,
+                    showGlobalVariables: false
+                });
+                expect(menuData.length).toEqual(NUM_SYSTEM_VARIABLES);
             });
             it('should return global variables if showGlobalVariables is true', () => {
-                const menuData = getSystemAndGlobalVariableMenuData(true, true);
+                const menuData = getSystemAndGlobalVariableMenuData({
+                    showSystemVariables: true,
+                    showGlobalVariables: true
+                });
                 expect(menuData.length).toEqual(NUM_GLOBAL_VARIABLE_TYPES + NUM_SYSTEM_VARIABLES);
                 expect(menuData).toEqual(
                     expect.arrayContaining([
@@ -244,16 +250,27 @@ describe('menuDataGenerator', () => {
             });
             it('should return global variables if not supported for process type but for formula', () => {
                 setProcessTypeFeature('flow', []);
-                const menuData = getSystemAndGlobalVariableMenuData(true, true, true);
+                const menuData = getSystemAndGlobalVariableMenuData({
+                    showSystemVariables: true,
+                    showGlobalVariables: true,
+                    forFormula: true
+                });
                 expect(menuData.length).toEqual(NUM_GLOBAL_VARIABLE_TYPES + NUM_SYSTEM_VARIABLES);
             });
             it('should not return global variables if not supported for process type and not for formula', () => {
                 setProcessTypeFeature('flow', []);
-                const menuData = getSystemAndGlobalVariableMenuData(true, true);
+                const menuData = getSystemAndGlobalVariableMenuData({
+                    showSystemVariables: true,
+                    showGlobalVariables: true
+                });
                 expect(menuData.length).toEqual(1);
             });
-            it('should not return $Flow system variable if hideFlowSystemVariable is true', () => {
-                const menuData = getSystemAndGlobalVariableMenuData(true, true, false, false, true);
+            it('should not return $Flow system variable if showFlowSystemVariable is false', () => {
+                const menuData = getSystemAndGlobalVariableMenuData({
+                    showSystemVariables: true,
+                    showGlobalVariables: true,
+                    showFlowSystemVariable: false
+                });
                 expect(menuData.length).toEqual(NUM_GLOBAL_VARIABLE_TYPES);
                 expect(menuData).not.toEqual(
                     expect.arrayContaining([
@@ -270,7 +287,10 @@ describe('menuDataGenerator', () => {
             });
             it('should return $Record__Prior if supported', () => {
                 getStartElement.mockImplementation(() => startElementRecordTriggered);
-                const menuData = getSystemAndGlobalVariableMenuData(true, false);
+                const menuData = getSystemAndGlobalVariableMenuData({
+                    showSystemVariables: true,
+                    showGlobalVariables: false
+                });
                 expect(menuData).toEqual(
                     expect.arrayContaining([
                         expect.objectContaining({
@@ -288,7 +308,11 @@ describe('menuDataGenerator', () => {
             });
             it('should not return $Record__Prior if returned variables should be writable', () => {
                 getStartElementFromState.mockImplementation(() => startElementRecordTriggered);
-                const menuData = getSystemAndGlobalVariableMenuData(true, false, false, true);
+                const menuData = getSystemAndGlobalVariableMenuData({
+                    showSystemVariables: true,
+                    showGlobalVariables: false,
+                    shouldBeWritable: true
+                });
                 expect(menuData).not.toEqual(
                     expect.arrayContaining([
                         expect.objectContaining({

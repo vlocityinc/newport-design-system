@@ -117,6 +117,7 @@ function sortIntoCategories(menuData, element) {
 /**
  * @param allowedParamTypes
  * @param element
+ * @returns whether or not the element matches the allowed param types
  */
 function elementMatchesRule(allowedParamTypes, element) {
     for (let i = 0; i < allowedParamTypes.length; i++) {
@@ -214,7 +215,7 @@ function getNewResourceItem(resourceTypeLabel: String) {
  * @param {Object[]} picklist list of objects representing picklist values
  * @returns {module:menuDataGenerator.GroupMenuItems} menu data that has picklist values
  */
-export const getPicklistMenuData = (picklist: any[]) => {
+const getPicklistMenuData = (picklist: any[]) => {
     if (!Array.isArray(picklist)) {
         throw new Error(`Picklist field values must be an array but instead was: ${typeof picklist}`);
     }
@@ -227,11 +228,6 @@ export const getPicklistMenuData = (picklist: any[]) => {
     return picklistGroup;
 };
 
-const disableHasNextOnMenuItem = (menuItem) => {
-    menuItem.hasNext = false;
-    menuItem.rightIconName = '';
-};
-
 const isApexCollectionAnonymousAutomaticOutput = (menuItem) => {
     return (
         menuItem.dataType === FLOW_DATA_TYPE.APEX.value &&
@@ -241,137 +237,132 @@ const isApexCollectionAnonymousAutomaticOutput = (menuItem) => {
     );
 };
 
-const shouldDisableHasNext = (
-    menuItem: UI.ComboboxItem,
-    { disableHasNext = false, allowSObjectField = true } = {}
-): boolean => {
-    return disableHasNext || (allowSObjectField === false && menuItem.dataType === FLOW_DATA_TYPE.SOBJECT.value);
+const isSystemVariablesAllowed = (showSystemVariables: boolean, allowedParamTypes?) =>
+    showSystemVariables && (!allowedParamTypes || allowedParamTypes[SYSTEM_VARIABLE_REQUIREMENT]);
+
+const defaultMenuConfig: MenuConfig = {
+    newResourceTypeLabel: null,
+    traversalConfig: {
+        isEnabled: true,
+        allowSObjectField: true
+    },
+    activePicklistValues: [],
+    filter: {
+        includeNewResource: false,
+        allowGlobalConstants: false,
+        showSystemVariables: true,
+        showGlobalVariables: true,
+        allowsApexCollAnonymousAutoOutput: true,
+        forFormula: false,
+        shouldBeWritable: false,
+        showFlowSystemVariable: true
+    }
+};
+
+type FilteredData = {
+    menuElements: [];
+    systemAndGlobalVariables: [];
+    startElement: {};
 };
 
 /**
- * Filter the list of elements, append global constants and mutate elements to shape the combobox expects.
+ * Filter the given menu data elements depending on the given allow param types and config
  *
- * @param {List} menuDataElements        List of elements from the store that needs to filtered and converted to shape the combobox expects.
- * @param {operator-rule-util/allowedParamMap} allowedParamTypes    if present, is used to determine if each element is valid for this menuData
- * @param {boolean} includeNewResource  if true, include new resource as first menu item
- * @param {boolean} allowGlobalConstants             true if FEROVs are allowed here; certain things are true for all FEROV's e.g. global constants should be allowed, sobjects should be shown so that users can drill down to fields
- * @param {boolean} disableHasNext if true, then all menu items will have hasNext set to false regardless of the real value
- * @param {Array}   activePicklistValues the picklist values that will be appended to the menu data if picklist values are allowed
- * @param {boolean} showSystemVariables   are system variables allowed in this context
- * @param {boolean} showGlobalVariables   are global variables allowed in this context
- * @param {boolean} allowSObjectField whether or not to set hasNext on SObject
- * @param {boolean} allowsApexCollAnonymousAutoOutput whether or not apex collection from anonymous automatic outputs are allowed. Default true
- * @param {boolean} forFormula   is this request coming from a formula editor
- * @param {boolean} hideFlowSystemVariable   is $Flow system variables hidden in this context
- * @returns {Array}                     array of alphabetized objects sorted by category, in shape combobox expects
+ * @param menuDataElements the menu data elements to filter
+ * @param allowedParamTypes the allowed param types (rule defined)
+ * @param config the configuration specials
+ * @returns filtered menu data containing menu elements, start element and system/global variables
  */
-export function filterAndMutateMenuData(
-    menuDataElements,
-    allowedParamTypes?,
-    {
-        includeNewResource = false,
-        newResourceTypeLabel = null,
-        allowGlobalConstants = false,
-        disableHasNext = false,
-        activePicklistValues = [],
-        showSystemVariables = true,
-        showGlobalVariables = true,
-        allowSObjectField = true,
-        allowsApexCollAnonymousAutoOutput = true,
-        forFormula = false,
-        shouldBeWritable = false,
-        hideFlowSystemVariable = false
-    } = {}
-) {
-    if (allowGlobalConstants) {
+export function filterMenuData(menuDataElements = [], config: MenuConfig, allowedParamTypes?): FilteredData {
+    if (config.filter.allowGlobalConstants) {
         // global constants should be included in menuData for FEROVs
-        menuDataElements.push(...Object.values(GLOBAL_CONSTANT_OBJECTS));
+        menuDataElements = [...menuDataElements, ...Object.values(GLOBAL_CONSTANT_OBJECTS)];
     }
 
-    // Create menu items from flow elements, sort them and group by their category.
-    const menuData = menuDataElements
-        .filter(
-            (element) =>
-                isElementAllowed(allowedParamTypes, element, !disableHasNext) &&
-                // exclude the start element so that it is easier to add back as a global var below
-                !isSystemElement(element.elementType) &&
-                (allowsApexCollAnonymousAutoOutput || !isApexCollectionAnonymousAutomaticOutput(element)) &&
-                !isSectionOrColumn(element) &&
-                !isScheduledPath(element) &&
-                !isAutomaticField(element)
-        )
-        .map((element) => {
-            const menuItem = mutateFlowResourceToComboboxShape(element);
-            if (shouldDisableHasNext(menuItem, { disableHasNext, allowSObjectField })) {
-                disableHasNextOnMenuItem(menuItem);
-            }
-            return menuItem;
-        })
-        .sort(compareElementsByCategoryThenDevName)
-        .reduce(sortIntoCategories, []);
-
+    const isTraversalEnabled = config.traversalConfig?.isEnabled;
+    const allowsApexCollAnonymousAutoOutput = config.filter?.allowsApexCollAnonymousAutoOutput;
+    const menuElements = menuDataElements.filter(
+        (element) =>
+            isElementAllowed(allowedParamTypes, element, isTraversalEnabled) &&
+            // exclude the start element so that it is easier to add back as a global var below
+            !isSystemElement(element.elementType) &&
+            (allowsApexCollAnonymousAutoOutput || !isApexCollectionAnonymousAutomaticOutput(element)) &&
+            !isSectionOrColumn(element) &&
+            !isScheduledPath(element) &&
+            !isAutomaticField(element)
+    );
     // Add system and global variables, if requested
-    let systemAndGlobalVariableMenuItem;
-    const systemVariablesAllowed =
-        showSystemVariables && (!allowedParamTypes || allowedParamTypes[SYSTEM_VARIABLE_REQUIREMENT]);
-    if (systemVariablesAllowed || showGlobalVariables) {
-        const systemAndGlobalVariableMenuData = getSystemAndGlobalVariableMenuData(
-            systemVariablesAllowed,
-            showGlobalVariables,
-            forFormula,
-            shouldBeWritable,
-            hideFlowSystemVariable
-        );
-        if (Array.isArray(systemAndGlobalVariableMenuData) && systemAndGlobalVariableMenuData.length) {
-            systemAndGlobalVariableMenuItem = {
-                label: systemGlobalVariableCategoryLabel,
-                items: systemAndGlobalVariableMenuData
-            };
-            menuData.push(systemAndGlobalVariableMenuItem);
-        }
-    }
+    const systemAndGlobalVariables =
+        getSystemAndGlobalVariableMenuData({
+            ...config.filter,
+            showSystemVariables: isSystemVariablesAllowed(config.filter?.showSystemVariables, allowedParamTypes)
+        }) || [];
 
     // Add the start element as $Record under Global Variables
     const startElement = menuDataElements.find(
         (element) =>
-            isElementAllowed(allowedParamTypes, element, !disableHasNext) &&
-            // exclude the start element so that it is easier to add back as a global var below
-            element.elementType === ELEMENT_TYPE.START_ELEMENT
+            element.elementType === ELEMENT_TYPE.START_ELEMENT &&
+            isElementAllowed(allowedParamTypes, element, isTraversalEnabled)
     );
+    return {
+        menuElements,
+        systemAndGlobalVariables,
+        startElement
+    };
+}
+
+/**
+ * Filter the list of elements, append global constants and mutate elements to shape the combobox expects.
+ *
+ * @param {Array} menuDataElements        List of elements from the store that needs to filtered and converted to shape the combobox expects.
+ * @param {Map} allowedParamTypes    if present, is used to determine if each element is valid for this menuData
+ * @param config configuration of the menu, what is allowed to show up, give picklist values if any, ...
+ * @returns {Array}                     array of alphabetized objects sorted by category, in shape combobox expects
+ */
+export function filterAndMutateMenuData(menuDataElements = [], allowedParamTypes?, config?: MenuConfig) {
+    const initializedConfig = {
+        ...defaultMenuConfig,
+        ...config,
+        traversalConfig: { ...defaultMenuConfig.traversalConfig, ...config?.traversalConfig },
+        filter: { ...defaultMenuConfig.filter, ...config?.filter }
+    };
+
+    const filteredData = filterMenuData(menuDataElements, initializedConfig, allowedParamTypes);
+
+    // Create menu items from flow elements, sort them and group by their category.
+    const menuData = filteredData.menuElements
+        .map((element) => {
+            return mutateFlowResourceToComboboxShape(element, initializedConfig.traversalConfig);
+        })
+        .sort(compareElementsByCategoryThenDevName)
+        .reduce(sortIntoCategories, []);
+
+    const { startElement, systemAndGlobalVariables } = filteredData;
     if (startElement) {
         // Create a menu item for the start element
-        const startElementMenuItem = mutateFlowResourceToComboboxShape(startElement);
-        if (shouldDisableHasNext(startElementMenuItem, { disableHasNext, allowSObjectField })) {
-            disableHasNextOnMenuItem(startElementMenuItem);
-        }
-
-        // Add the start element menu item either to the existing Global Variables menu group or create a new group
-        if (systemAndGlobalVariableMenuItem) {
-            systemAndGlobalVariableMenuItem.items.push(startElementMenuItem);
-        } else {
-            // Create a new menu group Global Variables
-            menuData.push({
-                label: systemGlobalVariableCategoryLabel,
-                items: [startElementMenuItem]
-            });
-        }
+        systemAndGlobalVariables.push(
+            mutateFlowResourceToComboboxShape(startElement, initializedConfig.traversalConfig)
+        );
     }
 
-    // Sort menu items in the Global Variables menu group
-    if (systemAndGlobalVariableMenuItem && systemAndGlobalVariableMenuItem.items) {
-        systemAndGlobalVariableMenuItem.items.sort((item1, item2) => item1.text.localeCompare(item2.text));
+    if (systemAndGlobalVariables?.length > 0) {
+        systemAndGlobalVariables.sort((item1, item2) => item1.text.localeCompare(item2.text));
+        menuData.push({
+            label: systemGlobalVariableCategoryLabel,
+            items: systemAndGlobalVariables
+        });
     }
 
     // Add picklist values to the top of the menu under the Picklist Values category
-    if (activePicklistValues && activePicklistValues.length > 0 && isPicklistFieldAllowed(allowedParamTypes)) {
+    if (initializedConfig.activePicklistValues?.length > 0 && isPicklistFieldAllowed(allowedParamTypes)) {
         // if the picklist is allowed we want to include those in the menu data
-        const picklistMenuData = getPicklistMenuData(activePicklistValues);
+        const picklistMenuData = getPicklistMenuData(initializedConfig.activePicklistValues);
         menuData.unshift(picklistMenuData);
     }
 
     // Add the New Resource entry as the top entry, if requested
-    if (includeNewResource) {
-        menuData.unshift(getNewResourceItem(newResourceTypeLabel));
+    if (initializedConfig.filter.includeNewResource) {
+        menuData.unshift(getNewResourceItem(initializedConfig.newResourceTypeLabel));
     }
     return menuData;
 }
@@ -552,6 +543,7 @@ export function getChildrenItems(parentItem, showMultiPicklistGlobalVariables = 
 
 /**
  * @param guid
+ * @returns the screen field element corresponding to the given guid
  */
 function getScreenFieldElementByGuid(guid) {
     return getElementByGuid(guid) || getScreenElement().getFieldByGUID(guid);

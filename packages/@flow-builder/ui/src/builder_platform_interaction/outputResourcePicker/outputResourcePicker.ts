@@ -246,11 +246,15 @@ export default class OutputResourcePicker extends LightningElement {
                 parentItem,
                 undefined,
                 {
-                    allowGlobalConstants: false,
-                    showGlobalVariables: false,
-                    enableFieldDrilldown: this.enableFieldDrilldown,
-                    includeNewResource: true,
-                    allowSObjectFieldsTraversal: false
+                    traversalConfig: {
+                        isEnabled: this.enableFieldDrilldown,
+                        allowSObjectFieldsTraversal: false
+                    },
+                    filter: {
+                        allowGlobalConstants: false,
+                        showGlobalVariables: false,
+                        includeNewResource: true
+                    }
                 }
             ).then((menuData) => {
                 this._baseResourcePicker.setMenuData(menuData);
