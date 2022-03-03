@@ -158,11 +158,13 @@ import {
 import { getSubflows } from 'builder_platform_interaction/subflowsLib';
 import {
     BUILDER_MODE,
+    clearTestResultsFromStore,
     FlowTestListState,
     getFlowTests,
     getProcessTypes,
     getRunInModes,
     isVersioningDataInitialized,
+    resetFlowTestStore,
     setBuilderType,
     setProcessTypes,
     setRunInModes
@@ -2807,6 +2809,13 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         this.disableSave = true;
         this.isUndoDisabled = true;
         this.isRedoDisabled = true;
+
+        if (saveType === SaveType.NEW_DEFINITION) {
+            resetFlowTestStore();
+        }
+        if (saveType === SaveType.NEW_VERSION) {
+            clearTestResultsFromStore();
+        }
     };
 
     /**

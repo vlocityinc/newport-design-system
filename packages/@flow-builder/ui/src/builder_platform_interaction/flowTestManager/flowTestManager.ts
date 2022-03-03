@@ -149,7 +149,7 @@ export default class FlowTestManager extends LightningElement {
         this.privateFlowTestData = getFlowTests().map((datum) => {
             return {
                 ...datum,
-                lastRunStatusIcon: RESULT_STATUS_TO_ICON_MAP[datum.lastRunStatus]
+                lastRunStatusIcon: datum.lastRunStatus === null ? null : RESULT_STATUS_TO_ICON_MAP[datum.lastRunStatus]
             };
         });
     }

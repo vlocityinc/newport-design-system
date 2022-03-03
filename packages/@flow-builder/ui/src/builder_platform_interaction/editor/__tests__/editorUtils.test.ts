@@ -523,7 +523,8 @@ describe('Editor Utils Test', () => {
                 versionNumber: '1',
                 status: 'Active',
                 lastModifiedDate: '',
-                lastModifiedBy: 'user1'
+                lastModifiedBy: 'user1',
+                definitionId: '300xxxxxxxxxxxxxxx'
             });
 
             const payload = {
@@ -532,7 +533,8 @@ describe('Editor Utils Test', () => {
                 lastModifiedDate: '',
                 isLightningFlowBuilder: true,
                 lastModifiedBy: 'user1',
-                canOnlySaveAsNewDefinition: false
+                canOnlySaveAsNewDefinition: false,
+                definitionId: '300xxxxxxxxxxxxxxx'
             };
 
             expect(dispatch).toHaveBeenCalledWith({

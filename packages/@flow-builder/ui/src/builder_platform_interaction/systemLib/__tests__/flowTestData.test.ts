@@ -1,6 +1,7 @@
-import type { FlowTestAndResultDescriptor } from '../flowTestData';
 import {
     addFlowTests,
+    clearTestResultsFromStore,
+    FlowTestAndResultDescriptor,
     FlowTestResultStatusType,
     getFlowTestListState,
     getFlowTests,
@@ -162,6 +163,31 @@ describe('flowTestData', () => {
 
             expect(getFlowTests()[4].lastRunStatus).toEqual(MOCK_RESULTS.id5[0].testStatus);
             expect(getFlowTests()[4].lastRunDate).toEqual(MOCK_RESULTS.id5[0].endInterviewTime);
+        });
+    });
+
+    describe('clearTestResultsFromStore', () => {
+        afterEach(() => {
+            resetFlowTestStore();
+        });
+        it('clears only test result data', () => {
+            addFlowTests(MOCK_DESCRIPTORS);
+            expect(getFlowTests()).toEqual(MOCK_DESCRIPTORS);
+            clearTestResultsFromStore();
+            getFlowTests().forEach((test) => {
+                const matchingOriginalTest = MOCK_DESCRIPTORS.find((mockT) => test.flowTestId === mockT.flowTestId);
+                expect(test.lastRunDate).toBeNull();
+                expect(test.lastRunStatus).toBeNull();
+                expect(test.flowTestName).toEqual(matchingOriginalTest.flowTestName);
+                expect(test.description).toEqual(matchingOriginalTest.description);
+                expect(test.createdBy).toEqual(matchingOriginalTest.createdBy);
+            });
+        });
+
+        it('does nothing if store is empty', () => {
+            expect(getFlowTests().length).toEqual(0);
+            expect(() => clearTestResultsFromStore()).not.toThrow();
+            expect(getFlowTests().length).toEqual(0);
         });
     });
 });

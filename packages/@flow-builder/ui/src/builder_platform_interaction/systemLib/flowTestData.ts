@@ -3,8 +3,8 @@ export type FlowTestAndResultDescriptor = {
     description: string;
     createdBy: string;
     lastModifiedDate: Date;
-    lastRunDate: Date;
-    lastRunStatus: FlowTestResultStatusType;
+    lastRunDate: Date | null;
+    lastRunStatus: FlowTestResultStatusType | null;
     flowTestId: string;
 };
 
@@ -126,4 +126,13 @@ export function resetFlowTestStore(): void {
  */
 export function deleteFlowTestFromCache(flowTestId: string): void {
     flowTests = flowTests.filter((item) => item.flowTestId !== flowTestId);
+}
+
+/**
+ * Removes all test results from the store.
+ */
+export function clearTestResultsFromStore(): void {
+    flowTests = flowTests.map((test) => {
+        return { ...test, lastRunDate: null, lastRunStatus: null };
+    });
 }

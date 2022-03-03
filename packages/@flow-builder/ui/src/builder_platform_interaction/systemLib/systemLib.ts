@@ -79,6 +79,7 @@ export {
 export { BUILDER_MODE, getBuilderType, setBuilderType } from './builderConfigs';
 export {
     addFlowTests,
+    clearTestResultsFromStore,
     deleteFlowTestFromCache,
     FlowTestListState,
     FlowTestResultStatusType,
