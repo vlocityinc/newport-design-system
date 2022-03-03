@@ -125,16 +125,6 @@ describe('flowTestData', () => {
             expect(getFlowTestListState().hasHitEndOfList()).toBe(true);
         });
 
-        it('increments the list offset by the length of data received', () => {
-            expect(getFlowTestListState().getCurrentOffset()).toBe(0);
-
-            addFlowTests(MOCK_DESCRIPTORS.slice(0, 2));
-            expect(getFlowTestListState().getCurrentOffset()).toBe(2);
-
-            addFlowTests(MOCK_DESCRIPTORS.slice(2, 5));
-            expect(getFlowTestListState().getCurrentOffset()).toBe(5);
-        });
-
         it('adds the incoming data to the test store', () => {
             expect(getFlowTests().length).toEqual(0);
             addFlowTests(MOCK_DESCRIPTORS);

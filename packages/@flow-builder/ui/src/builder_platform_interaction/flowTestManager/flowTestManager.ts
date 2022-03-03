@@ -138,7 +138,7 @@ export default class FlowTestManager extends LightningElement {
         }
         this.listIsLoadingMoreTests = true;
         try {
-            await this.handleLoadMoreTests(getFlowTestListState().getCurrentOffset());
+            await this.handleLoadMoreTests(getFlowTests().length);
             this.copyDataFromTestStore();
         } finally {
             this.listIsLoadingMoreTests = false;

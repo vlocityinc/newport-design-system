@@ -4,7 +4,13 @@ import { rowActionEvent, ticks } from 'builder_platform_interaction/builderTestU
 import { createComponent } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 import { FlowTestMode } from 'builder_platform_interaction/builderUtils';
 import { FlowTestListRowAction } from 'builder_platform_interaction/flowTestManager';
-import { addFlowTests, deleteFlowTestFromCache, resetFlowTestStore } from 'builder_platform_interaction/systemLib';
+import {
+    addFlowTests,
+    deleteFlowTestFromCache,
+    FlowTestListState,
+    resetFlowTestStore
+} from 'builder_platform_interaction/systemLib';
+import { FlowTestAndResultDescriptor } from '../../systemLib/flowTestData';
 
 const createComponentUnderTest = async (props) => {
     return createComponent('builder_platform_interaction-flowTestManager', props);
@@ -303,12 +309,12 @@ describe('flowTestManager', () => {
     });
 
     describe('loadmore event', () => {
+        const LOAD_TESTS_LENGTH = 10;
         let cmp, props, handleLoadMoreTestsFn;
 
         beforeEach(async () => {
-            jest.useFakeTimers();
             handleLoadMoreTestsFn = jest.fn().mockImplementation(async () => {
-                await new Promise((res) => setTimeout(res, 50));
+                await ticks(LOAD_TESTS_LENGTH);
             });
             props = {
                 footer: {},
@@ -320,12 +326,28 @@ describe('flowTestManager', () => {
         });
 
         afterEach(() => {
-            jest.useRealTimers();
             resetFlowTestStore();
         });
 
+        function genMockTests(count): FlowTestAndResultDescriptor[] {
+            const tests: FlowTestAndResultDescriptor[] = [];
+            for (let i = 0; i < count; i++) {
+                tests.push({
+                    flowTestId: 'id' + i,
+                    flowTestName: 'name' + i,
+                    description: 'foo',
+                    createdBy: 'me',
+                    lastModifiedDate: new Date(),
+                    lastRunDate: null,
+                    lastRunStatus: null
+                });
+            }
+            return tests;
+        }
+
         it('invokes the load more tests callback', async () => {
-            addFlowTests(MOCK_TESTS);
+            const mockTests = genMockTests(FlowTestListState.LOAD_CHUNK_SIZE + 1);
+            addFlowTests(mockTests);
             cmp.copyDataFromTestStore();
             await ticks(1);
             const datatable = getDatatable(cmp);
@@ -335,7 +357,8 @@ describe('flowTestManager', () => {
         });
 
         it('does not invoke the load more tests callback if a request is already in progress', async () => {
-            addFlowTests(MOCK_TESTS);
+            const mockTests = genMockTests(FlowTestListState.LOAD_CHUNK_SIZE + 1);
+            addFlowTests(mockTests);
             cmp.copyDataFromTestStore();
             await ticks(1);
 
@@ -344,22 +367,21 @@ describe('flowTestManager', () => {
             datatable.dispatchEvent(ev);
             expect(handleLoadMoreTestsFn).toBeCalledTimes(1);
 
-            // after 25 ms, call will still be in progress, so we won't call the fn a second time
-            jest.advanceTimersByTime(25);
-            await ticks(1);
+            // after LOAD_TESTS_LENGTH - 1 ticks, call will still be in progress, so we won't call the fn a second time
+            await ticks(LOAD_TESTS_LENGTH - 1);
             datatable.dispatchEvent(ev);
             expect(handleLoadMoreTestsFn).toBeCalledTimes(1);
 
             // exhausts the timer, completing the first call. we should be able to emit another event
             // that will call the function again
-            jest.runAllTimers();
-            await ticks(1);
+            await ticks(2);
             datatable.dispatchEvent(ev);
             expect(handleLoadMoreTestsFn).toBeCalledTimes(2);
         });
 
         it('does not invoke the load more tests callback if we hit the end of the list', async () => {
-            addFlowTests(MOCK_TESTS);
+            const mockTests = genMockTests(FlowTestListState.LOAD_CHUNK_SIZE + 1);
+            addFlowTests(mockTests.slice(0, 50));
             cmp.copyDataFromTestStore();
             await ticks(1);
 
@@ -368,9 +390,9 @@ describe('flowTestManager', () => {
             datatable.dispatchEvent(ev);
             expect(handleLoadMoreTestsFn).toBeCalledTimes(1);
 
-            // addFlowTests being called with an empty list signals we have hit the end of the list
-            jest.runAllTimers();
-            addFlowTests([]);
+            // addFlowTests being called with a count of tests less than the page size signals we have hit the end
+            await ticks(LOAD_TESTS_LENGTH + 1);
+            addFlowTests([mockTests[50]]);
             cmp.copyDataFromTestStore();
             await ticks(1);
             datatable.dispatchEvent(ev);

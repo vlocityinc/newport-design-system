@@ -35,29 +35,12 @@ export class FlowTestListState {
     static LOAD_CHUNK_SIZE = 50;
 
     private hitEndOfList = false;
-    private currentOffset = 0;
 
     /**
      * @returns true if we have reached the end of the list with our batched queries to the server
      */
     hasHitEndOfList(): boolean {
         return this.hitEndOfList;
-    }
-
-    /**
-     * @returns the offset we need to pass to the server if we fetch another batch of tests for the list
-     */
-    getCurrentOffset(): number {
-        return this.currentOffset;
-    }
-
-    /**
-     * Increments the offset by the given count
-     *
-     * @param count
-     */
-    incrementOffset(count): void {
-        this.currentOffset += count;
     }
 
     /**
@@ -72,7 +55,6 @@ export class FlowTestListState {
      */
     reset(): void {
         this.hitEndOfList = false;
-        this.currentOffset = 0;
     }
 }
 
@@ -85,11 +67,13 @@ let flowTests: FlowTestAndResultDescriptor[] = [];
  * @param data incoming data from the server to be added to the local store
  */
 export function addFlowTests(data: FlowTestAndResultDescriptor[]): void {
-    if (!data || data.length === 0) {
+    if (!data) {
         listState.hitEnd();
         return;
     }
-    listState.incrementOffset(data.length);
+    if (data.length < FlowTestListState.LOAD_CHUNK_SIZE) {
+        listState.hitEnd();
+    }
     data.forEach((datum) => {
         flowTests.push({ ...datum });
     });
