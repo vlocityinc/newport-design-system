@@ -2,6 +2,8 @@ import {
     createFlowTestAssertionsMetadataObject,
     createFlowTestAssertionsUIModel,
     createFlowTestData,
+    createFlowTestParametersMetadataObject,
+    FlowTestParameterType,
     FlowTestPointValidator
 } from '../flowTestData';
 
@@ -23,7 +25,44 @@ const uiModel = {
             },
             message: 'Failed!'
         }
-    ]
+    ],
+    testInitialRecordData: {
+        AccountNumber: null,
+        Name: 'testAcc2',
+        OwnerId: '005xx000001X7ttAAC'
+    }
+};
+
+const uiModelUpdateRecord = {
+    guid: '5cc0fb58-8b70-4eff-a095-d5ed80cb8f6e',
+    name: 'test',
+    description: 'testDescription',
+    label: 'testLabel',
+    runPathValue: 'RunImmediately',
+    testTriggerType: 'Update',
+    testAssertions: [
+        {
+            expression: {
+                rowIndex: '6c6e8656-aced-4115-a62a-e9b6e40b55f8',
+                leftHandSide: '$Record.AccountNumber',
+                rightHandSide: 'testAcc',
+                rightHandSideDataType: 'String',
+                operator: 'EqualTo'
+            },
+            message: 'Failed!'
+        }
+    ],
+    testInitialRecordData: {
+        AccountNumber: null,
+        Name: 'testAcc2',
+        OwnerId: '005xx000001X7ttAAC'
+    },
+    testUpdatedRecordData: {
+        AccountNumber: null,
+        Name: 'testAcc2',
+        OwnerId: '005xx000001X7ttAAC',
+        AnnualRevenue: 1000
+    }
 };
 
 const flowTestMetadata = {
@@ -161,6 +200,37 @@ describe('Flow Test Data', () => {
             expect(assertions[0].conditions[0].leftValueReference).toBe('$Record.AccountNumber');
             expect(assertions[0].conditions[0].operator).toBe('EqualTo');
             expect(assertions[0].conditions[0].rightValue.stringValue).toBe('testAcc');
+        });
+    });
+    describe('createFlowTestParametersMetadataObject function', () => {
+        it('returns 1 parameter ', () => {
+            const parameters = createFlowTestParametersMetadataObject(uiModel);
+            expect(parameters.length).toBe(1);
+        });
+        it('returns parameter of type Input, left reference value of $Record and value of account data', () => {
+            const parameters = createFlowTestParametersMetadataObject(uiModel);
+            expect(parameters[0].leftValueReference).toBe('$Record');
+            expect(parameters[0].type).toBe(FlowTestParameterType.Input);
+            expect(parameters[0].value.sobjectValue).toBe(
+                '{"AccountNumber":null,"Name":"testAcc2","OwnerId":"005xx000001X7ttAAC"}'
+            );
+        });
+        it('returns 2 parameters ', () => {
+            const parameters = createFlowTestParametersMetadataObject(uiModelUpdateRecord);
+            expect(parameters.length).toBe(2);
+        });
+        it('returns parameters of type Input and UpdatedRecord', () => {
+            const parameters = createFlowTestParametersMetadataObject(uiModelUpdateRecord);
+            expect(parameters[0].leftValueReference).toBe('$Record');
+            expect(parameters[0].type).toBe(FlowTestParameterType.Input);
+            expect(parameters[0].value.sobjectValue).toBe(
+                '{"AccountNumber":null,"Name":"testAcc2","OwnerId":"005xx000001X7ttAAC"}'
+            );
+            expect(parameters[1].leftValueReference).toBe('$Record');
+            expect(parameters[1].type).toBe(FlowTestParameterType.UpdateRecord);
+            expect(parameters[1].value.sobjectValue).toBe(
+                '{"AccountNumber":null,"Name":"testAcc2","OwnerId":"005xx000001X7ttAAC","AnnualRevenue":1000}'
+            );
         });
     });
     describe('createFlowTestAssertionsUIModel function', () => {

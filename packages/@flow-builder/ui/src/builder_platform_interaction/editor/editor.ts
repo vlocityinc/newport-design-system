@@ -1965,7 +1965,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                     createOrEdit,
                     triggerSaveType,
                     triggerObjectType,
-                    saveTest: this.saveTestCallback
+                    flowTestListViewCallback: this.handleViewAllTests
                 };
             });
         } else if (createOrEdit === FlowTestMode.Edit) {
@@ -1980,7 +1980,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                 fetchPromise(SERVER_ACTION_TYPE.GET_FLOW_TEST, {
                     id: flowTestId
                 }).then((data: any) => {
-                    this.editTestCallback(data, createOrEdit, triggerSaveType);
+                    this.editTestCallback(data, createOrEdit, triggerSaveType, this.handleViewAllTests);
                 });
             } finally {
                 this.spinners.showPropertyEditorSpinner = false;
@@ -1988,35 +1988,21 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         }
     };
 
-    editTestCallback(data, createOrEdit, triggerSaveType) {
+    editTestCallback(data, createOrEdit, triggerSaveType, flowTestListViewCallback) {
         let flowTestObject = createFlowTestData(translateFlowTestToUIModel(data));
         flowTestObject = getElementForPropertyEditor(flowTestObject);
         this.queueOpenCreateFlowTest(() => {
             return {
                 flowTestObject,
                 createOrEdit,
-                triggerSaveType
+                triggerSaveType,
+                flowTestListViewCallback
             };
         });
     }
 
     queueOpenCreateFlowTest = (paramsProvider) => {
         invokeCreateEditFlowTestEditor(paramsProvider());
-    };
-
-    /**
-     * Callback function after save test initiated in the CreateTest modal
-     */
-    saveTestCallback = async () => {
-        try {
-            // Call UiTier API with flowtest object to save. Pre requisite: the modal is populated and shape of FlowTest object in builder is determined
-            // const flowTest = translateUIModalToFlowTest(testElement.getNode());
-            // const saveTestResult = await fetchPromise(SERVER_ACTION_TYPE.STORE_TEST, flowTest);
-            // Get back the save result, if SUCCESS call Flow Test List View
-            // On FAILURE, error modal pops up (part of Validation work)
-        } finally {
-            hidePopover(); // close the test modal
-        }
     };
 
     /**

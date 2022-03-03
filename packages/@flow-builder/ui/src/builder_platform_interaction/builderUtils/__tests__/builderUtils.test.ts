@@ -368,8 +368,7 @@ describe('builderUtils', () => {
                     flowTestButtons: {
                         flowTestButtonOne: {
                             buttonLabel: 'FlowBuilderCreateTestEditor.flowTestCreateButton',
-                            buttonVariant: 'brand',
-                            buttonCallback: expect.anything()
+                            buttonVariant: 'brand'
                         },
                         flowTestButtonTwo: {
                             buttonLabel: 'FlowBuilderCommonPropertyEditor.cancelButton',
@@ -403,8 +402,7 @@ describe('builderUtils', () => {
                     flowTestButtons: {
                         flowTestButtonOne: {
                             buttonLabel: 'FlowBuilderCreateTestEditor.flowTestSaveButton',
-                            buttonVariant: 'brand',
-                            buttonCallback: expect.anything()
+                            buttonVariant: 'brand'
                         },
                         flowTestButtonTwo: {
                             buttonLabel: 'FlowBuilderCommonPropertyEditor.cancelButton',

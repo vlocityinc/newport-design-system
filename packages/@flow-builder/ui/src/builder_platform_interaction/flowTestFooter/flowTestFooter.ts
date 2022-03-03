@@ -1,5 +1,6 @@
+import { hidePopover } from 'builder_platform_interaction/builderUtils';
 import { dehydrate } from 'builder_platform_interaction/dataMutationLib';
-import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+import { fetchPromise, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { translateUIModelToFlowTest } from 'builder_platform_interaction/translatorLib';
@@ -11,6 +12,7 @@ export default class FlowTestFooter extends LightningElement {
     @api closeModalCallback;
     @api panelInstance;
     @api testMode;
+    @api flowTestListViewCallback;
 
     closeModal = (closeCallback = true) => {
         if (checkCloseCallback(this.closeModalCallback, closeCallback)) {
@@ -25,22 +27,34 @@ export default class FlowTestFooter extends LightningElement {
             validationErrors = body.validate();
             // If no validation errors then save the flow test
             if (!validationErrors || validationErrors.length === 0) {
-                this.flowTestButtons.flowTestButtonOne.buttonCallback();
                 const dehydratedObj = dehydrate(deepCopy(body.get('v.flowTestObject')));
                 const flowTest = translateUIModelToFlowTest(dehydratedObj);
-                const params = {
-                    flowTest,
-                    saveType: this.testMode
-                };
-                fetch(SERVER_ACTION_TYPE.SAVE_FLOW_TEST, this.saveFlowTestCallback, params);
-            } else {
-                // ToDo: separate task to show validation errors on vertical nav
+                this.saveTest(flowTest, this.testMode, body);
             }
         }
     }
 
-    saveFlowTestCallback = () => {
-        // ToDo: implement save flow test callback
+    saveTest = async (flowTest, saveType, body) => {
+        body.set('v.showWaitingSpinner', true);
+        try {
+            const data = await fetchPromise(SERVER_ACTION_TYPE.SAVE_FLOW_TEST, {
+                flowTest,
+                saveType
+            });
+            this.saveFlowTestCallback({ data });
+        } finally {
+            body.set('v.showWaitingSpinner', false);
+        }
+    };
+
+    saveFlowTestCallback = ({ data }) => {
+        if (data.isSuccess) {
+            this.flowTestListViewCallback();
+            hidePopover();
+        } else if (!data.isSuccess) {
+            // ToDo: Add popover to show server side validation failures.
+            // Dependent on work in UI Tier API to return those failures.
+        }
     };
 
     handleFlowTestButtonTwoClick() {

@@ -281,10 +281,7 @@ declare namespace Metadata {
         variables: Variable[];
     }
 
-    interface FlowTestReferenceOrValue extends ElementReferenceOrValue {
-        apexValue: string;
-        sObjectValue: string;
-    }
+    type FlowTestReferenceOrValue = ElementReferenceOrValue | { sobjectValue: string };
 
     interface FlowTestParameter {
         leftValueReference: string;

@@ -25,6 +25,7 @@ export default class FlowTestEditor extends LightningElement {
     @track activeMenuItemId = FlowTestMenuItems.Details;
     items: UI.MenuItem[] = [];
     @api objectApiName;
+    @api showWaitingSpinner;
 
     @api validate() {
         const event = { type: VALIDATE_ALL };

@@ -1,4 +1,7 @@
 <template>
+    <div if:true={showWaitingSpinner}>
+        <lightning-spinner variant="brand" alternative-text={labels.spinnerAlternativeText}></lightning-spinner>
+    </div>
     <div class="slds-vertical-tabs slds-is-relative slds-grow">
         <builder_platform_interaction-reorderable-vertical-navigation
             class="slds-theme_shade slds-size_1-of-6"

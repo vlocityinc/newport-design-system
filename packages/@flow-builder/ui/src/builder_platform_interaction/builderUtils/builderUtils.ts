@@ -698,7 +698,7 @@ export function invokeCreateEditFlowTestEditor(attributes) {
         {
             flavor: 'large restrictWidthToSldsMedium'
         },
-        attributes.saveTestCallback
+        attributes.flowTestListViewCallback
     );
 }
 
@@ -710,9 +710,9 @@ export function invokeCreateEditFlowTestEditor(attributes) {
  * @param cmpFooter - Name of the footer component to be created.
  * @param cmpAttributes - Contains component's attributes.
  * @param popoverProps - Contains popover properties
- * @param saveTestCallback - callback after Save Test/Save Changes button is clicked
+ * @param flowTestListViewCallback - callback to display list view after successful test save
  */
-function showFlowTestPopover(cmpHeader, cmpBody, cmpFooter, cmpAttributes = {}, popoverProps, saveTestCallback) {
+function showFlowTestPopover(cmpHeader, cmpBody, cmpFooter, cmpAttributes, popoverProps, flowTestListViewCallback) {
     let headerLabel = null;
     let footerButtonLabel = null;
 
@@ -736,8 +736,7 @@ function showFlowTestPopover(cmpHeader, cmpBody, cmpFooter, cmpAttributes = {}, 
         flowTestButtons: {
             flowTestButtonOne: {
                 buttonLabel: footerButtonLabel,
-                buttonVariant: 'brand',
-                buttonCallback: () => saveTestCallback
+                buttonVariant: 'brand'
             },
             flowTestButtonTwo: {
                 buttonLabel: LABELS.cancelButton,
@@ -758,6 +757,7 @@ function showFlowTestPopover(cmpHeader, cmpBody, cmpFooter, cmpAttributes = {}, 
         const modalFooter = invokeModalWithComponentsOnCreate(modal, data);
         modalFooter.set('v.panelInstance', modal);
         modalFooter.set('v.testMode', cmpAttributes.mode);
+        modalFooter.set('v.flowTestListViewCallback', flowTestListViewCallback);
     };
 
     invokeModalWithComponents(

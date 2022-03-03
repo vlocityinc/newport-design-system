@@ -1,5 +1,6 @@
 import {
     createFlowTestAssertionsMetadataObject,
+    createFlowTestParametersMetadataObject,
     FlowTestPointValidator
 } from 'builder_platform_interaction/elementFactory';
 import { Store } from 'builder_platform_interaction/storeLib';
@@ -17,10 +18,9 @@ export type FlowTest = {
  */
 export function translateUIModelToFlowTest(uiModel: UI.FlowTestData): FlowTest {
     const testPoints: Metadata.FlowTestPoint[] = [];
-    // ToDo: add records to parameters in START test point
     testPoints.push({
         elementApiName: FlowTestPointValidator.Start,
-        parameters: [],
+        parameters: createFlowTestParametersMetadataObject(uiModel),
         assertions: []
     });
     testPoints.push({

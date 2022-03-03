@@ -1,5 +1,5 @@
 import { createListRowItem } from 'builder_platform_interaction/elementFactory';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseResource } from './base/baseElement';
 import { RHS_DATA_TYPE_PROPERTY, RHS_PROPERTY } from './base/baseList';
 import { createFEROV, createFEROVMetadataObject } from './ferov';
@@ -86,6 +86,46 @@ export function createFlowTestAssertionsMetadataObject(uiModel: UI.FlowTestData)
         });
     });
     return testAssertions;
+}
+
+/**
+ * Create flow test parameters object from UI
+ *
+ * @param uiModel data in UI
+ * @returns flow test parameters for flow test metadata object
+ */
+export function createFlowTestParametersMetadataObject(uiModel: UI.FlowTestData): Metadata.FlowTestParameter[] {
+    const testParameterArr: Metadata.FlowTestParameter[] = [];
+    addParameters(uiModel.testInitialRecordData, FlowTestParameterType.Input, testParameterArr);
+    if (
+        uiModel.testTriggerType === FLOW_TRIGGER_SAVE_TYPE.UPDATE &&
+        Object.keys(uiModel.testUpdatedRecordData).length > 0
+    ) {
+        addParameters(uiModel.testUpdatedRecordData, FlowTestParameterType.UpdateRecord, testParameterArr);
+    }
+    return testParameterArr;
+}
+
+/**
+ * Add record to parameter attribute of flow test object
+ *
+ * @param record represents sobject to be added
+ * @param parameterType input or update_record type
+ * @param testParameterArray array containing records
+ */
+function addParameters(
+    record: object,
+    parameterType: FlowTestParameterType,
+    testParameterArray: Metadata.FlowTestParameter[]
+) {
+    const recordParameter: Metadata.FlowTestParameter = {
+        leftValueReference: '$Record',
+        value: {
+            sobjectValue: JSON.stringify(record)
+        },
+        type: parameterType
+    };
+    testParameterArray.push(recordParameter);
 }
 
 /**

@@ -23,7 +23,12 @@ const uiModel = {
             },
             message: 'Failed!'
         }
-    ]
+    ],
+    testInitialRecordData: {
+        AccountNumber: null,
+        Name: 'testAcc2',
+        OwnerId: '005xx000001X7ttAAC'
+    }
 };
 
 describe('UI to Flow Test Translation', () => {
@@ -54,6 +59,14 @@ describe('UI to Flow Test Translation', () => {
             const { metadata } = translateUIModelToFlowTest(uiModel);
             expect(metadata.testPoints[0].elementApiName).toBe(FlowTestPointValidator.Start);
             expect(metadata.testPoints[1].elementApiName).toBe(FlowTestPointValidator.Finish);
+        });
+        it('return 1 parameter for START test point', () => {
+            const { metadata } = translateUIModelToFlowTest(uiModel);
+            expect(metadata.testPoints[0].parameters.length).toBe(1);
+        });
+        it('return empty assertion for START test point', () => {
+            const { metadata } = translateUIModelToFlowTest(uiModel);
+            expect(metadata.testPoints[0].assertions.length).toBe(0);
         });
         it('return empty parameters for FINISH test point', () => {
             const { metadata } = translateUIModelToFlowTest(uiModel);
