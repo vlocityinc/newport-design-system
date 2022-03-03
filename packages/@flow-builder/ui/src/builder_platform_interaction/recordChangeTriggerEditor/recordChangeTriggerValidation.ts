@@ -7,7 +7,7 @@ import * as ValidationRules from 'builder_platform_interaction/validationRules';
 const additionalRules = {
     triggerType: [ValidationRules.shouldNotBeBlank],
     recordTriggerType: [ValidationRules.shouldNotBeBlank],
-    formulaFilter: [ValidationRules.shouldNotBeBlank],
+    filterFormula: [ValidationRules.shouldNotBeBlank],
     object: [ValidationRules.shouldNotBeBlank]
 };
 

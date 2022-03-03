@@ -118,7 +118,7 @@ export function createStartElement(startElement: UI.Start | Metadata.Start, proc
         locationX = START_ELEMENT_LOCATION.x,
         locationY = START_ELEMENT_LOCATION.y,
         filters = [],
-        formulaFilter
+        filterFormula
     } = startElement;
     const { objectIndex = generateGuid(), objectContainer } = <UI.Start>startElement;
     const maxConnections = calculateMaxConnections(startElement);
@@ -137,8 +137,8 @@ export function createStartElement(startElement: UI.Start | Metadata.Start, proc
             // For the existing element if no filters has been set we need to assign No Conditions to the filterLogic.
             filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
         }
-        // If FormulaFilter is set, set the filterLogic to Formula Evaluates to True
-        if (formulaFilter) {
+        // If filterFormula is set, set the filterLogic to Formula Evaluates to True
+        if (filterFormula) {
             filterLogic = CONDITION_LOGIC.FORMULA;
         }
     }
@@ -181,7 +181,7 @@ export function createStartElement(startElement: UI.Start | Metadata.Start, proc
         objectIndex,
         filters: recordFilters,
         label,
-        formulaFilter,
+        filterFormula,
         objectContainer,
         // If the start element is linked to an sobject, then make the element look like a data element.
         name: object ? SYSTEM_VARIABLE_RECORD_PREFIX : undefined,
@@ -351,7 +351,7 @@ export function createStartElementMetadataObject(startElement: UI.Start, config 
         frequency,
         filters = [],
         childReferences,
-        formulaFilter
+        filterFormula
     } = startElement;
     let { doesRequireRecordChangedToMeetCriteria, filterLogic } = startElement;
     let recordFilters;
@@ -438,7 +438,7 @@ export function createStartElementMetadataObject(startElement: UI.Start, config 
         filterLogic,
         filters: recordFilters,
         scheduledPaths,
-        formulaFilter
+        filterFormula
     });
 }
 

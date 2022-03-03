@@ -104,13 +104,13 @@
             <builder_platform_interaction-formula-builder
                 label={labels.formulaLabel}
                 name={labels.formulaLabel}
-                value={startElement.formulaFilter}
+                value={startElement.filterFormula}
                 flow-process-type={processType}
                 flow-trigger-type={triggerType}
                 record-trigger-type={startElement.recordTriggerType.value}
                 resource-picker-config={resourcePickerConfig}
                 required
-                onformulachanged={handleFormulaFilterChanged}
+                onformulachanged={handlefilterFormulaChanged}
             ></builder_platform_interaction-formula-builder>
         </div>
         <div class="slds-border_top" if:true={showRequireRecordChangeOptions}>

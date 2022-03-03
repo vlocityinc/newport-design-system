@@ -629,9 +629,9 @@ export default class RecordChangeTriggerEditor extends LightningElement {
         return operators.includes(operator);
     }
 
-    handleFormulaFilterChanged(event) {
+    handlefilterFormulaChanged(event) {
         event.stopPropagation();
-        this.updateProperty(START_ELEMENT_FIELDS.FORMULA_FILTER, event.detail.value);
+        this.updateProperty(START_ELEMENT_FIELDS.FILTER_FORMULA, event.detail.value);
     }
 
     togglerunAsyncScheduledPath(event) {

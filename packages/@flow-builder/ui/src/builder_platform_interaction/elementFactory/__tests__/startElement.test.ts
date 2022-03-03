@@ -324,16 +324,16 @@ describe('Start element', () => {
             expect(actualResult).toMatchObject(expectedResult);
         });
 
-        it('filterLogic is set to FORMULA when formulaFilter is not empty', () => {
+        it('filterLogic is set to FORMULA when filterFormula is not empty', () => {
             expect.assertions(1);
-            startMetadata.formulaFilter = '{$Record.Address}';
+            startMetadata.filterFormula = '{$Record.Address}';
             startMetadata.filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
             startMetadata.object = 'Account';
             try {
                 const actualResult = createStartElement(startMetadata);
                 expect(actualResult.filterLogic).toEqual(CONDITION_LOGIC.FORMULA);
             } finally {
-                delete startMetadata.formulaFilter;
+                delete startMetadata.filterFormula;
             }
         });
 

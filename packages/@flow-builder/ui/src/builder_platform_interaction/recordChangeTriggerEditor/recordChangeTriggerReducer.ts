@@ -38,7 +38,7 @@ const PROPS = {
     filterLogic: 'filterLogic',
     recordTriggerType: 'recordTriggerType',
     doesRequireRecordChangedToMeetCriteria: 'doesRequireRecordChangedToMeetCriteria',
-    formulaFilter: 'formulaFilter'
+    filterFormula: 'filterFormula'
 };
 const emptyFilterItem = () => {
     return {
@@ -122,8 +122,8 @@ const resetSubSections = (state) => {
     return resetFilters(state);
 };
 
-const resetFormulaFilter = (state) => {
-    return set(state, PROPS.formulaFilter, null);
+const resetfilterFormula = (state) => {
+    return set(state, PROPS.filterFormula, null);
 };
 
 const addRecordFilter = (state) => {
@@ -179,7 +179,7 @@ const propertyChanged = (state, event) => {
             state = resetFilters(state);
         }
         if (event.detail.value !== CONDITION_LOGIC.FORMULA) {
-            state = resetFormulaFilter(state);
+            state = resetfilterFormula(state);
         }
     }
 

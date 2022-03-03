@@ -204,7 +204,7 @@ declare namespace UI {
         childReferences: ChildReference[];
         availableConnections: AvailableConnection[];
         shouldSupportScheduledPaths: boolean;
-        formulaFilter?: string;
+        filterFormula?: string;
     }
 
     interface Schedule {

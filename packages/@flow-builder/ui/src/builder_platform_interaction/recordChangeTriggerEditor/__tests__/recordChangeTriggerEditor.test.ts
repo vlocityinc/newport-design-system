@@ -128,7 +128,7 @@ function recordChangeTriggerElement(flowTriggerType, recordTriggerType, filters)
         objectIndex: { value: 'guid', error: null },
         filterLogic: { value: CONDITION_LOGIC.AND, error: null },
         filters: filters || [],
-        formulaFilter: ''
+        filterFormula: ''
     };
 
     return triggerStartElement;
@@ -547,9 +547,9 @@ describe('record-change-trigger-editor', () => {
             expect(element.node.filters[0].rightHandSideDataType.value).toBe('');
         });
 
-        it('call resetFormulaFilter when formulaFilter exists for condition logic other than FORMULA', async () => {
+        it('call resetfilterFormula when filterFormula exists for condition logic other than FORMULA', async () => {
             const triggerElement = recordChangeTriggerElement(AFTER_SAVE, CREATE);
-            triggerElement.formulaFilter = '{$Record.Address}';
+            triggerElement.filterFormula = '{$Record.Address}';
             const element = createComponentForTest(triggerElement);
 
             const event = new CustomEvent('propertychanged', {
@@ -562,7 +562,7 @@ describe('record-change-trigger-editor', () => {
             recordFilterCmp.dispatchEvent(event);
             await ticks(1);
 
-            expect(element.node.formulaFilter).toBe(null);
+            expect(element.node.filterFormula).toBe(null);
         });
     });
 });

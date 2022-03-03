@@ -413,7 +413,7 @@ export const START_ELEMENT_FIELDS = {
     START_DATE: 'startDate',
     START_TIME: 'startTime',
     FILTER_LOGIC: 'filterLogic',
-    FORMULA_FILTER: 'formulaFilter',
+    FILTER_FORMULA: 'filterFormula',
     IS_RUN_ASYNC_PATH_ENABLED: 'runAsync',
     REQUIRE_RECORD_CHANGE: 'doesRequireRecordChangedToMeetCriteria'
 };
