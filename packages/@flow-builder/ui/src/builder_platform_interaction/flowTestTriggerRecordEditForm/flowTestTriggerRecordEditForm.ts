@@ -1,8 +1,12 @@
 import { LIGHTNING_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 import { FlowTestRecordSelectedEvent, UpdateTestRecordDataEvent } from 'builder_platform_interaction/events';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import { getRecord } from 'lightning/uiRecordApi';
 import { api, LightningElement, track, wire } from 'lwc';
+import { LABELS } from './flowTestTriggerRecordEditFormLabels';
+
+const { format } = commonUtils;
 
 export default class FlowTestTriggerRecordEditForm extends LightningElement {
     @api
@@ -34,6 +38,8 @@ export default class FlowTestTriggerRecordEditForm extends LightningElement {
         }
     }
 
+    labels = LABELS;
+
     /**
      * Switch for controlling if we should load a selected sample record into our record data.
      * Prevents reloading overwritten field values when navigating between tabs
@@ -55,14 +61,14 @@ export default class FlowTestTriggerRecordEditForm extends LightningElement {
 
     get sampleRecordPickerAttributes() {
         return {
-            label: `Select Record for Sample Data`, // todo: add label
+            label: format(this.labels.flowTestInitialRecordRecordPickerLabel, this.objectApiName),
             entities: [
                 {
                     name: this.objectApiName,
                     label: this.objectApiName
                 }
             ],
-            placeholder: `Search records...` // todo: add label
+            placeholder: format(this.labels.flowTestInitialRecordRecordPickerPlaceholder, this.objectApiName)
         };
     }
 
