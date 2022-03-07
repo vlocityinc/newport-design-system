@@ -2012,6 +2012,23 @@ describe('in edit mode', () => {
         expect(viewAllTestsButton).not.toBeNull();
         expect(viewAllTestsButton.disabled).toBeTruthy();
     });
+    it('view test button should be disabled if a flow has unsaved changes', async () => {
+        mockStoreState.properties.hasUnsavedChanges = true;
+        const editorComponent = createComponentUnderTest({
+            flowId: '301RM0000000E4N',
+            builderType: 'new',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                componentConfigs: { [BUILDER_MODE.EDIT_MODE]: { toolbarConfig: { showViewAllTestsButton: true } } }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.EDIT_MODE);
+
+        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+        const viewAllTestsButton = toolbar.shadowRoot.querySelector(selectors.viewAllTests);
+        expect(viewAllTestsButton).not.toBeNull();
+        expect(viewAllTestsButton.disabled).toBeTruthy();
+    });
     it('edit test button should not be visible', async () => {
         mockStoreState.properties.processType = FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW;
         mockStoreState.elements['6'].triggerType = FLOW_TRIGGER_TYPE.AFTER_SAVE;
@@ -2292,7 +2309,7 @@ describe('in debug mode', () => {
             expect(editorComponent.blockDebugResume).toBeFalsy();
         });
     });
-    it('view test button is not displayed for supported process type and trigger type', async () => {
+    it('view test button is not displayed for unsupported process type and trigger type', async () => {
         mockStoreState.properties.processType = FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW;
         mockStoreState.elements['6'].triggerType = FLOW_TRIGGER_TYPE.AFTER_SAVE;
 

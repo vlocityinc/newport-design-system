@@ -7,7 +7,7 @@
     <version>238-SNAPSHOT</version>
     <packaging>jar</packaging>
     <properties>
-        <aura.version>1.5206</aura.version>
+        <aura.version>1.5208</aura.version>
         <lwc.version>2.10.0-238.1</lwc.version>
         <spring.version>5.3.8</spring.version>
         <google.closure-compiler.version>v20130411-sfdc-patch1</google.closure-compiler.version>

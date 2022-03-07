@@ -841,7 +841,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     }
 
     get shouldViewAllTestsButtonBeDisabled() {
-        return !this.flowId;
+        return !this.flowId || storeInstance.getCurrentState().properties.hasUnsavedChanges;
     }
 
     /**
