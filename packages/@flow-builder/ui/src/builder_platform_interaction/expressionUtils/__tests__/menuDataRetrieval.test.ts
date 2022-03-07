@@ -22,9 +22,9 @@ import {
     GLOBAL_CONSTANT_OBJECTS as gcObjects,
     setGlobalVariables,
     setProcessTypeFeature,
-    setSystemVariables,
-    SYSTEM_VARIABLE_PREFIX
+    setSystemVariables
 } from 'builder_platform_interaction/systemLib';
+import { SYSTEM_VARIABLE_PREFIX } from 'builder_platform_interaction/systemVariableConstantsLib';
 import { mockScreenElement } from 'mock/calloutData';
 import { platformEvent1ApiName, platformEvent1Label } from 'mock/eventTypesData';
 import { mockGlobalVariablesWithMultiPicklistField } from 'mock/globalVariableData';

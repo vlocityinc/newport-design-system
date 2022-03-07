@@ -20,10 +20,12 @@ import { getActiveOrLatestFlowOutputVariables } from 'builder_platform_interacti
 import {
     getGlobalConstantOrSystemVariable,
     getGlobalVariable,
-    GLOBAL_CONSTANT_PREFIX,
+    GLOBAL_CONSTANT_PREFIX
+} from 'builder_platform_interaction/systemLib';
+import {
     SYSTEM_VARIABLE_CLIENT_PREFIX,
     SYSTEM_VARIABLE_PREFIX
-} from 'builder_platform_interaction/systemLib';
+} from 'builder_platform_interaction/systemVariableConstantsLib';
 import { getEntityFieldWithRelationshipName, getPolymorphicRelationShipName, getReferenceToName } from './mergeField';
 import * as validationErrors from './mergeFieldValidationErrors';
 import { ValidationError } from './mergeFieldValidationErrors';

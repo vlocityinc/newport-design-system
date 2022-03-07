@@ -18,7 +18,7 @@ import {
 import { isOrchestrator, isScheduledPathSupported } from 'builder_platform_interaction/processTypeLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getElementByGuid, getProcessType } from 'builder_platform_interaction/storeUtils';
-import { SYSTEM_VARIABLE_RECORD_PREFIX } from 'builder_platform_interaction/systemLib';
+import { SYSTEM_VARIABLE_RECORD_PREFIX } from 'builder_platform_interaction/systemVariableConstantsLib';
 import { isRecordChangeTriggerType, isScheduledTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 import {
     baseCanvasElement,

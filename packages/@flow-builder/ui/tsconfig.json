@@ -261,6 +261,7 @@
             "builder_platform_interaction/subflowEditor": ["./src/builder_platform_interaction/subflowEditor/subflowEditor.ts"],
             "builder_platform_interaction/subflowsLib": ["./src/builder_platform_interaction/subflowsLib/subflowsLib.ts"],
             "builder_platform_interaction/systemLib": ["./src/builder_platform_interaction/systemLib/systemLib.ts"],
+            "builder_platform_interaction/systemVariableConstantsLib": ["./src/builder_platform_interaction/systemVariableConstantsLib/systemVariableConstantsLib.ts"],
             "builder_platform_interaction/testPanelBody": ["./src/builder_platform_interaction/testPanelBody/testPanelBody.ts"],
             "builder_platform_interaction/textTemplateEditor": ["./src/builder_platform_interaction/textTemplateEditor/textTemplateEditor.ts"],
             "builder_platform_interaction/toolbar": ["./src/builder_platform_interaction/toolbar/toolbar.ts"],

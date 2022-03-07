@@ -10,9 +10,9 @@ import {
     GLOBAL_CONSTANTS,
     GLOBAL_CONSTANT_OBJECTS,
     resetSystemVariables,
-    setSystemVariables,
-    SYSTEM_VARIABLE_PREFIX
+    setSystemVariables
 } from 'builder_platform_interaction/systemLib';
+import { SYSTEM_VARIABLE_PREFIX } from 'builder_platform_interaction/systemVariableConstantsLib';
 import { mockScreenElement } from 'mock/calloutData';
 import * as store from 'mock/storeData';
 import { flowWithAllElementsUIModel } from 'mock/storeData';

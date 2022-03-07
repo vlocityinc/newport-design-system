@@ -27,9 +27,9 @@ import {
     getMinApiVersion,
     initVersioningInfoForProcessType,
     isVersioningDataInitialized,
-    isVersioningSupported,
-    SYSTEM_VARIABLES
+    isVersioningSupported
 } from 'builder_platform_interaction/systemLib';
+import { SYSTEM_VARIABLES } from 'builder_platform_interaction/systemVariableConstantsLib';
 import { isRecordChangeTriggerType, isRunInModeSupported } from 'builder_platform_interaction/triggerTypeLib';
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';

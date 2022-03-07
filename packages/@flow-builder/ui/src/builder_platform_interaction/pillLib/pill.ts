@@ -1,5 +1,6 @@
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { GLOBAL_CONSTANT_PREFIX, SYSTEM_VARIABLE_PREFIX } from 'builder_platform_interaction/systemLib';
+import { GLOBAL_CONSTANT_PREFIX } from 'builder_platform_interaction/systemLib';
+import { SYSTEM_VARIABLE_PREFIX } from 'builder_platform_interaction/systemVariableConstantsLib';
 import { LABELS } from './pillLabels';
 /**
  * Combobox Item

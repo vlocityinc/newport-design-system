@@ -1,14 +1,14 @@
 // @ts-nocheck
 import { removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { GLOBAL_CONSTANT_OBJECTS, GLOBAL_CONSTANT_PREFIX } from './globalConstants';
 import {
-    getSystemVariablesFromState,
     SYSTEM_VARIABLE_CLIENT_PREFIX,
     SYSTEM_VARIABLE_PREFIX,
     SYSTEM_VARIABLE_RECORD_PREFIX,
     SYSTEM_VARIABLE_RECORD_PRIOR_PREFIX
-} from './systemVariables';
+} from 'builder_platform_interaction/systemVariableConstantsLib';
+import { GLOBAL_CONSTANT_OBJECTS, GLOBAL_CONSTANT_PREFIX } from './globalConstants';
+import { getSystemVariablesFromState } from './systemVariables';
 
 const GLOBAL_CONSTANTS_AND_SYSTEM_VARIABLES = [
     GLOBAL_CONSTANT_PREFIX,
@@ -103,11 +103,5 @@ export {
     getSystemVariables,
     isSystemVariablesCategoryNotEmpty,
     resetSystemVariables,
-    setSystemVariables,
-    SYSTEM_VARIABLES,
-    SYSTEM_VARIABLE_CLIENT_PREFIX,
-    SYSTEM_VARIABLE_ICON_NAME,
-    SYSTEM_VARIABLE_PREFIX,
-    SYSTEM_VARIABLE_RECORD_PREFIX,
-    SYSTEM_VARIABLE_RECORD_PRIOR_PREFIX
+    setSystemVariables
 } from './systemVariables';

@@ -31,10 +31,12 @@ import {
     getRunInModes,
     getSystemVariables,
     GLOBAL_CONSTANT_OBJECTS,
-    isSystemVariableId,
+    isSystemVariableId
+} from 'builder_platform_interaction/systemLib';
+import {
     SYSTEM_VARIABLE_CLIENT_PREFIX,
     SYSTEM_VARIABLE_PREFIX
-} from 'builder_platform_interaction/systemLib';
+} from 'builder_platform_interaction/systemVariableConstantsLib';
 import {
     COMBOBOX_ITEM_DISPLAY_TYPE,
     getMenuItemsForField,

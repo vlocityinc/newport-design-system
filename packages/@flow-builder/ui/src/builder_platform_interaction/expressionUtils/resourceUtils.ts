@@ -12,9 +12,9 @@ import {
     getGlobalVariable,
     GLOBAL_CONSTANT_OBJECTS,
     isRecordPriorSystemVariableIdentifier,
-    isRecordSystemVariableIdentifier,
-    SYSTEM_VARIABLE_RECORD_PRIOR_PREFIX
+    isRecordSystemVariableIdentifier
 } from 'builder_platform_interaction/systemLib';
+import { SYSTEM_VARIABLE_RECORD_PRIOR_PREFIX } from 'builder_platform_interaction/systemVariableConstantsLib';
 import { getMenuItemForField, mutateFlowResourceToComboboxShape } from './menuDataGenerator';
 import { filterFieldsForChosenElement, getChildrenItems } from './menuDataRetrieval';
 

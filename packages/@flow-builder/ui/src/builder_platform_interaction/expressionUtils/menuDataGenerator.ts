@@ -20,13 +20,15 @@ import {
     getGlobalVariableTypes,
     getSystemVariables,
     isNonElementId,
-    isSystemVariablesCategoryNotEmpty,
+    isSystemVariablesCategoryNotEmpty
+} from 'builder_platform_interaction/systemLib';
+import {
     SYSTEM_VARIABLE_CLIENT_PREFIX,
     SYSTEM_VARIABLE_ICON_NAME,
     SYSTEM_VARIABLE_PREFIX,
     SYSTEM_VARIABLE_RECORD_PREFIX,
     SYSTEM_VARIABLE_RECORD_PRIOR_PREFIX
-} from 'builder_platform_interaction/systemLib';
+} from 'builder_platform_interaction/systemVariableConstantsLib';
 import { LABELS } from './expressionUtilsLabels';
 const { format } = commonUtils;
 

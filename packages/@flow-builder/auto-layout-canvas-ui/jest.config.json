@@ -39,6 +39,7 @@
         "^(builder_platform_interaction)/storeLib$": "<rootDir>/../ui/src/builder_platform_interaction/storeLib/storeLib",
         "^(builder_platform_interaction)/processTypeLib$": "<rootDir>/../ui/src/builder_platform_interaction/processTypeLib/processTypeLib",
         "^(builder_platform_interaction)/systemLib$": "<rootDir>/../ui/src/builder_platform_interaction/systemLib/systemLib",
+        "^(builder_platform_interaction)/systemVariableConstantsLib$": "<rootDir>/../ui/src/builder_platform_interaction/systemVariableConstantsLib/systemVariableConstantsLib",
         "^(builder_platform_interaction)/recordEditorLib$": "<rootDir>/../ui/src/builder_platform_interaction/recordEditorLib/recordEditorLib",
         "^(builder_platform_interaction)/connectorUtils$": "<rootDir>/../ui/src/builder_platform_interaction/connectorUtils/connectorUtils",
         "^(builder_platform_interaction)/invocableActionLib$": "<rootDir>/../ui/src/builder_platform_interaction/invocableActionLib/invocableActionLib",

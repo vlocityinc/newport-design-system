@@ -38,10 +38,12 @@ import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import {
     isNonRecordGlobalResourceId,
     isRecordPriorSystemVariableIdentifier,
-    isRecordSystemVariableIdentifier,
+    isRecordSystemVariableIdentifier
+} from 'builder_platform_interaction/systemLib';
+import {
     SYSTEM_VARIABLE_RECORD_PREFIX,
     SYSTEM_VARIABLE_RECORD_PRIOR_PREFIX
-} from 'builder_platform_interaction/systemLib';
+} from 'builder_platform_interaction/systemVariableConstantsLib';
 import { api, LightningElement, track, unwrap } from 'lwc';
 import { LABELS } from './comboboxLabels';
 import { getMenuLength, setSelectableMenuItem, sliceMenu } from './utils';

@@ -5,12 +5,11 @@ import { getResourceCategory } from 'builder_platform_interaction/elementLabelLi
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { getStartElement, getStartElementFromState } from 'builder_platform_interaction/storeUtils';
+import { setGlobalVariables, setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
 import {
-    setGlobalVariables,
-    setProcessTypeFeature,
     SYSTEM_VARIABLE_CLIENT_PREFIX,
     SYSTEM_VARIABLE_PREFIX
-} from 'builder_platform_interaction/systemLib';
+} from 'builder_platform_interaction/systemVariableConstantsLib';
 import {
     apexCallAutomaticAnonymousAccountOutput,
     apexCallAutomaticAnonymousStringOutput,

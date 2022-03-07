@@ -7,6 +7,7 @@ import {
     SCHEDULED_PATH_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { SYSTEM_VARIABLE_RECORD_PREFIX } from 'builder_platform_interaction/systemVariableConstantsLib';
 
 export const getElementByGuidFromState = ({ elements }, guid: string) => elements[guid];
 
@@ -51,8 +52,13 @@ export const getElementByDevNameFromState = <T extends UI.Element>(
  * @param {boolean} caseSensitive true if name comparison is case sensitive (false by default)
  * @returns {*} store element or undefined if the devName does not exists.
  */
-export const getElementByDevName = <T extends UI.Element>(devName: string, caseSensitive = false): T | undefined =>
-    getElementByDevNameFromState(Store.getStore().getCurrentState(), devName, caseSensitive);
+export const getElementByDevName = <T extends UI.Element>(devName: string, caseSensitive = false): T | undefined => {
+    // Check local variable for startElement first if looking for element corresponding to $Record
+    if (devName === SYSTEM_VARIABLE_RECORD_PREFIX && startElement) {
+        return startElement;
+    }
+    return getElementByDevNameFromState(Store.getStore().getCurrentState(), devName, caseSensitive);
+};
 
 export const getStartElementFromState = ({ elements }: { elements: UI.Elements }): UI.Start | undefined => {
     const startElement =

@@ -22,7 +22,6 @@ jest.mock('builder_platform_interaction/systemLib', () => {
             return 'abc';
         },
 
-        SYSTEM_VARIABLES: actual.SYSTEM_VARIABLES,
         getGlobalConstantOrSystemVariable: actual.getGlobalConstantOrSystemVariable,
         getGlobalVariable: actual.getGlobalVariable,
         getLatestApiVersion() {
@@ -41,6 +40,13 @@ jest.mock('builder_platform_interaction/systemLib', () => {
         isVersioningSupported() {
             return true;
         }
+    };
+});
+
+jest.mock('builder_platform_interaction/systemVariableConstantsLib', () => {
+    const actual = jest.requireActual('builder_platform_interaction/systemVariableConstantsLib');
+    return {
+        SYSTEM_VARIABLES: actual.SYSTEM_VARIABLES
     };
 });
 
