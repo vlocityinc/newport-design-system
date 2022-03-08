@@ -5,6 +5,7 @@ import errorTitle from '@salesforce/label/FlowBuilderAlertModal.errorTitle';
 import okayButtonLabel from '@salesforce/label/FlowBuilderAlertModal.okayButtonLabel';
 import { updateApexClasses } from 'builder_platform_interaction/actions';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
+import { arraysCompare } from 'builder_platform_interaction/builderUtils';
 import { fetchOnce, getAuraCallback, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { commonUtils, invokeModal, loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import {
@@ -93,6 +94,8 @@ class Loader {
 
     private flowProcessTypeCache: string;
 
+    private flowEnvironmentsCache: string[];
+
     constructor(store) {
         this.store = store;
         this.createEntitiesLoadedPromise();
@@ -140,9 +143,16 @@ class Loader {
      * @param flowTriggerType - Flow Trigger Type
      * @param recordTriggerType - Record Trigger Type
      * @param flowDefinitionId - Flow Defintion Id
+     * @param flowEnvironments - Selected Flow environments
      * @returns Object with promises
      */
-    public loadOnProcessTypeChange(flowProcessType, flowTriggerType, recordTriggerType, flowDefinitionId) {
+    public loadOnProcessTypeChange(
+        flowProcessType,
+        flowTriggerType,
+        recordTriggerType,
+        flowDefinitionId,
+        flowEnvironments
+    ) {
         // currently, we prefetch actions, apex plugins and subflows for performance reasons but we don't need them to be loaded
         // before we can open a Property Editor
         if (flowTriggerType != null) {
@@ -156,7 +166,7 @@ class Loader {
             flowTriggerType,
             recordTriggerType
         );
-        this.loadExtensions(flowProcessType);
+        this.loadExtensions(flowProcessType, flowEnvironments);
         return {
             loadPeripheralMetadataPromise,
             loadPalettePromise,
@@ -191,12 +201,20 @@ class Loader {
      * Loads Extensions
      *
      * @param flowProcessType - Flow Process Type
+     * @param flowEnvironments - Array of selected environment
+     * @returns Flow Extionsion Promise
      */
-    public loadExtensions(flowProcessType: string): Promise {
-        if (!this.flowExtensionsLoaded || flowProcessType !== this.flowProcessTypeCache) {
-            this.flowExtensionsLoaded = loadFlowExtensions(flowProcessType);
+    public loadExtensions(flowProcessType: string, flowEnvironments: string[]): Promise {
+        if (
+            !this.flowExtensionsLoaded ||
+            flowProcessType !== this.flowProcessTypeCache ||
+            !arraysCompare(flowEnvironments, this.flowEnvironmentsCache)
+        ) {
+            this.flowExtensionsLoaded = loadFlowExtensions(flowProcessType, flowEnvironments);
             this.flowProcessTypeCache = flowProcessType;
+            this.flowEnvironmentsCache = flowEnvironments;
         }
+
         return this.flowExtensionsLoaded;
     }
 
@@ -340,15 +358,24 @@ export const loadOnStart = () => loader.loadOnStart();
  * @param flowProcessType The flow processType
  * @param flowTriggerType The flow Trigger type
  * @param flowRecordTriggerType The flow record trigger type
- * @param {string} flowDefinitionId The Flow definition ID
+ * @param flowDefinitionId The Flow definition ID
+ * @param flowEnvironments - Selected Flow environments
  * @returns the Promise
  */
 export const loadOnProcessTypeChange = (
     flowProcessType: string,
     flowTriggerType?: string,
     flowRecordTriggerType?: string,
-    flowDefinitionId?: string
-) => loader.loadOnProcessTypeChange(flowProcessType, flowTriggerType, flowRecordTriggerType, flowDefinitionId);
+    flowDefinitionId?: string,
+    flowEnvironments?: Array<string>
+) =>
+    loader.loadOnProcessTypeChange(
+        flowProcessType,
+        flowTriggerType,
+        flowRecordTriggerType,
+        flowDefinitionId,
+        flowEnvironments
+    );
 
 /**
  * Triggers loading of
@@ -373,6 +400,7 @@ export const loadOnTriggerTypeChange = (
  * @param flowProcessType Process type
  * @param flowTriggerType Trigger type
  * @param flowRecordTriggerType Record Trigger type
+ * @returns Promise
  */
 export const loadOperatorsAndRulesOnTriggerTypeChange = (
     flowProcessType: string,
@@ -405,8 +433,9 @@ export const loadAllSupportedFeatures = (processTypes) =>
  * Triggers loading of  flow extensions
  *
  * @param flowProcessType The flow processType
+ * @param flowEnvironments The selected environments
  * @returns Object with promises
  */
-export const loadFlowExtensionsOnProcessTypeChange = (flowProcessType) => {
-    return loader.loadExtensions(flowProcessType);
+export const loadFlowExtensionsOnProcessTypeChange = (flowProcessType, flowEnvironments) => {
+    return loader.loadExtensions(flowProcessType, flowEnvironments);
 };

@@ -24,7 +24,7 @@ import {
 import { getSupportedScreenFieldTypes } from 'builder_platform_interaction/screenFieldTypeLib';
 import { commonUtils, invokeModal } from 'builder_platform_interaction/sharedUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { getTriggerType } from 'builder_platform_interaction/storeUtils';
+import { getEnvironments, getTriggerType } from 'builder_platform_interaction/storeUtils';
 import { invokeUsedByAlertModal, usedByStoreAndElementState } from 'builder_platform_interaction/usedByLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { api, LightningElement, track, unwrap } from 'lwc';
@@ -214,16 +214,21 @@ export default class ScreenEditor extends LightningElement {
      */
     processPaletteExtensions() {
         const triggerType = getTriggerType();
-        getSupportedScreenFieldTypes(this.processType, triggerType).then((supportedTypes) => {
-            if (supportedTypes) {
-                this.screenFieldTypes = getAllScreenFieldTypes().filter((type) =>
-                    supportedTypes.some((supportedType) => {
-                        return supportedType.name === type.name || supportedType.name === type.fieldType;
-                    })
-                );
-            }
-        });
-        loadFlowExtensionsOnProcessTypeChange(this.processType)
+        const environments = getEnvironments();
+        getSupportedScreenFieldTypes(this.processType, triggerType, environments)
+            .then((supportedTypes) => {
+                if (supportedTypes) {
+                    this.screenFieldTypes = getAllScreenFieldTypes().filter((type) =>
+                        supportedTypes.some((supportedType) => {
+                            return supportedType.name === type.name || supportedType.name === type.fieldType;
+                        })
+                    );
+                }
+            })
+            .catch((errorMessage) => {
+                throw errorMessage;
+            });
+        loadFlowExtensionsOnProcessTypeChange(this.processType, environments)
             .then((data) => {
                 this.extensionTypes = data;
                 this.screen = processScreenExtensionTypes(this.screen);

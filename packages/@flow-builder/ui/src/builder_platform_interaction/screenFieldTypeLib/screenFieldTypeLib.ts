@@ -9,12 +9,21 @@ const { logPerfTransactionStart, logPerfTransactionEnd } = loggingUtils;
 /**
  * Get the supported screen field types
  *
- * @param flowProcessType
- * @param flowTriggerType
+ * @param flowProcessType - Flow Process Type
+ * @param flowTriggerType - Flow Trigger Type
+ * @param flowEnvironments - Selected Flow Environments
+ * @returns Promise object represents the return value from the server
+ *         side action
  */
-export function getSupportedScreenFieldTypes(flowProcessType: string, flowTriggerType?: string): Promise<any> {
+export function getSupportedScreenFieldTypes(
+    flowProcessType: string,
+    flowTriggerType?: string,
+    flowEnvironments?: Array<string>
+): Promise<any> {
     logPerfTransactionStart(SCREEN_FIELD_TYPES, null, null);
-    const param = { flowProcessType, flowTriggerType };
+    // Flow environments is an array so the array is sorted then the values are concatenate and used as cache key
+    const sortedEnv = flowEnvironments?.sort((a, b) => a.localeCompare(b));
+    const param = { flowProcessType, flowTriggerType, flowEnvironments, flowEnvironmentKey: sortedEnv?.join() };
     return fetchOnce(SERVER_ACTION_TYPE.GET_SUPPORTED_SCREEN_FIELD_TYPES, param)
         .then((data) => {
             logPerfTransactionEnd(

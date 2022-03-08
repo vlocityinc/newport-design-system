@@ -6,6 +6,7 @@ import { SaveFlowEvent } from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE, FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { invokeModalWithComponents } from 'builder_platform_interaction/sharedUtils';
 import {
+    arraysCompare,
     FlowTestMode,
     getPropertyEditorConfig,
     hidePopover,
@@ -556,5 +557,13 @@ describe('builderUtils', () => {
             );
             expect(invokeModalWithComponents).toHaveBeenCalled();
         });
+    });
+});
+describe('Array Compare', () => {
+    it('should return true', () => {
+        expect(arraysCompare(['a', 'b', 'c'], ['c', 'a', 'b'])).toBe(true);
+    });
+    it('should return false', () => {
+        expect(arraysCompare(['a', 'b', 'c'], ['c', 'd', 'b'])).toBe(false);
     });
 });

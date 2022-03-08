@@ -308,7 +308,7 @@ declare namespace Metadata {
 
     interface FlowTestMetadata {
         description?: string;
-        flowApiName: string | number | boolean;
+        flowApiName: string;
         label: string;
         testPoints: FlowTestPoint[];
     }

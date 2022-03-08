@@ -1117,3 +1117,22 @@ export function showPopover(cmpName, cmpAttributes = {}, popoverProps) {
 export function focusOnDockingPanel() {
     dispatchGlobalEvent('force:shortcutCommand', { command: 'GoToPrompt', args: null });
 }
+
+/**
+ * @param array1 first array to compare
+ * @param array2 second array to compare
+ * @returns True if the arrays contains the same values
+ */
+export function arraysCompare(array1: string[], array2: string[]): boolean {
+    if (array1 == null || array2 == null || array1.length !== array2.length) {
+        return false;
+    }
+    for (const v of new Set([...array1, ...array2])) {
+        const array1Count = array1.filter((e) => e === v).length;
+        const array2Count = array2.filter((e) => e === v).length;
+        if (array1Count !== array2Count) {
+            return false;
+        }
+    }
+    return true;
+}

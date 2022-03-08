@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { makeQuerablePromise, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { FLOW_ENVIRONMENT } from 'builder_platform_interaction/flowMetadata';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { invokeModal, loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import {
@@ -272,9 +273,9 @@ describe('Loader', () => {
             it('initiates loading of extensions', () => {
                 const processType = 'process_type_1';
                 loadOnStart();
-                loadOnProcessTypeChange(processType);
+                loadOnProcessTypeChange(processType, null, null, null, [FLOW_ENVIRONMENT.SLACK]);
                 expect(loadFlowExtensions).toBeCalledTimes(1);
-                expect(loadFlowExtensions).toBeCalledWith(processType);
+                expect(loadFlowExtensions).toBeCalledWith(processType, [FLOW_ENVIRONMENT.SLACK]);
             });
             it('brings up an alert when either of the calls fails', async () => {
                 loadResourceTypes.mockRejectedValue('something went wrong');

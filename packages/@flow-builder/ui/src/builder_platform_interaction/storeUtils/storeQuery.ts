@@ -147,7 +147,7 @@ export const isOrderNumberInStore = (orderNumberToBeTested: number, listOfGuidsT
 };
 
 /**
- * Returns the trigger type for the current flow
+ * @returns the trigger type for the current flow
  */
 export const getTriggerType = (): string | undefined => {
     const startElement = getStartElement();
@@ -155,7 +155,7 @@ export const getTriggerType = (): string | undefined => {
 };
 
 /**
- * Returns the object type for the current flow.
+ * @returns the object type for the current flow.
  * Currently located on the start element.
  */
 export const getStartObject = (): string | undefined => {
@@ -190,11 +190,16 @@ export const isExecuteOnlyWhenChangeMatchesConditionsPossible = () => {
 };
 
 /**
- * Returns the process type for the current flow
- *
- * @returns {string}
+ * @returns the process type for the current flow
  */
 export const getProcessType = () => Store.getStore().getCurrentState().properties.processType;
+
+/**
+ * Returns the environments for the current flow
+ *
+ * @returns Environments for the current flow
+ */
+export const getEnvironments = (): Array<string> => Store.getStore().getCurrentState().properties.environments;
 
 /**
  * Returns the value of isAutoLayoutCanvas as in the store. Returns false if the store has not been initialized
@@ -228,7 +233,7 @@ export const getElementsForElementType = (elementType: UI.ElementType): UI.Eleme
 };
 
 /**
- *  Returns the list of paths displayed on the canvas
+ *  @returns the list of paths displayed on the canvas
  */
 export const getScheduledPathsList = (): any[] => {
     const scheduledPathsList: any[] = [];

@@ -253,10 +253,16 @@ declare namespace UI {
     type HydratedElements = StringKeyedMap<HydratedElement>;
 
     interface Properties {
+        apiVersion: number;
+        environments: string[];
         isAutoLayoutCanvas: boolean;
+        isTemplate: boolean;
+        label: string;
+        name: string;
         processType: string;
+        status: string;
 
-        [key: string]: string | undefined | null | number | boolean;
+        [key: string]: string | undefined | null | number | boolean | string[];
     }
 
     type EntityDefinition = {

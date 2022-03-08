@@ -139,8 +139,15 @@ export const loadVersioningData = () =>
             setVersioningDataInitialized(true);
         });
 
-export const loadFlowExtensions = (flowProcessType) =>
-    fetchOnce(SERVER_ACTION_TYPE.GET_FLOW_EXTENSIONS, { flowProcessType }, { background: true }).then((data) => {
+export const loadFlowExtensions = (flowProcessType, flowEnvironments) => {
+    // Flow environments is an array so the array is sorted then the values are concatenate and used as cache key
+    const sortedEnv = flowEnvironments?.sort((a, b) => a.localeCompare(b));
+    return fetchOnce(
+        SERVER_ACTION_TYPE.GET_FLOW_EXTENSIONS,
+        { flowProcessType, flowEnvironments, flowEnvironmentKey: sortedEnv?.join() },
+        { background: true }
+    ).then((data) => {
         setFlowExtensions(data);
         return getAllCachedExtensionTypes();
     });
+};

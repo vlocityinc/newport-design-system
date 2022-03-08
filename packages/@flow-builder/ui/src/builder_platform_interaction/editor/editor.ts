@@ -874,6 +874,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         const flowProcessTypeChanged = flowProcessType && flowProcessType !== this.properties.processType;
         const recordTriggerTypeChanged = flowRecordTriggerType !== this.recordTriggerType;
         const triggerTypeChanged = flowTriggerType !== this.triggerType;
+        const flowEnvironments = this.properties.environments;
+
         if (flowProcessTypeChanged || triggerTypeChanged) {
             this.spinners.showAutoLayoutSpinner = true;
             const toolboxPromise = getToolboxElements(flowProcessType, flowTriggerType).then((supportedElements) => {
@@ -886,7 +888,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                         flowProcessType,
                         flowTriggerType,
                         flowRecordTriggerType,
-                        definitionId as string
+                        definitionId as string,
+                        flowEnvironments
                     );
                 this.propertyEditorBlockerCalls.push(loadPeripheralMetadataPromise);
                 this.openSubflowBlockerPromise = loadSubflowsPromise;

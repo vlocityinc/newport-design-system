@@ -225,7 +225,8 @@ const KEY_PROVIDER = {
     [SERVER_ACTION_TYPE.GET_RECORD_DEV_NAME_BY_ID]: (params) => `${params.entity}-${params.recordId}`,
     [SERVER_ACTION_TYPE.GET_SUBFLOWS]: (params) => params.flowProcessType,
     [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS]: (params) => `${params.flowProcessType}-${params.flowTriggerType}`,
-    [SERVER_ACTION_TYPE.GET_SUPPORTED_SCREEN_FIELD_TYPES]: (params) => params.flowProcessType,
+    [SERVER_ACTION_TYPE.GET_SUPPORTED_SCREEN_FIELD_TYPES]: (params) =>
+        `${params.flowProcessType}-${params.flowEnvironmentKey}`,
     [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS]: (params) => `${params.actionName}-${params.actionType}`,
     [SERVER_ACTION_TYPE.GET_APEX_PLUGIN_PARAMETERS]: (params) => `${params.apexClass}`,
     [SERVER_ACTION_TYPE.GET_ENTITY_FIELDS]: (params) => params.entityApiName,
@@ -247,7 +248,7 @@ const KEY_PROVIDER = {
     [SERVER_ACTION_TYPE.GET_AUTO_GENERATED_REQUIRED_VARIABLES]: (params) => params.flowProcessType,
     [SERVER_ACTION_TYPE.GET_OVERRIDABLE_FLOWS]: (params) =>
         `${params.flowProcessType}-${params.flowProcessType}-${params.isTemplate}`,
-    [SERVER_ACTION_TYPE.GET_FLOW_EXTENSIONS]: (params) => params.flowProcessType,
+    [SERVER_ACTION_TYPE.GET_FLOW_EXTENSIONS]: (params) => `${params.flowProcessType}-${params.flowEnvironmentKey}`,
     [SERVER_ACTION_TYPE.GET_FLOW_TESTS_AND_RESULTS]: (params) =>
         `${params.flowDefinitionId}-${params.flowVersionid}-${params.offset}-${params.limit}`,
     [SERVER_ACTION_TYPE.GET_FORMULA_FUNCTIONS]: (params) =>
