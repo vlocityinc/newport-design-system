@@ -63,10 +63,19 @@ const COLUMNS = [
     { type: 'action', typeAttributes: { rowActions: ACTIONS } }
 ];
 
-const RESULT_STATUS_TO_ICON_MAP = {
-    [FlowTestResultStatusType.PASS]: 'utility:check',
-    [FlowTestResultStatusType.FAIL]: 'utility:close',
-    [FlowTestResultStatusType.ERROR]: 'utility:close'
+const RESULT_STATUS_TRANSLATED_METADATA = {
+    [FlowTestResultStatusType.PASS]: {
+        lastRunStatusIcon: 'utility:check',
+        lastRunStatus: LABELS.flowTestListRunStatusPass
+    },
+    [FlowTestResultStatusType.FAIL]: {
+        lastRunStatusIcon: 'utility:close',
+        lastRunStatus: LABELS.flowTestListRunStatusFail
+    },
+    [FlowTestResultStatusType.ERROR]: {
+        lastRunStatusIcon: 'utility:close',
+        lastRunStatus: LABELS.flowTestListRunStatusError
+    }
 };
 
 /* Max number of tests to be sent in a single run request */
@@ -147,9 +156,11 @@ export default class FlowTestManager extends LightningElement {
 
     @api copyDataFromTestStore() {
         this.privateFlowTestData = getFlowTests().map((datum) => {
+            const statusMetadata =
+                datum.lastRunStatus === null ? {} : RESULT_STATUS_TRANSLATED_METADATA[datum.lastRunStatus];
             return {
                 ...datum,
-                lastRunStatusIcon: datum.lastRunStatus === null ? null : RESULT_STATUS_TO_ICON_MAP[datum.lastRunStatus]
+                ...statusMetadata
             };
         });
     }

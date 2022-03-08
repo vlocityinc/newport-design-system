@@ -11,6 +11,9 @@ import flowTestListLastRunDateColumnHeader from '@salesforce/label/FlowBuilderTe
 import flowTestListNameColumnHeader from '@salesforce/label/FlowBuilderTestEditor.flowTestListNameColumnHeader';
 import flowTestListRunAction from '@salesforce/label/FlowBuilderTestEditor.flowTestListRunAction';
 import flowTestListRunStatusColumnHeader from '@salesforce/label/FlowBuilderTestEditor.flowTestListRunStatusColumnHeader';
+import flowTestListRunStatusError from '@salesforce/label/FlowBuilderTestEditor.flowTestListRunStatusError';
+import flowTestListRunStatusFail from '@salesforce/label/FlowBuilderTestEditor.flowTestListRunStatusFail';
+import flowTestListRunStatusPass from '@salesforce/label/FlowBuilderTestEditor.flowTestListRunStatusPass';
 import flowTestListViewDetailAction from '@salesforce/label/FlowBuilderTestEditor.flowTestListViewDetailAction';
 
 export const LABELS = {
@@ -27,5 +30,8 @@ export const LABELS = {
     flowTestListRunAction,
     flowTestListDeleteAction,
     flowTestListViewDetailAction,
-    spinnerAlternativeText
+    spinnerAlternativeText,
+    flowTestListRunStatusPass,
+    flowTestListRunStatusFail,
+    flowTestListRunStatusError
 };
