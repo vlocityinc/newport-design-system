@@ -4,23 +4,16 @@ import {
     LIGHTNING_COMPONENTS_SELECTORS
 } from 'builder_platform_interaction/builderTestUtils';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
-import { ELEMENT_PROPS } from 'builder_platform_interaction/limitRepetitionsLib';
+import { DEFAULT_INPUT_VALUE, ELEMENT_PROPS } from 'builder_platform_interaction/limitRepetitionsLib';
 import { LABELS } from '../limitRepetitionSettingsLabels';
 
 /**
  * Executing jest test｀
- * cd into /packages/@flow-builder/ui
- * yarn jest src/builder_platform_interaction/limitRepetitionSettings/__tests__/limitRepetitionSettings.test.ts
+ * yarn jest packages/@flow-builder/ui/src/builder_platform_interaction/limitRepetitionSettings/__tests__/limitRepetitionSettings.test.ts
  */
 
-const DEFAULT_OPTIONS = {
-    maxReaction: 1,
-    lookBackDays: 90,
-    reactionType: 'ALL'
-};
-
 const createComponentUnderTest = async (overrideOptions?) =>
-    createComponent(INTERACTION_COMPONENTS_SELECTORS.LIMIT_REPETITION_SETTINGS, DEFAULT_OPTIONS, overrideOptions);
+    createComponent(INTERACTION_COMPONENTS_SELECTORS.LIMIT_REPETITION_SETTINGS, DEFAULT_INPUT_VALUE, overrideOptions);
 
 const getInputFields = (settingsComponent) => {
     return settingsComponent.shadowRoot.querySelectorAll(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_INPUT);
@@ -48,24 +41,24 @@ describe('Limit Repetition Settings Component', () => {
             expect(inputFields).toHaveLength(2);
         });
 
-        it('should render maxReaction input field', () => {
+        it('should render maxResponses input field', () => {
             const inputFields = getInputFields(component);
-            expect(inputFields[0].name).toEqual(ELEMENT_PROPS.maxReaction.name);
-            expect(inputFields[0].label).toEqual(LABELS.maxReaction);
+            expect(inputFields[0].name).toEqual(ELEMENT_PROPS.maxResponses.name);
+            expect(inputFields[0].label).toEqual(LABELS.maxResponses);
         });
 
-        it('should render lookBackDays input field', () => {
+        it('should render withinDays input field', () => {
             const inputFields = getInputFields(component);
-            expect(inputFields[1].name).toEqual(ELEMENT_PROPS.lookBackDays.name);
-            expect(inputFields[1].label).toEqual(LABELS.lookBackDays);
+            expect(inputFields[1].name).toEqual(ELEMENT_PROPS.withinDays.name);
+            expect(inputFields[1].label).toEqual(LABELS.withinDays);
         });
 
-        it('should render reactionType combobox field', async () => {
+        it('should render responseTypeToLimit combobox field', async () => {
             const comboboxFields = getComboboxFields(component);
             expect(comboboxFields).toBeDefined();
             expect(comboboxFields).toHaveLength(1);
-            expect(comboboxFields[0].name).toEqual(ELEMENT_PROPS.reactionType.name);
-            expect(comboboxFields[0].label).toEqual(LABELS.reactionType);
+            expect(comboboxFields[0].name).toEqual(ELEMENT_PROPS.responseTypeToLimit.name);
+            expect(comboboxFields[0].label).toEqual(LABELS.responseTypeToLimit);
         });
     });
 
@@ -76,7 +69,7 @@ describe('Limit Repetition Settings Component', () => {
             component = await createComponentUnderTest();
         });
 
-        it('should handle reactionType changes', async () => {
+        it('should handle responseTypeToLimit changes', async () => {
             const comboboxFields = await getComboboxFields(component);
             const eventCallback = jest.fn();
 
@@ -88,13 +81,13 @@ describe('Limit Repetition Settings Component', () => {
             expect(eventCallback.mock.calls[0][0].detail).toEqual(
                 expect.objectContaining({
                     value: 'REJECTED',
-                    propertyName: ELEMENT_PROPS.reactionType.name,
+                    propertyName: ELEMENT_PROPS.responseTypeToLimit.name,
                     error: null
                 })
             );
         });
 
-        it('should handle maxReaction value change', async () => {
+        it('should handle maxResponses value change', async () => {
             const inputFields = await getInputFields(component);
             const eventCallback = jest.fn();
 
@@ -106,13 +99,13 @@ describe('Limit Repetition Settings Component', () => {
             expect(eventCallback.mock.calls[0][0].detail).toEqual(
                 expect.objectContaining({
                     value: 3,
-                    propertyName: ELEMENT_PROPS.maxReaction.name,
+                    propertyName: ELEMENT_PROPS.maxResponses.name,
                     error: null
                 })
             );
         });
 
-        it('should not update maxReaction with an invalid value', async () => {
+        it('should not update maxResponses with an invalid value', async () => {
             const inputFields = await getInputFields(component);
             const eventCallback = jest.fn();
 
@@ -123,7 +116,7 @@ describe('Limit Repetition Settings Component', () => {
             expect(eventCallback).not.toHaveBeenCalled();
         });
 
-        it('should handle lookBackDays value change', async () => {
+        it('should handle withinDays value change', async () => {
             const inputFields = await getInputFields(component);
             const eventCallback = jest.fn();
 
@@ -135,13 +128,13 @@ describe('Limit Repetition Settings Component', () => {
             expect(eventCallback.mock.calls[0][0].detail).toEqual(
                 expect.objectContaining({
                     value: 60,
-                    propertyName: ELEMENT_PROPS.lookBackDays.name,
+                    propertyName: ELEMENT_PROPS.withinDays.name,
                     error: null
                 })
             );
         });
 
-        it('should not update lookBackDays with an invalid value', async () => {
+        it('should not update withinDays with an invalid value', async () => {
             const inputFields = await getInputFields(component);
             const eventCallback = jest.fn();
 

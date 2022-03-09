@@ -1,9 +1,9 @@
 <template>
     <div class="slds-m-bottom_medium">
         <builder_platform_interaction-input-collection-picker
-            label={labels.inputOffers}
-            placeholder={labels.inputOffersDesc}
-            collection-reference={state.inputOffers}
+            label={labels.inputRecommendations}
+            placeholder={labels.inputRecommendationsDesc}
+            collection-reference={state.inputRecommendations}
             collection-processor-filter={collectionProcessorFilter}
             oncollectionreferencechanged={handleInputResourceChange}
             entity-constraint={supportedObjectType}
@@ -18,9 +18,9 @@
             <span>{labels.description}</span>
         </div>
         <builder_platform_interaction-limit-repetition-settings
-            max-reaction={state.maxReaction.value}
-            look-back-days={state.lookBackDays.value}
-            reaction-type={state.reactionType.value}
+            max-responses={state.maxResponses.value}
+            within-days={state.withinDays.value}
+            response-type-to-limit={state.responseTypeToLimit.value}
             record-id={state.recordId.value}
             onpropertychanged={handlePropertyChangedEvent}
         >

@@ -1,23 +1,23 @@
-import lookBackDays from '@salesforce/label/LimitReoffers.lookBackDays';
-import lookBackDaysDesc from '@salesforce/label/LimitReoffers.lookBackDaysDesc';
-import maxReaction from '@salesforce/label/LimitReoffers.maxReaction';
-import maxReactionDesc from '@salesforce/label/LimitReoffers.maxReactionDesc';
-import reactionType from '@salesforce/label/LimitReoffers.reactionType';
-import reactionTypeDesc from '@salesforce/label/LimitReoffers.reactionTypeDesc';
-import recordId from '@salesforce/label/LimitReoffers.recordId';
-import accepted from '@salesforce/label/reactionTypeDesc.accepted';
-import acceptedOrRejected from '@salesforce/label/reactionTypeDesc.acceptedOrRejected';
-import rejected from '@salesforce/label/reactionTypeDesc.rejected';
+import maxResponses from '@salesforce/label/LimitRepetitions.maxResponses';
+import maxResponsesDesc from '@salesforce/label/LimitRepetitions.maxResponsesDesc';
+import recordId from '@salesforce/label/LimitRepetitions.recordId';
+import responseTypeToLimit from '@salesforce/label/LimitRepetitions.responseTypeToLimit';
+import responseTypeToLimitDesc from '@salesforce/label/LimitRepetitions.responseTypeToLimitDesc';
+import withinDays from '@salesforce/label/LimitRepetitions.withinDays';
+import withinDaysDesc from '@salesforce/label/LimitRepetitions.withinDaysDesc';
+import accepted from '@salesforce/label/responseTypeToLimitDesc.accepted';
+import acceptedOrRejected from '@salesforce/label/responseTypeToLimitDesc.acceptedOrRejected';
+import rejected from '@salesforce/label/responseTypeToLimitDesc.rejected';
 
 export const LABELS = {
     accepted,
     acceptedOrRejected,
-    lookBackDays,
-    lookBackDaysDesc,
-    maxReaction,
-    maxReactionDesc,
-    reactionType,
-    reactionTypeDesc,
+    withinDays,
+    withinDaysDesc,
+    maxResponses,
+    maxResponsesDesc,
+    responseTypeToLimit,
+    responseTypeToLimitDesc,
     recordId,
     rejected
 };

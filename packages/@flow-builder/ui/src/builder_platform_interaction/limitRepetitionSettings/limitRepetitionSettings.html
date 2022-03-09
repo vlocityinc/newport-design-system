@@ -2,12 +2,12 @@
     <div class="slds-size_1-of-2 slds-gutters_xx-small">
         <lightning-combobox
             class="slds-col slds-p-bottom_x-small"
-            name="reactionType"
-            label={labels.reactionType}
-            options={reactionTypes}
-            value={reactionType}
+            name="responseTypeToLimit"
+            label={labels.responseTypeToLimit}
+            options={responseTypes}
+            value={responseTypeToLimit}
             dropdown-alignment="auto"
-            onchange={handleReactionTypeChange}
+            onchange={handleResponseTypeChange}
         >
         </lightning-combobox>
     </div>
@@ -15,25 +15,25 @@
     <div class="slds-grid slds-gutters slds-gutters slds-gutters_xx-small">
         <lightning-input
             class="slds-col slds-size_1-of-2 slds-p-bottom_x-small"
-            name="maxReaction"
-            label={labels.maxReaction}
-            value={maxReaction}
+            name="maxResponses"
+            label={labels.maxResponses}
+            value={maxResponses}
             type="number"
             required
-            message-when-value-missing={labels.maxReactionsMissing}
-            onblur={handleMaxReactionsFocusOut}
+            message-when-value-missing={labels.maxResponsesMissing}
+            onblur={handleMaxResponsesFocusOut}
         >
         </lightning-input>
 
         <lightning-input
             class="slds-col slds-size_1-of-2 slds-p-bottom_x-small"
-            name="lookBackDays"
-            label={labels.lookBackDays}
-            value={lookBackDays}
+            name="withinDays"
+            label={labels.withinDays}
+            value={withinDays}
             type="number"
             required
-            message-when-value-missing={labels.lookbackDaysMissing}
-            onblur={handleLookbackDaysFocusOut}
+            message-when-value-missing={labels.withinDaysMissing}
+            onblur={handleWithinDaysFocusOut}
         >
         </lightning-input>
     </div>

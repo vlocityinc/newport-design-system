@@ -24,10 +24,10 @@ export default class LimitRepetitions extends LightningElement {
      * array of object containing name-value of a input parameter.
      * e.g:
      * [{name: 'recordId', value: '', valueDataType: ''},
-     *  {name: 'inputOffers', value: '', valueDataType: ''},
-     *  {name: 'lookBackDays', value: '', valueDataType: ''},
-     *  {name: 'maxReaction', value: '', valueDataType: ''},
-     *  {name: 'reactionType', value: '', valueDataType: ''}]
+     *  {name: 'inputRecommendations', value: '', valueDataType: ''},
+     *  {name: 'withinDays', value: '', valueDataType: ''},
+     *  {name: 'maxResponses', value: '', valueDataType: ''},
+     *  {name: 'responseTypeToLimit', value: '', valueDataType: ''}]
      */
     @api inputVariables: LimitRepetitionsInput[] = [];
 
@@ -65,7 +65,7 @@ export default class LimitRepetitions extends LightningElement {
             return;
         }
 
-        this.updateCpe(ELEMENT_PROPS.inputOffers, value);
+        this.updateCpe(ELEMENT_PROPS.inputRecommendations, value);
     }
 
     /**
@@ -76,8 +76,8 @@ export default class LimitRepetitions extends LightningElement {
         this.inputVariables.forEach((input: LimitRepetitionsInput) => {
             if (input.value) {
                 // update UI input fields
-                if (input.name === ELEMENT_PROPS.inputOffers.name) {
-                    this.state.inputOffers.value = <string>getElementByDevName(<string>input.value)?.guid;
+                if (input.name === ELEMENT_PROPS.inputRecommendations.name) {
+                    this.state.inputRecommendations.value = <string>getElementByDevName(<string>input.value)?.guid;
                     this.showReactionSettings = true;
                 } else {
                     this.state[input.name].value = input.value;

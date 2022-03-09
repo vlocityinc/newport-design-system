@@ -12,8 +12,7 @@ import { ComboboxTestComponent } from '../../integrationTests/__tests__/combobox
 
 /**
  * Executing jest test
- * cd into /packages/@flow-builder/ui
- * yarn jest src/builder_platform_interaction/limitRepetitions/__tests__/limitRepetitions.test.ts
+ * yarn jest packages/@flow-builder/ui/src/builder_platform_interaction/limitRepetitions/__tests__/limitRepetitions.test.ts
  */
 
 jest.mock('builder_platform_interaction/processTypeLib');
@@ -22,10 +21,10 @@ jest.mock('builder_platform_interaction/storeLib', () => require('builder_platfo
 const DEFAULT_OPTIONS = {
     inputVariables: [
         { name: 'recordId', value: '', valueDataType: '' },
-        { name: 'inputOffers', value: '', valueDataType: '' },
-        { name: 'lookBackDays', value: '', valueDataType: '' },
-        { name: 'maxReaction', value: '', valueDataType: '' },
-        { name: 'reactionType', value: '', valueDataType: '' }
+        { name: 'inputRecommendations', value: '', valueDataType: '' },
+        { name: 'withinDays', value: '', valueDataType: '' },
+        { name: 'maxResponses', value: '', valueDataType: '' },
+        { name: 'responseTypeToLimit', value: '', valueDataType: '' }
     ]
 };
 
@@ -91,10 +90,10 @@ describe('limit repetitions component', () => {
         const optionsOverride = {
             inputVariables: [
                 { name: 'recordId', value: 'recordId', valueDataType: 'reference' },
-                { name: 'inputOffers', value: 'getRecs', valueDataType: 'reference' },
-                { name: 'lookBackDays', value: '60', valueDataType: 'Number' },
-                { name: 'maxReaction', value: '5', valueDataType: 'Number' },
-                { name: 'reactionType', value: 'ACCEPTED', valueDataType: 'String' }
+                { name: 'inputRecommendations', value: 'getRecs', valueDataType: 'reference' },
+                { name: 'withinDays', value: '60', valueDataType: 'Number' },
+                { name: 'maxResponses', value: '5', valueDataType: 'Number' },
+                { name: 'responseTypeToLimit', value: 'ACCEPTED', valueDataType: 'String' }
             ]
         };
 
@@ -113,14 +112,14 @@ describe('limit repetitions component', () => {
 
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0].detail).toMatchObject({
-                name: 'inputOffers',
+                name: ELEMENT_PROPS.inputRecommendations.name,
                 newValue: 'test-12345',
-                newValueDataType: ELEMENT_PROPS.inputOffers.dataType
+                newValueDataType: ELEMENT_PROPS.inputRecommendations.dataType
             });
         });
 
-        it('should update reactionType field with a new selection', () => {
-            const event = new PropertyChangedEvent(ELEMENT_PROPS.reactionType.name, 'REJECTED');
+        it('should update responseTypeToLimit field with a new selection', () => {
+            const event = new PropertyChangedEvent(ELEMENT_PROPS.responseTypeToLimit.name, 'REJECTED');
             const eventCallback = jest.fn();
 
             limitRepetitionCmp.addEventListener(ConfigurationEditorChangeEvent.EVENT_NAME, eventCallback);
@@ -128,14 +127,14 @@ describe('limit repetitions component', () => {
 
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0].detail).toMatchObject({
-                name: 'reactionType',
+                name: ELEMENT_PROPS.responseTypeToLimit.name,
                 newValue: 'REJECTED',
-                newValueDataType: ELEMENT_PROPS.reactionType.dataType
+                newValueDataType: ELEMENT_PROPS.responseTypeToLimit.dataType
             });
         });
 
-        it('should update maxReaction field with a new value', () => {
-            const event = new PropertyChangedEvent(ELEMENT_PROPS.maxReaction.name, 3);
+        it('should update maxResponses field with a new value', () => {
+            const event = new PropertyChangedEvent(ELEMENT_PROPS.maxResponses.name, 3);
             const eventCallback = jest.fn();
 
             limitRepetitionCmp.addEventListener(ConfigurationEditorChangeEvent.EVENT_NAME, eventCallback);
@@ -143,14 +142,14 @@ describe('limit repetitions component', () => {
 
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0].detail).toMatchObject({
-                name: 'maxReaction',
+                name: ELEMENT_PROPS.maxResponses.name,
                 newValue: 3,
-                newValueDataType: ELEMENT_PROPS.maxReaction.dataType
+                newValueDataType: ELEMENT_PROPS.maxResponses.dataType
             });
         });
 
-        it('should update lookBackDays field with a new value', () => {
-            const event = new PropertyChangedEvent(ELEMENT_PROPS.lookBackDays.name, 60);
+        it('should update withinDays field with a new value', () => {
+            const event = new PropertyChangedEvent(ELEMENT_PROPS.withinDays.name, 60);
             const eventCallback = jest.fn();
 
             limitRepetitionCmp.addEventListener(ConfigurationEditorChangeEvent.EVENT_NAME, eventCallback);
@@ -158,9 +157,9 @@ describe('limit repetitions component', () => {
 
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0].detail).toMatchObject({
-                name: 'lookBackDays',
+                name: ELEMENT_PROPS.withinDays.name,
                 newValue: 60,
-                newValueDataType: ELEMENT_PROPS.lookBackDays.dataType
+                newValueDataType: ELEMENT_PROPS.withinDays.dataType
             });
         });
     });

@@ -1,42 +1,42 @@
 import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
-export const DEFAULT_LOOK_BACK_DAYS = 90;
-export const DEFAULT_MAX_REACTION = 1;
+export const DEFAULT_WITHIN_DAYS = 90;
+export const DEFAULT_MAX_RESPONSES = 1;
 export const RECORD_ID = 'recordId';
 
-export enum ReactionType {
+export enum ResponseTypeToLimit {
     All = 'ALL',
     Accepted = 'ACCEPTED',
     Rejected = 'REJECTED'
 }
 
 export const DEFAULT_INPUT_VALUE = {
-    inputOffers: { value: '', error: null },
+    inputRecommendations: { value: '', error: null },
     recordId: { value: RECORD_ID, error: null },
-    lookBackDays: { value: DEFAULT_LOOK_BACK_DAYS, error: null },
-    maxReaction: { value: DEFAULT_MAX_REACTION, error: null },
-    reactionType: { value: ReactionType.All, error: null }
+    withinDays: { value: DEFAULT_WITHIN_DAYS, error: null },
+    maxResponses: { value: DEFAULT_MAX_RESPONSES, error: null },
+    responseTypeToLimit: { value: ResponseTypeToLimit.All, error: null }
 };
 
 export const ELEMENT_PROPS = {
-    inputOffers: {
-        name: 'inputOffers',
+    inputRecommendations: {
+        name: 'inputRecommendations',
         dataType: FEROV_DATA_TYPE.REFERENCE
     },
     recordId: {
         name: 'recordId',
         dataType: FEROV_DATA_TYPE.REFERENCE
     },
-    reactionType: {
-        name: 'reactionType',
+    responseTypeToLimit: {
+        name: 'responseTypeToLimit',
         dataType: FLOW_DATA_TYPE.STRING.value
     },
-    maxReaction: {
-        name: 'maxReaction',
+    maxResponses: {
+        name: 'maxResponses',
         dataType: FLOW_DATA_TYPE.NUMBER.value
     },
-    lookBackDays: {
-        name: 'lookBackDays',
+    withinDays: {
+        name: 'withinDays',
         dataType: FLOW_DATA_TYPE.NUMBER.value
     }
 };

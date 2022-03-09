@@ -2,20 +2,20 @@ import { Validation } from 'builder_platform_interaction/validation';
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
 
 const additionalRules = {
-    maxReaction: [
+    maxResponses: [
         ValidationRules.shouldNotBeNullOrUndefined,
         ValidationRules.shouldNotBeBlank,
         ValidationRules.shouldBeANumber,
         ValidationRules.shouldBeInRange(1, 2000)
     ],
-    lookBackDays: [
+    withinDays: [
         ValidationRules.shouldNotBeNullOrUndefined,
         ValidationRules.shouldNotBeBlank,
         ValidationRules.shouldBeANumber,
         ValidationRules.shouldBeInRange(1, 99999)
     ],
-    inputOffers: [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined],
-    reactionType: [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined]
+    inputRecommendations: [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined],
+    responseTypeToLimit: [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined]
 };
 
 export const limitRepetitionsValidation = new Validation(additionalRules);

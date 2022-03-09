@@ -1,23 +1,23 @@
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
-import { ELEMENT_PROPS, ReactionType } from 'builder_platform_interaction/limitRepetitionsLib';
+import { ELEMENT_PROPS, ResponseTypeToLimit } from 'builder_platform_interaction/limitRepetitionsLib';
 import { api, LightningElement } from 'lwc';
 import { LABELS } from './limitRepetitionSettingsLabels';
 
-export default class LimitRepetitions extends LightningElement {
-    reactionTypes = [
-        { label: LABELS.acceptedOrRejected, value: ReactionType.All },
-        { label: LABELS.accepted, value: ReactionType.Accepted },
-        { label: LABELS.rejected, value: ReactionType.Rejected }
+export default class LimitRepetitionSettings extends LightningElement {
+    responseTypes = [
+        { label: LABELS.acceptedOrRejected, value: ResponseTypeToLimit.All },
+        { label: LABELS.accepted, value: ResponseTypeToLimit.Accepted },
+        { label: LABELS.rejected, value: ResponseTypeToLimit.Rejected }
     ];
 
     @api
-    maxReaction;
+    maxResponses;
 
     @api
-    lookBackDays;
+    withinDays;
 
     @api
-    reactionType;
+    responseTypeToLimit;
 
     @api
     recordId;
@@ -26,30 +26,30 @@ export default class LimitRepetitions extends LightningElement {
         return LABELS;
     }
 
-    handleReactionTypeChange(event) {
+    handleResponseTypeChange(event) {
         event.stopPropagation();
         const { value } = event.target;
 
-        if (this.reactionType !== value) {
-            const event = new PropertyChangedEvent(ELEMENT_PROPS.reactionType.name, value);
+        if (this.responseTypeToLimit !== value) {
+            const event = new PropertyChangedEvent(ELEMENT_PROPS.responseTypeToLimit.name, value);
             this.dispatchEvent(event);
         }
     }
 
-    handleMaxReactionsFocusOut(event) {
+    handleMaxResponsesFocusOut(event) {
         event.stopPropagation();
         const { value } = event.target;
         // avoid setting value other than integer
         if (isNaN(parseInt(value, 10))) {
             return;
         }
-        if (this.maxReaction !== value) {
-            const event = new PropertyChangedEvent(ELEMENT_PROPS.maxReaction.name, value);
+        if (this.maxResponses !== value) {
+            const event = new PropertyChangedEvent(ELEMENT_PROPS.maxResponses.name, value);
             this.dispatchEvent(event);
         }
     }
 
-    handleLookbackDaysFocusOut(event) {
+    handleWithinDaysFocusOut(event) {
         event.stopPropagation();
         const { value } = event.target;
 
@@ -58,8 +58,8 @@ export default class LimitRepetitions extends LightningElement {
             return;
         }
 
-        if (this.lookBackDays !== value) {
-            const event = new PropertyChangedEvent(ELEMENT_PROPS.lookBackDays.name, value);
+        if (this.withinDays !== value) {
+            const event = new PropertyChangedEvent(ELEMENT_PROPS.withinDays.name, value);
             this.dispatchEvent(event);
         }
     }
