@@ -1,7 +1,9 @@
+import { FlowTestMode } from 'builder_platform_interaction/builderUtils';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { MAX_DEV_NAME_LENGTH } from 'builder_platform_interaction/flowTestDetails';
 import { RECORD_DATA_ERROR } from 'builder_platform_interaction/flowTestTriggerRecordEditForm';
-import { Validation } from 'builder_platform_interaction/validation';
+import { defaultRules, Validation } from 'builder_platform_interaction/validation';
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
 
 const flowTestAssertionExpressionRule = () => {
@@ -11,11 +13,31 @@ const flowTestAssertionExpressionRule = () => {
     };
 };
 
+const overriddenDefaultRules: RuleSet = {
+    ...defaultRules,
+    // we need to override the default rules for the dev name field to set a
+    // custom char limit for flow test dev names
+    name: [
+        ValidationRules.shouldNotBeBlank,
+        ValidationRules.shouldNotBeNullOrUndefined,
+        ValidationRules.shouldNotBeginOrEndWithUnderscores,
+        ValidationRules.shouldNotBeginWithNumericOrSpecialCharacters,
+        ValidationRules.shouldAcceptOnlyAlphanumericCharacters,
+        ValidationRules.maximumCharactersLimit(MAX_DEV_NAME_LENGTH),
+        ValidationRules.checkDevNameUniqueness
+    ]
+};
+
 const additionalRules: {} = {
     testAssertions: flowTestAssertionExpressionRule()
 };
 
 class FlowTestValidation extends Validation {
+    constructor(defaultRules, additionalRules) {
+        super();
+        this.finalizedRules = this.getMergedRules(defaultRules, additionalRules);
+    }
+
     validateAll(nodeElement: any, overrideRules?: {}) {
         if (nodeElement.expression) {
             const validatedExpression = super.validateAll(nodeElement.expression, overrideRules);
@@ -45,4 +67,14 @@ class FlowTestValidation extends Validation {
     }
 }
 
-export const flowTestValidation = new FlowTestValidation(additionalRules);
+export const flowTestValidation = new FlowTestValidation(overriddenDefaultRules, additionalRules);
+
+export const getRules = (mode: FlowTestMode) => {
+    const overrideRules = Object.assign({}, flowTestValidation.finalizedRules);
+
+    if (mode === FlowTestMode.Edit) {
+        overrideRules.name = [];
+    }
+
+    return overrideRules;
+};

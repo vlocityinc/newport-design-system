@@ -1951,6 +1951,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     createOrEditFlowTest = (createOrEdit: FlowTestMode, flowTestId?: string) => {
         const triggerSaveType = getRecordTriggerType();
         const triggerObjectType = getStartObject();
+        const devNamePrefix = this.properties.name + '_';
         if (createOrEdit === FlowTestMode.Create) {
             // depending on the flow record trigger type, set trigger type for the test
             const testTriggerType =
@@ -1970,6 +1971,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                     createOrEdit,
                     triggerSaveType,
                     triggerObjectType,
+                    devNamePrefix,
                     flowTestListViewCallback: this.handleViewAllTests
                 };
             });

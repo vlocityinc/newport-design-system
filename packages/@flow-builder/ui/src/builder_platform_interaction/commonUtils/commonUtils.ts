@@ -77,13 +77,13 @@ export const isValidNumber = (value) => {
  * Prepending an 'X' if it begins with a number
  * Stripping off preceding and trailing invalid characters
  * Replacing any number of concurrent invalid characters with a single underscore
- * Limiting to 80 characters
  * Where invalid characters are anything non-alphanumeric
  *
  * @param value - the value to be converted in to a valid dev name
+ * @param characterLimit - the character limit to truncate value to. Defaults to 80.
  * @returns The sanitized, dev name safe version of the value passed in
  */
-export const sanitizeDevName = (value: string) => {
+export const sanitizeDevName = (value: string, characterLimit = 80) => {
     value = value.replace(/[\W_]+/g, '_');
     value = value.replace(/_+$/, '');
     value = value.replace(/^_+/, '');
@@ -92,7 +92,7 @@ export const sanitizeDevName = (value: string) => {
         value = 'X' + value;
     }
 
-    value = value.substr(0, 80);
+    value = value.substr(0, characterLimit);
 
     return value;
 };

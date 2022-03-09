@@ -131,6 +131,12 @@ export default class LabelDescription extends LightningElement {
         return this.state.description;
     }
 
+    @api
+    devNamePrefix = '';
+
+    @api
+    devNameCharLimit = 80;
+
     get hasDescription() {
         return this.description.value !== '';
     }
@@ -412,7 +418,8 @@ export default class LabelDescription extends LightningElement {
             if (newLabel.match(/^\W+$/)) {
                 newLabel = 'UniqueName';
             }
-            this.updateDevName(sanitizeDevName(newLabel));
+            newLabel = this.devNamePrefix + newLabel;
+            this.updateDevName(sanitizeDevName(newLabel, this.devNameCharLimit));
         }
     }
 

@@ -1,9 +1,14 @@
 // @ts-nocheck
+import { FlowTestMode } from 'builder_platform_interaction/builderUtils';
 import { FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { MAX_DEV_NAME_LENGTH } from 'builder_platform_interaction/flowTestDetails';
 import { LABELS } from '../../validationRules/validationRulesLabels';
 import { RECORD_DATA_ERROR } from '../flowTestEditor';
-import { flowTestValidation } from '../flowTestValidation';
+import { flowTestValidation, getRules } from '../flowTestValidation';
+
 const CANNOT_BE_BLANK_ERROR = LABELS.cannotBeBlank;
+const TEXT_WITH_129_CHARS = 'a'.repeat(MAX_DEV_NAME_LENGTH + 1);
+const TEXT_WITH_81_CHARS = 'a'.repeat(81);
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -77,6 +82,12 @@ describe('Flow Test Validation', () => {
         expect(validatedFlowTest.initialTestRecordData.error).toEqual(RECORD_DATA_ERROR);
         expect(validatedFlowTest.updatedTestRecordData.error).toEqual(RECORD_DATA_ERROR);
     });
+    it('should have an error when the flow test api name is > 128 characters', () => {
+        expect(flowTestValidation.validateProperty('name', TEXT_WITH_129_CHARS)).toBe(LABELS.maximumCharactersLimit);
+    });
+    it('should not return an error when the flow test api name is > 80 characters', () => {
+        expect(flowTestValidation.validateProperty('name', TEXT_WITH_81_CHARS)).toBeNull();
+    });
     it('should have an error when record data is empty', () => {
         const flowTestWithEmptyRecordData = {
             initialTestRecordData: {},
@@ -86,5 +97,37 @@ describe('Flow Test Validation', () => {
         const validatedFlowTest = flowTestValidation.validateAll(flowTestWithEmptyRecordData);
         expect(validatedFlowTest.initialTestRecordData.error).toEqual(RECORD_DATA_ERROR);
         expect(validatedFlowTest.updatedTestRecordData.error).toEqual(RECORD_DATA_ERROR);
+    });
+    it('should not return an error when a Flow Test from a namespaced org is being updated', () => {
+        const devName = 'hey';
+        const orgNameSpace = 'ns';
+        // this prepending happens server side when a flow test is saved in a namespaced org
+        const devNameWithNamespacePrepended = orgNameSpace + '__' + devName;
+        const flowTestFromNamespacedOrg = {
+            label: { value: 'hi', error: null },
+            name: { value: devNameWithNamespacePrepended, error: null },
+            testAssertions: [
+                {
+                    expression: {
+                        leftHandSide: { value: 'TEST_VAR', error: null },
+                        operator: { value: 'EqualTo', error: null },
+                        rightHandSide: { value: '1', error: null }
+                    }
+                },
+                {
+                    expression: {
+                        leftHandSide: { value: 'TEST_VAR', error: null },
+                        operator: { value: 'EqualTo', error: null },
+                        rightHandSide: { value: '1', error: null }
+                    }
+                }
+            ]
+        };
+
+        const validatedFlowTest = flowTestValidation.validateAll(
+            flowTestFromNamespacedOrg,
+            getRules(FlowTestMode.Edit)
+        );
+        expect(flowTestFromNamespacedOrg).toEqual(validatedFlowTest);
     });
 });

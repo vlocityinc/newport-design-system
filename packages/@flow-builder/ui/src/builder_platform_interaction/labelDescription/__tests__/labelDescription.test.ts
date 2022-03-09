@@ -291,6 +291,32 @@ describe('label-description', () => {
                     detail: { propertyName: 'name' }
                 });
             });
+
+            it('when dev-name-prefix is set, the parameter is prepended to DevName', async () => {
+                const newValue = 'label';
+                const prefix = 'prefix_';
+                const expectedDevName = prefix + newValue;
+
+                const labelDescription = createComponentUnderTest();
+                labelDescription.devNamePrefix = prefix;
+
+                await ticks(1);
+                const labelLightningInput = labelDescription.shadowRoot.querySelector(selectors.label);
+
+                const eventCallback = jest.fn();
+                labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
+
+                labelLightningInput.value = newValue;
+                labelLightningInput.dispatchEvent(focusoutEvent);
+
+                expect(eventCallback).toHaveBeenCalled();
+                expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                    detail: { propertyName: 'label', value: newValue }
+                });
+                expect(eventCallback.mock.calls[1][0]).toMatchObject({
+                    detail: { propertyName: 'name', value: expectedDevName }
+                });
+            });
         });
     });
     describe('devName', () => {
@@ -676,12 +702,35 @@ describe('label-description', () => {
                     });
                 }
             );
-            it('should truncate label to 80 characters', async () => {
+            it('should truncate label to 80 characters by default', async () => {
                 const newValue = 'a12345678901234567890123456789012345678901234567890123456789012345678901234567890';
                 const expectedValue =
                     'a1234567890123456789012345678901234567890123456789012345678901234567890123456789';
 
                 const labelDescription = createComponentUnderTest();
+
+                await ticks(1);
+                const labelLightningInput = labelDescription.shadowRoot.querySelector(selectors.label);
+
+                const eventCallback = jest.fn();
+                labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
+
+                labelLightningInput.value = newValue;
+
+                labelLightningInput.dispatchEvent(focusoutEvent);
+
+                expect(eventCallback.mock.calls).toHaveLength(2);
+                expect(eventCallback.mock.calls[1][0]).toMatchObject({
+                    detail: { propertyName: 'name', value: expectedValue }
+                });
+            });
+            it('should truncate label to devNameCharLimit when set', async () => {
+                const devNameCharLimit = 128;
+                const newValue = 'a'.repeat(devNameCharLimit + 1);
+                const expectedValue = 'a'.repeat(devNameCharLimit);
+
+                const labelDescription = createComponentUnderTest();
+                labelDescription.devNameCharLimit = devNameCharLimit;
 
                 await ticks(1);
                 const labelLightningInput = labelDescription.shadowRoot.querySelector(selectors.label);

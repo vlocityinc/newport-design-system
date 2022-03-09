@@ -4,6 +4,8 @@ import { FLOW_TRIGGER_SAVE_TYPE, SCHEDULED_PATH_TYPE } from 'builder_platform_in
 import { api, LightningElement } from 'lwc';
 import { LABELS } from './flowTestDetailsLabels';
 
+export const MAX_DEV_NAME_LENGTH = 128;
+
 export default class FlowTestDetails extends LightningElement {
     labels = LABELS;
     @api triggerSaveType;
@@ -14,6 +16,13 @@ export default class FlowTestDetails extends LightningElement {
     @api runPathValue;
     @api testTriggerType;
     @api mode;
+    @api devNamePrefix;
+
+    devNameCharLimit = MAX_DEV_NAME_LENGTH;
+
+    get isEditTestMode() {
+        return this.mode === FlowTestMode.Edit;
+    }
 
     // Allowed dropdown options for test run (will be expanded to scheduled paths later)
     get runPathOptions() {

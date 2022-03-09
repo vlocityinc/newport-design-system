@@ -28,9 +28,10 @@ export default class FlowTestEditor extends LightningElement {
     items: UI.MenuItem[] = [];
     @api objectApiName;
     @api showWaitingSpinner;
+    @api devNamePrefix;
 
     @api validate() {
-        const event = { type: VALIDATE_ALL };
+        const event = { type: VALIDATE_ALL, mode: this.mode };
         this._flowTestObject = flowTestEditorReducer(this._flowTestObject, event);
         const validatedFlowTest = { ...this._flowTestObject };
         if (validatedFlowTest.testTriggerType.value !== FLOW_TRIGGER_SAVE_TYPE.UPDATE) {

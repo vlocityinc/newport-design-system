@@ -10,9 +10,13 @@ import {
 } from 'builder_platform_interaction/events';
 import { RECORD_DATA_ERROR } from 'builder_platform_interaction/flowTestTriggerRecordEditForm';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { flowTestValidation } from './flowTestValidation';
+import { flowTestValidation, getRules } from './flowTestValidation';
 
 const flowTestEditorPropertyChanged = (state, event) => {
+    if (event.detail.error === null) {
+        event.detail.error = flowTestValidation.validateProperty(event.detail.propertyName, event.detail.value, null);
+    }
+
     return updateProperties(state, {
         [event.detail.propertyName]: {
             error: event.detail.error,
@@ -102,7 +106,7 @@ export const flowTestEditorReducer = (state, event) => {
         case FlowTestClearRecordFormEvent.EVENT_NAME:
             return flowTestEditorClearTriggerRecord(state, event);
         case VALIDATE_ALL:
-            return flowTestValidation.validateAll(state);
+            return flowTestValidation.validateAll(state, getRules(event.mode));
         default:
             return state;
     }
