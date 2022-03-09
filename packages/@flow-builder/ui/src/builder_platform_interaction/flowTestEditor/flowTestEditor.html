@@ -48,6 +48,7 @@
                     onupdatetestrecorddata={handlePropertyChanged}
                     selected-sample-record-id={sampleRecordId}
                     onflowtestrecordselected={handleTestRecordSelected}
+                    onflowtestclearrecordform={handlePropertyChanged}
                 ></builder_platform_interaction-flow-test-trigger-record-edit-form>
             </div>
             <div if:true={isUpdatedRecordActive}>
@@ -56,6 +57,7 @@
                     object-api-name={objectApiName}
                     is-updated-record
                     onupdatetestrecorddata={handlePropertyChanged}
+                    onflowtestclearrecordform={handlePropertyChanged}
                 ></builder_platform_interaction-flow-test-trigger-record-edit-form>
             </div>
         </div>

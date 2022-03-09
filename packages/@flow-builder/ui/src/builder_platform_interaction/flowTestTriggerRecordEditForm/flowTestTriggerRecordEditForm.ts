@@ -1,5 +1,9 @@
 import { LIGHTNING_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
-import { FlowTestRecordSelectedEvent, UpdateTestRecordDataEvent } from 'builder_platform_interaction/events';
+import {
+    FlowTestClearRecordFormEvent,
+    FlowTestRecordSelectedEvent,
+    UpdateTestRecordDataEvent
+} from 'builder_platform_interaction/events';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import { getRecord } from 'lightning/uiRecordApi';
@@ -7,6 +11,9 @@ import { api, LightningElement, track, wire } from 'lwc';
 import { LABELS } from './flowTestTriggerRecordEditFormLabels';
 
 const { format } = commonUtils;
+
+// This is a hard coded string because it's never actually visualized to customers
+export const RECORD_DATA_ERROR = 'Test record data has error(s)';
 
 export default class FlowTestTriggerRecordEditForm extends LightningElement {
     @api
@@ -93,7 +100,10 @@ export default class FlowTestTriggerRecordEditForm extends LightningElement {
             const keys = Object.keys(data.fields);
             keys.forEach((fieldName) => {
                 const fieldValue = data.fields[fieldName].value;
-                objectFieldValuesObject[fieldName] = fieldValue;
+                objectFieldValuesObject[fieldName] = {
+                    value: fieldValue,
+                    error: null
+                };
             });
             const updateTestRecordDataEvent = new UpdateTestRecordDataEvent(objectFieldValuesObject, false, false);
             this.dispatchEvent(updateTestRecordDataEvent);
@@ -113,7 +123,8 @@ export default class FlowTestTriggerRecordEditForm extends LightningElement {
         keyArray.forEach((key) => {
             mergedKeyValueArray.push({
                 name: key,
-                value: data.hasOwnProperty('value') ? data.value[key] : undefined
+                value:
+                    data.hasOwnProperty('value') && data.value.hasOwnProperty(key) ? data.value[key].value : undefined
             });
         });
         return mergedKeyValueArray;
@@ -135,7 +146,10 @@ export default class FlowTestTriggerRecordEditForm extends LightningElement {
             if (fieldComponent.reportValidity() === false) {
                 hasError = true;
             }
-            objectFieldValues[fieldComponent.fieldName] = fieldComponent.value;
+            objectFieldValues[fieldComponent.fieldName] = {
+                value: fieldComponent.value,
+                error: hasError ? RECORD_DATA_ERROR : null
+            };
         });
         const updateTestRecordDataEvent = new UpdateTestRecordDataEvent(
             objectFieldValues,
@@ -147,8 +161,21 @@ export default class FlowTestTriggerRecordEditForm extends LightningElement {
 
     handleSampleRecordSelected = async (recordId: string) => {
         const id = recordId === '' ? null : recordId;
+        this.processSampleRecord = true;
         const recordSelectedEvent = new FlowTestRecordSelectedEvent(id);
         this.dispatchEvent(recordSelectedEvent);
-        this.processSampleRecord = true;
     };
+
+    handleClearForm() {
+        const inputFields = this.template.querySelectorAll(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_INPUT_FIELD);
+        inputFields.forEach((fieldComponent) => {
+            fieldComponent.reset();
+        });
+        if (!this.isUpdatedRecord) {
+            const recordSelectedEvent = new FlowTestRecordSelectedEvent(null);
+            this.dispatchEvent(recordSelectedEvent);
+        }
+        const clearFormEvent = new FlowTestClearRecordFormEvent(this.isUpdatedRecord);
+        this.dispatchEvent(clearFormEvent);
+    }
 }

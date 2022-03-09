@@ -9,6 +9,12 @@
             record-selected-callback={handleSampleRecordSelected}
         >
         </builder_platform_interaction-record-picker>
+        <lightning-button
+            label={labels.flowTestRecordClearFormButtonLabel}
+            title={labels.flowTestRecordClearFormButtonLabel}
+            class="test-editor-clear-record-form slds-size_1-of-6 slds-align-bottom slds-p-around_xx-small"
+            onclick={handleClearForm}
+        ></lightning-button>
     </div>
     <div>
         <lightning-record-edit-form object-api-name={objectApiName} layout-type="Compact">

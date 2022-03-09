@@ -10,6 +10,7 @@ import { createListRowItem } from 'builder_platform_interaction/elementFactory';
 import {
     AddListItemEvent,
     DeleteListItemEvent,
+    FlowTestClearRecordFormEvent,
     ListItemInteractionEvent,
     PropertyChangedEvent,
     UpdateTestAssertionEvent,
@@ -207,8 +208,8 @@ describe('FlowTestEditor', () => {
                 SELECTORS.FLOW_TEST_TRIGGER_EDIT_FORM
             );
             const expectedValue = {
-                field1: 'value1',
-                field2: 'value2'
+                field1: { value: 'value1', error: null },
+                field2: { value: 'value2', error: null }
             };
             flowTestInitialRecordComponent.dispatchEvent(new UpdateTestRecordDataEvent(expectedValue, false, false));
             await ticks(1);
@@ -223,8 +224,8 @@ describe('FlowTestEditor', () => {
                 SELECTORS.FLOW_TEST_TRIGGER_EDIT_FORM
             );
             const expectedValue = {
-                field1: 'value1',
-                field2: 'value2'
+                field1: { value: 'value1', error: null },
+                field2: { value: 'value2', error: null }
             };
             flowTestInitialRecordComponent.dispatchEvent(new UpdateTestRecordDataEvent(expectedValue, true, false));
             await ticks(1);
@@ -244,8 +245,8 @@ describe('FlowTestEditor', () => {
                 SELECTORS.FLOW_TEST_TRIGGER_EDIT_FORM
             );
             const expectedValue = {
-                field1: 'value1',
-                field2: 'value2'
+                field1: { value: 'value1', error: null },
+                field2: { value: 'value2', error: null }
             };
             flowTestInitialRecordComponent.dispatchEvent(new UpdateTestRecordDataEvent(expectedValue, true, false));
             await ticks(1);
@@ -268,15 +269,15 @@ describe('FlowTestEditor', () => {
                 SELECTORS.FLOW_TEST_TRIGGER_EDIT_FORM
             );
             const expectedValue = {
-                field1: 'value1',
-                field2: 'value2'
+                field1: { value: 'value1', error: null },
+                field2: { value: 'value2', error: null }
             };
             flowTestUpdatedRecordComponent.dispatchEvent(new UpdateTestRecordDataEvent(expectedValue, false, true));
             flowTestUpdatedRecordComponent.dispatchEvent(
                 new UpdateTestRecordDataEvent(
                     {
-                        field1: 'value3',
-                        field2: 'value4'
+                        field1: { value: 'value3', error: null },
+                        field2: { value: 'value4', error: null }
                     },
                     false,
                     false
@@ -288,6 +289,16 @@ describe('FlowTestEditor', () => {
             navigateToTab(flowTestEditorComponent, FlowTestMenuItems.UpdatedRecord);
             const flowTestUpdatedRecordObject = flowTestEditorComponent.flowTestObject.testUpdatedRecordData;
             expect(flowTestUpdatedRecordObject.value).toEqual(expectedValue);
+        });
+        it('clears the initial record data if selected record event contains null id', async () => {
+            const flowTestEditorComponent = await createComponentUnderTest();
+            navigateToTab(flowTestEditorComponent, FlowTestMenuItems.InitialRecord);
+            await ticks(1);
+            const flowTestInitialRecordComponent = flowTestEditorComponent.shadowRoot.querySelector(
+                SELECTORS.FLOW_TEST_TRIGGER_EDIT_FORM
+            );
+            flowTestInitialRecordComponent.dispatchEvent(new FlowTestClearRecordFormEvent(false));
+            expect(flowTestEditorComponent.flowTestObject.testInitialRecordData).toEqual({});
         });
     });
     describe('FlowTestUpdatedRecord', () => {
@@ -301,8 +312,8 @@ describe('FlowTestEditor', () => {
                 SELECTORS.FLOW_TEST_TRIGGER_EDIT_FORM
             );
             const expectedValue = {
-                field1: 'value1',
-                field2: 'value2'
+                field1: { value: 'value1', error: null },
+                field2: { value: 'value2', error: null }
             };
             flowTestInitialRecordComponent.dispatchEvent(new UpdateTestRecordDataEvent(expectedValue, false, true));
             await ticks(1);
@@ -319,8 +330,8 @@ describe('FlowTestEditor', () => {
                 SELECTORS.FLOW_TEST_TRIGGER_EDIT_FORM
             );
             const expectedValue = {
-                field1: 'value1',
-                field2: 'value2'
+                field1: { value: 'value1', error: null },
+                field2: { value: 'value2', error: null }
             };
             flowTestInitialRecordComponent.dispatchEvent(new UpdateTestRecordDataEvent(expectedValue, true, true));
             await ticks(1);

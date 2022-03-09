@@ -1,8 +1,8 @@
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { RECORD_DATA_ERROR } from 'builder_platform_interaction/flowTestTriggerRecordEditForm';
 import { Validation } from 'builder_platform_interaction/validation';
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
-import { RECORD_DATA_ERROR } from './flowTestEditorReducer';
 
 const flowTestAssertionExpressionRule = () => {
     return (testAssertion) => {

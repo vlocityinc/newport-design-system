@@ -3,15 +3,14 @@ import { createEmptyTestAssertion } from 'builder_platform_interaction/elementFa
 import {
     AddListItemEvent,
     DeleteListItemEvent,
+    FlowTestClearRecordFormEvent,
     PropertyChangedEvent,
     UpdateTestAssertionEvent,
     UpdateTestRecordDataEvent
 } from 'builder_platform_interaction/events';
+import { RECORD_DATA_ERROR } from 'builder_platform_interaction/flowTestTriggerRecordEditForm';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { flowTestValidation } from './flowTestValidation';
-
-// This is a hard coded string because it's never actually visualized to customers
-export const RECORD_DATA_ERROR = 'Test record data has error(s)';
 
 const flowTestEditorPropertyChanged = (state, event) => {
     return updateProperties(state, {
@@ -69,6 +68,13 @@ const flowTestEditorTriggerRecordUpdated = (state, event) => {
     return updateProperties(state, { testInitialRecordData: recordData });
 };
 
+const flowTestEditorClearTriggerRecord = (state, event) => {
+    if (event.detail.isUpdatedRecord) {
+        return updateProperties(state, { testUpdatedRecordData: {} });
+    }
+    return updateProperties(state, { testInitialRecordData: {} });
+};
+
 const updateTestAssertions = (state, assertions) => {
     return updateProperties(state, {
         testAssertions: assertions
@@ -93,6 +99,8 @@ export const flowTestEditorReducer = (state, event) => {
             return flowTestEditorAssertionUpdated(state, event);
         case UpdateTestRecordDataEvent.EVENT_NAME:
             return flowTestEditorTriggerRecordUpdated(state, event);
+        case FlowTestClearRecordFormEvent.EVENT_NAME:
+            return flowTestEditorClearTriggerRecord(state, event);
         case VALIDATE_ALL:
             return flowTestValidation.validateAll(state);
         default:

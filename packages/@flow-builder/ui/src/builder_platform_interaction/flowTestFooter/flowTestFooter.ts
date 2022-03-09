@@ -27,11 +27,18 @@ export default class FlowTestFooter extends LightningElement {
             validationErrors = body.validate();
             // If no validation errors then save the flow test
             if (!validationErrors || validationErrors.length === 0) {
-                const dehydratedObj = dehydrate(deepCopy(body.get('v.flowTestObject')));
+                const dehydratedObj = this.dehydrateFlowTestObject(deepCopy(body.get('v.flowTestObject')));
                 const flowTest = translateUIModelToFlowTest(dehydratedObj);
                 this.saveTest(flowTest, this.testMode, body);
             }
         }
+    }
+
+    dehydrateFlowTestObject(data) {
+        const dehydratedObj = dehydrate(data);
+        dehydratedObj.testInitialRecordData = dehydrate(dehydratedObj.testInitialRecordData);
+        dehydratedObj.testUpdatedRecordData = dehydrate(dehydratedObj.testUpdatedRecordData);
+        return dehydratedObj;
     }
 
     saveTest = async (flowTest, saveType, body) => {
