@@ -6,3 +6,4 @@ export const orgHasFlowFormulaBuilder = jest.fn().mockReturnValue(false);
 export const getPreferredExperience = jest.fn().mockReturnValue(contextLib.CLASSIC_EXPERIENCE);
 export const getOrgId = contextLib.getOrgId;
 export const isTestMode = contextLib.isTestMode;
+export const orgHasScreenFlowsInSlack = jest.fn().mockReturnValue(false);

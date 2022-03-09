@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
+import { orgHasScreenFlowsInSlack } from 'builder_platform_interaction/contextLib';
 import {
     getErrorFromHydratedItem,
     getErrorsFromHydratedElement,
@@ -232,8 +233,9 @@ export default class FlowPropertiesEditor extends LightningElement {
         return this.environments.includes(FLOW_ENVIRONMENT.SLACK);
     }
 
-    get isScreenFlow() {
-        return this.flowProperties.processType.value === FLOW_PROCESS_TYPE.FLOW;
+    get showSlackCheckbox() {
+        // TODO: We should not be hard coding the process type check here. This will go away when we do W-10522863
+        return orgHasScreenFlowsInSlack() && this.flowProperties.processType.value === FLOW_PROCESS_TYPE.FLOW;
     }
 
     /**

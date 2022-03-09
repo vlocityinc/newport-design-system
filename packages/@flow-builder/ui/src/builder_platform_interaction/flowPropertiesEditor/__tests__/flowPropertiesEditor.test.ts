@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { orgHasScreenFlowsInSlack } from 'builder_platform_interaction/contextLib';
 import normalizeDateTime from 'builder_platform_interaction/dateTimeUtils';
 import { ComboboxStateChangedEvent, PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -9,6 +10,7 @@ import { createElement } from 'lwc';
 import { MOCK_ALL_FLOW_ENTRIES, MOCK_OVERRIDABLE_FLOWS, MOCK_TEMPLATE_FLOWS } from 'mock/flowEntryData';
 import FlowPropertiesEditor from '../flowPropertiesEditor';
 import { LABELS } from '../flowPropertiesEditorLabels';
+
 const { format } = commonUtils;
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
@@ -115,6 +117,8 @@ jest.mock('builder_platform_interaction/dateTimeUtils', () => {
         normalizeDateTime: jest.fn()
     };
 });
+
+jest.mock('builder_platform_interaction/contextLib', () => require('builder_platform_interaction_mocks/contextLib'));
 
 normalizeDateTime.normalizeDateTime = jest.fn(() => {
     return mockDateTimeString;
@@ -226,6 +230,10 @@ const getTemplateCheck = (flowPropertiesEditor) => {
     return flowPropertiesEditor.shadowRoot.querySelector(SELECTORS.TEMPLATE_CHECK);
 };
 
+const getSlackCheck = (flowPropertiesEditor) => {
+    return flowPropertiesEditor.shadowRoot.querySelector(SELECTORS.SLACK_CHECK);
+};
+
 const getOverridableCheck = (flowPropertiesEditor) => {
     return flowPropertiesEditor.shadowRoot.querySelector(SELECTORS.OVERRIDABLE_CHECK);
 };
@@ -245,16 +253,34 @@ const getNewFlowOverridesBanner = (flowPropertiesEditor) => {
 describe('FlowPropertiesEditor', () => {
     let flowProperties;
     let flowPropertiesEditor;
+    const minProperties = {
+        label: { value: '', error: null },
+        name: { value: '', error: null },
+        description: { value: '', error: null },
+        processType: { value: 'process type', error: null },
+        interviewLabel: { value: 'interviewLabel' },
+        runInMode: { value: null, error: null },
+        status: { value: 'Active' },
+        environments: []
+    };
+    const sampleProperties = {
+        label: { value: 'flow label' },
+        name: { value: 'flow name' },
+        description: { value: 'flow description' },
+        processType: { value: 'process type', error: null },
+        interviewLabel: { value: 'interviewLabel' },
+        runInMode: { value: null, error: null },
+        lastModifiedBy: { value: 'some user' },
+        lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
+        status: { value: 'Active' },
+        environments: []
+    };
     describe('Save As a New Flow (CREATE)', () => {
         beforeEach(() => {
             flowProperties = {
-                label: { value: '', error: null },
-                name: { value: '', error: null },
-                description: { value: '', error: null },
-                processType: { value: 'process type', error: null },
+                ...minProperties,
                 triggerType: { value: 'trigger type', error: null },
                 interviewLabel: { value: '', error: null },
-                runInMode: { value: null, error: null },
                 saveType: SaveType.CREATE,
                 apiVersion: 49
             };
@@ -328,17 +354,9 @@ describe('FlowPropertiesEditor', () => {
     describe('Save As a New Version (UPDATE)', () => {
         beforeEach(() => {
             flowProperties = {
-                label: { value: 'flow label' },
-                name: { value: 'flow name' },
-                description: { value: 'flow description' },
-                processType: { value: 'process type' },
+                ...sampleProperties,
                 triggerType: { value: 'trigger type' },
-                status: { value: 'Active' },
-                interviewLabel: { value: 'interviewLabel' },
-                lastModifiedBy: { value: 'some user' },
-                lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
                 saveType: SaveType.UPDATE,
-                runInMode: { value: null, error: null },
                 apiVersion: 50
             };
             flowPropertiesEditor = createComponentUnderTest(flowProperties);
@@ -395,17 +413,13 @@ describe('FlowPropertiesEditor', () => {
     });
     describe('Process Type', () => {
         const baseProperties = {
-            label: { value: '', error: null },
-            name: { value: '', error: null },
-            description: { value: '', error: null },
+            ...minProperties,
             processType: { value: 'bad process type' },
             triggerType: { value: '' },
             interviewLabel: { value: '', error: null },
-            status: { value: 'Active' },
             lastModifiedBy: { value: 'some user' },
             lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
-            saveType: SaveType.UPDATE,
-            runInMode: { value: null, error: null }
+            saveType: SaveType.UPDATE
         };
         it('is empty if no process type found for the value', async () => {
             flowProperties = {
@@ -461,17 +475,9 @@ describe('FlowPropertiesEditor', () => {
             let defaultNode;
             beforeEach(() => {
                 defaultNode = {
-                    label: { value: 'flow label' },
-                    name: { value: 'flow name' },
-                    description: { value: 'flow description' },
-                    processType: { value: 'process type' },
-                    status: { value: 'Active' },
-                    interviewLabel: { value: 'interviewLabel' },
-                    lastModifiedBy: { value: 'some user' },
-                    lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
+                    ...sampleProperties,
                     versionNumber: 1,
-                    saveType: SaveType.UPDATE,
-                    runInMode: { value: null, error: null }
+                    saveType: SaveType.UPDATE
                 };
             });
 
@@ -495,18 +501,11 @@ describe('FlowPropertiesEditor', () => {
             let defaultNode;
             beforeEach(() => {
                 defaultNode = {
-                    label: { value: 'flow label' },
-                    name: { value: 'flow name' },
-                    description: { value: 'flow description' },
+                    ...sampleProperties,
                     processType: { value: 'AutoLaunchedFlow' },
                     triggerType: { value: 'RecordBeforeSave' },
-                    status: { value: 'Active' },
-                    interviewLabel: { value: 'interviewLabel' },
                     versionNumber: 1,
-                    saveType: SaveType.NEW_DEFINITION,
-                    runInMode: { value: null, error: null },
-                    lastModifiedBy: { value: 'some user' },
-                    lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' }
+                    saveType: SaveType.NEW_DEFINITION
                 };
             });
 
@@ -557,18 +556,11 @@ describe('FlowPropertiesEditor', () => {
             let baseProperties;
             beforeEach(() => {
                 baseProperties = {
-                    label: { value: 'flow label' },
-                    name: { value: 'flow name' },
-                    description: { value: 'flow description' },
+                    ...sampleProperties,
                     processType: { value: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW },
-                    status: { value: 'Active' },
-                    interviewLabel: { value: 'interviewLabel' },
-                    lastModifiedBy: { value: 'some user' },
-                    lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
                     versionNumber: 1,
                     triggerType: FLOW_TRIGGER_TYPE.AFTER_SAVE,
                     saveType: SaveType.UPDATE,
-                    runInMode: { value: null, error: null },
                     triggerOrder: 150,
                     apiVersion: 49
                 };
@@ -619,17 +611,10 @@ describe('FlowPropertiesEditor', () => {
             let baseProperties;
             beforeEach(() => {
                 baseProperties = {
-                    label: { value: 'flow label' },
-                    name: { value: 'flow name' },
-                    description: { value: 'flow description' },
+                    ...sampleProperties,
                     processType: { value: 'process type2' },
-                    status: { value: 'Active' },
-                    interviewLabel: { value: 'interviewLabel' },
-                    lastModifiedBy: { value: 'some user' },
-                    lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
                     versionNumber: 1,
                     saveType: SaveType.UPDATE,
-                    runInMode: { value: null, error: null },
                     apiVersion: 49
                 };
             });
@@ -650,18 +635,11 @@ describe('FlowPropertiesEditor', () => {
             let defaultNode;
             beforeEach(() => {
                 defaultNode = {
-                    label: { value: 'flow label' },
-                    name: { value: 'flow name' },
-                    description: { value: 'flow description' },
+                    ...sampleProperties,
                     processType: { value: 'AutoLaunchedFlow' },
                     triggerType: { value: 'RecordBeforeSave' },
-                    status: { value: 'Active' },
-                    interviewLabel: { value: 'interviewLabel' },
                     versionNumber: 1,
                     saveType: SaveType.NEW_VERSION,
-                    runInMode: { value: null, error: null },
-                    lastModifiedBy: { value: 'some user' },
-                    lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
                     apiVersion: 50
                 };
             });
@@ -717,18 +695,11 @@ describe('FlowPropertiesEditor', () => {
             let defaultNode;
             beforeEach(() => {
                 defaultNode = {
-                    label: { value: 'flow label' },
-                    name: { value: 'flow name' },
-                    description: { value: 'flow description' },
+                    ...sampleProperties,
                     processType: { value: 'AutoLaunchedFlow' },
                     triggerType: { value: 'RecordBeforeSave' },
-                    status: { value: 'Active' },
-                    interviewLabel: { value: 'interviewLabel' },
                     versionNumber: 1,
                     saveType: SaveType.NEW_DEFINITION,
-                    runInMode: { value: null, error: null },
-                    lastModifiedBy: { value: 'some user' },
-                    lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
                     apiVersion: 50
                 };
             });
@@ -759,18 +730,11 @@ describe('FlowPropertiesEditor', () => {
         let defaultNode;
         beforeAll(() => {
             defaultNode = {
-                label: { value: 'flow label' },
-                name: { value: 'flow name' },
-                description: { value: 'flow description' },
+                ...sampleProperties,
                 processType: { value: 'AutoLaunchedFlow' },
                 triggerType: { value: 'RecordBeforeSave' },
-                status: { value: 'Active' },
-                interviewLabel: { value: 'interviewLabel' },
                 versionNumber: 1,
                 saveType: SaveType.UPDATE,
-                runInMode: { value: null, error: null },
-                lastModifiedBy: { value: 'some user' },
-                lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
                 apiVersion: 50,
                 isTemplate: false,
                 isOverridable: false,
@@ -1046,17 +1010,11 @@ describe('FlowPropertiesEditor', () => {
         let defaultNode;
         beforeAll(() => {
             defaultNode = {
-                label: { value: 'flow label' },
-                description: { value: 'flow description' },
+                ...sampleProperties,
                 processType: { value: 'AutoLaunchedFlow' },
                 triggerType: { value: 'RecordBeforeSave' },
-                status: { value: 'Active' },
-                interviewLabel: { value: 'interviewLabel' },
                 versionNumber: 1,
                 saveType: SaveType.NEW_DEFINITION,
-                runInMode: { value: null, error: null },
-                lastModifiedBy: { value: 'some user' },
-                lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
                 apiVersion: 50,
                 isTemplate: false,
                 isOverridable: false,
@@ -1122,17 +1080,11 @@ describe('FlowPropertiesEditor', () => {
         let defaultNode;
         beforeAll(() => {
             defaultNode = {
-                label: { value: 'flow label' },
-                description: { value: 'flow description' },
+                ...sampleProperties,
                 processType: { value: 'AutoLaunchedFlow' },
                 triggerType: { value: 'RecordBeforeSave' },
-                status: { value: 'Active' },
-                interviewLabel: { value: 'interviewLabel' },
                 versionNumber: 1,
                 saveType: SaveType.NEW_VERSION,
-                runInMode: { value: null, error: null },
-                lastModifiedBy: { value: 'some user' },
-                lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
                 apiVersion: 50,
                 isTemplate: false,
                 isOverridable: false,
@@ -1179,6 +1131,39 @@ describe('FlowPropertiesEditor', () => {
                 expect(getTemplateCheck(flowPropertiesEditor).checked).toBe(true);
                 expect(getTemplateCheck(flowPropertiesEditor).disabled).toBeFalsy();
             });
+        });
+    });
+    describe('Slack check in Flowbuilder', () => {
+        let defaultNode;
+        beforeAll(() => {
+            defaultNode = {
+                ...sampleProperties,
+                processType: { value: 'Flow' },
+                interviewLabel: { value: 'interviewLabel' },
+                runInMode: { value: null, error: null },
+                status: { value: 'Active' },
+                saveType: SaveType.UPDATE,
+                triggerType: { value: '' },
+                versionNumber: 1,
+                environments: ['Slack']
+            };
+        });
+        it('Slack in Flowbuilder checkbox and label is not present when slack perm is off', async () => {
+            (orgHasScreenFlowsInSlack as jest.Mock).mockReturnValue(false);
+            flowPropertiesEditor = createComponentUnderTest(defaultNode);
+            getShowAdvancedButton(flowPropertiesEditor).click();
+            await ticks(1);
+            const slackCheck = getSlackCheck(flowPropertiesEditor);
+            expect(slackCheck).toBeNull();
+        });
+        it('Slack in Flowbuilder checkbox and label is present when slack perm is on', async () => {
+            (orgHasScreenFlowsInSlack as jest.Mock).mockReturnValue(true);
+            flowPropertiesEditor = createComponentUnderTest(defaultNode);
+            getShowAdvancedButton(flowPropertiesEditor).click();
+            await ticks(1);
+
+            const slackCheck = getSlackCheck(flowPropertiesEditor);
+            expect(slackCheck).not.toBeNull();
         });
     });
 });

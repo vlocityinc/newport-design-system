@@ -19,6 +19,7 @@ type Access = {
     orgHasFlowBuilderGuardrails: boolean;
     orgHasFlowTestingEnabled: boolean;
     orgHasFlowFormulaBuilder: boolean;
+    orgHasScreenFlowsInSlack: boolean;
 };
 type BuilderConfig = {
     builderType: string;
@@ -116,10 +117,17 @@ export function orgHasFlowBuilderDebug() {
 }
 
 /**
- * returns true if Flow Testing perm is enabled, will be removed sometime post 236
+ * @returns true if Flow Testing perm is enabled, will be removed sometime post 236
  */
 export function orgHasFlowTestingEnabled() {
     return context.access?.orgHasFlowTestingEnabled;
+}
+
+/**
+ * @returns true if ScreenFlowsInSlack perm is enabled
+ */
+export function orgHasScreenFlowsInSlack() {
+    return context.access?.orgHasScreenFlowsInSlack;
 }
 
 /**
