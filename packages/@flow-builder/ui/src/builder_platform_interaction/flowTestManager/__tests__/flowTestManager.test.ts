@@ -4,13 +4,20 @@ import { rowActionEvent, ticks } from 'builder_platform_interaction/builderTestU
 import { createComponent } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 import { FlowTestMode } from 'builder_platform_interaction/builderUtils';
 import { FlowTestListRowAction } from 'builder_platform_interaction/flowTestManager';
+import { deleteFlowTest } from 'builder_platform_interaction/preloadLib';
 import {
     addFlowTests,
     deleteFlowTestFromCache,
     FlowTestListState,
     resetFlowTestStore
 } from 'builder_platform_interaction/systemLib';
+import { ShowToastEventName } from 'lightning/platformShowToastEvent';
 import { FlowTestAndResultDescriptor } from '../../systemLib/flowTestData';
+
+jest.mock('builder_platform_interaction/preloadLib', () => ({
+    ...jest.requireActual('builder_platform_interaction/preloadLib'),
+    deleteFlowTest: jest.fn()
+}));
 
 const createComponentUnderTest = async (props) => {
     return createComponent('builder_platform_interaction-flowTestManager', props);
@@ -198,9 +205,9 @@ describe('flowTestManager', () => {
     });
 
     describe('table data', () => {
-        let cmp, props, createNewOrEditTestMock, handleRunAndViewTestDetailAction;
+        let cmp, props, createNewOrEditTestMock, handleRunAndViewTestDetailAction, toastHandler;
 
-        beforeEach(() => {
+        beforeEach(async () => {
             createNewOrEditTestMock = jest.fn();
             handleRunAndViewTestDetailAction = jest.fn();
             props = {
@@ -209,6 +216,10 @@ describe('flowTestManager', () => {
                 createOrEditFlowTestCallback: createNewOrEditTestMock,
                 handleLoadMoreTests: jest.fn()
             };
+            cmp = await createComponentUnderTest(props);
+
+            toastHandler = jest.fn();
+            cmp.addEventListener(ShowToastEventName, toastHandler);
         });
 
         afterEach(() => {
@@ -216,7 +227,6 @@ describe('flowTestManager', () => {
         });
 
         it('is updated when test store is updated', async () => {
-            cmp = await createComponentUnderTest(props);
             addFlowTests([MOCK_TESTS[0]]);
             cmp.copyDataFromTestStore();
             await ticks(1);
@@ -239,7 +249,6 @@ describe('flowTestManager', () => {
         });
 
         it('Calls handleFlowTestDelete when delete action is clicked', async () => {
-            cmp = await createComponentUnderTest(props);
             addFlowTests(MOCK_TESTS);
             cmp.copyDataFromTestStore();
             await ticks(1);
@@ -252,8 +261,31 @@ describe('flowTestManager', () => {
             });
         });
 
+        it('creates a toast on a successful test delete', async () => {
+            addFlowTests(MOCK_TESTS);
+            cmp.copyDataFromTestStore();
+            await ticks(1);
+            const dataTable = getDatatable(cmp);
+            deleteFlowTest.mockResolvedValue([{ isSuccess: true, id: MOCK_TESTS[0].flowTestId }]);
+            dataTable.dispatchEvent(rowActionEvent({ name: 'delete' }, MOCK_TESTS[0]));
+            await ticks(1);
+            expect(toastHandler).toHaveBeenCalled();
+            expect(toastHandler.mock.calls[0][0].detail.variant).toEqual('success');
+        });
+
+        it('creates a toast on a failed test delete', async () => {
+            addFlowTests(MOCK_TESTS);
+            cmp.copyDataFromTestStore();
+            await ticks(1);
+            const dataTable = getDatatable(cmp);
+            deleteFlowTest.mockResolvedValue([{ isSuccess: false, id: MOCK_TESTS[0].flowTestId }]);
+            dataTable.dispatchEvent(rowActionEvent({ name: 'delete' }, MOCK_TESTS[0]));
+            await ticks(1);
+            expect(toastHandler).toHaveBeenCalled();
+            expect(toastHandler.mock.calls[0][0].detail.variant).toEqual('error');
+        });
+
         it('calls the createOrEditFlowTestCallback when Edit action is clicked', async () => {
-            cmp = await createComponentUnderTest(props);
             addFlowTests(MOCK_TESTS);
             cmp.copyDataFromTestStore();
             await ticks(1);
@@ -265,7 +297,6 @@ describe('flowTestManager', () => {
         });
 
         it('flow test is deleted from the store', async () => {
-            cmp = await createComponentUnderTest(props);
             addFlowTests(MOCK_TESTS);
             cmp.copyDataFromTestStore();
             await ticks(1);
@@ -283,7 +314,6 @@ describe('flowTestManager', () => {
         });
 
         it('calls the handleRunAndViewTestDetailAction when Run Test and View detail action is clicked', async () => {
-            cmp = await createComponentUnderTest(props);
             addFlowTests(MOCK_TESTS);
             cmp.copyDataFromTestStore();
             await ticks(1);
@@ -297,7 +327,6 @@ describe('flowTestManager', () => {
         });
 
         it('is written with the appropriate run status icon', async () => {
-            cmp = await createComponentUnderTest(props);
             addFlowTests(MOCK_TESTS);
             cmp.copyDataFromTestStore();
             await ticks(1);
@@ -402,69 +431,125 @@ describe('flowTestManager', () => {
 
     describe('runSelectedTests api', () => {
         const RUN_TEST_LENGTH = 10;
-        let cmp, handleRunTestsFn, props;
-        beforeEach(async () => {
-            handleRunTestsFn = jest.fn().mockImplementation(async () => {
-                await ticks(RUN_TEST_LENGTH);
+        let cmp, handleRunTestsFn, props, toastHandler;
+
+        describe('success cases', () => {
+            beforeEach(async () => {
+                handleRunTestsFn = jest.fn().mockImplementation(async () => {
+                    await ticks(RUN_TEST_LENGTH);
+                });
+                props = {
+                    footer: {
+                        enableButtonOne: jest.fn()
+                    },
+                    hideModal: jest.fn(),
+                    createNewTestCallback: jest.fn(),
+                    handleLoadMoreTests: jest.fn(),
+                    handleRunTests: handleRunTestsFn
+                };
+                cmp = await createComponentUnderTest(props);
+                // not the actual tests we're selecting, we just do this so the table will appear
+                addFlowTests([MOCK_TESTS[0]]);
+                cmp.copyDataFromTestStore();
+                await ticks(1);
+
+                toastHandler = jest.fn();
+                cmp.addEventListener(ShowToastEventName, toastHandler);
             });
-            props = {
-                footer: {
-                    enableButtonOne: jest.fn()
-                },
-                hideModal: jest.fn(),
-                createNewTestCallback: jest.fn(),
-                handleLoadMoreTests: jest.fn(),
-                handleRunTests: handleRunTestsFn
-            };
-            cmp = await createComponentUnderTest(props);
-            // not the actual tests we're selecting, we just do this so the table will appear
-            addFlowTests([MOCK_TESTS[0]]);
-            cmp.copyDataFromTestStore();
-            await ticks(1);
+
+            afterEach(() => {
+                resetFlowTestStore();
+            });
+
+            it('batches selected tests into groups of 50, and calls run test handler on each', async () => {
+                const testIds = [];
+                for (let i = 0; i < 150; i++) {
+                    testIds.push({ flowTestId: 'testid' + i });
+                }
+                const datatable = getDatatable(cmp);
+                const ev = new CustomEvent('rowselection', { detail: { selectedRows: testIds } });
+                datatable.dispatchEvent(ev);
+
+                await cmp.runSelectedTests();
+
+                expect(handleRunTestsFn).toHaveBeenCalledTimes(3);
+                expect(handleRunTestsFn).toHaveBeenNthCalledWith(
+                    1,
+                    testIds.map((t) => t.flowTestId).slice(0, 50),
+                    false
+                );
+                expect(handleRunTestsFn).toHaveBeenNthCalledWith(
+                    2,
+                    testIds.map((t) => t.flowTestId).slice(50, 100),
+                    false
+                );
+                expect(handleRunTestsFn).toHaveBeenNthCalledWith(
+                    3,
+                    testIds.map((t) => t.flowTestId).slice(100, 150),
+                    false
+                );
+            });
+
+            it('handles modalBody spinner state before and after call', async () => {
+                const datatable = getDatatable(cmp);
+                const ev = new CustomEvent('rowselection', { detail: { selectedRows: [{ flowTestId: 'testid' }] } });
+                datatable.dispatchEvent(ev);
+
+                expect(getSpinner(cmp)).toBeNull();
+
+                cmp.runSelectedTests();
+
+                await ticks(RUN_TEST_LENGTH - 1);
+
+                expect(getSpinner(cmp)).not.toBeNull();
+                expect(getSpinner(cmp)).toBeDefined();
+
+                await ticks(RUN_TEST_LENGTH);
+
+                expect(getSpinner(cmp)).toBeNull();
+            });
+
+            it('toasts after run is complete', async () => {
+                const datatable = getDatatable(cmp);
+                const ev = new CustomEvent('rowselection', { detail: { selectedRows: [{ flowTestId: 'testid' }] } });
+                datatable.dispatchEvent(ev);
+                cmp.runSelectedTests();
+                expect(toastHandler).not.toHaveBeenCalled();
+                await ticks(RUN_TEST_LENGTH + 1);
+                expect(toastHandler).toHaveBeenCalled();
+            });
         });
 
-        afterEach(() => {
-            resetFlowTestStore();
-        });
+        describe('failure cases', () => {
+            beforeEach(async () => {
+                handleRunTestsFn = jest.fn().mockRejectedValue('error');
+                props = {
+                    footer: {
+                        enableButtonOne: jest.fn()
+                    },
+                    hideModal: jest.fn(),
+                    createNewTestCallback: jest.fn(),
+                    handleLoadMoreTests: jest.fn(),
+                    handleRunTests: handleRunTestsFn
+                };
+                cmp = await createComponentUnderTest(props);
+                // not the actual tests we're selecting, we just do this so the table will appear
+                addFlowTests([MOCK_TESTS[0]]);
+                cmp.copyDataFromTestStore();
+                await ticks(1);
 
-        it('batches selected tests into groups of 50, and calls run test handler on each', async () => {
-            const testIds = [];
-            for (let i = 0; i < 150; i++) {
-                testIds.push({ flowTestId: 'testid' + i });
-            }
-            const datatable = getDatatable(cmp);
-            const ev = new CustomEvent('rowselection', { detail: { selectedRows: testIds } });
-            datatable.dispatchEvent(ev);
-
-            await cmp.runSelectedTests();
-
-            expect(handleRunTestsFn).toHaveBeenCalledTimes(3);
-            expect(handleRunTestsFn).toHaveBeenNthCalledWith(1, testIds.map((t) => t.flowTestId).slice(0, 50), false);
-            expect(handleRunTestsFn).toHaveBeenNthCalledWith(2, testIds.map((t) => t.flowTestId).slice(50, 100), false);
-            expect(handleRunTestsFn).toHaveBeenNthCalledWith(
-                3,
-                testIds.map((t) => t.flowTestId).slice(100, 150),
-                false
-            );
-        });
-
-        it('handles modalBody spinner state before and after call', async () => {
-            const datatable = getDatatable(cmp);
-            const ev = new CustomEvent('rowselection', { detail: { selectedRows: [{ flowTestId: 'testid' }] } });
-            datatable.dispatchEvent(ev);
-
-            expect(getSpinner(cmp)).toBeNull();
-
-            cmp.runSelectedTests();
-
-            await ticks(RUN_TEST_LENGTH - 1);
-
-            expect(getSpinner(cmp)).not.toBeNull();
-            expect(getSpinner(cmp)).toBeDefined();
-
-            await ticks(RUN_TEST_LENGTH);
-
-            expect(getSpinner(cmp)).toBeNull();
+                toastHandler = jest.fn();
+                cmp.addEventListener(ShowToastEventName, toastHandler);
+            });
+            it('does not toast if an exception is thrown', async () => {
+                const datatable = getDatatable(cmp);
+                const ev = new CustomEvent('rowselection', { detail: { selectedRows: [{ flowTestId: 'testid' }] } });
+                datatable.dispatchEvent(ev);
+                cmp.runSelectedTests();
+                expect(toastHandler).not.toHaveBeenCalled();
+                await ticks(RUN_TEST_LENGTH + 1);
+                expect(toastHandler).not.toHaveBeenCalled();
+            });
         });
     });
 });

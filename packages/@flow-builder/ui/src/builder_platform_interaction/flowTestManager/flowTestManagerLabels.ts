@@ -2,6 +2,8 @@ import spinnerAlternativeText from '@salesforce/label/FlowBuilderEditor.spinnerA
 import flowTestBodyDescription from '@salesforce/label/FlowBuilderTestEditor.flowTestBodyDescription';
 import flowTestBodyHeader from '@salesforce/label/FlowBuilderTestEditor.flowTestBodyHeader';
 import createNewTest from '@salesforce/label/FlowBuilderTestEditor.flowTestCreateNewTest';
+import flowTestDeleteActionFailureToast from '@salesforce/label/FlowBuilderTestEditor.flowTestDeleteActionFailureToast';
+import flowTestDeleteActionSuccessToast from '@salesforce/label/FlowBuilderTestEditor.flowTestDeleteActionSuccessToast';
 import flowTestListCreatorColumnHeader from '@salesforce/label/FlowBuilderTestEditor.flowTestListCreatorColumnHeader';
 import flowTestListDeleteAction from '@salesforce/label/FlowBuilderTestEditor.flowTestListDeleteAction';
 import flowTestListDescriptionColumnHeader from '@salesforce/label/FlowBuilderTestEditor.flowTestListDescriptionColumnHeader';
@@ -15,6 +17,7 @@ import flowTestListRunStatusError from '@salesforce/label/FlowBuilderTestEditor.
 import flowTestListRunStatusFail from '@salesforce/label/FlowBuilderTestEditor.flowTestListRunStatusFail';
 import flowTestListRunStatusPass from '@salesforce/label/FlowBuilderTestEditor.flowTestListRunStatusPass';
 import flowTestListViewDetailAction from '@salesforce/label/FlowBuilderTestEditor.flowTestListViewDetailAction';
+import flowTestRunBulkActionCompleteToast from '@salesforce/label/FlowBuilderTestEditor.flowTestRunBulkActionCompleteToast';
 
 export const LABELS = {
     flowTestBodyHeader,
@@ -33,5 +36,8 @@ export const LABELS = {
     spinnerAlternativeText,
     flowTestListRunStatusPass,
     flowTestListRunStatusFail,
-    flowTestListRunStatusError
+    flowTestListRunStatusError,
+    flowTestRunBulkActionCompleteToast,
+    flowTestDeleteActionSuccessToast,
+    flowTestDeleteActionFailureToast
 };

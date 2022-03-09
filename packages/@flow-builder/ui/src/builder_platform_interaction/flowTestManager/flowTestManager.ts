@@ -1,5 +1,6 @@
 import { FlowTestMode } from 'builder_platform_interaction/builderUtils';
 import { deleteFlowTest } from 'builder_platform_interaction/preloadLib';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import type { FlowTestAndResultDescriptor } from 'builder_platform_interaction/systemLib';
 import {
     deleteFlowTestFromCache,
@@ -7,8 +8,11 @@ import {
     getFlowTestListState,
     getFlowTests
 } from 'builder_platform_interaction/systemLib';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { api, LightningElement } from 'lwc';
 import { LABELS } from './flowTestManagerLabels';
+
+const { format } = commonUtils;
 
 export enum FlowTestListRowAction {
     Delete = 'delete',
@@ -174,6 +178,7 @@ export default class FlowTestManager extends LightningElement {
         }
         try {
             await Promise.all(testRunPromises);
+            this.showToast(LABELS.flowTestRunBulkActionCompleteToast, 'success');
         } finally {
             this.copyDataFromTestStore();
             this.showLoadingSpinner = false;
@@ -203,14 +208,15 @@ export default class FlowTestManager extends LightningElement {
     _deleteFlowTestResults(results) {
         let isFlowTestDeleted = false;
         for (const result of results) {
+            const testName = getFlowTests().filter((t) => result.id === t.flowTestId)[0].flowTestName;
             // check if deletion is successful
             if (result.isSuccess) {
-                // delete the record from the FlowTest cache
                 deleteFlowTestFromCache(result.id);
                 isFlowTestDeleted = true;
+                this.showToast(format(LABELS.flowTestDeleteActionSuccessToast, testName), 'success');
             } else {
                 // Delete operation was unsuccessful. No change in FlowTest data.
-                // TODO: Waiting on UX designs how this error should show up on the Flow test manager
+                this.showToast(format(LABELS.flowTestDeleteActionFailureToast, testName), 'error', 'sticky');
             }
         }
         if (isFlowTestDeleted) {
@@ -225,5 +231,14 @@ export default class FlowTestManager extends LightningElement {
         } finally {
             this.showLoadingSpinner = false;
         }
+    };
+
+    showToast = (message: string, variant: string, mode?: string) => {
+        const toastEvent = new ShowToastEvent({
+            message,
+            variant,
+            mode
+        });
+        this.dispatchEvent(toastEvent);
     };
 }
