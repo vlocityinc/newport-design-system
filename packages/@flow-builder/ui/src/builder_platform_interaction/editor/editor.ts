@@ -867,14 +867,13 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         const currentState = storeInstance.getCurrentState();
         this.isUndoDisabled = !isUndoAvailable();
         this.isRedoDisabled = !isRedoAvailable();
-        const { status, processType: flowProcessType, definitionId } = currentState.properties;
+        const { status, processType: flowProcessType, definitionId, environments } = currentState.properties;
         this.flowStatus = status;
         const flowTriggerType = getTriggerType();
         const flowRecordTriggerType = getRecordTriggerType();
         const flowProcessTypeChanged = flowProcessType && flowProcessType !== this.properties.processType;
         const recordTriggerTypeChanged = flowRecordTriggerType !== this.recordTriggerType;
         const triggerTypeChanged = flowTriggerType !== this.triggerType;
-        const flowEnvironments = this.properties.environments;
 
         if (flowProcessTypeChanged || triggerTypeChanged) {
             this.spinners.showAutoLayoutSpinner = true;
@@ -889,7 +888,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                         flowTriggerType,
                         flowRecordTriggerType,
                         definitionId as string,
-                        flowEnvironments
+                        environments
                     );
                 this.propertyEditorBlockerCalls.push(loadPeripheralMetadataPromise);
                 this.openSubflowBlockerPromise = loadSubflowsPromise;
