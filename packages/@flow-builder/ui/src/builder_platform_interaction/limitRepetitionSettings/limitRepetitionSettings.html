@@ -1,0 +1,40 @@
+<template>
+    <div class="slds-size_1-of-2 slds-gutters_xx-small">
+        <lightning-combobox
+            class="slds-col slds-p-bottom_x-small"
+            name="reactionType"
+            label={labels.reactionType}
+            options={reactionTypes}
+            value={reactionType}
+            dropdown-alignment="auto"
+            onchange={handleReactionTypeChange}
+        >
+        </lightning-combobox>
+    </div>
+
+    <div class="slds-grid slds-gutters slds-gutters slds-gutters_xx-small">
+        <lightning-input
+            class="slds-col slds-size_1-of-2 slds-p-bottom_x-small"
+            name="maxReaction"
+            label={labels.maxReaction}
+            value={maxReaction}
+            type="number"
+            required
+            message-when-value-missing={labels.maxReactionsMissing}
+            onblur={handleMaxReactionsFocusOut}
+        >
+        </lightning-input>
+
+        <lightning-input
+            class="slds-col slds-size_1-of-2 slds-p-bottom_x-small"
+            name="lookBackDays"
+            label={labels.lookBackDays}
+            value={lookBackDays}
+            type="number"
+            required
+            message-when-value-missing={labels.lookbackDaysMissing}
+            onblur={handleLookbackDaysFocusOut}
+        >
+        </lightning-input>
+    </div>
+</template>

@@ -1,14 +1,29 @@
 <template>
-    <div class="slds-m-around_medium">
+    <div class="slds-m-bottom_medium">
         <builder_platform_interaction-input-collection-picker
-            label={labels.inputCollection}
-            placeholder={labels.inputCollectionPlaceholder}
-            collection-reference={inputVariables.inputOffers}
+            label={labels.inputOffers}
+            placeholder={labels.inputOffersDesc}
+            collection-reference={state.inputOffers}
             collection-processor-filter={collectionProcessorFilter}
             oncollectionreferencechanged={handleInputResourceChange}
             entity-constraint={supportedObjectType}
             sobject-only
         >
         </builder_platform_interaction-input-collection-picker>
+    </div>
+
+    <div if:true={showReactionSettings} class="slds-border_top">
+        <h3 class="slds-text-heading_small slds-p-top_x-small">{labels.reactionSettingsHeader}</h3>
+        <div class="slds-p-vertical_x-small">
+            <span>{labels.description}</span>
+        </div>
+        <builder_platform_interaction-limit-repetition-settings
+            max-reaction={state.maxReaction.value}
+            look-back-days={state.lookBackDays.value}
+            reaction-type={state.reactionType.value}
+            record-id={state.recordId.value}
+            onpropertychanged={handlePropertyChangedEvent}
+        >
+        </builder_platform_interaction-limit-repetition-settings>
     </div>
 </template>

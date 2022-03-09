@@ -1,8 +1,15 @@
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { ConfigurationEditorChangeEvent } from 'builder_platform_interaction/events';
 import { RECOMMENDATION_STRATEGY } from 'builder_platform_interaction/flowMetadata';
+import {
+    DEFAULT_INPUT_VALUE,
+    ELEMENT_PROPS,
+    LimitRepetitionsInput
+} from 'builder_platform_interaction/limitRepetitionsLib';
+import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './limitRepetitionsLabels';
-import { ELEMENT_PROPS, LimitRepetitionsInput } from './limitRepetitionsLib';
+import { getRules, limitRepetitionsValidation } from './limitRepetitionsValidation';
 
 export default class LimitRepetitions extends LightningElement {
     supportedObjectType = RECOMMENDATION_STRATEGY.OBJECT_NAME;
@@ -10,12 +17,13 @@ export default class LimitRepetitions extends LightningElement {
     @track
     showReactionSettings = false;
 
-    @api builderContext = {};
+    @track
+    state = { ...DEFAULT_INPUT_VALUE };
 
     /**
      * array of object containing name-value of a input parameter.
      * e.g:
-     * [{name: 'trackingID', value: '', valueDataType: ''},
+     * [{name: 'recordId', value: '', valueDataType: ''},
      *  {name: 'inputOffers', value: '', valueDataType: ''},
      *  {name: 'lookBackDays', value: '', valueDataType: ''},
      *  {name: 'maxReaction', value: '', valueDataType: ''},
@@ -23,27 +31,82 @@ export default class LimitRepetitions extends LightningElement {
      */
     @api inputVariables: LimitRepetitionsInput[] = [];
 
+    /**
+     * validate component input fields on done
+     *
+     * @returns validation errors
+     */
+    @api validate() {
+        this.state = limitRepetitionsValidation.validateAll(this.state, getRules(this.state));
+        return getErrorsFromHydratedElement(this.state);
+    }
+
     get labels() {
         return LABELS;
     }
 
-    handlePropertyChangedEvent(propName: string, event: CustomEvent) {
-        event.stopPropagation();
-        const { value, error } = event.detail;
-        const inputDataType = ELEMENT_PROPS[propName]?.dataType;
+    connectedCallback() {
+        this.prepopulateInputValues();
+    }
 
-        this.dispatchEvent(new ConfigurationEditorChangeEvent(propName, value, inputDataType));
+    handlePropertyChangedEvent(event: CustomEvent) {
+        event.stopPropagation();
+        const { propertyName, value } = event.detail;
+        this.updateCpe(ELEMENT_PROPS[propertyName], value);
     }
 
     handleInputResourceChange(event: CustomEvent) {
         event.stopPropagation();
-        const { value } = event.detail;
+        const { value } = event.detail; // guid
         this.showReactionSettings = !!value;
 
         if (!this.showReactionSettings) {
+            this.resetWithDefaultValues();
             return;
         }
 
-        this.handlePropertyChangedEvent(ELEMENT_PROPS.inputOffers.name, event);
+        this.updateCpe(ELEMENT_PROPS.inputOffers, value);
+    }
+
+    /**
+     * Assign component state with incoming inputVariable values, if any
+     * otherwise, assign each input variable with state default value
+     */
+    prepopulateInputValues(): void {
+        this.inputVariables.forEach((input: LimitRepetitionsInput) => {
+            if (input.value) {
+                // update UI input fields
+                if (input.name === ELEMENT_PROPS.inputOffers.name) {
+                    this.state.inputOffers.value = <string>getElementByDevName(<string>input.value)?.guid;
+                    this.showReactionSettings = true;
+                } else {
+                    this.state[input.name].value = input.value;
+                }
+            } else {
+                // set default value to each input variable
+                this.updateCpe(ELEMENT_PROPS[input.name], DEFAULT_INPUT_VALUE[input.name].value);
+            }
+        });
+    }
+
+    /**
+     * Update component state and inputVariable changes in action metadata
+     *
+     * @param inputVariable input
+     * @param inputVariable.name input name
+     * @param inputVariable.dataType input data type
+     * @param inputValue new Value of the input parameter.
+     */
+    updateCpe(inputVariable: { name: string; dataType: string }, inputValue: string | number): void {
+        const { name, dataType } = inputVariable;
+        this.state[name].value = inputValue;
+        this.dispatchEvent(new ConfigurationEditorChangeEvent(name, inputValue, dataType));
+    }
+
+    resetWithDefaultValues(): void {
+        Object.entries(ELEMENT_PROPS).forEach(([propertyName, inputVariable]) => {
+            const defaultValue = DEFAULT_INPUT_VALUE[propertyName].value;
+            this.updateCpe(inputVariable, defaultValue);
+        });
     }
 }

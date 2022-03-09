@@ -71,6 +71,8 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     LEFT_PANEL_PALETTE: 'builder_platform_interaction-palette',
     LEFT_PANEL_RESOURCE_DETAILS: 'builder_platform_interaction-resource-details',
     LEGAL_POPOVER: 'builder_platform_interaction-legal-popover',
+    LIMIT_REPETITIONS: 'builder_platform_interaction-limit-repetitions',
+    LIMIT_REPETITION_SETTINGS: 'builder_platform_interaction-limit-repetition-settings',
     LIST: 'builder_platform_interaction-list',
     MANUALLY_ASSIGN_VARIABLES_CHECKBOX: 'builder_platform_interaction-manually-assign-variables-checkbox',
     MAP_EDITOR: 'builder_platform_interaction-map-editor',

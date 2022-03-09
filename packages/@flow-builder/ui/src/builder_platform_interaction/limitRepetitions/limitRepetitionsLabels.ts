@@ -1,11 +1,11 @@
-import description from '@salesforce/label/FlowBuilderLimitRepetitionsEditor.description';
-import inputCollection from '@salesforce/label/FlowBuilderLimitRepetitionsEditor.inputCollection';
-import inputCollectionPlaceholder from '@salesforce/label/FlowBuilderLimitRepetitionsEditor.inputCollectionPlaceholder';
-import selectCollection from '@salesforce/label/FlowBuilderLimitRepetitionsEditor.selectCollection';
+import description from '@salesforce/label/LimitReoffers.description';
+import inputOffers from '@salesforce/label/LimitReoffers.inputOffers';
+import inputOffersDesc from '@salesforce/label/LimitReoffers.inputOffersDesc';
+import reactionSettingsHeader from '@salesforce/label/LimitReoffers.reactionSettingsHeader';
 
 export const LABELS = {
     description,
-    inputCollection,
-    inputCollectionPlaceholder,
-    selectCollection
+    inputOffers,
+    inputOffersDesc,
+    reactionSettingsHeader
 };
