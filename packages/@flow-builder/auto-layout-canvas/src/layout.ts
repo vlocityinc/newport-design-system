@@ -58,18 +58,6 @@ function getAddAndLabelOffsets(
 }
 
 /**
- * @param key - The guid of the node element
- * @param context - The flow rendering context
- * @returns The menu to position
- */
-function getMenuNeedToPosition(key: NodeRef, context: FlowRenderContext): boolean {
-    const { interactionState } = context;
-    const { menuInfo } = interactionState;
-
-    return menuInfo != null && menuInfo.key === key && menuInfo.needToPosition;
-}
-
-/**
  * Returns the menu info for a node if its menu is opened
  *
  * @param key - The menu key (the node guid for which the menu is opened)
@@ -377,9 +365,9 @@ function calculateNodeLayout(nodeModel: NodeModel, context: FlowRenderContext, o
     }
 
     const menuInfo = getMenuInfo(guid, context);
-    const needToPosition = getMenuNeedToPosition(guid, context);
+
     const extraHeightForMenu =
-        menuInfo != null && !needToPosition
+        menuInfo != null
             ? calculateExtraHeightForMenu({
                   menuInfo,
                   connectorType: nextNodeConnectorType!,
@@ -588,20 +576,15 @@ function calculateBranchLayout(
     const parentMenuInfo = getMenuInfo(parentNodeModel.guid, context);
 
     if (menuInfo != null) {
-        const menuKey = getBranchLayoutKey(parentNodeModel.guid, childIndex);
-        const needToPosition = getMenuNeedToPosition(menuKey, context);
-
-        height += needToPosition
-            ? 0
-            : calculateExtraHeightForMenu({
-                  hasNext: branchHeadGuid != null,
-                  menuInfo,
-                  connectorType: nextNodeConnectorType,
-                  connectorHeight: height,
-                  layoutConfig,
-                  connectorVariant: nextNodeConnectorVariant,
-                  joinOffsetY: 0
-              });
+        height += calculateExtraHeightForMenu({
+            hasNext: branchHeadGuid != null,
+            menuInfo,
+            connectorType: nextNodeConnectorType,
+            connectorHeight: height,
+            layoutConfig,
+            connectorVariant: nextNodeConnectorVariant,
+            joinOffsetY: 0
+        });
     } else if (parentMenuInfo && parentMenuInfo.type === MenuType.NODE) {
         // ensures that associated branch height is adjusted when parent node menu is maximized
         height += calculateExtraHeightForMenu({

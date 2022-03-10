@@ -1,6 +1,5 @@
 // @ts-nocheck
 import startElementAddEvent from '@salesforce/label/FlowBuilderCanvasElement.startElementAddEvent';
-import startElementEdit from '@salesforce/label/FlowBuilderCanvasElement.startElementEdit';
 import startElementEvent from '@salesforce/label/FlowBuilderCanvasElement.startElementEvent';
 import startElementFlowStarts from '@salesforce/label/FlowBuilderCanvasElement.startElementFlowStarts';
 import startElementFrequency from '@salesforce/label/FlowBuilderCanvasElement.startElementFrequency';
@@ -28,7 +27,6 @@ export const LABELS = {
     startElementRunFlow,
     startElementFlowStarts,
     startElementFrequency,
-    startElementEdit,
     startElementAddEvent,
     startElementEvent
 };

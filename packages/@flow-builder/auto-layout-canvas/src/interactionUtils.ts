@@ -6,11 +6,8 @@ import { ConnectionSource, Guid } from './model';
  * Util functions for flow interactions
  */
 interface MenuEventDetail {
-    top: number;
-    left: number;
     source: ConnectionSource;
     type: MenuType;
-    isPositionUpdate?: boolean;
 }
 
 /**
@@ -42,7 +39,7 @@ function toggleFlowMenu(
     interactionState: FlowInteractionState
 ): FlowInteractionState {
     let menuInfo = interactionState.menuInfo;
-    const { source, type, isPositionUpdate } = menuEventDetail;
+    const { source, type } = menuEventDetail;
     if (!source) {
         return closeFlowMenu(interactionState);
     }
@@ -51,13 +48,10 @@ function toggleFlowMenu(
 
     const isDifferentTarget = menuInfo != null && (menuInfo.key !== key || menuInfo.type !== type);
 
-    if (!menuInfo || isDifferentTarget || isPositionUpdate) {
-        const needToPosition = menuInfo != null && isDifferentTarget && !isPositionUpdate;
-
+    if (!menuInfo || isDifferentTarget) {
         menuInfo = {
             key,
-            type,
-            needToPosition
+            type
         };
     } else {
         return closeFlowMenu(interactionState);

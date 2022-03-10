@@ -1,9 +1,4 @@
-import {
-    DeleteGoToConnectionEvent,
-    GoToPathEvent,
-    MoveFocusToConnectorEvent,
-    PasteOnCanvasEvent
-} from 'builder_platform_interaction/alcEvents';
+import { DeleteGoToConnectionEvent, GoToPathEvent, PasteOnCanvasEvent } from 'builder_platform_interaction/alcEvents';
 import AlcMenu from 'builder_platform_interaction/alcMenu';
 import { ConnectionSource, ElementMetadata } from 'builder_platform_interaction/autoLayoutCanvas';
 import { AddElementEvent } from 'builder_platform_interaction/events';
@@ -16,13 +11,6 @@ import {
     PASTE_ACTION
 } from './alcConnectorMenuConfig';
 import { LABELS } from './alcConnectorMenuLabels';
-
-enum TabFocusRingItems {
-    Icon = 0,
-    ListItems = 1
-}
-
-// TODO: W-9581902: Make alcConnectorMenu use the popover component
 
 /**
  * The connector menu overlay. It is displayed when clicking on a connector.
@@ -67,11 +55,6 @@ export default class AlcConnectorMenu extends AlcMenu {
         return LABELS;
     }
 
-    constructor() {
-        super();
-        this.tabFocusRingIndex = TabFocusRingItems.Icon;
-    }
-
     /**
      * Menu item action behaviour dependent on the attributes of the selected element
      *
@@ -80,14 +63,13 @@ export default class AlcConnectorMenu extends AlcMenu {
     override doSelectMenuItem(currentTarget: HTMLElement) {
         super.doSelectMenuItem(currentTarget);
 
-        const action = currentTarget.getAttribute('data-value');
+        const { value, subType, actionType, actionName, actionIsStandard } = currentTarget.dataset;
 
         const source = this.source;
 
-        switch (action) {
+        switch (value) {
             case PASTE_ACTION:
                 this.dispatchEvent(new PasteOnCanvasEvent(this.source));
-                this.moveFocusToConnector();
                 break;
             case GOTO_ACTION:
                 this.dispatchEvent(new GoToPathEvent(source));
@@ -103,11 +85,11 @@ export default class AlcConnectorMenu extends AlcMenu {
 
                 this.dispatchEvent(
                     new AddElementEvent({
-                        elementType: currentTarget.getAttribute('data-value')!,
-                        elementSubtype: currentTarget.getAttribute('data-sub-type')!,
-                        actionType: currentTarget.getAttribute('data-action-type')!,
-                        actionName: currentTarget.getAttribute('data-action-name')!,
-                        actionIsStandard: currentTarget.getAttribute('data-action-is-standard') === 'true'!,
+                        elementType: value!,
+                        elementSubtype: subType!,
+                        actionType: actionType!,
+                        actionName: actionName!,
+                        actionIsStandard: actionIsStandard === 'true',
                         locationX: 0,
                         locationY: 0,
                         alcConnectionSource,
@@ -117,26 +99,4 @@ export default class AlcConnectorMenu extends AlcMenu {
             }
         }
     }
-
-    /**
-     * Moves the focus back to the connector trigger
-     */
-    moveFocusToConnector() {
-        this.dispatchEvent(new MoveFocusToConnectorEvent(this.source));
-    }
-
-    /**
-     * Closes the menu and moves the focus back to the connector trigger
-     */
-    override handleEscape() {
-        super.handleEscape();
-        this.moveFocusToConnector();
-    }
-
-    tabFocusRingCmds = [
-        // focus on the connector icon
-        () => this.moveFocusToConnector(),
-        // focus on the first item
-        () => this.moveFocusToFirstListItem()
-    ];
 }

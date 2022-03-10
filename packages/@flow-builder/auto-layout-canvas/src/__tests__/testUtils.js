@@ -381,7 +381,7 @@ function getFlowWithScheduledPathsContext() {
         menuInfo: {
             key: 'start-guid',
             type: 0,
-            needToPosition: false,
+
             geometry: {
                 w: 300,
                 h: 221,
@@ -400,7 +400,7 @@ function getFlowWithOnlyImmediateScheduledPathContext(parentNodeMenuOpened = fal
             menuInfo: {
                 key: 'start-guid',
                 type: 0,
-                needToPosition: false,
+
                 geometry: {
                     w: 300,
                     h: 221,
@@ -639,7 +639,7 @@ function getFlowWithTwoFaults() {
         menuInfo: {
             key: 'action-element-one',
             type: 0,
-            needToPosition: false,
+
             geometry: {
                 w: 300,
                 h: 221,
@@ -811,7 +811,7 @@ function getFlowWhenGoingToPreviousElement(isNodeMenuOpen, isConnectorMenuOpen) 
             menuInfo: {
                 key: GOTO_SOURCE_GUID,
                 type: 0,
-                needToPosition: false,
+
                 geometry: {
                     w: 300,
                     h: 221,
@@ -828,7 +828,7 @@ function getFlowWhenGoingToPreviousElement(isNodeMenuOpen, isConnectorMenuOpen) 
             menuInfo: {
                 key: GOTO_SOURCE_GUID,
                 type: 1,
-                needToPosition: false,
+
                 geometry: {
                     w: 300,
                     h: 221,
@@ -869,7 +869,7 @@ function getFlowWhenGoingFromParentFirstBranchToPreviousElement(
             menuInfo: {
                 key: BRANCH_ELEMENT_GUID,
                 type: 0,
-                needToPosition: false,
+
                 geometry: {
                     w: 300,
                     h: 221,
@@ -886,7 +886,7 @@ function getFlowWhenGoingFromParentFirstBranchToPreviousElement(
             menuInfo: {
                 key: BRANCH_ELEMENT_GUID,
                 type: 1,
-                needToPosition: false,
+
                 geometry: {
                     w: 300,
                     h: 221,
@@ -903,7 +903,7 @@ function getFlowWhenGoingFromParentFirstBranchToPreviousElement(
             menuInfo: {
                 key: `${BRANCH_ELEMENT_GUID}:0`,
                 type: 1,
-                needToPosition: false,
+
                 geometry: {
                     w: 300,
                     h: 221,

@@ -15,8 +15,7 @@ import {
     getBranchLayoutKey,
     InteractionMenuInfo,
     NodeDimensionMap,
-    NodeRenderInfo,
-    Option
+    NodeRenderInfo
 } from './flowRendererUtils';
 import { clearDeletionPathInfo, closeFlowMenu, toggleFlowMenu, updateDeletionPathInfo } from './interactionUtils';
 import { calculateFlowLayout } from './layout';
@@ -116,6 +115,5 @@ export {
     FlowInteractionState,
     NodeDimensionMap,
     Dimension,
-    reducer,
-    Option
+    reducer
 };

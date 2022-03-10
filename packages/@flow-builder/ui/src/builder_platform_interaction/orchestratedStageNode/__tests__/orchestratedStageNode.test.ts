@@ -1,27 +1,28 @@
 // @ts-nocheck
 import { FocusOutEvent } from 'builder_platform_interaction/alcEvents';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { createComponent, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { DeleteElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { commands } from 'builder_platform_interaction/sharedUtils';
-import { createElement } from 'lwc';
-import OrchestratedStageNode from '../orchestratedStageNode';
 
 const { EnterCommand, SpaceCommand, ArrowDown, ArrowUp } = commands;
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
-const createComponentUnderTest = (node, props) => {
-    const el = createElement('builder_platform_interaction-orchestrated-stage-node', {
-        is: OrchestratedStageNode
-    });
-    el.node = node;
-    el.isDefaultMode = true;
-    if (props) {
-        Object.assign(el, props);
-    }
-    setDocumentBodyChildren(el);
-    return el;
+const defaultOptions = {
+    canvasContext: {
+        connectorMenuMetadata: {}
+    },
+    isDefaultMode: true
+};
+
+const createComponentUnderTest = async (node, props = {}) => {
+    const overrideOptions = {
+        node,
+        ...props
+    };
+
+    return createComponent('builder_platform_interaction-orchestrated-stage-node', defaultOptions, overrideOptions);
 };
 
 const selectors = {
@@ -38,7 +39,7 @@ describe('Stepped-Stage-Node', () => {
     let orchestratedStageElement;
     let mockNode;
 
-    beforeEach(() => {
+    beforeEach(async () => {
         mockNode = {
             elementType: ELEMENT_TYPE.ORCHESTRATED_STAGE,
             guid: ssGuid,
@@ -79,8 +80,8 @@ describe('Stepped-Stage-Node', () => {
     });
 
     describe('menu interactions', () => {
-        beforeEach(() => {
-            orchestratedStageElement = createComponentUnderTest(mockNode);
+        beforeEach(async () => {
+            orchestratedStageElement = await createComponentUnderTest(mockNode);
         });
         it('opens the stage step menu via trigger button (on click)', () => {
             const lightningPopup = orchestratedStageElement.shadowRoot.querySelector(selectors.LIGHTNING_POPUP);
@@ -146,8 +147,8 @@ describe('Stepped-Stage-Node', () => {
     });
 
     describe('step error state', () => {
-        beforeEach(() => {
-            orchestratedStageElement = createComponentUnderTest(mockNode);
+        beforeEach(async () => {
+            orchestratedStageElement = await createComponentUnderTest(mockNode);
         });
         const STAGE_STEP_ERROR_CLASS = 'stage-step-error';
 
@@ -164,8 +165,8 @@ describe('Stepped-Stage-Node', () => {
     });
 
     describe('edit step item', () => {
-        it('opens the property editor panel for a step item (on click)', () => {
-            orchestratedStageElement = createComponentUnderTest(mockNode);
+        it('opens the property editor panel for a step item (on click)', async () => {
+            orchestratedStageElement = await createComponentUnderTest(mockNode);
             const cb = jest.fn();
             orchestratedStageElement.addEventListener(EditElementEvent.EVENT_NAME, cb);
 
@@ -181,8 +182,8 @@ describe('Stepped-Stage-Node', () => {
                 mode: 'editelement'
             });
         });
-        it('does not open the property editor panel for a step item (on click) in debug mode', () => {
-            orchestratedStageElement = createComponentUnderTest(mockNode, { disableEditElements: true });
+        it('does not open the property editor panel for a step item (on click) in debug mode', async () => {
+            orchestratedStageElement = await createComponentUnderTest(mockNode, { disableEditElements: true });
             const cb = jest.fn();
             orchestratedStageElement.addEventListener(EditElementEvent.EVENT_NAME, cb);
 
@@ -193,8 +194,8 @@ describe('Stepped-Stage-Node', () => {
 
             expect(cb).toHaveBeenCalledTimes(0);
         });
-        it('opens the property editor panel for a step item (on space/enter keydown)', () => {
-            orchestratedStageElement = createComponentUnderTest(mockNode);
+        it('opens the property editor panel for a step item (on space/enter keydown)', async () => {
+            orchestratedStageElement = await createComponentUnderTest(mockNode);
             const cb = jest.fn();
             orchestratedStageElement.addEventListener(EditElementEvent.EVENT_NAME, cb);
 
@@ -211,8 +212,8 @@ describe('Stepped-Stage-Node', () => {
                 mode: 'editelement'
             });
         });
-        it('does not open the property editor panel for a step item (on enter keydown)', () => {
-            orchestratedStageElement = createComponentUnderTest(mockNode, { disableEditElements: true });
+        it('does not open the property editor panel for a step item (on enter keydown)', async () => {
+            orchestratedStageElement = await createComponentUnderTest(mockNode, { disableEditElements: true });
             const cb = jest.fn();
             orchestratedStageElement.addEventListener(EditElementEvent.EVENT_NAME, cb);
 
@@ -224,8 +225,8 @@ describe('Stepped-Stage-Node', () => {
 
             expect(cb).toHaveBeenCalledTimes(0);
         });
-        it('does not open the property editor panel for a step item (on space keydown)', () => {
-            orchestratedStageElement = createComponentUnderTest(mockNode, { disableEditElements: true });
+        it('does not open the property editor panel for a step item (on space keydown)', async () => {
+            orchestratedStageElement = await createComponentUnderTest(mockNode, { disableEditElements: true });
             const cb = jest.fn();
             orchestratedStageElement.addEventListener(EditElementEvent.EVENT_NAME, cb);
 
@@ -238,7 +239,7 @@ describe('Stepped-Stage-Node', () => {
             expect(cb).toHaveBeenCalledTimes(0);
         });
         it('ensures that setting the guidForPropertyEditor selects the corresponding step', async () => {
-            orchestratedStageElement = createComponentUnderTest(mockNode);
+            orchestratedStageElement = await createComponentUnderTest(mockNode);
             const stepItems = Array.from(
                 orchestratedStageElement.shadowRoot.querySelectorAll(selectors.STEP_ITEM)
             ) as any;
@@ -251,7 +252,7 @@ describe('Stepped-Stage-Node', () => {
             expect(stepItems[2].ariaSelected).toEqual('true');
         });
         it('ensures that setting the guidForPropertyEditor as null resets the last edited element selection', async () => {
-            orchestratedStageElement = createComponentUnderTest(mockNode);
+            orchestratedStageElement = await createComponentUnderTest(mockNode);
             expect.assertions(2);
 
             const stepItems = Array.from(
@@ -274,8 +275,8 @@ describe('Stepped-Stage-Node', () => {
         });
     });
 
-    it('delete item', () => {
-        orchestratedStageElement = createComponentUnderTest(mockNode);
+    it('delete item', async () => {
+        orchestratedStageElement = await createComponentUnderTest(mockNode);
         const cb = jest.fn();
         orchestratedStageElement.addEventListener(DeleteElementEvent.EVENT_NAME, cb);
 
@@ -293,8 +294,8 @@ describe('Stepped-Stage-Node', () => {
     });
 
     describe('keyboard navigation', () => {
-        it('moves the tab focus to the next step item', () => {
-            orchestratedStageElement = createComponentUnderTest(mockNode);
+        it('moves the tab focus to the next step item', async () => {
+            orchestratedStageElement = await createComponentUnderTest(mockNode);
             const cb = jest.fn();
 
             const stepItems = Array.from(
@@ -311,8 +312,8 @@ describe('Stepped-Stage-Node', () => {
 
             expect(cb).toHaveBeenCalled();
         });
-        it('moves the tab focus to the prev step item', () => {
-            orchestratedStageElement = createComponentUnderTest(mockNode);
+        it('moves the tab focus to the prev step item', async () => {
+            orchestratedStageElement = await createComponentUnderTest(mockNode);
             const cb = jest.fn();
 
             const stepItems = Array.from(
@@ -329,8 +330,8 @@ describe('Stepped-Stage-Node', () => {
 
             expect(cb).toHaveBeenCalled();
         });
-        it('moves the tab focus to the top step item', () => {
-            orchestratedStageElement = createComponentUnderTest(mockNode);
+        it('moves the tab focus to the top step item', async () => {
+            orchestratedStageElement = await createComponentUnderTest(mockNode);
             const cb = jest.fn();
 
             const stepItems = Array.from(
@@ -347,8 +348,8 @@ describe('Stepped-Stage-Node', () => {
 
             expect(cb).toHaveBeenCalled();
         });
-        it('moves the tab focus to the bottom step item', () => {
-            orchestratedStageElement = createComponentUnderTest(mockNode);
+        it('moves the tab focus to the bottom step item', async () => {
+            orchestratedStageElement = await createComponentUnderTest(mockNode);
             const cb = jest.fn();
 
             const stepItems = Array.from(
@@ -365,8 +366,8 @@ describe('Stepped-Stage-Node', () => {
 
             expect(cb).toHaveBeenCalled();
         });
-        it('does execute an up keyboard handler when in debug mode', () => {
-            orchestratedStageElement = createComponentUnderTest(mockNode, { disableEditElements: true });
+        it('does execute an up keyboard handler when in debug mode', async () => {
+            orchestratedStageElement = await createComponentUnderTest(mockNode, { disableEditElements: true });
             const cb = jest.fn();
 
             const stepItems = Array.from(
@@ -383,8 +384,8 @@ describe('Stepped-Stage-Node', () => {
 
             expect(cb).toHaveBeenCalledTimes(1);
         });
-        it('does execute a down keyboard handler when in debug mode', () => {
-            orchestratedStageElement = createComponentUnderTest(mockNode, { disableEditElements: true });
+        it('does execute a down keyboard handler when in debug mode', async () => {
+            orchestratedStageElement = await createComponentUnderTest(mockNode, { disableEditElements: true });
             const cb = jest.fn();
 
             const stepItems = Array.from(
@@ -404,8 +405,8 @@ describe('Stepped-Stage-Node', () => {
     });
 
     describe('tab indexing', () => {
-        it('ensures that only the first step item has been initialized with a tab index', () => {
-            orchestratedStageElement = createComponentUnderTest(mockNode);
+        it('ensures that only the first step item has been initialized with a tab index', async () => {
+            orchestratedStageElement = await createComponentUnderTest(mockNode);
             const stepItems = Array.from(
                 orchestratedStageElement.shadowRoot.querySelectorAll(selectors.STEP_ITEM)
             ) as any;
@@ -413,7 +414,7 @@ describe('Stepped-Stage-Node', () => {
             expect([stepItems[0].tabIndex, stepItems[1].tabIndex, stepItems[2].tabIndex]).toEqual([0, -1, -1]);
         });
         it('ensures that only the last focused step item has a tab index', async () => {
-            orchestratedStageElement = createComponentUnderTest(mockNode);
+            orchestratedStageElement = await createComponentUnderTest(mockNode);
             const stepItems = Array.from(
                 orchestratedStageElement.shadowRoot.querySelectorAll(selectors.STEP_ITEM)
             ) as any;
@@ -430,7 +431,7 @@ describe('Stepped-Stage-Node', () => {
             expect([stepItems[0].tabIndex, stepItems[1].tabIndex, stepItems[2].tabIndex]).toEqual([-1, 0, -1]);
         });
         it('ensures that only the last edited step item has a tab index', async () => {
-            orchestratedStageElement = createComponentUnderTest(mockNode);
+            orchestratedStageElement = await createComponentUnderTest(mockNode);
             const stepItems = Array.from(
                 orchestratedStageElement.shadowRoot.querySelectorAll(selectors.STEP_ITEM)
             ) as any;
@@ -445,8 +446,8 @@ describe('Stepped-Stage-Node', () => {
 
             expect([stepItems[0].tabIndex, stepItems[1].tabIndex, stepItems[2].tabIndex]).toEqual([-1, -1, 0]);
         });
-        it('ensures step items have a tab index in debug mode', () => {
-            orchestratedStageElement = createComponentUnderTest(mockNode, { disableEditElements: true });
+        it('ensures step items have a tab index in debug mode', async () => {
+            orchestratedStageElement = await createComponentUnderTest(mockNode, { disableEditElements: true });
 
             const stepItems = Array.from(
                 orchestratedStageElement.shadowRoot.querySelectorAll(selectors.STEP_ITEM)
@@ -457,39 +458,41 @@ describe('Stepped-Stage-Node', () => {
     });
 
     describe('button visibility', () => {
-        it('displays the delete button in edit mode', () => {
-            orchestratedStageElement = createComponentUnderTest(mockNode);
+        it('displays the delete button in edit mode', async () => {
+            orchestratedStageElement = await createComponentUnderTest(mockNode);
             // const deleteButton = orchestratedStageElement.shadowRoot.querySelector(`button[data-item-guid='${itemGuid}']`);
             const deleteButtons = orchestratedStageElement.shadowRoot.querySelectorAll(selectors.DELETE_ITEM);
             expect(deleteButtons.length).toBe(3);
         });
-        it('does not display the delete button in debug mode', () => {
-            orchestratedStageElement = createComponentUnderTest(mockNode, { disableDeleteElements: true });
+        it('does not display the delete button in debug mode', async () => {
+            orchestratedStageElement = await createComponentUnderTest(mockNode, { disableDeleteElements: true });
             const deleteButtons = orchestratedStageElement.shadowRoot.querySelectorAll(selectors.DELETE_ITEM);
             expect(deleteButtons.length).toBe(0);
         });
-        it('displays the add-step button in edit mode', () => {
-            orchestratedStageElement = createComponentUnderTest(mockNode);
+        it('displays the add-step button in edit mode', async () => {
+            orchestratedStageElement = await createComponentUnderTest(mockNode);
             const addStepButtons = orchestratedStageElement.shadowRoot.querySelectorAll(selectors.STEP_MENU_TRIGGER);
             expect(addStepButtons.length).toBe(1);
         });
-        it('does not display the add-step button in debug mode', () => {
-            orchestratedStageElement = createComponentUnderTest(mockNode, { disableAddElements: true });
+        it('does not display the add-step button in debug mode', async () => {
+            orchestratedStageElement = await createComponentUnderTest(mockNode, {
+                canvasContext: { connectorMenuMetadata: null }
+            });
             const addStepButtons = orchestratedStageElement.shadowRoot.querySelectorAll(selectors.STEP_MENU_TRIGGER);
             expect(addStepButtons.length).toBe(0);
         });
     });
     describe('item styling', () => {
-        it('does not have .disabled class in debug mode', () => {
-            orchestratedStageElement = createComponentUnderTest(mockNode, { disableEditElements: true });
+        it('does not have .disabled class in debug mode', async () => {
+            orchestratedStageElement = await createComponentUnderTest(mockNode, { disableEditElements: true });
             const stepItems = orchestratedStageElement.shadowRoot.querySelectorAll(selectors.STEP_ITEM + '.disabled');
             expect(stepItems.length).toBe(0);
         });
     });
 
     describe('node display', () => {
-        it('displays the stage label properly', () => {
-            orchestratedStageElement = createComponentUnderTest(mockNode);
+        it('displays the stage label properly', async () => {
+            orchestratedStageElement = await createComponentUnderTest(mockNode);
             const header = orchestratedStageElement.shadowRoot.querySelector('h3');
             expect(header.textContent).toEqual(mockNode.node.label);
         });

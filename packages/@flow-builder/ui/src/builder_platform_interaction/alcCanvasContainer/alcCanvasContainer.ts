@@ -1,4 +1,5 @@
 import { deselectOnCanvas } from 'builder_platform_interaction/actions';
+import AlcCanvas from 'builder_platform_interaction/alcCanvas';
 import { setElementsMetadata } from 'builder_platform_interaction/alcCanvasUtils';
 import { shortcuts } from 'builder_platform_interaction/app';
 import { ConnectionSource } from 'builder_platform_interaction/autoLayoutCanvas';
@@ -31,22 +32,29 @@ const selectors = {
  * listens to the store, passing on the updated state when there are updates.
  */
 export default class AlcCanvasContainer extends LightningElement {
+    static delegatesFocus = true;
+
     dom = lwcUtils.createDomProxy(this, selectors);
 
     _storeUnsubsribe;
+
+    @track
     _elementsMetadata;
-    _startElementMetadata!: UI.Start;
+
+    _startElement!: UI.Start;
     _connectorMenuMetadata = defaultConnectorMenuMetadata;
 
     @api
     set elementsMetadata(elementsMetadata) {
-        if (elementsMetadata != null) {
-            this.setStartElementMetadata();
-            elementsMetadata = augmentElementsMetadata(elementsMetadata, this._startElementMetadata);
+        if (elementsMetadata != null && elementsMetadata.length > 0) {
+            this.setStartElement();
+            elementsMetadata = augmentElementsMetadata(elementsMetadata, this._startElement);
             this.updateConnectorMenuMetadata(elementsMetadata);
             setElementsMetadata(elementsMetadata);
             this._elementsMetadata = elementsMetadata;
             this.mapCanvasStateToStore();
+        } else {
+            this._elementsMetadata = null;
         }
     }
 
@@ -65,9 +73,6 @@ export default class AlcCanvasContainer extends LightningElement {
 
     @api
     isSelectionMode;
-
-    @api
-    disableAddElements;
 
     @api
     disableDeleteElements;
@@ -113,11 +118,11 @@ export default class AlcCanvasContainer extends LightningElement {
         this._storeUnsubsribe();
     }
 
-    setStartElementMetadata() {
+    setStartElement() {
         const storeState = storeInstance.getCurrentState();
         const { elements } = storeState;
 
-        this._startElementMetadata = Object.values<UI.Element>(elements).find(
+        this._startElement = Object.values<UI.Element>(elements).find(
             (ele) => ele.elementType === ELEMENT_TYPE.START_ELEMENT
         ) as UI.Start;
     }
@@ -143,6 +148,29 @@ export default class AlcCanvasContainer extends LightningElement {
         const closePropertyEditorEvent = new ClosePropertyEditorEvent();
         this.dispatchEvent(closePropertyEditorEvent);
     };
+
+    /**
+     * Handles the canvas mouse up event and dispatches an action to deselect all selected nodes and connectors.
+     */
+    handleElementDeselection = () => {
+        storeInstance.dispatch(deselectOnCanvas);
+    };
+
+    /**
+     * Updates the connector menu metadata
+     *
+     * @param nextElementsMetadata - The next elements metadata
+     */
+    updateConnectorMenuMetadata(nextElementsMetadata) {
+        this._elementsMetadata = [...nextElementsMetadata];
+
+        const connectorMenuElementTypes = this._elementsMetadata.map(({ elementType }) => elementType);
+
+        this._connectorMenuMetadata = {
+            ...this._connectorMenuMetadata,
+            elementTypes: new Set(connectorMenuElementTypes) // TODO: do we still need this? Can we just use elementsMetadata in alc canvas?
+        };
+    }
 
     /**
      * Calling the function in alcCanvas to close the contextual menu
@@ -180,40 +208,20 @@ export default class AlcCanvasContainer extends LightningElement {
         }
     };
 
-    @api
-    shiftFocus = (shiftBackward: boolean) => {
-        this.getAlcCanvas().shiftFocus(shiftBackward);
-    };
-
-    /**
-     * Handles the canvas mouse up event and dispatches an action to deselect all selected nodes and connectors.
-     */
-    handleElementDeselection = () => {
-        storeInstance.dispatch(deselectOnCanvas);
-    };
-
-    /**
-     * Updates the connector menu metadata
-     *
-     * @param nextElementsMetadata - The next elements metadata
-     */
-    updateConnectorMenuMetadata(nextElementsMetadata) {
-        this._elementsMetadata = [...nextElementsMetadata];
-
-        const connectorMenuElementTypes = this._elementsMetadata.map(({ elementType }) => elementType);
-
-        this._connectorMenuMetadata = {
-            ...this._connectorMenuMetadata,
-            elementTypes: new Set(connectorMenuElementTypes) // TODO: do we still need this? Can we just use elementsMetadata in alc canvas?
-        };
+    clearIncomingStubGuid() {
+        const alcCanvas = this.getAlcCanvas();
+        if (alcCanvas) {
+            alcCanvas.clearIncomingStubGuid();
+        }
     }
 
     /**
-     * Get the alc canvas element
+     * Get the AlcCanvas element
      *
-     * @returns the alc canvas element
+     * @returns the AlcCanvas element
      */
+    @api
     getAlcCanvas() {
-        return this.dom.as<any>().alcCanvas;
+        return this.dom.as<AlcCanvas>().alcCanvas;
     }
 }

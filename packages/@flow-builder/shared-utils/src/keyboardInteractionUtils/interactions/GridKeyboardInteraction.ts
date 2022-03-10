@@ -1,6 +1,6 @@
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, EnterCommand, SpaceCommand } from '../../commands';
 import { createShortcut, Keys } from '../keyboardInteractions';
-import { BaseKeyboardInteraction } from './BaseKeyboardInteraction';
+import { BaseKeyboardInteraction, TabIndex, updateTabIndex } from './BaseKeyboardInteraction';
 
 interface GridSelectors {
     grid: string | null;
@@ -21,11 +21,6 @@ export const ARIA_GRID_SELECTORS = {
     row: 'row',
     column: 'gridcell'
 };
-
-enum TabIndex {
-    Active = '0',
-    Inactive = '-1'
-}
 
 /**
  * Formats a grid index as a string
@@ -61,9 +56,6 @@ export class GridKeyboardInteraction extends BaseKeyboardInteraction {
 
     // number of grid columns
     private numCols = 0;
-
-    // false until the interaction's content has been rendered once
-    private initialized = false;
 
     // the active grid cell, if any
     private activeCell: HTMLElement | undefined;
@@ -114,7 +106,8 @@ export class GridKeyboardInteraction extends BaseKeyboardInteraction {
         if (cell.dataset.gridIndex !== dataGridIndex) {
             cell.setAttribute('role', 'gridcell');
             cell.dataset.gridIndex = dataGridIndex;
-            this.updateTabIndex(cell, TabIndex.Inactive);
+            cell.dataset.interactionId = dataGridIndex;
+            updateTabIndex(cell, TabIndex.Inactive);
         }
     }
 
@@ -125,21 +118,24 @@ export class GridKeyboardInteraction extends BaseKeyboardInteraction {
     /**
      * The html may have changed after a render cycle.
      * This function takes care of adding/remove the grid interaction attributes as needed.
+     *
+     * @returns true if is first render, false otherwise
      */
-    override onRendered() {
+    override onRendered(): boolean {
+        const isFirstRender = super.onRendered();
+
         const gridElement = this.getGridElement();
         if (!gridElement) {
-            return;
+            return isFirstRender;
         }
 
         let numRows = 0;
         let numCols = 0;
 
-        if (!this.initialized) {
+        if (isFirstRender) {
             gridElement.setAttribute('role', 'grid');
             gridElement.addEventListener('focusin', this.handleFocus);
             gridElement.addEventListener('click', this.handleClick);
-            this.initialized = true;
         }
 
         const rows = this.getRows();
@@ -168,8 +164,10 @@ export class GridKeyboardInteraction extends BaseKeyboardInteraction {
         }
 
         if (this.activeCell) {
-            this.updateTabIndex(this.activeCell, TabIndex.Active);
+            updateTabIndex(this.activeCell, TabIndex.Active);
         }
+
+        return isFirstRender;
     }
 
     override destroy() {
@@ -227,16 +225,6 @@ export class GridKeyboardInteraction extends BaseKeyboardInteraction {
     };
 
     /**
-     * Updates a cell's tabindex attribute
-     *
-     * @param cell - The cell
-     * @param tabIndex - The tabIndex for the cell
-     */
-    private updateTabIndex(cell: HTMLElement, tabIndex: TabIndex) {
-        cell.setAttribute('tabindex', tabIndex);
-    }
-
-    /**
      * Get all the descendent cells of an ancestor element
      *
      * @param ancestor - An ancestor element
@@ -273,10 +261,10 @@ export class GridKeyboardInteraction extends BaseKeyboardInteraction {
      */
     private updateActiveCell(newActiveCell: HTMLElement) {
         if (this.activeCell) {
-            this.updateTabIndex(this.activeCell, TabIndex.Inactive);
+            updateTabIndex(this.activeCell, TabIndex.Inactive);
         }
 
-        this.updateTabIndex(newActiveCell, TabIndex.Active);
+        updateTabIndex(newActiveCell, TabIndex.Active);
         this.activeCell = newActiveCell;
 
         newActiveCell.dispatchEvent(

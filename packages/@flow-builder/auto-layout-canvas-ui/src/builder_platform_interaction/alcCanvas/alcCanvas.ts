@@ -1,31 +1,24 @@
 import {
     AutoLayoutCanvasMode,
     CanvasContext,
-    deleteComponent,
     getAlcFlowData,
-    getAlcMenuData,
     getCanvasElementDeselectionData,
     getCanvasElementSelectionData,
-    getComponent,
     getFirstSelectableElementGuid,
     getZoomKeyboardInteraction,
-    importComponent,
-    MenuInfo
+    importComponent
 } from 'builder_platform_interaction/alcComponentsUtils';
 import {
     AlcSelectionEvent,
     CreateGoToConnectionEvent,
     DeleteBranchElementEvent,
-    FocusOutEvent,
     GoToPathEvent,
-    MoveFocusToConnectorEvent,
-    MoveFocusToNodeEvent,
+    MenuRenderedEvent,
     NodeResizeEvent,
-    TabOnMenuTriggerEvent,
     ToggleMenuEvent
 } from 'builder_platform_interaction/alcEvents';
 import AlcFlow from 'builder_platform_interaction/alcFlow';
-import AlcMenu from 'builder_platform_interaction/alcMenu';
+import { processConnectorMenuMetadata } from 'builder_platform_interaction/alcMenuUtils';
 import {
     animate,
     calculateFlowLayout,
@@ -44,7 +37,6 @@ import {
     getTargetGuidsForReconnection,
     Guid,
     hasGoToOnNext,
-    InteractionMenuInfo,
     isBranchTerminal,
     MenuType,
     NodeType,
@@ -57,6 +49,7 @@ import {
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import {
     CanvasMouseUpEvent,
+    ClickToZoomEvent,
     ClosePropertyEditorEvent,
     DeleteElementEvent,
     EditElementEvent,
@@ -72,6 +65,7 @@ import {
     ShortcutKey
 } from 'builder_platform_interaction/sharedUtils';
 import { time } from 'instrumentation/service';
+import { classSet } from 'lightning/utils';
 import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './alcCanvasLabels';
 import {
@@ -84,8 +78,11 @@ import {
     getSanitizedNodeGeo
 } from './alcCanvasUtils';
 
-// alloted time between click events in ms, where two clicks are interpreted as a double click
-const DOUBLE_CLICK_THRESHOLD = 250;
+type Position = {
+    top: number;
+    left: number;
+};
+
 // Margin added for zoomToFit
 const VIEWPORT_SPACING = 100;
 
@@ -95,24 +92,16 @@ const MIN_ZOOM = 0.1;
 const ZOOM_SCALE_STEP = 0.2;
 
 const selectors = {
-    menu: '.menu',
     canvasClass: '.canvas',
     flowContainerClass: '.flow-container',
     alcFlow: 'builder_platform_interaction-alc-flow',
     zoomPanel: 'builder_platform_interaction-zoom-panel'
 };
 
+const DOUBLE_CLICK_THRESHOLD = 250;
+
 // TODO: W-9613981 [Trust] Remove hardcoded alccanvas offsets
 const LEFT_PANEL_WIDTH = 320;
-
-const defaultConfig = getDefaultLayoutConfig();
-
-const CONNECTOR_ICON_SIZE = defaultConfig.connector.icon.w;
-const NODE_ICON_SIZE = defaultConfig.node.icon.w;
-
-const SYNTHETIC_ZOOM_TO_VIEW_EVENT = { detail: { action: ZOOM_ACTION.ZOOM_TO_VIEW } };
-
-const FULL_OPACITY_CLASS = 'full-opacity';
 
 const { withKeyboardInteractions } = keyboardInteractionUtils;
 
@@ -127,12 +116,14 @@ const {
 
 const AUTOLAYOUT_CANVAS_SELECTION = 'AUTOLAYOUT_CANVAS_SELECTION';
 
+const GRABBING_CURSOR_CLASS = 'grabbing-cursor';
+
 /**
  * debounce function
  *
  * @param fct - The function to debounce to
  * @param wait - The time to wait
- * @returns -
+ * @returns - the debounced function
  */
 function debounce(fct, wait) {
     let timeoutId;
@@ -150,10 +141,12 @@ function debounce(fct, wait) {
 }
 
 export default class AlcCanvas extends withKeyboardInteractions(LightningElement) {
+    static delegatesFocus = true;
+
     dom = lwcUtils.createDomProxy(this, selectors);
 
-    /* the metadata for the connector menu */
-    _connectorMenuMetadata!: ConnectorMenuMetadata;
+    // keeps track of whether the flow as been visibly rendered (ie without slds-hidden)
+    private hasBeenVisiblyRendered = false;
 
     _panzoom;
     _animatePromise: Promise<void> = Promise.resolve() as Promise<void>;
@@ -170,17 +163,11 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     /* the flow model to render */
     _flowModel;
 
-    /* map fo element metadata */
-    _elementsMetadata!: ElementMetadata[];
-
     /* the rendering context */
     _flowRenderContext!: FlowRenderContext;
 
     /* the rendered flow */
     _flowRenderInfo!: FlowRenderInfo;
-
-    /* the selection mode */
-    _isSelectionMode: boolean | undefined;
 
     /* the top most selected element's guid */
     _topSelectedGuid!: Guid | null;
@@ -206,13 +193,8 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     /* offsets to center the zoom */
     _panzoomOffsets;
 
-    /** pending interaction state to be processed in the next render cycle */
-    _pendingInteractionState: FlowInteractionState | null = null;
-
     /** Used for ZoomEnd trigger */
-    _eventOpenMenuAfterZoom;
-    /** Used for ZoomEnd trigger */
-    _interactionStateAfterZoom;
+    zoomEndAction: (() => void) | undefined;
 
     // Number of nodes which require dynamic rendering upon initial load
     // If this is > 0, then a spinner will be shown until all dynamic nodes
@@ -224,12 +206,15 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     // Variable to keep a track of when panning is in progress
     isPanInProgress = false;
 
-    // Clicked incoming goTo stub guid
-    _incomingStubGuid = null;
-
-    /* tracks whether the start menu as been display when first opening a flow */
     @track
-    initialStartMenuDisplayed = false;
+    canvasContext: Readonly<CanvasContext> = {
+        elementsMetadata: [],
+        connectorMenuMetadata: null,
+        mode: AutoLayoutCanvasMode.DEFAULT,
+        isPasteAvailable: false,
+        menu: null,
+        incomingStubGuid: null
+    };
 
     isFirstTimeCalled = true;
     loadAlcCanvasStartTime;
@@ -253,15 +238,6 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     @track
     flow;
 
-    @track
-    menu: MenuInfo<AlcMenu> | null = null;
-
-    @track
-    moveFocusToMenu;
-
-    @track
-    menuOpacityClass = '';
-
     @api
     disableDebounce = false;
 
@@ -269,7 +245,13 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     disableAnimation = false;
 
     @api
-    isPasteAvailable!: boolean;
+    set isPasteAvailable(isPasteAvailable) {
+        this.updateCanvasContext({ isPasteAvailable });
+    }
+
+    get isPasteAvailable() {
+        return this.canvasContext.isPasteAvailable;
+    }
 
     @api
     offsets = [0, 0];
@@ -278,21 +260,13 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     shortcuts: { [key: string]: ShortcutKey } = {};
 
     @api set connectorMenuMetadata(nextMenuMetadata: ConnectorMenuMetadata) {
-        const prevMenuComponent = this._connectorMenuMetadata?.menuComponent;
-
-        const { menuComponent } = nextMenuMetadata;
-        if (menuComponent) {
-            importComponent(menuComponent).then(() => {
-                this._connectorMenuMetadata = nextMenuMetadata;
-            });
-        } else if (prevMenuComponent) {
-            deleteComponent(prevMenuComponent);
-            this._connectorMenuMetadata = nextMenuMetadata;
-        }
+        const prevMenuMetadata = this.canvasContext.connectorMenuMetadata;
+        processConnectorMenuMetadata(prevMenuMetadata, nextMenuMetadata).then(() =>
+            this.updateCanvasContext({ connectorMenuMetadata: nextMenuMetadata })
+        );
     }
-
     get connectorMenuMetadata() {
-        return this._connectorMenuMetadata;
+        return this.canvasContext.connectorMenuMetadata!;
     }
 
     @api
@@ -309,7 +283,8 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
 
     @api
     set elementsMetadata(elementsMetadata: ElementMetadata[]) {
-        this._elementsMetadata = elementsMetadata;
+        this.updateCanvasContext({ elementsMetadata });
+
         elementsMetadata.forEach((elementMetadata) => {
             const { menuComponent } = elementMetadata;
 
@@ -319,24 +294,23 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         });
 
         // Used to make sure flow.info sent to alc-flow does not have stale elementsMetadata
-        if (this._elementsMetadata) {
+        if (this.canvasContext.elementsMetadata) {
             this.updateFlowRenderContext({ elementsMetadata: this._convertToElementMetadataMap() });
         }
     }
 
     get elementsMetadata(): ElementMetadata[] {
-        return this._elementsMetadata!;
+        return this.canvasContext.elementsMetadata!;
     }
 
     // This will be true when we are selecting or reconnecting
     @api
     set isSelectionMode(isSelectionMode) {
-        this._isSelectionMode = isSelectionMode;
-        this.handleSelectionModeChange();
+        this.handleSelectionModeChange(isSelectionMode);
     }
 
     get isSelectionMode() {
-        return this._isSelectionMode;
+        return this.canvasContext.mode === AutoLayoutCanvasMode.SELECTION;
     }
 
     @api
@@ -347,16 +321,6 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
 
     get flowModel() {
         return this._flowModel;
-    }
-
-    isZoomPanelFocused() {
-        return this.template.activeElement?.tagName.toLowerCase().includes('zoom-panel');
-    }
-
-    getFirstFocusableNode() {
-        return this.isSelectionMode
-            ? getFirstSelectableElementGuid(this.flowModel, 'root')
-            : this.getStartElementGuid();
     }
 
     @api
@@ -380,106 +344,37 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         findConnector(source, this.flowModel, alcFlow).focus();
     };
 
+    // TODO: should remove this method, the canvas should take care of this detail itself
+    @api
+    clearIncomingStubGuid() {
+        this.updateCanvasContext({ incomingStubGuid: null });
+    }
+
     /**
      * Closes any opened node or connector menu
+     *
+     * @param withAnimation - Whether to animate closing the menu
      */
     @api
-    closeNodeOrConnectorMenu() {
+    closeNodeOrConnectorMenu(withAnimation = true) {
         // W-10101786: Clicking outside the canvas while the canvas is still loading throws a gack
-        if (!this._flowRenderContext) {
+        if (!this._flowRenderContext || this.canvasContext.menu == null) {
             return;
         }
 
         const interactionState = closeFlowMenu(this._flowRenderContext.interactionState);
-        this._pendingInteractionState = null;
-        this.menu = null;
+        this.updateCanvasContext({ menu: null });
         this.updateFlowRenderContext({ interactionState });
-    }
 
-    clearIncomingStubGuid() {
-        this._incomingStubGuid = null;
-    }
-
-    focusOnZoomPanel() {
-        this.dom.zoomPanel.focus();
-    }
-
-    get disableAddElements() {
-        return this.getConnectorMenuConstructor() == null;
-    }
-
-    /**
-     * When focus is initiated on the canvas, set focus on the Start element
-     */
-    @api
-    focus() {
-        const elementGuidToFocus = this.getFirstFocusableNode();
-        if (!elementGuidToFocus) {
-            this.focusOnZoomPanel();
-        } else {
-            this.focusOnNode(elementGuidToFocus);
-        }
-    }
-
-    /**
-     * Shift focus between the canvas and zoom panel (or focus out) depending on direction
-     *
-     * @param shiftBackward Whether to shift focus backwards or forwards
-     */
-    @api
-    shiftFocus(shiftBackward: boolean) {
-        if (shiftBackward) {
-            if (this.isZoomPanelFocused() && this.getFirstFocusableNode()) {
-                this.focus();
-            } else {
-                this.dispatchEvent(new FocusOutEvent(true));
-            }
-        } else if (this.isZoomPanelFocused()) {
-            this.dispatchEvent(new FocusOutEvent(false));
-        } else {
-            this.focusOnZoomPanel();
+        if (!withAnimation) {
+            // To prevent the closing menu animation, reset the flow layout after updating
+            // the flow render context, before the animation code runs.
+            calculateFlowLayout(this._flowRenderContext);
         }
     }
 
     getKeyboardInteractions() {
         return [getZoomKeyboardInteraction(this.shortcuts, this.handleZoomAction)];
-    }
-
-    /**
-     *  Get the connector menu component constructor
-     *
-     *  @returns the  connector menu constructor or undefined
-     */
-    getConnectorMenuConstructor(): MenuConstructor<AlcMenu> | undefined {
-        const menuComponent = this._connectorMenuMetadata?.menuComponent;
-        return menuComponent ? getComponent<MenuConstructor<AlcMenu>>(menuComponent) : undefined;
-    }
-
-    get canvasContext(): CanvasContext {
-        const mode =
-            this._goToSource != null
-                ? AutoLayoutCanvasMode.RECONNECTION
-                : this.isSelectionMode
-                ? AutoLayoutCanvasMode.SELECTION
-                : AutoLayoutCanvasMode.DEFAULT;
-        const isPasteAvailable = this.isPasteAvailable;
-        return {
-            isPasteAvailable,
-            mode,
-            incomingStubGuid: this._incomingStubGuid
-        };
-    }
-
-    get showConnectorMenu() {
-        return this.menu?.ctor && this.menu?.menuType === MenuType.CONNECTOR;
-    }
-
-    get showNodeMenu() {
-        return this.menu?.ctor && this.menu?.menuType === MenuType.NODE;
-    }
-
-    get menuContainerClasses() {
-        return 'menu-container ' + this.menuOpacityClass;
     }
 
     get scale() {
@@ -501,19 +396,11 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
      * @returns - True if the spinner should be displayed
      */
     get showSpinner(): boolean {
-        return (
-            !this._flowRenderContext ||
-            this.dynamicNodeCountAtLoad > this._flowRenderContext.dynamicNodeDimensionMap.size ||
-            !this.initialStartMenuDisplayed
-        );
+        return !this._flowRenderContext || this.shouldHideFlow();
     }
 
     getStartElementGuid() {
         return this.flowModel[NodeType.ROOT].children[0];
-    }
-
-    getOpenedMenu() {
-        return this.dom.as<AlcMenu>().menu;
     }
 
     /**
@@ -559,12 +446,20 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         return false;
     }
 
+    @api
+    getAriaSections(): HTMLElement[] {
+        return [this.dom.alcFlow, this.dom.zoomPanel];
+    }
+
+    // flag will be set to true once the canvas as been rendered
+    canvasReady = false;
+
     // TODO: W-10146473 [Trust] use decorator to reduce duplicate code for logging
     renderedCallback() {
+        super.renderedCallback();
+
         let hasLoadAlcCanvasError = false;
         try {
-            this.menuOpacityClass = this.menu != null ? FULL_OPACITY_CLASS : '';
-
             if (this._canvasElement == null) {
                 this._canvasElement = this.dom.canvasClass;
                 this.updateFlowRenderContext();
@@ -572,27 +467,6 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
 
             if (!this._flowContainerElement) {
                 this.postRenderInit();
-            }
-
-            const menuElement = this.getOpenedMenu();
-
-            if (menuElement != null) {
-                const { w, h } = getDomElementGeometry(menuElement);
-
-                const interactionState = this._pendingInteractionState || this._flowRenderContext.interactionState;
-                const menuInfo = interactionState.menuInfo!;
-                const { geometry } = menuInfo;
-
-                this._pendingInteractionState = null;
-
-                if (geometry == null || geometry.h !== h) {
-                    this.updateFlowRenderContext({
-                        interactionState: {
-                            ...interactionState,
-                            menuInfo: { ...menuInfo, geometry: { w, h, x: 0, y: 0 } }
-                        }
-                    });
-                }
             }
         } catch (e) {
             hasLoadAlcCanvasError = true;
@@ -605,6 +479,22 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
                 this.isFirstTimeCalled = false;
             }
         }
+
+        this.checkAndDispatchCanvasReady();
+    }
+
+    /**
+     * Dispatches a canvasready event when the canvas becomes ready
+     */
+    checkAndDispatchCanvasReady() {
+        if (
+            this.dom.alcFlow &&
+            !this.canvasReady &&
+            (this.canvasContext.menu != null || this.getStartMenuComponent() == null)
+        ) {
+            this.canvasReady = true;
+            this.dispatchEvent(new CustomEvent('canvasready', { bubbles: true, composed: true }));
+        }
     }
 
     postRenderInit() {
@@ -614,46 +504,55 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
             this.initializePanzoom();
 
             // open the start element menu on load
-            const startElementGuid = this.getStartElementGuid();
-            const startElement = this.flowModel[startElementGuid];
-            const elementMetadata = this._flowRenderContext.elementsMetadata[startElement.elementType];
-            const { menuComponent } = elementMetadata;
-
-            if (menuComponent) {
-                importComponent(menuComponent).then(() => {
-                    const containerGeometry = getDomElementGeometry(this._flowContainerElement);
-
-                    const interactionState = {
-                        ...this._flowRenderContext.interactionState,
-                        menuInfo: { key: startElementGuid, type: MenuType.NODE, needToPosition: false },
-                        deletionPathInfo: null
-                    };
-
-                    // TODO: W-9613981 [Trust] Remove hardcoded alccanvas offsets
-                    const event = new ToggleMenuEvent({
-                        top: containerGeometry.y + NODE_ICON_SIZE,
-                        left: containerGeometry.x - NODE_ICON_SIZE / 2,
-                        offsetX: 0,
-                        height: 0,
-                        type: MenuType.NODE,
-                        source: { guid: startElementGuid },
-                        elementMetadata,
-                        moveFocusToMenu: true
-                    });
-
-                    this.openMenu(event, interactionState);
-                });
-            }
+            this.openStartMenu();
         }
     }
 
     /**
-     * Helper function that converts this._elementsMetadata to map of elementType -> metaData
+     * Returns the start menu component
+     *
+     * @returns The start menu component, if any
+     */
+    getStartMenuComponent(): string | undefined {
+        const startElementGuid = this.getStartElementGuid();
+        const startElement = this.flowModel[startElementGuid];
+        const elementMetadata = this._flowRenderContext.elementsMetadata[startElement.elementType];
+        return elementMetadata.menuComponent;
+    }
+
+    /**
+     * Opens the start menu
+     */
+    openStartMenu() {
+        const menuComponent = this.getStartMenuComponent();
+
+        if (menuComponent) {
+            const startElementGuid = this.getStartElementGuid();
+            importComponent(menuComponent).then(() => {
+                const interactionState = {
+                    ...this._flowRenderContext.interactionState,
+                    menuInfo: { key: startElementGuid, type: MenuType.NODE },
+                    deletionPathInfo: null
+                };
+
+                const event = new ToggleMenuEvent({
+                    type: MenuType.NODE,
+                    source: { guid: startElementGuid },
+                    moveFocusToMenu: true
+                });
+
+                this.openMenu(event, interactionState);
+            });
+        }
+    }
+
+    /**
+     * Helper function that converts this.canvasContext.elementsMetadata to map of elementType -> metaData
      *
      * @returns - The elements metadata map
      */
     _convertToElementMetadataMap() {
-        return this._elementsMetadata!.reduce((acc, elementMetadata) => {
+        return this.canvasContext.elementsMetadata!.reduce((acc, elementMetadata) => {
             acc[elementMetadata.elementSubtype || elementMetadata.elementType] = elementMetadata;
             return acc;
         }, {});
@@ -683,8 +582,13 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
 
     /**
      * Handles a elements selection change
+     *
+     * @param isSelectionMode - true in selection mode, false otherwise
      */
-    handleSelectionModeChange() {
+    handleSelectionModeChange(isSelectionMode: boolean) {
+        const mode = isSelectionMode ? AutoLayoutCanvasMode.SELECTION : AutoLayoutCanvasMode.DEFAULT;
+        this.updateCanvasContext({ mode });
+
         if (this.isSelectionMode) {
             this.closeNodeOrConnectorMenu();
             if (this.canvasContext.mode === AutoLayoutCanvasMode.RECONNECTION) {
@@ -697,6 +601,7 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
             }
         } else {
             this._topSelectedGuid = null;
+            this.updateCanvasContext({ mode: AutoLayoutCanvasMode.DEFAULT });
             this._goToSource = null;
             this._isReroutingGoto = false;
 
@@ -717,10 +622,10 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     /**
      * Updates the flow render context, and triggers a rerender
      *
-     * @param {FlowRenderContext} flowRenderContext - One or more flow render context properties
+     * @param flowRenderContext - One or more flow render context properties
      */
-    updateFlowRenderContext(flowRenderContext = {}) {
-        if (this._elementsMetadata == null || this.flowModel == null || this._canvasElement == null) {
+    updateFlowRenderContext(flowRenderContext: Partial<FlowRenderContext> = {}) {
+        if (this.canvasContext.elementsMetadata == null || this.flowModel == null || this._canvasElement == null) {
             return;
         }
 
@@ -747,25 +652,17 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         }
 
         this._flowRenderContext = Object.assign(this._flowRenderContext, flowRenderContext);
-        this.rerender(isFirstRender);
+        this.rerender();
     }
 
-    /**
-     * Zoom to full scale when clicking on a node or connector button
-     *
-     * @param obj - an object
-     * @param obj.top  - The top position of the menu button
-     * @param obj.left - The left position of the menu button
-     * @param {number} menuButtonHalfWidth - The half width of the menu button
-     */
-    zoomForMenuDisplay({ top, left }, menuButtonHalfWidth) {
-        const { x, y } = getDomElementGeometry(this._canvasElement);
+    setLastClickedElementGuid(guid: Guid) {
+        this.lastClickedElementGuid = guid;
 
-        const buttonOffset = menuButtonHalfWidth * this.scale;
-        top = top - y + buttonOffset;
-        left = left - x + buttonOffset;
-
-        this.handleZoomAction(SYNTHETIC_ZOOM_TO_VIEW_EVENT, { top, left });
+        // eslint-disable-next-line @lwc/lwc/no-async-operation
+        setTimeout(() => {
+            // clear the guid after the double click threshold is exceeded
+            this.lastClickedElementGuid = null;
+        }, DOUBLE_CLICK_THRESHOLD);
     }
 
     /**
@@ -783,45 +680,13 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         this.lastClickedElementGuid = null;
     }
 
-    handleMenuPositionUpdate(event: ToggleMenuEvent) {
-        let menuInfo = this._flowRenderContext.interactionState.menuInfo!;
-
-        if (menuInfo != null && menuInfo.needToPosition) {
-            this.lastClickedElementGuid = menuInfo.key;
-
-            // eslint-disable-next-line @lwc/lwc/no-async-operation
-            setTimeout(() => {
-                // clear the guid after the double click threshold is exceeded
-                this.lastClickedElementGuid = null;
-            }, DOUBLE_CLICK_THRESHOLD);
-
-            this._animatePromise.then(() => {
-                menuInfo = { ...menuInfo, needToPosition: false };
-                const interactionState = { ...this._flowRenderContext.interactionState, menuInfo };
-                this.updateMenu(event, menuInfo);
-                this.updateFlowRenderContext({ interactionState });
-            });
-        }
-    }
-
     /**
      * Toggles the node or connector menu
      *
-     * @param {ToggleMenuEvent} event - the toggle menu event
+     * @param event - the toggle menu event
      */
-    handleToggleMenu = (event) => {
+    handleToggleMenu = (event: ToggleMenuEvent) => {
         const { detail } = event;
-        const { type, elementMetadata } = detail;
-        const isNodeMenu = type === MenuType.NODE;
-
-        // return if a node doesn't support a menu
-        if (isNodeMenu && !elementMetadata.menuComponent) {
-            return;
-        }
-
-        if (event.detail.isPositionUpdate && this.menu != null && this.menu.style != null) {
-            return;
-        }
 
         const interactionState = toggleFlowMenu(detail, this._flowRenderContext.interactionState);
 
@@ -829,76 +694,27 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
             if (this.scale === MAX_ZOOM) {
                 this.openMenu(event, interactionState);
             } else {
-                const connectorMenu = event.detail.type;
-                const menuButtonHalfWidth =
-                    connectorMenu === MenuType.CONNECTOR ? CONNECTOR_ICON_SIZE / 2 : NODE_ICON_SIZE / 2;
-                this.zoomForMenuDisplay(event.detail, menuButtonHalfWidth);
-                this._interactionStateAfterZoom = toggleFlowMenu(detail, this._flowRenderContext.interactionState);
-                this._eventOpenMenuAfterZoom = event;
+                this.handleZoomAction(new ClickToZoomEvent(ZOOM_ACTION.ZOOM_TO_VIEW));
+                this.zoomEndAction = () => this.openMenu(event, interactionState);
             }
         } else {
-            this.menu = null;
-            this._pendingInteractionState = null;
+            this.updateCanvasContext({ menu: null });
             this.updateFlowRenderContext({ interactionState });
         }
     };
 
     handleCloseMenu = (event) => {
         event.stopPropagation();
+
+        const { source, type } = this.canvasContext.menu!;
+        if (type === MenuType.CONNECTOR) {
+            this.focusOnConnector(source);
+        } else if (event.moveFocusToTrigger) {
+            this._focusOnNode(source.guid);
+        }
+
         this.closeNodeOrConnectorMenu();
     };
-
-    openMenuAfterClick() {
-        if (this._eventOpenMenuAfterZoom && this._interactionStateAfterZoom) {
-            this.openMenu(this._eventOpenMenuAfterZoom, this._interactionStateAfterZoom);
-            this._eventOpenMenuAfterZoom = null;
-            this._interactionStateAfterZoom = null;
-        }
-    }
-
-    /**
-     * Get the constructor for a node or connector menu
-     *
-     * @param menuType - the menu type
-     * @param elementMetadata - the element metadata
-     * @returns the constructor for the menu
-     */
-    getMenuConstructor(menuType: MenuType, elementMetadata: ElementMetadata): MenuConstructor<AlcMenu> | undefined {
-        const componentName =
-            menuType === MenuType.CONNECTOR
-                ? this._connectorMenuMetadata?.menuComponent
-                : elementMetadata.menuComponent;
-
-        return componentName ? getComponent(componentName) : undefined;
-    }
-
-    /**
-     * Updates the menu object and moves the focust to the menu
-     *
-     * @param event - The ToggleMenuEvent
-     * @param menuInfo - the menu info
-     */
-    updateMenu(event: ToggleMenuEvent, menuInfo: InteractionMenuInfo) {
-        const menuButtonHalfWidth = menuInfo.type === MenuType.CONNECTOR ? CONNECTOR_ICON_SIZE / 2 : NODE_ICON_SIZE / 2;
-        const containerGeometry = getDomElementGeometry(this._flowContainerElement);
-
-        const menuConstructor = this.getMenuConstructor(menuInfo.type, event.detail.elementMetadata);
-
-        if (menuConstructor) {
-            this.menu = getAlcMenuData<AlcMenu>(
-                event,
-                menuButtonHalfWidth,
-                containerGeometry,
-                this._scale,
-                this._flowRenderContext,
-                menuInfo.needToPosition,
-                menuConstructor,
-                this.elementsMetadata
-            );
-
-            this.moveFocusToMenu = event.detail.moveFocusToMenu;
-        }
-    }
 
     /**
      * Opens the connector or node menu
@@ -907,8 +723,24 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
      * @param interactionState - The interaction state
      */
     openMenu(event: ToggleMenuEvent, interactionState: FlowInteractionState) {
-        this.updateMenu(event, interactionState.menuInfo!);
-        this._pendingInteractionState = interactionState;
+        const { moveFocusToMenu, type, source } = event.detail;
+
+        if (type === MenuType.NODE) {
+            this.setLastClickedElementGuid(source.guid);
+        }
+
+        // Close any open menu without animation before opening the new menu.
+        // This will avoid the confusing "double animation" where we are both animating the closing of the prior menu,
+        // and the opening the new menu.
+        this.closeNodeOrConnectorMenu(false);
+
+        this.updateCanvasContext({ menu: { type, source, autoFocus: moveFocusToMenu } });
+
+        this.updateFlowRenderContext({ interactionState });
+    }
+
+    updateCanvasContext(canvasContext: Partial<CanvasContext>) {
+        this.canvasContext = { ...this.canvasContext, ...canvasContext };
     }
 
     /**
@@ -919,6 +751,7 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     handleAddOrRerouteGoToItemSelection = (event: GoToPathEvent) => {
         const { source, isReroute } = event.detail;
         this._goToSource = source;
+        this.updateCanvasContext({ mode: AutoLayoutCanvasMode.RECONNECTION });
 
         this._isReroutingGoto = isReroute!;
 
@@ -1037,7 +870,7 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
      */
     handleHighlightAllOutgoingStubs = (event) => {
         // Highlights goTo stubs
-        this._incomingStubGuid = event.detail.guid;
+        this.updateCanvasContext({ incomingStubGuid: event.detail.guid });
 
         this.stubInteractionZoomToFit(event.detail.guid);
     };
@@ -1085,65 +918,9 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     }
 
     /**
-     * Handles moving focus to the connector from the Connector Menu
-     *
-     * @param event - moveFocusToConnector event coming from connectorMenu
-     */
-    handleMoveFocusToConnector = (event: MoveFocusToConnectorEvent) => {
-        event.stopPropagation();
-        this.focusOnConnector(event.detail.source);
-    };
-
-    /**
-     * Handles moving focus to the node from the Start/Regular Node Menu
-     *
-     * @param event - moveFocusToNode event coming from nodeMenu or startMenu
-     */
-    handleMoveFocusToNode = (event: MoveFocusToNodeEvent) => {
-        event.stopPropagation();
-        this.focusOnNode(event.detail.focusGuid);
-    };
-
-    moveFocusFromEmptyStartNode = (startNodeGuid) => {
-        if (this.disableAddElements) {
-            // Moving focus to the next valid element or the zoom panel when next connector "+" is not present
-            const startNode = this.flowModel[startNodeGuid];
-            const nextNode = this.flowModel[startNode.next];
-            if (nextNode.nodeType === NodeType.END) {
-                // Since End element can't get focus, moving focus to the zoom panel
-                this.focusOnZoomPanel();
-            } else {
-                this.focusOnNode(startNode.next);
-            }
-        } else {
-            // Currently it's not possible for a start menu to be empty and also have branches.
-            // Hence we don't need to account for branching connectors
-            // and can move focus directly to the next connector
-            this.focusOnConnector({ guid: startNodeGuid, childIndex: undefined });
-        }
-        this.closeNodeOrConnectorMenu();
-    };
-
-    handleTabOnMenuTrigger = (event: TabOnMenuTriggerEvent) => {
-        event.stopPropagation();
-        this.moveFocusToMenu = true;
-        const { shift } = event.detail;
-        const openedMenu = this.getOpenedMenu();
-
-        if (openedMenu && !openedMenu.isEmpty()) {
-            openedMenu.moveFocus(shift);
-        } else {
-            const { menuInfo } = this._flowRenderContext.interactionState;
-            this.moveFocusFromEmptyStartNode(menuInfo!.key);
-        }
-    };
-
-    /**
      * Re-renders the flow
-     *
-     * @param {boolean} isFirstRender - true if it's the first time rendering the flow
      */
-    rerender = (isFirstRender) => {
+    rerender = () => {
         if (this._isDisconnected) {
             // return if disconnected; this may occur because of debouncing
             return;
@@ -1151,28 +928,12 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
 
         calculateFlowLayout(this._flowRenderContext);
 
-        if (
-            isFirstRender ||
-            this.disableAnimation ||
-            this.dynamicNodeCountAtLoad > this._flowRenderContext.dynamicNodeDimensionMap.size ||
-            !this.initialStartMenuDisplayed
-        ) {
-            // first render, no animation
+        if (!this.hasBeenVisiblyRendered || this.disableAnimation) {
+            // no animations for the first render
             this.renderFlow(1);
-
-            this.initialStartMenuDisplayed = this.initialStartMenuDisplayed || this.dom.menu != null;
-
-            // reset the nodeLayoutMap to prevent animations until the start menu has been displayed
-            if (!this.initialStartMenuDisplayed) {
-                this._flowRenderContext.nodeLayoutMap = {};
-            }
+            this.hasBeenVisiblyRendered = true;
         } else {
-            const { menuInfo } = this._flowRenderContext.interactionState;
-
-            // 10ms animation when needToPosition
-            const duration = menuInfo != null && menuInfo.needToPosition ? 10 : undefined;
-
-            this._animatePromise = animate((progress) => this.renderFlow(progress), duration);
+            this._animatePromise = animate((progress) => this.renderFlow(progress));
             this._animatePromise.then(() => {
                 // Moving focus to the expected element when entering selection mode to
                 // select the GoTo target and when the target is selected.
@@ -1212,8 +973,14 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
             filterKey: () => true
         });
 
-        const boundFunction = () => this.openMenuAfterClick();
-        this._panzoom.on('zoomend', boundFunction);
+        const onZoomEnd = () => {
+            if (this.zoomEndAction) {
+                this.zoomEndAction();
+            }
+            delete this.zoomEndAction;
+        };
+
+        this._panzoom.on('zoomend', onZoomEnd);
         this.panzoomMoveToCenterTop();
         this._panzoomOffsets = { x: 0, y: 0 - (this.getFlowHeight() * MIN_ZOOM) / 2 };
         this._panzoom.on('pan', () => {
@@ -1234,13 +1001,23 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     /**
      * Renders the flow
      *
-     * @param {number} progress - the animation progress with domain [0, 1]
+     * @param progress - the animation progress with domain [0, 1]
      */
-    renderFlow(progress) {
+    renderFlow(progress: number) {
         this._flowRenderInfo = renderFlow(this._flowRenderContext, progress);
         this.flow = getAlcFlowData(this._flowRenderInfo, { guid: NodeType.ROOT, childIndex: 0 });
         // TODO: temp fix to keep flow and flowModel in sync
         this.flow.flowModel = this._flowRenderContext.flowModel;
+    }
+
+    shouldHideFlow() {
+        return this.dynamicNodeCountAtLoad > this._flowRenderContext?.dynamicNodeDimensionMap?.size;
+    }
+
+    get flowContainerClass() {
+        return classSet('flow-container').add({
+            'slds-hidden': this.shouldHideFlow()
+        });
     }
 
     /**
@@ -1250,6 +1027,17 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
      */
     getFlowHeight() {
         return this._flowRenderInfo.geometry.h;
+    }
+
+    /**
+     * Returns a Geometry object for a DOM element
+     *
+     * @param domElement - a DOM element
+     * @returns The Geometry for the DOM element
+     */
+    getDomElementGeometry(domElement: HTMLElement) {
+        const { left, right, top, bottom } = domElement.getBoundingClientRect();
+        return { x: left, y: top, w: right - left, h: bottom - top };
     }
 
     /**
@@ -1269,14 +1057,16 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     /**
      * Handles a zoom action
      *
-     * @param {Object} event - An event with the zoom action
-     * @param {Object} position - The coords of the mouse click
+     * @param event - An event with the zoom action
+     * @param position - The coords of the mouse click
      */
-    handleZoomAction = (event, position = this.getCanvasCenter()) => {
+    handleZoomAction = (event: ClickToZoomEvent, position: Position = this.getCanvasCenter()) => {
+        this.closeNodeOrConnectorMenu();
+
         let { top, left } = position;
         const zoomAction = event.detail.action;
 
-        let closeMenu = this.menu != null;
+        let closeMenu = this.canvasContext.menu != null;
         let scale = this.scale;
         let flowBounds;
         switch (zoomAction) {
@@ -1338,13 +1128,30 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         this.dispatchEvent(closePropertyEditorEvent);
     };
 
+    showGrabbing = false;
+    /**
+     * Whether to show the grabbing cursor
+     *
+     * @param showGrabbing - if true show the grabbing cursor
+     */
+    showGrabbingCursor(showGrabbing: boolean) {
+        const { classList } = this.dom.canvasClass;
+        if (showGrabbing) {
+            classList.add(GRABBING_CURSOR_CLASS);
+            this.showGrabbing = true;
+        } else {
+            classList.remove(GRABBING_CURSOR_CLASS);
+            this.showGrabbing = false;
+        }
+    }
+
     /**
      * Setting the cursor style to 'grabbing' in case the pan is still in progress
      * i.e. the user left the canvas while panning and entered back without doing a mouse up outside
      */
     handleCanvasMouseEnter = () => {
         if (this.isPanInProgress) {
-            this.dom.canvasClass.classList.add('grabbing-cursor');
+            this.showGrabbingCursor(true);
         }
     };
 
@@ -1354,14 +1161,14 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     handleCanvasMouseLeave = () => {
         // We need to reset the cursor style here to avoid it from being in the 'grabbing' state
         // in case the user had left the canvas while panning and did a mouse up outside the canvas
-        this.dom.canvasClass.classList.remove('grabbing-cursor');
+        this.showGrabbingCursor(false);
     };
 
     /**
      * Setting the cursor style to 'grabbing' when panning begins on mouse down
      */
     handleCanvasMouseDown = () => {
-        this.dom.canvasClass.classList.add('grabbing-cursor');
+        this.showGrabbingCursor(true);
     };
 
     /**
@@ -1369,25 +1176,46 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
      * then dispatch the canvas mouse up event to deselect all the selected canvas elements. Also reset
      * the cursor style and panning variable.
      *
-     * @param {object} event - mouse up event
+     * @param event - mouse up event
      */
-    handleCanvasMouseUp = (event) => {
+    handleCanvasMouseUp = (event: MouseEvent) => {
         // We need the this.isPanInProgress check here so that we don't deselect elements when the user ends panning
+        const target = <HTMLElement>event.currentTarget;
         if (
-            !this._isSelectionMode &&
+            this.canvasContext.mode !== AutoLayoutCanvasMode.SELECTION &&
             !this.isPanInProgress &&
-            event.currentTarget &&
-            (event.currentTarget.classList.contains('canvas') ||
-                event.currentTarget.classList.contains('flow-container'))
+            target &&
+            (target.classList.contains('canvas') || target.classList.contains('flow-container'))
         ) {
             const canvasMouseUpEvent = new CanvasMouseUpEvent();
             this.dispatchEvent(canvasMouseUpEvent);
 
             this.clearIncomingStubGuid();
         }
-        this.dom.canvasClass.classList.remove('grabbing-cursor');
+        this.showGrabbingCursor(false);
         this.isPanInProgress = false;
     };
+
+    /**
+     * Updates the geometry of the menu after it has been rendered
+     *
+     * @param event - The MenuRenderedEvent with the geometry information
+     */
+    handleMenuRendered(event: MenuRenderedEvent) {
+        const { width, height } = event.detail;
+        const interactionState = this._flowRenderContext.interactionState;
+        const menuInfo = interactionState.menuInfo!;
+        const { geometry } = menuInfo;
+
+        if (geometry == null || geometry.h !== height) {
+            this.updateFlowRenderContext({
+                interactionState: {
+                    ...interactionState,
+                    menuInfo: { ...menuInfo, geometry: { w: width, h: height, x: 0, y: 0 } }
+                }
+            });
+        }
+    }
 
     /**
      * Add the dimension information for the guid to dynamicNodeDimensionMap
@@ -1398,10 +1226,10 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
      */
     handleDynamicNodeRender = (event: NodeResizeEvent) => {
         event.stopPropagation();
-        const { width, height } = event.detail;
+        const { guid, width, height } = event.detail;
 
         // scale dimensions to account for zooming, and add them to the map
-        this._flowRenderContext.dynamicNodeDimensionMap.set(event.detail.guid, {
+        this._flowRenderContext.dynamicNodeDimensionMap.set(guid, {
             w: width / this.scale,
             h: height / this.scale
         });

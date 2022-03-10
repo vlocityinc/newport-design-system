@@ -26,11 +26,7 @@ export default class PaletteSection extends withKeyboardInteractions(LightningEl
      * @returns the keyboard interactions
      */
     getKeyboardInteractions() {
-        if (!this.gridKeyboardInteraction) {
-            this.gridKeyboardInteraction = new GridKeyboardInteraction(this.template);
-        }
-
-        return [this.gridKeyboardInteraction];
+        return [new GridKeyboardInteraction(this.template)];
     }
 
     /**

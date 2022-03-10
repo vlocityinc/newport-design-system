@@ -35,6 +35,8 @@ import {
     UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE,
     UPDATE_RESOURCE_ERROR_STATE
 } from 'builder_platform_interaction/actions';
+import AlcCanvasContainer from 'builder_platform_interaction/alcCanvasContainer';
+import { getShiftFocusKeyboardInteraction } from 'builder_platform_interaction/alcComponentsUtils';
 import {
     addEndElementsAndConnectorsTransform,
     canConvertToAutoLayoutCanvas,
@@ -139,9 +141,11 @@ import { fetch, fetchOnce, fetchPromise, SERVER_ACTION_TYPE } from 'builder_plat
 import {
     commands,
     commonUtils,
+    focusUtils,
     invokeModal,
     keyboardInteractionUtils,
     loggingUtils,
+    lwcUtils,
     storeUtils
 } from 'builder_platform_interaction/sharedUtils';
 import { fetchFieldsForEntity, getEntity, MANAGED_SETUP, setEventTypes } from 'builder_platform_interaction/sobjectLib';
@@ -206,8 +210,6 @@ import {
     screenFieldsReferencedByLoops,
     setErrorMessage,
     setFlowErrorsAndWarnings,
-    shiftFocusFromCanvas,
-    shiftFocusFromToolbar,
     updateStoreAfterSaveAsNewFlowIsFailed,
     updateStoreAfterSaveAsNewVersionIsFailed,
     updateStoreAfterSaveFlowIsSuccessful,
@@ -227,8 +229,7 @@ const {
     TOGGLE_CANVAS_MODE,
     EDITOR
 } = loggingUtils;
-const { ShiftFocusForwardCommand, ShiftFocusBackwardCommand, DisplayShortcutsCommand, FocusOnDockingPanelCommand } =
-    commands;
+const { DisplayShortcutsCommand, FocusOnDockingPanelCommand } = commands;
 
 let unsubscribeStore;
 let storeInstance: Store;
@@ -274,13 +275,22 @@ const ELEMENT_TYPES_TO_ALWAYS_EDIT_IN_MODAL = [
     ELEMENT_TYPE.FLOW_PROPERTIES
 ];
 
+const selectors = {
+    alcCanvasContainer: PANELS.AUTOLAYOUT_CANVAS
+};
+
 /**
  * Editor component for flow builder. This is the top-level smart component for
  * flow builder. It is responsible for maintaining the overall state of app and
  * handle event from various child components.
  */
 export default class Editor extends withKeyboardInteractions(LightningElement) {
+    private dom = lwcUtils.createDomProxy(this, selectors);
+
     _builderType;
+
+    // list of the components currently included in the shift focus interaction
+    currShiftFocusComponents: HTMLElement[] = [];
 
     @api
     get builderType() {
@@ -2035,14 +2045,16 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         );
     };
 
-    /**
-     * the callback function to move focus correctly when closing property editor
-     *
-     * @param source - The source for the connection
-     */
-    moveFocusToConnector = (source: ConnectionSource) => {
-        const alcCanvasContainer = this.template.querySelector('builder_platform_interaction-alc-canvas-container');
-        alcCanvasContainer.focusOnConnector(source);
+    getAlcCanvas() {
+        return this.dom.as<AlcCanvasContainer>().alcCanvasContainer.getAlcCanvas();
+    }
+
+    getAlcCanvasContainer() {
+        return this.template.querySelector('builder_platform_interaction-alc-canvas-container');
+    }
+
+    moveFocusToNode = (focusGuid: UI.Guid) => {
+        this.getAlcCanvasContainer().focusOnNode(focusGuid);
     };
 
     /** *********** Canvas and Node Event Handling */
@@ -2083,8 +2095,14 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             const nodeUpdate = this.usePanelForPropertyEditor
                 ? this.deMutateAndUpdateNodeCollection
                 : // creating a closure here to pass thru alcConnectionSource to deMutateAndAddNodeCollection when it is called
-                  (node, parentGuid) => this.deMutateAndAddNodeCollection(node, parentGuid, alcConnectionSource!);
-            const moveFocusOnCloseCallback = this.moveFocusToConnector;
+                  (node, parentGuid) => this.deMutateAndAddNodeCollection(node, parentGuid, alcConnectionSource);
+
+            const savedActiveElement = focusUtils.getElementWithFocus();
+
+            const moveFocusOnCloseCallback = () => {
+                savedActiveElement?.focus();
+            };
+
             const newResourceCallback = this.newResourceCallback;
             const editResourceCallback = this.editResourceCallback;
             const processType = this.properties.processType;
@@ -2163,6 +2181,16 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             this.editElement(mode, guid, forceModal, designateFocus);
         }
     };
+
+    /**
+     * Handles the canvasready event
+     */
+    handleCanvasReady() {
+        // To Do: W-9299993: update this to not rely on hardcoded checks for process type and trigger type
+        if (isNonOrchestratorRecordTriggeredFlow(getTriggerType())) {
+            this.handleRecordTriggerStartPropertyEditor();
+        }
+    }
 
     /**
      * Launches the merged recordChangeTriggerEditor (merged with contextRecordEditor)
@@ -2495,90 +2523,6 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         );
     };
 
-    handleCanvasFocusOut = (event) => {
-        shiftFocusFromCanvas(
-            this._getLeftPanelComponent(),
-            this._getToolbarComponent(),
-            this._getHeaderComponent(),
-            this._getRightPanelComponent(),
-            event.detail.shiftBackward
-        );
-    };
-
-    handleToolbarFocusOut = (event) => {
-        shiftFocusFromToolbar(this._getHeaderComponent(), this._getCanvasComponent(), event.detail.shiftBackward);
-    };
-
-    handleShiftFocus = (shiftBackward) => {
-        const currentlyFocusedElement =
-            this.template.activeElement && this.template.activeElement.tagName.toLowerCase();
-
-        switch (currentlyFocusedElement) {
-            case PANELS.HEADER:
-                if (shiftBackward) {
-                    const rightPanelComponent = this._getRightPanelComponent();
-                    if (rightPanelComponent) {
-                        rightPanelComponent.focus();
-                    } else {
-                        this._getCanvasComponent().focus();
-                    }
-                } else {
-                    this._getToolbarComponent().focus(shiftBackward);
-                }
-                break;
-
-            case PANELS.TOOLBAR:
-                if (shiftBackward) {
-                    this._getHeaderComponent().focus();
-                } else if (this._getLeftPanelComponent()) {
-                    this._getLeftPanelComponent().focus();
-                } else {
-                    this._getCanvasComponent().focus();
-                }
-
-                break;
-
-            case PANELS.TOOLBOX:
-                if (shiftBackward) {
-                    this._getToolbarComponent().focus(shiftBackward);
-                } else {
-                    this._getCanvasComponent().focus();
-                }
-                break;
-
-            case PANELS.FREEFORM_CANVAS:
-                shiftFocusFromCanvas(
-                    this._getLeftPanelComponent(),
-                    this._getToolbarComponent(),
-                    this._getHeaderComponent(),
-                    this._getRightPanelComponent(),
-                    shiftBackward
-                );
-                break;
-
-            case PANELS.AUTOLAYOUT_CANVAS:
-                this._getCanvasComponent().shiftFocus(shiftBackward);
-                break;
-
-            case PANELS.PROPERTY_EDITOR_PANEL:
-            case PANELS.DEBUG_PANEL:
-                if (shiftBackward) {
-                    this._getCanvasComponent().focus();
-                } else {
-                    this._getHeaderComponent().focus();
-                }
-                break;
-
-            default:
-                if (shiftBackward) {
-                    this._getCanvasComponent().focus();
-                } else {
-                    this._getHeaderComponent().focus();
-                }
-        }
-        logInteraction('editor', 'editor', { operationStatus: 'shift panel focus' }, 'keydown');
-    };
-
     handleFocusOnDockingPanel = () => {
         focusOnDockingPanel();
     };
@@ -2700,15 +2644,6 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             this.spinners.showAutoLayoutSpinner = false;
         }
     }
-    /**
-     * the callback function to move focus correctly when closing property editor
-     *
-     * @param focusGuid - the guid of the element that the focus should go to
-     */
-    moveFocusToNode = (focusGuid: UI.Guid) => {
-        const alcCanvasContainer = this.template.querySelector('builder_platform_interaction-alc-canvas-container');
-        alcCanvasContainer.focusOnNode(focusGuid);
-    };
 
     /**
      * Method to open the property editor of the element needs to be edited
@@ -2724,8 +2659,13 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             this.closeAutoLayoutContextualMenu();
         }
 
+        const savedActiveElement = focusUtils.getElementWithFocus();
+
         const nodeUpdate = this.deMutateAndUpdateNodeCollection;
-        const moveFocusOnCloseCallback = this.moveFocusToNode;
+        const moveFocusOnCloseCallback = () => {
+            savedActiveElement?.focus();
+        };
+
         const editResourceCallback = this.editResourceCallback;
         const newResourceCallback = this.newResourceCallback;
         const processType = this.properties.processType;
@@ -2983,12 +2923,29 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         }
     }
 
-    getKeyboardInteractions() {
-        // Shift Focus Forward Command
-        const shiftFocusForwardCommand = new ShiftFocusForwardCommand(() => this.handleShiftFocus(false));
+    getShiftFocusComponents(): HTMLElement[] {
+        const canvas = this._getCanvasComponent();
+        let canvasSections;
 
-        // Shift Focus Backward Command
-        const shiftFocusBackwardCommand = new ShiftFocusBackwardCommand(() => this.handleShiftFocus(true));
+        if (this.properties.isAutoLayoutCanvas) {
+            const alcCanvas = canvas.getAlcCanvas();
+            canvasSections = alcCanvas ? alcCanvas.getAriaSections() : [];
+        } else {
+            canvasSections = [canvas];
+        }
+
+        return [
+            this._getHeaderComponent(),
+            this._getToolbarComponent(),
+            this._getLeftPanelComponent(),
+            ...canvasSections,
+            this._getRightPanelComponent()
+        ];
+    }
+
+    getKeyboardInteractions() {
+        this.currShiftFocusComponents = this.getShiftFocusComponents();
+        const sections = this.currShiftFocusComponents.filter((section) => section != null);
 
         // Display shortcuts Command
         const displayShortcutsCommand = new DisplayShortcutsCommand(() => invokeKeyboardHelpDialog());
@@ -2997,9 +2954,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         const focusOnDockingPanelCommand = new FocusOnDockingPanelCommand(() => this.handleFocusOnDockingPanel());
 
         return [
+            getShiftFocusKeyboardInteraction(sections),
             new BaseKeyboardInteraction([
-                createShortcut(shortcuts.shiftFocusForward, shiftFocusForwardCommand),
-                createShortcut(shortcuts.shiftFocusBackward, shiftFocusBackwardCommand),
                 createShortcut(shortcuts.displayShortcuts, displayShortcutsCommand),
                 createShortcut(shortcuts.focusOnDockingPanel, focusOnDockingPanelCommand)
             ])
@@ -3042,8 +2998,33 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         );
     };
 
+    /**
+     * Updates the keyboard interactions if the shift focus components have changed
+     */
+    updateKeyboardInteractions() {
+        const nextShiftFocusComponents = this.getShiftFocusComponents();
+        const { currShiftFocusComponents } = this;
+
+        let componentsChanged = false;
+        if (currShiftFocusComponents.length === nextShiftFocusComponents.length) {
+            for (let i = 0; i < currShiftFocusComponents.length; i++) {
+                if (currShiftFocusComponents[i] !== nextShiftFocusComponents[i]) {
+                    componentsChanged = true;
+                }
+            }
+        } else {
+            componentsChanged = true;
+        }
+
+        if (componentsChanged) {
+            this.setKeyboardInteractions(this.getKeyboardInteractions());
+        }
+    }
+
     // TODO: W-10146473 [Trust] use decorator to reduce duplicate code for logging
     renderedCallback() {
+        super.renderedCallback();
+
         // Show New Flow modal.
         // Hiding (!this.showNewFlowDialog && this.newFlowModalActive) is done in
         // the modal callbacks since the editor does not hold a reference to the modal.
@@ -3127,6 +3108,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                 throw e;
             }
         }
+
+        this.updateKeyboardInteractions();
     }
 
     connectedCallback() {
@@ -3282,10 +3265,6 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         }
         this.createFlowFromProcessTypeAndTriggerType(processType, triggerType);
         this.spinners.showFlowMetadataSpinner = false;
-        // To Do: W-9299993: update this to not rely on hardcoded checks for process type and trigger type
-        if (isNonOrchestratorRecordTriggeredFlow(triggerType)) {
-            this.handleRecordTriggerStartPropertyEditor();
-        }
     };
 
     /**

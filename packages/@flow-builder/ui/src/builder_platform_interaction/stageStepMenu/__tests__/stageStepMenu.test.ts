@@ -1,4 +1,4 @@
-import { CloseMenuEvent, FocusOutEvent } from 'builder_platform_interaction/alcEvents';
+import { FocusOutEvent } from 'builder_platform_interaction/alcEvents';
 import { removeDocumentBodyChildren, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import { AddElementEvent } from 'builder_platform_interaction/events';
 import { ACTION_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -11,7 +11,7 @@ const { EnterCommand, SpaceCommand, ArrowDown, ArrowUp, EscapeCommand, TabComman
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
 const selectors = {
-    menuItem: 'div[role="option"]'
+    menuItem: 'div[role="menuitem"]'
 };
 
 const createComponentUnderTest = () => {
@@ -35,14 +35,6 @@ describe('Stage Step Menu', () => {
 
     it('should render the component', () => {
         expect(stageStepMenuElement).toBeDefined();
-    });
-
-    it('should dispatch close menu event on selecting a menu item ', () => {
-        const callback = jest.fn();
-        stageStepMenuElement.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
-        const listItems = stageStepMenuElement.shadowRoot.querySelectorAll(selectors.menuItem);
-        listItems[0].click();
-        expect(callback).toHaveBeenCalled();
     });
 
     it('should create an Background Step when the Background Step button is clicked', () => {
@@ -105,6 +97,7 @@ describe('Stage Step Menu', () => {
         const callback = jest.fn();
         stageStepMenuElement.addEventListener(AddElementEvent.EVENT_NAME, callback);
         const listItems = stageStepMenuElement.shadowRoot.querySelectorAll(selectors.menuItem);
+        listItems[1].setAttribute('tabindex', '0');
         listItems[1].focus();
         stageStepMenuElement.addEventListener(AddElementEvent.EVENT_NAME, callback);
         stageStepMenuElement.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
@@ -120,6 +113,7 @@ describe('Stage Step Menu', () => {
         const callback = jest.fn();
         stageStepMenuElement.addEventListener(AddElementEvent.EVENT_NAME, callback);
         const listItems = stageStepMenuElement.shadowRoot.querySelectorAll(selectors.menuItem);
+        listItems[1].setAttribute('tabindex', '0');
         listItems[1].focus();
         stageStepMenuElement.addEventListener(AddElementEvent.EVENT_NAME, callback);
         stageStepMenuElement.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
@@ -142,6 +136,7 @@ describe('Stage Step Menu', () => {
 
     it('focus should move correctly to the previous row on arrow up', () => {
         const listItems = stageStepMenuElement.shadowRoot.querySelectorAll(selectors.menuItem);
+        listItems[1].setAttribute('tabindex', '0');
         listItems[1].focus();
         const callback = jest.fn();
         listItems[0].addEventListener('focus', callback);
@@ -151,6 +146,7 @@ describe('Stage Step Menu', () => {
 
     it('focus should move correctly to the first row on arrow down on the last row', () => {
         const listItems = stageStepMenuElement.shadowRoot.querySelectorAll(selectors.menuItem);
+        listItems[listItems.length - 1].setAttribute('tabindex', '0');
         listItems[listItems.length - 1].focus();
         const callback = jest.fn();
         listItems[0].addEventListener('focus', callback);

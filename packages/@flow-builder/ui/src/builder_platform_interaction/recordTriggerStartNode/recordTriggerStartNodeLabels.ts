@@ -1,4 +1,3 @@
-import startElementEdit from '@salesforce/label/FlowBuilderCanvasElement.startElementEdit';
 import startElementObject from '@salesforce/label/FlowBuilderCanvasElement.startElementObject';
 import startElementOptimizeFor from '@salesforce/label/FlowBuilderCanvasElement.startElementOptimizeFor';
 import startElementRecordConditions from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordConditions';
@@ -21,7 +20,6 @@ export const LABELS = {
     triggerTypeBeforeDelete,
     startElementTrigger,
     startElementOptimizeFor,
-    startElementEdit,
     startElementObject,
     startElementRecordConditions
 };

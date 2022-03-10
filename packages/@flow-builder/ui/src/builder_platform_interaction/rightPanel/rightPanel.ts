@@ -2,6 +2,8 @@
 import { api, LightningElement } from 'lwc';
 
 export default class RightPanel extends LightningElement {
+    static delegatesFocus = true;
+
     cssClassBase = 'slds-panel slds-size_full slds-panel_docked slds-panel_docked-right slds-is-open ';
 
     @api

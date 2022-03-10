@@ -49,6 +49,8 @@ const FLOW_BUILDER_UI_PACKAGE_DIR = 'packages/@flow-builder/ui';
         "baseUrl": ".",
          "paths": {
 ${pathPropertyIndent()}"lightning/accordion": ["../../../node_modules/lwc-components-lightning/src/lightning/accordion/accordion.js"],
+${pathPropertyIndent()}"lightning/focusTrap": ["../../../node_modules/lwc-components-lightning/src/lightning/focusTrap/focusTrap.js"],
+${pathPropertyIndent()}"lightning/popup": ["../../../node_modules/lwc-components-lightning/src/lightning/popup/popup.js"],
 ${pathPropertyIndent()}"lightning/accordionSection": ["../../../node_modules/lwc-components-lightning/src/lightning/accordionSection/accordionSection.js"],
 ${pathPropertyIndent()}"lightning/utils": ["../../../node_modules/lwc-components-lightning/src/lightning/utils/utils.js"],
 ${pathPropertyIndent()}"lightning/platformShowToastEvent": ["../../../node_modules/lwc-components-lightning/src/lightning/platformShowToastEvent/platformShowToastEvent.js"],
@@ -61,9 +63,14 @@ ${pathPropertyIndent()}"builder_platform_interaction/popover": ["../auto-layout-
 ${pathPropertyIndent()}"builder_platform_interaction/alcMenu": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcMenu/alcMenu.ts"],
 ${pathPropertyIndent()}"builder_platform_interaction/alcNodeMenu": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcNodeMenu/alcNodeMenu.ts"],
 ${pathPropertyIndent()}"builder_platform_interaction/alcConnectorMenu": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcConnectorMenu/alcConnectorMenu.ts"],
-${pathPropertyIndent()}"builder_platform_interaction/alcCanvas": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcCanvas/alcCanvas.ts"],
-${pathPropertyIndent()}"builder_platform_interaction/zoomPanel": ["../auto-layout-canvas-ui/src/builder_platform_interaction/zoomPanel/zoomPanel.ts"],
 ${pathPropertyIndent()}"builder_platform_interaction/alcComponentsUtils": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcComponentsUtils/alcComponentsUtils.ts"],
+${pathPropertyIndent()}"builder_platform_interaction/alcMenuUtils": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcMenuUtils/alcMenuUtils.ts"],
+${pathPropertyIndent()}"builder_platform_interaction/alcCanvas": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcCanvas/alcCanvas.ts"],
+${pathPropertyIndent()}"builder_platform_interaction/alcFlow": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcFlow/alcFlow.ts"],
+${pathPropertyIndent()}"builder_platform_interaction/alcCompoundNode": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcCompoundNode/alcCompoundNode.ts"],
+${pathPropertyIndent()}"builder_platform_interaction/alcNode": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcNode/alcNode.ts"],
+${pathPropertyIndent()}"builder_platform_interaction/alcConnector": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcConnector/alcConnector.ts"],
+${pathPropertyIndent()}"builder_platform_interaction/zoomPanel": ["../auto-layout-canvas-ui/src/builder_platform_interaction/zoomPanel/zoomPanel.ts"],
 ${paths.join(',\n')}
          }
     },

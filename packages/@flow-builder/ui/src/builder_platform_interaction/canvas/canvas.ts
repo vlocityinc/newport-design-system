@@ -764,10 +764,13 @@ export default class Canvas extends withKeyboardInteractions(LightningElement) {
     }
 
     disconnectedCallback() {
+        super.disconnectedCallback();
         clearDrawingLibInstance();
     }
 
     renderedCallback() {
+        super.renderedCallback();
+
         if (!getDrawingLibInstance().getContainer()) {
             this.canvasArea = this.dom.canvas;
             this.innerCanvasArea = this.dom.innerCanvas;

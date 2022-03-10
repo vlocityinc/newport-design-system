@@ -33,6 +33,8 @@ const selectors = {
 };
 
 export default class LeftPanel extends LightningElement {
+    static delegatesFocus = true;
+
     private dom = lwcUtils.createDomProxy(this, selectors);
     private elementToFocus: keyof typeof selectors | undefined;
 

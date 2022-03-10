@@ -1,17 +1,16 @@
 .stepped-stage-node {
-    width: 300px;
+    width: var(--alc-menu-width);
+    position: relative;
+    margin: 0;
 }
 
 h3 {
     margin-top: 2rem;
 }
 
-.main {
-    border: var(--lwc-borderWidthThin) solid var(--lwc-colorBorder);
-    border-radius: var(--lwc-borderRadiusMedium);
-    font-size: var(--lwc-fontSize2);
-    background: #fafafb;
-    box-shadow: var(--lwc-shadowDropDown);
+builder_platform_interaction-stage-step-menu {
+    padding: 0;
+    margin: 0;
 }
 
 .background-stage-divider {
@@ -23,6 +22,7 @@ h3 {
 }
 
 .header {
+    background: var(--alc-menu-background);
     text-align: center;
     color: black;
     font-size: var(--lwc-fontSize5);
@@ -102,8 +102,13 @@ h3 {
 }
 
 lightning-popup {
-    position: relative;
-    z-index: var(--z-index-alc-canvas-menu);
+    position: absolute;
+    z-index: 0;
+}
+
+.popup-body {
+    width: 280px;
+    margin-top: -16px;
 }
 
 .step-menu-trigger {

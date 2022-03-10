@@ -126,7 +126,6 @@
                     elements-metadata={elementsMetadata}
                     is-selection-mode={isSelectionMode}
                     is-paste-available={isPasteAvailable}
-                    disable-add-elements={canvasConfig.disableAddElements}
                     disable-delete-elements={canvasConfig.disableDeleteElements}
                     disable-edit-elements={canvasConfig.disableEditElements}
                     active-element-guid={activeElementGuid}
@@ -144,9 +143,9 @@
                     oncreategotoconnection={handleGoToCreation}
                     ondeletegotoconnection={handleGoToDeletion}
                     onoutgoinggotostubclick={handleOutgoingGoToStubClick}
-                    oncanvasfocusout={handleCanvasFocusOut}
                     onopensubflow={handleOpenSubflow}
                     role="region"
+                    oncanvasready={handleCanvasReady}
                 >
                 </builder_platform_interaction-alc-canvas-container>
             </div>

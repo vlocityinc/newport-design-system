@@ -1,34 +1,43 @@
-import { AutoLayoutCanvasMode, ICON_SHAPE } from 'builder_platform_interaction/alcComponentsUtils';
 import {
-    CloseMenuEvent,
-    MenuPositionUpdateEvent,
-    TabOnMenuTriggerEvent,
-    ToggleMenuEvent
-} from 'builder_platform_interaction/alcEvents';
+    AutoLayoutCanvasMode,
+    getEnterKeyInteraction,
+    getEscapeKeyInteraction,
+    ICON_SHAPE
+} from 'builder_platform_interaction/alcComponentsUtils';
+import { CloseMenuEvent, ToggleMenuEvent } from 'builder_platform_interaction/alcEvents';
 import { ConnectionSource, MenuType, NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
-import { CanvasMouseUpEvent } from 'builder_platform_interaction/events';
+import { keyboardInteractionUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
 import { classSet } from 'lightning/utils';
 import { api, LightningElement } from 'lwc';
+
+const { withKeyboardInteractions } = keyboardInteractionUtils;
+
+const selectors = {
+    button: 'button',
+    checkbox: '.selection-checkbox'
+};
 
 /**
  * Fixed Layout Canvas Menu Button Component.
  * Used by Node and Connector components to render their buttons
  */
-export default class AlcMenuTrigger extends LightningElement {
-    target;
+export default class AlcMenuTrigger extends withKeyboardInteractions(LightningElement) {
+    dom = lwcUtils.createDomProxy(this, selectors);
+
+    override getKeyboardInteractions() {
+        return [
+            getEnterKeyInteraction(() => this.handleSpaceOrEnter()),
+            getEscapeKeyInteraction(() => this.handleEscape())
+        ];
+    }
 
     @api
     connectorAriaInfo;
 
     @api
-    guid;
-
-    @api
     elementMetadata;
-
     @api
-    variant;
-
+    variant = MenuType.NODE;
     @api
     isNodeGettingDeleted;
 
@@ -36,13 +45,10 @@ export default class AlcMenuTrigger extends LightningElement {
     hasError;
 
     @api
-    canvasMode!: AutoLayoutCanvasMode;
+    canvasMode: AutoLayoutCanvasMode = AutoLayoutCanvasMode.DEFAULT;
 
     @api
     source!: ConnectionSource;
-
-    @api
-    conditionOptionsForNode;
 
     @api
     disableEditElements;
@@ -80,7 +86,7 @@ export default class AlcMenuTrigger extends LightningElement {
     @api iconSize = 'medium';
 
     get triggerContainerClass() {
-        if (this.variant === 'connector') {
+        if (this.isConnectorVariant()) {
             return '';
         }
 
@@ -93,16 +99,18 @@ export default class AlcMenuTrigger extends LightningElement {
     }
 
     get computedButtonClass() {
+        const isConnectorVariant = this.isConnectorVariant();
+
         return classSet({
             'slds-button': true,
             'slds-button_icon': true,
-            'border-none': this.variant !== 'connector',
-            'is-end-element': this.variant !== 'connector' && this.elementMetadata.type === NodeType.END,
-            'node-in-selection-mode': this.canvasMode !== AutoLayoutCanvasMode.DEFAULT,
-            connector: this.variant === 'connector',
+            'border-none': !isConnectorVariant,
+            'is-end-element': !isConnectorVariant && this.elementMetadata.type === NodeType.END,
+            'node-in-selection-mode': !this.isDefaultCanvasMode(),
+            connector: isConnectorVariant,
             'node-to-be-deleted': this.isNodeGettingDeleted,
             'has-error': this.hasError,
-            'circular-icon': this.variant !== 'connector' && this.elementMetadata.iconShape === ICON_SHAPE.CIRCLE,
+            'circular-icon': !isConnectorVariant && this.elementMetadata.iconShape === ICON_SHAPE.CIRCLE,
             'slds-button_icon-xx-small': this.iconSize === 'xx-small',
             'slds-button_icon-x-small': this.iconSize === 'x-small',
             'slds-button_icon-small': this.iconSize === 'small'
@@ -110,50 +118,47 @@ export default class AlcMenuTrigger extends LightningElement {
     }
 
     get computedTabIndex() {
-        return this.canvasMode !== AutoLayoutCanvasMode.DEFAULT ||
-            (this.elementMetadata && this.elementMetadata.type === NodeType.END)
+        return !this.isDefaultCanvasMode() || (this.elementMetadata && this.elementMetadata.type === NodeType.END)
             ? -1
             : 0;
+    }
+
+    /**
+     * Checks for the connector variant
+     *
+     * @returns true iff this is the connector variant of the trigger
+     */
+    isConnectorVariant() {
+        return this.variant === MenuType.CONNECTOR;
     }
 
     /** ***************************** Helper Functions */
 
     focusOnButton() {
-        this.template.querySelector('button').focus({ preventScroll: true });
+        this.dom.button.focus({ preventScroll: true });
     }
 
-    toggleMenuVisibility(isPositionUpdate = false, moveFocusToMenu = false) {
-        if (this.disableEditElements && this.elementMetadata.type !== NodeType.START) {
+    /**
+     * Dispatches a ToggleMenuEvent when the trigger is activated
+     *
+     * @param moveFocusToMenu - Whether to move the focus to the menu when it is opened
+     * @fires ToggleMenuEvent
+     */
+    toggleMenuVisibility(moveFocusToMenu = false) {
+        const { elementMetadata, disableEditElements, variant, source } = this;
+
+        const hasComponent = variant !== MenuType.NODE || elementMetadata.menuComponent;
+        if (!hasComponent || (disableEditElements && elementMetadata.type !== NodeType.START)) {
             return;
         }
 
-        const { top, left, width, height } = this.target.getBoundingClientRect();
-        const { clientWidth } = this.target;
-
-        // account for border and stuff
-        const offsetX = (width - clientWidth) / 2;
-
-        const { conditionOptionsForNode, elementMetadata } = this;
-        const type = this.source ? MenuType.CONNECTOR : MenuType.NODE;
-
-        const source = this.source || { guid: this.guid };
-
-        const detail = {
-            top,
-            left,
-            height: height - 4, // TODO: clean up positioning
-            offsetX,
-            type,
-            elementMetadata,
-            conditionOptionsForNode,
-            isPositionUpdate,
-            moveFocusToMenu,
-            source
-        };
-
-        const event = isPositionUpdate ? new MenuPositionUpdateEvent(detail) : new ToggleMenuEvent(detail);
-
-        this.dispatchEvent(event);
+        this.dispatchEvent(
+            new ToggleMenuEvent({
+                type: variant,
+                source,
+                moveFocusToMenu
+            })
+        );
     }
 
     /** ***************************** Public Functions */
@@ -172,20 +177,16 @@ export default class AlcMenuTrigger extends LightningElement {
         event.stopPropagation();
         event.preventDefault();
 
-        if (this.canvasMode === AutoLayoutCanvasMode.DEFAULT) {
+        if (this.isDefaultCanvasMode()) {
             this.toggleMenuVisibility();
 
             // Focus on the button even if the browser doesn't do it by default
             // (the behavior differs between Chrome, Safari, Firefox). Focus should not be moved to
             // End Element
-            if (this.variant === 'connector' || this.elementMetadata.type !== NodeType.END) {
+            if (this.isConnectorVariant() || this.elementMetadata.type !== NodeType.END) {
                 this.focusOnButton();
             }
         }
-    }
-
-    handleButtonKeyDown(event) {
-        event.stopPropagation();
     }
 
     handleButtonMouseDown(event) {
@@ -193,57 +194,30 @@ export default class AlcMenuTrigger extends LightningElement {
         event.preventDefault();
     }
 
+    isDefaultCanvasMode() {
+        return this.canvasMode === AutoLayoutCanvasMode.DEFAULT;
+    }
+
     handleSpaceOrEnter() {
-        if (this.canvasMode === AutoLayoutCanvasMode.DEFAULT) {
+        if (this.isDefaultCanvasMode()) {
             // Opening and closing the current selected element
-            this.toggleMenuVisibility(false, true);
+            this.toggleMenuVisibility(true);
         } else {
             // Checking and unchecking the element when in selection mode
             // The checkbox is in a slot being filled by alcnode
-            this.querySelector<HTMLElement>('.selection-checkbox').click();
+            this.dom.checkbox.click();
         }
     }
 
     handleEscape() {
-        if (this._menuOpened) {
-            this.dispatchEvent(new CloseMenuEvent());
-        }
+        this.dispatchEvent(new CloseMenuEvent());
     }
-
-    handleKeyDown = (event) => {
-        const { key, shiftKey } = event;
-        if (key === 'Enter' || key === 'Space') {
-            event.stopPropagation();
-            event.preventDefault();
-            this.handleSpaceOrEnter();
-        } else if (key === 'Escape') {
-            event.stopPropagation();
-            event.preventDefault();
-            this.handleEscape();
-        } else if (this._menuOpened && key === 'Tab') {
-            event.preventDefault();
-            this.dispatchEvent(new TabOnMenuTriggerEvent(shiftKey));
-        } else if (key === 'Tab') {
-            // The CanvasMouseUpEvent is used to un-highlight
-            const canvasMouseUpEvent = new CanvasMouseUpEvent();
-            this.dispatchEvent(canvasMouseUpEvent);
-        }
-    };
 
     /** ***************************** Callbacks */
 
     connectedCallback() {
+        super.connectedCallback();
+
         this.classList.add('slds-dropdown-trigger', 'slds-dropdown-trigger_click');
-    }
-
-    renderedCallback() {
-        if (!this.target) {
-            this.target = this.template.querySelector('button');
-        }
-
-        if (this._menuOpened) {
-            // fire a MenuPositionUpdateEvent if the menuOpened so that the alcCanvas knows where to position it
-            this.toggleMenuVisibility(true);
-        }
     }
 }

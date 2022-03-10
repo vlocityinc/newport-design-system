@@ -1,39 +1,39 @@
-import { dispatchPrivateItemRegister, getStyleFromGeometry } from 'builder_platform_interaction/alcComponentsUtils';
+import {
+    dispatchPrivateItemRegister,
+    getEnterKeyInteraction,
+    getEscapeKeyInteraction
+} from 'builder_platform_interaction/alcComponentsUtils';
 import { CloseMenuEvent, SelectMenuItemEvent } from 'builder_platform_interaction/alcEvents';
-import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+import { keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import { api, LightningElement } from 'lwc';
 
-const { EnterCommand, SpaceCommand, EscapeCommand, TabCommand } = commands;
-const {
-    ListKeyboardInteraction,
-    BaseKeyboardInteraction,
-    createShortcut,
-    createShortcutKey,
-    Keys,
-    withKeyboardInteractions
-} = keyboardInteractionUtils;
+const { ListKeyboardInteraction, withKeyboardInteractions } = keyboardInteractionUtils;
 
-const selectors = { menuItem: 'div[role="option"]' };
-
-enum TabFocusRingItems {
-    Icon = 0,
-    ListItems = 1
-}
-export default class AlcMenu extends withKeyboardInteractions(LightningElement) {
+export default abstract class AlcMenu extends withKeyboardInteractions(LightningElement) {
     static className = 'alc-menu';
 
-    @api top;
-    @api left;
-    @api items;
+    protected isFirstRender = true;
+    protected listKeyboardInteraction;
+
+    getKeyboardInteractions() {
+        const listKeyboardInteraction = new ListKeyboardInteraction(this.template);
+        this.listKeyboardInteraction = listKeyboardInteraction;
+        return [
+            getEnterKeyInteraction(() => this.handleSpaceOrEnter(), true),
+            getEscapeKeyInteraction(() => this.handleEscape()),
+            listKeyboardInteraction
+        ];
+    }
 
     @api
-    moveFocusToMenu;
+    getListKeyboardInteraction() {
+        return this.listKeyboardInteraction;
+    }
 
-    @api
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    moveFocus = (shift: boolean) => {
-        this.moveFocusToFirstListItem();
-    };
+    /**
+     * Whether to move the focus to the menu on load
+     */
+    @api autoFocus = false;
 
     /**
      * Checks if the menu is empty or not
@@ -46,39 +46,12 @@ export default class AlcMenu extends withKeyboardInteractions(LightningElement) 
         return false;
     }
 
-    tabFocusRingIndex = 0;
-    tabFocusRingCmds: Function[] = [];
-
-    getKeyboardInteractions() {
-        return [
-            new BaseKeyboardInteraction([
-                createShortcut(Keys.Enter, new EnterCommand(() => this.handleSpaceOrEnter())),
-                createShortcut(Keys.Space, new SpaceCommand(() => this.handleSpaceOrEnter())),
-                createShortcut(Keys.Escape, new EscapeCommand(() => this.handleEscape()))
-            ]),
-            new ListKeyboardInteraction(this.template, this.getListKeyboardInteractionSelector())
-        ];
-    }
-
     /**
-     * Returns the selector used to determine which elements should be part of the list keyboard interaction
-     *
-     * @returns the selector for the list keyboard interaction
+     * Focusing on the host element moves the focus to the component's active list element
      */
-    getListKeyboardInteractionSelector() {
-        return selectors.menuItem;
-    }
-
-    get style() {
-        return getStyleFromGeometry({ y: this.top + 10, x: this.left });
-    }
-
-    getTabFocusRingCmds() {
-        return this.tabFocusRingCmds;
-    }
-
-    getTabFocusRingIndex() {
-        return this.tabFocusRingIndex;
+    @api
+    focus() {
+        this.listKeyboardInteraction.getActiveElement()?.focus();
     }
 
     /**
@@ -101,53 +74,10 @@ export default class AlcMenu extends withKeyboardInteractions(LightningElement) 
     }
 
     /**
-     * Helper function to calculate the index of the element in the tab focus ring.
-     *
-     * @param shift whether the shift key is pressed
-     * @param tabFocusRingIndex the given initial ring index
-     * @param tabFocusRingCmds the list of commands corresponding to the tab focus ring
-     * @returns the new tab focus ring index
-     */
-    calculateTabFocusRingIdx(shift: boolean, tabFocusRingIndex: number, tabFocusRingCmds: Function[]) {
-        let newTabFocusRingIdx = shift ? tabFocusRingIndex - 1 : (tabFocusRingIndex + 1) % tabFocusRingCmds.length;
-        if (newTabFocusRingIdx === -1) {
-            newTabFocusRingIdx = tabFocusRingCmds.length - 1;
-        }
-        return newTabFocusRingIdx;
-    }
-
-    /**
-     * Handle the click of the tab key on the menu.
-     *
-     * @param shift whether the shift key is pressed
-     */
-    handleTabCommand(shift: boolean) {
-        const tabFocusRingIndex = this.getTabFocusRingIndex();
-        const tabFocusRingCmds = this.getTabFocusRingCmds();
-        this.tabFocusRingIndex = this.calculateTabFocusRingIdx(shift, tabFocusRingIndex, tabFocusRingCmds);
-        tabFocusRingCmds[this.tabFocusRingIndex]();
-    }
-
-    /**
      * Closes the menu
      */
     handleEscape() {
         this.closeMenu();
-    }
-
-    setupCommandsAndShortcuts() {
-        this.keyboardInteractions.registerShortcuts([
-            createShortcut(Keys.Tab, new TabCommand(() => this.handleTabCommand(false), false)),
-            createShortcut(createShortcutKey(Keys.Tab, true), new TabCommand(() => this.handleTabCommand(true), true))
-        ]);
-    }
-
-    connectedCallback() {
-        super.connectedCallback();
-        this.setupCommandsAndShortcuts();
-
-        // registers this instance with its popover parent
-        dispatchPrivateItemRegister(this);
     }
 
     /**
@@ -171,44 +101,6 @@ export default class AlcMenu extends withKeyboardInteractions(LightningElement) 
     }
 
     /**
-     * Moves the focus to the first list item when moveFocusToMenu is true
-     */
-    renderedCallback() {
-        if (this.moveFocusToMenu) {
-            this.moveFocusToFirstListItem();
-        }
-    }
-
-    /**
-     * Helper function for moving focus for accessibility
-     *
-     * @param index - The index of the desired menu item
-     * @returns the menu item at the specified index
-     */
-    getItemFromItemList(index) {
-        const listItems = Array.from<HTMLElement>(this.template.querySelectorAll(selectors.menuItem));
-        return listItems && listItems[index];
-    }
-
-    /**
-     * Getter for the items in the tab focus ring.
-     *
-     * @returns the items in the tab focus ring
-     */
-    getTabRingIndexForListItems() {
-        return TabFocusRingItems.ListItems;
-    }
-
-    /**
-     * Helper function to move focus to the fist item in the menu.
-     */
-    moveFocusToFirstListItem() {
-        this.tabFocusRingIndex = this.getTabRingIndexForListItems();
-        const firstRowItem = this.getItemFromItemList(0);
-        firstRowItem.focus();
-    }
-
-    /**
      * Helper function to fire a CloseMenuEvent.
      */
     closeMenu() {
@@ -216,9 +108,30 @@ export default class AlcMenu extends withKeyboardInteractions(LightningElement) 
     }
 
     /**
-     * Moves focus to the menu.
+     * Get the menu classes
+     *
+     * @returns the classes for the menu
      */
-    focus() {
-        this.moveFocusToFirstListItem();
+    getMenuClasses(): string[] {
+        // @ts-ignore
+        return [this.constructor.className];
+    }
+
+    connectedCallback() {
+        super.connectedCallback();
+
+        this.classList.add(...this.getMenuClasses());
+
+        // registers this instance with its popover parent
+        dispatchPrivateItemRegister(this);
+    }
+
+    renderedCallback() {
+        super.renderedCallback();
+
+        if (this.isFirstRender && this.autoFocus) {
+            this.isFirstRender = false;
+            this.focus();
+        }
     }
 }

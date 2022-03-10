@@ -111,6 +111,10 @@ export class KeyboardInteractions {
     }
 
     keydownListener = (event: KeyboardEvent) => {
+        // setting this property makes the event available to the interactions
+        // @ts-ignore
+        event.commandContext = event;
+
         this.keyboardService.handleKeydown(event);
     };
 
@@ -149,6 +153,15 @@ type KeyboardEnabled = {
     getKeyboardInteractions: () => KeyboardInteraction[];
 };
 
+type KeyboardInteractionsCtor = new (...args: any[]) => {
+    keyboardInteractions: KeyboardInteractions;
+    getKeyboardInteractions(): KeyboardInteraction[];
+    setKeyboardInteractions(interactions: KeyboardInteraction[]): void;
+    connectedCallback(): void;
+    renderedCallback(): void;
+    disconnectedCallback(): void;
+};
+
 /**
  * Adds keyboard interaction support to a LightningElement subclass.
  * The subclass must satisfy the KeyboardEnabled interface, that is define
@@ -157,15 +170,17 @@ type KeyboardEnabled = {
  * For example:
  *    class MyUiWidget extends withKeyboardInteractions(LightningElement) {
  *          ...
- *          getKeyboardInteraction() {
- *              return new ListKeyboardInteraction(this.template);
+ *          getKeyboardInteractions() {
+ *              return [new ListKeyboardInteraction(this.template)];
  *          }
  *    }
  *
  * @param Base a base class that extends LightningElement
  * @returns a LightningElement subclass with keyboard interactions
  */
-export function withKeyboardInteractions<TBase extends Constructor<LightningElement & KeyboardEnabled>>(Base: TBase) {
+export function withKeyboardInteractions<TBase extends Constructor<LightningElement & KeyboardEnabled>>(
+    Base: TBase
+): KeyboardInteractionsCtor & TBase {
     return class extends Base {
         // TODO: rename KeyboardInteractions => KeyboardInteractionsManager
         // @api present for testing purposes
@@ -173,16 +188,32 @@ export function withKeyboardInteractions<TBase extends Constructor<LightningElem
         @api
         keyboardInteractions = new KeyboardInteractions();
 
+        // TODO: rename to keyboardInteractions after the above field is renamed
+        private _keyboardInteractions: KeyboardInteraction[] = [];
+
+        firstRender = true;
+
+        /**
+         * Override in decorated class to provide the keyboard interactions
+         *
+         * @returns the keyboard interactions
+         */
+        getKeyboardInteractions(): KeyboardInteraction[] {
+            return this._keyboardInteractions || [];
+        }
+
+        setKeyboardInteractions(interactions: KeyboardInteraction[]) {
+            this.destroyInteractions();
+
+            this._keyboardInteractions = interactions;
+
+            this.initInteractions();
+        }
+
         connectedCallback() {
             if (super.connectedCallback !== undefined) {
                 super.connectedCallback();
             }
-
-            this.getKeyboardInteractions().forEach((interaction: KeyboardInteraction) =>
-                this.keyboardInteractions.registerShortcuts(interaction.getBindings())
-            );
-
-            this.keyboardInteractions.addKeyDownEventListener(this.template);
         }
 
         renderedCallback() {
@@ -190,7 +221,27 @@ export function withKeyboardInteractions<TBase extends Constructor<LightningElem
                 super.renderedCallback();
             }
 
-            this.getKeyboardInteractions().forEach((interaction: KeyboardInteraction) => interaction.onRendered());
+            if (this.firstRender) {
+                this.initInteractions();
+                this.firstRender = false;
+            }
+
+            this._keyboardInteractions.forEach((interaction: KeyboardInteraction) => interaction.onRendered());
+        }
+
+        private initInteractions() {
+            this._keyboardInteractions = this.getKeyboardInteractions();
+
+            this._keyboardInteractions.forEach((interaction: KeyboardInteraction) =>
+                this.keyboardInteractions.registerShortcuts(interaction.getBindings())
+            );
+
+            this.keyboardInteractions.addKeyDownEventListener(this.template);
+        }
+
+        private destroyInteractions() {
+            this._keyboardInteractions?.forEach((interaction: KeyboardInteraction) => interaction.destroy());
+            this.keyboardInteractions?.removeKeyDownEventListener(this.template);
         }
 
         disconnectedCallback() {
@@ -198,9 +249,7 @@ export function withKeyboardInteractions<TBase extends Constructor<LightningElem
                 super.disconnectedCallback();
             }
 
-            this.getKeyboardInteractions().forEach((interaction: KeyboardInteraction) => interaction.destroy());
-
-            this.keyboardInteractions?.removeKeyDownEventListener(this.template);
+            this.destroyInteractions();
         }
     };
 }

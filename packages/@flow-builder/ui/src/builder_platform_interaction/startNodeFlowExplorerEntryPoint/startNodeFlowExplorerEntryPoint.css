@@ -5,8 +5,11 @@
     border-bottom-right-radius: 0.25rem;
 }
 
-.flow-explorer-entry-point:active,
-.flow-explorer-entry-point:focus {
+:host {
+    display: block;
+}
+:host():active .flow-explorer-entry-point,
+:host():focus .flow-explorer-entry-point {
     position: relative;
     box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-colorBorderSelection), 0 0 6px 3px var(--lwc-colorBorderSelection);
     outline: 0;

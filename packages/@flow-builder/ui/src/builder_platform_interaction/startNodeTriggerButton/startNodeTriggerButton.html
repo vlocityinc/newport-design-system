@@ -1,7 +1,8 @@
 <template>
+    <!-- TODO: should extract the common start button html into a template (see AlcMenuTemplate as an example) -->
     <div class="slds-border_top">
         <!--TRIGGER/SCHEDULE-->
-        <div tabindex="0" class="trigger-button button" onclick={handleTriggerClick}>
+        <div class="trigger-button button">
             <!--UNSET TRIGGER/SCHEDULE-->
             <div if:false={isSetTrigger} class={unsetStartButtonClasses}>
                 <!--icon-->

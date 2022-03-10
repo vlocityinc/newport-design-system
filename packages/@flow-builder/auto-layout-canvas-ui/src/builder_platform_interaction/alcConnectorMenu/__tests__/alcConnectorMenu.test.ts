@@ -3,7 +3,6 @@ import {
     CloseMenuEvent,
     DeleteGoToConnectionEvent,
     GoToPathEvent,
-    MoveFocusToConnectorEvent,
     PasteOnCanvasEvent
 } from 'builder_platform_interaction/alcEvents';
 import { createComponent } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
@@ -18,7 +17,7 @@ import {
     PASTE_ACTION
 } from '../alcConnectorMenuConfig';
 
-const { EnterCommand, SpaceCommand, ArrowDown, ArrowUp, EscapeCommand, TabCommand } = commands;
+const { EnterCommand, SpaceCommand, ArrowDown, ArrowUp, EscapeCommand } = commands;
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
@@ -34,7 +33,7 @@ jest.mock('../alcConnectorMenuConfig', () => {
                             {
                                 description: 'Collect information from',
                                 elementType: 'Screen',
-                                guid: 1,
+                                guid: 2,
                                 icon: 'standard:screen',
                                 iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
                                 iconClass: '',
@@ -49,7 +48,7 @@ jest.mock('../alcConnectorMenuConfig', () => {
                                 actionType: 'TestActionType',
                                 actionName: 'TestActionName',
                                 actionIsStandard: true,
-                                guid: 2,
+                                guid: 3,
                                 icon: 'standard:action',
                                 iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
                                 iconClass: '',
@@ -62,13 +61,13 @@ jest.mock('../alcConnectorMenuConfig', () => {
                         label: 'Interaction'
                     },
                     {
-                        guid: 2,
+                        guid: 4,
                         heading: 'Logic',
                         items: [
                             {
                                 description: 'Create Decision',
                                 elementType: 'Decision',
-                                guid: 1,
+                                guid: 5,
                                 icon: 'standard:decision',
                                 iconContainerClass:
                                     'slds-media__figure slds-listbox__option-icon rotate-icon-container slds-icon-standard-decision',
@@ -81,7 +80,7 @@ jest.mock('../alcConnectorMenuConfig', () => {
                             {
                                 description: 'Create End',
                                 elementType: 'End',
-                                guid: 2,
+                                guid: 6,
                                 icon: 'utility:stop',
                                 iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
                                 iconClass: 'background-red end-element-svg',
@@ -106,7 +105,7 @@ jest.mock('../alcConnectorMenuConfig', () => {
 
 const selectors = {
     listboxItem: '.slds-listbox__item',
-    listboxItemDiv: 'div[role="option"]',
+    listboxItemDiv: 'div[role="menuitem"]',
     decisionIconSpan: '.rotate-icon-container.slds-icon-standard-decision',
     decisionIcon: '.rotate-icon-svg',
     endIcon: '.background-red.end-element-svg'
@@ -120,7 +119,7 @@ const createComponentUnderTest = async (overrideOptions) => {
     return createComponent('builder_platform_interaction-alc-connector-menu', defaultOptions, overrideOptions);
 };
 
-describe('connector menu', () => {
+describe('Alc Connector Menu', () => {
     afterEach(() => {
         removeDocumentBodyChildren();
     });
@@ -171,6 +170,7 @@ describe('connector menu', () => {
     it('should dispatch add element with actionType, actionName and actionIsStandard properties ', async () => {
         const cmp = await createComponentUnderTest();
         const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
+        listItems[1].setAttribute('tabindex', 0);
         listItems[1].focus();
         const callback = jest.fn();
         cmp.addEventListener(AddElementEvent.EVENT_NAME, callback);
@@ -204,34 +204,6 @@ describe('connector menu', () => {
         const callback = jest.fn();
         cmp.addEventListener(PasteOnCanvasEvent.EVENT_NAME, callback);
         cmp.shadowRoot.querySelector(selectors.listboxItem).click();
-        expect(callback).toHaveBeenCalled();
-    });
-
-    it('Pressing enter while focus is on paste should fire the MoveFocusToConnectorEvent', async () => {
-        configureMenu.mockReturnValueOnce({
-            sections: [
-                {
-                    guid: 1,
-                    heading: '',
-                    items: [
-                        {
-                            guid: 1,
-                            icon: 'utility:paste',
-                            label: 'Paste copied element(s)',
-                            elementType: PASTE_ACTION,
-                            rowClass: 'slds-listbox__item action-row-line-height'
-                        }
-                    ],
-                    label: 'Action Section'
-                }
-            ]
-        });
-        const cmp = await createComponentUnderTest();
-        const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
-        const callback = jest.fn();
-        cmp.addEventListener(MoveFocusToConnectorEvent.EVENT_NAME, callback);
-        listItems[0].focus();
-        cmp.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
         expect(callback).toHaveBeenCalled();
     });
 
@@ -288,158 +260,6 @@ describe('connector menu', () => {
         cmp.addEventListener(GoToPathEvent.EVENT_NAME, callback);
         listItems[0].focus();
         cmp.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
-        expect(callback).toHaveBeenCalled();
-    });
-
-    it('Pressing space while focus is on paste should fire the MoveFocusToConnectorEvent', async () => {
-        configureMenu.mockReturnValueOnce({
-            sections: [
-                {
-                    guid: 1,
-                    heading: '',
-                    items: [
-                        {
-                            guid: 1,
-                            icon: 'utility:paste',
-                            label: 'Paste copied element(s)',
-                            elementType: PASTE_ACTION,
-                            rowClass: 'slds-listbox__item action-row-line-height'
-                        }
-                    ],
-                    label: 'Action Section'
-                }
-            ]
-        });
-        const cmp = await createComponentUnderTest();
-        const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
-        const callback = jest.fn();
-        cmp.addEventListener(MoveFocusToConnectorEvent.EVENT_NAME, callback);
-        listItems[0].focus();
-        cmp.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
-        expect(callback).toHaveBeenCalled();
-    });
-
-    it('Pressing tab while focus is on goTo should fire the MoveFocusToConnectorEvent', async () => {
-        configureMenu.mockReturnValueOnce({
-            sections: [
-                {
-                    guid: 1,
-                    heading: '',
-                    items: [
-                        {
-                            guid: 1,
-                            icon: 'utility:level_down',
-                            label: 'Goto another element',
-                            elementType: GOTO_ACTION,
-                            rowClass: 'slds-listbox__item action-row-line-height'
-                        }
-                    ],
-                    label: 'Action Section'
-                }
-            ]
-        });
-        const cmp = await createComponentUnderTest();
-        const callback = jest.fn();
-        cmp.addEventListener(MoveFocusToConnectorEvent.EVENT_NAME, callback);
-        cmp.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
-        cmp.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
-        expect(callback).toHaveBeenCalled();
-    });
-
-    it('Pressing shift + tab while focus is on goTo should fire the MoveFocusToConnectorEvent', async () => {
-        configureMenu.mockReturnValueOnce({
-            sections: [
-                {
-                    guid: 1,
-                    heading: '',
-                    items: [
-                        {
-                            guid: 1,
-                            icon: 'utility:level_down',
-                            label: 'Goto another element',
-                            elementType: GOTO_ACTION,
-                            rowClass: 'slds-listbox__item action-row-line-height'
-                        }
-                    ],
-                    label: 'Action Section'
-                }
-            ]
-        });
-        const cmp = await createComponentUnderTest();
-        const callback = jest.fn();
-        cmp.addEventListener(MoveFocusToConnectorEvent.EVENT_NAME, callback);
-        cmp.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
-        cmp.keyboardInteractions.execute('shifttabcommand');
-        expect(callback).toHaveBeenCalled();
-    });
-
-    it('Pressing tab while focus is on paste should fire the MoveFocusToConnectorEvent', async () => {
-        configureMenu.mockReturnValueOnce({
-            sections: [
-                {
-                    guid: 1,
-                    heading: '',
-                    items: [
-                        {
-                            guid: 1,
-                            icon: 'utility:paste',
-                            label: 'Paste copied element(s)',
-                            elementType: PASTE_ACTION,
-                            rowClass: 'slds-listbox__item action-row-line-height'
-                        }
-                    ],
-                    label: 'Action Section'
-                },
-                {
-                    guid: 2,
-                    heading: '',
-                    items: [
-                        {
-                            guid: 2,
-                            icon: 'utility:level_down',
-                            label: 'Goto another element',
-                            elementType: GOTO_ACTION,
-                            rowClass: 'slds-listbox__item action-row-line-height'
-                        }
-                    ],
-                    label: 'Action Section'
-                }
-            ]
-        });
-        const cmp = await createComponentUnderTest();
-        const callback = jest.fn();
-        cmp.addEventListener(MoveFocusToConnectorEvent.EVENT_NAME, callback);
-        cmp.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
-        cmp.keyboardInteractions.execute(ArrowDown.COMMAND_NAME);
-        cmp.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
-        expect(callback).toHaveBeenCalled();
-    });
-
-    it('Pressing shift + tab while focus is on paste should fire the MoveFocusToConnectorEvent', async () => {
-        configureMenu.mockReturnValueOnce({
-            sections: [
-                {
-                    guid: 1,
-                    heading: '',
-                    items: [
-                        {
-                            guid: 1,
-                            icon: 'utility:paste',
-                            label: 'Paste copied element(s)',
-                            elementType: PASTE_ACTION,
-                            rowClass: 'slds-listbox__item action-row-line-height'
-                        }
-                    ],
-                    label: 'Action Section'
-                }
-            ]
-        });
-        const cmp = await createComponentUnderTest();
-        const callback = jest.fn();
-        cmp.keyboardInteractions.execute(TabCommand.COMMAND_NAME);
-        cmp.keyboardInteractions.execute(ArrowDown.COMMAND_NAME);
-        cmp.addEventListener(MoveFocusToConnectorEvent.EVENT_NAME, callback);
-        cmp.keyboardInteractions.execute('shifttabcommand');
         expect(callback).toHaveBeenCalled();
     });
 
@@ -569,6 +389,7 @@ describe('connector menu', () => {
     it('Focus should move correctly to the previous row on arrow up', async () => {
         const cmp = await createComponentUnderTest();
         const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
+        listItems[1].setAttribute('tabindex', '0');
         listItems[1].focus();
         const callback = jest.fn();
         listItems[0].addEventListener('focus', callback);
@@ -579,6 +400,8 @@ describe('connector menu', () => {
     it('Focus should move correctly to the first row on arrow down on the last row', async () => {
         const cmp = await createComponentUnderTest();
         const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
+
+        listItems[listItems.length - 1].setAttribute('tabindex', '0');
         listItems[listItems.length - 1].focus();
         const callback = jest.fn();
         listItems[0].addEventListener('focus', callback);
@@ -601,16 +424,6 @@ describe('connector menu', () => {
         const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
         const callback = jest.fn();
         cmp.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
-        listItems[0].focus();
-        cmp.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
-        expect(callback).toHaveBeenCalled();
-    });
-
-    it('Pressing escape while focus is on a row item should fire the MoveFocusToConnectorEvent', async () => {
-        const cmp = await createComponentUnderTest();
-        const listItems = cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv);
-        const callback = jest.fn();
-        cmp.addEventListener(MoveFocusToConnectorEvent.EVENT_NAME, callback);
         listItems[0].focus();
         cmp.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
         expect(callback).toHaveBeenCalled();

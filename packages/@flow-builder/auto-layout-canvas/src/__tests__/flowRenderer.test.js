@@ -134,8 +134,7 @@ describe('flowRenderer', () => {
                     key: 'screen-guid',
                     type: MenuType.NODE
                 },
-                geometry: { x: 0, y: 0, w: 100, h: 100 },
-                needToPosition: false
+                geometry: { x: 0, y: 0, w: 100, h: 100 }
             };
 
             it('opened', () => {

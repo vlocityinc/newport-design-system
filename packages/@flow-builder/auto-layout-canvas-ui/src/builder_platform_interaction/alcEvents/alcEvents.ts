@@ -11,14 +11,12 @@ export { FocusOutEvent } from './focusOutEvent';
 export { GoToPathEvent } from './goToPathEvent';
 export { HighlightPathsToDeleteEvent } from './highlightPathsToDeleteEvent';
 export { IncomingGoToStubClickEvent } from './incomingGoToStubClickEvent';
-export { MenuPositionUpdateEvent } from './menuPositionUpdateEvent';
-export { MoveFocusToConnectorEvent } from './moveFocusToConnectorEvent';
-export { MoveFocusToNodeEvent } from './moveFocusToNodeEvent';
+export { MenuRenderedEvent } from './menuRenderedEvent';
 export { NodeResizeEvent } from './nodeResizeEvent';
 export { OutgoingGoToStubClickEvent } from './outgoingGoToStubClickEvent';
 export { PasteOnCanvasEvent } from './pasteOnCanvasEvent';
+// TODO: PopoverToggledEvent is not used in the alc, move to @flow-builder/ui
 export { PopoverToggledEvent } from './popoverToggledEvent';
 export { PrivateItemRegisterEvent } from './privateItemRegisterEvent';
 export { SelectMenuItemEvent } from './selectMenuItemEvent';
-export { TabOnMenuTriggerEvent } from './tabOnMenuTriggerEvent';
 export { ToggleMenuEvent } from './toggleMenuEvent';

@@ -13,27 +13,44 @@
 
     <!-- "+" Button Menu -->
     <template if:true={showAddElementButton}>
-        <builder_platform_interaction-alc-menu-trigger
-            icon-size="small"
-            source={connectorInfo.source}
-            menu-opened={connectorInfo.addInfo.menuOpened}
-            canvas-mode={canvasContext.mode}
-            style={menuTriggerStyle}
-            variant="connector"
-            aria-haspopup="dialog"
-            aria-label={labels.connectorButtonLabel}
-            connector-aria-info={connectorAriaInfo}
+        <builder_platform_interaction-focus-trap
+            enabled={menu}
+            style={menuTriggerContainerStyle}
+            class={menuTriggerContainerClass}
         >
-            <lightning-icon
-                slot="trigger"
-                alternative-text={labels.addElementIconAltText}
-                class="circle-text"
-                icon-name="utility:add"
-                size="x-small"
-                title={labels.addElementIconAltText}
-                variant={addIconVariant}
-            ></lightning-icon>
-        </builder_platform_interaction-alc-menu-trigger>
+            <builder_platform_interaction-alc-menu-trigger
+                icon-size="small"
+                source={connectorInfo.source}
+                menu-opened={menu}
+                canvas-mode={canvasContext.mode}
+                variant={menuTriggerVariant}
+                aria-haspopup="dialog"
+                aria-label={labels.connectorButtonLabel}
+                connector-aria-info={connectorAriaInfo}
+            >
+                <lightning-icon
+                    slot="trigger"
+                    alternative-text={labels.addElementIconAltText}
+                    class="circle-text"
+                    icon-name="utility:add"
+                    size="x-small"
+                    title={labels.addElementIconAltText}
+                    variant={addIconVariant}
+                ></lightning-icon>
+            </builder_platform_interaction-alc-menu-trigger>
+            <x-lazy
+                if:true={menu}
+                lwc:dynamic={menu.ctor}
+                source={menu.source}
+                class="menu"
+                auto-focus={menu.autoFocus}
+                metadata={menu.metadata}
+                can-add-goto={menu.canAddGoto}
+                elements-metadata={menu.elementsMetadata}
+                can-add-end-element={menu.canAddEndElement}
+                is-go-to-connector={menu.isGoToConnector}
+            ></x-lazy>
+        </builder_platform_interaction-focus-trap>
     </template>
 
     <!-- GoTo Target Label -->

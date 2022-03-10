@@ -1,26 +1,21 @@
 // @ts-nocheck
 import { AutoLayoutCanvasMode, ICON_SHAPE } from 'builder_platform_interaction/alcComponentsUtils';
 import { AlcSelectDeselectNodeEvent, IncomingGoToStubClickEvent } from 'builder_platform_interaction/alcEvents';
-import AlcNode from 'builder_platform_interaction/alcNode';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
-import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
+import { createComponent } from 'builder_platform_interaction/builderTestUtils';
 import { EditElementEvent } from 'builder_platform_interaction/events';
-import { createElement } from 'lwc';
 import { LABELS } from '../alcNodeLabels';
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
-const createComponentUnderTest = (props = {}) => {
-    const el = createElement('builder_platform_interaction-alcNode', {
-        is: AlcNode
-    });
+const defaultOptions = {
+    canvasContext: {
+        mode: AutoLayoutCanvasMode.DEFAULT
+    }
+};
 
-    el.flowModel = props.flowModel;
-    el.nodeInfo = props.nodeInfo;
-    el.canvasMode = props.canvasMode;
-
-    setDocumentBodyChildren(el);
-    return el;
+const createComponentUnderTest = async (overrideOptions) => {
+    return createComponent('builder_platform_interaction-alc-node', defaultOptions, overrideOptions);
 };
 
 const selectors = {
@@ -70,41 +65,37 @@ describe('AlcNode', () => {
             menuOpened: false
         };
 
-        it('Should have the diamondIconWrapper when iconShape is diamond', () => {
-            const alcNodeComponent = createComponentUnderTest({
+        it('Should have the diamondIconWrapper when iconShape is diamond', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
-                nodeInfo: decisionNodeInfo,
-                canvasMode: AutoLayoutCanvasMode.DEFAULT
+                nodeInfo: decisionNodeInfo
             });
             const iconWrapper = alcNodeComponent.shadowRoot.querySelector(selectors.diamondIconWrapper);
             expect(iconWrapper).not.toBeNull();
         });
 
-        it('Should have the correct icon classes when iconShape is circle and background color is defined', () => {
-            const alcNodeComponent = createComponentUnderTest({
+        it('Should have the correct icon classes when iconShape is circle and background color is defined', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
-                nodeInfo: startNodeInfo,
-                canvasMode: AutoLayoutCanvasMode.DEFAULT
+                nodeInfo: startNodeInfo
             });
             const startIcon = alcNodeComponent.shadowRoot.querySelector(selectors.startIcon);
             expect(startIcon).not.toBeNull();
         });
 
-        it('Should have the correct icon classes when iconShape is diamond', () => {
-            const alcNodeComponent = createComponentUnderTest({
+        it('Should have the correct icon classes when iconShape is diamond', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
-                nodeInfo: decisionNodeInfo,
-                canvasMode: AutoLayoutCanvasMode.DEFAULT
+                nodeInfo: decisionNodeInfo
             });
             const decisionIcon = alcNodeComponent.shadowRoot.querySelector(selectors.decisionIcon);
             expect(decisionIcon).not.toBeNull();
         });
 
-        it('Should have the correct icon size (medium) when iconSize is defined in the nodeInfo', () => {
-            const alcNodeComponent = createComponentUnderTest({
+        it('Should have the correct icon size (medium) when iconSize is defined in the nodeInfo', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
-                nodeInfo: startNodeInfo,
-                canvasMode: AutoLayoutCanvasMode.DEFAULT
+                nodeInfo: startNodeInfo
             });
             const startIcon = alcNodeComponent.shadowRoot.querySelector(selectors.startIcon);
             expect(startIcon.size).toBe('medium');
@@ -135,107 +126,106 @@ describe('AlcNode', () => {
             };
         });
 
-        it('Does not show the selection checkbox in Base Mode', () => {
-            const alcNodeComponent = createComponentUnderTest({
+        it('Does not show the selection checkbox in Base Mode', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
-                nodeInfo,
-                canvasMode: AutoLayoutCanvasMode.DEFAULT
+                nodeInfo
             });
             const selectionCheckbox = alcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
             expect(selectionCheckbox).toBeNull();
         });
 
-        it('Shows the selection checkbox in Selection Mode', () => {
-            const alcNodeComponent = createComponentUnderTest({
+        it('Shows the selection checkbox in Selection Mode', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
                 nodeInfo,
-                canvasMode: AutoLayoutCanvasMode.SELECTION
+                canvasContext: { mode: AutoLayoutCanvasMode.SELECTION }
             });
             const selectionCheckbox = alcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
             expect(selectionCheckbox).not.toBeNull();
         });
 
-        it('Does not show selection box for Start Element in Selection Mode', () => {
+        it('Does not show selection box for Start Element in Selection Mode', async () => {
             nodeInfo.metadata.type = NodeType.START;
-            const alcNodeComponent = createComponentUnderTest({
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
                 nodeInfo,
-                canvasMode: AutoLayoutCanvasMode.SELECTION
+                canvasContext: { mode: AutoLayoutCanvasMode.SELECTION }
             });
             const selectionCheckbox = alcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
             expect(selectionCheckbox).toBeNull();
         });
 
-        it('Does not show selection box for End Element in Selection Mode', () => {
+        it('Does not show selection box for End Element in Selection Mode', async () => {
             nodeInfo.metadata.type = NodeType.END;
-            const alcNodeComponent = createComponentUnderTest({
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
                 nodeInfo,
-                canvasMode: AutoLayoutCanvasMode.SELECTION
+                canvasContext: { mode: AutoLayoutCanvasMode.SELECTION }
             });
             const selectionCheckbox = alcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
             expect(selectionCheckbox).toBeNull();
         });
 
-        it('The Selection Box should have the correct alternative text', () => {
-            const alcNodeComponent = createComponentUnderTest({
+        it('The Selection Box should have the correct alternative text', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
                 nodeInfo,
-                canvasMode: AutoLayoutCanvasMode.SELECTION
+                canvasContext: { mode: AutoLayoutCanvasMode.SELECTION }
             });
             const selectionCheckbox = alcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
             expect(selectionCheckbox.alternativeText).toBe(LABELS.selectionCheckboxAltText);
         });
 
-        it('The Selection Box should not be disabled when isSelectable is true', () => {
-            const alcNodeComponent = createComponentUnderTest({
+        it('The Selection Box should not be disabled when isSelectable is true', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
                 nodeInfo,
-                canvasMode: AutoLayoutCanvasMode.SELECTION
+                canvasContext: { mode: AutoLayoutCanvasMode.SELECTION }
             });
             const selectionCheckbox = alcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
             expect(selectionCheckbox.disabled).toBeFalsy();
         });
 
-        it('The Selection Box should be disabled when isSelectable is false', () => {
+        it('The Selection Box should be disabled when isSelectable is false', async () => {
             flowModel.guid.config.isSelectable = false;
-            const alcNodeComponent = createComponentUnderTest({
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
                 nodeInfo,
-                canvasMode: AutoLayoutCanvasMode.SELECTION
+                canvasContext: { mode: AutoLayoutCanvasMode.SELECTION }
             });
             const selectionCheckbox = alcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
             expect(selectionCheckbox.disabled).toBeTruthy();
         });
 
-        it('The Selection Box should have the correct icon name and variant when not selected', () => {
-            const alcNodeComponent = createComponentUnderTest({
+        it('The Selection Box should have the correct icon name and variant when not selected', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
                 nodeInfo,
-                canvasMode: AutoLayoutCanvasMode.SELECTION
+                canvasContext: { mode: AutoLayoutCanvasMode.SELECTION }
             });
             const selectionCheckbox = alcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
             expect(selectionCheckbox.iconName).toEqual('utility:add');
             expect(selectionCheckbox.variant).toEqual('border-filled');
         });
 
-        it('The Selection Box should have the correct icon name and variant when selected', () => {
+        it('The Selection Box should have the correct icon name and variant when selected', async () => {
             flowModel.guid.config.isSelected = true;
-            const alcNodeComponent = createComponentUnderTest({
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
                 nodeInfo,
-                canvasMode: AutoLayoutCanvasMode.SELECTION
+                canvasContext: { mode: AutoLayoutCanvasMode.SELECTION }
             });
             const selectionCheckbox = alcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
             expect(selectionCheckbox.iconName).toEqual('utility:check');
             expect(selectionCheckbox.variant).toEqual('brand');
         });
 
-        it('Should dispatch AlcSelectDeselectNodeEvent event on checkbox click (when the checkbox is not selected)', () => {
-            const alcNodeComponent = createComponentUnderTest({
+        it('Should dispatch AlcSelectDeselectNodeEvent event on checkbox click (when the checkbox is not selected)', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
                 nodeInfo,
-                canvasMode: AutoLayoutCanvasMode.SELECTION
+                canvasContext: { mode: AutoLayoutCanvasMode.SELECTION }
             });
             const eventCallback = jest.fn();
             alcNodeComponent.addEventListener(AlcSelectDeselectNodeEvent.EVENT_NAME, eventCallback);
@@ -243,12 +233,12 @@ describe('AlcNode', () => {
             expect(eventCallback).toHaveBeenCalled();
         });
 
-        it('Should dispatch AlcSelectDeselectNodeEvent event on checkbox click (when the checkbox is selected)', () => {
+        it('Should dispatch AlcSelectDeselectNodeEvent event on checkbox click (when the checkbox is selected)', async () => {
             flowModel.guid.config.isSelected = true;
-            const alcNodeComponent = createComponentUnderTest({
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
                 nodeInfo,
-                canvasMode: AutoLayoutCanvasMode.SELECTION
+                canvasContext: { mode: AutoLayoutCanvasMode.SELECTION }
             });
             const eventCallback = jest.fn();
             alcNodeComponent.addEventListener(AlcSelectDeselectNodeEvent.EVENT_NAME, eventCallback);
@@ -256,11 +246,11 @@ describe('AlcNode', () => {
             expect(eventCallback).toHaveBeenCalled();
         });
 
-        it('The Selection Box should have aria-label set properly', () => {
-            const alcNodeComponent = createComponentUnderTest({
+        it('The Selection Box should have aria-label set properly', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
                 nodeInfo,
-                canvasMode: AutoLayoutCanvasMode.SELECTION
+                canvasContext: { mode: AutoLayoutCanvasMode.SELECTION }
             });
             const selectionCheckbox = alcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
             expect(selectionCheckbox.getAttribute('aria-label')).toEqual(LABELS.checkboxLabel);
@@ -302,11 +292,10 @@ describe('AlcNode', () => {
             menuOpened: false
         };
 
-        it('Should show the element type for Decision Element', () => {
-            const alcNodeComponent = createComponentUnderTest({
+        it('Should show the element type for Decision Element', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
-                nodeInfo: decisionNodeInfo,
-                canvasMode: AutoLayoutCanvasMode.DEFAULT
+                nodeInfo: decisionNodeInfo
             });
             const decisionTextElementType = alcNodeComponent.shadowRoot.querySelector(
                 selectors.textContainerElementType
@@ -314,11 +303,10 @@ describe('AlcNode', () => {
             expect(decisionTextElementType).not.toBeNull();
         });
 
-        it('Should not show the element type for End Element', () => {
-            const alcNodeComponent = createComponentUnderTest({
+        it('Should not show the element type for End Element', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
-                nodeInfo: endNodeInfo,
-                canvasMode: AutoLayoutCanvasMode.DEFAULT
+                nodeInfo: endNodeInfo
             });
             const endTextElementType = alcNodeComponent.shadowRoot.querySelector(selectors.textContainerElementType);
             expect(endTextElementType).toBeNull();
@@ -378,31 +366,28 @@ describe('AlcNode', () => {
             menuOpened: false
         };
 
-        it('Should show the label for Decision Element', () => {
-            const alcNodeComponent = createComponentUnderTest({
+        it('Should show the label for Decision Element', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
-                nodeInfo: decisionNodeInfo,
-                canvasMode: AutoLayoutCanvasMode.DEFAULT
+                nodeInfo: decisionNodeInfo
             });
             const decisionTextLabel = alcNodeComponent.shadowRoot.querySelector(selectors.textElementLabel);
             expect(decisionTextLabel.textContent).toEqual('elementType');
         });
 
-        it('Should not show the label if undefined', () => {
-            const alcNodeComponent = createComponentUnderTest({
+        it('Should not show the label if undefined', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
-                nodeInfo: noLabelNodeInfo,
-                canvasMode: AutoLayoutCanvasMode.DEFAULT
+                nodeInfo: noLabelNodeInfo
             });
             const noLabelTextLabel = alcNodeComponent.shadowRoot.querySelector(selectors.textElementLabel);
             expect(noLabelTextLabel.textContent).toEqual('');
         });
 
-        it('If start node and label is not set, use description in metadata', () => {
-            const alcNodeComponent = createComponentUnderTest({
+        it('If start node and label is not set, use description in metadata', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
-                nodeInfo: startLabelNodeInfo,
-                canvasMode: AutoLayoutCanvasMode.DEFAULT
+                nodeInfo: startLabelNodeInfo
             });
             const startTextLabel = alcNodeComponent.shadowRoot.querySelector(selectors.textElementLabel);
             expect(startTextLabel.textContent).toEqual('start description');
@@ -449,32 +434,29 @@ describe('AlcNode', () => {
             menuOpened: false
         };
 
-        it('Should show incoming count on gotos target if goto exists', () => {
-            const alcNodeComponent = createComponentUnderTest({
+        it('Should show incoming count on gotos target if goto exists', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
-                nodeInfo: decisionNodeInfo,
-                canvasMode: AutoLayoutCanvasMode.DEFAULT
+                nodeInfo: decisionNodeInfo
             });
             const gotoCount = alcNodeComponent.shadowRoot.querySelector(selectors.textIncomingGoTo);
             const expectText = `${LABELS.incomingGoToLabel}(${flowModel.d1.incomingGoTo.length})`;
             expect(gotoCount.textContent).toEqual(expectText);
         });
 
-        it('Should not show incoming count if goto does not exist', () => {
-            const alcNodeComponent = createComponentUnderTest({
+        it('Should not show incoming count if goto does not exist', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
-                nodeInfo: noIncomingGotoNodeInfo,
-                canvasMode: AutoLayoutCanvasMode.DEFAULT
+                nodeInfo: noIncomingGotoNodeInfo
             });
             const gotoCount = alcNodeComponent.shadowRoot.querySelector(selectors.textIncomingGoTo);
             expect(gotoCount).toBeNull();
         });
 
-        it('Should fire IncomingGoToStubClickEvent when clicked', () => {
-            const alcNodeComponent = createComponentUnderTest({
+        it('Should fire IncomingGoToStubClickEvent when clicked', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
-                nodeInfo: decisionNodeInfo,
-                canvasMode: AutoLayoutCanvasMode.DEFAULT
+                nodeInfo: decisionNodeInfo
             });
             const gotoCount = alcNodeComponent.shadowRoot.querySelector(selectors.textIncomingGoTo);
 
@@ -556,22 +538,20 @@ describe('AlcNode', () => {
             menuOpened: false
         };
 
-        it('Should show incoming count for dynamic nodes on gotos target if goto exists', () => {
-            const alcNodeComponent = createComponentUnderTest({
+        it('Should show incoming count for dynamic nodes on gotos target if goto exists', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
-                nodeInfo: dynamicDecisionNodeInfo,
-                canvasMode: AutoLayoutCanvasMode.DEFAULT
+                nodeInfo: dynamicDecisionNodeInfo
             });
             const gotoCount = alcNodeComponent.shadowRoot.querySelector(selectors.textIncomingGoTo);
             const expectText = `${LABELS.incomingGoToLabel}(${flowModel.d1.incomingGoTo.length})`;
             expect(gotoCount.textContent).toEqual(expectText);
         });
 
-        it('Should not show incoming count on dynamic nodes if goto does not exist', () => {
-            const alcNodeComponent = createComponentUnderTest({
+        it('Should not show incoming count on dynamic nodes if goto does not exist', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
-                nodeInfo: noIncomingGotoNodeInfo,
-                canvasMode: AutoLayoutCanvasMode.DEFAULT
+                nodeInfo: noIncomingGotoNodeInfo
             });
             const gotoCount = alcNodeComponent.shadowRoot.querySelector(selectors.textIncomingGoTo);
             expect(gotoCount).toBeNull();
@@ -602,11 +582,10 @@ describe('AlcNode', () => {
             };
         });
 
-        it('Double clicking on Default element should dispatch edit element event', () => {
-            const alcNodeComponent = createComponentUnderTest({
+        it('Double clicking on Default element should dispatch edit element event', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
-                nodeInfo,
-                canvasMode: AutoLayoutCanvasMode.DEFAULT
+                nodeInfo
             });
             const eventCallback = jest.fn();
             alcNodeComponent.addEventListener(EditElementEvent.EVENT_NAME, eventCallback);
@@ -616,12 +595,11 @@ describe('AlcNode', () => {
             expect(eventCallback).toHaveBeenCalled();
         });
 
-        it('Double clicking on Start element should not dispatch edit element event', () => {
+        it('Double clicking on Start element should not dispatch edit element event', async () => {
             nodeInfo.metadata.type = NodeType.START;
-            const alcNodeComponent = createComponentUnderTest({
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
-                nodeInfo,
-                canvasMode: AutoLayoutCanvasMode.DEFAULT
+                nodeInfo
             });
             const eventCallback = jest.fn();
             alcNodeComponent.addEventListener(EditElementEvent.EVENT_NAME, eventCallback);
@@ -631,12 +609,11 @@ describe('AlcNode', () => {
             expect(eventCallback).not.toHaveBeenCalled();
         });
 
-        it('Double clicking on End element should not dispatch edit element event', () => {
+        it('Double clicking on End element should not dispatch edit element event', async () => {
             nodeInfo.metadata.type = NodeType.END;
-            const alcNodeComponent = createComponentUnderTest({
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
-                nodeInfo,
-                canvasMode: AutoLayoutCanvasMode.DEFAULT
+                nodeInfo
             });
             const eventCallback = jest.fn();
             alcNodeComponent.addEventListener(EditElementEvent.EVENT_NAME, eventCallback);
@@ -646,11 +623,11 @@ describe('AlcNode', () => {
             expect(eventCallback).not.toHaveBeenCalled();
         });
 
-        it('Double clicking on Default element in Selection Mode should not dispatch edit element event', () => {
-            const alcNodeComponent = createComponentUnderTest({
+        it('Double clicking on Default element in Selection Mode should not dispatch edit element event', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
                 nodeInfo,
-                canvasMode: AutoLayoutCanvasMode.SELECTION
+                canvasContext: { mode: AutoLayoutCanvasMode.SELECTION }
             });
             const eventCallback = jest.fn();
             alcNodeComponent.addEventListener(EditElementEvent.EVENT_NAME, eventCallback);
@@ -662,7 +639,7 @@ describe('AlcNode', () => {
     });
 
     describe('Error Icon', () => {
-        it('Should not be displayed if node config has no error', () => {
+        it('Should not be displayed if node config has no error', async () => {
             const flowModel = {
                 guid: {
                     config: {
@@ -680,16 +657,15 @@ describe('AlcNode', () => {
                 menuOpened: false
             };
 
-            const alcNodeComponent = createComponentUnderTest({
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
-                nodeInfo,
-                canvasMode: AutoLayoutCanvasMode.DEFAULT
+                nodeInfo
             });
             const errorIcon = alcNodeComponent.shadowRoot.querySelector(selectors.errorIcon);
             expect(errorIcon).toBeNull();
         });
 
-        it('Should be displayed if node config has error', () => {
+        it('Should be displayed if node config has error', async () => {
             const flowModel = {
                 guid: {
                     config: {
@@ -707,10 +683,9 @@ describe('AlcNode', () => {
                 menuOpened: false
             };
 
-            const alcNodeComponent = createComponentUnderTest({
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
-                nodeInfo,
-                canvasMode: AutoLayoutCanvasMode.DEFAULT
+                nodeInfo
             });
             const errorIcon = alcNodeComponent.shadowRoot.querySelector(selectors.errorIcon);
             expect(errorIcon).not.toBeNull();
@@ -761,11 +736,10 @@ describe('AlcNode', () => {
             menuOpened: false
         };
 
-        it('Should set the aria-label and aria-haspopup properly for decision', () => {
-            const alcNodeComponent = createComponentUnderTest({
+        it('Should set the aria-label and aria-haspopup properly for decision', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
-                nodeInfo: decisionNodeInfo,
-                canvasMode: AutoLayoutCanvasMode.DEFAULT
+                nodeInfo: decisionNodeInfo
             });
             const decisionIcon = alcNodeComponent.shadowRoot.querySelector(selectors.decisionIcon);
             const expectedAriaLabel = `${LABELS.ariaLabelNode}(${decisionNodeInfo.metadata.elementType},${decisionNodeInfo.metadata.label})`;
@@ -773,11 +747,10 @@ describe('AlcNode', () => {
             expect(decisionIcon.getAttribute('aria-haspopup')).toEqual('dialog');
         });
 
-        it('Should set the aria-label properly for start node', () => {
-            const alcNodeComponent = createComponentUnderTest({
+        it('Should set the aria-label properly for start node', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
-                nodeInfo: startNodeInfo,
-                canvasMode: AutoLayoutCanvasMode.DEFAULT
+                nodeInfo: startNodeInfo
             });
             const startIcon = alcNodeComponent.shadowRoot.querySelector(selectors.startIcon);
             const expectedAriaLabel = `${LABELS.ariaLabelNode}(${startNodeInfo.metadata.elementType},${startNodeInfo.metadata.description})`;
@@ -854,31 +827,28 @@ describe('AlcNode', () => {
             nextConnector: { labelType: 0, geometry: {}, addInfo: {}, source: {}, svgInfo: {} }
         };
 
-        it('Should have the CSS class : "highlighted-container-multioutput" for Highlighted element with multiple connectors', () => {
-            const alcNodeComponent = createComponentUnderTest({
+        it('Should have the CSS class : "highlighted-container-multioutput" for Highlighted element with multiple connectors', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
-                nodeInfo: decisionNodeInfo,
-                canvasMode: AutoLayoutCanvasMode.DEFAULT
+                nodeInfo: decisionNodeInfo
             });
             const decisionTextElementType = alcNodeComponent.shadowRoot.querySelector(selectors.iconContainer);
             expect(decisionTextElementType.classList).toContain('highlighted-container-multioutput');
         });
 
-        it('Should have the CSS class : "highlighted-container-multioutput" for Highlighted element with fault connectors', () => {
-            const alcNodeComponent = createComponentUnderTest({
+        it('Should have the CSS class : "highlighted-container-multioutput" for Highlighted element with fault connectors', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
-                nodeInfo: getRecordNodeInfoWithFault,
-                canvasMode: AutoLayoutCanvasMode.DEFAULT
+                nodeInfo: getRecordNodeInfoWithFault
             });
             const decisionTextElementType = alcNodeComponent.shadowRoot.querySelector(selectors.iconContainer);
             expect(decisionTextElementType.classList).toContain('highlighted-container-multioutput');
         });
 
-        it('Should have the CSS class : "highlighted-container" for Highlighted element with simple connector', () => {
-            const alcNodeComponent = createComponentUnderTest({
+        it('Should have the CSS class : "highlighted-container" for Highlighted element with simple connector', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
-                nodeInfo: assignmentNodeInfo,
-                canvasMode: AutoLayoutCanvasMode.DEFAULT
+                nodeInfo: assignmentNodeInfo
             });
             const decisionTextElementType = alcNodeComponent.shadowRoot.querySelector(selectors.iconContainer);
             expect(decisionTextElementType.classList).toContain('highlighted-container');
@@ -907,11 +877,10 @@ describe('AlcNode', () => {
             };
         });
 
-        it('Focus event on menu trigger should be fired when in default mode', () => {
-            const alcNodeComponent = createComponentUnderTest({
+        it('Focus event on menu trigger should be fired when in default mode', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
-                nodeInfo,
-                canvasMode: AutoLayoutCanvasMode.DEFAULT
+                nodeInfo
             });
             const menuTrigger = alcNodeComponent.shadowRoot.querySelector(selectors.menuTrigger);
             menuTrigger.focus = jest.fn();
@@ -919,11 +888,11 @@ describe('AlcNode', () => {
             expect(menuTrigger.focus).toHaveBeenCalled();
         });
 
-        it('Focus event on selection checkbox should be fired when in selection mode', () => {
-            const alcNodeComponent = createComponentUnderTest({
+        it('Focus event on selection checkbox should be fired when in selection mode', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
                 nodeInfo,
-                canvasMode: AutoLayoutCanvasMode.RECONNECTION
+                canvasContext: { mode: AutoLayoutCanvasMode.RECONNECTION }
             });
             const selectionCheckbox = alcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
             selectionCheckbox.focus = jest.fn();

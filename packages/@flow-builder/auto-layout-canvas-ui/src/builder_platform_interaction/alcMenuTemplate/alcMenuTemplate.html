@@ -1,13 +1,13 @@
 <template>
-    <div>
-        <div class="header">
-            <slot class="header" name="header"></slot>
+    <div class="menu">
+        <div if:true={showHeader} class="header slds-dropdown__header slds-truncate">
+            <slot name="header" onslotchange={handleSlotChange}></slot>
         </div>
-        <div class="body">
-            <slot name="body"></slot>
+        <div if:true={showBody} class="body slds-border_top">
+            <slot name="body" onslotchange={handleSlotChange}></slot>
         </div>
-        <div class="footer">
-            <slot name="footer"></slot>
+        <div if:true={showFooter} class="footer slds-border_top slds-p-around_small">
+            <slot name="footer" onslotchange={handleSlotChange}></slot>
         </div>
     </div>
 </template>

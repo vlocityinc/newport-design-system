@@ -79,7 +79,6 @@ describe('layout', () => {
                 menuInfo: {
                     key: 'loop-guid',
                     type: 0,
-                    needToPosition: false,
                     geometry: {
                         w: 300,
                         h: 221,
@@ -134,7 +133,7 @@ describe('layout', () => {
                 menuInfo: {
                     key: 'branch-guid',
                     type: 0,
-                    needToPosition: false,
+
                     geometry: {
                         w: 300,
                         h: 221,

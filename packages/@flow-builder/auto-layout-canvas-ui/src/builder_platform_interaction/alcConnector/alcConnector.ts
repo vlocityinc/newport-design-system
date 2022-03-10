@@ -2,42 +2,84 @@ import {
     AutoLayoutCanvasMode,
     CanvasContext,
     getCssStyle,
-    getStyleFromGeometry
+    getStyleFromGeometry,
+    isMenuOpened,
+    scheduleTask
 } from 'builder_platform_interaction/alcComponentsUtils';
 import { OutgoingGoToStubClickEvent } from 'builder_platform_interaction/alcEvents';
 import {
+    ConnectorMenuInfo,
+    getConnectorMenuInfo,
+    newMenuRenderedEvent
+} from 'builder_platform_interaction/alcMenuUtils';
+import {
     ConnectorLabelType,
     ConnectorRenderInfo,
+    FlowModel,
     getConnectionTarget,
     hasGoTo,
+    MenuType,
     NodeType,
+    resolveParent,
     START_IMMEDIATE_INDEX
 } from 'builder_platform_interaction/autoLayoutCanvas';
+import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
 import { classSet } from 'lightning/utils';
 import { api, LightningElement } from 'lwc';
 import { LABELS } from './alcConnectorLabels';
+
+const selectors = {
+    menuTrigger: 'builder_platform_interaction-alc-menu-trigger',
+    menu: '.menu'
+};
 
 /**
  * Auto layout Canvas Connector Component.
  */
 export default class AlcConnector extends LightningElement {
-    @api
-    connectorInfo!: ConnectorRenderInfo;
+    dom = lwcUtils.createDomProxy(this, selectors);
 
     @api
-    disableAddElements;
+    connectorInfo!: ConnectorRenderInfo;
 
     @api
     connectorAriaInfo;
 
     @api
-    flowModel;
+    flowModel!: FlowModel;
+
+    _canvasContext?: CanvasContext;
 
     @api
-    canvasContext!: CanvasContext;
+    set canvasContext(canvasContext: CanvasContext) {
+        this._canvasContext = canvasContext;
+        this.menu = this.isMenuOpened() ? getConnectorMenuInfo(this.canvasContext, this.flowModel) : null;
+    }
+
+    get canvasContext() {
+        return this._canvasContext!;
+    }
+
+    _menu: ConnectorMenuInfo | null = null;
+
+    get menu(): ConnectorMenuInfo | null {
+        return this._menu;
+    }
+
+    set menu(menu: ConnectorMenuInfo | null) {
+        this._menu = menu;
+
+        if (menu != null) {
+            scheduleTask(() => this.postMenuRenderTask());
+        }
+    }
 
     get labels() {
         return LABELS;
+    }
+
+    get disableAddElements() {
+        return this.canvasContext.connectorMenuMetadata == null;
     }
 
     /**
@@ -54,12 +96,30 @@ export default class AlcConnector extends LightningElement {
     }
 
     /**
-     * Gets the location for the add element button
+     * Checks if this connector's menu is open
      *
-     * @returns The Menu Css
+     * @returns true iff this connector's menu is open
      */
-    get menuTriggerStyle() {
+    isMenuOpened() {
+        return isMenuOpened(this.canvasContext, MenuType.CONNECTOR, this.connectorInfo?.source);
+    }
+
+    /**
+     * Gets css to position the menu trigger container
+     *
+     * @returns  the menu trigger container css
+     */
+    get menuTriggerContainerStyle() {
         return getStyleFromGeometry({ y: this.connectorInfo.addInfo!.offsetY });
+    }
+
+    /**
+     * Gets the class for the menu trigger container
+     *
+     * @returns the menu trigger container classs
+     */
+    get menuTriggerContainerClass() {
+        return this.isMenuOpened() ? 'slds-is-open' : '';
     }
 
     /**
@@ -68,8 +128,16 @@ export default class AlcConnector extends LightningElement {
      * @returns Icon variant
      */
     get addIconVariant() {
-        const { addInfo } = this.connectorInfo;
-        return addInfo && addInfo.menuOpened ? 'inverse' : '';
+        return this.isMenuOpened() ? 'inverse' : '';
+    }
+
+    /**
+     * The menu trigger variant for the connector
+     *
+     * @returns the menu trigger variant
+     */
+    get menuTriggerVariant() {
+        return MenuType.CONNECTOR;
     }
 
     /**
@@ -135,19 +203,22 @@ export default class AlcConnector extends LightningElement {
 
     getBranchLabel(source) {
         const { guid, childIndex } = source;
-        const sourceNode = this.flowModel[guid];
+        const { defaultConnectorLabel, nodeType, children, childReferences } = resolveParent(this.flowModel, guid);
 
         if (childIndex == null) {
-            return sourceNode.defaultConnectorLabel;
+            return defaultConnectorLabel;
         }
 
-        const defaultIndex =
-            sourceNode.nodeType === NodeType.START ? START_IMMEDIATE_INDEX : sourceNode.children.length - 1;
-        return childIndex === defaultIndex
-            ? sourceNode.defaultConnectorLabel
-            : sourceNode.nodeType === NodeType.START
-            ? this.flowModel[sourceNode.childReferences[childIndex - 1].childReference].label
-            : this.flowModel[sourceNode.childReferences[childIndex].childReference].label;
+        const defaultIndex = nodeType === NodeType.START ? START_IMMEDIATE_INDEX : children.length - 1;
+
+        if (childIndex === defaultIndex) {
+            return defaultConnectorLabel;
+        }
+
+        const { childReference } =
+            nodeType === NodeType.START ? childReferences[childIndex - 1] : childReferences[childIndex];
+
+        return this.flowModel[childReference].label;
     }
 
     get connectorBadgeLabel() {
@@ -191,12 +262,24 @@ export default class AlcConnector extends LightningElement {
     handleOutgoingStubClick = (event: Event) => {
         event.preventDefault();
         event.stopPropagation();
+
         const outgoingStubClickEvent = new OutgoingGoToStubClickEvent(this.connectorInfo.source);
         this.dispatchEvent(outgoingStubClickEvent);
     };
 
     @api
     focus() {
-        this.template.querySelector('builder_platform_interaction-alc-menu-trigger').focus();
+        this.dom.menuTrigger.focus();
+    }
+
+    /**
+     * Task to run after rendering the connector menu
+     */
+    postMenuRenderTask() {
+        const menu = this.dom.menu;
+
+        if (menu != null) {
+            this.dispatchEvent(newMenuRenderedEvent(menu));
+        }
     }
 }

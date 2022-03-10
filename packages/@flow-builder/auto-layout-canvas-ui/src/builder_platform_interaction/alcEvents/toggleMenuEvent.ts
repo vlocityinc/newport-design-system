@@ -1,20 +1,15 @@
-import { ConnectionSource, ElementMetadata, MenuType, Option } from 'builder_platform_interaction/autoLayoutCanvas';
+import { ConnectionSource, MenuType } from 'builder_platform_interaction/autoLayoutCanvas';
 
 const eventName = 'togglemenu';
 
 interface ToggleMenuEventDetail {
-    top: number;
-    left: number;
-    offsetX: number;
     type: MenuType;
-    elementMetadata: ElementMetadata;
     source: ConnectionSource;
-    conditionOptionsForNode?: Option[] | undefined;
-    moveFocusToMenu?: boolean;
+    moveFocusToMenu: boolean;
 }
 
 export class ToggleMenuEvent extends CustomEvent<ToggleMenuEventDetail> {
-    constructor(detail) {
+    constructor(detail: ToggleMenuEventDetail) {
         super(eventName, {
             bubbles: true,
             composed: true,

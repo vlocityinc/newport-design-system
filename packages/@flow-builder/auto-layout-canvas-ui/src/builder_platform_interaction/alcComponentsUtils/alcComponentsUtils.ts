@@ -1,4 +1,4 @@
-import { PrivateItemRegisterEvent, ToggleMenuEvent } from 'builder_platform_interaction/alcEvents';
+import { PrivateItemRegisterEvent } from 'builder_platform_interaction/alcEvents';
 import {
     BranchHeadNodeModel,
     ConnectionSource,
@@ -8,16 +8,12 @@ import {
     FAULT_INDEX,
     findParentElement,
     FlowModel,
-    FlowRenderContext,
     FlowRenderInfo,
     FOR_EACH_INDEX,
     Geometry,
     getChild,
-    getConnectionTarget,
-    getElementMetadata,
     getFirstNonNullNext,
     getNonTerminalBranchIndexes,
-    getTargetGuidsForReconnection,
     Guid,
     hasChildren,
     hasGoTo,
@@ -29,7 +25,6 @@ import {
     NodeRef,
     NodeRenderInfo,
     NodeType,
-    Option,
     ParentNodeModel,
     StartNodeModel,
     START_IMMEDIATE_INDEX
@@ -39,32 +34,40 @@ import { commands, commonUtils, keyboardInteractionUtils } from 'builder_platfor
 import { classSet } from 'lightning/utils';
 import { LABELS } from './alcComponentsUtilsLabels';
 
-const { ZoomInCommand, ZoomOutCommand, ZoomToFitCommand, ZoomToViewCommand } = commands;
+const {
+    EnterCommand,
+    EscapeCommand,
+    SpaceCommand,
+    ZoomInCommand,
+    ZoomOutCommand,
+    ZoomToFitCommand,
+    ZoomToViewCommand,
+    TabCommand,
+    ShiftFocusForwardCommand,
+    ShiftFocusBackwardCommand
+} = commands;
 
-const { BaseKeyboardInteraction, createShortcut } = keyboardInteractionUtils;
+const { BaseKeyboardInteraction, ShiftFocusKeyboardInteraction, createShortcut, Keys } = keyboardInteractionUtils;
 
 const { format } = commonUtils;
 
-export interface MenuInfo<T> {
-    ctor: MenuConstructor<T>;
-    elementMetadata: ElementMetadata;
-    canAddGoto: boolean;
-    canAddEndElement: boolean;
-    canHaveFaultConnector: boolean;
-    elementHasFault: boolean;
-    menuType: MenuType;
-    style: string;
-    isGoToConnector: boolean;
-    className: string;
-    elementsMetadata: ElementMetadata[];
+export interface MenuInfo {
     source: ConnectionSource;
-    conditionOptionsForNode: Option[] | undefined;
+    type: MenuType;
+    autoFocus: boolean;
 }
+
 export interface CanvasContext {
+    elementsMetadata: ElementMetadata[];
     isPasteAvailable: boolean;
     mode: AutoLayoutCanvasMode;
+
+    // Clicked incoming goTo stub guid
     incomingStubGuid: Guid | null;
+    connectorMenuMetadata: ConnectorMenuMetadata | null;
+    menu: MenuInfo | null;
 }
+
 interface CanvasElementSelectionData {
     canvasElementGuidsToSelect: Guid[];
     canvasElementGuidsToDeselect: Guid[];
@@ -83,12 +86,6 @@ enum ICON_SHAPE {
     CIRCLE = 'circle', // Example, Start Element
     SQUARE = 'square'
 }
-
-const SELECTORS = {
-    node: 'builder_platform_interaction-alc-node',
-    xLazy: 'x-lazy',
-    flow: 'builder_platform_interaction-alc-flow'
-};
 
 /**
  * @param nodeType - The current node type
@@ -539,6 +536,7 @@ const getFirstSelectableElementGuid = (flowModel: FlowModel, elementGuid: Guid):
  */
 
 const CLASS_MENU_OPENED = 'menu-opened';
+
 const CLASS_IS_NEW = 'is-new';
 const DYNAMIC_NODE_COMPONENT = 'dynamic-node-component';
 
@@ -548,7 +546,7 @@ const DYNAMIC_NODE_COMPONENT = 'dynamic-node-component';
  */
 function getCssStyle(cssEntries): string {
     return Object.entries(cssEntries)
-        .filter((entry) => entry[1] != null)
+        .filter((entry) => entry != null && entry[1] != null)
         .map((entry) => `${entry[0]}: ${entry[1]}px`)
         .join(';');
 }
@@ -585,7 +583,7 @@ function getAlcConnectorData(flowModel: FlowModel, connectorInfo: ConnectorRende
         key: connectorKey(connectorInfo),
         connectorInfo,
         style: getStyleFromGeometry(connectorInfo.geometry),
-        className: '',
+        className: `logic-connector ${connectorInfo.type}`,
         connectorDescription
     };
 }
@@ -600,10 +598,11 @@ function getAlcConnectorData(flowModel: FlowModel, connectorInfo: ConnectorRende
 function getAlcFlowData(flowInfo: FlowRenderInfo, source: ConnectionSource) {
     const { guid, childIndex } = source;
 
+    const { x, y } = flowInfo.geometry;
     return {
         key: `flow-${guid}-${childIndex}`,
         flowInfo,
-        style: getStyleFromGeometry(flowInfo.geometry),
+        style: getStyleFromGeometry({ x, y }),
         className: ''
     };
 }
@@ -616,7 +615,7 @@ function getAlcFlowData(flowInfo: FlowRenderInfo, source: ConnectionSource) {
  */
 function getAlcCompoundNodeData(nodeInfo: NodeRenderInfo) {
     const { geometry, guid } = nodeInfo;
-    const className = classSet({ [CLASS_IS_NEW]: nodeInfo.isNew });
+    const className = classSet({ [CLASS_IS_NEW]: nodeInfo.isNew, [CLASS_MENU_OPENED]: nodeInfo.menuOpened });
 
     const faultFlow = nodeInfo.faultFlow
         ? getAlcFlowData(nodeInfo.faultFlow, { guid: nodeInfo.guid, childIndex: FAULT_INDEX })
@@ -664,29 +663,6 @@ function getAlcNodeData(flowModel: FlowModel, nodeInfo: NodeRenderInfo) {
 }
 
 /**
- * @param detail - Event detail
- * @param containerElementGeometry - Geometry of the container element
- * @param menuButtonHalfWidth - The half-width of the menu trigger button
- * @param scale - scale factor
- * @param needToPosition - True means element need to position
- * @returns - The menu style
- */
-export function getMenuStyle(detail, containerElementGeometry, menuButtonHalfWidth, scale, needToPosition) {
-    let { left, top } = detail;
-    const { x, y } = containerElementGeometry;
-
-    left = left - x + detail.offsetX + menuButtonHalfWidth;
-    top -= y;
-
-    return needToPosition
-        ? 'opacity: 0'
-        : getStyleFromGeometry({
-              x: left * (1 / scale),
-              y: (top + detail.height / 2) * (1 / scale)
-          });
-}
-
-/**
  * Dispatches a privateitemregister event to register a child component with its parent
  *
  * @param component The component to register
@@ -694,76 +670,6 @@ export function getMenuStyle(detail, containerElementGeometry, menuButtonHalfWid
  */
 export function dispatchPrivateItemRegister(component) {
     component.dispatchEvent(new PrivateItemRegisterEvent(component));
-}
-/**
- * Creates an object with the properties needed to render the node + connector menus
- *
- * @param event - The toggle menu event
- * @param menuButtonHalfWidth - The half-width of the menu trigger button
- * @param containerElementGeometry - Geometry of the container element
- * @param scale - scale factor
- * @param context - The flow rendering context
- * @param needToPosition - True means element need to position
- * @param ctor - The constructor for the menu
- * @param elementsMetadata -The elements metadata
- * @returns a menu info object
- */
-function getAlcMenuData<T>(
-    event: ToggleMenuEvent,
-    menuButtonHalfWidth: number,
-    containerElementGeometry: Geometry,
-    scale: number,
-    context: FlowRenderContext,
-    needToPosition = false,
-    ctor: MenuConstructor<T>,
-    elementsMetadata: ElementMetadata[]
-): MenuInfo<T> {
-    const className = `menu ${ctor.className} overlay slds-dropdown`;
-    const detail = event.detail;
-
-    const { guid } = detail.source;
-    const { flowModel } = context;
-
-    const style = getMenuStyle(detail, containerElementGeometry, menuButtonHalfWidth, scale, needToPosition);
-    const canHaveFaultConnector = guid != null && flowModel[guid].canHaveFaultConnector;
-
-    const elementHasFault = guid ? flowModel[guid].fault != null : false;
-    const targetGuid = detail.source ? getConnectionTarget(flowModel, detail.source) : null;
-    const targetElement = targetGuid != null ? flowModel[targetGuid] : null;
-    const isGoToConnector = hasGoTo(flowModel, detail.source);
-    const isTargetEnd =
-        targetElement != null &&
-        getElementMetadata(context.elementsMetadata, targetElement.elementSubtype || targetElement.elementType).type ===
-            NodeType.END;
-
-    const canAddEndElement = targetGuid == null;
-    let canAddGoto = false;
-    if (isTargetEnd || canAddEndElement) {
-        // Checking if there is anything to connect to
-        const { mergeableGuids, goToableGuids, firstMergeableNonNullNext } = getTargetGuidsForReconnection(
-            flowModel,
-            detail.source,
-            targetGuid!
-        );
-
-        canAddGoto = firstMergeableNonNullNext != null || mergeableGuids.length > 0 || goToableGuids.length > 0;
-    }
-
-    return {
-        canAddGoto,
-        canAddEndElement,
-        canHaveFaultConnector,
-        elementHasFault,
-        menuType: detail.type,
-        source: detail.source,
-        elementMetadata: detail.elementMetadata,
-        conditionOptionsForNode: detail.conditionOptionsForNode,
-        style,
-        isGoToConnector,
-        ctor,
-        className,
-        elementsMetadata
-    };
 }
 
 /**
@@ -1369,6 +1275,80 @@ function getNodeAriaInfo(flowModel: FlowModel, nodeInfo: NodeRenderInfo): string
 }
 
 /**
+ * Creates an interaction for handling the F6 shortcut
+ *
+ * @param shortcuts - The shortcut map
+ * @param handleShiftFocusForward - The handler for the tab key interaction
+ * @returns an interaction for handling the tab key
+ */
+export function getShiftFocusForwardInteraction(shortcuts, handleShiftFocusForward: () => void) {
+    return new BaseKeyboardInteraction([
+        createShortcut(shortcuts.shiftFocusForward, new ShiftFocusForwardCommand(() => handleShiftFocusForward()))
+    ]);
+}
+
+/**
+ * Creates an interaction for handling the shift+F6 shortcut
+ *
+ * @param shortcuts - The shortcut map
+ * @param handleShiftFocusBackward - The handler for the tab key interaction
+ * @returns an interaction for handling the tab key
+ */
+export function getShiftFocusBackwardInteraction(shortcuts, handleShiftFocusBackward: () => void) {
+    return new BaseKeyboardInteraction([
+        createShortcut(shortcuts.shiftFocusBackward, new ShiftFocusBackwardCommand(() => handleShiftFocusBackward()))
+    ]);
+}
+
+/**
+ * Creates an interaction for handling the tab key
+ *
+ * @param handleTab - The handler for the tab key interaction
+ * @returns an interaction for handling the tab key
+ */
+export function getTabKeyInteraction(handleTab: () => void) {
+    return new BaseKeyboardInteraction([createShortcut(Keys.Tab, new TabCommand(() => handleTab(), false))]);
+}
+
+/**
+ * Creates an interaction for handling the enter key
+ *
+ * @param handleEnter - The handler for the enter key interaction
+ * @param allowSpaceKey - Whether to also allow the usage of the space key to trigger the interaction
+ * @returns an interaction for handling of the enter (and optionally space) key
+ */
+export function getEnterKeyInteraction(handleEnter: () => void, allowSpaceKey = true) {
+    const shortcuts = [createShortcut(Keys.Enter, new EnterCommand(() => handleEnter()))];
+
+    if (allowSpaceKey) {
+        shortcuts.push(createShortcut(Keys.Space, new SpaceCommand(() => handleEnter())));
+    }
+    return new BaseKeyboardInteraction(shortcuts);
+}
+
+/**
+ * Creates an interaction for handling the escape key
+ *
+ * @param handleEscape - The handler for the escape key interaction
+ * @returns an interaction for handling of the escape key
+ */
+export function getEscapeKeyInteraction(handleEscape: () => void) {
+    const shortcuts = [createShortcut(Keys.Escape, new EscapeCommand(() => handleEscape()))];
+
+    return new BaseKeyboardInteraction(shortcuts);
+}
+
+/**
+ * Creates an interaction for handling the the shift focus interaction (ie: F6 / Shift+F6)
+ *
+ * @param sections - The sections elements to shift focus to
+ * @returns an interaction for handling the shift focus
+ */
+export function getShiftFocusKeyboardInteraction(sections: HTMLElement[]) {
+    return new ShiftFocusKeyboardInteraction(sections);
+}
+
+/**
  * Provides the keyboard interaction for the zoom panel
  *
  * @param shortcuts - The zoom shortcut keys
@@ -1399,10 +1379,57 @@ export function getZoomKeyboardInteraction(shortcuts, handleZoomAction: Function
     return new BaseKeyboardInteraction([zoomInShortcut, zoomOutShortcut, zoomToFitShortcut, zoomToViewShortcut]);
 }
 
+/**
+ * Get the geometry for an element
+ *
+ * @param element - An html element
+ * @returns the element's geometry
+ */
+export function getDomElementGeometry(element: Element | LightningElement): Geometry {
+    const { left, right, top, bottom } = element.getBoundingClientRect();
+    return { x: left, y: top, w: right - left, h: bottom - top };
+}
+
+/**
+ * Schedules a task to run in the next tick
+ *
+ * @param task - the task to run
+ */
+export function scheduleTask(task: () => void) {
+    // eslint-disable-next-line @lwc/lwc/no-async-operation
+    setTimeout(() => task(), 0);
+}
+
+/**
+ * Check if two connections sources are equal
+ *
+ * @param source1 - The first source
+ * @param source2 - The second source
+ * @returns true iff they are equal
+ */
+export function areSourcesEqual(source1: ConnectionSource, source2: ConnectionSource) {
+    // disabling '===' here so that undefined and null are equivalent for equalness
+    // eslint-disable-next-line eqeqeq
+    return source1.guid === source2.guid && source1.childIndex == source2.childIndex;
+}
+
+/**
+ * Checks if a menu is opened
+ *
+ * @param canvasContext - The canvas context
+ * @param menuType - The menu type
+ * @param source - The menu location
+ * @returns true iff the specified menu is opened
+ */
+export function isMenuOpened(canvasContext: CanvasContext, menuType: MenuType, source: ConnectionSource) {
+    const { menu } = canvasContext;
+
+    return menu?.type === menuType && areSourcesEqual(menu.source, source);
+}
+
 export {
     ICON_SHAPE,
     AutoLayoutCanvasMode,
-    SELECTORS,
     connectorKey,
     getCssStyle,
     getStyleFromGeometry,
@@ -1410,7 +1437,6 @@ export {
     getAlcCompoundNodeData,
     getAlcFlowData,
     getAlcConnectorData,
-    getAlcMenuData,
     getCanvasElementSelectionData,
     getCanvasElementDeselectionData,
     getFirstSelectableElementGuid

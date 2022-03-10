@@ -1,15 +1,11 @@
 // @ts-nocheck
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import { EDIT_START_RECORD_CHANGE_CONTEXT } from 'builder_platform_interaction/elementConfig';
-import { ArrowKeyDownEvent, EditElementEvent } from 'builder_platform_interaction/events';
+import { EditElementEvent } from 'builder_platform_interaction/events';
 import { CONDITION_LOGIC, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import StartNodeContextButton from 'builder_platform_interaction/startNodeContextButton';
 import { createElement } from 'lwc';
 import { startElementWithAccountAndNoCondition } from 'mock/storeDataScheduleTriggered';
-
-const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
-const { Keys } = keyboardInteractionUtils;
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
@@ -60,26 +56,6 @@ const selectors = {
 const runQuerySelector = (context, selector) => {
     return context.shadowRoot.querySelector(selector);
 };
-
-describe('Focus Management', () => {
-    it('Should fire ArrowKeyDownEvent with the right key on pressing arrow down key', () => {
-        const startNodeContextButtonEditor = setupComponentUnderTest(null, FLOW_TRIGGER_TYPE.SCHEDULED);
-        const callback = jest.fn();
-        startNodeContextButtonEditor.addEventListener(ArrowKeyDownEvent.EVENT_NAME, callback);
-        startNodeContextButtonEditor.keyboardInteractions.execute(ArrowDown.COMMAND_NAME);
-        expect(callback).toHaveBeenCalled();
-        expect(callback.mock.calls[0][0].detail.key).toBe(Keys.ArrowDown);
-    });
-
-    it('Should fire ArrowKeyDownEvent with the right key on pressing arrow up key', () => {
-        const startNodeContextButtonEditor = setupComponentUnderTest(null, FLOW_TRIGGER_TYPE.SCHEDULED);
-        const callback = jest.fn();
-        startNodeContextButtonEditor.addEventListener(ArrowKeyDownEvent.EVENT_NAME, callback);
-        startNodeContextButtonEditor.keyboardInteractions.execute(ArrowUp.COMMAND_NAME);
-        expect(callback).toHaveBeenCalled();
-        expect(callback.mock.calls[0][0].detail.key).toBe(Keys.ArrowUp);
-    });
-});
 
 describe('When flow trigger Type is SCHEDULED', () => {
     let startNodeContextButtonEditor;
@@ -162,7 +138,7 @@ describe('When flow trigger Type is BEFORE_SAVE', () => {
         return Promise.resolve().then(() => {
             const callback = jest.fn();
             startNodeContextButtonEditor.addEventListener(EditElementEvent.EVENT_NAME, callback);
-            startNodeContextButtonEditor.shadowRoot.querySelector(selectors.startContext).click();
+            startNodeContextButtonEditor.performAction();
             expect(callback).toHaveBeenCalled();
             expect(callback.mock.calls[0][0]).toMatchObject({
                 detail: {
@@ -177,8 +153,7 @@ describe('When flow trigger Type is BEFORE_SAVE', () => {
         return Promise.resolve().then(() => {
             const callback = jest.fn();
             startNodeContextButtonEditor.addEventListener(EditElementEvent.EVENT_NAME, callback);
-            startNodeContextButtonEditor.shadowRoot.querySelector(selectors.startContext).focus();
-            startNodeContextButtonEditor.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
+            startNodeContextButtonEditor.performAction();
             expect(callback).toHaveBeenCalled();
             expect(callback.mock.calls[0][0]).toMatchObject({
                 detail: {
@@ -193,8 +168,7 @@ describe('When flow trigger Type is BEFORE_SAVE', () => {
         return Promise.resolve().then(() => {
             const callback = jest.fn();
             startNodeContextButtonEditor.addEventListener(EditElementEvent.EVENT_NAME, callback);
-            startNodeContextButtonEditor.shadowRoot.querySelector(selectors.startContext).focus();
-            startNodeContextButtonEditor.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
+            startNodeContextButtonEditor.performAction();
             expect(callback).toHaveBeenCalled();
             expect(callback.mock.calls[0][0]).toMatchObject({
                 detail: {

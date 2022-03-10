@@ -1,6 +1,6 @@
 <template>
     <div class="app">
-        <div class="toolbar">
+        <div class="toolbar" tabindex="0">
             <lightning-layout horizontal-align="spread" vertical-align="center">
                 <lightning-layout-item>
                     <lightning-button-menu
@@ -43,6 +43,15 @@
                         options={freeFormTestCaseOptions}
                         onchange={handleSelectTestCase}
                     ></lightning-combobox>
+
+                    <lightning-combobox
+                        class="slds-m-left_x-small"
+                        name="flow-type"
+                        value={selectedFlowType}
+                        placeholder="Select Flow Type"
+                        options={flowTypeOptions}
+                        onchange={handleSelectFlowType}
+                    ></lightning-combobox>
                     <lightning-input
                         class="slds-m-left_x-small"
                         type="checkbox"
@@ -69,6 +78,8 @@
                 ></builder_platform_interaction-left-panel>
             </div>
             <builder_platform_interaction-alc-canvas-container
+                oncanvasready={handleCanvasReady}
+                if:true={elementsMetadata}
                 onaddelement={handleAddElement}
                 ondeleteelement={handleDeleteElement}
                 onaddelementfault={handleAddElementFault}

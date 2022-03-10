@@ -39,6 +39,8 @@ const { logInteraction } = loggingUtils;
  * @since 214
  */
 export default class Toolbar extends LightningElement {
+    static delegatesFocus = true;
+
     @api
     flowId;
 

@@ -1,20 +1,14 @@
 .menu {
-    z-index: var(--z-index-alc-canvas-menu);
-}
-
-.overlay {
-    background-color: #fafafb;
+    background-color: var(--alc-menu-background);
 }
 
 .header {
     text-align: center;
-    background: #fafafb;
 }
 
 .body {
     background-color: #fff;
     text-align: left;
-    width: 280px;
 }
 
 .body-fixed-height {

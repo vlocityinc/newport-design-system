@@ -1,9 +1,11 @@
+import { getDomElementGeometry, scheduleTask } from 'builder_platform_interaction/alcComponentsUtils';
 import { NodeResizeEvent, PopoverToggledEvent } from 'builder_platform_interaction/alcEvents';
 import { NodeRenderInfo } from 'builder_platform_interaction/autoLayoutCanvas';
 import { StageStep } from 'builder_platform_interaction/elementFactory';
 import { DeleteElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE, ICONS } from 'builder_platform_interaction/flowMetadata';
-import { commands, commonUtils, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+import { commands, commonUtils, keyboardInteractionUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
+import LightningPopup from 'lightning/popup';
 import { api, LightningElement } from 'lwc';
 import { LABELS } from './orchestratedStageNodeLabels';
 
@@ -17,10 +19,13 @@ const selectors = {
     deleteStepItemButton: 'button.delete-item',
     stepMenuTrigger: 'button.step-menu-trigger',
     stepMenuContainer: '.stepMenuContainer',
-    lightningPopup: 'lightning-popup'
+    lightningPopup: 'lightning-popup',
+    options: '[role="option"]'
 };
 
 export default class OrchestratedStageNode extends withKeyboardInteractions(LightningElement) {
+    dom = lwcUtils.createDomProxy(this, selectors);
+
     labels = LABELS;
 
     private _node?: NodeRenderInfo;
@@ -41,7 +46,7 @@ export default class OrchestratedStageNode extends withKeyboardInteractions(Ligh
     private originalIsStepMenuOpened = false;
 
     get popup() {
-        return this.template.querySelector(selectors.lightningPopup);
+        return this.dom.as<LightningPopup>().lightningPopup;
     }
 
     get stepMenuButtonIcon() {
@@ -72,9 +77,6 @@ export default class OrchestratedStageNode extends withKeyboardInteractions(Ligh
     disableDeleteElements;
 
     @api
-    disableAddElements;
-
-    @api
     disableEditElements;
 
     /**
@@ -86,6 +88,13 @@ export default class OrchestratedStageNode extends withKeyboardInteractions(Ligh
     @api
     get node() {
         return this._node;
+    }
+
+    @api
+    canvasContext;
+
+    get disableAddElements() {
+        return this.canvasContext.connectorMenuMetadata == null;
     }
 
     get stageStepsWithErrorClass() {
@@ -110,51 +119,31 @@ export default class OrchestratedStageNode extends withKeyboardInteractions(Ligh
                     ? this.labels.stageStepHeaderSingular
                     : format(this.labels.stageStepHeaderPlural, this.items.length);
         }
+
+        // resize after the next render
+        scheduleTask(() => this.resize());
     }
 
     @api
     findNode(guid: string) {
-        return this.template.querySelector(`div[data-item-guid='${guid}']`);
+        return this.dom.all.options.find((ele) => ele.dataset.itemGuid === guid);
     }
 
     /**
-     * Helper function for resizing the node depending upon whether
-     * the popover is open; fires a NodeResizeEvent accordingly.
+     * Helper function for resizing the node
+     *
+     * @fires NodeResizeEvent
      */
     resize() {
-        const node = this.template.querySelector('div');
-        const rect = node.getBoundingClientRect();
-
-        let totalWidth = rect.width;
-        let totalHeight = rect.height;
-        // add extra width + height for the popover if any
-
-        if (this.popover) {
-            const popoverRect = this.popover.getBoundingClientRect();
-            totalWidth += popoverRect.width;
-
-            // TODO: cleanup this up, 16 is the half icon size
-            totalHeight += popoverRect.height - 16;
-        }
+        const { w, h } = getDomElementGeometry(this.template.host);
 
         // Only fire the event if the height or width have changed
-        if ((this.width !== totalWidth || this.height !== totalHeight) && this.node != null) {
-            this.width = totalWidth;
-            this.height = totalHeight;
+        if ((this.width !== w || this.height !== h) && this.node != null) {
+            this.width = w;
+            this.height = h;
 
-            const event = new NodeResizeEvent(this.node.guid, totalWidth, totalHeight);
+            const event = new NodeResizeEvent(this.node.guid, w, h);
             this.dispatchEvent(event);
-        }
-    }
-
-    /**
-     * Fires a NodeResizeEvent if the dimensions change after rendering
-     */
-    renderedCallback() {
-        const node: HTMLElement = this.template.querySelector('div');
-
-        if (node && this.node) {
-            this.resize();
         }
     }
 
@@ -169,20 +158,18 @@ export default class OrchestratedStageNode extends withKeyboardInteractions(Ligh
      * StageStepMenu Trigger used to show and close the lightning popup component
      */
     triggerStageStepMenu() {
-        this.resize();
         if (!this.isStepMenuOpened && !this.originalIsStepMenuOpened) {
-            const referenceElement = this.template.querySelector(selectors.stepMenuContainer);
-
+            const referenceElement = this.dom.stepMenuTrigger;
             this.popup.show(referenceElement, {
-                reference: { horizontal: 'center', vertical: 'center' },
-                popup: { horizontal: 'center', vertical: 'center' }
+                reference: { horizontal: 'center', vertical: 'bottom' },
+                popup: { horizontal: 'center', vertical: 'top' },
+                autoFlip: false
             });
             this.isStepMenuOpened = true;
         } else {
             this.popup.close();
             this.isStepMenuOpened = false;
         }
-
         this.dispatchEvent(new PopoverToggledEvent(this.isStepMenuOpened));
         this.originalIsStepMenuOpened = this.isStepMenuOpened;
     }
@@ -203,7 +190,8 @@ export default class OrchestratedStageNode extends withKeyboardInteractions(Ligh
      */
     handleCanvasFocusOut(event) {
         event.stopPropagation();
-        this.template.querySelector(selectors.stepMenuTrigger).focus();
+
+        this.dom.stepMenuTrigger.focus();
     }
 
     /**
@@ -214,7 +202,7 @@ export default class OrchestratedStageNode extends withKeyboardInteractions(Ligh
     handleArrowKeys(key: string) {
         const currentItemInFocus = this.template.activeElement;
         if (currentItemInFocus) {
-            const stepItems = Array.from(this.template.querySelectorAll(selectors.stepItem)) as any;
+            const stepItems = this.dom.all.stepItem;
             if (stepItems.includes(currentItemInFocus)) {
                 this.moveFocusOnArrowKey(stepItems, currentItemInFocus, key);
             }
@@ -226,18 +214,16 @@ export default class OrchestratedStageNode extends withKeyboardInteractions(Ligh
      */
     handleEnterOrSpaceKey() {
         const currentItemInFocus = this.template.activeElement;
+
         if (currentItemInFocus) {
-            const stepItems = Array.from(this.template.querySelectorAll(selectors.stepItem)) as any;
-            const deleteItemButtons = Array.from(this.template.querySelectorAll(selectors.deleteStepItemButton)) as any;
+            const stepItems = this.dom.all.stepItem;
+            const deleteItemButtons = this.dom.all.deleteStepItemButton;
 
             if (!this.disableEditElements && stepItems.includes(currentItemInFocus)) {
                 this.handleOpenItemPropertyEditor(undefined, currentItemInFocus);
             } else if (!this.disableDeleteElements && deleteItemButtons.includes(currentItemInFocus)) {
                 this.handleDeleteItem(undefined, currentItemInFocus);
-            } else if (
-                !this.disableEditElements &&
-                currentItemInFocus === this.template.querySelector(selectors.stepMenuTrigger)
-            ) {
+            } else if (!this.disableEditElements && currentItemInFocus === this.dom.stepMenuTrigger) {
                 this.originalIsStepMenuOpened = this.isStepMenuOpened;
                 this.triggerStageStepMenu();
             }

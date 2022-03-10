@@ -97,7 +97,6 @@ type CanvasConfig = {
     disableDeleteConnectors: boolean;
     disableDeleteElements: boolean;
     disableDragElements: boolean;
-    disableAddElements: boolean;
     disableSelectConnectors: boolean;
     disableMultiSelectElements: boolean;
 };

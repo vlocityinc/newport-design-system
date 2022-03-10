@@ -234,6 +234,8 @@ export default class ReorderableVerticalNavigation extends withKeyboardInteracti
     }
 
     renderedCallback() {
+        super.renderedCallback();
+
         // Moving focus to the right item (the one being reordered) after reordering is done
         if (this._indexToFocusPostReorder != null) {
             const items = this.getItems();

@@ -1,17 +1,13 @@
 // @ts-nocheck
 import { setup } from '@sa11y/jest';
-import AlcCanvas from 'builder_platform_interaction/alcCanvas';
 import {
     DeleteBranchElementEvent,
-    MenuPositionUpdateEvent,
+    HighlightPathsToDeleteEvent,
     ToggleMenuEvent
 } from 'builder_platform_interaction/alcEvents';
-import { MenuType } from 'builder_platform_interaction/autoLayoutCanvas';
-import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
-import {
-    removeDocumentBodyChildren,
-    setDocumentBodyChildren
-} from 'builder_platform_interaction/builderTestUtils/domTestUtils';
+import { MenuType, updateDeletionPathInfo } from 'builder_platform_interaction/autoLayoutCanvas';
+import { createComponent, ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
+import { removeDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
 import {
     ClickToZoomEvent,
     DeleteElementEvent,
@@ -19,7 +15,6 @@ import {
     ZOOM_ACTION
 } from 'builder_platform_interaction/events';
 import { commands, invokeModal } from 'builder_platform_interaction/sharedUtils';
-import { createElement } from 'lwc';
 import { elementsMetadata, flowModel } from './mockData';
 
 const { ZoomInCommand, ZoomOutCommand, ZoomToFitCommand, ZoomToViewCommand } = commands;
@@ -176,29 +171,25 @@ Element.prototype.getBoundingClientRect = jest.fn(function () {
     }
 });
 
-const createComponentForTest = () => {
-    const el = createElement('builder_platform_interaction-alc-canvas', {
-        is: AlcCanvas
-    });
+const defaultOptions = {
+    flowModel,
+    disableAnimation: true,
+    elementsMetadata,
+    disableDebounce: true,
+    connectorMenuMetadata: {
+        menuComponent: 'builder_platform_interaction/alcConnectorMenu',
+        elementTypes: new Set()
+    },
+    shortcuts: {
+        zoomIn: {},
+        zoomOut: {},
+        zoomToView: {},
+        zoomToFit: {}
+    }
+};
 
-    Object.assign(el, {
-        flowModel,
-        disableAnimation: true,
-        elementsMetadata,
-        disableDebounce: true,
-        connectorMenuMetadata: {
-            menuComponent: 'builder_platform_interaction/alcConnectorMenu',
-            elementTypes: new Set()
-        },
-        shortcuts: {
-            zoomIn: {},
-            zoomOut: {},
-            zoomToView: {},
-            zoomToFit: {}
-        }
-    });
-    setDocumentBodyChildren(el);
-    return el;
+const createComponentUnderTest = async (overrideOptions) => {
+    return createComponent('builder_platform_interaction-alc-canvas', defaultOptions, overrideOptions);
 };
 
 async function dispatchEvent(element, event) {
@@ -214,8 +205,8 @@ async function dispatchKeyboardCommand(element, command) {
 describe('Auto Layout Canvas', () => {
     let cmp;
 
-    beforeEach(() => {
-        cmp = createComponentForTest();
+    beforeEach(async () => {
+        cmp = await createComponentUnderTest();
         cmp.focusOnConnector = jest.fn();
         cmp.focusOnNode = jest.fn();
     });
@@ -227,15 +218,23 @@ describe('Auto Layout Canvas', () => {
     const getOverlay = () => cmp.shadowRoot.querySelector('.canvas-overlay');
     const getFlow = () => cmp.shadowRoot.querySelector('builder_platform_interaction-alc-flow');
     const getZoomPanel = () => cmp.shadowRoot.querySelector('builder_platform_interaction-zoom-panel');
-    const getNodeMenu = () => cmp.shadowRoot.querySelector('.node-menu');
-    const getStartNodeMenu = () => cmp.shadowRoot.querySelector('.start-menu');
-    const getConnectorMenu = () => cmp.shadowRoot.querySelector('.connector-menu');
     const getSpinner = () => cmp.shadowRoot.querySelector('div.slds-spinner_container');
 
     const checkMenusOpened = (isNodeMenuOpened, isConnectorMenuOpened, isStartMenuOpened = false) => {
-        expect(getNodeMenu() != null).toBe(isNodeMenuOpened);
-        expect(getConnectorMenu() != null).toBe(isConnectorMenuOpened);
-        expect(getStartNodeMenu() != null).toBe(isStartMenuOpened);
+        const { menu } = getFlow().canvasContext;
+
+        let expectedType;
+        if (isNodeMenuOpened || isStartMenuOpened) {
+            expectedType = MenuType.NODE;
+        } else if (isConnectorMenuOpened) {
+            expectedType = MenuType.CONNECTOR;
+        }
+
+        if (expectedType != null) {
+            expect(menu.type).toBe(expectedType);
+        } else {
+            expect(menu).toBeNull();
+        }
     };
 
     async function closeStartMenu() {
@@ -493,13 +492,6 @@ describe('Auto Layout Canvas', () => {
             await dispatchEvent(flow, getNodeToggleMenuEvent(nodeToggleMenuEventProps2));
             checkMenusOpened(NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED);
 
-            // fire the a menu position update event (as done by alcMenuTrigger in this scenario)
-            const menuUpdateEvent = new MenuPositionUpdateEvent({
-                ...getNodeToggleMenuEvent().detail,
-                needToPosition: true
-            });
-            await dispatchEvent(flow, menuUpdateEvent);
-
             // at this point the overlay should be present to capture the second click
             const overlay = getOverlay();
             expect(overlay).toBeTruthy();
@@ -566,338 +558,209 @@ describe('Auto Layout Canvas', () => {
     describe('modal', () => {
         it('calls the invokeModal function when deleting an element and the branch to persist is terminated and next element is not end element', async () => {
             const flow = getFlow();
-            const nodeToggleMenuEvent = getNodeToggleMenuEvent({
-                source: { guid: '1c397973-762d-443f-9780-2b9777b6d6a3' }
-            });
-            await dispatchEvent(flow, nodeToggleMenuEvent);
-            const nodeMenu = getNodeMenu();
+
             const deleteBranchElementEvent = new DeleteBranchElementEvent(
                 ['1c397973-762d-443f-9780-2b9777b6d6a3'],
                 'Decision',
                 0
             );
-            await dispatchEvent(nodeMenu, deleteBranchElementEvent);
+            await dispatchEvent(flow, deleteBranchElementEvent);
             expect(invokeModal).toHaveBeenCalled();
         });
         it('dispatches a deleteElement event when deleting an element and persist no branches', async () => {
             const callback = jest.fn();
             cmp.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
-            const flow = getFlow();
-            const nodeToggleMenuEvent = getNodeToggleMenuEvent({
-                source: { guid: '1c397973-762d-443f-9780-2b9777b6d6a3' }
-            });
-            await dispatchEvent(flow, nodeToggleMenuEvent);
-            const nodeMenu = getNodeMenu();
+
             const deleteBranchElementEvent = new DeleteBranchElementEvent(
                 ['1c397973-762d-443f-9780-2b9777b6d6a3'],
                 'Decision',
                 null
             );
-            await dispatchEvent(nodeMenu, deleteBranchElementEvent);
+            await dispatchEvent(getFlow(), deleteBranchElementEvent);
             expect(callback).toHaveBeenCalled();
         });
         it('dispatches a deleteElement event when deleting an element and the branch to persist is not terminated', async () => {
             const callback = jest.fn();
             cmp.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
-            const flow = getFlow();
-            const nodeToggleMenuEvent = getNodeToggleMenuEvent({
-                source: { guid: '1c397973-762d-443f-9780-2b9777b6d6a3' }
-            });
 
-            await dispatchEvent(flow, nodeToggleMenuEvent);
-            const nodeMenu = getNodeMenu();
             const deleteBranchElementEvent = new DeleteBranchElementEvent(
                 ['1c397973-762d-443f-9780-2b9777b6d6a3'],
                 'Decision',
                 1
             );
-            await dispatchEvent(nodeMenu, deleteBranchElementEvent);
+            await dispatchEvent(getFlow(), deleteBranchElementEvent);
             expect(callback).toHaveBeenCalled();
         });
         it('dispatches a deleteElement event when deleting an element and next element is end element', async () => {
             const callback = jest.fn();
             cmp.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
-            const flow = getFlow();
-            const nodeToggleMenuEvent = getNodeToggleMenuEvent({
-                source: { guid: '9731c397-443f-9780-762d-d6a32b9777b6' }
-            });
-            await dispatchEvent(flow, nodeToggleMenuEvent);
-            const nodeMenu = getNodeMenu();
+
             const deleteBranchElementEvent = new DeleteBranchElementEvent(
                 ['9731c397-443f-9780-762d-d6a32b9777b6'],
                 'Decision',
                 0
             );
-            await dispatchEvent(nodeMenu, deleteBranchElementEvent);
+            await dispatchEvent(getFlow(), deleteBranchElementEvent);
             expect(callback).toHaveBeenCalled();
         });
         it('dispatches a deleteElement event when deleting an element and a GoTo is present on next', async () => {
             const callback = jest.fn();
             cmp.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
-            const flow = getFlow();
-            const nodeToggleMenuEvent = getNodeToggleMenuEvent({
-                source: { guid: 'decision' },
-                left: 702.0999755859375,
-                top: 140
-            });
-            await dispatchEvent(flow, nodeToggleMenuEvent);
-            const nodeMenu = getNodeMenu();
+
             const deleteBranchElementEvent = new DeleteBranchElementEvent(['decision'], 'Decision', 2);
-            await dispatchEvent(nodeMenu, deleteBranchElementEvent);
+            await dispatchEvent(getFlow(), deleteBranchElementEvent);
             expect(callback).toHaveBeenCalled();
         });
         it('dispatches a deleteElement event when deleting an element and head element is null', async () => {
             const callback = jest.fn();
             cmp.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
-            const flow = getFlow();
-            const nodeToggleMenuEvent = getNodeToggleMenuEvent({
-                source: { guid: '1c397973-762d-443f-9780-2b9777b6d6a3' }
-            });
-            await dispatchEvent(flow, nodeToggleMenuEvent);
-            const nodeMenu = getNodeMenu();
+
             const deleteBranchElementEvent = new DeleteBranchElementEvent(
                 ['1c397973-762d-443f-9780-2b9777b6d6a3'],
                 'Decision',
                 -1
             );
-            await dispatchEvent(nodeMenu, deleteBranchElementEvent);
+            await dispatchEvent(getFlow(), deleteBranchElementEvent);
             expect(callback).toHaveBeenCalled();
         });
         it('dispatches a deleteElement event when deleting an element and next element is null', async () => {
             const callback = jest.fn();
             cmp.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
-            const flow = getFlow();
-            const nodeToggleMenuEvent = getNodeToggleMenuEvent({
-                source: { guid: '4b54cd8b-6bba-407b-a02b-c2129290162e' }
-            });
-            await dispatchEvent(flow, nodeToggleMenuEvent);
-            const nodeMenu = getNodeMenu();
+
             const deleteBranchElementEvent = new DeleteBranchElementEvent(
                 ['4b54cd8b-6bba-407b-a02b-c2129290162e'],
                 'Decision',
                 0
             );
-            await dispatchEvent(nodeMenu, deleteBranchElementEvent);
+            await dispatchEvent(getFlow(), deleteBranchElementEvent);
             expect(callback).toHaveBeenCalled();
         });
     });
 
     describe('focus', () => {
         it('focusOnConnector should be called when deleting an element with branches', async () => {
-            const flow = getFlow();
-            const nodeToggleMenuEvent = getNodeToggleMenuEvent({
-                source: { guid: 'decision' }
-            });
-            await dispatchEvent(flow, nodeToggleMenuEvent);
-            const nodeMenu = getNodeMenu();
             const deleteElementEvent = new DeleteBranchElementEvent(['decision'], 'Decision', null);
-            await dispatchEvent(nodeMenu, deleteElementEvent);
+            await dispatchEvent(getFlow(), deleteElementEvent);
             expect(cmp.focusOnConnector).toHaveBeenCalledWith({ guid: 'screen-one' });
         });
         it('focusOnConnector should be called when deleting a branch element', async () => {
-            const flow = getFlow();
-            const nodeToggleMenuEvent = getNodeToggleMenuEvent({
-                source: { guid: 'screen-two' }
-            });
-            await dispatchEvent(flow, nodeToggleMenuEvent);
-            const nodeMenu = getNodeMenu();
             const deleteElementEvent = new DeleteElementEvent(['screen-two'], 'Screen', null);
-            await dispatchEvent(nodeMenu, deleteElementEvent);
+            await dispatchEvent(getFlow(), deleteElementEvent);
             expect(cmp.focusOnConnector).toHaveBeenCalledWith({ guid: 'decision', childIndex: 1 });
         });
     });
 
     // TODO: 238 clco - fix and uncomment these tests
-    // describe('highlight path', () => {
-    //     it('should set shouldDeleteBeyondMergingPoint to false when deleting an element and no branch is persisted', async () => {
-    //         const flow = getFlow();
-    //         const nodeToggleMenuEvent = new ToggleMenuEvent({
-    //             source: { guid: '1c397973-762d-443f-9780-2b9777b6d6a3' },
-    //             left: 702.0999755859375,
-    //             offsetX: 2.4000244140625,
-    //             top: 140,
-    //             type: MenuType.NODE,
-    //             elementMetadata: { supportsMenu: true }
-    //         });
-    //         await dispatchEvent(flow, nodeToggleMenuEvent);
-    //         const nodeMenu = getNodeMenu();
-    //         const highlightPathsToDeleteEvent = new HighlightPathsToDeleteEvent(
-    //             '1c397973-762d-443f-9780-2b9777b6d6a3',
-    //             null
-    //         );
-    //         await dispatchEvent(nodeMenu, highlightPathsToDeleteEvent);
-    //         expect(updateDeletionPathInfo).toHaveBeenCalledWith(
-    //             '1c397973-762d-443f-9780-2b9777b6d6a3',
-    //             null,
-    //             expect.anything(),
-    //             false
-    //         );
-    //     });
-    //     it('should set shouldDeleteBeyondMergingPoint to false when deleting an element and the branch to persist is not terminated', async () => {
-    //         const flow = getFlow();
-    //         const nodeToggleMenuEvent = new ToggleMenuEvent({
-    //             source: { guid: '1c397973-762d-443f-9780-2b9777b6d6a3' },
-    //             left: 702.0999755859375,
-    //             offsetX: 2.4000244140625,
-    //             top: 140,
-    //             type: MenuType.NODE,
-    //             elementMetadata: { supportsMenu: true }
-    //         });
-    //         await dispatchEvent(flow, nodeToggleMenuEvent);
-    //         const nodeMenu = getNodeMenu();
-    //         const highlightPathsToDeleteEvent = new HighlightPathsToDeleteEvent(
-    //             '1c397973-762d-443f-9780-2b9777b6d6a3',
-    //             1
-    //         );
-    //         await dispatchEvent(nodeMenu, highlightPathsToDeleteEvent);
-    //         expect(updateDeletionPathInfo).toHaveBeenCalledWith(
-    //             '1c397973-762d-443f-9780-2b9777b6d6a3',
-    //             1,
-    //             expect.anything(),
-    //             false
-    //         );
-    //     });
-    //     it('should set shouldDeleteBeyondMergingPoint to true when deleting an element and the branch to persist is terminated and next element is not end element', async () => {
-    //         const flow = getFlow();
-    //         const nodeToggleMenuEvent = new ToggleMenuEvent({
-    //             source: { guid: '1c397973-762d-443f-9780-2b9777b6d6a3' },
-    //             left: 702.0999755859375,
-    //             offsetX: 2.4000244140625,
-    //             top: 140,
-    //             type: MenuType.NODE,
-    //             elementMetadata: { supportsMenu: true }
-    //         });
-    //         await dispatchEvent(flow, nodeToggleMenuEvent);
-    //         const nodeMenu = getNodeMenu();
-    //         const highlightPathsToDeleteEvent = new HighlightPathsToDeleteEvent(
-    //             '1c397973-762d-443f-9780-2b9777b6d6a3',
-    //             0
-    //         );
-    //         await dispatchEvent(nodeMenu, highlightPathsToDeleteEvent);
-    //         expect(updateDeletionPathInfo).toHaveBeenCalledWith(
-    //             '1c397973-762d-443f-9780-2b9777b6d6a3',
-    //             0,
-    //             expect.anything(),
-    //             true
-    //         );
-    //     });
-    //     it('should set shouldDeleteBeyondMergingPoint to false when deleting an element and head element is null', async () => {
-    //         const flow = getFlow();
-    //         const nodeToggleMenuEvent = new ToggleMenuEvent({
-    //             source: { guid: '1c397973-762d-443f-9780-2b9777b6d6a3' },
-    //             left: 702.0999755859375,
-    //             offsetX: 2.4000244140625,
-    //             top: 140,
-    //             type: MenuType.NODE,
-    //             elementMetadata: { supportsMenu: true }
-    //         });
-    //         await dispatchEvent(flow, nodeToggleMenuEvent);
-    //         const nodeMenu = getNodeMenu();
-    //         const highlightPathsToDeleteEvent = new HighlightPathsToDeleteEvent(
-    //             '1c397973-762d-443f-9780-2b9777b6d6a3',
-    //             -1
-    //         );
-    //         await dispatchEvent(nodeMenu, highlightPathsToDeleteEvent);
-    //         expect(updateDeletionPathInfo).toHaveBeenCalledWith(
-    //             '1c397973-762d-443f-9780-2b9777b6d6a3',
-    //             -1,
-    //             expect.anything(),
-    //             false
-    //         );
-    //     });
-    //     it('should set shouldDeleteBeyondMergingPoint to false when deleting an element and next element is null', async () => {
-    //         const flow = getFlow();
-    //         const nodeToggleMenuEvent = new ToggleMenuEvent({
-    //             source: { guid: '4b54cd8b-6bba-407b-a02b-c2129290162e' },
-    //             left: 702.0999755859375,
-    //             offsetX: 2.4000244140625,
-    //             top: 140,
-    //             type: MenuType.NODE,
-    //             elementMetadata: { supportsMenu: true }
-    //         });
-    //         await dispatchEvent(flow, nodeToggleMenuEvent);
-    //         const nodeMenu = getNodeMenu();
-    //         const highlightPathsToDeleteEvent = new HighlightPathsToDeleteEvent(
-    //             '4b54cd8b-6bba-407b-a02b-c2129290162e',
-    //             0
-    //         );
-    //         await dispatchEvent(nodeMenu, highlightPathsToDeleteEvent);
-    //         expect(updateDeletionPathInfo).toHaveBeenCalledWith(
-    //             '4b54cd8b-6bba-407b-a02b-c2129290162e',
-    //             0,
-    //             expect.anything(),
-    //             false
-    //         );
-    //     });
+    describe('highlight path', () => {
+        it('should set shouldDeleteBeyondMergingPoint to false when deleting an element and no branch is persisted', async () => {
+            const flow = getFlow();
 
-    //     describe('Highlight Path with GoTo present at the merge point', () => {
-    //         it('GoTo is present at the merge point and no branch is being persisted', async () => {
-    //             const flow = getFlow();
-    //             const nodeToggleMenuEvent = new ToggleMenuEvent({
-    //                 source: { guid: 'decision' },
-    //                 left: 702.0999755859375,
-    //                 offsetX: 2.4000244140625,
-    //                 top: 140,
-    //                 type: MenuType.NODE,
-    //                 elementMetadata: { supportsMenu: true }
-    //             });
-    //             await dispatchEvent(flow, nodeToggleMenuEvent);
-    //             const nodeMenu = getNodeMenu();
-    //             const highlightPathsToDeleteEvent = new HighlightPathsToDeleteEvent('decision', undefined);
-    //             await dispatchEvent(nodeMenu, highlightPathsToDeleteEvent);
-    //             expect(updateDeletionPathInfo).toHaveBeenCalledWith('decision', undefined, expect.anything(), true);
-    //         });
+            const highlightPathsToDeleteEvent = new HighlightPathsToDeleteEvent(
+                '1c397973-762d-443f-9780-2b9777b6d6a3',
+                null
+            );
+            await dispatchEvent(flow, highlightPathsToDeleteEvent);
+            expect(updateDeletionPathInfo).toHaveBeenCalledWith(
+                '1c397973-762d-443f-9780-2b9777b6d6a3',
+                null,
+                expect.anything(),
+                false
+            );
+        });
 
-    //         it('GoTo is present at the merge point and the persisted branch is empty', async () => {
-    //             const flow = getFlow();
-    //             const nodeToggleMenuEvent = new ToggleMenuEvent({
-    //                 source: { guid: 'decision' },
-    //                 left: 702.0999755859375,
-    //                 offsetX: 2.4000244140625,
-    //                 top: 140,
-    //                 type: MenuType.NODE,
-    //                 elementMetadata: { supportsMenu: true }
-    //             });
-    //             await dispatchEvent(flow, nodeToggleMenuEvent);
-    //             const nodeMenu = getNodeMenu();
-    //             const highlightPathsToDeleteEvent = new HighlightPathsToDeleteEvent('decision', 0);
-    //             await dispatchEvent(nodeMenu, highlightPathsToDeleteEvent);
-    //             expect(updateDeletionPathInfo).toHaveBeenCalledWith('decision', 0, expect.anything(), true);
-    //         });
+        it('should set shouldDeleteBeyondMergingPoint to false when deleting an element and the branch to persist is not terminated', async () => {
+            const flow = getFlow();
 
-    //         it('GoTo is present at the merge point and the persisted branch is terminated', async () => {
-    //             const flow = getFlow();
-    //             const nodeToggleMenuEvent = new ToggleMenuEvent({
-    //                 source: { guid: 'decision' },
-    //                 left: 702.0999755859375,
-    //                 offsetX: 2.4000244140625,
-    //                 top: 140,
-    //                 type: MenuType.NODE,
-    //                 elementMetadata: { supportsMenu: true }
-    //             });
-    //             await dispatchEvent(flow, nodeToggleMenuEvent);
-    //             const nodeMenu = getNodeMenu();
-    //             const highlightPathsToDeleteEvent = new HighlightPathsToDeleteEvent('decision', 2);
-    //             await dispatchEvent(nodeMenu, highlightPathsToDeleteEvent);
-    //             expect(updateDeletionPathInfo).toHaveBeenCalledWith('decision', 2, expect.anything(), true);
-    //         });
+            const highlightPathsToDeleteEvent = new HighlightPathsToDeleteEvent(
+                '1c397973-762d-443f-9780-2b9777b6d6a3',
+                1
+            );
+            await dispatchEvent(flow, highlightPathsToDeleteEvent);
+            expect(updateDeletionPathInfo).toHaveBeenCalledWith(
+                '1c397973-762d-443f-9780-2b9777b6d6a3',
+                1,
+                expect.anything(),
+                false
+            );
+        });
+        it('should set shouldDeleteBeyondMergingPoint to true when deleting an element and the branch to persist is terminated and next element is not end element', async () => {
+            const flow = getFlow();
 
-    //         it('GoTo is present at the merge point and the persisted branch is not terminated', async () => {
-    //             const flow = getFlow();
-    //             const nodeToggleMenuEvent = new ToggleMenuEvent({
-    //                 source: { guid: 'decision' },
-    //                 left: 702.0999755859375,
-    //                 offsetX: 2.4000244140625,
-    //                 top: 140,
-    //                 type: MenuType.NODE,
-    //                 elementMetadata: { supportsMenu: true }
-    //             });
-    //             await dispatchEvent(flow, nodeToggleMenuEvent);
-    //             const nodeMenu = getNodeMenu();
-    //             const highlightPathsToDeleteEvent = new HighlightPathsToDeleteEvent('decision', 1);
-    //             await dispatchEvent(nodeMenu, highlightPathsToDeleteEvent);
-    //             expect(updateDeletionPathInfo).toHaveBeenCalledWith('decision', 1, expect.anything(), false);
-    //         });
-    //     });
-    // });
+            const highlightPathsToDeleteEvent = new HighlightPathsToDeleteEvent(
+                '1c397973-762d-443f-9780-2b9777b6d6a3',
+                0
+            );
+            await dispatchEvent(flow, highlightPathsToDeleteEvent);
+            expect(updateDeletionPathInfo).toHaveBeenCalledWith(
+                '1c397973-762d-443f-9780-2b9777b6d6a3',
+                0,
+                expect.anything(),
+                true
+            );
+        });
+        it('should set shouldDeleteBeyondMergingPoint to false when deleting an element and head element is null', async () => {
+            const flow = getFlow();
+
+            const highlightPathsToDeleteEvent = new HighlightPathsToDeleteEvent(
+                '1c397973-762d-443f-9780-2b9777b6d6a3',
+                -1
+            );
+            await dispatchEvent(flow, highlightPathsToDeleteEvent);
+            expect(updateDeletionPathInfo).toHaveBeenCalledWith(
+                '1c397973-762d-443f-9780-2b9777b6d6a3',
+                -1,
+                expect.anything(),
+                false
+            );
+        });
+        it('should set shouldDeleteBeyondMergingPoint to false when deleting an element and next element is null', async () => {
+            const flow = getFlow();
+
+            const highlightPathsToDeleteEvent = new HighlightPathsToDeleteEvent(
+                '4b54cd8b-6bba-407b-a02b-c2129290162e',
+                0
+            );
+            await dispatchEvent(flow, highlightPathsToDeleteEvent);
+            expect(updateDeletionPathInfo).toHaveBeenCalledWith(
+                '4b54cd8b-6bba-407b-a02b-c2129290162e',
+                0,
+                expect.anything(),
+                false
+            );
+        });
+
+        describe('Highlight Path with GoTo present at the merge point', () => {
+            it('GoTo is present at the merge point and no branch is being persisted', async () => {
+                const flow = getFlow();
+
+                const highlightPathsToDeleteEvent = new HighlightPathsToDeleteEvent('decision', undefined);
+                await dispatchEvent(flow, highlightPathsToDeleteEvent);
+                expect(updateDeletionPathInfo).toHaveBeenCalledWith('decision', undefined, expect.anything(), true);
+            });
+
+            it('GoTo is present at the merge point and the persisted branch is empty', async () => {
+                const flow = getFlow();
+
+                const highlightPathsToDeleteEvent = new HighlightPathsToDeleteEvent('decision', 0);
+                await dispatchEvent(flow, highlightPathsToDeleteEvent);
+                expect(updateDeletionPathInfo).toHaveBeenCalledWith('decision', 0, expect.anything(), true);
+            });
+
+            it('GoTo is present at the merge point and the persisted branch is terminated', async () => {
+                const flow = getFlow();
+
+                const highlightPathsToDeleteEvent = new HighlightPathsToDeleteEvent('decision', 2);
+                await dispatchEvent(flow, highlightPathsToDeleteEvent);
+                expect(updateDeletionPathInfo).toHaveBeenCalledWith('decision', 2, expect.anything(), true);
+            });
+
+            it('GoTo is present at the merge point and the persisted branch is not terminated', async () => {
+                const flow = getFlow();
+
+                const highlightPathsToDeleteEvent = new HighlightPathsToDeleteEvent('decision', 1);
+                await dispatchEvent(flow, highlightPathsToDeleteEvent);
+                expect(updateDeletionPathInfo).toHaveBeenCalledWith('decision', 1, expect.anything(), false);
+            });
+        });
+    });
 });

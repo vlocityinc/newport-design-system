@@ -1,12 +1,13 @@
 <template>
-    <div class="menu overlay slds-dropdown">
+    <div class="menu">
         <builder_platform_interaction-alc-menu-template>
-            <div slot="header" class="slds-border_bottom slds-dropdown__header slds-truncate" role="separator">
-                <h3 class="slds-m-vertical_small slds-text-heading_small">{labels.addStepButton}</h3>
-            </div>
-            <div slot="body" class="slds-scrollable_y body body-fixed-height">
+            <h3 slot="header" class="slds-m-vertical_small slds-text-heading_small slds-m-top_large">
+                {labels.addStepButton}
+            </h3>
+
+            <div slot="body">
                 <template for:each={menuConfiguration.sections} for:item="section">
-                    <ul key={section.guid} class="slds-listbox slds-listbox_vertical" role="group">
+                    <ul key={section.guid} class="slds-listbox slds-listbox_vertical" role="menu">
                         <li class="slds-dropdown__header" role="separator" title="Automatic">
                             <span>{section.header}</span>
                         </li>
@@ -20,8 +21,7 @@
                                 >
                                     <div
                                         class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
-                                        role="option"
-                                        tabindex="0"
+                                        role="menuitem"
                                         title={item.tooltip}
                                     >
                                         <span class="slds-icon_container push-icon-down">

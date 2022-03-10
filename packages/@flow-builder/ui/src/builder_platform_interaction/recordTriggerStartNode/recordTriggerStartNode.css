@@ -8,8 +8,12 @@
     color: var(--lwc-brandAccessible, rgb(0, 112, 210));
 }
 
-.context:focus,
-.context:active {
+:host {
+    display: block;
+}
+
+:host():focus .context,
+:host():active .context {
     position: relative;
     box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-colorBorderSelection), 0 0 6px 3px var(--lwc-colorBorderSelection);
     outline: 0;

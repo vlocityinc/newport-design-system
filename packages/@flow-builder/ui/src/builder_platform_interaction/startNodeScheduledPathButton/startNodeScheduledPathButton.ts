@@ -1,41 +1,13 @@
 import { EDIT_START_SCHEDULED_PATHS } from 'builder_platform_interaction/elementConfig';
-import { ArrowKeyDownEvent, EditElementEvent } from 'builder_platform_interaction/events';
-import { commands, commonUtils, keyboardInteractionUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
-import { api, LightningElement } from 'lwc';
+import { EditElementEvent } from 'builder_platform_interaction/events';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import StartNodeButton from 'builder_platform_interaction/startNodeButton';
 import { LABELS } from './startNodeScheduledPathButtonLabels';
 const { format } = commonUtils;
 
-const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
-const { withKeyboardInteractions, BaseKeyboardInteraction, createShortcut, Keys } = keyboardInteractionUtils;
-
-const selectors = {
-    button: '.button'
-};
-export default class StartNodeScheduledPathButton extends withKeyboardInteractions(LightningElement) {
-    dom = lwcUtils.createDomProxy(this, selectors);
-
-    @api
-    node!: UI.Start;
-
-    @api
-    focus() {
-        this.dom.button.focus();
-    }
-
-    get unsetStartButtonClasses() {
-        return 'unset-start-button slds-p-vertical_x-small slds-p-horizontal_medium slds-truncate';
-    }
-
-    get startButtonClasses() {
-        return 'start-button-scheduled-path slds-p-vertical_x-small slds-p-horizontal_medium';
-    }
-
+export default class StartNodeScheduledPathButton extends StartNodeButton {
     get addScheduledPathsLabel() {
         return LABELS.startElementAddScheduledPathsLabel;
-    }
-
-    get editLabel() {
-        return LABELS.startElementEdit;
     }
 
     get hasScheduledPaths() {
@@ -54,43 +26,7 @@ export default class StartNodeScheduledPathButton extends withKeyboardInteractio
         return format(LABELS.startElementScheduledPathsTitle, this.node.childReferences.length + 1);
     }
 
-    handleObjectClick = (event?: Event) => {
-        if (event) {
-            event.stopPropagation();
-        }
-
-        const canvasElementGUID = this.node.guid;
-        const editElementEvent = new EditElementEvent(canvasElementGUID, EDIT_START_SCHEDULED_PATHS);
-        this.dispatchEvent(editElementEvent);
-    };
-
-    /**
-     * Helper function to dispatch the ArrowKeyDownEvent event that'll be handled
-     * in alcStartMenu
-     *
-     * @param key - The arrow key pressed
-     */
-    handleArrowKeyDown(key) {
-        const arrowKeyDownEvent = new ArrowKeyDownEvent(key);
-        this.dispatchEvent(arrowKeyDownEvent);
-    }
-
-    /**
-     * Helper function used during keyboard commands
-     */
-    handleSpaceOrEnter() {
-        this.handleObjectClick();
-    }
-
-    // TODO: keyboard handling is duplicated across all the StartNode* classes, should move into a superclass
-    getKeyboardInteractions() {
-        return [
-            new BaseKeyboardInteraction([
-                createShortcut(Keys.Enter, new EnterCommand(() => this.handleSpaceOrEnter())),
-                createShortcut(Keys.Space, new SpaceCommand(() => this.handleSpaceOrEnter())),
-                createShortcut(Keys.ArrowDown, new ArrowDown(() => this.handleArrowKeyDown(Keys.ArrowDown))),
-                createShortcut(Keys.ArrowUp, new ArrowUp(() => this.handleArrowKeyDown(Keys.ArrowUp)))
-            ])
-        ];
+    override createEditElementEvent(): EditElementEvent {
+        return new EditElementEvent(this.node.guid, EDIT_START_SCHEDULED_PATHS, undefined, true);
     }
 }

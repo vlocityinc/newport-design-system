@@ -1,12 +1,9 @@
 // @ts-nocheck
 import { AutoLayoutCanvasMode } from 'builder_platform_interaction/alcComponentsUtils';
-import AlcConnector from 'builder_platform_interaction/alcConnector';
 import { OutgoingGoToStubClickEvent } from 'builder_platform_interaction/alcEvents';
 import { ConnectorLabelType, NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
-import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
-import { createElement } from 'lwc';
+import { createComponent } from 'builder_platform_interaction/builderTestUtils';
 import { LABELS } from '../alcConnectorLabels';
-
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
 const selectors = {
@@ -227,233 +224,194 @@ const getScheduledPathConnectorInfo = () => {
     };
 };
 
-const createComponentUnderTest = (
-    connectorInfo,
-    canvasMode = AutoLayoutCanvasMode.DEFAULT,
-    disableAddElements = false,
-    flowModel,
-    incomingStubGuid = null
-) => {
-    const el = createElement('builder_platform_interaction-alc-connector', {
-        is: AlcConnector
-    });
+const defaultCanvasContext = {
+    mode: AutoLayoutCanvasMode.DEFAULT,
+    incomingStubGuid: null,
+    connectorMenuMetadata: {}
+};
 
-    el.connectorInfo = connectorInfo;
-    el.canvasContext = { mode: canvasMode, incomingStubGuid };
-    el.disableAddElements = disableAddElements;
-    el.flowModel = flowModel;
-    setDocumentBodyChildren(el);
-    return el;
+const defaultOptions = {
+    canvasContext: defaultCanvasContext
+};
+
+const createComponentUnderTest = async (overrideOptions) => {
+    return createComponent('builder_platform_interaction-alc-connector', defaultOptions, overrideOptions);
 };
 
 describe('Auto-Layout connector tests', () => {
-    it('Should add connector-to-be-deleted class to the connector svg when toBeDeleted is true', () => {
-        const defaultConnector = createComponentUnderTest(
-            getDefaultConnectorInfo(true),
-            AutoLayoutCanvasMode.DEFAULT,
-            false,
-            defaultFlowModel
-        );
+    it('Should add connector-to-be-deleted class to the connector svg when toBeDeleted is true', async () => {
+        const defaultConnector = await createComponentUnderTest({
+            connectorInfo: getDefaultConnectorInfo(true),
+            flowModel: defaultFlowModel
+        });
         const connectorSVG = defaultConnector.shadowRoot.querySelector(selectors.connectorToBeDeletedSVG);
         expect(connectorSVG).not.toBeNull();
     });
 
-    it('"+" button icon should have the right alternative text', () => {
-        const regularConnector = createComponentUnderTest(
-            getRegularConnectorInfo(),
-            AutoLayoutCanvasMode.DEFAULT,
-            false,
-            regularFlowModel
-        );
+    it('"+" button icon should have the right alternative text', async () => {
+        const regularConnector = await createComponentUnderTest({
+            connectorInfo: getRegularConnectorInfo(),
+            flowModel: regularFlowModel
+        });
         const addElementButton = regularConnector.shadowRoot.querySelector(selectors.addElementButton);
         expect(addElementButton.alternativeText).toBe(LABELS.addElementIconAltText);
     });
 
-    it('Default connector should have the label badge', () => {
-        const defaultConnector = createComponentUnderTest(
-            getDefaultConnectorInfo(),
-            AutoLayoutCanvasMode.DEFAULT,
-            false,
-            defaultFlowModel
-        );
+    it('Default connector should have the label badge', async () => {
+        const defaultConnector = await createComponentUnderTest({
+            connectorInfo: getDefaultConnectorInfo(),
+            flowModel: defaultFlowModel
+        });
         const labelBadge = defaultConnector.shadowRoot.querySelector(selectors.defaultConnectorBadge);
         expect(labelBadge).not.toBeUndefined();
     });
 
-    it('Default connector should have the right label content', () => {
+    it('Default connector should have the right label content', async () => {
         const defaultConnectorInfo = getDefaultConnectorInfo();
-        const defaultConnector = createComponentUnderTest(
-            defaultConnectorInfo,
-            AutoLayoutCanvasMode.DEFAULT,
-            false,
-            defaultFlowModel
-        );
+        const defaultConnector = await createComponentUnderTest({
+            connectorInfo: defaultConnectorInfo,
+            flowModel: defaultFlowModel
+        });
         const labelBadge = defaultConnector.shadowRoot.querySelector(selectors.defaultConnectorBadge);
         expect(labelBadge.textContent).toEqual(defaultFlowModel.parentGuid1.defaultConnectorLabel);
     });
 
-    it('Run Immediately branching connector should have the right label content', () => {
+    it('Run Immediately branching connector should have the right label content', async () => {
         const immediateConnectorInfo = getImmediateBranchConnectorInfo();
-        const immediateConnector = createComponentUnderTest(
-            immediateConnectorInfo,
-            AutoLayoutCanvasMode.DEFAULT,
-            false,
-            branchingStartFlowModel
-        );
+        const immediateConnector = await createComponentUnderTest({
+            connectorInfo: immediateConnectorInfo,
+            flowModel: branchingStartFlowModel
+        });
         const labelBadge = immediateConnector.shadowRoot.querySelector(selectors.defaultConnectorBadge);
         expect(labelBadge.textContent).toEqual(branchingStartFlowModel.startGuid1.defaultConnectorLabel);
     });
 
-    it('Run Immediately straight connector should have the right label content', () => {
+    it('Run Immediately straight connector should have the right label content', async () => {
         const immediateConnectorInfo = getImmediateStraightConnectorInfo();
-        const immediateConnector = createComponentUnderTest(
-            immediateConnectorInfo,
-            AutoLayoutCanvasMode.DEFAULT,
-            false,
-            immediateStartFlowModel
-        );
+        const immediateConnector = await createComponentUnderTest({
+            connectorInfo: immediateConnectorInfo,
+            flowModel: immediateStartFlowModel
+        });
         const labelBadge = immediateConnector.shadowRoot.querySelector(selectors.defaultConnectorBadge);
         expect(labelBadge.textContent).toEqual(immediateStartFlowModel.startGuid1.defaultConnectorLabel);
     });
 
-    it('Scheduled Path connector should have the right label content', () => {
+    it('Scheduled Path connector should have the right label content', async () => {
         const scheduledPathConnectorInfo = getScheduledPathConnectorInfo();
-        const scheduledPathConnector = createComponentUnderTest(
-            scheduledPathConnectorInfo,
-            AutoLayoutCanvasMode.DEFAULT,
-            false,
-            branchingStartFlowModel
-        );
+        const scheduledPathConnector = await createComponentUnderTest({
+            connectorInfo: scheduledPathConnectorInfo,
+            flowModel: branchingStartFlowModel
+        });
         const labelBadge = scheduledPathConnector.shadowRoot.querySelector(selectors.defaultConnectorBadge);
         expect(labelBadge.textContent).toEqual(branchingStartFlowModel.p1.label);
     });
 
-    it('Fault connector should have the label badge', () => {
-        const faultConnector = createComponentUnderTest(
-            getFaultConnectorInfo(),
-            AutoLayoutCanvasMode.DEFAULT,
-            false,
-            faultFlowModel
-        );
+    it('Fault connector should have the label badge', async () => {
+        const faultConnector = await createComponentUnderTest({
+            connectorInfo: getFaultConnectorInfo(),
+            flowModel: faultFlowModel
+        });
         const labelBadge = faultConnector.shadowRoot.querySelector(selectors.faultConnectorBadge);
         expect(labelBadge).not.toBeUndefined();
     });
 
-    it('Fault connector should have the right label content', () => {
-        const faultConnector = createComponentUnderTest(
-            getFaultConnectorInfo(),
-            AutoLayoutCanvasMode.DEFAULT,
-            false,
-            faultFlowModel
-        );
+    it('Fault connector should have the right label content', async () => {
+        const faultConnector = await createComponentUnderTest({
+            connectorInfo: getFaultConnectorInfo(),
+            flowModel: faultFlowModel
+        });
         const labelBadge = faultConnector.shadowRoot.querySelector(selectors.faultConnectorBadge);
         expect(labelBadge.textContent).toEqual(LABELS.faultConnectorBadgeLabel);
     });
 
-    it('"+" button should be hidden when in selection mode', () => {
-        const regularConnector = createComponentUnderTest(
-            getRegularConnectorInfo(),
-            AutoLayoutCanvasMode.SELECTION,
-            false,
-            regularFlowModel
-        );
+    it('"+" button should be hidden when in selection mode', async () => {
+        const regularConnector = await createComponentUnderTest({
+            connectorInfo: getRegularConnectorInfo(),
+            canvasContext: { ...defaultCanvasContext, mode: AutoLayoutCanvasMode.SELECTION },
+            flowModel: regularFlowModel
+        });
         const addElementButton = regularConnector.shadowRoot.querySelector(selectors.addElementButton);
         expect(addElementButton).toBeNull();
     });
 
-    it('"+" button should be hidden when disableAddElements is true', () => {
-        const regularConnector = createComponentUnderTest(
-            getRegularConnectorInfo(),
-            AutoLayoutCanvasMode.DEFAULT,
-            true,
-            regularFlowModel
-        );
+    it('"+" button should be hidden when disableAddElements is true', async () => {
+        const regularConnector = await createComponentUnderTest({
+            connectorInfo: getRegularConnectorInfo(),
+            canvasContext: { ...defaultCanvasContext, connectorMenuMetadata: null },
+            flowModel: regularFlowModel
+        });
         const addElementButton = regularConnector.shadowRoot.querySelector(selectors.addElementButton);
         expect(addElementButton).toBeNull();
     });
 
-    it('Should have the title property on a GoTo connector', () => {
+    it('Should have the title property on a GoTo connector', async () => {
         const goToConnectorInfo = getGoToConnectorInfo();
-        const goToConnector = createComponentUnderTest(
-            goToConnectorInfo,
-            AutoLayoutCanvasMode.DEFAULT,
-            false,
-            goToFlowModel
-        );
+        const goToConnector = await createComponentUnderTest({
+            connectorInfo: goToConnectorInfo,
+            flowModel: goToFlowModel
+        });
         const goToInfo = goToConnector.shadowRoot.querySelector(selectors.goToInfo);
         expect(goToInfo.title).toBe(goToFlowModel.targetChild.label);
     });
 
-    it('Should have the target info (label) on a GoTo connector', () => {
+    it('Should have the target info (label) on a GoTo connector', async () => {
         const goToConnectorInfo = getGoToConnectorInfo();
-        const goToConnector = createComponentUnderTest(
-            goToConnectorInfo,
-            AutoLayoutCanvasMode.DEFAULT,
-            false,
-            goToFlowModel
-        );
+        const goToConnector = await createComponentUnderTest({
+            connectorInfo: goToConnectorInfo,
+            flowModel: goToFlowModel
+        });
         const goToTargetLabel = goToConnector.shadowRoot.querySelector(selectors.goToTargetLabel);
         expect(goToTargetLabel).not.toBeNull();
     });
 
-    it('Should have the right text content on the target info (label) of the GoTo connector', () => {
+    it('Should have the right text content on the target info (label) of the GoTo connector', async () => {
         const goToConnectorInfo = getGoToConnectorInfo();
-        const goToConnector = createComponentUnderTest(
-            goToConnectorInfo,
-            AutoLayoutCanvasMode.DEFAULT,
-            false,
-            goToFlowModel
-        );
+        const goToConnector = await createComponentUnderTest({
+            connectorInfo: goToConnectorInfo,
+            flowModel: goToFlowModel
+        });
         const goToTargetLabel = goToConnector.shadowRoot.querySelector(selectors.goToTargetLabel);
         expect(goToTargetLabel.textContent).toBe(goToFlowModel.targetChild.label);
     });
 
-    it('Should have the target info (arrow) on a GoTo connector', () => {
+    it('Should have the target info (arrow) on a GoTo connector', async () => {
         const goToConnectorInfo = getGoToConnectorInfo();
-        const goToConnector = createComponentUnderTest(
-            goToConnectorInfo,
-            AutoLayoutCanvasMode.DEFAULT,
-            false,
-            goToFlowModel
-        );
+        const goToConnector = await createComponentUnderTest({
+            connectorInfo: goToConnectorInfo,
+            flowModel: goToFlowModel
+        });
         const goToTargetArrow = goToConnector.shadowRoot.querySelectorAll(selectors.goToTargetArrow)[1];
         expect(goToTargetArrow).not.toBeNull();
     });
 
-    it('Should have the right text content on the target info (arrow) of the GoTo connector', () => {
+    it('Should have the right text content on the target info (arrow) of the GoTo connector', async () => {
         const goToConnectorInfo = getGoToConnectorInfo();
-        const goToConnector = createComponentUnderTest(
-            goToConnectorInfo,
-            AutoLayoutCanvasMode.DEFAULT,
-            false,
-            goToFlowModel
-        );
+        const goToConnector = await createComponentUnderTest({
+            connectorInfo: goToConnectorInfo,
+            flowModel: goToFlowModel
+        });
         const goToTargetArrow = goToConnector.shadowRoot.querySelectorAll(selectors.goToTargetArrow)[1];
         expect(goToTargetArrow.textContent).toBe('→');
     });
 
-    it('Clicking on the goTo info should dispatch OutgoingGoToStubClickEvent', () => {
+    it('Clicking on the goTo info should dispatch OutgoingGoToStubClickEvent', async () => {
         const goToConnectorInfo = getGoToConnectorInfo();
-        const goToConnector = createComponentUnderTest(
-            goToConnectorInfo,
-            AutoLayoutCanvasMode.DEFAULT,
-            false,
-            goToFlowModel
-        );
+        const goToConnector = await createComponentUnderTest({
+            connectorInfo: goToConnectorInfo,
+            flowModel: goToFlowModel
+        });
         const callback = jest.fn();
         goToConnector.addEventListener(OutgoingGoToStubClickEvent.EVENT_NAME, callback);
         goToConnector.shadowRoot.querySelector(selectors.goToInfo).click();
         expect(callback).toHaveBeenCalled();
     });
 
-    it('Clicking on the goTo info should dispatch OutgoingGoToStubClickEvent with the right details', () => {
+    it('Clicking on the goTo info should dispatch OutgoingGoToStubClickEvent with the right details', async () => {
         const goToConnectorInfo = getGoToConnectorInfo();
-        const goToConnector = createComponentUnderTest(
-            goToConnectorInfo,
-            AutoLayoutCanvasMode.DEFAULT,
-            false,
-            goToFlowModel
-        );
+        const goToConnector = await createComponentUnderTest({
+            connectorInfo: goToConnectorInfo,
+            flowModel: goToFlowModel
+        });
         const callback = jest.fn();
         goToConnector.addEventListener(OutgoingGoToStubClickEvent.EVENT_NAME, callback);
         goToConnector.shadowRoot.querySelector(selectors.goToInfo).click();
@@ -466,37 +424,31 @@ describe('Auto-Layout connector tests', () => {
         );
     });
 
-    it('Should have aria attributes set properly for add button', () => {
-        const regularConnector = createComponentUnderTest(
-            getRegularConnectorInfo(),
-            AutoLayoutCanvasMode.DEFAULT,
-            false,
-            regularFlowModel
-        );
+    it('Should have aria attributes set properly for add button', async () => {
+        const regularConnector = await createComponentUnderTest({
+            connectorInfo: getRegularConnectorInfo(),
+            flowModel: regularFlowModel
+        });
         const connectorButtonLabel = regularConnector.shadowRoot.querySelector(selectors.alcMenuTrigger);
         expect(connectorButtonLabel.getAttribute('aria-label')).toEqual(LABELS.connectorButtonLabel);
         expect(connectorButtonLabel.getAttribute('aria-haspopup')).toEqual('dialog');
     });
 
-    it('Should have class highlighted-container when goTo stub is clicked', () => {
-        const regularConnector = createComponentUnderTest(
-            getGoToConnectorInfo(),
-            AutoLayoutCanvasMode.DEFAULT,
-            false,
-            goToFlowModel,
-            'targetChild'
-        );
+    it('Should have class highlighted-container when goTo stub is clicked', async () => {
+        const regularConnector = await createComponentUnderTest({
+            connectorInfo: getGoToConnectorInfo(),
+            flowModel: goToFlowModel,
+            canvasContext: { ...defaultCanvasContext, incomingStubGuid: 'targetChild' }
+        });
         const goToConnector = regularConnector.shadowRoot.querySelector(selectors.goToInfo);
         expect(goToConnector.classList).toContain('highlighted-container');
     });
 
-    it('Should not have class highlighted-container when goTo stub is clicked', () => {
-        const regularConnector = createComponentUnderTest(
-            getGoToConnectorInfo(),
-            AutoLayoutCanvasMode.DEFAULT,
-            false,
-            goToFlowModel
-        );
+    it('Should not have class highlighted-container when goTo stub is clicked', async () => {
+        const regularConnector = await createComponentUnderTest({
+            connectorInfo: getGoToConnectorInfo(),
+            flowModel: goToFlowModel
+        });
         const goToConnector = regularConnector.shadowRoot.querySelector(selectors.goToInfo);
         expect(goToConnector.classList).not.toContain('highlighted-container');
     });

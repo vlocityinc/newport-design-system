@@ -1,15 +1,7 @@
 import ConnectorLabelType from './ConnectorLabelTypeEnum';
 import ConnectorType from './ConnectorTypeEnum';
 import MenuType from './MenuType';
-import {
-    ConnectionSource,
-    ElementMetadata,
-    ElementsMetadata,
-    FlowModel,
-    Guid,
-    NodeRef,
-    ParentNodeModel
-} from './model';
+import { ConnectionSource, ElementMetadata, ElementsMetadata, FlowModel, Guid, ParentNodeModel } from './model';
 import { isBranchTerminal } from './modelUtils';
 import { Geometry, SvgInfo } from './svgUtils';
 
@@ -51,7 +43,6 @@ export interface InteractionMenuInfo {
     key: Guid;
     type: MenuType;
     geometry?: Geometry;
-    needToPosition: boolean;
 }
 
 export interface FlowInteractionState {
@@ -153,16 +144,6 @@ export interface LayoutConfig {
         emptyWidth: number;
         extraWidthForAfterLast: number;
     };
-}
-
-export interface Option {
-    label: string;
-    value: Guid;
-}
-
-export interface MenuInfo {
-    guid: NodeRef;
-    menuOpened: boolean;
 }
 
 export interface ConnectorAddInfo {

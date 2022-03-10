@@ -16,6 +16,8 @@ const DEBUG_STATUS = {
 const BACK_TOOLTIP_CONST = 'slds-popover  slds-nubbin_top slds-popover_tooltip custom-tooltip';
 
 export default class Header extends LightningElement {
+    static delegatesFocus = true;
+
     private _flowName;
     private _flowVersion;
 

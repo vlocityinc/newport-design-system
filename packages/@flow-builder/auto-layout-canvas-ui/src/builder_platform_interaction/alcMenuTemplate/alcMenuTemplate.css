@@ -1,6 +1,7 @@
 .header {
     text-align: center;
-    background: #fafafb;
+    background: var(--alc-menu-background);
+    font-weight: normal;
 }
 
 .body {
@@ -11,5 +12,11 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
-    background-color: white;
+}
+
+:host {
+    position: relative;
+    background: var(--alc-menu-background);
+    width: 100%;
+    margin: 0;
 }

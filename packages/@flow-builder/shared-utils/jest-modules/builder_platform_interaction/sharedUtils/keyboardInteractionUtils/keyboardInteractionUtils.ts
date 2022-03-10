@@ -1,10 +1,41 @@
 // @ts-nocheck
+
 import { api } from 'lwc';
+import { Keys } from '../../../../src/keyboardInteractionUtils';
+export { Keys };
 export class KeyboardInteractions {
     commands = {};
 
-    addKeyDownEventListener = jest.fn();
-    removeKeyDownEventListener = jest.fn();
+    keydownListener = (event: KeyboardEvent) => {
+        const { key } = event;
+
+        switch (key) {
+            case Keys.Enter:
+                this.commands.entercommand.execute();
+                break;
+            case Keys.Escape:
+                this.commands.escapecommand.execute();
+                break;
+            case Keys.Space:
+                this.commands.spacecommand.execute();
+                break;
+            case Keys.ArrowDown:
+                this.commands.arrowdown.execute();
+                break;
+            case Keys.ArrowUp:
+                this.commands.arrowup.execute();
+                break;
+            default:
+        }
+    };
+
+    addKeyDownEventListener(template: HTMLElement) {
+        template.addEventListener('keydown', this.keydownListener);
+    }
+
+    removeKeyDownEventListener(template: HTMLElement) {
+        template.removeEventListener('keydown', this.keydownListener);
+    }
 
     setupCommandAndShortcut(command) {
         this.commands[command.id] = command;
@@ -29,22 +60,42 @@ export class KeyboardInteractions {
  * @param Base - The base class
  * @returns The base class with keyboard interactions
  */
-export function withKeyboardInteractions(Base) {
+export function withKeyboardInteractions<TBase extends Constructor<LightningElement & KeyboardEnabled>>(
+    Base: TBase
+): KeyboardInteractionsCtor & TBase {
     return class extends Base {
-        // Used for testing purposes
+        // TODO: rename KeyboardInteractions => KeyboardInteractionsManager
+        // @api present for testing purposes
+        // @ts-ignore
         @api
         keyboardInteractions = new KeyboardInteractions();
+
+        // TODO: rename to keyboardInteractions after the above field is renamed
+        private _keyboardInteractions: KeyboardInteraction[] = [];
+
+        firstRender = true;
+
+        /**
+         * Override in decorated class to provide the keyboard interactions
+         *
+         * @returns the keyboard interactions
+         */
+        getKeyboardInteractions(): KeyboardInteraction[] {
+            return this._keyboardInteractions || [];
+        }
+
+        setKeyboardInteractions(interactions: KeyboardInteraction[]) {
+            this.destroyInteractions();
+
+            this._keyboardInteractions = interactions;
+
+            this.initInteractions();
+        }
 
         connectedCallback() {
             if (super.connectedCallback !== undefined) {
                 super.connectedCallback();
             }
-
-            this.getKeyboardInteractions().forEach((interaction: KeyboardInteraction) =>
-                this.keyboardInteractions.registerShortcuts(interaction.getBindings())
-            );
-
-            this.keyboardInteractions.addKeyDownEventListener(this.template);
         }
 
         renderedCallback() {
@@ -52,7 +103,34 @@ export function withKeyboardInteractions(Base) {
                 super.renderedCallback();
             }
 
-            this.getKeyboardInteractions().forEach((interaction: KeyboardInteraction) => interaction.onRendered());
+            if (this.firstRender) {
+                this.initInteractions();
+                this.firstRender = false;
+            }
+        }
+
+        private initInteractions() {
+            this._keyboardInteractions = this.getKeyboardInteractions();
+
+            this._keyboardInteractions.forEach((interaction: KeyboardInteraction) =>
+                this.keyboardInteractions.registerShortcuts(interaction.getBindings())
+            );
+
+            this.keyboardInteractions.addKeyDownEventListener(this.template);
+            this._keyboardInteractions.forEach((interaction: KeyboardInteraction) => {
+                if (interaction.onRendered) {
+                    interaction.onRendered();
+                }
+            });
+        }
+
+        private destroyInteractions() {
+            this._keyboardInteractions?.forEach((interaction: KeyboardInteraction) => {
+                if (interaction?.destroy) {
+                    interaction.destroy();
+                }
+            });
+            this.keyboardInteractions?.removeKeyDownEventListener(this.template);
         }
 
         disconnectedCallback() {
@@ -60,12 +138,10 @@ export function withKeyboardInteractions(Base) {
                 super.disconnectedCallback();
             }
 
-            this.keyboardInteractions.removeKeyDownEventListener(this.template);
+            this.destroyInteractions();
         }
     };
 }
-
-export enum Keys {}
 
 export const createShortcut = jest.fn((key, command) => ({ key, command }));
 

@@ -1,32 +1,16 @@
-import { ArrowKeyDownEvent } from 'builder_platform_interaction/events';
 import { getEntitiesMenuData } from 'builder_platform_interaction/expressionUtils';
-import { commands, commonUtils, keyboardInteractionUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { getWorkflowEnabledEntities } from 'builder_platform_interaction/sobjectLib';
-import { api, LightningElement } from 'lwc';
+import StartNodeButton from 'builder_platform_interaction/startNodeButton';
 import { LABELS } from './startNodeFlowExplorerEntryPointLabels';
 
 const { format } = commonUtils;
-const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
-const { BaseKeyboardInteraction, Keys, createShortcut, withKeyboardInteractions } = keyboardInteractionUtils;
 
-const selectors = {
-    button: '.button'
-};
 const explorerUrlWithObj = '/interaction_explorer/flowExplorer.app?object={0}&trigger={1}';
 const explorerUrlWithoutObj = '/interaction_explorer/flowExplorer.app?trigger={1}';
 
-export default class StartNodeFlowExplorerEntryPoint extends withKeyboardInteractions(LightningElement) {
-    dom = lwcUtils.createDomProxy(this, selectors);
-
-    @api
-    node!: UI.Start;
-
+export default class StartNodeFlowExplorerEntryPoint extends StartNodeButton {
     _explorerUrl: string = explorerUrlWithoutObj;
-
-    @api
-    focus() {
-        this.dom.button.focus();
-    }
 
     getDurableId() {
         return getWorkflowEnabledEntities()
@@ -44,40 +28,7 @@ export default class StartNodeFlowExplorerEntryPoint extends withKeyboardInterac
         return LABELS.startNodeExplorerWithoutObjectLabel;
     }
 
-    handleClick = (event?: Event) => {
-        if (event) {
-            event.stopPropagation();
-        }
-
+    override performAction() {
         window.open(format(this._explorerUrl, this.getDurableId(), this.node.recordTriggerType), '_blank');
-    };
-
-    /**
-     * Helper function to dispatch the ArrowKeyDownEvent event that'll be handled
-     * in alcStartMenu
-     *
-     * @param key - The arrow key pressed
-     */
-    handleArrowKeyDown(key) {
-        const arrowKeyDownEvent = new ArrowKeyDownEvent(key);
-        this.dispatchEvent(arrowKeyDownEvent);
-    }
-
-    /**
-     * Helper function used during keyboard commands
-     */
-    handleSpaceOrEnter() {
-        this.handleClick();
-    }
-
-    getKeyboardInteractions() {
-        return [
-            new BaseKeyboardInteraction([
-                createShortcut(Keys.Enter, new EnterCommand(() => this.handleSpaceOrEnter())),
-                createShortcut(Keys.Space, new SpaceCommand(() => this.handleSpaceOrEnter())),
-                createShortcut(Keys.ArrowDown, new ArrowDown(() => this.handleArrowKeyDown(Keys.ArrowDown))),
-                createShortcut(Keys.ArrowUp, new ArrowUp(() => this.handleArrowKeyDown(Keys.ArrowUp)))
-            ])
-        ];
     }
 }

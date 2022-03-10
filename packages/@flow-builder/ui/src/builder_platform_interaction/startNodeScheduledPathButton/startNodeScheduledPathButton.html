@@ -1,7 +1,8 @@
 <template>
+    <!-- TODO: should extract the common start button html into a template (see AlcMenuTemplate as an example) -->
     <div class="slds-border_top">
         <!--SCHEDULED PATH-->
-        <div tabindex="0" class="start-scheduled-path button" onclick={handleObjectClick}>
+        <div class="start-scheduled-path button">
             <!--UNSET SCHEDULED PATH-->
             <div if:false={hasScheduledPaths} class={unsetStartButtonClasses}>
                 <lightning-icon

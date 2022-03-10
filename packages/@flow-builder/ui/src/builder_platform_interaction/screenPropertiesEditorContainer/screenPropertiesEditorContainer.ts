@@ -63,6 +63,8 @@ export default class ScreenPropertiesEditorContainer extends withKeyboardInterac
     }
 
     renderedCallback() {
+        super.renderedCallback();
+
         if (this.focusExpandOnRender) {
             const button =
                 this.template.querySelector(SELECTORS.BACK_BUTTON) ||

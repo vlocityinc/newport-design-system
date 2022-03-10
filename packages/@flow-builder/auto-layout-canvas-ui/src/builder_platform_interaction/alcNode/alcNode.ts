@@ -1,38 +1,50 @@
 import {
     AutoLayoutCanvasMode,
+    CanvasContext,
     ICON_SHAPE,
     importComponent,
-    SELECTORS
+    isMenuOpened,
+    scheduleTask
 } from 'builder_platform_interaction/alcComponentsUtils';
 import { AlcSelectDeselectNodeEvent, IncomingGoToStubClickEvent } from 'builder_platform_interaction/alcEvents';
+import AlcMenu from 'builder_platform_interaction/alcMenu';
+import { getNodeMenuInfo, newMenuRenderedEvent, NodeMenuInfo } from 'builder_platform_interaction/alcMenuUtils';
 import {
+    ConnectionSource,
     FlowModel,
     Guid,
+    MenuType,
     NodeModel,
     NodeRenderInfo,
-    NodeType,
-    Option,
-    ParentNodeModel
+    NodeType
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import { EditElementEvent, SelectNodeEvent } from 'builder_platform_interaction/events';
-import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { commonUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
 import { classSet } from 'lightning/utils';
 import { api, LightningElement } from 'lwc';
 import { LABELS } from './alcNodeLabels';
+
 const { format } = commonUtils;
 
-enum ConditionOptions {
-    DEFAULT_PATH = 'DEFAULT_PATH',
-    NO_PATH = 'NO_PATH'
-}
-
-const DYNAMIC_COMPONENT_SELECTOR = 'dynamic-component';
+const selectors = {
+    checkbox: '.selection-checkbox',
+    menu: '.menu',
+    menuTrigger: 'builder_platform_interaction-alc-menu-trigger',
+    dynamicComponent: '.dynamic-component'
+};
 
 /**
  * Autolayout Canvas Node Component
  */
 export default class AlcNode extends LightningElement {
+    dom = lwcUtils.createDomProxy(this, selectors);
+
+    _menu: NodeMenuInfo | null = null;
     _nodeInfo!: NodeRenderInfo;
+    _canvasContext?: CanvasContext;
+    _isStartNodeFocusedPostLoad = false;
+
+    isFocusTrapEnabled = false;
 
     // @ts-ignore
     private dynamicNodeConstructor: Function | undefined;
@@ -52,9 +64,6 @@ export default class AlcNode extends LightningElement {
      */
     @api
     activeElementGuid;
-
-    @api
-    disableAddElements;
 
     @api
     disableDeleteElements;
@@ -83,58 +92,77 @@ export default class AlcNode extends LightningElement {
             this.processDynamicNodeComponent(nodeInfo.metadata.dynamicNodeComponent);
         }
     }
-
-    @api
-    canvasMode!: AutoLayoutCanvasMode;
-
     @api
     flowModel!: Readonly<FlowModel>;
 
-    _isStartNodeFocusedPostLoad = false;
+    @api
+    set canvasContext(canvasContext: CanvasContext) {
+        this._canvasContext = canvasContext;
+
+        if (this.isMenuOpened()) {
+            this.menu = getNodeMenuInfo(this.canvasContext, this.flowModel, this.nodeInfo.metadata);
+        } else {
+            this.menu = null;
+        }
+    }
+
+    get canvasContext() {
+        return this._canvasContext!;
+    }
+
+    get menu(): NodeMenuInfo | null {
+        return this._menu;
+    }
+
+    set menu(menu: NodeMenuInfo | null) {
+        this._menu = menu;
+
+        if (menu != null) {
+            scheduleTask(() => this.postMenuRenderTask());
+        } else {
+            this.isFocusTrapEnabled = false;
+        }
+    }
 
     get labels() {
         return LABELS;
     }
 
     get isDefaultMode() {
-        return this.canvasMode === AutoLayoutCanvasMode.DEFAULT;
+        return this.canvasContext.mode === AutoLayoutCanvasMode.DEFAULT;
+    }
+
+    get canvasMode() {
+        return this.canvasContext.mode;
+    }
+
+    /**
+     * The menu trigger variant for the node
+     *
+     * @returns the menu trigger variant
+     */
+    get menuTriggerVariant() {
+        return MenuType.NODE;
+    }
+
+    get source(): ConnectionSource {
+        return { guid: this._nodeInfo?.guid };
+    }
+
+    get elementMetadata() {
+        return this.nodeInfo?.metadata;
     }
 
     getNode() {
         return this.flowModel[this.nodeInfo.guid];
     }
 
-    createConditionOptions(): Option[] | undefined {
-        const node = this.getNode();
-        const childReferences = (node as ParentNodeModel).childReferences;
-        return (
-            childReferences &&
-            childReferences.map((reference) => {
-                const value = reference.childReference;
-                return {
-                    label: this.flowModel[value].label,
-                    value
-                };
-            })
-        );
+    get menuContainerClass() {
+        return this.menu ? 'menu-container full-opacity' : 'menu-container';
     }
 
-    get conditionOptionsForNode() {
-        let conditionOptionsForNode = this.createConditionOptions();
-        if (conditionOptionsForNode) {
-            conditionOptionsForNode = [
-                ...conditionOptionsForNode,
-                {
-                    label: this.getNode().defaultConnectorLabel!,
-                    value: ConditionOptions.DEFAULT_PATH
-                },
-                {
-                    label: this.labels.deleteAllPathsComboboxLabel,
-                    value: ConditionOptions.NO_PATH
-                }
-            ];
-        }
-        return conditionOptionsForNode;
+    get menuTriggerClass() {
+        return this.nodeInfo.metadata.dynamicNodeComponent && !this.menu ? 'dynamic-node' : '';
     }
 
     get rotateIconClass() {
@@ -162,13 +190,19 @@ export default class AlcNode extends LightningElement {
         return this.nodeInfo.metadata.iconSize || 'large';
     }
 
+    get isStart() {
+        return this.nodeInfo.metadata.type === NodeType.START;
+    }
+
     get showCheckboxInSelectionMode() {
         const { type } = this.nodeInfo.metadata;
+        const { mode } = this.canvasContext;
+
         const isValidType =
-            (this.canvasMode === AutoLayoutCanvasMode.RECONNECTION && type === NodeType.END) ||
+            (mode === AutoLayoutCanvasMode.RECONNECTION && type === NodeType.END) ||
             ![NodeType.START, NodeType.END, NodeType.ROOT].includes(type);
 
-        return this.canvasMode !== AutoLayoutCanvasMode.DEFAULT && isValidType;
+        return mode !== AutoLayoutCanvasMode.DEFAULT && isValidType;
     }
 
     get shouldDisableCheckbox() {
@@ -188,7 +222,7 @@ export default class AlcNode extends LightningElement {
 
     get textContainerClasses() {
         const shifted = this.isShifted;
-        const hidden = this.nodeInfo.menuOpened;
+        const hidden = this.isMenuOpened();
         return classSet('slds-is-absolute text-container').add({
             shifted,
             hidden
@@ -203,7 +237,7 @@ export default class AlcNode extends LightningElement {
      */
     get iconContainerClasses() {
         let vClassSet = classSet('icon-container').add({
-            'menu-opened': this.nodeInfo.menuOpened || this.expanded
+            'menu-opened': this.isMenuOpened() || this.expanded
         });
 
         const node = this.getNode();
@@ -222,7 +256,7 @@ export default class AlcNode extends LightningElement {
     }
 
     get dynamicNodeClasses() {
-        return classSet(DYNAMIC_COMPONENT_SELECTOR)
+        return classSet(selectors.dynamicComponent.substring(1))
             .add({
                 expanded: this.expanded
             })
@@ -293,14 +327,13 @@ export default class AlcNode extends LightningElement {
 
     @api
     focus() {
-        const selector = !this.isDefaultMode ? '.selection-checkbox' : 'builder_platform_interaction-alc-menu-trigger';
-        this.template.querySelector(selector)?.focus();
+        const element = !this.isDefaultMode ? this.dom.checkbox : this.dom.menuTrigger;
+        element?.focus();
     }
 
     @api
     findNode(guid: Guid) {
-        const xLazy = this.template.querySelector(SELECTORS.xLazy);
-        return xLazy.findNode(guid);
+        return this.dom.as<AlcNode>().dynamicComponent.findNode(guid);
     }
 
     /** ***************************** Event Handlers */
@@ -317,8 +350,9 @@ export default class AlcNode extends LightningElement {
      */
     handleButtonClick(event: Event) {
         event.stopPropagation();
+
         const { type } = this.nodeInfo.metadata;
-        if (this.canvasMode === AutoLayoutCanvasMode.DEFAULT && type !== NodeType.END) {
+        if (this.isDefaultMode && type !== NodeType.END) {
             const node = this.getNode();
             const nodeSelectedEvent = new SelectNodeEvent(this.nodeInfo.guid, undefined, node.config.isSelected);
             this.dispatchEvent(nodeSelectedEvent);
@@ -333,7 +367,7 @@ export default class AlcNode extends LightningElement {
     handleOnDblClick(event: Event) {
         event.stopPropagation();
         const { type } = this.nodeInfo.metadata;
-        if (type !== NodeType.START && type !== NodeType.END && this.canvasMode === AutoLayoutCanvasMode.DEFAULT) {
+        if (type !== NodeType.START && type !== NodeType.END && this.isDefaultMode) {
             this.dispatchEvent(new EditElementEvent(this.nodeInfo.guid));
         }
     }
@@ -368,15 +402,32 @@ export default class AlcNode extends LightningElement {
      * @param event - the event fired when popover toggled
      */
     handlePopoverToggled(event) {
+        // TODO: this shouldn't be here, move to orchestrator node
         this.expanded = event.detail.opened;
     }
 
-    renderedCallback() {
-        // Moving focus to the Start Node when Flow Builder is loaded for the first time
-        const { type } = this.nodeInfo.metadata;
-        if (type === NodeType.START && !this._isStartNodeFocusedPostLoad) {
-            this.focus();
-            this._isStartNodeFocusedPostLoad = true;
+    /**
+     * Task to run after rendering
+     */
+    postMenuRenderTask() {
+        const menuElement = this.dom.as<AlcMenu>().menu;
+        if (menuElement != null) {
+            if (menuElement.isEmpty()) {
+                this.focus();
+            } else {
+                this.isFocusTrapEnabled = true;
+            }
+
+            this.dispatchEvent(newMenuRenderedEvent(menuElement));
         }
+    }
+
+    /**
+     * Checks if the menu for this node is opened
+     *
+     * @returns true iff the menu for this node is opened
+     */
+    isMenuOpened() {
+        return isMenuOpened(this.canvasContext, MenuType.NODE, { guid: this._nodeInfo?.guid });
     }
 }

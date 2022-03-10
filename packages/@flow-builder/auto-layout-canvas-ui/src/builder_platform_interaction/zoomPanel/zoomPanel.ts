@@ -15,6 +15,8 @@ const selectors = {
  * Zoom Panel component for flow builder.
  */
 export default class ZoomPanel extends LightningElement {
+    static delegatesFocus = true;
+
     private dom = lwcUtils.createDomProxy(this, selectors);
     private lastAction: string | undefined;
 
@@ -29,11 +31,6 @@ export default class ZoomPanel extends LightningElement {
 
     @api
     isZoomInDisabled!: boolean;
-
-    @api
-    focus() {
-        (this.isZoomOutDisabled ? this.dom.fitExpandButton : this.dom.zoomOutButton).focus();
-    }
 
     get labels() {
         return LABELS;

@@ -1,3 +1,4 @@
+/* eslint-disable @lwc/lwc/no-async-operation */
 import {
     addElement,
     addElementFault,
@@ -10,16 +11,27 @@ import {
     updateElement,
     updateIsAutoLayoutCanvasProperty
 } from 'builder_platform_interaction/actions';
+import { getShiftFocusKeyboardInteraction } from 'builder_platform_interaction/alcComponentsUtils';
 import { createEndElement, createStartElementForPropertyEditor } from 'builder_platform_interaction/elementFactory';
 import { AddElementEvent, DeleteElementEvent } from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getElementForPropertyEditor, getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
 import { reducer } from 'builder_platform_interaction/reducers';
-import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
+import { keyboardInteractionUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
 import { deepCopy, generateGuid, Store } from 'builder_platform_interaction/storeLib';
 import { classSet } from 'lightning/utils';
 import { LightningElement, track } from 'lwc';
 import elementsMetadataForScreenFlow from './metadata/elementsMetadataForScreenFlow';
+import {
+    platformEventStart,
+    platformEventStartData,
+    recordTriggeredFlowStart,
+    recordTriggeredStartData,
+    scheduledTriggeredFlowStart,
+    scheduledTriggeredStartData,
+    screenFlowStart,
+    screenFlowStartData
+} from './startUtils';
 import {
     convertRoundTrip,
     convertToFreeForm,
@@ -38,8 +50,12 @@ import {
     showError
 } from './utils';
 
+const { withKeyboardInteractions } = keyboardInteractionUtils;
+
 const selectors = {
-    canvasContainer: 'builder_platform_interaction-alc-canvas-container'
+    leftPanel: 'builder_platform_interaction-left-panel',
+    canvasContainer: 'builder_platform_interaction-alc-canvas-container',
+    toolbar: '.toolbar'
 };
 
 const palette = {
@@ -355,7 +371,7 @@ function translateEventToAction(event) {
     let element;
 
     switch (type) {
-        case AddElementEvent.EVENT_NAME:
+        case AddElementEvent.EVENT_NAME: {
             if (elementType === ELEMENT_TYPE.END_ELEMENT) {
                 element = createEndElement({
                     prev,
@@ -391,6 +407,7 @@ function translateEventToAction(event) {
             node.name = node.label;
 
             return element;
+        }
         case DeleteElementEvent.EVENT_NAME:
             return {
                 selectedElements: event.detail.selectedElementGUID.map(
@@ -405,9 +422,10 @@ function translateEventToAction(event) {
     }
 }
 
-export default class Builder extends LightningElement {
+export default class Builder extends withKeyboardInteractions(LightningElement) {
     dom = lwcUtils.createDomProxy(this, selectors);
 
+    @track
     elementsMetadata = elementsMetadataForScreenFlow;
 
     undoRedoStack = [];
@@ -431,6 +449,15 @@ export default class Builder extends LightningElement {
 
     @track
     selectedTestCase = '';
+
+    handleCanvasReady() {
+        const sections = [
+            this.dom.toolbar,
+            this.dom.leftPanel,
+            ...this.dom.canvasContainer.getAlcCanvas().getAriaSections()
+        ];
+        this.setKeyboardInteractions([getShiftFocusKeyboardInteraction(sections)]);
+    }
 
     get isRunningTestMonkey() {
         return !!this.testMonkeyHandle;
@@ -500,6 +527,77 @@ export default class Builder extends LightningElement {
         }
     }
 
+    @track selectedFlowType = '';
+
+    get flowTypeOptions() {
+        return [
+            {
+                label: 'Default',
+                value: 'default'
+            },
+            {
+                label: 'Record Trigger',
+                value: 'record-trigger'
+            },
+            {
+                label: 'Scheduled Paths',
+                value: 'scheduled-paths'
+            },
+            {
+                label: 'Platform Event',
+                value: 'platform-event'
+            }
+        ];
+    }
+
+    handleSelectFlowType(event) {
+        console.log({ ...storeInstance.getCurrentState().elements });
+
+        this.selectedFlowType = event.detail.value;
+
+        const metadata = [...elementsMetadataForScreenFlow];
+        const startPredicate = ({ elementType }) => elementType === ELEMENT_TYPE.START_ELEMENT;
+
+        let nextMetadata;
+        let nextData;
+
+        const idx = metadata.findIndex(startPredicate);
+        metadata.splice(idx, 1);
+
+        this.elementsMetadata = null;
+        switch (this.selectedFlowType) {
+            case 'record-trigger':
+                nextMetadata = [...metadata, recordTriggeredFlowStart];
+                nextData = recordTriggeredStartData;
+                break;
+            case 'scheduled-paths':
+                nextMetadata = [...metadata, scheduledTriggeredFlowStart];
+                nextData = scheduledTriggeredStartData;
+                break;
+            case 'platform-event':
+                nextMetadata = [...metadata, platformEventStart];
+                nextData = platformEventStartData;
+                break;
+            default:
+                nextMetadata = [...metadata, screenFlowStart];
+                nextData = screenFlowStartData;
+        }
+
+        const flow = storeInstance.getCurrentState();
+        const elements = flow.elements;
+        const startElement = Object.values(elements).find(startPredicate);
+
+        const nextStartElement = {
+            ...nextData,
+            guid: startElement.guid,
+            next: startElement.next
+        };
+
+        elements[startElement.guid] = nextStartElement;
+        loadFlow(storeInstance, { ...flow });
+        setTimeout(() => (this.elementsMetadata = nextMetadata), 0);
+    }
+
     async handleSaveAsTestCase() {
         const ffcFlow = convertToFreeForm(storeInstance.getCurrentState());
         await saveAsTestCase(ffcFlow);
@@ -547,6 +645,7 @@ export default class Builder extends LightningElement {
                 break;
             case 'copy':
                 this.handleCopy();
+                break;
             default:
         }
     }

@@ -21,6 +21,10 @@
  *          // typesafe equivalent of this.template.querySelector(selectors.button1)
  *          // button1 is now typed as HTMLButton
  *          let button1 = this.dom.as<HTMLButton>().button1;
+ *
+ *          // dynamic lookup
+ *          const selector = done ? 'doneButton' : 'cancelButton';
+ *          let button = this.dom[selector];
  *      }
  *
  *     getAllButtons() {
@@ -31,6 +35,10 @@
  *          // typesafe equivalent of this.template.querySelectorAll(selectors.buttons)
  *          // buttons is typed as HTMLButton[]
  *          let buttons = this.dom.as<HTMLButton[]>().all.buttons;
+ *
+ *          // dynamic lookup
+ *          const selector = done ? 'doneButton' : 'cancelButton';
+ *          let button = this.dom.as<HTMLButton[]>().all[selector];
  *      }
  *
  *
@@ -42,21 +50,41 @@
  */
 export function createDomProxy<P extends string, T extends HTMLElement = HTMLElement>(
     component: LightningElement,
-    selectors: Record<P, string>
+    selectors?: Record<P, string | Function>
 ) {
+    /**
+     * Resolves the selector for a property
+     *
+     * @param prop - The property
+     * @returns The selector
+     */
+    function resolveSelector(prop: P) {
+        let selector;
+
+        if (selectors != null) {
+            selector = selectors[prop];
+        }
+
+        // the selector can be null if we are using a dynamic property lookup
+        // eg:  this.dom[canvasSelector] for example. In that case prop acts as the selector.
+        return selector || prop;
+    }
+
     const handler = {
         get(target: LightningElement, prop: P) {
             if (prop === 'all') {
                 return new Proxy(component, {
                     get(target: LightningElement, prop: P) {
-                        return Array.from(target.template!.querySelectorAll(selectors[prop]));
+                        const selector = resolveSelector(prop);
+                        return Array.from(target.template!.querySelectorAll(selector));
                     }
                 });
             } else if (prop === 'as') {
                 return () => proxy;
             }
 
-            return target.template!.querySelector(selectors[prop]) as T;
+            const selector = resolveSelector(prop);
+            return target.template!.querySelector(selector) as T;
         }
     };
 

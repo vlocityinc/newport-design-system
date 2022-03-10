@@ -243,11 +243,7 @@ const closeActionCallback = (panel, attr) => {
     clearExpressionValidator(panel);
     panel.close();
     if (attr.isAutoLayoutCanvas && attr.bodyComponent.attr?.node?.isCanvasElement) {
-        if (attr.bodyComponent.attr.mode === 'addelement') {
-            attr.moveFocusOnCloseCallback(attr.insertInfo);
-        } else if (attr.bodyComponent.attr.mode === 'editelement') {
-            attr.moveFocusOnCloseCallback(attr.bodyComponent.attr.node.guid);
-        }
+        attr.moveFocusOnCloseCallback();
     }
 };
 
@@ -471,6 +467,7 @@ const doInvoke = (cmpName, attr, panelConfig) => {
     } else {
         propertyEditorFooterPromise = createComponentPromise('builder_platform_interaction:propertyEditorFooter');
     }
+
     Promise.all([propertyEditorBodyPromise, propertyEditorHeaderPromise, propertyEditorFooterPromise])
         .then((newComponents) => {
             const createPanelEventAttributes = {

@@ -1,8 +1,11 @@
 .start-scheduled-path {
     background-color: white;
 }
-.start-scheduled-path:active,
-.start-scheduled-path:focus {
+:host {
+    display: block;
+}
+:host():active .start-scheduled-path,
+:host():focus .start-scheduled-path {
     position: relative;
     box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-colorBorderSelection), 0 0 6px 3px var(--lwc-colorBorderSelection);
     outline: 0;

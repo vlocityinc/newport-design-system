@@ -14,15 +14,6 @@ export default class AlcNodeMenu extends LightningElement {
     guid;
 
     @api
-    elementHasFault;
-
-    @api
-    canHaveFaultConnector;
-
-    @api
-    moveFocusToMenu;
-
-    @api
     disableDeleteElements;
 
     @api

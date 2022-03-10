@@ -3,18 +3,27 @@ import {
     getAlcCompoundNodeData,
     getAlcConnectorData
 } from 'builder_platform_interaction/alcComponentsUtils';
+import AlcCompoundNode from 'builder_platform_interaction/alcCompoundNode';
 import { FAULT_INDEX, FlowModel, FlowRenderInfo, Geometry, Guid } from 'builder_platform_interaction/autoLayoutCanvas';
+import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
 import { api, LightningElement } from 'lwc';
 
+const selectors = {
+    connector: 'builder_platform_interaction-alc-connector',
+    nestedFlow: (key) => `builder_platform_interaction-alc-flow[data-key='${key}']`,
+    compoundNode: (guid) => `builder_platform_interaction-alc-compound-node[data-key='${guid}']`
+};
+
 export default class AlcFlow extends LightningElement {
+    static delegatesFocus = true;
+
+    dom = lwcUtils.createDomProxy(this, selectors);
+
     @api
     flowModel!: Readonly<FlowModel>;
 
     @api
     flow!: FlowRenderInfo;
-
-    @api
-    disableAddElements;
 
     @api
     disableDeleteElements;
@@ -59,16 +68,25 @@ export default class AlcFlow extends LightningElement {
         if (nestedBranchIndex === FAULT_INDEX) {
             // Finding the key for the fault flow associated with the compound node found in the path to desired node/connector
             const faultFlowDataKey = this.nodes.find((node) => node.key === compoundNode.dataset.key)?.faultFlow?.key;
-            return this.template.querySelector(`builder_platform_interaction-alc-flow[data-key='${faultFlowDataKey}']`);
+            return this.dom[selectors.nestedFlow(faultFlowDataKey)];
         }
         return compoundNode.getNestedFlow(nestedBranchIndex);
     }
 
+    /**
+     * Get a compound node element by for a guid
+     *
+     * @param guid - The node's guid
+     * @returns The compound node element
+     */
+    getCompoundNode(guid: string): AlcCompoundNode {
+        return this.dom[selectors.compoundNode(guid)];
+    }
+
     @api
     findNode(pathToFocusNode: Array<{ guid: Guid; index?: number; canHaveCanvasEmbeddedElement?: boolean }>) {
-        const compoundNode = this.template.querySelector(
-            `builder_platform_interaction-alc-compound-node[data-key='${pathToFocusNode[0].guid}']`
-        );
+        const compoundNode = this.getCompoundNode(pathToFocusNode[0].guid);
+
         if (pathToFocusNode.length === 1) {
             // If there's only a single item remaining, that would mean that we have found the desired node
             return compoundNode;
@@ -84,9 +102,8 @@ export default class AlcFlow extends LightningElement {
 
     @api
     findConnector(pathToFocusNode: Array<{ guid: Guid; index?: number }>, focusBranchIndex?: number) {
-        const compoundNode = this.template.querySelector(
-            `builder_platform_interaction-alc-compound-node[data-key='${pathToFocusNode[0].guid}']`
-        );
+        const compoundNode = this.getCompoundNode(pathToFocusNode[0].guid);
+
         if (pathToFocusNode.length === 1) {
             if (focusBranchIndex === undefined || focusBranchIndex === null) {
                 return compoundNode.getNextConnector();
@@ -101,6 +118,6 @@ export default class AlcFlow extends LightningElement {
 
     @api
     getPreConnector() {
-        return this.template.querySelector('builder_platform_interaction-alc-connector');
+        return this.dom.connector;
     }
 }

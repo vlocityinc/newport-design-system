@@ -1,22 +1,16 @@
 // @ts-nocheck
-import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
-import { ArrowKeyDownEvent, EditElementEvent } from 'builder_platform_interaction/events';
+import { createComponent } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
+import { EditElementEvent } from 'builder_platform_interaction/events';
 import {
     FLOW_PROCESS_TYPE,
     FLOW_TRIGGER_SAVE_TYPE,
     FLOW_TRIGGER_TYPE
 } from 'builder_platform_interaction/flowMetadata';
-import RecordTriggerStartNode from 'builder_platform_interaction/recordTriggerStartNode';
-import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
-import { createElement } from 'lwc';
 import { startElement as recordTriggeredStartElement } from 'mock/storeDataRecordTriggered';
 
 const { BEFORE_SAVE, BEFORE_DELETE, AFTER_SAVE } = FLOW_TRIGGER_TYPE;
 const { CREATE, UPDATE, DELETE } = FLOW_TRIGGER_SAVE_TYPE;
-
-const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
-const { Keys } = keyboardInteractionUtils;
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
@@ -44,18 +38,12 @@ const runQuerySelector = (context, selector) => {
     return context.shadowRoot.querySelector(selector);
 };
 
-const setupComponentUnderTest = (props) => {
-    const element = createElement('builder_platform_interaction-record-trigger-start-node', {
-        is: RecordTriggerStartNode
-    });
+const defaultOptions = {
+    node: recordTriggeredStartElement
+};
 
-    element.node = recordTriggeredStartElement;
-
-    if (props) {
-        Object.assign(element, props);
-    }
-    setDocumentBodyChildren(element);
-    return element;
+const createComponentUnderTest = async (overrideOptions) => {
+    return createComponent('builder_platform_interaction-record-trigger-start-node', defaultOptions, overrideOptions);
 };
 
 describe('record-trigger-start-node', () => {
@@ -67,32 +55,15 @@ describe('record-trigger-start-node', () => {
 
     describe('Focus Management', () => {
         let startElement;
-        beforeEach(() => {
-            startElement = setupComponentUnderTest();
-        });
-
-        it('Should fire ArrowKeyDownEvent with the right key on pressing arrow down key', () => {
-            const callback = jest.fn();
-            startElement.addEventListener(ArrowKeyDownEvent.EVENT_NAME, callback);
-            startElement.keyboardInteractions.execute(ArrowDown.COMMAND_NAME);
-            expect(callback).toHaveBeenCalled();
-            expect(callback.mock.calls[0][0].detail.key).toBe(Keys.ArrowDown);
-        });
-
-        it('Should fire ArrowKeyDownEvent with the right key on pressing arrow up key', () => {
-            const callback = jest.fn();
-            startElement.addEventListener(ArrowKeyDownEvent.EVENT_NAME, callback);
-            startElement.keyboardInteractions.execute(ArrowUp.COMMAND_NAME);
-            expect(callback).toHaveBeenCalled();
-            expect(callback.mock.calls[0][0].detail.key).toBe(Keys.ArrowUp);
+        beforeEach(async () => {
+            startElement = await createComponentUnderTest();
         });
 
         it('Checks if an EditElementEvent is dispatched when using the enter command', () => {
             return Promise.resolve().then(() => {
                 const callback = jest.fn();
                 startElement.addEventListener(EditElementEvent.EVENT_NAME, callback);
-                startElement.shadowRoot.querySelector(selectors.context).focus();
-                startElement.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
+                startElement.performAction();
                 expect(callback).toHaveBeenCalled();
             });
         });
@@ -101,8 +72,7 @@ describe('record-trigger-start-node', () => {
             return Promise.resolve().then(() => {
                 const callback = jest.fn();
                 startElement.addEventListener(EditElementEvent.EVENT_NAME, callback);
-                startElement.shadowRoot.querySelector(selectors.context).focus();
-                startElement.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
+                startElement.performAction();
                 expect(callback).toHaveBeenCalled();
             });
         });
@@ -111,7 +81,7 @@ describe('record-trigger-start-node', () => {
             return Promise.resolve().then(() => {
                 const callback = jest.fn();
                 startElement.addEventListener(EditElementEvent.EVENT_NAME, callback);
-                startElement.shadowRoot.querySelector(selectors.context).click();
+                startElement.performAction();
                 expect(callback).toHaveBeenCalled();
             });
         });
@@ -119,17 +89,8 @@ describe('record-trigger-start-node', () => {
 
     describe('When disableEditElements is true', () => {
         let startElement;
-        beforeEach(() => {
-            startElement = setupComponentUnderTest({ disableEditElements: true });
-        });
-
-        it('ArrowKey events are still dispatched when using the arrow key commands', async () => {
-            const cb = jest.fn();
-            startElement.addEventListener(ArrowKeyDownEvent.EVENT_NAME, cb);
-            startElement.shadowRoot.querySelector(selectors.context).focus();
-            startElement.keyboardInteractions.execute(ArrowUp.COMMAND_NAME);
-            startElement.keyboardInteractions.execute(ArrowDown.COMMAND_NAME);
-            expect(cb).toHaveBeenCalledTimes(2);
+        beforeEach(async () => {
+            startElement = await createComponentUnderTest({ disableEditElements: true });
         });
 
         it('Edit label should be absent', async () => {
@@ -139,10 +100,10 @@ describe('record-trigger-start-node', () => {
 
     describe('When flow triggerType is AFTER_SAVE', () => {
         let startElement;
-        beforeAll(() => {
+        beforeAll(async () => {
             recordTriggeredStartElement.triggerType = AFTER_SAVE;
             recordTriggeredStartElement.recordTriggerType = UPDATE;
-            startElement = setupComponentUnderTest();
+            startElement = await createComponentUnderTest();
         });
 
         it('Checks static labels rendered correctly', () => {
@@ -176,10 +137,10 @@ describe('record-trigger-start-node', () => {
 
     describe('When flow triggerType is BEFORE_SAVE', () => {
         let startElement;
-        beforeAll(() => {
+        beforeAll(async () => {
             recordTriggeredStartElement.triggerType = BEFORE_SAVE;
             recordTriggeredStartElement.recordTriggerType = CREATE;
-            startElement = setupComponentUnderTest();
+            startElement = await createComponentUnderTest();
         });
 
         it('Checks if selectedTriggerLabel rendered correctly', () => {
@@ -197,10 +158,10 @@ describe('record-trigger-start-node', () => {
 
     describe('When flow triggerType is BEFORE_DELETE', () => {
         let startElement;
-        beforeAll(() => {
+        beforeAll(async () => {
             recordTriggeredStartElement.triggerType = BEFORE_DELETE;
             recordTriggeredStartElement.recordTriggerType = DELETE;
-            startElement = setupComponentUnderTest();
+            startElement = await createComponentUnderTest();
         });
 
         it('Checks if selectedTriggerLabel rendered correctly', () => {
@@ -218,13 +179,13 @@ describe('record-trigger-start-node', () => {
 
     describe('run flow', () => {
         it('is shown for other process types', async () => {
-            const startElement = setupComponentUnderTest();
+            const startElement = await createComponentUnderTest();
             expect(runQuerySelector(startElement, selectors.runFlow)).not.toBeNull();
         });
 
         it('is not shown for process type Orchestrator', async () => {
             getProcessType.mockReturnValue(FLOW_PROCESS_TYPE.ORCHESTRATOR);
-            const startElement = setupComponentUnderTest();
+            const startElement = await createComponentUnderTest();
             expect(runQuerySelector(startElement, selectors.runFlow)).toBeNull();
         });
     });

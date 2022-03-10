@@ -1,3 +1,4 @@
+import { getTabKeyInteraction } from 'builder_platform_interaction/alcComponentsUtils';
 import { FocusOutEvent } from 'builder_platform_interaction/alcEvents';
 import AlcMenu from 'builder_platform_interaction/alcMenu';
 import { AddElementEvent } from 'builder_platform_interaction/events';
@@ -50,30 +51,51 @@ export default class StageStepMenu extends AlcMenu {
         ]
     };
 
+    override getKeyboardInteractions() {
+        return [...super.getKeyboardInteractions(), getTabKeyInteraction(() => this.handleTab())];
+    }
+
     /**
      * Adds StageStep of the type specified by the attributes of the selected element.
      *
      * @param currentTarget the menu option (step) to select/create
      * @param designateFocus used to signify that focus should be directed to the property editor panel
      */
-    doSelectMenuItem(currentTarget: HTMLElement, designateFocus = true) {
+    override doSelectMenuItem(currentTarget: HTMLElement, designateFocus = true) {
         super.doSelectMenuItem(currentTarget);
 
         const addItemEvent = new AddElementEvent({
             elementType: ELEMENT_TYPE.STAGE_STEP,
             actionType: currentTarget.getAttribute('action')!,
-            parent: this.node && this.node.guid,
+            parent: this.node?.guid,
             designateFocus
         });
 
         this.dispatchEvent(addItemEvent);
     }
 
-    handleTabCommand() {
+    /**
+     * Dispatches a FocusOutEvent event
+     *
+     * @fires FocusOutEvent
+     */
+    dispatchFocusOutEvent() {
         this.dispatchEvent(new FocusOutEvent(true));
     }
 
-    handleEscape() {
-        this.dispatchEvent(new FocusOutEvent(true));
+    /**
+     * Handler for the tab key interaction: closes the step menu
+     */
+    handleTab() {
+        this.dispatchFocusOutEvent();
     }
+
+    override handleEscape() {
+        this.dispatchFocusOutEvent();
+    }
+
+    /**
+     * No-op; overrides the super class implementation
+     */
+    override closeMenu() {}
 }

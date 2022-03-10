@@ -1,11 +1,12 @@
 // @ts-nocheck
 import { AutoLayoutCanvasMode, ICON_SHAPE } from 'builder_platform_interaction/alcComponentsUtils';
-import { CloseMenuEvent, TabOnMenuTriggerEvent, ToggleMenuEvent } from 'builder_platform_interaction/alcEvents';
-import AlcMenuTrigger from 'builder_platform_interaction/alcMenuTrigger';
-import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
-import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
-import { CanvasMouseUpEvent } from 'builder_platform_interaction/events';
-import { createElement } from 'lwc';
+import { CloseMenuEvent, ToggleMenuEvent } from 'builder_platform_interaction/alcEvents';
+import { MenuType, NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { createComponent } from 'builder_platform_interaction/builderTestUtils';
+import { keyboardInteractionUtils } from 'builder_platform_interaction_mocks/sharedUtils';
+const { Keys } = keyboardInteractionUtils;
+
+jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
 const startMetadata = {
     canHaveFaultConnector: false,
@@ -61,21 +62,17 @@ const endMetadata = {
     value: 'End'
 };
 
-const createComponentUnderTest = (props) => {
-    const el = createElement('builder_platform_interaction-alc-menu-trigger', {
-        is: AlcMenuTrigger
-    });
-    el.elementMetadata = screenMetadata;
-    el.isNodeGettingDeleted = false;
-    el.canvasMode = AutoLayoutCanvasMode.DEFAULT;
-    el.variant = '';
-    el.source = {};
-    el.hasError = false;
-    if (props) {
-        Object.assign(el, props);
-    }
-    setDocumentBodyChildren(el);
-    return el;
+const defaultOptions = {
+    elementMetadata: screenMetadata,
+    isNodeGettingDeleted: false,
+    canvasMode: AutoLayoutCanvasMode.DEFAULT,
+    variant: '',
+    source: {},
+    hasError: false
+};
+
+const createComponentUnderTest = async (overrideOptions) => {
+    return createComponent('builder_platform_interaction-alc-menu-trigger', defaultOptions, overrideOptions);
 };
 
 const selectors = {
@@ -92,320 +89,256 @@ const selectors = {
     assistiveText: '.slds-assistive-text'
 };
 
-describe('the menu trigger', () => {
-    it('renders the component ', () => {
-        const menuTrigger = createComponentUnderTest();
+function assertCallback(callback, isCalled) {
+    if (isCalled) {
+        expect(callback).toHaveBeenCalled();
+    } else {
+        expect(callback).not.toHaveBeenCalled();
+    }
+}
+
+function getButton(cmp) {
+    return cmp.shadowRoot.querySelector(selectors.triggerButton);
+}
+
+async function assertTriggerFocus(componentOptions, isFocused) {
+    const cmp = await createComponentUnderTest(componentOptions);
+    const button = getButton(cmp);
+    const callback = jest.fn();
+    button.addEventListener('focus', callback);
+    button.click();
+    assertCallback(callback, isFocused);
+}
+
+async function assertTriggerKey(componentOptions, key, eventToCheck, isEventTriggered) {
+    const cmp = await createComponentUnderTest(componentOptions);
+    const button = getButton(cmp);
+    const callback = jest.fn();
+    cmp.addEventListener(eventToCheck, callback);
+    const keyDownEvent = new KeyboardEvent('keydown', { key, bubbles: true });
+    button.dispatchEvent(keyDownEvent);
+    assertCallback(callback, isEventTriggered);
+}
+
+async function assertTriggerClick(componentOptions, isEventTriggered) {
+    const cmp = await createComponentUnderTest(componentOptions);
+    const button = getButton(cmp);
+    const callback = jest.fn();
+    cmp.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
+    button.click();
+    assertCallback(callback, isEventTriggered);
+}
+
+describe('AlcMenuTrigger', () => {
+    it('renders the component', async () => {
+        const menuTrigger = await createComponentUnderTest();
         expect(menuTrigger).not.toBeNull();
     });
 
-    it('Renders a default trigger container', () => {
-        const triggerContainer = createComponentUnderTest().shadowRoot.querySelector(selectors.defaultTriggerContainer);
+    it('Renders a default trigger container', async () => {
+        const cmp = await createComponentUnderTest();
+        const triggerContainer = cmp.shadowRoot.querySelector(selectors.defaultTriggerContainer);
         expect(triggerContainer).not.toBeNull();
     });
 
-    it('Renders a diamond trigger container when iconShape in metadata is diamond', () => {
-        const triggerContainer = createComponentUnderTest({
+    it('Renders a diamond trigger container when iconShape in metadata is diamond', async () => {
+        const cmp = await createComponentUnderTest({
             elementMetadata: decisionMetadata
-        }).shadowRoot.querySelector(selectors.diamondTriggerContainer);
+        });
+
+        const triggerContainer = cmp.shadowRoot.querySelector(selectors.diamondTriggerContainer);
         expect(triggerContainer).not.toBeNull();
     });
 
-    it('Renders a round trigger container when iconShape in metadata is circle', () => {
-        const triggerContainer = createComponentUnderTest({ elementMetadata: startMetadata }).shadowRoot.querySelector(
-            selectors.roundTriggerContainer
-        );
+    it('Renders a round trigger container when iconShape in metadata is circle', async () => {
+        const cmp = await createComponentUnderTest({
+            elementMetadata: startMetadata
+        });
+        const triggerContainer = cmp.shadowRoot.querySelector(selectors.roundTriggerContainer);
         expect(triggerContainer).not.toBeNull();
     });
 
-    it('Renders a trigger container for a custom node component', () => {
-        const triggerContainer = createComponentUnderTest({
+    it('Renders a trigger container for a custom node component', async () => {
+        const cmp = await createComponentUnderTest({
             elementMetadata: customComponentMetadata
-        }).shadowRoot.querySelector(selectors.customComponentTriggerContainer);
+        });
+
+        const triggerContainer = cmp.shadowRoot.querySelector(selectors.customComponentTriggerContainer);
         expect(triggerContainer).not.toBeNull();
     });
 
-    it('Renders a button ', () => {
-        const button = createComponentUnderTest().shadowRoot.querySelector(selectors.triggerButton);
+    it('Renders a button ', async () => {
+        const cmp = await createComponentUnderTest();
+        const button = cmp.shadowRoot.querySelector(selectors.triggerButton);
         expect(button).not.toBeNull();
     });
 
-    it('should add "node-to-be-deleted" class when isNodeGettingDeleted is true', () => {
-        const cmp = createComponentUnderTest({ isNodeGettingDeleted: true });
+    it('should add "node-to-be-deleted" class when isNodeGettingDeleted is true', async () => {
+        const cmp = await createComponentUnderTest({ isNodeGettingDeleted: true });
         const button = cmp.shadowRoot.querySelector(selectors.toBeDeletedButton);
         expect(button).not.toBeNull();
     });
 
-    it('should add "has-error" class when hasError is specified in node config', () => {
-        const cmp = createComponentUnderTest({ isNodeGettingDeleted: true, hasError: true });
+    it('should add "has-error" class when hasError is specified in node config', async () => {
+        const cmp = await createComponentUnderTest({ isNodeGettingDeleted: true, hasError: true });
         const button = cmp.shadowRoot.querySelector(selectors.hasError);
         expect(button).not.toBeNull();
     });
 
-    it('should add "circular-icon" class when iconShape is circle in the metadata', () => {
-        const button = createComponentUnderTest({ elementMetadata: startMetadata }).shadowRoot.querySelector(
-            selectors.circularTriggerButton
-        );
+    it('should add "circular-icon" class when iconShape is circle in the metadata', async () => {
+        const cmp = await createComponentUnderTest({ elementMetadata: startMetadata });
+
+        const button = cmp.shadowRoot.querySelector(selectors.circularTriggerButton);
         expect(button).not.toBeNull();
     });
 
-    it('should add "is-end-element" class when type is end in the metadata', () => {
-        const button = createComponentUnderTest({ elementMetadata: endMetadata }).shadowRoot.querySelector(
-            selectors.endElement
-        );
+    it('should add "is-end-element" class when type is end in the metadata', async () => {
+        const cmp = await createComponentUnderTest({ elementMetadata: endMetadata });
+        const button = cmp.shadowRoot.querySelector(selectors.endElement);
         expect(button).not.toBeNull();
     });
 
-    it('should add "node-in-selection-mode" class when in selection mode', () => {
-        const button = createComponentUnderTest({
+    it('should add "node-in-selection-mode" class when in selection mode', async () => {
+        const cmp = await createComponentUnderTest({
             canvasMode: AutoLayoutCanvasMode.SELECTION
-        }).shadowRoot.querySelector(selectors.nodeInSelectionMode);
+        });
+        const button = cmp.shadowRoot.querySelector(selectors.nodeInSelectionMode);
         expect(button).not.toBeNull();
     });
 
-    it('should dispatch the toggleMenu event if we are NOT in selection mode', () => {
-        const cmp = createComponentUnderTest();
-        const button = cmp.shadowRoot.querySelector(selectors.triggerButton);
-        const callback = jest.fn();
-        cmp.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
-        button.click();
-        expect(callback).toHaveBeenCalled();
+    it('should dispatch the toggleMenu event if we are NOT in selection mode', async () => {
+        const options = {};
+        await assertTriggerClick(options, true);
     });
 
-    it('assistive ariaDescribedBy class is present', () => {
-        const assistiveText = createComponentUnderTest().shadowRoot.querySelector(selectors.assistiveText);
+    it('assistive ariaDescribedBy class is present', async () => {
+        const cmp = await createComponentUnderTest();
+        const assistiveText = cmp.shadowRoot.querySelector(selectors.assistiveText);
         expect(assistiveText).not.toBeNull();
     });
 
-    it('should not dispatch the toggleMenu event if disableEditElements is true', () => {
-        const cmp = createComponentUnderTest({ disableEditElements: true });
-        const button = cmp.shadowRoot.querySelector(selectors.triggerButton);
-        const callback = jest.fn();
-        cmp.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
-        button.click();
-        expect(callback).not.toHaveBeenCalled();
+    it('should not dispatch the toggleMenu event if disableEditElements is true', async () => {
+        const options = { disableEditElements: true };
+        await assertTriggerClick(options, false);
     });
 
-    it('should dispatch the toggleMenu event on click of start element, even if disableEditElements is true', () => {
-        const cmp = createComponentUnderTest({ disableEditElements: true, elementMetadata: startMetadata });
-        const button = cmp.shadowRoot.querySelector(selectors.triggerButton);
-        const callback = jest.fn();
-        cmp.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
-        button.click();
-
-        expect(callback).toHaveBeenCalled();
+    it('should dispatch the toggleMenu event on click of start element, even if disableEditElements is true', async () => {
+        const options = { disableEditElements: true, elementMetadata: startMetadata };
+        await assertTriggerClick(options, true);
     });
 
-    it('pressing the enter key should dispatch the toggleMenu event if we are NOT in selection mode', () => {
-        const cmp = createComponentUnderTest();
-        const container = cmp.shadowRoot.querySelector(selectors.defaultTriggerContainer);
-        const callback = jest.fn();
-        cmp.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
-        container.focus();
-        const keyDownEvent = new KeyboardEvent('keydown', { key: 'Enter' });
-        container.dispatchEvent(keyDownEvent);
-        expect(callback).toHaveBeenCalled();
+    it('pressing the enter key should dispatch the toggleMenu event if we are NOT in selection mode', async () => {
+        await assertTriggerKey({}, Keys.Enter, ToggleMenuEvent.EVENT_NAME, true);
     });
 
-    it('pressing the enter key should not dispatch the toggleMenuEvent if disableEditElements is true', () => {
-        const cmp = createComponentUnderTest({ disableEditElements: true });
-        const container = cmp.shadowRoot.querySelector(selectors.defaultTriggerContainer);
-        const callback = jest.fn();
-        cmp.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
-        container.focus();
-        const keyDownEvent = new KeyboardEvent('keydown', { key: 'Enter' });
-        container.dispatchEvent(keyDownEvent);
-        expect(callback).not.toHaveBeenCalled();
+    it('pressing the enter key should not dispatch the toggleMenuEvent if disableEditElements is true', async () => {
+        const options = { disableEditElements: true };
+        await assertTriggerKey(options, Keys.Enter, ToggleMenuEvent.EVENT_NAME, false);
     });
 
-    it('pressing the enter key should dispatch the toggleMenuEvent if it is the start element, even if disableEditElements is true', () => {
-        const cmp = createComponentUnderTest({ disableEditElements: true, elementMetadata: startMetadata });
-        const container = cmp.shadowRoot.querySelector(selectors.defaultTriggerContainer);
-        const callback = jest.fn();
-        cmp.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
-        container.focus();
-        const keyDownEvent = new KeyboardEvent('keydown', { key: 'Enter' });
-        container.dispatchEvent(keyDownEvent);
-        expect(callback).toHaveBeenCalled();
+    it('pressing the enter key should dispatch the toggleMenuEvent if it is the start element, even if disableEditElements is true', async () => {
+        const options = { disableEditElements: true, elementMetadata: startMetadata };
+        await assertTriggerKey(options, Keys.Enter, ToggleMenuEvent.EVENT_NAME, true);
     });
 
-    it('pressing the escape key should dispatch the CloseMenuEvent event if the menu is open', () => {
-        const cmp = createComponentUnderTest();
-        const container = cmp.shadowRoot.querySelector(selectors.defaultTriggerContainer);
-        const callback = jest.fn();
-        cmp.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
-        cmp.menuOpened = true;
-        container.focus();
-        const keyDownEvent = new KeyboardEvent('keydown', { key: 'Escape' });
-        container.dispatchEvent(keyDownEvent);
-        expect(callback).toHaveBeenCalled();
+    it('pressing the escape key should dispatch the CloseMenuEvent event if the menu is open', async () => {
+        const options = { menuOpened: true };
+        await assertTriggerKey(options, Keys.Escape, CloseMenuEvent.EVENT_NAME, true);
     });
 
-    it('pressing the enter key should not dispatch the CloseMenuEvent event if we are in selection mode', () => {
-        const cmp = createComponentUnderTest({ canvasMode: AutoLayoutCanvasMode.SELECTION });
-        const button = cmp.shadowRoot.querySelector(selectors.triggerButton);
-        const callback = jest.fn();
-        cmp.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
-        button.focus();
-        const keyDownEvent = new KeyboardEvent('keydown', { key: 'Enter' });
-        cmp.dispatchEvent(keyDownEvent);
-        expect(callback).not.toHaveBeenCalled();
+    it('pressing the enter key should not dispatch the CloseMenuEvent event if we are in selection mode', async () => {
+        const options = { canvasMode: AutoLayoutCanvasMode.SELECTION };
+        await assertTriggerKey(options, Keys.Enter, ToggleMenuEvent.EVENT_NAME, false);
     });
 
-    it('pressing the enter key on connector "+" should dispatch the toggleMenu event if we are NOT in selection mode', () => {
-        const cmp = createComponentUnderTest({ variant: 'connector' });
-        const container = cmp.shadowRoot.querySelector('div');
-        const callback = jest.fn();
-        cmp.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
-        container.focus();
-        const keyDownEvent = new KeyboardEvent('keydown', { key: 'Enter' });
-        container.dispatchEvent(keyDownEvent);
-        expect(callback).toHaveBeenCalled();
+    it('pressing the enter key on connector "+" should dispatch the toggleMenu event if we are NOT in selection mode', async () => {
+        const options = { variant: MenuType.CONNECTOR };
+        await assertTriggerKey(options, Keys.Enter, ToggleMenuEvent.EVENT_NAME, true);
     });
 
-    it('should not dispatch the toggleMenu event if we are in selection mode', () => {
-        const cmp = createComponentUnderTest({ canvasMode: AutoLayoutCanvasMode.SELECTION });
-        const button = cmp.shadowRoot.querySelector(selectors.triggerButton);
-        const callback = jest.fn();
-        cmp.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
-        button.click();
-        expect(callback).not.toHaveBeenCalled();
-    });
-
-    it('pressing tab on trigger button should dispatch TabOnMenuTriggerEvent if the menu is open', () => {
-        const cmp = createComponentUnderTest();
-        const container = cmp.shadowRoot.querySelector(selectors.defaultTriggerContainer);
-        const callback = jest.fn();
-        cmp.addEventListener(TabOnMenuTriggerEvent.EVENT_NAME, callback);
-        cmp.menuOpened = true;
-        container.focus();
-        const keyDownEvent = new KeyboardEvent('keydown', { key: 'Tab' });
-        container.dispatchEvent(keyDownEvent);
-        expect(callback).toHaveBeenCalled();
-    });
-
-    it('pressing shift + tab on trigger button should dispatch TabOnMenuTriggerEvent if the menu is open', () => {
-        const cmp = createComponentUnderTest();
-        const container = cmp.shadowRoot.querySelector(selectors.defaultTriggerContainer);
-        const callback = jest.fn();
-        cmp.addEventListener(TabOnMenuTriggerEvent.EVENT_NAME, callback);
-        cmp.menuOpened = true;
-        container.focus();
-        const keyDownEvent = new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true });
-        container.dispatchEvent(keyDownEvent);
-        expect(callback).toHaveBeenCalled();
-    });
-
-    it('pressing tab button should dispatch CanvasMouseUpEvent', () => {
-        const cmp = createComponentUnderTest();
-        const container = cmp.shadowRoot.querySelector(selectors.defaultTriggerContainer);
-        const callback = jest.fn();
-        cmp.addEventListener(CanvasMouseUpEvent.EVENT_NAME, callback);
-        container.focus();
-        const keyDownEvent = new KeyboardEvent('keydown', { key: 'Tab' });
-        container.dispatchEvent(keyDownEvent);
-        expect(callback).toHaveBeenCalled();
+    it('should not dispatch the toggleMenu event if we are in selection mode', async () => {
+        const options = { canvasMode: AutoLayoutCanvasMode.SELECTION };
+        await assertTriggerClick(options, false);
     });
 
     describe('Focus Management', () => {
-        it('Regular element should have tabindex equal to 0', () => {
-            const button = createComponentUnderTest().shadowRoot.querySelector(selectors.triggerButton);
+        it('Regular element should have tabindex equal to 0', async () => {
+            const cmp = await createComponentUnderTest();
+            const button = getButton(cmp);
             expect(button.tabIndex).toEqual(0);
         });
 
-        it('End element should have tabindex equal to -1', () => {
-            const button = createComponentUnderTest({ elementMetadata: endMetadata }).shadowRoot.querySelector(
-                selectors.endElement
-            );
+        it('End element should have tabindex equal to -1', async () => {
+            const cmp = await createComponentUnderTest({ elementMetadata: endMetadata });
+            const button = cmp.shadowRoot.querySelector(selectors.endElement);
             expect(button.tabIndex).toEqual(-1);
         });
 
-        it('In Selection Mode regular element should have tabindex equal to -1', () => {
-            const button = createComponentUnderTest({
+        it('In Selection Mode regular element should have tabindex equal to -1', async () => {
+            const cmp = await createComponentUnderTest({
                 canvasMode: AutoLayoutCanvasMode.SELECTION
-            }).shadowRoot.querySelector(selectors.triggerButton);
+            });
+            const button = getButton(cmp);
             expect(button.tabIndex).toEqual(-1);
         });
 
-        it('In Selection Mode end element should have tabindex equal to -1', () => {
-            const button = createComponentUnderTest({
+        it('In Selection Mode end element should have tabindex equal to -1', async () => {
+            const cmp = await createComponentUnderTest({
                 elementMetadata: endMetadata,
                 canvasMode: AutoLayoutCanvasMode.SELECTION
-            }).shadowRoot.querySelector(selectors.endElement);
+            });
+            const button = cmp.shadowRoot.querySelector(selectors.endElement);
             expect(button.tabIndex).toEqual(-1);
         });
 
-        it('Connector "+" should have tabindex equal to 0 in Base Mode', () => {
-            const button = createComponentUnderTest({ variant: 'connector' }).shadowRoot.querySelector(
-                selectors.triggerButton
-            );
+        it('Connector "+" should have tabindex equal to 0 in Base Mode', async () => {
+            const cmp = await createComponentUnderTest({ variant: MenuType.CONNECTOR });
+            const button = getButton(cmp);
             expect(button.tabIndex).toEqual(0);
         });
 
-        it('Connector "+" should have tabindex equal to -1 in Selection Mode', () => {
-            const button = createComponentUnderTest({
-                variant: 'connector',
+        it('Connector "+" should have tabindex equal to -1 in Selection Mode', async () => {
+            const cmp = await createComponentUnderTest({
+                variant: MenuType.CONNECTOR,
                 canvasMode: AutoLayoutCanvasMode.SELECTION
-            }).shadowRoot.querySelector(selectors.triggerButton);
+            });
+            const button = getButton(cmp);
             expect(button.tabIndex).toEqual(-1);
         });
 
-        it('Regular element should get focus on click in Base Mode', () => {
-            const button = createComponentUnderTest().shadowRoot.querySelector(selectors.triggerButton);
-            const callback = jest.fn();
-            button.addEventListener('focus', callback);
-            button.click();
-            expect(callback).toHaveBeenCalled();
+        it('Regular element should get focus on click in Base Mode', async () => {
+            const options = {};
+            await assertTriggerFocus(options, true);
         });
 
-        it('Regular element should not get focus on click in Selection Mode', () => {
-            const button = createComponentUnderTest({
+        it('Regular element should not get focus on click in Selection Mode', async () => {
+            const options = {
                 canvasMode: AutoLayoutCanvasMode.SELECTION
-            }).shadowRoot.querySelector(selectors.triggerButton);
-            const callback = jest.fn();
-            button.addEventListener('focus', callback);
-            button.click();
-            expect(callback).not.toHaveBeenCalled();
+            };
+            await assertTriggerFocus(options, false);
         });
 
-        it('Regular element should still get focus in base mode on click when disableEditElements is true', () => {
-            const button = createComponentUnderTest({ disableEditElements: true }).shadowRoot.querySelector(
-                selectors.triggerButton
-            );
-            const callback = jest.fn();
-            button.addEventListener('focus', callback);
-            button.click();
-            expect(callback).toHaveBeenCalled();
+        it('Regular element should still get focus in base mode on click when disableEditElements is true', async () => {
+            const options = { disableEditElements: true };
+            await assertTriggerFocus(options, true);
         });
 
-        it('End element should not get focus on click in Base Mode', () => {
-            const button = createComponentUnderTest({ elementMetadata: endMetadata }).shadowRoot.querySelector(
-                selectors.endElement
-            );
-            const callback = jest.fn();
-            button.addEventListener('focus', callback);
-            button.click();
-            expect(callback).not.toHaveBeenCalled();
+        it('End element should not get focus on click in Base Mode', async () => {
+            const options = { elementMetadata: endMetadata };
+            await assertTriggerFocus(options, false);
         });
 
-        it('End element should not get focus on click in Selection Mode', () => {
-            const button = createComponentUnderTest({
+        it('End element should not get focus on click in Selection Mode', async () => {
+            const options = {
                 elementMetadata: endMetadata,
                 canvasMode: AutoLayoutCanvasMode.SELECTION
-            }).shadowRoot.querySelector(selectors.endElement);
-            const callback = jest.fn();
-            button.addEventListener('focus', callback);
-            button.click();
-            expect(callback).not.toHaveBeenCalled();
+            };
+            await assertTriggerFocus(options, false);
         });
 
-        it('Connector "+" should get focus on click in Base Mode', () => {
-            const button = createComponentUnderTest({ variant: 'connector' }).shadowRoot.querySelector(
-                selectors.triggerButton
-            );
-            const callback = jest.fn();
-            button.addEventListener('focus', callback);
-            button.click();
-            expect(callback).toHaveBeenCalled();
+        it('Connector "+" should get focus on click in Base Mode', async () => {
+            const options = { variant: MenuType.CONNECTOR };
+            await assertTriggerClick(options, true);
         });
     });
 });

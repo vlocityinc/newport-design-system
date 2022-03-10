@@ -1,12 +1,11 @@
-import { ICON_SHAPE } from 'builder_platform_interaction/alcComponentsUtils';
+import { scheduleTask } from 'builder_platform_interaction/alcComponentsUtils';
 import {
     AddElementFaultEvent,
     ClearHighlightedPathEvent,
     CloseMenuEvent,
     DeleteBranchElementEvent,
     DeleteElementFaultEvent,
-    HighlightPathsToDeleteEvent,
-    MoveFocusToNodeEvent
+    HighlightPathsToDeleteEvent
 } from 'builder_platform_interaction/alcEvents';
 import AlcMenu from 'builder_platform_interaction/alcMenu';
 import { FOR_EACH_INDEX, NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
@@ -17,34 +16,15 @@ import {
     OpenSubflowEvent
 } from 'builder_platform_interaction/events';
 import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
+import { classSet } from 'lightning/utils';
 import { api, track } from 'lwc';
 import { ELEMENT_ACTION_CONFIG, getMenuConfiguration, NodeMenuMode } from './alcNodeMenuConfig';
 import { LABELS } from './alcNodeMenuLabels';
 
 const selectors = {
-    menuItem: 'a[role="menuitem"]',
     backButton: '.back-button',
-    backButtonFocus: 'back-button',
-    comboBoxFocus: 'slds-form-element',
-    footerFocus: 'footer',
-    footerButton: '.footer lightning-button',
-    comboBox: 'lightning-combobox'
+    footerButton: '.footer lightning-button'
 };
-
-enum TabFocusRingItems {
-    Icon = 0,
-    ListItems = 1,
-    Footer = 2
-}
-
-enum TabFocusRingItemsInDeleteMode {
-    Icon = 0,
-    BackButton = 1,
-    Combobox = 2,
-    Footer = 3
-}
-
-// TODO: W-9581892 make alcNodeMenu use the popover component
 
 /**
  * The node menu overlay, displayed when clicking on a node.
@@ -64,13 +44,7 @@ export default class AlcNodeMenu extends AlcMenu {
     guid;
 
     @api
-    canHaveFaultConnector;
-
-    @api
     disableDeleteElements;
-
-    @api
-    elementHasFault;
 
     @api
     disableEditElements;
@@ -81,52 +55,32 @@ export default class AlcNodeMenu extends AlcMenu {
     @track
     contextualMenuMode = NodeMenuMode.Default;
 
-    @api
-    moveFocus = (shift: boolean) => {
-        if (this.isDeleteBranchElementMode) {
-            if (shift) {
-                this.moveFocusToFooterButton();
-            } else {
-                this.moveFocusToBackButton();
-            }
-        } else {
-            this.tabFocusRingIndex = TabFocusRingItems.Icon;
-            this.handleTabCommand(shift);
-        }
-    };
-
     _selectedConditionValue;
     _childIndexToKeep: number | undefined = 0;
 
-    // Tracks if the component has been rendered once
-    _isRendered = false;
-
-    // Tracks if the Base Mode is rendered or not. Is set to false whenever user moves away from the Base Mode
-    _hasBaseModeRendered = false;
-
-    // Tracks if the Delete Branch Mode is rendered or not. Is set to false whenever user moves away from the Base Mode
-    _hasDeleteBranchModeRendered = false;
-
-    // Tracks if the focus needs to be moved to the Delete Row of a branching element.
-    // Is set tp true when the user clicks on the back button
-    _moveFocusToDeleteBranchRow = false;
+    get bodyClass() {
+        return classSet({
+            'slds-dropdown__divst': true,
+            'slds-hide': this.isDeleteBranchElementMode
+        }).toString();
+    }
 
     get labels() {
         return LABELS;
     }
 
     get menuConfiguration() {
+        const element = this.flowModel[this.guid];
+        const canHaveFaultConnector = element.canHaveFaultConnector;
+        const elementHasFault = element.fault != null;
+
         return getMenuConfiguration(
             this.elementMetadata,
             this.contextualMenuMode,
-            this.canHaveFaultConnector,
-            this.elementHasFault,
+            canHaveFaultConnector,
+            elementHasFault,
             this.disableDeleteElements
         );
-    }
-
-    get menuWrapper() {
-        return this.elementMetadata.iconShape === ICON_SHAPE.DIAMOND ? 'diamond-element-menu' : '';
     }
 
     get isBaseActionMode() {
@@ -145,13 +99,8 @@ export default class AlcNodeMenu extends AlcMenu {
         return this.menuConfiguration.header.description;
     }
 
-    constructor() {
-        super();
-        this.tabFocusRingIndex = TabFocusRingItems.Icon;
-    }
-
-    override getListKeyboardInteractionSelector() {
-        return selectors.menuItem;
+    get flowElement() {
+        return this.flowModel[this.guid];
     }
 
     /**
@@ -165,9 +114,10 @@ export default class AlcNodeMenu extends AlcMenu {
         if (event != null) {
             event.stopPropagation();
         }
+
+        scheduleTask(() => this.focus());
+
         this.contextualMenuMode = NodeMenuMode.Default;
-        this._hasDeleteBranchModeRendered = false;
-        this._moveFocusToDeleteBranchRow = true;
         this.dispatchEvent(new ClearHighlightedPathEvent());
     };
 
@@ -180,9 +130,10 @@ export default class AlcNodeMenu extends AlcMenu {
         if (!event.fromKeyboard) {
             event.stopPropagation();
         }
-        const actionType = event.currentTarget.getAttribute('data-value');
+        const actionType = event.currentTarget.dataset.value;
         let closeMenu = true;
-        let moveFocusToNode = true;
+        let moveFocusToTrigger = true;
+
         switch (actionType) {
             case ELEMENT_ACTION_CONFIG.COPY_ACTION.value:
                 this.dispatchEvent(new CopySingleElementEvent(this.guid));
@@ -190,10 +141,10 @@ export default class AlcNodeMenu extends AlcMenu {
             case ELEMENT_ACTION_CONFIG.DELETE_ACTION.value:
                 if (this.elementMetadata.type === NodeType.BRANCH) {
                     this.contextualMenuMode = NodeMenuMode.Delete;
-                    this._hasBaseModeRendered = false;
                     this._selectedConditionValue = this.conditionOptions[0].value;
                     this.dispatchEvent(new HighlightPathsToDeleteEvent(this.guid, this._childIndexToKeep));
                     closeMenu = false;
+                    scheduleTask(() => this.dom.backButton.focus());
                 } else if (this.elementMetadata.type === NodeType.LOOP) {
                     this.dispatchEvent(
                         new DeleteElementEvent([this.guid], this.elementMetadata.elementType, FOR_EACH_INDEX)
@@ -201,7 +152,7 @@ export default class AlcNodeMenu extends AlcMenu {
                 } else {
                     this.dispatchEvent(new DeleteElementEvent([this.guid], this.elementMetadata.elementType));
                 }
-                moveFocusToNode = false;
+                moveFocusToTrigger = false;
                 break;
             case ELEMENT_ACTION_CONFIG.ADD_FAULT_ACTION.value:
                 this.dispatchEvent(new AddElementFaultEvent(this.guid));
@@ -210,19 +161,14 @@ export default class AlcNodeMenu extends AlcMenu {
                 this.dispatchEvent(new DeleteElementFaultEvent(this.guid));
                 break;
             case ELEMENT_ACTION_CONFIG.OPEN_SUBFLOW_ACTION.value:
-                this.dispatchEvent(new OpenSubflowEvent(this.flowModel[this.guid].flowName));
+                this.dispatchEvent(new OpenSubflowEvent(this.flowElement.flowName));
                 break;
             default:
         }
 
         // Closing the menu as needed
         if (closeMenu) {
-            this.dispatchEvent(new CloseMenuEvent());
-        }
-
-        // Moving focus to the node as needed
-        if (moveFocusToNode) {
-            this.dispatchEvent(new MoveFocusToNodeEvent(this.guid));
+            this.dispatchEvent(new CloseMenuEvent(moveFocusToTrigger));
         }
     };
 
@@ -241,7 +187,6 @@ export default class AlcNodeMenu extends AlcMenu {
             this._childIndexToKeep = undefined;
         }
         this.dispatchEvent(new HighlightPathsToDeleteEvent(this.guid, this._childIndexToKeep));
-        this.tabFocusRingIndex = TabFocusRingItemsInDeleteMode.Combobox;
     };
 
     /**
@@ -264,14 +209,6 @@ export default class AlcNodeMenu extends AlcMenu {
     };
 
     /**
-     * Closes the menu and moves the focus back to the element icon
-     */
-    override handleEscape() {
-        super.handleEscape();
-        this.dispatchEvent(new MoveFocusToNodeEvent(this.guid));
-    }
-
-    /**
      * Helper function used during keyboard commands
      */
     override handleSpaceOrEnter() {
@@ -287,104 +224,20 @@ export default class AlcNodeMenu extends AlcMenu {
         }
     }
 
-    moveFocusToFooterButton() {
-        const footerButton = this.dom.footerButton;
-        footerButton.focus();
-    }
-
-    moveFocusToFirstRowItem() {
-        const listItems = this.dom.all.menuItem;
-        const firstRowItem = listItems && listItems[0];
-        firstRowItem.focus();
-    }
-
-    moveFocusToBackButton() {
-        const backButton = this.dom.backButton;
-        backButton.focus();
-    }
-
-    moveFocusToCombobox() {
-        const combobox = this.dom.comboBox;
-        combobox.focus();
-    }
-
-    tabFocusRingCmds = [
-        // focus on the icon
-        () => this.dispatchEvent(new MoveFocusToNodeEvent(this.guid)),
-        // focus on the first row
-        () => this.moveFocusToFirstRowItem(),
-        // focus on the footer
-        () => this.moveFocusToFooterButton()
-    ];
-
-    tabFocusRingCmdsInDeleteMode = [
-        // focus on the icon
-        () => this.dispatchEvent(new MoveFocusToNodeEvent(this.guid)),
-        // focus on the back button
-        () => this.moveFocusToBackButton(),
-        // focus on the combobox
-        () => this.moveFocusToCombobox(),
-        // focus on the footer
-        () => this.moveFocusToFooterButton()
-    ];
-
-    override getTabFocusRingCmds() {
-        return this.isDeleteBranchElementMode ? this.tabFocusRingCmdsInDeleteMode : this.tabFocusRingCmds;
-    }
-
-    override getTabFocusRingIndex() {
-        if (this.isDeleteBranchElementMode) {
-            if (this.template.activeElement) {
-                if (this.template.activeElement.classList.value.includes(selectors.backButtonFocus)) {
-                    return TabFocusRingItemsInDeleteMode.BackButton;
-                } else if (this.template.activeElement.classList.value.includes(selectors.comboBoxFocus)) {
-                    return TabFocusRingItemsInDeleteMode.Combobox;
-                } else if (this.template.activeElement.parentElement.classList.value.includes(selectors.footerFocus)) {
-                    return TabFocusRingItemsInDeleteMode.Footer;
-                }
-            }
-        }
-        return super.getTabFocusRingIndex();
-    }
-
     renderedCallback() {
-        if (!this._isRendered) {
+        // stash the value before it gets reset in the super() call
+        const isFirstRender = this.isFirstRender;
+        super.renderedCallback();
+
+        if (isFirstRender) {
             if (this.menuConfiguration.footer) {
                 // Setting the slds-button_stretch class on the footer button the make it extend
                 const footerButton = this.dom.as<LightningElement>().footerButton;
-                const baseButton = footerButton && footerButton.shadowRoot.querySelector('button');
+                const baseButton = footerButton?.shadowRoot.querySelector('button');
                 if (baseButton) {
                     baseButton.classList.add('slds-button_stretch');
                 }
             }
-            this._isRendered = true;
-        }
-        if (this.isBaseActionMode && !this._hasBaseModeRendered) {
-            // Setting focus on the delete branch row if entering base mode via the back button.
-            const items = this.dom.all.menuItem;
-            items.forEach((item) => {
-                if (
-                    this._moveFocusToDeleteBranchRow &&
-                    item.parentElement?.getAttribute('data-value') === ELEMENT_ACTION_CONFIG.DELETE_ACTION.value
-                ) {
-                    item.focus();
-                    this.tabFocusRingIndex = TabFocusRingItems.ListItems;
-                }
-            });
-            // Moving it to the first row only when the menu has been opened through a keyboard command
-            // and isn't coming via the back button
-            if (this.moveFocusToMenu && !this._moveFocusToDeleteBranchRow) {
-                items[0].focus();
-                this.tabFocusRingIndex = TabFocusRingItems.ListItems;
-            }
-            this._moveFocusToDeleteBranchRow = false;
-            this._hasBaseModeRendered = true;
-        }
-        if (this.isDeleteBranchElementMode && !this._hasDeleteBranchModeRendered) {
-            // Moving focus to the back button only when entering the contextual menu in deleteBranchElementMode
-            this.moveFocusToBackButton();
-            this._hasDeleteBranchModeRendered = true;
-            this.tabFocusRingIndex = TabFocusRingItemsInDeleteMode.BackButton;
         }
     }
 }

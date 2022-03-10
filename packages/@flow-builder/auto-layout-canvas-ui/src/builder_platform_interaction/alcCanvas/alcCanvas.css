@@ -14,20 +14,22 @@
 
     /* TODO: W-9582142: Group, clean up and rationalize the z-index number assignments   */
     --z-index-alc-connector-svg: -1;
-    --z-index-alc-node-dynamic-component: 1;
-    --z-index-alc-node-icon-container: 2;
-    --z-index-alc-node-dynamic-component-expanded: 9;
-    /*--z-index-popover: 10; */
-    --z-index-alc-menu-trigger-open: 20;
-    --z-index-alc-node-icon-container-menu-opened: 20;
-    --z-index-menu: 100;
+    --z-index-alc-connector-branch: -1;
+
+    --z-index-alc-dynamic-node-trigger: 2;
+    --z-index-alc-dynamic-node: 1;
+
+    --z-index-alc-menu: 3;
+    --z-index-alc-menu-trigger-open: 4;
+    --z-index-alc-menu-trigger-container-open: 4;
 
     --z-index-alc-connector-to-be-deleted: 0;
     --z-index-alc-connector-highlighted: 0;
 
-    --z-index-alc-canvas-canvas-overlay: 99999;
-    --z-index-alc-canvas-menu: 15;
-    --z-index-alc-canvas-menu-container-full-opacity: 15;
+    --z-index-alc-canvas-overlay: 99999;
+
+    --alc-menu-width: 300px;
+    --alc-menu-background: var(--lwc-colorGray2);
 }
 
 .canvas-overlay {
@@ -36,7 +38,8 @@
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: var(--z-index-alc-canvas-canvas-overlay);
+    z-index: var(--z-index-alc-canvas-overlay);
+    cursor: pointer;
 }
 
 .hidden {
@@ -45,7 +48,7 @@
 
 builder_platform_interaction-alc-flow {
     position: absolute;
-    margin-top: 48px;
+    margin-top: var(--node-icon-height);
 }
 
 .flow-container {
@@ -74,25 +77,4 @@ builder_platform_interaction-zoom-panel {
     cursor: grabbing;
     cursor: -moz-grabbing;
     cursor: -webkit-grabbing;
-}
-
-.menu {
-    position: absolute;
-    z-index: var(--z-index-alc-canvas-menu);
-}
-
-.overlay {
-    width: 300px;
-    background-color: rgb(250, 250, 252);
-}
-
-.menu-container.full-opacity {
-    opacity: 1;
-    transition: opacity 0.1s ease;
-    z-index: var(--z-index-alc-canvas-menu-container-full-opacity);
-}
-
-.menu-container {
-    opacity: 0;
-    transition: opacity 0.1s ease;
 }

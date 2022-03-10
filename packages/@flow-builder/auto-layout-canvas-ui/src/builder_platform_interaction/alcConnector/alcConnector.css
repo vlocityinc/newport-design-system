@@ -95,3 +95,19 @@ builder_platform_interaction-alc-menu-trigger.slds-is-open .circle-text {
     border-radius: var(--lwc-borderRadiusMedium);
     border-spacing: var(--lwc-spacingXxSmall);
 }
+builder_platform_interaction-focus-trap {
+    position: absolute;
+    transform: translate(-50%, -50%);
+}
+
+builder_platform_interaction-focus-trap.slds-is-open {
+    z-index: var(--z-index-alc-menu-trigger-container-open);
+}
+
+.menu {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    z-index: var(--z-index-alc-menu);
+    width: var(--alc-menu-width);
+}

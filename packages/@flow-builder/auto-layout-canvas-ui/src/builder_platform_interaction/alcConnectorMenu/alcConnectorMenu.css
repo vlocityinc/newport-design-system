@@ -46,3 +46,8 @@
 .background-dark-blue {
     background-color: var(--lwc-paletteBlue30);
 }
+
+.header {
+    color: var(--lwc-colorGray13);
+    font-weight: var(--lwc-fontWeightBold);
+}

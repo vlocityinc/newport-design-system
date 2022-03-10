@@ -7,73 +7,35 @@
     <div
         class="canvas"
         onclick={handleCanvasClick}
-        onmenupositionupdate={handleMenuPositionUpdate}
-        ontogglemenu={handleToggleMenu}
-        onclosemenu={handleCloseMenu}
         onmouseenter={handleCanvasMouseEnter}
         onmouseleave={handleCanvasMouseLeave}
         onmousedown={handleCanvasMouseDown}
         onmouseup={handleCanvasMouseUp}
     >
         <template if:true={flow}>
-            <div class="flow-container">
+            <div class={flowContainerClass}>
                 <builder_platform_interaction-alc-flow
                     canvas-context={canvasContext}
                     class={flow.class}
-                    disable-add-elements={disableAddElements}
                     disable-delete-elements={disableDeleteElements}
                     disable-edit-elements={disableEditElements}
                     flow={flow.flowInfo}
                     style={flow.style}
                     onalcselectdeselectnode={handleNodeSelectionDeselection}
                     onnoderesize={handleDynamicNodeRender}
-                    ontabonmenutrigger={handleTabOnMenuTrigger}
+                    onmenurendered={handleMenuRendered}
+                    ontogglemenu={handleToggleMenu}
+                    onclosemenu={handleCloseMenu}
                     active-element-guid={activeElementGuid}
                     flow-model={flow.flowModel}
                     onincominggotostubclick={handleHighlightAllOutgoingStubs}
+                    ongotopath={handleAddOrRerouteGoToItemSelection}
+                    onhighlightpathstodelete={handleHighlightPathsToDelete}
+                    ondeletebranchelement={handleBranchElementDeletion}
+                    ondeleteelement={handleDeleteElement}
+                    onclearhighlightedpath={handleClearHighlightedPath}
                 >
                 </builder_platform_interaction-alc-flow>
-
-                <div class={menuContainerClasses}>
-                    <template if:true={showConnectorMenu}>
-                        <x-lazy
-                            lwc:dynamic={menu.ctor}
-                            class={menu.className}
-                            metadata={_connectorMenuMetadata}
-                            can-add-goto={menu.canAddGoto}
-                            source={menu.source}
-                            elements-metadata={menu.elementsMetadata}
-                            can-add-end-element={menu.canAddEndElement}
-                            is-go-to-connector={menu.isGoToConnector}
-                            is-paste-available={canvasContext.isPasteAvailable}
-                            move-focus-to-menu={moveFocusToMenu}
-                            style={menu.style}
-                            ongotopath={handleAddOrRerouteGoToItemSelection}
-                            onmovefocustoconnector={handleMoveFocusToConnector}
-                        ></x-lazy>
-                    </template>
-                    <template if:true={showNodeMenu}>
-                        <x-lazy
-                            lwc:dynamic={menu.ctor}
-                            class={menu.className}
-                            condition-options={menu.conditionOptionsForNode}
-                            disable-edit-elements={disableEditElements}
-                            element-has-fault={menu.elementHasFault}
-                            element-metadata={menu.elementMetadata}
-                            guid={menu.source.guid}
-                            move-focus-to-menu={moveFocusToMenu}
-                            style={menu.style}
-                            onhighlightpathstodelete={handleHighlightPathsToDelete}
-                            onmovefocustonode={handleMoveFocusToNode}
-                            flow-model={flow.flowModel}
-                            ondeletebranchelement={handleBranchElementDeletion}
-                            ondeleteelement={handleDeleteElement}
-                            can-have-fault-connector={menu.canHaveFaultConnector}
-                            disable-delete-elements={disableDeleteElements}
-                            onclearhighlightedpath={handleClearHighlightedPath}
-                        ></x-lazy>
-                    </template>
-                </div>
             </div>
         </template>
     </div>

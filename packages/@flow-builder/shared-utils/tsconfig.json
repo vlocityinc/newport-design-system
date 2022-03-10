@@ -3,7 +3,8 @@
     "compilerOptions": {
         "outDir": "build/esNext",
         "declarationDir": "dist/types",
-        "declaration": true
+        "declaration": true,
+        "noImplicitAny": false
     },
     "include": ["src/", "@types/"]
 }

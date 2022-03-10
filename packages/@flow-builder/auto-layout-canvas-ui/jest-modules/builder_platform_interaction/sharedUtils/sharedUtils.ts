@@ -1,6 +1,8 @@
 const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils/sharedUtils');
 const commands = jest.requireActual('builder_platform_interaction/sharedUtils/commands');
 const lwcUtils = jest.requireActual('builder_platform_interaction/sharedUtils/lwcUtils');
+const { focusUtils } = jest.requireActual('builder_platform_interaction/sharedUtils');
+
 const mockKeyboardInteractionUtils = jest.requireActual(
     'builder_platform_interaction_mocks/sharedUtils/keyboardInteractionUtils'
 );
@@ -15,4 +17,14 @@ const { loggingUtils, storeUtils, commonUtils } = sharedUtils;
 
 const Keys = keyboardInteractionUtils.Keys;
 
-export { loggingUtils, keyboardInteractionUtils, commands, storeUtils, commonUtils, lwcUtils, auraUtils, Keys };
+export {
+    loggingUtils,
+    keyboardInteractionUtils,
+    commands,
+    storeUtils,
+    commonUtils,
+    lwcUtils,
+    auraUtils,
+    Keys,
+    focusUtils
+};

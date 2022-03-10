@@ -2,25 +2,31 @@ import {
     CanvasContext,
     getAlcConnectorData,
     getAlcFlowData,
-    getAlcNodeData,
-    SELECTORS
+    getAlcNodeData
 } from 'builder_platform_interaction/alcComponentsUtils';
+import AlcNode from 'builder_platform_interaction/alcNode';
 import { FlowModel, Geometry, Guid, NodeRenderInfo } from 'builder_platform_interaction/autoLayoutCanvas';
+import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
 import { api, LightningElement } from 'lwc';
+
+const selectors = {
+    node: 'builder_platform_interaction-alc-node',
+    flow: 'builder_platform_interaction-alc-flow',
+    nextConnector: (key) => `builder_platform_interaction-alc-connector[data-key='${key}']`
+};
 
 /**
  *  Auto layout Canvas Compound Node
  *  This components renders a node, along with its branches, faults and connectors it may have
  */
 export default class AlcCompoundNode extends LightningElement {
+    dom = lwcUtils.createDomProxy(this, selectors);
+
     @api
     flowModel!: Readonly<FlowModel>;
 
     @api
     node!: NodeRenderInfo;
-
-    @api
-    disableAddElements;
 
     @api
     disableDeleteElements;
@@ -62,7 +68,7 @@ export default class AlcCompoundNode extends LightningElement {
 
     @api
     findNode(guid: Guid) {
-        const alcNode = this.template.querySelector(SELECTORS.node);
+        const alcNode = this.dom.as<AlcNode>().node;
         return alcNode.findNode(guid);
     }
 
@@ -70,9 +76,7 @@ export default class AlcCompoundNode extends LightningElement {
     getNextConnector() {
         const nextConnector = this.nextConnector;
         if (nextConnector != null) {
-            return this.template.querySelector(
-                `builder_platform_interaction-alc-connector[data-key='${nextConnector.key}']`
-            );
+            return this.dom[selectors.nextConnector(nextConnector.key)];
         }
 
         return undefined;
@@ -80,11 +84,11 @@ export default class AlcCompoundNode extends LightningElement {
 
     @api
     getNestedFlow(branchIndex: number) {
-        return this.template.querySelectorAll(SELECTORS.flow)[branchIndex];
+        return this.dom.all.flow[branchIndex];
     }
 
     @api
     focus() {
-        this.template.querySelector(SELECTORS.node).focus();
+        this.dom.node.focus();
     }
 }

@@ -1,88 +1,100 @@
 <template>
-    <!-- Node Button and labels -->
-    <div class={iconContainerClasses}>
-        <builder_platform_interaction-alc-menu-trigger
-            condition-options-for-node={conditionOptionsForNode}
-            element-metadata={nodeInfo.metadata}
-            guid={nodeInfo.guid}
-            menu-opened={nodeInfo.menuOpened}
-            is-node-getting-deleted={nodeInfo.toBeDeleted}
-            has-error={nodeHasError}
-            canvas-mode={canvasMode}
-            onclick={handleButtonClick}
-            ondblclick={handleOnDblClick}
-            active-element-guid={activeElementGuid}
-            disable-edit-elements={disableEditElements}
-        >
-            <!-- Element Icon -->
-            <div slot="trigger" class={rotateIconClass}>
-                <lightning-icon
-                    alternative-text={labels.nodeIconAltText}
-                    class={svgClass}
-                    icon-name={nodeInfo.metadata.icon}
-                    size={iconSize}
-                    variant="inverse"
-                    aria-label={iconAriaLabel}
-                    aria-haspopup="dialog"
-                    aria-describedby="secondary"
-                ></lightning-icon>
-                <div class="slds-assistive-text" id="secondary">{nodeAriaInfo}</div>
-            </div>
-
-            <!-- Selection Checkbox -->
-            <lightning-button-icon
-                if:true={showCheckboxInSelectionMode}
-                slot="selection-checkbox"
-                alternative-text={labels.selectionCheckboxAltText}
-                class="selection-checkbox"
-                disabled={shouldDisableCheckbox}
-                icon-name={checkboxIconName}
-                size="small"
-                variant={checkboxVariant}
-                onclick={handleSelectionCheckboxClick}
-                aria-label={labels.checkboxLabel}
-            ></lightning-button-icon>
-        </builder_platform_interaction-alc-menu-trigger>
-        <!-- Label and Element Type -->
-        <div class={textContainerClasses}>
-            <div if:false={dynamicNodeConstructor}>
-                <div class="text-element-label slds-text-body_regular">{nodeLabel}</div>
-                <div if:true={showElementType} class="text-element-type slds-text-body_regular slds-truncate">
-                    {nodeInfo.metadata.label}
-                </div>
-            </div>
-            <a
-                if:true={hasIncomingGoto}
-                href="#"
-                class="slds-text-body_regular slds-truncate text-incoming-goto"
-                onclick={handleIncomingStubClick}
+    <builder_platform_interaction-focus-trap enabled={isFocusTrapEnabled}>
+        <div class={iconContainerClasses}>
+            <builder_platform_interaction-alc-menu-trigger
+                element-metadata={nodeInfo.metadata}
+                source={source}
+                menu-opened={menu}
+                is-node-getting-deleted={nodeInfo.toBeDeleted}
+                has-error={nodeHasError}
+                canvas-mode={canvasMode}
+                onclick={handleButtonClick}
+                ondblclick={handleOnDblClick}
+                active-element-guid={activeElementGuid}
+                disable-edit-elements={disableEditElements}
+                variant={menuTriggerVariant}
+                class={menuTriggerClass}
             >
-                {incomingGoToLabel}
-            </a>
+                <!-- Element Icon -->
+                <div slot="trigger" class={rotateIconClass}>
+                    <lightning-icon
+                        alternative-text={labels.nodeIconAltText}
+                        class={svgClass}
+                        icon-name={nodeInfo.metadata.icon}
+                        size={iconSize}
+                        variant="inverse"
+                        aria-label={iconAriaLabel}
+                        aria-haspopup="dialog"
+                        aria-describedby="secondary"
+                    ></lightning-icon>
+                    <div class="slds-assistive-text" id="secondary">{nodeAriaInfo}</div>
+                </div>
+
+                <!-- Selection Checkbox -->
+                <lightning-button-icon
+                    if:true={showCheckboxInSelectionMode}
+                    slot="selection-checkbox"
+                    alternative-text={labels.selectionCheckboxAltText}
+                    class="selection-checkbox"
+                    disabled={shouldDisableCheckbox}
+                    icon-name={checkboxIconName}
+                    size="small"
+                    variant={checkboxVariant}
+                    onclick={handleSelectionCheckboxClick}
+                    aria-label={labels.checkboxLabel}
+                ></lightning-button-icon>
+            </builder_platform_interaction-alc-menu-trigger>
+            <!-- Label and Element Type -->
+            <div class={textContainerClasses}>
+                <div if:false={dynamicNodeConstructor}>
+                    <div class="text-element-label slds-text-body_regular">{nodeLabel}</div>
+                    <div if:true={showElementType} class="text-element-type slds-text-body_regular slds-truncate">
+                        {nodeInfo.metadata.label}
+                    </div>
+                </div>
+                <a
+                    if:true={hasIncomingGoto}
+                    href="#"
+                    class="slds-text-body_regular slds-truncate text-incoming-goto"
+                    onclick={handleIncomingStubClick}
+                >
+                    {incomingGoToLabel}
+                </a>
+            </div>
+
+            <!--Error icon-->
+            <lightning-icon
+                if:true={nodeHasError}
+                icon-name="utility:error"
+                variant="error"
+                size="xx-small"
+                alternative-text={labels.errorIconAlternativeText}
+                title={labels.errorIconTitle}
+                class="error-icon slds-is-absolute slds-button-icon_small"
+            ></lightning-icon>
         </div>
-
-        <!--Error icon-->
-        <lightning-icon
-            if:true={nodeHasError}
-            icon-name="utility:error"
-            variant="error"
-            size="xx-small"
-            alternative-text={labels.errorIconAlternativeText}
-            title={labels.errorIconTitle}
-            class="error-icon slds-is-absolute slds-button-icon_small"
-        ></lightning-icon>
-    </div>
-
-    <x-lazy
-        if:true={dynamicNodeConstructor}
-        lwc:dynamic={dynamicNodeConstructor}
-        node={nodeInfo}
-        is-default-mode={isDefaultMode}
-        active-element-guid={activeElementGuid}
-        class={dynamicNodeClasses}
-        onpopovertoggled={handlePopoverToggled}
-        disable-add-elements={disableAddElements}
-        disable-delete-elements={disableDeleteElements}
-        disable-edit-elements={disableEditElements}
-    ></x-lazy>
+        <x-lazy
+            if:true={dynamicNodeConstructor}
+            lwc:dynamic={dynamicNodeConstructor}
+            node={nodeInfo}
+            is-default-mode={isDefaultMode}
+            active-element-guid={activeElementGuid}
+            class={dynamicNodeClasses}
+            canvas-context={canvasContext}
+            disable-delete-elements={disableDeleteElements}
+            disable-edit-elements={disableEditElements}
+        ></x-lazy>
+        <x-lazy
+            if:true={menu}
+            lwc:dynamic={menu.ctor}
+            guid={menu.source.guid}
+            class="menu"
+            auto-focus={menu.autoFocus}
+            condition-options={menu.conditionOptions}
+            element-metadata={elementMetadata}
+            flow-model={flowModel}
+            disable-delete-elements={disableDeleteElements}
+            disable-edit-elements={disableEditElements}
+        ></x-lazy>
+    </builder_platform_interaction-focus-trap>
 </template>

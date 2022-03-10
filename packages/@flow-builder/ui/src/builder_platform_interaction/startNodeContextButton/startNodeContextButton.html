@@ -1,7 +1,8 @@
 <template>
+    <!-- TODO: should extract the common start button html into a template (see AlcMenuTemplate as an example) -->
     <div class="slds-border_top">
         <!--CONTEXT-->
-        <div tabindex="0" class="start-context button" onclick={handleObjectClick}>
+        <div class="start-context button">
             <!--UNSET CONTEXT-->
             <div if:false={isContextSet} class={unsetStartButtonClasses}>
                 <lightning-icon
