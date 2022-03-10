@@ -135,4 +135,14 @@ describe('Flow Test to UI Translation', () => {
         expect(testInitialRecordData).not.toBe(undefined);
         expect(testUpdatedRecordData).not.toBe(undefined);
     });
+    it('returns label, name, description, testInitialRecordData, testUpdatedRecordData, testAssertions as undefined in case flowTest is null  ', () => {
+        const { label, name, description, runPathValue, testInitialRecordData, testUpdatedRecordData, testAssertions } =
+            translateFlowTestToUIModel({});
+        expect(label).toBe(undefined);
+        expect(name).toBe(undefined);
+        expect(description).toBe(undefined);
+        expect(testInitialRecordData).toBe(undefined);
+        expect(testUpdatedRecordData).toBe(undefined);
+        expect(testAssertions).toBe(undefined);
+    });
 });

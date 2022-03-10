@@ -750,7 +750,11 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     }
 
     get showAddToTestButton() {
-        return !!this.toolbarConfig.showAddToTestButton && !this.fromEmailDebugging && orgHasFlowTestingEnabled();
+        return (
+            !!this.toolbarConfig.showAddToTestButton &&
+            !this.fromEmailDebugging &&
+            isFlowTestingSupported(this.properties.processType, this.triggerType)
+        );
     }
 
     get showRunTestButton() {
@@ -1750,30 +1754,35 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     };
 
     /**
-     * handles the add to test flow event which changes the mode to become test mode
+     * handles the add to test flow event which opens Create Test modal in debug mode
      */
-    handleAddToTestFlow = () => {
-        // TODO refactor once ETS service is ready to be in the async-await model and and not swallow errors
-        fetch(
-            SERVER_ACTION_TYPE.RUN_TEST_ETS,
-            ({ data, error }) => {
-                try {
-                    if (error) {
-                        // Handle server exception here if something is needed beyond our automatic server error popup
-                    } else {
-                        // Setup the debug data object for the debug panel, and switch to debug mode
-                        this.ifBlockResume = false;
-                        this.builderMode = BUILDER_MODE.TEST_MODE;
-                    }
-                } catch (e) {
-                    this.spinners.showDebugSpinner = false;
-                    throw e;
-                }
-            },
-            {
+    handleAddToTestFlow = async () => {
+        this.spinners.showDebugSpinner = true;
+        try {
+            await fetchPromise(SERVER_ACTION_TYPE.GET_TEST_DETAIL_FROM_DEBUG_RUN, {
                 serializedInterview: this.debugData.serializedInterview
-            }
-        );
+            }).then((data: any) => {
+                let flowTestObject = createFlowTestData(translateFlowTestToUIModel(data.flowTest));
+                const triggerObjectType = getStartObject();
+                flowTestObject = getElementForPropertyEditor(flowTestObject);
+                const triggerSaveType = getRecordTriggerType();
+                const createOrEdit = FlowTestMode.Create;
+                const devNamePrefix = this.properties.name + '_';
+                this.queueOpenCreateFlowTest(() => {
+                    return {
+                        flowTestObject,
+                        createOrEdit,
+                        triggerSaveType,
+                        triggerObjectType,
+                        devNamePrefix,
+                        flowTestListViewCallback: this.handleViewAllTests,
+                        builderMode: this.builderMode
+                    };
+                });
+            });
+        } finally {
+            this.spinners.showDebugSpinner = false;
+        }
     };
 
     /**
@@ -1981,7 +1990,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                     triggerSaveType,
                     triggerObjectType,
                     devNamePrefix,
-                    flowTestListViewCallback: this.handleViewAllTests
+                    flowTestListViewCallback: this.handleViewAllTests,
+                    builderMode: this.builderMode
                 };
             });
         } else if (createOrEdit === FlowTestMode.Edit) {
@@ -2016,7 +2026,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                 createOrEdit,
                 triggerSaveType,
                 triggerObjectType,
-                flowTestListViewCallback
+                flowTestListViewCallback,
+                builderMode: this.builderMode
             };
         });
     }

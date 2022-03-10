@@ -179,7 +179,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     };
 });
 
-let mockOrgHasFlowTestingEnabled = true;
+const mockOrgHasFlowTestingEnabled = true;
 jest.mock('builder_platform_interaction/contextLib', () => {
     return Object.assign({}, jest.requireActual('builder_platform_interaction/contextLib'), {
         orgHasFlowTestingEnabled: jest.fn().mockImplementation(() => {
@@ -2164,16 +2164,39 @@ describe('in debug mode', () => {
         nodeUpdate(elementToAdd);
         expect(handler).not.toHaveBeenCalled();
     });
-    it('showAddToTestButton is not present when testing perm is off', async () => {
-        mockOrgHasFlowTestingEnabled = false;
+
+    it('Add to test button is displayed for supported process and trigger type', async () => {
+        mockStoreState.properties.processType = FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW;
+        mockStoreState.elements['6'].triggerType = FLOW_TRIGGER_TYPE.AFTER_SAVE;
+
         const editorComponent = createComponentUnderTest({
             builderType: 'new',
             builderMode: 'debugMode',
             builderConfig: {
                 supportedProcessTypes: ['right'],
-                componentConfigs: {
-                    [BUILDER_MODE.DEBUG_MODE]: { toolbarConfig: { showAddToTestButton: true } }
-                }
+                componentConfigs: { [BUILDER_MODE.DEBUG_MODE]: { toolbarConfig: { showAddToTestButton: true } } }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.DEBUG_MODE);
+        await 1;
+        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+        const lbg = toolbar.shadowRoot.querySelector('lightning-button-group');
+        const testButton = lbg.querySelector(selectors.test);
+        expect(testButton).not.toBeNull();
+    });
+
+    it('Add to test button is not displayed for not supported supported process and trigger type', async () => {
+        mockStoreState.properties.processType = FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW;
+        mockStoreState.elements['6'].triggerType = FLOW_TRIGGER_TYPE.NONE;
+
+        mockIsFlowTestingSupportedForTriggerType = false;
+
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderMode: 'debugMode',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                componentConfigs: { [BUILDER_MODE.DEBUG_MODE]: { toolbarConfig: { showAddToTestButton: true } } }
             }
         });
         editorComponent.setBuilderMode(BUILDER_MODE.DEBUG_MODE);
@@ -2183,25 +2206,7 @@ describe('in debug mode', () => {
         const testButton = lbg.querySelector(selectors.test);
         expect(testButton).toBeNull();
     });
-    it('showAddToTestButton is present when testing perm is on', async () => {
-        mockOrgHasFlowTestingEnabled = true;
-        const editorComponent = createComponentUnderTest({
-            builderType: 'new',
-            builderMode: 'debugMode',
-            builderConfig: {
-                supportedProcessTypes: ['right'],
-                componentConfigs: {
-                    [BUILDER_MODE.DEBUG_MODE]: { toolbarConfig: { showAddToTestButton: true } }
-                }
-            }
-        });
-        editorComponent.setBuilderMode(BUILDER_MODE.DEBUG_MODE);
-        await ticks(1);
-        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
-        const lbg = toolbar.shadowRoot.querySelector('lightning-button-group');
-        const testButton = lbg.querySelector(selectors.test);
-        expect(testButton).toBeTruthy();
-    });
+
     it('right panel is fixed width in Orchestrator', async () => {
         mockStoreState.properties.processType = FLOW_PROCESS_TYPE.ORCHESTRATOR;
 

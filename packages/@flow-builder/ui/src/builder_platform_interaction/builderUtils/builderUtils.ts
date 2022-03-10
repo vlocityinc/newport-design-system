@@ -683,6 +683,7 @@ export function invokeCreateEditFlowTestEditor(attributes) {
     const triggerSaveType = attributes.triggerSaveType;
     const triggerObjectType = attributes.triggerObjectType;
     const devNamePrefix = attributes.devNamePrefix;
+    const builderMode = attributes.builderMode;
     showFlowTestPopover(
         'builder_platform_interaction:modalHeader',
         'builder_platform_interaction:flowTestEditor',
@@ -692,7 +693,8 @@ export function invokeCreateEditFlowTestEditor(attributes) {
             mode,
             triggerSaveType,
             triggerObjectType,
-            devNamePrefix
+            devNamePrefix,
+            builderMode
         },
         {
             flavor: 'large restrictWidthToSldsMedium'
@@ -758,6 +760,7 @@ function showFlowTestPopover(cmpHeader, cmpBody, cmpFooter, cmpAttributes, popov
         modalFooter.set('v.panelInstance', modal);
         modalFooter.set('v.testMode', cmpAttributes.mode);
         modalFooter.set('v.flowTestListViewCallback', flowTestListViewCallback);
+        modalFooter.set('v.builderMode', cmpAttributes.builderMode);
     };
 
     invokeModalWithComponents(

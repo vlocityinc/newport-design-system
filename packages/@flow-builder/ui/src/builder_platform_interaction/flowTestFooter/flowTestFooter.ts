@@ -3,9 +3,14 @@ import { dehydrate } from 'builder_platform_interaction/dataMutationLib';
 import { fetchPromise, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
+import { BUILDER_MODE } from 'builder_platform_interaction/systemLib';
 import { translateUIModelToFlowTest } from 'builder_platform_interaction/translatorLib';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { api, LightningElement } from 'lwc';
+import { LABELS } from './flowTestFooterLabels';
+
 const { checkCloseCallback } = commonUtils;
+const { format } = commonUtils;
 
 export default class FlowTestFooter extends LightningElement {
     @api flowTestButtons;
@@ -13,6 +18,9 @@ export default class FlowTestFooter extends LightningElement {
     @api panelInstance;
     @api testMode;
     @api flowTestListViewCallback;
+    @api builderMode;
+
+    labels = LABELS;
 
     closeModal = (closeCallback = true) => {
         if (checkCloseCallback(this.closeModalCallback, closeCallback)) {
@@ -48,16 +56,21 @@ export default class FlowTestFooter extends LightningElement {
                 flowTest,
                 saveType
             });
-            this.saveFlowTestCallback({ data });
+            this.saveFlowTestCallback({ data }, flowTest);
         } finally {
             body.set('v.showWaitingSpinner', false);
         }
     };
 
-    saveFlowTestCallback = ({ data }) => {
+    saveFlowTestCallback = ({ data }, flowTest) => {
         if (data.isSuccess) {
-            this.flowTestListViewCallback();
-            hidePopover();
+            if (this.builderMode === BUILDER_MODE.DEBUG_MODE) {
+                hidePopover();
+                this.showToast(format(LABELS.flowTestFromDebuggerSavedSuccess, flowTest.metadata.label), 'success');
+            } else {
+                this.flowTestListViewCallback();
+                hidePopover();
+            }
         } else if (!data.isSuccess) {
             // ToDo: Add popover to show server side validation failures.
             // Dependent on work in UI Tier API to return those failures.
@@ -71,4 +84,13 @@ export default class FlowTestFooter extends LightningElement {
 
         this.closeModal(this.flowTestButtons.flowTestButtonTwo.closeCallback);
     }
+
+    showToast = (message: string, variant: string, mode?: string) => {
+        const toastEvent = new ShowToastEvent({
+            message,
+            variant,
+            mode
+        });
+        this.dispatchEvent(toastEvent);
+    };
 }
