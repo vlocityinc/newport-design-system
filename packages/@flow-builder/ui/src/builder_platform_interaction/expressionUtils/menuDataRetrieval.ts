@@ -35,6 +35,7 @@ import {
 } from 'builder_platform_interaction/systemLib';
 import {
     SYSTEM_VARIABLE_CLIENT_PREFIX,
+    SYSTEM_VARIABLE_ORCHESTRATION_PREFIX,
     SYSTEM_VARIABLE_PREFIX
 } from 'builder_platform_interaction/systemVariableConstantsLib';
 import {
@@ -257,7 +258,8 @@ const defaultMenuConfig: MenuConfig = {
         allowsApexCollAnonymousAutoOutput: true,
         forFormula: false,
         shouldBeWritable: false,
-        showFlowSystemVariable: true
+        showFlowSystemVariable: true,
+        showOrchestrationVariables: false
     }
 };
 
@@ -504,6 +506,14 @@ export function getChildrenItemsPromise(parentItem, showMultiPicklistGlobalVaria
     return result.catch(() => ({}));
 }
 
+function isSystemVariable(subtype) {
+    return (
+        subtype === SYSTEM_VARIABLE_PREFIX ||
+        subtype === SYSTEM_VARIABLE_CLIENT_PREFIX ||
+        subtype === SYSTEM_VARIABLE_ORCHESTRATION_PREFIX
+    );
+}
+
 /**
  * get children items
  *
@@ -518,7 +528,11 @@ export function getChildrenItems(parentItem, showMultiPicklistGlobalVariables = 
     let result;
     if (getChildrenItems) {
         result = getChildrenItems();
-    } else if (subtype === SYSTEM_VARIABLE_PREFIX || subtype === SYSTEM_VARIABLE_CLIENT_PREFIX) {
+    } else if (
+        subtype === SYSTEM_VARIABLE_PREFIX ||
+        subtype === SYSTEM_VARIABLE_CLIENT_PREFIX ||
+        subtype === SYSTEM_VARIABLE_ORCHESTRATION_PREFIX
+    ) {
         result = getSystemVariables(subtype);
     } else if (getGlobalVariables(subtype, showMultiPicklistGlobalVariables)) {
         result = getGlobalVariables(subtype, showMultiPicklistGlobalVariables);

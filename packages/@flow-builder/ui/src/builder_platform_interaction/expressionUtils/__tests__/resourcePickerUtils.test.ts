@@ -23,9 +23,16 @@ const parentGlobalItem = {
 
 const fields = ['field1'];
 const elements = ['element1'];
+const state = {
+    elements,
+    properties: {
+        processType: 'someProcessType'
+    }
+};
+
 const storeInstance = {
     getCurrentState() {
-        return elements;
+        return state;
     }
 };
 
@@ -226,11 +233,11 @@ describe('resourcePickerUtils', () => {
                     }
                 }
             );
-            expect(getStoreElements).toHaveBeenCalledWith(elements, {
+            expect(getStoreElements).toHaveBeenCalledWith(state, {
                 elementType: 'Assignment'
             });
             expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
-            expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, paramTypes, {
+            expect(filterAndMutateMenuData).toHaveBeenCalledWith(state, paramTypes, {
                 traversalConfig: {
                     isEnabled: false
                 },
@@ -238,7 +245,8 @@ describe('resourcePickerUtils', () => {
                     includeNewResource: true,
                     allowGlobalConstants: true,
                     allowsApexCollAnonymousAutoOutput: true,
-                    shouldBeWritable: false
+                    shouldBeWritable: false,
+                    showOrchestrationVariables: false
                 }
             });
         });
@@ -261,9 +269,9 @@ describe('resourcePickerUtils', () => {
                     }
                 }
             );
-            expect(getStoreElements).toHaveBeenCalledWith(elements, 'elementConfig');
+            expect(getStoreElements).toHaveBeenCalledWith(state, 'elementConfig');
             expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
-            expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, paramTypes, {
+            expect(filterAndMutateMenuData).toHaveBeenCalledWith(state, paramTypes, {
                 traversalConfig: {
                     isEnabled: false
                 },
@@ -271,7 +279,8 @@ describe('resourcePickerUtils', () => {
                     includeNewResource: false,
                     allowGlobalConstants: true,
                     shouldBeWritable: undefined,
-                    allowsApexCollAnonymousAutoOutput: undefined
+                    allowsApexCollAnonymousAutoOutput: undefined,
+                    showOrchestrationVariables: false
                 }
             });
         });
@@ -296,7 +305,7 @@ describe('resourcePickerUtils', () => {
                 }
             );
             expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
-            expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, paramTypes, {
+            expect(filterAndMutateMenuData).toHaveBeenCalledWith(state, paramTypes, {
                 traversalConfig: {
                     isEnabled: false
                 },
@@ -305,7 +314,8 @@ describe('resourcePickerUtils', () => {
                     allowGlobalConstants: true,
                     allowsApexCollAnonymousAutoOutput: undefined,
                     forFormula: true,
-                    shouldBeWritable: undefined
+                    shouldBeWritable: undefined,
+                    showOrchestrationVariables: false
                 }
             });
         });
@@ -330,7 +340,7 @@ describe('resourcePickerUtils', () => {
                 }
             );
             expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
-            expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, paramTypes, {
+            expect(filterAndMutateMenuData).toHaveBeenCalledWith(state, paramTypes, {
                 traversalConfig: {
                     isEnabled: false
                 },
@@ -339,7 +349,8 @@ describe('resourcePickerUtils', () => {
                     allowGlobalConstants: true,
                     allowsApexCollAnonymousAutoOutput: undefined,
                     shouldBeWritable: undefined,
-                    showGlobalVariables: false
+                    showGlobalVariables: false,
+                    showOrchestrationVariables: false
                 }
             });
         });

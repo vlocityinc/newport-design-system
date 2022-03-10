@@ -20,6 +20,7 @@ import {
 import { saveExpression } from 'builder_platform_interaction/expressionValidator';
 import { getInlineResource } from 'builder_platform_interaction/inlineResourceUtils';
 import { isLookupTraversalSupported } from 'builder_platform_interaction/mergeFieldLib';
+import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
 import {
     elementToParam,
     getLHSTypes,
@@ -980,6 +981,7 @@ export default class BaseExpressionBuilder extends LightningElement {
                     allowGlobalConstants: isFerov && !this.hideFerovMenuData,
                     showSystemVariables: !this.hideSystemVariables,
                     showGlobalVariables: !this.hideGlobalVariables && !shouldBeWritable,
+                    showOrchestrationVariables: isOrchestrator(storeInstance.getCurrentState().properties.processType),
                     shouldBeWritable
                 }
             });

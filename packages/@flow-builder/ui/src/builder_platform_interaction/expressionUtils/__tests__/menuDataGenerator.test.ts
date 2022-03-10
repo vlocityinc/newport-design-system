@@ -1,5 +1,6 @@
 // @ts-nocheck
 import collectionDataType from '@salesforce/label/FlowBuilderDataTypes.collectionDataType';
+import textDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.textDataTypeLabel';
 import { FLOW_DATA_TYPE, getDataTypeIcons, getDataTypeLabel } from 'builder_platform_interaction/dataTypeLib';
 import { getResourceCategory } from 'builder_platform_interaction/elementLabelLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -32,6 +33,7 @@ import {
     mutateFlowResourceToComboboxShape,
     mutatePicklistValue
 } from '../menuDataGenerator';
+
 const { format } = commonUtils;
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
@@ -179,6 +181,17 @@ describe('menuDataGenerator', () => {
 
                 expect(mutatedResource.subText).toEqual('');
             });
+            it('sets datatype as subtext for $Orchestration resources', () => {
+                const dataType = FLOW_DATA_TYPE.STRING.value;
+
+                const mutatedResource = mutateFlowResourceToComboboxShape({
+                    name: '$Orchestrator.something',
+                    dataType
+                });
+
+                expect(mutatedResource.subText).toEqual(textDataTypeLabel);
+            });
+
             it('sets description as subtext for global variables', () => {
                 const mutatedResource = mutateFlowResourceToComboboxShape({
                     guid: '$User.Name',
@@ -316,6 +329,37 @@ describe('menuDataGenerator', () => {
                     expect.arrayContaining([
                         expect.objectContaining({
                             value: '$Record__Prior'
+                        })
+                    ])
+                );
+            });
+        });
+        describe('$Orchestration', () => {
+            it('is included if showOrchestrationVariables is true', () => {
+                getStartElement.mockImplementation(() => startElementRecordTriggered);
+                const menuData = getSystemAndGlobalVariableMenuData({
+                    showSystemVariables: true,
+                    showOrchestrationVariables: true
+                });
+                expect(menuData).toEqual(
+                    expect.arrayContaining([
+                        expect.objectContaining({
+                            displayText: '{!$Orchestration}',
+                            hasNext: true,
+                            iconName: 'utility:system_and_global_variable',
+                            text: '$Orchestration',
+                            value: '$Orchestration'
+                        })
+                    ])
+                );
+            });
+            it('is not included if showOrchestrationVariables is false', () => {
+                getStartElement.mockImplementation(() => startElementRecordTriggered);
+                const menuData = getSystemAndGlobalVariableMenuData(true, false, false, false, false, false);
+                expect(menuData).toEqual(
+                    expect.not.arrayContaining([
+                        expect.objectContaining({
+                            displayText: '{!$Orchestration}'
                         })
                     ])
                 );

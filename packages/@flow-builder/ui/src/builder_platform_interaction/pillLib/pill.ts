@@ -1,6 +1,9 @@
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { GLOBAL_CONSTANT_PREFIX } from 'builder_platform_interaction/systemLib';
-import { SYSTEM_VARIABLE_PREFIX } from 'builder_platform_interaction/systemVariableConstantsLib';
+import {
+    SYSTEM_VARIABLE_ORCHESTRATION_PREFIX,
+    SYSTEM_VARIABLE_PREFIX
+} from 'builder_platform_interaction/systemVariableConstantsLib';
 import { LABELS } from './pillLabels';
 /**
  * Combobox Item
@@ -42,7 +45,8 @@ const GLOBAL_CONSTANT_GLOBAL_VARIABLE_TO_LABEL_MAP = new Map([
     [`${SYSTEM_VARIABLE_PREFIX}${FIELD_SEPARATOR}InterviewStartTime`, LABELS.flowInterviewStartTime],
     [`${SYSTEM_VARIABLE_PREFIX}${FIELD_SEPARATOR}ActiveStages`, LABELS.flowActiveStages],
     [`${SYSTEM_VARIABLE_PREFIX}${FIELD_SEPARATOR}InterviewGuid`, LABELS.flowInterviewGuid],
-    [`${SYSTEM_VARIABLE_PREFIX}${FIELD_SEPARATOR}CurrentRecord`, LABELS.flowCurrentRecord]
+    [`${SYSTEM_VARIABLE_PREFIX}${FIELD_SEPARATOR}CurrentRecord`, LABELS.flowCurrentRecord],
+    [`${SYSTEM_VARIABLE_ORCHESTRATION_PREFIX}${FIELD_SEPARATOR}Instance`, LABELS.orchestrationInstance]
 ]);
 
 /**

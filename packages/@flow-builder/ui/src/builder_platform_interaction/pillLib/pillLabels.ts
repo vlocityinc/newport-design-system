@@ -9,6 +9,7 @@ import flowInterviewStartTime from '@salesforce/label/FlowBuilderPill.flowInterv
 import globalConstantEmptyString from '@salesforce/label/FlowBuilderPill.globalConstantEmptyString';
 import globalConstantFalse from '@salesforce/label/FlowBuilderPill.globalConstantFalse';
 import globalConstantTrue from '@salesforce/label/FlowBuilderPill.globalConstantTrue';
+import orchestrationInstance from '@salesforce/label/FlowBuilderPill.orchestrationInstance';
 
 export const LABELS = {
     globalConstantEmptyString,
@@ -21,5 +22,6 @@ export const LABELS = {
     flowInterviewStartTime,
     flowActiveStages,
     flowInterviewGuid,
-    flowCurrentRecord
+    flowCurrentRecord,
+    orchestrationInstance
 };

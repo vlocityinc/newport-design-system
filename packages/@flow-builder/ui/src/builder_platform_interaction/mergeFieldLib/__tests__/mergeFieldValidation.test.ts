@@ -13,6 +13,7 @@ import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { getMetadataFlowElementByName } from 'mock/flows/mock-flow';
 import { accountParam, apexParam, datetimeParamTypes, numberParamCanBeAnything } from 'mock/ruleService';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { orchestratorFlowUIModel } from 'mock/storeDataOrchestrator';
 import { recordTriggeredFlowUIModel } from 'mock/storeDataRecordTriggered';
 import { scheduleTriggeredFlowUIModel } from 'mock/storeDataScheduleTriggered';
 import { globalVariablesForAutoLaunchedFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForAutoLaunchedFlow.json';
@@ -26,6 +27,7 @@ import { userFields as mockUserFields } from 'serverData/GetFieldsForEntity/user
 import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
 import { systemVariablesForAutoLaunchedFlow } from 'serverData/GetSystemVariables/systemVariablesForAutoLaunchedFlow.json';
 import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
+import { systemVariablesForOrchestration } from 'serverData/GetSystemVariables/systemVariablesForOrchestration.json';
 import { isTextWithMergeFields, validateMergeField, validateTextWithMergeFields } from '../mergeFieldValidation';
 
 const mockUncommitedScreenFieldInScreenWithAutomaticFieldName = 'numberScreenField1';
@@ -938,6 +940,21 @@ describe('Text with merge fields validation', () => {
         const validationErrors = validateTextWithMergeFields('{!$Blah.blah} == {!stringVariable}', {
             ignoreGlobalVariables: true
         });
+        expect(validationErrors).toHaveLength(0);
+    });
+});
+
+describe('Text with merge fields validation for $Orchestration', () => {
+    afterAll(() => {
+        resetStore();
+    });
+    it('Returns no validation error when it references an $Orchestration variable', () => {
+        setSystemVariables(systemVariablesForOrchestration);
+        setMockState(orchestratorFlowUIModel);
+
+        const validationErrors = validateTextWithMergeFields(
+            '{!$Orchestration.Instance} == {!$Orchestration.Instance}'
+        );
         expect(validationErrors).toHaveLength(0);
     });
 });

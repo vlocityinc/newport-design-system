@@ -25,6 +25,7 @@ import {
 import {
     SYSTEM_VARIABLE_CLIENT_PREFIX,
     SYSTEM_VARIABLE_ICON_NAME,
+    SYSTEM_VARIABLE_ORCHESTRATION_PREFIX,
     SYSTEM_VARIABLE_PREFIX,
     SYSTEM_VARIABLE_RECORD_PREFIX,
     SYSTEM_VARIABLE_RECORD_PRIOR_PREFIX
@@ -740,6 +741,17 @@ const getFlowSystemClientVariableComboboxItem = () =>
     });
 
 /**
+ * The combobox item representing the System Variable ($Orchestration) category.
+ *
+ * @returns {MenuDataItem[]} menu data for $Orchestration
+ */
+export const getFlowOrchestrationVariableComboboxItem = () => {
+    return mutateSystemAndGlobalVariablesToComboboxShape({
+        value: SYSTEM_VARIABLE_ORCHESTRATION_PREFIX,
+        subtype: SYSTEM_VARIABLE_ORCHESTRATION_PREFIX
+    });
+};
+/**
  * Menu data for system and/or global variables.
  *
  * @param {boolean} showSystemVariables   should include the system variable category
@@ -747,6 +759,8 @@ const getFlowSystemClientVariableComboboxItem = () =>
  * @param {boolean} forFormula   if we are retrieving menu data for formula editor
  * @param shouldBeWritable
  * @param {boolean} showFlowSystemVariable   should include the $Flow system variable
+ * @param {boolean} hideFlowSystemVariable   should hide the $Flow system variable
+ * @param showOrchestrationVariables
  * @returns {MenuData} menu data showing system variables and/or global variables
  */
 export const getSystemAndGlobalVariableMenuData = ({
@@ -754,13 +768,19 @@ export const getSystemAndGlobalVariableMenuData = ({
     showGlobalVariables,
     forFormula = false,
     shouldBeWritable = false,
-    showFlowSystemVariable = true
+    showFlowSystemVariable = true,
+    showOrchestrationVariables = false
 }: MenuFilter = {}) => {
     const categories = [];
     if (showSystemVariables) {
         if (showFlowSystemVariable) {
             categories.push(getFlowSystemVariableComboboxItem());
         }
+
+        if (showOrchestrationVariables) {
+            categories.push(getFlowOrchestrationVariableComboboxItem());
+        }
+
         if (isSystemVariablesCategoryNotEmpty(SYSTEM_VARIABLE_CLIENT_PREFIX)) {
             categories.push(getFlowSystemClientVariableComboboxItem());
         }

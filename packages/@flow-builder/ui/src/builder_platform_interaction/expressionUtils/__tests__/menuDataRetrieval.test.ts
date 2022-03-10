@@ -24,7 +24,10 @@ import {
     setProcessTypeFeature,
     setSystemVariables
 } from 'builder_platform_interaction/systemLib';
-import { SYSTEM_VARIABLE_PREFIX } from 'builder_platform_interaction/systemVariableConstantsLib';
+import {
+    SYSTEM_VARIABLE_ORCHESTRATION_PREFIX,
+    SYSTEM_VARIABLE_PREFIX
+} from 'builder_platform_interaction/systemVariableConstantsLib';
 import { mockScreenElement } from 'mock/calloutData';
 import { platformEvent1ApiName, platformEvent1Label } from 'mock/eventTypesData';
 import { mockGlobalVariablesWithMultiPicklistField } from 'mock/globalVariableData';
@@ -39,6 +42,7 @@ import { feedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.jso
 import { flowExtensionDetails as mockFlowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
 import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
 import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
+import { systemVariablesForOrchestration as systemVariablesOrchestration } from 'serverData/GetSystemVariables/systemVariablesForOrchestration.json';
 import { LABELS } from '../expressionUtilsLabels';
 import {
     filterAndMutateMenuData,
@@ -676,6 +680,20 @@ describe('Menu data retrieval', () => {
                 });
                 expectFieldsAreComplexTypeFieldDescriptions(items);
                 expect(items).toEqual(mockSystemVariables);
+            });
+            it('includes $Orchestration.instance if present', async () => {
+                setSystemVariables(systemVariablesOrchestration);
+
+                const items = await getChildrenItemsPromise({
+                    subtype: SYSTEM_VARIABLE_ORCHESTRATION_PREFIX
+                });
+                expect(items['$Orchestration.Instance']).toMatchObject({
+                    apiName: 'Instance',
+                    readOnly: true,
+                    dataType: 'String',
+                    label: 'Instance',
+                    category: 'FlowBuilderSystemVariables.systemVariableCategory'
+                });
             });
         });
         it('should fetch fields for sobject variables', async () => {

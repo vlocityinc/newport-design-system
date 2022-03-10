@@ -570,3 +570,42 @@ export const mockApexCallApexClassOutputSecondLevelComboboxItem = {
     isCollection: false,
     hasNext: true
 };
+
+export const mockOrchestrationInstance = {
+    text: [
+        {
+            highlight: true,
+            text: 'Instance'
+        }
+    ],
+    subText: [
+        {
+            highlight: false,
+            text: 'Text'
+        }
+    ],
+    displayText: '{!$Orchestration.Instance}',
+    iconAlternativeText: 'Text',
+    iconSize: 'xx-small',
+    iconName: 'utility:event',
+    type: 'option-card',
+    value: '$Orchestration.Instance',
+    parent: {
+        dataType: undefined,
+        iconAlternativeText: 'Orchestration',
+        iconSize: 'xx-small',
+        rightIconName: 'utility:chevronright',
+        rightIconSize: 'xx-small',
+        subText: undefined,
+        value: '$Orchestration',
+        subtype: '$Orchestration',
+        text: '$Orchestration',
+        displayText: '{!$Orchestration}',
+        type: 'option-card',
+        hasNext: true,
+        iconName: 'utility:system_and_global_variable'
+    },
+    dataType: 'Text',
+    subtype: 'Orchestration',
+    isCollection: false
+};

@@ -11,3 +11,4 @@ export const SYSTEM_VARIABLE_ICON_NAME = 'system_and_global_variable';
 export const SYSTEM_VARIABLES = {
     CURRENT_DATE_TIME: SYSTEM_VARIABLE_PREFIX + '.CurrentDateTime'
 };
+export const SYSTEM_VARIABLE_ORCHESTRATION_PREFIX = '$Orchestration';

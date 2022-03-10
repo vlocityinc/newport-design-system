@@ -3,19 +3,15 @@ import { removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import {
     SYSTEM_VARIABLE_CLIENT_PREFIX,
+    SYSTEM_VARIABLE_ORCHESTRATION_PREFIX,
     SYSTEM_VARIABLE_PREFIX,
     SYSTEM_VARIABLE_RECORD_PREFIX,
     SYSTEM_VARIABLE_RECORD_PRIOR_PREFIX
 } from 'builder_platform_interaction/systemVariableConstantsLib';
-import { GLOBAL_CONSTANT_OBJECTS, GLOBAL_CONSTANT_PREFIX } from './globalConstants';
+import { GLOBAL_CONSTANT_OBJECTS } from './globalConstants';
 import { getSystemVariablesFromState } from './systemVariables';
 
-const GLOBAL_CONSTANTS_AND_SYSTEM_VARIABLES = [
-    GLOBAL_CONSTANT_PREFIX,
-    SYSTEM_VARIABLE_PREFIX,
-    SYSTEM_VARIABLE_CLIENT_PREFIX
-];
-const SYSTEM_VARIABLES = [SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_CLIENT_PREFIX];
+const SYSTEM_VARIABLES = [SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_CLIENT_PREFIX, SYSTEM_VARIABLE_ORCHESTRATION_PREFIX];
 
 /**
  * Checks if the id passed in might point to a non-element resource such as
@@ -24,8 +20,6 @@ const SYSTEM_VARIABLES = [SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_CLIENT_PREFIX]
  * @param {string} id             id to check
  * @returns {boolean}    true if the id might point to a non-element resource, false otherwise
  */
-export const isGlobalConstantOrSystemVariableId = (id) =>
-    !!id && GLOBAL_CONSTANTS_AND_SYSTEM_VARIABLES.indexOf(removeCurlyBraces(id).split('.')[0]) >= 0;
 export const isSystemVariableId = (id) => !!id && SYSTEM_VARIABLES.indexOf(removeCurlyBraces(id).split('.')[0]) >= 0;
 export const isRecordSystemVariableIdentifier = (id) =>
     !!id && typeof id === 'string' && id.toUpperCase() === SYSTEM_VARIABLE_RECORD_PREFIX.toUpperCase();

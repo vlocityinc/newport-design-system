@@ -8,6 +8,7 @@ import {
     mockEmailScreenFieldAutoSecondLevelFieldComboboxItem,
     mockGlobalConstantEmptyStringComboboxItem,
     mockGlobalVariableFlowCurrentDateComboboxItem,
+    mockOrchestrationInstance,
     mockPolymorphicSObjectEntitySecondLevelComboboxItem,
     mockPolymorphicSObjectFieldThirdLevelComboboxItem,
     mockPolymorphicSObjectFieldThirdLevelMultiSubTextComboboxItem,
@@ -48,6 +49,7 @@ describe('getPillLabel', () => {
         ${mockApexCallApexClassOutputSecondLevelComboboxItem}            | ${'Outputs from apexCall_Car_automatic_output > car'}
         ${mockGlobalConstantEmptyStringComboboxItem}                     | ${'FlowBuilderPill.globalConstantEmptyString'}
         ${mockGlobalVariableFlowCurrentDateComboboxItem}                 | ${'FlowBuilderPill.flowCurrentDate'}
+        ${mockOrchestrationInstance}                                     | ${'FlowBuilderPill.orchestrationInstance'}
     `(' returns expected label', ({ item, label, expectedLabel }) => {
         test(`For item: ${
             item ? '(displayText) ' + item.displayText : item

@@ -24,6 +24,7 @@ import {
 } from 'builder_platform_interaction/systemLib';
 import {
     SYSTEM_VARIABLE_CLIENT_PREFIX,
+    SYSTEM_VARIABLE_ORCHESTRATION_PREFIX,
     SYSTEM_VARIABLE_PREFIX
 } from 'builder_platform_interaction/systemVariableConstantsLib';
 import { getEntityFieldWithRelationshipName, getPolymorphicRelationShipName, getReferenceToName } from './mergeField';
@@ -120,18 +121,29 @@ export class MergeFieldsValidation {
         return /^\$Record/i.test(mergeFieldReferenceValue);
     }
 
+    _isSystemVariableOrchestrationMergeField(mergeFieldReferenceValue: string) {
+        return mergeFieldReferenceValue.startsWith(SYSTEM_VARIABLE_ORCHESTRATION_PREFIX + '.');
+    }
+
     _isSystemVariableRecordPriorMergeField(mergeFieldReferenceValue: string) {
         return /^\$Record__Prior/i.test(mergeFieldReferenceValue);
     }
 
+    GLOBAL_VARIABLE_MERGE_FIELD_FUNCTIONS = [
+        this._isGlobalConstantMergeField,
+        this._isSystemVariableFlowMergeField,
+        this._isSystemVariableClientMergeField,
+        this._isSystemVariableRecordMergeField,
+        this._isSystemVariableRecordPriorMergeField,
+        this._isSystemVariableOrchestrationMergeField
+    ];
+
     _isGlobalVariableMergeField(mergeFieldReferenceValue: string) {
         return (
             mergeFieldReferenceValue.startsWith('$') &&
-            !this._isGlobalConstantMergeField(mergeFieldReferenceValue) &&
-            !this._isSystemVariableFlowMergeField(mergeFieldReferenceValue) &&
-            !this._isSystemVariableClientMergeField(mergeFieldReferenceValue) &&
-            !this._isSystemVariableRecordMergeField(mergeFieldReferenceValue) &&
-            !this._isSystemVariableRecordPriorMergeField(mergeFieldReferenceValue)
+            !this.GLOBAL_VARIABLE_MERGE_FIELD_FUNCTIONS.some((testFn) => {
+                return testFn(mergeFieldReferenceValue);
+            })
         );
     }
 
@@ -148,6 +160,7 @@ export class MergeFieldsValidation {
         }
         if (
             this._isSystemVariableFlowMergeField(mergeFieldReferenceValue) ||
+            this._isSystemVariableOrchestrationMergeField(mergeFieldReferenceValue) ||
             this._isSystemVariableClientMergeField(mergeFieldReferenceValue) ||
             (this._isSystemVariableRecordPriorMergeField(mergeFieldReferenceValue) && !hasDot)
         ) {
