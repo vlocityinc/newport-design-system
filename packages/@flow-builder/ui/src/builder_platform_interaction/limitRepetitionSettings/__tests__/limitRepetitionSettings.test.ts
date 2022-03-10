@@ -53,12 +53,20 @@ describe('Limit Repetition Settings Component', () => {
             expect(inputFields[1].label).toEqual(LABELS.withinDays);
         });
 
-        it('should render responseTypeToLimit combobox field', async () => {
+        it('should render responseTypeToLimit combobox field', () => {
             const comboboxFields = getComboboxFields(component);
             expect(comboboxFields).toBeDefined();
             expect(comboboxFields).toHaveLength(1);
             expect(comboboxFields[0].name).toEqual(ELEMENT_PROPS.responseTypeToLimit.name);
             expect(comboboxFields[0].label).toEqual(LABELS.responseTypeToLimit);
+        });
+
+        it('contains correct options in responseTypeToLimit', () => {
+            const responseTypeCombobox = getComboboxFields(component)[0];
+            expect(responseTypeCombobox.options).toHaveLength(3);
+            expect(responseTypeCombobox.options[0].label).toBe('LimitRepetitions.acceptedOrRejected');
+            expect(responseTypeCombobox.options[1].label).toBe('LimitRepetitions.accepted');
+            expect(responseTypeCombobox.options[2].label).toBe('LimitRepetitions.rejected');
         });
     });
 
