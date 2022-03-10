@@ -1975,26 +1975,29 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                 };
             });
         } else if (createOrEdit === FlowTestMode.Edit) {
-            this.spinners.showPropertyEditorSpinner = true;
             // When Edit test is clicked from Test mode toolbar, the flowTestId passed to this method would be undefined.
             // Only way to reach test mode would be by clicking the "Run and View Test detail" action. Setting this.currentFlowTestId in handleRunAndViewTestDetail
             // and getting the value from this.currentFlowTestId if flowTestId is undefined or null
             if (!flowTestId) {
                 flowTestId = this.currentFlowTestId;
             }
-            try {
-                fetchPromise(SERVER_ACTION_TYPE.GET_FLOW_TEST, {
-                    id: flowTestId
-                }).then((data: any) => {
-                    this.editTestCallback(data, createOrEdit, triggerSaveType, this.handleViewAllTests);
-                });
-            } finally {
-                this.spinners.showPropertyEditorSpinner = false;
-            }
+            this.getTest(flowTestId, createOrEdit, triggerSaveType, triggerObjectType);
         }
     };
 
-    editTestCallback(data, createOrEdit, triggerSaveType, flowTestListViewCallback) {
+    getTest = async (flowTestId, createOrEdit, triggerSaveType, triggerObjectType) => {
+        this.spinners.showPropertyEditorSpinner = true;
+        try {
+            const data = await fetchPromise(SERVER_ACTION_TYPE.GET_FLOW_TEST, {
+                id: flowTestId
+            });
+            this.editTestCallback(data, createOrEdit, triggerSaveType, triggerObjectType, this.handleViewAllTests);
+        } finally {
+            this.spinners.showPropertyEditorSpinner = false;
+        }
+    };
+
+    editTestCallback(data, createOrEdit, triggerSaveType, triggerObjectType, flowTestListViewCallback) {
         let flowTestObject = createFlowTestData(translateFlowTestToUIModel(data));
         flowTestObject = getElementForPropertyEditor(flowTestObject);
         this.queueOpenCreateFlowTest(() => {
@@ -2002,6 +2005,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                 flowTestObject,
                 createOrEdit,
                 triggerSaveType,
+                triggerObjectType,
                 flowTestListViewCallback
             };
         });

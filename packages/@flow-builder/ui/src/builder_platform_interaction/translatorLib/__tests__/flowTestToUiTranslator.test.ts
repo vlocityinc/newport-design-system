@@ -112,4 +112,27 @@ describe('Flow Test to UI Translation', () => {
         const { testTriggerType } = translateFlowTestToUIModel(flowTest);
         expect(testTriggerType).toBe(FLOW_TRIGGER_SAVE_TYPE.CREATE);
     });
+
+    it('returns assertions', () => {
+        const { testAssertions } = translateFlowTestToUIModel(flowTest);
+        expect(testAssertions).not.toBe(undefined);
+        expect(testAssertions.length).toBe(1);
+        expect(testAssertions[0].expression.leftHandSide).toBe('$Record.AnnualRevenue');
+        expect(testAssertions[0].expression.leftHandSideDataType).toBe(undefined);
+        expect(testAssertions[0].expression.operator).toBe('EqualTo');
+        expect(testAssertions[0].expression.rightHandSide).toBe('100000');
+        expect(testAssertions[0].expression.rightHandSideDataType).toBe('Number');
+        expect(testAssertions[0].message).toBe('Failed');
+    });
+
+    it('returns initial record data only for Create test trigger type', () => {
+        const { testInitialRecordData, testUpdatedRecordData } = translateFlowTestToUIModel(flowTest);
+        expect(testInitialRecordData).not.toBe(undefined);
+        expect(testUpdatedRecordData).toBe(undefined);
+    });
+    it('returns initial and updated record data for Updated test trigger type', () => {
+        const { testInitialRecordData, testUpdatedRecordData } = translateFlowTestToUIModel(flowTestUpdated);
+        expect(testInitialRecordData).not.toBe(undefined);
+        expect(testUpdatedRecordData).not.toBe(undefined);
+    });
 });

@@ -151,3 +151,44 @@ export function createFlowTestAssertionsUIModel(flowTestMetadata: Metadata.FlowT
     });
     return testAssertionUIModel;
 }
+
+/**
+ * Create flow test initial and update records UI model from metadata object
+ *
+ * @param flowTestMetadata test data from metadata object
+ * @param testTriggerType trigger type for the test
+ * @returns array of records (contains atleast initial record and updated record, if update trigger type)
+ */
+export function createFlowTestRecordsUIModel(
+    flowTestMetadata: Metadata.FlowTestMetadata,
+    testTriggerType: string
+): object[] {
+    const records = [];
+    const parameterArr: Metadata.FlowTestParameter[] = flowTestMetadata.testPoints.find(
+        (n) => n.elementApiName === FlowTestPointValidator.Start
+    )!.parameters;
+    addParametersToUI(parameterArr, FlowTestParameterType.Input, records);
+    if (testTriggerType === FLOW_TRIGGER_SAVE_TYPE.UPDATE) {
+        addParametersToUI(parameterArr, FlowTestParameterType.UpdateRecord, records);
+    }
+    return records;
+}
+
+/**
+ * Helper function to create array of records
+ *
+ * @param parameterArr parameters array from metadata object
+ * @param parameterType type of parameter from FlowTestParameterType enum
+ * @param records array of records
+ * @returns updated array of records
+ */
+function addParametersToUI(
+    parameterArr: Metadata.FlowTestParameter[],
+    parameterType: FlowTestParameterType,
+    records: object[]
+): object[] {
+    const parameterValue = parameterArr.find((i) => i.type === parameterType)!.value;
+    // @ts-ignore
+    records.push(JSON.parse(parameterValue.sobjectValue));
+    return records;
+}

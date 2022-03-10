@@ -3,14 +3,13 @@
  * This is based on https://developer.salesforce.com/docs/atlas.en-us.api_meta.meta/api_meta/meta_visual_workflow.htm
  */
 declare namespace Metadata {
-    interface ElementReferenceOrValue {
-        booleanValue: boolean;
-        dateTimeValue: Date;
-        dateValue: Date;
-        elementReference: string;
-        numberValue: number;
-        stringValue: string;
-    }
+    type ElementReferenceOrValue =
+        | { booleanValue: boolean }
+        | { dateTimeValue: Date }
+        | { dateValue: Date }
+        | { elementReference: string }
+        | { numberValue: number }
+        | { stringValue: string };
 
     type Value = {
         name: string;

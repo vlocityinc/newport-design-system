@@ -1,8 +1,10 @@
+import { FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     createFlowTestAssertionsMetadataObject,
     createFlowTestAssertionsUIModel,
     createFlowTestData,
     createFlowTestParametersMetadataObject,
+    createFlowTestRecordsUIModel,
     FlowTestParameterType,
     FlowTestPointValidator
 } from '../flowTestData';
@@ -79,6 +81,53 @@ const flowTestMetadata = {
                     value: {
                         numberValue: 0,
                         sobjectValue: '{"name":"TestAccount","attributes":{"type":"Account"}}'
+                    }
+                }
+            ]
+        },
+        {
+            elementApiName: FlowTestPointValidator.Finish,
+            assertions: [
+                {
+                    conditions: [
+                        {
+                            leftValueReference: '$Record.AnnualRevenue',
+                            operator: 'EqualTo',
+                            rightValue: {
+                                numberValue: 100000.0
+                            }
+                        }
+                    ],
+                    errorMessage: 'Failed'
+                }
+            ],
+            parameters: []
+        }
+    ]
+};
+
+const flowTestMetadataMultipleParameters = {
+    label: 'testLabel',
+    description: 'testDescription',
+    testPoints: [
+        {
+            elementApiName: FlowTestPointValidator.Start,
+            assertions: [],
+            parameters: [
+                {
+                    leftValueReference: '$Record',
+                    type: 'INPUT',
+                    value: {
+                        numberValue: 0,
+                        sobjectValue: '{"name":"TestAccount","attributes":{"type":"Account"}}'
+                    }
+                },
+                {
+                    leftValueReference: '$Record',
+                    type: 'UPDATE_RECORD',
+                    value: {
+                        numberValue: 0,
+                        sobjectValue: '{"name":"TestAccountUpdated","attributes":{"type":"Account"}}'
                     }
                 }
             ]
@@ -250,6 +299,26 @@ describe('Flow Test Data', () => {
             const assertions = createFlowTestAssertionsUIModel(flowTestMetadataMultipleAssertions);
             expect(assertions[0].expression.rightHandSideDataType).toBe('String');
             expect(assertions[1].expression.rightHandSideDataType).toBe('Number');
+        });
+    });
+    describe('createFlowTestRecordsUIModel function', () => {
+        it('returns 1 record, initial', () => {
+            const records = createFlowTestRecordsUIModel(flowTestMetadata, FLOW_TRIGGER_SAVE_TYPE.CREATE);
+            expect(records.length).toBe(1);
+        });
+        it('returns 2 records, initial and updated, when Update trigger type', () => {
+            const assertions = createFlowTestRecordsUIModel(
+                flowTestMetadataMultipleParameters,
+                FLOW_TRIGGER_SAVE_TYPE.UPDATE
+            );
+            expect(assertions.length).toBe(2);
+        });
+        it('returns 1 record, initial, when Create trigger type, even if multiple records are present in metadata object', () => {
+            const assertions = createFlowTestRecordsUIModel(
+                flowTestMetadataMultipleParameters,
+                FLOW_TRIGGER_SAVE_TYPE.CREATE
+            );
+            expect(assertions.length).toBe(1);
         });
     });
 });

@@ -123,11 +123,19 @@ export default class FlowTestTriggerRecordEditForm extends LightningElement {
         keyArray.forEach((key) => {
             mergedKeyValueArray.push({
                 name: key,
-                value:
-                    data.hasOwnProperty('value') && data.value.hasOwnProperty(key) ? data.value[key].value : undefined
+                value: this.getValue(data, key)
             });
         });
         return mergedKeyValueArray;
+    }
+
+    getValue(data, key) {
+        if (data.hasOwnProperty('value') && data.value.hasOwnProperty(key)) {
+            return data.value[key].value;
+        } else if (data[key] && data[key].hasOwnProperty('value')) {
+            return data[key].value;
+        }
+        return undefined;
     }
 
     onFieldChange(event) {

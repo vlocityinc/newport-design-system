@@ -1,5 +1,6 @@
 import {
     createFlowTestAssertionsUIModel,
+    createFlowTestRecordsUIModel,
     FlowTestParameterType,
     FlowTestPointValidator
 } from 'builder_platform_interaction/elementFactory';
@@ -22,14 +23,15 @@ export function translateFlowTestToUIModel(flowTest): UI.FlowTestData {
         testTriggerType = FLOW_TRIGGER_SAVE_TYPE.UPDATE;
     }
     const assertionArr = createFlowTestAssertionsUIModel(flowTest.metadata);
+    const records = createFlowTestRecordsUIModel(flowTest.metadata, testTriggerType);
     return {
         label: flowTest.metadata.label,
         name: flowTest.fullName,
         description: flowTest.metadata.description,
         runPathValue: SCHEDULED_PATH_TYPE.IMMEDIATE_SCHEDULED_PATH,
         testTriggerType,
-        testInitialRecordData: {},
-        testUpdatedRecordData: {},
+        testInitialRecordData: records[0],
+        testUpdatedRecordData: records[1],
         testAssertions: assertionArr
     };
 }
