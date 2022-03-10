@@ -85,8 +85,9 @@
 
     <div class="flow-builder-container">
         <force:toastManager global="true" />
+        <one:systemMessage aura:id="oneSystemMessage" openUrlsInNewWindow="true" />
         <aura:if isTrue="{!v.complianceBannerEnabled}">
-            <one:systemMessage aura:id="oneSystemMessage" openUrlsInNewWindow="true" />
+            <flexipageEditor:complianceBanner />
         </aura:if>
         <builder_platform_interaction:editor
             flowId="{!v.flowId}"
