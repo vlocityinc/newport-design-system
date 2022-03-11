@@ -245,8 +245,7 @@ describe('resourcePickerUtils', () => {
                     includeNewResource: true,
                     allowGlobalConstants: true,
                     allowsApexCollAnonymousAutoOutput: true,
-                    shouldBeWritable: false,
-                    showOrchestrationVariables: false
+                    shouldBeWritable: false
                 }
             });
         });
@@ -279,8 +278,7 @@ describe('resourcePickerUtils', () => {
                     includeNewResource: false,
                     allowGlobalConstants: true,
                     shouldBeWritable: undefined,
-                    allowsApexCollAnonymousAutoOutput: undefined,
-                    showOrchestrationVariables: false
+                    allowsApexCollAnonymousAutoOutput: undefined
                 }
             });
         });
@@ -314,8 +312,7 @@ describe('resourcePickerUtils', () => {
                     allowGlobalConstants: true,
                     allowsApexCollAnonymousAutoOutput: undefined,
                     forFormula: true,
-                    shouldBeWritable: undefined,
-                    showOrchestrationVariables: false
+                    shouldBeWritable: undefined
                 }
             });
         });
@@ -349,8 +346,7 @@ describe('resourcePickerUtils', () => {
                     allowGlobalConstants: true,
                     allowsApexCollAnonymousAutoOutput: undefined,
                     shouldBeWritable: undefined,
-                    showGlobalVariables: false,
-                    showOrchestrationVariables: false
+                    showGlobalVariables: false
                 }
             });
         });

@@ -760,7 +760,6 @@ export const getFlowOrchestrationVariableComboboxItem = () => {
  * @param shouldBeWritable
  * @param {boolean} showFlowSystemVariable   should include the $Flow system variable
  * @param {boolean} hideFlowSystemVariable   should hide the $Flow system variable
- * @param showOrchestrationVariables
  * @returns {MenuData} menu data showing system variables and/or global variables
  */
 export const getSystemAndGlobalVariableMenuData = ({
@@ -768,17 +767,16 @@ export const getSystemAndGlobalVariableMenuData = ({
     showGlobalVariables,
     forFormula = false,
     shouldBeWritable = false,
-    showFlowSystemVariable = true,
-    showOrchestrationVariables = false
+    showFlowSystemVariable = true
 }: MenuFilter = {}) => {
     const categories = [];
     if (showSystemVariables) {
         if (showFlowSystemVariable) {
             categories.push(getFlowSystemVariableComboboxItem());
-        }
 
-        if (showOrchestrationVariables) {
-            categories.push(getFlowOrchestrationVariableComboboxItem());
+            if (isSystemVariablesCategoryNotEmpty(SYSTEM_VARIABLE_ORCHESTRATION_PREFIX)) {
+                categories.push(getFlowOrchestrationVariableComboboxItem());
+            }
         }
 
         if (isSystemVariablesCategoryNotEmpty(SYSTEM_VARIABLE_CLIENT_PREFIX)) {

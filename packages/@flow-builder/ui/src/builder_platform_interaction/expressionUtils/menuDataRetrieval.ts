@@ -507,9 +507,10 @@ export function getChildrenItemsPromise(parentItem, showMultiPicklistGlobalVaria
 }
 
 /**
+ * True if the subtype representw a system variable other than $Record
  * @param subtype
  */
-function isSystemVariable(subtype) {
+function isSystemVariableExceptRecord(subtype) {
     return (
         subtype === SYSTEM_VARIABLE_PREFIX ||
         subtype === SYSTEM_VARIABLE_CLIENT_PREFIX ||
@@ -531,11 +532,7 @@ export function getChildrenItems(parentItem, showMultiPicklistGlobalVariables = 
     let result;
     if (getChildrenItems) {
         result = getChildrenItems();
-    } else if (
-        subtype === SYSTEM_VARIABLE_PREFIX ||
-        subtype === SYSTEM_VARIABLE_CLIENT_PREFIX ||
-        subtype === SYSTEM_VARIABLE_ORCHESTRATION_PREFIX
-    ) {
+    } else if (isSystemVariableExceptRecord(subtype)) {
         result = getSystemVariables(subtype);
     } else if (getGlobalVariables(subtype, showMultiPicklistGlobalVariables)) {
         result = getGlobalVariables(subtype, showMultiPicklistGlobalVariables);

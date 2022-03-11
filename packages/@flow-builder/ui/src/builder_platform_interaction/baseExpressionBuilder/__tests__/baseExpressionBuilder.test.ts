@@ -918,7 +918,6 @@ describe('base expression builder', () => {
                     allowGlobalConstants: false,
                     showSystemVariables: true,
                     showGlobalVariables: true,
-                    showOrchestrationVariables: false,
                     shouldBeWritable: false
                 }
             });
@@ -942,7 +941,6 @@ describe('base expression builder', () => {
                     allowGlobalConstants: false,
                     showSystemVariables: true,
                     showGlobalVariables: false,
-                    showOrchestrationVariables: false,
                     shouldBeWritable: true
                 }
             });
@@ -968,7 +966,6 @@ describe('base expression builder', () => {
                     allowGlobalConstants: false,
                     showSystemVariables: true,
                     showGlobalVariables: false,
-                    showOrchestrationVariables: false,
                     shouldBeWritable: false
                 }
             });

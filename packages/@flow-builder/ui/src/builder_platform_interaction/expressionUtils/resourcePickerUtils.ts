@@ -1,4 +1,3 @@
-import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
 import { RetrieveOptions } from 'builder_platform_interaction/selectors';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { filterAndMutateMenuData, filterFieldsForChosenElement, getChildrenItemsPromise } from './menuDataRetrieval';
@@ -62,8 +61,7 @@ const getFerovMenuData = (
         filter: {
             ...config.filter,
             allowsApexCollAnonymousAutoOutput: elementConfig ? elementConfig.allowsApexCollAnonymousAutoOutput : true,
-            shouldBeWritable: elementConfig ? elementConfig.shouldBeWritable : false,
-            showOrchestrationVariables: isOrchestrator(currentState.properties.processType)
+            shouldBeWritable: elementConfig ? elementConfig.shouldBeWritable : false
         }
     });
 };

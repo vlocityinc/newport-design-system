@@ -6,7 +6,7 @@ import { getResourceCategory } from 'builder_platform_interaction/elementLabelLi
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { getStartElement, getStartElementFromState } from 'builder_platform_interaction/storeUtils';
-import { setGlobalVariables, setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
+import { setGlobalVariables, setProcessTypeFeature, setSystemVariables } from 'builder_platform_interaction/systemLib';
 import {
     SYSTEM_VARIABLE_CLIENT_PREFIX,
     SYSTEM_VARIABLE_PREFIX
@@ -26,6 +26,8 @@ import {
 import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { feedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
+import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
+import { systemVariablesForOrchestration } from 'serverData/GetSystemVariables/systemVariablesForOrchestration.json';
 import {
     getMenuItemForField,
     getMenuItemsForField,
@@ -335,11 +337,12 @@ describe('menuDataGenerator', () => {
             });
         });
         describe('$Orchestration', () => {
-            it('is included if showOrchestrationVariables is true', () => {
+            it('is included if is system variables for $Orchestration', () => {
+                setSystemVariables(systemVariablesForOrchestration);
                 getStartElement.mockImplementation(() => startElementRecordTriggered);
+
                 const menuData = getSystemAndGlobalVariableMenuData({
-                    showSystemVariables: true,
-                    showOrchestrationVariables: true
+                    showSystemVariables: true
                 });
                 expect(menuData).toEqual(
                     expect.arrayContaining([
@@ -353,9 +356,26 @@ describe('menuDataGenerator', () => {
                     ])
                 );
             });
-            it('is not included if showOrchestrationVariables is false', () => {
+            it('is not included if  no system variables for $Orchestration', () => {
+                setSystemVariables(systemVariablesForFlow);
                 getStartElement.mockImplementation(() => startElementRecordTriggered);
-                const menuData = getSystemAndGlobalVariableMenuData(true, false, false, false, false, false);
+                const menuData = getSystemAndGlobalVariableMenuData({
+                    showSystemVariables: true
+                });
+                expect(menuData).toEqual(
+                    expect.not.arrayContaining([
+                        expect.objectContaining({
+                            displayText: '{!$Orchestration}'
+                        })
+                    ])
+                );
+            });
+            it('is not included if !showFlowSystemVariable ', () => {
+                setSystemVariables(systemVariablesForOrchestration);
+                getStartElement.mockImplementation(() => startElementRecordTriggered);
+                const menuData = getSystemAndGlobalVariableMenuData({
+                    showSystemVariables: false
+                });
                 expect(menuData).toEqual(
                     expect.not.arrayContaining([
                         expect.objectContaining({

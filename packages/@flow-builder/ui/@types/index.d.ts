@@ -131,8 +131,6 @@ type MenuFilter = {
     shouldBeWritable?: boolean;
     // whether or not the flow system variable ($Flow) should be filtered out
     showFlowSystemVariable?: boolean;
-    // whether or not  Orchestration variables ($Orchestration) should be filtered out
-    showOrchestrationVariables?: boolean;
 };
 
 type MenuConfig = {
