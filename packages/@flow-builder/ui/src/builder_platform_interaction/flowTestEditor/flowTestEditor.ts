@@ -29,6 +29,7 @@ export default class FlowTestEditor extends LightningElement {
     @api objectApiName;
     @api showWaitingSpinner;
     @api devNamePrefix;
+    @api footer;
 
     @api validate() {
         const event = { type: VALIDATE_ALL, mode: this.mode };
@@ -166,8 +167,8 @@ export default class FlowTestEditor extends LightningElement {
     /**
      * Checks passed in record data to see if it has been modified
      *
-     * @param flowTestRecordData
-     * @returns
+     * @param flowTestRecordData test data
+     * @returns boolean if test data has modified or not
      */
     isTestDataModified(flowTestRecordData): boolean {
         return flowTestRecordData.hasOwnProperty('value') && Object.keys(flowTestRecordData.value).length > 0;
@@ -175,6 +176,7 @@ export default class FlowTestEditor extends LightningElement {
 
     handlePropertyChanged(event) {
         event.stopPropagation();
+        this.footer.disableFlowTestButtonOne(false);
         this._flowTestObject = flowTestEditorReducer(this._flowTestObject, event);
     }
 

@@ -758,10 +758,15 @@ function showFlowTestPopover(cmpHeader, cmpBody, cmpFooter, cmpAttributes, popov
     const invokeModalWithComponentsOnCreateOverride = (modal, data) => {
         onCreatePopover(modal);
         const modalFooter = invokeModalWithComponentsOnCreate(modal, data);
+        if (cmpAttributes.mode === FlowTestMode.Edit) {
+            modalFooter.disableFlowTestButtonOne(true);
+        }
         modalFooter.set('v.panelInstance', modal);
         modalFooter.set('v.testMode', cmpAttributes.mode);
         modalFooter.set('v.flowTestListViewCallback', flowTestListViewCallback);
         modalFooter.set('v.builderMode', cmpAttributes.builderMode);
+        const panelBody = modal.get('v.body')[0];
+        panelBody.set('v.footer', modalFooter);
     };
 
     invokeModalWithComponents(

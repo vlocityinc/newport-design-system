@@ -2,7 +2,8 @@
 import {
     createComponent,
     INTERACTION_COMPONENTS_SELECTORS,
-    LIGHTNING_COMPONENTS_SELECTORS
+    LIGHTNING_COMPONENTS_SELECTORS,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
 
 const closeModalCallback = jest.fn();
@@ -40,5 +41,19 @@ describe('flow-test-footer', () => {
         button.click();
         expect(callback).toHaveBeenCalled();
         expect(closeModalCallback).toHaveBeenCalled();
+    });
+    it('should have button one disabled when expected', async () => {
+        const component = await createComponentUnderTest();
+        component.disableFlowTestButtonOne(true);
+        await ticks(1);
+        const button = component.shadowRoot.querySelectorAll(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BUTTON)[0];
+        expect(button.disabled).toBe(true);
+    });
+    it('should have button one enabled when expected', async () => {
+        const component = await createComponentUnderTest();
+        component.disableFlowTestButtonOne(false);
+        await ticks(1);
+        const button = component.shadowRoot.querySelectorAll(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BUTTON)[0];
+        expect(button.disabled).toBe(false);
     });
 });

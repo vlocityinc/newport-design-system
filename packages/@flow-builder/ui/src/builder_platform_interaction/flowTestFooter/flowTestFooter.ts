@@ -21,6 +21,7 @@ export default class FlowTestFooter extends LightningElement {
     @api builderMode;
 
     labels = LABELS;
+    flowTestButtonOneDisabled = false;
 
     closeModal = (closeCallback = true) => {
         if (checkCloseCallback(this.closeModalCallback, closeCallback)) {
@@ -81,7 +82,6 @@ export default class FlowTestFooter extends LightningElement {
         if (typeof this.flowTestButtons.flowTestButtonTwo.buttonCallback === 'function') {
             this.flowTestButtons.flowTestButtonTwo.buttonCallback();
         }
-
         this.closeModal(this.flowTestButtons.flowTestButtonTwo.closeCallback);
     }
 
@@ -93,4 +93,7 @@ export default class FlowTestFooter extends LightningElement {
         });
         this.dispatchEvent(toastEvent);
     };
+    @api disableFlowTestButtonOne(disable: boolean) {
+        this.flowTestButtonOneDisabled = disable;
+    }
 }

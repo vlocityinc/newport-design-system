@@ -39,7 +39,10 @@ const DEFAULT_PROPS = {
         ]
     },
     triggerSaveType: { value: '', error: null },
-    objectApiName: 'Account'
+    objectApiName: 'Account',
+    footer: {
+        disableFlowTestButtonOne: jest.fn()
+    }
 };
 
 const createComponentUnderTest = async (overrideProps) => {
