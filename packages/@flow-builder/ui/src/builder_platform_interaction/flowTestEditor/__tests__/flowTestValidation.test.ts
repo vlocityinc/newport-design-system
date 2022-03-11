@@ -1,4 +1,5 @@
 // @ts-nocheck
+import cannotContainMergeFields from '@salesforce/label/FlowBuilderValidation.cannotContainMergeFields';
 import { FlowTestMode } from 'builder_platform_interaction/builderUtils';
 import { FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { MAX_DEV_NAME_LENGTH } from 'builder_platform_interaction/flowTestDetails';
@@ -58,6 +59,43 @@ describe('Flow Test Validation', () => {
         const validatedFlowTest = flowTestValidation.validateAll(flowTestWithCorrectCondition);
         expect(validatedFlowTest.testAssertions[0].expression.leftHandSide.error).toEqual(CANNOT_BE_BLANK_ERROR);
         expect(validatedFlowTest.testAssertions[1].expression.leftHandSide.error).toBeNull();
+    });
+    it('should have error when an expression righthandside is empty', () => {
+        const flowTestWithCorrectCondition = {
+            testAssertions: [
+                {
+                    expression: {
+                        leftHandSide: { value: 'TEST_VAR', error: null },
+                        operator: { value: 'EqualTo', error: null },
+                        rightHandSide: { value: '', error: null }
+                    }
+                }
+            ]
+        };
+        const validatedFlowTest = flowTestValidation.validateAll(flowTestWithCorrectCondition);
+        expect(validatedFlowTest.testAssertions[0].expression.rightHandSide.error).toEqual(CANNOT_BE_BLANK_ERROR);
+    });
+    it('should have error when an message contains a merge field', () => {
+        const flowTestWithCorrectCondition = {
+            testAssertions: [
+                {
+                    expression: {
+                        leftHandSide: { value: 'TEST_VAR', error: null },
+                        operator: { value: 'EqualTo', error: null },
+                        rightHandSide: { value: 'FOO', error: null }
+                    },
+                    message: {
+                        value: '{!$Record}',
+                        error: null
+                    }
+                }
+            ]
+        };
+        let validatedFlowTest = flowTestValidation.validateAll(flowTestWithCorrectCondition);
+        expect(validatedFlowTest.testAssertions[0].message.error).toEqual(cannotContainMergeFields);
+        flowTestWithCorrectCondition.testAssertions[0].message = { value: '{!$Record}', error: null };
+        validatedFlowTest = flowTestValidation.validateAll(flowTestWithCorrectCondition);
+        expect(validatedFlowTest.testAssertions[0].message.error).toEqual(cannotContainMergeFields);
     });
     it('should have error when label is empty', () => {
         const flowTestWithCorrectCondition = {

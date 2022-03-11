@@ -1,3 +1,4 @@
+import cannotContainMergeFields from '@salesforce/label/FlowBuilderValidation.cannotContainMergeFields';
 import { FlowTestMode } from 'builder_platform_interaction/builderUtils';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -8,9 +9,57 @@ import * as ValidationRules from 'builder_platform_interaction/validationRules';
 
 const flowTestAssertionExpressionRule = () => {
     return (testAssertion) => {
-        const validation = ValidationRules.validateExpressionWith3Properties();
-        return validation(testAssertion.expression);
+        let validationResult;
+        const expressionValidation = ValidationRules.validateExpressionWith3PropertiesWithNoEmptyRHS();
+        // Extra validation for merge fields in message field
+        validationResult = expressionValidation(testAssertion.expression);
+        const messageValidation = validateMessageHasNoMergeFields();
+        if (testAssertion.message) {
+            const messageResult = messageValidation(testAssertion.message);
+            if (messageResult) {
+                validationResult = { ...validationResult, ...messageResult };
+            }
+        }
+        return validationResult;
     };
+};
+
+// Flow Testing-specific validation for message field
+// This and functions below be removed in 240+ when we support merge fields in Flow Testing (not including LHS)
+
+/**
+ * @returns function that returns an object for rules that contains the rule function for the message field
+ */
+const validateMessageHasNoMergeFields = () => {
+    return (testMessage) => {
+        return testMessage.value ? { message: [isValidTextWithoutMergeFields()] } : null;
+    };
+};
+
+/**
+ * @returns function that validates text for mergefields and returns error message or null
+ */
+const isValidTextWithoutMergeFields = () => {
+    return (text) => {
+        return isTextWithMergeFieldsOrPureMergeField(text) ? cannotContainMergeFields : null;
+    };
+};
+
+const MERGEFIELD_REGEX = /.*\{!(((\$\w+)(\.[A-Za-z0-9_:]+)+)|(\w+|\$(Record|Record__Prior))(\.[A-Za-z0-9_:]+)*)\}.*/;
+
+/**
+ * Evaluated if text contains merge fields
+ *
+ * @param text
+ * @returns true or false
+ */
+const isTextWithMergeFieldsOrPureMergeField = (text: string): boolean => {
+    try {
+        const match = MERGEFIELD_REGEX.exec(text);
+        return match !== null;
+    } finally {
+        MERGEFIELD_REGEX.lastIndex = 0;
+    }
 };
 
 const overriddenDefaultRules: RuleSet = {
@@ -42,6 +91,10 @@ class FlowTestValidation extends Validation {
         if (nodeElement.expression) {
             const validatedExpression = super.validateAll(nodeElement.expression, overrideRules);
             nodeElement = updateProperties(nodeElement, { expression: validatedExpression });
+        }
+        if (nodeElement.message) {
+            const validatedAssertion = super.validateAll(nodeElement, overrideRules);
+            nodeElement = updateProperties(nodeElement, { message: validatedAssertion.message });
         }
         if (nodeElement.testInitialRecordData && Object.keys(nodeElement.testInitialRecordData).length === 0) {
             nodeElement = updateProperties(nodeElement, {

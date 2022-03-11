@@ -7,11 +7,28 @@ import { LABELS } from './flowTestAssertionRowLabels';
 const { logInteraction } = loggingUtils;
 const { format } = commonUtils;
 
+const customMessageInput = '.test-editor-assertion-message-input';
+
 export default class FlowTestAssertionRow extends LightningElement {
     labels = LABELS;
 
+    _assertion;
+
     @api
-    assertion;
+    get assertion() {
+        return this._assertion;
+    }
+
+    set assertion(data) {
+        this._assertion = data;
+        const input = this.template.querySelector(customMessageInput);
+        if (input) {
+            if (this._assertion.message) {
+                input.setCustomValidity(this._assertion.message.error ? this._assertion.message.error : '');
+                input.reportValidity();
+            }
+        }
+    }
 
     @api
     index;
